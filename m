@@ -2,85 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 762B02AA17E
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Nov 2020 00:46:22 +0100 (CET)
-Received: from localhost ([::1]:34336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 088CC2AA194
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Nov 2020 00:53:19 +0100 (CET)
+Received: from localhost ([::1]:50910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kbBQz-0000FS-HC
-	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 18:46:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34394)
+	id 1kbBXi-0007Qy-1r
+	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 18:53:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=572b21b8d=dmitry.fomichev@wdc.com>)
- id 1kbBOW-00065z-7w; Fri, 06 Nov 2020 18:43:48 -0500
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:57360)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=572b21b8d=dmitry.fomichev@wdc.com>)
- id 1kbBOT-0003Tq-Sl; Fri, 06 Nov 2020 18:43:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1604706226; x=1636242226;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=fYRGLGEOoxEBnGfF2tyEuYZSUoEdxDjp8wNk3+vvDGE=;
- b=HCQpyZ27xbVRX4rzWs+g6Oe0loLfjrPILTkps/JusEkw4h8UXVuWIzsX
- wOyED/iejWUHuKyFxB3AEoCz0HTNhdhx69KcRWo6fWnYpTFN1TKoNEQGB
- eMUewM/8fKeCxr5Ib2lR0T7KQG/sHYEeIL1C1EPvcaXFPNZeGgAZEsdD9
- W51e17cYDGORAN6gbBXcj6gtJqUUG/wGthQGb6PgYXIsm8IzPIgAfsRYb
- iOqycUZ1+Mt3qGAdfzkwbA3MYgzO3s9qYFmmuwlePkpiSk4fBIxCpNlv7
- NksUJ1wEQ9J8i3ldrLRoWNh3KXSgWONr3JbCUinM+/F5sXi7TTaxPqz5G g==;
-IronPort-SDR: 2NW0z+4hkOzEFlzaCSQPo2kmAm6/pL/LqWnhbyu5Gx99iT+LKG+drUZPA4dW9OrNn5Ep4yc6GK
- LrdJQ0c3F16DD1wPmdVz/cTDSj9xuY9J38el7o3I0EnAORw6S88owo3OF1IRo1SaLFy/TPFIoZ
- Lh2n1vPZ6jCO6hisaXZe9XyzyAyf/O/7u1hcCLFHAm2Vf5RW7ubRai1t81PwAkj+MzLowWUHak
- ZzDvJTCir+RzwzxkNubVD0JoUC+eOypNjy3YtwU5hH7Oewbb8sLlLylPziOilvngeublKN60hr
- SIE=
-X-IronPort-AV: E=Sophos;i="5.77,457,1596470400"; d="scan'208";a="153267080"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 07 Nov 2020 07:43:45 +0800
-IronPort-SDR: F/6FZxJQr88nyu/0O6RWpt4/wSn1FPxf8yyxdfkqEqSa9ns96RjkF6ZYK8FJzr9J4y5TlujZnY
- 4+YFyfOTTfij5MAbr64Z44dnwwsZ7cybvNMgcmzFmBaAlJzNKcFy4+HrGr+Mc7xsV+OivKNcRr
- 6WJOhlnkINvA4X4cx5m97VwvDCeG2mAV4hRSo1XVWLVPajzJGUo4X7fMArOwnrAhYOfA9m52dr
- IIgZ/VWw7G/DsO+MVRBmKhPsNeaE4iGPhLRCZBBUL8coK6OGdPaRkQG00zI12PXjukXi+90jVU
- q7symgHTHBLB/czHwYt+7RPW
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Nov 2020 15:28:36 -0800
-IronPort-SDR: 1tqXDhHyaKLSVGTR1PEtg1K6N3iblJH1/I+w4I93OFJLIsq6wLzQSSwOlMZDmINfHpeL4aUUXc
- Tc3YFDzGBK6+IQpC0iE1eqNv0F3BpX9ijAu4qjxP9oeaKVe1KT4P4y69tWrB2wzgtCoYbB1KIL
- gwcnyLrYp506zpA2afOnYQTOp7AzA3NcSrDDCaJMi5TkFULUxjD6RIeqQqbdQDrCtmj89y9tV0
- 133z2/sXgp1lmF5uFKLBvQWk+R/qGx3N0TnfM/RtqbRTBbBIY7q82F+/94jD9qpJmKiiovZmQ7
- XQM=
-WDCIronportException: Internal
-Received: from unknown (HELO redsun50.ssa.fujisawa.hgst.com) ([10.149.66.24])
- by uls-op-cesaip01.wdc.com with ESMTP; 06 Nov 2020 15:43:42 -0800
-From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-To: Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>,
- Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
- Fam Zheng <fam@euphon.net>
-Subject: [PATCH v10 12/12] hw/block/nvme: Document zoned parameters in usage
- text
-Date: Sat,  7 Nov 2020 08:43:05 +0900
-Message-Id: <20201106234305.21339-13-dmitry.fomichev@wdc.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20201106234305.21339-1-dmitry.fomichev@wdc.com>
-References: <20201106234305.21339-1-dmitry.fomichev@wdc.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kbBVl-0006A8-3t
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 18:51:17 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:45715)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kbBVi-0004XU-EH
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 18:51:16 -0500
+Received: by mail-wr1-x444.google.com with SMTP id p1so2959193wrf.12
+ for <qemu-devel@nongnu.org>; Fri, 06 Nov 2020 15:51:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XXCUQnvoJZdisbwnmP+9CQY5Hdvy+AAtXVEP2H4CYLE=;
+ b=aZU5lZrFnMrfXZseiCRvKpbcUJC44bYpbP3S8KO6ieb8i4FauYI9SKkfVI/tDso3qN
+ 2tDQFkVo4XKO9R+Qn+r/6SirzseGOyIW31yGxeWSVDuXwqYVJXn4xlpFon6AthwblUh2
+ O7JTBbJhMRXpjd5h0Sh42OhYsnQBz7qvsSumKP32Dkw36dhO4qhlovqJKK/0u5WvgWtV
+ Y3Hje7jFIryOiuVul9ZZ/4tQymnZhF/RCo/9tdXWUjVvVl0NvDTEDvXNhd2b9rLf9mkY
+ sZh3kC7xGCRnZSUXiXR9MErcr2t4b5Rz1eiRNa42BBgGo5V2Vgqw1ilEB63fB8a93a0b
+ q5ZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XXCUQnvoJZdisbwnmP+9CQY5Hdvy+AAtXVEP2H4CYLE=;
+ b=pdj5dkbdLqoSLE23wVNyz3C078BAKHMSmDZtULwiITFHT2N/2mzijS6DwrePMRW55z
+ CQ0OK1c6yJr4NFxLa30x87Jz8oKfXptJuulV+T85CJZXHOtMIzDdgDRHypE09udPozmE
+ OAVXdEgUCCwHid7AYM15KPG/yLwAZgkuDgBmOQhg56khJmruL7fy539IuFLeiClnzS56
+ hYSEO0aM6lYOk+zx7ZLU+/R+ze73gSon6W2Ys3a3HjcY9wq6mFBKwjCcXozIVUDxM6vQ
+ Khu9xVv3ew4kIL2ojbnVlz+5ggDYueKBV2W/eQL15t1/Oo0+th0A0B4xnG2EOiVawwxn
+ Mz5w==
+X-Gm-Message-State: AOAM531thD0DL2YnQFfs0OFA4Nc2G0LUkrTbz19jG+2ARHdX3MuGmsKx
+ wT/povHYQypJjw0JtFU9BdaU06zXSpQHFg==
+X-Google-Smtp-Source: ABdhPJyzNkMmsjwX+E0d2mgttPUqESkAbd1r5eLFEiXK/cov20QzoLgIU6KTovp9j1I+CpeOp4VJvA==
+X-Received: by 2002:adf:f4ca:: with SMTP id h10mr4991953wrp.89.1604706671314; 
+ Fri, 06 Nov 2020 15:51:11 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id n8sm4025374wmc.11.2020.11.06.15.51.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Nov 2020 15:51:10 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] m68k/q800: make the GLUE chip a QOM device
+Date: Fri,  6 Nov 2020 23:51:07 +0000
+Message-Id: <20201106235109.7066-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.154.45;
- envelope-from=prvs=572b21b8d=dmitry.fomichev@wdc.com; helo=esa6.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/06 18:43:12
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,105 +82,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Niklas Cassel <niklas.cassel@wdc.com>,
- Damien Le Moal <damien.lemoal@wdc.com>, qemu-block@nongnu.org,
- Dmitry Fomichev <dmitry.fomichev@wdc.com>, qemu-devel@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>,
- Matias Bjorling <matias.bjorling@wdc.com>
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Added brief descriptions of the new device properties that are
-now available to users to configure features of Zoned Namespace
-Command Set in the emulator.
+This series is 6.0 material really I think.  It's a bit of cleanup
+prompted by a Coverity issue, CID 1421883.  There are another half
+dozen or so similar issues, where Coverity is complaining that we
+allocate an array of qemu_irqs with qemu_allocate_irqs() in a board
+init function -- in this case the 'pic' array in q800_init() -- and
+then we return from the board init function and the memory is leaked,
+in the sense that nobody has a pointer to it any more.
 
-This patch is for documentation only, no functionality change.
+The leak isn't real, in that board init functions are called only
+once, and the array of qemu_irqs really does need to stay around for
+the life of the simulation, so these are pretty much insignificant
+as Coverity issues go. But this coding style which uses a free-floating
+set of qemu_irqs is not very "modern QEMU", so the issues act as
+a nudge that we should clean the code up by encapsulating the
+interrupt-line behaviour in a QOM device. In the q800 case there
+actually is already a GLUEState struct, it just needs to be turned
+into a QOM device with GPIO input lines. Patch 2 does that.
 
-Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-Reviewed-by: Niklas Cassel <Niklas.Cassel@wdc.com>
----
- hw/block/nvme.c | 47 ++++++++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 42 insertions(+), 5 deletions(-)
+Patch 1 fixes a bug I noticed while doing this work -- it's
+not valid to connect two qemu_irq lines directly to the same
+input (here both ESCC irq lines go to pic[3]) because it produces
+weird behaviour like "both lines are asserted but the device
+consuming the interrupt sees the line deassert when one of the
+two inputs goes low, rather than only when they both go low".
+You need to put an explicit OR gate in, assuming that logical-OR
+is the desired behaviour, which it usually is.
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index e82e3be821..6043f95116 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -9,7 +9,7 @@
-  */
- 
- /**
-- * Reference Specs: http://www.nvmexpress.org, 1.2, 1.1, 1.0e
-+ * Reference Specs: http://www.nvmexpress.org, 1.4, 1.3, 1.2, 1.1, 1.0e
-  *
-  *  https://nvmexpress.org/developers/nvme-specification/
-  */
-@@ -22,8 +22,9 @@
-  *              [pmrdev=<mem_backend_file_id>,] \
-  *              max_ioqpairs=<N[optional]>, \
-  *              aerl=<N[optional]>, aer_max_queued=<N[optional]>, \
-- *              mdts=<N[optional]>
-- *      -device nvme-ns,drive=<drive_id>,bus=bus_name,nsid=<nsid>
-+ *              mdts=<N[optional]>,zoned.append_size_limit=<N[optional]> \
-+ *      -device nvme-ns,drive=<drive_id>,bus=<bus_name>,nsid=<nsid>,\
-+ *              zoned=<true|false[optional]>
-  *
-  * Note cmb_size_mb denotes size of CMB in MB. CMB is assumed to be at
-  * offset 0 in BAR2 and supports only WDS, RDS and SQS for now.
-@@ -41,14 +42,50 @@
-  * ~~~~~~~~~~~~~~~~~~~~~~
-  * - `aerl`
-  *   The Asynchronous Event Request Limit (AERL). Indicates the maximum number
-- *   of concurrently outstanding Asynchronous Event Request commands suppoert
-+ *   of concurrently outstanding Asynchronous Event Request commands support
-  *   by the controller. This is a 0's based value.
-  *
-  * - `aer_max_queued`
-  *   This is the maximum number of events that the device will enqueue for
-- *   completion when there are no oustanding AERs. When the maximum number of
-+ *   completion when there are no outstanding AERs. When the maximum number of
-  *   enqueued events are reached, subsequent events will be dropped.
-  *
-+ * - `zoned.append_size_limit`
-+ *   The maximum I/O size in bytes that is allowed in Zone Append command.
-+ *   The default is 128KiB. Since internally this this value is maintained as
-+ *   ZASL = log2(<maximum append size> / <page size>), some values assigned
-+ *   to this property may be rounded down and result in a lower maximum ZA
-+ *   data size being in effect. By setting this property to 0, users can make
-+ *   ZASL to be equal to MDTS. This property only affects zoned namespaces.
-+ *
-+ * Setting `zoned` to true selects Zoned Command Set at the namespace.
-+ * In this case, the following namespace properties are available to configure
-+ * zoned operation:
-+ *     zoned.zsze=<zone size in bytes, default: 128MiB>
-+ *         The number may be followed by K, M, G as in kilo-, mega- or giga-.
-+ *
-+ *     zoned.zcap=<zone capacity in bytes, default: zone size>
-+ *         The value 0 (default) forces zone capacity to be the same as zone
-+ *         size. The value of this property may not exceed zone size.
-+ *
-+ *     zoned.descr_ext_size=<zone descriptor extension size, default 0>
-+ *         This value needs to be specified in 64B units. If it is zero,
-+ *         namespace(s) will not support zone descriptor extensions.
-+ *
-+ *     zoned.max_active=<Maximum Active Resources (zones), default: 0>
-+ *         The default value means there is no limit to the number of
-+ *         concurrently active zones.
-+ *
-+ *     zoned.max_open=<Maximum Open Resources (zones), default: 0>
-+ *         The default value means there is no limit to the number of
-+ *         concurrently open zones.
-+ *
-+ *     zoned.offline_zones=<the number of offline zones to inject, default: 0>
-+ *
-+ *     zoned.rdonly_zones=<the number of read-only zones to inject, default: 0>
-+ *
-+ *     zoned.cross_zone_read=<enable RAZB, default: false>
-+ *         Setting this property to true enables Read Across Zone Boundaries.
-  */
- 
- #include "qemu/osdep.h"
+Tested only with 'make check' and 'make check-acceptance',
+but the latter does have a q800 bootup test.
+
+thanks
+-- PMM
+
+Peter Maydell (2):
+  hw/m68k/q800: Don't connect two qemu_irqs directly to the same input
+  hw/m68k/q800.c: Make the GLUE chip an actual QOM device
+
+ hw/m68k/q800.c  | 92 ++++++++++++++++++++++++++++++++++++++++++-------
+ hw/m68k/Kconfig |  1 +
+ 2 files changed, 80 insertions(+), 13 deletions(-)
+
 -- 
-2.21.0
+2.20.1
 
 
