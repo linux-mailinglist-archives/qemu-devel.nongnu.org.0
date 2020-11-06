@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FDB92AA188
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Nov 2020 00:48:43 +0100 (CET)
-Received: from localhost ([::1]:42842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44C282AA17B
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Nov 2020 00:45:13 +0100 (CET)
+Received: from localhost ([::1]:58902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kbBTG-0003s2-G5
-	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 18:48:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34146)
+	id 1kbBPr-0007BN-QE
+	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 18:45:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=572b21b8d=dmitry.fomichev@wdc.com>)
- id 1kbBO6-0005HH-6p; Fri, 06 Nov 2020 18:43:22 -0500
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:57357)
+ id 1kbBOD-0005K7-MM; Fri, 06 Nov 2020 18:43:31 -0500
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:57347)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=572b21b8d=dmitry.fomichev@wdc.com>)
- id 1kbBO3-0003TB-AT; Fri, 06 Nov 2020 18:43:21 -0500
+ id 1kbBO6-0003Sk-Fr; Fri, 06 Nov 2020 18:43:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1604706200; x=1636242200;
+ t=1604706203; x=1636242203;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=jR2w/WGNNbVyESF4tPkSNOFiXsfAZlFecXFYaBR3/5E=;
- b=KlURHEdMC7vBfblCU9HaZkaBfoMETetXuHkxFBpwhTCrSo5FFMPigeHp
- qe8OekMbWLBBHa6Oszp7EdG7mAVh8DU+iNHBYm69KAUFmPct+BvZPx+L2
- QlDvMVa1SqgPsY3ks5cWSXXL5vU7tyXLEiRuuKAJ3UCrEmOJApccDOcCx
- mhNJzOpYwtYyPzf+hkP6V+OxvgcUgA6SMLO3pPgeoYRRqGNWPybch8/G3
- /kWUdoTjb7Ks24RUp7tU2kw5KTbDE1ZjcDoBwLiQXXe7igqvQvxn30lKF
- hYQRtFuml7sqp9DSicm19FniNVOtDS3OFGdD57dCGAKa7fretIIcVap8R Q==;
-IronPort-SDR: WvTBEgGIDuYW5b3DJrcLCw+WBjK0iIsDVxZFt7oXh5G6tEbTSw2Xf7ZSHuJxz47WPud/f0miTG
- vqUbOo5frkCeunxh6qIWIeB7PUsZUxNtwU+sGAUD1qZgKstsGVGcdYX+Z9sg7DHXBv2rSpjJVU
- gmsnxOTf7ep1YAcWTu7P7YjhUhhjOjHfrlDph/GuRHWAuJq9eMHbzE2HmLKHqkTaflBYsLSVbC
- oDp846OnXgJmhsOejhjBODnwleJI6VxPexjcF4tjcwa8AMP8Gq6p5eE91HPf9oJo1sMfEQVBG7
- bdk=
-X-IronPort-AV: E=Sophos;i="5.77,457,1596470400"; d="scan'208";a="153267057"
+ bh=6G60QSjZ5krlPLtstuo7O4+ni+lcVZttvDGIQYGvErY=;
+ b=cG42IeA1rmUDUD3gBVRdLEUIroEPdNGAR15ddGgjpwLhjH1cTEEUaIim
+ 6HhcyDSm7u8S+Oa2cmbNIfTsybd+6YE3wcV1OpfCGxL5b9fTRwDH4DMbL
+ 3r5JGIQInGbFiIXVGUiyN+yk056jjpjadg/aVDGd6naumX+rubE7EFqVN
+ 1TAlnbfIlLeAac0g6JBwybr63hLlxpoUrNY93LT9VxCJfy9gsL9x07KTD
+ ZP2JNdno0jRglnO8Qq1DgHRqqLuQQLchJtNujSyIe33BWHjWOclyYSWFb
+ kSz0yW81rY4EYF0cJjtvFIfnWcRCESHot8ImVeKlKQz+90gjNDfm87hJc Q==;
+IronPort-SDR: eVRk/l04tD7WHMybTbrYI5IrnyBFtqPqGh3biCRtDeuTreDZXsna9tk5MM8bHTcbnhpFeFXVNU
+ sClJoGDgf8Dg2jULTJKzL3H3HKxr9vfrxRg6YyIaBxkSXgpe+/huvxAIf44JVZPXZC+7HR6VPt
+ Tf0+S7yUPAJopj8c+wbdqI19UesYoQEfFTswgWTvo4fNl1MI+URZQiBusO2EhsFm8ET69dSSXK
+ 00A6D8dgglg7GfA45AmQR/OnYQhShaMHW2dbDYhK3n/jihXaW0nFSaAKghzynI7jrq0S9JtEoo
+ enE=
+X-IronPort-AV: E=Sophos;i="5.77,457,1596470400"; d="scan'208";a="153267058"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 07 Nov 2020 07:43:18 +0800
-IronPort-SDR: nRuJr+I4+9aeoG1VnOAAhMIucvwtvXZzpkmlc2Okau80BJQU1j2v3+mIg7QsZASgDMXAMYb09R
- AQFnavTkOQZa16SogeSiq3namsJNlKc+FgcYpiFtxH1GgFXIpZbjka6SSW5wU8boClHGIIzMi0
- OQkSVXMFWWE7bgFzsRnXN+uo/plFTa1wQbExWHOxAJv6m4zJa8S8O3aPt8vDNoYxu33ZaPL8PP
- ZAZBEbWxkXb5/TaKkDukZOA2K3eoBH7BzucGM6np+ZjqXln5rEtl1JWFliWgLGO8oWcSFHdcCF
- 860Jz7EbQEPpHJiDzWqyWB1N
+ by ob1.hgst.iphmx.com with ESMTP; 07 Nov 2020 07:43:20 +0800
+IronPort-SDR: lPsAgmjEEX/sBbM6gJ4ThCQKCGwphh5CBKGobB7LSWSwSJswjOaVlkqIuTQZWeanpgc99VawWD
+ kMiZmIcK2r4LeXJq3Z69PA3grh8KcE3uvDhsgmmS7bLUOgtntTK12PFNPNhXsRha/eEV6TA+Gi
+ TbuZUWbsQyyRphiKXcyHbfsD571VdARODI7JpGJQhMHRH43akHvHT2jJEy/Mcn/B4T2A6KdokI
+ YWqdu6XpGDNENIodF/0LWXXdX9i8x7IN+y2Q0S7IfTIarRZwzsPuW+2K+9KU6veDtUNBxT+Y9x
+ Vs7H/9k+kNmKV8648wKmg8gt
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Nov 2020 15:28:09 -0800
-IronPort-SDR: 7uhjf2g0mRW9Z3k5x5yEi5T1QU1+sTugr0zBuh6pRMwz3kaM9TJe6MTex6EVwqohUpiKRUtFYX
- DvZQRvDZghRSSW4blsZL02pLpk4b9CtLaIKjaoTXU0GQf/wQiwcuJCn72D+vPwFa5VbHurg41P
- 3tEAw1ODB8hORoKY2Va9ql1JMTo/77gLNRNBg4qyN6q6MEHkza1kB7mNupxdceNvGv7N2oixfI
- AbgXC/3uAQKCIOc7CPNKlP/jAfNA+kLcACkSGgzlGroEH1NkHFMw1ihvY1NnARw7zJafTzJip4
- pvw=
+ 06 Nov 2020 15:28:11 -0800
+IronPort-SDR: jvqQwdkAZ804dQyqbFI+ZB9JkyifRd4C+4Ajm3NfSanxXjjw4LGo13/fDelabpFNG3cAnHz5Cx
+ XPOIHzeZwee28OtYY0MNaeBopwOe6/3C7Pu/i59uw6G9uKwxutXprug2quaPwRaH61ONGlkLit
+ TLCNUFT6yKVE8S7qf6vsb6smEaseBUhwM8cnq8b6PB/azIwyway5XEVcUmdpABR8z1RJpgOHvr
+ HQYO00JtUXmLbCQDMoexEns8vUw/iZNK2FLFwqmgoiJWWKQzCqBcGxgxKYdZuoEu+mP9hovLHh
+ Vvg=
 WDCIronportException: Internal
 Received: from unknown (HELO redsun50.ssa.fujisawa.hgst.com) ([10.149.66.24])
- by uls-op-cesaip01.wdc.com with ESMTP; 06 Nov 2020 15:43:15 -0800
+ by uls-op-cesaip01.wdc.com with ESMTP; 06 Nov 2020 15:43:17 -0800
 From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 To: Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>,
  Kevin Wolf <kwolf@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Max Reitz <mreitz@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
  Fam Zheng <fam@euphon.net>
-Subject: [PATCH v10 02/12] hw/block/nvme: Generate namespace UUIDs
-Date: Sat,  7 Nov 2020 08:42:55 +0900
-Message-Id: <20201106234305.21339-3-dmitry.fomichev@wdc.com>
+Subject: [PATCH v10 03/12] hw/block/nvme: Separate read and write handlers
+Date: Sat,  7 Nov 2020 08:42:56 +0900
+Message-Id: <20201106234305.21339-4-dmitry.fomichev@wdc.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20201106234305.21339-1-dmitry.fomichev@wdc.com>
 References: <20201106234305.21339-1-dmitry.fomichev@wdc.com>
@@ -101,84 +101,174 @@ Cc: Niklas Cassel <niklas.cassel@wdc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In NVMe 1.4, a namespace must report an ID descriptor of UUID type
-if it doesn't support EUI64 or NGUID. Add a new namespace property,
-"uuid", that provides the user the option to either specify the UUID
-explicitly or have a UUID generated automatically every time a
-namespace is initialized.
+With ZNS support in place, the majority of code in nvme_rw() has
+become read- or write-specific. Move these parts to two separate
+handlers, nvme_read() and nvme_write() to make the code more
+readable and to remove multiple is_write checks that so far existed
+in the i/o path.
 
-Suggested-by: Klaus Jensen <k.jensen@samsung.com>
+This is a refactoring patch, no change in functionality.
+
 Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
 Reviewed-by: Niklas Cassel <Niklas.Cassel@wdc.com>
+Acked-by: Klaus Jensen <its@irrelevant.dk>
 ---
- hw/block/nvme-ns.h | 1 +
- hw/block/nvme-ns.c | 1 +
- hw/block/nvme.c    | 9 +++++----
- 3 files changed, 7 insertions(+), 4 deletions(-)
+ hw/block/nvme.c       | 91 ++++++++++++++++++++++++++++++-------------
+ hw/block/trace-events |  3 +-
+ 2 files changed, 67 insertions(+), 27 deletions(-)
 
-diff --git a/hw/block/nvme-ns.h b/hw/block/nvme-ns.h
-index ea8c2f785d..a38071884a 100644
---- a/hw/block/nvme-ns.h
-+++ b/hw/block/nvme-ns.h
-@@ -21,6 +21,7 @@
- 
- typedef struct NvmeNamespaceParams {
-     uint32_t nsid;
-+    QemuUUID uuid;
- } NvmeNamespaceParams;
- 
- typedef struct NvmeNamespace {
-diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
-index b69cdaf27e..de735eb9f3 100644
---- a/hw/block/nvme-ns.c
-+++ b/hw/block/nvme-ns.c
-@@ -129,6 +129,7 @@ static void nvme_ns_realize(DeviceState *dev, Error **errp)
- static Property nvme_ns_props[] = {
-     DEFINE_BLOCK_PROPERTIES(NvmeNamespace, blkconf),
-     DEFINE_PROP_UINT32("nsid", NvmeNamespace, params.nsid, 0),
-+    DEFINE_PROP_UUID("uuid", NvmeNamespace, params.uuid),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 702f7cc2e3..ed3f38f01d 100644
+index ed3f38f01d..770e42a066 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -1564,6 +1564,7 @@ static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeRequest *req)
+@@ -953,6 +953,54 @@ static uint16_t nvme_flush(NvmeCtrl *n, NvmeRequest *req)
+     return NVME_NO_COMPLETE;
+ }
  
- static uint16_t nvme_identify_ns_descr_list(NvmeCtrl *n, NvmeRequest *req)
++static uint16_t nvme_read(NvmeCtrl *n, NvmeRequest *req)
++{
++    NvmeRwCmd *rw = (NvmeRwCmd *)&req->cmd;
++    NvmeNamespace *ns = req->ns;
++    uint64_t slba = le64_to_cpu(rw->slba);
++    uint32_t nlb = (uint32_t)le16_to_cpu(rw->nlb) + 1;
++    uint64_t data_size = nvme_l2b(ns, nlb);
++    uint64_t data_offset;
++    BlockBackend *blk = ns->blkconf.blk;
++    uint16_t status;
++
++    trace_pci_nvme_read(nvme_cid(req), nvme_nsid(ns), nlb, data_size, slba);
++
++    status = nvme_check_mdts(n, data_size);
++    if (status) {
++        trace_pci_nvme_err_mdts(nvme_cid(req), data_size);
++        goto invalid;
++    }
++
++    status = nvme_check_bounds(n, ns, slba, nlb);
++    if (status) {
++        trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
++        goto invalid;
++    }
++
++    status = nvme_map_dptr(n, data_size, req);
++    if (status) {
++        goto invalid;
++    }
++
++    data_offset = nvme_l2b(ns, slba);
++
++    block_acct_start(blk_get_stats(blk), &req->acct, data_size,
++                     BLOCK_ACCT_READ);
++    if (req->qsg.sg) {
++        req->aiocb = dma_blk_read(blk, &req->qsg, data_offset,
++                                  BDRV_SECTOR_SIZE, nvme_rw_cb, req);
++    } else {
++        req->aiocb = blk_aio_preadv(blk, data_offset, &req->iov, 0,
++                                    nvme_rw_cb, req);
++    }
++    return NVME_NO_COMPLETE;
++
++invalid:
++    block_acct_invalid(blk_get_stats(blk), BLOCK_ACCT_READ);
++    return status | NVME_DNR;
++}
++
+ static uint16_t nvme_write_zeroes(NvmeCtrl *n, NvmeRequest *req)
  {
-+    NvmeNamespace *ns;
-     NvmeIdentify *c = (NvmeIdentify *)&req->cmd;
-     uint32_t nsid = le32_to_cpu(c->nsid);
-     uint8_t list[NVME_IDENTIFY_DATA_SIZE];
-@@ -1583,7 +1584,8 @@ static uint16_t nvme_identify_ns_descr_list(NvmeCtrl *n, NvmeRequest *req)
-         return NVME_INVALID_NSID | NVME_DNR;
+     NvmeRwCmd *rw = (NvmeRwCmd *)&req->cmd;
+@@ -978,22 +1026,19 @@ static uint16_t nvme_write_zeroes(NvmeCtrl *n, NvmeRequest *req)
+     return NVME_NO_COMPLETE;
+ }
+ 
+-static uint16_t nvme_rw(NvmeCtrl *n, NvmeRequest *req)
++static uint16_t nvme_write(NvmeCtrl *n, NvmeRequest *req)
+ {
+     NvmeRwCmd *rw = (NvmeRwCmd *)&req->cmd;
+     NvmeNamespace *ns = req->ns;
+-    uint32_t nlb = (uint32_t)le16_to_cpu(rw->nlb) + 1;
+     uint64_t slba = le64_to_cpu(rw->slba);
+-
++    uint32_t nlb = (uint32_t)le16_to_cpu(rw->nlb) + 1;
+     uint64_t data_size = nvme_l2b(ns, nlb);
+-    uint64_t data_offset = nvme_l2b(ns, slba);
+-    enum BlockAcctType acct = req->cmd.opcode == NVME_CMD_WRITE ?
+-        BLOCK_ACCT_WRITE : BLOCK_ACCT_READ;
++    uint64_t data_offset;
+     BlockBackend *blk = ns->blkconf.blk;
+     uint16_t status;
+ 
+-    trace_pci_nvme_rw(nvme_cid(req), nvme_io_opc_str(rw->opcode),
+-                      nvme_nsid(ns), nlb, data_size, slba);
++    trace_pci_nvme_write(nvme_cid(req), nvme_io_opc_str(rw->opcode),
++                         nvme_nsid(ns), nlb, data_size, slba);
+ 
+     status = nvme_check_mdts(n, data_size);
+     if (status) {
+@@ -1012,29 +1057,22 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeRequest *req)
+         goto invalid;
      }
  
--    if (unlikely(!nvme_ns(n, nsid))) {
-+    ns = nvme_ns(n, nsid);
-+    if (unlikely(!ns)) {
-         return NVME_INVALID_FIELD | NVME_DNR;
+-    block_acct_start(blk_get_stats(blk), &req->acct, data_size, acct);
++    data_offset = nvme_l2b(ns, slba);
++
++    block_acct_start(blk_get_stats(blk), &req->acct, data_size,
++                     BLOCK_ACCT_WRITE);
+     if (req->qsg.sg) {
+-        if (acct == BLOCK_ACCT_WRITE) {
+-            req->aiocb = dma_blk_write(blk, &req->qsg, data_offset,
+-                                       BDRV_SECTOR_SIZE, nvme_rw_cb, req);
+-        } else {
+-            req->aiocb = dma_blk_read(blk, &req->qsg, data_offset,
+-                                      BDRV_SECTOR_SIZE, nvme_rw_cb, req);
+-        }
++        req->aiocb = dma_blk_write(blk, &req->qsg, data_offset,
++                                   BDRV_SECTOR_SIZE, nvme_rw_cb, req);
+     } else {
+-        if (acct == BLOCK_ACCT_WRITE) {
+-            req->aiocb = blk_aio_pwritev(blk, data_offset, &req->iov, 0,
+-                                         nvme_rw_cb, req);
+-        } else {
+-            req->aiocb = blk_aio_preadv(blk, data_offset, &req->iov, 0,
+-                                        nvme_rw_cb, req);
+-        }
++        req->aiocb = blk_aio_pwritev(blk, data_offset, &req->iov, 0,
++                                     nvme_rw_cb, req);
      }
+     return NVME_NO_COMPLETE;
  
-@@ -1592,12 +1594,11 @@ static uint16_t nvme_identify_ns_descr_list(NvmeCtrl *n, NvmeRequest *req)
-     /*
-      * Because the NGUID and EUI64 fields are 0 in the Identify Namespace data
-      * structure, a Namespace UUID (nidt = 0x3) must be reported in the
--     * Namespace Identification Descriptor. Add a very basic Namespace UUID
--     * here.
-+     * Namespace Identification Descriptor. Add the namespace UUID here.
-      */
-     ns_descrs->uuid.hdr.nidt = NVME_NIDT_UUID;
-     ns_descrs->uuid.hdr.nidl = NVME_NIDT_UUID_LEN;
--    stl_be_p(&ns_descrs->uuid.v, nsid);
-+    memcpy(&ns_descrs->uuid.v, ns->params.uuid.data, NVME_NIDT_UUID_LEN);
+ invalid:
+-    block_acct_invalid(blk_get_stats(ns->blkconf.blk), acct);
+-    return status;
++    block_acct_invalid(blk_get_stats(blk), BLOCK_ACCT_WRITE);
++    return status | NVME_DNR;
+ }
  
-     return nvme_dma(n, list, NVME_IDENTIFY_DATA_SIZE,
-                     DMA_DIRECTION_FROM_DEVICE, req);
+ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
+@@ -1064,8 +1102,9 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
+     case NVME_CMD_WRITE_ZEROES:
+         return nvme_write_zeroes(n, req);
+     case NVME_CMD_WRITE:
++        return nvme_write(n, req);
+     case NVME_CMD_READ:
+-        return nvme_rw(n, req);
++        return nvme_read(n, req);
+     default:
+         assert(false);
+     }
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index 33832a2021..540c600931 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -40,7 +40,8 @@ pci_nvme_map_prp(uint64_t trans_len, uint32_t len, uint64_t prp1, uint64_t prp2,
+ pci_nvme_map_sgl(uint16_t cid, uint8_t typ, uint64_t len) "cid %"PRIu16" type 0x%"PRIx8" len %"PRIu64""
+ pci_nvme_io_cmd(uint16_t cid, uint32_t nsid, uint16_t sqid, uint8_t opcode, const char *opname) "cid %"PRIu16" nsid %"PRIu32" sqid %"PRIu16" opc 0x%"PRIx8" opname '%s'"
+ pci_nvme_admin_cmd(uint16_t cid, uint16_t sqid, uint8_t opcode, const char *opname) "cid %"PRIu16" sqid %"PRIu16" opc 0x%"PRIx8" opname '%s'"
+-pci_nvme_rw(uint16_t cid, const char *verb, uint32_t nsid, uint32_t nlb, uint64_t count, uint64_t lba) "cid %"PRIu16" opname '%s' nsid %"PRIu32" nlb %"PRIu32" count %"PRIu64" lba 0x%"PRIx64""
++pci_nvme_read(uint16_t cid, uint32_t nsid, uint32_t nlb, uint64_t count, uint64_t lba) "cid %"PRIu16" nsid %"PRIu32" nlb %"PRIu32" count %"PRIu64" lba 0x%"PRIx64""
++pci_nvme_write(uint16_t cid, const char *verb, uint32_t nsid, uint32_t nlb, uint64_t count, uint64_t lba) "cid %"PRIu16" opname '%s' nsid %"PRIu32" nlb %"PRIu32" count %"PRIu64" lba 0x%"PRIx64""
+ pci_nvme_rw_cb(uint16_t cid, const char *blkname) "cid %"PRIu16" blk '%s'"
+ pci_nvme_write_zeroes(uint16_t cid, uint32_t nsid, uint64_t slba, uint32_t nlb) "cid %"PRIu16" nsid %"PRIu32" slba %"PRIu64" nlb %"PRIu32""
+ pci_nvme_create_sq(uint64_t addr, uint16_t sqid, uint16_t cqid, uint16_t qsize, uint16_t qflags) "create submission queue, addr=0x%"PRIx64", sqid=%"PRIu16", cqid=%"PRIu16", qsize=%"PRIu16", qflags=%"PRIu16""
 -- 
 2.21.0
 
