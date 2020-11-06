@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10B522AA17D
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Nov 2020 00:45:16 +0100 (CET)
-Received: from localhost ([::1]:59182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F0102AA181
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Nov 2020 00:47:14 +0100 (CET)
+Received: from localhost ([::1]:38604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kbBPu-0007I7-Vz
-	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 18:45:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34132)
+	id 1kbBRp-00025H-CU
+	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 18:47:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=572b21b8d=dmitry.fomichev@wdc.com>)
- id 1kbBO4-0005H8-V3; Fri, 06 Nov 2020 18:43:21 -0500
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:57347)
+ id 1kbBO6-0005HG-6e; Fri, 06 Nov 2020 18:43:22 -0500
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:57349)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=572b21b8d=dmitry.fomichev@wdc.com>)
- id 1kbBO0-0003Sk-3d; Fri, 06 Nov 2020 18:43:19 -0500
+ id 1kbBO0-0003Sw-Na; Fri, 06 Nov 2020 18:43:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1604706196; x=1636242196;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=5wf3Qp0VvdrbqIwFvVsqfXikSBmgqs50tu/YXoBFGEs=;
- b=QjHB+7kN4lEfRrN92KoNZHEJm0R7uk4sfj4i2620K/RgrAQI961DZM+W
- ynbT8AWWWXoLi0IN1OJQqr6LUB2KNAoqyqP+IqlgF3gWQA8ZpJILAdzRp
- pgLXAVyMnP37KpYu0+75bfsEO9GCb0oEvvtIlQOOvX/Y99JByI8SsrFKx
- Sx0Tov9b6wDqAehveaeK0iUoexW0ho728bEd29BEprECBdh/WN0fkKa1d
- ePvOx6QgE/Fy8LtFXyI00QpWMxB+gw1AJW78lS3XfgQX9V95l2mcqB8og
- 1L0sN86NV/FtNcTtm5M5wmCNDd+Pg5o10sTlWkM6wlKq2jNp81/x225Mg w==;
-IronPort-SDR: SFh34WaCJ8D5Eljcel1cVqQxO5YiFFkXJqBwgU70QLCe7XeO4Q+gCs51aGsXwKBrub1YEe/OGA
- Pqmd1cipPOennHGSbgBbaT24QWaRTAETHdv3gA7i5DeLMkAH3p7zC/ruaX09Lt5EVqbhLxmvPh
- aKKwQKKJxvhVIhGe+4F2hi53ukb+EFG/joCD+UdJdl+zuVn2Um1Fm1JIUAaiEGpl5EVrJ6tlLv
- Nr3o/YEnRtEETsgTW/4QHz+514A+dPPdqI/vbO1ZMjUUdGJtpceiG1a+lCuFoy+YU7LjpBKXoY
- LOg=
-X-IronPort-AV: E=Sophos;i="5.77,457,1596470400"; d="scan'208";a="153267050"
+ t=1604706197; x=1636242197;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=QT37Zg41FIq+qHt+V884jfsn9aB/8VuGenGA9udWlZc=;
+ b=l7KDs29AeTNNXts8csgrD6uDlz/JrhYcnoWeBKc5f23gLcsHxKqrXD6o
+ gN/tG+ZiS8U1MZKtn+ySoOYXP/pLTPpv3G2JT/sb+UGx7eiZiKH3aRT+a
+ Yf1XqgdbpjN/XEV09YwjUAIYl0d7ejNdPrLd+CQvuBKq0chLVwhj68ur+
+ uod7/ZL6O8P2eYwxocHkzvHtRrtl00lL4zKQpxxq/yW1vWG+JApOofL/5
+ vlTcuEcykCDrn/Ze2VRXQnt18zbytTAMH9cveV1jjZykePvLTuBTK7dc6
+ 3bbKwoGrbyJvlmfLd8lneJ457nTBbXfG8jEhTWIyBn3+4urK+jnkqLgzj A==;
+IronPort-SDR: 81+kl1r7m6LDIR3axyDMjVeIizd0jZrbbvGCKuGpcRzh83DA6c2PaXRU+i9zthHaPcGAOnq6Hd
+ IPNGN5Dl3btr4bsdNciRRKt1sP+6GjsRSPLJfer9D0e7yunXVsteLJcCi/aGf1FP/Kcw/4SkJG
+ Ii78bbYURxFWP/apuuVX7npTRuh4+TYNkmbfYgPtacZ4dg85/YaIGVRWjq4I7l6vs57emTEsXu
+ gGX+9eaxdY6UPJ7Mh4XOVJ2NRXTyaoKyL8w1EiXbPXcfW+a4+1yUnFP6HylEXzzop573EI422K
+ TTI=
+X-IronPort-AV: E=Sophos;i="5.77,457,1596470400"; d="scan'208";a="153267054"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 07 Nov 2020 07:43:13 +0800
-IronPort-SDR: 7Zpwe5cnfJ4ZEqSodDaLRZJzjEvdNoCIRwWTH/RACR5OPfLgXQeI+l/GzZHvc5IuEfEszdCD3y
- qIRWenAmfeS1Gtp49sVVoBJ3fuAOEFYpUX8coayLZ/KoH75v5N4izO7DYwyyHPVB71eBh7yrie
- l8ybjoTa4vDcf+M7aN+zIdZKr67PEoowcA/p5iI1IlaNxPMA2yjuwLuao5IhrvbB2wcNZ+4H9e
- UBsMOMMzdayoQRll03fJnxVXQcrDUoUcCU9uBtOFrs154/c3U7GgLN+LEbLcmtbr0HwiNNgn9W
- zh7cfShsBXpwNNdhY44Bkcz3
+ by ob1.hgst.iphmx.com with ESMTP; 07 Nov 2020 07:43:15 +0800
+IronPort-SDR: n0vIwh34sROd3Hncr+haq3jvc/K/iqogn2oLdu4s6mtPNNT8ZnhPzqyNlKdylrLVtTHSQhEhtb
+ rJF8xwy1vDxxcTkmjcToXf3XcMLu+rrevou6Xt/BlnznEHu8F7TiiYfiZlFTQ4tKS5EQ9uZvHq
+ M92UFlwexroA85kiK081ZElkKcjAxpB/nhuRPQPhriGPflzETdAIhfnMzl/Fq0YDtlXVFmDPkK
+ QLQB7iI+EOrvWpw+jEUPs3qR6ptOXqc5dsEQtNPwcySYV7h0xTSUrnXgrd1vZBviKXemSG8tIB
+ LrhhQ7EPrSC3xxTAFIsvFdRx
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Nov 2020 15:28:04 -0800
-IronPort-SDR: PhxBg/EOkEKpKq8HiZJEfUu0WvgOyC7zULj6DISNG2ic/U5doyGxnoQm3MSGPA+uXOi9jsow8L
- NeB6x7VcKeXF6PZGb/HNL2f5HZMNCIWR1ls17ACZM7rZMJrIiOu5KqgSekscggOJnhHZ/FAc9l
- Ae7J4cGXZxTZFg/0DSJ5IhpoXbG84i/tbDgMV/B/QlTr3T2t310OWOSNVMGpqc6nI+5fIDrFuR
- Y8dy2j/TmkE3KZRc8m4CCHjUfc+qkRiRkM0QYU+Lv+G+stAhFlzDKRCfN1jUN0k26s6X2wZitZ
- 7XQ=
+ 06 Nov 2020 15:28:06 -0800
+IronPort-SDR: G07voAA+T9YumCnFk5rA/byfV//uGuP0ilQOqUpgloPFg1bwjSpPocLHg/LcuJFDn/gWqcPKn2
+ +bG2rOwMS3XoY/cApAC+/xXFqP2vFxzFTGGr4a6gLx66et+V4mW8KIAVVFy5yNg4n+LX3pP9GR
+ I8GGJu87ck0rq7+ylFpEGbzzxZhsAHbdpY3U52bKQ2Fmh3crcBA7K6DXtWPjcuwxhVBXDfyu9L
+ cVGdsgrwMOCJY0Oi0nyo0Gy/siyCe8xDYh00Cp/bmTVNg3/9Vwv+ZdaTRBx/fhEAFJ7bBWKskY
+ Zns=
 WDCIronportException: Internal
 Received: from unknown (HELO redsun50.ssa.fujisawa.hgst.com) ([10.149.66.24])
- by uls-op-cesaip01.wdc.com with ESMTP; 06 Nov 2020 15:43:09 -0800
+ by uls-op-cesaip01.wdc.com with ESMTP; 06 Nov 2020 15:43:12 -0800
 From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 To: Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>,
  Kevin Wolf <kwolf@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Max Reitz <mreitz@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
  Fam Zheng <fam@euphon.net>
-Subject: [PATCH v10 00/12] hw/block/nvme: Support Namespace Types and Zoned
- Namespace Command Set
-Date: Sat,  7 Nov 2020 08:42:53 +0900
-Message-Id: <20201106234305.21339-1-dmitry.fomichev@wdc.com>
+Subject: [PATCH v10 01/12] hw/block/nvme: Add Commands Supported and Effects
+ log
+Date: Sat,  7 Nov 2020 08:42:54 +0900
+Message-Id: <20201106234305.21339-2-dmitry.fomichev@wdc.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20201106234305.21339-1-dmitry.fomichev@wdc.com>
+References: <20201106234305.21339-1-dmitry.fomichev@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.71.154.45;
@@ -100,246 +102,276 @@ Cc: Niklas Cassel <niklas.cassel@wdc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v9 -> v10:
+This log page becomes necessary to implement to allow checking for
+Zone Append command support in Zoned Namespace Command Set.
 
- - Correctly check for MDTS in Zone Management Receive handler.
+This commit adds the code to report this log page for NVM Command
+Set only. The parts that are specific to zoned operation will be
+added later in the series.
 
- - Change Klaus' "Reviewed-by" email in UUID patch.
+All incoming admin and i/o commands are now only processed if their
+corresponding support bits are set in this log. This provides an
+easy way to control what commands to support and what not to
+depending on set CC.CSS.
 
-v8 -> v9:
+Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+Reviewed-by: Niklas Cassel <Niklas.Cassel@wdc.com>
+---
+ hw/block/nvme-ns.h    |  1 +
+ include/block/nvme.h  | 19 +++++++++
+ hw/block/nvme.c       | 96 +++++++++++++++++++++++++++++++++++++++----
+ hw/block/trace-events |  1 +
+ 4 files changed, 108 insertions(+), 9 deletions(-)
 
- - Move the modifications to "include/block/nvme.h" made to
-   introduce ZNS-related definitions to a separate patch.
-
- - Add a new struct, NvmeZonedResult, along the same lines as the
-   existing NvmeAerResult, to carry Zone Append LBA returned to
-   the host. Now, there is no need to modify NvmeCqe struct except
-   renaming DW1 field from "rsvd" to "dw1".
-
- - Add check for MDTS in Zone Management Receive handler.
-
- - Remove checks for ns->attached since the value of this flag
-   is always true for now.
-
- - Rebase to the current quemu-nvme/nvme-next branch.
-
-v7 -> v8:
-
- - Move refactoring commits to the front of the series.
-
- - Remove "attached" and "fill_pattern" device properties.
-
- - Only close open zones upon subsystem shutdown, not when CC.EN flag
-   is set to 0. Avoid looping through all zones by iterating through
-   lists of open and closed zones.
-
- - Improve bulk processing of zones aka zoned operations with "all"
-   flag set. Avoid looping through the entire zone array for all zone
-   operations except Offline Zone.
-
- - Prefix ZNS-related property names with "zoned.". The "zoned" Boolean
-   property is retained to turn on zoned command set as it is much more
-   intuitive and user-friendly compared to setting a magic number value
-   to csi property.
-
- - Address review comments.
-
- - Remove unused trace events.
-
-v6 -> v7:
-
- - Introduce ns->iocs initialization function earlier in the series,
-   in CSE Log patch.
-
- - Set NVM iocs for zoned namespaces when CC.CSS is set to
-   NVME_CC_CSS_NVM.
-
- - Clean up code in CSE log handler.
+diff --git a/hw/block/nvme-ns.h b/hw/block/nvme-ns.h
+index 83734f4606..ea8c2f785d 100644
+--- a/hw/block/nvme-ns.h
++++ b/hw/block/nvme-ns.h
+@@ -29,6 +29,7 @@ typedef struct NvmeNamespace {
+     int32_t      bootindex;
+     int64_t      size;
+     NvmeIdNs     id_ns;
++    const uint32_t *iocs;
  
-v5 -> v6:
-
- - Remove zoned state persistence code. Replace position-independent
-   zone lists with QTAILQs.
-
- - Close all open zones upon clearing of the controller. This is
-   a similar procedure to the one previously performed upon powering
-   up with zone persistence. 
-
- - Squash NS Types and ZNS triplets of commits to keep definitions
-   and trace event definitions together with the implementation code.
-
- - Move namespace UUID generation to a separate patch. Add the new
-   "uuid" property as suggested by Klaus.
-
- - Rework Commands and Effects patch to make sure that the log is
-   always in sync with the actual set of commands supported.
-
- - Add two refactoring commits at the end of the series to
-   optimize read and write i/o path.
-
-- Incorporate feedback from Keith, Klaus and Niklas:
-
-  * fix rebase errors in nvme_identify_ns_descr_list()
-  * remove unnecessary code from nvme_write_bar()
-  * move csi to NvmeNamespace and use it from the beginning in NSTypes
-    patch
-  * change zone read processing to cover all corner cases with RAZB=1
-  * sync w_ptr and d.wp in case of a i/o error at the preceding zone
-  * reword the commit message in active/inactive patch with the new
-    text from Niklas
-  * correct dlfeat reporting depending on the fill pattern set
-  * add more checks for "attached" n/s parameter to prevent i/o and
-    get/set features on inactive namespaces
-  * Use DEFINE_PROP_SIZE and DEFINE_PROP_SIZE32 for zone size/capacity
-    and ZASL respectively
-  * Improve zone size and capacity validation
-  * Correctly report NSZE
-
-v4 -> v5:
-
- - Rebase to the current qemu-nvme.
-
- - Use HostMemoryBackendFile as the backing storage for persistent
-   zone metadata.
-
- - Fix the issue with filling the valid data in the next zone if RAZB
-   is enabled.
-
-v3 -> v4:
-
- - Fix bugs introduced in v2/v3 for QD > 1 operation. Now, all writes
-   to a zone happen at the new write pointer variable, zone->w_ptr,
-   that is advanced right after submitting the backend i/o. The existing
-   zone->d.wp variable is updated upon the successful write completion
-   and it is used for zone reporting. Some code has been split from
-   nvme_finalize_zoned_write() function to a new function,
-   nvme_advance_zone_wp().
-
- - Make the code compile under mingw. Switch to using QEMU API for
-   mmap/msync, i.e. memory_region...(). Since mmap is not available in
-   mingw (even though there is mman-win32 library available on Github),
-   conditional compilation is added around these calls to avoid
-   undefined symbols under mingw. A better fix would be to add stub
-   functions to softmmu/memory.c for the case when CONFIG_POSIX is not
-   defined, but such change is beyond the scope of this patchset and it
-   can be made in a separate patch.
-
- - Correct permission mask used to open zone metadata file.
-
- - Fold "Define 64 bit cqe.result" patch into ZNS commit.
-
- - Use clz64/clz32 instead of defining nvme_ilog2() function.
-
- - Simplify rpt_empty_id_struct() code, move nvme_fill_data() back
-   to ZNS patch.
-
- - Fix a power-on processing bug.
-
- - Rename NVME_CMD_ZONE_APND to NVME_CMD_ZONE_APPEND.
-
- - Make the list of review comments addressed in v2 of the series
-   (see below).
-
-v2 -> v3:
-
- - Moved nvme_fill_data() function to the NSTypes patch as it is
-   now used there to output empty namespace identify structs.
- - Fixed typo in Maxim's email address.
-
-v1 -> v2:
-
- - Rebased on top of qemu-nvme/next branch.
- - Incorporated feedback from Klaus and Alistair.
-    * Allow a subset of CSE log to be read, not the entire log
-    * Assign admin command entries in CSE log to ACS fields
-    * Set LPA bit 1 to indicate support of CSE log page
-    * Rename CC.CSS value CSS_ALL_NSTYPES (110b) to CSS_CSI
-    * Move the code to assign lbaf.ds to a separate patch
-    * Remove the change in firmware revision
-    * Change "driver" to "device" in comments and annotations
-    * Rename ZAMDS to ZASL
-    * Correct a few format expressions and some wording in
-      trace event definitions
-    * Remove validation code to return NVME_CAP_EXCEEDED error
-    * Make ZASL to be equal to MDTS if "zone_append_size_limit"
-      module parameter is not set
-    * Clean up nvme_zoned_init_ctrl() to make size calculations
-      less confusing
-    * Avoid changing module parameters, use separate n/s variables
-      if additional calculations are necessary to convert parameters
-      to running values
-    * Use NVME_DEFAULT_ZONE_SIZE to assign the default zone size value
-    * Use default 0 for zone capacity meaning that zone capacity will
-      be equal to zone size by default
-    * Issue warnings if user MAR/MOR values are too large and have
-      to be adjusted
-    * Use unsigned values for MAR/MOR
- - Dropped "Simulate Zone Active excursions" patch.
-   Excursion behavior may depend on the internal controller
-   architecture and therefore be vendor-specific.
- - Dropped support for Zone Attributes and zoned AENs for now.
-   These features can be added in a future series.
- - NS Types support is extended to handle active/inactive namespaces.
- - Update the write pointer after backing storage I/O completion, not
-   before. This makes the emulation to run correctly in case of
-   backing device failures.
- - Avoid division in the I/O path if the device zone size is
-   a power of two (the most common case). Zone index then can be
-   calculated by using bit shift.
- - A few reported bugs have been fixed.
- - Indentation in function definitions has been changed to make it
-   the same as the rest of the code.
-
-
-Zoned Namespace (ZNS) Command Set is a newly introduced command set
-published by the NVM Express, Inc. organization as TP 4053. The main
-design goals of ZNS are to provide hardware designers the means to
-reduce NVMe controller complexity and to allow achieving a better I/O
-latency and throughput. SSDs that implement this interface are
-commonly known as ZNS SSDs.
-
-This command set is implementing a zoned storage model, similarly to
-ZAC/ZBC. As such, there is already support in Linux, allowing one to
-perform the majority of tasks needed for managing ZNS SSDs.
-
-The Zoned Namespace Command Set relies on another TP, known as
-Namespace Types (NVMe TP 4056), which introduces support for having
-multiple command sets per namespace.
-
-Both ZNS and Namespace Types specifications can be downloaded by
-visiting the following link -
-
-https://nvmexpress.org/wp-content/uploads/NVM-Express-1.4-Ratified-TPs.zip
-
-This patch series adds Namespace Types support and zoned namespace
-emulation capability to the existing NVMe PCI device.
-
-Based-on: <20201104102248.32168-1-its@irrelevant.dk>
-
-Dmitry Fomichev (10):
-  hw/block/nvme: Add Commands Supported and Effects log
-  hw/block/nvme: Generate namespace UUIDs
-  hw/block/nvme: Separate read and write handlers
-  hw/block/nvme: Merge nvme_write_zeroes() with nvme_write()
-  block/nvme: Make ZNS-related definitions
-  hw/block/nvme: Support Zoned Namespace Command Set
-  hw/block/nvme: Introduce max active and open zone limits
-  hw/block/nvme: Support Zone Descriptor Extensions
-  hw/block/nvme: Add injection of Offline/Read-Only zones
-  hw/block/nvme: Document zoned parameters in usage text
-
-Niklas Cassel (2):
-  hw/block/nvme: Add support for Namespace Types
-  hw/block/nvme: Support allocated CNS command variants
-
- hw/block/nvme-ns.h    |  109 +++
- hw/block/nvme.h       |    8 +
- include/block/nvme.h  |  205 +++++-
- hw/block/nvme-ns.c    |  276 +++++++
- hw/block/nvme.c       | 1591 ++++++++++++++++++++++++++++++++++++++---
- hw/block/trace-events |   32 +-
- 6 files changed, 2096 insertions(+), 125 deletions(-)
-
+     NvmeNamespaceParams params;
+ } NvmeNamespace;
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 8a46d9cf01..f62cc90d49 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -745,10 +745,27 @@ enum NvmeSmartWarn {
+     NVME_SMART_FAILED_VOLATILE_MEDIA  = 1 << 4,
+ };
+ 
++typedef struct NvmeEffectsLog {
++    uint32_t    acs[256];
++    uint32_t    iocs[256];
++    uint8_t     resv[2048];
++} NvmeEffectsLog;
++
++enum {
++    NVME_CMD_EFF_CSUPP      = 1 << 0,
++    NVME_CMD_EFF_LBCC       = 1 << 1,
++    NVME_CMD_EFF_NCC        = 1 << 2,
++    NVME_CMD_EFF_NIC        = 1 << 3,
++    NVME_CMD_EFF_CCC        = 1 << 4,
++    NVME_CMD_EFF_CSE_MASK   = 3 << 16,
++    NVME_CMD_EFF_UUID_SEL   = 1 << 19,
++};
++
+ enum NvmeLogIdentifier {
+     NVME_LOG_ERROR_INFO     = 0x01,
+     NVME_LOG_SMART_INFO     = 0x02,
+     NVME_LOG_FW_SLOT_INFO   = 0x03,
++    NVME_LOG_CMD_EFFECTS    = 0x05,
+ };
+ 
+ typedef struct QEMU_PACKED NvmePSD {
+@@ -861,6 +878,7 @@ enum NvmeIdCtrlFrmw {
+ 
+ enum NvmeIdCtrlLpa {
+     NVME_LPA_NS_SMART = 1 << 0,
++    NVME_LPA_CSE      = 1 << 1,
+     NVME_LPA_EXTENDED = 1 << 2,
+ };
+ 
+@@ -1060,6 +1078,7 @@ static inline void _nvme_check_size(void)
+     QEMU_BUILD_BUG_ON(sizeof(NvmeErrorLog) != 64);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeFwSlotInfoLog) != 512);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeSmartLog) != 512);
++    QEMU_BUILD_BUG_ON(sizeof(NvmeEffectsLog) != 4096);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeIdCtrl) != 4096);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeIdNs) != 4096);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeSglDescriptor) != 16);
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 065e763e4f..702f7cc2e3 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -111,6 +111,28 @@ static const uint32_t nvme_feature_cap[NVME_FID_MAX] = {
+     [NVME_TIMESTAMP]                = NVME_FEAT_CAP_CHANGE,
+ };
+ 
++static const uint32_t nvme_cse_acs[256] = {
++    [NVME_ADM_CMD_DELETE_SQ]        = NVME_CMD_EFF_CSUPP,
++    [NVME_ADM_CMD_CREATE_SQ]        = NVME_CMD_EFF_CSUPP,
++    [NVME_ADM_CMD_GET_LOG_PAGE]     = NVME_CMD_EFF_CSUPP,
++    [NVME_ADM_CMD_DELETE_CQ]        = NVME_CMD_EFF_CSUPP,
++    [NVME_ADM_CMD_CREATE_CQ]        = NVME_CMD_EFF_CSUPP,
++    [NVME_ADM_CMD_IDENTIFY]         = NVME_CMD_EFF_CSUPP,
++    [NVME_ADM_CMD_ABORT]            = NVME_CMD_EFF_CSUPP,
++    [NVME_ADM_CMD_SET_FEATURES]     = NVME_CMD_EFF_CSUPP,
++    [NVME_ADM_CMD_GET_FEATURES]     = NVME_CMD_EFF_CSUPP,
++    [NVME_ADM_CMD_ASYNC_EV_REQ]     = NVME_CMD_EFF_CSUPP,
++};
++
++static const uint32_t nvme_cse_iocs_none[256];
++
++static const uint32_t nvme_cse_iocs_nvm[256] = {
++    [NVME_CMD_FLUSH]                = NVME_CMD_EFF_CSUPP | NVME_CMD_EFF_LBCC,
++    [NVME_CMD_WRITE_ZEROES]         = NVME_CMD_EFF_CSUPP | NVME_CMD_EFF_LBCC,
++    [NVME_CMD_WRITE]                = NVME_CMD_EFF_CSUPP | NVME_CMD_EFF_LBCC,
++    [NVME_CMD_READ]                 = NVME_CMD_EFF_CSUPP,
++};
++
+ static void nvme_process_sq(void *opaque);
+ 
+ static uint16_t nvme_cid(NvmeRequest *req)
+@@ -1022,10 +1044,6 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
+     trace_pci_nvme_io_cmd(nvme_cid(req), nsid, nvme_sqid(req),
+                           req->cmd.opcode, nvme_io_opc_str(req->cmd.opcode));
+ 
+-    if (NVME_CC_CSS(n->bar.cc) == NVME_CC_CSS_ADMIN_ONLY) {
+-        return NVME_INVALID_OPCODE | NVME_DNR;
+-    }
+-
+     if (!nvme_nsid_valid(n, nsid)) {
+         return NVME_INVALID_NSID | NVME_DNR;
+     }
+@@ -1035,6 +1053,11 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
+         return NVME_INVALID_FIELD | NVME_DNR;
+     }
+ 
++    if (!(req->ns->iocs[req->cmd.opcode] & NVME_CMD_EFF_CSUPP)) {
++        trace_pci_nvme_err_invalid_opc(req->cmd.opcode);
++        return NVME_INVALID_OPCODE | NVME_DNR;
++    }
++
+     switch (req->cmd.opcode) {
+     case NVME_CMD_FLUSH:
+         return nvme_flush(n, req);
+@@ -1044,8 +1067,7 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
+     case NVME_CMD_READ:
+         return nvme_rw(n, req);
+     default:
+-        trace_pci_nvme_err_invalid_opc(req->cmd.opcode);
+-        return NVME_INVALID_OPCODE | NVME_DNR;
++        assert(false);
+     }
+ }
+ 
+@@ -1282,6 +1304,37 @@ static uint16_t nvme_error_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
+                     DMA_DIRECTION_FROM_DEVICE, req);
+ }
+ 
++static uint16_t nvme_cmd_effects(NvmeCtrl *n, uint32_t buf_len,
++                                 uint64_t off, NvmeRequest *req)
++{
++    NvmeEffectsLog log = {};
++    const uint32_t *src_iocs = NULL;
++    uint32_t trans_len;
++
++    if (off >= sizeof(log)) {
++        trace_pci_nvme_err_invalid_log_page_offset(off, sizeof(log));
++        return NVME_INVALID_FIELD | NVME_DNR;
++    }
++
++    switch (NVME_CC_CSS(n->bar.cc)) {
++    case NVME_CC_CSS_NVM:
++        src_iocs = nvme_cse_iocs_nvm;
++    case NVME_CC_CSS_ADMIN_ONLY:
++        break;
++    }
++
++    memcpy(log.acs, nvme_cse_acs, sizeof(nvme_cse_acs));
++
++    if (src_iocs) {
++        memcpy(log.iocs, src_iocs, sizeof(log.iocs));
++    }
++
++    trans_len = MIN(sizeof(log) - off, buf_len);
++
++    return nvme_dma(n, ((uint8_t *)&log) + off, trans_len,
++                    DMA_DIRECTION_FROM_DEVICE, req);
++}
++
+ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeRequest *req)
+ {
+     NvmeCmd *cmd = &req->cmd;
+@@ -1325,6 +1378,8 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeRequest *req)
+         return nvme_smart_info(n, rae, len, off, req);
+     case NVME_LOG_FW_SLOT_INFO:
+         return nvme_fw_log_info(n, len, off, req);
++    case NVME_LOG_CMD_EFFECTS:
++        return nvme_cmd_effects(n, len, off, req);
+     default:
+         trace_pci_nvme_err_invalid_log_page(nvme_cid(req), lid);
+         return NVME_INVALID_FIELD | NVME_DNR;
+@@ -1912,6 +1967,11 @@ static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeRequest *req)
+     trace_pci_nvme_admin_cmd(nvme_cid(req), nvme_sqid(req), req->cmd.opcode,
+                              nvme_adm_opc_str(req->cmd.opcode));
+ 
++    if (!(nvme_cse_acs[req->cmd.opcode] & NVME_CMD_EFF_CSUPP)) {
++        trace_pci_nvme_err_invalid_admin_opc(req->cmd.opcode);
++        return NVME_INVALID_OPCODE | NVME_DNR;
++    }
++
+     switch (req->cmd.opcode) {
+     case NVME_ADM_CMD_DELETE_SQ:
+         return nvme_del_sq(n, req);
+@@ -1934,8 +1994,7 @@ static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeRequest *req)
+     case NVME_ADM_CMD_ASYNC_EV_REQ:
+         return nvme_aer(n, req);
+     default:
+-        trace_pci_nvme_err_invalid_admin_opc(req->cmd.opcode);
+-        return NVME_INVALID_OPCODE | NVME_DNR;
++        assert(false);
+     }
+ }
+ 
+@@ -2023,6 +2082,23 @@ static void nvme_clear_ctrl(NvmeCtrl *n)
+     n->bar.cc = 0;
+ }
+ 
++static void nvme_select_ns_iocs(NvmeCtrl *n)
++{
++    NvmeNamespace *ns;
++    int i;
++
++    for (i = 1; i <= n->num_namespaces; i++) {
++        ns = nvme_ns(n, i);
++        if (!ns) {
++            continue;
++        }
++        ns->iocs = nvme_cse_iocs_none;
++        if (NVME_CC_CSS(n->bar.cc) != NVME_CC_CSS_ADMIN_ONLY) {
++            ns->iocs = nvme_cse_iocs_nvm;
++        }
++    }
++}
++
+ static int nvme_start_ctrl(NvmeCtrl *n)
+ {
+     uint32_t page_bits = NVME_CC_MPS(n->bar.cc) + 12;
+@@ -2121,6 +2197,8 @@ static int nvme_start_ctrl(NvmeCtrl *n)
+ 
+     QTAILQ_INIT(&n->aer_queue);
+ 
++    nvme_select_ns_iocs(n);
++
+     return 0;
+ }
+ 
+@@ -2728,7 +2806,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+     id->acl = 3;
+     id->aerl = n->params.aerl;
+     id->frmw = (NVME_NUM_FW_SLOTS << 1) | NVME_FRMW_SLOT1_RO;
+-    id->lpa = NVME_LPA_NS_SMART | NVME_LPA_EXTENDED;
++    id->lpa = NVME_LPA_NS_SMART | NVME_LPA_CSE | NVME_LPA_EXTENDED;
+ 
+     /* recommended default value (~70 C) */
+     id->wctemp = cpu_to_le16(NVME_TEMPERATURE_WARNING);
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index 72abbbc2b4..33832a2021 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -102,6 +102,7 @@ pci_nvme_err_invalid_prp2_align(uint64_t prp2) "PRP2 is not page aligned: 0x%"PR
+ pci_nvme_err_invalid_opc(uint8_t opc) "invalid opcode 0x%"PRIx8""
+ pci_nvme_err_invalid_admin_opc(uint8_t opc) "invalid admin opcode 0x%"PRIx8""
+ pci_nvme_err_invalid_lba_range(uint64_t start, uint64_t len, uint64_t limit) "Invalid LBA start=%"PRIu64" len=%"PRIu64" limit=%"PRIu64""
++pci_nvme_err_invalid_log_page_offset(uint64_t ofs, uint64_t size) "must be <= %"PRIu64", got %"PRIu64""
+ pci_nvme_err_invalid_del_sq(uint16_t qid) "invalid submission queue deletion, sid=%"PRIu16""
+ pci_nvme_err_invalid_create_sq_cqid(uint16_t cqid) "failed creating submission queue, invalid cqid=%"PRIu16""
+ pci_nvme_err_invalid_create_sq_sqid(uint16_t sqid) "failed creating submission queue, invalid sqid=%"PRIu16""
 -- 
 2.21.0
 
