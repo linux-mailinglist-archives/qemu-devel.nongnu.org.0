@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E8AF2A9A92
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 18:15:14 +0100 (CET)
-Received: from localhost ([::1]:45946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 801612A9A9B
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 18:16:49 +0100 (CET)
+Received: from localhost ([::1]:52512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kb5KT-0005FK-FJ
-	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 12:15:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34730)
+	id 1kb5M0-00084G-Jn
+	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 12:16:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kb5HR-0001Gs-9N
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 12:12:06 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:56185)
+ id 1kb5HT-0001Hx-DF
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 12:12:10 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:56188)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kb5HM-0003Mr-7Z
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 12:12:04 -0500
-Received: by mail-wm1-x341.google.com with SMTP id c9so2157211wml.5
- for <qemu-devel@nongnu.org>; Fri, 06 Nov 2020 09:11:59 -0800 (PST)
+ id 1kb5HR-0003NV-4z
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 12:12:07 -0500
+Received: by mail-wm1-x343.google.com with SMTP id c9so2157468wml.5
+ for <qemu-devel@nongnu.org>; Fri, 06 Nov 2020 09:12:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QhdTsNE656tCSH0NDovdU3as+214FeSLljyeY/SGz5M=;
- b=X5nO/VDOGnJSTvMSrC9dJNpaAAh5GvemOQF6NG2wwUF6rcGcXDaY33lp+Lsnta0HI9
- ttoDZnr4m/W0O9U8CiPmMTSW3OtzrJXiNRZiMhvOthGWoz6g9SMrIXuXaamg6hhCCB+F
- OBwIIPaqefmxEGwJHXPTrO9gQIQuo1/9PzdQtQku+uEWOG9dd5vel3mXj/AuqDKBG7aY
- nkRS+e9Hq8VT7TK1l/xPU7CybaylTFoIZvYM9+mGbiAhydlTbHGGy+ixMbb85sovPh+d
- H2Yt1eTKRmcc1iu5pGdiXpnUjKlLQ1z9CEhtrjqtUYp6jjpvJBnV+Hl1bwjIV8wZO14B
- P33g==
+ bh=Ycwc9PI+oFTz4llRPLtPfpoPPiAd/CZwBx3qyq0lMqg=;
+ b=hRAvDh/GWZopBlkU8gG+DllAmis69LSZDLJkjLgrQNgCGDD8nFlgz1po7h2zPk7tMT
+ a6hyWqZ7OMJTDRNIM5kJHaEP0AEZgm3M7/HWlk4XYYiL52gkQ8kfK7zEwS02K4e3cfzm
+ P1lKXcfK/kvN8FmELI22gWWc5cfDu1XMoi725Iqz7Aj09MWwYoVwjSwTeXmiBQ3cMoUj
+ mN0RrFTKyL5XtR9kCIs3K3GSgRTyQYbNrtCfqCqav0e5SFI9kijG7cc3JAI7E02KaMFp
+ ibTziG9Q627Vy5IFh0v6H/9ROjYtpEqofUmZoAxMtRD/PHP9pIBhH89BgdQyRpqK1JsZ
+ ldbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QhdTsNE656tCSH0NDovdU3as+214FeSLljyeY/SGz5M=;
- b=b94fZei8BtwB7vcg10LA6gAJNWIYqEjU4v5fKUvsbicgFEPD7CSrnwOUiyVBmiGK1U
- U/ScRN9+84rlCksrSJD2NlRgL1zJTGyaEO1hibb1+/5vS+5KcmOBxpLLnhckafR/X4tV
- bUTN4Q8ihSzDRCEzRq/75TLzHt1LUbWXQurpTKzsXW6pSOlBJ19rmkJvnG8OqbExqG50
- zKcP8biDwLFpJGWIHV8Llv6BOtLNdw5+nG+op/qpHaxbwCjEyuiWj4lwja9hyzqjd7E7
- FbYei9F2ZmAIWRomHkBxE5TakTLd506HCTGxYQ1yoxeyINa0IeqstJTw3fUy5k7oT9g7
- E7Ng==
-X-Gm-Message-State: AOAM532/gjHPV7Xz8y4/69iMboggzZDjxTI9eNwKbeEAQDmNOWbPNSpX
- xHo6BnjdZNHpNs56XnWHqXIs3jA61BmUvg==
-X-Google-Smtp-Source: ABdhPJx6W0XmIxaopniDiBl5L3OD0tuUdW0BkeGt71ef2/tXefEfZ6kLSdIsKVacBRYfonC24ufROA==
-X-Received: by 2002:a05:600c:2048:: with SMTP id
- p8mr574200wmg.165.1604682718310; 
- Fri, 06 Nov 2020 09:11:58 -0800 (PST)
+ bh=Ycwc9PI+oFTz4llRPLtPfpoPPiAd/CZwBx3qyq0lMqg=;
+ b=c2ze53xPwm78BiCIUCxafLpoDLa+bDDJemOrLxkgEx4w3fm9MCw7Ydr6JnfrdUHaJX
+ wkf5SvP6G51Y1oZU3KRanVPHV6eF9xmfTCyjOyAJclzuFBc4P5xBTViKxG1kdEvtAebg
+ z/qluomhfnvYmTK/LwiHfJZTAm94SQILopRboeeC8MoEnxM8NNnSsgsL2t1nbURBzuC5
+ myze+BJX3RoXkVw6wXj6ZluXj8rs5j62RQwgrDOUhr/ollsCpDeIKXzGg5LvMeiSuphU
+ bHi9ZKXa1afmwr/LDpUjoc3g+Cw40tB/EbWYDr1KEh6StzjVxIcjvs4vUDNSKmAVYosv
+ mRPQ==
+X-Gm-Message-State: AOAM530A+8S4hsP8QXAOg45I/lJjAKO8/VO/6+7BYzo+EDfK1X1pngRo
+ fck4s/PT+ShLdlHygjD1CDbkrNBuByMYtA==
+X-Google-Smtp-Source: ABdhPJw7lcV4n5Abiz/tgeyJiu4G3mp3rgJlKQLD3s4Fd/MwpTRv1M6uhgo96sZa96c97MMj2Hqjtg==
+X-Received: by 2002:a1c:4ca:: with SMTP id 193mr588932wme.137.1604682720400;
+ Fri, 06 Nov 2020 09:12:00 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id l1sm3162649wrb.1.2020.11.06.09.11.57
+ by smtp.gmail.com with ESMTPSA id l1sm3162649wrb.1.2020.11.06.09.11.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Nov 2020 09:11:57 -0800 (PST)
+ Fri, 06 Nov 2020 09:11:59 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.2 2/4] hw/net/can/ctucan: Avoid unused value in
- ctucan_send_ready_buffers()
-Date: Fri,  6 Nov 2020 17:11:51 +0000
-Message-Id: <20201106171153.32673-3-peter.maydell@linaro.org>
+Subject: [PATCH for-5.2 3/4] hw/net/can/ctucan_core: Handle big-endian hosts
+Date: Fri,  6 Nov 2020 17:11:52 +0000
+Message-Id: <20201106171153.32673-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201106171153.32673-1-peter.maydell@linaro.org>
 References: <20201106171153.32673-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,77 +89,41 @@ Cc: Jason Wang <jasowang@redhat.com>, Vikram Garhwal <fnu.vikram@xilinx.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity points out that in ctucan_send_ready_buffers() we
-set buff_st_mask = 0xf << (i * 4) inside the loop, but then
-we never use it before overwriting it later.
+The ctucan driver defines types for its registers which are a union
+of a uint32_t with a struct with bitfields for the individual
+fields within that register. This is a bad idea, because bitfields
+aren't portable. The ctu_can_fd_regs.h header works around the
+most glaring of the portability issues by defining the
+fields in two different orders depending on the setting of the
+__LITTLE_ENDIAN_BITFIELD define. However, in ctucan_core.h this
+is unconditionally set to 1, which is wrong for big-endian hosts.
 
-The only thing we use the mask for is as part of the code that is
-inserting the new buff_st field into tx_status.  That is more
-comprehensibly written using deposit32(), so do that and drop the
-mask variable entirely.
+Set it only if HOST_WORDS_BIGENDIAN is not set. There is no need
+for a "have we defined it already" guard, because the only place
+that should set it is ctucan_core.h, which has the usual
+double-inclusion guard.
 
-We also update the buff_st local variable at multiple points
-during this function, but nothing can ever see these
-intermediate values, so just drop those, write the final
-TXT_TOK as a fixed constant value, and collapse the only
-remaining set/use of buff_st down into an extract32().
-
-Fixes: Coverity CID 1432869
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/net/can/ctucan_core.c | 15 +++------------
- 1 file changed, 3 insertions(+), 12 deletions(-)
+Ideally all that bitfield-using code would be rewritten to use
+extract32 and deposit32 instead, IMHO.
+---
+ hw/net/can/ctucan_core.h | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/net/can/ctucan_core.c b/hw/net/can/ctucan_core.c
-index ea09bf71a0c..f2ce978e5ec 100644
---- a/hw/net/can/ctucan_core.c
-+++ b/hw/net/can/ctucan_core.c
-@@ -240,8 +240,6 @@ static void ctucan_send_ready_buffers(CtuCanCoreState *s)
-     uint8_t *pf;
-     int buff2tx_idx;
-     uint32_t tx_prio_max;
--    unsigned int buff_st;
--    uint32_t buff_st_mask;
+diff --git a/hw/net/can/ctucan_core.h b/hw/net/can/ctucan_core.h
+index f21cb1c5ec3..bbc09ae0678 100644
+--- a/hw/net/can/ctucan_core.h
++++ b/hw/net/can/ctucan_core.h
+@@ -31,8 +31,7 @@
+ #include "exec/hwaddr.h"
+ #include "net/can_emu.h"
  
-     if (!s->mode_settings.s.ena) {
-         return;
-@@ -256,10 +254,7 @@ static void ctucan_send_ready_buffers(CtuCanCoreState *s)
-         for (i = 0; i < CTUCAN_CORE_TXBUF_NUM; i++) {
-             uint32_t prio;
- 
--            buff_st_mask = 0xf << (i * 4);
--            buff_st = (s->tx_status.u32 >> (i * 4)) & 0xf;
 -
--            if (buff_st != TXT_RDY) {
-+            if (extract32(s->tx_status.u32, i * 4, 4) != TXT_RDY) {
-                 continue;
-             }
-             prio = (s->tx_priority.u32 >> (i * 4)) & 0x7;
-@@ -271,10 +266,7 @@ static void ctucan_send_ready_buffers(CtuCanCoreState *s)
-         if (buff2tx_idx == -1) {
-             break;
-         }
--        buff_st_mask = 0xf << (buff2tx_idx * 4);
--        buff_st = (s->tx_status.u32 >> (buff2tx_idx * 4)) & 0xf;
-         int_stat.u32 = 0;
--        buff_st = TXT_RDY;
-         pf = s->tx_buffer[buff2tx_idx].data;
-         ctucan_buff2frame(pf, &frame);
-         s->status.s.idle = 0;
-@@ -283,12 +275,11 @@ static void ctucan_send_ready_buffers(CtuCanCoreState *s)
-         s->status.s.idle = 1;
-         s->status.s.txs = 0;
-         s->tx_fr_ctr.s.tx_fr_ctr_val++;
--        buff_st = TXT_TOK;
-         int_stat.s.txi = 1;
-         int_stat.s.txbhci = 1;
-         s->int_stat.u32 |= int_stat.u32 & ~s->int_mask.u32;
--        s->tx_status.u32 = (s->tx_status.u32 & ~buff_st_mask) |
--                        (buff_st << (buff2tx_idx * 4));
-+        s->tx_status.u32 = deposit32(s->tx_status.u32,
-+                                     buff2tx_idx * 4, 4, TXT_TOK);
-     } while (1);
- }
+-#ifndef __LITTLE_ENDIAN_BITFIELD
++#ifndef HOST_WORDS_BIGENDIAN
+ #define __LITTLE_ENDIAN_BITFIELD 1
+ #endif
  
 -- 
 2.20.1
