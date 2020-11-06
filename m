@@ -2,59 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1222D2A92F9
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 10:41:08 +0100 (CET)
-Received: from localhost ([::1]:41182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 905D72A92DF
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 10:37:30 +0100 (CET)
+Received: from localhost ([::1]:58838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kayF1-00014v-5W
-	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 04:41:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39244)
+	id 1kayBV-00053n-2p
+	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 04:37:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <e6b99460b14469e0b83febc8d5a501947d1d5c7c@lizzy.crudebyte.com>)
- id 1kayCg-00078H-FF
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 04:38:42 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:55521)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <e6b99460b14469e0b83febc8d5a501947d1d5c7c@lizzy.crudebyte.com>)
- id 1kayCe-0007Ka-Nk
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 04:38:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Content-Transfer-Encoding:Content-Type:
- MIME-Version:Subject:Date:From:References:In-Reply-To:Message-Id:Content-ID:
- Content-Description; bh=9O9qnIXKsiM/2WWp2zKQN9RJK3qY86a6TuCkInAuTWo=; b=T7qCu
- htJN7dVxwtglFtppc1UKv34HDSdNB84EfMswzNq8fNulOmwU+/z0S0a+d0aEDhLD2eq6c5MIx/eO5
- BeLc+moqDFWsedJS1OdN15c9c3Ih3CYBMWLmWQv11WbJcy6TjbRRqiXpcSvQjf0B30NMqujxabtXZ
- 60gQ7HCwXlbUMPmi8Umky2kJQ5iRnMV2Wo7i00Zm4hcjjjMiqQRfbtZu8D06oNilRSHdkAOIBSMEe
- ScsetUePlAljuq2NvbLlaFU9Z7nOqQgQIrsefaL+5jsQ/ySGrSkcQ2glIwLRq0LfploRhRM7zE3kF
- ZggVV5nf4O4SVekmkYdPESQh0CjqA==;
-Message-Id: <e6b99460b14469e0b83febc8d5a501947d1d5c7c.1604653990.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1604653990.git.qemu_oss@crudebyte.com>
-References: <cover.1604653990.git.qemu_oss@crudebyte.com>
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Fri, 06 Nov 2020 10:13:10 +0100
-Subject: [PULL 4/4] hw/9pfs: Fix Kconfig dependency problem between 9pfs and
- Xen
+ (Exim 4.90_1) (envelope-from <lichun@ruijie.com.cn>)
+ id 1kayA7-0004Wx-67
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 04:36:03 -0500
+Received: from [240e:678:8c0:5::c0a8:3a62] (port=27451
+ helo=FZEX3.ruijie.com.cn)
+ by eggs.gnu.org with esmtps (TLS1.0:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lichun@ruijie.com.cn>)
+ id 1kayA3-0006mh-TQ
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 04:36:01 -0500
+Received: from FZEX5.ruijie.com.cn ([fe80::f133:c96b:b8b4:690f]) by
+ FZEX3.ruijie.com.cn ([fe80::9480:e49e:2190:b001%15]) with mapi id
+ 14.03.0123.003; Fri, 6 Nov 2020 17:35:50 +0800
+From: <lichun@ruijie.com.cn>
+To: <kraxel@redhat.com>
+Subject: Re: Re: [PATCH] console: avoid passing con=NULL to
+ graphic_hw_update_done() In graphic_hw_update(), first select an existing
+ console, a specific-console or active_console(if not specified), then
+ updating the console.
+Thread-Topic: Re: [PATCH] console: avoid passing con=NULL to
+ graphic_hw_update_done() In graphic_hw_update(), first select an existing
+ console, a specific-console or active_console(if not specified), then
+ updating the console.
+Thread-Index: AQHWtB/3xk3iH7M07U+qMJmj9onc3g==
+Date: Fri, 6 Nov 2020 09:35:50 +0000
+Message-ID: <EEB2AE3E67807845A92E2350C6F5E02E0178EBB962@FZEX5.ruijie.com.cn>
+References: <1604682219-114389-1-git-send-email-lichun@ruijie.com.cn>,
+ <20201106092848.yqoajggs2pdqbhjm@sirius.home.kraxel.org>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.20.101.108]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To: qemu-devel@nongnu.org,
-    Peter Maydell <peter.maydell@linaro.org>
-Cc: Greg Kurz <groug@kaod.org>,
-    Philippe Mathieu-Daudé <philmd@redhat.com>
-Received-SPF: none client-ip=91.194.90.13;
- envelope-from=e6b99460b14469e0b83febc8d5a501947d1d5c7c@lizzy.crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/06 04:36:52
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 240e:678:8c0:5::c0a8:3a62
+ (failed)
+Received-SPF: permerror client-ip=240e:678:8c0:5::c0a8:3a62;
+ envelope-from=lichun@ruijie.com.cn; helo=FZEX3.ruijie.com.cn
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, T_SPF_PERMERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,69 +69,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, 706701795@qq.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-Commit b2c00bce54c ("meson: convert hw/9pfs, cleanup") introduced
-CONFIG_9PFS (probably a wrong conflict resolution). This config is
-not used anywhere. Backends depend on CONFIG_FSDEV_9P which itself
-depends on CONFIG_VIRTFS.
-
-Remove the invalid CONFIG_9PFS and use CONFIG_FSDEV_9P instead, to
-fix the './configure --without-default-devices --enable-xen' build:
-
-  /usr/bin/ld: libcommon.fa.p/hw_xen_xen-legacy-backend.c.o: in function `xen_be_register_common':
-  hw/xen/xen-legacy-backend.c:754: undefined reference to `xen_9pfs_ops'
-  /usr/bin/ld: libcommon.fa.p/fsdev_qemu-fsdev.c.o:(.data.rel+0x8): undefined reference to `local_ops'
-  /usr/bin/ld: libcommon.fa.p/fsdev_qemu-fsdev.c.o:(.data.rel+0x20): undefined reference to `synth_ops'
-  /usr/bin/ld: libcommon.fa.p/fsdev_qemu-fsdev.c.o:(.data.rel+0x38): undefined reference to `proxy_ops'
-  collect2: error: ld returned 1 exit status
-
-Fixes: b2c00bce54c ("meson: convert hw/9pfs, cleanup")
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Acked-by: Greg Kurz <groug@kaod.org>
-Tested-by: Greg Kurz <groug@kaod.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Message-Id: <20201104115706.3101190-3-philmd@redhat.com>
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
----
- hw/9pfs/Kconfig     | 4 ----
- hw/9pfs/meson.build | 2 +-
- 2 files changed, 1 insertion(+), 5 deletions(-)
-
-diff --git a/hw/9pfs/Kconfig b/hw/9pfs/Kconfig
-index d3ebd73730..3ae5749661 100644
---- a/hw/9pfs/Kconfig
-+++ b/hw/9pfs/Kconfig
-@@ -2,12 +2,8 @@ config FSDEV_9P
-     bool
-     depends on VIRTFS
- 
--config 9PFS
--    bool
--
- config VIRTIO_9P
-     bool
-     default y
-     depends on VIRTFS && VIRTIO
-     select FSDEV_9P
--    select 9PFS
-diff --git a/hw/9pfs/meson.build b/hw/9pfs/meson.build
-index cc09426212..99be5d9119 100644
---- a/hw/9pfs/meson.build
-+++ b/hw/9pfs/meson.build
-@@ -15,6 +15,6 @@ fs_ss.add(files(
-   'coxattr.c',
- ))
- fs_ss.add(when: 'CONFIG_XEN', if_true: files('xen-9p-backend.c'))
--softmmu_ss.add_all(when: 'CONFIG_9PFS', if_true: fs_ss)
-+softmmu_ss.add_all(when: 'CONFIG_FSDEV_9P', if_true: fs_ss)
- 
- specific_ss.add(when: 'CONFIG_VIRTIO_9P', if_true: files('virtio-9p-device.c'))
--- 
-2.20.1
-
+PsKgIEhpLAo+Cj5JZiB5b3UgaGF2ZSBhbiBsb25nIGNvbW1pdCBtZXNzYWdlIHB1dCBpdCBpbnRv
+IHRoZSBib2R5IG5vdCB0aGUgc3ViamVjdAo+cGxlYXNlLiAKT2tleSwgSSBzaG91bGQgbGVhdmUg
+YSBibGFuayBsaW5lLgo+Cj5PbiBTYXQsIE5vdiAwNywgMjAyMCBhdCAwMTowMzozOUFNICswODAw
+LCBsaWNodW4gd3JvdGU6Cj4+IFNpZ25lZC1vZmYtYnk6IGxpY2h1biA8bGljaHVuQHJ1aWppZS5j
+b20uY24+Cj4+IC0tLQo+PsKgIHVpL2NvbnNvbGUuYyB8IDUgKysrLS0KPj7CoCAxIGZpbGUgY2hh
+bmdlZCwgMyBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQo+Pgo+PiBkaWZmIC0tZ2l0IGEv
+dWkvY29uc29sZS5jIGIvdWkvY29uc29sZS5jCj4+IGluZGV4IGU4ZTU5NzAuLmUwN2QyYzMgMTAw
+NjQ0Cj4+IC0tLSBhL3VpL2NvbnNvbGUuYwo+PiArKysgYi91aS9jb25zb2xlLmMKPj4gQEAgLTI3
+MCwxMCArMjcwLDExIEBAIHZvaWQgZ3JhcGhpY19od191cGRhdGVfZG9uZShRZW11Q29uc29sZSAq
+Y29uKQo+PsKgIHZvaWQgZ3JhcGhpY19od191cGRhdGUoUWVtdUNvbnNvbGUgKmNvbikKPj7CoCB7
+Cj4+wqDCoMKgwqDCoCBib29sIGFzeW5jID0gZmFsc2U7Cj4+ICvCoMKgwqAgY29uID0gY29uID8g
+Y29uIDogYWN0aXZlX2NvbnNvbGU7Cj4KPmNvbiBzaG91bGQgbm90IGJlIE5VTEwgYXQgdGhpcyBw
+b2ludC4KPgo+Q2FuIHlvdSB0cmlnZ2VyIGEgTlVMTCBwb2ludGVyIGRlcmVmZXJlbmNlIGhlcmUg
+c29tZWhvdz8gCnJ1biAjLi9xZW11LXN5c3RlbS14ODZfNjQgLW5vZGVmYXVsdHMgdGVzdC5pbWcg
+LXZuYyAwLjAuMC4wOjAKVGhlbiBjb25uZWN0IHdpdGggVk5DIGNsaWVudCwgSXQgd2lsbCBjYXVz
+ZSBRRU1VIENSQVNILgo+Cj50aGFua3MsCj7CoCBHZXJkCj4=
 
