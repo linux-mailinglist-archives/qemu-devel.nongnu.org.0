@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9FA82A8D8E
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 04:34:19 +0100 (CET)
-Received: from localhost ([::1]:58834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 053F42A8D99
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 04:38:54 +0100 (CET)
+Received: from localhost ([::1]:50246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kasW2-0001cG-RY
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 22:34:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46902)
+	id 1kasaT-0001DT-2B
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 22:38:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kasRV-0004bF-Rv
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 22:29:37 -0500
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:33480)
+ id 1kasRW-0004cy-K4
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 22:29:38 -0500
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:37432)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kasRT-0006uu-61
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 22:29:37 -0500
-Received: by mail-pf1-x443.google.com with SMTP id q10so66244pfn.0
- for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 19:29:34 -0800 (PST)
+ id 1kasRU-0006v4-Lw
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 22:29:38 -0500
+Received: by mail-pf1-x42d.google.com with SMTP id 13so52227pfy.4
+ for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 19:29:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hAEMbLEJD/eBtWNiswR+L4HBV0VLxFFaL5IoMfIX6Q4=;
- b=Wb1ky7aZaeMc9ZSq/zJT7asggQ/Dsu6qsjq8mAcTxU+2nC7pzEtfu7ttl/u1as64UC
- 7FvRh8VNYpLVomedrVsq5YszXmVg0FZA5Q/OTV2pgAFKQgbuyyA/WSlLn7SUjZnumBih
- y9OohcyXCcQajRKG9Lhw/LeyRzTBjg/nDQzwYpFMHdmsiRynw99zqLgfSUEacCCGa0Rb
- jTgmQq1ky0LVDY+YItLP8OZdXiGTPJ7+Lcj92rPEXPFRJghf/BZIuXUE9XHEePUwb7i4
- EO2KW9Ks8Ewtl0dlsvhbd25fdWarfQk/qXm16ShCkE589tfNmKQzN0xfAElbZkHTgaTS
- IWww==
+ bh=kmX00pdaVuC+SHXGXI/iAqpTaWv1k3LGabjYAKxqLXM=;
+ b=XbfKkVLaa+IAQqdBtN2XUCkLzdXNr01ySCVVkwO/shkGiqT25WpNBGCEMdwxo3fGLa
+ 6wgzsRCcGYeRDGzXK3y4eT8EWjxoeS1v1C4qhSqWV2K3UqNZ0eoPe2RHhg98S+jOF5LL
+ PYpk5oWzYenqVx0xVelAiXZNSs3vbM7iii4DWIpqJktn2j9Tk1VsVX5yjpym71Gf4acM
+ Ir1p5MSKbSVQLA2zmiN+NhZy7WsH6qiR/Fp8jueu3DRLvdUhM1VxH5Fekm8hkby7SnHc
+ ttIpYvOb4rTXywlCVKlN7CI/CKl+Lz+uMJX/j09qc1Ad5+vtUNBDPPrtEU/SFEFqeTqO
+ KZeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hAEMbLEJD/eBtWNiswR+L4HBV0VLxFFaL5IoMfIX6Q4=;
- b=m1XjfRykn54RYJKjfVuWMhPVDBNYqu+RSk2qQdsCXIKXtCb4gPs2PTA9CsvilT7CLA
- YSzAOFel0bleoojsf+SRvzD1adGS7HUGgol6BR0ORZ2PgQS+JL8WBlDwyQSDN9FsL5U5
- ljK159t3phEumDeXQqsNjGa0l42pgYov3l52EUTM90iGF0iIFih5Qn22Td/6nqmY5NS9
- n9tuWt0H+I0WuAc0pulnd7eSyJD1T+jSnomujDaef1B+XqqJB3v5X2zveNfHxlcX09qS
- hIM8jmOkKRJfZ61l6WmMybE2L546Ecj/6QXozzXA9yMSjBnAjsViIyXu2h7lU/jRlB68
- DtEA==
-X-Gm-Message-State: AOAM53226vwY9FC1ElJt5c3aMV027QYEhKUp7mCSJxGFbTGjwESFfGmF
- YLUI+GNNY9dWHuawP96rogMmIJG6YtzPpw==
-X-Google-Smtp-Source: ABdhPJyPTzWtqtckewyZ/+MrCh77Nuv2dQhJ189dcXcaOYrfFu/1rp2/l5O/U5fb0u6xVVjmbprmNA==
-X-Received: by 2002:aa7:8b0b:0:b029:152:900d:2288 with SMTP id
- f11-20020aa78b0b0000b0290152900d2288mr91746pfd.53.1604633373663; 
- Thu, 05 Nov 2020 19:29:33 -0800 (PST)
+ bh=kmX00pdaVuC+SHXGXI/iAqpTaWv1k3LGabjYAKxqLXM=;
+ b=Mh9NfWfutaEfzWly6Y4O2kOehqMJzE1RqF0dbguoTm7FcztPQyJoA+dckWvZ4ysmjC
+ FhA+sWRhhb8+0OEI9Z9rOchs3UpvhSXUpMYyY7xAOqwCZZkOg9pVGYE9EVSQecacfnxJ
+ i6vxZSj+HWx+4jNov2qjG/YKKgzIYM2oIMpFh817jeb/PnUoEN3+mgYGu5T2KOmgD3wt
+ jve/zbXa5uDL3YCJXvNFsRncro54lx3M+YbPW8lMNyaCFzsxHNCFsrFzB0jBN4wBWXro
+ M/CkdJDl0uyp1PoHYH3UysqK2BeFSK4R6Ku4HyxiuPzq71PrdhvG/0f1QE2K+wU9x1Gf
+ JIbg==
+X-Gm-Message-State: AOAM530GzP5HoJSISW8yMt8zeBgh2C7FlBWMG3Qw42382Djxfgz3rwY6
+ GApodgQzjUYNZTDaFoBNBtOpqsNCBEJ0Rw==
+X-Google-Smtp-Source: ABdhPJxwQOhRBeBZcIbB19oHb1A8H/Mdkh4Zqd70ACLLbbvWSshHthZqRbMEX7zoKy4SsBUTReosqQ==
+X-Received: by 2002:a05:6a00:8ca:b029:15d:7af3:8360 with SMTP id
+ s10-20020a056a0008cab029015d7af38360mr12261pfu.12.1604633374845; 
+ Thu, 05 Nov 2020 19:29:34 -0800 (PST)
 Received: from localhost.localdomain (76-14-210-194.or.wavecable.com.
  [76.14.210.194])
- by smtp.gmail.com with ESMTPSA id i10sm40773pfd.60.2020.11.05.19.29.32
+ by smtp.gmail.com with ESMTPSA id i10sm40773pfd.60.2020.11.05.19.29.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 19:29:32 -0800 (PST)
+ Thu, 05 Nov 2020 19:29:34 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 08/41] tcg: Adjust tcg_out_label for const
-Date: Thu,  5 Nov 2020 19:28:48 -0800
-Message-Id: <20201106032921.600200-9-richard.henderson@linaro.org>
+Subject: [PATCH v3 09/41] tcg: Adjust tcg_register_jit for const
+Date: Thu,  5 Nov 2020 19:28:49 -0800
+Message-Id: <20201106032921.600200-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201106032921.600200-1-richard.henderson@linaro.org>
 References: <20201106032921.600200-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x443.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,87 +90,187 @@ Cc: j@getutm.app
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Simplify the arguments to always use s->code_ptr instead of
-take it as an argument.  That makes it easy to ensure that
-the value_ptr is always the rx version.
+We must change all targets at once, since all must match
+the declaration in tcg.c.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tcg.c                 |  6 +++---
- tcg/i386/tcg-target.c.inc | 10 +++++-----
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ include/tcg/tcg.h            |  2 +-
+ tcg/tcg.c                    | 10 +++++-----
+ tcg/aarch64/tcg-target.c.inc |  2 +-
+ tcg/arm/tcg-target.c.inc     |  2 +-
+ tcg/i386/tcg-target.c.inc    |  2 +-
+ tcg/mips/tcg-target.c.inc    |  2 +-
+ tcg/ppc/tcg-target.c.inc     |  2 +-
+ tcg/riscv/tcg-target.c.inc   |  2 +-
+ tcg/s390/tcg-target.c.inc    |  2 +-
+ tcg/sparc/tcg-target.c.inc   |  2 +-
+ 10 files changed, 14 insertions(+), 14 deletions(-)
 
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index b2ba16ea8c..67d57695c2 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -1250,7 +1250,7 @@ typedef uintptr_t tcg_prologue_fn(CPUArchState *env, const void *tb_ptr);
+ extern tcg_prologue_fn *tcg_qemu_tb_exec;
+ #endif
+ 
+-void tcg_register_jit(void *buf, size_t buf_size);
++void tcg_register_jit(const void *buf, size_t buf_size);
+ 
+ #if TCG_TARGET_MAYBE_vec
+ /* Return zero if the tuple (opc, type, vece) is unsupportable;
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index d3eeea355c..e5d2208e88 100644
+index e5d2208e88..07a4bd2c57 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -301,11 +301,11 @@ static void tcg_out_reloc(TCGContext *s, tcg_insn_unit *code_ptr, int type,
-     QSIMPLEQ_INSERT_TAIL(&l->relocs, r, next);
+@@ -96,7 +96,7 @@ typedef struct QEMU_PACKED {
+     DebugFrameFDEHeader fde;
+ } DebugFrameHeader;
+ 
+-static void tcg_register_jit_int(void *buf, size_t size,
++static void tcg_register_jit_int(const void *buf, size_t size,
+                                  const void *debug_frame,
+                                  size_t debug_frame_size)
+     __attribute__((unused));
+@@ -1134,7 +1134,7 @@ void tcg_prologue_init(TCGContext *s)
+     total_size -= prologue_size;
+     s->code_gen_buffer_size = total_size;
+ 
+-    tcg_register_jit(s->code_gen_buffer, total_size);
++    tcg_register_jit(tcg_splitwx_to_rx(s->code_gen_buffer), total_size);
+ 
+ #ifdef DEBUG_DISAS
+     if (qemu_loglevel_mask(CPU_LOG_TB_OUT_ASM)) {
+@@ -4502,7 +4502,7 @@ static int find_string(const char *strtab, const char *str)
+     }
  }
  
--static void tcg_out_label(TCGContext *s, TCGLabel *l, tcg_insn_unit *ptr)
-+static void tcg_out_label(TCGContext *s, TCGLabel *l)
+-static void tcg_register_jit_int(void *buf_ptr, size_t buf_size,
++static void tcg_register_jit_int(const void *buf_ptr, size_t buf_size,
+                                  const void *debug_frame,
+                                  size_t debug_frame_size)
  {
-     tcg_debug_assert(!l->has_value);
-     l->has_value = 1;
--    l->u.value_ptr = tcg_splitwx_to_rx(ptr);
-+    l->u.value_ptr = tcg_splitwx_to_rx(s->code_ptr);
+@@ -4704,13 +4704,13 @@ static void tcg_register_jit_int(void *buf_ptr, size_t buf_size,
+ /* No support for the feature.  Provide the entry point expected by exec.c,
+    and implement the internal function we declared earlier.  */
+ 
+-static void tcg_register_jit_int(void *buf, size_t size,
++static void tcg_register_jit_int(const void *buf, size_t size,
+                                  const void *debug_frame,
+                                  size_t debug_frame_size)
+ {
  }
  
- TCGLabel *gen_new_label(void)
-@@ -4322,7 +4322,7 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *tb)
-             break;
-         case INDEX_op_set_label:
-             tcg_reg_alloc_bb_end(s, s->reserved_regs);
--            tcg_out_label(s, arg_label(op->args[0]), s->code_ptr);
-+            tcg_out_label(s, arg_label(op->args[0]));
-             break;
-         case INDEX_op_call:
-             tcg_reg_alloc_call(s, op);
+-void tcg_register_jit(void *buf, size_t buf_size)
++void tcg_register_jit(const void *buf, size_t buf_size)
+ {
+ }
+ #endif /* ELF_HOST_MACHINE */
+diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
+index 6d8152c468..9ace859db3 100644
+--- a/tcg/aarch64/tcg-target.c.inc
++++ b/tcg/aarch64/tcg-target.c.inc
+@@ -2964,7 +2964,7 @@ static const DebugFrame debug_frame = {
+     }
+ };
+ 
+-void tcg_register_jit(void *buf, size_t buf_size)
++void tcg_register_jit(const void *buf, size_t buf_size)
+ {
+     tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
+ }
+diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
+index a197e6bc45..9b9400f164 100644
+--- a/tcg/arm/tcg-target.c.inc
++++ b/tcg/arm/tcg-target.c.inc
+@@ -2353,7 +2353,7 @@ static const DebugFrame debug_frame = {
+     }
+ };
+ 
+-void tcg_register_jit(void *buf, size_t buf_size)
++void tcg_register_jit(const void *buf, size_t buf_size)
+ {
+     tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
+ }
 diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
-index 095553ce28..0ac1ef3d82 100644
+index 0ac1ef3d82..7f74c77d7f 100644
 --- a/tcg/i386/tcg-target.c.inc
 +++ b/tcg/i386/tcg-target.c.inc
-@@ -1452,7 +1452,7 @@ static void tcg_out_brcond2(TCGContext *s, const TCGArg *args,
-     default:
-         tcg_abort();
-     }
--    tcg_out_label(s, label_next, s->code_ptr);
-+    tcg_out_label(s, label_next);
- }
+@@ -3998,7 +3998,7 @@ static const DebugFrame debug_frame = {
  #endif
  
-@@ -1494,10 +1494,10 @@ static void tcg_out_setcond2(TCGContext *s, const TCGArg *args,
- 
-         tcg_out_movi(s, TCG_TYPE_I32, args[0], 0);
-         tcg_out_jxx(s, JCC_JMP, label_over, 1);
--        tcg_out_label(s, label_true, s->code_ptr);
-+        tcg_out_label(s, label_true);
- 
-         tcg_out_movi(s, TCG_TYPE_I32, args[0], 1);
--        tcg_out_label(s, label_over, s->code_ptr);
-+        tcg_out_label(s, label_over);
-     } else {
-         /* When the destination does not overlap one of the arguments,
-            clear the destination first, jump if cond false, and emit an
-@@ -1511,7 +1511,7 @@ static void tcg_out_setcond2(TCGContext *s, const TCGArg *args,
-         tcg_out_brcond2(s, new_args, const_args+1, 1);
- 
-         tgen_arithi(s, ARITH_ADD, args[0], 1, 0);
--        tcg_out_label(s, label_over, s->code_ptr);
-+        tcg_out_label(s, label_over);
-     }
+ #if defined(ELF_HOST_MACHINE)
+-void tcg_register_jit(void *buf, size_t buf_size)
++void tcg_register_jit(const void *buf, size_t buf_size)
+ {
+     tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
  }
- #endif
-@@ -1525,7 +1525,7 @@ static void tcg_out_cmov(TCGContext *s, TCGCond cond, int rexw,
-         TCGLabel *over = gen_new_label();
-         tcg_out_jxx(s, tcg_cond_to_jcc[tcg_invert_cond(cond)], over, 1);
-         tcg_out_mov(s, TCG_TYPE_I32, dest, v1);
--        tcg_out_label(s, over, s->code_ptr);
-+        tcg_out_label(s, over);
+diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
+index 6d2c369a85..e9c8c24741 100644
+--- a/tcg/mips/tcg-target.c.inc
++++ b/tcg/mips/tcg-target.c.inc
+@@ -2703,7 +2703,7 @@ static const DebugFrame debug_frame = {
      }
- }
+ };
  
+-void tcg_register_jit(void *buf, size_t buf_size)
++void tcg_register_jit(const void *buf, size_t buf_size)
+ {
+     tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
+ }
+diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
+index 36129b976f..ff667b1531 100644
+--- a/tcg/ppc/tcg-target.c.inc
++++ b/tcg/ppc/tcg-target.c.inc
+@@ -3847,7 +3847,7 @@ static DebugFrame debug_frame = {
+     }
+ };
+ 
+-void tcg_register_jit(void *buf, size_t buf_size)
++void tcg_register_jit(const void *buf, size_t buf_size)
+ {
+     uint8_t *p = &debug_frame.fde_reg_ofs[3];
+     int i;
+diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
+index 4416a93e1f..025e3cd0bb 100644
+--- a/tcg/riscv/tcg-target.c.inc
++++ b/tcg/riscv/tcg-target.c.inc
+@@ -1907,7 +1907,7 @@ static const DebugFrame debug_frame = {
+     }
+ };
+ 
+-void tcg_register_jit(void *buf, size_t buf_size)
++void tcg_register_jit(const void *buf, size_t buf_size)
+ {
+     tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
+ }
+diff --git a/tcg/s390/tcg-target.c.inc b/tcg/s390/tcg-target.c.inc
+index 37f4dc4cfd..1444914428 100644
+--- a/tcg/s390/tcg-target.c.inc
++++ b/tcg/s390/tcg-target.c.inc
+@@ -2620,7 +2620,7 @@ static const DebugFrame debug_frame = {
+     }
+ };
+ 
+-void tcg_register_jit(void *buf, size_t buf_size)
++void tcg_register_jit(const void *buf, size_t buf_size)
+ {
+     tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
+ }
+diff --git a/tcg/sparc/tcg-target.c.inc b/tcg/sparc/tcg-target.c.inc
+index 1a40911660..4c81d5f1c2 100644
+--- a/tcg/sparc/tcg-target.c.inc
++++ b/tcg/sparc/tcg-target.c.inc
+@@ -1816,7 +1816,7 @@ static const DebugFrame debug_frame = {
+     .fde_ret_save = { 9, 15, 31 },      /* DW_CFA_register o7, i7 */
+ };
+ 
+-void tcg_register_jit(void *buf, size_t buf_size)
++void tcg_register_jit(const void *buf, size_t buf_size)
+ {
+     tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
+ }
 -- 
 2.25.1
 
