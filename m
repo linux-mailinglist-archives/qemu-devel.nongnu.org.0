@@ -2,53 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2240C2A9B16
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 18:45:45 +0100 (CET)
-Received: from localhost ([::1]:44986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 620472A9B35
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 18:51:17 +0100 (CET)
+Received: from localhost ([::1]:50638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kb5o0-0003By-6Q
-	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 12:45:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43552)
+	id 1kb5tM-0005xd-Az
+	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 12:51:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kb5mj-000285-3E; Fri, 06 Nov 2020 12:44:25 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:56597)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kb5mf-0007ha-IQ; Fri, 06 Nov 2020 12:44:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=FWPbYEvQ4sDniQZs/tN0Fc7C4jx2iT5Y1IcrYLecynY=; 
- b=bpUD30ZDfZF+PC6xk2XNfKY3xzu4OfaMhNuQzD4tn3z6xaMhEYrTFCLupluZXeoezEnoQ82bIqtR3AXC04ULRuvG8wtNcRVKURRh/pYGz4lBmTUPxeacnhxxC0cMpm1HrOTLWeJ0jVrD7z3tm08+pEossZ04pDXC09adVHRfUBLg0cf7JE4v0DJo/MtdcUnS40TDQtZRTBQA7Ur6vuvmyHGZYsRN6svCayhMAdsRqRyWC1TfWskWFtDRbOxHKUrtDhMGz5hjuXC7giFgLBWDDHnHXifcOeB2JJ4Gag4DG+RP46zWpS1CEFk/9SD8MpoyxIAYn+NcQZKcL9CSODQZGQ==;
-Received: from [81.0.39.238] (helo=perseus.local)
- by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1kb5mb-0003zk-8b; Fri, 06 Nov 2020 18:44:17 +0100
-Received: from berto by perseus.local with local (Exim 4.92)
- (envelope-from <berto@igalia.com>)
- id 1kb5mO-0007fS-CT; Fri, 06 Nov 2020 18:44:04 +0100
-From: Alberto Garcia <berto@igalia.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] quorum: Implement bdrv_co_pwrite_zeroes()
-Date: Fri,  6 Nov 2020 18:43:48 +0100
-Message-Id: <9bb1362c14a065c15f6e367217ed9096aadb1f26.1604684432.git.berto@igalia.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1604684432.git.berto@igalia.com>
-References: <cover.1604684432.git.berto@igalia.com>
+ (Exim 4.90_1) (envelope-from <pisa@cmp.felk.cvut.cz>)
+ id 1kb5qj-0005L8-MK
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 12:48:33 -0500
+Received: from relay.felk.cvut.cz ([2001:718:2:1611:0:1:0:70]:47624)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <pisa@cmp.felk.cvut.cz>) id 1kb5qh-0008Hc-1n
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 12:48:33 -0500
+Received: from cmp.felk.cvut.cz (haar.felk.cvut.cz [147.32.84.19])
+ by relay.felk.cvut.cz (8.15.2/8.15.2) with ESMTP id 0A6HlOV2046739;
+ Fri, 6 Nov 2020 18:47:24 +0100 (CET)
+ (envelope-from pisa@cmp.felk.cvut.cz)
+Received: from haar.felk.cvut.cz (localhost [127.0.0.1])
+ by cmp.felk.cvut.cz (8.14.0/8.12.3/SuSE Linux 0.6) with ESMTP id
+ 0A6HlOfj019881; Fri, 6 Nov 2020 18:47:24 +0100
+Received: (from pisa@localhost)
+ by haar.felk.cvut.cz (8.14.0/8.13.7/Submit) id 0A6HlN3p019880;
+ Fri, 6 Nov 2020 18:47:23 +0100
+X-Authentication-Warning: haar.felk.cvut.cz: pisa set sender to
+ pisa@cmp.felk.cvut.cz using -f
+From: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH for-5.2 1/4] hw/net/can/ctucan: Don't allow guest to write
+ off end of tx_buffer
+Date: Fri, 6 Nov 2020 18:47:23 +0100
+User-Agent: KMail/1.9.10
+References: <20201106171153.32673-1-peter.maydell@linaro.org>
+ <20201106171153.32673-2-peter.maydell@linaro.org>
+In-Reply-To: <20201106171153.32673-2-peter.maydell@linaro.org>
+X-KMail-QuotePrefix: > 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
- helo=fanzine.igalia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/06 12:44:18
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: Text/Plain;
+  charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Message-Id: <202011061847.23354.pisa@cmp.felk.cvut.cz>
+X-FELK-MailScanner-Information: 
+X-MailScanner-ID: 0A6HlOV2046739
+X-FELK-MailScanner: Found to be clean
+X-FELK-MailScanner-SpamCheck: not spam, SpamAssassin (not cached,
+ score=-0.223, required 6, BAYES_00 -0.50, KHOP_HELO_FCRDNS 0.28,
+ NICE_REPLY_A -0.00, SPF_HELO_NONE 0.00, SPF_NONE 0.00)
+X-FELK-MailScanner-From: pisa@cmp.felk.cvut.cz
+X-FELK-MailScanner-Watermark: 1605289648.85887@Dpw+2y6iC0Lp+1gfp25TRA
+Received-SPF: none client-ip=2001:718:2:1611:0:1:0:70;
+ envelope-from=pisa@cmp.felk.cvut.cz; helo=relay.felk.cvut.cz
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/06 12:48:26
+X-ACL-Warn: Detected OS   = ???
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,98 +75,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Tao Xu <tao3.xu@intel.com>,
- Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, Vikram Garhwal <fnu.vikram@xilinx.com>,
+ Ondrej Ille <ondrej.ille@gmail.com>, qemu-devel@nongnu.org,
+ Jan =?utf-8?q?Charv=C3=A1t?= <charvj10@fel.cvut.cz>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This simply calls bdrv_co_pwrite_zeroes() in all children
+Hello Peter,
 
-Signed-off-by: Alberto Garcia <berto@igalia.com>
----
- block/quorum.c             | 18 ++++++++++++++++--
- tests/qemu-iotests/312     |  7 +++++++
- tests/qemu-iotests/312.out |  4 ++++
- 3 files changed, 27 insertions(+), 2 deletions(-)
+thanks much for the catching the problem and investing time into
+fixing. I hope to find time for more review of remarks and Xilinx
+patches next week. I do not find reasonable time slot till Sunday.
+Excuse me. To not block updates, I confirm your changes.
 
-diff --git a/block/quorum.c b/block/quorum.c
-index 29cee42705..70b39a7226 100644
---- a/block/quorum.c
-+++ b/block/quorum.c
-@@ -692,8 +692,13 @@ static void write_quorum_entry(void *opaque)
-     QuorumChildRequest *sacb = &acb->qcrs[i];
- 
-     sacb->bs = s->children[i]->bs;
--    sacb->ret = bdrv_co_pwritev(s->children[i], acb->offset, acb->bytes,
--                                acb->qiov, acb->flags);
-+    if (acb->flags & BDRV_REQ_ZERO_WRITE) {
-+        sacb->ret = bdrv_co_pwrite_zeroes(s->children[i], acb->offset,
-+                                          acb->bytes, acb->flags);
-+    } else {
-+        sacb->ret = bdrv_co_pwritev(s->children[i], acb->offset, acb->bytes,
-+                                    acb->qiov, acb->flags);
-+    }
-     if (sacb->ret == 0) {
-         acb->success_count++;
-     } else {
-@@ -739,6 +744,14 @@ static int quorum_co_pwritev(BlockDriverState *bs, uint64_t offset,
-     return ret;
- }
- 
-+static int quorum_co_pwrite_zeroes(BlockDriverState *bs, int64_t offset,
-+                                   int bytes, BdrvRequestFlags flags)
-+
-+{
-+    return quorum_co_pwritev(bs, offset, bytes, NULL,
-+                             flags | BDRV_REQ_ZERO_WRITE);
-+}
-+
- static int64_t quorum_getlength(BlockDriverState *bs)
- {
-     BDRVQuorumState *s = bs->opaque;
-@@ -1248,6 +1261,7 @@ static BlockDriver bdrv_quorum = {
- 
-     .bdrv_co_preadv                     = quorum_co_preadv,
-     .bdrv_co_pwritev                    = quorum_co_pwritev,
-+    .bdrv_co_pwrite_zeroes              = quorum_co_pwrite_zeroes,
- 
-     .bdrv_add_child                     = quorum_add_child,
-     .bdrv_del_child                     = quorum_del_child,
-diff --git a/tests/qemu-iotests/312 b/tests/qemu-iotests/312
-index 1b08f1552f..93046393e7 100755
---- a/tests/qemu-iotests/312
-+++ b/tests/qemu-iotests/312
-@@ -114,6 +114,13 @@ $QEMU_IO -c "write -P 0 $((0x200000)) $((0x10000))" "$TEST_IMG.0" | _filter_qemu
- $QEMU_IO -c "write -z   $((0x200000)) $((0x30000))" "$TEST_IMG.1" | _filter_qemu_io
- $QEMU_IO -c "write -P 0 $((0x200000)) $((0x20000))" "$TEST_IMG.2" | _filter_qemu_io
- 
-+# Test 5: write data to a region and then zeroize it, doing it
-+# directly on the quorum device instead of the individual images.
-+# This has no effect on the end result but proves that the quorum driver
-+# supports 'write -z'.
-+$QEMU_IO -c "open -o $quorum" -c "write $((0x250000)) $((0x10000))" | _filter_qemu_io
-+$QEMU_IO -c "open -o $quorum" -c "write -z $((0x250000)) $((0x10000))" | _filter_qemu_io
-+
- echo
- echo '### Launch the drive-mirror job'
- echo
-diff --git a/tests/qemu-iotests/312.out b/tests/qemu-iotests/312.out
-index 4ae749175b..778dda95c7 100644
---- a/tests/qemu-iotests/312.out
-+++ b/tests/qemu-iotests/312.out
-@@ -39,6 +39,10 @@ wrote 196608/196608 bytes at offset 2097152
- 192 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- wrote 131072/131072 bytes at offset 2097152
- 128 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 65536/65536 bytes at offset 2424832
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 65536/65536 bytes at offset 2424832
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 
- ### Launch the drive-mirror job
- 
--- 
-2.20.1
+On Friday 06 of November 2020 18:11:50 Peter Maydell wrote:
+> The ctucan device has 4 CAN bus cores, each of which has a set of 20
+> 32-bit registers for writing the transmitted data. The registers are
+> however not contiguous; each core's buffers is 0x100 bytes after
+> the last.
+>
+> We got the checks on the address wrong in the ctucan_mem_write()
+> function:
+>  * the first "is addr in range at all" check allowed
+>    addr == CTUCAN_CORE_MEM_SIZE, which is actually the first
+>    byte off the end of the range
+>  * the decode of addresses into core-number plus offset in the
+>    tx buffer for that core failed to check that the offset was
+>    in range, so the guest could write off the end of the
+>    tx_buffer[] array
+>  * the decode had an explicit check for whether the core-number
+>    was out of range, which is actually impossible given the
+>    CTUCAN_CORE_MEM_SIZE check and the number of cores.
+>
+> Fix the top level check, check the offset, and turn the check
+> on the core-number into an assertion.
+>
+> Fixes: Coverity CID 1432874
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  hw/net/can/ctucan_core.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/net/can/ctucan_core.c b/hw/net/can/ctucan_core.c
+> index d20835cd7e9..ea09bf71a0c 100644
+> --- a/hw/net/can/ctucan_core.c
+> +++ b/hw/net/can/ctucan_core.c
+> @@ -303,7 +303,7 @@ void ctucan_mem_write(CtuCanCoreState *s, hwaddr addr,
+> uint64_t val, DPRINTF("write 0x%02llx addr 0x%02x\n",
+>              (unsigned long long)val, (unsigned int)addr);
+>
+> -    if (addr > CTUCAN_CORE_MEM_SIZE) {
+> +    if (addr >= CTUCAN_CORE_MEM_SIZE) {
+>          return;
+>      }
 
+Acked-by: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+
+There is another mistake
+
+diff --git a/hw/net/can/ctucan_core.c b/hw/net/can/ctucan_core.c
+index d20835cd7e..b90a8e3b76 100644
+--- a/hw/net/can/ctucan_core.c
++++ b/hw/net/can/ctucan_core.c
+@@ -418,7 +418,7 @@ uint64_t ctucan_mem_read(CtuCanCoreState *s, hwaddr addr, unsigned size)
+
+     DPRINTF("read addr 0x%02x ...\n", (unsigned int)addr);
+
+-    if (addr > CTUCAN_CORE_MEM_SIZE) {
++    if (addr >= CTUCAN_CORE_MEM_SIZE) {
+         return 0;
+     }
+But is should be really harmless.
+
+> @@ -312,7 +312,8 @@ void ctucan_mem_write(CtuCanCoreState *s, hwaddr addr,
+> uint64_t val, addr -= CTU_CAN_FD_TXTB1_DATA_1;
+>          buff_num = addr / CTUCAN_CORE_TXBUFF_SPAN;
+>          addr %= CTUCAN_CORE_TXBUFF_SPAN;
+> -        if (buff_num < CTUCAN_CORE_TXBUF_NUM) {
+> +        assert(buff_num < CTUCAN_CORE_TXBUF_NUM);
+
+Assert is not necessary. If there is not buffer at that location,
+then write has no effect. Assert would check for driver errors,
+but it is not a problem of QEMU and for sure should not lead to its
+crash.
+
+> +        if (addr < sizeof(s->tx_buffer[buff_num].data)) {
+>              uint32_t *bufp = (uint32_t *)(s->tx_buffer[buff_num].data +
+> addr); *bufp = cpu_to_le32(val);
+>          }
+
+So my proposed solution is
+
+diff --git a/hw/net/can/ctucan_core.c b/hw/net/can/ctucan_core.c
+index d20835cd7e..af30d57cfd 100644
+--- a/hw/net/can/ctucan_core.c
++++ b/hw/net/can/ctucan_core.c
+@@ -312,7 +312,9 @@ void ctucan_mem_write(CtuCanCoreState *s, hwaddr addr, uint64_t val,
+         addr -= CTU_CAN_FD_TXTB1_DATA_1;
+         buff_num = addr / CTUCAN_CORE_TXBUFF_SPAN;
+         addr %= CTUCAN_CORE_TXBUFF_SPAN;
+-        if (buff_num < CTUCAN_CORE_TXBUF_NUM) {
++        addr &= ~3;
++        if (buff_num < CTUCAN_CORE_TXBUF_NUM &&
++            addr < CTUCAN_CORE_MSG_MAX_LEN) {
+             uint32_t *bufp = (uint32_t *)(s->tx_buffer[buff_num].data + addr);
+             *bufp = cpu_to_le32(val);
+         }
+
+It ignores writes to unimplemented locations.
+
+There is fix, workaround to make safe writes to unaligned addresses.
+They are not supported by actual QEMU CTU CAN FD model.
+Real HW supports them but driver never uses unaligned writes
+nor any other size than 32-bits.
+
+Reads supports at least accesses by smaller size correctly
+but do not support unaligned reads which cross 32-bit boundaries.
+Again, actual driver code never uses other size than 32-bits
+for read. Byte access for debug dumps by rdwrmem by bytes
+has been tested and works OK as well.
+
+The following proposed correction right solution too
+
+diff --git a/hw/net/can/ctucan_core.h b/hw/net/can/ctucan_core.h
+index f21cb1c5ec..ad701c4764 100644
+--- a/hw/net/can/ctucan_core.h
++++ b/hw/net/can/ctucan_core.h
+@@ -31,10 +31,11 @@
+ #include "exec/hwaddr.h"
+ #include "net/can_emu.h"
+
+-
++#ifndef HOST_WORDS_BIGENDIAN
+ #ifndef __LITTLE_ENDIAN_BITFIELD
+ #define __LITTLE_ENDIAN_BITFIELD 1
+ #endif
++#endif
+
+ #include "ctu_can_fd_frame.h"
+ #include "ctu_can_fd_regs.h"
+
+As for bitfields use, there is plan to add additional mode to generate
+registers header file from IPXACT register definition sources which
+would be based only on defines to follow Linux kernel registers
+definition style.
+
+In the longer run, if there is time we can switch QEMU model
+to use this additional style and headers.
+
+Thanks much for time again,
+
+Pavel
 
