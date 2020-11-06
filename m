@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 088CC2AA194
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Nov 2020 00:53:19 +0100 (CET)
-Received: from localhost ([::1]:50910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82DFD2AA197
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Nov 2020 00:55:30 +0100 (CET)
+Received: from localhost ([::1]:56902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kbBXi-0007Qy-1r
-	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 18:53:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35852)
+	id 1kbBZp-0001Vv-JB
+	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 18:55:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kbBVl-0006A8-3t
+ id 1kbBVl-0006BA-U3
  for qemu-devel@nongnu.org; Fri, 06 Nov 2020 18:51:17 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:45715)
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:53903)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kbBVi-0004XU-EH
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 18:51:16 -0500
-Received: by mail-wr1-x444.google.com with SMTP id p1so2959193wrf.12
- for <qemu-devel@nongnu.org>; Fri, 06 Nov 2020 15:51:12 -0800 (PST)
+ id 1kbBVi-0004XZ-JK
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 18:51:17 -0500
+Received: by mail-wm1-x341.google.com with SMTP id p22so3011623wmg.3
+ for <qemu-devel@nongnu.org>; Fri, 06 Nov 2020 15:51:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=XXCUQnvoJZdisbwnmP+9CQY5Hdvy+AAtXVEP2H4CYLE=;
- b=aZU5lZrFnMrfXZseiCRvKpbcUJC44bYpbP3S8KO6ieb8i4FauYI9SKkfVI/tDso3qN
- 2tDQFkVo4XKO9R+Qn+r/6SirzseGOyIW31yGxeWSVDuXwqYVJXn4xlpFon6AthwblUh2
- O7JTBbJhMRXpjd5h0Sh42OhYsnQBz7qvsSumKP32Dkw36dhO4qhlovqJKK/0u5WvgWtV
- Y3Hje7jFIryOiuVul9ZZ/4tQymnZhF/RCo/9tdXWUjVvVl0NvDTEDvXNhd2b9rLf9mkY
- sZh3kC7xGCRnZSUXiXR9MErcr2t4b5Rz1eiRNa42BBgGo5V2Vgqw1ilEB63fB8a93a0b
- q5ZA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ciIxu8fgfHqLwzeZe9kzt7oqxoPUcHRTdGjgpHaZohw=;
+ b=W4668tyxn/0cj88UQ1FP5bqj7dji5vObycPBabRnBtNNBiE7nRTaBVhaQWxQE8GROf
+ zYI3VmTX5BVs83tVHTxhM9J5PXiZENYXLaL5/bMVTLst8k16Vsf0oHMoOadKAEaIE4mL
+ VV4Va2EeNZtdqacMv8hK/PIz0tC6rzZaDE2AmxqzWbJpZtPHWFgJ4aLyWYigtk+zKrH0
+ fXvPFyhqoXNaMYmncGJQ5ESr58lLruZ1Lac2EnGlqiRgylIu5gnocCrxH2QOXuYPpkzs
+ FuCoGSH49PnNXtdwyxoTu1ysFxcu1vV7B9EGQeDN84bJXiTIgIBqFbeYVFwGvuSTI4Ag
+ 9OKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=XXCUQnvoJZdisbwnmP+9CQY5Hdvy+AAtXVEP2H4CYLE=;
- b=pdj5dkbdLqoSLE23wVNyz3C078BAKHMSmDZtULwiITFHT2N/2mzijS6DwrePMRW55z
- CQ0OK1c6yJr4NFxLa30x87Jz8oKfXptJuulV+T85CJZXHOtMIzDdgDRHypE09udPozmE
- OAVXdEgUCCwHid7AYM15KPG/yLwAZgkuDgBmOQhg56khJmruL7fy539IuFLeiClnzS56
- hYSEO0aM6lYOk+zx7ZLU+/R+ze73gSon6W2Ys3a3HjcY9wq6mFBKwjCcXozIVUDxM6vQ
- Khu9xVv3ew4kIL2ojbnVlz+5ggDYueKBV2W/eQL15t1/Oo0+th0A0B4xnG2EOiVawwxn
- Mz5w==
-X-Gm-Message-State: AOAM531thD0DL2YnQFfs0OFA4Nc2G0LUkrTbz19jG+2ARHdX3MuGmsKx
- wT/povHYQypJjw0JtFU9BdaU06zXSpQHFg==
-X-Google-Smtp-Source: ABdhPJyzNkMmsjwX+E0d2mgttPUqESkAbd1r5eLFEiXK/cov20QzoLgIU6KTovp9j1I+CpeOp4VJvA==
-X-Received: by 2002:adf:f4ca:: with SMTP id h10mr4991953wrp.89.1604706671314; 
- Fri, 06 Nov 2020 15:51:11 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ciIxu8fgfHqLwzeZe9kzt7oqxoPUcHRTdGjgpHaZohw=;
+ b=Lzx/Rd8KZzI+c+fKgRn5anr4wkJVKSheeapWO7DegQldkKpMRGA3W28VlgAauNnzoR
+ +vGORKuVRqhHhACOAazPz1CA/0pJdj8pvIi4h1+p5w5o+oWgYD7SHbx7+FuYaiQ/2v7d
+ BcV2nL8WNwrUzTs+Pwjw7KL/jXfdnlybj7y3GeLrAzAgn8xDc1dVSM4lEY7yUmdOJEst
+ NkJKeV/6dYncqbs3q1W1v04k+TkeR4tq+LDL9+yvpFhIgA/W1a+VAAc9BpNLRaCNcxox
+ ZSY5w8IHGQWyx/EVFVxzYE1OsGDjY0UbHq4KxTUIyU1IWm922/fy6vogDLaPCe7Pp7Lp
+ eevA==
+X-Gm-Message-State: AOAM532zkHA+SubB0rxe1jjstzF0XetqqP9PYcqOCM+NYsSyutwfBMqi
+ Eeaf0GVC5WPMKdfRyvDcMFiK89HOBusRug==
+X-Google-Smtp-Source: ABdhPJwlcVvabq9ZbZ2JTWQYniTKPz3dUCLsxCtxUyHBEFA+z3E5GG4RwdAHorKuBGFcU5d5ir59DQ==
+X-Received: by 2002:a7b:cf31:: with SMTP id m17mr1980037wmg.62.1604706672408; 
+ Fri, 06 Nov 2020 15:51:12 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id n8sm4025374wmc.11.2020.11.06.15.51.10
+ by smtp.gmail.com with ESMTPSA id n8sm4025374wmc.11.2020.11.06.15.51.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Nov 2020 15:51:10 -0800 (PST)
+ Fri, 06 Nov 2020 15:51:11 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] m68k/q800: make the GLUE chip a QOM device
-Date: Fri,  6 Nov 2020 23:51:07 +0000
-Message-Id: <20201106235109.7066-1-peter.maydell@linaro.org>
+Subject: [PATCH 1/2] hw/m68k/q800: Don't connect two qemu_irqs directly to the
+ same input
+Date: Fri,  6 Nov 2020 23:51:08 +0000
+Message-Id: <20201106235109.7066-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201106235109.7066-1-peter.maydell@linaro.org>
+References: <20201106235109.7066-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,47 +89,67 @@ Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series is 6.0 material really I think.  It's a bit of cleanup
-prompted by a Coverity issue, CID 1421883.  There are another half
-dozen or so similar issues, where Coverity is complaining that we
-allocate an array of qemu_irqs with qemu_allocate_irqs() in a board
-init function -- in this case the 'pic' array in q800_init() -- and
-then we return from the board init function and the memory is leaked,
-in the sense that nobody has a pointer to it any more.
+The q800 board code connects both of the IRQ outputs of the ESCC
+to the same pic[3] qemu_irq. Connecting two qemu_irqs outputs directly
+to the same input is not valid as it produces subtly wrong behaviour
+(for instance if both the IRQ lines are high, and then one goes
+low, the PIC input will see this as a high-to-low transition
+even though the second IRQ line should still be holding it high).
 
-The leak isn't real, in that board init functions are called only
-once, and the array of qemu_irqs really does need to stay around for
-the life of the simulation, so these are pretty much insignificant
-as Coverity issues go. But this coding style which uses a free-floating
-set of qemu_irqs is not very "modern QEMU", so the issues act as
-a nudge that we should clean the code up by encapsulating the
-interrupt-line behaviour in a QOM device. In the q800 case there
-actually is already a GLUEState struct, it just needs to be turned
-into a QOM device with GPIO input lines. Patch 2 does that.
+This kind of wiring needs an explicitly created OR gate; add one.
 
-Patch 1 fixes a bug I noticed while doing this work -- it's
-not valid to connect two qemu_irq lines directly to the same
-input (here both ESCC irq lines go to pic[3]) because it produces
-weird behaviour like "both lines are asserted but the device
-consuming the interrupt sees the line deassert when one of the
-two inputs goes low, rather than only when they both go low".
-You need to put an explicit OR gate in, assuming that logical-OR
-is the desired behaviour, which it usually is.
-
-Tested only with 'make check' and 'make check-acceptance',
-but the latter does have a q800 bootup test.
-
-thanks
--- PMM
-
-Peter Maydell (2):
-  hw/m68k/q800: Don't connect two qemu_irqs directly to the same input
-  hw/m68k/q800.c: Make the GLUE chip an actual QOM device
-
- hw/m68k/q800.c  | 92 ++++++++++++++++++++++++++++++++++++++++++-------
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/m68k/q800.c  | 12 ++++++++++--
  hw/m68k/Kconfig |  1 +
- 2 files changed, 80 insertions(+), 13 deletions(-)
+ 2 files changed, 11 insertions(+), 2 deletions(-)
 
+diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+index ce4b47c3e34..dc13007aaf2 100644
+--- a/hw/m68k/q800.c
++++ b/hw/m68k/q800.c
+@@ -28,6 +28,7 @@
+ #include "hw/hw.h"
+ #include "hw/boards.h"
+ #include "hw/irq.h"
++#include "hw/or-irq.h"
+ #include "elf.h"
+ #include "hw/loader.h"
+ #include "ui/console.h"
+@@ -171,6 +172,7 @@ static void q800_init(MachineState *machine)
+     CPUState *cs;
+     DeviceState *dev;
+     DeviceState *via_dev;
++    DeviceState *escc_orgate;
+     SysBusESPState *sysbus_esp;
+     ESPState *esp;
+     SysBusDevice *sysbus;
+@@ -283,8 +285,14 @@ static void q800_init(MachineState *machine)
+     qdev_prop_set_uint32(dev, "chnAtype", 0);
+     sysbus = SYS_BUS_DEVICE(dev);
+     sysbus_realize_and_unref(sysbus, &error_fatal);
+-    sysbus_connect_irq(sysbus, 0, pic[3]);
+-    sysbus_connect_irq(sysbus, 1, pic[3]);
++
++    /* Logically OR both its IRQs together */
++    escc_orgate = DEVICE(object_new(TYPE_OR_IRQ));
++    object_property_set_int(OBJECT(escc_orgate), "num-lines", 2, &error_fatal);
++    qdev_realize_and_unref(escc_orgate, NULL, &error_fatal);
++    sysbus_connect_irq(sysbus, 0, qdev_get_gpio_in(escc_orgate, 0));
++    sysbus_connect_irq(sysbus, 1, qdev_get_gpio_in(escc_orgate, 1));
++    qdev_connect_gpio_out(DEVICE(escc_orgate), 0, pic[3]);
+     sysbus_mmio_map(sysbus, 0, SCC_BASE);
+ 
+     /* SCSI */
+diff --git a/hw/m68k/Kconfig b/hw/m68k/Kconfig
+index c757e7dfa48..60d7bcfb8f2 100644
+--- a/hw/m68k/Kconfig
++++ b/hw/m68k/Kconfig
+@@ -22,3 +22,4 @@ config Q800
+     select ESCC
+     select ESP
+     select DP8393X
++    select OR_IRQ
 -- 
 2.20.1
 
