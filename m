@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 438C42A8DB7
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 04:48:26 +0100 (CET)
-Received: from localhost ([::1]:58278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A12E2A8D9C
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 04:39:41 +0100 (CET)
+Received: from localhost ([::1]:54910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kasjh-0007g8-AU
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 22:48:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47144)
+	id 1kasbE-00034M-6R
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 22:39:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kasRr-0005OZ-DL
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 22:29:59 -0500
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:35041)
+ id 1kasRs-0005Pq-2p
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 22:30:00 -0500
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:45385)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kasRp-00072p-9B
+ id 1kasRq-00073g-DX
  for qemu-devel@nongnu.org; Thu, 05 Nov 2020 22:29:59 -0500
-Received: by mail-pl1-x629.google.com with SMTP id 1so31612ple.2
- for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 19:29:56 -0800 (PST)
+Received: by mail-pg1-x543.google.com with SMTP id 62so2859345pgg.12
+ for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 19:29:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oktQi4LY/JF34qnZTuyLsQ8kBIo/j/CH/m+PcKBIxn4=;
- b=mwKZPJPAWbMaHoCtW78bfp8y0RRtYPpk05IQNBoBjQGFVPxR8tB5A+ZrpBB5NuZXuN
- r1TGQl5iVpzUbiqrKo+GGvuseDOZGvAghcV8KeYW+cR9xuHvCYiUWefzlBZEBGCOzpnh
- xTJPp/DHWBFFNZODkruMIOqFFERlJ7b1EiB3J/7XQq42Xo4eKwbwlbxjwwRIFoN2nmyd
- u17Sc5cDbz4oHo/BD60pwWCs3w8U/eUW2rRFlZD4Y2pU6HEKDH4/ukcCDL8UBYu1FETD
- sO90sKiqp3Ah55Udqd2vCUgsJvmY3+ry86xRHUG3ZkJwZy0X6TH+Ph2yAcZh0PgX+keO
- IlyA==
+ bh=UM21CD1mNWN7mJCqUB/udHXRZq9uSUYW+rGuZNQcpWU=;
+ b=mWN4lVou6WXoGKcq3p7fbPc6jIhkoS5I3k1g4rfo41b8DG9GYUmtR7LustisERj0PC
+ f8tO7MZLvWkfmRUROWILIjfnDoDOiIF8vSViuG9XEZsjBg0Ei/Xe5/P22kOehKmPH1+A
+ PJSQWauqbzhb2VG3EAKTM5toZq2U0dfVq3wDrANw25eIFFcvS/38MAAUBYt5GWPaxXWh
+ KpfjFIAlIQPivuPEUztGP2uDVmKqGFIx4VIBdbazP6gZz+D6InT/+MqCxvgbCXNmytS/
+ IBjQpumlFzt6lJocQukUcrZsi/u99na3Kyi0G0zSYloJAqFB0e0EhnUxUaJG3sZpxe9t
+ uEFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oktQi4LY/JF34qnZTuyLsQ8kBIo/j/CH/m+PcKBIxn4=;
- b=g0QXrIkwWdFR6uTX4EzEmGjiX2keRY6GpfsZF3R62Mn7/tzgdJydrQBe/hCBe9pYqw
- r+HCBzKh7b2YdybNJRi4aJnz9DCRpXc6bePSSOwfXOqd2PJfD/v4IC4J7XD3Sr/VtYwg
- NmJsXKRMqbWE4ssmvxT5E0JoJqGlD2R3q/6o/tCqFZQRAXGCCreVcHdSXiQDKvr1CvAp
- /txkT50DJQtP2ln4kP41d4rj3A/LPkcD1vO2PlIg4MeBVNd1l8cz6w4khZbV8DZpg8oY
- zgDl/EJ2Yl+0thXxTjylDoMjwQMfsT4Yw7Ho8E/U7Dn2gW0+/hH0BdfAx9YIrcGJAGUk
- CBDA==
-X-Gm-Message-State: AOAM531lu8eeeeGLNXntkpXyv/KDdppt7wloXDPEA9gb38eILs2D/ACB
- Fb8EJ0nLlqtHk5uumkXI6VAHZJCBCJWrSA==
-X-Google-Smtp-Source: ABdhPJzVhoebuV5aIFFg7/NCNkQaHsz4JKABQrk75UFtZgxwsv7qU4qfYupwpTlhkF5TD1piLDy2PA==
-X-Received: by 2002:a17:902:b582:b029:d6:6008:264d with SMTP id
- a2-20020a170902b582b02900d66008264dmr5192126pls.80.1604633393382; 
- Thu, 05 Nov 2020 19:29:53 -0800 (PST)
+ bh=UM21CD1mNWN7mJCqUB/udHXRZq9uSUYW+rGuZNQcpWU=;
+ b=k2AdQShZG+5FMUt0yEWnDvZzlm8GAq51lNvaj/s/iSB90pTAynZ70pY83T/Pkg1cC8
+ ykJyHLrG35CbtDxLrmEyvX3LE9QAWwxINW1CIAKPBqgInwq5Z19lhnhgWfjBxEuAP9AL
+ eC5aRNtUKujcpwDR9xSpyh5aRgDOD7bwr6WAN8YEgwJmQmz2txJZupb0VjKYbZAhF4x/
+ LLtPNG/47wSi4uCSWAvfe0Mnx/tFPFc/m/hpZ66BVmFTxvfSt5kurFcQvpVzVk79mhQX
+ S31K/Iel85sH3udfGfHNcMAPLjVdA2PxHLCTIW9svrPIrfBQD/mRl4YdC8JTbhHui+II
+ ANKg==
+X-Gm-Message-State: AOAM530rbCeCgc8s1UUTugUVG8YO2S4m5Hy7+T4nPDSsj7woXzkbk0Y1
+ CNGF+FQH+UEA3nhb6bHwy8wpmcvkQ2s1dQ==
+X-Google-Smtp-Source: ABdhPJzGVn8gGyy5bmTTCNO9XzcyM32F2d/pqpd95f1KExqexBK+E3Gfc5Yz4IlVS2j36StrIFukIw==
+X-Received: by 2002:a62:1408:0:b029:18b:78d:4c4b with SMTP id
+ 8-20020a6214080000b029018b078d4c4bmr105881pfu.25.1604633396758; 
+ Thu, 05 Nov 2020 19:29:56 -0800 (PST)
 Received: from localhost.localdomain (76-14-210-194.or.wavecable.com.
  [76.14.210.194])
- by smtp.gmail.com with ESMTPSA id i10sm40773pfd.60.2020.11.05.19.29.51
+ by smtp.gmail.com with ESMTPSA id i10sm40773pfd.60.2020.11.05.19.29.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 19:29:52 -0800 (PST)
+ Thu, 05 Nov 2020 19:29:53 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 23/41] tcg/tci: Push const down through bytecode reading
-Date: Thu,  5 Nov 2020 19:29:03 -0800
-Message-Id: <20201106032921.600200-24-richard.henderson@linaro.org>
+Subject: [PATCH v3 24/41] tcg: Introduce tcg_tbrel_diff
+Date: Thu,  5 Nov 2020 19:29:04 -0800
+Message-Id: <20201106032921.600200-25-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201106032921.600200-1-richard.henderson@linaro.org>
 References: <20201106032921.600200-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,217 +92,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tci.c | 60 +++++++++++++++++++++++++++++++------------------------
- 1 file changed, 34 insertions(+), 26 deletions(-)
+ include/tcg/tcg.h | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/tcg/tci.c b/tcg/tci.c
-index 262a2b39ce..388c1dbee8 100644
---- a/tcg/tci.c
-+++ b/tcg/tci.c
-@@ -163,34 +163,34 @@ static uint64_t tci_uint64(uint32_t high, uint32_t low)
- #endif
- 
- /* Read constant (native size) from bytecode. */
--static tcg_target_ulong tci_read_i(uint8_t **tb_ptr)
-+static tcg_target_ulong tci_read_i(const uint8_t **tb_ptr)
- {
--    tcg_target_ulong value = *(tcg_target_ulong *)(*tb_ptr);
-+    tcg_target_ulong value = *(const tcg_target_ulong *)(*tb_ptr);
-     *tb_ptr += sizeof(value);
-     return value;
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index 67d57695c2..90ec7c1445 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -1141,6 +1141,19 @@ static inline ptrdiff_t tcg_pcrel_diff(TCGContext *s, const void *target)
+     return tcg_ptr_byte_diff(target, tcg_splitwx_to_rx(s->code_ptr));
  }
  
- /* Read unsigned constant (32 bit) from bytecode. */
--static uint32_t tci_read_i32(uint8_t **tb_ptr)
-+static uint32_t tci_read_i32(const uint8_t **tb_ptr)
- {
--    uint32_t value = *(uint32_t *)(*tb_ptr);
-+    uint32_t value = *(const uint32_t *)(*tb_ptr);
-     *tb_ptr += sizeof(value);
-     return value;
- }
- 
- /* Read signed constant (32 bit) from bytecode. */
--static int32_t tci_read_s32(uint8_t **tb_ptr)
-+static int32_t tci_read_s32(const uint8_t **tb_ptr)
- {
--    int32_t value = *(int32_t *)(*tb_ptr);
-+    int32_t value = *(const int32_t *)(*tb_ptr);
-     *tb_ptr += sizeof(value);
-     return value;
- }
- 
- #if TCG_TARGET_REG_BITS == 64
- /* Read constant (64 bit) from bytecode. */
--static uint64_t tci_read_i64(uint8_t **tb_ptr)
-+static uint64_t tci_read_i64(const uint8_t **tb_ptr)
- {
--    uint64_t value = *(uint64_t *)(*tb_ptr);
-+    uint64_t value = *(const uint64_t *)(*tb_ptr);
-     *tb_ptr += sizeof(value);
-     return value;
- }
-@@ -198,7 +198,7 @@ static uint64_t tci_read_i64(uint8_t **tb_ptr)
- 
- /* Read indexed register (native size) from bytecode. */
- static tcg_target_ulong
--tci_read_r(const tcg_target_ulong *regs, uint8_t **tb_ptr)
-+tci_read_r(const tcg_target_ulong *regs, const uint8_t **tb_ptr)
- {
-     tcg_target_ulong value = tci_read_reg(regs, **tb_ptr);
-     *tb_ptr += 1;
-@@ -206,7 +206,7 @@ tci_read_r(const tcg_target_ulong *regs, uint8_t **tb_ptr)
- }
- 
- /* Read indexed register (8 bit) from bytecode. */
--static uint8_t tci_read_r8(const tcg_target_ulong *regs, uint8_t **tb_ptr)
-+static uint8_t tci_read_r8(const tcg_target_ulong *regs, const uint8_t **tb_ptr)
- {
-     uint8_t value = tci_read_reg8(regs, **tb_ptr);
-     *tb_ptr += 1;
-@@ -215,7 +215,7 @@ static uint8_t tci_read_r8(const tcg_target_ulong *regs, uint8_t **tb_ptr)
- 
- #if TCG_TARGET_HAS_ext8s_i32 || TCG_TARGET_HAS_ext8s_i64
- /* Read indexed register (8 bit signed) from bytecode. */
--static int8_t tci_read_r8s(const tcg_target_ulong *regs, uint8_t **tb_ptr)
-+static int8_t tci_read_r8s(const tcg_target_ulong *regs, const uint8_t **tb_ptr)
- {
-     int8_t value = tci_read_reg8s(regs, **tb_ptr);
-     *tb_ptr += 1;
-@@ -224,7 +224,8 @@ static int8_t tci_read_r8s(const tcg_target_ulong *regs, uint8_t **tb_ptr)
- #endif
- 
- /* Read indexed register (16 bit) from bytecode. */
--static uint16_t tci_read_r16(const tcg_target_ulong *regs, uint8_t **tb_ptr)
-+static uint16_t tci_read_r16(const tcg_target_ulong *regs,
-+                             const uint8_t **tb_ptr)
- {
-     uint16_t value = tci_read_reg16(regs, **tb_ptr);
-     *tb_ptr += 1;
-@@ -233,7 +234,8 @@ static uint16_t tci_read_r16(const tcg_target_ulong *regs, uint8_t **tb_ptr)
- 
- #if TCG_TARGET_HAS_ext16s_i32 || TCG_TARGET_HAS_ext16s_i64
- /* Read indexed register (16 bit signed) from bytecode. */
--static int16_t tci_read_r16s(const tcg_target_ulong *regs, uint8_t **tb_ptr)
-+static int16_t tci_read_r16s(const tcg_target_ulong *regs,
-+                             const uint8_t **tb_ptr)
- {
-     int16_t value = tci_read_reg16s(regs, **tb_ptr);
-     *tb_ptr += 1;
-@@ -242,7 +244,8 @@ static int16_t tci_read_r16s(const tcg_target_ulong *regs, uint8_t **tb_ptr)
- #endif
- 
- /* Read indexed register (32 bit) from bytecode. */
--static uint32_t tci_read_r32(const tcg_target_ulong *regs, uint8_t **tb_ptr)
-+static uint32_t tci_read_r32(const tcg_target_ulong *regs,
-+                             const uint8_t **tb_ptr)
- {
-     uint32_t value = tci_read_reg32(regs, **tb_ptr);
-     *tb_ptr += 1;
-@@ -251,14 +254,16 @@ static uint32_t tci_read_r32(const tcg_target_ulong *regs, uint8_t **tb_ptr)
- 
- #if TCG_TARGET_REG_BITS == 32
- /* Read two indexed registers (2 * 32 bit) from bytecode. */
--static uint64_t tci_read_r64(const tcg_target_ulong *regs, uint8_t **tb_ptr)
-+static uint64_t tci_read_r64(const tcg_target_ulong *regs,
-+                             const uint8_t **tb_ptr)
- {
-     uint32_t low = tci_read_r32(regs, tb_ptr);
-     return tci_uint64(tci_read_r32(regs, tb_ptr), low);
- }
- #elif TCG_TARGET_REG_BITS == 64
- /* Read indexed register (32 bit signed) from bytecode. */
--static int32_t tci_read_r32s(const tcg_target_ulong *regs, uint8_t **tb_ptr)
-+static int32_t tci_read_r32s(const tcg_target_ulong *regs,
-+                             const uint8_t **tb_ptr)
- {
-     int32_t value = tci_read_reg32s(regs, **tb_ptr);
-     *tb_ptr += 1;
-@@ -266,7 +271,8 @@ static int32_t tci_read_r32s(const tcg_target_ulong *regs, uint8_t **tb_ptr)
- }
- 
- /* Read indexed register (64 bit) from bytecode. */
--static uint64_t tci_read_r64(const tcg_target_ulong *regs, uint8_t **tb_ptr)
-+static uint64_t tci_read_r64(const tcg_target_ulong *regs,
-+                             const uint8_t **tb_ptr)
- {
-     uint64_t value = tci_read_reg64(regs, **tb_ptr);
-     *tb_ptr += 1;
-@@ -276,7 +282,7 @@ static uint64_t tci_read_r64(const tcg_target_ulong *regs, uint8_t **tb_ptr)
- 
- /* Read indexed register(s) with target address from bytecode. */
- static target_ulong
--tci_read_ulong(const tcg_target_ulong *regs, uint8_t **tb_ptr)
-+tci_read_ulong(const tcg_target_ulong *regs, const uint8_t **tb_ptr)
- {
-     target_ulong taddr = tci_read_r(regs, tb_ptr);
- #if TARGET_LONG_BITS > TCG_TARGET_REG_BITS
-@@ -287,7 +293,7 @@ tci_read_ulong(const tcg_target_ulong *regs, uint8_t **tb_ptr)
- 
- /* Read indexed register or constant (native size) from bytecode. */
- static tcg_target_ulong
--tci_read_ri(const tcg_target_ulong *regs, uint8_t **tb_ptr)
-+tci_read_ri(const tcg_target_ulong *regs, const uint8_t **tb_ptr)
- {
-     tcg_target_ulong value;
-     TCGReg r = **tb_ptr;
-@@ -301,7 +307,8 @@ tci_read_ri(const tcg_target_ulong *regs, uint8_t **tb_ptr)
- }
- 
- /* Read indexed register or constant (32 bit) from bytecode. */
--static uint32_t tci_read_ri32(const tcg_target_ulong *regs, uint8_t **tb_ptr)
-+static uint32_t tci_read_ri32(const tcg_target_ulong *regs,
-+                              const uint8_t **tb_ptr)
- {
-     uint32_t value;
-     TCGReg r = **tb_ptr;
-@@ -316,14 +323,16 @@ static uint32_t tci_read_ri32(const tcg_target_ulong *regs, uint8_t **tb_ptr)
- 
- #if TCG_TARGET_REG_BITS == 32
- /* Read two indexed registers or constants (2 * 32 bit) from bytecode. */
--static uint64_t tci_read_ri64(const tcg_target_ulong *regs, uint8_t **tb_ptr)
-+static uint64_t tci_read_ri64(const tcg_target_ulong *regs,
-+                              const uint8_t **tb_ptr)
- {
-     uint32_t low = tci_read_ri32(regs, tb_ptr);
-     return tci_uint64(tci_read_ri32(regs, tb_ptr), low);
- }
- #elif TCG_TARGET_REG_BITS == 64
- /* Read indexed register or constant (64 bit) from bytecode. */
--static uint64_t tci_read_ri64(const tcg_target_ulong *regs, uint8_t **tb_ptr)
-+static uint64_t tci_read_ri64(const tcg_target_ulong *regs,
-+                              const uint8_t **tb_ptr)
- {
-     uint64_t value;
-     TCGReg r = **tb_ptr;
-@@ -337,7 +346,7 @@ static uint64_t tci_read_ri64(const tcg_target_ulong *regs, uint8_t **tb_ptr)
- }
- #endif
- 
--static tcg_target_ulong tci_read_label(uint8_t **tb_ptr)
-+static tcg_target_ulong tci_read_label(const uint8_t **tb_ptr)
- {
-     tcg_target_ulong label = tci_read_i(tb_ptr);
-     tci_assert(label != 0);
-@@ -477,8 +486,7 @@ static bool tci_compare64(uint64_t u0, uint64_t u1, TCGCond condition)
- /* Interpret pseudo code in tb. */
- uintptr_t tcg_qemu_tb_exec(CPUArchState *env, const void *v_tb_ptr)
- {
--    /* TODO: Propagate const through this file. */
--    uint8_t *tb_ptr = (uint8_t *)v_tb_ptr;
-+    const uint8_t *tb_ptr = v_tb_ptr;
-     tcg_target_ulong regs[TCG_TARGET_NB_REGS];
-     long tcg_temps[CPU_TEMP_BUF_NLONGS];
-     uintptr_t sp_value = (uintptr_t)(tcg_temps + CPU_TEMP_BUF_NLONGS);
-@@ -492,7 +500,7 @@ uintptr_t tcg_qemu_tb_exec(CPUArchState *env, const void *v_tb_ptr)
-         TCGOpcode opc = tb_ptr[0];
- #if defined(CONFIG_DEBUG_TCG) && !defined(NDEBUG)
-         uint8_t op_size = tb_ptr[1];
--        uint8_t *old_code_ptr = tb_ptr;
-+        const uint8_t *old_code_ptr = tb_ptr;
- #endif
-         tcg_target_ulong t0;
-         tcg_target_ulong t1;
++/**
++ * tcg_tbrel_diff
++ * @s: the tcg context
++ * @target: address of the target
++ *
++ * Produce a difference, from the beginning of the current TB code
++ * to the destination address.
++ */
++static inline ptrdiff_t tcg_tbrel_diff(TCGContext *s, const void *target)
++{
++    return tcg_ptr_byte_diff(target, tcg_splitwx_to_rx(s->code_buf));
++}
++
+ /**
+  * tcg_current_code_size
+  * @s: the tcg context
 -- 
 2.25.1
 
