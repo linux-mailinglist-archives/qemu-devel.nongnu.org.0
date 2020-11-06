@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88D342A8D97
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 04:38:20 +0100 (CET)
-Received: from localhost ([::1]:46750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7CB72A8DCB
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 04:55:52 +0100 (CET)
+Received: from localhost ([::1]:48796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kasZv-0008F9-JJ
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 22:38:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47404)
+	id 1kasqt-00075u-Qf
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 22:55:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kasSK-0005pL-Lf
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 22:30:28 -0500
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:37594)
+ id 1kasSM-0005tm-Mt
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 22:30:30 -0500
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:46562)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kasSC-0007Dj-NX
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 22:30:28 -0500
-Received: by mail-pf1-x441.google.com with SMTP id 13so53329pfy.4
- for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 19:30:11 -0800 (PST)
+ id 1kasSC-0007ED-Vm
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 22:30:30 -0500
+Received: by mail-pg1-x541.google.com with SMTP id w4so2858770pgg.13
+ for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 19:30:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LiVRLDdLRLwNh3EAfOwsqGZsrXFOtm3LiOx00UdIraE=;
- b=tcTpOl35MRMenBDQkroMiOrRPcQ6qceMjXWca0iYK4BIhZmRmUrP8nIcZG4dmxKycs
- GugXJOEn0a+xOEVnILgLEQ7KRBxhusgEr5l9lxkdueh7/CyDfWk3jEroSXsxgHgyPAsD
- C16goSeskUZOQDsQ25y2Mr91ykRSpv7zVEF6/HK8t5JXdeAJU2NiADJHEO0L+6RRZxab
- qwhwcQa/+Yu55WMj+xXPtPnn4FwhjxE1Q55/OlBHr/D8Ni8worQR5fm7Hfd3A9u0LWw/
- 9UODj+w8buq2XD4dnU11qZAhUrfRI+Lvct5G4qdgdUV7XgzrXIbs4FdYKEHKHpUCfkGb
- MzeQ==
+ bh=X069CiQ8RfhdePwhlJh4L+vOpoRIhJZjo/+F//DMvos=;
+ b=hWfZw76tIAopRt9JUUbxhcXJJAXWvF265V5ztFcYBz/B0G5dw0hCti5EyxYA8ipGKS
+ WIyY9hDDSs4GDP1xAECR+P9T6qA935U3ZjFaqG2ITyrjT2MmrX6HERdon/7ZeLLqUVeb
+ jLUrJ6mO8OcONSVS+euwjko/N9SUhsuaJBkZOsBk0coag/rkHxod2bcrPsnvX+URAejs
+ NBsUk9pbtAJIfoJgPoEsransOcxUB558okPrVhYtxBLGrqnJsWlzCKUPPua70qliW6f6
+ IdIpYRVaGUZQHR78oVdQxPK6IUzKT8nrHr1ZhZaDGsmc01bE0Hj8v5u/tttKj4LfApos
+ IXSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LiVRLDdLRLwNh3EAfOwsqGZsrXFOtm3LiOx00UdIraE=;
- b=sNkIalUcgakOG44XplLEt2BytRkKXwH46oC3EmDtDxbKX8w8eUFN6XYoE2rLODL9j4
- OF8oa+FFQypOIYjRnl1Ww6U2+eVOv/oYpimAajOzvWiEzU7JoYej5yNdfDymS0Am6tnN
- wwYhjcLTUbx6n5ndyfQ1xFhGufDZpKFX7p7ku+3v8zc4hV1cZcD43A/iy9UUZkey8uWg
- UlTTeVp+oGgJbC9i8NsTY4X0sCe4ul9+UfifZP20DMlAa/2BFtTCMwZF18vTOVzbOM6O
- kouU5cYKU4gY9D8HVcrhQdJq/Kn68A/9VDt/sYFEQD+S7HQz156NVqWmj5FmRHpNgvFp
- 5XUQ==
-X-Gm-Message-State: AOAM53003nOOiuKpHGSZO3Lp9lYtNpn8nlcupjtn2bqs6ZjjclsPWwx+
- 57AUgLC0l4THQcTx7LDTKZMwZbfJgyl/Gw==
-X-Google-Smtp-Source: ABdhPJz07sfqL3/tvzipxS1AKbfibmdlgwErkVdnQEUQ4Uv9hAI1TJo9OE5USOBeR+sBglGFP1ky0w==
-X-Received: by 2002:a17:90a:17ad:: with SMTP id
- q42mr189826pja.36.1604633409703; 
- Thu, 05 Nov 2020 19:30:09 -0800 (PST)
+ bh=X069CiQ8RfhdePwhlJh4L+vOpoRIhJZjo/+F//DMvos=;
+ b=DZFKDpVngJWsqPLTygXAakhAtVWXj1RUzNEbeG6KecTONP4vZTA+q+uSDgt1m9dkqy
+ D5NIAfJwBQiVukMbZqTNhcHYndLPVToBKv2gUVdfUn0ETtWsP31URWqByACWp1fxk/uj
+ BUeXgJuvyvE9Bzca8ig0hsyT9m0IirEzKBJOwKNpMP4qnOeD+zxTxfftzuEacXeYtoH3
+ pGTzSpsm+UVWZ1B5Y+8/0XP98787qNFtTW6zxh8IrxBc2SVxtDJhEZEUKTZnJ9DnL3tu
+ 3uVmBUQfdzbw48GCzEA8zrwSGH++6umjWiIIyxM4bpMQKft5VZNjVE4xDjA+6DUvAW5F
+ JP2Q==
+X-Gm-Message-State: AOAM533p1k6REMxSrxDxOjg2Emc+S9N9JRTfnGtzbdMuCmETestrzuy2
+ crwWK688SQnoGAnXtYAEVqUBO0A07CmC3Q==
+X-Google-Smtp-Source: ABdhPJwiOrYh7BphkTVTM4tS63LVlREuywa6wrj2QGtbWHGAbZifzlePD4PC2dVB7OdJ+XR90DwohA==
+X-Received: by 2002:a17:90a:e997:: with SMTP id
+ v23mr129407pjy.195.1604633411905; 
+ Thu, 05 Nov 2020 19:30:11 -0800 (PST)
 Received: from localhost.localdomain (76-14-210-194.or.wavecable.com.
  [76.14.210.194])
- by smtp.gmail.com with ESMTPSA id i10sm40773pfd.60.2020.11.05.19.30.08
+ by smtp.gmail.com with ESMTPSA id i10sm40773pfd.60.2020.11.05.19.30.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 19:30:08 -0800 (PST)
+ Thu, 05 Nov 2020 19:30:10 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 33/41] tcg/riscv: Remove branch-over-branch fallback
-Date: Thu,  5 Nov 2020 19:29:13 -0800
-Message-Id: <20201106032921.600200-34-richard.henderson@linaro.org>
+Subject: [PATCH v3 34/41] tcg/riscv: Support split-wx code generation
+Date: Thu,  5 Nov 2020 19:29:14 -0800
+Message-Id: <20201106032921.600200-35-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201106032921.600200-1-richard.henderson@linaro.org>
 References: <20201106032921.600200-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x441.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,118 +90,153 @@ Cc: j@getutm.app
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since 7ecd02a06f8, we are prepared to re-start code generation
-with a smaller TB if a relocation is out of range.  We no longer
-need to leave a nop in the stream Just In Case.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/riscv/tcg-target.c.inc | 56 ++++----------------------------------
- 1 file changed, 6 insertions(+), 50 deletions(-)
+ tcg/riscv/tcg-target.h     |  2 +-
+ tcg/riscv/tcg-target.c.inc | 41 +++++++++++++++++++++-----------------
+ 2 files changed, 24 insertions(+), 19 deletions(-)
 
+diff --git a/tcg/riscv/tcg-target.h b/tcg/riscv/tcg-target.h
+index 3c2e8305b0..0eb19f2b11 100644
+--- a/tcg/riscv/tcg-target.h
++++ b/tcg/riscv/tcg-target.h
+@@ -179,6 +179,6 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
+ #define TCG_TARGET_NEED_POOL_LABELS
+ 
+ #define TCG_TARGET_HAS_MEMORY_BSWAP 0
+-#define TCG_TARGET_SUPPORT_MIRROR   0
++#define TCG_TARGET_SUPPORT_MIRROR   1
+ 
+ #endif
 diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-index 195c3eff03..02beb86977 100644
+index 02beb86977..5c1e0f8fc1 100644
 --- a/tcg/riscv/tcg-target.c.inc
 +++ b/tcg/riscv/tcg-target.c.inc
-@@ -469,43 +469,16 @@ static bool reloc_call(tcg_insn_unit *code_ptr, const tcg_insn_unit *target)
- static bool patch_reloc(tcg_insn_unit *code_ptr, int type,
-                         intptr_t value, intptr_t addend)
+@@ -425,41 +425,44 @@ static void tcg_out_nop_fill(tcg_insn_unit *p, int count)
+  * Relocations
+  */
+ 
+-static bool reloc_sbimm12(tcg_insn_unit *code_ptr, tcg_insn_unit *target)
++static bool reloc_sbimm12(tcg_insn_unit *src_rw, const tcg_insn_unit *target)
  {
--    uint32_t insn = *code_ptr;
--    intptr_t diff;
--    bool short_jmp;
--
-     tcg_debug_assert(addend == 0);
--
-     switch (type) {
-     case R_RISCV_BRANCH:
--        diff = value - (uintptr_t)code_ptr;
--        short_jmp = diff == sextreg(diff, 0, 12);
--        if (short_jmp) {
--            return reloc_sbimm12(code_ptr, (tcg_insn_unit *)value);
--        } else {
--            /* Invert the condition */
--            insn = insn ^ (1 << 12);
--            /* Clear the offset */
--            insn &= 0x01fff07f;
--            /* Set the offset to the PC + 8 */
--            insn |= encode_sbimm12(8);
--
--            /* Move forward */
--            code_ptr[0] = insn;
--
--            /* Overwrite the NOP with jal x0,value */
--            diff = value - (uintptr_t)(code_ptr + 1);
--            insn = encode_uj(OPC_JAL, TCG_REG_ZERO, diff);
--            code_ptr[1] = insn;
--
--            return true;
--        }
--        break;
-+        return reloc_sbimm12(code_ptr, (tcg_insn_unit *)value);
-     case R_RISCV_JAL:
-         return reloc_jimm20(code_ptr, (tcg_insn_unit *)value);
-     case R_RISCV_CALL:
-         return reloc_call(code_ptr, (tcg_insn_unit *)value);
-     default:
--        tcg_abort();
-+        g_assert_not_reached();
-     }
- }
+-    intptr_t offset = (intptr_t)target - (intptr_t)code_ptr;
++    const tcg_insn_unit *src_rx = tcg_splitwx_to_rx(src_rw);
++    intptr_t offset = (intptr_t)target - (intptr_t)src_rx;
  
-@@ -779,21 +752,8 @@ static void tcg_out_brcond(TCGContext *s, TCGCond cond, TCGReg arg1,
-         arg2 = t;
+     tcg_debug_assert((offset & 1) == 0);
+     if (offset == sextreg(offset, 0, 12)) {
+-        code_ptr[0] |= encode_sbimm12(offset);
++        *src_rw |= encode_sbimm12(offset);
+         return true;
      }
  
--    if (l->has_value) {
--        intptr_t diff = tcg_pcrel_diff(s, l->u.value_ptr);
--        if (diff == sextreg(diff, 0, 12)) {
--            tcg_out_opc_branch(s, op, arg1, arg2, diff);
--        } else {
--            /* Invert the conditional branch.  */
--            tcg_out_opc_branch(s, op ^ (1 << 12), arg1, arg2, 8);
--            tcg_out_opc_jump(s, OPC_JAL, TCG_REG_ZERO, diff - 4);
--        }
--    } else {
--        tcg_out_reloc(s, s->code_ptr, R_RISCV_BRANCH, l, 0);
--        tcg_out_opc_branch(s, op, arg1, arg2, 0);
--        /* NOP to allow patching later */
--        tcg_out_opc_imm(s, OPC_ADDI, TCG_REG_ZERO, TCG_REG_ZERO, 0);
--    }
-+    tcg_out_reloc(s, s->code_ptr, R_RISCV_BRANCH, l, 0);
-+    tcg_out_opc_branch(s, op, arg1, arg2, 0);
+     return false;
  }
  
- static void tcg_out_setcond(TCGContext *s, TCGCond cond, TCGReg ret,
-@@ -1009,8 +969,6 @@ static void tcg_out_tlb_load(TCGContext *s, TCGReg addrl,
-     /* Compare masked address with the TLB entry. */
-     label_ptr[0] = s->code_ptr;
-     tcg_out_opc_branch(s, OPC_BNE, TCG_REG_TMP0, TCG_REG_TMP1, 0);
--    /* NOP to allow patching later */
--    tcg_out_opc_imm(s, OPC_ADDI, TCG_REG_ZERO, TCG_REG_ZERO, 0);
+-static bool reloc_jimm20(tcg_insn_unit *code_ptr, tcg_insn_unit *target)
++static bool reloc_jimm20(tcg_insn_unit *src_rw, const tcg_insn_unit *target)
+ {
+-    intptr_t offset = (intptr_t)target - (intptr_t)code_ptr;
++    const tcg_insn_unit *src_rx = tcg_splitwx_to_rx(src_rw);
++    intptr_t offset = (intptr_t)target - (intptr_t)src_rx;
  
-     /* TLB Hit - translate address using addend.  */
-     if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
-@@ -1054,8 +1012,7 @@ static bool tcg_out_qemu_ld_slow_path(TCGContext *s, TCGLabelQemuLdst *l)
+     tcg_debug_assert((offset & 1) == 0);
+     if (offset == sextreg(offset, 0, 20)) {
+-        code_ptr[0] |= encode_ujimm20(offset);
++        *src_rw |= encode_ujimm20(offset);
+         return true;
+     }
+ 
+     return false;
+ }
+ 
+-static bool reloc_call(tcg_insn_unit *code_ptr, const tcg_insn_unit *target)
++static bool reloc_call(tcg_insn_unit *src_rw, const tcg_insn_unit *target)
+ {
+-    intptr_t offset = (intptr_t)target - (intptr_t)code_ptr;
++    const tcg_insn_unit *src_rx = tcg_splitwx_to_rx(src_rw);
++    intptr_t offset = (intptr_t)target - (intptr_t)src_rx;
+     int32_t lo = sextreg(offset, 0, 12);
+     int32_t hi = offset - lo;
+ 
+     if (offset == hi + lo) {
+-        code_ptr[0] |= encode_uimm20(hi);
+-        code_ptr[1] |= encode_imm12(lo);
++        src_rw[0] |= encode_uimm20(hi);
++        src_rw[1] |= encode_imm12(lo);
+         return true;
+     }
+ 
+@@ -532,7 +535,7 @@ static void tcg_out_movi(TCGContext *s, TCGType type, TCGReg rd,
+     if (tmp == (int32_t)tmp) {
+         tcg_out_opc_upper(s, OPC_AUIPC, rd, 0);
+         tcg_out_opc_imm(s, OPC_ADDI, rd, rd, 0);
+-        ret = reloc_call(s->code_ptr - 2, (tcg_insn_unit *)val);
++        ret = reloc_call(s->code_ptr - 2, (const tcg_insn_unit *)val);
+         tcg_debug_assert(ret == true);
+         return;
+     }
+@@ -917,7 +920,7 @@ QEMU_BUILD_BUG_ON(TCG_TARGET_REG_BITS < TARGET_LONG_BITS);
+ QEMU_BUILD_BUG_ON(TLB_MASK_TABLE_OFS(0) > 0);
+ QEMU_BUILD_BUG_ON(TLB_MASK_TABLE_OFS(0) < -(1 << 11));
+ 
+-static void tcg_out_goto(TCGContext *s, tcg_insn_unit *target)
++static void tcg_out_goto(TCGContext *s, const tcg_insn_unit *target)
+ {
+     tcg_out_opc_jump(s, OPC_JAL, TCG_REG_ZERO, 0);
+     bool ok = reloc_jimm20(s->code_ptr - 1, target);
+@@ -993,7 +996,8 @@ static void add_qemu_ldst_label(TCGContext *s, int is_ld, TCGMemOpIdx oi,
+     label->datahi_reg = datahi;
+     label->addrlo_reg = addrlo;
+     label->addrhi_reg = addrhi;
+-    label->raddr = raddr;
++    /* TODO: Cast goes away when all hosts converted */
++    label->raddr = (void *)tcg_splitwx_to_rx(raddr);
+     label->label_ptr[0] = label_ptr[0];
+ }
+ 
+@@ -1012,7 +1016,7 @@ static bool tcg_out_qemu_ld_slow_path(TCGContext *s, TCGLabelQemuLdst *l)
      }
  
      /* resolve label address */
--    if (!patch_reloc(l->label_ptr[0], R_RISCV_BRANCH,
--                     (intptr_t) s->code_ptr, 0)) {
-+    if (!reloc_sbimm12(l->label_ptr[0], s->code_ptr)) {
+-    if (!reloc_sbimm12(l->label_ptr[0], s->code_ptr)) {
++    if (!reloc_sbimm12(l->label_ptr[0], tcg_splitwx_to_rx(s->code_ptr))) {
          return false;
      }
  
-@@ -1089,8 +1046,7 @@ static bool tcg_out_qemu_st_slow_path(TCGContext *s, TCGLabelQemuLdst *l)
+@@ -1046,7 +1050,7 @@ static bool tcg_out_qemu_st_slow_path(TCGContext *s, TCGLabelQemuLdst *l)
      }
  
      /* resolve label address */
--    if (!patch_reloc(l->label_ptr[0], R_RISCV_BRANCH,
--                     (intptr_t) s->code_ptr, 0)) {
-+    if (!reloc_sbimm12(l->label_ptr[0], s->code_ptr)) {
+-    if (!reloc_sbimm12(l->label_ptr[0], s->code_ptr)) {
++    if (!reloc_sbimm12(l->label_ptr[0], tcg_splitwx_to_rx(s->code_ptr))) {
          return false;
      }
  
+@@ -1232,7 +1236,7 @@ static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args, bool is_64)
+ #endif
+ }
+ 
+-static tcg_insn_unit *tb_ret_addr;
++static const tcg_insn_unit *tb_ret_addr;
+ 
+ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
+                        const TCGArg *args, const int *const_args)
+@@ -1780,11 +1784,12 @@ static void tcg_target_qemu_prologue(TCGContext *s)
+     tcg_out_opc_imm(s, OPC_JALR, TCG_REG_ZERO, tcg_target_call_iarg_regs[1], 0);
+ 
+     /* Return path for goto_ptr. Set return value to 0 */
+-    tcg_code_gen_epilogue = s->code_ptr;
++    /* TODO: Cast goes away when all hosts converted */
++    tcg_code_gen_epilogue = (void *)tcg_splitwx_to_rx(s->code_ptr);
+     tcg_out_mov(s, TCG_TYPE_REG, TCG_REG_A0, TCG_REG_ZERO);
+ 
+     /* TB epilogue */
+-    tb_ret_addr = s->code_ptr;
++    tb_ret_addr = tcg_splitwx_to_rx(s->code_ptr);
+     for (i = 0; i < ARRAY_SIZE(tcg_target_callee_save_regs); i++) {
+         tcg_out_ld(s, TCG_TYPE_REG, tcg_target_callee_save_regs[i],
+                    TCG_REG_SP, SAVE_OFS + i * REG_SIZE);
 -- 
 2.25.1
 
