@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B50462A8DA2
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 04:40:59 +0100 (CET)
-Received: from localhost ([::1]:58756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 632552A8D90
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 04:37:00 +0100 (CET)
+Received: from localhost ([::1]:38374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kascU-0004cm-Q5
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 22:40:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46982)
+	id 1kasYd-0004lr-4T
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 22:36:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kasRe-0004p2-CS
+ id 1kasRe-0004qJ-St
  for qemu-devel@nongnu.org; Thu, 05 Nov 2020 22:29:46 -0500
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:39961)
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:34752)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kasRc-0006wk-Fb
+ id 1kasRc-0006wq-GG
  for qemu-devel@nongnu.org; Thu, 05 Nov 2020 22:29:46 -0500
-Received: by mail-pg1-x542.google.com with SMTP id x13so2880121pgp.7
- for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 19:29:41 -0800 (PST)
+Received: by mail-pf1-x441.google.com with SMTP id o129so63187pfb.1
+ for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 19:29:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8YnkrBigavL+C33hr6dUiCjy8qumFXs3cayqbgFA/m8=;
- b=mxqUqH+BWQ26sJiNfIn68XQ3gHoLP/bmGhk6VoFytLpZGEe3sAyB8u/Zx6J4ZV1ynj
- LjPn8GNr4RB/d7n0H8ry6+D5CqVqemRWhGK3nLWe7nBHPG9pbdsrTZ5Ve++v8TSBMy+4
- BZtCdsz4LpE0IaUKTXSL2gF0pydLDQWoLX+UQD41PEE6mn1Gc3AUkIaLTE2DzhaT+f3S
- LD61+AJLnflvZvMUkFLquPVkOaSFyie65TD5KHHjfjSnWj+U+Xtv69T96G8HbTDp1hSw
- /9nz5C6YsJSSaG+dTe599kXOc+GEtBSLOUKvfPy0+LpF08sED6OqU0Qv0uoFr6IjFjsL
- zPEg==
+ bh=5S5FVYwmKp9iGdEx0YkNjwJAvfyyQ5CRcf+gaFezy/Y=;
+ b=FeoFaiUZMXk40Cc0c6BmXWGCm0RpP42O4v/Fb/x+gH+Gfmdv5CkeVL7js5F2KtD7iv
+ XjA4o17kGDsBH1RBeP4sUk3T+2+hCD59NCQ95/1Y/chbpTv1XQ3O2Z3pZOaDEf5JdXj5
+ PapdRYzXyfdeCdZbqhV8BbSFgwwVTsvGwTomK2qTBkAbLbs1t6MgYms501qTtVxgq9Te
+ 37EDgPD/I8sAF5Ni9cuRiweBw45EhdSoqRQUWdB+KbsHMt17REGL9Tt7yf/+/IOej4mA
+ VlBi7V4yaVIqu1tsFX2KGCxmzKz0ul/cTfk2R/Valgxtbm2xgtqpUc+rm2w4DPvDR7nb
+ KtRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8YnkrBigavL+C33hr6dUiCjy8qumFXs3cayqbgFA/m8=;
- b=aFUGQ84bcWYJyP/Uqqj5jJ7CkjyrVSz2XXFRDtJs3L8jxT8xTNjM9NpjtDyue0B8Hu
- FlkYGQmfNTISdbKDf7oFxVBhIqsO683VpALfhu9ss0z2I1XMmd0RUD/0R/b6KvrKWGv2
- uigL0gjrDQduJk6vK27qO11UnV9fBjxcjQbBeYkweuMd9N5a9FhgTnWwxPufxrzCD/OY
- THBlY7LkYOVo1qWrqshfj70OR44uaWqfj9CLUDgEdhMh8CZr3SfyiFu7K/FOPWIKhEJG
- aglkOJ60NB2UW3U4+UQ5JW+Sv3w5F3YHGHv/6oHpEVJJonZYrZ+29ZdSDAsGrn9KUsD6
- KeAw==
-X-Gm-Message-State: AOAM5319DyFYkDmBs7namTGgEzkbXiEsjy+KrtzTH8/eoIEcpXMLinDX
- 9dyysiIu4ZdvtisGTkwoNNM2rAAcBYVjZw==
-X-Google-Smtp-Source: ABdhPJxDbA4eEhreLH+Mv0CLiM6PMMCAgVtMdkHmAahjMK7Dz/3/BkQ3niqZY96afg+zajPPyypwyw==
-X-Received: by 2002:a63:4825:: with SMTP id v37mr5222841pga.256.1604633379990; 
- Thu, 05 Nov 2020 19:29:39 -0800 (PST)
+ bh=5S5FVYwmKp9iGdEx0YkNjwJAvfyyQ5CRcf+gaFezy/Y=;
+ b=Ciw1GuHDAQ7Q3uxEDh3LWCWMx5x+DZ5Gc0fpTPQQqK4w+A53tQrGVnxADnbKK3WR98
+ QpMLJrZQWJl3QGjRJxKRUaerYp4ZHjFogoNY/+XJzDWHiYva8zHtZyugQXNbYIHlhQWY
+ ccb5vwhC7iYIfTpjXsenKCEW7FMjnBmMJ3Vrv08sQw70aP7rDSrehbNRg68IH7FUpvyl
+ ZR3hc3StHgll+4WYSKaxjUTUkkNUzddI/wufe+uAQ8ZknKMDxUdDHLCDKqQ+p4Ey+SrQ
+ rHIDpkA/SZZDykGUeAg2i9zQ4tXc91+9hDAjGJLIcHz54S03gJYWiUkJla4CIiooeX7c
+ +whg==
+X-Gm-Message-State: AOAM532X7KVvaeYwO+ybaHv0gGuDqPJsFMfPw8BnDUnqToVNUN5brIzc
+ fYvDZXreXSuRtPVzhzxAc0DNlQV+jtqkgw==
+X-Google-Smtp-Source: ABdhPJxng/MS4TeF2Q3bO6gJpp2n8oJutCpAcAZrFPpqxuRcPmo9H5MEaiNSY4206OBGWG+Ob0bGYA==
+X-Received: by 2002:a17:90b:3314:: with SMTP id
+ kf20mr178672pjb.156.1604633381341; 
+ Thu, 05 Nov 2020 19:29:41 -0800 (PST)
 Received: from localhost.localdomain (76-14-210-194.or.wavecable.com.
  [76.14.210.194])
- by smtp.gmail.com with ESMTPSA id i10sm40773pfd.60.2020.11.05.19.29.38
+ by smtp.gmail.com with ESMTPSA id i10sm40773pfd.60.2020.11.05.19.29.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 19:29:39 -0800 (PST)
+ Thu, 05 Nov 2020 19:29:40 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 13/41] tcg: Use Error with alloc_code_gen_buffer
-Date: Thu,  5 Nov 2020 19:28:53 -0800
-Message-Id: <20201106032921.600200-14-richard.henderson@linaro.org>
+Subject: [PATCH v3 14/41] tcg: Add --accel tcg,split-wx property
+Date: Thu,  5 Nov 2020 19:28:54 -0800
+Message-Id: <20201106032921.600200-15-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201106032921.600200-1-richard.henderson@linaro.org>
 References: <20201106032921.600200-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,151 +90,318 @@ Cc: j@getutm.app
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Report better error messages than just "could not allocate".
-Let alloc_code_gen_buffer set ctx->code_gen_buffer_size
-and ctx->code_gen_buffer, and simply return bool.
+Plumb the value through to alloc_code_gen_buffer.  This is not
+supported by any os or tcg backend, so for now enabling it will
+result in an error.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/translate-all.c | 60 ++++++++++++++++++++++-----------------
- 1 file changed, 34 insertions(+), 26 deletions(-)
+ include/sysemu/tcg.h      |  3 ++-
+ tcg/aarch64/tcg-target.h  |  1 +
+ tcg/arm/tcg-target.h      |  1 +
+ tcg/i386/tcg-target.h     |  1 +
+ tcg/mips/tcg-target.h     |  1 +
+ tcg/ppc/tcg-target.h      |  1 +
+ tcg/riscv/tcg-target.h    |  1 +
+ tcg/s390/tcg-target.h     |  1 +
+ tcg/sparc/tcg-target.h    |  1 +
+ tcg/tci/tcg-target.h      |  1 +
+ accel/tcg/tcg-all.c       | 26 +++++++++++++++++++++++++-
+ accel/tcg/translate-all.c | 35 +++++++++++++++++++++++++++--------
+ bsd-user/main.c           |  2 +-
+ linux-user/main.c         |  2 +-
+ 14 files changed, 65 insertions(+), 12 deletions(-)
 
+diff --git a/include/sysemu/tcg.h b/include/sysemu/tcg.h
+index d9d3ca8559..00349fb18a 100644
+--- a/include/sysemu/tcg.h
++++ b/include/sysemu/tcg.h
+@@ -8,7 +8,8 @@
+ #ifndef SYSEMU_TCG_H
+ #define SYSEMU_TCG_H
+ 
+-void tcg_exec_init(unsigned long tb_size);
++void tcg_exec_init(unsigned long tb_size, int splitwx);
++
+ #ifdef CONFIG_TCG
+ extern bool tcg_allowed;
+ #define tcg_enabled() (tcg_allowed)
+diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
+index 91313d93be..fa64058d43 100644
+--- a/tcg/aarch64/tcg-target.h
++++ b/tcg/aarch64/tcg-target.h
+@@ -164,5 +164,6 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
+ #define TCG_TARGET_NEED_LDST_LABELS
+ #endif
+ #define TCG_TARGET_NEED_POOL_LABELS
++#define TCG_TARGET_SUPPORT_MIRROR       0
+ 
+ #endif /* AARCH64_TCG_TARGET_H */
+diff --git a/tcg/arm/tcg-target.h b/tcg/arm/tcg-target.h
+index b21a2fb6a1..e355d6a4b2 100644
+--- a/tcg/arm/tcg-target.h
++++ b/tcg/arm/tcg-target.h
+@@ -150,5 +150,6 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
+ #define TCG_TARGET_NEED_LDST_LABELS
+ #endif
+ #define TCG_TARGET_NEED_POOL_LABELS
++#define TCG_TARGET_SUPPORT_MIRROR       0
+ 
+ #endif
+diff --git a/tcg/i386/tcg-target.h b/tcg/i386/tcg-target.h
+index f52ba0ffec..1b9d41bd56 100644
+--- a/tcg/i386/tcg-target.h
++++ b/tcg/i386/tcg-target.h
+@@ -236,5 +236,6 @@ static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
+ #define TCG_TARGET_NEED_LDST_LABELS
+ #endif
+ #define TCG_TARGET_NEED_POOL_LABELS
++#define TCG_TARGET_SUPPORT_MIRROR       0
+ 
+ #endif
+diff --git a/tcg/mips/tcg-target.h b/tcg/mips/tcg-target.h
+index cd548dacec..d231522dc9 100644
+--- a/tcg/mips/tcg-target.h
++++ b/tcg/mips/tcg-target.h
+@@ -206,6 +206,7 @@ extern bool use_mips32r2_instructions;
+ 
+ #define TCG_TARGET_DEFAULT_MO (0)
+ #define TCG_TARGET_HAS_MEMORY_BSWAP     1
++#define TCG_TARGET_SUPPORT_MIRROR       0
+ 
+ /* Flush the dcache at RW, and the icache at RX, as necessary. */
+ static inline void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
+diff --git a/tcg/ppc/tcg-target.h b/tcg/ppc/tcg-target.h
+index 8f3e4c924a..78d6a5e96f 100644
+--- a/tcg/ppc/tcg-target.h
++++ b/tcg/ppc/tcg-target.h
+@@ -185,5 +185,6 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
+ #define TCG_TARGET_NEED_LDST_LABELS
+ #endif
+ #define TCG_TARGET_NEED_POOL_LABELS
++#define TCG_TARGET_SUPPORT_MIRROR       0
+ 
+ #endif
+diff --git a/tcg/riscv/tcg-target.h b/tcg/riscv/tcg-target.h
+index e03fd17427..3c2e8305b0 100644
+--- a/tcg/riscv/tcg-target.h
++++ b/tcg/riscv/tcg-target.h
+@@ -179,5 +179,6 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
+ #define TCG_TARGET_NEED_POOL_LABELS
+ 
+ #define TCG_TARGET_HAS_MEMORY_BSWAP 0
++#define TCG_TARGET_SUPPORT_MIRROR   0
+ 
+ #endif
+diff --git a/tcg/s390/tcg-target.h b/tcg/s390/tcg-target.h
+index c5a749e425..8324197127 100644
+--- a/tcg/s390/tcg-target.h
++++ b/tcg/s390/tcg-target.h
+@@ -163,5 +163,6 @@ static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
+ #define TCG_TARGET_NEED_LDST_LABELS
+ #endif
+ #define TCG_TARGET_NEED_POOL_LABELS
++#define TCG_TARGET_SUPPORT_MIRROR       0
+ 
+ #endif
+diff --git a/tcg/sparc/tcg-target.h b/tcg/sparc/tcg-target.h
+index 87e2be61e6..517840705f 100644
+--- a/tcg/sparc/tcg-target.h
++++ b/tcg/sparc/tcg-target.h
+@@ -181,5 +181,6 @@ static inline void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
+ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
+ 
+ #define TCG_TARGET_NEED_POOL_LABELS
++#define TCG_TARGET_SUPPORT_MIRROR       0
+ 
+ #endif
+diff --git a/tcg/tci/tcg-target.h b/tcg/tci/tcg-target.h
+index a19a6b06e5..3653fef947 100644
+--- a/tcg/tci/tcg-target.h
++++ b/tcg/tci/tcg-target.h
+@@ -200,6 +200,7 @@ static inline void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
+ #define TCG_TARGET_DEFAULT_MO  (0)
+ 
+ #define TCG_TARGET_HAS_MEMORY_BSWAP     1
++#define TCG_TARGET_SUPPORT_MIRROR       0
+ 
+ static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
+                                             uintptr_t jmp_rw, uintptr_t addr)
+diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
+index fa1208158f..5f07ab09a9 100644
+--- a/accel/tcg/tcg-all.c
++++ b/accel/tcg/tcg-all.c
+@@ -38,6 +38,7 @@ struct TCGState {
+     AccelState parent_obj;
+ 
+     bool mttcg_enabled;
++    int splitwx_enabled;
+     unsigned long tb_size;
+ };
+ typedef struct TCGState TCGState;
+@@ -94,6 +95,13 @@ static void tcg_accel_instance_init(Object *obj)
+     TCGState *s = TCG_STATE(obj);
+ 
+     s->mttcg_enabled = default_mttcg_enabled();
++
++    /* If debugging enabled, default "auto on", otherwise off. */
++#ifdef CONFIG_DEBUG_TCG
++    s->splitwx_enabled = -1;
++#else
++    s->splitwx_enabled = 0;
++#endif
+ }
+ 
+ bool mttcg_enabled;
+@@ -102,7 +110,7 @@ static int tcg_init(MachineState *ms)
+ {
+     TCGState *s = TCG_STATE(current_accel());
+ 
+-    tcg_exec_init(s->tb_size * 1024 * 1024);
++    tcg_exec_init(s->tb_size * 1024 * 1024, s->splitwx_enabled);
+     mttcg_enabled = s->mttcg_enabled;
+     cpus_register_accel(&tcg_cpus);
+ 
+@@ -168,6 +176,18 @@ static void tcg_set_tb_size(Object *obj, Visitor *v,
+     s->tb_size = value;
+ }
+ 
++static bool tcg_get_splitwx(Object *obj, Error **errp)
++{
++    TCGState *s = TCG_STATE(obj);
++    return s->splitwx_enabled;
++}
++
++static void tcg_set_splitwx(Object *obj, bool value, Error **errp)
++{
++    TCGState *s = TCG_STATE(obj);
++    s->splitwx_enabled = value;
++}
++
+ static void tcg_accel_class_init(ObjectClass *oc, void *data)
+ {
+     AccelClass *ac = ACCEL_CLASS(oc);
+@@ -185,6 +205,10 @@ static void tcg_accel_class_init(ObjectClass *oc, void *data)
+     object_class_property_set_description(oc, "tb-size",
+         "TCG translation block cache size");
+ 
++    object_class_property_add_bool(oc, "split-wx",
++        tcg_get_splitwx, tcg_set_splitwx);
++    object_class_property_set_description(oc, "split-wx",
++        "Map jit pages into separate RW and RX regions");
+ }
+ 
+ static const TypeInfo tcg_accel_type = {
 diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 7b85ddacd2..2824b3e387 100644
+index 2824b3e387..a29cb4a42e 100644
 --- a/accel/tcg/translate-all.c
 +++ b/accel/tcg/translate-all.c
-@@ -59,6 +59,7 @@
- #include "sysemu/cpus.h"
- #include "sysemu/cpu-timers.h"
- #include "sysemu/tcg.h"
-+#include "qapi/error.h"
- 
- /* #define DEBUG_TB_INVALIDATE */
- /* #define DEBUG_TB_FLUSH */
-@@ -963,7 +964,7 @@ static void page_lock_pair(PageDesc **ret_p1, tb_page_addr_t phys1,
-   (DEFAULT_CODE_GEN_BUFFER_SIZE_1 < MAX_CODE_GEN_BUFFER_SIZE \
-    ? DEFAULT_CODE_GEN_BUFFER_SIZE_1 : MAX_CODE_GEN_BUFFER_SIZE)
- 
--static inline size_t size_code_gen_buffer(size_t tb_size)
-+static size_t size_code_gen_buffer(size_t tb_size)
- {
-     /* Size the buffer.  */
-     if (tb_size == 0) {
-@@ -1014,7 +1015,7 @@ static inline void *split_cross_256mb(void *buf1, size_t size1)
+@@ -1015,13 +1015,19 @@ static inline void *split_cross_256mb(void *buf1, size_t size1)
  static uint8_t static_code_gen_buffer[DEFAULT_CODE_GEN_BUFFER_SIZE]
      __attribute__((aligned(CODE_GEN_ALIGN)));
  
--static inline void *alloc_code_gen_buffer(void)
-+static bool alloc_code_gen_buffer(size_t tb_size, Error **errp)
+-static bool alloc_code_gen_buffer(size_t tb_size, Error **errp)
++static bool alloc_code_gen_buffer(size_t tb_size, int splitwx, Error **errp)
  {
-     void *buf = static_code_gen_buffer;
-     void *end = static_code_gen_buffer + sizeof(static_code_gen_buffer);
-@@ -1027,9 +1028,8 @@ static inline void *alloc_code_gen_buffer(void)
-     size = end - buf;
+-    void *buf = static_code_gen_buffer;
+-    void *end = static_code_gen_buffer + sizeof(static_code_gen_buffer);
++    void *buf, *end;
+     size_t size;
  
-     /* Honor a command-line option limiting the size of the buffer.  */
--    if (size > tcg_ctx->code_gen_buffer_size) {
--        size = QEMU_ALIGN_DOWN(tcg_ctx->code_gen_buffer_size,
--                               qemu_real_host_page_size);
-+    if (size > tb_size) {
-+        size = QEMU_ALIGN_DOWN(tb_size, qemu_real_host_page_size);
-     }
-     tcg_ctx->code_gen_buffer_size = size;
- 
-@@ -1041,31 +1041,43 @@ static inline void *alloc_code_gen_buffer(void)
- #endif
- 
-     if (qemu_mprotect_rwx(buf, size)) {
--        abort();
-+        error_setg_errno(errp, errno, "mprotect of jit buffer");
-+        return false;
-     }
-     qemu_madvise(buf, size, QEMU_MADV_HUGEPAGE);
- 
--    return buf;
-+    tcg_ctx->code_gen_buffer = buf;
-+    return true;
- }
- #elif defined(_WIN32)
--static inline void *alloc_code_gen_buffer(void)
-+static bool alloc_code_gen_buffer(size_t size, Error **errp)
- {
--    size_t size = tcg_ctx->code_gen_buffer_size;
--    return VirtualAlloc(NULL, size, MEM_RESERVE | MEM_COMMIT,
--                        PAGE_EXECUTE_READWRITE);
-+    void *buf = VirtualAlloc(NULL, size, MEM_RESERVE | MEM_COMMIT,
-+                             PAGE_EXECUTE_READWRITE);
-+    if (buf == NULL) {
-+        error_setg_win32(errp, GetLastError(),
-+                         "allocate %zu bytes for jit buffer", size);
++    if (splitwx > 0) {
++        error_setg(errp, "jit split-wx not supported");
 +        return false;
 +    }
 +
-+    tcg_ctx->code_gen_buffer = buf;
-+    tcg_ctx->code_gen_buffer_size = size;
-+    return true;
+     /* page-align the beginning and end of the buffer */
++    buf = static_code_gen_buffer;
++    end = static_code_gen_buffer + sizeof(static_code_gen_buffer);
+     buf = QEMU_ALIGN_PTR_UP(buf, qemu_real_host_page_size);
+     end = QEMU_ALIGN_PTR_DOWN(end, qemu_real_host_page_size);
+ 
+@@ -1050,9 +1056,16 @@ static bool alloc_code_gen_buffer(size_t tb_size, Error **errp)
+     return true;
+ }
+ #elif defined(_WIN32)
+-static bool alloc_code_gen_buffer(size_t size, Error **errp)
++static bool alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
+ {
+-    void *buf = VirtualAlloc(NULL, size, MEM_RESERVE | MEM_COMMIT,
++    void *buf;
++
++    if (splitwx > 0) {
++        error_setg(errp, "jit split-wx not supported");
++        return false;
++    }
++
++    buf = VirtualAlloc(NULL, size, MEM_RESERVE | MEM_COMMIT,
+                              PAGE_EXECUTE_READWRITE);
+     if (buf == NULL) {
+         error_setg_win32(errp, GetLastError(),
+@@ -1065,12 +1078,17 @@ static bool alloc_code_gen_buffer(size_t size, Error **errp)
+     return true;
  }
  #else
--static inline void *alloc_code_gen_buffer(void)
-+static bool alloc_code_gen_buffer(size_t size, Error **errp)
+-static bool alloc_code_gen_buffer(size_t size, Error **errp)
++static bool alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
  {
      int prot = PROT_WRITE | PROT_READ | PROT_EXEC;
      int flags = MAP_PRIVATE | MAP_ANONYMOUS;
--    size_t size = tcg_ctx->code_gen_buffer_size;
      void *buf;
  
++    if (splitwx > 0) {
++        error_setg(errp, "jit split-wx not supported");
++        return false;
++    }
++
      buf = mmap(NULL, size, prot, flags, -1, 0);
      if (buf == MAP_FAILED) {
--        return NULL;
-+        error_setg_errno(errp, errno,
-+                         "allocate %zu bytes for jit buffer", size);
-+        return false;
-     }
-+    tcg_ctx->code_gen_buffer_size = size;
- 
- #ifdef __mips__
-     if (cross_256mb(buf, size)) {
-@@ -1104,20 +1116,11 @@ static inline void *alloc_code_gen_buffer(void)
-     /* Request large pages for the buffer.  */
-     qemu_madvise(buf, size, QEMU_MADV_HUGEPAGE);
- 
--    return buf;
-+    tcg_ctx->code_gen_buffer = buf;
-+    return true;
- }
- #endif /* USE_STATIC_CODE_GEN_BUFFER, WIN32, POSIX */
- 
--static inline void code_gen_alloc(size_t tb_size)
--{
--    tcg_ctx->code_gen_buffer_size = size_code_gen_buffer(tb_size);
--    tcg_ctx->code_gen_buffer = alloc_code_gen_buffer();
--    if (tcg_ctx->code_gen_buffer == NULL) {
--        fprintf(stderr, "Could not allocate dynamic translator buffer\n");
--        exit(1);
--    }
--}
--
- static bool tb_cmp(const void *ap, const void *bp)
- {
-     const TranslationBlock *a = ap;
-@@ -1144,11 +1147,16 @@ static void tb_htable_init(void)
+         error_setg_errno(errp, errno,
+@@ -1145,7 +1163,7 @@ static void tb_htable_init(void)
+ /* Must be called before using the QEMU cpus. 'tb_size' is the size
+    (in bytes) allocated to the translation buffer. Zero means default
     size. */
- void tcg_exec_init(unsigned long tb_size)
+-void tcg_exec_init(unsigned long tb_size)
++void tcg_exec_init(unsigned long tb_size, int splitwx)
  {
-+    bool ok;
-+
-     tcg_allowed = true;
-     cpu_gen_init();
+     bool ok;
+ 
+@@ -1154,7 +1172,8 @@ void tcg_exec_init(unsigned long tb_size)
      page_init();
      tb_htable_init();
--    code_gen_alloc(tb_size);
-+
-+    ok = alloc_code_gen_buffer(size_code_gen_buffer(tb_size), &error_fatal);
-+    assert(ok);
-+
+ 
+-    ok = alloc_code_gen_buffer(size_code_gen_buffer(tb_size), &error_fatal);
++    ok = alloc_code_gen_buffer(size_code_gen_buffer(tb_size),
++                               splitwx, &error_fatal);
+     assert(ok);
+ 
  #if defined(CONFIG_SOFTMMU)
-     /* There's no guest base to take into account, so go ahead and
-        initialize the prologue now.  */
+diff --git a/bsd-user/main.c b/bsd-user/main.c
+index ac40d79bfa..ffd4888a26 100644
+--- a/bsd-user/main.c
++++ b/bsd-user/main.c
+@@ -910,7 +910,7 @@ int main(int argc, char **argv)
+     }
+ 
+     /* init tcg before creating CPUs and to get qemu_host_page_size */
+-    tcg_exec_init(0);
++    tcg_exec_init(0, false);
+ 
+     cpu_type = parse_cpu_option(cpu_model);
+     cpu = cpu_create(cpu_type);
+diff --git a/linux-user/main.c b/linux-user/main.c
+index 75c9785157..3856b2611d 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -705,7 +705,7 @@ int main(int argc, char **argv, char **envp)
+     cpu_type = parse_cpu_option(cpu_model);
+ 
+     /* init tcg before creating CPUs and to get qemu_host_page_size */
+-    tcg_exec_init(0);
++    tcg_exec_init(0, false);
+ 
+     cpu = cpu_create(cpu_type);
+     env = cpu->env_ptr;
 -- 
 2.25.1
 
