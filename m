@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFE212A965C
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 13:45:12 +0100 (CET)
-Received: from localhost ([::1]:41656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD08B2A966B
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 13:48:46 +0100 (CET)
+Received: from localhost ([::1]:56590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kb179-0005H3-JH
-	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 07:45:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59908)
+	id 1kb1Ab-000317-Sd
+	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 07:48:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kb154-0002ki-6S; Fri, 06 Nov 2020 07:43:02 -0500
-Received: from relay.sw.ru ([185.231.240.75]:48164 helo=relay3.sw.ru)
+ id 1kb15O-00034n-Be; Fri, 06 Nov 2020 07:43:22 -0500
+Received: from relay.sw.ru ([185.231.240.75]:48318 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kb14w-0001LB-VT; Fri, 06 Nov 2020 07:43:01 -0500
+ id 1kb15K-0001Tf-EK; Fri, 06 Nov 2020 07:43:21 -0500
 Received: from [172.16.25.136] (helo=localhost.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.94)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kb14T-007cZw-UE; Fri, 06 Nov 2020 15:42:25 +0300
+ id 1kb14r-007cZw-Fg; Fri, 06 Nov 2020 15:42:49 +0300
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, jcody@redhat.com, kwolf@redhat.com,
  mreitz@redhat.com, armbru@redhat.com, dgilbert@redhat.com,
  pbonzini@redhat.com, eblake@redhat.com, marcandre.lureau@redhat.com,
  den@openvz.org, vsementsov@virtuozzo.com, andrey.shinkevich@virtuozzo.com
-Subject: [PATCH 1/2] iotests: add another bash sleep command to 247
-Date: Fri,  6 Nov 2020 15:42:01 +0300
-Message-Id: <1604666522-545580-2-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH 2/2] monitor: increase amount of data for monitor to read
+Date: Fri,  6 Nov 2020 15:42:02 +0300
+Message-Id: <1604666522-545580-3-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1604666522-545580-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1604666522-545580-1-git-send-email-andrey.shinkevich@virtuozzo.com>
@@ -58,40 +58,298 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 From: Andrey Shinkevich via <qemu-devel@nongnu.org>
 
-This patch paves the way for the one that follows. The following patch
-makes the QMP monitor to read up to 4K from stdin at once. That results
-in running the bash 'sleep' command before the _qemu_proc_exec() starts
-in subshell. Another 'sleep' command with an unobtrusive 'query-status'
-plays as a workaround.
+QMP and HMP monitors read one byte at a time from the socket or stdin,
+which is very inefficient. With 100+ VMs on the host, this results in
+multiple extra system calls and CPU overuse.
+This patch increases the amount of read data up to 4096 bytes that fits
+the buffer size on the channel level.
 
+Suggested-by: Denis V. Lunev <den@openvz.org>
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 ---
- tests/qemu-iotests/247     | 2 ++
- tests/qemu-iotests/247.out | 1 +
- 2 files changed, 3 insertions(+)
+ chardev/char-fd.c          | 64 +++++++++++++++++++++++++++++++++++++++++++++-
+ chardev/char-socket.c      | 54 +++++++++++++++++++++++++++-----------
+ chardev/char.c             | 40 +++++++++++++++++++++++++++++
+ include/chardev/char.h     | 15 +++++++++++
+ monitor/monitor.c          |  2 +-
+ tests/qemu-iotests/247.out |  2 +-
+ 6 files changed, 159 insertions(+), 18 deletions(-)
 
-diff --git a/tests/qemu-iotests/247 b/tests/qemu-iotests/247
-index 87e37b3..7d316ec 100755
---- a/tests/qemu-iotests/247
-+++ b/tests/qemu-iotests/247
-@@ -59,6 +59,8 @@ TEST_IMG="$TEST_IMG.4" _make_test_img $size
- {"execute":"block-commit",
-  "arguments":{"device":"format-4", "top-node": "format-2", "base-node":"format-0", "job-id":"job0"}}
- EOF
-+sleep 1
-+echo '{"execute":"query-status"}'
- if [ "${VALGRIND_QEMU}" == "y" ]; then
-     sleep 10
- else
+diff --git a/chardev/char-fd.c b/chardev/char-fd.c
+index 1cd62f2..6194fe6 100644
+--- a/chardev/char-fd.c
++++ b/chardev/char-fd.c
+@@ -33,6 +33,8 @@
+ #include "chardev/char-fd.h"
+ #include "chardev/char-io.h"
+ 
++#include "monitor/monitor-internal.h"
++
+ /* Called with chr_write_lock held.  */
+ static int fd_chr_write(Chardev *chr, const uint8_t *buf, int len)
+ {
+@@ -41,7 +43,7 @@ static int fd_chr_write(Chardev *chr, const uint8_t *buf, int len)
+     return io_channel_send(s->ioc_out, buf, len);
+ }
+ 
+-static gboolean fd_chr_read(QIOChannel *chan, GIOCondition cond, void *opaque)
++static gboolean fd_chr_read_hmp(QIOChannel *chan, void *opaque)
+ {
+     Chardev *chr = CHARDEV(opaque);
+     FDChardev *s = FD_CHARDEV(opaque);
+@@ -71,6 +73,66 @@ static gboolean fd_chr_read(QIOChannel *chan, GIOCondition cond, void *opaque)
+     return TRUE;
+ }
+ 
++static gboolean fd_chr_read_qmp(QIOChannel *chan, void *opaque)
++{
++    static JSONthrottle thl = {0};
++    uint8_t *start;
++    Chardev *chr = CHARDEV(opaque);
++    FDChardev *s = FD_CHARDEV(opaque);
++    int len, size, pos;
++    ssize_t ret;
++
++    if (!thl.load) {
++        len = sizeof(thl.buf);
++        if (len > s->max_size) {
++            len = s->max_size;
++        }
++        if (len == 0) {
++            return TRUE;
++        }
++
++        ret = qio_channel_read(
++            chan, (gchar *)thl.buf, len, NULL);
++        if (ret == 0) {
++            remove_fd_in_watch(chr);
++            qemu_chr_be_event(chr, CHR_EVENT_CLOSED);
++            thl = (const JSONthrottle){0};
++            return FALSE;
++        }
++        if (ret < 0) {
++            return TRUE;
++        }
++        thl.load = ret;
++        thl.cursor = 0;
++    }
++
++    size = thl.load;
++    start = thl.buf + thl.cursor;
++    pos = qemu_chr_end_position((const char *) start, size, &thl);
++    if (pos >= 0) {
++        size = pos + 1;
++    }
++
++    qemu_chr_be_write(chr, start, size);
++    thl.cursor += size;
++    thl.load -= size;
++
++    return TRUE;
++}
++
++static gboolean fd_chr_read(QIOChannel *chan, GIOCondition cond, void *opaque)
++{
++    Chardev *chr = CHARDEV(opaque);
++    CharBackend *be = chr->be;
++    Monitor *mon = (Monitor *)be->opaque;
++
++    if (monitor_is_qmp(mon)) {
++        return fd_chr_read_qmp(chan, opaque);
++    }
++
++    return fd_chr_read_hmp(chan, opaque);
++}
++
+ static int fd_chr_read_poll(void *opaque)
+ {
+     Chardev *chr = CHARDEV(opaque);
+diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+index 213a4c8..8335e8c 100644
+--- a/chardev/char-socket.c
++++ b/chardev/char-socket.c
+@@ -520,30 +520,54 @@ static void tcp_chr_disconnect(Chardev *chr)
+ 
+ static gboolean tcp_chr_read(QIOChannel *chan, GIOCondition cond, void *opaque)
+ {
++    static JSONthrottle thl = {0};
++    uint8_t *start;
+     Chardev *chr = CHARDEV(opaque);
+     SocketChardev *s = SOCKET_CHARDEV(opaque);
+-    uint8_t buf[CHR_READ_BUF_LEN];
+-    int len, size;
++    int len, size, pos;
+ 
+     if ((s->state != TCP_CHARDEV_STATE_CONNECTED) ||
+         s->max_size <= 0) {
+         return TRUE;
+     }
+-    len = sizeof(buf);
+-    if (len > s->max_size) {
+-        len = s->max_size;
+-    }
+-    size = tcp_chr_recv(chr, (void *)buf, len);
+-    if (size == 0 || (size == -1 && errno != EAGAIN)) {
+-        /* connection closed */
+-        tcp_chr_disconnect(chr);
+-    } else if (size > 0) {
+-        if (s->do_telnetopt) {
+-            tcp_chr_process_IAC_bytes(chr, s, buf, &size);
++
++    if (!thl.load) {
++        len = sizeof(thl.buf);
++        if (len > s->max_size) {
++            len = s->max_size;
++        }
++        size = tcp_chr_recv(chr, (void *)thl.buf, len);
++        if (size == 0 || (size == -1 && errno != EAGAIN)) {
++            /* connection closed */
++            tcp_chr_disconnect(chr);
++            thl = (const JSONthrottle){0};
++            return TRUE;
+         }
+-        if (size > 0) {
+-            qemu_chr_be_write(chr, buf, size);
++        if (size < 0) {
++            return TRUE;
+         }
++        thl.load = size;
++        thl.cursor = 0;
++    }
++
++    size = thl.load;
++    start = thl.buf + thl.cursor;
++    pos = qemu_chr_end_position((const char *) start, size, &thl);
++    if (pos >= 0) {
++        size = pos + 1;
++    }
++    len = size;
++
++    if (s->do_telnetopt) {
++        tcp_chr_process_IAC_bytes(chr, s, start, &size);
++    }
++    if (size > 0) {
++        qemu_chr_be_write(chr, start, size);
++        thl.cursor += size;
++        thl.load -= size;
++    } else {
++        thl.cursor += len;
++        thl.load -= len;
+     }
+ 
+     return TRUE;
+diff --git a/chardev/char.c b/chardev/char.c
+index aa42821..251c97c 100644
+--- a/chardev/char.c
++++ b/chardev/char.c
+@@ -1178,6 +1178,46 @@ GSource *qemu_chr_timeout_add_ms(Chardev *chr, guint ms,
+     return source;
+ }
+ 
++/*
++ * Split the incoming buffered stream so that the QMP monitor queue is not
++ * overwhelmed with requests. The function looks for the last paired
++ * brace/bracket in a JSON command.
++ */
++int qemu_chr_end_position(const char *buf, int size, JSONthrottle *thl)
++{
++    int i;
++
++    for (i = 0; i < size; i++) {
++        switch (buf[i]) {
++        case ' ':
++        case '\n':
++        case '\r':
++            continue;
++        case '{':
++            thl->brace_count++;
++            break;
++        case '}':
++            thl->brace_count--;
++            break;
++        case '[':
++            thl->bracket_count++;
++            break;
++        case ']':
++            thl->bracket_count--;
++            break;
++        default:
++            break;
++        }
++        /* The same condition as it is in the json_message_process_token() */
++        if ((thl->brace_count > 0 || thl->bracket_count > 0)
++            && thl->brace_count >= 0 && thl->bracket_count >= 0) {
++            continue;
++        }
++        return i;
++    }
++    return -1;
++}
++
+ void qemu_chr_cleanup(void)
+ {
+     object_unparent(get_chardevs_root());
+diff --git a/include/chardev/char.h b/include/chardev/char.h
+index db42f0a..5f02731 100644
+--- a/include/chardev/char.h
++++ b/include/chardev/char.h
+@@ -70,6 +70,14 @@ struct Chardev {
+     DECLARE_BITMAP(features, QEMU_CHAR_FEATURE_LAST);
+ };
+ 
++typedef struct {
++    uint8_t buf[CHR_READ_BUF_LEN];
++    int load;
++    int cursor;
++    int brace_count;
++    int bracket_count;
++} JSONthrottle;
++
+ /**
+  * qemu_chr_new_from_opts:
+  * @opts: see qemu-config.c for a list of valid options
+@@ -141,6 +149,13 @@ Chardev *qemu_chr_new_mux_mon(const char *label, const char *filename,
+ void qemu_chr_change(QemuOpts *opts, Error **errp);
+ 
+ /**
++ * Split the incoming buffered stream so that the QMP monitor queue is not
++ * overwhelmed with requests. The function looks for the last paired
++ * brace/bracket in a JSON command.
++ */
++int qemu_chr_end_position(const char *buf, int size, JSONthrottle *thl);
++
++/**
+  * qemu_chr_cleanup:
+  *
+  * Delete all chardevs (when leaving qemu)
+diff --git a/monitor/monitor.c b/monitor/monitor.c
+index 84222cd..43d2d3b 100644
+--- a/monitor/monitor.c
++++ b/monitor/monitor.c
+@@ -566,7 +566,7 @@ int monitor_can_read(void *opaque)
+ {
+     Monitor *mon = opaque;
+ 
+-    return !qatomic_mb_read(&mon->suspend_cnt);
++    return !qatomic_mb_read(&mon->suspend_cnt) ? CHR_READ_BUF_LEN : 0;
+ }
+ 
+ void monitor_list_append(Monitor *mon)
 diff --git a/tests/qemu-iotests/247.out b/tests/qemu-iotests/247.out
-index e909e83..13d9547 100644
+index 13d9547..2758662 100644
 --- a/tests/qemu-iotests/247.out
 +++ b/tests/qemu-iotests/247.out
-@@ -17,6 +17,7 @@ QMP_VERSION
+@@ -12,12 +12,12 @@ QMP_VERSION
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "job0"}}
+ {"return": {}}
++{"return": {"status": "running", "singlestep": false, "running": true}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "pending", "id": "job0"}}
  {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_COMPLETED", "data": {"device": "job0", "len": 134217728, "offset": 134217728, "speed": 0, "type": "commit"}}
  {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "job0"}}
  {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "job0"}}
-+{"return": {"status": "running", "singlestep": false, "running": true}}
+-{"return": {"status": "running", "singlestep": false, "running": true}}
  {"return": {}}
  {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
  *** done
