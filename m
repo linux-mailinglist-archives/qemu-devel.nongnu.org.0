@@ -2,84 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEA202A9C46
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 19:32:56 +0100 (CET)
-Received: from localhost ([::1]:40244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E585E2A9C6A
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 19:37:42 +0100 (CET)
+Received: from localhost ([::1]:49790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kb6Xf-0003Wz-PY
-	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 13:32:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55988)
+	id 1kb6cI-0007fA-1b
+	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 13:37:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kb6W4-0002D1-Uk
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 13:31:16 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:54395)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kb6Zs-00065E-9s
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 13:35:12 -0500
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:44334)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kb6W3-0005ps-FV
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 13:31:16 -0500
-Received: by mail-wm1-x342.google.com with SMTP id d142so2376776wmd.4
- for <qemu-devel@nongnu.org>; Fri, 06 Nov 2020 10:31:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=4S5EHSOhe3KRg5YDUFaFDV2yZBRJM7s955Tyd+1W/60=;
- b=JTYxWRE6+1vA2VQ6FvVxfR3vpR96HtczEFKCmqZwGWfhKBwCQZa9XP+lvEemv0Ej1a
- veYwaJrop3J2WdaFQznyOBzW6QBzlB7EX+djjE2P/TYe0avzSlssjVgvSXtfkXT0VeEF
- 62Skim8pEi9IS1O3nXAdG3YmslzonBdBGrpiEbxbXDTH0H3Z5YtExnJM2yAt3y9EtQc7
- /M9Rit8WjPgGoLddEkrOBBsAY0AR88VpyWdyI32KaYtJw/SSPs4uWxkYg1GbrmPNNtCJ
- eol3a+Mh1/itg4R68IgKxaMan5+tGOh+/QDQ2WhAhhmgVs8GAbI9abfAFPT6UzQ7OqTG
- Egnw==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kb6Zq-00067K-GF
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 13:35:11 -0500
+Received: by mail-ej1-x644.google.com with SMTP id o23so3254178ejn.11
+ for <qemu-devel@nongnu.org>; Fri, 06 Nov 2020 10:35:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=bid9L2l71ryAEZrdck7fYPssKawT3LRygbcGiQgqTdw=;
+ b=H+DE5UfxGLXPLcfrHbbthqYLsKAs+BLtCP60VdXrD0EriQlhAYZMxAQ7me78jdvrxi
+ 8ZO3pbKLWzLopI1DQPUWU/sA9hqvYy98GL4+pBBn2Yj2d+zR4wSLyPKB6tKAL8G1Z+VD
+ OgBzWiSYsCAfYIyFnMxEMZMXbsqBcFQwj1PGEm18BWwkUZpbnNDq2zfCU5CAZRySGd/R
+ 7GmKJD7EW5SVP1XJWav4EwTO727NQDjXko3HErxSJEiTk3gS+FK70YFWB1eTkSzRexWA
+ aA5p9LiuAz5ZMIW7zPmI4aNG93CsxiD2SXbtbPPH2PWYq3LC+eOYVbx+VLg9FICSr3kI
+ lNpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=4S5EHSOhe3KRg5YDUFaFDV2yZBRJM7s955Tyd+1W/60=;
- b=ejBdZgdVDsekSp8mZvzrnk6lhQFx1ONlBjEmGKdzyRMMdjl3eVuezvFZPCa8vjinL2
- k+OwIvzbWO0oSd0LSVGGbkpFrlhrlEbteyNAol/fPCtbhIFshFoGTucBLTYAPkp/jFYk
- QX6ERQLwUqjnGM75gw+OWnsKKS7/baLqTEXExmTZIaM4Xs9qporaNkAZshOK8RDDyo2O
- 2+UQgGSKd9BRsmlRend+yeKBJsHf/LdZO0kELOpBg5gOXloCbJatFBM/0q52jUydPYmM
- 77o2pBMB/Wecgg41e4Uq1IsM735KTv0caFy7BWrz8To6RVNqZmdRoXYUyyQgmnpkWTMc
- L+kA==
-X-Gm-Message-State: AOAM533GzxvX6vtSUnOlp9TLozTWa6RAr0FrnvI7tySaC6o53wQ4sLRR
- /Z7DHYY/IbBJHKBnZCm3MHo=
-X-Google-Smtp-Source: ABdhPJwt+at82tGhWpXp5wyLNflDkNdmXaoOkjkM2McbLGKuinWhU77fx+kw66svNdHA2wFtUpQxVQ==
-X-Received: by 2002:a1c:e286:: with SMTP id z128mr939878wmg.33.1604687474229; 
- Fri, 06 Nov 2020 10:31:14 -0800 (PST)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id c8sm3358734wrv.26.2020.11.06.10.31.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Nov 2020 10:31:13 -0800 (PST)
-Subject: Re: [PATCH for-5.2 4/4] hw/net/ctucan_core: Use stl_le_p to write to
- tx_buffers
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=bid9L2l71ryAEZrdck7fYPssKawT3LRygbcGiQgqTdw=;
+ b=XaCKYHiW5qeLzKmPOpRm0buqeYuCTBUU3wNzTfUs0VWL8sOzXLlsBch3yM5/28AAKD
+ h8/cBbIJ4fUVqTfmkobWTTGj6dziUJSaXgeNo5u4Rped8fbRZvINPFSiIkamB7j3nGoN
+ okg5JQMFg3FViHzA/wnMCgYJ5DWp9H1dRRw92/SESCP6bs+TQkhGJxkYuoEBXI6xAfjr
+ if51xBzs4oWoX943W5GGNyLEfIyeTQvUSDLE6i3XVkBYs5SC7xTpkIBPjrkfQi7DAgwq
+ 2cGNystoD1jbmcGTGJGmsniue9zA2bkdyL+zvd42xudGj/YZUC02Exy7p0psaKktqzAJ
+ oeeg==
+X-Gm-Message-State: AOAM532HvWY+SlG1lQYlKvJPuutBDW6FH2Fha2UDoWneSbOiwXW3ZfsL
+ VmWx4DtTDWxhiYkUfO868yKaIHFXhRyRmZlGur9qNg==
+X-Google-Smtp-Source: ABdhPJwpMi/rCjocBakhDNXQk6b5P0ab5SuZvaAMvnGdTGtuk7EXAvNBX/ouYoom4h8V2gkiCYYG5oZa7Cu91l1cBvs=
+X-Received: by 2002:a17:906:6949:: with SMTP id
+ c9mr3390785ejs.482.1604687708752; 
+ Fri, 06 Nov 2020 10:35:08 -0800 (PST)
+MIME-Version: 1.0
 References: <20201106171153.32673-1-peter.maydell@linaro.org>
  <20201106171153.32673-5-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <b545a78d-7b11-7c6d-cdf7-bf20272b8fd6@amsat.org>
-Date: Fri, 6 Nov 2020 19:31:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
-MIME-Version: 1.0
-In-Reply-To: <20201106171153.32673-5-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+ <202011061918.33313.pisa@cmp.felk.cvut.cz>
+In-Reply-To: <202011061918.33313.pisa@cmp.felk.cvut.cz>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 6 Nov 2020 18:34:57 +0000
+Message-ID: <CAFEAcA-Q9AgjBN4e+zRWyehKZrcwEX0Ojsn7i99ezz_9BeRDbQ@mail.gmail.com>
+Subject: Re: [PATCH for-5.2 4/4] hw/net/ctucan_core: Use stl_le_p to write to
+ tx_buffers
+To: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,33 +83,30 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Jason Wang <jasowang@redhat.com>, Vikram Garhwal <fnu.vikram@xilinx.com>,
- Pavel Pisa <pisa@cmp.felk.cvut.cz>
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/6/20 6:11 PM, Peter Maydell wrote:
-> Instead of casting an address within a uint8_t array to a
-> uint32_t*, use stl_le_p(). This handles possibly misaligned
-> addresses which would otherwise crash on some hosts.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  hw/net/can/ctucan_core.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/hw/net/can/ctucan_core.c b/hw/net/can/ctucan_core.c
-> index f2ce978e5ec..e66526efa83 100644
-> --- a/hw/net/can/ctucan_core.c
-> +++ b/hw/net/can/ctucan_core.c
-> @@ -305,8 +305,7 @@ void ctucan_mem_write(CtuCanCoreState *s, hwaddr addr, uint64_t val,
->          addr %= CTUCAN_CORE_TXBUFF_SPAN;
->          assert(buff_num < CTUCAN_CORE_TXBUF_NUM);
->          if (addr < sizeof(s->tx_buffer[buff_num].data)) {
-> -            uint32_t *bufp = (uint32_t *)(s->tx_buffer[buff_num].data + addr);
-> -            *bufp = cpu_to_le32(val);
-> +            stl_le_p(s->tx_buffer[buff_num].data + addr, val);
+On Fri, 6 Nov 2020 at 18:19, Pavel Pisa <pisa@cmp.felk.cvut.cz> wrote:
+> On Friday 06 of November 2020 18:11:53 Peter Maydell wrote:
+> > Instead of casting an address within a uint8_t array to a
+> > uint32_t*, use stl_le_p(). This handles possibly misaligned
+> > addresses which would otherwise crash on some hosts.
+> >
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> > ---
 
-Out of curiosity, how did you notice? Passing by while reviewing?
+> even that I do not like stl_le_p name, because it differs from the Linux
+> kernel one. cpu_to_le32 matches. The pointer variant is cpu_to_le32p
+> on Linux kernel side, I think. stl is strange name and l for long
+> is problematic as well, if it is st32_le_p or st_le32_p I would recognize
+> that much easier.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+QEMU is not the kernel. We have our own naming conventions
+and our own APIs. I agree that the b/w/l/q suffixing
+is less intuitive than 8/16/32/64, but we have a lot of
+functions using that convention, and the API is what it is.
+
+thanks
+-- PMM
 
