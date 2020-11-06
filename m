@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7928D2A8D8F
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 04:36:37 +0100 (CET)
-Received: from localhost ([::1]:38118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EBD92A8DA7
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 04:42:54 +0100 (CET)
+Received: from localhost ([::1]:36080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kasYG-0004fc-HI
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 22:36:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47022)
+	id 1kaseL-000700-1R
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 22:42:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kasRf-0004sv-R1
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 22:29:47 -0500
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:38999)
+ id 1kasRg-0004tb-27
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 22:29:48 -0500
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:44939)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kasRc-0006x4-Jo
+ id 1kasRd-0006xO-Lu
  for qemu-devel@nongnu.org; Thu, 05 Nov 2020 22:29:47 -0500
-Received: by mail-pf1-x442.google.com with SMTP id z3so45447pfz.6
- for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 19:29:43 -0800 (PST)
+Received: by mail-pf1-x442.google.com with SMTP id y7so28322pfq.11
+ for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 19:29:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QxiqvQ209wXHxoJuZyW/ayX9Rmszqy3dKezpaxev5Pc=;
- b=TSmWNu5fGLyzHJJu9w08BvM4mojzlhQfiimiZuHvYITzrSh/8++k6IrCnS9ilUMPzR
- 99N8C1HP2APDXp/TmDXA1ecVQIK/SeVOoaYEm6wY6FjjY4IJ9DSCDzYlO/D8XHgM8QyH
- EfJWGOKMhfp/sSr0cmI9RGC6hojUWEOqhW3T8alRR4FVNdC9oVCMEhFhJj3DgX2cqs+O
- GSfSW06TExb7BOrTlO3bdVJ0WaRhSqvxJ8NvaAP17XfD3DcSRux+XgGIuIXq7HNxPqsz
- cR9+XNILqRNbt2IaTOR+SsWIGAJsGOH1QyxeNJCh5xE+OJfKRvqLGU35d6AZw+JwjLkv
- Jp8A==
+ bh=lq4IkwTkjjjV6cEfjyzqrZr7JH5rLAW05aEI0Sl+9Jw=;
+ b=L7gUHdwguNP4jAPxpnFrHEN0Zm+hJa/7DI9lwXNVrV/UmOQEC6wB/jqvRCwuELzI8/
+ rRARviqfWrnGWfUwAbBwHQDmNpUYk/j0mWI8rNByReuPcoqFkA8ci4GLWA9e4Zwu1U5z
+ N1mEVstlRexLy3mhvFVjB3h88w83IB0YnCOlDD0qTtMPDk5xarHdVmbpOqGPke7sjeQg
+ L1hUfU104zpzpTcV1FYrtaJDaprf9EYglOVaKubllZL5MFyrV4XBuSMfhwNk4K/KWVVU
+ cVNtdvb+3UXXspiPO1gdMw/y1NCvbl1M5VTw85Vl2sxsQZYAL1vbHq2xbRLVeT+dnaIm
+ Tt4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QxiqvQ209wXHxoJuZyW/ayX9Rmszqy3dKezpaxev5Pc=;
- b=QeRmcBi3Y5BPgZACPv5yGb+w4DmVHbTOmPYgR72dqxy1vTJO7Uo2Hr2S6oWJh2csTy
- gEOqvKYJgX//rC1rbP80HQZGVkxj8prI29syju9rRJghV2vJjloHGJJBHUK0SDFOw8ow
- r0XZZrV5KMiCDagRmoRKfc/esVLBLrDiLIDaEKD2lfC1cgP3tun6OPFEZBpFJfSkqUiI
- sd9gXan2O5P38mAx0kMkBmHZrPuD6gs60Y5APhHzxxZOUlbl3Z+fPshNFgQ9KvNIchyC
- 6eumxB6AqvC4POMGwEIrJ6Gatdr1zIUw8L0jRJe13quUk6HWulhcgk6jNMrdIYcjBN0Q
- le4g==
-X-Gm-Message-State: AOAM530hnICOiYwksflDm6DVWir7TYAXAsCXw/d0AduT6K7pzeUECnHv
- DILuiNRAsHNmwdt00gfRYcfj8OZP0llgJA==
-X-Google-Smtp-Source: ABdhPJwC8nKRQBeSgXlFT1QLMFd4F4bnVLsuvrmNB2FMvsoZBEedc+GLhSsEPANltyKCupua3WNESQ==
-X-Received: by 2002:a63:134d:: with SMTP id 13mr5293337pgt.370.1604633382549; 
- Thu, 05 Nov 2020 19:29:42 -0800 (PST)
+ bh=lq4IkwTkjjjV6cEfjyzqrZr7JH5rLAW05aEI0Sl+9Jw=;
+ b=pt2IjQdEci1BrLPW4r4alENKxW5Kk4Ja5TEVLys0jWl8awLvskL7A9EVUugc7lR1ou
+ l6smo0It/5HaKXrMjv08bx/wA9BWlYAaD1luTW6KARyZ0V7dcxGSlzjPfWM9fag2FWil
+ sRCFH3cahelxnc7izENLtLbiDKt7LYEKzHI+mHwQYLGdqO65yT2W2sfpWXRtwngriG/9
+ QijGgD1HZzRkSpFWLe1IOjM4rmDHLfoQ9LhHhH9BAKiSwuq73VC6ETtD8sDmbLAMeb2t
+ v4Hwc7mLuFoJDtQ1ghfHc6fNQ9433Nm73k4PCuZJPCTjvaGxTW29MMHSslNkaLPZYner
+ RtHQ==
+X-Gm-Message-State: AOAM532lHft/XKnHX/8+S6NXoW7tR8Pu21hqrbVsman/o08BUTsE3MgY
+ REye0FSZ0p3MjMPR3/KEtXFhHVezLEuUvQ==
+X-Google-Smtp-Source: ABdhPJz00PzHzCtmUoiVhdR1vXp3DQwHjq94TIr0/r+y5W5hTDSziRxyOTECinXCM7jX0odc3q2Mkw==
+X-Received: by 2002:aa7:96ce:0:b029:155:8c02:e74a with SMTP id
+ h14-20020aa796ce0000b02901558c02e74amr722pfq.32.1604633384041; 
+ Thu, 05 Nov 2020 19:29:44 -0800 (PST)
 Received: from localhost.localdomain (76-14-210-194.or.wavecable.com.
  [76.14.210.194])
- by smtp.gmail.com with ESMTPSA id i10sm40773pfd.60.2020.11.05.19.29.41
+ by smtp.gmail.com with ESMTPSA id i10sm40773pfd.60.2020.11.05.19.29.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 19:29:41 -0800 (PST)
+ Thu, 05 Nov 2020 19:29:43 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 15/41] accel/tcg: Support split-wx for linux with memfd
-Date: Thu,  5 Nov 2020 19:28:55 -0800
-Message-Id: <20201106032921.600200-16-richard.henderson@linaro.org>
+Subject: [PATCH v3 16/41] accel/tcg: Support split-wx for darwin/iOS with
+ vm_remap
+Date: Thu,  5 Nov 2020 19:28:56 -0800
+Message-Id: <20201106032921.600200-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201106032921.600200-1-richard.henderson@linaro.org>
 References: <20201106032921.600200-1-richard.henderson@linaro.org>
@@ -89,120 +91,100 @@ Cc: j@getutm.app
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We cannot use a real temp file, because we would need to find
-a filesystem that does not have noexec enabled.  However, a
-memfd is not associated with any filesystem.
+Cribbed from code posted by Joelle van Dyne <j@getutm.app>,
+and rearranged to a cleaner structure.  Completely untested.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/translate-all.c | 84 +++++++++++++++++++++++++++++++++++----
- 1 file changed, 76 insertions(+), 8 deletions(-)
+ accel/tcg/translate-all.c | 65 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 65 insertions(+)
 
 diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index a29cb4a42e..1931e65365 100644
+index 1931e65365..17df6c94fa 100644
 --- a/accel/tcg/translate-all.c
 +++ b/accel/tcg/translate-all.c
-@@ -1078,17 +1078,11 @@ static bool alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
-     return true;
+@@ -1166,9 +1166,71 @@ static bool alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **errp)
  }
- #else
--static bool alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
-+static bool alloc_code_gen_buffer_anon(size_t size, int prot,
-+                                       int flags, Error **errp)
- {
--    int prot = PROT_WRITE | PROT_READ | PROT_EXEC;
--    int flags = MAP_PRIVATE | MAP_ANONYMOUS;
-     void *buf;
+ #endif /* CONFIG_POSIX */
  
--    if (splitwx > 0) {
--        error_setg(errp, "jit split-wx not supported");
--        return false;
--    }
--
-     buf = mmap(NULL, size, prot, flags, -1, 0);
-     if (buf == MAP_FAILED) {
-         error_setg_errno(errp, errno,
-@@ -1137,6 +1131,80 @@ static bool alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
-     tcg_ctx->code_gen_buffer = buf;
-     return true;
- }
++#ifdef CONFIG_DARWIN
++#include <mach/mach.h>
 +
-+#ifdef CONFIG_POSIX
-+#include "qemu/memfd.h"
++extern kern_return_t mach_vm_remap(vm_map_t target_task,
++                                   mach_vm_address_t *target_address,
++                                   mach_vm_size_t size,
++                                   mach_vm_offset_t mask,
++                                   int flags,
++                                   vm_map_t src_task,
++                                   mach_vm_address_t src_address,
++                                   boolean_t copy,
++                                   vm_prot_t *cur_protection,
++                                   vm_prot_t *max_protection,
++                                   vm_inherit_t inheritance);
 +
-+static bool alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **errp)
++static bool alloc_code_gen_buffer_splitwx_vmremap(size_t size, Error **errp)
 +{
-+    void *buf_rw, *buf_rx;
-+    int fd = -1;
++    kern_return_t ret;
++    mach_vm_address_t buf_rw, buf_rx;
++    vm_prot_t cur_prot, max_prot;
 +
-+    buf_rw = qemu_memfd_alloc("tcg-jit", size, 0, &fd, errp);
-+    if (buf_rw == NULL) {
++    /* Map the read-write portion via normal anon memory. */
++    if (!alloc_code_gen_buffer_anon(size, PROT_READ | PROT_WRITE,
++                                    MAP_PRIVATE | MAP_ANONYMOUS, errp)) {
 +        return false;
 +    }
 +
-+    buf_rx = mmap(NULL, size, PROT_READ | PROT_EXEC, MAP_SHARED, fd, 0);
-+    if (buf_rx == MAP_FAILED) {
-+        error_setg_errno(errp, errno,
-+                         "failed to map shared memory for execute");
-+        munmap(buf_rw, size);
-+        close(fd);
++    buf_rw = (mach_vm_address_t)tcg_ctx->code_gen_buffer;
++    buf_rx = 0;
++    ret = mach_vm_remap(mach_task_self(),
++                        &buf_rx,
++                        size,
++                        0,
++                        VM_FLAGS_ANYWHERE,
++                        mach_task_self(),
++                        buf_rw,
++                        false,
++                        &cur_prot,
++                        &max_prot,
++                        VM_INHERIT_NONE);
++    if (ret != KERN_SUCCESS) {
++        /* TODO: Convert "ret" to a human readable error message. */
++        error_setg(errp, "vm_remap for jit splitwx failed");
++        munmap((void *)buf_rw, size);
 +        return false;
 +    }
-+    close(fd);
 +
-+    tcg_ctx->code_gen_buffer = buf_rw;
-+    tcg_ctx->code_gen_buffer_size = size;
++    if (mprotect((void *)buf_rx, size, PROT_READ | PROT_EXEC) != 0) {
++        error_setg_errno(errp, errno, "mprotect for jit splitwx");
++        munmap((void *)buf_rx, size);
++        munmap((void *)buf_rw, size);
++        return false;
++    }
++
 +    tcg_splitwx_diff = buf_rx - buf_rw;
-+
-+    /* Request large pages for the buffer and the splitwx.  */
-+    qemu_madvise(buf_rw, size, QEMU_MADV_HUGEPAGE);
-+    qemu_madvise(buf_rx, size, QEMU_MADV_HUGEPAGE);
 +    return true;
 +}
-+#endif /* CONFIG_POSIX */
++#endif /* CONFIG_DARWIN */
 +
-+static bool alloc_code_gen_buffer_splitwx(size_t size, Error **errp)
-+{
-+    if (TCG_TARGET_SUPPORT_MIRROR) {
-+#ifdef CONFIG_POSIX
-+        return alloc_code_gen_buffer_splitwx_memfd(size, errp);
+ static bool alloc_code_gen_buffer_splitwx(size_t size, Error **errp)
+ {
+     if (TCG_TARGET_SUPPORT_MIRROR) {
++#ifdef CONFIG_DARWIN
++        return alloc_code_gen_buffer_splitwx_vmremap(size, errp);
 +#endif
-+    }
-+    error_setg(errp, "jit split-wx not supported");
-+    return false;
-+}
-+
-+static bool alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
-+{
-+    ERRP_GUARD();
-+    int prot, flags;
-+
-+    if (splitwx) {
-+        if (alloc_code_gen_buffer_splitwx(size, errp)) {
-+            return true;
-+        }
-+        /*
-+         * If splitwx force-on (1), fail;
-+         * if splitwx default-on (-1), fall through to splitwx off.
-+         */
-+        if (splitwx > 0) {
-+            return false;
-+        }
-+        error_free_or_abort(errp);
-+    }
-+
-+    prot = PROT_READ | PROT_WRITE | PROT_EXEC;
-+    flags = MAP_PRIVATE | MAP_ANONYMOUS;
-+#ifdef CONFIG_TCG_INTERPRETER
-+    /* The tcg interpreter does not need execute permission. */
-+    prot = PROT_READ | PROT_WRITE;
-+#endif
-+
-+    return alloc_code_gen_buffer_anon(size, prot, flags, errp);
-+}
- #endif /* USE_STATIC_CODE_GEN_BUFFER, WIN32, POSIX */
+ #ifdef CONFIG_POSIX
+         return alloc_code_gen_buffer_splitwx_memfd(size, errp);
+ #endif
+@@ -1201,6 +1263,9 @@ static bool alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
+ #ifdef CONFIG_TCG_INTERPRETER
+     /* The tcg interpreter does not need execute permission. */
+     prot = PROT_READ | PROT_WRITE;
++#elif defined(CONFIG_DARWIN)
++    /* Applicable to both iOS and macOS (Apple Silicon). */
++    flags |= MAP_JIT;
+ #endif
  
- static bool tb_cmp(const void *ap, const void *bp)
+     return alloc_code_gen_buffer_anon(size, prot, flags, errp);
 -- 
 2.25.1
 
