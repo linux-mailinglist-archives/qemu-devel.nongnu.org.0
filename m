@@ -2,76 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AD7D2AA195
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Nov 2020 00:53:22 +0100 (CET)
-Received: from localhost ([::1]:51150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 303362AA19E
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Nov 2020 01:01:51 +0100 (CET)
+Received: from localhost ([::1]:39368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kbBXl-0007YR-Ad
-	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 18:53:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35872)
+	id 1kbBfx-0006OK-LT
+	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 19:01:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kbBVm-0006Bu-Lk
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 18:51:18 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:34519)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kbBVj-0004Xh-Es
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 18:51:18 -0500
-Received: by mail-wm1-x344.google.com with SMTP id 23so1899033wmg.1
- for <qemu-devel@nongnu.org>; Fri, 06 Nov 2020 15:51:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=5LIhaFgUhyoIXXqpYlZHKoo2I0ctX3FWm0zLqbLaZR8=;
- b=RuT3XgjfLsS3vn1uK/kYT3Xks3sM8n44z6hdvbmiHZC9SrEpIsCP5gXvBV7kMLpxZX
- u3RP9TiPqNtgnlbwr04eN10sYvsXb98fr/+4pjFT0uNtEc895XptLKbJR0VYe5PFbbK+
- CzwpGgbsZpJEVQXL8bQiov1WpiZC+0srwmHh8eJUgSEVQussX0MgvqbnCtKyJ+dmCSxg
- RkKJ3yxWX1dCimmZRIoaV4yEqC24Lp8ocEIThgXiogYd1r0BXbjA+TQbCuJ8GelnD4C9
- izjDQG7jF5ixlpJR+s8+9A3SjMKy/s0xTNs69cg7CtJkY7bvfKj0p6D16UJ+GfIWHSTs
- Jwsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=5LIhaFgUhyoIXXqpYlZHKoo2I0ctX3FWm0zLqbLaZR8=;
- b=HystVigNwo3BSrVdH16riAwbiTVAAf/hQHIpFUVi5ZYSXlV6sqVqhKAwh3N1I4UTAT
- l8Jmgu5M4jHcSwgZ1HOzp4kxAFiLYu81FHhYU7zZlvF6dJTwVHSTOyQZBJRhY6xUDoQu
- EleILOm9aeT0WEyNLBIeSVeVHh7dfnDVk1meP3BpOWWqX29w/MKo30rxxAYNC91mFrL6
- HqF9Ujqta4m9LRiBtROQUODXhRZz8SPVkPlvCGZYDwdDIxkkrIZcT8vvdgHKf6n32B0B
- PJY0BO1g7dIcaavRUG29kL2kzxctO2DjbQ/WqhtbbciYo1dyKkNf+mnt+p0wRQH8r9/6
- kT4Q==
-X-Gm-Message-State: AOAM5323+JGnmUkleGmKsFtWpp9t8U0/V8SxKohjQKmcTRq0+F2ANua1
- T1b4xW02a5aJmVcIwkgkqCgLyOY39oQRaw==
-X-Google-Smtp-Source: ABdhPJzLw7VYBko0GhT3rIMgrfZ0Y3mgq1Mq8DHKrepJtbWlhE0PmvSj+QzqKYdkG9b2zqR2MWYB7Q==
-X-Received: by 2002:a1c:6a11:: with SMTP id f17mr1977752wmc.24.1604706673831; 
- Fri, 06 Nov 2020 15:51:13 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id n8sm4025374wmc.11.2020.11.06.15.51.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Nov 2020 15:51:13 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <root@moya.office.hostfission.com>)
+ id 1kbBZn-00029L-Lg
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 18:55:27 -0500
+Received: from mail1.hostfission.com ([139.99.139.48]:39692)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <root@moya.office.hostfission.com>)
+ id 1kbBZl-000500-Oh
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 18:55:27 -0500
+Received: from moya.office.hostfission.com (office.hostfission.com
+ [220.233.29.71])
+ by mail1.hostfission.com (Postfix) with ESMTP id 2EA8E44921;
+ Sat,  7 Nov 2020 10:47:12 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hostfission.com;
+ s=mail; t=1604706432;
+ bh=X7tqLsPs9uZlHZgC5m25vMr/ME74Vg0G4E2S1VTpVlc=;
+ h=From:To:Cc:Subject:Date:From;
+ b=NZotzykiur64vIeuBfPqXpaY2p1jJhRl5iTDr49nARgaLrGJK6d003vE+0hDBYzsc
+ HWWw229PhkNouSunk8A4QTOlCiY4nPsRGq50D+UyXIuCm/Qd8yoR5tqozDJT2RgEny
+ roEz5FJponTLhKAQIjRq5eZJXchDReDFW7YRMxEE=
+Received: by moya.office.hostfission.com (Postfix, from userid 0)
+ id 0BC323A0604; Sat,  7 Nov 2020 10:47:11 +1100 (AEDT)
+From: Geoffrey McRae <geoff@hostfission.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] hw/m68k/q800.c: Make the GLUE chip an actual QOM device
-Date: Fri,  6 Nov 2020 23:51:09 +0000
-Message-Id: <20201106235109.7066-3-peter.maydell@linaro.org>
+Cc: Geoffrey McRae <geoff@hostfission.com>,
+	philmd@redhat.com
+Subject: [PATCH] hw/core/qdev-properties-system: allow bus addresses > 0x1f
+Date: Sat,  7 Nov 2020 10:45:11 +1100
+Message-Id: <20201106234510.2101-1-geoff@hostfission.com>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201106235109.7066-1-peter.maydell@linaro.org>
-References: <20201106235109.7066-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: none client-ip=139.99.139.48;
+ envelope-from=root@moya.office.hostfission.com; helo=mail1.hostfission.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/06 18:47:13
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,176 +65,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The handling of the GLUE (General Logic Unit) device is
-currently open-coded. Make this into a proper QOM device.
+The commit bccb20c49df1bd683248a366021973901c11982f introduced an error
+in the checking logic that validates the bus addresses for PCI device
+addresses preventing usage of devices via vfio-pci that sit at a bus
+address of 0x20 or higher. This patch resolves this by reverting the
+checking logic to the original maximum value of 0xff
 
-This minor piece of modernisation gets rid of the free
-floating qemu_irq array 'pic', which Coverity points out
-is technically leaked when we exit the machine init function.
-(The replacement glue device is not leaked because it gets
-added to the sysbus, so it's accessible via that.)
-
-Fixes: Coverity CID 1421883
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Geoffrey McRae <geoff@hostfission.com>
 ---
- hw/m68k/q800.c | 82 ++++++++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 70 insertions(+), 12 deletions(-)
+ hw/core/qdev-properties-system.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-index dc13007aaf2..05bb372f958 100644
---- a/hw/m68k/q800.c
-+++ b/hw/m68k/q800.c
-@@ -47,6 +47,7 @@
- #include "sysemu/qtest.h"
- #include "sysemu/runstate.h"
- #include "sysemu/reset.h"
-+#include "migration/vmstate.h"
+diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
+index b81a4e8d14..e62644bc69 100644
+--- a/hw/core/qdev-properties-system.c
++++ b/hw/core/qdev-properties-system.c
+@@ -882,7 +882,7 @@ static void set_pci_host_devaddr(Object *obj, Visitor *v, const char *name,
+     bus = val;
  
- #define MACROM_ADDR     0x40800000
- #define MACROM_SIZE     0x00100000
-@@ -94,10 +95,14 @@
-  * CPU.
-  */
- 
--typedef struct {
-+#define TYPE_GLUE "q800-glue"
-+OBJECT_DECLARE_SIMPLE_TYPE(GLUEState, GLUE)
-+
-+struct GLUEState {
-+    SysBusDevice parent_obj;
-     M68kCPU *cpu;
-     uint8_t ipr;
--} GLUEState;
-+};
- 
- static void GLUE_set_irq(void *opaque, int irq, int level)
- {
-@@ -119,6 +124,58 @@ static void GLUE_set_irq(void *opaque, int irq, int level)
-     m68k_set_irq_level(s->cpu, 0, 0);
- }
- 
-+static void glue_reset(DeviceState *dev)
-+{
-+    GLUEState *s = GLUE(dev);
-+
-+    s->ipr = 0;
-+}
-+
-+static const VMStateDescription vmstate_glue = {
-+    .name = "q800-glue",
-+    .version_id = 0,
-+    .minimum_version_id = 0,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT8(ipr, GLUEState),
-+        VMSTATE_END_OF_LIST(),
-+    },
-+};
-+
-+/*
-+ * If the m68k CPU implemented its inbound irq lines as GPIO lines
-+ * rather than via the m68k_set_irq_level() function we would not need
-+ * this cpu link property and could instead provide outbound IRQ lines
-+ * that the board could wire up to the CPU.
-+ */
-+static Property glue_properties[] = {
-+    DEFINE_PROP_LINK("cpu", GLUEState, cpu, TYPE_M68K_CPU, M68kCPU *),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void glue_init(Object *obj)
-+{
-+    DeviceState *dev = DEVICE(obj);
-+
-+    qdev_init_gpio_in(dev, GLUE_set_irq, 8);
-+}
-+
-+static void glue_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->vmsd = &vmstate_glue;
-+    dc->reset = glue_reset;
-+    device_class_set_props(dc, glue_properties);
-+}
-+
-+static const TypeInfo glue_info = {
-+    .name = TYPE_GLUE,
-+    .parent = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(GLUEState),
-+    .instance_init = glue_init,
-+    .class_init = glue_class_init,
-+};
-+
- static void main_cpu_reset(void *opaque)
- {
-     M68kCPU *cpu = opaque;
-@@ -178,8 +235,7 @@ static void q800_init(MachineState *machine)
-     SysBusDevice *sysbus;
-     BusState *adb_bus;
-     NubusBus *nubus;
--    GLUEState *irq;
--    qemu_irq *pic;
-+    DeviceState *glue;
-     DriveInfo *dinfo;
- 
-     linux_boot = (kernel_filename != NULL);
-@@ -213,10 +269,9 @@ static void q800_init(MachineState *machine)
+     p = (char *)e + 1;
+-    if (qemu_strtoul(p, &e, 16, &val) < 0 || val > 0x1f || e == p) {
++    if (qemu_strtoul(p, &e, 16, &val) < 0 || val > 0xff || e == p) {
+         goto inval;
      }
- 
-     /* IRQ Glue */
--
--    irq = g_new0(GLUEState, 1);
--    irq->cpu = cpu;
--    pic = qemu_allocate_irqs(GLUE_set_irq, irq, 8);
-+    glue = qdev_new(TYPE_GLUE);
-+    object_property_set_link(OBJECT(glue), "cpu", OBJECT(cpu), &error_abort);
-+    sysbus_realize_and_unref(SYS_BUS_DEVICE(glue), &error_fatal);
- 
-     /* VIA */
- 
-@@ -228,8 +283,10 @@ static void q800_init(MachineState *machine)
-     sysbus = SYS_BUS_DEVICE(via_dev);
-     sysbus_realize_and_unref(sysbus, &error_fatal);
-     sysbus_mmio_map(sysbus, 0, VIA_BASE);
--    qdev_connect_gpio_out_named(DEVICE(sysbus), "irq", 0, pic[0]);
--    qdev_connect_gpio_out_named(DEVICE(sysbus), "irq", 1, pic[1]);
-+    qdev_connect_gpio_out_named(DEVICE(sysbus), "irq", 0,
-+                                qdev_get_gpio_in(glue, 0));
-+    qdev_connect_gpio_out_named(DEVICE(sysbus), "irq", 1,
-+                                qdev_get_gpio_in(glue, 1));
- 
- 
-     adb_bus = qdev_get_child_bus(via_dev, "adb.0");
-@@ -270,7 +327,7 @@ static void q800_init(MachineState *machine)
-     sysbus_realize_and_unref(sysbus, &error_fatal);
-     sysbus_mmio_map(sysbus, 0, SONIC_BASE);
-     sysbus_mmio_map(sysbus, 1, SONIC_PROM_BASE);
--    sysbus_connect_irq(sysbus, 0, pic[2]);
-+    sysbus_connect_irq(sysbus, 0, qdev_get_gpio_in(glue, 2));
- 
-     /* SCC */
- 
-@@ -292,7 +349,7 @@ static void q800_init(MachineState *machine)
-     qdev_realize_and_unref(escc_orgate, NULL, &error_fatal);
-     sysbus_connect_irq(sysbus, 0, qdev_get_gpio_in(escc_orgate, 0));
-     sysbus_connect_irq(sysbus, 1, qdev_get_gpio_in(escc_orgate, 1));
--    qdev_connect_gpio_out(DEVICE(escc_orgate), 0, pic[3]);
-+    qdev_connect_gpio_out(DEVICE(escc_orgate), 0, qdev_get_gpio_in(glue, 3));
-     sysbus_mmio_map(sysbus, 0, SCC_BASE);
- 
-     /* SCSI */
-@@ -457,6 +514,7 @@ static const TypeInfo q800_machine_typeinfo = {
- static void q800_machine_register_types(void)
- {
-     type_register_static(&q800_machine_typeinfo);
-+    type_register_static(&glue_info);
- }
- 
- type_init(q800_machine_register_types)
+     if (*e == ':') {
 -- 
 2.20.1
 
