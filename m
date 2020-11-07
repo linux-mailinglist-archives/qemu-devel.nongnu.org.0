@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 154B22AA7BC
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Nov 2020 20:39:51 +0100 (CET)
-Received: from localhost ([::1]:57490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 444E52AA7AE
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Nov 2020 20:37:45 +0100 (CET)
+Received: from localhost ([::1]:50278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kbU3y-0004Bf-3t
-	for lists+qemu-devel@lfdr.de; Sat, 07 Nov 2020 14:39:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57714)
+	id 1kbU1w-0001At-9V
+	for lists+qemu-devel@lfdr.de; Sat, 07 Nov 2020 14:37:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kbTyd-0007k1-HZ; Sat, 07 Nov 2020 14:34:19 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:36982)
+ id 1kbTyi-0007oz-Nl; Sat, 07 Nov 2020 14:34:24 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:43016)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kbTyc-0008Li-46; Sat, 07 Nov 2020 14:34:19 -0500
-Received: by mail-wr1-x434.google.com with SMTP id w1so4712593wrm.4;
- Sat, 07 Nov 2020 11:34:17 -0800 (PST)
+ id 1kbTyh-0008Lx-AL; Sat, 07 Nov 2020 14:34:24 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id g12so4697549wrp.10;
+ Sat, 07 Nov 2020 11:34:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XNu7ZLoR4xU4f3L7jkcDncHCuG1GeetmfTtko2ZN1QU=;
- b=pVsUNLkfg3ETSv26S7xdy5P1KiYSFW9gqn7RnSa44oSwLOwj2xN2Z1ed77ziicCr7a
- iAFn2FkYCWHi8PmvupwrEuq+sGxBNCN1o8jRGgh8FnrvzXXs7LlRqCIHtJZTP3xKrzf3
- LBpqwrcIQKOspxdT3HCbsZhYxT2p+2U5k29tg9AQAs/wRL8Oluz9QxgzBedABLXfLVg/
- 6k1NUurusdVxSVNA10LycOtBpf1jDr7xsItho8YpoyYzfXtbdMksU/b6CG73q/1RHCVH
- kCdruiXlF6UeLne9wO7HKZsqXxs7w1fsPlzsrM0zs7gPuvJFtOa8NYMnsulS/HePJF1h
- BwIA==
+ bh=fKsrMZT7rwVP28hdVbSgf4KB1wxqgtIDtqrq9k+6yOg=;
+ b=bdB0wLKgKeqQNIQWXtCwfxg1gRxWg1QTDuCX11JRwSWkFIYr/dr1dIC+drPY/xei9a
+ z5jMV5Zf4qVe7aHs9brt5EQuovfZTNU1c0Me3p2xIUsTA+g8F3RMX11ZBbv24QONyTeF
+ iWnGH0Fks2RGIQFxY4UN9CIWoyPChP080+ifu9seF+cUiiINqX+sO/sR1LOEn9x+aH1y
+ meKSpCFTCispE+K2uKlgGT9lAmsy3qpJts942n0i6hw/tlIKutBysZhlS/DsGHCLYoiM
+ KRRgkAjcq+oK4elsdqjnGbp+ZNpE/+txBkoRm0gN2CD2SCZka5ZHTyeaB07X13eoYw2E
+ 7RGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=XNu7ZLoR4xU4f3L7jkcDncHCuG1GeetmfTtko2ZN1QU=;
- b=fX6YXV97nl6gCR7s3JjAqJ5lw+5c9l7Uk9avW2vHpAJBNwgrYZhPh+gY3WhKFK/2QE
- eJTmPxh/fbCEwINOSyOvkKAenbZ//1xmPuMSwxBI9+nJQU4wWNCYSpsS0S/HLsS971xD
- wo9qXskBRSwd9GJCHlm3GyhmU2rHbaZS/b5V+gdtccgJz+XhXX6Pfruz892KcTBqWmKA
- w2dD3KLu/p9kwn8vVauPznJWdR1StC3M6JmtET5c+PoyGgzd2SP4SNaXNt8phMeiu69J
- p0zOMbcEmGEI2nFkYiDZcrFFpriNS51kkt8odxTnp5FvT/vyOOY/gbbcMa9w15XF5qar
- E6/A==
-X-Gm-Message-State: AOAM5327LRD1R7EIq+KzQ/hBGxejaKTgfiaYk5xpK6EVPjwoTtPI4I6H
- RhzXyGEKZHeRxb6KezqRLI1SWb/kRH4=
-X-Google-Smtp-Source: ABdhPJzvkDp+mjeqT4GT5wqb/KVZZJTOQ0gSumlUXAk/bg73muGuPzITWu4o7Q9AM36Y+gwUsYdbGA==
-X-Received: by 2002:adf:906b:: with SMTP id h98mr9223066wrh.310.1604777656184; 
- Sat, 07 Nov 2020 11:34:16 -0800 (PST)
+ bh=fKsrMZT7rwVP28hdVbSgf4KB1wxqgtIDtqrq9k+6yOg=;
+ b=ILorpAmArmjxH858kxfDcH8nmGUG/0ExT39gHUO1jSQ80/eGGe7yhItJW/J1s4W0dv
+ GvuZhyMW7N7iVtOrZYFETqV+pBoFjh6V1/dvdDtPfT0fw+XVK96Fug0wJndtwpJO3QFj
+ 1Rr7+qVetvK5Z+0SawB/dWhHNdfFImlf7UClatgZ7wEKVOFq1U42BCkG3B3R9v9CBqbh
+ 2sYwvehdMc+e5V6ITU0cWfN76/Av5LJhPFYDIGxVj65zfg7BfASuXbshkrWVYTSy3aRS
+ dOl1k6ZNYnZntdYTbijho2B9TXlDAWSjBPJRNNCLrFDh/jMcsVG+abbeUoG9uQfwKhok
+ lMMw==
+X-Gm-Message-State: AOAM531blyOoJgNyfX/2BSYTt3TKfvIbTD/1B6A4ufPokfe1uYwyvtWO
+ sOisfl1czwIfp0m5RfSf3MBFwh8fRfA=
+X-Google-Smtp-Source: ABdhPJwwikaMv1Qr6vOhyqDRqJ5dAUeehdtfcgLBy+JiEJAemb4vfeOaaHm8DYKavH6jayxB/sJ9Jg==
+X-Received: by 2002:adf:f349:: with SMTP id e9mr9194611wrp.110.1604777661433; 
+ Sat, 07 Nov 2020 11:34:21 -0800 (PST)
 Received: from localhost.localdomain (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id n67sm7153864wmf.25.2020.11.07.11.34.14
+ by smtp.gmail.com with ESMTPSA id f7sm8132808wrx.64.2020.11.07.11.34.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Nov 2020 11:34:15 -0800 (PST)
+ Sat, 07 Nov 2020 11:34:20 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2 2/5] hw/misc/stm32f2xx_syscfg: Remove extraneous IRQ
-Date: Sat,  7 Nov 2020 20:34:00 +0100
-Message-Id: <20201107193403.436146-3-f4bug@amsat.org>
+Subject: [PATCH-for-5.2 3/5] hw/arm/nseries: Remove invalid/unnecessary
+ n8x0_uart_setup()
+Date: Sat,  7 Nov 2020 20:34:01 +0100
+Message-Id: <20201107193403.436146-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201107193403.436146-1-f4bug@amsat.org>
 References: <20201107193403.436146-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -92,56 +93,54 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The system configuration controller (SYSCFG) doesn't have
-any output IRQ (and the INTC input #71 belongs to the UART6).
-Remove the invalid code.
+omap2420_mpu_init() introduced in commit 827df9f3c5f ("Add basic
+OMAP2 chip support") takes care of creating the 3 UARTs.
 
-Fixes: db635521a02 ("stm32f205: Add the stm32f205 SoC")
+Then commit 58a26b477e9 ("Emulate a serial bluetooth HCI with H4+
+extensions and attach to n8x0's UART") added n8x0_uart_setup()
+which create the UART and connects it to an IRQ output,
+overwritting the existing peripheral and its IRQ connection.
+This is incorrect.
+
+Fortunately we don't need to fix this, because commit 6da68df7f9b
+("hw/arm/nseries: Replace the bluetooth chardev with a "null"
+chardev") removed the use of this peripheral. We can simply
+remove the code.
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/misc/stm32f2xx_syscfg.h | 2 --
- hw/arm/stm32f205_soc.c             | 1 -
- hw/misc/stm32f2xx_syscfg.c         | 2 --
- 3 files changed, 5 deletions(-)
+ hw/arm/nseries.c | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-diff --git a/include/hw/misc/stm32f2xx_syscfg.h b/include/hw/misc/stm32f2xx_syscfg.h
-index 57a98c533db..8595a3b31b0 100644
---- a/include/hw/misc/stm32f2xx_syscfg.h
-+++ b/include/hw/misc/stm32f2xx_syscfg.h
-@@ -53,8 +53,6 @@ struct STM32F2XXSyscfgState {
-     uint32_t syscfg_exticr3;
-     uint32_t syscfg_exticr4;
-     uint32_t syscfg_cmpcr;
+diff --git a/hw/arm/nseries.c b/hw/arm/nseries.c
+index 76fd7fe9854..6215c18d627 100644
+--- a/hw/arm/nseries.c
++++ b/hw/arm/nseries.c
+@@ -789,16 +789,6 @@ static void n8x0_cbus_setup(struct n800_s *s)
+     cbus_attach(cbus, s->tahvo = tahvo_init(tahvo_irq, 1));
+ }
+ 
+-static void n8x0_uart_setup(struct n800_s *s)
+-{
+-    Chardev *radio = qemu_chr_new("bt-dummy-uart", "null", NULL);
+-    /*
+-     * Note: We used to connect N8X0_BT_RESET_GPIO and N8X0_BT_WKUP_GPIO
+-     * here, but this code has been removed with the bluetooth backend.
+-     */
+-    omap_uart_attach(s->mpu->uart[BT_UART], radio);
+-}
 -
--    qemu_irq irq;
- };
- 
- #endif /* HW_STM32F2XX_SYSCFG_H */
-diff --git a/hw/arm/stm32f205_soc.c b/hw/arm/stm32f205_soc.c
-index a4f3344db25..9cd41bf56da 100644
---- a/hw/arm/stm32f205_soc.c
-+++ b/hw/arm/stm32f205_soc.c
-@@ -117,7 +117,6 @@ static void stm32f205_soc_realize(DeviceState *dev_soc, Error **errp)
-     }
-     busdev = SYS_BUS_DEVICE(dev);
-     sysbus_mmio_map(busdev, 0, 0x40013800);
--    sysbus_connect_irq(busdev, 0, qdev_get_gpio_in(armv7m, 71));
- 
-     /* Attach UART (uses USART registers) and USART controllers */
-     for (i = 0; i < STM_NUM_USARTS; i++) {
-diff --git a/hw/misc/stm32f2xx_syscfg.c b/hw/misc/stm32f2xx_syscfg.c
-index aa59b435498..04c22c28502 100644
---- a/hw/misc/stm32f2xx_syscfg.c
-+++ b/hw/misc/stm32f2xx_syscfg.c
-@@ -133,8 +133,6 @@ static void stm32f2xx_syscfg_init(Object *obj)
+ static void n8x0_usb_setup(struct n800_s *s)
  {
-     STM32F2XXSyscfgState *s = STM32F2XX_SYSCFG(obj);
- 
--    sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->irq);
--
-     memory_region_init_io(&s->mmio, obj, &stm32f2xx_syscfg_ops, s,
-                           TYPE_STM32F2XX_SYSCFG, 0x400);
-     sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
+     SysBusDevice *dev;
+@@ -1362,7 +1352,6 @@ static void n8x0_init(MachineState *machine,
+     n8x0_spi_setup(s);
+     n8x0_dss_setup(s);
+     n8x0_cbus_setup(s);
+-    n8x0_uart_setup(s);
+     if (machine_usb(machine)) {
+         n8x0_usb_setup(s);
+     }
 -- 
 2.26.2
 
