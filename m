@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3D992AA7AF
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Nov 2020 20:37:48 +0100 (CET)
-Received: from localhost ([::1]:50608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2318D2AA7BD
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Nov 2020 20:40:03 +0100 (CET)
+Received: from localhost ([::1]:57786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kbU1z-0001KP-Qh
-	for lists+qemu-devel@lfdr.de; Sat, 07 Nov 2020 14:37:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57738)
+	id 1kbU4A-0004J9-6q
+	for lists+qemu-devel@lfdr.de; Sat, 07 Nov 2020 14:40:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kbTyn-0007tZ-RW; Sat, 07 Nov 2020 14:34:29 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:55124)
+ id 1kbTz1-00081L-1m; Sat, 07 Nov 2020 14:34:43 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:52145)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kbTym-0008MC-AR; Sat, 07 Nov 2020 14:34:29 -0500
-Received: by mail-wm1-x334.google.com with SMTP id d142so4549190wmd.4;
- Sat, 07 Nov 2020 11:34:27 -0800 (PST)
+ id 1kbTyy-0008NA-Jw; Sat, 07 Nov 2020 14:34:42 -0500
+Received: by mail-wm1-x343.google.com with SMTP id v5so4559640wmh.1;
+ Sat, 07 Nov 2020 11:34:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IWHQ4zGNPskYzL/akHXO5stc1InHlH57u2pVf49lbSo=;
- b=usdV4vQZ1IclT8J7iUAbyQ7oGZe+DBjrkIvsyG/6y/WGIr7QrLNtVs8fdC1YNOzIm/
- T5E9HwWtrYvYkRFYi/d8HnVP2RhxGYIOucLVl3AW1G9YYxxegty+xtofGNFbFlnlxRQp
- Cq7q43ewAyqZ5mUr20//056ytxru/MP3OvY7OcJqaxxU133ium/lMbfnbGYPjJopV+3A
- BaqV8/7amoP+D879Fun9tMuDsNM4aPTBI+DZ1jEAKdEcnuxvTQ5Fz5I5+NuAmDPakTRv
- VymbX7SuL7QLYC4DGysGoOy0MTKDhiLndlao0RYyneg9ENUQ07RoVmj8F/ag8tUaOIgd
- blXw==
+ bh=fgdYdhDY03zoPgadIiKhWW6DCP4typfikMNrmEkn0p8=;
+ b=jrqPGW9tsCt+SXiyZQcQkihiqvMadba2ZzCBGwKS+j/drhGHyHFTrNp1nc5+s/sHsR
+ mGrSsGjkGTYnaQ5N9SzxpO7Eqql1sCxTEri14zP9f5IFYHeP+oIscRmLhcIyH4fKJWJz
+ 2PWgZbrHz9+FC8ePucHjrKHmBaCTNGsxulqNO7qpEhKqK4U9jbFyFoXxiRTuNIQMPr5a
+ 29d2eaaOWW0kE38BhNAnBlU5I7t/x4T5X3cibScm0CSpPSG7edLZ+hRlO18H1z+3fx4Q
+ rdiW+R8WuAG35tcM7qGjsXN5QXUWrI0ApTPR7r/TrKo87n3CfVlRsBxjKG3CO/p5PFeN
+ U9lA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=IWHQ4zGNPskYzL/akHXO5stc1InHlH57u2pVf49lbSo=;
- b=rjIh9KoMECMW3EaJGXDy6c29dR7a7LePHMP13GJp4kei9xzMahe+anVJMW/leSKO+F
- j3R0pJ+BgiwEf83j3AV5d3I4kOhQKtuKhEmVk2r0yUwrfjp09NkrqC+8vFovu3o2GNd9
- YZ8Y2SPK6IQqkIsIpUGEmu9P+GQV0CJyDx9XSCUnVgPNQ/Dwizxo3X4ou1qXcTCwPoUc
- 5ciDCjgi050aXl86zOb/gX6IpIJMKSjTu0OihwHMdOh/Hep2Hvwd9juzLApBq/OWG/mU
- d7/XkszkJlQUwu5M/yu3f2XUgd09aMB7XZV9EaJKzLBIvQEEr5NNLxgY5OjOrxSe5XjQ
- IrXw==
-X-Gm-Message-State: AOAM531G0HlAFdLN61RRIbRYqZpMbgPiVfiMiD1bkygnJ/HAJrPF49Y5
- bMcM7lw8Om8ErazyBPYD43spkLjSgDk=
-X-Google-Smtp-Source: ABdhPJwxI6y3vKynt/gYrD08m/TxE/J+PPvvYqOF5LVBMzUGPmvonJwRmvAIVwiN+gzoWXCT07Xekw==
-X-Received: by 2002:a1c:80cb:: with SMTP id b194mr6113072wmd.73.1604777666245; 
- Sat, 07 Nov 2020 11:34:26 -0800 (PST)
+ bh=fgdYdhDY03zoPgadIiKhWW6DCP4typfikMNrmEkn0p8=;
+ b=R6QAWObpmaHgBQnr/VEJ95Oj3uNpTrRHdiZX3Gr6q0rHKmEHi1d4uDKUAVstLZrRzp
+ 8VKWcwtYOpJ9neB1uuCzyl2Q6hBpfFMVwMjzBtd7lpqjBJ8+shtl/F5fDgqW/khZ8KdO
+ d3/y95FAzVrFA/b6gifgk4uGuHiigpq/Dned4N3Ca7Wa41nPJJ2dZBg5CsH3UQlCjyer
+ u8nFwK108ZO3ltiCosfQRGxSpLosIMoPeHxBly0+kz+gPUSAhB7dUJOlJFSeOGv945+J
+ qsx7++CLA4LekJp6ZDIxBszjNjerUWOgcFxQ4nh2Sfu2Esf82akZhXX/cmFMZLguIj8o
+ jmdw==
+X-Gm-Message-State: AOAM53322x5+pb/w/SU+0kB3rc3tDFpQvg6/7poqs6YUlD/lk9HvgTP5
+ as4ixlysm6rR+8GSJ3o3fVNj5824Vuc=
+X-Google-Smtp-Source: ABdhPJzch91pop+RyceriIHWKgC4IQBp5vZmhnL2xbV1Xqtwzcflj42NHJ5xYpDbBGsez41J0pTSxA==
+X-Received: by 2002:a7b:c157:: with SMTP id z23mr6095102wmi.70.1604777671085; 
+ Sat, 07 Nov 2020 11:34:31 -0800 (PST)
 Received: from localhost.localdomain (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id s4sm194076wro.10.2020.11.07.11.34.25
+ by smtp.gmail.com with ESMTPSA id q2sm7363998wrw.40.2020.11.07.11.34.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Nov 2020 11:34:25 -0800 (PST)
+ Sat, 07 Nov 2020 11:34:30 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2? 4/5] hw/arm/musicpal: Don't connect two qemu_irqs
- directly to the same input
-Date: Sat,  7 Nov 2020 20:34:02 +0100
-Message-Id: <20201107193403.436146-5-f4bug@amsat.org>
+Subject: [PATCH-for-6.0 5/5] hw/arm/musicpal: Only use qdev_get_gpio_in() when
+ necessary
+Date: Sat,  7 Nov 2020 20:34:03 +0100
+Message-Id: <20201107193403.436146-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201107193403.436146-1-f4bug@amsat.org>
 References: <20201107193403.436146-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -93,84 +93,85 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The MusicPal board code connects both of the IRQ outputs of the UART
-to the same INTC qemu_irq. Connecting two qemu_irqs outputs directly
-to the same input is not valid as it produces subtly wrong behaviour
-(for instance if both the IRQ lines are high, and then one goes
-low, the INTC input will see this as a high-to-low transition
-even though the second IRQ line should still be holding it high).
+We don't need to fill the full pic[] array if we only use
+few of the interrupt lines. Directly call qdev_get_gpio_in()
+when necessary.
 
-This kind of wiring needs an explicitly created OR gate; add one.
-
-Inspired-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/musicpal.c | 17 +++++++++++++----
- hw/arm/Kconfig    |  1 +
- 2 files changed, 14 insertions(+), 4 deletions(-)
+ hw/arm/musicpal.c | 25 +++++++++++++------------
+ 1 file changed, 13 insertions(+), 12 deletions(-)
 
 diff --git a/hw/arm/musicpal.c b/hw/arm/musicpal.c
-index 5eb3f969fb4..ebc3ec24ef7 100644
+index ebc3ec24ef7..458b1cbeb76 100644
 --- a/hw/arm/musicpal.c
 +++ b/hw/arm/musicpal.c
-@@ -27,6 +27,7 @@
- #include "ui/console.h"
- #include "hw/i2c/i2c.h"
- #include "hw/irq.h"
-+#include "hw/or-irq.h"
- #include "hw/audio/wm8750.h"
- #include "sysemu/block-backend.h"
- #include "sysemu/runstate.h"
-@@ -77,8 +78,7 @@
- #define MP_TIMER4_IRQ           7
- #define MP_EHCI_IRQ             8
- #define MP_ETH_IRQ              9
--#define MP_UART1_IRQ            11
--#define MP_UART2_IRQ            11
-+#define MP_UART_SHARED_IRQ      11
- #define MP_GPIO_IRQ             12
- #define MP_RTC_IRQ              28
- #define MP_AUDIO_IRQ            30
-@@ -1589,6 +1589,7 @@ static void musicpal_init(MachineState *machine)
+@@ -1587,8 +1587,8 @@ static struct arm_boot_info musicpal_binfo = {
+ static void musicpal_init(MachineState *machine)
+ {
      ARMCPU *cpu;
-     qemu_irq pic[32];
+-    qemu_irq pic[32];
      DeviceState *dev;
-+    DeviceState *uart_orgate;
++    DeviceState *pic;
+     DeviceState *uart_orgate;
      DeviceState *i2c_dev;
      DeviceState *lcd_dev;
-     DeviceState *key_dev;
-@@ -1627,9 +1628,17 @@ static void musicpal_init(MachineState *machine)
-                           pic[MP_TIMER2_IRQ], pic[MP_TIMER3_IRQ],
-                           pic[MP_TIMER4_IRQ], NULL);
+@@ -1619,20 +1619,20 @@ static void musicpal_init(MachineState *machine)
+                            &error_fatal);
+     memory_region_add_subregion(address_space_mem, MP_SRAM_BASE, sram);
  
--    serial_mm_init(address_space_mem, MP_UART1_BASE, 2, pic[MP_UART1_IRQ],
-+    /* Logically OR both UART IRQs together */
-+    uart_orgate = DEVICE(object_new(TYPE_OR_IRQ));
-+    object_property_set_int(OBJECT(uart_orgate), "num-lines", 2, &error_fatal);
-+    qdev_realize_and_unref(uart_orgate, NULL, &error_fatal);
-+    qdev_connect_gpio_out(DEVICE(uart_orgate), 0, pic[MP_UART_SHARED_IRQ]);
-+
-+    serial_mm_init(address_space_mem, MP_UART1_BASE, 2,
-+                   qdev_get_gpio_in(uart_orgate, 0),
-                    1825000, serial_hd(0), DEVICE_NATIVE_ENDIAN);
--    serial_mm_init(address_space_mem, MP_UART2_BASE, 2, pic[MP_UART2_IRQ],
-+    serial_mm_init(address_space_mem, MP_UART2_BASE, 2,
-+                   qdev_get_gpio_in(uart_orgate, 1),
-                    1825000, serial_hd(1), DEVICE_NATIVE_ENDIAN);
+-    dev = sysbus_create_simple(TYPE_MV88W8618_PIC, MP_PIC_BASE,
++    pic = sysbus_create_simple(TYPE_MV88W8618_PIC, MP_PIC_BASE,
+                                qdev_get_gpio_in(DEVICE(cpu), ARM_CPU_IRQ));
+-    for (i = 0; i < 32; i++) {
+-        pic[i] = qdev_get_gpio_in(dev, i);
+-    }
+-    sysbus_create_varargs(TYPE_MV88W8618_PIT, MP_PIT_BASE, pic[MP_TIMER1_IRQ],
+-                          pic[MP_TIMER2_IRQ], pic[MP_TIMER3_IRQ],
+-                          pic[MP_TIMER4_IRQ], NULL);
++    sysbus_create_varargs(TYPE_MV88W8618_PIT, MP_PIT_BASE,
++                          qdev_get_gpio_in(pic, MP_TIMER1_IRQ),
++                          qdev_get_gpio_in(pic, MP_TIMER2_IRQ),
++                          qdev_get_gpio_in(pic, MP_TIMER3_IRQ),
++                          qdev_get_gpio_in(pic, MP_TIMER4_IRQ), NULL);
  
-     /* Register flash */
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index fdf4464b948..319916c310e 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -94,6 +94,7 @@ config MUSCA
+     /* Logically OR both UART IRQs together */
+     uart_orgate = DEVICE(object_new(TYPE_OR_IRQ));
+     object_property_set_int(OBJECT(uart_orgate), "num-lines", 2, &error_fatal);
+     qdev_realize_and_unref(uart_orgate, NULL, &error_fatal);
+-    qdev_connect_gpio_out(DEVICE(uart_orgate), 0, pic[MP_UART_SHARED_IRQ]);
++    qdev_connect_gpio_out(DEVICE(uart_orgate), 0,
++                          qdev_get_gpio_in(pic, MP_UART_SHARED_IRQ));
  
- config MUSICPAL
-     bool
-+    select OR_IRQ
-     select BITBANG_I2C
-     select MARVELL_88W8618
-     select PTIMER
+     serial_mm_init(address_space_mem, MP_UART1_BASE, 2,
+                    qdev_get_gpio_in(uart_orgate, 0),
+@@ -1674,14 +1674,15 @@ static void musicpal_init(MachineState *machine)
+                              OBJECT(get_system_memory()), &error_fatal);
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, MP_ETH_BASE);
+-    sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, pic[MP_ETH_IRQ]);
++    sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0,
++                       qdev_get_gpio_in(pic, MP_ETH_IRQ));
+ 
+     sysbus_create_simple("mv88w8618_wlan", MP_WLAN_BASE, NULL);
+ 
+     sysbus_create_simple(TYPE_MUSICPAL_MISC, MP_MISC_BASE, NULL);
+ 
+     dev = sysbus_create_simple(TYPE_MUSICPAL_GPIO, MP_GPIO_BASE,
+-                               pic[MP_GPIO_IRQ]);
++                               qdev_get_gpio_in(pic, MP_GPIO_IRQ));
+     i2c_dev = sysbus_create_simple("gpio_i2c", -1, NULL);
+     i2c = (I2CBus *)qdev_get_child_bus(i2c_dev, "i2c");
+ 
+@@ -1713,7 +1714,7 @@ static void musicpal_init(MachineState *machine)
+                              NULL);
+     sysbus_realize_and_unref(s, &error_fatal);
+     sysbus_mmio_map(s, 0, MP_AUDIO_BASE);
+-    sysbus_connect_irq(s, 0, pic[MP_AUDIO_IRQ]);
++    sysbus_connect_irq(s, 0, qdev_get_gpio_in(pic, MP_AUDIO_IRQ));
+ 
+     musicpal_binfo.ram_size = MP_RAM_DEFAULT_SIZE;
+     arm_load_kernel(cpu, machine, &musicpal_binfo);
 -- 
 2.26.2
 
