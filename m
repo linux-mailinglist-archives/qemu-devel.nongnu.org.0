@@ -2,84 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60CD12AA48D
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Nov 2020 12:15:31 +0100 (CET)
-Received: from localhost ([::1]:60008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5328C2AA498
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Nov 2020 12:18:28 +0100 (CET)
+Received: from localhost ([::1]:40666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kbMBt-0005a6-Q7
-	for lists+qemu-devel@lfdr.de; Sat, 07 Nov 2020 06:15:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39744)
+	id 1kbMEl-0000wS-ES
+	for lists+qemu-devel@lfdr.de; Sat, 07 Nov 2020 06:18:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbM9o-0004BA-4L
- for qemu-devel@nongnu.org; Sat, 07 Nov 2020 06:13:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31339)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbM9u-0004Cj-4i
+ for qemu-devel@nongnu.org; Sat, 07 Nov 2020 06:13:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36175)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbM9i-0002jX-Ge
- for qemu-devel@nongnu.org; Sat, 07 Nov 2020 06:13:19 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbM9p-0002lT-UZ
+ for qemu-devel@nongnu.org; Sat, 07 Nov 2020 06:13:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604747592;
+ s=mimecast20190719; t=1604747600;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=RuR8yw1X/lPYjyaH82aeYWhe3hzgR86aMLlU3agp3bM=;
- b=HLXvwVqgihYs6b/Tj2+uXHugWYXBobXFdy7xpFDhMXDB+0nr6o0T/0JuauN0npcd3AaK0Q
- drVin124TDc5SkzeiZM3hj+OVnApWRCwOu7Zi2unoLd8FfbUL2jm+FYFu53wCIR97ZZtMH
- ZlPI3wUtXesyKcIzQtc31murMvJqw6k=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-402-3Xyf1NndO4Synl50MbXuvg-1; Sat, 07 Nov 2020 06:13:11 -0500
-X-MC-Unique: 3Xyf1NndO4Synl50MbXuvg-1
-Received: by mail-wr1-f72.google.com with SMTP id 67so1613088wra.2
- for <qemu-devel@nongnu.org>; Sat, 07 Nov 2020 03:13:11 -0800 (PST)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jdMhzZg76PnY9+y/GdSAdPfqjiUTrwxbBgq5YBusWDU=;
+ b=WeTvekELTSxlaAi5YHJNW0zOmaxZXygaUehmAtGwpUWsqWoX5mlgLYjnNrwtWnI1qMhNOt
+ vVdHcvltn48X9hIZqfrwdzQk6+Px2KO7SgjK3OHRe3gNT0kXrotQU6OxyWbFnrga8xOyAp
+ WAd9NOA5+tGJP5lWmHJtbNQneJ4Ho90=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-227-bpS5xVudPm-MmtZ69I4XiA-1; Sat, 07 Nov 2020 06:13:16 -0500
+X-MC-Unique: bpS5xVudPm-MmtZ69I4XiA-1
+Received: by mail-wr1-f70.google.com with SMTP id d8so621461wrr.10
+ for <qemu-devel@nongnu.org>; Sat, 07 Nov 2020 03:13:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dzcsBx8+y3kEbH/02iaA51V5RU4aFyUqBoV6HQRSKo8=;
- b=F6tuJf9nBKBuHIlvJ4kMpJhjUrt+CkF4g19fhkYekG9/0phMSrlKmEr4usDS9g6LyN
- bLeAzYu4MHAn8g9beR5+61rF8FWh+ICyC6hjKd+HVLkTfgQrcMWty+1z73nB3g7sBlI1
- 7gmWDMREwAq5vCvIHvGnxiL0hHLeIkjuLbfleIBY882Ft2EKsiFMGF6LVVZughKyvYV5
- 2CYEMvDU9my/HFjzNZzdJvKKjrnoRZvdS+k7fD3P0GMOlGKo7yeOmMFom53qauy8iiXW
- LL+GVaGiezzAtTqW7stca2jWLoPZEuAk3Egg3NoGliMrLEVNs+OXTaT6EYlUHXfpC8oc
- o33g==
-X-Gm-Message-State: AOAM533e3sNH6w29JTiA1GjBmTCKDlK6lSjDeLhxWwuSyYs9y9pbwnSz
- mnyaaE0WcPyP/wgLMt5VzRdlOKPeLD6vTIsHEtqrIpvgmkZiEjztbsoi1oOMJaZSDrECMQJgOxK
- +I0OsNg2OZrPY8hA=
-X-Received: by 2002:a1c:6856:: with SMTP id d83mr4551212wmc.13.1604747589839; 
- Sat, 07 Nov 2020 03:13:09 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxArzCdxY+DpMOVu8iZBABlWGg78swtXF0OxPL63bC7tMqaTt/PPyIIXToWI/RMiIkz0BSelA==
-X-Received: by 2002:a1c:6856:: with SMTP id d83mr4551192wmc.13.1604747589608; 
- Sat, 07 Nov 2020 03:13:09 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=jdMhzZg76PnY9+y/GdSAdPfqjiUTrwxbBgq5YBusWDU=;
+ b=GTTJvNouvrPskwTDg5cMJ05OXxvtqZHACQEPP/9XIfDrclOxmycCzfNB+DOHm+3uAX
+ 7SlAXZpjTIFs8udsUmviYjKkBQWs79GeapquOEviA139n/tE05J4ro/YT3onkkwGOGY+
+ sFl5JPVEB/+VaYj/LCjoBkHokAX5JA/DgU030jbuGehTKPBVkb33/TQwrGMZJrahbpBa
+ kskRTcqvzGP6FMXzsa/MZA+EBoU2U7UDPF8j1fvVJOP63JND9FCnKwWx8pwfmXxfvyzK
+ Cy6nBWJogtDIqfhjs3/5yVMJ+cW7wfTX9+Kfc7N+9YakZRD89O7LXkyIYDldFtU6Xd0j
+ lMzg==
+X-Gm-Message-State: AOAM533tkLH8ZEh9pBo/L6uYpXbr9o1mlDpDtb2I+H8vHG/lY5hg8bgk
+ nfzhTAuzWRPiVIfWsSE+Wh7I+bJTOB6CF4Fs05QYV/p4XHs7ufNvauq+U+GwyTOf47MDLDKfb5R
+ rnPnEEFnoLJ7IG3k=
+X-Received: by 2002:a7b:c937:: with SMTP id h23mr4172035wml.19.1604747595088; 
+ Sat, 07 Nov 2020 03:13:15 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxdIsa0Qb4BX9x1+b5iJnNfHBqXMYMlgqVuFAr+UW6+1U+v1i8joiTSD0vl8DlDq+sJxof/0g==
+X-Received: by 2002:a7b:c937:: with SMTP id h23mr4172025wml.19.1604747594954; 
+ Sat, 07 Nov 2020 03:13:14 -0800 (PST)
 Received: from localhost.localdomain (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id o7sm6421219wrp.23.2020.11.07.03.13.08
+ by smtp.gmail.com with ESMTPSA id e6sm5863006wrs.7.2020.11.07.03.13.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Nov 2020 03:13:08 -0800 (PST)
+ Sat, 07 Nov 2020 03:13:14 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2 0/5] hw/usb/hcd-xhci: Fix xhci-pci devices
-Date: Sat,  7 Nov 2020 12:13:02 +0100
-Message-Id: <20201107111307.262263-1-philmd@redhat.com>
+Subject: [PATCH-for-5.2 1/5] hw/usb/hcd-xhci: Make xhci base model abstract
+Date: Sat,  7 Nov 2020 12:13:03 +0100
+Message-Id: <20201107111307.262263-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201107111307.262263-1-philmd@redhat.com>
+References: <20201107111307.262263-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/07 03:12:58
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/07 03:59:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,34 +96,36 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
+ Miroslav Rezanina <mrezanin@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix few regressions introduced while introducing xhci-sysbus.=0D
-=0D
-Cleaned a bit code style while here, patches included for 6.0.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (5):=0D
-  hw/usb/hcd-xhci: Make xhci base model abstract=0D
-  hw/usb/Kconfig: Fix USB_XHCI_NEC (depends on USB_XHCI_PCI)=0D
-  hw/usb/hcd-xhci: Rename "base-xhci" as TYPE_XHCI_COMMON=0D
-  hw/usb/hcd-xhci-pci: Use OBJECT_DECLARE_SIMPLE_TYPE() macro=0D
-  hw/usb/hcd-xhci-pci: Rename "pci-xhci" as TYPE_XHCI_PCI_COMMON=0D
-=0D
- hw/usb/hcd-xhci-pci.h    |  6 ++----=0D
- hw/usb/hcd-xhci.h        |  4 +++-=0D
- include/hw/usb/xhci.h    |  1 -=0D
- hw/usb/hcd-xhci-nec.c    |  2 +-=0D
- hw/usb/hcd-xhci-pci.c    | 18 +++++++++---------=0D
- hw/usb/hcd-xhci-sysbus.c |  2 +-=0D
- hw/usb/hcd-xhci.c        | 11 ++++++-----=0D
- hw/usb/Kconfig           |  4 +---=0D
- 8 files changed, 23 insertions(+), 25 deletions(-)=0D
-=0D
---=20=0D
-2.26.2=0D
-=0D
+The TYPE_XHCI model is abstract and can not be used as it.
+It is meant to be overloaded by children classes. Restore
+it as abstract type.
+
+Fixes: 8ddab8dd3d8 ("usb/hcd-xhci: Split pci wrapper for xhci base model")
+Reported-by: Miroslav Rezanina <mrezanin@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ hw/usb/hcd-xhci.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
+index 79ce5c4be6c..57b692ad849 100644
+--- a/hw/usb/hcd-xhci.c
++++ b/hw/usb/hcd-xhci.c
+@@ -3595,6 +3595,7 @@ static const TypeInfo xhci_info = {
+     .parent        = TYPE_DEVICE,
+     .instance_size = sizeof(XHCIState),
+     .class_init    = xhci_class_init,
++    .abstract      = true,
+ };
+ 
+ static void xhci_register_types(void)
+-- 
+2.26.2
 
 
