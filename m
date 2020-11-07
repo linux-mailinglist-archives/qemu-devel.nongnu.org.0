@@ -2,75 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4BBF2AA61D
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Nov 2020 16:10:31 +0100 (CET)
-Received: from localhost ([::1]:44898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E40342AA61E
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Nov 2020 16:12:45 +0100 (CET)
+Received: from localhost ([::1]:47046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kbPrK-0008Cy-AK
-	for lists+qemu-devel@lfdr.de; Sat, 07 Nov 2020 10:10:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44580)
+	id 1kbPtV-0000r5-0z
+	for lists+qemu-devel@lfdr.de; Sat, 07 Nov 2020 10:12:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kbPpz-0007bT-Np
- for qemu-devel@nongnu.org; Sat, 07 Nov 2020 10:09:07 -0500
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:33148)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kbPsk-0000Pt-Lk
+ for qemu-devel@nongnu.org; Sat, 07 Nov 2020 10:11:58 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:39647)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kbPpx-00015u-Qs
- for qemu-devel@nongnu.org; Sat, 07 Nov 2020 10:09:07 -0500
-Received: by mail-pg1-x52b.google.com with SMTP id r186so3401704pgr.0
- for <qemu-devel@nongnu.org>; Sat, 07 Nov 2020 07:09:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=FgUBNn/WeXuzZ0IJo7k8Qi0MsF8WLkO7uhitXmPP18o=;
- b=CD2WAUCcUIwwlBXIxnHesEYbpTSfW9en+HQXO+B1VNo3WbOF3izkdXDWFwQN96hr/9
- p1izN9/8fneQvm3MW+ZnZ8PMr/kzam7y5iyLSevFocvJZYnjPmfI6iolGNAmdfOnlaoh
- 34yG9EqjD4JOcu/vxGu+II8HyU80NOKI1s58yFYCObtcSaodIoGdTwzidpQKt9MGPM/O
- metLrbu+hoGZWxGl6Trf8Sir4108BepprPoZgO2p/vbX8MGItkKvq9VyfuaPy+6s0t5y
- +OablTFRHWlM0/9+VuUBydFM2XMUKzDL+IM44pCZJwk7FqIyamS0yCPzehy77vdI0QkY
- tHuA==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kbPsj-00028h-3S
+ for qemu-devel@nongnu.org; Sat, 07 Nov 2020 10:11:58 -0500
+Received: by mail-wm1-x342.google.com with SMTP id s13so3999799wmh.4
+ for <qemu-devel@nongnu.org>; Sat, 07 Nov 2020 07:11:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=2EJXy1j7giWnSGXeUdkJHuBd9MSwCMKQHxLtKVZrALw=;
+ b=shmIUnip3uzdQsNcDzSLOLtlCpxZLCGTQeGBywsyu5MCK3nc0tD2qtaOnkVCmOdcBe
+ KIjnOIzU9kzJGhClBSF897L1jtt/EXs8Mma32dK8pPc+xcVeRQk0AZ8M6W04Ojh381s4
+ 6ASga+FdmtH9P7u7T23MFLRJGcKG03KWY6O4PBe4GYiBUGF3SKVy5sfc0g7tx7cHMhjt
+ ljcgltTleDvabaIl7N5NoXkRfJ2/AVlSDMCW2SBcOODQZ01bq7JwS0t6T2m+w6jWTp6u
+ 3lusikkskccifatFLC8FDRzlqSBGR/GR8FhXd7iiIs2WHCaleMg4kGBb5nnLbjS1hf+u
+ pstQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=FgUBNn/WeXuzZ0IJo7k8Qi0MsF8WLkO7uhitXmPP18o=;
- b=l6kN49xg7s9g5GH30Tup3tWc3Qmf6r+QUWDxmdcoV4EOiN4xmiR1Ajkp3jMikXcPrB
- kq0MZkZUiVNTVqnbXogtchBTnz2TKljkzXfCWNe4jPjN870c0xzBVx5MYnxTennjxheG
- upMgM00NwVCzvsdoQ/j6lRV0CZHVkYunrqOadrpXTD78/lWZyneSLzxEt7ZGIpfXfEb9
- 64VBpNp4IiFrM1eHXsJ1GqBdIvh/leoPSs7tqd/f64h9Z/cysV5Hi6qFb4QN2FhD8i4+
- bTciPb891frv6TrOj5WJEAzGrX3xbHY+a8Dz9SS0c5+tc43GDLGUeh4eVRrhGhlIw9JJ
- FGUg==
-X-Gm-Message-State: AOAM532P5u1l0s3thVk9fjEq23WG+KABEDADpjJVdecWHQKwpch22TO+
- ouqoL3moevNgGkRL//cWmz+tkwCucJuNZg==
-X-Google-Smtp-Source: ABdhPJxu1F6BILcFtzOG5nl/Qfnhsw8O5vHsPrHgjRw8pQenw00oTftwWratL5qKDxqcv6lYu6WGbA==
-X-Received: by 2002:a63:fb11:: with SMTP id o17mr6117622pgh.109.1604761741661; 
- Sat, 07 Nov 2020 07:09:01 -0800 (PST)
-Received: from localhost.localdomain ([115.96.136.129])
- by smtp.googlemail.com with ESMTPSA id
- d145sm6478308pfd.136.2020.11.07.07.08.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Nov 2020 07:09:00 -0800 (PST)
-From: Ani Sinha <ani@anisinha.ca>
-To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2] acpi-build: Fix maybe-uninitialized warning when ACPI
- hotplug is off
-Date: Sat,  7 Nov 2020 20:38:51 +0530
-Message-Id: <20201107150851.87008-1-ani@anisinha.ca>
-X-Mailer: git-send-email 2.25.1
+ bh=2EJXy1j7giWnSGXeUdkJHuBd9MSwCMKQHxLtKVZrALw=;
+ b=j/tDCbUVSTnnPns2ym4EnOeLVzrfTPUgmQvd0lXY2Q7Eo5SxcMysjRoS7f4VebCMNK
+ /2puiOKNh8U+g8xF8yOuHdU8ozytm5aIpqfIv0nfCY5bNQm5NgVYpn0SfF8XBJ06a8JJ
+ /Hhmu+3c72wF4urAgn2JWy0syBHuo1CFlzKKv4/20k7mkCYwIvnrD5CFCnJCYz5cFVn0
+ 2EIAt2JOLd8qAZYHh8TKxHdJhZSbrfhCHux8plev7GVLf2IK0nL/HFs6yDPIFzPnOR3c
+ uMgDmCbDX4hPlghXBmlatxIhyIYYisuTMrxZ2yPgOzphEZ2H0UuYmsappn+Ay1eT4Wh0
+ zn+Q==
+X-Gm-Message-State: AOAM530cVGdxxKizm0nUsyiJNf0UC/YXYL6cCE9qsEmsPryE48aQsCE5
+ GJA+0OxRM7G4ZlXPdJD8Xfs=
+X-Google-Smtp-Source: ABdhPJyXEbq67Wzf4O0PJ6LaTDlprt2balwNubal+uJ/lKFwxIjXJcLFsYu8Mcq/6sP4OWPlotPwow==
+X-Received: by 2002:a1c:4054:: with SMTP id n81mr5325759wma.48.1604761915073; 
+ Sat, 07 Nov 2020 07:11:55 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id n9sm6777496wmd.4.2020.11.07.07.11.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 07 Nov 2020 07:11:54 -0800 (PST)
+Subject: Re: [PATCH 1/2] hw/m68k/q800: Don't connect two qemu_irqs directly to
+ the same input
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20201106235109.7066-1-peter.maydell@linaro.org>
+ <20201106235109.7066-2-peter.maydell@linaro.org>
+ <11e6fcf5-fbd3-d2d8-ab20-c017080599d4@amsat.org>
+Message-ID: <8a37182d-1c8e-ac5d-a0db-4d62e924869c@amsat.org>
+Date: Sat, 7 Nov 2020 16:11:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <11e6fcf5-fbd3-d2d8-ab20-c017080599d4@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::52b;
- envelope-from=ani@anisinha.ca; helo=mail-pg1-x52b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,52 +93,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, mst@redhat.com,
- Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Igor Mammedov <imammedo@redhat.com>, philmd@redhat.com,
- Richard Henderson <rth@twiddle.net>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Laurent Vivier <laurent@vivier.eu>, Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
- This fixes the following warning (gcc 9.3.0 on Ubuntu):
+> On 11/7/20 12:51 AM, Peter Maydell wrote:
+>> The q800 board code connects both of the IRQ outputs of the ESCC
+>> to the same pic[3] qemu_irq. Connecting two qemu_irqs outputs directly
+>> to the same input is not valid as it produces subtly wrong behaviour
+>> (for instance if both the IRQ lines are high, and then one goes
+>> low, the PIC input will see this as a high-to-low transition
+>> even though the second IRQ line should still be holding it high).
+>>
+>> This kind of wiring needs an explicitly created OR gate; add one.
+>>
+>> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+>> ---
+>>  hw/m68k/q800.c  | 12 ++++++++++--
+>>  hw/m68k/Kconfig |  1 +
+>>  2 files changed, 11 insertions(+), 2 deletions(-)
 
-  ../hw/i386/acpi-build.c: In function 'build_append_pci_bus_devices':
-  ../hw/i386/acpi-build.c:496:9: error: 'method' may be used uninitialized
-  in this function [-Werror=maybe-uninitialized]
-    496 |         aml_append(parent_scope, method);
-        |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  cc1: all warnings being treated as errors
-
-Fixes: df4008c9c59 ("piix4: don't reserve hw resources when hotplug is off globally")
-Reported-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Ani Sinha <ani@anisinha.ca>
----
- hw/i386/acpi-build.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 4f66642d88..79b86d4a36 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -349,7 +349,7 @@ static void build_append_pcihp_notify_entry(Aml *method, int slot)
- static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-                                          bool pcihp_bridge_en)
- {
--    Aml *dev, *notify_method = NULL, *method;
-+    Aml *dev, *notify_method = NULL, *method = NULL;
-     QObject *bsel;
-     PCIBus *sec;
-     int i;
-@@ -492,7 +492,7 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-         }
-     }
- 
--    if (bsel || pcihp_bridge_en) {
-+    if (method) {
-         aml_append(parent_scope, method);
-     }
-     qobject_unref(bsel);
--- 
-2.25.1
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
