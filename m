@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5328C2AA498
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Nov 2020 12:18:28 +0100 (CET)
-Received: from localhost ([::1]:40666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76D8C2AA491
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Nov 2020 12:16:56 +0100 (CET)
+Received: from localhost ([::1]:38524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kbMEl-0000wS-ES
-	for lists+qemu-devel@lfdr.de; Sat, 07 Nov 2020 06:18:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39808)
+	id 1kbMDH-0008Pt-IG
+	for lists+qemu-devel@lfdr.de; Sat, 07 Nov 2020 06:16:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbM9u-0004Cj-4i
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbM9u-0004Ck-69
  for qemu-devel@nongnu.org; Sat, 07 Nov 2020 06:13:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36175)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41786)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbM9p-0002lT-UZ
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbM9r-0002mN-Kg
  for qemu-devel@nongnu.org; Sat, 07 Nov 2020 06:13:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604747600;
+ s=mimecast20190719; t=1604747603;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jdMhzZg76PnY9+y/GdSAdPfqjiUTrwxbBgq5YBusWDU=;
- b=WeTvekELTSxlaAi5YHJNW0zOmaxZXygaUehmAtGwpUWsqWoX5mlgLYjnNrwtWnI1qMhNOt
- vVdHcvltn48X9hIZqfrwdzQk6+Px2KO7SgjK3OHRe3gNT0kXrotQU6OxyWbFnrga8xOyAp
- WAd9NOA5+tGJP5lWmHJtbNQneJ4Ho90=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-227-bpS5xVudPm-MmtZ69I4XiA-1; Sat, 07 Nov 2020 06:13:16 -0500
-X-MC-Unique: bpS5xVudPm-MmtZ69I4XiA-1
-Received: by mail-wr1-f70.google.com with SMTP id d8so621461wrr.10
- for <qemu-devel@nongnu.org>; Sat, 07 Nov 2020 03:13:16 -0800 (PST)
+ bh=uEc+RfmAYP+OhFOJ5aN77pHj0CJAU6+TLoy2UhjPLRw=;
+ b=cHJSIus25DGhsljLCAhLESJVpwU2hqwh5EcBgiWx8XKueQKr/y9pyO5fFCrUD1elMQ9hDa
+ OUPwL9b5YCoNUrPsmAs3jLYwMX1NC4RbgmTzVXq8wcI4nbNqs7yghSN11ZIyNOHb4oIXRN
+ Uky1Q6dgcTxLzxuciHXjZb2VawYGKLk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-171-1whLzy5NO02YNNMotoHoiw-1; Sat, 07 Nov 2020 06:13:21 -0500
+X-MC-Unique: 1whLzy5NO02YNNMotoHoiw-1
+Received: by mail-wr1-f69.google.com with SMTP id p12so1609363wrx.3
+ for <qemu-devel@nongnu.org>; Sat, 07 Nov 2020 03:13:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jdMhzZg76PnY9+y/GdSAdPfqjiUTrwxbBgq5YBusWDU=;
- b=GTTJvNouvrPskwTDg5cMJ05OXxvtqZHACQEPP/9XIfDrclOxmycCzfNB+DOHm+3uAX
- 7SlAXZpjTIFs8udsUmviYjKkBQWs79GeapquOEviA139n/tE05J4ro/YT3onkkwGOGY+
- sFl5JPVEB/+VaYj/LCjoBkHokAX5JA/DgU030jbuGehTKPBVkb33/TQwrGMZJrahbpBa
- kskRTcqvzGP6FMXzsa/MZA+EBoU2U7UDPF8j1fvVJOP63JND9FCnKwWx8pwfmXxfvyzK
- Cy6nBWJogtDIqfhjs3/5yVMJ+cW7wfTX9+Kfc7N+9YakZRD89O7LXkyIYDldFtU6Xd0j
- lMzg==
-X-Gm-Message-State: AOAM533tkLH8ZEh9pBo/L6uYpXbr9o1mlDpDtb2I+H8vHG/lY5hg8bgk
- nfzhTAuzWRPiVIfWsSE+Wh7I+bJTOB6CF4Fs05QYV/p4XHs7ufNvauq+U+GwyTOf47MDLDKfb5R
- rnPnEEFnoLJ7IG3k=
-X-Received: by 2002:a7b:c937:: with SMTP id h23mr4172035wml.19.1604747595088; 
- Sat, 07 Nov 2020 03:13:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxdIsa0Qb4BX9x1+b5iJnNfHBqXMYMlgqVuFAr+UW6+1U+v1i8joiTSD0vl8DlDq+sJxof/0g==
-X-Received: by 2002:a7b:c937:: with SMTP id h23mr4172025wml.19.1604747594954; 
- Sat, 07 Nov 2020 03:13:14 -0800 (PST)
+ bh=uEc+RfmAYP+OhFOJ5aN77pHj0CJAU6+TLoy2UhjPLRw=;
+ b=PSWqf1UI2uETqGSRuMCgEjJ4LPs/elj9eAgnNzqXmgs8qxfVyeIDEHdyXAFxi4mx0F
+ b7FsLaL9Qm7CeDKek+Kk/U7oJp1Msla6NPLVZj3k3kySyX5w4Qrp6MEKHkoq7shRjwO7
+ 2iQoXd5GlDw3oTO1qMLtXq6uH+Qsm03q6GKiB1Dz2RZO48VcwsfmDQmMgmrAJcYBjzxG
+ fbnSUR07vxWTMSXt9Zij0Cv3du6pai82gkWb5oByHaYAsgle/BpQGkvsBpzDHYvMzAGD
+ a8hgi9ulaiTBWWbJJAK5idmKUvhXIBvF/lHkPJkP3xo2bljaahiXTA8CZPy1cZV49fYJ
+ 5giA==
+X-Gm-Message-State: AOAM5317GCfOHmFVmbRFYk/IuRVhyJQu/TFkR8kc2weqgm8CvcY4wFa7
+ mwjoR9tKYk/FZKvVIcmZxjj2NF8Uqq1XjtQzpN7nnhVGjCiVCEsTC3uXvl+NOK8ldfA2snD7Fyl
+ mWYDSzLJ/zt7K6ew=
+X-Received: by 2002:adf:9407:: with SMTP id 7mr7867166wrq.182.1604747599815;
+ Sat, 07 Nov 2020 03:13:19 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyVpeC6Xv6gCRGdypwoYxSe7zVaQAbjeHiaM49K2Z6APXIuHn4Aq+FO7cIQpsENG2FeH5nm5g==
+X-Received: by 2002:adf:9407:: with SMTP id 7mr7867149wrq.182.1604747599649;
+ Sat, 07 Nov 2020 03:13:19 -0800 (PST)
 Received: from localhost.localdomain (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id e6sm5863006wrs.7.2020.11.07.03.13.13
+ by smtp.gmail.com with ESMTPSA id y2sm6096468wrh.0.2020.11.07.03.13.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Nov 2020 03:13:14 -0800 (PST)
+ Sat, 07 Nov 2020 03:13:19 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2 1/5] hw/usb/hcd-xhci: Make xhci base model abstract
-Date: Sat,  7 Nov 2020 12:13:03 +0100
-Message-Id: <20201107111307.262263-2-philmd@redhat.com>
+Subject: [PATCH-for-5.2 2/5] hw/usb/Kconfig: Fix USB_XHCI_NEC (depends on
+ USB_XHCI_PCI)
+Date: Sat,  7 Nov 2020 12:13:04 +0100
+Message-Id: <20201107111307.262263-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201107111307.262263-1-philmd@redhat.com>
 References: <20201107111307.262263-1-philmd@redhat.com>
@@ -96,35 +97,36 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
- Miroslav Rezanina <mrezanin@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The TYPE_XHCI model is abstract and can not be used as it.
-It is meant to be overloaded by children classes. Restore
-it as abstract type.
+Since commit 755fba11fbc and 8ddab8dd3d8 we can not build
+USB_XHCI_NEC without USB_XHCI_PCI. Correct the Kconfig
+dependency.
 
-Fixes: 8ddab8dd3d8 ("usb/hcd-xhci: Split pci wrapper for xhci base model")
-Reported-by: Miroslav Rezanina <mrezanin@redhat.com>
+Fixes: 755fba11fbc ("usb/hcd-xhci: Move qemu-xhci device to hcd-xhci-pci.c")
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/usb/hcd-xhci.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/usb/Kconfig | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
-index 79ce5c4be6c..57b692ad849 100644
---- a/hw/usb/hcd-xhci.c
-+++ b/hw/usb/hcd-xhci.c
-@@ -3595,6 +3595,7 @@ static const TypeInfo xhci_info = {
-     .parent        = TYPE_DEVICE,
-     .instance_size = sizeof(XHCIState),
-     .class_init    = xhci_class_init,
-+    .abstract      = true,
- };
+diff --git a/hw/usb/Kconfig b/hw/usb/Kconfig
+index a674ce4c542..6a213b04758 100644
+--- a/hw/usb/Kconfig
++++ b/hw/usb/Kconfig
+@@ -42,9 +42,7 @@ config USB_XHCI_PCI
  
- static void xhci_register_types(void)
+ config USB_XHCI_NEC
+     bool
+-    default y if PCI_DEVICES
+-    depends on PCI
+-    select USB_XHCI
++    select USB_XHCI_PCI
+ 
+ config USB_XHCI_SYSBUS
+     bool
 -- 
 2.26.2
 
