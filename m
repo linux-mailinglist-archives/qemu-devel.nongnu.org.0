@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CE2E2AAD74
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 21:57:44 +0100 (CET)
-Received: from localhost ([::1]:54916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F72E2AAD6E
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 21:51:41 +0100 (CET)
+Received: from localhost ([::1]:39472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kbrkt-0006TL-H0
-	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 15:57:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53132)
+	id 1kbrf2-0008Rb-Df
+	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 15:51:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbrbT-0004yj-8r
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:47:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44545)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbrbY-00059s-Bn
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:48:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42926)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbrbR-0000Xw-CH
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:47:58 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbrbW-0000YO-NJ
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:48:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604868476;
+ s=mimecast20190719; t=1604868482;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rhakXTZKDCfk5v0jA5X38unAStmiYcMWfSFyfuJH4rI=;
- b=cK+/zKhfN2p8O1HlQgrNvB1F0tku7CDLa61mIBbGHjE7MlcQsz4I4BD0dLBPVqyM/iqqr3
- lTnMmUqhvJVqRW+zblDAzxP1FtF3fs5lMD0BvpY0DAwiENM7N09ANpLGh74ArsR4JRGGp5
- RDZ5xelEXMMduRRnC3iOUbxfGuUQ6mM=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-462-dXnrJQ4bMyWfkzNnBaA2TA-1; Sun, 08 Nov 2020 15:47:55 -0500
-X-MC-Unique: dXnrJQ4bMyWfkzNnBaA2TA-1
-Received: by mail-wr1-f70.google.com with SMTP id p16so745234wrx.4
- for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 12:47:55 -0800 (PST)
+ bh=008iN8GcWm31ImxzYVOcTFh32Buf8nV5TwwPQTAEsT0=;
+ b=TJgqfSGyG6IjdpqT4yYmBDxn9lPoqrjhcq5PmDMWpDo9DcCRJEP7yz9nUItuM95PpWhjbC
+ iTZ6zziEEC8tvFHjaKLy7Gikj0Y/0AgrR6FWBq7WVsaMoTqmIQmCMtH03UWNUGGQFTpgcN
+ zqy4Wgd0r7D/6DC8p9NeyrnTVNBkqUc=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-94-78k24L29OOitmj1BIxOxHg-1; Sun, 08 Nov 2020 15:48:00 -0500
+X-MC-Unique: 78k24L29OOitmj1BIxOxHg-1
+Received: by mail-wr1-f69.google.com with SMTP id w6so3388247wrk.1
+ for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 12:48:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rhakXTZKDCfk5v0jA5X38unAStmiYcMWfSFyfuJH4rI=;
- b=uoMIi8SAvQT9ItNGh7qtDQFePlI+kU4KfAwuMf3h6eVG621vB9ir324JmcLorStMaT
- gMjmHxa0IdwttuizB22cxEomSB6b7T2w1S5CRze37Qjssib53Hj05i8YJftbrKMEoeMS
- kLTJh7XBWYrxUTXN3aG2T9grSdnk8gwWQcifsfUf3f0OU3SQkizTGqiEOQv462pDag93
- LlCrUQu8GOKnAK8rv2adsUCJUj3TFFxdLof3uqrjM8SjMfFRB9XV46UoLBRTYGlMAPQF
- pAop3AomiA3QtzsUcOcFEu88SIN1pLy2PD/4EzpWSoWJwZW2VyKAJDKJLVsKtDVRv+SE
- gM0w==
-X-Gm-Message-State: AOAM531MWug/Pg9GWeDDF7ti5AV3u7RE//DBBN3NyiN1HydXobXpAfth
- 0wVA+jRLuvnYCFw3iULMzVv7Bum7WAkZ07n+XDmTAOuuTLsxm2TGm9WAipHGGSNXeotbyxd1C17
- KkSAJGUNAodhXpNo=
-X-Received: by 2002:adf:a343:: with SMTP id d3mr14320028wrb.91.1604868473880; 
- Sun, 08 Nov 2020 12:47:53 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzwXUsLg84qFW6TNCrr31EkRaFQ6RSke179RmTyo0mH0vTqxhUxc5Efn85PvZCBUqwPXNXVhw==
-X-Received: by 2002:adf:a343:: with SMTP id d3mr14320009wrb.91.1604868473746; 
- Sun, 08 Nov 2020 12:47:53 -0800 (PST)
+ bh=008iN8GcWm31ImxzYVOcTFh32Buf8nV5TwwPQTAEsT0=;
+ b=BQHMCrgU8cle9YKiIZdX84N2mwu41TjeSxXF08cdwh2Ga+AD5S4s+8XloNHPTbzBV+
+ ROs2Nu1Hqjx+pus/GnWoNv6Z5IlkBYl+Ciom8/bdY4YIZY0b2VlBScS07SDhcJB4mml3
+ qPLZRzflTbNMVAWPl5MkrevuuNYZ7ooJBYOvJyJdAzYYivSS+UGo356RH5/nc3z58JPX
+ zyV/5uAfhxEKG9e3ovIHLCIb6TQr8AMFrFMc/XUv3yaaLxzHcc/rCIkjs7eASF3YkhgN
+ FCPjF14q9Qziyd4GIRJERDBAGymPw5lSUq+BjsUh18CADS9CIlurHEiam7yyNmNcxY+V
+ XYrw==
+X-Gm-Message-State: AOAM530CxmrPy6gJrweRx7h+In1Ii23RyRyjWvf2FMsvPax4XRbjBIuM
+ HT9AQ6k+0iX1jfePKBmDCrYb2Dr3WMHX/zuDwkeExyIZxUXWtcZgci61TxOQNRSYFpUAq/OZNVN
+ 4hT5f7YjjDvaBWz8=
+X-Received: by 2002:adf:e28c:: with SMTP id v12mr14152005wri.230.1604868478987; 
+ Sun, 08 Nov 2020 12:47:58 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyVl+OZIMykaL4A7Gc4rcswDZSR9HC5BpNDg6jNh7a8IGqdMqWnCMBK2sHF34liWxNJvvdZPA==
+X-Received: by 2002:adf:e28c:: with SMTP id v12mr14151981wri.230.1604868478857; 
+ Sun, 08 Nov 2020 12:47:58 -0800 (PST)
 Received: from localhost.localdomain (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id b14sm10713523wrx.35.2020.11.08.12.47.52
+ by smtp.gmail.com with ESMTPSA id n22sm9937902wmk.40.2020.11.08.12.47.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Nov 2020 12:47:53 -0800 (PST)
+ Sun, 08 Nov 2020 12:47:58 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-6.0 v4 11/17] gitlab-ci: Move tools-only and softfloat
- tests across to gitlab
-Date: Sun,  8 Nov 2020 21:45:29 +0100
-Message-Id: <20201108204535.2319870-12-philmd@redhat.com>
+Subject: [PATCH-for-6.0 v4 12/17] gitlab-ci: Move coroutine tests across to
+ gitlab
+Date: Sun,  8 Nov 2020 21:45:30 +0100
+Message-Id: <20201108204535.2319870-13-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201108204535.2319870-1-philmd@redhat.com>
 References: <20201108204535.2319870-1-philmd@redhat.com>
@@ -96,12 +96,12 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- "Emilio G . Cota" <cota@braap.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
@@ -109,63 +109,69 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Similarly to commit 8cdb2cef3f1, move the tools-only and softfloat
-test to GitLab (splitting it in 2 different jobs).
+Similarly to commit 8cdb2cef3f1, move the coroutine tests to GitLab.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
-Cc: Alex Bennée <alex.bennee@linaro.org>
-Cc: Emilio G. Cota <cota@braap.org>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>
 ---
- .gitlab-ci.yml | 14 ++++++++++++++
- .travis.yml    |  9 ---------
- 2 files changed, 14 insertions(+), 9 deletions(-)
+ .gitlab-ci.yml | 16 ++++++++++++++++
+ .travis.yml    | 14 --------------
+ 2 files changed, 16 insertions(+), 14 deletions(-)
 
 diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index a91870cf85e..a799803afb9 100644
+index a799803afb9..6552a832939 100644
 --- a/.gitlab-ci.yml
 +++ b/.gitlab-ci.yml
-@@ -297,6 +297,20 @@ build-tcg-disabled:
-             208 209 215 216 218 222 227 234 246 247 248 250 254 255 257 258
-             260 261 262 263 264 270 272 273 277 279
+@@ -475,6 +475,22 @@ build-tci:
+     - QTEST_QEMU_BINARY="./qemu-system-x86_64" ./tests/qtest/pxe-test
+     - QTEST_QEMU_BINARY="./qemu-system-s390x" ./tests/qtest/pxe-test -m slow
  
-+build-tools:
++# Alternate coroutines implementations are only really of interest to KVM users
++# However we can't test against KVM on Travis so we can only run unit tests
++build-coroutine-ucontext:
 +  <<: *native_build_job_definition
 +  variables:
-+    IMAGE: debian-all-test-cross
-+    CONFIGURE_ARGS: --enable-tools --disable-system --disable-user
++    IMAGE: ubuntu2004
++    CONFIGURE_ARGS: --with-coroutine=ucontext --disable-tcg
++    MAKE_CHECK_ARGS: check-unit
 +
-+# run minimal unit and softfloat checks
-+build-softfloat:
++build-coroutine-sigaltstack:
 +  <<: *native_build_job_definition
 +  variables:
-+    IMAGE: debian-all-test-cross
-+    CONFIGURE_ARGS: --disable-tools --disable-system --disable-user
-+    MAKE_CHECK_ARGS: check-unit check-softfloat
++    IMAGE: ubuntu2004
++    CONFIGURE_ARGS: --with-coroutine=sigaltstack --disable-tcg
++    MAKE_CHECK_ARGS: check-unit
 +
- build-user:
-   <<: *native_build_job_definition
-   variables:
+ # Most jobs test latest gcrypt or nettle builds
+ #
+ # These jobs test old gcrypt and nettle from RHEL7
 diff --git a/.travis.yml b/.travis.yml
-index 5fb69c5fb02..15550fb023f 100644
+index 15550fb023f..8ef31f8d8b6 100644
 --- a/.travis.yml
 +++ b/.travis.yml
-@@ -119,15 +119,6 @@ after_script:
+@@ -139,20 +139,6 @@ jobs:
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
  
- jobs:
-   include:
--    # Just build tools and run minimal unit and softfloat checks
--    - name: "GCC check-unit and check-softfloat"
+ 
+-    # Alternate coroutines implementations are only really of interest to KVM users
+-    # However we can't test against KVM on Travis so we can only run unit tests
+-    - name: "check-unit coroutine=ucontext"
 -      env:
--        - BASE_CONFIG="--enable-tools"
--        - CONFIG="--disable-user --disable-system"
--        - TEST_CMD="make check-unit check-softfloat -j${JOBS}"
--        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+-        - CONFIG="--with-coroutine=ucontext --disable-tcg"
+-        - TEST_CMD="make check-unit -j${JOBS} V=1"
 -
 -
-     # --enable-debug implies --enable-debug-tcg, also runs quite a bit slower
-     - name: "GCC debug (main-softmmu)"
-       env:
+-    - name: "check-unit coroutine=sigaltstack"
+-      env:
+-        - CONFIG="--with-coroutine=sigaltstack --disable-tcg"
+-        - TEST_CMD="make check-unit -j${JOBS} V=1"
+-
+-
+     # Check we can build docs and tools (out of tree)
+     - name: "tools and docs (bionic)"
+       dist: bionic
 -- 
 2.26.2
 
