@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED4BB2AAA61
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 10:33:52 +0100 (CET)
-Received: from localhost ([::1]:34600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 475DE2AAA66
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 10:39:07 +0100 (CET)
+Received: from localhost ([::1]:42494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kbh55-0005wU-Q5
-	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 04:33:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40820)
+	id 1kbhAA-00017l-9P
+	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 04:39:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kbh2G-0002s3-GK
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 04:30:56 -0500
-Received: from indium.canonical.com ([91.189.90.7]:56398)
+ id 1kbh6m-0006cu-19
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 04:35:36 -0500
+Received: from indium.canonical.com ([91.189.90.7]:56988)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kbh2C-0004nO-2M
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 04:30:56 -0500
+ id 1kbh6k-0006Vf-92
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 04:35:35 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kbh29-0007tg-2Y
- for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 09:30:49 +0000
+ id 1kbh6i-0008NL-68
+ for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 09:35:32 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 115D02E812F
- for <qemu-devel@nongnu.org>; Sun,  8 Nov 2020 09:30:49 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 2BE872E811E
+ for <qemu-devel@nongnu.org>; Sun,  8 Nov 2020 09:35:32 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 08 Nov 2020 09:25:21 -0000
-From: Thomas Huth <1634069@bugs.launchpad.net>
+Date: Sun, 08 Nov 2020 09:25:43 -0000
+From: Thomas Huth <1636770@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Wishlist; assignee=None; 
-X-Launchpad-Bug-Tags: configuration feature-request keys shortcuts
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: hi-angel-z
-X-Launchpad-Bug-Reporter: Konstantin (hi-angel-z)
+X-Launchpad-Bug-Commenters: bugreport-mailinator programmingkidx th-huth
+X-Launchpad-Bug-Reporter: Bug Report (bugreport-mailinator)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20161017092825.7185.16355.malonedeb@gac.canonical.com>
-Message-Id: <160482752291.13412.2983935951644042123.launchpad@gac.canonical.com>
-Subject: [Bug 1634069] Re: Exclude keys from grab
+References: <20161026101903.20135.18801.malonedeb@soybean.canonical.com>
+Message-Id: <160482754344.13670.15007286379419003189.malone@gac.canonical.com>
+Subject: [Bug 1636770] Re: mouse wheel works only with -usbdevice tablet
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: 4918bfad3db670eac8d23497fbb4110722d86bea
+X-Launchpad-Hash: 9b50d87cbf2156f7d7c9b4424c1324713538a7f4
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/08 04:10:58
@@ -72,34 +72,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1634069 <1634069@bugs.launchpad.net>
+Reply-To: Bug 1636770 <1636770@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The QEMU project is currently considering to move its bug tracking to anoth=
+er system. For this we need to know which bugs are still valid and which co=
+uld be closed already. Thus we are setting all older bugs to
+"Incomplete" now.
+If you still think this bug report here is valid, then please switch the st=
+ate back to "New" within the next 60 days, otherwise this report will be ma=
+rked as "Expired". Thank you and sorry for the inconvenience.
+
+
 ** Changed in: qemu
-   Importance: Undecided =3D> Wishlist
+       Status: New =3D> Incomplete
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1634069
+https://bugs.launchpad.net/bugs/1636770
 
 Title:
-  Exclude keys from grab
+  mouse wheel works only with -usbdevice tablet
 
 Status in QEMU:
-  New
+  Incomplete
 
 Bug description:
-  Feature request: pressing every time a shortcut to release grab for
-  switching windows/desktops is pretty annoying, especially for users of
-  tiling WMs.
+  2.7.0
 
-  QEMU have to have a way to specify keys or shortcuts (possibly
-  something like "everything with the specified modifier key"), which
-  would not be intercepted.
+  tested with windows 10 1607
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1634069/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1636770/+subscriptions
 
