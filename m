@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC3D42AAD6C
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 21:51:38 +0100 (CET)
-Received: from localhost ([::1]:39096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB7DC2AAD71
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 21:54:10 +0100 (CET)
+Received: from localhost ([::1]:47472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kbrez-0008Hw-Hl
-	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 15:51:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52922)
+	id 1kbrhR-0003NO-SZ
+	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 15:54:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbraj-0003xd-NV
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:47:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21215)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbrao-00041g-Gq
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:47:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42040)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbrah-0000Tp-PH
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:47:13 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbram-0000UM-Q8
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:47:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604868430;
+ s=mimecast20190719; t=1604868436;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5NBaRkUn5YAYhPpHLZeqVOEAZ8strin9MJlCWv9hP5E=;
- b=He7CYrvRrpXdUCjSHT5UUXMSsWRFEym9APwgObgD2h/eYFiQopXm03f4gVT2c0nIyH+ewr
- WRtgD2e6ZYy6crx0/YBvcum3f0uyalyWnsuJs7l8tOsMl8ihf+0tG1zaQhaewVG38NRLLn
- +iyUwIBfjcVJz/pG/tWe62iK1AoP5ik=
+ bh=AQZWhvSbI5p4N1e0B4bgocntEDGXJm7E/SmoI1MVHIY=;
+ b=g6WliViqkM2k4oOMEgfGaZM0d/Ar8OmHtUeOZyufEO1WDIeytLuunpIU1wdm29CYwiUKIW
+ HuGS5EVV4YsOh0Ifyr0tBUnBy98zzhYbJHEXxLHP0/xzt2VJeI2NiWpip6txjegrh8fuCK
+ impssMZsVJrstzZVHfw6y+zsJWorX6Y=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-352-XtZRne2CNUip9tiJPRIqcg-1; Sun, 08 Nov 2020 15:47:09 -0500
-X-MC-Unique: XtZRne2CNUip9tiJPRIqcg-1
-Received: by mail-wr1-f69.google.com with SMTP id 67so3401553wra.2
- for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 12:47:08 -0800 (PST)
+ us-mta-196-mjH24TeMPI6EePx5xKTxVQ-1; Sun, 08 Nov 2020 15:47:14 -0500
+X-MC-Unique: mjH24TeMPI6EePx5xKTxVQ-1
+Received: by mail-wr1-f69.google.com with SMTP id w17so2646403wrp.11
+ for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 12:47:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5NBaRkUn5YAYhPpHLZeqVOEAZ8strin9MJlCWv9hP5E=;
- b=mfyTNz+HVOFDhzHDua/fihQ3uftlWIOanvllHPchFTGAlssncmngJQRvNudD2qCcv8
- ShV0aCLrx7eRQirahYqnjqJtWOJ45J3+KZ2wxuJH++OE4hWCyntp2aEf6GWueK7693/6
- LYS8XjBV1lkkIhBuBB3bqP882TSdIj+v8x7ErWZ5JWhf+JdWZMUkVxm6pTwGwOIxGIrb
- yU2wiTFjgaBVp2efwrvyCg7ziCketoMaPadm5kydkTON0LYjO0d/O704estUfCrMFjvI
- tJF5Xh12SwyswfR4FkRP2b3IZMFWZtcMWw4zcEecPOhrk3YA4cnTufyETr8TlFR/bgAj
- yv2A==
-X-Gm-Message-State: AOAM5302b3p0uKq05V9poL2RRkP+vxQB8lHSx40Mha23VrOr+l6THoIN
- 03bEj8V6YgraxNIA/9N9/jG/UnFrPS+DvD2K4VCSTkyJ8V3/kVEAPTHWsDWBxlN3qJtW0xlkSb+
- kJaSdzrUvruNY2gs=
-X-Received: by 2002:a5d:5082:: with SMTP id a2mr14202755wrt.417.1604868427644; 
- Sun, 08 Nov 2020 12:47:07 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwknkLe87CG9Vs2damW/2NhZh5JvrWKcBdxiiHNL69MXrc1f+vsepWoNI1MEUzdyCP3wyocKQ==
-X-Received: by 2002:a5d:5082:: with SMTP id a2mr14202736wrt.417.1604868427458; 
- Sun, 08 Nov 2020 12:47:07 -0800 (PST)
+ bh=AQZWhvSbI5p4N1e0B4bgocntEDGXJm7E/SmoI1MVHIY=;
+ b=fUeOQWVwJWqQtcYvl2XSjLHePo9uY1pLXfPafzqwq19zlbBbkEJ/2JogopYJDAl4WI
+ Z/q85a7HMrF65k1CZvODUJ6cAVpxX7jA1oaAoyIQ8bUHuNbJqS/g+8Nt/ztkUvKcotU/
+ P5+xoY9BWsXu+XCoCPD5YT4oC/MfVx6Lz3iDj/IwZc4dT3A5C6SvaYtwU190JNq0ENN6
+ IpdcP5Su6KrOB2oxXWK+qTFZez9Za47dTWAcLYk/b1DNUGnUtp+VXzmi2t9pPB2vpRQH
+ 3rRZoacC+xWamJJOtRhPuOf0UexidSG7Rcwby5tsYEGxLvFrCLdoLzGkN6AT+b9VYiJJ
+ cKUA==
+X-Gm-Message-State: AOAM531L697A8D9QqK+1EcQKgiPt+zsV6VeV6aTeob+/s01xXMuKbxr5
+ C1QOmbJAY+K3R9L5NW6RZGNRDZv2IanehSzvE5jf6CiUsOof/akK7xQmOulQzIQfZ1e1Jcc6QGM
+ uMeGiW8YvXGE3Wo8=
+X-Received: by 2002:adf:bb43:: with SMTP id x3mr14453193wrg.250.1604868433210; 
+ Sun, 08 Nov 2020 12:47:13 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx6xiS2T1BEEsf+xEKz+wrtpCamxQytQ9n9oVGcCZnWvRwoLrlXkZ4xtOR6+A5AWfTYfv+vzw==
+X-Received: by 2002:adf:bb43:: with SMTP id x3mr14453174wrg.250.1604868433074; 
+ Sun, 08 Nov 2020 12:47:13 -0800 (PST)
 Received: from localhost.localdomain (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id d63sm10307371wmd.12.2020.11.08.12.47.05
+ by smtp.gmail.com with ESMTPSA id t13sm11244180wru.67.2020.11.08.12.47.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Nov 2020 12:47:06 -0800 (PST)
+ Sun, 08 Nov 2020 12:47:12 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2 v4 02/17] meson: always include contrib/libvhost-user
-Date: Sun,  8 Nov 2020 21:45:20 +0100
-Message-Id: <20201108204535.2319870-3-philmd@redhat.com>
+Subject: [PATCH-for-5.2 v4 03/17] hw/i386/acpi-build: Fix maybe-uninitialized
+ error when ACPI hotplug off
+Date: Sun,  8 Nov 2020 21:45:21 +0100
+Message-Id: <20201108204535.2319870-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201108204535.2319870-1-philmd@redhat.com>
 References: <20201108204535.2319870-1-philmd@redhat.com>
@@ -99,7 +100,6 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
  "Daniel P . Berrange" <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
@@ -108,44 +108,86 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+GCC 9.3.0 thinks that 'method' can be left uninitialized. This code
+is already in the "if (bsel || pcihp_bridge_en)" block statement,
+but it isn't smart enough to figure it out.
 
-libvhost-user is needed when CONFIG_LINUX is set. The CONFIG_VHOST_USER
-check in meson.build is incorrect.
+Restrict the code to be used only in the "if (bsel || pcihp_bridge_en)"
+block statement to fix (on Ubuntu):
 
-In fact, no explicit check is needed since this dependency is not built
-by default. If something declares a dependency on libvhost-user then it
-will be built, otherwise it won't be built (i.e. on non-Linux hosts).
+  ../hw/i386/acpi-build.c: In function 'build_append_pci_bus_devices':
+  ../hw/i386/acpi-build.c:496:9: error: 'method' may be used uninitialized
+  in this function [-Werror=maybe-uninitialized]
+    496 |         aml_append(parent_scope, method);
+        |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  cc1: all warnings being treated as errors
 
-This fixes ./configure --disable-vhost-user && make.
-
-Fixes: bc15e44cb2191bbb2318878acdf5038134e56394 ("configure: introduce --enable-vhost-user-blk-server")
-Reported-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reported-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20201106210340.698771-1-stefanha@redhat.com>
+Fixes: df4008c9c59 ("piix4: don't reserve hw resources when hotplug is off globally")
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- meson.build | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ hw/i386/acpi-build.c | 45 +++++++++++++++++++++-----------------------
+ 1 file changed, 21 insertions(+), 24 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index f5175010dfa..b4736203219 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1450,11 +1450,7 @@
-   'util',
- ]
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 4f66642d887..1f5c2112452 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -465,34 +465,31 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+      */
+     if (bsel || pcihp_bridge_en) {
+         method = aml_method("PCNT", 0, AML_NOTSERIALIZED);
+-    }
+-    /* If bus supports hotplug select it and notify about local events */
+-    if (bsel) {
+-        uint64_t bsel_val = qnum_get_uint(qobject_to(QNum, bsel));
  
--vhost_user = not_found
--if 'CONFIG_VHOST_USER' in config_host
--  subdir('contrib/libvhost-user')
--endif
+-        aml_append(method, aml_store(aml_int(bsel_val), aml_name("BNUM")));
+-        aml_append(method,
+-            aml_call2("DVNT", aml_name("PCIU"), aml_int(1) /* Device Check */)
+-        );
+-        aml_append(method,
+-            aml_call2("DVNT", aml_name("PCID"), aml_int(3)/* Eject Request */)
+-        );
+-    }
++        /* If bus supports hotplug select it and notify about local events */
++        if (bsel) {
++            uint64_t bsel_val = qnum_get_uint(qobject_to(QNum, bsel));
+ 
+-    /* Notify about child bus events in any case */
+-    if (pcihp_bridge_en) {
+-        QLIST_FOREACH(sec, &bus->child, sibling) {
+-            int32_t devfn = sec->parent_dev->devfn;
 -
-+subdir('contrib/libvhost-user')
- subdir('qapi')
- subdir('qobject')
- subdir('stubs')
+-            if (pci_bus_is_root(sec) || pci_bus_is_express(sec)) {
+-                continue;
+-            }
+-
+-            aml_append(method, aml_name("^S%.02X.PCNT", devfn));
++            aml_append(method, aml_store(aml_int(bsel_val), aml_name("BNUM")));
++            aml_append(method, aml_call2("DVNT", aml_name("PCIU"),
++                                         aml_int(1))); /* Device Check */
++            aml_append(method, aml_call2("DVNT", aml_name("PCID"),
++                                         aml_int(3))); /* Eject Request */
++        }
++
++        /* Notify about child bus events in any case */
++        if (pcihp_bridge_en) {
++            QLIST_FOREACH(sec, &bus->child, sibling) {
++                int32_t devfn = sec->parent_dev->devfn;
++
++                if (pci_bus_is_root(sec) || pci_bus_is_express(sec)) {
++                    continue;
++                }
++
++                aml_append(method, aml_name("^S%.02X.PCNT", devfn));
++            }
+         }
+-    }
+ 
+-    if (bsel || pcihp_bridge_en) {
+         aml_append(parent_scope, method);
+     }
+     qobject_unref(bsel);
 -- 
 2.26.2
 
