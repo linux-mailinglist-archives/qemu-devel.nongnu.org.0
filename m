@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 971492AAD6A
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 21:49:16 +0100 (CET)
-Received: from localhost ([::1]:60794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 531AB2AAD6D
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 21:51:39 +0100 (CET)
+Received: from localhost ([::1]:39184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kbrch-0005c1-MT
-	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 15:49:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53006)
+	id 1kbrf0-0008K1-AS
+	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 15:51:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbray-0004Ff-Tf
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:47:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20371)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbrb4-0004QD-09
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:47:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28673)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbrax-0000V7-3p
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:47:28 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbrb2-0000VN-76
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:47:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604868446;
+ s=mimecast20190719; t=1604868451;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AVjcP+pti2u4PYxK7LerM3qHxrgoqrncvBuoP4reknY=;
- b=i0SUZYrw8/1tHbLzs7JdAGGKmK/7ha9ifPLl++HoCozDgDD+gc7NtPr0Jz6Q9qnPx60/Hp
- ROLrTj2DJkSzBj/g8s9pckxgi0k7WUCqERb3/0HCvcAz0S3C7lFJ0gG9Zn2psX/+aUrzsf
- CBR5eQ3yoJ61ioFSEGig+qWx8zwpoIw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-586-ujktNPoIPL-vuStZPXlhYA-1; Sun, 08 Nov 2020 15:47:25 -0500
-X-MC-Unique: ujktNPoIPL-vuStZPXlhYA-1
-Received: by mail-wr1-f70.google.com with SMTP id q15so3378258wrw.8
- for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 12:47:24 -0800 (PST)
+ bh=z2grejy7cDYx/3lhILvA2g1L5VhxTj2T7VuEMQqmhSg=;
+ b=P2/tvu89G8gGG2e2iy+qQlYazARg12iMneromVdA0m9OOYRDJ8RhR63zsWfgR64AnD4eiO
+ L6+MdgdNZlRElfvlhT+Lwevmos+F7VlRJ21aHEj18yCvkBnFRRTJMakblPYrtR4eli5qBp
+ aBQNG63Jwny+mrUwK+Py6h+XcwU0dPc=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-86-jcgmT2QePIS8ANzooQ9fvQ-1; Sun, 08 Nov 2020 15:47:29 -0500
+X-MC-Unique: jcgmT2QePIS8ANzooQ9fvQ-1
+Received: by mail-wr1-f71.google.com with SMTP id 67so3401852wra.2
+ for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 12:47:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AVjcP+pti2u4PYxK7LerM3qHxrgoqrncvBuoP4reknY=;
- b=m8En1RgTn93WiDSEXPgb8E/aepsHmkGrXN5y5YrGgZS6zmNLjSNmK/gXoHWcqPf7O1
- /LFActMqnoClx5C1f4Bocix5DOObAJYZm+TgtrOwWTFhjQRvpRYK+XgWa9Y1WPfd/q67
- IzYutLE3BVdyhYWS1Znn256LWhvMBd1wiEYwLK+bnru3469JiZMBhYoIL5/0Iamj8ieH
- 9sXg+3Hfrmq5KZcW1AJqEGz8rDAG588aAYiDyIc3c3X6BSBtTIaiPRjbhm1suCTBNvdd
- DgH3cGxUfoH80vEZdaEEAxSZkHusuf1qyr/u3cqd14bjZwI8bUyYXdmuRlCuI0/XUESw
- GM3A==
-X-Gm-Message-State: AOAM533+FCcoAuD/d48ncILhT/yG2E23yuJidTVlp7gxQFE8b7xyvxQm
- +XKJeQQy634SjFmuNrSYU5KnNcGjkqqe7TD3V3TCiFuVZjGmALb9SM6BLQZsu7gpKtkklZNL0J7
- FyBBlhxAtBabpFsQ=
-X-Received: by 2002:a7b:c8c9:: with SMTP id f9mr10553024wml.3.1604868443413;
- Sun, 08 Nov 2020 12:47:23 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxzAe3q+xAjauzyNHWuwSWjS8Qw0/Uvwxtpr5r7okJhqpWngHAM5/kVWsPibPQvVgylMUkZIw==
-X-Received: by 2002:a7b:c8c9:: with SMTP id f9mr10553001wml.3.1604868443284;
- Sun, 08 Nov 2020 12:47:23 -0800 (PST)
+ bh=z2grejy7cDYx/3lhILvA2g1L5VhxTj2T7VuEMQqmhSg=;
+ b=UlwXrqk7KishN3mPmH5W2B76keR1Gl95EMARThC9pk1R6zGIKo3uPt2e1oFao6tYWA
+ LthyAadcA8pI9VYT10zXUt/MnhOR18VpM1+2O2i1EhW1oAOza1wTSiiLIEGCuM70wJeg
+ Snjb5Kh4QwyFiR1lHdqHc1MzJ6uPjLU5JYhAlCMvz9XNgxzuBzmM37qLo4t3xrjKDWaK
+ mCEXFTThCptsWiz0P98XgmLyHoZsVhH06onq6vTXJOHepnSy2JM8MorN8fDTXa6RCmhD
+ zmXTea31c/4C3Y2qufXQx3J0H1JYcayC3XGQ+XGyr+nZMEs1sxSM000i0ihRdG3PtSB4
+ fBIw==
+X-Gm-Message-State: AOAM530kfktb7dPNl6sWWz60lgUwMCmr83G6Q0ZL+bQJhBS4jPF2njFd
+ PsYzg6M+SeSdutINdKo3UCIJMNdZ5W2pZhvRxP1BPFGfvKticrhk+lLeo97GNI0hcoB8Ku2M9MS
+ 72li9FN5eolqrFHY=
+X-Received: by 2002:adf:e8d0:: with SMTP id k16mr14205829wrn.362.1604868448412; 
+ Sun, 08 Nov 2020 12:47:28 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx6euOhHzjGTMG8udP4rAugOHoI2x9CDy5uQREcFOTMW8mSBLGcWS5mQRTf/2iVWMzWk/w+Pw==
+X-Received: by 2002:adf:e8d0:: with SMTP id k16mr14205808wrn.362.1604868448301; 
+ Sun, 08 Nov 2020 12:47:28 -0800 (PST)
 Received: from localhost.localdomain (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id c62sm5502227wme.22.2020.11.08.12.47.21
+ by smtp.gmail.com with ESMTPSA id o11sm11481323wre.39.2020.11.08.12.47.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Nov 2020 12:47:22 -0800 (PST)
+ Sun, 08 Nov 2020 12:47:27 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-6.0 v4 05/17] gitlab-ci: Split CONFIGURE_ARGS one argument
- per line for build-disabled
-Date: Sun,  8 Nov 2020 21:45:23 +0100
-Message-Id: <20201108204535.2319870-6-philmd@redhat.com>
+Subject: [PATCH-for-6.0 v4 06/17] gitlab-ci: Update 'build-disabled' to cover
+ all configurable options
+Date: Sun,  8 Nov 2020 21:45:24 +0100
+Message-Id: <20201108204535.2319870-7-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201108204535.2319870-1-philmd@redhat.com>
 References: <20201108204535.2319870-1-philmd@redhat.com>
@@ -108,111 +108,74 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We will keep adding/removing options to our 'configure' script,
-so for easier maintainability it makes sense to have CONFIGURE_ARGS
-declared as one option per line. This way we can review diff easily
-(or rebase/cherry-pick).
-
-No logical change.
+Add these missing options to the 'build-disabled' job:
+  --disable-auth-pam             (commit 8953caf3cd38)
+  --disable-gcrypt               (commit 91bfcdb01d48)
+  --disable-keyring              (commit 54e7aac05624)
+  --disable-libudev              (commit 5c53015a480b)
+  --disable-opengl               (commit da076ffed6b9)
+  --disable-sparse               (commit 03b4fe7de226)
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
-Cc: Daniel P . Berrange <berrange@redhat.com>
----
- .gitlab-ci.yml | 80 +++++++++++++++++++++++++++++++++++++++-----------
- 1 file changed, 63 insertions(+), 17 deletions(-)
+ .gitlab-ci.yml | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 3b15ae5c302..9f090cca5e3 100644
+index 9f090cca5e3..b98800462ed 100644
 --- a/.gitlab-ci.yml
 +++ b/.gitlab-ci.yml
-@@ -203,23 +203,69 @@ build-disabled:
-   <<: *native_build_job_definition
-   variables:
+@@ -205,6 +205,7 @@ build-disabled:
      IMAGE: fedora
--    CONFIGURE_ARGS: --disable-attr --disable-avx2 --disable-bochs
--      --disable-brlapi --disable-bzip2 --disable-cap-ng --disable-capstone
--      --disable-cloop --disable-coroutine-pool --disable-curl --disable-curses
--      --disable-dmg --disable-docs --disable-glusterfs --disable-gnutls
--      --disable-gtk --disable-guest-agent --disable-iconv --disable-kvm
--      --disable-libiscsi --disable-libpmem --disable-libssh --disable-libusb
--      --disable-libxml2 --disable-linux-aio --disable-live-block-migration
--      --disable-lzo --disable-malloc-trim --disable-mpath --disable-nettle
--      --disable-numa --disable-parallels --disable-pie --disable-qcow1
--      --disable-qed --disable-qom-cast-debug --disable-rbd --disable-rdma
--      --disable-replication --disable-sdl --disable-seccomp --disable-sheepdog
--      --disable-slirp --disable-smartcard --disable-snappy --disable-spice
--      --disable-strip --disable-tpm --disable-usb-redir --disable-vdi
--      --disable-vhost-crypto --disable-vhost-net --disable-vhost-scsi
--      --disable-vhost-user --disable-vhost-vdpa --disable-vhost-vsock
--      --disable-virglrenderer --disable-vnc --disable-vte --disable-vvfat
--      --disable-xen --disable-zstd
-+    CONFIGURE_ARGS:
-+      --disable-attr
-+      --disable-avx2
-+      --disable-bochs
-+      --disable-brlapi
-+      --disable-bzip2
-+      --disable-cap-ng
-+      --disable-capstone
-+      --disable-cloop
-+      --disable-coroutine-pool
-+      --disable-curl
-+      --disable-curses
-+      --disable-dmg
-+      --disable-docs
-+      --disable-glusterfs
-+      --disable-gnutls
-+      --disable-gtk
-+      --disable-guest-agent
-+      --disable-iconv
-+      --disable-kvm
-+      --disable-libiscsi
-+      --disable-libpmem
-+      --disable-libssh
-+      --disable-libusb
-+      --disable-libxml2
-+      --disable-linux-aio
-+      --disable-live-block-migration
-+      --disable-lzo
-+      --disable-malloc-trim
-+      --disable-mpath
-+      --disable-nettle
-+      --disable-numa
-+      --disable-parallels
-+      --disable-pie
-+      --disable-qcow1
-+      --disable-qed
-+      --disable-qom-cast-debug
-+      --disable-rbd
-+      --disable-rdma
-+      --disable-replication
-+      --disable-sdl
-+      --disable-seccomp
-+      --disable-sheepdog
-+      --disable-slirp
-+      --disable-smartcard
-+      --disable-snappy
-+      --disable-spice
-+      --disable-strip
-+      --disable-tpm
-+      --disable-usb-redir
-+      --disable-vdi
-+      --disable-vhost-crypto
-+      --disable-vhost-net
-+      --disable-vhost-scsi
-+      --disable-vhost-user
-+      --disable-vhost-vdpa
-+      --disable-vhost-vsock
-+      --disable-virglrenderer
-+      --disable-vnc
-+      --disable-vte
-+      --disable-vvfat
-+      --disable-xen
-+      --disable-zstd
-     TARGETS: arm-softmmu i386-softmmu ppc64-softmmu mips64-softmmu
-       s390x-softmmu i386-linux-user
-     MAKE_CHECK_ARGS: check-qtest SPEED=slow
+     CONFIGURE_ARGS:
+       --disable-attr
++      --disable-auth-pam
+       --disable-avx2
+       --disable-bochs
+       --disable-brlapi
+@@ -217,15 +218,18 @@ build-disabled:
+       --disable-curses
+       --disable-dmg
+       --disable-docs
++      --disable-gcrypt
+       --disable-glusterfs
+       --disable-gnutls
+       --disable-gtk
+       --disable-guest-agent
+       --disable-iconv
++      --disable-keyring
+       --disable-kvm
+       --disable-libiscsi
+       --disable-libpmem
+       --disable-libssh
++      --disable-libudev
+       --disable-libusb
+       --disable-libxml2
+       --disable-linux-aio
+@@ -235,6 +239,7 @@ build-disabled:
+       --disable-mpath
+       --disable-nettle
+       --disable-numa
++      --disable-opengl
+       --disable-parallels
+       --disable-pie
+       --disable-qcow1
+@@ -249,6 +254,7 @@ build-disabled:
+       --disable-slirp
+       --disable-smartcard
+       --disable-snappy
++      --disable-sparse
+       --disable-spice
+       --disable-strip
+       --disable-tpm
+@@ -258,6 +264,7 @@ build-disabled:
+       --disable-vhost-net
+       --disable-vhost-scsi
+       --disable-vhost-user
++      --disable-vhost-user-blk-server
+       --disable-vhost-vdpa
+       --disable-vhost-vsock
+       --disable-virglrenderer
 -- 
 2.26.2
 
