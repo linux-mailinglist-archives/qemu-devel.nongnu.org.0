@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C5AC2AAE2D
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 00:15:03 +0100 (CET)
-Received: from localhost ([::1]:58074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62C5E2AAE31
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 00:16:54 +0100 (CET)
+Received: from localhost ([::1]:60316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kbttk-00069A-1U
-	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 18:15:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43820)
+	id 1kbtvY-0007Fv-Uo
+	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 18:16:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kbts9-0005ht-3b
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 18:13:21 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:36189)
+ id 1kbtuI-0006pl-Is
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 18:15:34 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:40422)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kbts7-0007ZO-AS
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 18:13:20 -0500
-Received: by mail-wr1-x441.google.com with SMTP id x7so6875707wrl.3
- for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 15:13:18 -0800 (PST)
+ id 1kbtuG-0007ov-W9
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 18:15:34 -0500
+Received: by mail-wm1-x343.google.com with SMTP id t67so1990895wmt.5
+ for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 15:15:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=xHuPMoNhce6JBToDRnIKq/2vosQ/aXJN5Z+fOaZyusE=;
- b=T2KfJrvENr3h79sXpTApaad9VJekfK1KlU127lrk67GcuUSy6et9GWj41zV8hYKac4
- CrHmEayoooRXKxYjH+BH+9/5SdanVF4YkPGqOq8NRmsMDEuhVtWmP1fssgRA7o7NdNO5
- ojmcqCfLRU163KbbqLSRmC6QvsSTN+VpXUBXHrdhb+XXF4wJRSLj04092Yft9MNYooAc
- uh4tjba+NIYgIchcRVWLYJfL3gjqVvCfMj7kZllSpXIDwSmkcAmCs1F3W7KJYU8jNQ/K
- MWi5SaeyccdoVeEG7sdhoGiGeUeDqS/I/DKyNjQPUpvDU5CeUU2SH2Lds0g3cUlZ7Am8
- ioFw==
+ bh=0ovojaX8kV+dHsTO7gce/DrWPrcuXYAfm0qWtOCVoBI=;
+ b=bxw+O8s6UGBhCtlwQQSDZWOHTHNvj8fwIqmM67cVDEN6hVQd4oPFo6Pz0K3EffIR3K
+ lZViGPz0i1OIzDYNAK5+ADocvoHXAgF1PbvqO2IWAbhJajW/90Gs1QbeoD2GiNH18iU3
+ fvUlQseeFeoHs1WsiTKWH0caVNV3IAHdclLxB1rY8E/PXdBo0BWMescqf2f6n8gssjDk
+ NxJ5fXnMZqqZKAQi5fB8V0txxpxdJx9oNcnMl1X38sBmwX1Q+IKJGZfRNouaGJ2PJpcV
+ +x5o/pCTnuGqIXcKmQgrhqybFM7z23z0i2NkSxmsnRGyXiTauL6hXQvn7Qx0FLnT1iLo
+ 1y+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=xHuPMoNhce6JBToDRnIKq/2vosQ/aXJN5Z+fOaZyusE=;
- b=kBPhWk58Vptjhb1Bhez8LLZ+cAraVcoBcVB2O1+JKM5PsVo23sEN5OxHSErDI5xux+
- h479RxG3dp8B2dgt1QNYorAUAupgYjjMVKF4v0etYVYo6JbDwvIWJOJn2lzBhgLQjc3V
- zJYv5oBGuZf96p2Mr1k0SrUG09wx4uu/2xmh9gIaLVXFdjMHRqEEImp9VRdLZtoVmCPa
- nfkrxzeaOqzaUEp6hTe36hHFMHK2BJ5DtsQ4dKBIeAiL4JZPO3HjEjBbW35B4mgocTPj
- QplDMdxx8t3vI5ThRA/rVgvaTC4B1Q3BrHabifS2hptgdVORMQlgA65bUWKW1VKUIzNw
- zAHw==
-X-Gm-Message-State: AOAM532ilyYrtX+DnDTgWs2dylz1HVM0nzN19aXxHzQaOD2BGNckzNc2
- L85luA7sAPRvvFEtutgjfXg=
-X-Google-Smtp-Source: ABdhPJy+zNtHBgRKlK3Q6nZ22koqMXHGGzfoF+auaJrX6qOGn2NaTncrG4CL7vUU/oPYsYrn88hR/w==
-X-Received: by 2002:a05:6000:1188:: with SMTP id
- g8mr14313616wrx.422.1604877197507; 
- Sun, 08 Nov 2020 15:13:17 -0800 (PST)
+ bh=0ovojaX8kV+dHsTO7gce/DrWPrcuXYAfm0qWtOCVoBI=;
+ b=I5XfvKzYBsktV20nMNjr2CoQN3lTruVyTksNSTEtMs+0FR238Bryms0/1zYMr/IZ9Z
+ MfgTNEy8rg49Vvr6HiFyhVCJpfeZWTqtSaOAUHKcLUiAa0tyEa0fAk0w3DGcVeSK4TpT
+ 0akq+nPk7hLtPxTDJ5yLAvCzjgy609MTFmQvX8/xOQNzZuEClECnEq1qRO6hXkPI3eZ3
+ WOYW6GtzzFR+wHZcodY9mrNnY8jQzNbW/WOViVRKK6rcyMHGgJBkaSDJJM6a2j2RXkqG
+ 1JrpXsF5i/zsDcN1fFajGnjlqetMMxqFl0tZpNZ96HKnECd0nkFlLFWbeIxotgevBLma
+ Qhqw==
+X-Gm-Message-State: AOAM532ryZIW9C+70BXxWYvjTm/xXMnp2xQeBhwquu/9/gdkN2cc3yua
+ 74vFagCb8DKmQY3DDkOLA/s=
+X-Google-Smtp-Source: ABdhPJxk6dB2zVBsXB324Q72q0wQB4GpcxOLgKRq75edfHtCqjD8x6gCKn8OCaCHhN/E0csAvXu4yQ==
+X-Received: by 2002:a1c:4b18:: with SMTP id y24mr11907803wma.154.1604877331160; 
+ Sun, 08 Nov 2020 15:15:31 -0800 (PST)
 Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id t6sm10844966wrp.68.2020.11.08.15.13.16
+ by smtp.gmail.com with ESMTPSA id e5sm10850625wrw.93.2020.11.08.15.15.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 08 Nov 2020 15:13:16 -0800 (PST)
-Subject: Re: [PATCH for-5.2] hw/mips/boston.c: Fix memory leak in
- boston_fdt_filter() error-handling paths
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20201106175823.1650-1-peter.maydell@linaro.org>
+ Sun, 08 Nov 2020 15:15:30 -0800 (PST)
+Subject: Re: [PATCH V17 1/6] target/mips: Fix PageMask with variable page size
+To: Huacai Chen <zltjiangshi@gmail.com>
+References: <1604636510-8347-1-git-send-email-chenhc@lemote.com>
+ <1604636510-8347-2-git-send-email-chenhc@lemote.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <c9c2023a-fa95-33e2-0ae2-265b2e398f84@amsat.org>
-Date: Mon, 9 Nov 2020 00:13:15 +0100
+Message-ID: <71ae43a1-e0f1-592a-38bd-14d7ef2d6a25@amsat.org>
+Date: Mon, 9 Nov 2020 00:15:28 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201106175823.1650-1-peter.maydell@linaro.org>
+In-Reply-To: <1604636510-8347-2-git-send-email-chenhc@lemote.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -93,21 +92,81 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Paul Burton <paulburton@kernel.org>
+ Huacai Chen <chenhuacai@gmail.com>, qemu-devel@nongnu.org,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Huacai Chen <chenhc@lemote.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/6/20 6:58 PM, Peter Maydell wrote:
-> Coverity points out that the error-handling paths in the
-> boston_fdt_filter() function don't free the fdt that was allocated.
-> Fix the leak by using g_autofree.
+On 11/6/20 5:21 AM, Huacai Chen wrote:
+> From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 > 
-> Fixes: Coverity CID 1432275
+> Our current code assumed the target page size is always 4k
+> when handling PageMask and VPN2, however, variable page size
+> was just added to mips target and that's no longer true.
 > 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Fixes: ee3863b9d414 ("target/mips: Support variable page size")
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> Signed-off-by: Huacai Chen <chenhc@lemote.com>
 > ---
->  hw/mips/boston.c | 10 ++++------
->  1 file changed, 4 insertions(+), 6 deletions(-)
+>  target/mips/cp0_helper.c | 27 +++++++++++++++++++++------
+>  target/mips/cpu.h        |  1 +
+>  2 files changed, 22 insertions(+), 6 deletions(-)
+> 
+> diff --git a/target/mips/cp0_helper.c b/target/mips/cp0_helper.c
+> index 709cc9a..92bf14f 100644
+> --- a/target/mips/cp0_helper.c
+> +++ b/target/mips/cp0_helper.c
+> @@ -892,13 +892,28 @@ void helper_mtc0_memorymapid(CPUMIPSState *env, target_ulong arg1)
+>  
+>  void update_pagemask(CPUMIPSState *env, target_ulong arg1, int32_t *pagemask)
+>  {
+> -    uint64_t mask = arg1 >> (TARGET_PAGE_BITS + 1);
+> -    if (!(env->insn_flags & ISA_MIPS32R6) || (arg1 == ~0) ||
+> -        (mask == 0x0000 || mask == 0x0003 || mask == 0x000F ||
+> -         mask == 0x003F || mask == 0x00FF || mask == 0x03FF ||
+> -         mask == 0x0FFF || mask == 0x3FFF || mask == 0xFFFF)) {
+> -        env->CP0_PageMask = arg1 & (0x1FFFFFFF & (TARGET_PAGE_MASK << 1));
+> +    unsigned long mask;
+> +    int maskbits;
+> +
+> +    /* Don't care MASKX as we don't support 1KB page */
+> +    mask = extract32((uint32_t)arg1, CP0PM_MASK, 16);
+> +    maskbits = find_first_zero_bit(&mask, 32);
 
-Thanks, applied to mips-fixes.
+Thanks, applied to mips-fixes, using cto32 instead
+of find_first_zero_bit.
+
+> +
+> +    /* Ensure no more set bit after first zero */
+> +    if (mask >> maskbits) {
+> +        goto invalid;
+> +    }
+> +    /* We don't support VTLB entry smaller than target page */
+> +    if ((maskbits + 12) < TARGET_PAGE_BITS) {
+> +        goto invalid;
+>      }
+> +    env->CP0_PageMask = mask << CP0PM_MASK;
+> +
+> +    return;
+> +
+> +invalid:
+> +    /* When invalid, set to default target page size. */
+> +    env->CP0_PageMask = (~TARGET_PAGE_MASK >> 12) << CP0PM_MASK;
+>  }
+>  
+>  void helper_mtc0_pagemask(CPUMIPSState *env, target_ulong arg1)
+> diff --git a/target/mips/cpu.h b/target/mips/cpu.h
+> index d41579d..23f8c6f 100644
+> --- a/target/mips/cpu.h
+> +++ b/target/mips/cpu.h
+> @@ -619,6 +619,7 @@ struct CPUMIPSState {
+>   * CP0 Register 5
+>   */
+>      int32_t CP0_PageMask;
+> +#define CP0PM_MASK 13
+>      int32_t CP0_PageGrain_rw_bitmask;
+>      int32_t CP0_PageGrain;
+>  #define CP0PG_RIE 31
+> 
 
