@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F72E2AAD6E
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 21:51:41 +0100 (CET)
-Received: from localhost ([::1]:39472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86FA02AAD7A
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 21:59:34 +0100 (CET)
+Received: from localhost ([::1]:60988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kbrf2-0008Rb-Df
-	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 15:51:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53162)
+	id 1kbrmf-0000Zt-LA
+	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 15:59:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbrbY-00059s-Bn
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:48:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42926)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbrbd-0005E0-Gh
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:48:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56539)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbrbW-0000YO-NJ
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:48:04 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbrbb-0000Yz-VI
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:48:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604868482;
+ s=mimecast20190719; t=1604868487;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=008iN8GcWm31ImxzYVOcTFh32Buf8nV5TwwPQTAEsT0=;
- b=TJgqfSGyG6IjdpqT4yYmBDxn9lPoqrjhcq5PmDMWpDo9DcCRJEP7yz9nUItuM95PpWhjbC
- iTZ6zziEEC8tvFHjaKLy7Gikj0Y/0AgrR6FWBq7WVsaMoTqmIQmCMtH03UWNUGGQFTpgcN
- zqy4Wgd0r7D/6DC8p9NeyrnTVNBkqUc=
+ bh=VembaEi0P815WTgBWwDrxMRk/B71iS1mYulR9D5rz1U=;
+ b=iWbSGoTIffM/iJ2LReTcDwoJ3KfxlT+fk+ScW71IcYwmwZ2+zkkavwKZO1Zajg1eSOswoH
+ ORWJFKb2oTJgT1Vb1+IVUfeX9yAlTst7DNVvpy57Tjn+kGCVX8C2dYnZXWBb5/W06rUYN8
+ jEdYtIBUfdcYyMhxBw1bt4aUiIdjT2o=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-94-78k24L29OOitmj1BIxOxHg-1; Sun, 08 Nov 2020 15:48:00 -0500
-X-MC-Unique: 78k24L29OOitmj1BIxOxHg-1
-Received: by mail-wr1-f69.google.com with SMTP id w6so3388247wrk.1
- for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 12:48:00 -0800 (PST)
+ us-mta-286-ZBafgUPvO6OEJ8rhQDxNWg-1; Sun, 08 Nov 2020 15:48:05 -0500
+X-MC-Unique: ZBafgUPvO6OEJ8rhQDxNWg-1
+Received: by mail-wr1-f69.google.com with SMTP id h11so3363719wrq.20
+ for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 12:48:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=008iN8GcWm31ImxzYVOcTFh32Buf8nV5TwwPQTAEsT0=;
- b=BQHMCrgU8cle9YKiIZdX84N2mwu41TjeSxXF08cdwh2Ga+AD5S4s+8XloNHPTbzBV+
- ROs2Nu1Hqjx+pus/GnWoNv6Z5IlkBYl+Ciom8/bdY4YIZY0b2VlBScS07SDhcJB4mml3
- qPLZRzflTbNMVAWPl5MkrevuuNYZ7ooJBYOvJyJdAzYYivSS+UGo356RH5/nc3z58JPX
- zyV/5uAfhxEKG9e3ovIHLCIb6TQr8AMFrFMc/XUv3yaaLxzHcc/rCIkjs7eASF3YkhgN
- FCPjF14q9Qziyd4GIRJERDBAGymPw5lSUq+BjsUh18CADS9CIlurHEiam7yyNmNcxY+V
- XYrw==
-X-Gm-Message-State: AOAM530CxmrPy6gJrweRx7h+In1Ii23RyRyjWvf2FMsvPax4XRbjBIuM
- HT9AQ6k+0iX1jfePKBmDCrYb2Dr3WMHX/zuDwkeExyIZxUXWtcZgci61TxOQNRSYFpUAq/OZNVN
- 4hT5f7YjjDvaBWz8=
-X-Received: by 2002:adf:e28c:: with SMTP id v12mr14152005wri.230.1604868478987; 
- Sun, 08 Nov 2020 12:47:58 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyVl+OZIMykaL4A7Gc4rcswDZSR9HC5BpNDg6jNh7a8IGqdMqWnCMBK2sHF34liWxNJvvdZPA==
-X-Received: by 2002:adf:e28c:: with SMTP id v12mr14151981wri.230.1604868478857; 
- Sun, 08 Nov 2020 12:47:58 -0800 (PST)
+ bh=VembaEi0P815WTgBWwDrxMRk/B71iS1mYulR9D5rz1U=;
+ b=D2Npt2mG1Tf2rQxn1AcZsH+VUU4WqXJjyLxVVPXIWE8X3kBVVSq9g2NW5jdXOjXGmj
+ 83u/7wM+GeIK9n/52DT/xvpIrVyFbe8WPPPkWHRAfeRfJ59Jak2kpzw+nc+Nh8sdcy4B
+ 6ZER+MdS9SobEL0AbHB3OtJ+54UT1Qs7i4WDGjgJg4ggxxc099dGGsxqDuyiEaebrHs0
+ Qc6FWLXzr+0FoPw7UC/Ch6urgXvykaYhopRdapgK39VRYgU8qbZVrEcFKgwBm2axcMRm
+ X5duJjHIjqxU+E5vr/yINkUkTHbk4Hm5OotLo0NHUW6nPqDkwRgfu3Jst1VSPN3xz7bs
+ yH1g==
+X-Gm-Message-State: AOAM532cQoB9E4ZkbN8icdbI96acQvV35+kNHtxMHM2loT0amRn6chz9
+ daYGsmadj2NGtcFPnL0q3FzlaQmYY0yYnMWWVM7JXdXjRk2VQM5kyilitYmQfeizxKqXhfoihUq
+ 7aoq9ue7tVYofZdk=
+X-Received: by 2002:a1c:4b0c:: with SMTP id y12mr11599733wma.91.1604868484032; 
+ Sun, 08 Nov 2020 12:48:04 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzDSfSSvk83ZmMrpSPvHG0hDYJnBhNv/LahK+I0uhMV4owX1XH7sr3ujor41PfntdoWIPhTjg==
+X-Received: by 2002:a1c:4b0c:: with SMTP id y12mr11599707wma.91.1604868483850; 
+ Sun, 08 Nov 2020 12:48:03 -0800 (PST)
 Received: from localhost.localdomain (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id n22sm9937902wmk.40.2020.11.08.12.47.57
+ by smtp.gmail.com with ESMTPSA id b73sm2144764wmb.0.2020.11.08.12.48.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Nov 2020 12:47:58 -0800 (PST)
+ Sun, 08 Nov 2020 12:48:03 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-6.0 v4 12/17] gitlab-ci: Move coroutine tests across to
- gitlab
-Date: Sun,  8 Nov 2020 21:45:30 +0100
-Message-Id: <20201108204535.2319870-13-philmd@redhat.com>
+Subject: [PATCH-for-6.0 v4 13/17] tests/docker: Install lttng-ust-devel
+ package in Fedora image
+Date: Sun,  8 Nov 2020 21:45:31 +0100
+Message-Id: <20201108204535.2319870-14-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201108204535.2319870-1-philmd@redhat.com>
 References: <20201108204535.2319870-1-philmd@redhat.com>
@@ -96,8 +96,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Stefan Hajnoczi <stefanha@redhat.com>,
@@ -109,69 +109,30 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Similarly to commit 8cdb2cef3f1, move the coroutine tests to GitLab.
+Install the lttng-ust-devel package to be able to
+build QEMU using the User-Space Tracer trace backend
+(configure --enable-trace-backends=ust).
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
 Cc: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>
+Cc: Daniel P . Berrange <berrange@redhat.com>
 ---
- .gitlab-ci.yml | 16 ++++++++++++++++
- .travis.yml    | 14 --------------
- 2 files changed, 16 insertions(+), 14 deletions(-)
+ tests/docker/dockerfiles/fedora.docker | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index a799803afb9..6552a832939 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -475,6 +475,22 @@ build-tci:
-     - QTEST_QEMU_BINARY="./qemu-system-x86_64" ./tests/qtest/pxe-test
-     - QTEST_QEMU_BINARY="./qemu-system-s390x" ./tests/qtest/pxe-test -m slow
- 
-+# Alternate coroutines implementations are only really of interest to KVM users
-+# However we can't test against KVM on Travis so we can only run unit tests
-+build-coroutine-ucontext:
-+  <<: *native_build_job_definition
-+  variables:
-+    IMAGE: ubuntu2004
-+    CONFIGURE_ARGS: --with-coroutine=ucontext --disable-tcg
-+    MAKE_CHECK_ARGS: check-unit
-+
-+build-coroutine-sigaltstack:
-+  <<: *native_build_job_definition
-+  variables:
-+    IMAGE: ubuntu2004
-+    CONFIGURE_ARGS: --with-coroutine=sigaltstack --disable-tcg
-+    MAKE_CHECK_ARGS: check-unit
-+
- # Most jobs test latest gcrypt or nettle builds
- #
- # These jobs test old gcrypt and nettle from RHEL7
-diff --git a/.travis.yml b/.travis.yml
-index 15550fb023f..8ef31f8d8b6 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -139,20 +139,6 @@ jobs:
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
- 
- 
--    # Alternate coroutines implementations are only really of interest to KVM users
--    # However we can't test against KVM on Travis so we can only run unit tests
--    - name: "check-unit coroutine=ucontext"
--      env:
--        - CONFIG="--with-coroutine=ucontext --disable-tcg"
--        - TEST_CMD="make check-unit -j${JOBS} V=1"
--
--
--    - name: "check-unit coroutine=sigaltstack"
--      env:
--        - CONFIG="--with-coroutine=sigaltstack --disable-tcg"
--        - TEST_CMD="make check-unit -j${JOBS} V=1"
--
--
-     # Check we can build docs and tools (out of tree)
-     - name: "tools and docs (bionic)"
-       dist: bionic
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index 0b5053f2d09..ac90f187882 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -44,6 +44,7 @@ ENV PACKAGES \
+     libxml2-devel \
+     libzstd-devel \
+     llvm \
++    lttng-ust-devel \
+     lzo-devel \
+     make \
+     mingw32-bzip2 \
 -- 
 2.26.2
 
