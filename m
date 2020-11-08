@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EB1F2AAD72
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 21:54:19 +0100 (CET)
-Received: from localhost ([::1]:47752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 414B72AAD76
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 21:58:59 +0100 (CET)
+Received: from localhost ([::1]:57576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kbrha-0003UC-CK
-	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 15:54:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53298)
+	id 1kbrm6-0007aP-BF
+	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 15:58:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbrbr-0005hV-9L
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:48:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55338)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbrbt-0005oW-Si
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:48:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27149)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbrbp-0000Zw-Jp
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:48:22 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbrbs-0000a5-2c
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:48:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604868500;
+ s=mimecast20190719; t=1604868503;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JaO3dtFj5WhHKtEHsZu2VQNZlyIz3aXfJ70aU8Z8ugU=;
- b=FMSo9KduK12oOyn0FMV19Wve2+3gMAyPw6N4B5ByRAI3cAjoYvSkjoKLPvyrcVTvOKHwpt
- pC+tfvkZ3EVyNR+uSx+vq7h3r+sTb/AP0qTR9Qie6qqjvryZ5VoyC2xAphPjdI1GbmP43z
- vGP9C4mb1CAvLgilHO2W0zGBeyRXbkk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-88-lebsaV-_P7WD9WUqpnz2yA-1; Sun, 08 Nov 2020 15:48:16 -0500
-X-MC-Unique: lebsaV-_P7WD9WUqpnz2yA-1
-Received: by mail-wr1-f69.google.com with SMTP id x16so3366697wrg.7
- for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 12:48:16 -0800 (PST)
+ bh=fzWt1qDKwVED4KYkWX6MIPCKsj2TKTK/b4JiHS7BZWA=;
+ b=h6LtN4plwCs5djLtC7bRwksW1xla147Sf6A25IHd8UH0PIGLvjjyhdmvayxM07nkrGDPkn
+ RIn6bGvc1eyt0CLaWTppsbUs8dyo1ohbCFgRtCgeHrLQFmvUfJhpIMhF6tiQdxjqmk8qOs
+ Obmrr6ukLn84FAW+Ro7rU0SkEHVlrTY=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-330-fIuPPh0NPKmwRnid4xiLng-1; Sun, 08 Nov 2020 15:48:21 -0500
+X-MC-Unique: fIuPPh0NPKmwRnid4xiLng-1
+Received: by mail-wr1-f72.google.com with SMTP id q1so3386332wrn.5
+ for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 12:48:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JaO3dtFj5WhHKtEHsZu2VQNZlyIz3aXfJ70aU8Z8ugU=;
- b=ktRY9EKHq2eMTuwF4g/9ji9DNpuCzj0tpEwEXOWjNWmHOUui82l8wENYT7184T+zNU
- EWluqhWHWJJ4sxuV602lhsK2Mjw8iTYC52FoVKQPpyHSttIUtmkj3Ud19Q+YD2Lj3Uqi
- BohVKC4KekqkJnQI16w1olAe3Rx8WjLP2D9qh9CgKcznLCSXvbSkRYaJwbpqTJVjOY6Y
- kribjt0Nx8Jld47F4+h8y7ZkDckA+/ZA0Ccatnf40xenSfsRDgu025nrL5HyQUJYrDGU
- 4Cr2hWYw1zhiRTJg9TFIYcSzXlVeJrSGsveEEW5wV34l5Mwa/mjkgv2OvjU/gZFlKpQa
- k1Iw==
-X-Gm-Message-State: AOAM531v3RGuuDR/uu3u+rM3ZAICjoErg1PU8yNR+X/supPTt2Su+0Ki
- 6lUJl53xC9MqILtu9xjksQLn/kC/8lmXgi3eKm7l4xj0TE9U6jGyF3UE1YUOwNWjySN8ExtlkBS
- WtPLJCQbfBdEsN1M=
-X-Received: by 2002:adf:dc4c:: with SMTP id m12mr14577108wrj.177.1604868495166; 
- Sun, 08 Nov 2020 12:48:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJznq1KGLX1Fjb9gaA2+nc6mWhBkui9o+7ISQgnfxHqJ/igupLFrf03tBjTb6p55sq27Y5Ymbg==
-X-Received: by 2002:adf:dc4c:: with SMTP id m12mr14577088wrj.177.1604868494995; 
- Sun, 08 Nov 2020 12:48:14 -0800 (PST)
+ bh=fzWt1qDKwVED4KYkWX6MIPCKsj2TKTK/b4JiHS7BZWA=;
+ b=gcEUcJunWoMBGW1tvz3zi/BtVJjV9Wrqcpm52sl8yEBtIZ+ZsCHZ9HK3+Yf4pyVNHH
+ qzpWwxpaSxtmBFQgasgj5hV/128wJT83alvyRr9qvvZMTUXNXqj2CvKeXARFuegzbzyK
+ X8Bv+K6VDEHmGlDMQpin9pJp6GPTZ19wiK6mc2iXUAsRVkuQKqEhWXVoGz4ImSPULhdV
+ JgDU/ezHF0j1msnQvWh4lN4uk2jh5BYZ+9fT0WdVJ+OdyWCQwRJvs6zIjM5s1TImOAym
+ e9CeevsPu3nVCaeG6Qt/831GUhFQcvy3NlOU/g2tevdTVVVppc/vyY5B1NBzBVvrcbAo
+ Vi5w==
+X-Gm-Message-State: AOAM531aH0UvJWTBx3cpnrc9lsvUmR5XhTkoZz4y53QzyQ5EEs/R4e9w
+ GmGRpuS721QTueFQmrsAIenOGjD5biKpeKA0Be4GUtvHYGTdX9d+NlK7thK1cFiDFQCtXssPPIF
+ +GOY9iq/TRPFYo+Y=
+X-Received: by 2002:adf:e992:: with SMTP id h18mr4849150wrm.356.1604868500416; 
+ Sun, 08 Nov 2020 12:48:20 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzEzpwNGG+JyEheuQemZNlT+vAgGFs5jDmM/lFwMY+renp/vqGB6xnp24O+P9nfpsofOCes8w==
+X-Received: by 2002:adf:e992:: with SMTP id h18mr4849129wrm.356.1604868500284; 
+ Sun, 08 Nov 2020 12:48:20 -0800 (PST)
 Received: from localhost.localdomain (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id n9sm10582699wmd.4.2020.11.08.12.48.13
+ by smtp.gmail.com with ESMTPSA id s9sm12227336wrf.90.2020.11.08.12.48.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Nov 2020 12:48:14 -0800 (PST)
+ Sun, 08 Nov 2020 12:48:19 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-6.0 v4 15/17] gitlab-ci: Add test for Xen (on CentOS 7)
-Date: Sun,  8 Nov 2020 21:45:33 +0100
-Message-Id: <20201108204535.2319870-16-philmd@redhat.com>
+Subject: [PATCH-for-6.0 v4 16/17] gitlab-ci: Make some ARM 32-bit jobs optional
+Date: Sun,  8 Nov 2020 21:45:34 +0100
+Message-Id: <20201108204535.2319870-17-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201108204535.2319870-1-philmd@redhat.com>
 References: <20201108204535.2319870-1-philmd@redhat.com>
@@ -96,67 +96,61 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
  "Daniel P . Berrange" <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Paul Durrant <paul@xen.org>, Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- xen-devel@lists.xenproject.org,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-arm@nongnu.org,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Xen packages are available in CentOS 7, but have been
-removed from CentOS 8. Use the CentOS 7 container.
+The armel/armhf targets have a lot in common. Instead of
+testing both user/system emulation on each target, test
+each one once. Mark the other combination optional, so
+user can still run the tests manually.
+
+We now test system-mode emulation on armel target, and
+user-mode emulation to armhf target:
+
+- armel-system          Yes
+- armel-user            Optional
+- armhf-system          Optional
+- armhf-user            Yes
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Cc: Stefano Stabellini <sstabellini@kernel.org>
-Cc: Anthony Perard <anthony.perard@citrix.com>
-Cc: Paul Durrant <paul@xen.org>
-Cc: xen-devel@lists.xenproject.org
+Cc: qemu-arm@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>
 ---
- .gitlab-ci.yml | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ .gitlab-ci.d/crossbuilds.yml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 2f0da7b3dc1..8e15266c277 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -557,6 +557,27 @@ check-crypto-only-gnutls:
-     IMAGE: centos7
-     MAKE_CHECK_ARGS: check
+diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
+index 03ebfabb3fa..e4526e98232 100644
+--- a/.gitlab-ci.d/crossbuilds.yml
++++ b/.gitlab-ci.d/crossbuilds.yml
+@@ -32,11 +32,17 @@ cross-armel-user:
+   <<: *cross_user_build_job_definition
+   variables:
+     IMAGE: debian-armel-cross
++  rules:
++    - when: manual
++      allow_failure: true
  
-+build-xen-centos:
-+  <<: *native_build_job_definition
-+  variables:
-+    IMAGE: centos7
-+    TARGETS: i386-softmmu x86_64-softmmu
-+    CONFIGURE_ARGS: --enable-xen
-+    MAKE_CHECK_ARGS: check-build
-+  artifacts:
-+    paths:
-+      - build
-+
-+check-xen-centos:
-+  <<: *native_test_job_definition
-+  needs:
-+    - job: build-xen-centos
-+      artifacts: true
-+  variables:
-+    IMAGE: centos7
-+    MAKE_CHECK_ARGS: check
-+
-+
- # We don't need to exercise every backend with every front-end
- build-trace-multi-user:
-   <<: *native_build_job_definition
+ cross-armhf-system:
+   <<: *cross_system_build_job_definition
+   variables:
+     IMAGE: debian-armhf-cross
++  rules:
++    - when: manual
++      allow_failure: true
+ 
+ cross-armhf-user:
+   <<: *cross_user_build_job_definition
 -- 
 2.26.2
 
