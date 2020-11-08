@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 531AB2AAD6D
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 21:51:39 +0100 (CET)
-Received: from localhost ([::1]:39184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A2AA2AAD6F
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 21:52:53 +0100 (CET)
+Received: from localhost ([::1]:42694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kbrf0-0008K1-AS
-	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 15:51:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53030)
+	id 1kbrgB-0001OL-Va
+	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 15:52:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbrb4-0004QD-09
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:47:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28673)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbrb8-0004bL-Rf
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:47:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52552)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbrb2-0000VN-76
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:47:33 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbrb7-0000Vn-2y
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:47:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604868451;
+ s=mimecast20190719; t=1604868456;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=z2grejy7cDYx/3lhILvA2g1L5VhxTj2T7VuEMQqmhSg=;
- b=P2/tvu89G8gGG2e2iy+qQlYazARg12iMneromVdA0m9OOYRDJ8RhR63zsWfgR64AnD4eiO
- L6+MdgdNZlRElfvlhT+Lwevmos+F7VlRJ21aHEj18yCvkBnFRRTJMakblPYrtR4eli5qBp
- aBQNG63Jwny+mrUwK+Py6h+XcwU0dPc=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-86-jcgmT2QePIS8ANzooQ9fvQ-1; Sun, 08 Nov 2020 15:47:29 -0500
-X-MC-Unique: jcgmT2QePIS8ANzooQ9fvQ-1
-Received: by mail-wr1-f71.google.com with SMTP id 67so3401852wra.2
- for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 12:47:29 -0800 (PST)
+ bh=QBh8aiEaP2k9mw4XU/53Ceir9POzL1w17rzpRU+z11k=;
+ b=DoYdFWUNwCSoBnlt4MSI3/mxmorQqCl6lRCyGNMceEDJeOY6H6mqa9NhEbyiPUHYD/2Pai
+ 7MMug5J2j6RTe5Le0zckCRH0kG1vhFdU8BAJga2rMJXvF3f+B98RHnSir9F+hpgEzz9yfV
+ CFO7x7dRUS6SrLg6AhdaX0uU7Fn5RIk=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-491-8pYHFxKwM8KaitLfSjUmFg-1; Sun, 08 Nov 2020 15:47:35 -0500
+X-MC-Unique: 8pYHFxKwM8KaitLfSjUmFg-1
+Received: by mail-wr1-f70.google.com with SMTP id v5so3403342wrr.0
+ for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 12:47:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=z2grejy7cDYx/3lhILvA2g1L5VhxTj2T7VuEMQqmhSg=;
- b=UlwXrqk7KishN3mPmH5W2B76keR1Gl95EMARThC9pk1R6zGIKo3uPt2e1oFao6tYWA
- LthyAadcA8pI9VYT10zXUt/MnhOR18VpM1+2O2i1EhW1oAOza1wTSiiLIEGCuM70wJeg
- Snjb5Kh4QwyFiR1lHdqHc1MzJ6uPjLU5JYhAlCMvz9XNgxzuBzmM37qLo4t3xrjKDWaK
- mCEXFTThCptsWiz0P98XgmLyHoZsVhH06onq6vTXJOHepnSy2JM8MorN8fDTXa6RCmhD
- zmXTea31c/4C3Y2qufXQx3J0H1JYcayC3XGQ+XGyr+nZMEs1sxSM000i0ihRdG3PtSB4
- fBIw==
-X-Gm-Message-State: AOAM530kfktb7dPNl6sWWz60lgUwMCmr83G6Q0ZL+bQJhBS4jPF2njFd
- PsYzg6M+SeSdutINdKo3UCIJMNdZ5W2pZhvRxP1BPFGfvKticrhk+lLeo97GNI0hcoB8Ku2M9MS
- 72li9FN5eolqrFHY=
-X-Received: by 2002:adf:e8d0:: with SMTP id k16mr14205829wrn.362.1604868448412; 
- Sun, 08 Nov 2020 12:47:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx6euOhHzjGTMG8udP4rAugOHoI2x9CDy5uQREcFOTMW8mSBLGcWS5mQRTf/2iVWMzWk/w+Pw==
-X-Received: by 2002:adf:e8d0:: with SMTP id k16mr14205808wrn.362.1604868448301; 
- Sun, 08 Nov 2020 12:47:28 -0800 (PST)
+ bh=QBh8aiEaP2k9mw4XU/53Ceir9POzL1w17rzpRU+z11k=;
+ b=k+ttKYetSjDsPLcqEsUxQ/ClywBABClO/PKmlzdPI7IcqvE6ESxzWhXSA+6BBq1OTP
+ G0ciEJfPcdr2O4VLiEbX04uX8ZyOp374luZIDrykbD4aB8VORIwN/fNuo985Up/eLdr3
+ dKCdMva+DG0nzHnTOV0HhgoRIIaYDgXwSoczEVn43ljHYgol0EBTC5kt2Wn/w2vqXgGr
+ cGOrnxUPNomlHlUSs22uQVn9uUxuE2xrJwxMqldZbEmraMsemn0URcfWREn7khoTJKlK
+ YUpsry9FxZQnzGQw+/9jBGeHQhiSao0P5gjFu8tpfPycbFPj/6ajDZPlSTXPuVVsRblB
+ jquQ==
+X-Gm-Message-State: AOAM530wKdSYclAW1YcPJA+f6bD/rjcV7H5P9gkBBPt00zH+OTVO4pM0
+ 1ddTBU9rMCgVnyNgJW6xlkRvu1ki31ntkK4pmffkOkWUvgnmjKlVyElv9qsl0r2Ln765RJrI7Jj
+ t5iKWaVNQoIGFykI=
+X-Received: by 2002:a5d:4690:: with SMTP id u16mr4268001wrq.263.1604868453462; 
+ Sun, 08 Nov 2020 12:47:33 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzyv46DYDjpvatnZS1HQX9BYEBUaYL6/ZyFGLHAdE9d7ma94o31cYwwHL10rB79bKtGO30GEA==
+X-Received: by 2002:a5d:4690:: with SMTP id u16mr4267986wrq.263.1604868453338; 
+ Sun, 08 Nov 2020 12:47:33 -0800 (PST)
 Received: from localhost.localdomain (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id o11sm11481323wre.39.2020.11.08.12.47.26
+ by smtp.gmail.com with ESMTPSA id u195sm10585996wmu.18.2020.11.08.12.47.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Nov 2020 12:47:27 -0800 (PST)
+ Sun, 08 Nov 2020 12:47:32 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-6.0 v4 06/17] gitlab-ci: Update 'build-disabled' to cover
- all configurable options
-Date: Sun,  8 Nov 2020 21:45:24 +0100
-Message-Id: <20201108204535.2319870-7-philmd@redhat.com>
+Subject: [PATCH-for-6.0 v4 07/17] gitlab-ci: Move job testing
+ --without-default-devices across to gitlab
+Date: Sun,  8 Nov 2020 21:45:25 +0100
+Message-Id: <20201108204535.2319870-8-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201108204535.2319870-1-philmd@redhat.com>
 References: <20201108204535.2319870-1-philmd@redhat.com>
@@ -73,16 +73,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/08 09:03:10
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/08 15:45:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,74 +108,102 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add these missing options to the 'build-disabled' job:
-  --disable-auth-pam             (commit 8953caf3cd38)
-  --disable-gcrypt               (commit 91bfcdb01d48)
-  --disable-keyring              (commit 54e7aac05624)
-  --disable-libudev              (commit 5c53015a480b)
-  --disable-opengl               (commit da076ffed6b9)
-  --disable-sparse               (commit 03b4fe7de226)
+Similarly to commit 8cdb2cef3f1, move the job testing the
+'--without-default-devices' configure option to GitLab.
+
+Since building all softmmu targets takes too long, split
+the job in 2.
+
+As smoke test, run the qtests on the AVR and m68k targets.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- .gitlab-ci.yml | 7 +++++++
- 1 file changed, 7 insertions(+)
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+
+v3 had:
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+---
+ .gitlab-ci.yml | 46 ++++++++++++++++++++++++++++++++++++++++++++++
+ .travis.yml    |  8 --------
+ 2 files changed, 46 insertions(+), 8 deletions(-)
 
 diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 9f090cca5e3..b98800462ed 100644
+index b98800462ed..3fc3d0568c6 100644
 --- a/.gitlab-ci.yml
 +++ b/.gitlab-ci.yml
-@@ -205,6 +205,7 @@ build-disabled:
-     IMAGE: fedora
-     CONFIGURE_ARGS:
-       --disable-attr
-+      --disable-auth-pam
-       --disable-avx2
-       --disable-bochs
-       --disable-brlapi
-@@ -217,15 +218,18 @@ build-disabled:
-       --disable-curses
-       --disable-dmg
-       --disable-docs
-+      --disable-gcrypt
-       --disable-glusterfs
-       --disable-gnutls
-       --disable-gtk
-       --disable-guest-agent
-       --disable-iconv
-+      --disable-keyring
-       --disable-kvm
-       --disable-libiscsi
-       --disable-libpmem
-       --disable-libssh
-+      --disable-libudev
-       --disable-libusb
-       --disable-libxml2
-       --disable-linux-aio
-@@ -235,6 +239,7 @@ build-disabled:
-       --disable-mpath
-       --disable-nettle
-       --disable-numa
-+      --disable-opengl
-       --disable-parallels
-       --disable-pie
-       --disable-qcow1
-@@ -249,6 +254,7 @@ build-disabled:
-       --disable-slirp
-       --disable-smartcard
-       --disable-snappy
-+      --disable-sparse
-       --disable-spice
-       --disable-strip
-       --disable-tpm
-@@ -258,6 +264,7 @@ build-disabled:
-       --disable-vhost-net
-       --disable-vhost-scsi
-       --disable-vhost-user
-+      --disable-vhost-user-blk-server
-       --disable-vhost-vdpa
-       --disable-vhost-vsock
-       --disable-virglrenderer
+@@ -315,6 +315,52 @@ build-user-plugins:
+     MAKE_CHECK_ARGS: check-tcg
+   timeout: 1h 30m
+ 
++build-system-ubuntu-without-default-devices 1/2:
++  <<: *native_build_job_definition
++  variables:
++    IMAGE: ubuntu2004
++    CONFIGURE_ARGS: --without-default-devices --disable-tools --disable-docs
++    TARGETS:
++      aarch64-softmmu
++      alpha-softmmu
++      arm-softmmu
++      avr-softmmu
++      cris-softmmu
++      hppa-softmmu
++      i386-softmmu
++      m68k-softmmu
++      microblazeel-softmmu
++      microblaze-softmmu
++      mips64el-softmmu
++      mips64-softmmu
++      mipsel-softmmu
++      mips-softmmu
++      moxie-softmmu
++    MAKE_CHECK_ARGS: check-qtest-avr check-qtest-m68k
++
++build-system-ubuntu-without-default-devices 2/2:
++  <<: *native_build_job_definition
++  variables:
++    IMAGE: ubuntu2004
++    CONFIGURE_ARGS: --without-default-devices --disable-tools --disable-docs
++    TARGETS:
++      nios2-softmmu
++      or1k-softmmu
++      ppc64-softmmu
++      ppc-softmmu
++      riscv32-softmmu
++      riscv64-softmmu
++      rx-softmmu
++      s390x-softmmu
++      sh4eb-softmmu
++      sh4-softmmu
++      sparc64-softmmu
++      sparc-softmmu
++      tricore-softmmu
++      x86_64-softmmu
++      xtensaeb-softmmu
++      xtensa-softmmu
++
+ build-clang:
+   <<: *native_build_job_definition
+   variables:
+diff --git a/.travis.yml b/.travis.yml
+index a3d78171cab..15d92291358 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -224,14 +224,6 @@ jobs:
+         - ${SRC_DIR}/scripts/travis/coverage-summary.sh
+ 
+ 
+-    # We manually include builds which we disable "make check" for
+-    - name: "GCC without-default-devices (softmmu)"
+-      env:
+-        - CONFIG="--without-default-devices --disable-user"
+-        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+-        - TEST_CMD=""
+-
+-
+     # We don't need to exercise every backend with every front-end
+     - name: "GCC trace log,simple,syslog (user)"
+       env:
 -- 
 2.26.2
 
