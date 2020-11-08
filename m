@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D29B2AAA41
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 10:22:19 +0100 (CET)
-Received: from localhost ([::1]:33108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F1BF2AAA52
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 10:27:01 +0100 (CET)
+Received: from localhost ([::1]:47004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kbgtu-0001Ve-Dm
-	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 04:22:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39360)
+	id 1kbgyS-0007PU-G7
+	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 04:27:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kbgsT-0000FB-Cz
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 04:20:49 -0500
-Received: from indium.canonical.com ([91.189.90.7]:54516)
+ id 1kbgxF-0006B4-RD
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 04:25:45 -0500
+Received: from indium.canonical.com ([91.189.90.7]:55404)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kbgsN-0001Jd-GP
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 04:20:47 -0500
+ id 1kbgxE-00032W-4h
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 04:25:45 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kbgsL-0006yZ-I9
- for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 09:20:41 +0000
+ id 1kbgxC-0007Iw-OU
+ for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 09:25:42 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 866322E8023
- for <qemu-devel@nongnu.org>; Sun,  8 Nov 2020 09:20:41 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id B799D2E8132
+ for <qemu-devel@nongnu.org>; Sun,  8 Nov 2020 09:25:42 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 08 Nov 2020 09:15:28 -0000
-From: Thomas Huth <1670175@bugs.launchpad.net>
+Date: Sun, 08 Nov 2020 09:16:03 -0000
+From: Thomas Huth <1671173@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: sparc
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: mark-cave-ayland michal-nowak-b th-huth wzis
-X-Launchpad-Bug-Reporter: Michal Nowak (michal-nowak-b)
+X-Launchpad-Bug-Commenters: narke th-huth
+X-Launchpad-Bug-Reporter: Konstantin Tcholokachvili (narke)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20170305190118.21996.2136.malonedeb@gac.canonical.com>
-Message-Id: <160482692862.18737.18053569259718489808.malone@soybean.canonical.com>
-Subject: [Bug 1670175] Re: qemu-system-sparc64 with tribblix-sparc-0m16.iso
- ends with "panic - kernel: no nucleus hblk8 to allocate"
+References: <20170308172325.8219.67729.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160482696400.13544.2655708131810293221.malone@gac.canonical.com>
+Subject: [Bug 1671173] Re: OS started to crash with a message: "Trying to
+ execute code outside RAM or ROM"
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: 63128d4cd5bccfb3bffa93b557f70f446d6a225c
+X-Launchpad-Hash: 078ab6d0592a292bc5c2f24bae84f853b74a1191
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/08 04:10:58
@@ -74,7 +73,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1670175 <1670175@bugs.launchpad.net>
+Reply-To: Bug 1671173 <1671173@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -94,85 +93,63 @@ rked as "Expired". Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1670175
+https://bugs.launchpad.net/bugs/1671173
 
 Title:
-  qemu-system-sparc64 with tribblix-sparc-0m16.iso ends with "panic -
-  kernel: no nucleus hblk8 to allocate"
+  OS started to crash with a message: "Trying to execute code outside
+  RAM or ROM"
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  > qemu-system-sparc64 -m 1024 -cdrom Downloads/tribblix-sparc-0m16.iso -b=
-oot d -nographic
-  OpenBIOS for Sparc64
-  Configuration device id QEMU version 1 machine id 0
-  kernel cmdline =
+  There is a project (https://github.com/narke/colorForth ) wich always
+  worked with qemu up to version 2.5.1.1 but doesn't works from version
+  2.6 onwards. It continues to work with bochs.
 
-  CPUs: 1 x SUNW,UltraSPARC-IIi
-  UUID: 00000000-0000-0000-0000-000000000000
-  Welcome to OpenBIOS v1.1 built on Nov 24 2016 21:23
-    Type 'help' for detailed information
-  Trying cdrom:f...
-  Not a bootable ELF image
-  Not a bootable a.out image
+  Downlaod: git clone https://github.com/narke/colorForth.git
+  Build: make
+  Test: qemu-system-i386 -drive format=3Draw,file=3Dcf2012.img,index=3D0,if=
+=3Dfloppy
 
-  Loading FCode image...
-  Loaded 7120 bytes
-  entry point is 0x4000
-  Evaluating FCode...
-  Evaluating FCode...
-  Ignoring failed claim for va 10a96a0 memsz 19!
-  Ignoring failed claim for va 1000000 memsz d1fb6!
-  Ignoring failed claim for va 1402000 memsz 32518!
-  Ignoring failed claim for va 1800000 memsz 52ac8!
-  SunOS Release 5.11 Version tribblix-m16 64-bit
-  Copyright (c) 1983, 2010, Oracle and/or its affiliates. All rights reserv=
-ed.
-  could not find debugger-vocabulary-hook>threads:interpret: exception -13 =
-caught
-  interpret \ ident	"%Z%%M%	%I%	%E% SMI"
-  \ Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
-  \ Use is subject to license terms.
-  \
-  \ CDDL HEADER START
-  \
-  \ The contents of this file are subject to the terms of the
-  \ Common Development and Distribution License, Version 1.0 only
-  \ (the "License").  You may not use this file except in compliance
-  \ with the License.
-  \
-  \ You can obtain a copy of the license at usr/src/OPENSOLARIS.LICENSE
-  \ or http://www.opensolaris.org/os/licensing.
-  \ See the License for =
+  =
 
-  WARNING: add_spec: No major number for sf
-  panic - kernel: no nucleus hblk8 to allocate
-  EXIT
+  System information: Ubuntu LTS 16.04 x86-64
+  Affected qemu versions: 2.6 to present (2.8)
 
-  QEMU keeps running (CPU is on 100 % all the time), I can interact with
-  the prompt:
+  =
 
-  0 > boot
-  Not a Linux kernel image
-  Not a bootable ELF image
-  Not a bootable a.out image
+  I got the message:
 
-  Loading FCode image...
-  Unhandled Exception 0x0000000000000018
-  PC =3D 0x00000000ffd25310 NPC =3D 0x00000000ffd25314
-  Stopping execution
+  =
 
-  > qemu-system-sparc64 -version
-  QEMU emulator version 2.8.0(Virtualization:Staging / SLE_12_SP2)
+  WARNING: Image format was not specified for 'cf2012.img' and probing gues=
+sed raw.
+           Automatically detecting the format is dangerous for raw images, =
+write operations on block 0 will be restricted.
+           Specify the 'raw' format explicitly to remove the restrictions.
+  qemu-system-i386: Trying to execute code outside RAM or ROM at 0x8998c426
+  This usually means one of the following happened:
 
-  from
-  https://build.opensuse.org/package/show/Virtualization:Staging/qemu on
-  openSUSE Leap 42.2.
+  (1) You told QEMU to execute a kernel for the wrong machine type, and it =
+crashed on startup (eg trying to run a raspberry pi kernel on a versatilepb=
+ QEMU machine)
+  (2) You didn't give QEMU a kernel or BIOS filename at all, and QEMU execu=
+ted a ROM full of no-op instructions until it fell off the end
+  (3) Your guest kernel has a bug and crashed by jumping off into nowhere
 
-  ISO: http://pkgs.tribblix.org/iso/tribblix-sparc-0m16.iso.
+  This is almost always one of the first two, so check your command line an=
+d that you are using the right type of kernel for this machine.
+  If you think option (3) is likely then you can try debugging your guest w=
+ith the -d debug options; in particular -d guest_errors will cause the log =
+to include a dump of the guest register state at this point.
+
+  Execution cannot continue; stopping here.
+
+  =
+
+  Thank you in advance.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1670175/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1671173/+subscriptions
 
