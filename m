@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86FA02AAD7A
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 21:59:34 +0100 (CET)
-Received: from localhost ([::1]:60988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EB1F2AAD72
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 21:54:19 +0100 (CET)
+Received: from localhost ([::1]:47752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kbrmf-0000Zt-LA
-	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 15:59:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53212)
+	id 1kbrha-0003UC-CK
+	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 15:54:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbrbd-0005E0-Gh
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:48:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56539)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbrbr-0005hV-9L
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:48:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55338)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbrbb-0000Yz-VI
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:48:09 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbrbp-0000Zw-Jp
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:48:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604868487;
+ s=mimecast20190719; t=1604868500;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VembaEi0P815WTgBWwDrxMRk/B71iS1mYulR9D5rz1U=;
- b=iWbSGoTIffM/iJ2LReTcDwoJ3KfxlT+fk+ScW71IcYwmwZ2+zkkavwKZO1Zajg1eSOswoH
- ORWJFKb2oTJgT1Vb1+IVUfeX9yAlTst7DNVvpy57Tjn+kGCVX8C2dYnZXWBb5/W06rUYN8
- jEdYtIBUfdcYyMhxBw1bt4aUiIdjT2o=
+ bh=JaO3dtFj5WhHKtEHsZu2VQNZlyIz3aXfJ70aU8Z8ugU=;
+ b=FMSo9KduK12oOyn0FMV19Wve2+3gMAyPw6N4B5ByRAI3cAjoYvSkjoKLPvyrcVTvOKHwpt
+ pC+tfvkZ3EVyNR+uSx+vq7h3r+sTb/AP0qTR9Qie6qqjvryZ5VoyC2xAphPjdI1GbmP43z
+ vGP9C4mb1CAvLgilHO2W0zGBeyRXbkk=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-286-ZBafgUPvO6OEJ8rhQDxNWg-1; Sun, 08 Nov 2020 15:48:05 -0500
-X-MC-Unique: ZBafgUPvO6OEJ8rhQDxNWg-1
-Received: by mail-wr1-f69.google.com with SMTP id h11so3363719wrq.20
- for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 12:48:05 -0800 (PST)
+ us-mta-88-lebsaV-_P7WD9WUqpnz2yA-1; Sun, 08 Nov 2020 15:48:16 -0500
+X-MC-Unique: lebsaV-_P7WD9WUqpnz2yA-1
+Received: by mail-wr1-f69.google.com with SMTP id x16so3366697wrg.7
+ for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 12:48:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VembaEi0P815WTgBWwDrxMRk/B71iS1mYulR9D5rz1U=;
- b=D2Npt2mG1Tf2rQxn1AcZsH+VUU4WqXJjyLxVVPXIWE8X3kBVVSq9g2NW5jdXOjXGmj
- 83u/7wM+GeIK9n/52DT/xvpIrVyFbe8WPPPkWHRAfeRfJ59Jak2kpzw+nc+Nh8sdcy4B
- 6ZER+MdS9SobEL0AbHB3OtJ+54UT1Qs7i4WDGjgJg4ggxxc099dGGsxqDuyiEaebrHs0
- Qc6FWLXzr+0FoPw7UC/Ch6urgXvykaYhopRdapgK39VRYgU8qbZVrEcFKgwBm2axcMRm
- X5duJjHIjqxU+E5vr/yINkUkTHbk4Hm5OotLo0NHUW6nPqDkwRgfu3Jst1VSPN3xz7bs
- yH1g==
-X-Gm-Message-State: AOAM532cQoB9E4ZkbN8icdbI96acQvV35+kNHtxMHM2loT0amRn6chz9
- daYGsmadj2NGtcFPnL0q3FzlaQmYY0yYnMWWVM7JXdXjRk2VQM5kyilitYmQfeizxKqXhfoihUq
- 7aoq9ue7tVYofZdk=
-X-Received: by 2002:a1c:4b0c:: with SMTP id y12mr11599733wma.91.1604868484032; 
- Sun, 08 Nov 2020 12:48:04 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzDSfSSvk83ZmMrpSPvHG0hDYJnBhNv/LahK+I0uhMV4owX1XH7sr3ujor41PfntdoWIPhTjg==
-X-Received: by 2002:a1c:4b0c:: with SMTP id y12mr11599707wma.91.1604868483850; 
- Sun, 08 Nov 2020 12:48:03 -0800 (PST)
+ bh=JaO3dtFj5WhHKtEHsZu2VQNZlyIz3aXfJ70aU8Z8ugU=;
+ b=ktRY9EKHq2eMTuwF4g/9ji9DNpuCzj0tpEwEXOWjNWmHOUui82l8wENYT7184T+zNU
+ EWluqhWHWJJ4sxuV602lhsK2Mjw8iTYC52FoVKQPpyHSttIUtmkj3Ud19Q+YD2Lj3Uqi
+ BohVKC4KekqkJnQI16w1olAe3Rx8WjLP2D9qh9CgKcznLCSXvbSkRYaJwbpqTJVjOY6Y
+ kribjt0Nx8Jld47F4+h8y7ZkDckA+/ZA0Ccatnf40xenSfsRDgu025nrL5HyQUJYrDGU
+ 4Cr2hWYw1zhiRTJg9TFIYcSzXlVeJrSGsveEEW5wV34l5Mwa/mjkgv2OvjU/gZFlKpQa
+ k1Iw==
+X-Gm-Message-State: AOAM531v3RGuuDR/uu3u+rM3ZAICjoErg1PU8yNR+X/supPTt2Su+0Ki
+ 6lUJl53xC9MqILtu9xjksQLn/kC/8lmXgi3eKm7l4xj0TE9U6jGyF3UE1YUOwNWjySN8ExtlkBS
+ WtPLJCQbfBdEsN1M=
+X-Received: by 2002:adf:dc4c:: with SMTP id m12mr14577108wrj.177.1604868495166; 
+ Sun, 08 Nov 2020 12:48:15 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJznq1KGLX1Fjb9gaA2+nc6mWhBkui9o+7ISQgnfxHqJ/igupLFrf03tBjTb6p55sq27Y5Ymbg==
+X-Received: by 2002:adf:dc4c:: with SMTP id m12mr14577088wrj.177.1604868494995; 
+ Sun, 08 Nov 2020 12:48:14 -0800 (PST)
 Received: from localhost.localdomain (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id b73sm2144764wmb.0.2020.11.08.12.48.02
+ by smtp.gmail.com with ESMTPSA id n9sm10582699wmd.4.2020.11.08.12.48.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Nov 2020 12:48:03 -0800 (PST)
+ Sun, 08 Nov 2020 12:48:14 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-6.0 v4 13/17] tests/docker: Install lttng-ust-devel
- package in Fedora image
-Date: Sun,  8 Nov 2020 21:45:31 +0100
-Message-Id: <20201108204535.2319870-14-philmd@redhat.com>
+Subject: [PATCH-for-6.0 v4 15/17] gitlab-ci: Add test for Xen (on CentOS 7)
+Date: Sun,  8 Nov 2020 21:45:33 +0100
+Message-Id: <20201108204535.2319870-16-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201108204535.2319870-1-philmd@redhat.com>
 References: <20201108204535.2319870-1-philmd@redhat.com>
@@ -97,42 +96,67 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
  "Daniel P . Berrange" <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Paul Durrant <paul@xen.org>, Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ xen-devel@lists.xenproject.org,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Igor Mammedov <imammedo@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Install the lttng-ust-devel package to be able to
-build QEMU using the User-Space Tracer trace backend
-(configure --enable-trace-backends=ust).
+Xen packages are available in CentOS 7, but have been
+removed from CentOS 8. Use the CentOS 7 container.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: Daniel P . Berrange <berrange@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Stefano Stabellini <sstabellini@kernel.org>
+Cc: Anthony Perard <anthony.perard@citrix.com>
+Cc: Paul Durrant <paul@xen.org>
+Cc: xen-devel@lists.xenproject.org
 ---
- tests/docker/dockerfiles/fedora.docker | 1 +
- 1 file changed, 1 insertion(+)
+ .gitlab-ci.yml | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 0b5053f2d09..ac90f187882 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -44,6 +44,7 @@ ENV PACKAGES \
-     libxml2-devel \
-     libzstd-devel \
-     llvm \
-+    lttng-ust-devel \
-     lzo-devel \
-     make \
-     mingw32-bzip2 \
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 2f0da7b3dc1..8e15266c277 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -557,6 +557,27 @@ check-crypto-only-gnutls:
+     IMAGE: centos7
+     MAKE_CHECK_ARGS: check
+ 
++build-xen-centos:
++  <<: *native_build_job_definition
++  variables:
++    IMAGE: centos7
++    TARGETS: i386-softmmu x86_64-softmmu
++    CONFIGURE_ARGS: --enable-xen
++    MAKE_CHECK_ARGS: check-build
++  artifacts:
++    paths:
++      - build
++
++check-xen-centos:
++  <<: *native_test_job_definition
++  needs:
++    - job: build-xen-centos
++      artifacts: true
++  variables:
++    IMAGE: centos7
++    MAKE_CHECK_ARGS: check
++
++
+ # We don't need to exercise every backend with every front-end
+ build-trace-multi-user:
+   <<: *native_build_job_definition
 -- 
 2.26.2
 
