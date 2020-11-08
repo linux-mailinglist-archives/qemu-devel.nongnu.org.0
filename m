@@ -2,55 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE6E42AAA49
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 10:24:47 +0100 (CET)
-Received: from localhost ([::1]:41726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2032A2AAA58
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 10:29:57 +0100 (CET)
+Received: from localhost ([::1]:54412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kbgwJ-00056r-3H
-	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 04:24:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39394)
+	id 1kbh1I-0002F1-7F
+	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 04:29:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kbgsV-0000Fm-DL
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 04:20:52 -0500
-Received: from indium.canonical.com ([91.189.90.7]:54566)
+ id 1kbgsY-0000JP-Sw
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 04:20:54 -0500
+Received: from indium.canonical.com ([91.189.90.7]:54542)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kbgsP-0001Jr-N6
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 04:20:50 -0500
+ id 1kbgsO-0001Jk-I0
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 04:20:54 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kbgsN-0006w5-5t
- for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 09:20:43 +0000
+ id 1kbgsM-0006w4-Jr
+ for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 09:20:42 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 275402E811E
- for <qemu-devel@nongnu.org>; Sun,  8 Nov 2020 09:20:43 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 94CE72E8130
+ for <qemu-devel@nongnu.org>; Sun,  8 Nov 2020 09:20:42 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 08 Nov 2020 09:12:39 -0000
-From: Thomas Huth <1663287@bugs.launchpad.net>
+Date: Sun, 08 Nov 2020 09:14:26 -0000
+From: Thomas Huth <1665789@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided;
- assignee=philmd@redhat.com; 
-X-Launchpad-Bug-Tags: mips
+X-Launchpad-Bug: product=qemu; status=New; importance=Wishlist; assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bacam martin-sk philmd pmaydell th-huth yongbok-kim
-X-Launchpad-Bug-Reporter: Brian Campbell (bacam)
+X-Launchpad-Bug-Commenters: phol
+X-Launchpad-Bug-Reporter: Phil Troy (phol)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20170209154937.3933.99004.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160482675989.28629.16757649415520645791.launchpad@chaenomeles.canonical.com>
-Subject: [Bug 1663287] Re: Illegal delay slot code causes abort on mips64
+References: <20170217213527.4184.5367.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160482686806.18790.5701469491765196005.launchpad@wampee.canonical.com>
+Subject: [Bug 1665789] Re: More resolutions for vga displays
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: 7995e280184c4961013984a13ef045df3864474f
+X-Launchpad-Hash: 26ca53e3dd108b8feefe66a3bf28d7770c962bf9
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/08 04:10:58
@@ -73,59 +71,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1663287 <1663287@bugs.launchpad.net>
+Reply-To: Bug 1665789 <1665789@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 ** Changed in: qemu
-     Assignee: (unassigned) =3D> Philippe Mathieu-Daud=C3=A9 (philmd)
+   Importance: Undecided =3D> Wishlist
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1663287
+https://bugs.launchpad.net/bugs/1665789
 
 Title:
-  Illegal delay slot code causes abort on mips64
+  More resolutions for vga displays
 
 Status in QEMU:
   New
 
 Bug description:
-  During some randomised testing of an experimental MIPS implementation
-  I found an instruction sequence that also causes aborts on mainline
-  qemu's MIPS support.  The problem is triggered by an MSA branch
-  instruction appearing in a delay slot when emulating a processor
-  without MSA support.
+  Would it be possible to add more resolutions for vga displays (which I
+  am accessing via vnc instead of spice)?  In particular:
 
-  For example, with the current repository HEAD
-  (f073cd3a2bf1054135271b837c58a7da650dd84b) configured for
-  mips64-softmmu, if I run the attached binary using
+  - 1080 wide x 1920 high (rotate 1920 x 1080 screen)
 
-      mips64-softmmu/qemu-system-mips64 -bios ../abort2.bin -machine
-  mipssim -nographic
-
-  it will report
-
-      unknown branch 0x13000
-      Aborted (core dumped)
-
-  The binary contains the following two instructions:
-
-      00200008 jr at
-      47081e61 bz.b       w8,0xffffffffbfc0798c
-
-  The jr sets up a jump, and hflags is set accordingly in
-  gen_compute_branch (in target/mips/translate.c).  When processing the
-  bz.b, check_insn generates an exception because the instruction isn't
-  support, but gen_msa_branch skips the usual delay slot check for the
-  same reason, and sets more bits in hflags, leading to an abort in
-  gen_branch because the hflags are now invalid.
-
-  I suspect the best fix is to remove the instruction set condition from
-  the delay slot check in gen_msa_branch.
+  - 1920 wide x 1080 + 1980 high (1920 x 1080 screen on top of 1600 x
+  900 screen)
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1663287/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1665789/+subscriptions
 
