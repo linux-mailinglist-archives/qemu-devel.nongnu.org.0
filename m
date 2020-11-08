@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB7DC2AAD71
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 21:54:10 +0100 (CET)
-Received: from localhost ([::1]:47472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 520922AAD69
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 21:49:09 +0100 (CET)
+Received: from localhost ([::1]:60534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kbrhR-0003NO-SZ
-	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 15:54:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52960)
+	id 1kbrca-0005Vg-E5
+	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 15:49:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbrao-00041g-Gq
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:47:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42040)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbraw-0004B3-1L
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:47:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49663)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbram-0000UM-Q8
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:47:18 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbrau-0000Ul-I6
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:47:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604868436;
+ s=mimecast20190719; t=1604868443;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AQZWhvSbI5p4N1e0B4bgocntEDGXJm7E/SmoI1MVHIY=;
- b=g6WliViqkM2k4oOMEgfGaZM0d/Ar8OmHtUeOZyufEO1WDIeytLuunpIU1wdm29CYwiUKIW
- HuGS5EVV4YsOh0Ifyr0tBUnBy98zzhYbJHEXxLHP0/xzt2VJeI2NiWpip6txjegrh8fuCK
- impssMZsVJrstzZVHfw6y+zsJWorX6Y=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-196-mjH24TeMPI6EePx5xKTxVQ-1; Sun, 08 Nov 2020 15:47:14 -0500
-X-MC-Unique: mjH24TeMPI6EePx5xKTxVQ-1
-Received: by mail-wr1-f69.google.com with SMTP id w17so2646403wrp.11
- for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 12:47:14 -0800 (PST)
+ bh=8HUr0fHdfhDho2cZoSnJ/oforGStCZUlBsw7H/7cVds=;
+ b=bM51iAJSCdjc4lA1AlirFybc9OctYg86urgJqyvtPKJAnjkL3yKjbSv3E1e0D4ngCbjb5r
+ 4AQUxcD6MsG0ldInbELyRfUy/mNcBbVB/s+PLfp5Fb58JQODbEPfrZJYKOg6HNB7YryBw9
+ 6v/+ExypthfGrINrxDSNm/zJq+euPoA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-515-J96fONz9M6iNNG5lh6Dr2w-1; Sun, 08 Nov 2020 15:47:19 -0500
+X-MC-Unique: J96fONz9M6iNNG5lh6Dr2w-1
+Received: by mail-wr1-f71.google.com with SMTP id e18so3366885wrs.23
+ for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 12:47:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AQZWhvSbI5p4N1e0B4bgocntEDGXJm7E/SmoI1MVHIY=;
- b=fUeOQWVwJWqQtcYvl2XSjLHePo9uY1pLXfPafzqwq19zlbBbkEJ/2JogopYJDAl4WI
- Z/q85a7HMrF65k1CZvODUJ6cAVpxX7jA1oaAoyIQ8bUHuNbJqS/g+8Nt/ztkUvKcotU/
- P5+xoY9BWsXu+XCoCPD5YT4oC/MfVx6Lz3iDj/IwZc4dT3A5C6SvaYtwU190JNq0ENN6
- IpdcP5Su6KrOB2oxXWK+qTFZez9Za47dTWAcLYk/b1DNUGnUtp+VXzmi2t9pPB2vpRQH
- 3rRZoacC+xWamJJOtRhPuOf0UexidSG7Rcwby5tsYEGxLvFrCLdoLzGkN6AT+b9VYiJJ
- cKUA==
-X-Gm-Message-State: AOAM531L697A8D9QqK+1EcQKgiPt+zsV6VeV6aTeob+/s01xXMuKbxr5
- C1QOmbJAY+K3R9L5NW6RZGNRDZv2IanehSzvE5jf6CiUsOof/akK7xQmOulQzIQfZ1e1Jcc6QGM
- uMeGiW8YvXGE3Wo8=
-X-Received: by 2002:adf:bb43:: with SMTP id x3mr14453193wrg.250.1604868433210; 
- Sun, 08 Nov 2020 12:47:13 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx6xiS2T1BEEsf+xEKz+wrtpCamxQytQ9n9oVGcCZnWvRwoLrlXkZ4xtOR6+A5AWfTYfv+vzw==
-X-Received: by 2002:adf:bb43:: with SMTP id x3mr14453174wrg.250.1604868433074; 
- Sun, 08 Nov 2020 12:47:13 -0800 (PST)
+ bh=8HUr0fHdfhDho2cZoSnJ/oforGStCZUlBsw7H/7cVds=;
+ b=S/D9rXKcwqB1drAzim/zFZrS794IXIQEXIi5PoKohDrmYAwEVax2zHhV314kQpnYad
+ ObiTHPRDiVurVMlOnzelf1sSAMeYHnpdP7CO1cdjQK86aQPpF3TFJLPegebvpNeDo+B/
+ N0W6GNqgK7zRdgH3EwaQbJMAcq+GHrp0hUe4gJxDCcl8Y1Qnq7spSgZ/ukjwWKmecoPr
+ fvALvprGX6k9yi6zL8j1w4QKReFD81lNvisEdJGKc+Y3gv+K0SEn6aZ0Jsj7xXSDbKIA
+ CU7p2AL757Gqv2LVnmV/zBh2Mk0OMiEQ8T77o09+zz+sbu11DWTEIo6hJCPlD3Gc5cdF
+ IPIQ==
+X-Gm-Message-State: AOAM532njLr4BsMTTU9WlnUlOvhqrg/8Jvz7DVFF8CpuxR6p2TaKZxkm
+ xLwCfTLRNoIKnuwJ75qNVt5eQvriocSU+s39Szp7vnCB2pIiJIEpuXXi13+4rkWXfaJ6QBGUSLI
+ Ff+rTgYWLh4xYNFg=
+X-Received: by 2002:a05:6000:1006:: with SMTP id
+ a6mr5660619wrx.367.1604868438344; 
+ Sun, 08 Nov 2020 12:47:18 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJycRbzTbqlxadnxp7JzfBmKZZ1kdhhofRPP+MS5g8ZgvveHrG+IAX6tV5khhtCVa9f1VT92Lg==
+X-Received: by 2002:a05:6000:1006:: with SMTP id
+ a6mr5660601wrx.367.1604868438178; 
+ Sun, 08 Nov 2020 12:47:18 -0800 (PST)
 Received: from localhost.localdomain (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id t13sm11244180wru.67.2020.11.08.12.47.11
+ by smtp.gmail.com with ESMTPSA id g11sm1965792wrq.7.2020.11.08.12.47.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Nov 2020 12:47:12 -0800 (PST)
+ Sun, 08 Nov 2020 12:47:17 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2 v4 03/17] hw/i386/acpi-build: Fix maybe-uninitialized
- error when ACPI hotplug off
-Date: Sun,  8 Nov 2020 21:45:21 +0100
-Message-Id: <20201108204535.2319870-4-philmd@redhat.com>
+Subject: [PATCH-for-6.0 v4 04/17] MAINTAINERS: Add gitlab-pipeline-status
+ script to GitLab CI section
+Date: Sun,  8 Nov 2020 21:45:22 +0100
+Message-Id: <20201108204535.2319870-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201108204535.2319870-1-philmd@redhat.com>
 References: <20201108204535.2319870-1-philmd@redhat.com>
@@ -73,16 +75,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/08 09:03:10
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/08 15:45:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,6 +102,7 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
  "Daniel P . Berrange" <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Cleber Rosa <crosa@redhat.com>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
@@ -108,86 +111,29 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-GCC 9.3.0 thinks that 'method' can be left uninitialized. This code
-is already in the "if (bsel || pcihp_bridge_en)" block statement,
-but it isn't smart enough to figure it out.
+Do not let the gitlab-pipeline-status script unmaintained,
+add it to the 'GitLab Continuous Integration' section.
 
-Restrict the code to be used only in the "if (bsel || pcihp_bridge_en)"
-block statement to fix (on Ubuntu):
-
-  ../hw/i386/acpi-build.c: In function 'build_append_pci_bus_devices':
-  ../hw/i386/acpi-build.c:496:9: error: 'method' may be used uninitialized
-  in this function [-Werror=maybe-uninitialized]
-    496 |         aml_append(parent_scope, method);
-        |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  cc1: all warnings being treated as errors
-
-Fixes: df4008c9c59 ("piix4: don't reserve hw resources when hotplug is off globally")
+Fixes: c02b2eac55e ("GitLab Gating CI: introduce pipeline-status contrib script")
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/i386/acpi-build.c | 45 +++++++++++++++++++++-----------------------
- 1 file changed, 21 insertions(+), 24 deletions(-)
+Cc: Cleber Rosa <crosa@redhat.com>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 4f66642d887..1f5c2112452 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -465,34 +465,31 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-      */
-     if (bsel || pcihp_bridge_en) {
-         method = aml_method("PCNT", 0, AML_NOTSERIALIZED);
--    }
--    /* If bus supports hotplug select it and notify about local events */
--    if (bsel) {
--        uint64_t bsel_val = qnum_get_uint(qobject_to(QNum, bsel));
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 63223e1183d..817c7c93f91 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3146,6 +3146,7 @@ S: Maintained
+ F: .gitlab-ci.yml
+ F: .gitlab-ci.d/crossbuilds.yml
+ F: .gitlab-ci.d/*py
++F: scripts/ci/gitlab-pipeline-status
  
--        aml_append(method, aml_store(aml_int(bsel_val), aml_name("BNUM")));
--        aml_append(method,
--            aml_call2("DVNT", aml_name("PCIU"), aml_int(1) /* Device Check */)
--        );
--        aml_append(method,
--            aml_call2("DVNT", aml_name("PCID"), aml_int(3)/* Eject Request */)
--        );
--    }
-+        /* If bus supports hotplug select it and notify about local events */
-+        if (bsel) {
-+            uint64_t bsel_val = qnum_get_uint(qobject_to(QNum, bsel));
- 
--    /* Notify about child bus events in any case */
--    if (pcihp_bridge_en) {
--        QLIST_FOREACH(sec, &bus->child, sibling) {
--            int32_t devfn = sec->parent_dev->devfn;
--
--            if (pci_bus_is_root(sec) || pci_bus_is_express(sec)) {
--                continue;
--            }
--
--            aml_append(method, aml_name("^S%.02X.PCNT", devfn));
-+            aml_append(method, aml_store(aml_int(bsel_val), aml_name("BNUM")));
-+            aml_append(method, aml_call2("DVNT", aml_name("PCIU"),
-+                                         aml_int(1))); /* Device Check */
-+            aml_append(method, aml_call2("DVNT", aml_name("PCID"),
-+                                         aml_int(3))); /* Eject Request */
-+        }
-+
-+        /* Notify about child bus events in any case */
-+        if (pcihp_bridge_en) {
-+            QLIST_FOREACH(sec, &bus->child, sibling) {
-+                int32_t devfn = sec->parent_dev->devfn;
-+
-+                if (pci_bus_is_root(sec) || pci_bus_is_express(sec)) {
-+                    continue;
-+                }
-+
-+                aml_append(method, aml_name("^S%.02X.PCNT", devfn));
-+            }
-         }
--    }
- 
--    if (bsel || pcihp_bridge_en) {
-         aml_append(parent_scope, method);
-     }
-     qobject_unref(bsel);
+ Guest Test Compilation Support
+ M: Alex Bennée <alex.bennee@linaro.org>
 -- 
 2.26.2
 
