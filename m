@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCAA12AADD3
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 23:22:43 +0100 (CET)
-Received: from localhost ([::1]:59020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29B4E2AADD9
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 23:27:14 +0100 (CET)
+Received: from localhost ([::1]:43196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kbt58-0008ER-NY
-	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 17:22:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38066)
+	id 1kbt9V-000580-7L
+	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 17:27:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbt2g-0006Re-8x
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 17:20:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23056)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbt2k-0006Tr-2s
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 17:20:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48993)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbt2b-00028B-Lq
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 17:20:09 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbt2h-00028j-Sk
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 17:20:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604874005;
+ s=mimecast20190719; t=1604874011;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=r+24Qtjsem3z7nn8q0n3COy79qpz54BrkmBsMuZl5LU=;
- b=cGLnn50a+89gRakUnKQPSuJ84b/zbo1GTe1mgs+ZceJsEdedGjqbg5XfrXlAtQQWDa3RJT
- xwIXusKvnq/sZ1aRdrdcm5wtWqANwpHa3mLe0/IIdpy+U+TDzutvFZlOiNbBQcCboLdT73
- RVa/IGiwpuSaSL095cu3F/WkPto6De0=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-294-WfB84FCUMxSc2XnfVbgj2A-1; Sun, 08 Nov 2020 17:20:03 -0500
-X-MC-Unique: WfB84FCUMxSc2XnfVbgj2A-1
-Received: by mail-wr1-f71.google.com with SMTP id e11so3478723wrw.14
- for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 14:20:03 -0800 (PST)
+ bh=tOlQmfFaNvcfnBXreBEQVhcMzqQm6Lj5i87BO0gaUIY=;
+ b=JuvnG18TYMUxYqpAgCi6zOU5ZaNVUQMPQKFpKL10Mvpf2pwJOr6QCIw8lOMqhO2JH5vTOH
+ rHQE9oFhOeO6F5wtsw990Bi30bhTHgYroL5lmi5eJe1ppAXgTQC2vMhK3AmfyKuopAU2P0
+ ukYtZ3uonOOTXn8ho5K0J2E+jKI8/v8=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-141-_fDEa85lMJiypRoiSoTjHg-1; Sun, 08 Nov 2020 17:20:08 -0500
+X-MC-Unique: _fDEa85lMJiypRoiSoTjHg-1
+Received: by mail-wr1-f72.google.com with SMTP id w17so2732833wrp.11
+ for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 14:20:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=r+24Qtjsem3z7nn8q0n3COy79qpz54BrkmBsMuZl5LU=;
- b=dcfFAYUBh6ESerzoFasIhldZbAuakrFgBRaziqRibqBRtjFm3uMNhpqtysasCjAFF3
- LshqqfUqCqYT1FQwJ8PyJXRyY1v19FVLMQEYH3umqrSHCskmL/gUEdy5/khiDkSLd8kq
- TNPNFBkiayZ7/d1x5dmdh2n+pmckB+AeXJ+3kuUULTZ0FRfv/kVKAvXT8IEdZtWKxbpE
- ROEa/r8dDaFXERVvoon6XgfZqits1bPCf41ZbFsw3/BwO2+9nmfWWy50bnOrN77K2M7N
- LpfZVLI1j518HvG/gCxpXkyDptpKAXScI8bZ/Ux9qklPmD0EF+VoxeG4BZWbNAQvuk8N
- jynQ==
-X-Gm-Message-State: AOAM530UhNoXvYU65V5gNOtjoIlusDcV+nUSg+Au9X9xFdt5yoUCFGtk
- nQkcwyfT0Vp4bOLxaF1RdLDBJfxUO79XIg3eL/GSNNcCut6UIQzEfZJb4Kh/g9UGBY7Kj4+70qo
- Mzq4TnI//tqlPBMk=
-X-Received: by 2002:adf:f20f:: with SMTP id p15mr14742653wro.339.1604874002115; 
- Sun, 08 Nov 2020 14:20:02 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzIt3uSiJLzk1pUnLGjIVSg22h5INWArBzDzaXS7ePKJTEZIhAOiORr/mcvqbGu2nidIPCFww==
-X-Received: by 2002:adf:f20f:: with SMTP id p15mr14742638wro.339.1604874001996; 
- Sun, 08 Nov 2020 14:20:01 -0800 (PST)
+ bh=tOlQmfFaNvcfnBXreBEQVhcMzqQm6Lj5i87BO0gaUIY=;
+ b=D6PhwGGqTW/kxh7c9mblh32yLLqmfJqwI9Lb1B7fGJtGFCotPD4y2HiSIemNJadOY3
+ LAPXZXo/jEYJPdB5igiYi8GHdHpFfvbZAlAZPV8BQEwdY8IhZhBSlPR9kaVqowPEiNGq
+ v1TAnmLldQzpOBDBMa6XdEInUIGB/iTYI5HDowT/8CdSd8eTPG7lbIMWfk/+I0A5gsEF
+ wQqHHRGwToeZaZDc5TgNsyASn0/PYF+ZhXyc03nG4rGbAdesPwoDHxNpfKw6xvVG3Voi
+ KOHkjJGzkNVZ2i0PrDkmM0jmPC2tecbw4UZrsCd7SsI17Jn9A3hpp1vF4lmcbFl/w9jm
+ jnVQ==
+X-Gm-Message-State: AOAM532JyofL0Dee549pvOQ0PltkRrGergiVv7foo7JlXzfz9TG0WjRO
+ 5ihafMHzvej8eAiW6hj/RRV0KnA601HHbNa9H3PmNFdYHxhiF/cp5GK9rUoS4tferH3sQkeFmZP
+ zsphIqQwkeOJ/aAY=
+X-Received: by 2002:a7b:c2f7:: with SMTP id e23mr11324773wmk.100.1604874006946; 
+ Sun, 08 Nov 2020 14:20:06 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyZQUm+sFj9DoS7Tr778LdHf49FKFtfJ6i5n/KzjhiMfTDBccPg8W21lzQWuTjJS+pMpvvqdw==
+X-Received: by 2002:a7b:c2f7:: with SMTP id e23mr11324756wmk.100.1604874006800; 
+ Sun, 08 Nov 2020 14:20:06 -0800 (PST)
 Received: from localhost.localdomain (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id i11sm4135012wrm.1.2020.11.08.14.20.00
+ by smtp.gmail.com with ESMTPSA id x6sm4107170wmc.48.2020.11.08.14.20.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Nov 2020 14:20:01 -0800 (PST)
+ Sun, 08 Nov 2020 14:20:06 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 07/11] gitlab-ci: Extract common job definition as
- 'cross_common_job'
-Date: Sun,  8 Nov 2020 23:19:21 +0100
-Message-Id: <20201108221925.2344515-8-philmd@redhat.com>
+Subject: [PATCH v3 08/11] gitlab-ci: Extract common job definition as
+ 'native_common_job'
+Date: Sun,  8 Nov 2020 23:19:22 +0100
+Message-Id: <20201108221925.2344515-9-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201108221925.2344515-1-philmd@redhat.com>
 References: <20201108221925.2344515-1-philmd@redhat.com>
@@ -73,16 +73,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/08 09:03:10
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/08 15:45:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,40 +104,43 @@ Cc: Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Extract the common definitions shared by '.cross_system_build_job'
-and '.cross_user_build_job' to '.cross_common_job'.
+Extract the common definitions shared by '.native_build_job'
+and '.native_test_job' to '.native_common_job'.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- .gitlab-ci.d/crossbuilds.yml | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ .gitlab-ci.yml | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
-index 099949aaef3..701550f028c 100644
---- a/.gitlab-ci.d/crossbuilds.yml
-+++ b/.gitlab-ci.d/crossbuilds.yml
-@@ -1,7 +1,9 @@
--
--.cross_system_build_job:
-+.cross_common_job:
-   stage: build
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index d4526323169..f708573884e 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -13,9 +13,12 @@ include:
+   - local: '/.gitlab-ci.d/containers.yml'
+   - local: '/.gitlab-ci.d/crossbuilds.yml'
+ 
+-.native_build_job:
+-  stage: build
++.native_common_job:
    image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
 +
-+.cross_system_build_job:
-+  extends: .cross_common_job
-   timeout: 80m
-   script:
-     - mkdir build
-@@ -14,8 +16,7 @@
-     - make -j$(expr $(nproc) + 1) all check-build
++.native_build_job:
++  extends: .native_common_job
++  stage: build
+   before_script:
+     - JOBS=$(expr $(nproc) + 1)
+     - sed -i s,git.qemu.org/git,gitlab.com/qemu-project, .gitmodules
+@@ -35,8 +38,8 @@ include:
+       fi
  
- .cross_user_build_job:
--  stage: build
+ .native_test_job:
++  extends: .native_common_job
+   stage: test
 -  image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
-+  extends: .cross_common_job
    script:
-     - mkdir build
      - cd build
+     - find . -type f -exec touch {} +
 -- 
 2.26.2
 
