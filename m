@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBFBD2AAE61
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 00:56:07 +0100 (CET)
-Received: from localhost ([::1]:43294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B58B62AAE62
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 00:57:17 +0100 (CET)
+Received: from localhost ([::1]:45398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kbuXW-0000dJ-I8
-	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 18:56:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48566)
+	id 1kbuYe-0001ex-Q3
+	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 18:57:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kbuVd-0008Tt-4a; Sun, 08 Nov 2020 18:54:09 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:34952)
+ id 1kbuWY-0000bs-Le
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 18:55:08 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:38622)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kbuVb-0003Ga-NC; Sun, 08 Nov 2020 18:54:08 -0500
-Received: by mail-wm1-x329.google.com with SMTP id w24so3896508wmi.0;
- Sun, 08 Nov 2020 15:54:07 -0800 (PST)
+ id 1kbuWV-0003Kq-QY
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 18:55:05 -0500
+Received: by mail-wm1-x332.google.com with SMTP id h62so6379040wme.3
+ for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 15:55:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=EiRykMvGapgWFvo7/k8wqIat1I7qQzXQJe5wbS5MoyQ=;
- b=Mzq1OLBD3Nq8DN/wFuAIipsc5P0CQL/3HVpWVV5ZvSHGncK5shIUMZHGPu6oSagl5O
- oWPmvXSEZ4JUs0gtp27/HZd+ITTa3hUtI/bMDWDR8g0LHpoH+zCrwI5APcxAYecGFE95
- T7kP9n3O6y1zmzlySX/Nh0smsRK5yp0mUPzK2HOyz1TQSam4DCH5PLBCxx8PzLlrSV9H
- zMpxxWETgCEWe1OM4MTntt4OvkSb1ETutfzsShoPnYdzLL54PelDlNah5Xiy22RrhdCa
- 9AMkLBZzH3HGQRls6P6D02R7iPbOCcH51ZQNLxlc1YjrfcOXT2e3rz/D+FX7uxDBcj9/
- nR6Q==
+ bh=5teheWB90dljIWXpfYsbXqV3ry70iEk3eh/okW4vupo=;
+ b=D0SViI9w2tRyZuEZDU1lZu3438WGRN08g7BFzkKD0L2knJuLZzCmK2Ef19lSS9pP07
+ CZdsh8Ccrv8xZJl4nZEGYPFvsft4YJbc/igsK4a1KFfD7z014ImIUq5bo0jwz03titsg
+ acIv1w8sSG9oE2Sct13jt0Hqf0/kjWSsIAny34N8nkucyx6Ionmy0rXaGNVMPJ85aGRt
+ aUSia4MFX4uMzPZfTSzm7okaEUokfl8lO5uRO0U2fGMwMEaqA85lZw1s2ps7ooRjOpYM
+ +0L8fWWpDwlNLERMPqJjqWdC5GA/EqjNE2PYKbNXoXfa1SLuYF+/GROfn5Xj7DjS9TDN
+ MX+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=EiRykMvGapgWFvo7/k8wqIat1I7qQzXQJe5wbS5MoyQ=;
- b=W6rbgJcnTDqxvffksRZQDyuj7DGsSSxKE1ookYedxT/z43bvDKk7cAjQh+6/ok/sTh
- NW4DhAMZcSaOd+sdaGdIc3V7YtNOPpM3Xg7Ub2TKoRSilFM9/xcejxQ2Ywm7euunxf1r
- kqo7b2t4RTfXU6QlImwx8J9EGKpgfH6uZT/cZlbhcJ5v0EE5jtIhgSyLmf7iEXxiyNUH
- MgT7hU1qaMaUevSQUyDLkl1Ht/14uZcupp5wPzZ7KdJ7YmItwOs19BKbi8j1aDLGynIr
- 6w1zRY/e464naa1XoZh2jhpEMW7x+ZmbD9JkOVuG+CWgHniCAz9CaMYzl3glh6cGvVy2
- vF7A==
-X-Gm-Message-State: AOAM530vGd3+o5G7GddJKUFXf1c7gvCBBJlFsOo8YQFdbSnSPwWqVDxU
- nU0+jAiwUGeC5A1QIRwlRJQ=
-X-Google-Smtp-Source: ABdhPJy3Zrgi0pvwLcJ4zHsyayMwhDaXWnmoV/yVJjhadfPmHhWD3DyhryZ6wr01a+hZb+OokKtXAg==
-X-Received: by 2002:a1c:a402:: with SMTP id n2mr11619519wme.121.1604879645717; 
- Sun, 08 Nov 2020 15:54:05 -0800 (PST)
+ bh=5teheWB90dljIWXpfYsbXqV3ry70iEk3eh/okW4vupo=;
+ b=dqNpqrqgF85FiOoNlRBlWJcUFaS5UCaKmjXr8HNAwoixIHELdAh2L64bEBXLGHM21G
+ 6BdMC2gZaRBw17KqLInKUuWOrTrZ6AaF0saMHuQuJOPPoQu5UE6Pl+FbEWobEyNXDX5b
+ 27xquZII+enVyJBEYakDUQk2xvSfRHSjFf7/rx3PHYIPKT1WOtG8AU2omoRQzRQCjbnd
+ LhsLSYgQE+8ZBAy3jfzahHPx/VV4GADGi6TIK2nIhTNP7Gn9W5sapjjYOY/iZ8WMcvCh
+ 5hDvivITmzY2iXgOO+FtuEjcTqRRGhhcUk9qCzmY8jUUGPZZZ/IPfNKbOUZvlwI+DAeY
+ o54w==
+X-Gm-Message-State: AOAM531xu8wkXC0/UzMmbLTqqpYh3bW5h25qtP96Cva7Yr3Pm1iQx2jr
+ loQ7ZveK0V41DYdyXhMAywE=
+X-Google-Smtp-Source: ABdhPJyrMDmMojn0ToukL0/Nc/KvbxFRFcYA9vigJ9TnYJb6toaZdizxtccj0eziMaMla2s7P3vteA==
+X-Received: by 2002:a1c:3c84:: with SMTP id
+ j126mr11717734wma.151.1604879702214; 
+ Sun, 08 Nov 2020 15:55:02 -0800 (PST)
 Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id b14sm11453994wrq.47.2020.11.08.15.54.04
+ by smtp.gmail.com with ESMTPSA id o63sm10960697wmo.2.2020.11.08.15.55.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 08 Nov 2020 15:54:04 -0800 (PST)
-Subject: Re: [PATCH-for-5.2 v3] hw/rx/rx-gdbsim: Fix memory leak
+ Sun, 08 Nov 2020 15:55:01 -0800 (PST)
+Subject: Re: [PATCH-for-5.2] MAINTAINERS: Demote Renesas target & hardware to
+ 'Odd Fixes'
 To: qemu-devel@nongnu.org
-References: <20201102104542.2064745-1-f4bug@amsat.org>
+References: <20201102104001.2062572-1-f4bug@amsat.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <f758afbc-7d64-6531-7a6d-a23a3f1f3771@amsat.org>
-Date: Mon, 9 Nov 2020 00:54:03 +0100
+Message-ID: <d88c93c9-b512-a18b-2d4c-264d861f7668@amsat.org>
+Date: Mon, 9 Nov 2020 00:55:00 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201102104542.2064745-1-f4bug@amsat.org>
+In-Reply-To: <20201102104001.2062572-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -88,27 +92,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-trivial@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Aurelien Jarno <aurelien@aurel32.net>, Thomas Huth <thuth@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/2/20 11:45 AM, Philippe Mathieu-Daudé wrote:
-> As load_device_tree() returns allocated memory,
-> we need to free it.
+On 11/2/20 11:40 AM, Philippe Mathieu-Daudé wrote:
+> To be fair with other subsystems listed as 'Odd Fixes' but having
+> maintainers more present, demote the Renesas sections from being
+> 'Maintained' to 'Odd Fixes' (has a maintainer but they don't have
+> time to do much other than throw the odd patch in.)
 > 
-> Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
-> Fixes: bda19d7bb56 ("hw/rx: Add RX GDB simulator")
-> Reported-by: Coverity (CID 1432307: RESOURCE_LEAK)
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> This matches Magnus's possibilities so far:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg710319.html
+> 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
-> v3: Directly initialize the variable on declaration (Richard)
-> ---
->  hw/rx/rx-gdbsim.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+>  MAINTAINERS | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 
 Thanks, applied to renesas-fixes.
 
