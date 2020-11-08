@@ -2,107 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54A552AAB33
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 14:47:44 +0100 (CET)
-Received: from localhost ([::1]:43334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E77DC2AAB4F
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 15:06:30 +0100 (CET)
+Received: from localhost ([::1]:59978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kbl2k-0000SN-Ra
-	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 08:47:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43856)
+	id 1kblKv-0000oM-L2
+	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 09:06:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1kbkwn-0006Ey-4p
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 08:41:36 -0500
-Received: from mail-mw2nam12on2078.outbound.protection.outlook.com
- ([40.107.244.78]:6176 helo=NAM12-MW2-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1kbkwk-00063r-6s
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 08:41:32 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ciyi/cDcmvL7lOkk1ljEm2AX0McFJbpWhwcOzIlxyu8xzbr7dW8L5pVgVozwuqVnBr5qDOQZ3VEcAk4TEVteJn2t/BUvf43MGyydIiffYeslODR0pjbsS20FPNxqRd5eqMJ1hfrjONkwgKdivKHuO5IvI7ENRTSh6tUIPIJukFlocuybg4lUsX1rk4Jb5fY2aIKX/IVcIuMs5mjKynDdBYs8C1tlRHIvEh0+VvjR1un93jPwKHzQ6MQIN5b4z0AQQIMz1+Sgc3Uy5ibvBIvQpeWJ0tQi+bIOHSEKg9/NbEknAjlxhpVm/5GZKv2Q+UEaLyrayjrRV2ntO5oAXPFOZA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TWuMKZWudPV9MzJspgzNaJaaElc82V3cBkSwCbx3M70=;
- b=WcmNqr6T+IIE8+H+5gEXAPD5hkFTqbZzAanpMXBM5aQ3fmlUW1lTXMVCxDZ5MmtyBh+LRwBb622J8WsExPrVOOx7lqlJ1bn5cS+mN+7PpkuL/AKa50yrWCL9KGG89Vv9OmyFHxj7A2Yknb6mdNo3n9ELPswLunOz07x/0+i/CP6RySHzcnBiaK4yA8jQk7FGcyRUBZ2Kwh+ulmHboEMLOhMsFrA31ww/PHDS9ejqhNTSt4AwfYYSENzXRvoOuu1C/YCiNdwlhHeas9JtW1VYns4UCSRTwhkPi8cbEHM7Nv9EL5dieO65aaTrsINeuZtcb/ePNMyW/RUaEdExz9ZDJw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
- dkim=pass header.d=xilinx.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TWuMKZWudPV9MzJspgzNaJaaElc82V3cBkSwCbx3M70=;
- b=DBubxpFTKmC2PPPh2ly/PRQOPC1t2jjAk6V68Q6BLI6PL/EMEk99WUhHPzze/YOFaW8Gz84RdGQ7rHAByofR6ppWqnoPy8xb0ayga6973vFLas18P7yjcGOMI+qeyIqLzqCIhC6Aza2ME0IGRZ12Prqqc7OG9enZEKacnTueyyY=
-Received: from BY5PR02MB6772.namprd02.prod.outlook.com (2603:10b6:a03:206::11)
- by BYAPR02MB5255.namprd02.prod.outlook.com (2603:10b6:a03:66::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21; Sun, 8 Nov
- 2020 13:40:52 +0000
-Received: from BY5PR02MB6772.namprd02.prod.outlook.com
- ([fe80::75ed:4271:263b:fd15]) by BY5PR02MB6772.namprd02.prod.outlook.com
- ([fe80::75ed:4271:263b:fd15%3]) with mapi id 15.20.3541.025; Sun, 8 Nov 2020
- 13:40:52 +0000
-From: Sai Pavan Boddu <saipava@xilinx.com>
-To: =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: RE: [PATCH-for-5.2 2/5] hw/usb/Kconfig: Fix USB_XHCI_NEC (depends on
- USB_XHCI_PCI)
-Thread-Topic: [PATCH-for-5.2 2/5] hw/usb/Kconfig: Fix USB_XHCI_NEC (depends on
- USB_XHCI_PCI)
-Thread-Index: AQHWtPcCnyxeZ948bk+L4Gzt0NFJCKm+Pzsw
-Date: Sun, 8 Nov 2020 13:40:52 +0000
-Message-ID: <BY5PR02MB6772E37593614B04214ED690CAEB0@BY5PR02MB6772.namprd02.prod.outlook.com>
-References: <20201107111307.262263-1-philmd@redhat.com>
- <20201107111307.262263-3-philmd@redhat.com>
-In-Reply-To: <20201107111307.262263-3-philmd@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=xilinx.com;
-x-originating-ip: [149.199.50.128]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 8adfbb1f-0be6-4e25-4d56-08d883ebe937
-x-ms-traffictypediagnostic: BYAPR02MB5255:
-x-microsoft-antispam-prvs: <BYAPR02MB52551FAC618DBE18054201B8CAEB0@BYAPR02MB5255.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:913;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: JGKzRef4UhmnR5YZhm3DT6mDdOGLAUVFyoYqMJuqcwqj24xKtCK7Alvs8oFyqnsEtH0WUqbhl4BiYJYfu9SG4TGIcU4pk368CYrVWO2vOiZ57k0da8w1IblvGQrHF8+WPBWE5iVxzkc4hoQjkkG+sw9VsIY5qOToDO2vbHq7RNzKCI6n7CKMhysSDkWYQOY+J0kYOBategayIZIcvJwTfxAyePxCgt5pEa3HZPobzCYWLnB3gVgv20MKk8CHcT9wgxKpC4BLWoYLIehxVQYq2y5FtZH4Zwtvbr3zHYGee95uC3NZpr+b195eRM6dzI7C
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR02MB6772.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(39850400004)(396003)(136003)(366004)(376002)(186003)(66446008)(66946007)(8676002)(316002)(2906002)(86362001)(8936002)(55016002)(6506007)(4326008)(9686003)(53546011)(7696005)(83380400001)(52536014)(33656002)(71200400001)(478600001)(26005)(64756008)(5660300002)(110136005)(66556008)(66476007)(76116006);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: F5GS1UlLSSeArU81H9J11LvibvA6foZSnpTkpCx21rNq+rNC43/IOPzTTQgtAyQWUj8nFBU5QeppOkvM0bmsDKfZL1kV6O1k8nV7oci8OXMzrIhULXYESLY4y1HLkiwf6y71BJIh6WIsB04bWLTWp/qxACBsp5D3TqOpVaEUfOiPEagBZl/KBczE1X45hownYuj3shjLXqiLsWFVrFVVZs5Zecei26E5VmoNzbOn+r7dYvkYP9rz2PjCanfsE5WQKDNcrlfbBlHs+kLNhp/ewYZtEp+AXEIFdwsNuYSwSSzwYfYY4O/eIOiLkLJaB3/XZbQp+FUogw6ZugvIWGsqWcyDUAp8UjMDPXJ+Tvir9BX1MrYShIbK8EHhXJtcPXsXEDuo0ivXLtuXHxWo+AaDAF29YnDp8cttx3t4RfH2MWB2tF6rddGu2W6xEpNIb5lPbhp8/gt2YWvoOGTEczIwZKbHMgMt9rafDhH0jAYwdHW/a+Cofcuu8WSnqhVe3waWwpsBbKxKfUS5QaTbSqDKR5XPMxQKVPp/0DNYB+IUb/xbOtUbAKNntvU1nSF1qrBOnJgTDo/EaQNbT/cBilL6+KlQt+ecXQs7luXs3U7ugJ3CLrXpI4GXAL/Ofg1UxO6g1DrgwawhjwkKDZ1cYYxkiA==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kblJd-0008S4-Hj
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 09:05:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53783)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kblJa-0005vk-Vp
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 09:05:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604844305;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Y3tc0dZPokXF+04RHYPNBEJt0GpVK3C0ucYU4ln5Kjs=;
+ b=FxYOQJlat3KB9OVRlxmINT8mGU8YSQ1VE7aLZ8Mpcf0/VPopeKESTRa5/WsGUNylDBnb9c
+ cAXLMMVK79/+iREsZVr0A5vCsC7TcyENpNNhAduMzUTVXqrX1U1htTXIazZ9SEKKldXbhV
+ RogT5ts6jBdjCpKBp59EGuQZjdxLmDY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-211-QvWiUgDbNIq3G6Bbq5m_bw-1; Sun, 08 Nov 2020 09:05:03 -0500
+X-MC-Unique: QvWiUgDbNIq3G6Bbq5m_bw-1
+Received: by mail-wm1-f70.google.com with SMTP id 3so1484909wms.9
+ for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 06:05:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Y3tc0dZPokXF+04RHYPNBEJt0GpVK3C0ucYU4ln5Kjs=;
+ b=ub0jQDsbfXk7aNzdx7cBMiV0cnTHd9bymQDotVLNz7+Mwtj/7MNPeBsHMhekNVgMF3
+ WRj2szZsC6zeOLu60bSQ2pnT1OVknzofQE/9XznnhUy4CFAx2UbkWzx7RIIAaW0xG5ia
+ Ejy7YVBCHtqZsrJOOniB8NH1fIxeVXlc0ahiJ3LTyTdijSuV42l29pil2ojGPOTIhV0r
+ ymkSgwsKox0EgXtiG9SCux99UUb5UutDsMQqmFgmFXEgoxjUgUUI6ShA7XPl2npHrj1q
+ UkiQzeGfmEdlM/o/2VR9HGsbpvPFUqhMvYZBWyMmvH6KxujDV3h6e+hAkeLYx9Zjk30T
+ u+Lg==
+X-Gm-Message-State: AOAM533aYEFdsUnY553C2YQDhfJwhO7WNGs0pXI7GCGU/Yt54V+zH8h7
+ Broj1YN6WZDu0PPRwYR9bceD9rPlFkn4bG6hubShQsxBbCUu8DX/NI5UA6eWR6VDv3gGpxDe6ss
+ xrOD6mWvjYfQatzU=
+X-Received: by 2002:a1c:b0ca:: with SMTP id z193mr9533787wme.82.1604844302101; 
+ Sun, 08 Nov 2020 06:05:02 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxpUs88ZPBJSjAFiFym5VfcrTNlFtPfWa0ZlZNz41aVOx0M2MOo46Xk7SdSrz/OeY/T0wam+Q==
+X-Received: by 2002:a1c:b0ca:: with SMTP id z193mr9533757wme.82.1604844301846; 
+ Sun, 08 Nov 2020 06:05:01 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:73b1:3acc:3ebd:4fd4?
+ ([2001:b07:6468:f312:73b1:3acc:3ebd:4fd4])
+ by smtp.gmail.com with ESMTPSA id 89sm10771270wrp.58.2020.11.08.06.05.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 08 Nov 2020 06:05:01 -0800 (PST)
+To: Eduardo Habkost <ehabkost@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+References: <20201104160021.2342108-1-ehabkost@redhat.com>
+ <20201106094511.GA23864@merkur.fritz.box> <20201106155013.GX5733@habkost.net>
+ <20201106211034.GY5733@habkost.net>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2 00/44] Make qdev static property API usable by any QOM
+ type
+Message-ID: <ca99fc61-6cdd-117d-343e-8141e385522e@redhat.com>
+Date: Sun, 8 Nov 2020 15:05:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB6772.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8adfbb1f-0be6-4e25-4d56-08d883ebe937
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Nov 2020 13:40:52.5367 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JZpE6RCO9VHzERSPl0ijS5yNwtzq0kNUeT7Nv8ueYVGdk4intRto/zFf0E4iuk1SbUXVJ2oyPLSiY46vQ98DQQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB5255
-Received-SPF: pass client-ip=40.107.244.78; envelope-from=saipava@xilinx.com;
- helo=NAM12-MW2-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/08 08:41:28
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201106211034.GY5733@habkost.net>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/08 09:02:39
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -115,30 +104,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ John Snow <jsnow@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VGhhbmtzLCBnb29kIGZpeC4NCg0KUmV2aWV3ZWQtYnk6IFNhaSBQYXZhbiBCb2RkdSA8c2FpLnBh
-dmFuLmJvZGR1QHhpbGlueC5jb20+DQoNClJlZ2FyZHMsDQpTYWkgUGF2YW4NCj4gLS0tLS1Pcmln
-aW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUGhpbGlwcGUgTWF0aGlldS1EYXVkw6kgPHBoaWxt
-ZEByZWRoYXQuY29tPg0KPiBTZW50OiBTYXR1cmRheSwgTm92ZW1iZXIgNywgMjAyMCA0OjQzIFBN
-DQo+IFRvOiBxZW11LWRldmVsQG5vbmdudS5vcmcNCj4gQ2M6IEdlcmQgSG9mZm1hbm4gPGtyYXhl
-bEByZWRoYXQuY29tPjsgU2FpIFBhdmFuIEJvZGR1DQo+IDxzYWlwYXZhQHhpbGlueC5jb20+OyBQ
-aGlsaXBwZSBNYXRoaWV1LURhdWTDqSA8cGhpbG1kQHJlZGhhdC5jb20+DQo+IFN1YmplY3Q6IFtQ
-QVRDSC1mb3ItNS4yIDIvNV0gaHcvdXNiL0tjb25maWc6IEZpeCBVU0JfWEhDSV9ORUMgKGRlcGVu
-ZHMgb24NCj4gVVNCX1hIQ0lfUENJKQ0KPiANCj4gU2luY2UgY29tbWl0IDc1NWZiYTExZmJjIGFu
-ZCA4ZGRhYjhkZDNkOCB3ZSBjYW4gbm90IGJ1aWxkIFVTQl9YSENJX05FQw0KPiB3aXRob3V0IFVT
-Ql9YSENJX1BDSS4gQ29ycmVjdCB0aGUgS2NvbmZpZyBkZXBlbmRlbmN5Lg0KPiANCj4gRml4ZXM6
-IDc1NWZiYTExZmJjICgidXNiL2hjZC14aGNpOiBNb3ZlIHFlbXUteGhjaSBkZXZpY2UgdG8gaGNk
-LXhoY2ktcGNpLmMiKQ0KPiBTaWduZWQtb2ZmLWJ5OiBQaGlsaXBwZSBNYXRoaWV1LURhdWTDqSA8
-cGhpbG1kQHJlZGhhdC5jb20+DQo+IC0tLQ0KPiAgaHcvdXNiL0tjb25maWcgfCA0ICstLS0NCj4g
-IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMyBkZWxldGlvbnMoLSkNCj4gDQo+IGRp
-ZmYgLS1naXQgYS9ody91c2IvS2NvbmZpZyBiL2h3L3VzYi9LY29uZmlnIGluZGV4DQo+IGE2NzRj
-ZTRjNTQyLi42YTIxM2IwNDc1OCAxMDA2NDQNCj4gLS0tIGEvaHcvdXNiL0tjb25maWcNCj4gKysr
-IGIvaHcvdXNiL0tjb25maWcNCj4gQEAgLTQyLDkgKzQyLDcgQEAgY29uZmlnIFVTQl9YSENJX1BD
-SQ0KPiANCj4gIGNvbmZpZyBVU0JfWEhDSV9ORUMNCj4gICAgICBib29sDQo+IC0gICAgZGVmYXVs
-dCB5IGlmIFBDSV9ERVZJQ0VTDQo+IC0gICAgZGVwZW5kcyBvbiBQQ0kNCj4gLSAgICBzZWxlY3Qg
-VVNCX1hIQ0kNCj4gKyAgICBzZWxlY3QgVVNCX1hIQ0lfUENJDQo+IA0KPiAgY29uZmlnIFVTQl9Y
-SENJX1NZU0JVUw0KPiAgICAgIGJvb2wNCj4gLS0NCj4gMi4yNi4yDQoNCg==
+On 06/11/20 22:10, Eduardo Habkost wrote:
+> This was implemented at:
+> https://gitlab.com/ehabkost/qemu/-/commits/work/qdev-make-generic
+> 
+> This is the interface I'd like to submit as v3:
+> 
+> static Property machine_props[] = {
+>      DEFINE_PROP_STRING("kernel", MachineState, kernel_filename,
+>                         .description = "Linux kernel image file"),
+>      DEFINE_PROP_STRING("initrd", MachineState, initrd_filename,
+>                         .description = "Linux initial ramdisk file"),
+>      DEFINE_PROP_STRING("append", MachineState, kernel_cmdline,
+>                         .description = "Linux kernel command line"),
+>      DEFINE_PROP_STRING("dtb", MachineState, dtb,
+>                         .description = "Linux kernel device tree file"),
+>      DEFINE_PROP_STRING("dumpdtb", MachineState, dumpdtb,
+>                         .description = "Dump current dtb to a file and quit"),
+>      DEFINE_PROP_STRING("dt-compatible", MachineState, dt_compatible,
+>                         .description = "Overrides the \"compatible\" "
+>                                        "property of the dt root node"),
+>      DEFINE_PROP_STRING("firmware", MachineState, firmware,
+>                         .description = "Firmware image"),
+>      DEFINE_PROP_STRING("memory-backend", MachineState, ram_memdev_id,
+>                         .description = "ID of memory backend object"),
+>      DEFINE_PROP_BOOL("dump-guest-core", MachineState, dump_guest_core, true,
+>                       .description = "Include guest memory in a core dump"),
+>      DEFINE_PROP_BOOL("mem-merge", MachineState, mem_merge, true,
+>                       .description = "Enable/disable memory merge support"),
+>      DEFINE_PROP_BOOL("graphics", MachineState, enable_graphics, true,
+>                       .description = "Set on/off to enable/disable graphics emulation"),
+>      DEFINE_PROP_BOOL("suppress-vmdesc", MachineState, suppress_vmdesc, false,
+>                       .description = "Set on to disable self-describing migration"),
+>      DEFINE_PROP_UINT32("phandle-start", MachineState, phandle_start, 0,
+>                         .description = "The first phandle ID we may generate dynamically"),
+>      DEFINE_PROP_END_OF_LIST(),
+> };
+> 
+> static void machine_class_init(ObjectClass *oc, void *data)
+> {
+>      ...
+>      object_class_add_field_properties(oc, machine_props, prop_allow_set_always);
+>      ...
+> }
+
+If all properties were like this, it would be okay.  But the API in v2 
+is the one that is most consistent with QOM in general. Here is how this 
+change would be a loss in term of consistency:
+
+- you have the field properties split in two (with the property itself 
+in one place and the allow-set function in a different place), and also 
+you'd have some properties listed as array and some as function calls.
+
+- we would have different ways to handle device field properties (with 
+dc->props) compared to object properties.
+
+- while it's true that the QEMU code base has ~500 matches for 
+"object*_property_add*" calls, and ~2100 for "DEFINE_PROP*", the new 
+field properties would pretty much be used only in places that use 
+object_class_property_add*.  (And converting DEFINE_PROP* to PROP* would 
+be relatively easy to script, unlike having an array-based definition 
+for all uses of object_class_property*).
+
+The choice to describe class properties as function calls was made in 
+2016 (commit 16bf7f522a, "qom: Allow properties to be registered against 
+classes", 2016-01-18); so far I don't see that it has been misused.
+
+Also, I don't think it's any easier to write an introspection code 
+generator with DEFINE_PROP_*.  You would still have to parse the class 
+init function to find the reference to the array (and likewise the 
+TypeInfo struct to find the class init function).
+
+Paolo
+
 
