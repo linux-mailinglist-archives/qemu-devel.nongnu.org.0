@@ -2,71 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DCDC2AAD5E
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 21:22:40 +0100 (CET)
-Received: from localhost ([::1]:40984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B97DC2AAD68
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 21:49:08 +0100 (CET)
+Received: from localhost ([::1]:60442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kbrCw-00049U-UZ
-	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 15:22:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49340)
+	id 1kbrcZ-0005TN-Ni
+	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 15:49:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kbrB5-0003Gd-Qo
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:20:43 -0500
-Received: from indium.canonical.com ([91.189.90.7]:36008)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kbrB2-0005lC-R6
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:20:43 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kbrB0-0008Ld-KY
- for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 20:20:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 98D322E811E
- for <qemu-devel@nongnu.org>; Sun,  8 Nov 2020 20:20:38 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbrZP-00034T-03
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:45:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20749)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbrZJ-0000Io-CO
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 15:45:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604868343;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=RxbEJTR5B5WMysiDHrphxZCz9A2ItZe7MKIkvIU7hW4=;
+ b=CL7fERA1pt5utnB3CC70pUroK0R8fw9RYpsqHt2s8zuv1YzwKbbz6NBlbznkPfFbBvtZs4
+ +edKwDkqxj1OaRNXpEWId2fP+ZgbGllfHCcwApmaPmRVrtRLNLf96ADISiLL1lKEmJqEVN
+ C2i9FlCNRg6G1Tl+12bysTMTz1HeWkU=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-583-H8UtL-O7NWa7P_L9pQHEyg-1; Sun, 08 Nov 2020 15:45:40 -0500
+X-MC-Unique: H8UtL-O7NWa7P_L9pQHEyg-1
+Received: by mail-wr1-f71.google.com with SMTP id q1so3384008wrn.5
+ for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 12:45:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YTTl5likalrV4jRgBXddTPjRQdmFwcFdUXBBmjRiJbI=;
+ b=N2FGT/tUvRTZNJ5FT7WhGxZskh2JvjpBgllpugnV7GgaDe8kZoowg6l8LqgWp4AJjU
+ XpPMGkxTLn1qxI9xbK39tI3f4DtQjMoqX4ZwmUcComU8gdd5GsE3OLrAvj7YTE+9C2Lq
+ WxoDd0v9n9CG+IkoMMHpaHnGgd412mJaY2SwRDbfZoD0TY04LBYwru4M3QnUQ7dZN+CA
+ jv0fjJQjDY65QwZ7VvhIuCWVix4n8rkK+5nU3vLrB4vXEXudCXI7mu0BaJIuXfPE5xXn
+ oxQKOYG6YPsRrcFw3TsoYADPwgmVTjtV2sPUN5MmWeKPxIRwwco5BuuNUUSAmcKCCLII
+ Uhiw==
+X-Gm-Message-State: AOAM531HYlOCYVIWfQvHfTsQmPIbjN3HrqdbCItH5pP+9s0r64AcdwF8
+ CBip2ECMs78kGmqwoOw5gvKcOsGkQYHk8G0mHM/AneAVVbvyYYwRioSLLlO28x2cQb9BewivvLP
+ PHnD8pwbLKFUibv8=
+X-Received: by 2002:adf:ed45:: with SMTP id u5mr13868994wro.48.1604868338801; 
+ Sun, 08 Nov 2020 12:45:38 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyWx1vsRY0nVrpgOjLQb37xx9h1u0ObnfO9UEyd6ODULcq7zJxAv8dw9VvBGDKzxPjGxSk7GA==
+X-Received: by 2002:adf:ed45:: with SMTP id u5mr13868971wro.48.1604868338565; 
+ Sun, 08 Nov 2020 12:45:38 -0800 (PST)
+Received: from localhost.localdomain (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id n6sm11048802wrj.60.2020.11.08.12.45.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 08 Nov 2020 12:45:37 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH-for-5.2 v4 00/17] ci: Move various jobs from Travis to GitLab
+ CI
+Date: Sun,  8 Nov 2020 21:45:18 +0100
+Message-Id: <20201108204535.2319870-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 08 Nov 2020 20:13:13 -0000
-From: =?utf-8?b?0JrQvtGA0LXQvdCx0LXRgNCzINCc0LDRgNC6?=
- <1652459@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: socketpair th-huth
-X-Launchpad-Bug-Reporter: =?utf-8?b?0JrQvtGA0LXQvdCx0LXRgNCzINCc0LDRgNC6?=
- =?utf-8?q?_=28socketpair=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?b?0JrQvtGA0LXQvdCx0LXRgNCzINCc0LDRgNC6?=
- =?utf-8?q?_=28socketpair=29?=
-References: <20161224192528.14563.19329.malonedeb@wampee.canonical.com>
-Message-Id: <160486639393.28629.16510436669305416288.launchpad@chaenomeles.canonical.com>
-Subject: [Bug 1652459] Re: kvm rbd driver (and maybe others, i.e. qcow2,
- qed and so on)  does not report DISCARD-ZERO flag
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: 7df35f71690ca71e3d991d159968b1646eefe02b
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/08 15:20:38
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/08 15:45:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,40 +93,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1652459 <1652459@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: Incomplete =3D> New
+We have various job covered on Travis-CI, but recommend the=0D
+community to use GitLab, so build failures are missed.=0D
+=0D
+We need help to move the jobs to GitLab (we will keep the s390x=0D
+and ppc64 containerized jobs on Travis as there is no similar=0D
+offer on GitLab). Start moving jobs.=0D
+=0D
+Resulting pipelines (96 jobs in 71 minutes and 4 seconds)=0D
+  https://gitlab.com/philmd/qemu/-/pipelines/213351318=0D
+  https://gitlab.com/philmd/qemu/-/pipelines/213378500=0D
+=0D
+Patches 1-3 are included because without them some jobs are=0D
+failing; but they will be merged via different trees.=0D
+=0D
+Since v3:=0D
+- moving various other jobs=0D
+- make some jobs optional=0D
+=0D
+Since v2:=0D
+- Run m68k qtests (Thomas)=0D
+- Reworded hw/9pfs description (Greg)=0D
+- Added tags=0D
+=0D
+Since v1:=0D
+- Fix Xen+9pfs config (Paolo)=0D
+- Run AVR qtests (Thomas)=0D
+=0D
+Based-on: <20201104115706.3101190-1-philmd@redhat.com>=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (16):=0D
+  configure: Check vhost-user is available to build=0D
+    vhost-user-blk-server=0D
+  hw/i386/acpi-build: Fix maybe-uninitialized error when ACPI hotplug=0D
+    off=0D
+  MAINTAINERS: Add gitlab-pipeline-status script to GitLab CI section=0D
+  gitlab-ci: Split CONFIGURE_ARGS one argument per line for=0D
+    build-disabled=0D
+  gitlab-ci: Update 'build-disabled' to cover all configurable options=0D
+  gitlab-ci: Move job testing --without-default-devices across to gitlab=0D
+  gitlab-ci: Move linux-user debug-tcg test across to gitlab=0D
+  gitlab-ci: Move gprof/gcov test across to gitlab=0D
+  gitlab-ci: Move user-static test across to gitlab=0D
+  gitlab-ci: Move tools-only and softfloat tests across to gitlab=0D
+  gitlab-ci: Move coroutine tests across to gitlab=0D
+  tests/docker: Install lttng-ust-devel package in Fedora image=0D
+  gitlab-ci: Move trace backend tests across to gitlab=0D
+  gitlab-ci: Add test for Xen (on CentOS 7)=0D
+  gitlab-ci: Make some ARM 32-bit jobs optional=0D
+  gitlab-ci: Make MIPS user-mode 32-bit little-endian job optional=0D
+=0D
+Stefan Hajnoczi (1):=0D
+  meson: always include contrib/libvhost-user=0D
+=0D
+ configure                                  |   3 +=0D
+ meson.build                                |   6 +-=0D
+ hw/i386/acpi-build.c                       |  45 ++--=0D
+ .gitlab-ci.d/crossbuilds.yml               |   9 +=0D
+ .gitlab-ci.yml                             | 228 +++++++++++++++++++--=0D
+ .travis.yml                                |  78 -------=0D
+ MAINTAINERS                                |   3 +-=0D
+ scripts/{travis =3D> ci}/coverage-summary.sh |   2 +-=0D
+ tests/docker/dockerfiles/fedora.docker     |   1 +=0D
+ 9 files changed, 249 insertions(+), 126 deletions(-)=0D
+ rename scripts/{travis =3D> ci}/coverage-summary.sh (92%)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1652459
-
-Title:
-  kvm rbd driver (and maybe others, i.e. qcow2, qed and so on)  does not
-  report DISCARD-ZERO flag
-
-Status in QEMU:
-  New
-
-Bug description:
-  # lsblk -D
-  NAME   DISC-ALN DISC-GRAN DISC-MAX DISC-ZERO
-  sda           0        4K       1G         0
-  =E2=94=9C=E2=94=80sda1        0        4K       1G         0
-  =E2=94=9C=E2=94=80sda2     1024        4K       1G         0
-  =E2=94=94=E2=94=80sda5        0        4K       1G         0
-
-  Last column should be `1` at least for "RBD+discard=3Dunmap" since
-  reading from discarded regions in RBD MUST return zeroes. The same
-  with QCOW2, QED and sparse raw images. KVM should copy value of this
-  flag when real raw device (i.e. real SSD) with discard capability is
-  used as virtual disk.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1652459/+subscriptions
 
