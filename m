@@ -2,89 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 392C12AAA26
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 10:02:14 +0100 (CET)
-Received: from localhost ([::1]:42276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68E1C2AAA37
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 10:14:02 +0100 (CET)
+Received: from localhost ([::1]:52608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kbgaT-0000Lh-8Z
-	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 04:02:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37030)
+	id 1kbglt-0005g4-HC
+	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 04:14:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kbgZS-0008K6-2o
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 04:01:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46259)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kbgZL-000369-En
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 04:01:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604826062;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mieE4+4Mck1xDlU3JLj6NMm+nXxXvnb4IqVVnjEq6uw=;
- b=FlRyrfrZ6Cl1CrwPhwKUvD6v/oxTcGKurWdEsqfMAJaegyUDd97r2VRNP3Ug6yseMMdHyZ
- F+oBzKlfA1OLq6P+xej37caTRXWQ+mf2utPFlT1BGtMv24SnBcAU0ujRiJ9a0Fug2zOT+d
- vaMTp4z3IayXqqSt674uk5LeDTcPhSo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-421-kLzYLAbWOhiIG6xoA2x1Lg-1; Sun, 08 Nov 2020 04:00:58 -0500
-X-MC-Unique: kLzYLAbWOhiIG6xoA2x1Lg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84CE1185A0D9;
- Sun,  8 Nov 2020 09:00:57 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-53.ams2.redhat.com [10.36.112.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0AB6C5C1D7;
- Sun,  8 Nov 2020 09:00:54 +0000 (UTC)
-Subject: Re: Migrating to the gitlab issue tracker
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- John Snow <jsnow@redhat.com>
-References: <3713093e-bf3b-bf23-a8d0-70fe429032ba@redhat.com>
- <c7308133-cf29-8668-f781-6d025eb16722@redhat.com>
- <3d9b264a-5e1f-b936-8455-bafc6b89ebe5@redhat.com>
- <20201030092324.GC99222@redhat.com>
- <CAFEAcA_8PKkfeninOXCzPdtY7WVHnC7Pkon758zXe7h9MzS+aw@mail.gmail.com>
- <20201030101013.GG99222@redhat.com>
- <CAFEAcA9crYaa8-guWkYFDYgEi8=gH3xaXraD7iWZMHM6vryAtw@mail.gmail.com>
- <c75f91b7-6972-9e48-efa9-49792fc011d2@redhat.com>
- <37a00b98-428b-d1ca-79c2-7846ccfda651@redhat.com>
- <de1d3c49-967b-bc96-220f-3deabc441dfa@redhat.com>
- <20201105155006.GP630142@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <72985bcf-668d-7472-192f-502963d2b6ad@redhat.com>
-Date: Sun, 8 Nov 2020 10:00:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kbgj2-0002Br-Gy
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 04:11:04 -0500
+Received: from indium.canonical.com ([91.189.90.7]:54196)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kbgj0-0006YB-Co
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 04:11:04 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kbgiz-0006W0-8z
+ for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 09:11:01 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 42D792E800F
+ for <qemu-devel@nongnu.org>; Sun,  8 Nov 2020 09:11:01 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20201105155006.GP630142@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/08 01:02:17
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 08 Nov 2020 09:02:57 -0000
+From: Thomas Huth <1648726@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: uas uasp usb usb-host xhci
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: jscinoz th-huth
+X-Launchpad-Bug-Reporter: Jack Coulter (jscinoz)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20161209080958.23373.14363.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160482617790.27956.15765796758704785616.malone@chaenomeles.canonical.com>
+Subject: [Bug 1648726] Re: [usb-host] Passthrough of UAS devices fails with
+ Windows (10) guests
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
+X-Launchpad-Hash: 5465df68abb3deb7b55cf6cf6d66aab3e50f0386
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/08 04:10:58
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -93,82 +74,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair23@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Reply-To: Bug 1648726 <1648726@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/11/2020 16.50, Daniel P. Berrangé wrote:
-> On Thu, Nov 05, 2020 at 10:44:42AM -0500, John Snow wrote:
->> On 11/5/20 1:14 AM, Thomas Huth wrote:
->>> On 05/11/2020 01.06, John Snow wrote:
->>>> On 10/30/20 6:57 AM, Peter Maydell wrote:
->>>>> On Fri, 30 Oct 2020 at 10:10, Daniel P. Berrangé <berrange@redhat.com> wrote:
->>>>>> This
->>>>>> makes it more appealing to leave existing bugs in the LP tracker until
->>>>>> they are resolved, auto-closed, or there is a compelling reason to move
->>>>>> to gitlab.
->>>>>
->>>>> The compelling reason is that there is no way that I want to
->>>>> have to consult two entirely separate bug tracking systems
->>>>> to see what our reported bugs are. We must have an entry
->>>>> in the new BTS for every 'live' bug, whether it was originally
->>>>> reported to LP or to gitlab.
->>> [...]
->>>> OK. I will try to investigate using the Launchpad API to pull our
->>>> existing information, and then using the Gitlab API to re-create them.
->>>
->>> Before we migrate hundreds of bugs around, I think we should first check
->>> which ones are stale, and which are still valid. So for all bugs that are in
->>> "New" state and older than, let's say 2 years, I think we should add a
->>> message a la:
->>>
->>>   The QEMU project is currently considering to move its bug tracking to
->>> another system. For this we need to know which bugs are still valid and
->>> which could be closed already. Thus we are setting all older bugs to
->>> "Incomplete" now. If you still think this bug report here is valid, then
->>> please switch the state back to "New" within the next 60 days, otherwise
->>> this report will be marked as "Expired". Thank you and sorry for the
->>> inconvenience.
->>>
->>
->> One reason to NOT do this is that if the bug does wind up being legitimate
->> -- perhaps it is still a top google hit for searching a particular error
->> string -- once we have migrated, there will be no recourse for the hapless
->> googler.
-> 
-> AFAIK, Google will index closed bugs, so they'll still appear in the
-> search results.
-> 
-> If we really want to, we could put a comment in the bugs we're about
-> to close, telling people that we're using gitlab now, and to re-file
-> their bug there if they care about it. I'm not sure that's needed
-> though, since it is no different a situation to what we have already
-> with the 1000's of bugs we've closed over the years.
-> 
->> We can leave a generic forwarder to the new tracker once we migrate, but
->> there's no way to "re-open" the issue. If someone re-files on the new
->> tracker, they won't be able to update the bug to leave a new breadcrumb.
->>
->> However, if we migrate the bug first, we can leave breadcrumbs on the old
->> tracker pointing to the new one, and then if the bug winds up being
->> legitimate, googlers can follow the breadcrumb to the gitlab issue and
->> either update that bug, reopen it, etc.
-> 
-> IMHO they can just file a fresh bug in GitLab from scratch easily
-> enough by just copy+pasting the existin bug description. I don't
-> see a benefit in creating 100's of bugs in GitLab that we will
-> immediately close as being stale.
+The QEMU project is currently considering to move its bug tracking to anoth=
+er system. For this we need to know which bugs are still valid and which co=
+uld be closed already. Thus we are setting all older bugs to "Incomplete" n=
+ow.
+If you still think this bug report here is valid, then please switch the st=
+ate back to "New" within the next 60 days, otherwise this report will be ma=
+rked as "Expired". Thank you and sorry for the
+inconvenience.
 
-I agree with Daniel. Please let's not clog the new bug tracker right from
-the start with hundreds of bugs - that only makes it harder to focus on the
-tickets that are really important. Let's use the migration instead to start
-as clean as possible again.
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
- Thomas
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1648726
+
+Title:
+  [usb-host] Passthrough of UAS devices fails with Windows (10) guests
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  Split off from https://bugs.launchpad.net/qemu/+bug/1579306 as this is
+  a distinct issue.
+
+  Physical USB storage devices that support the UAS protocol do not work
+  correctly when passed through to Windows guests (I've only tested this
+  with Windows 10 x64, build 1607).
+
+  Passing through such a device results in the older BOT/MSC protocol
+  being used:
+
+  <See attachment win10-uas-fail.png>
+
+  Using the same domain configuration with a Linux guest (tested with
+  SystemRescueCD 4.8.0) works correctly:
+
+  /: Bus 02.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dxhci_hcd/4p, 5000M
+  =C2=A0=C2=A0=C2=A0=C2=A0|__ Port 1: Dev 2, If 0, Class=3DMass Storage, Dr=
+iver=3Duas, 5000M
+  /: Bus 01.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dxhci_hcd/4p, 480M
+
+  In both cases, the VM was launched via libvirt, which generated the
+  following command line:
+
+  /usr/bin/qemu-system-x86_64 -name guest=3DWin10-Edge-IE11,debug-
+  threads=3Don -S -object
+  secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/domain-1=
+3-Win10
+  -Edge-IE11/master-key.aes -machine
+  pc-q35-2.7,accel=3Dkvm,usb=3Doff,vmport=3Doff,dump-guest-core=3Doff -cpu
+  host,hv_time,hv_relaxed,hv_vapic,hv_spinlocks=3D0x1fff -m 4096 -realtime
+  mlock=3Doff -smp 8,sockets=3D1,cores=3D4,threads=3D2 -uuid 47c39707-088c-=
+4edc-
+  8b6a-a7856e09f43d -no-user-config -nodefaults -chardev
+  socket,id=3Dcharmonitor,path=3D/var/lib/libvirt/qemu/domain-13-Win10-Edge-
+  IE11/monitor.sock,server,nowait -mon
+  chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol -rtc
+  base=3Dlocaltime,driftfix=3Dslew -global kvm-pit.lost_tick_policy=3Ddisca=
+rd
+  -no-hpet -no-shutdown -global ICH9-LPC.disable_s3=3D1 -global
+  ICH9-LPC.disable_s4=3D1 -boot strict=3Don -device
+  i82801b11-bridge,id=3Dpci.1,bus=3Dpcie.0,addr=3D0x1e -device pci-
+  bridge,chassis_nr=3D2,id=3Dpci.2,bus=3Dpci.1,addr=3D0x0 -device nec-usb-
+  xhci,id=3Dusb,bus=3Dpci.2,addr=3D0x6 -device virtio-scsi-
+  pci,id=3Dscsi0,bus=3Dpci.2,addr=3D0x3 -device virtio-serial-pci,id=3Dvirt=
+io-
+  serial0,bus=3Dpci.2,addr=3D0x4 -drive file=3D/home/jack/IMG/Win10-Edge-
+  IE11.qcow2,format=3Dqcow2,if=3Dnone,id=3Ddrive-scsi0-0-0-0,discard=3Dunmap
+  -device scsi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0,drive=3Ddri=
+ve-
+  scsi0-0-0-0,id=3Dscsi0-0-0-0,bootindex=3D1 -drive if=3Dnone,id=3Ddrive-
+  scsi0-0-0-1,readonly=3Don -device scsi-cd,bus=3Dscsi0.0,channel=3D0,scsi-
+  id=3D0,lun=3D1,drive=3Ddrive-scsi0-0-0-1,id=3Dscsi0-0-0-1 -netdev
+  tap,fd=3D22,id=3Dhostnet0,vhost=3Don,vhostfd=3D24 -device virtio-net-
+  pci,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:27:94:5d,bus=3Dpci.2,addr=
+=3D0x1
+  -chardev pty,id=3Dcharserial0 -device isa-
+  serial,chardev=3Dcharserial0,id=3Dserial0 -chardev
+  spicevmc,id=3Dcharchannel0,name=3Dvdagent -device virtserialport,bus
+  =3Dvirtio-
+  serial0.0,nr=3D1,chardev=3Dcharchannel0,id=3Dchannel0,name=3Dcom.redhat.s=
+pice.0
+  -device usb-tablet,id=3Dinput0,bus=3Dusb.0,port=3D2 -spice
+  port=3D5900,addr=3D127.0.0.1,disable-ticketing,image-compression=3Doff
+  ,seamless-migration=3Don -device qxl-
+  vga,id=3Dvideo0,ram_size=3D67108864,vram_size=3D67108864,vram64_size_mb=
+=3D0,vgamem_mb=3D16,max_outputs=3D1,bus=3Dpcie.0,addr=3D0x1
+  -device intel-hda,id=3Dsound0,bus=3Dpci.2,addr=3D0x2 -device hda-
+  duplex,id=3Dsound0-codec0,bus=3Dsound0.0,cad=3D0 -chardev
+  spicevmc,id=3Dcharredir0,name=3Dusbredir -device usb-
+  redir,chardev=3Dcharredir0,id=3Dredir0,bus=3Dusb.0,port=3D3 -chardev
+  spicevmc,id=3Dcharredir1,name=3Dusbredir -device usb-
+  redir,chardev=3Dcharredir1,id=3Dredir1,bus=3Dusb.0,port=3D4 -device usb-
+  host,hostbus=3D4,hostaddr=3D4,id=3Dhostdev0,bus=3Dusb.0,port=3D1 -device =
+virtio-
+  balloon-pci,id=3Dballoon0,bus=3Dpci.2,addr=3D0x5 -msg timestamp=3Don
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1648726/+subscriptions
 
