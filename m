@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 694422AADD1
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 23:22:10 +0100 (CET)
-Received: from localhost ([::1]:57600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2383F2AADD5
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Nov 2020 23:24:26 +0100 (CET)
+Received: from localhost ([::1]:36356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kbt4b-0007eJ-Eq
-	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 17:22:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37944)
+	id 1kbt6n-0002C0-6o
+	for lists+qemu-devel@lfdr.de; Sun, 08 Nov 2020 17:24:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbt2H-0005z1-W4
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 17:19:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32575)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbt2J-00062N-VO
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 17:19:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24611)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbt2G-00025Q-1t
- for qemu-devel@nongnu.org; Sun, 08 Nov 2020 17:19:45 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kbt2I-00026j-1v
+ for qemu-devel@nongnu.org; Sun, 08 Nov 2020 17:19:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604873983;
+ s=mimecast20190719; t=1604873985;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HkmWM8pdBxBAkh2ux+VVNAnnOD7tHToqsp9wNXfrvV8=;
- b=CPp1TYXVVxvASYwOyT8pfrA4r2G9awIRk0uOref4l2t9yb5p8wMXulMkWxuyOaqv8rwZiV
- kod4kleiA4VKEvkNE28E1nH+j6T50i83mR9A+qb6qrumOYY0ISlMKHinFI7BhsQXnNpy80
- n3jQdZtjJiBYJknWWzb9ZuXUiRCXsyQ=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-108-pf-lwfoHPQ6FpJ1jka1VmA-1; Sun, 08 Nov 2020 17:19:39 -0500
-X-MC-Unique: pf-lwfoHPQ6FpJ1jka1VmA-1
-Received: by mail-wr1-f70.google.com with SMTP id q15so3464688wrw.8
- for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 14:19:38 -0800 (PST)
+ bh=CmyNUmooLdVHry+yJmzGfzNT00h5DfYz55kuF8g/yME=;
+ b=FAPOYfeULjodTSIkVzms+cywRYtDj1H2AxF6fYnHgleFWSIWNdvC5NlpwUdnrA4YAjigk0
+ Xd25TG/YwAtib86m1HExCQ6yT309jV+spdKWt4OBL1vBSIOLMLTKqHjB0Ygnig4q1Cg/qe
+ Ft+RWaJhmZF+KOdR1v8Ay3J6iG1xz4A=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-383-plahqUebP1qA93M9FehATg-1; Sun, 08 Nov 2020 17:19:44 -0500
+X-MC-Unique: plahqUebP1qA93M9FehATg-1
+Received: by mail-wr1-f72.google.com with SMTP id e11so3478454wrw.14
+ for <qemu-devel@nongnu.org>; Sun, 08 Nov 2020 14:19:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HkmWM8pdBxBAkh2ux+VVNAnnOD7tHToqsp9wNXfrvV8=;
- b=A8bFfI1DNy5JaPr7TNQPomaie8f3XcRQlIKr5HU1hnZG/GcYvbEzou5OSjQyYNymUt
- YDTQrB7bp4hYQkvhgoW3J3LGU/M/fmyVIbMJxzMI99nbpCRGgTcx6mefzTlpUtsWnIzp
- EFByo1/FvCJCq9jQ+YWlZ4fW40mp2iBbOTTGFUwxUQZej2iiTqkkCHWvdZcoPJarm0T2
- rbsmRr+yZMCBHHf5YVEtcn+mqHABijTm6yWQe8lHy1RZQ74Y07pdgTeleB4DN1wRLU5I
- RiKkTJnPN0D6L0paM19HicMHqeCLCpYU1+pbHIJ0PpuvTlUVoCdEwlCSzMMcmkd7HSd2
- SWBw==
-X-Gm-Message-State: AOAM531GsSNiFVIs+yDv7kCGJ1SDbE4fuRZ9gMHoWwMK6nOYxABXsnlt
- 3JqTgEbp6dlAGUEWf1sa2xpeXGcB1hPAzbQADSvaAAjOkGhSQBWo6W40Wsht1Go5uAhLTWagIZx
- 3mG9cnr8URGHQRh8=
-X-Received: by 2002:a1c:a185:: with SMTP id k127mr8244223wme.23.1604873977762; 
- Sun, 08 Nov 2020 14:19:37 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzeK5Iw3T3r0WchIm2XyJfBXdfpPPUWMmNwiialhbHsJs9HGg02JgTxPqhLVa3bKnrU0ubY1g==
-X-Received: by 2002:a1c:a185:: with SMTP id k127mr8244211wme.23.1604873977633; 
- Sun, 08 Nov 2020 14:19:37 -0800 (PST)
+ bh=CmyNUmooLdVHry+yJmzGfzNT00h5DfYz55kuF8g/yME=;
+ b=gdYespyv2pU7t1mCKTfsVWRzdEqM4tAijCvMG18jbUq5WOX4vBYlJoxe7XHkngsuTG
+ iZc2ZiNKUByU5GjHH59JJkrHbiEgCYy0qykLXCyS6j+48XD46LXcuanDvgNZWWksi0fU
+ Prw1ZWNyHXPts++PYPsh2AF4Swwgbkhiu3B27h083+Kq56iUmzqKf5Q7ozxNu24HlsUj
+ +kqB9y9uazuGm1yKTsLpoti+tuSAXvGGiozyDdPg1OYihErXQ9pmMHfQj4z3ACCFuS6P
+ Q44XyugMBC3RXL7CsTfKo/W9afLLrLJu2T2vq5iIdAA71A5ejyZS7w8k6WLYGOGnfkZr
+ /IOg==
+X-Gm-Message-State: AOAM531tJoqI4xRPCZdtTSebguQ2n9EyPaWX3/ZE0hi+/HH124LGqVHB
+ aFc04QdDeL0W1TKmGyv3ErvxwLuiLq5sRawy5I6f/AxW9cA5luUcSK7z9G67GKKAqkuPWsdM9zi
+ F5HYuMZ3GSvg9jrQ=
+X-Received: by 2002:a1c:9dcc:: with SMTP id
+ g195mr11040686wme.113.1604873982715; 
+ Sun, 08 Nov 2020 14:19:42 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw8rbSR+GAEiCWBZ80Rwovk7pIKZSNYDTFyW3j6X3abJ5ASKZlFvvvDT2ACOZ/VU/1nDSh7qg==
+X-Received: by 2002:a1c:9dcc:: with SMTP id
+ g195mr11040664wme.113.1604873982495; 
+ Sun, 08 Nov 2020 14:19:42 -0800 (PST)
 Received: from localhost.localdomain (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id u202sm10881001wmu.23.2020.11.08.14.19.36
+ by smtp.gmail.com with ESMTPSA id l16sm10878402wrx.5.2020.11.08.14.19.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Nov 2020 14:19:36 -0800 (PST)
+ Sun, 08 Nov 2020 14:19:41 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 02/11] gitlab-ci: Replace YAML anchors by extends
- (cross_system_build_job)
-Date: Sun,  8 Nov 2020 23:19:16 +0100
-Message-Id: <20201108221925.2344515-3-philmd@redhat.com>
+Subject: [PATCH v3 03/11] gitlab-ci: Replace YAML anchors by extends
+ (native_build_job)
+Date: Sun,  8 Nov 2020 23:19:17 +0100
+Message-Id: <20201108221925.2344515-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201108221925.2344515-1-philmd@redhat.com>
 References: <20201108221925.2344515-1-philmd@redhat.com>
@@ -73,16 +75,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/08 09:03:10
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/08 15:45:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -110,139 +112,157 @@ https://docs.gitlab.com/ee/ci/yaml/#extends
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- .gitlab-ci.d/crossbuilds.yml | 40 ++++++++++++++++++------------------
- 1 file changed, 20 insertions(+), 20 deletions(-)
+ .gitlab-ci.yml | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
-index 03ebfabb3fa..099949aaef3 100644
---- a/.gitlab-ci.d/crossbuilds.yml
-+++ b/.gitlab-ci.d/crossbuilds.yml
-@@ -1,5 +1,5 @@
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 5763318d375..a96e7dd23e5 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -13,7 +13,7 @@ include:
+   - local: '/.gitlab-ci.d/containers.yml'
+   - local: '/.gitlab-ci.d/crossbuilds.yml'
  
--.cross_system_build_job_template: &cross_system_build_job_definition
-+.cross_system_build_job:
+-.native_build_job_template: &native_build_job_definition
++.native_build_job:
    stage: build
    image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
-   timeout: 80m
-@@ -13,7 +13,7 @@
-           xtensa-softmmu"
-     - make -j$(expr $(nproc) + 1) all check-build
+   before_script:
+@@ -68,7 +68,7 @@ include:
+     - du -chs ${CI_PROJECT_DIR}/avocado-cache
  
--.cross_user_build_job_template: &cross_user_build_job_definition
-+.cross_user_build_job:
-   stage: build
-   image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
+ build-system-ubuntu:
+-  <<: *native_build_job_definition
++  extends: .native_build_job
+   variables:
+     IMAGE: ubuntu2004
+     TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu
+@@ -99,7 +99,7 @@ acceptance-system-ubuntu:
+   <<: *acceptance_definition
+ 
+ build-system-debian:
+-  <<: *native_build_job_definition
++  extends: .native_build_job
+   variables:
+     IMAGE: debian-amd64
+     TARGETS: arm-softmmu avr-softmmu i386-softmmu mipsel-softmmu
+@@ -130,7 +130,7 @@ acceptance-system-debian:
+   <<: *acceptance_definition
+ 
+ build-system-fedora:
+-  <<: *native_build_job_definition
++  extends: .native_build_job
+   variables:
+     IMAGE: fedora
+     CONFIGURE_ARGS: --disable-gcrypt --enable-nettle
+@@ -162,7 +162,7 @@ acceptance-system-fedora:
+   <<: *acceptance_definition
+ 
+ build-system-centos:
+-  <<: *native_build_job_definition
++  extends: .native_build_job
+   variables:
+     IMAGE: centos8
+     CONFIGURE_ARGS: --disable-nettle --enable-gcrypt
+@@ -194,7 +194,7 @@ acceptance-system-centos:
+   <<: *acceptance_definition
+ 
+ build-disabled:
+-  <<: *native_build_job_definition
++  extends: .native_build_job
+   variables:
+     IMAGE: fedora
+     CONFIGURE_ARGS: --disable-attr --disable-avx2 --disable-bochs
+@@ -219,7 +219,7 @@ build-disabled:
+     MAKE_CHECK_ARGS: check-qtest SPEED=slow
+ 
+ build-tcg-disabled:
+-  <<: *native_build_job_definition
++  extends: .native_build_job
+   variables:
+     IMAGE: centos8
    script:
-@@ -24,91 +24,91 @@
-     - make -j$(expr $(nproc) + 1) all check-build
+@@ -239,7 +239,7 @@ build-tcg-disabled:
+             260 261 262 263 264 270 272 273 277 279
  
- cross-armel-system:
--  <<: *cross_system_build_job_definition
-+  extends: .cross_system_build_job
+ build-user:
+-  <<: *native_build_job_definition
++  extends: .native_build_job
    variables:
-     IMAGE: debian-armel-cross
+     IMAGE: debian-all-test-cross
+     CONFIGURE_ARGS: --disable-tools --disable-system
+@@ -249,7 +249,7 @@ build-user:
+ # we skip sparc64-linux-user until it has been fixed somewhat
+ # we skip cris-linux-user as it doesn't use the common run loop
+ build-user-plugins:
+-  <<: *native_build_job_definition
++  extends: .native_build_job
+   variables:
+     IMAGE: debian-all-test-cross
+     CONFIGURE_ARGS: --disable-tools --disable-system --enable-plugins --enable-debug-tcg --target-list-exclude=sparc64-linux-user,cris-linux-user
+@@ -257,7 +257,7 @@ build-user-plugins:
+   timeout: 1h 30m
  
- cross-armel-user:
--  <<: *cross_user_build_job_definition
-+  extends: .cross_user_build_job
+ build-clang:
+-  <<: *native_build_job_definition
++  extends: .native_build_job
    variables:
-     IMAGE: debian-armel-cross
+     IMAGE: fedora
+     CONFIGURE_ARGS: --cc=clang --cxx=clang++
+@@ -267,7 +267,7 @@ build-clang:
  
- cross-armhf-system:
--  <<: *cross_system_build_job_definition
-+  extends: .cross_system_build_job
+ # These targets are on the way out
+ build-deprecated:
+-  <<: *native_build_job_definition
++  extends: .native_build_job
    variables:
-     IMAGE: debian-armhf-cross
+     IMAGE: debian-all-test-cross
+     CONFIGURE_ARGS: --disable-docs --disable-tools
+@@ -292,7 +292,7 @@ check-deprecated:
+   allow_failure: true
  
- cross-armhf-user:
--  <<: *cross_user_build_job_definition
-+  extends: .cross_user_build_job
+ build-oss-fuzz:
+-  <<: *native_build_job_definition
++  extends: .native_build_job
    variables:
-     IMAGE: debian-armhf-cross
+     IMAGE: fedora
+   script:
+@@ -310,7 +310,7 @@ build-oss-fuzz:
+     - cd build-oss-fuzz && make check-qtest-i386 check-unit
  
- cross-arm64-system:
--  <<: *cross_system_build_job_definition
-+  extends: .cross_system_build_job
+ build-tci:
+-  <<: *native_build_job_definition
++  extends: .native_build_job
    variables:
-     IMAGE: debian-arm64-cross
+     IMAGE: fedora
+   script:
+@@ -335,7 +335,7 @@ build-tci:
+ # These jobs test old gcrypt and nettle from RHEL7
+ # which had some API differences.
+ build-crypto-old-nettle:
+-  <<: *native_build_job_definition
++  extends: .native_build_job
+   variables:
+     IMAGE: centos7
+     TARGETS: x86_64-softmmu x86_64-linux-user
+@@ -356,7 +356,7 @@ check-crypto-old-nettle:
  
- cross-arm64-user:
--  <<: *cross_user_build_job_definition
-+  extends: .cross_user_build_job
-   variables:
-     IMAGE: debian-arm64-cross
  
- cross-mips-system:
--  <<: *cross_system_build_job_definition
-+  extends: .cross_system_build_job
+ build-crypto-old-gcrypt:
+-  <<: *native_build_job_definition
++  extends: .native_build_job
    variables:
-     IMAGE: debian-mips-cross
+     IMAGE: centos7
+     TARGETS: x86_64-softmmu x86_64-linux-user
+@@ -377,7 +377,7 @@ check-crypto-old-gcrypt:
  
- cross-mips-user:
--  <<: *cross_user_build_job_definition
-+  extends: .cross_user_build_job
-   variables:
-     IMAGE: debian-mips-cross
  
- cross-mipsel-system:
--  <<: *cross_system_build_job_definition
-+  extends: .cross_system_build_job
+ build-crypto-only-gnutls:
+-  <<: *native_build_job_definition
++  extends: .native_build_job
    variables:
-     IMAGE: debian-mipsel-cross
- 
- cross-mipsel-user:
--  <<: *cross_user_build_job_definition
-+  extends: .cross_user_build_job
-   variables:
-     IMAGE: debian-mipsel-cross
- 
- cross-mips64el-system:
--  <<: *cross_system_build_job_definition
-+  extends: .cross_system_build_job
-   variables:
-     IMAGE: debian-mips64el-cross
- 
- cross-mips64el-user:
--  <<: *cross_user_build_job_definition
-+  extends: .cross_user_build_job
-   variables:
-     IMAGE: debian-mips64el-cross
- 
- cross-ppc64el-system:
--  <<: *cross_system_build_job_definition
-+  extends: .cross_system_build_job
-   variables:
-     IMAGE: debian-ppc64el-cross
- 
- cross-ppc64el-user:
--  <<: *cross_user_build_job_definition
-+  extends: .cross_user_build_job
-   variables:
-     IMAGE: debian-ppc64el-cross
- 
- cross-s390x-system:
--  <<: *cross_system_build_job_definition
-+  extends: .cross_system_build_job
-   variables:
-     IMAGE: debian-s390x-cross
- 
- cross-s390x-user:
--  <<: *cross_user_build_job_definition
-+  extends: .cross_user_build_job
-   variables:
-     IMAGE: debian-s390x-cross
- 
- cross-win32-system:
--  <<: *cross_system_build_job_definition
-+  extends: .cross_system_build_job
-   variables:
-     IMAGE: fedora-win32-cross
- 
- cross-win64-system:
--  <<: *cross_system_build_job_definition
-+  extends: .cross_system_build_job
-   variables:
-     IMAGE: fedora-win64-cross
+     IMAGE: centos7
+     TARGETS: x86_64-softmmu x86_64-linux-user
 -- 
 2.26.2
 
