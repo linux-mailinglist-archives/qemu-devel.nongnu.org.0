@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75F042AC3FE
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 19:39:08 +0100 (CET)
-Received: from localhost ([::1]:39368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2004B2AC3EE
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 19:36:58 +0100 (CET)
+Received: from localhost ([::1]:34822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcC4J-00087C-I1
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 13:39:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54060)
+	id 1kcC2C-0006D8-KO
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 13:36:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcC0u-0004wp-Cj
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 13:35:36 -0500
-Received: from indium.canonical.com ([91.189.90.7]:57202)
+ id 1kcC0t-0004wj-US
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 13:35:35 -0500
+Received: from indium.canonical.com ([91.189.90.7]:57188)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcC0r-0000yZ-NK
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 13:35:36 -0500
+ id 1kcC0r-0000yW-KY
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 13:35:35 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kcC0q-0005Xi-AO
- for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 18:35:32 +0000
+ id 1kcC0p-0005X1-H7
+ for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 18:35:31 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 49F4B2E811E
- for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 18:35:32 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 5806A2E8042
+ for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 18:35:31 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 09 Nov 2020 18:29:09 -0000
-From: Thomas Huth <1707587@bugs.launchpad.net>
+Date: Mon, 09 Nov 2020 18:29:51 -0000
+From: Thomas Huth <1712027@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -38,18 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dean.yu th-huth
-X-Launchpad-Bug-Reporter: Dean Yu (dean.yu)
+X-Launchpad-Bug-Commenters: h14522 th-huth
+X-Launchpad-Bug-Reporter: Huang Yong (h14522)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <150148647956.21168.8991936268778990991.malonedeb@wampee.canonical.com>
-Message-Id: <160494654949.17957.10799122850508808018.malone@soybean.canonical.com>
-Subject: [Bug 1707587] Re: Read certificate from USB key failed
+References: <150330672268.8725.17665790368733773133.malonedeb@soybean.canonical.com>
+Message-Id: <160494659192.18639.9167706193373022181.malone@wampee.canonical.com>
+Subject: [Bug 1712027] Re: qemu: Cryptography adding encrypted disk with luks
+ format failed
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: a12e4e1aa0c2caca2b935e82222c24ecbed98db4
+X-Launchpad-Hash: 56b831bdf94a12d94a93a92d64b54397746986d5
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 11:16:03
@@ -72,7 +73,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1707587 <1707587@bugs.launchpad.net>
+Reply-To: Bug 1712027 <1712027@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -90,30 +91,72 @@ rked as "Expired". Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1707587
+https://bugs.launchpad.net/bugs/1712027
 
 Title:
-  Read certificate from USB key failed
+  qemu: Cryptography adding encrypted disk with luks format failed
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  QEMU release version: qemu-2.9.0
-  VM operation system: win7 32bit
+  I'm using libvirt to attach luks encrypted disk to a running VM. The
+  qemu-monitor-command like the
 
-  I have an usb key which can be redirected and recognized in VM.
-  However, it is failed to get the certificate when using the official
-  application for this usb key. What's more, the whole app is stalled
-  untill this usb key detached from VM.
+  following:
 
-  As I researched, this usb key uses interrupt transfers when
-  application trying to read certificate from it. Problem is that some
-  certificate data abandoned by "usbredir_stop_interrupt_receiving" and
-  "usbredir_stop_ep". The two functions use "usbredir_free_bufpq" to
-  clear the buffered usb packets, even the certificate remain in the
-  bufpq.
+  {"execute":"object-add","arguments":{"qom-type":"secret","id":"virtio-
+  disk11-luks-
+  secret0","props":{"data":"El7jOYLCZwrij2Mue0q2tA=3D=3D","keyid":"masterKe=
+y0","iv":"J2je0WJjCa89L3iKc1lceg=3D=3D","format":"base64"}}
+
+  the masterKey0 specify the secret which has been created before.
+
+  command above return with error message "Incorrect number of padding
+  bytes XXX found on decrypted
+
+  data". This is triggered by the following code snippets in qemu/crypto/se=
+cret.c:
+           =
+
+  if (plaintext[ciphertextlen - 1] > 16 ||
+               plaintext[ciphertextlen - 1] > ciphertextlen) {
+               error_setg(errp, "Incorrect number of padding bytes (%d) "
+                       "found on decrypted data",
+                       (int)plaintext[ciphertextlen - 1]); =
+
+                     =E2=80=A6
+           }
+
+  The bug is: There is on padding in plaintext if the actual length of
+  the plaintext  decrypted is
+
+  equal to ciphertext.
+
+  In this case, the last element in plaintext array may be one of the
+  character in base64 code table
+
+  or other.
+
+  I would like to know why length of padding bytes cannot exceed 16 and
+  whether i can remove
+
+  judement: =E2=80=9Cplaintext[ciphertextlen - 1] > 16=E2=80=9D so that I c=
+an eliminate
+  the error above.
+
+  Much appreciate it if doubts above is cleared up.
+
+  libvirt/qemu version:
+
+  # virsh version
+  Compiled against library: libvirt 3.0.0
+  Using library: libvirt 3.0.0
+  Using API: QEMU 3.0.0
+  Running hypervisor: QEMU 2.7.1
+
+  OS: Ubuntu 12.04 LTS
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1707587/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1712027/+subscriptions
 
