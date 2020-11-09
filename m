@@ -2,97 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28FA22AB365
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 10:17:53 +0100 (CET)
-Received: from localhost ([::1]:37270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70C472AB367
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 10:18:28 +0100 (CET)
+Received: from localhost ([::1]:40192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc3JA-0005Aa-6d
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 04:17:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53598)
+	id 1kc3Jj-0006Mp-FC
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 04:18:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kc3BN-00059k-O1
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 04:09:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50297)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kc3BL-0007As-Uf
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 04:09:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604912987;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LBX00fUtgNFIVUH8PiEVFNdlldoPk7nWKF4IpHuZdfI=;
- b=LoB9g+Zmw1weqeHbw6D8cnZa9WFOcYjh4mIvDrdYCugOznuWhS/dON8SIPe1wVzBoJsbsX
- 7j99mVLTcRnxyCrEUSfXhiu9tWk7r/+ZIC8+6MvK2whOejDGXec6h7NH+yj+sfM1I9+MUP
- iTj8FqxgISNrqWYO6F2K42oNcw4HsOg=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-569-3FTBm0m7Owm-_8qtBFxEbw-1; Mon, 09 Nov 2020 04:09:45 -0500
-X-MC-Unique: 3FTBm0m7Owm-_8qtBFxEbw-1
-Received: by mail-ed1-f69.google.com with SMTP id c2so2447191edw.21
- for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 01:09:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kc3BR-0005I0-EA
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 04:09:53 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:46487)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kc3BP-0007Bt-MB
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 04:09:53 -0500
+Received: by mail-wr1-x442.google.com with SMTP id d12so6306913wrr.13
+ for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 01:09:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=7ZQ2quXzikAOi/YWC4QujbfmVGXLjSPRMAC55N3U/8k=;
+ b=hJqO3xSsB34yKkjnFuQagbsIDcTLctUmcg306FjG8cUdeghA7PckxAgx9D7M0snGyV
+ xb9a0OUETYbRqd93czyUs25zmn7XtM+cz2sM+tzRDg0OemSlSrWK9z1eCDCl6nOOlG2d
+ /wqcpncrPXMW9wvexrTpHfQ1/NecjNTsOy3s9cb6IbbU+WDwm1OxmZTwB3cC+hS//BGY
+ +Js60aYITze05/FZJ3d3CkZM0XevvGbbBbAUHssU7XEMlCXm/+7zCF0dzgy+IRulHdjt
+ CBOlJmJrrKCdJaIZQLUqyrRl0yYLxt3nbExo+ElroZ44IJfq3alHnApxXXjJiDuu3HI7
+ 5QrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=LBX00fUtgNFIVUH8PiEVFNdlldoPk7nWKF4IpHuZdfI=;
- b=jHjvEy0czEUfuzFtc93W1uA0WaXCSSOMTtjjUAti9UVdoXfANYk33giRH2Oev7fh/H
- VRhDFumURrgCoWbx2hNsvCs0ysndI6RFNHz1TMMYck79ECfFtirvDfEF8ZK9xq144aMj
- CrOF/kzT6wvOgP2B131FxIRZsMX1u4JGczaBsteabow0+MezzWzrjYWMH0HvMl4vk7wV
- 9CE9WtyEW3z7eZEuFpBry6jPYt6wgF+tx/scpsCz+wsy8ZEgpOJFPWhm5WYmvI9rXhBd
- tNcpcanaJzwurPTWP4lj58uPbQsh6JlrmVcvkfKGFL5CFCwUql+kWODXziNvbaDwORDZ
- Nytw==
-X-Gm-Message-State: AOAM532gnwEOXsP0bYGjChR/V1wtOHyHm64abx9j6cuTJQJ0bhnvlR9h
- MG0ulDinMfwZn5YWS4gkWVUP1Ey6PpO0Tj5qqtk3ulPxiuILZAzddXg0w0J4GO9zkbQ582VMA2y
- QwhqBifa0hRgbG9U=
-X-Received: by 2002:a17:906:c298:: with SMTP id
- r24mr14027691ejz.76.1604912984378; 
- Mon, 09 Nov 2020 01:09:44 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy57r1PLWAZqBd1c+NehszR+uDXWOpb4AxlKuKUdLHznYltkv3uoy0vwp8G9cO7pnBNJbsr8g==
-X-Received: by 2002:a17:906:c298:: with SMTP id
- r24mr14027677ejz.76.1604912984173; 
- Mon, 09 Nov 2020 01:09:44 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id k23sm8325206ejo.108.2020.11.09.01.09.42
+ bh=7ZQ2quXzikAOi/YWC4QujbfmVGXLjSPRMAC55N3U/8k=;
+ b=XEZAS/tWuHvjxJEUU8EwOKOK6iv/zfWBcKr/H8DEgKOCD/8F1BWRkQYhNIU0DFKf8r
+ 28Ay2HvvJG4pWlnJ9sdhcnJLQBeZoLOyOBK2gCBBjWyRiSfNK+7oiXyd84deJJ3O1jUP
+ 4FbqyW508THYz2lRGIRpm7hCl5SovdViCTKmoMWLK7vgZepM9yTsp7IMeqBmnLzMVjZ9
+ Iagahgv8E+yPbCSNIclTM9LvVLzp/tzUJkLjf/roOS+Lrw1J5g3mHiMVWeRJtSSTGQr6
+ YKTYH6YRnacar9d0uVmhXzzziRY19XXSJnF1bSLy7UU4d+v5oJhXftlOz+tNBPvjz7u2
+ GRGg==
+X-Gm-Message-State: AOAM531hFyTSuDbl8NHbTDlRGTinvDzxJYL6b8UdTd65worbR2ubZOnL
+ ijmHR6YNT89xmOiTcoP0DXA=
+X-Google-Smtp-Source: ABdhPJw2rS5NNe3kqNy7nYOclFkUpG4pv9dSTjqx0HS7Wjfrvy/r/gDBSX30k52As2F4bPt+4keeNw==
+X-Received: by 2002:a5d:54c7:: with SMTP id x7mr16979481wrv.359.1604912990149; 
+ Mon, 09 Nov 2020 01:09:50 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id n9sm12164858wmd.4.2020.11.09.01.09.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Nov 2020 01:09:43 -0800 (PST)
-Subject: Re: [PATCH] meson: Clarify the confusing vhost-user vs. vhost-kernel
- output
-To: Thomas Huth <thuth@redhat.com>, Michael Tsirkin <mst@redhat.com>,
- qemu-devel@nongnu.org
-References: <20201109085906.87921-1-thuth@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <db279473-2610-8599-100f-a7fdf3fc22a4@redhat.com>
-Date: Mon, 9 Nov 2020 10:09:42 +0100
+ Mon, 09 Nov 2020 01:09:49 -0800 (PST)
+Subject: Re: [RFC PATCH-for-5.2] tests/acceptance: Disable Spartan-3A DSP
+ 1800A test
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20201109080747.2408489-1-f4bug@amsat.org>
+ <a991b796-0d03-6a2a-1008-6e7d2edc9e54@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <f7d65bef-846d-6880-937b-c3095bda9a09@amsat.org>
+Date: Mon, 9 Nov 2020 10:09:47 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201109085906.87921-1-thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <a991b796-0d03-6a2a-1008-6e7d2edc9e54@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 00:04:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,45 +92,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Thomas Huth <huth@tuxfamily.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Cleber Rosa <crosa@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/11/20 09:59, Thomas Huth wrote:
-> The configuration summary prints a line with "vhost-user: YES/NO",
-> but the value is currently the vhost-kernel setting instead which
-> looks wrong. Print the kernel setting in a separate line and switch
-> the "vhost-user:" line to CONFIG_VHOST_USER instead.
+On 11/9/20 10:04 AM, Thomas Huth wrote:
+> On 09/11/2020 09.07, Philippe Mathieu-Daudé wrote:
+>> This test is regularly failing on CI :( Do not run it automatically.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>  tests/acceptance/boot_linux_console.py | 1 +
+>>  tests/acceptance/replay_kernel.py      | 1 +
+>>  2 files changed, 2 insertions(+)
+>>
+>> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+>> index 8f433a67f84..010e8790c0f 100644
+>> --- a/tests/acceptance/boot_linux_console.py
+>> +++ b/tests/acceptance/boot_linux_console.py
+>> @@ -1025,6 +1025,7 @@ def test_m68k_mcf5208evb(self):
+>>          tar_hash = 'ac688fd00561a2b6ce1359f9ff6aa2b98c9a570c'
+>>          self.do_test_advcal_2018('07', tar_hash, 'sanity-clause.elf')
+>>  
+>> +    @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeout')
+>>      def test_microblaze_s3adsp1800(self):
+>>          """
+>>          :avocado: tags=arch:microblaze
+>> diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
+>> index 00c228382bd..c1f5fa4de71 100644
+>> --- a/tests/acceptance/replay_kernel.py
+>> +++ b/tests/acceptance/replay_kernel.py
+>> @@ -280,6 +280,7 @@ def test_m68k_mcf5208evb(self):
+>>          file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+>>          self.do_test_advcal_2018(file_path, 'sanity-clause.elf')
+>>  
+>> +    @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeout')
+>>      def test_microblaze_s3adsp1800(self):
+>>          """
+>>          :avocado: tags=arch:microblaze
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   meson.build | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meson.build b/meson.build
-> index b473620321..61d883bc07 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -2098,11 +2098,12 @@ summary_info += {'madvise':           config_host.has_key('CONFIG_MADVISE')}
->   summary_info += {'posix_madvise':     config_host.has_key('CONFIG_POSIX_MADVISE')}
->   summary_info += {'posix_memalign':    config_host.has_key('CONFIG_POSIX_MEMALIGN')}
->   summary_info += {'libcap-ng support': config_host.has_key('CONFIG_LIBCAP_NG')}
-> +summary_info += {'vhost-kernel support': config_host.has_key('CONFIG_VHOST_KERNEL')}
->   summary_info += {'vhost-net support': config_host.has_key('CONFIG_VHOST_NET')}
->   summary_info += {'vhost-crypto support': config_host.has_key('CONFIG_VHOST_CRYPTO')}
->   summary_info += {'vhost-scsi support': config_host.has_key('CONFIG_VHOST_SCSI')}
->   summary_info += {'vhost-vsock support': config_host.has_key('CONFIG_VHOST_VSOCK')}
-> -summary_info += {'vhost-user support': config_host.has_key('CONFIG_VHOST_KERNEL')}
-> +summary_info += {'vhost-user support': config_host.has_key('CONFIG_VHOST_USER')}
->   summary_info += {'vhost-user-fs support': config_host.has_key('CONFIG_VHOST_USER_FS')}
->   summary_info += {'vhost-vdpa support': config_host.has_key('CONFIG_VHOST_VDPA')}
->   summary_info += {'Trace backends':    config_host['TRACE_BACKENDS']}
-> 
+> I think this is a recent regression - it hasn't been failing in the past. We
+> should first try to find out why it is failing now before sending it to the
+> @skipUnless nirvana... could you maybe add it to the "Known issues" at
+> https://wiki.qemu.org/Planning/5.2 instead?
 
-Queued, thanks.
+I agree it looks like a regression.
 
-Paolo
+I disagree we should keep broken tests failing the pipeline,
+even if we are not using a Gating CI.
+I see test_leon3_helenos_uimage has @skip("Test currently broken")
+meaning we know there is a problem somewhere, but we don't have
+clue/resources to fix the bug, so we demote the test to avoid users
+avoid running CI tests.
 
+I'll replace by that.
+
+Regards,
+
+Phil.
 
