@@ -2,75 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C1112ABD70
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 14:46:51 +0100 (CET)
-Received: from localhost ([::1]:40092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5C542ABDC0
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 14:49:18 +0100 (CET)
+Received: from localhost ([::1]:47666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc7VS-0002lI-4u
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 08:46:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59368)
+	id 1kc7Xp-0006Iy-TV
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 08:49:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kc7Pn-0006kZ-Od
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 08:41:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48464)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kc7Pt-0006mj-G2
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 08:41:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34001)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kc7Pl-0001Jp-Qw
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 08:40:59 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kc7Pm-0001Jw-AA
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 08:41:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604929256;
+ s=mimecast20190719; t=1604929257;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TYmBXwN6RuPXc6s/3jx/jr6UDT8z+j2zKrqPmFDeEUA=;
- b=h7rqZ839V/2eFVqSwEtPE+EvmpauPe6hMFkQfhnu9YR9rh69aIsgry/Msf2Hc/PGR/O8ZK
- KZgtqNGwKJAuRiYcL2nFfBUsPZDBoKB8zwCyVewL5bsMAdRQnJE7DXTpH7qtkwiNDSDLHb
- evgFVS9sXfTpuSbMwDRbv01T83oGXRY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-350-K2SZ4BAyOAW6hOgPPZG1aA-1; Mon, 09 Nov 2020 08:40:54 -0500
-X-MC-Unique: K2SZ4BAyOAW6hOgPPZG1aA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 742BF801FDE;
- Mon,  9 Nov 2020 13:40:53 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-179.ams2.redhat.com
- [10.36.113.179])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2485760C56;
- Mon,  9 Nov 2020 13:40:50 +0000 (UTC)
-Subject: Re: [PATCH v2 7/7] block: drop tighten_restrictions
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20201106124241.16950-1-vsementsov@virtuozzo.com>
- <20201106124241.16950-8-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <d8ded6ef-fd4d-6c8b-1f57-d81e1675f080@redhat.com>
-Date: Mon, 9 Nov 2020 14:40:49 +0100
+ bh=G5izyeu101xIk+XNFEq/eyGOincwbXQ08PY2kGGcq80=;
+ b=VaVhpq08YyPxGLxgIJBCbWcuR7tCS5rhUBh8PCpUjRH7VKXkgfbR5YXsS3jxQPDZ5RfRo8
+ eTj7b8z3aZEndSoAPxRjnoIM58o6Wga1gG8SW6v56+JQGxnNE33m8laEk00tD1O7JP22QN
+ jvJjXNj/PfS9E0LcvOg1O1wSyz4DPtw=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-273-oT1ujnYLOtu2xWXrbaJMoA-1; Mon, 09 Nov 2020 08:40:56 -0500
+X-MC-Unique: oT1ujnYLOtu2xWXrbaJMoA-1
+Received: by mail-wm1-f71.google.com with SMTP id o81so2045649wma.0
+ for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 05:40:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=G5izyeu101xIk+XNFEq/eyGOincwbXQ08PY2kGGcq80=;
+ b=l7fq3xpFnFBYK5UUw0wohxbq4Pp0GVICeyGvylVa2QiFVx6kTTS6vo+v9OfGqk2ThT
+ qf2q9Le4L7oJAT8UK59W3dvWRqFwjVlAxNS668dPMVm5jfPv5hodxXxUxEDiPhluSxl3
+ ltH1sMJoODIBRJz34ekWpS6nJlrr7JyuoqzWvZOrFackGrLJQrqRJVeFvwSZt8miieLy
+ DD1h6/5Vn8T/crU6ZHui5Bk1jNsOwCf+RJz/AnsIF6UXP+C8Q2ilyzAEFNBh/8s++uCz
+ 8/u1Odqv6Dq38dD6JTWJvhjK4mv1pI2Yu+3r0Y25iUG9uzAKzge41T4L3m7H6zHSnpBq
+ 3YQQ==
+X-Gm-Message-State: AOAM532x/3FSg2YQtR9vBa08KkGhn5m2WxLriN/XLg5YMlLVjic0rsis
+ nVcwXzSsxWYXon4VOyUv2onC/1ghJqeHIi7+O1YqPyCxkj/JJAKMAl/LzLQDocO9h0fPaS924Yj
+ hxLpIks0DCJLPggI=
+X-Received: by 2002:adf:f546:: with SMTP id j6mr4644702wrp.219.1604929254956; 
+ Mon, 09 Nov 2020 05:40:54 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwoWFQn/IuEoM+PfyANFXICpObbunyIvbgUK+BEcDq/pcD2yNYysFg7e7OgDmlYUemgVkgwqQ==
+X-Received: by 2002:adf:f546:: with SMTP id j6mr4644682wrp.219.1604929254804; 
+ Mon, 09 Nov 2020 05:40:54 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id y187sm12946051wmg.33.2020.11.09.05.40.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Nov 2020 05:40:54 -0800 (PST)
+Subject: Re: [PATCH-for-5.2 1/5] hw/usb/hcd-xhci: Make xhci base model abstract
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20201107111307.262263-1-philmd@redhat.com>
+ <20201107111307.262263-2-philmd@redhat.com>
+ <20201109095127.dt7rzwqcrtx6k7n5@sirius.home.kraxel.org>
+ <a241f626-9798-933e-d5b4-1190b3da6746@redhat.com>
+ <20201109113046.fnv52ad22btvu4jr@sirius.home.kraxel.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <3b24fd8a-c036-55b4-c741-28f31d1f82fa@redhat.com>
+Date: Mon, 9 Nov 2020 14:40:52 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201106124241.16950-8-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20201109113046.fnv52ad22btvu4jr@sirius.home.kraxel.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 01:25:23
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 00:04:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,38 +103,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, berto@igalia.com, qemu-devel@nongnu.org
+Cc: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
+ Thomas Huth <thuth@redhat.com>, Miroslav Rezanina <mrezanin@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06.11.20 13:42, Vladimir Sementsov-Ogievskiy wrote:
-> The only users of this thing are:
->   1. bdrv_child_try_set_perm, to ignore failures on loosen restrictions
->   2. assertion in bdrv_replace_child
->   3. assertion in bdrv_inactivate_recurse
+On 11/9/20 12:30 PM, Gerd Hoffmann wrote:
+>>  static void test_xhci_hotplug(void)
+>>  {
+>> -    usb_test_hotplug(global_qtest, "xhci", "1", NULL);
+>> +    usb_test_hotplug(global_qtest, "nec-usb-xhci", "1", NULL);
+>>  }
 > 
-> Assertions are not enough reason for overcomplication the permission
-> update system. So, look at bdrv_child_try_set_perm.
-> 
-> We are interested in tighten_restrictions only on failure. But on
-> failure this field is not reliable: we may fail in the middle of
-> permission update, some nodes are not touched and we don't know should
-> their permissions be tighten or not. So, we rely on the fact that if we
-> loose restrictions on some node (or BdrvChild), we'll not tighten
-> restriction in the whole subtree as part of this update (assertions 2
-> and 3 rely on this fact as well). And, if we rely on this fact anyway,
-> we can just check it on top, and don't pass additional pointer through
-> the whole recursive infrastructure.
-> 
-> Note also, that further patches will fix real bugs in permission update
-> system, so now is good time to simplify it, as a help for further
-> refactorings.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   block.c | 88 +++++++++++----------------------------------------------
->   1 file changed, 17 insertions(+), 71 deletions(-)
+> Better use qemu-xhci.
+> I'm wondering how that worked before ...
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+Per commit b3937683147 ("tests: usb: Generic usb device hotplug")
+this is the name of the bus, so "xhci" is correct, my patch isn't.
+
+> 
+> take care,
+>   Gerd
+> 
 
 
