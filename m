@@ -2,70 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0289A2AB757
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 12:41:10 +0100 (CET)
-Received: from localhost ([::1]:44812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86ED62AB767
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 12:43:50 +0100 (CET)
+Received: from localhost ([::1]:52584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc5Xp-0001DB-0g
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 06:41:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57564)
+	id 1kc5aP-0004UQ-KZ
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 06:43:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kc5WQ-0000kk-90
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 06:39:42 -0500
-Received: from indium.canonical.com ([91.189.90.7]:49730)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kc5WN-0000yB-Vd
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 06:39:41 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kc5WM-0008JP-3E
- for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 11:39:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0FAB62E8131
- for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 11:39:38 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <foxen@windowslive.com>)
+ id 1kc5Z4-0003FV-Cl
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 06:42:26 -0500
+Received: from mail-oln040092064023.outbound.protection.outlook.com
+ ([40.92.64.23]:19139 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <foxen@windowslive.com>)
+ id 1kc5Z1-00025j-Jj
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 06:42:26 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lDJd/d86bilywRyfwTTSzPXKh84TVMdmepe3kJk2dR3TvvNPwQ8+v4Y9yhz3jG4iiuMu2lEc6TatsA20mYWuWLiPgsFMCwzpwOWpYctHJ8gUctPD8X/PsB+osiOTND/kLYcUMBHFE65IK18gPyYyUYh5OcbQEw5dmnHvyv1zi+onlXerGPD4piWuULwNDKud4tH8xJsHVNKxEVVqP9xecT5aecsUoLizARlpTQGZmJeXZelamm05Je7sLZGb4TXyVAjZHWnMArgbX/MOuyyvdsk6+pfvx8VCbm4t4dnuPsf7WLgFZRgrPg9yqzVxW7hTljTw2sBp0IAR6APWwJpuHA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9UwUdDytwu78LH8Lq71WkEdnk6leYQ2E0bOV+jgauUI=;
+ b=gzRIPWm6HcJdYfvDLTL7FIcROKAXM9V+1wvtxUJPkr3e1gFGL0ylr8RR5toCW059EUfkrysbEb8okxARTqBK2uTgLpu6xeeTjm4DBMLTapW9Nb9Y/ffpCs5gBnWPoUL40m4bYqg61wRJyYfiS17DNlkhzCgxG4V2SADWcCWUHNFBYNM0t+OIHDgPGTFSKWyXYnvNsXZ3QIm3+d8bQQk1jpjbTiVeTxQFk/WVxlftk6pJYi9eHfaEmbEVLQpL2IG6KipSJHxkvdD0qH56E5s9CeHSb3Ahc8y1Y3oMQG/7yiYfLuSGfp/8Z4YswTy9VRbiDOtiX9l0Mx2udwma7lN8nA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from DB5EUR01FT031.eop-EUR01.prod.protection.outlook.com
+ (2a01:111:e400:7e1a::40) by
+ DB5EUR01HT062.eop-EUR01.prod.protection.outlook.com (2a01:111:e400:7e1a::361)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21; Mon, 9 Nov
+ 2020 11:27:19 +0000
+Received: from AM0PR03MB6292.eurprd03.prod.outlook.com
+ (2a01:111:e400:7e1a::49) by DB5EUR01FT031.mail.protection.outlook.com
+ (2a01:111:e400:7e1a::253) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21 via Frontend
+ Transport; Mon, 9 Nov 2020 11:27:19 +0000
+Received: from AM0PR03MB6292.eurprd03.prod.outlook.com
+ ([fe80::bc55:cbe1:29ae:e5b0]) by AM0PR03MB6292.eurprd03.prod.outlook.com
+ ([fe80::bc55:cbe1:29ae:e5b0%9]) with mapi id 15.20.3499.032; Mon, 9 Nov 2020
+ 11:27:18 +0000
+From: Fotis Xenakis <foxen@windowslive.com>
+To: Thomas Huth <thuth@redhat.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: Re: [qemu-web PATCH v2] Add virtio-fs in OSv overview blog post
+Thread-Topic: [qemu-web PATCH v2] Add virtio-fs in OSv overview blog post
+Thread-Index: AQHWssoK3s/6fYjLwkqYhPTju7OCoqm/p7cAgAAJBMk=
+Date: Mon, 9 Nov 2020 11:27:18 +0000
+Message-ID: <AM0PR03MB62923C15DE8F5D150AC2BB88A6EA0@AM0PR03MB6292.eurprd03.prod.outlook.com>
+References: <AM0PR03MB629226965B72D3808EFB8795A6EF0@AM0PR03MB6292.eurprd03.prod.outlook.com>,
+ <ac1fe8d1-ac26-950d-6905-008f2f1189a8@redhat.com>
+In-Reply-To: <ac1fe8d1-ac26-950d-6905-008f2f1189a8@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-incomingtopheadermarker: OriginalChecksum:89C71C659B2A979C487530A7322BCDFFE682CE2EB30ED1D39FAD656F3573BD61;
+ UpperCasedChecksum:F2CA4199C997BF741AC1BE52D655182A07CC048EBABD584EE5E59DC66CC3D641;
+ SizeAsReceived:7192; Count:45
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn: [WgRZwcYdVcxI8RhC0UGZQLp0LEPohqdzhbLuU6MQhUArPit9BhwkZTbEWsn7rGYh]
+x-ms-publictraffictype: Email
+x-incomingheadercount: 45
+x-eopattributedmessage: 0
+x-ms-office365-filtering-correlation-id: eb8f8e4f-afc6-4a2a-a115-08d884a26b15
+x-ms-traffictypediagnostic: DB5EUR01HT062:
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: NZmbsabYfL2dNMq6F01pLRTgcCok+Odsz8RXuRjG/zAVYm0/XtLCo45A6BYtN8pnXx86Bq0wZiP2+tt5+FcydKK5Y23RNl+Te5hFMzPaMtTIFgYR8oY6PRBHhpXcTtUZWtjPqiSyg7vr6xkm393XBSvX+7Sz/QhjJcqC2QfDUm9JkIdRWfu2BkLgcKFknV9FdS5My1xk3f2LOR0xcs8JkA==
+x-ms-exchange-antispam-messagedata: Y8C6VKfeUVeh0B83NdRwcgP2UPBtlI7nLIE6f6WID5/cIn4yOHkbAUfCn6VmHm7S4ONius1BLrzZtvooq9VzR9CsjTb5nSWpg6+zLjgZC1QgRY9TPHUHlj2tH98/jk8j9cmxf+08+cfgb6ICNS+zO3ovSOc04ddHrucgzP9x/rpJ06XXYE+F/zrstcokMIFm1D5LcZ4jIT0JUJXzLF1cEA==
+x-ms-exchange-transport-forked: True
+Content-Type: multipart/alternative;
+ boundary="_000_AM0PR03MB62923C15DE8F5D150AC2BB88A6EA0AM0PR03MB6292eurp_"
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 09 Nov 2020 11:27:04 -0000
-From: Gabriele <1619896@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm linux-user teamspeak
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: gabboxl pmaydell tobias-quintern
-X-Launchpad-Bug-Reporter: Tobias Quintern (tobias-quintern)
-X-Launchpad-Bug-Modifier: Gabriele (gabboxl)
-References: <20160903112421.26727.12298.malonedeb@gac.canonical.com>
-Message-Id: <160492122441.29032.160074955654030820.malone@chaenomeles.canonical.com>
-Subject: [Bug 1619896] Re: linux-user missing cmsg IP_PKTINFO support
- ("Unsupported ancillary data: 0/8")
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: 66c90efe1a1c9c1036ea98131e73270e34840d3c
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 01:40:52
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-AuthSource: DB5EUR01FT031.eop-EUR01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: eb8f8e4f-afc6-4a2a-a115-08d884a26b15
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Nov 2020 11:27:18.8396 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Internet
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB5EUR01HT062
+Received-SPF: pass client-ip=40.92.64.23; envelope-from=foxen@windowslive.com;
+ helo=EUR01-DB5-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 06:42:21
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,89 +108,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1619896 <1619896@bugs.launchpad.net>
+Cc: "virtio-fs@redhat.com" <virtio-fs@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, I'm facing the same issue when someone connects to the server. I
-tried with the 4.2 version of qemu today.
+--_000_AM0PR03MB62923C15DE8F5D150AC2BB88A6EA0AM0PR03MB6292eurp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
--- =
+Thank you for your time and the precious feedback!
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1619896
+Fotis
+________________________________
+From: Thomas Huth <thuth@redhat.com>
+Sent: Monday, November 9, 2020 12:54
+To: Fotis Xenakis <foxen@windowslive.com>; qemu-devel@nongnu.org <qemu-deve=
+l@nongnu.org>
+Cc: virtio-fs@redhat.com <virtio-fs@redhat.com>
+Subject: Re: [qemu-web PATCH v2] Add virtio-fs in OSv overview blog post
 
-Title:
-  linux-user missing cmsg IP_PKTINFO support ("Unsupported ancillary
-  data: 0/8")
+On 04/11/2020 17.46, Fotis Xenakis wrote:
+> This post briefly goes over the main points of virtio-fs and OSv, a
+> unikernel running under QEMU/KVM and taking advantage of its virtio-fs
+> implementation.
+>
+> Changes since v1:
+> - Fixed wording and links, as suggested by Thomas Huth.
+> - Added a short example of virtio-fs usage in OSv.
+>
+> Signed-off-by: Fotis Xenakis <foxen@windowslive.com>
+> ---
 
-Status in QEMU:
-  Confirmed
+Thanks, pushed now!
 
-Bug description:
-  Hello,
+ Thomas
 
-  I have the following issue when launching the Teamspeak Server x86
-  binary on an arm host.
 
-  Host:
-   Linux 4.6.2 (vanilla)
-   Ubuntu 14.04.5 LTS
-   HW: Cubietruck board, armv7l
 
-  =
+--_000_AM0PR03MB62923C15DE8F5D150AC2BB88A6EA0AM0PR03MB6292eurp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-  Used SW: Release archive qemu-2.7.0.tar.bz2 and git commit 1dc33ed90bf1fe=
-1c2014dffa0d9e863c520d953a
-  Configure options:
-    ../configure --target-list=3Di386-linux-user =
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);">
+Thank you for your time and the precious feedback!</div>
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);">
+Fotis</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Thomas Huth &lt;thuth=
+@redhat.com&gt;<br>
+<b>Sent:</b> Monday, November 9, 2020 12:54<br>
+<b>To:</b> Fotis Xenakis &lt;foxen@windowslive.com&gt;; qemu-devel@nongnu.o=
+rg &lt;qemu-devel@nongnu.org&gt;<br>
+<b>Cc:</b> virtio-fs@redhat.com &lt;virtio-fs@redhat.com&gt;<br>
+<b>Subject:</b> Re: [qemu-web PATCH v2] Add virtio-fs in OSv overview blog =
+post</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">On 04/11/2020 17.46, Fotis Xenakis wrote:<br>
+&gt; This post briefly goes over the main points of virtio-fs and OSv, a<br=
+>
+&gt; unikernel running under QEMU/KVM and taking advantage of its virtio-fs=
+<br>
+&gt; implementation.<br>
+&gt; <br>
+&gt; Changes since v1:<br>
+&gt; - Fixed wording and links, as suggested by Thomas Huth.<br>
+&gt; - Added a short example of virtio-fs usage in OSv.<br>
+&gt; <br>
+&gt; Signed-off-by: Fotis Xenakis &lt;foxen@windowslive.com&gt;<br>
+&gt; ---<br>
+<br>
+Thanks, pushed now!<br>
+<br>
+&nbsp;Thomas<br>
+<br>
+<br>
+</div>
+</span></font></div>
+</body>
+</html>
 
-  I attached the output of the configure script as configure.log
-
-  Testcase:
-
-  1. Download and extract TeamSpeak 3 Server 3.0.13.3 (x86)
-    Souce: http://dl.4players.de/ts/releases/3.0.13.3/teamspeak3-server_lin=
-ux_x86-3.0.13.3.tar.bz2
-
-  2. Modifiy ts3server_minimal_runscript.sh for ease of use
-    - ./ts3server $@
-    + /usr/local/bin/qemu-i386 ./ts3server $@
-
-  3. Execute ./ts3server_minimal_runscript.sh
-
-  Wait for 6 Minutes until teamspeak server started. QEMU saturates the
-  cpu while Teamspeak is precomputing a puzzle. (Whatever that means)
-
-  After that Teamspeak settles with the following output:
-    2016-09-03 10:50:59.555582|INFO    |Query         |   |listening on 0.0=
-.0.0:10011, :::10011
-
-  The Qemu process is now idling with ~2% cpu load. This is actually the
-  first time for me that QEMU is able to successfully launch the
-  Teamspeak server. Kudos!
-
-  4. Connect client 1
-
-  TS Clients can connect, but the following line is printed pretty often:
-    Unsupported ancillary data: 0/8
-
-  The line seems to come from qemu (linux-user/syscall.c)
-
-  =
-
-  5. Connect client 2
-  When a second client is connected the audio transmission is successful fo=
-r a few seconds, but the server drops the connection after that and refuses=
- to take new connections.
-
-  Please let me know, if you need more information. I'll gladly provide
-  strace or valgrind logs.
-
-  Best regards,
-  Tobias
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1619896/+subscriptions
+--_000_AM0PR03MB62923C15DE8F5D150AC2BB88A6EA0AM0PR03MB6292eurp_--
 
