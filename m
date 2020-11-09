@@ -2,103 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C29532AC434
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 19:54:41 +0100 (CET)
-Received: from localhost ([::1]:35362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 390B72AC446
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 19:57:59 +0100 (CET)
+Received: from localhost ([::1]:39036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcCJM-0002A0-RJ
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 13:54:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57488)
+	id 1kcCMY-0003v9-9V
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 13:57:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1kcCIW-0001R3-6t; Mon, 09 Nov 2020 13:53:48 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:58414)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1kcCIT-00038f-7P; Mon, 09 Nov 2020 13:53:47 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0A9IX10N024456; Mon, 9 Nov 2020 13:53:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=8q4ztlAq+7J45tg76YHpckv66q6jW2ALQMtgEHZG9m0=;
- b=bqDGomepVfK3p30H5i7F/sVaDVhpY2Os/zTB3zhsR9Hvj84jGqV3H1UlU5fxoutn2iNA
- 4kLhRLuUEIzxIp9Pm1dyW9NCPrStQIcrOS0PDCbTuYDsICtSp2Xd3MFmA3KfdmV2X6IK
- 4hN0Urmr074IEA1ZcJAzJNDXM9QD4NmVXtT43HhlQkaONx8mUUdMSo1FN76cFzxOjeiH
- /u2IcUqtJkwE/GKi9V8YuMahG/Yy2lydHkhll//dw46YVk0qlqvDSY22a3rBVnf1KfMg
- Gb8AzqruK95N1O08PYD73PHU4wwfVuk+OUjK3sNN+o1TwNr89WW0pV03AKXSQb68zBwE Iw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34q71n308d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 09 Nov 2020 13:53:42 -0500
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0A9IYu6i031881;
- Mon, 9 Nov 2020 13:53:41 -0500
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34q71n306j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 09 Nov 2020 13:53:41 -0500
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0A9Im86r023143;
- Mon, 9 Nov 2020 18:53:39 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma06ams.nl.ibm.com with ESMTP id 34njuh2b31-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 09 Nov 2020 18:53:39 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0A9IraMr58917328
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 9 Nov 2020 18:53:36 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 184D0A4067;
- Mon,  9 Nov 2020 18:53:36 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A19ACA405B;
- Mon,  9 Nov 2020 18:53:35 +0000 (GMT)
-Received: from oc2783563651 (unknown [9.145.80.17])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon,  9 Nov 2020 18:53:35 +0000 (GMT)
-Date: Mon, 9 Nov 2020 19:53:03 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [PATCH 1/1] virtio-blk-ccw: tweak the default for num_queues
-Message-ID: <20201109195303.459f6fba.pasic@linux.ibm.com>
-In-Reply-To: <20201109170616.6875f610.cohuck@redhat.com>
-References: <20201109154831.20779-1-pasic@linux.ibm.com>
- <20201109170616.6875f610.cohuck@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kcCKq-000341-Et
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 13:56:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41935)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kcCKn-0003Vg-Ew
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 13:56:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604948168;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=CwSdeDhQdRo7mMXvly7khkZbg4WR7uGBxkV5IXD22cc=;
+ b=FZ3nApSkJMZYfhN2kQhrC3G8hyOl2yNpfk2xrsJygRX+AlZM2MPlGXTbjKa47fNx46Oa8X
+ e8JepWqOStDyo7CXpJoz67iwlOoRNwAmLpe3sO4XIa1VBowQeieplgKDibV+xuKoDmbupL
+ rcVwv5jldlNCYM6EAOp7EPm+TENS32w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-347-UVHYMmWHOW26qANBUg6O5g-1; Mon, 09 Nov 2020 13:56:03 -0500
+X-MC-Unique: UVHYMmWHOW26qANBUg6O5g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5BC6801FCC;
+ Mon,  9 Nov 2020 18:56:02 +0000 (UTC)
+Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 44B1C60BF1;
+ Mon,  9 Nov 2020 18:55:59 +0000 (UTC)
+Date: Mon, 9 Nov 2020 13:55:58 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2 00/44] Make qdev static property API usable by any QOM
+ type
+Message-ID: <20201109185558.GB5733@habkost.net>
+References: <20201106094511.GA23864@merkur.fritz.box>
+ <20201106155013.GX5733@habkost.net>
+ <20201106211034.GY5733@habkost.net>
+ <ca99fc61-6cdd-117d-343e-8141e385522e@redhat.com>
+ <20201109113404.GA24970@merkur.fritz.box>
+ <3b711053-e67a-86fb-59e7-c06948dd8928@redhat.com>
+ <20201109152125.GZ5733@habkost.net>
+ <2300fd53-afa1-b957-b33b-cff2986fcb93@redhat.com>
+ <20201109171618.GA5733@habkost.net>
+ <098ca211-3ad5-b194-e9f5-678291fe641e@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
- definitions=2020-11-09_11:2020-11-05,
- 2020-11-09 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 mlxscore=0
- phishscore=0 priorityscore=1501 bulkscore=0 impostorscore=0 adultscore=0
- malwarescore=0 lowpriorityscore=0 clxscore=1015 spamscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011090127
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 13:53:43
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+In-Reply-To: <098ca211-3ad5-b194-e9f5-678291fe641e@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 00:04:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -111,44 +89,212 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Michael Mueller <mimu@linux.ibm.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ John Snow <jsnow@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 9 Nov 2020 17:06:16 +0100
-Cornelia Huck <cohuck@redhat.com> wrote:
-
-> > @@ -20,6 +21,11 @@ static void virtio_ccw_blk_realize(VirtioCcwDevice *ccw_dev, Error **errp)
-> >  {
-> >      VirtIOBlkCcw *dev = VIRTIO_BLK_CCW(ccw_dev);
-> >      DeviceState *vdev = DEVICE(&dev->vdev);
-> > +    VirtIOBlkConf *conf = &dev->vdev.conf;
-> > +
-> > +    if (conf->num_queues == VIRTIO_BLK_AUTO_NUM_QUEUES) {
-> > +        conf->num_queues = MIN(4, current_machine->smp.cpus);
-> > +    }  
+On Mon, Nov 09, 2020 at 06:33:04PM +0100, Paolo Bonzini wrote:
+> On 09/11/20 18:16, Eduardo Habkost wrote:
+> > On Mon, Nov 09, 2020 at 05:34:01PM +0100, Paolo Bonzini wrote:
+> > > On 09/11/20 16:21, Eduardo Habkost wrote:
+> > > > Nothing prevents us from describing those properties inside the
+> > > > same property array.
+> > > 
+> > > Do you mean adding PropertyInfos for them?  Adding a once-only PropertyInfo
+> > > is worse than writing a custom getter/setter pair, because:
+> > > 
+> > > - without (DEFINE_)PROP_* you lose the type safety.
+> > > 
+> > > - with (DEFINE_)PROP_* you have much more boilerplate to write
+> > 
+> > I mean extending the API to let custom setters and getters appear
+> > on the Property array, not using the existing API.
 > 
-> I would like to have a comment explaining the numbers here, however.
+> That seems like conflicting goals.  The field property API is based on
+> getters and setters hidden in PropertyInfo.  The "other" property API is
+> based on getters and setters in plain sight in the declaration of the
+> property.
+
+There's nothing that prevents a
+  void object_class_add_properties(oc, Property *props);
+function from supporting both.
+
 > 
-> virtio-pci has a pretty good explanation (use 1:1 for vqs:vcpus if
-> possible, apply some other capping). 4 seems to be a bit arbitrary
-> without explanation, although I'm sure you did some measurements :)
+> > > > > > I think having different ways for different things (class vs. object) is
+> > > > > > better than having different ways for the same things (class in qdev vs.
+> > > > > > class in non-qdev).
+> > > > > 
+> > > > > Right, but qdev's DEFINE_PROP_STRING would be easy to change to something
+> > > > > like
+> > > > > 
+> > > > > - DEFINE_PROP_STRING("name", ...),
+> > > > > + device_class_add_field_property(dc, "name", PROP_STRING(...));
+> > > > 
+> > > > I'm not worried about this direction of conversion (which is
+> > > > easy).  I'm worried about the function call => QAPI schema
+> > > > conversion.  Function calls are too flexible and requires parsing
+> > > > and executing C code.
+> > > 
+> > > Converting DEFINE_PROP_STRING to a schema also requires parsing C code,
+> > > since you can have handwritten Property literals (especially for custom
+> > > PropertyInfo).  Converting DEFINE_PROP_STRING it also requires matching the
+> > > array against calls to object_class_add_field_properties (which could be
+> > > hidden behind helpers such as device_class_set_props).  (Plus matching
+> > > class_init functions against TypeInfo).
+> > 
+> > Parsing an array containing a handful of macros (a tiny subset of
+> > C) isn't even comparable to parsing and executing C code where
+> > object*_property_add*() calls can be buried deep in many levels
+> > of C function calls (which may or may not be conditional).
+> 
+> Finding the array would also require finding calls buried deep in C code,
+> wouldn't they?
 
-Frankly, I don't have any measurements yet. For the secure case,
-I think Mimu has assessed the impact of multiqueue, hence adding Mimu to
-the cc list. @Mimu can you help us out.
+Yes, but I don't expect this to happen if the API doesn't
+encourage that.
 
-Regarding the normal non-protected VMs I'm in a middle of producing some
-measurement data. This was admittedly a bit rushed because of where we
-are in the cycle. Sorry to disappoint you.
+> 
+> > (Also, I don't think we should allow handwritten Property literals.)
+> 
+> How would you do custom setters and getters then---without separate
+> PropertyInfos, without Property literals, and without an exploding number of
+> macros?
 
-The number 4 was suggested by Christian, maybe Christian does have some
-readily available measurement data for the normal VM case. @Christian:
-can you help me out?
+Property with struct field:
 
-Regards,
-Halil
+  /* We call this DEFINE_PROP_UINT32 today.  We can keep the
+   * existing name just to reduce churn.
+   */
+  DEFINE_PROP_UINT32_FIELD("myproperty", MyState, my_field)
+
+
+Prop with struct field but custom setter:
+
+  DEFINE_PROP_UINT32_FIELD("myproperty", MyState, my_field,
+                           .custom_setter = my_custom_setter)
+
+Prop with no struct field, and custom setter/getter:
+
+  DEFINE_PROP("myproperty", prop_type_uint32,
+              .custom_getter = my_getter,
+              .custom_setter = my_setter)
+
+
+Definitions for above:
+
+#define DEFINE_PROP(_name, _typeinfo, ...) \
+    { .name = _name,
+      .info = &_typeinfo,
+      __VA_ARGS__
+    }
+
+#define DEFINE_FIELD_PROP(name, typeinfo, type, state, field, ...) \
+    DEFINE_PROP(name, typeinfo,
+                .offset = offsetof(state, field) +
+                          type_check(typeof_field(state, field), type),
+                __VA_ARGS__)
+
+#define DEFINE_PROP_UINT32_FIELD(name, state, field, ...) \
+    DEFINE_FIELD_PROP(name, prop_type_uint32, uint32_t, state, field, __VA_ARGS__)
+
+
+Alternative DEFINE_FIELD_PROP definition if we implement some
+macro magic to declare the expected type for each typeinfo
+variable:
+
+/* Will make ACTUAL_C_TYPE(prop_type_uint32) expand to uint32_t */
+DECLARE_QOM_TYPE(prop_type_uint32, uint32_t)
+/* Will make ACTUAL_C_TYPE(prop_type_uint64) expand to uint64_t) 
+DECLARE_QOM_TYPE(prop_type_uint64, uint64_t)
+
+#define DEFINE_FIELD_PROP(name, typeinfo, state, field, ...) \
+    DEFINE_PROP(name, typeinfo,
+                .offset = offsetof(state, field) +
+                          type_check(typeof_field(state, field),
+                                     ACTUAL_C_TYPE(typeinfo)),
+                __VA_ARGS__)
+
+
+> 
+> > > So, you don't save any parsing by using arrays.  (In fact I would probably
+> > > skip the parsing, and use your suggestion of *executing* C code: write the
+> > > QAPI schema generator in C, link into QEMU and run it just once to generate
+> > > the QOM schema).
+> > 
+> > If we do that with the existing code, we can't be sure the
+> > generated schema doesn't depend on configure flags or run time
+> > checks inside class_init.
+> 
+> We can use grep or Coccinelle or manual code review to identify problematic
+> cases.
+
+We can, but I believe it is better and simpler to have an API
+that enforces (or at least encourages) this.
+
+> 
+> > Even locating the cases where this is
+> > happening is being a challenge because the API is too flexible.
+> > 
+> > However, if we require the property list to be always evaluated
+> > at compile time, we can be sure that this method will be
+> > reliable.
+> > 
+> > > QOM has been using function calls for many years, are there any cases of
+> > > misuse of that flexibility that you have in mind?  I can only think of two
+> > > *uses*, in fact.  One is eepro100_register_types is the only case I can
+> > > remember where types are registered dynamically.  The other is S390 CPU
+> > > features.  [...]
+> > 
+> > The list of tricky dynamic properties is large and I don't think
+> > we even found all cases yet.  John documented many of them here:
+> > 
+> > https://gitlab.com/jsnow/qemu/-/blob/cli_audit/docs/cli_audit.md
+> > 
+> > Look, for example, for the sections named "Features" for CPU
+> > options.
+> 
+> Yes, I'm only considering object_class_property calls.  Those are the ones
+> that I claim aren't being misused enough for this to be a problem.
+> 
+
+instance-level properties are where most of the complexity was
+introduced because the class API didn't exist yet.  I don't think
+we should ignore them, or we risk having the same issues when
+converting them to class properties.
+
+
+> Making instance-level properties appear in the schema is a completely
+> different kind of conversion, because there is plenty of manual work (and
+> unsolved problems for e.g. subobject property aliases).
+
+I'd like us to convert instance-level properties to an API that
+is easy to use and where the same problems won't happen again.
+
+> 
+> > You are also ignoring the complexity of the code path that leads
+> > to the object*_property_add*() calls, which is the main problem
+> > on most cases.
+> 
+> I would like an example of the complexity of those code paths.  I don't see
+> much complexity, as long as the object exists at all, and I don't see how it
+> would be simpler to find the code paths that lead to
+> object_class_add_field_properties.
+
+Possibly the most complex case is x86_cpu_register_bit_prop().
+The qdev_property_add_static() calls at arm_cpu_post_init() are
+tricky too.
+
+If object*_property_add*() is hidden behind a function call or a
+`if` statement, it's already too much complexity to me.  I don't
+want us to need a second audit like the one John made when we
+decide to represent QOM class properties in a QAPI schema.
+
+-- 
+Eduardo
+
 
