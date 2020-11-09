@@ -2,78 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7220D2AC1C3
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 18:06:26 +0100 (CET)
-Received: from localhost ([::1]:54246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03A312AC1F0
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 18:18:28 +0100 (CET)
+Received: from localhost ([::1]:44208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcAca-0004c0-VZ
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 12:06:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58750)
+	id 1kcAoE-0004nj-WA
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 12:18:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcAYl-0001LQ-IB
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:02:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40188)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcAYa-00055o-Qs
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:02:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604941334;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ziv47dXeWxWaSV9EdZ3y0qxoZUrUiSBmxTLORMomZy0=;
- b=jDdA2soqecvykaikDUmc243JrTB12myw93/C3lKQEBRa75Uc3p+CSFhddXpvgcFx17pmlk
- 7TarwVe0vhURFtTVNqSDtZGFIbkSkVIsKq/jdpbD5aX8VULGTHQlCqonkkAT7nukukVdQ2
- TjVTMAgAVSV23HA/J6nhjikHDNo0JbM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-432-X-s5-Fa5M_-JsMiVNE5Drw-1; Mon, 09 Nov 2020 12:02:10 -0500
-X-MC-Unique: X-s5-Fa5M_-JsMiVNE5Drw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75EA8879512;
- Mon,  9 Nov 2020 17:02:09 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-53.ams2.redhat.com [10.36.112.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B23005B4CB;
- Mon,  9 Nov 2020 17:02:01 +0000 (UTC)
-Subject: Re: [PATCH] qtest: Update references to parse_escape() in comments
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20201109162621.18885-1-peter.maydell@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <376a9acb-6f8d-7820-8a9e-fdf99394b3b7@redhat.com>
-Date: Mon, 9 Nov 2020 18:02:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kcAll-0003jX-W5
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:15:54 -0500
+Received: from indium.canonical.com ([91.189.90.7]:42220)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kcAlj-0001Li-Te
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:15:53 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kcAli-0005Og-1J
+ for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 17:15:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 05AD72E804E
+ for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 17:15:49 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20201109162621.18885-1-peter.maydell@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 01:25:23
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 09 Nov 2020 17:03:34 -0000
+From: Thomas Huth <1689003@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: mhaertel th-huth
+X-Launchpad-Bug-Reporter: =?utf-8?q?Manfred_H=C3=A4rtel_=28mhaertel=29?=
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20170507042529.2427.25374.malonedeb@wampee.canonical.com>
+Message-Id: <160494141420.19181.13693056488692374713.malone@wampee.canonical.com>
+Subject: [Bug 1689003] Re: USB passthrough should not fail if SET
+ CONFIGURATION fails
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
+X-Launchpad-Hash: 3589fa96ec32a47e2dab9874c51cd757a7959928
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 11:16:03
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,129 +73,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Reply-To: Bug 1689003 <1689003@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/11/2020 17.26, Peter Maydell wrote:
-> In commit 61030280ca2d67bd in 2018 we renamed the parse_escape()
-> function to parse_interpolation(), but we didn't catch the references
-> to this function in doc comments in libqtest.h. Update them.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> Side note: ideally we would document somewhere the accepted
-> %-escapes rather than requiring people to read the source code
-> to parse_interpolation to determine them... "The argument to %p
-> is qobject_unref()ed" is particularly non-obvious.
-> ---
->  tests/qtest/libqos/libqtest.h | 18 +++++++++---------
->  tests/qtest/libqtest-single.h |  2 +-
->  2 files changed, 10 insertions(+), 10 deletions(-)
-> 
-> diff --git a/tests/qtest/libqos/libqtest.h b/tests/qtest/libqos/libqtest.h
-> index 5c959f18535..724f65aa947 100644
-> --- a/tests/qtest/libqos/libqtest.h
-> +++ b/tests/qtest/libqos/libqtest.h
-> @@ -88,7 +88,7 @@ void qtest_quit(QTestState *s);
->   * @fds: array of file descriptors
->   * @fds_num: number of elements in @fds
->   * @fmt: QMP message to send to qemu, formatted like
-> - * qobject_from_jsonf_nofail().  See parse_escape() for what's
-> + * qobject_from_jsonf_nofail().  See parse_interpolation() for what's
->   * supported after '%'.
->   *
->   * Sends a QMP message to QEMU with fds and returns the response.
-> @@ -101,7 +101,7 @@ QDict *qtest_qmp_fds(QTestState *s, int *fds, size_t fds_num,
->   * qtest_qmp:
->   * @s: #QTestState instance to operate on.
->   * @fmt: QMP message to send to qemu, formatted like
-> - * qobject_from_jsonf_nofail().  See parse_escape() for what's
-> + * qobject_from_jsonf_nofail().  See parse_interpolation() for what's
->   * supported after '%'.
->   *
->   * Sends a QMP message to QEMU and returns the response.
-> @@ -113,7 +113,7 @@ QDict *qtest_qmp(QTestState *s, const char *fmt, ...)
->   * qtest_qmp_send:
->   * @s: #QTestState instance to operate on.
->   * @fmt: QMP message to send to qemu, formatted like
-> - * qobject_from_jsonf_nofail().  See parse_escape() for what's
-> + * qobject_from_jsonf_nofail().  See parse_interpolation() for what's
->   * supported after '%'.
->   *
->   * Sends a QMP message to QEMU and leaves the response in the stream.
-> @@ -138,7 +138,7 @@ void qtest_qmp_send_raw(QTestState *s, const char *fmt, ...)
->   * @fds: array of file descriptors
->   * @fds_num: number of elements in @fds
->   * @fmt: QMP message to send to QEMU, formatted like
-> - * qobject_from_jsonf_nofail().  See parse_escape() for what's
-> + * qobject_from_jsonf_nofail().  See parse_interpolation() for what's
->   * supported after '%'.
->   * @ap: QMP message arguments
->   *
-> @@ -152,7 +152,7 @@ QDict *qtest_vqmp_fds(QTestState *s, int *fds, size_t fds_num,
->   * qtest_vqmp:
->   * @s: #QTestState instance to operate on.
->   * @fmt: QMP message to send to QEMU, formatted like
-> - * qobject_from_jsonf_nofail().  See parse_escape() for what's
-> + * qobject_from_jsonf_nofail().  See parse_interpolation() for what's
->   * supported after '%'.
->   * @ap: QMP message arguments
->   *
-> @@ -167,7 +167,7 @@ QDict *qtest_vqmp(QTestState *s, const char *fmt, va_list ap)
->   * @fds: array of file descriptors
->   * @fds_num: number of elements in @fds
->   * @fmt: QMP message to send to QEMU, formatted like
-> - * qobject_from_jsonf_nofail().  See parse_escape() for what's
-> + * qobject_from_jsonf_nofail().  See parse_interpolation() for what's
->   * supported after '%'.
->   * @ap: QMP message arguments
->   *
-> @@ -181,7 +181,7 @@ void qtest_qmp_vsend_fds(QTestState *s, int *fds, size_t fds_num,
->   * qtest_qmp_vsend:
->   * @s: #QTestState instance to operate on.
->   * @fmt: QMP message to send to QEMU, formatted like
-> - * qobject_from_jsonf_nofail().  See parse_escape() for what's
-> + * qobject_from_jsonf_nofail().  See parse_interpolation() for what's
->   * supported after '%'.
->   * @ap: QMP message arguments
->   *
-> @@ -636,7 +636,7 @@ void qtest_add_abrt_handler(GHookFunc fn, const void *data);
->   * qtest_qmp_assert_success:
->   * @qts: QTestState instance to operate on
->   * @fmt: QMP message to send to qemu, formatted like
-> - * qobject_from_jsonf_nofail().  See parse_escape() for what's
-> + * qobject_from_jsonf_nofail().  See parse_interpolation() for what's
->   * supported after '%'.
->   *
->   * Sends a QMP message to QEMU and asserts that a 'return' key is present in
-> @@ -683,7 +683,7 @@ void qtest_qmp_device_add_qdict(QTestState *qts, const char *drv,
->   * @driver: Name of the device that should be added
->   * @id: Identification string
->   * @fmt: QMP message to send to qemu, formatted like
-> - * qobject_from_jsonf_nofail().  See parse_escape() for what's
-> + * qobject_from_jsonf_nofail().  See parse_interpolation() for what's
->   * supported after '%'.
->   *
->   * Generic hot-plugging test via the device_add QMP command.
-> diff --git a/tests/qtest/libqtest-single.h b/tests/qtest/libqtest-single.h
-> index 176979a2ce9..0d7f568678e 100644
-> --- a/tests/qtest/libqtest-single.h
-> +++ b/tests/qtest/libqtest-single.h
-> @@ -47,7 +47,7 @@ static inline void qtest_end(void)
->  /**
->   * qmp:
->   * @fmt...: QMP message to send to qemu, formatted like
-> - * qobject_from_jsonf_nofail().  See parse_escape() for what's
-> + * qobject_from_jsonf_nofail().  See parse_interpolation() for what's
->   * supported after '%'.
->   *
->   * Sends a QMP message to QEMU and returns the response.
-> 
+The QEMU project is currently considering to move its bug tracking to anoth=
+er system. For this we need to know which bugs are still valid and which co=
+uld be closed already. Thus we are setting older bugs to "Incomplete" now.
+If you still think this bug report here is valid, then please switch the st=
+ate back to "New" within the next 60 days, otherwise this report will be ma=
+rked as "Expired". Thank you and sorry for the inconvenience.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-... and queued for my next pull request.
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1689003
+
+Title:
+  USB passthrough should not fail if SET CONFIGURATION fails
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  QEMU's USB passthrough was not working for my new smartphone.
+
+  While analyzing the problem, I found out that a SET CONFIGURATION
+  Request was NACKed by the USB device (probably because a SET
+  CONFIGURATION request was already sent from the host to the device).
+
+  So I wrote a simple program to fake a successful call to
+  libusb_set_configuration and did an LD_PRELOAD on this program before
+  starting qemu, and it worked.
+
+  Looking at QEMU's code in host-libusb.c, I can see that QEMU does not
+  try to claim the interface if its call to libusb_set_configuration
+  fails.
+
+  I think QEMU should try to claim the device anyway even if
+  libusb_set_configuration fails.
+
+  I did my tests against QEMU 2.6.2, but as I can see from the source
+  code, this problem should happen on all versions.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1689003/+subscriptions
 
