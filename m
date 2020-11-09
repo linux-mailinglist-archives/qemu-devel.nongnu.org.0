@@ -2,83 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 313F02AC786
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 22:45:04 +0100 (CET)
-Received: from localhost ([::1]:48638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 802D82AC795
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 22:46:55 +0100 (CET)
+Received: from localhost ([::1]:53360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcEyF-0007jn-4q
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 16:45:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36860)
+	id 1kcF02-0001Py-I9
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 16:46:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kcEwG-0007Hd-Ib
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 16:43:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25488)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kcEwC-0007af-AL
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 16:42:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604958174;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+jcj7EA/HdXtGImWzQ1zn+JILnAtpHF0j9yHIlriuuI=;
- b=afKRJHuSvjfdQR6DgmoAycp/8h+ovFTRBnVaZjxIZUebJDp+CZjvPZedrgQg7hPgWQf2EZ
- 30oZz+NQejfNNG6F3DAACQmN44ArEkhZL51NgcT8X0BmBwbyhRVTj622vRMJU/2HSp0Wwy
- v6F/yt6lTDUudItHy/Hy/4QuWOA5gEg=
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-287-U1tlmgqSMSuxkEtHQJYcxw-1; Mon, 09 Nov 2020 16:42:51 -0500
-X-MC-Unique: U1tlmgqSMSuxkEtHQJYcxw-1
-Received: by mail-pg1-f197.google.com with SMTP id j13so7379354pgp.11
- for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 13:42:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kcExh-00083N-Sl
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 16:44:29 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:32892)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kcExe-0007f8-DP
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 16:44:29 -0500
+Received: by mail-wr1-x444.google.com with SMTP id b8so10449861wrn.0
+ for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 13:44:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dKWmfjUK7xqu8mR9QlHEmukySxjQ68aVSEOSYQiOZ2I=;
+ b=dd0c2xUsOUDQ24mv4ERrkO4sALWJOlCIPKE1xFAdNl9qx6JCO4lmN6xQmWs59Rpj1N
+ KgzBjkm58CLo8+uYfQozDtM0XguwknTwDPrIuNtB2bCQSOydkHyuLTo6IKRs2MkjZVpm
+ dlPhaIIxvqSLJiAmNRNvH0OoMATAzmZaQJGLJzxJsE1QGoigsWLLUjJh6UpjmauBRfH/
+ ipkgnRMRkIQXssdgJ4DfrXcw21dIBgAydfeh+z5hN0xDym2W2fx+d0XiOXHRT/BwSVwK
+ PNrTghbWIg8YJLXLbNK1Qoouy7yzszSOnTeeNfbyq3/Ad+ACLZIZDh2O6YchJdUFy2R9
+ 7eYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+jcj7EA/HdXtGImWzQ1zn+JILnAtpHF0j9yHIlriuuI=;
- b=sy+TDtZ9JW2XeZwOOAAvk65Yp2rboEE1iUe7s4xUsnZ/gxnLrtzkgFUz5s6xvHAo8o
- fXUB65+c60D1RRQcouAgMTxvjWZMgyuMtdd/EvX5suwOphY/WwnCaquWfm83hF1h0+Ln
- lNe7V5YlVtAmKQh2NffG6+E6OPUJC3KDOQ+4g3365cGnsEwfZiMIVuc+acabP5uwv/Dp
- RvC0R4Z8zrz2AKwegQSnYpL0KGUgriVsRdIydKPx1WTsx6t4PvWso9lPgNAe5InjfKNu
- Y97Lqdxvs44shdLn177PKOTVhyOQz8xUO+vl3O/ZmA21htRIZFCQoj/aqw9acgMj/6nB
- exwQ==
-X-Gm-Message-State: AOAM530F6MmFcGkrpqsWZ/B/TkPNDXe24EtcSoMjuqygCMUCBriy1xyT
- FRIEuWsZ+Pqr/pqQN1q1xzZZlgKUON7aOik7kKvhOXDexPVfBEM5VUKK24mxem6hZBMUn3U5WAY
- qyTX6AltNhZsvSEin/XrXhRGl5lrvlLc=
-X-Received: by 2002:a65:6086:: with SMTP id t6mr14213872pgu.146.1604958170794; 
- Mon, 09 Nov 2020 13:42:50 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwmXLXlDQLhOIgm227fhYvTWod3DCgJuVDGShyCdm7dFi16y859TV2O4K8SrS4OMxszW9XlEDitiVs808eiu6E=
-X-Received: by 2002:a65:6086:: with SMTP id t6mr14213861pgu.146.1604958170495; 
- Mon, 09 Nov 2020 13:42:50 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dKWmfjUK7xqu8mR9QlHEmukySxjQ68aVSEOSYQiOZ2I=;
+ b=stluiCb/7Gu2mLspKZQCRHXjww0JdpEuHGj5dOrYFw+Js6pom7Sj/jQP33xYmczua0
+ AFzsQZf+2x+zdVcm1y/G8G/OGQ/cBVXC4IngT3lgA6SkHC9XB6fAyf4KtBBp0K89TCVu
+ yckjgG68SkTE8HDx+I95gQtZaADShaSmIySQVuu+zwe4XvPizoNPcPfb/WQASSj3gjwl
+ 9UuTUyH1ikv7VYKffK1EUTNpHGvGytnbbPATWW/SlC1uYqK2Kcdm2g5roTvjs1i9kzQ/
+ AqO0DduVNqDU+bhaO2aBWHjDYGqg2Zwd3vfSyPPmZNbFsJHB13p1YcXczlYKCEbI/6nH
+ Rblg==
+X-Gm-Message-State: AOAM530SiUYGbwiqQ6fJ7mhyMssEaFZF0dRdJpmn57YC2Bx9VqPxHS4Z
+ olzxfdiUd/OE1/fHoG1+i9UZq2kxZ5k51Q==
+X-Google-Smtp-Source: ABdhPJwfTMqfxxMLQPw7HKcTCw60BUGhclMjCM4SOQS7xgNBBWn/qL0dYPnYdLiwAxAeBn6jBD0hnQ==
+X-Received: by 2002:adf:ea47:: with SMTP id j7mr19928502wrn.126.1604958262833; 
+ Mon, 09 Nov 2020 13:44:22 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id e3sm14913252wrn.32.2020.11.09.13.44.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Nov 2020 13:44:22 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC 0/2] Build a single Sphinx manual, not five
+Date: Mon,  9 Nov 2020 21:44:18 +0000
+Message-Id: <20201109214420.32131-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20201109133931.979563-1-pbonzini@redhat.com>
- <20201109133931.979563-7-pbonzini@redhat.com>
- <87h7py2ppj.fsf@dusky.pond.sub.org>
-In-Reply-To: <87h7py2ppj.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Mon, 9 Nov 2020 22:42:37 +0100
-Message-ID: <CABgObfaZESSsvTvSR_BUdRWQ-UPtoFyP7r1RPET2kzvjbWiE3w@mail.gmail.com>
-Subject: Re: [PATCH v2 6/6] qemu-option: warn for short-form boolean options
-To: Markus Armbruster <armbru@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000a1d8dc05b3b37136"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 00:04:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,62 +82,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Maxim Cournoyer <maxim.cournoyer@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000a1d8dc05b3b37136
-Content-Type: text/plain; charset="UTF-8"
+When we first converted our documentation to Sphinx, we split it into
+multiple manuals (system, interop, tools, etc), which are all built
+separately.  The primary driver for this was wanting to be able to
+avoid shipping the 'devel' manual to end-users.  However, this is
+working against the grain of the way Sphinx wants to be used and
+causes some annoyances:
+ * Cross-references between documents become much harder or
+   possibly impossible (currently we don't even try)
+ * There is no single index to the whole documentation
+ * Within one manual there's no links or table-of-contents info
+   that lets you easily navigate to the others
+ * The devel manual doesn't get published on the QEMU website
+   (it would be nice to able to refer to it there)
+ * Common information like the QEMU license, supported platforms,
+   and deprecation information either gets duplicated across manuals,
+   split between them, or shoved into the system manual as the
+   closest to a generic one
+    
+Merely hiding our developer documentation from end users seems like
+it's not enough benefit for these costs.
 
-Il lun 9 nov 2020, 22:19 Markus Armbruster <armbru@redhat.com> ha scritto:
+This RFC series switches over to building a single big manual,
+the same way that the readthedocs version builds it.
 
-> This function now warns, except for "help" and "?".  The exception
-> applies even when we treat "help" and "?" as sugar for "help=on" and
-> "?=on" because opts_accepts_any().
->
+Patch 1 in the set suppresses the warnings that would otherwise
+be caused by the handful of 'orphan' rst files in the top level
+directory. This is not the correct long-term thing to do with these
+files -- my suggestions for most of them are in this thread:
+https://lore.kernel.org/qemu-devel/CAFEAcA_ff6bRythvzJWs0McUSz3=2=1=hV9wX_BTv00jPfSHsw@mail.gmail.com/
+ -- but for the purposes of this series and until somebody
+cleans them up properly, this is the minimal necessary change,
+because it's patch 2 that I'm really interested in opinions on.
 
-Right, because again help_wanted will be false for non-validated
-QemuOptsList.
+Earlier discussion on one manual vs multiple was partly on IRC
+but also in this thread:
+https://lore.kernel.org/qemu-devel/CAFEAcA_4wXqGeOgsY2GbY1mk==DCz--j-jhs+OdGQnOHEf+D_A@mail.gmail.com/
 
-Summary: only qemu_opts_parse_noisily() warns.  This is airtight only if
-> all user input flows through qemu_opts_parse_noisily().
+Incidentally, historically we did ship some internals documentation
+to end users -- the old qemu-tech.texi "translator internals"
+ended up in the user manual. The new 'devel' manual is a lot
+bigger, of course.
 
+If you don't want to apply this patch and build the docs to see
+what the effect is, you can just look at the readthedocs output
+to see what one-big-manual looks like:
+https://qemu.readthedocs.io/en/latest/
 
-HMP doesn't. But that's too hard to change now, and it's not considered as
-much of a stable interface as the command line.
+Side note: it would be nice not to have to duplicate the
+list of manpages in docs/conf.py and docs/meson.build. I think
+if we didn't insist on only installing the manpages that apply
+to the configuration we built for (ie if we installed the full
+manpage docs the same way we install the full HTML docs
+regardless of config) we could do that, by having Sphinx
+build the manpages into a manpages/man[178]/ hierarchy and
+just having meson.build do an install_subdir() on it. But
+for this patchset I've retained the current behaviour.
 
-Anyway I am not going to push this for 5.2. Thanks for the speedy reviews
-anyway!
+thanks
+-- PMM
 
-Paolo
+Peter Maydell (2):
+  docs: Mark rst files in the top level directory as orphan
+  docs: Build and install all the docs in a single manual
 
---000000000000a1d8dc05b3b37136
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ docs/conf.py                 | 37 ++++++++++++++++++++-
+ docs/cpu-hotplug.rst         |  2 ++
+ docs/devel/conf.py           | 15 ---------
+ docs/index.html.in           | 17 ----------
+ docs/interop/conf.py         | 26 ---------------
+ docs/meson.build             | 64 ++++++++++++++----------------------
+ docs/microvm.rst             |  2 ++
+ docs/pr-manager.rst          |  2 ++
+ docs/specs/conf.py           | 16 ---------
+ docs/system/conf.py          | 28 ----------------
+ docs/tools/conf.py           | 33 -------------------
+ docs/user/conf.py            | 15 ---------
+ docs/virtio-net-failover.rst |  2 ++
+ docs/virtio-pmem.rst         |  1 +
+ 14 files changed, 70 insertions(+), 190 deletions(-)
+ delete mode 100644 docs/devel/conf.py
+ delete mode 100644 docs/index.html.in
+ delete mode 100644 docs/interop/conf.py
+ delete mode 100644 docs/specs/conf.py
+ delete mode 100644 docs/system/conf.py
+ delete mode 100644 docs/tools/conf.py
+ delete mode 100644 docs/user/conf.py
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Il lun 9 nov 2020, 22:19 Markus Armbruster &lt;<a href=
-=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>&gt; ha scritto:<br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
-1px #ccc solid;padding-left:1ex">This function now warns, except for &quot;=
-help&quot; and &quot;?&quot;.=C2=A0 The exception<br>
-applies even when we treat &quot;help&quot; and &quot;?&quot; as sugar for =
-&quot;help=3Don&quot; and<br>
-&quot;?=3Don&quot; because opts_accepts_any().<br></blockquote></div></div>=
-<div dir=3D"auto"><br></div><div dir=3D"auto">Right, because again help_wan=
-ted will be false for non-validated QemuOptsList.</div><div dir=3D"auto"><b=
-r></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"g=
-mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
-eft:1ex">Summary: only qemu_opts_parse_noisily() warns.=C2=A0 This is airti=
-ght only if<br>
-all user input flows through qemu_opts_parse_noisily().</blockquote></div><=
-/div><div dir=3D"auto"><br></div><div dir=3D"auto">HMP doesn&#39;t. But tha=
-t&#39;s too hard to change now, and it&#39;s not considered as much of a st=
-able interface as the command line.</div><div dir=3D"auto"><br></div><div d=
-ir=3D"auto">Anyway I am not going to push this for 5.2. Thanks for the spee=
-dy reviews anyway!</div><div dir=3D"auto"><br></div><div dir=3D"auto">Paolo=
-</div></div>
-
---000000000000a1d8dc05b3b37136--
+-- 
+2.20.1
 
 
