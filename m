@@ -2,94 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D02562ABED1
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 15:37:12 +0100 (CET)
-Received: from localhost ([::1]:50526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E5A52ABF08
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 15:43:44 +0100 (CET)
+Received: from localhost ([::1]:39272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc8IB-0006ij-QJ
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 09:37:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45100)
+	id 1kc8OV-0005Ko-H0
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 09:43:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kc8Bi-0001Vl-Kn
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:30:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29021)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kc8EQ-0004CB-Di
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:33:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44258)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kc8Bf-00013e-2F
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:30:28 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kc8EO-0001ub-IS
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:33:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604932225;
+ s=mimecast20190719; t=1604932395;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3FcDPhpL+azic2TdXKbnbXkdQL1Mz8mU0TF0Y/0TLBs=;
- b=FrylSihSgnJxpmNkyM/H6ktYov8Pmo+WRa5GQwojmrEaFMZvRrOTHHxgjP+2h/zjNZeS4r
- T+HgvZx0+0SD1Lp40t9OABdhj1Wsggj8BGs4uGG7/bPVJJNMoKcUQvjpAyAsHy+yDOyZbM
- OfQLc4Jyp6WST/E7hjqOTFg3KQTo3nQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-50-I2msv-SFM_2O4AqehHqDpg-1; Mon, 09 Nov 2020 09:30:23 -0500
-X-MC-Unique: I2msv-SFM_2O4AqehHqDpg-1
-Received: by mail-wm1-f69.google.com with SMTP id o19so2039987wme.2
- for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 06:30:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=3FcDPhpL+azic2TdXKbnbXkdQL1Mz8mU0TF0Y/0TLBs=;
- b=NyNJiDyI2WDS7qIuc9xHDLIwW3TeiA2U4a0/omA1q1WO0is/jlFNlvIRoCRxV7a/pk
- vIxbZllSUno/N3dN0FwIUP85QrBTJnMoj1wCpJXUJn0hUa2qcsfm4jt6GLbC7qzTr0ML
- +Ko/1Gh3BrUu2CopocuG+BZcoPcHIyiBa+x3IcBpJGwpmMpgFGsHsDiI6d1DTCw0cVuI
- uZn+K/XtAun+HdO4NgW0LQK0zUczB+m8Bz5lquOv+jpHuEUAER7TPABR7bcSDewoBSai
- vLhyjddO4QJDUbfkEp/nA0NmtKJETZANP+9MUiNKvnrJdvDgQQdYKZ20tXOZiHyXeehJ
- Ptaw==
-X-Gm-Message-State: AOAM530YwsaA17OGmI7He9I1EnflC+hREmUcjX7g+zcmYta0bObMGSLv
- kOhJw7dweUWZMl7YmDbBhgdcGxa0n8niER9I8o83NyX1EN6KDmhQnKzplsPGSrCIkmwYYJA/D8c
- i8GXjy8/LcKyQsq4=
-X-Received: by 2002:adf:a1c2:: with SMTP id v2mr19178632wrv.95.1604932221968; 
- Mon, 09 Nov 2020 06:30:21 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzcR9Au5gaRsihnGtxshRgzjuPz/GXtFWRsrgDvtDkOoCngQvdZPOyr1RRDAYQBQkHuG+e+fw==
-X-Received: by 2002:adf:a1c2:: with SMTP id v2mr19178617wrv.95.1604932221847; 
- Mon, 09 Nov 2020 06:30:21 -0800 (PST)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id d16sm13706477wrw.17.2020.11.09.06.30.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Nov 2020 06:30:21 -0800 (PST)
-Subject: Re: [PATCH-for-5.2 4/4] migration/ram: Fix hexadecimal format string
- specifier
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-References: <20201103112558.2554390-1-philmd@redhat.com>
- <20201103112558.2554390-5-philmd@redhat.com> <20201103124634.GG3566@work-vm>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <bb7fecea-3b3d-b87b-7854-7d36e8133e1d@redhat.com>
-Date: Mon, 9 Nov 2020 15:30:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+zusEXJzWrjd2rJ1pg02yJMOnG8fetEgGuFkB7srYy8=;
+ b=G6VgpcDaHAVZCMcO8h2OY5lVCAY4RNCDBKDidIGOxLl0buY21WiBZtAmchiHbl2mdq8S6F
+ GJ0FYj5Sgoj/vB/qY2t3eQ7c7F2tAZBhOfV+G1V3Ype6lCbADKDUrlAjR8LFXP4IU7dcB1
+ oRKP6HEUH84v6662nWab7qXAU9fkzMQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-133-3aiz4PnhNeSnf596J-FAvw-1; Mon, 09 Nov 2020 09:33:14 -0500
+X-MC-Unique: 3aiz4PnhNeSnf596J-FAvw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49D0A802B6A;
+ Mon,  9 Nov 2020 14:33:12 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0893655766;
+ Mon,  9 Nov 2020 14:33:11 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] pvpanic: Advertise the PVPANIC_CRASHLOADED event support
+Date: Mon,  9 Nov 2020 09:33:11 -0500
+Message-Id: <20201109143311.1000958-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201103124634.GG3566@work-vm>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 01:25:23
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 00:04:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,53 +78,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
- Dov Murik <dovmurik@linux.vnet.ibm.com>, qemu-ppc@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, David Gibson <david@gibson.dropbear.id.au>
+Cc: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi David, Juan.
+Advertise both types of events as supported when the guest OS
+queries the pvpanic device.  Currently only PVPANIC_PANICKED is
+exposed; PVPANIC_CRASHLOADED must also be advertised, but only on
+new machine types.
 
-On 11/3/20 1:46 PM, Dr. David Alan Gilbert wrote:
-> * Philippe Mathieu-DaudÃ© (philmd@redhat.com) wrote:
->> The '%u' conversion specifier is for decimal notation.
->> When prefixing a format with '0x', we want the hexadecimal
->> specifier ('%x').
->>
->> Inspired-by: Dov Murik <dovmurik@linux.vnet.ibm.com>
->> Signed-off-by: Philippe Mathieu-DaudÃ© <philmd@redhat.com>
-> 
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Fixes: 7dc58deea79a ("pvpanic: implement crashloaded event handling")
+Reported-by: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ hw/core/machine.c | 1 +
+ hw/misc/pvpanic.c | 5 ++++-
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-As there is no qemu-trivial@ pull request during freeze/rc,
-can you queue this patch via your migration tree?
-
-Thanks,
-
-Phil.
-
-> 
->> ---
->>  migration/ram.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/migration/ram.c b/migration/ram.c
->> index 2da2b622ab2..23dcfb3ac38 100644
->> --- a/migration/ram.c
->> +++ b/migration/ram.c
->> @@ -3729,7 +3729,7 @@ int ram_dirty_bitmap_reload(MigrationState *s, RAMBlock *block)
->>      }
->>  
->>      if (end_mark != RAMBLOCK_RECV_BITMAP_ENDING) {
->> -        error_report("%s: ramblock '%s' end mark incorrect: 0x%"PRIu64,
->> +        error_report("%s: ramblock '%s' end mark incorrect: 0x%"PRIx64,
->>                       __func__, block->idstr, end_mark);
->>          ret = -EINVAL;
->>          goto out;
->> -- 
->> 2.26.2
->>
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 98b87f76cb..d0408049b5 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -35,6 +35,7 @@ GlobalProperty hw_compat_5_1[] = {
+     { "virtio-blk-device", "num-queues", "1"},
+     { "virtio-scsi-device", "num_queues", "1"},
+     { "nvme", "use-intel-id", "on"},
++    { "pvpanic", "events", "1"}, /* PVPANIC_PANICKED */
+ };
+ const size_t hw_compat_5_1_len = G_N_ELEMENTS(hw_compat_5_1);
+ 
+diff --git a/hw/misc/pvpanic.c b/hw/misc/pvpanic.c
+index 598d5471a4..35d6797831 100644
+--- a/hw/misc/pvpanic.c
++++ b/hw/misc/pvpanic.c
+@@ -61,12 +61,14 @@ struct PVPanicState {
+ 
+     MemoryRegion io;
+     uint16_t ioport;
++    uint8_t events;
+ };
+ 
+ /* return supported events on read */
+ static uint64_t pvpanic_ioport_read(void *opaque, hwaddr addr, unsigned size)
+ {
+-    return PVPANIC_PANICKED;
++    PVPanicState *pvp = opaque;
++    return pvp->events;
+ }
+ 
+ static void pvpanic_ioport_write(void *opaque, hwaddr addr, uint64_t val,
+@@ -112,6 +114,7 @@ static void pvpanic_isa_realizefn(DeviceState *dev, Error **errp)
+ 
+ static Property pvpanic_isa_properties[] = {
+     DEFINE_PROP_UINT16(PVPANIC_IOPORT_PROP, PVPanicState, ioport, 0x505),
++    DEFINE_PROP_UINT8("events", PVPanicState, events, PVPANIC_PANICKED | PVPANIC_CRASHLOADED),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+-- 
+2.26.2
 
 
