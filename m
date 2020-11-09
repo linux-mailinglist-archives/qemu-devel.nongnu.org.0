@@ -2,85 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAE712ABDDD
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 14:53:06 +0100 (CET)
-Received: from localhost ([::1]:56218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 674672ABDFA
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 14:59:07 +0100 (CET)
+Received: from localhost ([::1]:45746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc7bV-0001lG-Nx
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 08:53:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33832)
+	id 1kc7hK-00018Y-FN
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 08:59:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kc7YQ-00087L-Go
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 08:49:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36585)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kc7bY-0002jN-Uv
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 08:53:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24879)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kc7YO-00045Q-Sz
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 08:49:54 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kc7bX-00058N-2E
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 08:53:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604929791;
+ s=mimecast20190719; t=1604929986;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Mccxb4QjTU5GxZJg4XGIJ14V+UUBEDIesBcZDT5nzRk=;
- b=MLWUoh5BZ5ZLHfs5Y7uIt9ZNa4GGsXx+egXyKSVDo6fqsm6ePQmG3607kQr4Xm9nDA0fWn
- HqdsH6iW6TPQf9SaHNPpfMvLeeYH+B5PmSyZERompCnUQZU20abXd0MN586VuQxCNyRDPF
- mk+T+EXxXc776tbuoOQPol+7GuQ6U0k=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-218-P0PtpeDeOnWRW-MQxxvnFA-1; Mon, 09 Nov 2020 08:49:50 -0500
-X-MC-Unique: P0PtpeDeOnWRW-MQxxvnFA-1
-Received: by mail-wr1-f69.google.com with SMTP id e18so4342569wrs.23
- for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 05:49:50 -0800 (PST)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=4vy7YKrTr41FWUBuaAtEPJPa7MSgwtys8JkH9N608no=;
+ b=NgF1udmToHH8LHbG6r+ud1+N7kAuqwIWBv7s3POTWolY+OY1onNOYPO0x9cUw25L9tWooH
+ lTspDqhORubri5Aa1I1RZPJFU6PbBBwrs5S4K1EcV9PeY6zPyreo564HN8kxOtLdU8csK5
+ oNjzy6eQEpM1/1scQM7oc2eYmiyqRM4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-574-u0osC8RvPPG40CPIyZ3Uew-1; Mon, 09 Nov 2020 08:53:04 -0500
+X-MC-Unique: u0osC8RvPPG40CPIyZ3Uew-1
+Received: by mail-wr1-f71.google.com with SMTP id y2so1722663wrl.3
+ for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 05:53:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Mccxb4QjTU5GxZJg4XGIJ14V+UUBEDIesBcZDT5nzRk=;
- b=Iks97Nokl0bYphXDkA+a7Pej1BJs63YI187QgEp4dYExfKxHpW5uJJp9NOWzW6b5Yd
- llz9yolSkBaWJW7bb2f68okjz1CjxCt0qQr6ncTEyojVaJOdgJTtI+LaIZs5Kwe2fW27
- POtpL4ouBvbEzqvLbGKBOhZfgSvYs4P21p8iUli9Po8mZOJi8DBNeJnw60bjQ9quBuhs
- WKzjD1zST8Lz0eus8w0MxtbUwC5QFhX6AQDTilASMEuwvuMUDU66Dj/hh7oZfTg2qaQs
- cLZLVnCOBFz5PL051YsD3j4EqCUI/1Vd34F810tL+AjC0kkas7C2w8CbGs0zncctJ7Ch
- 5HDQ==
-X-Gm-Message-State: AOAM532/HrVpEdBwau933yk/dOebJHQWzGmNwN88JZH8bp+UeY3pzPS7
- RXtdbxzyOACfM+ziImQY4XGphNV0YNhUZxFTJrmdz7kQihDf/cgQXysyS1Eq4GuH+C8FLNLL5Ix
- bpZ1ny1gUEe+LBQ0=
-X-Received: by 2002:adf:d188:: with SMTP id v8mr17896385wrc.167.1604929788844; 
- Mon, 09 Nov 2020 05:49:48 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyO06CFaqF5YSSwOteZ711If8ldg3sTQwzcGXgU8+jqPb7k57aG9TtVFypy2NTuSAdoNFVP8g==
-X-Received: by 2002:adf:d188:: with SMTP id v8mr17896366wrc.167.1604929788655; 
- Mon, 09 Nov 2020 05:49:48 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id k16sm7121537wrl.65.2020.11.09.05.49.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Nov 2020 05:49:47 -0800 (PST)
-Subject: Re: [External] [PATCH 1/1] pvpanic: Advertise the PVPANIC_CRASHLOADED
- event support
-To: zhenwei pi <pizhenwei@bytedance.com>,
- Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
-References: <1604346639-27090-1-git-send-email-alejandro.j.jimenez@oracle.com>
- <a595f137-b1d2-56b6-9391-f1c5c80beabf@bytedance.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <55ee6d1b-0211-43eb-be38-6c597a07146a@redhat.com>
-Date: Mon, 9 Nov 2020 14:49:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ bh=GVZWVqeq+QMOxkIFc3Z0mw66pVG83i8zFZ8TZYNpLX0=;
+ b=X3xOF2100oxGJQTySmwQ9dQBVFWyBrKJ3HQvRsujuY95y/sEDHpOA+ihpJw04duy6M
+ gSj5uJS67w+roN1FmaohRnaxuwewmx4rTGCbui+8PRUVSpmzjvgZH+BRPQQzNNzz2oYh
+ AOsdqn3DxFDbjMNynmBBQA6/TXYNgSfStAnnkNnemgiu/epqF80q8BaxWeihSCLSllUX
+ /j7if2UPH4sv/+0bGZQFl2pIhD3ltstq69ps2h5HS8CfAn+u3bufF8pdpX6H9symxA82
+ ZEvRejD/wF6uizgH+86G3WMzrYnwrf7YjD6PomUn/KfyJsEsKc2NQm9eXo8EBLvOe/jI
+ PW4w==
+X-Gm-Message-State: AOAM531XJny1/Rad9MXRKyTMi/d9ABrVDtftBytVJFG7xau99K8QoYIW
+ fDMVuZWmMv7+Hus8IFkfr/PZmaX/GL9BNCiaDDXpDKKBGi+PUj/KUGwAH72TflP2Xw0P14G3BEk
+ 1Lk1JXUJstITv5KA=
+X-Received: by 2002:adf:ead0:: with SMTP id o16mr19256440wrn.292.1604929982302; 
+ Mon, 09 Nov 2020 05:53:02 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJygIqG+GvvvTDkBaWmeSgAeD6eIaesvfLy2j0nSBg8cgt8wGyZIrrU+j8Ha7fdeM/bHEfbQ+A==
+X-Received: by 2002:adf:ead0:: with SMTP id o16mr19256424wrn.292.1604929982135; 
+ Mon, 09 Nov 2020 05:53:02 -0800 (PST)
+Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id i5sm6616598wrw.45.2020.11.09.05.53.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Nov 2020 05:53:01 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH-for-5.2 v2 0/4] hw/usb/hcd-xhci: Fix USB_XHCI_NEC device
+Date: Mon,  9 Nov 2020 14:52:56 +0100
+Message-Id: <20201109135300.2592982-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <a595f137-b1d2-56b6-9391-f1c5c80beabf@bytedance.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 01:25:23
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -89,9 +78,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,16 +92,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/11/20 12:40, zhenwei pi wrote:
-> Hi, Paolo
-> 
-> This patch seems getting ignored. Because no maintainers found for 
-> hw/misc/pvpanic.c, I also send this to you(hope it doesn't disturb you).
-
-Actually it needs compat stuff for old machine types.  I'll send v2.
+Fix a regression since xhci-sysbus introduction.=0D
+=0D
+Since v1:=0D
+- Do not declare TYPE_XHCI abstract=0D
+=0D
+Cleaned a bit code style while here, patches included for 6.0.=0D
+=0D
+Supersedes: <20201107111307.262263-1-philmd@redhat.com>=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (4):=0D
+  hw/usb/Kconfig: Fix USB_XHCI_NEC (depends on USB_XHCI_PCI)=0D
+  hw/usb/hcd-xhci: Restrict TYPE_XHCI to hw/usb/=0D
+  hw/usb/hcd-xhci-pci: Use OBJECT_DECLARE_SIMPLE_TYPE() macro=0D
+  hw/usb/hcd-xhci-pci: Rename "pci-xhci" as TYPE_XHCI_PCI_COMMON=0D
+=0D
+ hw/usb/hcd-xhci-pci.h |  6 ++----=0D
+ hw/usb/hcd-xhci.h     |  1 +=0D
+ include/hw/usb/xhci.h |  1 -=0D
+ hw/usb/hcd-xhci-nec.c |  2 +-=0D
+ hw/usb/hcd-xhci-pci.c | 16 ++++++++--------=0D
+ hw/usb/Kconfig        |  4 +---=0D
+ 6 files changed, 13 insertions(+), 17 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
 
