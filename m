@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDDC52AC32F
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 19:07:02 +0100 (CET)
-Received: from localhost ([::1]:55786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BFE52AC327
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 19:05:52 +0100 (CET)
+Received: from localhost ([::1]:51794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcBZE-0006wI-AR
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 13:07:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46382)
+	id 1kcBY7-0005B1-DJ
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 13:05:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcBUH-00011P-8K
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 13:01:53 -0500
-Received: from indium.canonical.com ([91.189.90.7]:51174)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcBUC-00089w-LF
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 13:01:52 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kcBUA-0001ay-L3
- for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 18:01:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 315912E8143
- for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 18:01:42 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kcBJg-0004UY-WA
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:50:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29307)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kcBJf-0004Tz-10
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:50:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604944254;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Bs9fNQ4LeMBBj4dc6kawiYSM9wYphHnXnlIljcO3U5I=;
+ b=ZfRi2kvbfgRai4LLnfc23H1kepvIzecMFClzSvx7pPjydqU9t31aKGa29FF9SGvp4wf8en
+ nw/rE6ubXHp4Mh0jkttGeVFj8LhO0cbozKEXbQ0ycEdh3M0Oq64NG3qjrbebRIomontq+3
+ LWyVgG2pYFYGG0WF2iQYwhY11kBxFVg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-353-v-j_1FAnMRmccLxPVfre7A-1; Mon, 09 Nov 2020 12:50:52 -0500
+X-MC-Unique: v-j_1FAnMRmccLxPVfre7A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8DE31879510;
+ Mon,  9 Nov 2020 17:50:51 +0000 (UTC)
+Received: from localhost (ovpn-113-179.ams2.redhat.com [10.36.113.179])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 28019614F5;
+ Mon,  9 Nov 2020 17:50:50 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PULL v2 00/15] Block patches for 5.2.0-rc1
+Date: Mon,  9 Nov 2020 18:50:49 +0100
+Message-Id: <20201109175049.2182359-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 09 Nov 2020 17:49:40 -0000
-From: Thomas Huth <1691379@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided;
- assignee=philmd@redhat.com; 
-X-Launchpad-Bug-Tags: mips64el netbsd
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: uanand009-gmail
-X-Launchpad-Bug-Reporter: Utkarsh Anand (uanand009-gmail)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <149500755798.25192.15465936284699398425.malonedeb@gac.canonical.com>
-Message-Id: <160494418113.18639.14896967151044553279.launchpad@wampee.canonical.com>
-Subject: [Bug 1691379] Re: NetBSD evbmips64el port installation doesn't work
- with qemu-system-mips64el.
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: 1b20bd9f7bacf6665033782e4a7da12835810430
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 11:16:03
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 00:04:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,102 +75,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1691379 <1691379@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-     Assignee: (unassigned) =3D> Philippe Mathieu-Daud=C3=A9 (philmd)
+The following changes since commit 2a190a7256a3e0563b29ffd67e0164097b4a6dac:
 
--- =
+  Merge remote-tracking branch 'remotes/philmd-gitlab/tags/renesas-fixes-20201109' into staging (2020-11-09 11:20:25 +0000)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1691379
+are available in the Git repository at:
 
-Title:
-  NetBSD evbmips64el port installation doesn't work with qemu-system-
-  mips64el.
+  https://github.com/XanClic/qemu.git tags/pull-block-2020-11-09-v2
 
-Status in QEMU:
-  New
+for you to fetch changes up to d669ed6ab028497d634e1f236c74a98725f9e45f:
 
-Bug description:
-  I successfully installed the NetBSD evbmips64el port on gxemul but was
-  unable to install it on qemu. Trying to boot it on qemu takes me to
-  the 'db>' prompt. Here's the output and backtrace:
+  block: make bdrv_drop_intermediate() less wrong (2020-11-09 18:43:31 +0100)
 
-  panic: pcib_isa_intr_string: bogus isa irq 0x0
-  kernel: breakpoint trap
-  Stopped in pid 0.1 (system) at  netbsd:cpu_Debugger+0x4:        jr      ra
-                  bdslot: nop
-  db> bt
-  0xffffffff805977f0: cpu_Debugger+4 (63061,90000000180003f8,6,ffffffff804c=
-2290) ra ffffffff8030acd0 sz 0
-  0xffffffff805977f0: vpanic+158 (63061,90000000180003f8,6,ffffffff804c2290=
-) ra ffffffff8030ad7c sz 64
-  0xffffffff80597830: panic+34 (63061,ffffffff803d65b0,0,40) ra ffffffff801=
-09784 sz 96
-  0xffffffff80597890: pcib_isa_intr_string+6c (63061,ffffffff803d65b0,0,40)=
- ra ffffffff80149bfc sz 16
-  0xffffffff805978a0: uhci_pci_attach+16c (63061,ffffffff803d65b0,0,40) ra =
-ffffffff802f0400 sz 176
-  0xffffffff80597950: config_attach_loc+1c8 (63061,ffffffff803d65b0,0,40) r=
-a ffffffff802f053c sz 64
-  0xffffffff80597990: config_found_sm_loc+5c (63061,ffffffff803d65b0,0,40) =
-ra ffffffff80121354 sz 64
-  0xffffffff805979d0: pci_probe_device+524 (63061,ffffffff803d65b0,0,0) ra =
-ffffffff80121548 sz 288
-  0xffffffff80597af0: pci_enumerate_bus+1d0 (63061,ffffffff803d65b0,0,0) ra=
- ffffffff8012167c sz 160
-  0xffffffff80597b90: pcirescan+5c (63061,ffffffff803d65b0,0,0) ra ffffffff=
-801218c4 sz 32
-  0xffffffff80597bb0: pciattach+19c (63061,ffffffff803d65b0,0,0) ra fffffff=
-f802f0400 sz 80
-  0xffffffff80597c00: config_attach_loc+1c8 (63061,ffffffff803d65b0,0,0) ra=
- ffffffff802f053c sz 64
-  0xffffffff80597c40: config_found_sm_loc+5c (63061,ffffffff803d65b0,0,0) r=
-a ffffffff80108934 sz 64
-  0xffffffff80597c80: gt_attach+7c (63061,ffffffff803d65b0,0,0) ra ffffffff=
-802f0400 sz 112   =
+----------------------------------------------------------------
+Block patches for 5.2.0-rc1:
+- Some nvme fixes (addressing problems spotted by Coverity)
+- Fix nfs compiling on mingw (and enable it in Cirrus)
+- Fix an error path in bdrv_co_invalidate_cache() (permission update
+  was initiated, but not aborted)
+- Fix (on-error) roll back in bdrv_drop_intermediate(): Instead of
+  inlining bdrv_replace_node() (wrongly), call that function
+- Fix for iotest 240
+- Fix error handling in bdrv_getlength()
+- Be more explicit about how QCowL2Meta objects are handled
+- Cleanups
 
-  0xffffffff80597cf0: config_attach_loc+1c8 (63061,ffffffff803d65b0,0,0) ra=
- ffffffff802f053c sz 64
-  0xffffffff80597d30: config_found_sm_loc+5c (63061,ffffffff803d65b0,0,0) r=
-a ffffffff801086ac sz 64
-  0xffffffff80597d70: mainbus_attach+dc (63061,ffffffff803d65b0,0,0) ra fff=
-fffff802f0400 sz 96
-  0xffffffff80597dd0: config_attach_loc+1c8 (63061,ffffffff803d65b0,0,0) ra=
- ffffffff80104bf8 sz 64
-  0xffffffff80597e10: cpu_configure+28 (63061,ffffffff803d65b0,0,0) ra ffff=
-ffff803d5f30 sz 16
-  0xffffffff80597e20: main+3a0 (63061,ffffffff803d65b0,0,0) ra ffffffff8010=
-00dc sz 128       =
+----------------------------------------------------------------
+v2:
+- Added missing Message-Id and Signed-off-by to patch 12
 
-  0xffffffff80597ea0: kernel_text+dc (63061,ffffffff803d65b0,0,0) ra 0 sz 0
-  User-level: pid 0.1
+----------------------------------------------------------------
+Alberto Garcia (1):
+  qcow2: Document and enforce the QCowL2Meta invariants
 
-  Here's the command that I used:
+AlexChen (1):
+  block: Remove unused include
 
-  Build evbmips64el from source and then launch it from qemu (replace
-  the paths relative to your system):
+Eric Blake (1):
+  block: Fix integer promotion error in bdrv_getlength()
 
-  qemu-system-mips64el -cdrom
-  /extra/evbmips64/distrib/evbmips/cdroms/installcd/NetBSD-7.99.71
-  -evbmips-mips64el.iso -hda /extra/evbmips64.img -kernel
-  /extra/evbmips64/releasedir/evbmips/installation/netbsd-
-  INSTALL_MALTA64 -nographic -M malta
+Greg Kurz (1):
+  block: Move bdrv_drain_all_end_quiesce() to block_int.h
 
-  (I've decompressed the kernel)
+Klaus Jensen (3):
+  hw/block/nvme: fix null ns in register namespace
+  hw/block/nvme: fix uint16_t use of uint32_t sgls member
+  hw/block/nvme: fix free of array-typed value
 
-  Here's the output for qemu-system-mips64el --version :
+Maxim Levitsky (2):
+  iotests: add filter_qmp_virtio_scsi function
+  iotests: rewrite iotest 240 in python
 
-  QEMU emulator version 2.7.1(qemu-2.7.1-6.fc25), Copyright (c)
-  2003-2016 Fabrice Bellard and the QEMU Project developers
+Vladimir Sementsov-Ogievskiy (3):
+  block: add forgotten bdrv_abort_perm_update() to
+    bdrv_co_invalidate_cache()
+  block: add bdrv_replace_node_common()
+  block: make bdrv_drop_intermediate() less wrong
 
-  This doesn't look like a NetBSD bug. I've attached a screenshot of the
-  working installation using gxemul in the attachments.
+Yonggang Luo (2):
+  block: Fixes nfs compiling error on msys2/mingw
+  block: enable libnfs on msys2/mingw in cirrus.yml
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1691379/+subscriptions
+shiliyang (1):
+  block: Fix some code style problems, "foo* bar" should be "foo *bar"
+
+ block/qcow2.h                 |  25 ++--
+ include/block/block.h         |   6 -
+ include/block/block_int.h     |   9 ++
+ block.c                       |  89 ++++++++------
+ block/blkdebug.c              |   2 +-
+ block/dmg-lzfse.c             |   1 -
+ block/dmg.c                   |   2 +-
+ block/nfs.c                   |  13 +-
+ block/qcow2-cluster.c         |   5 +-
+ block/qcow2.c                 |  23 +++-
+ block/vpc.c                   |  10 +-
+ hw/block/nvme.c               |   6 +-
+ .cirrus.yml                   |   1 +
+ tests/qemu-iotests/240        | 219 ++++++++++++++--------------------
+ tests/qemu-iotests/240.out    |  76 ++++++------
+ tests/qemu-iotests/iotests.py |  10 ++
+ 16 files changed, 259 insertions(+), 238 deletions(-)
+
+-- 
+2.28.0
+
 
