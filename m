@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C53F2ACF92
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 07:21:52 +0100 (CET)
-Received: from localhost ([::1]:48434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA0D22ACF88
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 07:19:07 +0100 (CET)
+Received: from localhost ([::1]:42430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcN2N-0001y9-6l
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 01:21:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42454)
+	id 1kcMzi-0007kn-VD
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 01:19:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kcMxu-0005e2-3L; Tue, 10 Nov 2020 01:17:14 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2515)
+ id 1kcMxt-0005dv-QO; Tue, 10 Nov 2020 01:17:13 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2514)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kcMxr-0003Zh-38; Tue, 10 Nov 2020 01:17:13 -0500
+ id 1kcMxr-0003ZN-3G; Tue, 10 Nov 2020 01:17:13 -0500
 Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CVd1L18nvzhjjP;
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CVd1L0jyxzhjg7;
  Tue, 10 Nov 2020 14:16:54 +0800 (CST)
 Received: from huawei.com (10.175.104.175) by DGGEMS410-HUB.china.huawei.com
  (10.3.19.210) with Microsoft SMTP Server id 14.3.487.0; Tue, 10 Nov 2020
- 14:16:52 +0800
+ 14:16:54 +0800
 From: Gan Qixin <ganqixin@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH 3/4] block/throttle-groups.c: Use lock guard macros
-Date: Mon, 9 Nov 2020 23:43:26 +0800
-Message-ID: <20201109154327.325675-4-ganqixin@huawei.com>
+Subject: [PATCH 4/4] block/iscsi.c: Use lock guard macros
+Date: Mon, 9 Nov 2020 23:43:27 +0800
+Message-ID: <20201109154327.325675-5-ganqixin@huawei.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20201109154327.325675-1-ganqixin@huawei.com>
 References: <20201109154327.325675-1-ganqixin@huawei.com>
@@ -65,98 +65,70 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Replace manual lock()/unlock() calls with lock guard macros
-(QEMU_LOCK_GUARD/WITH_QEMU_LOCK_GUARD) in block/throttle-groups.c.
+(QEMU_LOCK_GUARD/WITH_QEMU_LOCK_GUARD) in block/iscsi.c.
 
 Signed-off-by: Gan Qixin <ganqixin@huawei.com>
 ---
- block/throttle-groups.c | 48 ++++++++++++++++++++---------------------
- 1 file changed, 23 insertions(+), 25 deletions(-)
+ block/iscsi.c | 28 +++++++++++++---------------
+ 1 file changed, 13 insertions(+), 15 deletions(-)
 
-diff --git a/block/throttle-groups.c b/block/throttle-groups.c
-index e2f2813c0f..badb93a3be 100644
---- a/block/throttle-groups.c
-+++ b/block/throttle-groups.c
-@@ -546,7 +546,7 @@ void throttle_group_register_tgm(ThrottleGroupMember *tgm,
-     tgm->aio_context = ctx;
-     qatomic_set(&tgm->restart_pending, 0);
+diff --git a/block/iscsi.c b/block/iscsi.c
+index e30a7e3606..f5f657b582 100644
+--- a/block/iscsi.c
++++ b/block/iscsi.c
+@@ -322,7 +322,7 @@ iscsi_aio_cancel(BlockAIOCB *blockacb)
+     IscsiAIOCB *acb = (IscsiAIOCB *)blockacb;
+     IscsiLun *iscsilun = acb->iscsilun;
  
--    qemu_mutex_lock(&tg->lock);
-+    QEMU_LOCK_GUARD(&tg->lock);
-     /* If the ThrottleGroup is new set this ThrottleGroupMember as the token */
-     for (i = 0; i < 2; i++) {
-         if (!tg->tokens[i]) {
-@@ -565,8 +565,6 @@ void throttle_group_register_tgm(ThrottleGroupMember *tgm,
-     qemu_co_mutex_init(&tgm->throttled_reqs_lock);
-     qemu_co_queue_init(&tgm->throttled_reqs[0]);
-     qemu_co_queue_init(&tgm->throttled_reqs[1]);
+-    qemu_mutex_lock(&iscsilun->mutex);
++    QEMU_LOCK_GUARD(&iscsilun->mutex);
+ 
+     /* If it was cancelled or completed already, our work is done here */
+     if (acb->cancelled || acb->status != -EINPROGRESS) {
+@@ -339,8 +339,6 @@ iscsi_aio_cancel(BlockAIOCB *blockacb)
+                                          iscsi_abort_task_cb, acb) < 0) {
+         qemu_aio_unref(acb); /* since iscsi_abort_task_cb() won't be called */
+     }
 -
--    qemu_mutex_unlock(&tg->lock);
+-    qemu_mutex_unlock(&iscsilun->mutex);
  }
  
- /* Unregister a ThrottleGroupMember from its group, removing it from the list,
-@@ -594,25 +592,25 @@ void throttle_group_unregister_tgm(ThrottleGroupMember *tgm)
-     /* Wait for throttle_group_restart_queue_entry() coroutines to finish */
-     AIO_WAIT_WHILE(tgm->aio_context, qatomic_read(&tgm->restart_pending) > 0);
+ static const AIOCBInfo iscsi_aiocb_info = {
+@@ -375,22 +373,22 @@ static void iscsi_timed_check_events(void *opaque)
+ {
+     IscsiLun *iscsilun = opaque;
  
--    qemu_mutex_lock(&tg->lock);
--    for (i = 0; i < 2; i++) {
--        assert(tgm->pending_reqs[i] == 0);
--        assert(qemu_co_queue_empty(&tgm->throttled_reqs[i]));
--        assert(!timer_pending(tgm->throttle_timers.timers[i]));
--        if (tg->tokens[i] == tgm) {
--            token = throttle_group_next_tgm(tgm);
--            /* Take care of the case where this is the last tgm in the group */
--            if (token == tgm) {
--                token = NULL;
-+    WITH_QEMU_LOCK_GUARD(&tg->lock) {
-+        for (i = 0; i < 2; i++) {
-+            assert(tgm->pending_reqs[i] == 0);
-+            assert(qemu_co_queue_empty(&tgm->throttled_reqs[i]));
-+            assert(!timer_pending(tgm->throttle_timers.timers[i]));
-+            if (tg->tokens[i] == tgm) {
-+                token = throttle_group_next_tgm(tgm);
-+                /* Take care of the case where this is the last tgm in the group */
-+                if (token == tgm) {
-+                    token = NULL;
-+                }
-+                tg->tokens[i] = token;
-             }
--            tg->tokens[i] = token;
-         }
--    }
+-    qemu_mutex_lock(&iscsilun->mutex);
++    WITH_QEMU_LOCK_GUARD(&iscsilun->mutex) {
++        /* check for timed out requests */
++        iscsi_service(iscsilun->iscsi, 0);
  
--    /* remove the current tgm from the list */
--    QLIST_REMOVE(tgm, round_robin);
--    throttle_timers_destroy(&tgm->throttle_timers);
--    qemu_mutex_unlock(&tg->lock);
-+        /* remove the current tgm from the list */
-+        QLIST_REMOVE(tgm, round_robin);
-+        throttle_timers_destroy(&tgm->throttle_timers);
-+    }
+-    /* check for timed out requests */
+-    iscsi_service(iscsilun->iscsi, 0);
++        if (iscsilun->request_timed_out) {
++            iscsilun->request_timed_out = false;
++            iscsi_reconnect(iscsilun->iscsi);
++        }
  
-     throttle_group_unref(&tg->ts);
-     tgm->throttle_state = NULL;
-@@ -638,14 +636,14 @@ void throttle_group_detach_aio_context(ThrottleGroupMember *tgm)
-     assert(qemu_co_queue_empty(&tgm->throttled_reqs[1]));
- 
-     /* Kick off next ThrottleGroupMember, if necessary */
--    qemu_mutex_lock(&tg->lock);
--    for (i = 0; i < 2; i++) {
--        if (timer_pending(tt->timers[i])) {
--            tg->any_timer_armed[i] = false;
--            schedule_next_request(tgm, i);
-+     WITH_QEMU_LOCK_GUARD(&tg->lock) {
-+        for (i = 0; i < 2; i++) {
-+            if (timer_pending(tt->timers[i])) {
-+                tg->any_timer_armed[i] = false;
-+                schedule_next_request(tgm, i);
-+            }
-         }
+-    if (iscsilun->request_timed_out) {
+-        iscsilun->request_timed_out = false;
+-        iscsi_reconnect(iscsilun->iscsi);
++        /*
++         * newer versions of libiscsi may return zero events. Ensure we are
++         * able to return to service once this situation changes.
++         */
++        iscsi_set_events(iscsilun);
      }
--    qemu_mutex_unlock(&tg->lock);
  
-     throttle_timers_detach_aio_context(tt);
-     tgm->aio_context = NULL;
+-    /* newer versions of libiscsi may return zero events. Ensure we are able
+-     * to return to service once this situation changes. */
+-    iscsi_set_events(iscsilun);
+-
+-    qemu_mutex_unlock(&iscsilun->mutex);
+-
+     timer_mod(iscsilun->event_timer,
+               qemu_clock_get_ms(QEMU_CLOCK_REALTIME) + EVENT_INTERVAL);
+ }
 -- 
 2.23.0
 
