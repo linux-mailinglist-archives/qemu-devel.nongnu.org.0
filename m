@@ -2,74 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 436022AC117
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 17:41:44 +0100 (CET)
-Received: from localhost ([::1]:50478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC7C12AC163
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 17:52:13 +0100 (CET)
+Received: from localhost ([::1]:33318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcAEh-0006u8-9x
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 11:41:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53160)
+	id 1kcAOq-0003Y1-W9
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 11:52:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kcACS-0005vG-ET
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 11:39:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50657)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kcACQ-0005YX-KN
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 11:39:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604939961;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=K576SkkFpk5eNT30oARyCZ7bat7Gc96ic7/rpSCFk8Y=;
- b=JB3utGtmew9I7UP5Ndh7eC8het1Yy2resjF3Qlsp2aJTXSLDtSdawyYRTkHQutz1QF1p2o
- vN39IsK3z4grFqXK0RGDzTJNDgoCbu/dkPwDcYvtLYJ+NGpGxDiJGnK9Z5ytzC1o69tr/W
- w+Ze4CqvQJITRlVaGtPUc/d5mS17lHA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-531-iNe4vPq_NJ-8Wvh_1uBdXQ-1; Mon, 09 Nov 2020 11:39:17 -0500
-X-MC-Unique: iNe4vPq_NJ-8Wvh_1uBdXQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BDE4E1019624;
- Mon,  9 Nov 2020 16:39:15 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-119-55.rdu2.redhat.com
- [10.10.119.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 050D875132;
- Mon,  9 Nov 2020 16:39:10 +0000 (UTC)
-Date: Mon, 9 Nov 2020 11:39:09 -0500
-From: Cleber Rosa <crosa@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v4 2/4] Jobs based on custom runners: build environment
- docs and playbook
-Message-ID: <20201109163909.GD3874327@localhost.localdomain>
-References: <20201019015003.1527746-1-crosa@redhat.com>
- <20201019015003.1527746-3-crosa@redhat.com>
- <d2b1f4e8-c257-ef80-9ceb-6fcaf15c3430@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kcANS-0002HV-AV
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 11:50:46 -0500
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:43106)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kcANQ-0000vv-Aw
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 11:50:45 -0500
+Received: by mail-pg1-x543.google.com with SMTP id r10so7608008pgb.10
+ for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 08:50:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=CbdVUbeS87dK0zuV4z7dwRbBptT1fvdw2b17hfW8UkI=;
+ b=EuBlH1Dmkf81SennINRUKmaW8334vD5o4uUMck8ljzRJUHzmpZK0f0rScr13kD/3Ig
+ qU6+Z8/waFNgY8Qr8OkUQt0KtIZ8WQpb2wm3Iv7iQ6wJUScujWQS4eqVD5ZRmH/PjwVI
+ Fi4w8t4gjnfP6m54AlQxhMQ1ZzVKierlaViyDNq7MlV4veeFu2OCCf5YkZdjLP5seyG3
+ f1Wmjdn9PgzJjf00w7eO5N/VhNs9RLKm9UI4Ae53Dp1hoFOu8VX9Q1vTsIa6AwFQDfkz
+ R/wfJRiDn+xHMR+bJDSPbZar5YFUrvdDxvQiUdfDjq+l1zTskYRMpTQAJzJDrP02Qq0A
+ IgFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=CbdVUbeS87dK0zuV4z7dwRbBptT1fvdw2b17hfW8UkI=;
+ b=gXREekAXM8ovT/PO0josOVbeXfzkdzvdQNuZEB+rlf7Apxouonp2kgYhYDVsNIxVQb
+ C10Jaxfs0RhX2X33R5hE80wXNF+MH//C0kIWVFgoG58sLV9AIWkEFQCArDtgbjrjVYfQ
+ pw5y+0mu8ipgFAe5YXCsHr7oJgYD5YzE9lKeEghm8F7D8SIDr2sUtzNBWmOghZ+0LUCi
+ +ky5OUiqXsgwegzOm5ipgfRn8KIBTN6Qyi53sCP5zq3rVZM1v81A64LOOKvyxct/iOFc
+ VCrQno4XzdN12fRaA9IRurLEXHVZTFlstbE6WK+a+visvyXjwxtyDj+M8HSRSmhMc7Cr
+ nz0A==
+X-Gm-Message-State: AOAM532Yshjsf9olsvl7e7VkyjN9kDpEuPUuIm5UFGT5chy1Ytm79ssJ
+ NW4IHhXAeAol0ZzSIkAx290U3A==
+X-Google-Smtp-Source: ABdhPJwPFVkWMTA1CI/NNU9vAjDcEpabe09cBkwtQ3ney31RcpAoLSbtwEoUWQJgalybYvM0jyGy3w==
+X-Received: by 2002:a17:90a:d201:: with SMTP id o1mr89334pju.46.1604940642013; 
+ Mon, 09 Nov 2020 08:50:42 -0800 (PST)
+Received: from [172.16.1.221] (76-14-210-194.or.wavecable.com. [76.14.210.194])
+ by smtp.gmail.com with ESMTPSA id a123sm11692718pfd.218.2020.11.09.08.50.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Nov 2020 08:50:41 -0800 (PST)
+Subject: Re: [PATCH for-5.2] target/arm: Fix neon VTBL/VTBX for len > 1
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20201105171126.88014-1-richard.henderson@linaro.org>
+ <CAFEAcA9BSNwtqNwh1H3+SjEAvxihpfcXc=frPLcqNtaKUJi0Yg@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <f7338191-7185-deef-b928-fe85e158632f@linaro.org>
+Date: Mon, 9 Nov 2020 08:50:39 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <d2b1f4e8-c257-ef80-9ceb-6fcaf15c3430@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="uxuisgdDHaNETlh8"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 00:04:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+In-Reply-To: <CAFEAcA9BSNwtqNwh1H3+SjEAvxihpfcXc=frPLcqNtaKUJi0Yg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,84 +89,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Willian Rampazzo <wrampazz@redhat.com>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Erik Skultety <eskultet@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Andrea Bolognani <abologna@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Ard Biesheuvel <ardb@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---uxuisgdDHaNETlh8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 11/9/20 3:59 AM, Peter Maydell wrote:
+>> +            tmp = env->vfp.zregs[reg >> 1].d[reg & 1];
+> 
+> This can be written
+>   tmp = *aa32_vfp_dreg(env, reg);
+> rather than open-coding the conversion from a dreg number into
+> the appropriate access into the zregs representation.
 
-On Wed, Oct 21, 2020 at 09:00:27AM +0200, Thomas Huth wrote:
-> On 19/10/2020 03.50, Cleber Rosa wrote:
-> > To run basic jobs on custom runners, the environment needs to be
-> > properly set up.  The most common requirement is having the right
-> > packages installed.
-> >=20
-> > The playbook introduced here covers a number of different Linux
-> > distributions and FreeBSD, and are intended to provide a reproducible
-> > environment.
-> >=20
-> > Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> > ---
-> [...]
-> > +    - name: Enable PowerTools repo on CentOS 8
-> > +      ini_file:
-> > +        path: /etc/yum.repos.d/CentOS-PowerTools.repo
-> > +        section: PowerTools
-> > +        option: enabled
-> > +        value: "1"
-> > +      when:
-> > +        - "ansible_facts['distribution'] =3D=3D 'CentOS'"
-> > +        - "ansible_facts['distribution_major_version'] =3D=3D '8'"
-> > +
-> > +    - name: Install basic packages to build QEMU on CentOS 8
-> > +      dnf:
-> > +        # Originally from tests/docker/dockerfiles/centos8.docker
-> > +        name:
-> > +          - SDL-devel
->=20
-> We do not support SDL1 in QEMU anymore, so this should be SDL2-devel now.
-> Yes, we've also got it wrong in the docker files ... I'll send a patch to
-> fix it there.
->=20
->  Thomas
+Ah, I forgot about that helper.  Thanks.
 
-Nice catch.  I see the dockerfile changes are already merged, so
-updating them here.
 
-- Cleber.
-
---uxuisgdDHaNETlh8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl+pcK0ACgkQZX6NM6Xy
-CfNGehAAt1yFUQTsi+vLkXAOD0Gv5s0/fsDT1hBKx5kGH5u6ZnVAwIlF/r5ZqMsi
-0nFUdplW3oRDwG6A9yiDGXVColXTel1K45+iLt+8fXK5lgQ9KduIJfuLmzaYKBKS
-8Zz55ZKhcNAzOer3W1J7Z1ul4oCDr8J2lg5hpNdbiqIwoHa3ja6VILdso7bafgrs
-aiVMaF20+boC9UFMnAuw+cOTd2k18uQHgDRARaVnXrdDXRxRJgroNWBaqF6ZxV3/
-/dMgn+fshGE4HdoJARRtYkAjl4PCFtyB3lsn9kRpuX0YpjQUdD6RyP5O7BZBCXHv
-mizptsVfRUXgC34pCXPm0bUAOCHECxXe7FlPLmt0EjbePnf6lGqAtwDYDjzxerYc
-Ewx3WwHnxz2rjRIYQKhUI+Vr4yzqgam6CbI7WU3hZvasK7wXHsg5mldSzobLE+ax
-yxd/wkADh9QNc44PWwMYebYvSKeASJggu/EGMND0yA46g1mIy5+MZxKsBTrhwHG1
-SVvHgVo470XYc1QSr48xyE4Nkb6rwsnzmgD+rSu22Z4onReUc6Eo+peWNENqJk4G
-Ar3hPC2wGOrI3J5N4xWJtWNgIE0pNme2JY/sKig3UoRiy5kM2WCEhtnGEJcXQTA9
-t0i+RXKx18VdXbphixi1mhTWTH+IuRYKLzhNBGRygkuZR2AI4fo=
-=cT6A
------END PGP SIGNATURE-----
-
---uxuisgdDHaNETlh8--
-
+r~
 
