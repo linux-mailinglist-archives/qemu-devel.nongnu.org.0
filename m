@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A55312AB861
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DAA02AB860
 	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 13:37:21 +0100 (CET)
-Received: from localhost ([::1]:44002 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:43988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc6QC-0002Fe-OL
+	id 1kc6QB-0002FJ-Vp
 	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 07:37:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41466)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kc6OZ-0001GE-Fg
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 07:35:39 -0500
-Received: from indium.canonical.com ([91.189.90.7]:54968)
+ id 1kc6Oa-0001GM-4U
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 07:35:40 -0500
+Received: from indium.canonical.com ([91.189.90.7]:54962)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kc6OX-0003QQ-Cn
+ id 1kc6OX-0003Q6-Cm
  for qemu-devel@nongnu.org; Mon, 09 Nov 2020 07:35:39 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kc6OW-0003rL-0M
- for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 12:35:36 +0000
+ id 1kc6OV-0003yE-99
+ for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 12:35:35 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 017B32E800F
- for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 12:35:36 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 429D32E811E
+ for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 12:35:35 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 09 Nov 2020 12:29:22 -0000
-From: Thomas Huth <1687214@bugs.launchpad.net>
+Date: Mon, 09 Nov 2020 12:29:53 -0000
+From: Thomas Huth <1687270@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -38,19 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: alamot th-huth
-X-Launchpad-Bug-Reporter: Alamot (alamot)
+X-Launchpad-Bug-Commenters: manuel-reimer th-huth
+X-Launchpad-Bug-Reporter: Manuel Reimer (manuel-reimer)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20170429175305.26812.79902.malonedeb@gac.canonical.com>
-Message-Id: <160492496240.18274.15431283059449166147.malone@wampee.canonical.com>
-Subject: [Bug 1687214] Re: Rapid tremendous memory hog when using -net nic,
- vlan=0 -net user, vlan=0
+References: <20170430094752.26847.19558.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160492499324.12640.2928606217835668411.malone@gac.canonical.com>
+Subject: [Bug 1687270] Re: Can't write to 9p shared folder with qemu 2.9.0
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: 0ec570a6ed74060ea3d67074da8d8a83339af916
+X-Launchpad-Hash: e8ad58adaf2d609f96f5ccd8d7fbfb05cba44dc1
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 01:40:52
@@ -73,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1687214 <1687214@bugs.launchpad.net>
+Reply-To: Bug 1687270 <1687270@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -91,36 +90,29 @@ rked as "Expired". Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1687214
+https://bugs.launchpad.net/bugs/1687270
 
 Title:
-  Rapid tremendous memory hog when using -net nic,vlan=3D0 -net
-  user,vlan=3D0
+  Can't write to 9p shared folder with qemu 2.9.0
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  A rapid tremendous memory hog is occuring when I use -net nic,vlan=3D0
-  -net user,vlan=3D0. Tested with QEMU 2.8.0 & 2.9.0 in Gentoo. All
-  available memory (8GB) + swap (over 20GB) is exhausted very rapidly.
+  When running a virtual machine with qemu 2.9.0 with this parameter for
+  sharing a folder:
 
-  This bug is possibly related to =
+  -virtfs
+  local,id=3Dfsdev1,path=3D$HOME/git,security_model=3Dnone,mount_tag=3Dgit
 
-  https://bugs.launchpad.net/qemu/+bug/1310714 =
+  then the folder is shared to the VM but in some subfolders I can't
+  delete files. The guest system then reports that the file, I want to
+  delete, is "no file or folder".
 
-  and maybe to
-  https://bugs.launchpad.net/qemu/+bug/1288620
+  I've downgraded to 2.8.0 now, which re-enables deleting my files.
 
-  The bug IS present wheh I use -net nic,vlan=3D0 -net user,vlan=3D0 (tested
-  with no model and model=3De1000 and model=3Dvirtio, with all these the bug
-  is present)
-
-  The bug is NOT present with I use this:
-  -netdev type=3Duser,id=3Dmynet0 -device virtio-net-pci,netdev=3Dmynet0
-
-  I tested this bug only using windows guests (Windows XP & Windows 8).
+  Is this a known bug which will be fixed with a future version?
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1687214/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1687270/+subscriptions
 
