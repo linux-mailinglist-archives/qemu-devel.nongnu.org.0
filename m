@@ -2,51 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 521992ABCE1
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 14:42:25 +0100 (CET)
-Received: from localhost ([::1]:57558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99BC12ABD58
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 14:45:39 +0100 (CET)
+Received: from localhost ([::1]:37214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc7RA-0006RJ-Cf
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 08:42:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58924)
+	id 1kc7UI-0001PD-L8
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 08:45:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kc7OV-0004rA-Pn
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 08:39:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49930)
+ id 1kc7OW-0004rP-3c
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 08:39:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50937)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kc7OS-0000hs-Lc
+ id 1kc7OS-0000hO-Kw
  for qemu-devel@nongnu.org; Mon, 09 Nov 2020 08:39:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1604929175;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=zQ4bmEIBY00lsT0aN9BEUEYGWs/jZxiMoowXTzHTQ38=;
- b=TTpgl/BDiBmmdjIONt1lxyRR27G6rnK/rj5XEgpv6xSGvBryV2p33siHsuRYLXTqabGH2O
- 7fRDhrGCG6iO2PouNOoa+oYK2qm0HTYzJyc44hpwzMGz/og/kqEWQH1FZdDJaEhc7F4sGe
- /9fd2DYPNNQFBi0/CjGQnkQS/8bOXRs=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2i9yh38GZyNj64lBiN9zdfC8q/cs4LpcQhIxX3M+EjM=;
+ b=LXa3ly7f9BCaNcmaoM3yeltnBWxQQIhopZbw+zbuzv/BqthaFlIUbRQwnmCTOVXjQvmpQu
+ nyyaip+cHLv7Rjc7auvt/CG2MQ0jDm36/oEl6oidXKRZGIURwMAHo4d6YL22ApF7vw4RoZ
+ GhuHh13VpddZUg5HRy2O+OhwVrSMrko=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-492-PZReZDjXMby9Gue1QkcwpQ-1; Mon, 09 Nov 2020 08:39:33 -0500
-X-MC-Unique: PZReZDjXMby9Gue1QkcwpQ-1
+ us-mta-559-eIkX4TetM3if0VZJNoAF3g-1; Mon, 09 Nov 2020 08:39:33 -0500
+X-MC-Unique: eIkX4TetM3if0VZJNoAF3g-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 508D61018F73
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C029E188C12D
  for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 13:39:32 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 032EB6EF48;
- Mon,  9 Nov 2020 13:39:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 716676EF40;
+ Mon,  9 Nov 2020 13:39:32 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 for-5.2 0/6] Deprecate or forbid crazy QemuOpts cases
-Date: Mon,  9 Nov 2020 08:39:25 -0500
-Message-Id: <20201109133931.979563-1-pbonzini@redhat.com>
+Subject: [PATCH v2 1/6] qemu-option: simplify search for end of key
+Date: Mon,  9 Nov 2020 08:39:26 -0500
+Message-Id: <20201109133931.979563-2-pbonzini@redhat.com>
+In-Reply-To: <20201109133931.979563-1-pbonzini@redhat.com>
+References: <20201109133931.979563-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
@@ -55,16 +58,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 01:25:23
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 00:04:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,53 +85,90 @@ Cc: armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's very hard to make QemuOpts fail.  It's also very easy
-to write command lines that QemuOpts accept but make no sense.
+Use strcspn to find an equal or comma value, and pass the result directly
+to get_opt_name to avoid another strchr.
 
-This series deals with three cases:
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ util/qemu-option.c | 35 +++++++++++++----------------------
+ 1 file changed, 13 insertions(+), 22 deletions(-)
 
-- QemuOpts accepts ids even for options that are meant to be singletons.
-As a result, a command line option like "-M q35,id=ff" is ignored silently.
-
-- QemuOpts simply matches "help" or "?" against the option name to
-determine whether the user asked for help.  Something like "nohelp" or
-"?=please" will print the help message.
-
-- QemuOpts lets you write boolean options in "short form" where "abc"
-means "abc=on" and "noabc" means "abc=off".  This is confusing, since it
-is not done for the first key=value pair (but only if there is an implied
-key); it can also be grossly misused, as in the previous example, because
-it is not type safe.  In case you need confirmation, "-device e1000,noid"
-will create a device with id equal to "off".
-
-Unfortunately, this last idiom has found wide use with -chardev (think
-"server,nowait") and to a lesser extent -spice, so it can only be
-deprecated.  The other two are removed.
-
-Patches 1-3 are cleanups.  Patches 4-6 deal with the above issues one
-by one.  I have a seventh patch to remove the third argument to
-qemu_opts_create, but it touches a few dozen files.
-
-Paolo
-
-Supersedes: <20201105142731.623428-1-pbonzini@redhat.com>
-
-Paolo Bonzini (6):
-  qemu-option: simplify search for end of key
-  qemu-option: pass QemuOptsList to opts_accepts_any
-  qemu-option: restrict qemu_opts_set to merge-lists QemuOpts
-  qemu-option: clean up id vs. list->merge_lists
-  qemu-option: move help handling to get_opt_name_value
-  qemu-option: warn for short-form boolean options
-
- docs/system/deprecated.rst |   6 ++
- include/qemu/option.h      |   3 +-
- softmmu/vl.c               |  19 ++---
- tests/test-qemu-opts.c     |  26 ++++++-
- util/qemu-option.c         | 149 +++++++++++++++++++------------------
- 5 files changed, 113 insertions(+), 90 deletions(-)
-
+diff --git a/util/qemu-option.c b/util/qemu-option.c
+index acefbc23fa..ab3b58599e 100644
+--- a/util/qemu-option.c
++++ b/util/qemu-option.c
+@@ -38,27 +38,19 @@
+ #include "qemu/help_option.h"
+ 
+ /*
+- * Extracts the name of an option from the parameter string (p points at the
++ * Extracts the name of an option from the parameter string (@p points at the
+  * first byte of the option name)
+  *
+- * The option name is delimited by delim (usually , or =) or the string end
+- * and is copied into option. The caller is responsible for free'ing option
+- * when no longer required.
++ * The option name is @len characters long and is copied into @option. The
++ * caller is responsible for free'ing @option when no longer required.
+  *
+  * The return value is the position of the delimiter/zero byte after the option
+- * name in p.
++ * name in @p.
+  */
+-static const char *get_opt_name(const char *p, char **option, char delim)
++static const char *get_opt_name(const char *p, char **option, size_t len)
+ {
+-    char *offset = strchr(p, delim);
+-
+-    if (offset) {
+-        *option = g_strndup(p, offset - p);
+-        return offset;
+-    } else {
+-        *option = g_strdup(p);
+-        return p + strlen(p);
+-    }
++    *option = g_strndup(p, len);
++    return p + len;
+ }
+ 
+ /*
+@@ -769,12 +761,11 @@ static const char *get_opt_name_value(const char *params,
+                                       const char *firstname,
+                                       char **name, char **value)
+ {
+-    const char *p, *pe, *pc;
+-
+-    pe = strchr(params, '=');
+-    pc = strchr(params, ',');
++    const char *p;
++    size_t len;
+ 
+-    if (!pe || (pc && pc < pe)) {
++    len = strcspn(params, "=,");
++    if (params[len] != '=') {
+         /* found "foo,more" */
+         if (firstname) {
+             /* implicitly named first option */
+@@ -782,7 +773,7 @@ static const char *get_opt_name_value(const char *params,
+             p = get_opt_value(params, value);
+         } else {
+             /* option without value, must be a flag */
+-            p = get_opt_name(params, name, ',');
++            p = get_opt_name(params, name, len);
+             if (strncmp(*name, "no", 2) == 0) {
+                 memmove(*name, *name + 2, strlen(*name + 2) + 1);
+                 *value = g_strdup("off");
+@@ -792,7 +783,7 @@ static const char *get_opt_name_value(const char *params,
+         }
+     } else {
+         /* found "foo=bar,more" */
+-        p = get_opt_name(params, name, '=');
++        p = get_opt_name(params, name, len);
+         assert(*p == '=');
+         p++;
+         p = get_opt_value(p, value);
 -- 
 2.26.2
+
 
 
