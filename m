@@ -2,60 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E5A52ABF08
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 15:43:44 +0100 (CET)
-Received: from localhost ([::1]:39272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCBE42ABF1D
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 15:46:13 +0100 (CET)
+Received: from localhost ([::1]:43932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc8OV-0005Ko-H0
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 09:43:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45622)
+	id 1kc8Qt-0007Ho-AJ
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 09:46:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kc8EQ-0004CB-Di
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:33:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44258)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kc8H4-0006fx-0R
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:36:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37023)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kc8EO-0001ub-IS
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:33:18 -0500
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kc8H1-0002uF-Tp
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:36:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604932395;
+ s=mimecast20190719; t=1604932558;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=+zusEXJzWrjd2rJ1pg02yJMOnG8fetEgGuFkB7srYy8=;
- b=G6VgpcDaHAVZCMcO8h2OY5lVCAY4RNCDBKDidIGOxLl0buY21WiBZtAmchiHbl2mdq8S6F
- GJ0FYj5Sgoj/vB/qY2t3eQ7c7F2tAZBhOfV+G1V3Ype6lCbADKDUrlAjR8LFXP4IU7dcB1
- oRKP6HEUH84v6662nWab7qXAU9fkzMQ=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=kcdU9aJbEaren7E4fZsP2g6uWz2aJVVVLlffCGmH/tI=;
+ b=T1sLpx70RX6oPM8vKX1wHBp5YlhRamJWSizJofOH1kDQxheCVgPqHgL1DG00QHKvVJMtR2
+ uLtM81YW1Vaal4UMmhCN4Y63ZmDtkXDj8F9KSIc2kJQpZwrNzdZ1HlJU+vZM52Ko103RjK
+ mrOWdzkDM6q/CTLtWedx4+hocVSITjI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-133-3aiz4PnhNeSnf596J-FAvw-1; Mon, 09 Nov 2020 09:33:14 -0500
-X-MC-Unique: 3aiz4PnhNeSnf596J-FAvw-1
+ us-mta-483-4OaZxlkANGKWCF4t7g8vxA-1; Mon, 09 Nov 2020 09:35:56 -0500
+X-MC-Unique: 4OaZxlkANGKWCF4t7g8vxA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49D0A802B6A;
- Mon,  9 Nov 2020 14:33:12 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0893655766;
- Mon,  9 Nov 2020 14:33:11 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] pvpanic: Advertise the PVPANIC_CRASHLOADED event support
-Date: Mon,  9 Nov 2020 09:33:11 -0500
-Message-Id: <20201109143311.1000958-1-pbonzini@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 834171016CE5;
+ Mon,  9 Nov 2020 14:35:55 +0000 (UTC)
+Received: from horse.redhat.com (ovpn-115-201.rdu2.redhat.com [10.10.115.201])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 43BC975128;
+ Mon,  9 Nov 2020 14:35:49 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id C5CD7222E35; Mon,  9 Nov 2020 09:35:48 -0500 (EST)
+Date: Mon, 9 Nov 2020 09:35:48 -0500
+From: Vivek Goyal <vgoyal@redhat.com>
+To: qemu-devel@nongnu.org, virtio-fs-list <virtio-fs@redhat.com>
+Subject: [PATCH V2] virtiofsd: Use --thread-pool-size=0 to mean no thread pool
+Message-ID: <20201109143548.GA1479853@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 00:04:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -78,64 +76,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
+Cc: jose.carlos.venegas.munoz@intel.com,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Advertise both types of events as supported when the guest OS
-queries the pvpanic device.  Currently only PVPANIC_PANICKED is
-exposed; PVPANIC_CRASHLOADED must also be advertised, but only on
-new machine types.
+Right now we create a thread pool and main thread hands over the request
+to thread in thread pool to process. Number of threads in thread pool
+can be managed by option --thread-pool-size.
 
-Fixes: 7dc58deea79a ("pvpanic: implement crashloaded event handling")
-Reported-by: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+In tests we have noted that many of the workloads are getting better
+performance if we don't use a thread pool at all and process all
+the requests in the context of a thread receiving the request.
+
+Hence give user an option to be able to run virtiofsd without using
+a thread pool.
+
+To implement this, I have used existing option --thread-pool-size. This
+option defines how many maximum threads can be in the thread pool.
+Thread pool size zero freezes thead pool. I can't see why will one
+start virtiofsd with a frozen thread pool (hence frozen file system).
+So I am redefining --thread-pool-size=0 to mean, don't use a thread pool.
+Instead process the request in the context of thread receiving request
+from the queue.
+
+Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
 ---
- hw/core/machine.c | 1 +
- hw/misc/pvpanic.c | 5 ++++-
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ tools/virtiofsd/fuse_virtio.c | 36 ++++++++++++++++++++++++++---------
+ 1 file changed, 27 insertions(+), 9 deletions(-)
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 98b87f76cb..d0408049b5 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -35,6 +35,7 @@ GlobalProperty hw_compat_5_1[] = {
-     { "virtio-blk-device", "num-queues", "1"},
-     { "virtio-scsi-device", "num_queues", "1"},
-     { "nvme", "use-intel-id", "on"},
-+    { "pvpanic", "events", "1"}, /* PVPANIC_PANICKED */
- };
- const size_t hw_compat_5_1_len = G_N_ELEMENTS(hw_compat_5_1);
+diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+index 83ba07c6cd..944b9a577c 100644
+--- a/tools/virtiofsd/fuse_virtio.c
++++ b/tools/virtiofsd/fuse_virtio.c
+@@ -588,13 +588,18 @@ static void *fv_queue_thread(void *opaque)
+     struct VuDev *dev = &qi->virtio_dev->dev;
+     struct VuVirtq *q = vu_get_queue(dev, qi->qidx);
+     struct fuse_session *se = qi->virtio_dev->se;
+-    GThreadPool *pool;
+-
+-    pool = g_thread_pool_new(fv_queue_worker, qi, se->thread_pool_size, FALSE,
+-                             NULL);
+-    if (!pool) {
+-        fuse_log(FUSE_LOG_ERR, "%s: g_thread_pool_new failed\n", __func__);
+-        return NULL;
++    GThreadPool *pool = NULL;
++    GList *req_list = NULL;
++
++    if (se->thread_pool_size) {
++        fuse_log(FUSE_LOG_DEBUG, "%s: Creating thread pool for Queue %d\n",
++                 __func__, qi->qidx);
++        pool = g_thread_pool_new(fv_queue_worker, qi, se->thread_pool_size,
++                                 FALSE, NULL);
++        if (!pool) {
++            fuse_log(FUSE_LOG_ERR, "%s: g_thread_pool_new failed\n", __func__);
++            return NULL;
++        }
+     }
  
-diff --git a/hw/misc/pvpanic.c b/hw/misc/pvpanic.c
-index 598d5471a4..35d6797831 100644
---- a/hw/misc/pvpanic.c
-+++ b/hw/misc/pvpanic.c
-@@ -61,12 +61,14 @@ struct PVPanicState {
+     fuse_log(FUSE_LOG_INFO, "%s: Start for queue %d kick_fd %d\n", __func__,
+@@ -669,14 +674,27 @@ static void *fv_queue_thread(void *opaque)
  
-     MemoryRegion io;
-     uint16_t ioport;
-+    uint8_t events;
- };
+             req->reply_sent = false;
  
- /* return supported events on read */
- static uint64_t pvpanic_ioport_read(void *opaque, hwaddr addr, unsigned size)
- {
--    return PVPANIC_PANICKED;
-+    PVPanicState *pvp = opaque;
-+    return pvp->events;
+-            g_thread_pool_push(pool, req, NULL);
++            if (!se->thread_pool_size) {
++                req_list = g_list_prepend(req_list, req);
++            } else {
++                g_thread_pool_push(pool, req, NULL);
++            }
+         }
+ 
+         pthread_mutex_unlock(&qi->vq_lock);
+         pthread_rwlock_unlock(&qi->virtio_dev->vu_dispatch_rwlock);
++
++        /* Process all the requests. */
++        if (!se->thread_pool_size && req_list != NULL) {
++            g_list_foreach(req_list, fv_queue_worker, qi);
++            g_list_free(req_list);
++            req_list = NULL;
++        }
+     }
+ 
+-    g_thread_pool_free(pool, FALSE, TRUE);
++    if (pool) {
++        g_thread_pool_free(pool, FALSE, TRUE);
++    }
+ 
+     return NULL;
  }
- 
- static void pvpanic_ioport_write(void *opaque, hwaddr addr, uint64_t val,
-@@ -112,6 +114,7 @@ static void pvpanic_isa_realizefn(DeviceState *dev, Error **errp)
- 
- static Property pvpanic_isa_properties[] = {
-     DEFINE_PROP_UINT16(PVPANIC_IOPORT_PROP, PVPanicState, ioport, 0x505),
-+    DEFINE_PROP_UINT8("events", PVPanicState, events, PVPANIC_PANICKED | PVPANIC_CRASHLOADED),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
 -- 
-2.26.2
+2.25.4
 
 
