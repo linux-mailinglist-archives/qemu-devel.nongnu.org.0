@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5756E2AB3DA
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 10:44:31 +0100 (CET)
-Received: from localhost ([::1]:40836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91FE92AB3EC
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 10:47:17 +0100 (CET)
+Received: from localhost ([::1]:45048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc3iw-0002rT-6S
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 04:44:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60928)
+	id 1kc3lc-0004l0-N7
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 04:47:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kc3hL-00021M-1J
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 04:42:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59135)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kc3hF-0001qk-Cg
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 04:42:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604914964;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=aPaTnidmVZl9q40qao8iD7a21PtuTj7Ia90GvQchCuA=;
- b=W0XP2LIARkfL7IPF50AinPM1DJlSc0urhi/GxlyEUuTXLQSYrzh9DQx+qXc47YpUiuTHui
- CymQGGTyqGoO9pgqZo3khTWZXAFuCAYvi5H/3ptwiUTR6YRuTgxVpxMVsMjBveK5u+XaU4
- ohF3JYX4YtfpPnzHR63FTqMbA+43irA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-248-Jus-ioMzMmOb4G6lN9CluA-1; Mon, 09 Nov 2020 04:42:42 -0500
-X-MC-Unique: Jus-ioMzMmOb4G6lN9CluA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6FF6B1007468;
- Mon,  9 Nov 2020 09:42:40 +0000 (UTC)
-Received: from localhost (ovpn-114-110.ams2.redhat.com [10.36.114.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EC59D5C26B;
- Mon,  9 Nov 2020 09:42:33 +0000 (UTC)
-Date: Mon, 9 Nov 2020 09:42:32 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH-for-6.0 v4 13/17] tests/docker: Install lttng-ust-devel
- package in Fedora image
-Message-ID: <20201109094232.GB783516@stefanha-x1.localdomain>
-References: <20201108204535.2319870-1-philmd@redhat.com>
- <20201108204535.2319870-14-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <dmantipov@yandex.ru>)
+ id 1kc3hM-000226-GC
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 04:42:53 -0500
+Received: from forward102j.mail.yandex.net ([5.45.198.243]:41508)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dmantipov@yandex.ru>)
+ id 1kc3hH-0001pd-4W
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 04:42:52 -0500
+Received: from forward100q.mail.yandex.net (forward100q.mail.yandex.net
+ [IPv6:2a02:6b8:c0e:4b:0:640:4012:bb97])
+ by forward102j.mail.yandex.net (Yandex) with ESMTP id 9BC7DF208C9
+ for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 12:42:40 +0300 (MSK)
+Received: from mxback1q.mail.yandex.net (mxback1q.mail.yandex.net
+ [IPv6:2a02:6b8:c0e:39:0:640:25b3:aea5])
+ by forward100q.mail.yandex.net (Yandex) with ESMTP id 98EF1708000E
+ for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 12:42:40 +0300 (MSK)
+Received: from vla5-47b3f4751bc4.qloud-c.yandex.net
+ (vla5-47b3f4751bc4.qloud-c.yandex.net [2a02:6b8:c18:3508:0:640:47b3:f475])
+ by mxback1q.mail.yandex.net (mxback/Yandex) with ESMTP id HAUGXttBaM-gelqrwli; 
+ Mon, 09 Nov 2020 12:42:40 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
+ t=1604914960; bh=bUjpdZPctYqAhWGGybDxjG+eXu8Kg6dBwrra58W6n1A=;
+ h=Subject:From:To:Date:Message-ID;
+ b=W19TY/b55bBD+6ajrcJtUUMpa4Rmjrc06xtEiqmrcRwhu6LqW907bPDPjz7WzbnS3
+ t5Kgf4SmmuTg/gtwsi8E4zGZUMleP9qIVV11qbJ5QgvSp7ztZ8JaotPEqOGfoFX+Th
+ WqucLowlv4g6lagYl8PlDpPeX6tfdrgb5nFr2HJw=
+Authentication-Results: mxback1q.mail.yandex.net; dkim=pass header.i=@yandex.ru
+Received: by vla5-47b3f4751bc4.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
+ id j3lXlYiSeg-gdoWga2P; Mon, 09 Nov 2020 12:42:39 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+To: qemu-devel@nongnu.org
+From: Dmitry Antipov <dmantipov@yandex.ru>
+Subject: On virtio and glusterfs block device
+Message-ID: <cc05ca73-00ba-7ed7-2b27-b540905d19e5@yandex.ru>
+Date: Mon, 9 Nov 2020 12:42:39 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201108204535.2319870-14-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="xXmbgvnjoT4axfJE"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 01:25:23
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=5.45.198.243; envelope-from=dmantipov@yandex.ru;
+ helo=forward102j.mail.yandex.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 04:42:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,52 +76,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---xXmbgvnjoT4axfJE
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hello,
 
-On Sun, Nov 08, 2020 at 09:45:31PM +0100, Philippe Mathieu-Daud=E9 wrote:
-> Install the lttng-ust-devel package to be able to
-> build QEMU using the User-Space Tracer trace backend
-> (configure --enable-trace-backends=3Dust).
->=20
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> ---
-> Cc: Stefan Hajnoczi <stefanha@redhat.com>
-> Cc: Daniel P . Berrange <berrange@redhat.com>
-> ---
->  tests/docker/dockerfiles/fedora.docker | 1 +
->  1 file changed, 1 insertion(+)
+I'm running x86 Ubuntu VM with GlusterFS-backed /, e.g.
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+qemu-system-x86_64 -enable-kvm -smp 8 -m 4096 -drive \
+file=gluster://192.168.1.xxx/test/bionic.qcow2,if=virtio
 
---xXmbgvnjoT4axfJE
-Content-Type: application/pgp-signature; name="signature.asc"
+and the following Fio (https://github.com/axboe/fio) benchmark inside a VM:
 
------BEGIN PGP SIGNATURE-----
+[global]
+name=fio-rand-write-libaio
+filename=fio-rand-write
+ioengine=libaio
+create_on_open=1
+rw=randwrite
+direct=0
+numjobs=8
+time_based=1
+runtime=60
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+pDwgACgkQnKSrs4Gr
-c8j38AgAtD+ocMgFiaQ5hjQt/If06x4swEED4NGbpAIAvoW5exdqZ4LFGS23cr+X
-YQibC3xbk02OImR0LkfxiVuuHEaIq/wyHMJKzN6SJCjWhqEfX2OkwS32J3d/Gbmy
-BlmUVN0U4vUHMcHnYUcUohpvmK12QPucsUG8bit1G9Kws1aPApXhTcK48VmO/FSS
-/HWgGQGCIufUohkbBPl9CdVt2kEqkZuLAeYPH92ONw6vsohfZ+b2Z0j0jBW9gdPw
-1euSvt7W98l0ike9MeoyBrcnqmI2GafdXejuOLH/spSAYHjtOTk4VjXIh178SFxu
-paFrfEWfGwq+E7VywjItuZBXVkF1lQ==
-=EPm2
------END PGP SIGNATURE-----
+[test-4-kbytes]
+bs=4k
+size=1G
+iodepth=8
 
---xXmbgvnjoT4axfJE--
+(e.g. 8 tasks issues 4K-sized random writes across 1G file inside a VM).
 
+Tracing I/O path down to qemu_gluster_co_rw() (block/gluster.c), I've found that
+glfs_pwritev_async() is asked to write I/O vectors of the very different length
+(mostly 1, average may be 15-20, and maximum value is around 150). Since the
+workload generated by Fio looks regular and stable over the running time, this
+looks suboptimal. At the first glance, long batches of I/O vectors of the same
+length should give the better performance.
+
+Next, looking through virtio_blk_submit_multireq() shows that non-sequential
+requests are not merged. IIUC this approach assumes that the virtual block device
+is always backed by the physical one - but what if not? In GlusterFS API, each
+glfs_xxx() call requires the roundtrip to the server at least, and merging more
+(even non-sequential) requests into longer I/O vectors may be really useful.
+
+So, 1) is my understanding of the whole picture is correct and 2) is there
+something to tune in attempt to improve an I/O performance in my case?
+
+Thanks,
+Dmitry
 
