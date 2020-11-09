@@ -2,33 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 222D82ACF87
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 07:18:48 +0100 (CET)
-Received: from localhost ([::1]:40730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C36E2ACF89
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 07:19:10 +0100 (CET)
+Received: from localhost ([::1]:42600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcMzO-00072i-7v
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 01:18:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42386)
+	id 1kcMzl-0007ok-7v
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 01:19:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kcMxr-0005dF-LR; Tue, 10 Nov 2020 01:17:11 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:2135)
+ id 1kcMxs-0005dY-Do; Tue, 10 Nov 2020 01:17:12 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:2136)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kcMxp-0003YD-2r; Tue, 10 Nov 2020 01:17:11 -0500
+ id 1kcMxp-0003YE-1v; Tue, 10 Nov 2020 01:17:12 -0500
 Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CVd1F2Sjmz73Gc;
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CVd1F2G8Vz74xv;
  Tue, 10 Nov 2020 14:16:49 +0800 (CST)
 Received: from huawei.com (10.175.104.175) by DGGEMS410-HUB.china.huawei.com
  (10.3.19.210) with Microsoft SMTP Server id 14.3.487.0; Tue, 10 Nov 2020
- 14:16:45 +0800
+ 14:16:48 +0800
 From: Gan Qixin <ganqixin@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH 0/4] Use lock guard macros in block
-Date: Mon, 9 Nov 2020 23:43:23 +0800
-Message-ID: <20201109154327.325675-1-ganqixin@huawei.com>
+Subject: [PATCH 1/4] block/accounting.c: Use lock guard macros
+Date: Mon, 9 Nov 2020 23:43:24 +0800
+Message-ID: <20201109154327.325675-2-ganqixin@huawei.com>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20201109154327.325675-1-ganqixin@huawei.com>
+References: <20201109154327.325675-1-ganqixin@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -62,25 +64,63 @@ Cc: kwolf@redhat.com, Gan Qixin <ganqixin@huawei.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
-  I saw some tasks to replace manual lock()/unlock() calls with lock guard macros in BiteSizedTasks.
-I am very interested in this and modified some of the files under block. Could someone help me check the code?
+Replace manual lock()/unlock() calls with lock guard macros
+(QEMU_LOCK_GUARD/WITH_QEMU_LOCK_GUARD) in block/accounting.c.
 
-Thanks,
-Gan Qixin
+Signed-off-by: Gan Qixin <ganqixin@huawei.com>
+---
+ block/accounting.c | 32 +++++++++++++++-----------------
+ 1 file changed, 15 insertions(+), 17 deletions(-)
 
-Gan Qixin (4):
-  block/accounting.c: Use lock guard macros
-  block/curl.c: Use lock guard macros
-  block/throttle-groups.c: Use lock guard macros
-  block/iscsi.c: Use lock guard macros
-
- block/accounting.c      | 32 +++++++++++++--------------
- block/curl.c            | 28 ++++++++++++------------
- block/iscsi.c           | 28 +++++++++++-------------
- block/throttle-groups.c | 48 ++++++++++++++++++++---------------------
- 4 files changed, 65 insertions(+), 71 deletions(-)
-
+diff --git a/block/accounting.c b/block/accounting.c
+index 8d41c8a83a..2030851d79 100644
+--- a/block/accounting.c
++++ b/block/accounting.c
+@@ -199,29 +199,27 @@ static void block_account_one_io(BlockAcctStats *stats, BlockAcctCookie *cookie,
+         return;
+     }
+ 
+-    qemu_mutex_lock(&stats->lock);
+-
+-    if (failed) {
+-        stats->failed_ops[cookie->type]++;
+-    } else {
+-        stats->nr_bytes[cookie->type] += cookie->bytes;
+-        stats->nr_ops[cookie->type]++;
+-    }
++    WITH_QEMU_LOCK_GUARD(&stats->lock) {
++        if (failed) {
++            stats->failed_ops[cookie->type]++;
++        } else {
++            stats->nr_bytes[cookie->type] += cookie->bytes;
++            stats->nr_ops[cookie->type]++;
++        }
+ 
+-    block_latency_histogram_account(&stats->latency_histogram[cookie->type],
+-                                    latency_ns);
++        block_latency_histogram_account(&stats->latency_histogram[cookie->type],
++                                        latency_ns);
+ 
+-    if (!failed || stats->account_failed) {
+-        stats->total_time_ns[cookie->type] += latency_ns;
+-        stats->last_access_time_ns = time_ns;
++        if (!failed || stats->account_failed) {
++            stats->total_time_ns[cookie->type] += latency_ns;
++            stats->last_access_time_ns = time_ns;
+ 
+-        QSLIST_FOREACH(s, &stats->intervals, entries) {
+-            timed_average_account(&s->latency[cookie->type], latency_ns);
++            QSLIST_FOREACH(s, &stats->intervals, entries) {
++                timed_average_account(&s->latency[cookie->type], latency_ns);
++            }
+         }
+     }
+ 
+-    qemu_mutex_unlock(&stats->lock);
+-
+     cookie->type = BLOCK_ACCT_NONE;
+ }
+ 
 -- 
 2.23.0
 
