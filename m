@@ -2,69 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A2D82AB162
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 07:43:47 +0100 (CET)
-Received: from localhost ([::1]:41486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90E4D2AB1B0
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 08:20:31 +0100 (CET)
+Received: from localhost ([::1]:49232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc0u2-0001lV-8X
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 01:43:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46094)
+	id 1kc1Ta-0007P9-Mo
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 02:20:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kc0rM-000104-FL
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 01:41:00 -0500
-Received: from indium.canonical.com ([91.189.90.7]:41894)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kc0rI-0003Py-Ol
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 01:41:00 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kc0rE-0005lV-EZ
- for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 06:40:52 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6C7FA2E812F
- for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 06:40:52 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kc1Sd-0006ul-OJ; Mon, 09 Nov 2020 02:19:31 -0500
+Received: from mail-vi1eur05on2091.outbound.protection.outlook.com
+ ([40.107.21.91]:50866 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kc1Sb-0007tb-PC; Mon, 09 Nov 2020 02:19:31 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=C6mnY4Pss4svqogOxoLFNjMKa+i6npL6FRvfD3yDY+pmU0lTZqjvkz1APBvpFaPKqEIZXCnQtXHF7vf4KSYHw4ecbthGwV4X3SI0uKAEFTFTlSrsVoKm7rLVT0CSw2/VpL8ty5Hwu6pMBhFNp4wcmWCSH1skxEZMxH054qnJaCRn9OqUEgGyRipF6GPKwOqui5oZODdtFBti+3K+xj7vLoQVm+BN0Cg3HOaVPx/qrEnP/skHgmHvjpDrySs30yGY3ExomgdgNPf6MMrCzU12I9NXq/vs0u5F8St41cvrrM2ix/NnJ8uyPx8C8UX0en3WqD9OLw/B8daHkKQqVbGOJA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LB11i1mdAC9m3IfW9gWciUd9feqdRNsrHP4tW0lLO/0=;
+ b=h0s2f+cXAP6bXUtJWs02QIfKl3bJuUQJXzWO/CX/CQoZvM2hjpHnH71dgOk6ZpavpSawI2gDXXtw0+X4Bzw3SM3w6vrX0LN4OTEn9/1bwMo8XIqEXOYIrohwIUUSliOEhcbi0xwl7gAF4KB4yuE8k1clCxapVnsBOIf53sKEnS2BYR4Z7E6QB7E/tQk/ujgPDrlsW5URrHl360vRzWrR1UWkrCJD4N7+qCJPrJuGqlKnHa1oha9UrNxgzlqNVvNLLdBeQI79xw/AvvcD9iHXk07g4FzxdBCOfG5b2itF9TF0/R9dQFZJE9yDzBh0RIq55zW3vSoWEbMSck0gm03xtA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LB11i1mdAC9m3IfW9gWciUd9feqdRNsrHP4tW0lLO/0=;
+ b=Q+trY8UcDEOWBRveRSJU57UgnUAtRH4ff1YJwpugPI8X4aCY4VIjulNc9reqxPgXhItAbEZ81zB2L5egJbtV1xodntc67RG19RM/dPPK3iqYxmC714/fgIsIu2M9of7Q7s7eCz38DiHdhmsnvvIJbH9hO0bywrsuH5mCa+yTGc8=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB3720.eurprd08.prod.outlook.com (2603:10a6:20b:8f::29)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Mon, 9 Nov
+ 2020 07:04:22 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::fd02:1330:f620:1243]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::fd02:1330:f620:1243%9]) with mapi id 15.20.3499.032; Mon, 9 Nov 2020
+ 07:04:22 +0000
+Subject: Re: [PATCH v2 4/7] block: add bdrv_refresh_perms() helper
+To: Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com, den@openvz.org
+References: <20201106124241.16950-1-vsementsov@virtuozzo.com>
+ <20201106124241.16950-5-vsementsov@virtuozzo.com>
+ <w51zh3u8qlx.fsf@maestria.local.igalia.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <6bc178d3-8c9e-b2e9-8606-97a2b222d63a@virtuozzo.com>
+Date: Mon, 9 Nov 2020 10:04:20 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
+In-Reply-To: <w51zh3u8qlx.fsf@maestria.local.igalia.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.85]
+X-ClientProxiedBy: AM4PR07CA0028.eurprd07.prod.outlook.com
+ (2603:10a6:205:1::41) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 09 Nov 2020 06:32:32 -0000
-From: Chuan Zheng <1902470@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange dgilbert-h yanjin
-X-Launchpad-Bug-Reporter: Yan Jin (yanjin)
-X-Launchpad-Bug-Modifier: Chuan Zheng (jasonzheng)
-References: <160428587851.31102.18083040677647005532.malonedeb@gac.canonical.com>
-Message-Id: <160490355334.17771.429704673623334575.launchpad@soybean.canonical.com>
-Subject: [Bug 1902470] Re: migration with TLS-MultiFD is stuck when the
- dst-libvirtd service restarts
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: 8ee5b05578a4c582d91da7a3280d18987395b0dc
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 01:40:52
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.85) by
+ AM4PR07CA0028.eurprd07.prod.outlook.com (2603:10a6:205:1::41) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3564.21 via Frontend Transport; Mon, 9 Nov 2020 07:04:21 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5ae2c61e-6b9e-42ca-a03f-08d8847daf77
+X-MS-TrafficTypeDiagnostic: AM6PR08MB3720:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB37200E496342250532FCAABBC1EA0@AM6PR08MB3720.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:374;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: EZQkmiP3oVqgK9GYWrgYR21Lm4LzWYC5qtxPiI5VGaw0Od+a5ksctsPCr28nw6FrozbpuISoo7kOCbF7cyUKQNOt0aaRTVV/wChzcuCVlN75GS358iklOwt0zovzDKbhVHwxlYyz2mtw1a4KKNUTxamAKsuUHW2ssSJ9xNJ5WP3m9gLsux2pU0qqV8TbQL79nZuJslVFKThCTa37LBy/5z85FkA1yfSJhr51wEcPFfbIm0tPFpECU9PjrwIM7YoG1PKUGayB37/1VRg/1ruOHcpaMY2dYsguD1G0FVpS3pmZMko/98o3F9k2H+TlUiVBUojCE4ygP/swJRG6jq9G0IT+d3+T59iSBMAnDy29qHozFdK8oQIeSW9H64EG4PD5
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(136003)(39840400004)(366004)(346002)(376002)(316002)(66556008)(52116002)(66476007)(4326008)(36756003)(2616005)(956004)(16576012)(8936002)(6486002)(31696002)(31686004)(66946007)(16526019)(83380400001)(86362001)(186003)(8676002)(478600001)(5660300002)(26005)(2906002)(107886003)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: 0iXv7Q4SihWJUHCFht67pQsbl5mvOFNj9G0vfDtqBnDGiXX9wjgIlGrdG2Kr0s2tWTBfi9V011SxZFwZSdZ6JqQkftk+nlNb//ipwZyEsXZYvqfRoOUnL412OCcy4J0TBqjkPWFauhrxWN4K1znrW4QZTyvhkaX43fJWSO6vxVCkQVx7ysQNIjuBmChd4bfAlxWUChaBxonvoMVVyELTVRauHXs0DW3nKxweNCus0ovwoNWuthH9Ycedck0Ji5seisdsNhwUNMcJicFsjk4ciygXjlHJZr9zwdEtPFE3rnCR1WIfefEI3bGUWkLvAbOs5UjgzEHsKVPRtwM1iVPYhmgSjDv7lFhPFR2FNeB5whpgEiWOx5IoD/K3fIn4TtuS2A4a+rAuIkuF/dOrjzaKSianpqa6YgjeBXE6HmtgC6tNSuwch9yaP+7QzEj7pEl9+PoPDjZyiTPAp+JQdGcNPKyHR1yTKUsa0Cn2Fxu+DEuLcxEFgwiMOONQN2s/zBPcFmHtP0ziAJ/sOpmtefVZ8Ggo1HN2vL05zdaJZ4SKUi7XSkYdDjk/Tll4myG4UU6ayVjr2ZRcHEPHowi16JCE+1UDI46Q7vUH+bCjz1dcPIFZv7/RWIrMfdgVa7bg+wgUSgRE4j1AVTGTkIqJNkAbQg==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5ae2c61e-6b9e-42ca-a03f-08d8847daf77
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2020 07:04:22.4129 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cDudouw8TYZBJIwNoaqGzBmntKV3hnRfgZzMwAlrxqVQaXnFhfhIcD8lWufrwVFYha87ia4Hiyt9IK92beEK+AE/WXtkJ2BDJZeSSmAShwU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3720
+Received-SPF: pass client-ip=40.107.21.91;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 02:19:27
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,222 +118,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1902470 <1902470@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: Confirmed =3D> In Progress
+06.11.2020 18:14, Alberto Garcia wrote:
+> On Fri 06 Nov 2020 01:42:38 PM CET, Vladimir Sementsov-Ogievskiy wrote:
+>> Make separate function for common pattern.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>>   block.c | 60 ++++++++++++++++++++++++++++-----------------------------
+>>   1 file changed, 30 insertions(+), 30 deletions(-)
+>>
+>> diff --git a/block.c b/block.c
+>> index 77a3f8f1e2..fc7633307f 100644
+>> --- a/block.c
+>> +++ b/block.c
+>> @@ -2321,6 +2321,23 @@ static void bdrv_child_abort_perm_update(BdrvChild *c)
+>>       bdrv_abort_perm_update(c->bs);
+>>   }
+>>   
+>> +static int bdrv_refresh_perms(BlockDriverState *bs, bool *tighten_restrictions,
+>> +                              Error **errp)
+>> +{
+>> +    int ret;
+>> +    uint64_t perm, shared_perm;
+>> +
+>> +    bdrv_get_cumulative_perm(bs, &perm, &shared_perm);
+>> +    ret = bdrv_check_perm(bs, NULL, perm, shared_perm, NULL, NULL,
+>> errp);
+> 
+> Aren't you supposed to pass tighten_restrictions here ?
+> 
 
--- =
+Oops, yes I should
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1902470
 
-Title:
-  migration with TLS-MultiFD is stuck when the dst-libvirtd service
-  restarts
-
-Status in QEMU:
-  In Progress
-
-Bug description:
-  hi,
-
-  I found that the multi-channel TLS-handshake will be stuck when the
-  dst-libvirtd restarts, both the src and dst sockets are blocked in
-  recvmsg. In the meantime, live_migration thread is blocked in
-  multifd_send_sync_main, so migration cannot be cancelled though src-
-  libvirt has delivered the QMP command.
-
-  Is there any way to exit migration when the multi-channel TLS-
-  handshake is stuck? Does setting TLS-handshake timeout function take
-  effect?
-
-  The stack trace are as follows:
-
-  =3D=3D=3D=3D=3Dsrc qemu-system-aar stack=3D=3D=3D=3D=3D:
-  #0  0x0000ffff87d6f28c in recvmsg () from target:/usr/lib64/libpthread.so=
-.0
-  #1  0x0000aaaae3817424 in qio_channel_socket_readv (ioc=3D0xaaaae9e30a30,=
- iov=3D0xffffdb58e8a8, niov=3D1, fds=3D0x0, nfds=3D0x0, errp=3D0x0) at ../i=
-o/channel-socket.c:502
-  #2  0x0000aaaae380f468 in qio_channel_readv_full (ioc=3D0xaaaae9e30a30, i=
-ov=3D0xffffdb58e8a8, niov=3D1, fds=3D0x0, nfds=3D0x0, errp=3D0x0) at ../io/=
-channel.c:66
-  #3  0x0000aaaae380f9e8 in qio_channel_read (ioc=3D0xaaaae9e30a30, buf=3D0=
-xaaaaea204e9b "\026\003\001\001L\001", buflen=3D5, errp=3D0x0) at ../io/cha=
-nnel.c:217
-  #4  0x0000aaaae380e7d4 in qio_channel_tls_read_handler (buf=3D0xaaaaea204=
-e9b "\026\003\001\001L\001", len=3D5, opaque=3D0xfffd38001190) at ../io/cha=
-nnel-tls.c:53
-  #5  0x0000aaaae3801114 in qcrypto_tls_session_pull (opaque=3D0xaaaae99d57=
-00, buf=3D0xaaaaea204e9b, len=3D5) at ../crypto/tlssession.c:89
-  #6  0x0000ffff8822ed30 in _gnutls_stream_read (ms=3D0xffffdb58eaac, pull_=
-func=3D0xfffd38001870, size=3D5, bufel=3D<synthetic pointer>, session=3D0xa=
-aaae983cd60) at buffers.c:346
-  #7  _gnutls_read (ms=3D0xffffdb58eaac, pull_func=3D0xfffd38001870, size=
-=3D5, bufel=3D<synthetic pointer>, session=3D0xaaaae983cd60) at buffers.c:4=
-26
-  #8  _gnutls_io_read_buffered (session=3Dsession@entry=3D0xaaaae983cd60, t=
-otal=3D5, recv_type=3Drecv_type@entry=3D4294967295, ms=3D0xffffdb58eaac) at=
- buffers.c:581
-  #9  0x0000ffff88224954 in recv_headers (ms=3D<optimized out>, record=3D0x=
-ffff883cd000 <gnutls_x509_ext_export_name_constraints@got.plt>, htype=3D655=
-35, type=3D2284006288, record_params=3D0xaaaae9e22a60, session=3D0xaaaae983=
-cd60) at record.c:1163
-  #10 _gnutls_recv_in_buffers (session=3Dsession@entry=3D0xaaaae983cd60, ty=
-pe=3D2284006288, type@entry=3DGNUTLS_HANDSHAKE, htype=3D65535, htype@entry=
-=3DGNUTLS_HANDSHAKE_HELLO_RETRY_REQUEST, ms=3D<optimized out>, ms@entry=3D0=
-) at record.c:1302
-  #11 0x0000ffff88230568 in _gnutls_handshake_io_recv_int (session=3Dsessio=
-n@entry=3D0xaaaae983cd60, htype=3Dhtype@entry=3DGNUTLS_HANDSHAKE_HELLO_RETR=
-Y_REQUEST, hsk=3Dhsk@entry=3D0xffffdb58ec38, optional=3Doptional@entry=3D1)=
- at buffers.c:1445
-  #12 0x0000ffff88232b90 in _gnutls_recv_handshake (session=3Dsession@entry=
-=3D0xaaaae983cd60, type=3Dtype@entry=3DGNUTLS_HANDSHAKE_HELLO_RETRY_REQUEST=
-, optional=3Doptional@entry=3D1, buf=3Dbuf@entry=3D0x0) at handshake.c:1534
-  #13 0x0000ffff88235b40 in handshake_client (session=3Dsession@entry=3D0xa=
-aaae983cd60) at handshake.c:2925
-  #14 0x0000ffff88237824 in gnutls_handshake (session=3D0xaaaae983cd60) at =
-handshake.c:2739
-  #15 0x0000aaaae380213c in qcrypto_tls_session_handshake (session=3D0xaaaa=
-e99d5700, errp=3D0xffffdb58ee58) at ../crypto/tlssession.c:493
-  #16 0x0000aaaae380ea40 in qio_channel_tls_handshake_task (ioc=3D0xfffd380=
-01190, task=3D0xaaaaea61d4e0, context=3D0x0) at ../io/channel-tls.c:161
-  #17 0x0000aaaae380ec60 in qio_channel_tls_handshake (ioc=3D0xfffd38001190=
-, func=3D0xaaaae3394d20 <multifd_tls_outgoing_handshake>, opaque=3D0xaaaaea=
-189c30, destroy=3D0x0, context=3D0x0) at ../io/channel-tls.c:239
-  #18 0x0000aaaae3394e78 in multifd_tls_channel_connect (p=3D0xaaaaea189c30=
-, ioc=3D0xaaaae9e30a30, errp=3D0xffffdb58ef28) at ../migration/multifd.c:782
-  #19 0x0000aaaae3394f30 in multifd_channel_connect (p=3D0xaaaaea189c30, io=
-c=3D0xaaaae9e30a30, error=3D0x0) at ../migration/multifd.c:804
-  #20 0x0000aaaae33950b8 in multifd_new_send_channel_async (task=3D0xaaaaea=
-6855a0, opaque=3D0xaaaaea189c30) at ../migration/multifd.c:858
-  #21 0x0000aaaae3810cf8 in qio_task_complete (task=3D0xaaaaea6855a0) at ..=
-/io/task.c:197
-  #22 0x0000aaaae381096c in qio_task_thread_result (opaque=3D0xaaaaea6855a0=
-) at ../io/task.c:112
-  #23 0x0000ffff88701df8 in ?? () from target:/usr/lib64/libglib-2.0.so.0
-  #24 0x0000ffff88705a7c in g_main_context_dispatch () from target:/usr/lib=
-64/libglib-2.0.so.0
-  #25 0x0000aaaae3a5a29c in glib_pollfds_poll () at ../util/main-loop.c:221
-  #26 0x0000aaaae3a5a324 in os_host_main_loop_wait (timeout=3D0) at ../util=
-/main-loop.c:244
-  #27 0x0000aaaae3a5a444 in main_loop_wait (nonblocking=3D0) at ../util/mai=
-n-loop.c:520
-  #28 0x0000aaaae3696b20 in qemu_main_loop () at ../softmmu/vl.c:1677
-  #29 0x0000aaaae30949e4 in main (argc=3D81, argv=3D0xffffdb58f2c8, envp=3D=
-0xffffdb58f558) at ../softmmu/main.c:50
-
-  =3D=3D=3D=3D=3Dsrc live_migration stack=3D=3D=3D=3D=3D:
-  #0  0x0000ffff87d6a5d8 in pthread_cond_wait () from target:/usr/lib64/lib=
-pthread.so.0
-  #1  0x0000aaaae3a5f3ec in qemu_sem_wait (sem=3D0xaaaaea189d40) at ../util=
-/qemu-thread-posix.c:328
-  #2  0x0000aaaae3394838 in multifd_send_sync_main (f=3D0xaaaae983f0e0) at =
-../migration/multifd.c:638
-  #3  0x0000aaaae37de310 in ram_save_setup (f=3D0xaaaae983f0e0, opaque=3D0x=
-aaaae4198708 <ram_state>) at ../migration/ram.c:2588
-  #4  0x0000aaaae31cf7ac in qemu_savevm_state_setup (f=3D0xaaaae983f0e0) at=
- ../migration/savevm.c:1176
-  #5  0x0000aaaae3248360 in migration_thread (opaque=3D0xaaaae9829f20) at .=
-./migration/migration.c:3521
-  #6  0x0000aaaae3a5f8fc in qemu_thread_start (args=3D0xaaaaea513ee0) at ..=
-/util/qemu-thread-posix.c:521
-  #7  0x0000ffff87d647ac in ?? () from target:/usr/lib64/libpthread.so.0
-  #8  0x0000ffff87cba6ec in ?? () from target:/usr/lib64/libc.so.6
-
-  =3D=3D=3D=3D=3Ddst qemu-system-aar stack=3D=3D=3D=3D=3D:
-  #0  0x0000ffff7f17d28c in recvmsg () from target:/usr/lib64/libpthread.so=
-.0
-  #1  0x0000aaaae263a424 in qio_channel_socket_readv (ioc=3D0xaaaaf998a800,=
- iov=3D0xfffff5d22f78, niov=3D1, fds=3D0x0, nfds=3D0x0, errp=3D0x0) at ../i=
-o/channel-socket.c:502
-  #2  0x0000aaaae2632468 in qio_channel_readv_full (ioc=3D0xaaaaf998a800, i=
-ov=3D0xfffff5d22f78, niov=3D1, fds=3D0x0, nfds=3D0x0, errp=3D0x0) at ../io/=
-channel.c:66
-  #3  0x0000aaaae26329e8 in qio_channel_read (ioc=3D0xaaaaf998a800, buf=3D0=
-xaaaafa926dbb "q\024\335\365=C8=A3'\221,\\\357\246w\253\242=D1=A0=D8=B5I\24=
-7(N(K=3D\256\316DH\227QNf\371\"\271\017\226^\223\026\373\245z\255\227\025R.=
-\244\205\254\002\031T\033\312:h\226\a=DD=94\204=D4=AA\324\351K\341\365\247\=
-032\354+\277\005O'*l\301cXx\340~?\346\b\324k\225\223D\276\252\376\257_0\036=
-\223\022\006\212D|7h\257\226\300&n','\005zL\203M=CD=86\023\213\237(o\272\02=
-5_\305s\372\362\351\002\367Ph\016\347\371E\n\030Y\340\002\r\362^&`\021\203}=
-\353\324A\340=D2=B3(\207]\300l}h\026\037H\372\n=3D\"C\024\t\200\325\334&=3D=
-\333>\212=C6=8FE\214]_\372\264]"..., buflen=3D5, errp=3D0x0) at ../io/chann=
-el.c:217
-  #4  0x0000aaaae26317d4 in qio_channel_tls_read_handler (buf=3D0xaaaafa926=
-dbb "q\024\335\365=C8=A3'\221,\\\357\246w\253\242=D1=A0=D8=B5I\247(N(K=3D\2=
-56\316DH\227QNf\371\"\271\017\226^\223\026\373\245z\255\227\025R.\244\205\2=
-54\002\031T\033\312:h\226\a=DD=94\204=D4=AA\324\351K\341\365\247\032\354+\2=
-77\005O'*l\301cXx\340~?\346\b\324k\225\223D\276\252\376\257_0\036\223\022\0=
-06\212D|7h\257\226\300&n','\005zL\203M=CD=86\023\213\237(o\272\025_\305s\37=
-2\362\351\002\367Ph\016\347\371E\n\030Y\340\002\r\362^&`\021\203}\353\324A\=
-340=D2=B3(\207]\300l}h\026\037H\372\n=3D\"C\024\t\200\325\334&=3D\333>\212=
-=C6=8FE\214]_\372\264]"..., len=3D5, opaque=3D0xaaaaf9c4c400) at ../io/chan=
-nel-tls.c:53
-  #5  0x0000aaaae2624114 in qcrypto_tls_session_pull (opaque=3D0xaaaafa4a3d=
-90, buf=3D0xaaaafa926dbb, len=3D5) at ../crypto/tlssession.c:89
-  #6  0x0000ffff7f63cd30 in _gnutls_stream_read (ms=3D0xfffff5d2317c, pull_=
-func=3D0xaaaafa81a380, size=3D5, bufel=3D<synthetic pointer>, session=3D0xa=
-aaafa58b9d0) at buffers.c:346
-  #7  _gnutls_read (ms=3D0xfffff5d2317c, pull_func=3D0xaaaafa81a380, size=
-=3D5, bufel=3D<synthetic pointer>, session=3D0xaaaafa58b9d0) at buffers.c:4=
-26
-  #8  _gnutls_io_read_buffered (session=3Dsession@entry=3D0xaaaafa58b9d0, t=
-otal=3D5, recv_type=3Drecv_type@entry=3D4294967295, ms=3D0xfffff5d2317c) at=
- buffers.c:581
-  #9  0x0000ffff7f632954 in recv_headers (ms=3D<optimized out>, record=3D0x=
-1ee2a9fa78, htype=3D65535, type=3D2137262992, record_params=3D0xaaaafa4b71a=
-0, session=3D0xaaaafa58b9d0) at record.c:1163
-  #10 _gnutls_recv_in_buffers (session=3Dsession@entry=3D0xaaaafa58b9d0, ty=
-pe=3D2137262992, type@entry=3DGNUTLS_HANDSHAKE, htype=3D65535, htype@entry=
-=3DGNUTLS_HANDSHAKE_CLIENT_HELLO, ms=3D<optimized out>, ms@entry=3D0) at re=
-cord.c:1302
-  #11 0x0000ffff7f63e568 in _gnutls_handshake_io_recv_int (session=3Dsessio=
-n@entry=3D0xaaaafa58b9d0, htype=3Dhtype@entry=3DGNUTLS_HANDSHAKE_CLIENT_HEL=
-LO, hsk=3Dhsk@entry=3D0xfffff5d23308, optional=3Doptional@entry=3D0) at buf=
-fers.c:1445
-  #12 0x0000ffff7f640b90 in _gnutls_recv_handshake (session=3Dsession@entry=
-=3D0xaaaafa58b9d0, type=3Dtype@entry=3DGNUTLS_HANDSHAKE_CLIENT_HELLO, optio=
-nal=3Doptional@entry=3D0, buf=3Dbuf@entry=3D0x0) at handshake.c:1534
-  #13 0x0000ffff7f645f18 in handshake_server (session=3D<optimized out>) at=
- handshake.c:3351
-  #14 gnutls_handshake (session=3D0xaaaafa58b9d0) at handshake.c:2742
-  #15 0x0000aaaae262513c in qcrypto_tls_session_handshake (session=3D0xaaaa=
-fa4a3d90, errp=3D0xfffff5d23478) at ../crypto/tlssession.c:493
-  #16 0x0000aaaae2631a40 in qio_channel_tls_handshake_task (ioc=3D0xaaaaf9c=
-4c400, task=3D0xaaaafa70e600, context=3D0x0) at ../io/channel-tls.c:161
-  #17 0x0000aaaae2631c60 in qio_channel_tls_handshake (ioc=3D0xaaaaf9c4c400=
-, func=3D0xaaaae20d4b58 <migration_tls_incoming_handshake>, opaque=3D0x0, d=
-estroy=3D0x0, context=3D0x0) at ../io/channel-tls.c:239
-  #18 0x0000aaaae20d4ca8 in migration_tls_channel_process_incoming (s=3D0xa=
-aaaf9b2ef20, ioc=3D0xaaaaf998a800, errp=3D0xfffff5d23548) at ../migration/t=
-ls.c:103
-  #19 0x0000aaaae20f9f7c in migration_channel_process_incoming (ioc=3D0xaaa=
-af998a800) at ../migration/channel.c:42
-  #20 0x0000aaaae1f484a8 in socket_accept_incoming_migration (listener=3D0x=
-ffff64007a40, cioc=3D0xaaaaf998a800, opaque=3D0x0) at ../migration/socket.c=
-:130
-  #21 0x0000aaaae2638570 in qio_net_listener_channel_func (ioc=3D0xaaaafa41=
-0600, condition=3DG_IO_IN, opaque=3D0xffff64007a40) at ../io/net-listener.c=
-:54
-  #22 0x0000aaaae263ac4c in qio_channel_fd_source_dispatch (source=3D0xaaaa=
-fa81a380, callback=3D0xaaaae26384f8 <qio_net_listener_channel_func>, user_d=
-ata=3D0xffff64007a40) at ../io/channel-watch.c:84
-  #23 0x0000ffff7fb13a7c in g_main_context_dispatch () from target:/usr/lib=
-64/libglib-2.0.so.0
-  #24 0x0000aaaae287d29c in glib_pollfds_poll () at ../util/main-loop.c:221
-  #25 0x0000aaaae287d324 in os_host_main_loop_wait (timeout=3D571000000) at=
- ../util/main-loop.c:244
-  #26 0x0000aaaae287d444 in main_loop_wait (nonblocking=3D0) at ../util/mai=
-n-loop.c:520
-  #27 0x0000aaaae24b9b20 in qemu_main_loop () at ../softmmu/vl.c:1677
-  #28 0x0000aaaae1eb79e4 in main (argc=3D83, argv=3D0xfffff5d238c8, envp=3D=
-0xfffff5d23b68) at ../softmmu/main.c:50
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1902470/+subscriptions
+-- 
+Best regards,
+Vladimir
 
