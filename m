@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD6D22ABED7
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 15:38:34 +0100 (CET)
-Received: from localhost ([::1]:55608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90A712ABEE8
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 15:41:10 +0100 (CET)
+Received: from localhost ([::1]:60060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc8JV-0000Lm-UA
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 09:38:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42214)
+	id 1kc8M1-0002FD-JV
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 09:41:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kc80B-0004HL-RD
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:18:35 -0500
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:35095)
+ id 1kc83r-0000de-K9
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:22:23 -0500
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:34138)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kc809-0005QU-R1
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:18:35 -0500
-Received: by mail-ed1-x541.google.com with SMTP id ay21so8914314edb.2
- for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 06:18:33 -0800 (PST)
+ id 1kc83j-0006f9-LU
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:22:23 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id o9so12523978ejg.1
+ for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 06:22:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=6SL67MXDkpqciKU21DWb7uh9VzXvqZsGe2hTyZdTxHI=;
- b=wOnT+GT1WRI/ds4g9hjGaMY912qArJpfRgUm3JgsPD8It0RpIP6VSfH/05yCXpRi1J
- l2IK8IksKNo1Zkrei+NhTKU2uEMFAh9Le3xhIw5dflANv5WTvjlqnvewcbPFnTkF+Eu2
- rZXaKtbCOOaQ2xK50Z8jt5guQ/9kjescicHK6oHXpAo1dJqfzR6J2UX2vPVpFZGUAU9A
- 1hgWmzqppc/2M0mOtBiZ4tnH5W37dQoJrlRPnRiXuruuVhM9kuPQQexoOeGgpshU6PbT
- XJkIR6yP+xdB8OhPZ+klJTA0xruODAR17X1UBFQOpktHqihI+FigkyCXihiiFSjkxWyF
- 3+7g==
+ bh=Ifc7tPDGaZEFSSRnHYJFa5ZhQiHy+6mT1hkV3fNAT8E=;
+ b=GVhIvtDD7OX3O+d4oxGRrJQHtRqCwaNAHyN4nwEuySNrNUJAK7dj0NGx6A3mSshz/3
+ +vMJ5fsbjNiJXV5NRsi3uDYd2044N93gwEy2E03ETtKAIz3NpeiA+PkgX/X7Nk4aJDCt
+ 0Xp9Gh7c9xbhM2tWG5CUXpxNMd5zKSi31q3CP+fogvmoy2lNgs2Os32nJxvTT6MrSWaH
+ TMX2DPnO65AsCoKaVABsnn+/aU47HtO/AEwOGgRg2QhCZ0QCjiC17ZN3bmHD0dpMBb1u
+ dGNRqUoNgLwtf/XHF9XiLICX69MqBLSXYaClVrfSNxS0H6I4My9WZfqjuVEdHsCcnmIT
+ QZGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=6SL67MXDkpqciKU21DWb7uh9VzXvqZsGe2hTyZdTxHI=;
- b=b7LeWNqOjgQ62nMUngJAmQlmnhjTK3FVJlvVBlaBgIGdgxVvjiO12ENbJ1jDHIatnr
- YEbxtc7it2UW6NxLx9t/PMBB98Hr5QN/Kv2ZwvDqvmTPDB51L5WfjJaDh3/5MLXjU3i+
- iK1KXU21cTJaUJNnS66PyVn72HbN+HGRVFfn1GfmEKTVIcMLUYQBRlKDIeQQu4odWjUO
- a+1Bi66WMZ30pMzeGdGgzj/D9jLKY23CTW4yskCVyfMpwJCPl091ZMVieCB8CLBdSQl/
- 313BeEU+/HuNoEf9kxGQSRFO0Wo0EWWLACUyqGIkLUXzNlMO1PqneS5DG/UlpS1cc0pP
- MYIQ==
-X-Gm-Message-State: AOAM532wwMyfCcMIu+VVULw2l3cNbqIo/Wo591K1cDONnZUR8+GxPGl2
- V5eADNxXrTlkgq22ly8X6ew8aFMyZcfmCNujnToM3cAyx9c=
-X-Google-Smtp-Source: ABdhPJyiPWGofBrc+i133q5FqNYXfxgjsV7K22adwJwnvt8kTGnsSDI2r6oBsuAHWENcbIduL3CdIFosPnGr1GJLB0c=
-X-Received: by 2002:aa7:df82:: with SMTP id b2mr15032647edy.251.1604931512072; 
- Mon, 09 Nov 2020 06:18:32 -0800 (PST)
+ bh=Ifc7tPDGaZEFSSRnHYJFa5ZhQiHy+6mT1hkV3fNAT8E=;
+ b=Xb30dQLqcRUPVKL2gJ3MTdS1PHfuJNmdwt4ZC+A+xoaqltPIkXwvHDkmNhkrB4ir5e
+ y3gXHXvjv5LbwE0H7B9qk+kbbmbxakXYBPfxCebqnBrMtsOGcoxlhMD1RvtaW8l9aU6p
+ OW396Ee4iHdW2EBTA93/YYI1l8CjJ0rpXVCVoU8bEjNKPXxz0P4yEd4yX1uQS3dvJM+o
+ cTvK2N0QzsbT+fPqC+ZuWv8x9opGlza/89OIfIsFDZA9KnfXjefnYskusCkFgxz3PjMR
+ X0I+PNzLr1E4EQ2qQV60pPxBCwbhmCAIBRibYIz6x3uNPBTpZFDNk/4F+NDGbeojUpFz
+ whKQ==
+X-Gm-Message-State: AOAM531wizIBsxGERxInXO7vVnsr8tCBMBRQ2GsslULNd8EC5GdKYguW
+ VnzoWOVN2y6unEHCcjyrrq00wxYrgHYBmz5S0FjVJA==
+X-Google-Smtp-Source: ABdhPJzgu7TyUX3vq2ilL/zlFVHoevlvTSbXZb/Nmg7oKfSNAykI56gUfnNoKHehPof+uA5+XD9G8BH5N+fcDTQuTDs=
+X-Received: by 2002:a17:906:6896:: with SMTP id
+ n22mr15941391ejr.56.1604931732610; 
+ Mon, 09 Nov 2020 06:22:12 -0800 (PST)
 MIME-Version: 1.0
-References: <20201106235109.7066-1-peter.maydell@linaro.org>
- <20201106235109.7066-3-peter.maydell@linaro.org>
- <b957ada3-cbc7-d1fa-750d-f201c3bef2c6@amsat.org>
-In-Reply-To: <b957ada3-cbc7-d1fa-750d-f201c3bef2c6@amsat.org>
+References: <20201107193403.436146-1-f4bug@amsat.org>
+ <20201107193403.436146-4-f4bug@amsat.org>
+In-Reply-To: <20201107193403.436146-4-f4bug@amsat.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 9 Nov 2020 14:18:20 +0000
-Message-ID: <CAFEAcA_UjvGGX7juQmX-tXh8Phs8oOnNcXAHzmidtYRxcDamMA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] hw/m68k/q800.c: Make the GLUE chip an actual QOM
- device
+Date: Mon, 9 Nov 2020 14:22:01 +0000
+Message-ID: <CAFEAcA-DAN7_wXDLxCfzwWDMysYzQyT5WUjOQrWHZ87t9Q4QbA@mail.gmail.com>
+Subject: Re: [PATCH-for-5.2 3/5] hw/arm/nseries: Remove invalid/unnecessary
+ n8x0_uart_setup()
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -70,7 +70,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,117 +83,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
+Cc: Jan Kiszka <jan.kiszka@web.de>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair@alistair23.me>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 9 Nov 2020 at 14:15, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
+On Sat, 7 Nov 2020 at 19:34, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
 wrote:
 >
-> Hi Peter,
+> omap2420_mpu_init() introduced in commit 827df9f3c5f ("Add basic
+> OMAP2 chip support") takes care of creating the 3 UARTs.
 >
-> On 11/7/20 12:51 AM, Peter Maydell wrote:
-> > The handling of the GLUE (General Logic Unit) device is
-> > currently open-coded. Make this into a proper QOM device.
-> >
-> > This minor piece of modernisation gets rid of the free
-> > floating qemu_irq array 'pic', which Coverity points out
-> > is technically leaked when we exit the machine init function.
-> > (The replacement glue device is not leaked because it gets
-> > added to the sysbus, so it's accessible via that.)
-> >
-> > Fixes: Coverity CID 1421883
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> > ---
-> >  hw/m68k/q800.c | 82 ++++++++++++++++++++++++++++++++++++++++++--------
-> >  1 file changed, 70 insertions(+), 12 deletions(-)
-> >
-> > diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-> > index dc13007aaf2..05bb372f958 100644
-> > --- a/hw/m68k/q800.c
-> > +++ b/hw/m68k/q800.c
-> > @@ -47,6 +47,7 @@
-> >  #include "sysemu/qtest.h"
-> >  #include "sysemu/runstate.h"
-> >  #include "sysemu/reset.h"
-> > +#include "migration/vmstate.h"
-> >
-> >  #define MACROM_ADDR     0x40800000
-> >  #define MACROM_SIZE     0x00100000
-> > @@ -94,10 +95,14 @@
-> >   * CPU.
-> >   */
-> >
-> > -typedef struct {
-> > +#define TYPE_GLUE "q800-glue"
-> > +OBJECT_DECLARE_SIMPLE_TYPE(GLUEState, GLUE)
-> > +
-> > +struct GLUEState {
-> > +    SysBusDevice parent_obj;
-> >      M68kCPU *cpu;
-> >      uint8_t ipr;
-> > -} GLUEState;
-> > +};
-> >
-> >  static void GLUE_set_irq(void *opaque, int irq, int level)
-> >  {
-> > @@ -119,6 +124,58 @@ static void GLUE_set_irq(void *opaque, int irq, in=
-t level)
-> >      m68k_set_irq_level(s->cpu, 0, 0);
-> >  }
-> >
-> > +static void glue_reset(DeviceState *dev)
-> > +{
-> > +    GLUEState *s =3D GLUE(dev);
-> > +
-> > +    s->ipr =3D 0;
-> > +}
-> > +
-> > +static const VMStateDescription vmstate_glue =3D {
-> > +    .name =3D "q800-glue",
-> > +    .version_id =3D 0,
-> > +    .minimum_version_id =3D 0,
-> > +    .fields =3D (VMStateField[]) {
-> > +        VMSTATE_UINT8(ipr, GLUEState),
-> > +        VMSTATE_END_OF_LIST(),
-> > +    },
-> > +};
-> > +
-> > +/*
-> > + * If the m68k CPU implemented its inbound irq lines as GPIO lines
-> > + * rather than via the m68k_set_irq_level() function we would not need
-> > + * this cpu link property and could instead provide outbound IRQ lines
-> > + * that the board could wire up to the CPU.
-> > + */
-> > +static Property glue_properties[] =3D {
-> > +    DEFINE_PROP_LINK("cpu", GLUEState, cpu, TYPE_M68K_CPU, M68kCPU *),
-> > +    DEFINE_PROP_END_OF_LIST(),
-> > +};
-> > +
-> > +static void glue_init(Object *obj)
-> > +{
-> > +    DeviceState *dev =3D DEVICE(obj);
-> > +
-> > +    qdev_init_gpio_in(dev, GLUE_set_irq, 8);
-> > +}
-> > +
-> > +static void glue_class_init(ObjectClass *klass, void *data)
-> > +{
-> > +    DeviceClass *dc =3D DEVICE_CLASS(klass);
-> > +
-> > +    dc->vmsd =3D &vmstate_glue;
-> > +    dc->reset =3D glue_reset;
+> Then commit 58a26b477e9 ("Emulate a serial bluetooth HCI with H4+
+> extensions and attach to n8x0's UART") added n8x0_uart_setup()
+> which create the UART and connects it to an IRQ output,
+> overwritting the existing peripheral and its IRQ connection.
+> This is incorrect.
 >
-> Don't we need a realize() handler checking s->cpu is non-NULL?
+> Fortunately we don't need to fix this, because commit 6da68df7f9b
+> ("hw/arm/nseries: Replace the bluetooth chardev with a "null"
+> chardev") removed the use of this peripheral. We can simply
+> remove the code.
 >
-> Otherwise:
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  hw/arm/nseries.c | 11 -----------
+>  1 file changed, 11 deletions(-)
+>
+> diff --git a/hw/arm/nseries.c b/hw/arm/nseries.c
+> index 76fd7fe9854..6215c18d627 100644
+> --- a/hw/arm/nseries.c
+> +++ b/hw/arm/nseries.c
+> @@ -789,16 +789,6 @@ static void n8x0_cbus_setup(struct n800_s *s)
+>      cbus_attach(cbus, s->tahvo =3D tahvo_init(tahvo_irq, 1));
+>  }
+>
+> -static void n8x0_uart_setup(struct n800_s *s)
+> -{
+> -    Chardev *radio =3D qemu_chr_new("bt-dummy-uart", "null", NULL);
+> -    /*
+> -     * Note: We used to connect N8X0_BT_RESET_GPIO and N8X0_BT_WKUP_GPIO
+> -     * here, but this code has been removed with the bluetooth backend.
+> -     */
+> -    omap_uart_attach(s->mpu->uart[BT_UART], radio);
+> -}
 
-Doesn't seem very necessary to me -- it's a sysbus device
-used for a special purpose, the one user has to wire
-it up correctly, and the failure mode if they get it wrong
-is pretty obvious. But I guess we could add in the explicit
-error check.
+This deletes the only use of omap_uart_attach(), so as a
+follow-up patch you could remove that function entirely.
 
 thanks
 -- PMM
