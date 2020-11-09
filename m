@@ -2,71 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85C812AC087
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 17:10:58 +0100 (CET)
-Received: from localhost ([::1]:37386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 459C72AC0AE
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 17:21:58 +0100 (CET)
+Received: from localhost ([::1]:46718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc9kv-00058f-J2
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 11:10:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43236)
+	id 1kc9vZ-0001JN-BA
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 11:21:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kc9i4-0003qD-Jk
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 11:08:00 -0500
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:42041)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kc9i1-0002qB-Bu
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 11:08:00 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id i19so13026175ejx.9
- for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 08:07:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bwDAVQ5S8djItA/MFrTZKLl4BHskuqbf2B1rZ6RX0jE=;
- b=fQoUNAzgs+BTlF5BV9PMAjTgxZ1BrNp3BBQkgOf1kaU27pfwxJ6Lfly7FAaV0VdS70
- GuEv74MKSWEA3AcyULfjCcqvhWqXviHvCChRowEuYgkASM9iKK0MWm+yNfvaanzQ544S
- mt6j1DkaKUWHp7RfNMer2FEbqRVL+0r8NI3/J6GY7XA9LUdcKzioWpEeQKQ3KFFdVpk5
- s8ruJf9h9+LNWEpYSwpA/d8a3tZiAxO/UuBtWuzQ3RSvEUQQYudb6VOeQy9NPb+ySEj1
- dQ4T0ohrd/hdTL4u6rdn1DvHqA/KZmNqpG113zxSY6SZ3fKnoXoxoh+eb0M8lIYsc0iS
- ZjEg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kc9tL-0007pF-QE
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 11:19:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34297)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kc9tJ-0006pd-Ms
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 11:19:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604938771;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=oXAM647lsCOO3xGqMCxLL46+CPMON3JlH9CYi6pDy6s=;
+ b=OngHB8KRS9tPvStSdSFW9uZwHOGizjKbfxxrfGr4Zjh3BYUuGZ7B/rVlSs5T1h/E5wS8r+
+ RQ/LT3efODwOVijMzIrXTo+rM6DAztO88D7T/5Mw6PCxlqalQsVyEjhnLUryPSgbn0kA6H
+ +96WbrjtggW9QptUK+1Ay9mAgs1EDbA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-448-nX3mWUO-MU-SXOMQQflgKg-1; Mon, 09 Nov 2020 11:19:28 -0500
+X-MC-Unique: nX3mWUO-MU-SXOMQQflgKg-1
+Received: by mail-wr1-f70.google.com with SMTP id d8so3565353wrr.10
+ for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 08:19:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bwDAVQ5S8djItA/MFrTZKLl4BHskuqbf2B1rZ6RX0jE=;
- b=rnyQPdejMaCh5lg5P32ZflaLMxJpwlkLrNEPclYoBDIpEgEXnTzDlqW4PrOOfhEs71
- 6q5IBymMS9HJ+0QJh7+E8LQ6W8ImoTTFmFFTl45lnMEk35LR7JG/7B7maYhWuwJIUZ+t
- 20ocLQIYliscBplMI8IQd7RVz6bDmoV/HLr68BHOyJWmFI9Ttf6O9XEBlGClsOBH131c
- IV+tw81hpr8FROxhGfBl7+dEYV/M8y06AuUaXudIA83Rvl+jj+UNgFhNxXfOOT5y0Ftu
- 9lRIcRJewGILfa9zhXEvenu/olRixSEwG/ZWCtDDJShDpRPi+BzH2RD9heVJvpdholV/
- AVJQ==
-X-Gm-Message-State: AOAM533oWUPjq4F5ypMaAsdErRBKRtxh7qILZh17kUZwP3Y8cWhsWRM4
- l2DrMBsv/vJ2sCBixIIlO3kOKJ2WDJX0sT6bG9gpEQ==
-X-Google-Smtp-Source: ABdhPJz7mXhyAC7MrLwAg2J4rhNCt8vev+4Z4kBR0ZYaMidOMMz42sHGgey2K9fG1w+HBw3Uk66bzbBV9Ii59bHN6YI=
-X-Received: by 2002:a17:906:5a88:: with SMTP id
- l8mr6311131ejq.407.1604938075749; 
- Mon, 09 Nov 2020 08:07:55 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dHq6I8m/bFvQFAnLIMQ8fpVu9agI4PVxZHj0cOeVzBE=;
+ b=b7gprKqYTz4I4FUzyK/mNB/KOp3tYtiMlo7+wx2VDmSSIC9TLycZNdXd7Vz/LR11fy
+ brQQrMr5IvjoXg3egCyJAL3Oz4Nxi9vbadypP4sdIKVl5DquU6Gj+IFkCMXMwZ9YuRYX
+ zes/RElW5o+QTUoq2CoAWgezWEqIMwn6L4qRa0sH5K+YeQP0xD28w/nhP0UdTOx5b1xa
+ IwdYnr5Z9MCX1gE6cWkVcct8OOhsqpnomA0M4jvs5pFv25c0XqFnsW3Mvpj4QLWuU46C
+ yfEDZxkaAGgGEg4EI+Fs0XvKU9XVMhCamUbVSLi+9TQ99V+CzphhTIJD73HXtj8YJyWK
+ F3rA==
+X-Gm-Message-State: AOAM532l9oL1ksilTEhfK8RItLvqsT1JJ3jxA8N/az2iswCi1BaY+3HQ
+ 4a0QcdHyycMW5hSht8OyCblEjK3iRb2eA6WBaC+y9sa3bmxQ5tLFNL/tZ0N/5G+yCtQKfese08U
+ MQAHZK3UltXL92gw=
+X-Received: by 2002:a5d:6892:: with SMTP id h18mr7870781wru.49.1604938766553; 
+ Mon, 09 Nov 2020 08:19:26 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJza4e77jhtWMHzrC6lmNMqew+h0MEFrY8Za1s+2Kyz85vguJoLfM95sreMVTY3+G0ivA+f70Q==
+X-Received: by 2002:a5d:6892:: with SMTP id h18mr7870762wru.49.1604938766343; 
+ Mon, 09 Nov 2020 08:19:26 -0800 (PST)
+Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id f8sm13635257wrt.88.2020.11.09.08.19.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Nov 2020 08:19:25 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [NOTFORMERGE PATCH 0/2] scripts/checkpatch: Test if >100 chars per
+ line is easy to review
+Date: Mon,  9 Nov 2020 17:19:21 +0100
+Message-Id: <20201109161923.2632747-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20201109090220.825764-1-armbru@redhat.com>
-In-Reply-To: <20201109090220.825764-1-armbru@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 9 Nov 2020 16:07:44 +0000
-Message-ID: <CAFEAcA9Nb42H1=WpmQCVYFc5EpKN5QKUjzgh+RRkg-esJCGcwQ@mail.gmail.com>
-Subject: Re: [PULL 0/5] QAPI patches patches for 2020-11-09
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 01:25:23
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,42 +93,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 9 Nov 2020 at 09:02, Markus Armbruster <armbru@redhat.com> wrote:
->
-> The following changes since commit 3493c36f0371777c62d1d72b205b0eb6117e2156:
->
->   Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20201106' into staging (2020-11-06 13:43:28 +0000)
->
-> are available in the Git repository at:
->
->   git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2020-11-09
->
-> for you to fetch changes up to 143d51e1792ecf2c8e5b0fc3a8c6022676c723d4:
->
->   block: Remove unused BlockDeviceMapEntry (2020-11-09 09:14:21 +0100)
->
-> ----------------------------------------------------------------
-> QAPI patches patches for 2020-11-09
->
-> ----------------------------------------------------------------
-> Markus Armbruster (4):
->       docs/devel/qapi-code-gen: Fix up examples
->       MAINTAINERS: Add QAPI schema modules to their subsystems
->       qapi: Fix missing headers in QMP Reference Manual
->       block: Remove unused BlockDeviceMapEntry
->
-> Max Reitz (1):
->       qapi/block-core: Improve MapEntry documentation
+Test if this changes are allowed by checkpatch.=0D
+Patchew should reply with a simple warning.=0D
+=0D
+Based-on: <20201105154208.12442-1-ganqixin@huawei.com>=0D
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg758018.html=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (2):=0D
+  hw/net: Test line with 342 chars=0D
+  hw/pci: Test line with 391 chars=0D
+=0D
+ include/hw/net/imx_fec.h   |  8 +-------=0D
+ include/hw/pci/pcie_regs.h | 17 +----------------=0D
+ 2 files changed, 2 insertions(+), 23 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
-
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
-
--- PMM
 
