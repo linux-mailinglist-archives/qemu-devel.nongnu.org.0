@@ -2,71 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEBB52AC447
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 19:57:59 +0100 (CET)
-Received: from localhost ([::1]:39112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA9622AC456
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 19:59:49 +0100 (CET)
+Received: from localhost ([::1]:42350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcCMY-0003wx-Pj
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 13:57:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58030)
+	id 1kcCOK-0005Rn-Qn
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 13:59:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kcCKy-00034S-AQ
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 13:56:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55834)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kcCMt-0004qq-Kn
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 13:58:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46985)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kcCKu-0003W2-9m
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 13:56:20 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kcCMr-0003e9-T8
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 13:58:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604948173;
+ s=mimecast20190719; t=1604948296;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=39Vz5xwcf5ftMWX/kvXd3/2gTZkN2mIj5A51OZpR0Nw=;
- b=AphrmjOyOZiz+m6Gc/1b/OO5baBMmQs0aIm+Zn7ucdhxZopGjIhK4FUSBjQcvrxpVLw61L
- QQ43fKs4xbX5LI9oE4XsNQGfFmtaqBfcUqEM1Rsms2XRz2NxP20+OW7KWLZ7C016xNWO7+
- AlpQMD509QPPm9yC64dUGxuIu2Burto=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-262-DNVUhddbOxm7meyMBT5YVQ-1; Mon, 09 Nov 2020 13:56:10 -0500
-X-MC-Unique: DNVUhddbOxm7meyMBT5YVQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E81B134912;
- Mon,  9 Nov 2020 18:56:08 +0000 (UTC)
-Received: from gimli.home (ovpn-112-213.phx2.redhat.com [10.3.112.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 63B1360E1C;
- Mon,  9 Nov 2020 18:56:03 +0000 (UTC)
-Subject: [RFC PATCH for-QEMU-5.2] vfio: Make migration support experimental
-From: Alex Williamson <alex.williamson@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 09 Nov 2020 11:56:02 -0700
-Message-ID: <160494787833.1473.10514376876696596117.stgit@gimli.home>
-User-Agent: StGit/0.21-dirty
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zVdbivzgaWIbzSbqc1t6fsUsry9AIMdLeNAUIuhh6lQ=;
+ b=TXm0tI5ICqM3DwA7ZoEBY+Y3DbTPqK6pyjhmRs/1KJ/ZgooPwnG5QEs4O32LpUHULcuOQQ
+ WEFp6CnP5C+q9ne+Hy7PJ+lkC7Y16oTLWgmS7PheP47MpcynkpSMpslI2600Kv/uPUK1Yj
+ yWFinBz00OclZpLjkEfhiXNiZRxW7Zw=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-369-fiQnf5eXNymgGjMva-o6IA-1; Mon, 09 Nov 2020 13:58:14 -0500
+X-MC-Unique: fiQnf5eXNymgGjMva-o6IA-1
+Received: by mail-wr1-f72.google.com with SMTP id x16so4665734wrg.7
+ for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 10:58:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=zVdbivzgaWIbzSbqc1t6fsUsry9AIMdLeNAUIuhh6lQ=;
+ b=NoNF1joEydhM0oLOq5aHS+dDTDzZTZ2hEnV7hSw9skqn0LQhl3CVQC2YLln7uPk+V7
+ wWjBVFSUGJ/wCdAm41Mam9KcnBDfMEFQWiiSrmLD3NdzazUItgT/N1qR3vUc1L6EIhrC
+ 6nQhSo+x4R5V0WCMQuHjaf+yzdYy2QA718ViWGYtTEz04DAR02+KQHvkg0YJ+9peuhJB
+ g9l8NfYHjQftFMT8PFL3m/1/NF8okO+85Zl3atOMAgbmcn7eCdhaBtj5U8MlA9SPI5En
+ GHqrojxOT/s9unRzsGhiWLgHJGws4c2ssJRVcJK8vARCTUfv33Y8aJGzAIdhqkuAikvH
+ 70vQ==
+X-Gm-Message-State: AOAM530gcFtshptCzeCiWMt2crk+zBzbqbyP7P0JURN05mK3qucgzwaS
+ xbqkOs6kQr2bvNHhvG3tZAtEUWjXG+Cp6UL/9M51oarNyNcogasZ2J2L79zKnOjpcaQv/0V6LMK
+ eAJcD0Q5rto2uwFA=
+X-Received: by 2002:a1c:3c8a:: with SMTP id j132mr580901wma.75.1604948292889; 
+ Mon, 09 Nov 2020 10:58:12 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxMRf6MGROqT4lrwYMCHUEjtinupownNdjlO7stMrMhBUpoCpyJTVLVn6H9OY/BwSRQszdOmQ==
+X-Received: by 2002:a1c:3c8a:: with SMTP id j132mr580890wma.75.1604948292699; 
+ Mon, 09 Nov 2020 10:58:12 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id n10sm14761802wrx.9.2020.11.09.10.58.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Nov 2020 10:58:12 -0800 (PST)
+Subject: Re: [PATCH v2 3/6] qemu-option: restrict qemu_opts_set to merge-lists
+ QemuOpts
+To: Markus Armbruster <armbru@redhat.com>
+References: <20201109133931.979563-1-pbonzini@redhat.com>
+ <20201109133931.979563-4-pbonzini@redhat.com>
+ <87eel25xud.fsf@dusky.pond.sub.org>
+ <0defd899-184d-549e-a799-7000f7b9c92d@redhat.com>
+ <874kly4b24.fsf@dusky.pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <484f3625-e5b6-fc3c-ded7-97076557e0a2@redhat.com>
+Date: Mon, 9 Nov 2020 19:58:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <874kly4b24.fsf@dusky.pond.sub.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124;
- envelope-from=alex.williamson@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 01:25:23
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 00:04:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,106 +106,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Neo Jia <cjia@nvidia.com>, Juan Quintela <quintela@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Kirti Wankhede <kwankhede@nvidia.com>,
- Philippe =?utf-8?q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Per the proposed documentation for vfio device migration:
+On 09/11/20 19:52, Markus Armbruster wrote:
+> Do you think working (some of) this into commit message would be worth
+> your while?
 
-  Dirty pages are tracked when device is in stop-and-copy phase
-  because if pages are marked dirty during pre-copy phase and
-  content is transfered from source to destination, there is no
-  way to know newly dirtied pages from the point they were copied
-  earlier until device stops. To avoid repeated copy of same
-  content, pinned pages are marked dirty only during
-  stop-and-copy phase.
+Easy and does not require a respin, so yes.
 
-Essentially, since we don't have hardware dirty page tracking for
-assigned devices at this point, we consider any page that is pinned
-by an mdev vendor driver or pinned and mapped through the IOMMU to
-be perpetually dirty.  In the worst case, this may result in all of
-guest memory being considered dirty during every iteration of live
-migration.  The current vfio implementation of migration has chosen
-to mask device dirtied pages until the final stages of migration in
-order to avoid this worst case scenario.
+>> Improve the testcase, though I should have mentioned it in the commit
+>> message.  Basically emulating "-kernel bc -kernel def".
+> Worth testing.  But the case "-kernel bc" is also worth testing.
+> test_qemu_opts_get() tests both:
+> 
+>      /* haven't set anything to str2 yet */
+>      opt = qemu_opt_get(opts, "str2");
+>      g_assert(opt == NULL);
+> 
+>      qemu_opt_set(opts, "str2", "value", &error_abort);
+> 
+>      /* now we have set str2, should know about it */
+>      opt = qemu_opt_get(opts, "str2");
+>      g_assert_cmpstr(opt, ==, "value");
+> 
+>      qemu_opt_set(opts, "str2", "value2", &error_abort);
+> 
+>      /* having reset the value, the returned should be the reset one */
+>      opt = qemu_opt_get(opts, "str2");
+>      g_assert_cmpstr(opt, ==, "value2");
 
-Allowing the device to implement a policy decision to prioritize
-reduced migration data like this jeopardizes QEMU's overall ability
-to implement any degree of service level guarantees during migration.
-For example, any estimates towards achieving acceptable downtime
-margins cannot be trusted when such a device is present.  The vfio
-device should participate in dirty page tracking to the best of its
-ability throughout migration, even if that means the dirty footprint
-of the device impedes migration progress, allowing both QEMU and
-higher level management tools to decide whether to continue the
-migration or abort due to failure to achieve the desired behavior.
+Note opt_set vs. opts_set though.
 
-Link: https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg00807.html
-Cc: Kirti Wankhede <kwankhede@nvidia.com>
-Cc: Neo Jia <cjia@nvidia.com>
-Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Cc: Juan Quintela <quintela@redhat.com>
-Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-Cc: Cornelia Huck <cohuck@redhat.com>
-Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
----
+> I'm okay with not improving the test in this patch, or with strictly
+> extending coverage, preferably in a separate patch that goes before this
+> one.
+> 
 
-Given that our discussion in the link above seems to be going in
-circles, I'm afraid it seems necessary to both have a contigency
-plan and to raise the visibility of the current behavior to
-determine whether others agree that this is a sufficiently
-troubling behavior to consider migration support experimental
-at this stage.  Please voice your opinion or contribute patches
-to resolve this before QEMU 5.2.  Thanks,
+Ok, I'll just drop the testcase change for now.
 
-Alex
-
- hw/vfio/migration.c           |    2 +-
- hw/vfio/pci.c                 |    2 ++
- include/hw/vfio/vfio-common.h |    1 +
- 3 files changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-index 3ce285ea395d..cd44d465a50b 100644
---- a/hw/vfio/migration.c
-+++ b/hw/vfio/migration.c
-@@ -882,7 +882,7 @@ int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
-     Error *local_err = NULL;
-     int ret = -ENOTSUP;
- 
--    if (!container->dirty_pages_supported) {
-+    if (!vbasedev->enable_migration || !container->dirty_pages_supported) {
-         goto add_blocker;
-     }
- 
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 58c0ce8971e3..1349b900e513 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -3194,6 +3194,8 @@ static Property vfio_pci_dev_properties[] = {
-                     VFIO_FEATURE_ENABLE_REQ_BIT, true),
-     DEFINE_PROP_BIT("x-igd-opregion", VFIOPCIDevice, features,
-                     VFIO_FEATURE_ENABLE_IGD_OPREGION_BIT, false),
-+    DEFINE_PROP_BOOL("x-enable-migration", VFIOPCIDevice,
-+                     vbasedev.enable_migration, false),
-     DEFINE_PROP_BOOL("x-no-mmap", VFIOPCIDevice, vbasedev.no_mmap, false),
-     DEFINE_PROP_BOOL("x-balloon-allowed", VFIOPCIDevice,
-                      vbasedev.ram_block_discard_allowed, false),
-diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index baeb4dcff102..2119872c8af1 100644
---- a/include/hw/vfio/vfio-common.h
-+++ b/include/hw/vfio/vfio-common.h
-@@ -123,6 +123,7 @@ typedef struct VFIODevice {
-     bool needs_reset;
-     bool no_mmap;
-     bool ram_block_discard_allowed;
-+    bool enable_migration;
-     VFIODeviceOps *ops;
-     unsigned int num_irqs;
-     unsigned int num_regions;
+Paolo
 
 
