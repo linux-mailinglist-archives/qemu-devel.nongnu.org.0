@@ -2,76 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0120D2AC053
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 16:59:07 +0100 (CET)
-Received: from localhost ([::1]:46426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED1422AC06D
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 17:03:50 +0100 (CET)
+Received: from localhost ([::1]:55094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc9ZS-00053M-0q
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 10:59:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39900)
+	id 1kc9e1-0000MX-J6
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 11:03:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kc9Xl-0003kw-NT
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 10:57:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30478)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kc9Xj-0007Lf-12
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 10:57:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604937438;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Rsqlf/2ud6nucZoiA+9KvuPqnPtrrVtfXVJddjAaUMA=;
- b=BtRrt8PHAtoXuyGgKRq4ArELcCy5jzbSJQF5txAQYGr+xa7f+7WmLRAqmQgt9aC5nWJQk6
- P1K5u+DT8StEEjakuUmWKH2jMCalEpFimydEFYdSRL3j4yVMIDQguZvj/m6aFy3rlJNWJi
- oCK9MQNrOnivuBb3LB7Kn0sJ/zHhCNI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-585-0bJt-B54Nhy9HoMW8-z5ow-1; Mon, 09 Nov 2020 10:57:15 -0500
-X-MC-Unique: 0bJt-B54Nhy9HoMW8-z5ow-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6273E188C153;
- Mon,  9 Nov 2020 15:57:14 +0000 (UTC)
-Received: from [10.3.112.154] (ovpn-112-154.phx2.redhat.com [10.3.112.154])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E626C5577A;
- Mon,  9 Nov 2020 15:57:13 +0000 (UTC)
-Subject: Re: [RFC PATCH 1/6] migration: Add multi-thread compress method
-To: Zeyu Jin <jinzeyu@huawei.com>, quintela@redhat.com, dgilbert@redhat.com
-References: <20201109090850.2424-1-jinzeyu@huawei.com>
- <20201109090850.2424-2-jinzeyu@huawei.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <91524faf-9a68-8f9c-dd87-16718d8782a1@redhat.com>
-Date: Mon, 9 Nov 2020 09:57:13 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kc9co-0008OE-NK
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 11:02:34 -0500
+Received: from mx2.suse.de ([195.135.220.15]:36694)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kc9cn-0000sb-3s
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 11:02:34 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id E74EDABCC;
+ Mon,  9 Nov 2020 16:02:31 +0000 (UTC)
+Subject: Re: [PATCH v3 0/3] tcg-cpus: split into 3 tcg variants
+To: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20201015143217.29337-1-cfontana@suse.de>
+ <87ba7ac2-9859-74a6-54d7-b17d0560de98@linaro.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <96ec9a68-8dd5-8dc9-e3a1-bad3242809d1@suse.de>
+Date: Mon, 9 Nov 2020 17:02:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201109090850.2424-2-jinzeyu@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <87ba7ac2-9859-74a6-54d7-b17d0560de98@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 00:04:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/08 21:17:38
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,62 +59,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ying Fang <fangying1@huawei.com>, qemu-devel@nongnu.org,
- zhang.zhanghailiang@huawei.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/9/20 3:08 AM, Zeyu Jin wrote:
-> A multi-thread compress method parameter is added to hold the method we
-> are going to use. By default the 'zlib' method is used to maintain the
-> compatibility as before.
+On 10/19/20 5:00 PM, Richard Henderson wrote:
+> On 10/15/20 7:32 AM, Claudio Fontana wrote:
+>> Claudio Fontana (3):
+>>   accel/tcg: split CpusAccel into three TCG variants
+>>   accel/tcg: split tcg_start_vcpu_thread
+>>   accel/tcg: rename tcg-cpus functions to match module name
 > 
-> Signed-off-by: Zeyu Jin <jinzeyu@huawei.com>
-> Signed-off-by: Ying Fang <fangying1@huawei.com>
-> ---
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> 
+> r~
+> 
+> 
 
-Focusing on just the UI:
+Hi all, just pinging about the status of this series, is it already in someone's queue?
 
-> +++ b/qapi/migration.json
-> @@ -525,6 +525,19 @@
->    'data': [ 'none', 'zlib',
->              { 'name': 'zstd', 'if': 'defined(CONFIG_ZSTD)' } ] }
->  
-> +##
-> +# @CompressMethod:
-> +#
-> +# An enumeration of multi-thread compression methods.
-> +#
-> +# @zlib: use zlib compression method.
-> +#
-> +# Since: 5.0
+Otherwise it's fine of course to delay it if there are concerns about tightening up the upcoming release.
 
-This will have to be Since: 6.0, as it has missed feature freeze for 5.2.
+Thanks,
 
-> +#
-> +##
-> +{ 'enum': 'CompressMethod',
-> +  'data': [ 'zlib' ] }
-> +
->  ##
->  # @BitmapMigrationBitmapAlias:
->  #
-> @@ -599,6 +612,9 @@
->  #                      compression, so set the decompress-threads to the number about 1/4
->  #                      of compress-threads is adequate.
->  #
-> +# @compress-method: Set compression method to use in multi-thread compression.
-> +#                   Defaults to none. (Since 5.0)
-
-Looks like it will be a recurring issue in the series, so I'll quit
-pointing it out.
-
-CompressMethod above does not have a 'none' option, so how can it
-default to none?  Did you forget an enum option?
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+Claudio
 
