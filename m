@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE48D2AC26B
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 18:34:39 +0100 (CET)
-Received: from localhost ([::1]:44054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D8B22AC251
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 18:31:18 +0100 (CET)
+Received: from localhost ([::1]:33696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcB3u-00009C-KJ
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 12:34:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38194)
+	id 1kcB0f-0004DS-5O
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 12:31:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kcAxZ-0002Ss-BT
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:28:05 -0500
-Received: from mx2.suse.de ([195.135.220.15]:56548)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kcAxa-0002Uw-8D
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:28:06 -0500
+Received: from mx2.suse.de ([195.135.220.15]:56598)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kcAxW-0005QE-Tv
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kcAxX-0005QU-Ti
  for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:28:05 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id A4F0FAD11;
- Mon,  9 Nov 2020 17:28:01 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 7F71AAD12;
+ Mon,  9 Nov 2020 17:28:02 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <rth@twiddle.net>,
@@ -29,9 +29,9 @@ To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [RFC v1 04/10] i386: move hvf accel files into accel/hvf/
-Date: Mon,  9 Nov 2020 18:27:49 +0100
-Message-Id: <20201109172755.16500-5-cfontana@suse.de>
+Subject: [RFC v1 05/10] i386: move TCG accel files into accel/tcg/
+Date: Mon,  9 Nov 2020 18:27:50 +0100
+Message-Id: <20201109172755.16500-6-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201109172755.16500-1-cfontana@suse.de>
 References: <20201109172755.16500-1-cfontana@suse.de>
@@ -71,190 +71,137 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- MAINTAINERS                              | 3 +--
- target/i386/{ => accel}/hvf/README.md    | 0
- target/i386/{ => accel}/hvf/hvf-cpus.c   | 0
- target/i386/{ => accel}/hvf/hvf-cpus.h   | 0
- target/i386/{ => accel}/hvf/hvf-i386.h   | 0
- target/i386/{ => accel}/hvf/hvf.c        | 0
- target/i386/{ => accel}/hvf/meson.build  | 0
- target/i386/{ => accel}/hvf/panic.h      | 0
- target/i386/{ => accel}/hvf/vmcs.h       | 0
- target/i386/{ => accel}/hvf/vmx.h        | 0
- target/i386/{ => accel}/hvf/x86.c        | 0
- target/i386/{ => accel}/hvf/x86.h        | 0
- target/i386/{ => accel}/hvf/x86_cpuid.c  | 0
- target/i386/{ => accel}/hvf/x86_decode.c | 0
- target/i386/{ => accel}/hvf/x86_decode.h | 0
- target/i386/{ => accel}/hvf/x86_descr.c  | 0
- target/i386/{ => accel}/hvf/x86_descr.h  | 0
- target/i386/{ => accel}/hvf/x86_emu.c    | 0
- target/i386/{ => accel}/hvf/x86_emu.h    | 0
- target/i386/{ => accel}/hvf/x86_flags.c  | 0
- target/i386/{ => accel}/hvf/x86_flags.h  | 0
- target/i386/{ => accel}/hvf/x86_mmu.c    | 0
- target/i386/{ => accel}/hvf/x86_mmu.h    | 0
- target/i386/{ => accel}/hvf/x86_task.c   | 0
- target/i386/{ => accel}/hvf/x86_task.h   | 0
- target/i386/{ => accel}/hvf/x86hvf.c     | 0
- target/i386/{ => accel}/hvf/x86hvf.h     | 0
- target/i386/meson.build                  | 2 +-
- 28 files changed, 2 insertions(+), 3 deletions(-)
- rename target/i386/{ => accel}/hvf/README.md (100%)
- rename target/i386/{ => accel}/hvf/hvf-cpus.c (100%)
- rename target/i386/{ => accel}/hvf/hvf-cpus.h (100%)
- rename target/i386/{ => accel}/hvf/hvf-i386.h (100%)
- rename target/i386/{ => accel}/hvf/hvf.c (100%)
- rename target/i386/{ => accel}/hvf/meson.build (100%)
- rename target/i386/{ => accel}/hvf/panic.h (100%)
- rename target/i386/{ => accel}/hvf/vmcs.h (100%)
- rename target/i386/{ => accel}/hvf/vmx.h (100%)
- rename target/i386/{ => accel}/hvf/x86.c (100%)
- rename target/i386/{ => accel}/hvf/x86.h (100%)
- rename target/i386/{ => accel}/hvf/x86_cpuid.c (100%)
- rename target/i386/{ => accel}/hvf/x86_decode.c (100%)
- rename target/i386/{ => accel}/hvf/x86_decode.h (100%)
- rename target/i386/{ => accel}/hvf/x86_descr.c (100%)
- rename target/i386/{ => accel}/hvf/x86_descr.h (100%)
- rename target/i386/{ => accel}/hvf/x86_emu.c (100%)
- rename target/i386/{ => accel}/hvf/x86_emu.h (100%)
- rename target/i386/{ => accel}/hvf/x86_flags.c (100%)
- rename target/i386/{ => accel}/hvf/x86_flags.h (100%)
- rename target/i386/{ => accel}/hvf/x86_mmu.c (100%)
- rename target/i386/{ => accel}/hvf/x86_mmu.h (100%)
- rename target/i386/{ => accel}/hvf/x86_task.c (100%)
- rename target/i386/{ => accel}/hvf/x86_task.h (100%)
- rename target/i386/{ => accel}/hvf/x86hvf.c (100%)
- rename target/i386/{ => accel}/hvf/x86hvf.h (100%)
+ target/i386/{ => accel/tcg}/bpt_helper.c  |  0
+ target/i386/{ => accel/tcg}/cc_helper.c   |  0
+ target/i386/{ => accel/tcg}/excp_helper.c |  0
+ target/i386/{ => accel/tcg}/fpu_helper.c  |  0
+ target/i386/{ => accel/tcg}/int_helper.c  |  0
+ target/i386/{ => accel/tcg}/mem_helper.c  |  0
+ target/i386/accel/tcg/meson.build         | 13 +++++++++++++
+ target/i386/{ => accel/tcg}/misc_helper.c |  0
+ target/i386/{ => accel/tcg}/mpx_helper.c  |  0
+ target/i386/{ => accel/tcg}/seg_helper.c  |  0
+ target/i386/{ => accel/tcg}/smm_helper.c  |  0
+ target/i386/{ => accel/tcg}/svm_helper.c  |  0
+ target/i386/{ => accel/tcg}/tcg-stub.c    |  0
+ target/i386/{ => accel/tcg}/translate.c   |  0
+ target/i386/meson.build                   | 14 +-------------
+ 15 files changed, 14 insertions(+), 13 deletions(-)
+ rename target/i386/{ => accel/tcg}/bpt_helper.c (100%)
+ rename target/i386/{ => accel/tcg}/cc_helper.c (100%)
+ rename target/i386/{ => accel/tcg}/excp_helper.c (100%)
+ rename target/i386/{ => accel/tcg}/fpu_helper.c (100%)
+ rename target/i386/{ => accel/tcg}/int_helper.c (100%)
+ rename target/i386/{ => accel/tcg}/mem_helper.c (100%)
+ create mode 100644 target/i386/accel/tcg/meson.build
+ rename target/i386/{ => accel/tcg}/misc_helper.c (100%)
+ rename target/i386/{ => accel/tcg}/mpx_helper.c (100%)
+ rename target/i386/{ => accel/tcg}/seg_helper.c (100%)
+ rename target/i386/{ => accel/tcg}/smm_helper.c (100%)
+ rename target/i386/{ => accel/tcg}/svm_helper.c (100%)
+ rename target/i386/{ => accel/tcg}/tcg-stub.c (100%)
+ rename target/i386/{ => accel/tcg}/translate.c (100%)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6dabd972c9..dd16c78f97 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -439,8 +439,7 @@ M: Cameron Esfahani <dirty@apple.com>
- M: Roman Bolshakov <r.bolshakov@yadro.com>
- W: https://wiki.qemu.org/Features/HVF
- S: Maintained
--F: accel/stubs/hvf-stub.c
--F: target/i386/hvf/
-+F: target/i386/accel/hvf/
- F: include/sysemu/hvf.h
- 
- WHPX CPUs
-diff --git a/target/i386/hvf/README.md b/target/i386/accel/hvf/README.md
+diff --git a/target/i386/bpt_helper.c b/target/i386/accel/tcg/bpt_helper.c
 similarity index 100%
-rename from target/i386/hvf/README.md
-rename to target/i386/accel/hvf/README.md
-diff --git a/target/i386/hvf/hvf-cpus.c b/target/i386/accel/hvf/hvf-cpus.c
+rename from target/i386/bpt_helper.c
+rename to target/i386/accel/tcg/bpt_helper.c
+diff --git a/target/i386/cc_helper.c b/target/i386/accel/tcg/cc_helper.c
 similarity index 100%
-rename from target/i386/hvf/hvf-cpus.c
-rename to target/i386/accel/hvf/hvf-cpus.c
-diff --git a/target/i386/hvf/hvf-cpus.h b/target/i386/accel/hvf/hvf-cpus.h
+rename from target/i386/cc_helper.c
+rename to target/i386/accel/tcg/cc_helper.c
+diff --git a/target/i386/excp_helper.c b/target/i386/accel/tcg/excp_helper.c
 similarity index 100%
-rename from target/i386/hvf/hvf-cpus.h
-rename to target/i386/accel/hvf/hvf-cpus.h
-diff --git a/target/i386/hvf/hvf-i386.h b/target/i386/accel/hvf/hvf-i386.h
+rename from target/i386/excp_helper.c
+rename to target/i386/accel/tcg/excp_helper.c
+diff --git a/target/i386/fpu_helper.c b/target/i386/accel/tcg/fpu_helper.c
 similarity index 100%
-rename from target/i386/hvf/hvf-i386.h
-rename to target/i386/accel/hvf/hvf-i386.h
-diff --git a/target/i386/hvf/hvf.c b/target/i386/accel/hvf/hvf.c
+rename from target/i386/fpu_helper.c
+rename to target/i386/accel/tcg/fpu_helper.c
+diff --git a/target/i386/int_helper.c b/target/i386/accel/tcg/int_helper.c
 similarity index 100%
-rename from target/i386/hvf/hvf.c
-rename to target/i386/accel/hvf/hvf.c
-diff --git a/target/i386/hvf/meson.build b/target/i386/accel/hvf/meson.build
+rename from target/i386/int_helper.c
+rename to target/i386/accel/tcg/int_helper.c
+diff --git a/target/i386/mem_helper.c b/target/i386/accel/tcg/mem_helper.c
 similarity index 100%
-rename from target/i386/hvf/meson.build
-rename to target/i386/accel/hvf/meson.build
-diff --git a/target/i386/hvf/panic.h b/target/i386/accel/hvf/panic.h
+rename from target/i386/mem_helper.c
+rename to target/i386/accel/tcg/mem_helper.c
+diff --git a/target/i386/accel/tcg/meson.build b/target/i386/accel/tcg/meson.build
+new file mode 100644
+index 0000000000..02794226c2
+--- /dev/null
++++ b/target/i386/accel/tcg/meson.build
+@@ -0,0 +1,13 @@
++i386_ss.add(when: 'CONFIG_TCG', if_true: files(
++  'bpt_helper.c',
++  'cc_helper.c',
++  'excp_helper.c',
++  'fpu_helper.c',
++  'int_helper.c',
++  'mem_helper.c',
++  'misc_helper.c',
++  'mpx_helper.c',
++  'seg_helper.c',
++  'smm_helper.c',
++  'svm_helper.c',
++  'translate.c'), if_false: files('tcg-stub.c'))
+diff --git a/target/i386/misc_helper.c b/target/i386/accel/tcg/misc_helper.c
 similarity index 100%
-rename from target/i386/hvf/panic.h
-rename to target/i386/accel/hvf/panic.h
-diff --git a/target/i386/hvf/vmcs.h b/target/i386/accel/hvf/vmcs.h
+rename from target/i386/misc_helper.c
+rename to target/i386/accel/tcg/misc_helper.c
+diff --git a/target/i386/mpx_helper.c b/target/i386/accel/tcg/mpx_helper.c
 similarity index 100%
-rename from target/i386/hvf/vmcs.h
-rename to target/i386/accel/hvf/vmcs.h
-diff --git a/target/i386/hvf/vmx.h b/target/i386/accel/hvf/vmx.h
+rename from target/i386/mpx_helper.c
+rename to target/i386/accel/tcg/mpx_helper.c
+diff --git a/target/i386/seg_helper.c b/target/i386/accel/tcg/seg_helper.c
 similarity index 100%
-rename from target/i386/hvf/vmx.h
-rename to target/i386/accel/hvf/vmx.h
-diff --git a/target/i386/hvf/x86.c b/target/i386/accel/hvf/x86.c
+rename from target/i386/seg_helper.c
+rename to target/i386/accel/tcg/seg_helper.c
+diff --git a/target/i386/smm_helper.c b/target/i386/accel/tcg/smm_helper.c
 similarity index 100%
-rename from target/i386/hvf/x86.c
-rename to target/i386/accel/hvf/x86.c
-diff --git a/target/i386/hvf/x86.h b/target/i386/accel/hvf/x86.h
+rename from target/i386/smm_helper.c
+rename to target/i386/accel/tcg/smm_helper.c
+diff --git a/target/i386/svm_helper.c b/target/i386/accel/tcg/svm_helper.c
 similarity index 100%
-rename from target/i386/hvf/x86.h
-rename to target/i386/accel/hvf/x86.h
-diff --git a/target/i386/hvf/x86_cpuid.c b/target/i386/accel/hvf/x86_cpuid.c
+rename from target/i386/svm_helper.c
+rename to target/i386/accel/tcg/svm_helper.c
+diff --git a/target/i386/tcg-stub.c b/target/i386/accel/tcg/tcg-stub.c
 similarity index 100%
-rename from target/i386/hvf/x86_cpuid.c
-rename to target/i386/accel/hvf/x86_cpuid.c
-diff --git a/target/i386/hvf/x86_decode.c b/target/i386/accel/hvf/x86_decode.c
+rename from target/i386/tcg-stub.c
+rename to target/i386/accel/tcg/tcg-stub.c
+diff --git a/target/i386/translate.c b/target/i386/accel/tcg/translate.c
 similarity index 100%
-rename from target/i386/hvf/x86_decode.c
-rename to target/i386/accel/hvf/x86_decode.c
-diff --git a/target/i386/hvf/x86_decode.h b/target/i386/accel/hvf/x86_decode.h
-similarity index 100%
-rename from target/i386/hvf/x86_decode.h
-rename to target/i386/accel/hvf/x86_decode.h
-diff --git a/target/i386/hvf/x86_descr.c b/target/i386/accel/hvf/x86_descr.c
-similarity index 100%
-rename from target/i386/hvf/x86_descr.c
-rename to target/i386/accel/hvf/x86_descr.c
-diff --git a/target/i386/hvf/x86_descr.h b/target/i386/accel/hvf/x86_descr.h
-similarity index 100%
-rename from target/i386/hvf/x86_descr.h
-rename to target/i386/accel/hvf/x86_descr.h
-diff --git a/target/i386/hvf/x86_emu.c b/target/i386/accel/hvf/x86_emu.c
-similarity index 100%
-rename from target/i386/hvf/x86_emu.c
-rename to target/i386/accel/hvf/x86_emu.c
-diff --git a/target/i386/hvf/x86_emu.h b/target/i386/accel/hvf/x86_emu.h
-similarity index 100%
-rename from target/i386/hvf/x86_emu.h
-rename to target/i386/accel/hvf/x86_emu.h
-diff --git a/target/i386/hvf/x86_flags.c b/target/i386/accel/hvf/x86_flags.c
-similarity index 100%
-rename from target/i386/hvf/x86_flags.c
-rename to target/i386/accel/hvf/x86_flags.c
-diff --git a/target/i386/hvf/x86_flags.h b/target/i386/accel/hvf/x86_flags.h
-similarity index 100%
-rename from target/i386/hvf/x86_flags.h
-rename to target/i386/accel/hvf/x86_flags.h
-diff --git a/target/i386/hvf/x86_mmu.c b/target/i386/accel/hvf/x86_mmu.c
-similarity index 100%
-rename from target/i386/hvf/x86_mmu.c
-rename to target/i386/accel/hvf/x86_mmu.c
-diff --git a/target/i386/hvf/x86_mmu.h b/target/i386/accel/hvf/x86_mmu.h
-similarity index 100%
-rename from target/i386/hvf/x86_mmu.h
-rename to target/i386/accel/hvf/x86_mmu.h
-diff --git a/target/i386/hvf/x86_task.c b/target/i386/accel/hvf/x86_task.c
-similarity index 100%
-rename from target/i386/hvf/x86_task.c
-rename to target/i386/accel/hvf/x86_task.c
-diff --git a/target/i386/hvf/x86_task.h b/target/i386/accel/hvf/x86_task.h
-similarity index 100%
-rename from target/i386/hvf/x86_task.h
-rename to target/i386/accel/hvf/x86_task.h
-diff --git a/target/i386/hvf/x86hvf.c b/target/i386/accel/hvf/x86hvf.c
-similarity index 100%
-rename from target/i386/hvf/x86hvf.c
-rename to target/i386/accel/hvf/x86hvf.c
-diff --git a/target/i386/hvf/x86hvf.h b/target/i386/accel/hvf/x86hvf.h
-similarity index 100%
-rename from target/i386/hvf/x86hvf.h
-rename to target/i386/accel/hvf/x86hvf.h
+rename from target/i386/translate.c
+rename to target/i386/accel/tcg/translate.c
 diff --git a/target/i386/meson.build b/target/i386/meson.build
-index 34ec93dbef..da070e4e54 100644
+index da070e4e54..55a5b27f1d 100644
 --- a/target/i386/meson.build
 +++ b/target/i386/meson.build
-@@ -31,7 +31,7 @@ i386_softmmu_ss.add(files(
- subdir('accel/kvm')
+@@ -5,19 +5,6 @@ i386_ss.add(files(
+   'helper.c',
+   'xsave_helper.c',
+ ))
+-i386_ss.add(when: 'CONFIG_TCG', if_true: files(
+-  'bpt_helper.c',
+-  'cc_helper.c',
+-  'excp_helper.c',
+-  'fpu_helper.c',
+-  'int_helper.c',
+-  'mem_helper.c',
+-  'misc_helper.c',
+-  'mpx_helper.c',
+-  'seg_helper.c',
+-  'smm_helper.c',
+-  'svm_helper.c',
+-  'translate.c'), if_false: files('tcg-stub.c'))
+ i386_ss.add(when: 'CONFIG_SEV', if_true: files('sev.c'), if_false: files('sev-stub.c'))
+ 
+ i386_softmmu_ss = ss.source_set()
+@@ -32,6 +19,7 @@ subdir('accel/kvm')
  subdir('accel/hax')
  subdir('accel/whpx')
--subdir('hvf')
-+subdir('accel/hvf')
+ subdir('accel/hvf')
++subdir('accel/tcg')
  
  target_arch += {'i386': i386_ss}
  target_softmmu_arch += {'i386': i386_softmmu_ss}
