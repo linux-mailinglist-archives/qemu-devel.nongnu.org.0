@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CA412AB391
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 10:28:45 +0100 (CET)
-Received: from localhost ([::1]:58186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A00F2AB36B
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 10:19:26 +0100 (CET)
+Received: from localhost ([::1]:43814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc3Tg-0005jb-Bn
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 04:28:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55666)
+	id 1kc3Kf-0007ox-3b
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 04:19:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thatlemon@gmail.com>)
- id 1kc3KY-0008HV-Fr; Mon, 09 Nov 2020 04:19:18 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41642)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kc3Ij-0005SA-OY
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 04:17:25 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:52330)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <thatlemon@gmail.com>)
- id 1kc3KW-00025j-QZ; Mon, 09 Nov 2020 04:19:18 -0500
-Received: by mail-wr1-x443.google.com with SMTP id 23so7850900wrc.8;
- Mon, 09 Nov 2020 01:19:16 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kc3Ih-0001Ti-W4
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 04:17:25 -0500
+Received: by mail-wm1-x331.google.com with SMTP id 10so6487518wml.2
+ for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 01:17:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=iTiADtzI1Ftk0B1v8MF4qtQoR0XvSWJKuD44qK/1Dzc=;
- b=PBzMqUp3IALB0NU725s5lLyCt14IZH9NLDREt49rp/wascodk3g914aNFf3EQLgtT3
- 1WBQ2UKNrjfkqivC43xgy9jSokEmmqs6PriGx2ZvcEeNTeeSmKueySKIFho2Nd4ESVBP
- exf812UaslLCEnjwXBWIL8FAjb9SQ4CuBNeLZpzvsCn9Yk+c7KUpd8Pd61cFye2Qqaz5
- Oi2ZdP8xLRGaJGwGZR+AdHfB+18bKRvYfZivM4Qyg6EHAI84N8yNw96s5eDyGThqVE3X
- wAlG9Usc8ZgIDkFaG3V07/u3+lRkWu0DPUwLf7uYggRwbKDpa1ixPTDe55KO/dZOZ/2F
- 7WTg==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6oA4Yr6JFcavXZq+cNokMDx7IpAfJjokyIK9QOqnHE0=;
+ b=eePoRv0+w+vNANAjFr+BOaMGvyS4v7GDdidL0Io4Ipbfe5aAPr8js+vr9jz/FHGoZG
+ 4qxsJdQVaH5gcvAR2lkB9JC4w5iYS5VBiZn59R9UPMERw6CsRnQ7OtfqUIiw9cfdv3Pq
+ /YTpWXlULUGePTr1wU+V5e+RyEzLqZl2seAyCr6FFlKOIhWZp/blxHJRLeYP05YkE42h
+ MS3eT0YTOLlxcLj+dwcgoAwq3Wnp9eyGMzn/z0SGg5K76UAo4gz+O+jdDBkZ2YS0agU4
+ hZJOXAsxP35aAAUAt+jEGC4IwGwmFl182x02m0mZ7Fur4o1cRa6wKT/v4yUNfEVg+0vT
+ qUsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=iTiADtzI1Ftk0B1v8MF4qtQoR0XvSWJKuD44qK/1Dzc=;
- b=UOWVOXRGlJvt9YxMxevFjDUDx2sYel2GbjjDEF4BXVYJCCmXaRIXU96dsjnKtnyttN
- cd0AcV4Kf65iBCBlWtWPmiI1IXyafXBUp8bhocVAst8e2d1wsISQsnvmTRsNoQKBocRd
- KOHYTMdX8Xs2z+O+oGYhLOdiDq0uKDceS4hMHOwtfioUqayEgbCFaPkTPPTZujbPSIth
- YHbVj8lR9F7mACINW68LZeuG8NXIRINjhEAE21olK6PAtNXlZLpBVCJXPkzryL6pPi/W
- LdpUraqbmTBj5ZPEtula+q2qi4iE8VYHV0ZmDwi0wR1om+0/DprxEQ21eC5gjTs/Qpln
- Ri+A==
-X-Gm-Message-State: AOAM533Lz5OjA2KJwA0xY0V547i7hXwY6EtmsTtAA5UhGEKU3esVMIDL
- PlL197BmCLWZKVG0Cm4Mdo6thogSBK0Jkw==
-X-Google-Smtp-Source: ABdhPJypbaxr2dveZamltWm5u6ainBcBOwSvRkpQdr0zAVda8BqN+1lq1jRNQBUX3t6PzV0OEHkFzA==
-X-Received: by 2002:adf:80eb:: with SMTP id 98mr17301854wrl.101.1604913554899; 
- Mon, 09 Nov 2020 01:19:14 -0800 (PST)
-Received: from localhost.localdomain ([151.33.227.77])
- by smtp.gmail.com with ESMTPSA id o17sm12281612wmd.34.2020.11.09.01.19.13
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=6oA4Yr6JFcavXZq+cNokMDx7IpAfJjokyIK9QOqnHE0=;
+ b=Ayde3g1t2V/Uu/Fha+HEtzCsp1opZy9nFkkJLzqIyBC3qJUDk0EHZto3VMDlF7XWnk
+ TGi43lv4nNsnbMUZn5GabOYAp7lUpgh7b2ochwV6S/b6vYRJsoQaQaz9UM1/dRvwRWd9
+ YehIAWmhC3W8ptScMlUKr5NvzVUSAQ8TpumUQXqvHhDbAOfYPARwKCO8y5P+y17JqDjy
+ OWjrwVDGET0zYwPDDV9pZ5eJwbpnIPSuIQinxSS5qZQWllZ+V2ywUPYIva4TQTGWrOLF
+ mQ8XFQ1xBhLTCXUhppL1Y1gaekY1Yeno6xowgFB5yrUMFoVcKyuOcGzc4ui4IVlvu3BI
+ ykYg==
+X-Gm-Message-State: AOAM533A7fnLbi4olal+cVm5qlRO4SpFg5i54DCfzlIHykg97qu2/EwZ
+ Mol7r0ZV6S9OODeF3/wcDQVoMOQzZAQ=
+X-Google-Smtp-Source: ABdhPJzDMp5S4n2onnnf01O7IR9vKqhk4ow1MEeW9vw/+hSMQVYSJi88V0Wj82VnImH547o17tSpQQ==
+X-Received: by 2002:a1c:a402:: with SMTP id n2mr13557995wme.121.1604913442088; 
+ Mon, 09 Nov 2020 01:17:22 -0800 (PST)
+Received: from localhost.localdomain (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id r1sm12916707wro.18.2020.11.09.01.17.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Nov 2020 01:19:14 -0800 (PST)
-From: LemonBoy <thatlemon@gmail.com>
+ Mon, 09 Nov 2020 01:17:21 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] ppc/translate: Rewrite gen_lxvdsx to use gvec primitives
-Date: Mon,  9 Nov 2020 10:17:11 +0100
-Message-Id: <a463dea379da4cb3a22de49c678932f74fb15dd7.1604912739.git.thatlemon@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <d7d533e18c2bc10d924ee3e09907ff2b41fddb3a.1604912739.git.thatlemon@gmail.com>
-References: <d7d533e18c2bc10d924ee3e09907ff2b41fddb3a.1604912739.git.thatlemon@gmail.com>
+Subject: [PATCH-for-5.2 v3] tests/acceptance: Disable Spartan-3A DSP 1800A test
+Date: Mon,  9 Nov 2020 10:17:19 +0100
+Message-Id: <20201109091719.2449141-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=thatlemon@gmail.com; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,87 +85,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Giuseppe Musacchio <thatlemon@gmail.com>, qemu-ppc@nongnu.org,
- david@gibson.dropbear.id.au
+Cc: Thomas Huth <thuth@redhat.com>, Thomas Huth <huth@tuxfamily.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make the implementation match the lxvwsx one.
-The code is now shorter smaller and potentially faster as the
-translation will use the host SIMD capabilities if available.
+This test is regularly failing on CI:
 
-No functional change.
+   (05/34) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_microblaze_s3adsp1800:
+  Linux version 4.11.3 (thuth@thuth.remote.csb) (gcc version 6.4.0 (Buildroot 2018.05.2) ) #5 Tue Dec 11 11:56:23 CET 2018
+  ...
+  Freeing unused kernel memory: 1444K
+  This architecture does not have kernel memory protection.
+  [nothing happens here]
+  Runner error occurred: Timeout reached (90.91 s)
 
-Signed-off-by: Giuseppe Musacchio <thatlemon@gmail.com>
+This is a regression. Until someone figure out the problem,
+disable the test to keep CI pipeline useful.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/ppc/translate/vsx-impl.c.inc | 46 ++++++++++++++---------------
- 1 file changed, 23 insertions(+), 23 deletions(-)
+v3: Simply disable with @skip
+---
+ tests/acceptance/boot_linux_console.py | 2 ++
+ tests/acceptance/replay_kernel.py      | 2 ++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index 075f063e98..b817d31260 100644
---- a/target/ppc/translate/vsx-impl.c.inc
-+++ b/target/ppc/translate/vsx-impl.c.inc
-@@ -75,29 +75,6 @@ static void gen_lxvd2x(DisasContext *ctx)
-     tcg_temp_free_i64(t0);
- }
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index 8f433a67f84..cc6ec0f8c15 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -13,6 +13,7 @@
+ import gzip
+ import shutil
  
--static void gen_lxvdsx(DisasContext *ctx)
--{
--    TCGv EA;
--    TCGv_i64 t0;
--    TCGv_i64 t1;
--    if (unlikely(!ctx->vsx_enabled)) {
--        gen_exception(ctx, POWERPC_EXCP_VSXU);
--        return;
--    }
--    t0 = tcg_temp_new_i64();
--    t1 = tcg_temp_new_i64();
--    gen_set_access_type(ctx, ACCESS_INT);
--    EA = tcg_temp_new();
--    gen_addr_reg_index(ctx, EA);
--    gen_qemu_ld64_i64(ctx, t0, EA);
--    set_cpu_vsrh(xT(ctx->opcode), t0);
--    tcg_gen_mov_i64(t1, t0);
--    set_cpu_vsrl(xT(ctx->opcode), t1);
--    tcg_temp_free(EA);
--    tcg_temp_free_i64(t0);
--    tcg_temp_free_i64(t1);
--}
--
- static void gen_lxvw4x(DisasContext *ctx)
- {
-     TCGv EA;
-@@ -169,6 +146,29 @@ static void gen_lxvwsx(DisasContext *ctx)
-     tcg_temp_free_i32(data);
- }
++from avocado import skip
+ from avocado import skipUnless
+ from avocado_qemu import Test
+ from avocado_qemu import exec_command_and_wait_for_pattern
+@@ -1025,6 +1026,7 @@ def test_m68k_mcf5208evb(self):
+         tar_hash = 'ac688fd00561a2b6ce1359f9ff6aa2b98c9a570c'
+         self.do_test_advcal_2018('07', tar_hash, 'sanity-clause.elf')
  
-+static void gen_lxvdsx(DisasContext *ctx)
-+{
-+    TCGv EA;
-+    TCGv_i64 data;
-+
-+    if (unlikely(!ctx->vsx_enabled)) {
-+        gen_exception(ctx, POWERPC_EXCP_VSXU);
-+        return;
-+    }
-+
-+    gen_set_access_type(ctx, ACCESS_INT);
-+    EA = tcg_temp_new();
-+
-+    gen_addr_reg_index(ctx, EA);
-+
-+    data = tcg_temp_new_i64();
-+    tcg_gen_qemu_ld_i64(data, EA, ctx->mem_idx, MO_TEQ);
-+    tcg_gen_gvec_dup_i64(MO_Q, vsr_full_offset(xT(ctx->opcode)), 16, 16, data);
-+
-+    tcg_temp_free(EA);
-+    tcg_temp_free_i64(data);
-+}
-+
- static void gen_bswap16x8(TCGv_i64 outh, TCGv_i64 outl,
-                           TCGv_i64 inh, TCGv_i64 inl)
- {
++    @skip("Test currently broken") # Console stuck as of 5.2-rc1
+     def test_microblaze_s3adsp1800(self):
+         """
+         :avocado: tags=arch:microblaze
+diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
+index 00c228382bd..772633b01da 100644
+--- a/tests/acceptance/replay_kernel.py
++++ b/tests/acceptance/replay_kernel.py
+@@ -14,6 +14,7 @@
+ import logging
+ import time
+ 
++from avocado import skip
+ from avocado import skipIf
+ from avocado import skipUnless
+ from avocado_qemu import wait_for_console_pattern
+@@ -280,6 +281,7 @@ def test_m68k_mcf5208evb(self):
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         self.do_test_advcal_2018(file_path, 'sanity-clause.elf')
+ 
++    @skip("Test currently broken") # Console stuck as of 5.2-rc1
+     def test_microblaze_s3adsp1800(self):
+         """
+         :avocado: tags=arch:microblaze
 -- 
-2.27.0
+2.26.2
 
 
