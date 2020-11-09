@@ -2,85 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A36582ABE96
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 15:25:30 +0100 (CET)
-Received: from localhost ([::1]:50766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B6102ABEAA
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 15:27:50 +0100 (CET)
+Received: from localhost ([::1]:57238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc86r-0003Rk-Km
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 09:25:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41270)
+	id 1kc897-0006BD-Cs
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 09:27:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kc7wl-0000HU-Nm
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:15:03 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33765)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kc7wj-0004L2-8I
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:15:03 -0500
-Received: by mail-wr1-x444.google.com with SMTP id b8so8853197wrn.0
- for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 06:15:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=KqwmONtg6/Lh/zKnkGWQXGjMx+Lf6gMyRGqdtoy9wYQ=;
- b=HyqNpwNQ0QMWT9DQokdk1jGix/rCVrtb2oUYapC67Q35RMLaO/mxJ1eLFod56LrSoF
- 8uEW+sqRC8FR4TqQjVoKS/CPShHYOxi5lGc3XGFPjWUOxxVfqPTINPSzHwZmoQe5EdWQ
- Gvsff/7C0AaHj46t/HfFUIOwiDpI5ulEsUPFd73NhoF+VXpuzjj89qqsoxQuXmMSsXi6
- /QqzRxgmyfzAxS8qA91pRl8GFt4Sih/wBY2pVNyVBeF6FKc8nUdyjOjqex0ZT5Pd87W0
- nMG5P6nLxdc+H6HxWomRSdAb6XLG9gw2q3yll5tJMxxiRW4+J7EsX5AVyrz/99hh6USa
- Xs9A==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kc7xK-0000ue-Ep
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:15:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47854)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kc7xE-0004Ti-Uu
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:15:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604931330;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NaSp7Bh9QQ4DPDIisOAZjOlCIiXchQ7pjnLwgOZrjS4=;
+ b=U/ffNnRRcYpP3BYzaF4v5rpzC+E0k0EnbPKKARsH56Ed05Jc4zQBdfOnHYQNznW8jI5HeH
+ n5Tf4b4S4QiXujYTDo9CVkyc4S8P4LH2WpHA0B9wNB2N8sBtOY3f13XUORupNT6pgZy3gY
+ wiC54cTs6sCmkye2XbcRjkQxR2uPKis=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-125-m6T3sKWdPtSFsVDHy4n9hg-1; Mon, 09 Nov 2020 09:15:29 -0500
+X-MC-Unique: m6T3sKWdPtSFsVDHy4n9hg-1
+Received: by mail-wm1-f70.google.com with SMTP id e15so2081195wme.4
+ for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 06:15:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=KqwmONtg6/Lh/zKnkGWQXGjMx+Lf6gMyRGqdtoy9wYQ=;
- b=Aeh5Q0XjBr/JcsWMSN5PMOZbJDIso7ayaXazL9pjgfut3IxQdAyYrR3G1n88Wx8CxQ
- PUh4g192tt6WVj4pNl8WCOcAa0dj/LqW4bHU70WA3q4mCGz0N8quvVbvOeAwZMmk5AWX
- 8ymYnh/j8TigPfuj8IO5JiCSY1t8lUPYv1K9+cYBxkvVjKAUMwiG2bEYRx3f+3uj4fp8
- 385Mu00bnCx4ox38wwYg/+maeFwJPSQE9UQczqX/JzvTV7Tmst6tkxDyJLiTNv/xXSPj
- iROXI67QeayvxPkVApKCNch+DzDCkjhJ2+InstlZvPFx42mPigHD8LEZURvfoy3sFtwP
- EHGw==
-X-Gm-Message-State: AOAM533Cl+KkjrEFqIz0hE5WKKII2rz5RfTUmReHSuPl+ljpJ2+VsS2y
- JxmiAh4zMYl3YZzFRbzOnsg=
-X-Google-Smtp-Source: ABdhPJz/zYWJe9QXrqKs384zMoVuAsSF1h4bdUpIZmpg2WAN7GmzvnpRF/nuhD6FFXsH+7Tlzg99+Q==
-X-Received: by 2002:a05:6000:36f:: with SMTP id
- f15mr18085829wrf.78.1604931299644; 
- Mon, 09 Nov 2020 06:14:59 -0800 (PST)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id t12sm13513642wrm.25.2020.11.09.06.14.58
+ bh=NaSp7Bh9QQ4DPDIisOAZjOlCIiXchQ7pjnLwgOZrjS4=;
+ b=r2aEKO/BXxRxwOR7ZjMQyvO837sKvw2PycZp2x54W9XONvsLwKjasSXXmJmuhZKckM
+ Ek4xiqU+NLUtKHDvp6IP1ScbnVihUijvKGqypaGvH6KTTiIqckAIPgvLYcLVrXDHhHgz
+ hnZUeN5ksMLcVl8WDTB1huIpWB0HfPd7cLvmQnBELwQLV2Irlw+7hsFDoyPeI7EoYudK
+ OhGQDdlAYQK3Kj3qJVkOO1/mbq+JOhNgOCt7ad8+wh222ezXw6jDAUqZp1Tir6/BB1+X
+ ZmzcwKAvYRHbhs97SDn0rxMeKOPN2UNLg33P2exFENZfqvEsDv6HOlRePyMvurbH3Ajo
+ LEtQ==
+X-Gm-Message-State: AOAM533doGyAyo4943dJ06lBxLl2qPvgCisDlERAwLtOPQXrIJAO50xL
+ OFQIWEQDxpd5i8xIsx4uNaH9VPERG0XYRUAsYn182eZToKzXQomCtueKMjSwWWRv11ELKC2uU7G
+ 3ArkMgMsMq8WyYk8=
+X-Received: by 2002:a1c:1906:: with SMTP id 6mr14401894wmz.87.1604931328143;
+ Mon, 09 Nov 2020 06:15:28 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyPYUjbIKjISM5qezNJhnaZziIOv2RY7v5LEJX11UVHPuJkbx8rdHibH6d9ZuaGeCO80ZKoxw==
+X-Received: by 2002:a1c:1906:: with SMTP id 6mr14401876wmz.87.1604931327946;
+ Mon, 09 Nov 2020 06:15:27 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id v9sm13253612wrp.11.2020.11.09.06.15.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Nov 2020 06:14:58 -0800 (PST)
-Subject: Re: [PATCH 2/2] hw/m68k/q800.c: Make the GLUE chip an actual QOM
- device
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20201106235109.7066-1-peter.maydell@linaro.org>
- <20201106235109.7066-3-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <b957ada3-cbc7-d1fa-750d-f201c3bef2c6@amsat.org>
-Date: Mon, 9 Nov 2020 15:14:57 +0100
+ Mon, 09 Nov 2020 06:15:27 -0800 (PST)
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20201104160021.2342108-1-ehabkost@redhat.com>
+ <20201106094511.GA23864@merkur.fritz.box> <20201106155013.GX5733@habkost.net>
+ <20201106211034.GY5733@habkost.net>
+ <ca99fc61-6cdd-117d-343e-8141e385522e@redhat.com>
+ <20201109113404.GA24970@merkur.fritz.box>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2 00/44] Make qdev static property API usable by any QOM
+ type
+Message-ID: <3b711053-e67a-86fb-59e7-c06948dd8928@redhat.com>
+Date: Mon, 9 Nov 2020 15:15:26 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201106235109.7066-3-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20201109113404.GA24970@merkur.fritz.box>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 00:04:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,185 +106,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ John Snow <jsnow@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
-
-On 11/7/20 12:51 AM, Peter Maydell wrote:
-> The handling of the GLUE (General Logic Unit) device is
-> currently open-coded. Make this into a proper QOM device.
+On 09/11/20 12:34, Kevin Wolf wrote:
+>> If all properties were like this, it would be okay.  But the API in v2 is
+>> the one that is most consistent with QOM in general. Here is how this change
+>> would be a loss in term of consistency:
+>>
+>> - you have the field properties split in two (with the property itself in
+>> one place and the allow-set function in a different place), and also you'd
+>> have some properties listed as array and some as function calls.
 > 
-> This minor piece of modernisation gets rid of the free
-> floating qemu_irq array 'pic', which Coverity points out
-> is technically leaked when we exit the machine init function.
-> (The replacement glue device is not leaked because it gets
-> added to the sysbus, so it's accessible via that.)
-> 
-> Fixes: Coverity CID 1421883
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  hw/m68k/q800.c | 82 ++++++++++++++++++++++++++++++++++++++++++--------
->  1 file changed, 70 insertions(+), 12 deletions(-)
-> 
-> diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-> index dc13007aaf2..05bb372f958 100644
-> --- a/hw/m68k/q800.c
-> +++ b/hw/m68k/q800.c
-> @@ -47,6 +47,7 @@
->  #include "sysemu/qtest.h"
->  #include "sysemu/runstate.h"
->  #include "sysemu/reset.h"
-> +#include "migration/vmstate.h"
->  
->  #define MACROM_ADDR     0x40800000
->  #define MACROM_SIZE     0x00100000
-> @@ -94,10 +95,14 @@
->   * CPU.
->   */
->  
-> -typedef struct {
-> +#define TYPE_GLUE "q800-glue"
-> +OBJECT_DECLARE_SIMPLE_TYPE(GLUEState, GLUE)
-> +
-> +struct GLUEState {
-> +    SysBusDevice parent_obj;
->      M68kCPU *cpu;
->      uint8_t ipr;
-> -} GLUEState;
-> +};
->  
->  static void GLUE_set_irq(void *opaque, int irq, int level)
->  {
-> @@ -119,6 +124,58 @@ static void GLUE_set_irq(void *opaque, int irq, int level)
->      m68k_set_irq_level(s->cpu, 0, 0);
->  }
->  
-> +static void glue_reset(DeviceState *dev)
-> +{
-> +    GLUEState *s = GLUE(dev);
-> +
-> +    s->ipr = 0;
-> +}
-> +
-> +static const VMStateDescription vmstate_glue = {
-> +    .name = "q800-glue",
-> +    .version_id = 0,
-> +    .minimum_version_id = 0,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_UINT8(ipr, GLUEState),
-> +        VMSTATE_END_OF_LIST(),
-> +    },
-> +};
-> +
-> +/*
-> + * If the m68k CPU implemented its inbound irq lines as GPIO lines
-> + * rather than via the m68k_set_irq_level() function we would not need
-> + * this cpu link property and could instead provide outbound IRQ lines
-> + * that the board could wire up to the CPU.
-> + */
-> +static Property glue_properties[] = {
-> +    DEFINE_PROP_LINK("cpu", GLUEState, cpu, TYPE_M68K_CPU, M68kCPU *),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
-> +static void glue_init(Object *obj)
-> +{
-> +    DeviceState *dev = DEVICE(obj);
-> +
-> +    qdev_init_gpio_in(dev, GLUE_set_irq, 8);
-> +}
-> +
-> +static void glue_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +
-> +    dc->vmsd = &vmstate_glue;
-> +    dc->reset = glue_reset;
+> Why would you have properties defined as function calls for the same
+> object that uses the array?
 
-Don't we need a realize() handler checking s->cpu is non-NULL?
+Because some properties would not be field properties, for example.  For 
+example, any non-scalar property would need to invoke 
+visit_SomeQapiStruct manually and would not be a field property.
 
-Otherwise:
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> I'm not entirely sure what you mean with allow-set. The only things I
+> can find are related to link properties, specifically the check()
+> callback of object_class_property_add_link(). If it's this, what would
+> be the problem with just adding it to DEFINE_PROP_LINK instead of
+> using a separate function call to define link properties?
 
-> +    device_class_set_props(dc, glue_properties);
-> +}
-> +
-> +static const TypeInfo glue_info = {
-> +    .name = TYPE_GLUE,
-> +    .parent = TYPE_SYS_BUS_DEVICE,
-> +    .instance_size = sizeof(GLUEState),
-> +    .instance_init = glue_init,
-> +    .class_init = glue_class_init,
-> +};
-> +
->  static void main_cpu_reset(void *opaque)
->  {
->      M68kCPU *cpu = opaque;
-> @@ -178,8 +235,7 @@ static void q800_init(MachineState *machine)
->      SysBusDevice *sysbus;
->      BusState *adb_bus;
->      NubusBus *nubus;
-> -    GLUEState *irq;
-> -    qemu_irq *pic;
-> +    DeviceState *glue;
->      DriveInfo *dinfo;
->  
->      linux_boot = (kernel_filename != NULL);
-> @@ -213,10 +269,9 @@ static void q800_init(MachineState *machine)
->      }
->  
->      /* IRQ Glue */
-> -
-> -    irq = g_new0(GLUEState, 1);
-> -    irq->cpu = cpu;
-> -    pic = qemu_allocate_irqs(GLUE_set_irq, irq, 8);
-> +    glue = qdev_new(TYPE_GLUE);
-> +    object_property_set_link(OBJECT(glue), "cpu", OBJECT(cpu), &error_abort);
-> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(glue), &error_fatal);
->  
->      /* VIA */
->  
-> @@ -228,8 +283,10 @@ static void q800_init(MachineState *machine)
->      sysbus = SYS_BUS_DEVICE(via_dev);
->      sysbus_realize_and_unref(sysbus, &error_fatal);
->      sysbus_mmio_map(sysbus, 0, VIA_BASE);
-> -    qdev_connect_gpio_out_named(DEVICE(sysbus), "irq", 0, pic[0]);
-> -    qdev_connect_gpio_out_named(DEVICE(sysbus), "irq", 1, pic[1]);
-> +    qdev_connect_gpio_out_named(DEVICE(sysbus), "irq", 0,
-> +                                qdev_get_gpio_in(glue, 0));
-> +    qdev_connect_gpio_out_named(DEVICE(sysbus), "irq", 1,
-> +                                qdev_get_gpio_in(glue, 1));
->  
->  
->      adb_bus = qdev_get_child_bus(via_dev, "adb.0");
-> @@ -270,7 +327,7 @@ static void q800_init(MachineState *machine)
->      sysbus_realize_and_unref(sysbus, &error_fatal);
->      sysbus_mmio_map(sysbus, 0, SONIC_BASE);
->      sysbus_mmio_map(sysbus, 1, SONIC_PROM_BASE);
-> -    sysbus_connect_irq(sysbus, 0, pic[2]);
-> +    sysbus_connect_irq(sysbus, 0, qdev_get_gpio_in(glue, 2));
->  
->      /* SCC */
->  
-> @@ -292,7 +349,7 @@ static void q800_init(MachineState *machine)
->      qdev_realize_and_unref(escc_orgate, NULL, &error_fatal);
->      sysbus_connect_irq(sysbus, 0, qdev_get_gpio_in(escc_orgate, 0));
->      sysbus_connect_irq(sysbus, 1, qdev_get_gpio_in(escc_orgate, 1));
-> -    qdev_connect_gpio_out(DEVICE(escc_orgate), 0, pic[3]);
-> +    qdev_connect_gpio_out(DEVICE(escc_orgate), 0, qdev_get_gpio_in(glue, 3));
->      sysbus_mmio_map(sysbus, 0, SCC_BASE);
->  
->      /* SCSI */
-> @@ -457,6 +514,7 @@ static const TypeInfo q800_machine_typeinfo = {
->  static void q800_machine_register_types(void)
->  {
->      type_register_static(&q800_machine_typeinfo);
-> +    type_register_static(&glue_info);
->  }
->  
->  type_init(q800_machine_register_types)
+Eduardo's series is adding allow-set functions to field properties as 
+well.  If it's be specified in the function call to 
+object_class_add_field_properties, you'd have part of the property 
+described in the array and part in the object_class_add_field_properties.
+
+>> - we would have different ways to handle device field properties (with
+>> dc->props) compared to object properties.
 > 
+> You mean dynamic per-object properties, i.e. not class properties?
+
+No, I mean that device properties would be handled as
+
+    dc->props = foo;
+
+while object properties would be handled as
+
+    object_class_add_field_properties(oc, foo, prop_allow_set_always);
+
+There would be two different preferred ways to do field properties in 
+qdev vs. non-qdev.
+
+> I think having different ways for different things (class vs. object) is
+> better than having different ways for the same things (class in qdev vs.
+> class in non-qdev).
+
+Right, but qdev's DEFINE_PROP_STRING would be easy to change to 
+something like
+
+- DEFINE_PROP_STRING("name", ...),
++ device_class_add_field_property(dc, "name", PROP_STRING(...));
+
+>> The choice to describe class properties as function calls was made in 2016
+>> (commit 16bf7f522a, "qom: Allow properties to be registered against
+>> classes", 2016-01-18); so far I don't see that it has been misused.
+> 
+> This was the obvious incremental step forward at the time because you
+> just had to replace one function call with another function call. The
+> commit message doesn't explain that not using data was a conscious
+> decision. I think it would probably have been out of scope then.
+> 
+>> Also, I don't think it's any easier to write an introspection code generator
+>> with DEFINE_PROP_*.  You would still have to parse the class init function
+>> to find the reference to the array (and likewise the TypeInfo struct to find
+>> the class init function).
+> 
+> I don't think we should parse any C code. In my opinion, both
+> introspection and the array should eventually be generated by the QAPI
+> generator from the schema.
+
+That'd be a good plan, and I'd add generating the property description 
+from the doc comment.  (Though there's still the issue of how to add 
+non-field properties to the introspection.  Those would be harder to 
+move to the QAPI generator).
+
+But at that point the array vs. function call would not change anything 
+(if anything the function call would be a tiny bit better), so that's 
+another reason to stay with the API that Eduardo has in v2.
+
+Paolo
 
 
