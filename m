@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25ABA2AC54B
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 20:45:36 +0100 (CET)
-Received: from localhost ([::1]:42908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFE242AC56B
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 20:49:30 +0100 (CET)
+Received: from localhost ([::1]:48938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcD6d-0003mX-80
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 14:45:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39996)
+	id 1kcDAP-0006RI-Om
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 14:49:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kcD5h-0003MK-V5
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 14:44:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47766)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kcD8O-00058E-Bu
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 14:47:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31205)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kcD5b-0001VL-Fi
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 14:44:37 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kcD8M-0001vM-24
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 14:47:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604951069;
+ s=mimecast20190719; t=1604951240;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=04zSg1wfjqeTTL4OfYZJDdptqJN4H0DhFzAZiKgAqek=;
- b=SjLG61f5XfxbpmxiP5fBb6BpiLCIbQz9u7NBSqX3YKkvdf4BuM8mY7Wa37v8znqFJRUNZ6
- F9i4JSRRgsqO93BEJ9u7DVNFGket3J6D6UUx+Xh65pGCSDglsrVY6sodFWEu/ts0evLIzb
- F3upBE1VR5mXsrstpF2OKVSrIz3Tz+M=
+ bh=ZcvZt/j+SZ0NBmKbtTu+OpgQ9tIRgjGkxHGXixoaLjQ=;
+ b=E8lF79FsabdNaSAYsVRFRHLylpstUc4HM1Dy7GfOlDU7fY7u0L2kQwB71RSgwuh/ls4Tlf
+ ZFv6YGElzY6WUkKae9vHG56hGTQKszbE7aZ/qIKE2BeWq/fRkSGc5wtQXJOp9MXSIKmaP+
+ ckAj8CLvfSPXP03O3Nw5C46dPKa0OEA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-355-asS4GHdzPtu2oLTqwRZXCg-1; Mon, 09 Nov 2020 14:44:25 -0500
-X-MC-Unique: asS4GHdzPtu2oLTqwRZXCg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-99-DCb5CntuOBOfXDW_1PKqaA-1; Mon, 09 Nov 2020 14:47:16 -0500
+X-MC-Unique: DCb5CntuOBOfXDW_1PKqaA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2A3664087;
- Mon,  9 Nov 2020 19:44:24 +0000 (UTC)
-Received: from work-vm (ovpn-114-198.ams2.redhat.com [10.36.114.198])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 38D3A7B40D;
- Mon,  9 Nov 2020 19:44:20 +0000 (UTC)
-Date: Mon, 9 Nov 2020 19:44:17 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [RFC PATCH for-QEMU-5.2] vfio: Make migration support experimental
-Message-ID: <20201109194417.GR3024@work-vm>
-References: <160494787833.1473.10514376876696596117.stgit@gimli.home>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD7CE5F9DB;
+ Mon,  9 Nov 2020 19:47:14 +0000 (UTC)
+Received: from [10.36.114.37] (ovpn-114-37.ams2.redhat.com [10.36.114.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6AB8B5D9CC;
+ Mon,  9 Nov 2020 19:47:10 +0000 (UTC)
+Subject: Re: [PATCH v2] hw/arm/virt enable support for virtio-mem
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-devel@nongnu.org
+References: <20201105174311.566751-1-Jonathan.Cameron@huawei.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <5b1dff01-7e6b-78d2-d55a-20c0617c3076@redhat.com>
+Date: Mon, 9 Nov 2020 20:47:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <160494787833.1473.10514376876696596117.stgit@gimli.home>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20201105174311.566751-1-Jonathan.Cameron@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 00:04:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -68,8 +68,9 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,121 +83,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Neo Jia <cjia@nvidia.com>, Juan Quintela <quintela@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Kirti Wankhede <kwankhede@nvidia.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, linuxarm@huawei.com,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Alex Williamson (alex.williamson@redhat.com) wrote:
-> Per the proposed documentation for vfio device migration:
+On 05.11.20 18:43, Jonathan Cameron wrote:
+> Basically a cut and paste job from the x86 support with the exception of
+> needing a larger block size as the Memory Block Size (MIN_SECTION_SIZE)
+> on ARM64 in Linux is 1G.
 > 
->   Dirty pages are tracked when device is in stop-and-copy phase
->   because if pages are marked dirty during pre-copy phase and
->   content is transfered from source to destination, there is no
->   way to know newly dirtied pages from the point they were copied
->   earlier until device stops. To avoid repeated copy of same
->   content, pinned pages are marked dirty only during
->   stop-and-copy phase.
+> Tested:
+> * In full emulation and with KVM on an arm64 server.
+> * cold and hotplug for the virtio-mem-pci device.
+> * Wide range of memory sizes, added at creation and later.
+> * Fairly basic memory usage of memory added.  Seems to function as normal.
+> * NUMA setup with virtio-mem-pci devices on each node.
+> * Simple migration test.
 > 
-> Essentially, since we don't have hardware dirty page tracking for
-> assigned devices at this point, we consider any page that is pinned
-> by an mdev vendor driver or pinned and mapped through the IOMMU to
-> be perpetually dirty.  In the worst case, this may result in all of
-> guest memory being considered dirty during every iteration of live
-> migration.  The current vfio implementation of migration has chosen
-> to mask device dirtied pages until the final stages of migration in
-> order to avoid this worst case scenario.
+> Related kernel patch just enables the Kconfig item for ARM64 as an
+> alternative to x86 in drivers/virtio/Kconfig
 > 
-> Allowing the device to implement a policy decision to prioritize
-> reduced migration data like this jeopardizes QEMU's overall ability
-> to implement any degree of service level guarantees during migration.
-> For example, any estimates towards achieving acceptable downtime
-> margins cannot be trusted when such a device is present.  The vfio
-> device should participate in dirty page tracking to the best of its
-> ability throughout migration, even if that means the dirty footprint
-> of the device impedes migration progress, allowing both QEMU and
-> higher level management tools to decide whether to continue the
-> migration or abort due to failure to achieve the desired behavior.
+> The original patches from David Hildenbrand stated that he thought it should
+> work for ARM64 but it wasn't enabled in the kernel [1]
+> It appears he was correct and everything 'just works'.
+> 
+> The build system related stuff is intended to ensure virtio-mem support is
+> not built for arm32 (build will fail due no defined block size).
+> If there is a more elegant way to do this, please point me in the right
+> direction.
 
-I don't feel particularly badly about the decision to squash it in
-during the stop-and-copy phase; for devices where the pinned memory
-is large, I don't think doing it during the main phase makes much sense;
-especially if you then have to deal with tracking changes in pinning.
+You might be aware of https://virtio-mem.gitlab.io/developer-guide.html 
+and the "issue" with 64k base pages - 512MB granularity. Similar as the 
+question from Auger, have you tried running arm64 with differing page 
+sizes in host/guest?
 
-Having said that, I agree with marking it as experimental, because
-I'm dubious how useful it will be for the same reason, I worry
-about whether the downtime will be so large to make it pointless.
+With recent kernels, you can use "memhp_default_state=online_movable" on 
+the kernel cmdline to make memory unplug more likely to succeed - 
+especially with 64k base pages. You just have to be sure to not hotplug 
+"too much memory" to a VM.
 
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+I had my prototype living at
 
-> Link: https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg00807.html
-> Cc: Kirti Wankhede <kwankhede@nvidia.com>
-> Cc: Neo Jia <cjia@nvidia.com>
-> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Cc: Juan Quintela <quintela@redhat.com>
-> Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Cc: Cornelia Huck <cohuck@redhat.com>
-> Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
-> ---
-> 
-> Given that our discussion in the link above seems to be going in
-> circles, I'm afraid it seems necessary to both have a contigency
-> plan and to raise the visibility of the current behavior to
-> determine whether others agree that this is a sufficiently
-> troubling behavior to consider migration support experimental
-> at this stage.  Please voice your opinion or contribute patches
-> to resolve this before QEMU 5.2.  Thanks,
-> 
-> Alex
-> 
->  hw/vfio/migration.c           |    2 +-
->  hw/vfio/pci.c                 |    2 ++
->  include/hw/vfio/vfio-common.h |    1 +
->  3 files changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-> index 3ce285ea395d..cd44d465a50b 100644
-> --- a/hw/vfio/migration.c
-> +++ b/hw/vfio/migration.c
-> @@ -882,7 +882,7 @@ int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
->      Error *local_err = NULL;
->      int ret = -ENOTSUP;
->  
-> -    if (!container->dirty_pages_supported) {
-> +    if (!vbasedev->enable_migration || !container->dirty_pages_supported) {
->          goto add_blocker;
->      }
->  
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index 58c0ce8971e3..1349b900e513 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -3194,6 +3194,8 @@ static Property vfio_pci_dev_properties[] = {
->                      VFIO_FEATURE_ENABLE_REQ_BIT, true),
->      DEFINE_PROP_BIT("x-igd-opregion", VFIOPCIDevice, features,
->                      VFIO_FEATURE_ENABLE_IGD_OPREGION_BIT, false),
-> +    DEFINE_PROP_BOOL("x-enable-migration", VFIOPCIDevice,
-> +                     vbasedev.enable_migration, false),
->      DEFINE_PROP_BOOL("x-no-mmap", VFIOPCIDevice, vbasedev.no_mmap, false),
->      DEFINE_PROP_BOOL("x-balloon-allowed", VFIOPCIDevice,
->                       vbasedev.ram_block_discard_allowed, false),
-> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-> index baeb4dcff102..2119872c8af1 100644
-> --- a/include/hw/vfio/vfio-common.h
-> +++ b/include/hw/vfio/vfio-common.h
-> @@ -123,6 +123,7 @@ typedef struct VFIODevice {
->      bool needs_reset;
->      bool no_mmap;
->      bool ram_block_discard_allowed;
-> +    bool enable_migration;
->      VFIODeviceOps *ops;
->      unsigned int num_irqs;
->      unsigned int num_regions;
-> 
+git@github.com:davidhildenbrand/qemu.git / virtio-mem-arm64
+
+which looks very similar to your patch. That is good :)
+
+[...]
+
+>   static void virt_machine_device_plug_cb(HotplugHandler *hotplug_dev,
+>                                           DeviceState *dev, Error **errp)
+>   {
+> @@ -2336,6 +2389,9 @@ static void virt_machine_device_plug_cb(HotplugHandler *hotplug_dev,
+>       if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
+>           virt_memory_plug(hotplug_dev, dev, errp);
+>       }
+> +    if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
+> +        virt_virtio_md_pci_plug(hotplug_dev, dev, errp);
+> +    }
+
+These better all be "else if".
+
+>       if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
+>           PCIDevice *pdev = PCI_DEVICE(dev);
+>   
+> @@ -2363,6 +2419,11 @@ static void virt_dimm_unplug_request(HotplugHandler *hotplug_dev,
+>           goto out;
+>       }
+>   
+> +    if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
+> +        error_setg(&local_err,
+> +                   "virtio-mem based memory devices cannot be unplugged.");
+> +        goto out;
+> +    }
+
+This should go into virt_machine_device_unplug_request_cb() instead, no?
+[...]
+
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Thanks,
+
+David / dhildenb
 
 
