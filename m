@@ -2,79 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A4EB2AC2DD
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 18:52:38 +0100 (CET)
-Received: from localhost ([::1]:39908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 388552AC318
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 19:01:43 +0100 (CET)
+Received: from localhost ([::1]:38802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcBLJ-0005Sk-9N
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 12:52:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43544)
+	id 1kcBU5-00086O-Vd
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 13:01:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kcBIn-0003hN-JF
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:50:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55896)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kcBIl-00041E-RL
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:50:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604944197;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bQR9wPyXLDo9I6/AppnyK2WPP3SO43lz/RS7/KoKTlY=;
- b=KDENdiugyaBq3tnlqgluY3GkcS0dUNCnhG6aFh2syhLYUrak0na1zFpph9xOycx6ciKEni
- /6fDO31rYlOXzGI2aB4e6/spTTz5amlh7FO31dqtWWzn8TJyoCCiKn2tN+jAG2lJN+ec9U
- p4LBDLNcSCzFS7wxPELhlQbMcjM2vjU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-212-d5j0XgPnOlGD3iXt8hyAcA-1; Mon, 09 Nov 2020 12:49:54 -0500
-X-MC-Unique: d5j0XgPnOlGD3iXt8hyAcA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA0179CC05;
- Mon,  9 Nov 2020 17:49:52 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-179.ams2.redhat.com
- [10.36.113.179])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 02C3B60C84;
- Mon,  9 Nov 2020 17:49:51 +0000 (UTC)
-Subject: Re: [PULL 00/15] Block patches for 5.2.0-rc1
-To: qemu-block@nongnu.org
-References: <20201109173839.2135984-1-mreitz@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <1703f9e1-bcd2-91ce-62f7-01cf06d2f0ad@redhat.com>
-Date: Mon, 9 Nov 2020 18:49:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kcBA5-0000i1-7v
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:41:01 -0500
+Received: from indium.canonical.com ([91.189.90.7]:46580)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kcBA1-0001Az-8I
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:41:00 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kcB9y-0008E0-SZ
+ for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 17:40:54 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C6E562E8133
+ for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 17:40:54 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20201109173839.2135984-1-mreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 01:25:23
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 09 Nov 2020 17:34:49 -0000
+From: Max Ehrlich <1671677@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: queuecumber th-huth
+X-Launchpad-Bug-Reporter: Max Ehrlich (queuecumber)
+X-Launchpad-Bug-Modifier: Max Ehrlich (queuecumber)
+References: <20170310022816.24904.27346.malonedeb@wampee.canonical.com>
+Message-Id: <160494328983.12267.4525529195898721762.malone@gac.canonical.com>
+Subject: [Bug 1671677] Re: vfio-pci passthrough issue after resume from suspend
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
+X-Launchpad-Hash: aeedbdbee61e0287d9c2439a7620b4ce5d23f84e
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 11:16:03
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,42 +72,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel@nongnu.org
+Reply-To: Bug 1671677 <1671677@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09.11.20 18:38, Max Reitz wrote:
-> The following changes since commit 2a190a7256a3e0563b29ffd67e0164097b4a6dac:
-> 
->    Merge remote-tracking branch 'remotes/philmd-gitlab/tags/renesas-fixes-20201109' into staging (2020-11-09 11:20:25 +0000)
-> 
-> are available in the Git repository at:
-> 
->    https://github.com/XanClic/qemu.git tags/pull-block-2020-11-09
-> 
-> for you to fetch changes up to 8f88cb77b06be0c2e45ed31c9fd6817d2ce3836a:
-> 
->    block: make bdrv_drop_intermediate() less wrong (2020-11-09 15:44:21 +0100)
-> 
-> ----------------------------------------------------------------
-> Block patches for 5.2.0-rc1:
-> - Some nvme fixes (addressing problems spotted by Coverity)
-> - Fix nfs compiling on mingw (and enable it in Cirrus)
-> - Fix an error path in bdrv_co_invalidate_cache() (permission update
->    was initiated, but not aborted)
-> - Fix (on-error) roll back in bdrv_drop_intermediate(): Instead of
->    inlining bdrv_replace_node() (wrongly), call that function
-> - Fix for iotest 240
-> - Fix error handling in bdrv_getlength()
-> - Be more explicit about how QCowL2Meta objects are handled
-> - Cleanups
+I don't use this setup anymore so I don't know if it's still an issue,
+it would have been nice if someone had responded to my report when I
+filed it over 3 years ago. Go ahead and close it.
 
-Sorry, NAK.  I applied patch 12 the wrong way (namely, just using 
-git-am) and so it’s missing the Message-Id and my Signed-off-by.
+-- =
 
-v2 is on the way.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1671677
 
-Max
+Title:
+  vfio-pci passthrough issue after resume from suspend
 
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  =
+
+  I'm running into a weird issue with the vfio-pci driver through qemu
+
+  I use it on a laptop and I passthrough an external GPU connected via
+  PCI express. In general this works well, however if the laptop has
+  *ever* suspended since its last boot, then the windows guest reports
+  an error 43 on the card and I get no output on the monitor that it is
+  connected to. This is really weird to me since it works fine if I boot
+  the latop from power-off, and hotplug the card. It's only if the
+  laptop has ever suspended since it's last boot that I see this issue.
+  Even if it was suspended before the card was ever hotplugged.
+
+  In other words:
+  laptop off -> boot -> hotplug GPU : works great
+  laptop off -> boot -> do stuff (GPU *NOT* connected) -> sleep -> resume -=
+> hotplug GPU: problem
+  laptop off -> boot -> hotplug GPU -> unplug GPU -> hotplug GPU : works gr=
+eat
+  laptop off -> boot -> hotplug GPU -> unplug GPU -> sleep -> resume -> hot=
+plug GPU: problem
+
+  Weird stuff...
+
+  I'm honestly not sure that vfio-pci/qemu is to blame here since there
+  are so many moving parts, but im not really sure where else to report
+  this to
+
+  What I have tried is using the sysfs interface to
+  remove/rescan/poweroff/etc the PCI devices in questions (graphics card
+  and it's HDMI audio) and this also does help.
+
+  QEMU version: 2.6.1
+
+  Please let me know what other information I can provide
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1671677/+subscriptions
 
