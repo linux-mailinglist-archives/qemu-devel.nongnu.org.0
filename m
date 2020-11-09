@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0CAD2AB33E
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 10:11:09 +0100 (CET)
-Received: from localhost ([::1]:46166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FC642AB34E
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 10:13:24 +0100 (CET)
+Received: from localhost ([::1]:52546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc3Ce-0005RY-VY
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 04:11:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52190)
+	id 1kc3Ep-0008AO-AG
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 04:13:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kc36H-0007ph-K4
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 04:04:33 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:52231)
+ id 1kc36M-0007z6-Br
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 04:04:38 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:52233)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kc36G-0005Gg-2U
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 04:04:33 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id 10so6450449wml.2
- for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 01:04:31 -0800 (PST)
+ id 1kc36K-0005In-Ob
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 04:04:38 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id 10so6450684wml.2
+ for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 01:04:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5aSUYg2Mch9yEMUswE4iSf091+MmmBptqeNiWdRkEPc=;
- b=lIZv3aY3Gz3khvYeiLr4vLd86FdoG938AtFtCLgew6LAQ5QhOK7PTxqQixdcYRP/sS
- OZcDa5WQaiTQQeHp8wFGLbTDiSg8H9eOqEBF1aqY4C+XzmFY5ImG/NnHLy+vw3buQVkE
- WTtU6319QNwHVreMiXuWJJPMSA01Ox++vmlL77sxy+tok/sMeSO9eHo1nhUogXHmBQF9
- +zPO1B44Bu/t8PKqvCIUtjJoUq/Gtdbo4hizV9O28lilTMW/d2pvtoDT9ZFY2bhLzTva
- ZY4sgezZolGpKVyetOu27ErIyhxcXbQtovZ0TrZVD3xPAcNGpYne4z8d+e4XI4k6DThq
- UKCQ==
+ bh=4iA14pMte+lLwGaPb2y/KEmFhKOga8L8HWf/hgu+TMo=;
+ b=K2Eyj06bf3tPKrM81ShncH+o9UPUrlfNh/gVA+0lHvDz4nGwvAjrLFm+EwlTJbJl9T
+ hhwKJpQH1Mlh47ec1jkMdBGEjwOpLFTBNAhvNfuMujEJSLjk0hbdOReSC3IHMa/sdoV5
+ OvIeOmDtJQaFiWdLBVh7uCJV7Ho0yzOafxAI5M5J5uvCThC6aKLAUO1m56bNJnl5i5rQ
+ 0WfVQd3g2nkw21oVGmZtLGNHAMngjFrgsJYDoH72++ufLYQzs2LvoENTPq/RJM1mel8Z
+ 1ujQVUIuNdH5U1sIrwM6L2GaPBu5YMx7eZwyz/BHZCNtp/8AET1ThOS8oC0R066M1hOY
+ 09GQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=5aSUYg2Mch9yEMUswE4iSf091+MmmBptqeNiWdRkEPc=;
- b=ZE+WVinZFQeUvf2PP2bnzjewAif7gk833uFKFKxuL4w2KL2ZdI4jEwZ65xppKAvoMG
- YV4HAcEP6R5uI0vxkoJ8ui+5R2KsZGOE+n6be8qJbToEFO1PMdnbvKJ+i/aEW+M6QdEv
- sgch0cVmLhW7Jg9UMPBemLg4LIp7SX3jC/rMYUAxx4F28SWeiQvSMqHt3gu38411UPya
- 3Vwnu9J8J8B0m/2bb+CVyCQAZnSPXkDNbnsbr0CqEIl1xUEBU/XA1tIlSQyu0dKVj6c4
- zq+GQtr71utIAzNOJG0b2DDb/AoS83KFXZnmva/mkuOP+m/quUbVrQx9vwceYHT6yjwf
- 9Rkg==
-X-Gm-Message-State: AOAM530xNNoHp04vZZY5YrMNkmyn1rsszok6Ya9zJTCQZ57DtnFi9bPX
- qZUS0nAXRJtSxHWYtfqh6hTrcWhUY3M=
-X-Google-Smtp-Source: ABdhPJx/hVFfIGjxCZwPejObwmTYI5537kNcDShkbsz60iR7H6l0ExEe2kpekgrXoV4WAOFjSCFRZQ==
-X-Received: by 2002:a1c:6182:: with SMTP id v124mr13035118wmb.94.1604912670197; 
- Mon, 09 Nov 2020 01:04:30 -0800 (PST)
+ bh=4iA14pMte+lLwGaPb2y/KEmFhKOga8L8HWf/hgu+TMo=;
+ b=aq+x0WDqDTYesNP08sy0KsF9H/yQ5A+zTOPacR+N1kwnMf3uRuhQ9tm8VPCsB+bKuZ
+ C808dLd9CCnzrKDA7tx12Rr1CJzux7fKLiGlj7Sys9PV/LLws6zasfLzv127rQfYsLXH
+ NxDDsltBHmmv77L3W0MrHeEqT4sW/p9t8jLgwImc3gjbrYWP+CDbVPz7jBg10mY7U5yT
+ UpmnXjvCfqoYUI0qS3gDhqurk/shMHE8V4icNJ0PIRZB356U8NBSprSR8vRWCCg5aJdK
+ a9YayT7wMD2N2bx7YmwTu6N++3+047Vcr8/C9nbauZo1JgykYEN1JDZj1ooDTgfykYg7
+ 8ptg==
+X-Gm-Message-State: AOAM533a8IxfSC13BwtwbDXhVWKeUdZtxm3ycNsgMmEJdPKh35dVPs4Z
+ KwbQNwFYmpUifYPhn0dyFCFrc3L9dbo=
+X-Google-Smtp-Source: ABdhPJwkK9vDeSl0oD2yv3kQkwg9Uvw+UGDmoySB+VICWikI8scJa04k8TMlI3iOBmonFWBEZIqNEw==
+X-Received: by 2002:a1c:4957:: with SMTP id w84mr13283993wma.84.1604912675079; 
+ Mon, 09 Nov 2020 01:04:35 -0800 (PST)
 Received: from localhost.localdomain (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id v189sm12897575wmg.14.2020.11.09.01.04.29
+ by smtp.gmail.com with ESMTPSA id c6sm9331031wrh.74.2020.11.09.01.04.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Nov 2020 01:04:29 -0800 (PST)
+ Mon, 09 Nov 2020 01:04:34 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-6.0 1/2] target/mips: Replace magic values by CP0PM_MASK
- or TARGET_PAGE_BITS_MIN
-Date: Mon,  9 Nov 2020 10:04:21 +0100
-Message-Id: <20201109090422.2445166-2-f4bug@amsat.org>
+Subject: [PATCH-for-6.0 2/2] target/mips: Do not include CP0 helpers in
+ user-mode emulation
+Date: Mon,  9 Nov 2020 10:04:22 +0100
+Message-Id: <20201109090422.2445166-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201109090422.2445166-1-f4bug@amsat.org>
 References: <20201109090422.2445166-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -95,55 +95,63 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace magic values related to page size:
-
-  12 -> TARGET_PAGE_BITS_MIN
-  13 -> CP0PM_MASK
+CP0 helpers are restricted to system-mode emulation.
+Do not intent do build cp0_helper.c in user-mode (this
+allows to simplify some #ifdef'ry).
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/cp0_helper.c | 5 +++--
- target/mips/helper.c     | 4 ++--
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ target/mips/cp0_helper.c | 4 ----
+ target/mips/meson.build  | 2 +-
+ 2 files changed, 1 insertion(+), 5 deletions(-)
 
 diff --git a/target/mips/cp0_helper.c b/target/mips/cp0_helper.c
-index a1b5140ccaf..e8b9343ec9c 100644
+index e8b9343ec9c..caaaefcc8ad 100644
 --- a/target/mips/cp0_helper.c
 +++ b/target/mips/cp0_helper.c
-@@ -904,7 +904,7 @@ void update_pagemask(CPUMIPSState *env, target_ulong arg1, int32_t *pagemask)
-         goto invalid;
-     }
-     /* We don't support VTLB entry smaller than target page */
--    if ((maskbits + 12) < TARGET_PAGE_BITS) {
-+    if ((maskbits + TARGET_PAGE_BITS_MIN) < TARGET_PAGE_BITS) {
-         goto invalid;
-     }
-     env->CP0_PageMask = mask << CP0PM_MASK;
-@@ -913,7 +913,8 @@ void update_pagemask(CPUMIPSState *env, target_ulong arg1, int32_t *pagemask)
+@@ -32,7 +32,6 @@
+ #include "sysemu/kvm.h"
  
- invalid:
-     /* When invalid, set to default target page size. */
--    env->CP0_PageMask = (~TARGET_PAGE_MASK >> 12) << CP0PM_MASK;
-+    mask = (~TARGET_PAGE_MASK >> TARGET_PAGE_BITS_MIN);
-+    env->CP0_PageMask = mask << CP0PM_MASK;
+ 
+-#ifndef CONFIG_USER_ONLY
+ /* SMP helpers.  */
+ static bool mips_vpe_is_wfi(MIPSCPU *c)
+ {
+@@ -1667,10 +1666,8 @@ target_ulong helper_evpe(CPUMIPSState *env)
+     }
+     return prev;
  }
+-#endif /* !CONFIG_USER_ONLY */
  
- void helper_mtc0_pagemask(CPUMIPSState *env, target_ulong arg1)
-diff --git a/target/mips/helper.c b/target/mips/helper.c
-index 063b65c0528..041432489d6 100644
---- a/target/mips/helper.c
-+++ b/target/mips/helper.c
-@@ -858,8 +858,8 @@ refill:
-             break;
-         }
+ /* R6 Multi-threading */
+-#ifndef CONFIG_USER_ONLY
+ target_ulong helper_dvp(CPUMIPSState *env)
+ {
+     CPUState *other_cs = first_cpu;
+@@ -1709,4 +1706,3 @@ target_ulong helper_evp(CPUMIPSState *env)
      }
--    pw_pagemask = m >> 12;
--    update_pagemask(env, pw_pagemask << 13, &pw_pagemask);
-+    pw_pagemask = m >> TARGET_PAGE_BITS_MIN;
-+    update_pagemask(env, pw_pagemask << CP0PM_MASK, &pw_pagemask);
-     pw_entryhi = (address & ~0x1fff) | (env->CP0_EntryHi & 0xFF);
-     {
-         target_ulong tmp_entryhi = env->CP0_EntryHi;
+     return prev;
+ }
+-#endif /* !CONFIG_USER_ONLY */
+diff --git a/target/mips/meson.build b/target/mips/meson.build
+index fa1f024e782..681a5524c0e 100644
+--- a/target/mips/meson.build
++++ b/target/mips/meson.build
+@@ -1,6 +1,5 @@
+ mips_ss = ss.source_set()
+ mips_ss.add(files(
+-  'cp0_helper.c',
+   'cpu.c',
+   'dsp_helper.c',
+   'fpu_helper.c',
+@@ -15,6 +14,7 @@
+ 
+ mips_softmmu_ss = ss.source_set()
+ mips_softmmu_ss.add(files(
++  'cp0_helper.c',
+   'cp0_timer.c',
+   'machine.c',
+   'mips-semi.c',
 -- 
 2.26.2
 
