@@ -2,69 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E49E82ABDD6
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 14:52:22 +0100 (CET)
-Received: from localhost ([::1]:54338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 521992ABCE1
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 14:42:25 +0100 (CET)
+Received: from localhost ([::1]:57558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc7an-0000tg-VG
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 08:52:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32908)
+	id 1kc7RA-0006RJ-Cf
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 08:42:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kc7UZ-0003Cf-D8
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 08:45:55 -0500
-Received: from indium.canonical.com ([91.189.90.7]:33866)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kc7UT-0002qU-Gm
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 08:45:55 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kc7UQ-0000du-2K
- for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 13:45:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 04EEE2E8132
- for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 13:45:46 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 09 Nov 2020 13:37:05 -0000
-From: Thomas Huth <1687599@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kc7OV-0004rA-Pn
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 08:39:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49930)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kc7OS-0000hs-Lc
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 08:39:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604929175;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=zQ4bmEIBY00lsT0aN9BEUEYGWs/jZxiMoowXTzHTQ38=;
+ b=TTpgl/BDiBmmdjIONt1lxyRR27G6rnK/rj5XEgpv6xSGvBryV2p33siHsuRYLXTqabGH2O
+ 7fRDhrGCG6iO2PouNOoa+oYK2qm0HTYzJyc44hpwzMGz/og/kqEWQH1FZdDJaEhc7F4sGe
+ /9fd2DYPNNQFBi0/CjGQnkQS/8bOXRs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-492-PZReZDjXMby9Gue1QkcwpQ-1; Mon, 09 Nov 2020 08:39:33 -0500
+X-MC-Unique: PZReZDjXMby9Gue1QkcwpQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 508D61018F73
+ for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 13:39:32 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 032EB6EF48;
+ Mon,  9 Nov 2020 13:39:31 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: steeven th-huth
-X-Launchpad-Bug-Reporter: steeven (steeven)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20170502110747.26349.38130.malonedeb@gac.canonical.com>
-Message-Id: <160492902555.18790.12210009541576222876.malone@wampee.canonical.com>
-Subject: [Bug 1687599] Re: Bind 2nd VM to same OVS vhost-user port caused 1st
- vm traffic broken 
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: 3bc1c9bbf776c9368bc1144aa85f831d8c1aba0c
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 01:40:52
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH v2 for-5.2 0/6] Deprecate or forbid crazy QemuOpts cases
+Date: Mon,  9 Nov 2020 08:39:25 -0500
+Message-Id: <20201109133931.979563-1-pbonzini@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 01:25:23
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,62 +78,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1687599 <1687599@bugs.launchpad.net>
+Cc: armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently considering to move its bug tracking to anoth=
-er system. For this we need to know which bugs are still valid and which co=
-uld be closed already. Thus we are setting older bugs to "Incomplete" now.
-If you still think this bug report here is valid, then please switch the st=
-ate back to "New" within the next 60 days, otherwise this report will be ma=
-rked as "Expired". Thank you and sorry for the inconvenience.
+It's very hard to make QemuOpts fail.  It's also very easy
+to write command lines that QemuOpts accept but make no sense.
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+This series deals with three cases:
 
--- =
+- QemuOpts accepts ids even for options that are meant to be singletons.
+As a result, a command line option like "-M q35,id=ff" is ignored silently.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1687599
+- QemuOpts simply matches "help" or "?" against the option name to
+determine whether the user asked for help.  Something like "nohelp" or
+"?=please" will print the help message.
 
-Title:
-  Bind 2nd VM to same OVS vhost-user port caused 1st vm traffic broken
+- QemuOpts lets you write boolean options in "short form" where "abc"
+means "abc=on" and "noabc" means "abc=off".  This is confusing, since it
+is not done for the first key=value pair (but only if there is an implied
+key); it can also be grossly misused, as in the previous example, because
+it is not type safe.  In case you need confirmation, "-device e1000,noid"
+will create a device with id equal to "off".
 
-Status in QEMU:
-  Incomplete
+Unfortunately, this last idiom has found wide use with -chardev (think
+"server,nowait") and to a lesser extent -spice, so it can only be
+deprecated.  The other two are removed.
 
-Bug description:
-  Binding 2nd VM to same OVS vhost-user port caused 1st vm traffic
-  broken. If it illegal to share same vhost port, how about the first VM
-  open the path exclusively?
+Patches 1-3 are cleanups.  Patches 4-6 deal with the above issues one
+by one.  I have a seventh patch to remove the third argument to
+qemu_opts_create, but it touches a few dozen files.
 
-  #OVS side to create the vhost-user port:
-  ovs-vsctl add-br br0 -- set bridge br0 datapath_type=3Dnetdev
-  ovs-vsctl add-port br0 phy0 -- set Interface phy0 type=3Ddpdk options:dpd=
-k-devargs=3D0000:0a:00.0
-  ovs-vsctl add-port br0 dpdkvhostuser0 -- set Interface dpdkvhostuser0 typ=
-e=3Ddpdkvhostuser
+Paolo
 
-  #QEMU VM1
-  qemu-system-x86_64 -name vm1 -cpu host -enable-kvm -m 3072 -drive file=3D=
-/opt/ubuntu1.qcow2 -numa node,memdev=3Dmem -mem-prealloc -smp sockets=3D1,c=
-ores=3D2 -object memory-backend-file,id=3Dmem,size=3D3072m,mem-path=3D/dev/=
-hugepages,share=3Don -chardev socket,id=3Dchar0,path=3D/usr/local/var/run/o=
-penvswitch/dpdkvhostuser0 -netdev type=3Dvhost-user,id=3Dmynet1,chardev=3Dc=
-har0,vhostforce -device virtio-net-pci,mac=3D00:00:00:00:00:01,netdev=3Dmyn=
-et1,mrg_rxbuf=3Doff
+Supersedes: <20201105142731.623428-1-pbonzini@redhat.com>
 
-  #VM2
-  qemu-system-x86_64 -name vm2 -cpu host -enable-kvm -m 3072 -drive file=3D=
-/opt/ubuntu2.qcow2 -numa node,memdev=3Dmem -mem-prealloc -smp sockets=3D1,c=
-ores=3D2 -object memory-backend-file,id=3Dmem,size=3D3072m,mem-path=3D/dev/=
-hugepages,share=3Don -chardev socket,id=3Dchar0,path=3D/usr/local/var/run/o=
-penvswitch/dpdkvhostuser0 -netdev type=3Dvhost-user,id=3Dmynet1,chardev=3Dc=
-har0,vhostforce -device virtio-net-pci,mac=3D00:00:00:00:00:01,netdev=3Dmyn=
-et1,mrg_rxbuf=3Doff
+Paolo Bonzini (6):
+  qemu-option: simplify search for end of key
+  qemu-option: pass QemuOptsList to opts_accepts_any
+  qemu-option: restrict qemu_opts_set to merge-lists QemuOpts
+  qemu-option: clean up id vs. list->merge_lists
+  qemu-option: move help handling to get_opt_name_value
+  qemu-option: warn for short-form boolean options
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1687599/+subscriptions
+ docs/system/deprecated.rst |   6 ++
+ include/qemu/option.h      |   3 +-
+ softmmu/vl.c               |  19 ++---
+ tests/test-qemu-opts.c     |  26 ++++++-
+ util/qemu-option.c         | 149 +++++++++++++++++++------------------
+ 5 files changed, 113 insertions(+), 90 deletions(-)
+
+-- 
+2.26.2
+
 
