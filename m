@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2D692AC739
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 22:28:20 +0100 (CET)
-Received: from localhost ([::1]:53808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF5A82AC750
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 22:33:35 +0100 (CET)
+Received: from localhost ([::1]:37570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcEi3-0005Zu-Mi
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 16:28:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33630)
+	id 1kcEn8-0002c1-UV
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 16:33:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kcEg2-0003uG-1e
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 16:26:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20280)
+ id 1kcEg4-0003yA-Q7
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 16:26:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31012)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kcEfz-0005bE-43
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 16:26:13 -0500
+ id 1kcEg2-0005c3-Qb
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 16:26:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604957170;
+ s=mimecast20190719; t=1604957173;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WtYmU02TyTHMCT8p52Unsn1UtpXki2UBOqhDJEoT+Bg=;
- b=SKb/KtjeX+6B2KkRM6dwD10a0lbHPLY728P0FTmxT/nntk+NmyGwv2g2JGjs1GgszSkrZp
- QTvvGkERGxcNJEaLMib8CxB8jR2+GO0Ecx9pjwlU0eyHxQcLaMwsqJ95dk4Ctz8dtw6HdG
- k+AZOqw9Ivsny+0qJlEy6Y/+0+HXd2k=
+ bh=HrttNqAhwpG0xM9KyBcAIFaMWj5fSOHCWB5lN6j6duY=;
+ b=UxJvguv/JqbE+XupvCqQmok0rBlMG5Nw4vSh5kb45CRj2+P+ZjKPsVcplUVEPnqyXu8/qc
+ 2UJVhJpX1VBK/lKh1LAWmyOhDOYC+xGjcM7gdIWq8KjrIe+TGIy238h8zHhd4A+iMJyimn
+ tiEMZRvE/ASpVMsRn7uSx69ICWsCqrM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-96-HdLc6BkIOBORut_Vj2NlTQ-1; Mon, 09 Nov 2020 16:26:08 -0500
-X-MC-Unique: HdLc6BkIOBORut_Vj2NlTQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-540-4GgTmPKWNZK-4qRrYmS3gQ-1; Mon, 09 Nov 2020 16:26:09 -0500
+X-MC-Unique: 4GgTmPKWNZK-4qRrYmS3gQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3AAC6D244
- for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 21:26:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DDD47879513
+ for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 21:26:08 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 98B351A3D6;
- Mon,  9 Nov 2020 21:26:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AE1F77E72A;
+ Mon,  9 Nov 2020 21:26:07 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/8] qnum: qnum_value_is_equal() function
-Date: Mon,  9 Nov 2020 16:25:52 -0500
-Message-Id: <20201109212556.3934583-5-ehabkost@redhat.com>
+Subject: [PATCH 5/8] qlit: Support all types of QNums
+Date: Mon,  9 Nov 2020 16:25:53 -0500
+Message-Id: <20201109212556.3934583-6-ehabkost@redhat.com>
 In-Reply-To: <20201109212556.3934583-1-ehabkost@redhat.com>
 References: <20201109212556.3934583-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,89 +86,195 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Extract the QNum value comparison logic to a function that takes
-QNumValue* as argument.
+Use QNumValue to represent QNums, so we can also support uint64_t
+and double QNum values.  Add new QLIT_QNUM_(INT|UINT|DOUBLE)
+macros for each case.
+
+The QLIT_QNUM() macro is being kept for compatibility with
+existing code, but becomes just a wrapper for QLIT_QNUM_INT().
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/qapi/qmp/qnum.h |  1 +
- qobject/qnum.c          | 29 +++++++++++++++++++----------
- 2 files changed, 20 insertions(+), 10 deletions(-)
+ include/qapi/qmp/qlit.h | 11 +++++--
+ qobject/qlit.c          |  4 +--
+ tests/check-qjson.c     | 72 ++++++++++++++++++++++++++++++++++++++---
+ 3 files changed, 78 insertions(+), 9 deletions(-)
 
-diff --git a/include/qapi/qmp/qnum.h b/include/qapi/qmp/qnum.h
-index 62fbdfda68..0327ecd0f0 100644
---- a/include/qapi/qmp/qnum.h
-+++ b/include/qapi/qmp/qnum.h
-@@ -106,6 +106,7 @@ double qnum_get_double(const QNum *qn);
+diff --git a/include/qapi/qmp/qlit.h b/include/qapi/qmp/qlit.h
+index c0676d5daf..f9e356d31e 100644
+--- a/include/qapi/qmp/qlit.h
++++ b/include/qapi/qmp/qlit.h
+@@ -15,6 +15,7 @@
+ #define QLIT_H
  
- char *qnum_to_string(QNum *qn);
+ #include "qobject.h"
++#include "qnum.h"
  
-+bool qnum_value_is_equal(const QNumValue *num_x, const QNumValue *num_y);
- bool qnum_is_equal(const QObject *x, const QObject *y);
- void qnum_destroy_obj(QObject *obj);
+ typedef struct QLitDictEntry QLitDictEntry;
+ typedef struct QLitObject QLitObject;
+@@ -23,7 +24,7 @@ struct QLitObject {
+     QType type;
+     union {
+         bool qbool;
+-        int64_t qnum;
++        QNumValue qnum;
+         const char *qstr;
+         QLitDictEntry *qdict;
+         QLitObject *qlist;
+@@ -39,8 +40,14 @@ struct QLitDictEntry {
+     { .type = QTYPE_QNULL }
+ #define QLIT_QBOOL(val) \
+     { .type = QTYPE_QBOOL, .value.qbool = (val) }
++#define QLIT_QNUM_INT(val) \
++    { .type = QTYPE_QNUM, .value.qnum = QNUM_VAL_INT(val) }
++#define QLIT_QNUM_UINT(val) \
++    { .type = QTYPE_QNUM, .value.qnum = QNUM_VAL_UINT(val) }
++#define QLIT_QNUM_DOUBLE(val) \
++    { .type = QTYPE_QNUM, .value.qnum = QNUM_VAL_DOUBLE(val) }
+ #define QLIT_QNUM(val) \
+-    { .type = QTYPE_QNUM, .value.qnum = (val) }
++    QLIT_QNUM_INT(val)
+ #define QLIT_QSTR(val) \
+     { .type = QTYPE_QSTRING, .value.qstr = (val) }
+ #define QLIT_QDICT(val) \
+diff --git a/qobject/qlit.c b/qobject/qlit.c
+index be8332136c..ec11a39518 100644
+--- a/qobject/qlit.c
++++ b/qobject/qlit.c
+@@ -71,7 +71,7 @@ bool qlit_equal_qobject(const QLitObject *lhs, const QObject *rhs)
+     case QTYPE_QBOOL:
+         return lhs->value.qbool == qbool_get_bool(qobject_to(QBool, rhs));
+     case QTYPE_QNUM:
+-        return lhs->value.qnum ==  qnum_get_int(qobject_to(QNum, rhs));
++        return qnum_value_is_equal(&lhs->value.qnum, qnum_get_value(qobject_to(QNum, rhs)));
+     case QTYPE_QSTRING:
+         return (strcmp(lhs->value.qstr,
+                        qstring_get_str(qobject_to(QString, rhs))) == 0);
+@@ -94,7 +94,7 @@ QObject *qobject_from_qlit(const QLitObject *qlit)
+     case QTYPE_QNULL:
+         return QOBJECT(qnull());
+     case QTYPE_QNUM:
+-        return QOBJECT(qnum_from_int(qlit->value.qnum));
++        return QOBJECT(qnum_from_value(qlit->value.qnum));
+     case QTYPE_QSTRING:
+         return QOBJECT(qstring_from_str(qlit->value.qstr));
+     case QTYPE_QDICT: {
+diff --git a/tests/check-qjson.c b/tests/check-qjson.c
+index 07a773e653..711030cffd 100644
+--- a/tests/check-qjson.c
++++ b/tests/check-qjson.c
+@@ -796,20 +796,23 @@ static void simple_number(void)
+     int i;
+     struct {
+         const char *encoded;
++        QLitObject qlit;
+         int64_t decoded;
+         int skip;
+     } test_cases[] = {
+-        { "0", 0 },
+-        { "1234", 1234 },
+-        { "1", 1 },
+-        { "-32", -32 },
+-        { "-0", 0, .skip = 1 },
++        { "0",    QLIT_QNUM(0),    0, },
++        { "1234", QLIT_QNUM(1234), 1234, },
++        { "1",    QLIT_QNUM(1),    1, },
++        { "-32",  QLIT_QNUM(-32),  -32, },
++        { "-0",   QLIT_QNUM(0),    0, .skip = 1 },
+         { },
+     };
  
-diff --git a/qobject/qnum.c b/qobject/qnum.c
-index f80d4efd76..6a0f948b16 100644
---- a/qobject/qnum.c
-+++ b/qobject/qnum.c
-@@ -207,9 +207,9 @@ char *qnum_to_string(QNum *qn)
+     for (i = 0; test_cases[i].encoded; i++) {
+         QNum *qnum;
+         int64_t val;
++        QNum *qlit_num;
++        int64_t qlit_val;
+ 
+         qnum = qobject_to(QNum,
+                           qobject_from_json(test_cases[i].encoded,
+@@ -817,6 +820,7 @@ static void simple_number(void)
+         g_assert(qnum);
+         g_assert(qnum_get_try_int(qnum, &val));
+         g_assert_cmpint(val, ==, test_cases[i].decoded);
++
+         if (test_cases[i].skip == 0) {
+             QString *str;
+ 
+@@ -826,9 +830,66 @@ static void simple_number(void)
+         }
+ 
+         qobject_unref(qnum);
++
++        qlit_num = qobject_to(QNum,
++                              qobject_from_qlit(&test_cases[i].qlit));
++        g_assert(qlit_num);
++        g_assert(qnum_get_try_int(qlit_num, &qlit_val));
++        g_assert_cmpint(qlit_val, ==, test_cases[i].decoded);
++
++        qobject_unref(qlit_num);
+     }
  }
  
- /**
-- * qnum_is_equal(): Test whether the two QNums are equal
-- * @x: QNum object
-- * @y: QNum object
-+ * qnum_value_is_equal(): Test whether two QNumValues are equal
-+ * @num_x: QNum value
-+ * @num_y: QNum value
-  *
-  * Negative integers are never considered equal to unsigned integers,
-  * but positive integers in the range [0, INT64_MAX] are considered
-@@ -217,13 +217,8 @@ char *qnum_to_string(QNum *qn)
-  *
-  * Doubles are never considered equal to integers.
-  */
--bool qnum_is_equal(const QObject *x, const QObject *y)
-+bool qnum_value_is_equal(const QNumValue *num_x, const QNumValue *num_y)
- {
--    const QNum *qnum_x = qobject_to(QNum, x);
--    const QNum *qnum_y = qobject_to(QNum, y);
--    const QNumValue *num_x = &qnum_x->value;
--    const QNumValue *num_y = &qnum_y->value;
--
-     switch (num_x->kind) {
-     case QNUM_I64:
-         switch (num_y->kind) {
-@@ -241,7 +236,7 @@ bool qnum_is_equal(const QObject *x, const QObject *y)
-     case QNUM_U64:
-         switch (num_y->kind) {
-         case QNUM_I64:
--            return qnum_is_equal(y, x);
-+            return qnum_value_is_equal(num_y, num_x);
-         case QNUM_U64:
-             /* Comparison in native uint64_t type */
-             return num_x->u.u64 == num_y->u.u64;
-@@ -264,6 +259,20 @@ bool qnum_is_equal(const QObject *x, const QObject *y)
-     abort();
- }
- 
-+/**
-+ * qnum_is_equal(): Test whether the two QNums are equal
-+ * @x: QNum object
-+ * @y: QNum object
-+ *
-+ * See qnum_value_is_equal() for details on the comparison rules.
-+ */
-+bool qnum_is_equal(const QObject *x, const QObject *y)
++static void qlit_large_number(void)
 +{
-+    const QNum *qnum_x = qobject_to(QNum, x);
-+    const QNum *qnum_y = qobject_to(QNum, y);
-+    return qnum_value_is_equal(&qnum_x->value, &qnum_y->value);
++    QLitObject maxu64 = QLIT_QNUM_UINT(UINT64_MAX);
++    QLitObject maxi64 = QLIT_QNUM(INT64_MAX);
++    QLitObject mini64 = QLIT_QNUM(INT64_MIN);
++    QLitObject gtu64  = QLIT_QNUM_DOUBLE(18446744073709552e3);
++    QLitObject lti64  = QLIT_QNUM_DOUBLE(-92233720368547758e2);
++    QNum *qnum;
++    uint64_t val;
++    int64_t ival;
++
++    qnum = qobject_to(QNum, qobject_from_qlit(&maxu64));
++    g_assert(qnum);
++    g_assert_cmpuint(qnum_get_uint(qnum), ==, UINT64_MAX);
++    g_assert(!qnum_get_try_int(qnum, &ival));
++
++    qobject_unref(qnum);
++
++    qnum = qobject_to(QNum, qobject_from_qlit(&maxi64));
++    g_assert(qnum);
++    g_assert_cmpuint(qnum_get_uint(qnum), ==, INT64_MAX);
++    g_assert_cmpint(qnum_get_int(qnum), ==, INT64_MAX);
++
++    qobject_unref(qnum);
++
++    qnum = qobject_to(QNum, qobject_from_qlit(&mini64));
++    g_assert(qnum);
++    g_assert(!qnum_get_try_uint(qnum, &val));
++    g_assert_cmpuint(qnum_get_int(qnum), ==, INT64_MIN);
++
++    qobject_unref(qnum);
++
++    qnum = qobject_to(QNum, qobject_from_qlit(&gtu64));
++    g_assert(qnum);
++    g_assert_cmpfloat(qnum_get_double(qnum), ==, 18446744073709552e3);
++    g_assert(!qnum_get_try_uint(qnum, &val));
++    g_assert(!qnum_get_try_int(qnum, &ival));
++
++    qobject_unref(qnum);
++
++    qnum = qobject_to(QNum, qobject_from_qlit(&lti64));
++    g_assert(qnum);
++    g_assert_cmpfloat(qnum_get_double(qnum), ==, -92233720368547758e2);
++    g_assert(!qnum_get_try_uint(qnum, &val));
++    g_assert(!qnum_get_try_int(qnum, &ival));
++
++    qobject_unref(qnum);
 +}
 +
- /**
-  * qnum_destroy_obj(): Free all memory allocated by a QNum object
-  *
+ static void large_number(void)
+ {
+     const char *maxu64 = "18446744073709551615"; /* 2^64-1 */
+@@ -1472,6 +1533,7 @@ int main(int argc, char **argv)
+     g_test_add_func("/literals/string/utf8", utf8_string);
+ 
+     g_test_add_func("/literals/number/simple", simple_number);
++    g_test_add_func("/literals/number/qlit_large", qlit_large_number);
+     g_test_add_func("/literals/number/large", large_number);
+     g_test_add_func("/literals/number/float", float_number);
+ 
 -- 
 2.28.0
 
