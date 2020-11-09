@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CA7F2AC2D0
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 18:49:33 +0100 (CET)
-Received: from localhost ([::1]:60008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B080B2AC2E1
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 18:54:12 +0100 (CET)
+Received: from localhost ([::1]:44930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcBIK-000217-L0
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 12:49:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40956)
+	id 1kcBMp-0007UN-NB
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 12:54:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kcB8N-0006jW-LO
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:39:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56872)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kcB8O-0006mI-KA
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:39:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34984)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kcB8I-0000Sm-UR
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:39:15 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kcB8K-0000TE-7j
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:39:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604943550;
+ s=mimecast20190719; t=1604943551;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hHJNqd6Br/c1KyYwigQccuMPZ68Itm3sXvitrDmRkhU=;
- b=C80+wHJliFosCSq6HOq1EzLGIVLeeigybWUAbvsDGAZFr+Wv0L3Q0lissQNHVx94ZApPwm
- 4mXMqJrixjKe4ZKtNAh4rgflMnbeFvX7cWVk3IrhzWHZQh/5+jQc/G7zUZ80a0SqnWZoYp
- eQRx7WdE7CxJu07y5t4reODHTaloUL4=
+ bh=q8g52wmoICf/sE92Ciwpuit7Bk1P+BBAtjZl2AdWs4g=;
+ b=cwlbEwBR3v5MDRn0Yn44NidAE9TV/LpplKQ5iEetxp7s4i4PEMUXgdsBBLdh9ELioX3iqN
+ cu7c4n4qGwu3NKemQymyprynUPytxDaUElfjxBojL07kGRikVNPXACUJ6Uy1C1QxRWAaRf
+ zZuOw11CLdOVD1dHhP/9QYZg4NDtvFg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-28-5LLDBo-gOTmtvXVne1kISg-1; Mon, 09 Nov 2020 12:39:05 -0500
-X-MC-Unique: 5LLDBo-gOTmtvXVne1kISg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-195-Yzq2uD53Nt6zqZQHGFZeGg-1; Mon, 09 Nov 2020 12:39:08 -0500
+X-MC-Unique: Yzq2uD53Nt6zqZQHGFZeGg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7D95879513;
- Mon,  9 Nov 2020 17:39:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0AFD41074646;
+ Mon,  9 Nov 2020 17:39:07 +0000 (UTC)
 Received: from localhost (ovpn-113-179.ams2.redhat.com [10.36.113.179])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B12C1002C00;
- Mon,  9 Nov 2020 17:39:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A0D4D5B4A9;
+ Mon,  9 Nov 2020 17:39:06 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 10/15] block: enable libnfs on msys2/mingw in cirrus.yml
-Date: Mon,  9 Nov 2020 18:38:34 +0100
-Message-Id: <20201109173839.2135984-11-mreitz@redhat.com>
+Subject: [PULL 11/15] block: Fix integer promotion error in bdrv_getlength()
+Date: Mon,  9 Nov 2020 18:38:35 +0100
+Message-Id: <20201109173839.2135984-12-mreitz@redhat.com>
 In-Reply-To: <20201109173839.2135984-1-mreitz@redhat.com>
 References: <20201109173839.2135984-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 01:25:23
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 00:04:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,30 +83,45 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yonggang Luo <luoyonggang@gmail.com>
+From: Eric Blake <eblake@redhat.com>
 
-Initially, libnfs has not been enabled, and now it's fixed, so enable it
-on cirrus.
+Back in 2015, we attempted to fix error reporting for images that
+claimed to have more than INT64_MAX/512 sectors, but due to the type
+promotions caused by BDRV_SECTOR_SIZE being unsigned, this
+inadvertently forces all negative ret values to be slammed into -EFBIG
+rather than the original error.  While we're at it, we can avoid the
+confusing ?: by spelling the logic more directly.
 
-Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-Message-Id: <20201105123116.674-3-luoyonggang@gmail.com>
+Fixes: 4a9c9ea0d3
+Reported-by: Guoyi Tu <tu.guoyi@h3c.com>
+Signed-off-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20201105155122.60943-1-eblake@redhat.com>
+Reviewed-by: Alberto Garcia <berto@igalia.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- .cirrus.yml | 1 +
- 1 file changed, 1 insertion(+)
+ block.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index 900437dd2a..f0209b7a3e 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -109,6 +109,7 @@ windows_msys2_task:
-           mingw-w64-x86_64-cyrus-sasl \
-           mingw-w64-x86_64-curl \
-           mingw-w64-x86_64-gnutls \
-+          mingw-w64-x86_64-libnfs \
-           "
-         bitsadmin /transfer msys_download /dynamic /download /priority FOREGROUND `
-           https://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-python-sphinx-2.3.1-1-any.pkg.tar.xz `
+diff --git a/block.c b/block.c
+index 56bacc9e9f..2fd932154e 100644
+--- a/block.c
++++ b/block.c
+@@ -5091,8 +5091,13 @@ int64_t bdrv_getlength(BlockDriverState *bs)
+ {
+     int64_t ret = bdrv_nb_sectors(bs);
+ 
+-    ret = ret > INT64_MAX / BDRV_SECTOR_SIZE ? -EFBIG : ret;
+-    return ret < 0 ? ret : ret * BDRV_SECTOR_SIZE;
++    if (ret < 0) {
++        return ret;
++    }
++    if (ret > INT64_MAX / BDRV_SECTOR_SIZE) {
++        return -EFBIG;
++    }
++    return ret * BDRV_SECTOR_SIZE;
+ }
+ 
+ /* return 0 as number of sectors if no device present or error */
 -- 
 2.28.0
 
