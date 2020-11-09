@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E48042ABDCF
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 14:50:37 +0100 (CET)
-Received: from localhost ([::1]:51302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C11272ABD77
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 14:46:53 +0100 (CET)
+Received: from localhost ([::1]:40132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc7Z6-0007un-Ut
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 08:50:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58976)
+	id 1kc7VU-0002mK-Qg
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 08:46:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kc7Oe-00054c-E4
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 08:39:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46716)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1kc7Pa-0006Wa-8j
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 08:40:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25546)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kc7Oc-0000mf-8b
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 08:39:48 -0500
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1kc7PX-0001Ec-Sv
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 08:40:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604929185;
+ s=mimecast20190719; t=1604929242;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wBcRfdslejd3RJsY6JwM1wVDqzPn+e9pnKz9YiNEbak=;
- b=Flm5sAA5LdGSEbbJZ0P/oTq6bKoldDAqD9wuxnhIbw8dLJ/MROz/6dTgjLPnCAtLRq/iq1
- YuvLuW1HThcE5+qZtqqc61knEaIyiCUbkJDukwBb4f25Kw+dtIzd6fnx/cBDWiMmWHJNsG
- XNnWnJu+Jv0UJuSwjGSfdS42Cp2WAsM=
+ bh=eq3jGqK1LFTaUd/Dy3H/B96P+EouWzns6tDkLGiS7DY=;
+ b=HgkCXa0+eDBWuPN4a720l/xgXuahsO8fTlD2vssWMOc1cV37D/SFgRUIDxHULAnvdK4WiG
+ UDbtFtJ4so9q8WZyNi8tqjfZTcGbEAEUkx/GOTeBvhFiDug7DnceyilRyFiIftVddSJ665
+ EDB3dQs2oXcJg80924vFotzKdrGl0Pc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-111-OG2s4d_iPpy5ms4W7hx0CQ-1; Mon, 09 Nov 2020 08:39:39 -0500
-X-MC-Unique: OG2s4d_iPpy5ms4W7hx0CQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-417-XoZ3XJl3PDiCee67eV9R4A-1; Mon, 09 Nov 2020 08:40:40 -0500
+X-MC-Unique: XoZ3XJl3PDiCee67eV9R4A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3B954239D
- for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 13:39:37 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 96A8F6EF40;
- Mon,  9 Nov 2020 13:39:37 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 6/6] qemu-option: warn for short-form boolean options
-Date: Mon,  9 Nov 2020 08:39:31 -0500
-Message-Id: <20201109133931.979563-7-pbonzini@redhat.com>
-In-Reply-To: <20201109133931.979563-1-pbonzini@redhat.com>
-References: <20201109133931.979563-1-pbonzini@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 09F7C1018F79;
+ Mon,  9 Nov 2020 13:40:39 +0000 (UTC)
+Received: from [10.36.114.125] (ovpn-114-125.ams2.redhat.com [10.36.114.125])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5800F5B4D1;
+ Mon,  9 Nov 2020 13:40:31 +0000 (UTC)
+Subject: Re: [PATCH v2] hw/arm/virt enable support for virtio-mem
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-devel@nongnu.org
+References: <20201105174311.566751-1-Jonathan.Cameron@huawei.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <c48890ff-9225-0d67-85d3-ae5161a204cf@redhat.com>
+Date: Mon, 9 Nov 2020 14:40:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20201105174311.566751-1-Jonathan.Cameron@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 00:04:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
@@ -67,8 +69,9 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,182 +84,237 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: armbru@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>, linuxarm@huawei.com,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Options such as "server" or "nowait", that are commonly found in -chardev,
-are sugar for "server=on" and "wait=off".  This is quite surprising and
-also does not have any notion of typing attached.  It is even possible to
-do "-device e1000,noid" and get a device with "id=off".
+Hi Jonathan,
 
-Deprecate it and print a warning when it is encountered.  In general,
-this short form for boolean options only seems to be in wide use for
--chardev and -spice.
+On 11/5/20 6:43 PM, Jonathan Cameron wrote:
+> Basically a cut and paste job from the x86 support with the exception of
+> needing a larger block size as the Memory Block Size (MIN_SECTION_SIZE)
+> on ARM64 in Linux is 1G.
+> 
+> Tested:
+> * In full emulation and with KVM on an arm64 server.
+> * cold and hotplug for the virtio-mem-pci device.
+> * Wide range of memory sizes, added at creation and later.
+> * Fairly basic memory usage of memory added.  Seems to function as normal.
+> * NUMA setup with virtio-mem-pci devices on each node.
+> * Simple migration test.
 
-The extra boolean argument is not my favorite.  In 6.0 I plan to remove
-qemu_opts_set_defaults by switching -M to keyval, and therefore quite
-a bit of QemuOpts code will go away.
+I would add in the commit message that the hot-unplug of the device is
+not supported.
+> 
+> Related kernel patch just enables the Kconfig item for ARM64 as an
+> alternative to x86 in drivers/virtio/Kconfig
+> 
+> The original patches from David Hildenbrand stated that he thought it should
+> work for ARM64 but it wasn't enabled in the kernel [1]
+> It appears he was correct and everything 'just works'.
+Did you try with 64kB page guest as well?
+> 
+> The build system related stuff is intended to ensure virtio-mem support is
+> not built for arm32 (build will fail due no defined block size).
+> If there is a more elegant way to do this, please point me in the right
+> direction.
+I guess you meant CONFIG_ARCH_VIRTIO_MEM_SUPPORTED introduction
+> 
+> [1] https://lore.kernel.org/linux-mm/20191212171137.13872-1-david@redhat.com/
+> 
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> ---
+>  default-configs/devices/aarch64-softmmu.mak |  1 +
+>  hw/arm/Kconfig                              |  1 +
+>  hw/arm/virt.c                               | 64 ++++++++++++++++++++-
+>  hw/virtio/Kconfig                           |  4 ++
+>  hw/virtio/virtio-mem.c                      |  2 +
+>  5 files changed, 71 insertions(+), 1 deletion(-)
+> 
+> diff --git a/default-configs/devices/aarch64-softmmu.mak b/default-configs/devices/aarch64-softmmu.mak
+> index 958b1e08e4..31d6128a29 100644
+> --- a/default-configs/devices/aarch64-softmmu.mak
+> +++ b/default-configs/devices/aarch64-softmmu.mak
+> @@ -6,3 +6,4 @@ include arm-softmmu.mak
+>  CONFIG_XLNX_ZYNQMP_ARM=y
+>  CONFIG_XLNX_VERSAL=y
+>  CONFIG_SBSA_REF=y
+> +CONFIG_ARCH_VIRTIO_MEM_SUPPORTED=y
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index fdf4464b94..eeae77eee9 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -20,6 +20,7 @@ config ARM_VIRT
+>      select PLATFORM_BUS
+>      select SMBIOS
+>      select VIRTIO_MMIO
+> +    select VIRTIO_MEM_SUPPORTED if ARCH_VIRTIO_MEM_SUPPORTED
+>      select ACPI_PCI
+>      select MEM_DEVICE
+>      select DIMM
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 8abb385d4e..6c96d71106 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -73,9 +73,11 @@
+>  #include "hw/acpi/acpi.h"
+>  #include "target/arm/internals.h"
+>  #include "hw/mem/pc-dimm.h"
+> +#include "hw/mem/memory-device.h"
+>  #include "hw/mem/nvdimm.h"
+>  #include "hw/acpi/generic_event_device.h"
+>  #include "hw/virtio/virtio-iommu.h"
+> +#include "hw/virtio/virtio-mem-pci.h"
+>  #include "hw/char/pl011.h"
+>  #include "qemu/guest-random.h"
+>  
+> @@ -2286,6 +2288,34 @@ static void virt_memory_plug(HotplugHandler *hotplug_dev,
+>                           dev, &error_abort);
+>  }
+>  
+> +static void virt_virtio_md_pci_pre_plug(HotplugHandler *hotplug_dev,
+> +                                      DeviceState *dev, Error **errp)
+> +{
+> +    HotplugHandler *hotplug_dev2 = qdev_get_bus_hotplug_handler(dev);
+> +    Error *local_err = NULL;
+> +
+> +    if (!hotplug_dev2 && dev->hotplugged) {
+> +        /*
+> +         * Without a bus hotplug handler, we cannot control the plug/unplug
+> +         * order. We should never reach this point when hotplugging,
+> +         * however, better add a safety net.
+> +         */
+> +        error_setg(errp, "hotplug of virtio-mem based memory devices not"
+> +                   " supported on this bus.");
+> +        return;
+> +    }
+> +    /*
+> +     * First, see if we can plug this memory device at all. If that
+> +     * succeeds, branch of to the actual hotplug handler.
+> +     */
+> +    memory_device_pre_plug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev), NULL,
+> +                           &local_err);
+> +    if (!local_err && hotplug_dev2) {
+> +        hotplug_handler_pre_plug(hotplug_dev2, dev, &local_err);
+> +    }
+> +    error_propagate(errp, local_err);
+> +}
+> +
+>  static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+>                                              DeviceState *dev, Error **errp)
+>  {
+> @@ -2293,6 +2323,8 @@ static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+>  
+>      if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
+>          virt_memory_pre_plug(hotplug_dev, dev, errp);
+> +    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
+> +        virt_virtio_md_pci_pre_plug(hotplug_dev, dev, errp);
+>      } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
+>          hwaddr db_start = 0, db_end = 0;
+>          char *resv_prop_str;
+> @@ -2322,6 +2354,27 @@ static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+>      }
+>  }
+>  
+> +static void virt_virtio_md_pci_plug(HotplugHandler *hotplug_dev,
+> +                                  DeviceState *dev, Error **errp)
+> +{
+> +    HotplugHandler *hotplug_dev2 = qdev_get_bus_hotplug_handler(dev);
+> +    Error *local_err = NULL;
+> +
+> +    /*
+> +     * Plug the memory device first and then branch off to the actual
+> +     * hotplug handler. If that one fails, we can easily undo the memory
+> +     * device bits.
+> +     */
+> +    memory_device_plug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev));
+> +    if (hotplug_dev2) {
+> +        hotplug_handler_plug(hotplug_dev2, dev, &local_err);
+> +        if (local_err) {
+> +            memory_device_unplug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev));
+> +        }
+> +    }
+> +    error_propagate(errp, local_err);
+> +}
+> +
+>  static void virt_machine_device_plug_cb(HotplugHandler *hotplug_dev,
+>                                          DeviceState *dev, Error **errp)
+>  {
+> @@ -2336,6 +2389,9 @@ static void virt_machine_device_plug_cb(HotplugHandler *hotplug_dev,
+>      if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
+>          virt_memory_plug(hotplug_dev, dev, errp);
+>      }
+nit: while at it we can use "else if" here and below
+> +    if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
+> +        virt_virtio_md_pci_plug(hotplug_dev, dev, errp);
+> +    }
+>      if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
+>          PCIDevice *pdev = PCI_DEVICE(dev);
+>  
+> @@ -2363,6 +2419,11 @@ static void virt_dimm_unplug_request(HotplugHandler *hotplug_dev,
+>          goto out;
+>      }
+virt_dimm_unplug_request() is called if the device type is TYPE_PC_DIMM
+while here the device type is TYPE_VIRTIO_MEM_PCI.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- docs/system/deprecated.rst |  6 ++++++
- tests/test-qemu-opts.c     |  2 +-
- util/qemu-option.c         | 29 ++++++++++++++++++-----------
- 3 files changed, 25 insertions(+), 12 deletions(-)
+Shouldn't this error be returned in
+virt_machine_device_unplug_request_cb instead or do like it is done in
+pc.c, add a virt_virtio_md_pci_unplug_request() helper with the
+error_setg there.
+>  
+> +    if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
+> +        error_setg(&local_err,
+> +                   "virtio-mem based memory devices cannot be unplugged.");
+> +        goto out;
+> +    }
+>      hotplug_handler_unplug_request(HOTPLUG_HANDLER(vms->acpi_dev), dev,
+>                                     &local_err);
+>  out:
+> @@ -2413,7 +2474,8 @@ static HotplugHandler *virt_machine_get_hotplug_handler(MachineState *machine,
+>                                                          DeviceState *dev)
+>  {
+>      if (object_dynamic_cast(OBJECT(dev), TYPE_SYS_BUS_DEVICE) ||
+> -       (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM))) {
+> +        object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM) ||
+> +        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
+>          return HOTPLUG_HANDLER(machine);
+>      }
+>      if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
+> diff --git a/hw/virtio/Kconfig b/hw/virtio/Kconfig
+> index 0eda25c4e1..00dbf2939e 100644
+> --- a/hw/virtio/Kconfig
+> +++ b/hw/virtio/Kconfig
+> @@ -48,6 +48,10 @@ config VIRTIO_PMEM
+>      depends on VIRTIO_PMEM_SUPPORTED
+>      select MEM_DEVICE
+>  
+> +config ARCH_VIRTIO_MEM_SUPPORTED
+> +    bool
+> +    default n
+> +
+>  config VIRTIO_MEM_SUPPORTED
+>      bool
+>  
+> diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+> index 7c8ca9f28b..16f9de6ab6 100644
+> --- a/hw/virtio/virtio-mem.c
+> +++ b/hw/virtio/virtio-mem.c
+> @@ -53,6 +53,8 @@
+>   */
+>  #if defined(TARGET_X86_64) || defined(TARGET_I386)
+>  #define VIRTIO_MEM_USABLE_EXTENT (2 * (128 * MiB))
+> +#elif defined(TARGET_AARCH64)
+> +#define VIRTIO_MEM_USABLE_EXTENT (2 * (1024 * MiB))
+>  #else
+>  #error VIRTIO_MEM_USABLE_EXTENT not defined
+>  #endif
+> 
+Otherwise looks good to me.
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 8c1dc7645d..f45938a5ff 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -146,6 +146,12 @@ Drives with interface types other than ``if=none`` are for onboard
- devices.  It is possible to use drives the board doesn't pick up with
- -device.  This usage is now deprecated.  Use ``if=none`` instead.
- 
-+Short-form boolean options (since 5.2)
-+''''''''''''''''''''''''''''''''''''''
-+
-+Boolean options such as ``share=on``/``share=off`` can be written
-+in short form as ``share`` and ``noshare``.  This is deprecated
-+and will cause a warning.
- 
- QEMU Machine Protocol (QMP) commands
- ------------------------------------
-diff --git a/tests/test-qemu-opts.c b/tests/test-qemu-opts.c
-index 322b32871b..e12fb51032 100644
---- a/tests/test-qemu-opts.c
-+++ b/tests/test-qemu-opts.c
-@@ -519,7 +519,7 @@ static void test_opts_parse(void)
-     error_free_or_abort(&err);
-     g_assert(!opts);
- 
--    /* Implied value */
-+    /* Implied value (qemu_opts_parse does not warn) */
-     opts = qemu_opts_parse(&opts_list_03, "an,noaus,noaus=",
-                            false, &error_abort);
-     g_assert_cmpuint(opts_count(opts), ==, 3);
-diff --git a/util/qemu-option.c b/util/qemu-option.c
-index 0ddf1f7b45..23238f00ea 100644
---- a/util/qemu-option.c
-+++ b/util/qemu-option.c
-@@ -756,10 +756,12 @@ void qemu_opts_print(QemuOpts *opts, const char *separator)
- 
- static const char *get_opt_name_value(const char *params,
-                                       const char *firstname,
-+                                      bool warn_on_flag,
-                                       bool *help_wanted,
-                                       char **name, char **value)
- {
-     const char *p;
-+    const char *prefix = "";
-     size_t len;
-     bool is_help = false;
- 
-@@ -776,10 +778,15 @@ static const char *get_opt_name_value(const char *params,
-             if (strncmp(*name, "no", 2) == 0) {
-                 memmove(*name, *name + 2, strlen(*name + 2) + 1);
-                 *value = g_strdup("off");
-+                prefix = "no";
-             } else {
-                 *value = g_strdup("on");
-                 is_help = is_help_option(*name);
-             }
-+            if (!is_help && warn_on_flag) {
-+                warn_report("short-form boolean option '%s%s' deprecated", prefix, *name);
-+                error_printf("Please use %s=%s instead\n", *name, *value);
-+            }
-         }
-     } else {
-         /* found "foo=bar,more" */
-@@ -801,14 +808,14 @@ static const char *get_opt_name_value(const char *params,
- 
- static bool opts_do_parse(QemuOpts *opts, const char *params,
-                           const char *firstname, bool prepend,
--                          bool *help_wanted, Error **errp)
-+                          bool warn_on_flag, bool *help_wanted, Error **errp)
- {
-     char *option, *value;
-     const char *p;
-     QemuOpt *opt;
- 
-     for (p = params; *p;) {
--        p = get_opt_name_value(p, firstname, help_wanted, &option, &value);
-+        p = get_opt_name_value(p, firstname, warn_on_flag, help_wanted, &option, &value);
-         if (help_wanted && *help_wanted) {
-             return false;
-         }
-@@ -837,7 +844,7 @@ static char *opts_parse_id(const char *params)
-     char *name, *value;
- 
-     for (p = params; *p;) {
--        p = get_opt_name_value(p, NULL, NULL, &name, &value);
-+        p = get_opt_name_value(p, NULL, false, NULL, &name, &value);
-         if (!strcmp(name, "id")) {
-             g_free(name);
-             return value;
-@@ -856,7 +863,7 @@ bool has_help_option(const char *params)
-     bool ret;
- 
-     for (p = params; *p;) {
--        p = get_opt_name_value(p, NULL, &ret, &name, &value);
-+        p = get_opt_name_value(p, NULL, false, &ret, &name, &value);
-         g_free(name);
-         g_free(value);
-         if (ret) {
-@@ -876,12 +883,12 @@ bool has_help_option(const char *params)
- bool qemu_opts_do_parse(QemuOpts *opts, const char *params,
-                        const char *firstname, Error **errp)
- {
--    return opts_do_parse(opts, params, firstname, false, NULL, errp);
-+    return opts_do_parse(opts, params, firstname, false, false, NULL, errp);
- }
- 
- static QemuOpts *opts_parse(QemuOptsList *list, const char *params,
-                             bool permit_abbrev, bool defaults,
--                            bool *help_wanted, Error **errp)
-+                            bool warn_on_flag, bool *help_wanted, Error **errp)
- {
-     const char *firstname;
-     char *id = opts_parse_id(params);
-@@ -904,8 +911,8 @@ static QemuOpts *opts_parse(QemuOptsList *list, const char *params,
-         return NULL;
-     }
- 
--    if (!opts_do_parse(opts, params, firstname, defaults, help_wanted,
--                       errp)) {
-+    if (!opts_do_parse(opts, params, firstname, defaults,
-+                       warn_on_flag, help_wanted, errp)) {
-         qemu_opts_del(opts);
-         return NULL;
-     }
-@@ -923,7 +930,7 @@ static QemuOpts *opts_parse(QemuOptsList *list, const char *params,
- QemuOpts *qemu_opts_parse(QemuOptsList *list, const char *params,
-                           bool permit_abbrev, Error **errp)
- {
--    return opts_parse(list, params, permit_abbrev, false, NULL, errp);
-+    return opts_parse(list, params, permit_abbrev, false, false, NULL, errp);
- }
- 
- /**
-@@ -941,7 +948,7 @@ QemuOpts *qemu_opts_parse_noisily(QemuOptsList *list, const char *params,
-     QemuOpts *opts;
-     bool help_wanted = false;
- 
--    opts = opts_parse(list, params, permit_abbrev, false,
-+    opts = opts_parse(list, params, permit_abbrev, false, true,
-                       opts_accepts_any(list) ? NULL : &help_wanted,
-                       &err);
-     if (!opts) {
-@@ -960,7 +967,7 @@ void qemu_opts_set_defaults(QemuOptsList *list, const char *params,
- {
-     QemuOpts *opts;
- 
--    opts = opts_parse(list, params, permit_abbrev, true, NULL, NULL);
-+    opts = opts_parse(list, params, permit_abbrev, true, false, NULL, NULL);
-     assert(opts);
- }
- 
--- 
-2.26.2
+Thanks!
+
+Eric
 
 
