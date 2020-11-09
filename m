@@ -2,64 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67E1B2AC5FA
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 21:31:50 +0100 (CET)
-Received: from localhost ([::1]:45562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DB8E2AC67A
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 21:59:08 +0100 (CET)
+Received: from localhost ([::1]:34300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcDpN-0002yT-FP
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 15:31:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50716)
+	id 1kcEFm-0003sY-SF
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 15:59:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kcDnc-0002Lb-46
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 15:30:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24334)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1kcEEp-0003QI-Uk
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 15:58:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42259)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kcDnZ-0007Dp-V7
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 15:29:59 -0500
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1kcEEn-0002A9-5E
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 15:58:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604953797;
+ s=mimecast20190719; t=1604955484;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kMXJSBTGJNybytcSyrPT/t/N94qrIkuRMRD/A00Fdgg=;
- b=J8m1ix3HZ2ML0YvNkOB+Afgcburb+P50K7YEmzG+V76d4xWBVvjy3xA7syXinPbXXS4gEG
- 2MIpULn6EBJW4bGDR6ZvkKCws/8+X5qs2OvZfCnfMkZ6fHJwDmkcFg/ULE631lZYSLjLlM
- 85Rh+SNRjVSA4bCUebNKvvpf42/VSoY=
+ bh=qRlxAv9C1q/8QZ6Cas6Q0p7S08IKoEpFfb6JpWWtMws=;
+ b=SACXyrzIabFCM3ClZHI6kibdps2et4gI3Fk26oTL+MJABJGFlcBMrkdHp2Pk5oxq7Az0Z3
+ IM7joKuS5xcf51sWsAvWn5ADeU/oq0sAki3j65PClBXeTf+1BSihV55nUC728JH2TzDshv
+ X4zLrTuLMf583JRFmelcK2tBjiEzPlc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-515-fsqXXJ98OcOns2BmMIpA_w-1; Mon, 09 Nov 2020 15:29:53 -0500
-X-MC-Unique: fsqXXJ98OcOns2BmMIpA_w-1
+ us-mta-535-86Xm8CKJOC6Xy1XKgzHUMw-1; Mon, 09 Nov 2020 15:58:02 -0500
+X-MC-Unique: 86Xm8CKJOC6Xy1XKgzHUMw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F5B0188C122;
- Mon,  9 Nov 2020 20:29:52 +0000 (UTC)
-Received: from w520.home (ovpn-112-213.phx2.redhat.com [10.3.112.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D737410013D9;
- Mon,  9 Nov 2020 20:29:51 +0000 (UTC)
-Date: Mon, 9 Nov 2020 13:29:50 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [RFC PATCH for-QEMU-5.2] vfio: Make migration support experimental
-Message-ID: <20201109132950.6c2dfe02@w520.home>
-In-Reply-To: <20201109194417.GR3024@work-vm>
-References: <160494787833.1473.10514376876696596117.stgit@gimli.home>
- <20201109194417.GR3024@work-vm>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E0021099F60;
+ Mon,  9 Nov 2020 20:58:01 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-120-220.rdu2.redhat.com
+ [10.10.120.220])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DAC4A1001901;
+ Mon,  9 Nov 2020 20:57:52 +0000 (UTC)
+Subject: Re: [PATCH-for-6.0 v4 05/17] gitlab-ci: Split CONFIGURE_ARGS one
+ argument per line for build-disabled
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20201108204535.2319870-1-philmd@redhat.com>
+ <20201108204535.2319870-6-philmd@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <f429a203-48ab-4e58-8bf6-8ab180fc55a3@redhat.com>
+Date: Mon, 9 Nov 2020 18:57:46 -0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
+In-Reply-To: <20201108204535.2319870-6-philmd@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=alex.williamson@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 00:04:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -68,8 +73,9 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,153 +88,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Neo Jia <cjia@nvidia.com>, Juan Quintela <quintela@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Kirti Wankhede <kwankhede@nvidia.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 9 Nov 2020 19:44:17 +0000
-"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
 
-> * Alex Williamson (alex.williamson@redhat.com) wrote:
-> > Per the proposed documentation for vfio device migration:
-> >=20
-> >   Dirty pages are tracked when device is in stop-and-copy phase
-> >   because if pages are marked dirty during pre-copy phase and
-> >   content is transfered from source to destination, there is no
-> >   way to know newly dirtied pages from the point they were copied
-> >   earlier until device stops. To avoid repeated copy of same
-> >   content, pinned pages are marked dirty only during
-> >   stop-and-copy phase.
-> >=20
-> > Essentially, since we don't have hardware dirty page tracking for
-> > assigned devices at this point, we consider any page that is pinned
-> > by an mdev vendor driver or pinned and mapped through the IOMMU to
-> > be perpetually dirty.  In the worst case, this may result in all of
-> > guest memory being considered dirty during every iteration of live
-> > migration.  The current vfio implementation of migration has chosen
-> > to mask device dirtied pages until the final stages of migration in
-> > order to avoid this worst case scenario.
-> >=20
-> > Allowing the device to implement a policy decision to prioritize
-> > reduced migration data like this jeopardizes QEMU's overall ability
-> > to implement any degree of service level guarantees during migration.
-> > For example, any estimates towards achieving acceptable downtime
-> > margins cannot be trusted when such a device is present.  The vfio
-> > device should participate in dirty page tracking to the best of its
-> > ability throughout migration, even if that means the dirty footprint
-> > of the device impedes migration progress, allowing both QEMU and
-> > higher level management tools to decide whether to continue the
-> > migration or abort due to failure to achieve the desired behavior. =20
->=20
-> I don't feel particularly badly about the decision to squash it in
-> during the stop-and-copy phase; for devices where the pinned memory
-> is large, I don't think doing it during the main phase makes much sense;
-> especially if you then have to deal with tracking changes in pinning.
+On 11/8/20 6:45 PM, Philippe Mathieu-Daudé wrote:
+> We will keep adding/removing options to our 'configure' script,
+> so for easier maintainability it makes sense to have CONFIGURE_ARGS
+> declared as one option per line. This way we can review diff easily
+> (or rebase/cherry-pick).
+>
+> No logical change.
+>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+> Cc: Daniel P . Berrange <berrange@redhat.com>
+> ---
+>   .gitlab-ci.yml | 80 +++++++++++++++++++++++++++++++++++++++-----------
+>   1 file changed, 63 insertions(+), 17 deletions(-)
+>
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index 3b15ae5c302..9f090cca5e3 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -203,23 +203,69 @@ build-disabled:
+>     <<: *native_build_job_definition
+>     variables:
+>       IMAGE: fedora
+> -    CONFIGURE_ARGS: --disable-attr --disable-avx2 --disable-bochs
+> -      --disable-brlapi --disable-bzip2 --disable-cap-ng --disable-capstone
+> -      --disable-cloop --disable-coroutine-pool --disable-curl --disable-curses
+> -      --disable-dmg --disable-docs --disable-glusterfs --disable-gnutls
+> -      --disable-gtk --disable-guest-agent --disable-iconv --disable-kvm
+> -      --disable-libiscsi --disable-libpmem --disable-libssh --disable-libusb
+> -      --disable-libxml2 --disable-linux-aio --disable-live-block-migration
+> -      --disable-lzo --disable-malloc-trim --disable-mpath --disable-nettle
+> -      --disable-numa --disable-parallels --disable-pie --disable-qcow1
+> -      --disable-qed --disable-qom-cast-debug --disable-rbd --disable-rdma
+> -      --disable-replication --disable-sdl --disable-seccomp --disable-sheepdog
+> -      --disable-slirp --disable-smartcard --disable-snappy --disable-spice
+> -      --disable-strip --disable-tpm --disable-usb-redir --disable-vdi
+> -      --disable-vhost-crypto --disable-vhost-net --disable-vhost-scsi
+> -      --disable-vhost-user --disable-vhost-vdpa --disable-vhost-vsock
+> -      --disable-virglrenderer --disable-vnc --disable-vte --disable-vvfat
+> -      --disable-xen --disable-zstd
+> +    CONFIGURE_ARGS:
 
+I suggest to use '>-' like 'CONFIGURE_ARGS: >-'. It's up to you.
 
-AFAIK the kernel support for tracking changes in page pinning already
-exists, this is largely the vfio device in QEMU that decides when to
-start exposing the device dirty footprint to QEMU.  I'm a bit surprised
-by this answer though, we don't really know what the device memory
-footprint is.  It might be large, it might be nothing, but by not
-participating in dirty page tracking until the VM is stopped, we can't
-know what the footprint is and how it will affect downtime.  Is it
-really the place of a QEMU device driver to impose this sort of policy?
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
-
-> Having said that, I agree with marking it as experimental, because
-> I'm dubious how useful it will be for the same reason, I worry
-> about whether the downtime will be so large to make it pointless.
-
-
-TBH I think that's the wrong reason to mark it experimental.  There's
-clearly demand for vfio device migration and even if the practical use
-cases are initially small, they will expand over time and hardware will
-get better.  My objection is that the current behavior masks the
-hardware and device limitations, leading to unrealistic expectations.
-If the user expects minimal downtime, configures convergence to account
-for that, QEMU thinks it can achieve it, and then the device marks
-everything dirty, that's not supportable.  OTOH if the vfio device
-participates in dirty tracking through pre-copy, then the practical use
-cases will find themselves as migrations will either be aborted because
-downtime tolerances cannot be achieved or downtimes will be configured
-to match reality.  Thanks,
-
-Alex
-
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
->=20
-> > Link: https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg00807.ht=
-ml
-> > Cc: Kirti Wankhede <kwankhede@nvidia.com>
-> > Cc: Neo Jia <cjia@nvidia.com>
-> > Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > Cc: Juan Quintela <quintela@redhat.com>
-> > Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> > Cc: Cornelia Huck <cohuck@redhat.com>
-> > Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
-> > ---
-> >=20
-> > Given that our discussion in the link above seems to be going in
-> > circles, I'm afraid it seems necessary to both have a contigency
-> > plan and to raise the visibility of the current behavior to
-> > determine whether others agree that this is a sufficiently
-> > troubling behavior to consider migration support experimental
-> > at this stage.  Please voice your opinion or contribute patches
-> > to resolve this before QEMU 5.2.  Thanks,
-> >=20
-> > Alex
-> >=20
-> >  hw/vfio/migration.c           |    2 +-
-> >  hw/vfio/pci.c                 |    2 ++
-> >  include/hw/vfio/vfio-common.h |    1 +
-> >  3 files changed, 4 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-> > index 3ce285ea395d..cd44d465a50b 100644
-> > --- a/hw/vfio/migration.c
-> > +++ b/hw/vfio/migration.c
-> > @@ -882,7 +882,7 @@ int vfio_migration_probe(VFIODevice *vbasedev, Erro=
-r **errp)
-> >      Error *local_err =3D NULL;
-> >      int ret =3D -ENOTSUP;
-> > =20
-> > -    if (!container->dirty_pages_supported) {
-> > +    if (!vbasedev->enable_migration || !container->dirty_pages_support=
-ed) {
-> >          goto add_blocker;
-> >      }
-> > =20
-> > diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> > index 58c0ce8971e3..1349b900e513 100644
-> > --- a/hw/vfio/pci.c
-> > +++ b/hw/vfio/pci.c
-> > @@ -3194,6 +3194,8 @@ static Property vfio_pci_dev_properties[] =3D {
-> >                      VFIO_FEATURE_ENABLE_REQ_BIT, true),
-> >      DEFINE_PROP_BIT("x-igd-opregion", VFIOPCIDevice, features,
-> >                      VFIO_FEATURE_ENABLE_IGD_OPREGION_BIT, false),
-> > +    DEFINE_PROP_BOOL("x-enable-migration", VFIOPCIDevice,
-> > +                     vbasedev.enable_migration, false),
-> >      DEFINE_PROP_BOOL("x-no-mmap", VFIOPCIDevice, vbasedev.no_mmap, fal=
-se),
-> >      DEFINE_PROP_BOOL("x-balloon-allowed", VFIOPCIDevice,
-> >                       vbasedev.ram_block_discard_allowed, false),
-> > diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-commo=
-n.h
-> > index baeb4dcff102..2119872c8af1 100644
-> > --- a/include/hw/vfio/vfio-common.h
-> > +++ b/include/hw/vfio/vfio-common.h
-> > @@ -123,6 +123,7 @@ typedef struct VFIODevice {
-> >      bool needs_reset;
-> >      bool no_mmap;
-> >      bool ram_block_discard_allowed;
-> > +    bool enable_migration;
-> >      VFIODeviceOps *ops;
-> >      unsigned int num_irqs;
-> >      unsigned int num_regions;
-> >  =20
+> +      --disable-attr
+> +      --disable-avx2
+> +      --disable-bochs
+> +      --disable-brlapi
+> +      --disable-bzip2
+> +      --disable-cap-ng
+> +      --disable-capstone
+> +      --disable-cloop
+> +      --disable-coroutine-pool
+> +      --disable-curl
+> +      --disable-curses
+> +      --disable-dmg
+> +      --disable-docs
+> +      --disable-glusterfs
+> +      --disable-gnutls
+> +      --disable-gtk
+> +      --disable-guest-agent
+> +      --disable-iconv
+> +      --disable-kvm
+> +      --disable-libiscsi
+> +      --disable-libpmem
+> +      --disable-libssh
+> +      --disable-libusb
+> +      --disable-libxml2
+> +      --disable-linux-aio
+> +      --disable-live-block-migration
+> +      --disable-lzo
+> +      --disable-malloc-trim
+> +      --disable-mpath
+> +      --disable-nettle
+> +      --disable-numa
+> +      --disable-parallels
+> +      --disable-pie
+> +      --disable-qcow1
+> +      --disable-qed
+> +      --disable-qom-cast-debug
+> +      --disable-rbd
+> +      --disable-rdma
+> +      --disable-replication
+> +      --disable-sdl
+> +      --disable-seccomp
+> +      --disable-sheepdog
+> +      --disable-slirp
+> +      --disable-smartcard
+> +      --disable-snappy
+> +      --disable-spice
+> +      --disable-strip
+> +      --disable-tpm
+> +      --disable-usb-redir
+> +      --disable-vdi
+> +      --disable-vhost-crypto
+> +      --disable-vhost-net
+> +      --disable-vhost-scsi
+> +      --disable-vhost-user
+> +      --disable-vhost-vdpa
+> +      --disable-vhost-vsock
+> +      --disable-virglrenderer
+> +      --disable-vnc
+> +      --disable-vte
+> +      --disable-vvfat
+> +      --disable-xen
+> +      --disable-zstd
+>       TARGETS: arm-softmmu i386-softmmu ppc64-softmmu mips64-softmmu
+>         s390x-softmmu i386-linux-user
+>       MAKE_CHECK_ARGS: check-qtest SPEED=slow
 
 
