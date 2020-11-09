@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E799A2AB33D
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 10:11:06 +0100 (CET)
-Received: from localhost ([::1]:45888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 724F92AB31D
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 10:06:15 +0100 (CET)
+Received: from localhost ([::1]:35834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc3Cb-0005KB-VV
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 04:11:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51654)
+	id 1kc37u-00011o-FZ
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 04:06:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kc34M-0005Gr-E7
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 04:02:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38133)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kc34K-0005Af-6t
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 04:02:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35219)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kc34K-0004bR-L7
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 04:02:34 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kc34H-0004aP-4S
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 04:02:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604912551;
+ s=mimecast20190719; t=1604912548;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=w0eAf4G3UytQjjSQ3AIUQihXFsb/aqtAMLl5D/O9nzQ=;
- b=fCWOgSfpityIJDN+cODH6Pla3CK0TDShYPe/ou7n71fbkb3/ejj0sQVMSVZYJPbCT3DoHe
- G4MUOI76/w5ooX5XwjI2vIgbpQ2dkJCeYbT1VW7ZgbmEbDmabGTQ0OI6DWM4GmEdP7p01N
- mZ0e+npTt9QWYpsAETJx9h3gcsOHmc8=
+ bh=prc1AXXpQQAIjpm/dfebeyQVScUnlPg51yiyfwUenHA=;
+ b=PeE1Va8Zog0iTc8f3wKmYR6uoiYyWk3QhqzB9op02Yo1fA7BJu7vGM53oRuC1384yevubS
+ rRHNwB1WvLwO9siTgBPAOMntYyI5q9mVp1hR6w4JNvTBM69ZqOLoSRmloisFSfZBd0V48C
+ OhKwPXIWkcsduhNctm4XI8cwJAiy3Ug=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-257-U0N7PzJsMtiBA-J-9u9_2Q-1; Mon, 09 Nov 2020 04:02:29 -0500
-X-MC-Unique: U0N7PzJsMtiBA-J-9u9_2Q-1
+ us-mta-500-YxjeJSkcMhWkEThm-DIn5w-1; Mon, 09 Nov 2020 04:02:26 -0500
+X-MC-Unique: YxjeJSkcMhWkEThm-DIn5w-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C93EE805F03;
- Mon,  9 Nov 2020 09:02:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6CDA58030A2;
+ Mon,  9 Nov 2020 09:02:25 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
  [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 279605C1DC;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 270565C1D7;
  Mon,  9 Nov 2020 09:02:22 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BF3451132921; Mon,  9 Nov 2020 10:02:20 +0100 (CET)
+ id C2B821132780; Mon,  9 Nov 2020 10:02:20 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/5] MAINTAINERS: Add QAPI schema modules to their subsystems
-Date: Mon,  9 Nov 2020 10:02:17 +0100
-Message-Id: <20201109090220.825764-3-armbru@redhat.com>
+Subject: [PULL 3/5] qapi: Fix missing headers in QMP Reference Manual
+Date: Mon,  9 Nov 2020 10:02:18 +0100
+Message-Id: <20201109090220.825764-4-armbru@redhat.com>
 In-Reply-To: <20201109090220.825764-1-armbru@redhat.com>
 References: <20201109090220.825764-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -58,16 +58,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 00:04:29
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 01:25:23
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,72 +82,54 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org, "Daniel P . Berrange" <berrange@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the relevant QAPI schema modules to section Audio, QMP, Tracing,
-Cryptography.
+Audio stuff is under "Miscellanea", and authorization stuff is under
+"Input".  Add suitable header doc comments to correct that.
 
 Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
 Cc: Daniel P. Berrange <berrange@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20201102081550.171061-2-armbru@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20201102081550.171061-3-armbru@redhat.com>
 Acked-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
+ qapi/audio.json | 4 ++++
+ qapi/authz.json | 6 ++++--
+ 2 files changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 63223e1183..30e1eccbec 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1909,6 +1909,7 @@ Rocker
- M: Jiri Pirko <jiri@resnulli.us>
- S: Maintained
- F: hw/net/rocker/
-+F: qapi/rocker.json
- F: tests/rocker/
- F: docs/specs/rocker.txt
+diff --git a/qapi/audio.json b/qapi/audio.json
+index 3b843878d2..072ed79def 100644
+--- a/qapi/audio.json
++++ b/qapi/audio.json
+@@ -5,6 +5,10 @@
+ # This work is licensed under the terms of the GNU GPL, version 2 or later.
+ # See the COPYING file in the top-level directory.
  
-@@ -2111,6 +2112,7 @@ S: Maintained
- F: audio/
- F: hw/audio/
- F: include/hw/audio/
-+F: qapi/audio.json
- F: tests/qtest/ac97-test.c
- F: tests/qtest/es1370-test.c
- F: tests/qtest/intel-hda-test.c
-@@ -2490,7 +2492,9 @@ F: monitor/monitor-internal.h
- F: monitor/qmp*
- F: monitor/misc.c
- F: monitor/monitor.c
-+F: qapi/control.json
- F: qapi/error.json
-+F: qapi/introspect.json
- F: docs/devel/*qmp-*
- F: docs/interop/*qmp-*
- F: scripts/qmp/
-@@ -2551,6 +2555,7 @@ S: Maintained
- F: trace/
- F: trace-events
- F: docs/qemu-option-trace.rst.inc
-+F: qapi/trace.json
- F: scripts/tracetool.py
- F: scripts/tracetool/
- F: scripts/qemu-trace-stap*
-@@ -2610,6 +2615,7 @@ M: Daniel P. Berrange <berrange@redhat.com>
- S: Maintained
- F: crypto/
- F: include/crypto/
-+F: qapi/crypto.json
- F: tests/test-crypto-*
- F: tests/benchmark-crypto-*
- F: tests/crypto-tls-*
++##
++# = Audio
++##
++
+ ##
+ # @AudiodevPerDirectionOptions:
+ #
+diff --git a/qapi/authz.json b/qapi/authz.json
+index f3e9745426..42afe752d1 100644
+--- a/qapi/authz.json
++++ b/qapi/authz.json
+@@ -1,7 +1,9 @@
+ # -*- Mode: Python -*-
+ # vim: filetype=python
+-#
+-# QAPI authz definitions
++
++##
++# = User authorization
++##
+ 
+ ##
+ # @QAuthZListPolicy:
 -- 
 2.26.2
 
