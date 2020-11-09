@@ -2,49 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57B612AB29E
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 09:42:49 +0100 (CET)
-Received: from localhost ([::1]:38584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6E0B2AB283
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 09:35:40 +0100 (CET)
+Received: from localhost ([::1]:59400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc2lE-0006EQ-EH
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 03:42:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46618)
+	id 1kc2eJ-0002s0-CL
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 03:35:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1kc2iD-0003ay-Kj; Mon, 09 Nov 2020 03:39:41 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2446)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1kc2iA-0004a5-Ua; Mon, 09 Nov 2020 03:39:41 -0500
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CV4DC6bSczLvsl;
- Mon,  9 Nov 2020 16:39:23 +0800 (CST)
-Received: from huawei.com (10.175.124.27) by DGGEMS413-HUB.china.huawei.com
- (10.3.19.213) with Microsoft SMTP Server id 14.3.487.0; Mon, 9 Nov 2020
- 16:39:27 +0800
-From: Alex Chen <alex.chen@huawei.com>
-To: <alex.bennee@linaro.org>, <mjt@tls.msk.ru>, <laurent@vivier.eu>
-Subject: [PATCH v3 2/2] plugins: Fix two resource leaks in setup_socket()
-Date: Mon, 9 Nov 2020 08:28:29 +0000
-Message-ID: <20201109082829.87496-3-alex.chen@huawei.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20201109082829.87496-1-alex.chen@huawei.com>
-References: <20201109082829.87496-1-alex.chen@huawei.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kc2dL-0002RT-G2
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 03:34:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27085)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kc2dI-0002bx-QI
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 03:34:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604910875;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VjGigfT6pTc5FI6e3W1rC6q5ZfBoUW8RyTIOrtRS/2A=;
+ b=aDAvrUgfu/9eD4KFySFlG6RmX1UB1pYdvMVR3MUV/sBBbxoPf+/MKAlB2mMTr1bJD6tDRn
+ /sd9LWYqg+3DeT2UUdKU0Osqe8oxkrYUi3DaEZnceR/R/12xHqeVVMSgLXRGLRERm9Z90c
+ FZAt2WsGH5CX0eGOAgzsQKGO+aT3HCk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-149-U4IUw_WEPxWqQ8YUreCUxA-1; Mon, 09 Nov 2020 03:34:33 -0500
+X-MC-Unique: U4IUw_WEPxWqQ8YUreCUxA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E99C6D242;
+ Mon,  9 Nov 2020 08:34:32 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-53.ams2.redhat.com [10.36.112.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7022A5D98A;
+ Mon,  9 Nov 2020 08:34:22 +0000 (UTC)
+Subject: Re: [PATCH-for-5.2 v4 01/17] configure: Check vhost-user is available
+ to build vhost-user-blk-server
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20201108204535.2319870-1-philmd@redhat.com>
+ <20201108204535.2319870-2-philmd@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <8f152950-8d95-c2c1-27dd-f3a7a0456520@redhat.com>
+Date: Mon, 9 Nov 2020 09:34:21 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
+In-Reply-To: <20201108204535.2319870-2-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.124.27]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=alex.chen@huawei.com;
- helo=szxga05-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 03:39:34
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 00:04:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -58,38 +85,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.chen@huawei.com, qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
- zhengchuan@huawei.com, zhang.zhanghailiang@huawei.com
+Cc: Fam Zheng <fam@euphon.net>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Either accept() fails or exits normally, we need to close the fd.
+On 08/11/2020 21.45, Philippe Mathieu-Daudé wrote:
+> Check vhost-user is available to build vhost-user-blk-server to fix:
+> 
+>  $ ../configure \
+>       --disable-vhost-user --enable-vhost-user-blk-server && \
+>    make qemu-nbd
+>  ...
+>  [505/505] Linking target qemu-nbd
+>  FAILED: qemu-nbd
+>  cc  -o qemu-nbd qemu-nbd.p/qemu-nbd.c.o -Wl,--as-needed -Wl,--no-undefined -pie -Wl,--whole-archive libblockdev.fa libblock.fa libcrypto.fa libauthz.fa libqom.fa libio.fa -Wl,--no-whole-archive -Wl,--warn-common -Wl,-z,relro -Wl,-z,now -m64 -fstack-protector-strong -Wl,--start-group libqemuutil.a libblockdev.fa libblock.fa libcrypto.fa libauthz.fa libqom.fa libio.fa @block.syms -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -pthread -lgnutls -lutil -lm -lgthread-2.0 -lglib-2.0 -lbz2 -lgthread-2.0 -lglib-2.0 -lssh -lrbd -lrados -lcurl -lxml2 -lzstd -lacl -lgfapi -lglusterfs -lgfrpc -lgfxdr -luuid -laio /usr/lib64/libz.so -L/usr/lib64/iscsi -liscsi -lnettle -lgnutls -lpam -Wl,--end-group
+>  /usr/bin/ld: libblockdev.fa(block_export_vhost-user-blk-server.c.o): in function `vu_blk_process_vq':
+>  block/export/vhost-user-blk-server.c:203: undefined reference to `vu_get_queue'
+>  /usr/bin/ld: block/export/vhost-user-blk-server.c:208: undefined reference to `vu_queue_pop'
+>  /usr/bin/ld: libblockdev.fa(block_export_vhost-user-blk-server.c.o): in function `vu_blk_queue_set_started':
+>  block/export/vhost-user-blk-server.c:228: undefined reference to `vu_get_queue'
+>  /usr/bin/ld: libblockdev.fa(block_export_vhost-user-blk-server.c.o): in function `vu_blk_req_complete':
+>  block/export/vhost-user-blk-server.c:55: undefined reference to `vu_queue_push'
+>  /usr/bin/ld: block/export/vhost-user-blk-server.c:56: undefined reference to `vu_queue_notify'
+>  /usr/bin/ld: libblockdev.fa(block_export_vhost-user-blk-server.c.o): in function `vu_blk_queue_set_started':
+>  block/export/vhost-user-blk-server.c:229: undefined reference to `vu_set_queue_handler'
+>  /usr/bin/ld: libqemuutil.a(util_vhost-user-server.c.o): in function `vu_client_trip':
+>  util/vhost-user-server.c:176: undefined reference to `vu_dispatch'
+>  /usr/bin/ld: util/vhost-user-server.c:180: undefined reference to `vu_deinit'
+>  /usr/bin/ld: libqemuutil.a(util_vhost-user-server.c.o): in function `vu_accept':
+>  util/vhost-user-server.c:291: undefined reference to `vu_init'
+>  collect2: error: ld returned 1 exit status
+>  ninja: build stopped: subcommand failed.
+>  make: *** [Makefile:171: run-ninja] Error 1
+> 
+> Fixes: bc15e44cb21 ("configure: introduce --enable-vhost-user-blk-server")
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  configure | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/configure b/configure
+> index 805f7791503..5079ebb416a 100755
+> --- a/configure
+> +++ b/configure
+> @@ -2390,6 +2390,9 @@ fi
+>  
+>  # libvhost-user is Linux-only
+>  test "$vhost_user_blk_server" = "" && vhost_user_blk_server=$linux
+> +if test "$vhost_user_blk_server" = "yes" && test "$vhost_user" = "no"; then
+> +  error_exit "--enable-vhost-user-blk-server requires --enable-vhost-user"
+> +fi
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Alex Chen <alex.chen@huawei.com>
----
- contrib/plugins/lockstep.c | 2 ++
- 1 file changed, 2 insertions(+)
+This patch looks incomplete to me. If I now do:
 
-diff --git a/contrib/plugins/lockstep.c b/contrib/plugins/lockstep.c
-index 319bd44b83..5aad50869d 100644
---- a/contrib/plugins/lockstep.c
-+++ b/contrib/plugins/lockstep.c
-@@ -268,11 +268,13 @@ static bool setup_socket(const char *path)
-     socket_fd = accept(fd, NULL, NULL);
-     if (socket_fd < 0 && errno != EINTR) {
-         perror("accept socket");
-+        close(fd);
-         return false;
-     }
- 
-     qemu_plugin_outs("setup_socket::ready\n");
- 
-+    close(fd);
-     return true;
- }
- 
--- 
-2.19.1
+$ .../configure --target-list=x86_64-softmmu --disable-vhost-user
+
+I get:
+
+ERROR: --enable-vhost-user-blk-server requires --enable-vhost-user
+
+... but I did not say --enable-vhost-user-blk-server ! So if
+--disable-vhost-user has been given, it should also automatically disable
+all the other vhost-user switches, I think.
+
+ Thomas
 
 
