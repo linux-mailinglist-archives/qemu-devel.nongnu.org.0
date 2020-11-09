@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08BBD2ABDE5
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 14:54:46 +0100 (CET)
-Received: from localhost ([::1]:60542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A93C02ABDCB
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 14:50:10 +0100 (CET)
+Received: from localhost ([::1]:50252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc7d6-0003jJ-VO
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 08:54:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32900)
+	id 1kc7Yf-0007Si-NY
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 08:50:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kc7UW-00032c-18
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 08:45:52 -0500
-Received: from indium.canonical.com ([91.189.90.7]:33910)
+ id 1kc7UV-00031O-IU
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 08:45:51 -0500
+Received: from indium.canonical.com ([91.189.90.7]:33878)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kc7UT-0002qq-52
+ id 1kc7UT-0002qV-3s
  for qemu-devel@nongnu.org; Mon, 09 Nov 2020 08:45:51 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kc7UR-0000dk-1l
- for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 13:45:47 +0000
+ id 1kc7UQ-0000es-Bd
+ for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 13:45:46 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0C3B62E812F
- for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 13:45:47 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 565072E8042
+ for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 13:45:46 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 09 Nov 2020 13:35:48 -0000
-From: Thomas Huth <1687569@bugs.launchpad.net>
+Date: Mon, 09 Nov 2020 13:36:34 -0000
+From: Thomas Huth <1687578@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -38,18 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jemmy858585 th-huth
+X-Launchpad-Bug-Commenters: dgilbert-h jemmy858585
 X-Launchpad-Bug-Reporter: Lidong Chen (jemmy858585)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20170502084810.2931.3440.malonedeb@soybean.canonical.com>
-Message-Id: <160492894861.28021.12243837915739381358.malone@chaenomeles.canonical.com>
-Subject: [Bug 1687569] Re: when migration cancel, qemu main thread hung
+References: <20170502092542.26484.80835.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160492899493.17771.6670156126806528378.launchpad@soybean.canonical.com>
+Subject: [Bug 1687578] Re: when migrate vm, reboot in guest os,
+ the guest os sometime hang
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: acc973cbcbc2457d6ee951afe9acdd62d8c560a4
+X-Launchpad-Hash: 35666eeea22eb080b330b59ac0263f6e3a1425b1
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 01:40:52
@@ -72,16 +73,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1687569 <1687569@bugs.launchpad.net>
+Reply-To: Bug 1687578 <1687578@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-
-The QEMU project is currently considering to move its bug tracking to anoth=
-er system. For this we need to know which bugs are still valid and which co=
-uld be closed already. Thus we are setting older bugs to "Incomplete" now.
-If you still think this bug report here is valid, then please switch the st=
-ate back to "New" within the next 60 days, otherwise this report will be ma=
-rked as "Expired". Thank you and sorry for the inconvenience.
 
 ** Changed in: qemu
        Status: New =3D> Incomplete
@@ -90,10 +84,10 @@ rked as "Expired". Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1687569
+https://bugs.launchpad.net/bugs/1687578
 
 Title:
-  when migration cancel, qemu main thread hung
+  when migrate vm, reboot in guest os, the guest os sometime hang
 
 Status in QEMU:
   Incomplete
@@ -102,90 +96,24 @@ Bug description:
   qemu version:v2.9.0-rc5 release
 
   1.virsh migrate --live 165cf436-312f-47e7-90f2-f8aa63f34893 --copy-storag=
-e-all qemu+ssh://10.59.163.38/system
-  2.press Ctrl+C cancel migrate
+e-inc qemu+ssh://10.59.163.38/system
+  2.run reboot in guest os, add reboot in /etc/rc.local
+  3.guest os hang sometime.
 
-   qemu main thread hung
+  strace output of qemu:
 
-  (gdb) bt
-  #0  0x00007fca9f4574b7 in ppoll () from /lib64/libc.so.6
-  #1  0x0000000000944970 in qemu_poll_ns (fds=3D0x293e6e0, nfds=3D1, timeou=
-t=3D-1) at util/qemu-timer.c:322
-  #2  0x0000000000947e16 in aio_poll (ctx=3D0x291d4b0, blocking=3Dtrue) at =
-util/aio-posix.c:622
-  #3  0x00000000008b6094 in nbd_teardown_connection (bs=3D0x29ccdc0) at blo=
-ck/nbd-client.c:59
-  #4  0x00000000008b6df1 in nbd_client_close (bs=3D0x29ccdc0) at block/nbd-=
-client.c:377
-  #5  0x00000000008b5988 in nbd_close (bs=3D0x29ccdc0) at block/nbd.c:488
-  #6  0x00000000008435de in bdrv_close (bs=3D0x29ccdc0) at block.c:2919
-  #7  0x0000000000843c86 in bdrv_delete (bs=3D0x29ccdc0) at block.c:3100
-  #8  0x000000000084620b in bdrv_unref (bs=3D0x29ccdc0) at block.c:4087
-  #9  0x00000000008411d1 in bdrv_root_unref_child (child=3D0x30e4800) at bl=
-ock.c:1891
-  #10 0x000000000084128a in bdrv_unref_child (parent=3D0x29c0660, child=3D0=
-x30e4800) at block.c:1915
-  #11 0x000000000084362a in bdrv_close (bs=3D0x29c0660) at block.c:2925
-  #12 0x0000000000843c86 in bdrv_delete (bs=3D0x29c0660) at block.c:3100
-  #13 0x000000000084620b in bdrv_unref (bs=3D0x29c0660) at block.c:4087
-  #14 0x00000000008411d1 in bdrv_root_unref_child (child=3D0x3013910) at bl=
-ock.c:1891
-  #15 0x0000000000848149 in block_job_remove_all_bdrv (job=3D0x3fa7800) at =
-blockjob.c:154
-  #16 0x00000000008a8dd8 in mirror_exit (job=3D0x3fa7800, opaque=3D0x7fca90=
-000bf0) at block/mirror.c:576
-  #17 0x0000000000849e22 in block_job_defer_to_main_loop_bh (opaque=3D0x7fc=
-a90000d90) at blockjob.c:794
-  #18 0x00000000009420c4 in aio_bh_call (bh=3D0x7fca90000dc0) at util/async=
-.c:90
-  #19 0x000000000094216f in aio_bh_poll (ctx=3D0x291d4b0) at util/async.c:1=
-18
-  #20 0x00000000009480d9 in aio_poll (ctx=3D0x291d4b0, blocking=3Dtrue) at =
-util/aio-posix.c:682
-  #21 0x00000000008b6094 in nbd_teardown_connection (bs=3D0x2921350) at blo=
-ck/nbd-client.c:59
-  #22 0x00000000008b6df1 in nbd_client_close (bs=3D0x2921350) at block/nbd-=
-client.c:377
-  #23 0x00000000008b5988 in nbd_close (bs=3D0x2921350) at block/nbd.c:488
-  #24 0x00000000008435de in bdrv_close (bs=3D0x2921350) at block.c:2919
-  #25 0x0000000000843c86 in bdrv_delete (bs=3D0x2921350) at block.c:3100
-  #26 0x000000000084620b in bdrv_unref (bs=3D0x2921350) at block.c:4087
-  #27 0x00000000008411d1 in bdrv_root_unref_child (child=3D0x390d180) at bl=
-ock.c:1891
-  #28 0x000000000084128a in bdrv_unref_child (parent=3D0x4eba200, child=3D0=
-x390d180) at block.c:1915
-  #29 0x000000000084362a in bdrv_close (bs=3D0x4eba200) at block.c:2925
-  #30 0x0000000000843c86 in bdrv_delete (bs=3D0x4eba200) at block.c:3100
-  #31 0x000000000084620b in bdrv_unref (bs=3D0x4eba200) at block.c:4087
-  #32 0x00000000008411d1 in bdrv_root_unref_child (child=3D0x4ebf990) at bl=
-ock.c:1891
-  #33 0x0000000000848149 in block_job_remove_all_bdrv (job=3D0x4ea85b0) at =
-blockjob.c:154
-  #34 0x00000000008a8dd8 in mirror_exit (job=3D0x4ea85b0, opaque=3D0x7fca98=
-000bf0) at block/mirror.c:576
-  #35 0x0000000000849e22 in block_job_defer_to_main_loop_bh (opaque=3D0x7fc=
-a980013d0) at blockjob.c:794
-  #36 0x00000000009420c4 in aio_bh_call (bh=3D0x7fca9801e0c0) at util/async=
-.c:90
-  #37 0x000000000094216f in aio_bh_poll (ctx=3D0x291d4b0) at util/async.c:1=
-18
-  ---Type <return> to continue, or q <return> to quit---  =
-
-  #38 0x00000000009476ae in aio_dispatch (ctx=3D0x291d4b0) at util/aio-posi=
-x.c:429
-  #39 0x00000000009425e4 in aio_ctx_dispatch (source=3D0x291d4b0, callback=
-=3D0, user_data=3D0x0) at util/async.c:261
-  #40 0x00007fcaa0101f0e in g_main_context_dispatch () from /lib64/libglib-=
-2.0.so.0
-  #41 0x0000000000945d86 in glib_pollfds_poll () at util/main-loop.c:213
-  #42 0x0000000000945ea7 in os_host_main_loop_wait (timeout=3D124777230) at=
- util/main-loop.c:261
-  #43 0x0000000000945f72 in main_loop_wait (nonblocking=3D0) at util/main-l=
-oop.c:517
-  #44 0x00000000005c7794 in main_loop () at vl.c:1898
-  #45 0x00000000005cec57 in main (argc=3D64, argv=3D0x7fffe7020c58, envp=3D=
-0x7fffe7020e60) at vl.c:4709
+  ppoll([{fd=3D9, events=3DPOLLIN}, {fd=3D8, events=3DPOLLIN}, {fd=3D4, eve=
+nts=3DPOLLIN}, {fd=3D6, events=3DPOLLIN}, {fd=3D30, events=3DPOLLIN}, {fd=
+=3D31, events=3DPOLLIN}], 6, {0, 0}, NULL, 8) =3D 0 (Timeout)
+  ppoll([{fd=3D9, events=3DPOLLIN}, {fd=3D8, events=3DPOLLIN}, {fd=3D4, eve=
+nts=3DPOLLIN}, {fd=3D6, events=3DPOLLIN}, {fd=3D30, events=3DPOLLIN}, {fd=
+=3D31, events=3DPOLLIN}], 6, {0, 698000000}, NULL, 8) =3D 0 (Timeout)
+  poll([{fd=3D20, events=3DPOLLOUT}], 1, 0)   =3D 1 ([{fd=3D20, revents=3DP=
+OLLOUT|POLLHUP}])
+  ppoll([{fd=3D9, events=3DPOLLIN}, {fd=3D8, events=3DPOLLIN}, {fd=3D4, eve=
+nts=3DPOLLIN}, {fd=3D6, events=3DPOLLIN}, {fd=3D30, events=3DPOLLIN}, {fd=
+=3D31, events=3DPOLLIN}], 6, {0, 999000000}, NULL, 8^C <unfinished ...>
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1687569/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1687578/+subscriptions
 
