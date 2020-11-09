@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DCE92ACF8A
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 07:20:15 +0100 (CET)
-Received: from localhost ([::1]:46328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C53F2ACF92
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 07:21:52 +0100 (CET)
+Received: from localhost ([::1]:48434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcN0o-0000wq-7h
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 01:20:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42444)
+	id 1kcN2N-0001y9-6l
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 01:21:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kcMxt-0005dj-21; Tue, 10 Nov 2020 01:17:13 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2513)
+ id 1kcMxu-0005e2-3L; Tue, 10 Nov 2020 01:17:14 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2515)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kcMxp-0003ZJ-6U; Tue, 10 Nov 2020 01:17:12 -0500
+ id 1kcMxr-0003Zh-38; Tue, 10 Nov 2020 01:17:13 -0500
 Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CVd1L0yKtzhjjM;
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CVd1L18nvzhjjP;
  Tue, 10 Nov 2020 14:16:54 +0800 (CST)
 Received: from huawei.com (10.175.104.175) by DGGEMS410-HUB.china.huawei.com
  (10.3.19.210) with Microsoft SMTP Server id 14.3.487.0; Tue, 10 Nov 2020
- 14:16:50 +0800
+ 14:16:52 +0800
 From: Gan Qixin <ganqixin@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH 2/4] block/curl.c: Use lock guard macros
-Date: Mon, 9 Nov 2020 23:43:25 +0800
-Message-ID: <20201109154327.325675-3-ganqixin@huawei.com>
+Subject: [PATCH 3/4] block/throttle-groups.c: Use lock guard macros
+Date: Mon, 9 Nov 2020 23:43:26 +0800
+Message-ID: <20201109154327.325675-4-ganqixin@huawei.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20201109154327.325675-1-ganqixin@huawei.com>
 References: <20201109154327.325675-1-ganqixin@huawei.com>
@@ -65,55 +65,98 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Replace manual lock()/unlock() calls with lock guard macros
-(QEMU_LOCK_GUARD/WITH_QEMU_LOCK_GUARD) in block/curl.c.
+(QEMU_LOCK_GUARD/WITH_QEMU_LOCK_GUARD) in block/throttle-groups.c.
 
 Signed-off-by: Gan Qixin <ganqixin@huawei.com>
 ---
- block/curl.c | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+ block/throttle-groups.c | 48 ++++++++++++++++++++---------------------
+ 1 file changed, 23 insertions(+), 25 deletions(-)
 
-diff --git a/block/curl.c b/block/curl.c
-index 4f907c47be..d24a4c5897 100644
---- a/block/curl.c
-+++ b/block/curl.c
-@@ -564,23 +564,23 @@ static void curl_detach_aio_context(BlockDriverState *bs)
-     BDRVCURLState *s = bs->opaque;
-     int i;
+diff --git a/block/throttle-groups.c b/block/throttle-groups.c
+index e2f2813c0f..badb93a3be 100644
+--- a/block/throttle-groups.c
++++ b/block/throttle-groups.c
+@@ -546,7 +546,7 @@ void throttle_group_register_tgm(ThrottleGroupMember *tgm,
+     tgm->aio_context = ctx;
+     qatomic_set(&tgm->restart_pending, 0);
  
--    qemu_mutex_lock(&s->mutex);
--    for (i = 0; i < CURL_NUM_STATES; i++) {
--        if (s->states[i].in_use) {
--            curl_clean_state(&s->states[i]);
-+    WITH_QEMU_LOCK_GUARD(&s->mutex) {
-+        for (i = 0; i < CURL_NUM_STATES; i++) {
-+            if (s->states[i].in_use) {
-+                curl_clean_state(&s->states[i]);
-+            }
-+            if (s->states[i].curl) {
-+                curl_easy_cleanup(s->states[i].curl);
-+                s->states[i].curl = NULL;
-+            }
-+            g_free(s->states[i].orig_buf);
-+            s->states[i].orig_buf = NULL;
-         }
--        if (s->states[i].curl) {
--            curl_easy_cleanup(s->states[i].curl);
--            s->states[i].curl = NULL;
-+        if (s->multi) {
-+            curl_multi_cleanup(s->multi);
-+            s->multi = NULL;
-         }
--        g_free(s->states[i].orig_buf);
--        s->states[i].orig_buf = NULL;
--    }
--    if (s->multi) {
--        curl_multi_cleanup(s->multi);
--        s->multi = NULL;
-     }
--    qemu_mutex_unlock(&s->mutex);
- 
-     timer_del(&s->timer);
+-    qemu_mutex_lock(&tg->lock);
++    QEMU_LOCK_GUARD(&tg->lock);
+     /* If the ThrottleGroup is new set this ThrottleGroupMember as the token */
+     for (i = 0; i < 2; i++) {
+         if (!tg->tokens[i]) {
+@@ -565,8 +565,6 @@ void throttle_group_register_tgm(ThrottleGroupMember *tgm,
+     qemu_co_mutex_init(&tgm->throttled_reqs_lock);
+     qemu_co_queue_init(&tgm->throttled_reqs[0]);
+     qemu_co_queue_init(&tgm->throttled_reqs[1]);
+-
+-    qemu_mutex_unlock(&tg->lock);
  }
+ 
+ /* Unregister a ThrottleGroupMember from its group, removing it from the list,
+@@ -594,25 +592,25 @@ void throttle_group_unregister_tgm(ThrottleGroupMember *tgm)
+     /* Wait for throttle_group_restart_queue_entry() coroutines to finish */
+     AIO_WAIT_WHILE(tgm->aio_context, qatomic_read(&tgm->restart_pending) > 0);
+ 
+-    qemu_mutex_lock(&tg->lock);
+-    for (i = 0; i < 2; i++) {
+-        assert(tgm->pending_reqs[i] == 0);
+-        assert(qemu_co_queue_empty(&tgm->throttled_reqs[i]));
+-        assert(!timer_pending(tgm->throttle_timers.timers[i]));
+-        if (tg->tokens[i] == tgm) {
+-            token = throttle_group_next_tgm(tgm);
+-            /* Take care of the case where this is the last tgm in the group */
+-            if (token == tgm) {
+-                token = NULL;
++    WITH_QEMU_LOCK_GUARD(&tg->lock) {
++        for (i = 0; i < 2; i++) {
++            assert(tgm->pending_reqs[i] == 0);
++            assert(qemu_co_queue_empty(&tgm->throttled_reqs[i]));
++            assert(!timer_pending(tgm->throttle_timers.timers[i]));
++            if (tg->tokens[i] == tgm) {
++                token = throttle_group_next_tgm(tgm);
++                /* Take care of the case where this is the last tgm in the group */
++                if (token == tgm) {
++                    token = NULL;
++                }
++                tg->tokens[i] = token;
+             }
+-            tg->tokens[i] = token;
+         }
+-    }
+ 
+-    /* remove the current tgm from the list */
+-    QLIST_REMOVE(tgm, round_robin);
+-    throttle_timers_destroy(&tgm->throttle_timers);
+-    qemu_mutex_unlock(&tg->lock);
++        /* remove the current tgm from the list */
++        QLIST_REMOVE(tgm, round_robin);
++        throttle_timers_destroy(&tgm->throttle_timers);
++    }
+ 
+     throttle_group_unref(&tg->ts);
+     tgm->throttle_state = NULL;
+@@ -638,14 +636,14 @@ void throttle_group_detach_aio_context(ThrottleGroupMember *tgm)
+     assert(qemu_co_queue_empty(&tgm->throttled_reqs[1]));
+ 
+     /* Kick off next ThrottleGroupMember, if necessary */
+-    qemu_mutex_lock(&tg->lock);
+-    for (i = 0; i < 2; i++) {
+-        if (timer_pending(tt->timers[i])) {
+-            tg->any_timer_armed[i] = false;
+-            schedule_next_request(tgm, i);
++     WITH_QEMU_LOCK_GUARD(&tg->lock) {
++        for (i = 0; i < 2; i++) {
++            if (timer_pending(tt->timers[i])) {
++                tg->any_timer_armed[i] = false;
++                schedule_next_request(tgm, i);
++            }
+         }
+     }
+-    qemu_mutex_unlock(&tg->lock);
+ 
+     throttle_timers_detach_aio_context(tt);
+     tgm->aio_context = NULL;
 -- 
 2.23.0
 
