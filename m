@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01CEB2AC81E
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 23:12:34 +0100 (CET)
-Received: from localhost ([::1]:42338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EC962AC8BF
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 23:42:00 +0100 (CET)
+Received: from localhost ([::1]:52894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcFOq-0001aT-Hr
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 17:12:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42936)
+	id 1kcFrK-0008LW-IF
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 17:41:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcFNM-00018f-BP
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 17:11:00 -0500
-Received: from indium.canonical.com ([91.189.90.7]:35786)
+ id 1kcFqU-0007tP-2u
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 17:41:06 -0500
+Received: from indium.canonical.com ([91.189.90.7]:40050)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcFNK-0002j9-5M
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 17:10:59 -0500
+ id 1kcFqS-0006YE-91
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 17:41:05 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kcFNI-00022L-4H
- for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 22:10:56 +0000
+ id 1kcFqQ-0005aN-KY
+ for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 22:41:02 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1644B2E8134
- for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 22:10:56 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 99DD32E800F
+ for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 22:41:02 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 09 Nov 2020 22:01:45 -0000
+Date: Mon, 09 Nov 2020 22:32:06 -0000
 From: Peter Maydell <1734474@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -43,14 +43,14 @@ X-Launchpad-Bug-Commenters: mvoloshin pmaydell
 X-Launchpad-Bug-Reporter: MVoloshin (mvoloshin)
 X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
 References: <151163832560.18460.16214125618253771985.malonedeb@gac.canonical.com>
-Message-Id: <160495930507.12391.4898966407284206053.malone@gac.canonical.com>
+Message-Id: <160496112614.17833.301180479390889394.malone@wampee.canonical.com>
 Subject: [Bug 1734474] Re: Maemo does not boot on emulated N800
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: f810a9740d746e4c745580d191177b002e460f1b
+X-Launchpad-Hash: 9d272fc5fadb5b733445e39a5ed2b219190f0226
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 11:16:03
@@ -77,12 +77,7 @@ Reply-To: Bug 1734474 <1734474@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks. I can confirm that there's been a regression since 1.2.0 that's
-still not fixed in master.
-
-
-** Changed in: qemu
-       Status: New =3D> Confirmed
+Bisection thinks commit cb5ef3fa1871522a08 is the cause.
 
 -- =
 
