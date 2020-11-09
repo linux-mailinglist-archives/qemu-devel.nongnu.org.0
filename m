@@ -2,113 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BB3C2AC1E1
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 18:11:06 +0100 (CET)
-Received: from localhost ([::1]:35250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 252D82AC214
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 18:22:18 +0100 (CET)
+Received: from localhost ([::1]:53506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcAh3-0000X8-7p
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 12:11:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33328)
+	id 1kcArx-0000Ku-7H
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 12:22:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kcAfA-0007hQ-2K; Mon, 09 Nov 2020 12:09:04 -0500
-Received: from mail-eopbgr60128.outbound.protection.outlook.com
- ([40.107.6.128]:48701 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kcAf6-0007Jm-BG; Mon, 09 Nov 2020 12:09:02 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=W135UVpP9oxEY/jIXukEFB7LDZfIS1vnNLoDtV0joUyP7yqbaF2vqVRYXvt63i+8EhcCOJClk9K/xc5ja2ZucrmaZPgAcs0AWpm4cTdyw2EjrRDLYZXsf/gYzF12VsLiDoHcomdtNzUF7WqCCpg8e9ANYhXGsbMz6Rj2uZ3WgxPtqqjMl36KeLcPt9JXOfhS3BbNQ6V+TKiYdRLri6PGPCgJbei08HtHNS0FoQR6jBQWRgcKdxZcYIiQTnkDuIvm8ne9x+iO9v+LuS54zRuYrz1qjdGCp+iqMaBaoJa9CR/Yk7DvTt4NZT0nBdwt6XKd9tc8Hs57LTmywDNDo8StVQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=owvfuS7N6r/FsyF3kqthBIeIKvXbMQn/cg0VmbcuLO0=;
- b=dBujv1p5U1OAJz0Hhm9wQMhkvkkX31wCwmsWeD96qHw4KefVXv56NNil7HX/w5X2ZkMnBmukuVtPxmew2U05F3ardAkUQIhh8fPeyMh1WMIKylPQLc6kxPL5CNe3ilxxIaxH4VdIJXAOATODBvNKL7q2ooYY5HrKzA0kXN4/U6G7cdQdJzDSxGQlJXxLF8en72wJ+dmEb19zrCvRQMOxpD+XEssGJ1OXqh3J2WWAjXvXTNgsZzHCodJRolDSlUf3N1E6J+sZ4KKD07G2V1X3oNIIBjCGSkSzVm1n9TuQTxpu9duu2EKPEIqcm4inLUtx0+PZvkG95vD8zsLlfercUA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=owvfuS7N6r/FsyF3kqthBIeIKvXbMQn/cg0VmbcuLO0=;
- b=PUr6K2MF3tPDBpAgno8c46n29BfswxfDZQZmjYR8QCXvHjNJ+t0ok6H1GM2y0+KI3IMkejnlmQJOH293GEbcTmqNCaLZO4x92tQ7KrPuT7mXr/mnvSHYnMsQWXxbJw+648LbAqsihnO0dRbVx9J4O10sLlb0biOoUkE7Ghqr/ME=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from HE1PR0801MB2124.eurprd08.prod.outlook.com (2603:10a6:3:89::22)
- by HE1PR08MB2857.eurprd08.prod.outlook.com (2603:10a6:7:2e::32) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.29; Mon, 9 Nov
- 2020 17:08:49 +0000
-Received: from HE1PR0801MB2124.eurprd08.prod.outlook.com
- ([fe80::7822:a9fb:4940:eadb]) by HE1PR0801MB2124.eurprd08.prod.outlook.com
- ([fe80::7822:a9fb:4940:eadb%9]) with mapi id 15.20.3541.023; Mon, 9 Nov 2020
- 17:08:49 +0000
-Subject: Re: [PATCH 0/2] Increase amount of data for monitor to read
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, mreitz@redhat.com,
- armbru@redhat.com, dgilbert@redhat.com, pbonzini@redhat.com,
- eblake@redhat.com, marcandre.lureau@redhat.com, den@openvz.org
-References: <1604666522-545580-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <0f18a6c6-5eab-3ed2-98e3-04969da7bd7c@virtuozzo.com>
- <d48af433-a39d-27ba-8aed-a6957c89d2d1@virtuozzo.com>
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Message-ID: <8eb2ee1e-78b1-7819-334c-48e36d48727f@virtuozzo.com>
-Date: Mon, 9 Nov 2020 20:08:46 +0300
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.9.0
-In-Reply-To: <d48af433-a39d-27ba-8aed-a6957c89d2d1@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [176.15.95.41]
-X-ClientProxiedBy: AM0P190CA0025.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:208:190::35) To HE1PR0801MB2124.eurprd08.prod.outlook.com
- (2603:10a6:3:89::22)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kcAmW-0004Ci-PF
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:16:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32787)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kcAmL-0001cG-CT
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:16:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604942187;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=13PMHFUablDQUxTJtzyhQ2QgtAftLmN5nEFNPd4NdDM=;
+ b=PJJyFkFNReSeE0CuqtE0dFMb9BDsqE+LYUMpZNB6sNkr9MTNdiIJ2uEmrVk7d0m+xe/o5h
+ vHr7giuZzTERiyPcGBsCpbSb9sHy8noGqgTdozuQG21oXoiP0OlH8A4Y259XR4Ww7VJgod
+ S3bH0CPTIyX9V7Ql6dQtVbsMtBkK2j4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-253-D4BwvVH8O_6O53T5mxPY1A-1; Mon, 09 Nov 2020 12:16:24 -0500
+X-MC-Unique: D4BwvVH8O_6O53T5mxPY1A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 409CB101964B;
+ Mon,  9 Nov 2020 17:16:23 +0000 (UTC)
+Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B0CB25D9DD;
+ Mon,  9 Nov 2020 17:16:19 +0000 (UTC)
+Date: Mon, 9 Nov 2020 12:16:18 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2 00/44] Make qdev static property API usable by any QOM
+ type
+Message-ID: <20201109171618.GA5733@habkost.net>
+References: <20201104160021.2342108-1-ehabkost@redhat.com>
+ <20201106094511.GA23864@merkur.fritz.box>
+ <20201106155013.GX5733@habkost.net>
+ <20201106211034.GY5733@habkost.net>
+ <ca99fc61-6cdd-117d-343e-8141e385522e@redhat.com>
+ <20201109113404.GA24970@merkur.fritz.box>
+ <3b711053-e67a-86fb-59e7-c06948dd8928@redhat.com>
+ <20201109152125.GZ5733@habkost.net>
+ <2300fd53-afa1-b957-b33b-cff2986fcb93@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from Admins-MacBook-Pro.local (176.15.95.41) by
- AM0P190CA0025.EURP190.PROD.OUTLOOK.COM (2603:10a6:208:190::35) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3541.21 via Frontend Transport; Mon, 9 Nov 2020 17:08:48 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5e746c55-9ab3-4a91-b4b7-08d884d2203b
-X-MS-TrafficTypeDiagnostic: HE1PR08MB2857:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <HE1PR08MB2857845B9D3ED0A4BDDA8117F4EA0@HE1PR08MB2857.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vP28qp9PC4mC0pEV9yItntqpCeTRwA9TZCBv+5W+0S6+4DBpsYoIaTVrznnuk58a05/1WrKoDNIK0rJazK1pgd++5r3t/pppHMYbqzEdWKdrFF/YpQQa5lBwlEE4R6k4FG2CmccFD3a+EsLo6Em4z59pjtNIGwKVgrZm1+zSUTQDCDEYOr6GhhDujy2yl1ClAvUxykFernWcwe58+4hsxR38UBr68bgwZq1JX2NYYGqhvYnNFT5+0gLQvu+gmTg69bZxLuu91RIVVWKPuKMNoB6JPIZhjuqVTGMTwciE1PhdL0Zy18VNK1yJEXhI+Zd+efsAEDU/KalRnOKAACkiZgx9ChkCJLO+QbIDWfKbp6mThCxyb0QEjqK+dLfcLXqZ68yo0wqLuUzaW2Eo+K2lSiiC1exLwiUuClbYlrVyvEMvxo2A0dfLHs/jQ/kiD1fDSkVSk0mtEzFDPfcAN9fAdw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HE1PR0801MB2124.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(396003)(39840400004)(136003)(376002)(366004)(31686004)(66556008)(66476007)(66946007)(966005)(6486002)(5660300002)(83380400001)(8936002)(107886003)(4326008)(6512007)(186003)(16526019)(53546011)(2616005)(52116002)(26005)(956004)(6506007)(478600001)(2906002)(44832011)(316002)(86362001)(36756003)(31696002)(8676002)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: 3vqYBE0cHKxF4t4W1ecMv5eIc32wXAeKgYBVltjBvRJez+v53b6u2bNQ+Oe8PJY6Iu5Z9P2/m3yBQ+T2d7wESN0z2mhOVOCrvrajfDUsFmeZ4PdwUNM7jeUb7eYJ9i1hSm/sReA5l2nxCt/zx9e3VFQWpWjHh2r+EeoUmAdS1KJLo7RC3d/XDNIzTfSb5ywOl19QUp7D/nQbpUswrlf2ds/DT9JAa7Resd3upopk8iz4RZqISA/r91VTy7jk8l3fHnWMF21/oB4aKxSsFaPPaSIufRgU8kNaimHzq1YTkOVzpzrYjoO3VWL5D9l1InEi2eJy+tEtulVuCtL9wYWSmSbA/pgLPHS2Nze02moPsEDukNieorlFwXUDjdYOiVtTaInK0Z+TTVUkkef0tLY4CEBGOz5w4TSc4qnQlUguAPX9371MwPB7v7fqMRg8bhBYr93smum7/R/YClKF+FWaBo+NgdlW0hHoNrBTw4FVsNxp0VV71kcNfpw1pysRRz7CqvTJ5Isl8km227xzKeQ07/C9JjGzht2/6q68dJbUgeHsoVzW2Bvn9UG+ptRNSdFY/K29QVBY10JAcMCZT0N4Oq3R0e4M89urd4l5Ybf4lN6UtQzQmmVQ2P7yZHmxOUskmuZIIRq1ZjyxUb0nNCYOYEauqZho7In4ZxUidbodbsGoIyCPz4NqaDiKxxEeuUIwcakVAWNQhcN9aIA4dcsWgOWclZPgxXsogYXfaLbbHHb1ovqF8fbccwIb4xq4pQKeJS0Ofh02HBNbSNvCaPTUIfxfQT50CKkxiZf83QQa+0gIEtDoBHEg3SCgOlQ3fE1ciFGoO7+ljJblQzBmSqmktkhPuRjwpM05fR1VRyPtAq6KyIC88d9iUbFw93+yIfqe4EN5B+xY9gRKSFNVa5MrSA==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5e746c55-9ab3-4a91-b4b7-08d884d2203b
-X-MS-Exchange-CrossTenant-AuthSource: HE1PR0801MB2124.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2020 17:08:49.4256 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TsEZOLdyfmoh3zM+URbYrmhsl2e0p2SW0rHc/wJnGDlGjfowZNhtnFGzJ9fXF5WH6wRnrYxg98DlfKQpymrkvHhMHHt0aBCqBAc0lVdgIPM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR08MB2857
-Received-SPF: pass client-ip=40.107.6.128;
- envelope-from=andrey.shinkevich@virtuozzo.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 12:08:57
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+In-Reply-To: <2300fd53-afa1-b957-b33b-cff2986fcb93@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 00:04:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -121,49 +88,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ John Snow <jsnow@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Nov 09, 2020 at 05:34:01PM +0100, Paolo Bonzini wrote:
+> On 09/11/20 16:21, Eduardo Habkost wrote:
+> > On Mon, Nov 09, 2020 at 03:15:26PM +0100, Paolo Bonzini wrote:
+> > > On 09/11/20 12:34, Kevin Wolf wrote:
+> > > > > If all properties were like this, it would be okay.  But the API in v2 is
+> > > > > the one that is most consistent with QOM in general. Here is how this change
+> > > > > would be a loss in term of consistency:
+> > > > > 
+> > > > > - you have the field properties split in two (with the property itself in
+> > > > > one place and the allow-set function in a different place), and also you'd
+> > > > > have some properties listed as array and some as function calls.
+> > > > 
+> > > > Why would you have properties defined as function calls for the same
+> > > > object that uses the array?
+> > > 
+> > > Because some properties would not be field properties, for example.  For
+> > > example, any non-scalar property would need to invoke visit_SomeQapiStruct
+> > > manually and would not be a field property.
+> > 
+> > Nothing prevents us from describing those properties inside the
+> > same property array.
+> 
+> Do you mean adding PropertyInfos for them?  Adding a once-only PropertyInfo
+> is worse than writing a custom getter/setter pair, because:
+> 
+> - without (DEFINE_)PROP_* you lose the type safety.
+> 
+> - with (DEFINE_)PROP_* you have much more boilerplate to write
 
-On 09.11.2020 13:04, Vladimir Sementsov-Ogievskiy wrote:
-> 09.11.2020 11:50, Vladimir Sementsov-Ogievskiy wrote:
->> 06.11.2020 15:42, Andrey Shinkevich wrote:
->>> The subject was discussed here:
->>> https://lists.gnu.org/archive/html/qemu-devel/2017-05/msg00206.html
->>>
->>> This series is a solution for the issue with QMP monitor buffered input.
->>> A little parser is introduced to throttle JSON commands read from the
->>> buffer so that QMP requests do not overwhelm the monitor input queue.
->>> A side effect raised in the test #247 was managed in the first patch.
->>> It may be considered as a workaround. Any sane fix suggested will be
->>> appreciated.
->>>
->>> Note:
->>> This series goes after the Vladimir's one:
->>> '[PATCH v3 00/25] backup performance: block_status + async"'
->>> To make the test #129 passed, the following patch should be applied 
->>> first:
->>> '[PATCH v3 01/25] iotests: 129 don't check backup "busy"'.
->>>
-
-[...]
+I mean extending the API to let custom setters and getters appear
+on the Property array, not using the existing API.
 
 > 
+> > More precisely, it is
+> >    device_class_set_props(dc, foo);
+> > 
+> > which is supposed to become a one-line wrapper to
+> > object_class_add_field_properties().
 > 
-> Positive thing: the patches do increase performance:
+> You're right, I'm a few years late.  So that objection is withdrawn.
 > 
-> for me, the following command:
+> > (There's also the possibility we let the class provide a default
+> > allow_set function, and both would become 100% the same)
 > 
-> (echo "{ 'execute': 'qmp_capabilities' }"; for i in {1..10000}; do echo 
-> "{ 'execute': 'query-block-jobs' }"; done; echo "{ 'execute': 'quit' }" 
-> ) | time ./qemu-system-x86_64 -qmp stdio > /dev/null
+> That's a possibility too.  Though if we ever have a need for multiple
+> allow_set functions it would be somewhat complicated to add it back.
 > 
-> shows 2.4s on master and 0.6s after patches
-> 
-> 
+> Instead of class-wide allow_set, we might as well have a "bool constructed"
+> field in Object and remove the function pointer altogether: just replace
+> prop->allow_set(obj) with just "!obj->constructed".
 
-Thank you for testing it. I'd like to include the result to the patch 
-description with "Tested-by: ..."
+That's a possibility, and maybe that could be the default
+allow_set behavior.  It may be a bit tricky to convert the
+existing backend objects to the new behavior in a gradual way,
+though.
 
-Andrey
+> 
+> > > > I think having different ways for different things (class vs. object) is
+> > > > better than having different ways for the same things (class in qdev vs.
+> > > > class in non-qdev).
+> > > 
+> > > Right, but qdev's DEFINE_PROP_STRING would be easy to change to something
+> > > like
+> > > 
+> > > - DEFINE_PROP_STRING("name", ...),
+> > > + device_class_add_field_property(dc, "name", PROP_STRING(...));
+> > 
+> > I'm not worried about this direction of conversion (which is
+> > easy).  I'm worried about the function call => QAPI schema
+> > conversion.  Function calls are too flexible and requires parsing
+> > and executing C code.
+> 
+> Converting DEFINE_PROP_STRING to a schema also requires parsing C code,
+> since you can have handwritten Property literals (especially for custom
+> PropertyInfo).  Converting DEFINE_PROP_STRING it also requires matching the
+> array against calls to object_class_add_field_properties (which could be
+> hidden behind helpers such as device_class_set_props).  (Plus matching
+> class_init functions against TypeInfo).
+
+Parsing an array containing a handful of macros (a tiny subset of
+C) isn't even comparable to parsing and executing C code where
+object*_property_add*() calls can be buried deep in many levels
+of C function calls (which may or may not be conditional).
+
+(Also, I don't think we should allow handwritten Property literals.)
+
+> 
+> So, you don't save any parsing by using arrays.  (In fact I would probably
+> skip the parsing, and use your suggestion of *executing* C code: write the
+> QAPI schema generator in C, link into QEMU and run it just once to generate
+> the QOM schema).
+
+If we do that with the existing code, we can't be sure the
+generated schema doesn't depend on configure flags or run time
+checks inside class_init.  Even locating the cases where this is
+happening is being a challenge because the API is too flexible.
+
+However, if we require the property list to be always evaluated
+at compile time, we can be sure that this method will be
+reliable.
+
+> 
+> QOM has been using function calls for many years, are there any cases of
+> misuse of that flexibility that you have in mind?  I can only think of two
+> *uses*, in fact.  One is eepro100_register_types is the only case I can
+> remember where types are registered dynamically.  The other is S390 CPU
+> features.  [...]
+
+The list of tricky dynamic properties is large and I don't think
+we even found all cases yet.  John documented many of them here:
+
+https://gitlab.com/jsnow/qemu/-/blob/cli_audit/docs/cli_audit.md
+
+Look, for example, for the sections named "Features" for CPU
+options.
+
+
+>     [...]  In fact,
+> 
+>   $ git grep \ object_class_property_add|grep -v '([a-z0-9_]*, \"'
+> 
+> shows some cases where property names are macros (an mst-ism :), but no
+> other case where properties are being defined dynamically.
+
+You are excluding instance-level object_property_add*() calls.
+Most of them are supposed to be class properties but were never
+converted.
+
+You are also ignoring the complexity of the code path that leads
+to the object*_property_add*() calls, which is the main problem
+on most cases.
+
+-- 
+Eduardo
+
 
