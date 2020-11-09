@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03E402AB437
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 11:01:05 +0100 (CET)
-Received: from localhost ([::1]:47260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A53E2AB439
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 11:02:03 +0100 (CET)
+Received: from localhost ([::1]:50626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc3yx-0000i7-Vh
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 05:01:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35310)
+	id 1kc3zs-0002EY-MF
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 05:02:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kc3vK-0006Xe-Sk
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 04:57:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50126)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kc3xg-0000oe-SF
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 04:59:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31179)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kc3vJ-00078g-3b
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 04:57:18 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kc3xe-0007sC-V5
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 04:59:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604915836;
+ s=mimecast20190719; t=1604915980;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7I5wIb8Vmj8xNMgAvSDuwr8jznckF+9Q0z4yOcl8fhs=;
- b=AawXM3fl92keGQWEapZQ+YB4Xq7ApJ7Ovun0Bzx8c4pv7cHz0yTyp4M+QWRa/yaUjiot7T
- kWwEBjWOdctDf2ToI0+0sHbfrW+ascrAw6lloVmbcgNF/8Rl7P7RNUEavNftvsG7Cyc70X
- FWHXJQrPoxdv+YbDVEh5J6xk4soNx9Q=
+ bh=0UmPRvxsYWLrXdWILn21Qd7AHp2TCxZY0KecQeBszEw=;
+ b=AWL5nFNfO3ioHUEeqMNmcADa0XYsdS+LG1UgRVko+NFsxXoqj91nEqDnI3IrnFT1R7Kkuh
+ 8+8kQWHnE0NaVUUp3n5M3ua+T0HE07NytxBPOm/EgJ7YhrFWRivZWnecxB1XdIQCpZJ2bq
+ lDOgBEHvpCXPWRrQPBQHqz83QLn1AlE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-254-Vh3jmKRgMdqCjXk6NK3uAg-1; Mon, 09 Nov 2020 04:57:12 -0500
-X-MC-Unique: Vh3jmKRgMdqCjXk6NK3uAg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-576-BHXVwEznPhGH-14rNw1UjA-1; Mon, 09 Nov 2020 04:59:39 -0500
+X-MC-Unique: BHXVwEznPhGH-14rNw1UjA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99D8E1868424;
- Mon,  9 Nov 2020 09:57:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37FD480F058;
+ Mon,  9 Nov 2020 09:59:38 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-112-53.ams2.redhat.com [10.36.112.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5C0E21002C00;
- Mon,  9 Nov 2020 09:57:06 +0000 (UTC)
-Subject: Re: [PATCH v3 09/11] gitlab-ci: Add rules to select cross-jobs to
- build
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A764E5D98A;
+ Mon,  9 Nov 2020 09:59:33 +0000 (UTC)
+Subject: Re: [PATCH v3 11/11] gitlab-ci: Move artifacts expiry rule to common
+ 'native_build_job'
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20201108221925.2344515-1-philmd@redhat.com>
- <20201108221925.2344515-10-philmd@redhat.com>
+ <20201108221925.2344515-12-philmd@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <2e1683bb-4d38-eb31-cbe5-e3ba4eecc93b@redhat.com>
-Date: Mon, 9 Nov 2020 10:57:05 +0100
+Message-ID: <51367eb8-ce2f-aca5-0648-8c526245d355@redhat.com>
+Date: Mon, 9 Nov 2020 10:59:32 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20201108221925.2344515-10-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20201108221925.2344515-12-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -93,29 +93,33 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 08/11/2020 23.19, Philippe Mathieu-Daudé wrote:
-> Add rules to select some crossbuild jobs.
+> Build jobs include the 'native_build_job' template. Move
+> the 'artifacts expiry' rule there. Now all build jobs benefit
+> from it.
 > 
-> The following tags are available to restrict the CI jobs:
-> - all    (select all jobs, this is default)
-> - cross  (select all cross-jobs)
-> - system (select all cross-system jobs)
-> - user   (select all cross-user jobs)
-> - $ARCH  (select an architecture: arm/mips/ppc/sparc/...)
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  .gitlab-ci.yml | 24 ++++--------------------
+>  1 file changed, 4 insertions(+), 20 deletions(-)
 > 
-> Developers can combine tags in the QEMU_BUILD variable when
-> pushing a branch (or tag) to repositories. Examples:
-> 
->   $ git push -o ci.variable="QEMU_BUILD=user"        myrepo mybranch
->   $ git push -o ci.variable="QEMU_BUILD=user,system" myrepo mybranch
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index dd5f9a4c505..27a4cbc5171 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -79,6 +79,10 @@ include:
+>        then
+>          make -j"$JOBS" $MAKE_CHECK_ARGS ;
+>        fi
+> +  artifacts:
+> +    expire_in: 2 days
+> +    paths:
+> +      - build
 
-That looks interesting, but I think the changes are too big for including
-them at this point in time, so I'd like to postpone this to the 6.0 cycle
-(so please respin the series after the 5.2 release).
+Should we also keep artifacts for pipelines that do not need it to pass them
+from one job to the next? ... not sure ... considering that gitlab is
+thinking about cutting down CI minutes etc., we should maybe be more
+conservative and only keep artifacts where they are really needed?
 
-Also this certainly needs to be documented in a file in the docs/ folder -
-otherwise you'll be the only one who's using this feature, I guess...
-
- Thanks,
-  Thomas
+ Thomas
 
 
