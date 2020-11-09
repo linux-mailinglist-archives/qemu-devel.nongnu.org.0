@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35D592AC2AD
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 18:41:39 +0100 (CET)
-Received: from localhost ([::1]:36084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 310472AC2B7
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 18:43:39 +0100 (CET)
+Received: from localhost ([::1]:44576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcBAg-0000NY-5K
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 12:41:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40760)
+	id 1kcBCc-0003ta-6S
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 12:43:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kcB8C-0006cG-Gw
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:39:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36292)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kcB8G-0006d9-A7
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:39:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34034)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kcB88-0000QH-66
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:39:04 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kcB8A-0000QT-4b
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:39:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604943536;
+ s=mimecast20190719; t=1604943538;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AQFH2sF8VwJ+vILtC6qrd7ME45fcgq5bBzFYVG/whOs=;
- b=Y1UtlY7Z7x2oF+vtVKJ8AYrScYRAzIebQ2lVyBIsdI9N3lT34b5FRA4wTbK+6peKToQEJY
- tqzOp7sRQbESbNkFkUzUNWv80MGcDhnmf6VZNW/KA4FYenhbW1eN571gx8GJHIpUp4MUv7
- vuoIUrjsaGR6lVcI30Z/mOnShvpfOGU=
+ bh=EEMt/87o8iRGLcMnIyswQ/Gr++JCZUvdRs/k4peWowE=;
+ b=EAFmRalVK0Sx35ScttOSM1usgE41X48XVBQkc1jpMJfiBlJoCF0EgLs36PyNscUBoI4gWq
+ bD64beVFb9fnITpGeZmsR+I5w1l9nAF9jBukxXGWqrByfUKYn0ysjW/DT9Q1/wNl7VX9g/
+ d1urcpiVPyxoH8jTxCFLvNREpLlaiOA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-164-WO3-lt3HPtqcNCvEPtNIBw-1; Mon, 09 Nov 2020 12:38:54 -0500
-X-MC-Unique: WO3-lt3HPtqcNCvEPtNIBw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-106-aGRhX6MFOfS_38bqSuO8mw-1; Mon, 09 Nov 2020 12:38:56 -0500
+X-MC-Unique: aGRhX6MFOfS_38bqSuO8mw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E2E85F9C0;
- Mon,  9 Nov 2020 17:38:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D1991009E22;
+ Mon,  9 Nov 2020 17:38:55 +0000 (UTC)
 Received: from localhost (ovpn-113-179.ams2.redhat.com [10.36.113.179])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EB69A19C78;
- Mon,  9 Nov 2020 17:38:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 320126EF49;
+ Mon,  9 Nov 2020 17:38:55 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 05/15] hw/block/nvme: fix uint16_t use of uint32_t sgls member
-Date: Mon,  9 Nov 2020 18:38:29 +0100
-Message-Id: <20201109173839.2135984-6-mreitz@redhat.com>
+Subject: [PULL 06/15] hw/block/nvme: fix free of array-typed value
+Date: Mon,  9 Nov 2020 18:38:30 +0100
+Message-Id: <20201109173839.2135984-7-mreitz@redhat.com>
 In-Reply-To: <20201109173839.2135984-1-mreitz@redhat.com>
 References: <20201109173839.2135984-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -85,32 +85,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-nvme_map_sgl_data erroneously uses the sgls member of NvmeIdNs as a
-uint16_t.
+Since 7f0f1acedf15 ("hw/block/nvme: support multiple namespaces"), the
+namespaces member of NvmeCtrl is no longer a dynamically allocated
+array. Remove the free.
 
-Reported-by: Coverity (CID 1436129)
-Fixes: cba0a8a344fe ("hw/block/nvme: add support for scatter gather lists")
+Fixes: 7f0f1acedf15 ("hw/block/nvme: support multiple namespaces")
+Reported-by: Coverity (CID 1436131)
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Message-Id: <20201104102248.32168-3-its@irrelevant.dk>
+Message-Id: <20201104102248.32168-4-its@irrelevant.dk>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- hw/block/nvme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/block/nvme.c | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 080d782f1c..2bdc50eb6f 100644
+index 2bdc50eb6f..01b657b1c5 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -452,7 +452,7 @@ static uint16_t nvme_map_sgl_data(NvmeCtrl *n, QEMUSGList *qsg,
-              * segments and/or descriptors. The controller might accept
-              * ignoring the rest of the SGL.
-              */
--            uint16_t sgls = le16_to_cpu(n->id_ctrl.sgls);
-+            uint32_t sgls = le32_to_cpu(n->id_ctrl.sgls);
-             if (sgls & NVME_CTRL_SGLS_EXCESS_LENGTH) {
-                 break;
-             }
+@@ -2799,7 +2799,6 @@ static void nvme_exit(PCIDevice *pci_dev)
+     NvmeCtrl *n = NVME(pci_dev);
+ 
+     nvme_clear_ctrl(n);
+-    g_free(n->namespaces);
+     g_free(n->cq);
+     g_free(n->sq);
+     g_free(n->aer_reqs);
 -- 
 2.28.0
 
