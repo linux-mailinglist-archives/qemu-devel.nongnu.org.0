@@ -2,71 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5939A2AC737
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 22:27:42 +0100 (CET)
-Received: from localhost ([::1]:52626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2709A2AC6E1
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 22:20:24 +0100 (CET)
+Received: from localhost ([::1]:44358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcEhR-00056J-DT
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 16:27:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33452)
+	id 1kcEaM-0001C5-QX
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 16:20:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcEfb-0003i5-P8
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 16:25:48 -0500
-Received: from indium.canonical.com ([91.189.90.7]:57818)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcEfY-0005Xn-Kd
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 16:25:47 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kcEfW-0006jV-7s
- for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 21:25:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 33DC02E809C
- for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 21:25:42 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kcEZW-0000Xm-Kt
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 16:19:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52675)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kcEZT-0004ZC-Hp
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 16:19:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604956765;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ibniibCyePrl0OFBJHIK8U5JdCqwJx9IXhFrQ33Rrok=;
+ b=Oi66iwJs3i6aYAa9JZIOh41XFH3Tnr5k61yMS7mpNgRBraoDDPtfiZd34Gw2TRCeuytmGi
+ 2RIREYR40kJhCvQQRkRsMJb+iaW2RYNZSGZBNabjGdMIQJMuxBWkQeg6SFeMvit7Y5FWMn
+ blcgAGeHxL2mjy8MM7zMy1kIdzLQUgk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-83-BkygVOsEOQavNv68kKNqVw-1; Mon, 09 Nov 2020 16:19:23 -0500
+X-MC-Unique: BkygVOsEOQavNv68kKNqVw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8CC91007486
+ for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 21:19:22 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 50B5E5C1D0;
+ Mon,  9 Nov 2020 21:19:22 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id BE0731132BD6; Mon,  9 Nov 2020 22:19:20 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2 6/6] qemu-option: warn for short-form boolean options
+References: <20201109133931.979563-1-pbonzini@redhat.com>
+ <20201109133931.979563-7-pbonzini@redhat.com>
+Date: Mon, 09 Nov 2020 22:19:20 +0100
+In-Reply-To: <20201109133931.979563-7-pbonzini@redhat.com> (Paolo Bonzini's
+ message of "Mon, 9 Nov 2020 08:39:31 -0500")
+Message-ID: <87h7py2ppj.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 09 Nov 2020 21:18:56 -0000
-From: Peter Maydell <1706296@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee bonzini dgilbert-h pmaydell
- programmingkidx rjones-redhat th-huth
-X-Launchpad-Bug-Reporter: Richard Jones (rjones-redhat)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <150097502966.6397.351311629210845503.malonedeb@gac.canonical.com>
-Message-Id: <160495673682.18034.1521997677207513087.malone@wampee.canonical.com>
-Subject: [Bug 1706296] Re: Booting NT 4 disk causes
- /home/rjones/d/qemu/cpus.c:1580:qemu_mutex_lock_iothread: assertion failed:
- (!qemu_mutex_iothread_locked())
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: cdc8dbee86e0a0f52fb0f981a614c00a9331d3b9
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 11:16:03
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 00:04:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,105 +82,211 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1706296 <1706296@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With the original repro command line, the guest now crashes "cleanly",
-ie without triggering a QEMU assert. If you give the guest a CPU type it
-recognizes, eg '-cpu pentium' (as noted in comment 7) then it boots OK,
-at least to the point of user control in the installer. So I think this
-is fixed.
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
+> Options such as "server" or "nowait", that are commonly found in -chardev,
+> are sugar for "server=on" and "wait=off".  This is quite surprising and
+> also does not have any notion of typing attached.  It is even possible to
+> do "-device e1000,noid" and get a device with "id=off".
+>
+> Deprecate it and print a warning when it is encountered.  In general,
+> this short form for boolean options only seems to be in wide use for
+> -chardev and -spice.
+>
+> The extra boolean argument is not my favorite.  In 6.0 I plan to remove
+> qemu_opts_set_defaults by switching -M to keyval, and therefore quite
+> a bit of QemuOpts code will go away.
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  docs/system/deprecated.rst |  6 ++++++
+>  tests/test-qemu-opts.c     |  2 +-
+>  util/qemu-option.c         | 29 ++++++++++++++++++-----------
+>  3 files changed, 25 insertions(+), 12 deletions(-)
+>
+> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+> index 8c1dc7645d..f45938a5ff 100644
+> --- a/docs/system/deprecated.rst
+> +++ b/docs/system/deprecated.rst
+> @@ -146,6 +146,12 @@ Drives with interface types other than ``if=none`` are for onboard
+>  devices.  It is possible to use drives the board doesn't pick up with
+>  -device.  This usage is now deprecated.  Use ``if=none`` instead.
+>  
+> +Short-form boolean options (since 5.2)
+> +''''''''''''''''''''''''''''''''''''''
+> +
+> +Boolean options such as ``share=on``/``share=off`` can be written
+> +in short form as ``share`` and ``noshare``.  This is deprecated
+> +and will cause a warning.
+>  
+>  QEMU Machine Protocol (QMP) commands
+>  ------------------------------------
+> diff --git a/tests/test-qemu-opts.c b/tests/test-qemu-opts.c
+> index 322b32871b..e12fb51032 100644
+> --- a/tests/test-qemu-opts.c
+> +++ b/tests/test-qemu-opts.c
+> @@ -519,7 +519,7 @@ static void test_opts_parse(void)
+>      error_free_or_abort(&err);
+>      g_assert(!opts);
+>  
+> -    /* Implied value */
+> +    /* Implied value (qemu_opts_parse does not warn) */
+>      opts = qemu_opts_parse(&opts_list_03, "an,noaus,noaus=",
+>                             false, &error_abort);
+>      g_assert_cmpuint(opts_count(opts), ==, 3);
+> diff --git a/util/qemu-option.c b/util/qemu-option.c
+> index 0ddf1f7b45..23238f00ea 100644
+> --- a/util/qemu-option.c
+> +++ b/util/qemu-option.c
+> @@ -756,10 +756,12 @@ void qemu_opts_print(QemuOpts *opts, const char *separator)
+>  
+>  static const char *get_opt_name_value(const char *params,
+>                                        const char *firstname,
+> +                                      bool warn_on_flag,
+>                                        bool *help_wanted,
+>                                        char **name, char **value)
+>  {
+>      const char *p;
+> +    const char *prefix = "";
+>      size_t len;
+>      bool is_help = false;
+>  
+> @@ -776,10 +778,15 @@ static const char *get_opt_name_value(const char *params,
+>              if (strncmp(*name, "no", 2) == 0) {
+>                  memmove(*name, *name + 2, strlen(*name + 2) + 1);
+>                  *value = g_strdup("off");
+> +                prefix = "no";
+>              } else {
+>                  *value = g_strdup("on");
+>                  is_help = is_help_option(*name);
+>              }
+> +            if (!is_help && warn_on_flag) {
+> +                warn_report("short-form boolean option '%s%s' deprecated", prefix, *name);
+> +                error_printf("Please use %s=%s instead\n", *name, *value);
+> +            }
 
-** Changed in: qemu
-       Status: Incomplete =3D> Fix Released
+If @warn_on_flag, we warn except for "help" and "?".  The exception
+applies regardless of @help_wanted.
 
--- =
+>          }
+>      } else {
+>          /* found "foo=bar,more" */
+> @@ -801,14 +808,14 @@ static const char *get_opt_name_value(const char *params,
+>  
+>  static bool opts_do_parse(QemuOpts *opts, const char *params,
+>                            const char *firstname, bool prepend,
+> -                          bool *help_wanted, Error **errp)
+> +                          bool warn_on_flag, bool *help_wanted, Error **errp)
+>  {
+>      char *option, *value;
+>      const char *p;
+>      QemuOpt *opt;
+>  
+>      for (p = params; *p;) {
+> -        p = get_opt_name_value(p, firstname, help_wanted, &option, &value);
+> +        p = get_opt_name_value(p, firstname, warn_on_flag, help_wanted, &option, &value);
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1706296
+Long line.  Break it before the three output arguments.
 
-Title:
-  Booting NT 4 disk causes
-  /home/rjones/d/qemu/cpus.c:1580:qemu_mutex_lock_iothread: assertion
-  failed: (!qemu_mutex_iothread_locked())
+>          if (help_wanted && *help_wanted) {
+>              return false;
+>          }
+> @@ -837,7 +844,7 @@ static char *opts_parse_id(const char *params)
+>      char *name, *value;
+>  
+>      for (p = params; *p;) {
+> -        p = get_opt_name_value(p, NULL, NULL, &name, &value);
+> +        p = get_opt_name_value(p, NULL, false, NULL, &name, &value);
 
-Status in QEMU:
-  Fix Released
+No change (we pass false to warn_on_flag).
 
-Bug description:
-  Grab the NT 4 disk from
-  https://archive.org/details/Microsoft_Windows_NT_Server_Version_4.0_227-0=
-75
-  -385_CD-KEY_419-1343253_1996
+>          if (!strcmp(name, "id")) {
+>              g_free(name);
+>              return value;
+> @@ -856,7 +863,7 @@ bool has_help_option(const char *params)
+>      bool ret;
+>  
+>      for (p = params; *p;) {
+> -        p = get_opt_name_value(p, NULL, &ret, &name, &value);
+> +        p = get_opt_name_value(p, NULL, false, &ret, &name, &value);
 
-  Try to boot it as follows:
+Likewise.
 
-  qemu-system-x86_64 -hda disk.img -cdrom Microsoft_Windows_NT_Server_Versi=
-on_4.0_227-075-385_CD-KEY_419-1343253_1996.iso -m 2048 -boot d -machine pc,=
-accel=3Dtcg
-  WARNING: Image format was not specified for 'disk.img' and probing guesse=
-d raw.
-           Automatically detecting the format is dangerous for raw images, =
-write operations on block 0 will be restricted.
-           Specify the 'raw' format explicitly to remove the restrictions.
-  **
-  ERROR:/home/rjones/d/qemu/cpus.c:1580:qemu_mutex_lock_iothread: assertion=
- failed: (!qemu_mutex_iothread_locked())
-  Aborted (core dumped)
+>          g_free(name);
+>          g_free(value);
+>          if (ret) {
+> @@ -876,12 +883,12 @@ bool has_help_option(const char *params)
+>  bool qemu_opts_do_parse(QemuOpts *opts, const char *params,
+>                         const char *firstname, Error **errp)
+>  {
+> -    return opts_do_parse(opts, params, firstname, false, NULL, errp);
+> +    return opts_do_parse(opts, params, firstname, false, false, NULL, errp);
 
-  The stack trace in the failing thread is:
+Likewise.
 
-  Thread 4 (Thread 0x7fffb0418700 (LWP 21979)):
-  #0  0x00007fffdd89b64b in raise () at /lib64/libc.so.6
-  #1  0x00007fffdd89d450 in abort () at /lib64/libc.so.6
-  #2  0x00007fffdff8c75d in g_assertion_message () at /lib64/libglib-2.0.so=
-.0
-  #3  0x00007fffdff8c7ea in g_assertion_message_expr ()
-      at /lib64/libglib-2.0.so.0
-  #4  0x00005555557a7d00 in qemu_mutex_lock_iothread ()
-      at /home/rjones/d/qemu/cpus.c:1580
-  #5  0x00005555557cb429 in io_writex (env=3Denv@entry=3D0x555556751400, io=
-tlbentry=3D0x55555675b678, =
+>  }
+>  
+>  static QemuOpts *opts_parse(QemuOptsList *list, const char *params,
+>                              bool permit_abbrev, bool defaults,
+> -                            bool *help_wanted, Error **errp)
+> +                            bool warn_on_flag, bool *help_wanted, Error **errp)
+>  {
+>      const char *firstname;
+>      char *id = opts_parse_id(params);
+> @@ -904,8 +911,8 @@ static QemuOpts *opts_parse(QemuOptsList *list, const char *params,
+>          return NULL;
+>      }
+>  
+> -    if (!opts_do_parse(opts, params, firstname, defaults, help_wanted,
+> -                       errp)) {
+> +    if (!opts_do_parse(opts, params, firstname, defaults,
+> +                       warn_on_flag, help_wanted, errp)) {
+>          qemu_opts_del(opts);
+>          return NULL;
+>      }
+> @@ -923,7 +930,7 @@ static QemuOpts *opts_parse(QemuOptsList *list, const char *params,
+>  QemuOpts *qemu_opts_parse(QemuOptsList *list, const char *params,
+>                            bool permit_abbrev, Error **errp)
+>  {
+> -    return opts_parse(list, params, permit_abbrev, false, NULL, errp);
+> +    return opts_parse(list, params, permit_abbrev, false, false, NULL, errp);
 
-      iotlbentry@entry=3D0x5aaaaae40c918, val=3Dval@entry=3D8, addr=3Daddr@=
-entry=3D2148532220, retaddr=3D0, retaddr@entry=3D93825011136120, size=3Dsiz=
-e@entry=3D4)
-      at /home/rjones/d/qemu/accel/tcg/cputlb.c:795
-  #6  0x00005555557ce0f7 in io_writel (retaddr=3D93825011136120, addr=3D214=
-8532220, val=3D8, index=3D255, mmu_idx=3D21845, env=3D0x555556751400)
-      at /home/rjones/d/qemu/softmmu_template.h:265
-  #7  0x00005555557ce0f7 in helper_le_stl_mmu (env=3Denv@entry=3D0x55555675=
-1400, addr=3Daddr@entry=3D2148532220, val=3Dval@entry=3D8, oi=3D<optimized =
-out>, retaddr=3D93825011136120, retaddr@entry=3D0) at /home/rjones/d/qemu/s=
-oftmmu_template.h:300
-  #8  0x000055555587c0a4 in cpu_stl_kernel_ra (env=3D0x555556751400, ptr=3D=
-2148532220, v=3D8, retaddr=3D0) at /home/rjones/d/qemu/include/exec/cpu_lds=
-t_template.h:182
-  #9  0x0000555555882610 in do_interrupt_protected (is_hw=3D<optimized out>=
-, next_eip=3D<optimized out>, error_code=3D2, is_int=3D<optimized out>, int=
-no=3D<optimized out>, env=3D0x555556751400) at /home/rjones/d/qemu/target/i=
-386/seg_helper.c:758
-  #10 0x0000555555882610 in do_interrupt_all (cpu=3Dcpu@entry=3D0x555556749=
-170, intno=3D<optimized out>, is_int=3D<optimized out>, error_code=3D2, nex=
-t_eip=3D<optimized out>, is_hw=3Dis_hw@entry=3D0) at /home/rjones/d/qemu/ta=
-rget/i386/seg_helper.c:1252
-  #11 0x00005555558839d3 in x86_cpu_do_interrupt (cs=3D0x555556749170)
-      at /home/rjones/d/qemu/target/i386/seg_helper.c:1298
-  #12 0x00005555557d2ccb in cpu_handle_exception (ret=3D<synthetic pointer>=
-, cpu=3D0x5555566a4590) at /home/rjones/d/qemu/accel/tcg/cpu-exec.c:465
-  #13 0x00005555557d2ccb in cpu_exec (cpu=3Dcpu@entry=3D0x555556749170)
-      at /home/rjones/d/qemu/accel/tcg/cpu-exec.c:670
-  #14 0x00005555557a855a in tcg_cpu_exec (cpu=3D0x555556749170)
-      at /home/rjones/d/qemu/cpus.c:1270
-  #15 0x00005555557a855a in qemu_tcg_rr_cpu_thread_fn (arg=3D<optimized out=
->)
-      at /home/rjones/d/qemu/cpus.c:1365
-  #16 0x00007fffddc3d36d in start_thread () at /lib64/libpthread.so.0
-  #17 0x00007fffdd975b9f in clone () at /lib64/libc.so.6
+Likewise.
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1706296/+subscriptions
+>  }
+>  
+>  /**
+> @@ -941,7 +948,7 @@ QemuOpts *qemu_opts_parse_noisily(QemuOptsList *list, const char *params,
+>      QemuOpts *opts;
+>      bool help_wanted = false;
+>  
+> -    opts = opts_parse(list, params, permit_abbrev, false,
+> +    opts = opts_parse(list, params, permit_abbrev, false, true,
+>                        opts_accepts_any(list) ? NULL : &help_wanted,
+>                        &err);
+>      if (!opts) {
+
+This function now warns, except for "help" and "?".  The exception
+applies even when we treat "help" and "?" as sugar for "help=on" and
+"?=on" because opts_accepts_any().
+
+> @@ -960,7 +967,7 @@ void qemu_opts_set_defaults(QemuOptsList *list, const char *params,
+>  {
+>      QemuOpts *opts;
+>  
+> -    opts = opts_parse(list, params, permit_abbrev, true, NULL, NULL);
+> +    opts = opts_parse(list, params, permit_abbrev, true, false, NULL, NULL);
+>      assert(opts);
+>  }
+
+No change (we pass false to warn_on_flag).
+
+Summary: only qemu_opts_parse_noisily() warns.  This is airtight only if
+all user input flows through qemu_opts_parse_noisily().  It's too late
+in my day for me to check.
+
 
