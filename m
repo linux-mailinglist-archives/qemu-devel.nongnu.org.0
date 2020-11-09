@@ -2,30 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F292C2ABE73
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 15:18:43 +0100 (CET)
-Received: from localhost ([::1]:58734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FB2C2ABE47
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 15:12:37 +0100 (CET)
+Received: from localhost ([::1]:43396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc80I-00039D-VH
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 09:18:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40466)
+	id 1kc7uO-0004g0-Iq
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 09:12:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <remi@remlab.net>)
- id 1kc7sj-0003Nj-3N; Mon, 09 Nov 2020 09:10:53 -0500
-Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:60188
+ id 1kc7sN-00036L-Kc; Mon, 09 Nov 2020 09:10:31 -0500
+Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:60190
  helo=ns207790.ip-94-23-215.eu)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <remi@remlab.net>)
- id 1kc7sf-0002q5-Gb; Mon, 09 Nov 2020 09:10:52 -0500
+ id 1kc7sL-0002qC-AZ; Mon, 09 Nov 2020 09:10:31 -0500
 Received: from basile.remlab.net (ip6-localhost [IPv6:::1])
- by ns207790.ip-94-23-215.eu (Postfix) with ESMTP id 5730D6038D;
+ by ns207790.ip-94-23-215.eu (Postfix) with ESMTP id 9CB246038F;
  Mon,  9 Nov 2020 15:10:23 +0100 (CET)
 From: remi.denis.courmont@huawei.com
 To: qemu-arm@nongnu.org
-Subject: [PATCH 10/17] target/arm: add ARMv8.4-SEL2 system registers
-Date: Mon,  9 Nov 2020 16:10:13 +0200
-Message-Id: <20201109141020.27234-10-remi.denis.courmont@huawei.com>
+Subject: [PATCH 11/17] target/arm: do S1_ptw_translate() before address space
+ lookup
+Date: Mon,  9 Nov 2020 16:10:14 +0200
+Message-Id: <20201109141020.27234-11-remi.denis.courmont@huawei.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <5554493.MhkbZ0Pkbq@basile.remlab.net>
 References: <5554493.MhkbZ0Pkbq@basile.remlab.net>
@@ -60,70 +61,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
 
+In the secure stage 2 translation regime, the VSTCR.SW and VTCR.NSW
+bits can invert the secure flag for pagetable walks. This patchset
+allows S1_ptw_translate() to change the non-secure bit.
+
 Signed-off-by: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
 ---
- target/arm/cpu.h    |  2 ++
- target/arm/helper.c | 24 ++++++++++++++++++++++++
- 2 files changed, 26 insertions(+)
+ target/arm/helper.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index c7f17fc099..7a03869d26 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -323,9 +323,11 @@ typedef struct CPUARMState {
-             uint64_t ttbr1_el[4];
-         };
-         uint64_t vttbr_el2; /* Virtualization Translation Table Base.  */
-+        uint64_t vsttbr_el2; /* Secure Virtualization Translation Table. */
-         /* MMU translation table base control. */
-         TCR tcr_el[4];
-         TCR vtcr_el2; /* Virtualization Translation Control.  */
-+        TCR vstcr_el2; /* Secure Virtualization Translation Control. */
-         uint32_t c2_data; /* MPU data cacheable bits.  */
-         uint32_t c2_insn; /* MPU instruction cacheable bits.  */
-         union { /* MMU domain access control register
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 3df007a5dc..2263715ba4 100644
+index 2263715ba4..90967771b6 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -5721,6 +5721,27 @@ static const ARMCPRegInfo el2_v8_cp_reginfo[] = {
-     REGINFO_SENTINEL
- };
+@@ -10391,7 +10391,7 @@ static bool get_level1_table_address(CPUARMState *env, ARMMMUIdx mmu_idx,
  
-+static CPAccessResult sel2_access(CPUARMState *env, const ARMCPRegInfo *ri,
-+                                  bool isread)
-+{
-+    if (arm_current_el(env) == 3 || arm_is_secure_below_el3(env)) {
-+        return CP_ACCESS_OK;
-+    }
-+    return CP_ACCESS_TRAP_UNCATEGORIZED;
-+}
-+
-+static const ARMCPRegInfo el2_sec_cp_reginfo[] = {
-+    { .name = "VSTTBR_EL2", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 6, .opc2 = 0,
-+      .access = PL2_RW, .accessfn = sel2_access,
-+      .fieldoffset = offsetof(CPUARMState, cp15.vsttbr_el2) },
-+    { .name = "VSTCR_EL2", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 6, .opc2 = 2,
-+      .access = PL2_RW, .accessfn = sel2_access,
-+      .fieldoffset = offsetof(CPUARMState, cp15.vstcr_el2) },
-+    REGINFO_SENTINEL
-+};
-+
- static CPAccessResult nsacr_access(CPUARMState *env, const ARMCPRegInfo *ri,
-                                    bool isread)
+ /* Translate a S1 pagetable walk through S2 if needed.  */
+ static hwaddr S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
+-                               hwaddr addr, MemTxAttrs txattrs,
++                               hwaddr addr, bool *is_secure,
+                                ARMMMUFaultInfo *fi)
  {
-@@ -7733,6 +7754,9 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-         if (arm_feature(env, ARM_FEATURE_V8)) {
-             define_arm_cp_regs(cpu, el2_v8_cp_reginfo);
-         }
-+        if (cpu_isar_feature(aa64_sel2, cpu)) {
-+            define_arm_cp_regs(cpu, el2_sec_cp_reginfo);
-+        }
-         /* RVBAR_EL2 is only implemented if EL2 is the highest EL */
-         if (!arm_feature(env, ARM_FEATURE_EL3)) {
-             ARMCPRegInfo rvbar = {
+     ARMMMUIdx s2_mmu_idx;
+@@ -10403,6 +10403,9 @@ static hwaddr S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
+         int s2prot;
+         int ret;
+         ARMCacheAttrs cacheattrs = {};
++        MemTxAttrs txattrs = {};
++
++        assert(!*is_secure); /* TODO: S-EL2 */
+ 
+         ret = get_phys_addr_lpae(env, addr, MMU_DATA_LOAD, s2_mmu_idx, false,
+                                  &s2pa, &txattrs, &s2prot, &s2size, fi,
+@@ -10441,9 +10444,9 @@ static uint32_t arm_ldl_ptw(CPUState *cs, hwaddr addr, bool is_secure,
+     AddressSpace *as;
+     uint32_t data;
+ 
++    addr = S1_ptw_translate(env, mmu_idx, addr, &is_secure, fi);
+     attrs.secure = is_secure;
+     as = arm_addressspace(cs, attrs);
+-    addr = S1_ptw_translate(env, mmu_idx, addr, attrs, fi);
+     if (fi->s1ptw) {
+         return 0;
+     }
+@@ -10470,9 +10473,9 @@ static uint64_t arm_ldq_ptw(CPUState *cs, hwaddr addr, bool is_secure,
+     AddressSpace *as;
+     uint64_t data;
+ 
++    addr = S1_ptw_translate(env, mmu_idx, addr, &is_secure, fi);
+     attrs.secure = is_secure;
+     as = arm_addressspace(cs, attrs);
+-    addr = S1_ptw_translate(env, mmu_idx, addr, attrs, fi);
+     if (fi->s1ptw) {
+         return 0;
+     }
 -- 
 2.29.2
 
