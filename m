@@ -2,85 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 459C72AC0AE
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 17:21:58 +0100 (CET)
-Received: from localhost ([::1]:46718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7825E2AC0AC
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 17:21:40 +0100 (CET)
+Received: from localhost ([::1]:45484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc9vZ-0001JN-BA
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 11:21:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45972)
+	id 1kc9vH-0000nf-H2
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 11:21:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kc9tL-0007pF-QE
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kc9tL-0007os-Pp
  for qemu-devel@nongnu.org; Mon, 09 Nov 2020 11:19:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34297)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55592)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kc9tJ-0006pd-Ms
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 11:19:39 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kc9tJ-0006qf-O5
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 11:19:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604938771;
+ s=mimecast20190719; t=1604938775;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=oXAM647lsCOO3xGqMCxLL46+CPMON3JlH9CYi6pDy6s=;
- b=OngHB8KRS9tPvStSdSFW9uZwHOGizjKbfxxrfGr4Zjh3BYUuGZ7B/rVlSs5T1h/E5wS8r+
- RQ/LT3efODwOVijMzIrXTo+rM6DAztO88D7T/5Mw6PCxlqalQsVyEjhnLUryPSgbn0kA6H
- +96WbrjtggW9QptUK+1Ay9mAgs1EDbA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-448-nX3mWUO-MU-SXOMQQflgKg-1; Mon, 09 Nov 2020 11:19:28 -0500
-X-MC-Unique: nX3mWUO-MU-SXOMQQflgKg-1
-Received: by mail-wr1-f70.google.com with SMTP id d8so3565353wrr.10
- for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 08:19:27 -0800 (PST)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=c74r/9TB1kiGAwlYOpNyd1EBlTZRCTXB5lpRTVp0bzg=;
+ b=ZYzdwORSflRq3yJaIju5+NcG7d/QeGirTpMB6LW2aFYt2bK1lGxmWnvHMgBHjwIzaRgeJp
+ k/OOX14wX33DN2kmlzmFnMmZtXsFJEKlN17F9k89Rswrqnx/LyX+yymez6GpKnTgmXaKFK
+ cxfS1MAPnD6PGTeIQBNV3wT9n6IBrfg=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-109-DsX5R3x3OJyEeyM6N47C3A-1; Mon, 09 Nov 2020 11:19:33 -0500
+X-MC-Unique: DsX5R3x3OJyEeyM6N47C3A-1
+Received: by mail-wm1-f71.google.com with SMTP id y26so2203966wmj.7
+ for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 08:19:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dHq6I8m/bFvQFAnLIMQ8fpVu9agI4PVxZHj0cOeVzBE=;
- b=b7gprKqYTz4I4FUzyK/mNB/KOp3tYtiMlo7+wx2VDmSSIC9TLycZNdXd7Vz/LR11fy
- brQQrMr5IvjoXg3egCyJAL3Oz4Nxi9vbadypP4sdIKVl5DquU6Gj+IFkCMXMwZ9YuRYX
- zes/RElW5o+QTUoq2CoAWgezWEqIMwn6L4qRa0sH5K+YeQP0xD28w/nhP0UdTOx5b1xa
- IwdYnr5Z9MCX1gE6cWkVcct8OOhsqpnomA0M4jvs5pFv25c0XqFnsW3Mvpj4QLWuU46C
- yfEDZxkaAGgGEg4EI+Fs0XvKU9XVMhCamUbVSLi+9TQ99V+CzphhTIJD73HXtj8YJyWK
- F3rA==
-X-Gm-Message-State: AOAM532l9oL1ksilTEhfK8RItLvqsT1JJ3jxA8N/az2iswCi1BaY+3HQ
- 4a0QcdHyycMW5hSht8OyCblEjK3iRb2eA6WBaC+y9sa3bmxQ5tLFNL/tZ0N/5G+yCtQKfese08U
- MQAHZK3UltXL92gw=
-X-Received: by 2002:a5d:6892:: with SMTP id h18mr7870781wru.49.1604938766553; 
- Mon, 09 Nov 2020 08:19:26 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJza4e77jhtWMHzrC6lmNMqew+h0MEFrY8Za1s+2Kyz85vguJoLfM95sreMVTY3+G0ivA+f70Q==
-X-Received: by 2002:a5d:6892:: with SMTP id h18mr7870762wru.49.1604938766343; 
- Mon, 09 Nov 2020 08:19:26 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=c74r/9TB1kiGAwlYOpNyd1EBlTZRCTXB5lpRTVp0bzg=;
+ b=aXxL86HuZlmRzEcFWOCsWHkn7m18ynX++GW+PEccQUFgdfAp9Xvf8GGiQi8CkQCNH5
+ tg3uNEp4xTIgbrp5LX86j8D5qHwURHIw9SA0XrCb7FXDfdovAot4JgyUA3QJR+xlmo3Z
+ tREyKaI1lxideJipiQC0f9SgkiCORgFoditHOnZTzxBbf7VGCFzpzyH1CwhfH59oJWy5
+ 3Wzsz4hT/awSaf1YyOUAJW9IyZt8GBUqdMa/mKBx7kqWeWdc0k0YjPRiH3sfn5paWqLJ
+ pRvh4n7fVBIxG9jVYvs7FESSR4Zpx0eB3Oi2OBJHu+omUr21tdAg34bVw7RlKlzoA1GJ
+ R8GQ==
+X-Gm-Message-State: AOAM530S0SIYs27gHL+H0Nn3AOfNhd1uva/petTxGqjVH0VUeB1ipFg4
+ DqzLT65uU2nleA1u4zqNSl6D/urDd4c4yR6YKUrscpipxCb4epivUIvQCRyPWX0aNE6J5HnEoj7
+ VmSK4Yn58EXKXTfU=
+X-Received: by 2002:a5d:4f92:: with SMTP id d18mr19846131wru.118.1604938771360; 
+ Mon, 09 Nov 2020 08:19:31 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyzs8vVpm0Fv7ncn8kSQ+bN8IAXk00vXnIdj4nWaTKtl1jG0LP0qvrvapNMF8PX0a6kw6Opww==
+X-Received: by 2002:a5d:4f92:: with SMTP id d18mr19846117wru.118.1604938771220; 
+ Mon, 09 Nov 2020 08:19:31 -0800 (PST)
 Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id f8sm13635257wrt.88.2020.11.09.08.19.24
+ by smtp.gmail.com with ESMTPSA id y4sm12747714wmj.2.2020.11.09.08.19.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Nov 2020 08:19:25 -0800 (PST)
+ Mon, 09 Nov 2020 08:19:30 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [NOTFORMERGE PATCH 0/2] scripts/checkpatch: Test if >100 chars per
- line is easy to review
-Date: Mon,  9 Nov 2020 17:19:21 +0100
-Message-Id: <20201109161923.2632747-1-philmd@redhat.com>
+Subject: [NOTFORMERGE PATCH 1/2] hw/net: Test line with 342 chars
+Date: Mon,  9 Nov 2020 17:19:22 +0100
+Message-Id: <20201109161923.2632747-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201109161923.2632747-1-philmd@redhat.com>
+References: <20201109161923.2632747-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 01:25:23
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 00:04:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ UPPERCASE_50_75=0.008 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,22 +100,42 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Test if this changes are allowed by checkpatch.=0D
-Patchew should reply with a simple warning.=0D
-=0D
-Based-on: <20201105154208.12442-1-ganqixin@huawei.com>=0D
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg758018.html=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (2):=0D
-  hw/net: Test line with 342 chars=0D
-  hw/pci: Test line with 391 chars=0D
-=0D
- include/hw/net/imx_fec.h   |  8 +-------=0D
- include/hw/pci/pcie_regs.h | 17 +----------------=0D
- 2 files changed, 2 insertions(+), 23 deletions(-)=0D
-=0D
---=20=0D
-2.26.2=0D
-=0D
+Applying using unrestricted checkpatch:
+
+ WARNING: line over 100 characters
+ #16: FILE: include/hw/net/imx_fec.h:118:
+
+This change is not easy to review in gitk.
+
+  $ xwininfo -root | egrep "Width|Height"
+    Width: 1920
+    Height: 2160
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ include/hw/net/imx_fec.h | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
+
+diff --git a/include/hw/net/imx_fec.h b/include/hw/net/imx_fec.h
+index e3a8755db92..c3ac7d25823 100644
+--- a/include/hw/net/imx_fec.h
++++ b/include/hw/net/imx_fec.h
+@@ -115,13 +115,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(IMXFECState, IMX_FEC)
+ #define ENET_INT_TXF1          (1 <<  3)
+ #define ENET_INT_TXB1          (1 <<  2)
+ 
+-#define ENET_INT_MAC           (ENET_INT_HB | ENET_INT_BABR | ENET_INT_BABT | \
+-                                ENET_INT_GRA | ENET_INT_TXF | ENET_INT_TXB | \
+-                                ENET_INT_RXF | ENET_INT_RXB | ENET_INT_MII | \
+-                                ENET_INT_EBERR | ENET_INT_LC | ENET_INT_RL | \
+-                                ENET_INT_UN | ENET_INT_PLR | ENET_INT_WAKEUP | \
+-                                ENET_INT_TS_AVAIL | ENET_INT_TXF1 | \
+-                                ENET_INT_TXB1 | ENET_INT_TXF2 | ENET_INT_TXB2)
++#define ENET_INT_MAC           (ENET_INT_HB | ENET_INT_BABR | ENET_INT_BABT | ENET_INT_GRA | ENET_INT_TXF | ENET_INT_TXB | ENET_INT_RXF | ENET_INT_RXB | ENET_INT_MII | ENET_INT_EBERR | ENET_INT_LC | ENET_INT_RL | ENET_INT_UN | ENET_INT_PLR | ENET_INT_WAKEUP | ENET_INT_TS_AVAIL | ENET_INT_TXF1 | ENET_INT_TXB1 | ENET_INT_TXF2 | ENET_INT_TXB2)
+ 
+ /* RDAR */
+ #define ENET_RDAR_RDAR         (1 << 24)
+-- 
+2.26.2
 
 
