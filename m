@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 310472AC2B7
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 18:43:39 +0100 (CET)
-Received: from localhost ([::1]:44576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 650142AC2CB
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 18:48:09 +0100 (CET)
+Received: from localhost ([::1]:55064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcBCc-0003ta-6S
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 12:43:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40812)
+	id 1kcBGy-0008PM-BR
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 12:48:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kcB8G-0006d9-A7
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:39:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34034)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kcB8J-0006dk-40
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:39:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20715)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kcB8A-0000QT-4b
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:39:07 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kcB8C-0000RW-KO
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:39:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604943538;
+ s=mimecast20190719; t=1604943544;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EEMt/87o8iRGLcMnIyswQ/Gr++JCZUvdRs/k4peWowE=;
- b=EAFmRalVK0Sx35ScttOSM1usgE41X48XVBQkc1jpMJfiBlJoCF0EgLs36PyNscUBoI4gWq
- bD64beVFb9fnITpGeZmsR+I5w1l9nAF9jBukxXGWqrByfUKYn0ysjW/DT9Q1/wNl7VX9g/
- d1urcpiVPyxoH8jTxCFLvNREpLlaiOA=
+ bh=ak6z2A/ZzLQvIPHlyx6nSUtNr1P/3/vwgGZpB5b7RYk=;
+ b=hiDnK/KlK4aQ0XBJD80ytIj8Numl9sIgnUU55tJWKs3ClrEhrCkLCOvPwjU2fLy5/1LqHc
+ 4amX/VY8pUWFAak8RZWSfCFFWY9LVDq9drgL/TmJXcNZwnB5BihylnRxZ6HXCKOqfWwKGY
+ zEayZIjElS1MR628XUYy0g4di1B4yhc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-106-aGRhX6MFOfS_38bqSuO8mw-1; Mon, 09 Nov 2020 12:38:56 -0500
-X-MC-Unique: aGRhX6MFOfS_38bqSuO8mw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-399-Vt8awk4kNBq3VeY4yXHjVQ-1; Mon, 09 Nov 2020 12:38:59 -0500
+X-MC-Unique: Vt8awk4kNBq3VeY4yXHjVQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D1991009E22;
- Mon,  9 Nov 2020 17:38:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E5F038CD261;
+ Mon,  9 Nov 2020 17:38:57 +0000 (UTC)
 Received: from localhost (ovpn-113-179.ams2.redhat.com [10.36.113.179])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 320126EF49;
- Mon,  9 Nov 2020 17:38:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 80CFB5D9D2;
+ Mon,  9 Nov 2020 17:38:57 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 06/15] hw/block/nvme: fix free of array-typed value
-Date: Mon,  9 Nov 2020 18:38:30 +0100
-Message-Id: <20201109173839.2135984-7-mreitz@redhat.com>
+Subject: [PULL 07/15] iotests: add filter_qmp_virtio_scsi function
+Date: Mon,  9 Nov 2020 18:38:31 +0100
+Message-Id: <20201109173839.2135984-8-mreitz@redhat.com>
 In-Reply-To: <20201109173839.2135984-1-mreitz@redhat.com>
 References: <20201109173839.2135984-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 01:25:23
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 00:04:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,34 +83,42 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+From: Maxim Levitsky <mlevitsk@redhat.com>
 
-Since 7f0f1acedf15 ("hw/block/nvme: support multiple namespaces"), the
-namespaces member of NvmeCtrl is no longer a dynamically allocated
-array. Remove the free.
+filter_qmp_virtio_scsi can be used to filter virtio-scsi-pci/ccw differences.
+Note that this patch was only tested on x86.
 
-Fixes: 7f0f1acedf15 ("hw/block/nvme: support multiple namespaces")
-Reported-by: Coverity (CID 1436131)
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Message-Id: <20201104102248.32168-4-its@irrelevant.dk>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Tested-by: Christian Borntraeger <borntraeger@de.ibm.com>
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20201104185025.434703-2-mlevitsk@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- hw/block/nvme.c | 1 -
- 1 file changed, 1 deletion(-)
+ tests/qemu-iotests/iotests.py | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 2bdc50eb6f..01b657b1c5 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -2799,7 +2799,6 @@ static void nvme_exit(PCIDevice *pci_dev)
-     NvmeCtrl *n = NVME(pci_dev);
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 814804a4c6..bcd4fe5b6f 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -392,6 +392,16 @@ def filter_qmp_testfiles(qmsg):
+         return value
+     return filter_qmp(qmsg, _filter)
  
-     nvme_clear_ctrl(n);
--    g_free(n->namespaces);
-     g_free(n->cq);
-     g_free(n->sq);
-     g_free(n->aer_reqs);
++def filter_virtio_scsi(output: str) -> str:
++    return re.sub(r'(virtio-scsi)-(ccw|pci)', r'\1', output)
++
++def filter_qmp_virtio_scsi(qmsg):
++    def _filter(_key, value):
++        if is_str(value):
++            return filter_virtio_scsi(value)
++        return value
++    return filter_qmp(qmsg, _filter)
++
+ def filter_generated_node_ids(msg):
+     return re.sub("#block[0-9]+", "NODE_NAME", msg)
+ 
 -- 
 2.28.0
 
