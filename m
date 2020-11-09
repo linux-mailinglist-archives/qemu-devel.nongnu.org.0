@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72E6C2AC732
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 22:24:28 +0100 (CET)
-Received: from localhost ([::1]:48014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B39A12AC738
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 22:28:16 +0100 (CET)
+Received: from localhost ([::1]:53536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcEeJ-0002yC-IG
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 16:24:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33006)
+	id 1kcEhz-0005T3-QO
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 16:28:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kcEdJ-0002S1-M5
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 16:23:25 -0500
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:46847)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kcEdH-00058j-Nz
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 16:23:25 -0500
-Received: by mail-ej1-x636.google.com with SMTP id w13so14377479eju.13
- for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 13:23:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Eb69py+1VtB49iDeziIImU4NeTWuuWDI27RfF1OmVUs=;
- b=QPKo8H8nF64IcAF2VIf0M5e1DDh0X10gGlWm27rWEq4usVul6qcsPV/YQsC/gGKKG4
- Gb7Jszt25g6Zcp8Vj51NUopCgEwcAzJqfngav8rH3xoPYHkYImY8Pr+7APzMzPnFga7u
- 24avW4y4ErVpvorHEQmDPI55DAvHm3fHP5udxNKbmQGGleCF9YASXFMhXDKcGeeTu1Mx
- CDu1+JZxF7IEjkZX7JbQnIIz6Wp34BQR424+VBNN58cx1p8IAeLOBI9GFv4ypymfd8nf
- oCeQGy/RAVl2JSGzbPlGYoiTgzp2Zs3uHhvvU7MU1bW8xWztA2FbPQ04DY+rtQKWC/Hy
- nW3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Eb69py+1VtB49iDeziIImU4NeTWuuWDI27RfF1OmVUs=;
- b=l7ME4UkzQ7vgvG9K/4trD9dKiUxjLUb94t7G9pEz3FWuPya8CSfjl3fbLt3Q9UR1XB
- Da1ReUMsuoNtW0u3ZQ35dGz6w5rgzVFneftGTgEO1TpMRSZyvpV52JvCtDA92A9l6m+z
- r1w27kT8LAbZFQIstP44Nk8zE6/8aoft+tD7rrQoF+Il0uelRBfpcpQo3W9B92Ul6LmR
- TDBweDpt+ZxoZVDJcoPmIAEhk8u0l+iPsu+LUNuL/FhdQtuNINWqZVyyqG37MA5gNtGp
- TKy33c9S8AOwWWpFUv9CfOq4H8nRIeenUDQfcv4aqa98X34Vdd/kFuKUNmB9gImMPbeF
- 9X/w==
-X-Gm-Message-State: AOAM530ZXhPhYhw1hkNsosizV4+ZhPCpNnU7815ZLBmyji53wgwCLxjJ
- TYjUaXlnTO+eSLYhRvhjrzfVajYgD3cDNFlbWs9Jlg==
-X-Google-Smtp-Source: ABdhPJy2+R2/EMUt+riXuc+BsAsKUZ8d80Q9HI2mCgcT7PESMUUQc/hdJXUEQyznAUTmkqMnamCv0Jd0LKXIiMevzwo=
-X-Received: by 2002:a17:906:6896:: with SMTP id
- n22mr17814506ejr.56.1604957001788; 
- Mon, 09 Nov 2020 13:23:21 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kcEfv-0003rl-HT
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 16:26:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56320)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kcEfq-0005aD-IN
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 16:26:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604957160;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=C5qkeUQJ0JQGnZdwzf4B4w0YcTXrOy3S9QRUXGclc7o=;
+ b=MSdKROL1NHo2y/S4MOlph53YlKV0a3NfUhWwo9xXoJm3d/GBGTOGqqTiQT1PveuuUpQ0pQ
+ Xrs7qF7sshxM0ZY1Ilo79GsEhroJosr50npNJewvuzT4G4YEQgAaMd5pch88dhf/xIBRz1
+ hFLLUVI+Tp2dzTVZbY7e2X0u9l5TOn4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-220-drvVxd4AOGqrUHd30Ss3lw-1; Mon, 09 Nov 2020 16:25:58 -0500
+X-MC-Unique: drvVxd4AOGqrUHd30Ss3lw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1688640B2
+ for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 21:25:57 +0000 (UTC)
+Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 953982C31E;
+ Mon,  9 Nov 2020 21:25:57 +0000 (UTC)
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/8] qom: Use qlit to represent property defaults
+Date: Mon,  9 Nov 2020 16:25:48 -0500
+Message-Id: <20201109212556.3934583-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-References: <20201109201722.237150-1-michael.roth@amd.com>
-In-Reply-To: <20201109201722.237150-1-michael.roth@amd.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 9 Nov 2020 21:23:08 +0000
-Message-ID: <CAFEAcA8D9v8Uk+FfMkdikBSPTMqTjN2FSDuntcD1C0mp9eUamA@mail.gmail.com>
-Subject: Re: [PULL for-5.2 0/1] qemu-ga patch queue for hard-freeze
-To: Michael Roth <michael.roth@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 01:25:23
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,35 +77,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 9 Nov 2020 at 20:18, Michael Roth <michael.roth@amd.com> wrote:
->
-> The following changes since commit 3493c36f0371777c62d1d72b205b0eb6117e2156:
->
->   Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20201106' into staging (2020-11-06 13:43:28 +0000)
->
-> are available in the Git repository at:
->
->   git://github.com/mdroth/qemu.git tags/qga-pull-2020-11-09-tag
->
-> for you to fetch changes up to b1b9ab1c04d560f86d8da3dfca4d8b21de75fee6:
->
->   qga: fix missing closedir() in qmp_guest_get_disks() (2020-11-09 14:07:14 -0600)
->
-> ----------------------------------------------------------------
-> qemu-ga patch queue for hard-freeze
->
-> * fix leaked DIR* descriptor in guest-get-disks spotted by coverity
->
-> ----------------------------------------------------------------
+Based-on: 20201104160021.2342108-1-ehabkost@redhat.com=0D
+Git branch: https://gitlab.com/ehabkost/qemu/-/commits/work/qdev-qlit-defau=
+lts=0D
+=0D
+This extend qlit.h to support all QNum types (signed int,=0D
+unsigned int, and double), and use QLitObject to represent field=0D
+property defaults.=0D
+=0D
+It allows us to get rid of most type-specific .set_default_value=0D
+functions for QOM property types.=0D
+=0D
+Eduardo Habkost (8):=0D
+  qobject: Include API docs in docs/devel/qobject.html=0D
+  qnum: Make qnum_get_double() get const pointer=0D
+  qnum: QNumValue type for QNum value literals=0D
+  qnum: qnum_value_is_equal() function=0D
+  qlit: Support all types of QNums=0D
+  qlit: qlit_type() function=0D
+  qom: Make object_property_set_default() public=0D
+  qom: Use qlit to represent property defaults=0D
+=0D
+ docs/devel/index.rst                  |   1 +=0D
+ docs/devel/qobject.rst                |  11 +++=0D
+ include/hw/qdev-properties-system.h   |   2 +-=0D
+ include/qapi/qmp/qlit.h               |  16 +++-=0D
+ include/qapi/qmp/qnum.h               |  47 ++++++++++-=0D
+ include/qapi/qmp/qobject.h            |  48 +++++++----=0D
+ include/qom/field-property-internal.h |   4 -=0D
+ include/qom/field-property.h          |  26 +++---=0D
+ include/qom/object.h                  |  11 +++=0D
+ include/qom/property-types.h          |  21 ++---=0D
+ hw/core/qdev-properties-system.c      |   8 --=0D
+ qobject/qlit.c                        |   4 +-=0D
+ qobject/qnum.c                        | 116 +++++++++++++++-----------=0D
+ qom/field-property.c                  |  27 ++++--=0D
+ qom/object.c                          |   2 +-=0D
+ qom/property-types.c                  |  36 ++------=0D
+ tests/check-qjson.c                   |  72 ++++++++++++++--=0D
+ 17 files changed, 295 insertions(+), 157 deletions(-)=0D
+ create mode 100644 docs/devel/qobject.rst=0D
+=0D
+--=20=0D
+2.28.0=0D
+=0D
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
-
--- PMM
 
