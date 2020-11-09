@@ -2,94 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CE672ABECC
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 15:36:52 +0100 (CET)
-Received: from localhost ([::1]:50066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD6D22ABED7
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 15:38:34 +0100 (CET)
+Received: from localhost ([::1]:55608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc8Hr-0006U9-7c
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 09:36:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41744)
+	id 1kc8JV-0000Lm-UA
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 09:38:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kc7yn-0002Ju-Nz
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:17:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27095)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kc7yg-00051j-A0
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:17:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604931421;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+5KBgy1bptvYMHiVNJXsoIH6QRdqGQ0VK6mil4C/JIM=;
- b=fs7119KgWEPqYN0WYbZi/JT2lNV81EPnLr1QUwcjN5NZIsNDyC34SaTEofswEXOA+0LMht
- 0tLwlJMgTiz0e6sSGrh5UBK5iDvDo2WBlsMTWUL0dDwgztZgxmwIUKy7SEG8aGNN6rQQqg
- gnUCrdSfoMhaJ3ZgjURNl7RaS7wg0iA=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-251-OiQx9VWtPfqCkBKyrCRnQQ-1; Mon, 09 Nov 2020 09:16:57 -0500
-X-MC-Unique: OiQx9VWtPfqCkBKyrCRnQQ-1
-Received: by mail-wr1-f72.google.com with SMTP id p16so1753171wrx.4
- for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 06:16:56 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kc80B-0004HL-RD
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:18:35 -0500
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:35095)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kc809-0005QU-R1
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:18:35 -0500
+Received: by mail-ed1-x541.google.com with SMTP id ay21so8914314edb.2
+ for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 06:18:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=6SL67MXDkpqciKU21DWb7uh9VzXvqZsGe2hTyZdTxHI=;
+ b=wOnT+GT1WRI/ds4g9hjGaMY912qArJpfRgUm3JgsPD8It0RpIP6VSfH/05yCXpRi1J
+ l2IK8IksKNo1Zkrei+NhTKU2uEMFAh9Le3xhIw5dflANv5WTvjlqnvewcbPFnTkF+Eu2
+ rZXaKtbCOOaQ2xK50Z8jt5guQ/9kjescicHK6oHXpAo1dJqfzR6J2UX2vPVpFZGUAU9A
+ 1hgWmzqppc/2M0mOtBiZ4tnH5W37dQoJrlRPnRiXuruuVhM9kuPQQexoOeGgpshU6PbT
+ XJkIR6yP+xdB8OhPZ+klJTA0xruODAR17X1UBFQOpktHqihI+FigkyCXihiiFSjkxWyF
+ 3+7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=+5KBgy1bptvYMHiVNJXsoIH6QRdqGQ0VK6mil4C/JIM=;
- b=tMsD/IZv4G34O0+3kpIqSJ+CiShZJYAVMwLGt8gcsLerRj1FKmoyAKE//6VcPlFTRV
- PqFbC79Rpop3g95T0aL79472lsAM2dEPKkilb9jazUFJJXdlHFx+lpvUrAzQ2yqCe2xz
- KNh3ke4OO/1BiXhkunF9NeptEjyGyWNZl8wJl/04wwigrBOkErAgbgoej9mU2GklGIjA
- qyEZJJpB6aKSi3WDPqhYAi5SqM/kSYiPp5Otpu2J21qn7O/7MPsCJBxaQJM/9oPJoqpH
- kfdHzefdERnxy42SCVNkuZkCzGM7PJkPaFhkv1Th88uqzxbWP2QIDPBulaXl9QypeaJ0
- GwvA==
-X-Gm-Message-State: AOAM530DVMqrYODwBpgXQx/4VsG4FpwCQ3oAznbxypND2YdKZnEitzPS
- pey2CzkM8V9TUGfgNzIz7NUklUt41JlYmGAVg3Xf1xKOhAWKB7LT2xqnIJOWg0MLYxBLUXqq5OZ
- wCiyqsHrJ/NlPfiQ=
-X-Received: by 2002:a1c:7418:: with SMTP id p24mr14464339wmc.36.1604931415939; 
- Mon, 09 Nov 2020 06:16:55 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyZnKv9ROmrZKrV7LLt8EJuQBDvH/FY0mFP45Gg7VhRyHcZALGyQEl6q/ktNRS+Hjyp/Upy6g==
-X-Received: by 2002:a1c:7418:: with SMTP id p24mr14464321wmc.36.1604931415769; 
- Mon, 09 Nov 2020 06:16:55 -0800 (PST)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id e6sm13311727wme.27.2020.11.09.06.16.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Nov 2020 06:16:54 -0800 (PST)
-Subject: Re: [PATCH-for-5.2 v2] hw/core/qdev-properties-system: Rewrite
- set_pci_host_devaddr using GLib
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>, Igor Mammedov <imammedo@redhat.com>
-References: <20201013102252.3562860-1-philmd@redhat.com>
- <60f5af9c-4153-7702-cd99-b317a6de89c0@redhat.com>
-Message-ID: <ccf65075-c0e9-7358-f483-2c7fbbd3fb81@redhat.com>
-Date: Mon, 9 Nov 2020 15:16:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=6SL67MXDkpqciKU21DWb7uh9VzXvqZsGe2hTyZdTxHI=;
+ b=b7LeWNqOjgQ62nMUngJAmQlmnhjTK3FVJlvVBlaBgIGdgxVvjiO12ENbJ1jDHIatnr
+ YEbxtc7it2UW6NxLx9t/PMBB98Hr5QN/Kv2ZwvDqvmTPDB51L5WfjJaDh3/5MLXjU3i+
+ iK1KXU21cTJaUJNnS66PyVn72HbN+HGRVFfn1GfmEKTVIcMLUYQBRlKDIeQQu4odWjUO
+ a+1Bi66WMZ30pMzeGdGgzj/D9jLKY23CTW4yskCVyfMpwJCPl091ZMVieCB8CLBdSQl/
+ 313BeEU+/HuNoEf9kxGQSRFO0Wo0EWWLACUyqGIkLUXzNlMO1PqneS5DG/UlpS1cc0pP
+ MYIQ==
+X-Gm-Message-State: AOAM532wwMyfCcMIu+VVULw2l3cNbqIo/Wo591K1cDONnZUR8+GxPGl2
+ V5eADNxXrTlkgq22ly8X6ew8aFMyZcfmCNujnToM3cAyx9c=
+X-Google-Smtp-Source: ABdhPJyiPWGofBrc+i133q5FqNYXfxgjsV7K22adwJwnvt8kTGnsSDI2r6oBsuAHWENcbIduL3CdIFosPnGr1GJLB0c=
+X-Received: by 2002:aa7:df82:: with SMTP id b2mr15032647edy.251.1604931512072; 
+ Mon, 09 Nov 2020 06:18:32 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <60f5af9c-4153-7702-cd99-b317a6de89c0@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 00:04:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20201106235109.7066-1-peter.maydell@linaro.org>
+ <20201106235109.7066-3-peter.maydell@linaro.org>
+ <b957ada3-cbc7-d1fa-750d-f201c3bef2c6@amsat.org>
+In-Reply-To: <b957ada3-cbc7-d1fa-750d-f201c3bef2c6@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 9 Nov 2020 14:18:20 +0000
+Message-ID: <CAFEAcA_UjvGGX7juQmX-tXh8Phs8oOnNcXAHzmidtYRxcDamMA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] hw/m68k/q800.c: Make the GLUE chip an actual QOM
+ device
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::541;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,136 +83,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Klaus Herman <kherman@inbox.lv>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing PCI developers (rc2 is scheduled for tomorrow).
+On Mon, 9 Nov 2020 at 14:15, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
+wrote:
+>
+> Hi Peter,
+>
+> On 11/7/20 12:51 AM, Peter Maydell wrote:
+> > The handling of the GLUE (General Logic Unit) device is
+> > currently open-coded. Make this into a proper QOM device.
+> >
+> > This minor piece of modernisation gets rid of the free
+> > floating qemu_irq array 'pic', which Coverity points out
+> > is technically leaked when we exit the machine init function.
+> > (The replacement glue device is not leaked because it gets
+> > added to the sysbus, so it's accessible via that.)
+> >
+> > Fixes: Coverity CID 1421883
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> > ---
+> >  hw/m68k/q800.c | 82 ++++++++++++++++++++++++++++++++++++++++++--------
+> >  1 file changed, 70 insertions(+), 12 deletions(-)
+> >
+> > diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+> > index dc13007aaf2..05bb372f958 100644
+> > --- a/hw/m68k/q800.c
+> > +++ b/hw/m68k/q800.c
+> > @@ -47,6 +47,7 @@
+> >  #include "sysemu/qtest.h"
+> >  #include "sysemu/runstate.h"
+> >  #include "sysemu/reset.h"
+> > +#include "migration/vmstate.h"
+> >
+> >  #define MACROM_ADDR     0x40800000
+> >  #define MACROM_SIZE     0x00100000
+> > @@ -94,10 +95,14 @@
+> >   * CPU.
+> >   */
+> >
+> > -typedef struct {
+> > +#define TYPE_GLUE "q800-glue"
+> > +OBJECT_DECLARE_SIMPLE_TYPE(GLUEState, GLUE)
+> > +
+> > +struct GLUEState {
+> > +    SysBusDevice parent_obj;
+> >      M68kCPU *cpu;
+> >      uint8_t ipr;
+> > -} GLUEState;
+> > +};
+> >
+> >  static void GLUE_set_irq(void *opaque, int irq, int level)
+> >  {
+> > @@ -119,6 +124,58 @@ static void GLUE_set_irq(void *opaque, int irq, in=
+t level)
+> >      m68k_set_irq_level(s->cpu, 0, 0);
+> >  }
+> >
+> > +static void glue_reset(DeviceState *dev)
+> > +{
+> > +    GLUEState *s =3D GLUE(dev);
+> > +
+> > +    s->ipr =3D 0;
+> > +}
+> > +
+> > +static const VMStateDescription vmstate_glue =3D {
+> > +    .name =3D "q800-glue",
+> > +    .version_id =3D 0,
+> > +    .minimum_version_id =3D 0,
+> > +    .fields =3D (VMStateField[]) {
+> > +        VMSTATE_UINT8(ipr, GLUEState),
+> > +        VMSTATE_END_OF_LIST(),
+> > +    },
+> > +};
+> > +
+> > +/*
+> > + * If the m68k CPU implemented its inbound irq lines as GPIO lines
+> > + * rather than via the m68k_set_irq_level() function we would not need
+> > + * this cpu link property and could instead provide outbound IRQ lines
+> > + * that the board could wire up to the CPU.
+> > + */
+> > +static Property glue_properties[] =3D {
+> > +    DEFINE_PROP_LINK("cpu", GLUEState, cpu, TYPE_M68K_CPU, M68kCPU *),
+> > +    DEFINE_PROP_END_OF_LIST(),
+> > +};
+> > +
+> > +static void glue_init(Object *obj)
+> > +{
+> > +    DeviceState *dev =3D DEVICE(obj);
+> > +
+> > +    qdev_init_gpio_in(dev, GLUE_set_irq, 8);
+> > +}
+> > +
+> > +static void glue_class_init(ObjectClass *klass, void *data)
+> > +{
+> > +    DeviceClass *dc =3D DEVICE_CLASS(klass);
+> > +
+> > +    dc->vmsd =3D &vmstate_glue;
+> > +    dc->reset =3D glue_reset;
+>
+> Don't we need a realize() handler checking s->cpu is non-NULL?
+>
+> Otherwise:
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-On 11/7/20 9:59 AM, Philippe Mathieu-Daudé wrote:
-> Ping for 5.2 as this is a bugfix.
-> 
-> On 10/13/20 12:22 PM, Philippe Mathieu-Daudé wrote:
->> set_pci_host_devaddr() is hard to follow, thus bug-prone.
->> We indeed introduced a bug in commit bccb20c49df, as the
->> same line might be used to parse a bus (up to 0xff) or a
->> slot (up to 0x1f). Instead of making things worst, rewrite
->> using g_strsplit().
->>
->> Fixes: bccb20c49df ("Use qemu_strtoul() in set_pci_host_devaddr()")
->> Reported-by: Klaus Herman <kherman@inbox.lv>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->> v2: Free g_strsplit() with g_auto(GStrv) (Daniel)
->> ---
->>  hw/core/qdev-properties-system.c | 61 ++++++++++++++------------------
->>  1 file changed, 27 insertions(+), 34 deletions(-)
->>
->> diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
->> index 49bdd125814..36d4fd8b22a 100644
->> --- a/hw/core/qdev-properties-system.c
->> +++ b/hw/core/qdev-properties-system.c
->> @@ -878,11 +878,11 @@ static void set_pci_host_devaddr(Object *obj, Visitor *v, const char *name,
->>      DeviceState *dev = DEVICE(obj);
->>      Property *prop = opaque;
->>      PCIHostDeviceAddress *addr = qdev_get_prop_ptr(dev, prop);
->> -    char *str, *p;
->> -    const char *e;
->> +    g_autofree char *str = NULL;
->> +    g_auto(GStrv) col_s0 = NULL;
->> +    g_auto(GStrv) dot_s = NULL;
->> +    char **col_s;
->>      unsigned long val;
->> -    unsigned long dom = 0, bus = 0;
->> -    unsigned int slot = 0, func = 0;
->>  
->>      if (dev->realized) {
->>          qdev_prop_set_after_realize(dev, name, errp);
->> @@ -893,57 +893,50 @@ static void set_pci_host_devaddr(Object *obj, Visitor *v, const char *name,
->>          return;
->>      }
->>  
->> -    p = str;
->> -    if (qemu_strtoul(p, &e, 16, &val) < 0 || val > 0xffff || e == p) {
->> +    col_s = col_s0 = g_strsplit(str, ":", 3);
->> +    if (!col_s || !col_s[0] || !col_s[1]) {
->>          goto inval;
->>      }
->> -    if (*e != ':') {
->> -        goto inval;
->> -    }
->> -    bus = val;
->>  
->> -    p = (char *)e + 1;
->> -    if (qemu_strtoul(p, &e, 16, &val) < 0 || val > 0x1f || e == p) {
->> -        goto inval;
->> -    }
->> -    if (*e == ':') {
->> -        dom = bus;
->> -        bus = val;
->> -        p = (char *)e + 1;
->> -        if (qemu_strtoul(p, &e, 16, &val) < 0 || val > 0x1f || e == p) {
->> +    /* domain */
->> +    if (col_s[2]) {
->> +        if (qemu_strtoul(col_s[0], NULL, 16, &val) < 0 || val > 0xffff) {
->>              goto inval;
->>          }
->> +        addr->domain = val;
->> +        col_s++;
->> +    } else {
->> +        addr->domain = 0;
->>      }
->> -    slot = val;
->>  
->> -    if (*e != '.') {
->> +    /* bus */
->> +    if (qemu_strtoul(col_s[0], NULL, 16, &val) < 0 || val > 0xff) {
->>          goto inval;
->>      }
->> -    p = (char *)e + 1;
->> -    if (qemu_strtoul(p, &e, 10, &val) < 0 || val > 7 || e == p) {
->> -        goto inval;
->> -    }
->> -    func = val;
->> +    addr->bus = val;
->>  
->> -    if (bus > 0xff) {
->> +    /* <slot>.<func> */
->> +    dot_s = g_strsplit(col_s[1], ".", 2);
->> +    if (!dot_s || !dot_s[0] || !dot_s[1]) {
->>          goto inval;
->>      }
->>  
->> -    if (*e) {
->> +    /* slot */
->> +    if (qemu_strtoul(dot_s[0], NULL, 16, &val) < 0 || val > 0x1f) {
->>          goto inval;
->>      }
->> +    addr->slot = val;
->>  
->> -    addr->domain = dom;
->> -    addr->bus = bus;
->> -    addr->slot = slot;
->> -    addr->function = func;
->> +    /* func */
->> +    if (qemu_strtoul(dot_s[1], NULL, 10, &val) < 0 || val > 7) {
->> +        goto inval;
->> +    }
->> +    addr->function = val;
->>  
->> -    g_free(str);
->>      return;
->>  
->>  inval:
->>      error_set_from_qdev_prop_error(errp, EINVAL, dev, prop, str);
->> -    g_free(str);
->>  }
->>  
->>  const PropertyInfo qdev_prop_pci_host_devaddr = {
->>
-> 
+Doesn't seem very necessary to me -- it's a sysbus device
+used for a special purpose, the one user has to wire
+it up correctly, and the failure mode if they get it wrong
+is pretty obvious. But I guess we could add in the explicit
+error check.
 
+thanks
+-- PMM
 
