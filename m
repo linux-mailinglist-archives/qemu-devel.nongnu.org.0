@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47B7A2ABF29
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 15:48:29 +0100 (CET)
-Received: from localhost ([::1]:48184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA2432ABF39
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 15:51:04 +0100 (CET)
+Received: from localhost ([::1]:54734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc8T6-0000nh-5u
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 09:48:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48402)
+	id 1kc8Vb-0003aJ-W6
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 09:51:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kc8Q7-0007fw-2o; Mon, 09 Nov 2020 09:45:23 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:39451)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kc8Q5-000680-9Q; Mon, 09 Nov 2020 09:45:22 -0500
-Received: by mail-wm1-x341.google.com with SMTP id s13so8166317wmh.4;
- Mon, 09 Nov 2020 06:45:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=5GSgk6kQ6yXsnJXDMm15hYEtz1aUgz+bK4w0F6YNx5c=;
- b=t0SG5iTDqzLYCtrEgDxmsitwPaieRJCS04Ph7KlAsyeiOstmPpOSGu84rqoPiuDSaz
- uCx8Ck8sURxH6tfdYaUeg0it42e5yAFvtFMYEbOPUfGRJU0LvWlRBU1GSTPo4fK71FxW
- kWTpqCQD5k/7rMB2OhBMcszW9p/G1XH0ya+gvEdgNqTRnaopBA+pDJDctugNL9ai7s2n
- R2TDUJW7WHl/4/JDmxE9ee2Eaz8rBKcDOKftKndN2o69pKMAC1lktlKyiS7hDEv2t1vo
- blsJd2xlG0zPcf902OXenMykC8B4EI8TPKtoykQNQ6FmXnoYa8uwQoDOEipImgMV0dI5
- o4BA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5GSgk6kQ6yXsnJXDMm15hYEtz1aUgz+bK4w0F6YNx5c=;
- b=TX/npbDLmQFsa+N8WGC5rZ0idVUBEu04YZAtO70P0L4CqXvq3XTfW/0mi8rubF2qQU
- BYJetKmwS3/1jKAjlo/ziTbQqKf3TOL+hNRDro+BazIYJPktDaCTheR5yRJzlPyMAh1d
- MTQrcg61WQyfF/Omrb3vprE+JpA5tW8FZKE4URTCX0R8noFPqBlOdz60KkWSriBQ/zMm
- jKNnMV+uRQgauRGhfcRj/O1vdzOB0m05yZipsEFZh+kv4OHlO7bo6h0fZpTvImV+Tv0o
- K9lCrbiulxPS3medrwOKu2oxUgXyFm9bWQovVwfAfIRYg9ptCT5trQaXqNWfb0frgYWU
- 8VSg==
-X-Gm-Message-State: AOAM53095S1n+EH5XVSdqFuAZp90/ZbHI6v2lQLBTiIRsI2eDdaAipyG
- WCH4+wVqF+nfW+k7IQgFgAA=
-X-Google-Smtp-Source: ABdhPJw87ZgNiMOZjM32n0SZCmBzCHVDXvQbZKwqdsY2Br6TGAh2yHZVUrYt3A3DqnRtXmnjH87bLg==
-X-Received: by 2002:a7b:c202:: with SMTP id x2mr8957861wmi.48.1604933118960;
- Mon, 09 Nov 2020 06:45:18 -0800 (PST)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id g66sm13369945wmg.37.2020.11.09.06.45.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Nov 2020 06:45:18 -0800 (PST)
-Subject: Re: [PATCH-for-5.2 0/5] hw/arm: Fix various incorrect IRQ handling
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20201107193403.436146-1-f4bug@amsat.org>
- <CAFEAcA-O7vrAAaMpMWyeUzAO3BOQf3A28XoSY72SB7zOgeedkw@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <b78c53ba-8330-fd60-4741-a1ce172a7097@amsat.org>
-Date: Mon, 9 Nov 2020 15:45:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kc8TF-0001vC-Oi
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:48:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23534)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kc8TD-0007Cj-UY
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:48:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604933315;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/LI3HylCuUP+xPFl85tb9asfa2LlUywI2YGj898N46w=;
+ b=bB96R7AUSxWuSEcU+brLNP/S4UrX9EcX+hC5ll8y9qjG12mWXpJJOrs6YcSraMzBovNkcz
+ NZP6CeKg7po3RFbQnGp1JW3c34hAOCe5tw2eeXhbDC+OyFpGtIbBCwmy2esfVm/SSCiIF6
+ C2981Izu9DBqFtOsfoVh6WPcSOSoGd4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-458-kYcTrlG_N-yqbKD70-pbtQ-1; Mon, 09 Nov 2020 09:48:33 -0500
+X-MC-Unique: kYcTrlG_N-yqbKD70-pbtQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 859B06D250
+ for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 14:48:32 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 92A8D1007628;
+ Mon,  9 Nov 2020 14:48:31 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 0DA161132BD6; Mon,  9 Nov 2020 15:48:30 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2 1/6] qemu-option: simplify search for end of key
+References: <20201109133931.979563-1-pbonzini@redhat.com>
+ <20201109133931.979563-2-pbonzini@redhat.com>
+Date: Mon, 09 Nov 2020 15:48:30 +0100
+In-Reply-To: <20201109133931.979563-2-pbonzini@redhat.com> (Paolo Bonzini's
+ message of "Mon, 9 Nov 2020 08:39:26 -0500")
+Message-ID: <878sba7fi9.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-O7vrAAaMpMWyeUzAO3BOQf3A28XoSY72SB7zOgeedkw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 01:25:23
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,48 +82,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, Jan Kiszka <jan.kiszka@web.de>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <alistair@alistair23.me>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/9/20 3:23 PM, Peter Maydell wrote:
-> On Sat, 7 Nov 2020 at 19:34, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> This series is inspired by Peter's following patch:
->> https://www.mail-archive.com/qemu-devel@nongnu.org/msg758178.html
->>
->> I started to audit the IRQ uses and fixed the easy problems.
->>
->> Unresolved ones:
->> - stellaris_init() connects different TYPE_STELLARIS_GPTM
->>   to the same ADC input (seems some weird kludge)
->> - platform_bus_link_device() uses sysbus_has_irq() to check
->>   if an device has IRQ mapped but it doesn't seem to work.
-> 
-> Were you finding these by inspection, or did you add some
-> kind of assert or other check for double-irq-line-connections?
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-I was not sure adding a field to IRQState would be accepted,
-so I added a trace event in qdev_connect_gpio_out_named():
+> Use strcspn to find an equal or comma value, and pass the result directly
+> to get_opt_name to avoid another strchr.
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  util/qemu-option.c | 35 +++++++++++++----------------------
+>  1 file changed, 13 insertions(+), 22 deletions(-)
+>
+> diff --git a/util/qemu-option.c b/util/qemu-option.c
+> index acefbc23fa..ab3b58599e 100644
+> --- a/util/qemu-option.c
+> +++ b/util/qemu-option.c
+> @@ -38,27 +38,19 @@
+>  #include "qemu/help_option.h"
+>  
+>  /*
+> - * Extracts the name of an option from the parameter string (p points at the
+> + * Extracts the name of an option from the parameter string (@p points at the
+>   * first byte of the option name)
+>   *
+> - * The option name is delimited by delim (usually , or =) or the string end
+> - * and is copied into option. The caller is responsible for free'ing option
+> - * when no longer required.
+> + * The option name is @len characters long and is copied into @option. The
+> + * caller is responsible for free'ing @option when no longer required.
+>   *
+>   * The return value is the position of the delimiter/zero byte after the option
+> - * name in p.
+> + * name in @p.
+>   */
+> -static const char *get_opt_name(const char *p, char **option, char delim)
+> +static const char *get_opt_name(const char *p, char **option, size_t len)
+>  {
+> -    char *offset = strchr(p, delim);
+> -
+> -    if (offset) {
+> -        *option = g_strndup(p, offset - p);
+> -        return offset;
+> -    } else {
+> -        *option = g_strdup(p);
+> -        return p + strlen(p);
+> -    }
+> +    *option = g_strndup(p, len);
+> +    return p + len;
+>  }
 
- trace_qdev_connect_gpio_out(pin, n, name,
-                             object_get_typename(OBJECT(dev)));
+Hardly anything left; I believe this can be simplified further.  Not a
+reason to delay this series.
 
-And lookup up when 'pin' pointer value appears more than 1 time.
+>  
+>  /*
+> @@ -769,12 +761,11 @@ static const char *get_opt_name_value(const char *params,
+>                                        const char *firstname,
+>                                        char **name, char **value)
+>  {
+> -    const char *p, *pe, *pc;
+> -
+> -    pe = strchr(params, '=');
+> -    pc = strchr(params, ',');
+> +    const char *p;
+> +    size_t len;
+>  
+> -    if (!pe || (pc && pc < pe)) {
+> +    len = strcspn(params, "=,");
+> +    if (params[len] != '=') {
+>          /* found "foo,more" */
+>          if (firstname) {
+>              /* implicitly named first option */
+> @@ -782,7 +773,7 @@ static const char *get_opt_name_value(const char *params,
+>              p = get_opt_value(params, value);
+>          } else {
+>              /* option without value, must be a flag */
+> -            p = get_opt_name(params, name, ',');
+> +            p = get_opt_name(params, name, len);
+>              if (strncmp(*name, "no", 2) == 0) {
+>                  memmove(*name, *name + 2, strlen(*name + 2) + 1);
+>                  *value = g_strdup("off");
+> @@ -792,7 +783,7 @@ static const char *get_opt_name_value(const char *params,
+>          }
+>      } else {
+>          /* found "foo=bar,more" */
+> -        p = get_opt_name(params, name, '=');
+> +        p = get_opt_name(params, name, len);
+>          assert(*p == '=');
+>          p++;
+>          p = get_opt_value(p, value);
 
-For 6.0 I am wondering about replacing --enable-qom-cast-debug
-by --maintainer-mode and add a field in IRQState guarded for
-that mode. Maybe it is not too bad and we can use it normally.
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
-> 
-> Applied to target-arm.next, thanks (deletion of omap_uart_attach()
-> can be a separate followup cleanup).
-
-Yes, I have *some* OMAP patches for 6.0 ;)
-
-> 
-> -- PMM
-> 
 
