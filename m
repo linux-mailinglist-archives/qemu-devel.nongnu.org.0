@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04C4B2AC2E2
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 18:54:18 +0100 (CET)
-Received: from localhost ([::1]:45574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CA7F2AC2D0
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 18:49:33 +0100 (CET)
+Received: from localhost ([::1]:60008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcBMv-0007kI-2L
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 12:54:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40960)
+	id 1kcBIK-000217-L0
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 12:49:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kcB8N-0006je-Oy
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kcB8N-0006jW-LO
  for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:39:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50646)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56872)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kcB8I-0000SZ-Qp
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kcB8I-0000Sm-UR
  for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:39:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604943548;
+ s=mimecast20190719; t=1604943550;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gV3O+veG/j6YuJCEpDTw636eQrEKVkxd0XpIpXfH/aM=;
- b=H+TieaZNifH4MLpRUdYW3sce1QXUK1SpgBtW/8N9mhIfgtyH86FINpxzYv0IryVFPhoHKr
- VaBcGlA5yNXDV+Xhj+2B7MNd9/agEFCpH7kbasRvneQNMouaO0jBNqt0mfcg4dmLOp1vkv
- Z8+PGt8CXf+s/jPiZ1Ccs9tg1bHwmZY=
+ bh=hHJNqd6Br/c1KyYwigQccuMPZ68Itm3sXvitrDmRkhU=;
+ b=C80+wHJliFosCSq6HOq1EzLGIVLeeigybWUAbvsDGAZFr+Wv0L3Q0lissQNHVx94ZApPwm
+ 4mXMqJrixjKe4ZKtNAh4rgflMnbeFvX7cWVk3IrhzWHZQh/5+jQc/G7zUZ80a0SqnWZoYp
+ eQRx7WdE7CxJu07y5t4reODHTaloUL4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-327-zFwcHgGKNoS22Qh91rgA0Q-1; Mon, 09 Nov 2020 12:39:03 -0500
-X-MC-Unique: zFwcHgGKNoS22Qh91rgA0Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-28-5LLDBo-gOTmtvXVne1kISg-1; Mon, 09 Nov 2020 12:39:05 -0500
+X-MC-Unique: 5LLDBo-gOTmtvXVne1kISg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 779CC186840D;
- Mon,  9 Nov 2020 17:39:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7D95879513;
+ Mon,  9 Nov 2020 17:39:04 +0000 (UTC)
 Received: from localhost (ovpn-113-179.ams2.redhat.com [10.36.113.179])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1AD545C1D0;
- Mon,  9 Nov 2020 17:39:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B12C1002C00;
+ Mon,  9 Nov 2020 17:39:04 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 09/15] block: Fixes nfs compiling error on msys2/mingw
-Date: Mon,  9 Nov 2020 18:38:33 +0100
-Message-Id: <20201109173839.2135984-10-mreitz@redhat.com>
+Subject: [PULL 10/15] block: enable libnfs on msys2/mingw in cirrus.yml
+Date: Mon,  9 Nov 2020 18:38:34 +0100
+Message-Id: <20201109173839.2135984-11-mreitz@redhat.com>
 In-Reply-To: <20201109173839.2135984-1-mreitz@redhat.com>
 References: <20201109173839.2135984-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 00:04:29
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 01:25:23
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,112 +85,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yonggang Luo <luoyonggang@gmail.com>
 
-These compiling errors are fixed:
-../block/nfs.c:27:10: fatal error: poll.h: No such file or directory
-   27 | #include <poll.h>
-      |          ^~~~~~~~
-compilation terminated.
-
-../block/nfs.c:63:5: error: unknown type name 'blkcnt_t'
-   63 |     blkcnt_t st_blocks;
-      |     ^~~~~~~~
-../block/nfs.c: In function 'nfs_client_open':
-../block/nfs.c:550:27: error: 'struct _stat64' has no member named 'st_blocks'
-  550 |     client->st_blocks = st.st_blocks;
-      |                           ^
-../block/nfs.c: In function 'nfs_get_allocated_file_size':
-../block/nfs.c:751:41: error: 'struct _stat64' has no member named 'st_blocks'
-  751 |     return (task.ret < 0 ? task.ret : st.st_blocks * 512);
-      |                                         ^
-../block/nfs.c: In function 'nfs_reopen_prepare':
-../block/nfs.c:805:31: error: 'struct _stat64' has no member named 'st_blocks'
-  805 |         client->st_blocks = st.st_blocks;
-      |                               ^
-../block/nfs.c: In function 'nfs_get_allocated_file_size':
-../block/nfs.c:752:1: error: control reaches end of non-void function [-Werror=return-type]
-  752 | }
-      | ^
-
-On msys2/mingw, there is no st_blocks in struct _stat64 yet, we disable the usage of it
-on msys2/mingw, and create a typedef long long blkcnt_t; for further implementation
+Initially, libnfs has not been enabled, and now it's fixed, so enable it
+on cirrus.
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-Message-Id: <20201105123116.674-2-luoyonggang@gmail.com>
+Message-Id: <20201105123116.674-3-luoyonggang@gmail.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/nfs.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ .cirrus.yml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/block/nfs.c b/block/nfs.c
-index f86e660374..77905f516d 100644
---- a/block/nfs.c
-+++ b/block/nfs.c
-@@ -24,7 +24,9 @@
- 
- #include "qemu/osdep.h"
- 
-+#if !defined(_WIN32)
- #include <poll.h>
-+#endif
- #include "qemu/config-file.h"
- #include "qemu/error-report.h"
- #include "qapi/error.h"
-@@ -58,7 +60,7 @@ typedef struct NFSClient {
-     bool has_zero_init;
-     AioContext *aio_context;
-     QemuMutex mutex;
--    blkcnt_t st_blocks;
-+    uint64_t st_blocks;
-     bool cache_used;
-     NFSServer *server;
-     char *path;
-@@ -545,7 +547,9 @@ static int64_t nfs_client_open(NFSClient *client, BlockdevOptionsNfs *opts,
-     }
- 
-     ret = DIV_ROUND_UP(st.st_size, BDRV_SECTOR_SIZE);
-+#if !defined(_WIN32)
-     client->st_blocks = st.st_blocks;
-+#endif
-     client->has_zero_init = S_ISREG(st.st_mode);
-     *strp = '/';
-     goto out;
-@@ -706,6 +710,7 @@ static int nfs_has_zero_init(BlockDriverState *bs)
-     return client->has_zero_init;
- }
- 
-+#if !defined(_WIN32)
- /* Called (via nfs_service) with QemuMutex held.  */
- static void
- nfs_get_allocated_file_size_cb(int ret, struct nfs_context *nfs, void *data,
-@@ -748,6 +753,7 @@ static int64_t nfs_get_allocated_file_size(BlockDriverState *bs)
- 
-     return (task.ret < 0 ? task.ret : st.st_blocks * 512);
- }
-+#endif
- 
- static int coroutine_fn
- nfs_file_co_truncate(BlockDriverState *bs, int64_t offset, bool exact,
-@@ -800,7 +806,9 @@ static int nfs_reopen_prepare(BDRVReopenState *state,
-                        nfs_get_error(client->context));
-             return ret;
-         }
-+#if !defined(_WIN32)
-         client->st_blocks = st.st_blocks;
-+#endif
-     }
- 
-     return 0;
-@@ -869,7 +877,10 @@ static BlockDriver bdrv_nfs = {
-     .create_opts                    = &nfs_create_opts,
- 
-     .bdrv_has_zero_init             = nfs_has_zero_init,
-+/* libnfs does not provide the allocated filesize of a file on win32. */
-+#if !defined(_WIN32)
-     .bdrv_get_allocated_file_size   = nfs_get_allocated_file_size,
-+#endif
-     .bdrv_co_truncate               = nfs_file_co_truncate,
- 
-     .bdrv_file_open                 = nfs_file_open,
+diff --git a/.cirrus.yml b/.cirrus.yml
+index 900437dd2a..f0209b7a3e 100644
+--- a/.cirrus.yml
++++ b/.cirrus.yml
+@@ -109,6 +109,7 @@ windows_msys2_task:
+           mingw-w64-x86_64-cyrus-sasl \
+           mingw-w64-x86_64-curl \
+           mingw-w64-x86_64-gnutls \
++          mingw-w64-x86_64-libnfs \
+           "
+         bitsadmin /transfer msys_download /dynamic /download /priority FOREGROUND `
+           https://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-python-sphinx-2.3.1-1-any.pkg.tar.xz `
 -- 
 2.28.0
 
