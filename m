@@ -2,69 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 229E02AC369
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 19:12:32 +0100 (CET)
-Received: from localhost ([::1]:40206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACA002AC32B
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 19:06:35 +0100 (CET)
+Received: from localhost ([::1]:53854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcBeZ-0003rM-7J
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 13:12:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48880)
+	id 1kcBYo-00065W-Nr
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 13:06:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcBdD-0002Zp-9v
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 13:11:07 -0500
-Received: from indium.canonical.com ([91.189.90.7]:53510)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcBd8-0002uJ-AC
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 13:11:06 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kcBd6-0003OT-1B
- for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 18:11:00 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 07CE32E8134
- for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 18:11:00 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kcBW0-0004Cr-TX
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 13:03:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21587)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kcBVy-0000Jk-Tz
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 13:03:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604945018;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=uLpM+7k2lb5Y0VPCzeIrqiO0HSblSlNT3P0Gr6veMGs=;
+ b=BWa52fcD6lmKdt+bKQLmgrFC0kQrNkpHspO09qUbabV98dNqcOQ8g48a/UVnrXSVm+Wdmn
+ ZCOaxp/VBhMQZAJvLuP5rMZc0G4fkXOAH02jIDZ9qtsQegUYgPaKZJ4nkCh8CJ7guRZfxm
+ EwQeCHNqulP4/OYYPR5qLdfsdFUA7Y4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-72-J5rObrr1PU-7lpZiggFXRg-1; Mon, 09 Nov 2020 13:03:21 -0500
+X-MC-Unique: J5rObrr1PU-7lpZiggFXRg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6DABC803655;
+ Mon,  9 Nov 2020 18:03:18 +0000 (UTC)
+Received: from redhat.com (ovpn-114-194.ams2.redhat.com [10.36.114.194])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0AC1019C71;
+ Mon,  9 Nov 2020 18:03:06 +0000 (UTC)
+Date: Mon, 9 Nov 2020 18:03:02 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [RFC v1 09/10] i386: split cpu.c and defer x86 models registration
+Message-ID: <20201109180302.GB814975@redhat.com>
+References: <20201109172755.16500-1-cfontana@suse.de>
+ <20201109172755.16500-10-cfontana@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 09 Nov 2020 18:02:36 -0000
-From: Thomas Huth <1701449@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ahasenack james-page jdillaman jonav
- lp-markusschade n6ck
-X-Launchpad-Bug-Reporter: Nick (n6ck)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-X-Launchpad-Bug-Duplicate: 1674481
-References: <149880297386.6544.11962739093038956076.malonedeb@gac.canonical.com>
-Message-Id: <160494495987.12575.13443173775301837285.launchpad@gac.canonical.com>
-Subject: [Bug 1701449] Re: high memory usage when using rbd with client caching
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: 8d040ddb6045a55719d3a871c682ee6aadf3d9ae
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 11:16:03
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201109172755.16500-10-cfontana@suse.de>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 01:25:23
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,102 +81,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1701449 <1701449@bugs.launchpad.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Colin Xu <colin.xu@intel.com>,
+ Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Cameron Esfahani <dirty@apple.com>,
+ haxm-team@intel.com, Wenchao Wang <wenchao.wang@intel.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Bruce Rogers <brogers@suse.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-*** This bug is a duplicate of bug 1674481 ***
-    https://bugs.launchpad.net/bugs/1674481
+On Mon, Nov 09, 2020 at 06:27:54PM +0100, Claudio Fontana wrote:
+> split cpu.c into:
+> 
+> cpu.c            cpuid and common x86 cpu functionality
+> host-cpu.c       host x86 cpu functions and "host" cpu type
+> kvm-cpu-type.c   KVM x86 cpu type
+> hvf-cpu-type.c   HVF x86 cpu type
+> tcg-cpu-type.c   TCG x86 cpu type
+> 
+> Defer the x86 models registration to MODULE_INIT_ACCEL_CPU,
+> so that accel-specific types can be used as parent types for all
+> cpu models. Use the generic TYPE_X86_CPU only if no
+> accel-specific specialization is enabled.
 
-** This bug has been marked a duplicate of bug 1674481
-   memory overhead of qemu-kvm with ceph rbd and ram-allocation-ratio=3D0.9=
- leads to memory starvation
+Can you give more info on why this is needed and/or desirable ?
 
--- =
+Dynamically changing the class hierarchy of CPUs at runtime feels
+like a rather suspicious approach to me.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1701449
+It is contrary to work we've been doing recently to try to make all
+classes be fully statically defined by getting rid of dynamic properties,
+such that introspection of classes does not depend on other CLI flags
+you might have passed.
 
-Title:
-  high memory usage when using rbd with client caching
 
-Status in QEMU:
-  New
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-Bug description:
-  Hi,
-  we are experiencing a quite high memory usage of a single qemu (used with=
- KVM) process when using RBD with client caching as a disk backend. We are =
-testing with 3GB memory qemu virtual machines and 128MB RBD client cache. W=
-hen running 'fio' in the virtual machine you can see that after some time t=
-he machine uses a lot more memory (RSS) on the hypervisor than she should. =
-We have seen values (in real production machines, no artificially fio tests=
-) of 250% memory overhead. I reproduced this with qemu version 2.9 as well.
-
-  Here the contents of our ceph.conf on the hypervisor:
-  """
-  [client]
-  rbd cache writethrough until flush =3D False
-  rbd cache max dirty =3D 100663296
-  rbd cache size =3D 134217728
-  rbd cache target dirty =3D 50331648
-  """
-
-  How to reproduce:
-  * create a virtual machine with a RBD backed disk (100GB or so)
-  * install a linux distribution on it (we are using Ubuntu)
-  * install fio (apt-get install fio)
-  * run fio multiple times with (e.g.) the following test file:
-  """
-  # This job file tries to mimic the Intel IOMeter File Server Access Patte=
-rn
-  [global]
-  description=3DEmulation of Intel IOmeter File Server Access Pattern
-  randrepeat=3D0
-  filename=3D/root/test.dat
-  # IOMeter defines the server loads as the following:
-  # iodepth=3D1     Linear
-  # iodepth=3D4     Very Light
-  # iodepth=3D8     Light
-  # iodepth=3D64    Moderate
-  # iodepth=3D256   Heavy
-  iodepth=3D8
-  size=3D80g
-  direct=3D0
-  ioengine=3Dlibaio
-
-  [iometer]
-  stonewall
-  bs=3D4M
-  rw=3Drandrw
-
-  [iometer_just_write]
-  stonewall
-  bs=3D4M
-  rw=3Dwrite
-
-  [iometer_just_read]
-  stonewall
-  bs=3D4M
-  rw=3Dread
-  """
-
-  You can measure the virtual machine RSS usage on the hypervisor with:
-    virsh dommemstat <machine name> | grep rss
-  or if you are not using libvirt:
-    grep RSS /proc/<PID of qemu process>/status
-
-  When switching off the RBD client cache, all is ok again, as the
-  process does not use so much memory anymore.
-
-  There is already a ticket on the ceph bug tracker for this ([1]).
-  However I can reproduce that memory behaviour only when using qemu
-  (maybe it is using librbd in a special way?). Running directly 'fio'
-  with the rbd engine does not result in that high memory usage.
-
-  [1] http://tracker.ceph.com/issues/20054
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1701449/+subscriptions
 
