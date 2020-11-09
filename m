@@ -2,84 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DB8E2AC67A
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 21:59:08 +0100 (CET)
-Received: from localhost ([::1]:34300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5939A2AC737
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 22:27:42 +0100 (CET)
+Received: from localhost ([::1]:52626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcEFm-0003sY-SF
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 15:59:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56008)
+	id 1kcEhR-00056J-DT
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 16:27:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1kcEEp-0003QI-Uk
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 15:58:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42259)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1kcEEn-0002A9-5E
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 15:58:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604955484;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qRlxAv9C1q/8QZ6Cas6Q0p7S08IKoEpFfb6JpWWtMws=;
- b=SACXyrzIabFCM3ClZHI6kibdps2et4gI3Fk26oTL+MJABJGFlcBMrkdHp2Pk5oxq7Az0Z3
- IM7joKuS5xcf51sWsAvWn5ADeU/oq0sAki3j65PClBXeTf+1BSihV55nUC728JH2TzDshv
- X4zLrTuLMf583JRFmelcK2tBjiEzPlc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-535-86Xm8CKJOC6Xy1XKgzHUMw-1; Mon, 09 Nov 2020 15:58:02 -0500
-X-MC-Unique: 86Xm8CKJOC6Xy1XKgzHUMw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E0021099F60;
- Mon,  9 Nov 2020 20:58:01 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-120-220.rdu2.redhat.com
- [10.10.120.220])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DAC4A1001901;
- Mon,  9 Nov 2020 20:57:52 +0000 (UTC)
-Subject: Re: [PATCH-for-6.0 v4 05/17] gitlab-ci: Split CONFIGURE_ARGS one
- argument per line for build-disabled
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20201108204535.2319870-1-philmd@redhat.com>
- <20201108204535.2319870-6-philmd@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <f429a203-48ab-4e58-8bf6-8ab180fc55a3@redhat.com>
-Date: Mon, 9 Nov 2020 18:57:46 -0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kcEfb-0003i5-P8
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 16:25:48 -0500
+Received: from indium.canonical.com ([91.189.90.7]:57818)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kcEfY-0005Xn-Kd
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 16:25:47 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kcEfW-0006jV-7s
+ for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 21:25:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 33DC02E809C
+ for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 21:25:42 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20201108204535.2319870-6-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 00:04:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 09 Nov 2020 21:18:56 -0000
+From: Peter Maydell <1706296@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee bonzini dgilbert-h pmaydell
+ programmingkidx rjones-redhat th-huth
+X-Launchpad-Bug-Reporter: Richard Jones (rjones-redhat)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <150097502966.6397.351311629210845503.malonedeb@gac.canonical.com>
+Message-Id: <160495673682.18034.1521997677207513087.malone@wampee.canonical.com>
+Subject: [Bug 1706296] Re: Booting NT 4 disk causes
+ /home/rjones/d/qemu/cpus.c:1580:qemu_mutex_lock_iothread: assertion failed:
+ (!qemu_mutex_iothread_locked())
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
+X-Launchpad-Hash: cdc8dbee86e0a0f52fb0f981a614c00a9331d3b9
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 11:16:03
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,127 +75,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Reply-To: Bug 1706296 <1706296@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+With the original repro command line, the guest now crashes "cleanly",
+ie without triggering a QEMU assert. If you give the guest a CPU type it
+recognizes, eg '-cpu pentium' (as noted in comment 7) then it boots OK,
+at least to the point of user control in the installer. So I think this
+is fixed.
 
-On 11/8/20 6:45 PM, Philippe Mathieu-Daudé wrote:
-> We will keep adding/removing options to our 'configure' script,
-> so for easier maintainability it makes sense to have CONFIGURE_ARGS
-> declared as one option per line. This way we can review diff easily
-> (or rebase/cherry-pick).
->
-> No logical change.
->
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
-> Cc: Daniel P . Berrange <berrange@redhat.com>
-> ---
->   .gitlab-ci.yml | 80 +++++++++++++++++++++++++++++++++++++++-----------
->   1 file changed, 63 insertions(+), 17 deletions(-)
->
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index 3b15ae5c302..9f090cca5e3 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -203,23 +203,69 @@ build-disabled:
->     <<: *native_build_job_definition
->     variables:
->       IMAGE: fedora
-> -    CONFIGURE_ARGS: --disable-attr --disable-avx2 --disable-bochs
-> -      --disable-brlapi --disable-bzip2 --disable-cap-ng --disable-capstone
-> -      --disable-cloop --disable-coroutine-pool --disable-curl --disable-curses
-> -      --disable-dmg --disable-docs --disable-glusterfs --disable-gnutls
-> -      --disable-gtk --disable-guest-agent --disable-iconv --disable-kvm
-> -      --disable-libiscsi --disable-libpmem --disable-libssh --disable-libusb
-> -      --disable-libxml2 --disable-linux-aio --disable-live-block-migration
-> -      --disable-lzo --disable-malloc-trim --disable-mpath --disable-nettle
-> -      --disable-numa --disable-parallels --disable-pie --disable-qcow1
-> -      --disable-qed --disable-qom-cast-debug --disable-rbd --disable-rdma
-> -      --disable-replication --disable-sdl --disable-seccomp --disable-sheepdog
-> -      --disable-slirp --disable-smartcard --disable-snappy --disable-spice
-> -      --disable-strip --disable-tpm --disable-usb-redir --disable-vdi
-> -      --disable-vhost-crypto --disable-vhost-net --disable-vhost-scsi
-> -      --disable-vhost-user --disable-vhost-vdpa --disable-vhost-vsock
-> -      --disable-virglrenderer --disable-vnc --disable-vte --disable-vvfat
-> -      --disable-xen --disable-zstd
-> +    CONFIGURE_ARGS:
 
-I suggest to use '>-' like 'CONFIGURE_ARGS: >-'. It's up to you.
+** Changed in: qemu
+       Status: Incomplete =3D> Fix Released
 
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+-- =
 
-> +      --disable-attr
-> +      --disable-avx2
-> +      --disable-bochs
-> +      --disable-brlapi
-> +      --disable-bzip2
-> +      --disable-cap-ng
-> +      --disable-capstone
-> +      --disable-cloop
-> +      --disable-coroutine-pool
-> +      --disable-curl
-> +      --disable-curses
-> +      --disable-dmg
-> +      --disable-docs
-> +      --disable-glusterfs
-> +      --disable-gnutls
-> +      --disable-gtk
-> +      --disable-guest-agent
-> +      --disable-iconv
-> +      --disable-kvm
-> +      --disable-libiscsi
-> +      --disable-libpmem
-> +      --disable-libssh
-> +      --disable-libusb
-> +      --disable-libxml2
-> +      --disable-linux-aio
-> +      --disable-live-block-migration
-> +      --disable-lzo
-> +      --disable-malloc-trim
-> +      --disable-mpath
-> +      --disable-nettle
-> +      --disable-numa
-> +      --disable-parallels
-> +      --disable-pie
-> +      --disable-qcow1
-> +      --disable-qed
-> +      --disable-qom-cast-debug
-> +      --disable-rbd
-> +      --disable-rdma
-> +      --disable-replication
-> +      --disable-sdl
-> +      --disable-seccomp
-> +      --disable-sheepdog
-> +      --disable-slirp
-> +      --disable-smartcard
-> +      --disable-snappy
-> +      --disable-spice
-> +      --disable-strip
-> +      --disable-tpm
-> +      --disable-usb-redir
-> +      --disable-vdi
-> +      --disable-vhost-crypto
-> +      --disable-vhost-net
-> +      --disable-vhost-scsi
-> +      --disable-vhost-user
-> +      --disable-vhost-vdpa
-> +      --disable-vhost-vsock
-> +      --disable-virglrenderer
-> +      --disable-vnc
-> +      --disable-vte
-> +      --disable-vvfat
-> +      --disable-xen
-> +      --disable-zstd
->       TARGETS: arm-softmmu i386-softmmu ppc64-softmmu mips64-softmmu
->         s390x-softmmu i386-linux-user
->       MAKE_CHECK_ARGS: check-qtest SPEED=slow
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1706296
 
+Title:
+  Booting NT 4 disk causes
+  /home/rjones/d/qemu/cpus.c:1580:qemu_mutex_lock_iothread: assertion
+  failed: (!qemu_mutex_iothread_locked())
+
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  Grab the NT 4 disk from
+  https://archive.org/details/Microsoft_Windows_NT_Server_Version_4.0_227-0=
+75
+  -385_CD-KEY_419-1343253_1996
+
+  Try to boot it as follows:
+
+  qemu-system-x86_64 -hda disk.img -cdrom Microsoft_Windows_NT_Server_Versi=
+on_4.0_227-075-385_CD-KEY_419-1343253_1996.iso -m 2048 -boot d -machine pc,=
+accel=3Dtcg
+  WARNING: Image format was not specified for 'disk.img' and probing guesse=
+d raw.
+           Automatically detecting the format is dangerous for raw images, =
+write operations on block 0 will be restricted.
+           Specify the 'raw' format explicitly to remove the restrictions.
+  **
+  ERROR:/home/rjones/d/qemu/cpus.c:1580:qemu_mutex_lock_iothread: assertion=
+ failed: (!qemu_mutex_iothread_locked())
+  Aborted (core dumped)
+
+  The stack trace in the failing thread is:
+
+  Thread 4 (Thread 0x7fffb0418700 (LWP 21979)):
+  #0  0x00007fffdd89b64b in raise () at /lib64/libc.so.6
+  #1  0x00007fffdd89d450 in abort () at /lib64/libc.so.6
+  #2  0x00007fffdff8c75d in g_assertion_message () at /lib64/libglib-2.0.so=
+.0
+  #3  0x00007fffdff8c7ea in g_assertion_message_expr ()
+      at /lib64/libglib-2.0.so.0
+  #4  0x00005555557a7d00 in qemu_mutex_lock_iothread ()
+      at /home/rjones/d/qemu/cpus.c:1580
+  #5  0x00005555557cb429 in io_writex (env=3Denv@entry=3D0x555556751400, io=
+tlbentry=3D0x55555675b678, =
+
+      iotlbentry@entry=3D0x5aaaaae40c918, val=3Dval@entry=3D8, addr=3Daddr@=
+entry=3D2148532220, retaddr=3D0, retaddr@entry=3D93825011136120, size=3Dsiz=
+e@entry=3D4)
+      at /home/rjones/d/qemu/accel/tcg/cputlb.c:795
+  #6  0x00005555557ce0f7 in io_writel (retaddr=3D93825011136120, addr=3D214=
+8532220, val=3D8, index=3D255, mmu_idx=3D21845, env=3D0x555556751400)
+      at /home/rjones/d/qemu/softmmu_template.h:265
+  #7  0x00005555557ce0f7 in helper_le_stl_mmu (env=3Denv@entry=3D0x55555675=
+1400, addr=3Daddr@entry=3D2148532220, val=3Dval@entry=3D8, oi=3D<optimized =
+out>, retaddr=3D93825011136120, retaddr@entry=3D0) at /home/rjones/d/qemu/s=
+oftmmu_template.h:300
+  #8  0x000055555587c0a4 in cpu_stl_kernel_ra (env=3D0x555556751400, ptr=3D=
+2148532220, v=3D8, retaddr=3D0) at /home/rjones/d/qemu/include/exec/cpu_lds=
+t_template.h:182
+  #9  0x0000555555882610 in do_interrupt_protected (is_hw=3D<optimized out>=
+, next_eip=3D<optimized out>, error_code=3D2, is_int=3D<optimized out>, int=
+no=3D<optimized out>, env=3D0x555556751400) at /home/rjones/d/qemu/target/i=
+386/seg_helper.c:758
+  #10 0x0000555555882610 in do_interrupt_all (cpu=3Dcpu@entry=3D0x555556749=
+170, intno=3D<optimized out>, is_int=3D<optimized out>, error_code=3D2, nex=
+t_eip=3D<optimized out>, is_hw=3Dis_hw@entry=3D0) at /home/rjones/d/qemu/ta=
+rget/i386/seg_helper.c:1252
+  #11 0x00005555558839d3 in x86_cpu_do_interrupt (cs=3D0x555556749170)
+      at /home/rjones/d/qemu/target/i386/seg_helper.c:1298
+  #12 0x00005555557d2ccb in cpu_handle_exception (ret=3D<synthetic pointer>=
+, cpu=3D0x5555566a4590) at /home/rjones/d/qemu/accel/tcg/cpu-exec.c:465
+  #13 0x00005555557d2ccb in cpu_exec (cpu=3Dcpu@entry=3D0x555556749170)
+      at /home/rjones/d/qemu/accel/tcg/cpu-exec.c:670
+  #14 0x00005555557a855a in tcg_cpu_exec (cpu=3D0x555556749170)
+      at /home/rjones/d/qemu/cpus.c:1270
+  #15 0x00005555557a855a in qemu_tcg_rr_cpu_thread_fn (arg=3D<optimized out=
+>)
+      at /home/rjones/d/qemu/cpus.c:1365
+  #16 0x00007fffddc3d36d in start_thread () at /lib64/libpthread.so.0
+  #17 0x00007fffdd975b9f in clone () at /lib64/libc.so.6
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1706296/+subscriptions
 
