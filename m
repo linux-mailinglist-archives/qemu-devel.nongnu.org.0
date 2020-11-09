@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99BC12ABD58
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 14:45:39 +0100 (CET)
-Received: from localhost ([::1]:37214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 537A42ABCE8
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 14:42:28 +0100 (CET)
+Received: from localhost ([::1]:57868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc7UI-0001PD-L8
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 08:45:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58928)
+	id 1kc7RD-0006cF-Cb
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 08:42:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kc7OW-0004rP-3c
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 08:39:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50937)
+ id 1kc7OV-0004rC-TN
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 08:39:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21839)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kc7OS-0000hO-Kw
+ id 1kc7OS-0000ht-Lh
  for qemu-devel@nongnu.org; Mon, 09 Nov 2020 08:39:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1604929175;
@@ -25,29 +25,29 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2i9yh38GZyNj64lBiN9zdfC8q/cs4LpcQhIxX3M+EjM=;
- b=LXa3ly7f9BCaNcmaoM3yeltnBWxQQIhopZbw+zbuzv/BqthaFlIUbRQwnmCTOVXjQvmpQu
- nyyaip+cHLv7Rjc7auvt/CG2MQ0jDm36/oEl6oidXKRZGIURwMAHo4d6YL22ApF7vw4RoZ
- GhuHh13VpddZUg5HRy2O+OhwVrSMrko=
+ bh=2CZ8yQvg+xOXbKZkzH788ZtdLmpBFxm4fzdsBms74W4=;
+ b=F99VY0dkVD6WLFD7ddCd13TxBKJekM0w6QoBEn9zsO4e2oln8Y6iXIl0cvJKpGIpypARf0
+ QRwV8UJdX1HiluHs7u+xKBK7nWcI4uoPsKlX0Y9SkuaOYatGIwKUEDVGQ+Icvqbb7Hj0rS
+ JQAyNi3yLjOHGCJEEyK+zzF+6P1lIQU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-559-eIkX4TetM3if0VZJNoAF3g-1; Mon, 09 Nov 2020 08:39:33 -0500
-X-MC-Unique: eIkX4TetM3if0VZJNoAF3g-1
+ us-mta-340-_SG1m1LNNxWqg3_vvL0Upg-1; Mon, 09 Nov 2020 08:39:34 -0500
+X-MC-Unique: _SG1m1LNNxWqg3_vvL0Upg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C029E188C12D
- for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 13:39:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39329800683
+ for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 13:39:33 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 716676EF40;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DFB2D6EF40;
  Mon,  9 Nov 2020 13:39:32 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/6] qemu-option: simplify search for end of key
-Date: Mon,  9 Nov 2020 08:39:26 -0500
-Message-Id: <20201109133931.979563-2-pbonzini@redhat.com>
+Subject: [PATCH v2 2/6] qemu-option: pass QemuOptsList to opts_accepts_any
+Date: Mon,  9 Nov 2020 08:39:27 -0500
+Message-Id: <20201109133931.979563-3-pbonzini@redhat.com>
 In-Reply-To: <20201109133931.979563-1-pbonzini@redhat.com>
 References: <20201109133931.979563-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,16 +58,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 00:04:29
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 01:25:23
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,88 +85,93 @@ Cc: armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use strcspn to find an equal or comma value, and pass the result directly
-to get_opt_name to avoid another strchr.
+A QemuOptsList can be of one of two kinds: either it is pre-validated, or
+it accepts any key and validation happens somewhere else (typically in
+a Visitor or against a list of QOM properties).  opts_accepts_any
+returns true if a QemuOpts instance was created from a QemuOptsList of
+the latter kind, but there is no function to do the check on a QemuOptsList.
+
+We will need it in the next patch; since almost all callers of
+opts_accepts_any use opts->list anyway, simply repurpose it instead
+of adding a new function.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/qemu-option.c | 35 +++++++++++++----------------------
- 1 file changed, 13 insertions(+), 22 deletions(-)
+ util/qemu-option.c | 23 +++++++++++++----------
+ 1 file changed, 13 insertions(+), 10 deletions(-)
 
 diff --git a/util/qemu-option.c b/util/qemu-option.c
-index acefbc23fa..ab3b58599e 100644
+index ab3b58599e..59be4f9d21 100644
 --- a/util/qemu-option.c
 +++ b/util/qemu-option.c
-@@ -38,27 +38,19 @@
- #include "qemu/help_option.h"
- 
- /*
-- * Extracts the name of an option from the parameter string (p points at the
-+ * Extracts the name of an option from the parameter string (@p points at the
-  * first byte of the option name)
-  *
-- * The option name is delimited by delim (usually , or =) or the string end
-- * and is copied into option. The caller is responsible for free'ing option
-- * when no longer required.
-+ * The option name is @len characters long and is copied into @option. The
-+ * caller is responsible for free'ing @option when no longer required.
-  *
-  * The return value is the position of the delimiter/zero byte after the option
-- * name in p.
-+ * name in @p.
-  */
--static const char *get_opt_name(const char *p, char **option, char delim)
-+static const char *get_opt_name(const char *p, char **option, size_t len)
- {
--    char *offset = strchr(p, delim);
--
--    if (offset) {
--        *option = g_strndup(p, offset - p);
--        return offset;
--    } else {
--        *option = g_strdup(p);
--        return p + strlen(p);
--    }
-+    *option = g_strndup(p, len);
-+    return p + len;
+@@ -460,16 +460,16 @@ static bool qemu_opt_parse(QemuOpt *opt, Error **errp)
+     }
  }
  
- /*
-@@ -769,12 +761,11 @@ static const char *get_opt_name_value(const char *params,
-                                       const char *firstname,
-                                       char **name, char **value)
+-static bool opts_accepts_any(const QemuOpts *opts)
++static bool opts_accepts_any(const QemuOptsList *list)
  {
--    const char *p, *pe, *pc;
--
--    pe = strchr(params, '=');
--    pc = strchr(params, ',');
-+    const char *p;
-+    size_t len;
+-    return opts->list->desc[0].name == NULL;
++    return list->desc[0].name == NULL;
+ }
  
--    if (!pe || (pc && pc < pe)) {
-+    len = strcspn(params, "=,");
-+    if (params[len] != '=') {
-         /* found "foo,more" */
-         if (firstname) {
-             /* implicitly named first option */
-@@ -782,7 +773,7 @@ static const char *get_opt_name_value(const char *params,
-             p = get_opt_value(params, value);
-         } else {
-             /* option without value, must be a flag */
--            p = get_opt_name(params, name, ',');
-+            p = get_opt_name(params, name, len);
-             if (strncmp(*name, "no", 2) == 0) {
-                 memmove(*name, *name + 2, strlen(*name + 2) + 1);
-                 *value = g_strdup("off");
-@@ -792,7 +783,7 @@ static const char *get_opt_name_value(const char *params,
-         }
-     } else {
-         /* found "foo=bar,more" */
--        p = get_opt_name(params, name, '=');
-+        p = get_opt_name(params, name, len);
-         assert(*p == '=');
-         p++;
-         p = get_opt_value(p, value);
+ int qemu_opt_unset(QemuOpts *opts, const char *name)
+ {
+     QemuOpt *opt = qemu_opt_find(opts, name);
+ 
+-    assert(opts_accepts_any(opts));
++    assert(opts_accepts_any(opts->list));
+ 
+     if (opt == NULL) {
+         return -1;
+@@ -500,9 +500,10 @@ static bool opt_validate(QemuOpt *opt, bool *help_wanted,
+                          Error **errp)
+ {
+     const QemuOptDesc *desc;
++    const QemuOptsList *list = opt->opts->list;
+ 
+-    desc = find_desc_by_name(opt->opts->list->desc, opt->name);
+-    if (!desc && !opts_accepts_any(opt->opts)) {
++    desc = find_desc_by_name(list->desc, opt->name);
++    if (!desc && !opts_accepts_any(list)) {
+         error_setg(errp, QERR_INVALID_PARAMETER, opt->name);
+         if (help_wanted && is_help_option(opt->name)) {
+             *help_wanted = true;
+@@ -535,9 +536,10 @@ bool qemu_opt_set_bool(QemuOpts *opts, const char *name, bool val,
+ {
+     QemuOpt *opt;
+     const QemuOptDesc *desc;
++    const QemuOptsList *list = opts->list;
+ 
+-    desc = find_desc_by_name(opts->list->desc, name);
+-    if (!desc && !opts_accepts_any(opts)) {
++    desc = find_desc_by_name(list->desc, name);
++    if (!desc && !opts_accepts_any(list)) {
+         error_setg(errp, QERR_INVALID_PARAMETER, name);
+         return false;
+     }
+@@ -557,9 +559,10 @@ bool qemu_opt_set_number(QemuOpts *opts, const char *name, int64_t val,
+ {
+     QemuOpt *opt;
+     const QemuOptDesc *desc;
++    const QemuOptsList *list = opts->list;
+ 
+-    desc = find_desc_by_name(opts->list->desc, name);
+-    if (!desc && !opts_accepts_any(opts)) {
++    desc = find_desc_by_name(list->desc, name);
++    if (!desc && !opts_accepts_any(list)) {
+         error_setg(errp, QERR_INVALID_PARAMETER, name);
+         return false;
+     }
+@@ -1110,7 +1113,7 @@ bool qemu_opts_validate(QemuOpts *opts, const QemuOptDesc *desc, Error **errp)
+ {
+     QemuOpt *opt;
+ 
+-    assert(opts_accepts_any(opts));
++    assert(opts_accepts_any(opts->list));
+ 
+     QTAILQ_FOREACH(opt, &opts->head, next) {
+         opt->desc = find_desc_by_name(desc, opt->name);
 -- 
 2.26.2
 
