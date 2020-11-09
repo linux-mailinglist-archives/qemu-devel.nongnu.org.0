@@ -2,73 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EB7E2ABEA8
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 15:27:32 +0100 (CET)
-Received: from localhost ([::1]:56316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C52172ABEBD
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 15:33:58 +0100 (CET)
+Received: from localhost ([::1]:42540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc88p-0005om-AB
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 09:27:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43292)
+	id 1kc8F3-0003PS-Q3
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 09:33:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kc84o-0001ys-Kv
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:23:22 -0500
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:43174)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kc84m-0006yA-4k
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:23:22 -0500
-Received: by mail-ej1-x631.google.com with SMTP id me8so3058897ejb.10
- for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 06:23:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=aqY6zX4N/d6MT/7FjDUMgQYVV/pEQQBgsXZ93YAOKdI=;
- b=i8LShO+PhjTMgODudbNjJ632YxxSTh6iaTOJmhf5CH86N5bP8s9T44MCr5mpzygQji
- Dl7mojYuj5zyOPoJhLl7/RFChmEG5aJx74ob4qSb6jdz0A5NXeN4UszxZWshWhRZQeIB
- ZLfbV5ukffId/SFCm7Mt66PeV6gChqs8NqokKZDDpww2aA+GRcxcu+NvpHARvG3wHqD2
- OmlRQ9hUEzISLkW2KEg7CMPnP4NsaGweU3msN/uW8u3NhOjcBycxrYy2r8Kywn5ULy54
- hN/+EouPHN9Ke/IlfaOCF03jccVTo1Wxq4/yNaLjh8dRn3d7aVTLuHjWIrbYxL6Sbt9H
- lbUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=aqY6zX4N/d6MT/7FjDUMgQYVV/pEQQBgsXZ93YAOKdI=;
- b=j4UZR0RDBjzUIZrNIF3OMALuIU1c6sMEBfIyJIDI0Y9Y2VhbqxAncnen4vd0wyIHEk
- ong35cc67xUrSeKRTU+qj/0Y723C5rKm4KL2NM1IlO0Lkg0zrMUxkqL3ROPvY71sp717
- aH359OvcfzhmyxOhH6fDT9AJzjB7GQnKal87wrgkEMCCMfrRq+TPloEN1qRDnKUvzk5m
- VVyhmeQ1WgY1L0cyvp+i0ffD+i6Y3QDzpANQns3uJUV/NUCzDH3q0w73eoRrhMuw+gzb
- E0NXVwAmhrCCLV0zhtH4WF2nl8gTtOMw39dkk5oHjzvil/izPwg+SCCjV+ECjC1X1puo
- YSSQ==
-X-Gm-Message-State: AOAM530snJbnO+ofZnu0AqaSeA34udib11cIOUFl0tmoB2qBh53iusT3
- OBPDHBigghp6dbOqsIjxyU3wYwv5uu9UaYyzXz5DFA==
-X-Google-Smtp-Source: ABdhPJyiKnafM4pgKJRn/DizImtT+EUZXT6Uc4HclmM/LVsS7UixTevIZYjFDk67OzErQc55ulkO5v25Su+jOP26uAA=
-X-Received: by 2002:a17:906:af8c:: with SMTP id
- mj12mr14673398ejb.85.1604931798055; 
- Mon, 09 Nov 2020 06:23:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <remi@remlab.net>)
+ id 1kc7sk-0003R2-C9; Mon, 09 Nov 2020 09:10:54 -0500
+Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:60200
+ helo=ns207790.ip-94-23-215.eu)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <remi@remlab.net>)
+ id 1kc7sh-0002rs-2q; Mon, 09 Nov 2020 09:10:54 -0500
+Received: from basile.remlab.net (ip6-localhost [IPv6:::1])
+ by ns207790.ip-94-23-215.eu (Postfix) with ESMTP id 1A22A6064B;
+ Mon,  9 Nov 2020 15:10:25 +0100 (CET)
+From: remi.denis.courmont@huawei.com
+To: qemu-arm@nongnu.org
+Subject: [PATCH 17/17] target/arm: refactor vae1_tlbmask()
+Date: Mon,  9 Nov 2020 16:10:20 +0200
+Message-Id: <20201109141020.27234-17-remi.denis.courmont@huawei.com>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <5554493.MhkbZ0Pkbq@basile.remlab.net>
+References: <5554493.MhkbZ0Pkbq@basile.remlab.net>
 MIME-Version: 1.0
-References: <20201107193403.436146-1-f4bug@amsat.org>
-In-Reply-To: <20201107193403.436146-1-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 9 Nov 2020 14:23:07 +0000
-Message-ID: <CAFEAcA-O7vrAAaMpMWyeUzAO3BOQf3A28XoSY72SB7zOgeedkw@mail.gmail.com>
-Subject: Re: [PATCH-for-5.2 0/5] hw/arm: Fix various incorrect IRQ handling
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:41d0:2:5a1a::; envelope-from=remi@remlab.net;
+ helo=ns207790.ip-94-23-215.eu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 08:56:07
+X-ACL-Warn: Detected OS   = ???
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,31 +54,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jan Kiszka <jan.kiszka@web.de>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <alistair@alistair23.me>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 7 Nov 2020 at 19:34, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
-wrote:
->
-> This series is inspired by Peter's following patch:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg758178.html
->
-> I started to audit the IRQ uses and fixed the easy problems.
->
-> Unresolved ones:
-> - stellaris_init() connects different TYPE_STELLARIS_GPTM
->   to the same ADC input (seems some weird kludge)
-> - platform_bus_link_device() uses sysbus_has_irq() to check
->   if an device has IRQ mapped but it doesn't seem to work.
+From: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
 
-Were you finding these by inspection, or did you add some
-kind of assert or other check for double-irq-line-connections?
+Signed-off-by: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
+---
+ target/arm/helper.c | 25 +++++++++++--------------
+ 1 file changed, 11 insertions(+), 14 deletions(-)
 
-Applied to target-arm.next, thanks (deletion of omap_uart_attach()
-can be a separate followup cleanup).
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index f3edbca709..35540d7a2c 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -4468,26 +4468,23 @@ static CPAccessResult aa64_cacheop_pou_access(CPUARMState *env,
+ static int vae1_tlbmask(CPUARMState *env)
+ {
+     uint64_t hcr = arm_hcr_el2_eff(env);
++    uint16_t mask;
+ 
+     if ((hcr & (HCR_E2H | HCR_TGE)) == (HCR_E2H | HCR_TGE)) {
+-        uint16_t mask = ARMMMUIdxBit_E20_2 |
+-                        ARMMMUIdxBit_E20_2_PAN |
+-                        ARMMMUIdxBit_E20_0;
+-
+-        if (arm_is_secure_below_el3(env)) {
+-            mask >>= ARM_MMU_IDX_A_NS;
+-        }
+-
+-        return mask;
+-    } else if (arm_is_secure_below_el3(env)) {
+-        return ARMMMUIdxBit_SE10_1 |
+-               ARMMMUIdxBit_SE10_1_PAN |
+-               ARMMMUIdxBit_SE10_0;
++        mask = ARMMMUIdxBit_E20_2 |
++               ARMMMUIdxBit_E20_2_PAN |
++               ARMMMUIdxBit_E20_0;
+     } else {
+-        return ARMMMUIdxBit_E10_1 |
++        mask = ARMMMUIdxBit_E10_1 |
+                ARMMMUIdxBit_E10_1_PAN |
+                ARMMMUIdxBit_E10_0;
+     }
++
++    if (arm_is_secure_below_el3(env)) {
++        mask >>= ARM_MMU_IDX_A_NS;
++    }
++
++    return mask;
+ }
+ 
+ /* Return 56 if TBI is enabled, 64 otherwise. */
+-- 
+2.29.2
 
--- PMM
 
