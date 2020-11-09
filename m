@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71A8D2ABF02
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 15:43:12 +0100 (CET)
-Received: from localhost ([::1]:36516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F16D2ABF0E
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 15:44:15 +0100 (CET)
+Received: from localhost ([::1]:41242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc8Nz-0004Ea-GJ
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 09:43:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47362)
+	id 1kc8P0-00069D-D2
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 09:44:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kc8Lx-0002se-Oh
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:41:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46280)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kc8ML-000384-Qy
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:41:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46881)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kc8Lv-0004gn-8n
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:41:05 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kc8MI-0004om-Tl
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:41:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604932862;
+ s=mimecast20190719; t=1604932885;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9d/SHY+WFaz6JKDk45sbqm/h2XOfhjQZyVIjwcWgv8I=;
- b=JPTf3X/KDeN5/QDFfhet0IDaUolg55WimjE9P9mIAJDf6dOijE+d2N5DxPLwQ5KsN2mc3Z
- fXrCH3zJ+ebIYtQe6R1dLMNJXXf1ThvZ5tqAGSoLB8y2il935fEQ6NCdvBY9Ll78Y6VBUH
- t4VSaJYyQv08Zlt5lhviHtXngLa//Js=
+ bh=DWpk81ZLEkIXSKVBy9o/PuJL/3kSjDw6HfzyDivt6is=;
+ b=RwN7N0v/3pIyXCI8JWD0zAIqr9Qv0iuxTNiDfx2Bx3xcxxcwSlGzNrhF6oWMxvLVDAOkN2
+ EN8NKmAPUrGBg18DhUurkg0v5558JNZXyMMoaSwFpvkwjKnZ3iyPB69BeFoBPQHSF28FMh
+ YV+RlxuVRRaXVb/rACSLTs24YygZPQA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-520-OUHwPoPqOyuOjs8TY2NOBQ-1; Mon, 09 Nov 2020 09:40:59 -0500
-X-MC-Unique: OUHwPoPqOyuOjs8TY2NOBQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-584-SsPMPft4M5SlFNCZ4dg6Dg-1; Mon, 09 Nov 2020 09:41:19 -0500
+X-MC-Unique: SsPMPft4M5SlFNCZ4dg6Dg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE1841891E82;
- Mon,  9 Nov 2020 14:40:57 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-115-201.rdu2.redhat.com [10.10.115.201])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4A4CE5D9DD;
- Mon,  9 Nov 2020 14:40:50 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 95301222E35; Mon,  9 Nov 2020 09:40:49 -0500 (EST)
-Date: Mon, 9 Nov 2020 09:40:49 -0500
-From: Vivek Goyal <vgoyal@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH] virtiofsd: Use --thread-pool-size=0 to mean no thread pool
-Message-ID: <20201109144049.GC1479853@redhat.com>
-References: <20201105194416.GA1384085@redhat.com>
- <20201109101102.GE3024@work-vm>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F12B21074646;
+ Mon,  9 Nov 2020 14:41:17 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-179.ams2.redhat.com
+ [10.36.113.179])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1F6CD5B4CD;
+ Mon,  9 Nov 2020 14:41:14 +0000 (UTC)
+Subject: Re: [PATCH v2 0/7] block: permission update fix & refactor
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20201106124241.16950-1-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <cdf7dea8-67d1-b0e1-b8f0-8e6333f586c7@redhat.com>
+Date: Mon, 9 Nov 2020 15:41:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201109101102.GE3024@work-vm>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20201106124241.16950-1-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=vgoyal@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 01:25:23
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -66,8 +69,9 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,42 +84,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs-list <virtio-fs@redhat.com>, jose.carlos.venegas.munoz@intel.com,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: kwolf@redhat.com, den@openvz.org, berto@igalia.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 09, 2020 at 10:11:02AM +0000, Dr. David Alan Gilbert wrote:
-> * Vivek Goyal (vgoyal@redhat.com) wrote:
-> > Right now we create a thread pool and main thread hands over the request
-> > to thread in thread pool to process. Number of threads in thread pool
-> > can be managed by option --thread-pool-size.
-> > 
-> > There is a chance that in case of some workloads, we might get better
-> > performance if we don't handover the request to a different thread
-> > and process in the context of thread receiving the request.
-> > 
-> > To implement that, redefine the meaning of --thread-pool-size=0 to
-> > mean that don't use a thread pool. Instead process the request in
-> > the context of thread receiving request from the queue.
-> > 
-> > I can't think how --thread-pool-size=0 is useful and hence using
-> > that. If it is already useful somehow, I could look at defining
-> > a new option say "--no-thread-pool".
-> > 
-> > I think this patch will be used more as a debug help to do comparison
-> > when it is more effecient to do not hand over the requests to a
-> > thread pool.
-> > 
-> > Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+On 06.11.20 13:42, Vladimir Sementsov-Ogievskiy wrote:
+> Hi all!
 > 
-> I think this is OK, but you need to fix the style to match qemu rather
-> than kernel style.
-> (See qemu's scripts/checpatch.pl)
+> These series supersedes "Fix nested permission update" and includes one
+> more fix (patch 01) and more improvements.
+> 
+> I think patch 01 is good to have in 5.2, 02 is probably OK for 5.2 and
+> the others are OK for next release. Still all may be taken to 5.2, up to
+> block maintainers.
+> 
+> Actually the series is a first part of my work announced in
+> https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg08386.html
+> to bring correct order to permission update (topological sort),
+> update permission only on updated graph (and rollback graph changes),
+> get rid of .active fields in block jobs.
+> 
+> Supersedes: <20201031123502.4558-1-vsementsov@virtuozzo.com>
+> 
+> v2: all new except for 03:, which uses suggestions by Albert and more
+> strict version of bdrv_replace_node.
 
-Sure. I just posted V2 of the patch and took care of all the issues
-reported by qemu's scripts/checkpatch.pl.
+Thanks, I took 1 through 3 to my block branch:
 
-Vivek
+https://git.xanclic.moe/XanClic/qemu/commits/branch/block
+
+and 4 through 7 to my block-next branch (squashing in the fix for 4, and 
+fixing up the resulting conflict in 7):
+
+https://git.xanclic.moe/XanClic/qemu/commits/branch/block-next
+
+Max
 
 
