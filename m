@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEE262AC31E
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 19:03:43 +0100 (CET)
-Received: from localhost ([::1]:46974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D72242AC31C
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 19:02:39 +0100 (CET)
+Received: from localhost ([::1]:42826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcBW2-0003AU-Of
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 13:03:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42918)
+	id 1kcBV0-0001Tf-Tf
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 13:02:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kcBFX-0007tH-Tk
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:46:41 -0500
-Resent-Date: Mon, 09 Nov 2020 12:46:39 -0500
-Resent-Message-Id: <E1kcBFX-0007tH-Tk@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21737)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1kcBFR-0007qa-Ph; Mon, 09 Nov 2020 12:46:33 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2051)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kcBFO-00035q-H6
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:46:38 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1604943957; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=RHPyjU71EMM8vgvbj8jgS2e79zvMcvB7JGRoUr8ivFk9LgYPOCSKSrrSpWgSGLt545eaidIR7RmSCyijxAQLmzrZoetJ3X5p7NIW4kMnKTXwhfJhoVY3rSup5Khus3TonCGOQpL2BeXzN6Hi2rfHVFmfQB8EBQBfueiEAShTUu8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1604943957;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=w08W7y0yt6bPJ+NW6a40apdYAnD+l8Qi/OnCH0PCDdM=; 
- b=XkbQVF+R8eCZMIXL/ojjfdPqR3GU2jaBvA/l8PfpGrg8O8EbXvfbWRDLHmi8jJkFdxshFl3jMih381AFKZRNTFVw/f8x7eUqAPPhFBoxsrMmoTULZ2Dp72jfC0zrWKPZsW/TU4RgLkZEmQsl8/P3CcW86tgy6tZxneMzvQCdmYw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1604943955230244.41501152402327;
- Mon, 9 Nov 2020 09:45:55 -0800 (PST)
-Message-ID: <160494395192.32285.9728612559137431608@b92d57cec08d>
-Subject: Re: [RFC v1 00/10] i386 cleanup
-In-Reply-To: <20201109172755.16500-1-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1kcBFN-00033M-6q; Mon, 09 Nov 2020 12:46:33 -0500
+Received: from fraeml702-chm.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4CVJKj4PKXz67JKv;
+ Tue, 10 Nov 2020 01:44:57 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml702-chm.china.huawei.com (10.206.15.51) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1913.5; Mon, 9 Nov 2020 18:46:18 +0100
+Received: from localhost (10.52.120.237) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Mon, 9 Nov 2020
+ 17:46:17 +0000
+Date: Mon, 9 Nov 2020 17:46:13 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Ying Fang <fangying1@huawei.com>
+Subject: Re: [RFC PATCH v3 10/13] target/arm/cpu: Add cpu cache description
+ for arm
+Message-ID: <20201109174613.00001d3f@Huawei.com>
+In-Reply-To: <20201109030452.2197-11-fangying1@huawei.com>
+References: <20201109030452.2197-1-fangying1@huawei.com>
+ <20201109030452.2197-11-fangying1@huawei.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: cfontana@suse.de
-Date: Mon, 9 Nov 2020 09:45:55 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 12:46:27
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.52.120.237]
+X-ClientProxiedBy: lhreml748-chm.china.huawei.com (10.201.108.198) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 12:36:15
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,186 +68,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: paul@xen.org, jasowang@redhat.com, qemu-devel@nongnu.org, peterx@redhat.com,
- haxm-team@intel.com, colin.xu@intel.com, sstabellini@kernel.org,
- brogers@suse.com, cfontana@suse.de, anthony.perard@citrix.com,
- philmd@redhat.com, lvivier@redhat.com, thuth@redhat.com, ehabkost@redhat.com,
- dirty@apple.com, dfaggioli@suse.com, r.bolshakov@yadro.com,
- sunilmut@microsoft.com, rth@twiddle.net, mtosatti@redhat.com,
- wenchao.wang@intel.com, pbonzini@redhat.com
+Cc: peter.maydell@linaro.org, drjones@redhat.com,
+ zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
+ shannon.zhaosl@gmail.com, qemu-arm@nongnu.org, alistair.francis@wdc.com,
+ imammedo@redhat.com, salil.mehta@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTEwOTE3Mjc1NS4xNjUw
-MC0xLWNmb250YW5hQHN1c2UuZGUvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBz
-b21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZv
-cm1hdGlvbjoKCk1lc3NhZ2UtaWQ6IDIwMjAxMTA5MTcyNzU1LjE2NTAwLTEtY2ZvbnRhbmFAc3Vz
-ZS5kZQpTdWJqZWN0OiBbUkZDIHYxIDAwLzEwXSBpMzg2IGNsZWFudXAKVHlwZTogc2VyaWVzCgo9
-PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+
-IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQg
-MApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2Fs
-IGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxi
-YWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFm
-Zjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRj
-aGV3LXByb2plY3QvcWVtdQogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjAxMTA5MDkw
-NDIyLjI0NDUxNjYtMS1mNGJ1Z0BhbXNhdC5vcmcgLT4gcGF0Y2hldy8yMDIwMTEwOTA5MDQyMi4y
-NDQ1MTY2LTEtZjRidWdAYW1zYXQub3JnCiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAy
-MDExMDkxNjI2MjEuMTg4ODUtMS1wZXRlci5tYXlkZWxsQGxpbmFyby5vcmcgLT4gcGF0Y2hldy8y
-MDIwMTEwOTE2MjYyMS4xODg4NS0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZwogKiBbbmV3IHRh
-Z10gICAgICAgICBwYXRjaGV3LzIwMjAxMTA5MTcyNzU1LjE2NTAwLTEtY2ZvbnRhbmFAc3VzZS5k
-ZSAtPiBwYXRjaGV3LzIwMjAxMTA5MTcyNzU1LjE2NTAwLTEtY2ZvbnRhbmFAc3VzZS5kZQpTd2l0
-Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjc5ZDg1YzQgbW9kdWxlOiBhZGQgcHJpb3JpdHkg
-dG8gbW9kdWxlX2luaXQKYzk0N2ExZiBpMzg2OiBzcGxpdCBjcHUuYyBhbmQgZGVmZXIgeDg2IG1v
-ZGVscyByZWdpc3RyYXRpb24KMjI5OTliNyBtb2R1bGU6IGludHJvZHVjZSBNT0RVTEVfSU5JVF9B
-Q0NFTF9DUFUKNDFkZDVmNiBpMzg2OiBtb3ZlIFRDRyBjcHUgY2xhc3MgaW5pdGlhbGl6YXRpb24g
-b3V0IG9mIGhlbHBlci5jCjA5YjY4YjcgaTM4NjogbW92ZSBjcHUgZHVtcCBvdXQgb2YgaGVscGVy
-LmMgaW50byBjcHUtZHVtcC5jCmRkOTExNjUgaTM4NjogbW92ZSBUQ0cgYWNjZWwgZmlsZXMgaW50
-byBhY2NlbC90Y2cvCmMzNDFmNmQgaTM4NjogbW92ZSBodmYgYWNjZWwgZmlsZXMgaW50byBhY2Nl
-bC9odmYvCjc2ZGJmNjYgaTM4NjogbW92ZSBoYXggYWNjZWwgZmlsZXMgdG8gYWNjZWwvaGF4Lwoy
-YzAyMjFlIGkzODY6IG1vdmUgd2hweCBhY2NlbCBmaWxlcyB0byBhY2NlbC93aHB4Lwo0MWQ3Y2Ix
-IGkzODY6IG1vdmUga3ZtIGFjY2VsIGZpbGVzIGludG8gYWNjZWwva3ZtLwoKPT09IE9VVFBVVCBC
-RUdJTiA9PT0KMS8xMCBDaGVja2luZyBjb21taXQgNDFkN2NiMWQwNjNlIChpMzg2OiBtb3ZlIGt2
-bSBhY2NlbCBmaWxlcyBpbnRvIGFjY2VsL2t2bS8pCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBk
-ZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzEyODogCnJl
-bmFtZSBmcm9tIHRhcmdldC9pMzg2L2h5cGVydi1wcm90by5oCgp0b3RhbDogMCBlcnJvcnMsIDEg
-d2FybmluZ3MsIDE1MCBsaW5lcyBjaGVja2VkCgpQYXRjaCAxLzEwIGhhcyBzdHlsZSBwcm9ibGVt
-cywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0
-aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJ
-TlRBSU5FUlMuCjIvMTAgQ2hlY2tpbmcgY29tbWl0IDJjMDIyMWUzZGNmMyAoaTM4NjogbW92ZSB3
-aHB4IGFjY2VsIGZpbGVzIHRvIGFjY2VsL3docHgvKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3Ig
-ZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMyNzogCm5l
-dyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDMyIGxpbmVz
-IGNoZWNrZWQKClBhdGNoIDIvMTAgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAg
-SWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRv
-IHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMy8xMCBDaGVj
-a2luZyBjb21taXQgNzZkYmY2Njk1ZTc0IChpMzg2OiBtb3ZlIGhheCBhY2NlbCBmaWxlcyB0byBh
-Y2NlbC9oYXgvKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2Vz
-IE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMyNTogCnJlbmFtZSBmcm9tIHRhcmdldC9pMzg2
-L2hheC1hbGwuYwoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA0NyBsaW5lcyBjaGVja2Vk
-CgpQYXRjaCAzLzEwIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBv
-ZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFp
-bnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjQvMTAgQ2hlY2tpbmcgY29t
-bWl0IGMzNDFmNmQzMWE3OCAoaTM4NjogbW92ZSBodmYgYWNjZWwgZmlsZXMgaW50byBhY2NlbC9o
-dmYvKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5U
-QUlORVJTIG5lZWQgdXBkYXRpbmc/CiMyNjogCnJlbmFtZSBmcm9tIHRhcmdldC9pMzg2L2h2Zi9S
-RUFETUUubWQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMTcgbGluZXMgY2hlY2tlZAoK
-UGF0Y2ggNC8xMCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2Yg
-dGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50
-YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo1LzEwIENoZWNraW5nIGNvbW1p
-dCBkZDkxMTY1ZjJjZTAgKGkzODY6IG1vdmUgVENHIGFjY2VsIGZpbGVzIGludG8gYWNjZWwvdGNn
-LykKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJ
-TkVSUyBuZWVkIHVwZGF0aW5nPwojMTI6IApyZW5hbWUgZnJvbSB0YXJnZXQvaTM4Ni9icHRfaGVs
-cGVyLmMKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMzkgbGluZXMgY2hlY2tlZAoKUGF0
-Y2ggNS8xMCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhl
-c2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWlu
-ZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo2LzEwIENoZWNraW5nIGNvbW1pdCAw
-OWI2OGI3YTNjY2IgKGkzODY6IG1vdmUgY3B1IGR1bXAgb3V0IG9mIGhlbHBlci5jIGludG8gY3B1
-LWR1bXAuYykKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBN
-QUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMTE6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKRVJS
-T1I6IGJyYWNlcyB7fSBhcmUgbmVjZXNzYXJ5IGZvciBhbGwgYXJtcyBvZiB0aGlzIHN0YXRlbWVu
-dAojMTI4OiBGSUxFOiB0YXJnZXQvaTM4Ni9jcHUtZHVtcC5jOjExMzoKKyAgICBpZiAoIShlbnYt
-PmhmbGFncyAmIEhGX1BFX01BU0spIHx8ICEoc2MtPmZsYWdzICYgREVTQ19QX01BU0spKQpbLi4u
-XQoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRl
-IGxpbmUKIzE3MjogRklMRTogdGFyZ2V0L2kzODYvY3B1LWR1bXAuYzoxNTc6CisvKiBBUlJBWV9T
-SVpFIGNoZWNrIGlzIG5vdCByZXF1aXJlZCBiZWNhdXNlCgpXQVJOSU5HOiBCbG9jayBjb21tZW50
-cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMjExOiBGSUxFOiB0YXJnZXQv
-aTM4Ni9jcHUtZHVtcC5jOjE5NjoKKy8qIEFSUkFZX1NJWkUgY2hlY2sgaXMgbm90IHJlcXVpcmVk
-IGJlY2F1c2UKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojMzczOiBGSUxFOiB0YXJn
-ZXQvaTM4Ni9jcHUtZHVtcC5jOjM1ODoKKyAgICAgICAgcWVtdV9mcHJpbnRmKGYsICJSQVg9JTAx
-NiIgUFJJeDY0ICIgUkJYPSUwMTYiIFBSSXg2NCAiIFJDWD0lMDE2IiBQUkl4NjQgIiBSRFg9JTAx
-NiIgUFJJeDY0ICJcbiIKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojMzc0OiBGSUxF
-OiB0YXJnZXQvaTM4Ni9jcHUtZHVtcC5jOjM1OToKKyAgICAgICAgICAgICAgICAgICAgICJSU0k9
-JTAxNiIgUFJJeDY0ICIgUkRJPSUwMTYiIFBSSXg2NCAiIFJCUD0lMDE2IiBQUkl4NjQgIiBSU1A9
-JTAxNiIgUFJJeDY0ICJcbiIKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojMzc1OiBG
-SUxFOiB0YXJnZXQvaTM4Ni9jcHUtZHVtcC5jOjM2MDoKKyAgICAgICAgICAgICAgICAgICAgICJS
-OCA9JTAxNiIgUFJJeDY0ICIgUjkgPSUwMTYiIFBSSXg2NCAiIFIxMD0lMDE2IiBQUkl4NjQgIiBS
-MTE9JTAxNiIgUFJJeDY0ICJcbiIKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojMzc2
-OiBGSUxFOiB0YXJnZXQvaTM4Ni9jcHUtZHVtcC5jOjM2MToKKyAgICAgICAgICAgICAgICAgICAg
-ICJSMTI9JTAxNiIgUFJJeDY0ICIgUjEzPSUwMTYiIFBSSXg2NCAiIFIxND0lMDE2IiBQUkl4NjQg
-IiBSMTU9JTAxNiIgUFJJeDY0ICJcbiIKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwoj
-Mzc3OiBGSUxFOiB0YXJnZXQvaTM4Ni9jcHUtZHVtcC5jOjM2MjoKKyAgICAgICAgICAgICAgICAg
-ICAgICJSSVA9JTAxNiIgUFJJeDY0ICIgUkZMPSUwOHggWyVjJWMlYyVjJWMlYyVjXSBDUEw9JWQg
-SUk9JWQgQTIwPSVkIFNNTT0lZCBITFQ9JWRcbiIsCgpFUlJPUjogc3BhY2UgcmVxdWlyZWQgYmVm
-b3JlIHRoZSBvcGVuIHBhcmVudGhlc2lzICcoJwojNDM2OiBGSUxFOiB0YXJnZXQvaTM4Ni9jcHUt
-ZHVtcC5jOjQyMToKKyAgICBmb3IoaSA9IDA7IGkgPCA2OyBpKyspIHsKCldBUk5JTkc6IGxpbmUg
-b3ZlciA4MCBjaGFyYWN0ZXJzCiM0NDg6IEZJTEU6IHRhcmdldC9pMzg2L2NwdS1kdW1wLmM6NDMz
-OgorICAgICAgICBxZW11X2ZwcmludGYoZiwgIkNSMD0lMDh4IENSMj0lMDE2IiBQUkl4NjQgIiBD
-UjM9JTAxNiIgUFJJeDY0ICIgQ1I0PSUwOHhcbiIsCgpFUlJPUjogc3BhY2UgcmVxdWlyZWQgYmVm
-b3JlIHRoZSBvcGVuIHBhcmVudGhlc2lzICcoJwojNDUzOiBGSUxFOiB0YXJnZXQvaTM4Ni9jcHUt
-ZHVtcC5jOjQzODoKKyAgICAgICAgZm9yKGkgPSAwOyBpIDwgNDsgaSsrKQoKRVJST1I6IGJyYWNl
-cyB7fSBhcmUgbmVjZXNzYXJ5IGZvciBhbGwgYXJtcyBvZiB0aGlzIHN0YXRlbWVudAojNDUzOiBG
-SUxFOiB0YXJnZXQvaTM4Ni9jcHUtZHVtcC5jOjQzODoKKyAgICAgICAgZm9yKGkgPSAwOyBpIDwg
-NDsgaSsrKQpbLi4uXQoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGJlZm9yZSB0aGUgb3BlbiBwYXJl
-bnRoZXNpcyAnKCcKIzQ2OTogRklMRTogdGFyZ2V0L2kzODYvY3B1LWR1bXAuYzo0NTQ6CisgICAg
-ICAgIGZvcihpID0gMDsgaSA8IDQ7IGkrKykgewoKRVJST1I6IGJyYWNlcyB7fSBhcmUgbmVjZXNz
-YXJ5IGZvciBhbGwgYXJtcyBvZiB0aGlzIHN0YXRlbWVudAojNDc2OiBGSUxFOiB0YXJnZXQvaTM4
-Ni9jcHUtZHVtcC5jOjQ2MToKKyAgICAgICAgaWYgKCh1bnNpZ25lZCllbnYtPmNjX29wIDwgQ0Nf
-T1BfTkIpClsuLi5dCisgICAgICAgIGVsc2UKWy4uLl0KCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBj
-aGFyYWN0ZXJzCiM0Nzc6IEZJTEU6IHRhcmdldC9pMzg2L2NwdS1kdW1wLmM6NDYyOgorICAgICAg
-ICAgICAgc25wcmludGYoY2Nfb3BfbmFtZSwgc2l6ZW9mKGNjX29wX25hbWUpLCAiJXMiLCBjY19v
-cF9zdHJbZW52LT5jY19vcF0pOwoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGJlZm9yZSB0aGUgb3Bl
-biBwYXJlbnRoZXNpcyAnKCcKIzQ5NzogRklMRTogdGFyZ2V0L2kzODYvY3B1LWR1bXAuYzo0ODI6
-CisgICAgICAgIGZvcihpID0gMDsgaSA8IDg7IGkrKykgewoKRVJST1I6IHNwYWNlcyByZXF1aXJl
-ZCBhcm91bmQgdGhhdCAnPScgKGN0eDpWeFYpCiM1MDc6IEZJTEU6IHRhcmdldC9pMzg2L2NwdS1k
-dW1wLmM6NDkyOgorICAgICAgICBmb3IoaT0wO2k8ODtpKyspIHsKICAgICAgICAgICAgICBeCgpF
-UlJPUjogc3BhY2UgcmVxdWlyZWQgYWZ0ZXIgdGhhdCAnOycgKGN0eDpWeFYpCiM1MDc6IEZJTEU6
-IHRhcmdldC9pMzg2L2NwdS1kdW1wLmM6NDkyOgorICAgICAgICBmb3IoaT0wO2k8ODtpKyspIHsK
-ICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJzwn
-IChjdHg6VnhWKQojNTA3OiBGSUxFOiB0YXJnZXQvaTM4Ni9jcHUtZHVtcC5jOjQ5MjoKKyAgICAg
-ICAgZm9yKGk9MDtpPDg7aSsrKSB7CiAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZSBy
-ZXF1aXJlZCBhZnRlciB0aGF0ICc7JyAoY3R4OlZ4VikKIzUwNzogRklMRTogdGFyZ2V0L2kzODYv
-Y3B1LWR1bXAuYzo0OTI6CisgICAgICAgIGZvcihpPTA7aTw4O2krKykgewogICAgICAgICAgICAg
-ICAgICAgIF4KCkVSUk9SOiBzcGFjZSByZXF1aXJlZCBiZWZvcmUgdGhlIG9wZW4gcGFyZW50aGVz
-aXMgJygnCiM1MDc6IEZJTEU6IHRhcmdldC9pMzg2L2NwdS1kdW1wLmM6NDkyOgorICAgICAgICBm
-b3IoaT0wO2k8ODtpKyspIHsKCkVSUk9SOiBicmFjZXMge30gYXJlIG5lY2Vzc2FyeSBmb3IgYWxs
-IGFybXMgb2YgdGhpcyBzdGF0ZW1lbnQKIzUxMjogRklMRTogdGFyZ2V0L2kzODYvY3B1LWR1bXAu
-Yzo0OTc6CisgICAgICAgICAgICBpZiAoKGkgJiAxKSA9PSAxKQpbLi4uXQorICAgICAgICAgICAg
-ZWxzZQpbLi4uXQoKRVJST1I6IGJyYWNlcyB7fSBhcmUgbmVjZXNzYXJ5IGZvciBhbGwgYXJtcyBv
-ZiB0aGlzIHN0YXRlbWVudAojNTE3OiBGSUxFOiB0YXJnZXQvaTM4Ni9jcHUtZHVtcC5jOjUwMjoK
-KyAgICAgICAgaWYgKGVudi0+aGZsYWdzICYgSEZfQ1M2NF9NQVNLKQpbLi4uXQorICAgICAgICBl
-bHNlClsuLi5dCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICc9JyAoY3R4OlZ4
-VikKIzUyMTogRklMRTogdGFyZ2V0L2kzODYvY3B1LWR1bXAuYzo1MDY6CisgICAgICAgIGZvcihp
-PTA7aTxuYjtpKyspIHsKICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2UgcmVxdWlyZWQgYWZ0
-ZXIgdGhhdCAnOycgKGN0eDpWeFYpCiM1MjE6IEZJTEU6IHRhcmdldC9pMzg2L2NwdS1kdW1wLmM6
-NTA2OgorICAgICAgICBmb3IoaT0wO2k8bmI7aSsrKSB7CiAgICAgICAgICAgICAgICBeCgpFUlJP
-Ujogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICc8JyAoY3R4OlZ4VikKIzUyMTogRklMRTog
-dGFyZ2V0L2kzODYvY3B1LWR1bXAuYzo1MDY6CisgICAgICAgIGZvcihpPTA7aTxuYjtpKyspIHsK
-ICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGFmdGVyIHRoYXQgJzsn
-IChjdHg6VnhWKQojNTIxOiBGSUxFOiB0YXJnZXQvaTM4Ni9jcHUtZHVtcC5jOjUwNjoKKyAgICAg
-ICAgZm9yKGk9MDtpPG5iO2krKykgewogICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3Bh
-Y2UgcmVxdWlyZWQgYmVmb3JlIHRoZSBvcGVuIHBhcmVudGhlc2lzICcoJwojNTIxOiBGSUxFOiB0
-YXJnZXQvaTM4Ni9jcHUtZHVtcC5jOjUwNjoKKyAgICAgICAgZm9yKGk9MDtpPG5iO2krKykgewoK
-RVJST1I6IGJyYWNlcyB7fSBhcmUgbmVjZXNzYXJ5IGZvciBhbGwgYXJtcyBvZiB0aGlzIHN0YXRl
-bWVudAojNTI4OiBGSUxFOiB0YXJnZXQvaTM4Ni9jcHUtZHVtcC5jOjUxMzoKKyAgICAgICAgICAg
-IGlmICgoaSAmIDEpID09IDEpClsuLi5dCisgICAgICAgICAgICBlbHNlClsuLi5dCgp0b3RhbDog
-MjUgZXJyb3JzLCA1IHdhcm5pbmdzLCAxMDc4IGxpbmVzIGNoZWNrZWQKClBhdGNoIDYvMTAgaGFz
-IHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwph
-cmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hF
-Q0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjcvMTAgQ2hlY2tpbmcgY29tbWl0IDQxZGQ1ZjZjZTgx
-MyAoaTM4NjogbW92ZSBUQ0cgY3B1IGNsYXNzIGluaXRpYWxpemF0aW9uIG91dCBvZiBoZWxwZXIu
-YykKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJ
-TkVSUyBuZWVkIHVwZGF0aW5nPwojNDY2OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAw
-IGVycm9ycywgMSB3YXJuaW5ncywgNjEwIGxpbmVzIGNoZWNrZWQKClBhdGNoIDcvMTAgaGFzIHN0
-eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUg
-ZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQ
-QVRDSCBpbiBNQUlOVEFJTkVSUy4KOC8xMCBDaGVja2luZyBjb21taXQgMjI5OTliNzViY2UyICht
-b2R1bGU6IGludHJvZHVjZSBNT0RVTEVfSU5JVF9BQ0NFTF9DUFUpCjkvMTAgQ2hlY2tpbmcgY29t
-bWl0IGM5NDdhMWZiYjQzOSAoaTM4Njogc3BsaXQgY3B1LmMgYW5kIGRlZmVyIHg4NiBtb2RlbHMg
-cmVnaXN0cmF0aW9uKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBk
-b2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiM5MDogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0
-CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojNTQ5OiBGSUxFOiB0YXJnZXQvaTM4
-Ni9hY2NlbC90Y2cvdGNnLWNwdS10eXBlLmM6MTAxOgorICAgIG1lbW9yeV9yZWdpb25fYWRkX3N1
-YnJlZ2lvbl9vdmVybGFwKGNwdS0+Y3B1X2FzX3Jvb3QsIDAsIGNwdS0+Y3B1X2FzX21lbSwgMCk7
-Cgp0b3RhbDogMCBlcnJvcnMsIDIgd2FybmluZ3MsIDE1MDEgbGluZXMgY2hlY2tlZAoKUGF0Y2gg
-OS8xMCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2Ug
-ZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIs
-IHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoxMC8xMCBDaGVja2luZyBjb21taXQgNzlk
-ODVjNDQxMzljIChtb2R1bGU6IGFkZCBwcmlvcml0eSB0byBtb2R1bGVfaW5pdCkKPT09IE9VVFBV
-VCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxv
-ZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDExMDkxNzI3NTUu
-MTY1MDAtMS1jZm9udGFuYUBzdXNlLmRlL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdl
-LgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9w
-YXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxA
-cmVkaGF0LmNvbQ==
+On Mon, 9 Nov 2020 11:04:49 +0800
+Ying Fang <fangying1@huawei.com> wrote:
+
+> Add the CPUCacheInfo structure to hold cpu cache information for ARM cpus.
+> A classic three level cache topology is used here. The default cache
+> capacity is given and userspace can overwrite these values.
+> 
+> Signed-off-by: Ying Fang <fangying1@huawei.com>
+
+I may be missing it another patch, but to add an L3 cache you need to
+also supply a few CSR values.
+
+CLIDR needs to reflect that there is an L3 present and you need a CSIDR[3]
+entry to describe it. 0xB200123 should work for CLIDR. I'm too lazy to figure
+out a CSIDR[3] value :)
+
+Without those, Linux isn't going to pick up the PPTT entries etc when
+building cacheinfo.  It only uses PPTT to update or supplement the
+information gained from those CSRs.
+
+Jonathan
+
+
+> ---
+>  target/arm/cpu.c | 42 ++++++++++++++++++++++++++++++++++++++++++
+>  target/arm/cpu.h | 27 +++++++++++++++++++++++++++
+>  2 files changed, 69 insertions(+)
+> 
+> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> index 056319859f..f1bac7452c 100644
+> --- a/target/arm/cpu.c
+> +++ b/target/arm/cpu.c
+> @@ -27,6 +27,7 @@
+>  #include "qapi/visitor.h"
+>  #include "cpu.h"
+>  #include "internals.h"
+> +#include "qemu/units.h"
+>  #include "exec/exec-all.h"
+>  #include "hw/qdev-properties.h"
+>  #if !defined(CONFIG_USER_ONLY)
+> @@ -997,6 +998,45 @@ uint64_t arm_cpu_mp_affinity(int idx, uint8_t clustersz)
+>      return (Aff1 << ARM_AFF1_SHIFT) | Aff0;
+>  }
+>  
+> +static CPUCaches default_cache_info = {
+> +    .l1d_cache = &(CPUCacheInfo) {
+> +    .type = DATA_CACHE,
+> +        .level = 1,
+> +        .size = 64 * KiB,
+> +        .line_size = 64,
+> +        .associativity = 4,
+> +        .sets = 256,
+> +        .attributes = 0x02,
+> +    },
+> +    .l1i_cache = &(CPUCacheInfo) {
+> +        .type = INSTRUCTION_CACHE,
+> +        .level = 1,
+> +        .size = 64 * KiB,
+> +        .line_size = 64,
+> +        .associativity = 4,
+> +        .sets = 256,
+> +        .attributes = 0x04,
+> +    },
+> +    .l2_cache = &(CPUCacheInfo) {
+> +        .type = UNIFIED_CACHE,
+> +        .level = 2,
+> +        .size = 512 * KiB,
+> +        .line_size = 64,
+> +        .associativity = 8,
+> +        .sets = 1024,
+> +        .attributes = 0x0a,
+> +    },
+> +    .l3_cache = &(CPUCacheInfo) {
+> +        .type = UNIFIED_CACHE,
+> +        .level = 3,
+> +        .size = 65536 * KiB,
+> +        .line_size = 64,
+> +        .associativity = 15,
+> +        .sets = 2048,
+> +        .attributes = 0x0a,
+> +    },
+> +};
+> +
+>  static void cpreg_hashtable_data_destroy(gpointer data)
+>  {
+>      /*
+> @@ -1841,6 +1881,8 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+>          }
+>      }
+>  
+> +    cpu->caches = default_cache_info;
+> +
+>      qemu_init_vcpu(cs);
+>      cpu_reset(cs);
+>  
+> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+> index cfff1b5c8f..dbc33a9802 100644
+> --- a/target/arm/cpu.h
+> +++ b/target/arm/cpu.h
+> @@ -746,6 +746,30 @@ typedef enum ARMPSCIState {
+>  
+>  typedef struct ARMISARegisters ARMISARegisters;
+>  
+> +/* Cache information type */
+> +enum CacheType {
+> +    DATA_CACHE,
+> +    INSTRUCTION_CACHE,
+> +    UNIFIED_CACHE
+> +};
+> +
+> +typedef struct CPUCacheInfo {
+> +    enum CacheType type;      /* Cache Type*/
+> +    uint8_t level;
+> +    uint32_t size;            /* Size in bytes */
+> +    uint16_t line_size;       /* Line size in bytes */
+> +    uint8_t associativity;    /* Cache associativity */
+> +    uint32_t sets;            /* Number of sets */
+> +    uint8_t attributes;       /* Cache attributest  */
+> +} CPUCacheInfo;
+> +
+> +typedef struct CPUCaches {
+> +        CPUCacheInfo *l1d_cache;
+> +        CPUCacheInfo *l1i_cache;
+> +        CPUCacheInfo *l2_cache;
+> +        CPUCacheInfo *l3_cache;
+> +} CPUCaches;
+> +
+>  /**
+>   * ARMCPU:
+>   * @env: #CPUARMState
+> @@ -987,6 +1011,9 @@ struct ARMCPU {
+>  
+>      /* Generic timer counter frequency, in Hz */
+>      uint64_t gt_cntfrq_hz;
+> +
+> +    /* CPU cache information */
+> +    CPUCaches caches;
+>  };
+>  
+>  unsigned int gt_cntfrq_period_ns(ARMCPU *cpu);
+
 
