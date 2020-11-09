@@ -2,84 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99C2D2ABEDA
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 15:39:17 +0100 (CET)
-Received: from localhost ([::1]:56694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 285C92ABEF9
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 15:42:42 +0100 (CET)
+Received: from localhost ([::1]:33802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc8KC-0000nQ-NJ
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 09:39:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46518)
+	id 1kc8NV-00036D-6X
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 09:42:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kc8IR-0007nX-Ec
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:37:27 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:42903)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kc8IP-0003Jx-Fx
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:37:27 -0500
-Received: by mail-wr1-x442.google.com with SMTP id l1so4521591wrb.9
- for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 06:37:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ngJStzspPwt5gcj0E6T51Y8vDq+smHVcH66xON+ao7A=;
- b=bWxq8cYc0SicTjTi5o4FI6EFQFbf3IAgjbGtdZ0sJv/oBYwsX3GxkzUeWMD2jz8yOF
- 39dMVWiFmSaVeYE8BbE87HteOdnWSQmGV+7UQYb/hJyx9hlu6LZmgFbX507xmXlZ41SR
- lTPOGxUq5KpTHhny+XF55iamEEIyvvrRPqfg3OcLwOtwhS5+txr/5Zts7i+gIzEHNlRS
- ZUbO+2He7vvJerB29UzwV3pPyuxRr0SliVpmepes1cykx1JYIQgRRWLLyEMp2mqMH9/K
- 4KDD9tHZUZpSjAdf2OTSK3QnrrkqLyFov657gwpUee6wMYFgd1APYlqNq0Y1chluGCvh
- KMIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ngJStzspPwt5gcj0E6T51Y8vDq+smHVcH66xON+ao7A=;
- b=iefTJ4cHBxGgLP/RtfzvpCT5WAKnyA8MxfTWYahm7ZcGjwdAi2vLTD4Wesw7A/ckUn
- zIIcZtlHEOkLGe5RHHd8FX6lldIF9SeiTv6wUqvCEmtIhyQ5bsokj4AW1bDogB81QpEe
- BX6qGgRiEQMS8Iz2uJvk7NuXza76SsnXp9xkWXAB4uR1QxQOpgkI+uQHjbTzYkPTZnpE
- hXKb4iAbi3JTCbeo8UHAJtE22PFR3xTlRWDPVs2pqFu9v5zYmii1RILGz2gVznEa8wKy
- hbUntGUBDYM4Z++AB2U624cja/NYa8KQbiGXxy+cAj+r9WddfxKNP0NAD2CXOVnBH94V
- J5BA==
-X-Gm-Message-State: AOAM5300dCzBRynYanxGaybW0O2DeZ1mK0T9sZAYcXlzxhv+28se7jn3
- a7wtv58jizo7mZGraC2oBB+TIe5Z1iU=
-X-Google-Smtp-Source: ABdhPJzkvD38YJlRqvngOnvrh5864cJZhJw5UYMWbOK075L+7sBhSOKu/lBxdPhDLyRTF+wy+P6RxA==
-X-Received: by 2002:adf:82cc:: with SMTP id 70mr17972760wrc.74.1604932643542; 
- Mon, 09 Nov 2020 06:37:23 -0800 (PST)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id w11sm13359487wmg.36.2020.11.09.06.37.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Nov 2020 06:37:22 -0800 (PST)
-Subject: Re: [PATCH] qtest: add a reproducer for LP#1878642
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
-References: <20201102163336.115444-1-alxndr@bu.edu>
- <7825a2e7-dd79-c4ea-c3f7-673743619d89@redhat.com>
- <d2fee64d-8ad3-7c84-1988-084ab416b7e1@amsat.org>
-Message-ID: <0d27a5b3-1a20-6889-6de1-defdfe418266@amsat.org>
-Date: Mon, 9 Nov 2020 15:37:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kc8Kr-000201-Po
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:39:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26214)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kc8Kq-0004Co-5M
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:39:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604932795;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/EdfleJG8f8h/BjAasa7oBJCA9NJEAGjzaYIj35lWXc=;
+ b=JNUV1uX9aFaSkO5DEtB+NOs5WSzlrzZCCacPka+Yzr8wxMAjw0hYC5I4UKO4m8cm7FWsHg
+ qu+O6ZKTuCeUMZsnHcuhbAJSugyj4pdZCFi9spevvJ/M48JcLqlxCwXCjPB+BGkX2Piic4
+ gg5ysTKYhabRFyuznnHaI7o+suIkHus=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-49-Nwhx8nrNMsSRtykI1pxVdg-1; Mon, 09 Nov 2020 09:39:53 -0500
+X-MC-Unique: Nwhx8nrNMsSRtykI1pxVdg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FC691891E93;
+ Mon,  9 Nov 2020 14:39:52 +0000 (UTC)
+Received: from horse.redhat.com (ovpn-115-201.rdu2.redhat.com [10.10.115.201])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C78855B4CD;
+ Mon,  9 Nov 2020 14:39:42 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id 3052B222E35; Mon,  9 Nov 2020 09:39:42 -0500 (EST)
+Date: Mon, 9 Nov 2020 09:39:42 -0500
+From: Vivek Goyal <vgoyal@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [Virtio-fs] [PATCH] virtiofsd: Use --thread-pool-size=0 to mean
+ no thread pool
+Message-ID: <20201109143942.GB1479853@redhat.com>
+References: <20201105194416.GA1384085@redhat.com>
+ <20201105195253.GB1384085@redhat.com>
+ <D9233684-9B76-468E-A5F1-B35DA3F3C091@intel.com>
+ <20201106223524.GG1436035@redhat.com>
+ <20201109100218.GD3024@work-vm>
 MIME-Version: 1.0
-In-Reply-To: <d2fee64d-8ad3-7c84-1988-084ab416b7e1@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20201109100218.GD3024@work-vm>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 00:04:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,76 +84,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- qemu-devel@nongnu.org
+Cc: Miklos Szeredi <miklos@szeredi.hu>, "Venegas Munoz,
+ Jose Carlos" <jose.carlos.venegas.munoz@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ virtio-fs-list <virtio-fs@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Shinde, Archana M" <archana.m.shinde@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/2/20 7:58 PM, Philippe Mathieu-Daudé wrote:
-> On 11/2/20 7:23 PM, Paolo Bonzini wrote:
->> On 02/11/20 17:33, Alexander Bulekov wrote:
->>> https://bugs.launchpad.net/qemu/+bug/1878642
->>>
->>> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
->>> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
->>> ---
->>>
->>> Based-on: <20200717151705.18611-1-f4bug@amsat.org>
->>>
->>> The added testcase will fail, unless this ^^^ patch is applied.
->>>
->>>  tests/qtest/fuzz-test.c | 15 +++++++++++++++
->>>  1 file changed, 15 insertions(+)
->>>
->>> diff --git a/tests/qtest/fuzz-test.c b/tests/qtest/fuzz-test.c
->>> index 2f38bb1ec2..9cb4c42bde 100644
->>> --- a/tests/qtest/fuzz-test.c
->>> +++ b/tests/qtest/fuzz-test.c
->>> @@ -34,6 +34,19 @@ static void test_lp1878263_megasas_zero_iov_cnt(void)
->>>      qtest_quit(s);
->>>  }
->>>  
->>> +static void test_lp1878642_pci_bus_get_irq_level_assert(void)
->>> +{
->>> +    QTestState *s;
->>> +
->>> +    s = qtest_init("-M pc-q35-5.0 "
->>> +                   "-nographic -monitor none -serial none "
->>> +                   "-d guest_errors -trace pci*");
->>> +
->>> +    qtest_outl(s, 0xcf8, 0x8400f841);
->>> +    qtest_outl(s, 0xcfc, 0xebed205d);
->>> +    qtest_outl(s, 0x5d02, 0xebed205d);
->>> +}
->>> +
->>>  int main(int argc, char **argv)
->>>  {
->>>      const char *arch = qtest_get_arch();
->>> @@ -43,6 +56,8 @@ int main(int argc, char **argv)
->>>      if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
->>>          qtest_add_func("fuzz/test_lp1878263_megasas_zero_iov_cnt",
->>>                         test_lp1878263_megasas_zero_iov_cnt);
->>> +        qtest_add_func("fuzz/test_lp1878642_pci_bus_get_irq_level_assert",
->>> +                       test_lp1878642_pci_bus_get_irq_level_assert);
->>>      }
->>>  
->>>      return g_test_run();
->>>
->>
->> Queued, thanks.
-> 
-> Great, did you queued the fix too?
-> (https://www.mail-archive.com/qemu-devel@nongnu.org/msg725783.html)
+On Mon, Nov 09, 2020 at 10:02:18AM +0000, Dr. David Alan Gilbert wrote:
 
-Ah I see it has been merged in time for rc1 (commit 4177b062fc58d),
-thanks. IIRC few months ago there was a bot responding to patches
-"your patch has been merged", was it patchew? Maybe we can a job
-to do that on GitLab, but the problem is to expose SMTP credentials
-in a runner.
+[..]
+> > Given in my tests, most of the workload benefited from
+> > --thread-pool-size=0, may be this can be the default and user can
+> > opt-in for a thread pool (--thread-pool-size=64) once it is known
+> > that a particular workload benefits from it.
+> > 
+> > David, Stefan, WDYT?
+> 
+> I think having the option makes sense; the default I'm not sure about;
 
-> 
-> Regards,
-> 
-> Phil.
-> 
+Ok, for now we can probably just introduce this option. And if further
+test results prove it to be faster for most of the people, then we
+can consider switching the default.
+
+Vivek
+
 
