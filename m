@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FECB2ABEBC
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 15:33:14 +0100 (CET)
-Received: from localhost ([::1]:40970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D02562ABED1
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 15:37:12 +0100 (CET)
+Received: from localhost ([::1]:50526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc8EL-0002lk-C5
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 09:33:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44916)
+	id 1kc8IB-0006ij-QJ
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 09:37:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kc8B1-0000rD-A5
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:29:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44660)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kc8Bi-0001Vl-Kn
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:30:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29021)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kc8Az-0000jJ-Dw
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:29:46 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kc8Bf-00013e-2F
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:30:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604932184;
+ s=mimecast20190719; t=1604932225;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yt9RHEnl6S+jO0PexpG+/9I29yVsoTM1GQpu2G9TTZM=;
- b=f+V40dDkWpZuMN+L3/1EEC6zAm2JPg9Yfz+/znnu2XlEYorioEG3NMLFVKtNDu/wk3Yag2
- 7pe/XJtgywXslhEtg4wC3UH9Tk3FjUCllAc4efJpfGOjmFuz8+VuKLdIoW0HrzXq53Brnl
- nk5Vi/EQcLaZP9zO3S11nZOw8zbxwTU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-384-HgZmmrZoM_e-EN3_oFl6ZQ-1; Mon, 09 Nov 2020 09:29:42 -0500
-X-MC-Unique: HgZmmrZoM_e-EN3_oFl6ZQ-1
-Received: by mail-wm1-f72.google.com with SMTP id y1so2042000wma.5
- for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 06:29:42 -0800 (PST)
+ bh=3FcDPhpL+azic2TdXKbnbXkdQL1Mz8mU0TF0Y/0TLBs=;
+ b=FrylSihSgnJxpmNkyM/H6ktYov8Pmo+WRa5GQwojmrEaFMZvRrOTHHxgjP+2h/zjNZeS4r
+ T+HgvZx0+0SD1Lp40t9OABdhj1Wsggj8BGs4uGG7/bPVJJNMoKcUQvjpAyAsHy+yDOyZbM
+ OfQLc4Jyp6WST/E7hjqOTFg3KQTo3nQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-50-I2msv-SFM_2O4AqehHqDpg-1; Mon, 09 Nov 2020 09:30:23 -0500
+X-MC-Unique: I2msv-SFM_2O4AqehHqDpg-1
+Received: by mail-wm1-f69.google.com with SMTP id o19so2039987wme.2
+ for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 06:30:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=yt9RHEnl6S+jO0PexpG+/9I29yVsoTM1GQpu2G9TTZM=;
- b=jAnSlL6EOI9PP05DATPC9QYas3+0wWI4xFEUFzhlE9/dTdv1YuAS/MJ4WC3aZ1RsAl
- tAMT+4xAvpHvN1SezGVjXY+G3TwxhMVNVKnPnIaKp9Z1/1YlkIPl9eeR6x8UbRu49zzF
- JkAfxxjfQr21qr5TJVjaHNBmJpaj4qR2+kphzVo/NytugAWpVGD4myRkJrlbUPUbhUPW
- BcyRIw7ZBCHK9ox9OTOL4A1QmFXsBYeHFMbzKOH6+Vth7AR7wKAo5s7dSjYN+WEIUNrF
- BYeI+6EYxwQdqgLVqTZrewp3OPAOqHCVCI3LQlpQOpwgW5Cam8sCJpn5u74Nqa5z6nW3
- EjnA==
-X-Gm-Message-State: AOAM532JUVNf+Hgjh8LGz1iHTNDKp4GwmibnwehSo3hz5UQexGV58/30
- 8baKpcieJXV45jfUJVu/8Ci7BTY8zlA8kf6zTeQhfH/mB1I8T161VRrHkfyxCo20rxUSqGkObev
- EDMhJhxmY9qfqefA=
-X-Received: by 2002:a5d:530c:: with SMTP id e12mr12210229wrv.355.1604932181560; 
- Mon, 09 Nov 2020 06:29:41 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyUhmnhLWslF1fmr4oNowneHZenkLqm0b1jIesecXhdgCrLTS/qfCMZGP2UAVhJUU0tU2cNmQ==
-X-Received: by 2002:a5d:530c:: with SMTP id e12mr12210215wrv.355.1604932181430; 
- Mon, 09 Nov 2020 06:29:41 -0800 (PST)
+ bh=3FcDPhpL+azic2TdXKbnbXkdQL1Mz8mU0TF0Y/0TLBs=;
+ b=NyNJiDyI2WDS7qIuc9xHDLIwW3TeiA2U4a0/omA1q1WO0is/jlFNlvIRoCRxV7a/pk
+ vIxbZllSUno/N3dN0FwIUP85QrBTJnMoj1wCpJXUJn0hUa2qcsfm4jt6GLbC7qzTr0ML
+ +Ko/1Gh3BrUu2CopocuG+BZcoPcHIyiBa+x3IcBpJGwpmMpgFGsHsDiI6d1DTCw0cVuI
+ uZn+K/XtAun+HdO4NgW0LQK0zUczB+m8Bz5lquOv+jpHuEUAER7TPABR7bcSDewoBSai
+ vLhyjddO4QJDUbfkEp/nA0NmtKJETZANP+9MUiNKvnrJdvDgQQdYKZ20tXOZiHyXeehJ
+ Ptaw==
+X-Gm-Message-State: AOAM530YwsaA17OGmI7He9I1EnflC+hREmUcjX7g+zcmYta0bObMGSLv
+ kOhJw7dweUWZMl7YmDbBhgdcGxa0n8niER9I8o83NyX1EN6KDmhQnKzplsPGSrCIkmwYYJA/D8c
+ i8GXjy8/LcKyQsq4=
+X-Received: by 2002:adf:a1c2:: with SMTP id v2mr19178632wrv.95.1604932221968; 
+ Mon, 09 Nov 2020 06:30:21 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzcR9Au5gaRsihnGtxshRgzjuPz/GXtFWRsrgDvtDkOoCngQvdZPOyr1RRDAYQBQkHuG+e+fw==
+X-Received: by 2002:adf:a1c2:: with SMTP id v2mr19178617wrv.95.1604932221847; 
+ Mon, 09 Nov 2020 06:30:21 -0800 (PST)
 Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id s4sm6589736wro.10.2020.11.09.06.29.36
+ by smtp.gmail.com with ESMTPSA id d16sm13706477wrw.17.2020.11.09.06.30.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Nov 2020 06:29:37 -0800 (PST)
-Subject: Re: [PATCH-for-5.2 2/4] hw/display/cirrus_vga: Fix hexadecimal format
- string specifier
-To: qemu-devel@nongnu.org
+ Mon, 09 Nov 2020 06:30:21 -0800 (PST)
+Subject: Re: [PATCH-for-5.2 4/4] migration/ram: Fix hexadecimal format string
+ specifier
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 References: <20201103112558.2554390-1-philmd@redhat.com>
- <20201103112558.2554390-3-philmd@redhat.com>
+ <20201103112558.2554390-5-philmd@redhat.com> <20201103124634.GG3566@work-vm>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <d7953f0d-1eb3-26cc-5f1f-64bf0ac9f6ac@redhat.com>
-Date: Mon, 9 Nov 2020 15:29:36 +0100
+Message-ID: <bb7fecea-3b3d-b87b-7854-7d36e8133e1d@redhat.com>
+Date: Mon, 9 Nov 2020 15:30:20 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201103112558.2554390-3-philmd@redhat.com>
+In-Reply-To: <20201103124634.GG3566@work-vm>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,7 +89,7 @@ X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,48 +102,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-trivial@nongnu.org,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
  Dov Murik <dovmurik@linux.vnet.ibm.com>, qemu-ppc@nongnu.org,
  Gerd Hoffmann <kraxel@redhat.com>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Gerd,
+Hi David, Juan.
 
-On 11/3/20 12:25 PM, Philippe Mathieu-Daudé wrote:
-> The '%u' conversion specifier is for decimal notation.
-> When prefixing a format with '0x', we want the hexadecimal
-> specifier ('%x').
+On 11/3/20 1:46 PM, Dr. David Alan Gilbert wrote:
+> * Philippe Mathieu-DaudÃ© (philmd@redhat.com) wrote:
+>> The '%u' conversion specifier is for decimal notation.
+>> When prefixing a format with '0x', we want the hexadecimal
+>> specifier ('%x').
+>>
+>> Inspired-by: Dov Murik <dovmurik@linux.vnet.ibm.com>
+>> Signed-off-by: Philippe Mathieu-DaudÃ© <philmd@redhat.com>
 > 
-> Inspired-by: Dov Murik <dovmurik@linux.vnet.ibm.com>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  hw/display/cirrus_vga.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/display/cirrus_vga.c b/hw/display/cirrus_vga.c
-> index e14096deb46..fdca6ca659f 100644
-> --- a/hw/display/cirrus_vga.c
-> +++ b/hw/display/cirrus_vga.c
-> @@ -2105,7 +2105,7 @@ static void cirrus_vga_mem_write(void *opaque,
->      } else {
->          qemu_log_mask(LOG_GUEST_ERROR,
->                        "cirrus: mem_writeb 0x" TARGET_FMT_plx " "
-> -                      "value 0x%02" PRIu64 "\n", addr, mem_value);
-> +                      "value 0x%02" PRIx64 "\n", addr, mem_value);
->      }
->  }
->  
-> 
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-This patch (and previous one) missed your latest ui pull
-request. As there is no qemu-trivial@ pull request during
-freeze/rc, can you queue these patches via your tree?
+As there is no qemu-trivial@ pull request during freeze/rc,
+can you queue this patch via your migration tree?
 
 Thanks,
 
 Phil.
+
+> 
+>> ---
+>>  migration/ram.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/migration/ram.c b/migration/ram.c
+>> index 2da2b622ab2..23dcfb3ac38 100644
+>> --- a/migration/ram.c
+>> +++ b/migration/ram.c
+>> @@ -3729,7 +3729,7 @@ int ram_dirty_bitmap_reload(MigrationState *s, RAMBlock *block)
+>>      }
+>>  
+>>      if (end_mark != RAMBLOCK_RECV_BITMAP_ENDING) {
+>> -        error_report("%s: ramblock '%s' end mark incorrect: 0x%"PRIu64,
+>> +        error_report("%s: ramblock '%s' end mark incorrect: 0x%"PRIx64,
+>>                       __func__, block->idstr, end_mark);
+>>          ret = -EINVAL;
+>>          goto out;
+>> -- 
+>> 2.26.2
+>>
 
 
