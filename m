@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EDE02AB335
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 10:08:47 +0100 (CET)
-Received: from localhost ([::1]:40962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E799A2AB33D
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 10:11:06 +0100 (CET)
+Received: from localhost ([::1]:45888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc3AM-0003GD-G9
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 04:08:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51632)
+	id 1kc3Cb-0005KB-VV
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 04:11:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kc34K-0005Bq-JB
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 04:02:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30922)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kc34M-0005Gr-E7
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 04:02:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38133)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kc34H-0004ad-Q1
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 04:02:32 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kc34K-0004bR-L7
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 04:02:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604912549;
+ s=mimecast20190719; t=1604912551;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=J6uUEkiSBUCBQbhCiD2GKNFNDIcq0zljxBD6327CaJc=;
- b=NbYNeZB0HH0Stm4XtMkgOPc3wbGkHvOQTwVPljRdnI4J7aqkT/+n/NhPjEyrmfhcevC7f+
- NV6hvEXgJWzXKkUIi4w+OK/mxO1x+KrBwlJMojTS+2Bjw8G9ktSIXaJ2KUBqNQJYjGKvhf
- S+vD+8UDQxAQtj2B7gn3nwbUJS2Z69I=
+ bh=w0eAf4G3UytQjjSQ3AIUQihXFsb/aqtAMLl5D/O9nzQ=;
+ b=fCWOgSfpityIJDN+cODH6Pla3CK0TDShYPe/ou7n71fbkb3/ejj0sQVMSVZYJPbCT3DoHe
+ G4MUOI76/w5ooX5XwjI2vIgbpQ2dkJCeYbT1VW7ZgbmEbDmabGTQ0OI6DWM4GmEdP7p01N
+ mZ0e+npTt9QWYpsAETJx9h3gcsOHmc8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-w5kDUgnFOL6O5HgQwpP-vg-1; Mon, 09 Nov 2020 04:02:26 -0500
-X-MC-Unique: w5kDUgnFOL6O5HgQwpP-vg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-257-U0N7PzJsMtiBA-J-9u9_2Q-1; Mon, 09 Nov 2020 04:02:29 -0500
+X-MC-Unique: U0N7PzJsMtiBA-J-9u9_2Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C72465F9C3;
- Mon,  9 Nov 2020 09:02:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C93EE805F03;
+ Mon,  9 Nov 2020 09:02:28 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
  [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2299E1002C1E;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 279605C1DC;
  Mon,  9 Nov 2020 09:02:22 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BB64A11329AB; Mon,  9 Nov 2020 10:02:20 +0100 (CET)
+ id BF3451132921; Mon,  9 Nov 2020 10:02:20 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/5] docs/devel/qapi-code-gen: Fix up examples
-Date: Mon,  9 Nov 2020 10:02:16 +0100
-Message-Id: <20201109090220.825764-2-armbru@redhat.com>
+Subject: [PULL 2/5] MAINTAINERS: Add QAPI schema modules to their subsystems
+Date: Mon,  9 Nov 2020 10:02:17 +0100
+Message-Id: <20201109090220.825764-3-armbru@redhat.com>
 In-Reply-To: <20201109090220.825764-1-armbru@redhat.com>
 References: <20201109090220.825764-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,49 +81,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: peter.maydell@linaro.org, "Daniel P . Berrange" <berrange@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20201027121026.3025930-1-armbru@redhat.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- docs/devel/qapi-code-gen.txt | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Add the relevant QAPI schema modules to section Audio, QMP, Tracing,
+Cryptography.
 
-diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
-index c6438c6aa9..6906a06ad2 100644
---- a/docs/devel/qapi-code-gen.txt
-+++ b/docs/devel/qapi-code-gen.txt
-@@ -393,7 +393,7 @@ is identical on the wire to:
-  { 'enum': 'Enum', 'data': ['one', 'two'] }
-  { 'struct': 'Branch1', 'data': { 'data': 'str' } }
-  { 'struct': 'Branch2', 'data': { 'data': 'int' } }
-- { 'union': 'Flat': 'base': { 'type': 'Enum' }, 'discriminator': 'type',
-+ { 'union': 'Flat', 'base': { 'type': 'Enum' }, 'discriminator': 'type',
-    'data': { 'one': 'Branch1', 'two': 'Branch2' } }
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Daniel P. Berrange <berrange@redhat.com>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20201102081550.171061-2-armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Acked-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ MAINTAINERS | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 63223e1183..30e1eccbec 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1909,6 +1909,7 @@ Rocker
+ M: Jiri Pirko <jiri@resnulli.us>
+ S: Maintained
+ F: hw/net/rocker/
++F: qapi/rocker.json
+ F: tests/rocker/
+ F: docs/specs/rocker.txt
  
- The optional 'if' member specifies a conditional.  See "Configuring
-@@ -590,6 +590,8 @@ When in doubt, do not implement OOB execution support.
- Member 'allow-preconfig' declares whether the command is available
- before the machine is built.  It defaults to false.  For example:
- 
-+ { 'enum': 'QMPCapability',
-+   'data': [ 'oob' ] }
-  { 'command': 'qmp_capabilities',
-    'data': { '*enable': [ 'QMPCapability' ] },
-    'allow-preconfig': true }
-@@ -824,7 +826,7 @@ Example: a struct with conditional feature 'allow-negative-numbers'
- { 'struct': 'TestType',
-   'data': { 'number': 'int' },
-   'features': [ { 'name': 'allow-negative-numbers',
--                  'if' 'defined(IFCOND)' } ] }
-+                  'if': 'defined(IFCOND)' } ] }
- 
- Please note that you are responsible to ensure that the C code will
- compile with an arbitrary combination of conditions, since the
+@@ -2111,6 +2112,7 @@ S: Maintained
+ F: audio/
+ F: hw/audio/
+ F: include/hw/audio/
++F: qapi/audio.json
+ F: tests/qtest/ac97-test.c
+ F: tests/qtest/es1370-test.c
+ F: tests/qtest/intel-hda-test.c
+@@ -2490,7 +2492,9 @@ F: monitor/monitor-internal.h
+ F: monitor/qmp*
+ F: monitor/misc.c
+ F: monitor/monitor.c
++F: qapi/control.json
+ F: qapi/error.json
++F: qapi/introspect.json
+ F: docs/devel/*qmp-*
+ F: docs/interop/*qmp-*
+ F: scripts/qmp/
+@@ -2551,6 +2555,7 @@ S: Maintained
+ F: trace/
+ F: trace-events
+ F: docs/qemu-option-trace.rst.inc
++F: qapi/trace.json
+ F: scripts/tracetool.py
+ F: scripts/tracetool/
+ F: scripts/qemu-trace-stap*
+@@ -2610,6 +2615,7 @@ M: Daniel P. Berrange <berrange@redhat.com>
+ S: Maintained
+ F: crypto/
+ F: include/crypto/
++F: qapi/crypto.json
+ F: tests/test-crypto-*
+ F: tests/benchmark-crypto-*
+ F: tests/crypto-tls-*
 -- 
 2.26.2
 
