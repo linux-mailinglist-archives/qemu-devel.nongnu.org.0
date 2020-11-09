@@ -2,83 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C2D12ABC3A
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 14:36:00 +0100 (CET)
-Received: from localhost ([::1]:52552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08BBD2ABDE5
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 14:54:46 +0100 (CET)
+Received: from localhost ([::1]:60542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc7Kw-000407-Sv
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 08:35:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56670)
+	id 1kc7d6-0003jJ-VO
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 08:54:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1kc7Ig-0003MO-9w
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 08:33:38 -0500
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:38883)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kc7UW-00032c-18
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 08:45:52 -0500
+Received: from indium.canonical.com ([91.189.90.7]:33910)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1kc7Ib-0006sb-Fr
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 08:33:37 -0500
-Received: by mail-ot1-x341.google.com with SMTP id a15so7170643otf.5
- for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 05:33:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oen1tC/PVeTokH21emTzofz9Az7mCNl3PDfLGo5nNGA=;
- b=YVzTF3kaWEuHNxzpNmsKFVe8yEPq2bRnbhvhyNJSWPMp3w2l5M6AAO5Sv+XWoIG1DL
- 5ql4flYYk++WxWJ2PgBcG+6wnFffSPawQ6UP4uzrZyycZFaeI0hm5pdgkwsx+x8K3d4o
- uqf3aBGCx0Ux042WtCR1JN3KwCKmqvDjwMT0Unxs0D7IOE8Ue4B3flJ9BOit/qnAfPN3
- rxAQJluFmNUttyxroElpmzNRUpFLOluCiVw71AbykZpm859nVtDIraO+I6ZhxpfuF5KR
- hxOc2NrGlMvC8rN7llnPrPBFafckivyyXqaTKPKDUZeOx5/Y/Jr7bKPlATbPcWF5VBt/
- 16AQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=oen1tC/PVeTokH21emTzofz9Az7mCNl3PDfLGo5nNGA=;
- b=lGR0XchmSfIpW01lWaHNLKDhCSGWG/DGyzIZdoBx8TUQG9OZAqAdgnEENFRXBnYAGb
- RbISx+D6QSshhfoIVSE50MTRAWOf9jyH/ELJseUMvR404+7JYRzloWTTG7S72JdFiRbJ
- PFlIE/UxWHQCKddBR1hcD4b1gj4sH+YvVnHlfr77vd9T6ETflpkI4qVTXrx4z2Y3z4Bc
- aDYvc2GBzE7PLRAHHzjt+jO6R3J5Wpy0r5xvxqi2IbqH3s7DJLQ6otmaj/HifNmMpNeK
- +xzXQKLN4+NdZboM5eDgyooab3oxjEqMjXHfDQKGcSCzq1Y6xOnfhOXGMGzQtJcWnelL
- BrRw==
-X-Gm-Message-State: AOAM532PcifY4tI3QYqnSXcanb7GPShVfQa8FDkVfssWBu3cT30RTzJv
- neDinsjdD5MtTSx3pceYTMeS4V5cVwm4tQ+FkayR1g==
-X-Google-Smtp-Source: ABdhPJzirIJyiHApWU7tCaLxs3xmYTSHCCTEJ47gUH432OxuBZezmeT7JB0EOShOdF+lUn9BmXZPQoo2kc7uOF0QRU0=
-X-Received: by 2002:a9d:61:: with SMTP id 88mr9708773ota.109.1604928811621;
- Mon, 09 Nov 2020 05:33:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kc7UT-0002qq-52
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 08:45:51 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kc7UR-0000dk-1l
+ for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 13:45:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 0C3B62E812F
+ for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 13:45:47 +0000 (UTC)
 MIME-Version: 1.0
-References: <20201102185115.7425-1-andrew@daynix.com>
- <0164a42f-4542-6f3e-bd71-3319dfaae190@redhat.com>
- <CAOEp5Oe3btwgPcOA6v=kK9s2to=x2Hg6Qw2iCFXOOWZs49s=-Q@mail.gmail.com>
- <caa38709-88f1-bd6d-3ff9-61e64c3aa51f@redhat.com>
- <20201104093155.GB565323@redhat.com>
- <cc53c09c-9b3c-63e1-6df3-b5fc949e626c@redhat.com>
- <20201105100109.GE630142@redhat.com>
- <20201105131938.GK630142@redhat.com>
- <CAOEp5Oe-Ct-ed5D3UjLZN=iP2W81ta=rTqMjiQ-8vVajag=GfA@mail.gmail.com>
- <16bfe468-b0f8-396a-08e9-8917423909e5@redhat.com>
-In-Reply-To: <16bfe468-b0f8-396a-08e9-8917423909e5@redhat.com>
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
-Date: Mon, 9 Nov 2020 15:33:20 +0200
-Message-ID: <CAOEp5Ofb7zK6A+zwbubVtitCrVTe_zLtZDYc0uExvgb+F_p9Zg@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/6] eBPF RSS support for virtio-net
-To: Jason Wang <jasowang@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000b4f47e05b3ac9b0b"
-Received-SPF: none client-ip=2607:f8b0:4864:20::341;
- envelope-from=yuri.benditovich@daynix.com; helo=mail-ot1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 09 Nov 2020 13:35:48 -0000
+From: Thomas Huth <1687569@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: jemmy858585 th-huth
+X-Launchpad-Bug-Reporter: Lidong Chen (jemmy858585)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20170502084810.2931.3440.malonedeb@soybean.canonical.com>
+Message-Id: <160492894861.28021.12243837915739381358.malone@chaenomeles.canonical.com>
+Subject: [Bug 1687569] Re: when migration cancel, qemu main thread hung
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
+X-Launchpad-Hash: acc973cbcbc2457d6ee951afe9acdd62d8c560a4
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 01:40:52
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -87,661 +72,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>, Andrew Melnychenko <andrew@daynix.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
+Reply-To: Bug 1687569 <1687569@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b4f47e05b3ac9b0b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The QEMU project is currently considering to move its bug tracking to anoth=
+er system. For this we need to know which bugs are still valid and which co=
+uld be closed already. Thus we are setting older bugs to "Incomplete" now.
+If you still think this bug report here is valid, then please switch the st=
+ate back to "New" within the next 60 days, otherwise this report will be ma=
+rked as "Expired". Thank you and sorry for the inconvenience.
 
-On Mon, Nov 9, 2020 at 4:14 AM Jason Wang <jasowang@redhat.com> wrote:
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
->
-> On 2020/11/5 =E4=B8=8B=E5=8D=8811:13, Yuri Benditovich wrote:
-> > First of all, thank you for all your feedbacks
-> >
-> > Please help me to summarize and let us understand better what we do in
-> v2:
-> > Major questions are:
-> > 1. Building eBPF from source during qemu build vs. regenerating it on
-> > demand and keeping in the repository
-> > Solution 1a (~ as in v1): keep instructions or ELF in H file, generate
-> > it out of qemu build. In general we'll need to have BE and LE binaries.
-> > Solution 1b: build ELF or instructions during QEMU build if llvm +
-> > clang exist. Then we will have only one (BE or LE, depending on
-> > current QEMU build)
-> > We agree with any solution - I believe you know the requirements better=
-.
->
->
-> I think we can go with 1a. (See Danial's comment)
->
->
-> >
-> > 2. Use libbpf or not
-> > In general we do not see any advantage of using libbpf. It works with
-> > object files (does ELF parsing at time of loading), but it does not do
-> > any magic.
-> > Solution 2a. Switch to libbpf, generate object files (LE and BE) from
-> > source, keep them inside QEMU (~8k each) or aside
->
->
-> Can we simply use dynamic linking here?
->
->
-Can you please explain, where exactly you suggest to use dynamic linking?
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1687569
 
->
-> > Solution 2b. (as in v1) Use python script to parse object ->
-> > instructions (~2k each)
-> > We'd prefer not to use libbpf at the moment.
-> > If due to some unknown reason we'll find it useful in future, we can
-> > switch to it, this does not create any incompatibility. Then this will
-> > create a dependency on libbpf.so
->
->
-> I think we need to care about compatibility. E.g we need to enable BTF
-> so I don't know how hard if we add BTF support in the current design. It
-> would be probably OK it's not a lot of effort.
->
->
-As far as we understand BTF helps in BPF debugging and libbpf supports it
-as is.
-Without libbpf we in v1 load the BPF instructions only.
-If you think the BTF is mandatory (BTW, why?) I think it is better to
-switch to libbpf and keep the entire ELF in the qemu data.
+Title:
+  when migration cancel, qemu main thread hung
 
+Status in QEMU:
+  Incomplete
 
-> >
-> > 3. Keep instructions or ELF inside QEMU or as separate external file
-> > Solution 3a (~as in v1): Built-in array of instructions or ELF. If we
-> > generate them out of QEMU build - keep 2 arrays or instructions or ELF
-> > (BE and LE),
-> > Solution 3b: Install them as separate files (/usr/share/qemu).
-> > We'd prefer 3a:
-> >  Then there is a guarantee that the eBPF is built with exactly the
-> > same config structures as QEMU (qemu creates a mapping of its
-> > structures, eBPF uses them).
-> >  No need to take care on scenarios like 'file not found', 'file is not
-> > suitable' etc
->
->
-> Yes, let's go 3a for upstream.
->
->
-> >
-> > 4. Is there some real request to have the eBPF for big-endian?
-> > If no, we can enable eBPF only for LE builds
->
->
-> We can go with LE first.
->
-> Thanks
->
->
-> >
-> > Jason, Daniel, Michael
-> > Can you please let us know what you think and why?
-> >
-> > On Thu, Nov 5, 2020 at 3:19 PM Daniel P. Berrang=C3=A9 <berrange@redhat=
-.com
-> > <mailto:berrange@redhat.com>> wrote:
-> >
-> >     On Thu, Nov 05, 2020 at 10:01:09AM +0000, Daniel P. Berrang=C3=A9 w=
-rote:
-> >     > On Thu, Nov 05, 2020 at 11:46:18AM +0800, Jason Wang wrote:
-> >     > >
-> >     > > On 2020/11/4 =E4=B8=8B=E5=8D=885:31, Daniel P. Berrang=C3=A9 wr=
-ote:
-> >     > > > On Wed, Nov 04, 2020 at 10:07:52AM +0800, Jason Wang wrote:
-> >     > > > > On 2020/11/3 =E4=B8=8B=E5=8D=886:32, Yuri Benditovich wrote=
-:
-> >     > > > > >
-> >     > > > > > On Tue, Nov 3, 2020 at 11:02 AM Jason Wang
-> >     <jasowang@redhat.com <mailto:jasowang@redhat.com>
-> >     > > > > > <mailto:jasowang@redhat.com
-> >     <mailto:jasowang@redhat.com>>> wrote:
-> >     > > > > >
-> >     > > > > >
-> >     > > > > >      On 2020/11/3 =E4=B8=8A=E5=8D=882:51, Andrew Melnyche=
-nko wrote:
-> >     > > > > >      > Basic idea is to use eBPF to calculate and steer
-> >     packets in TAP.
-> >     > > > > >      > RSS(Receive Side Scaling) is used to distribute
-> >     network packets
-> >     > > > > >      to guest virtqueues
-> >     > > > > >      > by calculating packet hash.
-> >     > > > > >      > eBPF RSS allows us to use RSS with vhost TAP.
-> >     > > > > >      >
-> >     > > > > >      > This set of patches introduces the usage of eBPF
-> >     for packet steering
-> >     > > > > >      > and RSS hash calculation:
-> >     > > > > >      > * RSS(Receive Side Scaling) is used to distribute
-> >     network packets to
-> >     > > > > >      > guest virtqueues by calculating packet hash
-> >     > > > > >      > * eBPF RSS suppose to be faster than already
-> >     existing 'software'
-> >     > > > > >      > implementation in QEMU
-> >     > > > > >      > * Additionally adding support for the usage of
-> >     RSS with vhost
-> >     > > > > >      >
-> >     > > > > >      > Supported kernels: 5.8+
-> >     > > > > >      >
-> >     > > > > >      > Implementation notes:
-> >     > > > > >      > Linux TAP TUNSETSTEERINGEBPF ioctl was used to
-> >     set the eBPF program.
-> >     > > > > >      > Added eBPF support to qemu directly through a
-> >     system call, see the
-> >     > > > > >      > bpf(2) for details.
-> >     > > > > >      > The eBPF program is part of the qemu and
-> >     presented as an array
-> >     > > > > >      of bpf
-> >     > > > > >      > instructions.
-> >     > > > > >      > The program can be recompiled by provided
-> >     Makefile.ebpf(need to
-> >     > > > > >      adjust
-> >     > > > > >      > 'linuxhdrs'),
-> >     > > > > >      > although it's not required to build QEMU with
-> >     eBPF support.
-> >     > > > > >      > Added changes to virtio-net and vhost, primary
-> >     eBPF RSS is used.
-> >     > > > > >      > 'Software' RSS used in the case of hash
-> >     population and as a
-> >     > > > > >      fallback option.
-> >     > > > > >      > For vhost, the hash population feature is not
-> >     reported to the guest.
-> >     > > > > >      >
-> >     > > > > >      > Please also see the documentation in PATCH 6/6.
-> >     > > > > >      >
-> >     > > > > >      > I am sending those patches as RFC to initiate the
-> >     discussions
-> >     > > > > >      and get
-> >     > > > > >      > feedback on the following points:
-> >     > > > > >      > * Fallback when eBPF is not supported by the kerne=
-l
-> >     > > > > >
-> >     > > > > >
-> >     > > > > >      Yes, and it could also a lacking of CAP_BPF.
-> >     > > > > >
-> >     > > > > >
-> >     > > > > >      > * Live migration to the kernel that doesn't have
-> >     eBPF support
-> >     > > > > >
-> >     > > > > >
-> >     > > > > >      Is there anything that we needs special treatment
-> here?
-> >     > > > > >
-> >     > > > > > Possible case: rss=3Don, vhost=3Don, source system with
-> >     kernel 5.8
-> >     > > > > > (everything works) -> dest. system 5.6 (bpf does not
-> >     work), the adapter
-> >     > > > > > functions, but all the steering does not use proper queue=
-s.
-> >     > > > >
-> >     > > > > Right, I think we need to disable vhost on dest.
-> >     > > > >
-> >     > > > >
-> >     > > > > >
-> >     > > > > >
-> >     > > > > >      > * Integration with current QEMU build
-> >     > > > > >
-> >     > > > > >
-> >     > > > > >      Yes, a question here:
-> >     > > > > >
-> >     > > > > >      1) Any reason for not using libbpf, e.g it has been
-> >     shipped with some
-> >     > > > > >      distros
-> >     > > > > >
-> >     > > > > >
-> >     > > > > > We intentionally do not use libbpf, as it present only
-> >     on some distros.
-> >     > > > > > We can switch to libbpf, but this will disable bpf if
-> >     libbpf is not
-> >     > > > > > installed
-> >     > > > >
-> >     > > > > That's better I think.
-> >     > > > >
-> >     > > > >
-> >     > > > > >      2) It would be better if we can avoid shipping
-> >     bytecodes
-> >     > > > > >
-> >     > > > > >
-> >     > > > > >
-> >     > > > > > This creates new dependencies: llvm + clang + ...
-> >     > > > > > We would prefer byte code and ability to generate it if
-> >     prerequisites
-> >     > > > > > are installed.
-> >     > > > >
-> >     > > > > It's probably ok if we treat the bytecode as a kind of
-> >     firmware.
-> >     > > > That is explicitly *not* OK for inclusion in Fedora. They
-> >     require that
-> >     > > > BPF is compiled from source, and rejected my suggestion that
-> >     it could
-> >     > > > be considered a kind of firmware and thus have an exception
-> >     from building
-> >     > > > from source.
-> >     > >
-> >     > >
-> >     > > Please refer what it was done in DPDK:
-> >     > >
-> >     > > http://git.dpdk.org/dpdk/tree/doc/guides/nics/tap.rst#n235
-> >     > >
-> >     > > I don't think what proposed here makes anything different.
-> >     >
-> >     > I'm not convinced that what DPDK does is acceptable to Fedora
-> either
-> >     > based on the responses I've received when asking about BPF handli=
-ng
-> >     > during build.  I wouldn't suprise me, however, if this was simply
-> >     > missed by reviewers when accepting DPDK into Fedora, because it i=
-s
-> >     > not entirely obvious unless you are looking closely.
-> >
-> >     FWIW, I'm pushing back against the idea that we have to compile the
-> >     BPF code from master source, as I think it is reasonable to have th=
-e
-> >     program embedded as a static array in the source code similar to wh=
-at
-> >     DPDK does.  It doesn't feel much different from other places where
-> >     apps
-> >     use generated sources, and don't build them from the original sourc=
-e
-> >     every time. eg "configure" is never re-generated from
-> >     "configure.ac <http://configure.ac>"
-> >     by Fedora packagers, they just use the generated "configure" script
-> >     as-is.
-> >
-> >     Regards,
-> >     Daniel
-> >     --
-> >     |: https://berrange.com     -o-
-> >     https://www.flickr.com/photos/dberrange :|
-> >     |: https://libvirt.org        -o- https://fstop138.berrange.com :|
-> >     |: https://entangle-photo.org   -o-
-> >     https://www.instagram.com/dberrange :|
-> >
->
->
+Bug description:
+  qemu version:v2.9.0-rc5 release
 
---000000000000b4f47e05b3ac9b0b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+  1.virsh migrate --live 165cf436-312f-47e7-90f2-f8aa63f34893 --copy-storag=
+e-all qemu+ssh://10.59.163.38/system
+  2.press Ctrl+C cancel migrate
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Nov 9, 2020 at 4:14 AM Jason =
-Wang &lt;<a href=3D"mailto:jasowang@redhat.com">jasowang@redhat.com</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
-On 2020/11/5 =E4=B8=8B=E5=8D=8811:13, Yuri Benditovich wrote:<br>
-&gt; First of all, thank you for all your feedbacks<br>
-&gt;<br>
-&gt; Please help me to summarize and let us understand better what we do in=
- v2:<br>
-&gt; Major questions are:<br>
-&gt; 1. Building eBPF from source during qemu build vs. regenerating it on =
-<br>
-&gt; demand and keeping in the repository<br>
-&gt; Solution 1a (~ as in v1): keep instructions or ELF in H file, generate=
- <br>
-&gt; it out of qemu build. In general we&#39;ll need to have BE and LE bina=
-ries.<br>
-&gt; Solution 1b: build ELF or instructions during QEMU build if llvm=C2=A0=
-+ <br>
-&gt; clang exist. Then we will have only one (BE or LE, depending on <br>
-&gt; current QEMU build)<br>
-&gt; We agree with any solution - I believe you know the requirements bette=
-r.<br>
-<br>
-<br>
-I think we can go with 1a. (See Danial&#39;s comment)<br>
-<br>
-<br>
-&gt;<br>
-&gt; 2. Use libbpf or not<br>
-&gt; In general we do not see any advantage of using libbpf. It works with =
-<br>
-&gt; object files=C2=A0(does ELF parsing at time of loading), but it does n=
-ot=C2=A0do <br>
-&gt; any magic.<br>
-&gt; Solution 2a. Switch to libbpf, generate object files (LE and BE) from =
-<br>
-&gt; source, keep them inside QEMU (~8k each) or aside<br>
-<br>
-<br>
-Can we simply use dynamic linking here?<br>
-<br></blockquote><div><br></div><div>Can you please explain, where exactly =
-you suggest to use dynamic linking?<br></div><div>=C2=A0</div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">
-<br>
-&gt; Solution 2b. (as in v1) Use python script to parse object -&gt; <br>
-&gt; instructions (~2k each)<br>
-&gt; We&#39;d prefer not to use libbpf at the moment.<br>
-&gt; If due to some unknown reason we&#39;ll find it useful in future, we c=
-an <br>
-&gt; switch to it, this does not create any incompatibility. Then this will=
- <br>
-&gt; create a dependency on libbpf.so<br>
-<br>
-<br>
-I think we need to care about compatibility. E.g we need to enable BTF <br>
-so I don&#39;t know how hard if we add BTF support in the current design. I=
-t <br>
-would be probably OK it&#39;s not a lot of effort.<br>
-<br></blockquote><div><br></div><div>As far as we understand BTF helps in B=
-PF debugging and libbpf supports it as is.<br></div><div>Without libbpf we =
-in v1 load the BPF instructions only.</div><div>If you think the BTF is man=
-datory (BTW, why?) I think it is better to switch to libbpf and keep the en=
-tire ELF in the qemu data.</div><div><br></div><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
-04);padding-left:1ex">
-<br>
-&gt;<br>
-&gt; 3. Keep instructions or ELF inside QEMU or as separate external file<b=
-r>
-&gt; Solution 3a (~as in v1): Built-in array of instructions or ELF. If we =
-<br>
-&gt; generate them out of QEMU build - keep 2 arrays or instructions or ELF=
- <br>
-&gt; (BE and LE),<br>
-&gt; Solution 3b: Install them as separate files (/usr/share/qemu).<br>
-&gt; We&#39;d prefer 3a:<br>
-&gt; =C2=A0Then there is a guarantee that the eBPF is built with exactly th=
-e <br>
-&gt; same config structures as QEMU (qemu creates a mapping of its <br>
-&gt; structures, eBPF uses them).<br>
-&gt; =C2=A0No need to take care on scenarios like &#39;file not found&#39;,=
- &#39;file is not <br>
-&gt; suitable&#39; etc<br>
-<br>
-<br>
-Yes, let&#39;s go 3a for upstream.<br>
-<br>
-<br>
-&gt;<br>
-&gt; 4. Is there some real request to have the eBPF for big-endian?<br>
-&gt; If no, we can enable eBPF only for LE builds<br>
-<br>
-<br>
-We can go with LE first.<br>
-<br>
-Thanks<br>
-<br>
-<br>
-&gt;<br>
-&gt; Jason, Daniel, Michael<br>
-&gt; Can you please let us know what you think and why?<br>
-&gt;<br>
-&gt; On Thu, Nov 5, 2020 at 3:19 PM Daniel P. Berrang=C3=A9 &lt;<a href=3D"=
-mailto:berrange@redhat.com" target=3D"_blank">berrange@redhat.com</a> <br>
-&gt; &lt;mailto:<a href=3D"mailto:berrange@redhat.com" target=3D"_blank">be=
-rrange@redhat.com</a>&gt;&gt; wrote:<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0On Thu, Nov 05, 2020 at 10:01:09AM +0000, Daniel P.=
- Berrang=C3=A9 wrote:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; On Thu, Nov 05, 2020 at 11:46:18AM +0800, Jaso=
-n Wang wrote:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; On 2020/11/4 =E4=B8=8B=E5=8D=885:31, Dani=
-el P. Berrang=C3=A9 wrote:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; On Wed, Nov 04, 2020 at 10:07:52AM +=
-0800, Jason Wang wrote:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; On 2020/11/3 =E4=B8=8B=E5=8D=88=
-6:32, Yuri Benditovich wrote:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt; On Tue, Nov 3, 2020 at 11:=
-02 AM Jason Wang<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"mailto:jasowang@redhat.com" target=
-=3D"_blank">jasowang@redhat.com</a> &lt;mailto:<a href=3D"mailto:jasowang@r=
-edhat.com" target=3D"_blank">jasowang@redhat.com</a>&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt; &lt;mailto:<a href=3D"mail=
-to:jasowang@redhat.com" target=3D"_blank">jasowang@redhat.com</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;mailto:<a href=3D"mailto:jasowang@redhat.com" t=
-arget=3D"_blank">jasowang@redhat.com</a>&gt;&gt;&gt; wrote:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 On 202=
-0/11/3 =E4=B8=8A=E5=8D=882:51, Andrew Melnychenko wrote:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; B=
-asic idea is to use eBPF to calculate and steer<br>
-&gt;=C2=A0 =C2=A0 =C2=A0packets in TAP.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; R=
-SS(Receive Side Scaling) is used to distribute<br>
-&gt;=C2=A0 =C2=A0 =C2=A0network packets<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 to gue=
-st virtqueues<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; b=
-y calculating packet hash.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; e=
-BPF RSS allows us to use RSS with vhost TAP.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt;<b=
-r>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; T=
-his set of patches introduces the usage of eBPF<br>
-&gt;=C2=A0 =C2=A0 =C2=A0for packet steering<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; a=
-nd RSS hash calculation:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; *=
- RSS(Receive Side Scaling) is used to distribute<br>
-&gt;=C2=A0 =C2=A0 =C2=A0network packets to<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; g=
-uest virtqueues by calculating packet hash<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; *=
- eBPF RSS suppose to be faster than already<br>
-&gt;=C2=A0 =C2=A0 =C2=A0existing &#39;software&#39;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; i=
-mplementation in QEMU<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; *=
- Additionally adding support for the usage of<br>
-&gt;=C2=A0 =C2=A0 =C2=A0RSS with vhost<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt;<b=
-r>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; S=
-upported kernels: 5.8+<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt;<b=
-r>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; I=
-mplementation notes:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; L=
-inux TAP TUNSETSTEERINGEBPF ioctl was used to<br>
-&gt;=C2=A0 =C2=A0 =C2=A0set the eBPF program.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; A=
-dded eBPF support to qemu directly through a<br>
-&gt;=C2=A0 =C2=A0 =C2=A0system call, see the<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; b=
-pf(2) for details.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; T=
-he eBPF program is part of the qemu and<br>
-&gt;=C2=A0 =C2=A0 =C2=A0presented as an array<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 of bpf=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; i=
-nstructions.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; T=
-he program can be recompiled by provided<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Makefile.ebpf(need to<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 adjust=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; &=
-#39;linuxhdrs&#39;),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; a=
-lthough it&#39;s not required to build QEMU with<br>
-&gt;=C2=A0 =C2=A0 =C2=A0eBPF support.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; A=
-dded changes to virtio-net and vhost, primary<br>
-&gt;=C2=A0 =C2=A0 =C2=A0eBPF RSS is used.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; &=
-#39;Software&#39; RSS used in the case of hash<br>
-&gt;=C2=A0 =C2=A0 =C2=A0population and as a<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 fallba=
-ck option.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; F=
-or vhost, the hash population feature is not<br>
-&gt;=C2=A0 =C2=A0 =C2=A0reported to the guest.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt;<b=
-r>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; P=
-lease also see the documentation in PATCH 6/6.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt;<b=
-r>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; I=
- am sending those patches as RFC to initiate the<br>
-&gt;=C2=A0 =C2=A0 =C2=A0discussions<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 and ge=
-t<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; f=
-eedback on the following points:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; *=
- Fallback when eBPF is not supported by the kernel<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 Yes, a=
-nd it could also a lacking of CAP_BPF.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; *=
- Live migration to the kernel that doesn&#39;t have<br>
-&gt;=C2=A0 =C2=A0 =C2=A0eBPF support<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 Is the=
-re anything that we needs special treatment here?<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt; Possible case: rss=3Don, v=
-host=3Don, source system with<br>
-&gt;=C2=A0 =C2=A0 =C2=A0kernel 5.8<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt; (everything works) -&gt; d=
-est. system 5.6 (bpf does not<br>
-&gt;=C2=A0 =C2=A0 =C2=A0work), the adapter<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt; functions, but all the ste=
-ering does not use proper queues.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; Right, I think we need to disab=
-le vhost on dest.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; *=
- Integration with current QEMU build<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 Yes, a=
- question here:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 1) Any=
- reason for not using libbpf, e.g it has been<br>
-&gt;=C2=A0 =C2=A0 =C2=A0shipped with some<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 distro=
-s<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt; We intentionally do not us=
-e libbpf, as it present only<br>
-&gt;=C2=A0 =C2=A0 =C2=A0on some distros.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt; We can switch to libbpf, b=
-ut this will disable bpf if<br>
-&gt;=C2=A0 =C2=A0 =C2=A0libbpf is not<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt; installed<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; That&#39;s better I think.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 2) It =
-would be better if we can avoid shipping<br>
-&gt;=C2=A0 =C2=A0 =C2=A0bytecodes<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt; This creates new dependenc=
-ies: llvm=C2=A0+ clang=C2=A0+ ...<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt; We would prefer byte code =
-and ability to generate it if<br>
-&gt;=C2=A0 =C2=A0 =C2=A0prerequisites<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt; are installed.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; It&#39;s probably ok if we trea=
-t the bytecode as a kind of<br>
-&gt;=C2=A0 =C2=A0 =C2=A0firmware.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; That is explicitly *not* OK for incl=
-usion in Fedora. They<br>
-&gt;=C2=A0 =C2=A0 =C2=A0require that<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; BPF is compiled from source, and rej=
-ected my suggestion that<br>
-&gt;=C2=A0 =C2=A0 =C2=A0it could<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; be considered a kind of firmware and=
- thus have an exception<br>
-&gt;=C2=A0 =C2=A0 =C2=A0from building<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; from source.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; Please refer what it was done in DPDK:<br=
->
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; <a href=3D"http://git.dpdk.org/dpdk/tree/=
-doc/guides/nics/tap.rst#n235" rel=3D"noreferrer" target=3D"_blank">http://g=
-it.dpdk.org/dpdk/tree/doc/guides/nics/tap.rst#n235</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; I don&#39;t think what proposed here make=
-s anything different.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; I&#39;m not convinced that what DPDK does is a=
-cceptable to Fedora either<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; based on the responses I&#39;ve received when =
-asking about BPF handling<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; during build.=C2=A0 I wouldn&#39;t suprise me,=
- however, if this was simply<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; missed by reviewers when accepting DPDK into F=
-edora, because it is<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; not entirely obvious unless you are looking cl=
-osely.<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0FWIW, I&#39;m pushing back against the idea that we=
- have to compile the<br>
-&gt;=C2=A0 =C2=A0 =C2=A0BPF code from master source, as I think it is reaso=
-nable to have the<br>
-&gt;=C2=A0 =C2=A0 =C2=A0program embedded as a static array in the source co=
-de similar to what<br>
-&gt;=C2=A0 =C2=A0 =C2=A0DPDK does.=C2=A0 It doesn&#39;t feel much different=
- from other places where<br>
-&gt;=C2=A0 =C2=A0 =C2=A0apps<br>
-&gt;=C2=A0 =C2=A0 =C2=A0use generated sources, and don&#39;t build them fro=
-m the original source<br>
-&gt;=C2=A0 =C2=A0 =C2=A0every time. eg &quot;configure&quot; is never re-ge=
-nerated from<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&quot;<a href=3D"http://configure.ac" rel=3D"norefe=
-rrer" target=3D"_blank">configure.ac</a> &lt;<a href=3D"http://configure.ac=
-" rel=3D"noreferrer" target=3D"_blank">http://configure.ac</a>&gt;&quot;<br=
->
-&gt;=C2=A0 =C2=A0 =C2=A0by Fedora packagers, they just use the generated &q=
-uot;configure&quot; script<br>
-&gt;=C2=A0 =C2=A0 =C2=A0as-is.<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Regards,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Daniel<br>
-&gt;=C2=A0 =C2=A0 =C2=A0-- <br>
-&gt;=C2=A0 =C2=A0 =C2=A0|: <a href=3D"https://berrange.com" rel=3D"noreferr=
-er" target=3D"_blank">https://berrange.com</a> =C2=A0 =C2=A0 -o-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://www.flickr.com/photos/dberrange"=
- rel=3D"noreferrer" target=3D"_blank">https://www.flickr.com/photos/dberran=
-ge</a> :|<br>
-&gt;=C2=A0 =C2=A0 =C2=A0|: <a href=3D"https://libvirt.org" rel=3D"noreferre=
-r" target=3D"_blank">https://libvirt.org</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=
- <a href=3D"https://fstop138.berrange.com" rel=3D"noreferrer" target=3D"_bl=
-ank">https://fstop138.berrange.com</a> :|<br>
-&gt;=C2=A0 =C2=A0 =C2=A0|: <a href=3D"https://entangle-photo.org" rel=3D"no=
-referrer" target=3D"_blank">https://entangle-photo.org</a> =C2=A0 -o-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://www.instagram.com/dberrange" rel=
-=3D"noreferrer" target=3D"_blank">https://www.instagram.com/dberrange</a> :=
-|<br>
-&gt;<br>
-<br>
-</blockquote></div></div>
+   qemu main thread hung
 
---000000000000b4f47e05b3ac9b0b--
+  (gdb) bt
+  #0  0x00007fca9f4574b7 in ppoll () from /lib64/libc.so.6
+  #1  0x0000000000944970 in qemu_poll_ns (fds=3D0x293e6e0, nfds=3D1, timeou=
+t=3D-1) at util/qemu-timer.c:322
+  #2  0x0000000000947e16 in aio_poll (ctx=3D0x291d4b0, blocking=3Dtrue) at =
+util/aio-posix.c:622
+  #3  0x00000000008b6094 in nbd_teardown_connection (bs=3D0x29ccdc0) at blo=
+ck/nbd-client.c:59
+  #4  0x00000000008b6df1 in nbd_client_close (bs=3D0x29ccdc0) at block/nbd-=
+client.c:377
+  #5  0x00000000008b5988 in nbd_close (bs=3D0x29ccdc0) at block/nbd.c:488
+  #6  0x00000000008435de in bdrv_close (bs=3D0x29ccdc0) at block.c:2919
+  #7  0x0000000000843c86 in bdrv_delete (bs=3D0x29ccdc0) at block.c:3100
+  #8  0x000000000084620b in bdrv_unref (bs=3D0x29ccdc0) at block.c:4087
+  #9  0x00000000008411d1 in bdrv_root_unref_child (child=3D0x30e4800) at bl=
+ock.c:1891
+  #10 0x000000000084128a in bdrv_unref_child (parent=3D0x29c0660, child=3D0=
+x30e4800) at block.c:1915
+  #11 0x000000000084362a in bdrv_close (bs=3D0x29c0660) at block.c:2925
+  #12 0x0000000000843c86 in bdrv_delete (bs=3D0x29c0660) at block.c:3100
+  #13 0x000000000084620b in bdrv_unref (bs=3D0x29c0660) at block.c:4087
+  #14 0x00000000008411d1 in bdrv_root_unref_child (child=3D0x3013910) at bl=
+ock.c:1891
+  #15 0x0000000000848149 in block_job_remove_all_bdrv (job=3D0x3fa7800) at =
+blockjob.c:154
+  #16 0x00000000008a8dd8 in mirror_exit (job=3D0x3fa7800, opaque=3D0x7fca90=
+000bf0) at block/mirror.c:576
+  #17 0x0000000000849e22 in block_job_defer_to_main_loop_bh (opaque=3D0x7fc=
+a90000d90) at blockjob.c:794
+  #18 0x00000000009420c4 in aio_bh_call (bh=3D0x7fca90000dc0) at util/async=
+.c:90
+  #19 0x000000000094216f in aio_bh_poll (ctx=3D0x291d4b0) at util/async.c:1=
+18
+  #20 0x00000000009480d9 in aio_poll (ctx=3D0x291d4b0, blocking=3Dtrue) at =
+util/aio-posix.c:682
+  #21 0x00000000008b6094 in nbd_teardown_connection (bs=3D0x2921350) at blo=
+ck/nbd-client.c:59
+  #22 0x00000000008b6df1 in nbd_client_close (bs=3D0x2921350) at block/nbd-=
+client.c:377
+  #23 0x00000000008b5988 in nbd_close (bs=3D0x2921350) at block/nbd.c:488
+  #24 0x00000000008435de in bdrv_close (bs=3D0x2921350) at block.c:2919
+  #25 0x0000000000843c86 in bdrv_delete (bs=3D0x2921350) at block.c:3100
+  #26 0x000000000084620b in bdrv_unref (bs=3D0x2921350) at block.c:4087
+  #27 0x00000000008411d1 in bdrv_root_unref_child (child=3D0x390d180) at bl=
+ock.c:1891
+  #28 0x000000000084128a in bdrv_unref_child (parent=3D0x4eba200, child=3D0=
+x390d180) at block.c:1915
+  #29 0x000000000084362a in bdrv_close (bs=3D0x4eba200) at block.c:2925
+  #30 0x0000000000843c86 in bdrv_delete (bs=3D0x4eba200) at block.c:3100
+  #31 0x000000000084620b in bdrv_unref (bs=3D0x4eba200) at block.c:4087
+  #32 0x00000000008411d1 in bdrv_root_unref_child (child=3D0x4ebf990) at bl=
+ock.c:1891
+  #33 0x0000000000848149 in block_job_remove_all_bdrv (job=3D0x4ea85b0) at =
+blockjob.c:154
+  #34 0x00000000008a8dd8 in mirror_exit (job=3D0x4ea85b0, opaque=3D0x7fca98=
+000bf0) at block/mirror.c:576
+  #35 0x0000000000849e22 in block_job_defer_to_main_loop_bh (opaque=3D0x7fc=
+a980013d0) at blockjob.c:794
+  #36 0x00000000009420c4 in aio_bh_call (bh=3D0x7fca9801e0c0) at util/async=
+.c:90
+  #37 0x000000000094216f in aio_bh_poll (ctx=3D0x291d4b0) at util/async.c:1=
+18
+  ---Type <return> to continue, or q <return> to quit---  =
+
+  #38 0x00000000009476ae in aio_dispatch (ctx=3D0x291d4b0) at util/aio-posi=
+x.c:429
+  #39 0x00000000009425e4 in aio_ctx_dispatch (source=3D0x291d4b0, callback=
+=3D0, user_data=3D0x0) at util/async.c:261
+  #40 0x00007fcaa0101f0e in g_main_context_dispatch () from /lib64/libglib-=
+2.0.so.0
+  #41 0x0000000000945d86 in glib_pollfds_poll () at util/main-loop.c:213
+  #42 0x0000000000945ea7 in os_host_main_loop_wait (timeout=3D124777230) at=
+ util/main-loop.c:261
+  #43 0x0000000000945f72 in main_loop_wait (nonblocking=3D0) at util/main-l=
+oop.c:517
+  #44 0x00000000005c7794 in main_loop () at vl.c:1898
+  #45 0x00000000005cec57 in main (argc=3D64, argv=3D0x7fffe7020c58, envp=3D=
+0x7fffe7020e60) at vl.c:4709
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1687569/+subscriptions
 
