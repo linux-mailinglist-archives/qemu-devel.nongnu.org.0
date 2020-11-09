@@ -2,74 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C96E2AB591
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 11:56:14 +0100 (CET)
-Received: from localhost ([::1]:47116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C9C72AB593
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 11:56:25 +0100 (CET)
+Received: from localhost ([::1]:47234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc4qL-0001us-DU
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 05:56:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47554)
+	id 1kc4qV-0001xz-Nl
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 05:56:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kc4oV-00012V-0E
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 05:54:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54512)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kc4oT-0001tx-Ex
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 05:54:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604919256;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FkGrMWGEUyiQzO4wx39Geq/287nuAh1WFYXNJLNI/gM=;
- b=YJ5ckqeHUdK/eyJAP6lxlrPzwJPjtsQt9GL4O6eEF+9AGKF10vg+cdsUEcKHOihypDeU8C
- TUSRRfkpMgEpxdDdNw1CC9iKE9xwpPwGMeLzfu/D+aZL6pBSbOMVgELoTOUopTal0PQnYn
- GaVka1P2XRhgVzkwINHDyP/bLuQv/no=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-28-2GRXMqhoOA-WFtZyWPeJaA-1; Mon, 09 Nov 2020 05:54:14 -0500
-X-MC-Unique: 2GRXMqhoOA-WFtZyWPeJaA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EAE6A5F9C1;
- Mon,  9 Nov 2020 10:54:13 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-53.ams2.redhat.com [10.36.112.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1845F6EF45;
- Mon,  9 Nov 2020 10:54:09 +0000 (UTC)
-Subject: Re: [qemu-web PATCH v2] Add virtio-fs in OSv overview blog post
-To: Fotis Xenakis <foxen@windowslive.com>, qemu-devel@nongnu.org
-References: <AM0PR03MB629226965B72D3808EFB8795A6EF0@AM0PR03MB6292.eurprd03.prod.outlook.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <ac1fe8d1-ac26-950d-6905-008f2f1189a8@redhat.com>
-Date: Mon, 9 Nov 2020 11:54:08 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
-MIME-Version: 1.0
-In-Reply-To: <AM0PR03MB629226965B72D3808EFB8795A6EF0@AM0PR03MB6292.eurprd03.prod.outlook.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+ (Exim 4.90_1) (envelope-from <salil.mehta@huawei.com>)
+ id 1kc4oY-00014S-J3; Mon, 09 Nov 2020 05:54:22 -0500
+Received: from szxga03-in.huawei.com ([45.249.212.189]:2174)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <salil.mehta@huawei.com>)
+ id 1kc4oV-0001sv-MF; Mon, 09 Nov 2020 05:54:22 -0500
+Received: from dggeme755-chm.china.huawei.com (unknown [172.30.72.56])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4CV7CZ5p3mz52SD;
+ Mon,  9 Nov 2020 18:54:02 +0800 (CST)
+Received: from lhreml703-chm.china.huawei.com (10.201.108.52) by
+ dggeme755-chm.china.huawei.com (10.3.19.101) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1913.5; Mon, 9 Nov 2020 18:54:11 +0800
+Received: from lhreml703-chm.china.huawei.com ([10.201.68.198]) by
+ lhreml703-chm.china.huawei.com ([10.201.68.198]) with mapi id 15.01.1913.007; 
+ Mon, 9 Nov 2020 10:54:09 +0000
+From: Salil Mehta <salil.mehta@huawei.com>
+To: fangying <fangying1@huawei.com>, "peter.maydell@linaro.org"
+ <peter.maydell@linaro.org>
+Subject: RE: [RFC PATCH v3 02/13] hw/arm/virt: Remove unused variable
+Thread-Topic: [RFC PATCH v3 02/13] hw/arm/virt: Remove unused variable
+Thread-Index: AQHWtkUqNQJlsUS++0OVBoWRn9nyw6m/oBkA
+Date: Mon, 9 Nov 2020 10:54:09 +0000
+Message-ID: <7ff86d80c3b64fd98a9b39eec0829685@huawei.com>
+References: <20201109030452.2197-1-fangying1@huawei.com>
+ <20201109030452.2197-3-fangying1@huawei.com>
+In-Reply-To: <20201109030452.2197-3-fangying1@huawei.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 01:25:23
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.47.28.252]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=salil.mehta@huawei.com; helo=szxga03-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 05:54:13
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,25 +68,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com
+Cc: "drjones@redhat.com" <drjones@redhat.com>,
+ Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "shannon.zhaosl@gmail.com" <shannon.zhaosl@gmail.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ "alistair.francis@wdc.com" <alistair.francis@wdc.com>,
+ "imammedo@redhat.com" <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04/11/2020 17.46, Fotis Xenakis wrote:
-> This post briefly goes over the main points of virtio-fs and OSv, a
-> unikernel running under QEMU/KVM and taking advantage of its virtio-fs
-> implementation.
-> 
-> Changes since v1:
-> - Fixed wording and links, as suggested by Thomas Huth.
-> - Added a short example of virtio-fs usage in OSv.
-> 
-> Signed-off-by: Fotis Xenakis <foxen@windowslive.com>
+Hi Fangying,
+Same here. Why not club [01/13] and [02/13] together and send it separately=
+?
+
+Thanks
+
+> From: fangying
+> Sent: Monday, November 9, 2020 3:05 AM
+> To: peter.maydell@linaro.org
+> Cc: qemu-devel@nongnu.org; qemu-arm@nongnu.org; drjones@redhat.com;
+> imammedo@redhat.com; shannon.zhaosl@gmail.com; alistair.francis@wdc.com;
+> Zhanghailiang <zhang.zhanghailiang@huawei.com>; Salil Mehta
+> <salil.mehta@huawei.com>
+> Subject: [RFC PATCH v3 02/13] hw/arm/virt: Remove unused variable
+>=20
+> From: Andrew Jones <drjones@redhat.com>
+>=20
+> We no longer use the smp_cpus virtual machine state variable.
+> Remove it.
+>=20
+> Signed-off-by: Andrew Jones <drjones@redhat.com>
 > ---
-
-Thanks, pushed now!
-
- Thomas
-
+>  hw/arm/virt.c         | 2 --
+>  include/hw/arm/virt.h | 1 -
+>  2 files changed, 3 deletions(-)
+>=20
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 0069fa1298..ea24b576c6 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -1820,8 +1820,6 @@ static void machvirt_init(MachineState *machine)
+>          exit(1);
+>      }
+>=20
+> -    vms->smp_cpus =3D smp_cpus;
+> -
+>      if (vms->virt && kvm_enabled()) {
+>          error_report("mach-virt: KVM does not support providing "
+>                       "Virtualization extensions to the guest CPU");
+> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+> index 953d94acc0..010f24f580 100644
+> --- a/include/hw/arm/virt.h
+> +++ b/include/hw/arm/virt.h
+> @@ -151,7 +151,6 @@ struct VirtMachineState {
+>      MemMapEntry *memmap;
+>      char *pciehb_nodename;
+>      const int *irqmap;
+> -    int smp_cpus;
+>      void *fdt;
+>      int fdt_size;
+>      uint32_t clock_phandle;
+> --
+> 2.23.0
 
 
