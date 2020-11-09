@@ -2,90 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AEA32AB383
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 10:24:46 +0100 (CET)
-Received: from localhost ([::1]:51506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 763D02AB3B5
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 10:37:16 +0100 (CET)
+Received: from localhost ([::1]:35872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc3Pp-0002lV-IY
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 04:24:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56530)
+	id 1kc3bv-0000NT-G7
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 04:37:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kc3Oj-00028j-AG
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 04:23:37 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:40872)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kc3aT-0008Lu-MQ
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 04:35:45 -0500
+Received: from indium.canonical.com ([91.189.90.7]:51314)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kc3Oh-0003dI-Lg
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 04:23:37 -0500
-Received: by mail-wr1-x443.google.com with SMTP id 33so7863575wrl.7
- for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 01:23:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Hvlda90JUbTnHzIr5zCQV/F6I0xMp7uOW+ITd0rM3h8=;
- b=dxPZRGFPx3s7vPnC48075ttwtoxFyfqya9TWf1b1cGGr8gYYayJb6J+c1Unpn4VpqW
- eScnAEWev8L8/kkjt+fwWptt2CtqaUFAVX8UpmPGNHNUZYjhKeCFKbxdRtwC289+D7F9
- hPHChn5bPS7NDAX4aUG8MKb2hMdWRAu59a8MGv14ECxjYr3lJJ0VofnCVKye2xiKfbgu
- 92QVfJI+2O+rdXikYySMSTu2tl0bhQjeNGm88wWmjvizbyp6MqEpnBXWorFc4K5w+KBn
- APX/CitUSraQYs6DHyQELw/UcwPdXPpUt/rXOSEd8mtW+fAOutHXCSXNjQAa0CkGURIi
- bmFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Hvlda90JUbTnHzIr5zCQV/F6I0xMp7uOW+ITd0rM3h8=;
- b=KU0zTvQ9KD7gcZB8g18Wl5423XBaK7d/AKmZ8ThKhULr+Rd5xzOCTFJRtg9fshKsXr
- VmgKqAqBA4z0D/HjhaUFNlzHTP8zkDJq7U746qxQHe5PPOlqWxGmw43EkqXs6o3rcRHL
- UgxFhdHoofc9yonKDf+X0hCi69jz2Or8z9e85jl+O7lfe+prdr43uUmUIPTgXXIUM8+b
- lGi/4y1l1YSgH8YlOnfIMX16/0lOMadALIc/M7bFJxrdFGjq0EmXasJr85HBJRruoeq/
- KTYrgwnFz/36gGtUnTbPDwAhYxFVK60rV2qPxWspWUv/EUXabQ5BMv8DULnaBRmLxpxQ
- VpHg==
-X-Gm-Message-State: AOAM531aiSTkbZQfiMwsdteP3Lh1ZwoZb1xFyNvnQK3JT2WeSHximO/k
- YaeSqE/3/LzPUC7E25eGD2M=
-X-Google-Smtp-Source: ABdhPJxfb4ZkhiDvvOnLLIhO09fg0r/OiS9izefn29NyNJ1vnr0xOyaSP2WfDuN1vi6PE0JOKRHkFg==
-X-Received: by 2002:adf:8465:: with SMTP id 92mr16026410wrf.50.1604913814080; 
- Mon, 09 Nov 2020 01:23:34 -0800 (PST)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id a15sm12730006wrn.75.2020.11.09.01.23.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Nov 2020 01:23:33 -0800 (PST)
-Subject: Re: [RFC PATCH-for-5.2] tests/acceptance: Disable Spartan-3A DSP
- 1800A test
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20201109080747.2408489-1-f4bug@amsat.org>
- <a991b796-0d03-6a2a-1008-6e7d2edc9e54@redhat.com>
- <f7d65bef-846d-6880-937b-c3095bda9a09@amsat.org>
- <9cbf49af-ebc7-f4aa-b968-176925ce3a7c@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <12076925-a7cd-9814-f3d2-ef83ff0c4f34@amsat.org>
-Date: Mon, 9 Nov 2020 10:23:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kc3aP-0007mi-B1
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 04:35:43 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kc3aM-0001g1-DT
+ for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 09:35:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 64CEE2E8133
+ for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 09:35:38 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <9cbf49af-ebc7-f4aa-b968-176925ce3a7c@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 09 Nov 2020 09:21:55 -0000
+From: ssedt <1903493@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: s12a
+X-Launchpad-Bug-Reporter: ssedt (s12a)
+X-Launchpad-Bug-Modifier: ssedt (s12a)
+References: <160490836647.18396.16400473727011669931.malonedeb@wampee.canonical.com>
+Message-Id: <160491371616.28553.5907303318119627295.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1903493] Re: About wireless network card bridging
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
+X-Launchpad-Hash: ad92513be4be3f24d1461c4a7360cd1b2fe079c7
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 01:40:52
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -94,72 +71,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <huth@tuxfamily.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Cleber Rosa <crosa@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Reply-To: Bug 1903493 <1903493@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/9/20 10:16 AM, Thomas Huth wrote:
-> On 09/11/2020 10.09, Philippe Mathieu-Daudé wrote:
->> On 11/9/20 10:04 AM, Thomas Huth wrote:
->>> On 09/11/2020 09.07, Philippe Mathieu-Daudé wrote:
->>>> This test is regularly failing on CI :( Do not run it automatically.
->>>>
->>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>>> ---
->>>>  tests/acceptance/boot_linux_console.py | 1 +
->>>>  tests/acceptance/replay_kernel.py      | 1 +
->>>>  2 files changed, 2 insertions(+)
->>>>
->>>> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
->>>> index 8f433a67f84..010e8790c0f 100644
->>>> --- a/tests/acceptance/boot_linux_console.py
->>>> +++ b/tests/acceptance/boot_linux_console.py
->>>> @@ -1025,6 +1025,7 @@ def test_m68k_mcf5208evb(self):
->>>>          tar_hash = 'ac688fd00561a2b6ce1359f9ff6aa2b98c9a570c'
->>>>          self.do_test_advcal_2018('07', tar_hash, 'sanity-clause.elf')
->>>>  
->>>> +    @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeout')
->>>>      def test_microblaze_s3adsp1800(self):
->>>>          """
->>>>          :avocado: tags=arch:microblaze
->>>> diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
->>>> index 00c228382bd..c1f5fa4de71 100644
->>>> --- a/tests/acceptance/replay_kernel.py
->>>> +++ b/tests/acceptance/replay_kernel.py
->>>> @@ -280,6 +280,7 @@ def test_m68k_mcf5208evb(self):
->>>>          file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
->>>>          self.do_test_advcal_2018(file_path, 'sanity-clause.elf')
->>>>  
->>>> +    @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeout')
->>>>      def test_microblaze_s3adsp1800(self):
->>>>          """
->>>>          :avocado: tags=arch:microblaze
->>>
->>> I think this is a recent regression - it hasn't been failing in the past. We
->>> should first try to find out why it is failing now before sending it to the
->>> @skipUnless nirvana... could you maybe add it to the "Known issues" at
->>> https://wiki.qemu.org/Planning/5.2 instead?
->>
->> I agree it looks like a regression.
->>
->> I disagree we should keep broken tests failing the pipeline,
->> even if we are not using a Gating CI.
-> 
-> But what happens if you disable the test at this point in time now? I think
-> nobody is going to look into this issue anymore since nobody feels
-> responsible. Thus the bug simply get completely ignored.
+** Description changed:
 
-Corollary: Nobody will use or trust GitLab CI...
+  As a rookie, I don=E2=80=99t know if I should ask this question here. If =
+it=E2=80=99s
+  not right, I hope people who see it can help submit it to the right
+- place. Qemu-kvm can add wireless network card bridging, after all, now
++ place.Can Qemu or kvm add wireless network card bridging=EF=BC=9F after a=
+ll, now
+  you see that vbox and vmware can directly choose wireless network card
+  bridging, and even hyper-v can be easily set up, arp proxy is too
+  difficult for us rookies . I hope that qemu or other links can add a
+  function to bridge the wireless network card, which can be directly set
+  in virt-manager (for so many years, it seems that I can only use bridge-
+- utils to bridge the Ethernet)
++ utils to bridge the Ethernet,and Now more and more laptops don't have
++ Ethernet ports)
 
-> Please add it at
-> least the the "Known issues" section.
+** Description changed:
 
-Will do.
+  As a rookie, I don=E2=80=99t know if I should ask this question here. If =
+it=E2=80=99s
+  not right, I hope people who see it can help submit it to the right
+- place.Can Qemu or kvm add wireless network card bridging=EF=BC=9F after a=
+ll, now
+- you see that vbox and vmware can directly choose wireless network card
+- bridging, and even hyper-v can be easily set up, arp proxy is too
++ place.Can Qemu or kvm add wireless network card bridging ? after all,
++ now you see that vbox and vmware can directly choose wireless network
++ card bridging, and even hyper-v can be easily set up, arp proxy is too
+  difficult for us rookies . I hope that qemu or other links can add a
+  function to bridge the wireless network card, which can be directly set
+  in virt-manager (for so many years, it seems that I can only use bridge-
+  utils to bridge the Ethernet,and Now more and more laptops don't have
+  Ethernet ports)
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1903493
+
+Title:
+  About wireless network card bridging
+
+Status in QEMU:
+  New
+
+Bug description:
+  As a rookie, I don=E2=80=99t know if I should ask this question here. If =
+it=E2=80=99s
+  not right, I hope people who see it can help submit it to the right
+  place.Can Qemu or kvm add wireless network card bridging ? after all,
+  now you see that vbox and vmware can directly choose wireless network
+  card bridging, and even hyper-v can be easily set up, arp proxy is too
+  difficult for us rookies . I hope that qemu or other links can add a
+  function to bridge the wireless network card, which can be directly
+  set in virt-manager (for so many years, it seems that I can only use
+  bridge-utils to bridge the Ethernet,and Now more and more laptops
+  don't have Ethernet ports)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1903493/+subscriptions
 
