@@ -2,79 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9DD92ABE94
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 15:25:07 +0100 (CET)
-Received: from localhost ([::1]:49686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 292062ABE8F
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 15:24:02 +0100 (CET)
+Received: from localhost ([::1]:46092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kc86U-0002z9-TF
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 09:25:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42198)
+	id 1kc85L-0001Tk-VT
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 09:23:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kc808-0004CA-6t
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:18:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58147)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kc82k-00084r-Qr
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:21:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30586)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kc806-0005Pe-Fr
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:18:31 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kc82j-0006NB-2E
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 09:21:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604931509;
+ s=mimecast20190719; t=1604931672;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DrIfufRSDmeR48LvWf2e4Ep0BL0HRv1Z+8owN/mXZqM=;
- b=H072VuzPWEZCQK4q1X9ktJ3ElrehahWPsHMLakF4oDmFmu1I1xclWU2tUC9V5rL9/pkMLb
- rTNeEZT0/N+1YRSbrdEUGy6pJvJUDG54hiq8+49N2YB2uphWmF6Pmh0JgNud1gmr+sZEpv
- uIbxak/QErS5pfpkS5OXlMIV5UAGPdE=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-400-949z_TukO6K0XxEijJAZTQ-1; Mon, 09 Nov 2020 09:18:27 -0500
-X-MC-Unique: 949z_TukO6K0XxEijJAZTQ-1
-Received: by mail-wm1-f69.google.com with SMTP id 3so2024892wms.9
- for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 06:18:27 -0800 (PST)
+ bh=vKpPbOZfoD7MY4J4rFfCbQA3SoqduSdcuZEjijYyX+Q=;
+ b=SlMhDXDJcjkzi08pj3emltDAOoRaI0cto0NMp4sJi+iOWBi1gBxQZFPGjy/u3evlzJceDZ
+ 1mrXlB8un2SO8StxO2yoEjPkW7gFTVGW3yDabSL2/tni5BAbM0FSDFLqGKArWzNCeHojF6
+ GNzwfqaeHc690/1NI2qJC6lLCrNDPCM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-114-y5tJnVRcMiGE-WbTXGXHdg-1; Mon, 09 Nov 2020 09:21:07 -0500
+X-MC-Unique: y5tJnVRcMiGE-WbTXGXHdg-1
+Received: by mail-wm1-f72.google.com with SMTP id z7so2031585wme.8
+ for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 06:21:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=DrIfufRSDmeR48LvWf2e4Ep0BL0HRv1Z+8owN/mXZqM=;
- b=dcS7jKAvhe8pFDgsKFEdAhj2fbGgDhFd76YQw1WGMPwU+X3+2zO1xpFPqamiVazDQ7
- iWUzQhTqGiQrb4twPLIXIxyq25Us22lu4Rs4aocxYlkBt7ey6aIGOYDQRjv2pajzPhsZ
- XzNiKRBCWS+vvdA8BogHHKCNAxbd6M/Ftga4jRKOzDCnca1XIHBeNcPdimZWnm/i2QmX
- xLays656lOK0qGt1Gsa6bLxnmPvFD9xAv8LW85JZIcQpRpUe0OQzNWo1W2qT6R/Ss9M5
- 8WM8q3XHSMO+HW/OgDquR+DvHW45CzMEXgln4B1xMWNasAGNIxwpGptC9YKucLzD7evb
- wRZw==
-X-Gm-Message-State: AOAM533T22xM/1ONfQMuJCEmrgr1dxn9Ne0KKMIMjiyA6yYhsGK/JGMz
- DfdAa8c8KMpjzoQTw3BkgorX1v2K4p5pITXwT7GMBX3a1nDNNhG2gmndzTM2C5OoUc+a23V/3ro
- f7yJ3rbPLAc5cFDA=
-X-Received: by 2002:a5d:6550:: with SMTP id z16mr17904779wrv.266.1604931505986; 
- Mon, 09 Nov 2020 06:18:25 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxvqXyel2inDp1qyzz1spYUGM1gsiqiF/eZo3xeTQMvWNrIa5SRtN037k/eR7yzYe0Es/hhkA==
-X-Received: by 2002:a5d:6550:: with SMTP id z16mr17904767wrv.266.1604931505859; 
- Mon, 09 Nov 2020 06:18:25 -0800 (PST)
+ bh=vKpPbOZfoD7MY4J4rFfCbQA3SoqduSdcuZEjijYyX+Q=;
+ b=mtevWpAGuTJbiwG8Jb/L4sTQHimsa8n57YO/zS9NO0oiqh0AVndjh9aSi24BHzlB+/
+ 4/GTR2tcICrazIvQilJeW1wQ+ExZTblAyMfuZlSth9kXcSohZqdyBcrQAXUr+LvMWVAY
+ Q9zvKnhwUrp05mjBTF5G/9pXQBZVuQL3dWeoPgY9k74rAjW10P57Qat4QtnIbBh5KPhr
+ h7FYlekVbbMopNLNdKZV6GOaa+d3e4Pg3N1hq2jYm2BmbayUODUpiC6lR1GLwmdw8ctT
+ RSEiK+b/t538+fPjboMSqUCsm54ZF0S5dmAMVZdkbirNpjp++IJS0oDjJfoRrEA3O3X2
+ ysZg==
+X-Gm-Message-State: AOAM530WC18yzplIwuq69yXntBhl6BfXXDsNxFpKtG6zIu8G4fKGSCPk
+ YXgrjjjX4XMUbnG2YjfNhm+fgSwRSI6V9h9vJEKl2jpqCy2LVRp7s2VdEBeesH06ROBoavFUclm
+ m/rPmZHDkaCZO1fI=
+X-Received: by 2002:a5d:6751:: with SMTP id l17mr4106001wrw.109.1604931665257; 
+ Mon, 09 Nov 2020 06:21:05 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx8wKfdLbSdt4Zdb5YLM4rbQB9cC3tlQpQOZzZHr9jJa1BRUN0/oGgh8Vpw4xIui3NGLt8uoA==
+X-Received: by 2002:a5d:6751:: with SMTP id l17mr4105979wrw.109.1604931665035; 
+ Mon, 09 Nov 2020 06:21:05 -0800 (PST)
 Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id x18sm14594880wrg.4.2020.11.09.06.18.24
+ by smtp.gmail.com with ESMTPSA id u8sm5357882wmg.6.2020.11.09.06.21.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Nov 2020 06:18:25 -0800 (PST)
-Subject: Re: [PATCH] physmem: improve ram size error messages
-To: Pankaj Gupta <pankaj.gupta.linux@gmail.com>, qemu-devel@nongnu.org
-References: <20201022111302.8105-1-pankaj.gupta.linux@gmail.com>
+ Mon, 09 Nov 2020 06:21:04 -0800 (PST)
+Subject: Re: [PATCH v3 1/3] hw/block/m25p80: Fix Numonyx NVCFG DIO and QIO bit
+ polarity
+To: Joe Komlodi <joe.komlodi@xilinx.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+References: <1604626378-152352-1-git-send-email-komlodi@xilinx.com>
+ <1604626378-152352-2-git-send-email-komlodi@xilinx.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <f6740858-3e35-f0fb-787f-6f6c1510f4be@redhat.com>
-Date: Mon, 9 Nov 2020 15:18:24 +0100
+Message-ID: <6adfcb31-8f91-5e28-e8a7-a0e1c55e154c@redhat.com>
+Date: Mon, 9 Nov 2020 15:21:03 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201022111302.8105-1-pankaj.gupta.linux@gmail.com>
+In-Reply-To: <1604626378-152352-2-git-send-email-komlodi@xilinx.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 01:25:23
@@ -99,25 +103,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, pankaj.gupta@cloud.ionos.com,
- Li Zhang <li.zhang@cloud.ionos.com>
+Cc: figlesia@xilinx.com, alistair@alistair23.me,
+ philippe.mathieu.daude@gmail.com, qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/22/20 1:13 PM, Pankaj Gupta wrote:
->  Ram size mismatch condition logs below message. 
-> 
->    "Length mismatch: pc.ram: 0x80000000 in != 0x180000000: Invalid argument"
-> 
->  This patch improves the readability of error messages. 
->  Removed the superflous "in" and changed "Length" to "Size".
-> 
-> Signed-off-by: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-> Reported-by: Li Zhang <li.zhang@cloud.ionos.com>
-> ---
->  softmmu/physmem.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+On 11/6/20 2:32 AM, Joe Komlodi wrote:
+> QIO and DIO modes should be enabled when the bits in NVCFG are set to 0.
+> This matches the behavior of the other bits in the NVCFG register.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Is this material for the 5.2 release?
+
+> 
+> Signed-off-by: Joe Komlodi <komlodi@xilinx.com>
+> ---
+>  hw/block/m25p80.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+> index 483925f..4255a6a 100644
+> --- a/hw/block/m25p80.c
+> +++ b/hw/block/m25p80.c
+> @@ -783,10 +783,10 @@ static void reset_memory(Flash *s)
+>          s->enh_volatile_cfg |= EVCFG_OUT_DRIVER_STRENGTH_DEF;
+>          s->enh_volatile_cfg |= EVCFG_VPP_ACCELERATOR;
+>          s->enh_volatile_cfg |= EVCFG_RESET_HOLD_ENABLED;
+> -        if (s->nonvolatile_cfg & NVCFG_DUAL_IO_MASK) {
+> +        if (!(s->nonvolatile_cfg & NVCFG_DUAL_IO_MASK)) {
+>              s->enh_volatile_cfg |= EVCFG_DUAL_IO_ENABLED;
+>          }
+> -        if (s->nonvolatile_cfg & NVCFG_QUAD_IO_MASK) {
+> +        if (!(s->nonvolatile_cfg & NVCFG_QUAD_IO_MASK)) {
+>              s->enh_volatile_cfg |= EVCFG_QUAD_IO_ENABLED;
+>          }
+>          if (!(s->nonvolatile_cfg & NVCFG_4BYTE_ADDR_MASK)) {
+> 
 
 
