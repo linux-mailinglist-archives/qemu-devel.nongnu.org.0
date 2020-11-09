@@ -2,68 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E5952AC2E4
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 18:55:01 +0100 (CET)
-Received: from localhost ([::1]:48974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68C9F2AC317
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Nov 2020 19:01:07 +0100 (CET)
+Received: from localhost ([::1]:37452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcBNc-0000hD-Hb
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 12:55:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43686)
+	id 1kcBTS-0007WR-LD
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 13:01:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcBJe-0004QC-Uj
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:50:54 -0500
-Received: from indium.canonical.com ([91.189.90.7]:47864)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcBJc-0004T8-LN
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:50:54 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kcBJZ-0000NF-Gb
- for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 17:50:49 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6F02B2E8132
- for <qemu-devel@nongnu.org>; Mon,  9 Nov 2020 17:50:49 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 09 Nov 2020 17:42:31 -0000
-From: Leo Gaspard <1673957@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kcBD7-0005qo-33
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:44:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40872)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kcBD5-0002Dc-2x
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 12:44:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604943846;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=4HKnjMevd+nRs52G0Nuu3zrCgW4gQKmlKEyCNxRzAy0=;
+ b=T/3KDEjIbexarrxpLBOhU0wZVzu/BEgBUbcGIekFsyQpcusJPQ7l+hDAnBFLQbGlUxBqV9
+ HbvH+wofNsMofS/ESR4ZM6PXqEJg0nhqFr2G0r0b4joYweXo2olcqmtPjr8lAlhAo0zqYU
+ ysnTN1JOBd5jWrF4P1ly4pY9/I4XMhU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-426-GL3j7vqINYO34O3W5Q9qDw-1; Mon, 09 Nov 2020 12:44:04 -0500
+X-MC-Unique: GL3j7vqINYO34O3W5Q9qDw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 885CD1084C89;
+ Mon,  9 Nov 2020 17:44:03 +0000 (UTC)
+Received: from localhost (ovpn-114-110.ams2.redhat.com [10.36.114.110])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BD4AC614F5;
+ Mon,  9 Nov 2020 17:43:56 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ekleog schoenebeck th-huth
-X-Launchpad-Bug-Reporter: Leo Gaspard (ekleog)
-X-Launchpad-Bug-Modifier: Leo Gaspard (ekleog)
-References: <20170318123502.30244.36321.malonedeb@wampee.canonical.com>
-Message-Id: <160494375139.12150.7218848456130108290.malone@gac.canonical.com>
-Subject: [Bug 1673957] Re: virtfs: mapped-xattr on mount point
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: 675efb9313426aea7da3018fd6b0d6ef10bfe981
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 11:16:03
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH for-5.2] vhost-user: fix VHOST_USER_ADD/REM_MEM_REG truncation
+Date: Mon,  9 Nov 2020 17:43:55 +0000
+Message-Id: <20201109174355.1069147-1-stefanha@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 01:25:23
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MIME_BASE64_TEXT=1.741, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,66 +78,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1673957 <1673957@bugs.launchpad.net>
+Cc: Cornelia Huck <cohuck@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hmm=E2=80=A6 so this dates back quite long ago unfortunately, I had basical=
-ly
-forgotten about this bug report as I=C2=A0had opened it while just
-experimenting with qemu.
+UUVNVSBjdXJyZW50bHkgdHJ1bmNhdGVzIHRoZSBtbWFwX29mZnNldCBmaWVsZCB3aGVuIHNlbmRp
+bmcKVkhPU1RfVVNFUl9BRERfTUVNX1JFRyBhbmQgVkhPU1RfVVNFUl9SRU1fTUVNX1JFRyBtZXNz
+YWdlcy4gVGhlIHN0cnVjdApsYXlvdXQgbG9va3MgbGlrZSB0aGlzOgoKICB0eXBlZGVmIHN0cnVj
+dCBWaG9zdFVzZXJNZW1vcnlSZWdpb24gewogICAgICB1aW50NjRfdCBndWVzdF9waHlzX2FkZHI7
+CiAgICAgIHVpbnQ2NF90IG1lbW9yeV9zaXplOwogICAgICB1aW50NjRfdCB1c2Vyc3BhY2VfYWRk
+cjsKICAgICAgdWludDY0X3QgbW1hcF9vZmZzZXQ7CiAgfSBWaG9zdFVzZXJNZW1vcnlSZWdpb247
+CgogIHR5cGVkZWYgc3RydWN0IFZob3N0VXNlck1lbVJlZ01zZyB7CiAgICAgIHVpbnQzMl90IHBh
+ZGRpbmc7CiAgICAgIC8qIFdBUk5JTkc6IHRoZXJlIGlzIGEgMzItYml0IGhvbGUgaGVyZSEgKi8K
+ICAgICAgVmhvc3RVc2VyTWVtb3J5UmVnaW9uIHJlZ2lvbjsKICB9IFZob3N0VXNlck1lbVJlZ01z
+ZzsKClRoZSBwYXlsb2FkIHNpemUgaXMgY2FsY3VsYXRlZCBhcyBmb2xsb3dzIHdoZW4gc2VuZGlu
+ZyB0aGUgbWVzc2FnZSBpbgpody92aXJ0aW8vdmhvc3QtdXNlci5jOgoKICBtc2ctPmhkci5zaXpl
+ID0gc2l6ZW9mKG1zZy0+cGF5bG9hZC5tZW1fcmVnLnBhZGRpbmcpICsKICAgICAgc2l6ZW9mKFZo
+b3N0VXNlck1lbW9yeVJlZ2lvbik7CgpUaGlzIGNhbGN1bGF0aW9uIHByb2R1Y2VzIGFuIGluY29y
+cmVjdCByZXN1bHQgb2Ygb25seSAzNiBieXRlcy4Kc2l6ZW9mKFZob3N0VXNlck1lbVJlZ01zZykg
+aXMgYWN0dWFsbHkgNDAgYnl0ZXMuCgpUaGUgY29uc2VxdWVuY2Ugb2YgdGhpcyBpcyB0aGF0IHRo
+ZSBmaW5hbCBmaWVsZCwgbW1hcF9vZmZzZXQsIGlzCnRydW5jYXRlZC4gVGhpcyBicmVha3MgeDg2
+XzY0IFRDRyBndWVzdHMgb24gczM5MCBob3N0cy4gT3RoZXIgZ3Vlc3QvaG9zdApjb21iaW5hdGlv
+bnMgbWF5IGdldCBsdWNreSBpZiBlaXRoZXIgb2YgdGhlIGZvbGxvd2luZyBob2xkczoKMS4gVGhl
+IGd1ZXN0IG1lbW9yeSBsYXlvdXQgZG9lcyBub3QgbmVlZCBtbWFwX29mZnNldCAhPSAwLgoyLiBU
+aGUgaG9zdCBpcyBsaXR0bGUtZW5kaWFuIGFuZCBtbWFwX29mZnNldCA8PSAweGZmZmZmZmZmIHNv
+IHRoZQogICB0cnVuY2F0aW9uIGhhcyBubyBlZmZlY3QuCgpGaXggdGhpcyBieSBleHRlbmRpbmcg
+dGhlIGV4aXN0aW5nIDMyLWJpdCBwYWRkaW5nIGZpZWxkIHRvIDY0LWJpdC4gTm93CnRoZSBwYWRk
+aW5nIHJlZmxlY3RzIHRoZSBhY3R1YWwgY29tcGlsZXIgcGFkZGluZy4gVGhpcyBjYW4gYmUgdmVy
+aWZpZWQKdXNpbmcgcGFob2xlKDEpLgoKQWxzbyBkb2N1bWVudCB0aGUgbGF5b3V0IHByb3Blcmx5
+IGluIHRoZSB2aG9zdC11c2VyIHNwZWNpZmljYXRpb24uICBUaGUKdmhvc3QtdXNlciBzcGVjIGRp
+ZCBub3QgZG9jdW1lbnQgdGhlIGV4YWN0IGxheW91dC4gSXQgd291bGQgYmUKaW1wb3NzaWJsZSB0
+byBpbXBsZW1lbnQgdGhlIHNwZWMgd2l0aG91dCBsb29raW5nIGF0IHRoZSBRRU1VIHNvdXJjZQpj
+b2RlLgoKRXhpc3Rpbmcgdmhvc3QtdXNlciBmcm9udGVuZHMgYW5kIGRldmljZSBiYWNrZW5kcyBj
+b250aW51ZSB0byB3b3JrIGFmdGVyCnRoaXMgZml4IGhhcyBiZWVuIGFwcGxpZWQuIFRoZSBvbmx5
+IGNoYW5nZSBpbiB0aGUgd2lyZSBwcm90b2NvbCBpcyB0aGF0ClFFTVUgbm93IHNldHMgaGRyLnNp
+emUgdG8gNDAgaW5zdGVhZCBvZiAzNi4gSWYgYSB2aG9zdC11c2VyCmltcGxlbWVudGF0aW9uIGhh
+cyBhIGhhcmRjb2RlZCBzaXplIGNoZWNrIGZvciAzNiBieXRlcywgdGhlbiBpdCB3aWxsCmZhaWwg
+d2l0aCBuZXcgUUVNVXMuIEJvdGggUUVNVSBhbmQgRFBESy9TUERLIGRvbid0IGNoZWNrIHRoZSBl
+eGFjdApwYXlsb2FkIHNpemUsIHNvIHRoZXkgY29udGludWUgdG8gd29yay4KCkZpeGVzOiBmMWFl
+YjE0YjA4MDllMzEzYzc0MjQ0ZDgzODY0NWVkMjVlODVlYTYzICgiVHJhbnNtaXQgdmhvc3QtdXNl
+ciBtZW1vcnkgcmVnaW9ucyBpbmRpdmlkdWFsbHkiKQpDYzogUmFwaGFlbCBOb3J3aXR6IDxyYXBo
+YWVsLm5vcndpdHpAbnV0YW5peC5jb20+CkNjOiBDb3JuZWxpYSBIdWNrIDxjb2h1Y2tAcmVkaGF0
+LmNvbT4KQ2M6IE1pY2hhZWwgUy4gVHNpcmtpbiA8bXN0QHJlZGhhdC5jb20+CkNjOiBDaHJpc3Rp
+YW4gQm9ybnRyYWVnZXIgPGJvcm50cmFlZ2VyQGRlLmlibS5jb20+ClNpZ25lZC1vZmYtYnk6IFN0
+ZWZhbiBIYWpub2N6aSA8c3RlZmFuaGFAcmVkaGF0LmNvbT4KLS0tCiBkb2NzL2ludGVyb3Avdmhv
+c3QtdXNlci5yc3QgICAgICAgICAgIHwgMjEgKysrKysrKysrKysrKysrKysrKy0tCiBjb250cmli
+L2xpYnZob3N0LXVzZXIvbGlidmhvc3QtdXNlci5oIHwgIDIgKy0KIGh3L3ZpcnRpby92aG9zdC11
+c2VyLmMgICAgICAgICAgICAgICAgfCAgNSArKy0tLQogMyBmaWxlcyBjaGFuZ2VkLCAyMiBpbnNl
+cnRpb25zKCspLCA2IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RvY3MvaW50ZXJvcC92aG9z
+dC11c2VyLnJzdCBiL2RvY3MvaW50ZXJvcC92aG9zdC11c2VyLnJzdAppbmRleCA5ODhmMTU0MTQ0
+Li42ZDQwMjViYTZhIDEwMDY0NAotLS0gYS9kb2NzL2ludGVyb3Avdmhvc3QtdXNlci5yc3QKKysr
+IGIvZG9jcy9pbnRlcm9wL3Zob3N0LXVzZXIucnN0CkBAIC0xMzEsNiArMTMxLDIzIEBAIEEgcmVn
+aW9uIGlzOgogCiA6bW1hcCBvZmZzZXQ6IDY0LWJpdCBvZmZzZXQgd2hlcmUgcmVnaW9uIHN0YXJ0
+cyBpbiB0aGUgbWFwcGVkIG1lbW9yeQogCitTaW5nbGUgbWVtb3J5IHJlZ2lvbiBkZXNjcmlwdGlv
+bgorXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl4KKworKy0tLS0tLS0tLSstLS0tLS0t
+LS0tLS0tLS0rLS0tLS0tKy0tLS0tLS0tLS0tLS0tKy0tLS0tLS0tLS0tLS0rCit8IHBhZGRpbmcg
+fCBndWVzdCBhZGRyZXNzIHwgc2l6ZSB8IHVzZXIgYWRkcmVzcyB8IG1tYXAgb2Zmc2V0IHwKKyst
+LS0tLS0tLS0rLS0tLS0tLS0tLS0tLS0tKy0tLS0tLSstLS0tLS0tLS0tLS0tLSstLS0tLS0tLS0t
+LS0tKworCis6cGFkZGluZzogNjQtYml0CisKKzpndWVzdCBhZGRyZXNzOiBhIDY0LWJpdCBndWVz
+dCBhZGRyZXNzIG9mIHRoZSByZWdpb24KKworOnNpemU6IGEgNjQtYml0IHNpemUKKworOnVzZXIg
+YWRkcmVzczogYSA2NC1iaXQgdXNlciBhZGRyZXNzCisKKzptbWFwIG9mZnNldDogNjQtYml0IG9m
+ZnNldCB3aGVyZSByZWdpb24gc3RhcnRzIGluIHRoZSBtYXBwZWQgbWVtb3J5CisKIExvZyBkZXNj
+cmlwdGlvbgogXl5eXl5eXl5eXl5eXl5eCiAKQEAgLTEyODEsNyArMTI5OCw3IEBAIE1hc3RlciBt
+ZXNzYWdlIHR5cGVzCiBgYFZIT1NUX1VTRVJfQUREX01FTV9SRUdgYAogICA6aWQ6IDM3CiAgIDpl
+cXVpdmFsZW50IGlvY3RsOiBOL0EKLSAgOnNsYXZlIHBheWxvYWQ6IG1lbW9yeSByZWdpb24KKyAg
+OnNsYXZlIHBheWxvYWQ6IHNpbmdsZSBtZW1vcnkgcmVnaW9uIGRlc2NyaXB0aW9uCiAKICAgV2hl
+biB0aGUgYGBWSE9TVF9VU0VSX1BST1RPQ09MX0ZfQ09ORklHVVJFX01FTV9TTE9UU2BgIHByb3Rv
+Y29sCiAgIGZlYXR1cmUgaGFzIGJlZW4gc3VjY2Vzc2Z1bGx5IG5lZ290aWF0ZWQsIHRoaXMgbWVz
+c2FnZSBpcyBzdWJtaXR0ZWQKQEAgLTEyOTYsNyArMTMxMyw3IEBAIE1hc3RlciBtZXNzYWdlIHR5
+cGVzCiBgYFZIT1NUX1VTRVJfUkVNX01FTV9SRUdgYAogICA6aWQ6IDM4CiAgIDplcXVpdmFsZW50
+IGlvY3RsOiBOL0EKLSAgOnNsYXZlIHBheWxvYWQ6IG1lbW9yeSByZWdpb24KKyAgOnNsYXZlIHBh
+eWxvYWQ6IHNpbmdsZSBtZW1vcnkgcmVnaW9uIGRlc2NyaXB0aW9uCiAKICAgV2hlbiB0aGUgYGBW
+SE9TVF9VU0VSX1BST1RPQ09MX0ZfQ09ORklHVVJFX01FTV9TTE9UU2BgIHByb3RvY29sCiAgIGZl
+YXR1cmUgaGFzIGJlZW4gc3VjY2Vzc2Z1bGx5IG5lZ290aWF0ZWQsIHRoaXMgbWVzc2FnZSBpcyBz
+dWJtaXR0ZWQKZGlmZiAtLWdpdCBhL2NvbnRyaWIvbGlidmhvc3QtdXNlci9saWJ2aG9zdC11c2Vy
+LmggYi9jb250cmliL2xpYnZob3N0LXVzZXIvbGlidmhvc3QtdXNlci5oCmluZGV4IGExNTM5ZGJi
+NjkuLjdkNDdmMTM2NGEgMTAwNjQ0Ci0tLSBhL2NvbnRyaWIvbGlidmhvc3QtdXNlci9saWJ2aG9z
+dC11c2VyLmgKKysrIGIvY29udHJpYi9saWJ2aG9zdC11c2VyL2xpYnZob3N0LXVzZXIuaApAQCAt
+MTM2LDcgKzEzNiw3IEBAIHR5cGVkZWYgc3RydWN0IFZob3N0VXNlck1lbW9yeSB7CiB9IFZob3N0
+VXNlck1lbW9yeTsKIAogdHlwZWRlZiBzdHJ1Y3QgVmhvc3RVc2VyTWVtUmVnTXNnIHsKLSAgICB1
+aW50MzJfdCBwYWRkaW5nOworICAgIHVpbnQ2NF90IHBhZGRpbmc7CiAgICAgVmhvc3RVc2VyTWVt
+b3J5UmVnaW9uIHJlZ2lvbjsKIH0gVmhvc3RVc2VyTWVtUmVnTXNnOwogCmRpZmYgLS1naXQgYS9o
+dy92aXJ0aW8vdmhvc3QtdXNlci5jIGIvaHcvdmlydGlvL3Zob3N0LXVzZXIuYwppbmRleCA5YzVi
+NGY3ZmJjLi4yZmRkNWRhZjc0IDEwMDY0NAotLS0gYS9ody92aXJ0aW8vdmhvc3QtdXNlci5jCisr
+KyBiL2h3L3ZpcnRpby92aG9zdC11c2VyLmMKQEAgLTE0OSw3ICsxNDksNyBAQCB0eXBlZGVmIHN0
+cnVjdCBWaG9zdFVzZXJNZW1vcnkgewogfSBWaG9zdFVzZXJNZW1vcnk7CiAKIHR5cGVkZWYgc3Ry
+dWN0IFZob3N0VXNlck1lbVJlZ01zZyB7Ci0gICAgdWludDMyX3QgcGFkZGluZzsKKyAgICB1aW50
+NjRfdCBwYWRkaW5nOwogICAgIFZob3N0VXNlck1lbW9yeVJlZ2lvbiByZWdpb247CiB9IFZob3N0
+VXNlck1lbVJlZ01zZzsKIApAQCAtODAwLDggKzgwMCw3IEBAIHN0YXRpYyBpbnQgdmhvc3RfdXNl
+cl9hZGRfcmVtb3ZlX3JlZ2lvbnMoc3RydWN0IHZob3N0X2RldiAqZGV2LAogICAgIHVpbnQ2NF90
+IHNoYWRvd19wY2JbVkhPU1RfVVNFUl9NQVhfUkFNX1NMT1RTXSA9IHt9OwogICAgIGludCBucl9h
+ZGRfcmVnLCBucl9yZW1fcmVnOwogCi0gICAgbXNnLT5oZHIuc2l6ZSA9IHNpemVvZihtc2ctPnBh
+eWxvYWQubWVtX3JlZy5wYWRkaW5nKSArCi0gICAgICAgIHNpemVvZihWaG9zdFVzZXJNZW1vcnlS
+ZWdpb24pOworICAgIG1zZy0+aGRyLnNpemUgPSBzaXplb2YobXNnLT5wYXlsb2FkLm1lbV9yZWcp
+OwogCiAgICAgLyogRmluZCB0aGUgcmVnaW9ucyB3aGljaCBuZWVkIHRvIGJlIHJlbW92ZWQgb3Ig
+YWRkZWQuICovCiAgICAgc2NydWJfc2hhZG93X3JlZ2lvbnMoZGV2LCBhZGRfcmVnLCAmbnJfYWRk
+X3JlZywgcmVtX3JlZywgJm5yX3JlbV9yZWcsCi0tIAoyLjI4LjAKCg==
 
-To the best of my recollection, this was happening with a NixOS, either
-16.09, 17.03 or unstable, at an update that was probably within 0-2
-months of the time I made the bug report.
-
-Now, I guess the best may be to just close as can't reproduce, as I=C2=A0no
-longer have the code originally used to trigger the issue anyway?
-
-Either way, thank you for your feedback!
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1673957
-
-Title:
-  virtfs: mapped-xattr on mount point
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  With
-    -virtfs local,path=3D"/tmp",security_model=3Dmapped-xattr,mount_tag=3D"=
-shared2"
-  in the qemu command line,
-    shared2 on /mnt/testbis type 9p (rw,sync,dirsync,relatime,trans=3Dvirti=
-o,version=3D9p2000.L,msize=3D262144)
-  in the guest mount points, and
-    tmpfs on /tmp type tmpfs (rw,nosuid,nodev)
-  in the host mount points (with CONFIG_TMPFS_XATTR=3Dy according to zgrep =
-/proc/config.gz), running qemu as user "vm-test", trying to "touch a" in /m=
-nt/testbis on the VM fails with "Operation not supported". In addition, no =
-file or directory actually present in the host's /tmp can be seen in the gu=
-est's /mnt/testbis.
-
-  When trying to replace "/tmp" with "/tmp/aaa" on the host, with
-  /tmp/aaa owned by root:root, still running qemu as vm-test, trying to
-  run "ls" in the guest's /mnt/testbis fails with the weird "ls: reading
-  directory '.': Cannot allocate memory", while the directory is empty.
-
-  After a "chown vm-test /tmp/aaa", the guest can list the files
-  (despite the permissions already allowing it to do so before), but
-  still not write new files: "cannot touch 'b': Operation not
-  supported".
-
-  Do you have a pointer as to what is happening?
-
-  PS: complete setup is running all this inside a qemu VM that I use for
-  testing, I guess it shouldn't matter but saying it just in case
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1673957/+subscriptions
 
