@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 619BF2AE24F
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 22:59:47 +0100 (CET)
-Received: from localhost ([::1]:60236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 291442AE25B
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 23:00:13 +0100 (CET)
+Received: from localhost ([::1]:60558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcbg1-0000jN-Rf
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 16:59:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34428)
+	id 1kcbgQ-0000ri-Ch
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 17:00:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pisa@cmp.felk.cvut.cz>)
- id 1kcbao-0007Sg-PL
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 16:54:27 -0500
-Received: from relay.felk.cvut.cz ([2001:718:2:1611:0:1:0:70]:25113)
+ id 1kcbb6-0007bj-Pe
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 16:54:40 -0500
+Received: from relay.felk.cvut.cz ([2001:718:2:1611:0:1:0:70]:14116)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pisa@cmp.felk.cvut.cz>) id 1kcbam-0002b2-14
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 16:54:22 -0500
+ (envelope-from <pisa@cmp.felk.cvut.cz>) id 1kcbb5-0002cS-1L
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 16:54:40 -0500
 Received: from cmp.felk.cvut.cz (haar.felk.cvut.cz [147.32.84.19])
- by relay.felk.cvut.cz (8.15.2/8.15.2) with ESMTP id 0AALr61Z095268;
- Tue, 10 Nov 2020 22:53:06 +0100 (CET)
+ by relay.felk.cvut.cz (8.15.2/8.15.2) with ESMTP id 0AALrZM2095294;
+ Tue, 10 Nov 2020 22:53:35 +0100 (CET)
  (envelope-from pisa@cmp.felk.cvut.cz)
 Received: from haar.felk.cvut.cz (localhost [127.0.0.1])
  by cmp.felk.cvut.cz (8.14.0/8.12.3/SuSE Linux 0.6) with ESMTP id
- 0AALr6Tb027990; Tue, 10 Nov 2020 22:53:06 +0100
+ 0AALrYqA028054; Tue, 10 Nov 2020 22:53:34 +0100
 Received: (from pisa@localhost)
- by haar.felk.cvut.cz (8.14.0/8.13.7/Submit) id 0AALr6rt027989;
- Tue, 10 Nov 2020 22:53:06 +0100
+ by haar.felk.cvut.cz (8.14.0/8.13.7/Submit) id 0AALrYHZ028053;
+ Tue, 10 Nov 2020 22:53:34 +0100
 From: Pavel Pisa <pisa@cmp.felk.cvut.cz>
 To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH for-5.2 v3 0/4] hw/net/can/ctucan: fix Coverity and other
- issues
-Date: Tue, 10 Nov 2020 22:52:46 +0100
-Message-Id: <cover.1605044619.git.pisa@cmp.felk.cvut.cz>
+Subject: [PATCH for-5.2 v3 1/4] hw/net/can/ctucan: Don't allow guest to write
+ off end of tx_buffer
+Date: Tue, 10 Nov 2020 22:52:47 +0100
+Message-Id: <94d4236dee6973978398e6e2a3a321b65a7d35be.1605044619.git.pisa@cmp.felk.cvut.cz>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1605044619.git.pisa@cmp.felk.cvut.cz>
+References: <cover.1605044619.git.pisa@cmp.felk.cvut.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-FELK-MailScanner-Information: 
-X-MailScanner-ID: 0AALr61Z095268
+X-MailScanner-ID: 0AALrZM2095294
 X-FELK-MailScanner: Found to be clean
 X-FELK-MailScanner-SpamCheck: not spam, SpamAssassin (not cached,
  score=-0.099, required 6, BAYES_00 -0.50, KHOP_HELO_FCRDNS 0.40,
  SPF_HELO_NONE 0.00, SPF_NONE 0.00)
 X-FELK-MailScanner-From: pisa@cmp.felk.cvut.cz
-X-FELK-MailScanner-Watermark: 1605649993.15196@+8KMR/wdLci5fbxfyurI4g
+X-FELK-MailScanner-Watermark: 1605650019.03741@U0Ja59RiVa3UlzW+OwSn8Q
 Received-SPF: none client-ip=2001:718:2:1611:0:1:0:70;
  envelope-from=pisa@cmp.felk.cvut.cz; helo=relay.felk.cvut.cz
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 16:54:16
@@ -73,39 +74,63 @@ Cc: Pavel Pisa <pisa@cmp.felk.cvut.cz>, Jason Wang <jasowang@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Credit for finding and fixes goes to Peter Maydell
+From: Peter Maydell <peter.maydell@linaro.org>
 
-This patchset fixes a couple of issues spotted by Coverity:
- * incorrect address checks meant the guest could write off the
-   end of the tx_buffer arrays
- * we had an unused value in ctucan_send_ready_buffers()
-and also some I noticed while reading the code:
- * we don't adjust the device's non-portable use of bitfields
-   on bigendian hosts
- * we should use stl_le_p() rather than casting uint_t* to
-   uint32_t*
+The ctucan device has 4 CAN bus cores, each of which has a set of 20
+32-bit registers for writing the transmitted data. The registers are
+however not contiguous; each core's buffers is 0x100 bytes after
+the last.
 
-Tested with "make check" only.
+We got the checks on the address wrong in the ctucan_mem_write()
+function:
+ * the first "is addr in range at all" check allowed
+   addr == CTUCAN_CORE_MEM_SIZE, which is actually the first
+   byte off the end of the range
+ * the decode of addresses into core-number plus offset in the
+   tx buffer for that core failed to check that the offset was
+   in range, so the guest could write off the end of the
+   tx_buffer[] array
 
-Changes v1->v2: don't assert() the can't-happen case in patch 1,
-to allow for future adjustment of #defines that correspond to
-h/w synthesis parameters.
+NB: currently the values of CTUCAN_CORE_MEM_SIZE, CTUCAN_CORE_TXBUF_NUM,
+etc, make "buff_num >= CTUCAN_CORE_TXBUF_NUM" impossible, but we
+retain this as a runtime check rather than an assertion to permit
+those values to be changed in future (in hardware they are
+configurable synthesis parameters).
 
-Changes v2->v3: minnor corrections of range checking,
-support for unaligned and partial word writes into Tx
-buffers. Tested on x86_64 guest on x86_64 host and bige-edian
-MIPS guest on x86_64 host Pavel Pisa.
+Fix the top level check, and check the offset is within the buffer.
 
-Peter Maydell (4):
-  hw/net/can/ctucan: Don't allow guest to write off end of tx_buffer
-  hw/net/can/ctucan: Avoid unused value in ctucan_send_ready_buffers()
-  hw/net/can/ctucan_core: Handle big-endian hosts
-  hw/net/can/ctucan_core: Use stl_le_p to write to tx_buffers
+Fixes: Coverity CID 1432874
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+Tested-by: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+---
+ hw/net/can/ctucan_core.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
- hw/net/can/ctucan_core.c | 23 +++++++----------------
- hw/net/can/ctucan_core.h |  3 +--
- 2 files changed, 8 insertions(+), 18 deletions(-)
-
+diff --git a/hw/net/can/ctucan_core.c b/hw/net/can/ctucan_core.c
+index d20835cd7e..8486f429d7 100644
+--- a/hw/net/can/ctucan_core.c
++++ b/hw/net/can/ctucan_core.c
+@@ -303,7 +303,7 @@ void ctucan_mem_write(CtuCanCoreState *s, hwaddr addr, uint64_t val,
+     DPRINTF("write 0x%02llx addr 0x%02x\n",
+             (unsigned long long)val, (unsigned int)addr);
+ 
+-    if (addr > CTUCAN_CORE_MEM_SIZE) {
++    if (addr >= CTUCAN_CORE_MEM_SIZE) {
+         return;
+     }
+ 
+@@ -312,7 +312,9 @@ void ctucan_mem_write(CtuCanCoreState *s, hwaddr addr, uint64_t val,
+         addr -= CTU_CAN_FD_TXTB1_DATA_1;
+         buff_num = addr / CTUCAN_CORE_TXBUFF_SPAN;
+         addr %= CTUCAN_CORE_TXBUFF_SPAN;
+-        if (buff_num < CTUCAN_CORE_TXBUF_NUM) {
++        addr &= ~3;
++        if ((buff_num < CTUCAN_CORE_TXBUF_NUM) &&
++            (addr < sizeof(s->tx_buffer[buff_num].data))) {
+             uint32_t *bufp = (uint32_t *)(s->tx_buffer[buff_num].data + addr);
+             *bufp = cpu_to_le32(val);
+         }
 -- 
 2.20.1
 
