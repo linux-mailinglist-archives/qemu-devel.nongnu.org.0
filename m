@@ -2,70 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E84382ADB7D
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 17:20:45 +0100 (CET)
-Received: from localhost ([::1]:60640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53CDA2ADB34
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 17:04:36 +0100 (CET)
+Received: from localhost ([::1]:47944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcWNw-0001Go-V5
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 11:20:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60540)
+	id 1kcW8J-0000KY-BH
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 11:04:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcW9h-00031L-1Q
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 11:06:01 -0500
-Received: from indium.canonical.com ([91.189.90.7]:55280)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcW9e-0004d1-MF
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 11:06:00 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kcW9Y-00063I-OV
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 16:05:52 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B89012E8076
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 16:05:52 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcW5f-000777-AO
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 11:01:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25190)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcW5c-0003Pi-GL
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 11:01:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605024107;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=LEge6Ii3qDvzURhLP07GF6KRgMpusUfDj0HU1bAWybM=;
+ b=AePWtRVmKIr3EwS3vK5RTTgmMYrqxUQ2/1+ktwblRU/d6MdQEZjZE+BMUh1qT4luWC0Co8
+ gkUcf5Q9mI61OMErcpqj7Vqh9t//zAZGvzDmP1lldQYVvLAZdOj0Thwa6kxmQTY0m6RSPd
+ hDhTAhQIHXnfDZIRJs8IoFG64Hb6ktE=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-107-axkIjgxuNY-i3YLNrcvGvQ-1; Tue, 10 Nov 2020 11:01:45 -0500
+X-MC-Unique: axkIjgxuNY-i3YLNrcvGvQ-1
+Received: by mail-wr1-f70.google.com with SMTP id l5so1341257wrn.18
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 08:01:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Mfu9lhSbRiKFVfUe/Ju/Rz8PVdA1RjSZeLVIXSA3rHI=;
+ b=Ob/6KIBL10r0bvd/XGZ0/Rz1Bu2ivDdBURmE5wmhRobxKx7Eka32LsC4vye624rZkp
+ h9b6KmnwWbqtmaOfR/KaktHZLV22FKpV7Q7BKgn9etsQO73Z/6KLbTsxlgmZj1ZWUm+h
+ ObctIV7odSXq+ecvjLB78ESZrDEBB3NVqy49Y9YFqbQ5W3di0CMAjgcMw7oe2DRizRho
+ m5VccXMZ6/srAWq/TKeR2K3LFxDhqearAChDxUhKP7VeHbktZeuc6TW+YaVtubWkofqN
+ wDuDBPnAZn+MT4N2c7Ol9QUZCjP9GF/STcHBy2UmRRYTdgsH5GtefyYiZVX+Cm4a2vvx
+ XfXQ==
+X-Gm-Message-State: AOAM530D4rTs1Fx/nCgF814ADTygTdR7a+ktIG9+a8JDDE9YXIWq4nlL
+ elKf1+xn8fzX0htDGFbc2RDC/0XGbc4qUzSDZg5/mkoEZ+hEg1RXWGMJLoqO7J6SfCi72TrVS9A
+ 3q+Qt5d/ffjePwUfL3ldwC3H+rkaVF2b2ou2/v0YP7c7irPFI1mChGSVDfb/an5nS
+X-Received: by 2002:adf:eb47:: with SMTP id u7mr24391990wrn.163.1605024103236; 
+ Tue, 10 Nov 2020 08:01:43 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxVwf809/mKFIZGwm2UFJVdAC2bMiiexi7+wSVjzQVhSP3zQI7OT3SW53V26cLijxGKpm9TeA==
+X-Received: by 2002:adf:eb47:: with SMTP id u7mr24391940wrn.163.1605024102890; 
+ Tue, 10 Nov 2020 08:01:42 -0800 (PST)
+Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id k16sm11262366wrl.65.2020.11.10.08.01.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Nov 2020 08:01:41 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH 00/16] gitlab-ci: Introduce "CI job maintainer" concept,
+ mark jobs maintained
+Date: Tue, 10 Nov 2020 17:01:24 +0100
+Message-Id: <20201110160140.2859904-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2020 15:59:34 -0000
-From: Peter Maydell <1641861@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: pmaydell writalnaie
-X-Launchpad-Bug-Reporter: Jie (writalnaie)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <20161115075112.3631.29997.malonedeb@soybean.canonical.com>
-Message-Id: <160502397453.18270.8517410701742937681.malone@soybean.canonical.com>
-Subject: [Bug 1641861] Re: ARM QEMU doesn't enforce that RES0 bits in FPSCR
- are non-writeable
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: aa8dd751ce5201c212666d72bede8e30788c301f
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 08:35:46
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 02:00:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,107 +93,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1641861 <1641861@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Bin Meng <bin.meng@windriver.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ virt-ci-maint-team@redhat.com, Bin Meng <bmeng.cn@gmail.com>,
+ Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU now does enforce these RES0 bits. I had to fix up the inline asm
-syntax in the example guest program (which was missing a clobbers list
-and generally didn't work with newer gcc):
+Hi,=0D
+=0D
+TL;DR: Start reviewing from patch 10.=0D
+=0D
+To release the burden on the project and subsystem maintainers=0D
+we want to rely more on GitLab continuous integration jobs.=0D
+=0D
+We'd like the subsystem maintainers to use GitLab more, but=0D
+we need to provide contact in case something gets wrong (a job=0D
+failed: is it a bug in the code? is the test buggy? is GitLab=0D
+working? ...).=0D
+=0D
+To avoid project/subsystem maintainers to worry about that, we=0D
+introduce the concept of "CI job maintainer". If a job fails,=0D
+there is someone responsible for it, able to help to figure out=0D
+what went wrong, until having the CI job passing again.=0D
+=0D
+CI "job maintainers" are listed along the YAML job, having their=0D
+name and email in environment variable. Eventually script will=0D
+consume this variables to notify the maintainer.=0D
+=0D
+I don't plan this to get merged, I just shoot a RFC to see what=0D
+the community thinks about this problem.=0D
+=0D
+Patches 1-9 are preparatory cleanup. The proof of concept is=0D
+introduced (patch 10). Jobs without maintainer listed aren't=0D
+run. Then we gradually add maintainers, jobs get run again,=0D
+until restoring the current mainstream state (same jobs ran).=0D
+=0D
+The final patch disable Avocado tests, as they are flaky, and=0D
+we want maintainers become confident GitLab CI is helpful for=0D
+them, so we don't want flaky tests for now. We might restore=0D
+these later.=0D
+=0D
+Regards,=0D
+=0D
+Phil.=0D
+=0D
+Based-on: <20201110121606.2792442-1-philmd@redhat.com>=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (16):=0D
+  gitlab-ci: Replace YAML anchors by extends (cross_system_build_job)=0D
+  gitlab-ci: Replace YAML anchors by extends (native_build_job)=0D
+  gitlab-ci: Replace YAML anchors by extends (native_test_job)=0D
+  gitlab-ci: Replace YAML anchors by extends (acceptance_test_job)=0D
+  gitlab-ci: Replace YAML anchors by extends (container_job)=0D
+  gitlab-ci: Rename acceptance_test_job -> integration_test_job=0D
+  gitlab-ci: Extract common job definition as 'cross_common_job'=0D
+  gitlab-ci: Extract common job definition as 'native_common_job'=0D
+  gitlab-ci: Set default workflow rule=0D
+  gitlab-ci: Introduce the CI "job maintainer" concept=0D
+  gitlab-ci: Mark some jobs maintained by Red Hat Virt CI team=0D
+  gitlab-ci: Mark Bin Meng maintainer of the OpenSBI job=0D
+  gitlab-ci: Mark Alex Benn=C3=A9e maintainer of Debian / Ubuntu jobs=0D
+  gitlab-ci: Mark Stefan Weil maintainer of the TCI job=0D
+  gitlab-ci: Volunteer to maintain Debian based and hobbyist jobs=0D
+  gitlab-ci: Do not automatically run integration tests for push events=0D
+=0D
+ .gitlab-ci.d/containers.yml  | 138 +++++++++++++++++++++++---------=0D
+ .gitlab-ci.d/crossbuilds.yml |  77 ++++++++++++------=0D
+ .gitlab-ci.d/edk2.yml        |   4 +=0D
+ .gitlab-ci.d/opensbi.yml     |   4 +=0D
+ .gitlab-ci.yml               | 150 +++++++++++++++++++++++++----------=0D
+ 5 files changed, 274 insertions(+), 99 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
-int printf(const char *format, ...);
-unsigned char i0[0x10];
-unsigned char o[0x10];
-int main() {
-    int k;
-    asm volatile ("mov r2, %0\n"
-        "ldr r0, [r2]\n"
-        "vmsr fpscr, r0\n"
-        "mov r2, %1\n"
-        "vmrs r4, fpscr\n"
-        "str r4, [r2]\n" :: "r"((char *)(i0)), "r"((char *)(o)) : "r2", "r4=
-", "memory");
-
-    for (k =3D 0; k < 0x10; k++) {
-        printf("%02x", o[0x10 - 1 - k]);
-    }
-    printf("\n");
-}
-unsigned char i0[0x10] =3D {0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00,=
- 0x28, 0x1c, 0xc7, 0x01, 0x00, 0x00, 0x00, 0x00};
-
-but it now prints:
-000000000000000000000000ffff009f
-
-which is the same as the quoted hardware value except that QEMU supports fp=
-16 arithmetic and so bit 19 (FZ16) is writable. CPUs without fp16 behave as=
- expected:
-qemu-arm -cpu cortex-a9 /tmp/arm
-000000000000000000000000fff7009f
-
-
-** Changed in: qemu
-       Status: Confirmed =3D> Fix Released
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1641861
-
-Title:
-  ARM QEMU doesn't enforce that RES0 bits in FPSCR are non-writeable
-
-Status in QEMU:
-  Fix Released
-
-Bug description:
-  Hi all, we systematically tested the QEMU implementation for emulating
-  arm user mode programs. We found that QEMU incorrectly emulate the
-  FPSCR register. The following the proof of code:
-
-  /*********** Beginning of the bug: arm.c **********/
-
-  int printf(const char *format, ...);
-  unsigned char i0[0x10];
-  unsigned char o[0x10];
-  int main() {
-  =C2=A0=C2=A0=C2=A0=C2=A0int k =3D 0;
-  =C2=A0=C2=A0=C2=A0=C2=A0asm("mov r2, %0\n"
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0"ldr r0, [r2]\n"::"r"((ch=
-ar *)(i0)));;
-  =C2=A0=C2=A0=C2=A0=C2=A0asm("vmsr fpscr, r0");
-  =C2=A0=C2=A0=C2=A0=C2=A0asm("mov r2, %0\n"
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0"vmrs r4, fpscr\n"
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0"str r4, [r2]\n"::"r"((ch=
-ar *)(o)));;
-  =C2=A0=C2=A0=C2=A0=C2=A0for (k =3D 0; k < 0x10; k++)
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0printf("%02x", o[0x10 - 1=
- - k]);
-  =C2=A0=C2=A0=C2=A0=C2=A0printf("\n");
-  }
-  unsigned char i0[0x10] =3D {0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x0=
-0, 0x28, 0x1c, 0xc7, 0x01, 0x00, 0x00, 0x00, 0x00};
-
-  /*********** End fo the bug **********/
-
-  When the program is compiled into arm binary code and running on a
-  real arm machine, and running in qemu, we have the following result
-
-  $ arm-linux-gnueabihf-gcc arm.c -o arm -static
-  $ ./arm
-  000000000000000000000000fff7009f
-  $ qemu-arm arm
-  000000000000000000000000ffffffff
-
-  According to the ARM manual, bits[19, 14:13, 6:5] of FPSCR should be
-  reserved as zero. However, arm qemu fails to keep these bits to be
-  zero: these bits can be actually modified in QEMU.
-
-  QEMU version is 2.7.0. The operating system is Linux 3.13.0. x86_64.
-
-  Thanks!
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1641861/+subscriptions
 
