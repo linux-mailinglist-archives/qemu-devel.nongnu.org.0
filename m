@@ -2,62 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2053E2AD9A7
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 16:05:10 +0100 (CET)
-Received: from localhost ([::1]:57552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B283E2AD9A0
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 16:04:20 +0100 (CET)
+Received: from localhost ([::1]:54734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcVCn-0005Mo-6F
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 10:05:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43238)
+	id 1kcVBz-0004AL-Mx
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 10:04:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kcV6s-0001MB-CF
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 09:59:03 -0500
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:44481)
+ id 1kcV8X-0002S5-IG
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 10:00:45 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43716)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kcV6q-0006pN-Dh
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 09:59:01 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id o23so18008903ejn.11
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 06:58:59 -0800 (PST)
+ id 1kcV8I-0007KP-TC
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 10:00:45 -0500
+Received: by mail-wr1-x441.google.com with SMTP id s8so5887371wrw.10
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 07:00:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=usRg3B/5876e0Z19IJOULrsOdZhx0FCSXWomCN3DRMQ=;
- b=qd96q5NyR1lRUO/ReWHoN/mpCPFbhfkhP0e6E7r6QZoVEydUEHp3K5+LM4MVQt3bO4
- hVx7FsscPHVWhFRhqarwg8RmNxaAotqd5gJHQoqLNgwAUhjpAFliB/9ANLhFqNDz6WaC
- 5PeT9kQw9dg1DWrS3ixsx/8ADV7YXQFNvcoLOIjEoS+aJwHwGYrjE4riXY0ARg9oMWj8
- wwMAOMfs4KrNPd6NWLF56+QC04xGa6CRxYph722ZX3UxI7U0BCgOvyASA7w5wJmLiA8b
- nb1HDO/HzsM0wogsCntekLZyyha/ps30zQF4cXkMJtOtARzG6rNKQewffQvPlPbQsyB1
- TtmQ==
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LqejLAyov01H1x+PgUkQUuif5nZDpmbW7+uLz2z8bUc=;
+ b=E0Iwj5Pc7u4wPmKb7KFA/oUwdTnDKDFnamSWX3vErZJLNGIVu/1Su71j1xyn7kf86F
+ mx2q8N6D7s+mGFF5WHb6AblkcWiamUS9zpn2r3nORVjnAsmhOpBHKeO1csB5BZ4y/q3o
+ kZK4pXMfgSZZ5FgBlIIq9t7DqXBtYrlASd9cheI3BB4q1lsAKq5KAUifsq0BBh0Bm4N7
+ m6mqoqc5UWhQmU3qeA4fHiqWQuY+oSXFDbJ7KeOzgpiTa72JlYL0brdtgkQF+cZ6ihOO
+ 9X4/7V5LsKx8cWR+xtdtfwNGYW8sF0BuvmQ+6rUcGs9CtcXN7aA+7VjfzigxwVkT/Z+8
+ WvAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=usRg3B/5876e0Z19IJOULrsOdZhx0FCSXWomCN3DRMQ=;
- b=YVdh/BGmVg/clcxgSTk0kZoN3GMwwHGGbU6Fpg4c5M8EvO7VwtnDB9NcdtWHCCo8LS
- VBVbiL+c0e/Dd/u2Xt9a1GseaIpMe2vqNXzH3xNiDmzuWQxryETBgzreNrxpKHFSSrg5
- XCWr7erx2OdKWwBM2vIDaBa4vW1aEkPZTR6jr2rUO5GBXnbDxoaZPyPCEVWC7c6jA3gm
- ixakqYofTTv5+lHKaPiutkuPOYboMKcd5frQJv4fyPaoYbdlwLcAd3mlAC49Xw848kd5
- 2wqZO+pux0BT3iKLekAReU4S7d/9VYDzRUOb/H4vNbuwaap1n44exe4XVGaE2irIJTic
- 1g4A==
-X-Gm-Message-State: AOAM531pAMsQxiIEnzFUrqouEeCsWLNz6ZElNw9KSViUSpJIMmDiXn5x
- VM2TFplqpcfaPuwW+FmchR67lK4k8R9N7mw2XDyw6Q==
-X-Google-Smtp-Source: ABdhPJwxxZYfdmq3Nw9jKx8vpfNqiGUZ+50G1ElGuA0pye8+jsyu1njxq6+Wcx9KFeWPvRf3KuQrk+8yxzhkd4SFb8c=
-X-Received: by 2002:a17:906:6949:: with SMTP id
- c9mr20425187ejs.482.1605020338725; 
- Tue, 10 Nov 2020 06:58:58 -0800 (PST)
-MIME-Version: 1.0
-References: <20201110111132.559399-1-thuth@redhat.com>
-In-Reply-To: <20201110111132.559399-1-thuth@redhat.com>
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LqejLAyov01H1x+PgUkQUuif5nZDpmbW7+uLz2z8bUc=;
+ b=HxVyltdXTDBNP0jwkXWCpkIJ9VKv1cnozMbp9m+lm/XtbFVjoRSumIcLQHWtGzXTEY
+ B0DQHSKIq8+wROwe24FhXV/5CZUPk3v8sDL3iSlj9B36fwPgcP4t4kbmEnAQ1BAUC4CQ
+ JxyjgPkhk8Eu1EReDAMzr3vx5m1bgZnyT2ywc2Luil7XSGT0gPaH8nwntY2gAxUzaQBk
+ obGSIk8kg7f+qBtPmrBlFi32wIIVhNenTCTZRFvAARe4+qPvD80EAPwrtMgCEOy1dj5T
+ H6GvSLppJwV1BgtATt8TjOx2iRs9mgQbyiYtkZhXdJ9eCWcpW846kM8ne3ILrY6H4IbW
+ jbfA==
+X-Gm-Message-State: AOAM533PVzgzIkYFkph4xtjLg4ltFdDZRqTJ9Gmbjp54ujN3cRG53Pxx
+ v2LKFqaBJHvyxy7EFrVbgqUABOmbDBU/Fg==
+X-Google-Smtp-Source: ABdhPJyhAohCEMSE/+Hzfcv7fYODp1xvRhjh6ADDFSb6qbZPI9IqPKlxo1mlLy2JCaLT9Gfypzw4yw==
+X-Received: by 2002:a5d:6050:: with SMTP id j16mr26335132wrt.158.1605020426271; 
+ Tue, 10 Nov 2020 07:00:26 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id o205sm3392493wma.25.2020.11.10.07.00.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Nov 2020 07:00:25 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 10 Nov 2020 14:58:47 +0000
-Message-ID: <CAFEAcA_OBshYDqe326xoKSZtif0tK6gfHAgd1K+ZJM7usowH5A@mail.gmail.com>
-Subject: Re: [PULL 00/19] qtests, gitlab, s390x and misc patches
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH 0/2]  hw/misc/tmp105: Correct temperature limit check logic
+Date: Tue, 10 Nov 2020 15:00:21 +0000
+Message-Id: <20201110150023.25533-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -66,7 +70,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,42 +83,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, Cornelia Huck <cohuck@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 10 Nov 2020 at 11:11, Thomas Huth <thuth@redhat.com> wrote:
->
->  Hi Peter,
->
-> the following changes since commit a2547c1ba911a0c53a10fe02d94a0f539dc064cc:
->
->   Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2020-11-09' into staging (2020-11-09 13:55:15 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/huth/qemu.git tags/pull-request-2020-11-10
->
-> for you to fetch changes up to a58cabd0e355fc51f18db359ba260da268df26ef:
->
->   s390x: Avoid variable size warning in ipl.h (2020-11-10 08:51:30 +0100)
->
-> ----------------------------------------------------------------
-> * Some small qtest fixes
-> * Oss-fuzz updates
-> * Publish the docs built during gitlab CI to the user's gitlab.io page
-> * Update the OpenBSD VM test to v6.8
-> * Fix the device-crash-test script to run with the meson build system
-> * Some small s390x fixes
-> ----------------------------------------------------------------
->
+This patchseries fixes bug https://bugs.launchpad.net/qemu/+bug/1734474
+which is a regression between QEMU 1.3.0 and 1.4.0 of ability to boot a
+guest image on the n800 machine.  The regression was introduced by
+commit cb5ef3fa1871522a08, which fixed a logic error in the tmp105
+device's handling of i2c writes.  That commit is correct, but it exposed
+an underlying bug in the tmp105 implementation.  Previously, we
+accidentallywrote 0 to the config register when this guest tried to
+write 0x36, which meant (among other things) that we left the device
+in "comparator mode" rather than putting it into "interrupt mode" as
+the guest wanted, and it turns out that our interrupt-mode logic was
+buggy, so we would signal an over-temperature interrupt immediately
+and continuously, and the guest would hang.
 
+Patch 1 fixes a silly omission where we weren't setting the
+reset values for the T_high and T_low limit registers.
+Patch 2 fixes the interrupt mode limit checks.
 
-Applied, thanks.
+With these two the n9800 image linked to in the bug report can
+boot properly again.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
-
+thanks
 -- PMM
+
+Peter Maydell (2):
+  hw/misc/tmp105: reset the T_low and T_High registers
+  tmp105: Correct handling of temperature limit checks
+
+ hw/misc/tmp105.c | 73 ++++++++++++++++++++++++++++++++++++++++++------
+ hw/misc/tmp105.h |  7 +++++
+ 2 files changed, 71 insertions(+), 9 deletions(-)
+
+-- 
+2.20.1
+
 
