@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 516432ADB43
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 17:07:49 +0100 (CET)
-Received: from localhost ([::1]:56690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8953C2ADB3B
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 17:05:21 +0100 (CET)
+Received: from localhost ([::1]:50070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcWBQ-0004Ck-85
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 11:07:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59356)
+	id 1kcW92-0001HX-84
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 11:05:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcW5y-0007ER-TL
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 11:02:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60876)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcW60-0007HY-8J
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 11:02:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28941)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcW5r-0003UP-M8
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 11:02:10 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcW5y-0003Vg-50
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 11:02:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605024122;
+ s=mimecast20190719; t=1605024129;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vYOx8opSCoTULd2EmOhrq81Pwh9FMjyL0FWLrWxUzm8=;
- b=dGEaJjN2GDuJHHbCUF2HMG83BRgMf/k+uJjwVq29gBw/vQZrNSUijcD4GEQWwvKBiO9L1s
- Zri+L3AU669S7YYufZMxuPXXWuc3W82K16CizEtMMGZKsVCbHs8bYePa3u6HAy/JRjC610
- nIkPq2X8nASyThQ97QVknAudcDeFdsU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-593-vqG7fPgiPjWHU6ERLu_M_g-1; Tue, 10 Nov 2020 11:02:00 -0500
-X-MC-Unique: vqG7fPgiPjWHU6ERLu_M_g-1
-Received: by mail-wm1-f69.google.com with SMTP id z7so1445749wme.8
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 08:02:00 -0800 (PST)
+ bh=NaqlQxNvH3AUGOJqrVZYZoAO4Lf395wo2rX6dkLCW10=;
+ b=HezBa4VWangGNL1vURQ+sxdbATEORTsG2U8Ww0ZwbAubWOAvWJmHLroabw3dLhqO0wPxMo
+ Oq6zCnFofSdPRDQAJKov7FE+WfajDjrv8BdXRXFZsv3Vi3m0Z0m5b512uKoWz8B0VZ2GnI
+ JlxL0Fo3gTtvQTuTjKaCqNOL5ypzOqI=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-438-l78JJOQgPue48Wiw2ilRGg-1; Tue, 10 Nov 2020 11:02:06 -0500
+X-MC-Unique: l78JJOQgPue48Wiw2ilRGg-1
+Received: by mail-wr1-f70.google.com with SMTP id k1so4543430wrg.12
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 08:02:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vYOx8opSCoTULd2EmOhrq81Pwh9FMjyL0FWLrWxUzm8=;
- b=U4TuMSA+9OZuleMlDvnMfKvwqVz2CMlFaImQ9WGIAXqWaLk0ZtKDcyutaCIGLmKPPS
- yrw4OEGSzPosNrnEi3+uFDkl+MQkBb7F/ZFGOpCXbwSe/iLL8fv7zpu8xwe38FvSSqVl
- VYJvjnHVQKiBqZCF9polyjcYdw8uU6Uw0HYKNVMaFC3a5B/TvpPoDzRdpXnME1oNBp7G
- M2HfGbOv8v4Nz7CCB9/h1V8AcfTyHC6rUeWSkuwK3X7cR4AwesLVb0ViSUOpnOsgOhjQ
- bGE5D/GdQ9YWlmDldDe6pH/TK+M/cNyPu1IppnlSJQatqWDn8nYH+RZuwrm8kM58eWCR
- W3zA==
-X-Gm-Message-State: AOAM532A17Gg893EWUaGCJiWSc7fTJEECPNa0hxx46OxZbuy8A/ZG2oT
- dMhvzbufqZV00h5/FQJgkmtwoYtc9Wo0GvuecNDJwpcUM4KgKgFvegMVxBZGY1GBSur4RJZPq1G
- bDlMCuF8G047J6rhbYkKkphPlA9EoPe3PyzCbYF1J3jjMXjQ0u08EoX8Etmv3/ua4
-X-Received: by 2002:a5d:44c1:: with SMTP id z1mr20631241wrr.375.1605024118781; 
- Tue, 10 Nov 2020 08:01:58 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwBGAi6m68fs5TkQwd+62rxmy1rHs9d+cjHH/skbR6GrwiXsXvCg9UjRHA4kl1i8CGtvMAkHQ==
-X-Received: by 2002:a5d:44c1:: with SMTP id z1mr20631198wrr.375.1605024118449; 
- Tue, 10 Nov 2020 08:01:58 -0800 (PST)
+ bh=NaqlQxNvH3AUGOJqrVZYZoAO4Lf395wo2rX6dkLCW10=;
+ b=kOaR+Yh1v/zQgiyw22naEB32SwonwlDOyILU/yVLg7KVpp+H0PQXjkA5JocvGTAceA
+ TB3osScJYxcDhUzS8HeR3V+KHQhYagMBQYG5tzI1w9yv3Ad+s9TwMtVjrsTbd/DXfrk5
+ BWwGSn0btq0GXy49dqdhxSsoXahz2BrakVAWS2JfVKMKm0GG99F5cva2+1TMvNo4UYfh
+ mvtpo2nq4LERdqoYyTvNyaPq2cG3y0YJkSvY3gdMK5tjqrgTHJ+IBMDdZerEmZvx2qxP
+ o8RpHvoxz4SOc7OnrR/pABXyXI3gKKwn28oi2s2do67IgTt3KSYteJ6gH0jKW2SEC9hx
+ ri2g==
+X-Gm-Message-State: AOAM530+l4Q/8Sb2jLnPbso8yQxENu3c9EuKSnoaJZ5YyAmtsPRZtZgy
+ tMALm7cQ18svV2tFE35EeLoYK+OqBg9Up04x9vCby8bb9JVUUK46uptOunmxwUyYZAAX+rs0RXb
+ sw7l/YN2349iaEmncnyH6Jey3Hydpjo2tHNY39oKjCAHjeTSo37xgenbpwHwA1XTZ
+X-Received: by 2002:a05:600c:2282:: with SMTP id
+ 2mr420670wmf.154.1605024123976; 
+ Tue, 10 Nov 2020 08:02:03 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz/pq95zFh1obtopXKRHlurt+wMS4j+Ja+Zf3k3XTtxbpFD4DD+mTivmR3G+LcuDeRa7FSzdA==
+X-Received: by 2002:a05:600c:2282:: with SMTP id
+ 2mr420633wmf.154.1605024123693; 
+ Tue, 10 Nov 2020 08:02:03 -0800 (PST)
 Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id n22sm3268876wmk.40.2020.11.10.08.01.57
+ by smtp.gmail.com with ESMTPSA id h62sm17904011wrh.82.2020.11.10.08.02.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Nov 2020 08:01:57 -0800 (PST)
+ Tue, 10 Nov 2020 08:02:03 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 03/16] gitlab-ci: Replace YAML anchors by extends
- (native_test_job)
-Date: Tue, 10 Nov 2020 17:01:27 +0100
-Message-Id: <20201110160140.2859904-4-philmd@redhat.com>
+Subject: [RFC PATCH 04/16] gitlab-ci: Replace YAML anchors by extends
+ (acceptance_test_job)
+Date: Tue, 10 Nov 2020 17:01:28 +0100
+Message-Id: <20201110160140.2859904-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201110160140.2859904-1-philmd@redhat.com>
 References: <20201110160140.2859904-1-philmd@redhat.com>
@@ -73,16 +75,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 02:00:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 00:21:06
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,130 +115,87 @@ https://docs.gitlab.com/ee/ci/yaml/#extends
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- .gitlab-ci.yml | 26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+ .gitlab-ci.yml | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
 diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index d013504593a..c8fdaecaf51 100644
+index c8fdaecaf51..a45444f884b 100644
 --- a/.gitlab-ci.yml
 +++ b/.gitlab-ci.yml
-@@ -34,7 +34,7 @@ include:
-         make -j"$JOBS" $MAKE_CHECK_ARGS ;
-       fi
+@@ -42,7 +42,8 @@ include:
+     - find . -type f -exec touch {} +
+     - make $MAKE_CHECK_ARGS
  
--.native_test_job_template: &native_test_job_definition
-+.native_test_job:
-   stage: test
-   image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
-   script:
-@@ -81,7 +81,7 @@ build-system-ubuntu:
-       - build
- 
- check-system-ubuntu:
--  <<: *native_test_job_definition
+-.acceptance_template: &acceptance_definition
++.acceptance_test_job:
 +  extends: .native_test_job
-   needs:
-     - job: build-system-ubuntu
-       artifacts: true
-@@ -90,7 +90,7 @@ check-system-ubuntu:
+   cache:
+     key: "${CI_JOB_NAME}-cache"
+     paths:
+@@ -90,14 +91,13 @@ check-system-ubuntu:
      MAKE_CHECK_ARGS: check
  
  acceptance-system-ubuntu:
--  <<: *native_test_job_definition
-+  extends: .native_test_job
+-  extends: .native_test_job
++  extends: .acceptance_test_job
    needs:
      - job: build-system-ubuntu
        artifacts: true
-@@ -113,7 +113,7 @@ build-system-debian:
-       - build
+   variables:
+     IMAGE: ubuntu2004
+     MAKE_CHECK_ARGS: check-acceptance
+-  <<: *acceptance_definition
  
- check-system-debian:
--  <<: *native_test_job_definition
-+  extends: .native_test_job
-   needs:
-     - job: build-system-debian
-       artifacts: true
-@@ -122,7 +122,7 @@ check-system-debian:
+ build-system-debian:
+   extends: .native_build_job
+@@ -122,14 +122,13 @@ check-system-debian:
      MAKE_CHECK_ARGS: check
  
  acceptance-system-debian:
--  <<: *native_test_job_definition
-+  extends: .native_test_job
+-  extends: .native_test_job
++  extends: .acceptance_test_job
    needs:
      - job: build-system-debian
        artifacts: true
-@@ -145,7 +145,7 @@ build-system-fedora:
-       - build
+   variables:
+     IMAGE: debian-amd64
+     MAKE_CHECK_ARGS: check-acceptance
+-  <<: *acceptance_definition
  
- check-system-fedora:
--  <<: *native_test_job_definition
-+  extends: .native_test_job
-   needs:
-     - job: build-system-fedora
-       artifacts: true
-@@ -154,7 +154,7 @@ check-system-fedora:
+ build-system-fedora:
+   extends: .native_build_job
+@@ -154,14 +153,13 @@ check-system-fedora:
      MAKE_CHECK_ARGS: check
  
  acceptance-system-fedora:
--  <<: *native_test_job_definition
-+  extends: .native_test_job
+-  extends: .native_test_job
++  extends: .acceptance_test_job
    needs:
      - job: build-system-fedora
        artifacts: true
-@@ -177,7 +177,7 @@ build-system-centos:
-       - build
+   variables:
+     IMAGE: fedora
+     MAKE_CHECK_ARGS: check-acceptance
+-  <<: *acceptance_definition
  
- check-system-centos:
--  <<: *native_test_job_definition
-+  extends: .native_test_job
-   needs:
-     - job: build-system-centos
-       artifacts: true
-@@ -186,7 +186,7 @@ check-system-centos:
+ build-system-centos:
+   extends: .native_build_job
+@@ -186,14 +184,13 @@ check-system-centos:
      MAKE_CHECK_ARGS: check
  
  acceptance-system-centos:
--  <<: *native_test_job_definition
-+  extends: .native_test_job
+-  extends: .native_test_job
++  extends: .acceptance_test_job
    needs:
      - job: build-system-centos
        artifacts: true
-@@ -284,7 +284,7 @@ build-deprecated:
- # We split the check-tcg step as test failures are expected but we still
- # want to catch the build breaking.
- check-deprecated:
--  <<: *native_test_job_definition
-+  extends: .native_test_job
-   needs:
-     - job: build-deprecated
-       artifacts: true
-@@ -348,7 +348,7 @@ build-crypto-old-nettle:
-       - build
+   variables:
+     IMAGE: centos8
+     MAKE_CHECK_ARGS: check-acceptance
+-  <<: *acceptance_definition
  
- check-crypto-old-nettle:
--  <<: *native_test_job_definition
-+  extends: .native_test_job
-   needs:
-     - job: build-crypto-old-nettle
-       artifacts: true
-@@ -369,7 +369,7 @@ build-crypto-old-gcrypt:
-       - build
- 
- check-crypto-old-gcrypt:
--  <<: *native_test_job_definition
-+  extends: .native_test_job
-   needs:
-     - job: build-crypto-old-gcrypt
-       artifacts: true
-@@ -390,7 +390,7 @@ build-crypto-only-gnutls:
-       - build
- 
- check-crypto-only-gnutls:
--  <<: *native_test_job_definition
-+  extends: .native_test_job
-   needs:
-     - job: build-crypto-only-gnutls
-       artifacts: true
+ build-disabled:
+   extends: .native_build_job
 -- 
 2.26.2
 
