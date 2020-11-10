@@ -2,85 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C69CD2ACB01
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 03:25:07 +0100 (CET)
-Received: from localhost ([::1]:36836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A15742ACB6C
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 04:00:17 +0100 (CET)
+Received: from localhost ([::1]:41962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcJLG-0000Fu-9j
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 21:25:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60788)
+	id 1kcJtI-0005vX-60
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 22:00:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kcJKA-0008Eo-KP
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 21:23:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33546)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kcJK5-0006gd-T8
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 21:23:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604975032;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ead+Il8QQsYVTr4Ixmzt9Rjr3HyBeheIeV2+sesR8TI=;
- b=fwwCgzrLDkLBY8tbH80qXig1g3WlcYjuWynMu6hIlzp9j8wv85U8bXvznjV4NlIxj5hHY4
- wCl85gDlMW1M12E4EN7h+J6NUrVkLLqrAHLCAbopkXDS8XVM6vHP1iiKSEg8XB3Q/SN9as
- phVcgwsxK+bhgWqA5EeImKWzXLeEkX4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-467-_sO52uG1Mkm0wVo6hrCBKw-1; Mon, 09 Nov 2020 21:23:36 -0500
-X-MC-Unique: _sO52uG1Mkm0wVo6hrCBKw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2AC057204;
- Tue, 10 Nov 2020 02:23:34 +0000 (UTC)
-Received: from [10.72.13.94] (ovpn-13-94.pek2.redhat.com [10.72.13.94])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9C9505B4A9;
- Tue, 10 Nov 2020 02:23:26 +0000 (UTC)
-Subject: Re: [RFC PATCH 0/6] eBPF RSS support for virtio-net
-To: Yuri Benditovich <yuri.benditovich@daynix.com>
-References: <20201102185115.7425-1-andrew@daynix.com>
- <0164a42f-4542-6f3e-bd71-3319dfaae190@redhat.com>
- <CAOEp5Oe3btwgPcOA6v=kK9s2to=x2Hg6Qw2iCFXOOWZs49s=-Q@mail.gmail.com>
- <caa38709-88f1-bd6d-3ff9-61e64c3aa51f@redhat.com>
- <20201104093155.GB565323@redhat.com>
- <cc53c09c-9b3c-63e1-6df3-b5fc949e626c@redhat.com>
- <20201105100109.GE630142@redhat.com> <20201105131938.GK630142@redhat.com>
- <CAOEp5Oe-Ct-ed5D3UjLZN=iP2W81ta=rTqMjiQ-8vVajag=GfA@mail.gmail.com>
- <16bfe468-b0f8-396a-08e9-8917423909e5@redhat.com>
- <CAOEp5Ofb7zK6A+zwbubVtitCrVTe_zLtZDYc0uExvgb+F_p9Zg@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <c865f892-c534-8f8d-624f-6aafcea26a1b@redhat.com>
-Date: Tue, 10 Nov 2020 10:23:25 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <alejandro.j.jimenez@oracle.com>)
+ id 1kcJsQ-0005TL-Gs
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 21:59:22 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:41412)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alejandro.j.jimenez@oracle.com>)
+ id 1kcJsN-0002B9-8u
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 21:59:21 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AA2rjST177580;
+ Tue, 10 Nov 2020 02:59:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to :
+ references : cc : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=Dgt9AyOSMaHgWt3aC8y4FYcr3GXwcNZBJD6iXpb+Tbs=;
+ b=QJCle1AtXRt9/NZZN5Fp6MANJmyoPokqNTeP7DW/LRG2PD39hxmosg7S9CNG+uokQkt5
+ 1JIaJ6quWV1JNV0gYCKfa4M2CAfWnH6hb5KNS190IrNYM7WWZ7WedtHcRk87yaRrZSKq
+ 5k4M+yUDbEnqlTg1dchnehJZbcgD/JGGdEdb5KCCoz0AgbSQ8yAHMLLchlRJQKj6vi9e
+ QHyRupVwdffXzFA0ZBBOL9OUsWK1sDKzAZnVtpgCw5QEsFHwzjgyxXCMN+BQ4KjzWSd8
+ xSDmiDgE0uD+OHW4tdRYtLg9RS2u7KjWEn30J9Lrmd56nychjacn9O3IR6H7M6weRYE4 qQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2120.oracle.com with ESMTP id 34nkhks9v2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 10 Nov 2020 02:59:15 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AA2snJr178152;
+ Tue, 10 Nov 2020 02:59:14 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3020.oracle.com with ESMTP id 34p5fykxxw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 10 Nov 2020 02:59:14 +0000
+Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0AA2xDdg008136;
+ Tue, 10 Nov 2020 02:59:13 GMT
+Received: from [10.39.237.188] (/10.39.237.188)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Mon, 09 Nov 2020 18:59:13 -0800
+Subject: Re: [PATCH] pvpanic: Advertise the PVPANIC_CRASHLOADED event support
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20201109143311.1000958-1-pbonzini@redhat.com>
+From: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
+Organization: Oracle Corporation
+Message-ID: <112eba9b-0305-f40d-8b81-6b3e46d62d75@oracle.com>
+Date: Mon, 9 Nov 2020 21:59:09 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.1
 MIME-Version: 1.0
-In-Reply-To: <CAOEp5Ofb7zK6A+zwbubVtitCrVTe_zLtZDYc0uExvgb+F_p9Zg@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201109143311.1000958-1-pbonzini@redhat.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 20:23:56
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9800
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ spamscore=0 malwarescore=0
+ adultscore=0 phishscore=0 bulkscore=0 mlxlogscore=999 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011100020
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9800
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ priorityscore=1501
+ mlxscore=0 suspectscore=0 mlxlogscore=999 lowpriorityscore=0 spamscore=0
+ malwarescore=0 adultscore=0 clxscore=1015 bulkscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011100020
+Received-SPF: pass client-ip=141.146.126.78;
+ envelope-from=alejandro.j.jimenez@oracle.com; helo=aserp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 19:07:29
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,328 +101,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>, Andrew Melnychenko <andrew@daynix.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
+Cc: maciej.szmigiero@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+(CC Maciej)
 
-On 2020/11/9 下午9:33, Yuri Benditovich wrote:
->
->
-> On Mon, Nov 9, 2020 at 4:14 AM Jason Wang <jasowang@redhat.com 
-> <mailto:jasowang@redhat.com>> wrote:
->
->
->     On 2020/11/5 下午11:13, Yuri Benditovich wrote:
->     > First of all, thank you for all your feedbacks
->     >
->     > Please help me to summarize and let us understand better what we
->     do in v2:
->     > Major questions are:
->     > 1. Building eBPF from source during qemu build vs. regenerating
->     it on
->     > demand and keeping in the repository
->     > Solution 1a (~ as in v1): keep instructions or ELF in H file,
->     generate
->     > it out of qemu build. In general we'll need to have BE and LE
->     binaries.
->     > Solution 1b: build ELF or instructions during QEMU build if llvm +
->     > clang exist. Then we will have only one (BE or LE, depending on
->     > current QEMU build)
->     > We agree with any solution - I believe you know the requirements
->     better.
->
->
->     I think we can go with 1a. (See Danial's comment)
->
->
->     >
->     > 2. Use libbpf or not
->     > In general we do not see any advantage of using libbpf. It works
->     with
->     > object files (does ELF parsing at time of loading), but it does
->     not do
->     > any magic.
->     > Solution 2a. Switch to libbpf, generate object files (LE and BE)
->     from
->     > source, keep them inside QEMU (~8k each) or aside
->
->
->     Can we simply use dynamic linking here?
->
->
-> Can you please explain, where exactly you suggest to use dynamic linking?
+Hi Paolo,
 
+Thank you for fixing the patch. One comment below..
 
-Yes. If I understand your 2a properly, you meant static linking of 
-libbpf. So what I want to ask is the possibility of dynamic linking of 
-libbpf here.
+On 11/9/2020 9:33 AM, Paolo Bonzini wrote:
+> Advertise both types of events as supported when the guest OS
+> queries the pvpanic device.  Currently only PVPANIC_PANICKED is
+> exposed; PVPANIC_CRASHLOADED must also be advertised, but only on
+> new machine types.
+>
+> Fixes: 7dc58deea79a ("pvpanic: implement crashloaded event handling")
+> Reported-by: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   hw/core/machine.c | 1 +
+>   hw/misc/pvpanic.c | 5 ++++-
+>   2 files changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index 98b87f76cb..d0408049b5 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -35,6 +35,7 @@ GlobalProperty hw_compat_5_1[] = {
+>       { "virtio-blk-device", "num-queues", "1"},
+>       { "virtio-scsi-device", "num_queues", "1"},
+>       { "nvme", "use-intel-id", "on"},
+> +    { "pvpanic", "events", "1"}, /* PVPANIC_PANICKED */
+>   };
+>   const size_t hw_compat_5_1_len = G_N_ELEMENTS(hw_compat_5_1);
+>   
+> diff --git a/hw/misc/pvpanic.c b/hw/misc/pvpanic.c
+> index 598d5471a4..35d6797831 100644
+> --- a/hw/misc/pvpanic.c
+> +++ b/hw/misc/pvpanic.c
+> @@ -61,12 +61,14 @@ struct PVPanicState {
+>   
+>       MemoryRegion io;
+>       uint16_t ioport;
+> +    uint8_t events;
+>   };
+>   
+>   /* return supported events on read */
+>   static uint64_t pvpanic_ioport_read(void *opaque, hwaddr addr, unsigned size)
+>   {
+> -    return PVPANIC_PANICKED;
+> +    PVPanicState *pvp = opaque;
+> +    return pvp->events;
+>   }
+>   
+>   static void pvpanic_ioport_write(void *opaque, hwaddr addr, uint64_t val,
+> @@ -112,6 +114,7 @@ static void pvpanic_isa_realizefn(DeviceState *dev, Error **errp)
+>   
+>   static Property pvpanic_isa_properties[] = {
+>       DEFINE_PROP_UINT16(PVPANIC_IOPORT_PROP, PVPanicState, ioport, 0x505),
+> +    DEFINE_PROP_UINT8("events", PVPanicState, events, PVPANIC_PANICKED | PVPANIC_CRASHLOADED),
+>       DEFINE_PROP_END_OF_LIST(),
+>   };
+One side effect of defining the "events" property (as Maciej pointed out 
+to me), is that we are able to overwrite it with an alternative value in 
+the cmdline. e.g.
 
+-device pvpanic,events=<event mask>
 
->
->     > Solution 2b. (as in v1) Use python script to parse object ->
->     > instructions (~2k each)
->     > We'd prefer not to use libbpf at the moment.
->     > If due to some unknown reason we'll find it useful in future, we
->     can
->     > switch to it, this does not create any incompatibility. Then
->     this will
->     > create a dependency on libbpf.so
->
->
->     I think we need to care about compatibility. E.g we need to enable
->     BTF
->     so I don't know how hard if we add BTF support in the current
->     design. It
->     would be probably OK it's not a lot of effort.
->
->
-> As far as we understand BTF helps in BPF debugging and libbpf supports 
-> it as is.
-> Without libbpf we in v1 load the BPF instructions only.
-> If you think the BTF is mandatory (BTW, why?) I think it is better to 
-> switch to libbpf and keep the entire ELF in the qemu data.
+This can be used to force QEMU to report a set of events different than 
+what it actually supports to a guest OS reading from the pvpanic device. 
+I assume you are not concerned about this scenario, since it would have 
+to be deliberately triggered, and even then it would not cause any 
+serious issues, correct?
 
-
-It is used to make sure the BPF can do compile once run everywhere.
-
-This is explained in detail in here: 
-https://facebookmicrosites.github.io/bpf/blog/2020/02/19/bpf-portability-and-co-re.html.
-
-Thanks
-
-
->
->
->     >
->     > 3. Keep instructions or ELF inside QEMU or as separate external file
->     > Solution 3a (~as in v1): Built-in array of instructions or ELF.
->     If we
->     > generate them out of QEMU build - keep 2 arrays or instructions
->     or ELF
->     > (BE and LE),
->     > Solution 3b: Install them as separate files (/usr/share/qemu).
->     > We'd prefer 3a:
->     >  Then there is a guarantee that the eBPF is built with exactly the
->     > same config structures as QEMU (qemu creates a mapping of its
->     > structures, eBPF uses them).
->     >  No need to take care on scenarios like 'file not found', 'file
->     is not
->     > suitable' etc
->
->
->     Yes, let's go 3a for upstream.
->
->
->     >
->     > 4. Is there some real request to have the eBPF for big-endian?
->     > If no, we can enable eBPF only for LE builds
->
->
->     We can go with LE first.
->
->     Thanks
->
->
->     >
->     > Jason, Daniel, Michael
->     > Can you please let us know what you think and why?
->     >
->     > On Thu, Nov 5, 2020 at 3:19 PM Daniel P. Berrangé
->     <berrange@redhat.com <mailto:berrange@redhat.com>
->     > <mailto:berrange@redhat.com <mailto:berrange@redhat.com>>> wrote:
->     >
->     >     On Thu, Nov 05, 2020 at 10:01:09AM +0000, Daniel P. Berrangé
->     wrote:
->     >     > On Thu, Nov 05, 2020 at 11:46:18AM +0800, Jason Wang wrote:
->     >     > >
->     >     > > On 2020/11/4 下午5:31, Daniel P. Berrangé wrote:
->     >     > > > On Wed, Nov 04, 2020 at 10:07:52AM +0800, Jason Wang
->     wrote:
->     >     > > > > On 2020/11/3 下午6:32, Yuri Benditovich wrote:
->     >     > > > > >
->     >     > > > > > On Tue, Nov 3, 2020 at 11:02 AM Jason Wang
->     >     <jasowang@redhat.com <mailto:jasowang@redhat.com>
->     <mailto:jasowang@redhat.com <mailto:jasowang@redhat.com>>
->     >     > > > > > <mailto:jasowang@redhat.com
->     <mailto:jasowang@redhat.com>
->     >     <mailto:jasowang@redhat.com <mailto:jasowang@redhat.com>>>>
->     wrote:
->     >     > > > > >
->     >     > > > > >
->     >     > > > > >      On 2020/11/3 上午2:51, Andrew Melnychenko wrote:
->     >     > > > > >      > Basic idea is to use eBPF to calculate and
->     steer
->     >     packets in TAP.
->     >     > > > > >      > RSS(Receive Side Scaling) is used to distribute
->     >     network packets
->     >     > > > > >      to guest virtqueues
->     >     > > > > >      > by calculating packet hash.
->     >     > > > > >      > eBPF RSS allows us to use RSS with vhost TAP.
->     >     > > > > >      >
->     >     > > > > >      > This set of patches introduces the usage of
->     eBPF
->     >     for packet steering
->     >     > > > > >      > and RSS hash calculation:
->     >     > > > > >      > * RSS(Receive Side Scaling) is used to
->     distribute
->     >     network packets to
->     >     > > > > >      > guest virtqueues by calculating packet hash
->     >     > > > > >      > * eBPF RSS suppose to be faster than already
->     >     existing 'software'
->     >     > > > > >      > implementation in QEMU
->     >     > > > > >      > * Additionally adding support for the usage of
->     >     RSS with vhost
->     >     > > > > >      >
->     >     > > > > >      > Supported kernels: 5.8+
->     >     > > > > >      >
->     >     > > > > >      > Implementation notes:
->     >     > > > > >      > Linux TAP TUNSETSTEERINGEBPF ioctl was used to
->     >     set the eBPF program.
->     >     > > > > >      > Added eBPF support to qemu directly through a
->     >     system call, see the
->     >     > > > > >      > bpf(2) for details.
->     >     > > > > >      > The eBPF program is part of the qemu and
->     >     presented as an array
->     >     > > > > >      of bpf
->     >     > > > > >      > instructions.
->     >     > > > > >      > The program can be recompiled by provided
->     >     Makefile.ebpf(need to
->     >     > > > > >      adjust
->     >     > > > > >      > 'linuxhdrs'),
->     >     > > > > >      > although it's not required to build QEMU with
->     >     eBPF support.
->     >     > > > > >      > Added changes to virtio-net and vhost, primary
->     >     eBPF RSS is used.
->     >     > > > > >      > 'Software' RSS used in the case of hash
->     >     population and as a
->     >     > > > > >      fallback option.
->     >     > > > > >      > For vhost, the hash population feature is not
->     >     reported to the guest.
->     >     > > > > >      >
->     >     > > > > >      > Please also see the documentation in PATCH 6/6.
->     >     > > > > >      >
->     >     > > > > >      > I am sending those patches as RFC to
->     initiate the
->     >     discussions
->     >     > > > > >      and get
->     >     > > > > >      > feedback on the following points:
->     >     > > > > >      > * Fallback when eBPF is not supported by
->     the kernel
->     >     > > > > >
->     >     > > > > >
->     >     > > > > >      Yes, and it could also a lacking of CAP_BPF.
->     >     > > > > >
->     >     > > > > >
->     >     > > > > >      > * Live migration to the kernel that doesn't
->     have
->     >     eBPF support
->     >     > > > > >
->     >     > > > > >
->     >     > > > > >      Is there anything that we needs special
->     treatment here?
->     >     > > > > >
->     >     > > > > > Possible case: rss=on, vhost=on, source system with
->     >     kernel 5.8
->     >     > > > > > (everything works) -> dest. system 5.6 (bpf does not
->     >     work), the adapter
->     >     > > > > > functions, but all the steering does not use
->     proper queues.
->     >     > > > >
->     >     > > > > Right, I think we need to disable vhost on dest.
->     >     > > > >
->     >     > > > >
->     >     > > > > >
->     >     > > > > >
->     >     > > > > >      > * Integration with current QEMU build
->     >     > > > > >
->     >     > > > > >
->     >     > > > > >      Yes, a question here:
->     >     > > > > >
->     >     > > > > >      1) Any reason for not using libbpf, e.g it
->     has been
->     >     shipped with some
->     >     > > > > >      distros
->     >     > > > > >
->     >     > > > > >
->     >     > > > > > We intentionally do not use libbpf, as it present only
->     >     on some distros.
->     >     > > > > > We can switch to libbpf, but this will disable bpf if
->     >     libbpf is not
->     >     > > > > > installed
->     >     > > > >
->     >     > > > > That's better I think.
->     >     > > > >
->     >     > > > >
->     >     > > > > >      2) It would be better if we can avoid shipping
->     >     bytecodes
->     >     > > > > >
->     >     > > > > >
->     >     > > > > >
->     >     > > > > > This creates new dependencies: llvm + clang + ...
->     >     > > > > > We would prefer byte code and ability to generate
->     it if
->     >     prerequisites
->     >     > > > > > are installed.
->     >     > > > >
->     >     > > > > It's probably ok if we treat the bytecode as a kind of
->     >     firmware.
->     >     > > > That is explicitly *not* OK for inclusion in Fedora. They
->     >     require that
->     >     > > > BPF is compiled from source, and rejected my
->     suggestion that
->     >     it could
->     >     > > > be considered a kind of firmware and thus have an
->     exception
->     >     from building
->     >     > > > from source.
->     >     > >
->     >     > >
->     >     > > Please refer what it was done in DPDK:
->     >     > >
->     >     > > http://git.dpdk.org/dpdk/tree/doc/guides/nics/tap.rst#n235
->     >     > >
->     >     > > I don't think what proposed here makes anything different.
->     >     >
->     >     > I'm not convinced that what DPDK does is acceptable to
->     Fedora either
->     >     > based on the responses I've received when asking about BPF
->     handling
->     >     > during build.  I wouldn't suprise me, however, if this was
->     simply
->     >     > missed by reviewers when accepting DPDK into Fedora,
->     because it is
->     >     > not entirely obvious unless you are looking closely.
->     >
->     >     FWIW, I'm pushing back against the idea that we have to
->     compile the
->     >     BPF code from master source, as I think it is reasonable to
->     have the
->     >     program embedded as a static array in the source code
->     similar to what
->     >     DPDK does.  It doesn't feel much different from other places
->     where
->     >     apps
->     >     use generated sources, and don't build them from the
->     original source
->     >     every time. eg "configure" is never re-generated from
->     >     "configure.ac <http://configure.ac> <http://configure.ac>"
->     >     by Fedora packagers, they just use the generated "configure"
->     script
->     >     as-is.
->     >
->     >     Regards,
->     >     Daniel
->     >     --
->     >     |: https://berrange.com     -o-
->     > https://www.flickr.com/photos/dberrange :|
->     >     |: https://libvirt.org        -o-
->     https://fstop138.berrange.com :|
->     >     |: https://entangle-photo.org   -o-
->     > https://www.instagram.com/dberrange :|
->     >
->
+Assuming the above is not a problem:
+Reviewed-by: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
 
 
