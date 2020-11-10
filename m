@@ -2,60 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4368F2AD4D1
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 12:23:55 +0100 (CET)
-Received: from localhost ([::1]:59754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 505132AD4DC
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 12:26:56 +0100 (CET)
+Received: from localhost ([::1]:39920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcRkg-0006UX-9E
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 06:23:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44998)
+	id 1kcRnb-0001Xf-7B
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 06:26:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcRZO-0007Jw-U2
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:12:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28535)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcRZT-0007UL-12
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:12:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52206)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcRZM-0004es-NH
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:12:14 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcRZQ-0004g0-JZ
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:12:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605006731;
+ s=mimecast20190719; t=1605006735;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gOj6U+5DbDGGDujK1ny/ZeusJBTzYYK5MdhIa7oxTc0=;
- b=Sr2Md9pRjeiqOxXBaj8Mu3bXKd4JmLaxpXZLBKccZryx1TjeDQMhpN1mQftAwzXkVGPXS9
- qRJxqbSVs2sqkTjb2h6bR35KPi0W3eaVq5JM2qaEfQrzrD0hIALiUIkqUZ+FYwtoLb1Kpl
- 9ndgpBYpXm5tEfDN22StYk1NKAsco14=
+ to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=U6PUBRT3IYzInNagK3BqCdBFdnF1uPjHrJiamLiKAA4=;
+ b=IwGRpB0yxMabSe9oRtlHEwL/DFkXsqIv9ffHm4kdLqz6zlBlNqCls3UPDax9Oml4tAUobJ
+ oTbWC1EPKPptYm+/Um9aFMz3oM6fNkadMsIEh9wjcmI/5UWHt7oVQ4zI0k5Xg+lQkJPzpf
+ iZk6NFmmniPy0F49lsyNR54LnCrjAtk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-108-zme3jFfCMWiC-jCWzMMd3Q-1; Tue, 10 Nov 2020 06:12:09 -0500
-X-MC-Unique: zme3jFfCMWiC-jCWzMMd3Q-1
+ us-mta-496-hhsWtga7ODSXdoCqjCEz4Q-1; Tue, 10 Nov 2020 06:12:12 -0500
+X-MC-Unique: hhsWtga7ODSXdoCqjCEz4Q-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EA3957204;
- Tue, 10 Nov 2020 11:12:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92425879521;
+ Tue, 10 Nov 2020 11:12:11 +0000 (UTC)
 Received: from thuth.com (ovpn-113-192.ams2.redhat.com [10.36.113.192])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 97A2110013D9;
- Tue, 10 Nov 2020 11:12:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C171E10013D9;
+ Tue, 10 Nov 2020 11:12:08 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 15/19] docs: add "page source" link to sphinx documentation
-Date: Tue, 10 Nov 2020 12:11:28 +0100
-Message-Id: <20201110111132.559399-16-thuth@redhat.com>
+Subject: [PULL 16/19] fuzz: add virtio-blk fuzz target
+Date: Tue, 10 Nov 2020 12:11:29 +0100
+Message-Id: <20201110111132.559399-17-thuth@redhat.com>
 In-Reply-To: <20201110111132.559399-1-thuth@redhat.com>
 References: <20201110111132.559399-1-thuth@redhat.com>
-MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 00:21:06
@@ -83,121 +79,275 @@ Cc: Alexander Bulekov <alxndr@bu.edu>, Cornelia Huck <cohuck@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+From: Dima Stepanov <dimastep@yandex-team.ru>
 
-Add a link to the top of the sidebar in every docs page that takes the
-user back to the source code in gitlab.
+The virtio-blk fuzz target sets up and fuzzes the available virtio-blk
+queues. The implementation is based on two files:
+  - tests/qtest/fuzz/virtio_scsi_fuzz.c
+  - tests/qtest/virtio_blk_test.c
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20201102130926.161183-5-berrange@redhat.com>
+Signed-off-by: Dima Stepanov <dimastep@yandex-team.ru>
+Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
+Message-Id: <e2405c459302ecaee2555405604975353bfa3837.1604920905.git.dimastep@yandex-team.ru>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- docs/_templates/editpage.html         | 5 +++++
- docs/conf.py                          | 1 +
- docs/devel/_templates/editpage.html   | 5 +++++
- docs/interop/_templates/editpage.html | 5 +++++
- docs/specs/_templates/editpage.html   | 5 +++++
- docs/system/_templates/editpage.html  | 5 +++++
- docs/tools/_templates/editpage.html   | 5 +++++
- docs/user/_templates/editpage.html    | 5 +++++
- 8 files changed, 36 insertions(+)
- create mode 100644 docs/_templates/editpage.html
- create mode 100644 docs/devel/_templates/editpage.html
- create mode 100644 docs/interop/_templates/editpage.html
- create mode 100644 docs/specs/_templates/editpage.html
- create mode 100644 docs/system/_templates/editpage.html
- create mode 100644 docs/tools/_templates/editpage.html
- create mode 100644 docs/user/_templates/editpage.html
+ tests/qtest/fuzz/meson.build       |   1 +
+ tests/qtest/fuzz/virtio_blk_fuzz.c | 234 +++++++++++++++++++++++++++++
+ 2 files changed, 235 insertions(+)
+ create mode 100644 tests/qtest/fuzz/virtio_blk_fuzz.c
 
-diff --git a/docs/_templates/editpage.html b/docs/_templates/editpage.html
+diff --git a/tests/qtest/fuzz/meson.build b/tests/qtest/fuzz/meson.build
+index 5162321f30..8af6848cd5 100644
+--- a/tests/qtest/fuzz/meson.build
++++ b/tests/qtest/fuzz/meson.build
+@@ -5,6 +5,7 @@ specific_fuzz_ss.add(files('fuzz.c', 'fork_fuzz.c', 'qos_fuzz.c',
+ specific_fuzz_ss.add(when: 'CONFIG_I440FX', if_true: files('i440fx_fuzz.c'))
+ specific_fuzz_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('virtio_net_fuzz.c'))
+ specific_fuzz_ss.add(when: 'CONFIG_VIRTIO_SCSI', if_true: files('virtio_scsi_fuzz.c'))
++specific_fuzz_ss.add(when: 'CONFIG_VIRTIO_BLK', if_true: files('virtio_blk_fuzz.c'))
+ specific_fuzz_ss.add(files('generic_fuzz.c'))
+ 
+ fork_fuzz = declare_dependency(
+diff --git a/tests/qtest/fuzz/virtio_blk_fuzz.c b/tests/qtest/fuzz/virtio_blk_fuzz.c
 new file mode 100644
-index 0000000000..4319b0f5ac
+index 0000000000..623a756fd4
 --- /dev/null
-+++ b/docs/_templates/editpage.html
-@@ -0,0 +1,5 @@
-+<div id="editpage">
-+  <ul>
-+    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/{{pagename}}.rst">Page source</a></li>
-+  </ul>
-+</div>
-diff --git a/docs/conf.py b/docs/conf.py
-index e584f68393..d40d8ff37b 100644
---- a/docs/conf.py
-+++ b/docs/conf.py
-@@ -177,6 +177,7 @@ html_theme_options = {
- html_sidebars = {
-     '**': [
-         'about.html',
-+        'editpage.html',
-         'navigation.html',
-         'searchbox.html',
-     ]
-diff --git a/docs/devel/_templates/editpage.html b/docs/devel/_templates/editpage.html
-new file mode 100644
-index 0000000000..a86d22bca8
---- /dev/null
-+++ b/docs/devel/_templates/editpage.html
-@@ -0,0 +1,5 @@
-+<div id="editpage">
-+  <ul>
-+    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/devel/{{pagename}}.rst">Page source</a></li>
-+  </ul>
-+</div>
-diff --git a/docs/interop/_templates/editpage.html b/docs/interop/_templates/editpage.html
-new file mode 100644
-index 0000000000..215e562681
---- /dev/null
-+++ b/docs/interop/_templates/editpage.html
-@@ -0,0 +1,5 @@
-+<div id="editpage">
-+  <ul>
-+    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/interop/{{pagename}}.rst">Page source</a></li>
-+  </ul>
-+</div>
-diff --git a/docs/specs/_templates/editpage.html b/docs/specs/_templates/editpage.html
-new file mode 100644
-index 0000000000..aaa468aa98
---- /dev/null
-+++ b/docs/specs/_templates/editpage.html
-@@ -0,0 +1,5 @@
-+<div id="editpage">
-+  <ul>
-+    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/specs/{{pagename}}.rst">Page source</a></li>
-+  </ul>
-+</div>
-diff --git a/docs/system/_templates/editpage.html b/docs/system/_templates/editpage.html
-new file mode 100644
-index 0000000000..6586b2e257
---- /dev/null
-+++ b/docs/system/_templates/editpage.html
-@@ -0,0 +1,5 @@
-+<div id="editpage">
-+  <ul>
-+    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/system/{{pagename}}.rst">Page source</a></li>
-+  </ul>
-+</div>
-diff --git a/docs/tools/_templates/editpage.html b/docs/tools/_templates/editpage.html
-new file mode 100644
-index 0000000000..2a9c8fc92b
---- /dev/null
-+++ b/docs/tools/_templates/editpage.html
-@@ -0,0 +1,5 @@
-+<div id="editpage">
-+  <ul>
-+    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/tools/{{pagename}}.rst">Page source</a></li>
-+  </ul>
-+</div>
-diff --git a/docs/user/_templates/editpage.html b/docs/user/_templates/editpage.html
-new file mode 100644
-index 0000000000..1f5ee01e60
---- /dev/null
-+++ b/docs/user/_templates/editpage.html
-@@ -0,0 +1,5 @@
-+<div id="editpage">
-+  <ul>
-+    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/user/{{pagename}}.rst">Page source</a></li>
-+  </ul>
-+</div>
++++ b/tests/qtest/fuzz/virtio_blk_fuzz.c
+@@ -0,0 +1,234 @@
++/*
++ * virtio-blk Fuzzing Target
++ *
++ * Copyright Red Hat Inc., 2020
++ *
++ * Based on virtio-scsi-fuzz target.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++
++#include "tests/qtest/libqos/libqtest.h"
++#include "tests/qtest/libqos/virtio-blk.h"
++#include "tests/qtest/libqos/virtio.h"
++#include "tests/qtest/libqos/virtio-pci.h"
++#include "standard-headers/linux/virtio_ids.h"
++#include "standard-headers/linux/virtio_pci.h"
++#include "standard-headers/linux/virtio_blk.h"
++#include "fuzz.h"
++#include "fork_fuzz.h"
++#include "qos_fuzz.h"
++
++#define TEST_IMAGE_SIZE         (64 * 1024 * 1024)
++#define PCI_SLOT                0x02
++#define PCI_FN                  0x00
++
++#define MAX_NUM_QUEUES 64
++
++/* Based on tests/qtest/virtio-blk-test.c. */
++typedef struct {
++    int num_queues;
++    QVirtQueue *vq[MAX_NUM_QUEUES + 2];
++} QVirtioBlkQueues;
++
++static QVirtioBlkQueues *qvirtio_blk_init(QVirtioDevice *dev, uint64_t mask)
++{
++    QVirtioBlkQueues *vs;
++    uint64_t features;
++
++    vs = g_new0(QVirtioBlkQueues, 1);
++
++    features = qvirtio_get_features(dev);
++    if (!mask) {
++        mask = ~((1u << VIRTIO_RING_F_INDIRECT_DESC) |
++                (1u << VIRTIO_RING_F_EVENT_IDX) |
++                (1u << VIRTIO_BLK_F_SCSI));
++    }
++    mask |= ~QVIRTIO_F_BAD_FEATURE;
++    features &= mask;
++    qvirtio_set_features(dev, features);
++
++    vs->num_queues = 1;
++    vs->vq[0] = qvirtqueue_setup(dev, fuzz_qos_alloc, 0);
++
++    qvirtio_set_driver_ok(dev);
++
++    return vs;
++}
++
++static void virtio_blk_fuzz(QTestState *s, QVirtioBlkQueues* queues,
++        const unsigned char *Data, size_t Size)
++{
++    /*
++     * Data is a sequence of random bytes. We split them up into "actions",
++     * followed by data:
++     * [vqa][dddddddd][vqa][dddd][vqa][dddddddddddd] ...
++     * The length of the data is specified by the preceding vqa.length
++     */
++    typedef struct vq_action {
++        uint8_t queue;
++        uint8_t length;
++        uint8_t write;
++        uint8_t next;
++        uint8_t kick;
++    } vq_action;
++
++    /* Keep track of the free head for each queue we interact with */
++    bool vq_touched[MAX_NUM_QUEUES + 2] = {0};
++    uint32_t free_head[MAX_NUM_QUEUES + 2];
++
++    QGuestAllocator *t_alloc = fuzz_qos_alloc;
++
++    QVirtioBlk *blk = fuzz_qos_obj;
++    QVirtioDevice *dev = blk->vdev;
++    QVirtQueue *q;
++    vq_action vqa;
++    while (Size >= sizeof(vqa)) {
++        /* Copy the action, so we can normalize length, queue and flags */
++        memcpy(&vqa, Data, sizeof(vqa));
++
++        Data += sizeof(vqa);
++        Size -= sizeof(vqa);
++
++        vqa.queue = vqa.queue % queues->num_queues;
++        /* Cap length at the number of remaining bytes in data */
++        vqa.length = vqa.length >= Size ? Size : vqa.length;
++        vqa.write = vqa.write & 1;
++        vqa.next = vqa.next & 1;
++        vqa.kick = vqa.kick & 1;
++
++        q = queues->vq[vqa.queue];
++
++        /* Copy the data into ram, and place it on the virtqueue */
++        uint64_t req_addr = guest_alloc(t_alloc, vqa.length);
++        qtest_memwrite(s, req_addr, Data, vqa.length);
++        if (vq_touched[vqa.queue] == 0) {
++            vq_touched[vqa.queue] = 1;
++            free_head[vqa.queue] = qvirtqueue_add(s, q, req_addr, vqa.length,
++                    vqa.write, vqa.next);
++        } else {
++            qvirtqueue_add(s, q, req_addr, vqa.length, vqa.write , vqa.next);
++        }
++
++        if (vqa.kick) {
++            qvirtqueue_kick(s, dev, q, free_head[vqa.queue]);
++            free_head[vqa.queue] = 0;
++        }
++        Data += vqa.length;
++        Size -= vqa.length;
++    }
++    /* In the end, kick each queue we interacted with */
++    for (int i = 0; i < MAX_NUM_QUEUES + 2; i++) {
++        if (vq_touched[i]) {
++            qvirtqueue_kick(s, dev, queues->vq[i], free_head[i]);
++        }
++    }
++}
++
++static void virtio_blk_fork_fuzz(QTestState *s,
++        const unsigned char *Data, size_t Size)
++{
++    QVirtioBlk *blk = fuzz_qos_obj;
++    static QVirtioBlkQueues *queues;
++    if (!queues) {
++        queues = qvirtio_blk_init(blk->vdev, 0);
++    }
++    if (fork() == 0) {
++        virtio_blk_fuzz(s, queues, Data, Size);
++        flush_events(s);
++        _Exit(0);
++    } else {
++        flush_events(s);
++        wait(NULL);
++    }
++}
++
++static void virtio_blk_with_flag_fuzz(QTestState *s,
++        const unsigned char *Data, size_t Size)
++{
++    QVirtioBlk *blk = fuzz_qos_obj;
++    static QVirtioBlkQueues *queues;
++
++    if (fork() == 0) {
++        if (Size >= sizeof(uint64_t)) {
++            queues = qvirtio_blk_init(blk->vdev, *(uint64_t *)Data);
++            virtio_blk_fuzz(s, queues,
++                             Data + sizeof(uint64_t), Size - sizeof(uint64_t));
++            flush_events(s);
++        }
++        _Exit(0);
++    } else {
++        flush_events(s);
++        wait(NULL);
++    }
++}
++
++static void virtio_blk_pre_fuzz(QTestState *s)
++{
++    qos_init_path(s);
++    counter_shm_init();
++}
++
++static void drive_destroy(void *path)
++{
++    unlink(path);
++    g_free(path);
++}
++
++static char *drive_create(void)
++{
++    int fd, ret;
++    char *t_path = g_strdup("/tmp/qtest.XXXXXX");
++
++    /* Create a temporary raw image */
++    fd = mkstemp(t_path);
++    g_assert_cmpint(fd, >=, 0);
++    ret = ftruncate(fd, TEST_IMAGE_SIZE);
++    g_assert_cmpint(ret, ==, 0);
++    close(fd);
++
++    g_test_queue_destroy(drive_destroy, t_path);
++    return t_path;
++}
++
++static void *virtio_blk_test_setup(GString *cmd_line, void *arg)
++{
++    char *tmp_path = drive_create();
++
++    g_string_append_printf(cmd_line,
++                           " -drive if=none,id=drive0,file=%s,"
++                           "format=raw,auto-read-only=off ",
++                           tmp_path);
++
++    return arg;
++}
++
++static void register_virtio_blk_fuzz_targets(void)
++{
++    fuzz_add_qos_target(&(FuzzTarget){
++                .name = "virtio-blk-fuzz",
++                .description = "Fuzz the virtio-blk virtual queues, forking "
++                                "for each fuzz run",
++                .pre_vm_init = &counter_shm_init,
++                .pre_fuzz = &virtio_blk_pre_fuzz,
++                .fuzz = virtio_blk_fork_fuzz,},
++                "virtio-blk",
++                &(QOSGraphTestOptions){.before = virtio_blk_test_setup}
++                );
++
++    fuzz_add_qos_target(&(FuzzTarget){
++                .name = "virtio-blk-flags-fuzz",
++                .description = "Fuzz the virtio-blk virtual queues, forking "
++                "for each fuzz run (also fuzzes the virtio flags)",
++                .pre_vm_init = &counter_shm_init,
++                .pre_fuzz = &virtio_blk_pre_fuzz,
++                .fuzz = virtio_blk_with_flag_fuzz,},
++                "virtio-blk",
++                &(QOSGraphTestOptions){.before = virtio_blk_test_setup}
++                );
++}
++
++fuzz_target_init(register_virtio_blk_fuzz_targets);
 -- 
 2.18.4
 
