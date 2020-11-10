@@ -2,82 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A1D82ADFF7
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 20:43:45 +0100 (CET)
-Received: from localhost ([::1]:49512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E45E2AE030
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 20:53:12 +0100 (CET)
+Received: from localhost ([::1]:37776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcZYO-0000CA-Lr
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 14:43:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52128)
+	id 1kcZhV-0007RH-W3
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 14:53:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kcZQ0-0002Aw-Hc
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 14:35:04 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33681)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kcZPu-0000Pk-SX
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 14:35:01 -0500
-Received: by mail-wr1-x443.google.com with SMTP id b8so14019636wrn.0
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 11:34:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=xKsmZxpUiOLSdJc2k4uQibWw4hwHq7IgcOmSYvuCCGU=;
- b=Yqxl4qOpWtSFtT+gMveY7/ndQOTj7VYn+BAjwj9efpc/W3Li/o5JV2cv+s3xZCiE8Q
- GcNFhP8MLulchfQttYMnJU6bWuvyEAiCb2Ty6IC8RExoeTfD+xEfi6PPiw8zNsoiqlnm
- KewBipKYn2ypEKA0Kx7RN6E6RA+33pRi+YKYtiNoU6TbTX0D2kxR2jmPg4QRmI7xMiio
- R9pP6uuf//x3FEH0qkh7QTJtvMvUaOVaLCys9o+/tToswKUFQowV95ve6eP8b20UpHud
- pxB1XDabciedjATPRgvupVY4r+uwRGA+KJc4bwZZDvzTNDrgsEEmGOPmoG0vTipBOf9y
- RIwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=xKsmZxpUiOLSdJc2k4uQibWw4hwHq7IgcOmSYvuCCGU=;
- b=frLIqP/5wn2feD5ihd6e6GrOGfgi9rAHQKsEZCJQgFSTeA3v9lmnPHVka+8+nAdMzv
- DQQCRhUTIWVqCaMwzSsmiLYxLZuKmiaj71sqiVbHtYJwZKQ+qwziZCHEXWueLSvI/bp4
- Ax46rvSf2kSV/zLZYUuHqDPJgHw70u+eZBisM2uWZEHZrytf/5h4ZoZj2YFMKxFi8nRy
- akCbQcpwp7pZGvQLWve4gTFlN3KBrKgzKPzDgDGd3Yctf8dj6FZ9jK5L7XGkYWgP9mwZ
- 8tS5M1LuPB1Ng+YsNyxI+xjdunsv+Mbk5OtAOsNJxNylQGEFemsQ7pbVA338tB/lq5Xl
- XcSA==
-X-Gm-Message-State: AOAM531pct4IIkLgrkoxVH3aEQALRlcBD3zDJHOH5eG5MVY+HBcDuqfe
- 4KpifuqFX+5Fb5uzPhH1UEQMMA==
-X-Google-Smtp-Source: ABdhPJwAhqSYz5r5MlG3Jnx+QaKo7Q6K9ym/CEnC0APOdAFxLHrDaSY88CHpkYRJhHaovW9vvneW5g==
-X-Received: by 2002:a5d:534d:: with SMTP id t13mr24597785wrv.69.1605036895369; 
- Tue, 10 Nov 2020 11:34:55 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c64sm3842098wmd.41.2020.11.10.11.34.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Nov 2020 11:34:53 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E91BC1FF7E;
- Tue, 10 Nov 2020 19:34:52 +0000 (GMT)
-References: <20201108204535.2319870-1-philmd@redhat.com>
- <20201108204535.2319870-9-philmd@redhat.com>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH-for-6.0 v4 08/17] gitlab-ci: Move linux-user debug-tcg
- test across to gitlab
-In-reply-to: <20201108204535.2319870-9-philmd@redhat.com>
-Date: Tue, 10 Nov 2020 19:34:52 +0000
-Message-ID: <87wnyt6m5f.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <pisa@cmp.felk.cvut.cz>)
+ id 1kcZSw-0003rb-1H
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 14:38:06 -0500
+Received: from relay.felk.cvut.cz ([2001:718:2:1611:0:1:0:70]:31723)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <pisa@cmp.felk.cvut.cz>) id 1kcZSq-0000oX-OM
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 14:38:05 -0500
+Received: from cmp.felk.cvut.cz (haar.felk.cvut.cz [147.32.84.19])
+ by relay.felk.cvut.cz (8.15.2/8.15.2) with ESMTP id 0AAJb008090674;
+ Tue, 10 Nov 2020 20:37:00 +0100 (CET)
+ (envelope-from pisa@cmp.felk.cvut.cz)
+Received: from haar.felk.cvut.cz (localhost [127.0.0.1])
+ by cmp.felk.cvut.cz (8.14.0/8.12.3/SuSE Linux 0.6) with ESMTP id
+ 0AAJb002013431; Tue, 10 Nov 2020 20:37:00 +0100
+Received: (from pisa@localhost)
+ by haar.felk.cvut.cz (8.14.0/8.13.7/Submit) id 0AAJb0dH013430;
+ Tue, 10 Nov 2020 20:37:00 +0100
+X-Authentication-Warning: haar.felk.cvut.cz: pisa set sender to
+ pisa@cmp.felk.cvut.cz using -f
+From: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH for-5.2 v2 2/4] hw/net/can/ctucan: Avoid unused value in
+ ctucan_send_ready_buffers()
+Date: Tue, 10 Nov 2020 20:36:59 +0100
+User-Agent: KMail/1.9.10
+References: <20201110170604.5897-1-peter.maydell@linaro.org>
+ <20201110170604.5897-3-peter.maydell@linaro.org>
+In-Reply-To: <20201110170604.5897-3-peter.maydell@linaro.org>
+X-KMail-QuotePrefix: > 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: Text/Plain;
+  charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Message-Id: <202011102036.59785.pisa@cmp.felk.cvut.cz>
+X-FELK-MailScanner-Information: 
+X-MailScanner-ID: 0AAJb008090674
+X-FELK-MailScanner: Found to be clean
+X-FELK-MailScanner-SpamCheck: not spam, SpamAssassin (not cached,
+ score=-0.099, required 6, BAYES_00 -0.50, KHOP_HELO_FCRDNS 0.40,
+ NICE_REPLY_A -0.00, SPF_HELO_NONE 0.00, SPF_NONE 0.00)
+X-FELK-MailScanner-From: pisa@cmp.felk.cvut.cz
+X-FELK-MailScanner-Watermark: 1605641825.4945@iqg3Fgd78/X22cJm05hSCA
+Received-SPF: none client-ip=2001:718:2:1611:0:1:0:70;
+ envelope-from=pisa@cmp.felk.cvut.cz; helo=relay.felk.cvut.cz
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 13:02:14
+X-ACL-Warn: Detected OS   = ???
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,76 +75,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: Jason Wang <jasowang@redhat.com>, Vikram Garhwal <fnu.vikram@xilinx.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hello Peter,
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
-
-> Similarly to commit 8cdb2cef3f1, move the linux-user (debug-tcg)
-> test to GitLab.
+On Tuesday 10 of November 2020 18:06:02 Peter Maydell wrote:
+> Coverity points out that in ctucan_send_ready_buffers() we
+> set buff_st_mask = 0xf << (i * 4) inside the loop, but then
+> we never use it before overwriting it later.
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
-> Cc: Laurent Vivier <laurent@vivier.eu>
-> ---
->  .gitlab-ci.yml | 7 +++++++
->  .travis.yml    | 9 ---------
->  2 files changed, 7 insertions(+), 9 deletions(-)
+> The only thing we use the mask for is as part of the code that is
+> inserting the new buff_st field into tx_status.  That is more
+> comprehensibly written using deposit32(), so do that and drop the
+> mask variable entirely.
 >
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index 3fc3d0568c6..80082a602b8 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -304,6 +304,13 @@ build-user:
->      CONFIGURE_ARGS: --disable-tools --disable-system
->      MAKE_CHECK_ARGS: check-tcg
->=20=20
-> +build-user-debug:
-> +  <<: *native_build_job_definition
-> +  variables:
-> +    IMAGE: debian-all-test-cross
-> +    CONFIGURE_ARGS: --disable-tools --disable-system --enable-debug-tcg
-> +    MAKE_CHECK_ARGS: check-tcg
-> +
->  # Run check-tcg against linux-user (with plugins)
->  # we skip sparc64-linux-user until it has been fixed somewhat
->  # we skip cris-linux-user as it doesn't use the common run loop
-> diff --git a/.travis.yml b/.travis.yml
-> index 15d92291358..bee6197290d 100644
-> --- a/.travis.yml
-> +++ b/.travis.yml
-> @@ -293,15 +293,6 @@ jobs:
->          - ${SRC_DIR}/configure ${CONFIG} --extra-cflags=3D"-g3 -O0 -fsan=
-itize=3Dthread" || { cat config.log meson-logs/meson-log.txt && exit 1; }
->=20=20
->=20=20
-> -    # Run check-tcg against linux-user
-> -    - name: "GCC check-tcg (user)"
-> -      env:
-> -        - CONFIG=3D"--disable-system --enable-debug-tcg"
-> -        - TEST_BUILD_CMD=3D"make build-tcg"
-> -        - TEST_CMD=3D"make check-tcg"
-> -        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+> We also update the buff_st local variable at multiple points
+> during this function, but nothing can ever see these
+> intermediate values, so just drop those, write the final
+> TXT_TOK as a fixed constant value, and collapse the only
+> remaining set/use of buff_st down into an extract32().
+>
+> Fixes: Coverity CID 1432869
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  hw/net/can/ctucan_core.c | 15 +++------------
+>  1 file changed, 3 insertions(+), 12 deletions(-)
+>
+> diff --git a/hw/net/can/ctucan_core.c b/hw/net/can/ctucan_core.c
+> index 538270e62f9..a400ad13a43 100644
+> --- a/hw/net/can/ctucan_core.c
+> +++ b/hw/net/can/ctucan_core.c
+> @@ -240,8 +240,6 @@ static void ctucan_send_ready_buffers(CtuCanCoreState
+> *s) uint8_t *pf;
+>      int buff2tx_idx;
+>      uint32_t tx_prio_max;
+> -    unsigned int buff_st;
+> -    uint32_t buff_st_mask;
+>
+>      if (!s->mode_settings.s.ena) {
+>          return;
+> @@ -256,10 +254,7 @@ static void ctucan_send_ready_buffers(CtuCanCoreState
+> *s) for (i = 0; i < CTUCAN_CORE_TXBUF_NUM; i++) {
+>              uint32_t prio;
+>
+> -            buff_st_mask = 0xf << (i * 4);
+> -            buff_st = (s->tx_status.u32 >> (i * 4)) & 0xf;
 > -
-> -
->      # Run check-tcg against softmmu targets
->      - name: "GCC check-tcg (some-softmmu)"
->        env:
+> -            if (buff_st != TXT_RDY) {
+> +            if (extract32(s->tx_status.u32, i * 4, 4) != TXT_RDY) {
+>                  continue;
+>              }
+>              prio = (s->tx_priority.u32 >> (i * 4)) & 0x7;
+> @@ -271,10 +266,7 @@ static void ctucan_send_ready_buffers(CtuCanCoreState
+> *s) if (buff2tx_idx == -1) {
+>              break;
+>          }
+> -        buff_st_mask = 0xf << (buff2tx_idx * 4);
+> -        buff_st = (s->tx_status.u32 >> (buff2tx_idx * 4)) & 0xf;
+>          int_stat.u32 = 0;
+> -        buff_st = TXT_RDY;
 
-I just realised I replicated this is a slightly different way - by
-dropping --debug-tcg and moving the rest in one commit. I skipped over
-the for 6.0 stuff when looking over your series but it's certainly worth
-moving the check-tcg ones now given the stability issues.
+I would prefer to add there next line even that it has no real effect
 
---=20
-Alex Benn=C3=A9e
+ +        s->tx_status.u32 = deposit32(s->tx_status.u32,
+ +                                     buff2tx_idx * 4, 4, TXT_RDY);
+
+But if it generates warning or you have some other reason not to put
+it there, I add my
+
+Acked-by: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+
+When we separated processsing to call of message submit for Tx
+and then separate callback to confirm arbitration win,
+we would need to reintroduce this assignment. But there would
+be much moresignificant changes that this small notice is not
+so important. 
+
+>          pf = s->tx_buffer[buff2tx_idx].data;
+>          ctucan_buff2frame(pf, &frame);
+>          s->status.s.idle = 0;
+> @@ -283,12 +275,11 @@ static void ctucan_send_ready_buffers(CtuCanCoreState
+> *s) s->status.s.idle = 1;
+>          s->status.s.txs = 0;
+>          s->tx_fr_ctr.s.tx_fr_ctr_val++;
+> -        buff_st = TXT_TOK;
+>          int_stat.s.txi = 1;
+>          int_stat.s.txbhci = 1;
+>          s->int_stat.u32 |= int_stat.u32 & ~s->int_mask.u32;
+> -        s->tx_status.u32 = (s->tx_status.u32 & ~buff_st_mask) |
+> -                        (buff_st << (buff2tx_idx * 4));
+> +        s->tx_status.u32 = deposit32(s->tx_status.u32,
+> +                                     buff2tx_idx * 4, 4, TXT_TOK);
+>      } while (1);
+>  }
+
+
+-- 
+Yours sincerely
+
+                Pavel Pisa
+    phone:      +420 603531357
+    e-mail:     pisa@cmp.felk.cvut.cz
+    Department of Control Engineering FEE CVUT
+    Karlovo namesti 13, 121 35, Prague 2
+    university: http://dce.fel.cvut.cz/
+    personal:   http://cmp.felk.cvut.cz/~pisa
+    projects:   https://www.openhub.net/accounts/ppisa
+    CAN related:http://canbus.pages.fel.cvut.cz/
+
 
