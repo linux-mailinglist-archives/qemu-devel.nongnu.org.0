@@ -2,59 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E3922AD553
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 12:35:20 +0100 (CET)
-Received: from localhost ([::1]:39298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB93A2AD545
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 12:32:05 +0100 (CET)
+Received: from localhost ([::1]:57796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcRvj-0004ip-B2
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 06:35:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48382)
+	id 1kcRsa-0000i9-My
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 06:32:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kcRpu-0007Dx-Ly
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:29:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48341)
+ id 1kcRpt-0007BS-G0
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:29:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22504)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kcRpr-0001am-K4
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:29:18 -0500
+ id 1kcRpr-0001bK-Eo
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:29:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1605007753;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ePYLIJp74WSppNHl4VxtXs5Y0vsPLJajpxs5zkPl0Nk=;
- b=ald4CrG5+wSqtGv7JsxiWSiGPMsehBqIw72Xa8UrdOyXL4cUoN5GZl2Pz3fOJVlnTi0F4M
- mvDIQFtMZRfGr0xsdh5slfXD9Q52xoYSna1k+QsyWA4aq9URviZMdS3whRKdshOFAcr/5G
- Af/psEsUPBU0hUiF0VKTExihdryREXo=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ddD/ZstzLTM2Z5hxDWAdMQx4IoUNra+sEV0fic8ElD0=;
+ b=WnGnUV5ybBU/kT+u1JI8n3sUv5KW9wVAvfzoyetHEV90pbIMhCdJmnZWyOdnjYrSJ6teI0
+ zEyNpf6qQvWzyaG7cW/RQ9ER8NpdXjGO4H22AmckAnWBHocVYmIFHIlRZz9yJsNMZhoxGS
+ Cp6dq4AM1rfIKU7uDui4h0BAuzrZhKs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-78-ZGQ3cEpTNWu9QDRJLTxYBw-1; Tue, 10 Nov 2020 06:29:11 -0500
-X-MC-Unique: ZGQ3cEpTNWu9QDRJLTxYBw-1
+ us-mta-258-RB4r12XdNNWFlopOmCJ1Kw-1; Tue, 10 Nov 2020 06:29:12 -0500
+X-MC-Unique: RB4r12XdNNWFlopOmCJ1Kw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C90291006C9B
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 11:29:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3114A1074656
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 11:29:11 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 97C1526345
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 11:29:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E3992277D5;
+ Tue, 10 Nov 2020 11:29:10 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/6] Misc fixes for QEMU 5.2-rc2
-Date: Tue, 10 Nov 2020 06:29:03 -0500
-Message-Id: <20201110112909.1103518-1-pbonzini@redhat.com>
+Subject: [PULL 1/6] meson: Clarify the confusing vhost-user vs. vhost-kernel
+ output
+Date: Tue, 10 Nov 2020 06:29:04 -0500
+Message-Id: <20201110112909.1103518-2-pbonzini@redhat.com>
+In-Reply-To: <20201110112909.1103518-1-pbonzini@redhat.com>
+References: <20201110112909.1103518-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 00:21:06
@@ -78,49 +82,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 3493c36f0371777c62d1d72b205b0eb6117e2156:
+From: Thomas Huth <thuth@redhat.com>
 
-  Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20201106' into staging (2020-11-06 13:43:28 +0000)
+The configuration summary prints a line with "vhost-user: YES/NO",
+but the value is currently the vhost-kernel setting instead which
+looks wrong. Print the kernel setting in a separate line and switch
+the "vhost-user:" line to CONFIG_VHOST_USER instead.
 
-are available in the Git repository at:
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20201109085906.87921-1-thuth@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ meson.build | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
-
-for you to fetch changes up to 6e853291036573c8831f486fc7d76b779b0ac567:
-
-  pvpanic: Advertise the PVPANIC_CRASHLOADED event support (2020-11-10 06:27:17 -0500)
-
-----------------------------------------------------------------
-Bug fixes
-
-----------------------------------------------------------------
-Greg Kurz (1):
-      Makefile: No echoing for 'make help V=1'
-
-Pankaj Gupta (1):
-      physmem: improve ram size error messages
-
-Paolo Bonzini (2):
-      fix make clean/distclean
-      pvpanic: Advertise the PVPANIC_CRASHLOADED event support
-
-Pavel Dovgalyuk (1):
-      replay: remove some dead code
-
-Thomas Huth (1):
-      meson: Clarify the confusing vhost-user vs. vhost-kernel output
-
- Makefile                  | 8 ++++----
- hw/core/machine.c         | 1 +
- hw/misc/pvpanic.c         | 5 ++++-
- meson.build               | 3 ++-
- replay/replay-debugging.c | 3 ---
- softmmu/physmem.c         | 6 +++---
- 6 files changed, 14 insertions(+), 12 deletions(-)
+diff --git a/meson.build b/meson.build
+index f5175010df..b7f91cb08d 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2102,11 +2102,12 @@ summary_info += {'madvise':           config_host.has_key('CONFIG_MADVISE')}
+ summary_info += {'posix_madvise':     config_host.has_key('CONFIG_POSIX_MADVISE')}
+ summary_info += {'posix_memalign':    config_host.has_key('CONFIG_POSIX_MEMALIGN')}
+ summary_info += {'libcap-ng support': config_host.has_key('CONFIG_LIBCAP_NG')}
++summary_info += {'vhost-kernel support': config_host.has_key('CONFIG_VHOST_KERNEL')}
+ summary_info += {'vhost-net support': config_host.has_key('CONFIG_VHOST_NET')}
+ summary_info += {'vhost-crypto support': config_host.has_key('CONFIG_VHOST_CRYPTO')}
+ summary_info += {'vhost-scsi support': config_host.has_key('CONFIG_VHOST_SCSI')}
+ summary_info += {'vhost-vsock support': config_host.has_key('CONFIG_VHOST_VSOCK')}
+-summary_info += {'vhost-user support': config_host.has_key('CONFIG_VHOST_KERNEL')}
++summary_info += {'vhost-user support': config_host.has_key('CONFIG_VHOST_USER')}
+ summary_info += {'vhost-user-fs support': config_host.has_key('CONFIG_VHOST_USER_FS')}
+ summary_info += {'vhost-vdpa support': config_host.has_key('CONFIG_VHOST_VDPA')}
+ summary_info += {'Trace backends':    config_host['TRACE_BACKENDS']}
 -- 
 2.26.2
+
 
 
