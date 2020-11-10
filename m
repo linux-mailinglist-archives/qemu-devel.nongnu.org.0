@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF11D2ADDB4
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 19:03:50 +0100 (CET)
-Received: from localhost ([::1]:37712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7C3D2ADDB9
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 19:05:27 +0100 (CET)
+Received: from localhost ([::1]:41806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcXzh-0004nN-OT
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 13:03:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33290)
+	id 1kcY1G-0006UU-O5
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 13:05:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcXxv-0003lW-Iv
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 13:01:59 -0500
-Received: from indium.canonical.com ([91.189.90.7]:42088)
+ id 1kcXxw-0003ll-SM
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 13:02:00 -0500
+Received: from indium.canonical.com ([91.189.90.7]:42090)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcXxp-0001W8-7M
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 13:01:59 -0500
+ id 1kcXxp-0001W9-7Q
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 13:02:00 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kcXxk-0000K7-S7
+ id 1kcXxk-0000KI-IV
  for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 18:01:48 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D40402E8130
+ by loganberry.canonical.com (Postfix) with ESMTP id 82E522E8138
  for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 18:01:48 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2020 17:52:18 -0000
-From: Thomas Huth <1735082@bugs.launchpad.net>
+Date: Tue, 10 Nov 2020 17:54:55 -0000
+From: Thomas Huth <1736042@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -38,18 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: nitin981 th-huth
-X-Launchpad-Bug-Reporter: Nitin (nitin981)
+X-Launchpad-Bug-Commenters: liangy tezeb th-huth
+X-Launchpad-Bug-Reporter: tezeb (tezeb)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <151193824666.10852.4284580382497408043.malonedeb@wampee.canonical.com>
-Message-Id: <160503073811.19106.8591633482884763944.malone@wampee.canonical.com>
-Subject: [Bug 1735082] Re: NVME pass through in th eguest VM
+References: <151234883142.11175.15433643697954166633.malonedeb@soybean.canonical.com>
+Message-Id: <160503089601.13144.16757036394141290151.malone@gac.canonical.com>
+Subject: [Bug 1736042] Re: qemu-system-x86_64 does not boot image reliably
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: 191a1e431345fa1fda514a9577598e5f99750ac0
+X-Launchpad-Hash: 2ae15ac791d1d05cb86cbc65a2dbc02a0905a02e
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 08:35:46
@@ -72,12 +72,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1735082 <1735082@bugs.launchpad.net>
+Reply-To: Bug 1736042 <1736042@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Can you reproduce the problem with the latest official upstream version
-of QEMU?
+Have you ever tried the suggestions from Liang Yan ?
 
 ** Changed in: qemu
        Status: New =3D> Incomplete
@@ -86,46 +85,39 @@ of QEMU?
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1735082
+https://bugs.launchpad.net/bugs/1736042
 
 Title:
-  NVME pass through in th eguest VM
+  qemu-system-x86_64 does not boot image reliably
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Hi Qemu Team
+  Booting image as root user with following command works randomly.
 
-  i am new in qemu and trying for nvme pass through ..
-  for that i used  below git repo for nvme =
+  ./qemu-system-x86_64 -enable-kvm -curses -smp cpus=3D4 -m 8192
+  /root/ructfe2917_g.qcow2
 
+  Most of the time it ends up on "800x600 Graphic mode"(been stuck there
+  even for 4 hours before killed), but 1 out of ~20 it boots image
+  correctly(and instantly).
 
-  https://github.com/famz/qemu/tree/nvme
+  This is visible in v2.5.0 build from sources, v2.5.0 from Ubuntu
+  Xenial and v2.1.2 from Debian Jessie.
 
-  and trying to launch the VM by below qemu command ..
+  The image in question was converted from vmdk using:
 
-  /usr/local/bin/qemu-system-x86_64 -name sl7.0=E2=80=82=E2=80=82-m 1024 -o=
-bject memory-
-  backend-file,id=3Dmem,size=3D1G,mem-path=3D/dev/hugepages,share=3Don
-  -nographic -no-user-config -nodefaults -serial
-  mon:telnet:localhost:7704,server,nowait -monitor
-  mon:telnet:localhost:8804,server,nowait -numa node,memdev=3Dmem -drive
-  file=3D/home/qemu/qcows,format=3Dqcow2,if=3Dnone,id=3Ddisk -device ide-
-  hd,drive=3Ddisk,bootindex=3D0 -drive
-  file=3Dnvme://0000:d8:00.0,if=3Dnone,id=3Ddrive0 -device virtio-
-  blk,drive=3Ddrive0,id=3Dvirtio0 --enable-kvm
+  qemu-img convert -O qcow2 file.vmdk file.qcow2
 
-  i am getting kernel panic and not proceed further..please help
+  The image contains Ubuntu with grub.
 
-  PS:-  our guest VM version is
+  I can provide debug logs, but will need guidance how to enable
+  them(and what logs are necessary).
 
-  Scientific Linux 7.0 (Nitrogen)
-  Kernel 3.10.0-123.el7.x86_64 on an x86_64
-
-  Regards
-  Nitin
+  As a side note, it seems that booting is more certain after
+  connecting(or mounting) partition using qemu-nbd/mount.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1735082/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1736042/+subscriptions
 
