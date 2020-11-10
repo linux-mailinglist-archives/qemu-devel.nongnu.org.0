@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3238E2ACBA6
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 04:24:29 +0100 (CET)
-Received: from localhost ([::1]:57922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 133E62ACBA2
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 04:22:56 +0100 (CET)
+Received: from localhost ([::1]:51578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcKGd-0006cd-7l
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 22:24:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41082)
+	id 1kcKFD-0003xu-3b
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 22:22:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcKDG-0002Fs-LV
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 22:20:55 -0500
-Received: from indium.canonical.com ([91.189.90.7]:51598)
+ id 1kcKDD-00029J-QG
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 22:20:51 -0500
+Received: from indium.canonical.com ([91.189.90.7]:51578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcKDB-0004T0-Vs
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 22:20:54 -0500
+ id 1kcKDB-0004SD-KY
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 22:20:51 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kcKDA-000500-PU
+ id 1kcKDA-0004zj-9h
  for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 03:20:48 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BB60C2E8133
+ by loganberry.canonical.com (Postfix) with ESMTP id 3D8F32E8134
  for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 03:20:48 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2020 03:06:14 -0000
-From: Thomas Huth <1723731@bugs.launchpad.net>
+Date: Tue, 10 Nov 2020 03:06:44 -0000
+From: Thomas Huth <1725707@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: 2.10.1 black ovmf windows7
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: mastersplinter777 th-huth
-X-Launchpad-Bug-Reporter: Alexander Kuzmin (mastersplinter777)
+X-Launchpad-Bug-Commenters: berrange carl.brassey jamiedo2nn th-huth
+X-Launchpad-Bug-Reporter: Carl Brassey (carl.brassey)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <150806672066.15534.12058555571151449517.malonedeb@soybean.canonical.com>
-Message-Id: <160497757475.18396.7936967011490384249.malone@wampee.canonical.com>
-Subject: [Bug 1723731] Re: Qemu turns to black screen while starting to copy
- installation files of Windows 7
+References: <150859618440.18353.4071279587956365769.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160497760453.12640.1022124505382353600.malone@gac.canonical.com>
+Subject: [Bug 1725707] Re: QEMU sends excess VNC data to websockify even when
+ network is poor
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: 5cc03e9dae256bd239776fe11b985117c46f6240
+X-Launchpad-Hash: e96f34f09fc97d8434c5e4473b16724a4aef08eb
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 20:35:34
@@ -74,7 +73,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1723731 <1723731@bugs.launchpad.net>
+Reply-To: Bug 1725707 <1725707@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -95,71 +94,90 @@ venience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1723731
+https://bugs.launchpad.net/bugs/1725707
 
 Title:
-  Qemu turns to black screen while starting to copy installation files
-  of Windows 7
+  QEMU sends excess VNC data to websockify even when network is poor
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Distribution: Arch Linux, Kernel: linux-4.13.5, Qemu: 2.10.1, OVMF: git (=
-built 06.10.17).
-  Steps to reproduce: create Qemu VM with such config:
+  Description of problem
+  -------------------------
+  In my latest topic, I reported a bug relate to QEMU's websocket:
+  https://bugs.launchpad.net/qemu/+bug/1718964
 
-  QEMU_VM_NAME=3D$(basename $(dirname "$0")) #Qemu virtual machine name (ta=
-ken from working directory)
-  QEMU_WORKING_DIR=3D"$(dirname "$0")" #Qemu current working directory
-  DIF=3D12 #set 2-digit number here
-  QEMU_MONITOR_PORT=3D370${DIF} #Qemu monitor port
-  QEMU_SERIAL_PORT=3D371${DIF} #Qemu serial port
-  QEMU_PARALLEL_PORT=3D372${DIF} #Qemu parallel port
+  It has been fixed but someone mentioned that he met the same problem when=
+ using QEMU with a standalone websocket proxy.
+  That makes me confused because in that scenario QEMU will get a "RAW" VNC=
+ connection.
+  So I did a test and found that there indeed existed some problems. The pr=
+oblem is:
 
-  qemu-system-x86_64 -daemonize -display gtk -boot menu=3Don -monitor telne=
-t:127.0.0.1:${QEMU_MONITOR_PORT},server,nowait -serial telnet:127.0.0.1:${Q=
-EMU_SERIAL_PORT},server,nowait -uuid fafafafa-1234-bcbc-5678-11112222ff${DI=
-F} -name ${QEMU_VM_NAME},process=3DQEMU-${QEMU_VM_NAME} -parallel none -net=
- none -nodefconfig -nodefaults -no-user-config -rtc base=3Dlocaltime,clock=
-=3Dvm,driftfix=3Dslew -realtime mlock=3Doff -machine type=3Dq35,accel=3Dkvm=
-,usb=3Doff,dump-guest-core=3Doff -smp 2,sockets=3D1,cores=3D2,threads=3D1 -=
-object iothread,id=3Diothread1 -object iothread,id=3Diothread2 -cpu Penryn,=
-kvm=3Doff,check,vendor=3DGenuineIntel,+vmx -m 2G -device qxl-vga,id=3Dvideo=
-0,ram_size=3D67108864,vram_size=3D67108864,vram64_size_mb=3D0,vgamem_mb=3D1=
-6,max_outputs=3D1,addr=3D0x1b.0x0 -global qxl-vga.revision=3D4 -device ich9=
--intel-hda,addr=3D0x11.0x0,id=3Dsound0 -device hda-duplex,id=3Dsound0-codec=
-0,bus=3Dsound0.0,cad=3D0 -device ich9-usb-ehci1,id=3Dehci1,addr=3D0x12.0x7 =
--device ich9-usb-uhci1,id=3Duhci1,masterbus=3Dehci1.0,firstport=3D0,multifu=
-nction=3Don,addr=3D0x12.0x0 -device ich9-usb-uhci2,id=3Duhci2,masterbus=3De=
-hci1.0,firstport=3D2,addr=3D0x12.0x1 -device ich9-usb-uhci3,id=3Duhci3,mast=
-erbus=3Dehci1.0,firstport=3D4,addr=3D0x12.0x2 -device ide-hd,bus=3Dide.0,dr=
-ive=3Ddrive-sata0-0-0,id=3Dsata0-0-0 -drive file=3D"${QEMU_WORKING_DIR}"/${=
-QEMU_VM_NAME}.qcow2,if=3Dnone,media=3Ddisk,id=3Ddrive-sata0-0-0,format=3Dqc=
-ow2 -device ide-cd,bus=3Dide.1,drive=3Ddrive-sata0-0-1,id=3Dsata0-0-1 -driv=
-e if=3Dnone,media=3Dcdrom,readonly=3Don,id=3Ddrive-sata0-0-1 -device usb-ta=
-blet,id=3Dtbl0,bus=3Dehci1.0,port=3D2,usb_version=3D2,serial=3D1123,display=
-=3Dtbl0
-  -device usb-kbd,id=3Dkbd0,bus=3Dehci1.0,port=3D1,usb_version=3D1,serial=
-=3D1122,display=3Dkbd0 -drive if=3Dpflash,format=3Draw,unit=3D1,file=3D${QE=
-MU_WORKING_DIR}/ovmf_vars_x64.bin -drive if=3Dpflash,format=3Draw,unit=3D0,=
-readonly,file=3D${QEMU_WORKING_DIR}/ovmf_code_x64.bin
+  When the client's network is poor (on a low speed WAN), QEMU still
+  sends a lot of data to the websocket proxy, then the client get stuck.
+  It seems that only QEMU has this problem, other VNC servers works
+  fine.
 
-  After that connect to Qemu console, insert Windows 7 installation
-  media and start installation. You can successfully choose language,
-  keyboard layout and partition your harddrive but after 2-3 seconds
-  after beginning of copying installation files the graphical console
-  screen turns to black and 1 CPU core on the host raises to 100%
-  permanently and nothing happens. But if you installed Windows 7 before
-  - there is no problems with VM. Tested on GTK, SDL types of screen.
+  Environment
+  -------------------------
+  All of the following versions have been tested:
 
-  Qemu was installed from official repo and also I tried with built by
-  myself version. Other OSes: Windows 8, 8.1, 10, Arch Linux, Debian,
-  FreeBSD installed successfully.
+  QEMU: 2.8.1.1 / 2.9.1 / 2.10.1 / master (Up to date)
+  Host OS: Ubuntu 16.04 Server LTS / CentOS 7 x86_64_1611
+  Websocket Proxy: websockify 0.6.0 / 0.7.0 / 0.8.0 / master
+  VNC Web Client: noVNC 0.5.1 / 0.61 / 0.62 / master
+  Other VNC Servers: TigerVNC 1.8 / x11vnc 0.9.13 / TightVNC 2.8.8
 
-  It happens only in OVMF-mode. I've just tested BIOS mode with no
-  problems.
+  Steps to reproduce:
+  -------------------------
+  100% reproducible.
+
+  1. Launch a QEMU instance (No need websocket option):
+  qemu-system-x86_64 -enable-kvm -m 6G ./win_x64.qcow2 -vnc :0
+
+  2. Launch websockify on a separate host and connect to QEMU's VNC port
+
+  3. Open VNC Web Client (noVNC/vnc.html) in browser and connect to
+  websockify
+
+  4. Play a video (e.g. Watch YouTube) on VM (To produce a lot of frame
+  buffer update)
+
+  5. Limit (e.g. Use NetLimiter) the client inbound bandwidth to 300KB/S
+  (To simulate a low speed WAN)
+
+  6. Then client's output gets stuck(less than 1 fps), the cursor is
+  almost impossible to move
+
+  7. Monitor network traffic on the proxy server
+
+  Current result:
+  -------------------------
+  Monitor Downlink/Uplink network traffic on the proxy server
+  (Refer to the attachments for more details).
+
+  1. Used with QEMU
+  - D: 5.9 MB/s U: 5.7 MB/s (Client on LAN)
+  - D: 4.3 MB/s U: 334 KB/s (Client on WAN)
+
+  2. Used with other VNC servers
+  - D: 5.9 MB/s U: 5.6 MB/s (Client on LAN)
+  - D: 369 KB/s U: 328 KB/s (Client on WAN)
+
+  It is found that when the client's network is poor, all the VNC
+  servers (tigervnc/x11vnc/tightvnc) will reduce the VNC data send to
+  websocket proxy (uplink and downlink symmetry), but QEMU never drop
+  any frames and still sends a lot of data to websockify, the client has
+  no capacity to accept so much data, more and more data are accumulated
+  in the websockify, then it crashes.
+
+  Expected results:
+  -------------------------
+  When the client's network is poor (WAN), QEMU will reduce the VNC data se=
+nd to websocket proxy.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1723731/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1725707/+subscriptions
 
