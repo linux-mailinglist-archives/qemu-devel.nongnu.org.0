@@ -2,76 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D9772AD948
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 15:51:34 +0100 (CET)
-Received: from localhost ([::1]:53516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2B5D2AD90F
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 15:42:53 +0100 (CET)
+Received: from localhost ([::1]:40516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcUzd-0008RN-Fy
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 09:51:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46148)
+	id 1kcUrE-0002d9-UO
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 09:42:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vitaly.wool@konsulko.com>)
- id 1kcTQZ-0002r8-Q7
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 08:11:17 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34010)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kcUpa-00016W-KZ
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 09:41:10 -0500
+Received: from indium.canonical.com ([91.189.90.7]:55332)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <vitaly.wool@konsulko.com>)
- id 1kcTQX-0003pA-Mp
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 08:11:15 -0500
-Received: by mail-wr1-x444.google.com with SMTP id r17so8692510wrw.1
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 05:11:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=kV4V4rqDZ/SmR+lPDCg7xvRUAHH605C5i6IqmHbKvvc=;
- b=moEBkomBD9/2o3jlLrE9M5E1tyGmcIdMgvueRfiFXr4PESrOxkW1C0HPkLn0Q1qjMk
- hCsZohvGfuV+Q9aDRJUBvoaLIxgnDpMQ8Ar/mqTVGRcU9mYtm1CEgotv+stHljJTQkmH
- +0iW2vyB/P7+2TfQCq0N4Oq2nTc24boOXZ490=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=kV4V4rqDZ/SmR+lPDCg7xvRUAHH605C5i6IqmHbKvvc=;
- b=MYcrGD5O5gWelh+mUYI1FmTh3SRqUkWpDkWTXKuxojCXIbVLyqY1zRSITKHSs5MDvf
- KwLNrb+MySfLPx3DZY3/GQsdZbG3uyIVDnu4YxQfREEM2HMf9gSYnXvPyPr1pw8fPZVR
- tzSL0lpE3w+WvvKUwjGDqE2RLKWOhfskgriAALsjVT3LzNE8EPJIcWG4ItnYosmHqRsL
- 6hJRfTTCZAE/qq9bhda0FEiz7F3XQcAOKRBSgZ8OGMKGM9rBiE+jgIoVx1z+5v8ARjB3
- R4US2bFlnW8MMUJkRj2Yeu1OGORFN0NZ11S9woEvx1K2txew2ZOH8gPmZnI3Q9Tkx2Pv
- 799g==
-X-Gm-Message-State: AOAM5303yhsaM/eS/4babAWgm8awMhAAG0gaVVoPeVE8qpABWAtPLXyu
- 7WS7YnzrWwo8Gt66Eew9vXX32m8dqcVep6QT
-X-Google-Smtp-Source: ABdhPJw2i+aHsNfb6M7KcHqu7IJBquB9c8mZbVSa9EeIDyt9Js+9fu0seTyNCk8piFbMTCY+DmQurQ==
-X-Received: by 2002:adf:f88c:: with SMTP id u12mr15367745wrp.209.1605013869948; 
- Tue, 10 Nov 2020 05:11:09 -0800 (PST)
-Received: from lootbox.konsulko.bg (lan.nucleusys.com. [92.247.61.126])
- by smtp.gmail.com with ESMTPSA id w186sm2923850wmb.26.2020.11.10.05.11.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Nov 2020 05:11:09 -0800 (PST)
-From: Vitaly Wool <vitaly.wool@konsulko.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] Microchip: add QSPI NOR flash
-Date: Tue, 10 Nov 2020 15:10:46 +0200
-Message-Id: <20201110131046.28426-1-vitaly.wool@konsulko.com>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kcUpV-00014Y-Pg
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 09:41:10 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kcUpU-0001mY-CN
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 14:41:04 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 56B892E8041
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 14:41:04 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=vitaly.wool@konsulko.com; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 10 Nov 2020 14:25:42 -0000
+From: "mike@papersolve.com" <1670175@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: sparc
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: mark-cave-ayland michal-nowak-b mike-papersolve
+ th-huth wzis
+X-Launchpad-Bug-Reporter: Michal Nowak (michal-nowak-b)
+X-Launchpad-Bug-Modifier: mike@papersolve.com (mike-papersolve)
+References: <20170305190118.21996.2136.malonedeb@gac.canonical.com>
+Message-Id: <160501834222.28021.17740594365165000097.malone@chaenomeles.canonical.com>
+Subject: [Bug 1670175] Re: qemu-system-sparc64 with tribblix-sparc-0m16.iso
+ ends with "panic - kernel: no nucleus hblk8 to allocate"
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
+X-Launchpad-Hash: 85be4ac326d7d6b7d9e87fe9c1f2744799247b99
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 08:35:46
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, NAME_EMAIL_DIFF=0.725, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 10 Nov 2020 09:47:15 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,100 +75,179 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vitaly Wool <vitaly.wool@konsulko.com>
+Reply-To: Bug 1670175 <1670175@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add QSPI NOR flash definition for Microchip PolarFire SoC.
+This is still valid, setting to Confirmed.  With the latest qemu as of
+today, it fails in a slightly different way, but still does not accept
+any keyboard input:
 
-Signed-off-by: Vitaly Wool <vitaly.wool@konsulko.com>
----
- hw/riscv/microchip_pfsoc.c         | 21 +++++++++++++++++++++
- include/hw/riscv/microchip_pfsoc.h |  3 +++
- 2 files changed, 24 insertions(+)
+\
+\ You can obtain a copy of the license at usr/src/OPENSOLARIS.LICENSE
+\ or http://www.opensolaris.org/os/licensing.
+\ See the License for WARNING: add_spec: No major number for sf
+unix-tte:interpret: exception -13 caught
+interpret ' unix-tte is va>tte-data failed with error ffffffffffffffed
+WARNING: consconfig: cannot find driver for screen device /pci@1fe,0/pci@1,=
+1/QEMU,VGA@2
+Hostname: tribblix
+Remounting root read/write
+Probing for device nodes ...
+WARNING: Interrupt not seen after set_features
+WARNING: ebus0 assigning default interrupt level 1 for device i80420
+WARNING: ebus0 assigning default interrupt level 1 for device i80420
+WARNING: ebus0 assigning default interrupt level 1 for device i80420
+WARNING: ebus0 assigning default interrupt level 1 for device i80420
+WARNING: ebus0 assigning default interrupt level 1 for device i80420
+WARNING: ebus0 assigning default interrupt level 1 for device i80420
+WARNING: ebus0 assigning default interrupt level 1 for device i80420
+WARNING: ebus0 assigning default interrupt level 1 for device i80420
+WARNING: ebus0 assigning default interrupt level 1 for device i80420
+WARNING: ebus0 assigning default interrupt level 1 for device i80420
+WARNING: ebus0 assigning default interrupt level 1 for device i80420
+WARNING: ebus0 assigning default interrupt level 1 for device i80420
+WARNING: ebus0 assigning default interrupt level 1 for device i80420
+Preparing image for use
+Done mounting /usr filesystem
+USB keyboard
+ 1. Albanian                      25. Latin-American                =
 
-diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-index 4627179cd3..d1f4a1fe6f 100644
---- a/hw/riscv/microchip_pfsoc.c
-+++ b/hw/riscv/microchip_pfsoc.c
-@@ -90,6 +90,8 @@ static const struct MemmapEntry {
-     [MICROCHIP_PFSOC_MMUART2] =         { 0x20102000,     0x1000 },
-     [MICROCHIP_PFSOC_MMUART3] =         { 0x20104000,     0x1000 },
-     [MICROCHIP_PFSOC_MMUART4] =         { 0x20106000,     0x1000 },
-+    [MICROCHIP_PFSOC_SPI0] =            { 0x20108000,     0x1000 },
-+    [MICROCHIP_PFSOC_SPI1] =            { 0x20109000,     0x1000 },
-     [MICROCHIP_PFSOC_GEM0] =            { 0x20110000,     0x2000 },
-     [MICROCHIP_PFSOC_GEM1] =            { 0x20112000,     0x2000 },
-     [MICROCHIP_PFSOC_GPIO0] =           { 0x20120000,     0x1000 },
-@@ -97,6 +99,7 @@ static const struct MemmapEntry {
-     [MICROCHIP_PFSOC_GPIO2] =           { 0x20122000,     0x1000 },
-     [MICROCHIP_PFSOC_ENVM_CFG] =        { 0x20200000,     0x1000 },
-     [MICROCHIP_PFSOC_ENVM_DATA] =       { 0x20220000,    0x20000 },
-+    [MICROCHIP_PFSOC_QSPI_XIP] =        { 0x21000000,  0x1000000 },
-     [MICROCHIP_PFSOC_IOSCB_CFG] =       { 0x37080000,     0x1000 },
-     [MICROCHIP_PFSOC_DRAM] =            { 0x80000000,        0x0 },
- };
-@@ -147,6 +150,7 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
-     MemoryRegion *e51_dtim_mem = g_new(MemoryRegion, 1);
-     MemoryRegion *l2lim_mem = g_new(MemoryRegion, 1);
-     MemoryRegion *envm_data = g_new(MemoryRegion, 1);
-+    MemoryRegion *xip_mem = g_new(MemoryRegion, 1);
-     char *plic_hart_config;
-     size_t plic_hart_config_len;
-     NICInfo *nd;
-@@ -302,6 +306,15 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
-         qdev_set_nic_properties(DEVICE(&s->gem1), nd);
-     }
- 
-+    /* SPI */
-+    create_unimplemented_device("microchip.pfsoc.spi0",
-+        memmap[MICROCHIP_PFSOC_SPI0].base,
-+        memmap[MICROCHIP_PFSOC_SPI0].size);
-+
-+    create_unimplemented_device("microchip.pfsoc.spi1",
-+        memmap[MICROCHIP_PFSOC_SPI1].base,
-+        memmap[MICROCHIP_PFSOC_SPI1].size);
-+
-     object_property_set_int(OBJECT(&s->gem0), "revision", GEM_REVISION, errp);
-     object_property_set_int(OBJECT(&s->gem0), "phy-addr", 8, errp);
-     sysbus_realize(SYS_BUS_DEVICE(&s->gem0), errp);
-@@ -337,6 +350,14 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
-                                 memmap[MICROCHIP_PFSOC_ENVM_DATA].base,
-                                 envm_data);
- 
-+    /* QSPI Flash */
-+    memory_region_init_rom(xip_mem, OBJECT(dev), "microchip.pfsoc.xip",
-+                           memmap[MICROCHIP_PFSOC_QSPI_XIP].size,
-+                           &error_fatal);
-+    memory_region_add_subregion(system_memory,
-+                                memmap[MICROCHIP_PFSOC_QSPI_XIP].base,
-+                                xip_mem);
-+
-     /* IOSCBCFG */
-     create_unimplemented_device("microchip.pfsoc.ioscb.cfg",
-         memmap[MICROCHIP_PFSOC_IOSCB_CFG].base,
-diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microchip_pfsoc.h
-index 8bfc7e1a85..28d6f389ec 100644
---- a/include/hw/riscv/microchip_pfsoc.h
-+++ b/include/hw/riscv/microchip_pfsoc.h
-@@ -87,6 +87,8 @@ enum {
-     MICROCHIP_PFSOC_MMUART2,
-     MICROCHIP_PFSOC_MMUART3,
-     MICROCHIP_PFSOC_MMUART4,
-+    MICROCHIP_PFSOC_SPI0,
-+    MICROCHIP_PFSOC_SPI1,
-     MICROCHIP_PFSOC_GEM0,
-     MICROCHIP_PFSOC_GEM1,
-     MICROCHIP_PFSOC_GPIO0,
-@@ -94,6 +96,7 @@ enum {
-     MICROCHIP_PFSOC_GPIO2,
-     MICROCHIP_PFSOC_ENVM_CFG,
-     MICROCHIP_PFSOC_ENVM_DATA,
-+    MICROCHIP_PFSOC_QSPI_XIP,
-     MICROCHIP_PFSOC_IOSCB_CFG,
-     MICROCHIP_PFSOC_DRAM,
- };
--- 
-2.20.1
+ 2. Arabic                        26. Lithuanian                    =
 
+ 3. Belarusian                    27. Latvian                       =
+
+ 4. Belgian                       28. Macedonian                    =
+
+ 5. Brazilian                     29. Malta_UK                      =
+
+ 6. Bulgarian                     30. Malta_US                      =
+
+ 7. Canadian-Bilingual            31. Norwegian                     =
+
+ 8. Croatian                      32. Polish                        =
+
+ 9. Czech                         33. Portuguese                    =
+
+10. Danish                        34. Romanian                      =
+
+11. Dutch                         35. Russian                       =
+
+12. Dvorak                        36. Serbia-And-Montenegro         =
+
+13. Estonian                      37. Slovak                        =
+
+14. Finnish                       38. Slovenian                     =
+
+15. French                        39. Spanish                       =
+
+16. French-Canadian               40. Swedish                       =
+
+17. Hungarian                     41. Swiss-French                  =
+
+18. German                        42. Swiss-German                  =
+
+19. Greek                         43. Traditional-Chinese           =
+
+20. Icelandic                     44. TurkishF                      =
+
+21. Italian                       45. TurkishQ                      =
+
+22. Japanese-type6                46. UK-English                    =
+
+23. Japanese                      47. US-English                    =
+
+24. Korean                        =
+
+To select the keyboard layout, enter a number [default 47]:
+
+
+** Changed in: qemu
+       Status: Incomplete =3D> Confirmed
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1670175
+
+Title:
+  qemu-system-sparc64 with tribblix-sparc-0m16.iso ends with "panic -
+  kernel: no nucleus hblk8 to allocate"
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  > qemu-system-sparc64 -m 1024 -cdrom Downloads/tribblix-sparc-0m16.iso -b=
+oot d -nographic
+  OpenBIOS for Sparc64
+  Configuration device id QEMU version 1 machine id 0
+  kernel cmdline =
+
+  CPUs: 1 x SUNW,UltraSPARC-IIi
+  UUID: 00000000-0000-0000-0000-000000000000
+  Welcome to OpenBIOS v1.1 built on Nov 24 2016 21:23
+    Type 'help' for detailed information
+  Trying cdrom:f...
+  Not a bootable ELF image
+  Not a bootable a.out image
+
+  Loading FCode image...
+  Loaded 7120 bytes
+  entry point is 0x4000
+  Evaluating FCode...
+  Evaluating FCode...
+  Ignoring failed claim for va 10a96a0 memsz 19!
+  Ignoring failed claim for va 1000000 memsz d1fb6!
+  Ignoring failed claim for va 1402000 memsz 32518!
+  Ignoring failed claim for va 1800000 memsz 52ac8!
+  SunOS Release 5.11 Version tribblix-m16 64-bit
+  Copyright (c) 1983, 2010, Oracle and/or its affiliates. All rights reserv=
+ed.
+  could not find debugger-vocabulary-hook>threads:interpret: exception -13 =
+caught
+  interpret \ ident	"%Z%%M%	%I%	%E% SMI"
+  \ Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+  \ Use is subject to license terms.
+  \
+  \ CDDL HEADER START
+  \
+  \ The contents of this file are subject to the terms of the
+  \ Common Development and Distribution License, Version 1.0 only
+  \ (the "License").  You may not use this file except in compliance
+  \ with the License.
+  \
+  \ You can obtain a copy of the license at usr/src/OPENSOLARIS.LICENSE
+  \ or http://www.opensolaris.org/os/licensing.
+  \ See the License for =
+
+  WARNING: add_spec: No major number for sf
+  panic - kernel: no nucleus hblk8 to allocate
+  EXIT
+
+  QEMU keeps running (CPU is on 100 % all the time), I can interact with
+  the prompt:
+
+  0 > boot
+  Not a Linux kernel image
+  Not a bootable ELF image
+  Not a bootable a.out image
+
+  Loading FCode image...
+  Unhandled Exception 0x0000000000000018
+  PC =3D 0x00000000ffd25310 NPC =3D 0x00000000ffd25314
+  Stopping execution
+
+  > qemu-system-sparc64 -version
+  QEMU emulator version 2.8.0(Virtualization:Staging / SLE_12_SP2)
+
+  from
+  https://build.opensuse.org/package/show/Virtualization:Staging/qemu on
+  openSUSE Leap 42.2.
+
+  ISO: http://pkgs.tribblix.org/iso/tribblix-sparc-0m16.iso.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1670175/+subscriptions
 
