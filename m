@@ -2,97 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A15742ACB6C
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 04:00:17 +0100 (CET)
-Received: from localhost ([::1]:41962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05A742ACBA8
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 04:26:17 +0100 (CET)
+Received: from localhost ([::1]:34852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcJtI-0005vX-60
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 22:00:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38106)
+	id 1kcKIS-0000Oo-2p
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 22:26:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alejandro.j.jimenez@oracle.com>)
- id 1kcJsQ-0005TL-Gs
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 21:59:22 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:41412)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alejandro.j.jimenez@oracle.com>)
- id 1kcJsN-0002B9-8u
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 21:59:21 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AA2rjST177580;
- Tue, 10 Nov 2020 02:59:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to :
- references : cc : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=Dgt9AyOSMaHgWt3aC8y4FYcr3GXwcNZBJD6iXpb+Tbs=;
- b=QJCle1AtXRt9/NZZN5Fp6MANJmyoPokqNTeP7DW/LRG2PD39hxmosg7S9CNG+uokQkt5
- 1JIaJ6quWV1JNV0gYCKfa4M2CAfWnH6hb5KNS190IrNYM7WWZ7WedtHcRk87yaRrZSKq
- 5k4M+yUDbEnqlTg1dchnehJZbcgD/JGGdEdb5KCCoz0AgbSQ8yAHMLLchlRJQKj6vi9e
- QHyRupVwdffXzFA0ZBBOL9OUsWK1sDKzAZnVtpgCw5QEsFHwzjgyxXCMN+BQ4KjzWSd8
- xSDmiDgE0uD+OHW4tdRYtLg9RS2u7KjWEn30J9Lrmd56nychjacn9O3IR6H7M6weRYE4 qQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2120.oracle.com with ESMTP id 34nkhks9v2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 10 Nov 2020 02:59:15 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AA2snJr178152;
- Tue, 10 Nov 2020 02:59:14 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by aserp3020.oracle.com with ESMTP id 34p5fykxxw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 10 Nov 2020 02:59:14 +0000
-Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0AA2xDdg008136;
- Tue, 10 Nov 2020 02:59:13 GMT
-Received: from [10.39.237.188] (/10.39.237.188)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 09 Nov 2020 18:59:13 -0800
-Subject: Re: [PATCH] pvpanic: Advertise the PVPANIC_CRASHLOADED event support
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20201109143311.1000958-1-pbonzini@redhat.com>
-From: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <112eba9b-0305-f40d-8b81-6b3e46d62d75@oracle.com>
-Date: Mon, 9 Nov 2020 21:59:09 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kcKDF-0002DM-HF
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 22:20:53 -0500
+Received: from indium.canonical.com ([91.189.90.7]:51672)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kcKDD-0004TG-A6
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 22:20:53 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kcKDB-0004qO-SI
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 03:20:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D474C2E8134
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 03:20:49 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20201109143311.1000958-1-pbonzini@redhat.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9800
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- spamscore=0 malwarescore=0
- adultscore=0 phishscore=0 bulkscore=0 mlxlogscore=999 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011100020
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9800
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- priorityscore=1501
- mlxscore=0 suspectscore=0 mlxlogscore=999 lowpriorityscore=0 spamscore=0
- malwarescore=0 adultscore=0 clxscore=1015 bulkscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011100020
-Received-SPF: pass client-ip=141.146.126.78;
- envelope-from=alejandro.j.jimenez@oracle.com; helo=aserp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 19:07:29
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 10 Nov 2020 03:05:13 -0000
+From: Thomas Huth <1719339@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: canonical-is
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dzagorui paulgear th-huth
+X-Launchpad-Bug-Reporter: Denys Zagorui (dzagorui)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <150635197143.30872.17188090859541401647.malonedeb@wampee.canonical.com>
+Message-Id: <160497751310.13225.9634150119675362893.malone@gac.canonical.com>
+Subject: [Bug 1719339] Re: serial8250: too much work for irq3
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
+X-Launchpad-Hash: c85e79c23baf5f466b68b12cbe29800b8bf7b807
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 20:35:34
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -101,82 +73,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: maciej.szmigiero@oracle.com
+Reply-To: Bug 1719339 <1719339@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-(CC Maciej)
+The QEMU project is currently considering to move its bug tracking to anoth=
+er system. For this we need to know which bugs are still valid and which co=
+uld be closed already. Thus we are setting older bugs to "Incomplete" now.
+If you still think this bug report here is valid, then please switch the st=
+ate back to "New" within the next 60 days, otherwise this report will be ma=
+rked as "Expired". Or mark it as "Fix Released" if the problem has been sol=
+ved with a newer version of QEMU already. Thank you and sorry for the incon=
+venience.
 
-Hi Paolo,
 
-Thank you for fixing the patch. One comment below..
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-On 11/9/2020 9:33 AM, Paolo Bonzini wrote:
-> Advertise both types of events as supported when the guest OS
-> queries the pvpanic device.  Currently only PVPANIC_PANICKED is
-> exposed; PVPANIC_CRASHLOADED must also be advertised, but only on
-> new machine types.
->
-> Fixes: 7dc58deea79a ("pvpanic: implement crashloaded event handling")
-> Reported-by: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->   hw/core/machine.c | 1 +
->   hw/misc/pvpanic.c | 5 ++++-
->   2 files changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index 98b87f76cb..d0408049b5 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -35,6 +35,7 @@ GlobalProperty hw_compat_5_1[] = {
->       { "virtio-blk-device", "num-queues", "1"},
->       { "virtio-scsi-device", "num_queues", "1"},
->       { "nvme", "use-intel-id", "on"},
-> +    { "pvpanic", "events", "1"}, /* PVPANIC_PANICKED */
->   };
->   const size_t hw_compat_5_1_len = G_N_ELEMENTS(hw_compat_5_1);
->   
-> diff --git a/hw/misc/pvpanic.c b/hw/misc/pvpanic.c
-> index 598d5471a4..35d6797831 100644
-> --- a/hw/misc/pvpanic.c
-> +++ b/hw/misc/pvpanic.c
-> @@ -61,12 +61,14 @@ struct PVPanicState {
->   
->       MemoryRegion io;
->       uint16_t ioport;
-> +    uint8_t events;
->   };
->   
->   /* return supported events on read */
->   static uint64_t pvpanic_ioport_read(void *opaque, hwaddr addr, unsigned size)
->   {
-> -    return PVPANIC_PANICKED;
-> +    PVPanicState *pvp = opaque;
-> +    return pvp->events;
->   }
->   
->   static void pvpanic_ioport_write(void *opaque, hwaddr addr, uint64_t val,
-> @@ -112,6 +114,7 @@ static void pvpanic_isa_realizefn(DeviceState *dev, Error **errp)
->   
->   static Property pvpanic_isa_properties[] = {
->       DEFINE_PROP_UINT16(PVPANIC_IOPORT_PROP, PVPanicState, ioport, 0x505),
-> +    DEFINE_PROP_UINT8("events", PVPanicState, events, PVPANIC_PANICKED | PVPANIC_CRASHLOADED),
->       DEFINE_PROP_END_OF_LIST(),
->   };
-One side effect of defining the "events" property (as Maciej pointed out 
-to me), is that we are able to overwrite it with an alternative value in 
-the cmdline. e.g.
+-- =
 
--device pvpanic,events=<event mask>
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1719339
 
-This can be used to force QEMU to report a set of events different than 
-what it actually supports to a guest OS reading from the pvpanic device. 
-I assume you are not concerned about this scenario, since it would have 
-to be deliberately triggered, and even then it would not cause any 
-serious issues, correct?
+Title:
+  serial8250: too much work for irq3
 
-Assuming the above is not a problem:
-Reviewed-by: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
+Status in QEMU:
+  Incomplete
 
+Bug description:
+  It's know issue and sometimes mentioned since 2007. But it seems not
+  fixed.
+
+  http://lists.gnu.org/archive/html/qemu-devel/2008-02/msg00140.html
+  https://bugzilla.redhat.com/show_bug.cgi?id=3D986761
+  http://old-list-archives.xenproject.org/archives/html/xen-devel/2009-02/m=
+sg00696.html
+
+  I don't think fixes like increases PASS_LIMIT
+  (/drivers/tty/serial/8250.c) or remove this annoying message
+  (https://patchwork.kernel.org/patch/3920801/) is real fix. Some fix
+  was proposed by H. Peter Anvin  https://lkml.org/lkml/2008/2/7/485.
+
+  Can reproduce on Debian Strech host (Qemu 1:2.8+dfsg-6+deb9u2), Ubuntu
+  16.04.2 LTS (Qemu 1:2.5+dfsg-5ubuntu10.15) also tried to use master
+  branch (QEMU emulator version 2.10.50 (v2.10.0-766-ga43415ebfd-dirty))
+  if we write a lot of message into console (dmesg or dd if=3D/dev/zero
+  of=3D/dev/ttyS1).
+
+  /usr/local/bin/qemu-system-x86_64 -name guest=3Dultra1,debug-threads=3Don
+  -S -object
+  secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/domain-2=
+7-ultra1
+  /master-key.aes -machine pc-i440fx-2.8,accel=3Dkvm,usb=3Doff,dump-guest-
+  core=3Doff -cpu Skylake-
+  Client,ds=3Don,acpi=3Don,ss=3Don,ht=3Don,tm=3Don,pbe=3Don,dtes64=3Don,mon=
+itor=3Don,ds_cpl=3Don,vmx=3Don,smx=3Don,est=3Don,tm2=3Don,xtpr=3Don,pdcm=3D=
+on,osxsave=3Don,tsc_adjust=3Don,clflushopt=3Don,pdpe1gb=3Don
+  -m 4096 -realtime mlock=3Doff -smp 4,sockets=3D1,cores=3D4,threads=3D1 -u=
+uid
+  4537ca29-73b2-40c3-9b43-666de182ba5f -display none -no-user-config
+  -nodefaults -chardev
+  socket,id=3Dcharmonitor,path=3D/var/lib/libvirt/qemu/domain-27-ultra1/mon=
+itor.sock,server,nowait
+  -mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol -rtc
+  base=3Dutc,driftfix=3Dslew -global kvm-pit.lost_tick_policy=3Ddelay -no-h=
+pet
+  -no-shutdown -global PIIX4_PM.disable_s3=3D1 -global
+  PIIX4_PM.disable_s4=3D1 -boot strict=3Don -device ich9-usb-
+  ehci1,id=3Dusb,bus=3Dpci.0,addr=3D0x8.0x7 -drive
+  file=3D/home/dzagorui/csr/csr_disk.qcow2,format=3Dqcow2,if=3Dnone,id=3Ddr=
+ive-
+  ide0-0-0 -device ide-hd,bus=3Dide.0,unit=3D0,drive=3Ddrive-
+  ide0-0-0,id=3Dide0-0-0,bootindex=3D1 -netdev tap,fd=3D26,id=3Dhostnet0 -d=
+evice
+  e1000,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:a9:4c:86,bus=3Dpci.0,add=
+r=3D0x3
+  -chardev
+  socket,id=3Dcharserial0,host=3D127.0.0.1,port=3D4000,telnet,server,nowait
+  -device isa-serial,chardev=3Dcharserial0,id=3Dserial0 -chardev
+  socket,id=3Dcharserial1,host=3D127.0.0.1,port=3D4001,telnet,server,nowait
+  -device isa-serial,chardev=3Dcharserial1,id=3Dserial1 -device virtio-
+  balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x2 -msg timestamp=3Don
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1719339/+subscriptions
 
