@@ -2,64 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 401182AD5ED
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 13:12:51 +0100 (CET)
-Received: from localhost ([::1]:46918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF96F2AD5F9
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 13:17:54 +0100 (CET)
+Received: from localhost ([::1]:51206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcSW1-0007nX-TA
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 07:12:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58160)
+	id 1kcSav-0001Qu-Rj
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 07:17:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kcSVH-0007Lt-CA
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 07:12:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36663)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcSZL-000096-KC
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 07:16:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26844)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kcSVF-0007v4-0t
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 07:12:02 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcSZJ-0000gx-K5
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 07:16:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605010319;
+ s=mimecast20190719; t=1605010572;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KLKW2v0w6WYFsGq8udI0/UtzBM8nR/v4QqXkDkseNIk=;
- b=TPUpicxnHWPH4qu3acHD51/TQPVf78Lxa4ud5cgdHh5Q3AWD6uzvPgSuWQ7sJe6dtrwFCb
- R+TeJVyYldQbqL/oYJ2JbPUDSWh8/DtqcftLaTdlJHN4Vo5pH9g5DYjSZQi/21DQY1VTZ8
- bu+yapqLMOf24dqdLvQUXVaNZZDZTP0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-510-7pvCl8s_N6mwLIe6qZmRZA-1; Tue, 10 Nov 2020 07:11:57 -0500
-X-MC-Unique: 7pvCl8s_N6mwLIe6qZmRZA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE55B1006C9B;
- Tue, 10 Nov 2020 12:11:55 +0000 (UTC)
-Received: from work-vm (ovpn-115-49.ams2.redhat.com [10.36.115.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4E2FE1A340;
- Tue, 10 Nov 2020 12:11:53 +0000 (UTC)
-Date: Tue, 10 Nov 2020 12:11:50 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Chuan Zheng <zhengchuan@huawei.com>
-Subject: Re: [PATCH v3 03/18] migration/rdma: create multifd_setup_ops for
- Tx/Rx thread
-Message-ID: <20201110121150.GD3108@work-vm>
-References: <1602908748-43335-1-git-send-email-zhengchuan@huawei.com>
- <1602908748-43335-4-git-send-email-zhengchuan@huawei.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=qhKuMcdIuP13M89GGZxUWxYys4ng23qIfJ0VJRwR7Ps=;
+ b=QU/j8jlx3pIUQ+VDGIb6TMy+hcrdoAMicQu6NPKpeUlDj3naFOTtyB3Kzs+q4EYOMsWvMP
+ 2rj0PCrqWt+caRWFmG7L/PfRkqw2FwDtaNoI+EXSoUx42vkAtIlROCTthRqBwJvAT2Yl0t
+ 3PQsCUjEheX2hRUe/uULdybTKvUkAtU=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-328-ZFR7qE0TOMapsQKxmywkAg-1; Tue, 10 Nov 2020 07:16:09 -0500
+X-MC-Unique: ZFR7qE0TOMapsQKxmywkAg-1
+Received: by mail-wr1-f71.google.com with SMTP id r16so5597534wrw.22
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 04:16:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+iLyKApZQbGsA8YU23XaxsjDnJGdiDOHwCgDRAMwZww=;
+ b=Xk3ZBByn6CTZy/i7QhKsvb4TpIKhllbA48iEaMkDNg/ZyghtNwJZrIn6BxQggMLrqZ
+ uDr1OQWVluTIz/e9VCQFF937LXih2qL30qcRAPeVcQLoUGApR99HV/J2efwFegU0LZQG
+ qYN2wXfQmQRewqpaaU8gImvag8vNYZ1BPTToiIHEEdIVgLgABDOAUQ35O5pL1YRfxjj2
+ QwIf5Rif53eKfn9MWW7cCs2bikDYQfzdy0K6EjVNQqGo5ltM/jWtrqU2E9pVeNZhD438
+ bSse/qjYP2+VJssQDuW4P+KRezt8VXysgRneiJaUrL+d6Uz/gI1HKELkym9wyhSGsv1k
+ gE4w==
+X-Gm-Message-State: AOAM530tbigYcYXLnjhEC3Vf28DFt8a51p7wXfbxM4EDXrqq5xHMZxq7
+ nDX27opL3+rcHAXHy0RIkbnSzBwrjdNhKqW3jfEBKBZG0w6ikxc64pM6d23CUZ2KkJXTkLEnghk
+ dkYRUuP1Ltumk+opIeuNKnmyWinON4lpov7gT9DlKF/XKqWD0b4g91cFY+/NhJBnF
+X-Received: by 2002:a5d:6b0e:: with SMTP id v14mr3226343wrw.394.1605010568479; 
+ Tue, 10 Nov 2020 04:16:08 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxyVQOwvw24Out8Fv3rp4N5F1hLzXGZ2LFxDFLC1u7yCSLem3Cd5o/Slf2VPUHNP7OadnRdkw==
+X-Received: by 2002:a5d:6b0e:: with SMTP id v14mr3226317wrw.394.1605010568236; 
+ Tue, 10 Nov 2020 04:16:08 -0800 (PST)
+Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id u23sm2880841wmc.32.2020.11.10.04.16.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Nov 2020 04:16:07 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH-for-5.2 0/2] gitlab-ci: Fix EDK2 & OpenSBI jobs
+Date: Tue, 10 Nov 2020 13:16:04 +0100
+Message-Id: <20201110121606.2792442-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <1602908748-43335-4-git-send-email-zhengchuan@huawei.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 00:21:06
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -82,152 +92,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yubihong@huawei.com, zhang.zhanghailiang@huawei.com, quintela@redhat.com,
- fengzhimin1@huawei.com, qemu-devel@nongnu.org, xiexiangyou@huawei.com,
- alex.chen@huawei.com, wanghao232@huawei.com
+Cc: Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Bin Meng <bmeng.cn@gmail.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Chuan Zheng (zhengchuan@huawei.com) wrote:
-> Create multifd_setup_ops for TxRx thread, no logic change.
-> 
-> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
-> ---
->  migration/multifd.c | 44 +++++++++++++++++++++++++++++++++++++++-----
->  migration/multifd.h |  7 +++++++
->  2 files changed, 46 insertions(+), 5 deletions(-)
-> 
-> diff --git a/migration/multifd.c b/migration/multifd.c
-> index 68b171f..1f82307 100644
-> --- a/migration/multifd.c
-> +++ b/migration/multifd.c
-> @@ -383,6 +383,8 @@ struct {
->      int exiting;
->      /* multifd ops */
->      MultiFDMethods *ops;
-> +    /* multifd setup ops */
-> +    MultiFDSetup *setup_ops;
->  } *multifd_send_state;
->  
->  /*
-> @@ -790,8 +792,9 @@ static bool multifd_channel_connect(MultiFDSendParams *p,
->          } else {
->              /* update for tls qio channel */
->              p->c = ioc;
-> -            qemu_thread_create(&p->thread, p->name, multifd_send_thread, p,
-> -                                   QEMU_THREAD_JOINABLE);
-> +            qemu_thread_create(&p->thread, p->name,
-> +                               multifd_send_state->setup_ops->send_thread_setup,
-> +                               p, QEMU_THREAD_JOINABLE);
->         }
->         return false;
->      }
-> @@ -839,6 +842,11 @@ cleanup:
->      multifd_new_send_channel_cleanup(p, sioc, local_err);
->  }
->  
-> +static void multifd_send_channel_setup(MultiFDSendParams *p)
-> +{
-> +    socket_send_channel_create(multifd_new_send_channel_async, p);
-> +}
-> +
->  int multifd_save_setup(Error **errp)
->  {
->      int thread_count;
-> @@ -856,6 +864,7 @@ int multifd_save_setup(Error **errp)
->      multifd_send_state->pages = multifd_pages_init(page_count);
->      qemu_sem_init(&multifd_send_state->channels_ready, 0);
->      qatomic_set(&multifd_send_state->exiting, 0);
-> +    multifd_send_state->setup_ops = multifd_setup_ops_init();
->      multifd_send_state->ops = multifd_ops[migrate_multifd_compression()];
->  
->      for (i = 0; i < thread_count; i++) {
-> @@ -875,7 +884,7 @@ int multifd_save_setup(Error **errp)
->          p->packet->version = cpu_to_be32(MULTIFD_VERSION);
->          p->name = g_strdup_printf("multifdsend_%d", i);
->          p->tls_hostname = g_strdup(s->hostname);
-> -        socket_send_channel_create(multifd_new_send_channel_async, p);
-> +        multifd_send_state->setup_ops->send_channel_setup(p);
->      }
->  
->      for (i = 0; i < thread_count; i++) {
-> @@ -902,6 +911,8 @@ struct {
->      uint64_t packet_num;
->      /* multifd ops */
->      MultiFDMethods *ops;
-> +    /* multifd setup ops */
-> +    MultiFDSetup *setup_ops;
->  } *multifd_recv_state;
->  
->  static void multifd_recv_terminate_threads(Error *err)
-> @@ -1095,6 +1106,7 @@ int multifd_load_setup(Error **errp)
->      multifd_recv_state->params = g_new0(MultiFDRecvParams, thread_count);
->      qatomic_set(&multifd_recv_state->count, 0);
->      qemu_sem_init(&multifd_recv_state->sem_sync, 0);
-> +    multifd_recv_state->setup_ops = multifd_setup_ops_init();
->      multifd_recv_state->ops = multifd_ops[migrate_multifd_compression()];
->  
->      for (i = 0; i < thread_count; i++) {
-> @@ -1173,9 +1185,31 @@ bool multifd_recv_new_channel(QIOChannel *ioc, Error **errp)
->      p->num_packets = 1;
->  
->      p->running = true;
-> -    qemu_thread_create(&p->thread, p->name, multifd_recv_thread, p,
-> -                       QEMU_THREAD_JOINABLE);
-> +    multifd_recv_state->setup_ops->recv_channel_setup(ioc, p);
-> +    qemu_thread_create(&p->thread, p->name,
-> +                       multifd_recv_state->setup_ops->recv_thread_setup,
-> +                       p, QEMU_THREAD_JOINABLE);
->      qatomic_inc(&multifd_recv_state->count);
->      return qatomic_read(&multifd_recv_state->count) ==
->             migrate_multifd_channels();
->  }
-> +
-> +static void multifd_recv_channel_setup(QIOChannel *ioc, MultiFDRecvParams *p)
-> +{
-> +    return;
-> +}
-> +
-> +static MultiFDSetup multifd_socket_ops = {
-> +    .send_thread_setup = multifd_send_thread,
-> +    .recv_thread_setup = multifd_recv_thread,
-> +    .send_channel_setup = multifd_send_channel_setup,
-> +    .recv_channel_setup = multifd_recv_channel_setup
-> +};
-
-I don't think you need '_setup' on the thread function names here.
-
-Dave
-
-> +MultiFDSetup *multifd_setup_ops_init(void)
-> +{
-> +    MultiFDSetup *ops;
-> +
-> +    ops = &multifd_socket_ops;
-> +    return ops;
-> +}
-> diff --git a/migration/multifd.h b/migration/multifd.h
-> index 8d6751f..446315b 100644
-> --- a/migration/multifd.h
-> +++ b/migration/multifd.h
-> @@ -166,6 +166,13 @@ typedef struct {
->      int (*recv_pages)(MultiFDRecvParams *p, uint32_t used, Error **errp);
->  } MultiFDMethods;
->  
-> +typedef struct {
-> +    void *(*send_thread_setup)(void *opaque);
-> +    void *(*recv_thread_setup)(void *opaque);
-> +    void (*send_channel_setup)(MultiFDSendParams *p);
-> +    void (*recv_channel_setup)(QIOChannel *ioc, MultiFDRecvParams *p);
-> +} MultiFDSetup;
-> +
->  void multifd_register_ops(int method, MultiFDMethods *ops);
->  
->  #endif
-> -- 
-> 1.8.3.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+We had rules to restrict building the EDK2 & OpenSBI firmwares=0D
+on GitLab CI. Unfortunately commit 922febe2 ("Move edk2 and=0D
+opensbi YAML files to .gitlab-ci.d folder") made these rules=0D
+ineffective. Fix that. In particular avoid the EDK2 job burn=0D
+all free minutes for our fork users.=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (2):=0D
+  gitlab-ci: Avoid running the OpenSBI job when not necessary=0D
+  gitlab-ci: Avoid running the EDK2 job when not necessary=0D
+=0D
+ .gitlab-ci.d/edk2.yml    | 11 ++++-------=0D
+ .gitlab-ci.d/opensbi.yml | 13 -------------=0D
+ 2 files changed, 4 insertions(+), 20 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
 
