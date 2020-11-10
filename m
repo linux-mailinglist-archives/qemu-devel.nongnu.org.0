@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2E512AD991
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 16:00:06 +0100 (CET)
-Received: from localhost ([::1]:48658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5D472AD996
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 16:01:25 +0100 (CET)
+Received: from localhost ([::1]:49728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcV7t-0001PM-E7
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 10:00:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42304)
+	id 1kcV9A-0001ru-VW
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 10:01:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcV3t-0007GH-NR
+ id 1kcV3t-0007G6-Mj
  for qemu-devel@nongnu.org; Tue, 10 Nov 2020 09:55:57 -0500
-Received: from indium.canonical.com ([91.189.90.7]:60492)
+Received: from indium.canonical.com ([91.189.90.7]:60446)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcV3r-0005pS-Kf
+ id 1kcV3r-0005pG-J9
  for qemu-devel@nongnu.org; Tue, 10 Nov 2020 09:55:57 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kcV3p-0004Jm-4X
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 14:55:53 +0000
+ id 1kcV3o-0004JG-FC
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 14:55:52 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B356D2E8088
+ by loganberry.canonical.com (Postfix) with ESMTP id 500CD2E8080
  for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 14:55:52 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2020 14:43:00 -0000
-From: Thomas Huth <1604303@bugs.launchpad.net>
+Date: Tue, 10 Nov 2020 14:44:19 -0000
+From: Thomas Huth <1605045@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -38,19 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: th-huth z-j
-X-Launchpad-Bug-Reporter: Jan Vlug (z-j)
+X-Launchpad-Bug-Commenters: 3u-mail mutedbytes th-huth
+X-Launchpad-Bug-Reporter: mutedbytes (mutedbytes)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20160719090202.9299.92930.malonedeb@soybean.canonical.com>
-Message-Id: <160501938034.27607.16966192657502277142.malone@chaenomeles.canonical.com>
-Subject: [Bug 1604303] Re: Solaris on KVM/QEMU: WARNING rtls0: Failure
- resetting PHY
+References: <20160721033517.413.34124.malonedeb@gac.canonical.com>
+Message-Id: <160501945964.18270.16417910766413129396.malone@soybean.canonical.com>
+Subject: [Bug 1605045] Re: input-linux enter key stuck and/or broken
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: 6186c1fc99547a3f83c2e88e067e95f7268ebee5
+X-Launchpad-Hash: 637b86ed284c317705b8f6a90f1aca56e584e90e
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 08:35:46
@@ -73,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1604303 <1604303@bugs.launchpad.net>
+Reply-To: Bug 1605045 <1605045@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -94,28 +93,25 @@ venience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1604303
+https://bugs.launchpad.net/bugs/1605045
 
 Title:
-  Solaris on KVM/QEMU: WARNING rtls0: Failure resetting PHY
+  input-linux enter key stuck and/or broken
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  When running Solaris (both version 10 and 11) on a QEMU/KVM virtual host,=
- the Solaris guest displays this warning just after starting the system:
-  WARNING rtls0: Failure resetting PHY.
-
-  Although the networking seems to work fine.
-
-  I have this network device model selected for the Solaris guest:
-  rtl8139
-
-  See also:
-  http://www.linux-kvm.org/page/Guest_Support_Status#UNIX_Family:_Solaris.2=
-FOpenSolaris
+  Using new input-linux evdev passthrough feature of qemu (qemu 2.6.0)
+  causes enter key to be stuck down after executing a shell script to
+  launch qemu guest, resulting in repeated new lines in terminal. After
+  a certain point of guest boot, the enter key is no longer pressed.
+  However, at least under Gnome on Wayland, when pressing both
+  left+right Ctrl keys to return keyboard back to the host, the enter
+  key no longer functions. The enter key continues to function when
+  control is under the guest, but never returns to functionality in the
+  host until a reboot is performed.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1604303/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1605045/+subscriptions
 
