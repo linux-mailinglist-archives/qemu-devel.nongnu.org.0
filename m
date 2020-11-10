@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05A742ACBA8
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 04:26:17 +0100 (CET)
-Received: from localhost ([::1]:34852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3238E2ACBA6
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 04:24:29 +0100 (CET)
+Received: from localhost ([::1]:57922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcKIS-0000Oo-2p
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 22:26:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41080)
+	id 1kcKGd-0006cd-7l
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 22:24:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcKDF-0002DM-HF
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 22:20:53 -0500
-Received: from indium.canonical.com ([91.189.90.7]:51672)
+ id 1kcKDG-0002Fs-LV
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 22:20:55 -0500
+Received: from indium.canonical.com ([91.189.90.7]:51598)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcKDD-0004TG-A6
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 22:20:53 -0500
+ id 1kcKDB-0004T0-Vs
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 22:20:54 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kcKDB-0004qO-SI
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 03:20:49 +0000
+ id 1kcKDA-000500-PU
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 03:20:48 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D474C2E8134
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 03:20:49 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id BB60C2E8133
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 03:20:48 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2020 03:05:13 -0000
-From: Thomas Huth <1719339@bugs.launchpad.net>
+Date: Tue, 10 Nov 2020 03:06:14 -0000
+From: Thomas Huth <1723731@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: canonical-is
+X-Launchpad-Bug-Tags: 2.10.1 black ovmf windows7
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dzagorui paulgear th-huth
-X-Launchpad-Bug-Reporter: Denys Zagorui (dzagorui)
+X-Launchpad-Bug-Commenters: mastersplinter777 th-huth
+X-Launchpad-Bug-Reporter: Alexander Kuzmin (mastersplinter777)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <150635197143.30872.17188090859541401647.malonedeb@wampee.canonical.com>
-Message-Id: <160497751310.13225.9634150119675362893.malone@gac.canonical.com>
-Subject: [Bug 1719339] Re: serial8250: too much work for irq3
+References: <150806672066.15534.12058555571151449517.malonedeb@soybean.canonical.com>
+Message-Id: <160497757475.18396.7936967011490384249.malone@wampee.canonical.com>
+Subject: [Bug 1723731] Re: Qemu turns to black screen while starting to copy
+ installation files of Windows 7
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: c85e79c23baf5f466b68b12cbe29800b8bf7b807
+X-Launchpad-Hash: 5cc03e9dae256bd239776fe11b985117c46f6240
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 20:35:34
@@ -73,7 +74,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1719339 <1719339@bugs.launchpad.net>
+Reply-To: Bug 1723731 <1723731@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -94,69 +95,71 @@ venience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1719339
+https://bugs.launchpad.net/bugs/1723731
 
 Title:
-  serial8250: too much work for irq3
+  Qemu turns to black screen while starting to copy installation files
+  of Windows 7
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  It's know issue and sometimes mentioned since 2007. But it seems not
-  fixed.
+  Distribution: Arch Linux, Kernel: linux-4.13.5, Qemu: 2.10.1, OVMF: git (=
+built 06.10.17).
+  Steps to reproduce: create Qemu VM with such config:
 
-  http://lists.gnu.org/archive/html/qemu-devel/2008-02/msg00140.html
-  https://bugzilla.redhat.com/show_bug.cgi?id=3D986761
-  http://old-list-archives.xenproject.org/archives/html/xen-devel/2009-02/m=
-sg00696.html
+  QEMU_VM_NAME=3D$(basename $(dirname "$0")) #Qemu virtual machine name (ta=
+ken from working directory)
+  QEMU_WORKING_DIR=3D"$(dirname "$0")" #Qemu current working directory
+  DIF=3D12 #set 2-digit number here
+  QEMU_MONITOR_PORT=3D370${DIF} #Qemu monitor port
+  QEMU_SERIAL_PORT=3D371${DIF} #Qemu serial port
+  QEMU_PARALLEL_PORT=3D372${DIF} #Qemu parallel port
 
-  I don't think fixes like increases PASS_LIMIT
-  (/drivers/tty/serial/8250.c) or remove this annoying message
-  (https://patchwork.kernel.org/patch/3920801/) is real fix. Some fix
-  was proposed by H. Peter Anvin  https://lkml.org/lkml/2008/2/7/485.
+  qemu-system-x86_64 -daemonize -display gtk -boot menu=3Don -monitor telne=
+t:127.0.0.1:${QEMU_MONITOR_PORT},server,nowait -serial telnet:127.0.0.1:${Q=
+EMU_SERIAL_PORT},server,nowait -uuid fafafafa-1234-bcbc-5678-11112222ff${DI=
+F} -name ${QEMU_VM_NAME},process=3DQEMU-${QEMU_VM_NAME} -parallel none -net=
+ none -nodefconfig -nodefaults -no-user-config -rtc base=3Dlocaltime,clock=
+=3Dvm,driftfix=3Dslew -realtime mlock=3Doff -machine type=3Dq35,accel=3Dkvm=
+,usb=3Doff,dump-guest-core=3Doff -smp 2,sockets=3D1,cores=3D2,threads=3D1 -=
+object iothread,id=3Diothread1 -object iothread,id=3Diothread2 -cpu Penryn,=
+kvm=3Doff,check,vendor=3DGenuineIntel,+vmx -m 2G -device qxl-vga,id=3Dvideo=
+0,ram_size=3D67108864,vram_size=3D67108864,vram64_size_mb=3D0,vgamem_mb=3D1=
+6,max_outputs=3D1,addr=3D0x1b.0x0 -global qxl-vga.revision=3D4 -device ich9=
+-intel-hda,addr=3D0x11.0x0,id=3Dsound0 -device hda-duplex,id=3Dsound0-codec=
+0,bus=3Dsound0.0,cad=3D0 -device ich9-usb-ehci1,id=3Dehci1,addr=3D0x12.0x7 =
+-device ich9-usb-uhci1,id=3Duhci1,masterbus=3Dehci1.0,firstport=3D0,multifu=
+nction=3Don,addr=3D0x12.0x0 -device ich9-usb-uhci2,id=3Duhci2,masterbus=3De=
+hci1.0,firstport=3D2,addr=3D0x12.0x1 -device ich9-usb-uhci3,id=3Duhci3,mast=
+erbus=3Dehci1.0,firstport=3D4,addr=3D0x12.0x2 -device ide-hd,bus=3Dide.0,dr=
+ive=3Ddrive-sata0-0-0,id=3Dsata0-0-0 -drive file=3D"${QEMU_WORKING_DIR}"/${=
+QEMU_VM_NAME}.qcow2,if=3Dnone,media=3Ddisk,id=3Ddrive-sata0-0-0,format=3Dqc=
+ow2 -device ide-cd,bus=3Dide.1,drive=3Ddrive-sata0-0-1,id=3Dsata0-0-1 -driv=
+e if=3Dnone,media=3Dcdrom,readonly=3Don,id=3Ddrive-sata0-0-1 -device usb-ta=
+blet,id=3Dtbl0,bus=3Dehci1.0,port=3D2,usb_version=3D2,serial=3D1123,display=
+=3Dtbl0
+  -device usb-kbd,id=3Dkbd0,bus=3Dehci1.0,port=3D1,usb_version=3D1,serial=
+=3D1122,display=3Dkbd0 -drive if=3Dpflash,format=3Draw,unit=3D1,file=3D${QE=
+MU_WORKING_DIR}/ovmf_vars_x64.bin -drive if=3Dpflash,format=3Draw,unit=3D0,=
+readonly,file=3D${QEMU_WORKING_DIR}/ovmf_code_x64.bin
 
-  Can reproduce on Debian Strech host (Qemu 1:2.8+dfsg-6+deb9u2), Ubuntu
-  16.04.2 LTS (Qemu 1:2.5+dfsg-5ubuntu10.15) also tried to use master
-  branch (QEMU emulator version 2.10.50 (v2.10.0-766-ga43415ebfd-dirty))
-  if we write a lot of message into console (dmesg or dd if=3D/dev/zero
-  of=3D/dev/ttyS1).
+  After that connect to Qemu console, insert Windows 7 installation
+  media and start installation. You can successfully choose language,
+  keyboard layout and partition your harddrive but after 2-3 seconds
+  after beginning of copying installation files the graphical console
+  screen turns to black and 1 CPU core on the host raises to 100%
+  permanently and nothing happens. But if you installed Windows 7 before
+  - there is no problems with VM. Tested on GTK, SDL types of screen.
 
-  /usr/local/bin/qemu-system-x86_64 -name guest=3Dultra1,debug-threads=3Don
-  -S -object
-  secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/domain-2=
-7-ultra1
-  /master-key.aes -machine pc-i440fx-2.8,accel=3Dkvm,usb=3Doff,dump-guest-
-  core=3Doff -cpu Skylake-
-  Client,ds=3Don,acpi=3Don,ss=3Don,ht=3Don,tm=3Don,pbe=3Don,dtes64=3Don,mon=
-itor=3Don,ds_cpl=3Don,vmx=3Don,smx=3Don,est=3Don,tm2=3Don,xtpr=3Don,pdcm=3D=
-on,osxsave=3Don,tsc_adjust=3Don,clflushopt=3Don,pdpe1gb=3Don
-  -m 4096 -realtime mlock=3Doff -smp 4,sockets=3D1,cores=3D4,threads=3D1 -u=
-uid
-  4537ca29-73b2-40c3-9b43-666de182ba5f -display none -no-user-config
-  -nodefaults -chardev
-  socket,id=3Dcharmonitor,path=3D/var/lib/libvirt/qemu/domain-27-ultra1/mon=
-itor.sock,server,nowait
-  -mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol -rtc
-  base=3Dutc,driftfix=3Dslew -global kvm-pit.lost_tick_policy=3Ddelay -no-h=
-pet
-  -no-shutdown -global PIIX4_PM.disable_s3=3D1 -global
-  PIIX4_PM.disable_s4=3D1 -boot strict=3Don -device ich9-usb-
-  ehci1,id=3Dusb,bus=3Dpci.0,addr=3D0x8.0x7 -drive
-  file=3D/home/dzagorui/csr/csr_disk.qcow2,format=3Dqcow2,if=3Dnone,id=3Ddr=
-ive-
-  ide0-0-0 -device ide-hd,bus=3Dide.0,unit=3D0,drive=3Ddrive-
-  ide0-0-0,id=3Dide0-0-0,bootindex=3D1 -netdev tap,fd=3D26,id=3Dhostnet0 -d=
-evice
-  e1000,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:a9:4c:86,bus=3Dpci.0,add=
-r=3D0x3
-  -chardev
-  socket,id=3Dcharserial0,host=3D127.0.0.1,port=3D4000,telnet,server,nowait
-  -device isa-serial,chardev=3Dcharserial0,id=3Dserial0 -chardev
-  socket,id=3Dcharserial1,host=3D127.0.0.1,port=3D4001,telnet,server,nowait
-  -device isa-serial,chardev=3Dcharserial1,id=3Dserial1 -device virtio-
-  balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x2 -msg timestamp=3Don
+  Qemu was installed from official repo and also I tried with built by
+  myself version. Other OSes: Windows 8, 8.1, 10, Arch Linux, Debian,
+  FreeBSD installed successfully.
+
+  It happens only in OVMF-mode. I've just tested BIOS mode with no
+  problems.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1719339/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1723731/+subscriptions
 
