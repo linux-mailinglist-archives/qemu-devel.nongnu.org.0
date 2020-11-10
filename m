@@ -2,67 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 765332AD826
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 14:57:52 +0100 (CET)
-Received: from localhost ([::1]:33846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D88372AD83D
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 15:03:38 +0100 (CET)
+Received: from localhost ([::1]:39476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcU9f-0001pa-3Z
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 08:57:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55370)
+	id 1kcUFF-0004cN-En
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 09:03:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcU7d-0000ku-Tw
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 08:55:45 -0500
-Received: from indium.canonical.com ([91.189.90.7]:41600)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcU7W-0001t8-Mb
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 08:55:44 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kcU7U-00041Z-2O
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 13:55:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B7CC42E8079
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 13:55:35 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcUDr-00049s-Ky
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 09:02:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28027)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcUDl-00041V-Pd
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 09:02:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605016924;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nMlI60XG7emN8+PAF2f+uZ8yWCyM8Q91j6VcRuEFCEY=;
+ b=ixqZdTtCu46T+ksnWK18wREv3Jqg3JvnfGcUA0LPN7qozpSt0s3Q3ANf/1zyBFaDr11RSz
+ QMu8cIxDu1NW5e62gp1jAhMQbycgkzHZFIgDrugjvPNAHOuZMgfNo4uWA+7i3y6XEk3Y1X
+ SUvT8Fe6+RZb1dtbRPuTMyTKKZJ6dWU=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-405-0TZXQ7EtPzKIzHq9Dr_dKw-1; Tue, 10 Nov 2020 09:02:02 -0500
+X-MC-Unique: 0TZXQ7EtPzKIzHq9Dr_dKw-1
+Received: by mail-wr1-f69.google.com with SMTP id k1so4413011wrg.12
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 06:02:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=nMlI60XG7emN8+PAF2f+uZ8yWCyM8Q91j6VcRuEFCEY=;
+ b=T6gTGYWjquBRvSuEbHFKn6MOLj1QQj7OlVL70AQOuFLYDhHrQcO0RCgMtLoZcUbHGF
+ cLbC8N5gjObSbP5GQM/9BRX16T8YZiFSMHdzvcSdk4N10e4Oe+heG3W/9SxXTE16t6dU
+ w6d/U9zGkqwsDk3MLRIWmZc2x1uFxhh7PIgD3Kg09eJDIwG5lxCEHFa23TnwNUfVaITp
+ D13P8nEoSSHbPRArpugmWzgji7xXVWXiBtU4lqaHOux0r61ZVngKx+nO649R2ZCUjlBQ
+ sxvgQeBvgHL7BsC84HlT6QfcJSKCG9FwE8orcoiszmpPMc8+kLj6Xiu9UwSTEjgiJo8s
+ P32A==
+X-Gm-Message-State: AOAM533zWPjh9lWx+Ot1ilMjptA/jShhMHImjwRr6L3gGG1HmAXboWz2
+ aLdRaKRs1WWNJwVrhEAMxBMtCrQhVqAMVVU12baBYZrV3txlHwck/ChDTyJ9QTHFphuKPqSLLCC
+ 2sy4J4WtvBKXLVyw=
+X-Received: by 2002:a5d:410c:: with SMTP id l12mr4742723wrp.173.1605016919401; 
+ Tue, 10 Nov 2020 06:01:59 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyvZkpLDb5NZubzKQlz+9z2gBKuKswNbuOxHNF2KAiu4Y3ij1cTOy2Pui9ngFtEQ0AXsLnICw==
+X-Received: by 2002:a5d:410c:: with SMTP id l12mr4742691wrp.173.1605016919186; 
+ Tue, 10 Nov 2020 06:01:59 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id d10sm377573wro.89.2020.11.10.06.01.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Nov 2020 06:01:58 -0800 (PST)
+Subject: Re: [PATCH-for-6.0 v4 07/17] gitlab-ci: Move job testing
+ --without-default-devices across to gitlab
+To: Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org
+References: <20201108204535.2319870-1-philmd@redhat.com>
+ <20201108204535.2319870-8-philmd@redhat.com>
+ <ce8f02ed-104f-3d56-4ea8-283f50c83d7e@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <0ba0056f-8611-00db-81f9-72208734a1b2@redhat.com>
+Date: Tue, 10 Nov 2020 15:01:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2020 13:48:54 -0000
-From: Daniel Berrange <1903712@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: beihaisuishe-239 berrange
-X-Launchpad-Bug-Reporter: Trudy McClendon (beihaisuishe-239)
-X-Launchpad-Bug-Modifier: Daniel Berrange (berrange)
-References: <160501447454.28833.9213355837708100022.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160501613504.19188.9773311108259311191.malone@soybean.canonical.com>
-Subject: [Bug 1903712] Re: when ../configure, cannot find Ninjia
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: c78eab078ac9193df9ffeee3ceed56bef314bf2a
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 08:35:46
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <ce8f02ed-104f-3d56-4ea8-283f50c83d7e@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 02:00:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,41 +102,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1903712 <1903712@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Can you confirm whether you have installed the "ninja-build" package ?
-It is a new build requirement for QEMU in 5.2.0
+On 11/10/20 2:44 PM, Wainer dos Santos Moschetta wrote:
+> 
+> On 11/8/20 6:45 PM, Philippe Mathieu-Daudé wrote:
+>> Similarly to commit 8cdb2cef3f1, move the job testing the
+>> '--without-default-devices' configure option to GitLab.
+>>
+>> Since building all softmmu targets takes too long, split
+>> the job in 2.
+>>
+>> As smoke test, run the qtests on the AVR and m68k targets.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>> Cc: Paolo Bonzini <pbonzini@redhat.com>
+>>
+>> v3 had:
+>> Reviewed-by: Thomas Huth <thuth@redhat.com>
+>> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+>> ---
+>>   .gitlab-ci.yml | 46 ++++++++++++++++++++++++++++++++++++++++++++++
+>>   .travis.yml    |  8 --------
+>>   2 files changed, 46 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+>> index b98800462ed..3fc3d0568c6 100644
+>> --- a/.gitlab-ci.yml
+>> +++ b/.gitlab-ci.yml
+>> @@ -315,6 +315,52 @@ build-user-plugins:
+>>       MAKE_CHECK_ARGS: check-tcg
+>>     timeout: 1h 30m
+>>   +build-system-ubuntu-without-default-devices 1/2:
+> 
+> Nit: It seems a non-usual key naming. Maybe
+> "build-system-ubuntu-without-default-devices_1_2"  instead.
 
--- =
+This is the GitLab convention:
+https://docs.gitlab.com/ee/ci/pipelines/#group-jobs-in-a-pipeline
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1903712
+ This regular expression evaluates the job
+ names: \d+[\s:\/\\]+\d+\s*.
 
-Title:
-  when ../configure, cannot find Ninjia
+I'll add a comment about it, but I don't think we should each
+time we use the convention.
 
-Status in QEMU:
-  New
+Thanks,
 
-Bug description:
-  On unbuntu18.04, after finishing
+Phil.
 
-  wget https://download.qemu.org/qemu-5.2.0-rc0.tar.xz
-  tar xvJf qemu-5.2.0-rc0.tar.xz
-  cd qemu-5.2.0-rc0
-
-  when I input
-
-  mkdir build
-  cd build
-  ../configure
-
-  Return Error:
-  cannot find Ninjia
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1903712/+subscriptions
 
