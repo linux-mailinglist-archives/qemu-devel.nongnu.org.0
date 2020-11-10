@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 473F42AD4D2
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 12:24:02 +0100 (CET)
-Received: from localhost ([::1]:60486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4368F2AD4D1
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 12:23:55 +0100 (CET)
+Received: from localhost ([::1]:59754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcRkn-0006n2-8P
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 06:24:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44968)
+	id 1kcRkg-0006UX-9E
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 06:23:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcRZM-0007Ce-2T
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:12:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37783)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcRZO-0007Jw-U2
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:12:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28535)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcRZK-0004dc-6A
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:12:11 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcRZM-0004es-NH
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:12:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605006728;
+ s=mimecast20190719; t=1605006731;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tnG/Vi3D8+hSE8KNvOcsILh0adcdH3o2AmR/ZC2OpHE=;
- b=TXnAZF7RuQ6oClQQlXZ5lCoWCWT/RqXIyYOm9ISVw21onZU4OuiamlPv4QMyYdMLYj6Y6A
- eAQbSRotQSiDPyxEPqXu/TorArvknHmbIpXgUOZJWs0EjrRsd72zBm1NE2qkGK882liKFB
- RJ4Wyuta+efLoLpaePxxpsXqVYQuTb4=
+ bh=gOj6U+5DbDGGDujK1ny/ZeusJBTzYYK5MdhIa7oxTc0=;
+ b=Sr2Md9pRjeiqOxXBaj8Mu3bXKd4JmLaxpXZLBKccZryx1TjeDQMhpN1mQftAwzXkVGPXS9
+ qRJxqbSVs2sqkTjb2h6bR35KPi0W3eaVq5JM2qaEfQrzrD0hIALiUIkqUZ+FYwtoLb1Kpl
+ 9ndgpBYpXm5tEfDN22StYk1NKAsco14=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-88-8bCqEwmCNQa0bjWqTDDTMQ-1; Tue, 10 Nov 2020 06:12:06 -0500
-X-MC-Unique: 8bCqEwmCNQa0bjWqTDDTMQ-1
+ us-mta-108-zme3jFfCMWiC-jCWzMMd3Q-1; Tue, 10 Nov 2020 06:12:09 -0500
+X-MC-Unique: zme3jFfCMWiC-jCWzMMd3Q-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39D5E185A0D2;
- Tue, 10 Nov 2020 11:12:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EA3957204;
+ Tue, 10 Nov 2020 11:12:08 +0000 (UTC)
 Received: from thuth.com (ovpn-113-192.ams2.redhat.com [10.36.113.192])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 320A110013D9;
- Tue, 10 Nov 2020 11:12:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 97A2110013D9;
+ Tue, 10 Nov 2020 11:12:05 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 14/19] gitlab: force enable docs build in Fedora, Ubuntu, Debian
-Date: Tue, 10 Nov 2020 12:11:27 +0100
-Message-Id: <20201110111132.559399-15-thuth@redhat.com>
+Subject: [PULL 15/19] docs: add "page source" link to sphinx documentation
+Date: Tue, 10 Nov 2020 12:11:28 +0100
+Message-Id: <20201110111132.559399-16-thuth@redhat.com>
 In-Reply-To: <20201110111132.559399-1-thuth@redhat.com>
 References: <20201110111132.559399-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -85,49 +85,119 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-Meson runs a test to see if Sphinx works, and automatically disables it
-on error. This can lead to the CI jobs skipping docs build without
-maintainers noticing the problem. Use --enable-docs to force a fatal
-error if Sphinx doesn't work on the jobs where we expect it to be OK.
+Add a link to the top of the sidebar in every docs page that takes the
+user back to the source code in gitlab.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20201102130926.161183-3-berrange@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20201102130926.161183-5-berrange@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.yml | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ docs/_templates/editpage.html         | 5 +++++
+ docs/conf.py                          | 1 +
+ docs/devel/_templates/editpage.html   | 5 +++++
+ docs/interop/_templates/editpage.html | 5 +++++
+ docs/specs/_templates/editpage.html   | 5 +++++
+ docs/system/_templates/editpage.html  | 5 +++++
+ docs/tools/_templates/editpage.html   | 5 +++++
+ docs/user/_templates/editpage.html    | 5 +++++
+ 8 files changed, 36 insertions(+)
+ create mode 100644 docs/_templates/editpage.html
+ create mode 100644 docs/devel/_templates/editpage.html
+ create mode 100644 docs/interop/_templates/editpage.html
+ create mode 100644 docs/specs/_templates/editpage.html
+ create mode 100644 docs/system/_templates/editpage.html
+ create mode 100644 docs/tools/_templates/editpage.html
+ create mode 100644 docs/user/_templates/editpage.html
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 5993b64f22..9a8b375188 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -74,6 +74,7 @@ build-system-ubuntu:
-     TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu
-       moxie-softmmu microblazeel-softmmu mips64el-softmmu
-     MAKE_CHECK_ARGS: check-build
-+    CONFIGURE_ARGS: --enable-docs
-   artifacts:
-     expire_in: 2 days
-     paths:
-@@ -105,6 +106,7 @@ build-system-debian:
-     TARGETS: arm-softmmu avr-softmmu i386-softmmu mipsel-softmmu
-       riscv64-softmmu sh4eb-softmmu sparc-softmmu xtensaeb-softmmu
-     MAKE_CHECK_ARGS: check-build
-+    CONFIGURE_ARGS: --enable-docs
-   artifacts:
-     expire_in: 2 days
-     paths:
-@@ -133,7 +135,7 @@ build-system-fedora:
-   <<: *native_build_job_definition
-   variables:
-     IMAGE: fedora
--    CONFIGURE_ARGS: --disable-gcrypt --enable-nettle
-+    CONFIGURE_ARGS: --disable-gcrypt --enable-nettle --enable-docs
-     TARGETS: tricore-softmmu microblaze-softmmu mips-softmmu
-       xtensa-softmmu m68k-softmmu riscv32-softmmu ppc-softmmu sparc64-softmmu
-     MAKE_CHECK_ARGS: check-build
+diff --git a/docs/_templates/editpage.html b/docs/_templates/editpage.html
+new file mode 100644
+index 0000000000..4319b0f5ac
+--- /dev/null
++++ b/docs/_templates/editpage.html
+@@ -0,0 +1,5 @@
++<div id="editpage">
++  <ul>
++    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/{{pagename}}.rst">Page source</a></li>
++  </ul>
++</div>
+diff --git a/docs/conf.py b/docs/conf.py
+index e584f68393..d40d8ff37b 100644
+--- a/docs/conf.py
++++ b/docs/conf.py
+@@ -177,6 +177,7 @@ html_theme_options = {
+ html_sidebars = {
+     '**': [
+         'about.html',
++        'editpage.html',
+         'navigation.html',
+         'searchbox.html',
+     ]
+diff --git a/docs/devel/_templates/editpage.html b/docs/devel/_templates/editpage.html
+new file mode 100644
+index 0000000000..a86d22bca8
+--- /dev/null
++++ b/docs/devel/_templates/editpage.html
+@@ -0,0 +1,5 @@
++<div id="editpage">
++  <ul>
++    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/devel/{{pagename}}.rst">Page source</a></li>
++  </ul>
++</div>
+diff --git a/docs/interop/_templates/editpage.html b/docs/interop/_templates/editpage.html
+new file mode 100644
+index 0000000000..215e562681
+--- /dev/null
++++ b/docs/interop/_templates/editpage.html
+@@ -0,0 +1,5 @@
++<div id="editpage">
++  <ul>
++    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/interop/{{pagename}}.rst">Page source</a></li>
++  </ul>
++</div>
+diff --git a/docs/specs/_templates/editpage.html b/docs/specs/_templates/editpage.html
+new file mode 100644
+index 0000000000..aaa468aa98
+--- /dev/null
++++ b/docs/specs/_templates/editpage.html
+@@ -0,0 +1,5 @@
++<div id="editpage">
++  <ul>
++    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/specs/{{pagename}}.rst">Page source</a></li>
++  </ul>
++</div>
+diff --git a/docs/system/_templates/editpage.html b/docs/system/_templates/editpage.html
+new file mode 100644
+index 0000000000..6586b2e257
+--- /dev/null
++++ b/docs/system/_templates/editpage.html
+@@ -0,0 +1,5 @@
++<div id="editpage">
++  <ul>
++    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/system/{{pagename}}.rst">Page source</a></li>
++  </ul>
++</div>
+diff --git a/docs/tools/_templates/editpage.html b/docs/tools/_templates/editpage.html
+new file mode 100644
+index 0000000000..2a9c8fc92b
+--- /dev/null
++++ b/docs/tools/_templates/editpage.html
+@@ -0,0 +1,5 @@
++<div id="editpage">
++  <ul>
++    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/tools/{{pagename}}.rst">Page source</a></li>
++  </ul>
++</div>
+diff --git a/docs/user/_templates/editpage.html b/docs/user/_templates/editpage.html
+new file mode 100644
+index 0000000000..1f5ee01e60
+--- /dev/null
++++ b/docs/user/_templates/editpage.html
+@@ -0,0 +1,5 @@
++<div id="editpage">
++  <ul>
++    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/user/{{pagename}}.rst">Page source</a></li>
++  </ul>
++</div>
 -- 
 2.18.4
 
