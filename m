@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E45E2AE030
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 20:53:12 +0100 (CET)
-Received: from localhost ([::1]:37776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C42F2AE014
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 20:50:42 +0100 (CET)
+Received: from localhost ([::1]:60536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcZhV-0007RH-W3
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 14:53:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52800)
+	id 1kcZf7-00054Y-2T
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 14:50:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pisa@cmp.felk.cvut.cz>)
- id 1kcZSw-0003rb-1H
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 14:38:06 -0500
-Received: from relay.felk.cvut.cz ([2001:718:2:1611:0:1:0:70]:31723)
+ id 1kcZTm-0004so-U7
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 14:38:58 -0500
+Received: from relay.felk.cvut.cz ([2001:718:2:1611:0:1:0:70]:25283)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pisa@cmp.felk.cvut.cz>) id 1kcZSq-0000oX-OM
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 14:38:05 -0500
+ (envelope-from <pisa@cmp.felk.cvut.cz>) id 1kcZTl-0000so-5D
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 14:38:58 -0500
 Received: from cmp.felk.cvut.cz (haar.felk.cvut.cz [147.32.84.19])
- by relay.felk.cvut.cz (8.15.2/8.15.2) with ESMTP id 0AAJb008090674;
- Tue, 10 Nov 2020 20:37:00 +0100 (CET)
+ by relay.felk.cvut.cz (8.15.2/8.15.2) with ESMTP id 0AAJbtSA090702;
+ Tue, 10 Nov 2020 20:37:55 +0100 (CET)
  (envelope-from pisa@cmp.felk.cvut.cz)
 Received: from haar.felk.cvut.cz (localhost [127.0.0.1])
  by cmp.felk.cvut.cz (8.14.0/8.12.3/SuSE Linux 0.6) with ESMTP id
- 0AAJb002013431; Tue, 10 Nov 2020 20:37:00 +0100
+ 0AAJbtZP013475; Tue, 10 Nov 2020 20:37:55 +0100
 Received: (from pisa@localhost)
- by haar.felk.cvut.cz (8.14.0/8.13.7/Submit) id 0AAJb0dH013430;
- Tue, 10 Nov 2020 20:37:00 +0100
+ by haar.felk.cvut.cz (8.14.0/8.13.7/Submit) id 0AAJbtx6013474;
+ Tue, 10 Nov 2020 20:37:55 +0100
 X-Authentication-Warning: haar.felk.cvut.cz: pisa set sender to
  pisa@cmp.felk.cvut.cz using -f
 From: Pavel Pisa <pisa@cmp.felk.cvut.cz>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH for-5.2 v2 2/4] hw/net/can/ctucan: Avoid unused value in
- ctucan_send_ready_buffers()
-Date: Tue, 10 Nov 2020 20:36:59 +0100
+Subject: Re: [PATCH for-5.2 v2 3/4] hw/net/can/ctucan_core: Handle big-endian
+ hosts
+Date: Tue, 10 Nov 2020 20:37:54 +0100
 User-Agent: KMail/1.9.10
 References: <20201110170604.5897-1-peter.maydell@linaro.org>
- <20201110170604.5897-3-peter.maydell@linaro.org>
-In-Reply-To: <20201110170604.5897-3-peter.maydell@linaro.org>
+ <20201110170604.5897-4-peter.maydell@linaro.org>
+In-Reply-To: <20201110170604.5897-4-peter.maydell@linaro.org>
 X-KMail-QuotePrefix: > 
 MIME-Version: 1.0
 Content-Type: Text/Plain;
   charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
-Message-Id: <202011102036.59785.pisa@cmp.felk.cvut.cz>
+Message-Id: <202011102037.54901.pisa@cmp.felk.cvut.cz>
 X-FELK-MailScanner-Information: 
-X-MailScanner-ID: 0AAJb008090674
+X-MailScanner-ID: 0AAJbtSA090702
 X-FELK-MailScanner: Found to be clean
 X-FELK-MailScanner-SpamCheck: not spam, SpamAssassin (not cached,
  score=-0.099, required 6, BAYES_00 -0.50, KHOP_HELO_FCRDNS 0.40,
  NICE_REPLY_A -0.00, SPF_HELO_NONE 0.00, SPF_NONE 0.00)
 X-FELK-MailScanner-From: pisa@cmp.felk.cvut.cz
-X-FELK-MailScanner-Watermark: 1605641825.4945@iqg3Fgd78/X22cJm05hSCA
+X-FELK-MailScanner-Watermark: 1605641878.72377@rSEvjO3oKPyEAtkC3gUMbQ
 Received-SPF: none client-ip=2001:718:2:1611:0:1:0:70;
  envelope-from=pisa@cmp.felk.cvut.cz; helo=relay.felk.cvut.cz
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 13:02:14
@@ -82,108 +82,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Hello Peter,
 
-On Tuesday 10 of November 2020 18:06:02 Peter Maydell wrote:
-> Coverity points out that in ctucan_send_ready_buffers() we
-> set buff_st_mask = 0xf << (i * 4) inside the loop, but then
-> we never use it before overwriting it later.
+On Tuesday 10 of November 2020 18:06:03 Peter Maydell wrote:
+> The ctucan driver defines types for its registers which are a union
+> of a uint32_t with a struct with bitfields for the individual
+> fields within that register. This is a bad idea, because bitfields
+> aren't portable. The ctu_can_fd_regs.h header works around the
+> most glaring of the portability issues by defining the
+> fields in two different orders depending on the setting of the
+> __LITTLE_ENDIAN_BITFIELD define. However, in ctucan_core.h this
+> is unconditionally set to 1, which is wrong for big-endian hosts.
 >
-> The only thing we use the mask for is as part of the code that is
-> inserting the new buff_st field into tx_status.  That is more
-> comprehensibly written using deposit32(), so do that and drop the
-> mask variable entirely.
+> Set it only if HOST_WORDS_BIGENDIAN is not set. There is no need
+> for a "have we defined it already" guard, because the only place
+> that should set it is ctucan_core.h, which has the usual
+> double-inclusion guard.
 >
-> We also update the buff_st local variable at multiple points
-> during this function, but nothing can ever see these
-> intermediate values, so just drop those, write the final
-> TXT_TOK as a fixed constant value, and collapse the only
-> remaining set/use of buff_st down into an extract32().
->
-> Fixes: Coverity CID 1432869
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
->  hw/net/can/ctucan_core.c | 15 +++------------
->  1 file changed, 3 insertions(+), 12 deletions(-)
+>  hw/net/can/ctucan_core.h | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 >
-> diff --git a/hw/net/can/ctucan_core.c b/hw/net/can/ctucan_core.c
-> index 538270e62f9..a400ad13a43 100644
-> --- a/hw/net/can/ctucan_core.c
-> +++ b/hw/net/can/ctucan_core.c
-> @@ -240,8 +240,6 @@ static void ctucan_send_ready_buffers(CtuCanCoreState
-> *s) uint8_t *pf;
->      int buff2tx_idx;
->      uint32_t tx_prio_max;
-> -    unsigned int buff_st;
-> -    uint32_t buff_st_mask;
+> diff --git a/hw/net/can/ctucan_core.h b/hw/net/can/ctucan_core.h
+> index f21cb1c5ec3..bbc09ae0678 100644
+> --- a/hw/net/can/ctucan_core.h
+> +++ b/hw/net/can/ctucan_core.h
+> @@ -31,8 +31,7 @@
+>  #include "exec/hwaddr.h"
+>  #include "net/can_emu.h"
 >
->      if (!s->mode_settings.s.ena) {
->          return;
-> @@ -256,10 +254,7 @@ static void ctucan_send_ready_buffers(CtuCanCoreState
-> *s) for (i = 0; i < CTUCAN_CORE_TXBUF_NUM; i++) {
->              uint32_t prio;
->
-> -            buff_st_mask = 0xf << (i * 4);
-> -            buff_st = (s->tx_status.u32 >> (i * 4)) & 0xf;
 > -
-> -            if (buff_st != TXT_RDY) {
-> +            if (extract32(s->tx_status.u32, i * 4, 4) != TXT_RDY) {
->                  continue;
->              }
->              prio = (s->tx_priority.u32 >> (i * 4)) & 0x7;
-> @@ -271,10 +266,7 @@ static void ctucan_send_ready_buffers(CtuCanCoreState
-> *s) if (buff2tx_idx == -1) {
->              break;
->          }
-> -        buff_st_mask = 0xf << (buff2tx_idx * 4);
-> -        buff_st = (s->tx_status.u32 >> (buff2tx_idx * 4)) & 0xf;
->          int_stat.u32 = 0;
-> -        buff_st = TXT_RDY;
-
-I would prefer to add there next line even that it has no real effect
-
- +        s->tx_status.u32 = deposit32(s->tx_status.u32,
- +                                     buff2tx_idx * 4, 4, TXT_RDY);
-
-But if it generates warning or you have some other reason not to put
-it there, I add my
+> -#ifndef __LITTLE_ENDIAN_BITFIELD
+> +#ifndef HOST_WORDS_BIGENDIAN
+>  #define __LITTLE_ENDIAN_BITFIELD 1
+>  #endif
 
 Acked-by: Pavel Pisa <pisa@cmp.felk.cvut.cz>
 
-When we separated processsing to call of message submit for Tx
-and then separate callback to confirm arbitration win,
-we would need to reintroduce this assignment. But there would
-be much moresignificant changes that this small notice is not
-so important. 
+Thanks,
 
->          pf = s->tx_buffer[buff2tx_idx].data;
->          ctucan_buff2frame(pf, &frame);
->          s->status.s.idle = 0;
-> @@ -283,12 +275,11 @@ static void ctucan_send_ready_buffers(CtuCanCoreState
-> *s) s->status.s.idle = 1;
->          s->status.s.txs = 0;
->          s->tx_fr_ctr.s.tx_fr_ctr_val++;
-> -        buff_st = TXT_TOK;
->          int_stat.s.txi = 1;
->          int_stat.s.txbhci = 1;
->          s->int_stat.u32 |= int_stat.u32 & ~s->int_mask.u32;
-> -        s->tx_status.u32 = (s->tx_status.u32 & ~buff_st_mask) |
-> -                        (buff_st << (buff2tx_idx * 4));
-> +        s->tx_status.u32 = deposit32(s->tx_status.u32,
-> +                                     buff2tx_idx * 4, 4, TXT_TOK);
->      } while (1);
->  }
-
-
--- 
-Yours sincerely
-
-                Pavel Pisa
-    phone:      +420 603531357
-    e-mail:     pisa@cmp.felk.cvut.cz
-    Department of Control Engineering FEE CVUT
-    Karlovo namesti 13, 121 35, Prague 2
-    university: http://dce.fel.cvut.cz/
-    personal:   http://cmp.felk.cvut.cz/~pisa
-    projects:   https://www.openhub.net/accounts/ppisa
-    CAN related:http://canbus.pages.fel.cvut.cz/
-
+Pavel
 
