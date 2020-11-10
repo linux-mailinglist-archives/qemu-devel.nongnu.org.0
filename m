@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76A762ADB44
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 17:07:56 +0100 (CET)
-Received: from localhost ([::1]:57434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6822D2ADB54
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 17:10:41 +0100 (CET)
+Received: from localhost ([::1]:37510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcWBX-0004VU-Ey
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 11:07:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59456)
+	id 1kcWEC-0007xu-FA
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 11:10:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcW6B-0007Ti-R2
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 11:02:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53483)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcW6F-0007Wj-6q
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 11:02:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25590)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcW67-0003YR-UN
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 11:02:23 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcW6C-0003ZU-CY
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 11:02:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605024138;
+ s=mimecast20190719; t=1605024143;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KCg/Jp10x6FMCYbkbPlwKfxc7sA25cTtliYxbXc5o8o=;
- b=MS7ZQ9CYXwKiQb9xSua0EyR0yrL1URSGdIV+rILBxllm/Gz3eqHewCC5UYO+XDq205jQN0
- TpOdOumTaImxCXycPKZCphmEiYKj4heLYO8CmVutXs6sJMV2p2WCe9z1pluHDC9Re1CkQR
- NR14DERkvD2tb8/GDAJHD/yu00yWuNA=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-257-Pergqc4WONWoTh3WtyVt3g-1; Tue, 10 Nov 2020 11:02:16 -0500
-X-MC-Unique: Pergqc4WONWoTh3WtyVt3g-1
-Received: by mail-wm1-f70.google.com with SMTP id k128so1447546wme.7
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 08:02:16 -0800 (PST)
+ bh=9kWNGPy2BYObeozv+vVEW6FQiLUzqEUN2ABqwQ+VsWU=;
+ b=ecMGGN1VlO4zYmwcDhScGX+iGeoOx7nPvMzTWOnQ+V6RxCORrMWzZzttsK43MjNje18XPy
+ eJz7p1aeb7qf7292qhUAWiksEA7pqHqq6i3aan1s85qu+2UOC2wO0gIAAV7zLXOviXh/CV
+ zNtib8D7j0E1xJqT0X3w6c1rUVlRi3k=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-39-d2sZFbV9MNSZafRgO_oaOg-1; Tue, 10 Nov 2020 11:02:22 -0500
+X-MC-Unique: d2sZFbV9MNSZafRgO_oaOg-1
+Received: by mail-wm1-f72.google.com with SMTP id h2so1463886wmm.0
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 08:02:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KCg/Jp10x6FMCYbkbPlwKfxc7sA25cTtliYxbXc5o8o=;
- b=mGci7jW3vhKNlhig7Hxaof7ldHI2SFafWkWJk5OoOhlQaFPz75fvykmn3Lx8hz4I9r
- ej6B6Xu4SR6nwmijIHIFKE+4SWV1sycfbIap9V627O5ZnBKFve83vgy8Wnzpm5nwCLB/
- 3eBOGencELLiyuj1Gj5OXgbZyygipKqNMAKX2AAtk/DixYl14W81qP/ny998jhpkjxJD
- dlCyQlbNdr8umY0n3Wa+4nfgSzJSW4YBhlq8Ab4JOdIiNk6jpzob1DtEtM3EmD8CITdT
- JvXcIy22TTJK7uvvTrs6nYT5M5i1MV884A3xDPJN9UqS/GmXczLPQO4SsmMrC4AOuoJS
- Yk8Q==
-X-Gm-Message-State: AOAM532IHM0btefKzES5C9bgLfdHsA7fDZSQ9mSMJv01jqi9oD0Ynvgg
- q5gdWX5qugoyWHLM/6vgBhtazLunlx0gY0ani7lJhtbOm1WH20/bIwThl5NSo3aQQ1juA2OyCRn
- d8inp69qXaNWEmf839/IWNk5q+S28/To50xqqWhr7W9E9AfKnW9s0ZnWdAyyOAdPm
-X-Received: by 2002:a5d:50c6:: with SMTP id f6mr18234190wrt.150.1605024134806; 
- Tue, 10 Nov 2020 08:02:14 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwxKcvMgxbmw+ukideljTEnIn3JT2u72lLtjGSOY8xq2UQWTYW/EwqsEjxJulBXcwEPE/R3mw==
-X-Received: by 2002:a5d:50c6:: with SMTP id f6mr18234153wrt.150.1605024134511; 
- Tue, 10 Nov 2020 08:02:14 -0800 (PST)
+ bh=9kWNGPy2BYObeozv+vVEW6FQiLUzqEUN2ABqwQ+VsWU=;
+ b=ehJUYh102SSG8o1e4Ob5RLDCDCWTOAfneyvvoipEEneu8uQz2xXXw0VmLI3vxBAiL9
+ foTAxtGTiIfkEcHpHk7JMynyBpxoSJ3OL/4lRplGiKeV4uQ3P/B1/Ic5azkWDB22b8xW
+ +huKMV/0ZZFj5ulwaE3r87FLANcgKxHlxpg+F0n1EWDQTOdaeTjlp3bSzr4gzJL6MLX6
+ N0okOVZa9SMR7CUF++6EhQhUxcEMPewAIFEtpI+4yHDbBAQYJMyVcpvAFLuhNTpRuhTa
+ Fvl5nlMnmpkeV6Fn1mBsRekuVvdXSOXreLI/qEDXhHk19Dvv2ZhiAdwXxJZsZI+ROeTI
+ jusw==
+X-Gm-Message-State: AOAM532zCOtL6XLmOj6jqFmZB44CBtG9l0M08rn9IxPqmgZzbPAySzBF
+ lAgMbAPQxnlp7yUQxxCvWjgdKvH6wZdNMBQe5SzBJpxouH3zNqS2+Vug9wPU52lda3bcg9kWOyK
+ oIGxpkDHIntY8WsgWM4YjEex+sMKiXTAqvG8tdV1BqTo8OsyzRJu2jHDnAU+9p+Q3
+X-Received: by 2002:adf:eeca:: with SMTP id a10mr20703073wrp.186.1605024139792; 
+ Tue, 10 Nov 2020 08:02:19 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzXgJ85ZeL1+MtpePg9Pip9qvuxkcY8YSJ5b88d6HNDqxYrmftHoxr69JiWNPCjs+s0W1wzBA==
+X-Received: by 2002:adf:eeca:: with SMTP id a10mr20703039wrp.186.1605024139575; 
+ Tue, 10 Nov 2020 08:02:19 -0800 (PST)
 Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id k81sm4821626wma.2.2020.11.10.08.02.13
+ by smtp.gmail.com with ESMTPSA id p4sm17349373wrm.51.2020.11.10.08.02.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Nov 2020 08:02:13 -0800 (PST)
+ Tue, 10 Nov 2020 08:02:19 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 06/16] gitlab-ci: Rename acceptance_test_job ->
- integration_test_job
-Date: Tue, 10 Nov 2020 17:01:30 +0100
-Message-Id: <20201110160140.2859904-7-philmd@redhat.com>
+Subject: [RFC PATCH 07/16] gitlab-ci: Extract common job definition as
+ 'cross_common_job'
+Date: Tue, 10 Nov 2020 17:01:31 +0100
+Message-Id: <20201110160140.2859904-8-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201110160140.2859904-1-philmd@redhat.com>
 References: <20201110160140.2859904-1-philmd@redhat.com>
@@ -107,71 +107,43 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The acceptance tests aren't accepting anything,
-rename them as integration tests.
+Extract the common definitions shared by '.cross_system_build_job'
+and '.cross_user_build_job' to '.cross_common_job'.
+
+This will be proven useful later, when we add rules common to
+all cross jobs.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- .gitlab-ci.yml | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ .gitlab-ci.d/crossbuilds.yml | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index a45444f884b..17520640d7d 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -42,7 +42,7 @@ include:
-     - find . -type f -exec touch {} +
-     - make $MAKE_CHECK_ARGS
+diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
+index 099949aaef3..701550f028c 100644
+--- a/.gitlab-ci.d/crossbuilds.yml
++++ b/.gitlab-ci.d/crossbuilds.yml
+@@ -1,7 +1,9 @@
+-
+-.cross_system_build_job:
++.cross_common_job:
+   stage: build
+   image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
++
++.cross_system_build_job:
++  extends: .cross_common_job
+   timeout: 80m
+   script:
+     - mkdir build
+@@ -14,8 +16,7 @@
+     - make -j$(expr $(nproc) + 1) all check-build
  
--.acceptance_test_job:
-+.integration_test_job:
-   extends: .native_test_job
-   cache:
-     key: "${CI_JOB_NAME}-cache"
-@@ -90,8 +90,8 @@ check-system-ubuntu:
-     IMAGE: ubuntu2004
-     MAKE_CHECK_ARGS: check
- 
--acceptance-system-ubuntu:
--  extends: .acceptance_test_job
-+integration-system-ubuntu:
-+  extends: .integration_test_job
-   needs:
-     - job: build-system-ubuntu
-       artifacts: true
-@@ -121,8 +121,8 @@ check-system-debian:
-     IMAGE: debian-amd64
-     MAKE_CHECK_ARGS: check
- 
--acceptance-system-debian:
--  extends: .acceptance_test_job
-+integration-system-debian:
-+  extends: .integration_test_job
-   needs:
-     - job: build-system-debian
-       artifacts: true
-@@ -152,8 +152,8 @@ check-system-fedora:
-     IMAGE: fedora
-     MAKE_CHECK_ARGS: check
- 
--acceptance-system-fedora:
--  extends: .acceptance_test_job
-+integration-system-fedora:
-+  extends: .integration_test_job
-   needs:
-     - job: build-system-fedora
-       artifacts: true
-@@ -183,8 +183,8 @@ check-system-centos:
-     IMAGE: centos8
-     MAKE_CHECK_ARGS: check
- 
--acceptance-system-centos:
--  extends: .acceptance_test_job
-+integration-system-centos:
-+  extends: .integration_test_job
-   needs:
-     - job: build-system-centos
-       artifacts: true
+ .cross_user_build_job:
+-  stage: build
+-  image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
++  extends: .cross_common_job
+   script:
+     - mkdir build
+     - cd build
 -- 
 2.26.2
 
