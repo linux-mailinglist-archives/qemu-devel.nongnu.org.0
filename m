@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F42162AD708
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 14:03:10 +0100 (CET)
-Received: from localhost ([::1]:49280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECBFD2AD709
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 14:03:14 +0100 (CET)
+Received: from localhost ([::1]:49532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcTIj-00076S-Oe
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 08:03:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42226)
+	id 1kcTIo-0007Cb-1p
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 08:03:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kcTGW-0005ny-Nm
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 08:00:53 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:43500
- helo=mail.default.ilande.uk0.bigv.io)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kcTHC-00060u-RZ
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 08:01:35 -0500
+Received: from mout.kundenserver.de ([217.72.192.73]:35433)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kcTGO-0008Ie-75
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 08:00:52 -0500
-Received: from host86-184-131-53.range86-184.btcentralplus.com
- ([86.184.131.53] helo=[192.168.1.110])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kcTGX-0006Dr-SU; Tue, 10 Nov 2020 13:00:57 +0000
-To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
-References: <20201104172512.2381656-1-ehabkost@redhat.com>
- <20201104172512.2381656-2-ehabkost@redhat.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <32bac169-baec-3620-0915-f2377e74985e@ilande.co.uk>
-Date: Tue, 10 Nov 2020 13:00:37 +0000
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kcTH6-0008TW-52
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 08:01:34 -0500
+Received: from [192.168.100.1] ([82.252.154.198]) by mrelayeu.kundenserver.de
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MKKhF-1kskRA1J4J-00LocP; Tue, 10 Nov 2020 14:01:07 +0100
+Subject: Re: [PATCH for-5.2 0/3] linux-user: fix various sparc64 guest bugs
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20201105212314.9628-1-peter.maydell@linaro.org>
+ <21cd093c-404b-cd9c-2b61-fe1c0957d7f4@ilande.co.uk>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <49766a02-f5a4-0cec-aaf6-70c27d0be9ee@vivier.eu>
+Date: Tue, 10 Nov 2020 14:01:05 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201104172512.2381656-2-ehabkost@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 86.184.131.53
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 1/7] sparc: Fix property/field size mismatch for iu-version
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <21cd093c-404b-cd9c-2b61-fe1c0957d7f4@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:j27XtdlhIO9IgTZZgNb1C7pRaWvwPPYwQWV5VBF9aEVZFLTrni4
+ GtWu/PW8YhQfRW6dmsU4LS3RJR9ObTif0TYanpxoTFi/JSGTjSuHdLvXDcDuH6NLUibsSQm
+ LquJWmg5fdPg+V67a7pEBIzrT05NT6vuXHUeY29+Z6kVDVFShO2E1WAdTv1um+cas7SOLEK
+ PQyUjWIJhh6W6FaJf9kUw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:G7cNvVZB400=:yecewnFnY1U+D5UsVziI7G
+ hdsL5mIPjPMdl9SDf0EcO3/wGZad2eQihBW3Fq2Sw6O7Ig2KzH8debRbR71VT2LmZNmzv2JoN
+ TvBiytNAlLu1UXovRNY5BK1sk/UZfB0wVapD6XJt6k802jpB2VFOjFPhomOrGPucnLlIsapKp
+ BJI5gtaIMWcDix3uPwzJprtl3eJUWOAnnoTHiThBuZ9RfE7kgCop/ZA9TpPe9uE6kM8QA9aXK
+ r6gOFg4wpb0i40LI9lNpbt1xXEfg++rR/ELXZTBRe1bPPkJ1Q2gSrl1WASipuM35dJQflXJqj
+ M24ZPTMYlMGTtj4tOa6YMXjBl1vVS2Hc+OtMwz3TYMYhjZLE6ha13HYm/jN1ixJfeIz7+LpkA
+ EU//xNIgkEM+cVcUJWaLAVL6rRjZ821PTZ2BWh9nsTCqlUboKoOOYz1Q2EaCuKOiAE8kx4CSL
+ t7es5wjdsA==
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 08:01:09
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,85 +69,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Giuseppe Musacchio <thatlemon@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04/11/2020 17:25, Eduardo Habkost wrote:
-
-> The "iu-version" property is declared as uint64_t but points to a
-> target_ulong struct field.  On the sparc 32-bit target, This
-> makes every write of iu-version corrupt the 4 bytes after
-> sparc_def_t.iu_version (where the fpu_version field is located).
+Le 10/11/2020 à 13:56, Mark Cave-Ayland a écrit :
+> On 05/11/2020 21:23, Peter Maydell wrote:
 > 
-> Change the type of the iu_version struct field to uint64_t,
-> and just use DEFINE_PROP_UINT64.
+>> This set of patches fixes bugs which were preventing the
+>> Debian sparc64 /bin/bash from running:
+>>   * the target_ucontext structure put the registers in the
+>>     wrong place (missing alignment specifier, mostly)
+>>   * the set_context and get_context traps weren't saving fp
+>>     and i7, which meant that guest code that did a longjmp would
+>>     crash shortly afterwards (SPARC64 uses these traps to
+>>     implement setjmp/longjmp)
+>>   * we were trying to stuff a 64-bit PC into a uint32_t in
+>>     sigreturn, which caused a SEGV on return from a signal handler
+>>
+>> Review very much desired in particular from anybody who understands
+>> SPARC register windows and how we handle them in linux-user for
+>> patch 2! The other patches are straightforward.
+>>
+>> This patchset is sufficient that I can at least chroot into
+>> a Debian sparc64 chroot and run basic commands like 'ls' from
+>> the shell prompt (together with Giuseppe Musacchio's patch that
+>> fixes the stack_t struct).
+>>
+>> There are clearly a bunch of other bugs in sparc signal handling
+>> (starting with the fact that rt_frame support is simply not
+>> implemented, but there are also some XXX/FIXME comments about TSTATE
+>> save/restore in set/get_context and about the FPU state in the signal
+>> frame code). There's also a Coverity issue about accessing off the
+>> end of the sregs[] array in the target_mc_fpu struct -- the error is
+>> actually harmless (we're accessing into the space in the union for
+>> dregs[16..31] which is what we want to be doing) but I'll probably
+>> put together a patch to make Coverity happier.
 > 
-> The only place where env.def.iu_version field is read is the
->      env->version = env->def.iu_version;
-> assignment at sparc_cpu_realizefn().  This means behavior will be
-> kept exactly the same (except for the memory corruption bug fix).
-> 
-> It would be nice to explicitly validate iu_version against
-> target_ulong limits, but that would be a new feature (since the
-> first version of this code, iu-version was parsed as 64-bit value
-> value).  It can be done later, once we have an appropriate API to
-> define limits for integer properties.
-> 
-> Fixes: de05005bf785 ("sparc: convert cpu features to qdev properties")
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> ---
-> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> Cc: Artyom Tarasenko <atar4qemu@gmail.com>
-> Cc: qemu-devel@nongnu.org
-> ---
->   target/sparc/cpu.h | 2 +-
->   target/sparc/cpu.c | 5 ++---
->   2 files changed, 3 insertions(+), 4 deletions(-)
-> 
-> diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
-> index b9369398f2..8ed0f4fef3 100644
-> --- a/target/sparc/cpu.h
-> +++ b/target/sparc/cpu.h
-> @@ -252,7 +252,7 @@ typedef struct trap_state {
->   
->   struct sparc_def_t {
->       const char *name;
-> -    target_ulong iu_version;
-> +    uint64_t iu_version;
->       uint32_t fpu_version;
->       uint32_t mmu_version;
->       uint32_t mmu_bm;
-> diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
-> index ec59a13eb8..5a9397f19a 100644
-> --- a/target/sparc/cpu.c
-> +++ b/target/sparc/cpu.c
-> @@ -576,7 +576,7 @@ void sparc_cpu_list(void)
->       unsigned int i;
->   
->       for (i = 0; i < ARRAY_SIZE(sparc_defs); i++) {
-> -        qemu_printf("Sparc %16s IU " TARGET_FMT_lx
-> +        qemu_printf("Sparc %16s IU %" PRIx64
->                       " FPU %08x MMU %08x NWINS %d ",
->                       sparc_defs[i].name,
->                       sparc_defs[i].iu_version,
-> @@ -838,8 +838,7 @@ static Property sparc_cpu_properties[] = {
->       DEFINE_PROP_BIT("hypv",     SPARCCPU, env.def.features, 11, false),
->       DEFINE_PROP_BIT("cmt",      SPARCCPU, env.def.features, 12, false),
->       DEFINE_PROP_BIT("gl",       SPARCCPU, env.def.features, 13, false),
-> -    DEFINE_PROP_UNSIGNED("iu-version", SPARCCPU, env.def.iu_version, 0,
-> -                         prop_info_uint64, target_ulong),
-> +    DEFINE_PROP_UINT64("iu-version", SPARCCPU, env.def.iu_version, 0),
->       DEFINE_PROP_UINT32("fpu-version", SPARCCPU, env.def.fpu_version, 0),
->       DEFINE_PROP_UINT32("mmu-version", SPARCCPU, env.def.mmu_version, 0),
->       DEFINE_PROP("nwindows",     SPARCCPU, env.def.nwindows,
+> Thanks Peter! This has been broken for a very long time indeed. Once
+> this is merged I should probably look at getting a test environment set up.
 
-Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
++1
 
+With these patches,
 
-ATB,
+on sparc, debootstrap (wheezy) has some issues but after some hacks
+around the packages I've been able to build and run LTP.
 
-Mark.
+on sparc64, debootstrap (sid) seems to work well but after that there
+are some issues with apt (URI error)
+
+Thanks,
+Laurent
+
 
