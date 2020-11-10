@@ -2,83 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF96F2AD5F9
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 13:17:54 +0100 (CET)
-Received: from localhost ([::1]:51206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DABB32AD5FA
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 13:17:59 +0100 (CET)
+Received: from localhost ([::1]:51602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcSav-0001Qu-Rj
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 07:17:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58930)
+	id 1kcSb0-0001ai-Uh
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 07:17:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcSZL-000096-KC
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 07:16:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26844)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcSZQ-0000FB-99
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 07:16:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26369)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcSZJ-0000gx-K5
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 07:16:15 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcSZO-0000jC-8K
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 07:16:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605010572;
+ s=mimecast20190719; t=1605010577;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=qhKuMcdIuP13M89GGZxUWxYys4ng23qIfJ0VJRwR7Ps=;
- b=QU/j8jlx3pIUQ+VDGIb6TMy+hcrdoAMicQu6NPKpeUlDj3naFOTtyB3Kzs+q4EYOMsWvMP
- 2rj0PCrqWt+caRWFmG7L/PfRkqw2FwDtaNoI+EXSoUx42vkAtIlROCTthRqBwJvAT2Yl0t
- 3PQsCUjEheX2hRUe/uULdybTKvUkAtU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-328-ZFR7qE0TOMapsQKxmywkAg-1; Tue, 10 Nov 2020 07:16:09 -0500
-X-MC-Unique: ZFR7qE0TOMapsQKxmywkAg-1
-Received: by mail-wr1-f71.google.com with SMTP id r16so5597534wrw.22
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 04:16:09 -0800 (PST)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hHoxmp0GZU/YhZXxlfHMYBwFYW7GtaO/Gi2jra08+tw=;
+ b=WJj7LGhA2OIBwQ5N/H9ZaR+XV/qKhNoGqhN9VB+mH639OxbYqajik02JqPrzDkaU2yxfxc
+ wkvvPW97rKt0zZc+gd+F3s6v1hTyoYjjHqHl4bsF4b3dK1XNHjJs9HZTuGMMhqZDhO/6+y
+ F6Rc6cMumL1yiHFWz/wp8f6ZZSITw2I=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-311-iyO4n_fANQ2cL3WmWN96ow-1; Tue, 10 Nov 2020 07:16:15 -0500
+X-MC-Unique: iyO4n_fANQ2cL3WmWN96ow-1
+Received: by mail-wm1-f71.google.com with SMTP id a130so1079582wmf.0
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 04:16:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+iLyKApZQbGsA8YU23XaxsjDnJGdiDOHwCgDRAMwZww=;
- b=Xk3ZBByn6CTZy/i7QhKsvb4TpIKhllbA48iEaMkDNg/ZyghtNwJZrIn6BxQggMLrqZ
- uDr1OQWVluTIz/e9VCQFF937LXih2qL30qcRAPeVcQLoUGApR99HV/J2efwFegU0LZQG
- qYN2wXfQmQRewqpaaU8gImvag8vNYZ1BPTToiIHEEdIVgLgABDOAUQ35O5pL1YRfxjj2
- QwIf5Rif53eKfn9MWW7cCs2bikDYQfzdy0K6EjVNQqGo5ltM/jWtrqU2E9pVeNZhD438
- bSse/qjYP2+VJssQDuW4P+KRezt8VXysgRneiJaUrL+d6Uz/gI1HKELkym9wyhSGsv1k
- gE4w==
-X-Gm-Message-State: AOAM530tbigYcYXLnjhEC3Vf28DFt8a51p7wXfbxM4EDXrqq5xHMZxq7
- nDX27opL3+rcHAXHy0RIkbnSzBwrjdNhKqW3jfEBKBZG0w6ikxc64pM6d23CUZ2KkJXTkLEnghk
- dkYRUuP1Ltumk+opIeuNKnmyWinON4lpov7gT9DlKF/XKqWD0b4g91cFY+/NhJBnF
-X-Received: by 2002:a5d:6b0e:: with SMTP id v14mr3226343wrw.394.1605010568479; 
- Tue, 10 Nov 2020 04:16:08 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxyVQOwvw24Out8Fv3rp4N5F1hLzXGZ2LFxDFLC1u7yCSLem3Cd5o/Slf2VPUHNP7OadnRdkw==
-X-Received: by 2002:a5d:6b0e:: with SMTP id v14mr3226317wrw.394.1605010568236; 
- Tue, 10 Nov 2020 04:16:08 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=hHoxmp0GZU/YhZXxlfHMYBwFYW7GtaO/Gi2jra08+tw=;
+ b=uhWtApcqd7IK0TCnsiTZDi1Ek+nARpEKO2vhRjqt4lVYYbB4kTpBQxiuxwoME1BKAe
+ gJQ7EYthxwJh5vipd0JdSGBoDWjAl+f4kJpsPWpyTnroYELYn0Xw4suMRjdRpiRDctcN
+ ARZaQDWxCdjvqkFGd/hX1SzjZ4XsxdUTHAV+gpAXlBATdxgycBLdP+LwoS5EEiyDIauz
+ Ass8egfvD64WZ9lwOfOE6S5Pl1n3euVazTVnp+UP8LV6v1OYWLXtvA8YrM9xlrgyiAUU
+ P0XTMsICkmpbF5fQumz2WAfiGhS65Gfas8gh/DB0jQcGcp7/vvP8jhFHfBawFDDGIeNW
+ nRuA==
+X-Gm-Message-State: AOAM530qOd7VvU43c/0YN9d1GUrDdTdBepA9G7HaPz932fTPGcdAfJFB
+ q9azR9LTM3UMHb66ub5Z/S56KESpo63C3Ib07ulXYPAHYOdRVKDvfCtdpLSrfuAkWykpb7us3W/
+ GhaJL41CMx7l6fKt7bQqLQMQPcWX200XmSjvcEW6z6cxc3JxHbo5OUpgTF9JvRUo1
+X-Received: by 2002:adf:a29e:: with SMTP id s30mr25357003wra.29.1605010573603; 
+ Tue, 10 Nov 2020 04:16:13 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyPLOKNs2QqlOodBTN6XxGjPm4TJ1PcbW1fB6nw1uT2dItJxTOHNGG+uqmqHElWl5rp0d+YLA==
+X-Received: by 2002:adf:a29e:: with SMTP id s30mr25356969wra.29.1605010573330; 
+ Tue, 10 Nov 2020 04:16:13 -0800 (PST)
 Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id u23sm2880841wmc.32.2020.11.10.04.16.07
+ by smtp.gmail.com with ESMTPSA id m20sm19094724wrg.81.2020.11.10.04.16.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Nov 2020 04:16:07 -0800 (PST)
+ Tue, 10 Nov 2020 04:16:12 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2 0/2] gitlab-ci: Fix EDK2 & OpenSBI jobs
-Date: Tue, 10 Nov 2020 13:16:04 +0100
-Message-Id: <20201110121606.2792442-1-philmd@redhat.com>
+Subject: [PATCH-for-5.2 1/2] gitlab-ci: Avoid running the OpenSBI job when not
+ necessary
+Date: Tue, 10 Nov 2020 13:16:05 +0100
+Message-Id: <20201110121606.2792442-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201110121606.2792442-1-philmd@redhat.com>
+References: <20201110121606.2792442-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 00:21:06
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 02:00:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,22 +104,66 @@ Cc: Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We had rules to restrict building the EDK2 & OpenSBI firmwares=0D
-on GitLab CI. Unfortunately commit 922febe2 ("Move edk2 and=0D
-opensbi YAML files to .gitlab-ci.d folder") made these rules=0D
-ineffective. Fix that. In particular avoid the EDK2 job burn=0D
-all free minutes for our fork users.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (2):=0D
-  gitlab-ci: Avoid running the OpenSBI job when not necessary=0D
-  gitlab-ci: Avoid running the EDK2 job when not necessary=0D
-=0D
- .gitlab-ci.d/edk2.yml    | 11 ++++-------=0D
- .gitlab-ci.d/opensbi.yml | 13 -------------=0D
- 2 files changed, 4 insertions(+), 20 deletions(-)=0D
-=0D
---=20=0D
-2.26.2=0D
-=0D
+The OpenSBI jobs use the 'changes' keyword, which "makes it
+possible to define if a job should be created based on files
+modified by a Git push event." (see [*]). This keyword comes
+with a warning:
+
+  Caution:
+
+    In pipelines with sources other than the three above
+    changes can’t determine if a given file is new or old
+    and always returns true."
+
+In commit 922febe2af we moved the YAML config file from the
+repository root directory to the .gitlab-ci.d/ directory.
+
+We didn't respect the previous warning and disabled the
+'changes' filter rule, as the files are now in a (directory)
+three above the YAML config file.
+
+As this job doesn't take much (less than 1min), run it by
+default.
+
+[*] https://docs.gitlab.com/ee/ci/yaml/#onlychangesexceptchanges
+
+Fixes: 922febe2af ("Move edk2 and opensbi YAML files to .gitlab-ci.d folder")
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ .gitlab-ci.d/opensbi.yml | 13 -------------
+ 1 file changed, 13 deletions(-)
+
+diff --git a/.gitlab-ci.d/opensbi.yml b/.gitlab-ci.d/opensbi.yml
+index 5b13047e2ab..b1fa244fda4 100644
+--- a/.gitlab-ci.d/opensbi.yml
++++ b/.gitlab-ci.d/opensbi.yml
+@@ -1,10 +1,5 @@
+ docker-opensbi:
+  stage: containers
+- rules: # Only run this job when the Dockerfile is modified
+- - changes:
+-   - .gitlab-ci.d/opensbi.yml
+-   - .gitlab-ci.d/opensbi/Dockerfile
+-   when: always
+  image: docker:19.03.1
+  services:
+  - docker:19.03.1-dind
+@@ -25,14 +20,6 @@ docker-opensbi:
+ 
+ build-opensbi:
+  stage: build
+- rules: # Only run this job when ...
+- - changes: # ... roms/opensbi/ is modified (submodule updated)
+-   - roms/opensbi/*
+-   when: always
+- - if: '$CI_COMMIT_REF_NAME =~ /^opensbi/' # or the branch/tag starts with 'opensbi'
+-   when: always
+- - if: '$CI_COMMIT_MESSAGE =~ /opensbi/i' # or last commit description contains 'OpenSBI'
+-   when: always
+  artifacts:
+    paths: # 'artifacts.zip' will contains the following files:
+    - pc-bios/opensbi-riscv32-generic-fw_dynamic.bin
+-- 
+2.26.2
 
 
