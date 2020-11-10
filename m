@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D57732ADB36
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 17:05:01 +0100 (CET)
-Received: from localhost ([::1]:48926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76A762ADB44
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 17:07:56 +0100 (CET)
+Received: from localhost ([::1]:57434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcW8i-0000np-SR
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 11:05:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59432)
+	id 1kcWBX-0004VU-Ey
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 11:07:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcW64-0007Pw-Ih
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 11:02:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25090)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcW6B-0007Ti-R2
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 11:02:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53483)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcW62-0003X7-9T
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 11:02:16 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcW67-0003YR-UN
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 11:02:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605024133;
+ s=mimecast20190719; t=1605024138;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3y1C5StOcNT1GPWvuNwXUSiFTVKqm5kP9TOY3ZYBopk=;
- b=M/wo0rnJhFmbhIIVzywlBZ/r9jQJKPLf+wsVXu7NdJOL/UNwmqqTGFqGCk6aZnDYwkkrq9
- VwGMgcDpYG2ZPrVY2ZTvze5hDDfPKr06tDEkICIfHW/DdhHDFbFR6cfzGnurEuRLXjdUhL
- cuBp9BqzSIVDzdUueWXQ0B5K2YzRVCM=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-423-LPS2hwtgN1CInEArZ4tD9w-1; Tue, 10 Nov 2020 11:02:12 -0500
-X-MC-Unique: LPS2hwtgN1CInEArZ4tD9w-1
-Received: by mail-wm1-f72.google.com with SMTP id a130so1323291wmf.0
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 08:02:10 -0800 (PST)
+ bh=KCg/Jp10x6FMCYbkbPlwKfxc7sA25cTtliYxbXc5o8o=;
+ b=MS7ZQ9CYXwKiQb9xSua0EyR0yrL1URSGdIV+rILBxllm/Gz3eqHewCC5UYO+XDq205jQN0
+ TpOdOumTaImxCXycPKZCphmEiYKj4heLYO8CmVutXs6sJMV2p2WCe9z1pluHDC9Re1CkQR
+ NR14DERkvD2tb8/GDAJHD/yu00yWuNA=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-257-Pergqc4WONWoTh3WtyVt3g-1; Tue, 10 Nov 2020 11:02:16 -0500
+X-MC-Unique: Pergqc4WONWoTh3WtyVt3g-1
+Received: by mail-wm1-f70.google.com with SMTP id k128so1447546wme.7
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 08:02:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3y1C5StOcNT1GPWvuNwXUSiFTVKqm5kP9TOY3ZYBopk=;
- b=W+P24WmK6oSLqd29lUIIJdGNgIlLpfXeIS5hrnXm0N86a56atIbQ8YW2GLfB6jsEZC
- l78dAKZFOyvcTvvuMFRw9cEB/GARmJkKX74d6rNi4PSZ23kWZ8xf1Amp/553+Y2TVfML
- xUcQcDbq0yr4+6qnDqyreBhtcWlgiBFjZU9fZBTK4MANK8reoikib0aFM5esy6hN9O3t
- xSAkqLc8HBZ3w5Khj2kwohh/jM9tNCi0H8d7wYyxOQN+TSHXejGj11bWof4b+GLazl+y
- EXekahdt3uscuzVctzaXL/8uol0KgKmqUZWclBIDatMQzmZtPZkmXiDpRoy3FBUJKsPw
- NwAg==
-X-Gm-Message-State: AOAM530RMdlV46ckx6WnSzrZ56O2zM+6Sr0gU311DIFwyak272dJJy4T
- mlhkzLFLpanOvO6yslbpqqi5xNWOwmMQ/Z+wYKlFRuXkW33TcgYkt/2RH+HqNq20Tp9M2KRM7Ft
- 1zPPDRzdmAhH7xWvlcj3NgnH0iU1VBB9ayYVylISk/u7IoZzrzOSclkpwZpbXi1fw
-X-Received: by 2002:a7b:c846:: with SMTP id c6mr338124wml.143.1605024129373;
- Tue, 10 Nov 2020 08:02:09 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwpFlwK18+nTDZDJlvzoPMQchVMptLlTDuTQzWnlqe5ftTgtiPui0Vi+Ml+aSIX+HUaBSN8Kg==
-X-Received: by 2002:a7b:c846:: with SMTP id c6mr338085wml.143.1605024129137;
- Tue, 10 Nov 2020 08:02:09 -0800 (PST)
+ bh=KCg/Jp10x6FMCYbkbPlwKfxc7sA25cTtliYxbXc5o8o=;
+ b=mGci7jW3vhKNlhig7Hxaof7ldHI2SFafWkWJk5OoOhlQaFPz75fvykmn3Lx8hz4I9r
+ ej6B6Xu4SR6nwmijIHIFKE+4SWV1sycfbIap9V627O5ZnBKFve83vgy8Wnzpm5nwCLB/
+ 3eBOGencELLiyuj1Gj5OXgbZyygipKqNMAKX2AAtk/DixYl14W81qP/ny998jhpkjxJD
+ dlCyQlbNdr8umY0n3Wa+4nfgSzJSW4YBhlq8Ab4JOdIiNk6jpzob1DtEtM3EmD8CITdT
+ JvXcIy22TTJK7uvvTrs6nYT5M5i1MV884A3xDPJN9UqS/GmXczLPQO4SsmMrC4AOuoJS
+ Yk8Q==
+X-Gm-Message-State: AOAM532IHM0btefKzES5C9bgLfdHsA7fDZSQ9mSMJv01jqi9oD0Ynvgg
+ q5gdWX5qugoyWHLM/6vgBhtazLunlx0gY0ani7lJhtbOm1WH20/bIwThl5NSo3aQQ1juA2OyCRn
+ d8inp69qXaNWEmf839/IWNk5q+S28/To50xqqWhr7W9E9AfKnW9s0ZnWdAyyOAdPm
+X-Received: by 2002:a5d:50c6:: with SMTP id f6mr18234190wrt.150.1605024134806; 
+ Tue, 10 Nov 2020 08:02:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwxKcvMgxbmw+ukideljTEnIn3JT2u72lLtjGSOY8xq2UQWTYW/EwqsEjxJulBXcwEPE/R3mw==
+X-Received: by 2002:a5d:50c6:: with SMTP id f6mr18234153wrt.150.1605024134511; 
+ Tue, 10 Nov 2020 08:02:14 -0800 (PST)
 Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id l24sm3464456wmi.7.2020.11.10.08.02.07
+ by smtp.gmail.com with ESMTPSA id k81sm4821626wma.2.2020.11.10.08.02.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Nov 2020 08:02:08 -0800 (PST)
+ Tue, 10 Nov 2020 08:02:13 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 05/16] gitlab-ci: Replace YAML anchors by extends
- (container_job)
-Date: Tue, 10 Nov 2020 17:01:29 +0100
-Message-Id: <20201110160140.2859904-6-philmd@redhat.com>
+Subject: [RFC PATCH 06/16] gitlab-ci: Rename acceptance_test_job ->
+ integration_test_job
+Date: Tue, 10 Nov 2020 17:01:30 +0100
+Message-Id: <20201110160140.2859904-7-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201110160140.2859904-1-philmd@redhat.com>
 References: <20201110160140.2859904-1-philmd@redhat.com>
@@ -107,281 +107,71 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'extends' is an alternative to using YAML anchors
-and is a little more flexible and readable. See:
-https://docs.gitlab.com/ee/ci/yaml/#extends
+The acceptance tests aren't accepting anything,
+rename them as integration tests.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- .gitlab-ci.d/containers.yml | 72 ++++++++++++++++++-------------------
- 1 file changed, 36 insertions(+), 36 deletions(-)
+ .gitlab-ci.yml | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
-index 11d079ea581..7e664878cab 100644
---- a/.gitlab-ci.d/containers.yml
-+++ b/.gitlab-ci.d/containers.yml
-@@ -1,4 +1,4 @@
--.container_job_template: &container_job_definition
-+.container_job:
-   image: docker:stable
-   stage: containers
-   services:
-@@ -29,220 +29,220 @@
-     - if: '$CI_COMMIT_REF_NAME == "testing/next"'
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index a45444f884b..17520640d7d 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -42,7 +42,7 @@ include:
+     - find . -type f -exec touch {} +
+     - make $MAKE_CHECK_ARGS
  
- amd64-centos7-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   variables:
-     NAME: centos7
+-.acceptance_test_job:
++.integration_test_job:
+   extends: .native_test_job
+   cache:
+     key: "${CI_JOB_NAME}-cache"
+@@ -90,8 +90,8 @@ check-system-ubuntu:
+     IMAGE: ubuntu2004
+     MAKE_CHECK_ARGS: check
  
- amd64-centos8-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   variables:
-     NAME: centos8
+-acceptance-system-ubuntu:
+-  extends: .acceptance_test_job
++integration-system-ubuntu:
++  extends: .integration_test_job
+   needs:
+     - job: build-system-ubuntu
+       artifacts: true
+@@ -121,8 +121,8 @@ check-system-debian:
+     IMAGE: debian-amd64
+     MAKE_CHECK_ARGS: check
  
- amd64-debian10-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   variables:
-     NAME: debian10
+-acceptance-system-debian:
+-  extends: .acceptance_test_job
++integration-system-debian:
++  extends: .integration_test_job
+   needs:
+     - job: build-system-debian
+       artifacts: true
+@@ -152,8 +152,8 @@ check-system-fedora:
+     IMAGE: fedora
+     MAKE_CHECK_ARGS: check
  
- amd64-debian11-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   variables:
-     NAME: debian11
+-acceptance-system-fedora:
+-  extends: .acceptance_test_job
++integration-system-fedora:
++  extends: .integration_test_job
+   needs:
+     - job: build-system-fedora
+       artifacts: true
+@@ -183,8 +183,8 @@ check-system-centos:
+     IMAGE: centos8
+     MAKE_CHECK_ARGS: check
  
- alpha-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-alpha-cross
- 
- amd64-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-amd64-cross
- 
- amd64-debian-user-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-all-test-cross
- 
- amd64-debian-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-amd64
- 
- arm64-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-arm64-cross
- 
- arm64-test-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   stage: containers-layer2
-   needs: ['amd64-debian11-container']
-   variables:
-     NAME: debian-arm64-test-cross
- 
- armel-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-armel-cross
- 
- armhf-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-armhf-cross
- 
- hppa-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-hppa-cross
- 
- m68k-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-m68k-cross
- 
- mips64-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-mips64-cross
- 
- mips64el-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-mips64el-cross
- 
- mips-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-mips-cross
- 
- mipsel-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-mipsel-cross
- 
- powerpc-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-powerpc-cross
- 
- ppc64-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-ppc64-cross
- 
- ppc64el-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-ppc64el-cross
- 
- riscv64-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-riscv64-cross
- 
- s390x-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-s390x-cross
- 
- sh4-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-sh4-cross
- 
- sparc64-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-sparc64-cross
- 
- tricore-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-tricore-cross
- 
- xtensa-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   variables:
-     NAME: debian-xtensa-cross
- 
- cris-fedora-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   variables:
-     NAME: fedora-cris-cross
- 
- amd64-fedora-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   variables:
-     NAME: fedora
- 
- i386-fedora-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   variables:
-     NAME: fedora-i386-cross
- 
- win32-fedora-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   variables:
-     NAME: fedora-win32-cross
- 
- win64-fedora-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   variables:
-     NAME: fedora-win64-cross
- 
- amd64-ubuntu1804-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   variables:
-     NAME: ubuntu1804
- 
- amd64-ubuntu2004-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   variables:
-     NAME: ubuntu2004
- 
- amd64-ubuntu-container:
--  <<: *container_job_definition
-+  extends: .container_job
-   variables:
-     NAME: ubuntu
+-acceptance-system-centos:
+-  extends: .acceptance_test_job
++integration-system-centos:
++  extends: .integration_test_job
+   needs:
+     - job: build-system-centos
+       artifacts: true
 -- 
 2.26.2
 
