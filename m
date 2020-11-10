@@ -2,92 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1615D2ADB6F
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 17:18:41 +0100 (CET)
-Received: from localhost ([::1]:55458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ED202ADB61
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 17:12:35 +0100 (CET)
+Received: from localhost ([::1]:44228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcWLw-0007Qj-4y
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 11:18:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59852)
+	id 1kcWG0-0002TE-TC
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 11:12:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcW7E-0000gm-T4
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 11:03:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27654)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcW6z-0003p2-TI
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 11:03:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605024192;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WSEA911pFqughuXwSFMV3cA9o56N7U4FvX3DSTDYzS4=;
- b=BMmV1b+Xi1IGccBur5jktbX9qMlDTqnSMPvAf/qGCn69MB7g1Ugnh0+f9GVIYIwxBuzwO6
- cOVYnjfMWvfCP+v+wJ19SHe1e09SDjc6qrIkWQw16c111ohBcVHpQORrCkfP7gRXud197c
- b5xkcT49WRy+1poCbY62sHssmZQAZc4=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-497-jRx8HAlmNKaLPO9S1yCEkA-1; Tue, 10 Nov 2020 11:03:09 -0500
-X-MC-Unique: jRx8HAlmNKaLPO9S1yCEkA-1
-Received: by mail-wr1-f70.google.com with SMTP id b6so5837761wrn.17
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 08:03:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=WSEA911pFqughuXwSFMV3cA9o56N7U4FvX3DSTDYzS4=;
- b=box4oSxptamHEkggSSI0Ol/7LOpRaymFzxlYOR0XgAKgOLhrtIuinI7ekYwJ4L0cyB
- 4iRe+kKpHG+wzHmSfF/8JSe28m90HS1E7XZlLcZe++hutktGZ3wEKMNUzEP0UrBwh7nZ
- wsDELYrYvItHG13gOpQYZUspRaud0FZ+CqwHcdazkTLEXc7xnUglqEmNnLeboyqlSsoc
- TpaFlHQ+mdQYELAcO5J60d32ovF0Em35UrM+SWbE8lv/HW91pXP+aj9uW6nJoe2RP6qi
- vc4UAAfqJLmh3e8BmBQU6s9a20PlJ7eWgXdLwEFpBzEpThzMCH4IE9x+KDE8tSLYOhjK
- yLvw==
-X-Gm-Message-State: AOAM531kAnEIO8n5rFXdh83ApvGzuHAyxtzwD/VAZg3S6kDxYANk/C4I
- RhK2a7g1Azt0TOSKdsZ2ogiRzacX0KNxAAiEptM0bjRy+Cv4aT5ieVYBFriLfDA8r3bdINqqKGh
- 2Hx6QHzZlBV0BUVZmvyCGJbUEg5Kvy90aiiIRUhYZP3PsfKb+7LWi/ld7ixfNcMRO
-X-Received: by 2002:a5d:4f0f:: with SMTP id c15mr9957231wru.287.1605024187456; 
- Tue, 10 Nov 2020 08:03:07 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzCfhGrL2ZB27l/RxLuhGluNRLySCIoD9cPmEfmkOIneFFhHTTqrTLFoXV3zCmck7mu3kvvVw==
-X-Received: by 2002:a5d:4f0f:: with SMTP id c15mr9957200wru.287.1605024187287; 
- Tue, 10 Nov 2020 08:03:07 -0800 (PST)
-Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id b14sm17547019wrq.47.2020.11.10.08.03.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Nov 2020 08:03:06 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 16/16] gitlab-ci: Do not automatically run integration
- tests for push events
-Date: Tue, 10 Nov 2020 17:01:40 +0100
-Message-Id: <20201110160140.2859904-17-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201110160140.2859904-1-philmd@redhat.com>
-References: <20201110160140.2859904-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kcWEJ-0000pf-MX
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 11:10:47 -0500
+Received: from indium.canonical.com ([91.189.90.7]:56026)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kcWEH-0006BC-HN
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 11:10:47 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kcWEG-0006OW-E9
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 16:10:44 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 583742E8072
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 16:10:44 +0000 (UTC)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 02:00:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 10 Nov 2020 16:04:39 -0000
+From: Thomas Huth <1763536@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: djlwilder mopsfelder pmaydell th-huth
+X-Launchpad-Bug-Reporter: David Wilder (djlwilder)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <152357545161.20027.863482450235173908.malonedeb@gac.canonical.com>
+Message-Id: <160502427962.28629.17484771839595447320.malone@chaenomeles.canonical.com>
+Subject: [Bug 1763536] Re: go build fails under qemu-ppc64le-static (qemu-user)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
+X-Launchpad-Hash: 7070d1cf8a559abc48c041455905080a067a5996
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 08:35:46
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -96,63 +72,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Bin Meng <bin.meng@windriver.com>, Michael Tokarev <mjt@tls.msk.ru>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- virt-ci-maint-team@redhat.com, Bin Meng <bmeng.cn@gmail.com>,
- Laszlo Ersek <lersek@redhat.com>
+Reply-To: Bug 1763536 <1763536@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The tests run by 'make check-acceptance' are sometime flaky,
-making maintainers reluctant to use GitLab. Disable them for
-now. We might re-enable some gradually, or let each maintainer
-enable a set of interest.
+Have you ever tried with a newer version of QEMU?
 
-Keep automatically running the integration tests for the various
-GitLab events, except when we push to a repository.
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-Per the $CI_PIPELINE_SOURCE entry in [*] the possible events are:
+-- =
 
- - push
- - web
- - schedule
- - api
- - external
- - chat
- - webide
- - merge_request_event
- - external_pull_request_event
- - parent_pipeline
- - trigger
- - cross_project_pipeline
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1763536
 
-[*] https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
+Title:
+  go build fails under qemu-ppc64le-static (qemu-user)
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- .gitlab-ci.yml | 4 ++++
- 1 file changed, 4 insertions(+)
+Status in QEMU:
+  Incomplete
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 6cf4c19c604..c57e0fa1ab9 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -80,6 +80,10 @@ include:
-     - cd build
-     - python3 -c 'import json; r = json.load(open("tests/results/latest/results.json")); [print(t["logfile"]) for t in r["tests"] if t["status"] not in ("PASS", "SKIP", "CANCEL")]' | xargs cat
-     - du -chs ${CI_PROJECT_DIR}/avocado-cache
-+  rules: # Do not automatically run integration tests for push events
-+  - if: '$CI_PIPELINE_SOURCE == "push"'
-+    when: manual
-+    allow_failure: true
- 
- build-system-ubuntu:
-   extends: .native_build_job
--- 
-2.26.2
+Bug description:
+  I am using qemu-user (built static) in a docker container environment.
+  When running multi-threaded go commands in the container (go build for
+  example) the process may hang, report segfaults or other errors.  I
+  built qemu-ppc64le from the upstream git (master).
 
+  I see the problem running on a multi core system with Intel i7 processors.
+  # cat /proc/cpuinfo | grep "model name"
+  model name	: Intel(R) Core(TM) i7-2760QM CPU @ 2.40GHz
+  model name	: Intel(R) Core(TM) i7-2760QM CPU @ 2.40GHz
+  model name	: Intel(R) Core(TM) i7-2760QM CPU @ 2.40GHz
+  model name	: Intel(R) Core(TM) i7-2760QM CPU @ 2.40GHz
+  model name	: Intel(R) Core(TM) i7-2760QM CPU @ 2.40GHz
+  model name	: Intel(R) Core(TM) i7-2760QM CPU @ 2.40GHz
+  model name	: Intel(R) Core(TM) i7-2760QM CPU @ 2.40GHz
+  model name	: Intel(R) Core(TM) i7-2760QM CPU @ 2.40GHz
+
+  Steps to reproduce:
+  1) Build qemu-ppc64le as static and copy into docker build directory name=
+d it qemu-ppc64le-static.
+
+  2) Add hello.go to docker build dir.
+
+  package main
+  import "fmt"
+  func main() {
+  	fmt.Println("hello world")
+  }
+
+  3) Create the Dockerfile from below:
+
+  FROM ppc64le/golang:1.10.1-alpine3.
+  COPY qemu-ppc64le-static /usr/bin/
+  COPY hello.go /go
+
+  4) Build container
+  $ docker build -t qemutest -f Dockerfile ./go =
+
+
+  5) Run test
+  $ docker run -it qemutest
+
+  /go # /usr/bin/qemu-ppc64le-static --version
+  qemu-ppc64le version 2.11.93 (v2.12.0-rc3-dirty)
+  Copyright (c) 2003-2017 Fabrice Bellard and the QEMU Project developers
+
+  /go # go version
+  go version go1.10.1 linux/ppc64le
+
+  /go # go build hello.go
+  fatal error: fatal error: stopm holding locksunexpected signal during run=
+time execution
+
+  panic during panic
+  [signal SIGSEGV: segmentation violation code=3D0x1 addr=3D0x0 pc=3D0x1003=
+528c]
+
+  runtime stack:
+  runtime: unexpected return pc for syscall.Syscall6 called from 0xc42007f5=
+00
+  stack: frame=3D{sp:0xc4203be840, fp:0xc4203be860} stack=3D[0x4000b7ecf0,0=
+x4000b928f0)
+
+  syscall.Syscall6(0x100744e8, 0x3d, 0xc42050c140, 0x20, 0x18, 0x10422b80, =
+0xc4203be968[signal , 0x10012d88SIGSEGV: segmentation violation, 0xc4205940=
+00 code=3D, 0x00x1 addr=3D0x0 pc=3D0x1003528c)
+  ]
+
+  runtime stack:
+  	/usr/local/go/src/syscall/asm_linux_ppc64x.s:61runtime.throw(0x10472d19,=
+ 0x13)
+   +	/usr/local/go/src/runtime/panic.go:0x6c616 +0x68
+
+  =
+
+  runtime.stopm()
+  	/usr/local/go/src/runtime/proc.go:1939goroutine  +10x158
+   [runtime.exitsyscall0semacquire(0xc42007f500)
+  	/usr/local/go/src/runtime/proc.go:3129 +]:
+  0x130
+  runtime.mcall(0xc42007f500)
+  	/usr/local/go/src/runtime/asm_ppc64x.s:183 +0x58sync.runtime_Semacquire
+  (0xc4201fab1c)
+  	/usr/local/go/src/runtime/sema.go:56 +0x38
+
+  ----
+  Note the results may differ between attempts,  hangs and other faults som=
+etimes happen.
+  ----
+  If I run "go: single threaded I don't see the problem, for example:
+
+  /go # GOMAXPROCS=3D1 go build -p 1 hello.go =
+
+  /go # ./hello
+  hello world
+
+  I see the same issue with arm64.  I don't think this is a go issue,
+  but don't have a real evidence to prove that.  This problem looks
+  similar to other problem I have seen reported against qemu running
+  multi-threaded applications.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1763536/+subscriptions
 
