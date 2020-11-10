@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B5562ACA81
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 02:32:24 +0100 (CET)
-Received: from localhost ([::1]:40052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 795E02ACAA1
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 02:43:40 +0100 (CET)
+Received: from localhost ([::1]:45892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcIWF-0002qy-Mm
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 20:32:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52338)
+	id 1kcIh9-0005w9-1A
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 20:43:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kcIV9-0002PK-97
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 20:31:16 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:2087)
+ (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
+ id 1kcIgA-0005CJ-0M; Mon, 09 Nov 2020 20:42:38 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:2133)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kcIV1-0000nB-E0
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 20:31:12 -0500
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4CVVgK2GnmzhhSr;
- Tue, 10 Nov 2020 09:30:53 +0800 (CST)
-Received: from [10.174.186.51] (10.174.186.51) by
- DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 10 Nov 2020 09:30:51 +0800
-Subject: Re: [PATCH v2] migration/multifd: close TLS channel before socket
- finalize
-From: Zheng Chuan <zhengchuan@huawei.com>
-To: <quintela@redhat.com>, <dgilbert@redhat.com>, <berrange@redhat.com>
-References: <1604660094-123959-1-git-send-email-zhengchuan@huawei.com>
-Message-ID: <320e042f-10ce-8553-49b2-df338b1852f1@huawei.com>
-Date: Tue, 10 Nov 2020 09:30:51 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
+ id 1kcIg7-00025v-Ac; Mon, 09 Nov 2020 20:42:37 -0500
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CVVwV4Q6Dz75Wv;
+ Tue, 10 Nov 2020 09:42:18 +0800 (CST)
+Received: from [10.174.186.67] (10.174.186.67) by
+ DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
+ 14.3.487.0; Tue, 10 Nov 2020 09:42:15 +0800
+Subject: Re: Question on UEFI ACPI tables setup and probing on arm64
+To: Laszlo Ersek <lersek@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+References: <ee3b7fdf-f6ba-cafc-5b44-42b0bcda01c5@huawei.com>
+ <20201103133913.1fee3337@redhat.com>
+ <a79383a6-92d4-5b10-d143-414543caab70@redhat.com>
+ <5310d14d-8dbe-ba97-fdf1-4f3f10f91f3a@huawei.com>
+ <813efc59-2ce4-e2be-894f-e48ca66ce603@redhat.com>
+From: Ying Fang <fangying1@huawei.com>
+Message-ID: <6bb20d74-6f62-696f-d515-64a5eb958d22@huawei.com>
+Date: Tue, 10 Nov 2020 09:42:15 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <1604660094-123959-1-git-send-email-zhengchuan@huawei.com>
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <813efc59-2ce4-e2be-894f-e48ca66ce603@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.186.51]
+X-Originating-IP: [10.174.186.67]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32; envelope-from=zhengchuan@huawei.com;
- helo=szxga06-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 20:11:42
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=fangying1@huawei.com;
+ helo=szxga07-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 20:42:26
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -63,60 +64,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yubihong@huawei.com, zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
- xiexiangyou@huawei.com, alex.chen@huawei.com, wanghao232@huawei.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Drew Jones <drjones@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ "wangzhigang17@huawei.com" <wangzhigang17@huawei.com>, "Ard Biesheuvel \(ARM
+ address\)" <ard.biesheuvel@arm.com>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kindly ping.
-Maybe this bugfix is need for qemu-5.2 version.
 
-On 2020/11/6 18:54, Chuan Zheng wrote:
-> Since we now support tls multifd, when we cancel migration, the TLS
-> sockets will be left as CLOSE-WAIT On Src which results in socket
-> leak.
-> Fix it by closing TLS channel before socket finalize.
+
+On 11/7/2020 1:09 AM, Laszlo Ersek wrote:
+> On 11/05/20 05:30, Ying Fang wrote:
 > 
-> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
-> ---
->  migration/multifd.c | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+>> I see it in Qemu the *loader_start* is fixed at 1 GiB on the
+>> physical address space which points to the DRAM base. In ArmVirtQemu.dsc
+>> PcdDeviceTreeInitialBaseAddress is set 0x40000000 with correspondence.
+>>
+>> Here I also see the discussion about DRAM base for ArmVirtQemu.
+>> https://lists.gnu.org/archive/html/qemu-devel/2017-10/msg03127.html
+>>
+>> I am still not sure how UEFI knows that it is running on a ArmVirtQemu
+>> machine type.
 > 
-> diff --git a/migration/multifd.c b/migration/multifd.c
-> index 68b171f..a6838dc 100644
-> --- a/migration/multifd.c
-> +++ b/migration/multifd.c
-> @@ -523,6 +523,19 @@ static void multifd_send_terminate_threads(Error *err)
->      }
->  }
->  
-> +static void multifd_tls_socket_close(QIOChannel *ioc, Error *err)
-> +{
-> +    if (ioc &&
-> +        object_dynamic_cast(OBJECT(ioc),
-> +                            TYPE_QIO_CHANNEL_TLS)) {
-> +        /*
-> +         * TLS channel is special, we need close it before
-> +         * socket finalize.
-> +         */
-> +        qio_channel_close(ioc, &err);
-> +    }
-> +}
-> +
->  void multifd_save_cleanup(void)
->  {
->      int i;
-> @@ -542,6 +555,7 @@ void multifd_save_cleanup(void)
->          MultiFDSendParams *p = &multifd_send_state->params[i];
->          Error *local_err = NULL;
->  
-> +        multifd_tls_socket_close(p->c, NULL);
->          socket_send_channel_destroy(p->c);
->          p->c = NULL;
->          qemu_mutex_destroy(&p->mutex);
+> It doesn't know. It remains a convention.
+> 
+> This part is not auto-detected; the constants in QEMU and edk2 are
+> independently open-coded, their values were synchronized by human effort
+> initially.
+> 
+> The user or the management layer have to make sure they boot a UEFI
+> firmware binary on the machine type that is compatible with the machine
+> type.
+> 
+> There is some meta-data to help with that:
 > 
 
--- 
-Regards.
-Chuan
+Thanks so much for the reply,
+I now have the basic understanding how QEMU and EDK2 works together
+after reading the docs and code there.
+
+>> Does UEFI derive it from the fdt *compatible* property ?
+> 
+> Please see the schema "docs/interop/firmware.json" in the QEMU tree; in
+> particular the @FirmwareTarget element.
+> 
+> For an actual example: QEMU bundles some edk2 firmware binaries (purely
+> as a convenience, not for production), and those are accompanied by
+> matching descriptor files. See
+> "pc-bios/descriptors/60-edk2-aarch64.json". (It is a template that's
+> fixed up during QEMU installation, but that's tangential here.)
+> 
+>      "targets": [
+>          {
+>              "architecture": "aarch64",
+>              "machines": [
+>                  "virt-*"
+>              ]
+>          }
+>      ],
+> 
+
+Thanks, I'll look closer into it.
+
+> Thanks
+> Laszlo
+> 
+> .
+> 
 
