@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2760E2ADA06
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 16:15:56 +0100 (CET)
-Received: from localhost ([::1]:58196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2053E2AD9A7
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 16:05:10 +0100 (CET)
+Received: from localhost ([::1]:57552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcVND-0000o4-6I
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 10:15:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46398)
+	id 1kcVCn-0005Mo-6F
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 10:05:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcVIc-0004l6-91
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 10:11:10 -0500
-Received: from indium.canonical.com ([91.189.90.7]:37598)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kcV6s-0001MB-CF
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 09:59:03 -0500
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:44481)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcVIU-0002Np-3T
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 10:11:07 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kcVIR-0006UN-Lu
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 15:10:59 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 97D1E2E8079
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 15:10:59 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kcV6q-0006pN-Dh
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 09:59:01 -0500
+Received: by mail-ej1-x62c.google.com with SMTP id o23so18008903ejn.11
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 06:58:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=usRg3B/5876e0Z19IJOULrsOdZhx0FCSXWomCN3DRMQ=;
+ b=qd96q5NyR1lRUO/ReWHoN/mpCPFbhfkhP0e6E7r6QZoVEydUEHp3K5+LM4MVQt3bO4
+ hVx7FsscPHVWhFRhqarwg8RmNxaAotqd5gJHQoqLNgwAUhjpAFliB/9ANLhFqNDz6WaC
+ 5PeT9kQw9dg1DWrS3ixsx/8ADV7YXQFNvcoLOIjEoS+aJwHwGYrjE4riXY0ARg9oMWj8
+ wwMAOMfs4KrNPd6NWLF56+QC04xGa6CRxYph722ZX3UxI7U0BCgOvyASA7w5wJmLiA8b
+ nb1HDO/HzsM0wogsCntekLZyyha/ps30zQF4cXkMJtOtARzG6rNKQewffQvPlPbQsyB1
+ TtmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=usRg3B/5876e0Z19IJOULrsOdZhx0FCSXWomCN3DRMQ=;
+ b=YVdh/BGmVg/clcxgSTk0kZoN3GMwwHGGbU6Fpg4c5M8EvO7VwtnDB9NcdtWHCCo8LS
+ VBVbiL+c0e/Dd/u2Xt9a1GseaIpMe2vqNXzH3xNiDmzuWQxryETBgzreNrxpKHFSSrg5
+ XCWr7erx2OdKWwBM2vIDaBa4vW1aEkPZTR6jr2rUO5GBXnbDxoaZPyPCEVWC7c6jA3gm
+ ixakqYofTTv5+lHKaPiutkuPOYboMKcd5frQJv4fyPaoYbdlwLcAd3mlAC49Xw848kd5
+ 2wqZO+pux0BT3iKLekAReU4S7d/9VYDzRUOb/H4vNbuwaap1n44exe4XVGaE2irIJTic
+ 1g4A==
+X-Gm-Message-State: AOAM531pAMsQxiIEnzFUrqouEeCsWLNz6ZElNw9KSViUSpJIMmDiXn5x
+ VM2TFplqpcfaPuwW+FmchR67lK4k8R9N7mw2XDyw6Q==
+X-Google-Smtp-Source: ABdhPJwxxZYfdmq3Nw9jKx8vpfNqiGUZ+50G1ElGuA0pye8+jsyu1njxq6+Wcx9KFeWPvRf3KuQrk+8yxzhkd4SFb8c=
+X-Received: by 2002:a17:906:6949:: with SMTP id
+ c9mr20425187ejs.482.1605020338725; 
+ Tue, 10 Nov 2020 06:58:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2020 14:57:55 -0000
-From: Thomas Huth <1674114@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: bad disk image sector
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: mario1992 th-huth
-X-Launchpad-Bug-Reporter: Mario (mario1992)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20170319155854.19555.99549.malonedeb@soybean.canonical.com>
-Message-Id: <160502027602.18523.16970916124050594301.malone@soybean.canonical.com>
-Subject: [Bug 1674114] Re: Bad sectors when using MS-DOS 6.22
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: 6832efda8cbc19762d55876f40553d5868f55e79
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 08:35:46
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20201110111132.559399-1-thuth@redhat.com>
+In-Reply-To: <20201110111132.559399-1-thuth@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 10 Nov 2020 14:58:47 +0000
+Message-ID: <CAFEAcA_OBshYDqe326xoKSZtif0tK6gfHAgd1K+ZJM7usowH5A@mail.gmail.com>
+Subject: Re: [PULL 00/19] qtests, gitlab, s390x and misc patches
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,73 +79,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1674114 <1674114@bugs.launchpad.net>
+Cc: Alexander Bulekov <alxndr@bu.edu>, Cornelia Huck <cohuck@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently considering to move its bug tracking to anoth=
-er system. For this we need to know which bugs are still valid and which co=
-uld be closed already. Thus we are setting older bugs to "Incomplete" now.
-If you still think this bug report here is valid, then please switch the st=
-ate back to "New" within the next 60 days, otherwise this report will be ma=
-rked as "Expired". Or mark it as "Fix Released" if the problem has been sol=
-ved with a newer version of QEMU already. Thank you and sorry for the incon=
-venience.
+On Tue, 10 Nov 2020 at 11:11, Thomas Huth <thuth@redhat.com> wrote:
+>
+>  Hi Peter,
+>
+> the following changes since commit a2547c1ba911a0c53a10fe02d94a0f539dc064cc:
+>
+>   Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2020-11-09' into staging (2020-11-09 13:55:15 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/huth/qemu.git tags/pull-request-2020-11-10
+>
+> for you to fetch changes up to a58cabd0e355fc51f18db359ba260da268df26ef:
+>
+>   s390x: Avoid variable size warning in ipl.h (2020-11-10 08:51:30 +0100)
+>
+> ----------------------------------------------------------------
+> * Some small qtest fixes
+> * Oss-fuzz updates
+> * Publish the docs built during gitlab CI to the user's gitlab.io page
+> * Update the OpenBSD VM test to v6.8
+> * Fix the device-crash-test script to run with the meson build system
+> * Some small s390x fixes
+> ----------------------------------------------------------------
+>
 
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+Applied, thanks.
 
--- =
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1674114
-
-Title:
-  Bad sectors when using MS-DOS 6.22
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  When I try to install DOS 6.22 in QEMU, I get many disk errors when
-  the virtual disk is beeing partionized and formatted. When I later do
-  a SCANDISK, I can see many bad sectors and file errors.
-
-  I have tested this with the following disk formats: qcow2, vmdk, raw.
-
-  I tested this on Windows 7 with the following command line and QEMU versi=
-on:
-  qemu-system-i386 -name "Windows 3.11 WfW" -machine isapc -cpu 486 -boot o=
-rder=3Dadc -m 32 -soundhw sb16 -hda disk1.qcow2 -vga cirrus
-
-  qemu-system-i386 --version
-  QEMU emulator version 2.8.50 (v2.8.0-12557-g0bd1f6b1b2-dirty)
-  Copyright (c) 2003-2016 Fabrice Bellard and the QEMU Project developers
-
-  I then did a test with the linux version of qemu, which gave me the same =
-results.
-  Command line: qemu-system-i386 -name "Windows 3.11 WfW" -machine isapc -c=
-pu 486 -boot order=3Dadc -m 32 -soundhw sb16 -hda disk1.qcow2 -vga cirrus -=
-monitor stdout
-  Version: qemu-system-i386 --version
-  QEMU emulator version 2.1.2 (Debian 1:2.1+dfsg-12+deb8u6), Copyright (c) =
-2003-2008 Fabrice Bellard
-
-  I also checked the disk image with qemu-img, with no results:
-
-  No errors were found on the image.
-  7986/8000 =3D 99.83% allocated, 0.20% fragmented, 0.00% compressed cluste=
-rs
-  Image end offset: 523698176
-
-  Because I got the error with two different versions of QEMU, I think
-  this is a general problem and not related to a specific distribution.
-
-  I have attached a zip file with screenshots of SCANDISK, which shows
-  the disk errors.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1674114/+subscriptions
+-- PMM
 
