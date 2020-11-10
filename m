@@ -2,55 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 795E02ACAA1
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 02:43:40 +0100 (CET)
-Received: from localhost ([::1]:45892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD80A2ACAA9
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 02:48:51 +0100 (CET)
+Received: from localhost ([::1]:49220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcIh9-0005w9-1A
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 20:43:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54154)
+	id 1kcImA-0007jH-Vo
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 20:48:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1kcIgA-0005CJ-0M; Mon, 09 Nov 2020 20:42:38 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:2133)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1kcIg7-00025v-Ac; Mon, 09 Nov 2020 20:42:37 -0500
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CVVwV4Q6Dz75Wv;
- Tue, 10 Nov 2020 09:42:18 +0800 (CST)
-Received: from [10.174.186.67] (10.174.186.67) by
- DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 10 Nov 2020 09:42:15 +0800
-Subject: Re: Question on UEFI ACPI tables setup and probing on arm64
-To: Laszlo Ersek <lersek@redhat.com>, Igor Mammedov <imammedo@redhat.com>
-References: <ee3b7fdf-f6ba-cafc-5b44-42b0bcda01c5@huawei.com>
- <20201103133913.1fee3337@redhat.com>
- <a79383a6-92d4-5b10-d143-414543caab70@redhat.com>
- <5310d14d-8dbe-ba97-fdf1-4f3f10f91f3a@huawei.com>
- <813efc59-2ce4-e2be-894f-e48ca66ce603@redhat.com>
-From: Ying Fang <fangying1@huawei.com>
-Message-ID: <6bb20d74-6f62-696f-d515-64a5eb958d22@huawei.com>
-Date: Tue, 10 Nov 2020 09:42:15 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kcIlF-0007HR-GB
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 20:47:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46002)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kcIlC-0002fH-VL
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 20:47:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604972869;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=hTijRk0QJ/B1x1ov9DJX1mMg1wMjVYtAJqZqQS40x8U=;
+ b=O/g3JJ7Uo3hNqAHciwnVIwQEiisXrc5LWpxCioLZUNf+LVOKZzVw5LKqmIhQ5jFANBL6Kr
+ JLcgFBWf+e6oujM+jpuaw6yEiwjQSJnX8sdgB89sjyZThXHSBwawlj4MfIyiNFWcV4mJKc
+ JO7X65vvmINiOa+C8xzZpWOjydBvClU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-450-5W7b6jcCPVubq3Vs-iHjQg-1; Mon, 09 Nov 2020 20:47:47 -0500
+X-MC-Unique: 5W7b6jcCPVubq3Vs-iHjQg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9BC69100670C
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 01:47:46 +0000 (UTC)
+Received: from [10.10.113.61] (ovpn-113-61.rdu2.redhat.com [10.10.113.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 58F6A10023A5;
+ Tue, 10 Nov 2020 01:47:46 +0000 (UTC)
+To: Markus Armbruster <armbru@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Subject: QMP and the 'id' parameter
+Message-ID: <62700620-5228-f1cc-f0df-751c0d9f1f82@redhat.com>
+Date: Mon, 9 Nov 2020 20:47:45 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <813efc59-2ce4-e2be-894f-e48ca66ce603@redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.186.67]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35; envelope-from=fangying1@huawei.com;
- helo=szxga07-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 20:42:26
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 20:43:36
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,71 +78,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Drew Jones <drjones@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- "wangzhigang17@huawei.com" <wangzhigang17@huawei.com>, "Ard Biesheuvel \(ARM
- address\)" <ard.biesheuvel@arm.com>, philmd@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The QMP specification states:
 
+ > NOTE: Some errors can occur before the Server is able to read the "id"
+ > member, in these cases the "id" member will not be part of the error
+ > response, even if provided by the client.
 
-On 11/7/2020 1:09 AM, Laszlo Ersek wrote:
-> On 11/05/20 05:30, Ying Fang wrote:
-> 
->> I see it in Qemu the *loader_start* is fixed at 1 GiB on the
->> physical address space which points to the DRAM base. In ArmVirtQemu.dsc
->> PcdDeviceTreeInitialBaseAddress is set 0x40000000 with correspondence.
->>
->> Here I also see the discussion about DRAM base for ArmVirtQemu.
->> https://lists.gnu.org/archive/html/qemu-devel/2017-10/msg03127.html
->>
->> I am still not sure how UEFI knows that it is running on a ArmVirtQemu
->> machine type.
-> 
-> It doesn't know. It remains a convention.
-> 
-> This part is not auto-detected; the constants in QEMU and edk2 are
-> independently open-coded, their values were synchronized by human effort
-> initially.
-> 
-> The user or the management layer have to make sure they boot a UEFI
-> firmware binary on the machine type that is compatible with the machine
-> type.
-> 
-> There is some meta-data to help with that:
-> 
+I am assuming this case ONLY occurs for Parse errors:
 
-Thanks so much for the reply,
-I now have the basic understanding how QEMU and EDK2 works together
-after reading the docs and code there.
+{'class': 'GenericError', 'desc': 'JSON parse error, expecting value'}
 
->> Does UEFI derive it from the fdt *compatible* property ?
-> 
-> Please see the schema "docs/interop/firmware.json" in the QEMU tree; in
-> particular the @FirmwareTarget element.
-> 
-> For an actual example: QEMU bundles some edk2 firmware binaries (purely
-> as a convenience, not for production), and those are accompanied by
-> matching descriptor files. See
-> "pc-bios/descriptors/60-edk2-aarch64.json". (It is a template that's
-> fixed up during QEMU installation, but that's tangential here.)
-> 
->      "targets": [
->          {
->              "architecture": "aarch64",
->              "machines": [
->                  "virt-*"
->              ]
->          }
->      ],
-> 
+And I am assuming, in the context of a client that /always/ sets an 'id' 
+for its execute statements, that this means that any error response we 
+receive without an 'id' field *must* be associated with the 
+most-recently-sent command.
 
-Thanks, I'll look closer into it.
+Correct?
 
-> Thanks
-> Laszlo
-> 
-> .
-> 
+--js
+
 
