@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 684512AD54F
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 12:34:29 +0100 (CET)
-Received: from localhost ([::1]:36776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD6522AD563
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 12:36:56 +0100 (CET)
+Received: from localhost ([::1]:43102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcRuu-0003fv-EF
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 06:34:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46252)
+	id 1kcRxH-0006MP-IG
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 06:36:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kcRgR-0001xM-2B
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:19:31 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:43596)
+ id 1kcRgR-0001zX-W3
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:19:32 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:43598)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kcRgN-0006oK-Od
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:19:30 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id s8so5152425wrw.10
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 03:19:27 -0800 (PST)
+ id 1kcRgP-0006pC-Vx
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:19:31 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id s8so5152521wrw.10
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 03:19:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=1xSX3FHtZwaNdWEesDDxbv6UzUKE+EZ51VclS+NR9fA=;
- b=GvE8I6H16jUVUsd6u/Vj7KRuHsLiHs5IROvPaduyQ4ZDDrng47SK3j5fkU5Jq3pm83
- e6+omTmPVjM5azmI7uOEt/2d8PPYeYRW70xRlC+Voouz2ri2HsmM1EBgMeD3YhpALMxd
- SbVYu6e+EZV5J5aCMaDsT9ZgZPPeR1kHBzFBACwLz0a27sdjpVwJmkOCSCH8ztncxjUA
- Kc7xt8Btf9svpY4IKQKbphB+eNhCH35OGvVAb/zg09cxDJ5CHqBbM3QtRg1n/itXSbPE
- 4ANqR/g7T/qPYWV+7EoiUN38zFYXxCrQo0K2ANmDM4SlnlmZ9h0g/x6oKqTT6LTeIpGb
- DEmw==
+ bh=h6cmnC4syNYJyq+kRB9MZJYpWw99R0j6xzYSNouC8Jw=;
+ b=b7pvJB0TUFGR/k+sBd0GQ9APnQCP97oVlMLSsBR1EafT3OfPlwFAuuXJ6iWplwWm9p
+ qRCU36tFc6WLiktnPqiT3FtMEog9AARfvvAowqVZECAEbN37IB54Au03BZzEvzVgFVAV
+ nl9F9kuxXbKo0iRr7h50ZhLkRVVkOrO2u2eFqx5eefL852V6Egs4ijpuJjacpPaje5rI
+ igRVeM/inEyhQdqklslBZmLJ/zq29GvqGKdSnQqKYCz/nFgO76w9wzn+bAKySad09+mP
+ ilKZnW1wyYxFJOs7m/o3N8pFgd9y+INNlhuTYIc0W9awwc/zC7pfpufITJDraxaLhUNi
+ b3RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1xSX3FHtZwaNdWEesDDxbv6UzUKE+EZ51VclS+NR9fA=;
- b=iyjXaj4RaZ+DER02zYib+LEGbnE8b5BKXwb5+glrJ64GsW3l4qlPj9dV2SCfG40Hl6
- sKGPqNoCn8h/RxAKqvhvMEKQoH+lfbSzH0Uv/HxfAZTQd6zYMfs8N7lQzsqqA4BN5XH2
- MPesaLy19Cz/OdKVl0FWDwiFPl1+VW/G5CqqTa9XbvYQy06z7zWULB+6X8EIBq/ik+Rq
- qoGAg9Y2b/mWLdbe8aSLn9Doen2UlAlsjcSb5aAr64IGa5U4qiXLwYdnB/p7CZfE+Au6
- VVNoAfCJPNLliCcP//P7oZdWfGVwnMaeRwBIfEqA094TEqBDl8ZLKFiMB8QgnlUteF8T
- 5E7g==
-X-Gm-Message-State: AOAM531R0keUYuDGRjUJEll6QOHFMiIwXlnog7SdKjEeVaLPnIZ85Daq
- Wi+1YyzxbKjdYxmpnhRIaY8m2iXqBIyfFQ==
-X-Google-Smtp-Source: ABdhPJzdJpslpKxb5umj1TfrR46eZ9qzx/Uyp5NDfjYyFKderLs9dGvS6ugu95lCbIbETTU2Xiaynw==
-X-Received: by 2002:adf:e992:: with SMTP id h18mr13900831wrm.356.1605007166310; 
- Tue, 10 Nov 2020 03:19:26 -0800 (PST)
+ bh=h6cmnC4syNYJyq+kRB9MZJYpWw99R0j6xzYSNouC8Jw=;
+ b=EuRF0DZEepPVh1EWZREhCwdnGoKaYqvH0AAJRcNpjHMCiJ9XfcQRYXtBnM8YIiHuYC
+ 6CgLRnhUTNE0GyUotbfn7W7Ki3ZJwpN0IGtDMQ0m8SUoJYsGDs3teIku8Y9cdlBwI+Pl
+ XpFfYqItgWS5vkuxsYmXdofzTyLEK9fITvWCszjkn9V1p9bGatlcbMiuWI2IwfCR9lTQ
+ mrNSEeRCJubJSgnhpElltaa6w/yS8B1isbjXnoubi2abbTp3dNfO99DAizn74rNv8J0E
+ kbAHs2M3X4z3UpbJoTOvviOsH/fsbrPHR0slM0oJJA2q7VV5CgVWLhj+8fkiP7OQDOrL
+ 7JBA==
+X-Gm-Message-State: AOAM530q3V09dTGXjWaVcFMWkjIurQ7IsomNpmPx0flNt4awnJgTc3uo
+ U7qB3f+1shxP3lTvhLLLFzV5+r5et6PMHA==
+X-Google-Smtp-Source: ABdhPJzkpNiFPyTchWxlW19p20raHNcPrk36oqL/YcWWjAlT+zJCQINfxS66rLJZPJfTvJ8yXYEctw==
+X-Received: by 2002:adf:f808:: with SMTP id s8mr8768043wrp.257.1605007168335; 
+ Tue, 10 Nov 2020 03:19:28 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 109sm16909498wra.29.2020.11.10.03.19.25
+ by smtp.gmail.com with ESMTPSA id 109sm16909498wra.29.2020.11.10.03.19.27
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Nov 2020 03:19:25 -0800 (PST)
+ Tue, 10 Nov 2020 03:19:27 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/16] target/arm: add space before the open parenthesis '('
-Date: Tue, 10 Nov 2020 11:19:06 +0000
-Message-Id: <20201110111917.29539-6-peter.maydell@linaro.org>
+Subject: [PULL 07/16] hw/arm/virt: Remove dependency on Cortex-A15 MPCore
+ peripherals
+Date: Tue, 10 Nov 2020 11:19:08 +0000
+Message-Id: <20201110111917.29539-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201110111917.29539-1-peter.maydell@linaro.org>
 References: <20201110111917.29539-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,32 +90,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xinhao Zhang <zhangxinhao1@huawei.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Fix code style. Space required before the open parenthesis '('.
+When using a Cortex-A15, the Virt machine does not use any
+MPCore peripherals. Remove the dependency.
 
-Signed-off-by: Xinhao Zhang <zhangxinhao1@huawei.com>
-Signed-off-by: Kai Deng <dengkai1@huawei.com>
-Message-id: 20201103114529.638233-3-zhangxinhao1@huawei.com
+Fixes: 7951c7b7c05 ("hw/arm: Express dependencies of the virt machine with Kconfig")
+Reported-by: Miroslav Rezanina <mrezanin@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20201107114852.271922-1-philmd@redhat.com
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/arm/Kconfig | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 29ea1eb7811..f7d4ee393b7 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -9171,7 +9171,7 @@ static void arm_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
-             - Hardware watchpoints.
-            Hardware breakpoints have already been handled and skip this code.
-          */
--        switch(dc->base.is_jmp) {
-+        switch (dc->base.is_jmp) {
-         case DISAS_NEXT:
-         case DISAS_TOO_MANY:
-             gen_goto_tb(dc, 1, dc->base.pc_next);
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 7d5d89e1acf..c9f60e82516 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -6,7 +6,6 @@ config ARM_VIRT
+     imply VFIO_PLATFORM
+     imply VFIO_XGMAC
+     imply TPM_TIS_SYSBUS
+-    select A15MPCORE
+     select ACPI
+     select ARM_SMMUV3
+     select GPIO_KEY
 -- 
 2.20.1
 
