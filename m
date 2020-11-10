@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 220E62ADFE8
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 20:40:42 +0100 (CET)
-Received: from localhost ([::1]:43454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34BD32ADFE7
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 20:40:39 +0100 (CET)
+Received: from localhost ([::1]:43268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcZVR-00062G-5t
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 14:40:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50152)
+	id 1kcZVO-0005xp-8T
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 14:40:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kcZEt-0002UX-C3
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 14:23:40 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:36833)
+ id 1kcZF1-0002Y7-L4
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 14:23:43 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:36881)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kcZEq-0007b1-8J
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 14:23:35 -0500
-Received: by mail-wr1-x432.google.com with SMTP id j7so6732327wrp.3
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 11:23:31 -0800 (PST)
+ id 1kcZEy-0007cY-DE
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 14:23:43 -0500
+Received: by mail-wm1-x341.google.com with SMTP id c16so4288176wmd.2
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 11:23:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uzzvm2OB2T7zjQdwXywRM7z/pkFqmZxSoEM/blZsIyc=;
- b=XKuqi6t+CnqFPIo13edi6WVFdfB58wvldnAswk2uqc7WQ3X7srkfDgLYdqOcwMTIOV
- zBgUBRX7+kYNsG6NDgLCJZqSwqqsgTIZyFMgc18FnnAjWo11wTzk60K384ExTj2DW5uv
- SKVG20YGybH7hvwczZ/s/VZEOzbQzQt7yTzAUl2FIA5BM/fimB8P7JzdYrgkyUAaWv35
- 3V6Xxy0XNaXeA9OHHWf2yNv50xnhpoZyOue2ShVai69nikK5mCSKV7gak8REO7MIHd6t
- NwCjX5TFxwL6bOavM+5j5NhdSVE4REnN0ks8KoZHqMhhkzbDU3CX8yFVUZiheUDOtOcP
- pjhg==
+ bh=cKItzTtEufAj0TqMJC6HYLGD6eMVh7nt9js/sJnXYio=;
+ b=C6LH6+H23xSSfj6iYXw+5oOIL/uQsbIgK91TKj7I7+JqMAzYXYAPCw/3Qry7EvKl5D
+ gS/uBg30PTqXXaSYnV7oHy4XiPsA+QF71px17RcTP8rvs0f1GjUtDWb8cKNdBHhehkd3
+ R2dMr4iPF/R1UJPCY6U5koHVXHLoWVgGx3qBdQdlNOM4FSR3uFTRVCki3IHn8nZ/5obw
+ rZ2ZTcWIzgnDxm6dS/zs1hBkKANjezF4mhidgm0dXJnyk6TMjxuSQ6QBFZRpTa7vyRIW
+ VFqY4Vr1aTjPiKB3Bv4SZ2R99D+vFRgxaBC3m0PLPNbrbJDw7AIcqr1SK3SMmw0XXiD3
+ 9dxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uzzvm2OB2T7zjQdwXywRM7z/pkFqmZxSoEM/blZsIyc=;
- b=O7cIRsLCgIprQVuocXVxOwg9Z1uo8ql0oQgcWwjSaJ6/9NPelQkV80NOnh/XuuNisU
- xsfAUfBTqk2Lt8A0T58YzcEMoQrOaoP0C6vqm6DODmpbRo8mB1FdPeK+Py5975Sbmaqy
- 7ia1FiFYdkJwCfbVq7inIMwgFmhY4Vu1i2bJnctcvv7iGBQMtd0GO6C45VjqwfqBqTfW
- ATVSwEOXlk0a+XLoKzYFPEgQkM+A8ICPvxmspErj9bV2v0c+rxzdLfckBs15G3BxaW9B
- dOSOtEjc/LNVDuOsPxUQf/Rp+vY9kMlj+Mhj2qr1YLCC1dhY+OJlND8tZOUDayfpNt/1
- XykA==
-X-Gm-Message-State: AOAM531Ci5BJS/SAzAkpygHpkb37UH8rIGuv5n8jneDy+xW6jCctyMcH
- YocvO0XReutF4s+6wtdQcTVdhg==
-X-Google-Smtp-Source: ABdhPJxDTP0Ly9+kJ3j/1ZCKcJjPxiV3MFpxGIjxYBl+BMCKr4bdppifJotC0C4+6Cdwdd0feY4E4g==
-X-Received: by 2002:a5d:60c4:: with SMTP id x4mr27294841wrt.175.1605036210350; 
- Tue, 10 Nov 2020 11:23:30 -0800 (PST)
+ bh=cKItzTtEufAj0TqMJC6HYLGD6eMVh7nt9js/sJnXYio=;
+ b=qqhOqSnbbldpdZhZTU+XhikVQbRlebwzLCvDRDiGmz4GbDI/F2xwGhgQhdy51tsSXq
+ Tw5MVRsG7zl2qtZmkBwh2iB5Nmrj2QKlO/yn2TMsoDo1l1G28CBQYTia1RHHNSrLjrpF
+ j/refvnnR1e74PHl4PGIAW33tes6aUQsDlQQaF/IudKze+EvI0QhHm9mudKrpgYwDv0z
+ wbhziGY8ZCVG72Yw/nWyTBVUQ9/Si/ZdrqPOW7+0C56hL4O/5i9Pi3JMgIa9uJUw97Ed
+ FZz8TdkitnxWNYL+Uapy/+r4ziR59pReXposUhrDub6YaEMVF9ihSx5tKjD7eja538Jb
+ 1oEw==
+X-Gm-Message-State: AOAM533wd8HjZ4Bh7AVb5/z8Mjs5z5rKeQWifAFv6XLaeEzwjJ891tOw
+ Qq9Bz8Y4FwLWExUAwmn4efyqZQ==
+X-Google-Smtp-Source: ABdhPJzE67kJTaUfIEk0iQwRIas221owoLop/lVzZJ8zwSg3uYOzckbp/UK7IX1EhPEPeG991YrCaQ==
+X-Received: by 2002:a1c:4808:: with SMTP id v8mr261395wma.110.1605036216081;
+ Tue, 10 Nov 2020 11:23:36 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b1sm4071959wmd.43.2020.11.10.11.23.19
+ by smtp.gmail.com with ESMTPSA id k84sm4147143wmf.42.2020.11.10.11.23.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Nov 2020 11:23:24 -0800 (PST)
+ Tue, 10 Nov 2020 11:23:26 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0D4DE1FF96;
+ by zen.linaroharston (Postfix) with ESMTP id 270241FF98;
  Tue, 10 Nov 2020 19:23:17 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 08/10] tests/acceptance: Disable Spartan-3A DSP 1800A test
-Date: Tue, 10 Nov 2020 19:23:14 +0000
-Message-Id: <20201110192316.26397-9-alex.bennee@linaro.org>
+Subject: [PATCH v1 09/10] gitlab: move remaining x86 check-tcg targets to
+ gitlab
+Date: Tue, 10 Nov 2020 19:23:15 +0000
+Message-Id: <20201110192316.26397-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201110192316.26397-1-alex.bennee@linaro.org>
 References: <20201110192316.26397-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,80 +89,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+Cc: Fam Zheng <fam@euphon.net>, peter.maydell@linaro.org,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+The GCC check-tcg (user) test in particular was very prone to timing
+out on Travis. We only actually need to move the some-softmmu builds
+across as we already have coverage for linux-user.
 
-This test is regularly failing on CI:
+As --enable-debug-tcg does increase the run time somewhat as more
+debug is put in let's restrict that to just the plugins build. It's
+unlikely that a plugins enabled build is going to hide a sanity
+failure in core TCG code so let the plugin builds do the heavy lifting
+on checking TCG sanity so the non-plugin builds can run swiftly.
 
-   (05/34) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_microblaze_s3adsp1800:
-  Linux version 4.11.3 (thuth@thuth.remote.csb) (gcc version 6.4.0 (Buildroot 2018.05.2) ) #5 Tue Dec 11 11:56:23 CET 2018
-  ...
-  Freeing unused kernel memory: 1444K
-  This architecture does not have kernel memory protection.
-  [nothing happens here]
-  Runner error occurred: Timeout reached (90.91 s)
+Now the only remaining check-tcg builds on Travis are for the various
+non-x86 arches.
 
-This is a regression. Until someone figure out the problem,
-disable the test to keep CI pipeline useful.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Acked-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20201109091719.2449141-1-f4bug@amsat.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/acceptance/boot_linux_console.py | 2 ++
- tests/acceptance/replay_kernel.py      | 2 ++
- 2 files changed, 4 insertions(+)
+ .gitlab-ci.yml | 17 +++++++++++++++++
+ .travis.yml    | 26 --------------------------
+ 2 files changed, 17 insertions(+), 26 deletions(-)
 
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index 8f433a67f8..cc6ec0f8c1 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -13,6 +13,7 @@ import lzma
- import gzip
- import shutil
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 9a8b375188..b406027a55 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -247,6 +247,15 @@ build-user:
+     CONFIGURE_ARGS: --disable-tools --disable-system
+     MAKE_CHECK_ARGS: check-tcg
  
-+from avocado import skip
- from avocado import skipUnless
- from avocado_qemu import Test
- from avocado_qemu import exec_command_and_wait_for_pattern
-@@ -1025,6 +1026,7 @@ class BootLinuxConsole(LinuxKernelTest):
-         tar_hash = 'ac688fd00561a2b6ce1359f9ff6aa2b98c9a570c'
-         self.do_test_advcal_2018('07', tar_hash, 'sanity-clause.elf')
++# Only build the softmmu targets we have check-tcg tests for
++build-some-softmmu:
++  <<: *native_build_job_definition
++  variables:
++    IMAGE: debian-all-test-cross
++    CONFIGURE_ARGS: --disable-tools --enable-debug-tcg
++    TARGETS: xtensa-softmmu arm-softmmu aarch64-softmmu alpha-softmmu
++    MAKE_CHECK_ARGS: check-tcg
++
+ # Run check-tcg against linux-user (with plugins)
+ # we skip sparc64-linux-user until it has been fixed somewhat
+ # we skip cris-linux-user as it doesn't use the common run loop
+@@ -258,6 +267,14 @@ build-user-plugins:
+     MAKE_CHECK_ARGS: check-tcg
+   timeout: 1h 30m
  
-+    @skip("Test currently broken") # Console stuck as of 5.2-rc1
-     def test_microblaze_s3adsp1800(self):
-         """
-         :avocado: tags=arch:microblaze
-diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
-index 00c228382b..772633b01d 100644
---- a/tests/acceptance/replay_kernel.py
-+++ b/tests/acceptance/replay_kernel.py
-@@ -14,6 +14,7 @@ import shutil
- import logging
- import time
++build-some-softmmu-plugins:
++  <<: *native_build_job_definition
++  variables:
++    IMAGE: debian-all-test-cross
++    CONFIGURE_ARGS: --disable-tools --disable-user --enable-plugins --enable-debug-tcg
++    TARGETS: xtensa-softmmu arm-softmmu aarch64-softmmu alpha-softmmu
++    MAKE_CHECK_ARGS: check-tcg
++
+ build-clang:
+   <<: *native_build_job_definition
+   variables:
+diff --git a/.travis.yml b/.travis.yml
+index a3d78171ca..bac085f800 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -301,32 +301,6 @@ jobs:
+         - ${SRC_DIR}/configure ${CONFIG} --extra-cflags="-g3 -O0 -fsanitize=thread" || { cat config.log meson-logs/meson-log.txt && exit 1; }
  
-+from avocado import skip
- from avocado import skipIf
- from avocado import skipUnless
- from avocado_qemu import wait_for_console_pattern
-@@ -280,6 +281,7 @@ class ReplayKernelNormal(ReplayKernelBase):
-         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
-         self.do_test_advcal_2018(file_path, 'sanity-clause.elf')
  
-+    @skip("Test currently broken") # Console stuck as of 5.2-rc1
-     def test_microblaze_s3adsp1800(self):
-         """
-         :avocado: tags=arch:microblaze
+-    # Run check-tcg against linux-user
+-    - name: "GCC check-tcg (user)"
+-      env:
+-        - CONFIG="--disable-system --enable-debug-tcg"
+-        - TEST_BUILD_CMD="make build-tcg"
+-        - TEST_CMD="make check-tcg"
+-        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+-
+-
+-    # Run check-tcg against softmmu targets
+-    - name: "GCC check-tcg (some-softmmu)"
+-      env:
+-        - CONFIG="--enable-debug-tcg --target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
+-        - TEST_BUILD_CMD="make build-tcg"
+-        - TEST_CMD="make check-tcg"
+-        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+-
+-
+-    # Run check-tcg against softmmu targets (with plugins)
+-    - name: "GCC plugins check-tcg (some-softmmu)"
+-      env:
+-        - CONFIG="--enable-plugins --enable-debug-tcg --target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
+-        - TEST_BUILD_CMD="make build-tcg"
+-        - TEST_CMD="make check-tcg"
+-        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+-
+     - name: "[aarch64] GCC check-tcg"
+       arch: arm64
+       dist: focal
 -- 
 2.20.1
 
