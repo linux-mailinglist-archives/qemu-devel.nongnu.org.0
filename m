@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32D172ADFDE
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 20:36:54 +0100 (CET)
-Received: from localhost ([::1]:34106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8463D2ADF97
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 20:32:56 +0100 (CET)
+Received: from localhost ([::1]:55390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcZRl-00021t-8n
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 14:36:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50186)
+	id 1kcZNv-0007KN-0h
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 14:32:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kcZEz-0002WO-4O
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 14:23:41 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:36882)
+ id 1kcZEy-0002Vd-Oi
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 14:23:40 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:34118)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kcZEt-0007bL-2Y
+ id 1kcZEr-0007bB-VC
  for qemu-devel@nongnu.org; Tue, 10 Nov 2020 14:23:40 -0500
-Received: by mail-wm1-x343.google.com with SMTP id c16so4288093wmd.2
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 11:23:34 -0800 (PST)
+Received: by mail-wm1-x342.google.com with SMTP id 23so2640745wmg.1
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 11:23:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gyLb9ojs6jXl39zOSmf/3xCnTbh+0xT1wLgMD2FgmNg=;
- b=TgCeMwZgYthPT2CYIyIsHA/8KWF6hUEhh46qNeYsNMvJEFeQfH5OkgU2chXSkBP65Y
- mIkQNVrSwdm4W1EV36HC43kj47jWRS+wvxMpWUKr29k+MsLmVuiKINgg1ogUSVqej5Ia
- TXPJthw+RjNe9386aGa4d5RHk/JBErTxtkICwKTAwClRxr+j9bqrvTbGZMFv9k+2X/oz
- ewjSaZhtIkk9zPUYYqr72o0U9BC8GuJBU0NMoiNxSzLAM75EYCLzARhuqkmxoJAfLmsK
- DcpRWCGgdYALf5kTYTH+yfEdAjUR+gpqAYokXMmz2XRIyMsOyNw0G5anXkk/qTRtyTyV
- CVsA==
+ bh=NZGUFpHc6p1UXjjAZYXBSVeb29gQwXoQ3S3CSsvSPdw=;
+ b=kwUSvW+tKKQKyQL48r4FCx8pLtKb6SgdfQyEd0PQtdc5nQEO+inke66g02nz6lsjm2
+ /TKXK1MKbKAn/7FqwMiBVpz33PKYSU0WEa6Kb+I91M/4ZAmavD5o1JmEyUtRyIJipp+q
+ HGKeS9G14IfusMx9s7jC7su1IlVwgs5LomCLt6qlYKagDQsXbODnth4ykGbcfKPiMgLy
+ dlHdevkwUtBwO4dRUIMKweYTUEcl1iPCHEHwkrG4fGBnrJlxOU2X+Cf6NjMDgiNktp97
+ 1Z4omdGzaDJopRFXfazzGfaBuWJjiI24Wee1UiDk91ZkAhY98eSGHfr9JqppuPv/stvf
+ a2kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gyLb9ojs6jXl39zOSmf/3xCnTbh+0xT1wLgMD2FgmNg=;
- b=g78Imd1AFYmNhfhhz/SSKAFrPU81TVn8JVbrJeeR+Sj73fHFYqSMpNtU+8wxp0BQFC
- NSbJPNCzuvnyd8h+7f8WL1/Zq65PojQQCjH16Gve0gp47xQPhOGxme2qf7cRU19c9X9z
- SCxarFgNLlrRrTBnNVUmaE8XeteMkuVy8JAGkoulGQsWTF2F7nD9WO5Ju/61RB+N1Wnd
- bBD8wgvGt9waSIzsJeUv+HzuBurDwz2PTwvm+C4xeVe0T7UCfc09/wej7NcBxFN4EPq+
- z4l0cFZoce8vl4PM9FQf0TpJdOBec5AGenBeMO+Sj7Hr1VLyJBVyuhA7Ut5T1KxrALOa
- Q9Gg==
-X-Gm-Message-State: AOAM531qLY/H7urfWkEdCK/rjMQE1Ff5K0c6sEGrw6vO2jjlF9skDIli
- MkMRSD47hdQTjuFjCZ45anKPMC4uegdd3g==
-X-Google-Smtp-Source: ABdhPJyh4gjGskuU7uCLQdkr41ec4qyF/dL30LaToayS9VsvE3BzDFahttSiMOglF0fpj83LZycd/w==
-X-Received: by 2002:a7b:ce0e:: with SMTP id m14mr660911wmc.111.1605036213760; 
- Tue, 10 Nov 2020 11:23:33 -0800 (PST)
+ bh=NZGUFpHc6p1UXjjAZYXBSVeb29gQwXoQ3S3CSsvSPdw=;
+ b=g+kgho93cjGQxPg4WYDGfOfwscAolz7Ia9ZtvCKqACFKrjKzQDfMtnGNtqJT3xkOjI
+ se90CgMuORhyTllYXFGkplz9otKm0tc1/VIjP6wt2QI5vhYSbzqOD6TFYb1qlp7kQ/ns
+ UHzdpDvim74TQSCPLJnEeRlXdZdiXuR7+rWdlrDBXD1UacJy/gEKK6buX8bHaRCTO78r
+ hvyVSgfW3cAfgj+J407T8pfnPp4Nr22D3Me/qun7Nj69UHDZGdk3ydABa3IdHjsZH1xP
+ ybivu//VQmijo+SDeir0hYTWdmNfzIXxt2939FoTXn94QllvNlR5VWc9Idhby04iukXj
+ RwCA==
+X-Gm-Message-State: AOAM531oVkdJmJhhVxswfdcUAtd0CG2tFPiogaDivrek+Io+Yev3GIUU
+ 8A4fT+V5VPqD8uxVocYIMzDmyA==
+X-Google-Smtp-Source: ABdhPJxRuwcwx6f08ZteIQpj1mo35k3WHS7u8kv+roCQkkiN4iGIYzSGHaB06HcD6YiY0yFq4LksdQ==
+X-Received: by 2002:a1c:bbc4:: with SMTP id l187mr703460wmf.133.1605036212593; 
+ Tue, 10 Nov 2020 11:23:32 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g131sm4002025wma.35.2020.11.10.11.23.18
+ by smtp.gmail.com with ESMTPSA id o197sm3917557wme.17.2020.11.10.11.23.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 10 Nov 2020 11:23:24 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CE59B1FF92;
+ by zen.linaroharston (Postfix) with ESMTP id E76D51FF93;
  Tue, 10 Nov 2020 19:23:16 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 06/10] accel/stubs: drop unused cpu.h include
-Date: Tue, 10 Nov 2020 19:23:12 +0000
-Message-Id: <20201110192316.26397-7-alex.bennee@linaro.org>
+Subject: [PATCH v1 07/10] hw/i386/acpi-build: Fix maybe-uninitialized error
+ when ACPI hotplug off
+Date: Tue, 10 Nov 2020 19:23:13 +0000
+Message-Id: <20201110192316.26397-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201110192316.26397-1-alex.bennee@linaro.org>
 References: <20201110192316.26397-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,35 +89,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
+Cc: peter.maydell@linaro.org, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "open list:X86 HAXM CPUs" <haxm-team@intel.com>,
- Wenchao Wang <wenchao.wang@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Colin Xu <colin.xu@intel.com>
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20201105175153.30489-14-alex.bennee@linaro.org>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+GCC 9.3.0 thinks that 'method' can be left uninitialized. This code
+is already in the "if (bsel || pcihp_bridge_en)" block statement,
+but it isn't smart enough to figure it out.
+
+Restrict the code to be used only in the "if (bsel || pcihp_bridge_en)"
+block statement to fix (on Ubuntu):
+
+  ../hw/i386/acpi-build.c: In function 'build_append_pci_bus_devices':
+  ../hw/i386/acpi-build.c:496:9: error: 'method' may be used uninitialized
+  in this function [-Werror=maybe-uninitialized]
+    496 |         aml_append(parent_scope, method);
+        |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  cc1: all warnings being treated as errors
+
+Fixes: df4008c9c59 ("piix4: don't reserve hw resources when hotplug is off globally")
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20201108204535.2319870-4-philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- accel/stubs/hax-stub.c | 1 -
- 1 file changed, 1 deletion(-)
+ hw/i386/acpi-build.c | 41 +++++++++++++++++++----------------------
+ 1 file changed, 19 insertions(+), 22 deletions(-)
 
-diff --git a/accel/stubs/hax-stub.c b/accel/stubs/hax-stub.c
-index 1a9da83185..49077f88e3 100644
---- a/accel/stubs/hax-stub.c
-+++ b/accel/stubs/hax-stub.c
-@@ -14,7 +14,6 @@
-  */
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 4f66642d88..1f5c211245 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -465,34 +465,31 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+      */
+     if (bsel || pcihp_bridge_en) {
+         method = aml_method("PCNT", 0, AML_NOTSERIALIZED);
+-    }
+-    /* If bus supports hotplug select it and notify about local events */
+-    if (bsel) {
+-        uint64_t bsel_val = qnum_get_uint(qobject_to(QNum, bsel));
  
- #include "qemu/osdep.h"
--#include "cpu.h"
- #include "sysemu/hax.h"
+-        aml_append(method, aml_store(aml_int(bsel_val), aml_name("BNUM")));
+-        aml_append(method,
+-            aml_call2("DVNT", aml_name("PCIU"), aml_int(1) /* Device Check */)
+-        );
+-        aml_append(method,
+-            aml_call2("DVNT", aml_name("PCID"), aml_int(3)/* Eject Request */)
+-        );
+-    }
++        /* If bus supports hotplug select it and notify about local events */
++        if (bsel) {
++            uint64_t bsel_val = qnum_get_uint(qobject_to(QNum, bsel));
  
- int hax_sync_vcpus(void)
+-    /* Notify about child bus events in any case */
+-    if (pcihp_bridge_en) {
+-        QLIST_FOREACH(sec, &bus->child, sibling) {
+-            int32_t devfn = sec->parent_dev->devfn;
++            aml_append(method, aml_store(aml_int(bsel_val), aml_name("BNUM")));
++            aml_append(method, aml_call2("DVNT", aml_name("PCIU"),
++                                         aml_int(1))); /* Device Check */
++            aml_append(method, aml_call2("DVNT", aml_name("PCID"),
++                                         aml_int(3))); /* Eject Request */
++        }
+ 
+-            if (pci_bus_is_root(sec) || pci_bus_is_express(sec)) {
+-                continue;
+-            }
++        /* Notify about child bus events in any case */
++        if (pcihp_bridge_en) {
++            QLIST_FOREACH(sec, &bus->child, sibling) {
++                int32_t devfn = sec->parent_dev->devfn;
++
++                if (pci_bus_is_root(sec) || pci_bus_is_express(sec)) {
++                    continue;
++                }
+ 
+-            aml_append(method, aml_name("^S%.02X.PCNT", devfn));
++                aml_append(method, aml_name("^S%.02X.PCNT", devfn));
++            }
+         }
+-    }
+ 
+-    if (bsel || pcihp_bridge_en) {
+         aml_append(parent_scope, method);
+     }
+     qobject_unref(bsel);
 -- 
 2.20.1
 
