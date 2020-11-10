@@ -2,94 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59C412AD4DD
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 12:27:04 +0100 (CET)
-Received: from localhost ([::1]:40682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6253F2AD4A0
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 12:20:53 +0100 (CET)
+Received: from localhost ([::1]:49000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcRnj-0001tV-C0
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 06:27:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45132)
+	id 1kcRhk-0001rk-Fm
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 06:20:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kcRZn-0008JC-75
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:12:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55989)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kcRZl-0004m0-8n
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:12:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605006756;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FqEOVHHegPWsh5DP4Q780Qvg4oBy0JUEGJRndEnRZls=;
- b=HridquXloKzPKQo5lM6ZRJYZAFaSPiTepNTirP6HM7tzBeyJ3gc14Dhd25KtyKo5GERGsT
- wkIRsXBf2BIJ7f8Q0h7is5mxVEuwUp2kr+LsWF+DKO35m3qv2PdV4tYo2VPRS9wgt2rGPR
- 0xWXcFoTqG+jEmA8JpDy6K6pYni3CUs=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-502-K6BkZzoiOkaTTecEFBlwPQ-1; Tue, 10 Nov 2020 06:12:34 -0500
-X-MC-Unique: K6BkZzoiOkaTTecEFBlwPQ-1
-Received: by mail-ej1-f71.google.com with SMTP id v21so4597353ejy.3
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 03:12:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=FqEOVHHegPWsh5DP4Q780Qvg4oBy0JUEGJRndEnRZls=;
- b=XKbWlrX7kHVJJecr6DOzTXx3YCwK9+8LLzqdt9PRmjsiadZ8YI4Yl2CdAz5podRhFA
- 60pAb1JoS3WbQpT7xrOwhqygHCliR4Snw+vPzxn9lql7A8TqiEh4EWTnfBGqE9/SWogk
- 33LTE9h4ahifqZ3eSjxJS9UQl6Yxca6yV6l7BeLGMHpkg+m/hqgBrd7Txdsjmn9I/VwN
- On5zHBdFcA6ySKp1MhOz9C+JNRX8w86b5VR88nw0HHC5lAC7azs8hhZF7c9m+eoaROyo
- 9m9qlvXsxuv2eyazgxsaBPXC3nmqzBj6i4au6bfNpJnWQA4zHy1UBXcuRrC93g06QDYN
- q5RQ==
-X-Gm-Message-State: AOAM530ElRLI47HgyBmcT1sAI7vZuFXWOxC+Z4MjKA/D6NGBiKNs+bPb
- d0nOdBNuzb5sQIPsmjvY7/wmdu5HjkRsSPY6psa7hcQy53rXfFKvq1OK47gIaXs7px24gOM6Yut
- XZyvhIpkd4I7TRu4=
-X-Received: by 2002:a17:906:43c6:: with SMTP id
- j6mr19324311ejn.547.1605006753618; 
- Tue, 10 Nov 2020 03:12:33 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzUaxKjdo0y5/qMkDo+IFJVom/GV/Yo3QI0u5kY9mltZ7gWB8Hbv/XjDk5Bu5zZOgDVoYdzag==
-X-Received: by 2002:a17:906:43c6:: with SMTP id
- j6mr19324283ejn.547.1605006753354; 
- Tue, 10 Nov 2020 03:12:33 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id n16sm10323836ejz.46.2020.11.10.03.12.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Nov 2020 03:12:32 -0800 (PST)
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-References: <20201110095349.GA1082456@stefanha-x1.localdomain>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [RFC v3] VFIO Migration
-Message-ID: <64fb6a41-fbfa-994c-9619-4df41ac97fde@redhat.com>
-Date: Tue, 10 Nov 2020 12:12:31 +0100
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kcRbs-0003cj-TY
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:14:48 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:43290
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kcRbq-0005NU-GV
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:14:48 -0500
+Received: from host86-184-131-53.range86-184.btcentralplus.com
+ ([86.184.131.53] helo=[192.168.1.110])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kcRbz-0005le-Uk; Tue, 10 Nov 2020 11:15:00 +0000
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster
+ <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Message-ID: <0ad53d69-ce4a-c5ea-fba4-fa19daada11c@ilande.co.uk>
+Date: Tue, 10 Nov 2020 11:14:39 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201110095349.GA1082456@stefanha-x1.localdomain>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 00:21:06
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-SA-Exim-Connect-IP: 86.184.131.53
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: QOM address space handling
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,62 +64,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John G Johnson <john.g.johnson@oracle.com>, "Tian,
- Kevin" <kevin.tian@intel.com>, mtsirkin@redhat.com,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- quintela@redhat.com, Jason Wang <jasowang@redhat.com>, "Zeng,
- Xin" <xin.zeng@intel.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Yan Zhao <yan.y.zhao@intel.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Felipe Franciosi <felipe@nutanix.com>,
- Christophe de Dinechin <dinechin@redhat.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/11/20 10:53, Stefan Hajnoczi wrote:
-> "allowed_values"
->    The list all values that the device implementation accepts for this migration
->    parameter. Integer ranges can be described using "<min>-<max>" strings.
-> 
->    Examples: ['a', 'b', 'c'], [1, 5, 7], ['0-255', 512, '1024-2048'], [true]
-> 
->    This member is optional. When absent, any value suitable for the type may be
->    given but the device implementation may refuse certain values.
+Hi all,
 
-I'd rather make this simpler:
+This email follows on from my investigation of intermittent Travis-CI failures in 
+make check's device-introspect test when trying to add the patch at 
+https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg06093.html to my last 
+qemu-sparc pull request.
 
-- remove allowed_values for strings.  Effect: discourages using strings 
-as enums, leaving them only for free-form values such as vendor name or 
-model name.
+The patch itself seems fairly harmless: moving the sun4u-iommu device as a QOM child 
+of the sabre PCI host bridge device. So why was "make check" randomly segfaulting on 
+Travis-CI?
 
-- remove allowed_values for bools.  If off_value is absent the only 
-allowed value is init_value.  If off_value is present, both true and 
-false are allowed (and !off_value is the "on_value", so to speak).
+The hardest part was trying to reproduce the issue to debug it: eventually after a 
+number of Travis-CI runs I discovered I could generate the same problem locally if I 
+ran "make check" around 15-20 times in a row, and that gave me a backtrace that 
+looked like this:
 
-- change allowed_values into allowed_min and allowed_max for int values. 
-  Advantage: avoids having to parse strings as ranges.  Disadvantage: 
-removes expressiveness (cannot say "x must be a power of two"), but I'm 
-not sure it's worth the extra complication.
+0x0000000000614b69 in address_space_init (as=0x16f684d8,
+root=0x16f68530, name=0x9a1db2 "iommu-as") at ../softmmu/memory.c:2780
+2780        QTAILQ_INSERT_TAIL(&address_spaces, as, address_spaces_link);
+(gdb) bt
+#0  0x0000000000614b69 in address_space_init (as=0x16f684d8,
+  root=0x16f68530, name=0x9a1db2 "iommu-as") at
+../softmmu/memory.c:2780
+#1  0x00000000005b8f6a in iommu_init (obj=0x16f681c0) at ../hw/sparc64/sun4u_iommu.c:301
+#2  0x000000000070a997 in object_init_with_type (obj=0x16f681c0,
+  ti=0x1629fac0) at ../qom/object.c:375
 
-Thanks,
+With the debugger attached I was able to figure out what was happening: the 
+sun4u-iommu device creates the iommu-as address space during instance init, but 
+doesn't have a corresponding instance finalize to remove it which leaves a dangling 
+pointer in the address_spaces QTAILQ.
 
-Paolo
+Normally this doesn't matter because IOMMUs are created once during machine init, but 
+device-introspect-test instantiates sun4u-iommu (and with the patch sabre also adds 
+it as a child object during instance init) which adds more dangling pointers to the 
+address_spaces list. Every so often the dangling pointers end up pointing to memory 
+that gets reused by another QOM object, eventually causing random segfaults during 
+instance finalize and/or property iteration.
 
-> "description"
->    A human-readable description of the migration parameter. This is not intended
->    for user interfaces but rather as a troubleshooting aid for developers. The
->    description is typically written in English. This member is optional.
-> 
-> "init_value"
->    The initial parameter value when a device instance is created. This member is
->    required.
-> 
-> "off_value"
->    The parameter value that disables the effect of this parameter. This member
->    is absent if the migration parameter cannot be disabled.
-> 
-> "type"
->    The data type ("bool", "int", "str"). This member is required.
+There are 2 possible solutions here: 1) ensure QOM objects that add address spaces 
+during instance init have a corresponding instance finalize function to remove them 
+or 2) move the creation of address spaces from instance init to realize.
 
+Does anyone have any arguments for which solution is preferred?
+
+As part of this work I hacked up an address_space_count() function in memory.c that 
+returns the size of the address_spaces QTAILQ and added a printf() to display the 
+value during instance init and finalize which demonstrates the problem nicely. This 
+means it should be possible to add a similar to check to device-introspect-test in 
+future to prevent similar errors from happening again.
+
+
+ATB,
+
+Mark.
 
