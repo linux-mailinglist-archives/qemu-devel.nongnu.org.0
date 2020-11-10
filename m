@@ -2,81 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EBB02ADC96
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 18:07:01 +0100 (CET)
-Received: from localhost ([::1]:49788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F2D82ADCAA
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 18:13:34 +0100 (CET)
+Received: from localhost ([::1]:35992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcX6f-0005j3-El
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 12:06:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47072)
+	id 1kcXD2-0003fa-Ny
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 12:13:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kcX3e-0004Jp-Mc
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 12:03:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58871)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kcX3b-0007UE-Au
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 12:03:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605027824;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ewDw1UDKjuXqsq5cw78Z7CdNPHwoffvqiu5NLor7eTU=;
- b=TLKdoERabW9h9kwResHQb1yECGJXrAUbQBDSqO/5ctiSD7t5MC4eWv33bznqoyI8n0IJYH
- 8uxiFLNYr2vEv4ZeBrPszC3fvfgSTEvmEDXkSO3dv90z497fU8i0gRjUn5N/89RpIAnKX4
- qSRavdPjAHBOGggUDvFa0bTshKvFr9Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-258-o1MQw4RHNlyRZj2dxsJBuA-1; Tue, 10 Nov 2020 12:03:39 -0500
-X-MC-Unique: o1MQw4RHNlyRZj2dxsJBuA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A97D18B9F07;
- Tue, 10 Nov 2020 17:03:38 +0000 (UTC)
-Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 04C7A5DA33;
- Tue, 10 Nov 2020 17:03:33 +0000 (UTC)
-Date: Tue, 10 Nov 2020 12:03:33 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 00/44] Make qdev static property API usable by any QOM
- type
-Message-ID: <20201110170333.GG5733@habkost.net>
-References: <20201109113404.GA24970@merkur.fritz.box>
- <3b711053-e67a-86fb-59e7-c06948dd8928@redhat.com>
- <20201109152125.GZ5733@habkost.net>
- <2300fd53-afa1-b957-b33b-cff2986fcb93@redhat.com>
- <20201109171618.GA5733@habkost.net>
- <098ca211-3ad5-b194-e9f5-678291fe641e@redhat.com>
- <20201109185558.GB5733@habkost.net>
- <9659e726-7948-4e02-f303-abcbe4c96148@redhat.com>
- <20201109202855.GD5733@habkost.net>
- <c501a54d-4e8a-52bf-14fa-cfce3eafe57f@redhat.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kcX3w-0004jC-8d
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 12:04:08 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:49527)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kcX3u-0007ZU-3S
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 12:04:07 -0500
+Received: from [192.168.100.1] ([82.252.154.198]) by mrelayeu.kundenserver.de
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1N7yuz-1kG6FJ21Ol-0150jZ; Tue, 10 Nov 2020 18:03:58 +0100
+Subject: Re: [PATCH] linux-user: Prevent crash in epoll_ctl
+To: LemonBoy <thatlemon@gmail.com>, qemu-devel@nongnu.org
+References: <a244fa67-dace-abdb-995a-3198bd80fee8@gmail.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <d5d5d4b2-f07b-62b4-3604-4e6963ae68fa@vivier.eu>
+Date: Tue, 10 Nov 2020 18:03:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <c501a54d-4e8a-52bf-14fa-cfce3eafe57f@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <a244fa67-dace-abdb-995a-3198bd80fee8@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 00:21:06
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:aTtiw+ATN6CvUZ6kM8j5lVJnHYlREbdF3b8wL2vlctkAMhMCJsx
+ 34UUB6wlWwHI+KqslQOPkK4O1U6wC1VaHMixAkPbUb99A9SsE/A0xKWfx0fifwRaMA1jkZA
+ B9SOmA4mmn31CKQxjKCvFJVUbpC9sGV63mbF61ug81CNgPvQTTpJLVISYooRJDrULU3UDWK
+ 3iaZo2ybF2AR0llgreb+A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:U02uwIrRbtE=:tKHCugEMWT0/TiaA/yJuSg
+ tkmV/M2GSZ9epOvUKRnFdY4ObKt61mme9OVnVnjVNxdbxYGZR1LS+1Dxqj0ZBt84TOnXqDYsy
+ HUhrSvnEBKcT0/JuURnQMYRo1tS+RY12lbvuyMHJxbm2QwowuT9+Y4E+ioLDijjzfiUik+Vkt
+ CZi67aMeUEy9UXrnUf+hrDc/4V/HgZ7JbKLwapXH7oEYSl+4NCk6n8WuFwIC8WZeXGfnvwj9l
+ nzd2b07Bw7CDTeUnULnOcLLlK5NQJX21lKGk7TtrBedcndkvJGwwWALrM/YovxAXsmn7FSaIX
+ PAecu+Wbmmfqv0qsCdBVWi5YM6b5mXxPkbh+k1CVRgolROO1w7GfsRugU6/+KhVLFydh5b19d
+ eVlyjmma71GMuVCuoQ6lxfezePfW+qIS62PtR6KT6CutAORA1Uo5mTvcYMiEI/5Aj2Zj/7rhl
+ UyuwUR859g==
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 12:04:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,98 +67,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 10, 2020 at 11:58:29AM +0100, Paolo Bonzini wrote:
-> On 09/11/20 21:28, Eduardo Habkost wrote:
-> > I don't know yet what's the best solution for the x86 feature
-> > case.  Maybe duplicating the list of feature names would be a
-> > small price to pay to get a static list of properties defined at
-> > compilation time?  Maybe we can replace
-> > FeatureWordInfo.feat_names[] with property introspection code
-> > that will find the property name for a given struct field?
+Le 17/04/2020 à 17:34, LemonBoy a écrit :
+> From 894bb5172705e46a3a04c93b4962c0f0cafee814 Mon Sep 17 00:00:00 2001
+> From: Giuseppe Musacchio <thatlemon@gmail.com>
+> Date: Fri, 17 Apr 2020 17:25:07 +0200
+> Subject: [PATCH] linux-user: Prevent crash in epoll_ctl
 > 
-> The problem is associating the names with the metadata (feature word/bit).
-> Right now we do that by placing the names in the feat_names[] arrays, which
-> are indexed by feature word and bit.
-
-Right, that would require an introspection interface letting us
-get the property name for a given struct field + bit.
-
-Anyway, let's get back to this later.
-
+> The `event` parameter is ignored by the kernel if `op` is EPOLL_CTL_DEL,
+> do the same and avoid returning EFAULT if garbage is passed instead of a
+> valid pointer.
 > 
-> > > > If object*_property_add*() is hidden behind a function call or a
-> > > > `if` statement, it's already too much complexity to me.
-> > > You want to remove hiding behind a function call, but why is it any better
-> > > to hide behind layers of macros?  Just the example you had in your email
-> > > included DEFINE_PROP, DEFINE_FIELD_PROP, DEFINE_PROP_UINT32.  It's still
-> > > impossible to figure out without either parsing or executing C code.
-> > 
-> > Because we can be absolutely sure the macros (and the property
-> > array) will be constant expressions evaluated at compilation
-> > time.
+> Signed-off-by: Giuseppe Musacchio <thatlemon@gmail.com>
+> ---
+>  linux-user/syscall.c | 26 +++++++++++++++++---------
+>  1 file changed, 17 insertions(+), 9 deletions(-)
 > 
-> That's not entirely true.  You can always build Property objects manually in
-> a for loop.  (Though at that point you might as well use the existing API
-> and not the new one).
-
-This is true if the property array is always declared as static
-const.
-
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 674f70e70a..a51ff43f9b 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -12020,17 +12020,25 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+>          struct epoll_event ep;
+>          struct epoll_event *epp = 0;
+>          if (arg4) {
+> -            struct target_epoll_event *target_ep;
+> -            if (!lock_user_struct(VERIFY_READ, target_ep, arg4, 1)) {
+> -                return -TARGET_EFAULT;
+> +            if (arg2 != EPOLL_CTL_DEL) {
+> +                struct target_epoll_event *target_ep;
+> +                if (!lock_user_struct(VERIFY_READ, target_ep, arg4, 1)) {
+> +                    return -TARGET_EFAULT;
+> +                }
+> +                ep.events = tswap32(target_ep->events);
+> +                /*
+> +                 * The epoll_data_t union is just opaque data to the kernel,
+> +                 * so we transfer all 64 bits across and need not worry what
+> +                 * actual data type it is.
+> +                 */
+> +                ep.data.u64 = tswap64(target_ep->data.u64);
+> +                unlock_user_struct(target_ep, arg4, 0);
+>              }
+> -            ep.events = tswap32(target_ep->events);
+> -            /* The epoll_data_t union is just opaque data to the kernel,
+> -             * so we transfer all 64 bits across and need not worry what
+> -             * actual data type it is.
+> +            /*
+> +             * before kernel 2.6.9, EPOLL_CTL_DEL operation required a
+> +             * non-null pointer, even though this argument is ignored.
+> +             *
+>               */
+> -            ep.data.u64 = tswap64(target_ep->data.u64);
+> -            unlock_user_struct(target_ep, arg4, 0);
+>              epp = &ep;
+>          }
+>          return get_errno(epoll_ctl(arg1, arg2, arg3, epp));
 > 
-> I think we agree on where _to go_ (schema described outside C code, and
-> possibly integrated with the QAPI schema).  I think neither of us has a
-> clear idea of how to get there. :)  I don't see this series as a step
-> towards that; I see it more as a worthwhile way to remove boilerplate from
-> QOM objects.
 
-My first goal here is to facilitate (3) below, and allow it to be
-done with less effort and less churn.  This series is not
-essential to do (3), but I'd like to avoid porting the same code
-to a different API 2 or 3 times because we keep introducing new
-mechanisms.
-
-> 
-> In my opinion the next steps for QOM (in general, not necessarily related to
-> the goal) should be to:
-> 
-> 1) audit the code and ensure that there are no conditional properties
-> 
-> 2) figure out if it makes sense to provide run-time (not compile-time)
-> introspection of QOM class properties, as either a stable or an experimental
-> interface, and how it works together with the QAPI introspection.  In
-> particular, whether compound QAPI types can be matched across QOM and QAPI
-> introspection.
-
-Can you clarify this item?  Do you mean an external interface, or
-internal APIs?
-
-> 
-> 3) figure out if there are any instance properties that can be easily
-> extended to class properties.  In particular, figure out if we can do
-> class-level property aliasing.
-
-Most of them need to be moved to class properties somehow,
-because they are externally visible.  The only exceptions I see
-are read-only link properties and child properties.
-
-The trickiest ones are object_property_add_alias() (no
-class-level equivalent) and object_property_add_*_ptr() (no
-usable class-level equivalent).
-
-object_property_add_*_ptr() is what prompted the creation of this
-series.  See
-https://lore.kernel.org/qemu-devel/20201009160122.1662082-1-ehabkost@redhat.com
-
--- 
-Eduardo
-
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
