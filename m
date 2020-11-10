@@ -2,63 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B10C2AD9D6
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 16:12:19 +0100 (CET)
-Received: from localhost ([::1]:47850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14F592ADA69
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 16:27:36 +0100 (CET)
+Received: from localhost ([::1]:33130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcVJi-0004vf-Kr
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 10:12:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46044)
+	id 1kcVYV-0005Wm-52
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 10:27:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kcVHX-000385-B1; Tue, 10 Nov 2020 10:10:04 -0500
-Resent-Date: Tue, 10 Nov 2020 10:10:03 -0500
-Resent-Message-Id: <E1kcVHX-000385-B1@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21347)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kcVHS-0001o1-SH; Tue, 10 Nov 2020 10:10:02 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1605020987; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=lbZs748E6xpNmBXXyC2BfYWcACmA90XbjdDCRtLMWrjAnsgcrrkAk1kXBYn6tyk4uX+j7dE4UW225HWuAvvMEfoA6nQi2TpzSQe9+Z4KWInBF4m2hvqHSQi1HFgWKhEZp36x4AVv074LGOrkVLbaZhghG7Nh0r27gNNYhCkSHfw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1605020987;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=ahw9lx4XdayeyF4oq/xhs/x8yitXlipi7tAuWeyN9xg=; 
- b=S90RIwH9I6aRjIhkzd+k82cgd+8MtnhX3D/7mZxREawvGLa1ic9Yp45w6mA5P+x9xkqieUb0Hr6JVzzMhkHfeMveEhewSSBCcZDcxbzf2DeWbzgs6zwtRbRzC0YoK8uq/A3daO1domg1d2WXmFyehKXC4FXjjhgFzbMSMQfhzyY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1605020984456302.14865471784856;
- Tue, 10 Nov 2020 07:09:44 -0800 (PST)
-Message-ID: <160502098305.21680.18015917231395096308@b92d57cec08d>
-Subject: Re: [PATCH 0/2] hw/misc/tmp105: Correct temperature limit check logic
-In-Reply-To: <20201110150023.25533-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kcVWq-0004eJ-1p
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 10:25:52 -0500
+Received: from indium.canonical.com ([91.189.90.7]:42598)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kcVWn-0007Xi-EL
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 10:25:51 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kcVWl-0000Cj-NH
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 15:25:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A11FA2E807B
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 15:25:47 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: peter.maydell@linaro.org
-Date: Tue, 10 Nov 2020 07:09:44 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 10:09:50
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 10 Nov 2020 15:13:15 -0000
+From: Peter Maydell <1734474@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm maemo n800 nokia qemu
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: mvoloshin pmaydell
+X-Launchpad-Bug-Reporter: MVoloshin (mvoloshin)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <151163832560.18460.16214125618253771985.malonedeb@gac.canonical.com>
+Message-Id: <160502119506.18401.10913599767932521545.malone@soybean.canonical.com>
+Subject: [Bug 1734474] Re: Maemo does not boot on emulated N800
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
+X-Launchpad-Hash: cd5faf0e820657bba5cf77392763e7e3f777fe59
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 08:35:46
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,50 +73,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Reply-To: Bug 1734474 <1734474@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTExMDE1MDAyMy4yNTUz
-My0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0
-byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgpt
-b3JlIGluZm9ybWF0aW9uOgoKTWVzc2FnZS1pZDogMjAyMDExMTAxNTAwMjMuMjU1MzMtMS1wZXRl
-ci5tYXlkZWxsQGxpbmFyby5vcmcKU3ViamVjdDogW1BBVENIIDAvMl0gIGh3L21pc2MvdG1wMTA1
-OiBDb3JyZWN0IHRlbXBlcmF0dXJlIGxpbWl0IGNoZWNrIGxvZ2ljClR5cGU6IHNlcmllcwoKPT09
-IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAv
-ZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAK
-Z2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBk
-aWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFj
-ayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4
-NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hl
-dy1wcm9qZWN0L3FlbXUKIC0gW3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8xNjA0NjQzODkzLTgy
-MjMtMS1naXQtc2VuZC1lbWFpbC16aGVuZ2NodWFuQGh1YXdlaS5jb20gLT4gcGF0Y2hldy8xNjA0
-NjQzODkzLTgyMjMtMS1naXQtc2VuZC1lbWFpbC16aGVuZ2NodWFuQGh1YXdlaS5jb20KIC0gW3Rh
-ZyB1cGRhdGVdICAgICAgcGF0Y2hldy8yMDIwMTEwNDE3MjUxMi4yMzgxNjU2LTEtZWhhYmtvc3RA
-cmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMjAxMTA0MTcyNTEyLjIzODE2NTYtMS1laGFia29zdEBy
-ZWRoYXQuY29tCiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAyMDExMDkwOTE3MTkuMjQ0
-OTE0MS0xLWY0YnVnQGFtc2F0Lm9yZyAtPiBwYXRjaGV3LzIwMjAxMTA5MDkxNzE5LjI0NDkxNDEt
-MS1mNGJ1Z0BhbXNhdC5vcmcKICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIwMTExMDE1
-MDAyMy4yNTUzMy0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZyAtPiBwYXRjaGV3LzIwMjAxMTEw
-MTUwMDIzLjI1NTMzLTEtcGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnClN3aXRjaGVkIHRvIGEgbmV3
-IGJyYW5jaCAndGVzdCcKYWVlYjA0MSB0bXAxMDU6IENvcnJlY3QgaGFuZGxpbmcgb2YgdGVtcGVy
-YXR1cmUgbGltaXQgY2hlY2tzCmQ1YzZiY2EgaHcvbWlzYy90bXAxMDU6IHJlc2V0IHRoZSBUX2xv
-dyBhbmQgVF9IaWdoIHJlZ2lzdGVycwoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8yIENoZWNraW5n
-IGNvbW1pdCBkNWM2YmNhMTkwNGMgKGh3L21pc2MvdG1wMTA1OiByZXNldCB0aGUgVF9sb3cgYW5k
-IFRfSGlnaCByZWdpc3RlcnMpCjIvMiBDaGVja2luZyBjb21taXQgYWVlYjA0MTlmNjczICh0bXAx
-MDU6IENvcnJlY3QgaGFuZGxpbmcgb2YgdGVtcGVyYXR1cmUgbGltaXQgY2hlY2tzKQpFUlJPUjog
-c3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcqJyAoY3R4OlZ4VikKIzEyMDogRklMRTogaHcv
-bWlzYy90bXAxMDUuYzoyNjM6CisgICAgLnN1YnNlY3Rpb25zID0gKGNvbnN0IFZNU3RhdGVEZXNj
-cmlwdGlvbipbXSkgewogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICBeCgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDEwOCBsaW5lcyBjaGVja2VkCgpQYXRj
-aCAyLzIgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNl
-IGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVy
-LCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCj09PSBPVVRQVVQgRU5EID09PQoKVGVz
-dCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxl
-IGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAxMTEwMTUwMDIzLjI1NTMzLTEtcGV0ZXIu
-bWF5ZGVsbEBsaW5hcm8ub3JnL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0K
-RW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3
-Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0
-LmNvbQ==
+Should be fixed by this patch series:
+https://patchew.org/QEMU/20201110150023.25533-1-peter.maydell@linaro.org/
+
+Commit cb5ef3fa1871522a08 is correct -- it just exposed an underlying
+bug in the TMP105 temperature sensor device.
+
+
+** Changed in: qemu
+       Status: Confirmed =3D> In Progress
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1734474
+
+Title:
+  Maemo does not boot on emulated N800
+
+Status in QEMU:
+  In Progress
+
+Bug description:
+  I start QEMU with qemu-system-arm-m 130 -M n800 -kernel zImage.1 -mtdbloc=
+k maemo.img -append "root=3D/dev/mtdblock3 rootfstype=3Djffs2"
+  On QEMU 1.2.0 see "NOKIA" logo and then desktop appears, but on 1.5.0 and=
+ newer (including latest versions) I see only white screen and no signs of =
+life. Was this caused by regression or any syntax change?
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1734474/+subscriptions
 
