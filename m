@@ -2,55 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6253F2AD4A0
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 12:20:53 +0100 (CET)
-Received: from localhost ([::1]:49000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A08B72AD4D3
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 12:24:12 +0100 (CET)
+Received: from localhost ([::1]:33314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcRhk-0001rk-Fm
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 06:20:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45428)
+	id 1kcRkx-0007Ew-Ks
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 06:24:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kcRbs-0003cj-TY
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:14:48 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:43290
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kcRbq-0005NU-GV
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:14:48 -0500
-Received: from host86-184-131-53.range86-184.btcentralplus.com
- ([86.184.131.53] helo=[192.168.1.110])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kcRbz-0005le-Uk; Tue, 10 Nov 2020 11:15:00 +0000
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster
- <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
-Message-ID: <0ad53d69-ce4a-c5ea-fba4-fa19daada11c@ilande.co.uk>
-Date: Tue, 10 Nov 2020 11:14:39 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kcRgP-0001re-8Z
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:19:29 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:53992)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kcRgI-0006mo-DE
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:19:28 -0500
+Received: by mail-wm1-x335.google.com with SMTP id p22so2616086wmg.3
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 03:19:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=V0KpZX+u3JdqrN8N6AtrT0Dx53wX3a7rGNDgTvFUP8g=;
+ b=byMGR3jAk3ShKMiS8WKG2cKN7uj6YAUlQEH+jWvUltnS+mSMPYSnthqmQg1I4aitUR
+ ghgH/bu3OPaJ0W3IkCwp1/Kn4d0EfQC8FZv0vDqAQjPR1RJZNksH7l0dN445wSL3hYBl
+ RDcD/dJNV7R+PiuEEULXXtxc+hr+/1HaSxDATdds/CafOIH2XPptCrNdY/JO4XyzziVy
+ iSewTL87AYRfZjsM5GV0VQxrZSFMxty18lpy2oXgmMHV5iE7DnSqYfiBT4kmzN1PBjXc
+ JN206p5DXJ5Ke/imCo8UBPTanDyqx91Hri6/Qo4xGTr8Wsms4b/WCFutbHWN+BdWV+89
+ 5jOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=V0KpZX+u3JdqrN8N6AtrT0Dx53wX3a7rGNDgTvFUP8g=;
+ b=iUYTbL4fDX/5J0+j2BvtrQUy8JaOydYWKWd0XguWLIA+dmq0akd3IA+26fXVgjgcgw
+ qnmKwztBsITa1rWIqw4RGBjZFxs9PUrx3qah4yyTkjPEgnC3EQ/uMr+Zk3orEoJtnzG6
+ CWIF31iU6gz9mQBKu3E83MXtQoMLQyQHCnBTF9R87eJo+YnZ24pleHcIDVumU60SpGAj
+ wy5AhpAtf1d6PJBAzknZa1Igv8mqZESjS7Ps7Va0M6xOk5RigogMvb5ClAnt9BsnSAyF
+ R45kDaYGAUwAKTu4FMns46l9Ww2N8ngnxsKx9svvXQgcNQBhBWPOMf+0rpPmaqj/e+OK
+ ZdoA==
+X-Gm-Message-State: AOAM530HlP1jInvvFfllgqcGHRLKZCUOO3z8Bu5aYQenbffk7oENbwO2
+ SkGLiQX5P+d1Oi0RK7QUF8bwjbYQSoc8Ww==
+X-Google-Smtp-Source: ABdhPJxD1dQe1mSufWXKS9uMpiLMtAvQD57rOq+8X+ttjAhO1jp9QqbhpMRPQjN2IceIIF0CFiVURA==
+X-Received: by 2002:a7b:c5c3:: with SMTP id n3mr4116253wmk.44.1605007160217;
+ Tue, 10 Nov 2020 03:19:20 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id 109sm16909498wra.29.2020.11.10.03.19.19
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Nov 2020 03:19:19 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/16] target-arm queue
+Date: Tue, 10 Nov 2020 11:19:01 +0000
+Message-Id: <20201110111917.29539-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.184.131.53
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: QOM address space handling
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,59 +87,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
+Patches for rc1: nothing major, just some minor bugfixes and
+code cleanups.
 
-This email follows on from my investigation of intermittent Travis-CI failures in 
-make check's device-introspect test when trying to add the patch at 
-https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg06093.html to my last 
-qemu-sparc pull request.
+-- PMM
 
-The patch itself seems fairly harmless: moving the sun4u-iommu device as a QOM child 
-of the sabre PCI host bridge device. So why was "make check" randomly segfaulting on 
-Travis-CI?
+The following changes since commit f7e1914adad8885a5d4c70239ab90d901ed97e9f:
 
-The hardest part was trying to reproduce the issue to debug it: eventually after a 
-number of Travis-CI runs I discovered I could generate the same problem locally if I 
-ran "make check" around 15-20 times in a row, and that gave me a backtrace that 
-looked like this:
+  Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply-20201109' into staging (2020-11-10 09:24:56 +0000)
 
-0x0000000000614b69 in address_space_init (as=0x16f684d8,
-root=0x16f68530, name=0x9a1db2 "iommu-as") at ../softmmu/memory.c:2780
-2780        QTAILQ_INSERT_TAIL(&address_spaces, as, address_spaces_link);
-(gdb) bt
-#0  0x0000000000614b69 in address_space_init (as=0x16f684d8,
-  root=0x16f68530, name=0x9a1db2 "iommu-as") at
-../softmmu/memory.c:2780
-#1  0x00000000005b8f6a in iommu_init (obj=0x16f681c0) at ../hw/sparc64/sun4u_iommu.c:301
-#2  0x000000000070a997 in object_init_with_type (obj=0x16f681c0,
-  ti=0x1629fac0) at ../qom/object.c:375
+are available in the Git repository at:
 
-With the debugger attached I was able to figure out what was happening: the 
-sun4u-iommu device creates the iommu-as address space during instance init, but 
-doesn't have a corresponding instance finalize to remove it which leaves a dangling 
-pointer in the address_spaces QTAILQ.
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20201110
 
-Normally this doesn't matter because IOMMUs are created once during machine init, but 
-device-introspect-test instantiates sun4u-iommu (and with the patch sabre also adds 
-it as a child object during instance init) which adds more dangling pointers to the 
-address_spaces list. Every so often the dangling pointers end up pointing to memory 
-that gets reused by another QOM object, eventually causing random segfaults during 
-instance finalize and/or property iteration.
+for you to fetch changes up to b6c56c8a9a4064ea783f352f43c5df6231a110fa:
 
-There are 2 possible solutions here: 1) ensure QOM objects that add address spaces 
-during instance init have a corresponding instance finalize function to remove them 
-or 2) move the creation of address spaces from instance init to realize.
+  target/arm/translate-neon.c: Handle VTBL UNDEF case before VFP access check (2020-11-10 11:03:48 +0000)
 
-Does anyone have any arguments for which solution is preferred?
+----------------------------------------------------------------
+target-arm queue:
+ * hw/arm/Kconfig: ARM_V7M depends on PTIMER
+ * Minor coding style fixes
+ * docs: add some notes on the sbsa-ref machine
+ * hw/arm/virt: Remove dependency on Cortex-A15 MPCore peripherals
+ * target/arm: Fix neon VTBL/VTBX for len > 1
+ * hw/arm/armsse: Correct expansion MPC interrupt lines
+ * hw/misc/stm32f2xx_syscfg: Remove extraneous IRQ
+ * hw/arm/nseries: Remove invalid/unnecessary n8x0_uart_setup()
+ * hw/arm/musicpal: Don't connect two qemu_irqs directly to the same input
+ * hw/arm/musicpal: Only use qdev_get_gpio_in() when necessary
+ * hw/arm/nseries: Check return value from load_image_targphys()
+ * tests/qtest/npcm7xx_rng-test: count runs properly
+ * target/arm/translate-neon.c: Handle VTBL UNDEF case before VFP access check
 
-As part of this work I hacked up an address_space_count() function in memory.c that 
-returns the size of the address_spaces QTAILQ and added a printf() to display the 
-value during instance init and finalize which demonstrates the problem nicely. This 
-means it should be possible to add a similar to check to device-introspect-test in 
-future to prevent similar errors from happening again.
+----------------------------------------------------------------
+Alex Bennée (1):
+      docs: add some notes on the sbsa-ref machine
 
+AlexChen (1):
+      ssi: Fix bad printf format specifiers
 
-ATB,
+Andrew Jones (1):
+      hw/arm/Kconfig: ARM_V7M depends on PTIMER
 
-Mark.
+Havard Skinnemoen (1):
+      tests/qtest/npcm7xx_rng-test: count runs properly
+
+Peter Maydell (2):
+      hw/arm/nseries: Check return value from load_image_targphys()
+      target/arm/translate-neon.c: Handle VTBL UNDEF case before VFP access check
+
+Philippe Mathieu-Daudé (6):
+      hw/arm/virt: Remove dependency on Cortex-A15 MPCore peripherals
+      hw/arm/armsse: Correct expansion MPC interrupt lines
+      hw/misc/stm32f2xx_syscfg: Remove extraneous IRQ
+      hw/arm/nseries: Remove invalid/unnecessary n8x0_uart_setup()
+      hw/arm/musicpal: Don't connect two qemu_irqs directly to the same input
+      hw/arm/musicpal: Only use qdev_get_gpio_in() when necessary
+
+Richard Henderson (1):
+      target/arm: Fix neon VTBL/VTBX for len > 1
+
+Xinhao Zhang (3):
+      target/arm: add spaces around operator
+      target/arm: Don't use '#' flag of printf format
+      target/arm: add space before the open parenthesis '('
+
+ docs/system/arm/sbsa.rst           | 32 ++++++++++++++++++++++
+ docs/system/target-arm.rst         |  1 +
+ include/hw/misc/stm32f2xx_syscfg.h |  2 --
+ target/arm/helper.h                |  2 +-
+ hw/arm/armsse.c                    |  3 +-
+ hw/arm/musicpal.c                  | 40 +++++++++++++++++----------
+ hw/arm/nseries.c                   | 26 ++++++++----------
+ hw/arm/stm32f205_soc.c             |  1 -
+ hw/misc/stm32f2xx_syscfg.c         |  2 --
+ hw/ssi/imx_spi.c                   |  2 +-
+ hw/ssi/xilinx_spi.c                |  2 +-
+ target/arm/arch_dump.c             |  8 +++---
+ target/arm/arm-semi.c              |  8 +++---
+ target/arm/helper.c                |  2 +-
+ target/arm/op_helper.c             | 23 +++++++++-------
+ target/arm/translate-a64.c         |  4 +--
+ target/arm/translate.c             |  2 +-
+ tests/qtest/npcm7xx_rng-test.c     |  2 +-
+ hw/arm/Kconfig                     |  3 +-
+ target/arm/translate-neon.c.inc    | 56 ++++++++++++++------------------------
+ 20 files changed, 123 insertions(+), 98 deletions(-)
+ create mode 100644 docs/system/arm/sbsa.rst
 
