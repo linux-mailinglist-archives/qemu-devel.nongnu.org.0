@@ -2,90 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B7522ACA67
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 02:25:46 +0100 (CET)
-Received: from localhost ([::1]:55206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B50672ACA8C
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 02:37:20 +0100 (CET)
+Received: from localhost ([::1]:42226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcIPp-0005RV-I2
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 20:25:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51116)
+	id 1kcIb1-00042a-Qy
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 20:37:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <krish.sadhukhan@oracle.com>)
- id 1kcINr-0004Dh-40
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 20:23:43 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:54888)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <krish.sadhukhan@oracle.com>)
- id 1kcINo-0008IL-Iu
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 20:23:42 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AA1KJBQ138980;
- Tue, 10 Nov 2020 01:23:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=7jWTuy5VpAOM0jKE7IT8mw3sTOAf1bhssNjqiwLU/AA=;
- b=jIU/RKC2OmVdL2RpUFNM4N1UADA1DL4TMqXyaleDdbQca9QfaF96n5GpwVeg8sxKsP87
- jCUa/8ZoPke0m7Hk8vnvt/iDjvQ84SFysCuQbTlQN/n7XfO6eZJ3QYnm/KAJ6XzTBzmT
- rWMCN3xsboTfo7X5BH0P4tHjzCFRyJ/1AckABxdG6n/8bamSRc1bfXKyuT8WjdGLDqXb
- 9w/R7kK84pYyh8Kp7YOjA1/q9XJo2wkis8XGph2mMlwBiTRRNeNOh429PsVaGE5iVlzn
- IfUTyNKPGsL3Qn14jO/36x8dMFaRDL4SeQ0lVcNZ8dva9uEtbh/lvkDPtUan82+401nn sQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by aserp2130.oracle.com with ESMTP id 34nh3asa77-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 10 Nov 2020 01:23:35 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AA1LAOj027622;
- Tue, 10 Nov 2020 01:23:35 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3030.oracle.com with ESMTP id 34p55ms995-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 10 Nov 2020 01:23:35 +0000
-Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0AA1NXhc014154;
- Tue, 10 Nov 2020 01:23:33 GMT
-Received: from nsvm-sadhukhan-1.osdevelopmeniad.oraclevcn.com
- (/100.100.230.216) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 09 Nov 2020 17:23:33 -0800
-From: Krish Sadhukhan <krish.sadhukhan@oracle.com>
-To: kvm@vger.kernel.org
-Subject: [PATCH 5/5 v4] KVM: nVMX: Fill in conforming vmx_nested_ops via macro
-Date: Tue, 10 Nov 2020 01:23:12 +0000
-Message-Id: <20201110012312.20820-6-krish.sadhukhan@oracle.com>
-X-Mailer: git-send-email 2.18.4
-In-Reply-To: <20201110012312.20820-1-krish.sadhukhan@oracle.com>
-References: <20201110012312.20820-1-krish.sadhukhan@oracle.com>
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9800
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- spamscore=0 phishscore=0
- mlxlogscore=999 mlxscore=0 malwarescore=0 bulkscore=0 suspectscore=3
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011100008
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9800
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- lowpriorityscore=0 priorityscore=1501
- clxscore=1015 malwarescore=0 mlxscore=0 spamscore=0 suspectscore=3
- mlxlogscore=999 impostorscore=0 phishscore=0 adultscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011100008
-Received-SPF: pass client-ip=141.146.126.79;
- envelope-from=krish.sadhukhan@oracle.com; helo=aserp2130.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 20:23:36
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kcIZQ-0003ZL-PB
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 20:35:40 -0500
+Received: from indium.canonical.com ([91.189.90.7]:33628)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kcIZM-00015y-71
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 20:35:40 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kcIZK-0002pz-C8
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 01:35:34 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 597382E811E
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 01:35:34 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 10 Nov 2020 01:27:59 -0000
+From: Chuan Zheng <1902470@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange dgilbert-h jasonzheng yanjin
+X-Launchpad-Bug-Reporter: Yan Jin (yanjin)
+X-Launchpad-Bug-Modifier: Chuan Zheng (jasonzheng)
+References: <160428587851.31102.18083040677647005532.malonedeb@gac.canonical.com>
+Message-Id: <160497167953.27607.2005175838148938803.malone@chaenomeles.canonical.com>
+Subject: [Bug 1902470] Re: migration with TLS-MultiFD is stuck when the
+ dst-libvirtd service restarts
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
+X-Launchpad-Hash: 3a203326a2ed80017d24c08ca6a8f76a921f3b2a
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 20:35:34
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -94,158 +73,222 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, vkuznets@redhat.com, qemu-devel@nongnu.org,
- sean.j.christopherson@intel.com, jmattson@google.com
+Reply-To: Bug 1902470 <1902470@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The names of some of the vmx_nested_ops functions do not have a corresponding
-'nested_vmx_' prefix. Generate the names using a macro so that the names are
-conformant. Fixing the naming will help in better readability and
-maintenance of the code.
+this commit is sent and may fix this issue, waiting for review.
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg758017.html
 
-Suggested-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
-Signed-off-by: Krish Sadhukhan <krish.sadhukhan@oracle.com>
----
- arch/x86/kvm/vmx/evmcs.c  |  6 +++---
- arch/x86/kvm/vmx/evmcs.h  |  4 ++--
- arch/x86/kvm/vmx/nested.c | 35 +++++++++++++++++++++--------------
- 3 files changed, 26 insertions(+), 19 deletions(-)
+-- =
 
-diff --git a/arch/x86/kvm/vmx/evmcs.c b/arch/x86/kvm/vmx/evmcs.c
-index f3199bb02f22..e54b366ea114 100644
---- a/arch/x86/kvm/vmx/evmcs.c
-+++ b/arch/x86/kvm/vmx/evmcs.c
-@@ -324,7 +324,7 @@ bool nested_enlightened_vmentry(struct kvm_vcpu *vcpu, u64 *evmcs_gpa)
- 	return true;
- }
- 
--uint16_t nested_get_evmcs_version(struct kvm_vcpu *vcpu)
-+uint16_t nested_vmx_get_evmcs_version(struct kvm_vcpu *vcpu)
- {
- 	struct vcpu_vmx *vmx = to_vmx(vcpu);
- 	/*
-@@ -418,7 +418,7 @@ int nested_evmcs_check_controls(struct vmcs12 *vmcs12)
- 	return ret;
- }
- 
--int nested_enable_evmcs(struct kvm_vcpu *vcpu,
-+int nested_vmx_enable_evmcs(struct kvm_vcpu *vcpu,
- 			uint16_t *vmcs_version)
- {
- 	struct vcpu_vmx *vmx = to_vmx(vcpu);
-@@ -426,7 +426,7 @@ int nested_enable_evmcs(struct kvm_vcpu *vcpu,
- 	vmx->nested.enlightened_vmcs_enabled = true;
- 
- 	if (vmcs_version)
--		*vmcs_version = nested_get_evmcs_version(vcpu);
-+		*vmcs_version = nested_vmx_get_evmcs_version(vcpu);
- 
- 	return 0;
- }
-diff --git a/arch/x86/kvm/vmx/evmcs.h b/arch/x86/kvm/vmx/evmcs.h
-index bd41d9462355..150e7921b5fd 100644
---- a/arch/x86/kvm/vmx/evmcs.h
-+++ b/arch/x86/kvm/vmx/evmcs.h
-@@ -205,8 +205,8 @@ enum nested_evmptrld_status {
- };
- 
- bool nested_enlightened_vmentry(struct kvm_vcpu *vcpu, u64 *evmcs_gpa);
--uint16_t nested_get_evmcs_version(struct kvm_vcpu *vcpu);
--int nested_enable_evmcs(struct kvm_vcpu *vcpu,
-+uint16_t nested_vmx_get_evmcs_version(struct kvm_vcpu *vcpu);
-+int nested_vmx_enable_evmcs(struct kvm_vcpu *vcpu,
- 			uint16_t *vmcs_version);
- void nested_evmcs_filter_control_msr(u32 msr_index, u64 *pdata);
- int nested_evmcs_check_controls(struct vmcs12 *vmcs12);
-diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
-index d97fbf1a6a17..c26acf1dcce4 100644
---- a/arch/x86/kvm/vmx/nested.c
-+++ b/arch/x86/kvm/vmx/nested.c
-@@ -3223,7 +3223,12 @@ static bool nested_get_vmcs12_pages(struct kvm_vcpu *vcpu)
- 	return true;
- }
- 
--static int nested_vmx_write_pml_buffer(struct kvm_vcpu *vcpu, gpa_t gpa)
-+static bool nested_vmx_get_pages(struct kvm_vcpu *vcpu)
-+{
-+	return nested_get_vmcs12_pages(vcpu);
-+}
-+
-+static int nested_vmx_write_log_dirty(struct kvm_vcpu *vcpu, gpa_t gpa)
- {
- 	struct vmcs12 *vmcs12;
- 	struct vcpu_vmx *vmx = to_vmx(vcpu);
-@@ -3769,13 +3774,13 @@ static void nested_vmx_update_pending_dbg(struct kvm_vcpu *vcpu)
- 			    vcpu->arch.exception.payload);
- }
- 
--static bool nested_vmx_preemption_timer_pending(struct kvm_vcpu *vcpu)
-+static bool nested_vmx_hv_timer_pending(struct kvm_vcpu *vcpu)
- {
- 	return nested_cpu_has_preemption_timer(get_vmcs12(vcpu)) &&
- 	       to_vmx(vcpu)->nested.preemption_timer_expired;
- }
- 
--static int vmx_check_nested_events(struct kvm_vcpu *vcpu)
-+static int nested_vmx_check_events(struct kvm_vcpu *vcpu)
- {
- 	struct vcpu_vmx *vmx = to_vmx(vcpu);
- 	unsigned long exit_qual;
-@@ -3830,7 +3835,7 @@ static int vmx_check_nested_events(struct kvm_vcpu *vcpu)
- 		return 0;
- 	}
- 
--	if (nested_vmx_preemption_timer_pending(vcpu)) {
-+	if (nested_vmx_hv_timer_pending(vcpu)) {
- 		if (block_nested_events)
- 			return -EBUSY;
- 		nested_vmx_vmexit(vcpu, EXIT_REASON_PREEMPTION_TIMER, 0, 0);
-@@ -5964,7 +5969,7 @@ bool nested_vmx_reflect_vmexit(struct kvm_vcpu *vcpu)
- 	return true;
- }
- 
--static int vmx_get_nested_state(struct kvm_vcpu *vcpu,
-+static int nested_vmx_get_state(struct kvm_vcpu *vcpu,
- 				struct kvm_nested_state __user *user_kvm_nested_state,
- 				u32 user_data_size)
- {
-@@ -6088,7 +6093,7 @@ void vmx_leave_nested(struct kvm_vcpu *vcpu)
- 	free_nested(vcpu);
- }
- 
--static int vmx_set_nested_state(struct kvm_vcpu *vcpu,
-+static int nested_vmx_set_state(struct kvm_vcpu *vcpu,
- 				struct kvm_nested_state __user *user_kvm_nested_state,
- 				struct kvm_nested_state *kvm_state)
- {
-@@ -6568,13 +6573,15 @@ __init int nested_vmx_hardware_setup(int (*exit_handlers[])(struct kvm_vcpu *))
- 	return 0;
- }
- 
-+#define KVM_X86_NESTED_OP_NAME(name) .name = nested_vmx_##name
-+
- struct kvm_x86_nested_ops vmx_nested_ops = {
--	.check_events = vmx_check_nested_events,
--	.hv_timer_pending = nested_vmx_preemption_timer_pending,
--	.get_state = vmx_get_nested_state,
--	.set_state = vmx_set_nested_state,
--	.get_pages = nested_get_vmcs12_pages,
--	.write_log_dirty = nested_vmx_write_pml_buffer,
--	.enable_evmcs = nested_enable_evmcs,
--	.get_evmcs_version = nested_get_evmcs_version,
-+	KVM_X86_NESTED_OP_NAME(check_events),
-+	KVM_X86_NESTED_OP_NAME(hv_timer_pending),
-+	KVM_X86_NESTED_OP_NAME(get_state),
-+	KVM_X86_NESTED_OP_NAME(set_state),
-+	KVM_X86_NESTED_OP_NAME(get_pages),
-+	KVM_X86_NESTED_OP_NAME(write_log_dirty),
-+	KVM_X86_NESTED_OP_NAME(enable_evmcs),
-+	KVM_X86_NESTED_OP_NAME(get_evmcs_version),
- };
--- 
-2.18.4
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1902470
 
+Title:
+  migration with TLS-MultiFD is stuck when the dst-libvirtd service
+  restarts
+
+Status in QEMU:
+  In Progress
+
+Bug description:
+  hi,
+
+  I found that the multi-channel TLS-handshake will be stuck when the
+  dst-libvirtd restarts, both the src and dst sockets are blocked in
+  recvmsg. In the meantime, live_migration thread is blocked in
+  multifd_send_sync_main, so migration cannot be cancelled though src-
+  libvirt has delivered the QMP command.
+
+  Is there any way to exit migration when the multi-channel TLS-
+  handshake is stuck? Does setting TLS-handshake timeout function take
+  effect?
+
+  The stack trace are as follows:
+
+  =3D=3D=3D=3D=3Dsrc qemu-system-aar stack=3D=3D=3D=3D=3D:
+  #0  0x0000ffff87d6f28c in recvmsg () from target:/usr/lib64/libpthread.so=
+.0
+  #1  0x0000aaaae3817424 in qio_channel_socket_readv (ioc=3D0xaaaae9e30a30,=
+ iov=3D0xffffdb58e8a8, niov=3D1, fds=3D0x0, nfds=3D0x0, errp=3D0x0) at ../i=
+o/channel-socket.c:502
+  #2  0x0000aaaae380f468 in qio_channel_readv_full (ioc=3D0xaaaae9e30a30, i=
+ov=3D0xffffdb58e8a8, niov=3D1, fds=3D0x0, nfds=3D0x0, errp=3D0x0) at ../io/=
+channel.c:66
+  #3  0x0000aaaae380f9e8 in qio_channel_read (ioc=3D0xaaaae9e30a30, buf=3D0=
+xaaaaea204e9b "\026\003\001\001L\001", buflen=3D5, errp=3D0x0) at ../io/cha=
+nnel.c:217
+  #4  0x0000aaaae380e7d4 in qio_channel_tls_read_handler (buf=3D0xaaaaea204=
+e9b "\026\003\001\001L\001", len=3D5, opaque=3D0xfffd38001190) at ../io/cha=
+nnel-tls.c:53
+  #5  0x0000aaaae3801114 in qcrypto_tls_session_pull (opaque=3D0xaaaae99d57=
+00, buf=3D0xaaaaea204e9b, len=3D5) at ../crypto/tlssession.c:89
+  #6  0x0000ffff8822ed30 in _gnutls_stream_read (ms=3D0xffffdb58eaac, pull_=
+func=3D0xfffd38001870, size=3D5, bufel=3D<synthetic pointer>, session=3D0xa=
+aaae983cd60) at buffers.c:346
+  #7  _gnutls_read (ms=3D0xffffdb58eaac, pull_func=3D0xfffd38001870, size=
+=3D5, bufel=3D<synthetic pointer>, session=3D0xaaaae983cd60) at buffers.c:4=
+26
+  #8  _gnutls_io_read_buffered (session=3Dsession@entry=3D0xaaaae983cd60, t=
+otal=3D5, recv_type=3Drecv_type@entry=3D4294967295, ms=3D0xffffdb58eaac) at=
+ buffers.c:581
+  #9  0x0000ffff88224954 in recv_headers (ms=3D<optimized out>, record=3D0x=
+ffff883cd000 <gnutls_x509_ext_export_name_constraints@got.plt>, htype=3D655=
+35, type=3D2284006288, record_params=3D0xaaaae9e22a60, session=3D0xaaaae983=
+cd60) at record.c:1163
+  #10 _gnutls_recv_in_buffers (session=3Dsession@entry=3D0xaaaae983cd60, ty=
+pe=3D2284006288, type@entry=3DGNUTLS_HANDSHAKE, htype=3D65535, htype@entry=
+=3DGNUTLS_HANDSHAKE_HELLO_RETRY_REQUEST, ms=3D<optimized out>, ms@entry=3D0=
+) at record.c:1302
+  #11 0x0000ffff88230568 in _gnutls_handshake_io_recv_int (session=3Dsessio=
+n@entry=3D0xaaaae983cd60, htype=3Dhtype@entry=3DGNUTLS_HANDSHAKE_HELLO_RETR=
+Y_REQUEST, hsk=3Dhsk@entry=3D0xffffdb58ec38, optional=3Doptional@entry=3D1)=
+ at buffers.c:1445
+  #12 0x0000ffff88232b90 in _gnutls_recv_handshake (session=3Dsession@entry=
+=3D0xaaaae983cd60, type=3Dtype@entry=3DGNUTLS_HANDSHAKE_HELLO_RETRY_REQUEST=
+, optional=3Doptional@entry=3D1, buf=3Dbuf@entry=3D0x0) at handshake.c:1534
+  #13 0x0000ffff88235b40 in handshake_client (session=3Dsession@entry=3D0xa=
+aaae983cd60) at handshake.c:2925
+  #14 0x0000ffff88237824 in gnutls_handshake (session=3D0xaaaae983cd60) at =
+handshake.c:2739
+  #15 0x0000aaaae380213c in qcrypto_tls_session_handshake (session=3D0xaaaa=
+e99d5700, errp=3D0xffffdb58ee58) at ../crypto/tlssession.c:493
+  #16 0x0000aaaae380ea40 in qio_channel_tls_handshake_task (ioc=3D0xfffd380=
+01190, task=3D0xaaaaea61d4e0, context=3D0x0) at ../io/channel-tls.c:161
+  #17 0x0000aaaae380ec60 in qio_channel_tls_handshake (ioc=3D0xfffd38001190=
+, func=3D0xaaaae3394d20 <multifd_tls_outgoing_handshake>, opaque=3D0xaaaaea=
+189c30, destroy=3D0x0, context=3D0x0) at ../io/channel-tls.c:239
+  #18 0x0000aaaae3394e78 in multifd_tls_channel_connect (p=3D0xaaaaea189c30=
+, ioc=3D0xaaaae9e30a30, errp=3D0xffffdb58ef28) at ../migration/multifd.c:782
+  #19 0x0000aaaae3394f30 in multifd_channel_connect (p=3D0xaaaaea189c30, io=
+c=3D0xaaaae9e30a30, error=3D0x0) at ../migration/multifd.c:804
+  #20 0x0000aaaae33950b8 in multifd_new_send_channel_async (task=3D0xaaaaea=
+6855a0, opaque=3D0xaaaaea189c30) at ../migration/multifd.c:858
+  #21 0x0000aaaae3810cf8 in qio_task_complete (task=3D0xaaaaea6855a0) at ..=
+/io/task.c:197
+  #22 0x0000aaaae381096c in qio_task_thread_result (opaque=3D0xaaaaea6855a0=
+) at ../io/task.c:112
+  #23 0x0000ffff88701df8 in ?? () from target:/usr/lib64/libglib-2.0.so.0
+  #24 0x0000ffff88705a7c in g_main_context_dispatch () from target:/usr/lib=
+64/libglib-2.0.so.0
+  #25 0x0000aaaae3a5a29c in glib_pollfds_poll () at ../util/main-loop.c:221
+  #26 0x0000aaaae3a5a324 in os_host_main_loop_wait (timeout=3D0) at ../util=
+/main-loop.c:244
+  #27 0x0000aaaae3a5a444 in main_loop_wait (nonblocking=3D0) at ../util/mai=
+n-loop.c:520
+  #28 0x0000aaaae3696b20 in qemu_main_loop () at ../softmmu/vl.c:1677
+  #29 0x0000aaaae30949e4 in main (argc=3D81, argv=3D0xffffdb58f2c8, envp=3D=
+0xffffdb58f558) at ../softmmu/main.c:50
+
+  =3D=3D=3D=3D=3Dsrc live_migration stack=3D=3D=3D=3D=3D:
+  #0  0x0000ffff87d6a5d8 in pthread_cond_wait () from target:/usr/lib64/lib=
+pthread.so.0
+  #1  0x0000aaaae3a5f3ec in qemu_sem_wait (sem=3D0xaaaaea189d40) at ../util=
+/qemu-thread-posix.c:328
+  #2  0x0000aaaae3394838 in multifd_send_sync_main (f=3D0xaaaae983f0e0) at =
+../migration/multifd.c:638
+  #3  0x0000aaaae37de310 in ram_save_setup (f=3D0xaaaae983f0e0, opaque=3D0x=
+aaaae4198708 <ram_state>) at ../migration/ram.c:2588
+  #4  0x0000aaaae31cf7ac in qemu_savevm_state_setup (f=3D0xaaaae983f0e0) at=
+ ../migration/savevm.c:1176
+  #5  0x0000aaaae3248360 in migration_thread (opaque=3D0xaaaae9829f20) at .=
+./migration/migration.c:3521
+  #6  0x0000aaaae3a5f8fc in qemu_thread_start (args=3D0xaaaaea513ee0) at ..=
+/util/qemu-thread-posix.c:521
+  #7  0x0000ffff87d647ac in ?? () from target:/usr/lib64/libpthread.so.0
+  #8  0x0000ffff87cba6ec in ?? () from target:/usr/lib64/libc.so.6
+
+  =3D=3D=3D=3D=3Ddst qemu-system-aar stack=3D=3D=3D=3D=3D:
+  #0  0x0000ffff7f17d28c in recvmsg () from target:/usr/lib64/libpthread.so=
+.0
+  #1  0x0000aaaae263a424 in qio_channel_socket_readv (ioc=3D0xaaaaf998a800,=
+ iov=3D0xfffff5d22f78, niov=3D1, fds=3D0x0, nfds=3D0x0, errp=3D0x0) at ../i=
+o/channel-socket.c:502
+  #2  0x0000aaaae2632468 in qio_channel_readv_full (ioc=3D0xaaaaf998a800, i=
+ov=3D0xfffff5d22f78, niov=3D1, fds=3D0x0, nfds=3D0x0, errp=3D0x0) at ../io/=
+channel.c:66
+  #3  0x0000aaaae26329e8 in qio_channel_read (ioc=3D0xaaaaf998a800, buf=3D0=
+xaaaafa926dbb "q\024\335\365=C8=A3'\221,\\\357\246w\253\242=D1=A0=D8=B5I\24=
+7(N(K=3D\256\316DH\227QNf\371\"\271\017\226^\223\026\373\245z\255\227\025R.=
+\244\205\254\002\031T\033\312:h\226\a=DD=94\204=D4=AA\324\351K\341\365\247\=
+032\354+\277\005O'*l\301cXx\340~?\346\b\324k\225\223D\276\252\376\257_0\036=
+\223\022\006\212D|7h\257\226\300&n','\005zL\203M=CD=86\023\213\237(o\272\02=
+5_\305s\372\362\351\002\367Ph\016\347\371E\n\030Y\340\002\r\362^&`\021\203}=
+\353\324A\340=D2=B3(\207]\300l}h\026\037H\372\n=3D\"C\024\t\200\325\334&=3D=
+\333>\212=C6=8FE\214]_\372\264]"..., buflen=3D5, errp=3D0x0) at ../io/chann=
+el.c:217
+  #4  0x0000aaaae26317d4 in qio_channel_tls_read_handler (buf=3D0xaaaafa926=
+dbb "q\024\335\365=C8=A3'\221,\\\357\246w\253\242=D1=A0=D8=B5I\247(N(K=3D\2=
+56\316DH\227QNf\371\"\271\017\226^\223\026\373\245z\255\227\025R.\244\205\2=
+54\002\031T\033\312:h\226\a=DD=94\204=D4=AA\324\351K\341\365\247\032\354+\2=
+77\005O'*l\301cXx\340~?\346\b\324k\225\223D\276\252\376\257_0\036\223\022\0=
+06\212D|7h\257\226\300&n','\005zL\203M=CD=86\023\213\237(o\272\025_\305s\37=
+2\362\351\002\367Ph\016\347\371E\n\030Y\340\002\r\362^&`\021\203}\353\324A\=
+340=D2=B3(\207]\300l}h\026\037H\372\n=3D\"C\024\t\200\325\334&=3D\333>\212=
+=C6=8FE\214]_\372\264]"..., len=3D5, opaque=3D0xaaaaf9c4c400) at ../io/chan=
+nel-tls.c:53
+  #5  0x0000aaaae2624114 in qcrypto_tls_session_pull (opaque=3D0xaaaafa4a3d=
+90, buf=3D0xaaaafa926dbb, len=3D5) at ../crypto/tlssession.c:89
+  #6  0x0000ffff7f63cd30 in _gnutls_stream_read (ms=3D0xfffff5d2317c, pull_=
+func=3D0xaaaafa81a380, size=3D5, bufel=3D<synthetic pointer>, session=3D0xa=
+aaafa58b9d0) at buffers.c:346
+  #7  _gnutls_read (ms=3D0xfffff5d2317c, pull_func=3D0xaaaafa81a380, size=
+=3D5, bufel=3D<synthetic pointer>, session=3D0xaaaafa58b9d0) at buffers.c:4=
+26
+  #8  _gnutls_io_read_buffered (session=3Dsession@entry=3D0xaaaafa58b9d0, t=
+otal=3D5, recv_type=3Drecv_type@entry=3D4294967295, ms=3D0xfffff5d2317c) at=
+ buffers.c:581
+  #9  0x0000ffff7f632954 in recv_headers (ms=3D<optimized out>, record=3D0x=
+1ee2a9fa78, htype=3D65535, type=3D2137262992, record_params=3D0xaaaafa4b71a=
+0, session=3D0xaaaafa58b9d0) at record.c:1163
+  #10 _gnutls_recv_in_buffers (session=3Dsession@entry=3D0xaaaafa58b9d0, ty=
+pe=3D2137262992, type@entry=3DGNUTLS_HANDSHAKE, htype=3D65535, htype@entry=
+=3DGNUTLS_HANDSHAKE_CLIENT_HELLO, ms=3D<optimized out>, ms@entry=3D0) at re=
+cord.c:1302
+  #11 0x0000ffff7f63e568 in _gnutls_handshake_io_recv_int (session=3Dsessio=
+n@entry=3D0xaaaafa58b9d0, htype=3Dhtype@entry=3DGNUTLS_HANDSHAKE_CLIENT_HEL=
+LO, hsk=3Dhsk@entry=3D0xfffff5d23308, optional=3Doptional@entry=3D0) at buf=
+fers.c:1445
+  #12 0x0000ffff7f640b90 in _gnutls_recv_handshake (session=3Dsession@entry=
+=3D0xaaaafa58b9d0, type=3Dtype@entry=3DGNUTLS_HANDSHAKE_CLIENT_HELLO, optio=
+nal=3Doptional@entry=3D0, buf=3Dbuf@entry=3D0x0) at handshake.c:1534
+  #13 0x0000ffff7f645f18 in handshake_server (session=3D<optimized out>) at=
+ handshake.c:3351
+  #14 gnutls_handshake (session=3D0xaaaafa58b9d0) at handshake.c:2742
+  #15 0x0000aaaae262513c in qcrypto_tls_session_handshake (session=3D0xaaaa=
+fa4a3d90, errp=3D0xfffff5d23478) at ../crypto/tlssession.c:493
+  #16 0x0000aaaae2631a40 in qio_channel_tls_handshake_task (ioc=3D0xaaaaf9c=
+4c400, task=3D0xaaaafa70e600, context=3D0x0) at ../io/channel-tls.c:161
+  #17 0x0000aaaae2631c60 in qio_channel_tls_handshake (ioc=3D0xaaaaf9c4c400=
+, func=3D0xaaaae20d4b58 <migration_tls_incoming_handshake>, opaque=3D0x0, d=
+estroy=3D0x0, context=3D0x0) at ../io/channel-tls.c:239
+  #18 0x0000aaaae20d4ca8 in migration_tls_channel_process_incoming (s=3D0xa=
+aaaf9b2ef20, ioc=3D0xaaaaf998a800, errp=3D0xfffff5d23548) at ../migration/t=
+ls.c:103
+  #19 0x0000aaaae20f9f7c in migration_channel_process_incoming (ioc=3D0xaaa=
+af998a800) at ../migration/channel.c:42
+  #20 0x0000aaaae1f484a8 in socket_accept_incoming_migration (listener=3D0x=
+ffff64007a40, cioc=3D0xaaaaf998a800, opaque=3D0x0) at ../migration/socket.c=
+:130
+  #21 0x0000aaaae2638570 in qio_net_listener_channel_func (ioc=3D0xaaaafa41=
+0600, condition=3DG_IO_IN, opaque=3D0xffff64007a40) at ../io/net-listener.c=
+:54
+  #22 0x0000aaaae263ac4c in qio_channel_fd_source_dispatch (source=3D0xaaaa=
+fa81a380, callback=3D0xaaaae26384f8 <qio_net_listener_channel_func>, user_d=
+ata=3D0xffff64007a40) at ../io/channel-watch.c:84
+  #23 0x0000ffff7fb13a7c in g_main_context_dispatch () from target:/usr/lib=
+64/libglib-2.0.so.0
+  #24 0x0000aaaae287d29c in glib_pollfds_poll () at ../util/main-loop.c:221
+  #25 0x0000aaaae287d324 in os_host_main_loop_wait (timeout=3D571000000) at=
+ ../util/main-loop.c:244
+  #26 0x0000aaaae287d444 in main_loop_wait (nonblocking=3D0) at ../util/mai=
+n-loop.c:520
+  #27 0x0000aaaae24b9b20 in qemu_main_loop () at ../softmmu/vl.c:1677
+  #28 0x0000aaaae1eb79e4 in main (argc=3D83, argv=3D0xfffff5d238c8, envp=3D=
+0xfffff5d23b68) at ../softmmu/main.c:50
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1902470/+subscriptions
 
