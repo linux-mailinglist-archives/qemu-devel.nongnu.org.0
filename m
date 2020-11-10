@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E57E2AD332
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 11:10:19 +0100 (CET)
-Received: from localhost ([::1]:39520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB5862AD33E
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 11:13:43 +0100 (CET)
+Received: from localhost ([::1]:42442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcQbS-0001AU-BH
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 05:10:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59098)
+	id 1kcQel-0002YO-0J
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 05:13:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <harshavardhan.unnibhavi@gmail.com>)
- id 1kcQZD-0000fj-0a; Tue, 10 Nov 2020 05:07:59 -0500
-Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f]:35745)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <harshavardhan.unnibhavi@gmail.com>)
- id 1kcQZ9-0007Gn-Vs; Tue, 10 Nov 2020 05:07:58 -0500
-Received: by mail-yb1-xb2f.google.com with SMTP id m188so11124241ybf.2;
- Tue, 10 Nov 2020 02:07:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=w8FIob+hxvS0SMrZUA6PvBmAt6Tg6sReX26vXUNa24Y=;
- b=Nx82qpGgvxwbuGUqCkE4vsqqtBf0tGsMNR8iWEs2Bi9f+cGU5zKgs7L0L+/7mvWLgB
- VYmGZ1p5OCM4b+bbUw8ShNnJFAvOxk5wzT4cr94rLvYn4gwzyWSM+EZkRI5bYeHSXqjm
- 4yPwT6WX1OOQgdv4C8OVFeGJvpI2lslRlaWm09nAVCiDjLNlDIb0kNWLuS76iyWata1/
- W6hRQ8A8u8Axe/ZyWRQKzEKJtMHHCNEo+qupoZSWs331UcBalCq5NdFincj3uFUk3Qwr
- 3+GcSfijSe3+dLs569voX322rQdX6D36VXWL8ZJL0by81IrhAESxZ3iy4ZbrHDnO1ZiJ
- O/Ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=w8FIob+hxvS0SMrZUA6PvBmAt6Tg6sReX26vXUNa24Y=;
- b=bFhHFAX1zjqe6uWZ/pu7cBOC+HhfOMmLS87estD97Mh+QarcaQb+4K2KpZGyFG6s6g
- aWr6jRjnh6AqduRsqAdIGhlDKB/pf157QKmh7dQoqXHpVUZNUpegGXkJhPxsk1FAVi3+
- iSGO7BKtdSAwOkGPnzWldD7IOg49sUTEB7DVf/hCoXVPdWrceQ15s5VUDnIjZxF9NUOw
- om72ffs8msI2ZNmogbQtLt+3zDKlIPZi+5GTSOqMYyvaX9u2H8Y4rOlmKJNSDaGfM1ed
- w45dsUVryC3Hhc2KsB+CbPUP0ol7jU5PVt75W0s1BkvZjkFWiOVPzE5Ycj0WF5yVJLYz
- ZaaA==
-X-Gm-Message-State: AOAM531D8xIttUMD9VoqB2MNrTKPAzZqLmYhyDAc/CLQINkofvKKR/PM
- vyhlssmbt0fpfBshQa5Q7hCtBuEgNe2+Rw3HFxw=
-X-Google-Smtp-Source: ABdhPJwyIERgEvHkQUzgt11GkETgM2VnK3fZTAAYKLf/RYck+cSgE0qm7VYEFgCH4FyA/2zA2hv16SWkAqaqrc8+T2k=
-X-Received: by 2002:a25:d34e:: with SMTP id e75mr20223654ybf.106.1605002874202; 
- Tue, 10 Nov 2020 02:07:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kcQdj-00028K-D7
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 05:12:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23152)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kcQdf-0000Mn-J9
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 05:12:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605003153;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=y+LSGCgrVGO/w1fBrB/STOF5FzIFLIkTPP3uaoge5ho=;
+ b=Vhd+cz/kpDDKH7XM+kPw66ARf1H9vDY0d3PI664dVfLmxmtBV4er6LZeXad2qY2yT68E2l
+ oW3REbcKSt8RqJMUn4MaQl1ucx9++nHqYOSbQLCIaBmW8SFcjaNJ1X6gtcsa5oepdg8EkF
+ 7mkid89fHm25PtdC9YwkcPy4yUvDX7E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-228-WFWNlBpbN9CbDLdwFjXqHA-1; Tue, 10 Nov 2020 05:12:32 -0500
+X-MC-Unique: WFWNlBpbN9CbDLdwFjXqHA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB1C96123E;
+ Tue, 10 Nov 2020 10:12:30 +0000 (UTC)
+Received: from redhat.com (ovpn-115-68.ams2.redhat.com [10.36.115.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AE19D5C5FD;
+ Tue, 10 Nov 2020 10:12:26 +0000 (UTC)
+Date: Tue, 10 Nov 2020 10:12:23 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Chuan Zheng <zhengchuan@huawei.com>
+Subject: Re: [PATCH v2] migration/multifd: close TLS channel before socket
+ finalize
+Message-ID: <20201110101223.GA869656@redhat.com>
+References: <1604660094-123959-1-git-send-email-zhengchuan@huawei.com>
 MIME-Version: 1.0
-References: <CA+8xkr4ABLeYam6EPBdMKkX=HB3gik079zxUyo1TF91sCXmoQg@mail.gmail.com>
- <e84575ae-4eee-ca5a-e4ca-9b1660a8799d@redhat.com>
- <CA+8xkr4t4s8=dCp6MjcH59y_6KPO0a7-pNi0-A-8Ft14kP6F2Q@mail.gmail.com>
- <20201109101729.GD783516@stefanha-x1.localdomain>
-In-Reply-To: <20201109101729.GD783516@stefanha-x1.localdomain>
-From: Harshavardhan Unnibhavi <harshavardhan.unnibhavi@gmail.com>
-Date: Tue, 10 Nov 2020 10:07:44 +0000
-Message-ID: <CA+8xkr7YSv7v0=SquA-bdOOivqsBEnuUEa35BXzLsRuNte8xqQ@mail.gmail.com>
-Subject: Re: Qemu first time contribution
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
- envelope-from=harshavardhan.unnibhavi@gmail.com; helo=mail-yb1-xb2f.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <1604660094-123959-1-git-send-email-zhengchuan@huawei.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 00:21:06
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,61 +81,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: yubihong@huawei.com, zhang.zhanghailiang@huawei.com, quintela@redhat.com,
+ dgilbert@redhat.com, xiexiangyou@huawei.com, qemu-devel@nongnu.org,
+ alex.chen@huawei.com, wanghao232@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Stefan,
+On Fri, Nov 06, 2020 at 06:54:54PM +0800, Chuan Zheng wrote:
+> Since we now support tls multifd, when we cancel migration, the TLS
+> sockets will be left as CLOSE-WAIT On Src which results in socket
+> leak.
+> Fix it by closing TLS channel before socket finalize.
+> 
+> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
+> ---
+>  migration/multifd.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> diff --git a/migration/multifd.c b/migration/multifd.c
+> index 68b171f..a6838dc 100644
+> --- a/migration/multifd.c
+> +++ b/migration/multifd.c
+> @@ -523,6 +523,19 @@ static void multifd_send_terminate_threads(Error *err)
+>      }
+>  }
+>  
+> +static void multifd_tls_socket_close(QIOChannel *ioc, Error *err)
+> +{
+> +    if (ioc &&
+> +        object_dynamic_cast(OBJECT(ioc),
+> +                            TYPE_QIO_CHANNEL_TLS)) {
+> +        /*
+> +         * TLS channel is special, we need close it before
+> +         * socket finalize.
+> +         */
+> +        qio_channel_close(ioc, &err);
+> +    }
+> +}
 
-This looks interesting, let me take a look at it. Thank you!
+This doesn't feel quite right to me.  Calling qio_channel_close will close
+both the TLS layer, and the underlying QIOChannelSocket. If the latter
+is safe to do, then we don't need the object_dynamic_cast() check, we can
+do it unconditionally whether we're using TLS or not.
 
-Best,
-Harsha
+Having said that, I'm not sure if we actually want to be using
+qio_channel_close or not ?
 
-On Mon, Nov 9, 2020 at 10:17 AM Stefan Hajnoczi <stefanha@redhat.com> wrote:
->
-> On Sun, Nov 08, 2020 at 12:21:33PM +0000, Harshavardhan Unnibhavi wrote:
-> > Thank you for the reply! Yes, I understand that gsoc is over for 2020,
-> > and projects for 2021 will come up next year. I was thinking of
-> > contributing outside of gsoc(for which I won't be eligible anyways for
-> > next year). Anyway, I will work on some of the bite sized tasks, and
-> > get back to you for some other concrete project ideas that require
-> > somebody to work on, in qemu.
->
-> Hi Harsha,
-> Here is an idea you could explore:
->
-> The Linux AIO API was extended to support fsync(2)/fdatasync(2) in the
-> following commit from 2018:
->
->   commit a3c0d439e4d92411c2b4b21a526a4de720d0806b
->   Author: Christoph Hellwig <hch@lst.de>
->   Date:   Tue Mar 27 19:18:57 2018 +0200
->
->       aio: implement IOCB_CMD_FSYNC and IOCB_CMD_FDSYNC
->
-> QEMU's Linux AIO code does not take advantage of this feature yet.
-> Instead it invokes the traditional fdatasync(2) system call from a
-> thread pool because it assumes the Linux AIO API doesn't support the
-> operation. The function where this happens is
-> block/file-posix.c:raw_co_flush_to_disk().
->
-> The goal is to implement IO_CMD_FDSYNC support in block/linux-aio.c
-> using io_prep_fdsync() and update
-> block/file-posix.c:raw_co_flush_to_disk() to use this when the feature
-> is available. See <libaio.h> for the Linux AIO library API.
->
-> Keep in mind that old host kernels may not support IO_CMD_FDSYNC. In
-> that case QEMU should continue to use the thread pool.
->
-> Taking advantage of the Linux AIO API means QEMU will spawn fewer
-> worker threads and disk flush performance may improve. You can benchmark
-> performance using the fio(1) tool. Configure it with ioengine=pvsync2
-> rw=randwrite direct=1 fdatasync=1 bs=4k to measure the peformance of 4
-> KB writes followed by fdatasync. For more information about disk I/O
-> benchmarking, including example fio jobs, see:
-> https://blog.vmsplice.net/2017/11/common-disk-benchmarking-mistakes.html
->
-> Stefan
+I would have expected that there is already code somewhere else in the
+migration layer that is closing these multifd channels, but I can't
+actually find where that happens right now.  Assuming that code does
+exist though, qio_channel_shutdown(ioc, BOTH) feels like the right
+answer to unblock waiting I/O ops.
+
+> +
+>  void multifd_save_cleanup(void)
+>  {
+>      int i;
+> @@ -542,6 +555,7 @@ void multifd_save_cleanup(void)
+>          MultiFDSendParams *p = &multifd_send_state->params[i];
+>          Error *local_err = NULL;
+>  
+> +        multifd_tls_socket_close(p->c, NULL);
+>          socket_send_channel_destroy(p->c);
+>          p->c = NULL;
+>          qemu_mutex_destroy(&p->mutex);
+> -- 
+> 1.8.3.1
+> 
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
