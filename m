@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0387E2AD00F
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 07:55:12 +0100 (CET)
-Received: from localhost ([::1]:50920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A6B02AD014
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 07:56:37 +0100 (CET)
+Received: from localhost ([::1]:53070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcNYd-00006k-3W
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 01:55:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47774)
+	id 1kcNa0-0001B2-9M
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 01:56:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kcNXS-0007jO-Gp
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 01:53:58 -0500
-Received: from mout.kundenserver.de ([217.72.192.74]:59741)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kcNYu-0000h6-2Q
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 01:55:28 -0500
+Received: from mout.kundenserver.de ([212.227.17.24]:46595)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kcNXN-0007WS-8O
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 01:53:56 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kcNYs-00086B-Bp
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 01:55:27 -0500
 Received: from [192.168.100.1] ([82.252.154.198]) by mrelayeu.kundenserver.de
  (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MRSdf-1kzoCZ2EwX-00NNwg; Tue, 10 Nov 2020 07:53:50 +0100
-Subject: Re: [PATCH for-5.2 2/3] linux-user/sparc: Correct set/get_context
- handling of fp and i7
+ 1MTRdK-1kk6ml2tdk-00TkjW; Tue, 10 Nov 2020 07:55:23 +0100
+Subject: Re: [PATCH for-5.2 3/3] linux-user/sparc: Don't zero high half of PC, 
+ NPC, PSR in sigreturn
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 References: <20201105212314.9628-1-peter.maydell@linaro.org>
- <20201105212314.9628-3-peter.maydell@linaro.org>
+ <20201105212314.9628-4-peter.maydell@linaro.org>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <c60ef6af-2456-e5a0-e793-3f0ff30d357a@vivier.eu>
-Date: Tue, 10 Nov 2020 07:53:49 +0100
+Message-ID: <bf6f8e6e-291d-70b1-09ab-badbb6edcae1@vivier.eu>
+Date: Tue, 10 Nov 2020 07:55:22 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201105212314.9628-3-peter.maydell@linaro.org>
+In-Reply-To: <20201105212314.9628-4-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:bcbrye/b6BDl1kZBxjIur4O/A4nhTFk/3bMADEBBOxr7YKjeaNx
- tOjKQESYjvzrmt0txqgQFGvhcMlcWLnvbf4J8U5ZSc1gXobVpit0ADhBqrFdBRTUfc8WaYr
- Aen/+ZIDc9Lg/xeZN7T4lUDEO6PRWDqKE1Z/X7K/Ax1/XbjHYXoWn/CESdS0/3XZPd9E0WM
- y+ofXmB87251+wpCDxE8w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:crJ66xQf9rM=:M645J5PQwd2TdQWu4ePAyD
- hYrBxJIfGtwJpvY44usxGuGiEbSfCqtn51YDbCYgd/cZ52ppxYCTuOf2e98mGfm7oewYNT5R3
- hikmiLZ5YbJYfPgjWduNyOBpVDpR7BTpIu44iVZTy0LuXH7R4OlhBtlzftOl1Gyw6FiAgrfBV
- 3JMd2HPG3AVLApjyezN+jTj1ZYr+vkOcG42bL7oKwOy/eKMfnI+33FprViYBSlXqyQB8HAisk
- OnV7Db6hjQI9l2fxYkAaqRE6SO4PmOHCau66XljvFzo2Rf1SttZMZ3PPPV4S0MFb07DGyirYv
- rj1A0bWj1OKaO8qJkXdrAmAnKixSWHlMhl8Ko6pzXDCtcAdxUHWpVKGru6HSML+2dJ4fLfKqR
- fJW5i/93cCm6qcTKEOK77984v4tYABZkBgAXY21DJCFyFH4OXTwHMgsyqzu844xIBvEw97ZsY
- OsS1/FfyUA==
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:nRK93aVFMQy3p25p26L4d501xD7+A9PmWE1WP5UIq7/+DHpZjgN
+ 0zuoKQHrmEruxXuYnrvfC7mP3YDIKdgfVtVfmO77NZdeLyUwHKcGq2vNVlvgaLwDpsRR9WF
+ /digfGOQa/15lnGJWvLFoNS/LKNo6OHLmIyJE4SaHP7KUlL34pnSyf10sLLuby+9FTnDv3p
+ 4vC5Wa74Nzjn+sRwqSAQA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:sv5OdtmrI5c=:6X/lm1xKFuGWUbuPu2NitU
+ wwiw5Z1xNPOLprlmMJPAj9Eh+TvD/7s6zke7Gg0aImkaQtQnyvcNfjp4MbxcGm9Z56Nf17Uvx
+ Lp/RnqU4CEswJhX9wY2lcBVhkPfF0KBLDOQDyGjUVt4sr5VCFh65qDpyD/iXcipfLaOMCq7IS
+ 6vGBrq5SagqEVFButGqNRNNg75YRZb3Pu87bEANn/oTB5g/zL4YByXYGY6oUGym7XWiQ6qe0U
+ F80PTJRL8bHlvA46FIiJ15O5BESabVRLs08ZC7yNZrzkskaFbAZc6uc0LWavXlLfPupy64jDr
+ 5ZcZS4yjLFALswXtsxIFe9pKlI33C4s/CmMz0uLk9PpIcOYIkqtnJrgThUaulemQuyU8KYqgC
+ LqZGj3G9c4r+Tr7pRrQWByGZZ8WEFf05i4zla43WTmjxvjX6bmA0Go5wFKxN1t8W4F3iH/bQH
+ 3kPz7/9gXA==
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 01:53:51
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 01:53:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -76,129 +76,37 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 05/11/2020 à 22:23, Peter Maydell a écrit :
-> Because QEMU's user-mode emulation just directly accesses guest CPU
-> state, for SPARC the guest register window state is not the same in
-> the sparc64_get_context() and sparc64_set_context() functions as it
-> is for the real kernel's versions of those functions.  Specifically,
-> for the kernel it has saved the user space state such that the O*
-> registers go into a pt_regs struct as UREG_I*, and the I* registers
-> have been spilled onto the userspace stack.  For QEMU, we haven't
-> done that, so the guest's O* registers are still in WREG_O* and the
-> I* registers in WREG_I*.
+> The function do_sigreturn() tries to store the PC, NPC and PSR in
+> uint32_t local variables, which implicitly drops the high half of
+> these fields for 64-bit guests.
 > 
-> The code was already accessing the O* registers correctly for QEMU,
-> but had copied the kernel code for accessing the I* registers off the
-> userspace stack.  Replace this with direct accesses to fp and i7 in
-> the CPU state, and add a comment explaining why we differ from the
-> kernel code here.
+> The usual effect was that a guest which used signals would crash on
+> return from a signal unless it was lucky enough to take it while the
+> PC was in the low 4GB of the address space.  In particular, Debian
+> /bin/dash and /bin/bash would segfault after executing external
+> commands.
 > 
-> This fix is sufficient to get bash to a shell prompt.
+> Use abi_ulong, which is the type these fields all have in the
+> __siginfo_t struct.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
-> I'm really pretty unsure about our handling of SPARC register
-> windows here. This fix works, but should we instead be
-> ensuring that the flush_windows() call cpu_loop() does
-> before handling this trap has written the I* regs to the
-> stack ???
-> ---
->  linux-user/sparc/signal.c | 47 ++++++++++++++++++---------------------
->  1 file changed, 22 insertions(+), 25 deletions(-)
+>  linux-user/sparc/signal.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/linux-user/sparc/signal.c b/linux-user/sparc/signal.c
-> index 57ea1593bfc..c315704b389 100644
+> index c315704b389..d12adc8e6ff 100644
 > --- a/linux-user/sparc/signal.c
 > +++ b/linux-user/sparc/signal.c
-> @@ -403,7 +403,6 @@ void sparc64_set_context(CPUSPARCState *env)
->      struct target_ucontext *ucp;
->      target_mc_gregset_t *grp;
->      abi_ulong pc, npc, tstate;
-> -    abi_ulong fp, i7, w_addr;
->      unsigned int i;
->  
->      ucp_addr = env->regwptr[WREG_O0];
-> @@ -447,6 +446,15 @@ void sparc64_set_context(CPUSPARCState *env)
->      __get_user(env->gregs[5], (&(*grp)[SPARC_MC_G5]));
->      __get_user(env->gregs[6], (&(*grp)[SPARC_MC_G6]));
->      __get_user(env->gregs[7], (&(*grp)[SPARC_MC_G7]));
-> +
-> +    /*
-> +     * Note that unlike the kernel, we didn't need to mess with the
-> +     * guest register window state to save it into a pt_regs to run
-> +     * the kernel. So for us the guest's O regs are still in WREG_O*
-> +     * (unlike the kernel which has put them in UREG_I* in a pt_regs)
-> +     * and the fp and i7 are still in WREG_I6 and WREG_I7 and don't
-> +     * need to be written back to userspace memory.
-> +     */
->      __get_user(env->regwptr[WREG_O0], (&(*grp)[SPARC_MC_O0]));
->      __get_user(env->regwptr[WREG_O1], (&(*grp)[SPARC_MC_O1]));
->      __get_user(env->regwptr[WREG_O2], (&(*grp)[SPARC_MC_O2]));
-> @@ -456,18 +464,9 @@ void sparc64_set_context(CPUSPARCState *env)
->      __get_user(env->regwptr[WREG_O6], (&(*grp)[SPARC_MC_O6]));
->      __get_user(env->regwptr[WREG_O7], (&(*grp)[SPARC_MC_O7]));
->  
-> -    __get_user(fp, &(ucp->tuc_mcontext.mc_fp));
-> -    __get_user(i7, &(ucp->tuc_mcontext.mc_i7));
-> +    __get_user(env->regwptr[WREG_FP], &(ucp->tuc_mcontext.mc_fp));
-> +    __get_user(env->regwptr[WREG_I7], &(ucp->tuc_mcontext.mc_i7));
->  
-> -    w_addr = TARGET_STACK_BIAS + env->regwptr[WREG_O6];
-> -    if (put_user(fp, w_addr + offsetof(struct target_reg_window, ins[6]),
-> -                 abi_ulong) != 0) {
-> -        goto do_sigsegv;
-> -    }
-> -    if (put_user(i7, w_addr + offsetof(struct target_reg_window, ins[7]),
-> -                 abi_ulong) != 0) {
-> -        goto do_sigsegv;
-> -    }
->      /* FIXME this does not match how the kernel handles the FPU in
->       * its sparc64_set_context implementation. In particular the FPU
->       * is only restored if fenab is non-zero in:
-> @@ -501,7 +500,6 @@ void sparc64_get_context(CPUSPARCState *env)
->      struct target_ucontext *ucp;
->      target_mc_gregset_t *grp;
->      target_mcontext_t *mcp;
-> -    abi_ulong fp, i7, w_addr;
->      int err;
->      unsigned int i;
->      target_sigset_t target_set;
-> @@ -553,6 +551,15 @@ void sparc64_get_context(CPUSPARCState *env)
->      __put_user(env->gregs[5], &((*grp)[SPARC_MC_G5]));
->      __put_user(env->gregs[6], &((*grp)[SPARC_MC_G6]));
->      __put_user(env->gregs[7], &((*grp)[SPARC_MC_G7]));
-> +
-> +    /*
-> +     * Note that unlike the kernel, we didn't need to mess with the
-> +     * guest register window state to save it into a pt_regs to run
-> +     * the kernel. So for us the guest's O regs are still in WREG_O*
-> +     * (unlike the kernel which has put them in UREG_I* in a pt_regs)
-> +     * and the fp and i7 are still in WREG_I6 and WREG_I7 and don't
-> +     * need to be fished out of userspace memory.
-> +     */
->      __put_user(env->regwptr[WREG_O0], &((*grp)[SPARC_MC_O0]));
->      __put_user(env->regwptr[WREG_O1], &((*grp)[SPARC_MC_O1]));
->      __put_user(env->regwptr[WREG_O2], &((*grp)[SPARC_MC_O2]));
-> @@ -562,18 +569,8 @@ void sparc64_get_context(CPUSPARCState *env)
->      __put_user(env->regwptr[WREG_O6], &((*grp)[SPARC_MC_O6]));
->      __put_user(env->regwptr[WREG_O7], &((*grp)[SPARC_MC_O7]));
->  
-> -    w_addr = TARGET_STACK_BIAS + env->regwptr[WREG_O6];
-> -    fp = i7 = 0;
-> -    if (get_user(fp, w_addr + offsetof(struct target_reg_window, ins[6]),
-> -                 abi_ulong) != 0) {
-> -        goto do_sigsegv;
-> -    }
-> -    if (get_user(i7, w_addr + offsetof(struct target_reg_window, ins[7]),
-> -                 abi_ulong) != 0) {
-> -        goto do_sigsegv;
-> -    }
-> -    __put_user(fp, &(mcp->mc_fp));
-> -    __put_user(i7, &(mcp->mc_i7));
-> +    __put_user(env->regwptr[WREG_FP], &(mcp->mc_fp));
-> +    __put_user(env->regwptr[WREG_I7], &(mcp->mc_i7));
->  
->      {
->          uint32_t *dst = ucp->tuc_mcontext.mc_fpregs.mcfpu_fregs.sregs;
+> @@ -247,7 +247,7 @@ long do_sigreturn(CPUSPARCState *env)
+>  {
+>      abi_ulong sf_addr;
+>      struct target_signal_frame *sf;
+> -    uint32_t up_psr, pc, npc;
+> +    abi_ulong up_psr, pc, npc;
+>      target_sigset_t set;
+>      sigset_t host_set;
+>      int i;
 > 
 
 Applied to my linux-user-for-5.2 branch.
