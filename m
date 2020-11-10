@@ -2,78 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A40BE2AD5FC
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 13:18:32 +0100 (CET)
-Received: from localhost ([::1]:53264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AF952AD615
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 13:22:17 +0100 (CET)
+Received: from localhost ([::1]:56766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcSbX-0002Gw-PD
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 07:18:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59024)
+	id 1kcSfA-0003xx-Iz
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 07:22:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcSZY-0000Jc-EQ
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 07:16:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38331)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcSdt-0003WI-QM
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 07:20:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32653)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcSZW-0000ke-9p
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 07:16:28 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcSds-0002Oi-4d
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 07:20:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605010581;
+ s=mimecast20190719; t=1605010855;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XIapllf2s1hNvPQA26YFSp/VUewIvo86tU9zFiFHkGY=;
- b=RtQ/zirokfAa1B8Rpl4yuSMXC2oPr4qSGSdmcBi+NDRAfMBr0tKVsvxOXg/k+NPUB+SjW2
- c8a0tVb3Zl6S0Xyp5KRI7eTS8s2Db1j5orY0trdgNjhE2Q84BqdD66j0hAdGRoi5nKrMQq
- Ffw/9ioS4TNeGs2RfoqNF3nN5JXT2RQ=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-325-3oX8VYwGMMuNtp09sB_xSA-1; Tue, 10 Nov 2020 07:16:19 -0500
-X-MC-Unique: 3oX8VYwGMMuNtp09sB_xSA-1
-Received: by mail-wr1-f70.google.com with SMTP id q1so5631730wrn.5
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 04:16:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=XIapllf2s1hNvPQA26YFSp/VUewIvo86tU9zFiFHkGY=;
- b=mimZF04U7O9SSMLTzP1FWVa62cj/w2xsOABydTYuNTrUE4NuqelLvqkOwLlWLPq0H4
- qH7/DsKXu5JGH6n+s02Aqchc+p85rHP+AhHVkdU9wQm0dubOTF+dNd0nKN9C9361XUwC
- uoOdOMMkgqUYIGfwygyrZEGMCoUNX1aeBKoqBZmdaqrKfQBeNIm69bsUjv75UQv+Kkwq
- aMCRFbHWg7tUTMXI7mk/4zHkM3k/qq32hYGxTgMrnpbJdst00rIDqoXpOSQ/eit8KMak
- /Ao4XL4vxMgbzAqjDAuOc6vMPgs75ViFt2/zQTG0NU0lNCPXHQan/7bzERoGxuVFdpoI
- hj2Q==
-X-Gm-Message-State: AOAM530DNNdyWlFZvsHPKXhoVTXuM01cyUtAFZnBdimuhSSGcmNAjRrA
- e3DKh9hYGfC66QhgMH58YJT0heKgkjCOWHqr57VBoVE5+FiqHsG8kwnWifg1g2uduLTBo4YTaz1
- qBNJsKaxVpS0dffqlQQkIDZqnim3iDNNgAXOYHYy8D5Rydb19quY0Sc+xXNmCT4wX
-X-Received: by 2002:a5d:410c:: with SMTP id l12mr4237618wrp.173.1605010578479; 
- Tue, 10 Nov 2020 04:16:18 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwxCun8IOxFXe2S82lC2dLqCNY1vTfKsDPpmVyK1ixe6cNNJuS7JOgbH0wNycXKqy3SwyQI8A==
-X-Received: by 2002:a5d:410c:: with SMTP id l12mr4237582wrp.173.1605010578183; 
- Tue, 10 Nov 2020 04:16:18 -0800 (PST)
-Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id o7sm17601726wrp.23.2020.11.10.04.16.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Nov 2020 04:16:17 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2 2/2] gitlab-ci: Avoid running the EDK2 job when not
- necessary
-Date: Tue, 10 Nov 2020 13:16:06 +0100
-Message-Id: <20201110121606.2792442-3-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201110121606.2792442-1-philmd@redhat.com>
-References: <20201110121606.2792442-1-philmd@redhat.com>
+ bh=/wADnehut2sVY/Ry26jVxrF3oKOuCuo+bFQuHS18mmo=;
+ b=ih10QWvosAhg1YAY7choVPU7MYe5ljRvXmBTGJfzHd5wwWxKSbFNdtw40xX2O+FdYcDUem
+ 1MC5EttEq6AvuPY3c+xLuEvj6ZfC6EYTvHXMLDBmvWuJmxj5q8F14/uuW4f+NbE/OhhLpx
+ Y6DEXIJgTjy8bPfA/epytfCovKmTR6Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-63-8oqGyUp5NzSOhdcAfLyQzw-1; Tue, 10 Nov 2020 07:20:51 -0500
+X-MC-Unique: 8oqGyUp5NzSOhdcAfLyQzw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39DAA1009E3E;
+ Tue, 10 Nov 2020 12:20:50 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-113-192.ams2.redhat.com [10.36.113.192])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9F5F65CC26;
+ Tue, 10 Nov 2020 12:20:40 +0000 (UTC)
+Subject: Re: [PATCH-for-5.2 v3] tests/acceptance: Disable Spartan-3A DSP 1800A
+ test
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20201109091719.2449141-1-f4bug@amsat.org>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <b673886d-b4f1-ba8a-e831-d548a2895ae1@redhat.com>
+Date: Tue, 10 Nov 2020 13:20:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
+In-Reply-To: <20201109091719.2449141-1-f4bug@amsat.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 02:00:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -82,8 +69,9 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,83 +84,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Bin Meng <bmeng.cn@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Thomas Huth <huth@tuxfamily.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The EDK2 jobs use the 'changes' keyword, which "makes it
-possible to define if a job should be created based on files
-modified by a Git push event." (see [1]). This keyword comes
-with a warning:
+On 09/11/2020 10.17, Philippe Mathieu-Daudé wrote:
+> This test is regularly failing on CI:
+> 
+>    (05/34) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_microblaze_s3adsp1800:
+>   Linux version 4.11.3 (thuth@thuth.remote.csb) (gcc version 6.4.0 (Buildroot 2018.05.2) ) #5 Tue Dec 11 11:56:23 CET 2018
+>   ...
+>   Freeing unused kernel memory: 1444K
+>   This architecture does not have kernel memory protection.
+>   [nothing happens here]
+>   Runner error occurred: Timeout reached (90.91 s)
+> 
+> This is a regression. Until someone figure out the problem,
+> disable the test to keep CI pipeline useful.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+> v3: Simply disable with @skip
+> ---
+>  tests/acceptance/boot_linux_console.py | 2 ++
+>  tests/acceptance/replay_kernel.py      | 2 ++
+>  2 files changed, 4 insertions(+)
+> 
+> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+> index 8f433a67f84..cc6ec0f8c15 100644
+> --- a/tests/acceptance/boot_linux_console.py
+> +++ b/tests/acceptance/boot_linux_console.py
+> @@ -13,6 +13,7 @@
+>  import gzip
+>  import shutil
+>  
+> +from avocado import skip
+>  from avocado import skipUnless
+>  from avocado_qemu import Test
+>  from avocado_qemu import exec_command_and_wait_for_pattern
+> @@ -1025,6 +1026,7 @@ def test_m68k_mcf5208evb(self):
+>          tar_hash = 'ac688fd00561a2b6ce1359f9ff6aa2b98c9a570c'
+>          self.do_test_advcal_2018('07', tar_hash, 'sanity-clause.elf')
+>  
+> +    @skip("Test currently broken") # Console stuck as of 5.2-rc1
+>      def test_microblaze_s3adsp1800(self):
+>          """
+>          :avocado: tags=arch:microblaze
+> diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
+> index 00c228382bd..772633b01da 100644
+> --- a/tests/acceptance/replay_kernel.py
+> +++ b/tests/acceptance/replay_kernel.py
+> @@ -14,6 +14,7 @@
+>  import logging
+>  import time
+>  
+> +from avocado import skip
+>  from avocado import skipIf
+>  from avocado import skipUnless
+>  from avocado_qemu import wait_for_console_pattern
+> @@ -280,6 +281,7 @@ def test_m68k_mcf5208evb(self):
+>          file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+>          self.do_test_advcal_2018(file_path, 'sanity-clause.elf')
+>  
+> +    @skip("Test currently broken") # Console stuck as of 5.2-rc1
+>      def test_microblaze_s3adsp1800(self):
+>          """
+>          :avocado: tags=arch:microblaze
+> 
 
-  Caution:
+Acked-by: Thomas Huth <thuth@redhat.com>
 
-    In pipelines with sources other than the three above
-    changes can’t determine if a given file is new or old
-    and always returns true."
+FWIW, I tried to bisect this issue today to see where it broke, but if I run
+the test often enough, I even got failures with QEMU v5.0 already, so it's
+likely not a new issue after all:
 
-In commit 922febe2af we moved the YAML config file from the
-repository root directory to the .gitlab-ci.d/ directory.
-
-We didn't respect the previous warning and disabled the
-'changes' filter rule, as the files are now in a (directory)
-three above the YAML config file.
-
-This jobs takes ~40min, and needlessly burns the 2000 minutes
-available to GitLab free users. Follow the recommendations in
-[3] and disable this job by default (except if we push a tag
-or the branch contains 'edk2'). Note we do not remove the job
-from the pipeline, it can still be triggered manually from the
-WebUI.
-
-[1] https://docs.gitlab.com/ee/ci/yaml/#onlychangesexceptchanges
-[2] https://about.gitlab.com/releases/2020/03/18/ci-minutes-for-free-users/
-[3] https://about.gitlab.com/pricing/faq-consumption-cicd/
-
-Fixes: 922febe2af ("Move edk2 and opensbi YAML files to .gitlab-ci.d folder")
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- .gitlab-ci.d/edk2.yml | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
-
-diff --git a/.gitlab-ci.d/edk2.yml b/.gitlab-ci.d/edk2.yml
-index e1e04524166..335c99035c9 100644
---- a/.gitlab-ci.d/edk2.yml
-+++ b/.gitlab-ci.d/edk2.yml
-@@ -1,10 +1,5 @@
- docker-edk2:
-  stage: containers
-- rules: # Only run this job when the Dockerfile is modified
-- - changes:
--   - .gitlab-ci.d/edk2.yml
--   - .gitlab-ci.d/edk2/Dockerfile
--   when: always
-  image: docker:19.03.1
-  services:
-  - docker:19.03.1-dind
-@@ -26,13 +21,15 @@ docker-edk2:
- build-edk2:
-  stage: build
-  rules: # Only run this job when ...
-- - changes: # ... roms/edk2/ is modified (submodule updated)
--   - roms/edk2/*
-+ - if: $CI_COMMIT_TAG # we pushed a tag
-    when: always
-  - if: '$CI_COMMIT_REF_NAME =~ /^edk2/' # or the branch/tag starts with 'edk2'
-    when: always
-  - if: '$CI_COMMIT_MESSAGE =~ /edk2/i' # or last commit description contains 'EDK2'
-    when: always
-+   # ... else allow manual run on the WebUI
-+ - when: manual
-+   allow_failure: true
-  artifacts:
-    paths: # 'artifacts.zip' will contains the following files:
-    - pc-bios/edk2*bz2
--- 
-2.26.2
+make check-venv
+for ((i=0;i<500;i++)); do echo $i ; \
+ AVOCADO_ALLOW_UNTRUSTED_CODE=1 tests/venv/bin/avocado run \
+ tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_microblaze_s3adsp1800 \
+ || break ; sleep 0.1 ; \
+done
 
 
