@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 890392AD4D7
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 12:25:44 +0100 (CET)
-Received: from localhost ([::1]:37678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C84422AD4E2
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 12:28:24 +0100 (CET)
+Received: from localhost ([::1]:46070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcRmR-0000Yj-H5
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 06:25:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46356)
+	id 1kcRp1-0004Cl-Om
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 06:28:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kcRgX-0002Bc-BF
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:19:37 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:37892)
+ id 1kcRga-0002JR-Ul
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:19:41 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:44781)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kcRgU-0006qK-9x
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:19:37 -0500
-Received: by mail-wm1-x330.google.com with SMTP id h62so2622119wme.3
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 03:19:33 -0800 (PST)
+ id 1kcRgZ-0006sY-3C
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:19:40 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id c17so12241595wrc.11
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 03:19:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ncROH4SAzxzER5pxRz2Vkiv7YWAfqJ5o51gGiSjIRBA=;
- b=iHCYsAZl70cL5cc/9hPJh/k/Z2jaWjnlljwjR6pPPyHDjE3IckVoeoxQl8vqT6amap
- 283NtfZbjlzVPMpR+mbXJ2HEhBBk3u3jgitq5L1x+ASE/axRE7G3DTYWwzoBLkLT6Kxj
- wPKq/KS615tYBvkX+5jR1PRYtWRKbB6HU1iR4c49RnXAPkSll/hNFzRta3qvMS9gVV7G
- pOzyESOwWQpBEvwzw69HTQNBeGkLS7g1WIM29I9KvV43afMAbY3yxWdPGWSnVSV2OZRd
- rdoziAEveTCVDDoPTH3JUQXP4bP+vZECB6xtOC3XjJggqXEMp1lc1GTOj50RJLr/jpvt
- /qIw==
+ bh=quh1kPWjY4PNiOnUCa5MfOHlEbZgNdPUy0Qv8wRDzi8=;
+ b=rSrDJOjs9KUEA3yrix9kh6N06M6VGrE0YPFgVCZUTxq2oGT0Gk3DKGo7y/IEXPPVWh
+ +bHzFK3687+VVQd9KXU9cACCsdp/DIqqzKPoUZztGSXwL4aVwlIT/OjJlqF1nqD3CTLE
+ O+dzBiM1ID0FtBT6PMpxg3Q8+UoNKa4PehUI00qexCVA2sLNCTINakvf4TDNyNq0sL2g
+ gXLZs9skqYYx0VnDUoiGIwVoK3y/34annbiUwi7TKnSzhwMp7s+t9IE96lRvpo0t7j9d
+ emzSWAUztIu7De05MpHiCVOXOrwtm/on4Isjc9KbwCt8jG0XJWSobDYAL7AyzUvazMq9
+ iDpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ncROH4SAzxzER5pxRz2Vkiv7YWAfqJ5o51gGiSjIRBA=;
- b=TOhYn4deF7B4KobiRFFt0hVHB3RgDvxDAo+605HCnmxqs57uA9YQhT3rKnvfYA65qr
- KmmzsA6gfxuHqGWTmiXJ0v4npVyuS7d8TrGZraiIbiuzhquIsI7jpNCB23C77fWsOfVW
- eUmUJUVy+JSfoC6/0ORu7j5hKKJOH8SdlMkOS6rrdUblsS+znaPBNpyDug1coa/qqBgR
- hrE4fuCEl5HrKbiFiGaHZmyUfiC717iSVNxvhusSv+cgHCibMVW9sqivqMVPTSkzyj5i
- +Fy+T3KhZTEFRhD+mpb1ov57edsn7wUQ0JKJhkVcd4AZPJNyPhGbIEqyYIHtzmHP+CCs
- geow==
-X-Gm-Message-State: AOAM531le1wT6uP7HFO6y2SdDVmcvneOdE1ZWLxXtL0azRgcP8WTZf4W
- j/lO/SWVqsChMsYDINoLa5y+VFnx3dbFfw==
-X-Google-Smtp-Source: ABdhPJxyqv5V0MkJeTUeo9fc7IOrstjfb4y+XBomMjLqr07Ve2xX8OWeWWqOycYRSgyupn/yr1MeRA==
-X-Received: by 2002:a7b:c5c3:: with SMTP id n3mr4117152wmk.44.1605007172730;
- Tue, 10 Nov 2020 03:19:32 -0800 (PST)
+ bh=quh1kPWjY4PNiOnUCa5MfOHlEbZgNdPUy0Qv8wRDzi8=;
+ b=HXNrR1DWMi6P+FcZ+MGlBJjOOkDfP9n201+LV3Od82+ziVQHsMxUK7bfsgCyOmLmvZ
+ 4S/OQj9ab1gErgNoeePEB9s9YwRs4R62soShMwAQ1racETcXwfeCxLzHQQJAQdeRHeqX
+ aqH7dda2fL3M6S2R/HbzFFGHFUTjQ0Kaxkl/xMqCkih29Rd41ajBbCOO4nJf4+RY56sl
+ ppuVicuuilgb7TnJjBxZpZFzEaevtGQUzpQLyiLxrXvqeE5Su63EffIuJfo5YEFO3WRI
+ UjEys0OjqDs1+qPWjUhImCqe4Nij0GXERHPC+fCzha/khl5d1R++irjodUm8/4Qx6teB
+ cQ1g==
+X-Gm-Message-State: AOAM533x2p4yvZJoWiDOxqOyqTsNuk3oavwfKS5TXrC6SjbtN3cSFcaS
+ qtIId0Dsi8CiTZkp8vKwaIJW4xwlbA3+8A==
+X-Google-Smtp-Source: ABdhPJxufAsqMjATA2MsP1uZVcHzdG7aXiI9VEnVTtdt6aJgMfh2kr73lK8JNkTuvU/XORhu4/j/ng==
+X-Received: by 2002:a5d:4fc1:: with SMTP id h1mr22995484wrw.226.1605007177208; 
+ Tue, 10 Nov 2020 03:19:37 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 109sm16909498wra.29.2020.11.10.03.19.31
+ by smtp.gmail.com with ESMTPSA id 109sm16909498wra.29.2020.11.10.03.19.36
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Nov 2020 03:19:32 -0800 (PST)
+ Tue, 10 Nov 2020 03:19:36 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/16] hw/arm/nseries: Remove invalid/unnecessary
- n8x0_uart_setup()
-Date: Tue, 10 Nov 2020 11:19:12 +0000
-Message-Id: <20201110111917.29539-12-peter.maydell@linaro.org>
+Subject: [PULL 15/16] tests/qtest/npcm7xx_rng-test: count runs properly
+Date: Tue, 10 Nov 2020 11:19:16 +0000
+Message-Id: <20201110111917.29539-16-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201110111917.29539-1-peter.maydell@linaro.org>
 References: <20201110111917.29539-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,59 +88,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Havard Skinnemoen <hskinnemoen@google.com>
 
-omap2420_mpu_init() introduced in commit 827df9f3c5f ("Add basic
-OMAP2 chip support") takes care of creating the 3 UARTs.
+The number of runs is equal to the number of 0-1 and 1-0 transitions,
+plus one. Currently, it's counting the number of times these transitions
+do _not_ happen, plus one.
 
-Then commit 58a26b477e9 ("Emulate a serial bluetooth HCI with H4+
-extensions and attach to n8x0's UART") added n8x0_uart_setup()
-which create the UART and connects it to an IRQ output,
-overwritting the existing peripheral and its IRQ connection.
-This is incorrect.
+Source:
+https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-22r1a.pdf
+section 2.3.4 point (3).
 
-Fortunately we don't need to fix this, because commit 6da68df7f9b
-("hw/arm/nseries: Replace the bluetooth chardev with a "null"
-chardev") removed the use of this peripheral. We can simply
-remove the code.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20201107193403.436146-4-f4bug@amsat.org
+Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
+Message-id: 20201103011457.2959989-2-hskinnemoen@google.com
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/nseries.c | 11 -----------
- 1 file changed, 11 deletions(-)
+ tests/qtest/npcm7xx_rng-test.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/arm/nseries.c b/hw/arm/nseries.c
-index 76fd7fe9854..6215c18d627 100644
---- a/hw/arm/nseries.c
-+++ b/hw/arm/nseries.c
-@@ -789,16 +789,6 @@ static void n8x0_cbus_setup(struct n800_s *s)
-     cbus_attach(cbus, s->tahvo = tahvo_init(tahvo_irq, 1));
- }
+diff --git a/tests/qtest/npcm7xx_rng-test.c b/tests/qtest/npcm7xx_rng-test.c
+index e7cde85fbbc..c614968ffcd 100644
+--- a/tests/qtest/npcm7xx_rng-test.c
++++ b/tests/qtest/npcm7xx_rng-test.c
+@@ -126,7 +126,7 @@ static double calc_runs_p(const unsigned long *buf, unsigned int nr_bits)
+     pi = (double)nr_ones / nr_bits;
  
--static void n8x0_uart_setup(struct n800_s *s)
--{
--    Chardev *radio = qemu_chr_new("bt-dummy-uart", "null", NULL);
--    /*
--     * Note: We used to connect N8X0_BT_RESET_GPIO and N8X0_BT_WKUP_GPIO
--     * here, but this code has been removed with the bluetooth backend.
--     */
--    omap_uart_attach(s->mpu->uart[BT_UART], radio);
--}
--
- static void n8x0_usb_setup(struct n800_s *s)
- {
-     SysBusDevice *dev;
-@@ -1362,7 +1352,6 @@ static void n8x0_init(MachineState *machine,
-     n8x0_spi_setup(s);
-     n8x0_dss_setup(s);
-     n8x0_cbus_setup(s);
--    n8x0_uart_setup(s);
-     if (machine_usb(machine)) {
-         n8x0_usb_setup(s);
+     for (k = 0; k < nr_bits - 1; k++) {
+-        vn_obs += !(test_bit(k, buf) ^ test_bit(k + 1, buf));
++        vn_obs += (test_bit(k, buf) ^ test_bit(k + 1, buf));
      }
+     vn_obs += 1;
+ 
 -- 
 2.20.1
 
