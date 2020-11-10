@@ -2,95 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 800B22ADF12
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 20:06:32 +0100 (CET)
-Received: from localhost ([::1]:36026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F218C2ADF4E
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 20:28:05 +0100 (CET)
+Received: from localhost ([::1]:48096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcYyN-0006Bb-4i
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 14:06:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46194)
+	id 1kcZJE-0004Ah-U2
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 14:28:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <krish.sadhukhan@oracle.com>)
- id 1kcYwU-0004XX-9l
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 14:04:34 -0500
-Received: from userp2120.oracle.com ([156.151.31.85]:54540)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <krish.sadhukhan@oracle.com>)
- id 1kcYwS-0005EE-0E
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 14:04:33 -0500
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AAIjFnZ114122;
- Tue, 10 Nov 2020 19:04:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=7m1c5pTIV0kI3e9zBRZ6UNdUmG/Rs2VB0KWAI4LOjKo=;
- b=Cz7GY7ESK4QYh6eDfZnRuBNXqm0WYS/ZWcOVFV7L2teJT+HPS5sy2azSPV3Ej8Tk/sRh
- OPA/MUUqg5ozP2k6qaGc4Ns7dpj6nYl3kczdZxhsW/aq2/pdFvFMn5A89rn0YzQaeFUx
- GC2jzt2neQ6L5wZxlIK+GoiM08sq95e5509jtQ5+LuFtSs6Epcod/LvArF6c+fODWj7k
- U6ooerCVG5EReNDD8PFs/acTx619NJoufRAYCF3KzdEWdmz+WJ+WQaqT5ZqPpd3ltWJp
- mGm1I46Qou4HwC/qjYBdPPHoJDZJhAQ43bSd5BD8ZfIY9rg6ZMNYNT+Tk4EEyPE0LEwL IA== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2120.oracle.com with ESMTP id 34p72ekhwc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 10 Nov 2020 19:04:25 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AAIk9AU158125;
- Tue, 10 Nov 2020 19:02:25 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3030.oracle.com with ESMTP id 34p5gxckn3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 10 Nov 2020 19:02:25 +0000
-Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0AAJ2M5B025306;
- Tue, 10 Nov 2020 19:02:23 GMT
-Received: from localhost.localdomain (/10.159.238.6)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 10 Nov 2020 11:02:22 -0800
-Subject: Re: [PATCH 4/5 v4] KVM: VMX: Fill in conforming vmx_x86_ops via macro
-To: Like Xu <like.xu@linux.intel.com>, kvm@vger.kernel.org
-References: <20201110012312.20820-1-krish.sadhukhan@oracle.com>
- <20201110012312.20820-5-krish.sadhukhan@oracle.com>
- <0ef40499-77b8-587a-138d-9b612ae9ae8c@linux.intel.com>
-From: Krish Sadhukhan <krish.sadhukhan@oracle.com>
-Message-ID: <e9819b87-c4e0-d15b-80b8-637ecb74f1c3@oracle.com>
-Date: Tue, 10 Nov 2020 11:02:15 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kcZEh-0002Nj-5O
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 14:23:26 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40423)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kcZEe-0007Yo-Bk
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 14:23:22 -0500
+Received: by mail-wm1-x341.google.com with SMTP id a3so2966243wmb.5
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 11:23:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=h0ZjEjAkHx1ZzxLeZwYDxe+Sx0tcrLqa58bbg3J1Bg0=;
+ b=tAnvUplwIPKvn9bbmMS1YElb/KwWMxzhV3J1tbopUaP5kku4Wh/HD/eHtrQi6geGo/
+ y9cJf4HXWAsSLe1ALK9Vl4aqZXOYO8B8BoG98vaOSt7zvuaaWonv35mZwdBCJe6i+NOf
+ /RQnJHzirqUNOnAk0wyfbkDX+mw/EX2LIrP4pAZZReCuTwxN9MrBzuq0hRrkjJ7siwDC
+ QsFRRmC7gNwqMtSxN/DBNAIp2cy29bhQY0dZ7MEefTnCiwqhhV5PZZKHia6FJBS1oBIZ
+ aPtTGODQ4bwmCc5EsGuYXN1Uabf8B9xjE0I6uhAZTCbaRYHEpvgYp3hCZb5QP9Gxr2DC
+ DhmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=h0ZjEjAkHx1ZzxLeZwYDxe+Sx0tcrLqa58bbg3J1Bg0=;
+ b=W2hnLC/B3XJ6FQF2uuRY6NAZoT77YIABH9vPKDxQNrFuNx5yRRCbqjZRNX+oP/syFt
+ mkQmG/vwdSv44qrlypd5D9r3xodd/YZ1o7KlraJK/b/S+9/tAVp/tygfp8RVTY6c08Dt
+ q9KkcPOTaQBADlAwLbipithiEsHYO3L/yvrWXEl1T8lIrcQB2slnnBQjI+yJgGh/hJlA
+ CZZktkMOHTq4M29sAbM2wcANWjGQYclP1w+hZtr4cCuepCpOFbsppusC7h3La0eP9dOG
+ SIBs4xvI7nIRdpB0aPvp0BS5tUJTNS3uGMT9486d6KmJf7aVubeqievwESGXRjB3FUle
+ sO2Q==
+X-Gm-Message-State: AOAM532wlMPlp+XcaSyv0MLhikXtcXKCLkR8ImBNN3VxyKolAxZRzn4Q
+ HM+Pg1/nCOa7dWUbIaysrYEu/w==
+X-Google-Smtp-Source: ABdhPJyQ/ePDsQnXtJh4l+zFZUGXRfGgwV0oPWJZkcEHutxhirl9DmkY5x+tcM1oIdZ4uX4sYjxhBg==
+X-Received: by 2002:a05:600c:2949:: with SMTP id
+ n9mr671458wmd.29.1605036198315; 
+ Tue, 10 Nov 2020 11:23:18 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id d3sm17906592wre.91.2020.11.10.11.23.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Nov 2020 11:23:16 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 45C2C1FF7E;
+ Tue, 10 Nov 2020 19:23:16 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v1 for 5.1 00/10] various fixes (CI, Xen, plugins)
+Date: Tue, 10 Nov 2020 19:23:06 +0000
+Message-Id: <20201110192316.26397-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <0ef40499-77b8-587a-138d-9b612ae9ae8c@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9801
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- mlxlogscore=999 mlxscore=0
- spamscore=0 phishscore=0 adultscore=0 malwarescore=0 suspectscore=2
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011100129
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9801
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- mlxlogscore=999 mlxscore=0
- malwarescore=0 suspectscore=2 lowpriorityscore=0 adultscore=0 phishscore=0
- priorityscore=1501 spamscore=0 impostorscore=0 clxscore=1011
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011100129
-Received-SPF: pass client-ip=156.151.31.85;
- envelope-from=krish.sadhukhan@oracle.com; helo=userp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 14:04:30
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x341.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,55 +87,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, vkuznets@redhat.com, qemu-devel@nongnu.org,
- sean.j.christopherson@intel.com, jmattson@google.com
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
 
-On 11/9/20 5:49 PM, Like Xu wrote:
-> Hi Krish,
->
-> On 2020/11/10 9:23, Krish Sadhukhan wrote:
->> @@ -1192,7 +1192,7 @@ void vmx_set_host_fs_gs(struct vmcs_host_state 
->> *host, u16 fs_sel, u16 gs_sel,
->>       }
->>   }
->>   -void vmx_prepare_switch_to_guest(struct kvm_vcpu *vcpu)
->> +void vmx_prepare_guest_switch(struct kvm_vcpu *vcpu)
->
-> What do you think of renaming it to
->
->     void vmx_prepare_switch_for_guest(struct kvm_vcpu *vcpu)；
+This collects together a bunch of fixes for 5.2:
 
+  - a few resource leak fixes for plugins
+  - Xen on arm64 build fixes (from my larger Xen series)
+  - a couple of build and CI fixes
+  - a tweak to the gitlab status script
 
-In my opinion, it sounds a bit odd as we usually say, "switch to 
-something". :-)
+I can drop the last patch if I have to but it hopefully allows for
+easier scripting of the "waiting for gitlab" experience for those that
+are not using "staging".
 
- From that perspective, {svm|vmx}_prepare_switch_to_guest is probably 
-the best name to keep.
+The following need review:
 
+ - scripts/ci: clean up default args logic a little
+ - gitlab: move remaining x86 check-tcg targets to gitlab
 
->
-> ?
->
-> Thanks,
-> Like Xu
->
->>   {
->>       struct vcpu_vmx *vmx = to_vmx(vcpu);
->>       struct vmcs_host_state *host_state;
->>
->> @@ -311,7 +311,7 @@ void vmx_vcpu_load_vmcs(struct kvm_vcpu *vcpu, 
->> int cpu,
->>   int allocate_vpid(void);
->>   void free_vpid(int vpid);
->>   void vmx_set_constant_host_state(struct vcpu_vmx *vmx);
->> -void vmx_prepare_switch_to_guest(struct kvm_vcpu *vcpu);
->> +void vmx_prepare_guest_switch(struct kvm_vcpu *vcpu);
->>   void vmx_set_host_fs_gs(struct vmcs_host_state *host, u16 fs_sel, 
->> u16 gs_sel,
->>               unsigned long fs_base, unsigned long gs_base);
->>   int vmx_get_cpl(struct kvm_vcpu *vcpu);
->
+Alex Bennée (6):
+  meson.build: fix building of Xen support for aarch64
+  include/hw/xen.h: drop superfluous struct
+  stubs/xen-hw-stub: drop xenstore_store_pv_console_info stub
+  accel/stubs: drop unused cpu.h include
+  gitlab: move remaining x86 check-tcg targets to gitlab
+  scripts/ci: clean up default args logic a little
+
+Alex Chen (2):
+  plugins: Fix resource leak in connect_socket()
+  plugins: Fix two resource leaks in setup_socket()
+
+Philippe Mathieu-Daudé (2):
+  hw/i386/acpi-build: Fix maybe-uninitialized error when ACPI hotplug
+    off
+  tests/acceptance: Disable Spartan-3A DSP 1800A test
+
+ meson.build                            |  7 ++++-
+ include/hw/xen/xen.h                   |  2 +-
+ accel/stubs/hax-stub.c                 |  1 -
+ contrib/plugins/lockstep.c             |  3 ++
+ hw/i386/acpi-build.c                   | 41 ++++++++++++--------------
+ stubs/xen-hw-stub.c                    |  4 ---
+ .gitlab-ci.yml                         | 17 +++++++++++
+ .travis.yml                            | 26 ----------------
+ scripts/ci/gitlab-pipeline-status      | 24 ++++++++-------
+ tests/acceptance/boot_linux_console.py |  2 ++
+ tests/acceptance/replay_kernel.py      |  2 ++
+ 11 files changed, 63 insertions(+), 66 deletions(-)
+
+-- 
+2.20.1
+
 
