@@ -2,56 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA4242AD488
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 12:16:32 +0100 (CET)
-Received: from localhost ([::1]:35104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C4052AD4BF
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 12:21:47 +0100 (CET)
+Received: from localhost ([::1]:52118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcRdX-0004Uv-LC
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 06:16:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44900)
+	id 1kcRic-0003Kh-JP
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 06:21:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcRZE-00075S-Ql
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:12:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32799)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcRZI-00077I-If
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:12:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57005)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcRZB-0004bw-20
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:12:04 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcRZC-0004cA-Rj
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:12:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605006720;
+ s=mimecast20190719; t=1605006722;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=curk6aRgfvQd5PuCN+FruMdP+NuNnu3mSZJo9whc/+g=;
- b=b3iPHXUJ4cH78v+CO1w2EQXJuAYFhHdDScXutSWar0Uk7gCB2PPvn83dspAP2Yl5k68Y+r
- gIefFNQXY9psCwyeNASxKdoDEEkURlSkC3A+Jro0xRsxy/I9lmYWBVe2VvDY1/sEs5RG7y
- cy/ZifR1WO/kNgWuxva89/CpHUxDMV4=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ol823W9IcU0art+0GHxwSAtjC3ELdPYdLNhItGpNdfY=;
+ b=E77y3Sdjf49IY1PRNYM/IjOQyQMTH/QYRLAFMZgIMtQJQQwVb8qBGTXoF0+JNTG65PQiVr
+ 8qXPsWb3QCFpJbfqD/mUNoyyoUWFIqXF7TbDM6CDoyBeOhGGuf6RunkHjq6zlW9p9iR1qH
+ R4O20UKTsaS+UT11iCal2AIPnG/oi40=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-553-cH5ezNDoOTWTSN2gkqpOfQ-1; Tue, 10 Nov 2020 06:11:58 -0500
-X-MC-Unique: cH5ezNDoOTWTSN2gkqpOfQ-1
+ us-mta-159-oeuFfeM4OL6a2T7RGz6Dhw-1; Tue, 10 Nov 2020 06:12:00 -0500
+X-MC-Unique: oeuFfeM4OL6a2T7RGz6Dhw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5060A801FD4;
- Tue, 10 Nov 2020 11:11:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 172F58030CE;
+ Tue, 10 Nov 2020 11:11:59 +0000 (UTC)
 Received: from thuth.com (ovpn-113-192.ams2.redhat.com [10.36.113.192])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DA30510013D9;
- Tue, 10 Nov 2020 11:11:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AF6A41002C11;
+ Tue, 10 Nov 2020 11:11:57 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 11/19] fuzz: Make fork_fuzz.ld compatible with LLVM's LLD
-Date: Tue, 10 Nov 2020 12:11:24 +0100
-Message-Id: <20201110111132.559399-12-thuth@redhat.com>
+Subject: [PULL 12/19] configure: surface deprecated targets in the help output
+Date: Tue, 10 Nov 2020 12:11:25 +0100
+Message-Id: <20201110111132.559399-13-thuth@redhat.com>
 In-Reply-To: <20201110111132.559399-1-thuth@redhat.com>
 References: <20201110111132.559399-1-thuth@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="US-ASCII"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 02:00:53
@@ -79,60 +83,37 @@ Cc: Alexander Bulekov <alxndr@bu.edu>, Cornelia Huck <cohuck@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniele Buono <dbuono@linux.vnet.ibm.com>
+From: Alex Bennée <alex.bennee@linaro.org>
 
-LLVM's linker, LLD, supports the keyword "INSERT AFTER", starting with
-version 11.
-However, when multiple sections are defined in the same "INSERT AFTER",
-they are added in a reversed order, compared to BFD's LD.
+Show the targets but keep them separate from the main list.
 
-This patch makes fork_fuzz.ld generic enough to work with both linkers.
-Each section now has its own "INSERT AFTER" keyword, so proper ordering is
-defined between the sections added.
-
-Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
-Message-Id: <20201105221905.1350-2-dbuono@linux.vnet.ibm.com>
-Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
-Tested-by: Alexander Bulekov <alxndr@bu.edu>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20201029201449.6926-1-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/fuzz/fork_fuzz.ld | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ configure | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qtest/fuzz/fork_fuzz.ld b/tests/qtest/fuzz/fork_fuzz.ld
-index bfb667ed06..cfb88b7fdb 100644
---- a/tests/qtest/fuzz/fork_fuzz.ld
-+++ b/tests/qtest/fuzz/fork_fuzz.ld
-@@ -16,6 +16,11 @@ SECTIONS
-       /* Lowest stack counter */
-       *(__sancov_lowest_stack);
-   }
-+}
-+INSERT AFTER .data;
-+
-+SECTIONS
-+{
-   .data.fuzz_ordered :
-   {
-       /*
-@@ -34,6 +39,11 @@ SECTIONS
-        */
-        *(.bss._ZN6fuzzer3TPCE);
-   }
-+}
-+INSERT AFTER .data.fuzz_start;
-+
-+SECTIONS
-+{
-   .data.fuzz_end : ALIGN(4K)
-   {
-       __FUZZ_COUNTERS_END = .;
-@@ -43,4 +53,4 @@ SECTIONS
-  * Don't overwrite the SECTIONS in the default linker script. Instead insert the
-  * above into the default script
-  */
--INSERT AFTER .data;
-+INSERT AFTER .data.fuzz_ordered;
+diff --git a/configure b/configure
+index 805f779150..4cef321d9d 100755
+--- a/configure
++++ b/configure
+@@ -1655,9 +1655,11 @@ Standard options:
+   --prefix=PREFIX          install in PREFIX [$prefix]
+   --interp-prefix=PREFIX   where to find shared libraries, etc.
+                            use %M for cpu name [$interp_prefix]
+-  --target-list=LIST       set target list (default: build everything)
++  --target-list=LIST       set target list (default: build all non-deprecated)
+ $(echo Available targets: $default_target_list | \
+   fold -s -w 53 | sed -e 's/^/                           /')
++$(echo Deprecated targets: $deprecated_targets_list | \
++  fold -s -w 53 | sed -e 's/^/                           /')
+   --target-list-exclude=LIST exclude a set of targets from the default target-list
+ 
+ Advanced options (experts only):
 -- 
 2.18.4
 
