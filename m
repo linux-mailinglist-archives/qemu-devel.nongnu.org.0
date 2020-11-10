@@ -2,73 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E284C2AD674
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 13:37:34 +0100 (CET)
-Received: from localhost ([::1]:38216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34F412AD6F2
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 13:57:21 +0100 (CET)
+Received: from localhost ([::1]:44254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcStx-0000ab-W9
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 07:37:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36438)
+	id 1kcTD5-0004X8-SP
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 07:57:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kcSsc-0008St-Ts
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 07:36:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45740)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kcSsb-0007oe-A9
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 07:36:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605011767;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=luNkKD9xgVUhBaObUx9m1v6nEfZrGHxBw4AGBjtU+4U=;
- b=NL8TJoagrapKKo3RHvwDXTKVNpdYAWmHvdlaSHri7Zgby+rsGw5fzui69EQAlahvJqQPnV
- 6YkZb3IOuXJASQy/82Lx4ymQwFXZVpQswy+LxkvU6e+34tQ19OUlpiIpawArRcZvDl6CYy
- A16uRdDlRYvKRGOZX2jhwad6JC0OJic=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-362-juhu7p4TMxu84JKUsAGnng-1; Tue, 10 Nov 2020 07:36:05 -0500
-X-MC-Unique: juhu7p4TMxu84JKUsAGnng-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70B971084D60;
- Tue, 10 Nov 2020 12:36:04 +0000 (UTC)
-Received: from localhost (ovpn-114-36.ams2.redhat.com [10.36.114.36])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EF0705DA6A;
- Tue, 10 Nov 2020 12:36:03 +0000 (UTC)
-Date: Tue, 10 Nov 2020 12:36:02 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH for-5.2] block/export/vhost-user-blk-server.c: Avoid
- potential integer overflow
-Message-ID: <20201110123602.GC1084668@stefanha-x1.localdomain>
-References: <20201109150522.10350-1-peter.maydell@linaro.org>
- <4c65f0d3-3769-b659-985f-f0cc5263a41e@redhat.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kcTCI-00047G-Px
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 07:56:30 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:43486
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kcTCG-0006ar-ID
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 07:56:30 -0500
+Received: from host86-184-131-53.range86-184.btcentralplus.com
+ ([86.184.131.53] helo=[192.168.1.110])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kcTCS-0006Cr-9h; Tue, 10 Nov 2020 12:56:40 +0000
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20201105212314.9628-1-peter.maydell@linaro.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <21cd093c-404b-cd9c-2b61-fe1c0957d7f4@ilande.co.uk>
+Date: Tue, 10 Nov 2020 12:56:24 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <4c65f0d3-3769-b659-985f-f0cc5263a41e@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="KN5l+BnMqAQyZLvT"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 00:21:06
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <20201105212314.9628-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 86.184.131.53
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH for-5.2 0/3] linux-user: fix various sparc64 guest bugs
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,57 +65,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Coiby Xu <Coiby.Xu@gmail.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Giuseppe Musacchio <thatlemon@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---KN5l+BnMqAQyZLvT
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 05/11/2020 21:23, Peter Maydell wrote:
 
-On Mon, Nov 09, 2020 at 04:16:45PM +0100, Max Reitz wrote:
-> [Cc-ing Stefan]
->=20
-> On 09.11.20 16:05, Peter Maydell wrote:
-> > In vu_blk_discard_write_zeroes(), we read a 32-bit sector count from
-> > the descriptor and convert it to a 64-bit byte count. Coverity warns
-> > that the left shift is done with 32-bit arithmetic so it might
-> > overflow before the conversion to 64-bit happens. Add a cast to
-> > avoid this.
->=20
-> This will silence Coverity, but both functions to which range[1] is then
-> passed (blk_co_pdiscard() and blk_co_pwrite_zeroes()) only accept ints
-> there, so this would only move the overflow to the function call.
->=20
-> Shouldn=E2=80=99t we verify that the number of sectors is in range and re=
-turn an
-> error if it isn=E2=80=99t?  (The same probably goes for the starting sect=
-or, then,
-> too.)
+> This set of patches fixes bugs which were preventing the
+> Debian sparc64 /bin/bash from running:
+>   * the target_ucontext structure put the registers in the
+>     wrong place (missing alignment specifier, mostly)
+>   * the set_context and get_context traps weren't saving fp
+>     and i7, which meant that guest code that did a longjmp would
+>     crash shortly afterwards (SPARC64 uses these traps to
+>     implement setjmp/longjmp)
+>   * we were trying to stuff a 64-bit PC into a uint32_t in
+>     sigreturn, which caused a SEGV on return from a signal handler
+> 
+> Review very much desired in particular from anybody who understands
+> SPARC register windows and how we handle them in linux-user for
+> patch 2! The other patches are straightforward.
+> 
+> This patchset is sufficient that I can at least chroot into
+> a Debian sparc64 chroot and run basic commands like 'ls' from
+> the shell prompt (together with Giuseppe Musacchio's patch that
+> fixes the stack_t struct).
+> 
+> There are clearly a bunch of other bugs in sparc signal handling
+> (starting with the fact that rt_frame support is simply not
+> implemented, but there are also some XXX/FIXME comments about TSTATE
+> save/restore in set/get_context and about the FPU state in the signal
+> frame code). There's also a Coverity issue about accessing off the
+> end of the sregs[] array in the target_mc_fpu struct -- the error is
+> actually harmless (we're accessing into the space in the union for
+> dregs[16..31] which is what we want to be doing) but I'll probably
+> put together a patch to make Coverity happier.
 
-Yes, the input validation from hw/block/virtio-blk.c is missing.
+Thanks Peter! This has been broken for a very long time indeed. Once this is merged I 
+should probably look at getting a test environment set up.
 
-I'll send a patch to add that.
 
-Stefan
+ATB,
 
---KN5l+BnMqAQyZLvT
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+qiTIACgkQnKSrs4Gr
-c8gwCgf/bb+C6RUAWGNJj45nkHGjVxyd3G/GksBdTNJIZlXOTi8925IP248pKqqp
-pHS69v81qVPb0udaYqPEuOZgWXPERUqAz3ZHobqtvKAQOqtVdGPyuIwpJCEgamA7
-F4iDI4Jm1Uw/e/c/kGXcuG4w0QJf7tDwfE96q63nrkGOMHf6bjcXa+wijueb1Qq9
-ybAnBS6oXFBeTFD+5+fluapbRb1e23lMoxEEHbpaGQbO/w95CbhJiJ6mSAVO970c
-nowMny2OTUQn92wD+hYFN6CQNyZuYfmP/O3CxZ0jFxX9t15GiUi7YYVQ55wBaUbN
-pAekKLTRVxrQ6baiuvtsmP4oGx/6AA==
-=OTmq
------END PGP SIGNATURE-----
-
---KN5l+BnMqAQyZLvT--
-
+Mark.
 
