@@ -2,72 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 615532ADEED
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 19:59:24 +0100 (CET)
-Received: from localhost ([::1]:56462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 800B22ADF12
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 20:06:32 +0100 (CET)
+Received: from localhost ([::1]:36026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcYrS-0002Sj-VJ
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 13:59:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44598)
+	id 1kcYyN-0006Bb-4i
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 14:06:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kcYqE-0001xM-Gj
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 13:58:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56213)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kcYqC-00038o-6d
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 13:58:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605034683;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=aa+RUdUNxJOTALfCtpEy9ZGiraJLA2yP/vNjt7f55+g=;
- b=GMibUU0N1mtp8Mjp1IyqfEdZ5RVF1NzMV0To/+ixU8QMaSZ1bVl//pxq1bBf4VjEDSJ6ZI
- eDGrS8PlRI8ye7d2D6kYNSMsOqTD38ZFhZeMccTvBA40WWZUDzw1z2OVd1mHVVA8p07/h5
- VAjKJFuXgVFTeXiEedmTr6XpSd55PIk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-135-_D3ndhLMPHuEiLFps01USg-1; Tue, 10 Nov 2020 13:58:00 -0500
-X-MC-Unique: _D3ndhLMPHuEiLFps01USg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2713910866AD
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 18:57:59 +0000 (UTC)
-Received: from work-vm (ovpn-115-49.ams2.redhat.com [10.36.115.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D31BA6EF43;
- Tue, 10 Nov 2020 18:57:51 +0000 (UTC)
-Date: Tue, 10 Nov 2020 18:57:49 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH for-5.2] virtiofsd: Announce submounts even without statx()
-Message-ID: <20201110185749.GH3108@work-vm>
-References: <20201103164135.169325-1-mreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <krish.sadhukhan@oracle.com>)
+ id 1kcYwU-0004XX-9l
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 14:04:34 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:54540)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <krish.sadhukhan@oracle.com>)
+ id 1kcYwS-0005EE-0E
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 14:04:33 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AAIjFnZ114122;
+ Tue, 10 Nov 2020 19:04:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=7m1c5pTIV0kI3e9zBRZ6UNdUmG/Rs2VB0KWAI4LOjKo=;
+ b=Cz7GY7ESK4QYh6eDfZnRuBNXqm0WYS/ZWcOVFV7L2teJT+HPS5sy2azSPV3Ej8Tk/sRh
+ OPA/MUUqg5ozP2k6qaGc4Ns7dpj6nYl3kczdZxhsW/aq2/pdFvFMn5A89rn0YzQaeFUx
+ GC2jzt2neQ6L5wZxlIK+GoiM08sq95e5509jtQ5+LuFtSs6Epcod/LvArF6c+fODWj7k
+ U6ooerCVG5EReNDD8PFs/acTx619NJoufRAYCF3KzdEWdmz+WJ+WQaqT5ZqPpd3ltWJp
+ mGm1I46Qou4HwC/qjYBdPPHoJDZJhAQ43bSd5BD8ZfIY9rg6ZMNYNT+Tk4EEyPE0LEwL IA== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2120.oracle.com with ESMTP id 34p72ekhwc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 10 Nov 2020 19:04:25 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AAIk9AU158125;
+ Tue, 10 Nov 2020 19:02:25 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3030.oracle.com with ESMTP id 34p5gxckn3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 10 Nov 2020 19:02:25 +0000
+Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0AAJ2M5B025306;
+ Tue, 10 Nov 2020 19:02:23 GMT
+Received: from localhost.localdomain (/10.159.238.6)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 10 Nov 2020 11:02:22 -0800
+Subject: Re: [PATCH 4/5 v4] KVM: VMX: Fill in conforming vmx_x86_ops via macro
+To: Like Xu <like.xu@linux.intel.com>, kvm@vger.kernel.org
+References: <20201110012312.20820-1-krish.sadhukhan@oracle.com>
+ <20201110012312.20820-5-krish.sadhukhan@oracle.com>
+ <0ef40499-77b8-587a-138d-9b612ae9ae8c@linux.intel.com>
+From: Krish Sadhukhan <krish.sadhukhan@oracle.com>
+Message-ID: <e9819b87-c4e0-d15b-80b8-637ecb74f1c3@oracle.com>
+Date: Tue, 10 Nov 2020 11:02:15 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20201103164135.169325-1-mreitz@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 02:00:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+In-Reply-To: <0ef40499-77b8-587a-138d-9b612ae9ae8c@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9801
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ mlxlogscore=999 mlxscore=0
+ spamscore=0 phishscore=0 adultscore=0 malwarescore=0 suspectscore=2
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011100129
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9801
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ mlxlogscore=999 mlxscore=0
+ malwarescore=0 suspectscore=2 lowpriorityscore=0 adultscore=0 phishscore=0
+ priorityscore=1501 spamscore=0 impostorscore=0 clxscore=1011
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011100129
+Received-SPF: pass client-ip=156.151.31.85;
+ envelope-from=krish.sadhukhan@oracle.com; helo=userp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 14:04:30
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,79 +103,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, Miklos Szeredi <mszeredi@redhat.com>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: pbonzini@redhat.com, vkuznets@redhat.com, qemu-devel@nongnu.org,
+ sean.j.christopherson@intel.com, jmattson@google.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Max Reitz (mreitz@redhat.com) wrote:
-> Contrary to what the check (and warning) in lo_init() claims, we can
-> announce submounts just fine even without statx() -- the check is based
-> on comparing both the mount ID and st_dev of parent and child.  Without
-> statx(), we will not have the mount ID; but we always have st_dev.
-> 
-> The only problems we have (without statx() and its mount ID) are:
-> 
-> (1) Mounting the same device twice may lead to both trees being treated
->     as exactly the same tree by virtiofsd.  But that is a problem that
->     is completely independent of mirroring host submounts in the guest.
->     Both submount roots will still show the FUSE_SUBMOUNT flag, because
->     their st_dev still differs from their respective parent.
-> 
-> (2) There is only one exception to (1), and that is if you mount a
->     device inside a mount of itself: Then, its st_dev will be the same
->     as that of its parent, and so without a mount ID, virtiofsd will not
->     be able to recognize the nested mount's root as a submount.
->     However, thanks to virtiofsd then treating both trees as exactly the
->     same tree, it will be caught up in a loop when the guest tries to
->     examine the nested submount, so the guest will always see nothing
->     but an ELOOP there.  Therefore, this case is just fully broken
->     without statx(), whether we check for submounts (based on st_dev) or
->     not.
-> 
-> All in all, checking for submounts works well even without comparing the
-> mount ID (i.e., without statx()).  The only concern is an edge case
-> that, without statx() mount IDs, is utterly broken anyway.
-> 
-> Thus, drop said check in lo_init().
-> 
-> Reported-by: Miklos Szeredi <mszeredi@redhat.com>
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
 
-OK, that seems to have been the outcome of the discussion here:
-  https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg00500.html
-so
+On 11/9/20 5:49 PM, Like Xu wrote:
+> Hi Krish,
+>
+> On 2020/11/10 9:23, Krish Sadhukhan wrote:
+>> @@ -1192,7 +1192,7 @@ void vmx_set_host_fs_gs(struct vmcs_host_state 
+>> *host, u16 fs_sel, u16 gs_sel,
+>>       }
+>>   }
+>>   -void vmx_prepare_switch_to_guest(struct kvm_vcpu *vcpu)
+>> +void vmx_prepare_guest_switch(struct kvm_vcpu *vcpu)
+>
+> What do you think of renaming it to
+>
+>     void vmx_prepare_switch_for_guest(struct kvm_vcpu *vcpu)；
 
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+In my opinion, it sounds a bit odd as we usually say, "switch to 
+something". :-)
 
-> ---
->  tools/virtiofsd/passthrough_ll.c | 8 --------
->  1 file changed, 8 deletions(-)
-> 
-> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> index ec1008bceb..6c64b03f1a 100644
-> --- a/tools/virtiofsd/passthrough_ll.c
-> +++ b/tools/virtiofsd/passthrough_ll.c
-> @@ -610,14 +610,6 @@ static void lo_init(void *userdata, struct fuse_conn_info *conn)
->                   "does not support it\n");
->          lo->announce_submounts = false;
->      }
-> -
-> -#ifndef CONFIG_STATX
-> -    if (lo->announce_submounts) {
-> -        fuse_log(FUSE_LOG_WARNING, "lo_init: Cannot announce submounts, there "
-> -                 "is no statx()\n");
-> -        lo->announce_submounts = false;
-> -    }
-> -#endif
->  }
->  
->  static void lo_getattr(fuse_req_t req, fuse_ino_t ino,
-> -- 
-> 2.26.2
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+ From that perspective, {svm|vmx}_prepare_switch_to_guest is probably 
+the best name to keep.
 
+
+>
+> ?
+>
+> Thanks,
+> Like Xu
+>
+>>   {
+>>       struct vcpu_vmx *vmx = to_vmx(vcpu);
+>>       struct vmcs_host_state *host_state;
+>>
+>> @@ -311,7 +311,7 @@ void vmx_vcpu_load_vmcs(struct kvm_vcpu *vcpu, 
+>> int cpu,
+>>   int allocate_vpid(void);
+>>   void free_vpid(int vpid);
+>>   void vmx_set_constant_host_state(struct vcpu_vmx *vmx);
+>> -void vmx_prepare_switch_to_guest(struct kvm_vcpu *vcpu);
+>> +void vmx_prepare_guest_switch(struct kvm_vcpu *vcpu);
+>>   void vmx_set_host_fs_gs(struct vmcs_host_state *host, u16 fs_sel, 
+>> u16 gs_sel,
+>>               unsigned long fs_base, unsigned long gs_base);
+>>   int vmx_get_cpl(struct kvm_vcpu *vcpu);
+>
 
