@@ -2,62 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 494C22AE165
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 22:13:39 +0100 (CET)
-Received: from localhost ([::1]:37342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45CCC2AE18A
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 22:21:38 +0100 (CET)
+Received: from localhost ([::1]:43148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcaxN-0004e9-QX
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 16:13:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50510)
+	id 1kcb56-0007Zo-R2
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 16:21:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kcavh-0003vm-7D
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 16:11:53 -0500
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:36033)
+ id 1kcb2a-00078O-Ce
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 16:19:00 -0500
+Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:46624)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kcavf-0005P7-9w
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 16:11:52 -0500
-Received: by mail-ed1-x529.google.com with SMTP id o20so14359717eds.3
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 13:11:50 -0800 (PST)
+ id 1kcb2Y-0006HL-Hg
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 16:19:00 -0500
+Received: by mail-ed1-x543.google.com with SMTP id t11so14315999edj.13
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 13:18:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=Bx1oFk93PjSJxg1U+YwIzQ8r27fqDAKxFhVKdf6gxjI=;
- b=Qla1ZDP7gNJHxucT56mcFH0kWhufjlFJAyK+B83gl337b3NUS96GsQZ0pk9dPmf9dl
- NgwM4miRyJWspSOhIgWYFk9ajgANg29jzVrdpxBvRHzbl075qiCcmjVg1C5U/pQNpWg0
- FVzbs14uOP8iaDcLnZehSlnz/aQuaQMtn4ThKwlFb9/zpJEyUD8EMJTY85PzPGRCWX6/
- J6nOaChKGcz/LdVyDLWy9+b3PkNL4zWLTMIAOMB9U40yQLhOg3MNNSPT/I3rcddjKbA5
- bj/k1gbzP5wLmUDhIAdgL9fj0PIx8VQcucjoSkuYm/tDtoP3iffMJED58+AKOlSuQKuX
- vGeQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=0u9MFTO0Qp1FgOCydNIwI0sP+NwIaOX1ieX2PTqcXVs=;
+ b=nsCHoycu3rNyM0IlNR9GgjcIB+1mIylw0mltJUiTBVCmVNXYkd1VR/Y2Z5OY+9+oAN
+ 7h56z17lYQ4h6+3WqVcWK1h7iC3eRf45FPobxBtRcgKFD90FjxyFYj/yeSsPf9t3GWZi
+ IiWqPx8lhKGDTOB7X2cVV10lSo6w4B6Oc8P8pbu3knElmo9I22I2kDfz4r/PONsVVOcq
+ ZUPscrPsTBdD4+BBuABc+Dpw//DceWSl8aY71WbTFHtG9bXhujLFdTslXmA4CzAW6di3
+ YEZhz0IXHDAfSVvJxs508yt7Lk59YmMqy2DHQEsssEv7Ys+Z6neVMgH/wJIC5bv9pKJe
+ p7qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=Bx1oFk93PjSJxg1U+YwIzQ8r27fqDAKxFhVKdf6gxjI=;
- b=PFqNDqDLQSSi+g1quqleYYHnUVyVFNPJWiSNVEdDm2ZPzPCd02TxnggKCPxqQM5+fE
- TKv9uKxBZWIAOLBlyc2zYjPSxVRPicQd5frcZEPvqbudRTm0FUbpqYQ/3rY0OJ/e0tpR
- AA9J3L84uoJAK3JtsBVYdKZJ7KPEYfVqlOvTxp2+TSRERJcAy9szAli5HlLI/9lNE1gR
- d4DGDjFd5520NO5k+GOGj/p40DTinACwRSd6U/v9d+ZdQyB6S0zX3w+FacMKddSArhMS
- lC14AZToV3lPiuqoFjqgFkESQuSlHSgqCjS7GZfWE5Q2Mc9V9NXMHJaEqQNCwyr1/PC6
- Qb1Q==
-X-Gm-Message-State: AOAM530vcUbQAikFRlDWAG7zJhovfOAl0pMpMAAAhkKmn8RsC8ThO1Sy
- VpoCqN9CMLBujjMCNoeJYYk1oBehn7FYasFID82kF/GgpNA=
-X-Google-Smtp-Source: ABdhPJw/m7dHXIS1tEv2+ZpGRudQTQhQtOQK9bZTC//h5NZVZJJ3/17/wuwdTS+nThBjVY7rdmS6lCrqIoMuT2A7zlQ=
-X-Received: by 2002:a05:6402:b35:: with SMTP id
- bo21mr1475332edb.52.1605042709276; 
- Tue, 10 Nov 2020 13:11:49 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=0u9MFTO0Qp1FgOCydNIwI0sP+NwIaOX1ieX2PTqcXVs=;
+ b=SKlxq4a7EYV1yot/RiNUngpqdhBWJfBzglJ+I9dcV671l699JFplKyfmdFry0uYIFK
+ mqYEanDY88UiCyMpe2uWI1+V666O9ZdCXFrL9OHEyfPO/MENtwvNiIwb7RYUzEoSsY2X
+ sEBbXI5ffcxwt6yUFJaqPAK4+DeXfyRKfzVxN8gAXlt6aHxF9trgC72hXt57Ft+1LyI1
+ Vq7pwFY9BrCPUKGHQmUfZxgm6Jb/AMIODXMqfy7YyM9vsM5M2Vu9fYHcCht2U3mPcKIc
+ oqrw+8TYc/luSFEc0mXr3fgdISFfMN19ykBwFmmJyBrkCdxHRZV+F2Hn2Gib7NR5fid2
+ ywCw==
+X-Gm-Message-State: AOAM530m/xlSEAOXqmBAWyZuIOQoetyDz705OOaQ8mjXlDQ1tNfDblV/
+ A0z18XXteGm3BC17i2dbiAJcPR9hAqNgZUwCnGzNXg==
+X-Google-Smtp-Source: ABdhPJwDXdy+43Qj3vzkHAufg1PacIQcvWdLJXWE0hh86OIBn2i8v/kB4lPyWLV9HncquTY4H7n+oDzunjvnLR2oXX4=
+X-Received: by 2002:a05:6402:3089:: with SMTP id
+ de9mr1491605edb.100.1605043136713; 
+ Tue, 10 Nov 2020 13:18:56 -0800 (PST)
 MIME-Version: 1.0
-References: <20201110111917.29539-1-peter.maydell@linaro.org>
-In-Reply-To: <20201110111917.29539-1-peter.maydell@linaro.org>
+References: <20201110170604.5897-1-peter.maydell@linaro.org>
+ <202011101901.09940.pisa@cmp.felk.cvut.cz>
+ <CAFEAcA8ujRALffz8KfvxdVb6NTcNLNdR4tF6picWnF6wk3R64A@mail.gmail.com>
+ <202011102030.58186.pisa@cmp.felk.cvut.cz>
+In-Reply-To: <202011102030.58186.pisa@cmp.felk.cvut.cz>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 10 Nov 2020 21:11:37 +0000
-Message-ID: <CAFEAcA-jhneSqzS4=VfOu36Wx2f=uVwB+1rH_BL6PFzNXqLVnw@mail.gmail.com>
-Subject: Re: [PULL 00/16] target-arm queue
-To: QEMU Developers <qemu-devel@nongnu.org>
+Date: Tue, 10 Nov 2020 21:18:45 +0000
+Message-ID: <CAFEAcA_LHQvYtgMMeZVn9XW=Tdrd=nXAWYFXB=WeECa1utpnbg@mail.gmail.com>
+Subject: Re: [PATCH for-5.2 v2 1/4] hw/net/can/ctucan: Don't allow guest to
+ write off end of tx_buffer
+To: Pavel Pisa <pisa@cmp.felk.cvut.cz>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::543;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -79,51 +83,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Jason Wang <jasowang@redhat.com>, Vikram Garhwal <fnu.vikram@xilinx.com>,
+ Ondrej Ille <ondrej.ille@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?B?SmFuIENoYXJ2w6F0?= <charvj10@fel.cvut.cz>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 10 Nov 2020 at 11:19, Peter Maydell <peter.maydell@linaro.org> wrote:
+On Tue, 10 Nov 2020 at 19:32, Pavel Pisa <pisa@cmp.felk.cvut.cz> wrote:
 >
-> Patches for rc1: nothing major, just some minor bugfixes and
-> code cleanups.
+> Hello Peter,
 >
-> -- PMM
+> On Tuesday 10 of November 2020 19:24:03 Peter Maydell wrote:
+> > For unaligned accesses, for 6.0, I think the code for doing
+> > them to the txbuff at least is straightforward:
+> >
+> >    if (buff_num < CTUCAN_CORE_TXBUF_NUM &&
+> >        (addr + size) < CTUCAN_CORE_MSG_MAX_LEN) {
+> >       stn_le_p(s->tx_buffer[buff_num].data + addr, size, val);
+> >    }
+> >
+> > (stn_le_p takes care of doing an appropriate-width write.)
 >
-> The following changes since commit f7e1914adad8885a5d4c70239ab90d901ed97e9f:
+> Thanks, great to know, I like that much.
+> Only small nitpicking, it should be (addr + size) <= CTUCAN_CORE_MSG_MAX_LEN
 >
->   Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply-20201109' into staging (2020-11-10 09:24:56 +0000)
+> So whole code I am testing now
 >
-> are available in the Git repository at:
+>     if (addr >= CTU_CAN_FD_TXTB1_DATA_1) {
+>         int buff_num;
+>         addr -= CTU_CAN_FD_TXTB1_DATA_1;
+>         buff_num = addr / CTUCAN_CORE_TXBUFF_SPAN;
+>         addr %= CTUCAN_CORE_TXBUFF_SPAN;
+>         if ((buff_num < CTUCAN_CORE_TXBUF_NUM) &&
+>             ((addr + size) <= sizeof(s->tx_buffer[buff_num].data))) {
+>             stn_le_p(s->tx_buffer[buff_num].data + addr, size, val);
+>         }
+>     } else {
 >
->   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20201110
+> So I have applied you whole series with above update. All works correctly
+> on x86_64 Linux host and with Linux x86_64 and MIPS big endian guests.
 >
-> for you to fetch changes up to b6c56c8a9a4064ea783f352f43c5df6231a110fa:
->
->   target/arm/translate-neon.c: Handle VTBL UNDEF case before VFP access check (2020-11-10 11:03:48 +0000)
->
-> ----------------------------------------------------------------
-> target-arm queue:
->  * hw/arm/Kconfig: ARM_V7M depends on PTIMER
->  * Minor coding style fixes
->  * docs: add some notes on the sbsa-ref machine
->  * hw/arm/virt: Remove dependency on Cortex-A15 MPCore peripherals
->  * target/arm: Fix neon VTBL/VTBX for len > 1
->  * hw/arm/armsse: Correct expansion MPC interrupt lines
->  * hw/misc/stm32f2xx_syscfg: Remove extraneous IRQ
->  * hw/arm/nseries: Remove invalid/unnecessary n8x0_uart_setup()
->  * hw/arm/musicpal: Don't connect two qemu_irqs directly to the same input
->  * hw/arm/musicpal: Only use qdev_get_gpio_in() when necessary
->  * hw/arm/nseries: Check return value from load_image_targphys()
->  * tests/qtest/npcm7xx_rng-test: count runs properly
->  * target/arm/translate-neon.c: Handle VTBL UNDEF case before VFP access check
->
-> ----------------------------------------------------------------
+> Please update to this combination.
 
+If you've got a modified patch set that you've tested, would
+you mind sending it out to the list? That would avoid my
+possibly making mistakes in updating patches on my end and
+then requiring you to repeat the testing.
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
-
+thanks
 -- PMM
 
