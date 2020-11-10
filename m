@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15A232AD4D0
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 12:23:16 +0100 (CET)
-Received: from localhost ([::1]:57562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 890392AD4D7
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 12:25:44 +0100 (CET)
+Received: from localhost ([::1]:37678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcRk3-0005a8-2K
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 06:23:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46280)
+	id 1kcRmR-0000Yj-H5
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 06:25:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kcRgT-00022L-7V
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:19:33 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:38681)
+ id 1kcRgX-0002Bc-BF
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:19:37 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:37892)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kcRgR-0006pj-Ab
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:19:32 -0500
-Received: by mail-wr1-x433.google.com with SMTP id p8so11438762wrx.5
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 03:19:30 -0800 (PST)
+ id 1kcRgU-0006qK-9x
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:19:37 -0500
+Received: by mail-wm1-x330.google.com with SMTP id h62so2622119wme.3
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 03:19:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=QJd5XkxKLkkgZry9ph7vylC1lYNWAIO4g+OAGMmxr1U=;
- b=EzbBqCRRw3PlsXXoedZ6ZxzXW0IUTH1NS24sSSwZFr7+Fq/Ket7TDfbVizZrOuzCMe
- CjhJ5c7VFfeRJMddZpDJuCeCU0ijCg42lA28oacFo7CKnbL3TOKRa+1zddz5CBqQPp+C
- 45C0ip9i6+uW+BulrPr1+5Kc7GSxpNMHxG5202epACJyw37oV9GJCjmStlRnsYMZI9t1
- mOWbSdx3v0MivMSUyzlXlco4Z5rXZbRthIyp6yw7fxxSj3I3Rc/2hOuCeWX5kQw6buVX
- opsheFsJVKr6wMztxDhvlRlCUJkhdWRyU5hjHwfa9PvcVjwcRZv7iXHd2BmY2SrULGms
- PB5g==
+ bh=ncROH4SAzxzER5pxRz2Vkiv7YWAfqJ5o51gGiSjIRBA=;
+ b=iHCYsAZl70cL5cc/9hPJh/k/Z2jaWjnlljwjR6pPPyHDjE3IckVoeoxQl8vqT6amap
+ 283NtfZbjlzVPMpR+mbXJ2HEhBBk3u3jgitq5L1x+ASE/axRE7G3DTYWwzoBLkLT6Kxj
+ wPKq/KS615tYBvkX+5jR1PRYtWRKbB6HU1iR4c49RnXAPkSll/hNFzRta3qvMS9gVV7G
+ pOzyESOwWQpBEvwzw69HTQNBeGkLS7g1WIM29I9KvV43afMAbY3yxWdPGWSnVSV2OZRd
+ rdoziAEveTCVDDoPTH3JUQXP4bP+vZECB6xtOC3XjJggqXEMp1lc1GTOj50RJLr/jpvt
+ /qIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QJd5XkxKLkkgZry9ph7vylC1lYNWAIO4g+OAGMmxr1U=;
- b=LjvBe6H7Q4NH3dwTtrHULUUiAN+XjEvpqYLhZMPmlw3ZcukMwTwarx0oTS0K3iRkrn
- rWJ4NIr+bGf7+y75bOkwcbhfeRtjg3wHyrzKEZpPXT9v50uSCcQOFhvJPwOpW+fMzJ1w
- 3Wh6fJg+7zP6gzvVuZZyjJ/bYrK4vC6w+Rn0Gs346UdI1rPVlC96minvgW2UMprndCJb
- GJyK76ZGiL9JjgpU4RdQYIlUG9KEZ7ZZA8gMD/6CfRM+pm/EXymLJ/adp5Syyb3tTkt3
- dLnW+RV0zgrMyxMEdLnBZPzWHoK7TemFxXlKazDUg90PuRbd95mEMftKJzHfztNX38Xw
- JeRA==
-X-Gm-Message-State: AOAM531jVgru8jWmBPrukKHb5h2bFSGrTqCQfMb0D/t/Xbpy6n531WAS
- 2euYwl0099q5nJq/xH4BV6c1XL0cEZx5HQ==
-X-Google-Smtp-Source: ABdhPJyC50N3lmpTorxeQxdheWHyAELH3BtHb6g2MtkO1ereUNBbqmgYz7J55t7oGjFevzLfZCCFuA==
-X-Received: by 2002:a5d:504b:: with SMTP id h11mr2615206wrt.322.1605007169523; 
- Tue, 10 Nov 2020 03:19:29 -0800 (PST)
+ bh=ncROH4SAzxzER5pxRz2Vkiv7YWAfqJ5o51gGiSjIRBA=;
+ b=TOhYn4deF7B4KobiRFFt0hVHB3RgDvxDAo+605HCnmxqs57uA9YQhT3rKnvfYA65qr
+ KmmzsA6gfxuHqGWTmiXJ0v4npVyuS7d8TrGZraiIbiuzhquIsI7jpNCB23C77fWsOfVW
+ eUmUJUVy+JSfoC6/0ORu7j5hKKJOH8SdlMkOS6rrdUblsS+znaPBNpyDug1coa/qqBgR
+ hrE4fuCEl5HrKbiFiGaHZmyUfiC717iSVNxvhusSv+cgHCibMVW9sqivqMVPTSkzyj5i
+ +Fy+T3KhZTEFRhD+mpb1ov57edsn7wUQ0JKJhkVcd4AZPJNyPhGbIEqyYIHtzmHP+CCs
+ geow==
+X-Gm-Message-State: AOAM531le1wT6uP7HFO6y2SdDVmcvneOdE1ZWLxXtL0azRgcP8WTZf4W
+ j/lO/SWVqsChMsYDINoLa5y+VFnx3dbFfw==
+X-Google-Smtp-Source: ABdhPJxyqv5V0MkJeTUeo9fc7IOrstjfb4y+XBomMjLqr07Ve2xX8OWeWWqOycYRSgyupn/yr1MeRA==
+X-Received: by 2002:a7b:c5c3:: with SMTP id n3mr4117152wmk.44.1605007172730;
+ Tue, 10 Nov 2020 03:19:32 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 109sm16909498wra.29.2020.11.10.03.19.28
+ by smtp.gmail.com with ESMTPSA id 109sm16909498wra.29.2020.11.10.03.19.31
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Nov 2020 03:19:28 -0800 (PST)
+ Tue, 10 Nov 2020 03:19:32 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/16] target/arm: Fix neon VTBL/VTBX for len > 1
-Date: Tue, 10 Nov 2020 11:19:09 +0000
-Message-Id: <20201110111917.29539-9-peter.maydell@linaro.org>
+Subject: [PULL 11/16] hw/arm/nseries: Remove invalid/unnecessary
+ n8x0_uart_setup()
+Date: Tue, 10 Nov 2020 11:19:12 +0000
+Message-Id: <20201110111917.29539-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201110111917.29539-1-peter.maydell@linaro.org>
 References: <20201110111917.29539-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,153 +90,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-The helper function did not get updated when we reorganized
-the vector register file for SVE.  Since then, the neon dregs
-are non-sequential and cannot be simply indexed.
+omap2420_mpu_init() introduced in commit 827df9f3c5f ("Add basic
+OMAP2 chip support") takes care of creating the 3 UARTs.
 
-At the same time, make the helper function operate on 64-bit
-quantities so that we do not have to call it twice.
+Then commit 58a26b477e9 ("Emulate a serial bluetooth HCI with H4+
+extensions and attach to n8x0's UART") added n8x0_uart_setup()
+which create the UART and connects it to an IRQ output,
+overwritting the existing peripheral and its IRQ connection.
+This is incorrect.
 
-Fixes: c39c2b9043e
-Reported-by: Ard Biesheuvel <ardb@kernel.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-[PMM: use aa32_vfp_dreg() rather than opencoding]
-Message-id: 20201105171126.88014-1-richard.henderson@linaro.org
+Fortunately we don't need to fix this, because commit 6da68df7f9b
+("hw/arm/nseries: Replace the bluetooth chardev with a "null"
+chardev") removed the use of this peripheral. We can simply
+remove the code.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20201107193403.436146-4-f4bug@amsat.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.h             |  2 +-
- target/arm/op_helper.c          | 23 +++++++++--------
- target/arm/translate-neon.c.inc | 44 +++++++++++----------------------
- 3 files changed, 29 insertions(+), 40 deletions(-)
+ hw/arm/nseries.c | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-diff --git a/target/arm/helper.h b/target/arm/helper.h
-index 774d2cddb5c..ff8148ddc6b 100644
---- a/target/arm/helper.h
-+++ b/target/arm/helper.h
-@@ -245,7 +245,7 @@ DEF_HELPER_FLAGS_2(rsqrte_f32, TCG_CALL_NO_RWG, f32, f32, ptr)
- DEF_HELPER_FLAGS_2(rsqrte_f64, TCG_CALL_NO_RWG, f64, f64, ptr)
- DEF_HELPER_FLAGS_1(recpe_u32, TCG_CALL_NO_RWG, i32, i32)
- DEF_HELPER_FLAGS_1(rsqrte_u32, TCG_CALL_NO_RWG, i32, i32)
--DEF_HELPER_FLAGS_4(neon_tbl, TCG_CALL_NO_RWG, i32, i32, i32, ptr, i32)
-+DEF_HELPER_FLAGS_4(neon_tbl, TCG_CALL_NO_RWG, i64, env, i32, i64, i64)
- 
- DEF_HELPER_3(shl_cc, i32, env, i32, i32)
- DEF_HELPER_3(shr_cc, i32, env, i32, i32)
-diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
-index b1065216b2d..aa13b978c0d 100644
---- a/target/arm/op_helper.c
-+++ b/target/arm/op_helper.c
-@@ -68,21 +68,24 @@ void raise_exception_ra(CPUARMState *env, uint32_t excp, uint32_t syndrome,
-     cpu_loop_exit_restore(cs, ra);
+diff --git a/hw/arm/nseries.c b/hw/arm/nseries.c
+index 76fd7fe9854..6215c18d627 100644
+--- a/hw/arm/nseries.c
++++ b/hw/arm/nseries.c
+@@ -789,16 +789,6 @@ static void n8x0_cbus_setup(struct n800_s *s)
+     cbus_attach(cbus, s->tahvo = tahvo_init(tahvo_irq, 1));
  }
  
--uint32_t HELPER(neon_tbl)(uint32_t ireg, uint32_t def, void *vn,
--                          uint32_t maxindex)
-+uint64_t HELPER(neon_tbl)(CPUARMState *env, uint32_t desc,
-+                          uint64_t ireg, uint64_t def)
+-static void n8x0_uart_setup(struct n800_s *s)
+-{
+-    Chardev *radio = qemu_chr_new("bt-dummy-uart", "null", NULL);
+-    /*
+-     * Note: We used to connect N8X0_BT_RESET_GPIO and N8X0_BT_WKUP_GPIO
+-     * here, but this code has been removed with the bluetooth backend.
+-     */
+-    omap_uart_attach(s->mpu->uart[BT_UART], radio);
+-}
+-
+ static void n8x0_usb_setup(struct n800_s *s)
  {
--    uint32_t val, shift;
--    uint64_t *table = vn;
-+    uint64_t tmp, val = 0;
-+    uint32_t maxindex = ((desc & 3) + 1) * 8;
-+    uint32_t base_reg = desc >> 2;
-+    uint32_t shift, index, reg;
- 
--    val = 0;
--    for (shift = 0; shift < 32; shift += 8) {
--        uint32_t index = (ireg >> shift) & 0xff;
-+    for (shift = 0; shift < 64; shift += 8) {
-+        index = (ireg >> shift) & 0xff;
-         if (index < maxindex) {
--            uint32_t tmp = (table[index >> 3] >> ((index & 7) << 3)) & 0xff;
--            val |= tmp << shift;
-+            reg = base_reg + (index >> 3);
-+            tmp = *aa32_vfp_dreg(env, reg);
-+            tmp = ((tmp >> ((index & 7) << 3)) & 0xff) << shift;
-         } else {
--            val |= def & (0xff << shift);
-+            tmp = def & (0xffull << shift);
-         }
-+        val |= tmp;
+     SysBusDevice *dev;
+@@ -1362,7 +1352,6 @@ static void n8x0_init(MachineState *machine,
+     n8x0_spi_setup(s);
+     n8x0_dss_setup(s);
+     n8x0_cbus_setup(s);
+-    n8x0_uart_setup(s);
+     if (machine_usb(machine)) {
+         n8x0_usb_setup(s);
      }
-     return val;
- }
-diff --git a/target/arm/translate-neon.c.inc b/target/arm/translate-neon.c.inc
-index 59368cb2436..0ae95cb8df8 100644
---- a/target/arm/translate-neon.c.inc
-+++ b/target/arm/translate-neon.c.inc
-@@ -2861,9 +2861,8 @@ static bool trans_VEXT(DisasContext *s, arg_VEXT *a)
- 
- static bool trans_VTBL(DisasContext *s, arg_VTBL *a)
- {
--    int n;
--    TCGv_i32 tmp, tmp2, tmp3, tmp4;
--    TCGv_ptr ptr1;
-+    TCGv_i64 val, def;
-+    TCGv_i32 desc;
- 
-     if (!arm_dc_feature(s, ARM_FEATURE_NEON)) {
-         return false;
-@@ -2879,43 +2878,30 @@ static bool trans_VTBL(DisasContext *s, arg_VTBL *a)
-         return true;
-     }
- 
--    n = a->len + 1;
--    if ((a->vn + n) > 32) {
-+    if ((a->vn + a->len + 1) > 32) {
-         /*
-          * This is UNPREDICTABLE; we choose to UNDEF to avoid the
-          * helper function running off the end of the register file.
-          */
-         return false;
-     }
--    n <<= 3;
--    tmp = tcg_temp_new_i32();
--    if (a->op) {
--        read_neon_element32(tmp, a->vd, 0, MO_32);
--    } else {
--        tcg_gen_movi_i32(tmp, 0);
--    }
--    tmp2 = tcg_temp_new_i32();
--    read_neon_element32(tmp2, a->vm, 0, MO_32);
--    ptr1 = vfp_reg_ptr(true, a->vn);
--    tmp4 = tcg_const_i32(n);
--    gen_helper_neon_tbl(tmp2, tmp2, tmp, ptr1, tmp4);
- 
-+    desc = tcg_const_i32((a->vn << 2) | a->len);
-+    def = tcg_temp_new_i64();
-     if (a->op) {
--        read_neon_element32(tmp, a->vd, 1, MO_32);
-+        read_neon_element64(def, a->vd, 0, MO_64);
-     } else {
--        tcg_gen_movi_i32(tmp, 0);
-+        tcg_gen_movi_i64(def, 0);
-     }
--    tmp3 = tcg_temp_new_i32();
--    read_neon_element32(tmp3, a->vm, 1, MO_32);
--    gen_helper_neon_tbl(tmp3, tmp3, tmp, ptr1, tmp4);
--    tcg_temp_free_i32(tmp);
--    tcg_temp_free_i32(tmp4);
--    tcg_temp_free_ptr(ptr1);
-+    val = tcg_temp_new_i64();
-+    read_neon_element64(val, a->vm, 0, MO_64);
- 
--    write_neon_element32(tmp2, a->vd, 0, MO_32);
--    write_neon_element32(tmp3, a->vd, 1, MO_32);
--    tcg_temp_free_i32(tmp2);
--    tcg_temp_free_i32(tmp3);
-+    gen_helper_neon_tbl(val, cpu_env, desc, val, def);
-+    write_neon_element64(val, a->vd, 0, MO_64);
-+
-+    tcg_temp_free_i64(def);
-+    tcg_temp_free_i64(val);
-+    tcg_temp_free_i32(desc);
-     return true;
- }
- 
 -- 
 2.20.1
 
