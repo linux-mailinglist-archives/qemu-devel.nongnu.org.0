@@ -2,61 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 362E22AD2DE
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 10:53:25 +0100 (CET)
-Received: from localhost ([::1]:55742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 948C82AD2E5
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 10:55:36 +0100 (CET)
+Received: from localhost ([::1]:58664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcQL6-0003jz-AB
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 04:53:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55388)
+	id 1kcQND-0004zZ-N2
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 04:55:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kcQKK-0003KR-81
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 04:52:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51371)
+ id 1kcQLr-0004FA-TP
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 04:54:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25135)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kcQKH-0001Q2-4L
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 04:52:35 -0500
+ id 1kcQLp-0002Df-0I
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 04:54:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605001951;
+ s=mimecast20190719; t=1605002048;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ttKKMlvcqglr2eYxoZyKakPAWQthy9k/c5IVklZDUsQ=;
- b=biH6usZMCq236HoUR+eE/J8IR7fMLffL/0RCi9iy5TnmF/j/wDDseTAYbN4S7qcU147i8F
- ma9BE4WMI4mAS4QhA3aVjfmx1qWQrvVWzoE1cfuGQQJEPRtfdR/hp1CDX7s+neIGEp/eWM
- M1UQqqX4pUhA5ygtpIY5OaV9fqbOd1c=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=AO7qPRDibATnnFjy6kbYDJRXdqOQlIP80KJhJgY+a2o=;
+ b=EePO/XU0SXGpXSotReJvkAeGqq41/8PAeCr70YuNd/udGxPWpf0SYkUVNzpHnr11Nl4/JR
+ g0Qm5G/sBvmbGJheK6Au6Qs6qQGnP5fkzcr63cmRL8ZF0F9RTHDphzximF01XIl7XuA+vv
+ oJYMcZgQfA8PoAHguUoIGtp/mHfskxA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-306-WytwKZsPNPSi3Gz17aa_nA-1; Tue, 10 Nov 2020 04:52:26 -0500
-X-MC-Unique: WytwKZsPNPSi3Gz17aa_nA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-24-1zPor-8YM3Ga3stkLgnriQ-1; Tue, 10 Nov 2020 04:54:05 -0500
+X-MC-Unique: 1zPor-8YM3Ga3stkLgnriQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 589B31006C9C;
- Tue, 10 Nov 2020 09:52:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D9AF188C128;
+ Tue, 10 Nov 2020 09:54:04 +0000 (UTC)
 Received: from localhost (ovpn-114-36.ams2.redhat.com [10.36.114.36])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BC9426EF79;
- Tue, 10 Nov 2020 09:52:18 +0000 (UTC)
-Date: Tue, 10 Nov 2020 09:52:17 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 18F4710013D9;
+ Tue, 10 Nov 2020 09:53:53 +0000 (UTC)
+Date: Tue, 10 Nov 2020 09:53:49 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [RFC v2] VFIO Migration
-Message-ID: <20201110095217.GC1080921@stefanha-x1.localdomain>
-References: <20201105150902.GA472489@stefanha-x1.localdomain>
- <20201105123708.6e9329fd@w520.home>
+To: qemu-devel@nongnu.org
+Subject: [RFC v3] VFIO Migration
+Message-ID: <20201110095349.GA1082456@stefanha-x1.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20201105123708.6e9329fd@w520.home>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="32u276st3Jlj2kUU"
+ protocol="application/pgp-signature"; boundary="qMm9M+Fa2AknHoGS"
 Content-Disposition: inline
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -85,339 +81,563 @@ Cc: John G Johnson <john.g.johnson@oracle.com>, "Tian,
  Kevin" <kevin.tian@intel.com>, mtsirkin@redhat.com,
  Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
  quintela@redhat.com, Jason Wang <jasowang@redhat.com>, "Zeng,
- Xin" <xin.zeng@intel.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Xin" <xin.zeng@intel.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Yan Zhao <yan.y.zhao@intel.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Felipe Franciosi <felipe@nutanix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Felipe Franciosi <felipe@nutanix.com>,
  Christophe de Dinechin <dinechin@redhat.com>,
  Thanos Makatos <thanos.makatos@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---32u276st3Jlj2kUU
+--qMm9M+Fa2AknHoGS
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 05, 2020 at 12:37:08PM -0700, Alex Williamson wrote:
-> On Thu, 5 Nov 2020 15:09:02 +0000
-> Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> > The disk image file may indirectly affect the hardware interface, for e=
-xample
-> > by constraining the device's block size. In this case a block-size=3DN =
-migration
-> > parameter is required to ensure migration compatibility, but the host f=
-ile
-> > system path of the disk image file still does not require a migration
-> > parameter.
-> >=20
->=20
-> I'm not sure what the above section defined.  We refer to these as
-> migration parameters, just as in the previous section, but are they
-> read-only and must match exactly?
+v3:
+ * Introduce migration info JSON to describe migration parameters
+ * Rework mdev sysfs interface
+ * Propose standard interface for vfio-user device emulation programs
 
-I will try to clarify this in the next revision. In this example
-block-size=3DN is determined by the properties of the physical block
-device. The device can only be migrated to a destination with the same
-block size. The block-size=3DN migration parameter expresses this
-constraint.
+VFIO Migration
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+This document describes how to ensure migration compatibility for VFIO devi=
+ces,
+including mdev and vfio-user devices.
 
-> > Device State Representation
-> > ---------------------------
-> > Device state contains both data accessible through the device's hardwar=
+Overview
+--------
+VFIO devices can save and load a *device state*. Saving a device state prod=
+uces
+a snapshot of a VFIO device that can be loaded again at a later point in ti=
+me
+to resume the device from the snapshot.
+
+The process of saving a device state and loading it later is called
+*migration*. The device state may be loaded by the same device instance tha=
+t
+saved it or by a new instance, possibly running on a different machine.
+
+A VFIO/mdev driver together with the physical device provides the functiona=
+lity
+of a device. Alternatively, a vfio-user device emulation program can provid=
 e
-> > interface and device-internal state needed to restore device operation.
-> >=20
-> > The contents of hardware registers are usually included in the device s=
-tate if
-> > they can change at runtime. Hardware registers with constant or compute=
-d data
-> > may not need to be part of the device state provided that device
-> > implementations can produce the necessary data.
-> >=20
-> > Device-internal state includes the portion of the device's state that c=
-annot be
-> > reconstructed from the hardware interface alone. Defining device-intern=
-al state
-> > in the most general way instead of exposing device implementation detai=
-ls
-> > allows for flexibility in the future. For example, device implementatio=
-ns often
-> > maintain a ring index, which is not available through the hardware inte=
-rface,
-> > to keep track of which ring elements have already been consumed. The ri=
-ng index
-> > must be included in the device state so that the destination can resume
-> > processing from the correct point in the ring. Representing this as an =
-index
-> > into the ring in the hardware interface is more general than adding dev=
-ice
-> > implementation-specific request tracking data structures into the devic=
-e state.
-> >=20
-> > The *device state representation* defines the binary data layout of the=
- device
-> > state. The device state representation is specific to each device and i=
-s beyond
-> > the scope of this document, but aspects pertaining to migration compati=
-bility
-> > are discussed here.
-> >=20
-> > Each change to the device state representation that affects migration
-> > compatibility requires a migration parameter. When a new field is added=
- to the
-> > device state representation then a new migration parameter must be adde=
-d to
-> > reflect this change. Often a single migration parameter expresses both =
-a change
-> > to the hardware interface and the device state representation. It is al=
-so
-> > possible to change the device state representation without changing the
-> > hardware interface, for example when some state was forgotten while des=
-igning
-> > the previous device state representation.
-> >=20
-> > The device state representation may support extra data that can be safe=
+the functionality of a device. These are called *device implementations*.
+
+The device implementation where a migration originates is called the *sourc=
+e*
+and the device implementation that a migration targets is called the
+*destination*.
+
+Although it is possible to migrate device state without regard to migration
+compatibility, this is prone to failure except in trivial cases. Device
+implementations vary in feature availability and resource capacity so that =
+it
+is difficult to be confident that a migration of a complex device will succ=
+eed.
+Furthermore, without migration compatibility checking it is possible that
+migration appears to succeed but leaves the device in an inoperable state,
+leading to data loss or corruption.
+
+This document describes how to establish migration compatibility between th=
+e
+source and destination. A check can be performed before migrating and can
+therefore be used to select a suitable migration destination. When
+compatibility has been established, the probability of migrating successful=
 ly
-> > ignored by old device implementations. In this case migration compatibi=
-lity is
-> > unaffected and a migration parameter is not required to indicate such e=
-xtra
-> > data has been added.
-> >=20
-> > Device Models
-> > -------------
-> > The combination of the hardware interface, device state representation,=
- and
-> > migration parameter definitions is called a *device model*. Device mode=
-ls are
-> > identified by a unique UTF-8 string starting with a domain name and fol=
-lowed by
-> > path components separated with backslashes ('/'). Examples include
-> > vendor-a.com/my-nic, gitlab.com/user/my-device, virtio-spec.org/pci/vir=
-tio-net,
-> > and qemu.org/pci/10ec/8139.
-> >=20
-> > The unique device model string is not changed as the device evolves. In=
-stead,
-> > migration parameters are added to express variations in a device.
-> >=20
-> > The device model is not tied to a specific device implementation. The s=
-ame
-> > device model could be implemented as a VFIO/dev driver or as a vfio-use=
-r device
-> > emulation program.
-> >=20
-> > Multiple device implementations can support the same device model. Doin=
-g so
-> > means that the device implementations can offer migration compatiblity =
-because
-> > they support the same hardware interface, device state representation, =
-and
-> > migration parameters.
-> >=20
-> > Multiple device models can exist for the same hardware interface, each =
-with a
-> > different device state representation and migration parameters. This ma=
-kes it
-> > possible to fork and independently develop device models.
-> >=20
-> > Device models can evolve over time as the hardware interface and device=
- state
-> > representation change. The corresponding migration parameters ensure th=
-at
-> > migration compatibility can be established between device implementatio=
-ns.
-> >=20
-> > Orchestrating Migrations
-> > ------------------------
-> > The following steps must be followed to migrate devices:
-> >=20
-> > 1. Check that the source and destination support the same device model.
-> >=20
-> > 2. Check that the destination supports the migration parameter list fro=
-m the
-> >    source.
-> >=20
-> > 3. Configure the destination so it is prepared to load the device state=
-. This
-> >    may involve instantiating a new device instance or resetting an exis=
-ting
-> >    device instance to a configuration that is compatible with the sourc=
-e.
-> >=20
-> >    The migration parameter list may be used as part of this configurati=
-on, but
-> >    note that not all of the configuration is captured in the migration
-> >    parameter list. For example, the physical network port for a network=
- card or
-> >    the host file system path for a disk image file is typically not cap=
-tured in
-> >    the migration parameters and must be provided through other means.
-> >=20
-> > 4. Save the device state on the source and load it on the destination.
-> >=20
-> > 5. If migration succeeds then the destination resumes operation and the=
- source
-> >    must not resume operation. If the migration fails then the source re=
-sumes
-> >    operation and the destination must not resume operation.
-> >=20
-> > Note that these steps impose a conservative bound on device states that=
- can be
-> > migrated successfully. Not all configuration parameters may be strictly
-> > required to match on the source and destination devices. For example, i=
-f the
-> > device's hardware interface has not yet been initialized then changes t=
-o the
-> > advertised features may not yet affect the device driver. However, accu=
-rately
-> > representing runtime constraints is complex and risks introducing migra=
-tion
-> > bugs, so no attempt is made to support them.
-> >=20
-> > VFIO/mdev Devices
-> > -----------------
-> > TODO this is a first draft, more thought needed around enumerating supp=
-orted
-> > parameters, representing default values, etc
-> >=20
-> > The following mdev type sysfs attrs are available for managing device
-> > instances:
-> >=20
-> >   /sys/.../<parent-device>/mdev_supported_types/<type-id>/
-> >       create - writing a UUID to this file instantiates a device
-> >       migration/ - migration related files
-> >           model - unique device model string, e.g. vendor-a.com/my-nic
-> >=20
-> > Device models supported by an mdev driver can be enumerated by reading =
-the
-> > migration/model attr for each <type-id>.
-> >=20
-> > The following mdev device sysfs attrs relate to a specific device insta=
-nce:
-> >=20
-> >   /sys/.../<parent-device>/<uuid>/
-> >       mdev_type/ - symlink to mdev type sysfs attrs, e.g. to fetch migr=
-ation/model
-> >       migration/ - migration related files
-> >           applied - Write "1" to apply current migration parameter valu=
-es or
-> >                     "0" to reset migration parameter values to their de=
-faults.
-> >                     Parameters can only be applied or reset while the m=
-dev is
-> >                     not opened.
->=20
->=20
-> This seems problematic, why aren't parameters applied on write so that
-> userspace can understand the bad values?
+is high and a successful migration does not leave the device inoperable due=
+ to
+silent migration problems.
 
-I found a way to get rid of the "applied" sysfs attr. Will fix in the
-next revision.
+Migration Parameters
+--------------------
+*Migration parameters* are used to describe characteristics that must match
+between source and destination to achieve migration compatibility.
 
-> >           params/ - migration parameters
-> >               <my-param> - read/write migration parameter "my-param"
-> >               ...
->=20
->=20
-> Where do we learn the type and possibly valid values for a parameter?
+The first implementation of a simple device may not require migration
+parameters if the source and destination are always compatible. As the devi=
+ce
+evolves, the source and destination may differ and migration parameters are
+required to express these differences. More complex devices may require
+migration parameters from the start due to optional functionality that is n=
+ot
+guaranteed to be present in both source and destination.
 
-The next revision will add that information.
+A migration parameter consists of a name and a value. The name is a UTF-8
+string that does not contain equals ('=3D'), backslash ('/'), or whitespace
+characters. The value is a UTF-8 string that does not contain newline
+characters ('\n').
 
-> > When the device is created the migration/applied attr is "0". Migration
-> > parameters are accessible in migration/params/ and read 0 bytes because=
- they
-> > are at their default values.  At the point opening the mdev device will=
- fail
-> > because migration parameters must be applied first. Migration parameter=
-s can be
-> > set to the desired values or left at their defaults. "1" must be writte=
-n to
-> > migration/applied before opening the mdev device.
->=20
->=20
-> This breaks existing users, there cannot be a new requirement to apply
-> parameters or manipulate a new sysfs attribute before a device is
-> usable.  Besides, shouldn't default values always be acceptable?  This
-> presents a pretty high barrier for new features too, there will always
-> be a step where userspace must know about and actively enable that
-> feature.  That puts vendors in a difficult situation, either they break
-> migration by creating a new device model which enables features by
-> default or they need to go to extraordinary lengths to get userspace to
-> enable new features.  Is there intended to be a policy where all
-> parameters are enabled if we're not trying to match an existing device?
-> How would a value be determined where the parameter is not binary?
+The meaning of the migration parameter and its possible values are specific=
+ to
+the device, but values are based on one of the following types:
+* bool - booleans (on/off)
+* int - integers (0, 1, 2, ...)
+* str - character strings
 
-Good points, the next revision will solve this so the device is created
-with the latest supported migration parameter values by default instead
-of the oldest/most compatible ones.
+Migration parameters are represented as <name>=3D<value> in this document.
+Examples include my-feature=3Don and num-queues=3D4.
 
-> > If writing to a migration/params/<param> attr or setting migration/appl=
-ied to
-> > "1" fails, then the device implementation does not support the migratio=
-n
-> > parameters.
->=20
->=20
-> s/parameter/value/  If the parameter is not supported, the attribute
-> shouldn't be present, right?  It might also be a resource issue that
-> prevents a value from being applied, errno might provide insight to
-> which it is.
-
-Yes, will fix.
-
-> > An open mdev device typically does not allow migration parameters to be=
- changed
-> > at runtime. However, certain migration/params attrs may allow writes at
-> > runtime. Usually these migration parameters only affect the device stat=
+When a new migration parameter is introduced, its absence must have the sam=
 e
-> > representation and not the hardware interface. This makes it possible t=
-o
-> > upgrade or downgrade the device state representation at runtime so that
-> > migration is possible to newer or older device implementations.
->=20
->=20
-> Who does this and when?  How do we determine which are runtime and what
-> are acceptable values?  This seems really hard to orchestrate.
+effect as before the migration parameter was introduced. For example, if
+my-feature=3Don|off is added to control the availability of a new device fe=
+ature,
+then my-feature=3Doff is equivalent to omitting the migration parameter.
 
-Modifying a device at runtime is an explicit operation. The user needs
-to know what they are doing. I'm not sure if trying to define metadata
-is useful since it cannot be done without an understanding of the
-migration parameter's effect.
+Hardware Interface Compatibility
+--------------------------------
+VFIO devices have a *hardware interface* consisting of device regions and
+interrupts. Aspects of the hardware interface can vary between device
+implementations and require migration parameters to express migration
+compatibility requirements.
 
-> > An existing mdev device instance can be reused by closing the mdev devi=
-ce and
-> > writing "0" to migration/applied. This resets parameters to their defau=
-lts so
-> > that a new list of migration parameters can be applied.
->=20
->=20
-> Nope, can't make new requirements for re-use of an mdev device either.
-> I would expect an mdev device to retain it's configuration for the next
-> use, userspace can reset parameters as necessary or remove and recreate
-> the device.  Thanks,
+Examples of migration parameters include:
+* Feature availability - feature bitmasks, hardware revision numbers, etc. =
+If
+  the destination may lack support for optional features or hardware interf=
+ace
+  revisions, then migration parameters are required.
+* Functionality - hardware register blocks that are only present on certain
+  device instances. If there are multiple devices sub-models that have
+  different hardware interfaces then migration parameters are required.
+* Resource capacity - size of display framebuffers, number of queues, queue
+  size, etc.
 
-Will fix in the next revision.
+These examples demonstrate aspects of the hardware interface that must not
+change unexpectedly. Were they to differ between source and destination, th=
+e
+chance of device driver malfunction would be high because the layout of the
+hardware interface would change or assumptions the device driver makes abou=
+t
+available functionality would be violated. Migration parameters are used to
+preserve the hardware interface across migration and explicitly represent
+variations between device implementations.
 
-Stefan
+Hardware interfaces sometimes support reporting an event when a change occu=
+rs.
+In those cases it may be possible to support visible changes in the hardwar=
+e
+interface across migration. In most other cases migration must not result i=
+n a
+visible change in the hardware interface.
 
---32u276st3Jlj2kUU
+Migration parameters are not necessary for read-only values exposed through=
+ the
+hardware interface, such as MAC address EEPROMs or serial numbers, so long =
+as
+all device implementations can be configured with the same range of input
+values for these read-only values. This is possible because migration
+parameters do not capture the full configuration of the device, only aspect=
+s
+that affect migration compatibility.
+
+Device configuration that is not visible through the hardware interface, su=
+ch
+as a host file system path of a disk image file or the physical network por=
+t
+assigned to a network card, usually does not require migration parameters
+because they can be changed without breaking migration compatibility.
+
+The disk image file may indirectly affect the hardware interface, for examp=
+le
+by constraining the device's block size to a specific value. In this case a
+block-size=3DN migration parameter is required to ensure migration compatib=
+ility,
+but the host file system path of the disk image file still does not require=
+ a
+migration parameter.
+
+Device State Representation
+---------------------------
+Device state contains both data accessible through the device's hardware
+interface and device-internal state needed to restore device operation.
+
+The contents of hardware registers are usually included in the device state=
+ if
+they can change at runtime. Hardware registers with constant or computed da=
+ta
+may not need to be part of the device state provided that device
+implementations can produce the necessary data.
+
+Device-internal state includes the portion of the device's state that canno=
+t be
+reconstructed from the hardware interface alone. Defining device-internal s=
+tate
+in the most general way instead of exposing device implementation details
+allows for flexibility in the future. For example, device implementations o=
+ften
+maintain a ring index, which is not available through the hardware interfac=
+e,
+to keep track of which ring elements have already been consumed. The ring i=
+ndex
+must be included in the device state so that the destination can resume
+processing from the correct point in the ring. Representing this as an inde=
+x
+into the ring in the hardware interface is more general than adding device
+implementation-specific request tracking data structures into the device st=
+ate.
+
+The *device state representation* defines the binary data layout of the dev=
+ice
+state. The device state representation is specific to each device and is be=
+yond
+the scope of this document, but aspects pertaining to migration compatibili=
+ty
+are discussed here.
+
+Each change to the device state representation that affects migration
+compatibility requires a migration parameter. When a new field is added to =
+the
+device state representation then a new migration parameter must be added to
+reflect this change. Often a single migration parameter expresses both a ch=
+ange
+to the hardware interface and the device state representation. It is also
+possible to change the device state representation without changing the
+hardware interface, for example when some state was forgotten while designi=
+ng
+the previous device state representation.
+
+The device state representation may support adding extra data that can be
+safely ignored by old device implementations. In this case migration
+compatibility is unaffected and a migration parameter is not required to
+indicate such extra data has been added.
+
+Device Models
+-------------
+The combination of the hardware interface, device state representation, and
+migration parameter definitions is called a *device model*. Device models a=
+re
+identified by a unique UTF-8 string starting with a domain name and followe=
+d by
+path components separated with backslashes ('/'). Examples include
+vendor-a.com/my-nic, gitlab.com/user/my-device, virtio-spec.org/pci/virtio-=
+net,
+and qemu.org/pci/10ec/8139.
+
+The unique device model string is not changed as the device evolves. Instea=
+d,
+migration parameters are added to express variations in a device.
+
+The device model is not tied to a specific device implementation. The same
+device model could be implemented as a VFIO/dev driver or as a vfio-user de=
+vice
+emulation program.
+
+Multiple device implementations can support the same device model. Doing so
+means that the device implementations can offer migration compatiblity beca=
+use
+they support the same hardware interface, device state representation, and
+migration parameters.
+
+Multiple device models can exist for the same hardware interface, each with=
+ a
+different device state representation and migration parameters. This makes =
+it
+possible to fork and independently develop device models.
+
+Orchestrating Migrations
+------------------------
+In order to migrate a device a *migration parameter list* must first be bui=
+lt
+on the source. Each migration parameter is added to the list if it is in
+effect. For example, the migration parameter list for a device with
+new-feature=3Doff,num-queues=3D4 would be num-queues=3D4 if the new-feature=
+ migration
+parameter was introduced with the off value disabling its effect.
+
+The following conditions must be met to establish migration compatibility:
+
+1. The source and destination device model strings match.
+
+2. Each migration parameter name from the migration parameter list is suppo=
+rted
+   by the destination. For example, the destination supports the num-queues
+   migration parameter.
+
+3. Each migration parameter value from the migration parameter list is
+   supported by the destination. For example, the destination supports
+   num-queues=3D4.
+
+The migration compatibility check can be performed without initiating a
+migration. Therefore, this process can be used to select the migration
+destination.
+
+The following steps perform the migration:
+
+1. Configure the destination so it is prepared to load the device state,
+   including applying the migration parameter list. This may involve
+   instantiating a new device instance or resetting an existing device inst=
+ance
+   to a configuration that is compatible with the source.
+
+   The details of how to do this for VFIO/mdev drivers and vfio-user device
+   backend programs is described below.
+
+2. Save the device state on the source and load it on the destination.
+
+3. If migration succeeds then the destination resumes operation and the sou=
+rce
+   must not resume operation. If the migration fails then the source resume=
+s
+   operation and the destination must not resume operation.
+
+Note that these steps impose a conservative bound on device states that can=
+ be
+migrated successfully. Not all configuration parameters may be strictly
+required to match on the source and destination devices. For example, if th=
+e
+device's hardware interface has not yet been initialized then changes to th=
+e
+advertised features may not yet affect the device driver. However, accurate=
+ly
+representing runtime constraints is complex and risks introducing migration
+bugs, so no attempt is made to support them.
+
+Migration Information JSON
+--------------------------
+Device implementations describe supported device models in the following JS=
+ON
+format:
+
+.. code:: json
+
+  {
+    "models": {
+      "<model>": {
+        "params": {
+          "<param>": {
+            "allowed_values": [<value1>, <value2>, ...]
+            "description": ...
+            "init_value": ...
+            "off_value": ...
+            "type": ...
+          }
+        }
+      }
+    }
+  }
+
+The "models" object contains one or more device model objects describing
+available device models. Each member name is a unique device model string, =
+for
+example "vendor-a.com/my-nic".
+
+The device model object contains a "params" object describes available
+migration parameters. Each migration parameter object contains the followin=
+g
+members:
+
+"allowed_values"
+  The list all values that the device implementation accepts for this migra=
+tion
+  parameter. Integer ranges can be described using "<min>-<max>" strings.
+
+  Examples: ['a', 'b', 'c'], [1, 5, 7], ['0-255', 512, '1024-2048'], [true]
+
+  This member is optional. When absent, any value suitable for the type may=
+ be
+  given but the device implementation may refuse certain values.
+
+"description"
+  A human-readable description of the migration parameter. This is not inte=
+nded
+  for user interfaces but rather as a troubleshooting aid for developers. T=
+he
+  description is typically written in English. This member is optional.
+
+"init_value"
+  The initial parameter value when a device instance is created. This membe=
+r is
+  required.
+
+"off_value"
+  The parameter value that disables the effect of this parameter. This memb=
+er
+  is absent if the migration parameter cannot be disabled.
+
+"type"
+  The data type ("bool", "int", "str"). This member is required.
+
+An example of a simple device model that only one feature and a fixed resou=
+rce
+capacity:
+
+.. code:: json
+
+  {
+    "models": {
+      "vendor-a.com/my-nic": {
+        "params": {
+          "new-feature": {
+            "description": "New feature that old devices lack",
+            "init_value": true,
+            "off_value": false,
+            "type": 'bool'
+          },
+          "num-resources": {
+            "allowed_values": [64],
+            "description": "Number of resources",
+            "init_value": 64,
+            "type": 'int'
+          }
+        }
+      }
+    }
+  }
+
+Newly created instances of this device will enable "new-feature", but it ca=
+n be
+disabled for migration compatibility with old device instances.
+
+The number of device resources are fixed at 64, so only device instances th=
+at
+also have exactly 64 resources can be migrated to this device implementatio=
+n.
+
+VFIO mdev Drivers
+-----------------
+The following mdev type sysfs attrs are available for managing device
+instances::
+
+  /sys/.../<parent-device>/mdev_supported_types/<type-id>/
+    create - writing a UUID to this file instantiates a device
+    migration_info.json - read-only migration information JSON
+
+TODO The JSON can be represented as a file system hierarchy but sysfs seems
+limited to <kobject>/<group>/<attr> and <kobject>/<attr> so it is not possi=
+ble
+to express deeper attr groups like <kobject>/migration/params/<param>/<attr=
+>?
+
+Device models supported by an mdev driver and their details can be read fro=
+m
+the migration_info.json attr. Each mdev type supports one device model. If =
+a
+parent device supports multiple device models then each device model has an
+mdev type. There may be multiple mdev types for a single device model when =
+they
+offer different migration parameters such as resource capacity or feature
+availability.
+
+For example, a graphics card that supports 4 GB and 8 GB device instances w=
+ould
+provide gfx-4GB and gfx-8GB mdev types with memory=3D4096 and memory=3D8192
+migration parameters, respectively.
+
+The following mdev device sysfs attrs relate to a specific device instance:=
+:
+
+  /sys/.../<parent-device>/<uuid>/
+    mdev_type/ - symlink to mdev type sysfs attrs, e.g. to fetch migration/=
+model
+    migration/ - migration related files
+      <param> - read/write migration parameter "param"
+      ...
+
+When the device is created all migration/<param> attrs take their
+migration_info.json "init_value".
+
+When preparing for migration on the source, each migration parameter from
+migration/<param> is read and added to the migration parameter list if its
+value differs from "off_value" in migration_info.json. If a migration param=
+eter
+in the list is not available on the destination, then migration is not
+possible. If a migration parameter value is not in the destination
+"allowed_values" migration_info.json then migration is not possible.
+
+In order to prepare an mdev device instance for an incoming migration on th=
+e
+destination, the "off_value" from migration_info.json is written to each
+migration parameter in migration/<param>. Then the migration parameter list
+from the source is written to migration/<param> one migration parameter at =
+a
+time. If an error occurs while writing a migration parameter on the destina=
+tion
+then migration is not possible. Once the migration parameter list has been
+written the mdev can be opened and migration can proceed.
+
+An open mdev device typically does not allow migration parameters to be cha=
+nged
+at runtime. However, certain migration/params attrs may allow writes at
+runtime. Usually these migration parameters only affect the device state
+representation and not the hardware interface. This makes it possible to
+upgrade or downgrade the device state representation at runtime so that
+migration is possible to newer or older device implementations.
+
+vfio-user Device Emulation Programs
+-----------------------------------
+Device emulation programs often support a simple invocation model where run=
+ning
+the program creates a single device instance. The lifecycle of the device
+instance is tied to the lifecycle of the process. Such device emulation
+programs are described below.
+
+More complex device emulation programs may host multiple devices. The inter=
+face
+for configuring these device emulation programs is not standardized. Theref=
+ore,
+migrating these devices is beyond the scope of this document.
+
+The migration information JSON is printed to standard output by a vfio-user
+device emulation program as follows:
+
+.. code:: bash
+
+  $ my-device --print-migration-info-json
+
+The device is instantiated by launching the destination process with the
+migration parameter list from the source:
+
+.. code:: bash
+
+  $ my-device --m-<param1>=3D<value1> --m-<param2> <value2> [...]
+
+This example shows how to instantiate the device with migration parameters
+``param1`` and ``param2``. Both ``--m-<param>=3D<value>`` and ``--m-<param>
+<value>`` option formats are accepted.
+
+The ``--m-`` prefix is used to allow the device emulation program to implem=
+ent
+device implementation-specific command-line options without conflicting wit=
+h
+the migration parameter namespace.
+
+When preparing for migration on the source, each migration parameter from t=
+he
+migration info JSON is added to the migration parameter list if its value
+differs from "off_value". If a migration parameter in the list is not avail=
+able
+on the destination, then migration is not possible. If a migration paramete=
+r
+value is not in the destination "allowed_values" migration_info.json then
+migration is not possible.
+
+On the destination, a command-line is generated from the migration paramete=
+r
+list. For each destination migration parameter missing from the migration
+parameter list a command-line option is added with the destination "off_val=
+ue".
+The device emulation program prints an error message to standard error and
+terminates with exit status 1 if the device could not be instantiated.
+
+--qMm9M+Fa2AknHoGS
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+qYtEACgkQnKSrs4Gr
-c8j5vAgAg9GkleTbjvxSlw1bHqy1P6nxL6Tro+3Xn6RFTEHoH5kNDNffwc1UlHhy
-4nExSc5FBiMT77JEDJkINysquiUop0jdNOuyMMQ1yDTyONt/4cDqzbHa6t+ymlRg
-cIzcD1dM17pjJJ2qf3m1W1ireyfr2iiVQ2ZEsFgj9C3kbdLEmlrwpcYdk97jVpDY
-ym/+2lf07OoZ6K8OQDt5uzku1FIfh8QuxG5tSmfIs9entUWzcSfvOKp6gEllTyXd
-ws05V4ZpmwZvA+0Iss2Mfo4a3iaoXmO3husk2dh3sTYyKY0OPC8x6Fzpflu/ecwa
-VhkHvo4t+t5+tzjOr+L1j/Zb/7vbJg==
-=KUKb
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+qYy0ACgkQnKSrs4Gr
+c8jfGwf8DOFbw0+JPcvmLPlIz8C3Ps5iQpJ7nAML3eT1GZc/L7iHjqpFEvRAgkUr
+LTw0IfdKkSAYwHzWcpOzpRPuso+tsniiXkfP2f11BCW+NPxsU+QweAuBdOCPQmMq
+MhfHCY7CR4Ld3/sbVtLIPJw50KPw8G7Mn4r4BJXYUI4stdMpCpGnan8JD4GRBgwR
+e74aZcqhEZh1n789XrmtBec4naWmcWUBoNPymHCZ/6QT8WP1ylD/TrFkOBUuhz0z
+ZzKcvxQKDY17evHDeO52UQWsmngNJ9v0cPQl595pAaZ3CRyrD2R2wq3KSMn0OBSd
+o7TOB23yJ7H3yyeAWupLZyPweZAfIA==
+=4HtR
 -----END PGP SIGNATURE-----
 
---32u276st3Jlj2kUU--
+--qMm9M+Fa2AknHoGS--
 
 
