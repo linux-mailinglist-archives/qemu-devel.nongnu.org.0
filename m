@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 657932ACE71
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 05:13:21 +0100 (CET)
-Received: from localhost ([::1]:37912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46FCA2ACE75
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 05:14:54 +0100 (CET)
+Received: from localhost ([::1]:44164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcL20-0000Xy-EO
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 23:13:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48710)
+	id 1kcL3V-00037t-C5
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 23:14:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=57671029a=alistair.francis@wdc.com>)
- id 1kcKy2-0004x4-P3
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 23:09:14 -0500
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:21667)
+ id 1kcKy3-0004yY-N0
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 23:09:15 -0500
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:21673)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=57671029a=alistair.francis@wdc.com>)
- id 1kcKxw-0000Tc-SD
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 23:09:14 -0500
+ id 1kcKxx-0000VN-QK
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 23:09:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1604981601; x=1636517601;
+ t=1604981602; x=1636517602;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=hB8LiVky8fXRLaw0rj7s+UsoSXhMKe5Fs0cj5o5qqyk=;
- b=gxw32Lmyt6EGtXeCG7rJPo7ZpQN801OaJSUkmx310CJyL+o1OxOUXR/Y
- fvpecQyZ3376K2LnJ30irYD5Df9eeVvs9yD11+Abo9rCPpdEwQL0kPUd8
- 8bgb3IhaOUuGKD52mpUxKNdRHFpujXOMYlD9UlP8Y61uR4AcJWosd9EWq
- 8ErqKDBI7JZ65O5Ga35NVw+Re8MVNRuqefMuES+fo4+H9wTvIL+YNpWNf
- lB0xOWtOOwOrOX27/V0x+UyR1v9PscLQWnjMKHYx+lCXdXrQT3Um9RC+T
- UszwzkoiYtf1T9jff09V0kmopK/sU7FVxdO+mIA1CzTvMD8SUReonYfK4 A==;
-IronPort-SDR: ozLrzY/CArZDeeb1ytsQGQ1pRq8g6DpsmZB657AxDu+JD9YMqnI7pUyqpXQPL3hp1sRtu37FNR
- P7O8R3GduUn3pksb9XJbV4yFtD89wEzYjISqtTAdEwqhyDJZUZbmsDG6rOwITFbj3fiOR0he0X
- jFESp7fY6b46/vcsFa33McLhDJuDbaZaKBDeyqXx50455SVceUu5itSXfBFkkSCrMvtMCF8JNH
- 9dO7/VAeGEDOWrT66eVvyfw+9cBkh0we5FGkEDDkurJWI5Mt9zExL1imaj9/YvPdW1JZsNzWXa
- a+I=
-X-IronPort-AV: E=Sophos;i="5.77,465,1596470400"; d="scan'208";a="255803603"
+ bh=L7ffLp3uieamQiOIYGo+Z1o4cytTVwbTBqJtRaVtWtM=;
+ b=SFU1K4z2KNptRxAVF5+ihbYeFjBquHoPcYNzqcqkctsK3v77217NJFeJ
+ rKC58Wi50cg0cYe0m6wfDQEHpKOMz10ByzkEiyyBedtO182EyZ6K6eXu2
+ h3neyl1ll2N1FRa+I3BUjLvlOsw8k9fXmIt8N46XMf4d+mQcCoq29cX7p
+ i8lAYQ/JBbSNzcWXjTGOnPS9+V2EuhM29pQCIpBm+obMQED9TtMOIPqHb
+ tkxyUAnqEduSN/IYNmYP3oSbpxaeT5w82kzKKMKtzUX1UkJPev8IkS53z
+ 7tBp9mkCdRoEhf2OcUCCzm5LCHRR7EqBW9328iAyPPxTxTCHaOSeq76ix w==;
+IronPort-SDR: HCbRacIzr3QaSZe50fCc5IzTtNnYL76hLqNjf/xnUnPWovxv15DGvSPqshZ+EJj4XV/HZxNgy+
+ nS10qlbOWxN/M6g1ua4Ff7yqaFvxCcriiyXbXDbZ+LfHHnB6KsurjaM01ZGkxna88nNhmfeTPi
+ cU7Lg5SyBo64qaYbGScKDNMqa1K0fXkNyM8p13lEC2r5megx2zL3H45AZZY0Jj+NlBwwloLxvd
+ h2ViliPFUpeIgnnDFGVnveuOfLU1gTKTSYbgLa4ZdLIzb2yONge7d1zAj5smKXBfsYO04Qnokg
+ ikw=
+X-IronPort-AV: E=Sophos;i="5.77,465,1596470400"; d="scan'208";a="255803605"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 10 Nov 2020 12:13:09 +0800
-IronPort-SDR: s4jv5fHuhbaL0eJSxenxI+eGEQKe9fBq1MIutuJtmvjiYJzYXT/HIc6QJD4cko2w72YcdbdCBw
- s3SLt/rQMTcP03+03kihrZqNvld/ZMqRq3+doq4XIevWAmE2mYBCMNmITShvn77TR6og/+zMFG
- 3BtQakjIXVRCgdxfBLFIkRsTnRWL+glsy8zqshEIP1mh2DP/aknSVR4ZXbLbGOKATJENKrsKDQ
- TnULNsu6yIV4aRYztKGy9FOULin/20/LtnMkIPFcBPI7JSwP9DKGpFml6AbX8Y5nPaun3ehrN0
- ny+yFkIQNwy6sN4Arpx1sCDc
+IronPort-SDR: kU4N0Annb4Ia8a8HH9S/t5tw23W+LxHs3JJbQS8bu+NrpaDtvdwrh7cz7eOaD0I5YFHqnHARmu
+ E0uH47YYsEqGUYmGDkt56+6rEeD5eXxyBy+9kkyYkAhSLnDZJcIWawri8Uf6VifMaVSA3Ax4bC
+ qp6+5gkaDDlkgTvC1jbnnxTn2RCnT6XhBFvCUfEL0dy/l+icdJaO2tmWLgsb2VOT1hjBwXrs3O
+ 3h3XMGoTur1Gm8dBeg7VRj6nYvH8iYKWya6/RT6TaN96RHKBkuaDc3UjN/rE3gIi+k4NEohlju
+ RcDbEwiTlbiGFzIOP9OEnF3V
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Nov 2020 19:55:01 -0800
-IronPort-SDR: BAjuFm0S5PmJX1vd0ExQpE4YH2W/JOlS8HLg2tYU+fouTaW++IapL8gmBTs8FbWzLOgN9ct3vj
- wvVwa+P6KvE6fDXO8rgtYjxbbVnYArPdbmtV2PGYDdvj+gToDR+jqOWWYrhsjjXhT2egAXkuEe
- gltUyHObjdD2JCClGs3Jn9e9kkDbq9MJLzN9fZQyAMoc8c1omV/585zfn3qhIp6JyZB3axyczd
- N0uUvcohr+ZzhF0N3UH4yqzzfGhD9nL/lVOQya8935WYEO775h4nnEBxdn4Mp1wyr6Rihp4Qet
- FO4=
+ 09 Nov 2020 19:55:02 -0800
+IronPort-SDR: rO0XqHEz9/pkAUhchlyGz1p8E7DH31COg352P1T+ncWxJX3/xP+cAH0Dn+C/nfgaA5XGe6ITnc
+ DGLGab/O7s7IOfEgotMJ6WtdOn8G8whkujkfXoIMZwGqtPzTwaJ76cdJz50ewvSuxUDiGSIs6F
+ JOjqEdbGis05xAsH9B9Z5y+EeXJeWlu0wiWFqflW/sfUxFGYAwl0US6Wm41eouv2sTkS546mfj
+ yJdb8DyKQX68gJhAE6gSCplrv4lPIvcHkXqFfUImyolJyoY5Vd1r3fNDBY5EF3CysU95MJaXlq
+ tQo=
 WDCIronportException: Internal
 Received: from usa001882.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.60.209])
@@ -62,13 +62,14 @@ Received: from usa001882.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 5/6] target/riscv: Split the Hypervisor execute load helpers
-Date: Mon,  9 Nov 2020 19:57:02 -0800
-Message-Id: <20201110035703.83786-6-alistair.francis@wdc.com>
+Subject: [PULL 6/6] hw/intc/ibex_plic: Clear the claim register when read
+Date: Mon,  9 Nov 2020 19:57:03 -0800
+Message-Id: <20201110035703.83786-7-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201110035703.83786-1-alistair.francis@wdc.com>
 References: <20201110035703.83786-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=68.232.143.124;
  envelope-from=prvs=57671029a=alistair.francis@wdc.com;
@@ -94,139 +95,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Split the hypervisor execute load functions into two seperate functions.
-This avoids us having to pass the memop to the C helper functions.
+After claiming the interrupt by reading the claim register we want to
+clear the register to make sure the interrupt doesn't appear at the next
+read.
+
+This matches the documentation for the claim register as when an interrupt
+is claimed by a target the relevant bit of IP is cleared (which we already
+do): https://docs.opentitan.org/hw/ip/rv_plic/doc/index.html
+
+This also matches the current hardware.
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 5b1550f0faa3c435cc77f3c1ae811dea98ab9e36.1604464950.git.alistair.francis@wdc.com
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 68d4575deef2559b7a747f3bda193fcf43af4558.1604629928.git.alistair.francis@wdc.com
 ---
- target/riscv/helper.h                   |  3 ++-
- target/riscv/op_helper.c                | 36 +++++++------------------
- target/riscv/insn_trans/trans_rvh.c.inc | 20 +++++---------
- 3 files changed, 17 insertions(+), 42 deletions(-)
+ hw/intc/ibex_plic.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index ee35311052..939731c345 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -81,7 +81,8 @@ DEF_HELPER_1(tlb_flush, void, env)
- #ifndef CONFIG_USER_ONLY
- DEF_HELPER_1(hyp_tlb_flush, void, env)
- DEF_HELPER_1(hyp_gvma_tlb_flush, void, env)
--DEF_HELPER_4(hyp_x_load, tl, env, tl, tl, tl)
-+DEF_HELPER_2(hyp_hlvx_hu, tl, env, tl)
-+DEF_HELPER_2(hyp_hlvx_wu, tl, env, tl)
- #endif
+diff --git a/hw/intc/ibex_plic.c b/hw/intc/ibex_plic.c
+index f49fa67c91..235e6b88ff 100644
+--- a/hw/intc/ibex_plic.c
++++ b/hw/intc/ibex_plic.c
+@@ -139,6 +139,9 @@ static uint64_t ibex_plic_read(void *opaque, hwaddr addr,
+         /* Return the current claimed interrupt */
+         ret = s->claim;
  
- /* Vector functions */
-diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-index 980d4f39e1..d55def76cf 100644
---- a/target/riscv/op_helper.c
-+++ b/target/riscv/op_helper.c
-@@ -227,36 +227,18 @@ void helper_hyp_gvma_tlb_flush(CPURISCVState *env)
-     helper_hyp_tlb_flush(env);
- }
- 
--target_ulong helper_hyp_x_load(CPURISCVState *env, target_ulong address,
--                               target_ulong attrs, target_ulong memop)
-+target_ulong helper_hyp_hlvx_hu(CPURISCVState *env, target_ulong address)
- {
--    if (env->priv == PRV_M ||
--        (env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) ||
--        (env->priv == PRV_U && !riscv_cpu_virt_enabled(env) &&
--            get_field(env->hstatus, HSTATUS_HU))) {
--        target_ulong pte;
--        int mmu_idx = cpu_mmu_index(env, false) | TB_FLAGS_PRIV_HYP_ACCESS_MASK;
--
--        switch (memop) {
--        case MO_TEUW:
--            pte = cpu_lduw_mmuidx_ra(env, address, mmu_idx, GETPC());
--            break;
--        case MO_TEUL:
--            pte = cpu_ldl_mmuidx_ra(env, address, mmu_idx, GETPC());
--            break;
--        default:
--            g_assert_not_reached();
--        }
-+    int mmu_idx = cpu_mmu_index(env, true) | TB_FLAGS_PRIV_HYP_ACCESS_MASK;
- 
--        return pte;
--    }
-+    return cpu_lduw_mmuidx_ra(env, address, mmu_idx, GETPC());
-+}
- 
--    if (riscv_cpu_virt_enabled(env)) {
--        riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
--    } else {
--        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
--    }
--    return 0;
-+target_ulong helper_hyp_hlvx_wu(CPURISCVState *env, target_ulong address)
-+{
-+    int mmu_idx = cpu_mmu_index(env, true) | TB_FLAGS_PRIV_HYP_ACCESS_MASK;
++        /* Clear the claimed interrupt */
++        s->claim = 0x00000000;
 +
-+    return cpu_ldl_mmuidx_ra(env, address, mmu_idx, GETPC());
- }
- 
- #endif /* !CONFIG_USER_ONLY */
-diff --git a/target/riscv/insn_trans/trans_rvh.c.inc b/target/riscv/insn_trans/trans_rvh.c.inc
-index cc197e7186..ce7ed5affb 100644
---- a/target/riscv/insn_trans/trans_rvh.c.inc
-+++ b/target/riscv/insn_trans/trans_rvh.c.inc
-@@ -277,20 +277,16 @@ static bool trans_hlvx_hu(DisasContext *ctx, arg_hlvx_hu *a)
- #ifndef CONFIG_USER_ONLY
-     TCGv t0 = tcg_temp_new();
-     TCGv t1 = tcg_temp_new();
--    TCGv mem_idx = tcg_temp_new();
--    TCGv memop = tcg_temp_new();
-+
-+    check_access(ctx);
- 
-     gen_get_gpr(t0, a->rs1);
--    tcg_gen_movi_tl(mem_idx, ctx->mem_idx);
--    tcg_gen_movi_tl(memop, MO_TEUW);
- 
--    gen_helper_hyp_x_load(t1, cpu_env, t0, mem_idx, memop);
-+    gen_helper_hyp_hlvx_hu(t1, cpu_env, t0);
-     gen_set_gpr(a->rd, t1);
- 
-     tcg_temp_free(t0);
-     tcg_temp_free(t1);
--    tcg_temp_free(mem_idx);
--    tcg_temp_free(memop);
-     return true;
- #else
-     return false;
-@@ -303,20 +299,16 @@ static bool trans_hlvx_wu(DisasContext *ctx, arg_hlvx_wu *a)
- #ifndef CONFIG_USER_ONLY
-     TCGv t0 = tcg_temp_new();
-     TCGv t1 = tcg_temp_new();
--    TCGv mem_idx = tcg_temp_new();
--    TCGv memop = tcg_temp_new();
-+
-+    check_access(ctx);
- 
-     gen_get_gpr(t0, a->rs1);
--    tcg_gen_movi_tl(mem_idx, ctx->mem_idx);
--    tcg_gen_movi_tl(memop, MO_TEUL);
- 
--    gen_helper_hyp_x_load(t1, cpu_env, t0, mem_idx, memop);
-+    gen_helper_hyp_hlvx_wu(t1, cpu_env, t0);
-     gen_set_gpr(a->rd, t1);
- 
-     tcg_temp_free(t0);
-     tcg_temp_free(t1);
--    tcg_temp_free(mem_idx);
--    tcg_temp_free(memop);
-     return true;
- #else
-     return false;
+         /* Update the interrupt status after the claim */
+         ibex_plic_update(s);
+     }
 -- 
 2.29.2
 
