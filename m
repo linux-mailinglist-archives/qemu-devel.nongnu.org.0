@@ -2,74 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EA9F2ACA5A
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 02:23:32 +0100 (CET)
-Received: from localhost ([::1]:51136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 163BD2ACA65
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 02:25:45 +0100 (CET)
+Received: from localhost ([::1]:55192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcINf-0003kB-GI
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 20:23:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50708)
+	id 1kcIPo-0005RI-39
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 20:25:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1kcIMB-0003Iw-27
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 20:21:59 -0500
-Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233]:40841)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1kcIM9-00085F-5l
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 20:21:58 -0500
-Received: by mail-lj1-x233.google.com with SMTP id x9so324598ljc.7
- for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 17:21:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=wxwpX7sy/+Wt7in8tob/pjnG8tum+T/MDfLSgHqayEE=;
- b=Q4c1WbPJjr6sftqaZ6O33L74yF+q2QWZ6d6wmrQ/SbAoaag51QMWhqn3cXORkjabLb
- 1HmG6L5nY/erCpphKvsZsHb4cE5YCZuOL95ot9T1WIam8Zjnoq/JTIGsRParIv7hHXp4
- XQrdbQkbtdf10xABrKbndJBw5gO4IkilwiwqKq0LAQ9BcdGdsHTR48qnS7Gq8zdlQDB3
- bi7RbO2LmJWyxjKEq0kxA7W6nrGhH/sA0eeAEd/OCALZ23/KZE4NOV4brtvZYu7UmOuN
- rMTEctM8o3r47lBWR0/gb/GEUXaGd3lEuKXA9vOS/eP+yo005MObsl9dn5MGHsH8NgDq
- tkAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=wxwpX7sy/+Wt7in8tob/pjnG8tum+T/MDfLSgHqayEE=;
- b=t0SqQre0GhbswY0seAWqp7cgm69e3MU8HMYeHyBYdl4SGk80Q6QTECPoflDqTpk+Lj
- 3a6oUMaesoT7NtnLeLerTW5Z46YDfrOiM/8KezmARHhqe7BRwJEmoA4gaMQ//zwyiRAJ
- XLJKc6L9gE3GdkKrP55L1TPcibkgXq0UvN0mIyFTmCvuQByZgbjFHk2JSRsFO5NS1+kO
- R7M0yX+fxEj3QCE2Y37L3H8tePqJisU0ZJDyv3d+xbOxG0Nlx/jpP4dV/97lph7Mqnfg
- 6le4E6mTApULqa+/2qaiFyoOsmh22PuAq4AX1w5R3He/dTlOKxXsizvT8wlzkfISmlIa
- o/DA==
-X-Gm-Message-State: AOAM530BzUapmqIgLk7NFB4puJUKQNzaBt73oDourr35M8ixQog4r9jn
- 0DXOGdQKtKAMvNYiPx5Mv1praDqSZG7Lhmdzigo=
-X-Google-Smtp-Source: ABdhPJw0/TehYUQs8xkGS9QWndT6itYbVoZS+7B36GSpUROTRZ9gQlyxLsAsb6asaBF02uktViGOD6kijLLpzvD6M60=
-X-Received: by 2002:a2e:9a0c:: with SMTP id o12mr6901337lji.104.1604971314678; 
- Mon, 09 Nov 2020 17:21:54 -0800 (PST)
-MIME-Version: 1.0
-References: <20201109090422.2445166-1-f4bug@amsat.org>
- <ffdaefd0-b887-5116-628e-5a303aa2389f@linaro.org>
-In-Reply-To: <ffdaefd0-b887-5116-628e-5a303aa2389f@linaro.org>
-From: chen huacai <zltjiangshi@gmail.com>
-Date: Tue, 10 Nov 2020 09:21:43 +0800
-Message-ID: <CABDp7VrHETF1bmjfLD8M8hnBvQ5o2hVHokiOyiCCvzh-vzvg0w@mail.gmail.com>
-Subject: Re: [PATCH-for-6.0 0/2] target/mips: CP0 housekeeping patches for Nov
- 2020
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::233;
- envelope-from=zltjiangshi@gmail.com; helo=mail-lj1-x233.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <krish.sadhukhan@oracle.com>)
+ id 1kcINs-0004Dr-JM
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 20:23:44 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:54868)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <krish.sadhukhan@oracle.com>)
+ id 1kcINo-0008IA-PA
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 20:23:44 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AA1KDRY138928;
+ Tue, 10 Nov 2020 01:23:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id; s=corp-2020-01-29;
+ bh=u3ugKtb/hD7qDBm+r+haai4+xBCusqnBiUb7VIooum0=;
+ b=D5Tpu6M2VphEkHQWxNQ3HNfTL8BvPmGYCy//QKq4MwiSK7NAyG7wHbPHaw+RbtZi02aW
+ d2XxgkkPMDIJpdT4PBE8LtQu0pqoNtAgvvhHGIeKPUJhrz4sgQb8STJGCISGl3xNsi28
+ /eehGagtlPhzOwx+PDRqmcbOaIqMNq0YSCgciBX/OuGUPMoo7ivzjTK49Gtr8gdSu9Yw
+ 07TaHpOcuKWD32hbQOCBFy7qgbl4TgQyuWIFM3y3f1EoiQnenXY2uhI0BOkT1GPgEHtT
+ +5eLJVYKQaZ1Hk2AxZQWbBSmWtmgDOjMbUvh2fNekT93WpBaIgBZT7MAk4VIoyHG7TYL Kw== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2130.oracle.com with ESMTP id 34nh3asa70-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 10 Nov 2020 01:23:33 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AA1K5A8023810;
+ Tue, 10 Nov 2020 01:23:32 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by userp3030.oracle.com with ESMTP id 34p5gw4a00-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 10 Nov 2020 01:23:32 +0000
+Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0AA1NVpG005460;
+ Tue, 10 Nov 2020 01:23:31 GMT
+Received: from nsvm-sadhukhan-1.osdevelopmeniad.oraclevcn.com
+ (/100.100.230.216) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Mon, 09 Nov 2020 17:23:31 -0800
+From: Krish Sadhukhan <krish.sadhukhan@oracle.com>
+To: kvm@vger.kernel.org
+Subject: [PATCH 0/5 v4] KVM: x86: Fill in conforming {vmx|svm}_x86_ops and
+ {vmx|svm}_nested_ops via macros
+Date: Tue, 10 Nov 2020 01:23:07 +0000
+Message-Id: <20201110012312.20820-1-krish.sadhukhan@oracle.com>
+X-Mailer: git-send-email 2.18.4
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9800
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ mlxlogscore=621 mlxscore=0
+ spamscore=0 phishscore=0 adultscore=0 malwarescore=0 suspectscore=1
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011100008
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9800
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ lowpriorityscore=0 priorityscore=1501
+ clxscore=1011 malwarescore=0 mlxscore=0 spamscore=0 suspectscore=1
+ mlxlogscore=635 impostorscore=0 phishscore=0 adultscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011100008
+Received-SPF: pass client-ip=141.146.126.79;
+ envelope-from=krish.sadhukhan@oracle.com; helo=aserp2130.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 20:23:36
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,32 +93,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- qemu-level <qemu-devel@nongnu.org>, Huacai Chen <chenhc@lemote.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: pbonzini@redhat.com, vkuznets@redhat.com, qemu-devel@nongnu.org,
+ sean.j.christopherson@intel.com, jmattson@google.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Huacai Chen <chenhc@lemote.com>
-
-On Tue, Nov 10, 2020 at 1:37 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 11/9/20 1:04 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-> > Based-on: <20201108234234.2389789-1-f4bug@amsat.org>
-> >
-> > Philippe Mathieu-Daud=C3=A9 (2):
-> >   target/mips: Replace magic values by CP0PM_MASK or
-> >     TARGET_PAGE_BITS_MIN
-> >   target/mips: Do not include CP0 helpers in user-mode emulation
->
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->
-> r~
->
+v3 -> v4:
+	1. v3 did not include a few x86_ops and x86_nested_ops in the macro
+	   expansion process of function names. This set has covered all those
+	   left-out ops.
+	2. Patch# 6 from v3 has been dropped as those changes already exist in
+	   QEMU source.
 
 
---=20
-Huacai Chen
+[PATCH 1/5 v4] KVM: x86: Change names of some of the kvm_x86_ops
+[PATCH 2/5 v4] KVM: SVM: Fill in conforming svm_x86_ops via macro
+[PATCH 3/5 v4] KVM: nSVM: Fill in conforming svm_nested_ops via macro
+[PATCH 4/5 v4] KVM: VMX: Fill in conforming vmx_x86_ops via macro
+[PATCH 5/5 v4] KVM: nVMX: Fill in conforming vmx_nested_ops via macro
+
+ arch/arm64/include/asm/kvm_host.h   |   2 +-
+ arch/mips/include/asm/kvm_host.h    |   2 +-
+ arch/powerpc/include/asm/kvm_host.h |   2 +-
+ arch/s390/kvm/kvm-s390.c            |   2 +-
+ arch/x86/include/asm/kvm_host.h     |  16 +-
+ arch/x86/kvm/lapic.c                |   2 +-
+ arch/x86/kvm/pmu.h                  |   4 +-
+ arch/x86/kvm/svm/avic.c             |  11 +-
+ arch/x86/kvm/svm/nested.c           |  20 +--
+ arch/x86/kvm/svm/pmu.c              |   2 +-
+ arch/x86/kvm/svm/sev.c              |   4 +-
+ arch/x86/kvm/svm/svm.c              | 296 ++++++++++++++++++++----------------
+ arch/x86/kvm/svm/svm.h              |  15 +-
+ arch/x86/kvm/vmx/evmcs.c            |   6 +-
+ arch/x86/kvm/vmx/evmcs.h            |   4 +-
+ arch/x86/kvm/vmx/nested.c           |  39 +++--
+ arch/x86/kvm/vmx/pmu_intel.c        |   2 +-
+ arch/x86/kvm/vmx/posted_intr.c      |   6 +-
+ arch/x86/kvm/vmx/posted_intr.h      |   4 +-
+ arch/x86/kvm/vmx/vmx.c              | 262 +++++++++++++++----------------
+ arch/x86/kvm/vmx/vmx.h              |   4 +-
+ arch/x86/kvm/x86.c                  |  41 ++---
+ include/linux/kvm_host.h            |   2 +-
+ include/uapi/linux/kvm.h            |   6 +-
+ tools/include/uapi/linux/kvm.h      |   6 +-
+ virt/kvm/kvm_main.c                 |   4 +-
+ 26 files changed, 405 insertions(+), 359 deletions(-)
+
+Krish Sadhukhan (5):
+      KVM: x86: Change names of some of the kvm_x86_ops functions to make them more semantical and readable
+      KVM: SVM: Fill in conforming svm_x86_ops via macro
+      KVM: nSVM: Fill in conforming svm_nested_ops via macro
+      KVM: VMX: Fill in conforming vmx_x86_ops via macro
+      KVM: nVMX: Fill in conforming vmx_nested_ops via macro
+
 
