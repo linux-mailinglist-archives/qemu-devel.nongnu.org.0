@@ -2,84 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73FA02ADC47
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 17:43:10 +0100 (CET)
-Received: from localhost ([::1]:58246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD8E82ADC76
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 17:53:08 +0100 (CET)
+Received: from localhost ([::1]:37930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcWjZ-0004aN-OV
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 11:43:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41608)
+	id 1kcWtE-0008QC-TV
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 11:53:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kcWhZ-0003uh-At
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 11:41:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30167)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kcWru-0007x9-5X
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 11:51:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41458)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kcWhV-0008FZ-Hp
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 11:41:00 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kcWrr-0003Qz-I7
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 11:51:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605026456;
+ s=mimecast20190719; t=1605027098;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MEmb8A/ysHNeRGBu9Beb2fo8JA0figuwHCOoaplZ2Sg=;
- b=PHKoh0M8fOlg/x4g9qzQiHKbIPyvPsXEdaSFvioeUU3PAoJKrFrKEfIKrS882EUw+hXGzF
- q3k5LMQtXMoQBvPYAmS2TEFGRdNyih+wOzf+i9ddJQOcksW2Hoe6C+Zo2GeKP137ayaNhi
- bj0U7y6ZJ+I4hEK4eDGR0UcZEVGYquE=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-31-mvO7OPjWOOyKTWHFWyUERQ-1; Tue, 10 Nov 2020 11:40:55 -0500
-X-MC-Unique: mvO7OPjWOOyKTWHFWyUERQ-1
-Received: by mail-ej1-f72.google.com with SMTP id 27so4889355ejy.8
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 08:40:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=MEmb8A/ysHNeRGBu9Beb2fo8JA0figuwHCOoaplZ2Sg=;
- b=Em/o/1tnlVBBSDmec7zOzdxtlYBm1SEx834qnWVtja383xHH0X1rYli2G93RNXoOZy
- i96wgT5n4jD/HusqcOG8NfhuXuE4V8iSHbUqJ8ohVohHDtYs5bfpjcpiFEJIhHrT8qGX
- KApmWvdlB1NWl1UANM3DwBM2Ymtogdq70SALkTxnphEvnKnkq/0VocMcCZ+15AwC/RA9
- uYVnKYNQCnzQtc16ZWTm7lizUFT9prY7h7YarjOoBa7+bOE17K3p6YDiVv2l61E2dbMc
- nH9yTnonzgjS8D8f0BFiA3W/MoOZzeAnPEKPUDQvREeN1i3BUcQ9hWl2o+jTDO3Wnzpd
- vcpw==
-X-Gm-Message-State: AOAM530ZaXHIV3ZxOQXY7gPHjUJCOKbkwKdzDO3TuDlh8DTqR2cgqh11
- UXyMNDuiBuVEdvEJ7P7sVb8njitcPctAbAwqvelE3K7WWBQGlzCPbFSMSd0alJ4JTSAlKJYBm+T
- UZ49s+YX2m2XFYRI=
-X-Received: by 2002:a17:906:a4b:: with SMTP id
- x11mr21528325ejf.11.1605026453823; 
- Tue, 10 Nov 2020 08:40:53 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxb1M6EzIFcBXlb4FJOKc3CdbbgxCSW9PUI3I1jkodrd98LdTGXtwY+53x4OyC2laa6kPa7xQ==
-X-Received: by 2002:a17:906:a4b:: with SMTP id
- x11mr21528301ejf.11.1605026453629; 
- Tue, 10 Nov 2020 08:40:53 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id c5sm11407327edx.58.2020.11.10.08.40.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Nov 2020 08:40:52 -0800 (PST)
-Subject: Re: [RFC 0/2] Build a single Sphinx manual, not five
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20201109214420.32131-1-peter.maydell@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <22bf8b4e-ab55-3e3c-79b2-b46d4d00e212@redhat.com>
-Date: Tue, 10 Nov 2020 17:40:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ bh=Gi/U1YhD4f4WexL1ikLctAIvMW2v2EE+xIXCVB63jPQ=;
+ b=KJtdiBYTGrnJf7NX9VOKKw2YdXEGQUcx4aF96mb4knG48Y600d8XolRIrmGXpZYGYJIA8T
+ ET+Mv76wQdNIb/UCCiFy7jMD55RZEmebtm6qmOiWmLMfJCW4omO93EvQ/ILHaMvdXsqMhk
+ R2n6lCmlXP7/E07S6NKik9/P/ZWetTg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-369-MROssHNSMlOUMvmQhAwj2g-1; Tue, 10 Nov 2020 11:51:36 -0500
+X-MC-Unique: MROssHNSMlOUMvmQhAwj2g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24A99800688;
+ Tue, 10 Nov 2020 16:51:35 +0000 (UTC)
+Received: from work-vm (ovpn-115-49.ams2.redhat.com [10.36.115.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 287F47665F;
+ Tue, 10 Nov 2020 16:51:32 +0000 (UTC)
+Date: Tue, 10 Nov 2020 16:51:30 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Chuan Zheng <zhengchuan@huawei.com>
+Subject: Re: [PATCH v3 09/18] migration/rdma: add multifd_rdma_load_setup()
+ to setup multifd rdma
+Message-ID: <20201110165130.GF3108@work-vm>
+References: <1602908748-43335-1-git-send-email-zhengchuan@huawei.com>
+ <1602908748-43335-10-git-send-email-zhengchuan@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20201109214420.32131-1-peter.maydell@linaro.org>
+In-Reply-To: <1602908748-43335-10-git-send-email-zhengchuan@huawei.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 02:00:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -88,9 +68,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,39 +82,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>,
- Maxim Cournoyer <maxim.cournoyer@gmail.com>
+Cc: yubihong@huawei.com, zhang.zhanghailiang@huawei.com, quintela@redhat.com,
+ fengzhimin1@huawei.com, qemu-devel@nongnu.org, xiexiangyou@huawei.com,
+ alex.chen@huawei.com, wanghao232@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/11/20 22:44, Peter Maydell wrote:
-> When we first converted our documentation to Sphinx, we split it into
-> multiple manuals (system, interop, tools, etc), which are all built
-> separately.  The primary driver for this was wanting to be able to
-> avoid shipping the 'devel' manual to end-users.  However, this is
-> working against the grain of the way Sphinx wants to be used and
-> causes some annoyances:
->   * Cross-references between documents become much harder or
->     possibly impossible (currently we don't even try)
->   * There is no single index to the whole documentation
->   * Within one manual there's no links or table-of-contents info
->     that lets you easily navigate to the others
->   * The devel manual doesn't get published on the QEMU website
->     (it would be nice to able to refer to it there)
->   * Common information like the QEMU license, supported platforms,
->     and deprecation information either gets duplicated across manuals,
->     split between them, or shoved into the system manual as the
->     closest to a generic one
->      
-> Merely hiding our developer documentation from end users seems like
-> it's not enough benefit for these costs.
+* Chuan Zheng (zhengchuan@huawei.com) wrote:
+> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+> ---
+>  migration/rdma.c | 52 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 52 insertions(+)
 > 
-> This RFC series switches over to building a single big manual,
-> the same way that the readthedocs version builds it.
-
-No objection here of course, even for 5.2.  The build system stuff seems 
-okay too.
-
-Paolo
+> diff --git a/migration/rdma.c b/migration/rdma.c
+> index ad4e4ba..2baa933 100644
+> --- a/migration/rdma.c
+> +++ b/migration/rdma.c
+> @@ -4010,6 +4010,48 @@ static void rdma_accept_incoming_migration(void *opaque)
+>      }
+>  }
+>  
+> +static bool multifd_rdma_load_setup(const char *host_port,
+> +                                    RDMAContext *rdma, Error **errp)
+> +{
+> +    int thread_count;
+> +    int i;
+> +    int idx;
+> +    MultiFDRecvParams *multifd_recv_param;
+> +    RDMAContext *multifd_rdma;
+> +
+> +    if (!migrate_use_multifd()) {
+> +        return true;
+> +    }
+> +
+> +    if (multifd_load_setup(errp) != 0) {
+> +        /*
+> +         * We haven't been able to create multifd threads
+> +         * nothing better to do
+> +         */
+> +        return false;
+> +    }
+> +
+> +    thread_count = migrate_multifd_channels();
+> +    for (i = 0; i < thread_count; i++) {
+> +        if (get_multifd_recv_param(i, &multifd_recv_param) < 0) {
+> +            ERROR(errp, "rdma: error getting multifd_recv_param(%d)", i);
+> +            return false;
+> +        }
+> +
+> +        multifd_rdma = qemu_rdma_data_init(host_port, errp);
+> +        for (idx = 0; idx < RDMA_WRID_MAX; idx++) {
+> +            multifd_rdma->wr_data[idx].control_len = 0;
+> +            multifd_rdma->wr_data[idx].control_curr = NULL;
+> +        }
+> +        /* the CM channel and CM id is shared */
+> +        multifd_rdma->channel = rdma->channel;
+> +        multifd_rdma->listen_id = rdma->listen_id;
+> +        multifd_recv_param->rdma = (void *)multifd_rdma;
+> +    }
+> +
+> +    return true;
+> +}
+> +
+>  void rdma_start_incoming_migration(const char *host_port, Error **errp)
+>  {
+>      int ret;
+> @@ -4057,6 +4099,16 @@ void rdma_start_incoming_migration(const char *host_port, Error **errp)
+>          qemu_rdma_return_path_dest_init(rdma_return_path, rdma);
+>      }
+>  
+> +    /* multifd rdma setup */
+> +    if (!multifd_rdma_load_setup(host_port, rdma, &local_err)) {
+> +        /*
+> +         * We haven't been able to create multifd threads
+> +         * nothing better to do
+> +         */
+> +        error_report_err(local_err);
+> +        goto err;
+> +    }
+> +
+>      qemu_set_fd_handler(rdma->channel->fd, rdma_accept_incoming_migration,
+>                          NULL, (void *)(intptr_t)rdma);
+>      return;
+> -- 
+> 1.8.3.1
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
