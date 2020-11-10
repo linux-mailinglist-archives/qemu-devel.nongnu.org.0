@@ -2,54 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A5502ADD28
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 18:41:07 +0100 (CET)
-Received: from localhost ([::1]:47348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB45F2ADD51
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 18:47:06 +0100 (CET)
+Received: from localhost ([::1]:52326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcXdi-0004EU-FC
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 12:41:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56240)
+	id 1kcXjU-0006d4-AC
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 12:47:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kcXbc-00034G-I9
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 12:38:57 -0500
-Received: from mx2.suse.de ([195.135.220.15]:54804)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kcXba-0001sW-BU
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 12:38:56 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 567A8ABCC;
- Tue, 10 Nov 2020 17:38:51 +0000 (UTC)
-Subject: Re: [RFC v1 09/10] i386: split cpu.c and defer x86 models registration
-To: Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20201109172755.16500-1-cfontana@suse.de>
- <20201109172755.16500-10-cfontana@suse.de>
- <20201109180302.GB814975@redhat.com>
- <971cfde9-d24e-a3dc-6389-8a7c9e477f63@suse.de>
- <20201110100438.GF866671@redhat.com>
- <c4c56c06-7530-5705-9ce8-5eff8cf1a0d3@redhat.com>
- <20201110152314.GF5733@habkost.net>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <ddd6f791-c05c-1a7a-8fae-987435645e99@suse.de>
-Date: Tue, 10 Nov 2020 18:38:49 +0100
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcXgu-00062b-Qe
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 12:44:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55116)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcXgr-0003kp-98
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 12:44:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605030259;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8l2eS9TfgIhU2082KL5by7lD55Qo+iYIswvHFI/HJyU=;
+ b=MCQyN51C62BwrL7kBk9lhlwOzln+6VChZTL62MKCL9li/CFTzWXCylfd3XsGzGHtLErnJU
+ hYRtlSLTsy6XIM+xem3XawqqidnNFWpbUc72UG/58GJEyI0LiKMHpO3vZWaCe/YKb1uJC0
+ I/itGBzz29LeK1VISYIKCLj3eGdW4Qc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-90-9VuQyiW5MT6OPCsNN_BWww-1; Tue, 10 Nov 2020 12:44:16 -0500
+X-MC-Unique: 9VuQyiW5MT6OPCsNN_BWww-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3B635F9DB;
+ Tue, 10 Nov 2020 17:44:14 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-113-192.ams2.redhat.com [10.36.113.192])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 041785B4A0;
+ Tue, 10 Nov 2020 17:44:06 +0000 (UTC)
+Subject: Re: [PATCH 3/3] configure: mark vhost-user Linux-only
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20201110171121.1265142-1-stefanha@redhat.com>
+ <20201110171121.1265142-4-stefanha@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <cee0ed66-d78f-4434-92d2-1c2737d266eb@redhat.com>
+Date: Tue, 10 Nov 2020 18:44:05 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20201110152314.GF5733@habkost.net>
+In-Reply-To: <20201110171121.1265142-4-stefanha@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 23:19:25
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 00:21:06
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,74 +83,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Colin Xu <colin.xu@intel.com>, Paul Durrant <paul@xen.org>,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- Dario Faggioli <dfaggioli@suse.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Cameron Esfahani <dirty@apple.com>, haxm-team@intel.com,
- Wenchao Wang <wenchao.wang@intel.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>, Bruce Rogers <brogers@suse.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/10/20 4:23 PM, Eduardo Habkost wrote:
-> On Tue, Nov 10, 2020 at 11:41:46AM +0100, Paolo Bonzini wrote:
->> On 10/11/20 11:04, Daniel P. Berrangé wrote:
->>>
->>> ie, we should have one class hierarchy for CPU model definitions, and
->>> one class hierarchy  for accelerator CPU implementations.
->>>
->>> So at runtime we then get two object instances - a CPU implementation
->>> and a CPU definition. The CPU implementation object should have a
->>> property which is a link to the desired CPU definition.
->>
->> It doesn't even have to be two object instances.  The implementation can be
->> nothing more than a set of function pointers.
+On 10/11/2020 18.11, Stefan Hajnoczi wrote:
+> The vhost-user protocol uses the Linux eventfd feature and is typically
+> connected to Linux kvm.ko ioeventfd and irqfd file descriptors. The
+> protocol specification in docs/interop/vhost-user.rst does not describe
+> how platforms without eventfd support work.
 > 
-> A set of function pointers is exactly what a QOM interface is.
-> Could the methods be provided by a TYPE_X86_ACCEL interface type,
-> implemented by the accel object?
+> The QEMU vhost-user devices compile on other POSIX host operating
+> systems because eventfd usage is abstracted in QEMU. The libvhost-user
+> programs in contrib/ do not compile but we failed to notice since they
+> are not built by default.
+> 
+> Make it clear that vhost-user is only supported on Linux for the time
+> being. If someone wishes to support it on other platforms then the
+> details can be added to vhost-user.rst and CI jobs can test the feature
+> to prevent bitrot.
+> 
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  configure | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
+> 
+> diff --git a/configure b/configure
+> index 5ae73fa32c..ef431f86c0 100755
+> --- a/configure
+> +++ b/configure
+> @@ -328,7 +328,7 @@ vhost_net=""
+>  vhost_crypto=""
+>  vhost_scsi=""
+>  vhost_vsock=""
+> -vhost_user=""
+> +vhost_user="no"
+>  vhost_user_blk_server="auto"
+>  vhost_user_fs=""
+>  kvm="auto"
+> @@ -718,7 +718,6 @@ fi
+>  case $targetos in
+>  MINGW32*)
+>    mingw32="yes"
+> -  vhost_user="no"
+>    audio_possible_drivers="dsound sdl"
+>    if check_include dsound.h; then
+>      audio_drv_list="dsound"
+> @@ -797,6 +796,7 @@ Linux)
+>    audio_possible_drivers="oss alsa sdl pa"
+>    linux="yes"
+>    linux_user="yes"
+> +  vhost_user="yes"
+>  ;;
+>  esac
+>  
+> @@ -2339,9 +2339,8 @@ fi
+>  # vhost interdependencies and host support
+>  
+>  # vhost backends
+> -test "$vhost_user" = "" && vhost_user=yes
+> -if test "$vhost_user" = "yes" && test "$mingw32" = "yes"; then
+> -  error_exit "vhost-user isn't available on win32"
+> +if test "$vhost_user" = "yes" && test "$linux" != "yes"; then
+> +  error_exit "vhost-user is only available on Linux"
+>  fi
+>  test "$vhost_vdpa" = "" && vhost_vdpa=$linux
+>  if test "$vhost_vdpa" = "yes" && test "$linux" != "yes"; then
 > 
 
-Looking at the 2 axes mentioned by Daniel before, on the "accelerator cpu axis", we have TYPE_TCG_CPU, TYPE_KVM_CPU, TYPE_HVF_CPU,
-which look like simple subclasses of TYPE_X86_CPU to me, with basically all the divergent functionality being added by composition.
-TYPE_HVF_CPU seems to do everything that TYPE_X86_CPU does on construction (and device realization), and then some.
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-On the "cpu models" axis we have all the current subclasses of TYPE_X86_CPU, which include "links" to X86CPUModel objects in the form
-of class_data:
-
-static void x86_register_cpu_model_type(const char *name, X86CPUModel *model,
-                                        const char *parent_type)
-{
-    g_autofree char *typename = x86_cpu_type_name(name);
-    TypeInfo ti = {
-        .name = typename,
-        .parent = parent_type,
-        .class_init = x86_cpu_cpudef_class_init,
-        .class_data = model,
-    };
-
-    type_register(&ti);
-}
-
-so this would be close to the "link" property that Daniel you were speaking about before?
-Should X86CPUmodel be the prime citizen of the "cpu models" axis, without constructing a separate TYPE_X86_CPU subclass for each cpu model?
-
-A separate topic we did not address in comments before, where I'd like opinions, is how should we treat cpu types "base" and "max" and "host"?
-
-Just to avoid forgetting about them, currently TYPE_X86_CPU is the parent type of "base" and of "max",
-and "max" is the parent type of "host".
-
-"host" is only allowed when using accelerator kvm or hvf. Attempts to create such a cpu without a kvm or hvf accelerator enabled will error out.
-"max" behaves differently when using hvf or kvm.
-
-Thanks,
-
-Claudio
 
