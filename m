@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C72B2AE15D
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 22:08:05 +0100 (CET)
-Received: from localhost ([::1]:57884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 494C22AE165
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 22:13:39 +0100 (CET)
+Received: from localhost ([::1]:37342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcarv-0000v5-Ec
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 16:08:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46564)
+	id 1kcaxN-0004e9-QX
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 16:13:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kcaqA-0000JM-7F
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 16:06:10 -0500
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:35996)
+ id 1kcavh-0003vm-7D
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 16:11:53 -0500
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:36033)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kcaq4-00046N-GA
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 16:06:09 -0500
-Received: by mail-ed1-x52b.google.com with SMTP id o20so14342772eds.3
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 13:06:03 -0800 (PST)
+ id 1kcavf-0005P7-9w
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 16:11:52 -0500
+Received: by mail-ed1-x529.google.com with SMTP id o20so14359717eds.3
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 13:11:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Tr2a4u4QTHOCzOgV1pDGF2+/7molxSL7Zb5UlPMswgs=;
- b=HAYkMq1A6L3/eDnclNE2PNtQLnakjL3JtuPxeYcz14a90z/KNK4sbyUqAytMwZwhuz
- VttOk6a80w1A0gAolvtBa3x2wgL0oDnCNfTT1IoKmPs4vaiYHkANw/4dvenVzYcwNofC
- fYrMkyP+SUJ+MxaDFhLtejMqjwdpOP7abhTlIU7Qv+yZZCAlYbIEYM9m5E/raS9IikLI
- BMgtSoaSl8oLmyFWe8YS8O6yOfPzxLwRMML0NE9kwZ2DpRGqffZF/nsqWKhH4kqE8nBg
- NbXCnennS7adj1xaPdHwdBLWT2eks2Fsbl1UV0P+Bhzz+k3svXMqGb+HONvtVNR0YcmB
- YxXQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=Bx1oFk93PjSJxg1U+YwIzQ8r27fqDAKxFhVKdf6gxjI=;
+ b=Qla1ZDP7gNJHxucT56mcFH0kWhufjlFJAyK+B83gl337b3NUS96GsQZ0pk9dPmf9dl
+ NgwM4miRyJWspSOhIgWYFk9ajgANg29jzVrdpxBvRHzbl075qiCcmjVg1C5U/pQNpWg0
+ FVzbs14uOP8iaDcLnZehSlnz/aQuaQMtn4ThKwlFb9/zpJEyUD8EMJTY85PzPGRCWX6/
+ J6nOaChKGcz/LdVyDLWy9+b3PkNL4zWLTMIAOMB9U40yQLhOg3MNNSPT/I3rcddjKbA5
+ bj/k1gbzP5wLmUDhIAdgL9fj0PIx8VQcucjoSkuYm/tDtoP3iffMJED58+AKOlSuQKuX
+ vGeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Tr2a4u4QTHOCzOgV1pDGF2+/7molxSL7Zb5UlPMswgs=;
- b=NJ8A7lE4O6N4SN64wg1Us/W53ElDSnH4WyKtuFzX107+V2e3PFHWunpw0MHZ7TYGur
- A2xcIZhTzs+RLD6F3SV0X2W9bTGfDFb20Ttujr7UwchPmZX2NCmyubXAXX4qjBCsb7tF
- KyaZ+rWCeGCn6enWfdPUlzBtmhRRxC+5mR+epTVwHtKDCsX5lfty3QYyMsU9s2ipAOVl
- cjE+veKjO57KTzi9HJUof1PUEs99lkLK2Ntp59Y9L8aDh4Og72iE3aIk6ksObLApmoa2
- thk+xgRwWPVFW19wK75S75wRarfwYUn89/AJgTrTFcg8HpBqZ/Rdmd6eTbE/VLcuTRwh
- kRSA==
-X-Gm-Message-State: AOAM5300O39XjtN3JPTaD5f0WxuXYmSmEPZS4p6YzCSCr5XNGLAAo+Bs
- MjEJmeg49dxecR5I7CMg1+eTLUt7q+MhUJKosN4jFg==
-X-Google-Smtp-Source: ABdhPJxJexgAo8Xg3tVnMBDju+EDN2cTyIEWAbbYyVCWboq4uJ9LimSTo6qBq3cOdQnl+Aw+Pv8Otqks/TZRtbnVoME=
-X-Received: by 2002:aa7:db8a:: with SMTP id u10mr1424469edt.204.1605042362669; 
- Tue, 10 Nov 2020 13:06:02 -0800 (PST)
+ :message-id:subject:to;
+ bh=Bx1oFk93PjSJxg1U+YwIzQ8r27fqDAKxFhVKdf6gxjI=;
+ b=PFqNDqDLQSSi+g1quqleYYHnUVyVFNPJWiSNVEdDm2ZPzPCd02TxnggKCPxqQM5+fE
+ TKv9uKxBZWIAOLBlyc2zYjPSxVRPicQd5frcZEPvqbudRTm0FUbpqYQ/3rY0OJ/e0tpR
+ AA9J3L84uoJAK3JtsBVYdKZJ7KPEYfVqlOvTxp2+TSRERJcAy9szAli5HlLI/9lNE1gR
+ d4DGDjFd5520NO5k+GOGj/p40DTinACwRSd6U/v9d+ZdQyB6S0zX3w+FacMKddSArhMS
+ lC14AZToV3lPiuqoFjqgFkESQuSlHSgqCjS7GZfWE5Q2Mc9V9NXMHJaEqQNCwyr1/PC6
+ Qb1Q==
+X-Gm-Message-State: AOAM530vcUbQAikFRlDWAG7zJhovfOAl0pMpMAAAhkKmn8RsC8ThO1Sy
+ VpoCqN9CMLBujjMCNoeJYYk1oBehn7FYasFID82kF/GgpNA=
+X-Google-Smtp-Source: ABdhPJw/m7dHXIS1tEv2+ZpGRudQTQhQtOQK9bZTC//h5NZVZJJ3/17/wuwdTS+nThBjVY7rdmS6lCrqIoMuT2A7zlQ=
+X-Received: by 2002:a05:6402:b35:: with SMTP id
+ bo21mr1475332edb.52.1605042709276; 
+ Tue, 10 Nov 2020 13:11:49 -0800 (PST)
 MIME-Version: 1.0
-References: <20201110170604.5897-1-peter.maydell@linaro.org>
- <20201110170604.5897-3-peter.maydell@linaro.org>
- <202011102036.59785.pisa@cmp.felk.cvut.cz>
-In-Reply-To: <202011102036.59785.pisa@cmp.felk.cvut.cz>
+References: <20201110111917.29539-1-peter.maydell@linaro.org>
+In-Reply-To: <20201110111917.29539-1-peter.maydell@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 10 Nov 2020 21:05:51 +0000
-Message-ID: <CAFEAcA--KYfWZErVagQVDVzFQEOsiedOy=_Q2eEgd-bQj=pPuw@mail.gmail.com>
-Subject: Re: [PATCH for-5.2 v2 2/4] hw/net/can/ctucan: Avoid unused value in
- ctucan_send_ready_buffers()
-To: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+Date: Tue, 10 Nov 2020 21:11:37 +0000
+Message-ID: <CAFEAcA-jhneSqzS4=VfOu36Wx2f=uVwB+1rH_BL6PFzNXqLVnw@mail.gmail.com>
+Subject: Re: [PULL 00/16] target-arm queue
+To: QEMU Developers <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -81,46 +79,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Vikram Garhwal <fnu.vikram@xilinx.com>,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 10 Nov 2020 at 19:37, Pavel Pisa <pisa@cmp.felk.cvut.cz> wrote:
+On Tue, 10 Nov 2020 at 11:19, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> Hello Peter,
+> Patches for rc1: nothing major, just some minor bugfixes and
+> code cleanups.
 >
-> On Tuesday 10 of November 2020 18:06:02 Peter Maydell wrote:
-> > @@ -256,10 +254,7 @@ static void ctucan_send_ready_buffers(CtuCanCoreState
-> > *s) for (i = 0; i < CTUCAN_CORE_TXBUF_NUM; i++) {
-> >              uint32_t prio;
-> >
-> > -            buff_st_mask = 0xf << (i * 4);
-> > -            buff_st = (s->tx_status.u32 >> (i * 4)) & 0xf;
-> > -
-> > -            if (buff_st != TXT_RDY) {
-> > +            if (extract32(s->tx_status.u32, i * 4, 4) != TXT_RDY) {
-> >                  continue;
-> >              }
-> >              prio = (s->tx_priority.u32 >> (i * 4)) & 0x7;
-> > @@ -271,10 +266,7 @@ static void ctucan_send_ready_buffers(CtuCanCoreState
-> > *s) if (buff2tx_idx == -1) {
-> >              break;
-> >          }
-> > -        buff_st_mask = 0xf << (buff2tx_idx * 4);
-> > -        buff_st = (s->tx_status.u32 >> (buff2tx_idx * 4)) & 0xf;
-> >          int_stat.u32 = 0;
-> > -        buff_st = TXT_RDY;
+> -- PMM
 >
-> I would prefer to add there next line even that it has no real effect
+> The following changes since commit f7e1914adad8885a5d4c70239ab90d901ed97e9f:
 >
->  +        s->tx_status.u32 = deposit32(s->tx_status.u32,
->  +                                     buff2tx_idx * 4, 4, TXT_RDY);
+>   Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply-20201109' into staging (2020-11-10 09:24:56 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20201110
+>
+> for you to fetch changes up to b6c56c8a9a4064ea783f352f43c5df6231a110fa:
+>
+>   target/arm/translate-neon.c: Handle VTBL UNDEF case before VFP access check (2020-11-10 11:03:48 +0000)
+>
+> ----------------------------------------------------------------
+> target-arm queue:
+>  * hw/arm/Kconfig: ARM_V7M depends on PTIMER
+>  * Minor coding style fixes
+>  * docs: add some notes on the sbsa-ref machine
+>  * hw/arm/virt: Remove dependency on Cortex-A15 MPCore peripherals
+>  * target/arm: Fix neon VTBL/VTBX for len > 1
+>  * hw/arm/armsse: Correct expansion MPC interrupt lines
+>  * hw/misc/stm32f2xx_syscfg: Remove extraneous IRQ
+>  * hw/arm/nseries: Remove invalid/unnecessary n8x0_uart_setup()
+>  * hw/arm/musicpal: Don't connect two qemu_irqs directly to the same input
+>  * hw/arm/musicpal: Only use qdev_get_gpio_in() when necessary
+>  * hw/arm/nseries: Check return value from load_image_targphys()
+>  * tests/qtest/npcm7xx_rng-test: count runs properly
+>  * target/arm/translate-neon.c: Handle VTBL UNDEF case before VFP access check
+>
+> ----------------------------------------------------------------
 
-I mentioned this in a reply to my v1 series. The buffer status
-in the tx_status field is already TXT_RDY, so there is no state
-change happening here to document as far as I can tell ?
 
-thanks
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
+
 -- PMM
 
