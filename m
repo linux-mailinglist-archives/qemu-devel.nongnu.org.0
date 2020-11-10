@@ -2,74 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD8E82ADC76
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 17:53:08 +0100 (CET)
-Received: from localhost ([::1]:37930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B41C2ADCA4
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 18:11:17 +0100 (CET)
+Received: from localhost ([::1]:58112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcWtE-0008QC-TV
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 11:53:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44152)
+	id 1kcXAp-00010c-W8
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 12:11:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kcWru-0007x9-5X
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 11:51:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41458)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kcWrr-0003Qz-I7
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 11:51:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605027098;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Gi/U1YhD4f4WexL1ikLctAIvMW2v2EE+xIXCVB63jPQ=;
- b=KJtdiBYTGrnJf7NX9VOKKw2YdXEGQUcx4aF96mb4knG48Y600d8XolRIrmGXpZYGYJIA8T
- ET+Mv76wQdNIb/UCCiFy7jMD55RZEmebtm6qmOiWmLMfJCW4omO93EvQ/ILHaMvdXsqMhk
- R2n6lCmlXP7/E07S6NKik9/P/ZWetTg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-369-MROssHNSMlOUMvmQhAwj2g-1; Tue, 10 Nov 2020 11:51:36 -0500
-X-MC-Unique: MROssHNSMlOUMvmQhAwj2g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24A99800688;
- Tue, 10 Nov 2020 16:51:35 +0000 (UTC)
-Received: from work-vm (ovpn-115-49.ams2.redhat.com [10.36.115.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 287F47665F;
- Tue, 10 Nov 2020 16:51:32 +0000 (UTC)
-Date: Tue, 10 Nov 2020 16:51:30 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Chuan Zheng <zhengchuan@huawei.com>
-Subject: Re: [PATCH v3 09/18] migration/rdma: add multifd_rdma_load_setup()
- to setup multifd rdma
-Message-ID: <20201110165130.GF3108@work-vm>
-References: <1602908748-43335-1-git-send-email-zhengchuan@huawei.com>
- <1602908748-43335-10-git-send-email-zhengchuan@huawei.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kcX3G-00045d-7g
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 12:03:26 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:38349)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kcX3B-0007MU-C9
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 12:03:25 -0500
+Received: by mail-wm1-x342.google.com with SMTP id h62so3785253wme.3
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 09:03:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=WDVpTdYB/gxictCIeeRGT1DrBwWs1y/sZO8KemzFxB4=;
+ b=ZKE4hJjBPZHgQOdljVkEYaB8YeKiGMwv9Tx8Ph6YGKDPOMnkot6SJC1SjHzSiDXRjw
+ R30BKwDY0YEUcDHZDHvuvMw7AaWZg+Gkkks//uegikjBC5HBvKrSCHgzN5V0czSgO/y9
+ /Cpkihqgq8YlQF0AYAYvCKddJYJrcSFuUWzPIYqYA1aAzKzs/shIgauidNHt+T2tC2jF
+ +i5RcFTPWmvfTBSdoAIgUBxhGtRPmfLBdOMz90tCp6yzHQQEWfw5od7BOuyWSJR1RTA5
+ vyB24FM5cRV4qE7Wnk3YBN9GTuPFim8s892t0H4KE3GqLQTcuwKeUvMyvj+DYqOQxdgp
+ z+5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=WDVpTdYB/gxictCIeeRGT1DrBwWs1y/sZO8KemzFxB4=;
+ b=AuTZ55NNE6ztVkVfQsM6Oag3wznLxSLWfx+KwlzmMR1ux0RejPwnoQXvn6bjaSOGLE
+ WVlS5ytH89pwaSAVFbTkapdO0mFY5VwcDfyxVsn1xmcFsdKcbp9v0AhGjZ2QGj0w0H3s
+ bfmXrif7lk8GDn6S8hM/dbTXeEEej03xjLb3qC2y5s/9ySABqKNYw4FVFOdIF4qWHbTJ
+ vqeVbwUWFf0xfTx1v565ufZIxLCHY9cO1xg0jjx4+d1wv2LrOMWI0uuNlF+pCvsoJduG
+ ot/g3TQOiCqltQHvx6fpH3sVoQZNd7y38kAyEXmnChDaHAPlnTP5tM+MOqHR7m+5F5YM
+ /0MQ==
+X-Gm-Message-State: AOAM530qwLMPDStLXmmlCHzHPt5kLeW2E2PQkkcfltAJxbX56gXeikRi
+ meBZ941Q9U3cMCT0BJFEnO+2fQ==
+X-Google-Smtp-Source: ABdhPJzZPAREGSs4ufgsoLTePCEZ6Fdaz9OIPcjjnBLM4dg+M2HB6H9HvmYpIyXwaRFQO4+6Dlh/Kw==
+X-Received: by 2002:a1c:9804:: with SMTP id a4mr35558wme.158.1605027796452;
+ Tue, 10 Nov 2020 09:03:16 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id o10sm3589456wma.47.2020.11.10.09.03.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Nov 2020 09:03:14 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 1EB5D1FF7E;
+ Tue, 10 Nov 2020 17:03:14 +0000 (GMT)
+References: <20201106032921.600200-1-richard.henderson@linaro.org>
+ <20201106032921.600200-16-richard.henderson@linaro.org>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v3 15/41] accel/tcg: Support split-wx for linux with memfd
+In-reply-to: <20201106032921.600200-16-richard.henderson@linaro.org>
+Date: Tue, 10 Nov 2020 17:03:14 +0000
+Message-ID: <875z6d87ql.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <1602908748-43335-10-git-send-email-zhengchuan@huawei.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 02:00:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,95 +89,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yubihong@huawei.com, zhang.zhanghailiang@huawei.com, quintela@redhat.com,
- fengzhimin1@huawei.com, qemu-devel@nongnu.org, xiexiangyou@huawei.com,
- alex.chen@huawei.com, wanghao232@huawei.com
+Cc: j@getutm.app, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Chuan Zheng (zhengchuan@huawei.com) wrote:
-> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> We cannot use a real temp file, because we would need to find
+> a filesystem that does not have noexec enabled.  However, a
+> memfd is not associated with any filesystem.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+It looks like this breaks --enable-tcg-interpreter:
+
+  FAILED: libqemu-ppc64-softmmu.fa.p/accel_tcg_translate-all.c.o
+  cc -Ilibqemu-ppc64-softmmu.fa.p -I. -I../.. -Itarget/ppc -I../../target/p=
+pc -I../../dtc/libfdt -I../../capstone/include/capstone -Iqapi -Itrace -Iui=
+ -Iui/shader -I/usr/include/spice-server -I/usr/include/spice-1 -I/usr/incl=
+ude/pixman-1 -I/usr/include/libdrm -I/usr/include/glib-2.0 -I/usr/lib/x86_6=
+4-linux-gnu/glib-2.0/include -fdiagnostics-color=3Dauto -pipe -Wall -Winval=
+id-pch -Werror -std=3Dgnu99 -O2 -g -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3D2 =
+-m64 -mcx16 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -Wst=
+rict-prototypes -Wredundant-decls -Wundef -Wwrite-strings -Wmissing-prototy=
+pes -fno-strict-aliasing -fno-common -fwrapv -Wold-style-declaration -Wold-=
+style-definition -Wtype-limits -Wformat-security -Wformat-y2k -Winit-self -=
+Wignored-qualifiers -Wempty-body -Wnested-externs -Wendif-labels -Wexpansio=
+n-to-defined -Wno-missing-include-dirs -Wno-shift-negative-value -Wno-psabi=
+ -fstack-protector-strong -DLEGACY_RDMA_REG_MR -isystem /home/alex/lsrc/qem=
+u.git/linux-headers -isystem linux-headers -iquote /home/alex/lsrc/qemu.git=
+/tcg/tci -iquote . -iquote /home/alex/lsrc/qemu.git -iquote /home/alex/lsrc=
+/qemu.git/accel/tcg -iquote /home/alex/lsrc/qemu.git/include -iquote /home/=
+alex/lsrc/qemu.git/disas/libvixl -pthread -fPIC -isystem../../linux-headers=
+ -isystemlinux-headers -DNEED_CPU_H '-DCONFIG_TARGET=3D"ppc64-softmmu-confi=
+g-target.h"' '-DCONFIG_DEVICES=3D"ppc64-softmmu-config-devices.h"' -MD -MQ =
+libqemu-ppc64-softmmu.fa.p/accel_tcg_translate-all.c.o -MF libqemu-ppc64-so=
+ftmmu.fa.p/accel_tcg_translate-all.c.o.d -o libqemu-ppc64-softmmu.fa.p/acce=
+l_tcg_translate-all.c.o -c ../../accel/tcg/translate-all.c
+  ../../accel/tcg/translate-all.c:1138:13: error: =E2=80=98alloc_code_gen_b=
+uffer_splitwx_memfd=E2=80=99 defined but not used [-Werror=3Dunused-functio=
+n]
+   static bool alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **err=
+p)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  cc1: all warnings being treated as errors
+
 
 > ---
->  migration/rdma.c | 52 ++++++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 52 insertions(+)
-> 
-> diff --git a/migration/rdma.c b/migration/rdma.c
-> index ad4e4ba..2baa933 100644
-> --- a/migration/rdma.c
-> +++ b/migration/rdma.c
-> @@ -4010,6 +4010,48 @@ static void rdma_accept_incoming_migration(void *opaque)
->      }
+>  accel/tcg/translate-all.c | 84 +++++++++++++++++++++++++++++++++++----
+>  1 file changed, 76 insertions(+), 8 deletions(-)
+>
+> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+> index a29cb4a42e..1931e65365 100644
+> --- a/accel/tcg/translate-all.c
+> +++ b/accel/tcg/translate-all.c
+> @@ -1078,17 +1078,11 @@ static bool alloc_code_gen_buffer(size_t size, in=
+t splitwx, Error **errp)
+>      return true;
 >  }
->  
-> +static bool multifd_rdma_load_setup(const char *host_port,
-> +                                    RDMAContext *rdma, Error **errp)
+>  #else
+> -static bool alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
+> +static bool alloc_code_gen_buffer_anon(size_t size, int prot,
+> +                                       int flags, Error **errp)
+>  {
+> -    int prot =3D PROT_WRITE | PROT_READ | PROT_EXEC;
+> -    int flags =3D MAP_PRIVATE | MAP_ANONYMOUS;
+>      void *buf;
+>=20=20
+> -    if (splitwx > 0) {
+> -        error_setg(errp, "jit split-wx not supported");
+> -        return false;
+> -    }
+> -
+>      buf =3D mmap(NULL, size, prot, flags, -1, 0);
+>      if (buf =3D=3D MAP_FAILED) {
+>          error_setg_errno(errp, errno,
+> @@ -1137,6 +1131,80 @@ static bool alloc_code_gen_buffer(size_t size, int=
+ splitwx, Error **errp)
+>      tcg_ctx->code_gen_buffer =3D buf;
+>      return true;
+>  }
+> +
+> +#ifdef CONFIG_POSIX
+> +#include "qemu/memfd.h"
+> +
+> +static bool alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **err=
+p)
 > +{
-> +    int thread_count;
-> +    int i;
-> +    int idx;
-> +    MultiFDRecvParams *multifd_recv_param;
-> +    RDMAContext *multifd_rdma;
+> +    void *buf_rw, *buf_rx;
+> +    int fd =3D -1;
 > +
-> +    if (!migrate_use_multifd()) {
-> +        return true;
-> +    }
-> +
-> +    if (multifd_load_setup(errp) != 0) {
-> +        /*
-> +         * We haven't been able to create multifd threads
-> +         * nothing better to do
-> +         */
+> +    buf_rw =3D qemu_memfd_alloc("tcg-jit", size, 0, &fd, errp);
+> +    if (buf_rw =3D=3D NULL) {
 > +        return false;
 > +    }
 > +
-> +    thread_count = migrate_multifd_channels();
-> +    for (i = 0; i < thread_count; i++) {
-> +        if (get_multifd_recv_param(i, &multifd_recv_param) < 0) {
-> +            ERROR(errp, "rdma: error getting multifd_recv_param(%d)", i);
-> +            return false;
-> +        }
-> +
-> +        multifd_rdma = qemu_rdma_data_init(host_port, errp);
-> +        for (idx = 0; idx < RDMA_WRID_MAX; idx++) {
-> +            multifd_rdma->wr_data[idx].control_len = 0;
-> +            multifd_rdma->wr_data[idx].control_curr = NULL;
-> +        }
-> +        /* the CM channel and CM id is shared */
-> +        multifd_rdma->channel = rdma->channel;
-> +        multifd_rdma->listen_id = rdma->listen_id;
-> +        multifd_recv_param->rdma = (void *)multifd_rdma;
+> +    buf_rx =3D mmap(NULL, size, PROT_READ | PROT_EXEC, MAP_SHARED, fd, 0=
+);
+> +    if (buf_rx =3D=3D MAP_FAILED) {
+> +        error_setg_errno(errp, errno,
+> +                         "failed to map shared memory for execute");
+> +        munmap(buf_rw, size);
+> +        close(fd);
+> +        return false;
 > +    }
+> +    close(fd);
 > +
+> +    tcg_ctx->code_gen_buffer =3D buf_rw;
+> +    tcg_ctx->code_gen_buffer_size =3D size;
+> +    tcg_splitwx_diff =3D buf_rx - buf_rw;
+> +
+> +    /* Request large pages for the buffer and the splitwx.  */
+> +    qemu_madvise(buf_rw, size, QEMU_MADV_HUGEPAGE);
+> +    qemu_madvise(buf_rx, size, QEMU_MADV_HUGEPAGE);
 > +    return true;
 > +}
+> +#endif /* CONFIG_POSIX */
 > +
->  void rdma_start_incoming_migration(const char *host_port, Error **errp)
->  {
->      int ret;
-> @@ -4057,6 +4099,16 @@ void rdma_start_incoming_migration(const char *host_port, Error **errp)
->          qemu_rdma_return_path_dest_init(rdma_return_path, rdma);
->      }
->  
-> +    /* multifd rdma setup */
-> +    if (!multifd_rdma_load_setup(host_port, rdma, &local_err)) {
+> +static bool alloc_code_gen_buffer_splitwx(size_t size, Error **errp)
+> +{
+> +    if (TCG_TARGET_SUPPORT_MIRROR) {
+> +#ifdef CONFIG_POSIX
+> +        return alloc_code_gen_buffer_splitwx_memfd(size, errp);
+> +#endif
+> +    }
+> +    error_setg(errp, "jit split-wx not supported");
+> +    return false;
+> +}
+> +
+> +static bool alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
+> +{
+> +    ERRP_GUARD();
+> +    int prot, flags;
+> +
+> +    if (splitwx) {
+> +        if (alloc_code_gen_buffer_splitwx(size, errp)) {
+> +            return true;
+> +        }
 > +        /*
-> +         * We haven't been able to create multifd threads
-> +         * nothing better to do
+> +         * If splitwx force-on (1), fail;
+> +         * if splitwx default-on (-1), fall through to splitwx off.
 > +         */
-> +        error_report_err(local_err);
-> +        goto err;
+> +        if (splitwx > 0) {
+> +            return false;
+> +        }
+> +        error_free_or_abort(errp);
 > +    }
 > +
->      qemu_set_fd_handler(rdma->channel->fd, rdma_accept_incoming_migration,
->                          NULL, (void *)(intptr_t)rdma);
->      return;
-> -- 
-> 1.8.3.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> +    prot =3D PROT_READ | PROT_WRITE | PROT_EXEC;
+> +    flags =3D MAP_PRIVATE | MAP_ANONYMOUS;
+> +#ifdef CONFIG_TCG_INTERPRETER
+> +    /* The tcg interpreter does not need execute permission. */
+> +    prot =3D PROT_READ | PROT_WRITE;
+> +#endif
+> +
+> +    return alloc_code_gen_buffer_anon(size, prot, flags, errp);
+> +}
+>  #endif /* USE_STATIC_CODE_GEN_BUFFER, WIN32, POSIX */
+>=20=20
+>  static bool tb_cmp(const void *ap, const void *bp)
 
+
+--=20
+Alex Benn=C3=A9e
 
