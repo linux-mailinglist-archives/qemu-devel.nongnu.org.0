@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 287242AD48E
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 12:18:28 +0100 (CET)
-Received: from localhost ([::1]:41986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 473F42AD4D2
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 12:24:02 +0100 (CET)
+Received: from localhost ([::1]:60486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcRfP-0007Pk-4m
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 06:18:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44946)
+	id 1kcRkn-0006n2-8P
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 06:24:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcRZJ-00077Z-Fl
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:12:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43545)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcRZM-0007Ce-2T
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:12:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37783)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcRZF-0004dH-NC
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:12:09 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcRZK-0004dc-6A
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:12:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605006724;
+ s=mimecast20190719; t=1605006728;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JWca3K7HAUX+P89OdmXBKXbU0jA2dQPGobz4CUl/ZdM=;
- b=R6HHMb5GqkZVgT/b1Q+RIYdhAPAWxJ6FA49x7Q18+L7Z7qKCKykjFFlGJec27a2v8etDju
- EcTYlm2TbN8v5SAyC7wpTimkOn5t1jW/u8tV4RjlvmSv42Kj26pccED5wVdklZS73r0eK4
- 98eK2aSAwMEvmIjHbL5jQjwRE6FwrXM=
+ bh=tnG/Vi3D8+hSE8KNvOcsILh0adcdH3o2AmR/ZC2OpHE=;
+ b=TXnAZF7RuQ6oClQQlXZ5lCoWCWT/RqXIyYOm9ISVw21onZU4OuiamlPv4QMyYdMLYj6Y6A
+ eAQbSRotQSiDPyxEPqXu/TorArvknHmbIpXgUOZJWs0EjrRsd72zBm1NE2qkGK882liKFB
+ RJ4Wyuta+efLoLpaePxxpsXqVYQuTb4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-275-h3oROEFfPrK8tHrufyr7tw-1; Tue, 10 Nov 2020 06:12:01 -0500
-X-MC-Unique: h3oROEFfPrK8tHrufyr7tw-1
+ us-mta-88-8bCqEwmCNQa0bjWqTDDTMQ-1; Tue, 10 Nov 2020 06:12:06 -0500
+X-MC-Unique: 8bCqEwmCNQa0bjWqTDDTMQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8B4187951F;
- Tue, 10 Nov 2020 11:12:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39D5E185A0D2;
+ Tue, 10 Nov 2020 11:12:05 +0000 (UTC)
 Received: from thuth.com (ovpn-113-192.ams2.redhat.com [10.36.113.192])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 74BEF1002C11;
- Tue, 10 Nov 2020 11:11:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 320A110013D9;
+ Tue, 10 Nov 2020 11:12:00 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 13/19] gitlab: publish the docs built during CI
-Date: Tue, 10 Nov 2020 12:11:26 +0100
-Message-Id: <20201110111132.559399-14-thuth@redhat.com>
+Subject: [PULL 14/19] gitlab: force enable docs build in Fedora, Ubuntu, Debian
+Date: Tue, 10 Nov 2020 12:11:27 +0100
+Message-Id: <20201110111132.559399-15-thuth@redhat.com>
 In-Reply-To: <20201110111132.559399-1-thuth@redhat.com>
 References: <20201110111132.559399-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -56,16 +56,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 02:00:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 00:21:06
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,44 +85,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-Most of the build jobs will create the sphinx documentation. If we
-expose this as an artifact of a "pages" job in a "public" directory, it
-will get published using GitLab Pages. This means a user can push a
-branch with docs changes to GitLab and view the results at
-
-  https://yourusername.gitlab.io/qemu/
+Meson runs a test to see if Sphinx works, and automatically disables it
+on error. This can lead to the CI jobs skipping docs build without
+maintainers noticing the problem. Use --enable-docs to force a fatal
+error if Sphinx doesn't work on the jobs where we expect it to be OK.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20201102130926.161183-2-berrange@redhat.com>
+Message-Id: <20201102130926.161183-3-berrange@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.yml | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ .gitlab-ci.yml | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 5763318d37..5993b64f22 100644
+index 5993b64f22..9a8b375188 100644
 --- a/.gitlab-ci.yml
 +++ b/.gitlab-ci.yml
-@@ -417,3 +417,17 @@ check-dco:
-       - $CI_PROJECT_NAMESPACE == 'qemu-project' && $CI_COMMIT_BRANCH == 'master'
+@@ -74,6 +74,7 @@ build-system-ubuntu:
+     TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu
+       moxie-softmmu microblazeel-softmmu mips64el-softmmu
+     MAKE_CHECK_ARGS: check-build
++    CONFIGURE_ARGS: --enable-docs
+   artifacts:
+     expire_in: 2 days
+     paths:
+@@ -105,6 +106,7 @@ build-system-debian:
+     TARGETS: arm-softmmu avr-softmmu i386-softmmu mipsel-softmmu
+       riscv64-softmmu sh4eb-softmmu sparc-softmmu xtensaeb-softmmu
+     MAKE_CHECK_ARGS: check-build
++    CONFIGURE_ARGS: --enable-docs
+   artifacts:
+     expire_in: 2 days
+     paths:
+@@ -133,7 +135,7 @@ build-system-fedora:
+   <<: *native_build_job_definition
    variables:
-     GIT_DEPTH: 1000
-+
-+pages:
-+  image: $CI_REGISTRY_IMAGE/qemu/ubuntu2004:latest
-+  stage: test
-+  needs:
-+    - job: build-system-ubuntu
-+      artifacts: true
-+  script:
-+    - mkdir public
-+    - mv build/docs/index.html public/
-+    - for i in devel interop specs system tools user ; do mv build/docs/$i public/ ; done
-+  artifacts:
-+    paths:
-+      - public
+     IMAGE: fedora
+-    CONFIGURE_ARGS: --disable-gcrypt --enable-nettle
++    CONFIGURE_ARGS: --disable-gcrypt --enable-nettle --enable-docs
+     TARGETS: tricore-softmmu microblaze-softmmu mips-softmmu
+       xtensa-softmmu m68k-softmmu riscv32-softmmu ppc-softmmu sparc64-softmmu
+     MAKE_CHECK_ARGS: check-build
 -- 
 2.18.4
 
