@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B41C2ADCA4
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 18:11:17 +0100 (CET)
-Received: from localhost ([::1]:58112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EBB02ADC96
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 18:07:01 +0100 (CET)
+Received: from localhost ([::1]:49788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcXAp-00010c-W8
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 12:11:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46974)
+	id 1kcX6f-0005j3-El
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 12:06:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kcX3G-00045d-7g
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 12:03:26 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:38349)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kcX3B-0007MU-C9
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 12:03:25 -0500
-Received: by mail-wm1-x342.google.com with SMTP id h62so3785253wme.3
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 09:03:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=WDVpTdYB/gxictCIeeRGT1DrBwWs1y/sZO8KemzFxB4=;
- b=ZKE4hJjBPZHgQOdljVkEYaB8YeKiGMwv9Tx8Ph6YGKDPOMnkot6SJC1SjHzSiDXRjw
- R30BKwDY0YEUcDHZDHvuvMw7AaWZg+Gkkks//uegikjBC5HBvKrSCHgzN5V0czSgO/y9
- /Cpkihqgq8YlQF0AYAYvCKddJYJrcSFuUWzPIYqYA1aAzKzs/shIgauidNHt+T2tC2jF
- +i5RcFTPWmvfTBSdoAIgUBxhGtRPmfLBdOMz90tCp6yzHQQEWfw5od7BOuyWSJR1RTA5
- vyB24FM5cRV4qE7Wnk3YBN9GTuPFim8s892t0H4KE3GqLQTcuwKeUvMyvj+DYqOQxdgp
- z+5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=WDVpTdYB/gxictCIeeRGT1DrBwWs1y/sZO8KemzFxB4=;
- b=AuTZ55NNE6ztVkVfQsM6Oag3wznLxSLWfx+KwlzmMR1ux0RejPwnoQXvn6bjaSOGLE
- WVlS5ytH89pwaSAVFbTkapdO0mFY5VwcDfyxVsn1xmcFsdKcbp9v0AhGjZ2QGj0w0H3s
- bfmXrif7lk8GDn6S8hM/dbTXeEEej03xjLb3qC2y5s/9ySABqKNYw4FVFOdIF4qWHbTJ
- vqeVbwUWFf0xfTx1v565ufZIxLCHY9cO1xg0jjx4+d1wv2LrOMWI0uuNlF+pCvsoJduG
- ot/g3TQOiCqltQHvx6fpH3sVoQZNd7y38kAyEXmnChDaHAPlnTP5tM+MOqHR7m+5F5YM
- /0MQ==
-X-Gm-Message-State: AOAM530qwLMPDStLXmmlCHzHPt5kLeW2E2PQkkcfltAJxbX56gXeikRi
- meBZ941Q9U3cMCT0BJFEnO+2fQ==
-X-Google-Smtp-Source: ABdhPJzZPAREGSs4ufgsoLTePCEZ6Fdaz9OIPcjjnBLM4dg+M2HB6H9HvmYpIyXwaRFQO4+6Dlh/Kw==
-X-Received: by 2002:a1c:9804:: with SMTP id a4mr35558wme.158.1605027796452;
- Tue, 10 Nov 2020 09:03:16 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o10sm3589456wma.47.2020.11.10.09.03.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Nov 2020 09:03:14 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1EB5D1FF7E;
- Tue, 10 Nov 2020 17:03:14 +0000 (GMT)
-References: <20201106032921.600200-1-richard.henderson@linaro.org>
- <20201106032921.600200-16-richard.henderson@linaro.org>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v3 15/41] accel/tcg: Support split-wx for linux with memfd
-In-reply-to: <20201106032921.600200-16-richard.henderson@linaro.org>
-Date: Tue, 10 Nov 2020 17:03:14 +0000
-Message-ID: <875z6d87ql.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kcX3e-0004Jp-Mc
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 12:03:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58871)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kcX3b-0007UE-Au
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 12:03:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605027824;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ewDw1UDKjuXqsq5cw78Z7CdNPHwoffvqiu5NLor7eTU=;
+ b=TLKdoERabW9h9kwResHQb1yECGJXrAUbQBDSqO/5ctiSD7t5MC4eWv33bznqoyI8n0IJYH
+ 8uxiFLNYr2vEv4ZeBrPszC3fvfgSTEvmEDXkSO3dv90z497fU8i0gRjUn5N/89RpIAnKX4
+ qSRavdPjAHBOGggUDvFa0bTshKvFr9Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-258-o1MQw4RHNlyRZj2dxsJBuA-1; Tue, 10 Nov 2020 12:03:39 -0500
+X-MC-Unique: o1MQw4RHNlyRZj2dxsJBuA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A97D18B9F07;
+ Tue, 10 Nov 2020 17:03:38 +0000 (UTC)
+Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 04C7A5DA33;
+ Tue, 10 Nov 2020 17:03:33 +0000 (UTC)
+Date: Tue, 10 Nov 2020 12:03:33 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2 00/44] Make qdev static property API usable by any QOM
+ type
+Message-ID: <20201110170333.GG5733@habkost.net>
+References: <20201109113404.GA24970@merkur.fritz.box>
+ <3b711053-e67a-86fb-59e7-c06948dd8928@redhat.com>
+ <20201109152125.GZ5733@habkost.net>
+ <2300fd53-afa1-b957-b33b-cff2986fcb93@redhat.com>
+ <20201109171618.GA5733@habkost.net>
+ <098ca211-3ad5-b194-e9f5-678291fe641e@redhat.com>
+ <20201109185558.GB5733@habkost.net>
+ <9659e726-7948-4e02-f303-abcbe4c96148@redhat.com>
+ <20201109202855.GD5733@habkost.net>
+ <c501a54d-4e8a-52bf-14fa-cfce3eafe57f@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <c501a54d-4e8a-52bf-14fa-cfce3eafe57f@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 00:21:06
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,168 +89,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: j@getutm.app, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ John Snow <jsnow@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Nov 10, 2020 at 11:58:29AM +0100, Paolo Bonzini wrote:
+> On 09/11/20 21:28, Eduardo Habkost wrote:
+> > I don't know yet what's the best solution for the x86 feature
+> > case.  Maybe duplicating the list of feature names would be a
+> > small price to pay to get a static list of properties defined at
+> > compilation time?  Maybe we can replace
+> > FeatureWordInfo.feat_names[] with property introspection code
+> > that will find the property name for a given struct field?
+> 
+> The problem is associating the names with the metadata (feature word/bit).
+> Right now we do that by placing the names in the feat_names[] arrays, which
+> are indexed by feature word and bit.
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Right, that would require an introspection interface letting us
+get the property name for a given struct field + bit.
 
-> We cannot use a real temp file, because we would need to find
-> a filesystem that does not have noexec enabled.  However, a
-> memfd is not associated with any filesystem.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Anyway, let's get back to this later.
 
-It looks like this breaks --enable-tcg-interpreter:
+> 
+> > > > If object*_property_add*() is hidden behind a function call or a
+> > > > `if` statement, it's already too much complexity to me.
+> > > You want to remove hiding behind a function call, but why is it any better
+> > > to hide behind layers of macros?  Just the example you had in your email
+> > > included DEFINE_PROP, DEFINE_FIELD_PROP, DEFINE_PROP_UINT32.  It's still
+> > > impossible to figure out without either parsing or executing C code.
+> > 
+> > Because we can be absolutely sure the macros (and the property
+> > array) will be constant expressions evaluated at compilation
+> > time.
+> 
+> That's not entirely true.  You can always build Property objects manually in
+> a for loop.  (Though at that point you might as well use the existing API
+> and not the new one).
 
-  FAILED: libqemu-ppc64-softmmu.fa.p/accel_tcg_translate-all.c.o
-  cc -Ilibqemu-ppc64-softmmu.fa.p -I. -I../.. -Itarget/ppc -I../../target/p=
-pc -I../../dtc/libfdt -I../../capstone/include/capstone -Iqapi -Itrace -Iui=
- -Iui/shader -I/usr/include/spice-server -I/usr/include/spice-1 -I/usr/incl=
-ude/pixman-1 -I/usr/include/libdrm -I/usr/include/glib-2.0 -I/usr/lib/x86_6=
-4-linux-gnu/glib-2.0/include -fdiagnostics-color=3Dauto -pipe -Wall -Winval=
-id-pch -Werror -std=3Dgnu99 -O2 -g -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3D2 =
--m64 -mcx16 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -Wst=
-rict-prototypes -Wredundant-decls -Wundef -Wwrite-strings -Wmissing-prototy=
-pes -fno-strict-aliasing -fno-common -fwrapv -Wold-style-declaration -Wold-=
-style-definition -Wtype-limits -Wformat-security -Wformat-y2k -Winit-self -=
-Wignored-qualifiers -Wempty-body -Wnested-externs -Wendif-labels -Wexpansio=
-n-to-defined -Wno-missing-include-dirs -Wno-shift-negative-value -Wno-psabi=
- -fstack-protector-strong -DLEGACY_RDMA_REG_MR -isystem /home/alex/lsrc/qem=
-u.git/linux-headers -isystem linux-headers -iquote /home/alex/lsrc/qemu.git=
-/tcg/tci -iquote . -iquote /home/alex/lsrc/qemu.git -iquote /home/alex/lsrc=
-/qemu.git/accel/tcg -iquote /home/alex/lsrc/qemu.git/include -iquote /home/=
-alex/lsrc/qemu.git/disas/libvixl -pthread -fPIC -isystem../../linux-headers=
- -isystemlinux-headers -DNEED_CPU_H '-DCONFIG_TARGET=3D"ppc64-softmmu-confi=
-g-target.h"' '-DCONFIG_DEVICES=3D"ppc64-softmmu-config-devices.h"' -MD -MQ =
-libqemu-ppc64-softmmu.fa.p/accel_tcg_translate-all.c.o -MF libqemu-ppc64-so=
-ftmmu.fa.p/accel_tcg_translate-all.c.o.d -o libqemu-ppc64-softmmu.fa.p/acce=
-l_tcg_translate-all.c.o -c ../../accel/tcg/translate-all.c
-  ../../accel/tcg/translate-all.c:1138:13: error: =E2=80=98alloc_code_gen_b=
-uffer_splitwx_memfd=E2=80=99 defined but not used [-Werror=3Dunused-functio=
-n]
-   static bool alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **err=
-p)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  cc1: all warnings being treated as errors
+This is true if the property array is always declared as static
+const.
 
+> 
+> I think we agree on where _to go_ (schema described outside C code, and
+> possibly integrated with the QAPI schema).  I think neither of us has a
+> clear idea of how to get there. :)  I don't see this series as a step
+> towards that; I see it more as a worthwhile way to remove boilerplate from
+> QOM objects.
 
-> ---
->  accel/tcg/translate-all.c | 84 +++++++++++++++++++++++++++++++++++----
->  1 file changed, 76 insertions(+), 8 deletions(-)
->
-> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-> index a29cb4a42e..1931e65365 100644
-> --- a/accel/tcg/translate-all.c
-> +++ b/accel/tcg/translate-all.c
-> @@ -1078,17 +1078,11 @@ static bool alloc_code_gen_buffer(size_t size, in=
-t splitwx, Error **errp)
->      return true;
->  }
->  #else
-> -static bool alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
-> +static bool alloc_code_gen_buffer_anon(size_t size, int prot,
-> +                                       int flags, Error **errp)
->  {
-> -    int prot =3D PROT_WRITE | PROT_READ | PROT_EXEC;
-> -    int flags =3D MAP_PRIVATE | MAP_ANONYMOUS;
->      void *buf;
->=20=20
-> -    if (splitwx > 0) {
-> -        error_setg(errp, "jit split-wx not supported");
-> -        return false;
-> -    }
-> -
->      buf =3D mmap(NULL, size, prot, flags, -1, 0);
->      if (buf =3D=3D MAP_FAILED) {
->          error_setg_errno(errp, errno,
-> @@ -1137,6 +1131,80 @@ static bool alloc_code_gen_buffer(size_t size, int=
- splitwx, Error **errp)
->      tcg_ctx->code_gen_buffer =3D buf;
->      return true;
->  }
-> +
-> +#ifdef CONFIG_POSIX
-> +#include "qemu/memfd.h"
-> +
-> +static bool alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **err=
-p)
-> +{
-> +    void *buf_rw, *buf_rx;
-> +    int fd =3D -1;
-> +
-> +    buf_rw =3D qemu_memfd_alloc("tcg-jit", size, 0, &fd, errp);
-> +    if (buf_rw =3D=3D NULL) {
-> +        return false;
-> +    }
-> +
-> +    buf_rx =3D mmap(NULL, size, PROT_READ | PROT_EXEC, MAP_SHARED, fd, 0=
-);
-> +    if (buf_rx =3D=3D MAP_FAILED) {
-> +        error_setg_errno(errp, errno,
-> +                         "failed to map shared memory for execute");
-> +        munmap(buf_rw, size);
-> +        close(fd);
-> +        return false;
-> +    }
-> +    close(fd);
-> +
-> +    tcg_ctx->code_gen_buffer =3D buf_rw;
-> +    tcg_ctx->code_gen_buffer_size =3D size;
-> +    tcg_splitwx_diff =3D buf_rx - buf_rw;
-> +
-> +    /* Request large pages for the buffer and the splitwx.  */
-> +    qemu_madvise(buf_rw, size, QEMU_MADV_HUGEPAGE);
-> +    qemu_madvise(buf_rx, size, QEMU_MADV_HUGEPAGE);
-> +    return true;
-> +}
-> +#endif /* CONFIG_POSIX */
-> +
-> +static bool alloc_code_gen_buffer_splitwx(size_t size, Error **errp)
-> +{
-> +    if (TCG_TARGET_SUPPORT_MIRROR) {
-> +#ifdef CONFIG_POSIX
-> +        return alloc_code_gen_buffer_splitwx_memfd(size, errp);
-> +#endif
-> +    }
-> +    error_setg(errp, "jit split-wx not supported");
-> +    return false;
-> +}
-> +
-> +static bool alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
-> +{
-> +    ERRP_GUARD();
-> +    int prot, flags;
-> +
-> +    if (splitwx) {
-> +        if (alloc_code_gen_buffer_splitwx(size, errp)) {
-> +            return true;
-> +        }
-> +        /*
-> +         * If splitwx force-on (1), fail;
-> +         * if splitwx default-on (-1), fall through to splitwx off.
-> +         */
-> +        if (splitwx > 0) {
-> +            return false;
-> +        }
-> +        error_free_or_abort(errp);
-> +    }
-> +
-> +    prot =3D PROT_READ | PROT_WRITE | PROT_EXEC;
-> +    flags =3D MAP_PRIVATE | MAP_ANONYMOUS;
-> +#ifdef CONFIG_TCG_INTERPRETER
-> +    /* The tcg interpreter does not need execute permission. */
-> +    prot =3D PROT_READ | PROT_WRITE;
-> +#endif
-> +
-> +    return alloc_code_gen_buffer_anon(size, prot, flags, errp);
-> +}
->  #endif /* USE_STATIC_CODE_GEN_BUFFER, WIN32, POSIX */
->=20=20
->  static bool tb_cmp(const void *ap, const void *bp)
+My first goal here is to facilitate (3) below, and allow it to be
+done with less effort and less churn.  This series is not
+essential to do (3), but I'd like to avoid porting the same code
+to a different API 2 or 3 times because we keep introducing new
+mechanisms.
 
+> 
+> In my opinion the next steps for QOM (in general, not necessarily related to
+> the goal) should be to:
+> 
+> 1) audit the code and ensure that there are no conditional properties
+> 
+> 2) figure out if it makes sense to provide run-time (not compile-time)
+> introspection of QOM class properties, as either a stable or an experimental
+> interface, and how it works together with the QAPI introspection.  In
+> particular, whether compound QAPI types can be matched across QOM and QAPI
+> introspection.
 
---=20
-Alex Benn=C3=A9e
+Can you clarify this item?  Do you mean an external interface, or
+internal APIs?
+
+> 
+> 3) figure out if there are any instance properties that can be easily
+> extended to class properties.  In particular, figure out if we can do
+> class-level property aliasing.
+
+Most of them need to be moved to class properties somehow,
+because they are externally visible.  The only exceptions I see
+are read-only link properties and child properties.
+
+The trickiest ones are object_property_add_alias() (no
+class-level equivalent) and object_property_add_*_ptr() (no
+usable class-level equivalent).
+
+object_property_add_*_ptr() is what prompted the creation of this
+series.  See
+https://lore.kernel.org/qemu-devel/20201009160122.1662082-1-ehabkost@redhat.com
+
+-- 
+Eduardo
+
 
