@@ -2,79 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEDEA2AD22B
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 10:15:26 +0100 (CET)
-Received: from localhost ([::1]:58540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 107CF2AD232
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 10:17:24 +0100 (CET)
+Received: from localhost ([::1]:60772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcPkL-00074U-Rl
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 04:15:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47962)
+	id 1kcPmF-0008BU-3t
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 04:17:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thatlemon@gmail.com>)
- id 1kcPjQ-0006VS-QX; Tue, 10 Nov 2020 04:14:28 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:41404)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <thatlemon@gmail.com>)
- id 1kcPjP-0004vb-1Q; Tue, 10 Nov 2020 04:14:28 -0500
-Received: by mail-wr1-x442.google.com with SMTP id 23so11820568wrc.8;
- Tue, 10 Nov 2020 01:14:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=LaIMM+DqIVWFrcocxgclUIO+odOJpMZBEYnQpJfjBCU=;
- b=guDLdIfSg8sESssdoF2eYG/cl4FjtmCh85LAvRvyeady9KwvbVQzxiphuAj1GTg0dg
- c1aGBcinPwr/YAtBTwTCgn0C3XmYHZyAOxNpl0fhEPuEJvZZQ0Kp2H0w3sUSDtGxmy8a
- ZvyyvX8Dss6V7LzdK21s0MCdTT0gNcXIY+A2vHR87ZFs+24GCtWLaQ4Ia8mmMIy+LtzL
- NIlXx8ztM6dOZzq6EHirEhT7OPWaYoFsDEgN0rQCT6N/xjdFv2QWYo2O6sFHkWHZxW8c
- Kpi+Hvdo+DXkt/NauptHU4ReF0H0Np5PR9JrmyggVksonptKstbTcNNMJ71IcsncvADj
- UUJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=LaIMM+DqIVWFrcocxgclUIO+odOJpMZBEYnQpJfjBCU=;
- b=GaX4buAF4BYdzWi0YtbCpWlYZCH15nwFMizcT06rMoYyflkhuhLF8T88SrEnprvlDf
- AYo/KZlCmASV5MAj/AIY97AwT/cBBtIcj8XH7RyrV/2Zq8f1q1ZnRiqu0IOOFjjj0DMA
- J0FW1k1/dVSVfDDECLYorCWIMPFrc69plXHh/rg4pN5kPIFeIoTNqdjys45pZc9VrfVa
- 5IAGTIDUxayNGr4uFUOD/u/EcM678InzRnh/xqtvsGyf9zfOSLB3+45ookl+RBCszbZs
- NpKckRoNCOLSiwcS2LL4pHVwc/mfVvXosNSoo2KBtx6kLNQgQWi1a7FojzYMEuaJDvBk
- qFiQ==
-X-Gm-Message-State: AOAM532va1OCeBEBt63aB3z0bLgBYqK58EDbHWjnwufBuXbkXLgN47jq
- jQjwMy+PRzIeRsX6xmyLmQA=
-X-Google-Smtp-Source: ABdhPJzVj+DFEBGnixZM+SRxfLlxp23t3NY5L2vrt4V4xYaxkS4tp4Xjn/AnKeNPlruhbzg8oq1c6w==
-X-Received: by 2002:a5d:4883:: with SMTP id g3mr22857087wrq.19.1604999665233; 
- Tue, 10 Nov 2020 01:14:25 -0800 (PST)
-Received: from [192.168.1.103] ([151.33.227.77])
- by smtp.gmail.com with ESMTPSA id t23sm2274573wmn.4.2020.11.10.01.14.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Nov 2020 01:14:24 -0800 (PST)
-Subject: Re: [PATCH 1/2] ppc/translate: Implement lxvwsx opcode
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <d7d533e18c2bc10d924ee3e09907ff2b41fddb3a.1604912739.git.thatlemon@gmail.com>
- <a1c67758-7b2c-725c-67b6-e0c52a971d67@linaro.org>
-From: LemonBoy <thatlemon@gmail.com>
-Message-ID: <9096a38b-0b6f-3531-b88b-e1be1d946831@gmail.com>
-Date: Tue, 10 Nov 2020 10:14:23 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kcPkO-0007UA-Un
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 04:15:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34957)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kcPkJ-0005Jx-8e
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 04:15:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604999722;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=IGDk6ydEz7ioGmRPkhe96shIANMCzQtDVRUfM2yTyEg=;
+ b=Nj1he4RRu6UeHQOz6nxol2YzmQHi0IjXhbwNmYXcA3QtyvLPXstF4cgGdTr6YkAmzkXH1u
+ 1BNuAsXbJ2C/NMu+CzVs3+qZYK77Cv7rTE7OLGJMQ+o3Dq24olBU31uoxT/tudhdUISU5Y
+ fBMagYi277GjUXHbmF0dmPOAi4iUCB0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-35-zXVT5FuYPzKuZ4FxliTkjQ-1; Tue, 10 Nov 2020 04:15:18 -0500
+X-MC-Unique: zXVT5FuYPzKuZ4FxliTkjQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EBDE5192CC4A
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 09:15:16 +0000 (UTC)
+Received: from redhat.com (ovpn-115-68.ams2.redhat.com [10.36.115.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BB65710013DB;
+ Tue, 10 Nov 2020 09:15:15 +0000 (UTC)
+Date: Tue, 10 Nov 2020 09:15:12 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: QMP and the 'id' parameter
+Message-ID: <20201110091512.GA866671@redhat.com>
+References: <62700620-5228-f1cc-f0df-751c0d9f1f82@redhat.com>
+ <87361h20kd.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <a1c67758-7b2c-725c-67b6-e0c52a971d67@linaro.org>
+In-Reply-To: <87361h20kd.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=thatlemon@gmail.com; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 02:00:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,26 +81,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: John Snow <jsnow@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Is there any chance for this patch series to be merged for 5.2?
+On Tue, Nov 10, 2020 at 07:22:26AM +0100, Markus Armbruster wrote:
+> John Snow <jsnow@redhat.com> writes:
+> 
+> > The QMP specification states:
+> >
+> >> NOTE: Some errors can occur before the Server is able to read the "id"
+> >> member, in these cases the "id" member will not be part of the error
+> >> response, even if provided by the client.
+> >
+> > I am assuming this case ONLY occurs for Parse errors:
+> >
+> > {'class': 'GenericError', 'desc': 'JSON parse error, expecting value'}
+> 
+> There are more "desc" possible, actually.
+> 
+> The JSON parser gets fed chunks of input, and calls a callback for every
+> full JSON value, and on parse error.
+> 
+> QMP's callback is handle_qmp_command().  Parameter @req is the parsed
+> JSON value, parameter @err is the (parse) error object, and exactly one
+> of them is non-null.
+> 
+> 1. Parse error
+> 
+> If @err, we send an error response for it.  It never has "id".  See
+> qmp_error_response() caller monitor_qmp_dispatcher_co().  The possible
+> @err are:
+> 
+>     $ grep error_setg qobject/json-*[ch]
+>     qobject/json-parser.c:    error_setg(&ctxt->err, "JSON parse error, %s", message);
+> 
+> This is a syntax error.
+> 
+> Search for parse_error() to see the possible @message patterns.
+> 
+>     qobject/json-streamer.c:        error_setg(&err, "JSON parse error, stray '%s'", input->str);
+> 
+> This is a lexical error.
+> 
+>     qobject/json-streamer.c:        error_setg(&err, "JSON token size limit exceeded");
+>     qobject/json-streamer.c:        error_setg(&err, "JSON token count limit exceeded");
+>     qobject/json-streamer.c:        error_setg(&err, "JSON nesting depth limit exceeded");
+> 
+> These are (intentional) parser limits.
+> 
+> 2. Successful parse
+> 
+> If @req, it's a successful parse.
+> 
+> If @req is not a JSON object, there is no "id".  qmp_dispatch() reports
+> 
+>         error_setg(&err, "QMP input must be a JSON object");
+> 
+> If @req is a JSON object, it has "id" exactly when the client supplied
+> one.  The response mirrors @req's "id".  See qmp_error_response() caller
+> qmp_dispatch().
+> 
+> > And I am assuming, in the context of a client that /always/ sets an
+> > 'id' for its execute statements, that this means that any error
+> > response we receive without an 'id' field *must* be associated with
+> > the most-recently-sent command.
+> 
+> Only if the client keeps no more than one command in flight.
+> 
+> Command responses get sent strictly in order (even parse errors), except
+> for commands executed out-of-band.
 
-On 09/11/20 18:39, Richard Henderson wrote:
-> On 11/9/20 1:17 AM, LemonBoy wrote:
->> Implement the "Load VSX Vector Word & Splat Indexed" opcode, introduced
->> in Power ISA v3.0.
->>
->> Buglink: https://bugs.launchpad.net/qemu/+bug/1793608
->> Signed-off-by: Giuseppe Musacchio <thatlemon@gmail.com>
->> ---
->>  target/ppc/translate/vsx-impl.c.inc | 30 +++++++++++++++++++++++++++++
->>  target/ppc/translate/vsx-ops.c.inc  |  1 +
->>  2 files changed, 31 insertions(+)
-> 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> 
-> r~
-> 
+With out of band commands, how much runs in the background ? Is the
+JSON parsing still in the foreground, such that we can expect that
+even for OOB commands, a error response without a "id" is still
+received strictly in order.
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
