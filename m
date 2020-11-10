@@ -2,89 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0A172ACB7E
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 04:08:26 +0100 (CET)
-Received: from localhost ([::1]:44124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DB5C2ACBA9
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 04:26:17 +0100 (CET)
+Received: from localhost ([::1]:34860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcK1B-0007e9-VO
-	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 22:08:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39086)
+	id 1kcKIS-0000PE-EE
+	for lists+qemu-devel@lfdr.de; Mon, 09 Nov 2020 22:26:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kcJzf-00078Y-L5
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 22:06:51 -0500
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:37458)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kcKDH-0002G2-3W
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 22:20:55 -0500
+Received: from indium.canonical.com ([91.189.90.7]:51506)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kcJzd-00031Y-VV
- for qemu-devel@nongnu.org; Mon, 09 Nov 2020 22:06:51 -0500
-Received: by mail-pg1-x543.google.com with SMTP id h6so8916609pgk.4
- for <qemu-devel@nongnu.org>; Mon, 09 Nov 2020 19:06:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=XOWQXqrkV2eyppsgDNDKT86NdDfJvK9Rx+Fm1mimeqQ=;
- b=B7fKfqd9LTDeg+VaognuW5+jPkkNkYInR3jTEV0dmXJmXxPr79shR3GoWuP2PjYS5b
- FZ+fB2AdUSV6dz9dYeDXkHDbgvj4Gpr9NwdxRolxv/LCBJIpXf6CNexvOS+vVgi2pUFw
- fbdXf+UtdLPKVtlDumns6cAwpWr8a6mr7YjkjM35KYF82F7pmXvoVBCsYH5t8ZBKXrR1
- JeR0PIJtIrQ54Sqda5Y21CxV+aQit3nOwtBj8ilFgeIr4lvG+wn626miinqRjnBPa3tq
- cT8N7zWfJO4we5k/PnMCkPGkfpTi2Ez7u7pCLgpJYH8uwETP+3fZlXalhtJ8cnw8msWu
- 0KQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=XOWQXqrkV2eyppsgDNDKT86NdDfJvK9Rx+Fm1mimeqQ=;
- b=CN/Ya4AwFhrbaXlN0Evep82IvudtpJvVHfeuZ270t/oLKXGiEcWUACQKXhT4yJ3tkY
- b7P5w4objzib2otmuXdkT9KEshXbSJQyjbfiF7w4Z0nI1Ht2UIR/wA+9Q4yIzjFM571S
- XeaZA9M7uPaHNVZ44ZySlUcLoXHBqk3QqZgz1nlIO4geW2Udwp4gBYsQFFBOzWO4EWuf
- lL+89QAXVUk3bNQZJ8IHN5tLX6iUgFq4xtqP9zD1oWhtqvuGCV+AQUZCce0qYEbzIlHI
- tq1DTVTW7Uhof/j67l4u9PckjYvnH6sthGTP2EMMYVw8BEK6YLkU2zDH4ZwKCddXA4yL
- gG/w==
-X-Gm-Message-State: AOAM532pX45iHLIirNZdvGrjj8/g21Sm01ogP+fWs4XbU8EQMAmuxo9j
- 5PX2XGvvDFqcpYh/ppBXe6wOEQS0dp+0iw==
-X-Google-Smtp-Source: ABdhPJwB1srocCnB7XV8nG0uALfvQG7yImj/cWUg8nS8ccVJJK81wM8njvCuwnQDBbXaHmrlnZAMpQ==
-X-Received: by 2002:a17:90a:87:: with SMTP id a7mr2532374pja.95.1604977608069; 
- Mon, 09 Nov 2020 19:06:48 -0800 (PST)
-Received: from [192.168.3.43] (068-185-011-182.biz.spectrum.com.
- [68.185.11.182])
- by smtp.gmail.com with ESMTPSA id b7sm918093pjp.13.2020.11.09.19.06.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Nov 2020 19:06:47 -0800 (PST)
-Subject: Re: [PATCH v3 0/3] tcg-cpus: split into 3 tcg variants
-To: Claudio Fontana <cfontana@suse.de>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20201015143217.29337-1-cfontana@suse.de>
- <87ba7ac2-9859-74a6-54d7-b17d0560de98@linaro.org>
- <96ec9a68-8dd5-8dc9-e3a1-bad3242809d1@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a4b72ab6-e7b3-1209-c779-ca6ecb89e62d@linaro.org>
-Date: Mon, 9 Nov 2020 19:06:45 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kcKDA-0004Rv-SQ
+ for qemu-devel@nongnu.org; Mon, 09 Nov 2020 22:20:54 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kcKD9-0004z6-EF
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 03:20:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 667332E8131
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 03:20:47 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <96ec9a68-8dd5-8dc9-e3a1-bad3242809d1@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 10 Nov 2020 03:10:21 -0000
+From: Thomas Huth <1728256@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=linux; component=main;
+ status=Confirmed; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: adg444 dmitriis janitor jimijames-bove
+ lars-karlslund tylerjd wuestengecko-deactivatedaccount
+X-Launchpad-Bug-Reporter: =?utf-8?q?W=C3=BCstengecko_=28wuestengecko-deacti?=
+ =?utf-8?q?vatedaccount=29?=
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+X-Launchpad-Bug-Duplicate: 1738972
+References: <150920686502.20214.12572544661418580428.malonedeb@soybean.canonical.com>
+Message-Id: <160497782224.13005.6407178589031225493.launchpad@gac.canonical.com>
+Subject: [Bug 1728256] Re: Memory corruption in Windows 10 guest / amd64
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
+X-Launchpad-Hash: ca9fac74aafe237e5c006c813fe267967139747e
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/09 20:35:34
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -64
+X-Spam_score: -6.5
+X-Spam_bar: ------
+X-Spam_report: (-6.5 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, URIBL_SBL_A=0.1 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -93,34 +76,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Bug 1728256 <1728256@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/9/20 8:02 AM, Claudio Fontana wrote:
-> On 10/19/20 5:00 PM, Richard Henderson wrote:
->> On 10/15/20 7:32 AM, Claudio Fontana wrote:
->>> Claudio Fontana (3):
->>>   accel/tcg: split CpusAccel into three TCG variants
->>>   accel/tcg: split tcg_start_vcpu_thread
->>>   accel/tcg: rename tcg-cpus functions to match module name
->>
->> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->>
->> r~
->>
->>
-> 
-> Hi all, just pinging about the status of this series, is it already in someone's queue?
-> 
-> Otherwise it's fine of course to delay it if there are concerns about tightening up the upcoming release.
+*** This bug is a duplicate of bug 1738972 ***
+    https://bugs.launchpad.net/bugs/1738972
 
-Oof da.  It has been a month.  Since Paolo picked up the first part, I assumed
-he'd get the second too.
+** This bug has been marked a duplicate of bug 1738972
+   [A] KVM Windows BSOD on 4.13.x
 
-Since it's not critical, I'll queue it for 6.0.
-But at least it'll be queued somewhere...
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1728256
 
-r~
+Title:
+  Memory corruption in Windows 10 guest / amd64
+
+Status in QEMU:
+  New
+Status in linux package in Ubuntu:
+  Confirmed
+
+Bug description:
+  I have a Win 10 Pro x64 guest inside a qemu/kvm running on an Arch x86_64=
+ host. The VM has a physical GPU passed through, as well as the physical US=
+B controllers, as well as a dedicated SSD attached via SATA; you can find t=
+he complete libvirt xml here: https://pastebin.com/U1ZAXBNg
+  I built qemu from source using the qemu-minimal-git AUR package; you can =
+find the build script here: https://aur.archlinux.org/cgit/aur.git/tree/PKG=
+BUILD?h=3Dqemu-minimal-git (if you aren't familiar with Arch, this is essen=
+tially a bash script where build() and package() are run to build the files=
+, and then install them into the $pkgdir to later tar them up.)
+
+  Starting with qemu v2.10.0, Windows crashes randomly with a bluescreen
+  about CRITICAL_STRUCTURE_CORRUPTION. I also tested the git heads
+  f90ea7ba7c, 861cd431c9 and e822e81e35, before I went back to v2.9.0,
+  which is running stable for over 50 hours right now.
+
+  During my tests I found that locking the memory pages alleviates the
+  problem somewhat, but never completely avoids it. However, with the
+  crashes occuring randomly, that could as well be false conclusions; I
+  had crashes within minutes after boot with that too.
+
+  I will now start `git bisect`ing; if you have any other suggestions on
+  what I could try or possible patches feel free to leave them with me.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1728256/+subscriptions
 
