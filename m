@@ -2,55 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E8322ADAE4
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 16:52:08 +0100 (CET)
-Received: from localhost ([::1]:34386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C9892ADAE3
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 16:52:05 +0100 (CET)
+Received: from localhost ([::1]:34108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcVwF-0002DG-Jq
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 10:52:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57060)
+	id 1kcVwC-00026L-FP
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 10:52:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcVuu-0000vc-Cy
+ id 1kcVuu-0000vU-1x
  for qemu-devel@nongnu.org; Tue, 10 Nov 2020 10:50:44 -0500
-Received: from indium.canonical.com ([91.189.90.7]:51086)
+Received: from indium.canonical.com ([91.189.90.7]:51034)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcVus-0007yC-Kd
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 10:50:44 -0500
+ id 1kcVus-0007yA-0g
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 10:50:43 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kcVur-0003vv-2K
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 15:50:41 +0000
+ id 1kcVuq-0003wv-Jh
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 15:50:40 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id F03232E8079
+ by loganberry.canonical.com (Postfix) with ESMTP id 7E8582E8079
  for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 15:50:40 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2020 15:42:33 -0000
-From: Thomas Huth <1761153@bugs.launchpad.net>
+Date: Tue, 10 Nov 2020 15:43:14 -0000
+From: Peter Maydell <1863486@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: arm tcg
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: mgautierfr th-huth
-X-Launchpad-Bug-Reporter: Matthieu Gautier (mgautierfr)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <152284551397.28710.6742910020765706357.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160502295364.18737.18369796673484640829.malone@soybean.canonical.com>
-Subject: [Bug 1761153] Re: qemu-user incorrect mmap for large files on 64bits
- host and 32bits executable.
+X-Launchpad-Bug-Commenters: philmd pmaydell
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <158187215227.14879.6112716414047440782.malonedeb@soybean.canonical.com>
+Message-Id: <160502299522.12701.10336265077812670270.launchpad@gac.canonical.com>
+Subject: [Bug 1863486] Re: aarch64/tcg crash with malloc(): unsorted double
+ linked list corrupted
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: 3c4fee517a6330c239a623570efbcdfec3b808f7
+X-Launchpad-Hash: 4d5af6840dc1d490ed5d148b5c2664f59ac2a3c8
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 08:35:46
@@ -73,19 +75,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1761153 <1761153@bugs.launchpad.net>
+Reply-To: Bug 1863486 <1863486@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-
-The QEMU project is currently considering to move its bug tracking to anoth=
-er system. For this we need to know which bugs are still valid and which co=
-uld be closed already. Thus we are setting older bugs to "Incomplete" now.
-If you still think this bug report here is valid, then please switch the st=
-ate back to "New" within the next 60 days, otherwise this report will be ma=
-rked as "Expired". Or mark it as "Fix Released" if the problem has been sol=
-ved with a newer version of QEMU already. Thank you and sorry for the incon=
-venience.
-
 
 ** Changed in: qemu
        Status: New =3D> Incomplete
@@ -94,46 +86,103 @@ venience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1761153
+https://bugs.launchpad.net/bugs/1863486
 
 Title:
-  qemu-user incorrect mmap for large files on 64bits host and 32bits
-  executable.
+  aarch64/tcg crash with malloc(): unsorted double linked list corrupted
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  qemu-user seems to incorrectly mmap a file if the offset is > 4GiB and
-  guest binary is 32 bits elf.
+  Based on commit b29c3e23f64938784c42ef9fca896829e3c19120,
+  QEMU configured with --enable-debug --extra-cflags=3D-ggdb.
 
-  See attached test program `test_mmap.c`.
+  Download Raspberry Pi 3 UEFI Firmware v1.15 from:
+  https://github.com/pbatard/RPi3/releases/tag/v1.15
+  (unzip RPi3_UEFI_Firmware_v1.15.zip)
 
-  ```
-  $ gcc -g -m32 -march=3Di386 test_mmap.c -o test_mmap
-  $ file test_mmap
-  test_mmap: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dyna=
-mically linked, interpreter /lib/ld-linux.so.2, for GNU/Linux 3.2.0, BuildI=
-D[sha1]=3De36db05f4dfd8a9cfde8a969214a242c1f5a4b49, with debug_info, not st=
-ripped
-  $ uname -a
-  Linux localhost.localdomain 4.15.10-300.fc27.x86_64 #1 SMP Thu Mar 15 17:=
-13:04 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
-  $ qemu-i386 --version
-  qemu-i386 version 2.10.1(qemu-2.10.1-2.fc27)
-  Copyright (c) 2003-2017 Fabrice Bellard and the QEMU Project developers
-  $ ./test_mmap
-  $ qemu-i386 test_mmap
-  Incorrect data 1
-  ```
+  Run QEMU with:
 
-  Tested with qemu-i386 packaged in Fedora 27 and qemu-i386 compiled
-  from git master (094b62cd9c)
+  $ qemu-system-aarch64 -M raspi3 \
+    -serial null -serial stdio \
+    -device loader,file=3DRPI_EFI.fd,force-raw=3Dtrue =
 
-  The issue was firstly detected on (more complex program) using qemu-
-  arm (with 32bits binary) so it is probably a 32/64bits problem
-  independently of the cpu family.
+
+  Normal behavior:
+
+  NOTICE:  Booting Trusted Firmware
+  NOTICE:  BL1: v2.1(release):v2.1
+  NOTICE:  BL1: Built : 15:26:06, May 13 2019
+  NOTICE:  rpi3: Detected: Raspberry Pi 3 Model B (1GB, Sony, UK) [0x00a020=
+82]
+  NOTICE:  BL1: Booting BL2
+  ERROR:   rpi3_sdhost: timeout status 0x40
+  NOTICE:  BL2: v2.1(release):v2.1
+  NOTICE:  BL2: Built : 15:26:01, May 13 2019
+  NOTICE:  BL1: Booting BL31
+  NOTICE:  BL31: v2.1(release):v2.1
+  NOTICE:  BL31: Built : 15:26:04, May 13 2019
+  =3DUEFI firmware (version UEFI Firmware v1.15 built at 11:58:44 on Feb 14=
+ 2020)
+  =3D=3D=3D=3D=3D=3D=3D=3D
+
+  Synchronous Exception at 0x0000000037A1A4E8
+
+  But I sometimes get:
+
+  NOTICE:  Booting Trusted Firmware
+  NOTICE:  BL1: v2.1(release):v2.1
+  NOTICE:  BL1: Built : 15:26:06, May 13 2019
+  NOTICE:  rpi3: Detected: Raspberry Pi 3 Model B (1GB, Sony, UK) [0x00a020=
+82]
+  NOTICE:  BL1: Booting BL2
+  ERROR:   rpi3_sdhost: timeout status 0x40
+  NOTICE:  BL2: v2.1(release):v2.1
+  NOTICE:  BL2: Built : 15:26:01, May 13 2019
+  NOTICE:  BL1: Booting BL31
+  NOTICE:  BL31: v2.1(release):v2.1
+  NOTICE:  BL31: Built : 15:26:04, May 13 2019
+  =3DUEFI firmware (version UEFI Firmware v1.15 built at 11:58:44 on Feb 14=
+ 2020)
+  =3D=3D=3D=3D=3D=3D=3D=3Dmalloc(): unsorted double linked list corrupted
+
+  Thread 3 "qemu-system-aar" received signal SIGABRT, Aborted.
+  [Switching to Thread 0x7fffe9c22700 (LWP 22746)]
+  0x00007ffff515ce35 in raise () from /lib64/libc.so.6
+  (gdb) bt
+  #0  0x00007ffff515ce35 in raise () at /lib64/libc.so.6
+  #1  0x00007ffff5147895 in abort () at /lib64/libc.so.6
+  #2  0x00007ffff51a008f in __libc_message () at /lib64/libc.so.6
+  #3  0x00007ffff51a740c in  () at /lib64/libc.so.6
+  #4  0x00007ffff51aa48c in _int_malloc () at /lib64/libc.so.6
+  #5  0x00007ffff51aad4e in _int_memalign () at /lib64/libc.so.6
+  #6  0x00007ffff51abdda in _mid_memalign () at /lib64/libc.so.6
+  #7  0x00007ffff51ad3c6 in posix_memalign () at /lib64/libc.so.6
+  #8  0x00007ffff7be2407 in slab_allocator_alloc_chunk () at /lib64/libglib=
+-2.0.so.0
+  #9  0x00007ffff7be3573 in g_slice_alloc () at /lib64/libglib-2.0.so.0
+  #10 0x00007ffff7bf410a in g_tree_insert_internal () at /lib64/libglib-2.0=
+.so.0
+  #11 0x0000555555853f10 in tcg_tb_insert (tb=3D0x7fffd44b4d80 <code_gen_bu=
+ffer+4934995>) at tcg/tcg.c:425
+  #12 0x00005555558dbe3d in tb_gen_code (cpu=3D0x555556afa640, pc=3D9333329=
+60, cs_base=3D0, flags=3D2216689664, cflags=3D-16252928) at accel/tcg/trans=
+late-all.c:1875
+  #13 0x00005555558d7c73 in tb_find (cpu=3D0x555556afa640, last_tb=3D0x7fff=
+d44b4c40 <code_gen_buffer+4934675>, tb_exit=3D0, cf_mask=3D524288) at accel=
+/tcg/cpu-exec.c:406
+  #14 0x00005555558d8543 in cpu_exec (cpu=3D0x555556afa640) at accel/tcg/cp=
+u-exec.c:730
+  #15 0x00005555558981e1 in tcg_cpu_exec (cpu=3D0x555556afa640) at cpus.c:1=
+405
+  #16 0x0000555555898a37 in qemu_tcg_cpu_thread_fn (arg=3D0x555556afa640) a=
+t cpus.c:1713
+  #17 0x0000555556057af8 in qemu_thread_start (args=3D0x555557511570) at ut=
+il/qemu-thread-posix.c:519
+  #18 0x00007ffff52f34c0 in start_thread () at /lib64/libpthread.so.0
+  #19 0x00007ffff5221163 in clone () at /lib64/libc.so.6
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1761153/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1863486/+subscriptions
 
