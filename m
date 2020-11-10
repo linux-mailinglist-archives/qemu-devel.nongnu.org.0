@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D2A32ADD84
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 18:56:27 +0100 (CET)
-Received: from localhost ([::1]:59796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6F362ADD95
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 19:00:00 +0100 (CET)
+Received: from localhost ([::1]:33900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcXsY-0001oq-1f
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 12:56:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59690)
+	id 1kcXvz-0002uT-Qy
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 12:59:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kcXrj-0001Oa-S5
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 12:55:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28794)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kcXrh-0007dc-Hk
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 12:55:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605030931;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xYHkGca+zEVAmcqjBNJo0IYe2wLJ5oYlvpVXmsYdCF8=;
- b=FeGEBlkCrmu+fNYk1932f+uIX/faJmcCO8B5RGKu3rvcHDiXGQ6VRE3zYJ9fxd9x+qcr6B
- +rMIBwAp8RwzB1i5DMlb+ru9x/AlGZzNBOBe2I0t/YLxSZvOjaDoTwnSImjeIfYRy+nCR8
- 3kNKWCZFtMhtqhPBdrP+9woz2TPFxpU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-110-edMyKBQKNd2EFBP1R5UzXw-1; Tue, 10 Nov 2020 12:55:28 -0500
-X-MC-Unique: edMyKBQKNd2EFBP1R5UzXw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1DD7E186DD3A;
- Tue, 10 Nov 2020 17:55:25 +0000 (UTC)
-Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 694DB5C1C4;
- Tue, 10 Nov 2020 17:55:21 +0000 (UTC)
-Date: Tue, 10 Nov 2020 12:55:20 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [RFC v1 09/10] i386: split cpu.c and defer x86 models registration
-Message-ID: <20201110175520.GI5733@habkost.net>
-References: <20201109172755.16500-1-cfontana@suse.de>
- <20201109172755.16500-10-cfontana@suse.de>
- <20201109180302.GB814975@redhat.com>
- <971cfde9-d24e-a3dc-6389-8a7c9e477f63@suse.de>
- <20201110100438.GF866671@redhat.com>
- <c4c56c06-7530-5705-9ce8-5eff8cf1a0d3@redhat.com>
- <20201110152314.GF5733@habkost.net>
- <8bc35f55-159f-5037-3355-12bf4fd48e74@redhat.com>
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1kcXuC-0002Pt-H7
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 12:58:08 -0500
+Received: from mail-io1-f66.google.com ([209.85.166.66]:41813)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1kcXuA-0000Ab-Sd
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 12:58:08 -0500
+Received: by mail-io1-f66.google.com with SMTP id t8so10674449iov.8
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 09:58:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Y4hoB5m2LDQ5lEOluKdi4w5+1cMvmlUv1nNDsnsk3bk=;
+ b=n9SxlC5c900BNpWFI5giDWNt4WoQeieOyiBs/X7erk8cN9SfvH1ndR0rQqVDqhvXjR
+ +otW91gmL/7KMCpQ4O5V15KZ2l+1qRiEW1gd+vXSjnRtZUd7IzyfXd+jCjbiPLN9Qgvu
+ 8flfE1WQ2npLGXcP9oJydrvJe1l/fh49gu5fZIHr5AVa0dxEo6uyKFCJ7zDhrdApoDnc
+ aBH5agrbOWKQ8wz0sMA9FSo5aX/SdEW/dFaXKixk3Nf7x7SlwDWrjPo9KCl0hx7JN6Qw
+ VsWp/YzNsXxc7L0dSQCpSvMK9VtXYV++ZnLYS6qLcURJQxuMXMmQaJw1Tp5vg0DzoR9y
+ qjUQ==
+X-Gm-Message-State: AOAM531EZNzwAAMwlwCOzGuSnk1NBdzh9W7rHCo6tccaRWu1Z85kj3kw
+ KosYLgnDqgxAz55zuOd35EglfSkOww0=
+X-Google-Smtp-Source: ABdhPJyjCda4UAhVwF/y3ArKIZvYVpO9cPqmqMegX0yAcb0+BzDIdZS09Kvv78RYZrjX9D15twMtWg==
+X-Received: by 2002:a5d:89ce:: with SMTP id a14mr14774760iot.85.1605031085456; 
+ Tue, 10 Nov 2020 09:58:05 -0800 (PST)
+Received: from mail-io1-f44.google.com (mail-io1-f44.google.com.
+ [209.85.166.44])
+ by smtp.gmail.com with ESMTPSA id i3sm7704608iom.8.2020.11.10.09.58.05
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Nov 2020 09:58:05 -0800 (PST)
+Received: by mail-io1-f44.google.com with SMTP id p7so15174407ioo.6
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 09:58:05 -0800 (PST)
+X-Received: by 2002:a6b:6610:: with SMTP id a16mr14928990ioc.193.1605031084830; 
+ Tue, 10 Nov 2020 09:58:04 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <8bc35f55-159f-5037-3355-12bf4fd48e74@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 00:21:06
+References: <20201106032921.600200-1-richard.henderson@linaro.org>
+ <20201106032921.600200-17-richard.henderson@linaro.org>
+ <87zh3p6rl4.fsf@linaro.org>
+In-Reply-To: <87zh3p6rl4.fsf@linaro.org>
+From: Joelle van Dyne <j@getutm.app>
+Date: Tue, 10 Nov 2020 09:57:54 -0800
+X-Gmail-Original-Message-ID: <CA+E+eSBBsPxhga3ALBaVeGzyLved5gs9emOQvvyPPk+GGRdzfQ@mail.gmail.com>
+Message-ID: <CA+E+eSBBsPxhga3ALBaVeGzyLved5gs9emOQvvyPPk+GGRdzfQ@mail.gmail.com>
+Subject: Re: [PATCH v3 16/41] accel/tcg: Support split-wx for darwin/iOS with
+ vm_remap
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=209.85.166.66; envelope-from=osy86dev@gmail.com;
+ helo=mail-io1-f66.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 12:58:05
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,56 +84,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Wenchao Wang <wenchao.wang@intel.com>,
- Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Cameron Esfahani <dirty@apple.com>,
- haxm-team@intel.com, Claudio Fontana <cfontana@suse.de>,
- Anthony Perard <anthony.perard@citrix.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>, Bruce Rogers <brogers@suse.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>, Colin Xu <colin.xu@intel.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Joelle van Dyne <j@getutm.app>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 10, 2020 at 05:05:27PM +0100, Paolo Bonzini wrote:
-> On 10/11/20 16:23, Eduardo Habkost wrote:
-> > On Tue, Nov 10, 2020 at 11:41:46AM +0100, Paolo Bonzini wrote:
-> > > On 10/11/20 11:04, Daniel P. Berrangé wrote:
-> > > > 
-> > > > ie, we should have one class hierarchy for CPU model definitions, and
-> > > > one class hierarchy  for accelerator CPU implementations.
-> > > > 
-> > > > So at runtime we then get two object instances - a CPU implementation
-> > > > and a CPU definition. The CPU implementation object should have a
-> > > > property which is a link to the desired CPU definition.
-> > > 
-> > > It doesn't even have to be two object instances.  The implementation can be
-> > > nothing more than a set of function pointers.
-> > 
-> > A set of function pointers is exactly what a QOM interface is.
-> > Could the methods be provided by a TYPE_X86_ACCEL interface type,
-> > implemented by the accel object?
-> 
-> I think we should not try yo implement interfaces conditionally (i.e. have
-> TYPE_X86_ACCEL implemented only on qemu-system-{i386,x86_64} and not
-> qemu-system-arm), even if technically the accel/ objects are per-target
-> (specific_ss) rather than common.
+FWIW, it's a syscall that's been around for as long as I can remember.
+In macOS 11 they added a new mach_vm_remap but kept the old one for
+compatibility so I don't think it's going away any time soon.
 
-If the accel objects are already per target, it seems appropriate
-to have a QOM type hierarchy that reflects that.
+-j
 
-`qemu-system-x86_64 -accel kvm` would create a kvm-x86_64-accel
-object, but `qemu-system-arm -accel kvm` would create a
-kvm-arm-accel.
-
-*-x86_64-accel and *-i386-accel would all implement
-INTERFACE_X86_ACCEL.
-
--- 
-Eduardo
-
+On Tue, Nov 10, 2020 at 9:37 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>
+>
+> Richard Henderson <richard.henderson@linaro.org> writes:
+>
+> > Cribbed from code posted by Joelle van Dyne <j@getutm.app>,
+> > and rearranged to a cleaner structure.  Completely untested.
+> >
+> > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> > ---
+> >  accel/tcg/translate-all.c | 65 +++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 65 insertions(+)
+> >
+> > diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+> > index 1931e65365..17df6c94fa 100644
+> > --- a/accel/tcg/translate-all.c
+> > +++ b/accel/tcg/translate-all.c
+> > @@ -1166,9 +1166,71 @@ static bool alloc_code_gen_buffer_splitwx_memfd(=
+size_t size, Error **errp)
+> >  }
+> >  #endif /* CONFIG_POSIX */
+> >
+> > +#ifdef CONFIG_DARWIN
+> > +#include <mach/mach.h>
+> > +
+> > +extern kern_return_t mach_vm_remap(vm_map_t target_task,
+> > +                                   mach_vm_address_t *target_address,
+> > +                                   mach_vm_size_t size,
+> > +                                   mach_vm_offset_t mask,
+> > +                                   int flags,
+> > +                                   vm_map_t src_task,
+> > +                                   mach_vm_address_t src_address,
+> > +                                   boolean_t copy,
+> > +                                   vm_prot_t *cur_protection,
+> > +                                   vm_prot_t *max_protection,
+> > +                                   vm_inherit_t inheritance);
+>
+> Our checkpatch really doesn't like the extern being dropped in here but
+> having grepped the xnu source I'm not sure we have a choice. I'm curious
+> how stable the function might be given it's not in a published header.
+>
+> --
+> Alex Benn=C3=A9e
 
