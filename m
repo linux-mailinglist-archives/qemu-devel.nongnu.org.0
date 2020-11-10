@@ -2,95 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C2722AD440
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 11:59:55 +0100 (CET)
-Received: from localhost ([::1]:39528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 526C52AD458
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 12:02:26 +0100 (CET)
+Received: from localhost ([::1]:43300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcRNS-00023B-3o
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 05:59:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41854)
+	id 1kcRPt-0003m4-D1
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 06:02:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kcRMD-0000es-9h
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 05:58:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27030)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcRNc-00036J-Es
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:00:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60787)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kcRMB-00086L-Ff
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 05:58:36 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcRNZ-00009v-L2
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:00:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605005914;
+ s=mimecast20190719; t=1605006000;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9JpiuM9hHgTjsTpEtQNzQwekWpxPDue+9RW80Stxwo4=;
- b=eR36+bQon0mLdfdCMjY7d8gpm++F0J1iCxqr8tI25YXp6zwf693Ax6rAQ1WGu0pYLpGIB3
- 6DnKM4CUL3vzlsGKm7EuG105wywZWoqp8IEsY87SWBSFxhxFGlEEA2lRBdEnye8j1lqriz
- eWkJHuBKttQNb7NO+aGfC48UiNTJZDc=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-373-jAfszpu3M6OhnoBzSlWGXw-1; Tue, 10 Nov 2020 05:58:33 -0500
-X-MC-Unique: jAfszpu3M6OhnoBzSlWGXw-1
-Received: by mail-ej1-f70.google.com with SMTP id 27so4551843ejy.8
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 02:58:32 -0800 (PST)
+ bh=mgUnwLRwwISkNDikgzJue6+cKFskuEp4mva022X13PY=;
+ b=cE85q4INWu8Uxt2VNBo5xwqctKRbNiQZjsd9bkojL3jZAfsGnUYxvBEotQEixchsPi2T9K
+ lUafPdlE+D9XNwK8m1XCqxt0Bp3KoDl9GLFZUQiMovacgvu5on+d6C2nUAtYXeZg++bcYF
+ QAiwcQ/Il3ouQDUrHQvusSzcsC3ClOE=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-491-1Yk9YYIqPY-82L6euB-SJg-1; Tue, 10 Nov 2020 05:59:58 -0500
+X-MC-Unique: 1Yk9YYIqPY-82L6euB-SJg-1
+Received: by mail-wr1-f69.google.com with SMTP id e11so5578504wrw.14
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 02:59:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=9JpiuM9hHgTjsTpEtQNzQwekWpxPDue+9RW80Stxwo4=;
- b=SyIHdxKjcQ8Zt9hEMqQVINJ4SpyjGrCytnabCG6ItIWKva8mZXo4qSxWYh5hok2FY+
- pB5SrIMc8bRZuVanU0EdFoxOT+Z/W4W889AK0mc79PPmGJ26cS26pJ7e0Lw5eOgo1grZ
- i2c7+GuX8VGR00FHnoDz5iDPt/se9BUSgETWrA86syI/KUnetWmPnmHK95rGf74YE86E
- ovPdEqX+2Wg6ugu1whnYqcX8SlRUYo9K4Q93PNmjiR9ox5LBiDXyEbSar01wqDUmZFhi
- B56EpCQj6ICBmBQ3W5R1/vU+JXx6SYfNQ1x+Da1FiywG58p8RoCLNBiQ7/4nCA9i5DNf
- a8EA==
-X-Gm-Message-State: AOAM532vVZLM1nRnpq1i2mECrKA9rxlZn8H5BkU28ZXNxmgtoE6sicmx
- qWD4v98c9RbLVL6AI30RDUGr2jT2l94sZJ2nFKKqvp/MyERLHoduQcNK3vMAAejb0Sm5f7l5evi
- IX7UufdU3bchH48g=
-X-Received: by 2002:a17:906:4e99:: with SMTP id
- v25mr19249765eju.242.1605005911567; 
- Tue, 10 Nov 2020 02:58:31 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwFEYnL8k6Wj9Pa4+tGu2o45yvqOKXxp+eZyr2zSr2CYnwjrgH0IfyWuCTfdEw6m75zS+Gs9g==
-X-Received: by 2002:a17:906:4e99:: with SMTP id
- v25mr19249748eju.242.1605005911307; 
- Tue, 10 Nov 2020 02:58:31 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id m16sm8791330eja.58.2020.11.10.02.58.30
+ bh=mgUnwLRwwISkNDikgzJue6+cKFskuEp4mva022X13PY=;
+ b=PD1d6sd4qfqmeWz2nXkMH0m0jK5LieYrJRPueo+VFiELfDtRjgf3hBz/ZUpe/IVYtd
+ nQGCS34ycdCiEpZO/DxRDqJCnPM9rp8Im/o8f+G1htajmPO/XhnLqf/nGgambdEB7YHF
+ 7n3ACrCHhwIUQTeTMdh2kOemgfXTuuIL3faQF1Nj6+RALPG0mHeYaVHrSq9IRrTN5aC9
+ E0Yb5kK9hcmCa+qed3kV7WtfSss59rvtC3TguVTSWd9IdTScKWpINnkuZS4oNbu4hqHz
+ 6HCJp5aTwR5WlixCpeunkrLZU3QhjtKJa3LVdBlZejJ5j6BX0qcv3Im9z9GxFn2YmK1g
+ h4Lg==
+X-Gm-Message-State: AOAM533fTk9bz3DHjGjLx6NKq/URvizKlXtCjDvQM9pDhRtaNQ+PjmT3
+ BiTXfbQ/fClERCV/X0FnxD8ZJSGHlLtyx+zDQzCyRKOfh4lwJACFmdhnsXJEOLgyt0TyY/1vokk
+ FvVX9Wk74uB0LiRc=
+X-Received: by 2002:a5d:6688:: with SMTP id l8mr24685721wru.360.1605005997595; 
+ Tue, 10 Nov 2020 02:59:57 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx6VZbNhYWz9npZAAPTu2vg6lR6YSX4TNf3Exx56bdZrvqNzf8T1hPNE4JlJEcB1Dkk9zjNLA==
+X-Received: by 2002:a5d:6688:: with SMTP id l8mr24685696wru.360.1605005997305; 
+ Tue, 10 Nov 2020 02:59:57 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id y4sm2511184wmj.2.2020.11.10.02.59.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Nov 2020 02:58:30 -0800 (PST)
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20201106211034.GY5733@habkost.net>
- <ca99fc61-6cdd-117d-343e-8141e385522e@redhat.com>
- <20201109113404.GA24970@merkur.fritz.box>
- <3b711053-e67a-86fb-59e7-c06948dd8928@redhat.com>
- <20201109152125.GZ5733@habkost.net>
- <2300fd53-afa1-b957-b33b-cff2986fcb93@redhat.com>
- <20201109171618.GA5733@habkost.net>
- <098ca211-3ad5-b194-e9f5-678291fe641e@redhat.com>
- <20201109185558.GB5733@habkost.net>
- <9659e726-7948-4e02-f303-abcbe4c96148@redhat.com>
- <20201109202855.GD5733@habkost.net>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 00/44] Make qdev static property API usable by any QOM
- type
-Message-ID: <c501a54d-4e8a-52bf-14fa-cfce3eafe57f@redhat.com>
-Date: Tue, 10 Nov 2020 11:58:29 +0100
+ Tue, 10 Nov 2020 02:59:56 -0800 (PST)
+Subject: Re: [PULL 5/7] gitlab-ci: Move edk2 and opensbi YAML files to
+ .gitlab-ci.d folder
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20200528101039.24600-1-thuth@redhat.com>
+ <20200528101039.24600-6-thuth@redhat.com>
+ <955bad5e-51ca-5b3f-c68f-a0374fc00a43@redhat.com>
+ <20201012140131.GH39408@redhat.com>
+ <9bfcca65-7e22-3e23-b4e6-787ee5a006dd@redhat.com>
+Message-ID: <67ffa82b-a842-d4a7-b276-2018bfe21e6b@redhat.com>
+Date: Tue, 10 Nov 2020 11:59:55 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201109202855.GD5733@habkost.net>
+In-Reply-To: <9bfcca65-7e22-3e23-b4e6-787ee5a006dd@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 02:00:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -114,63 +104,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Bin Meng <bmeng.cn@gmail.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/11/20 21:28, Eduardo Habkost wrote:
-> I don't know yet what's the best solution for the x86 feature
-> case.  Maybe duplicating the list of feature names would be a
-> small price to pay to get a static list of properties defined at
-> compilation time?  Maybe we can replace
-> FeatureWordInfo.feat_names[] with property introspection code
-> that will find the property name for a given struct field?
+On 10/13/20 4:18 PM, Philippe Mathieu-Daudé wrote:
+> On 10/12/20 4:01 PM, Daniel P. Berrangé wrote:
+>> On Mon, Oct 12, 2020 at 03:44:00PM +0200, Philippe Mathieu-Daudé wrote:
+>>> Hi Thomas, Alex,
+>>>
+>>> +Daniel
+>>>
+>>> On 5/28/20 12:10 PM, Thomas Huth wrote:
+>>>> We have a dedicated folder for the gitlab-ci - so there is no need
+>>>> to clutter the top directory with these .yml files.
+>>>>
+>>>> Message-Id: <20200525131823.715-5-thuth@redhat.com>
+>>>> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>>> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>>> ---
+>>>>    .gitlab-ci-edk2.yml => .gitlab-ci.d/edk2.yml       | 0
+>>>>    .gitlab-ci-opensbi.yml => .gitlab-ci.d/opensbi.yml | 0
+>>>>    .gitlab-ci.yml                                     | 4 ++--
+>>>>    MAINTAINERS                                        | 2 +-
+>>>>    4 files changed, 3 insertions(+), 3 deletions(-)
+>>>>    rename .gitlab-ci-edk2.yml => .gitlab-ci.d/edk2.yml (100%)
+>>>>    rename .gitlab-ci-opensbi.yml => .gitlab-ci.d/opensbi.yml (100%)
+>>>>
+>>>> diff --git a/.gitlab-ci-edk2.yml b/.gitlab-ci.d/edk2.yml
+>>>> similarity index 100%
+>>>> rename from .gitlab-ci-edk2.yml
+>>>> rename to .gitlab-ci.d/edk2.yml
+>>>> diff --git a/.gitlab-ci-opensbi.yml b/.gitlab-ci.d/opensbi.yml
+>>>> similarity index 100%
+>>>> rename from .gitlab-ci-opensbi.yml
+>>>> rename to .gitlab-ci.d/opensbi.yml
+>>>> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+>>>> index bc6aee6aba..5208d93ff8 100644
+>>>> --- a/.gitlab-ci.yml
+>>>> +++ b/.gitlab-ci.yml
+>>>> @@ -1,6 +1,6 @@
+>>>>    include:
+>>>> -  - local: '/.gitlab-ci-edk2.yml'
+>>>> -  - local: '/.gitlab-ci-opensbi.yml'
+>>>> +  - local: '/.gitlab-ci.d/edk2.yml'
+>>>> +  - local: '/.gitlab-ci.d/opensbi.yml'
+>>>
+>>> It seems these jobs are now always run, the "rules:changes"
+>>> to restrict them is ignored.
+>>>
+>>> I searched a bit and found a plausible explanation here:
+>>> https://docs.gitlab.com/ee/ci/yaml/#onlychangesexceptchanges
+>>>
+>>> "Caution: In pipelines with sources other than the three above
+>>> changes can’t
+>>> determine if a given file is new or old and always returns true. This
+>>> includes pipelines triggered by pushing new tags. Configuring jobs to
+>>> use
+>>> only: changes with other only: refs keywords is possible, but not
+>>> recommended."
+>>>
+>>> I don't understand what they mean by "three", is a directory considered
+>>> a three? Then that would explain the change.
+>>
+>> The edk2.yml file as a "when: always" clause attached to every rule,
+>> so surely this negates the point of filtering by making it always
+>> run ?
 
-The problem is associating the names with the metadata (feature 
-word/bit).  Right now we do that by placing the names in the 
-feat_names[] arrays, which are indexed by feature word and bit.
+git show 71920809ceab
++docker-edk2:
++ stage: build
++ rules: # Only run this job when the Dockerfile is modified
++ - changes:
++   - .gitlab-ci-edk2.yml
++   - .gitlab-ci.d/edk2/Dockerfile
++   when: always
 
->>> If object*_property_add*() is hidden behind a function call or a
->>> `if` statement, it's already too much complexity to me.
->> You want to remove hiding behind a function call, but why is it any better
->> to hide behind layers of macros?  Just the example you had in your email
->> included DEFINE_PROP, DEFINE_FIELD_PROP, DEFINE_PROP_UINT32.  It's still
->> impossible to figure out without either parsing or executing C code.
->
-> Because we can be absolutely sure the macros (and the property
-> array) will be constant expressions evaluated at compilation
-> time.
+Per https://docs.gitlab.com/ee/ci/yaml/#rules-clauses
 
-That's not entirely true.  You can always build Property objects 
-manually in a for loop.  (Though at that point you might as well use the 
-existing API and not the new one).
+  Rules are evaluated in order until a match is found.
 
-I think we agree on where _to go_ (schema described outside C code, and 
-possibly integrated with the QAPI schema).  I think neither of us has a 
-clear idea of how to get there. :)  I don't see this series as a step 
-towards that; I see it more as a worthwhile way to remove boilerplate 
-from QOM objects.
+  The job is not added to the pipeline:
 
-In my opinion the next steps for QOM (in general, not necessarily 
-related to the goal) should be to:
+    If no rules match, and there is no standalone
+    when: on_success, when: delayed or when: always.
 
-1) audit the code and ensure that there are no conditional properties
+For docker-edk2 the rule is "If .gitlab-ci-edk2.yml or
+.gitlab-ci.d/edk2/Dockerfile changed, then always add;
+else do not add".
 
-2) figure out if it makes sense to provide run-time (not compile-time) 
-introspection of QOM class properties, as either a stable or an 
-experimental interface, and how it works together with the QAPI 
-introspection.  In particular, whether compound QAPI types can be 
-matched across QOM and QAPI introspection.
+> I understand it runs regardless a job in any previous stage failed.
+> 
+> From https://docs.gitlab.com/ee/ci/yaml/#when
+> 
+> * always - execute job regardless of the status of jobs from prior stages.
+> * on_success - execute job only when all jobs from prior stages succeed
+> (or are considered succeeding because they have allow_failure: true).
+> This is the default.
+> 
+> I think I used that because at the time I sent that patch
+> some docker image builds were failing. But we don't really
+> need it, I'll remove.
 
-3) figure out if there are any instance properties that can be easily 
-extended to class properties.  In particular, figure out if we can do 
-class-level property aliasing.
+Also because this is a long job burning free tier credits pointlessly.
 
-Paolo
+(I'll also do it for the OpenSBI job).
+
+> 
+> Anyhow this used to work with "when: always", see:
+> https://gitlab.com/qemu-project/qemu/-/pipelines/168158357
+> 
+>>
+>> Regards,
+>> Daniel
+>>
+> 
 
 
