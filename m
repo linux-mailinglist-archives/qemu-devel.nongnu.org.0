@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 834662AD5DA
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 13:05:36 +0100 (CET)
-Received: from localhost ([::1]:41774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 401182AD5ED
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 13:12:51 +0100 (CET)
+Received: from localhost ([::1]:46918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcSP1-0005Gq-4c
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 07:05:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56434)
+	id 1kcSW1-0007nX-TA
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 07:12:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kcSNK-0004kV-LB
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 07:03:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49733)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kcSVH-0007Lt-CA
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 07:12:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36663)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kcSNH-0004tV-FF
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 07:03:49 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kcSVF-0007v4-0t
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 07:12:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605009823;
+ s=mimecast20190719; t=1605010319;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xb5NDBYolxZDBZGyeWCqauLRVuynEynXiKgHa0bzNjI=;
- b=gnI/NOrBza3rqBLLUq7j2nbrlXoIvXJJaA7KD0NlWiDBWa+tOKRgo2w+JVD8FOemofxLm5
- j+5PwfOSFPajCc75JEV6I7QQLa867FkpjkNBNHh2t/N52Qe0fUz8xo2NyuIREO4MEAvdj6
- IUvRCsFaOA+izBHB6X+ZLFHJBwcCzcc=
+ bh=KLKW2v0w6WYFsGq8udI0/UtzBM8nR/v4QqXkDkseNIk=;
+ b=TPUpicxnHWPH4qu3acHD51/TQPVf78Lxa4ud5cgdHh5Q3AWD6uzvPgSuWQ7sJe6dtrwFCb
+ R+TeJVyYldQbqL/oYJ2JbPUDSWh8/DtqcftLaTdlJHN4Vo5pH9g5DYjSZQi/21DQY1VTZ8
+ bu+yapqLMOf24dqdLvQUXVaNZZDZTP0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-168-vw_7oHk7NP2Otl4GVW_I1g-1; Tue, 10 Nov 2020 07:03:41 -0500
-X-MC-Unique: vw_7oHk7NP2Otl4GVW_I1g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-510-7pvCl8s_N6mwLIe6qZmRZA-1; Tue, 10 Nov 2020 07:11:57 -0500
+X-MC-Unique: 7pvCl8s_N6mwLIe6qZmRZA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 19F451009E37;
- Tue, 10 Nov 2020 12:03:40 +0000 (UTC)
-Received: from gondolin (ovpn-112-243.ams2.redhat.com [10.36.112.243])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5CB5C4149;
- Tue, 10 Nov 2020 12:03:35 +0000 (UTC)
-Date: Tue, 10 Nov 2020 13:03:14 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [RFC PATCH for-QEMU-5.2] vfio: Make migration support experimental
-Message-ID: <20201110130314.5621be1c.cohuck@redhat.com>
-In-Reply-To: <160494787833.1473.10514376876696596117.stgit@gimli.home>
-References: <160494787833.1473.10514376876696596117.stgit@gimli.home>
-Organization: Red Hat GmbH
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE55B1006C9B;
+ Tue, 10 Nov 2020 12:11:55 +0000 (UTC)
+Received: from work-vm (ovpn-115-49.ams2.redhat.com [10.36.115.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4E2FE1A340;
+ Tue, 10 Nov 2020 12:11:53 +0000 (UTC)
+Date: Tue, 10 Nov 2020 12:11:50 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Chuan Zheng <zhengchuan@huawei.com>
+Subject: Re: [PATCH v3 03/18] migration/rdma: create multifd_setup_ops for
+ Tx/Rx thread
+Message-ID: <20201110121150.GD3108@work-vm>
+References: <1602908748-43335-1-git-send-email-zhengchuan@huawei.com>
+ <1602908748-43335-4-git-send-email-zhengchuan@huawei.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <1602908748-43335-4-git-send-email-zhengchuan@huawei.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 00:21:06
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -79,75 +82,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Neo Jia <cjia@nvidia.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Kirti Wankhede <kwankhede@nvidia.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Cc: yubihong@huawei.com, zhang.zhanghailiang@huawei.com, quintela@redhat.com,
+ fengzhimin1@huawei.com, qemu-devel@nongnu.org, xiexiangyou@huawei.com,
+ alex.chen@huawei.com, wanghao232@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 09 Nov 2020 11:56:02 -0700
-Alex Williamson <alex.williamson@redhat.com> wrote:
-
-> Per the proposed documentation for vfio device migration:
->=20
->   Dirty pages are tracked when device is in stop-and-copy phase
->   because if pages are marked dirty during pre-copy phase and
->   content is transfered from source to destination, there is no
->   way to know newly dirtied pages from the point they were copied
->   earlier until device stops. To avoid repeated copy of same
->   content, pinned pages are marked dirty only during
->   stop-and-copy phase.
->=20
-> Essentially, since we don't have hardware dirty page tracking for
-> assigned devices at this point, we consider any page that is pinned
-> by an mdev vendor driver or pinned and mapped through the IOMMU to
-> be perpetually dirty.  In the worst case, this may result in all of
-> guest memory being considered dirty during every iteration of live
-> migration.  The current vfio implementation of migration has chosen
-> to mask device dirtied pages until the final stages of migration in
-> order to avoid this worst case scenario.
->=20
-> Allowing the device to implement a policy decision to prioritize
-> reduced migration data like this jeopardizes QEMU's overall ability
-> to implement any degree of service level guarantees during migration.
-> For example, any estimates towards achieving acceptable downtime
-> margins cannot be trusted when such a device is present.  The vfio
-> device should participate in dirty page tracking to the best of its
-> ability throughout migration, even if that means the dirty footprint
-> of the device impedes migration progress, allowing both QEMU and
-> higher level management tools to decide whether to continue the
-> migration or abort due to failure to achieve the desired behavior.
->=20
-> Link: https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg00807.html
-> Cc: Kirti Wankhede <kwankhede@nvidia.com>
-> Cc: Neo Jia <cjia@nvidia.com>
-> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Cc: Juan Quintela <quintela@redhat.com>
-> Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Cc: Cornelia Huck <cohuck@redhat.com>
-> Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+* Chuan Zheng (zhengchuan@huawei.com) wrote:
+> Create multifd_setup_ops for TxRx thread, no logic change.
+> 
+> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
 > ---
->=20
-> Given that our discussion in the link above seems to be going in
-> circles, I'm afraid it seems necessary to both have a contigency
-> plan and to raise the visibility of the current behavior to
-> determine whether others agree that this is a sufficiently
-> troubling behavior to consider migration support experimental
-> at this stage.  Please voice your opinion or contribute patches
-> to resolve this before QEMU 5.2.  Thanks,
->=20
-> Alex
->=20
->  hw/vfio/migration.c           |    2 +-
->  hw/vfio/pci.c                 |    2 ++
->  include/hw/vfio/vfio-common.h |    1 +
->  3 files changed, 4 insertions(+), 1 deletion(-)
+>  migration/multifd.c | 44 +++++++++++++++++++++++++++++++++++++++-----
+>  migration/multifd.h |  7 +++++++
+>  2 files changed, 46 insertions(+), 5 deletions(-)
+> 
+> diff --git a/migration/multifd.c b/migration/multifd.c
+> index 68b171f..1f82307 100644
+> --- a/migration/multifd.c
+> +++ b/migration/multifd.c
+> @@ -383,6 +383,8 @@ struct {
+>      int exiting;
+>      /* multifd ops */
+>      MultiFDMethods *ops;
+> +    /* multifd setup ops */
+> +    MultiFDSetup *setup_ops;
+>  } *multifd_send_state;
+>  
+>  /*
+> @@ -790,8 +792,9 @@ static bool multifd_channel_connect(MultiFDSendParams *p,
+>          } else {
+>              /* update for tls qio channel */
+>              p->c = ioc;
+> -            qemu_thread_create(&p->thread, p->name, multifd_send_thread, p,
+> -                                   QEMU_THREAD_JOINABLE);
+> +            qemu_thread_create(&p->thread, p->name,
+> +                               multifd_send_state->setup_ops->send_thread_setup,
+> +                               p, QEMU_THREAD_JOINABLE);
+>         }
+>         return false;
+>      }
+> @@ -839,6 +842,11 @@ cleanup:
+>      multifd_new_send_channel_cleanup(p, sioc, local_err);
+>  }
+>  
+> +static void multifd_send_channel_setup(MultiFDSendParams *p)
+> +{
+> +    socket_send_channel_create(multifd_new_send_channel_async, p);
+> +}
+> +
+>  int multifd_save_setup(Error **errp)
+>  {
+>      int thread_count;
+> @@ -856,6 +864,7 @@ int multifd_save_setup(Error **errp)
+>      multifd_send_state->pages = multifd_pages_init(page_count);
+>      qemu_sem_init(&multifd_send_state->channels_ready, 0);
+>      qatomic_set(&multifd_send_state->exiting, 0);
+> +    multifd_send_state->setup_ops = multifd_setup_ops_init();
+>      multifd_send_state->ops = multifd_ops[migrate_multifd_compression()];
+>  
+>      for (i = 0; i < thread_count; i++) {
+> @@ -875,7 +884,7 @@ int multifd_save_setup(Error **errp)
+>          p->packet->version = cpu_to_be32(MULTIFD_VERSION);
+>          p->name = g_strdup_printf("multifdsend_%d", i);
+>          p->tls_hostname = g_strdup(s->hostname);
+> -        socket_send_channel_create(multifd_new_send_channel_async, p);
+> +        multifd_send_state->setup_ops->send_channel_setup(p);
+>      }
+>  
+>      for (i = 0; i < thread_count; i++) {
+> @@ -902,6 +911,8 @@ struct {
+>      uint64_t packet_num;
+>      /* multifd ops */
+>      MultiFDMethods *ops;
+> +    /* multifd setup ops */
+> +    MultiFDSetup *setup_ops;
+>  } *multifd_recv_state;
+>  
+>  static void multifd_recv_terminate_threads(Error *err)
+> @@ -1095,6 +1106,7 @@ int multifd_load_setup(Error **errp)
+>      multifd_recv_state->params = g_new0(MultiFDRecvParams, thread_count);
+>      qatomic_set(&multifd_recv_state->count, 0);
+>      qemu_sem_init(&multifd_recv_state->sem_sync, 0);
+> +    multifd_recv_state->setup_ops = multifd_setup_ops_init();
+>      multifd_recv_state->ops = multifd_ops[migrate_multifd_compression()];
+>  
+>      for (i = 0; i < thread_count; i++) {
+> @@ -1173,9 +1185,31 @@ bool multifd_recv_new_channel(QIOChannel *ioc, Error **errp)
+>      p->num_packets = 1;
+>  
+>      p->running = true;
+> -    qemu_thread_create(&p->thread, p->name, multifd_recv_thread, p,
+> -                       QEMU_THREAD_JOINABLE);
+> +    multifd_recv_state->setup_ops->recv_channel_setup(ioc, p);
+> +    qemu_thread_create(&p->thread, p->name,
+> +                       multifd_recv_state->setup_ops->recv_thread_setup,
+> +                       p, QEMU_THREAD_JOINABLE);
+>      qatomic_inc(&multifd_recv_state->count);
+>      return qatomic_read(&multifd_recv_state->count) ==
+>             migrate_multifd_channels();
+>  }
+> +
+> +static void multifd_recv_channel_setup(QIOChannel *ioc, MultiFDRecvParams *p)
+> +{
+> +    return;
+> +}
+> +
+> +static MultiFDSetup multifd_socket_ops = {
+> +    .send_thread_setup = multifd_send_thread,
+> +    .recv_thread_setup = multifd_recv_thread,
+> +    .send_channel_setup = multifd_send_channel_setup,
+> +    .recv_channel_setup = multifd_recv_channel_setup
+> +};
 
-Given the ongoing discussions, I'd be rather more comfortable making
-this experimental for the upcoming release and spent some time getting
-this into a state that everyone is happy to live with, so
+I don't think you need '_setup' on the thread function names here.
 
-Acked-by: Cornelia Huck <cohuck@redhat.com>
+Dave
+
+> +MultiFDSetup *multifd_setup_ops_init(void)
+> +{
+> +    MultiFDSetup *ops;
+> +
+> +    ops = &multifd_socket_ops;
+> +    return ops;
+> +}
+> diff --git a/migration/multifd.h b/migration/multifd.h
+> index 8d6751f..446315b 100644
+> --- a/migration/multifd.h
+> +++ b/migration/multifd.h
+> @@ -166,6 +166,13 @@ typedef struct {
+>      int (*recv_pages)(MultiFDRecvParams *p, uint32_t used, Error **errp);
+>  } MultiFDMethods;
+>  
+> +typedef struct {
+> +    void *(*send_thread_setup)(void *opaque);
+> +    void *(*recv_thread_setup)(void *opaque);
+> +    void (*send_channel_setup)(MultiFDSendParams *p);
+> +    void (*recv_channel_setup)(QIOChannel *ioc, MultiFDRecvParams *p);
+> +} MultiFDSetup;
+> +
+>  void multifd_register_ops(int method, MultiFDMethods *ops);
+>  
+>  #endif
+> -- 
+> 1.8.3.1
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
