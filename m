@@ -2,68 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B17562AE012
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 20:49:36 +0100 (CET)
-Received: from localhost ([::1]:58454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A1D82ADFF7
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 20:43:45 +0100 (CET)
+Received: from localhost ([::1]:49512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcZe3-000441-D8
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 14:49:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51608)
+	id 1kcZYO-0000CA-Lr
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 14:43:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pisa@cmp.felk.cvut.cz>)
- id 1kcZNA-00089X-50
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 14:32:08 -0500
-Received: from relay.felk.cvut.cz ([2001:718:2:1611:0:1:0:70]:30559)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pisa@cmp.felk.cvut.cz>) id 1kcZN6-0000CU-LS
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 14:32:07 -0500
-Received: from cmp.felk.cvut.cz (haar.felk.cvut.cz [147.32.84.19])
- by relay.felk.cvut.cz (8.15.2/8.15.2) with ESMTP id 0AAJUwwj090527;
- Tue, 10 Nov 2020 20:30:58 +0100 (CET)
- (envelope-from pisa@cmp.felk.cvut.cz)
-Received: from haar.felk.cvut.cz (localhost [127.0.0.1])
- by cmp.felk.cvut.cz (8.14.0/8.12.3/SuSE Linux 0.6) with ESMTP id
- 0AAJUwMm012957; Tue, 10 Nov 2020 20:30:58 +0100
-Received: (from pisa@localhost)
- by haar.felk.cvut.cz (8.14.0/8.13.7/Submit) id 0AAJUwJQ012956;
- Tue, 10 Nov 2020 20:30:58 +0100
-X-Authentication-Warning: haar.felk.cvut.cz: pisa set sender to
- pisa@cmp.felk.cvut.cz using -f
-From: Pavel Pisa <pisa@cmp.felk.cvut.cz>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH for-5.2 v2 1/4] hw/net/can/ctucan: Don't allow guest to
- write off end of tx_buffer
-Date: Tue, 10 Nov 2020 20:30:58 +0100
-User-Agent: KMail/1.9.10
-References: <20201110170604.5897-1-peter.maydell@linaro.org>
- <202011101901.09940.pisa@cmp.felk.cvut.cz>
- <CAFEAcA8ujRALffz8KfvxdVb6NTcNLNdR4tF6picWnF6wk3R64A@mail.gmail.com>
-In-Reply-To: <CAFEAcA8ujRALffz8KfvxdVb6NTcNLNdR4tF6picWnF6wk3R64A@mail.gmail.com>
-X-KMail-QuotePrefix: > 
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kcZQ0-0002Aw-Hc
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 14:35:04 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33681)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kcZPu-0000Pk-SX
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 14:35:01 -0500
+Received: by mail-wr1-x443.google.com with SMTP id b8so14019636wrn.0
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 11:34:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=xKsmZxpUiOLSdJc2k4uQibWw4hwHq7IgcOmSYvuCCGU=;
+ b=Yqxl4qOpWtSFtT+gMveY7/ndQOTj7VYn+BAjwj9efpc/W3Li/o5JV2cv+s3xZCiE8Q
+ GcNFhP8MLulchfQttYMnJU6bWuvyEAiCb2Ty6IC8RExoeTfD+xEfi6PPiw8zNsoiqlnm
+ KewBipKYn2ypEKA0Kx7RN6E6RA+33pRi+YKYtiNoU6TbTX0D2kxR2jmPg4QRmI7xMiio
+ R9pP6uuf//x3FEH0qkh7QTJtvMvUaOVaLCys9o+/tToswKUFQowV95ve6eP8b20UpHud
+ pxB1XDabciedjATPRgvupVY4r+uwRGA+KJc4bwZZDvzTNDrgsEEmGOPmoG0vTipBOf9y
+ RIwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=xKsmZxpUiOLSdJc2k4uQibWw4hwHq7IgcOmSYvuCCGU=;
+ b=frLIqP/5wn2feD5ihd6e6GrOGfgi9rAHQKsEZCJQgFSTeA3v9lmnPHVka+8+nAdMzv
+ DQQCRhUTIWVqCaMwzSsmiLYxLZuKmiaj71sqiVbHtYJwZKQ+qwziZCHEXWueLSvI/bp4
+ Ax46rvSf2kSV/zLZYUuHqDPJgHw70u+eZBisM2uWZEHZrytf/5h4ZoZj2YFMKxFi8nRy
+ akCbQcpwp7pZGvQLWve4gTFlN3KBrKgzKPzDgDGd3Yctf8dj6FZ9jK5L7XGkYWgP9mwZ
+ 8tS5M1LuPB1Ng+YsNyxI+xjdunsv+Mbk5OtAOsNJxNylQGEFemsQ7pbVA338tB/lq5Xl
+ XcSA==
+X-Gm-Message-State: AOAM531pct4IIkLgrkoxVH3aEQALRlcBD3zDJHOH5eG5MVY+HBcDuqfe
+ 4KpifuqFX+5Fb5uzPhH1UEQMMA==
+X-Google-Smtp-Source: ABdhPJwAhqSYz5r5MlG3Jnx+QaKo7Q6K9ym/CEnC0APOdAFxLHrDaSY88CHpkYRJhHaovW9vvneW5g==
+X-Received: by 2002:a5d:534d:: with SMTP id t13mr24597785wrv.69.1605036895369; 
+ Tue, 10 Nov 2020 11:34:55 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id c64sm3842098wmd.41.2020.11.10.11.34.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Nov 2020 11:34:53 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E91BC1FF7E;
+ Tue, 10 Nov 2020 19:34:52 +0000 (GMT)
+References: <20201108204535.2319870-1-philmd@redhat.com>
+ <20201108204535.2319870-9-philmd@redhat.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH-for-6.0 v4 08/17] gitlab-ci: Move linux-user debug-tcg
+ test across to gitlab
+In-reply-to: <20201108204535.2319870-9-philmd@redhat.com>
+Date: Tue, 10 Nov 2020 19:34:52 +0000
+Message-ID: <87wnyt6m5f.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: Text/Plain;
-  charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-Message-Id: <202011102030.58186.pisa@cmp.felk.cvut.cz>
-X-FELK-MailScanner-Information: 
-X-MailScanner-ID: 0AAJUwwj090527
-X-FELK-MailScanner: Found to be clean
-X-FELK-MailScanner-SpamCheck: not spam, SpamAssassin (not cached,
- score=-0.099, required 6, BAYES_00 -0.50, KHOP_HELO_FCRDNS 0.40,
- NICE_REPLY_A -0.00, SPF_HELO_NONE 0.00, SPF_NONE 0.00)
-X-FELK-MailScanner-From: pisa@cmp.felk.cvut.cz
-X-FELK-MailScanner-Watermark: 1605641461.85456@Y4dlQLo8IlCl2Fm5Mu578w
-Received-SPF: none client-ip=2001:718:2:1611:0:1:0:70;
- envelope-from=pisa@cmp.felk.cvut.cz; helo=relay.felk.cvut.cz
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 13:02:14
-X-ACL-Warn: Detected OS   = ???
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,66 +90,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Vikram Garhwal <fnu.vikram@xilinx.com>,
- Ondrej Ille <ondrej.ille@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Jan =?utf-8?q?Charv=C3=A1t?= <charvj10@fel.cvut.cz>
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Peter,
 
-On Tuesday 10 of November 2020 19:24:03 Peter Maydell wrote:
-> For unaligned accesses, for 6.0, I think the code for doing
-> them to the txbuff at least is straightforward:
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+
+> Similarly to commit 8cdb2cef3f1, move the linux-user (debug-tcg)
+> test to GitLab.
 >
->    if (buff_num < CTUCAN_CORE_TXBUF_NUM &&
->        (addr + size) < CTUCAN_CORE_MSG_MAX_LEN) {
->       stn_le_p(s->tx_buffer[buff_num].data + addr, size, val);
->    }
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+> Cc: Laurent Vivier <laurent@vivier.eu>
+> ---
+>  .gitlab-ci.yml | 7 +++++++
+>  .travis.yml    | 9 ---------
+>  2 files changed, 7 insertions(+), 9 deletions(-)
 >
-> (stn_le_p takes care of doing an appropriate-width write.)
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index 3fc3d0568c6..80082a602b8 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -304,6 +304,13 @@ build-user:
+>      CONFIGURE_ARGS: --disable-tools --disable-system
+>      MAKE_CHECK_ARGS: check-tcg
+>=20=20
+> +build-user-debug:
+> +  <<: *native_build_job_definition
+> +  variables:
+> +    IMAGE: debian-all-test-cross
+> +    CONFIGURE_ARGS: --disable-tools --disable-system --enable-debug-tcg
+> +    MAKE_CHECK_ARGS: check-tcg
+> +
+>  # Run check-tcg against linux-user (with plugins)
+>  # we skip sparc64-linux-user until it has been fixed somewhat
+>  # we skip cris-linux-user as it doesn't use the common run loop
+> diff --git a/.travis.yml b/.travis.yml
+> index 15d92291358..bee6197290d 100644
+> --- a/.travis.yml
+> +++ b/.travis.yml
+> @@ -293,15 +293,6 @@ jobs:
+>          - ${SRC_DIR}/configure ${CONFIG} --extra-cflags=3D"-g3 -O0 -fsan=
+itize=3Dthread" || { cat config.log meson-logs/meson-log.txt && exit 1; }
+>=20=20
+>=20=20
+> -    # Run check-tcg against linux-user
+> -    - name: "GCC check-tcg (user)"
+> -      env:
+> -        - CONFIG=3D"--disable-system --enable-debug-tcg"
+> -        - TEST_BUILD_CMD=3D"make build-tcg"
+> -        - TEST_CMD=3D"make check-tcg"
+> -        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+> -
+> -
+>      # Run check-tcg against softmmu targets
+>      - name: "GCC check-tcg (some-softmmu)"
+>        env:
 
-Thanks, great to know, I like that much.
-Only small nitpicking, it should be (addr + size) <= CTUCAN_CORE_MSG_MAX_LEN
+I just realised I replicated this is a slightly different way - by
+dropping --debug-tcg and moving the rest in one commit. I skipped over
+the for 6.0 stuff when looking over your series but it's certainly worth
+moving the check-tcg ones now given the stability issues.
 
-So whole code I am testing now
-
-    if (addr >= CTU_CAN_FD_TXTB1_DATA_1) {
-        int buff_num;
-        addr -= CTU_CAN_FD_TXTB1_DATA_1;
-        buff_num = addr / CTUCAN_CORE_TXBUFF_SPAN;
-        addr %= CTUCAN_CORE_TXBUFF_SPAN;
-        if ((buff_num < CTUCAN_CORE_TXBUF_NUM) &&
-            ((addr + size) <= sizeof(s->tx_buffer[buff_num].data))) {
-            stn_le_p(s->tx_buffer[buff_num].data + addr, size, val);
-        }
-    } else {
-
-So I have applied you whole series with above update. All works correctly
-on x86_64 Linux host and with Linux x86_64 and MIPS big endian guests.
-
-Please update to this combination.
-I do not expect to have byte writes in our drivers but real core
-supports byte enable bus signals.
-
-Thanks much for teaching me QEMU stn_le_p.
-In the fact, we are discussion about similar slution of peripherals
-access for our https://github.com/cvut/QtMips/ education emulator
-(performance vise a total toy when compared to QEMU).
-
-It would worth to enable byte writes into registers as well.
-But I would not do it before release. It would be more complex.
-The reads supports bytes by reading 32/bit word and then shifting
-and masking right bits into result. Cross word unaligned reads
-are not supported. Again no reason for them now.
-
-You can add
-
-Tested-by: Pavel Pisa <pisa@cmp.felk.cvut.cz>
-
-to whole series.
-
-Thanks,
-
-Pavel
+--=20
+Alex Benn=C3=A9e
 
