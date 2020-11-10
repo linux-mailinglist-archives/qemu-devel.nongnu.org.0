@@ -2,67 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D3522AD4F8
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 12:28:47 +0100 (CET)
-Received: from localhost ([::1]:48406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59C412AD4DD
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 12:27:04 +0100 (CET)
+Received: from localhost ([::1]:40682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcRpO-00059K-6w
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 06:28:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45052)
+	id 1kcRnj-0001tV-C0
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 06:27:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcRZU-0007Ye-Nv
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:12:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60863)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kcRZn-0008JC-75
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:12:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55989)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcRZS-0004gc-KR
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:12:20 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kcRZl-0004m0-8n
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:12:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605006737;
+ s=mimecast20190719; t=1605006756;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=E+CzjmQonmRthWUrueIT9LWOXWGueoIYO2+N/mwwYzU=;
- b=Stszob+pc/ElA/7rzqHY+P1fKAx+d2vD+Mvx7yj+PTpnNqUJeOTZOhDBrP3YU4GBaLGV4/
- c9U28F+FgUgpakY5WCMjlue/eTuinUKyqgE/Zx4jqi7OqMzjkPxA5OUltwqVC2wdY5ekb4
- eJBNF7VaTRwUAcD/pJ3UwmY5EmyC0fs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-529-HMQW4cv8OnW2T5rsUZEUcw-1; Tue, 10 Nov 2020 06:12:15 -0500
-X-MC-Unique: HMQW4cv8OnW2T5rsUZEUcw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A23CB87951A;
- Tue, 10 Nov 2020 11:12:14 +0000 (UTC)
-Received: from thuth.com (ovpn-113-192.ams2.redhat.com [10.36.113.192])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0BC8A10013D9;
- Tue, 10 Nov 2020 11:12:11 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 17/19] qtest: Update references to parse_escape() in comments
-Date: Tue, 10 Nov 2020 12:11:30 +0100
-Message-Id: <20201110111132.559399-18-thuth@redhat.com>
-In-Reply-To: <20201110111132.559399-1-thuth@redhat.com>
-References: <20201110111132.559399-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FqEOVHHegPWsh5DP4Q780Qvg4oBy0JUEGJRndEnRZls=;
+ b=HridquXloKzPKQo5lM6ZRJYZAFaSPiTepNTirP6HM7tzBeyJ3gc14Dhd25KtyKo5GERGsT
+ wkIRsXBf2BIJ7f8Q0h7is5mxVEuwUp2kr+LsWF+DKO35m3qv2PdV4tYo2VPRS9wgt2rGPR
+ 0xWXcFoTqG+jEmA8JpDy6K6pYni3CUs=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-502-K6BkZzoiOkaTTecEFBlwPQ-1; Tue, 10 Nov 2020 06:12:34 -0500
+X-MC-Unique: K6BkZzoiOkaTTecEFBlwPQ-1
+Received: by mail-ej1-f71.google.com with SMTP id v21so4597353ejy.3
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 03:12:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FqEOVHHegPWsh5DP4Q780Qvg4oBy0JUEGJRndEnRZls=;
+ b=XKbWlrX7kHVJJecr6DOzTXx3YCwK9+8LLzqdt9PRmjsiadZ8YI4Yl2CdAz5podRhFA
+ 60pAb1JoS3WbQpT7xrOwhqygHCliR4Snw+vPzxn9lql7A8TqiEh4EWTnfBGqE9/SWogk
+ 33LTE9h4ahifqZ3eSjxJS9UQl6Yxca6yV6l7BeLGMHpkg+m/hqgBrd7Txdsjmn9I/VwN
+ On5zHBdFcA6ySKp1MhOz9C+JNRX8w86b5VR88nw0HHC5lAC7azs8hhZF7c9m+eoaROyo
+ 9m9qlvXsxuv2eyazgxsaBPXC3nmqzBj6i4au6bfNpJnWQA4zHy1UBXcuRrC93g06QDYN
+ q5RQ==
+X-Gm-Message-State: AOAM530ElRLI47HgyBmcT1sAI7vZuFXWOxC+Z4MjKA/D6NGBiKNs+bPb
+ d0nOdBNuzb5sQIPsmjvY7/wmdu5HjkRsSPY6psa7hcQy53rXfFKvq1OK47gIaXs7px24gOM6Yut
+ XZyvhIpkd4I7TRu4=
+X-Received: by 2002:a17:906:43c6:: with SMTP id
+ j6mr19324311ejn.547.1605006753618; 
+ Tue, 10 Nov 2020 03:12:33 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzUaxKjdo0y5/qMkDo+IFJVom/GV/Yo3QI0u5kY9mltZ7gWB8Hbv/XjDk5Bu5zZOgDVoYdzag==
+X-Received: by 2002:a17:906:43c6:: with SMTP id
+ j6mr19324283ejn.547.1605006753354; 
+ Tue, 10 Nov 2020 03:12:33 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id n16sm10323836ejz.46.2020.11.10.03.12.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Nov 2020 03:12:32 -0800 (PST)
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20201110095349.GA1082456@stefanha-x1.localdomain>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [RFC v3] VFIO Migration
+Message-ID: <64fb6a41-fbfa-994c-9619-4df41ac97fde@redhat.com>
+Date: Tue, 10 Nov 2020 12:12:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
+MIME-Version: 1.0
+In-Reply-To: <20201110095349.GA1082456@stefanha-x1.localdomain>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 02:00:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 00:21:06
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,124 +103,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, Cornelia Huck <cohuck@redhat.com>
+Cc: John G Johnson <john.g.johnson@oracle.com>, "Tian,
+ Kevin" <kevin.tian@intel.com>, mtsirkin@redhat.com,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ quintela@redhat.com, Jason Wang <jasowang@redhat.com>, "Zeng,
+ Xin" <xin.zeng@intel.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Yan Zhao <yan.y.zhao@intel.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Felipe Franciosi <felipe@nutanix.com>,
+ Christophe de Dinechin <dinechin@redhat.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Maydell <peter.maydell@linaro.org>
+On 10/11/20 10:53, Stefan Hajnoczi wrote:
+> "allowed_values"
+>    The list all values that the device implementation accepts for this migration
+>    parameter. Integer ranges can be described using "<min>-<max>" strings.
+> 
+>    Examples: ['a', 'b', 'c'], [1, 5, 7], ['0-255', 512, '1024-2048'], [true]
+> 
+>    This member is optional. When absent, any value suitable for the type may be
+>    given but the device implementation may refuse certain values.
 
-In commit 61030280ca2d67bd in 2018 we renamed the parse_escape()
-function to parse_interpolation(), but we didn't catch the references
-to this function in doc comments in libqtest.h. Update them.
+I'd rather make this simpler:
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20201109162621.18885-1-peter.maydell@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- tests/qtest/libqos/libqtest.h | 18 +++++++++---------
- tests/qtest/libqtest-single.h |  2 +-
- 2 files changed, 10 insertions(+), 10 deletions(-)
+- remove allowed_values for strings.  Effect: discourages using strings 
+as enums, leaving them only for free-form values such as vendor name or 
+model name.
 
-diff --git a/tests/qtest/libqos/libqtest.h b/tests/qtest/libqos/libqtest.h
-index 5c959f1853..724f65aa94 100644
---- a/tests/qtest/libqos/libqtest.h
-+++ b/tests/qtest/libqos/libqtest.h
-@@ -88,7 +88,7 @@ void qtest_quit(QTestState *s);
-  * @fds: array of file descriptors
-  * @fds_num: number of elements in @fds
-  * @fmt: QMP message to send to qemu, formatted like
-- * qobject_from_jsonf_nofail().  See parse_escape() for what's
-+ * qobject_from_jsonf_nofail().  See parse_interpolation() for what's
-  * supported after '%'.
-  *
-  * Sends a QMP message to QEMU with fds and returns the response.
-@@ -101,7 +101,7 @@ QDict *qtest_qmp_fds(QTestState *s, int *fds, size_t fds_num,
-  * qtest_qmp:
-  * @s: #QTestState instance to operate on.
-  * @fmt: QMP message to send to qemu, formatted like
-- * qobject_from_jsonf_nofail().  See parse_escape() for what's
-+ * qobject_from_jsonf_nofail().  See parse_interpolation() for what's
-  * supported after '%'.
-  *
-  * Sends a QMP message to QEMU and returns the response.
-@@ -113,7 +113,7 @@ QDict *qtest_qmp(QTestState *s, const char *fmt, ...)
-  * qtest_qmp_send:
-  * @s: #QTestState instance to operate on.
-  * @fmt: QMP message to send to qemu, formatted like
-- * qobject_from_jsonf_nofail().  See parse_escape() for what's
-+ * qobject_from_jsonf_nofail().  See parse_interpolation() for what's
-  * supported after '%'.
-  *
-  * Sends a QMP message to QEMU and leaves the response in the stream.
-@@ -138,7 +138,7 @@ void qtest_qmp_send_raw(QTestState *s, const char *fmt, ...)
-  * @fds: array of file descriptors
-  * @fds_num: number of elements in @fds
-  * @fmt: QMP message to send to QEMU, formatted like
-- * qobject_from_jsonf_nofail().  See parse_escape() for what's
-+ * qobject_from_jsonf_nofail().  See parse_interpolation() for what's
-  * supported after '%'.
-  * @ap: QMP message arguments
-  *
-@@ -152,7 +152,7 @@ QDict *qtest_vqmp_fds(QTestState *s, int *fds, size_t fds_num,
-  * qtest_vqmp:
-  * @s: #QTestState instance to operate on.
-  * @fmt: QMP message to send to QEMU, formatted like
-- * qobject_from_jsonf_nofail().  See parse_escape() for what's
-+ * qobject_from_jsonf_nofail().  See parse_interpolation() for what's
-  * supported after '%'.
-  * @ap: QMP message arguments
-  *
-@@ -167,7 +167,7 @@ QDict *qtest_vqmp(QTestState *s, const char *fmt, va_list ap)
-  * @fds: array of file descriptors
-  * @fds_num: number of elements in @fds
-  * @fmt: QMP message to send to QEMU, formatted like
-- * qobject_from_jsonf_nofail().  See parse_escape() for what's
-+ * qobject_from_jsonf_nofail().  See parse_interpolation() for what's
-  * supported after '%'.
-  * @ap: QMP message arguments
-  *
-@@ -181,7 +181,7 @@ void qtest_qmp_vsend_fds(QTestState *s, int *fds, size_t fds_num,
-  * qtest_qmp_vsend:
-  * @s: #QTestState instance to operate on.
-  * @fmt: QMP message to send to QEMU, formatted like
-- * qobject_from_jsonf_nofail().  See parse_escape() for what's
-+ * qobject_from_jsonf_nofail().  See parse_interpolation() for what's
-  * supported after '%'.
-  * @ap: QMP message arguments
-  *
-@@ -636,7 +636,7 @@ void qtest_add_abrt_handler(GHookFunc fn, const void *data);
-  * qtest_qmp_assert_success:
-  * @qts: QTestState instance to operate on
-  * @fmt: QMP message to send to qemu, formatted like
-- * qobject_from_jsonf_nofail().  See parse_escape() for what's
-+ * qobject_from_jsonf_nofail().  See parse_interpolation() for what's
-  * supported after '%'.
-  *
-  * Sends a QMP message to QEMU and asserts that a 'return' key is present in
-@@ -683,7 +683,7 @@ void qtest_qmp_device_add_qdict(QTestState *qts, const char *drv,
-  * @driver: Name of the device that should be added
-  * @id: Identification string
-  * @fmt: QMP message to send to qemu, formatted like
-- * qobject_from_jsonf_nofail().  See parse_escape() for what's
-+ * qobject_from_jsonf_nofail().  See parse_interpolation() for what's
-  * supported after '%'.
-  *
-  * Generic hot-plugging test via the device_add QMP command.
-diff --git a/tests/qtest/libqtest-single.h b/tests/qtest/libqtest-single.h
-index 176979a2ce..0d7f568678 100644
---- a/tests/qtest/libqtest-single.h
-+++ b/tests/qtest/libqtest-single.h
-@@ -47,7 +47,7 @@ static inline void qtest_end(void)
- /**
-  * qmp:
-  * @fmt...: QMP message to send to qemu, formatted like
-- * qobject_from_jsonf_nofail().  See parse_escape() for what's
-+ * qobject_from_jsonf_nofail().  See parse_interpolation() for what's
-  * supported after '%'.
-  *
-  * Sends a QMP message to QEMU and returns the response.
--- 
-2.18.4
+- remove allowed_values for bools.  If off_value is absent the only 
+allowed value is init_value.  If off_value is present, both true and 
+false are allowed (and !off_value is the "on_value", so to speak).
+
+- change allowed_values into allowed_min and allowed_max for int values. 
+  Advantage: avoids having to parse strings as ranges.  Disadvantage: 
+removes expressiveness (cannot say "x must be a power of two"), but I'm 
+not sure it's worth the extra complication.
+
+Thanks,
+
+Paolo
+
+> "description"
+>    A human-readable description of the migration parameter. This is not intended
+>    for user interfaces but rather as a troubleshooting aid for developers. The
+>    description is typically written in English. This member is optional.
+> 
+> "init_value"
+>    The initial parameter value when a device instance is created. This member is
+>    required.
+> 
+> "off_value"
+>    The parameter value that disables the effect of this parameter. This member
+>    is absent if the migration parameter cannot be disabled.
+> 
+> "type"
+>    The data type ("bool", "int", "str"). This member is required.
 
 
