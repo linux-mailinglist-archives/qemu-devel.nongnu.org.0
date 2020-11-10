@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBDBE2AD00C
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 07:54:32 +0100 (CET)
-Received: from localhost ([::1]:48814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0387E2AD00F
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 07:55:12 +0100 (CET)
+Received: from localhost ([::1]:50920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcNXz-0007e3-Rv
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 01:54:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47686)
+	id 1kcNYd-00006k-3W
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 01:55:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kcNWl-0007Bl-32
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 01:53:15 -0500
-Received: from mout.kundenserver.de ([212.227.17.24]:59609)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kcNXS-0007jO-Gp
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 01:53:58 -0500
+Received: from mout.kundenserver.de ([217.72.192.74]:59741)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kcNWj-0007Eu-43
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 01:53:14 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kcNXN-0007WS-8O
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 01:53:56 -0500
 Received: from [192.168.100.1] ([82.252.154.198]) by mrelayeu.kundenserver.de
  (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MWSJJ-1kn79c3Y4J-00XqqP; Tue, 10 Nov 2020 07:53:08 +0100
-Subject: Re: [PATCH for-5.2 1/3] linux-user/sparc: Fix errors in
- target_ucontext structures
+ 1MRSdf-1kzoCZ2EwX-00NNwg; Tue, 10 Nov 2020 07:53:50 +0100
+Subject: Re: [PATCH for-5.2 2/3] linux-user/sparc: Correct set/get_context
+ handling of fp and i7
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 References: <20201105212314.9628-1-peter.maydell@linaro.org>
- <20201105212314.9628-2-peter.maydell@linaro.org>
+ <20201105212314.9628-3-peter.maydell@linaro.org>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <d93ed16f-9f9d-1009-7236-1eb72b512015@vivier.eu>
-Date: Tue, 10 Nov 2020 07:53:06 +0100
+Message-ID: <c60ef6af-2456-e5a0-e793-3f0ff30d357a@vivier.eu>
+Date: Tue, 10 Nov 2020 07:53:49 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201105212314.9628-2-peter.maydell@linaro.org>
+In-Reply-To: <20201105212314.9628-3-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:0PFbTAVxcaAijAaHgP8Uu2gL2CQBKHJlK3h3CC/d+oUMZfWcGPS
- xKVIAkddvKLpJ/NK+Ga9ZDGb2oa2t82hUA2q5tKkIK5Rdg5tpPfyC1fYZiZoZP0zTDKo8sq
- /30d6IoRxBdbRTEe9SvDQ6PO4Fl12c3TbQDHt9UR6K09j2gjo36CVReZJQLoX++LrdePJhB
- Bb14ijkcrZkSjCIkw2QPQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:BphpdD08lD4=:NrVPOas/feqRSyYJMq3zOS
- FR46tAvnYIm1gSF5M38NP0hboUYlqFqUGXa+kUP5OdqywTDH8Dt98fwivwLblUMViNa8yzM3x
- z9cWX9GvOtrnWE9jQjNHQAAQCDKqYqKtD4lSUF6faOkKoKXjIEI4KxgtI7gGzmMNbZJKWvrDu
- k64ZNOiJHSnvw58xBETUnwBeP53R7Em2JQQZZHU31UMVD7SB4e+dtfFpW8FDITDCsQdMAMIIo
- hoKNMe7nfqL4VuVOHoJAiR2/0NkMYQRshCnsy9MUXQnac1mBITooESTZiZNzlvm3ijbft8xJI
- YJM6sTArFCzjVq+jH0nPYYz6ani6tkc2aGroU+37eK+NcaXMZepTLCDvEGF3kshN+LQR5zBxZ
- xv9uCyB+mFhYdzkci0ZVmc5BLDewo+GJo9wuGB4P3KX1E6ZwEU5oZBJBPBW+cJymUQrJZzGEk
- 2IxjLS/hdw==
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:bcbrye/b6BDl1kZBxjIur4O/A4nhTFk/3bMADEBBOxr7YKjeaNx
+ tOjKQESYjvzrmt0txqgQFGvhcMlcWLnvbf4J8U5ZSc1gXobVpit0ADhBqrFdBRTUfc8WaYr
+ Aen/+ZIDc9Lg/xeZN7T4lUDEO6PRWDqKE1Z/X7K/Ax1/XbjHYXoWn/CESdS0/3XZPd9E0WM
+ y+ofXmB87251+wpCDxE8w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:crJ66xQf9rM=:M645J5PQwd2TdQWu4ePAyD
+ hYrBxJIfGtwJpvY44usxGuGiEbSfCqtn51YDbCYgd/cZ52ppxYCTuOf2e98mGfm7oewYNT5R3
+ hikmiLZ5YbJYfPgjWduNyOBpVDpR7BTpIu44iVZTy0LuXH7R4OlhBtlzftOl1Gyw6FiAgrfBV
+ 3JMd2HPG3AVLApjyezN+jTj1ZYr+vkOcG42bL7oKwOy/eKMfnI+33FprViYBSlXqyQB8HAisk
+ OnV7Db6hjQI9l2fxYkAaqRE6SO4PmOHCau66XljvFzo2Rf1SttZMZ3PPPV4S0MFb07DGyirYv
+ rj1A0bWj1OKaO8qJkXdrAmAnKixSWHlMhl8Ko6pzXDCtcAdxUHWpVKGru6HSML+2dJ4fLfKqR
+ fJW5i/93cCm6qcTKEOK77984v4tYABZkBgAXY21DJCFyFH4OXTwHMgsyqzu844xIBvEw97ZsY
+ OsS1/FfyUA==
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 01:53:10
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 01:53:51
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -76,70 +76,129 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 05/11/2020 à 22:23, Peter Maydell a écrit :
-> The various structs that make up the SPARC target_ucontext had some
-> errors:
->  * target structures must not include fields which are host pointers,
->    which might be the wrong size.  These should be abi_ulong instead
->  * because we don't have the 'long double' part of the mcfpu_fregs
->    union in our version of the target_mc_fpu struct, we need to
->    manually force it to be 16-aligned
+> Because QEMU's user-mode emulation just directly accesses guest CPU
+> state, for SPARC the guest register window state is not the same in
+> the sparc64_get_context() and sparc64_set_context() functions as it
+> is for the real kernel's versions of those functions.  Specifically,
+> for the kernel it has saved the user space state such that the O*
+> registers go into a pt_regs struct as UREG_I*, and the I* registers
+> have been spilled onto the userspace stack.  For QEMU, we haven't
+> done that, so the guest's O* registers are still in WREG_O* and the
+> I* registers in WREG_I*.
 > 
-> In particular, the lack of 16-alignment caused sparc64_get_context()
-> and sparc64_set_context() to read and write all the registers at the
-> wrong offset, which triggered a guest glibc stack check in
-> siglongjmp:
->   *** longjmp causes uninitialized stack frame ***: terminated
-> when trying to run bash.
+> The code was already accessing the O* registers correctly for QEMU,
+> but had copied the kernel code for accessing the I* registers off the
+> userspace stack.  Replace this with direct accesses to fp and i7 in
+> the CPU state, and add a comment explaining why we differ from the
+> kernel code here.
+> 
+> This fix is sufficient to get bash to a shell prompt.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  linux-user/sparc/signal.c | 13 +++++++++----
->  1 file changed, 9 insertions(+), 4 deletions(-)
+> I'm really pretty unsure about our handling of SPARC register
+> windows here. This fix works, but should we instead be
+> ensuring that the flush_windows() call cpu_loop() does
+> before handling this trap has written the I* regs to the
+> stack ???
+> ---
+>  linux-user/sparc/signal.c | 47 ++++++++++++++++++---------------------
+>  1 file changed, 22 insertions(+), 25 deletions(-)
 > 
 > diff --git a/linux-user/sparc/signal.c b/linux-user/sparc/signal.c
-> index d796f50f665..57ea1593bfc 100644
+> index 57ea1593bfc..c315704b389 100644
 > --- a/linux-user/sparc/signal.c
 > +++ b/linux-user/sparc/signal.c
-> @@ -349,10 +349,15 @@ typedef abi_ulong target_mc_greg_t;
->  typedef target_mc_greg_t target_mc_gregset_t[SPARC_MC_NGREG];
+> @@ -403,7 +403,6 @@ void sparc64_set_context(CPUSPARCState *env)
+>      struct target_ucontext *ucp;
+>      target_mc_gregset_t *grp;
+>      abi_ulong pc, npc, tstate;
+> -    abi_ulong fp, i7, w_addr;
+>      unsigned int i;
 >  
->  struct target_mc_fq {
-> -    abi_ulong *mcfq_addr;
-> +    abi_ulong mcfq_addr;
->      uint32_t mcfq_insn;
->  };
+>      ucp_addr = env->regwptr[WREG_O0];
+> @@ -447,6 +446,15 @@ void sparc64_set_context(CPUSPARCState *env)
+>      __get_user(env->gregs[5], (&(*grp)[SPARC_MC_G5]));
+>      __get_user(env->gregs[6], (&(*grp)[SPARC_MC_G6]));
+>      __get_user(env->gregs[7], (&(*grp)[SPARC_MC_G7]));
+> +
+> +    /*
+> +     * Note that unlike the kernel, we didn't need to mess with the
+> +     * guest register window state to save it into a pt_regs to run
+> +     * the kernel. So for us the guest's O regs are still in WREG_O*
+> +     * (unlike the kernel which has put them in UREG_I* in a pt_regs)
+> +     * and the fp and i7 are still in WREG_I6 and WREG_I7 and don't
+> +     * need to be written back to userspace memory.
+> +     */
+>      __get_user(env->regwptr[WREG_O0], (&(*grp)[SPARC_MC_O0]));
+>      __get_user(env->regwptr[WREG_O1], (&(*grp)[SPARC_MC_O1]));
+>      __get_user(env->regwptr[WREG_O2], (&(*grp)[SPARC_MC_O2]));
+> @@ -456,18 +464,9 @@ void sparc64_set_context(CPUSPARCState *env)
+>      __get_user(env->regwptr[WREG_O6], (&(*grp)[SPARC_MC_O6]));
+>      __get_user(env->regwptr[WREG_O7], (&(*grp)[SPARC_MC_O7]));
 >  
-> +/*
-> + * Note the manual 16-alignment; the kernel gets this because it
-> + * includes a "long double qregs[16]" in the mcpu_fregs union,
-> + * which we can't do.
-> + */
->  struct target_mc_fpu {
->      union {
->          uint32_t sregs[32];
-> @@ -362,11 +367,11 @@ struct target_mc_fpu {
->      abi_ulong mcfpu_fsr;
->      abi_ulong mcfpu_fprs;
->      abi_ulong mcfpu_gsr;
-> -    struct target_mc_fq *mcfpu_fq;
-> +    abi_ulong mcfpu_fq;
->      unsigned char mcfpu_qcnt;
->      unsigned char mcfpu_qentsz;
->      unsigned char mcfpu_enab;
-> -};
-> +} __attribute__((aligned(16)));
->  typedef struct target_mc_fpu target_mc_fpu_t;
+> -    __get_user(fp, &(ucp->tuc_mcontext.mc_fp));
+> -    __get_user(i7, &(ucp->tuc_mcontext.mc_i7));
+> +    __get_user(env->regwptr[WREG_FP], &(ucp->tuc_mcontext.mc_fp));
+> +    __get_user(env->regwptr[WREG_I7], &(ucp->tuc_mcontext.mc_i7));
 >  
->  typedef struct {
-> @@ -377,7 +382,7 @@ typedef struct {
->  } target_mcontext_t;
+> -    w_addr = TARGET_STACK_BIAS + env->regwptr[WREG_O6];
+> -    if (put_user(fp, w_addr + offsetof(struct target_reg_window, ins[6]),
+> -                 abi_ulong) != 0) {
+> -        goto do_sigsegv;
+> -    }
+> -    if (put_user(i7, w_addr + offsetof(struct target_reg_window, ins[7]),
+> -                 abi_ulong) != 0) {
+> -        goto do_sigsegv;
+> -    }
+>      /* FIXME this does not match how the kernel handles the FPU in
+>       * its sparc64_set_context implementation. In particular the FPU
+>       * is only restored if fenab is non-zero in:
+> @@ -501,7 +500,6 @@ void sparc64_get_context(CPUSPARCState *env)
+>      struct target_ucontext *ucp;
+>      target_mc_gregset_t *grp;
+>      target_mcontext_t *mcp;
+> -    abi_ulong fp, i7, w_addr;
+>      int err;
+>      unsigned int i;
+>      target_sigset_t target_set;
+> @@ -553,6 +551,15 @@ void sparc64_get_context(CPUSPARCState *env)
+>      __put_user(env->gregs[5], &((*grp)[SPARC_MC_G5]));
+>      __put_user(env->gregs[6], &((*grp)[SPARC_MC_G6]));
+>      __put_user(env->gregs[7], &((*grp)[SPARC_MC_G7]));
+> +
+> +    /*
+> +     * Note that unlike the kernel, we didn't need to mess with the
+> +     * guest register window state to save it into a pt_regs to run
+> +     * the kernel. So for us the guest's O regs are still in WREG_O*
+> +     * (unlike the kernel which has put them in UREG_I* in a pt_regs)
+> +     * and the fp and i7 are still in WREG_I6 and WREG_I7 and don't
+> +     * need to be fished out of userspace memory.
+> +     */
+>      __put_user(env->regwptr[WREG_O0], &((*grp)[SPARC_MC_O0]));
+>      __put_user(env->regwptr[WREG_O1], &((*grp)[SPARC_MC_O1]));
+>      __put_user(env->regwptr[WREG_O2], &((*grp)[SPARC_MC_O2]));
+> @@ -562,18 +569,8 @@ void sparc64_get_context(CPUSPARCState *env)
+>      __put_user(env->regwptr[WREG_O6], &((*grp)[SPARC_MC_O6]));
+>      __put_user(env->regwptr[WREG_O7], &((*grp)[SPARC_MC_O7]));
 >  
->  struct target_ucontext {
-> -    struct target_ucontext *tuc_link;
-> +    abi_ulong tuc_link;
->      abi_ulong tuc_flags;
->      target_sigset_t tuc_sigmask;
->      target_mcontext_t tuc_mcontext;
+> -    w_addr = TARGET_STACK_BIAS + env->regwptr[WREG_O6];
+> -    fp = i7 = 0;
+> -    if (get_user(fp, w_addr + offsetof(struct target_reg_window, ins[6]),
+> -                 abi_ulong) != 0) {
+> -        goto do_sigsegv;
+> -    }
+> -    if (get_user(i7, w_addr + offsetof(struct target_reg_window, ins[7]),
+> -                 abi_ulong) != 0) {
+> -        goto do_sigsegv;
+> -    }
+> -    __put_user(fp, &(mcp->mc_fp));
+> -    __put_user(i7, &(mcp->mc_i7));
+> +    __put_user(env->regwptr[WREG_FP], &(mcp->mc_fp));
+> +    __put_user(env->regwptr[WREG_I7], &(mcp->mc_i7));
+>  
+>      {
+>          uint32_t *dst = ucp->tuc_mcontext.mc_fpregs.mcfpu_fregs.sregs;
 > 
 
 Applied to my linux-user-for-5.2 branch.
