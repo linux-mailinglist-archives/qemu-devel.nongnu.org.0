@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C6CF2AD48D
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 12:18:23 +0100 (CET)
-Received: from localhost ([::1]:41464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 847142AD47F
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 12:13:52 +0100 (CET)
+Received: from localhost ([::1]:53458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcRfK-0007Ct-9u
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 06:18:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44780)
+	id 1kcRax-0000MN-G7
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 06:13:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcRZ2-0006xi-AC
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:11:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24550)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcRZ4-00071o-Om
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:11:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45808)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcRZ0-0004YL-HP
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:11:51 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcRZ2-0004ZX-Ie
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:11:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605006709;
+ s=mimecast20190719; t=1605006711;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mP9/ybiNm2ip2znXBqMXecObtAaS5XSjw7m5BzkccFI=;
- b=a8vPDducbd9V9Qxapv6AlRMqMytwLiFRSEB19b5pSIwjzrCoNVZEUdRHPCEgoyOQH9i5IC
- P9OoDA759xuRIUqk4IL0ib09LB54YTaCqB1efyvxFkEDhENLZFOlBPI7nu0hl7kVQWuxyA
- 5Gyed+6d/BB+j/Bsxw/jg22khxv/SU0=
+ bh=uhF69qYTmE8UeEZ865ZbtiAAzJc8rpDcWvWTvBwG7fk=;
+ b=M2W8dkN3k7JodqEWATrDQi+xd7ZezRc8MrVgJxnPEZvdp5tAYZ9fjBBcAa+9glxBiAhBSw
+ EEIdVoeHOCAgSBPmChf8Zh8aklj5oVijTLr7K7FeWdwXnVcnrDrQnaR6cp5s9jSrsOwO3x
+ BsoFZUolwpRuSdmj+aklMumPBF8+eXo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-143-D6MhyrGMM46FBxqYpPLjdA-1; Tue, 10 Nov 2020 06:11:47 -0500
-X-MC-Unique: D6MhyrGMM46FBxqYpPLjdA-1
+ us-mta-364-vZmYuV0rPXmEdWk5AKzkrA-1; Tue, 10 Nov 2020 06:11:49 -0500
+X-MC-Unique: vZmYuV0rPXmEdWk5AKzkrA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 629EC801FD4;
- Tue, 10 Nov 2020 11:11:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 885561006C9B;
+ Tue, 10 Nov 2020 11:11:48 +0000 (UTC)
 Received: from thuth.com (ovpn-113-192.ams2.redhat.com [10.36.113.192])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2930F1002C11;
- Tue, 10 Nov 2020 11:11:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BEA5F1002C11;
+ Tue, 10 Nov 2020 11:11:46 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 05/19] tests/qtest/tpm: Remove redundant check in the
- tpm_test_swtpm_test()
-Date: Tue, 10 Nov 2020 12:11:18 +0100
-Message-Id: <20201110111132.559399-6-thuth@redhat.com>
+Subject: [PULL 06/19] gitlab-ci: Drop generic cache rule
+Date: Tue, 10 Nov 2020 12:11:19 +0100
+Message-Id: <20201110111132.559399-7-thuth@redhat.com>
 In-Reply-To: <20201110111132.559399-1-thuth@redhat.com>
 References: <20201110111132.559399-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -57,16 +56,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 02:00:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 00:21:06
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,39 +83,36 @@ Cc: Alexander Bulekov <alxndr@bu.edu>, Cornelia Huck <cohuck@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: AlexChen <alex.chen@huawei.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-The 'addr' would not be NULL after checking 'succ' is valid,
-and it has been dereferenced in the previous code(args = g_strdup_printf()).
-So the check on 'addr' in the tpm_test_swtpm_test() is redundant. Remove it.
+This cache rule is meant for Avocado artifacts, but affects
+all jobs. Moreover the 'acceptance_template' template already
+include a more detailled rule to cache artifacts.
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Alex Chen <alex.chen@huawei.com>
-Message-Id: <5FA41448.4040404@huawei.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20201108221925.2344515-2-philmd@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/tpm-tests.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ .gitlab-ci.yml | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/tests/qtest/tpm-tests.c b/tests/qtest/tpm-tests.c
-index 70c80f8379..0da3a8a4df 100644
---- a/tests/qtest/tpm-tests.c
-+++ b/tests/qtest/tpm-tests.c
-@@ -70,10 +70,8 @@ void tpm_test_swtpm_test(const char *src_tpm_path, tx_func *tx,
-     qtest_end();
-     tpm_util_swtpm_kill(swtpm_pid);
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 3b15ae5c30..5763318d37 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -7,12 +7,6 @@ stages:
+   - build
+   - test
  
--    if (addr) {
--        g_unlink(addr->u.q_unix.path);
--        qapi_free_SocketAddress(addr);
--    }
-+    g_unlink(addr->u.q_unix.path);
-+    qapi_free_SocketAddress(addr);
- }
- 
- void tpm_test_swtpm_migration_test(const char *src_tpm_path,
+-# We assume GitLab has it's own caching set up for RPM/APT repositories so we
+-# just take care of avocado assets here.
+-cache:
+-  paths:
+-    - $HOME/avocado/data/cache
+-
+ include:
+   - local: '/.gitlab-ci.d/edk2.yml'
+   - local: '/.gitlab-ci.d/opensbi.yml'
 -- 
 2.18.4
 
