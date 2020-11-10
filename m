@@ -2,79 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44CCE2ADE1D
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 19:20:41 +0100 (CET)
-Received: from localhost ([::1]:38604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D44F2ADE0E
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 19:18:56 +0100 (CET)
+Received: from localhost ([::1]:34436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcYG0-0000qf-7u
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 13:20:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36550)
+	id 1kcYEJ-0007Qy-5d
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 13:18:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kcYAZ-0005M1-69
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 13:15:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58607)
+ id 1kcYBp-000656-DP
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 13:16:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21566)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kcYAW-0005gb-JN
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 13:15:02 -0500
+ id 1kcYBm-00069t-LP
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 13:16:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605032096;
+ s=mimecast20190719; t=1605032177;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Gb/lo5gPAtvUixCrmkep421rFu2/E0QTIiDy0gAybgU=;
- b=e+2JeXtamjjpLXNkJtOC5HAsc7zKsv2x94pJ7/gG4rgBPc66v2HEvfYS4AJwHBXC1PuvBx
- r57l13em58E/8GUGWWNnTrpGRIhDVs5WQuxGrz9IId1HVkDH15i2/FGJkYli+/MeWs5mFi
- U0viSjHF3vHY+zVFctd8RSI8QPpmzjE=
+ bh=ptHYTpYQZypLNhBm0oDTrtUslwTstUy4XlCQpOnXrOQ=;
+ b=dQw2nOuVG/q6Xg6LSO6OynESffmaZeg2Rh+19sLmUt8vrGJ4ws2xUbJk37HFQqokalkmny
+ CYBM9q7hxu8Hv0DcHUCeneb4iIAPNe9mqRFOBCBmHpdqONJ5HUbdiX28K64ePES2b71APF
+ ofRIHcXQDP6kF/fLpc+PsSuu4d/29Dk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-42-fjpBVpO8MOOACjGZjGy4pA-1; Tue, 10 Nov 2020 13:14:52 -0500
-X-MC-Unique: fjpBVpO8MOOACjGZjGy4pA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-413-5KVeTehtNGqMV7tW58KyHw-1; Tue, 10 Nov 2020 13:16:15 -0500
+X-MC-Unique: 5KVeTehtNGqMV7tW58KyHw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB92680475B;
- Tue, 10 Nov 2020 18:14:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2EE13804753
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 18:16:14 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 305356EF77;
- Tue, 10 Nov 2020 18:14:47 +0000 (UTC)
-Date: Tue, 10 Nov 2020 13:14:40 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E301C1002C32;
+ Tue, 10 Nov 2020 18:16:13 +0000 (UTC)
+Date: Tue, 10 Nov 2020 13:16:13 -0500
 From: Eduardo Habkost <ehabkost@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [RFC v1 09/10] i386: split cpu.c and defer x86 models registration
-Message-ID: <20201110181440.GJ5733@habkost.net>
-References: <20201109172755.16500-1-cfontana@suse.de>
- <20201109172755.16500-10-cfontana@suse.de>
- <20201109180302.GB814975@redhat.com>
- <971cfde9-d24e-a3dc-6389-8a7c9e477f63@suse.de>
- <20201110100438.GF866671@redhat.com>
- <c4c56c06-7530-5705-9ce8-5eff8cf1a0d3@redhat.com>
- <20201110152314.GF5733@habkost.net>
- <ddd6f791-c05c-1a7a-8fae-987435645e99@suse.de>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 0/8] qom: Use qlit to represent property defaults
+Message-ID: <20201110181613.GK5733@habkost.net>
+References: <20201109212556.3934583-1-ehabkost@redhat.com>
+ <0156a49d-a22b-f741-b0db-d2cda4d6ca36@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <ddd6f791-c05c-1a7a-8fae-987435645e99@suse.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <0156a49d-a22b-f741-b0db-d2cda4d6ca36@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 00:21:06
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 02:00:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,126 +80,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Colin Xu <colin.xu@intel.com>, Paul Durrant <paul@xen.org>,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- Dario Faggioli <dfaggioli@suse.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Cameron Esfahani <dirty@apple.com>, haxm-team@intel.com,
- Wenchao Wang <wenchao.wang@intel.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Sunil Muthuswamy <sunilmut@microsoft.com>,
- Bruce Rogers <brogers@suse.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 10, 2020 at 06:38:49PM +0100, Claudio Fontana wrote:
-> On 11/10/20 4:23 PM, Eduardo Habkost wrote:
-> > On Tue, Nov 10, 2020 at 11:41:46AM +0100, Paolo Bonzini wrote:
-> >> On 10/11/20 11:04, Daniel P. Berrangé wrote:
-> >>>
-> >>> ie, we should have one class hierarchy for CPU model definitions, and
-> >>> one class hierarchy  for accelerator CPU implementations.
-> >>>
-> >>> So at runtime we then get two object instances - a CPU implementation
-> >>> and a CPU definition. The CPU implementation object should have a
-> >>> property which is a link to the desired CPU definition.
-> >>
-> >> It doesn't even have to be two object instances.  The implementation can be
-> >> nothing more than a set of function pointers.
+On Tue, Nov 10, 2020 at 05:39:08PM +0100, Paolo Bonzini wrote:
+> On 09/11/20 22:25, Eduardo Habkost wrote:
+> > Based-on: 20201104160021.2342108-1-ehabkost@redhat.com
+> > Git branch: https://gitlab.com/ehabkost/qemu/-/commits/work/qdev-qlit-defaults
 > > 
-> > A set of function pointers is exactly what a QOM interface is.
-> > Could the methods be provided by a TYPE_X86_ACCEL interface type,
-> > implemented by the accel object?
+> > This extend qlit.h to support all QNum types (signed int,
+> > unsigned int, and double), and use QLitObject to represent field
+> > property defaults.
+> > 
+> > It allows us to get rid of most type-specific .set_default_value
+> > functions for QOM property types.
+> > 
+> > Eduardo Habkost (8):
+> >    qobject: Include API docs in docs/devel/qobject.html
+> >    qnum: Make qnum_get_double() get const pointer
+> >    qnum: QNumValue type for QNum value literals
+> >    qnum: qnum_value_is_equal() function
+> >    qlit: Support all types of QNums
+> >    qlit: qlit_type() function
+> >    qom: Make object_property_set_default() public
+> >    qom: Use qlit to represent property defaults
+> > 
+> >   docs/devel/index.rst                  |   1 +
+> >   docs/devel/qobject.rst                |  11 +++
+> >   include/hw/qdev-properties-system.h   |   2 +-
+> >   include/qapi/qmp/qlit.h               |  16 +++-
+> >   include/qapi/qmp/qnum.h               |  47 ++++++++++-
+> >   include/qapi/qmp/qobject.h            |  48 +++++++----
+> >   include/qom/field-property-internal.h |   4 -
+> >   include/qom/field-property.h          |  26 +++---
+> >   include/qom/object.h                  |  11 +++
+> >   include/qom/property-types.h          |  21 ++---
+> >   hw/core/qdev-properties-system.c      |   8 --
+> >   qobject/qlit.c                        |   4 +-
+> >   qobject/qnum.c                        | 116 +++++++++++++++-----------
+> >   qom/field-property.c                  |  27 ++++--
+> >   qom/object.c                          |   2 +-
+> >   qom/property-types.c                  |  36 ++------
+> >   tests/check-qjson.c                   |  72 ++++++++++++++--
+> >   17 files changed, 295 insertions(+), 157 deletions(-)
+> >   create mode 100644 docs/devel/qobject.rst
 > > 
 > 
-> Looking at the 2 axes mentioned by Daniel before, on the "accelerator cpu axis", we have TYPE_TCG_CPU, TYPE_KVM_CPU, TYPE_HVF_CPU,
-> which look like simple subclasses of TYPE_X86_CPU to me, with basically all the divergent functionality being added by composition.
-> TYPE_HVF_CPU seems to do everything that TYPE_X86_CPU does on construction (and device realization), and then some.
+> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 
-What I don't get here is: why do we need a new "accelerator CPU
-axis" if we already have an accelerator QOM type hierarchy?
-accelerator-specific behavior can be delegated to the (existing)
-accelerator object.
+Thanks!
 
-> 
-> On the "cpu models" axis we have all the current subclasses of TYPE_X86_CPU, which include "links" to X86CPUModel objects in the form
-> of class_data:
-> 
-> static void x86_register_cpu_model_type(const char *name, X86CPUModel *model,
->                                         const char *parent_type)
-> {
->     g_autofree char *typename = x86_cpu_type_name(name);
->     TypeInfo ti = {
->         .name = typename,
->         .parent = parent_type,
->         .class_init = x86_cpu_cpudef_class_init,
->         .class_data = model,
->     };
-> 
->     type_register(&ti);
-> }
-> 
-> so this would be close to the "link" property that Daniel you were speaking about before?
-> Should X86CPUmodel be the prime citizen of the "cpu models"
-> axis, without constructing a separate TYPE_X86_CPU subclass for
-> each cpu model?
-
-I don't think this would be fundamentally wrong, but the
-assumption that each CPU model is implemented as a separate
-subclass of TYPE_CPU is encoded everywhere in the code and in
-management software.
-
-> 
-> A separate topic we did not address in comments before, where
-> I'd like opinions, is how should we treat cpu types "base" and
-> "max" and "host"?
-> 
-> Just to avoid forgetting about them, currently TYPE_X86_CPU is
-> the parent type of "base" and of "max", and "max" is the parent
-> type of "host".
-> 
-> "host" is only allowed when using accelerator kvm or hvf.
-> Attempts to create such a cpu without a kvm or hvf accelerator
-> enabled will error out.
-> "max" behaves differently when using hvf or kvm.
-
-"base" exists only to allow us to implement
-`query-cpu-model-expansion type=static` (because it requires a
-"static" CPU model[1]).  It is not supposed to be used directly.
-
-"host" is supposed to be used directly by the user, work out of
-the box, and is a convenient way to get an optimal configuration
-for the current host.  It is supposed to have reasonable defaults
-that let you boot a guest, and enable as most features as
-possible.  We don't offer it for TCG, because TCG emulation
-features are not dependent on host capabilities.
-
-Now, "max" is tricky to define, because its semantics are
-overloaded:
-
-For KVM, "max" is used for querying which features are supported
-by the host (even if the feature is not enabled by default by
-"host").
-
-However, "max" is _also_ usable directly by users with TCG, if
-they want all features supported by TCG enabled.  Its use case
-for TCG is more similar to the use case for "host".
-
-Probably mixing two use cases in the same "max" CPU model was a
-mistake, and we should have added a separate CPU model for each
-use case.
-
-Because of the above, having separate accel-specific names for
-each of those models sounds like a welcome change.
-
----
-[1] The definition of "static CPU model" is in the documentation
-for query-cpu-model-expansion.
+It looks like I broke some unit tests in this series.  I will
+submit v2 after submitting v3 of the field property series.
 
 -- 
 Eduardo
