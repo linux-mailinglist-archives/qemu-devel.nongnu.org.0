@@ -2,77 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C84422AD4E2
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 12:28:24 +0100 (CET)
-Received: from localhost ([::1]:46070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B21ED2AD53F
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 12:31:19 +0100 (CET)
+Received: from localhost ([::1]:55960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcRp1-0004Cl-Om
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 06:28:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46420)
+	id 1kcRrq-0008Jl-M3
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 06:31:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kcRga-0002JR-Ul
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:19:41 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:44781)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kcRgZ-0006sY-3C
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:19:40 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id c17so12241595wrc.11
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 03:19:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=quh1kPWjY4PNiOnUCa5MfOHlEbZgNdPUy0Qv8wRDzi8=;
- b=rSrDJOjs9KUEA3yrix9kh6N06M6VGrE0YPFgVCZUTxq2oGT0Gk3DKGo7y/IEXPPVWh
- +bHzFK3687+VVQd9KXU9cACCsdp/DIqqzKPoUZztGSXwL4aVwlIT/OjJlqF1nqD3CTLE
- O+dzBiM1ID0FtBT6PMpxg3Q8+UoNKa4PehUI00qexCVA2sLNCTINakvf4TDNyNq0sL2g
- gXLZs9skqYYx0VnDUoiGIwVoK3y/34annbiUwi7TKnSzhwMp7s+t9IE96lRvpo0t7j9d
- emzSWAUztIu7De05MpHiCVOXOrwtm/on4Isjc9KbwCt8jG0XJWSobDYAL7AyzUvazMq9
- iDpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=quh1kPWjY4PNiOnUCa5MfOHlEbZgNdPUy0Qv8wRDzi8=;
- b=HXNrR1DWMi6P+FcZ+MGlBJjOOkDfP9n201+LV3Od82+ziVQHsMxUK7bfsgCyOmLmvZ
- 4S/OQj9ab1gErgNoeePEB9s9YwRs4R62soShMwAQ1racETcXwfeCxLzHQQJAQdeRHeqX
- aqH7dda2fL3M6S2R/HbzFFGHFUTjQ0Kaxkl/xMqCkih29Rd41ajBbCOO4nJf4+RY56sl
- ppuVicuuilgb7TnJjBxZpZFzEaevtGQUzpQLyiLxrXvqeE5Su63EffIuJfo5YEFO3WRI
- UjEys0OjqDs1+qPWjUhImCqe4Nij0GXERHPC+fCzha/khl5d1R++irjodUm8/4Qx6teB
- cQ1g==
-X-Gm-Message-State: AOAM533x2p4yvZJoWiDOxqOyqTsNuk3oavwfKS5TXrC6SjbtN3cSFcaS
- qtIId0Dsi8CiTZkp8vKwaIJW4xwlbA3+8A==
-X-Google-Smtp-Source: ABdhPJxufAsqMjATA2MsP1uZVcHzdG7aXiI9VEnVTtdt6aJgMfh2kr73lK8JNkTuvU/XORhu4/j/ng==
-X-Received: by 2002:a5d:4fc1:: with SMTP id h1mr22995484wrw.226.1605007177208; 
- Tue, 10 Nov 2020 03:19:37 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 109sm16909498wra.29.2020.11.10.03.19.36
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Nov 2020 03:19:36 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 15/16] tests/qtest/npcm7xx_rng-test: count runs properly
-Date: Tue, 10 Nov 2020 11:19:16 +0000
-Message-Id: <20201110111917.29539-16-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201110111917.29539-1-peter.maydell@linaro.org>
-References: <20201110111917.29539-1-peter.maydell@linaro.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcRZX-0007gR-V9
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:12:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29314)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcRZV-0004hI-Sa
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:12:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605006741;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=TkmwefC3kVAtGCmQqjvbSLJzX4g8HaHIHSYhBkga8nU=;
+ b=aJq2XNMXIEsUb5JDQqo/VeVCLREIPLkS1pFOfNekQZV+er+W3bLDxOM4S4P/+llpbacteo
+ Lp1u0XsvMT+EApXLa+V5L1AEzaW0hh7PGybzFNeYn49btBYvTagMueejwHcY27dWW6tpIM
+ 3ZvMc2ObbocSSiM2hyDvfeTzFzOiRqc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-103-4OOtf-nNPMySMfpa7Uu5yQ-1; Tue, 10 Nov 2020 06:12:19 -0500
+X-MC-Unique: 4OOtf-nNPMySMfpa7Uu5yQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CBA775720B;
+ Tue, 10 Nov 2020 11:12:17 +0000 (UTC)
+Received: from thuth.com (ovpn-113-192.ams2.redhat.com [10.36.113.192])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0C60110013D9;
+ Tue, 10 Nov 2020 11:12:14 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 18/19] s390x: fix clang 11 warnings in cpu_models.c
+Date: Tue, 10 Nov 2020 12:11:31 +0100
+Message-Id: <20201110111132.559399-19-thuth@redhat.com>
+In-Reply-To: <20201110111132.559399-1-thuth@redhat.com>
+References: <20201110111132.559399-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 02:00:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,41 +75,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Alexander Bulekov <alxndr@bu.edu>, Cornelia Huck <cohuck@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Havard Skinnemoen <hskinnemoen@google.com>
+From: Daniele Buono <dbuono@linux.vnet.ibm.com>
 
-The number of runs is equal to the number of 0-1 and 1-0 transitions,
-plus one. Currently, it's counting the number of times these transitions
-do _not_ happen, plus one.
+There are void * pointers that get casted to enums, in cpu_models.c
+Such casts can result in a small integer type and are caught as
+warnings with clang, starting with version 11:
 
-Source:
-https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-22r1a.pdf
-section 2.3.4 point (3).
+Clang 11 finds a bunch of spots in the code that trigger this new warnings:
 
-Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
-Message-id: 20201103011457.2959989-2-hskinnemoen@google.com
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+../qemu-base/target/s390x/cpu_models.c:985:21: error: cast to smaller integer type 'S390Feat' from 'void *' [-Werror,-Wvoid-pointer-to-enum-cast]
+    S390Feat feat = (S390Feat) opaque;
+                    ^~~~~~~~~~~~~~~~~
+../qemu-base/target/s390x/cpu_models.c:1002:21: error: cast to smaller integer type 'S390Feat' from 'void *' [-Werror,-Wvoid-pointer-to-enum-cast]
+    S390Feat feat = (S390Feat) opaque;
+                    ^~~~~~~~~~~~~~~~~
+../qemu-base/target/s390x/cpu_models.c:1036:27: error: cast to smaller integer type 'S390FeatGroup' from 'void *' [-Werror,-Wvoid-pointer-to-enum-cast]
+    S390FeatGroup group = (S390FeatGroup) opaque;
+                          ^~~~~~~~~~~~~~~~~~~~~~
+../qemu-base/target/s390x/cpu_models.c:1057:27: error: cast to smaller integer type 'S390FeatGroup' from 'void *' [-Werror,-Wvoid-pointer-to-enum-cast]
+    S390FeatGroup group = (S390FeatGroup) opaque;
+                          ^~~~~~~~~~~~~~~~~~~~~~
+4 errors generated.
+
+Avoid this warning by casting the pointer to uintptr_t first.
+
+Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
+Message-Id: <20201105221905.1350-3-dbuono@linux.vnet.ibm.com>
+Acked-by: Cornelia Huck <cohuck@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/npcm7xx_rng-test.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/s390x/cpu_models.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qtest/npcm7xx_rng-test.c b/tests/qtest/npcm7xx_rng-test.c
-index e7cde85fbbc..c614968ffcd 100644
---- a/tests/qtest/npcm7xx_rng-test.c
-+++ b/tests/qtest/npcm7xx_rng-test.c
-@@ -126,7 +126,7 @@ static double calc_runs_p(const unsigned long *buf, unsigned int nr_bits)
-     pi = (double)nr_ones / nr_bits;
+diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
+index 461e0b8f4a..b5abff8bef 100644
+--- a/target/s390x/cpu_models.c
++++ b/target/s390x/cpu_models.c
+@@ -986,7 +986,7 @@ void s390_realize_cpu_model(CPUState *cs, Error **errp)
+ static void get_feature(Object *obj, Visitor *v, const char *name,
+                         void *opaque, Error **errp)
+ {
+-    S390Feat feat = (S390Feat) opaque;
++    S390Feat feat = (S390Feat) (uintptr_t) opaque;
+     S390CPU *cpu = S390_CPU(obj);
+     bool value;
  
-     for (k = 0; k < nr_bits - 1; k++) {
--        vn_obs += !(test_bit(k, buf) ^ test_bit(k + 1, buf));
-+        vn_obs += (test_bit(k, buf) ^ test_bit(k + 1, buf));
-     }
-     vn_obs += 1;
- 
+@@ -1003,7 +1003,7 @@ static void get_feature(Object *obj, Visitor *v, const char *name,
+ static void set_feature(Object *obj, Visitor *v, const char *name,
+                         void *opaque, Error **errp)
+ {
+-    S390Feat feat = (S390Feat) opaque;
++    S390Feat feat = (S390Feat) (uintptr_t) opaque;
+     DeviceState *dev = DEVICE(obj);
+     S390CPU *cpu = S390_CPU(obj);
+     bool value;
+@@ -1037,7 +1037,7 @@ static void set_feature(Object *obj, Visitor *v, const char *name,
+ static void get_feature_group(Object *obj, Visitor *v, const char *name,
+                               void *opaque, Error **errp)
+ {
+-    S390FeatGroup group = (S390FeatGroup) opaque;
++    S390FeatGroup group = (S390FeatGroup) (uintptr_t) opaque;
+     const S390FeatGroupDef *def = s390_feat_group_def(group);
+     S390CPU *cpu = S390_CPU(obj);
+     S390FeatBitmap tmp;
+@@ -1058,7 +1058,7 @@ static void get_feature_group(Object *obj, Visitor *v, const char *name,
+ static void set_feature_group(Object *obj, Visitor *v, const char *name,
+                               void *opaque, Error **errp)
+ {
+-    S390FeatGroup group = (S390FeatGroup) opaque;
++    S390FeatGroup group = (S390FeatGroup) (uintptr_t) opaque;
+     const S390FeatGroupDef *def = s390_feat_group_def(group);
+     DeviceState *dev = DEVICE(obj);
+     S390CPU *cpu = S390_CPU(obj);
 -- 
-2.20.1
+2.18.4
 
 
