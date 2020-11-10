@@ -2,69 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B862A2AD90E
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 15:42:52 +0100 (CET)
-Received: from localhost ([::1]:40366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D084C2AD8DD
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 15:35:08 +0100 (CET)
+Received: from localhost ([::1]:33956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcUrD-0002ZZ-94
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 09:42:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38634)
+	id 1kcUjj-0007qQ-Af
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 09:35:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcUpZ-00016C-Ql
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 09:41:09 -0500
-Received: from indium.canonical.com ([91.189.90.7]:55274)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcUpU-00014N-2Q
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 09:41:09 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kcUpR-0001fa-VX
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 14:41:01 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id ED55D2E8041
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 14:41:01 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kcUiY-0007OE-3a
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 09:33:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31431)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kcUiU-0006q1-7b
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 09:33:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605018828;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HaTARI28nqa4ZrPDwYYSQcERUY2cuomalWxDrR3HcL0=;
+ b=cfi62jFqsJX+d/JBulMO9MDS7f9TK1p7jp4cCpKUhkSno8kWweRRhcrVKLPHPqynjx6jxE
+ zicUgUFR/OND9Ic6zWaAp5r+E3icnAJA2sEO4eWY2jM3Ia0f76wXxmCrpqb2YZjUCKaWzS
+ jm3ZBpVoAH164wpVDnDPApKt+lfCyys=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-267-h0GaiVRDPh-7hL3UeRZQPQ-1; Tue, 10 Nov 2020 09:33:42 -0500
+X-MC-Unique: h0GaiVRDPh-7hL3UeRZQPQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C9A110866A9;
+ Tue, 10 Nov 2020 14:33:41 +0000 (UTC)
+Received: from redhat.com (ovpn-115-68.ams2.redhat.com [10.36.115.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E5BE55789;
+ Tue, 10 Nov 2020 14:33:39 +0000 (UTC)
+Date: Tue, 10 Nov 2020 14:33:35 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH-for-5.2 1/2] gitlab-ci: Avoid running the OpenSBI job
+ when not necessary
+Message-ID: <20201110143335.GG869656@redhat.com>
+References: <20201110121606.2792442-1-philmd@redhat.com>
+ <20201110121606.2792442-2-philmd@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2020 14:33:33 -0000
-From: "mike@papersolve.com" <1741718@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: michal-nowak-b mike-papersolve
-X-Launchpad-Bug-Reporter: Michal Nowak (michal-nowak-b)
-X-Launchpad-Bug-Modifier: mike@papersolve.com (mike-papersolve)
-References: <151532104339.3110.15836914058272965717.malonedeb@soybean.canonical.com>
-Message-Id: <160501881350.18336.15537290924323719208.malone@soybean.canonical.com>
-Subject: [Bug 1741718] Re: qemu-system-sparc64: "panic[cpu0]/thread=180e000:
- lgrp_traverse: No memory blocks found" with tribblix-sparc-0m16.iso
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: bd6304afd4ec0bae6b734a6e18a4f33f1c669e51
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 08:35:46
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, NAME_EMAIL_DIFF=0.725, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201110121606.2792442-2-philmd@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 02:00:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,256 +85,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1741718 <1741718@bugs.launchpad.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Bin Meng <bmeng.cn@gmail.com>,
+ Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Verified same issue occurs on latest qemu.
+$SUBJECT seems to contradict the comment message and code.
 
-~/qemu =EE=82=B0 qemu-system-sparc64 -version
-QEMU emulator version 5.1.90 (v5.2.0-rc0-20-g3c8c36c908)
-Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
+Shouldn't it say  "always run the OpenSBI job"  since you're
+removing all the conditional logic ?
 
- ~/qemu =EE=82=B0 qemu-system-sparc64 -nographic -M niagara -L niagara/S10i=
-mage/ -drive if=3Dpflash,readonly=3Don,file=3D./tribblix-sparc-0m16.iso -m =
-2048
-cpu Probing I/O buses
+On Tue, Nov 10, 2020 at 01:16:05PM +0100, Philippe Mathieu-Daudé wrote:
+> The OpenSBI jobs use the 'changes' keyword, which "makes it
+> possible to define if a job should be created based on files
+> modified by a Git push event." (see [*]). This keyword comes
+> with a warning:
+> 
+>   Caution:
+> 
+>     In pipelines with sources other than the three above
+>     changes can’t determine if a given file is new or old
+>     and always returns true."
+> 
+> In commit 922febe2af we moved the YAML config file from the
+> repository root directory to the .gitlab-ci.d/ directory.
+> 
+> We didn't respect the previous warning and disabled the
+> 'changes' filter rule, as the files are now in a (directory)
+> three above the YAML config file.
+> 
+> As this job doesn't take much (less than 1min), run it by
+> default.
+> 
+> [*] https://docs.gitlab.com/ee/ci/yaml/#onlychangesexceptchanges
+> 
+> Fixes: 922febe2af ("Move edk2 and opensbi YAML files to .gitlab-ci.d folder")
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  .gitlab-ci.d/opensbi.yml | 13 -------------
+>  1 file changed, 13 deletions(-)
+> 
+> diff --git a/.gitlab-ci.d/opensbi.yml b/.gitlab-ci.d/opensbi.yml
+> index 5b13047e2ab..b1fa244fda4 100644
+> --- a/.gitlab-ci.d/opensbi.yml
+> +++ b/.gitlab-ci.d/opensbi.yml
+> @@ -1,10 +1,5 @@
+>  docker-opensbi:
+>   stage: containers
+> - rules: # Only run this job when the Dockerfile is modified
+> - - changes:
+> -   - .gitlab-ci.d/opensbi.yml
+> -   - .gitlab-ci.d/opensbi/Dockerfile
+> -   when: always
+>   image: docker:19.03.1
+>   services:
+>   - docker:19.03.1-dind
+> @@ -25,14 +20,6 @@ docker-opensbi:
+>  
+>  build-opensbi:
+>   stage: build
+> - rules: # Only run this job when ...
+> - - changes: # ... roms/opensbi/ is modified (submodule updated)
+> -   - roms/opensbi/*
+> -   when: always
+> - - if: '$CI_COMMIT_REF_NAME =~ /^opensbi/' # or the branch/tag starts with 'opensbi'
+> -   when: always
+> - - if: '$CI_COMMIT_MESSAGE =~ /opensbi/i' # or last commit description contains 'OpenSBI'
+> -   when: always
+>   artifacts:
+>     paths: # 'artifacts.zip' will contains the following files:
+>     - pc-bios/opensbi-riscv32-generic-fw_dynamic.bin
+> -- 
+> 2.26.2
+> 
 
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-Sun Fire T2000, No Keyboard
-Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
-OpenBoot 4.20.0, 256 MB memory available, Serial #1122867.
-[mo23723 obp4.20.0 #0]
-Ethernet address 0:80:3:de:ad:3, Host ID: 80112233.
-
-
-ok boot
-Boot device: vdisk  File and args: =
-
-hsfs-file-system =
-
-Loading: /platform/sun4v/boot_archive
-ramdisk-root ufs-file-system =
-
-Loading: /platform/sun4v/kernel/sparcv9/unix
-\
-panic[cpu0]/thread=3D180e000: lgrp_traverse: No memory blocks found
-
-Warning - stack not written to the dumpbuf
-000000000180b710 unix:lgrp_traverse+120 (fff32000, 10d5f30, 2000, 7efefeff,=
- 81010100, ff00)
-  %l0-3: 0000000001876c00 ffffffffffffffff 00000000010d6c00 0000000000000000
-  %l4-7: 800000008f000740 800000008fc54750 00000000f0254cc4 00000000010dedd0
-000000000180b800 unix:plat_lgrp_init+14 (4, 180e000, 4, 0, 180b950, 1)
-  %l0-3: 00000000fff32000 00000000fff340e0 00000000fff34590 00000000010d5f28
-  %l4-7: 0000000000000016 0000000000000000 0000000000000016 0000000000000011
-000000000180b8b0 unix:lgrp_plat_init+74 (0, 0, 0, 180ba08, 180ba00, 91)
-  %l0-3: 0000000000002000 00000000fff34000 0000000001874c00 0000000001874c00
-  %l4-7: 0000000000000000 0000000001874c00 000000000180b950 00000000010de048
-000000000180b960 unix:lgrp_init+4 (0, 2000, 70002000, 0, 180c0e8, 0)
-  %l0-3: 000000000180e380 000000000183c678 000000000180ba08 00000000010d4f90
-  %l4-7: 00000000010d4fa0 00000000010d1c00 0000000000004000 0000000080001070
-000000000180ba10 unix:mlsetup+2f4 (180bb80, 180bec0, 0, 0, f025496c, 0)
-  %l0-3: 00000000018ee000 0000000070002000 0000000070002000 000000000180bad0
-  %l4-7: 000000000190c4d8 00000001001f56e0 0000000000000000 0000000080001070
-
-
-ERROR: Last Trap: Level 14 Interrupt
-[Exception handlers interrupted, please file a bug]
-[type 'resume' to attempt a normal recovery]
-ok =
-
-
-
-Without if=3Dpflash it now crashes:
-
-=E2=9C=98 =EE=82=B0 ~/qemu =EE=82=B0 qemu-system-sparc64 -nographic -M niag=
-ara -L niagara/S10image/ -drive readonly=3Don,file=3D./tribblix-sparc-0m16.=
-iso -m 4096
-cpu Probing I/O buses
-
-
-Sun Fire T2000, No Keyboard
-Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
-OpenBoot 4.20.0, 256 MB memory available, Serial #1122867.
-[mo23723 obp4.20.0 #0]
-Ethernet address 0:80:3:de:ad:3, Host ID: 80112233.
-
-
-ok boot
-Boot device: vdisk  File and args: =
-
-qemu: fatal: Trap 0x0032 while trap level (6) >=3D MAXTL (6), Error state
-pc: 000000000040f02c  npc: 000000000040f030
-%g0-3: 0000000000000000 0000000000000000 0000000000000000 0000009700000280
-%g4-7: 0000000000001000 0000000000000000 0000000000000000 0000000000000000
-%o0-3: 0000000000000000 000000008ffd6000 0000000000008000 0000000000000000 =
-
-%o4-7: 0000000000000000 00000000000000f0 00000000fff55701 00000000f020d78c =
-
-%l0-3: 000000000002fd10 7ffffffffffffffe 8000000000000000 0000000000000000 =
-
-%l4-7: 000000000000000b 800000008fffa750 00000000f026fbf0 00000000f022a0d8 =
-
-%i0-3: 0000000080000000 0000000010000000 0000000000000000 0000000000000000 =
-
-%i4-7: 0000000000000000 0000000000000000 0000000000000000 0000000000000000 =
-
-%f00:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-%f08:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-%f16:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-%f24:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-%f32:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-%f40:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-%f48:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-%f56:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-pstate: 00000014 ccr: 11 (icc: ---C xcc: ---C) asi: 20 tl: 6 pil: d gl: 6
-tbr: 00000000f0200000 hpstate: 0000000000000004 htba: 0000000000400000
-cansave: 6 canrestore: 0 otherwin: 0 wstate: 0 cleanwin: 7 cwp: 0
-fsr: 0000000000000000 y: 0000000000000000 fprs: 0000000000000004
-
-fish: =E2=80=9Cqemu-system-sparc64 -nographic=E2=80=A6=E2=80=9D terminated =
-by signal SIGABRT
-(Abort)
-
-
-** Changed in: qemu
-       Status: New =3D> Confirmed
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1741718
-
-Title:
-  qemu-system-sparc64: "panic[cpu0]/thread=3D180e000: lgrp_traverse: No
-  memory blocks found" with tribblix-sparc-0m16.iso
-
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  qemu-system-sparc64 Niagara VM running Tribblix crashes with
-  "panic[cpu0]/thread=3D180e000: lgrp_traverse: No memory blocks found" on
-  QEMU 2.11.0. Happens also with 1 GB, 4 GB, and 8 GB of RAM.
-
-  $=C2=A0qemu-system-sparc64 -nographic -M niagara -L /home/newman/Download=
-s/OpenSPARCT1_Arch.1.5/S10image/ -drive if=3Dpflash,readonly=3Don,file=3D/h=
-ome/newman/Downloads/tribblix-sparc-0m16.iso -m 2048
-  =11cpu Probing I/O buses
-
-  =
-
-  Sun Fire T2000, No Keyboard
-  Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
-  OpenBoot 4.20.0, 256 MB memory available, Serial #1122867.
-  [mo23723 obp4.20.0 #0]
-  Ethernet address 0:80:3:de:ad:3, Host ID: 80112233.
-
-
-  ok boot
-  Boot device: vdisk  File and args: =
-
-  hsfs-file-system =
-
-  Loading: /platform/sun4v/boot_archive
-  ramdisk-root ufs-file-system =
-
-  Loading: /platform/sun4v/kernel/sparcv9/unix
-  \
-  panic[cpu0]/thread=3D180e000: lgrp_traverse: No memory blocks found
-
-  Warning - stack not written to the dumpbuf
-  000000000180b710 unix:lgrp_traverse+120 (fff32000, 10d5f30, 2000, 7efefef=
-f, 81010100, ff00)
-    %l0-3: 0000000001876c00 ffffffffffffffff 00000000010d6c00 0000000000000=
-000
-    %l4-7: 800000008f000740 800000008fc54750 00000000f0254cc4 00000000010de=
-dd0
-  000000000180b800 unix:plat_lgrp_init+14 (4, 180e000, 4, 0, 180b950, 1)
-    %l0-3: 00000000fff32000 00000000fff340e0 00000000fff34590 00000000010d5=
-f28
-    %l4-7: 0000000000000016 0000000000000000 0000000000000016 0000000000000=
-011
-  000000000180b8b0 unix:lgrp_plat_init+74 (0, 0, 0, 180ba08, 180ba00, 91)
-    %l0-3: 0000000000002000 00000000fff34000 0000000001874c00 0000000001874=
-c00
-    %l4-7: 0000000000000000 0000000001874c00 000000000180b950 00000000010de=
-048
-  000000000180b960 unix:lgrp_init+4 (0, 2000, 70002000, 0, 180c0e8, 0)
-    %l0-3: 000000000180e380 000000000183c678 000000000180ba08 00000000010d4=
-f90
-    %l4-7: 00000000010d4fa0 00000000010d1c00 0000000000004000 0000000080001=
-070
-  000000000180ba10 unix:mlsetup+2f4 (180bb80, 180bec0, 0, 0, f025496c, 0)
-    %l0-3: 00000000018ee000 0000000070002000 0000000070002000 000000000180b=
-ad0
-    %l4-7: 000000000190c4d8 00000001001f56e0 0000000000000000 0000000080001=
-070
-
-  =
-
-  ERROR: Last Trap: Level 14 Interrupt
-  [Exception handlers interrupted, please file a bug]
-  [type 'resume' to attempt a normal recovery]
-
-  =
-
-  Without "if=3Dpflash" VM hangs:
-
-  $ qemu-system-sparc64 -nographic -M niagara -L /home/newman/Downloads/Ope=
-nSPARCT1_Arch.1.5/S10image/ -drive readonly=3Don,file=3D/home/newman/Downlo=
-ads/tribblix-sparc-0m16.iso -m 4096
-  =11cpu Probing I/O buses
-
-  =
-
-  Sun Fire T2000, No Keyboard
-  Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
-  OpenBoot 4.20.0, 256 MB memory available, Serial #1122867.
-  [mo23723 obp4.20.0 #0]
-  Ethernet address 0:80:3:de:ad:3, Host ID: 80112233.
-
-
-  ok boot
-  Boot device: vdisk  File and args: =
-
-  qemu: fatal: Trap 0x0032 while trap level (6) >=3D MAXTL (6), Error state
-  pc: 000000000040f01c  npc: 000000000040f020
-  %g0-3: 0000000000000000 0000000000000000 0000000000000000 0000009700000280
-  %g4-7: 0000000000001000 0000000000000000 0000000000000000 0000000000000000
-  %o0-3: 0000000000000000 000000008ffd6000 0000000000008000 000000000000000=
-0 =
-
-  %o4-7: 0000000000000000 00000000000000f0 00000000fff55701 00000000f020d78=
-c =
-
-  %l0-3: 000000000002fd10 7ffffffffffffffe 8000000000000000 000000000000000=
-0 =
-
-  %l4-7: 000000000000000b 800000008fffa750 00000000f026fbf0 00000000f022a0d=
-8 =
-
-  %i0-3: 0000000080000000 0000000010000000 0000000000000000 000000000000000=
-0 =
-
-  %i4-7: 0000000000000000 0000000000000000 0000000000000000 000000000000000=
-0 =
-
-  %f00:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-  %f08:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-  %f16:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-  %f24:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-  %f32:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-  %f40:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-  %f48:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-  %f56:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-  pstate: 00000014 ccr: 11 (icc: ---C xcc: ---C) asi: 20 tl: 6 pil: d gl: 6
-  tbr: 00000000f0200000 hpstate: 0000000000000004 htba: 0000000000400000
-  cansave: 6 canrestore: 0 otherwin: 0 wstate: 0 cleanwin: 7 cwp: 0
-  fsr: 0000000000000000 y: 0000000000000000 fprs: 0000000000000004
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1741718/+subscriptions
 
