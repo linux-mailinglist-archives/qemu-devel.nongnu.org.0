@@ -2,61 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A78342AE362
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 23:30:42 +0100 (CET)
-Received: from localhost ([::1]:49098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9AFC2AE3B2
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 23:52:23 +0100 (CET)
+Received: from localhost ([::1]:38352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcc9w-0001Wq-ES
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 17:30:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39690)
+	id 1kccUw-0001yU-Cd
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 17:52:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kcc8a-00016D-CJ
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 17:29:16 -0500
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:41857)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kccTa-0001RW-JW
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 17:50:59 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36164)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kcc8W-0006K8-NC
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 17:29:15 -0500
-Received: by mail-ed1-x52f.google.com with SMTP id t9so151283edq.8
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 14:29:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kccTY-0000Ry-J6
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 17:50:58 -0500
+Received: by mail-wm1-x342.google.com with SMTP id a65so4837872wme.1
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 14:50:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=v7pglfvj1+wi95YaZMLXQhxuY0LIcd+tDryr9hg4PVQ=;
- b=xN+n6LjRNAvbL57JQbuJ9QGAtcVqMek9ZBWXRtd1e46Aq/ymOAd7Oxml83BIGRao4Y
- D37mkEkUvdmG5srDimf0Y1npVTUtURBrr/h+g1OUJ1EVeInhYgU1dtfwwah2AE9JEwjv
- OAvEdtjztf+xmeP58WtP9H433fM/qZX7PTFDht3jvm6iYmizFbjjGmLJeXL9BcpHBFu2
- ExO/d4ZzUNOlHBzqE1c+CNCY79zPAIWkUtc4WS6oJqZG8hLPhycxZPxB085M5FCznhah
- TxueUTxdOicMDvkOjk1hqIKxF2ypcsXRBOyXrbcxxZWkeQlazMmAn3Arog9xt25m66v5
- ddbg==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=x/V9naTMtWfdSNgCJaU/TEu58LtRnWAvWaoawgFSnuc=;
+ b=flZR2ZtYNRtMQm1lqGLwO5HHPElcZeANqqW1hVYGISPdWHKYoP61qkXCxYSBuAw9GY
+ FVIEIH7dCBN2SkLuFy1vBPsXjQvyGnyS1iG84NbtrbX1JW/kSsyMhxSLbQbLoCU3ysxY
+ yxSmBIgein5f/pLwqQ89/tIt+fhc348SnQhPNUO8gfqt9NOw58ooo7tBm30nMQY1cpQ7
+ zTdUSHh1OzpVwx2k2WpQJdt16H6pcQYuAMgE75m6HKuvSltYLOmUJt1VD0QA3wVYZd1N
+ GSC3xjkJuskHr5XOjfCZHuahlbV1ePNJyBdx5fYq9G3HbXvhmYjQTRdyqYFKN4I9AYFY
+ 2uBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=v7pglfvj1+wi95YaZMLXQhxuY0LIcd+tDryr9hg4PVQ=;
- b=XuvulFyJt7I9yNBTFzupo6ogIT2lqtpI5Lx65miDvGzEANgB7p7tbFjf88k/2ETGeT
- sRxzW+3PjSnMRUiHd1zDW2Th4FY55FLBi+aIPZxtiODv9UZXlKrCeyVkxbIf7+y+LNG1
- oDmwKgJ3fdjq63GiX6A4Bto+cHO2Pj2OP18Ugoz0bP0LAS5oW5vB3IUZi6xfWkavqzFA
- kN1Y8KhNi2KExSgXJBKOSYR1tPShHQJp2P8pXsu+lM04RCrFby7IQM+j7thxLvbUrEM0
- eXpgnPUStEuHIFajbB6M4eoxkc4jv6pEVt9pi85UIB5nNnApWnaABTusaR9CqQJp9GmD
- 2c0A==
-X-Gm-Message-State: AOAM533tYnKouIkbMl33mYZwNVo92RHdi5eiNLyb0Jiql3bMTulzzLaL
- 8YFFrkd3Kq7jrrZPrLhtgOAgRe6RFCwnOXyUNOg6Dw==
-X-Google-Smtp-Source: ABdhPJxBxEwwDU1fJ0Lf5WIr3SSo38W4wc9DyJ8SSiJccgS03nNN2sohWvu/5Zgo81U7fvLFw+GmZmQcMehrvyt4mUo=
-X-Received: by 2002:aa7:d3cc:: with SMTP id o12mr1758669edr.36.1605047350821; 
- Tue, 10 Nov 2020 14:29:10 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=x/V9naTMtWfdSNgCJaU/TEu58LtRnWAvWaoawgFSnuc=;
+ b=LCq2IbfHufHTXUJvIYHhH4q3jnaISLHryege1E2TuFVsjcPajwV/nvC/zZmf034wW0
+ atrWyEcxZBUJYfBxCSrEXyQXC6ygqtz2NxUhQuIy3+WJ3jHT9/jKIEhwPhQP9pdiWisT
+ HL0wPVOzqutcJTspvM7+45N6YHBBTPyy4laJ05t9m3jr0CQqIr/HRWxAWqyqeSq5GVec
+ S3SYyONtx9eXZXr3huiAmMOO6x85vPDFggz/jXHpHXOs4I4WfB1FUZfKJ0TUFAIYBFrw
+ znYNmSlqh6albkH880KNtw3fSBFPxvCxqdRtuDhvILLXYqRjxnSuOcM/7WSkr8GBeiXJ
+ VL0w==
+X-Gm-Message-State: AOAM533+WQV3rGkRK9ThalFEEe00WUcAQIU1vTxrEynub7XTXHFkZE7G
+ YKV7+S6hRcqBNQfCusbZlx2hlQ==
+X-Google-Smtp-Source: ABdhPJztMuNeukgs9gyeMNUd/EhTQCCMFfsOJyYha/NzGditvv6zXq4OO0JlRbkEzv1/bbYwO2apqw==
+X-Received: by 2002:a7b:c2ef:: with SMTP id e15mr408747wmk.180.1605048654686; 
+ Tue, 10 Nov 2020 14:50:54 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id w21sm268944wmi.29.2020.11.10.14.50.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Nov 2020 14:50:53 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 119401FF7E;
+ Tue, 10 Nov 2020 22:50:53 +0000 (GMT)
+References: <20201110192316.26397-1-alex.bennee@linaro.org>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH  v1 for 5.1 00/10] various fixes (CI, Xen, plugins)
+In-reply-to: <20201110192316.26397-1-alex.bennee@linaro.org>
+Date: Tue, 10 Nov 2020 22:50:53 +0000
+Message-ID: <87r1p07rn6.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20201110112909.1103518-1-pbonzini@redhat.com>
-In-Reply-To: <20201110112909.1103518-1-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 10 Nov 2020 22:28:59 +0000
-Message-ID: <CAFEAcA_uqc8mdRaj2T7399LcYPPzYNR2p_cU-kP-odDz6LMihg@mail.gmail.com>
-Subject: Re: [PULL 0/6] Misc fixes for QEMU 5.2-rc2
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -78,43 +88,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 10 Nov 2020 at 11:35, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> The following changes since commit 3493c36f0371777c62d1d72b205b0eb6117e2156:
->
->   Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20201106' into staging (2020-11-06 13:43:28 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/bonzini/qemu.git tags/for-upstream
->
-> for you to fetch changes up to 6e853291036573c8831f486fc7d76b779b0ac567:
->
->   pvpanic: Advertise the PVPANIC_CRASHLOADED event support (2020-11-10 06:27:17 -0500)
->
-> ----------------------------------------------------------------
-> Bug fixes
->
-> ----------------------------------------------------------------
 
-Fails "make check" on all platforms:
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
-QTEST_QEMU_IMG=./qemu-img G_TEST_DBUS_DAEMON=/home/petmay
-01/linaro/qemu-for-merges/tests/dbus-vmstate-daemon.sh
-QTEST_QEMU_BINARY=./qemu-system-i386 tests/qtest/pvpanic-test --tap
- -k
-**
-ERROR:../../tests/qtest/pvpanic-test.c:23:test_panic: assertion failed
-(val == 1): (3 == 1)
-ERROR qtest-i386/pvpanic-test - Bail out!
-ERROR:../../tests/qtest/pvpanic-test.c:23:test_panic: assertion failed
-(val == 1): (3 == 1)
+> Hi,
+>
+> This collects together a bunch of fixes for 5.2:
 
-thanks
--- PMM
+Doh, subject did not match body, I of course mean for the current
+release candidate.
+
+>   - a few resource leak fixes for plugins
+>   - Xen on arm64 build fixes (from my larger Xen series)
+>   - a couple of build and CI fixes
+>   - a tweak to the gitlab status script
+<snip>
+
+--=20
+Alex Benn=C3=A9e
 
