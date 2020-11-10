@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F6782ADCA3
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 18:11:12 +0100 (CET)
-Received: from localhost ([::1]:57872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99AD02ADCA0
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 18:08:47 +0100 (CET)
+Received: from localhost ([::1]:53600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcXAl-0000rU-1f
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 12:11:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47668)
+	id 1kcX8P-0007VK-96
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 12:08:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kcX6A-0006En-Ey
+ id 1kcX6A-0006E5-0E
  for qemu-devel@nongnu.org; Tue, 10 Nov 2020 12:06:26 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:36071)
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45119)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kcX5y-0008Ih-31
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 12:06:26 -0500
-Received: by mail-wm1-x331.google.com with SMTP id a65so3798660wme.1
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 09:06:11 -0800 (PST)
+ id 1kcX5v-0008IZ-6e
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 12:06:25 -0500
+Received: by mail-wr1-x442.google.com with SMTP id p1so13487579wrf.12
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 09:06:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QFqB4kS+HlHYFzREn9i9Q9WziWXHZrZtv1/LLsxdOTI=;
- b=wO38cGEfooXVHBIhGAi+/QKL5CnwzO5JqEGojIdx+kHgtJvBnlddx24rFZJPe/ORuh
- VOMacA7AwssjrcHK9bIb01wPMUsWwnaGNGdkqVh1FN9Yrb2BvQlfkbTCmf9+oII/SEra
- /0HxW3/DDmTvauTzWCTV1L19OyQ7G5Xif/VMvLg2lotvfuQGShIpUtCI9fV3gHXsCNnT
- XjDC7yeHwjfpHSmbrYYrsQiNSvU+oiSOJ2I9B1409YCQ/XSbO4aFIZ+W7rZvoFQ+hMjr
- mzx1ChB22YtrKWJJXpsMygstlSpR9lzNn/fBv7AKamehBLdvgWjVjghWtlvmSOcwpsIY
- Ct2w==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=3TffB06QqlKySLwwMjn9ARXLrWK2pAbyiKXjQY9uagE=;
+ b=PRlGZ4+o5dB5obVsGfLl2BgWYhLqmfbowhDHbmxTnhLpuxsvHolplIOrCaRj5t2y9K
+ BoDPLtvLXybS7AlKB6HzsXTZ328+qJTpb5mZ1o8pzlG2g23iFAUk4qPq900yF9LQKQ7Q
+ yt5CF4jR5KJTe3nmfGQ8V4zywOkEHjF+/mspqCWl4ExSu/WQY9p0FE1aIk88HAeeSfQq
+ ej2K4Io6vtXs2NY5vpmnH7TGnStEKO+twrIcEPfYf8K9vYNhI4ixyRWvSfjD8J1ImoVl
+ dNqtnXB2FtrUcSZJjpPkjOG6vdd66YKYHlYGzXp/LvfI/wG4ljtI7JveQ1PQjGLUuRhc
+ IVhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QFqB4kS+HlHYFzREn9i9Q9WziWXHZrZtv1/LLsxdOTI=;
- b=DDGJbpOgTsojdQpaXFabBfefxuHPLXxTnj1QwOpdj6jXKNUp1GkUMH0oXm+gBJyNci
- iuyAvf1oI2nJZDL6f0UHyfovxw7QHd8bW/1eJS6V9lacOs3SHeajwCogM5UMX5VkzV5p
- aPp4pOOPckYnD6XkMS9GIvxOQTppzHjhHE2FrHM9HOk62qYrF8dSiqg4omoI38Gggwo5
- FteLlXMxkg/Memubj/a8/i0yD/bwHAgnVcwz7LtLRKGEBwPHmckA7VoPtvpQpdB/fHYv
- XG86Z+B6KjA6F0cTJdkROKook11y2XwKGY3fyNm4kCpdKUIxzHu1Anh5Ss3u3zuGO23+
- +Jng==
-X-Gm-Message-State: AOAM531zAwRO/L9KeUfwjNJCD3m9jEBHnrfWZdpONmiJ9GdsQ+SPayTd
- p1UT8uv1jbpoOpq3nGsjEJ7ybpC/4JIoug==
-X-Google-Smtp-Source: ABdhPJz3csT4cDLiCi9EJIWBi9RiF/9kN8luT/kFwSlg0NkKta8L6sVpxWjZRSONNVbUBpqKXuP/xw==
-X-Received: by 2002:a7b:ce0e:: with SMTP id m14mr47001wmc.17.1605027967044;
- Tue, 10 Nov 2020 09:06:07 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=3TffB06QqlKySLwwMjn9ARXLrWK2pAbyiKXjQY9uagE=;
+ b=Ap9NtN7ZrYVuIriZIM0TG+Mo3sIuQmdAyWu65NY+lvY4ww9PV+kASNxQ63rwajmEjv
+ xPQo1YWJIEwJS/Gyjh5K+tTNKpTdimS06ON7st4ev0bRX26HmroxrB6wxC+cP33qAKNN
+ 6QUagCnFsPY93JX8HLfZT5j8rE37PkFu9JM20ndr9oyPxvzCsY8EJAMrKhQIFTbU5PwB
+ rAQMbXpSSUYcfCNx1zJqO6pgNOnYlwrRXjOZouluMFwvZGrfmk4Iq44XeWJKgWS+4f4D
+ Dn5E6rqf0HNJVvMlTBYxcHlwoyz+yAh0+GmhKxd1XXXaC3cnRwrX7tCi2/+eCz8iBcSr
+ RMqg==
+X-Gm-Message-State: AOAM533aeW94Ih0gN2fsC4xd7rAoY6G8K5M73YN83JxDz253U8wODknJ
+ WEum+KhOtPTi0ESZWvvgXLm0CYeoLt05xg==
+X-Google-Smtp-Source: ABdhPJwV+3dV78NStRNqd/B3+qTVt9wstn5V1KYWTPBApZFhTWJuyvSGjM4wvBNugnQOJ2gjuW3RjA==
+X-Received: by 2002:a5d:4ac1:: with SMTP id y1mr25693919wrs.27.1605027968019; 
+ Tue, 10 Nov 2020 09:06:08 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id h4sm17334893wrq.3.2020.11.10.09.06.05
+ by smtp.gmail.com with ESMTPSA id h4sm17334893wrq.3.2020.11.10.09.06.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Nov 2020 09:06:06 -0800 (PST)
+ Tue, 10 Nov 2020 09:06:07 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.2 v2 0/4] hw/net/can/ctucan: fix Coverity and other
- issues
-Date: Tue, 10 Nov 2020 17:06:00 +0000
-Message-Id: <20201110170604.5897-1-peter.maydell@linaro.org>
+Subject: [PATCH for-5.2 v2 1/4] hw/net/can/ctucan: Don't allow guest to write
+ off end of tx_buffer
+Date: Tue, 10 Nov 2020 17:06:01 +0000
+Message-Id: <20201110170604.5897-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201110170604.5897-1-peter.maydell@linaro.org>
+References: <20201110170604.5897-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,35 +90,58 @@ Cc: Jason Wang <jasowang@redhat.com>, Vikram Garhwal <fnu.vikram@xilinx.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset fixes a couple of issues spotted by Coverity:
- * incorrect address checks meant the guest could write off the
-   end of the tx_buffer arrays
- * we had an unused value in ctucan_send_ready_buffers()
-and also some I noticed while reading the code:
- * we don't adjust the device's non-portable use of bitfields
-   on bigendian hosts
- * we should use stl_le_p() rather than casting uint_t* to
-   uint32_t*
+The ctucan device has 4 CAN bus cores, each of which has a set of 20
+32-bit registers for writing the transmitted data. The registers are
+however not contiguous; each core's buffers is 0x100 bytes after
+the last.
 
-Tested with "make check" only.
+We got the checks on the address wrong in the ctucan_mem_write()
+function:
+ * the first "is addr in range at all" check allowed
+   addr == CTUCAN_CORE_MEM_SIZE, which is actually the first
+   byte off the end of the range
+ * the decode of addresses into core-number plus offset in the
+   tx buffer for that core failed to check that the offset was
+   in range, so the guest could write off the end of the
+   tx_buffer[] array
 
-Changes v1->v2: don't assert() the can't-happen case in patch 1,
-to allow for future adjustment of #defines that correspond to
-h/w synthesis parameters.
+NB: currently the values of CTUCAN_CORE_MEM_SIZE, CTUCAN_CORE_TXBUF_NUM,
+etc, make "buff_num >= CTUCAN_CORE_TXBUF_NUM" impossible, but we
+retain this as a runtime check rather than an assertion to permit
+those values to be changed in future (in hardware they are
+configurable synthesis parameters).
 
-thanks
- -- PMM
+Fix the top level check, and check the offset is within the buffer.
 
-Peter Maydell (4):
-  hw/net/can/ctucan: Don't allow guest to write off end of tx_buffer
-  hw/net/can/ctucan: Avoid unused value in ctucan_send_ready_buffers()
-  hw/net/can/ctucan_core: Handle big-endian hosts
-  hw/net/can/ctucan_core: Use stl_le_p to write to tx_buffers
+Fixes: Coverity CID 1432874
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/net/can/ctucan_core.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
- hw/net/can/ctucan_core.h |  3 +--
- hw/net/can/ctucan_core.c | 23 +++++++----------------
- 2 files changed, 8 insertions(+), 18 deletions(-)
-
+diff --git a/hw/net/can/ctucan_core.c b/hw/net/can/ctucan_core.c
+index d20835cd7e9..538270e62f9 100644
+--- a/hw/net/can/ctucan_core.c
++++ b/hw/net/can/ctucan_core.c
+@@ -303,7 +303,7 @@ void ctucan_mem_write(CtuCanCoreState *s, hwaddr addr, uint64_t val,
+     DPRINTF("write 0x%02llx addr 0x%02x\n",
+             (unsigned long long)val, (unsigned int)addr);
+ 
+-    if (addr > CTUCAN_CORE_MEM_SIZE) {
++    if (addr >= CTUCAN_CORE_MEM_SIZE) {
+         return;
+     }
+ 
+@@ -312,7 +312,8 @@ void ctucan_mem_write(CtuCanCoreState *s, hwaddr addr, uint64_t val,
+         addr -= CTU_CAN_FD_TXTB1_DATA_1;
+         buff_num = addr / CTUCAN_CORE_TXBUFF_SPAN;
+         addr %= CTUCAN_CORE_TXBUFF_SPAN;
+-        if (buff_num < CTUCAN_CORE_TXBUF_NUM) {
++        if ((buff_num < CTUCAN_CORE_TXBUF_NUM) ||
++            (addr < sizeof(s->tx_buffer[buff_num].data))) {
+             uint32_t *bufp = (uint32_t *)(s->tx_buffer[buff_num].data + addr);
+             *bufp = cpu_to_le32(val);
+         }
 -- 
 2.20.1
 
