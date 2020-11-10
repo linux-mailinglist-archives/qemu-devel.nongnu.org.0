@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B15442AD491
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 12:18:46 +0100 (CET)
-Received: from localhost ([::1]:43492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA4242AD488
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 12:16:32 +0100 (CET)
+Received: from localhost ([::1]:35104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcRfh-00081h-Oy
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 06:18:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44912)
+	id 1kcRdX-0004Uv-LC
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 06:16:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcRZG-00075x-MW
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:12:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31055)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcRZE-00075S-Ql
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:12:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32799)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcRZC-0004by-LW
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:12:05 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kcRZB-0004bw-20
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 06:12:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1605006720;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=GA0OiwGhaepEgCMan96O1G0UDsJcJqZid2wZ0UQzYUU=;
- b=EpmWfnp4QaiOifh5nlyyUaDY2k24RSK9JPWhLy7pKV2uOtEW2gtGBIXq9IG9C16IcZwhDr
- ZTpPgyWivGdWNKDsT6FVFGgiXCTEBpxYhoXHWgzsGrUsm5qLft5fiUup2Xh+JjDTQjuuJ/
- HjjAKNDlszPtcG7cp94jIYNpAgygoCA=
+ references:references; bh=curk6aRgfvQd5PuCN+FruMdP+NuNnu3mSZJo9whc/+g=;
+ b=b3iPHXUJ4cH78v+CO1w2EQXJuAYFhHdDScXutSWar0Uk7gCB2PPvn83dspAP2Yl5k68Y+r
+ gIefFNQXY9psCwyeNASxKdoDEEkURlSkC3A+Jro0xRsxy/I9lmYWBVe2VvDY1/sEs5RG7y
+ cy/ZifR1WO/kNgWuxva89/CpHUxDMV4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-358-sl3xQDkaN3OGmDm5ddUqeQ-1; Tue, 10 Nov 2020 06:11:56 -0500
-X-MC-Unique: sl3xQDkaN3OGmDm5ddUqeQ-1
+ us-mta-553-cH5ezNDoOTWTSN2gkqpOfQ-1; Tue, 10 Nov 2020 06:11:58 -0500
+X-MC-Unique: cH5ezNDoOTWTSN2gkqpOfQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D51457204;
- Tue, 10 Nov 2020 11:11:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5060A801FD4;
+ Tue, 10 Nov 2020 11:11:57 +0000 (UTC)
 Received: from thuth.com (ovpn-113-192.ams2.redhat.com [10.36.113.192])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3E4CB10013D9;
- Tue, 10 Nov 2020 11:11:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DA30510013D9;
+ Tue, 10 Nov 2020 11:11:55 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 10/19] scripts/oss-fuzz: give all fuzzers -target names
-Date: Tue, 10 Nov 2020 12:11:23 +0100
-Message-Id: <20201110111132.559399-11-thuth@redhat.com>
+Subject: [PULL 11/19] fuzz: Make fork_fuzz.ld compatible with LLVM's LLD
+Date: Tue, 10 Nov 2020 12:11:24 +0100
+Message-Id: <20201110111132.559399-12-thuth@redhat.com>
 In-Reply-To: <20201110111132.559399-1-thuth@redhat.com>
 References: <20201110111132.559399-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
@@ -52,16 +52,16 @@ Authentication-Results: relay.mimecast.com;
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 00:21:06
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 02:00:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,88 +79,60 @@ Cc: Alexander Bulekov <alxndr@bu.edu>, Cornelia Huck <cohuck@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alexander Bulekov <alxndr@bu.edu>
+From: Daniele Buono <dbuono@linux.vnet.ibm.com>
 
-We switched to hardlinks in
-a942f64cc4 ("scripts/oss-fuzz: use hardlinks instead of copying")
+LLVM's linker, LLD, supports the keyword "INSERT AFTER", starting with
+version 11.
+However, when multiple sections are defined in the same "INSERT AFTER",
+they are added in a reversed order, compared to BFD's LD.
 
-The motivation was to conserve space (50 fuzzers built with ASAN, can
-weigh close to 9 GB).
+This patch makes fork_fuzz.ld generic enough to work with both linkers.
+Each section now has its own "INSERT AFTER" keyword, so proper ordering is
+defined between the sections added.
 
-Unfortunately, OSS-Fuzz (partially) treated the underlying copy of the
-fuzzer as a standalone fuzzer. To attempt to fix, we tried:
-
-f8b8f37463 ("scripts/oss-fuzz: rename bin/qemu-fuzz-i386")
-
-This was also not a complete fix, because though OSS-Fuzz
-ignores the renamed fuzzer, the underlying ClusterFuzz, doesn't:
-https://storage.googleapis.com/clusterfuzz-builds/qemu/targets.list.address
-https://oss-fuzz-build-logs.storage.googleapis.com/log-9bfb55f9-1c20-4aa6-a49c-ede12864eeb2.txt
-(clusterfuzz still lists qemu-fuzz-i386.base as a fuzzer)
-
-This change keeps the hard-links, but makes them all point to a file
-with a qemu-fuzz-i386-target-.. name. If we have targets, A, B, C, the
-result will be:
-
-qemu-fuzz-i386-target-A (base file)
-qemu-fuzz-i386-target-B -> qemu-fuzz-i386-target-A
-qemu-fuzz-i386-target-C -> qemu-fuzz-i386-target-A
-
-The result should be that every file that looks like a fuzzer to
-OSS-Fuzz/ClusterFuzz, can run as a fuzzer (we don't have a separate base
-copy). Unfortunately, there is not simple way to test this locally.
-
-In the future, it might be worth it to link the majority of QEMU in as a
-shared-object (see https://github.com/google/oss-fuzz/issues/4575 )
-
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Message-Id: <20201108171136.160607-1-alxndr@bu.edu>
+Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
+Message-Id: <20201105221905.1350-2-dbuono@linux.vnet.ibm.com>
+Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
+Tested-by: Alexander Bulekov <alxndr@bu.edu>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- scripts/oss-fuzz/build.sh | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ tests/qtest/fuzz/fork_fuzz.ld | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/oss-fuzz/build.sh b/scripts/oss-fuzz/build.sh
-index 3b1c82b63d..c1af43fded 100755
---- a/scripts/oss-fuzz/build.sh
-+++ b/scripts/oss-fuzz/build.sh
-@@ -62,9 +62,6 @@ fi
- 
- mkdir -p "$DEST_DIR/lib/"  # Copy the shared libraries here
- 
--mkdir -p "$DEST_DIR/bin/"  # Copy executables that shouldn't
--                           # be treated as fuzzers by oss-fuzz here
--
- # Build once to get the list of dynamic lib paths, and copy them over
- ../configure --disable-werror --cc="$CC" --cxx="$CXX" --enable-fuzzing \
-     --prefix="$DEST_DIR" --bindir="$DEST_DIR" --datadir="$DEST_DIR/data/" \
-@@ -91,20 +88,23 @@ make "-j$(nproc)" qemu-fuzz-i386 V=1
- # Copy over the datadir
- cp  -r ../pc-bios/ "$DEST_DIR/pc-bios"
- 
--cp "./qemu-fuzz-i386" "$DEST_DIR/bin/qemu-fuzz-i386.base"
-+targets=$(./qemu-fuzz-i386 | awk '$1 ~ /\*/  {print $2}')
-+base_copy="$DEST_DIR/qemu-fuzz-i386-target-$(echo "$targets" | head -n 1)"
+diff --git a/tests/qtest/fuzz/fork_fuzz.ld b/tests/qtest/fuzz/fork_fuzz.ld
+index bfb667ed06..cfb88b7fdb 100644
+--- a/tests/qtest/fuzz/fork_fuzz.ld
++++ b/tests/qtest/fuzz/fork_fuzz.ld
+@@ -16,6 +16,11 @@ SECTIONS
+       /* Lowest stack counter */
+       *(__sancov_lowest_stack);
+   }
++}
++INSERT AFTER .data;
 +
-+cp "./qemu-fuzz-i386" "$base_copy"
- 
- # Run the fuzzer with no arguments, to print the help-string and get the list
- # of available fuzz-targets. Copy over the qemu-fuzz-i386, naming it according
- # to each available fuzz target (See 05509c8e6d fuzz: select fuzz target using
- # executable name)
--for target in $(./qemu-fuzz-i386 | awk '$1 ~ /\*/  {print $2}');
-+for target in $(echo "$targets" | tail -n +2);
- do
-     # Ignore the generic-fuzz target, as it requires some environment variables
-     # to be configured. We have some generic-fuzz-{pc-q35, floppy, ...} targets
-     # that are thin wrappers around this target that set the required
-     # environment variables according to predefined configs.
-     if [ "$target" != "generic-fuzz" ]; then
--        ln  "$DEST_DIR/bin/qemu-fuzz-i386.base" \
-+        ln  $base_copy \
-             "$DEST_DIR/qemu-fuzz-i386-target-$target"
-     fi
- done
++SECTIONS
++{
+   .data.fuzz_ordered :
+   {
+       /*
+@@ -34,6 +39,11 @@ SECTIONS
+        */
+        *(.bss._ZN6fuzzer3TPCE);
+   }
++}
++INSERT AFTER .data.fuzz_start;
++
++SECTIONS
++{
+   .data.fuzz_end : ALIGN(4K)
+   {
+       __FUZZ_COUNTERS_END = .;
+@@ -43,4 +53,4 @@ SECTIONS
+  * Don't overwrite the SECTIONS in the default linker script. Instead insert the
+  * above into the default script
+  */
+-INSERT AFTER .data;
++INSERT AFTER .data.fuzz_ordered;
 -- 
 2.18.4
 
