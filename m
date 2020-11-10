@@ -2,70 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 726132ADAFF
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 16:57:46 +0100 (CET)
-Received: from localhost ([::1]:41250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BB762ADB01
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 16:57:54 +0100 (CET)
+Received: from localhost ([::1]:41486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcW1h-0005RY-G0
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 10:57:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58140)
+	id 1kcW1p-0005Xh-ED
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 10:57:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcVzy-0004Ob-FZ
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 10:55:58 -0500
-Received: from indium.canonical.com ([91.189.90.7]:52996)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kcW01-0004Ph-CF
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 10:56:01 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:54302)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kcVzt-0001NN-KV
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 10:55:58 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kcVzr-0005CL-FM
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 15:55:51 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 72A182E8055
- for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 15:55:51 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kcVzz-0001Rn-CR
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 10:56:00 -0500
+Received: by mail-wm1-x334.google.com with SMTP id d142so3482439wmd.4
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 07:55:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=eZkncBMER5cLSprJ+YsJVMgDaX8DozP0RMY3Bi4euBw=;
+ b=D0PK5t89Z7gY6Z3IZls3jZRHcyhTR+B6OnLIZEYBj47MsR4/4KnZmcbR0gXPVMQFr4
+ XsG6UF/xpiRKf8XJUCUiMtUD+uI9/6fLxLoHtXMx6KA85KTO18Payp+hGPQ7fmgkJJXn
+ qkPsGRZZI++TgIc66TrxUlYnq/Iz1ltp/56gFSjHbGJXenvTSrhNJwwvAD6xqXmhhRbf
+ KbqtFS8TtDaKHfY7IT3WJz1wgGRqy0mQgT2ZrLbJvjo9tKI6a628+DmNQ3Qr7O0kH8xw
+ bbR8iDR9YvX0fsE4soNOkfolS6+ZfBmtu4o4A9F5p2s0m8szpJp7FPzX/wF+jVG1yFVO
+ H0EQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=eZkncBMER5cLSprJ+YsJVMgDaX8DozP0RMY3Bi4euBw=;
+ b=jOPvKYCVNBbisUvocayHTKzoqXYfK1er0huVzqw570RfUoV+4u4X3G0yVDvgUaZHGR
+ W+chX9K7CrY1AkSi2a+dzACV0K/NF3OzqLaowasOn+WFvnU8I/HiAK/Uvn2Qtr5nTl7S
+ AZHB7mQChX8Hen9Imkgu0uKhZEbKBQJUJuMuq/sUBiPzYl2I/xFzOEkncnpLpCfiFCq+
+ Gp5FUzGQkoU8WKZG2uTVmW5chLZsUDXlMZN6Ii9KmRy7+ad/Ps727QIt/pKzDCFAjpX4
+ WvQoObsy8n+exknPe+nb273OGMFUUiBnLZkYDxyuMKOH4r/0xltFGyPwmDehVzepTJjM
+ vKBA==
+X-Gm-Message-State: AOAM530x+HdIhX8rC8cNNCBO72fM6FBn7i5edYGZ+odXmfWvoegkld/B
+ Doq2oE31ZsdEZAJKzLlZWyIWvA==
+X-Google-Smtp-Source: ABdhPJyamxh5POZw7sdlsshx3wgx4bRl7+9j3LiiPPqo40a5cWaQpU1zn8N+F66ka/wCYBwz+p8wXA==
+X-Received: by 2002:a05:600c:22c5:: with SMTP id 5mr350967wmg.25.1605023757113; 
+ Tue, 10 Nov 2020 07:55:57 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a12sm17202895wrr.31.2020.11.10.07.55.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Nov 2020 07:55:55 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 741CA1FF7E;
+ Tue, 10 Nov 2020 15:55:54 +0000 (GMT)
+References: <20201108204535.2319870-1-philmd@redhat.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH-for-5.2 v4 00/17] ci: Move various jobs from Travis to
+ GitLab CI
+In-reply-to: <20201108204535.2319870-1-philmd@redhat.com>
+Date: Tue, 10 Nov 2020 15:55:54 +0000
+Message-ID: <878sb98aut.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2020 15:45:38 -0000
-From: Thomas Huth <1762179@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: arnab35 cirosantilli th-huth
-X-Launchpad-Bug-Reporter: =?utf-8?b?Q2lybyBTYW50aWxsaSDlha3lm5vkuovku7Yg?=
- =?utf-8?b?5rOV6L2u5YqfIChjaXJvc2FudGlsbGkp?=
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <152319497960.30219.9338727401860906105.malonedeb@gac.canonical.com>
-Message-Id: <160502313823.27816.13575164819535952323.malone@chaenomeles.canonical.com>
-Subject: [Bug 1762179] Re: Record and replay replay fails with:
- "ERROR:replay/replay-time.c:49:replay_read_clock: assertion failed"
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: a875f274584b8ae55654c7f8dec0dd2c530c04ee
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 08:35:46
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,84 +89,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1762179 <1762179@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Looks like the patches have been merged now (see commit
-cda382594b7ea50aff5f672f32767f9f9fef4c12 and earlier)
 
-** Changed in: qemu
-       Status: New =3D> Fix Committed
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
--- =
+> We have various job covered on Travis-CI, but recommend the
+> community to use GitLab, so build failures are missed.
+>
+> We need help to move the jobs to GitLab (we will keep the s390x
+> and ppc64 containerized jobs on Travis as there is no similar
+> offer on GitLab). Start moving jobs.
+>
+> Resulting pipelines (96 jobs in 71 minutes and 4 seconds)
+>   https://gitlab.com/philmd/qemu/-/pipelines/213351318
+>   https://gitlab.com/philmd/qemu/-/pipelines/213378500
+>
+> Patches 1-3 are included because without them some jobs are
+> failing; but they will be merged via different trees.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1762179
+Which trees? I'm currently holding 2/3 in my tree as I kick the tyres
+although I dropped 1 following breakage and discussion on IRC.
 
-Title:
-  Record and replay replay fails with: "ERROR:replay/replay-
-  time.c:49:replay_read_clock: assertion failed"
-
-Status in QEMU:
-  Fix Committed
-
-Bug description:
-  QEMU master at 915d34c5f99b0ab91517c69f54272bfdb6ca2b32 Ubuntu 17.10
-  host.
-
-  QEMU commands:
-
-  ```
-  #!/usr/bin/env bash
-  cmd=3D"\
-  time \
-  ./x86_64-softmmu/qemu-system-x86_64 \
-  -append 'root=3D/dev/sda console=3DttyS0 nokaslr printk.time=3Dy - lkmc_e=
-val=3D\"/rand_check.out;/sbin/ifup -a;wget -S google.com;/poweroff.out;\"' \
-  -kernel 'out/x86_64/buildroot/images/bzImage' \
-  -nographic \
-  \
-  -drive file=3Dout/x86_64/buildroot/images/rootfs.ext2.qcow2,if=3Dnone,id=
-=3Dimg-direct,format=3Dqcow2 \
-  -drive driver=3Dblkreplay,if=3Dnone,image=3Dimg-direct,id=3Dimg-blkreplay=
- \
-  -device ide-hd,drive=3Dimg-blkreplay \
-  \
-  -netdev user,id=3Dnet1 \
-  -device rtl8139,netdev=3Dnet1 \
-  -object filter-replay,id=3Dreplay,netdev=3Dnet1 \
-  "
-  echo "$cmd"
-  eval "$cmd -icount 'shift=3D7,rr=3Drecord,rrfile=3Dreplay.bin'"
-  eval "$cmd -icount 'shift=3D7,rr=3Dreplay,rrfile=3Dreplay.bin'"
-  ```
-
-  This tries to stay as close as possible to the documented commands:
-  https://github.com/qemu/qemu/blob/08e173f29461396575c85510eb41474b993cb1f=
-b/docs/replay.txt#L28
-
-  Images uploaded to: https://github.com/cirosantilli/linux-kernel-
-  module-cheat/releases/download/test-replay-arm/images4.zip
-
-  Images generated with: https://github.com/cirosantilli/linux-kernel-
-  module-cheat/tree/9513c162ef57e6cb70006dfe870856f94ee9a133
-
-  The replay failed straight out with:
-
-  ```
-  ERROR:replay/replay-time.c:49:replay_read_clock: assertion failed: (repla=
-y_file && replay_mutex_locked())
-  ```
-
-  QEMU configure:
-
-  ```
-  ./configure --enable-debug --enable-trace-backends=3Dsimple --target-list=
-=3Dx86_64-softmmu
-  ```
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1762179/+subscriptions
+--=20
+Alex Benn=C3=A9e
 
