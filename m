@@ -2,59 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F2D82ADCAA
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 18:13:34 +0100 (CET)
-Received: from localhost ([::1]:35992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F6782ADCA3
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 18:11:12 +0100 (CET)
+Received: from localhost ([::1]:57872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcXD2-0003fa-Ny
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 12:13:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47114)
+	id 1kcXAl-0000rU-1f
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 12:11:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kcX3w-0004jC-8d
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 12:04:08 -0500
-Received: from mout.kundenserver.de ([212.227.17.13]:49527)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kcX3u-0007ZU-3S
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 12:04:07 -0500
-Received: from [192.168.100.1] ([82.252.154.198]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1N7yuz-1kG6FJ21Ol-0150jZ; Tue, 10 Nov 2020 18:03:58 +0100
-Subject: Re: [PATCH] linux-user: Prevent crash in epoll_ctl
-To: LemonBoy <thatlemon@gmail.com>, qemu-devel@nongnu.org
-References: <a244fa67-dace-abdb-995a-3198bd80fee8@gmail.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <d5d5d4b2-f07b-62b4-3604-4e6963ae68fa@vivier.eu>
-Date: Tue, 10 Nov 2020 18:03:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kcX6A-0006En-Ey
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 12:06:26 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:36071)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kcX5y-0008Ih-31
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 12:06:26 -0500
+Received: by mail-wm1-x331.google.com with SMTP id a65so3798660wme.1
+ for <qemu-devel@nongnu.org>; Tue, 10 Nov 2020 09:06:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QFqB4kS+HlHYFzREn9i9Q9WziWXHZrZtv1/LLsxdOTI=;
+ b=wO38cGEfooXVHBIhGAi+/QKL5CnwzO5JqEGojIdx+kHgtJvBnlddx24rFZJPe/ORuh
+ VOMacA7AwssjrcHK9bIb01wPMUsWwnaGNGdkqVh1FN9Yrb2BvQlfkbTCmf9+oII/SEra
+ /0HxW3/DDmTvauTzWCTV1L19OyQ7G5Xif/VMvLg2lotvfuQGShIpUtCI9fV3gHXsCNnT
+ XjDC7yeHwjfpHSmbrYYrsQiNSvU+oiSOJ2I9B1409YCQ/XSbO4aFIZ+W7rZvoFQ+hMjr
+ mzx1ChB22YtrKWJJXpsMygstlSpR9lzNn/fBv7AKamehBLdvgWjVjghWtlvmSOcwpsIY
+ Ct2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QFqB4kS+HlHYFzREn9i9Q9WziWXHZrZtv1/LLsxdOTI=;
+ b=DDGJbpOgTsojdQpaXFabBfefxuHPLXxTnj1QwOpdj6jXKNUp1GkUMH0oXm+gBJyNci
+ iuyAvf1oI2nJZDL6f0UHyfovxw7QHd8bW/1eJS6V9lacOs3SHeajwCogM5UMX5VkzV5p
+ aPp4pOOPckYnD6XkMS9GIvxOQTppzHjhHE2FrHM9HOk62qYrF8dSiqg4omoI38Gggwo5
+ FteLlXMxkg/Memubj/a8/i0yD/bwHAgnVcwz7LtLRKGEBwPHmckA7VoPtvpQpdB/fHYv
+ XG86Z+B6KjA6F0cTJdkROKook11y2XwKGY3fyNm4kCpdKUIxzHu1Anh5Ss3u3zuGO23+
+ +Jng==
+X-Gm-Message-State: AOAM531zAwRO/L9KeUfwjNJCD3m9jEBHnrfWZdpONmiJ9GdsQ+SPayTd
+ p1UT8uv1jbpoOpq3nGsjEJ7ybpC/4JIoug==
+X-Google-Smtp-Source: ABdhPJz3csT4cDLiCi9EJIWBi9RiF/9kN8luT/kFwSlg0NkKta8L6sVpxWjZRSONNVbUBpqKXuP/xw==
+X-Received: by 2002:a7b:ce0e:: with SMTP id m14mr47001wmc.17.1605027967044;
+ Tue, 10 Nov 2020 09:06:07 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id h4sm17334893wrq.3.2020.11.10.09.06.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Nov 2020 09:06:06 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-5.2 v2 0/4] hw/net/can/ctucan: fix Coverity and other
+ issues
+Date: Tue, 10 Nov 2020 17:06:00 +0000
+Message-Id: <20201110170604.5897-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <a244fa67-dace-abdb-995a-3198bd80fee8@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:aTtiw+ATN6CvUZ6kM8j5lVJnHYlREbdF3b8wL2vlctkAMhMCJsx
- 34UUB6wlWwHI+KqslQOPkK4O1U6wC1VaHMixAkPbUb99A9SsE/A0xKWfx0fifwRaMA1jkZA
- B9SOmA4mmn31CKQxjKCvFJVUbpC9sGV63mbF61ug81CNgPvQTTpJLVISYooRJDrULU3UDWK
- 3iaZo2ybF2AR0llgreb+A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:U02uwIrRbtE=:tKHCugEMWT0/TiaA/yJuSg
- tkmV/M2GSZ9epOvUKRnFdY4ObKt61mme9OVnVnjVNxdbxYGZR1LS+1Dxqj0ZBt84TOnXqDYsy
- HUhrSvnEBKcT0/JuURnQMYRo1tS+RY12lbvuyMHJxbm2QwowuT9+Y4E+ioLDijjzfiUik+Vkt
- CZi67aMeUEy9UXrnUf+hrDc/4V/HgZ7JbKLwapXH7oEYSl+4NCk6n8WuFwIC8WZeXGfnvwj9l
- nzd2b07Bw7CDTeUnULnOcLLlK5NQJX21lKGk7TtrBedcndkvJGwwWALrM/YovxAXsmn7FSaIX
- PAecu+Wbmmfqv0qsCdBVWi5YM6b5mXxPkbh+k1CVRgolROO1w7GfsRugU6/+KhVLFydh5b19d
- eVlyjmma71GMuVCuoQ6lxfezePfW+qIS62PtR6KT6CutAORA1Uo5mTvcYMiEI/5Aj2Zj/7rhl
- UyuwUR859g==
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 12:04:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,64 +84,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Jason Wang <jasowang@redhat.com>, Vikram Garhwal <fnu.vikram@xilinx.com>,
+ Pavel Pisa <pisa@cmp.felk.cvut.cz>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 17/04/2020 à 17:34, LemonBoy a écrit :
-> From 894bb5172705e46a3a04c93b4962c0f0cafee814 Mon Sep 17 00:00:00 2001
-> From: Giuseppe Musacchio <thatlemon@gmail.com>
-> Date: Fri, 17 Apr 2020 17:25:07 +0200
-> Subject: [PATCH] linux-user: Prevent crash in epoll_ctl
-> 
-> The `event` parameter is ignored by the kernel if `op` is EPOLL_CTL_DEL,
-> do the same and avoid returning EFAULT if garbage is passed instead of a
-> valid pointer.
-> 
-> Signed-off-by: Giuseppe Musacchio <thatlemon@gmail.com>
-> ---
->  linux-user/syscall.c | 26 +++++++++++++++++---------
->  1 file changed, 17 insertions(+), 9 deletions(-)
-> 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 674f70e70a..a51ff43f9b 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -12020,17 +12020,25 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
->          struct epoll_event ep;
->          struct epoll_event *epp = 0;
->          if (arg4) {
-> -            struct target_epoll_event *target_ep;
-> -            if (!lock_user_struct(VERIFY_READ, target_ep, arg4, 1)) {
-> -                return -TARGET_EFAULT;
-> +            if (arg2 != EPOLL_CTL_DEL) {
-> +                struct target_epoll_event *target_ep;
-> +                if (!lock_user_struct(VERIFY_READ, target_ep, arg4, 1)) {
-> +                    return -TARGET_EFAULT;
-> +                }
-> +                ep.events = tswap32(target_ep->events);
-> +                /*
-> +                 * The epoll_data_t union is just opaque data to the kernel,
-> +                 * so we transfer all 64 bits across and need not worry what
-> +                 * actual data type it is.
-> +                 */
-> +                ep.data.u64 = tswap64(target_ep->data.u64);
-> +                unlock_user_struct(target_ep, arg4, 0);
->              }
-> -            ep.events = tswap32(target_ep->events);
-> -            /* The epoll_data_t union is just opaque data to the kernel,
-> -             * so we transfer all 64 bits across and need not worry what
-> -             * actual data type it is.
-> +            /*
-> +             * before kernel 2.6.9, EPOLL_CTL_DEL operation required a
-> +             * non-null pointer, even though this argument is ignored.
-> +             *
->               */
-> -            ep.data.u64 = tswap64(target_ep->data.u64);
-> -            unlock_user_struct(target_ep, arg4, 0);
->              epp = &ep;
->          }
->          return get_errno(epoll_ctl(arg1, arg2, arg3, epp));
-> 
+This patchset fixes a couple of issues spotted by Coverity:
+ * incorrect address checks meant the guest could write off the
+   end of the tx_buffer arrays
+ * we had an unused value in ctucan_send_ready_buffers()
+and also some I noticed while reading the code:
+ * we don't adjust the device's non-portable use of bitfields
+   on bigendian hosts
+ * we should use stl_le_p() rather than casting uint_t* to
+   uint32_t*
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Tested with "make check" only.
+
+Changes v1->v2: don't assert() the can't-happen case in patch 1,
+to allow for future adjustment of #defines that correspond to
+h/w synthesis parameters.
+
+thanks
+ -- PMM
+
+Peter Maydell (4):
+  hw/net/can/ctucan: Don't allow guest to write off end of tx_buffer
+  hw/net/can/ctucan: Avoid unused value in ctucan_send_ready_buffers()
+  hw/net/can/ctucan_core: Handle big-endian hosts
+  hw/net/can/ctucan_core: Use stl_le_p to write to tx_buffers
+
+ hw/net/can/ctucan_core.h |  3 +--
+ hw/net/can/ctucan_core.c | 23 +++++++----------------
+ 2 files changed, 8 insertions(+), 18 deletions(-)
+
+-- 
+2.20.1
+
 
