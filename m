@@ -2,111 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A50A2AD277
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 10:29:20 +0100 (CET)
-Received: from localhost ([::1]:38434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DE2E2AD29E
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Nov 2020 10:39:39 +0100 (CET)
+Received: from localhost ([::1]:45522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcPxm-0003BQ-Tb
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 04:29:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50472)
+	id 1kcQ7l-00072k-La
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 04:39:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1kcPwV-0002kl-Dc
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 04:27:59 -0500
-Received: from mail-bn8nam11on2071.outbound.protection.outlook.com
- ([40.107.236.71]:59104 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1kcPwR-0001GR-TV
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 04:27:57 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UuKa9ra4QRK2i0rfMuoSmAUYrzZBNHSYN+pIhD6Wu1XUzg5Yk/gy2Ige6GPBETNLYhl0O7KgE3No5Xp4ye4OQc3vppHid2iT41i/K1wFkaXs7sgdQxlQL2gC//buw5I/GYGILGgUfHQOCIkz4MYjSNSyn6FkYm87WvDHptkASYqrdiS3g2L8axC2PJ1v3fvoe/2RTPC34CnwdV769VPiA3bnuAAM2+8ZCfMaFstvAmU4V2qb4BgoYmSFKSEjYxDl53KhNA8xTgiL/u3lJ4QVAi+cjOceWvCpSae6cU4P/tD6HdwNh5HQGYuajhkZkwRzEriKI/jXsYiIqXR8R0jgmw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OmUHvzl3pw43Y37cl6WwwvYBxr9ZFiymcs6YHdm3i0I=;
- b=jo0cjS1aBO1tRsLbCn041Pu8ZoM2bHJ7hokosxwlteJoEwW/r7DUy8PDGYDTLBkg3gV9BMjBjSfbUmnnCleubBaocYFKOEA1TT/TLyDz/a/kII6XbDziObbkh/q0aCoYac4efk23Ag9C8c/IDlfZpqUOdNUog8RlnZOQZlpff6/RGiipVt1dofxf2kpk5lJXfxKzJ16M3/W9ChZ2QKIfbak8wFx4aNfv0RnyczZlsVUkEKUAY+aDjk0hRbI03vcNipley5iX3vNhBLhfK+yt15d6PtmLrk4t6iZ0ID8l5J1sXFaKRXuh74Edzsd4APeAkZylMuXya4A8zFONkjjogQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
- dkim=pass header.d=xilinx.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OmUHvzl3pw43Y37cl6WwwvYBxr9ZFiymcs6YHdm3i0I=;
- b=QNZ4tRGKms2CiPYSZpqP92dOejcc7G2wplqPRb9GxRkWP5LGjQC6C1kT3oYWNBGLgUvBhYjg94mhK+ZhrKmFFZ3RhFPFSSZECgq+/T+U3RLReyg+A1YTrC7Fxcn/EMEf4Go6n+e8/CgRtvVPJ4rhYdeS3BDx6QTjhIpCJa2iQqQ=
-Received: from BY5PR02MB6772.namprd02.prod.outlook.com (2603:10b6:a03:206::11)
- by BY5PR02MB6276.namprd02.prod.outlook.com (2603:10b6:a03:1b5::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.23; Tue, 10 Nov
- 2020 09:27:52 +0000
-Received: from BY5PR02MB6772.namprd02.prod.outlook.com
- ([fe80::75ed:4271:263b:fd15]) by BY5PR02MB6772.namprd02.prod.outlook.com
- ([fe80::75ed:4271:263b:fd15%3]) with mapi id 15.20.3541.025; Tue, 10 Nov 2020
- 09:27:52 +0000
-From: Sai Pavan Boddu <saipava@xilinx.com>
-To: =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>, Peter
- Maydell <peter.maydell@linaro.org>, Markus Armbruster <armbru@redhat.com>,
- =?utf-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, Paolo
- Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, Edgar
- Iglesias <edgari@xilinx.com>, Francisco Eduardo Iglesias
- <figlesia@xilinx.com>, Alistair Francis <alistair.francis@wdc.com>, Eduardo
- Habkost <ehabkost@redhat.com>, Ying Fang <fangying1@huawei.com>, Vikram
- Garhwal <fnuv@xilinx.com>, Paul Zimmerman <pauldzim@gmail.com>
-Subject: RE: [PATCH v13 0/4] Add Versal usb model
-Thread-Topic: [PATCH v13 0/4] Add Versal usb model
-Thread-Index: AQHWty2HdOp1M5opqUSqk1plzrVo8KnA/90AgAAZHBA=
-Date: Tue, 10 Nov 2020 09:27:52 +0000
-Message-ID: <BY5PR02MB67725F99A3777D658F10B9D4CAE90@BY5PR02MB6772.namprd02.prod.outlook.com>
-References: <1604991130-12965-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <44ea4075-aac5-386f-52e4-832606870832@redhat.com>
-In-Reply-To: <44ea4075-aac5-386f-52e4-832606870832@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=xilinx.com;
-x-originating-ip: [149.199.50.128]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 01b516cf-99de-47fb-a574-08d8855ae5eb
-x-ms-traffictypediagnostic: BY5PR02MB6276:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BY5PR02MB6276013FB422ADD72B06DDC3CAE90@BY5PR02MB6276.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1443;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: zD8nhpahPUaYnyuqqOKVddlM78ZzlkVx7snJVQF7dbDbbLr/OPXVuPP2QQ72SgsCj0/KZGM8VGUGC38+oRp2dXmEe/LPqoITfaZOyHnbrqJTqwpXh3Cs0mLSY5aYbYKwMr0CTOQWwCFLR1Kp9tmhbPY4qk5pRxZFBupBWc23YScqzaDCVJxvyAtXp6pRwt+oPMlRgRFxLrsVinBEX2ecTSYVCKLgLvQBdQx7AL3pLvzj8mTFwXt7+G14Ki/V4UF/AyCmP6p/LaIGKcMKTpV/GPkfjNyyVWTUXyFlfIxBmVTPiL5fwTAei3zWkq/eXhC15IzfS0ZSKNDNL8QgAAFmHzC5WxbFIToSynRj66DnNoeKI/th/zfHYA0pnZ5fZEWy
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR02MB6772.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(366004)(346002)(396003)(136003)(376002)(66556008)(66446008)(64756008)(8676002)(110136005)(76116006)(316002)(66476007)(33656002)(26005)(83380400001)(2906002)(71200400001)(86362001)(55016002)(9686003)(478600001)(7416002)(4744005)(5660300002)(53546011)(66946007)(6506007)(8936002)(4326008)(186003)(52536014)(7696005)(921003);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: /VDO3cU3QizHUhL3q6PwfD6Q47IIK3RDozjMV/uKeMqZbrNbhLRZ7z76SGm0oNhUr73mXkqxkrGR0637ngBM+2xng3DDmuZ8M6jrbjKWcpCaOZYSPwl/2SMNc1/NTmbCRV+KO7xZUDxASmzydJEl6mV8t9eZY+QvAnnR+OJqv8GJ9Yruh/tHbgObsbgVN6jLubSf9Lz9FJIRAqBo4WRlm1O4EFmYUfnjgy9/tPbu+NLa/eliWofwyB5zy+y7V0TrowaXVcjyLpAxq1TJ4iwKp6XDelccb9pmou4EBc/WDRod9FdnRWgkoWmrY5f56jbRAQGXsTJX8YZoE7bnpU8YDRo5/hlyFoZIHXGMz3ox1ha3u36zLVumWcx0GOo1AONEt/b4+h7bEJBulcYSinLNwBas4Uqv5eVRCVXJNfhpvoSYSQ2kexLjL9phZi6tKwYI5MpWCfSgBP1/B/JMup9yI1McH/JDPDtDwRnsirWr8VXvi5jVnHzxzHCMxwBVMeDl/m0qn/CwddofZlvpRIjL5E+PdxAfWvCqmCOYs0r48c6251MoQ6QpaNI3fmSO7jUAV9UNDDxoPe1SyIcXCUlpkSgqvv5buVTW5D3GAYFAH4SnbLpQUXMBNU5INnNAdrnk6oAxkTnlhzmPjvRTQBPK9w==
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kcQ6X-0006b6-MD
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 04:38:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26777)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kcQ6U-0004wE-5X
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 04:38:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605001096;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=OlFHMt9OmwyzmJoZ+XhbbVz8IGer7Ok7M6pl2srBXO4=;
+ b=Ha40Z1l1fxYm79rx+ogefcr9XGhy1cRm9Igd72kw+nM1GVQR7EPgG2UcMWvJHvs8C4ic2V
+ b+YjNq24CmRJ7vUFNPIDxhMgzB15vvCyqpc+9kPS5VUwC8Qatwhb9w4KazdRtX2x1ZfD72
+ BA5FptqLuE6bUEP69lRTbjQng2flNOw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-591-Eg8c72t8PpmhvGLx5y3PSA-1; Tue, 10 Nov 2020 04:38:12 -0500
+X-MC-Unique: Eg8c72t8PpmhvGLx5y3PSA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D0F55720A;
+ Tue, 10 Nov 2020 09:38:10 +0000 (UTC)
+Received: from localhost (ovpn-114-36.ams2.redhat.com [10.36.114.36])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A67B96EF79;
+ Tue, 10 Nov 2020 09:37:58 +0000 (UTC)
+Date: Tue, 10 Nov 2020 09:37:57 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Subject: Re: [RFC v2] VFIO Migration
+Message-ID: <20201110093757.GB1080921@stefanha-x1.localdomain>
+References: <20201105150902.GA472489@stefanha-x1.localdomain>
+ <20201105165220.7ad2d1a6.cohuck@redhat.com>
 MIME-Version: 1.0
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB6772.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 01b516cf-99de-47fb-a574-08d8855ae5eb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Nov 2020 09:27:52.2398 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: VrDKzmbjZmKPGg5GW1lDZq2ORQdwzchGtjWktcbumBy3YQenkQNf0yujbiF7QXfVjC4Q8Yd1W6F02MUioSX/NQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR02MB6276
-Received-SPF: pass client-ip=40.107.236.71; envelope-from=saipava@xilinx.com;
- helo=NAM11-BN8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 04:27:54
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201105165220.7ad2d1a6.cohuck@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="f2QGlHpHGjS2mn6Y"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/10 02:00:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -119,28 +81,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: John G Johnson <john.g.johnson@oracle.com>, "Tian,
+ Kevin" <kevin.tian@intel.com>, mtsirkin@redhat.com,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ quintela@redhat.com, Jason Wang <jasowang@redhat.com>,
+ Felipe Franciosi <felipe@nutanix.com>, "Zeng, Xin" <xin.zeng@intel.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Kirti Wankhede <kwankhede@nvidia.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Christophe de Dinechin <dinechin@redhat.com>, Yan Zhao <yan.y.zhao@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SGkgUGhpbGlwcGUNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBQaGls
-aXBwZSBNYXRoaWV1LURhdWTDqSA8cGhpbG1kQHJlZGhhdC5jb20+DQo+IFNlbnQ6IFR1ZXNkYXks
-IE5vdmVtYmVyIDEwLCAyMDIwIDE6MjcgUE0NCj4gVG86IFNhaSBQYXZhbiBCb2RkdSA8c2FpcGF2
-YUB4aWxpbnguY29tPjsgUGV0ZXIgTWF5ZGVsbA0KPiA8cGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3Jn
-PjsgTWFya3VzIEFybWJydXN0ZXIgPGFybWJydUByZWRoYXQuY29tPjsNCj4gTWFyYy1BbmRyw6kg
-THVyZWF1IDxtYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5jb20+OyBQYW9sbyBCb256aW5pDQo+IDxw
-Ym9uemluaUByZWRoYXQuY29tPjsgR2VyZCBIb2ZmbWFubiA8a3JheGVsQHJlZGhhdC5jb20+OyBF
-ZGdhciBJZ2xlc2lhcw0KPiA8ZWRnYXJpQHhpbGlueC5jb20+OyBGcmFuY2lzY28gRWR1YXJkbyBJ
-Z2xlc2lhcyA8ZmlnbGVzaWFAeGlsaW54LmNvbT47IEFsaXN0YWlyDQo+IEZyYW5jaXMgPGFsaXN0
-YWlyLmZyYW5jaXNAd2RjLmNvbT47IEVkdWFyZG8gSGFia29zdA0KPiA8ZWhhYmtvc3RAcmVkaGF0
-LmNvbT47IFlpbmcgRmFuZyA8ZmFuZ3lpbmcxQGh1YXdlaS5jb20+OyBWaWtyYW0NCj4gR2FyaHdh
-bCA8Zm51dkB4aWxpbnguY29tPjsgUGF1bCBaaW1tZXJtYW4gPHBhdWxkemltQGdtYWlsLmNvbT47
-IFNhaQ0KPiBQYXZhbiBCb2RkdSA8c2FpcGF2YUB4aWxpbnguY29tPg0KPiBDYzogUUVNVSBEZXZl
-bG9wZXJzIDxxZW11LWRldmVsQG5vbmdudS5vcmc+DQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjEz
-IDAvNF0gQWRkIFZlcnNhbCB1c2IgbW9kZWwNCj4gDQo+IE9uIDExLzEwLzIwIDc6NTIgQU0sIFNh
-aSBQYXZhbiBCb2RkdSB3cm90ZToNCj4gPiBUaGlzIHBhdGNoIHNlcmllcyBhdHRlbXB0cyB0byBt
-YWtlICdoY2QteGhjaScgYW4gaW5kZXBlbmRlbnQgbW9kZWwgc28gaXQgY2FuDQo+IGJlIHVzZWQg
-YnkgYm90aCBwY2kgYW5kIHN5c3RlbS1idXMgaW50ZXJmYWNlLg0KPiANCj4gVGhpcyBwYXJ0IGdv
-dCBtZXJnZWQgYWxyZWFkeS4uLg0KW1NhaSBQYXZhbiBCb2RkdV0gWWVhaCwgdGhpcyBsaW5lIG5l
-ZWRzIHRvIGJlIHJlbW92ZWQgY292ZXIuDQoNClJlZ2FyZHMsDQpTYWkgUGF2YW4NCg==
+--f2QGlHpHGjS2mn6Y
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Nov 05, 2020 at 04:52:20PM +0100, Cornelia Huck wrote:
+> On Thu, 5 Nov 2020 15:09:02 +0000
+> Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>=20
+> (...)
+>=20
+> <did not fully read through the v1 thread, so apologies if I missed
+> something>
+>=20
+> > VFIO/mdev Devices
+> > -----------------
+> > TODO this is a first draft, more thought needed around enumerating supp=
+orted
+> > parameters, representing default values, etc
+> >=20
+> > The following mdev type sysfs attrs are available for managing device
+> > instances:
+> >=20
+> >   /sys/.../<parent-device>/mdev_supported_types/<type-id>/
+> >       create - writing a UUID to this file instantiates a device
+> >       migration/ - migration related files
+> >           model - unique device model string, e.g. vendor-a.com/my-nic
+> >=20
+> > Device models supported by an mdev driver can be enumerated by reading =
+the
+> > migration/model attr for each <type-id>.
+>=20
+> IIUC, we're grouping together all users of a specific mdev_type, but
+> support a variety of sub-configurations? Does that include parameters
+> or not? If not, shouldn't we already be covered by mdev_type?
+
+I will include an explanation of how mdev types relate to migration
+parameters in the next revision of this document.
+
+> >=20
+> > The following mdev device sysfs attrs relate to a specific device insta=
+nce:
+> >=20
+> >   /sys/.../<parent-device>/<uuid>/
+> >       mdev_type/ - symlink to mdev type sysfs attrs, e.g. to fetch migr=
+ation/model
+> >       migration/ - migration related files
+> >           applied - Write "1" to apply current migration parameter valu=
+es or
+> >                     "0" to reset migration parameter values to their de=
+faults.
+> >                     Parameters can only be applied or reset while the m=
+dev is
+> >                     not opened.
+> >           params/ - migration parameters
+> >               <my-param> - read/write migration parameter "my-param"
+> >               ...
+> >=20
+> > When the device is created the migration/applied attr is "0". Migration
+> > parameters are accessible in migration/params/ and read 0 bytes because=
+ they
+> > are at their default values.  At the point opening the mdev device will=
+ fail
+> > because migration parameters must be applied first. Migration parameter=
+s can be
+> > set to the desired values or left at their defaults. "1" must be writte=
+n to
+> > migration/applied before opening the mdev device.
+> >=20
+> > If writing to a migration/params/<param> attr or setting migration/appl=
+ied to
+> > "1" fails, then the device implementation does not support the migratio=
+n
+> > parameters.
+> >=20
+> > An open mdev device typically does not allow migration parameters to be=
+ changed
+> > at runtime. However, certain migration/params attrs may allow writes at
+> > runtime. Usually these migration parameters only affect the device stat=
+e
+> > representation and not the hardware interface. This makes it possible t=
+o
+> > upgrade or downgrade the device state representation at runtime so that
+> > migration is possible to newer or older device implementations.
+> >=20
+> > An existing mdev device instance can be reused by closing the mdev devi=
+ce and
+> > writing "0" to migration/applied. This resets parameters to their defau=
+lts so
+> > that a new list of migration parameters can be applied.
+> >=20
+> > The migration parameter list for an mdev device that is in operation ca=
+n be
+> > read from migration/params/. Parameters that read 0 bytes are at their =
+default
+> > value.
+>=20
+> I'm trying to figure out what that means for the mdevs I'm most
+> familiar with, ccw and ap. Both of them currently support a single
+> mdev_type.
+>=20
+> For ccw, there are some things that I could imagine as parameters, like
+> the device number, or channel paths. Maybe we could include the channel
+> path type (FICON, ...) in the migration device model? We should not
+> include device numbers etc. in the device model.
+
+That sounds good. Usually the host-specifics (which host device number
+is being passed through) are not guest-visible and shouldn't be
+migration parameters. Anything that affects the guest-visible hardware
+interface or device state representation needs to be a migration
+parameter.
+
+> For ap, we have matrices covering tuples (APQNs) derived from a
+> cross-product of card/domains configure via sysfs attributes. I think
+> later modification of these is desired. I think we also might be able
+> to mix-and-match different types within the same matrix, so not sure if
+> we can put these into any device model. In fact, I'm a bit at a loss
+> how the device model for ap would look like (other than simply
+> 'matrix'). Can we deal with dynamic parameters?
+
+Migration parameters are static. If you might need migration parameters
+foo1, foo2, foo3, foo4, foo5 at runtime then they can be defined
+statically but default to off.
+
+Also, this migration compatibility scheme is progressive rather than a
+binary "full compatibility checking" vs "no compatibility checking"
+choice. QEMU relies on the user or management tool to set up compatible
+source and destinations with a few sanity checks in cases where QEMU
+developers thought it was helpful. So QEMU is somewhere in the middle of
+the spectrum. I'm not trying to force anyone to express everything in
+migration parameters. Public device models (e.g. if we device one for
+virtio-net-pci) will probably be towards the "full compatibility
+checking" side of the spectrum so that variations between device
+implementations can be detected and handled. A proprietary device model
+might be fine with just a single hardware-revision=3DN parameter that is
+incremented every time something changes. It can be as simple or complex
+as needed.
+
+Stefan
+
+--f2QGlHpHGjS2mn6Y
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+qX3UACgkQnKSrs4Gr
+c8g4Ugf9F2bIzpyzaO6G6UdOSj4smn/en2SSr5jIvtdGd1T4bJrBC/LpREBb8sej
+ep+L4t2fvz7zioVwM2KJQM+u4U2uH899K+YtbksA8VuC+YE3jP6zl9vDpqzQ9KS5
+GWsS+UJZlgLeYi29Nd/0xwAd5kY+3AaZn8tWp5lsrnwDr05h79Y7Rnw6u3MXL2An
++5wXqmtzj0ddkRKO2+rmBqm3UySg5ECBsKg50ecYuBMexeKer2MTOai9yHfBSVqL
+BMi/Bh3hbuK4b/DA4zr8YxVVYUQCKhqUjQtGgNmspZrbIK0kks/6INuBYaUXTHM7
+NLFhKqCbVvODuy717SET73YO+8JItg==
+=6R4A
+-----END PGP SIGNATURE-----
+
+--f2QGlHpHGjS2mn6Y--
+
 
