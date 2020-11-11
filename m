@@ -2,74 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4135D2AF012
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 12:54:19 +0100 (CET)
-Received: from localhost ([::1]:59526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C43C2AF022
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 12:56:03 +0100 (CET)
+Received: from localhost ([::1]:33700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcohe-0003Zk-Cn
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 06:54:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55508)
+	id 1kcojK-0004hd-HT
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 06:56:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kcogJ-0002qS-Ii
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 06:52:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25632)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcoi6-00043e-Vk
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 06:54:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39273)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kcogH-00015M-It
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 06:52:55 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcoi4-0001iJ-Mg
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 06:54:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605095572;
+ s=mimecast20190719; t=1605095683;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JvJ9UYVvBMHYxNHGV0226G7aL46gPddTWiB7UVbafGk=;
- b=B2wJugf4LkMdp6xpV4UTQX5y8XO2IGqKeSlRzYyLSfn6VJrXnSbhtTimogSU+4ZSnohI+N
- KBuHf5grHAJOPMK/tpn/xF9oevIKbdOTD4YztK0txJudAviRHbit9AFfNXKnvLVUdTKlR9
- /Ju/FWkiy30Gh0IVLLVBzPPZaPBa904=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-235-3fOYmwW_N5u5YkqQFMTROQ-1; Wed, 11 Nov 2020 06:52:50 -0500
-X-MC-Unique: 3fOYmwW_N5u5YkqQFMTROQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2162E8015AD;
- Wed, 11 Nov 2020 11:52:49 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.29])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9F5C9100239F;
- Wed, 11 Nov 2020 11:52:43 +0000 (UTC)
-Date: Wed, 11 Nov 2020 12:52:42 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH  v1 07/10] hw/i386/acpi-build: Fix maybe-uninitialized
- error when ACPI hotplug off
-Message-ID: <20201111125242.17d16055@redhat.com>
-In-Reply-To: <20201110192316.26397-8-alex.bennee@linaro.org>
-References: <20201110192316.26397-1-alex.bennee@linaro.org>
- <20201110192316.26397-8-alex.bennee@linaro.org>
+ bh=NOacHf3jSxbq79uqm04+cc7EIxgwvAwPR2wOJugL044=;
+ b=GUgs0kcWfBcx6RuR0A2Ut0QK4+5YIP/maT3YPeVxZqwHAHQ8+78ZuHV2qhAPwoBOQMSu03
+ oCGahpyhFygBv0XS5SzzkWi1pMJqdpTtKh784IbjoezZkIBlGHjWPyeAXrkiYV53KgMhG4
+ NULEigwXYzjDAC4kLcU4k302uMppW8E=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-94-NGN917EAM96KWkWSZ7mrwA-1; Wed, 11 Nov 2020 06:54:42 -0500
+X-MC-Unique: NGN917EAM96KWkWSZ7mrwA-1
+Received: by mail-wm1-f71.google.com with SMTP id u207so806904wmu.4
+ for <qemu-devel@nongnu.org>; Wed, 11 Nov 2020 03:54:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=NOacHf3jSxbq79uqm04+cc7EIxgwvAwPR2wOJugL044=;
+ b=ZK6KXdt4iOp16gBIPxZbmsvmM6fMmH0p4ao22Mqm93EALGwPOvRNIhW/cY2/bhZmVh
+ mDuFpt0PhmtYMJB9PHPRLMf980g8+EO0vxCAhlvWHQA18e1aD4JgYt9r8fFJtaq8LYka
+ ul0nsajN0DIbOkdG1IwJ/pc4VXKALe5nuNMNXzyjXRPVzzG2ZOhAWxrkuB7NMimK7sVr
+ iC26Uhxe46DXu9nVOmGHEM0H3ZtOpS4Z1BygLsX9cJt/b+jLHrFDF2V0dfSaSWN700bo
+ rQJCmtEKo3jvE6zaOVTsiekB8LbS04sjC2CT2TckFEo2VFiFr3OVgw0cwsKAK5zrexjn
+ hy/g==
+X-Gm-Message-State: AOAM53237oYI6NeE79TUlj7KdjuE6KYH1rYe5Gx1RGDhUOIHqlqDB3PA
+ ivHpMipAoP7SlOxIWMomhaQkoiOCgZQZgUo6kYhhUMhySC2HwNiaXB2E+5pyZxPRCWan3X5/y4Q
+ bq87VQIZhCsgFJuE=
+X-Received: by 2002:a7b:c247:: with SMTP id b7mr3584317wmj.97.1605095680976;
+ Wed, 11 Nov 2020 03:54:40 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxa4+IVnFea96Mug3aT7sh80HUCNvRG/pfIOP/HyZu3eBM+4kVhBaxPU2Nk9f9WIGS1k07xRQ==
+X-Received: by 2002:a7b:c247:: with SMTP id b7mr3584282wmj.97.1605095680740;
+ Wed, 11 Nov 2020 03:54:40 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id x6sm2395045wmc.48.2020.11.11.03.54.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 Nov 2020 03:54:40 -0800 (PST)
+Subject: Re: [PATCH 1/3] meson: move vhost_user_blk_server to meson.build
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20201110171121.1265142-1-stefanha@redhat.com>
+ <20201110171121.1265142-2-stefanha@redhat.com>
+ <ad4be626-c950-6131-adc3-369f9a405ad4@redhat.com>
+ <d064bee7-7a46-761b-97e2-71df8fba6bab@redhat.com>
+Message-ID: <c23c7d03-4165-bf11-e730-ffcc53ebd718@redhat.com>
+Date: Wed, 11 Nov 2020 12:54:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <d064bee7-7a46-761b-97e2-71df8fba6bab@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 01:49:01
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 01:42:46
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,112 +102,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 10 Nov 2020 19:23:13 +0000
-Alex Benn=C3=A9e <alex.bennee@linaro.org> wrote:
+On 11/11/20 12:44 PM, Philippe Mathieu-Daudé wrote:
+> On 11/11/20 10:41 AM, Philippe Mathieu-Daudé wrote:
+>> On 11/10/20 6:11 PM, Stefan Hajnoczi wrote:
+>>> The --enable/disable-vhost-user-blk-server options were implemented in
+>>> ./configure. There has been confusion about them and part of the problem
+>>> is that the shell syntax used for setting the default value is not easy
+>>> to read. Move the option over to meson where the conditions are easier
+>>> to understand:
+>>>
+>>>   have_vhost_user_blk_server = (targetos == 'linux')
+>>>
+>>>   if get_option('vhost_user_blk_server').enabled()
+>>>       if targetos != 'linux'
+>>>           error('vhost_user_blk_server requires linux')
+>>>       endif
+>>>   elif get_option('vhost_user_blk_server').disabled() or not have_system
+>>>       have_vhost_user_blk_server = false
+>>>   endif
+>>
+>> Something is odd:
+>>
+>> $ ../configure --disable-system --enable-vhost-user-blk-server
+> 
+> I failed when pasting, this misses '--disable-tools' to make sense.
+> 
+> We define in meson.build:
+> 
+>   have_block = have_system or have_tools
+> 
+> Maybe this is the one you want instead of have_system?
 
-> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->=20
-> GCC 9.3.0 thinks that 'method' can be left uninitialized. This code
-> is already in the "if (bsel || pcihp_bridge_en)" block statement,
-> but it isn't smart enough to figure it out.
->=20
-> Restrict the code to be used only in the "if (bsel || pcihp_bridge_en)"
-> block statement to fix (on Ubuntu):
->=20
->   ../hw/i386/acpi-build.c: In function 'build_append_pci_bus_devices':
->   ../hw/i386/acpi-build.c:496:9: error: 'method' may be used uninitialize=
-d
->   in this function [-Werror=3Dmaybe-uninitialized]
->     496 |         aml_append(parent_scope, method);
->         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->   cc1: all warnings being treated as errors
->=20
-> Fixes: df4008c9c59 ("piix4: don't reserve hw resources when hotplug is of=
-f globally")
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Message-Id: <20201108204535.2319870-4-philmd@redhat.com>
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+This snippet seems to fix:
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+-- >8 --
+--- a/meson.build
++++ b/meson.build
+@@ -751,6 +751,10 @@
 
-> ---
->  hw/i386/acpi-build.c | 41 +++++++++++++++++++----------------------
->  1 file changed, 19 insertions(+), 22 deletions(-)
->=20
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index 4f66642d88..1f5c211245 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -465,34 +465,31 @@ static void build_append_pci_bus_devices(Aml *paren=
-t_scope, PCIBus *bus,
->       */
->      if (bsel || pcihp_bridge_en) {
->          method =3D aml_method("PCNT", 0, AML_NOTSERIALIZED);
-> -    }
-> -    /* If bus supports hotplug select it and notify about local events *=
-/
-> -    if (bsel) {
-> -        uint64_t bsel_val =3D qnum_get_uint(qobject_to(QNum, bsel));
-> =20
-> -        aml_append(method, aml_store(aml_int(bsel_val), aml_name("BNUM")=
-));
-> -        aml_append(method,
-> -            aml_call2("DVNT", aml_name("PCIU"), aml_int(1) /* Device Che=
-ck */)
-> -        );
-> -        aml_append(method,
-> -            aml_call2("DVNT", aml_name("PCID"), aml_int(3)/* Eject Reque=
-st */)
-> -        );
-> -    }
-> +        /* If bus supports hotplug select it and notify about local even=
-ts */
-> +        if (bsel) {
-> +            uint64_t bsel_val =3D qnum_get_uint(qobject_to(QNum, bsel));
-> =20
-> -    /* Notify about child bus events in any case */
-> -    if (pcihp_bridge_en) {
-> -        QLIST_FOREACH(sec, &bus->child, sibling) {
-> -            int32_t devfn =3D sec->parent_dev->devfn;
-> +            aml_append(method, aml_store(aml_int(bsel_val), aml_name("BN=
-UM")));
-> +            aml_append(method, aml_call2("DVNT", aml_name("PCIU"),
-> +                                         aml_int(1))); /* Device Check *=
-/
-> +            aml_append(method, aml_call2("DVNT", aml_name("PCID"),
-> +                                         aml_int(3))); /* Eject Request =
-*/
-> +        }
-> =20
-> -            if (pci_bus_is_root(sec) || pci_bus_is_express(sec)) {
-> -                continue;
-> -            }
-> +        /* Notify about child bus events in any case */
-> +        if (pcihp_bridge_en) {
-> +            QLIST_FOREACH(sec, &bus->child, sibling) {
-> +                int32_t devfn =3D sec->parent_dev->devfn;
-> +
-> +                if (pci_bus_is_root(sec) || pci_bus_is_express(sec)) {
-> +                    continue;
-> +                }
-> =20
-> -            aml_append(method, aml_name("^S%.02X.PCNT", devfn));
-> +                aml_append(method, aml_name("^S%.02X.PCNT", devfn));
-> +            }
->          }
-> -    }
-> =20
-> -    if (bsel || pcihp_bridge_en) {
->          aml_append(parent_scope, method);
->      }
->      qobject_unref(bsel);
+ has_statx = cc.links(statx_test)
+
++if 'CONFIG_VHOST_USER' in config_host and not (have_system or have_tools)
++    error('vhost-user does not make sense without system or tools
+support enabled')
++endif
++
+ have_vhost_user_blk_server = (targetos == 'linux' and
+     'CONFIG_VHOST_USER' in config_host)
+
+---
+
+$ ../configure --disable-system --enable-vhost-user-blk-server
+../source/qemu/meson.build:755:4: ERROR: Problem encountered: vhost-user
+does not make sense without system or tools support enabled
+
+I'll send a patch.
+
+Phil.
 
 
