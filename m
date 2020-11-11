@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9C7D2AE870
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 06:51:41 +0100 (CET)
-Received: from localhost ([::1]:52576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 050D02AE878
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 06:53:52 +0100 (CET)
+Received: from localhost ([::1]:60812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcj2i-0000wc-MV
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 00:51:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56246)
+	id 1kcj4o-0004L7-0L
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 00:53:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1kciz8-0004fb-Mt
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 00:47:58 -0500
-Received: from mga14.intel.com ([192.55.52.115]:60768)
+ id 1kcizC-0004pD-ED
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 00:48:02 -0500
+Received: from mga14.intel.com ([192.55.52.115]:60780)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1kciz6-0008O5-QW
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 00:47:58 -0500
-IronPort-SDR: e9v0SJGW3Rwoh0+EBsVXb88M8lludKTzuFJ63GeBVdcO1U0YwwnjukQpBcKvVEeh70kJnDiwFf
- 0M+N8htzFlBw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9801"; a="169314678"
-X-IronPort-AV: E=Sophos;i="5.77,468,1596524400"; d="scan'208";a="169314678"
+ id 1kciz8-0008P5-PD
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 00:48:02 -0500
+IronPort-SDR: vOEg+a3c1urAHXvWiRsFTYLFqVrbWpsS3fFCiA4I1Bc/fKetDAJP3tOeTDjZ5dwVa6UjlybriN
+ HsDqKgwcu2Gw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9801"; a="169314679"
+X-IronPort-AV: E=Sophos;i="5.77,468,1596524400"; d="scan'208";a="169314679"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2020 21:47:34 -0800
-IronPort-SDR: p/I+kcfY6e66LPBnsEyEJvcHXFaLPcvO2Kim+eX68cjob/v19k43LFNl7gH67b7Fgllh90vb6z
- soFYsFsCQglA==
-X-IronPort-AV: E=Sophos;i="5.77,468,1596524400"; d="scan'208";a="308710439"
+ 10 Nov 2020 21:47:35 -0800
+IronPort-SDR: biBNj9Pu6L7s75tlZfPeOqoykn0v6lR7iuCspyhX4kFk78S2UIpW0sO0e5FVTcTQ/bpiGz+g/X
+ NnJh0ypkz72w==
+X-IronPort-AV: E=Sophos;i="5.77,468,1596524400"; d="scan'208";a="308710448"
 Received: from hccoutan-mobl1.amr.corp.intel.com (HELO bwidawsk-mobl5.local)
  ([10.252.131.159])
  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2020 21:47:33 -0800
+ 10 Nov 2020 21:47:34 -0800
 From: Ben Widawsky <ben.widawsky@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 12/25] acpi/pci: Consolidate host bridge setup
-Date: Tue, 10 Nov 2020 21:47:11 -0800
-Message-Id: <20201111054724.794888-13-ben.widawsky@intel.com>
+Subject: [RFC PATCH 13/25] hw/pci: Plumb _UID through host bridges
+Date: Tue, 10 Nov 2020 21:47:12 -0800
+Message-Id: <20201111054724.794888-14-ben.widawsky@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201111054724.794888-1-ben.widawsky@intel.com>
 References: <20201111054724.794888-1-ben.widawsky@intel.com>
@@ -74,79 +74,180 @@ Cc: Ben Widawsky <ben.widawsky@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This cleanup will make it easier to add support for CXL to the mix.
+Currently, QEMU makes _UID equivalent to the bus number (_BBN). While
+there is nothing wrong with doing it this way, CXL spec has a heavy
+reliance on _UID to identify host bridges and there is no link to the
+bus number. Having a distinct UID solves two problems. The first is it
+gets us around the limitation of 256 (current max bus number). The
+second is it allows us to replicate hardware configurations where bus
+number and uid aren't equivalent. The latter has benefits for our
+development and debugging using QEMU.
+
+The other way to do this would be to implement the expanded bus
+numbering, but having an explicit uid makes more sense when trying to
+replicate real hardware configurations.
+
+The QEMU commandline to utilize this would be:
+  -device pxb-cxl,id=cxl.0,bus="pcie.0",bus_nr=1,uid=x
 
 Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+
+--
+
+I'm guessing this patch will be somewhat controversial. For early CXL
+work, this can be dropped without too much heartache.
 ---
- hw/i386/acpi-build.c | 31 +++++++++++++++++--------------
- 1 file changed, 17 insertions(+), 14 deletions(-)
+ hw/i386/acpi-build.c                |  3 ++-
+ hw/pci-bridge/pci_expander_bridge.c | 19 +++++++++++++++++++
+ hw/pci/pci.c                        | 11 +++++++++++
+ include/hw/pci/pci.h                |  1 +
+ include/hw/pci/pci_bus.h            |  1 +
+ 5 files changed, 34 insertions(+), 1 deletion(-)
 
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 4f66642d88..99b3088c9e 100644
+index 99b3088c9e..aaed7da7dc 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -1486,6 +1486,20 @@ static void build_smb0(Aml *table, I2CBus *smbus, int devnr, int func)
-     aml_append(table, scope);
- }
+@@ -1634,6 +1634,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+         QLIST_FOREACH(bus, &bus->child, sibling) {
+             uint8_t bus_num = pci_bus_num(bus);
+             uint8_t numa_node = pci_bus_numa_node(bus);
++            int32_t uid = pci_bus_uid(bus);
  
-+enum { PCI, PCIE };
-+static void init_pci_acpi(Aml *dev, int uid, int type)
-+{
-+    if (type == PCI) {
-+        aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
-+        aml_append(dev, aml_name_decl("_UID", aml_int(uid)));
-+    } else {
-+        aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
-+        aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
-+        aml_append(dev, aml_name_decl("_UID", aml_int(uid)));
-+        aml_append(dev, build_q35_osc_method());
-+    }
-+}
-+
- static void
- build_dsdt(GArray *table_data, BIOSLinker *linker,
-            AcpiPmInfo *pm, AcpiMiscInfo *misc,
-@@ -1514,9 +1528,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-     if (misc->is_piix4) {
-         sb_scope = aml_scope("_SB");
-         dev = aml_device("PCI0");
--        aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
-+        init_pci_acpi(dev, 0, PCI);
-         aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
--        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
-         aml_append(sb_scope, dev);
-         aml_append(dsdt, sb_scope);
- 
-@@ -1530,11 +1543,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-     } else {
-         sb_scope = aml_scope("_SB");
-         dev = aml_device("PCI0");
--        aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
--        aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
-+        init_pci_acpi(dev, 0, PCIE);
-         aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
--        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
--        aml_append(dev, build_q35_osc_method());
-         aml_append(sb_scope, dev);
- 
-         if (pm->smi_on_cpuhp) {
-@@ -1636,15 +1646,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
- 
+             /* look only for expander root buses */
+             if (!pci_bus_is_root(bus)) {
+@@ -1647,7 +1648,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
              scope = aml_scope("\\_SB");
              dev = aml_device("PC%.02X", bus_num);
--            aml_append(dev, aml_name_decl("_UID", aml_int(bus_num)));
              aml_append(dev, aml_name_decl("_BBN", aml_int(bus_num)));
--            if (pci_bus_is_express(bus)) {
--                aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
--                aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
--                aml_append(dev, build_q35_osc_method());
--            } else {
--                aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
--            }
-+            init_pci_acpi(dev, bus_num, pci_bus_is_express(bus) ? PCIE : PCI);
+-            init_pci_acpi(dev, bus_num, pci_bus_is_express(bus) ? PCIE : PCI);
++            init_pci_acpi(dev, uid, pci_bus_is_express(bus) ? PCIE : PCI);
  
              if (numa_node != NUMA_NODE_UNASSIGNED) {
                  aml_append(dev, aml_name_decl("_PXM", aml_int(numa_node)));
+diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
+index 3a8d815231..d5b43a8a31 100644
+--- a/hw/pci-bridge/pci_expander_bridge.c
++++ b/hw/pci-bridge/pci_expander_bridge.c
+@@ -67,6 +67,7 @@ struct PXBDev {
+ 
+     uint8_t bus_nr;
+     uint16_t numa_node;
++    int32_t uid;
+ };
+ 
+ static PXBDev *convert_to_pxb(PCIDevice *dev)
+@@ -98,12 +99,20 @@ static uint16_t pxb_bus_numa_node(PCIBus *bus)
+     return pxb->numa_node;
+ }
+ 
++static int32_t pxb_bus_uid(PCIBus *bus)
++{
++    PXBDev *pxb = convert_to_pxb(bus->parent_dev);
++
++    return pxb->uid;
++}
++
+ static void pxb_bus_class_init(ObjectClass *class, void *data)
+ {
+     PCIBusClass *pbc = PCI_BUS_CLASS(class);
+ 
+     pbc->bus_num = pxb_bus_num;
+     pbc->numa_node = pxb_bus_numa_node;
++    pbc->uid = pxb_bus_uid;
+ }
+ 
+ static const TypeInfo pxb_bus_info = {
+@@ -329,6 +338,7 @@ static Property pxb_dev_properties[] = {
+     /* Note: 0 is not a legal PXB bus number. */
+     DEFINE_PROP_UINT8("bus_nr", PXBDev, bus_nr, 0),
+     DEFINE_PROP_UINT16("numa_node", PXBDev, numa_node, NUMA_NODE_UNASSIGNED),
++    DEFINE_PROP_INT32("uid", PXBDev, uid, -1),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+@@ -400,12 +410,21 @@ static const TypeInfo pxb_pcie_dev_info = {
+ 
+ static void pxb_cxl_dev_realize(PCIDevice *dev, Error **errp)
+ {
++    PXBDev *pxb = convert_to_pxb(dev);
++
+     /* A CXL PXB's parent bus is still PCIe */
+     if (!pci_bus_is_express(pci_get_bus(dev))) {
+         error_setg(errp, "pxb-cxl devices cannot reside on a PCI bus");
+         return;
+     }
+ 
++    if (pxb->uid < 0) {
++        error_setg(errp, "pxb-cxl devices must have a valid uid (0-2147483647)");
++        return;
++    }
++
++    /* FIXME: Check that uid doesn't collide with UIDs of other host bridges */
++
+     pxb_dev_realize_common(dev, CXL, errp);
+ }
+ 
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 67eed889a4..f728975d32 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -168,6 +168,11 @@ static uint16_t pcibus_numa_node(PCIBus *bus)
+     return NUMA_NODE_UNASSIGNED;
+ }
+ 
++static int32_t pcibus_uid(PCIBus *bus)
++{
++    return -1;
++}
++
+ static void pci_bus_class_init(ObjectClass *klass, void *data)
+ {
+     BusClass *k = BUS_CLASS(klass);
+@@ -182,6 +187,7 @@ static void pci_bus_class_init(ObjectClass *klass, void *data)
+ 
+     pbc->bus_num = pcibus_num;
+     pbc->numa_node = pcibus_numa_node;
++    pbc->uid = pcibus_uid;
+ }
+ 
+ static const TypeInfo pci_bus_info = {
+@@ -528,6 +534,11 @@ int pci_bus_numa_node(PCIBus *bus)
+     return PCI_BUS_GET_CLASS(bus)->numa_node(bus);
+ }
+ 
++int pci_bus_uid(PCIBus *bus)
++{
++    return PCI_BUS_GET_CLASS(bus)->uid(bus);
++}
++
+ static int get_pci_config_device(QEMUFile *f, void *pv, size_t size,
+                                  const VMStateField *field)
+ {
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index 52267ff69e..7a7b3da4df 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -462,6 +462,7 @@ static inline int pci_dev_bus_num(const PCIDevice *dev)
+ }
+ 
+ int pci_bus_numa_node(PCIBus *bus);
++int pci_bus_uid(PCIBus *bus);
+ void pci_for_each_device(PCIBus *bus, int bus_num,
+                          void (*fn)(PCIBus *bus, PCIDevice *d, void *opaque),
+                          void *opaque);
+diff --git a/include/hw/pci/pci_bus.h b/include/hw/pci/pci_bus.h
+index eb94e7e85c..3c9fbc55bb 100644
+--- a/include/hw/pci/pci_bus.h
++++ b/include/hw/pci/pci_bus.h
+@@ -17,6 +17,7 @@ struct PCIBusClass {
+ 
+     int (*bus_num)(PCIBus *bus);
+     uint16_t (*numa_node)(PCIBus *bus);
++    int32_t (*uid)(PCIBus *bus);
+ };
+ 
+ enum PCIBusFlags {
 -- 
 2.29.2
 
