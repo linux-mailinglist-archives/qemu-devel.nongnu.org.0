@@ -2,76 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66F592AF5C3
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 17:06:27 +0100 (CET)
-Received: from localhost ([::1]:50890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDC0C2AF5E9
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 17:13:21 +0100 (CET)
+Received: from localhost ([::1]:36660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcsde-0007vC-96
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 11:06:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60764)
+	id 1kcskK-0005nq-Uq
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 11:13:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kcsY6-00058i-71
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 11:00:42 -0500
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:33261)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kcsi0-0004WB-HW
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 11:10:56 -0500
+Received: from indium.canonical.com ([91.189.90.7]:59798)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kcsY3-0001jQ-48
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 11:00:41 -0500
-Received: by mail-ej1-x641.google.com with SMTP id 7so3475493ejm.0
- for <qemu-devel@nongnu.org>; Wed, 11 Nov 2020 08:00:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iSpQgY8RPpCUDE0FaB35TKt9/mG17cZNz3XZmf1OAmI=;
- b=McrajkfRsp2Q7X6qJqwxIg0MdvbqROIILOP9z5/3hRg9GRVzFCJVNovUar+gvutmLl
- Xdg6782Y6+dzmmKhv1wI73FPzSJyilaHI9IA7Jukp0BcsR0hOg/U8jScJJieaqc6GDzS
- 2siXpEzkdKoXBg+16JJuII3Wia6sfImbFdc1seuAwd9ylQ5CupBz8FiFK51GBQxhieCg
- LPHIj7WNbR6fmwCqr4emQueMcutUW2py8J5Fh2qBXdjukq4DJhuEYV0SZsSRj9KmVrZK
- 5GdPprU6sHPAW+nUhERswSz2XBreSDxFca2YcGTl6OB/g6hhngBFCJD140QYzQ2OxjYm
- 6hrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iSpQgY8RPpCUDE0FaB35TKt9/mG17cZNz3XZmf1OAmI=;
- b=TROYS1W+vQBilj8P3Zydzx6GLHCHVQO2KeDfWCI0e5S+I4H0kq90MVonAxAzqSIguB
- zN+XU886peNRDfU2zU/o0lwjVGQaE2wCzrE5uYJ6w+W2m46Gzn/muqDXI8OwjkWyHJdU
- VollWN50jEIYnHJsO6TO/j5u04V1BNdsHtCO6RfK4S6rR/hZJj01+2M4F2FjFUYaONGV
- mrf6cnILYfUXpsqPtMyVEuzsNm29efZxQXW4yQDMWRljJMG0jsIALpsvZw33iVBlGUf9
- w5IAFdwWR5YSSC+FrCHrPiULuvP/uVn3W/2zvVhwmGdDqQf8UirzhgbtcqR8GUZeQutP
- AaNQ==
-X-Gm-Message-State: AOAM533t06jh2rcYHhiuc5QsrUV4NqeXR86VZzw2xXnzAIwMEMUvJOc6
- 4+rKt0+ZRoGUNFX92Xa1OF96J2mOrMB061UtBdeXnQ==
-X-Google-Smtp-Source: ABdhPJwPf4k61GADIjEDYi6y1MS+QIuwqteBsT3fZAi9yZ3aLKsPB77Xdss6nl3H+Xr2xPrOsWiL04wJYHJB/9Z7gXU=
-X-Received: by 2002:a17:906:5a88:: with SMTP id
- l8mr16146938ejq.407.1605110437117; 
- Wed, 11 Nov 2020 08:00:37 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kcshy-0005OM-7S
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 11:10:56 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kcshv-0004Gg-P9
+ for <qemu-devel@nongnu.org>; Wed, 11 Nov 2020 16:10:51 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id BD4192E8130
+ for <qemu-devel@nongnu.org>; Wed, 11 Nov 2020 16:10:51 +0000 (UTC)
 MIME-Version: 1.0
-References: <20201111143440.112763-1-drjones@redhat.com>
- <1888391810.22919498.1605107125694.JavaMail.zimbra@redhat.com>
-In-Reply-To: <1888391810.22919498.1605107125694.JavaMail.zimbra@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 11 Nov 2020 16:00:25 +0000
-Message-ID: <CAFEAcA9pYcXZ9LF=76N1OxF=UgYkiF+Z549vq9xWpS52qV7cLg@mail.gmail.com>
-Subject: Re: [PATCH] hw/arm/virt: ARM_VIRT must select ARM_GIC
-To: Miroslav Rezanina <mrezanin@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 11 Nov 2020 16:02:39 -0000
+From: Frank Grimm <1903752@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: grimmfrank
+X-Launchpad-Bug-Reporter: Frank Grimm (grimmfrank)
+X-Launchpad-Bug-Modifier: Frank Grimm (grimmfrank)
+References: <160502888185.27687.6551858213088684132.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160511055992.22663.18046365312076534667.malone@chaenomeles.canonical.com>
+Subject: [Bug 1903752] Re: qemu-system-avr error: qemu-system-avr: execution
+ left flash memory
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c11d702c7d7f4a497cdcc277027f1662d395603f"; Instance="production"
+X-Launchpad-Hash: 1ee94a38c8b231f4c401c23e2927c79cdd5055c2
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 10:11:47
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,33 +72,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1903752 <1903752@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 11 Nov 2020 at 15:05, Miroslav Rezanina <mrezanin@redhat.com> wrote:
->
-> ----- Original Message -----
-> > From: "Andrew Jones" <drjones@redhat.com>
-> > To: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-> > Cc: "peter maydell" <peter.maydell@linaro.org>, philmd@redhat.com, "Miroslav Rezanina" <mrezanin@redhat.com>
-> > Sent: Wednesday, November 11, 2020 3:34:40 PM
-> > Subject: [PATCH] hw/arm/virt: ARM_VIRT must select ARM_GIC
-> >
-> > The removal of the selection of A15MPCORE from ARM_VIRT also
-> > removed what A15MPCORE selects, ARM_GIC. We still need ARM_GIC.
+The error is not related to demo.elf. Running qemu-system-avr without a
+program (no "-bios program.elf" option) also yields the same error:
 
->
-> Problems with missing dependencies solved by this patch.
->
-> Reviewed-by: Miroslav Rezanina <mrezanin@redhat.com>
+$ ./qemu-5.1.0/avr-softmmu/qemu-system-avr -machine mega2560
+VNC server running on 127.0.0.1:5900
+qemu-system-avr: execution left flash memory
+Aborted (core dumped)
 
-This is the second of this kind of "missing select" bug I've
-seen recently. I don't suppose there's some kind of testing
-we could add to 'make check' that automatically catches them?
+-- =
 
-thanks
--- PMM
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1903752
+
+Title:
+  qemu-system-avr error: qemu-system-avr: execution left flash memory
+
+Status in QEMU:
+  New
+
+Bug description:
+  I compiled QEMU 5.1 from source with target avr-softmmu. Running
+  demo.elf from https://github.com/seharris/qemu-avr-tests/blob/master
+  /free-rtos/Demo/AVR_ATMega2560_GCC/demo.elf (linked from
+  https://www.qemu.org/docs/master/system/target-avr.html) yields the
+  following error:
+
+  $ ./qemu-5.1.0/avr-softmmu/qemu-system-avr -machine mega2560 -bios demo.e=
+lf
+  VNC server running on 127.0.0.1:5900
+  qemu-system-avr: execution left flash memory
+  Aborted (core dumped)
+
+  I compiled QEMU on Ubuntu Server 20.10 with gcc (Ubuntu
+  10.2.0-13ubuntu1) 10.2.0
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1903752/+subscriptions
 
