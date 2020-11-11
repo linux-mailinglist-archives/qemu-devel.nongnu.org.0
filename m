@@ -2,81 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12F7E2AFB91
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 23:57:05 +0100 (CET)
-Received: from localhost ([::1]:42256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 971F42AFB9B
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 00:08:22 +0100 (CET)
+Received: from localhost ([::1]:47424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcz31-00048B-Ig
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 17:57:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59294)
+	id 1kczDx-00074S-3U
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 18:08:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <keithp@keithp.com>)
- id 1kcz1L-0003Ts-0t; Wed, 11 Nov 2020 17:55:19 -0500
-Received: from home.keithp.com ([63.227.221.253]:50268 helo=elaine.keithp.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <keithp@keithp.com>)
- id 1kcz1I-0006D6-Kw; Wed, 11 Nov 2020 17:55:18 -0500
-Received: from localhost (localhost [127.0.0.1])
- by elaine.keithp.com (Postfix) with ESMTP id CFDBA3F2E04D;
- Wed, 11 Nov 2020 14:55:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
- t=1605135312; bh=JZIe14bRwmP+C00P4oHG7KgMsfDy0gkTwlW10qLs52s=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=u6/e4+gzuRFJcuSFj9mOTyfYopxNZWSPQs7PWE8W6nxOpMfFAaE40U/vDba9Xxm4O
- C6Yxrszy2J9UNA4AqSU4q9G3n6TOF9tm8d+Y1LvauK0sMHf36MjFzK0QDlonKm+RfR
- WfrCWxAHkgRJth13A/pbSBXt1ADz3jerTan56ixgEGHY7jcKq7depQ38cszO+ie4lg
- T6FKZfom/FhxyBfcAp619QLEPoTAn0/JFiaO5cChroy7e7TEbX6sjvXrXR1aT/Zh2+
- aJ+KwGHwc4Du8CCIQ8UmzCG9BZ41YqelpSeUqlnZUhDCQTJnuCqTeoCHa21pw5VhIN
- +nh71w5C6hXlQ==
-X-Virus-Scanned: Debian amavisd-new at keithp.com
-Received: from elaine.keithp.com ([127.0.0.1])
- by localhost (elaine.keithp.com [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id o7VeoGUfkPt4; Wed, 11 Nov 2020 14:55:12 -0800 (PST)
-Received: from keithp.com (koto.keithp.com [10.0.0.2])
- by elaine.keithp.com (Postfix) with ESMTPSA id 6D9653F2DFFB;
- Wed, 11 Nov 2020 14:55:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
- t=1605135312; bh=JZIe14bRwmP+C00P4oHG7KgMsfDy0gkTwlW10qLs52s=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=u6/e4+gzuRFJcuSFj9mOTyfYopxNZWSPQs7PWE8W6nxOpMfFAaE40U/vDba9Xxm4O
- C6Yxrszy2J9UNA4AqSU4q9G3n6TOF9tm8d+Y1LvauK0sMHf36MjFzK0QDlonKm+RfR
- WfrCWxAHkgRJth13A/pbSBXt1ADz3jerTan56ixgEGHY7jcKq7depQ38cszO+ie4lg
- T6FKZfom/FhxyBfcAp619QLEPoTAn0/JFiaO5cChroy7e7TEbX6sjvXrXR1aT/Zh2+
- aJ+KwGHwc4Du8CCIQ8UmzCG9BZ41YqelpSeUqlnZUhDCQTJnuCqTeoCHa21pw5VhIN
- +nh71w5C6hXlQ==
-Received: by keithp.com (Postfix, from userid 1000)
- id 4AF2D1582210; Wed, 11 Nov 2020 14:55:12 -0800 (PST)
-To: Alistair Francis <alistair23@gmail.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>, Alex
- =?utf-8?Q?Benn=C3=A9e?=
- <alex.bennee@linaro.org>, Laurent Vivier <laurent@vivier.eu>, Peter
- Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>, Palmer
- Dabbelt <palmer@dabbelt.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, Bastian Koppelmann
- <kbastian@mail.uni-paderborn.de>, "open list:RISC-V"
- <qemu-riscv@nongnu.org>
-Subject: Re: [PATCH 3/4] semihosting: Change internal common-semi interfaces
- to use CPUState *
-In-Reply-To: <CAKmqyKP5JpriojRqDNy=SqqkXtg=y39P5xNoMrSsoWhfz8xeaw@mail.gmail.com>
-References: <20201028185722.2783532-1-keithp@keithp.com>
- <20201028185722.2783532-4-keithp@keithp.com>
- <CAKmqyKP5JpriojRqDNy=SqqkXtg=y39P5xNoMrSsoWhfz8xeaw@mail.gmail.com>
-Date: Wed, 11 Nov 2020 14:55:11 -0800
-Message-ID: <874klvh5bk.fsf@keithp.com>
+ (Exim 4.90_1) (envelope-from <pisa@cmp.felk.cvut.cz>)
+ id 1kcz9P-0006Fh-KR
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 18:03:44 -0500
+Received: from relay.felk.cvut.cz ([2001:718:2:1611:0:1:0:70]:35612)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <pisa@cmp.felk.cvut.cz>) id 1kcz9L-0007Lz-LW
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 18:03:39 -0500
+Received: from cmp.felk.cvut.cz (haar.felk.cvut.cz [147.32.84.19])
+ by relay.felk.cvut.cz (8.15.2/8.15.2) with ESMTP id 0ABN22Hm059456;
+ Thu, 12 Nov 2020 00:02:02 +0100 (CET)
+ (envelope-from pisa@cmp.felk.cvut.cz)
+Received: from haar.felk.cvut.cz (localhost [127.0.0.1])
+ by cmp.felk.cvut.cz (8.14.0/8.12.3/SuSE Linux 0.6) with ESMTP id
+ 0ABN22s6020480; Thu, 12 Nov 2020 00:02:02 +0100
+Received: (from pisa@localhost)
+ by haar.felk.cvut.cz (8.14.0/8.13.7/Submit) id 0ABN21O7020479;
+ Thu, 12 Nov 2020 00:02:01 +0100
+X-Authentication-Warning: haar.felk.cvut.cz: pisa set sender to
+ pisa@cmp.felk.cvut.cz using -f
+From: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH v2 08/12] can_host: Use class properties
+Date: Thu, 12 Nov 2020 00:02:01 +0100
+User-Agent: KMail/1.9.10
+References: <20201111183823.283752-1-ehabkost@redhat.com>
+ <20201111183823.283752-9-ehabkost@redhat.com>
+In-Reply-To: <20201111183823.283752-9-ehabkost@redhat.com>
+X-KMail-QuotePrefix: > 
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
- micalg=pgp-sha256; protocol="application/pgp-signature"
-Received-SPF: pass client-ip=63.227.221.253; envelope-from=keithp@keithp.com;
- helo=elaine.keithp.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 17:49:36
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Message-Id: <202011120002.01584.pisa@cmp.felk.cvut.cz>
+X-FELK-MailScanner-Information: 
+X-MailScanner-ID: 0ABN22Hm059456
+X-FELK-MailScanner: Found to be clean
+X-FELK-MailScanner-SpamCheck: not spam, SpamAssassin (not cached,
+ score=-0.099, required 6, BAYES_00 -0.50, KHOP_HELO_FCRDNS 0.40,
+ NICE_REPLY_A -0.00, SPF_HELO_NONE 0.00, SPF_NONE 0.00)
+X-FELK-MailScanner-From: pisa@cmp.felk.cvut.cz
+X-FELK-MailScanner-Watermark: 1605740544.87274@tjUu56IAl0hocFSNJouRWQ
+Received-SPF: none client-ip=2001:718:2:1611:0:1:0:70;
+ envelope-from=pisa@cmp.felk.cvut.cz; helo=relay.felk.cvut.cz
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 18:03:30
+X-ACL-Warn: Detected OS   = ???
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,48 +74,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Vikram Garhwal <fnu.vikram@xilinx.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Ondrej Ille <ondrej.ille@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: "Keith Packard" <keithp@keithp.com>
-From: "Keith Packard" via <qemu-devel@nongnu.org>
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Hello Eduardo,
 
-Alistair Francis <alistair23@gmail.com> writes:
+thanks for contribution.
 
-> I'm not sure common is the right name here, as it is really just ARM
-> and RISC-V, but I don't have a better name to use.
+On Wednesday 11 of November 2020 19:38:19 Eduardo Habkost wrote:
+> Instance properties make introspection hard and are not shown by
+> "-object ...,help".  Convert them to class properties.
+>
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> ---
+> This was originally submitted as part of the series:
+> Subject: [PATCH 00/12] qom: Make all -object types use only class
+> properties Message-Id: <20201009160122.1662082-1-ehabkost@redhat.com>
+> https://lore.kernel.org/qemu-devel/20201009160122.1662082-1-ehabkost@redhat
+>.com ---
+> Cc: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+> Cc: Vikram Garhwal <fnu.vikram@xilinx.com>
+> Cc: Jason Wang <jasowang@redhat.com>
+> Cc: qemu-devel@nongnu.org
+> ---
+>  net/can/can_host.c | 16 +++++-----------
+>  1 file changed, 5 insertions(+), 11 deletions(-)
+>
+> diff --git a/net/can/can_host.c b/net/can/can_host.c
+> index be4547d913..bec88b9620 100644
+> --- a/net/can/can_host.c
+> +++ b/net/can/can_host.c
+> @@ -72,21 +72,16 @@ static void can_host_complete(UserCreatable *uc, Error
+> **errp) can_host_connect(CAN_HOST(uc), errp);
+>  }
+>
+> -static void can_host_instance_init(Object *obj)
+> -{
+> -    CanHostState *ch = CAN_HOST(obj);
+> -
+> -    object_property_add_link(obj, "canbus", TYPE_CAN_BUS,
+> -                             (Object **)&ch->bus,
+> -                             object_property_allow_set_link,
+> -                             OBJ_PROP_LINK_STRONG);
+> -}
+> -
+>  static void can_host_class_init(ObjectClass *klass,
+>                                  void *class_data G_GNUC_UNUSED)
+>  {
+>      UserCreatableClass *uc_klass = USER_CREATABLE_CLASS(klass);
+>
+> +    object_class_property_add_link(klass, "canbus", TYPE_CAN_BUS,
+> +                                   offsetof(CanHostState, bus),
+> +                                   object_property_allow_set_link,
+> +                                   OBJ_PROP_LINK_STRONG);
+> +
+>      klass->unparent = can_host_unparent;
+>      uc_klass->complete = can_host_complete;
+>  }
+> @@ -97,7 +92,6 @@ static const TypeInfo can_host_info = {
+>      .instance_size = sizeof(CanHostState),
+>      .class_size = sizeof(CanHostClass),
+>      .abstract = true,
+> -    .instance_init = can_host_instance_init,
+>      .class_init = can_host_class_init,
+>      .interfaces = (InterfaceInfo[]) {
+>          { TYPE_USER_CREATABLE },
 
-We've already seen some interest for other architectures; Benjamin
-Herrenschmidt was looking at using this for PPC, for instance. He got
-stuck at the same point -- attempting to split out this
-architecture-neutral code.
+I have rerun successfully my basic test (1x SJA1000 CAN FD tolerant, 2x CTU 
+CAN FD and 1x host interface) based on actual updated sources
+with Peter Maydell coverity fixes. You can add my
 
-In any case, naming is hard, and if anyone has suggestions ...
+Tested-by: Pavel Pisa <pisa@cmp.felk.cvut.cz>
 
-=2D-=20
-=2Dkeith
+I cannot confirm that this is the right direction because I do not have
+knowledge about long term intentions of core developers. But change
+and description look good.
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
+Somebody with a commit rights need to push patch to the mainline direction.
 
------BEGIN PGP SIGNATURE-----
+Best wishes,
 
-iQIzBAEBCAAdFiEEw4O3eCVWE9/bQJ2R2yIaaQAAABEFAl+sa9AACgkQ2yIaaQAA
-ABEsrxAAqMjpV6wVK7otXM/sddT6+yG/AvGM+oWDHu45Oev9s3Q0TFW2pYkYQZ5O
-uOHmTVeKAPsGC8YcobtIUgk2dpAX1B87kAKug3BKWBAB8xTrcFUYQc4b5/viclKU
-lJie8lkZR5KkRXiMA7gCab8MECY4cj5lBjwN4W18bW/SVDZjnuuRu6P0EUKbXqsF
-B+JOiiICHKamVFoASWlzdf3jXTYOTZk5g6N5HIngTRcjpqQl7RvycOm6Ky+dkvrB
-ZmpTDdp8UzPsbuyWd/9uYaNwZWmGWh/jodd3kNnG0APL5Jb0ANzI9/165faeyuuY
-44XCWT5MRMwwODOgNmzpBpY6r7pJYaltzSzZUu/IKqZKAPCPxIihe1rzSJ5jNFEQ
-rwFp+RlmboxjQP7iPvkc1XCbmNpk2yEXFLnS3UUIqtrorysCdwU+59lbRcHBms3X
-MwU0oBrYZgamNCyUiJGTmEvwqK9f5O6vEEF3vQWGESsO94h16lZBG2Yo64KvxTCu
-E9rLq661bFKwcMxUAzHIamZHncrbT1AF07K2kdiRE3KPgwCaQTUqMwIqgTRpnNXv
-WufvK/v1L27/i2HmFYV0QKDm7GfRMhjqtY/NTABZmJqtTDvnlTqvRvY9LyOo5Z1j
-cYLp/OpsPudDLxtrqP1o85JXeanMMMxfhUg3A2DmNOVDFzTx1yg=
-=DSes
------END PGP SIGNATURE-----
---=-=-=--
+Pavel Pisa
 
