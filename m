@@ -2,77 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C40AA2AF358
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 15:17:32 +0100 (CET)
-Received: from localhost ([::1]:56524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCE102AF35F
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 15:19:19 +0100 (CET)
+Received: from localhost ([::1]:58936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcqwF-00025y-Lz
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 09:17:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33010)
+	id 1kcqxy-00037W-TP
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 09:19:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kcqvS-0001aM-QK; Wed, 11 Nov 2020 09:16:42 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46378)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kcqvR-00075t-65; Wed, 11 Nov 2020 09:16:42 -0500
-Received: by mail-wr1-x441.google.com with SMTP id d12so2638458wrr.13;
- Wed, 11 Nov 2020 06:16:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=KWQF9qeDpUHxaMbouAse+iS0QpuRdg7aavZrsTGyfpk=;
- b=SuKRWS4sbYTqUfQCfJcGA6qMaFawT3fLnwJwvN+wGirY5MqS0Kl2uob3XVOngt8Pnb
- ycoxPtZ9oo9M5i3tEM2Gm/jIoZda3dKG0iFunKlXf0JpkczPVl6T6TAWn7OBI8nSSDpB
- jYtLnhh9u7OgWjpEloG5ZRoZLeA8fzHHqHl3T6iNaExIdTSENeyDG3veXuM0gaqb0lMz
- NciWulQGZRQu9cSzQCGFy5i+m/FkoQ6d3rk4tb3fsU/MPd8IbGb5OYsbIKx7WIPn22qT
- Nf/EjbkeqjnShZ0mLBYe2DEH/IBoT7oXtHoA3AZZKu0C6unFNMOn32l4R0abEEI6L8V0
- ARJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=KWQF9qeDpUHxaMbouAse+iS0QpuRdg7aavZrsTGyfpk=;
- b=k3wqVxTZXfj5+VBz4ORxGTJHlNeuDTqHhukhsNDwAU3/7JAddU8yHgSVvAtm3OInya
- Sx59hBfNN+5FhI+4BiCkD+T/frgLqThFO/Nziq0VDj+ukPqTGTNFf8H26KZLjaPfTRYr
- v1MPJ71BIhsf9Xe12J3HyzRtnnlxIqpwGywT9qipndoUnptB/T+OO0VL8o8Ka7kq0rHn
- mcd4ilEo6pBy0SayTpghRDZV0YpeYQlFxj5aCVhLqAgp6CwwMH79kTcT55KWH6nP7Mmv
- /QM89fKgswxlv0yL+r7GmJlpjBYC+5spfuXAm1rDfKH6Wmx5UMtmKL67Kibsq8xO8+pD
- pr4Q==
-X-Gm-Message-State: AOAM532twgdFfecbyS8HMy7/a6qNJYaP5XHKG1crvQLPSwVcz5FELR6L
- lrn4pJs9zWdUT2THi7W/KE0=
-X-Google-Smtp-Source: ABdhPJwcnBazdBLGyCPlHQ3NL7BGA3RetTGhRR4nIPB5RaqHB5AeWiUlWpIaCBSW1r1rufYdzQYfQg==
-X-Received: by 2002:a05:6000:1:: with SMTP id
- h1mr22953891wrx.127.1605104199055; 
- Wed, 11 Nov 2020 06:16:39 -0800 (PST)
-Received: from localhost (85.9.90.146.dyn.plus.net. [146.90.9.85])
- by smtp.gmail.com with ESMTPSA id w15sm2751445wrp.52.2020.11.11.06.16.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Nov 2020 06:16:37 -0800 (PST)
-Date: Wed, 11 Nov 2020 14:16:36 +0000
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 2/3] vhost-user-blk-server: depend on CONFIG_VHOST_USER
-Message-ID: <20201111141636.GA1398106@stefanha-x1.localdomain>
-References: <20201110171121.1265142-1-stefanha@redhat.com>
- <20201110171121.1265142-3-stefanha@redhat.com>
- <f04f74e4-ab6c-6c06-d4a9-cfa578bb16e0@redhat.com>
+ (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1kcqxB-0002aA-9x; Wed, 11 Nov 2020 09:18:29 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2411)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1kcqx8-0007aY-38; Wed, 11 Nov 2020 09:18:29 -0500
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CWRf64XPlz15VGj;
+ Wed, 11 Nov 2020 22:18:06 +0800 (CST)
+Received: from huawei.com (10.175.104.175) by DGGEMS401-HUB.china.huawei.com
+ (10.3.19.201) with Microsoft SMTP Server id 14.3.487.0; Wed, 11 Nov 2020
+ 22:18:07 +0800
+From: Chen Qun <kuhn.chenqun@huawei.com>
+To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
+Subject: [PATCH-for-5.2 v2] hw/intc: fix heap-buffer-overflow in
+ rxicu_realize()
+Date: Wed, 11 Nov 2020 22:17:33 +0800
+Message-ID: <20201111141733.2358800-1-kuhn.chenqun@huawei.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Dxnq1zWXvFF0Q93v"
-Content-Disposition: inline
-In-Reply-To: <f04f74e4-ab6c-6c06-d4a9-cfa578bb16e0@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=stefanha@gmail.com; helo=mail-wr1-x441.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.175.104.175]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=kuhn.chenqun@huawei.com; helo=szxga04-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 07:50:46
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,49 +57,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, zhang.zhanghailiang@huawei.com,
+ Yoshinori
+ Sato <ysato@users.sourceforge.jp>, f4bug@amsat.org, ganqixin@huawei.com,
+ Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+When 'j = icu->nr_sense – 1', the 'j < icu->nr_sense' condition is true,
+then 'j = icu->nr_sense', the'icu->init_sense[j]' has out-of-bounds access.
 
---Dxnq1zWXvFF0Q93v
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The asan showed stack:
+ERROR: AddressSanitizer: heap-buffer-overflow on address 0x604000004d7d at pc 0x55852cd26a76 bp 0x7ffe39f26200 sp 0x7ffe39f261f0
+READ of size 1 at 0x604000004d7d thread T0
+    #0 0x55852cd26a75 in rxicu_realize ../hw/intc/rx_icu.c:311
+    #1 0x55852cf075f7 in device_set_realized ../hw/core/qdev.c:886
+    #2 0x55852cd4a32f in property_set_bool ../qom/object.c:2251
+    #3 0x55852cd4f9bb in object_property_set ../qom/object.c:1398
+    #4 0x55852cd54f3f in object_property_set_qobject ../qom/qom-qobject.c:28
+    #5 0x55852cd4fc3f in object_property_set_bool ../qom/object.c:1465
+    #6 0x55852cbf0b27 in register_icu ../hw/rx/rx62n.c:156
+    #7 0x55852cbf12a6 in rx62n_realize ../hw/rx/rx62n.c:261
+    #8 0x55852cf075f7 in device_set_realized ../hw/core/qdev.c:886
+    #9 0x55852cd4a32f in property_set_bool ../qom/object.c:2251
+    #10 0x55852cd4f9bb in object_property_set ../qom/object.c:1398
+    #11 0x55852cd54f3f in object_property_set_qobject ../qom/qom-qobject.c:28
+    #12 0x55852cd4fc3f in object_property_set_bool ../qom/object.c:1465
+    #13 0x55852cbf1a85 in rx_gdbsim_init ../hw/rx/rx-gdbsim.c:109
+    #14 0x55852cd22de0 in qemu_init ../softmmu/vl.c:4380
+    #15 0x55852ca57088 in main ../softmmu/main.c:49
+    #16 0x7feefafa5d42 in __libc_start_main (/lib64/libc.so.6+0x26d42)
 
-On Wed, Nov 11, 2020 at 10:25:22AM +0100, Philippe Mathieu-Daud=E9 wrote:
-> On 11/10/20 6:11 PM, Stefan Hajnoczi wrote:
-> > I interpreted CONFIG_VHOST_USER as controlling only QEMU's vhost-user
-> > device frontends. However, virtiofsd and contrib/ vhost-user device
-> > backends are also controlled by CONFIG_VHOST_USER. Make the
-> > vhost-user-blk server depend on CONFIG_VHOST_USER for consistency.
->=20
-> Possible follow up cleanup is to rename variable including
-> "frontend/backend".
+Add the 'ice->src[i].sense' initialize to the default value, and then
+process init_sense array to identify which irqs should be level-triggered.
 
-Yes, vhost-user-blk-server and related names don't follow vhost-user
-terminology.
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+---
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
 
-Stefan
+v1->v2:
+Modify the code logic based on Peter's suggestions.
+We first initialize everything to the default before processing the init_sense array to identify which irqs should be level-triggered.
+---
+ hw/intc/rx_icu.c | 18 ++++++++----------
+ 1 file changed, 8 insertions(+), 10 deletions(-)
 
---Dxnq1zWXvFF0Q93v
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/hw/intc/rx_icu.c b/hw/intc/rx_icu.c
+index 94e17a9dea..e5c01807b9 100644
+--- a/hw/intc/rx_icu.c
++++ b/hw/intc/rx_icu.c
+@@ -300,22 +300,20 @@ static const MemoryRegionOps icu_ops = {
+ static void rxicu_realize(DeviceState *dev, Error **errp)
+ {
+     RXICUState *icu = RX_ICU(dev);
+-    int i, j;
++    int i;
+ 
+     if (icu->init_sense == NULL) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "rx_icu: trigger-level property must be set.");
+         return;
+     }
+-    for (i = j = 0; i < NR_IRQS; i++) {
+-        if (icu->init_sense[j] == i) {
+-            icu->src[i].sense = TRG_LEVEL;
+-            if (j < icu->nr_sense) {
+-                j++;
+-            }
+-        } else {
+-            icu->src[i].sense = TRG_PEDGE;
+-        }
++
++    for (i = 0; i < NR_IRQS; i++) {
++        icu->src[i].sense = TRG_PEDGE;
++    }
++    for (i = 0; i < icu->nr_sense; i++) {
++        uint8_t irqno = icu->init_sense[i];
++        icu->src[irqno].sense = TRG_LEVEL;
+     }
+     icu->req_irq = -1;
+ }
+-- 
+2.27.0
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+r8kQACgkQnKSrs4Gr
-c8ifHQgAtk2lCzjYaUfIJyMeFmialjcWf3TcgLL332ZVh3F7N07MdLtZiXMQpifZ
-k0fn18wDGy42PMiLXTS2K/cCp2qSjVIn4UuN79cXwRFTaWQ1YFgXMFVkNx/aTjDx
-xpyPi+Mr+UUYW0YiCnrju9xUP9E9gcCqOdPizYXJii+r4GFgN7SJELKFTvvHJNxs
-N8CVCN4R0iDAqLCXNyGRk2P36k6b1ibOvog+3wUxUaGa61hakTWporel3gBWuNT/
-l3TeF7CVMUI7USn392lL+umRD+wzicJTuO15VYTZoPlqcpjvi4cYGxO9Khp5odsc
-xhW0YhNkXddPbiPT1+tL7nYZXqeRLQ==
-=+nWt
------END PGP SIGNATURE-----
-
---Dxnq1zWXvFF0Q93v--
 
