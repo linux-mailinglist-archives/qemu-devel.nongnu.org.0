@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D0172AF145
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 13:53:46 +0100 (CET)
-Received: from localhost ([::1]:37988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD5362AF150
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 13:56:29 +0100 (CET)
+Received: from localhost ([::1]:48530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcpdB-0002Gh-Ky
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 07:53:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37840)
+	id 1kcpfo-0006ew-Ok
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 07:56:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kcpVn-0001Ly-VI
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 07:46:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36678)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1kcpYE-0004S1-Gf
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 07:48:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59302)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kcpVl-0001q1-NF
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 07:46:07 -0500
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1kcpYC-0002TS-7L
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 07:48:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605098765;
+ s=mimecast20190719; t=1605098913;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1muYFOqDRZRMsR4FJKe6HOzX3kjdoi0i85VN+dECzfU=;
- b=QKGKCBOUngi7dijwIBLjWP1zMKtmgD7Pge2c2kVmY+8wGKhxaNqQhZGiMrF/cDLP0wgUhZ
- sOGJR5+Bq2g58qyOZiiOQ38aqAVp/BxA4+eau7rfp5OI3gv9gM4P4EEIm1AJR5MBEcW0/A
- 6k59ze86Eayg2dfflsCmiWcRSSdgcnc=
+ bh=INBJCJvJ/9efx6wHzOIyH6cLcVptkL7l/cac2sObIlE=;
+ b=ZdTuLfNR6ef/1c2ozUzveDHSAgoqS81aLiiF9QUUrHEhTlcrmiM0lRyRBO8aFGWVtF0Ifz
+ Lg5KCM102mv2V5JSYJWgAjx7wILEjIDCuK2MB95H13B7NpiDFpy3KCYdGWmUdkKYT2DOUA
+ geuguhQXhaTYrWZnBl7C9xm4ogcUPco=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-401-FTXD5_avPIyrDIn4NUF_Dw-1; Wed, 11 Nov 2020 07:46:02 -0500
-X-MC-Unique: FTXD5_avPIyrDIn4NUF_Dw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-64-qJSyPWGTO2epKLKGidl4xQ-1; Wed, 11 Nov 2020 07:48:28 -0500
+X-MC-Unique: qJSyPWGTO2epKLKGidl4xQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2B096D591;
- Wed, 11 Nov 2020 12:46:01 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.29])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2654E2C31E;
- Wed, 11 Nov 2020 12:45:48 +0000 (UTC)
-Date: Wed, 11 Nov 2020 13:45:46 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v2 07/12] microvm: add second ioapic
-Message-ID: <20201111134546.5e26f2a0@redhat.com>
-In-Reply-To: <20201105133923.23821-8-kraxel@redhat.com>
-References: <20201105133923.23821-1-kraxel@redhat.com>
- <20201105133923.23821-8-kraxel@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC65D6D583;
+ Wed, 11 Nov 2020 12:48:27 +0000 (UTC)
+Received: from [10.72.12.95] (ovpn-12-95.pek2.redhat.com [10.72.12.95])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 45CEB73669;
+ Wed, 11 Nov 2020 12:48:25 +0000 (UTC)
+Subject: Re: [PATCH] net/e1000e_core: make sure RDH never exceeds RDT in
+ e1000e_ring_advance()
+From: Jason Wang <jasowang@redhat.com>
+To: Mauro Matteo Cascella <mcascell@redhat.com>
+References: <20201105105616.327593-1-mcascell@redhat.com>
+ <b34f724a-b4fc-6dbd-b660-2dfc2b8e943f@redhat.com>
+ <CAA8xKjUuM9XeBG920pRBmCWh_7DPdy3x=md=Q+JJ5+bQpn0=aw@mail.gmail.com>
+ <bd944924-d227-a22c-c8e4-07dbf82312c5@redhat.com>
+Message-ID: <5421080d-ba5d-ee08-cbed-17c430114283@redhat.com>
+Date: Wed, 11 Nov 2020 20:48:23 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <bd944924-d227-a22c-c8e4-07dbf82312c5@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 01:49:01
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 01:42:46
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,196 +88,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: gaoning.pgn@antgroup.com, 330cjfdn@gmail.com,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, Laszlo Ersek <lersek@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu,  5 Nov 2020 14:39:18 +0100
-Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-> Create second ioapic, route virtio-mmio IRQs to it,
-> allow more virtio-mmio devices (24 instead of 8).
-> 
-> Needs ACPI, enabled by default, can be turned off
-> using -machine ioapic2=off
-> 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  include/hw/i386/microvm.h      |  2 ++
->  hw/i386/microvm.c              | 51 ++++++++++++++++++++++++++++++++--
->  tests/qtest/bios-tables-test.c |  8 +++---
->  3 files changed, 54 insertions(+), 7 deletions(-)
-> 
-> diff --git a/include/hw/i386/microvm.h b/include/hw/i386/microvm.h
-> index f1e9db059b85..f25f8374413f 100644
-> --- a/include/hw/i386/microvm.h
-> +++ b/include/hw/i386/microvm.h
-> @@ -72,6 +72,7 @@
->  #define MICROVM_MACHINE_PIC                 "pic"
->  #define MICROVM_MACHINE_RTC                 "rtc"
->  #define MICROVM_MACHINE_PCIE                "pcie"
-> +#define MICROVM_MACHINE_IOAPIC2             "ioapic2"
->  #define MICROVM_MACHINE_ISA_SERIAL          "isa-serial"
->  #define MICROVM_MACHINE_OPTION_ROMS         "x-option-roms"
->  #define MICROVM_MACHINE_AUTO_KERNEL_CMDLINE "auto-kernel-cmdline"
-> @@ -90,6 +91,7 @@ struct MicrovmMachineState {
->      OnOffAuto pit;
->      OnOffAuto rtc;
->      OnOffAuto pcie;
-> +    OnOffAuto ioapic2;
->      bool isa_serial;
->      bool option_roms;
->      bool auto_kernel_cmdline;
-> diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-> index 829b376a1278..cae0d8fc8692 100644
-> --- a/hw/i386/microvm.c
-> +++ b/hw/i386/microvm.c
-> @@ -145,30 +145,50 @@ static void create_gpex(MicrovmMachineState *mms)
->      }
->  }
->  
-> +static int microvm_ioapics(MicrovmMachineState *mms)
-> +{
-> +    if (!x86_machine_is_acpi_enabled(X86_MACHINE(mms))) {
-> +        return 1;
-> +    }
-> +    if (mms->ioapic2 == ON_OFF_AUTO_OFF) {
-> +        return 1;
-> +    }
-> +    return 2;
-> +}
-> +
->  static void microvm_devices_init(MicrovmMachineState *mms)
->  {
->      X86MachineState *x86ms = X86_MACHINE(mms);
->      ISABus *isa_bus;
->      ISADevice *rtc_state;
->      GSIState *gsi_state;
-> +    int ioapics;
->      int i;
->  
->      /* Core components */
-> -
-> +    ioapics = microvm_ioapics(mms);
-maby nr_ioapics would be better.
+On 2020/11/11 下午4:54, Jason Wang wrote:
+>
+> On 2020/11/10 下午5:06, Mauro Matteo Cascella wrote:
+>> On Mon, Nov 9, 2020 at 3:38 AM Jason Wang <jasowang@redhat.com> wrote:
+>>>
+>>> On 2020/11/5 下午6:56, Mauro Matteo Cascella wrote:
+>>>> The e1000e_write_packet_to_guest() function iterates over a set of
+>>>> receive descriptors by advancing rx descriptor head register (RDH) 
+>>>> from
+>>>> its initial value to rx descriptor tail register (RDT). The check in
+>>>> e1000e_ring_empty() is responsible for detecting whether RDH has 
+>>>> reached
+>>>> RDT, terminating the loop if that's the case. Additional checks have
+>>>> been added in the past to deal with bogus values submitted by the 
+>>>> guest
+>>>> to prevent possible infinite loop. This is done by "wrapping 
+>>>> around" RDH
+>>>> at some point and detecting whether it assumes the original value 
+>>>> during
+>>>> the loop.
+>>>>
+>>>> However, when e1000e is configured to use the packet split feature, 
+>>>> RDH is
+>>>> incremented by two instead of one, as the packet split descriptors are
+>>>> 32 bytes while regular descriptors are 16 bytes. A malicious or buggy
+>>>> guest may set RDT to an odd value and transmit only null RX 
+>>>> descriptors.
+>>>> This corner case would prevent RDH from ever matching RDT, leading 
+>>>> to an
+>>>> infinite loop. This patch adds a check in e1000e_ring_advance() to 
+>>>> make
+>>>> sure RDH does never exceed RDT.
+>>>>
+>>>> This issue was independently reported by Gaoning Pan (Zhejiang 
+>>>> University)
+>>>> and Cheolwoo Myung.
+>>>>
+>>>> Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
+>>>> Reported-by: Gaoning Pan <gaoning.pgn@antgroup.com>
+>>>> Reported-by: Cheolwoo Myung <330cjfdn@gmail.com>
+>>>> ---
+>>>> References:
+>>>> https://git.qemu.org/?p=qemu.git;a=commit;h=dd793a74882477ca38d49e191110c17dfe 
+>>>>
+>>>> https://git.qemu.org/?p=qemu.git;a=commit;h=4154c7e03fa55b4cf52509a83d50d6c09d743b7 
+>>>>
+>>>> http://www.intel.com/content/dam/doc/datasheet/82574l-gbe-controller-datasheet.pdf 
+>>>>
+>>>>
+>>>>    hw/net/e1000e_core.c | 4 ++++
+>>>>    1 file changed, 4 insertions(+)
+>>>>
+>>>> diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+>>>> index bcd186cac5..4c4d14b6ed 100644
+>>>> --- a/hw/net/e1000e_core.c
+>>>> +++ b/hw/net/e1000e_core.c
+>>>> @@ -831,6 +831,10 @@ e1000e_ring_advance(E1000ECore *core, const 
+>>>> E1000E_RingInfo *r, uint32_t count)
+>>>>    {
+>>>>        core->mac[r->dh] += count;
+>>>>
+>>>> +    if (core->mac[r->dh] > core->mac[r->dt]) {
+>>>> +        core->mac[r->dh] = core->mac[r->dt];
+>>>> +    }
+>>>> +
+>>>>        if (core->mac[r->dh] * E1000_RING_DESC_LEN >= 
+>>>> core->mac[r->dlen]) {
+>>>>            core->mac[r->dh] = 0;
+>>>>        }
+>> Hi Jason,
+>>
+>>> A question here.
+>>>
+>>> When count > 1, is this correct to reset dh here?
+>>>
+>>> Thanks
+>>>
+>> My understanding is that wrapping at (or above) RDLEN is the correct
+>> behavior regardless of count. I don't see why count > 1 should modify
+>> this behavior. I'm not sure, though. Anyway, this patch fixes the
+>> above reproducer, so I'm adding a Tested-by line here.
+>>
+>> Tested-by: Mauro Matteo Cascella <mcascell@redhat.com>
+>>
+>> Thank you,
+>> -- 
+>> Mauro Matteo Cascella
+>> Red Hat Product Security
+>> PGP-Key ID: BB3410B0
+>>
+>
+> Right.
+>
+> Applied.
+>
+> Thanks
 
->      gsi_state = g_malloc0(sizeof(*gsi_state));
-> -    x86ms->gsi = qemu_allocate_irqs(gsi_handler, gsi_state, GSI_NUM_PINS);
-> +    x86ms->gsi = qemu_allocate_irqs(gsi_handler, gsi_state,
-> +                                    IOAPIC_NUM_PINS * ioapics);
->  
->      isa_bus = isa_bus_new(NULL, get_system_memory(), get_system_io(),
->                            &error_abort);
->      isa_bus_irqs(isa_bus, x86ms->gsi);
->  
->      ioapic_init_gsi(gsi_state, "machine");
-> +    if (ioapics > 1) {
-> +        x86ms->ioapic2 = ioapic_init_secondary(gsi_state);
-> +    }
->  
->      kvmclock_create(true);
->  
->      mms->virtio_irq_base = 5;
->      mms->virtio_num_transports = 8;
-> -    if (x86_machine_is_acpi_enabled(x86ms)) {
-> +    if (x86ms->ioapic2) {
-> +        mms->pcie_irq_base = 16;
-> +        mms->virtio_irq_base = 24;
-now I see where magic 24 comes from in 3/12
-it should be a shared macro or a property that APIC code gets dynamically 
 
-> +        mms->virtio_num_transports = 24;
-> +    } else if (x86_machine_is_acpi_enabled(x86ms)) {
->          mms->pcie_irq_base = 12;
->          mms->virtio_irq_base = 16;
->      }
-> @@ -544,6 +564,23 @@ static void microvm_machine_set_pcie(Object *obj, Visitor *v, const char *name,
->      visit_type_OnOffAuto(v, name, &mms->pcie, errp);
->  }
->  
-> +static void microvm_machine_get_ioapic2(Object *obj, Visitor *v, const char *name,
-> +                                        void *opaque, Error **errp)
-> +{
-> +    MicrovmMachineState *mms = MICROVM_MACHINE(obj);
-> +    OnOffAuto ioapic2 = mms->ioapic2;
-> +
-> +    visit_type_OnOffAuto(v, name, &ioapic2, errp);
-> +}
-> +
-> +static void microvm_machine_set_ioapic2(Object *obj, Visitor *v, const char *name,
-> +                                        void *opaque, Error **errp)
-> +{
-> +    MicrovmMachineState *mms = MICROVM_MACHINE(obj);
-> +
-> +    visit_type_OnOffAuto(v, name, &mms->ioapic2, errp);
-> +}
-> +
->  static bool microvm_machine_get_isa_serial(Object *obj, Error **errp)
->  {
->      MicrovmMachineState *mms = MICROVM_MACHINE(obj);
-> @@ -620,6 +657,7 @@ static void microvm_machine_initfn(Object *obj)
->      mms->pit = ON_OFF_AUTO_AUTO;
->      mms->rtc = ON_OFF_AUTO_AUTO;
->      mms->pcie = ON_OFF_AUTO_AUTO;
-> +    mms->ioapic2 = ON_OFF_AUTO_AUTO;
->      mms->isa_serial = true;
->      mms->option_roms = true;
->      mms->auto_kernel_cmdline = true;
-> @@ -693,6 +731,13 @@ static void microvm_class_init(ObjectClass *oc, void *data)
->      object_class_property_set_description(oc, MICROVM_MACHINE_PCIE,
->          "Enable PCIe");
->  
-> +    object_class_property_add(oc, MICROVM_MACHINE_IOAPIC2, "OnOffAuto",
-> +                              microvm_machine_get_ioapic2,
-> +                              microvm_machine_set_ioapic2,
-> +                              NULL, NULL);
-> +    object_class_property_set_description(oc, MICROVM_MACHINE_IOAPIC2,
-> +        "Enable second IO-APIC");
-> +
->      object_class_property_add_bool(oc, MICROVM_MACHINE_ISA_SERIAL,
->                                     microvm_machine_get_isa_serial,
->                                     microvm_machine_set_isa_serial);
-> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> index f23a5335a875..0a0ce76ffcf9 100644
-> --- a/tests/qtest/bios-tables-test.c
-> +++ b/tests/qtest/bios-tables-test.c
-> @@ -1115,7 +1115,7 @@ static void test_acpi_microvm_tcg(void)
->      test_data data;
->  
->      test_acpi_microvm_prepare(&data);
-> -    test_acpi_one(" -machine microvm,acpi=on,rtc=off",
-> +    test_acpi_one(" -machine microvm,acpi=on,ioapic2=off,rtc=off",
->                    &data);
->      free_test_data(&data);
->  }
-> @@ -1126,7 +1126,7 @@ static void test_acpi_microvm_usb_tcg(void)
->  
->      test_acpi_microvm_prepare(&data);
->      data.variant = ".usb";
-> -    test_acpi_one(" -machine microvm,acpi=on,usb=on,rtc=off",
-> +    test_acpi_one(" -machine microvm,acpi=on,ioapic2=off,usb=on,rtc=off",
->                    &data);
->      free_test_data(&data);
->  }
-> @@ -1137,7 +1137,7 @@ static void test_acpi_microvm_rtc_tcg(void)
->  
->      test_acpi_microvm_prepare(&data);
->      data.variant = ".rtc";
-> -    test_acpi_one(" -machine microvm,acpi=on,rtc=on",
-> +    test_acpi_one(" -machine microvm,acpi=on,ioapic2=off,rtc=on",
->                    &data);
->      free_test_data(&data);
->  }
-> @@ -1149,7 +1149,7 @@ static void test_acpi_microvm_pcie_tcg(void)
->      test_acpi_microvm_prepare(&data);
->      data.variant = ".pcie";
->      data.tcg_only = true; /* need constant host-phys-bits */
-> -    test_acpi_one(" -machine microvm,acpi=on,rtc=off,pcie=on",
-> +    test_acpi_one(" -machine microvm,acpi=on,ioapic2=off,rtc=off,pcie=on",
->                    &data);
->      free_test_data(&data);
->  }
+I had to drop this since it breaks e1000e PXE test.
+
+Thanks
+
+
 
 
