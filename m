@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C752D2AF1FB
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 14:22:40 +0100 (CET)
-Received: from localhost ([::1]:54076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 938502AF223
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 14:28:24 +0100 (CET)
+Received: from localhost ([::1]:38172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcq59-0008NU-Ng
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 08:22:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44530)
+	id 1kcqAf-0005Cj-RT
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 08:28:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kcpv5-00073w-PE
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 08:12:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44575)
+ id 1kcpvC-0007B5-St
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 08:12:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34511)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kcpv4-0002DA-3a
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 08:12:15 -0500
+ id 1kcpv6-0002E5-5j
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 08:12:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605100333;
+ s=mimecast20190719; t=1605100335;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=CCBnQxSPNmWrzyAXDox3vQPolmJ77+1UKIkYeXOFivc=;
- b=LLR5UI+jwlwUyJIC95SaEVBc4pJrZ1X1b2s6TqiFEWA79td4BcCOs38SVe4zQsaonFdiN1
- 6wxLR+tdk0R8wLKctlnYKonsMSL5dgHGiaWmoxU+8utfeuW0TIM80E+aSCjplltLZXGj/c
- 0qZtq2DGerWyma3axwvckUNJUbGBScM=
+ references:references; bh=5lIAE+158gRTUbqC8UFxpNSoUdqaU7PTXnLycw6wckU=;
+ b=CPJLcMqwSUXulxELjAhD5wIyCjzgyNssplNWz5sNRkXgWNaVREUXazbt+QNcpbQOm4vp4M
+ wIQVim/e5IJVB2yp2ofw23lhW786Gx8oGNJ/15ABF7QIhaWDJFd243NIM6H2Flc/Mqw7Et
+ CIkGEgcxVzSjKILHfdcfkrOwiZwzCjg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-27-CAaVCbX3M4i9Oh8Xvo82qQ-1; Wed, 11 Nov 2020 08:12:11 -0500
-X-MC-Unique: CAaVCbX3M4i9Oh8Xvo82qQ-1
+ us-mta-283-7h_YE7YnP-eYLTbB96_rQg-1; Wed, 11 Nov 2020 08:12:13 -0500
+X-MC-Unique: 7h_YE7YnP-eYLTbB96_rQg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51E161087D7C;
- Wed, 11 Nov 2020 13:12:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C9EA1087D68;
+ Wed, 11 Nov 2020 13:12:12 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-61.pek2.redhat.com
  [10.72.12.61])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B036855760;
- Wed, 11 Nov 2020 13:12:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D098655760;
+ Wed, 11 Nov 2020 13:12:10 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 10/17] net/colo-compare.c: Add secondary old packet detection
-Date: Wed, 11 Nov 2020 21:11:34 +0800
-Message-Id: <1605100301-11317-11-git-send-email-jasowang@redhat.com>
+Subject: [PULL 11/17] net/colo-compare.c: Increase default queued packet scan
+ frequency
+Date: Wed, 11 Nov 2020 21:11:35 +0800
+Message-Id: <1605100301-11317-12-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1605100301-11317-1-git-send-email-jasowang@redhat.com>
 References: <1605100301-11317-1-git-send-email-jasowang@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
@@ -84,55 +85,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Zhang Chen <chen.zhang@intel.com>
 
-Detect queued secondary packet to sync VM state in time.
+In my test, use this default parameter looks better.
 
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-Reviewed-by: Li Zhijian <lizhijian@cn.fujitsu.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- net/colo-compare.c | 25 ++++++++++++++++---------
- 1 file changed, 16 insertions(+), 9 deletions(-)
+ net/colo-compare.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/net/colo-compare.c b/net/colo-compare.c
-index 1263203..0c87fd9 100644
+index 0c87fd9..337025b 100644
 --- a/net/colo-compare.c
 +++ b/net/colo-compare.c
-@@ -636,19 +636,26 @@ void colo_compare_unregister_notifier(Notifier *notify)
- static int colo_old_packet_check_one_conn(Connection *conn,
-                                           CompareState *s)
- {
--    GList *result = NULL;
--
--    result = g_queue_find_custom(&conn->primary_list,
--                                 &s->compare_timeout,
--                                 (GCompareFunc)colo_old_packet_check_one);
-+    if (!g_queue_is_empty(&conn->primary_list)) {
-+        if (g_queue_find_custom(&conn->primary_list,
-+                                &s->compare_timeout,
-+                                (GCompareFunc)colo_old_packet_check_one))
-+            goto out;
-+    }
+@@ -52,7 +52,7 @@ static NotifierList colo_compare_notifiers =
+ #define COLO_COMPARE_FREE_PRIMARY     0x01
+ #define COLO_COMPARE_FREE_SECONDARY   0x02
  
--    if (result) {
--        /* Do checkpoint will flush old packet */
--        colo_compare_inconsistency_notify(s);
--        return 0;
-+    if (!g_queue_is_empty(&conn->secondary_list)) {
-+        if (g_queue_find_custom(&conn->secondary_list,
-+                                &s->compare_timeout,
-+                                (GCompareFunc)colo_old_packet_check_one))
-+            goto out;
-     }
+-#define REGULAR_PACKET_CHECK_MS 3000
++#define REGULAR_PACKET_CHECK_MS 1000
+ #define DEFAULT_TIME_OUT_MS 3000
  
-     return 1;
-+
-+out:
-+    /* Do checkpoint will flush old packet */
-+    colo_compare_inconsistency_notify(s);
-+    return 0;
- }
- 
- /*
+ /* #define DEBUG_COLO_PACKETS */
 -- 
 2.7.4
 
