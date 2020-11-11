@@ -2,62 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44DD62AFFF4
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 07:58:24 +0100 (CET)
-Received: from localhost ([::1]:50886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 136102B004B
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 08:23:05 +0100 (CET)
+Received: from localhost ([::1]:33050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kd6Yp-0002Lp-CA
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 01:58:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47304)
+	id 1kd6wh-0000f3-HK
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 02:23:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kd6Xq-0001Ri-1D; Thu, 12 Nov 2020 01:57:22 -0500
-Received: from 7.mo51.mail-out.ovh.net ([46.105.33.25]:37899)
+ (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
+ id 1kd6uP-0007Hy-Ub; Thu, 12 Nov 2020 02:20:41 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:2142)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kd6Xo-0007H6-09; Thu, 12 Nov 2020 01:57:21 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.189])
- by mo51.mail-out.ovh.net (Postfix) with ESMTPS id A84B2233AA2;
- Thu, 12 Nov 2020 07:57:08 +0100 (CET)
-Received: from kaod.org (37.59.142.102) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 12 Nov
- 2020 07:57:08 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-102R004bc1cfdfb-786d-460a-b4da-1eed57c2b321,
- 59F639E4BBCB846B04676DD51D96F0D80C0888E2) smtp.auth=groug@kaod.org
-Date: Thu, 12 Nov 2020 07:57:06 +0100
-From: Greg Kurz <groug@kaod.org>
-To: LemonBoy <thatlemon@gmail.com>
-Subject: Re: [PATCH 1/2] ppc/translate: Implement lxvwsx opcode
-Message-ID: <20201112075706.28b82a20@bahia.lan>
-In-Reply-To: <9096a38b-0b6f-3531-b88b-e1be1d946831@gmail.com>
-References: <d7d533e18c2bc10d924ee3e09907ff2b41fddb3a.1604912739.git.thatlemon@gmail.com>
- <a1c67758-7b2c-725c-67b6-e0c52a971d67@linaro.org>
- <9096a38b-0b6f-3531-b88b-e1be1d946831@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
+ id 1kd6uN-0006Cr-Ej; Thu, 12 Nov 2020 02:20:41 -0500
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CWtKc5Bbvz76Kg;
+ Thu, 12 Nov 2020 15:20:20 +0800 (CST)
+Received: from huawei.com (10.175.104.175) by DGGEMS413-HUB.china.huawei.com
+ (10.3.19.213) with Microsoft SMTP Server id 14.3.487.0; Thu, 12 Nov 2020
+ 15:20:21 +0800
+From: Gan Qixin <ganqixin@huawei.com>
+To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
+Subject: [PATCH v2 0/4] Categorize some uncategorized devices
+Date: Thu, 12 Nov 2020 00:47:06 +0800
+Message-ID: <20201111164710.644863-1-ganqixin@huawei.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.102]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 2a8ebfc7-9fb3-415b-8b36-ac0b2ef5497e
-X-Ovh-Tracer-Id: 15907839783813028259
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedruddvuddguddtfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeejgfevjeeiuddvjeevffejhfelfeeivdekhfdukeffjeegteevtdduveffjeejnecuffhomhgrihhnpehlrghunhgthhhprggurdhnvghtnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghu
-Received-SPF: pass client-ip=46.105.33.25; envelope-from=groug@kaod.org;
- helo=7.mo51.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 01:57:09
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.104.175]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=ganqixin@huawei.com;
+ helo=szxga07-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 02:20:30
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,35 +56,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, david@gibson.dropbear.id.au
+Cc: thuth@redhat.com, zhang.zhanghailiang@huawei.com, mst@redhat.com,
+ laurent@vivier.eu, armbru@redhat.com, Gan Qixin <ganqixin@huawei.com>,
+ kuhn.chenqun@huawei.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 10 Nov 2020 10:14:23 +0100
-LemonBoy <thatlemon@gmail.com> wrote:
+Hi all,
 
-> Is there any chance for this patch series to be merged for 5.2?
-> 
+I found some uncategorized devices and categorize them in these patches.
 
-Not a chance. We're in hard freeze now.
+Thanks,
+Gan Qixin
 
-> On 09/11/20 18:39, Richard Henderson wrote:
-> > On 11/9/20 1:17 AM, LemonBoy wrote:
-> >> Implement the "Load VSX Vector Word & Splat Indexed" opcode, introduced
-> >> in Power ISA v3.0.
-> >>
-> >> Buglink: https://bugs.launchpad.net/qemu/+bug/1793608
-> >> Signed-off-by: Giuseppe Musacchio <thatlemon@gmail.com>
-> >> ---
-> >>  target/ppc/translate/vsx-impl.c.inc | 30 +++++++++++++++++++++++++++++
-> >>  target/ppc/translate/vsx-ops.c.inc  |  1 +
-> >>  2 files changed, 31 insertions(+)
-> > 
-> > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> > 
-> > r~
-> > 
-> 
+v1->v2: Correct some spelling errors and limit commit message line length
+to around 70.
+
+
+Gan Qixin (4):
+  ssd0323: put it into the 'display' category
+  ads7846: put it into the 'display' category
+  nand: put it into the 'storage' category
+  max111x: put it into the 'misc' category
+
+ hw/block/nand.c      | 1 +
+ hw/display/ads7846.c | 2 ++
+ hw/display/ssd0323.c | 1 +
+ hw/misc/max111x.c    | 1 +
+ 4 files changed, 5 insertions(+)
+
+-- 
+2.23.0
 
 
