@@ -2,47 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC6E42AF045
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 13:09:15 +0100 (CET)
-Received: from localhost ([::1]:42710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FE8C2AF046
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 13:10:03 +0100 (CET)
+Received: from localhost ([::1]:44288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcow6-0000kq-4A
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 07:09:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58240)
+	id 1kcows-0001PI-HZ
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 07:10:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1kcouZ-0008Uu-9w; Wed, 11 Nov 2020 07:07:39 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2454)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1kcouW-00063s-A5; Wed, 11 Nov 2020 07:07:39 -0500
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CWNl30wbRzLxNW;
- Wed, 11 Nov 2020 20:07:11 +0800 (CST)
-Received: from huawei.com (10.175.124.27) by DGGEMS413-HUB.china.huawei.com
- (10.3.19.213) with Microsoft SMTP Server id 14.3.487.0; Wed, 11 Nov 2020
- 20:07:15 +0800
-From: Alex Chen <alex.chen@huawei.com>
-To: <armbru@redhat.com>
-Subject: [PATCH] json: Fix a memleak in parse_pair()
-Date: Wed, 11 Nov 2020 11:56:09 +0000
-Message-ID: <20201111115609.48888-1-alex.chen@huawei.com>
-X-Mailer: git-send-email 2.19.1
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kcov0-0000Uj-Lw
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 07:08:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59583)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kcoux-0006Gl-99
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 07:08:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605096481;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IfTSs50TkP7vuyCpbQTsTVo/jND90k6rxuL57aTTMlc=;
+ b=AEuFU0VsyXTucc8MqJAbJaOnXtCvPBT83DFW7Ho8AjZup9mh4VBWOJKyiejAmAxcwkK1eS
+ vM1ANK+pN5KGDL9Ru/zpFvPI6UZNqpFBKxB6OykeanZmIL5yZJoe44V2G9pd1n/0dHieC+
+ J3q+H4LYmIslnjxN+4+O8JCe/lSPDNk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-302-VL1zS8cEMGixz5u5WwyRBQ-1; Wed, 11 Nov 2020 07:07:57 -0500
+X-MC-Unique: VL1zS8cEMGixz5u5WwyRBQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E4D93100746C
+ for <qemu-devel@nongnu.org>; Wed, 11 Nov 2020 12:07:56 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-250.ams2.redhat.com
+ [10.36.113.250])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B380555760;
+ Wed, 11 Nov 2020 12:07:49 +0000 (UTC)
+Subject: Re: [PATCH for-5.2] virtiofsd: Announce submounts even without statx()
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <20201103164135.169325-1-mreitz@redhat.com>
+ <20201110185749.GH3108@work-vm>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <50b9de71-017f-1253-f912-a1568f733958@redhat.com>
+Date: Wed, 11 Nov 2020 13:07:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
+In-Reply-To: <20201110185749.GH3108@work-vm>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.124.27]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=alex.chen@huawei.com;
- helo=szxga05-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 07:07:25
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 01:42:46
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -56,67 +84,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.chen@huawei.com, qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
- zhang.zhanghailiang@huawei.com
+Cc: virtio-fs@redhat.com, Miklos Szeredi <mszeredi@redhat.com>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In qobject_type(), NULL is returned when the 'QObject' returned from parse_value() is not of QString type,
-and this 'QObject' memory will leaked.
-So we need to first check whether the 'QObject' returned from parse_value() is of QString type,
-and if not, we free 'QObject' memory and return an error.
+On 10.11.20 19:57, Dr. David Alan Gilbert wrote:
+> * Max Reitz (mreitz@redhat.com) wrote:
+>> Contrary to what the check (and warning) in lo_init() claims, we can
+>> announce submounts just fine even without statx() -- the check is based
+>> on comparing both the mount ID and st_dev of parent and child.  Without
+>> statx(), we will not have the mount ID; but we always have st_dev.
+>>
+>> The only problems we have (without statx() and its mount ID) are:
+>>
+>> (1) Mounting the same device twice may lead to both trees being treated
+>>      as exactly the same tree by virtiofsd.  But that is a problem that
+>>      is completely independent of mirroring host submounts in the guest.
+>>      Both submount roots will still show the FUSE_SUBMOUNT flag, because
+>>      their st_dev still differs from their respective parent.
+>>
+>> (2) There is only one exception to (1), and that is if you mount a
+>>      device inside a mount of itself: Then, its st_dev will be the same
+>>      as that of its parent, and so without a mount ID, virtiofsd will not
+>>      be able to recognize the nested mount's root as a submount.
+>>      However, thanks to virtiofsd then treating both trees as exactly the
+>>      same tree, it will be caught up in a loop when the guest tries to
+>>      examine the nested submount, so the guest will always see nothing
+>>      but an ELOOP there.  Therefore, this case is just fully broken
+>>      without statx(), whether we check for submounts (based on st_dev) or
+>>      not.
+>>
+>> All in all, checking for submounts works well even without comparing the
+>> mount ID (i.e., without statx()).  The only concern is an edge case
+>> that, without statx() mount IDs, is utterly broken anyway.
+>>
+>> Thus, drop said check in lo_init().
+>>
+>> Reported-by: Miklos Szeredi <mszeredi@redhat.com>
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> 
+> OK, that seems to have been the outcome of the discussion here:
+>    https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg00500.html
 
-The memleak stack is as follows:
-Direct leak of 32 byte(s) in 1 object(s) allocated from:
-    #0 0xfffe4b3c34fb in __interceptor_malloc (/lib64/libasan.so.4+0xd34fb)
-    #1 0xfffe4ae48aa3 in g_malloc (/lib64/libglib-2.0.so.0+0x58aa3)
-    #2 0xaaab3557d9f7 in qnum_from_int /Images/source_org/qemu_master/qemu/qobject/qnum.c:25
-    #3 0xaaab35584d23 in parse_literal /Images/source_org/qemu_master/qemu/qobject/json-parser.c:511
-    #4 0xaaab35584d23 in parse_value /Images/source_org/qemu_master/qemu/qobject/json-parser.c:554
-    #5 0xaaab35583d77 in parse_pair /Images/source_org/qemu_master/qemu/qobject/json-parser.c:270
-    #6 0xaaab355845db in parse_object /Images/source_org/qemu_master/qemu/qobject/json-parser.c:327
-    #7 0xaaab355845db in parse_value /Images/source_org/qemu_master/qemu/qobject/json-parser.c:546
-    #8 0xaaab35585b1b in json_parser_parse /Images/source_org/qemu_master/qemu/qobject/json-parser.c:580
-    #9 0xaaab35583703 in json_message_process_token /Images/source_org/qemu_master/qemu/qobject/json-streamer.c:92
-    #10 0xaaab355ddccf in json_lexer_feed_char /Images/source_org/qemu_master/qemu/qobject/json-lexer.c:313
-    #11 0xaaab355de0eb in json_lexer_feed /Images/source_org/qemu_master/qemu/qobject/json-lexer.c:350
-    #12 0xaaab354aff67 in tcp_chr_read /Images/source_org/qemu_master/qemu/chardev/char-socket.c:525
-    #13 0xfffe4ae429db in g_main_context_dispatch (/lib64/libglib-2.0.so.0+0x529db)
-    #14 0xfffe4ae42d8f  (/lib64/libglib-2.0.so.0+0x52d8f)
-    #15 0xfffe4ae430df in g_main_loop_run (/lib64/libglib-2.0.so.0+0x530df)
-    #16 0xaaab34d70bff in iothread_run /Images/source_org/qemu_master/qemu/iothread.c:82
-    #17 0xaaab3559d71b in qemu_thread_start /Images/source_org/qemu_master/qemu/util/qemu-thread-posix.c:519
+That’s right.
 
-Fixes: 532fb5328473 ("qapi: Make more of qobject_to()")
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Alex Chen <alex.chen@huawei.com>
-Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
----
- qobject/json-parser.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+> so
+> 
+> 
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-diff --git a/qobject/json-parser.c b/qobject/json-parser.c
-index d083810d37..b37762a203 100644
---- a/qobject/json-parser.c
-+++ b/qobject/json-parser.c
-@@ -267,10 +267,13 @@ static int parse_pair(JSONParserContext *ctxt, QDict *dict)
-         goto out;
-     }
- 
--    key = qobject_to(QString, parse_value(ctxt));
--    if (!key) {
--        parse_error(ctxt, peek, "key is not a string in object");
-+    value = parse_value(ctxt);
-+    if (!value || qobject_type(value) != QTYPE_QSTRING) {
-+        qobject_unref(value);
-+        parse_error(ctxt, peek, "value is not a string in object");
-         goto out;
-+    } else {
-+        key = qobject_to(QString, value);
-     }
- 
-     token = parser_context_pop_token(ctxt);
--- 
-2.19.1
+Thanks :)
+
+Max
 
 
