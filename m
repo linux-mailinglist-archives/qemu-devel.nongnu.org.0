@@ -2,78 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03ED42AF1E1
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 14:19:18 +0100 (CET)
-Received: from localhost ([::1]:43408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F07DC2AF232
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 14:31:22 +0100 (CET)
+Received: from localhost ([::1]:45066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcq1t-0003m0-1s
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 08:19:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44468)
+	id 1kcqDZ-00087M-Um
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 08:31:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kcpuy-0006ki-CK
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 08:12:08 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:53369)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kcpur-0002AG-82
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 08:12:08 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id p22so2216680wmg.3
- for <qemu-devel@nongnu.org>; Wed, 11 Nov 2020 05:11:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=dw888WUBG3dup9iRFLokQP+5pVHoFGe06sv7sVLUer4=;
- b=lMnplc5rEZBNUKVkzf7Wlct22WG+ZhE0EMWyvrMBE5Sf2JJk+KyVKPxA/Skw/QvNmk
- u2CyiG56GUc8XSc9sTPIqULI6CSnrExu5LBoNH+PufEvw9ossq3Ef8yUiy8GffW3z+Nn
- 47pqR2FMsESinCX1DmjRREnRyGfa+1Lj2o1oSFZDO5etp5M8QyvDhRC+trLAXVB/i2GC
- 5RUFSzZuqifRP70VHfLw+16hEKrIivUH9rh4XIJaCuvMAq66lIMHSWn/T36yc3eK6UY3
- C1jiYRFXZzWRTNqqTFPA35Aw3Zs1S1KH2tlZr10rBo9DmekelguoKqwdoTKWZBhbSXiZ
- FT2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=dw888WUBG3dup9iRFLokQP+5pVHoFGe06sv7sVLUer4=;
- b=GwceLAEJwckOb3jEpVLwzsGB4+WpFud4o8uY/hLmoRMs4+gP3De3wDJZhV2g88Er+A
- nMhCpG/3meU7wWw2ylWbrwFbbvtzBQlPxEbMb/yl5unR1Q9eUEo+PpOCZokn7YQ9Xb1l
- PFIr3BXCjWZENn9GIxog8mLp1axa0JMkCnMwVKPFEL0PTPOzxoqvMRh5Q88sl9l9LFAg
- mrOlsWuoYGXrWveFFb7uJgHTEAJ9pIT1utJ5HSIENQ3LX9Sp6PT2yvm5NlDQuD0SIebP
- gpQ0YTrLB0iwOhcgR/QsUBU8LpPnU+mvnSth8b1PWg9goF7XRQmvTakKUQq8AjWLAg7L
- lkOw==
-X-Gm-Message-State: AOAM530wuFsAU9NCY8LP/dZUWIFxZFLpdGw3v91t99dB2469e5GZZrEr
- IBBfj64XCdFx9dKSL9umYTSN0qpaHIffZA==
-X-Google-Smtp-Source: ABdhPJw+rKlF8DOk9RxR/GrOWqIRTMzb6siw7v3ReozJQU9DVY9n7mKnVQvL34+KjJAi5jeNmg4Hjg==
-X-Received: by 2002:a7b:c77a:: with SMTP id x26mr4102445wmk.63.1605100318837; 
- Wed, 11 Nov 2020 05:11:58 -0800 (PST)
-Received: from localhost (85.9.90.146.dyn.plus.net. [146.90.9.85])
- by smtp.gmail.com with ESMTPSA id s9sm2763911wrf.90.2020.11.11.05.11.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Nov 2020 05:11:57 -0800 (PST)
-Date: Wed, 11 Nov 2020 13:11:56 +0000
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: dtrace warnings for trace/trace-dtrace-hw_virtio.dtrace
-Message-ID: <20201111131156.GB1395688@stefanha-x1.localdomain>
-References: <87r1p2syo9.fsf@dusky.pond.sub.org>
- <20201109102556.GD684242@redhat.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="IrhDeMKUP4DT/M7F"
-Content-Disposition: inline
-In-Reply-To: <20201109102556.GD684242@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=stefanha@gmail.com; helo=mail-wm1-x32e.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1kcpvF-0007HH-Gr
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 08:12:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52006)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1kcpvC-0002FA-IL
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 08:12:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605100339;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=jnfLh5kQTTjmxj8uOYjWUwt97OU41Ppq7xx2ZfyODaw=;
+ b=G65Q/1kpji8Fe6Di4DxuAviTTMSqksK9nZqkPE2b181nfnvVvWgytwVhbaOheNlVRAtzps
+ KV5t3ca8awSUfvR3IqHqYwemH1lmQjycu9SlJmzyaUvYtNpQgp5O5/Hqz7EPG6oj7+YO+D
+ 8ro/aB4LZjoy/lkodG+WzLDRvlwkMps=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-295-jPysZ_JdO3qWMXfT-hGiug-1; Wed, 11 Nov 2020 08:12:17 -0500
+X-MC-Unique: jPysZ_JdO3qWMXfT-hGiug-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B21BA1009446;
+ Wed, 11 Nov 2020 13:12:16 +0000 (UTC)
+Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-61.pek2.redhat.com
+ [10.72.12.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1725A7513A;
+ Wed, 11 Nov 2020 13:12:14 +0000 (UTC)
+From: Jason Wang <jasowang@redhat.com>
+To: qemu-devel@nongnu.org,
+	peter.maydell@linaro.org
+Subject: [PULL 13/17] net/l2tpv3: Remove redundant check in net_init_l2tpv3()
+Date: Wed, 11 Nov 2020 21:11:37 +0800
+Message-Id: <1605100301-11317-14-git-send-email-jasowang@redhat.com>
+In-Reply-To: <1605100301-11317-1-git-send-email-jasowang@redhat.com>
+References: <1605100301-11317-1-git-send-email-jasowang@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 01:49:01
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,51 +78,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+Cc: AlexChen <alex.chen@huawei.com>, Jason Wang <jasowang@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: AlexChen <alex.chen@huawei.com>
 
---IrhDeMKUP4DT/M7F
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The result has been checked to be NULL before, it cannot be NULL here,
+so the check is redundant. Remove it.
 
-On Mon, Nov 09, 2020 at 10:25:56AM +0000, Daniel P. Berrang=E9 wrote:
-> On Mon, Nov 09, 2020 at 09:48:54AM +0100, Markus Armbruster wrote:
-> > I get this on Fedora 32:
-> >=20
-> > [12/8327] Generating trace-dtrace-hw_virtio.h with a custom command
-> > Warning: /usr/bin/dtrace:trace/trace-dtrace-hw_virtio.dtrace:76: syntax=
- error near:
-> > probe vhost_vdpa_dev_start
-> >=20
-> > Warning: Proceeding as if --no-pyparsing was given.
->=20
-> Patch is posted and reviewed but needs merging still:
->=20
->   https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg05608.html
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: AlexChen <alex.chen@huawei.com>
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+---
+ net/l2tpv3.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-Dan and Markus: Thanks for the reminders. I am sending a QEMU 5.2 pull
-request today.
+diff --git a/net/l2tpv3.c b/net/l2tpv3.c
+index 55fea17..e4d4218 100644
+--- a/net/l2tpv3.c
++++ b/net/l2tpv3.c
+@@ -655,9 +655,8 @@ int net_init_l2tpv3(const Netdev *netdev,
+         error_setg(errp, "could not bind socket err=%i", errno);
+         goto outerr;
+     }
+-    if (result) {
+-        freeaddrinfo(result);
+-    }
++
++    freeaddrinfo(result);
+ 
+     memset(&hints, 0, sizeof(hints));
+ 
+@@ -686,9 +685,7 @@ int net_init_l2tpv3(const Netdev *netdev,
+     memcpy(s->dgram_dst, result->ai_addr, result->ai_addrlen);
+     s->dst_size = result->ai_addrlen;
+ 
+-    if (result) {
+-        freeaddrinfo(result);
+-    }
++    freeaddrinfo(result);
+ 
+     if (l2tpv3->has_counter && l2tpv3->counter) {
+         s->has_counter = true;
+-- 
+2.7.4
 
-Stefan
-
---IrhDeMKUP4DT/M7F
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+r4xwACgkQnKSrs4Gr
-c8ittAf9FTwoPV+QgS17JJ9Lw9AUj6XmeKh9oXhC+i0Y54psLJt+FtKj/ydvotUx
-bkEzeajiYob8QxHAEZhaiPBwejgOJO8tC3EURujiW0XrJ1K4wJoeMnNpZEi9xMWx
-2m3Z53klzYA0UcRzjlApUMGX5sQcx1vLjNoJs7nPIGy+pIXCWkdmnxcydMkHrLTW
-75Kf6oC2QjxjSqEq94JlVgnivGcre2NPKmPKMqpxtUtNk7Gh9mXkslsK8xfFESTg
-PgFsuyrg6iGpVHVYD8V6JTKlZFxnMcjGNmWk/Mj1Vb6rLKwTcSpzLdttqAoldjaq
-M0VUvnNYypTJi7J/w+Lz/Oh5BnGx8Q==
-=pJXI
------END PGP SIGNATURE-----
-
---IrhDeMKUP4DT/M7F--
 
