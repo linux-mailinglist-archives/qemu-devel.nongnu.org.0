@@ -2,69 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B23C92B2BCC
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Nov 2020 07:51:46 +0100 (CET)
-Received: from localhost ([::1]:41458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4693F2B2BFD
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Nov 2020 08:39:32 +0100 (CET)
+Received: from localhost ([::1]:49122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdpPV-0008Cz-Q4
-	for lists+qemu-devel@lfdr.de; Sat, 14 Nov 2020 01:51:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53036)
+	id 1kdq9i-0005sL-QX
+	for lists+qemu-devel@lfdr.de; Sat, 14 Nov 2020 02:39:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kdpOX-0007lf-5U
- for qemu-devel@nongnu.org; Sat, 14 Nov 2020 01:50:45 -0500
-Received: from indium.canonical.com ([91.189.90.7]:35608)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kdpOU-0005fe-K3
- for qemu-devel@nongnu.org; Sat, 14 Nov 2020 01:50:44 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kdpOS-0007CC-FW
- for <qemu-devel@nongnu.org>; Sat, 14 Nov 2020 06:50:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6E4E72E80E8
- for <qemu-devel@nongnu.org>; Sat, 14 Nov 2020 06:50:40 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kdq8X-0004ol-EI; Sat, 14 Nov 2020 02:38:17 -0500
+Received: from ozlabs.org ([203.11.71.1]:57091)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kdq8U-0005Ae-8b; Sat, 14 Nov 2020 02:38:16 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4CY6cz1Bb1z9sVC; Sat, 14 Nov 2020 18:37:54 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1605339475;
+ bh=V8sWMKaU2YDbAcMeC33hScRVXmLQz8ucK2NL/3SPp0w=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=OmqRc/cO4aIdSXl83D4dhG3P4FJw4z9/2DJc4ZoXmgU5Ukvy0A84T7w5Cqsw7bJrJ
+ 4O7+tGux+y32Rh2ZslEchfuzqKyDIT/Yf3kjkpGTBfItpUFSSHqnpvjEH3fFlF7U8R
+ EylDAjlT49U0qTB8q3KgBl91vTrgmMd9k9l+Muho=
+Date: Wed, 11 Nov 2020 17:20:37 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH v2-for-5.2] macio: set user_creatable to false in
+ macio_class_init()
+Message-ID: <20201111062037.GA396466@yekko.fritz.box>
+References: <20201110103111.18395-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 14 Nov 2020 06:38:19 -0000
-From: Thomas Huth <1770724@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ihar-hrachyshka th-huth
-X-Launchpad-Bug-Reporter: Ihar Hrachyshka (ihar-hrachyshka)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <152606337380.25547.9159144751315221757.malonedeb@soybean.canonical.com>
-Message-Id: <160533589917.32677.16728552245763385746.malone@gac.canonical.com>
-Subject: [Bug 1770724] Re: e1000 takes a long time (2 seconds) to set link
- ready
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="38ebca4a151c7e484f2992f7b90f5a3ede13f97f"; Instance="production"
-X-Launchpad-Hash: 2a2de82ad22e8a7b33f2923cd30aab4939f5264a
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/13 22:45:36
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="zhXaljGHf11kAtnf"
+Content-Disposition: inline
+In-Reply-To: <20201110103111.18395-1-mark.cave-ayland@ilande.co.uk>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/14 02:37:56
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,186 +60,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1770724 <1770724@bugs.launchpad.net>
+Cc: qemu-trivial@nongnu.org, thuth@redhat.com, qemu-ppc@nongnu.org,
+ armbru@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently considering to move its bug tracking to anoth=
-er system. For this we need to know which bugs are still valid and which co=
-uld be closed already. Thus we are setting older bugs to "Incomplete" now.
-If you still think this bug report here is valid, then please switch the st=
-ate back to "New" within the next 60 days, otherwise this report will be ma=
-rked as "Expired". Or mark it as "Fix Released" if the problem has been sol=
-ved with a newer version of QEMU already. Thank you and sorry for the incon=
-venience.
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+--zhXaljGHf11kAtnf
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- =
+On Tue, Nov 10, 2020 at 10:31:11AM +0000, Mark Cave-Ayland wrote:
+> Commit 348b8d1a76 "macio: don't reference serial_hd() directly within the=
+ device"
+> removed the setting of user_creatable to false on the basis that the rest=
+riction
+> was due to the use of serial_hd() in macio_instance_init().
+>=20
+> Unfortunately this isn't the full story since the PIC object property lin=
+ks
+> must still be set before the device is realized. Whilst it is possible to=
+ update
+> the macio device and Mac machines to resolve this, the fix is too invasiv=
+e at
+> this point in the release cycle.
+>=20
+> For now simply set user_creatable back to false in macio_class_init() to
+> prevent QEMU from segfaulting in anticipation of the proper fix arriving =
+in
+> QEMU 6.0.
+>=20
+> Reported-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Reviewed-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1770724
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
-Title:
-  e1000 takes a long time (2 seconds) to set link ready
+> ---
+>  hw/misc/macio/macio.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> v2:
+> - Rebase onto master
+> - Add for-5.2 into subject prefix
+> - Add R-B tags from Philippe and Thomas
+>=20
+>=20
+> diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
+> index 51368884d0..bb601f782c 100644
+> --- a/hw/misc/macio/macio.c
+> +++ b/hw/misc/macio/macio.c
+> @@ -456,6 +456,8 @@ static void macio_class_init(ObjectClass *klass, void=
+ *data)
+>      k->class_id =3D PCI_CLASS_OTHERS << 8;
+>      device_class_set_props(dc, macio_properties);
+>      set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+> +    /* Reason: requires PIC property links to be set in macio_*_realize(=
+) */
+> +    dc->user_creatable =3D false;
+>  }
+> =20
+>  static const TypeInfo macio_bus_info =3D {
 
-Status in QEMU:
-  Incomplete
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-Bug description:
-  When a VM is booted with e1000 NIC, it takes a long time (2 seconds)
-  for the guest to bring up the link. This can be seen in the following
-  dmesg messages:
+--zhXaljGHf11kAtnf
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  [    4.899773] IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
-  [    6.889165] e1000: eth0 NIC Link is Up 1000 Mbps Full Duplex, Flow Con=
-trol: RX
-  [    6.891372] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+-----BEGIN PGP SIGNATURE-----
 
-  The first message happens when the guest calls to ifup eth0; ifup does
-  not hold control until the link is established. The guest I am using
-  (cirros 0.4.0) then starts udhcpc DHCP client that issues a DHCP
-  request, then waits for 60 seconds for reply, then repeats the DHCP
-  request. When the first request is sent, the link is not ready yet, so
-  the frame is lost; when the second request is sent, the link is up and
-  DHCP lease is received.
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+rgrIACgkQbDjKyiDZ
+s5KoCw/9GhUSQf6iKXSg9wfx1UY1mv27envv8xbxNfm7AWCdu1aaiaSucGg2T/oV
+m2p+vaPa8RTGPPDrW14zdT0lGOTOW2qp9XvsrpbWx1LiHWLQqw/CAbJRX3khFOoL
+hzOsnvEG8We4EYs/FQIfJnd573cAl/r4bmJNBitqmfMbH33UFUOnqIMTobY0ftcd
+HWn+gYAXY4YPXrBdw+d3xNT3yVqblT4jRAZdGWJEd+nh44M9uFN7vQLbHIQfRT7Z
+oIGOZBCf63sCZ8WeGCBEvOvzm7nRCLAZYofpHSLLjbbfRy4qK9JbuiSYGKjd1+LT
+Dds6iZZQx19JvtegJ3aX9qX09MLo1d0geUZdg++bD49nLh5p2igQQKcBZhaQ0RSU
+6w7Fk2VTmMCs+3lYvrmSVMhnUrIeW15UbIY6coMNbmAkVjji1QSGBRMCsOedFpxT
++qF5H9e5NitgdJAkMwwlC7+Atu8qKUbaG+ah4P3fIJ+fd4yEzfNYwEllEQ5wY32k
+pBqDla0hQNA26TSPlvf0pQG2umi4vuwCAsSiQyFdqN2I+6EKt6yaJxJ/KAUWEP6E
+K1wh2IlSMVivQ2RFXBfC14hO7R0tMf1x5dRoLWaHROIhwFqkuEmq2ADc1l9jV6cu
+GMxtkFgJkjX5wwMA/LMP9UXaFUiq6F9uo+fNBi+La7el/Yp+tYA=
+=7zQh
+-----END PGP SIGNATURE-----
 
-  If I use different NICs (e1000e, virtio, rtl*), there are no dmesg
-  messages, and the very first DHCP request correctly reaches outside
-  and results in a lease acquired.
-
-  The qemu version I am using is 2.10.1 from Fedora 27. I tried to
-  reproduce with runtime from Fedora 29 that includes 2.12 but I have
-  different issues there that block me from reproducing the original
-  issue (there, I get kernel traces, irq interrupt errors, and no
-  network link at all).
-
-  For the record, the qemu in question is started by kubevirt inside a
-  docker container with Fedora 27 based image.
-
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
-
-  The command line of qemu is as follows:
-
-  27404 ?        Sl     0:10 /usr/bin/qemu-system-x86_64 -machine
-  accel=3Dkvm -name guest=3Ddefault_ovm-cirros,debug-threads=3Don -S -object
-  secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/domain-1
-  -default_ovm-cirros/master-key.aes -machine
-  pc-q35-2.10,accel=3Dkvm,usb=3Doff,dump-guest-core=3Doff -m 62 -realtime
-  mlock=3Doff -smp 1,sockets=3D1,cores=3D1,threads=3D1 -uuid
-  8769fdbe-d957-5567-bd71-114ba0eb4811 -no-user-config -nodefaults
-  -chardev socket,id=3Dcharmonitor,path=3D/var/lib/libvirt/qemu/domain-1
-  -default_ovm-cirros/monitor.sock,server,nowait -mon
-  chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol -rtc base=3Dutc -no-shu=
-tdown
-  -no-acpi -boot strict=3Don -device
-  i82801b11-bridge,id=3Dpci.1,bus=3Dpcie.0,addr=3D0x1e -device pci-
-  bridge,chassis_nr=3D2,id=3Dpci.2,bus=3Dpci.1,addr=3D0x0 -device pcie-root-
-  port,port=3D0x10,chassis=3D3,id=3Dpci.3,bus=3Dpcie.0,multifunction=3Don,a=
-ddr=3D0x2
-  -device pcie-root-
-  port,port=3D0x11,chassis=3D4,id=3Dpci.4,bus=3Dpcie.0,addr=3D0x2.0x1 -devi=
-ce
-  pcie-root-port,port=3D0x12,chassis=3D5,id=3Dpci.5,bus=3Dpcie.0,addr=3D0x2=
-.0x2
-  -device pcie-root-
-  port,port=3D0x13,chassis=3D6,id=3Dpci.6,bus=3Dpcie.0,addr=3D0x2.0x3 -devi=
-ce
-  pcie-root-port,port=3D0x14,chassis=3D7,id=3Dpci.7,bus=3Dpcie.0,addr=3D0x2=
-.0x4
-  -device nec-usb-xhci,id=3Dusb,bus=3Dpci.3,addr=3D0x0 -drive
-  file=3D/var/run/libvirt/kubevirt-ephemeral-disk/registry-disk-
-  data/default/ovm-cirros/disk_registryvolume/disk-
-  image.raw,format=3Draw,if=3Dnone,id=3Ddrive-virtio-disk0 -device virtio-b=
-lk-
-  pci,scsi=3Doff,bus=3Dpci.4,addr=3D0x0,drive=3Ddrive-virtio-disk0,id=3Dvir=
-tio-
-  disk0,bootindex=3D1 -drive file=3D/var/run/libvirt/kubevirt-ephemeral-disk
-  /cloud-init-data/default/ovm-cirros/noCloud.iso,format=3Draw,if=3Dnone,id
-  =3Ddrive-virtio-disk1 -device virtio-blk-
-  pci,scsi=3Doff,bus=3Dpci.5,addr=3D0x0,drive=3Ddrive-virtio-disk1,id=3Dvir=
-tio-
-  disk1 -netdev tap,fd=3D23,id=3Dhostnet0 -device
-  e1000,netdev=3Dhostnet0,id=3Dnet0,mac=3D0a:58:0a:f4:01:e1,bus=3Dpci.2,add=
-r=3D0x1
-  -chardev socket,id=3Dcharserial0,path=3D/var/run/kubevirt-private/default
-  /ovm-cirros/virt-serial0,server,nowait -device isa-
-  serial,chardev=3Dcharserial0,id=3Dserial0 -vnc vnc=3Dunix:/var/run/kubevi=
-rt-
-  private/default/ovm-cirros/virt-vnc -device
-  VGA,id=3Dvideo0,vgamem_mb=3D16,bus=3Dpcie.0,addr=3D0x1 -device virtio-bal=
-loon-
-  pci,id=3Dballoon0,bus=3Dpci.6,addr=3D0x0 -msg timestamp=3Don
-
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-
-  Hypervisor versions of interest:
-
-  [vagrant@node02 ~]$ sudo docker exec -it $(sudo docker ps | grep virt-lau=
-ncher-ovm-cirros | grep entrypoint | awk -e '{print $1}') rpm -qa | grep 'q=
-emu\|libvirt'
-  qemu-block-curl-2.10.1-2.fc27.x86_64
-  qemu-block-ssh-2.10.1-2.fc27.x86_64
-  qemu-block-nfs-2.10.1-2.fc27.x86_64
-  qemu-system-x86-core-2.10.1-2.fc27.x86_64
-  libvirt-daemon-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-storage-disk-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-storage-mpath-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-storage-zfs-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-nwfilter-3.7.0-4.fc27.x86_64
-  qemu-img-2.10.1-2.fc27.x86_64
-  qemu-common-2.10.1-2.fc27.x86_64
-  qemu-block-dmg-2.10.1-2.fc27.x86_64
-  qemu-block-rbd-2.10.1-2.fc27.x86_64
-  qemu-system-x86-2.10.1-2.fc27.x86_64
-  libvirt-libs-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-storage-core-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-qemu-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-storage-gluster-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-storage-logical-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-storage-rbd-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-storage-sheepdog-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-storage-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-nodedev-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-secret-3.7.0-4.fc27.x86_64
-  libvirt-client-3.7.0-4.fc27.x86_64
-  ipxe-roms-qemu-20161108-2.gitb991c67.fc26.noarch
-  qemu-block-gluster-2.10.1-2.fc27.x86_64
-  qemu-block-iscsi-2.10.1-2.fc27.x86_64
-  qemu-kvm-2.10.1-2.fc27.x86_64
-  libvirt-daemon-driver-network-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-storage-iscsi-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-storage-scsi-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-interface-3.7.0-4.fc27.x86_64
-  libvirt-daemon-kvm-3.7.0-4.fc27.x86_64
-
-  [vagrant@node02 ~]$ uname -a
-  Linux node02 3.10.0-693.17.1.el7.x86_64 #1 SMP Thu Jan 25 20:13:58 UTC 20=
-18 x86_64 x86_64 x86_64 GNU/Linux
-
-  [vagrant@node02 ~]$ cat /etc/redhat-release
-  CentOS Linux release 7.4.1708 (Core)
-
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-
-  Guest:
-
-  $ uname -a
-  Linux ovm-cirros 4.4.0-28-generic #47-Ubuntu SMP Fri Jun 24 10:09:13 UTC =
-2016 x86_64 GNU/Linux
-
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-
-  Bug trackers for other projects:
-  - cirros: https://bugs.launchpad.net/cirros/+bug/1768955
-  - kubevirt: https://github.com/kubevirt/kubevirt/issues/936
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1770724/+subscriptions
+--zhXaljGHf11kAtnf--
 
