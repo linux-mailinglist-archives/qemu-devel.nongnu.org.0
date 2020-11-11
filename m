@@ -2,33 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 136102B004B
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ED6A2B004A
 	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 08:23:05 +0100 (CET)
-Received: from localhost ([::1]:33050 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:33054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kd6wh-0000f3-HK
+	id 1kd6wh-0000fC-Pv
 	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 02:23:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50950)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kd6uP-0007Hy-Ub; Thu, 12 Nov 2020 02:20:41 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:2142)
+ id 1kd6uR-0007I9-6b; Thu, 12 Nov 2020 02:20:43 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:2141)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kd6uN-0006Cr-Ej; Thu, 12 Nov 2020 02:20:41 -0500
+ id 1kd6uN-0006Cq-B7; Thu, 12 Nov 2020 02:20:42 -0500
 Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CWtKc5Bbvz76Kg;
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CWtKc4ytJz76JM;
  Thu, 12 Nov 2020 15:20:20 +0800 (CST)
 Received: from huawei.com (10.175.104.175) by DGGEMS413-HUB.china.huawei.com
  (10.3.19.213) with Microsoft SMTP Server id 14.3.487.0; Thu, 12 Nov 2020
- 15:20:21 +0800
+ 15:20:23 +0800
 From: Gan Qixin <ganqixin@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH v2 0/4] Categorize some uncategorized devices
-Date: Thu, 12 Nov 2020 00:47:06 +0800
-Message-ID: <20201111164710.644863-1-ganqixin@huawei.com>
+Subject: [PATCH v2 1/4] ssd0323: put it into the 'display' category
+Date: Thu, 12 Nov 2020 00:47:07 +0800
+Message-ID: <20201111164710.644863-2-ganqixin@huawei.com>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20201111164710.644863-1-ganqixin@huawei.com>
+References: <20201111164710.644863-1-ganqixin@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -62,29 +64,26 @@ Cc: thuth@redhat.com, zhang.zhanghailiang@huawei.com, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
+The category of the ssd0323 device is not set, put it into the 'display'
+category.
 
-I found some uncategorized devices and categorize them in these patches.
-
-Thanks,
-Gan Qixin
-
-v1->v2: Correct some spelling errors and limit commit message line length
-to around 70.
-
-
-Gan Qixin (4):
-  ssd0323: put it into the 'display' category
-  ads7846: put it into the 'display' category
-  nand: put it into the 'storage' category
-  max111x: put it into the 'misc' category
-
- hw/block/nand.c      | 1 +
- hw/display/ads7846.c | 2 ++
+Signed-off-by: Gan Qixin <ganqixin@huawei.com>
+---
  hw/display/ssd0323.c | 1 +
- hw/misc/max111x.c    | 1 +
- 4 files changed, 5 insertions(+)
+ 1 file changed, 1 insertion(+)
 
+diff --git a/hw/display/ssd0323.c b/hw/display/ssd0323.c
+index 17d4b32ae3..cbfd21dfd5 100644
+--- a/hw/display/ssd0323.c
++++ b/hw/display/ssd0323.c
+@@ -370,6 +370,7 @@ static void ssd0323_class_init(ObjectClass *klass, void *data)
+     k->transfer = ssd0323_transfer;
+     k->cs_polarity = SSI_CS_HIGH;
+     dc->vmsd = &vmstate_ssd0323;
++    set_bit(DEVICE_CATEGORY_DISPLAY, dc->categories);
+ }
+ 
+ static const TypeInfo ssd0323_info = {
 -- 
 2.23.0
 
