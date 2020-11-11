@@ -2,52 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2751C2AF704
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 17:56:41 +0100 (CET)
-Received: from localhost ([::1]:52850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1BE02AF735
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 18:09:07 +0100 (CET)
+Received: from localhost ([::1]:46400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kctQF-0004wb-Mf
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 11:56:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46366)
+	id 1kctcI-0006Pt-BS
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 12:09:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kctOG-0003uf-Dw; Wed, 11 Nov 2020 11:54:36 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:38401)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kctW8-0001Uo-T3; Wed, 11 Nov 2020 12:02:44 -0500
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:45649)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kctOE-00042Q-4S; Wed, 11 Nov 2020 11:54:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=Ty7V6yYhUsrsBEW9hpoAzsnk1Eqy0SzMXTEJR2uFaE4=; 
- b=rUHKFbWi2wp3/up4AlLXaZfYg3hdnusPUbh5a4ix5CfZ1plmSBS/1V08bWaUiZ6UpeTmANCwsfEcDvPiogCvlVnwRyZftSD3M/EREqW5ZnRAXeg8D0WfwAWcf0VM0JY0W4ja0Gew5BH8zwlcxxrEToWfnSr6liSa0rURmUdOSpmPpmSI76LJhXcYW9JqnovUIy9kkcy6dh6sL4i6p5gonHF+nal4CrllaicvnYyKLx1uIMov3qg32Y9D4e2TEaH8Yobrgyds8nkd2qtHzozy7b+VIa+J6zZ1LP4e6YeyGqoH77kmyo1bdeh7nTVgWAJUGZZ3F1+oqClkW07MrhxD/Q==;
-Received: from [213.94.31.64] (helo=perseus.local)
- by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1kctNq-0007uS-K8; Wed, 11 Nov 2020 17:54:10 +0100
-Received: from berto by perseus.local with local (Exim 4.92)
- (envelope-from <berto@igalia.com>)
- id 1kctNc-0003m2-Tf; Wed, 11 Nov 2020 17:53:56 +0100
-From: Alberto Garcia <berto@igalia.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/2] quorum: Implement bdrv_co_pwrite_zeroes()
-Date: Wed, 11 Nov 2020 17:53:55 +0100
-Message-Id: <2faad461e6bffc4a50547547b8c20c39e0f544e8.1605111801.git.berto@igalia.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1605111801.git.berto@igalia.com>
-References: <cover.1605111801.git.berto@igalia.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kctW6-0006zB-H7; Wed, 11 Nov 2020 12:02:44 -0500
+Received: by mail-io1-xd42.google.com with SMTP id u21so2963220iol.12;
+ Wed, 11 Nov 2020 09:02:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=o4KuyojbxoN0QbpbzLNpvkg+zhVtdpr/SKldbV8LedQ=;
+ b=f7dyaCAXL3QdyDjPuBKZXwcDGpp1lQ6aebo8jXqSOaWPUQYWIEMWSjlCzDqMKtbP8h
+ 8kq0IWYqvogXZG6nVQacrJP7W8x2LGPgBVLESsh7cBEKwXbwmMAA8MjPpOaaTd2MtY3c
+ c5GQC+r56GjDy5PVTEsT54uCMyY7qZRxfYzyh4fiqVKT70aSY76Bfdj8rov4228Dx9mb
+ 7T5kGlghXulFVHhlQnb9nxTKKABVYh+jk+nLRyHQ8y6oF4Lf26XrsNEvC0NnHoLAe7M0
+ 5G2pGhNBMLfjeoziFKk/Boq+5/BLTfOC+SHB+P2rlOTkHKuDei8PnSBgL7hcHfx2m1od
+ /enA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=o4KuyojbxoN0QbpbzLNpvkg+zhVtdpr/SKldbV8LedQ=;
+ b=G3BTzbKO8asPTMmfGZrpx/ZyhVkG/luT0K+LSXELospvBbck5y8RA/c1L7xHc2IEAu
+ 8J+dJ2fKro6ksh+aLBlRE3Gj/oimJhF2PJR0/3EpnxZVOvtnPE3/mJ0Wgam6GG/KIfLb
+ RTkI55s5vVSt909yeyySzQAI6yXw+lkJOi74sA6fosJOibx2I0SzTXJ9UnED99dlvK9L
+ DP49Y2wXayRV4TOwSd6YA6MzC6Z3imhQK8VXUM32MJIB4WEnQpMLq//c/dws8PEacmvO
+ 5s4pWvFsCA8kU5NnS4E0G25BR42YmH78ChHalbaLegViKnIUiBdhN8YbB+ib6950KpHs
+ MN4w==
+X-Gm-Message-State: AOAM531ve09BYreT8Z3ObvUWIyuISSLHbxZZceLVR9YJ0z/VX6HWRj+j
+ c6LfSeoY6c7hj7N82hKtujhQshnQjToxbSGYjmg=
+X-Google-Smtp-Source: ABdhPJwF5zXGAkcgHbUMIWIhB8I5x7YrSLqzZ7+Io3r/7Eq3ugXeJ/xq36zM08SSiVveuqg7HpCX1l6wY6PWFlTW8v0=
+X-Received: by 2002:a05:6602:2d4e:: with SMTP id
+ d14mr19530485iow.105.1605114159201; 
+ Wed, 11 Nov 2020 09:02:39 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
- helo=fanzine.igalia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 11:54:12
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+References: <20201111094725.3768755-1-anup.patel@wdc.com>
+In-Reply-To: <20201111094725.3768755-1-anup.patel@wdc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 11 Nov 2020 08:50:35 -0800
+Message-ID: <CAKmqyKMAHxO-OH=iV6pMinKYLvnwF2Opu18LsiVjwvwEF+7GLw@mail.gmail.com>
+Subject: Re: [PATCH] hw/riscv: sifive_u: Add UART1 DT node in the generated DTB
+To: Anup Patel <anup.patel@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd42.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,98 +78,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Tao Xu <tao3.xu@intel.com>,
- Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This simply calls bdrv_co_pwrite_zeroes() in all children
+On Wed, Nov 11, 2020 at 1:48 AM Anup Patel <anup.patel@wdc.com> wrote:
+>
+> The sifive_u machine emulates two UARTs but we have only UART0 DT
+> node in the generated DTB so this patch adds UART1 DT node in the
+> generated DTB.
+>
+> Signed-off-by: Anup Patel <anup.patel@wdc.com>
 
-Signed-off-by: Alberto Garcia <berto@igalia.com>
----
- block/quorum.c             | 18 ++++++++++++++++--
- tests/qemu-iotests/312     |  7 +++++++
- tests/qemu-iotests/312.out |  4 ++++
- 3 files changed, 27 insertions(+), 2 deletions(-)
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-diff --git a/block/quorum.c b/block/quorum.c
-index 9691a9bee9..c81572f513 100644
---- a/block/quorum.c
-+++ b/block/quorum.c
-@@ -692,8 +692,13 @@ static void write_quorum_entry(void *opaque)
-     QuorumChildRequest *sacb = &acb->qcrs[i];
- 
-     sacb->bs = s->children[i]->bs;
--    sacb->ret = bdrv_co_pwritev(s->children[i], acb->offset, acb->bytes,
--                                acb->qiov, acb->flags);
-+    if (acb->flags & BDRV_REQ_ZERO_WRITE) {
-+        sacb->ret = bdrv_co_pwrite_zeroes(s->children[i], acb->offset,
-+                                          acb->bytes, acb->flags);
-+    } else {
-+        sacb->ret = bdrv_co_pwritev(s->children[i], acb->offset, acb->bytes,
-+                                    acb->qiov, acb->flags);
-+    }
-     if (sacb->ret == 0) {
-         acb->success_count++;
-     } else {
-@@ -739,6 +744,14 @@ static int quorum_co_pwritev(BlockDriverState *bs, uint64_t offset,
-     return ret;
- }
- 
-+static int quorum_co_pwrite_zeroes(BlockDriverState *bs, int64_t offset,
-+                                   int bytes, BdrvRequestFlags flags)
-+
-+{
-+    return quorum_co_pwritev(bs, offset, bytes, NULL,
-+                             flags | BDRV_REQ_ZERO_WRITE);
-+}
-+
- static int64_t quorum_getlength(BlockDriverState *bs)
- {
-     BDRVQuorumState *s = bs->opaque;
-@@ -1251,6 +1264,7 @@ static BlockDriver bdrv_quorum = {
- 
-     .bdrv_co_preadv                     = quorum_co_preadv,
-     .bdrv_co_pwritev                    = quorum_co_pwritev,
-+    .bdrv_co_pwrite_zeroes              = quorum_co_pwrite_zeroes,
- 
-     .bdrv_add_child                     = quorum_add_child,
-     .bdrv_del_child                     = quorum_del_child,
-diff --git a/tests/qemu-iotests/312 b/tests/qemu-iotests/312
-index 1b08f1552f..93046393e7 100755
---- a/tests/qemu-iotests/312
-+++ b/tests/qemu-iotests/312
-@@ -114,6 +114,13 @@ $QEMU_IO -c "write -P 0 $((0x200000)) $((0x10000))" "$TEST_IMG.0" | _filter_qemu
- $QEMU_IO -c "write -z   $((0x200000)) $((0x30000))" "$TEST_IMG.1" | _filter_qemu_io
- $QEMU_IO -c "write -P 0 $((0x200000)) $((0x20000))" "$TEST_IMG.2" | _filter_qemu_io
- 
-+# Test 5: write data to a region and then zeroize it, doing it
-+# directly on the quorum device instead of the individual images.
-+# This has no effect on the end result but proves that the quorum driver
-+# supports 'write -z'.
-+$QEMU_IO -c "open -o $quorum" -c "write $((0x250000)) $((0x10000))" | _filter_qemu_io
-+$QEMU_IO -c "open -o $quorum" -c "write -z $((0x250000)) $((0x10000))" | _filter_qemu_io
-+
- echo
- echo '### Launch the drive-mirror job'
- echo
-diff --git a/tests/qemu-iotests/312.out b/tests/qemu-iotests/312.out
-index 4ae749175b..778dda95c7 100644
---- a/tests/qemu-iotests/312.out
-+++ b/tests/qemu-iotests/312.out
-@@ -39,6 +39,10 @@ wrote 196608/196608 bytes at offset 2097152
- 192 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- wrote 131072/131072 bytes at offset 2097152
- 128 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 65536/65536 bytes at offset 2424832
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 65536/65536 bytes at offset 2424832
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 
- ### Launch the drive-mirror job
- 
--- 
-2.20.1
+Alistair
 
+> ---
+>  hw/riscv/sifive_u.c | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+>
+> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+> index 2f19a9cda2..146944a293 100644
+> --- a/hw/riscv/sifive_u.c
+> +++ b/hw/riscv/sifive_u.c
+> @@ -387,6 +387,21 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+>      qemu_fdt_setprop_cell(fdt, nodename, "reg", 0x0);
+>      g_free(nodename);
+>
+> +    nodename = g_strdup_printf("/soc/serial@%lx",
+> +        (long)memmap[SIFIVE_U_DEV_UART1].base);
+> +    qemu_fdt_add_subnode(fdt, nodename);
+> +    qemu_fdt_setprop_string(fdt, nodename, "compatible", "sifive,uart0");
+> +    qemu_fdt_setprop_cells(fdt, nodename, "reg",
+> +        0x0, memmap[SIFIVE_U_DEV_UART1].base,
+> +        0x0, memmap[SIFIVE_U_DEV_UART1].size);
+> +    qemu_fdt_setprop_cells(fdt, nodename, "clocks",
+> +        prci_phandle, PRCI_CLK_TLCLK);
+> +    qemu_fdt_setprop_cell(fdt, nodename, "interrupt-parent", plic_phandle);
+> +    qemu_fdt_setprop_cell(fdt, nodename, "interrupts", SIFIVE_U_UART1_IRQ);
+> +
+> +    qemu_fdt_setprop_string(fdt, "/aliases", "serial1", nodename);
+> +    g_free(nodename);
+> +
+>      nodename = g_strdup_printf("/soc/serial@%lx",
+>          (long)memmap[SIFIVE_U_DEV_UART0].base);
+>      qemu_fdt_add_subnode(fdt, nodename);
+> --
+> 2.25.1
+>
+>
 
