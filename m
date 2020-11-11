@@ -2,33 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14B422AF373
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 15:24:30 +0100 (CET)
-Received: from localhost ([::1]:35998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 580CB2AF37D
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 15:26:03 +0100 (CET)
+Received: from localhost ([::1]:41638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcr2z-0005bp-4h
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 09:24:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34412)
+	id 1kcr4U-0007wc-CN
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 09:26:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kcr1Q-0004De-Qe; Wed, 11 Nov 2020 09:22:52 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2412)
+ id 1kcr1W-0004Kf-KS; Wed, 11 Nov 2020 09:22:58 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2413)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kcr1D-0000br-4a; Wed, 11 Nov 2020 09:22:52 -0500
+ id 1kcr1I-0000c1-Fz; Wed, 11 Nov 2020 09:22:58 -0500
 Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CWRl337pXz15NwY;
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CWRl33WM9z15TDv;
  Wed, 11 Nov 2020 22:22:23 +0800 (CST)
 Received: from huawei.com (10.175.104.175) by DGGEMS411-HUB.china.huawei.com
  (10.3.19.211) with Microsoft SMTP Server id 14.3.487.0; Wed, 11 Nov 2020
- 22:22:23 +0800
+ 22:22:24 +0800
 From: Chen Qun <kuhn.chenqun@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH v2 0/5] fix uninitialized variable warning
-Date: Wed, 11 Nov 2020 22:21:58 +0800
-Message-ID: <20201111142203.2359370-1-kuhn.chenqun@huawei.com>
+Subject: [PATCH v2 1/5] hw/rdma/rdma_backend: fix uninitialized variable
+ warning in rdma_poll_cq()
+Date: Wed, 11 Nov 2020 22:21:59 +0800
+Message-ID: <20201111142203.2359370-2-kuhn.chenqun@huawei.com>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20201111142203.2359370-1-kuhn.chenqun@huawei.com>
+References: <20201111142203.2359370-1-kuhn.chenqun@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
@@ -43,7 +46,7 @@ X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,39 +59,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, zhang.zhanghailiang@huawei.com,
- ganqixin@huawei.com, Chen Qun <kuhn.chenqun@huawei.com>
+Cc: peter.maydell@linaro.org, ganqixin@huawei.com,
+ zhang.zhanghailiang@huawei.com, Yuval Shaia <yuval.shaia.ml@gmail.com>,
+ Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
-  There are some variables initialized warnings reported by the GCC_9.3 compiler.
-This serial has added some default values or changed the assignment places for the variablies to fix them.
+After the WITH_QEMU_LOCK_GUARD macro is added, the compiler cannot identify
+ that the statements in the macro must be executed. As a result, some variables
+ assignment statements in the macro may be considered as unexecuted by the compiler.
 
-v1->v2:
---patch1: Drop it base on Max Filippov comment.
---patch2->patch1: Add Marcel Apfelbaum and  Yuval Shaia review comment.
---patch3->patch2: Add Philippe Mathieu-Daudé review comment.
---patch6->patch5: Add Philippe Mathieu-Daudé review comment.
+When the -Wmaybe-uninitialized capability is enabled on GCC9,the compiler showed warning:
+hw/rdma/rdma_backend.c: In function ‘rdma_poll_cq’:
+hw/rdma/rdma_utils.h:25:5: warning: ‘ne’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+ 25 |     error_report("%s: " fmt, "rdma", ## __VA_ARGS__)
+    |     ^~~~~~~~~~~~
+hw/rdma/rdma_backend.c:93:12: note: ‘ne’ was declared here
+ 93 |     int i, ne, total_ne = 0;
+    |            ^~
 
+Add a default value for 'ne' to prevented the warning.
 
-Chen Qun (5):
-  hw/rdma/rdma_backend: fix uninitialized variable warning in
-    rdma_poll_cq()
-  util/qemu-timer: fix uninitialized variable warning in
-    timer_mod_anticipate_ns()
-  util/qemu-timer: fix uninitialized variable warning for expire_time
-  plugins/loader: fix uninitialized variable warning in
-    plugin_reset_uninstall()
-  migration: fix uninitialized variable warning in
-    migrate_send_rp_req_pages()
-
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+Reviewed-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Reviewed-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
+---
+Cc: Yuval Shaia <yuval.shaia.ml@gmail.com>
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+---
  hw/rdma/rdma_backend.c | 2 +-
- migration/migration.c  | 2 +-
- plugins/loader.c       | 2 +-
- util/qemu-timer.c      | 8 +++-----
- 4 files changed, 6 insertions(+), 8 deletions(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/hw/rdma/rdma_backend.c b/hw/rdma/rdma_backend.c
+index 5de010b1fa..2fe4a3501c 100644
+--- a/hw/rdma/rdma_backend.c
++++ b/hw/rdma/rdma_backend.c
+@@ -90,7 +90,7 @@ static void clean_recv_mads(RdmaBackendDev *backend_dev)
+ 
+ static int rdma_poll_cq(RdmaDeviceResources *rdma_dev_res, struct ibv_cq *ibcq)
+ {
+-    int i, ne, total_ne = 0;
++    int i, ne = 0, total_ne = 0;
+     BackendCtx *bctx;
+     struct ibv_wc wc[2];
+     RdmaProtectedGSList *cqe_ctx_list;
 -- 
 2.27.0
 
