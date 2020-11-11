@@ -2,85 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E09D2AF0BA
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 13:37:22 +0100 (CET)
-Received: from localhost ([::1]:55824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C78F32AF0E9
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 13:40:53 +0100 (CET)
+Received: from localhost ([::1]:59510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcpNI-0002X0-Ti
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 07:37:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35958)
+	id 1kcpQi-0004As-R8
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 07:40:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kcpMT-00024a-MA
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 07:36:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34283)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kcpOF-00034z-QI
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 07:38:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21332)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kcpMP-0006zj-31
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 07:36:29 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kcpO9-0007gh-7j
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 07:38:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605098154;
+ s=mimecast20190719; t=1605098291;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GmvlA3sfqJShiwUYqg8yJbDj/xLESBHaRs2MiFncIEM=;
- b=Z3Qwjex+R6BrC8POQTxhKnE5S1AV3PmrkMnOD92gOtY0O3cUlI1RQ/sXdBxbop10LV0K9n
- 73gTapyofewCTZRJHTZvmriiqb7PqjE+bzcEyWKzvrilQP/5TSUvGOIqJ96+BR6ywNJPMJ
- aEN9l8ndT5Brhc3nTiqlNFWays3CtSY=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-298-gL2-M2FFOHCkA6ww8_XPYg-1; Wed, 11 Nov 2020 07:35:53 -0500
-X-MC-Unique: gL2-M2FFOHCkA6ww8_XPYg-1
-Received: by mail-wr1-f70.google.com with SMTP id v5so553732wrr.0
- for <qemu-devel@nongnu.org>; Wed, 11 Nov 2020 04:35:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=GmvlA3sfqJShiwUYqg8yJbDj/xLESBHaRs2MiFncIEM=;
- b=q2/YxnHjCVnRysvbkvs6TZHV9LPH6nF/7b7ulRGB+efxZZWahlQDEed7DiHqlNkeFs
- UkzTFeVMv5lScqMjyyKHvo4V9eQMfPaN/NkvMfolRp3Em+gtRnL7ehN0pniTLMeEghVC
- 8Ggccv+uY40sPnty4BpT+oPzauBDcHD2s58ASg9q2yHExSUu2NRG2GH3OGijRrC8+WXY
- 7QArXzojoGWqSSIM+67lLN1mHzR+FWxwGk52k9ZwqA3q82ku4N+NX5w6RuvGCM47LDfS
- 9knNQF25TunmRduj8SDyb9GoVyjzYwfRpXH5iclKA7n+/0HvSWwx/L1VzYEN83BNuPZS
- okWA==
-X-Gm-Message-State: AOAM533ZZgxYX0A6t923TZf5qlp/pG52mAfjlI+DeLhshyHZgpOneOht
- FDwtJi0fgK12VuTL3aZjx0xOAqHf/vi+OgiviQiSca+0eMZ286IaWe7iNZdIzNBXd4srt0Y5zGV
- X37oPEDU0ie3n/wo=
-X-Received: by 2002:adf:f9c5:: with SMTP id w5mr238474wrr.69.1605098151893;
- Wed, 11 Nov 2020 04:35:51 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwItW/RUfxuEw5pXE28ubWKJIxrRfPpLTNAGvSH6MQ0QpBVp/UzSHA2n8zY/VbpGb+Z7qwaTA==
-X-Received: by 2002:adf:f9c5:: with SMTP id w5mr238451wrr.69.1605098151684;
- Wed, 11 Nov 2020 04:35:51 -0800 (PST)
-Received: from redhat.com (bzq-109-66-2-153.red.bezeqint.net. [109.66.2.153])
- by smtp.gmail.com with ESMTPSA id
- x1sm2336053wrl.41.2020.11.11.04.35.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Nov 2020 04:35:50 -0800 (PST)
-Date: Wed, 11 Nov 2020 07:35:47 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: Re: [PATCH] pci: Refuse to hotplug PCI Devices when the Guest OS is
- not ready
-Message-ID: <20201111073443-mutt-send-email-mst@kernel.org>
-References: <20201022114026.31968-1-marcel.apfelbaum@gmail.com>
+ bh=9MA7f/mVdcVt1gC4dfE1qUjIZiWHtO3ZEnmv5kq8Q4Y=;
+ b=hUsOxAXuZKMepgp4mEnNciuKejX4yyCLu4wNl4GdEJj5VctKgkhII+tKvjlGnUqyvLYrY4
+ hzX5J7CFVJQoth1QyB1chswvRzxZZuB+E0P/yRWuuh+sMqnnWJvODF5F2KyZ4fZKdhoy+b
+ 1P+JQh3kwy5pqvXFSYxhnKzgl1g6pdM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-109-YzcQ-4DfNAm0DUUDYn0JrQ-1; Wed, 11 Nov 2020 07:38:10 -0500
+X-MC-Unique: YzcQ-4DfNAm0DUUDYn0JrQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C24C801F9A;
+ Wed, 11 Nov 2020 12:38:09 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 456756EF4A;
+ Wed, 11 Nov 2020 12:37:55 +0000 (UTC)
+Date: Wed, 11 Nov 2020 13:37:54 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v2 04/12] microvm: make number of virtio transports
+ runtime configurable
+Message-ID: <20201111133754.62184836@redhat.com>
+In-Reply-To: <20201105133923.23821-5-kraxel@redhat.com>
+References: <20201105133923.23821-1-kraxel@redhat.com>
+ <20201105133923.23821-5-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201022114026.31968-1-marcel.apfelbaum@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 01:42:46
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 01:49:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,60 +82,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: dgibson@redhat.com, jusual@redhat.com, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 22, 2020 at 02:40:26PM +0300, Marcel Apfelbaum wrote:
-> From: Marcel Apfelbaum <marcel@redhat.com>
-> 
-> During PCIe Root Port's transition from Power-Off to Power-ON (or vice-versa)
-> the "Slot Control Register" has the "Power Indicator Control"
-> set to "Blinking" expressing a "power transition" mode.
-> 
-> Any hotplug operation during the "power transition" mode is not permitted
-> or at least not expected by the Guest OS leading to strange failures.
-> 
-> Detect and refuse hotplug operations in such case.
-> 
-> Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+On Thu,  5 Nov 2020 14:39:15 +0100
+Gerd Hoffmann <kraxel@redhat.com> wrote:
 
+"runtime configurable" I read as being able to change during VM life cycle,
+which isn't the case here, nor this patch makes it actually configurable.
 
-Going back to this I have another question: could we get
-a bit more detail on when do we get into this situation?
-When does guest start blinking the indicator without us
-first starting a hotplug operation?
+So perhaps it needs to be renamed and a commit message explaining why
+dropping  macro and adding a field with hardcoded value is necessary.
 
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 > ---
->  hw/pci/pcie.c | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  include/hw/i386/microvm.h | 2 +-
+>  hw/i386/microvm.c         | 9 +++++++--
+>  2 files changed, 8 insertions(+), 3 deletions(-)
 > 
-> diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-> index 5b48bae0f6..2fe5c1473f 100644
-> --- a/hw/pci/pcie.c
-> +++ b/hw/pci/pcie.c
-> @@ -410,6 +410,7 @@ void pcie_cap_slot_pre_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
->      PCIDevice *hotplug_pdev = PCI_DEVICE(hotplug_dev);
->      uint8_t *exp_cap = hotplug_pdev->config + hotplug_pdev->exp.exp_cap;
->      uint32_t sltcap = pci_get_word(exp_cap + PCI_EXP_SLTCAP);
-> +    uint32_t sltctl = pci_get_word(exp_cap + PCI_EXP_SLTCTL);
+> diff --git a/include/hw/i386/microvm.h b/include/hw/i386/microvm.h
+> index 0fc216007777..c5d60bacb5e8 100644
+> --- a/include/hw/i386/microvm.h
+> +++ b/include/hw/i386/microvm.h
+> @@ -52,7 +52,6 @@
 >  
->      /* Check if hot-plug is disabled on the slot */
->      if (dev->hotplugged && (sltcap & PCI_EXP_SLTCAP_HPC) == 0) {
-> @@ -418,6 +419,12 @@ void pcie_cap_slot_pre_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
->          return;
->      }
+>  /* Platform virtio definitions */
+>  #define VIRTIO_MMIO_BASE      0xfeb00000
+> -#define VIRTIO_NUM_TRANSPORTS 8
+>  #define VIRTIO_CMDLINE_MAXLEN 64
 >  
-> +    if ((sltctl & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PWR_IND_BLINK) {
-> +        error_setg(errp, "Hot-plug failed: %s is in Power Transition",
-> +                   DEVICE(hotplug_pdev)->id);
-> +        return;
+>  #define GED_MMIO_BASE         0xfea00000
+> @@ -98,6 +97,7 @@ struct MicrovmMachineState {
+>  
+>      /* Machine state */
+>      uint32_t virtio_irq_base;
+> +    uint32_t virtio_num_transports;
+>      bool kernel_cmdline_fixed;
+>      Notifier machine_done;
+>      Notifier powerdown_req;
+> diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+> index 5428448b7059..e92f236bf442 100644
+> --- a/hw/i386/microvm.c
+> +++ b/hw/i386/microvm.c
+> @@ -178,8 +178,13 @@ static void microvm_devices_init(MicrovmMachineState *mms)
+>  
+>      kvmclock_create(true);
+>  
+> -    mms->virtio_irq_base = x86_machine_is_acpi_enabled(x86ms) ? 16 : 5;
+> -    for (i = 0; i < VIRTIO_NUM_TRANSPORTS; i++) {
+> +    mms->virtio_irq_base = 5;
+> +    mms->virtio_num_transports = 8;
+> +    if (x86_machine_is_acpi_enabled(x86ms)) {
+> +        mms->virtio_irq_base = 16;
 > +    }
 > +
->      pcie_cap_slot_plug_common(PCI_DEVICE(hotplug_dev), dev, errp);
->  }
->  
-> -- 
-> 2.17.2
+> +    for (i = 0; i < mms->virtio_num_transports; i++) {
+>          sysbus_create_simple("virtio-mmio",
+>                               VIRTIO_MMIO_BASE + i * 512,
+>                               x86ms->gsi[mms->virtio_irq_base + i]);
 
 
