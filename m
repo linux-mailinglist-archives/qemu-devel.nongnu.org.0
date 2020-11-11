@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1F972AEEFF
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 11:52:40 +0100 (CET)
-Received: from localhost ([::1]:40800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E62DE2AEF01
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 11:53:55 +0100 (CET)
+Received: from localhost ([::1]:43010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcnk0-00059M-0b
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 05:52:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41920)
+	id 1kcnlD-000653-1f
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 05:53:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kcnj0-0004in-Kw
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 05:51:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27514)
+ id 1kcnjq-0005Jk-5a
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 05:52:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53237)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kcniy-0004bS-J9
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 05:51:37 -0500
+ id 1kcnjo-0004pe-Bd
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 05:52:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605091894;
+ s=mimecast20190719; t=1605091946;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=2i9ene0FNVfIlw0xpTTbFJBPILtgK2OlbzrxGQ6HE8M=;
- b=E4Ol4fINnMMQVYkkNB/8q9Pd1yJemIDQ1mKHth79QuSDV7EXR8PRmFFjMJeImA/7iLTvu1
- iOen6svg2dNtS5y4+3xPlnG8igSHCeyD4/xrLKlbmsOTlS+hjKHrfl3ENo+AOcvotTP6iU
- 3XDYFkLGwGzr9q4VB/JhGpHC2lw4R70=
+ bh=/uGSmxSqMrTtpOfE0DFExH9rUxwfDNtBKQEHx+pzDV4=;
+ b=DiZ356TVDzIHZRLAOJCVwxnG2vH4g5eR9FPl1gVXCDViZbAzHY3oEIgchT/WbxfsAKllvl
+ y87OhC6UaqaVXtxH/zfDAm9Kn+1oUXI150efARkyZjSUKDcSn/uGfmuRhg8KHSYWZGs5DA
+ 89EyQbndKLkSAdI1SshgJuqND8OyR7c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-328-FqYrHSFNN2e_TcMA-Ps8kw-1; Wed, 11 Nov 2020 05:51:33 -0500
-X-MC-Unique: FqYrHSFNN2e_TcMA-Ps8kw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-318-7Je9wnAcOHyphVCHkfKRSA-1; Wed, 11 Nov 2020 05:52:24 -0500
+X-MC-Unique: 7Je9wnAcOHyphVCHkfKRSA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4370C195D561
- for <qemu-devel@nongnu.org>; Wed, 11 Nov 2020 10:51:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79DC71016CE0
+ for <qemu-devel@nongnu.org>; Wed, 11 Nov 2020 10:52:23 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 010C86E70D;
- Wed, 11 Nov 2020 10:51:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2C0266EF4A;
+ Wed, 11 Nov 2020 10:52:23 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] keyval: simplify keyval_parse_one
-Date: Wed, 11 Nov 2020 05:51:31 -0500
-Message-Id: <20201111105131.1179636-1-pbonzini@redhat.com>
+Subject: [PATCH] net: do not exit on "netdev_add help" monitor command
+Date: Wed, 11 Nov 2020 05:52:22 -0500
+Message-Id: <20201111105222.1179861-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -78,119 +78,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: armbru@redhat.com
+Cc: jasowang@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that the key is NULL terminated, we can remove some of the contortions
-that were done to operate on possibly '='-terminated strings in
-keyval_parse_one.
+"netdev_add help" is causing QEMU to exit because the code that
+invokes show_netdevs is shared between CLI and HMP processing.
+Move the check to the callers so that exit(0) remains only
+in the CLI flow.
+
+"netdev_add help" is not fixed by this patch; that is left for
+later work.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/keyval.c | 27 ++++++++++-----------------
- 1 file changed, 10 insertions(+), 17 deletions(-)
+ include/net/net.h  |  1 +
+ monitor/hmp-cmds.c |  6 ++++
+ net/net.c          | 68 +++++++++++++++++++++++-----------------------
+ 3 files changed, 41 insertions(+), 34 deletions(-)
 
-diff --git a/util/keyval.c b/util/keyval.c
-index 2213a5fe78..76daab0885 100644
---- a/util/keyval.c
-+++ b/util/keyval.c
-@@ -170,11 +170,10 @@ static QObject *keyval_parse_put(QDict *cur,
-  *
-  * On return:
-  * - either NUL or the separator (comma or equal sign) is returned.
-- * - the length of the string is stored in @len.
-  * - @start is advanced to either the NUL or the first character past the
-  *   separator.
-  */
--static char keyval_fetch_string(char **start, size_t *len, bool key)
-+static char keyval_fetch_string(char **start, bool key)
- {
-     char sep;
-     char *p, *unescaped;
-@@ -197,7 +196,6 @@ static char keyval_fetch_string(char **start, size_t *len, bool key)
-     }
+diff --git a/include/net/net.h b/include/net/net.h
+index 897b2d7595..778fc787ca 100644
+--- a/include/net/net.h
++++ b/include/net/net.h
+@@ -199,6 +199,7 @@ extern const char *host_net_devices[];
  
-     *unescaped = 0;
--    *len = unescaped - *start;
-     *start = p;
-     return sep;
+ /* from net.c */
+ int net_client_parse(QemuOptsList *opts_list, const char *str);
++void show_netdevs(void);
+ int net_init_clients(Error **errp);
+ void net_check_clients(void);
+ void net_cleanup(void);
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index a6a6684df1..65d8ff4849 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -24,6 +24,7 @@
+ #include "qemu/option.h"
+ #include "qemu/timer.h"
+ #include "qemu/sockets.h"
++#include "qemu/help_option.h"
+ #include "monitor/monitor-internal.h"
+ #include "qapi/error.h"
+ #include "qapi/clone-visitor.h"
+@@ -1631,7 +1632,12 @@ void hmp_netdev_add(Monitor *mon, const QDict *qdict)
+ {
+     Error *err = NULL;
+     QemuOpts *opts;
++    const char *type = qdict_get_try_str(qdict, "type");
+ 
++    if (type && is_help_option(type)) {
++        show_netdevs();
++        return;
++    }
+     opts = qemu_opts_from_qdict(qemu_find_opts("netdev"), qdict, &err);
+     if (err) {
+         goto out;
+diff --git a/net/net.c b/net/net.c
+index 794c652282..6362d3077c 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -44,6 +44,7 @@
+ #include "qemu/config-file.h"
+ #include "qemu/ctype.h"
+ #include "qemu/iov.h"
++#include "qemu/qemu-print.h"
+ #include "qemu/main-loop.h"
+ #include "qemu/option.h"
+ #include "qapi/error.h"
+@@ -1025,7 +1026,7 @@ static int net_client_init1(const Netdev *netdev, bool is_netdev, Error **errp)
+     return 0;
  }
-@@ -219,7 +217,7 @@ static char *keyval_parse_one(QDict *qdict, char *params,
-                               const char *implied_key, bool *help,
-                               Error **errp)
+ 
+-static void show_netdevs(void)
++void show_netdevs(void)
  {
--    const char *key, *key_end, *s, *end;
-+    const char *key, *s, *end;
-     const char *val = NULL;
-     char sep;
-     size_t len;
-@@ -229,8 +227,8 @@ static char *keyval_parse_one(QDict *qdict, char *params,
-     QObject *next;
+     int idx;
+     const char *available_netdevs[] = {
+@@ -1055,9 +1056,9 @@ static void show_netdevs(void)
+ #endif
+     };
  
-     key = params;
--    sep = keyval_fetch_string(&params, &len, true);
--    if (!len) {
-+    sep = keyval_fetch_string(&params, true);
-+    if (!*key) {
-         if (sep) {
-             error_setg(errp, "Expected parameter before '%c'", sep);
-         } else {
-@@ -247,13 +245,11 @@ static char *keyval_parse_one(QDict *qdict, char *params,
-             /* Desugar implied key */
-             val = key;
-             key = implied_key;
--            len = strlen(implied_key);
-         } else {
-             error_setg(errp, "Expected '=' after parameter '%s'", key);
-             return NULL;
-         }
+-    printf("Available netdev backend types:\n");
++    qemu_printf("Available netdev backend types:\n");
+     for (idx = 0; idx < ARRAY_SIZE(available_netdevs); idx++) {
+-        puts(available_netdevs[idx]);
++        qemu_printf("%s\n", available_netdevs[idx]);
      }
--    key_end = key + len;
+ }
  
-     /*
-      * Loop over key fragments: @s points to current fragment, it
-@@ -269,24 +265,21 @@ static char *keyval_parse_one(QDict *qdict, char *params,
-             ret = parse_qapi_name(s, false);
-             len = ret < 0 ? 0 : ret;
-         }
--        assert(s + len <= key_end);
--        if (!len || (s + len < key_end && s[len] != '.')) {
-+        if (!len || (s[len] != '\0' && s[len] != '.')) {
-             assert(key != implied_key);
--            error_setg(errp, "Invalid parameter '%.*s'",
--                       (int)(key_end - key), key);
-+            error_setg(errp, "Invalid parameter '%s'", key);
-             return NULL;
-         }
-         if (len >= sizeof(key_in_cur)) {
-             assert(key != implied_key);
-             error_setg(errp, "Parameter%s '%.*s' is too long",
--                       s != key || s + len != key_end ? " fragment" : "",
-+                       s != key || s[len] == '.' ? " fragment" : "",
-                        (int)len, s);
-             return NULL;
-         }
+@@ -1068,42 +1069,35 @@ static int net_client_init(QemuOpts *opts, bool is_netdev, Error **errp)
+     int ret = -1;
+     Visitor *v = opts_visitor_new(opts);
  
-         if (s != key) {
--            next = keyval_parse_put(cur, key_in_cur, NULL,
--                                    key, s - 1, errp);
-+            next = keyval_parse_put(cur, key_in_cur, NULL, key, s - 1, errp);
-             if (!next) {
-                 return NULL;
-             }
-@@ -301,9 +294,9 @@ static char *keyval_parse_one(QDict *qdict, char *params,
+-    const char *type = qemu_opt_get(opts, "type");
+-
+-    if (is_netdev && type && is_help_option(type)) {
+-        show_netdevs();
+-        exit(0);
+-    } else {
+-        /* Parse convenience option format ip6-net=fec0::0[/64] */
+-        const char *ip6_net = qemu_opt_get(opts, "ipv6-net");
++    /* Parse convenience option format ip6-net=fec0::0[/64] */
++    const char *ip6_net = qemu_opt_get(opts, "ipv6-net");
  
-     if (key != implied_key) {
-         val = params;
--        keyval_fetch_string(&params, &len, false);
-+        keyval_fetch_string(&params, false);
+-        if (ip6_net) {
+-            char *prefix_addr;
+-            unsigned long prefix_len = 64; /* Default 64bit prefix length. */
++    if (ip6_net) {
++        char *prefix_addr;
++        unsigned long prefix_len = 64; /* Default 64bit prefix length. */
+ 
+-            substrings = g_strsplit(ip6_net, "/", 2);
+-            if (!substrings || !substrings[0]) {
+-                error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "ipv6-net",
+-                           "a valid IPv6 prefix");
+-                goto out;
+-            }
++        substrings = g_strsplit(ip6_net, "/", 2);
++        if (!substrings || !substrings[0]) {
++            error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "ipv6-net",
++                       "a valid IPv6 prefix");
++            goto out;
++        }
+ 
+-            prefix_addr = substrings[0];
++        prefix_addr = substrings[0];
+ 
+-            /* Handle user-specified prefix length. */
+-            if (substrings[1] &&
+-                qemu_strtoul(substrings[1], NULL, 10, &prefix_len))
+-            {
+-                error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
+-                           "ipv6-prefixlen", "a number");
+-                goto out;
+-            }
+-
+-            qemu_opt_set(opts, "ipv6-prefix", prefix_addr, &error_abort);
+-            qemu_opt_set_number(opts, "ipv6-prefixlen", prefix_len,
+-                                &error_abort);
+-            qemu_opt_unset(opts, "ipv6-net");
++        /* Handle user-specified prefix length. */
++        if (substrings[1] &&
++            qemu_strtoul(substrings[1], NULL, 10, &prefix_len))
++        {
++            error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
++                       "ipv6-prefixlen", "a number");
++            goto out;
+         }
++
++        qemu_opt_set(opts, "ipv6-prefix", prefix_addr, &error_abort);
++        qemu_opt_set_number(opts, "ipv6-prefixlen", prefix_len,
++                            &error_abort);
++        qemu_opt_unset(opts, "ipv6-net");
      }
--    if (!keyval_parse_put(cur, key_in_cur, val, key, key_end, errp)) {
-+    if (!keyval_parse_put(cur, key_in_cur, val, key, s - 1, errp)) {
-         return NULL;
-     }
-     return params;
+ 
+     /* Create an ID for -net if the user did not specify one */
+@@ -1421,6 +1415,12 @@ static int net_init_client(void *dummy, QemuOpts *opts, Error **errp)
+ 
+ static int net_init_netdev(void *dummy, QemuOpts *opts, Error **errp)
+ {
++    const char *type = qemu_opt_get(opts, "type");
++
++    if (type && is_help_option(type)) {
++        show_netdevs();
++        exit(0);
++    }
+     return net_client_init(opts, true, errp);
+ }
+ 
 -- 
 2.26.2
 
