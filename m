@@ -2,73 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 604682AF38A
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 15:30:31 +0100 (CET)
-Received: from localhost ([::1]:53796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C8222AF32D
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 15:12:06 +0100 (CET)
+Received: from localhost ([::1]:53398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcr8o-0004ZY-B4
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 09:30:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35820)
+	id 1kcqqz-0000YP-1s
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 09:12:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kcr4E-0008GW-3n
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 09:25:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55582)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kcr4C-0001mt-53
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 09:25:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605104743;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hbj7WtOxbzc0bZiQUOnwGOkB9Nshb+E+LIixao81N7o=;
- b=bwkSLWRrRiV6SXDmvwyoxqYhpfxHG/azwboPJ9JCDKYqupEpehdi+VKSk/EP8ktN6zSqZB
- a4TpwRVpOeeUW0OQaWtBPatEHAxUPcwQbV9/kHx+uxiHmZLWPVjnOheT8zoEViQkmOJJgS
- qHqJ34h9g/GCtUixa6HhtBt3b3TCFiA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-551-VHOw2UO0M2OtAuuRcb94Wg-1; Wed, 11 Nov 2020 09:25:41 -0500
-X-MC-Unique: VHOw2UO0M2OtAuuRcb94Wg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B37BD8CD801
- for <qemu-devel@nongnu.org>; Wed, 11 Nov 2020 14:25:40 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6F6FC6115F;
- Wed, 11 Nov 2020 14:25:40 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 07/12] qemu-nbd: use keyval for -object parsing
-Date: Wed, 11 Nov 2020 09:25:32 -0500
-Message-Id: <20201111142537.1213209-8-pbonzini@redhat.com>
-In-Reply-To: <20201111142537.1213209-1-pbonzini@redhat.com>
-References: <20201111142537.1213209-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kcqpp-00005B-0A
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 09:10:53 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2410)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kcqpl-0004wG-1C
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 09:10:52 -0500
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CWRTJ3gLmz15MFT;
+ Wed, 11 Nov 2020 22:10:28 +0800 (CST)
+Received: from huawei.com (10.175.101.6) by DGGEMS403-HUB.china.huawei.com
+ (10.3.19.203) with Microsoft SMTP Server id 14.3.487.0; Wed, 11 Nov 2020
+ 22:10:29 +0800
+From: Chuan Zheng <zhengchuan@huawei.com>
+To: <quintela@redhat.com>, <dgilbert@redhat.com>, <berrange@redhat.com>
+Subject: [PATCH v2] multifd/tls: fix memoryleak of the QIOChannelSocket object
+ when cancelling migration
+Date: Wed, 11 Nov 2020 22:26:03 +0800
+Message-ID: <1605104763-118687-1-git-send-email-zhengchuan@huawei.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 01:49:01
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [10.175.101.6]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=zhengchuan@huawei.com; helo=szxga04-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 07:50:46
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,94 +59,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com
+Cc: yubihong@huawei.com, zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
+ xiexiangyou@huawei.com, alex.chen@huawei.com, wanghao232@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enable creation of object with non-scalar properties.
+When creating new tls client, the tioc->master will be referenced which results in socket
+leaking after multifd_save_cleanup if we cancel migration.
+Fix it by do object_unref() after tls client creation.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
 ---
- qemu-nbd.c | 42 +++++++++++++-----------------------------
- 1 file changed, 13 insertions(+), 29 deletions(-)
+ migration/multifd.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/qemu-nbd.c b/qemu-nbd.c
-index a7075c5419..b4bd21a21e 100644
---- a/qemu-nbd.c
-+++ b/qemu-nbd.c
-@@ -407,23 +407,6 @@ static QemuOptsList file_opts = {
-     },
- };
- 
--static QemuOptsList qemu_object_opts = {
--    .name = "object",
--    .implied_opt_name = "qom-type",
--    .head = QTAILQ_HEAD_INITIALIZER(qemu_object_opts.head),
--    .desc = {
--        { }
--    },
--};
--
--static bool qemu_nbd_object_print_help(const char *type, QemuOpts *opts)
--{
--    if (user_creatable_print_help(type, opts)) {
--        exit(0);
--    }
--    return true;
--}
--
- 
- static QCryptoTLSCreds *nbd_get_tls_creds(const char *id, bool list,
-                                           Error **errp)
-@@ -599,7 +582,6 @@ int main(int argc, char **argv)
-     qcrypto_init(&error_fatal);
- 
-     module_call_init(MODULE_INIT_QOM);
--    qemu_add_opts(&qemu_object_opts);
-     qemu_add_opts(&qemu_trace_opts);
-     qemu_init_exec_dir(argv[0]);
- 
-@@ -752,14 +734,20 @@ int main(int argc, char **argv)
-         case '?':
-             error_report("Try `%s --help' for more information.", argv[0]);
-             exit(EXIT_FAILURE);
--        case QEMU_NBD_OPT_OBJECT: {
--            QemuOpts *opts;
--            opts = qemu_opts_parse_noisily(&qemu_object_opts,
--                                           optarg, true);
--            if (!opts) {
--                exit(EXIT_FAILURE);
-+        case QEMU_NBD_OPT_OBJECT:
-+            {
-+                QDict *args;
-+                bool help;
-+
-+                args = keyval_parse(optarg, "qom-type", &help, &error_fatal);
-+                if (help) {
-+                    user_creatable_print_help_from_qdict(args);
-+                    exit(EXIT_SUCCESS);
-+                }
-+                user_creatable_add_dict(args, true, &error_fatal);
-+                qobject_unref(args);
-+                break;
-             }
--        }   break;
-         case QEMU_NBD_OPT_TLSCREDS:
-             tlscredsid = optarg;
-             break;
-@@ -807,10 +795,6 @@ int main(int argc, char **argv)
-         export_name = "";
+diff --git a/migration/multifd.c b/migration/multifd.c
+index 68b171f..6992761 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -752,6 +752,7 @@ static void multifd_tls_channel_connect(MultiFDSendParams *p,
+         return;
      }
  
--    qemu_opts_foreach(&qemu_object_opts,
--                      user_creatable_add_opts_foreach,
--                      qemu_nbd_object_print_help, &error_fatal);
--
-     if (!trace_init_backends()) {
-         exit(1);
-     }
++    object_unref(OBJECT(ioc));
+     trace_multifd_tls_outgoing_handshake_start(ioc, tioc, hostname);
+     qio_channel_set_name(QIO_CHANNEL(tioc), "multifd-tls-outgoing");
+     qio_channel_tls_handshake(tioc,
 -- 
-2.26.2
-
+1.8.3.1
 
 
