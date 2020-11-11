@@ -2,50 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 708BD2AF143
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 13:53:17 +0100 (CET)
-Received: from localhost ([::1]:36298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E09D2AF0BA
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 13:37:22 +0100 (CET)
+Received: from localhost ([::1]:55824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcpci-0001ZE-Bn
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 07:53:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38802)
+	id 1kcpNI-0002X0-Ti
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 07:37:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kcpaT-0007xs-MK; Wed, 11 Nov 2020 07:51:03 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2520)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kcpaR-00038P-Hz; Wed, 11 Nov 2020 07:50:57 -0500
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CWPjG02z8zhYM6;
- Wed, 11 Nov 2020 20:50:42 +0800 (CST)
-Received: from huawei.com (10.175.104.175) by DGGEMS408-HUB.china.huawei.com
- (10.3.19.208) with Microsoft SMTP Server id 14.3.487.0; Wed, 11 Nov 2020
- 20:50:42 +0800
-From: Gan Qixin <ganqixin@huawei.com>
-To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH 4/4] max111x: put it into the 'misc' category
-Date: Wed, 11 Nov 2020 06:17:20 +0800
-Message-ID: <20201110221720.572902-5-ganqixin@huawei.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20201110221720.572902-1-ganqixin@huawei.com>
-References: <20201110221720.572902-1-ganqixin@huawei.com>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kcpMT-00024a-MA
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 07:36:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34283)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kcpMP-0006zj-31
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 07:36:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605098154;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GmvlA3sfqJShiwUYqg8yJbDj/xLESBHaRs2MiFncIEM=;
+ b=Z3Qwjex+R6BrC8POQTxhKnE5S1AV3PmrkMnOD92gOtY0O3cUlI1RQ/sXdBxbop10LV0K9n
+ 73gTapyofewCTZRJHTZvmriiqb7PqjE+bzcEyWKzvrilQP/5TSUvGOIqJ96+BR6ywNJPMJ
+ aEN9l8ndT5Brhc3nTiqlNFWays3CtSY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-298-gL2-M2FFOHCkA6ww8_XPYg-1; Wed, 11 Nov 2020 07:35:53 -0500
+X-MC-Unique: gL2-M2FFOHCkA6ww8_XPYg-1
+Received: by mail-wr1-f70.google.com with SMTP id v5so553732wrr.0
+ for <qemu-devel@nongnu.org>; Wed, 11 Nov 2020 04:35:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=GmvlA3sfqJShiwUYqg8yJbDj/xLESBHaRs2MiFncIEM=;
+ b=q2/YxnHjCVnRysvbkvs6TZHV9LPH6nF/7b7ulRGB+efxZZWahlQDEed7DiHqlNkeFs
+ UkzTFeVMv5lScqMjyyKHvo4V9eQMfPaN/NkvMfolRp3Em+gtRnL7ehN0pniTLMeEghVC
+ 8Ggccv+uY40sPnty4BpT+oPzauBDcHD2s58ASg9q2yHExSUu2NRG2GH3OGijRrC8+WXY
+ 7QArXzojoGWqSSIM+67lLN1mHzR+FWxwGk52k9ZwqA3q82ku4N+NX5w6RuvGCM47LDfS
+ 9knNQF25TunmRduj8SDyb9GoVyjzYwfRpXH5iclKA7n+/0HvSWwx/L1VzYEN83BNuPZS
+ okWA==
+X-Gm-Message-State: AOAM533ZZgxYX0A6t923TZf5qlp/pG52mAfjlI+DeLhshyHZgpOneOht
+ FDwtJi0fgK12VuTL3aZjx0xOAqHf/vi+OgiviQiSca+0eMZ286IaWe7iNZdIzNBXd4srt0Y5zGV
+ X37oPEDU0ie3n/wo=
+X-Received: by 2002:adf:f9c5:: with SMTP id w5mr238474wrr.69.1605098151893;
+ Wed, 11 Nov 2020 04:35:51 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwItW/RUfxuEw5pXE28ubWKJIxrRfPpLTNAGvSH6MQ0QpBVp/UzSHA2n8zY/VbpGb+Z7qwaTA==
+X-Received: by 2002:adf:f9c5:: with SMTP id w5mr238451wrr.69.1605098151684;
+ Wed, 11 Nov 2020 04:35:51 -0800 (PST)
+Received: from redhat.com (bzq-109-66-2-153.red.bezeqint.net. [109.66.2.153])
+ by smtp.gmail.com with ESMTPSA id
+ x1sm2336053wrl.41.2020.11.11.04.35.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Nov 2020 04:35:50 -0800 (PST)
+Date: Wed, 11 Nov 2020 07:35:47 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: Re: [PATCH] pci: Refuse to hotplug PCI Devices when the Guest OS is
+ not ready
+Message-ID: <20201111073443-mutt-send-email-mst@kernel.org>
+References: <20201022114026.31968-1-marcel.apfelbaum@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.104.175]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=ganqixin@huawei.com;
- helo=szxga05-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 07:07:25
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201022114026.31968-1-marcel.apfelbaum@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 01:42:46
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,32 +94,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, zhang.zhanghailiang@huawei.com, mst@redhat.com,
- laurent@vivier.eu, Gan Qixin <ganqixin@huawei.com>, kuhn.chenqun@huawei.com,
- philmd@redhat.com
+Cc: dgibson@redhat.com, jusual@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The category of the max111x device is not set, put it into the 'misc' category.
+On Thu, Oct 22, 2020 at 02:40:26PM +0300, Marcel Apfelbaum wrote:
+> From: Marcel Apfelbaum <marcel@redhat.com>
+> 
+> During PCIe Root Port's transition from Power-Off to Power-ON (or vice-versa)
+> the "Slot Control Register" has the "Power Indicator Control"
+> set to "Blinking" expressing a "power transition" mode.
+> 
+> Any hotplug operation during the "power transition" mode is not permitted
+> or at least not expected by the Guest OS leading to strange failures.
+> 
+> Detect and refuse hotplug operations in such case.
+> 
+> Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 
-Signed-off-by: Gan Qixin <ganqixin@huawei.com>
----
- hw/misc/max111x.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/hw/misc/max111x.c b/hw/misc/max111x.c
-index 7e6723f343..eae0f9b598 100644
---- a/hw/misc/max111x.c
-+++ b/hw/misc/max111x.c
-@@ -185,6 +185,7 @@ static void max111x_class_init(ObjectClass *klass, void *data)
-     k->transfer = max111x_transfer;
-     dc->reset = max111x_reset;
-     dc->vmsd = &vmstate_max111x;
-+    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
- }
- 
- static const TypeInfo max111x_info = {
--- 
-2.23.0
+Going back to this I have another question: could we get
+a bit more detail on when do we get into this situation?
+When does guest start blinking the indicator without us
+first starting a hotplug operation?
+
+> ---
+>  hw/pci/pcie.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+> index 5b48bae0f6..2fe5c1473f 100644
+> --- a/hw/pci/pcie.c
+> +++ b/hw/pci/pcie.c
+> @@ -410,6 +410,7 @@ void pcie_cap_slot_pre_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
+>      PCIDevice *hotplug_pdev = PCI_DEVICE(hotplug_dev);
+>      uint8_t *exp_cap = hotplug_pdev->config + hotplug_pdev->exp.exp_cap;
+>      uint32_t sltcap = pci_get_word(exp_cap + PCI_EXP_SLTCAP);
+> +    uint32_t sltctl = pci_get_word(exp_cap + PCI_EXP_SLTCTL);
+>  
+>      /* Check if hot-plug is disabled on the slot */
+>      if (dev->hotplugged && (sltcap & PCI_EXP_SLTCAP_HPC) == 0) {
+> @@ -418,6 +419,12 @@ void pcie_cap_slot_pre_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
+>          return;
+>      }
+>  
+> +    if ((sltctl & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PWR_IND_BLINK) {
+> +        error_setg(errp, "Hot-plug failed: %s is in Power Transition",
+> +                   DEVICE(hotplug_pdev)->id);
+> +        return;
+> +    }
+> +
+>      pcie_cap_slot_plug_common(PCI_DEVICE(hotplug_dev), dev, errp);
+>  }
+>  
+> -- 
+> 2.17.2
 
 
