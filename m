@@ -2,84 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B0822AF46E
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 16:08:17 +0100 (CET)
-Received: from localhost ([::1]:41660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FFB02AF4A4
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 16:22:19 +0100 (CET)
+Received: from localhost ([::1]:57430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcrjM-00083B-JX
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 10:08:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46302)
+	id 1kcrww-0006vV-Ir
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 10:22:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
- id 1kcrhp-0007T4-5A
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 10:06:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36234)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
- id 1kcrhm-0007mX-Do
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 10:06:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605107197;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YFGgGHziEt4AmBZM7aYh7Cp620vy9zCDQSjSYRXHluo=;
- b=YEtwXAtGPmGm77kmhQWqIJqrzX1GT4pprU4nr8EDp3eJPClTFas8M324CvLRI1lFPkGmKq
- DLpPDYfKz+A+tzNNkySb8ea94kS6CNJG743uw1yjW1+fRa+oUC3MP2TMjA8zzMLwUwQ+Fp
- tZJR//+TV7JqSV9weA/lVwoHf80DFDM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-28-ELv4Wna7PMq-HjZPi8yAnQ-1; Wed, 11 Nov 2020 10:05:26 -0500
-X-MC-Unique: ELv4Wna7PMq-HjZPi8yAnQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E00951E5C82;
- Wed, 11 Nov 2020 15:05:25 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com
- (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D6C9227BAE;
- Wed, 11 Nov 2020 15:05:25 +0000 (UTC)
-Received: from zmail17.collab.prod.int.phx2.redhat.com
- (zmail17.collab.prod.int.phx2.redhat.com [10.5.83.19])
- by colo-mx.corp.redhat.com (Postfix) with ESMTP id B6A9958100;
- Wed, 11 Nov 2020 15:05:25 +0000 (UTC)
-Date: Wed, 11 Nov 2020 10:05:25 -0500 (EST)
-From: Miroslav Rezanina <mrezanin@redhat.com>
-To: qemu-devel@nongnu.org
-Message-ID: <1888391810.22919498.1605107125694.JavaMail.zimbra@redhat.com>
-In-Reply-To: <20201111143440.112763-1-drjones@redhat.com>
-References: <20201111143440.112763-1-drjones@redhat.com>
-Subject: Re: [PATCH] hw/arm/virt: ARM_VIRT must select ARM_GIC
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kcrvd-00065H-2J
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 10:20:57 -0500
+Received: from indium.canonical.com ([91.189.90.7]:43054)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kcrvW-0004HA-5j
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 10:20:56 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kcrvU-0006jq-QQ
+ for <qemu-devel@nongnu.org>; Wed, 11 Nov 2020 15:20:48 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C58BD2E8042
+ for <qemu-devel@nongnu.org>; Wed, 11 Nov 2020 15:20:48 +0000 (UTC)
 MIME-Version: 1.0
-X-Originating-IP: [10.40.192.178, 10.4.195.27]
-Thread-Topic: hw/arm/virt: ARM_VIRT must select ARM_GIC
-Thread-Index: JuozD2lwYiGtkrz8S11rhaXPScxz3A==
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mrezanin@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mrezanin@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 01:49:01
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 11 Nov 2020 15:06:30 -0000
+From: Thomas Huth <1777236@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: gersner th-huth
+X-Launchpad-Bug-Reporter: Shimi Gersner (gersner)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <152915040560.6976.16916534721422810737.malonedeb@wampee.canonical.com>
+Message-Id: <160510719042.19679.4029613779063797847.malone@soybean.canonical.com>
+Subject: [Bug 1777236] Re: NVME is missing support for mandatory features
+ through "Get/Set Feature" command
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c11d702c7d7f4a497cdcc277027f1662d395603f"; Instance="production"
+X-Launchpad-Hash: 725cd86f3397373e0880b75ef204594db6a6cf36
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 10:11:47
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,52 +73,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- qemu-arm@nongnu.org, philmd@redhat.com
+Reply-To: Bug 1777236 <1777236@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
------ Original Message -----
-> From: "Andrew Jones" <drjones@redhat.com>
-> To: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-> Cc: "peter maydell" <peter.maydell@linaro.org>, philmd@redhat.com, "Miroslav Rezanina" <mrezanin@redhat.com>
-> Sent: Wednesday, November 11, 2020 3:34:40 PM
-> Subject: [PATCH] hw/arm/virt: ARM_VIRT must select ARM_GIC
-> 
-> The removal of the selection of A15MPCORE from ARM_VIRT also
-> removed what A15MPCORE selects, ARM_GIC. We still need ARM_GIC.
-> 
-> Fixes: bec3c97e0cf9 ("hw/arm/virt: Remove dependency on Cortex-A15 MPCore
-> peripherals")
-> Reported-by: Miroslav Rezanina <mrezanin@redhat.com>
-> Signed-off-by: Andrew Jones <drjones@redhat.com>
-> ---
->  hw/arm/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> index 7d022eeefdbc..e69a9009cf0a 100644
-> --- a/hw/arm/Kconfig
-> +++ b/hw/arm/Kconfig
-> @@ -6,6 +6,7 @@ config ARM_VIRT
->      imply VFIO_PLATFORM
->      imply VFIO_XGMAC
->      imply TPM_TIS_SYSBUS
-> +    select ARM_GIC
->      select ACPI
->      select ARM_SMMUV3
->      select GPIO_KEY
-> --
-> 2.26.2
-> 
-> 
+The QEMU project is currently considering to move its bug tracking to anoth=
+er system. For this we need to know which bugs are still valid and which co=
+uld be closed already. Thus we are setting older bugs to "Incomplete" now.
+If you still think this bug report here is valid, then please switch the st=
+ate back to "New" within the next 60 days, otherwise this report will be ma=
+rked as "Expired". Or mark it as "Fix Released" if the problem has been sol=
+ved with a newer version of QEMU already. Thank you and sorry for the incon=
+venience.
 
-Problems with missing dependencies solved by this patch.
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-Reviewed-by: Miroslav Rezanina <mrezanin@redhat.com>
+-- =
 
--- 
-Miroslav Rezanina
-Software Engineer - Virtualization Team Maintainer
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1777236
 
+Title:
+  NVME is missing support for mandatory features through "Get/Set
+  Feature" command
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  The following are features which are marked as mandatory by the 1.2 speci=
+fication (NVMe 1.2, Section 5.14.1, Figure 108) as currently not implemented
+   - 0x1 Arbitration
+   - 0x2 Power Management
+   - 0x4 Temperature Threshold
+   - 0x5 Error Recovery
+   - 0x6 Interrupt Coalescing
+   - 0x7 Interrupt Vector Configuration
+   - 0x8 Write Atomicity Normal
+   - 0x9 Asynchronous Event Configuration
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1777236/+subscriptions
 
