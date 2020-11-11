@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C69D2AF6C6
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 17:42:58 +0100 (CET)
-Received: from localhost ([::1]:43232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24D852AF6A5
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 17:36:24 +0100 (CET)
+Received: from localhost ([::1]:52290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kctCz-0008KV-HP
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 11:42:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37504)
+	id 1kct6d-00005Y-2s
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 11:36:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcsqH-0002FX-7M
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 11:19:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21601)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcsrJ-0003VJ-Gw
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 11:20:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44687)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcsqC-0008Go-Q0
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 11:19:28 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kcsrH-0000B6-74
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 11:20:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605111563;
+ s=mimecast20190719; t=1605111630;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3FFPd37+U1SjKw63UG+N6BfwvcGLDOArgbLGUSZhHRU=;
- b=Uu+4Fb7+maDy0l1dIk6PBMWIgKOLplZa3CPOB0C16MXwO3jEgUKiyqMimUNmTHAppjnl8i
- DiW+9XJgnLT74mRKNUNrhp5VnZn//tvEaOLDpqAjragzqqlQnlC0R/FxHdt5w2LngZA4mt
- JC6+tTZglxnpffeseI5gMPeyECHE4kE=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240-E_3WXkuANz2smQ3O1rHeFg-1; Wed, 11 Nov 2020 11:19:20 -0500
-X-MC-Unique: E_3WXkuANz2smQ3O1rHeFg-1
-Received: by mail-wr1-f72.google.com with SMTP id 67so775320wra.2
- for <qemu-devel@nongnu.org>; Wed, 11 Nov 2020 08:19:20 -0800 (PST)
+ bh=B/vRJ2RllFvFMmBYqjG/z5rV9dX53YhvjUB8h0SqF+0=;
+ b=U4RM1opStdd+0q/EteAdxixZOCAre6aNU5b8c1dyKWy0VdgspticLLoa87hlW/t3jW0ngQ
+ V+t+lldfwk0fh1burF/9SS92Q6fhORzM/lstm6oDvu9s2eiG2vPJrYMj4ISNcnVY5fuW82
+ KDYNaM4mnsjzSL+zP7DyxsPope8OCDU=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-276-s09JENJ9PByE2Mc4naav0g-1; Wed, 11 Nov 2020 11:20:28 -0500
+X-MC-Unique: s09JENJ9PByE2Mc4naav0g-1
+Received: by mail-wr1-f71.google.com with SMTP id r15so764465wrn.15
+ for <qemu-devel@nongnu.org>; Wed, 11 Nov 2020 08:20:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=7PpZe20bOIUR2ToM4ZTuSZeygDflyacEuiYU83YvUXw=;
- b=FhQInzZjezmcFK+KgtiKE337OMTBILX1efreTa2d51kK+lAf1fZYj2d/+QjoZdNjcI
- qIzwchAMku+XVjz8kfsNqMsNK08SuQwxyD245OUZDvUlUFpC3dDNIKVvC7U1cwTnQU0u
- 76K+qscJ1DZUHvrTPflbnYY28dRuJebM1yj9KZAQYbliENX/tkjX/NNFakaweSpO361Y
- L+CLocAQNaa4wyfx/xxom8LXH2To1gdl02SShUbxiUkNzlL4WycrYJV6B7UUHmkIbLAK
- xg6l/hOmLSImISNmW17F5kT6KPbZSGBn00KJGBG5xTt7Kei31zBXzeBYjrwcdOdTf+1R
- OfkQ==
-X-Gm-Message-State: AOAM533uWKzM7GysRNFyuUMGGqhzZelggFTBQAkpgN/YRj/XsjBpRh6Z
- q7zMtdzqg+mI8bb0iG427sEIWBqTuNL4jV7KdEGMZRIKicLQVHXnbRjFVFpEyay6/iax7Y/gXq2
- ySsxV4F1TlK4CG4A=
-X-Received: by 2002:a1c:f209:: with SMTP id s9mr4797295wmc.115.1605111559119; 
- Wed, 11 Nov 2020 08:19:19 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx+rtIP2g0OGeXonx1rs59oTlxi4gaJV+yzzfqfJxoVh8PNWMSZZl61FDfmU4da0wNPb94ugQ==
-X-Received: by 2002:a1c:f209:: with SMTP id s9mr4797282wmc.115.1605111558960; 
- Wed, 11 Nov 2020 08:19:18 -0800 (PST)
+ bh=B/vRJ2RllFvFMmBYqjG/z5rV9dX53YhvjUB8h0SqF+0=;
+ b=jMoi2pFh1K4dftLa4Ef+2EKjOaks2anagxi2+TwKoFTG9rJ7QDHRo4LixTeer3Xbmd
+ HtjKgf1F1tIULxrQydkxuBzBwiX6gK290mHXD5PzmvIWt23vepPpNa5Nn/vMEtjRWXry
+ 095w6bmSRiUOofZkK7Bs/3Cs7lS6LqEyN4DikYYFGoXMAq4iiBNaRI8u0hbH8QLpt9Eq
+ IGYoePu3iD93q8Q80KxlOEpfigFPBBMf6J7IW0iHz2uNU9ZV9c+tRK0pO0teXx1fZDHQ
+ +s2K9s2ew/XvlExbCxUC4aiikwcX3swtjU3HSKhy+GG6/boUfxq8Xot3FlWasDAJFmbR
+ Fbng==
+X-Gm-Message-State: AOAM5300DXZpOZJuHMJXsM/ggE9hAKQD9GONBxix5AZTGt6c96OfXbLk
+ jWH37hVc6WXQecnbc1uQSlC9othwLyn4BMrGRpApNN4HdwH6kbi6KhBPR12Vk9DI0xdQ62eZnx8
+ rIi0JJh58q5zcJgs=
+X-Received: by 2002:a1c:7e87:: with SMTP id z129mr4979220wmc.176.1605111627243; 
+ Wed, 11 Nov 2020 08:20:27 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxOLwD/4Y5ndOm1GOqRd8IGPpxF8GcC0M/FwffWlisg5SoJMDEMVF+DmyUcjRbgRy3IA/Qm5A==
+X-Received: by 2002:a1c:7e87:: with SMTP id z129mr4979208wmc.176.1605111627100; 
+ Wed, 11 Nov 2020 08:20:27 -0800 (PST)
 Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id v8sm3081146wmg.28.2020.11.11.08.19.17
+ by smtp.gmail.com with ESMTPSA id p12sm2983692wrw.28.2020.11.11.08.20.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Nov 2020 08:19:18 -0800 (PST)
-Subject: Re: [PATCH-for-5.2 v2 2/4] meson: Only build vhost-user when system
- or tools is enabled
-To: Stefan Hajnoczi <stefanha@gmail.com>
-References: <20201111120912.3245574-1-philmd@redhat.com>
- <20201111120912.3245574-3-philmd@redhat.com>
- <20201111154846.GA1398376@stefanha-x1.localdomain>
+ Wed, 11 Nov 2020 08:20:26 -0800 (PST)
+Subject: Re: [PATCH] hw/arm/virt: ARM_VIRT must select ARM_GIC
+To: Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org
+References: <20201111143440.112763-1-drjones@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <4c5f796c-aa33-82b9-96e4-0dec0b390d38@redhat.com>
-Date: Wed, 11 Nov 2020 17:19:16 +0100
+Message-ID: <2601029e-146f-5b94-6aaa-c0d6ec90227d@redhat.com>
+Date: Wed, 11 Nov 2020 17:20:25 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201111154846.GA1398376@stefanha-x1.localdomain>
+In-Reply-To: <20201111143440.112763-1-drjones@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
@@ -89,7 +87,7 @@ X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,57 +100,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: peter.maydell@linaro.org, Miroslav Rezanina <mrezanin@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/11/20 4:48 PM, Stefan Hajnoczi wrote:
-> On Wed, Nov 11, 2020 at 01:09:10PM +0100, Philippe Mathieu-Daudé wrote:
->> It does not make sense to select vhost-user features
->> without system-mode or tools. Return an error when
->> this configuration is selected. Example:
->>
->>   $ ../configure --disable-tools --disable-system --enable-vhost-user-blk-server
->>
->>   ../meson.build:755:4: ERROR: Problem encountered: vhost-user does not make sense without system or tools support enabled
->>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->>  meson.build | 4 ++++
->>  1 file changed, 4 insertions(+)
->>
->> diff --git a/meson.build b/meson.build
->> index 4b789f18c17..4fc58eb2c3d 100644
->> --- a/meson.build
->> +++ b/meson.build
->> @@ -751,6 +751,10 @@
->>  
->>  has_statx = cc.links(statx_test)
->>  
->> +if 'CONFIG_VHOST_USER' in config_host and not (have_system or have_tools)
->> +    error('vhost-user does not make sense without system or tools support enabled')
->> +endif
+On 11/11/20 3:34 PM, Andrew Jones wrote:
+> The removal of the selection of A15MPCORE from ARM_VIRT also
+> removed what A15MPCORE selects, ARM_GIC. We still need ARM_GIC.
 > 
-> Now the following fails on Linux hosts:
-> 
->   $ ./configure --disable-tools --disable-system
->   ../meson.build:755:4: ERROR: Problem encountered: vhost-user does not make sense without system or tools support enabled
-> 
-> Previously it would succeed and make would build qemu-user binaries,
-> documentation, trace-events-all, etc so this looks like a regression.
-> 
-> In addition, adding this error is inconsistent with all the other
-> ./configure options which do not check whether the build target that
-> uses them has been disabled. We'd need to implement the same check for
-> every option to make ./configure consistent. For example, if SPICE is
-> enabled but --disable-system is given then there should be an error
-> saying it enabling SPICE does not make sense, etc.
+> Fixes: bec3c97e0cf9 ("hw/arm/virt: Remove dependency on Cortex-A15 MPCore peripherals")
+> Reported-by: Miroslav Rezanina <mrezanin@redhat.com>
+> Signed-off-by: Andrew Jones <drjones@redhat.com>
 
-OK. Back to your v1 then =)
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
+> ---
+>  hw/arm/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> Stefan
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index 7d022eeefdbc..e69a9009cf0a 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -6,6 +6,7 @@ config ARM_VIRT
+>      imply VFIO_PLATFORM
+>      imply VFIO_XGMAC
+>      imply TPM_TIS_SYSBUS
+> +    select ARM_GIC
+>      select ACPI
+>      select ARM_SMMUV3
+>      select GPIO_KEY
 > 
 
 
