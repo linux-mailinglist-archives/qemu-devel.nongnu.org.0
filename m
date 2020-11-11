@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B7202AEFF8
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 12:50:17 +0100 (CET)
-Received: from localhost ([::1]:56150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4135D2AF012
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 12:54:19 +0100 (CET)
+Received: from localhost ([::1]:59526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcodk-00021V-JS
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 06:50:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54946)
+	id 1kcohe-0003Zk-Cn
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 06:54:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kcocp-0001bC-7o
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 06:49:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44833)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kcogJ-0002qS-Ii
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 06:52:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25632)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kcocn-0008IJ-Bl
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 06:49:18 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kcogH-00015M-It
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 06:52:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605095356;
+ s=mimecast20190719; t=1605095572;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YUU+CgOw8tfNjmRM7N/rnXb07RNYGYo0pmUFOW+dKX8=;
- b=CMJYSU7KEEFnHiHg9MOFwAos0VSMXuHu4dDiwblQl5oPNqthO+N9hFLdkEDD7X35q7yAja
- GJCbIrIuAW/NDor6gT/twnh9jItDsWoUo9hjnEx0v+a6VNa6ERMRQJy4JtZ58f+2f8Jbvk
- Yj3t02AWPyWB4KQ94uamFXN6N5GR2gc=
+ bh=JvJ9UYVvBMHYxNHGV0226G7aL46gPddTWiB7UVbafGk=;
+ b=B2wJugf4LkMdp6xpV4UTQX5y8XO2IGqKeSlRzYyLSfn6VJrXnSbhtTimogSU+4ZSnohI+N
+ KBuHf5grHAJOPMK/tpn/xF9oevIKbdOTD4YztK0txJudAviRHbit9AFfNXKnvLVUdTKlR9
+ /Ju/FWkiy30Gh0IVLLVBzPPZaPBa904=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-377-T4Q-vVxoMxCvsmxE5UDPzA-1; Wed, 11 Nov 2020 06:49:15 -0500
-X-MC-Unique: T4Q-vVxoMxCvsmxE5UDPzA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-235-3fOYmwW_N5u5YkqQFMTROQ-1; Wed, 11 Nov 2020 06:52:50 -0500
+X-MC-Unique: 3fOYmwW_N5u5YkqQFMTROQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6291C8015AD;
- Wed, 11 Nov 2020 11:49:13 +0000 (UTC)
-Received: from gondolin (ovpn-113-72.ams2.redhat.com [10.36.113.72])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 223E16115F;
- Wed, 11 Nov 2020 11:48:55 +0000 (UTC)
-Date: Wed, 11 Nov 2020 12:48:53 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [RFC v3] VFIO Migration
-Message-ID: <20201111124853.5a7fa359.cohuck@redhat.com>
-In-Reply-To: <20201110131404.2c0f0d9d@w520.home>
-References: <20201110095349.GA1082456@stefanha-x1.localdomain>
- <20201110131404.2c0f0d9d@w520.home>
-Organization: Red Hat GmbH
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2162E8015AD;
+ Wed, 11 Nov 2020 11:52:49 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9F5C9100239F;
+ Wed, 11 Nov 2020 11:52:43 +0000 (UTC)
+Date: Wed, 11 Nov 2020 12:52:42 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH  v1 07/10] hw/i386/acpi-build: Fix maybe-uninitialized
+ error when ACPI hotplug off
+Message-ID: <20201111125242.17d16055@redhat.com>
+In-Reply-To: <20201110192316.26397-8-alex.bennee@linaro.org>
+References: <20201110192316.26397-1-alex.bennee@linaro.org>
+ <20201110192316.26397-8-alex.bennee@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 01:49:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -80,71 +82,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John G Johnson <john.g.johnson@oracle.com>, "Tian,
- Kevin" <kevin.tian@intel.com>, mtsirkin@redhat.com,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- quintela@redhat.com, Jason Wang <jasowang@redhat.com>,
- Felipe Franciosi <felipe@nutanix.com>, "Zeng, Xin" <xin.zeng@intel.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Kirti Wankhede <kwankhede@nvidia.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Christophe de Dinechin <dinechin@redhat.com>, Yan Zhao <yan.y.zhao@intel.com>
+Cc: peter.maydell@linaro.org, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 10 Nov 2020 13:14:04 -0700
-Alex Williamson <alex.williamson@redhat.com> wrote:
+On Tue, 10 Nov 2020 19:23:13 +0000
+Alex Benn=C3=A9e <alex.bennee@linaro.org> wrote:
 
-> On Tue, 10 Nov 2020 09:53:49 +0000
-> Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>=20
+> GCC 9.3.0 thinks that 'method' can be left uninitialized. This code
+> is already in the "if (bsel || pcihp_bridge_en)" block statement,
+> but it isn't smart enough to figure it out.
+>=20
+> Restrict the code to be used only in the "if (bsel || pcihp_bridge_en)"
+> block statement to fix (on Ubuntu):
+>=20
+>   ../hw/i386/acpi-build.c: In function 'build_append_pci_bus_devices':
+>   ../hw/i386/acpi-build.c:496:9: error: 'method' may be used uninitialize=
+d
+>   in this function [-Werror=3Dmaybe-uninitialized]
+>     496 |         aml_append(parent_scope, method);
+>         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>   cc1: all warnings being treated as errors
+>=20
+> Fixes: df4008c9c59 ("piix4: don't reserve hw resources when hotplug is of=
+f globally")
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Message-Id: <20201108204535.2319870-4-philmd@redhat.com>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-> > Device models supported by an mdev driver and their details can be read from
-> > the migration_info.json attr. Each mdev type supports one device model. If a
-> > parent device supports multiple device models then each device model has an
-> > mdev type. There may be multiple mdev types for a single device model when they
-> > offer different migration parameters such as resource capacity or feature
-> > availability.
-> > 
-> > For example, a graphics card that supports 4 GB and 8 GB device instances would
-> > provide gfx-4GB and gfx-8GB mdev types with memory=4096 and memory=8192
-> > migration parameters, respectively.  
-> 
-> 
-> I think this example could be expanded for clarity.  I think this is
-> suggesting we have mdev_types of gfx-4GB and gfx-8GB, which each
-> implement some common device model, ie. com.gfx/GPU, where the
-> migration parameter 'memory' for each defaults to a value matching the
-> type name.  But it seems like this can also lead to some combinatorial
-> challenges for management tools if these parameters are writable.  For
-> example, should a management tool create a gfx-4GB device and change to
-> memory parameter to 8192 or a gfx-8GB device with the default parameter?
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
-I would expect that the mdev types need to match in the first place.
-What role would the memory= parameter play, then? Allowing gfx-4GB to
-have memory=8192 feels wrong to me.
-
-(...)
-
-> > An open mdev device typically does not allow migration parameters to be changed
-> > at runtime. However, certain migration/params attrs may allow writes at
-> > runtime. Usually these migration parameters only affect the device state
-> > representation and not the hardware interface. This makes it possible to
-> > upgrade or downgrade the device state representation at runtime so that
-> > migration is possible to newer or older device implementations.  
-
-This refers to generation of device implementations, but not to dynamic
-configuration changes. Maybe I'm just confused by this sentence, but
-how are we supposed to get changes while the mdev is live across?
-
-> 
-> 
-> Which begs the question of how we'd determine which can be modified
-> runtime...  Thanks,
-> 
-> Alex
-> 
-> 
-And this as well. Do we need different categories?
+> ---
+>  hw/i386/acpi-build.c | 41 +++++++++++++++++++----------------------
+>  1 file changed, 19 insertions(+), 22 deletions(-)
+>=20
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index 4f66642d88..1f5c211245 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -465,34 +465,31 @@ static void build_append_pci_bus_devices(Aml *paren=
+t_scope, PCIBus *bus,
+>       */
+>      if (bsel || pcihp_bridge_en) {
+>          method =3D aml_method("PCNT", 0, AML_NOTSERIALIZED);
+> -    }
+> -    /* If bus supports hotplug select it and notify about local events *=
+/
+> -    if (bsel) {
+> -        uint64_t bsel_val =3D qnum_get_uint(qobject_to(QNum, bsel));
+> =20
+> -        aml_append(method, aml_store(aml_int(bsel_val), aml_name("BNUM")=
+));
+> -        aml_append(method,
+> -            aml_call2("DVNT", aml_name("PCIU"), aml_int(1) /* Device Che=
+ck */)
+> -        );
+> -        aml_append(method,
+> -            aml_call2("DVNT", aml_name("PCID"), aml_int(3)/* Eject Reque=
+st */)
+> -        );
+> -    }
+> +        /* If bus supports hotplug select it and notify about local even=
+ts */
+> +        if (bsel) {
+> +            uint64_t bsel_val =3D qnum_get_uint(qobject_to(QNum, bsel));
+> =20
+> -    /* Notify about child bus events in any case */
+> -    if (pcihp_bridge_en) {
+> -        QLIST_FOREACH(sec, &bus->child, sibling) {
+> -            int32_t devfn =3D sec->parent_dev->devfn;
+> +            aml_append(method, aml_store(aml_int(bsel_val), aml_name("BN=
+UM")));
+> +            aml_append(method, aml_call2("DVNT", aml_name("PCIU"),
+> +                                         aml_int(1))); /* Device Check *=
+/
+> +            aml_append(method, aml_call2("DVNT", aml_name("PCID"),
+> +                                         aml_int(3))); /* Eject Request =
+*/
+> +        }
+> =20
+> -            if (pci_bus_is_root(sec) || pci_bus_is_express(sec)) {
+> -                continue;
+> -            }
+> +        /* Notify about child bus events in any case */
+> +        if (pcihp_bridge_en) {
+> +            QLIST_FOREACH(sec, &bus->child, sibling) {
+> +                int32_t devfn =3D sec->parent_dev->devfn;
+> +
+> +                if (pci_bus_is_root(sec) || pci_bus_is_express(sec)) {
+> +                    continue;
+> +                }
+> =20
+> -            aml_append(method, aml_name("^S%.02X.PCNT", devfn));
+> +                aml_append(method, aml_name("^S%.02X.PCNT", devfn));
+> +            }
+>          }
+> -    }
+> =20
+> -    if (bsel || pcihp_bridge_en) {
+>          aml_append(parent_scope, method);
+>      }
+>      qobject_unref(bsel);
 
 
