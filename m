@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CD9F2AF550
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 16:45:25 +0100 (CET)
-Received: from localhost ([::1]:45162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 763082AF574
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 16:50:42 +0100 (CET)
+Received: from localhost ([::1]:51614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcsJI-00018G-Hj
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 10:45:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56608)
+	id 1kcsOP-00044Z-9X
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 10:50:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kcsIC-0000bC-3c
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 10:44:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40014)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kcsI9-0004Bp-Ej
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 10:44:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605109452;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1h6Z7euvdewLStiN9IVPM4pNQRSP7zHQRWeT3BzvjOE=;
- b=Mho6lGyX7mjT2zydsIL45blffee01Vg9Ozpx9tZRucuC1ymxyvQyeJl9HVSt7WWGcmXC+x
- x2eQaO6G7OO36piqB+h73a9/MiLlKNgeFFQ5vzypTbejoiudfTEaC5eoT1Atsmj9Rxdipu
- 6gVNJhbBNiknAnhq7Uhc68cIawoSNX0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-3-rfCd1oKnOLKRIBcjiulcqA-1; Wed, 11 Nov 2020 10:44:11 -0500
-X-MC-Unique: rfCd1oKnOLKRIBcjiulcqA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC83187951B;
- Wed, 11 Nov 2020 15:44:09 +0000 (UTC)
-Received: from starship (unknown [10.35.206.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B45B655760;
- Wed, 11 Nov 2020 15:44:06 +0000 (UTC)
-Message-ID: <03b01c699c9fab64736d04891f1e835aef06c886.camel@redhat.com>
-Subject: Re: [PATCH 0/2] RFC: Issue with discards on raw block device
- without O_DIRECT
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 11 Nov 2020 17:44:05 +0200
-In-Reply-To: <20201111153913.41840-1-mlevitsk@redhat.com>
-References: <20201111153913.41840-1-mlevitsk@redhat.com>
-User-Agent: Evolution 3.36.3 (3.36.3-1.fc32)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1kcsMg-00039t-93; Wed, 11 Nov 2020 10:48:54 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:35959)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1kcsMc-0005tr-R2; Wed, 11 Nov 2020 10:48:53 -0500
+Received: by mail-wr1-x443.google.com with SMTP id j7so2996653wrp.3;
+ Wed, 11 Nov 2020 07:48:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=G3i7VJGyQrRd7HUezZpIMEgCbrufnwkrKRIW8AV5zM0=;
+ b=lD/uIQttCVED6KhhfMBIpaqblJyIHyDQ9VlWn13HUYoY6auLmkAY1aAyK6ym5fVpVw
+ H98bGhCOmA5ILH6/t6wgfCR6Gw6I6wxfdLdYab8bru6gJdLMA3w2Biud+MfOvtitSQKB
+ p+tbeS+B4eObNKxgz8pyvf+/4UfcQTIbIPBYQUxLQmuvzO3RZkJZRwDFDjb1upMXlICv
+ m3mvgFZrw8C8zArrCP4e8nAvTwAHdGwDWsOx7qJjklzHStugldoEBK63bRCylTiIm/vb
+ pYrcm7ictU67krkfFeYMVs/2ksxsSx2EklAiIvSwVzSXVtnN1pY1XYtwTQHNjO8X3kZc
+ 817g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=G3i7VJGyQrRd7HUezZpIMEgCbrufnwkrKRIW8AV5zM0=;
+ b=eh9LAtNUUbReLs8Rx4KT8EJ7oUUw3D/k0hMdslwMYgtNFxByJUcXrQf5DYb5TTc/28
+ tZ8sDqA/rBkD/g958ADti9+WyDAiNrjzr+3cS1TEeJYxsou9MWoUfhyPi5CLtcUgf3PL
+ Upn8uy/wgg6kpg6ZgqDqXNes2fcM6+AGD6XsaZMsQvIofIU9YBGXHZmxVjwaJ4zrOA39
+ 1UXxYUUMase5xXaoMDukaAiA+Kgh7L+VmpJxZd0oJjeH73/FMz3PlgDEGKPtllIbtLGd
+ VyYMQiA6jZx5f9WWQZ6J5NzgeV9Je2woYBwHx/Q8Aq5LBG0XzWEYEN7XP8AtZi7C9d+2
+ vQgQ==
+X-Gm-Message-State: AOAM531NdNoVdKk0xpEc/B3Hpuo287HRp3xjs0ciPt8rRIaue59xCx5f
+ 2+mY1+1PZOSGaXa2xvptnFc=
+X-Google-Smtp-Source: ABdhPJw+f4GIqwCbLRbqm6Woc1vTwn07M8zdrKXI65L4oIXWokg+2nql8o7eiAMlYYTqVCsfqyyo7g==
+X-Received: by 2002:adf:dc4c:: with SMTP id m12mr31177434wrj.177.1605109728720; 
+ Wed, 11 Nov 2020 07:48:48 -0800 (PST)
+Received: from localhost (85.9.90.146.dyn.plus.net. [146.90.9.85])
+ by smtp.gmail.com with ESMTPSA id w1sm2838515wro.44.2020.11.11.07.48.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Nov 2020 07:48:47 -0800 (PST)
+Date: Wed, 11 Nov 2020 15:48:46 +0000
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH-for-5.2 v2 2/4] meson: Only build vhost-user when system
+ or tools is enabled
+Message-ID: <20201111154846.GA1398376@stefanha-x1.localdomain>
+References: <20201111120912.3245574-1-philmd@redhat.com>
+ <20201111120912.3245574-3-philmd@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlevitsk@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 01:49:01
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="huq684BweRXVnRxX"
+Content-Disposition: inline
+In-Reply-To: <20201111120912.3245574-3-philmd@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=stefanha@gmail.com; helo=mail-wr1-x443.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,61 +85,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Jan Kara <jack@suse.cz>,
- qemu-block@nongnu.org, "Darrick J . Wong" <darrick.wong@oracle.com>,
- Peter Lieven <pl@kamp.de>, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2020-11-11 at 17:39 +0200, Maxim Levitsky wrote:
-> clone of "starship_production"
 
-The git-publish destroyed the cover letter:
+--huq684BweRXVnRxX
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-For the reference this is for bz #1872633
+On Wed, Nov 11, 2020 at 01:09:10PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> It does not make sense to select vhost-user features
+> without system-mode or tools. Return an error when
+> this configuration is selected. Example:
+>=20
+>   $ ../configure --disable-tools --disable-system --enable-vhost-user-blk=
+-server
+>=20
+>   ../meson.build:755:4: ERROR: Problem encountered: vhost-user does not m=
+ake sense without system or tools support enabled
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> ---
+>  meson.build | 4 ++++
+>  1 file changed, 4 insertions(+)
+>=20
+> diff --git a/meson.build b/meson.build
+> index 4b789f18c17..4fc58eb2c3d 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -751,6 +751,10 @@
+> =20
+>  has_statx =3D cc.links(statx_test)
+> =20
+> +if 'CONFIG_VHOST_USER' in config_host and not (have_system or have_tools)
+> +    error('vhost-user does not make sense without system or tools suppor=
+t enabled')
+> +endif
 
-The issue is that current kernel code that implements 'fallocate'
-on kernel block devices roughly works like that:
+Now the following fails on Linux hosts:
 
-1. Flush the page cache on the range that is about to be discarded.
-2. Issue the discard and wait for it to finish.
-   (as far as I can see the discard doesn't go through the
-   page cache).
+  $ ./configure --disable-tools --disable-system
+  ../meson.build:755:4: ERROR: Problem encountered: vhost-user does not mak=
+e sense without system or tools support enabled
 
-3. Check if the page cache is dirty for this range,
-   if it is dirty (meaning that someone wrote to it meanwhile)
-   return -EBUSY.
+Previously it would succeed and make would build qemu-user binaries,
+documentation, trace-events-all, etc so this looks like a regression.
 
-This means that if qemu (or qemu-img) issues a write, and then
-discard to the area that shares a page, -EBUSY can be returned by
-the kernel.
+In addition, adding this error is inconsistent with all the other
+=2E/configure options which do not check whether the build target that
+uses them has been disabled. We'd need to implement the same check for
+every option to make ./configure consistent. For example, if SPICE is
+enabled but --disable-system is given then there should be an error
+saying it enabling SPICE does not make sense, etc.
 
-On the other hand, for example, the ext4 implementation of discard
-doesn't seem to be affected. It does take a lock on the inode to avoid
-concurrent IO and flushes O_DIRECT writers prior to doing discard thought.
+Stefan
 
-Doing fsync and retrying is seems to resolve this issue, but it might be a too big hammer.
-Just retrying doesn't work, indicating that maybe the code that flushes the page
-cache in (1) doesn't do this correctly ?
+--huq684BweRXVnRxX
+Content-Type: application/pgp-signature; name="signature.asc"
 
-It also can be racy unless special means are done to block IO from happening
-from qemu during this fsync.
+-----BEGIN PGP SIGNATURE-----
 
-This patch series contains two patches:
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+sB94ACgkQnKSrs4Gr
+c8giqAgAu4JYdfBSv1WK9XBD9uR8chA38b7EyyamKOwxLmjZ3wUNmQm9oGjWnk8Y
+k5C8AQoJy5kWEO4NlpDrbVhvkhkIpwD6CYlkdIXbTc0RtmGY86dhv02QDTc5Wri5
+HrnW6+387pm6yESwcomUifiJmk1IPkVHoNIjsANDJTULNTgcM7l179QbD+/Tjttd
+ANbTcXfiowTsaUS3DAtG0LZGCdxp3LEuE86Nby2WoYL4EVmq7k2igzhxSj4ZZFuE
+T+nRvm75sY5R1+LGXdMboPBPiCaXcMiqe9RWLIvDbB1iHmgdUAbI/3FvZ5UcLawR
+REQ1XyLV4XjxYwpA+ofdxJpE3U+/tw==
+=0bpm
+-----END PGP SIGNATURE-----
 
-First patch just lets the file-posix ignore the -EBUSY errors, which is
-technically enough to fail back to plain write in this case, but seems wrong.
-
-And the second patch adds an optimization to qemu-img to avoid such a
-fragmented write/discard in the first place.
-
-Both patches make the reproducer work for this particular bugzilla,
-but I don't think they are enough.
-
-What do you think?
-
-Best regards,
-	Maxim Levitsky
-
+--huq684BweRXVnRxX--
 
