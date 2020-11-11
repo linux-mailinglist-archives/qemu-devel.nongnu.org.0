@@ -2,70 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A1BC2AF1CD
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 14:14:38 +0100 (CET)
-Received: from localhost ([::1]:33644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE9D02AF1E5
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 14:19:22 +0100 (CET)
+Received: from localhost ([::1]:43718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcpxN-0007sg-F9
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 08:14:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43396)
+	id 1kcq1x-0003u5-Uj
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 08:19:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kcprt-0002xY-8L
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 08:08:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55739)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kcprr-0000wW-Fp
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 08:08:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605100134;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=INbi8SjPMiuP+vUI4harRaI+Fcap0Y8skIp2bvpuoFw=;
- b=YP5TR/+9amjT02FH70qQ+Jxx2lzDr7ODJYyIXG57Nqg4p6xQE2McazFM7PtzVfuTyV7OjV
- yKKt10qBGgLGcjmwB8CoX/4OAZcszhcLSUVJlK4qEkhM/AyIDMNtj/a+SlnIzZcS/5Wbz9
- AuiSLHPMsPc3i6/MABtHFDeUCqcygAo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-63-nPsZVdpGO5uXemk5oc06_A-1; Wed, 11 Nov 2020 08:08:53 -0500
-X-MC-Unique: nPsZVdpGO5uXemk5oc06_A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E1CD801FDB
- for <qemu-devel@nongnu.org>; Wed, 11 Nov 2020 13:08:52 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-124.ams2.redhat.com [10.36.114.124])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 06F725C1C4;
- Wed, 11 Nov 2020 13:08:50 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] char: Deprecate backend aliases 'tty' and 'parport'
-Date: Wed, 11 Nov 2020 14:08:34 +0100
-Message-Id: <20201111130834.33985-3-kwolf@redhat.com>
-In-Reply-To: <20201111130834.33985-1-kwolf@redhat.com>
-References: <20201111130834.33985-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1kcpto-0006Fe-83
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 08:10:56 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39110)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1kcptk-0001km-Or
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 08:10:55 -0500
+Received: by mail-wm1-x343.google.com with SMTP id s13so2268829wmh.4
+ for <qemu-devel@nongnu.org>; Wed, 11 Nov 2020 05:10:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=mMMsKfJ8hpaPq6xD9N8YKH9KYT2ykEpm60EjnUOP4A4=;
+ b=kAIET6Q0ARBe5Krs7wI35WqJ7PtQezAXQqdwiCtq4r4Ko6OXcOVpzmD2XqYR5q7Zh1
+ 2975TKwvbTPPFlYBDR9ebt8Eh6OpCy61SdMZfpE8ZTs02qA/UCvnHSJNoyBv5wsNuHNM
+ 96jcVYD3lWLzNLUXNOsL1EDVAW2Rkg+e5z/dpRt1cSlyjLLkQg5b4vhu+qWl8qTyjPH+
+ MBZoxsCQFx8/KIxQwVkQx0kMzGKhHC6xKBldxgpggJjsKbAp73ZeNUeK1afSmRvOjGEc
+ quDrjL6PZWHn/QllWRawKHoSZM+HrBSMa758eTI8uDhDdO52N9CqHutM9GN6B6kmUfoy
+ 9lRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=mMMsKfJ8hpaPq6xD9N8YKH9KYT2ykEpm60EjnUOP4A4=;
+ b=Sbqy0zfEAWVDfGDordB0QNTQXfIlUdxmGNnvhI/FnGPeZBOpHIE3mgMMQ0bkmpwoOm
+ gvQCbRZ/dAuy3svOMjKrux+uTVU5V2ZAvLGBVcg5gXHp/IcUP4TlKlFf6SDa7+qO2sVr
+ AySGaFyXcDj/r2Mr8H/3f0ulEXkHEH2dq17MCyTG+7e9+u7pOvyPeE0fwo2y1eQp4Iu+
+ xp3Qu+6EyVpGOCfoNyOC4hsMv4QZ+iT8z5HRHfJeQSCm0TdZCtHqavjADgMUgLyhzMIL
+ aPRv6GzcHdnlc2w7iSKfbmKYwMpfsgIoH6z9rrP0rO3UwyHkRqEbir5Mzr3T9BCNUlOl
+ 9NbQ==
+X-Gm-Message-State: AOAM5339+iJ/b8gdTynIwfMDGGtXU3DmuBGdxIdi07nA5hTU+f+GruSg
+ eng/gOKbp4Tlgk6dAN3iO84=
+X-Google-Smtp-Source: ABdhPJxqFn1l3GSk2KoLpftKXaOxUkn0oClE1zWCIhzTDdFz63HZSBO569htLv3wGOjk6bOZJW8fdQ==
+X-Received: by 2002:a1c:4957:: with SMTP id w84mr4052775wma.84.1605100250391; 
+ Wed, 11 Nov 2020 05:10:50 -0800 (PST)
+Received: from localhost (85.9.90.146.dyn.plus.net. [146.90.9.85])
+ by smtp.gmail.com with ESMTPSA id u16sm2429741wrn.55.2020.11.11.05.10.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Nov 2020 05:10:49 -0800 (PST)
+Date: Wed, 11 Nov 2020 13:10:47 +0000
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH] scripts/tracetool: silence SystemTap dtrace(1) long long
+ warnings
+Message-ID: <20201111131047.GA1395688@stefanha-x1.localdomain>
+References: <20201020094043.159935-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 01:49:01
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="SLDf9lqlvOQaIe6s"
+Content-Disposition: inline
+In-Reply-To: <20201020094043.159935-1-stefanha@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=stefanha@gmail.com; helo=mail-wm1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,77 +86,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, pbonzini@redhat.com, libvir-list@redhat.com,
- marcandre.lureau@redhat.com
+Cc: Daniel Berrange <berrange@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QAPI doesn't know the aliases 'tty' and 'parport' and there is no
-reason to prefer them to the real names of the backends 'serial' and
-'parallel'.
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- docs/system/deprecated.rst |  6 ++++++
- chardev/char.c             | 11 ++++++++++-
- 2 files changed, 16 insertions(+), 1 deletion(-)
+--SLDf9lqlvOQaIe6s
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index bbaae0d97c..7e313eae4f 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -81,6 +81,12 @@ error in the future.
- The ``-realtime mlock=on|off`` argument has been replaced by the
- ``-overcommit mem-lock=on|off`` argument.
- 
-+``-chardev`` backend aliases ``tty`` and ``parport`` (since 6.0)
-+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+``tty`` and ``parport`` are aliases that will be removed. Instead, the
-+actual backend names ``serial`` and ``parallel`` should be used.
-+
- RISC-V ``-bios`` (since 5.1)
- ''''''''''''''''''''''''''''
- 
-diff --git a/chardev/char.c b/chardev/char.c
-index c406e61db6..f9e297185d 100644
---- a/chardev/char.c
-+++ b/chardev/char.c
-@@ -534,9 +534,10 @@ static const ChardevClass *char_get_class(const char *driver, Error **errp)
-     return cc;
- }
- 
--static const struct ChardevAlias {
-+static struct ChardevAlias {
-     const char *typename;
-     const char *alias;
-+    bool deprecation_warning_printed;
- } chardev_alias_table[] = {
- #ifdef HAVE_CHARDEV_PARPORT
-     { "parallel", "parport" },
-@@ -585,6 +586,9 @@ help_string_append(const char *name, bool is_cli_alias, void *opaque)
-     GString *str = opaque;
- 
-     g_string_append_printf(str, "\n  %s", name);
-+    if (is_cli_alias) {
-+        g_string_append(str, " (deprecated)");
-+    }
- }
- 
- static const char *chardev_alias_translate(const char *name)
-@@ -592,6 +596,11 @@ static const char *chardev_alias_translate(const char *name)
-     int i;
-     for (i = 0; i < (int)ARRAY_SIZE(chardev_alias_table); i++) {
-         if (g_strcmp0(chardev_alias_table[i].alias, name) == 0) {
-+            if (!chardev_alias_table[i].deprecation_warning_printed) {
-+                warn_report("The alias '%s' is deprecated, use '%s' instead",
-+                            name, chardev_alias_table[i].typename);
-+                chardev_alias_table[i].deprecation_warning_printed = true;
-+            }
-             return chardev_alias_table[i].typename;
-         }
-     }
--- 
-2.28.0
+On Tue, Oct 20, 2020 at 10:40:43AM +0100, Stefan Hajnoczi wrote:
+> SystemTap's dtrace(1) prints the following warning when it encounters
+> long long arguments:
+>=20
+>   Warning: /usr/bin/dtrace:trace/trace-dtrace-hw_virtio.dtrace:76: syntax=
+ error near:
+>   probe vhost_vdpa_dev_start
+>=20
+>   Warning: Proceeding as if --no-pyparsing was given.
+>=20
+> Use the uint64_t and int64_t types, respectively. This works with all
+> host CPU 32- and 64-bit data models (ILP32, LP64, and LLP64) that QEMU
+> supports.
+>=20
+> Reported-by: Markus Armbruster <armbru@redhat.com>
+> Suggested-by: Daniel P. Berrang=E9 <berrange@redhat.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  scripts/tracetool/format/d.py | 6 ++++++
+>  1 file changed, 6 insertions(+)
 
+Thanks, applied to my tracing tree:
+https://gitlab.com/stefanha/qemu/commits/tracing
+
+Stefan
+
+--SLDf9lqlvOQaIe6s
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+r4tcACgkQnKSrs4Gr
+c8jj+ggApJ1+OMDz5yjYCqMbyAXK1mQHIz1Osre512sRcgwSJ2RGVaxb6MP7U97q
+O2olgOw2xJmPVTwmLQKhGiZxqND9q5C0oeKgF58J8+v5cTq5p0fqqRjjbvueG+IN
+YjHqE25GOgcx864BPFF9bXkdwUufEDyTwS37H+gzAxCJjMV8zOWPwIag2hkk5OBz
+lv4wJDBEERVYGZlrrb6qIPJkyVS+CXGZfPbwmBf95UMjIvJEGgG5wpOre16H4OpI
+a5EOus7eyQf+m2JPI/SFekNahfkynwjQ9Gb4pKzUYn8iEohqvi0HLhhqr1Nb+36m
+G4rTSJ3++IqdoYfE+uxvpNXq661r/g==
+=V/sA
+-----END PGP SIGNATURE-----
+
+--SLDf9lqlvOQaIe6s--
 
