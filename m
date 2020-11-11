@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDC982AF385
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 15:27:54 +0100 (CET)
-Received: from localhost ([::1]:46506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 604682AF38A
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 15:30:31 +0100 (CET)
+Received: from localhost ([::1]:53796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcr6H-0001Xh-S3
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 09:27:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35810)
+	id 1kcr8o-0004ZY-B4
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 09:30:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kcr4D-0008Fb-KC
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 09:25:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46022)
+ id 1kcr4E-0008GW-3n
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 09:25:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55582)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kcr4A-0001mH-Vs
+ id 1kcr4C-0001mt-53
  for qemu-devel@nongnu.org; Wed, 11 Nov 2020 09:25:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605104742;
+ s=mimecast20190719; t=1605104743;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Lr+5b4p7qRTEk4cDzm0XIAe0S3nPS6MiisGwWtEmP+I=;
- b=Uv8ysKmnGy2wW7Sc0NvF+bJKudWQE4SBadFPm+Q6bmomPr47zOv7Or/b9HWmXkXkMI5cib
- /nDGTsQsjuGQsOoD7hsPUPGGqZmCztZipbufzb9g9n4e3nim5AWhXaO6FPcevaJ8IUKhCp
- I3pj1e8RxyPGg0sVxsxle0atdDDRjfU=
+ bh=hbj7WtOxbzc0bZiQUOnwGOkB9Nshb+E+LIixao81N7o=;
+ b=bwkSLWRrRiV6SXDmvwyoxqYhpfxHG/azwboPJ9JCDKYqupEpehdi+VKSk/EP8ktN6zSqZB
+ a4TpwRVpOeeUW0OQaWtBPatEHAxUPcwQbV9/kHx+uxiHmZLWPVjnOheT8zoEViQkmOJJgS
+ qHqJ34h9g/GCtUixa6HhtBt3b3TCFiA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-513-B0k56toFOz-W6ZsdhGnTIw-1; Wed, 11 Nov 2020 09:25:40 -0500
-X-MC-Unique: B0k56toFOz-W6ZsdhGnTIw-1
+ us-mta-551-VHOw2UO0M2OtAuuRcb94Wg-1; Wed, 11 Nov 2020 09:25:41 -0500
+X-MC-Unique: VHOw2UO0M2OtAuuRcb94Wg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B8E210557CB
- for <qemu-devel@nongnu.org>; Wed, 11 Nov 2020 14:25:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B37BD8CD801
+ for <qemu-devel@nongnu.org>; Wed, 11 Nov 2020 14:25:40 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 48C3E60CD0;
- Wed, 11 Nov 2020 14:25:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6F6FC6115F;
+ Wed, 11 Nov 2020 14:25:40 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/12] qom: use qemu_printf to print help for user-creatable
- objects
-Date: Wed, 11 Nov 2020 09:25:29 -0500
-Message-Id: <20201111142537.1213209-5-pbonzini@redhat.com>
+Subject: [PATCH 07/12] qemu-nbd: use keyval for -object parsing
+Date: Wed, 11 Nov 2020 09:25:32 -0500
+Message-Id: <20201111142537.1213209-8-pbonzini@redhat.com>
 In-Reply-To: <20201111142537.1213209-1-pbonzini@redhat.com>
 References: <20201111142537.1213209-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -86,60 +85,88 @@ Cc: kwolf@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is needed when we add help support for object_add.
+Enable creation of object with non-scalar properties.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- qom/object_interfaces.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ qemu-nbd.c | 42 +++++++++++++-----------------------------
+ 1 file changed, 13 insertions(+), 29 deletions(-)
 
-diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
-index ed896fe764..34edc3d1d8 100644
---- a/qom/object_interfaces.c
-+++ b/qom/object_interfaces.c
-@@ -13,6 +13,7 @@
- #include "qemu/option.h"
- #include "qapi/opts-visitor.h"
- #include "qemu/config-file.h"
-+#include "qemu/qemu-print.h"
+diff --git a/qemu-nbd.c b/qemu-nbd.c
+index a7075c5419..b4bd21a21e 100644
+--- a/qemu-nbd.c
++++ b/qemu-nbd.c
+@@ -407,23 +407,6 @@ static QemuOptsList file_opts = {
+     },
+ };
  
- bool user_creatable_complete(UserCreatable *uc, Error **errp)
- {
-@@ -214,15 +215,15 @@ char *object_property_help(const char *name, const char *type,
-     return g_string_free(str, false);
- }
+-static QemuOptsList qemu_object_opts = {
+-    .name = "object",
+-    .implied_opt_name = "qom-type",
+-    .head = QTAILQ_HEAD_INITIALIZER(qemu_object_opts.head),
+-    .desc = {
+-        { }
+-    },
+-};
+-
+-static bool qemu_nbd_object_print_help(const char *type, QemuOpts *opts)
+-{
+-    if (user_creatable_print_help(type, opts)) {
+-        exit(0);
+-    }
+-    return true;
+-}
+-
  
--static void user_creatable_print_types(void)
-+void user_creatable_print_types(void)
- {
-     GSList *l, *list;
+ static QCryptoTLSCreds *nbd_get_tls_creds(const char *id, bool list,
+                                           Error **errp)
+@@ -599,7 +582,6 @@ int main(int argc, char **argv)
+     qcrypto_init(&error_fatal);
  
--    printf("List of user creatable objects:\n");
-+    qemu_printf("List of user creatable objects:\n");
-     list = object_class_get_list_sorted(TYPE_USER_CREATABLE, false);
-     for (l = list; l != NULL; l = l->next) {
-         ObjectClass *oc = OBJECT_CLASS(l->data);
--        printf("  %s\n", object_class_get_name(oc));
-+        qemu_printf("  %s\n", object_class_get_name(oc));
+     module_call_init(MODULE_INIT_QOM);
+-    qemu_add_opts(&qemu_object_opts);
+     qemu_add_opts(&qemu_trace_opts);
+     qemu_init_exec_dir(argv[0]);
+ 
+@@ -752,14 +734,20 @@ int main(int argc, char **argv)
+         case '?':
+             error_report("Try `%s --help' for more information.", argv[0]);
+             exit(EXIT_FAILURE);
+-        case QEMU_NBD_OPT_OBJECT: {
+-            QemuOpts *opts;
+-            opts = qemu_opts_parse_noisily(&qemu_object_opts,
+-                                           optarg, true);
+-            if (!opts) {
+-                exit(EXIT_FAILURE);
++        case QEMU_NBD_OPT_OBJECT:
++            {
++                QDict *args;
++                bool help;
++
++                args = keyval_parse(optarg, "qom-type", &help, &error_fatal);
++                if (help) {
++                    user_creatable_print_help_from_qdict(args);
++                    exit(EXIT_SUCCESS);
++                }
++                user_creatable_add_dict(args, true, &error_fatal);
++                qobject_unref(args);
++                break;
+             }
+-        }   break;
+         case QEMU_NBD_OPT_TLSCREDS:
+             tlscredsid = optarg;
+             break;
+@@ -807,10 +795,6 @@ int main(int argc, char **argv)
+         export_name = "";
      }
-     g_slist_free(list);
- }
-@@ -253,12 +254,12 @@ static bool user_creatable_print_type_properites(const char *type)
+ 
+-    qemu_opts_foreach(&qemu_object_opts,
+-                      user_creatable_add_opts_foreach,
+-                      qemu_nbd_object_print_help, &error_fatal);
+-
+     if (!trace_init_backends()) {
+         exit(1);
      }
-     g_ptr_array_sort(array, (GCompareFunc)qemu_pstrcmp0);
-     if (array->len > 0) {
--        printf("%s options:\n", type);
-+        qemu_printf("%s options:\n", type);
-     } else {
--        printf("There are no options for %s.\n", type);
-+        qemu_printf("There are no options for %s.\n", type);
-     }
-     for (i = 0; i < array->len; i++) {
--        printf("%s\n", (char *)array->pdata[i]);
-+        qemu_printf("%s\n", (char *)array->pdata[i]);
-     }
-     g_ptr_array_set_free_func(array, g_free);
-     g_ptr_array_free(array, true);
 -- 
 2.26.2
 
