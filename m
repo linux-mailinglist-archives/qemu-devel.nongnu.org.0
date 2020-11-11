@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB8B72AF1EA
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 14:20:01 +0100 (CET)
-Received: from localhost ([::1]:45712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19FEA2AF20A
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 14:25:35 +0100 (CET)
+Received: from localhost ([::1]:60036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcq2a-0004l2-Re
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 08:20:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44506)
+	id 1kcq7y-0002Ry-5J
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 08:25:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kcpv1-0006tJ-TI
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 08:12:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29155)
+ id 1kcpv4-0006zS-3c
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 08:12:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41385)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kcpv0-0002By-1O
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 08:12:11 -0500
+ id 1kcpv2-0002Ci-6s
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 08:12:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605100329;
+ s=mimecast20190719; t=1605100331;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qF+MAzyFctk1dpZM1XrBLzLNo0t5v/fqTXkbfkxrVuo=;
- b=ivBGZK2V5s2Yo+pfM+QZuhX7E8mQIaBpx/fbkp8TfODBs0N2sJMFL+JAC05geLkoijJPlp
- hv1evoGDa1msYvMfuN8vfg+If16/qC7EcG0L6L0H5yDqrvc6rIXxfUiDd8mSxV8KOQeYP7
- NceYNdKXpyXvRWPuRTRCyDxwBultgDI=
+ bh=2b7YAI/tGrk1UKTxLFg8WwZf51xAbBCYAN7QDl93vkI=;
+ b=CnD9YmBvKO32EcxIB7BxhE2X4T/jK3Dmk6/zp3sESpnQw+eiWtt4aRp8de1e63geXYsvYo
+ M45MyQMKjH2DrJlXA7mgt1He9yD0TzOIc2oy9E4mKlv+0dgFNAsbR7Jd8BS5FOVUVy2WUF
+ bGvtk2wQWh5j5zBe8xMtUgoj5iOLHRM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-140-eeeXiN3BMnSq9cndSWP9AA-1; Wed, 11 Nov 2020 08:12:07 -0500
-X-MC-Unique: eeeXiN3BMnSq9cndSWP9AA-1
+ us-mta-284-2BVK8lXfPoqHMmm0eHIPGQ-1; Wed, 11 Nov 2020 08:12:09 -0500
+X-MC-Unique: 2BVK8lXfPoqHMmm0eHIPGQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 127171882FB3;
- Wed, 11 Nov 2020 13:12:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31D49803F76;
+ Wed, 11 Nov 2020 13:12:08 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-61.pek2.redhat.com
  [10.72.12.61])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 735A855760;
- Wed, 11 Nov 2020 13:12:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8FCC755760;
+ Wed, 11 Nov 2020 13:12:06 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 08/17] net/colo-compare.c: Fix compare_timeout format issue
-Date: Wed, 11 Nov 2020 21:11:32 +0800
-Message-Id: <1605100301-11317-9-git-send-email-jasowang@redhat.com>
+Subject: [PULL 09/17] net/colo-compare.c: Change the timer clock type
+Date: Wed, 11 Nov 2020 21:11:33 +0800
+Message-Id: <1605100301-11317-10-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1605100301-11317-1-git-send-email-jasowang@redhat.com>
 References: <1605100301-11317-1-git-send-email-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -88,10 +88,14 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Zhang Chen <chen.zhang@intel.com>
 
-This parameter need compare with the return of qemu_clock_get_ms(),
-it is uint64_t. So we need fix this issue here.
+The virtual clock only runs during the emulation. It stops
+when the virtual machine is stopped.
+The host clock should be used for device models that emulate accurate
+real time sources. It will continue to run when the virtual machine
+is suspended. COLO need to know the host time here.
 
-Fixes: 9cc43c94b31 ("net/colo-compare.c: Expose "compare_timeout" to users")
+Fixes: dd321ecfc2e ("colo-compare: Use IOThread to Check old packet
+regularly and Process packets of the primary")
 
 Reported-by: Derek Su <dereksu@qnap.com>
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
@@ -99,54 +103,34 @@ Reviewed-by: Li Zhijian <lizhijian@cn.fujitsu.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- net/colo-compare.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ net/colo-compare.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/net/colo-compare.c b/net/colo-compare.c
-index 8d476bb..76b83a9 100644
+index 76b83a9..1263203 100644
 --- a/net/colo-compare.c
 +++ b/net/colo-compare.c
-@@ -120,7 +120,7 @@ struct CompareState {
-     SendCo out_sendco;
-     SendCo notify_sendco;
-     bool vnet_hdr;
--    uint32_t compare_timeout;
-+    uint64_t compare_timeout;
-     uint32_t expired_scan_cycle;
+@@ -900,7 +900,7 @@ static void check_old_packet_regular(void *opaque)
  
-     /*
-@@ -1076,9 +1076,9 @@ static void compare_get_timeout(Object *obj, Visitor *v,
-                                 Error **errp)
- {
-     CompareState *s = COLO_COMPARE(obj);
--    uint32_t value = s->compare_timeout;
-+    uint64_t value = s->compare_timeout;
- 
--    visit_type_uint32(v, name, &value, errp);
-+    visit_type_uint64(v, name, &value, errp);
+     /* if have old packet we will notify checkpoint */
+     colo_old_packet_check(s);
+-    timer_mod(s->packet_check_timer, qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
++    timer_mod(s->packet_check_timer, qemu_clock_get_ms(QEMU_CLOCK_HOST) +
+               s->expired_scan_cycle);
  }
  
- static void compare_set_timeout(Object *obj, Visitor *v,
-@@ -1141,9 +1141,9 @@ static void set_max_queue_size(Object *obj, Visitor *v,
-                                Error **errp)
+@@ -934,10 +934,10 @@ static void colo_compare_timer_init(CompareState *s)
  {
-     Error *local_err = NULL;
--    uint32_t value;
-+    uint64_t value;
+     AioContext *ctx = iothread_get_aio_context(s->iothread);
  
--    visit_type_uint32(v, name, &value, &local_err);
-+    visit_type_uint64(v, name, &value, &local_err);
-     if (local_err) {
-         goto out;
-     }
-@@ -1391,7 +1391,7 @@ static void colo_compare_init(Object *obj)
-     object_property_add_str(obj, "notify_dev",
-                             compare_get_notify_dev, compare_set_notify_dev);
- 
--    object_property_add(obj, "compare_timeout", "uint32",
-+    object_property_add(obj, "compare_timeout", "uint64",
-                         compare_get_timeout,
-                         compare_set_timeout, NULL, NULL);
+-    s->packet_check_timer = aio_timer_new(ctx, QEMU_CLOCK_VIRTUAL,
++    s->packet_check_timer = aio_timer_new(ctx, QEMU_CLOCK_HOST,
+                                 SCALE_MS, check_old_packet_regular,
+                                 s);
+-    timer_mod(s->packet_check_timer, qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
++    timer_mod(s->packet_check_timer, qemu_clock_get_ms(QEMU_CLOCK_HOST) +
+               s->expired_scan_cycle);
+ }
  
 -- 
 2.7.4
