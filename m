@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4DC02AF933
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 20:40:30 +0100 (CET)
-Received: from localhost ([::1]:46938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59D2B2AF954
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 20:56:00 +0100 (CET)
+Received: from localhost ([::1]:58666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcvyn-00024O-8w
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 14:40:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33726)
+	id 1kcwDn-0007vc-AV
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 14:55:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kcvxa-0001dH-E3
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 14:39:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28262)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kcwAr-0006RA-2R
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 14:52:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56482)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kcvxX-0004Ve-O7
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 14:39:13 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kcwAn-0007XC-N3
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 14:52:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605123551;
+ s=mimecast20190719; t=1605124371;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OsnXB15FAd8IYCJmNXlOd04Q8ftbsME7oeyUIAOEmkE=;
- b=HSzNoTZi9k7MZSdIZtKukhOGAzIjsRDbFv5oF2H98Qn04qGE3LZz9u12mtiuiyxaEt4Kui
- c5Z296Ar4R7f4jncKWMdcRW3zykXeuf6dIV5m8Wme/KQqlCdzqi6pY/ToysTRH9sow4fgJ
- 1aH+V9cP7WQBSNpR3Ynb5rl1wXpX5gg=
+ bh=vF1Q4PyR/c1+5qxStJIkqV6tuLFUjDoyUj16sXmKXps=;
+ b=i3S6m+qpcao2g5AsiUAsxJq/YZf6rhTLoh/7rJAwuwGC1oNSK6EfMAn12xHNhpZ+6FjjLK
+ R+3n+99QglQ7DK/T0SlZNmjHc1U1L1Ylq6G2zxnQ0kImVTgcG7OB1stBp9vzS+JohzoFfX
+ FICESbtB2TcYV8Q1LCPiKjt/2VYGUj4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-395-A8RcUdDYOqeTzU_xFKfdAw-1; Wed, 11 Nov 2020 14:39:09 -0500
-X-MC-Unique: A8RcUdDYOqeTzU_xFKfdAw-1
+ us-mta-424-AaTjKbXWMSmj2G46WtvprQ-1; Wed, 11 Nov 2020 14:52:49 -0500
+X-MC-Unique: AaTjKbXWMSmj2G46WtvprQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85C4B100746C
- for <qemu-devel@nongnu.org>; Wed, 11 Nov 2020 19:39:08 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.29])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9B8E47366A;
- Wed, 11 Nov 2020 19:39:07 +0000 (UTC)
-Date: Wed, 11 Nov 2020 20:39:06 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 09/29] vl: extract various command line validation
- snippets to a new function
-Message-ID: <20201111203906.47904860@redhat.com>
-In-Reply-To: <20201027182144.3315885-10-pbonzini@redhat.com>
-References: <20201027182144.3315885-1-pbonzini@redhat.com>
- <20201027182144.3315885-10-pbonzini@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC42180B70D;
+ Wed, 11 Nov 2020 19:52:48 +0000 (UTC)
+Received: from work-vm (ovpn-113-88.ams2.redhat.com [10.36.113.88])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AA86E7366A;
+ Wed, 11 Nov 2020 19:52:44 +0000 (UTC)
+Date: Wed, 11 Nov 2020 19:52:41 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Haotian Li <lihaotian9@huawei.com>
+Subject: Re: [Virtio-fs] [PATCH 2/3] virtiofsd: check whether lo_map_reserve
+ returns NULL in, main func
+Message-ID: <20201111195241.GO3232@work-vm>
+References: <3477d902-ace9-1aa1-531a-9d20d6e93a05@huawei.com>
+ <48887813-1c95-048c-6d10-48e3dd2bac71@huawei.com>
 MIME-Version: 1.0
+In-Reply-To: <48887813-1c95-048c-6d10-48e3dd2bac71@huawei.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 01:49:01
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 01:42:46
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,178 +82,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: virtio-fs@redhat.com, linfeilong@huawei.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 27 Oct 2020 14:21:24 -0400
-Paolo Bonzini <pbonzini@redhat.com> wrote:
+* Haotian Li (lihaotian9@huawei.com) wrote:
+> In main func, func lo_map_reserve is called without NULL check.
+> If reallocing new_elems fails in func lo_map_grow, the func
+> lo_map_reserve may return NULL. We should check whether
+> lo_map_reserve returns NULL before using it.
+> 
+> Signed-off-by: Haotian Li <lihaotian9@huawei.com>
+> Signed-off-by: Zhiqiang Liu <liuzhiqiang26@huawei.com>
 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+(I think the fuse_log will always fall through the default_log_func
+becuase it's very early)
 
 > ---
->  hw/core/machine.c |  1 +
->  softmmu/vl.c      | 78 +++++++++++++++++++++++------------------------
->  2 files changed, 40 insertions(+), 39 deletions(-)
+>  tools/virtiofsd/passthrough_ll.c | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
 > 
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index d84b84463c..f5e559c493 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -878,6 +878,7 @@ static void machine_initfn(Object *obj)
->      ms->dump_guest_core = true;
->      ms->mem_merge = true;
->      ms->enable_graphics = true;
-> +    ms->kernel_cmdline = g_strdup("");
->  
->      if (mc->nvdimm_supported) {
->          Object *obj = OBJECT(ms);
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index f9bae50c27..3316c5534c 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -123,6 +123,7 @@ static int data_dir_idx;
->  static const char *mem_path;
->  static const char *boot_order;
->  static const char *boot_once;
-> +static const char *incoming;
->  enum vga_retrace_method vga_retrace_method = VGA_RETRACE_DUMB;
->  int display_opengl;
->  const char* keyboard_layout = NULL;
-> @@ -2870,6 +2871,39 @@ static char *find_datadir(void)
->      return get_relocated_path(CONFIG_QEMU_DATADIR);
->  }
->  
-> +static void qemu_validate_options(void)
-> +{
-> +    QemuOpts *machine_opts = qemu_get_machine_opts();
-> +    const char *kernel_filename = qemu_opt_get(machine_opts, "kernel");
-> +    const char *initrd_filename = qemu_opt_get(machine_opts, "initrd");
-> +    const char *kernel_cmdline = qemu_opt_get(machine_opts, "append");
-> +
-> +    if (kernel_filename == NULL) {
-> +         if (kernel_cmdline != NULL) {
-> +              error_report("-append only allowed with -kernel option");
-> +              exit(1);
-> +          }
-> +
-> +          if (initrd_filename != NULL) {
-> +              error_report("-initrd only allowed with -kernel option");
-> +              exit(1);
-> +          }
-> +    }
-> +
-> +    if (incoming && !preconfig_exit_requested) {
-> +        error_report("'preconfig' and 'incoming' options are "
-> +                     "mutually exclusive");
-> +        exit(EXIT_FAILURE);
-> +    }
-> +
-> +#ifdef CONFIG_CURSES
-> +    if (is_daemonized() && dpy.type == DISPLAY_TYPE_CURSES) {
-> +        error_report("curses display cannot be used with -daemonize");
-> +        exit(1);
-> +    }
-> +#endif
-> +}
-> +
->  static void qemu_process_early_options(void)
->  {
->      char **dirs;
-> @@ -3136,9 +3170,6 @@ void qemu_init(int argc, char **argv, char **envp)
->  {
->      int i;
->      int snapshot = 0;
-> -    int linux_boot;
-> -    const char *initrd_filename;
-> -    const char *kernel_filename, *kernel_cmdline;
->      QemuOpts *opts, *machine_opts;
->      QemuOpts *icount_opts = NULL, *accel_opts = NULL;
->      QemuOptsList *olist;
-> @@ -3147,7 +3178,6 @@ void qemu_init(int argc, char **argv, char **envp)
->      const char *loadvm = NULL;
->      MachineClass *machine_class;
->      const char *vga_model = NULL;
-> -    const char *incoming = NULL;
->      bool userconfig = true;
->      bool nographic = false;
->      int display_remote = 0;
-> @@ -4068,6 +4098,8 @@ void qemu_init(int argc, char **argv, char **envp)
+> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> index ec1008bceb..3e9bbc7a04 100644
+> --- a/tools/virtiofsd/passthrough_ll.c
+> +++ b/tools/virtiofsd/passthrough_ll.c
+> @@ -3433,6 +3433,7 @@ int main(int argc, char *argv[])
+>          .proc_self_fd = -1,
+>      };
+>      struct lo_map_elem *root_elem;
+> +    struct lo_map_elem *reserve_elem;
+>      int ret = -1;
+> 
+>      /* Don't mask creation mode, kernel already did that */
+> @@ -3452,8 +3453,17 @@ int main(int argc, char *argv[])
+>       * [1] Root inode
 >       */
->      loc_set_none();
->  
-> +    qemu_validate_options();
-> +
->      /* These options affect everything else and should be processed
->       * before daemonizing.
->       */
-> @@ -4082,12 +4114,6 @@ void qemu_init(int argc, char **argv, char **envp)
->      user_register_global_props();
->      replay_configure(icount_opts);
->  
-> -    if (incoming && !preconfig_exit_requested) {
-> -        error_report("'preconfig' and 'incoming' options are "
-> -                     "mutually exclusive");
-> -        exit(EXIT_FAILURE);
-> -    }
-> -
->      configure_rtc(qemu_find_opts_singleton("rtc"));
->  
->      machine_class = select_machine();
-> @@ -4191,12 +4217,6 @@ void qemu_init(int argc, char **argv, char **envp)
->              error_report("-nographic cannot be used with -daemonize");
->              exit(1);
->          }
-> -#ifdef CONFIG_CURSES
-> -        if (dpy.type == DISPLAY_TYPE_CURSES) {
-> -            error_report("curses display cannot be used with -daemonize");
-> -            exit(1);
-> -        }
-> -#endif
->      }
->  
->      if (nographic) {
-> @@ -4327,11 +4347,6 @@ void qemu_init(int argc, char **argv, char **envp)
->          qtest_server_init(qtest_chrdev, qtest_log, &error_fatal);
->      }
->  
-> -    machine_opts = qemu_get_machine_opts();
-> -    kernel_filename = qemu_opt_get(machine_opts, "kernel");
-> -    initrd_filename = qemu_opt_get(machine_opts, "initrd");
-> -    kernel_cmdline = qemu_opt_get(machine_opts, "append");
-> -
->      opts = qemu_opts_find(qemu_find_opts("boot-opts"), NULL);
->      if (opts) {
->          boot_order = qemu_opt_get(opts, "order");
-> @@ -4352,24 +4367,9 @@ void qemu_init(int argc, char **argv, char **envp)
->          boot_order = machine_class->default_boot_order;
->      }
->  
-> -    if (!kernel_cmdline) {
-> -        kernel_cmdline = "";
-> -        current_machine->kernel_cmdline = (char *)kernel_cmdline;
-> -    }
-> -
-> -    linux_boot = (kernel_filename != NULL);
-> -
-> -    if (!linux_boot && *kernel_cmdline != '\0') {
-> -        error_report("-append only allowed with -kernel option");
-> -        exit(1);
-> -    }
-> -
-> -    if (!linux_boot && initrd_filename != NULL) {
-> -        error_report("-initrd only allowed with -kernel option");
-> -        exit(1);
-> -    }
-> -
-> -    if (semihosting_enabled() && !semihosting_get_argc() && kernel_filename) {
-> +    if (semihosting_enabled() && !semihosting_get_argc()) {
-> +        const char *kernel_filename = qemu_opt_get(machine_opts, "kernel");
-> +        const char *kernel_cmdline = qemu_opt_get(machine_opts, "append");
->          /* fall back to the -kernel/-append */
->          semihosting_arg_fallback(kernel_filename, kernel_cmdline);
->      }
+>      lo_map_init(&lo.ino_map);
+> -    lo_map_reserve(&lo.ino_map, 0)->in_use = false;
+> +    reserve_elem = lo_map_reserve(&lo.ino_map, 0);
+> +    if (!reserve_elem) {
+> +        fuse_log(FUSE_LOG_ERR, "failed to alloc reserve_elem.\n");
+> +        goto err_out1;
+> +    }
+> +    reserve_elem->in_use = false;
+>      root_elem = lo_map_reserve(&lo.ino_map, lo.root.fuse_ino);
+> +    if (!root_elem) {
+> +        fuse_log(FUSE_LOG_ERR, "failed to alloc root_elem.\n");
+> +        goto err_out1;
+> +    }
+>      root_elem->inode = &lo.root;
+> 
+>      lo_map_init(&lo.dirp_map);
+> -- 
+> 
+> _______________________________________________
+> Virtio-fs mailing list
+> Virtio-fs@redhat.com
+> https://www.redhat.com/mailman/listinfo/virtio-fs
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
