@@ -2,79 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD5362AF150
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 13:56:29 +0100 (CET)
-Received: from localhost ([::1]:48530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D57C2AF155
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 13:58:59 +0100 (CET)
+Received: from localhost ([::1]:55640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcpfo-0006ew-Ok
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 07:56:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38428)
+	id 1kcpiE-00018z-4r
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 07:58:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kcpYE-0004S1-Gf
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 07:48:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59302)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kcpYC-0002TS-7L
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 07:48:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605098913;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=INBJCJvJ/9efx6wHzOIyH6cLcVptkL7l/cac2sObIlE=;
- b=ZdTuLfNR6ef/1c2ozUzveDHSAgoqS81aLiiF9QUUrHEhTlcrmiM0lRyRBO8aFGWVtF0Ifz
- Lg5KCM102mv2V5JSYJWgAjx7wILEjIDCuK2MB95H13B7NpiDFpy3KCYdGWmUdkKYT2DOUA
- geuguhQXhaTYrWZnBl7C9xm4ogcUPco=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-64-qJSyPWGTO2epKLKGidl4xQ-1; Wed, 11 Nov 2020 07:48:28 -0500
-X-MC-Unique: qJSyPWGTO2epKLKGidl4xQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC65D6D583;
- Wed, 11 Nov 2020 12:48:27 +0000 (UTC)
-Received: from [10.72.12.95] (ovpn-12-95.pek2.redhat.com [10.72.12.95])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 45CEB73669;
- Wed, 11 Nov 2020 12:48:25 +0000 (UTC)
-Subject: Re: [PATCH] net/e1000e_core: make sure RDH never exceeds RDT in
- e1000e_ring_advance()
-From: Jason Wang <jasowang@redhat.com>
-To: Mauro Matteo Cascella <mcascell@redhat.com>
-References: <20201105105616.327593-1-mcascell@redhat.com>
- <b34f724a-b4fc-6dbd-b660-2dfc2b8e943f@redhat.com>
- <CAA8xKjUuM9XeBG920pRBmCWh_7DPdy3x=md=Q+JJ5+bQpn0=aw@mail.gmail.com>
- <bd944924-d227-a22c-c8e4-07dbf82312c5@redhat.com>
-Message-ID: <5421080d-ba5d-ee08-cbed-17c430114283@redhat.com>
-Date: Wed, 11 Nov 2020 20:48:23 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <mimu@linux.ibm.com>)
+ id 1kcpbH-0000CI-Nk; Wed, 11 Nov 2020 07:51:47 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35686)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mimu@linux.ibm.com>)
+ id 1kcpbF-0003Uk-Ei; Wed, 11 Nov 2020 07:51:47 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0ABCXCuF097843; Wed, 11 Nov 2020 07:51:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=reply-to : subject : to
+ : cc : references : from : message-id : date : mime-version : in-reply-to
+ : content-type : content-transfer-encoding; s=pp1;
+ bh=QeZqbOdqiRp6U8Z5dU6E/61uz4gFbFEFVj7xSjnQD8k=;
+ b=mk5McbgSX3kq7lP+ruCeekZf+beqPitC7ChvO6e78Z7WTVjncwvFfgI30rZpYZBibDdr
+ A4zCjUmZTaRxRq8KuucTQd8jPCDbWk2tR7z7J466LdrksMjNrL0+3+nSyHNNJAS0vAGz
+ b4e+aQm11P5RMZ9jIbUKQWkgBwrXbFk6k2SgviERe1Eo33QFo546+P1M9dRP/l6XMWrw
+ ZoNiSH7/5u3Rbq7aWhmCZ8VwzHohMZMU78wl9E3eO/R9eTrpSc+cyXOcCDEahBoOhsRN
+ j216MKyrIGwP6KlpTgGboUYtxa2xlEntNy9QYvmNCh4uK5d6j91c24RQjQMqtfb1gpkr Bw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34r6brr5kj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 11 Nov 2020 07:51:39 -0500
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0ABCls1Q172947;
+ Wed, 11 Nov 2020 07:51:29 -0500
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34r6brr4qc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 11 Nov 2020 07:51:29 -0500
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0ABCi56G023171;
+ Wed, 11 Nov 2020 12:49:12 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma06fra.de.ibm.com with ESMTP id 34njuh27ex-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 11 Nov 2020 12:49:12 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 0ABCn9YD57475378
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 11 Nov 2020 12:49:09 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3D1FF4C050;
+ Wed, 11 Nov 2020 12:49:09 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F1DA94C044;
+ Wed, 11 Nov 2020 12:49:08 +0000 (GMT)
+Received: from [9.152.224.120] (unknown [9.152.224.120])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 11 Nov 2020 12:49:08 +0000 (GMT)
+Subject: Re: [PATCH 1/1] virtio-blk-ccw: tweak the default for num_queues
+To: Cornelia Huck <cohuck@redhat.com>, Halil Pasic <pasic@linux.ibm.com>
+References: <20201109154831.20779-1-pasic@linux.ibm.com>
+ <20201109170616.6875f610.cohuck@redhat.com>
+ <20201109195303.459f6fba.pasic@linux.ibm.com>
+ <4a3d24e0-399f-f509-9a5c-c66c57b2d28a@linux.ibm.com>
+ <e27547cf-1462-6e0f-c830-dde5a6f8c1f6@linux.ibm.com>
+ <20201111133815.10b8f3b7.cohuck@redhat.com>
+From: Michael Mueller <mimu@linux.ibm.com>
+Organization: IBM
+Message-ID: <d13e61ad-8e98-4de8-141e-43eb7b513880@linux.ibm.com>
+Date: Wed, 11 Nov 2020 13:49:08 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:68.0)
+ Gecko/20100101 Thunderbird/68.12.1
 MIME-Version: 1.0
-In-Reply-To: <bd944924-d227-a22c-c8e4-07dbf82312c5@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20201111133815.10b8f3b7.cohuck@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 01:42:46
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
+ definitions=2020-11-11_02:2020-11-10,
+ 2020-11-11 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0
+ adultscore=0 bulkscore=0 clxscore=1015 mlxlogscore=999 mlxscore=0
+ impostorscore=0 malwarescore=0 spamscore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011110073
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=mimu@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 07:51:43
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,115 +117,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gaoning.pgn@antgroup.com, 330cjfdn@gmail.com,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>, Laszlo Ersek <lersek@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: mimu@linux.ibm.com
+Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 2020/11/11 下午4:54, Jason Wang wrote:
->
-> On 2020/11/10 下午5:06, Mauro Matteo Cascella wrote:
->> On Mon, Nov 9, 2020 at 3:38 AM Jason Wang <jasowang@redhat.com> wrote:
+
+On 11.11.20 13:38, Cornelia Huck wrote:
+> On Wed, 11 Nov 2020 13:26:11 +0100
+> Michael Mueller <mimu@linux.ibm.com> wrote:
+> 
+>> On 10.11.20 15:16, Michael Mueller wrote:
 >>>
->>> On 2020/11/5 下午6:56, Mauro Matteo Cascella wrote:
->>>> The e1000e_write_packet_to_guest() function iterates over a set of
->>>> receive descriptors by advancing rx descriptor head register (RDH) 
->>>> from
->>>> its initial value to rx descriptor tail register (RDT). The check in
->>>> e1000e_ring_empty() is responsible for detecting whether RDH has 
->>>> reached
->>>> RDT, terminating the loop if that's the case. Additional checks have
->>>> been added in the past to deal with bogus values submitted by the 
->>>> guest
->>>> to prevent possible infinite loop. This is done by "wrapping 
->>>> around" RDH
->>>> at some point and detecting whether it assumes the original value 
->>>> during
->>>> the loop.
->>>>
->>>> However, when e1000e is configured to use the packet split feature, 
->>>> RDH is
->>>> incremented by two instead of one, as the packet split descriptors are
->>>> 32 bytes while regular descriptors are 16 bytes. A malicious or buggy
->>>> guest may set RDT to an odd value and transmit only null RX 
->>>> descriptors.
->>>> This corner case would prevent RDH from ever matching RDT, leading 
->>>> to an
->>>> infinite loop. This patch adds a check in e1000e_ring_advance() to 
->>>> make
->>>> sure RDH does never exceed RDT.
->>>>
->>>> This issue was independently reported by Gaoning Pan (Zhejiang 
->>>> University)
->>>> and Cheolwoo Myung.
->>>>
->>>> Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
->>>> Reported-by: Gaoning Pan <gaoning.pgn@antgroup.com>
->>>> Reported-by: Cheolwoo Myung <330cjfdn@gmail.com>
->>>> ---
->>>> References:
->>>> https://git.qemu.org/?p=qemu.git;a=commit;h=dd793a74882477ca38d49e191110c17dfe 
->>>>
->>>> https://git.qemu.org/?p=qemu.git;a=commit;h=4154c7e03fa55b4cf52509a83d50d6c09d743b7 
->>>>
->>>> http://www.intel.com/content/dam/doc/datasheet/82574l-gbe-controller-datasheet.pdf 
->>>>
->>>>
->>>>    hw/net/e1000e_core.c | 4 ++++
->>>>    1 file changed, 4 insertions(+)
->>>>
->>>> diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
->>>> index bcd186cac5..4c4d14b6ed 100644
->>>> --- a/hw/net/e1000e_core.c
->>>> +++ b/hw/net/e1000e_core.c
->>>> @@ -831,6 +831,10 @@ e1000e_ring_advance(E1000ECore *core, const 
->>>> E1000E_RingInfo *r, uint32_t count)
->>>>    {
->>>>        core->mac[r->dh] += count;
->>>>
->>>> +    if (core->mac[r->dh] > core->mac[r->dt]) {
->>>> +        core->mac[r->dh] = core->mac[r->dt];
->>>> +    }
->>>> +
->>>>        if (core->mac[r->dh] * E1000_RING_DESC_LEN >= 
->>>> core->mac[r->dlen]) {
->>>>            core->mac[r->dh] = 0;
->>>>        }
->> Hi Jason,
->>
->>> A question here.
 >>>
->>> When count > 1, is this correct to reset dh here?
+>>> On 09.11.20 19:53, Halil Pasic wrote:
+>>>> On Mon, 9 Nov 2020 17:06:16 +0100
+>>>> Cornelia Huck <cohuck@redhat.com> wrote:
+>>>>   
+>>>>>> @@ -20,6 +21,11 @@ static void
+>>>>>> virtio_ccw_blk_realize(VirtioCcwDevice *ccw_dev, Error **errp)
+>>>>>>    {
+>>>>>>        VirtIOBlkCcw *dev = VIRTIO_BLK_CCW(ccw_dev);
+>>>>>>        DeviceState *vdev = DEVICE(&dev->vdev);
+>>>>>> +    VirtIOBlkConf *conf = &dev->vdev.conf;
+>>>>>> +
+>>>>>> +    if (conf->num_queues == VIRTIO_BLK_AUTO_NUM_QUEUES) {
+>>>>>> +        conf->num_queues = MIN(4, current_machine->smp.cpus);
+>>>>>> +    }
+>>>>>
+>>>>> I would like to have a comment explaining the numbers here, however.
+>>>>>
+>>>>> virtio-pci has a pretty good explanation (use 1:1 for vqs:vcpus if
+>>>>> possible, apply some other capping). 4 seems to be a bit arbitrary
+>>>>> without explanation, although I'm sure you did some measurements :)
+>>>>
+>>>> Frankly, I don't have any measurements yet. For the secure case,
+>>>> I think Mimu has assessed the impact of multiqueue, hence adding Mimu to
+>>>> the cc list. @Mimu can you help us out.
+>>>>
+>>>> Regarding the normal non-protected VMs I'm in a middle of producing some
+>>>> measurement data. This was admittedly a bit rushed because of where we
+>>>> are in the cycle. Sorry to disappoint you.
 >>>
->>> Thanks
+>>> I'm talking with the perf team tomorrow. They have done some
+>>> measurements with multiqueue for PV guests and I asked for a comparison
+>>> to non PV guests as well.
+>>
+>> The perf team has performed measurements for us that show that a *PV
+>> KVM guest* benefits in terms of throughput for random read, random write
+>> and sequential read (no difference for sequential write) by a multi
+>> queue setup. CPU cost are reduced as well due to reduced spinlock
+>> contention.
+> 
+> Just to be clear, that was with 4 queues?
+
+Yes, we have seen it with 4 and also with 9 queues.
+
+Halil,
+
+still I would like to know what the exact memory consumption per queue
+is that you are talking about. Have you made a calculation? Thanks.
+
+> 
+>>
+>> For a *standard KVM guest* it currently has no throughput effect. No
+>> benefit and no harm. I have asked them to finalize their measurements
+>> by comparing the CPU cost as well. I will receive that information on
+>> Friday.
+> 
+> Thank you for checking!
+> 
+>>
+>> Michael
+>>
+>>
 >>>
->> My understanding is that wrapping at (or above) RDLEN is the correct
->> behavior regardless of count. I don't see why count > 1 should modify
->> this behavior. I'm not sure, though. Anyway, this patch fixes the
->> above reproducer, so I'm adding a Tested-by line here.
+>>> Michael
+>>>    
+>>>>
+>>>> The number 4 was suggested by Christian, maybe Christian does have some
+>>>> readily available measurement data for the normal VM case. @Christian:
+>>>> can you help me out?
+>>>>
+>>>> Regards,
+>>>> Halil
+>>>>   
+>>>    
 >>
->> Tested-by: Mauro Matteo Cascella <mcascell@redhat.com>
 >>
->> Thank you,
->> -- 
->> Mauro Matteo Cascella
->> Red Hat Product Security
->> PGP-Key ID: BB3410B0
->>
->
-> Right.
->
-> Applied.
->
-> Thanks
-
-
-I had to drop this since it breaks e1000e PXE test.
-
-Thanks
-
-
+> 
 
 
