@@ -2,58 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE5A62AE897
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 07:02:32 +0100 (CET)
-Received: from localhost ([::1]:35608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 311572AE93A
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 07:50:30 +0100 (CET)
+Received: from localhost ([::1]:45644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcjDD-0000eF-VK
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 01:02:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56470)
+	id 1kcjxc-0000UW-O1
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 01:50:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1kcj07-0006K0-Gt
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 00:48:59 -0500
-Received: from mga14.intel.com ([192.55.52.115]:60780)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1kcj04-0008P5-Tn
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 00:48:59 -0500
-IronPort-SDR: p3k8vT6/SeblDkf2euv4eI1megcdLoy73KfcWn/r382RZKUqUwrxEFsLWdMtQIaiG4xQHFg/a0
- APjDo35wnTjA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9801"; a="169314701"
-X-IronPort-AV: E=Sophos;i="5.77,468,1596524400"; d="scan'208";a="169314701"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2020 21:47:44 -0800
-IronPort-SDR: KhaP5zGEvtoXTn5bFvjVU+lRl+/JyV+lvwxxnX0UQof8s59qTQdGJRdAub7w5fpVY8rs87U4Nj
- SWrPRwLqZ4oQ==
-X-IronPort-AV: E=Sophos;i="5.77,468,1596524400"; d="scan'208";a="308710513"
-Received: from hccoutan-mobl1.amr.corp.intel.com (HELO bwidawsk-mobl5.local)
- ([10.252.131.159])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2020 21:47:43 -0800
-From: Ben Widawsky <ben.widawsky@intel.com>
+ (Exim 4.90_1) (envelope-from <hhan@redhat.com>) id 1kcjwH-0008N0-Iz
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 01:49:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50352)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <hhan@redhat.com>) id 1kcjwF-0003oC-63
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 01:49:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605077341;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=dPiocdT4Eok7UlM3ngfAOXYIX54kaY55VIb7vIIprbA=;
+ b=Avaw2ggjkC1XaKu9rXPI1dzB/mkmFuEAkK+7o5vS3WzndJy1h/TyFDTmLskguZncpt6fkC
+ Dv+NZmu2PR4GLFXRaQofX7Rrzzzl7rhucysGY6yUQ4hvNRsNr8DNxO/tDUPBUBlgqQQcDw
+ kIGPvC5RYvuTDBphXjNu3yho7vvDDsI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-532-ntwuhe1aMz6wBlOIn9LXjg-1; Wed, 11 Nov 2020 01:47:50 -0500
+X-MC-Unique: ntwuhe1aMz6wBlOIn9LXjg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73BE3809DDB;
+ Wed, 11 Nov 2020 06:47:49 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-13-135.pek2.redhat.com
+ [10.72.13.135])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6D327413C;
+ Wed, 11 Nov 2020 06:47:46 +0000 (UTC)
+From: Han Han <hhan@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 25/25] qtest/cxl: Add very basic sanity tests
-Date: Tue, 10 Nov 2020 21:47:24 -0800
-Message-Id: <20201111054724.794888-26-ben.widawsky@intel.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201111054724.794888-1-ben.widawsky@intel.com>
-References: <20201111054724.794888-1-ben.widawsky@intel.com>
+Subject: [PATCH] dev-uas: Fix a error of variable sized type not at end
+Date: Wed, 11 Nov 2020 14:47:37 +0800
+Message-Id: <20201111064737.576673-1-hhan@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.115;
- envelope-from=ben.widawsky@intel.com; helo=mga14.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 00:47:28
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hhan@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=hhan@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 01:49:01
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,141 +76,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Ben Widawsky <ben.widawsky@intel.com>, Vishal Verma <vishal.l.verma@intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Dan Williams <dan.j.williams@intel.com>
+Cc: qemu-trivial@nongnu.org, laurent@vivier.eu, Han Han <hhan@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
----
- tests/qtest/cxl-test.c  | 93 +++++++++++++++++++++++++++++++++++++++++
- tests/qtest/meson.build |  4 ++
- 2 files changed, 97 insertions(+)
- create mode 100644 tests/qtest/cxl-test.c
+Fix the following error when compiling:
 
-diff --git a/tests/qtest/cxl-test.c b/tests/qtest/cxl-test.c
-new file mode 100644
-index 0000000000..00eca14faa
---- /dev/null
-+++ b/tests/qtest/cxl-test.c
-@@ -0,0 +1,93 @@
-+/*
-+ * QTest testcase for CXL
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "libqtest-single.h"
-+
-+#define QEMU_PXB_CMD "-machine q35 -object memory-backend-file,id=cxl-mem1," \
-+                     "share,mem-path=%s,size=512M "                          \
-+                     "-device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52,uid=0,"  \
-+                     "len-window-base=1,window-base[0]=0x4c0000000,memdev[0]=cxl-mem1"
-+#define QEMU_RP "-device cxl-rp,id=rp0,bus=cxl.0,addr=0.0,chassis=0,slot=0"
-+
-+#define QEMU_T3D "-device cxl-type3,bus=rp0,memdev=cxl-mem1,id=cxl-pmem0,size=256M"
-+
-+static void cxl_basic_hb(void)
-+{
-+    qtest_start("-machine q35,cxl");
-+    qtest_end();
-+}
-+
-+static void cxl_basic_pxb(void)
-+{
-+    qtest_start("-machine q35 -device pxb-cxl,bus=pcie.0,uid=0");
-+    qtest_end();
-+}
-+
-+static void cxl_pxb_with_window(void)
-+{
-+    GString *cmdline;
-+    char template[] = "/tmp/cxl-test-XXXXXX";
-+    const char *tmpfs;
-+
-+    tmpfs = mkdtemp(template);
-+
-+    cmdline = g_string_new(NULL);
-+    g_string_printf(cmdline, QEMU_PXB_CMD, tmpfs);
-+
-+    qtest_start(cmdline->str);
-+    qtest_end();
-+
-+    g_string_free(cmdline, TRUE);
-+}
-+
-+static void cxl_root_port(void)
-+{
-+    GString *cmdline;
-+    char template[] = "/tmp/cxl-test-XXXXXX";
-+    const char *tmpfs;
-+
-+    tmpfs = mkdtemp(template);
-+
-+    cmdline = g_string_new(NULL);
-+    g_string_printf(cmdline, QEMU_PXB_CMD " %s", tmpfs, QEMU_RP);
-+
-+    qtest_start(cmdline->str);
-+    qtest_end();
-+
-+    g_string_free(cmdline, TRUE);
-+}
-+
-+static void cxl_t3d(void)
-+{
-+    GString *cmdline;
-+    char template[] = "/tmp/cxl-test-XXXXXX";
-+    const char *tmpfs;
-+
-+    tmpfs = mkdtemp(template);
-+
-+    cmdline = g_string_new(NULL);
-+    g_string_printf(cmdline, QEMU_PXB_CMD " %s %s", tmpfs, QEMU_RP, QEMU_T3D);
-+
-+    qtest_start(cmdline->str);
-+    qtest_end();
-+
-+    g_string_free(cmdline, TRUE);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+    g_test_init(&argc, &argv, NULL);
-+
-+    qtest_add_func("/pci/cxl/basic_hostbridge", cxl_basic_hb);
-+    qtest_add_func("/pci/cxl/basic_pxb", cxl_basic_pxb);
-+    qtest_add_func("/pci/cxl/pxb_with_window", cxl_pxb_with_window);
-+    qtest_add_func("/pci/cxl/root_port", cxl_root_port);
-+    qtest_add_func("/pci/cxl/type3_device", cxl_t3d);
-+
-+    return g_test_run();
-+}
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index c19f1c8503..7c6439b45c 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -22,6 +22,9 @@ qtests_pci = \
-   (config_all_devices.has_key('CONFIG_VGA') ? ['display-vga-test'] : []) +                  \
-   (config_all_devices.has_key('CONFIG_IVSHMEM_DEVICE') ? ['ivshmem-test'] : [])
- 
-+qtests_cxl = \
-+  (config_all_devices.has_key('CONFIG_CXL') ? ['cxl-test'] : [])
-+
- qtests_i386 = \
-   (slirp.found() ? ['pxe-test', 'test-netfilter'] : []) +             \
-   (config_host.has_key('CONFIG_POSIX') ? ['test-filter-mirror'] : []) +                     \
-@@ -47,6 +50,7 @@ qtests_i386 = \
-   (config_all_devices.has_key('CONFIG_TPM_TIS_ISA') ? ['tpm-tis-swtpm-test'] : []) +        \
-   (config_all_devices.has_key('CONFIG_RTL8139_PCI') ? ['rtl8139-test'] : []) +              \
-   qtests_pci +                                                                              \
-+  qtests_cxl +                                                                              \
-   ['fdc-test',
-    'ide-test',
-    'hd-geo-test',
--- 
-2.29.2
+FAILED: libcommon.fa.p/hw_usb_dev-uas.c.o
+clang -Ilibcommon.fa.p -I. -I.. -Iqapi -Itrace -Iui -Iui/shader -I/usr/incl=
+ude/libusb-1.0 -I/usr/include/spice-1 -I/usr/include/spice-server -I/usr/in=
+clude/cacard -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/i=
+nclude/nss3 -I/usr/include/nspr4 -I/usr/include/libmount -I/usr/include/blk=
+id -I/usr/include/pixman-1 -I/usr/include/vte-2.91 -I/usr/include/pango-1.0=
+ -I/usr/include/harfbuzz -I/usr/include/freetype2 -I/usr/include/libpng16 -=
+I/usr/include/fribidi -I/usr/include/libxml2 -I/usr/include/cairo -I/usr/in=
+clude/gtk-3.0 -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/gio-unix-2.0 -I/=
+usr/include/atk-1.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/dbus-1.0 =
+-I/usr/lib64/dbus-1.0/include -I/usr/include/at-spi-2.0 -I/usr/include/SDL2=
+ -I/usr/include/slirp -I/usr/include/virgl -I/usr/include/capstone -Xclang =
+-fcolor-diagnostics -pipe -Wall -Winvalid-pch -Werror -std=3Dgnu99 -O2 -g -=
+fsanitize=3Dundefined -fsanitize=3Daddress -m64 -mcx16 -D_GNU_SOURCE -D_FIL=
+E_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredundant-decl=
+s -Wundef -Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-co=
+mmon -fwrapv -Wold-style-definition -Wtype-limits -Wformat-security -Wforma=
+t-y2k -Winit-self -Wignored-qualifiers -Wempty-body -Wnested-externs -Wendi=
+f-labels -Wexpansion-to-defined -Wno-initializer-overrides -Wno-missing-inc=
+lude-dirs -Wno-shift-negative-value -Wno-string-plus-int -Wno-typedef-redef=
+inition -Wno-tautological-type-limit-compare -Wno-psabi -fstack-protector-s=
+trong -fsanitize=3Dfuzzer-no-link -isystem /home/hhan/Software/qemu/linux-h=
+eaders -isystem linux-headers -iquote /home/hhan/Software/qemu/tcg/i386 -iq=
+uote . -iquote /home/hhan/Software/qemu -iquote /home/hhan/Software/qemu/ac=
+cel/tcg -iquote /home/hhan/Software/qemu/include -iquote /home/hhan/Softwar=
+e/qemu/disas/libvixl -pthread -fPIC -DSTRUCT_IOVEC_DEFINED -D_REENTRANT -Wn=
+o-undef -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=3D600 -DNCURSES_WIDECHAR -MD -MQ =
+libcommon.fa.p/hw_usb_dev-uas.c.o -MF libcommon.fa.p/hw_usb_dev-uas.c.o.d -=
+o libcommon.fa.p/hw_usb_dev-uas.c.o -c ../hw/usb/dev-uas.c
+../hw/usb/dev-uas.c:158:31: error: field 'status' with variable sized type =
+'uas_iu' not at the end of a struct or class is a GNU extension [-Werror,-W=
+gnu-variable-sized-type-not-at-end]
+
+Signed-off-by: Han Han <hhan@redhat.com>
+---
+ hw/usb/dev-uas.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hw/usb/dev-uas.c b/hw/usb/dev-uas.c
+index cec071d96c..5ef3f4fec9 100644
+--- a/hw/usb/dev-uas.c
++++ b/hw/usb/dev-uas.c
+@@ -154,9 +154,9 @@ struct UASRequest {
+=20
+ struct UASStatus {
+     uint32_t                  stream;
+-    uas_iu                    status;
+     uint32_t                  length;
+     QTAILQ_ENTRY(UASStatus)   next;
++    uas_iu                    status;
+ };
+=20
+ /* --------------------------------------------------------------------- *=
+/
+--=20
+2.28.0
 
 
