@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD4402AF65E
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 17:29:32 +0100 (CET)
-Received: from localhost ([::1]:39516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C70D52AF633
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 17:23:52 +0100 (CET)
+Received: from localhost ([::1]:55944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcszz-0002wl-R0
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 11:29:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37216)
+	id 1kcsuV-0006HK-RS
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 11:23:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cupertinomiranda@gmail.com>)
- id 1kcspE-0000jn-6V
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 11:18:24 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:38094)
+ id 1kcspG-0000oh-TD
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 11:18:26 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46008)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <cupertinomiranda@gmail.com>)
- id 1kcspA-0007zN-7P
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 11:18:23 -0500
-Received: by mail-wr1-x444.google.com with SMTP id p8so3089352wrx.5
- for <qemu-devel@nongnu.org>; Wed, 11 Nov 2020 08:18:19 -0800 (PST)
+ id 1kcspE-00080q-CN
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 11:18:26 -0500
+Received: by mail-wr1-x444.google.com with SMTP id p1so3051152wrf.12
+ for <qemu-devel@nongnu.org>; Wed, 11 Nov 2020 08:18:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0dH6iTiEiDaNoVcjOK9D9d222s0bNd7S/gGGqMEYyFE=;
- b=V9hJ4RhQdkFJZd0BfiZKdKHcw4a9wKTD+qt3RJdxmr8FZdBliBHCfYRUnHuMfEztf2
- AVarpDwo/VjsZCgmizmWvEvdZuViNjYgoZ3JVm4T4WRvl7Vtk4ZJWBgZj2DxmL6SzJ6x
- 66ymR+p8qZYcSTP/X/MP2wnwMothRJcHS8fivfvXbwGG251bLgdk2bEpxNUZtfGDxD6U
- tKTsZ20efZDK6UzyObMlteqqWu7Mel7d4OpduSk94DLgulnbpuWFX53MIcvycSg/je2R
- 9wgIye1jB9cXpkIcC9gd3FSDZML5SjUEurQC0ytdmZ1fbuZ8JSnJOhSJeIMnotuAmesy
- gd2Q==
+ bh=8zo+2MC0dwCZlrl13leQZToCZo2pO8yIdQ0oeKd3peA=;
+ b=ZtvXhrOj4OgfH7Y0rT9t+8ifkSQNRJonm8yG5cG8fNzaqFURRPA44VyK7pwINMjSBL
+ KFfyf6/6mQR5iQKtriLhaQ8rZHqrwmTbDSpaHrEUVw8qozpIDLMswNctbnu0KjDdVUG9
+ s39vvmJvVsPgMCx+/pLr9xdWPOYZtmcGL4D6a+K9cNcF6POer4QDW8sciTXin4MjvrWc
+ P51zsKADUNxDDMqDGjH26041DxmvaqPpZJTehMkIzRsJ5+apbtjpacXpVRmd4eRBMtoR
+ nTCfTF6kXeFLnZOnxK7Y4Ddk/4dW4vZE1qKOlOmnQbuWIJEO6cUqlaIHGUY43mIUJimD
+ NGwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0dH6iTiEiDaNoVcjOK9D9d222s0bNd7S/gGGqMEYyFE=;
- b=Jk5Fh+cBewPQTu7ykt2vA1sVafXPaUKFb16Lge5NduDElenGULhohh0/ktvQdmcCRd
- rg/d9CoZlOyOf00BXjzUvKY2120tyKT7M95Bc28Wcyw/pu+pfeH9S//PjILiF2cvmLeG
- w5r9BvjCuOEK/4yM9uFcVPyTnNZbfA6bqTe4E2Hjtas+xVnaE2z1zPTwMbLuwu0rSCPb
- v34Z/f0JKCu2ecro3Yc3mDPzgxL7D4s1UnHP7rYViPZAbN7RPHsWnv4jM6gwucOmeVRE
- lkhKjDHPeu9Iu/pueJotJMmLHe4kwudhq1LL7kHfnMvFNHjVSmOIy0F5nEtf29eF4HHD
- Na3w==
-X-Gm-Message-State: AOAM532AUYalE3UfXWfKGCZQFDFEZoDNRtIgR2IjxKdmbjcv7abhRPE7
- 8/UnSGMLL+LVDREJ70w6Bttzq3ve0w0g+Q==
-X-Google-Smtp-Source: ABdhPJwu9Aj8Sh1SZJHfOth73U6AOQtU02QtB5FI99Uup8lLi6aF41ih343QGw+9G6X6brfwtPl22w==
-X-Received: by 2002:adf:ead0:: with SMTP id o16mr32612013wrn.292.1605111497519; 
- Wed, 11 Nov 2020 08:18:17 -0800 (PST)
+ bh=8zo+2MC0dwCZlrl13leQZToCZo2pO8yIdQ0oeKd3peA=;
+ b=ni9dIIa6VSydAlQvyBoo6RBfSm92lWlzMn1uIOyOuL4mcuAhaK6BsWucZXxPNQPXzt
+ HQQEF4dfzYuKEKZIrqcMio+tA/X1fcqzptbBDL5/3srQDNkMP9/I4pUo/c7ya8xdG3d2
+ G5vQ1rLmeWXyNoRAXwrBevw59oL/H2doTYHQl0nejpSCVZGTa/c0MANDCrP91SlMyDvM
+ ohhvCdDYdmImZsHDYtstpKkXHs78FjIrfUaKHpXN4pgDWys0eeG5IEPeizjTVFpl+SlM
+ F7pbj4cfXx92NYGIIoc5qnC3hcMLGYmkFDfqRaGp7x1sVPb2RCiQEvNYrAqSAy+BnRBM
+ +M/w==
+X-Gm-Message-State: AOAM530S7whfyEOaOqtLZ2HAPQ52v1uYP63byOe52fU4jnVVmx5m98q8
+ kuK2EPt02lr2+MwWh8sSoNMSIU4n3rMaOA==
+X-Google-Smtp-Source: ABdhPJxQeSJo2eG10vYIX11zR2DSpF+mmJp03lsdQFgutH1a0viB1wKIttGvCjXBTbZA5akDGi1hsw==
+X-Received: by 2002:adf:cd02:: with SMTP id w2mr30579464wrm.3.1605111502682;
+ Wed, 11 Nov 2020 08:18:22 -0800 (PST)
 Received: from cmiranda-laptop.localdomain (bl19-104-46.dsl.telepac.pt.
  [2.80.104.46])
- by smtp.gmail.com with ESMTPSA id s188sm3115178wmf.45.2020.11.11.08.18.16
+ by smtp.gmail.com with ESMTPSA id s188sm3115178wmf.45.2020.11.11.08.18.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Nov 2020 08:18:17 -0800 (PST)
+ Wed, 11 Nov 2020 08:18:22 -0800 (PST)
 From: cupertinomiranda@gmail.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/15] arc: Add memory management unit (MMU) support
-Date: Wed, 11 Nov 2020 16:17:52 +0000
-Message-Id: <20201111161758.9636-10-cupertinomiranda@gmail.com>
+Subject: [PATCH 13/15] arc: Add support for ARCv2
+Date: Wed, 11 Nov 2020 16:17:56 +0000
+Message-Id: <20201111161758.9636-14-cupertinomiranda@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201111161758.9636-1-cupertinomiranda@gmail.com>
 References: <20201111161758.9636-1-cupertinomiranda@gmail.com>
@@ -93,974 +93,313 @@ Cc: Claudiu Zissulescu <claziss@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cupertino Miranda <cmiranda@synopsys.com>
+From: Shahab Vahedi <shahab@synopsys.com>
 
-Add Synopsys ARC MMU version 4 support. The implementation is
-restricted to 8K page size support.
+Add remaining bits of the Synopsys ARCv2 (EM/HS) support into QEMU,
+configure bits, arch_init and configuration files for softmmu (hardware
+emulation).
 
+Signed-off-by: Shahab Vahedi <shahab@synopsys.com>
 Signed-off-by: Cupertino Miranda <cmiranda@synopsys.com>
 ---
- target/arc/mmu.c | 777 +++++++++++++++++++++++++++++++++++++++++++++++
- target/arc/mmu.h | 166 ++++++++++
- 2 files changed, 943 insertions(+)
- create mode 100644 target/arc/mmu.c
- create mode 100644 target/arc/mmu.h
+ configure                               |  2 ++
+ default-configs/arc-softmmu.mak         |  5 +++++
+ default-configs/devices/arc-softmmu.mak |  7 +++++++
+ default-configs/targets/arc-softmmu.mak |  2 ++
+ disas.c                                 |  2 ++
+ disas/meson.build                       |  1 +
+ hw/Kconfig                              |  1 +
+ hw/arc/Kconfig                          |  7 +++++++
+ hw/arc/Makefile.objs                    | 21 ---------------------
+ hw/arc/meson.build                      |  6 +-----
+ hw/meson.build                          |  1 +
+ include/disas/dis-asm.h                 | 10 +++++++++-
+ include/elf.h                           |  3 +++
+ include/exec/poison.h                   |  2 ++
+ include/sysemu/arch_init.h              |  1 +
+ meson.build                             |  5 +++--
+ softmmu/arch_init.c                     |  2 ++
+ target/meson.build                      |  1 +
+ 18 files changed, 50 insertions(+), 29 deletions(-)
+ create mode 100644 default-configs/arc-softmmu.mak
+ create mode 100644 default-configs/devices/arc-softmmu.mak
+ create mode 100644 default-configs/targets/arc-softmmu.mak
+ create mode 100644 hw/arc/Kconfig
+ delete mode 100644 hw/arc/Makefile.objs
 
-diff --git a/target/arc/mmu.c b/target/arc/mmu.c
+diff --git a/configure b/configure
+index 2c3c69f118..1c8a6c8fcf 100755
+--- a/configure
++++ b/configure
+@@ -672,6 +672,8 @@ elif check_define __arm__ ; then
+   cpu="arm"
+ elif check_define __aarch64__ ; then
+   cpu="aarch64"
++elif check_define __arc__ ; then
++  cpu="arc"
+ else
+   cpu=$(uname -m)
+ fi
+diff --git a/default-configs/arc-softmmu.mak b/default-configs/arc-softmmu.mak
 new file mode 100644
-index 0000000000..3d50489b15
+index 0000000000..4300a90c93
 --- /dev/null
-+++ b/target/arc/mmu.c
-@@ -0,0 +1,777 @@
-+/*
-+ * QEMU ARC CPU
-+ *
-+ * Copyright (c) 2020 Synppsys Inc.
-+ * Contributed by Cupertino Miranda <cmiranda@synopsys.com>
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see
-+ * http://www.gnu.org/licenses/lgpl-2.1.html
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "mmu.h"
-+#include "target/arc/regs.h"
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "exec/exec-all.h"
-+
-+
-+uint32_t
-+arc_mmu_aux_get(const struct arc_aux_reg_detail *aux_reg_detail, void *data)
-+{
-+    CPUARCState *env = (CPUARCState *) data;
-+    struct arc_mmu *mmu = &env->mmu;
-+    uint32_t reg = 0;
-+
-+    switch (aux_reg_detail->id) {
-+    case AUX_ID_mmu_build:
-+        /*
-+         * For now hardcode the TLB geometry and canonical page sizes
-+         * MMUv4: 2M Super Page, 8k Page, 4 way set associative,
-+         *        1K entries (256x4), 4 uITLB, 8 uDTLB
-+         */
-+        reg = 0x04e21a4a;
-+        break;
-+    case AUX_ID_tlbindex:
-+        reg = mmu->tlbindex;
-+        break;
-+    case AUX_ID_tlbpd0:
-+        reg = mmu->tlbpd0;
-+        break;
-+    case AUX_ID_tlbpd1:
-+        reg = mmu->tlbpd1;
-+        break;
-+    case AUX_ID_tlbpd1_hi:
-+        reg = mmu->tlbpd1_hi;
-+        break;
-+    case AUX_ID_scratch_data0:
-+        reg = mmu->scratch_data0;
-+        break;
-+    case AUX_ID_tlbcommand:
-+        reg = mmu->tlbcmd;
-+        break;
-+    case AUX_ID_pid:
-+        reg = (mmu->enabled << 31) | mmu->pid_asid;
-+        break;
-+    case AUX_ID_sasid0:
-+        reg = mmu->sasid0;
-+        break;
-+    case AUX_ID_sasid1:
-+        reg = mmu->sasid1;
-+        break;
-+    default:
-+        break;
-+    }
-+
-+    return reg;
-+}
-+
-+void
-+arc_mmu_aux_set(const struct arc_aux_reg_detail *aux_reg_detail,
-+                uint32_t val, void *data)
-+{
-+    CPUARCState *env = (CPUARCState *) data;
-+    CPUState *cs = env_cpu(env);
-+    struct arc_mmu *mmu = &env->mmu;
-+
-+    switch (aux_reg_detail->id) {
-+    /* AUX_ID_tlbcommand is more involved and handled seperately */
-+    case AUX_ID_tlbindex:
-+        mmu->tlbindex = val;
-+        break;
-+    case AUX_ID_tlbpd0:
-+        mmu->tlbpd0 = val;
-+        break;
-+    case AUX_ID_tlbpd1:
-+        mmu->tlbpd1 = val;
-+        break;
-+    case AUX_ID_tlbpd1_hi:
-+        mmu->tlbpd1_hi = val;
-+        break;
-+    case AUX_ID_scratch_data0:
-+        mmu->scratch_data0 = val;
-+        break;
-+    case AUX_ID_pid:
-+        qemu_log_mask(CPU_LOG_MMU,
-+                      "[MMU] Writing PID_ASID with value 0x%08x at 0x%08x\n",
-+                      val, env->pc);
-+        mmu->enabled = (val >> 31);
-+        mmu->pid_asid = val & 0xff;
-+        tlb_flush(cs);
-+        break;
-+    case AUX_ID_sasid0:
-+        mmu->sasid0 = val;
-+        break;
-+    case AUX_ID_sasid1:
-+        mmu->sasid1 = val;
-+        break;
-+    default:
-+        break;
-+    }
-+}
-+
-+/* vaddr can't have top bit */
-+#define VPN(addr) ((addr) & (PAGE_MASK & (~0x80000000)))
-+#define PFN(addr) ((addr) & PAGE_MASK)
-+
-+static void
-+arc_mmu_debug_tlb_for_set(CPUARCState *env, int set)
-+{
-+    int j;
-+    bool set_printed = false;
-+
-+    for (j = 0; j < N_WAYS; j++) {
-+        struct arc_tlb_e *tlb = &env->mmu.nTLB[set][j];
-+
-+        if ((tlb->pd0 & PD0_V) != 0) {
-+            if (set_printed == false) {
-+                printf("set %d\n", set);
-+                set_printed = true;
-+            }
-+            if (set_printed == true) {
-+                printf(" way %d\n", j);
-+            }
-+            printf("  tlppd0: %08x: vaddr=\t%08x %s %s%s asid=%02x\n",
-+                   (unsigned int) tlb->pd0, (unsigned int) VPN(tlb->pd0),
-+                   (char *) ((tlb->pd0 & PD0_SZ) != 0 ? "sz1" : "sz0"),
-+                   (char *) ((tlb->pd0 & PD0_V) != 0 ? "V" : ""),
-+                   (char *) ((tlb->pd0 & PD0_G) != 0 ? "g" : ""),
-+                   tlb->pd0 & PD0_ASID);
-+
-+            printf("  tlppd1: %08x: paddr=\t%08x k:%s%s%s u:%s%s%s f:%s\n",
-+                   (unsigned int) tlb->pd1, (unsigned int) PFN(tlb->pd1),
-+                   (char *) ((tlb->pd1 & PD1_RK) != 0 ? "R" : "r"),
-+                   (char *) ((tlb->pd1 & PD1_WK) != 0 ? "W" : "w"),
-+                   (char *) ((tlb->pd1 & PD1_XK) != 0 ? "X" : "x"),
-+                   (char *) ((tlb->pd1 & PD1_RU) != 0 ? "R" : "r"),
-+                   (char *) ((tlb->pd1 & PD1_WU) != 0 ? "W" : "w"),
-+                   (char *) ((tlb->pd1 & PD1_XU) != 0 ? "X" : "x"),
-+                   (char *) ((tlb->pd1 & PD1_FC) != 0 ? "C" : "c"));
-+        }
-+    }
-+}
-+
-+void
-+arc_mmu_debug_tlb(CPUARCState *env)
-+{
-+    int i;
-+
-+    for (i = 0; i < N_SETS; i++) {
-+        arc_mmu_debug_tlb_for_set(env, i);
-+    }
-+}
-+
-+void
-+arc_mmu_debug_tlb_for_vaddr(CPUARCState *env, uint32_t vaddr)
-+{
-+    uint32_t set = (vaddr >> PAGE_SHIFT) & (N_SETS - 1);
-+    arc_mmu_debug_tlb_for_set(env, set);
-+}
-+
-+
-+static struct arc_tlb_e *
-+arc_mmu_get_tlb_at_index(uint32_t index, struct arc_mmu *mmu)
-+{
-+    uint32_t set = index / N_WAYS;
-+    uint32_t bank = index % N_WAYS;
-+    return &mmu->nTLB[set][bank];
-+}
-+
-+static inline bool
-+match_sasid(struct arc_tlb_e *tlb, struct arc_mmu *mmu)
-+{
-+    /* Match to a shared library. */
-+    uint8_t position = tlb->pd0 & PD0_ASID_MATCH;
-+    uint64_t pos = 1ULL << position;
-+    uint64_t sasid = ((uint64_t) mmu->sasid1 << 32) | mmu->sasid0;
-+    if ((pos & sasid) == 0) {
-+        return false;
-+    }
-+    return true;
-+}
-+
-+static struct arc_tlb_e *
-+arc_mmu_lookup_tlb(uint32_t vaddr, uint32_t compare_mask, struct arc_mmu *mmu,
-+                   int *num_finds, uint32_t *index)
-+{
-+    struct arc_tlb_e *ret = NULL;
-+    uint32_t set = (vaddr >> PAGE_SHIFT) & (N_SETS - 1);
-+    struct arc_tlb_e *tlb = &mmu->nTLB[set][0];
-+    int w;
-+
-+    if (num_finds != NULL) {
-+        *num_finds = 0;
-+    }
-+
-+    bool general_match = true;
-+    for (w = 0; w < N_WAYS; w++, tlb++) {
-+        uint32_t match = vaddr & compare_mask;
-+        uint32_t final_compare_mask = compare_mask;
-+
-+        if ((tlb->pd0 & PD0_G) == 0) {
-+            if ((tlb->pd0 & PD0_S) != 0) {
-+                /* Match to a shared library. */
-+                if (match_sasid(tlb, mmu) == false) {
-+                    general_match = false;
-+                }
-+            } else {
-+                /* Match to a process. */
-+                match |= mmu->pid_asid & PD0_PID_MATCH;
-+                final_compare_mask |= PD0_PID_MATCH;
-+            }
-+        }
-+
-+        if (match == (tlb->pd0 & final_compare_mask) && general_match) {
-+            ret = tlb;
-+            if (num_finds != NULL) {
-+                *num_finds += 1;
-+            }
-+            if (index != NULL) {
-+                *index = (set * N_WAYS) + w;
-+            }
-+        }
-+    }
-+
-+    if (ret == NULL) {
-+        uint32_t way = mmu->way_sel[set];
-+        ret = &mmu->nTLB[set][way];
-+
-+        /* TODO: Replace by something more significant. */
-+        if (index != NULL) {
-+            *index = (set * N_WAYS) + way;
-+        }
-+
-+        mmu->way_sel[set] = (mmu->way_sel[set] + 1) & (N_WAYS - 1);
-+    }
-+
-+    return ret;
-+}
-+
-+/*
-+ * TLB Insert/Delete triggered by writing the cmd to TLBCommand Aux
-+ *  - Requires PD0 and PD1 be setup apriori
-+ */
-+void
-+arc_mmu_aux_set_tlbcmd(const struct arc_aux_reg_detail *aux_reg_detail,
-+                       uint32_t val, void *data)
-+{
-+    CPUARCState *env = (CPUARCState *) data;
-+    CPUState *cs = env_cpu(env);
-+    struct arc_mmu *mmu = &env->mmu;
-+    uint32_t pd0 = mmu->tlbpd0;
-+    uint32_t pd1 = mmu->tlbpd1;
-+    int num_finds = 4;
-+    uint32_t index;
-+    struct arc_tlb_e *tlb;
-+
-+    mmu->tlbcmd = val;
-+    uint32_t matching_mask = (PD0_VPN | PD0_SZ | PD0_G | PD0_S | PD0_ASID);
-+
-+    if ((pd0 & PD0_G) != 0) {
-+        /*
-+         * When Global do not check for asid match.
-+         */
-+        matching_mask &= ~(PD0_S | PD0_ASID);
-+    }
-+
-+    /*
-+     * NOTE: Write and WriteNI commands are the same because we do not model
-+     * uTLBs in QEMU.
-+     */
-+    if (val == TLB_CMD_WRITE || val == TLB_CMD_WRITENI) {
-+        /*
-+         * TODO: Include index verification. We are always clearing the index as
-+         * we assume it is always valid.
-+         */
-+        tlb = arc_mmu_get_tlb_at_index(mmu->tlbindex & TLBINDEX_INDEX, mmu);
-+        tlb->pd0 = mmu->tlbpd0;
-+        tlb->pd1 = mmu->tlbpd1;
-+    }
-+    if (val == TLB_CMD_READ) {
-+        /*
-+         * TODO: Include index verification. We are always clearing the index as
-+         * we assume it is always valid.
-+         */
-+
-+        tlb = arc_mmu_get_tlb_at_index(mmu->tlbindex & TLBINDEX_INDEX, mmu);
-+        mmu->tlbpd0 = tlb->pd0;
-+        mmu->tlbpd1 = tlb->pd1;
-+
-+        mmu->tlbindex &= ~(TLBINDEX_E | TLBINDEX_RC);
-+    }
-+    if (val == TLB_CMD_DELETE || val == TLB_CMD_INSERT) {
-+        tlb_flush_page_by_mmuidx(cs, VPN(pd0), 3);
-+
-+        if ((pd0 & PD0_G) != 0) {
-+            /*
-+             * When Global do not check for asid match.
-+             */
-+            matching_mask &= ~(PD0_S | PD0_ASID);
-+        }
-+
-+        matching_mask &= (VPN(PD0_VPN) | (~PD0_VPN)) ;
-+        tlb = arc_mmu_lookup_tlb(pd0,
-+                                 matching_mask | PD0_V,
-+                                 &env->mmu, &num_finds, &index);
-+
-+        if (num_finds == 0) {
-+            mmu->tlbindex = 0x80000000; /* No entry to delete */
-+        } else if (num_finds == 1) {
-+            mmu->tlbindex = index; /* Entry is deleted set index */
-+            tlb->pd0 &= ~PD0_V;
-+            num_finds--;
-+            qemu_log_mask(CPU_LOG_MMU,
-+                          "[MMU] Delete at 0x%08x, pd0 = 0x%08x, pd1 = 0x%08x\n",
-+                          env->pc, tlb->pd0, tlb->pd1);
-+        } else {
-+            while (num_finds > 0) {
-+                tlb->pd0 &= ~PD0_V;
-+                qemu_log_mask(CPU_LOG_MMU,
-+                              "[MMU] Delete at 0x%08x, pd0 = 0x%08x, pd1 = 0x%08x\n",
-+                              env->pc, tlb->pd0, tlb->pd1);
-+                tlb = arc_mmu_lookup_tlb(pd0,
-+                                         (VPN(PD0_VPN) | PD0_V
-+                                          | PD0_SZ | PD0_G | PD0_S),
-+                                         mmu, &num_finds, NULL);
-+            }
-+        }
-+    }
-+
-+    if (val == TLB_CMD_INSERT) {
-+        if ((pd0 & PD0_V) == 0) {
-+            mmu->tlbindex = 0x80000000;
-+        } else {
-+            tlb->pd0 = pd0;
-+            tlb->pd1 = pd1;
-+
-+            /* Set index for latest inserted element. */
-+            mmu->tlbindex |= index;
-+
-+            /* TODO: More verifications needed. */
-+
-+            qemu_log_mask(CPU_LOG_MMU,
-+                          "[MMU] Insert at 0x%08x, PID = %d, VPN = 0x%08x, "
-+                          "PFN = 0x%08x, pd0 = 0x%08x, pd1 = 0x%08x\n",
-+                          env->pc,
-+                          pd0 & 0xff,
-+                          VPN(pd0), PFN(pd1),
-+                          pd0, pd1);
-+        }
-+    }
-+
-+    /* NOTE: We do not implement IVUTLB as we do not model uTLBs. */
-+    assert(val == TLB_CMD_INSERT
-+           || val == TLB_CMD_DELETE
-+           || val == TLB_CMD_WRITE
-+           || val == TLB_CMD_READ
-+           || val == TLB_CMD_WRITENI
-+           || val == TLB_CMD_IVUTLB
-+           );
-+}
-+
-+/* Function to verify if we have permission to use MMU TLB entry. */
-+static bool
-+arc_mmu_have_permission(CPUARCState *env,
-+                        struct arc_tlb_e *tlb,
-+                        enum mmu_access_type type)
-+{
-+    bool ret = false;
-+    bool in_kernel_mode = !env->stat.Uf; /* Read status for user mode. */
-+    switch (type) {
-+    case MMU_MEM_READ:
-+        ret = in_kernel_mode ? tlb->pd1 & PD1_RK : tlb->pd1 & PD1_RU;
-+        break;
-+    case MMU_MEM_WRITE:
-+        ret = in_kernel_mode ? tlb->pd1 & PD1_WK : tlb->pd1 & PD1_WU;
-+        break;
-+    case MMU_MEM_FETCH:
-+        ret = in_kernel_mode ? tlb->pd1 & PD1_XK : tlb->pd1 & PD1_XU;
-+        break;
-+    case MMU_MEM_ATTOMIC:
-+        ret = in_kernel_mode ? tlb->pd1 & PD1_RK : tlb->pd1 & PD1_RU;
-+        ret = ret & (in_kernel_mode ? tlb->pd1 & PD1_WK : tlb->pd1 & PD1_WU);
-+        break;
-+    case MMU_MEM_IRRELEVANT_TYPE:
-+        ret = true;
-+        break;
-+    }
-+
-+    return ret;
-+}
-+
-+#define SET_MMU_EXCEPTION(ENV, N, C, P) { \
-+  ENV->mmu.exception.number = N; \
-+  ENV->mmu.exception.causecode = C; \
-+  ENV->mmu.exception.parameter = P; \
-+}
-+
-+/* Translation function to get physical address from virtual address. */
-+uint32_t
-+arc_mmu_translate(struct CPUARCState *env,
-+                  uint32_t vaddr, enum mmu_access_type rwe,
-+                  uint32_t *index)
-+{
-+    struct arc_mmu *mmu = &(env->mmu);
-+    struct arc_tlb_e *tlb = NULL;
-+    int num_matching_tlb = 0;
-+
-+    SET_MMU_EXCEPTION(env, EXCP_NO_EXCEPTION, 0, 0);
-+
-+    if (rwe != MMU_MEM_IRRELEVANT_TYPE
-+        && env->stat.Uf != 0 && vaddr >= 0x80000000) {
-+        goto protv_exception;
-+    }
-+
-+    /*
-+     * Check that we are not addressing an address above 0x80000000.
-+     * Return the same address in that case.
-+     */
-+    if ((vaddr >= 0x80000000) || mmu->enabled == false) {
-+        return vaddr;
-+    }
-+
-+    if (rwe != MMU_MEM_IRRELEVANT_TYPE) {
-+        qemu_log_mask(CPU_LOG_MMU,
-+                      "[MMU] Translate at 0x%08x, vaddr 0x%08x, pid %d, rwe = %s\n",
-+                      env->pc, vaddr, mmu->pid_asid, RWE_STRING(rwe));
-+    }
-+
-+    uint32_t match_pd0 = (VPN(vaddr) | PD0_V);
-+    tlb = arc_mmu_lookup_tlb(match_pd0, (VPN(PD0_VPN) | PD0_V), mmu,
-+                              &num_matching_tlb, index);
-+
-+    /*
-+     * Check for multiple matches in nTLB, and return machine check
-+     *  exception.
-+     */
-+    if (num_matching_tlb > 1) {
-+        qemu_log_mask(CPU_LOG_MMU,
-+                      "[MMU] Machine Check exception. num_matching_tlb = %d\n",
-+                      num_matching_tlb);
-+        SET_MMU_EXCEPTION(env, EXCP_MACHINE_CHECK, 0x01, 0x00);
-+        return 0;
-+    }
-+
-+
-+    bool match = true;
-+
-+    if (num_matching_tlb == 0) {
-+        match = false;
-+    }
-+
-+    /* Check if entry if related to this address */
-+    if (VPN(vaddr) != VPN(tlb->pd0) || (tlb->pd0 & PD0_V) == 0) {
-+        /* Call the interrupt. */
-+        match = false;
-+    }
-+
-+    if (match == true) {
-+        if ((tlb->pd0 & PD0_G) == 0) {
-+            if ((tlb->pd0 & PD0_S) != 0) {
-+                /* Match to a shared library. */
-+                if (match_sasid(tlb, mmu) == false) {
-+                    match = false;
-+                }
-+            } else if ((tlb->pd0 & PD0_PID_MATCH) !=
-+                       (mmu->pid_asid & PD0_PID_MATCH)) {
-+                /* Match to a process. */
-+                      match = false;
-+            }
-+        }
-+    }
-+
-+    if (match == true && !arc_mmu_have_permission(env, tlb, rwe)) {
-+  protv_exception:
-+        qemu_log_mask(CPU_LOG_MMU,
-+                      "[MMU] ProtV exception at 0x%08x for 0x%08x. rwe = %s, "
-+                      "tlb->pd0 = %08x, tlb->pd1 = %08x\n",
-+                      env->pc,
-+                      vaddr,
-+                      RWE_STRING(rwe),
-+                      tlb->pd0, tlb->pd1);
-+
-+        SET_MMU_EXCEPTION(env, EXCP_PROTV, CAUSE_CODE(rwe), 0x08);
-+        return 0;
-+    }
-+
-+    if (match == true) {
-+        if (rwe != MMU_MEM_IRRELEVANT_TYPE) {
-+            qemu_log_mask(CPU_LOG_MMU,
-+                          "[MMU] Translated to 0x%08x, pd0=0x%08x, pd1=0x%08x\n",
-+                          (tlb->pd1 & PAGE_MASK) | (vaddr & (~PAGE_MASK)),
-+                          tlb->pd0, tlb->pd1);
-+        }
-+        return (tlb->pd1 & PAGE_MASK) | (vaddr & (~PAGE_MASK));
-+    } else {
-+        if (rwe != MMU_MEM_IRRELEVANT_TYPE) {
-+            /* To remove eventually, just fail safe to check kernel. */
-+            if (mmu->sasid0 != 0 || mmu->sasid1 != 0) {
-+                assert(0);
-+            } else {
-+                mmu->tlbpd0 = (vaddr & (VPN(PD0_VPN)))
-+                              | PD0_V | (mmu->pid_asid & PD0_ASID);
-+            }
-+            if (rwe == MMU_MEM_FETCH) {
-+                qemu_log_mask(CPU_LOG_MMU,
-+                              "[MMU] TLB_MissI exception at 0x%08x. rwe = %s, "
-+                              "vaddr = %08x, tlb->pd0 = %08x, tlb->pd1 = %08x\n",
-+                              env->pc,
-+                              RWE_STRING(rwe),
-+                              vaddr, tlb->pd0, tlb->pd1);
-+                SET_MMU_EXCEPTION(env, EXCP_TLB_MISS_I, 0x00, 0x00);
-+            } else {
-+                qemu_log_mask(CPU_LOG_MMU,
-+                              "[MMU] TLB_MissD exception at 0x%08x. rwe = %s, "
-+                              "vaddr = %08x, tlb->pd0 = %08x, tlb->pd1 = %08x\n",
-+                              env->pc,
-+                              RWE_STRING(rwe),
-+                              vaddr, tlb->pd0, tlb->pd1);
-+                SET_MMU_EXCEPTION(env, EXCP_TLB_MISS_D, CAUSE_CODE(rwe),
-+                                  0x00);
-+            }
-+        } else if (rwe != MMU_MEM_IRRELEVANT_TYPE) {
-+            qemu_log_mask(CPU_LOG_MMU,
-+                          "[MMU] Failed to translate to 0x%08x\n",
-+                          vaddr);
-+        }
-+        return 0;
-+    }
-+}
-+
-+uint32_t arc_mmu_page_address_for(uint32_t vaddr)
-+{
-+    uint32_t ret = VPN(vaddr);
-+    if (vaddr >= 0x80000000) {
-+        ret |= 0x80000000;
-+    }
-+    return ret;
-+}
-+
-+void arc_mmu_init(struct arc_mmu *mmu)
-+{
-+    mmu->enabled = 0;
-+    mmu->pid_asid = 0;
-+    mmu->sasid0 = 0;
-+    mmu->sasid1 = 0;
-+
-+    mmu->tlbpd0 = 0;
-+    mmu->tlbpd1 = 0;
-+    mmu->tlbpd1_hi = 0;
-+    mmu->tlbindex = 0;
-+    mmu->tlbcmd = 0;
-+    mmu->scratch_data0 = 0;
-+
-+    memset(mmu->nTLB, 0, sizeof(mmu->nTLB));
-+}
-+
-+static int
-+arc_mmu_get_prot_for_index(uint32_t index, CPUARCState *env)
-+{
-+    struct arc_tlb_e *tlb;
-+    int ret = 0;
-+    bool in_kernel_mode = !env->stat.Uf; /* Read status for user mode. */
-+
-+    tlb = arc_mmu_get_tlb_at_index(
-+            index,
-+            &env->mmu);
-+
-+    if ((in_kernel_mode && (tlb->pd1 & PD1_RK) != 0)
-+       || (!in_kernel_mode && (tlb->pd1 & PD1_RU) != 0)) {
-+        ret |= PAGE_READ;
-+    }
-+
-+    if ((in_kernel_mode && (tlb->pd1 & PD1_WK) != 0)
-+       || (!in_kernel_mode && (tlb->pd1 & PD1_WU) != 0)) {
-+        ret |= PAGE_WRITE;
-+    }
-+
-+    if ((in_kernel_mode && (tlb->pd1 & PD1_XK) != 0)
-+       || (!in_kernel_mode && (tlb->pd1 & PD1_XU) != 0)) {
-+        ret |= PAGE_EXEC;
-+    }
-+
-+    return ret;
-+}
-+
-+static void QEMU_NORETURN raise_mem_exception(
-+        CPUState *cs, target_ulong addr, uintptr_t host_pc,
-+        int32_t excp_idx, uint8_t excp_cause_code, uint8_t excp_param)
-+{
-+    CPUARCState *env = &(ARC_CPU(cs)->env);
-+    if (excp_idx != EXCP_TLB_MISS_I) {
-+        cpu_restore_state(cs, host_pc, true);
-+    }
-+
-+    env->efa = addr;
-+    env->eret = env->pc;
-+    env->erbta = env->bta;
-+
-+    cs->exception_index = excp_idx;
-+    env->causecode = excp_cause_code;
-+    env->param = excp_param;
-+    cpu_loop_exit(cs);
-+}
-+
-+/* MMU range */
-+static const uint32_t MMU_VA_START = 0x00000000;  /* inclusive */
-+static const uint32_t MMU_VA_END = 0x80000000;    /* exclusive */
-+
-+typedef enum {
-+    DIRECT_ACTION,
-+    MPU_ACTION,
-+    MMU_ACTION,
-+    EXCEPTION_ACTION
-+} ACTION;
-+
-+/*
-+ * Applying the following logic
-+ * ,-----.-----.-----------.---------.---------------.
-+ * | MMU | MPU | MMU range | mmu_idx |     action    |
-+ * |-----+-----+-----------+---------+---------------|
-+ * | dis | dis |     x     |    x    | phys = virt   |
-+ * |-----+-----+-----------+---------+---------------|
-+ * | dis | ena |     x     |    x    | mpu_translate |
-+ * |-----+-----+-----------+---------+---------------|
-+ * | ena | dis |   true    |    x    | mmu_translate |
-+ * |-----+-----+-----------+---------+---------------|
-+ * | ena | dis |   false   |    0    | phys = virt   |
-+ * |-----+-----+-----------+---------+---------------|
-+ * | ena | dis |   false   |    1    | exception     |
-+ * |-----+-----+-----------+---------+---------------|
-+ * | ena | ena |   false   |    x    | mpu_translate |
-+ * |-----+-----+-----------+---------+---------------|
-+ * | ena | ena |   true    |    x    | mmu_translate |
-+ * `-----^-----^-----------^---------^---------------'
-+ */
-+static int decide_action(const CPUARCState *env,
-+                         target_ulong       addr,
-+                         int                mmu_idx)
-+{
-+    static ACTION table[2][2][2][2] = { };
-+    static bool is_initialized = false;
-+    const bool is_user = (mmu_idx == 1);
-+    const bool is_mmu_range = ((addr >= MMU_VA_START) && (addr < MMU_VA_END));
-+
-+    if (!is_initialized) {
-+        /* Both MMU and MPU disabled */
-+#define T true
-+#define F false
-+
-+        table[F][F][F][F] = DIRECT_ACTION;
-+        table[F][F][F][T] = DIRECT_ACTION;
-+        table[F][F][T][F] = DIRECT_ACTION;
-+        table[F][F][T][T] = DIRECT_ACTION;
-+
-+        /* Only MPU */
-+        table[F][T][F][F] = MPU_ACTION;
-+        table[F][T][F][T] = MPU_ACTION;
-+        table[F][T][T][F] = MPU_ACTION;
-+        table[F][T][T][T] = MPU_ACTION;
-+
-+        /* Only MMU; non-mmu range; kernel access */
-+        table[T][F][F][F] = DIRECT_ACTION;
-+        /* Only MMU; non-mmu range; user access */
-+        table[T][F][F][T] = EXCEPTION_ACTION;
-+
-+        /* Only MMU; mmu range; both modes access */
-+        table[T][F][T][F] = MMU_ACTION;
-+        table[T][F][T][T] = MMU_ACTION;
-+
-+        /* Both MMU and MPU enabled; non-mmu range */
-+        table[T][T][F][F] = MPU_ACTION;
-+        table[T][T][F][T] = MPU_ACTION;
-+
-+        /* Both MMU and MPU enabled; mmu range */
-+        table[T][T][T][F] = MMU_ACTION;
-+        table[T][T][T][T] = MMU_ACTION;
-+
-+#undef T
-+#undef F
-+
-+        is_initialized = true;
-+    }
-+
-+    return table[env->mmu.enabled][env->mpu.enabled][is_mmu_range][is_user];
-+}
-+
-+
-+#ifndef CONFIG_USER_ONLY
-+/* Softmmu support function for MMU. */
-+bool arc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                      MMUAccessType access_type, int mmu_idx,
-+                      bool probe, uintptr_t retaddr)
-+{
-+    /* TODO: this rwe should go away when the TODO below is done */
-+    enum mmu_access_type rwe = (char) access_type;
-+    CPUARCState *env = &((ARC_CPU(cs))->env);
-+    int action = decide_action(env, address, mmu_idx);
-+
-+    switch (action) {
-+    case DIRECT_ACTION:
-+        tlb_set_page(cs, address & PAGE_MASK, address & PAGE_MASK,
-+                     PAGE_READ | PAGE_WRITE | PAGE_EXEC,
-+                     mmu_idx, TARGET_PAGE_SIZE);
-+        break;
-+    case MPU_ACTION:
-+        if (arc_mpu_translate(env, address, access_type, mmu_idx)) {
-+            if (probe) {
-+                return false;
-+            }
-+            MPUException *mpu_excp = &env->mpu.exception;
-+            raise_mem_exception(cs, address, retaddr,
-+                    mpu_excp->number, mpu_excp->code, mpu_excp->param);
-+        }
-+        break;
-+    case MMU_ACTION: {
-+        /*
-+         * TODO: these lines must go inside arc_mmu_translate and it
-+         * should only signal a failure or success --> generate an
-+         * exception or not
-+         */
-+        uint32_t index;
-+        target_ulong paddr = arc_mmu_translate(env, address, rwe, &index);
-+        if ((enum exception_code_list) env->mmu.exception.number !=
-+                EXCP_NO_EXCEPTION) {
-+            if (probe) {
-+                return false;
-+            }
-+            const struct mmu_exception *mmu_excp = &env->mmu.exception;
-+            raise_mem_exception(cs, address, retaddr,
-+                    mmu_excp->number, mmu_excp->causecode, mmu_excp->parameter);
-+        } else {
-+            int prot = arc_mmu_get_prot_for_index(index, env);
-+            address = arc_mmu_page_address_for(address);
-+            tlb_set_page(cs, address, paddr & PAGE_MASK, prot,
-+                         mmu_idx, TARGET_PAGE_SIZE);
-+        }
-+        break;
-+    }
-+    case EXCEPTION_ACTION:
-+        if (probe) {
-+            return false;
-+        }
-+        /* TODO: like TODO above, this must move inside mmu */
-+        qemu_log_mask(CPU_LOG_MMU, "[MMU_TLB_FILL] ProtV "
-+                      "exception at 0x%08x. rwe = %s\n",
-+                      env->pc, RWE_STRING(rwe));
-+        raise_mem_exception(cs, address, retaddr,
-+                            EXCP_PROTV, CAUSE_CODE(rwe), 0x08);
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+
-+    return true;
-+}
-+#endif /* ifndef CONFIG_USER_ONLY */
-diff --git a/target/arc/mmu.h b/target/arc/mmu.h
++++ b/default-configs/arc-softmmu.mak
+@@ -0,0 +1,5 @@
++# Default configuration for arc-softmmu
++
++CONFIG_VIRTIO_MMIO=y
++CONFIG_SERIAL=y
++CONFIG_OPENCORES_ETH=y
+diff --git a/default-configs/devices/arc-softmmu.mak b/default-configs/devices/arc-softmmu.mak
 new file mode 100644
-index 0000000000..0afc9af3eb
+index 0000000000..0ce4176b2d
 --- /dev/null
-+++ b/target/arc/mmu.h
-@@ -0,0 +1,166 @@
-+/*
-+ * QEMU ARC CPU
-+ *
-+ * Copyright (c) 2020 Synppsys Inc.
-+ * Contributed by Cupertino Miranda <cmiranda@synopsys.com>
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see
-+ * http://www.gnu.org/licenses/lgpl-2.1.html
-+ */
++++ b/default-configs/devices/arc-softmmu.mak
+@@ -0,0 +1,7 @@
++# Default configuration for arc-softmmu
 +
-+#ifndef ARC_MMU_H
-+#define ARC_MMU_H
++CONFIG_SEMIHOSTING=n
 +
-+#include "target/arc/regs.h"
++# Boards:
++#
++CONFIG_ARC_VIRT=y
+diff --git a/default-configs/targets/arc-softmmu.mak b/default-configs/targets/arc-softmmu.mak
+new file mode 100644
+index 0000000000..31916cb23d
+--- /dev/null
++++ b/default-configs/targets/arc-softmmu.mak
+@@ -0,0 +1,2 @@
++TARGET_ARCH=arc
++TARGET_XML_FILES= gdb-xml/arc-v2-core.xml gdb-xml/arc-v2-aux.xml gdb-xml/arc-v2-other.xml
+diff --git a/disas.c b/disas.c
+index 7c18d7d2a7..0085a55fd7 100644
+--- a/disas.c
++++ b/disas.c
+@@ -208,6 +208,8 @@ static void initialize_debug_host(CPUDebug *s)
+     s->info.cap_insn_split = 6;
+ #elif defined(__hppa__)
+     s->info.print_insn = print_insn_hppa;
++#elif defined(__arc__)
++    s->info.print_insn = print_insn_arc;
+ #endif
+ }
+ 
+diff --git a/disas/meson.build b/disas/meson.build
+index 09a852742e..98271bafb9 100644
+--- a/disas/meson.build
++++ b/disas/meson.build
+@@ -4,6 +4,7 @@ subdir('libvixl')
+ common_ss.add(when: 'CONFIG_ALPHA_DIS', if_true: files('alpha.c'))
+ common_ss.add(when: 'CONFIG_ARM_A64_DIS', if_true: files('arm-a64.cc'))
+ common_ss.add_all(when: 'CONFIG_ARM_A64_DIS', if_true: libvixl_ss)
++common_ss.add(when: 'CONFIG_ARC_DIS', if_true: files('arc.c'))
+ common_ss.add(when: 'CONFIG_ARM_DIS', if_true: files('arm.c'))
+ common_ss.add(when: 'CONFIG_CRIS_DIS', if_true: files('cris.c'))
+ common_ss.add(when: 'CONFIG_HPPA_DIS', if_true: files('hppa.c'))
+diff --git a/hw/Kconfig b/hw/Kconfig
+index 4de1797ffd..7c942ba1c2 100644
+--- a/hw/Kconfig
++++ b/hw/Kconfig
+@@ -41,6 +41,7 @@ source vfio/Kconfig
+ source watchdog/Kconfig
+ 
+ # arch Kconfig
++source arc/Kconfig
+ source arm/Kconfig
+ source alpha/Kconfig
+ source avr/Kconfig
+diff --git a/hw/arc/Kconfig b/hw/arc/Kconfig
+new file mode 100644
+index 0000000000..37402397c6
+--- /dev/null
++++ b/hw/arc/Kconfig
+@@ -0,0 +1,7 @@
++config ARC_VIRT
++    bool
++    select SERIAL
++    select VIRTIO_MMIO
 +
-+/* PD0 flags */
-+#define PD0_VPN 0x7ffff000
-+#define PD0_ASID 0x000000ff
-+#define PD0_G   0x00000100      /* Global */
-+#define PD0_V   0x00000200      /* Valid */
-+#define PD0_SZ  0x00000400      /* Size: Normal or Super Page */
-+#define PD0_L   0x00000800      /* Lock */
-+#define PD0_S   0x80000000      /* Shared Library ASID */
-+#define PD0_FLG (PD0_G | PD0_V | PD0_SZ | PD0_L)
++config ARC
++    bool
+diff --git a/hw/arc/Makefile.objs b/hw/arc/Makefile.objs
+deleted file mode 100644
+index 28d7766cd9..0000000000
+--- a/hw/arc/Makefile.objs
++++ /dev/null
+@@ -1,21 +0,0 @@
+-#
+-#  QEMU ARC CPU
+-#
+-#  Copyright (c) 2019
+-#
+-#  This library is free software; you can redistribute it and/or
+-#  modify it under the terms of the GNU Lesser General Public
+-#  License as published by the Free Software Foundation; either
+-#  version 2.1 of the License, or (at your option) any later version.
+-#
+-#  This library is distributed in the hope that it will be useful,
+-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-#  Lesser General Public License for more details.
+-#
+-#  You should have received a copy of the GNU Lesser General Public
+-#  License along with this library; if not, see
+-#  http://www.gnu.org/licenses/lgpl-2.1.html
+-#
+-
+-obj-y   = arc_sim.o arc_uart.o sample.o pic_cpu.o boot.o board-hsdk.o sim-hs.o nsim.o
+diff --git a/hw/arc/meson.build b/hw/arc/meson.build
+index 6a587307a4..f3b517013d 100644
+--- a/hw/arc/meson.build
++++ b/hw/arc/meson.build
+@@ -1,13 +1,9 @@
+ arc_ss = ss.source_set()
+ arc_ss.add(files(
+   'arc_sim.c',
+-  'arc_uart.c',
+-  'sample.c',
+   'pic_cpu.c',
+   'boot.c',
+-  'board-hsdk.c',
+-  'sim-hs.c',
+-  'nsim.c',
+ ))
++arc_ss.add(when: 'CONFIG_ARC_VIRT', if_true: files('virt.c'))
+ 
+ hw_arch += {'arc': arc_ss}
+diff --git a/hw/meson.build b/hw/meson.build
+index 010de7219c..e2b14a9ed8 100644
+--- a/hw/meson.build
++++ b/hw/meson.build
+@@ -43,6 +43,7 @@ subdir('xen')
+ subdir('xenpv')
+ 
+ subdir('alpha')
++subdir('arc')
+ subdir('arm')
+ subdir('avr')
+ subdir('cris')
+diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
+index 2164762b46..cb63fd7550 100644
+--- a/include/disas/dis-asm.h
++++ b/include/disas/dis-asm.h
+@@ -206,7 +206,14 @@ enum bfd_architecture
+   bfd_arch_v850,       /* NEC V850 */
+ #define bfd_mach_v850          0
+   bfd_arch_arc,        /* Argonaut RISC Core */
+-#define bfd_mach_arc_base 0
++#define bfd_mach_arc_a4        0
++#define bfd_mach_arc_a5        1
++#define bfd_mach_arc_arc600    2
++#define bfd_mach_arc_arc601    4
++#define bfd_mach_arc_arc700    3
++#define bfd_mach_arc_arcv2     5
++#define bfd_mach_arc_arcv2em   6
++#define bfd_mach_arc_arcv2hs   7
+   bfd_arch_m32r,       /* Mitsubishi M32R/D */
+ #define bfd_mach_m32r          0  /* backwards compatibility */
+   bfd_arch_mn10200,    /* Matsushita MN10200 */
+@@ -459,6 +466,7 @@ int print_insn_xtensa           (bfd_vma, disassemble_info*);
+ int print_insn_riscv32          (bfd_vma, disassemble_info*);
+ int print_insn_riscv64          (bfd_vma, disassemble_info*);
+ int print_insn_rx(bfd_vma, disassemble_info *);
++int print_insn_arc              (bfd_vma, disassemble_info*);
+ 
+ #ifdef CONFIG_CAPSTONE
+ bool cap_disas_target(disassemble_info *info, uint64_t pc, size_t size);
+diff --git a/include/elf.h b/include/elf.h
+index 7a418ee559..030b15e49c 100644
+--- a/include/elf.h
++++ b/include/elf.h
+@@ -207,6 +207,9 @@ typedef struct mips_elf_abiflags_v0 {
+ 
+ #define EM_TILEGX   191 /* TILE-Gx */
+ 
++#define EM_ARC_COMPACT  93  /* Synopsys ARCompact */
++#define EM_ARC_COMPACT2 195 /* Synopsys ARCompact V2 */
 +
-+#define PD0_ASID_MATCH 0x0000003f
-+#define PD0_PID_MATCH  0x000000ff
-+
-+/* PD1 permission bits */
-+#define PD1_PPN 0xfffff000      /* Cached */
-+#define PD1_FC  0x00000001      /* Cached */
-+#define PD1_XU  0x00000002      /* User Execute */
-+#define PD1_WU  0x00000004      /* User Write */
-+#define PD1_RU  0x00000008      /* User Read */
-+#define PD1_XK  0x00000010      /* Kernel Execute */
-+#define PD1_WK  0x00000020      /* Kernel Write */
-+#define PD1_RK  0x00000040      /* Kernel Read */
-+#define PD1_FLG (PD1_FC | PD1_XU | PD1_WU | PD1_RU | PD1_XK | PD1_WK | PD1_RK)
-+
-+#define TLBINDEX_INDEX  0x00001fff
-+#define TLBINDEX_E      0x80000000
-+#define TLBINDEX_RC        0x70000000
-+
-+#define TLB_CMD_WRITE   0x1
-+#define TLB_CMD_WRITENI 0x5
-+#define TLB_CMD_READ    0x2
-+#define TLB_CMD_INSERT  0x7
-+#define TLB_CMD_DELETE  0x8
-+#define TLB_CMD_IVUTLB  0x6
-+
-+#define N_SETS          256
-+#define N_WAYS          4
-+#define TLB_ENTRIES     (N_SETS * N_WAYS)
-+
-+#define PAGE_SHIFT      TARGET_PAGE_BITS
-+#define PAGE_SIZE       (1 << PAGE_SHIFT)
-+#define PAGE_MASK       (~(PAGE_SIZE - 1))
-+
-+/* NOTE: Do not reorder, this is casted in tbl_fill function. */
-+enum mmu_access_type {
-+    MMU_MEM_READ = 0,
-+    MMU_MEM_WRITE,
-+    MMU_MEM_FETCH,  /* Read for execution. */
-+    MMU_MEM_ATTOMIC,
-+    MMU_MEM_IRRELEVANT_TYPE,
-+};
-+
-+#define RWE_STRING(RWE) \
-+    (RWE == MMU_MEM_READ ? "MEM_READ" : \
-+     (RWE == MMU_MEM_WRITE ? "MEM_WRITE" : \
-+      (RWE == MMU_MEM_ATTOMIC ? "MEM_ATTOMIC" : \
-+       (RWE == MMU_MEM_FETCH ? "MEM_FETCH" : \
-+        (RWE == MMU_MEM_IRRELEVANT_TYPE ? "MEM_IRRELEVANT" \
-+         : "NOT_VALID_RWE")))))
-+
-+
-+#define CAUSE_CODE(ENUM) \
-+    ((ENUM == MMU_MEM_FETCH) ? 0 : \
-+     ((ENUM == MMU_MEM_READ) ? 1 : \
-+       ((ENUM == MMU_MEM_WRITE) ? 2 : 3)))
-+
-+
-+struct arc_tlb_e {
-+    /*
-+     * TLB entry is {PD0,PD1} tuple, kept "unpacked" to avoid bit fiddling
-+     * flags includes both PD0 flags and PD1 permissions.
-+     */
-+    uint32_t pd0, pd1;
-+};
-+
-+#define RAISE_MMU_EXCEPTION(ENV) { \
-+    do_exception_no_delayslot(ENV, \
-+                              ENV->mmu.exception.number, \
-+                              ENV->mmu.exception.causecode, \
-+                              ENV->mmu.exception.parameter); \
-+}
-+
-+struct arc_mmu {
-+    uint32_t enabled;
-+    struct mmu_exception {
-+      int32_t number;
-+      uint8_t causecode;
-+      uint8_t parameter;
-+    } exception;
-+
-+    struct arc_tlb_e nTLB[N_SETS][N_WAYS];
-+
-+    /* insert uses vaddr to find set; way selection could be random/rr/lru */
-+    uint32_t way_sel[N_SETS];
-+
-+    /*
-+     * Current Address Space ID (in whose context mmu lookups done)
-+     * Note that it is actually present in AUX PID reg, which we don't
-+     * explicitly maintain, but {re,de}construct as needed by LR/SR insns
-+     * respectively.
-+     */
-+    uint32_t pid_asid;
-+    uint32_t sasid0;
-+    uint32_t sasid1;
-+
-+    uint32_t tlbpd0;
-+    uint32_t tlbpd1;
-+    uint32_t tlbpd1_hi;
-+    uint32_t tlbindex;
-+    uint32_t tlbcmd;
-+    uint32_t scratch_data0;
-+};
-+
-+
-+struct CPUARCState;
-+
-+
-+extern void
-+arc_mmu_aux_set_tlbcmd(const struct arc_aux_reg_detail *aux_reg_detail,
-+                       uint32_t val, void *data);
-+extern void
-+arc_mmu_aux_set(const struct arc_aux_reg_detail *aux_reg_detail,
-+                    uint32_t val, void *data) ;
-+
-+extern uint32_t
-+arc_mmu_aux_get(const struct arc_aux_reg_detail *aux_reg_detail, void *data);
-+
-+uint32_t
-+arc_mmu_translate(struct CPUARCState *env,
-+                  uint32_t vaddr, enum mmu_access_type rwe,
-+                  uint32_t *index);
-+
-+void arc_mmu_debug_tlb(struct CPUARCState *env);
-+void arc_mmu_debug_tlb_for_vaddr(struct CPUARCState *env, uint32_t vaddr);
-+
-+uint32_t arc_mmu_page_address_for(uint32_t vaddr);
-+
-+void arc_mmu_init(struct arc_mmu *mmu);
-+
-+#endif /* ARC_MMU_H */
+ #define EM_MOXIE           223     /* Moxie processor family */
+ #define EM_MOXIE_OLD       0xFEED
+ 
+diff --git a/include/exec/poison.h b/include/exec/poison.h
+index 7b9ac361dc..635ccc66a1 100644
+--- a/include/exec/poison.h
++++ b/include/exec/poison.h
+@@ -9,6 +9,7 @@
+ #pragma GCC poison TARGET_X86_64
+ #pragma GCC poison TARGET_AARCH64
+ #pragma GCC poison TARGET_ALPHA
++#pragma GCC poison TARGET_ARC
+ #pragma GCC poison TARGET_ARM
+ #pragma GCC poison TARGET_CRIS
+ #pragma GCC poison TARGET_HPPA
+@@ -70,6 +71,7 @@
+ 
+ #pragma GCC poison CONFIG_ALPHA_DIS
+ #pragma GCC poison CONFIG_ARM_A64_DIS
++#pragma GCC poison CONFIG_ARC_DIS
+ #pragma GCC poison CONFIG_ARM_DIS
+ #pragma GCC poison CONFIG_CRIS_DIS
+ #pragma GCC poison CONFIG_HPPA_DIS
+diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
+index 54f069d491..5fbedebcb0 100644
+--- a/include/sysemu/arch_init.h
++++ b/include/sysemu/arch_init.h
+@@ -26,6 +26,7 @@ enum {
+     QEMU_ARCH_RISCV = (1 << 19),
+     QEMU_ARCH_RX = (1 << 20),
+     QEMU_ARCH_AVR = (1 << 21),
++    QEMU_ARCH_ARC = (1 << 22),
+ 
+     QEMU_ARCH_NONE = (1 << 31),
+ };
+diff --git a/meson.build b/meson.build
+index 39ac5cf6d8..6e4f8a2cbb 100644
+--- a/meson.build
++++ b/meson.build
+@@ -53,8 +53,8 @@ have_block = have_system or have_tools
+ python = import('python').find_installation()
+ 
+ supported_oses = ['windows', 'freebsd', 'netbsd', 'openbsd', 'darwin', 'sunos', 'linux']
+-supported_cpus = ['ppc', 'ppc64', 's390x', 'riscv32', 'riscv64', 'x86', 'x86_64',
+-  'arm', 'aarch64', 'mips', 'mips64', 'sparc', 'sparc64']
++supported_cpus = ['ppc', 'ppc64', 's390x', 'sparc64', 'riscv32', 'riscv64', 'x86', 'x86_64',
++  'arc', 'arm', 'aarch64', 'mips', 'mips64', 'sparc', 'sparc64']
+ 
+ cpu = host_machine.cpu_family()
+ targetos = host_machine.system()
+@@ -827,6 +827,7 @@ config_target_mak = {}
+ 
+ disassemblers = {
+   'alpha' : ['CONFIG_ALPHA_DIS'],
++  'arc' : ['CONFIG_ARC_DIS'],
+   'arm' : ['CONFIG_ARM_DIS'],
+   'avr' : ['CONFIG_AVR_DIS'],
+   'cris' : ['CONFIG_CRIS_DIS'],
+diff --git a/softmmu/arch_init.c b/softmmu/arch_init.c
+index 7fd5c09b2b..27faed5edd 100644
+--- a/softmmu/arch_init.c
++++ b/softmmu/arch_init.c
+@@ -92,6 +92,8 @@ int graphic_depth = 32;
+ #define QEMU_ARCH QEMU_ARCH_XTENSA
+ #elif defined(TARGET_AVR)
+ #define QEMU_ARCH QEMU_ARCH_AVR
++#elif defined(TARGET_ARC)
++#define QEMU_ARCH QEMU_ARCH_ARC
+ #endif
+ 
+ const uint32_t arch_type = QEMU_ARCH;
+diff --git a/target/meson.build b/target/meson.build
+index 9f0ae93b75..f4a3a6425c 100644
+--- a/target/meson.build
++++ b/target/meson.build
+@@ -1,4 +1,5 @@
+ subdir('alpha')
++subdir('arc')
+ subdir('arm')
+ subdir('avr')
+ subdir('cris')
 -- 
 2.20.1
 
