@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 628BB2AF98B
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 21:10:18 +0100 (CET)
-Received: from localhost ([::1]:56672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EED52AF972
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 21:05:15 +0100 (CET)
+Received: from localhost ([::1]:41624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcwRd-0002yw-GN
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 15:10:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39674)
+	id 1kcwMj-0004oa-Tt
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 15:05:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kcwHL-0003AJ-G6
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 14:59:39 -0500
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:34008)
+ id 1kcwHs-0003Vy-FN
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 15:00:12 -0500
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:44665)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kcwHE-0008Pd-Pt
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 14:59:35 -0500
-Received: by mail-ej1-x642.google.com with SMTP id o9so4463819ejg.1
- for <qemu-devel@nongnu.org>; Wed, 11 Nov 2020 11:59:32 -0800 (PST)
+ id 1kcwHq-0008Uj-5F
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 15:00:12 -0500
+Received: by mail-ed1-x542.google.com with SMTP id l5so3585221edq.11
+ for <qemu-devel@nongnu.org>; Wed, 11 Nov 2020 12:00:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8VutIPnXcgSd4P4lTt3pBxxmTj6JoEaKdxLPoubesfM=;
- b=c+uPQKWjSpXditJKr+pgeykWXvkdNqrQ67Tk5xH2atLrm3lhFiIeXxZgZdm2u8Ulk9
- cIGnIIxo62h5by2w2AVCYD0YUcPXi16HQfke5n5mXMc7hDTWxahSJgmQejbEp8Dx5qOs
- KRKD6hg8GesE9+x7tW18sjgOBO32h18j6N5sDAW5besX8L6Tz7iz2USD+1losWNmsYTB
- 5mF4VooQoNaxcDD1XWaP5BigZ7XaYM4nIrVaolEHD2MpvFtNd4hJBUntM3sHBIW6X+oR
- 6mdnhSpD38qM5q5hT1mrQ1np/K2Zqqb5FfPL/taHCPOLA9cgMwakP06aUO1/AB3qIOYd
- hNXg==
+ :cc; bh=gll1FbtCZJkJd07k3kyGI8i9SK2+czGymUSF5VtbCY8=;
+ b=DkRDkEAc5DIa5kg6jtROxHcQTGkAYg2FEs4zJFhgw+0TZJVvdVIeSa752xxt4A/K6i
+ XAQ7UYfP3pD3ZZ85nC34kxXQhHTJNleUqy5cY56+vNRSKk3kB0TKR6swr8OBsG4KVY32
+ 8iDCMnJljiQerIQA7fcrY6e5oRPHbj3uLyeoF4XKnHlohinELZglSlWJOPPHObCJXjUn
+ i/qtbuyx588LRipBEAajBquPS3d7cZ5H3kOyDTU/l2CZVXF2RniTS6N4lfuYBmbWgDWm
+ pLXbfQhnR9gP1Orq6DSh+TCSyoTtFYS4tPcUvUEt/dkE3f1KG9KAiJCwIBlGATl6gorT
+ 6RTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=8VutIPnXcgSd4P4lTt3pBxxmTj6JoEaKdxLPoubesfM=;
- b=bjbvuv8twZlp/PAVzyv98GUEypqiMw6EG16z/2+Fz3CXyYDGX5oC4J14V+Thrso0lJ
- 3HS3eaOkWO6LhUtY34aNtdlkfjQP0EXCxr0el+HTRpZOSxxjoUsoeiWW94smW7i/qAoF
- yG64tRT/301TKTCbSbNoRBIt9R39bZgQjwyIT0goZ8FS8kFN9BE+vnQqwpFtRQ9wUjBb
- Q2KIqFeN0q0Rx5IBtjwIdsyu5mHAZyZgSnMoouZtQZy5n2MIac4/Cb5rFzgDPOC7iufJ
- ijYDfpj7jz9Y5DcxB5wWtCtZrjVwMLgk95RkwNypmfQ7mYj3xPNGmEYGGOwsjyNrQ74Z
- UOFw==
-X-Gm-Message-State: AOAM530q2ZXYKpD9QfsCxbc4F4yb6NEOWkUOf2pfZWnPCZPRHYTIF9gd
- HP/nyD/GqQIIZNIVaakUttZ4E1qGO++vjaPukHso0g==
-X-Google-Smtp-Source: ABdhPJyDA7GoQaXgib7oexdoWvNALrwlWYtxO6juWq707woBIfS5r3s1E1k9t+nYlpfqIzGkghPmnX6yZ915OEmpcDI=
-X-Received: by 2002:a17:906:6949:: with SMTP id
- c9mr26793058ejs.482.1605124771417; 
- Wed, 11 Nov 2020 11:59:31 -0800 (PST)
+ bh=gll1FbtCZJkJd07k3kyGI8i9SK2+czGymUSF5VtbCY8=;
+ b=eORvnojMetQz3N7SXWwd1hzJRx9gedJc76ykDJidtaG9SpvfzygQu5WPJYCVXatEqh
+ fRJtY/QhZznaC+aX0d8m3z5Fw2fVPtQy3Lrsb+/sSCjP4Ss+nbF8BnnXBHzNrg+113DX
+ bwCrJAddI8r5M5SQ3FmToGe/bC3JKuphs0kQ0+jaZfzQxZhCrXu2eLTxRy40Vkknkj0i
+ JuCFRTApK4xRs9lkiJMD4k/47x99UH5UM62fHLLKWa4N854SBSFYTMpQlR/3wC7CILfn
+ 7ZzbqBS4qSflvBrk501kfYshuDpuTcjCcRb8QdAlaQP2NIRA1itp9vjeO+HIbVk+PYNK
+ /iKA==
+X-Gm-Message-State: AOAM531EZdt0E63dYOYVISPcJl/UK7n/7I8dqutt0p0SPedsnI9RmZcL
+ tVusCyp6OKyMCb0pMBUrY8iwFq+iO3sDiiCRSouf+A==
+X-Google-Smtp-Source: ABdhPJx/J22gQ0GLJQzeoj1U/kj4J04RX0hfZM0ikQjUaCqKzyc7VyJDSxKcctXTQvcf420lPRqMSbJ95efL0FMDHSk=
+X-Received: by 2002:a50:fa92:: with SMTP id w18mr1281042edr.44.1605124806997; 
+ Wed, 11 Nov 2020 12:00:06 -0800 (PST)
 MIME-Version: 1.0
 References: <20201111183823.283752-1-ehabkost@redhat.com>
- <20201111183823.283752-3-ehabkost@redhat.com>
-In-Reply-To: <20201111183823.283752-3-ehabkost@redhat.com>
+ <20201111183823.283752-4-ehabkost@redhat.com>
+In-Reply-To: <20201111183823.283752-4-ehabkost@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 11 Nov 2020 19:59:20 +0000
-Message-ID: <CAFEAcA8M5w0tY9q5PmbEkJ1pN0f64nmziKP7cqChGmFGkXL-TQ@mail.gmail.com>
-Subject: Re: [PATCH v2 02/12] vexpress-a15: Register "virtualization" as class
- property
+Date: Wed, 11 Nov 2020 19:59:55 +0000
+Message-ID: <CAFEAcA_n2Ek_JKgPsMN_A_m3_3R_5X6hLY_FzRNc-czcCXcsxA@mail.gmail.com>
+Subject: Re: [PATCH v2 03/12] tmp421: Register properties as class properties
 To: Eduardo Habkost <ehabkost@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -81,26 +79,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- "Daniel P. Berrange" <berrange@redhat.com>,
+Cc: "Daniel P. Berrange" <berrange@redhat.com>, John Snow <jsnow@redhat.com>,
  QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 11 Nov 2020 at 18:38, Eduardo Habkost <ehabkost@redhat.com> wrote:
+On Wed, 11 Nov 2020 at 18:43, Eduardo Habkost <ehabkost@redhat.com> wrote:
 >
 > Class properties make QOM introspection simpler and easier, as
 > they don't require an object to be instantiated.
 >
 > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 > ---
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: qemu-arm@nongnu.org
-> Cc: qemu-devel@nongnu.org
-> ---
->  hw/arm/vexpress.c | 14 ++++++++------
->  1 file changed, 8 insertions(+), 6 deletions(-)
->
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
