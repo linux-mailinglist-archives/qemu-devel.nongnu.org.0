@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 783492AE54C
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 02:07:46 +0100 (CET)
-Received: from localhost ([::1]:36854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA1F72AE555
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 02:10:54 +0100 (CET)
+Received: from localhost ([::1]:39720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcebx-0008F9-Ff
-	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 20:07:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42154)
+	id 1kceez-0001Jj-P6
+	for lists+qemu-devel@lfdr.de; Tue, 10 Nov 2020 20:10:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lihaotian9@huawei.com>)
- id 1kceaU-0007hp-3T
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 20:06:14 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2517)
+ id 1kcedc-0000hR-Fz
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 20:09:28 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2449)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lihaotian9@huawei.com>)
- id 1kceaS-0007Pd-2n
- for qemu-devel@nongnu.org; Tue, 10 Nov 2020 20:06:13 -0500
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CW6472CxXzhkCg;
- Wed, 11 Nov 2020 09:05:59 +0800 (CST)
+ id 1kceda-0007tb-LJ
+ for qemu-devel@nongnu.org; Tue, 10 Nov 2020 20:09:28 -0500
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CW67q5HLszLwrn;
+ Wed, 11 Nov 2020 09:09:11 +0800 (CST)
 Received: from [10.174.178.136] (10.174.178.136) by
- DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
- 14.3.487.0; Wed, 11 Nov 2020 09:05:57 +0800
-Subject: [PATCH 1/3] tools/virtiofsd/buffer.c: check whether buf is NULL in
- fuse_bufvec_advance func
+ DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
+ 14.3.487.0; Wed, 11 Nov 2020 09:09:13 +0800
+Subject: [PATCH 2/3] virtiofsd: check whether lo_map_reserve returns NULL in, 
+ main func
 From: Haotian Li <lihaotian9@huawei.com>
 To: <qemu-devel@nongnu.org>, <virtio-fs@redhat.com>
 References: <3477d902-ace9-1aa1-531a-9d20d6e93a05@huawei.com>
-Message-ID: <29fc87c2-b87c-4c34-40d4-75381f228849@huawei.com>
-Date: Wed, 11 Nov 2020 09:05:56 +0800
+Message-ID: <48887813-1c95-048c-6d10-48e3dd2bac71@huawei.com>
+Date: Wed, 11 Nov 2020 09:09:12 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.1.0
 MIME-Version: 1.0
@@ -66,30 +66,47 @@ Cc: linfeilong@huawei.com, liuzhiqiang26@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In fuse_bufvec_advance func, calling fuse_bufvec_current func
-may return NULL, so we should check whether buf is NULL before
-using it.
+In main func, func lo_map_reserve is called without NULL check.
+If reallocing new_elems fails in func lo_map_grow, the func
+lo_map_reserve may return NULL. We should check whether
+lo_map_reserve returns NULL before using it.
 
 Signed-off-by: Haotian Li <lihaotian9@huawei.com>
 Signed-off-by: Zhiqiang Liu <liuzhiqiang26@huawei.com>
 ---
- tools/virtiofsd/buffer.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ tools/virtiofsd/passthrough_ll.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/tools/virtiofsd/buffer.c b/tools/virtiofsd/buffer.c
-index 27c1377f22..bdc608c221 100644
---- a/tools/virtiofsd/buffer.c
-+++ b/tools/virtiofsd/buffer.c
-@@ -246,6 +246,10 @@ static int fuse_bufvec_advance(struct fuse_bufvec *bufv, size_t len)
- {
-     const struct fuse_buf *buf = fuse_bufvec_current(bufv);
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+index ec1008bceb..3e9bbc7a04 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -3433,6 +3433,7 @@ int main(int argc, char *argv[])
+         .proc_self_fd = -1,
+     };
+     struct lo_map_elem *root_elem;
++    struct lo_map_elem *reserve_elem;
+     int ret = -1;
 
-+    if (!buf) {
-+        return 0;
+     /* Don't mask creation mode, kernel already did that */
+@@ -3452,8 +3453,17 @@ int main(int argc, char *argv[])
+      * [1] Root inode
+      */
+     lo_map_init(&lo.ino_map);
+-    lo_map_reserve(&lo.ino_map, 0)->in_use = false;
++    reserve_elem = lo_map_reserve(&lo.ino_map, 0);
++    if (!reserve_elem) {
++        fuse_log(FUSE_LOG_ERR, "failed to alloc reserve_elem.\n");
++        goto err_out1;
 +    }
-+
-     bufv->off += len;
-     assert(bufv->off <= buf->size);
-     if (bufv->off == buf->size) {
++    reserve_elem->in_use = false;
+     root_elem = lo_map_reserve(&lo.ino_map, lo.root.fuse_ino);
++    if (!root_elem) {
++        fuse_log(FUSE_LOG_ERR, "failed to alloc root_elem.\n");
++        goto err_out1;
++    }
+     root_elem->inode = &lo.root;
+
+     lo_map_init(&lo.dirp_map);
 -- 
 
