@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED4CF2AE943
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 07:55:25 +0100 (CET)
-Received: from localhost ([::1]:47966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B8CB2AE946
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 08:00:19 +0100 (CET)
+Received: from localhost ([::1]:50144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kck2P-0001oB-2R
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 01:55:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40450)
+	id 1kck78-00038n-Bp
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 02:00:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kck0u-0001LQ-02
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 01:53:52 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:2139)
+ id 1kck5s-0002gz-Jo
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 01:59:00 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:2140)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kck0r-0005HN-2u
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 01:53:51 -0500
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CWFn351CTz74xB;
- Wed, 11 Nov 2020 14:53:27 +0800 (CST)
-Received: from huawei.com (10.175.101.6) by DGGEMS410-HUB.china.huawei.com
- (10.3.19.210) with Microsoft SMTP Server id 14.3.487.0; Wed, 11 Nov 2020
- 14:53:25 +0800
+ id 1kck5q-00074U-Og
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 01:59:00 -0500
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CWFvB6TGYz75VB;
+ Wed, 11 Nov 2020 14:58:46 +0800 (CST)
+Received: from huawei.com (10.175.101.6) by DGGEMS411-HUB.china.huawei.com
+ (10.3.19.211) with Microsoft SMTP Server id 14.3.487.0; Wed, 11 Nov 2020
+ 14:58:45 +0800
 From: Chuan Zheng <zhengchuan@huawei.com>
 To: <quintela@redhat.com>, <dgilbert@redhat.com>, <berrange@redhat.com>
-Subject: [PATCH] multifd/tls: fix memoryleak of the QIOChannelSocket object
- when canceling migration
-Date: Wed, 11 Nov 2020 15:08:57 +0800
-Message-ID: <1605078537-61763-1-git-send-email-zhengchuan@huawei.com>
+Subject: [RESEND][PATCH] multifd/tls: fix memoryleak of the QIOChannelSocket
+ object when canceling migration
+Date: Wed, 11 Nov 2020 15:14:18 +0800
+Message-ID: <1605078858-114607-1-git-send-email-zhengchuan@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -63,7 +63,7 @@ Cc: yubihong@huawei.com, zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When creating new tls client, the tioc->master will be referred, we need unrefer
+When creating new tls client, the tioc->master will be referenced, we need dereferenced
 it after tls handshake.
 
 Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
