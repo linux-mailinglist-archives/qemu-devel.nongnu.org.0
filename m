@@ -2,108 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16D612AF093
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 13:27:31 +0100 (CET)
-Received: from localhost ([::1]:46948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40DBD2AF0A4
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 13:30:00 +0100 (CET)
+Received: from localhost ([::1]:49406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcpDm-0006UC-5l
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 07:27:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33982)
+	id 1kcpGB-0007fY-C8
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 07:29:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mimu@linux.ibm.com>)
- id 1kcpCg-00061Q-00; Wed, 11 Nov 2020 07:26:22 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:1650
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mimu@linux.ibm.com>)
- id 1kcpCd-0003f5-Vs; Wed, 11 Nov 2020 07:26:21 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0ABC2GFv073891; Wed, 11 Nov 2020 07:26:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=reply-to : subject :
- from : to : cc : references : message-id : date : mime-version :
- in-reply-to : content-type : content-transfer-encoding; s=pp1;
- bh=+Xpl/fqb4AC/SDduSQYddy3aP3P1lotRPHutn0NnaaI=;
- b=TWTqRUal9LFgbu/5uHpPX7flObovL9zj4elT5LNCJsjCDGGx/SiBt7C4WEXaihHsm2+R
- fBW0+AU4Pcf4gvU2G7QJZZVgDf+Crmb8LKQYdlSjAmOEk8qUaGpvZiQ079BpzzthM9ls
- 05ELh5vHWO5ZY35b0LKQqVekbqkhszw2/TwgGU5x3LnKzGm7kQsKx0rIsRbdS4W1CoyI
- CLSIf5JhFb6FacQ+opG5PKe8u33OI4QfU9kLQactv1O2WuQxEU1+aOWyotsCBGWCe5i4
- P7DcU4gES9qscL504CjTq4mtYgIaASnQjRqvTiLUuZvLNQ/7+clDWy5B+DX0hasmgFpy xQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 34rf0y9mbm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 11 Nov 2020 07:26:18 -0500
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0ABC2lmw075918;
- Wed, 11 Nov 2020 07:26:17 -0500
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0b-001b2d01.pphosted.com with ESMTP id 34rf0y9mah-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 11 Nov 2020 07:26:17 -0500
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0ABCDq4I010020;
- Wed, 11 Nov 2020 12:26:15 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma01fra.de.ibm.com with ESMTP id 34nk782739-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 11 Nov 2020 12:26:15 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0ABCQCpa9241108
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 11 Nov 2020 12:26:12 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3D5F34C044;
- Wed, 11 Nov 2020 12:26:12 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DD8D44C046;
- Wed, 11 Nov 2020 12:26:11 +0000 (GMT)
-Received: from [9.152.224.120] (unknown [9.152.224.120])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 11 Nov 2020 12:26:11 +0000 (GMT)
-Subject: Re: [PATCH 1/1] virtio-blk-ccw: tweak the default for num_queues
-From: Michael Mueller <mimu@linux.ibm.com>
-To: Halil Pasic <pasic@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>
-References: <20201109154831.20779-1-pasic@linux.ibm.com>
- <20201109170616.6875f610.cohuck@redhat.com>
- <20201109195303.459f6fba.pasic@linux.ibm.com>
- <4a3d24e0-399f-f509-9a5c-c66c57b2d28a@linux.ibm.com>
-Organization: IBM
-Message-ID: <e27547cf-1462-6e0f-c830-dde5a6f8c1f6@linux.ibm.com>
-Date: Wed, 11 Nov 2020 13:26:11 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:68.0)
- Gecko/20100101 Thunderbird/68.12.1
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kcpEm-000746-7a
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 07:28:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53560)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kcpEi-0004RR-A0
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 07:28:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605097706;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Lq/jO6BjYWfzxE9NUJuORHkVwTBAIZubA9qP5Rsy8f8=;
+ b=M+2AH4fb3CZKtFsMo2tJ1oee8k3Hj+A7MKayMGj7hSFvI9lugVShT+HzwRuKqHYs9w8rqe
+ xecdwgVoFkCu/mwpT7FMF2qa98lASjXPoFzLmK1IEKEK5JbEOIT1Y5EPb4sND0QwJzb5IL
+ JGWm+gRKwi5oWjEgfB+PER9Reb7drMs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-360-GaxVI7t1MSeGtsHltrwc-g-1; Wed, 11 Nov 2020 07:28:25 -0500
+X-MC-Unique: GaxVI7t1MSeGtsHltrwc-g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40B1A64160;
+ Wed, 11 Nov 2020 12:28:24 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1E27810023A5;
+ Wed, 11 Nov 2020 12:28:12 +0000 (UTC)
+Date: Wed, 11 Nov 2020 13:28:11 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v2 03/12] x86: add support for second ioapic
+Message-ID: <20201111132811.528570bc@redhat.com>
+In-Reply-To: <20201105133923.23821-4-kraxel@redhat.com>
+References: <20201105133923.23821-1-kraxel@redhat.com>
+ <20201105133923.23821-4-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <4a3d24e0-399f-f509-9a5c-c66c57b2d28a@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
- definitions=2020-11-11_02:2020-11-10,
- 2020-11-11 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 suspectscore=0
- spamscore=0 mlxscore=0 adultscore=0 impostorscore=0 lowpriorityscore=0
- clxscore=1015 priorityscore=1501 mlxlogscore=999 bulkscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011110066
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=mimu@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 07:26:18
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 01:42:46
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -116,77 +81,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: mimu@linux.ibm.com
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu,  5 Nov 2020 14:39:14 +0100
+Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-
-On 10.11.20 15:16, Michael Mueller wrote:
+> Add ioapic_init_secondary to initialize it, wire up
+> in gsi handling and acpi apic table creation.
 > 
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  include/hw/i386/ioapic.h          |  1 +
+>  include/hw/i386/ioapic_internal.h |  2 +-
+>  include/hw/i386/x86.h             |  3 +++
+>  hw/i386/acpi-common.c             | 10 ++++++++++
+>  hw/i386/x86.c                     | 20 ++++++++++++++++++++
+>  5 files changed, 35 insertions(+), 1 deletion(-)
 > 
-> On 09.11.20 19:53, Halil Pasic wrote:
->> On Mon, 9 Nov 2020 17:06:16 +0100
->> Cornelia Huck <cohuck@redhat.com> wrote:
->>
->>>> @@ -20,6 +21,11 @@ static void 
->>>> virtio_ccw_blk_realize(VirtioCcwDevice *ccw_dev, Error **errp)
->>>>   {
->>>>       VirtIOBlkCcw *dev = VIRTIO_BLK_CCW(ccw_dev);
->>>>       DeviceState *vdev = DEVICE(&dev->vdev);
->>>> +    VirtIOBlkConf *conf = &dev->vdev.conf;
->>>> +
->>>> +    if (conf->num_queues == VIRTIO_BLK_AUTO_NUM_QUEUES) {
->>>> +        conf->num_queues = MIN(4, current_machine->smp.cpus);
->>>> +    }
->>>
->>> I would like to have a comment explaining the numbers here, however.
->>>
->>> virtio-pci has a pretty good explanation (use 1:1 for vqs:vcpus if
->>> possible, apply some other capping). 4 seems to be a bit arbitrary
->>> without explanation, although I'm sure you did some measurements :)
->>
->> Frankly, I don't have any measurements yet. For the secure case,
->> I think Mimu has assessed the impact of multiqueue, hence adding Mimu to
->> the cc list. @Mimu can you help us out.
->>
->> Regarding the normal non-protected VMs I'm in a middle of producing some
->> measurement data. This was admittedly a bit rushed because of where we
->> are in the cycle. Sorry to disappoint you.
-> 
-> I'm talking with the perf team tomorrow. They have done some 
-> measurements with multiqueue for PV guests and I asked for a comparison 
-> to non PV guests as well.
+> diff --git a/include/hw/i386/ioapic.h b/include/hw/i386/ioapic.h
+> index 59fcb158a734..1323b4b8ff6e 100644
+> --- a/include/hw/i386/ioapic.h
+> +++ b/include/hw/i386/ioapic.h
+> @@ -22,6 +22,7 @@
+>  
+>  #define IOAPIC_NUM_PINS 24
+>  #define IO_APIC_DEFAULT_ADDRESS 0xfec00000
+> +#define IO_APIC_SECONDARY_ADDRESS (IO_APIC_DEFAULT_ADDRESS + 0x10000)
+>  
+>  #define TYPE_KVM_IOAPIC "kvm-ioapic"
+>  #define TYPE_IOAPIC "ioapic"
+> diff --git a/include/hw/i386/ioapic_internal.h b/include/hw/i386/ioapic_internal.h
+> index 0ac9e2400d6b..4cebd2e32c9f 100644
+> --- a/include/hw/i386/ioapic_internal.h
+> +++ b/include/hw/i386/ioapic_internal.h
+> @@ -27,7 +27,7 @@
+>  #include "qemu/notify.h"
+>  #include "qom/object.h"
+>  
+> -#define MAX_IOAPICS                     1
+> +#define MAX_IOAPICS                     2
+>  
+>  #define IOAPIC_LVT_DEST_SHIFT           56
+>  #define IOAPIC_LVT_DEST_IDX_SHIFT       48
+> diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+> index 739fac50871b..3f9b052cfc34 100644
+> --- a/include/hw/i386/x86.h
+> +++ b/include/hw/i386/x86.h
+> @@ -50,6 +50,7 @@ struct X86MachineState {
+>      ISADevice *rtc;
+>      FWCfgState *fw_cfg;
+>      qemu_irq *gsi;
+> +    DeviceState *ioapic2;
+>      GMappedFile *initrd_mapped_file;
+>      HotplugHandler *acpi_dev;
+>  
+> @@ -120,10 +121,12 @@ bool x86_machine_is_acpi_enabled(const X86MachineState *x86ms);
+>  typedef struct GSIState {
+>      qemu_irq i8259_irq[ISA_NUM_IRQS];
+>      qemu_irq ioapic_irq[IOAPIC_NUM_PINS];
+> +    qemu_irq ioapic2_irq[IOAPIC_NUM_PINS];
+>  } GSIState;
+>  
+>  qemu_irq x86_allocate_cpu_irq(void);
+>  void gsi_handler(void *opaque, int n, int level);
+>  void ioapic_init_gsi(GSIState *gsi_state, const char *parent_name);
+> +DeviceState *ioapic_init_secondary(GSIState *gsi_state);
+>  
+>  #endif
+> diff --git a/hw/i386/acpi-common.c b/hw/i386/acpi-common.c
+> index 8a769654060e..91970837bb68 100644
+> --- a/hw/i386/acpi-common.c
+> +++ b/hw/i386/acpi-common.c
+> @@ -103,6 +103,16 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
+>      io_apic->address = cpu_to_le32(IO_APIC_DEFAULT_ADDRESS);
+>      io_apic->interrupt = cpu_to_le32(0);
+>  
+> +    if (x86ms->ioapic2) {
+> +        AcpiMadtIoApic *io_apic2;
+> +        io_apic2 = acpi_data_push(table_data, sizeof *io_apic);
+> +        io_apic2->type = ACPI_APIC_IO;
+> +        io_apic2->length = sizeof(*io_apic);
+> +        io_apic2->io_apic_id = ACPI_BUILD_IOAPIC_ID + 1;
+> +        io_apic2->address = cpu_to_le32(IO_APIC_SECONDARY_ADDRESS);
+> +        io_apic2->interrupt = cpu_to_le32(24);
+                                             ^^
+it's no obvious where this magic number comes from.
 
-The perf team has performed measurements for us that show that a *PV
-KVM guest* benefits in terms of throughput for random read, random write
-and sequential read (no difference for sequential write) by a multi
-queue setup. CPU cost are reduced as well due to reduced spinlock
-contention.
+PS:
+maybe add for it a more descriptive macro 
 
-For a *standard KVM guest* it currently has no throughput effect. No
-benefit and no harm. I have asked them to finalize their measurements
-by comparing the CPU cost as well. I will receive that information on 
-Friday.
-
-Michael
-
-
-> 
-> Michael
-> 
->>
->> The number 4 was suggested by Christian, maybe Christian does have some
->> readily available measurement data for the normal VM case. @Christian:
->> can you help me out?
->>
->> Regards,
->> Halil
->>
-> 
-
+> +    }
+> +
+>      if (x86ms->apic_xrupt_override) {
+>          intsrcovr = acpi_data_push(table_data, sizeof *intsrcovr);
+>          intsrcovr->type   = ACPI_APIC_XRUPT_OVERRIDE;
+> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+> index b67e7b789f89..628118e8b410 100644
+> --- a/hw/i386/x86.c
+> +++ b/hw/i386/x86.c
+> @@ -598,6 +598,9 @@ void gsi_handler(void *opaque, int n, int level)
+>      case ISA_NUM_IRQS ... IOAPIC_NUM_PINS - 1:
+>          qemu_set_irq(s->ioapic_irq[n], level);
+>          break;
+> +    case IOAPIC_NUM_PINS ... IOAPIC_NUM_PINS * 2 - 1:
+> +        qemu_set_irq(s->ioapic2_irq[n - IOAPIC_NUM_PINS], level);
+> +        break;
+>      }
+>  }
+>  
+> @@ -624,6 +627,23 @@ void ioapic_init_gsi(GSIState *gsi_state, const char *parent_name)
+>      }
+>  }
+>  
+> +DeviceState *ioapic_init_secondary(GSIState *gsi_state)
+> +{
+> +    DeviceState *dev;
+> +    SysBusDevice *d;
+> +    unsigned int i;
+> +
+> +    dev = qdev_new(TYPE_IOAPIC);
+> +    d = SYS_BUS_DEVICE(dev);
+> +    sysbus_realize_and_unref(d, &error_fatal);
+> +    sysbus_mmio_map(d, 0, IO_APIC_SECONDARY_ADDRESS);
+> +
+> +    for (i = 0; i < IOAPIC_NUM_PINS; i++) {
+> +        gsi_state->ioapic2_irq[i] = qdev_get_gpio_in(dev, i);
+> +    }
+> +    return dev;
+> +}
+> +
+>  struct setup_data {
+>      uint64_t next;
+>      uint32_t type;
 
 
