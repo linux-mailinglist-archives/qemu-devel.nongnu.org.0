@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA66D2AF374
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 15:24:35 +0100 (CET)
-Received: from localhost ([::1]:36480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7A712AF376
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 15:24:39 +0100 (CET)
+Received: from localhost ([::1]:36894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcr34-0005nV-RQ
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 09:24:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34450)
+	id 1kcr38-0005xb-VJ
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 09:24:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kcr1W-0004Jg-4c; Wed, 11 Nov 2020 09:22:58 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2522)
+ id 1kcr1V-0004J0-Nq; Wed, 11 Nov 2020 09:22:57 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2521)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kcr1J-0000cK-CM; Wed, 11 Nov 2020 09:22:57 -0500
+ id 1kcr1K-0000cI-VY; Wed, 11 Nov 2020 09:22:57 -0500
 Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CWRl849jDzhjsj;
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CWRl84MRGzhk1P;
  Wed, 11 Nov 2020 22:22:28 +0800 (CST)
 Received: from huawei.com (10.175.104.175) by DGGEMS411-HUB.china.huawei.com
  (10.3.19.211) with Microsoft SMTP Server id 14.3.487.0; Wed, 11 Nov 2020
- 22:22:27 +0800
+ 22:22:28 +0800
 From: Chen Qun <kuhn.chenqun@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH v2 3/5] util/qemu-timer: fix uninitialized variable warning
- for expire_time
-Date: Wed, 11 Nov 2020 22:22:01 +0800
-Message-ID: <20201111142203.2359370-4-kuhn.chenqun@huawei.com>
+Subject: [PATCH v2 4/5] plugins/loader: fix uninitialized variable warning in
+ plugin_reset_uninstall()
+Date: Wed, 11 Nov 2020 22:22:02 +0800
+Message-ID: <20201111142203.2359370-5-kuhn.chenqun@huawei.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20201111142203.2359370-1-kuhn.chenqun@huawei.com>
 References: <20201111142203.2359370-1-kuhn.chenqun@huawei.com>
@@ -60,8 +60,9 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org, zhang.zhanghailiang@huawei.com,
- Chen Qun <kuhn.chenqun@huawei.com>, ganqixin@huawei.com,
- Euler Robot <euler.robot@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
+ ganqixin@huawei.com, Euler Robot <euler.robot@huawei.com>,
+ Chen Qun <kuhn.chenqun@huawei.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -70,47 +71,34 @@ After the WITH_QEMU_LOCK_GUARD macro is added, the compiler cannot identify
  assignment statements in the macro may be considered as unexecuted by the compiler.
 
 When the -Wmaybe-uninitialized capability is enabled on GCC9,the compiler showed warning:
-util/qemu-timer.c: In function ‘timerlist_expired’:
-util/qemu-timer.c:199:24: warning: ‘expire_time’ may be used uninitialized in this function [-Wmaybe-uninitialized]
- 199 |     return expire_time <= qemu_clock_get_ns(timer_list->clock->type);
-     |            ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-util/qemu-timer.c: In function ‘timerlist_deadline_ns’:
-util/qemu-timer.c:237:11: warning: ‘expire_time’ may be used uninitialized in this function [-Wmaybe-uninitialized]
- 237 |     delta = expire_time - qemu_clock_get_ns(timer_list->clock->type);
-     |     ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+plugins/loader.c: In function ‘plugin_reset_uninstall’:
+plugins/loader.c:382:15: warning: ‘ctx’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+ 382 |     data->ctx = ctx;
+     |     ~~~~~~~~~~^~~~~
 
 Add a default value for 'expire_time' to prevented the warning.
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
 ---
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Alex Bennée" <alex.bennee@linaro.org>
 ---
- util/qemu-timer.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ plugins/loader.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/util/qemu-timer.c b/util/qemu-timer.c
-index 8b73882fbb..3910003e86 100644
---- a/util/qemu-timer.c
-+++ b/util/qemu-timer.c
-@@ -183,7 +183,7 @@ bool qemu_clock_has_timers(QEMUClockType type)
- 
- bool timerlist_expired(QEMUTimerList *timer_list)
+diff --git a/plugins/loader.c b/plugins/loader.c
+index 8ac5dbc20f..88593fe138 100644
+--- a/plugins/loader.c
++++ b/plugins/loader.c
+@@ -367,7 +367,7 @@ void plugin_reset_uninstall(qemu_plugin_id_t id,
+                             bool reset)
  {
--    int64_t expire_time;
-+    int64_t expire_time = -1;
+     struct qemu_plugin_reset_data *data;
+-    struct qemu_plugin_ctx *ctx;
++    struct qemu_plugin_ctx *ctx = NULL;
  
-     if (!qatomic_read(&timer_list->active_timers)) {
-         return false;
-@@ -213,7 +213,7 @@ bool qemu_clock_expired(QEMUClockType type)
- int64_t timerlist_deadline_ns(QEMUTimerList *timer_list)
- {
-     int64_t delta;
--    int64_t expire_time;
-+    int64_t expire_time = -1;
- 
-     if (!qatomic_read(&timer_list->active_timers)) {
-         return -1;
+     WITH_QEMU_LOCK_GUARD(&plugin.lock) {
+         ctx = plugin_id_to_ctx_locked(id);
 -- 
 2.27.0
 
