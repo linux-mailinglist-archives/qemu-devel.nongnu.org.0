@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EFC52AFAD1
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 22:53:15 +0100 (CET)
-Received: from localhost ([::1]:45498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E4D32AFB24
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 23:12:49 +0100 (CET)
+Received: from localhost ([::1]:51550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcy3G-0006MH-HB
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 16:53:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45550)
+	id 1kcyMB-0001jI-M6
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 17:12:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kcy21-0005Q8-DT
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 16:51:57 -0500
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:33783)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kcyL3-0001Eo-95; Wed, 11 Nov 2020 17:11:37 -0500
+Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:38555)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kcy1y-0007Mi-9E
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 16:51:56 -0500
-Received: by mail-ed1-x535.google.com with SMTP id v4so3946992edi.0
- for <qemu-devel@nongnu.org>; Wed, 11 Nov 2020 13:51:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kcyL1-0001P4-LE; Wed, 11 Nov 2020 17:11:36 -0500
+Received: by mail-il1-x141.google.com with SMTP id e17so3428092ili.5;
+ Wed, 11 Nov 2020 14:11:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Te+Jwr72KghlTsTZtNiJqNS/nNsRSdUlSnHbgOsSYH4=;
- b=qnJRVpQTvZVwzc0f0xz8dc6gaNpnSe5kc/TW+U1csF0DODTDtnQAx/eWqM0Z1mleub
- zPBlQN+57kBmKI/2VtBVHrcmvgG5joa1Buh4Eg41tOfjFVwLquZCandLmD4dQssfBBR9
- qgVJtKB9ZweMwKRtwWl+6ELLgI6nseoZ269IKyKk5AFDi2b9xptJmVrWuEmXvrAwVANE
- 2SLUqY2z2gwmeY6b5FI0tNVE/LowUGDaMVqmRU+swQrH+5lFPII6pZGvcz8/PfkQR4Jd
- oFY4LD5NF/PVuB93Q2SayaBfjtL+L4u6hWRh5Uv/EQAgBT+dxXF4OPsXFfWyeEcmGLpK
- xaqw==
+ :cc; bh=gGDYP+RYFax2sfAvw9/5IW7EYqfp4/mdCt2UhiKYeR4=;
+ b=OJpgqnn1S/KFrTJTmDId3y800oSsxwq7TRyzB1r1auGv3ydElI0XcOeDlWI8MbL7mD
+ ys25bWlRXjWliYQ0pGtzxYjpY50nh7Pvi0eiGCion1sPBaLgyR5+4rwf7zpZUYeAxXee
+ sYThYNDw1rryGiZrgWdVWphFX/ItXqrIex1RfhAzIkZHBeNX/+jLv1oRPPu/WjsWyPjy
+ NbSOCiRDF+1BsfB7CSD2aODBRFSNau8bX15Gp/8DYLXeDMiZbOHH+k+9QB3O2N/5fVHW
+ +9yUNOSav2oUICRVExftkszCodojiqNU367fqRrRBvISYKVVmgtPJHCja5EKkUwExYr2
+ UZTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Te+Jwr72KghlTsTZtNiJqNS/nNsRSdUlSnHbgOsSYH4=;
- b=pYVSpVk8x/12jsIrWsE5PncpeEWbm2bu69QXcStNmCBSIDu4TJjd8wkifKKdviTJ9G
- XhBF3CzGStbBk/z9VR364mqvpQBWPsbW/jbD0Xgx5PjqXCo64r5saSchKZK7zzG4SeE9
- oSdjscbdOUdd9F5unlihBMqsNbjycACrwuH6Ft4J+3EWeTTf7NAP1pdifAY0DNllHMnp
- lP86tc7H/6KGXXxc+rP4vXapdp3nYHkdF0fJXTFCd+O15xRxJ2jD0DGOwCSvxlzS0Ow+
- A3ctsvZbjIQ0dl2YUDE/+FjT8iN/MY/fFdYmEteryLyAUoneaSUjaiZp29r9e0Jlg7kE
- Tvug==
-X-Gm-Message-State: AOAM530a+KUPeL/zyX1w1T0tP0abphQLyzU3hUMLvlzbhHVb3Xorgenb
- LjrfbR7aXvPPYzkMDH7Xo4W5qqjK5sxO4yVUiZTJMw==
-X-Google-Smtp-Source: ABdhPJz2RJnnI2HWMPMz7BS76T3Oow0v2JTh1Ds8LCF5+7YMHC1s4ShQ0aHS2MDNCK5+TO9w+FjTMr56xS+uUM70lg4=
-X-Received: by 2002:aa7:db8a:: with SMTP id u10mr1804608edt.204.1605131512209; 
- Wed, 11 Nov 2020 13:51:52 -0800 (PST)
+ bh=gGDYP+RYFax2sfAvw9/5IW7EYqfp4/mdCt2UhiKYeR4=;
+ b=m/vS//abhNz1zD5uHeIoPxXf59jpxWqNlZAo3qfxmxLtthboKez4STSnDGd5ganyct
+ n+j8z/vXZMywTNv5Hw34TI9fhTwkQkuEg6jXFkVLC7166BFK6KqbtDk4yzCV1up/Ybtm
+ do70oDhdSd+/5ORjnQ148ESzkyolg3L1yPl/UmaywgOuUjAxMRXiYatseC17OqavPJdc
+ Lh9OwNWCCCOebwKyZijbrAXdHCOXFuSZUIJlJXPje4l4UvPdPBGcxpXeSx9FlaD/W9rh
+ jMQlls5H/pKRjjhjo6ocmNlgFlHzgO3c9L0rujOWNha1lccPXLPn6N1RqveyeFh5TRmS
+ 5nFw==
+X-Gm-Message-State: AOAM53029WoRihXolJW1JuRB2Dv8gd3ytBavaFZl7V1kxmAbbbMZXA76
+ xGNT2ejc3IpMDbH9nP3svkT2GaCOCqQg3isAyoA=
+X-Google-Smtp-Source: ABdhPJwWi+1jC+a4S/uhV+Oye4iTePJmFWPSsfe/2JU2+I3SdkNZMl5UPRBXMMWLK7GoysW9+oBKKPKld0c9OX6Ojjg=
+X-Received: by 2002:a05:6e02:1094:: with SMTP id
+ r20mr4535037ilj.40.1605132694249; 
+ Wed, 11 Nov 2020 14:11:34 -0800 (PST)
 MIME-Version: 1.0
-References: <20201111155654.1430860-1-stefanha@redhat.com>
-In-Reply-To: <20201111155654.1430860-1-stefanha@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 11 Nov 2020 21:51:40 +0000
-Message-ID: <CAFEAcA_c1p-=LjnZ405SG0rqpzAyJXpmkdr3b48Fy4DN3oqs5w@mail.gmail.com>
-Subject: Re: [PULL for-5.2 0/2] Tracing patches
-To: Stefan Hajnoczi <stefanha@redhat.com>
+References: <20201111094725.3768755-1-anup.patel@wdc.com>
+In-Reply-To: <20201111094725.3768755-1-anup.patel@wdc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 11 Nov 2020 13:59:30 -0800
+Message-ID: <CAKmqyKMTFpptBQpR86w4GLEwNMUoqaJAHip+-Abs81KkM-H0jw@mail.gmail.com>
+Subject: Re: [PATCH] hw/riscv: sifive_u: Add UART1 DT node in the generated DTB
+To: Anup Patel <anup.patel@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x141.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,33 +78,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 11 Nov 2020 at 15:57, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+On Wed, Nov 11, 2020 at 1:48 AM Anup Patel <anup.patel@wdc.com> wrote:
 >
-> The following changes since commit c6f28ed5075df79fef39c500362a3f4089256c9c:
+> The sifive_u machine emulates two UARTs but we have only UART0 DT
+> node in the generated DTB so this patch adds UART1 DT node in the
+> generated DTB.
 >
->   Update version for v5.2.0-rc1 release (2020-11-10 22:29:57 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/stefanha/qemu.git tags/tracing-pull-request
->
-> for you to fetch changes up to 35e28cb0f210cae3d9c98113d519fe5a4bef5866:
->
->   scripts/tracetool: silence SystemTap dtrace(1) long long warnings (2020-11-11 13:10:38 +0000)
->
-> ----------------------------------------------------------------
-> Tracing pull request
->
+> Signed-off-by: Anup Patel <anup.patel@wdc.com>
 
+Thanks!
 
-Applied, thanks.
+Applied to riscv-to-apply.next
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
+Alistair
 
--- PMM
+> ---
+>  hw/riscv/sifive_u.c | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+>
+> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+> index 2f19a9cda2..146944a293 100644
+> --- a/hw/riscv/sifive_u.c
+> +++ b/hw/riscv/sifive_u.c
+> @@ -387,6 +387,21 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+>      qemu_fdt_setprop_cell(fdt, nodename, "reg", 0x0);
+>      g_free(nodename);
+>
+> +    nodename = g_strdup_printf("/soc/serial@%lx",
+> +        (long)memmap[SIFIVE_U_DEV_UART1].base);
+> +    qemu_fdt_add_subnode(fdt, nodename);
+> +    qemu_fdt_setprop_string(fdt, nodename, "compatible", "sifive,uart0");
+> +    qemu_fdt_setprop_cells(fdt, nodename, "reg",
+> +        0x0, memmap[SIFIVE_U_DEV_UART1].base,
+> +        0x0, memmap[SIFIVE_U_DEV_UART1].size);
+> +    qemu_fdt_setprop_cells(fdt, nodename, "clocks",
+> +        prci_phandle, PRCI_CLK_TLCLK);
+> +    qemu_fdt_setprop_cell(fdt, nodename, "interrupt-parent", plic_phandle);
+> +    qemu_fdt_setprop_cell(fdt, nodename, "interrupts", SIFIVE_U_UART1_IRQ);
+> +
+> +    qemu_fdt_setprop_string(fdt, "/aliases", "serial1", nodename);
+> +    g_free(nodename);
+> +
+>      nodename = g_strdup_printf("/soc/serial@%lx",
+>          (long)memmap[SIFIVE_U_DEV_UART0].base);
+>      qemu_fdt_add_subnode(fdt, nodename);
+> --
+> 2.25.1
+>
+>
 
