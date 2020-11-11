@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 735422AF855
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 19:41:31 +0100 (CET)
-Received: from localhost ([::1]:32780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFA0B2AF88D
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 19:50:32 +0100 (CET)
+Received: from localhost ([::1]:59852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcv3f-0001SS-0f
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 13:41:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44506)
+	id 1kcvCR-0004RT-R3
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 13:50:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kcv0r-00007f-3M
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 13:38:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48362)
+ id 1kcv2O-0000xj-GO
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 13:40:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32807)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kcv0o-0007tc-PM
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 13:38:32 -0500
+ id 1kcv2L-0008QJ-0f
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 13:40:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605119908;
+ s=mimecast20190719; t=1605120004;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=BWP1z0zZdyz2OW0tFR8YxbeogZ96/ppob0q/HhuqH2k=;
- b=gV0Pbc/x2oYWTTUrgpFRNbZ/ZkNFuE+zI5ha/8ApYOeF4tZyMLYAdDn4p59gZ6RjK82cWt
- /IG6ScPQNElo5U2Ccc41bk6IFzvR8i1HosYZqzZFzDXlmPsxtzIqISCn9uW84938VVHjCf
- pnEIo7yejpA5dPlli/71NFslrS3MC/I=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=si64ReTKrg/sjpMGmS8m+eTbdwuwB+8fMpCEA5/ywY0=;
+ b=VJdBNuaFksla9oaJeB4z0xakjf5VU0NAgQLI8XzmdhvRwEgXhkRUUHwJ3XbIHyakPiLxJr
+ 8E4t3wz8NreUkdPDFP4Gu7lAld7FhixJ2R82GeJk0LMW5dHkZFdhZgOwY2MW83wcN9EjTj
+ PFdk7cIq8miHHVDsmBWktam/zF9xSf8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-455-eVxXrkKWPF6xz3-VGWAbSg-1; Wed, 11 Nov 2020 13:38:26 -0500
-X-MC-Unique: eVxXrkKWPF6xz3-VGWAbSg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-567-vP25d-rpNrKVzLNT8Xy7Rg-1; Wed, 11 Nov 2020 13:38:28 -0500
+X-MC-Unique: vP25d-rpNrKVzLNT8Xy7Rg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C00441006C85
- for <qemu-devel@nongnu.org>; Wed, 11 Nov 2020 18:38:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 174D51006C84;
+ Wed, 11 Nov 2020 18:38:27 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8919B60CD0;
- Wed, 11 Nov 2020 18:38:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BB91F27BD1;
+ Wed, 11 Nov 2020 18:38:26 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 00/12] qom: Convert some properties to class properties
-Date: Wed, 11 Nov 2020 13:38:11 -0500
-Message-Id: <20201111183823.283752-1-ehabkost@redhat.com>
+Subject: [PATCH v2 01/12] vexpress: Register "secure" as class property
+Date: Wed, 11 Nov 2020 13:38:12 -0500
+Message-Id: <20201111183823.283752-2-ehabkost@redhat.com>
+In-Reply-To: <20201111183823.283752-1-ehabkost@redhat.com>
+References: <20201111183823.283752-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 01:49:01
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 01:42:46
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,54 +80,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
+ qemu-arm@nongnu.org, "Daniel P. Berrange" <berrange@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Class properties make QOM introspection simpler and easier, as it=0D
-doesn't require an object to be instantiated.  This series=0D
-converts a few existing object_property_add*() calls to register=0D
-class properties instead.=0D
-=0D
-Changes v1 -> v2:=0D
-* Bug fix at "i386: Register feature bit properties as class properties"=0D
-* Included patches that were originally submnitted as part of=0D
-  "qom: Make all -object types use only class properties"=0D
-* All other patches are unchanged from v1=0D
-=0D
-Eduardo Habkost (12):=0D
-  vexpress: Register "secure" as class property=0D
-  vexpress-a15: Register "virtualization" as class property=0D
-  tmp421: Register properties as class properties=0D
-  i386: Register feature bit properties as class properties=0D
-  arm/virt: Register most properties as class properties=0D
-  virt: Register "its" as class property=0D
-  arm/cpu64: Register "aarch64" as class property=0D
-  can_host: Use class properties=0D
-  colo: Use class properties=0D
-  netfilter: Reorder functions=0D
-  netfilter: Use class properties=0D
-  input: Use class properties=0D
-=0D
- hw/arm/vexpress.c     | 25 ++++++------=0D
- hw/arm/virt.c         | 88 +++++++++++++++++++++++--------------------=0D
- hw/misc/tmp421.c      | 30 +++++++--------=0D
- net/can/can_host.c    | 16 +++-----=0D
- net/colo-compare.c    | 57 ++++++++++++++--------------=0D
- net/dump.c            | 10 ++---=0D
- net/filter-buffer.c   | 26 ++++++-------=0D
- net/filter-mirror.c   | 64 +++++++++++++++----------------=0D
- net/filter-rewriter.c |  7 ++--=0D
- net/filter.c          | 24 ++++++------=0D
- target/arm/cpu64.c    | 16 +++-----=0D
- target/i386/cpu.c     | 40 ++++++++------------=0D
- ui/input-barrier.c    | 22 +++++++++++=0D
- ui/input-linux.c      | 14 +++++++=0D
- 14 files changed, 231 insertions(+), 208 deletions(-)=0D
-=0D
---=20=0D
-2.28.0=0D
-=0D
+Class properties make QOM introspection simpler and easier, as
+they don't require an object to be instantiated.
+
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+---
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org
+---
+ hw/arm/vexpress.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/hw/arm/vexpress.c b/hw/arm/vexpress.c
+index 531f3a122a..da25ce3b2c 100644
+--- a/hw/arm/vexpress.c
++++ b/hw/arm/vexpress.c
+@@ -755,11 +755,6 @@ static void vexpress_instance_init(Object *obj)
+ 
+     /* EL3 is enabled by default on vexpress */
+     vms->secure = true;
+-    object_property_add_bool(obj, "secure", vexpress_get_secure,
+-                             vexpress_set_secure);
+-    object_property_set_description(obj, "secure",
+-                                    "Set on/off to enable/disable the ARM "
+-                                    "Security Extensions (TrustZone)");
+ }
+ 
+ static void vexpress_a15_instance_init(Object *obj)
+@@ -796,6 +791,12 @@ static void vexpress_class_init(ObjectClass *oc, void *data)
+     mc->max_cpus = 4;
+     mc->ignore_memory_transaction_failures = true;
+     mc->default_ram_id = "vexpress.highmem";
++
++    object_class_property_add_bool(oc, "secure", vexpress_get_secure,
++                                   vexpress_set_secure);
++    object_class_property_set_description(oc, "secure",
++                                          "Set on/off to enable/disable the ARM "
++                                          "Security Extensions (TrustZone)");
+ }
+ 
+ static void vexpress_a9_class_init(ObjectClass *oc, void *data)
+-- 
+2.28.0
 
 
