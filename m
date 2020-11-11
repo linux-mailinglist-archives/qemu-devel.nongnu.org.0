@@ -2,85 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB49D2AF98A
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 21:09:56 +0100 (CET)
-Received: from localhost ([::1]:54882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71AE32AFA9A
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 22:39:21 +0100 (CET)
+Received: from localhost ([::1]:58018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcwRH-0002EC-SI
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 15:09:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41056)
+	id 1kcxpo-0007Cs-0S
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 16:39:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kcwMi-00060j-HA
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 15:05:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56177)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kcwMg-0000Zy-EQ
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 15:05:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605125109;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=F0+qFZ766NjA8E3qdHBXnLN9d2nVuPkJMJcrvQu9PhY=;
- b=Vt7TZwn7CZ7CSDrDKKocB9YTxvi6ydBsqFFMY1FByF8NhW4wZnzCkoScHhVP3LJaTruahw
- eEoYrYFvv58o5t9P+hv/FFK6JKMBM+ykIo/HUz7jZBxKOaPIkbRft/Cs1WeaWu9DxC6oOi
- zMsuP+0h7w1+AXvUpRuCtdZEJsPriq0=
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
- [209.85.215.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-550-T-9P_eeSPVW6rwWvxsJ1Iw-1; Wed, 11 Nov 2020 15:05:07 -0500
-X-MC-Unique: T-9P_eeSPVW6rwWvxsJ1Iw-1
-Received: by mail-pg1-f199.google.com with SMTP id z130so1901261pgz.19
- for <qemu-devel@nongnu.org>; Wed, 11 Nov 2020 12:05:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=F0+qFZ766NjA8E3qdHBXnLN9d2nVuPkJMJcrvQu9PhY=;
- b=J6DOzPNAsfnPn+4sANoc6Ey33nz5J4rydMmGysWQyyq//awLmMza/O7BMEZdqt149d
- +OZ6jPTrOu+1z69ZUkrQvUtF47c1m/TTPJDBj+dP/LXAe2MXmwF3/5qKmQpXSLe2HyGl
- 6fXIM66/7TbGlXpyvuFMCIlkJ7EVoZyhW9oLYOGVFSMCWSFvq6KBobTKwGtkM+/FOhNo
- C00BnGnrkK8ozI7Uj5iqIFoGWsLTDzlUxjUaPDjXKYE9hhCB/42B7+P3hknG37kkHmPb
- E4eJ0Vep0nQVusGPCzZQdfWc3fq+APrWECplQMxZ7IPWWAj9QG67f7nusgeM4UhuSltu
- N43A==
-X-Gm-Message-State: AOAM533mllW8OaPVdRqm9XYAtazCFeWF4muWjImCEMm4LZtBV5bVuk9M
- ddC5qihhHd8JlHEI9JWwjkil9Fplg+G1uoLZPxLi+hMdWc0w9Tb2EP2KshPKcxJHnt/m0AHnQyj
- LiyBYqCrw+sFRoT4Ywi2lcRZi2JA/Ps4=
-X-Received: by 2002:a65:6086:: with SMTP id t6mr23063019pgu.146.1605125105976; 
- Wed, 11 Nov 2020 12:05:05 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwInKVXdJDoB2fvbU+XJ88B1bRLqo62eGRWJOVA4S5q9XmoiGyAQYE86/WS1lNYRMZKNs4a8IAi8AoDbTTeffY=
-X-Received: by 2002:a65:6086:: with SMTP id t6mr23063002pgu.146.1605125105673; 
- Wed, 11 Nov 2020 12:05:05 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kcxnt-0005xY-8q
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 16:37:21 -0500
+Received: from mout.kundenserver.de ([212.227.126.187]:56527)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kcxnq-0005ZM-Tz
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 16:37:20 -0500
+Received: from [192.168.100.1] ([82.252.148.166]) by mrelayeu.kundenserver.de
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1M7JvQ-1ke2fV2XNM-007ivn; Wed, 11 Nov 2020 22:37:13 +0100
+Subject: Re: [PATCH v2] linux-user: Correct definition of stack_t
+To: LemonBoy <thatlemon@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>
+References: <e9d47692-ee92-009f-6007-0abc3f502b97@gmail.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <6e899211-b944-f492-94c2-0a21ed10f174@vivier.eu>
+Date: Wed, 11 Nov 2020 22:37:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-References: <20201027182144.3315885-1-pbonzini@redhat.com>
- <20201027182144.3315885-12-pbonzini@redhat.com>
- <20201111205715.2058792e@redhat.com>
-In-Reply-To: <20201111205715.2058792e@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Wed, 11 Nov 2020 21:04:53 +0100
-Message-ID: <CABgObfajgDhspSzbuuwhKT=2UZ-SsJS5Py0qrwQvagTKbZoHFw@mail.gmail.com>
-Subject: Re: [PATCH 11/29] vl: extract various command line desugaring
- snippets to a new function
-To: Igor Mammedov <imammedo@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000be87e505b3da4f26"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 01:42:46
+In-Reply-To: <e9d47692-ee92-009f-6007-0abc3f502b97@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:UI78/zPHqzrOrvzCPHRdR2SmOlY1YWRkPTsP3gpdH1HECFHPKt8
+ zNzlKph2QA7r6s+Y8AR0Q5x4o5SPPGI3+z4/YXYnj0tpEFW2eXrm5bDnP6sz5G2p2jNe5Fr
+ f7UImVAXKi+PbDO5GVSzfI2Q/B9+u53hApD8et5/fxuHVIF2tS0cZZzi7vcwErvjhknVNVM
+ Q00acVsBDQjIBqVMv/bqg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:9zbnF90AEfQ=:kVryxgV+rUA3f/KviCacTX
+ NozS2+wqKWfx63Ynu4GnXmzKv6IkAFPNR609WKvmpz9R8PCnoFRF4gEyrOVaHO+pT81tihxIU
+ nzeeXrngZe61RAfHnGK1ds4OsZXXOeSoMNsaw1drFxJAmJfNfK5RmA5h1qJZn3qTpxwDLxL3s
+ mmR1fvkANb6maMi5RwZTG4huuyLl1hf9Ql+olIBDlpP8+klsqpS1HMcIslRLRHsL+mqrZcbA/
+ WrZBD+AAvroqQ8WjBY4qVFFMQSGA9t2cy0jObY1V1KxyGfqoA2ttKD8+TMJXd6GNcliZ/zInp
+ X+Wk3PotXEZalWmPluS1g1GOjEx/ax9cDVTAXATaIv9oJDGrc29KD+5zBGyYHmaiL8M13SJSW
+ G6f95zzlg1IOtgKqsKv3vOh3XmxgW8vPan7ZZb8Dz81K/NtpSqQ9BEEeSXJPD39terDegEYgC
+ rjZvKiNxnw==
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 16:37:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,142 +67,301 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000be87e505b3da4f26
-Content-Type: text/plain; charset="UTF-8"
+Le 05/11/2020 à 16:52, LemonBoy a écrit :
+> Some platforms used the wrong definition of stack_t where the flags and
+> size fields were swapped or where the flags field had type ulong instead
+> of int.
+> 
+> Due to the presence of padding space in the structure and the prevalence
+> of little-endian machines this problem went unnoticed for a long time.
+> 
+> The type definitions have been cross-checked with the ones defined in
+> the Linux kernel v5.9, plus some older versions for a few architecture
+> that have been removed and Xilinx's kernel fork for NiosII [1].
+> 
+> The bsd-user headers remain unchanged as I don't know if they are wrong
+> or not.
+> 
+> [1] https://github.com/Xilinx/linux-xlnx/blob/master/arch/nios2/include/uapi/asm/signal.h
+> 
+> Signed-off-by: Giuseppe Musacchio <thatlemon@gmail.com>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  linux-user/alpha/target_signal.h      | 3 +--
+>  linux-user/arm/target_signal.h        | 6 +++---
+>  linux-user/cris/target_signal.h       | 6 +++---
+>  linux-user/hppa/target_signal.h       | 2 +-
+>  linux-user/i386/target_signal.h       | 6 +++---
+>  linux-user/m68k/target_signal.h       | 6 +++---
+>  linux-user/microblaze/target_signal.h | 6 +++---
+>  linux-user/mips/target_signal.h       | 6 +++---
+>  linux-user/mips64/target_signal.h     | 7 +++----
+>  linux-user/nios2/target_signal.h      | 5 +++--
+>  linux-user/ppc/target_signal.h        | 6 +++---
+>  linux-user/s390x/target_signal.h      | 2 +-
+>  linux-user/sh4/target_signal.h        | 6 +++---
+>  linux-user/sparc/target_signal.h      | 6 +++---
+>  linux-user/x86_64/target_signal.h     | 6 +++---
+>  15 files changed, 39 insertions(+), 40 deletions(-)
+> 
+> diff --git a/linux-user/alpha/target_signal.h b/linux-user/alpha/target_signal.h
+> index cd63d59fde..b83797281c 100644
+> --- a/linux-user/alpha/target_signal.h
+> +++ b/linux-user/alpha/target_signal.h
+> @@ -42,8 +42,7 @@
+>  
+>  typedef struct target_sigaltstack {
+>      abi_ulong ss_sp;
+> -    int32_t ss_flags;
+> -    int32_t dummy;
+> +    abi_int ss_flags;
+>      abi_ulong ss_size;
+>  } target_stack_t;
+>  
+> diff --git a/linux-user/arm/target_signal.h b/linux-user/arm/target_signal.h
+> index ea123c40f3..0998dd6dfa 100644
+> --- a/linux-user/arm/target_signal.h
+> +++ b/linux-user/arm/target_signal.h
+> @@ -4,9 +4,9 @@
+>  /* this struct defines a stack used during syscall handling */
+>  
+>  typedef struct target_sigaltstack {
+> -	abi_ulong ss_sp;
+> -	abi_long ss_flags;
+> -	abi_ulong ss_size;
+> +    abi_ulong ss_sp;
+> +    abi_int ss_flags;
+> +    abi_ulong ss_size;
+>  } target_stack_t;
+>  
+>  
+> diff --git a/linux-user/cris/target_signal.h b/linux-user/cris/target_signal.h
+> index 1cb5548f85..495a142896 100644
+> --- a/linux-user/cris/target_signal.h
+> +++ b/linux-user/cris/target_signal.h
+> @@ -4,9 +4,9 @@
+>  /* this struct defines a stack used during syscall handling */
+>  
+>  typedef struct target_sigaltstack {
+> -	abi_ulong ss_sp;
+> -	abi_ulong ss_size;
+> -	abi_long ss_flags;
+> +    abi_ulong ss_sp;
+> +    abi_int ss_flags;
+> +    abi_ulong ss_size;
+>  } target_stack_t;
+>  
+>  
+> diff --git a/linux-user/hppa/target_signal.h b/linux-user/hppa/target_signal.h
+> index c2a0102ed7..c52a3ea579 100644
+> --- a/linux-user/hppa/target_signal.h
+> +++ b/linux-user/hppa/target_signal.h
+> @@ -44,7 +44,7 @@
+>  
+>  typedef struct target_sigaltstack {
+>      abi_ulong ss_sp;
+> -    int32_t ss_flags;
+> +    abi_int ss_flags;
+>      abi_ulong ss_size;
+>  } target_stack_t;
+>  
+> diff --git a/linux-user/i386/target_signal.h b/linux-user/i386/target_signal.h
+> index f55e78fd33..50361af874 100644
+> --- a/linux-user/i386/target_signal.h
+> +++ b/linux-user/i386/target_signal.h
+> @@ -4,9 +4,9 @@
+>  /* this struct defines a stack used during syscall handling */
+>  
+>  typedef struct target_sigaltstack {
+> -	abi_ulong ss_sp;
+> -	abi_long ss_flags;
+> -	abi_ulong ss_size;
+> +    abi_ulong ss_sp;
+> +    abi_int ss_flags;
+> +    abi_ulong ss_size;
+>  } target_stack_t;
+>  
+>  
+> diff --git a/linux-user/m68k/target_signal.h b/linux-user/m68k/target_signal.h
+> index 314e808844..d096544ef8 100644
+> --- a/linux-user/m68k/target_signal.h
+> +++ b/linux-user/m68k/target_signal.h
+> @@ -4,9 +4,9 @@
+>  /* this struct defines a stack used during syscall handling */
+>  
+>  typedef struct target_sigaltstack {
+> -	abi_ulong ss_sp;
+> -	abi_long ss_flags;
+> -	abi_ulong ss_size;
+> +    abi_ulong ss_sp;
+> +    abi_int ss_flags;
+> +    abi_ulong ss_size;
+>  } target_stack_t;
+>  
+>  
+> diff --git a/linux-user/microblaze/target_signal.h b/linux-user/microblaze/target_signal.h
+> index 08bcf24b9d..1c326296de 100644
+> --- a/linux-user/microblaze/target_signal.h
+> +++ b/linux-user/microblaze/target_signal.h
+> @@ -4,9 +4,9 @@
+>  /* this struct defines a stack used during syscall handling */
+>  
+>  typedef struct target_sigaltstack {
+> -	abi_ulong ss_sp;
+> -	abi_ulong ss_size;
+> -	abi_long ss_flags;
+> +    abi_ulong ss_sp;
+> +    abi_int ss_flags;
+> +    abi_ulong ss_size;
+>  } target_stack_t;
+>  
+>  
+> diff --git a/linux-user/mips/target_signal.h b/linux-user/mips/target_signal.h
+> index 66e1ad44a6..fa4084a99d 100644
+> --- a/linux-user/mips/target_signal.h
+> +++ b/linux-user/mips/target_signal.h
+> @@ -45,9 +45,9 @@
+>  /* this struct defines a stack used during syscall handling */
+>  
+>  typedef struct target_sigaltstack {
+> -	abi_long ss_sp;
+> -	abi_ulong ss_size;
+> -	abi_long ss_flags;
+> +    abi_ulong ss_sp;
+> +    abi_ulong ss_size;
+> +    abi_int ss_flags;
+>  } target_stack_t;
+>  
+>  
+> diff --git a/linux-user/mips64/target_signal.h b/linux-user/mips64/target_signal.h
+> index 753e91fbd6..799f7a668c 100644
+> --- a/linux-user/mips64/target_signal.h
+> +++ b/linux-user/mips64/target_signal.h
+> @@ -45,12 +45,11 @@
+>  /* this struct defines a stack used during syscall handling */
+>  
+>  typedef struct target_sigaltstack {
+> -	abi_long ss_sp;
+> -	abi_ulong ss_size;
+> -	abi_int ss_flags;
+> +    abi_ulong ss_sp;
+> +    abi_ulong ss_size;
+> +    abi_int ss_flags;
+>  } target_stack_t;
+>  
+> -
+>  /*
+>   * sigaltstack controls
+>   */
+> diff --git a/linux-user/nios2/target_signal.h b/linux-user/nios2/target_signal.h
+> index fe48721b3d..aebf749f12 100644
+> --- a/linux-user/nios2/target_signal.h
+> +++ b/linux-user/nios2/target_signal.h
+> @@ -4,11 +4,12 @@
+>  /* this struct defines a stack used during syscall handling */
+>  
+>  typedef struct target_sigaltstack {
+> -    abi_long ss_sp;
+> +    abi_ulong ss_sp;
+> +    abi_int ss_flags;
+>      abi_ulong ss_size;
+> -    abi_long ss_flags;
+>  } target_stack_t;
+>  
+> +
+>  /* sigaltstack controls  */
+>  #define TARGET_SS_ONSTACK     1
+>  #define TARGET_SS_DISABLE     2
+> diff --git a/linux-user/ppc/target_signal.h b/linux-user/ppc/target_signal.h
+> index 4453e2e7ef..72fcdd9bfa 100644
+> --- a/linux-user/ppc/target_signal.h
+> +++ b/linux-user/ppc/target_signal.h
+> @@ -4,9 +4,9 @@
+>  /* this struct defines a stack used during syscall handling */
+>  
+>  typedef struct target_sigaltstack {
+> -	abi_ulong ss_sp;
+> -	int ss_flags;
+> -	abi_ulong ss_size;
+> +    abi_ulong ss_sp;
+> +    abi_int ss_flags;
+> +    abi_ulong ss_size;
+>  } target_stack_t;
+>  
+>  
+> diff --git a/linux-user/s390x/target_signal.h b/linux-user/s390x/target_signal.h
+> index b58bc7c20f..bbfc464d44 100644
+> --- a/linux-user/s390x/target_signal.h
+> +++ b/linux-user/s390x/target_signal.h
+> @@ -3,7 +3,7 @@
+>  
+>  typedef struct target_sigaltstack {
+>      abi_ulong ss_sp;
+> -    int ss_flags;
+> +    abi_int ss_flags;
+>      abi_ulong ss_size;
+>  } target_stack_t;
+>  
+> diff --git a/linux-user/sh4/target_signal.h b/linux-user/sh4/target_signal.h
+> index 434970a990..d7309b7136 100644
+> --- a/linux-user/sh4/target_signal.h
+> +++ b/linux-user/sh4/target_signal.h
+> @@ -4,9 +4,9 @@
+>  /* this struct defines a stack used during syscall handling */
+>  
+>  typedef struct target_sigaltstack {
+> -	abi_ulong ss_sp;
+> -	abi_long ss_flags;
+> -	abi_ulong ss_size;
+> +    abi_ulong ss_sp;
+> +    abi_int ss_flags;
+> +    abi_ulong ss_size;
+>  } target_stack_t;
+>  
+>  
+> diff --git a/linux-user/sparc/target_signal.h b/linux-user/sparc/target_signal.h
+> index 5cc40327d2..1b10d1490f 100644
+> --- a/linux-user/sparc/target_signal.h
+> +++ b/linux-user/sparc/target_signal.h
+> @@ -42,9 +42,9 @@
+>  /* this struct defines a stack used during syscall handling */
+>  
+>  typedef struct target_sigaltstack {
+> -	abi_ulong ss_sp;
+> -	abi_long ss_flags;
+> -	abi_ulong ss_size;
+> +    abi_ulong ss_sp;
+> +    abi_int ss_flags;
+> +    abi_ulong ss_size;
+>  } target_stack_t;
+>  
+>  
+> diff --git a/linux-user/x86_64/target_signal.h b/linux-user/x86_64/target_signal.h
+> index 4c4380f7b9..4ea74f20dd 100644
+> --- a/linux-user/x86_64/target_signal.h
+> +++ b/linux-user/x86_64/target_signal.h
+> @@ -4,9 +4,9 @@
+>  /* this struct defines a stack used during syscall handling */
+>  
+>  typedef struct target_sigaltstack {
+> -	abi_ulong ss_sp;
+> -	abi_long ss_flags;
+> -	abi_ulong ss_size;
+> +    abi_ulong ss_sp;
+> +    abi_int ss_flags;
+> +    abi_ulong ss_size;
+>  } target_stack_t;
+>  
+>  
+> 
 
-Il mer 11 nov 2020, 20:57 Igor Mammedov <imammedo@redhat.com> ha scritto:
+Applied to my linux-user-for-5.2 branch.
 
-> On Tue, 27 Oct 2020 14:21:26 -0400
-> Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> > ---
-> >  softmmu/vl.c | 40 ++++++++++++++++++++++------------------
-> >  1 file changed, 22 insertions(+), 18 deletions(-)
-> >
-> > diff --git a/softmmu/vl.c b/softmmu/vl.c
-> > index c2a5ee61f9..6749109b29 100644
-> > --- a/softmmu/vl.c
-> > +++ b/softmmu/vl.c
-> > @@ -126,6 +126,7 @@ static const char *boot_once;
-> >  static const char *incoming;
-> >  static const char *loadvm;
-> >  enum vga_retrace_method vga_retrace_method = VGA_RETRACE_DUMB;
->
-> > +int mem_prealloc; /* force preallocation of physical target memory */
-> Is there a reason for it not being static?
->
-
-I will check if I am using it later in the series, but I don't think so.
-
-
-> >  int display_opengl;
-> >  const char* keyboard_layout = NULL;
-> >  ram_addr_t ram_size;
-> > @@ -159,7 +160,7 @@ int fd_bootchk = 1;
-> >  static int no_reboot;
-> >  int no_shutdown = 0;
-> >  int graphic_rotate = 0;
-> > -const char *watchdog;
-> > +static const char *watchdog;
-> >  QEMUOptionRom option_rom[MAX_OPTION_ROMS];
-> >  int nb_option_roms;
-> >  int old_param = 0;
-> > @@ -2910,6 +2911,25 @@ static void qemu_validate_options(void)
-> >  #endif
-> >  }
-> >
-> > +static void qemu_process_sugar_options(void)
-> > +{
-> > +    if (mem_prealloc) {
-> > +        char *val;
-> > +
-> > +        val = g_strdup_printf("%d",
-> > +                 (uint32_t)
-> qemu_opt_get_number(qemu_find_opts_singleton("smp-opts"), "cpus", 1));
-> if -smp isn't present it value used here was mc->default_cpus,
-> which in most cases is 1 modulo some ARM boards and riscv.
->
-
-Yes, I remember noticing that but decided I would not care. I should have
-added it to the commit message, though.
-
-Paolo
-
---000000000000be87e505b3da4f26
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Il mer 11 nov 2020, 20:57 Igor Mammedov &lt;<a href=3D=
-"mailto:imammedo@redhat.com">imammedo@redhat.com</a>&gt; ha scritto:<br></d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex">On Tue, 27 Oct 2020 14:21:26 -0400<br>
-Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" target=3D"_blank" =
-rel=3D"noreferrer">pbonzini@redhat.com</a>&gt; wrote:<br>
-<br>
-&gt; Signed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com=
-" target=3D"_blank" rel=3D"noreferrer">pbonzini@redhat.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 softmmu/vl.c | 40 ++++++++++++++++++++++------------------<br>
-&gt;=C2=A0 1 file changed, 22 insertions(+), 18 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/softmmu/vl.c b/softmmu/vl.c<br>
-&gt; index c2a5ee61f9..6749109b29 100644<br>
-&gt; --- a/softmmu/vl.c<br>
-&gt; +++ b/softmmu/vl.c<br>
-&gt; @@ -126,6 +126,7 @@ static const char *boot_once;<br>
-&gt;=C2=A0 static const char *incoming;<br>
-&gt;=C2=A0 static const char *loadvm;<br>
-&gt;=C2=A0 enum vga_retrace_method vga_retrace_method =3D VGA_RETRACE_DUMB;=
-<br>
-<br>
-&gt; +int mem_prealloc; /* force preallocation of physical target memory */=
-<br>
-Is there a reason for it not being static?<br></blockquote></div></div><div=
- dir=3D"auto"><br></div><div dir=3D"auto">I will check if I am using it lat=
-er in the series, but I don&#39;t think so.</div><div dir=3D"auto"><br></di=
-v><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1e=
-x">
-<br>
-&gt;=C2=A0 int display_opengl;<br>
-&gt;=C2=A0 const char* keyboard_layout =3D NULL;<br>
-&gt;=C2=A0 ram_addr_t ram_size;<br>
-&gt; @@ -159,7 +160,7 @@ int fd_bootchk =3D 1;<br>
-&gt;=C2=A0 static int no_reboot;<br>
-&gt;=C2=A0 int no_shutdown =3D 0;<br>
-&gt;=C2=A0 int graphic_rotate =3D 0;<br>
-&gt; -const char *watchdog;<br>
-&gt; +static const char *watchdog;<br>
-&gt;=C2=A0 QEMUOptionRom option_rom[MAX_OPTION_ROMS];<br>
-&gt;=C2=A0 int nb_option_roms;<br>
-&gt;=C2=A0 int old_param =3D 0;<br>
-&gt; @@ -2910,6 +2911,25 @@ static void qemu_validate_options(void)<br>
-&gt;=C2=A0 #endif<br>
-&gt;=C2=A0 }<br>
-&gt;=C2=A0 <br>
-&gt; +static void qemu_process_sugar_options(void)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 if (mem_prealloc) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 char *val;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 val =3D g_strdup_printf(&quot;%d&quot;,<b=
-r>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(uint32=
-_t) qemu_opt_get_number(qemu_find_opts_singleton(&quot;smp-opts&quot;), &qu=
-ot;cpus&quot;, 1));<br>
-if -smp isn&#39;t present it value used here was mc-&gt;default_cpus,<br>
-which in most cases is 1 modulo some ARM boards and riscv.<br></blockquote>=
-</div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Yes, I remember n=
-oticing that but decided I would not care. I should have added it to the co=
-mmit message, though.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Pa=
-olo</div></div>
-
---000000000000be87e505b3da4f26--
+Thanks,
+Laurent
 
 
