@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1BE02AF735
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 18:09:07 +0100 (CET)
-Received: from localhost ([::1]:46400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DE7A2AF742
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 18:17:31 +0100 (CET)
+Received: from localhost ([::1]:56192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kctcI-0006Pt-BS
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 12:09:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48812)
+	id 1kctkP-0002ZQ-Lc
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 12:17:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kctW8-0001Uo-T3; Wed, 11 Nov 2020 12:02:44 -0500
-Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:45649)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kctW6-0006zB-H7; Wed, 11 Nov 2020 12:02:44 -0500
-Received: by mail-io1-xd42.google.com with SMTP id u21so2963220iol.12;
- Wed, 11 Nov 2020 09:02:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=o4KuyojbxoN0QbpbzLNpvkg+zhVtdpr/SKldbV8LedQ=;
- b=f7dyaCAXL3QdyDjPuBKZXwcDGpp1lQ6aebo8jXqSOaWPUQYWIEMWSjlCzDqMKtbP8h
- 8kq0IWYqvogXZG6nVQacrJP7W8x2LGPgBVLESsh7cBEKwXbwmMAA8MjPpOaaTd2MtY3c
- c5GQC+r56GjDy5PVTEsT54uCMyY7qZRxfYzyh4fiqVKT70aSY76Bfdj8rov4228Dx9mb
- 7T5kGlghXulFVHhlQnb9nxTKKABVYh+jk+nLRyHQ8y6oF4Lf26XrsNEvC0NnHoLAe7M0
- 5G2pGhNBMLfjeoziFKk/Boq+5/BLTfOC+SHB+P2rlOTkHKuDei8PnSBgL7hcHfx2m1od
- /enA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=o4KuyojbxoN0QbpbzLNpvkg+zhVtdpr/SKldbV8LedQ=;
- b=G3BTzbKO8asPTMmfGZrpx/ZyhVkG/luT0K+LSXELospvBbck5y8RA/c1L7xHc2IEAu
- 8J+dJ2fKro6ksh+aLBlRE3Gj/oimJhF2PJR0/3EpnxZVOvtnPE3/mJ0Wgam6GG/KIfLb
- RTkI55s5vVSt909yeyySzQAI6yXw+lkJOi74sA6fosJOibx2I0SzTXJ9UnED99dlvK9L
- DP49Y2wXayRV4TOwSd6YA6MzC6Z3imhQK8VXUM32MJIB4WEnQpMLq//c/dws8PEacmvO
- 5s4pWvFsCA8kU5NnS4E0G25BR42YmH78ChHalbaLegViKnIUiBdhN8YbB+ib6950KpHs
- MN4w==
-X-Gm-Message-State: AOAM531ve09BYreT8Z3ObvUWIyuISSLHbxZZceLVR9YJ0z/VX6HWRj+j
- c6LfSeoY6c7hj7N82hKtujhQshnQjToxbSGYjmg=
-X-Google-Smtp-Source: ABdhPJwF5zXGAkcgHbUMIWIhB8I5x7YrSLqzZ7+Io3r/7Eq3ugXeJ/xq36zM08SSiVveuqg7HpCX1l6wY6PWFlTW8v0=
-X-Received: by 2002:a05:6602:2d4e:: with SMTP id
- d14mr19530485iow.105.1605114159201; 
- Wed, 11 Nov 2020 09:02:39 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kctgQ-0000GE-3j
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 12:13:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22802)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kctgN-0002Gn-34
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 12:13:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605114796;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oErL0wVoKcZy9DtWEE5Kea/0lc0f+c2S67U83tip7ag=;
+ b=JeQlNY1ztGqC1/gl9ux/xNATeEyBVWBbKHZ5z1jXK1aUsRs72LgtxdTxu5rzogLiuG98ea
+ opQz1r7veTGjnbE4YA9ZrPSi3onyLY0NtZVKn9rsYh944bkY10VanQoL6wWD+SB1/tdASL
+ /WA05Zbw/hW9pEWolmLpr+z/xSWQVdc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-68-FyGNhPRgNHK08JOovXWI4Q-1; Wed, 11 Nov 2020 12:13:15 -0500
+X-MC-Unique: FyGNhPRgNHK08JOovXWI4Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 30ACA1084C83;
+ Wed, 11 Nov 2020 17:13:14 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 339EE5C1C4;
+ Wed, 11 Nov 2020 17:13:08 +0000 (UTC)
+Date: Wed, 11 Nov 2020 18:13:06 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH] ACPI: Avoid infinite recursion when dump-vmstate
+Message-ID: <20201111181306.20ebdd77@redhat.com>
+In-Reply-To: <20201111140112.GE3232@work-vm>
+References: <20201019093156.2993284-1-liangpeng10@huawei.com>
+ <20201023180933.2fe23875@redhat.com>
+ <20201023185441.GP3038@work-vm>
+ <be52cdde-33de-d519-6509-5f0900ce4c36@huawei.com>
+ <20201111140112.GE3232@work-vm>
 MIME-Version: 1.0
-References: <20201111094725.3768755-1-anup.patel@wdc.com>
-In-Reply-To: <20201111094725.3768755-1-anup.patel@wdc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 11 Nov 2020 08:50:35 -0800
-Message-ID: <CAKmqyKMAHxO-OH=iV6pMinKYLvnwF2Opu18LsiVjwvwEF+7GLw@mail.gmail.com>
-Subject: Re: [PATCH] hw/riscv: sifive_u: Add UART1 DT node in the generated DTB
-To: Anup Patel <anup.patel@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd42.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 01:42:46
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,59 +84,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Peng Liang <liangpeng10@huawei.com>, mst@redhat.com, qemu-devel@nongnu.org,
+ xiexiangyou@huawei.com, zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 11, 2020 at 1:48 AM Anup Patel <anup.patel@wdc.com> wrote:
->
-> The sifive_u machine emulates two UARTs but we have only UART0 DT
-> node in the generated DTB so this patch adds UART1 DT node in the
-> generated DTB.
->
-> Signed-off-by: Anup Patel <anup.patel@wdc.com>
+On Wed, 11 Nov 2020 14:01:12 +0000
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Is someone taking a fix for this in 5.2 - it's breaking vmstate
+> comparison.
+can you merge it via migration tree?
 
-Alistair
+[...]
 
-> ---
->  hw/riscv/sifive_u.c | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
->
-> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> index 2f19a9cda2..146944a293 100644
-> --- a/hw/riscv/sifive_u.c
-> +++ b/hw/riscv/sifive_u.c
-> @@ -387,6 +387,21 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
->      qemu_fdt_setprop_cell(fdt, nodename, "reg", 0x0);
->      g_free(nodename);
->
-> +    nodename = g_strdup_printf("/soc/serial@%lx",
-> +        (long)memmap[SIFIVE_U_DEV_UART1].base);
-> +    qemu_fdt_add_subnode(fdt, nodename);
-> +    qemu_fdt_setprop_string(fdt, nodename, "compatible", "sifive,uart0");
-> +    qemu_fdt_setprop_cells(fdt, nodename, "reg",
-> +        0x0, memmap[SIFIVE_U_DEV_UART1].base,
-> +        0x0, memmap[SIFIVE_U_DEV_UART1].size);
-> +    qemu_fdt_setprop_cells(fdt, nodename, "clocks",
-> +        prci_phandle, PRCI_CLK_TLCLK);
-> +    qemu_fdt_setprop_cell(fdt, nodename, "interrupt-parent", plic_phandle);
-> +    qemu_fdt_setprop_cell(fdt, nodename, "interrupts", SIFIVE_U_UART1_IRQ);
-> +
-> +    qemu_fdt_setprop_string(fdt, "/aliases", "serial1", nodename);
-> +    g_free(nodename);
-> +
->      nodename = g_strdup_printf("/soc/serial@%lx",
->          (long)memmap[SIFIVE_U_DEV_UART0].base);
->      qemu_fdt_add_subnode(fdt, nodename);
-> --
-> 2.25.1
->
->
+for fixed up version below
+Acked-by: Igor Mammedov <imammedo@redhat.com>
+
+> > 
+> > Do you mean that we need another VMStateDescription to describe
+> > AcpiGhesState instead of using VMSTATE_UINT64 directly?  Maybe like this:
+> > 
+> > diff --git a/hw/acpi/generic_event_device.c b/hw/acpi/generic_event_device.c
+> > index 6df400e1ee16..5454be67d5f0 100644
+> > --- a/hw/acpi/generic_event_device.c
+> > +++ b/hw/acpi/generic_event_device.c
+> > @@ -322,6 +322,16 @@ static const VMStateDescription vmstate_ged_state = {
+> >      }
+> >  };
+> > 
+> > +static const VMStateDescription vmstate_ghes = {
+> > +    .name = "acpi-ghes",
+> > +    .version_id = 1,
+> > +    .minimum_version_id = 1,
+> > +    .fields     = (VMStateField[]) {
+> > +        VMSTATE_UINT64(ghes_addr_le, AcpiGhesState),
+> > +        VMSTATE_END_OF_LIST()
+> > +    },
+> > +};
+> > +
+> >  static bool ghes_needed(void *opaque)
+> >  {
+> >      AcpiGedState *s = opaque;
+> > @@ -335,7 +345,7 @@ static const VMStateDescription vmstate_ghes_state = {
+> >      .needed = ghes_needed,
+> >      .fields      = (VMStateField[]) {
+> >          VMSTATE_STRUCT(ghes_state, AcpiGedState, 1,
+> > -                       vmstate_ghes_state, AcpiGhesState),
+> > +                       vmstate_ghes, AcpiGhesState),
+> >          VMSTATE_END_OF_LIST()
+> >      }
+> >  };
+> > 
+> > -- 
+> > Thanks,
+> > Peng
+> >   
+
 
