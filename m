@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93D9C2AEEF3
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 11:47:11 +0100 (CET)
-Received: from localhost ([::1]:60008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1F972AEEFF
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Nov 2020 11:52:40 +0100 (CET)
+Received: from localhost ([::1]:40800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kcneg-0001Bl-4C
-	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 05:47:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40818)
+	id 1kcnk0-00059M-0b
+	for lists+qemu-devel@lfdr.de; Wed, 11 Nov 2020 05:52:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kcnd3-0000GX-FQ
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 05:45:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21825)
+ id 1kcnj0-0004in-Kw
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 05:51:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27514)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kcnd1-0002Sw-2i
- for qemu-devel@nongnu.org; Wed, 11 Nov 2020 05:45:28 -0500
+ id 1kcniy-0004bS-J9
+ for qemu-devel@nongnu.org; Wed, 11 Nov 2020 05:51:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605091526;
+ s=mimecast20190719; t=1605091894;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
+ content-transfer-encoding:content-transfer-encoding;
  bh=2i9ene0FNVfIlw0xpTTbFJBPILtgK2OlbzrxGQ6HE8M=;
- b=ddcCP65woxYOYw4sQN4UFXbY2nekpbG4X4XSBnpuNZunBQGRziM+cdh8/2K0Fsx6pEPtWm
- DjBbramypFq2DcUwIRn2vVxUC6s03RjSPrTJB/NscV6DbFnmZtdZfu7iXGz7ggUdXLcdFk
- xweMAMCZDQ40cI0LGwRecpo4gDJ4/+c=
+ b=E4Ol4fINnMMQVYkkNB/8q9Pd1yJemIDQ1mKHth79QuSDV7EXR8PRmFFjMJeImA/7iLTvu1
+ iOen6svg2dNtS5y4+3xPlnG8igSHCeyD4/xrLKlbmsOTlS+hjKHrfl3ENo+AOcvotTP6iU
+ 3XDYFkLGwGzr9q4VB/JhGpHC2lw4R70=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-555-gVFKiEj6PciSok0MdMMEbw-1; Wed, 11 Nov 2020 05:45:23 -0500
-X-MC-Unique: gVFKiEj6PciSok0MdMMEbw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-328-FqYrHSFNN2e_TcMA-Ps8kw-1; Wed, 11 Nov 2020 05:51:33 -0500
+X-MC-Unique: FqYrHSFNN2e_TcMA-Ps8kw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0713B1084C90
- for <qemu-devel@nongnu.org>; Wed, 11 Nov 2020 10:45:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4370C195D561
+ for <qemu-devel@nongnu.org>; Wed, 11 Nov 2020 10:51:32 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B701010027AB;
- Wed, 11 Nov 2020 10:45:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 010C86E70D;
+ Wed, 11 Nov 2020 10:51:31 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] keyval: simplify keyval_parse_one
-Date: Wed, 11 Nov 2020 05:45:21 -0500
-Message-Id: <20201111104521.1179396-3-pbonzini@redhat.com>
-In-Reply-To: <20201111104521.1179396-1-pbonzini@redhat.com>
-References: <20201111104521.1179396-1-pbonzini@redhat.com>
+Subject: [PATCH] keyval: simplify keyval_parse_one
+Date: Wed, 11 Nov 2020 05:51:31 -0500
+Message-Id: <20201111105131.1179636-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 01:49:01
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/11 01:42:46
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
