@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B6022B1164
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 23:24:50 +0100 (CET)
-Received: from localhost ([::1]:46322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DABA2B115F
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 23:23:14 +0100 (CET)
+Received: from localhost ([::1]:42118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdL1N-0000ty-3c
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 17:24:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33924)
+	id 1kdKzp-0007VZ-1g
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 17:23:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kdKQt-00080q-Al
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:47:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23727)
+ id 1kdKQr-0007wt-LY
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:47:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59084)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kdKQp-0003gK-To
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:47:06 -0500
+ id 1kdKQp-0003gS-Ov
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:47:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605217620;
+ s=mimecast20190719; t=1605217621;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9au0hMgoTwIgKsyhRrZeHVmN0cbfyd/tS2lds+OqHl0=;
- b=iwNT0mtGicGGHALu5UFrQ2GkKYle8/bnBBY/oJVrWcw39xc7Nkz96Mv0tc1crY9GqKCeBI
- g3/+iqmiFMFFnDJR7Wr6KufwEsY+FJLgJhG2AmhqwjuBmnETP3fbPja3Xlo2dFT9+efGrs
- g+Dyj0jy2dGGJiAJzzGW3wzMEpVG5HU=
+ bh=Ja/YmWt/OMSFvhSVMA3UOQ10xojvR9RvVHDVddUDRaY=;
+ b=aHd30YwuJfPw4TuBuqsQeDIbFu/ZYmd5SR2f0bINOk9HIEFPoLktwRg3eAwtgQAR0FzsD5
+ svn9ojTLflsqV42u1psX192LYrnwpjCjWDdvoB95rBS48zXLn0uzQ7guSEU0Z0jmRLg9Po
+ 46Jlfsmnm7aBnrpn8O0KjVRtKgWwnDs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-570-hl19j1bOO2SO7ic4fMzC0Q-1; Thu, 12 Nov 2020 16:46:57 -0500
-X-MC-Unique: hl19j1bOO2SO7ic4fMzC0Q-1
+ us-mta-68-NoCWWUqNOCWnU2OuJdpIXw-1; Thu, 12 Nov 2020 16:46:59 -0500
+X-MC-Unique: NoCWWUqNOCWnU2OuJdpIXw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC490805EF9;
- Thu, 12 Nov 2020 21:46:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 764B7184217D;
+ Thu, 12 Nov 2020 21:46:58 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 520005B4A7;
- Thu, 12 Nov 2020 21:46:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0D2D85B4C2;
+ Thu, 12 Nov 2020 21:46:57 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 42/53] qdev: Reuse object_property_add_field() when adding
- array elements
-Date: Thu, 12 Nov 2020 16:43:39 -0500
-Message-Id: <20201112214350.872250-43-ehabkost@redhat.com>
+Subject: [PATCH v3 43/53] qdev: Move static_prop_release_dynamic_prop() closer
+ to its usage
+Date: Thu, 12 Nov 2020 16:43:40 -0500
+Message-Id: <20201112214350.872250-44-ehabkost@redhat.com>
 In-Reply-To: <20201112214350.872250-1-ehabkost@redhat.com>
 References: <20201112214350.872250-1-ehabkost@redhat.com>
 MIME-Version: 1.0
@@ -90,64 +90,69 @@ Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we call object_property_add() with exactly the same
-arguments as object_property_add_field() does, we can just reuse
-the function.  We can now use a stack variable for the new
-Property struct, because object_property_add_field() will copy
-the struct.
+Move the function closer to where it's used, to make refactor
+and review simpler.  While doing it, reformat the comment at the
+top to follow coding style.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Changes v2 -> v3:
-* Fix memory leak from v2, after making
-  object_property_add_field() copy the Property struct
-
-Changes v1 -> v2:
-* Now we don't need to hack ObjectProperty.release anymore,
-  patch became trivial
+This is a new patch added in v3 of the series.
 ---
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: "Daniel P. Berrangé" <berrange@redhat.com>
 Cc: Eduardo Habkost <ehabkost@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- hw/core/qdev-properties.c | 18 ++++++------------
- 1 file changed, 6 insertions(+), 12 deletions(-)
+ hw/core/qdev-properties.c | 29 +++++++++++++++--------------
+ 1 file changed, 15 insertions(+), 14 deletions(-)
 
 diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index 451bb54cf6..83fd45add0 100644
+index 83fd45add0..7aa5d2ff45 100644
 --- a/hw/core/qdev-properties.c
 +++ b/hw/core/qdev-properties.c
-@@ -576,23 +576,17 @@ static void set_prop_arraylen(Object *obj, Visitor *v, const char *name,
-     *arrayptr = eltptr = g_malloc0(*alenptr * prop->arrayfieldsize);
-     for (i = 0; i < *alenptr; i++, eltptr += prop->arrayfieldsize) {
-         g_autofree char *propname = g_strdup_printf("%s[%d]", arrayname, i);
--        Property *arrayprop = g_new0(Property, 1);
--        ObjectProperty *elmop;
--        arrayprop->info = prop->arrayinfo;
-+        Property arrayprop = { };
-+        arrayprop.info = prop->arrayinfo;
-         /* This ugly piece of pointer arithmetic sets up the offset so
-          * that when the underlying get/set hooks call qdev_get_prop_ptr
-          * they get the right answer despite the array element not actually
-          * being inside the device struct.
-          */
--        arrayprop->offset = eltptr - (void *)obj;
--        assert(object_field_prop_ptr(obj, arrayprop) == eltptr);
--        elmop = object_property_add(obj, propname,
--                                    arrayprop->info->name,
--                                    field_prop_getter(arrayprop->info),
--                                    field_prop_setter(arrayprop->info),
--                                    static_prop_release_dynamic_prop,
--                                    arrayprop);
--        elmop->allow_set = op->allow_set;
-+        arrayprop.offset = eltptr - (void *)obj;
-+        assert(object_field_prop_ptr(obj, &arrayprop) == eltptr);
-+        object_property_add_field(obj, propname, &arrayprop,
-+                                  op->allow_set);
-     }
- }
+@@ -521,20 +521,6 @@ const PropertyInfo prop_info_size32 = {
  
+ /* --- support for array properties --- */
+ 
+-/* object property release callback for dynamically-created properties:
+- * we call the underlying element's property release hook, and
+- * then free the memory we allocated when we added the property.
+- */
+-static void static_prop_release_dynamic_prop(Object *obj, const char *name,
+-                                             void *opaque)
+-{
+-    Property *prop = opaque;
+-    if (prop->info->release) {
+-        prop->info->release(obj, name, opaque);
+-    }
+-    g_free(prop);
+-}
+-
+ static void set_prop_arraylen(Object *obj, Visitor *v, const char *name,
+                               void *opaque, Error **errp)
+ {
+@@ -816,6 +802,21 @@ const PropertyInfo prop_info_link = {
+     .create = create_link_property,
+ };
+ 
++/*
++ * Property release callback for dynamically-created properties:
++ * We call the underlying element's property release hook, and
++ * then free the memory we allocated when we added the property.
++ */
++static void static_prop_release_dynamic_prop(Object *obj, const char *name,
++                                             void *opaque)
++{
++    Property *prop = opaque;
++    if (prop->info->release) {
++        prop->info->release(obj, name, opaque);
++    }
++    g_free(prop);
++}
++
+ ObjectProperty *
+ object_property_add_field(Object *obj, const char *name,
+                           Property *prop,
 -- 
 2.28.0
 
