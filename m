@@ -2,70 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DCD22B0F4E
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 21:52:25 +0100 (CET)
-Received: from localhost ([::1]:59932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3863B2B0FC0
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 22:06:45 +0100 (CET)
+Received: from localhost ([::1]:38446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdJZw-00066n-4s
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 15:52:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48812)
+	id 1kdJnn-00027e-NV
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 16:06:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kdJZ1-0005do-IY
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 15:51:27 -0500
-Received: from indium.canonical.com ([91.189.90.7]:54268)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kdJlr-0001Oo-U0
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:04:43 -0500
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:43205)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kdJYz-0004qS-95
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 15:51:27 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kdJYx-000285-AZ
- for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 20:51:23 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4EC782E812F
- for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 20:51:23 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kdJlq-0006bL-7x
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:04:43 -0500
+Received: by mail-pf1-x443.google.com with SMTP id z3so5670377pfb.10
+ for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 13:04:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=J+iQ/qX+E5AomkiI2PkzVSY1yE6MIvYipPNvO1GA16M=;
+ b=mqaigA4uIiWNHgUKqD7YZbum1X6X7l2M3TmdDx5OCZU78auKL+wC1f0Kr7d3DdAh52
+ vgZ2P/yHwoUYQ+/EaMrBw7nz5zCARGK+EOnURrVXpHNSx4uLOgd/vFoi6ffwk3wlwg8C
+ 8pk75NZhqbCVXbL1nRuum001IpZry8Wd468uCtuRjvohKG1GD20iNzF+bavOMEA1kC9T
+ cyVBGipsFhqOPxmnmQVKoQM+s5c6OsrY1QxuVRA7LN2J1Fw8PbapdhKpM6xx7g+qvwFX
+ yWvgJ3SPQ+fInIHr8B+8U6tC1QeiuMXWDkteOhKUtO0XhgniLSZa3l1YFB1aT2h1TKDM
+ W1mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=J+iQ/qX+E5AomkiI2PkzVSY1yE6MIvYipPNvO1GA16M=;
+ b=JcBXnZqByPVIR0oSiBDAasVg10W8oo02/jiqrKSFyr1shZ8Qy7X7H6CnGkG5pH+gMy
+ Chkb38Pnmk7bXKZM7dtsNfLfWb94bZLGNjKJ0F8LZoHj8tbT68KEm6XWd+FCEHyy777j
+ ODrAooPARaTu2Vzax/5HMidXchJT3frdWu5GeaZAuDE+/Zv8YVK4CK/3Kxl/uB/vTW/i
+ kzN0PE2DbMo1CaDl2qyxBh9vB5o4ETQg2DQNChSrzixQ3+JM2fSO7LZRpvI/Bp0EP9lp
+ vM3hPTstvcMlGiqYILQcUiyccy3OqySi2DVxKee602ilOvN0TPYQIN6eds0jhnHWJ4+E
+ fa5w==
+X-Gm-Message-State: AOAM531xXnRYYqBE6+pBUzZWxqkO+RtOHsMk+q/eQRs2v8e4pgy3Uw+7
+ bcTHFPJ8n70PX9xf08ueB+a7ww==
+X-Google-Smtp-Source: ABdhPJwXQzmrLnf+7wGk2f6Prs7nP8EvExCSisRbEsMU+E4ygW1wU5+AHN25mIKGjkeZ4y2Bn6X37g==
+X-Received: by 2002:a17:90a:f492:: with SMTP id
+ bx18mr1075061pjb.123.1605215080207; 
+ Thu, 12 Nov 2020 13:04:40 -0800 (PST)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id t5sm7701943pjq.7.2020.11.12.13.04.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 Nov 2020 13:04:39 -0800 (PST)
+Subject: Re: [PATCH for-5.2?] nbd: Silence Coverity false positive
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20201111163510.713855-1-eblake@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <da36e556-bc7e-70f3-73c8-3dc0ea7c48e4@linaro.org>
+Date: Thu, 12 Nov 2020 13:04:37 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 12 Nov 2020 20:44:39 -0000
-From: Richard Henderson <1792659@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=rth@twiddle.net; 
-X-Launchpad-Bug-Tags: tcg
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ramiro-polla rth th-huth
-X-Launchpad-Bug-Reporter: Ramiro Polla (ramiro-polla)
-X-Launchpad-Bug-Modifier: Richard Henderson (rth)
-References: <153697392900.9226.4246206563741650584.malonedeb@soybean.canonical.com>
-Message-Id: <160521387986.5470.7937223766638905225.malone@soybean.canonical.com>
-Subject: [Bug 1792659] Re: watchpoints might not properly stop execution at
- the right address
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="9218c6cee10bde7201ace93cd659634a9bc6c70a"; Instance="production"
-X-Launchpad-Hash: 671d7bb6b8a9c305a5a97d5dfbad8d150e66b7bd
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:20:56
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201111163510.713855-1-eblake@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x443.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,82 +89,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1792659 <1792659@bugs.launchpad.net>
+Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com,
+ "open list:Network Block Dev..." <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I can follow the logic here and agree there's a bug.
+On 11/11/20 8:35 AM, Eric Blake wrote:
+> -    if (!full) {
+> -        /* last non dirty extent */
+> -        nbd_extent_array_add(es, end - start, 0);
+> +    if (!full && nbd_extent_array_add(es, end - start, 0) < 0) {
+> +        /* last non dirty extent, nothing to do if array was already full */
+>      }
 
-It would be nice if there were a reproducer, to verify
-that the bug is actually fixed, but I can make a stab
-at it without.
+Casting to (void) is another way to get rid of the warning.
 
-** Changed in: qemu
-     Assignee: (unassigned) =3D> Richard Henderson (rth)
+I dunno which makes more sense here.  Definitely the comment is helpful.
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1792659
-
-Title:
-  watchpoints might not properly stop execution at the right address
-
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  This bug has been tested with the latest development tree
-  (19b599f7664b2ebfd0f405fb79c14dd241557452).
-
-  I am using qemu-system-i386 with the gdbserver stub. I set a
-  watchpoint on some address. When the watchpoint is hit, it will be
-  reported by gdb, but it might happen that eip points to the wrong
-  address (execution has not properly stopped when the watchpoint was
-  hit).
-
-  The setup I used to reproduce it is quite complex, but I believe I
-  have found the cause of the bug, so I will describe that.
-
-  The check_watchpoint() function sets cflags_next_tb in order to force
-  the execution of only one instruction, and then exits the current tb.
-  It then expects to be called again after that one instruction is
-  executed, the watchpoint is hit and it is reported to gdb.
-
-  The problem is that another interrupt might have been generated around
-  the same time as the watchpoint. If the interrupt changes eip and
-  execution goes on in another address, the value of cflags_next_tb will
-  be spoiled. When we come back from the interrupt to the address where
-  the watchpoint is hit, it is possible that a tb with multiple
-  instructions is been executed, and therefore eip points to the wrong
-  address, ahead of where it should be.
-
-  In my case, the order is as follows:
-  * i8259 generates an IRQ
-    - cpu->interrupt_request contains both CPU_INTERRUPT_TGT_EXT_1 and CPU_=
-INTERRUPT_HARD
-  * cpu_handle_interrupt() -> x86_cpu_exec_interrupt() is called
-    - it deals with CPU_INTERRUPT_TGT_EXT_1
-    - execution continues
-  * I am exactly at the instruction where the watchpoint is hit.
-    - check_watchpoint() is called and cflags_next_tb is set to force the e=
-xecution of only one instruction.
-    - execution breaks out of the loop with siglongjmp()
-  * cpu_handle_interrupt() -> x86_cpu_exec_interrupt() is called
-    - it deals with the IRQ. eip is changed and cflags_next_tb is spoiled
-    - execution continues at the IRQ
-
-  [...]
-  * The kernel finishes dealing with the IRQ
-
-  * I am back at the instruction where the watchpoint is hit.
-    - A tb is created and executed with two instructions instead of one
-    - eip is now ahead of the instruction that hit the watchpoint
-  * cpu_handle_interrupt() is called
-    - it deals with CPU_INTERRUPT_DEBUG
-    - the watchpoint is reported by gdb, but with the wrong eip.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1792659/+subscriptions
+r~
 
