@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEB632B07A0
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 15:37:24 +0100 (CET)
-Received: from localhost ([::1]:52224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34EEE2B07B2
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 15:43:11 +0100 (CET)
+Received: from localhost ([::1]:34568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdDj1-00069a-Ps
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 09:37:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38174)
+	id 1kdDob-0002Hb-T7
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 09:43:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kdDhn-0005ho-7S
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 09:36:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56896)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kdDhk-0001x9-9Z
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 09:36:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605191763;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GQ8xrIhKkdj5NghHUebZ1y7g7S0gfxVMmIoOvrjx9CY=;
- b=JnANrYWRmK3t7Oig9pKSxpHeZ4oqjrSiYZYwqQwV5n9JfD13/eteTBq1aLM7tqkoXt1B5a
- H70aWSvb2zcZvBkPBPzv8dZO+XuzkYWmPUOz5glmLHPjhUnK/MwcGbYTNEExbOMIFvwwzM
- IJhXADYnqq9nxth18wxsfVzau1s4Imk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-FVNBHBHzN6Kh6T2VM3lBtA-1; Thu, 12 Nov 2020 09:35:59 -0500
-X-MC-Unique: FVNBHBHzN6Kh6T2VM3lBtA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D41EF1017DD1;
- Thu, 12 Nov 2020 14:35:57 +0000 (UTC)
-Received: from work-vm (ovpn-115-60.ams2.redhat.com [10.36.115.60])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DA9571C4;
- Thu, 12 Nov 2020 14:35:55 +0000 (UTC)
-Date: Thu, 12 Nov 2020 14:35:48 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Chuan Zheng <zhengchuan@huawei.com>
-Subject: Re: [PATCH] migration/multifd: fix hangup with TLS-Multifd due to
- blocking handshake
-Message-ID: <20201112143548.GC13424@work-vm>
-References: <1604643893-8223-1-git-send-email-zhengchuan@huawei.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kdDmJ-0000XR-VL
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 09:40:48 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:39332)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kdDmH-0003jn-V6
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 09:40:47 -0500
+Received: by mail-wr1-x430.google.com with SMTP id o15so6248751wru.6
+ for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 06:40:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tvN7p/jiEutLQrRwN9hIwT4SuMenw6Fk6BTPzNoku8k=;
+ b=OGvt4SM3s8i8FSVzE2M7R6mw/aJOBa5uIR+UV4x0dtjhoyyJDFnaKhC0YGMmjNCjne
+ ROQNYKPXERtmXUJufhPwiasZxOS80HCjHMs+5WrLJvxeA6THjsuf9yQOBlv8Wr+54yYH
+ 7kH9X+yxOh42M66LPXDKyCPwh0lcOQwtJqVqXoVpR/uSvc9K2fs2WM8k3JHDWchBWePT
+ lLgGWLWBz5eqbDcmIs0Uq26gQFR5NQkaiJWioYV/9yUvgP3JQdPNUGXUk7Ji5CPqMr4r
+ ns7BObYof87f72gc2se4pvVCVHpxsnF1R3x2rG93TsYy2kqQDPYQ8RzAAShP4UUBE9wC
+ XMZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tvN7p/jiEutLQrRwN9hIwT4SuMenw6Fk6BTPzNoku8k=;
+ b=U0iPBBDhLam7bmMeAs1kzLQkONHG6cJaQgwOAWoL4gFcI2k5nheX5vbBT05KhODjKB
+ uAH8h/icJn8ZS57K3yObXxiwo1ODYm5TTpSflSZfhdK0brRnfL9TbTEx8zRgbb7NgZ6z
+ syvRj+TK82cs3sCnC7ESibFyd98eq+BQCDw6BWPNGq1umsvcz67UMn2y7TJsIEQzFnet
+ cdN4WKY8A0MQwoF4Z9+P4ie3r0Q1yRvOOvFgnOHzonFB1vH+UJZ0uy7nFV+naFkeuIlM
+ VottodSiVUbh89WSuNZqKb6L0O2EwfxIoWdfJR3vwLM0GYc6/bOkv1mbWUSqFXsTDLa6
+ RDpQ==
+X-Gm-Message-State: AOAM531/iagQbk1v0ClxO8/ZnFGkmwja+lpnjhu7VvnOTot2bbmfrAFn
+ qbj405VONq5PyK8uzO6WfyoW79ncgS0T7Q==
+X-Google-Smtp-Source: ABdhPJx08I86tXcUY4jPBXDzd8DHQyXOBfWOwEoQspT8hmBSsEwU1VlSCL0fkSotyknFo8Xmexj5tw==
+X-Received: by 2002:a5d:6288:: with SMTP id k8mr22560448wru.30.1605192043831; 
+ Thu, 12 Nov 2020 06:40:43 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id k16sm7410907wrl.65.2020.11.12.06.40.42
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Nov 2020 06:40:42 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [for-5.2 0/9] docs: Move orphan top-level .rst files into manuals
+Date: Thu, 12 Nov 2020 14:40:32 +0000
+Message-Id: <20201112144041.32278-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <1604643893-8223-1-git-send-email-zhengchuan@huawei.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 00:52:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,89 +83,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yubihong@huawei.com, berrange@redhat.com, zhang.zhanghailiang@huawei.com,
- quintela@redhat.com, qemu-devel@nongnu.org, xiexiangyou@huawei.com,
- alex.chen@huawei.com, wanghao232@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Chuan Zheng (zhengchuan@huawei.com) wrote:
-> The qemu main loop could hang up forever when we enable TLS+Multifd.
-> The Src multifd_send_0 invokes tls handshake, it sends hello to sever
-> and wait response.
-> However, the Dst main qemu loop has been waiting recvmsg() for multifd_recv_1.
-> Both of Src and Dst main qemu loop are blocking and waiting for reponse which
-> results in hanging up forever.
-> 
-> Src: (multifd_send_0)                                              Dst: (multifd_recv_1)
-> multifd_channel_connect                                            migration_channel_process_incoming
->   multifd_tls_channel_connect                                        migration_tls_channel_process_incoming
->     multifd_tls_channel_connect                                        qio_channel_tls_handshake_task
->        qio_channel_tls_handshake                                         gnutls_handshake
->           qio_channel_tls_handshake_task                                       ...
->             qcrypto_tls_session_handshake                                      ...
->               gnutls_handshake                                                 ...
->                    ...                                                         ...
->                 recvmsg (Blocking I/O waiting for response)                recvmsg (Blocking I/O waiting for response)
-> 
-> Fix this by offloadinig handshake work to a background thread.
-> 
-> Reported-by: Yan Jin <jinyan12@huawei.com>
-> Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
-> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
+Currently we have a handful of rST documents that are sat in the top
+level docs/ directory and do not get built into the manuals.  These
+are a legacy from the period after we'd decided we wanted rST format
+documentation but before we'd set up the manual structure.  This
+patchset moves them all into at least plausibly suitable places in
+the manual set:
 
-Queued
+ * virtio-net-failover, cpu-hotplug, virtio-pmem all go into the
+   system manual
+ * microvm goes into the system manual, but first we have to create a
+   structure in target-i386.rst that lets us have a list of multiple
+   machine types (along the pattern that target-arm.rst does)
+ * pr-manager.rst goes into the system manual, but the part of it
+   documenting the qemu-pr-helper executable needs to go into the
+   tools manual
 
-> ---
->  migration/multifd.c | 23 +++++++++++++++++------
->  1 file changed, 17 insertions(+), 6 deletions(-)
-> 
-> diff --git a/migration/multifd.c b/migration/multifd.c
-> index 68b171f..88486b9 100644
-> --- a/migration/multifd.c
-> +++ b/migration/multifd.c
-> @@ -739,6 +739,19 @@ static void multifd_tls_outgoing_handshake(QIOTask *task,
->      multifd_channel_connect(p, ioc, err);
->  }
->  
-> +static void *multifd_tls_handshake_thread(void *opaque)
-> +{
-> +    MultiFDSendParams *p = opaque;
-> +    QIOChannelTLS *tioc = QIO_CHANNEL_TLS(p->c);
-> +
-> +    qio_channel_tls_handshake(tioc,
-> +                              multifd_tls_outgoing_handshake,
-> +                              p,
-> +                              NULL,
-> +                              NULL);
-> +    return NULL;
-> +}
-> +
->  static void multifd_tls_channel_connect(MultiFDSendParams *p,
->                                          QIOChannel *ioc,
->                                          Error **errp)
-> @@ -754,12 +767,10 @@ static void multifd_tls_channel_connect(MultiFDSendParams *p,
->  
->      trace_multifd_tls_outgoing_handshake_start(ioc, tioc, hostname);
->      qio_channel_set_name(QIO_CHANNEL(tioc), "multifd-tls-outgoing");
-> -    qio_channel_tls_handshake(tioc,
-> -                              multifd_tls_outgoing_handshake,
-> -                              p,
-> -                              NULL,
-> -                              NULL);
-> -
-> +    p->c = QIO_CHANNEL(tioc);
-> +    qemu_thread_create(&p->thread, "multifd-tls-handshake-worker",
-> +                       multifd_tls_handshake_thread, p,
-> +                       QEMU_THREAD_JOINABLE);
->  }
->  
->  static bool multifd_channel_connect(MultiFDSendParams *p,
-> -- 
-> 1.8.3.1
-> 
-> 
+If anybody who cares about the x86 machine models would like to
+create some documentation of the others ("q35", "isapc", "xenpv",
+"xenfv") you now have a place for it to live :-)
+
+Since there's no good way to cross-reference between different
+manuals there is no direct link between the pr-manager.rst and the
+qemu-pr-helper.rst; my proposal for fixing that is the recent "build
+a single manual, not five" RFC.
+
+thanks
+-- PMM
+
+Peter Maydell (9):
+  docs: Move virtio-net-failover.rst into the system manual
+  docs: Move cpu-hotplug.rst into the system manual
+  docs: Move virtio-pmem.rst into the system manual
+  docs/system/virtio-pmem.rst: Fix minor style issues
+  docs: Split out 'pc' machine model docs into their own file
+  docs: Move microvm.rst into the system manual
+  docs: Move pr-manager.rst into the system manual
+  docs: Split qemu-pr-helper documentation into tools manual
+  docs/system/pr-manager.rst: Fix minor docs nits
+
+ docs/meson.build                          |  1 +
+ docs/{ => system}/cpu-hotplug.rst         |  0
+ docs/{ => system/i386}/microvm.rst        |  5 +-
+ docs/system/i386/pc.rst                   |  7 ++
+ docs/system/index.rst                     |  4 +
+ docs/{ => system}/pr-manager.rst          | 44 ++---------
+ docs/system/target-i386.rst               | 19 +++--
+ docs/{ => system}/virtio-net-failover.rst |  0
+ docs/system/virtio-pmem.rst               | 75 +++++++++++++++++++
+ docs/tools/conf.py                        |  2 +
+ docs/tools/index.rst                      |  1 +
+ docs/tools/qemu-pr-helper.rst             | 90 +++++++++++++++++++++++
+ docs/virtio-pmem.rst                      | 76 -------------------
+ 13 files changed, 204 insertions(+), 120 deletions(-)
+ rename docs/{ => system}/cpu-hotplug.rst (100%)
+ rename docs/{ => system/i386}/microvm.rst (98%)
+ create mode 100644 docs/system/i386/pc.rst
+ rename docs/{ => system}/pr-manager.rst (68%)
+ rename docs/{ => system}/virtio-net-failover.rst (100%)
+ create mode 100644 docs/system/virtio-pmem.rst
+ create mode 100644 docs/tools/qemu-pr-helper.rst
+ delete mode 100644 docs/virtio-pmem.rst
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.20.1
 
 
