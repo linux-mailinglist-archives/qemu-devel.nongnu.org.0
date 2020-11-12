@@ -2,69 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FCA12B03F7
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 12:34:32 +0100 (CET)
-Received: from localhost ([::1]:55334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50EC82B043C
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 12:47:03 +0100 (CET)
+Received: from localhost ([::1]:60708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdAs3-0001oQ-DJ
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 06:34:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51592)
+	id 1kdB49-0004zX-T6
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 06:47:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kdAr0-0001O7-CU
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 06:33:26 -0500
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:43447)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kdAqy-0003hy-HS
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 06:33:26 -0500
-Received: by mail-ed1-x534.google.com with SMTP id b9so5768268edu.10
- for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 03:33:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=M83+AfNfGHHgPog2IOjLjHhOuzfshj5gLvHjxD60f8Q=;
- b=RfZPy5S7VQIZ208mhezKPRvugk4JXeJRQawfCskj6sJDjX3rRDoPmKlKW16eOmKW1s
- eEU/CsIpRqEXDh/50GCcZuvh5TXQTtySl1lBSzdbU/4Ipqn7WaSRlhMa/I9wQ51YXwei
- 6v498gwi2xHxxWa0xK798mSe7iGbjcRE6rXu+qI5yz5a+1Yud+v3LAvCmW1i9LucwRYc
- FzPJP/v+XXXoVaCEyz6WyiaAeloy12XBP4oOMyQWNPGC1KUASKg3K06mCMwIB6D5TgPG
- Ziyr6UNoAWhJ2AqWPE8/r6Avmia+MMf5mMskAORYBowB/u9Pvg5ypLSLGVmVXXQHRPUg
- vMpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=M83+AfNfGHHgPog2IOjLjHhOuzfshj5gLvHjxD60f8Q=;
- b=Rc0VP0cYm8OObB/oZo3Ra0HOIt0sBQ14b4dI7cLJeTAixCvCcnAq9yNqVr/crY0wN0
- 528PULrMRI8MKvEN7VqIIrYjoniVNlVTaerwrrthOuYJoyqJhdJxqm0279y7x6aWHD91
- U6FBAYTf3L/MBiGcQ09ySeDdCbKn6nD20XJ1Fvbn21El6WejQ/l/xRBoOIk9+cYOrxB1
- 4AxjVk9qXXl4WotGyhfZHjjHzTSXfEFtWlySkIK5ytQ1LR1LZh2YH7GCSnFcOwxY8gCo
- +f3HH0bJlRg6x3xbB/r+v0xFx+OVw81Pw/cwwgxmxxpK1GE80WW3SpDAbuuzWqG+LfpC
- fH4w==
-X-Gm-Message-State: AOAM531Ok/+HRFbhCpzx1qReL/BhFs/4dK9vOIluwAa+tDIA1+DAaZVB
- /TSc5mR+kbl0HK4S8B6siNfQciHapfkl5nwMzGLxTw==
-X-Google-Smtp-Source: ABdhPJwLrETbndmW9yWIrLgDEV4N7hOrkMmhpiGOXA8X1WbObiSRO7pBF0/vIR8szKQUzHB6zm8gaEI/XSoiQmEdb2U=
-X-Received: by 2002:a50:fa92:: with SMTP id w18mr4495337edr.44.1605180802643; 
- Thu, 12 Nov 2020 03:33:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <schwab@suse.de>) id 1kdB2W-000497-VK
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 06:45:21 -0500
+Received: from mx2.suse.de ([195.135.220.15]:49304)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <schwab@suse.de>) id 1kdB2V-0007sE-AL
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 06:45:20 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 9A581ACE0
+ for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 11:45:16 +0000 (UTC)
+From: Andreas Schwab <schwab@suse.de>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] linux-user: Implement copy_file_range
+X-Yow: ..  or were you driving the PONTIAC that HONKED at me
+ in MIAMI last Tuesday?
+Date: Thu, 12 Nov 2020 12:45:16 +0100
+Message-ID: <mvm361eer3n.fsf@suse.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-References: <20201111214033.432676-1-laurent@vivier.eu>
-In-Reply-To: <20201111214033.432676-1-laurent@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 12 Nov 2020 11:33:11 +0000
-Message-ID: <CAFEAcA9pOGKkTWja4D_tt0pZOPVMC4WCvfmny+qcJVZJqsaReg@mail.gmail.com>
-Subject: Re: [PULL 0/2] Linux user for 5.2 patches
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=schwab@suse.de;
+ helo=mx2.suse.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 06:19:52
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,34 +53,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 11 Nov 2020 at 21:42, Laurent Vivier <laurent@vivier.eu> wrote:
->
-> The following changes since commit c6f28ed5075df79fef39c500362a3f4089256c9c:
->
->   Update version for v5.2.0-rc1 release (2020-11-10 22:29:57 +0000)
->
-> are available in the Git repository at:
->
->   git://github.com/vivier/qemu.git tags/linux-user-for-5.2-pull-request
->
-> for you to fetch changes up to c7811022ebfcaae64e06383ff734f3b3651bf892:
->
->   linux-user: Prevent crash in epoll_ctl (2020-11-11 11:01:08 +0100)
->
-> ----------------------------------------------------------------
-> Fixes for epoll_ctl and stack_t
->
-> ----------------------------------------------------------------
+Signed-off-by: Andreas Schwab <schwab@suse.de>
+---
+ linux-user/syscall.c | 40 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
+
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 3160a9ba06..c3373af4c7 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -813,6 +813,12 @@ safe_syscall5(int, mq_timedsend, int, mqdes, const char *, msg_ptr,
+ safe_syscall5(int, mq_timedreceive, int, mqdes, char *, msg_ptr,
+               size_t, len, unsigned *, prio, const struct timespec *, timeout)
+ #endif
++#if defined(TARGET_NR_copy_file_range) && defined(__NR_copy_file_range)
++safe_syscall6(ssize_t, copy_file_range, int, infd, loff_t *, pinoff,
++              int, outfd, loff_t *, poutoff, size_t, length,
++              unsigned int, flags)
++#endif
++
+ /* We do ioctl like this rather than via safe_syscall3 to preserve the
+  * "third argument might be integer or pointer or not present" behaviour of
+  * the libc function.
+@@ -13057,6 +13063,40 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         return get_errno(membarrier(arg1, arg2));
+ #endif
+ 
++#if defined(TARGET_NR_copy_file_range) && defined(__NR_copy_file_range)
++    case TARGET_NR_copy_file_range:
++        {
++            loff_t inoff, outoff;
++            loff_t *pinoff = NULL, *poutoff = NULL;
++
++            if (arg2) {
++                if (get_user_u64(inoff, arg2)) {
++                    return -TARGET_EFAULT;
++                }
++                pinoff = &inoff;
++            }
++            if (arg4) {
++                if (get_user_u64(outoff, arg4)) {
++                    return -TARGET_EFAULT;
++                }
++                poutoff = &outoff;
++            }
++            ret = get_errno(safe_copy_file_range(arg1, pinoff, arg3, poutoff,
++                                                 arg5, arg6));
++            if (arg2) {
++                if (put_user_u64(inoff, arg2)) {
++                    return -TARGET_EFAULT;
++                }
++            }
++            if (arg4) {
++                if (put_user_u64(outoff, arg4)) {
++                    return -TARGET_EFAULT;
++                }
++            }
++        }
++        return ret;
++#endif
++
+     default:
+         qemu_log_mask(LOG_UNIMP, "Unsupported syscall: %d\n", num);
+         return -TARGET_ENOSYS;
+-- 
+2.29.0
 
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
-
--- PMM
+-- 
+Andreas Schwab, SUSE Labs, schwab@suse.de
+GPG Key fingerprint = 0196 BAD8 1CE9 1970 F4BE  1748 E4D4 88E3 0EEA B9D7
+"And now for something completely different."
 
