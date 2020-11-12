@@ -2,69 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 027642B0793
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 15:32:32 +0100 (CET)
-Received: from localhost ([::1]:47754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E59F2B0794
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 15:34:14 +0100 (CET)
+Received: from localhost ([::1]:50074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdDeJ-000447-7a
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 09:32:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37158)
+	id 1kdDfx-00054X-8S
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 09:34:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kdDd6-0003be-Gl
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 09:31:16 -0500
-Received: from indium.canonical.com ([91.189.90.7]:60606)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kdDd3-0000RE-Bd
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 09:31:16 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kdDd1-0000OB-2u
- for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 14:31:11 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 00B1A2E8130
- for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 14:31:11 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kdDf4-0004YY-Jo
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 09:33:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21589)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kdDf1-00012c-Bx
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 09:33:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605191594;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=herrlPz7qD0QKAF99GkEDHSf0A948V3alNO1GQjnQ6Q=;
+ b=M6euXfLPrk1T6DEMeMGdzzvNJXQ67zSVI2aqMm+9meUWyKdCZ3UvpLx8vku9itmpSzGxAE
+ wzOoLTUGwUQlyWTs9T573ZI562kBiix7aT248kQgl/ZnQGW33sWmz0aPDeB23bwBy+hNuV
+ 88z042AAmbuOfgzK/xoLF4O+UM2Ljx4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-203-UpF110IaNTyd8xo7LCBlWA-1; Thu, 12 Nov 2020 09:33:12 -0500
+X-MC-Unique: UpF110IaNTyd8xo7LCBlWA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ECEEC1882FA3;
+ Thu, 12 Nov 2020 14:33:10 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-114-37.ams2.redhat.com
+ [10.36.114.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 28FDD26329;
+ Thu, 12 Nov 2020 14:32:59 +0000 (UTC)
+Subject: Re: [PATCH for-5.2 04/10] vhost-user-blk-test: rename destroy_drive()
+ to destroy_file()
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20201111124331.1393747-1-stefanha@redhat.com>
+ <20201111124331.1393747-5-stefanha@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <e3d13da4-823f-2b55-ed89-40832862d272@redhat.com>
+Date: Thu, 12 Nov 2020 15:32:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 12 Nov 2020 14:15:42 -0000
-From: Thomas Huth <1779120@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: lizhengui pluto-wangjie stefanha th-huth
-X-Launchpad-Bug-Reporter: =?utf-8?b?6LSe6LS15p2OIChsaXpoZW5ndWkp?=
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <153018930547.7042.8204279860342554943.malonedeb@soybean.canonical.com>
-Message-Id: <160519054300.4495.3256144508130108923.malone@gac.canonical.com>
-Subject: [Bug 1779120] Re: disk missing in the guest contingently when hotplug
- several virtio scsi disks consecutively
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="9218c6cee10bde7201ace93cd659634a9bc6c70a"; Instance="production"
-X-Launchpad-Hash: b434c8eb76d889094b840b06fa53c9089d64bf5a
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:20:56
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201111124331.1393747-5-stefanha@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:00:44
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,64 +85,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1779120 <1779120@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Coiby Xu <Coiby.Xu@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently considering to move its bug tracking to anoth=
-er system. For this we need to know which bugs are still valid and which co=
-uld be closed already. Thus we are setting older bugs to "Incomplete" now.
-If you still think this bug report here is valid, then please switch the st=
-ate back to "New" within the next 60 days, otherwise this report will be ma=
-rked as "Expired". Or mark it as "Fix Released" if the problem has been sol=
-ved with a newer version of QEMU already. Thank you and sorry for the incon=
-venience.
+On 11.11.20 13:43, Stefan Hajnoczi wrote:
+> The function is used not just for image files but also for UNIX domain
+> sockets (QMP monitor and vhost-user-blk). Reflect that in the name.
+> 
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>   tests/qtest/vhost-user-blk-test.c | 9 +++++----
+>   1 file changed, 5 insertions(+), 4 deletions(-)
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+[...]
 
--- =
+> @@ -731,7 +732,7 @@ static char *start_vhost_user_blk(GString *cmd_line, int vus_instances,
+>           sock_path = g_strdup(sock_path_tempate);
+>           fd = mkstemp(sock_path);
+>           g_assert_cmpint(fd, >=, 0);
+> -        g_test_queue_destroy(drive_destroy, sock_path);
+> +        g_test_queue_destroy(drive_file, sock_path);
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1779120
+s/drive_file/destroy_file/, I think :)
 
-Title:
-  disk missing in the guest contingently when hotplug several virtio
-  scsi disks consecutively
+>           /* create image file */
+>           img_path = drive_create();
+>           g_string_append_printf(storage_daemon_command,
+> 
 
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  Hi, I found a bug that disk missing (not all disks missing ) in the
-  guest contingently when hotplug several virtio scsi disks
-  consecutively.  After rebooting the guest,the missing disks appear
-  again.
-
-  The guest is centos7.3 running on a centos7.3 host and the scsi
-  controllers are configed with iothread.  The scsi controller xml is
-  below:
-
-  =C2=A0=C2=A0=C2=A0=C2=A0<controller type=3D'scsi' index=3D'0' model=3D'vi=
-rtio-scsi'>
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<driver iothread=3D'26'/>
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<alias name=3D'scsi0'/>
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<address type=3D'pci' domain=3D'0x000=
-0' bus=3D'0x00' slot=3D'0x07' function=3D'0x0'/>
-  =C2=A0=C2=A0=C2=A0=C2=A0</controller>
-
-  If the scsi controllers are configed without iothread,  disks are all
-  can be seen in the guest when hotplug several virtio scsi disks
-  consecutively.
-
-  I think the biggest difference between them is that scsi controllers
-  with iothread call virtio_notify_irqfd to notify guest and scsi
-  controllers without iothread call virtio_notify instead.  What make it
-  difference? Will interrupts are lost when call virtio_notify_irqfd
-  due to  race condition for some unknow reasons? Maybe guys more
-  familiar with scsi dataplane can help. Thanks for your reply!
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1779120/+subscriptions
 
