@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B04892B1106
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 23:08:42 +0100 (CET)
-Received: from localhost ([::1]:33700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7A4E2B1101
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 23:06:44 +0100 (CET)
+Received: from localhost ([::1]:57712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdKll-00009n-O0
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 17:08:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33530)
+	id 1kdKjr-0006oW-Rq
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 17:06:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kdKQ3-00075o-7C
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:46:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32510)
+ id 1kdKQE-0007Kd-KA
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:46:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31101)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kdKPz-0003c9-Ha
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:46:14 -0500
+ id 1kdKQC-0003d9-PY
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:46:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605217570;
+ s=mimecast20190719; t=1605217584;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=59J7H5ykytVLR9f3V0k1PAbPW+Ahu8Da8Sp/Vo8HO/8=;
- b=UG7cxVIwaUwKF1F9ZYNdEqFOTprlXapIqFi6yNAfYdQfBC1AsCAn2Qjft/8KejuMu+yijz
- g4FCeeD0EP2goigSJqIJNQDRnatJ1YT4p3IOdxOLbgBS0QBa2LyrqNfe1mubs9ZevhJ3C4
- dk7g1KXS5k/ShVqL84C3NeClS6bpryw=
+ bh=aKfie8HDs4Bj5KUMmmQqgBylUh0kwLqLFFOC3bbKRvM=;
+ b=fRAnxD3Ub6pzjv29yKVh2dosIb7WTTT8zVqZP20sEqS3gvWu5RdAp+t0SLorOaxX5lZSOE
+ ZszxAYOOrnYVy5dzFrzciU3MadsRu7AAAnUJp69JkImGeukzwkpZEpD+Vg0SAkwyyojotC
+ 2L417rgqRtTXzhSKguvXBysUb6pam2Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-459-rZxuRycYMT-Dppjrkjezvw-1; Thu, 12 Nov 2020 16:46:08 -0500
-X-MC-Unique: rZxuRycYMT-Dppjrkjezvw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-448-dAkDbgt9PIazjzmsM9gTzg-1; Thu, 12 Nov 2020 16:46:22 -0500
+X-MC-Unique: dAkDbgt9PIazjzmsM9gTzg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0FF4F190A3E3;
- Thu, 12 Nov 2020 21:46:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 66A915F9D1;
+ Thu, 12 Nov 2020 21:46:21 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9D23E19C59;
- Thu, 12 Nov 2020 21:46:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EE15060C13;
+ Thu, 12 Nov 2020 21:46:17 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 29/53] qdev: Rename qdev_prop_* to prop_info_*
-Date: Thu, 12 Nov 2020 16:43:26 -0500
-Message-Id: <20201112214350.872250-30-ehabkost@redhat.com>
+Subject: [PATCH v3 31/53] qdev: Avoid unnecessary DeviceState* variable at
+ set_prop_arraylen()
+Date: Thu, 12 Nov 2020 16:43:28 -0500
+Message-Id: <20201112214350.872250-32-ehabkost@redhat.com>
 In-Reply-To: <20201112214350.872250-1-ehabkost@redhat.com>
 References: <20201112214350.872250-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:00:44
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 16:09:27
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,428 +81,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, John Snow <jsnow@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Markus Armbruster <armbru@redhat.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
+ John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
  Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The basic property types in qdev-properties.c are not going to be
-qdev-specific anymore.  Rename the variables to prop_info_*.
+We're just doing pointer math with the device pointer, we can
+simply use obj instead.
 
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
-Changes v1 -> v2:
-* Redone patch after moving UUID property to qdev-properties-system.c
 ---
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: "Daniel P. Berrangé" <berrange@redhat.com>
 Cc: Eduardo Habkost <ehabkost@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>
-Cc: Jason Wang <jasowang@redhat.com>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: Artyom Tarasenko <atar4qemu@gmail.com>
 Cc: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org
 ---
- include/hw/qdev-properties.h | 62 ++++++++++++++++++------------------
- hw/core/qdev-properties.c    | 36 ++++++++++-----------
- hw/intc/arm_gicv3_common.c   |  2 +-
- hw/intc/rx_icu.c             |  4 +--
- hw/misc/arm_sysctl.c         |  4 +--
- hw/net/e1000e.c              |  6 ++--
- target/arm/cpu.c             |  2 +-
- target/sparc/cpu.c           |  2 +-
- 8 files changed, 59 insertions(+), 59 deletions(-)
+ hw/core/qdev-properties.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
-index 68e544708b..90222822f1 100644
---- a/include/hw/qdev-properties.h
-+++ b/include/hw/qdev-properties.h
-@@ -44,22 +44,22 @@ struct PropertyInfo {
- 
- /*** qdev-properties.c ***/
- 
--extern const PropertyInfo qdev_prop_bit;
--extern const PropertyInfo qdev_prop_bit64;
--extern const PropertyInfo qdev_prop_bool;
--extern const PropertyInfo qdev_prop_enum;
--extern const PropertyInfo qdev_prop_uint8;
--extern const PropertyInfo qdev_prop_uint16;
--extern const PropertyInfo qdev_prop_uint32;
--extern const PropertyInfo qdev_prop_int32;
--extern const PropertyInfo qdev_prop_uint64;
--extern const PropertyInfo qdev_prop_int64;
--extern const PropertyInfo qdev_prop_size;
--extern const PropertyInfo qdev_prop_string;
--extern const PropertyInfo qdev_prop_on_off_auto;
--extern const PropertyInfo qdev_prop_size32;
--extern const PropertyInfo qdev_prop_arraylen;
--extern const PropertyInfo qdev_prop_link;
-+extern const PropertyInfo prop_info_bit;
-+extern const PropertyInfo prop_info_bit64;
-+extern const PropertyInfo prop_info_bool;
-+extern const PropertyInfo prop_info_enum;
-+extern const PropertyInfo prop_info_uint8;
-+extern const PropertyInfo prop_info_uint16;
-+extern const PropertyInfo prop_info_uint32;
-+extern const PropertyInfo prop_info_int32;
-+extern const PropertyInfo prop_info_uint64;
-+extern const PropertyInfo prop_info_int64;
-+extern const PropertyInfo prop_info_size;
-+extern const PropertyInfo prop_info_string;
-+extern const PropertyInfo prop_info_on_off_auto;
-+extern const PropertyInfo prop_info_size32;
-+extern const PropertyInfo prop_info_arraylen;
-+extern const PropertyInfo prop_info_link;
- 
- #define DEFINE_PROP(_name, _state, _field, _prop, _type, ...) {  \
-         .name      = (_name),                                    \
-@@ -78,7 +78,7 @@ extern const PropertyInfo qdev_prop_link;
-     DEFINE_PROP(_name, _state, _field, _prop, _type)
- 
- #define DEFINE_PROP_BIT(_name, _state, _field, _bit, _defval)   \
--    DEFINE_PROP(_name, _state, _field, qdev_prop_bit, uint32_t, \
-+    DEFINE_PROP(_name, _state, _field, prop_info_bit, uint32_t, \
-                 .bitnr       = (_bit),                          \
-                 .set_default = true,                            \
-                 .defval.u    = (bool)_defval)
-@@ -92,13 +92,13 @@ extern const PropertyInfo qdev_prop_link;
-     DEFINE_PROP(_name, _state, _field, _prop, _type)
- 
- #define DEFINE_PROP_BIT64(_name, _state, _field, _bit, _defval)   \
--    DEFINE_PROP(_name, _state, _field, qdev_prop_bit64, uint64_t, \
-+    DEFINE_PROP(_name, _state, _field, prop_info_bit64, uint64_t, \
-                 .bitnr    = (_bit),                               \
-                 .set_default = true,                              \
-                 .defval.u  = (bool)_defval)
- 
- #define DEFINE_PROP_BOOL(_name, _state, _field, _defval)     \
--    DEFINE_PROP(_name, _state, _field, qdev_prop_bool, bool, \
-+    DEFINE_PROP(_name, _state, _field, prop_info_bool, bool, \
-                 .set_default = true,                         \
-                 .defval.u    = (bool)_defval)
- 
-@@ -131,7 +131,7 @@ extern const PropertyInfo qdev_prop_link;
- #define DEFINE_PROP_ARRAY(_name, _state, _field,               \
-                           _arrayfield, _arrayprop, _arraytype) \
-     DEFINE_PROP((PROP_ARRAY_LEN_PREFIX _name),                 \
--                _state, _field, qdev_prop_arraylen, uint32_t,  \
-+                _state, _field, prop_info_arraylen, uint32_t,  \
-                 .set_default = true,                           \
-                 .defval.u = 0,                                 \
-                 .arrayinfo = &(_arrayprop),                    \
-@@ -139,29 +139,29 @@ extern const PropertyInfo qdev_prop_link;
-                 .arrayoffset = offsetof(_state, _arrayfield))
- 
- #define DEFINE_PROP_LINK(_name, _state, _field, _type, _ptr_type)     \
--    DEFINE_PROP(_name, _state, _field, qdev_prop_link, _ptr_type,     \
-+    DEFINE_PROP(_name, _state, _field, prop_info_link, _ptr_type,     \
-                 .link_type  = _type)
- 
- #define DEFINE_PROP_UINT8(_n, _s, _f, _d)                       \
--    DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, qdev_prop_uint8, uint8_t)
-+    DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, prop_info_uint8, uint8_t)
- #define DEFINE_PROP_UINT16(_n, _s, _f, _d)                      \
--    DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, qdev_prop_uint16, uint16_t)
-+    DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, prop_info_uint16, uint16_t)
- #define DEFINE_PROP_UINT32(_n, _s, _f, _d)                      \
--    DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, qdev_prop_uint32, uint32_t)
-+    DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, prop_info_uint32, uint32_t)
- #define DEFINE_PROP_INT32(_n, _s, _f, _d)                      \
--    DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_int32, int32_t)
-+    DEFINE_PROP_SIGNED(_n, _s, _f, _d, prop_info_int32, int32_t)
- #define DEFINE_PROP_UINT64(_n, _s, _f, _d)                      \
--    DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, qdev_prop_uint64, uint64_t)
-+    DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, prop_info_uint64, uint64_t)
- #define DEFINE_PROP_INT64(_n, _s, _f, _d)                      \
--    DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_int64, int64_t)
-+    DEFINE_PROP_SIGNED(_n, _s, _f, _d, prop_info_int64, int64_t)
- #define DEFINE_PROP_SIZE(_n, _s, _f, _d)                       \
--    DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, qdev_prop_size, uint64_t)
-+    DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, prop_info_size, uint64_t)
- #define DEFINE_PROP_STRING(_n, _s, _f)             \
--    DEFINE_PROP(_n, _s, _f, qdev_prop_string, char*)
-+    DEFINE_PROP(_n, _s, _f, prop_info_string, char*)
- #define DEFINE_PROP_ON_OFF_AUTO(_n, _s, _f, _d) \
--    DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_on_off_auto, OnOffAuto)
-+    DEFINE_PROP_SIGNED(_n, _s, _f, _d, prop_info_on_off_auto, OnOffAuto)
- #define DEFINE_PROP_SIZE32(_n, _s, _f, _d)                       \
--    DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, qdev_prop_size32, uint32_t)
-+    DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, prop_info_size32, uint32_t)
- 
- #define DEFINE_PROP_END_OF_LIST()               \
-     {}
 diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index d2f565f552..c1dd4ae71b 100644
+index 3d648b088d..9d25b49fc1 100644
 --- a/hw/core/qdev-properties.c
 +++ b/hw/core/qdev-properties.c
-@@ -121,7 +121,7 @@ void field_prop_set_default_value_enum(ObjectProperty *op,
-         qapi_enum_lookup(prop->info->enum_table, prop->defval.i));
- }
- 
--const PropertyInfo qdev_prop_enum = {
-+const PropertyInfo prop_info_enum = {
-     .name  = "enum",
-     .get   = field_prop_get_enum,
-     .set   = field_prop_set_enum,
-@@ -132,7 +132,7 @@ const PropertyInfo qdev_prop_enum = {
- 
- static uint32_t qdev_get_prop_mask(Property *prop)
- {
--    assert(prop->info == &qdev_prop_bit);
-+    assert(prop->info == &prop_info_bit);
-     return 0x1 << prop->bitnr;
- }
- 
-@@ -174,7 +174,7 @@ static void set_default_value_bool(ObjectProperty *op, const Property *prop)
-     object_property_set_default_bool(op, prop->defval.u);
- }
- 
--const PropertyInfo qdev_prop_bit = {
-+const PropertyInfo prop_info_bit = {
-     .name  = "bool",
-     .description = "on/off",
-     .get   = prop_get_bit,
-@@ -186,7 +186,7 @@ const PropertyInfo qdev_prop_bit = {
- 
- static uint64_t qdev_get_prop_mask64(Property *prop)
- {
--    assert(prop->info == &qdev_prop_bit64);
-+    assert(prop->info == &prop_info_bit64);
-     return 0x1ull << prop->bitnr;
- }
- 
-@@ -223,7 +223,7 @@ static void prop_set_bit64(Object *obj, Visitor *v, const char *name,
-     bit64_prop_set(obj, prop, value);
- }
- 
--const PropertyInfo qdev_prop_bit64 = {
-+const PropertyInfo prop_info_bit64 = {
-     .name  = "bool",
-     .description = "on/off",
-     .get   = prop_get_bit64,
-@@ -251,7 +251,7 @@ static void set_bool(Object *obj, Visitor *v, const char *name, void *opaque,
-     visit_type_bool(v, name, ptr, errp);
- }
- 
--const PropertyInfo qdev_prop_bool = {
-+const PropertyInfo prop_info_bool = {
-     .name  = "bool",
-     .get   = get_bool,
-     .set   = set_bool,
-@@ -290,7 +290,7 @@ void field_prop_set_default_value_uint(ObjectProperty *op,
-     object_property_set_default_uint(op, prop->defval.u);
- }
- 
--const PropertyInfo qdev_prop_uint8 = {
-+const PropertyInfo prop_info_uint8 = {
-     .name  = "uint8",
-     .get   = get_uint8,
-     .set   = set_uint8,
-@@ -317,7 +317,7 @@ static void set_uint16(Object *obj, Visitor *v, const char *name,
-     visit_type_uint16(v, name, ptr, errp);
- }
- 
--const PropertyInfo qdev_prop_uint16 = {
-+const PropertyInfo prop_info_uint16 = {
-     .name  = "uint16",
-     .get   = get_uint16,
-     .set   = set_uint16,
-@@ -362,14 +362,14 @@ static void set_int32(Object *obj, Visitor *v, const char *name, void *opaque,
-     visit_type_int32(v, name, ptr, errp);
- }
- 
--const PropertyInfo qdev_prop_uint32 = {
-+const PropertyInfo prop_info_uint32 = {
-     .name  = "uint32",
-     .get   = get_uint32,
-     .set   = set_uint32,
-     .set_default_value = field_prop_set_default_value_uint,
- };
- 
--const PropertyInfo qdev_prop_int32 = {
-+const PropertyInfo prop_info_int32 = {
-     .name  = "int32",
-     .get   = field_prop_get_int32,
-     .set   = set_int32,
-@@ -414,14 +414,14 @@ static void set_int64(Object *obj, Visitor *v, const char *name,
-     visit_type_int64(v, name, ptr, errp);
- }
- 
--const PropertyInfo qdev_prop_uint64 = {
-+const PropertyInfo prop_info_uint64 = {
-     .name  = "uint64",
-     .get   = get_uint64,
-     .set   = set_uint64,
-     .set_default_value = field_prop_set_default_value_uint,
- };
- 
--const PropertyInfo qdev_prop_int64 = {
-+const PropertyInfo prop_info_int64 = {
-     .name  = "int64",
-     .get   = get_int64,
-     .set   = set_int64,
-@@ -464,7 +464,7 @@ static void set_string(Object *obj, Visitor *v, const char *name,
-     *ptr = str;
- }
- 
--const PropertyInfo qdev_prop_string = {
-+const PropertyInfo prop_info_string = {
-     .name  = "str",
-     .release = release_string,
-     .get   = get_string,
-@@ -473,7 +473,7 @@ const PropertyInfo qdev_prop_string = {
- 
- /* --- on/off/auto --- */
- 
--const PropertyInfo qdev_prop_on_off_auto = {
-+const PropertyInfo prop_info_on_off_auto = {
-     .name = "OnOffAuto",
-     .description = "on/off/auto",
-     .enum_table = &OnOffAuto_lookup,
-@@ -516,7 +516,7 @@ static void set_size32(Object *obj, Visitor *v, const char *name, void *opaque,
-     *ptr = value;
- }
- 
--const PropertyInfo qdev_prop_size32 = {
-+const PropertyInfo prop_info_size32 = {
-     .name  = "size",
-     .get = field_prop_get_size32,
-     .set = set_size32,
-@@ -613,7 +613,7 @@ static void set_prop_arraylen(Object *obj, Visitor *v, const char *name,
-     }
- }
- 
--const PropertyInfo qdev_prop_arraylen = {
-+const PropertyInfo prop_info_arraylen = {
-     .name = "uint32",
-     .get = get_uint32,
-     .set = set_prop_arraylen,
-@@ -812,7 +812,7 @@ static void set_size(Object *obj, Visitor *v, const char *name, void *opaque,
-     visit_type_size(v, name, ptr, errp);
- }
- 
--const PropertyInfo qdev_prop_size = {
-+const PropertyInfo prop_info_size = {
-     .name  = "size",
-     .get = get_size,
-     .set = set_size,
-@@ -830,7 +830,7 @@ static ObjectProperty *create_link_property(ObjectClass *oc, const char *name,
-                                           OBJ_PROP_LINK_STRONG);
- }
- 
--const PropertyInfo qdev_prop_link = {
-+const PropertyInfo prop_info_link = {
-     .name = "link",
-     .create = create_link_property,
- };
-diff --git a/hw/intc/arm_gicv3_common.c b/hw/intc/arm_gicv3_common.c
-index 58ef65f589..6d06b4d4c5 100644
---- a/hw/intc/arm_gicv3_common.c
-+++ b/hw/intc/arm_gicv3_common.c
-@@ -496,7 +496,7 @@ static Property arm_gicv3_common_properties[] = {
-     DEFINE_PROP_UINT32("revision", GICv3State, revision, 3),
-     DEFINE_PROP_BOOL("has-security-extensions", GICv3State, security_extn, 0),
-     DEFINE_PROP_ARRAY("redist-region-count", GICv3State, nb_redist_regions,
--                      redist_region_count, qdev_prop_uint32, uint32_t),
-+                      redist_region_count, prop_info_uint32, uint32_t),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/hw/intc/rx_icu.c b/hw/intc/rx_icu.c
-index 94e17a9dea..823160d9a8 100644
---- a/hw/intc/rx_icu.c
-+++ b/hw/intc/rx_icu.c
-@@ -365,9 +365,9 @@ static const VMStateDescription vmstate_rxicu = {
- 
- static Property rxicu_properties[] = {
-     DEFINE_PROP_ARRAY("ipr-map", RXICUState, nr_irqs, map,
--                      qdev_prop_uint8, uint8_t),
-+                      prop_info_uint8, uint8_t),
-     DEFINE_PROP_ARRAY("trigger-level", RXICUState, nr_sense, init_sense,
--                      qdev_prop_uint8, uint8_t),
-+                      prop_info_uint8, uint8_t),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/hw/misc/arm_sysctl.c b/hw/misc/arm_sysctl.c
-index 42d4693854..634f3d916f 100644
---- a/hw/misc/arm_sysctl.c
-+++ b/hw/misc/arm_sysctl.c
-@@ -628,10 +628,10 @@ static Property arm_sysctl_properties[] = {
-     DEFINE_PROP_UINT32("proc_id", arm_sysctl_state, proc_id, 0),
-     /* Daughterboard power supply voltages (as reported via SYS_CFG) */
-     DEFINE_PROP_ARRAY("db-voltage", arm_sysctl_state, db_num_vsensors,
--                      db_voltage, qdev_prop_uint32, uint32_t),
-+                      db_voltage, prop_info_uint32, uint32_t),
-     /* Daughterboard clock reset values (as reported via SYS_CFG) */
-     DEFINE_PROP_ARRAY("db-clock", arm_sysctl_state, db_num_clocks,
--                      db_clock_reset, qdev_prop_uint32, uint32_t),
-+                      db_clock_reset, prop_info_uint32, uint32_t),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/hw/net/e1000e.c b/hw/net/e1000e.c
-index b6f1ae3c8f..7928939ae2 100644
---- a/hw/net/e1000e.c
-+++ b/hw/net/e1000e.c
-@@ -686,15 +686,15 @@ static void e1000e_class_init(ObjectClass *class, void *data)
-     dc->reset = e1000e_qdev_reset;
-     dc->vmsd = &e1000e_vmstate;
- 
--    e1000e_prop_disable_vnet = qdev_prop_uint8;
-+    e1000e_prop_disable_vnet = prop_info_uint8;
-     e1000e_prop_disable_vnet.description = "Do not use virtio headers, "
-                                            "perform SW offloads emulation "
-                                            "instead";
- 
--    e1000e_prop_subsys_ven = qdev_prop_uint16;
-+    e1000e_prop_subsys_ven = prop_info_uint16;
-     e1000e_prop_subsys_ven.description = "PCI device Subsystem Vendor ID";
- 
--    e1000e_prop_subsys = qdev_prop_uint16;
-+    e1000e_prop_subsys = prop_info_uint16;
-     e1000e_prop_subsys.description = "PCI device Subsystem ID";
- 
-     device_class_set_props(dc, e1000e_properties);
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 07492e9f9a..cef92879b0 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1108,7 +1108,7 @@ static Property arm_cpu_has_mpu_property =
- static Property arm_cpu_pmsav7_dregion_property =
-             DEFINE_PROP_UNSIGNED_NODEFAULT("pmsav7-dregion", ARMCPU,
-                                            pmsav7_dregion,
--                                           qdev_prop_uint32, uint32_t);
-+                                           prop_info_uint32, uint32_t);
- 
- static bool arm_get_pmu(Object *obj, Error **errp)
- {
-diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
-index 3375fffb38..ec59a13eb8 100644
---- a/target/sparc/cpu.c
-+++ b/target/sparc/cpu.c
-@@ -839,7 +839,7 @@ static Property sparc_cpu_properties[] = {
-     DEFINE_PROP_BIT("cmt",      SPARCCPU, env.def.features, 12, false),
-     DEFINE_PROP_BIT("gl",       SPARCCPU, env.def.features, 13, false),
-     DEFINE_PROP_UNSIGNED("iu-version", SPARCCPU, env.def.iu_version, 0,
--                         qdev_prop_uint64, target_ulong),
-+                         prop_info_uint64, target_ulong),
-     DEFINE_PROP_UINT32("fpu-version", SPARCCPU, env.def.fpu_version, 0),
-     DEFINE_PROP_UINT32("mmu-version", SPARCCPU, env.def.mmu_version, 0),
-     DEFINE_PROP("nwindows",     SPARCCPU, env.def.nwindows,
+@@ -559,10 +559,9 @@ static void set_prop_arraylen(Object *obj, Visitor *v, const char *name,
+      * array-length field in the device struct, we have to create the
+      * array itself and dynamically add the corresponding properties.
+      */
+-    DeviceState *dev = DEVICE(obj);
+     Property *prop = opaque;
+     uint32_t *alenptr = object_field_prop_ptr(obj, prop);
+-    void **arrayptr = (void *)dev + prop->arrayoffset;
++    void **arrayptr = (void *)obj + prop->arrayoffset;
+     void *eltptr;
+     const char *arrayname;
+     int i;
+@@ -602,7 +601,7 @@ static void set_prop_arraylen(Object *obj, Visitor *v, const char *name,
+          * they get the right answer despite the array element not actually
+          * being inside the device struct.
+          */
+-        arrayprop->prop.offset = eltptr - (void *)dev;
++        arrayprop->prop.offset = eltptr - (void *)obj;
+         assert(object_field_prop_ptr(obj, &arrayprop->prop) == eltptr);
+         object_property_add(obj, propname,
+                             arrayprop->prop.info->name,
 -- 
 2.28.0
 
