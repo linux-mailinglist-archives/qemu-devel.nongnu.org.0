@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D6012AFFA5
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 07:29:24 +0100 (CET)
-Received: from localhost ([::1]:60216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FFF22AFFB5
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 07:37:21 +0100 (CET)
+Received: from localhost ([::1]:37772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kd66l-0001Jv-41
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 01:29:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42030)
+	id 1kd6ES-0004EZ-EL
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 01:37:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kd65S-0000hy-Ni
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 01:28:02 -0500
-Received: from mail-yb1-xb43.google.com ([2607:f8b0:4864:20::b43]:36592)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kd6D2-0003QO-3i
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 01:35:52 -0500
+Received: from indium.canonical.com ([91.189.90.7]:50010)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kd65Q-00063v-SY
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 01:28:02 -0500
-Received: by mail-yb1-xb43.google.com with SMTP id l14so181804ybq.3
- for <qemu-devel@nongnu.org>; Wed, 11 Nov 2020 22:28:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sEek4OI7aKU2myFJKAxZyzRi6UXAIyCDifmJP8upGlM=;
- b=JAvbd/o/oFmfnLqrQn4QNb3m0JeJEzx7OI5Wxjt5akQgUrOUHDv9vPE7rQQLNxE7jw
- gX4j2ERf4sHEs2p/2rRvU+cg68auhsKbRPOpgqOFFLxM51cpygO6RKveTD+CAKyBiyTn
- sOKOotMuWk6497JNvF3C4+xl9gQKW10zIL5VqcGtKL2WFDbnKvWcQuMHlmC2eghbjha4
- ya9fxOZrnYpV2UjEjzAnGovETa2VqEYm/WjD7zL9Ueaq94ivO5NeS1I/FedHJeeNM+o0
- xHhkfyltzHWXIKKDihXGcrqMXgSLeOjScrZYzD7SGPctpxE7dRUm63bUdASvq1d/Q57u
- FRvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sEek4OI7aKU2myFJKAxZyzRi6UXAIyCDifmJP8upGlM=;
- b=R20seLtlWUq4U81ZgTITDfpZQXjauJ/KGviEdLxiTeAyNid68xW/IUWRsKZsZctBPN
- ixM9MhTOScPaDKeTOQSclzrg3xygGjdmfzKEVXT3n33QyXYmoL5ub78ugCZLs6k7CtES
- 0tVR21OFx2UQVoSSTo32YgjLc/jREcwLK7b2hM9bJdmpGWchqN8wW9CeCd1b+Nor4HlT
- 6dziYZUcq+qKSoZ2F5XXa640qlIQKut14lQSzJmJRD8FCUAzXe997a4iUI7jYmpt/Og9
- hCZR0O2TG7zrYN9V/VkCHEt3KXSRiTyqnlirFqkCL8ZdDzUfdCl7m8OZ2dXcq+e0N/Xt
- 7pQg==
-X-Gm-Message-State: AOAM533FyFI4Ono4qGEYoUlbGcOA/YGdhswbkfGOpMl55vVs++9rn4Uy
- qf5HEaq6vmL6VMArE1+bxqWv5omHU9IvMPvOHco=
-X-Google-Smtp-Source: ABdhPJzeP4sXjOs3B9Ceu8wHckR2JIUnpNkzNKm59nPlmwoj41/nvTURTMwLRo/NlSM18DEGE+Tpjf6kGZnfwzsdBcU=
-X-Received: by 2002:a25:7355:: with SMTP id o82mr31444132ybc.122.1605162479384; 
- Wed, 11 Nov 2020 22:27:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kd6Cu-0008PC-Gh
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 01:35:50 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kd6Cp-0001hk-Aw
+ for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 06:35:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 511672E812F
+ for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 06:35:39 +0000 (UTC)
 MIME-Version: 1.0
-References: <20201110131046.28426-1-vitaly.wool@konsulko.com>
-In-Reply-To: <20201110131046.28426-1-vitaly.wool@konsulko.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Thu, 12 Nov 2020 14:27:48 +0800
-Message-ID: <CAEUhbmU5yDcmub6mpsDECR+6+NMr_voHJLBrdsq7=qwZe7w_sw@mail.gmail.com>
-Subject: Re: [PATCH] Microchip: add QSPI NOR flash
-To: Vitaly Wool <vitaly.wool@konsulko.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b43;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb43.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 12 Nov 2020 06:26:07 -0000
+From: Thomas Huth <1794086@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: o-andriyanov th-huth
+X-Launchpad-Bug-Reporter: Oleg Andriyanov (o-andriyanov)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <153779469711.24405.12458384472320713523.malonedeb@gac.canonical.com>
+Message-Id: <160516236762.5334.479992863222782588.malone@soybean.canonical.com>
+Subject: [Bug 1794086] Re: readlink(2) returns incorrect size for
+ /proc/self/exe
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="9218c6cee10bde7201ace93cd659634a9bc6c70a"; Instance="production"
+X-Launchpad-Hash: 3cec78da96673b87c2b5e6368f48c3ad052c720e
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 01:35:39
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,120 +73,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Reply-To: Bug 1794086 <1794086@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Vitaly,
+The QEMU project is currently considering to move its bug tracking to anoth=
+er system. For this we need to know which bugs are still valid and which co=
+uld be closed already. Thus we are setting older bugs to "Incomplete" now.
+If you still think this bug report here is valid, then please switch the st=
+ate back to "New" within the next 60 days, otherwise this report will be ma=
+rked as "Expired". Or mark it as "Fix Released" if the problem has been sol=
+ved with a newer version of QEMU already. Thank you and sorry for the incon=
+venience.
 
-On Tue, Nov 10, 2020 at 10:48 PM Vitaly Wool <vitaly.wool@konsulko.com> wrote:
->
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-nits: please use the tag "hw/riscv: microchip_pfsoc"
+-- =
 
-> Add QSPI NOR flash definition for Microchip PolarFire SoC.
->
-> Signed-off-by: Vitaly Wool <vitaly.wool@konsulko.com>
-> ---
->  hw/riscv/microchip_pfsoc.c         | 21 +++++++++++++++++++++
->  include/hw/riscv/microchip_pfsoc.h |  3 +++
->  2 files changed, 24 insertions(+)
->
-> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-> index 4627179cd3..d1f4a1fe6f 100644
-> --- a/hw/riscv/microchip_pfsoc.c
-> +++ b/hw/riscv/microchip_pfsoc.c
-> @@ -90,6 +90,8 @@ static const struct MemmapEntry {
->      [MICROCHIP_PFSOC_MMUART2] =         { 0x20102000,     0x1000 },
->      [MICROCHIP_PFSOC_MMUART3] =         { 0x20104000,     0x1000 },
->      [MICROCHIP_PFSOC_MMUART4] =         { 0x20106000,     0x1000 },
-> +    [MICROCHIP_PFSOC_SPI0] =            { 0x20108000,     0x1000 },
-> +    [MICROCHIP_PFSOC_SPI1] =            { 0x20109000,     0x1000 },
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1794086
 
-I believe this patch does not apply on qemu master. The latest codes
-here have the I2C1 entry.
+Title:
+  readlink(2) returns incorrect size for /proc/self/exe
 
->      [MICROCHIP_PFSOC_GEM0] =            { 0x20110000,     0x2000 },
->      [MICROCHIP_PFSOC_GEM1] =            { 0x20112000,     0x2000 },
->      [MICROCHIP_PFSOC_GPIO0] =           { 0x20120000,     0x1000 },
-> @@ -97,6 +99,7 @@ static const struct MemmapEntry {
->      [MICROCHIP_PFSOC_GPIO2] =           { 0x20122000,     0x1000 },
->      [MICROCHIP_PFSOC_ENVM_CFG] =        { 0x20200000,     0x1000 },
->      [MICROCHIP_PFSOC_ENVM_DATA] =       { 0x20220000,    0x20000 },
-> +    [MICROCHIP_PFSOC_QSPI_XIP] =        { 0x21000000,  0x1000000 },
->      [MICROCHIP_PFSOC_IOSCB_CFG] =       { 0x37080000,     0x1000 },
->      [MICROCHIP_PFSOC_DRAM] =            { 0x80000000,        0x0 },
->  };
-> @@ -147,6 +150,7 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
->      MemoryRegion *e51_dtim_mem = g_new(MemoryRegion, 1);
->      MemoryRegion *l2lim_mem = g_new(MemoryRegion, 1);
->      MemoryRegion *envm_data = g_new(MemoryRegion, 1);
-> +    MemoryRegion *xip_mem = g_new(MemoryRegion, 1);
+Status in QEMU:
+  Incomplete
 
-nits: suggest we use the "qspi_xip_mem" for the variable name
+Bug description:
+  readlink(2) seems to ignore the size of supplied buffer for the
+  resolved name and always returns the actual size of the resolved name
+  instead.
 
->      char *plic_hart_config;
->      size_t plic_hart_config_len;
->      NICInfo *nd;
-> @@ -302,6 +306,15 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
->          qdev_set_nic_properties(DEVICE(&s->gem1), nd);
->      }
->
-> +    /* SPI */
-> +    create_unimplemented_device("microchip.pfsoc.spi0",
-> +        memmap[MICROCHIP_PFSOC_SPI0].base,
-> +        memmap[MICROCHIP_PFSOC_SPI0].size);
-> +
-> +    create_unimplemented_device("microchip.pfsoc.spi1",
-> +        memmap[MICROCHIP_PFSOC_SPI1].base,
-> +        memmap[MICROCHIP_PFSOC_SPI1].size);
+  Steps to reproduce:
 
-As I mentioned earlier, please put the above changes before the I2C1 code block.
+  ```bash
+  echo '#include <stdio.h>
+  #include <stdlib.h>
+  #include <unistd.h>
 
-> +
->      object_property_set_int(OBJECT(&s->gem0), "revision", GEM_REVISION, errp);
->      object_property_set_int(OBJECT(&s->gem0), "phy-addr", 8, errp);
->      sysbus_realize(SYS_BUS_DEVICE(&s->gem0), errp);
-> @@ -337,6 +350,14 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
->                                  memmap[MICROCHIP_PFSOC_ENVM_DATA].base,
->                                  envm_data);
->
-> +    /* QSPI Flash */
-> +    memory_region_init_rom(xip_mem, OBJECT(dev), "microchip.pfsoc.xip",
+  int main(int argc, const char** argv)
+  {
+      if(argc < 2) exit(1);
+      char buf[1];
+      printf("%d\n", readlink(argv[1], buf, sizeof(buf)));
+  }' >test.c
 
-nits: "microchip.pfsoc.qspi_xip"
+  # I used GCC mipsel cross-compiler to reproduce this bug
+  mipsel-linux-gnu-gcc-5.5 test.c -o a.out
 
-> +                           memmap[MICROCHIP_PFSOC_QSPI_XIP].size,
-> +                           &error_fatal);
-> +    memory_region_add_subregion(system_memory,
-> +                                memmap[MICROCHIP_PFSOC_QSPI_XIP].base,
-> +                                xip_mem);
-> +
->      /* IOSCBCFG */
->      create_unimplemented_device("microchip.pfsoc.ioscb.cfg",
->          memmap[MICROCHIP_PFSOC_IOSCB_CFG].base,
-> diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microchip_pfsoc.h
-> index 8bfc7e1a85..28d6f389ec 100644
-> --- a/include/hw/riscv/microchip_pfsoc.h
-> +++ b/include/hw/riscv/microchip_pfsoc.h
-> @@ -87,6 +87,8 @@ enum {
->      MICROCHIP_PFSOC_MMUART2,
->      MICROCHIP_PFSOC_MMUART3,
->      MICROCHIP_PFSOC_MMUART4,
-> +    MICROCHIP_PFSOC_SPI0,
-> +    MICROCHIP_PFSOC_SPI1,
->      MICROCHIP_PFSOC_GEM0,
->      MICROCHIP_PFSOC_GEM1,
->      MICROCHIP_PFSOC_GPIO0,
-> @@ -94,6 +96,7 @@ enum {
->      MICROCHIP_PFSOC_GPIO2,
->      MICROCHIP_PFSOC_ENVM_CFG,
->      MICROCHIP_PFSOC_ENVM_DATA,
-> +    MICROCHIP_PFSOC_QSPI_XIP,
->      MICROCHIP_PFSOC_IOSCB_CFG,
->      MICROCHIP_PFSOC_DRAM,
->  };
+  echo "PWD: `pwd`"
+  qemu-mipsel ./a.out /proc/self/exe
+  ```
 
-Regards,
-Bin
+  Expected output (observed when running a.out natively on Linux 4.17 amd64=
+):
+  ```
+  PWD: /tmp/test
+  1
+  ```
+
+  Output observed when running with qemu-mipsel 2.1.2:
+  ```
+  PWD: /tmp/test
+  15
+  ```
+
+  According to POSIX description of readlink [1], the function shall
+  return the number of bytes written to the supplied buffer, which
+  obviously cannot exceed size of the buffer.
+
+  Note that the bug is only reproduced with links within /proc
+  filesystem; links to the regular files within /home are resolved
+  normally.
+
+  The bug is present in qemu-mipsel 2.1.2:
+
+  # qemu-mipsel -version
+  qemu-mipsel version 2.1.2 (Debian 1:2.1+dfsg-12+deb8u6), Copyright (c) 20=
+03-2008 Fabrice Bellard
+
+  [1]:
+  http://pubs.opengroup.org/onlinepubs/009695399/functions/readlink.html
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1794086/+subscriptions
 
