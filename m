@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E59F2B0794
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 15:34:14 +0100 (CET)
-Received: from localhost ([::1]:50074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEB632B07A0
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 15:37:24 +0100 (CET)
+Received: from localhost ([::1]:52224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdDfx-00054X-8S
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 09:34:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37560)
+	id 1kdDj1-00069a-Ps
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 09:37:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kdDf4-0004YY-Jo
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 09:33:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21589)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kdDhn-0005ho-7S
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 09:36:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56896)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kdDf1-00012c-Bx
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 09:33:17 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kdDhk-0001x9-9Z
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 09:36:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605191594;
+ s=mimecast20190719; t=1605191763;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=herrlPz7qD0QKAF99GkEDHSf0A948V3alNO1GQjnQ6Q=;
- b=M6euXfLPrk1T6DEMeMGdzzvNJXQ67zSVI2aqMm+9meUWyKdCZ3UvpLx8vku9itmpSzGxAE
- wzOoLTUGwUQlyWTs9T573ZI562kBiix7aT248kQgl/ZnQGW33sWmz0aPDeB23bwBy+hNuV
- 88z042AAmbuOfgzK/xoLF4O+UM2Ljx4=
+ bh=GQ8xrIhKkdj5NghHUebZ1y7g7S0gfxVMmIoOvrjx9CY=;
+ b=JnANrYWRmK3t7Oig9pKSxpHeZ4oqjrSiYZYwqQwV5n9JfD13/eteTBq1aLM7tqkoXt1B5a
+ H70aWSvb2zcZvBkPBPzv8dZO+XuzkYWmPUOz5glmLHPjhUnK/MwcGbYTNEExbOMIFvwwzM
+ IJhXADYnqq9nxth18wxsfVzau1s4Imk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-203-UpF110IaNTyd8xo7LCBlWA-1; Thu, 12 Nov 2020 09:33:12 -0500
-X-MC-Unique: UpF110IaNTyd8xo7LCBlWA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-346-FVNBHBHzN6Kh6T2VM3lBtA-1; Thu, 12 Nov 2020 09:35:59 -0500
+X-MC-Unique: FVNBHBHzN6Kh6T2VM3lBtA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ECEEC1882FA3;
- Thu, 12 Nov 2020 14:33:10 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-37.ams2.redhat.com
- [10.36.114.37])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 28FDD26329;
- Thu, 12 Nov 2020 14:32:59 +0000 (UTC)
-Subject: Re: [PATCH for-5.2 04/10] vhost-user-blk-test: rename destroy_drive()
- to destroy_file()
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-References: <20201111124331.1393747-1-stefanha@redhat.com>
- <20201111124331.1393747-5-stefanha@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <e3d13da4-823f-2b55-ed89-40832862d272@redhat.com>
-Date: Thu, 12 Nov 2020 15:32:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D41EF1017DD1;
+ Thu, 12 Nov 2020 14:35:57 +0000 (UTC)
+Received: from work-vm (ovpn-115-60.ams2.redhat.com [10.36.115.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DA9571C4;
+ Thu, 12 Nov 2020 14:35:55 +0000 (UTC)
+Date: Thu, 12 Nov 2020 14:35:48 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Chuan Zheng <zhengchuan@huawei.com>
+Subject: Re: [PATCH] migration/multifd: fix hangup with TLS-Multifd due to
+ blocking handshake
+Message-ID: <20201112143548.GC13424@work-vm>
+References: <1604643893-8223-1-git-send-email-zhengchuan@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20201111124331.1393747-5-stefanha@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <1604643893-8223-1-git-send-email-zhengchuan@huawei.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:00:44
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 00:52:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,36 +83,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Coiby Xu <Coiby.Xu@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: yubihong@huawei.com, berrange@redhat.com, zhang.zhanghailiang@huawei.com,
+ quintela@redhat.com, qemu-devel@nongnu.org, xiexiangyou@huawei.com,
+ alex.chen@huawei.com, wanghao232@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11.11.20 13:43, Stefan Hajnoczi wrote:
-> The function is used not just for image files but also for UNIX domain
-> sockets (QMP monitor and vhost-user-blk). Reflect that in the name.
+* Chuan Zheng (zhengchuan@huawei.com) wrote:
+> The qemu main loop could hang up forever when we enable TLS+Multifd.
+> The Src multifd_send_0 invokes tls handshake, it sends hello to sever
+> and wait response.
+> However, the Dst main qemu loop has been waiting recvmsg() for multifd_recv_1.
+> Both of Src and Dst main qemu loop are blocking and waiting for reponse which
+> results in hanging up forever.
 > 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Src: (multifd_send_0)                                              Dst: (multifd_recv_1)
+> multifd_channel_connect                                            migration_channel_process_incoming
+>   multifd_tls_channel_connect                                        migration_tls_channel_process_incoming
+>     multifd_tls_channel_connect                                        qio_channel_tls_handshake_task
+>        qio_channel_tls_handshake                                         gnutls_handshake
+>           qio_channel_tls_handshake_task                                       ...
+>             qcrypto_tls_session_handshake                                      ...
+>               gnutls_handshake                                                 ...
+>                    ...                                                         ...
+>                 recvmsg (Blocking I/O waiting for response)                recvmsg (Blocking I/O waiting for response)
+> 
+> Fix this by offloadinig handshake work to a background thread.
+> 
+> Reported-by: Yan Jin <jinyan12@huawei.com>
+> Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
+
+Queued
+
 > ---
->   tests/qtest/vhost-user-blk-test.c | 9 +++++----
->   1 file changed, 5 insertions(+), 4 deletions(-)
-
-[...]
-
-> @@ -731,7 +732,7 @@ static char *start_vhost_user_blk(GString *cmd_line, int vus_instances,
->           sock_path = g_strdup(sock_path_tempate);
->           fd = mkstemp(sock_path);
->           g_assert_cmpint(fd, >=, 0);
-> -        g_test_queue_destroy(drive_destroy, sock_path);
-> +        g_test_queue_destroy(drive_file, sock_path);
-
-s/drive_file/destroy_file/, I think :)
-
->           /* create image file */
->           img_path = drive_create();
->           g_string_append_printf(storage_daemon_command,
+>  migration/multifd.c | 23 +++++++++++++++++------
+>  1 file changed, 17 insertions(+), 6 deletions(-)
 > 
+> diff --git a/migration/multifd.c b/migration/multifd.c
+> index 68b171f..88486b9 100644
+> --- a/migration/multifd.c
+> +++ b/migration/multifd.c
+> @@ -739,6 +739,19 @@ static void multifd_tls_outgoing_handshake(QIOTask *task,
+>      multifd_channel_connect(p, ioc, err);
+>  }
+>  
+> +static void *multifd_tls_handshake_thread(void *opaque)
+> +{
+> +    MultiFDSendParams *p = opaque;
+> +    QIOChannelTLS *tioc = QIO_CHANNEL_TLS(p->c);
+> +
+> +    qio_channel_tls_handshake(tioc,
+> +                              multifd_tls_outgoing_handshake,
+> +                              p,
+> +                              NULL,
+> +                              NULL);
+> +    return NULL;
+> +}
+> +
+>  static void multifd_tls_channel_connect(MultiFDSendParams *p,
+>                                          QIOChannel *ioc,
+>                                          Error **errp)
+> @@ -754,12 +767,10 @@ static void multifd_tls_channel_connect(MultiFDSendParams *p,
+>  
+>      trace_multifd_tls_outgoing_handshake_start(ioc, tioc, hostname);
+>      qio_channel_set_name(QIO_CHANNEL(tioc), "multifd-tls-outgoing");
+> -    qio_channel_tls_handshake(tioc,
+> -                              multifd_tls_outgoing_handshake,
+> -                              p,
+> -                              NULL,
+> -                              NULL);
+> -
+> +    p->c = QIO_CHANNEL(tioc);
+> +    qemu_thread_create(&p->thread, "multifd-tls-handshake-worker",
+> +                       multifd_tls_handshake_thread, p,
+> +                       QEMU_THREAD_JOINABLE);
+>  }
+>  
+>  static bool multifd_channel_connect(MultiFDSendParams *p,
+> -- 
+> 1.8.3.1
+> 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
