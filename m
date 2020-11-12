@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FFF22AFFB5
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 07:37:21 +0100 (CET)
-Received: from localhost ([::1]:37772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CF742AFFB6
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 07:37:29 +0100 (CET)
+Received: from localhost ([::1]:37944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kd6ES-0004EZ-EL
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 01:37:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43186)
+	id 1kd6EV-0004K1-AJ
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 01:37:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kd6D2-0003QO-3i
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 01:35:52 -0500
-Received: from indium.canonical.com ([91.189.90.7]:50010)
+ id 1kd6D6-0003R6-3g
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 01:35:56 -0500
+Received: from indium.canonical.com ([91.189.90.7]:50000)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kd6Cu-0008PC-Gh
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 01:35:50 -0500
+ id 1kd6Cu-0008P0-Gd
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 01:35:54 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kd6Cp-0001hk-Aw
- for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 06:35:39 +0000
+ id 1kd6Co-0001gA-RT
+ for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 06:35:38 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 511672E812F
- for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 06:35:39 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id AA51B2E8130
+ for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 06:35:38 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 12 Nov 2020 06:26:07 -0000
-From: Thomas Huth <1794086@bugs.launchpad.net>
+Date: Thu, 12 Nov 2020 06:27:44 -0000
+From: Thomas Huth <1794285@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -38,19 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: o-andriyanov th-huth
-X-Launchpad-Bug-Reporter: Oleg Andriyanov (o-andriyanov)
+X-Launchpad-Bug-Commenters: gareth.bryan th-huth
+X-Launchpad-Bug-Reporter: Gareth Bryan (gareth.bryan)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <153779469711.24405.12458384472320713523.malonedeb@gac.canonical.com>
-Message-Id: <160516236762.5334.479992863222782588.malone@soybean.canonical.com>
-Subject: [Bug 1794086] Re: readlink(2) returns incorrect size for
- /proc/self/exe
+References: <153787868402.2071.3904469903390825954.malonedeb@wampee.canonical.com>
+Message-Id: <160516246456.24402.1021563531794689298.malone@wampee.canonical.com>
+Subject: [Bug 1794285] Re: 100% Host CPU usage while guest idling
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="9218c6cee10bde7201ace93cd659634a9bc6c70a"; Instance="production"
-X-Launchpad-Hash: 3cec78da96673b87c2b5e6368f48c3ad052c720e
+X-Launchpad-Hash: 42e4f15bb4cb6ebbc6109601629f8504936a170a
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 01:35:39
@@ -73,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1794086 <1794086@bugs.launchpad.net>
+Reply-To: Bug 1794285 <1794285@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -93,70 +92,142 @@ venience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1794086
+https://bugs.launchpad.net/bugs/1794285
 
 Title:
-  readlink(2) returns incorrect size for /proc/self/exe
+  100% Host CPU usage while guest idling
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  readlink(2) seems to ignore the size of supplied buffer for the
-  resolved name and always returns the actual size of the resolved name
-  instead.
+  Hi,
 
-  Steps to reproduce:
+  We have an appliance that runs a FreeBSD guest on a Yocto-based host via =
+qemu-system-x86_64.
+  Everything functions fine however the host uses n00% of the CPU (where n =
+=3D #smp) and RAM allocated to it whilst the 1 guest is sat nearing idle.
 
-  ```bash
-  echo '#include <stdio.h>
-  #include <stdlib.h>
-  #include <unistd.h>
+  Host:
+  PID     USER      PR  NI  VIRT  RES  SHR S %CPU %MEM    TIME+  COMMAND
+  4406    root      20   0 16.7g  16g  26m S  500 53.0  17958:38 qemu-syste=
+m-x86
 
-  int main(int argc, const char** argv)
-  {
-      if(argc < 2) exit(1);
-      char buf[1];
-      printf("%d\n", readlink(argv[1], buf, sizeof(buf)));
-  }' >test.c
+  Guest:
+  CPU 0:  0.0% user,  0.0% nice,  0.4% system,  0.0% interrupt, 99.6% idle
+  CPU 1:  0.0% user,  0.0% nice,  0.4% system,  0.0% interrupt, 99.6% idle
+  CPU 2:  0.0% user,  0.0% nice,  0.0% system,  0.0% interrupt,  100% idle
+  CPU 3:  0.0% user,  0.0% nice,  0.0% system,  0.0% interrupt,  100% idle
+  CPU 4:  0.4% user,  0.0% nice,  0.0% system,  0.0% interrupt, 99.6% idle
+  Mem: 43M Active, 4783M Inact, 1530M Wired, 911M Buf, 9553M Free
+  Swap: 3072M Total, 3072M Free
 
-  # I used GCC mipsel cross-compiler to reproduce this bug
-  mipsel-linux-gnu-gcc-5.5 test.c -o a.out
+  I have logged this with the appliance vendor and received the response:
+  "This is expected behaviour and you will see the same in any case where a=
+ Guest OS runs over a Host OS.
+  Host here has 5 CPUs and it has assigned all of them to Guest. =
 
-  echo "PWD: `pwd`"
-  qemu-mipsel ./a.out /proc/self/exe
-  ```
+  Since the Host is not being shared by any Guest OS; you will always see t=
+he 500% (or the 5 CPUs) given to qemu-system-x86.
+  I do see the same in lab and is very much expected"
 
-  Expected output (observed when running a.out natively on Linux 4.17 amd64=
-):
-  ```
-  PWD: /tmp/test
-  1
-  ```
+  This feels fundamentally wrong to me.
+  I'm somewhat limited by what can be tested due to the nature of this bein=
+g an appliance rather than a mainstream distro.
 
-  Output observed when running with qemu-mipsel 2.1.2:
-  ```
-  PWD: /tmp/test
-  15
-  ```
+  I'm looking for feedback that I can use to push the vendor into
+  investigating this issue.
 
-  According to POSIX description of readlink [1], the function shall
-  return the number of bytes written to the supplied buffer, which
-  obviously cannot exceed size of the buffer.
+  Versions below.
 
-  Note that the bug is only reproduced with links within /proc
-  filesystem; links to the regular files within /home are resolved
-  normally.
+  Many thanks,
+  Gareth
 
-  The bug is present in qemu-mipsel 2.1.2:
 
-  # qemu-mipsel -version
-  qemu-mipsel version 2.1.2 (Debian 1:2.1+dfsg-12+deb8u6), Copyright (c) 20=
-03-2008 Fabrice Bellard
+  Host:
+  Linux 204a-node 3.10.100-ovp-rt110-WR6.0.0.31_preempt-rt #1 SMP Fri
+  Aug 3 01:59:01 PDT 2018 x86_64 x86_64 x86_64 GNU/Linux
 
-  [1]:
-  http://pubs.opengroup.org/onlinepubs/009695399/functions/readlink.html
+  Qemu:
+  QEMU emulator version 1.7.2, Copyright (c) 2003-2008 Fabrice Bellard
+
+  Command:
+  (Vendor identifying information has been removed)
+
+  /usr/bin/qemu-system-x86_64 \
+  -name REMOVED \
+  -S \
+  -machine pc-i440fx-1.7,accel=3Dkvm,usb=3Doff \
+  -m 16384 \
+  -realtime mlock=3Don \
+  -smp 5,sockets=3D5,cores=3D1,threads=3D1 \
+  -uuid 76277b29-3bd4-4dd4-a705-ed34d6449d6d \
+  -nographic \
+  -no-user-config \
+  -nodefaults \
+  -chardev socket,id=3Dcharmonitor,path=3D/var/lib/libvirt/qemu/REMOVED.mon=
+itor,server,nowait \
+  -mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol \
+  -rtc base=3Dutc \
+  -no-shutdown \
+  -boot strict=3Don \
+  -device piix3-usb-uhci,id=3Dusb,bus=3Dpci.0,addr=3D0x1.0x2 \
+  -device virtio-scsi-pci,id=3Dscsi0,bus=3Dpci.0,addr=3D0x17 \
+  -netdev tap,fd=3D22,id=3Dhostnet0,vhost=3Don,vhostfd=3D23 \
+  -device virtio-net-pci,netdev=3Dhostnet0,id=3Dnet0,mac=3DREMOVED,bus=3Dpc=
+i.0,addr=3D0x11 \
+  -netdev tap,ifname=3Dtap1,script=3D/etc/vehostd/XXX-em3-ifup,id=3Dhostnet=
+1,vhost=3Don,vhostfd=3D24 \
+  -device virtio-net-pci,netdev=3Dhostnet1,id=3Dnet1,mac=3DREMOVED,bus=3Dpc=
+i.0,addr=3D0x12 \
+  -netdev tap,ifname=3Dtap2,script=3D/etc/vehostd/REMOVED-em4-ifup-SUMMIT,i=
+d=3Dhostnet2,vhost=3Don,vhostfd=3D25 \
+  -device virtio-net-pci,netdev=3Dhostnet2,id=3Dnet2,mac=3DREMOVED,bus=3Dpc=
+i.0,addr=3D0x1c \
+  -netdev tap,ifname=3Dtap3,script=3D/etc/vehostd/REMOVED-em4-re-re-ifup,id=
+=3Dhostnet3,vhost=3Don,vhostfd=3D26 \
+  -device virtio-net-pci,netdev=3Dhostnet3,id=3Dnet3,mac=3DREMOVED,bus=3Dpc=
+i.0,addr=3D0x1d \
+  -chardev pty,id=3Dcharserial0 \
+  -device isa-serial,chardev=3Dcharserial0,id=3Dserial0 \
+  -chardev tty,id=3Dcharserial1,path=3D/dev/ttyS1 \
+  -device isa-serial,chardev=3Dcharserial1,id=3Dserial1 \
+  -chardev tty,id=3Dcharserial2,path=3D/dev/ttyS2 \
+  -device isa-serial,chardev=3Dcharserial2,id=3Dserial2 \
+  -chardev tty,id=3Dcharserial3,path=3D/dev/ttyS3 \
+  -device isa-serial,chardev=3Dcharserial3,id=3Dserial3 \
+  -device i6300esb,id=3Dwatchdog0,bus=3Dpci.0,addr=3D0x10 \
+  -watchdog-action reset \
+  -object rng-random,id=3Drng0,filename=3D/dev/random \
+  -device virtio-rng-pci,rng=3Drng0,max-bytes=3D1024,period=3D2000,bus=3Dpc=
+i.0,addr=3D0x1e \
+  -smbios type=3D0,vendor=3D"INSYDE Corp.",version=3DREMOVED,date=3D11/03/2=
+017,release=3D1.00 \
+  -smbios type=3D1,manufacturer=3DREMOVED,product=3DREMOVED,version=3DREMOV=
+ED,serial=3DVF-NET \
+  -device REMOVED-pci,host=3D0000:1c:00.0 \
+  -device kvm-pci-assign,host=3D0000:00:14.0 \
+  -device pci-hgcommdev,vmindex=3D0,bus=3Dpci.0,addr=3D0x16 \
+  -drive file=3D/REMOVED/REMOVED-current.img,if=3Dnone,id=3Ddrive-virtio-di=
+sk0,format=3Draw,cache=3Ddirectsync,aio=3Dnative \
+  -device virtio-blk-pci,scsi=3Doff,bus=3Dpci.0,addr=3D0x13,drive=3Ddrive-v=
+irtio-disk0,id=3Dvirtio-disk0,config-wce=3Doff,x-data-plane=3Don,bootindex=
+=3D1 \
+  -drive file=3D/REMOVED/REMOVED-var-config.img,if=3Dnone,id=3Ddrive-virtio=
+-disk1,format=3Draw,cache=3Ddirectsync,aio=3Dnative \
+  -device virtio-blk-pci,scsi=3Doff,bus=3Dpci.0,addr=3D0x15,drive=3Ddrive-v=
+irtio-disk1,id=3Dvirtio-disk1,config-wce=3Doff,x-data-plane=3Don,bootindex=
+=3D-1 \
+  -drive file=3D/REMOVED/REMOVED-aux-disk.img,if=3Dnone,id=3Ddrive-ide0-0-1=
+,format=3Draw,cache=3Ddirectsync,discard=3Dunmap \
+  -device ide-hd,bus=3Dide.0,unit=3D1,drive=3Ddrive-ide0-0-1,id=3Dide0-0-1,=
+bootindex=3D-1 \
+  -drive file=3D/REMOVED/images/0/REMOVED-platform.img,if=3Dnone,id=3Ddrive=
+-ide1-0-1,format=3Draw,cache=3Ddirectsync,discard=3Dunmap \
+  -device ide-hd,bus=3Dide.1,unit=3D1,drive=3Ddrive-ide1-0-1,id=3Dide1-0-1,=
+bootindex=3D-1 \
+  -msg timestamp=3Don
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1794086/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1794285/+subscriptions
 
