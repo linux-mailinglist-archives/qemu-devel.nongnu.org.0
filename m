@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEAC12B0873
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 16:32:13 +0100 (CET)
-Received: from localhost ([::1]:44490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A120D2B0878
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 16:35:00 +0100 (CET)
+Received: from localhost ([::1]:46978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdEa5-0007eB-2E
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 10:32:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55032)
+	id 1kdEcl-0000If-O3
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 10:34:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kdEZ2-00078R-Nu
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 10:31:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32875)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kdEZ1-0005sr-1p
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 10:31:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605195066;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=IYWuC6oHHbU1l9fl3TFRLzGm2XxYMB534tQq0UN/aoc=;
- b=IIbGgILbRRcG5Pd+7vQK/6KENb2alXK/25tJoiovRvHCUdjlTfS6Z7z10Ix/LK+bJdTPuE
- VU/GDoiqT71w0dfb+tjJOOBXdUbPi6jusSdpokGQZxhRDmenSeXgJGy/OUB6/UIkOUUdR/
- 3SP0Ux6WAO0vCZ17LhLG+wlp2A1UnAw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-402-EK_tA9pAPW68K-2L8h9Xog-1; Thu, 12 Nov 2020 10:31:04 -0500
-X-MC-Unique: EK_tA9pAPW68K-2L8h9Xog-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2827A802B46;
- Thu, 12 Nov 2020 15:31:03 +0000 (UTC)
-Received: from work-vm (ovpn-115-60.ams2.redhat.com [10.36.115.60])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C0EEC5D9CA;
- Thu, 12 Nov 2020 15:31:01 +0000 (UTC)
-Date: Thu, 12 Nov 2020 15:30:58 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: "Longpeng(Mike)" <longpeng2@huawei.com>
-Subject: Re: [PATCH] migration: handle CANCELLING state in
- migration_completion()
-Message-ID: <20201112153058.GF13424@work-vm>
-References: <20201105091726.148-1-longpeng2@huawei.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kdEbb-0008CN-6W
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 10:33:47 -0500
+Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:34875)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kdEbZ-0006gu-Gs
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 10:33:46 -0500
+Received: by mail-ed1-x544.google.com with SMTP id ay21so6759446edb.2
+ for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 07:33:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=h0ymbKeRT8Ee6GVhrUOeThm8iBCVfLsglS2lGAY9kwA=;
+ b=yXSBYa42mK42igUr1AxNldE2+dRL/Cb1wi3SzJFoqs3D2khAeGLIpX4JG0S3lniSlp
+ zFyH41GzvEx51Gvo3V4xENQ+sC4WrAeDpNDd8ascbKvoJuBL+dgiO09p/cLxhCGJsz3e
+ 6ZBeE3qEfouMLXq0dSdahlxXx+XXEVnEBrWfA8FwijK8XjvQOpww4WGeGonyu0KgCD1K
+ gyfBaXvUBRJI+5GHFjG79qoXnwSg7b8wRzAtiBbmlWOio8YARq1GyVTtT48z+G7CVACD
+ a6lhrPLTrZ8qCsJgvw7vTJJgrmTo3XERMmw5VtlWts0sXl2KiswmGQr0gSH6hHSyIACd
+ JmkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=h0ymbKeRT8Ee6GVhrUOeThm8iBCVfLsglS2lGAY9kwA=;
+ b=fZOdGuAVPsHvyzvOVvvAhykx6WVmbU+2E9/h5btjzzPKPC9N1x1+JZjZBwwuToG6sM
+ f2wN4FvW2fm/YGRbCe7V5YpCCQmfEgjSsJNM8CtGhF8uRopyRV/Zk8RBxAspBSkg0vHV
+ Rl98fsjNrDbxZLs8gWig6nAJaAw+txrB4QgRXasdAoUxNhz5q+ZkHwhnxpCpBKgXTRwv
+ JiVMef2nGqeFj0+BA+zMGWwPmbqpucHJLL6/+ngCX4OR4H19905LhuSso8M4W3DZa7DM
+ K9DsiWpvl6SQxCqCQkhKCpjDFpxYp12uwqfPRaSB37WPumGqqhtWurnWMFdOKYkPaN7j
+ vsug==
+X-Gm-Message-State: AOAM530hLYkKVjinCVnLJ0J9j3L3uuryVmijf7A61K5QUscZeHmAYRwr
+ Xw/nwmbPD/wX5FNj77NZ8FjhI7+kWpU+neRmIbfnYw==
+X-Google-Smtp-Source: ABdhPJzWSY18+K39vIp+FdB8XLlCXDQ2QP3AF/x5iNcygRDWH+eRjBGVaOXjUGou/Zh75BQwP2bGbLIomlLG7FZMW2k=
+X-Received: by 2002:a05:6402:b35:: with SMTP id
+ bo21mr363962edb.52.1605195223065; 
+ Thu, 12 Nov 2020 07:33:43 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201105091726.148-1-longpeng2@huawei.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 00:52:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20201111143440.112763-1-drjones@redhat.com>
+In-Reply-To: <20201111143440.112763-1-drjones@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 12 Nov 2020 15:33:31 +0000
+Message-ID: <CAFEAcA_Rh-OAcrttL9czzaGA2CThtjX7BQyeBJgMnj2XaHqusw@mail.gmail.com>
+Subject: Re: [PATCH] hw/arm/virt: ARM_VIRT must select ARM_GIC
+To: Andrew Jones <drjones@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::544;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x544.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,57 +79,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: arei.gonglei@huawei.com, huangzhichao@huawei.com, qemu-devel@nongnu.org,
- quintela@redhat.com
+Cc: Miroslav Rezanina <mrezanin@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Longpeng(Mike) (longpeng2@huawei.com) wrote:
-> The following sequence may cause the VM abort during migration:
-> 
-> 1. RUN_STATE_RUNNING,MIGRATION_STATUS_ACTIVE
-> 
-> 2. before call migration_completion(), we send migrate_cancel
->    QMP command, the state machine is changed to:
->      RUN_STATE_RUNNING,MIGRATION_STATUS_CANCELLING
-> 
-> 3. call migration_completion(), and the state machine is
->    switch to: RUN_STATE_RUNNING,MIGRATION_STATUS_COMPLETED
-> 
-> 4. call migration_iteration_finish(), because the migration
->    status is COMPLETED, so it will try to set the runstate
->    to POSTMIGRATE, but RUNNING-->POSTMIGRATE is an invalid
->    transition, so abort().
-> 
-> The migration_completion() should not change the migration state
-> to COMPLETED if it is already changed to CANCELLING.
-> 
-> Signed-off-by: Longpeng(Mike) <longpeng2@huawei.com>
+On Wed, 11 Nov 2020 at 14:34, Andrew Jones <drjones@redhat.com> wrote:
+>
+> The removal of the selection of A15MPCORE from ARM_VIRT also
+> removed what A15MPCORE selects, ARM_GIC. We still need ARM_GIC.
+>
+> Fixes: bec3c97e0cf9 ("hw/arm/virt: Remove dependency on Cortex-A15 MPCore peripherals")
+> Reported-by: Miroslav Rezanina <mrezanin@redhat.com>
+> Signed-off-by: Andrew Jones <drjones@redhat.com>
 
-Queued
 
-> ---
->  migration/migration.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 3263aa5..b11a2bd 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -3061,6 +3061,8 @@ static void migration_completion(MigrationState *s)
->  
->          qemu_savevm_state_complete_postcopy(s->to_dst_file);
->          trace_migration_completion_postcopy_end_after_complete();
-> +    } else if (s->state == MIGRATION_STATUS_CANCELLING) {
-> +        goto fail;
->      }
->  
->      /*
-> -- 
-> 1.8.3.1
-> 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
+Applied to target-arm.next, thanks.
+
+-- PMM
 
