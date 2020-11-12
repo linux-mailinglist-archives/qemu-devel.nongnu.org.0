@@ -2,69 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B8232B0681
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 14:33:29 +0100 (CET)
-Received: from localhost ([::1]:44150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F18222B0683
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 14:34:01 +0100 (CET)
+Received: from localhost ([::1]:45510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdCjA-0003s2-4e
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 08:33:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50942)
+	id 1kdCjh-0004RP-2u
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 08:34:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kdCgy-0002vo-Hg
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 08:31:12 -0500
-Received: from indium.canonical.com ([91.189.90.7]:43698)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kdChW-0003BL-Jw
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 08:31:46 -0500
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:37122)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kdCgw-00046r-Cn
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 08:31:12 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kdCgu-00084D-Oj
- for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 13:31:08 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B7F842E80E8
- for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 13:31:08 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kdChU-0004HM-QJ
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 08:31:46 -0500
+Received: by mail-ed1-x535.google.com with SMTP id cq7so6159387edb.4
+ for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 05:31:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UkYVisUC9HtBjFyLrm5V0YFKz7aS1vTzkqbQIE0I3aQ=;
+ b=D82zQPEAv6CHu0go8ELG6cF+DHqL2OxWX7hDKEEFRgRoOJyM6oKrwAIEJHxNw3QFcx
+ 4Z41MpdtcnQCwsL+f2u9n4M4kAeam6rLlrIZDIt+ZC3gSOww0yocoO4bDj4K/bpx9FiS
+ F6/I7s4u5e4LrM4rgmZvnvJTEcqugMKimgUSTXqX54Z2VLLbh1ZstKRkBqp6ahn99/L+
+ DUA7RWS/0igDHwye3teSIR9s8w+b0imaM8GvQ3VEaOX5GtgdHL0uChW+UU9B0mQqvVIx
+ l5DBCJryOfYyvoh/xuZWxe3xM2eodlfaIzQRK/zkOu9XbPyJBFDaJxwW70owQ5dDRPk8
+ nv9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UkYVisUC9HtBjFyLrm5V0YFKz7aS1vTzkqbQIE0I3aQ=;
+ b=BlS9WGS6xSvmiULjVuR4ovypDMulP20xUPjY/Ad74bfkwVRB+AR6esEN+N/J4ickND
+ mHIzTOvGqSllAavmZHbJ8CPHrTtQevh2quf520OoKRiuZDF5SlVD+IXq0ocJFkU/EYYK
+ l7gGxw9rIYaVzcDEWMt3C9qXbWx+2DxP06wQG7ubPA31RWyevJFqlhL1Ku0ugp7VjRbA
+ D7WU/AAio8KaBFuOVf/p1OvvKHTwkT1YVn/LJ2vAT2gj0lx0b1VRmOk6tNSH7STfK1aU
+ CX+pt8NxBpmJ/R49plf04AXS+48572JHzn/50GWAKWkhGbKExc/oplk/MdMLgoXrQkST
+ AQYQ==
+X-Gm-Message-State: AOAM533mDlhv8rzZ87URNA3BykvCjLxZguFkeB8ZdTk0L4EcTdDRn+Ya
+ uTpBOdZPCkRL9nU+sX0Ziz/KndLB+NtrJ1KANVkIBw==
+X-Google-Smtp-Source: ABdhPJyFY1JUN+oBxgrBifMwP3gpBXelRpWx8yZKonU2q3t9yWhkSauuANbjcMQsl9z71DRdLcdYng4qNMAgNiALFfA=
+X-Received: by 2002:a50:fa92:: with SMTP id w18mr5015643edr.44.1605187903261; 
+ Thu, 12 Nov 2020 05:31:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 12 Nov 2020 13:15:58 -0000
-From: Thomas Huth <1668273@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Won't Fix; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange gkurz nehaljwani th-huth
-X-Launchpad-Bug-Reporter: Nehal J Wani (nehaljwani)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20170227140328.20639.14786.malonedeb@soybean.canonical.com>
-Message-Id: <160518695903.23616.178069395587835559.malone@wampee.canonical.com>
-Subject: [Bug 1668273] Re: DoS possible on - a QEMU process using userspace
- SLIRP?
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="9218c6cee10bde7201ace93cd659634a9bc6c70a"; Instance="production"
-X-Launchpad-Hash: d4f2270ad2e28bddd596768cb77af972139fb0c1
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:20:56
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20201112095620.27372-1-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20201112095620.27372-1-mark.cave-ayland@ilande.co.uk>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 12 Nov 2020 13:31:32 +0000
+Message-ID: <CAFEAcA-UhO8ndUC5_KJrBnWLVMPVQkvq2GhumpxfF=pqyQPe6A@mail.gmail.com>
+Subject: Re: [PULL 0/1] qemu-macppc queue 20201112
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,116 +78,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1668273 <1668273@bugs.launchpad.net>
+Cc: qemu-ppc <qemu-ppc@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Slirp has been moved to an external project now. If this is still an issue,=
- please report the problem there instead:
-https://gitlab.freedesktop.org/slirp/libslirp
+On Thu, 12 Nov 2020 at 09:56, Mark Cave-Ayland
+<mark.cave-ayland@ilande.co.uk> wrote:
+>
+> The following changes since commit a4c141dca466ed3e9451f147efe6304b1b659ff5:
+>
+>   Merge remote-tracking branch 'remotes/stefanha-gitlab/tags/tracing-pull-request' into staging (2020-11-11 19:53:15 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/mcayland/qemu.git tags/qemu-macppc-20201112
+>
+> for you to fetch changes up to 6bfa035ec31f4f5a14499f17e08f62e8f14760cc:
+>
+>   macio: set user_creatable to false in macio_class_init() (2020-11-12 09:26:20 +0000)
+>
+> ----------------------------------------------------------------
+> qemu-macppc fix for 5.2
+>
+> ----------------------------------------------------------------
 
-** Changed in: qemu
-       Status: New =3D> Won't Fix
 
--- =
+Applied, thanks.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1668273
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
 
-Title:
-  DoS possible on - a QEMU process using userspace SLIRP?
-
-Status in QEMU:
-  Won't Fix
-
-Bug description:
-  Steps to reproduce:
-
-  - Launch a VM using QEMU (2.8.0):
-
-  $ qemu-system-x86_64 \
-  =C2=A0=C2=A0=C2=A0=C2=A0-machine accel=3Dkvm \
-  =C2=A0=C2=A0=C2=A0=C2=A0-hda Fedora-Cloud-Base-25-1.3.x86_64.qcow2 \
-  =C2=A0=C2=A0=C2=A0=C2=A0-m 2G \
-  =C2=A0=C2=A0=C2=A0=C2=A0-smp 2 \
-  =C2=A0=C2=A0=C2=A0=C2=A0-vnc :8 \
-  =C2=A0=C2=A0=C2=A0=C2=A0-boot dc \
-  =C2=A0=C2=A0=C2=A0=C2=A0-vga std \
-  =C2=A0=C2=A0=C2=A0=C2=A0-cpu host \
-  =C2=A0=C2=A0=C2=A0=C2=A0-net nic,vlan=3D0 \
-  =C2=A0=C2=A0=C2=A0=C2=A0-net user,vlan=3D0,hostfwd=3Dtcp::10024-:22,hostf=
-wd=3Dtcp::8082-:80
-
-  - SSH into the VM, install httpd, start httpd
-
-  $ ssh -p 10024 root@localhost 'dnf install -y httpd && systemctl start
-  httpd'
-
-  - Compile and run the following Java program (on the host):
-
-  $ cat <<EOF > URLConnectionReader.java
-  import java.net.*;
-  import java.io.*;
-
-  public class URLConnectionReader {
-  =C2=A0=C2=A0=C2=A0=C2=A0public static void main(String[] args) throws Exc=
-eption {
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int i =3D 0;
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0while (i < 1024) {
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0U=
-RL this_is_404 =3D new URL("http://localhost:8082/blah");
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0U=
-RLConnection yc =3D this_is_404.openConnection();
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0t=
-ry {
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0BufferedReader in =3D new BufferedReader(new InputS=
-treamReader(
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0yc.getInputStream()));
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0String inputLine;
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0while ((inputLine =3D in.readLine()) !=3D null)
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0System.out.println(inputLin=
-e);
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0in.close();
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}=
- catch (Exception e) {
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0//HttpURLConnection urlConnection =3D (HttpURLConne=
-ction) yc;
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0//urlConnection.disconnect();
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0i=
-++;
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Thread.sleep(1000000000);
-  =C2=A0=C2=A0=C2=A0=C2=A0}
-  }
-
-  $ javac URLConnectionReader.java
-
-  $ java URLConnectionReader &
-
-  The java program tries to open a lot of HTTP connections, but never
-  calls disconnect() on any.
-
-  - Take a look at the list of open FDs of the qemu process:
-
-  $ ls -tl /proc/${qemu-pid}/fd
-
-  $ lsof -p ${qemu-pid}
-  All of the TCP connections will be stuck at FIN_WAIT2
-
-  The VM becomes unresponsive. Neither SSH or VNC works after this; even
-  after tcp_fin_timeout expires.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1668273/+subscriptions
+-- PMM
 
