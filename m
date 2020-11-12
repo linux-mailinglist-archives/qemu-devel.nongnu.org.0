@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48A572B07C0
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 15:46:35 +0100 (CET)
-Received: from localhost ([::1]:43172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C86EE2B07B5
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 15:43:12 +0100 (CET)
+Received: from localhost ([::1]:34694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdDru-000665-A6
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 09:46:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39476)
+	id 1kdDod-0002Ke-Sk
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 09:43:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kdDmN-0000ci-90
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 09:40:51 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:53210)
+ id 1kdDmM-0000bk-Or
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 09:40:50 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:40660)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kdDmK-0003kQ-1R
+ id 1kdDmL-0003kt-3H
  for qemu-devel@nongnu.org; Thu, 12 Nov 2020 09:40:50 -0500
-Received: by mail-wm1-x335.google.com with SMTP id 10so5483570wml.2
- for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 06:40:47 -0800 (PST)
+Received: by mail-wr1-x433.google.com with SMTP id 33so6241584wrl.7
+ for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 06:40:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=IgyBRSdkiFG9Ecsso5QqbbzLRg/ym4sdq7093XNdiVY=;
- b=O31HsXlMzvd3BqVdh+gqX/ImH8vHauNhSMvDYOCz8UZkYVLuRTEDaLJg2qaYY7tUrF
- BX0uowVHyBrBxHcl3qc7m7QVx7jWy6PY4AHQtgluDPHbzve9xoIYxoflqWUpTOTm80n6
- RodVXZZnpUaDPOlE6Nq5mNlMyT4eg0XSjxEyXHEawO0G6fxHvp8ivvzNiPNForiOkBbp
- 8ejaEZJBAU1M2TiV1AN6PYpDQWXfIrNRYoXMxJBjCNpjfhpJfe/3gciV0RVaIgpJMrCw
- OLo2afwslmfE3UweeNi4EjM5SGUsCQd2j31TunvE9cfQrV6h3urxa2Uux8q7djJLGXVh
- qSlw==
+ bh=WO2TnVWc1Q9F5TmaPlTFZN+oBdLDREUOz0RVU/FUiHk=;
+ b=Q7dUax8o74RPpb8q1tnkm9aQ9AlQAy7ESYpat2SoZ81RlLOVaTw6Rt93hbAdzHagR7
+ /VTQx9r73tYIirIvuc+vt2/ZF30rk1Bm53V0s8ZilYYggd0rWll6JTam5gTAutJVxghU
+ JXk8n5VZw7j+me92993h/o5GCQG1v9K5gme84SFF+NG+cAxBT5lLwkTNWe+Sr1+u4Yio
+ lUk18h6smcCrT0YZY8pj+/ThF9SVxKTo5pwa8nDWjfZCyN9y+9MzkdSeCCa6+5NdhbJh
+ Gl/8a4xcKB3lnBoZvi4Ib7t3opKSb8D7wS8j6v77K2x/jISxu63YJm8wqSkil9Eg+2+z
+ LF5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IgyBRSdkiFG9Ecsso5QqbbzLRg/ym4sdq7093XNdiVY=;
- b=YK+cvTkjAX+RGKH0IOhfcJw1g7aW8Svw6gLb+Oz+JmfVy6V/NDwHNvARbu6eAwT0KZ
- 0kroUtxqqy3b/UStQji60ArJQZiqKOIyrkAZx3un/y9SCG1XTPgtp9AwCkC+SiPJgC2W
- 5nKLRKrV3Yc4poYRMBabSvblAqdAAAulVHewYzzS8n73aRYOnYyKVG09rUD+NOhdah8P
- k6i1y4GYlNWrckrFDsElsaFY9QwLQnSCJPJnV/I0od9NwSk18rFfj8S42rL+6AgA8aS1
- 4/xGUWZPrwY436pvWATEGXkLKK7BxWhgyEE+sy5ik3cz8m8PMoeU1l+bjT+2FsWiXnwM
- eYPw==
-X-Gm-Message-State: AOAM530o7l+nZc6eict1r8Knw4naHgL6EtUiRANJXKruy6bcxv8DUuHy
- QeCJwbww2P1J4jK/uq9CFPSXJ+HQ/oiNgA==
-X-Google-Smtp-Source: ABdhPJxhFL1vXf9z3Y8IKGyoB10IKCYcojtE7pTdU+NL5LUc7U+7BfouRswWrurNtYKV2Q74hfAsDQ==
-X-Received: by 2002:a1c:9ad3:: with SMTP id c202mr19786wme.43.1605192046246;
- Thu, 12 Nov 2020 06:40:46 -0800 (PST)
+ bh=WO2TnVWc1Q9F5TmaPlTFZN+oBdLDREUOz0RVU/FUiHk=;
+ b=MX3hemWEOvqWSz40Q8+ZcJsHINRJGzAImPMonbR6igkMRNybiJNe9mByK/2O2ibLOZ
+ JePZ2UA89vo7s8MYrlyAONVR78XZ5kYGLl73ceSpn+tPW4OrxkiqkViI7Xle4ergkJLe
+ O1KzJ4SJvMicHEkMHm+w+FNCc9+VR4TFQfk/r/2jwF/q3AW57znCpYsXDlzJqdJOxMrz
+ ryel2KB4l01vB2bR/Ly4Wu9mi6JRH5DuudJUCYX/7wSYD6jqlR9SFV5zTXMhMS1BNtZ/
+ W8d8RS+Ewx3QjmtUGlmq/HELY4HiZThbQCkYEZ1I0jdjNhkTbITTTV3O+AcpjHWyU1S+
+ +UuA==
+X-Gm-Message-State: AOAM531MB7Gp28G50z3f6qFG4aLC/1zAhgehBXbV6HsLcLqlwiJIuKC3
+ RwZKp3gORlZo4fsN1mMMeexcvyGRDFBqwA==
+X-Google-Smtp-Source: ABdhPJyMAlOAZzEVnxKVKO8aztdhYMM9Y2g7qEpj7xlXwU27WPEBIW+Fl8tAlP3yXJI6HRJPxKl5xg==
+X-Received: by 2002:adf:a3d1:: with SMTP id m17mr25434272wrb.289.1605192047221; 
+ Thu, 12 Nov 2020 06:40:47 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id k16sm7410907wrl.65.2020.11.12.06.40.45
+ by smtp.gmail.com with ESMTPSA id k16sm7410907wrl.65.2020.11.12.06.40.46
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Nov 2020 06:40:45 -0800 (PST)
+ Thu, 12 Nov 2020 06:40:46 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [for-5.2 2/9] docs: Move cpu-hotplug.rst into the system manual
-Date: Thu, 12 Nov 2020 14:40:34 +0000
-Message-Id: <20201112144041.32278-3-peter.maydell@linaro.org>
+Subject: [for-5.2 3/9] docs: Move virtio-pmem.rst into the system manual
+Date: Thu, 12 Nov 2020 14:40:35 +0000
+Message-Id: <20201112144041.32278-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201112144041.32278-1-peter.maydell@linaro.org>
 References: <20201112144041.32278-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,32 +88,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The cpu-hotplug.rst documentation is currently orphan and not
-included in any manual; move it into the system manual.
-
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/{ => system}/cpu-hotplug.rst | 0
  docs/system/index.rst             | 1 +
+ docs/{ => system}/virtio-pmem.rst | 0
  2 files changed, 1 insertion(+)
- rename docs/{ => system}/cpu-hotplug.rst (100%)
+ rename docs/{ => system}/virtio-pmem.rst (100%)
 
-diff --git a/docs/cpu-hotplug.rst b/docs/system/cpu-hotplug.rst
-similarity index 100%
-rename from docs/cpu-hotplug.rst
-rename to docs/system/cpu-hotplug.rst
 diff --git a/docs/system/index.rst b/docs/system/index.rst
-index d0613cd5f72..0f0f6d2e99d 100644
+index 0f0f6d2e99d..2a5155c67dc 100644
 --- a/docs/system/index.rst
 +++ b/docs/system/index.rst
-@@ -29,6 +29,7 @@ Contents:
-    tls
+@@ -30,6 +30,7 @@ Contents:
     gdb
     managed-startup
-+   cpu-hotplug
+    cpu-hotplug
++   virtio-pmem
     targets
     security
     deprecated
+diff --git a/docs/virtio-pmem.rst b/docs/system/virtio-pmem.rst
+similarity index 100%
+rename from docs/virtio-pmem.rst
+rename to docs/system/virtio-pmem.rst
 -- 
 2.20.1
 
