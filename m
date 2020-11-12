@@ -2,86 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBDFD2B0C9C
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 19:27:53 +0100 (CET)
-Received: from localhost ([::1]:47740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA05A2B0CB0
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 19:33:47 +0100 (CET)
+Received: from localhost ([::1]:54590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdHK4-0000tD-UR
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 13:27:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45194)
+	id 1kdHPm-0004SI-Q2
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 13:33:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kdHIO-0008Em-S5
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 13:26:08 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:55365)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kdHNd-0003IS-6Z
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 13:31:33 -0500
+Received: from indium.canonical.com ([91.189.90.7]:55840)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kdHIJ-00025o-WF
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 13:26:08 -0500
-Received: by mail-wm1-x332.google.com with SMTP id c9so6102700wml.5
- for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 10:26:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=0E2/WczwIoZzRfLgQySSgpEssgkfWaRttbVRGO+iEPA=;
- b=qhg9RAA7bsVOdtbF57431AlEdU2RpSe7/+WEWsI3c0UhS29IdWrYi9cJdSmZVJgNSQ
- Iy4K1l8cIceX3QAfhrAJyqgrxypvWsbK/jHesWqXlv2oHjACKQuPJXD8C+LElvZLD4S2
- UQ47CjS+RUjV/4mzkw3y9Si6tU7e79opBlhkNjVhfpw8EFjZ45gtYcEP5zwQ3fdxek92
- wjYA30HaZA3WT8sqgo0+voHNHmgWZp12vt0hQIS3n3bk6KMP38Q7jBfASG3jh5xJasz4
- AgsEdL2yvNPcJujTaEoTrPkcUW+oCQPnxWf3X8/axdAo+ssWKveqjeBeQfDkAPN2UuhK
- ZOyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=0E2/WczwIoZzRfLgQySSgpEssgkfWaRttbVRGO+iEPA=;
- b=d7L+hOyU4j1K6XX/pt9G3VfEX9rDky/qFKEzJbc6Nbc4qINO33QKbGdnpXvSmsQehF
- WHjULormYKrQob4R3twV+dynAKay7ufUMLjBbVAv+vatqahLD4/sU0BJjCMMonaa6aay
- sJQgOx8olLFI+GPS3jTOZJdhq4L5Wg+y7/qT2ZG39DcfHklwKLMjiXVBGb3v8Amf5a+T
- XJYUk4E+sTnF+jH2YDkvpdt9FS3LcyhpNCqmki8aJX5O07Zh2Se01YkzBpRelPSA112N
- 6TZIBPoEitQzCIyFuhTfF1x/DwujX8VN+6AhxAAfyNBiycKOX0HgFaI82O0MYOD+O1a+
- dRnA==
-X-Gm-Message-State: AOAM5324ccYK1G4RfW7xI6vRWGyDPIOZLmmADbmGUGvf9wSbki2Fwi+V
- 47p8GW+2pWJzW8KC/gAMpEFoyr//vbFbXg==
-X-Google-Smtp-Source: ABdhPJwvyf1LK3QgD7r3fdBHvVExqfCDpskdhyLe8iGvN/GnPzd1qqU5wql5qBwWAeJT6qOVXXsEzQ==
-X-Received: by 2002:a1c:55c1:: with SMTP id j184mr937138wmb.180.1605205562462; 
- Thu, 12 Nov 2020 10:26:02 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o63sm7438235wmo.2.2020.11.12.10.26.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Nov 2020 10:26:00 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 179A91FF7E;
- Thu, 12 Nov 2020 18:26:00 +0000 (GMT)
-References: <20201112144041.32278-1-peter.maydell@linaro.org>
- <20201112144041.32278-6-peter.maydell@linaro.org>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [for-5.2 5/9] docs: Split out 'pc' machine model docs into
- their own file
-In-reply-to: <20201112144041.32278-6-peter.maydell@linaro.org>
-Date: Thu, 12 Nov 2020 18:26:00 +0000
-Message-ID: <87v9ea5t53.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kdHNV-0003zl-Cx
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 13:31:32 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kdHNM-0000vW-Jt
+ for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 18:31:16 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 928712E8131
+ for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 18:31:16 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Thu, 12 Nov 2020 18:24:08 -0000
+From: Thomas Huth <1788665@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: intel microcode spectre
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange dgilbert-h gamanakis h-sieger th-huth
+X-Launchpad-Bug-Reporter: Heiko Sieger (h-sieger)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <153504502595.30588.13203676939349086206.malonedeb@soybean.canonical.com>
+Message-Id: <160520544888.28624.9507969574302172394.malone@chaenomeles.canonical.com>
+Subject: [Bug 1788665] Re: Low 2D graphics performance with Windows 10 (1803)
+ VGA passthrough VM using "Spectre" protection
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="9218c6cee10bde7201ace93cd659634a9bc6c70a"; Instance="production"
+X-Launchpad-Hash: b442ff0a65ff75c22ffb0e343453e2d325ceae12
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:20:56
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -90,22 +74,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Bug 1788665 <1788665@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The QEMU project is currently considering to move its bug tracking to anoth=
+er system. For this we need to know which bugs are still valid and which co=
+uld be closed already. Thus we are setting older bugs to "Incomplete" now.
+If you still think this bug report here is valid, then please switch the st=
+ate back to "New" within the next 60 days, otherwise this report will be ma=
+rked as "Expired". Or mark it as "Fix Released" if the problem has been sol=
+ved with a newer version of QEMU already. Thank you and sorry for the incon=
+venience.
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-> Currently target-i386.rst includes the documentation of the 'pc'
-> machine model inline. Split it out into its own file, in a
-> similar way to target-i386.rst; this gives us a place to put
-> documentation of other i386 machine models, such as 'microvm'.
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+-- =
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1788665
 
---=20
-Alex Benn=C3=A9e
+Title:
+  Low 2D graphics performance with Windows 10 (1803) VGA passthrough VM
+  using "Spectre" protection
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  Windows 10 (1803) VM using VGA passthrough via qemu script.
+
+  After upgrading Windows 10 Pro VM to version 1803, or possibly after
+  applying the March/April security updates from Microsoft, the VM would
+  show low 2D graphics performance (sluggishness in 2D applications and
+  low Passmark results).
+
+  Turning off Spectre vulnerability protection in Windows remedies the
+  issue.
+
+  Expected behavior:
+  qemu/kvm hypervisor to expose firmware capabilities of host to guest OS -=
+ see https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/CVE=
+-2017-5715-and-hyper-v-vms
+
+  Background:
+
+  Starting in March or April Microsoft began to push driver updates in
+  their updates / security updates. See https://support.microsoft.com
+  /en-us/help/4073757/protect-your-windows-devices-against-spectre-
+  meltdown
+
+  One update concerns the Intel microcode - see
+  https://support.microsoft.com/en-us/help/4100347. It is activated by
+  default within Windows.
+
+  Once the updates are applied within the Windows guest, 2D graphics
+  performance drops significantly. Other performance benchmarks are not
+  affected.
+
+  A bare metal Windows installation does not display a performance loss
+  after the update. See https://heiko-sieger.info/low-2d-graphics-
+  benchmark-with-windows-10-1803-kvm-vm/
+
+  Similar reports can be found here:
+  https://www.reddit.com/r/VFIO/comments/97unx4/passmark_lousy_2d_graphics_=
+performance_on_windows/
+
+  Hardware:
+
+  6 core Intel Core i7-3930K (-MT-MCP-)
+
+  Host OS:
+  Linux Mint 19/Ubuntu 18.04
+  Kernel: 4.15.0-32-generic x86_64
+  Qemu: QEMU emulator version 2.11.1
+  Intel microcode (host): 0x714
+  dmesg | grep microcode
+  [    0.000000] microcode: microcode updated early to revision 0x714, date=
+ =3D 2018-05-08
+  [    2.810683] microcode: sig=3D0x206d7, pf=3D0x4, revision=3D0x714
+  [    2.813340] microcode: Microcode Update Driver: v2.2.
+
+  Note: I manually updated the Intel microcode on the host from 0x713 to
+  0x714. However, both microcode versions produce the same result in the
+  Windows guest.
+
+  Guest OS:
+  Windows 10 Pro 64 bit, release 1803
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1788665/+subscriptions
 
