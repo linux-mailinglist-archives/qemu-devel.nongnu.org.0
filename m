@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E08F82B0EC1
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 21:05:20 +0100 (CET)
-Received: from localhost ([::1]:55218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B16A2B0ED7
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 21:11:04 +0100 (CET)
+Received: from localhost ([::1]:60056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdIqN-0004fA-Dl
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 15:05:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38868)
+	id 1kdIvs-0007Dq-TT
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 15:11:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kdIl7-0003Dx-TA; Thu, 12 Nov 2020 14:59:53 -0500
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:45809)
+ id 1kdIl9-0003EL-7M; Thu, 12 Nov 2020 14:59:55 -0500
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:44935)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kdIl4-00078B-IM; Thu, 12 Nov 2020 14:59:53 -0500
+ id 1kdIl6-00078K-0B; Thu, 12 Nov 2020 14:59:54 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 156CB5C01BA;
- Thu, 12 Nov 2020 14:59:49 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id 1B5A25C017E;
+ Thu, 12 Nov 2020 14:59:50 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 12 Nov 2020 14:59:49 -0500
+ by compute4.internal (MEProxy); Thu, 12 Nov 2020 14:59:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=JCrkjzOVvDiT4
- zbPMcXqF89wc8X7KHjhjFWUPWs9bBQ=; b=lsC01mLeOo0BJnl8PYTIR8z3X4Yys
- 8sz5iJkk6c9sr+631kwAvFC0S4Y1fL382uiubwEIti2K5q+1sbtUwpyr6I1nzJa1
- PHdd63x+g4ZYeHNZMK6Sn+7SqhyFbtqgQ2TyrpQAEchjk/O7qwY9fOmAa/vERAtM
- G/vpxhwDeoL6iPC0ECZnuaedRx+LLQeb2eUAsOdkah8wfshx8VnI2aquG4R8uRzt
- F3QRYdpUJsJXcmKQyyS5MlFd2xYqcvhUxy/z4BUnCcv4lQPRQhMHVH3cRxN7uh20
- gQZukAAhV8Q8MdkMgvX1ruDsyrCZettTxctobsfKOxUy34QGvRMFTUcBQ==
+ :mime-version:content-transfer-encoding; s=fm1; bh=QJu9EZgITufLl
+ IAGc3RPGhI8adKjYXythScJdM//N6U=; b=HDNCeo2c+ZEqs3D9vwJVo5dpgn/TB
+ sUGlPS+TJqx6UX7UKax/4EskAfLCnNXIOEuFpmJnX2GWPLBnLyOGYdur+FGghJVe
+ kvqONYFrecYOiLh/zY+lKvPX6fCFWuMpDrj4I+dddKOVgPtWSPafx2Kh+brWWjrS
+ O7K1Xl37iXEusUYql7lYSatHPQ+JhKbsTBVHIpweHs0OsINO51qt/BVqlPfzx+Px
+ QJ3SrwxFaq4Tevmt8xUpnWNpPlv5yp4VbDJzGJOdhm0V1PNiiKeWIxQf3HTK0rDK
+ soM86N5x3SbsoCXdgTgGRKRo6C34DQW02GGBp2f8eKQPqdMV4geU3y9fg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=JCrkjzOVvDiT4zbPMcXqF89wc8X7KHjhjFWUPWs9bBQ=; b=CKFStMm6
- 63mTQxHTB51C9bsiwQtFuLDkxAbkMdKxFVhHsnNKLTQ/1QkgxeTqgtyNmKonJCxy
- 19Fy8mymOvYGYZkeHxDo2zjMo5v3Gna15ol35MGllAoQ6q1yCqcBdQzWzXWJJ6T6
- uQWTJl+AQown50rUWTXUDZh9LEoUq3N21dnH6xZMMObhMVRIKhcOPvGMWMLVS33x
- m8vULnr2YmXywXuaZbMsyUoCLidoAmvRvVi3/Qxxqrv0gYF0rrpODmmIALSXqgu0
- B2dSdsECPbZK3SImF4KuoTsKpWINAj5e5oQLcSUytvTnr+wwZFpylfZ7m7HOmG2j
- lpy1p042jlC+Bw==
-X-ME-Sender: <xms:NJStX6liURLJFDuH8j2_Fg6ZhiXpztLjS9lOc3VZKHqFe5uxuzSn2A>
- <xme:NJStXx30DLV6Rw_E5BZbGP9xxXcmxi_v6FhUxxa6vVgv0f2eauq95f-XFtgQSHnex
- 0PTjf7O7M9FTDccfZs>
+ fm1; bh=QJu9EZgITufLlIAGc3RPGhI8adKjYXythScJdM//N6U=; b=GPasLE+G
+ de+VjkLMytzu64ed6TYABkvQT1MxPI3FWw+tjVuGFy9TJv8VEWwcTNKYAfVEODEB
+ fZoPwzE4R97/Tcc6asJetqgEWCBduSf2nQclSG6mX5AjMBu5dDA+DcQ6bHJ8Yfky
+ lLEwztxErTbBhxuhcEiNHFHXRDLPwS3kRlZbGdKb3y2+wegcoKK7PlQ2B66UcmBg
+ TVe9/QjbZtkaDcUg3j+OJoGlWns6WzvGq6ipMly0WZN9hsuxfZkbx3U5lT6kkjAB
+ zw0pfSucwFQHULDjAIjhYPaHOnIdLfpbON89k3WrCuBl6UsbDn8C3LmecGjPVY9B
+ +BD6rDHp7qhEqw==
+X-ME-Sender: <xms:NZStX-3O1xDksaHFU6OBzFk-AYJCZoa7zWCZCq0F9huraWLw5YfFDQ>
+ <xme:NZStXxElPqBF5oSHMbICnjxB5i5-rJvdCUCMWPzIztq90rAsYjFX_30b8AWQfPMYs
+ yz244AKxphvu5S9DYQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedruddvfedguddtjecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
@@ -53,19 +53,19 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedruddvfedguddtjecutefuodetgg
  htvghrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffev
  gfeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptd
  enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:NJStX4pW8uEOL9NAW4q4UXMzUsbcpjaKBTuej-s-EmolxyoRi31QEg>
- <xmx:NJStX-lACqb7UWqzybZjcXYiLCEhMEW5WdDqXc95XZdmIk3z7deHGw>
- <xmx:NJStX429vgmcMGRXGsfC52s9cbicx8ahe6gyaZ4AOZqbBqzOygR04A>
- <xmx:NZStX88tQ0GF3eGLYmfp_-daDnZdSxtbXv4TNcDhcbLqY5Uo-ZHCDA>
+X-ME-Proxy: <xmx:NZStX25mz_APvuezdvQeYAyJ1q76TJ5gHhNJ-EQ06PpXSrf1X5Opyw>
+ <xmx:NZStX_3coPTO84OEHwm7640pzoon5QcsMZLJALh6Vr2VOTLfG8RX9A>
+ <xmx:NZStXxEqiQrB8Av1vY5HD5LqDuNY87x_elhGFAAeNNP90UVpF7gEUg>
+ <xmx:NpStX6NNRy9G8N34ueerrX4yf5Nnux2bWtppVehe-WVuXU2o1ZQcRA>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 89ACD30689DB;
- Thu, 12 Nov 2020 14:59:47 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id CA25330689E3;
+ Thu, 12 Nov 2020 14:59:48 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 1/5] hw/block/nvme: remove superfluous NvmeCtrl parameter
-Date: Thu, 12 Nov 2020 20:59:41 +0100
-Message-Id: <20201112195945.819915-2-its@irrelevant.dk>
+Subject: [PATCH v8 2/5] hw/block/nvme: pull aio error handling
+Date: Thu, 12 Nov 2020 20:59:42 +0100
+Message-Id: <20201112195945.819915-3-its@irrelevant.dk>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201112195945.819915-1-its@irrelevant.dk>
 References: <20201112195945.819915-1-its@irrelevant.dk>
@@ -103,46 +103,99 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-nvme_check_bounds has no use of the NvmeCtrl parameter; remove it.
+Add a new function, nvme_aio_err, to handle errors resulting from AIOs
+and use this from the callbacks.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ hw/block/nvme.c | 61 +++++++++++++++++++++++++++++--------------------
+ 1 file changed, 36 insertions(+), 25 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 01b657b1c5e2..51f35e8cf18b 100644
+index 51f35e8cf18b..a96a996ddc0d 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -866,8 +866,8 @@ static inline uint16_t nvme_check_mdts(NvmeCtrl *n, size_t len)
+@@ -878,6 +878,41 @@ static inline uint16_t nvme_check_bounds(NvmeNamespace *ns, uint64_t slba,
      return NVME_SUCCESS;
  }
  
--static inline uint16_t nvme_check_bounds(NvmeCtrl *n, NvmeNamespace *ns,
--                                         uint64_t slba, uint32_t nlb)
-+static inline uint16_t nvme_check_bounds(NvmeNamespace *ns, uint64_t slba,
-+                                         uint32_t nlb)
++static void nvme_aio_err(NvmeRequest *req, int ret)
++{
++    uint16_t status = NVME_SUCCESS;
++    Error *local_err = NULL;
++
++    switch (req->cmd.opcode) {
++    case NVME_CMD_READ:
++        status = NVME_UNRECOVERED_READ;
++        break;
++    case NVME_CMD_FLUSH:
++    case NVME_CMD_WRITE:
++    case NVME_CMD_WRITE_ZEROES:
++        status = NVME_WRITE_FAULT;
++        break;
++    default:
++        status = NVME_INTERNAL_DEV_ERROR;
++        break;
++    }
++
++    trace_pci_nvme_err_aio(nvme_cid(req), strerror(ret), status);
++
++    error_setg_errno(&local_err, -ret, "aio failed");
++    error_report_err(local_err);
++
++    /*
++     * Set the command status code to the first encountered error but allow a
++     * subsequent Internal Device Error to trump it.
++     */
++    if (req->status && status != NVME_INTERNAL_DEV_ERROR) {
++        return;
++    }
++
++    req->status = status;
++}
++
+ static void nvme_rw_cb(void *opaque, int ret)
  {
-     uint64_t nsze = le64_to_cpu(ns->id_ns.nsze);
+     NvmeRequest *req = opaque;
+@@ -887,37 +922,13 @@ static void nvme_rw_cb(void *opaque, int ret)
+     BlockAcctCookie *acct = &req->acct;
+     BlockAcctStats *stats = blk_get_stats(blk);
  
-@@ -943,7 +943,7 @@ static uint16_t nvme_write_zeroes(NvmeCtrl *n, NvmeRequest *req)
+-    Error *local_err = NULL;
+-
+     trace_pci_nvme_rw_cb(nvme_cid(req), blk_name(blk));
  
-     trace_pci_nvme_write_zeroes(nvme_cid(req), nvme_nsid(ns), slba, nlb);
- 
--    status = nvme_check_bounds(n, ns, slba, nlb);
-+    status = nvme_check_bounds(ns, slba, nlb);
-     if (status) {
-         trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
-         return status;
-@@ -979,7 +979,7 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeRequest *req)
-         goto invalid;
+     if (!ret) {
+         block_acct_done(stats, acct);
+     } else {
+-        uint16_t status;
+-
+         block_acct_failed(stats, acct);
+-
+-        switch (req->cmd.opcode) {
+-        case NVME_CMD_READ:
+-            status = NVME_UNRECOVERED_READ;
+-            break;
+-        case NVME_CMD_FLUSH:
+-        case NVME_CMD_WRITE:
+-        case NVME_CMD_WRITE_ZEROES:
+-            status = NVME_WRITE_FAULT;
+-            break;
+-        default:
+-            status = NVME_INTERNAL_DEV_ERROR;
+-            break;
+-        }
+-
+-        trace_pci_nvme_err_aio(nvme_cid(req), strerror(ret), status);
+-
+-        error_setg_errno(&local_err, -ret, "aio failed");
+-        error_report_err(local_err);
+-
+-        req->status = status;
++        nvme_aio_err(req, ret);
      }
  
--    status = nvme_check_bounds(n, ns, slba, nlb);
-+    status = nvme_check_bounds(ns, slba, nlb);
-     if (status) {
-         trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
-         goto invalid;
+     nvme_enqueue_req_completion(nvme_cq(req), req);
 -- 
 2.29.2
 
