@@ -2,51 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91D9C2B04A9
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 13:03:38 +0100 (CET)
-Received: from localhost ([::1]:41602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DABCD2B0519
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 13:43:10 +0100 (CET)
+Received: from localhost ([::1]:52728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdBKD-0001Ry-8q
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 07:03:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56594)
+	id 1kdBwT-0008WO-HW
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 07:43:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jack@suse.cz>)
- id 1kdBHj-0000N0-UR; Thu, 12 Nov 2020 07:01:03 -0500
-Received: from mx2.suse.de ([195.135.220.15]:41058)
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1kdBtf-0007Nq-JR
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 07:40:17 -0500
+Received: from kerio.kamp.de ([195.62.97.192]:60957)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jack@suse.cz>)
- id 1kdBHe-00057S-Ip; Thu, 12 Nov 2020 07:01:03 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 6DF8DAC0C;
- Thu, 12 Nov 2020 12:00:56 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
- id 0F2961E130B; Thu, 12 Nov 2020 13:00:56 +0100 (CET)
-Date: Thu, 12 Nov 2020 13:00:56 +0100
-From: Jan Kara <jack@suse.cz>
-To: Maxim Levitsky <mlevitsk@redhat.com>
-Subject: Re: [PATCH 0/2] RFC: Issue with discards on raw block device without
- O_DIRECT
-Message-ID: <20201112120056.GC27697@quack2.suse.cz>
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1kdBtc-0002Ep-CL
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 07:40:15 -0500
+X-Footer: a2FtcC5kZQ==
+Received: from submission.kamp.de ([195.62.97.28]) by kerio.kamp.de with ESMTPS
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 13:39:59 +0100
+Received: (qmail 64782 invoked from network); 12 Nov 2020 12:40:01 -0000
+Received: from ac80.vpn.kamp-intra.net (HELO ?172.20.250.80?)
+ (pl@kamp.de@::ffff:172.20.250.80)
+ by submission.kamp.de with ESMTPS (AES128-SHA encrypted) ESMTPA;
+ 12 Nov 2020 12:40:01 -0000
+Subject: Re: [PATCH 2/2] qemu-img: align next status sector on destination
+ alignment.
+To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
 References: <20201111153913.41840-1-mlevitsk@redhat.com>
- <03b01c699c9fab64736d04891f1e835aef06c886.camel@redhat.com>
- <20201112111951.GB27697@quack2.suse.cz>
+ <20201111153913.41840-3-mlevitsk@redhat.com>
+From: Peter Lieven <pl@kamp.de>
+Message-ID: <2903c8a0-00c9-5f2c-b261-d825ded3042c@kamp.de>
+Date: Thu, 12 Nov 2020 13:40:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201112111951.GB27697@quack2.suse.cz>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=jack@suse.cz;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 06:19:52
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201111153913.41840-3-mlevitsk@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
+ helo=kerio.kamp.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 07:40:03
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,91 +62,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Christoph Hellwig <hch@infradead.org>,
- Jan Kara <jack@suse.cz>, qemu-block@nongnu.org,
- "Darrick J . Wong" <darrick.wong@oracle.com>, Peter Lieven <pl@kamp.de>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- linux-block@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Jan Kara <jack@suse.cz>,
+ qemu-block@nongnu.org, "Darrick J . Wong" <darrick.wong@oracle.com>,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu 12-11-20 12:19:51, Jan Kara wrote:
-> [added some relevant people and lists to CC]
-> 
-> On Wed 11-11-20 17:44:05, Maxim Levitsky wrote:
-> > On Wed, 2020-11-11 at 17:39 +0200, Maxim Levitsky wrote:
-> > > clone of "starship_production"
-> > 
-> > The git-publish destroyed the cover letter:
-> > 
-> > For the reference this is for bz #1872633
-> > 
-> > The issue is that current kernel code that implements 'fallocate'
-> > on kernel block devices roughly works like that:
-> > 
-> > 1. Flush the page cache on the range that is about to be discarded.
-> > 2. Issue the discard and wait for it to finish.
-> >    (as far as I can see the discard doesn't go through the
-> >    page cache).
-> > 
-> > 3. Check if the page cache is dirty for this range,
-> >    if it is dirty (meaning that someone wrote to it meanwhile)
-> >    return -EBUSY.
-> > 
-> > This means that if qemu (or qemu-img) issues a write, and then
-> > discard to the area that shares a page, -EBUSY can be returned by
-> > the kernel.
-> 
-> Indeed, if you don't submit PAGE_SIZE aligned discards, you can get back
-> EBUSY which seems wrong to me. IMO we should handle this gracefully in the
-> kernel so we need to fix this.
-> 
-> > On the other hand, for example, the ext4 implementation of discard
-> > doesn't seem to be affected. It does take a lock on the inode to avoid
-> > concurrent IO and flushes O_DIRECT writers prior to doing discard thought.
-> 
-> Well, filesystem hole punching is somewhat different beast than block device
-> discard (at least implementation wise).
-> 
-> > Doing fsync and retrying is seems to resolve this issue, but it might be
-> > a too big hammer.  Just retrying doesn't work, indicating that maybe the
-> > code that flushes the page cache in (1) doesn't do this correctly ?
-> > 
-> > It also can be racy unless special means are done to block IO from happening
-> > from qemu during this fsync.
-> > 
-> > This patch series contains two patches:
-> > 
-> > First patch just lets the file-posix ignore the -EBUSY errors, which is
-> > technically enough to fail back to plain write in this case, but seems wrong.
-> > 
-> > And the second patch adds an optimization to qemu-img to avoid such a
-> > fragmented write/discard in the first place.
-> > 
-> > Both patches make the reproducer work for this particular bugzilla,
-> > but I don't think they are enough.
-> > 
-> > What do you think?
-> 
-> So if the EBUSY error happens because something happened to the page cache
-> outside of discarded range (like you describe above), that is a kernel bug
-> than needs to get fixed. EBUSY should really mean - someone wrote to the
-> discarded range while discard was running and userspace app has to deal
-> with that depending on what it aims to do...
+Am 11.11.20 um 16:39 schrieb Maxim Levitsky:
+> This helps avoid unneeded writes and discards.
+>
+> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> ---
+>  qemu-img.c | 13 ++++++++-----
+>  1 file changed, 8 insertions(+), 5 deletions(-)
+>
+> diff --git a/qemu-img.c b/qemu-img.c
+> index c2c56fc797..7e9b0f659f 100644
+> --- a/qemu-img.c
+> +++ b/qemu-img.c
+> @@ -1722,7 +1722,7 @@ static void convert_select_part(ImgConvertState *s, int64_t sector_num,
+>  static int convert_iteration_sectors(ImgConvertState *s, int64_t sector_num)
+>  {
+>      int64_t src_cur_offset;
+> -    int ret, n, src_cur;
+> +    int ret, n, src_cur, alignment;
+>      bool post_backing_zero = false;
+>  
+>      convert_select_part(s, sector_num, &src_cur, &src_cur_offset);
+> @@ -1785,11 +1785,14 @@ static int convert_iteration_sectors(ImgConvertState *s, int64_t sector_num)
+>          n = DIV_ROUND_UP(count, BDRV_SECTOR_SIZE);
+>  
+>          /*
+> -         * Avoid that s->sector_next_status becomes unaligned to the source
+> -         * request alignment and/or cluster size to avoid unnecessary read
+> -         * cycles.
+> +         * Avoid that s->sector_next_status becomes unaligned to the
+> +         * source/destination request alignment and/or cluster size to avoid
+> +         * unnecessary read/write cycles.
+>           */
+> -        tail = (sector_num - src_cur_offset + n) % s->src_alignment[src_cur];
+> +        alignment = MAX(s->src_alignment[src_cur], s->alignment);
+> +        assert(is_power_of_2(alignment));
+> +
+> +        tail = (sector_num - src_cur_offset + n) % alignment;
+>          if (n > tail) {
+>              n -= tail;
+>          }
 
-So I was looking what it would take to fix this inside the kernel. The
-problem is that invalidate_inode_pages2_range() is working on page
-granularity and it is non-trivial to extend it to work on byte granularity
-since we don't support something like "try to reclaim part of a page". But
-I'm also somewhat wondering why we use invalidate_inode_pages2_range() here
-instead of truncate_inode_pages_range() again? I mean the EBUSY detection
-cannot be reliable anyway and userspace has no way of knowing whether a
-write happened before discard or after it so just discarding data is fine
-from this point of view. Darrick?
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+I was also considering including the s->alignment when adding this chance. However, you need the least common multiple of both alignments, not the maximum, otherwise
+
+you might get misaligned to either source or destination.
+
+
+Why exactly do you need the power of two requirement?
+
+
+Peter
+
+
 
