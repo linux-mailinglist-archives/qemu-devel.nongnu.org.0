@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2238B2B0EEB
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 21:16:40 +0100 (CET)
-Received: from localhost ([::1]:36772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95F402B0ED8
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 21:11:10 +0100 (CET)
+Received: from localhost ([::1]:60162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdJ1L-00019G-3L
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 15:16:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38930)
+	id 1kdIw1-0007GU-L3
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 15:11:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kdIl9-0003Er-LR; Thu, 12 Nov 2020 14:59:55 -0500
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:56403)
+ id 1kdIlB-0003HU-09; Thu, 12 Nov 2020 14:59:57 -0500
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:52685)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kdIl7-00078o-TT; Thu, 12 Nov 2020 14:59:55 -0500
+ id 1kdIl8-000795-Ul; Thu, 12 Nov 2020 14:59:56 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 180735C0178;
- Thu, 12 Nov 2020 14:59:53 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id 335BC5C010E;
+ Thu, 12 Nov 2020 14:59:54 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 12 Nov 2020 14:59:53 -0500
+ by compute4.internal (MEProxy); Thu, 12 Nov 2020 14:59:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=TqqiMr2dKOOQq
- B3CmCfppdNgvzCDBb0OHgbBfuuJd7U=; b=q8Im0pVTocXwBR0xgxGZ+egpiTIPh
- T4JmhIVRzYiPvoZiw8nqys2d7cmnpD7RK/OUavjdrGELjk9wU1vFXENpdQEuAf6h
- 43wO4prtH39ttZLHbVsFYRDkS5PDhnaUli9m1sJ4WphtdaYVzKy8GCA7neiT1R4G
- TRadTx3KtCI87ajPcC0oG061ugUeEf8KcGgYvrRV+40fcHICDGOHE71NlzMeFCuR
- ToKLQqcIxUxdOqB5u6Vw9OPo3aiuVRaEgc6KlOl4DIcutVtUpHa86WK5RiV/XsKS
- VXGoUM3SGZRqE9FwIWp+lMCz4Zf0rjGpsY5On+c7qv41J8+5EeIQxzocA==
+ :mime-version:content-transfer-encoding; s=fm1; bh=iVkidqtcwFOox
+ hT/gqh/wRXIMvZcNUGIJ9h+LWPxQx8=; b=CV0AeAQIIAmEgN5nuqkUji+7aaaZU
+ 8lGJva05hgzBJttygrjJwGX3YMmnc1pAN0v35mx2bT23dtgCk4mjwLT8/YR37a2n
+ fYJYKSXDDukd+8WgXNnmXhM7JgGR6CsOZZECq7oM8C0jrn3bBlbB4QvTKeYxKc3V
+ 4zMCKOt9nIC5BW9jImFmFdpyGDD82ZDOMd/WLhh2xlRa7D8Y+RwRIQPIHueKAH3G
+ TxJFZGYTAod86gLV2AvmjFmG57sYup6KnIgg9IP8Xzyx3WKbo+Afn+TcK+4dPjY5
+ 1yhgahE8q7xuT2D6alAApuHupco5Yjz56PAk+zKwIcFZnyjGXxIikBFrw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=TqqiMr2dKOOQqB3CmCfppdNgvzCDBb0OHgbBfuuJd7U=; b=C353OQCS
- eFDMNoY5XVGBoBKrW0EIEMhBlccDYcNkoHq3bF7tMZgmfiEH1KdC8WsghJiKgezQ
- PvDdCSDD7D3TL7pK06sqEnl/Zmyr8mCbBI4KNkCDhF5LfP0knw2PE3+LElYRqZRf
- 59bCfZx/knZUkgq95mbM5zo9so0s4/nSonnU75PgZqE95tptVvqG6y/hgWhVv+ht
- tNr6YOP1RuguAWn0POXpmehFKwdPA4bn0RCyv3JetyGftRm+TMUSSvJWKJMAIMnI
- spsHYVXoUmHJqtnQrQ71D6FFOoqVrF3atJTY9o8IZ8RYdFIqaFt2uw1AIfLszmRx
- V3a194Z7FFO7yg==
-X-ME-Sender: <xms:OJStX1qQCGSDTrNcUcHQ_edYGf2Y8vF11tDkLznjHR4d34DxHQEW1g>
- <xme:OJStX3puRLD-AgMmPF9R-T4dL9EQeCp2GvaJ8oGSk0W4NedaOOipntXGxf4F9r55-
- ZJWl4OdAxyO_eol31E>
+ fm1; bh=iVkidqtcwFOoxhT/gqh/wRXIMvZcNUGIJ9h+LWPxQx8=; b=JxhjTURl
+ pESlfh99MrV9CelnB5oya2mgyR60U1/cyxr/qg1p8Tu6tVRg0g0MgACH7H/xWKTn
+ 9Z7oXtcDGuNF9aKQB4rYxu/UV5jqTSFk2/E0mg+hFHQBjjJ3aENqFfXRe4arvPIB
+ ohc82h/ZDj3H268FrJ4QKH6vttJL/7JGHIx6BxkeeVgl5yNVqSE8ZnCkFW4k2H7c
+ RJw9lSBtCOAQu5pzB5mW0bcvWBrxpxabbXIpFCKomETzyDMa2BReZKpMC5//z6EL
+ qKLpcejnlUbWhhejF51rJPIq3/edMogzmXwo9rkXo7Hmk1Vj9jZYmveFo+yl0O2q
+ 4gWcbGwD+YBHUA==
+X-ME-Sender: <xms:OZStX7t4NLWNtQNySv675heFWvdH62r9R3Jc4CGPFH6p5OMieVj73w>
+ <xme:OZStX8eFKQr7sSN6-F3Cqwo3Zi09uCVEQecUJRMaPh4D7UuSMdl6WzuYkbI7JTgIp
+ t0al4wE3xLLn64kxh4>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedruddvfedguddtjecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
@@ -53,20 +53,19 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedruddvfedguddtjecutefuodetgg
  htvghrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffev
  gfeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgepvd
  enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:OJStXyP-PCRntNvhqai9-1veHOWFitoPjNakTnXp8mbiaZ-LU52VVg>
- <xmx:OJStXw4TcyEjA_mXN1rwKyQeL118YaPtgzcYQIMuMRHRHmJcwYHFAg>
- <xmx:OJStX051SZKF5rLK43zkPbRxGrkW5LAOCO0WPhR99v1nXfOX2qIpEA>
- <xmx:OZStXzaL7gsRzMP3aGCas7gokGV0xSjhgBEIt-rnUM9dUXpaYwT4vg>
+X-ME-Proxy: <xmx:OpStX-wXs34YI_hG_zzGA6bjlVMg7HV78QcYOeBltaTbnTAAgoqZ7w>
+ <xmx:OpStX6OjMtSycZjrclLtXp4w_FcUj5oKQLp22DptwDthFbbvflN4Xw>
+ <xmx:OpStX7_iG0kDSIkjuaYo6XBt1w_dMI14ex8Jdi8pWxmLb4HdHO6irA>
+ <xmx:OpStX2kz5S_mgT7oRoRwjuxLxsZUj-Jgbb6ohCmZXbfPkIN0H6GFEA>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 5C19B30689E1;
- Thu, 12 Nov 2020 14:59:51 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id D242230689E4;
+ Thu, 12 Nov 2020 14:59:52 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 4/5] nvme: add namespace I/O optimization fields to shared
- header
-Date: Thu, 12 Nov 2020 20:59:44 +0100
-Message-Id: <20201112195945.819915-5-its@irrelevant.dk>
+Subject: [PATCH v8 5/5] hw/block/nvme: add the dataset management command
+Date: Thu, 12 Nov 2020 20:59:45 +0100
+Message-Id: <20201112195945.819915-6-its@irrelevant.dk>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201112195945.819915-1-its@irrelevant.dk>
 References: <20201112195945.819915-1-its@irrelevant.dk>
@@ -95,45 +94,260 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-This adds the NPWG, NPWA, NPDG, NPDA and NOWS family of fields to the
-shared nvme.h header for use by later patches.
+Add support for the Dataset Management command and the Deallocate
+attribute. Deallocation results in discards being sent to the underlying
+block device. Whether of not the blocks are actually deallocated is
+affected by the same factors as Write Zeroes (see previous commit).
+
+     format | discard | dsm (512B)  dsm (4KiB)  dsm (64KiB)
+    --------------------------------------------------------
+      qcow2    ignore   n           n           n
+      qcow2    unmap    n           n           y
+      raw      ignore   n           n           n
+      raw      unmap    n           y           y
+
+Again, a raw format and 4KiB LBAs are preferable.
+
+In order to set the Namespace Preferred Deallocate Granularity and
+Alignment fields (NPDG and NPDA), choose a sane minimum discard
+granularity of 4KiB. If we are using a passthru device supporting
+discard at a 512B granularity, user should set the discard_granularity
+property explicitly. NPDG and NPDA will also account for the
+cluster_size of the block driver if required (i.e. for QCOW2).
+
+See NVM Express 1.3d, Section 6.7 ("Dataset Management command").
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: Fam Zheng <fam@euphon.net>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/block/nvme.h | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ hw/block/nvme.h    |  2 +
+ hw/block/nvme-ns.c | 30 ++++++++++++--
+ hw/block/nvme.c    | 98 +++++++++++++++++++++++++++++++++++++++++++++-
+ 3 files changed, 125 insertions(+), 5 deletions(-)
 
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 966c3bb304bd..e95ff6ca9b37 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -990,7 +990,12 @@ typedef struct QEMU_PACKED NvmeIdNs {
-     uint16_t    nabspf;
-     uint16_t    noiob;
-     uint8_t     nvmcap[16];
--    uint8_t     rsvd64[40];
-+    uint16_t    npwg;
-+    uint16_t    npwa;
-+    uint16_t    npdg;
-+    uint16_t    npda;
-+    uint16_t    nows;
-+    uint8_t     rsvd74[30];
-     uint8_t     nguid[16];
-     uint64_t    eui64;
-     NvmeLBAF    lbaf[16];
+diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+index e080a2318a50..574333caa3f9 100644
+--- a/hw/block/nvme.h
++++ b/hw/block/nvme.h
+@@ -28,6 +28,7 @@ typedef struct NvmeRequest {
+     struct NvmeNamespace    *ns;
+     BlockAIOCB              *aiocb;
+     uint16_t                status;
++    void                    *opaque;
+     NvmeCqe                 cqe;
+     NvmeCmd                 cmd;
+     BlockAcctCookie         acct;
+@@ -60,6 +61,7 @@ static inline const char *nvme_io_opc_str(uint8_t opc)
+     case NVME_CMD_WRITE:            return "NVME_NVM_CMD_WRITE";
+     case NVME_CMD_READ:             return "NVME_NVM_CMD_READ";
+     case NVME_CMD_WRITE_ZEROES:     return "NVME_NVM_CMD_WRITE_ZEROES";
++    case NVME_CMD_DSM:              return "NVME_NVM_CMD_DSM";
+     default:                        return "NVME_NVM_CMD_UNKNOWN";
+     }
+ }
+diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
+index f1cc734c60f5..2d69b5177b51 100644
+--- a/hw/block/nvme-ns.c
++++ b/hw/block/nvme-ns.c
+@@ -28,10 +28,14 @@
+ #include "nvme.h"
+ #include "nvme-ns.h"
+ 
+-static void nvme_ns_init(NvmeNamespace *ns)
++#define MIN_DISCARD_GRANULARITY (4 * KiB)
++
++static int nvme_ns_init(NvmeNamespace *ns, Error **errp)
+ {
++    BlockDriverInfo bdi;
+     NvmeIdNs *id_ns = &ns->id_ns;
+     int lba_index = NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas);
++    int npdg;
+ 
+     ns->id_ns.dlfeat = 0x9;
+ 
+@@ -43,8 +47,19 @@ static void nvme_ns_init(NvmeNamespace *ns)
+     id_ns->ncap = id_ns->nsze;
+     id_ns->nuse = id_ns->ncap;
+ 
+-    /* support DULBE */
+-    id_ns->nsfeat |= 0x4;
++    /* support DULBE and I/O optimization fields */
++    id_ns->nsfeat |= (0x4 | 0x10);
++
++    npdg = ns->blkconf.discard_granularity / ns->blkconf.logical_block_size;
++
++    if (bdrv_get_info(blk_bs(ns->blkconf.blk), &bdi) >= 0 &&
++        bdi.cluster_size > ns->blkconf.discard_granularity) {
++        npdg = bdi.cluster_size / ns->blkconf.logical_block_size;
++    }
++
++    id_ns->npda = id_ns->npdg = npdg - 1;
++
++    return 0;
+ }
+ 
+ static int nvme_ns_init_blk(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
+@@ -59,6 +74,11 @@ static int nvme_ns_init_blk(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
+         return -1;
+     }
+ 
++    if (ns->blkconf.discard_granularity == -1) {
++        ns->blkconf.discard_granularity =
++            MAX(ns->blkconf.logical_block_size, MIN_DISCARD_GRANULARITY);
++    }
++
+     ns->size = blk_getlength(ns->blkconf.blk);
+     if (ns->size < 0) {
+         error_setg_errno(errp, -ns->size, "could not get blockdev size");
+@@ -92,7 +112,9 @@ int nvme_ns_setup(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
+         return -1;
+     }
+ 
+-    nvme_ns_init(ns);
++    if (nvme_ns_init(ns, errp)) {
++        return -1;
++    }
+ 
+     if (nvme_register_namespace(n, ns, errp)) {
+         return -1;
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 8d75a89fd872..f7f888402b06 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -242,6 +242,7 @@ static void nvme_irq_deassert(NvmeCtrl *n, NvmeCQueue *cq)
+ static void nvme_req_clear(NvmeRequest *req)
+ {
+     req->ns = NULL;
++    req->opaque = NULL;
+     memset(&req->cqe, 0x0, sizeof(req->cqe));
+     req->status = NVME_SUCCESS;
+ }
+@@ -978,6 +979,99 @@ static void nvme_rw_cb(void *opaque, int ret)
+     nvme_enqueue_req_completion(nvme_cq(req), req);
+ }
+ 
++static void nvme_aio_discard_cb(void *opaque, int ret)
++{
++    NvmeRequest *req = opaque;
++    uintptr_t *discards = (uintptr_t *)&req->opaque;
++
++    trace_pci_nvme_aio_discard_cb(nvme_cid(req));
++
++    if (ret) {
++        nvme_aio_err(req, ret);
++    }
++
++    (*discards)--;
++
++    if (*discards) {
++        return;
++    }
++
++    nvme_enqueue_req_completion(nvme_cq(req), req);
++}
++
++static uint16_t nvme_dsm(NvmeCtrl *n, NvmeRequest *req)
++{
++    NvmeNamespace *ns = req->ns;
++    NvmeDsmCmd *dsm = (NvmeDsmCmd *) &req->cmd;
++
++    uint32_t attr = le32_to_cpu(dsm->attributes);
++    uint32_t nr = (le32_to_cpu(dsm->nr) & 0xff) + 1;
++
++    uint16_t status = NVME_SUCCESS;
++
++    trace_pci_nvme_dsm(nvme_cid(req), nvme_nsid(ns), nr, attr);
++
++    if (attr & NVME_DSMGMT_AD) {
++        int64_t offset;
++        size_t len;
++        NvmeDsmRange range[nr];
++        uintptr_t *discards = (uintptr_t *)&req->opaque;
++
++        status = nvme_dma(n, (uint8_t *)range, sizeof(range),
++                          DMA_DIRECTION_TO_DEVICE, req);
++        if (status) {
++            return status;
++        }
++
++        /*
++         * AIO callbacks may be called immediately, so initialize discards to 1
++         * to make sure the the callback does not complete the request before
++         * all discards have been issued.
++         */
++        *discards = 1;
++
++        for (int i = 0; i < nr; i++) {
++            uint64_t slba = le64_to_cpu(range[i].slba);
++            uint32_t nlb = le32_to_cpu(range[i].nlb);
++
++            if (nvme_check_bounds(ns, slba, nlb)) {
++                trace_pci_nvme_err_invalid_lba_range(slba, nlb,
++                                                     ns->id_ns.nsze);
++                continue;
++            }
++
++            trace_pci_nvme_dsm_deallocate(nvme_cid(req), nvme_nsid(ns), slba,
++                                          nlb);
++
++            offset = nvme_l2b(ns, slba);
++            len = nvme_l2b(ns, nlb);
++
++            while (len) {
++                size_t bytes = MIN(BDRV_REQUEST_MAX_BYTES, len);
++
++                (*discards)++;
++
++                blk_aio_pdiscard(ns->blkconf.blk, offset, bytes,
++                                 nvme_aio_discard_cb, req);
++
++                offset += bytes;
++                len -= bytes;
++            }
++        }
++
++        /* account for the 1-initialization */
++        (*discards)--;
++
++        if (*discards) {
++            status = NVME_NO_COMPLETE;
++        } else {
++            status = req->status;
++        }
++    }
++
++    return status;
++}
++
+ static uint16_t nvme_flush(NvmeCtrl *n, NvmeRequest *req)
+ {
+     block_acct_start(blk_get_stats(req->ns->blkconf.blk), &req->acct, 0,
+@@ -1107,6 +1201,8 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
+     case NVME_CMD_WRITE:
+     case NVME_CMD_READ:
+         return nvme_rw(n, req);
++    case NVME_CMD_DSM:
++        return nvme_dsm(n, req);
+     default:
+         trace_pci_nvme_err_invalid_opc(req->cmd.opcode);
+         return NVME_INVALID_OPCODE | NVME_DNR;
+@@ -2831,7 +2927,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+     id->cqes = (0x4 << 4) | 0x4;
+     id->nn = cpu_to_le32(n->num_namespaces);
+     id->oncs = cpu_to_le16(NVME_ONCS_WRITE_ZEROES | NVME_ONCS_TIMESTAMP |
+-                           NVME_ONCS_FEATURES);
++                           NVME_ONCS_FEATURES | NVME_ONCS_DSM);
+ 
+     id->vwc = 0x1;
+     id->sgls = cpu_to_le32(NVME_CTRL_SGLS_SUPPORT_NO_ALIGN |
 -- 
 2.29.2
 
