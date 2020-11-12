@@ -2,71 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2917C2B023C
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 10:48:06 +0100 (CET)
-Received: from localhost ([::1]:51728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D79DF2B024D
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 10:54:30 +0100 (CET)
+Received: from localhost ([::1]:53976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kd9D3-0002iC-8T
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 04:48:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55938)
+	id 1kd9JF-00045E-VI
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 04:54:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1kd9C5-0002Gu-Kp
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 04:47:05 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38591)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1kd9HH-0003aO-R5
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 04:52:28 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:55922)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1kd9C3-00086q-JF
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 04:47:05 -0500
-Received: by mail-wm1-x344.google.com with SMTP id h62so4873746wme.3
- for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 01:47:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id;
- bh=htgjkcVsMZNIrHt2+g/ErSOItfgqIHCyrEHFvj1N9QE=;
- b=yTilNaVTQPxUyc4dvjWRYaUT1QUGbQYzfPiQmu+N757XlcNwkYqWEwaZdqiGqd1nqA
- bCHxJEEjPUClQN3f2txb7JBLI7DjTwTEZ9jzfi2X1EfFAMeWfItfYBwl9jUJApXVkcHF
- 95AoYXmbEEKWcEEipeKVM3PsW4s3OmDmsXmViV8cnw6b+XD3GTiGnO03z6DcRRF3eHs9
- FGgEUjl4rCoyIIlyvbdjMOXorT7Yh1Lhi/5YOwetghqQC+DrdTnx6QYvoV5l7ngwQDMX
- RaB9bRhERbpLc/n/VGmkEqRfC7wmzpoZq6XY5P7fTF1yLasURGyymi8upVMScQv8rpLK
- ve/Q==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1kd9HG-0001Qt-Em
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 04:52:27 -0500
+Received: by mail-wm1-x343.google.com with SMTP id c9so4672278wml.5
+ for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 01:52:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xYEIW82b5MHqFEKL+1JEgs0hKZZIrkZWrh5gxg7iaIY=;
+ b=vHWt51A0CSo+177Z43iK44k3kQ+T/Wo03zZ5omZyem5Wli57Fl47HoYQslSQH0VLgM
+ T0OLEFZH+16Vw3ibjHOWP3n3bniHHUoqjLybnvyov7d+iQJWy0vaGWJp6PadWDzQ2kC3
+ HqgcNYSZCBQKA79prkxsDUF+F0DN2cHErGfp03Nz51f7R1ghC6SashDJ14JO3VTSEASY
+ /6MtM+CrWfFEYhWhKcG5aFhJIdgQ6PpyYorBAxjgwLtDXQdihOrNODyxBqH6UoCwxTC7
+ nfal/ma6slP5BG68x9YP8Ng1h0+AtE0rYfdAmtn1xc8jXkhG3wOIEBmeBFTocWX0kwFf
+ LEPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=htgjkcVsMZNIrHt2+g/ErSOItfgqIHCyrEHFvj1N9QE=;
- b=LZa1hcP24Q01JDCP0qDhpgp+xxa2o37pO5wjRaiQyldemnL2qGL9C3JiCCji5RHbvT
- TGIqPyVc4iyJ+IdrnnTjCrVSebmLKP6hJUSBePa/p8KO+11YlAWQSjgQqxG7l+/SeuG7
- /G3k8QXn82dWacAVuvM1wXUFK7xf4MdV/vDrwkkFr/iIqQaRT95+soM3JwHR5etPWujD
- 4lqO9SU5i+Qr72XJaaOnVSKyg383h12Hvm7AiSMaQYfPnQqT6CD0bIbksAMuE17bzuY6
- /p10Mo4o0ZYfCKF4h9A4kwS+8A8fpYhv8tjoc6x/QZ3CfSG13cxWRQEeOadPC6fOtWNZ
- huzg==
-X-Gm-Message-State: AOAM5304uP2JIb2Ks9iKy/Q2gdC/2z6NwIk+Y+bl8iAUJaJNgRKQZ8xS
- 3rwsj+gXmzbvP2qdtCF1OCkGqq5+DKgVDQ==
-X-Google-Smtp-Source: ABdhPJxR0jcoBvymkUxaxMaDn6TpXMNOy1VwImhgJU63LJ4NBGi4slxIpsDylw+edxZ/1iMIDjy/VQ==
-X-Received: by 2002:a7b:c384:: with SMTP id s4mr8792852wmj.77.1605174421279;
- Thu, 12 Nov 2020 01:47:01 -0800 (PST)
-Received: from f2.Home (bzq-79-177-41-59.red.bezeqint.net. [79.177.41.59])
- by smtp.gmail.com with ESMTPSA id u16sm5923764wrn.55.2020.11.12.01.46.59
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 12 Nov 2020 01:47:00 -0800 (PST)
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
-To: qemu-devel@nongnu.org,
-	jasowang@redhat.com
-Subject: [PATCH] virtio-net: purge queued rx packets on queue deletion
-Date: Thu, 12 Nov 2020 11:46:53 +0200
-Message-Id: <20201112094653.20255-1-yuri.benditovich@daynix.com>
-X-Mailer: git-send-email 2.17.1
-Received-SPF: none client-ip=2a00:1450:4864:20::344;
- envelope-from=yuri.benditovich@daynix.com; helo=mail-wm1-x344.google.com
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=xYEIW82b5MHqFEKL+1JEgs0hKZZIrkZWrh5gxg7iaIY=;
+ b=mN9+VX3RPexcniI6sKpVJIHogDMTEY7AVAYWoKsHdjPqn8CJlBKj2dz+/7lvI3FfvG
+ eLQjw2tYNEqxeNRBcMXFK6QuAR1SWKXbDOFp2qJtBRPRneqTiOuXKiin42Nevc5CXOW/
+ 5nCwp0EtMi5VNG/Tio0cvMSt2B5r81YgLsE36v4dXST9hjv0/LNUGa3QW7X2PA/XGzBo
+ q2lyJYg/CqTmwxKqTtXr844gjbFENWvdwatHiBngKoTrhW38Dv3sOu35/Gp5Y7kUnojp
+ XCm/vWFZb9SevdQGr3sB/RCTdKUat81Xp4eJIhCrxqAcEU0NVkWaz9UzOrC8bmKlw+Uc
+ wBsw==
+X-Gm-Message-State: AOAM530WsNZkKopIU5GcDv3hTP95X+R0vd5bjxtGMIZECDe0C1sc6cjB
+ eUsPmRj/U/2ukeImsCWm+wvux/seFnI=
+X-Google-Smtp-Source: ABdhPJw9m/qYMYWyUaoe58rnXXWBENbIEDlIgf75aOIa+UcwC/02zTC7YMonq63jhcqoKQVls2Gvmw==
+X-Received: by 2002:a1c:4888:: with SMTP id v130mr8519165wma.84.1605174743031; 
+ Thu, 12 Nov 2020 01:52:23 -0800 (PST)
+Received: from avogadro.lan ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
+ by smtp.gmail.com with ESMTPSA id a128sm5859902wmf.5.2020.11.12.01.52.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Nov 2020 01:52:22 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] scsi-disk: convert more errno values back to SCSI statuses
+Date: Thu, 12 Nov 2020 10:52:20 +0100
+Message-Id: <20201112095220.52590-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.28.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,51 +83,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yan@daynix.com
+Cc: Hannes Reinecke <hare@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-https://bugzilla.redhat.com/show_bug.cgi?id=1829272
-When deleting queue pair, purge pending RX packets if any.
-Example of problematic flow:
-1. Bring up q35 VM with tap (vhost off) and virtio-net or e1000e
-2. Run ping flood to the VM NIC ( 1 ms interval)
-3. Hot unplug the NIC device (device_del)
-   During unplug process one or more packets come, the NIC
-   can't receive, tap disables read_poll
-4. Hot plug the device (device_add) with the same netdev
-The tap stays with read_poll disabled and does not receive
-any packets anymore (tap_send never triggered)
+Linux has some OS-specific (and sometimes weird) mappings for various SCSI
+statuses and sense codes.  The most important is probably RESERVATION
+CONFLICT.  Add them so that they can be reported back to the guest
+kernel.
 
-Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
+Cc: Hannes Reinecke <hare@suse.de>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- net/net.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ hw/scsi/scsi-disk.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/net/net.c b/net/net.c
-index 7a2a0fb5ac..a95b417300 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -411,10 +411,14 @@ void qemu_del_nic(NICState *nic)
- 
-     qemu_macaddr_set_free(&nic->conf->macaddr);
- 
--    /* If this is a peer NIC and peer has already been deleted, free it now. */
--    if (nic->peer_deleted) {
--        for (i = 0; i < queues; i++) {
--            qemu_free_net_client(qemu_get_subqueue(nic, i)->peer);
-+    for (i = 0; i < queues; i++) {
-+        NetClientState *nc = qemu_get_subqueue(nic, i);
-+        /* If this is a peer NIC and peer has already been deleted, free it now. */
-+        if (nic->peer_deleted) {
-+            qemu_free_net_client(nc->peer);
-+        } else if (nc->peer) {
-+            /* if there are RX packets pending, complete them */
-+            qemu_purge_queued_packets(nc->peer);
-         }
-     }
- 
+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+index 424bc192b7..fa14d1527a 100644
+--- a/hw/scsi/scsi-disk.c
++++ b/hw/scsi/scsi-disk.c
+@@ -461,6 +461,25 @@ static bool scsi_handle_rw_error(SCSIDiskReq *r, int error, bool acct_failed)
+             }
+             error = scsi_sense_buf_to_errno(r->req.sense, sizeof(r->req.sense));
+             break;
++#ifdef CONFIG_LINUX
++            /* These errno mapping are specific to Linux.  For more information:
++             * - scsi_decide_disposition in drivers/scsi/scsi_error.c
++             * - scsi_result_to_blk_status in drivers/scsi/scsi_lib.c
++             * - blk_errors[] in block/blk-core.c
++             */
++        case EBADE:
++            /* DID_NEXUS_FAILURE -> BLK_STS_NEXUS.  */
++            scsi_req_complete(&r->req, RESERVATION_CONFLICT);
++            break;
++        case ENODATA:
++            /* DID_MEDIUM_ERROR -> BLK_STS_MEDIUM.  */
++            scsi_check_condition(r, SENSE_CODE(READ_ERROR));
++            break;
++        case EREMOTEIO:
++            /* DID_TARGET_FAILURE -> BLK_STS_TARGET.  */
++            scsi_req_complete(&r->req, HARDWARE_ERROR);
++            break;
++#endif
+         case ENOMEDIUM:
+             scsi_check_condition(r, SENSE_CODE(NO_MEDIUM));
+             break;
 -- 
-2.17.1
+2.28.0
 
 
