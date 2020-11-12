@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DABA2B115F
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 23:23:14 +0100 (CET)
-Received: from localhost ([::1]:42118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF0A42B1165
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 23:25:37 +0100 (CET)
+Received: from localhost ([::1]:48476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdKzp-0007VZ-1g
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 17:23:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33872)
+	id 1kdL28-0001oZ-P9
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 17:25:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kdKQr-0007wt-LY
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:47:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59084)
+ id 1kdKQt-000828-TF
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:47:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43494)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kdKQp-0003gS-Ov
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:47:05 -0500
+ id 1kdKQp-0003gw-Ue
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:47:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605217621;
+ s=mimecast20190719; t=1605217623;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ja/YmWt/OMSFvhSVMA3UOQ10xojvR9RvVHDVddUDRaY=;
- b=aHd30YwuJfPw4TuBuqsQeDIbFu/ZYmd5SR2f0bINOk9HIEFPoLktwRg3eAwtgQAR0FzsD5
- svn9ojTLflsqV42u1psX192LYrnwpjCjWDdvoB95rBS48zXLn0uzQ7guSEU0Z0jmRLg9Po
- 46Jlfsmnm7aBnrpn8O0KjVRtKgWwnDs=
+ bh=+J/mZsm6WK/MiGHwwWJIz/McIC+pChsohiz1yjkiRF0=;
+ b=gzTpylu0UjlGa1a8Xh68Kfvb5w1ItPeriaHdoXS5Hprq7hfVBn72P1VdGOlIfWGpNyZQjc
+ cMR+XTEfSCoBKqkAhn1yHLIDkxiKYF6hRFsLV2lEoUEskQ11e9HATttHqKNQfBpefOlYSF
+ BTiW0gvIda+kNuZAMlSp9TdUYjXJquU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-68-NoCWWUqNOCWnU2OuJdpIXw-1; Thu, 12 Nov 2020 16:46:59 -0500
-X-MC-Unique: NoCWWUqNOCWnU2OuJdpIXw-1
+ us-mta-89-IGentQ4uMfC2nSF0Bt4QPw-1; Thu, 12 Nov 2020 16:47:01 -0500
+X-MC-Unique: IGentQ4uMfC2nSF0Bt4QPw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 764B7184217D;
- Thu, 12 Nov 2020 21:46:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B3F2184217D;
+ Thu, 12 Nov 2020 21:47:00 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0D2D85B4C2;
- Thu, 12 Nov 2020 21:46:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 766695B4A7;
+ Thu, 12 Nov 2020 21:46:59 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 43/53] qdev: Move static_prop_release_dynamic_prop() closer
- to its usage
-Date: Thu, 12 Nov 2020 16:43:40 -0500
-Message-Id: <20201112214350.872250-44-ehabkost@redhat.com>
+Subject: [PATCH v3 44/53] qom: Add new qom.h header
+Date: Thu, 12 Nov 2020 16:43:41 -0500
+Message-Id: <20201112214350.872250-45-ehabkost@redhat.com>
 In-Reply-To: <20201112214350.872250-1-ehabkost@redhat.com>
 References: <20201112214350.872250-1-ehabkost@redhat.com>
 MIME-Version: 1.0
@@ -58,16 +57,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 16:09:27
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:00:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,9 +89,8 @@ Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the function closer to where it's used, to make refactor
-and review simpler.  While doing it, reformat the comment at the
-top to follow coding style.
+Multiple QOM features will be provided by different headers.  Add a
+qom/qom.h header to make it easier to include all of them at once.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
@@ -103,56 +101,26 @@ Cc: "Daniel P. Berrangé" <berrange@redhat.com>
 Cc: Eduardo Habkost <ehabkost@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- hw/core/qdev-properties.c | 29 +++++++++++++++--------------
- 1 file changed, 15 insertions(+), 14 deletions(-)
+ include/qom/qom.h | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+ create mode 100644 include/qom/qom.h
 
-diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index 83fd45add0..7aa5d2ff45 100644
---- a/hw/core/qdev-properties.c
-+++ b/hw/core/qdev-properties.c
-@@ -521,20 +521,6 @@ const PropertyInfo prop_info_size32 = {
- 
- /* --- support for array properties --- */
- 
--/* object property release callback for dynamically-created properties:
-- * we call the underlying element's property release hook, and
-- * then free the memory we allocated when we added the property.
-- */
--static void static_prop_release_dynamic_prop(Object *obj, const char *name,
--                                             void *opaque)
--{
--    Property *prop = opaque;
--    if (prop->info->release) {
--        prop->info->release(obj, name, opaque);
--    }
--    g_free(prop);
--}
--
- static void set_prop_arraylen(Object *obj, Visitor *v, const char *name,
-                               void *opaque, Error **errp)
- {
-@@ -816,6 +802,21 @@ const PropertyInfo prop_info_link = {
-     .create = create_link_property,
- };
- 
+diff --git a/include/qom/qom.h b/include/qom/qom.h
+new file mode 100644
+index 0000000000..3286605083
+--- /dev/null
++++ b/include/qom/qom.h
+@@ -0,0 +1,10 @@
 +/*
-+ * Property release callback for dynamically-created properties:
-+ * We call the underlying element's property release hook, and
-+ * then free the memory we allocated when we added the property.
++ * QEMU Object Model convenience header
++ *
++ * This header is not supposed to be included by other headers
++ * but by .c files that use QOM.
 + */
-+static void static_prop_release_dynamic_prop(Object *obj, const char *name,
-+                                             void *opaque)
-+{
-+    Property *prop = opaque;
-+    if (prop->info->release) {
-+        prop->info->release(obj, name, opaque);
-+    }
-+    g_free(prop);
-+}
 +
- ObjectProperty *
- object_property_add_field(Object *obj, const char *name,
-                           Property *prop,
++#include "qom/object.h"
++#include "qom/object_interfaces.h"
++#include "qom/qom-qobject.h"
 -- 
 2.28.0
 
