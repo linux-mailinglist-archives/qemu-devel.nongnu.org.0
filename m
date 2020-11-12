@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B507A2B10A5
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 22:50:08 +0100 (CET)
-Received: from localhost ([::1]:36828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ACED2B10A4
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 22:50:04 +0100 (CET)
+Received: from localhost ([::1]:36558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdKTm-0002cO-Na
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 16:50:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32810)
+	id 1kdKTj-0002Vp-A7
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 16:50:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kdKOn-0005rX-Us
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:45:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53865)
+ id 1kdKOu-0005sz-7J
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:45:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43189)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kdKOj-0003Dh-Qp
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:44:55 -0500
+ id 1kdKOn-0003E2-MN
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:45:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605217492;
+ s=mimecast20190719; t=1605217496;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VS6q04t6dHHN72NkI74EXZ/EGgWszfu/YZ3EAegBiW8=;
- b=hpX7FAog7Wfxh/a4l8UukXzUAnloiXOGhCpgQhs+iJ7i9APQ1BqTY2ls7GLYSNwnnnlHUG
- Y5/3rXxs3i86bQARUlzIyfiqXpJH4vOHc66fgzAlpdOSvqSKIf+2vz0FTRJJnb4K2yk57l
- IMe4A2KjNoMiHtFo7s0QImLqiADkI0k=
+ bh=B/Dy3vbFXj/PEABANWsi/yWsndCc/kQP2GOtgkpAUPA=;
+ b=XWS38UJwyVp5jjJ5hFMMMOwmGvhu5gIGFCgYKpksL8IfEIC0ahJOg6lsTeOWxXcDliJKPZ
+ VpVZk/Se9tZv6pCdev/m2MxoQOPL2smOGuGob4AWQBL/+dzHgjVAQS+WkBgB2JLlxaJ1ER
+ 7RsTQffOGp0MvalAyASiVi5JMiD8Yfw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-552-Hgprl6UMOBirS6MpEjJeoA-1; Thu, 12 Nov 2020 16:44:50 -0500
-X-MC-Unique: Hgprl6UMOBirS6MpEjJeoA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-196-b_VtTnplNy6ZTJvcGMJrdw-1; Thu, 12 Nov 2020 16:44:55 -0500
+X-MC-Unique: b_VtTnplNy6ZTJvcGMJrdw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B625280475B;
- Thu, 12 Nov 2020 21:44:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12887CEC62;
+ Thu, 12 Nov 2020 21:44:54 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4554B5D9CA;
- Thu, 12 Nov 2020 21:44:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ACEF119C66;
+ Thu, 12 Nov 2020 21:44:50 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 10/53] qdev: Make qdev_find_global_prop() get Object*
+Subject: [PATCH v3 11/53] qdev: Make check_prop_still_unset() get Object*
  argument
-Date: Thu, 12 Nov 2020 16:43:07 -0500
-Message-Id: <20201112214350.872250-11-ehabkost@redhat.com>
+Date: Thu, 12 Nov 2020 16:43:08 -0500
+Message-Id: <20201112214350.872250-12-ehabkost@redhat.com>
 In-Reply-To: <20201112214350.872250-1-ehabkost@redhat.com>
 References: <20201112214350.872250-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -100,59 +100,54 @@ Cc: "Daniel P. Berrangé" <berrange@redhat.com>
 Cc: Eduardo Habkost <ehabkost@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- include/hw/qdev-properties.h     | 2 +-
- hw/core/qdev-properties-system.c | 2 +-
- hw/core/qdev-properties.c        | 4 ++--
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ hw/core/qdev-properties-system.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
-index 0b92cfc761..7620095fed 100644
---- a/include/hw/qdev-properties.h
-+++ b/include/hw/qdev-properties.h
-@@ -305,7 +305,7 @@ void qdev_prop_set_enum(DeviceState *dev, const char *name, int value);
- void *qdev_get_prop_ptr(Object *obj, Property *prop);
- 
- void qdev_prop_register_global(GlobalProperty *prop);
--const GlobalProperty *qdev_find_global_prop(DeviceState *dev,
-+const GlobalProperty *qdev_find_global_prop(Object *obj,
-                                             const char *name);
- int qdev_prop_check_globals(void);
- void qdev_prop_set_globals(DeviceState *dev);
 diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
-index c8c73c371b..af1339e562 100644
+index af1339e562..85dd38db0f 100644
 --- a/hw/core/qdev-properties-system.c
 +++ b/hw/core/qdev-properties-system.c
-@@ -36,7 +36,7 @@ static bool check_prop_still_unset(DeviceState *dev, const char *name,
+@@ -32,11 +32,11 @@
+ #include "hw/pci/pci.h"
+ #include "util/block-helpers.h"
+ 
+-static bool check_prop_still_unset(DeviceState *dev, const char *name,
++static bool check_prop_still_unset(Object *obj, const char *name,
                                     const void *old_val, const char *new_val,
                                     Error **errp)
  {
--    const GlobalProperty *prop = qdev_find_global_prop(dev, name);
-+    const GlobalProperty *prop = qdev_find_global_prop(OBJECT(dev), name);
+-    const GlobalProperty *prop = qdev_find_global_prop(OBJECT(dev), name);
++    const GlobalProperty *prop = qdev_find_global_prop(obj, name);
  
      if (!old_val) {
          return true;
-diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index 0a54a922c8..41482d83d1 100644
---- a/hw/core/qdev-properties.c
-+++ b/hw/core/qdev-properties.c
-@@ -818,7 +818,7 @@ void qdev_prop_register_global(GlobalProperty *prop)
-     g_ptr_array_add(global_props(), prop);
- }
+@@ -105,7 +105,7 @@ static void set_drive_helper(Object *obj, Visitor *v, const char *name,
+      * TODO Should this really be an error?  If no, the old value
+      * needs to be released before we store the new one.
+      */
+-    if (!check_prop_still_unset(dev, name, *ptr, str, errp)) {
++    if (!check_prop_still_unset(obj, name, *ptr, str, errp)) {
+         return;
+     }
  
--const GlobalProperty *qdev_find_global_prop(DeviceState *dev,
-+const GlobalProperty *qdev_find_global_prop(Object *obj,
-                                             const char *name)
- {
-     GPtrArray *props = global_props();
-@@ -827,7 +827,7 @@ const GlobalProperty *qdev_find_global_prop(DeviceState *dev,
+@@ -247,7 +247,7 @@ static void set_chr(Object *obj, Visitor *v, const char *name, void *opaque,
+      * TODO Should this really be an error?  If no, the old value
+      * needs to be released before we store the new one.
+      */
+-    if (!check_prop_still_unset(dev, name, be->chr, str, errp)) {
++    if (!check_prop_still_unset(obj, name, be->chr, str, errp)) {
+         return;
+     }
  
-     for (i = 0; i < props->len; i++) {
-         p = g_ptr_array_index(props, i);
--        if (object_dynamic_cast(OBJECT(dev), p->driver)
-+        if (object_dynamic_cast(obj, p->driver)
-             && !strcmp(p->property, name)) {
-             return p;
+@@ -429,7 +429,7 @@ static void set_netdev(Object *obj, Visitor *v, const char *name,
+          * TODO Should this really be an error?  If no, the old value
+          * needs to be released before we store the new one.
+          */
+-        if (!check_prop_still_unset(dev, name, ncs[i], str, errp)) {
++        if (!check_prop_still_unset(obj, name, ncs[i], str, errp)) {
+             goto out;
          }
+ 
 -- 
 2.28.0
 
