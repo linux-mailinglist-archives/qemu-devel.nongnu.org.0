@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DF002B10AC
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 22:53:03 +0100 (CET)
-Received: from localhost ([::1]:45180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF2DB2B10C3
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 22:58:01 +0100 (CET)
+Received: from localhost ([::1]:33444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdKWc-00068L-8H
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 16:53:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33008)
+	id 1kdKbQ-0004ch-NV
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 16:58:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kdKPA-0005yB-1e
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:45:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35400)
+ id 1kdKPI-00063O-7I
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:45:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50390)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kdKP7-0003Hk-LM
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:45:19 -0500
+ id 1kdKPE-0003LP-Cr
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:45:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605217515;
+ s=mimecast20190719; t=1605217522;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xRQE+h84RpMU/EfoXCBgVLENx+SzpU+pjO6YsvFZjlk=;
- b=GfLO6tkLRePieGET4vndSeubWbENF18gqbKXPdpvmH0JqMgFDlCjst41q14s67FKIARkTu
- CsQmJ05OQpWaCoN5VhaS7ImW4BVng685UD84gti1Mqz638/oM+opgvIsfFnk6AT/pZ9HWf
- r9Fi0YjWN2z/eHCPEsGwwL323BBI/AI=
+ bh=42qmy84WjZoUzL6hvj8BR/4hg53C3KSeiLhnNSHXnjQ=;
+ b=X43SAQOEVGIHn2qKKYdW+q3Ua5KtRbpbFbNbCHp8oTX1tSDMDpQluPN3haVbN5koRi+xVV
+ R9ObS8HSklaOBdLpoEtX9prwzQ1CeeIK/4d5cmJ1A9ztT18emCv4MVVuPW5gx22wmB+gFh
+ 6c5oyrfs3Ah0yLBu71ug6MelUn+n+Uc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-jnArBD9MMEaBrWCIn80qiA-1; Thu, 12 Nov 2020 16:45:14 -0500
-X-MC-Unique: jnArBD9MMEaBrWCIn80qiA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-143-TYl-mB2BPKOzdQR8yqOloA-1; Thu, 12 Nov 2020 16:45:19 -0500
+X-MC-Unique: TYl-mB2BPKOzdQR8yqOloA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00B2F803F41;
- Thu, 12 Nov 2020 21:45:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C4E1190A3E0;
+ Thu, 12 Nov 2020 21:45:18 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E1EFE55795;
- Thu, 12 Nov 2020 21:45:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1AC4F5D9CA;
+ Thu, 12 Nov 2020 21:45:17 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 14/53] qdev: Move UUID property to qdev-properties-system.c
-Date: Thu, 12 Nov 2020 16:43:11 -0500
-Message-Id: <20201112214350.872250-15-ehabkost@redhat.com>
+Subject: [PATCH v3 16/53] qdev: Reuse DEFINE_PROP in all DEFINE_PROP_* macros
+Date: Thu, 12 Nov 2020 16:43:13 -0500
+Message-Id: <20201112214350.872250-17-ehabkost@redhat.com>
 In-Reply-To: <20201112214350.872250-1-ehabkost@redhat.com>
 References: <20201112214350.872250-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,174 +89,202 @@ Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Only softmmu code uses DEFINE_PROP_UUID, and it currently depends
-on error_set_from_qdev_prop_error().  Move it to
-qdev-properties-system.c to get out of our way when refactoring
-the qdev property system.
-
-We can eventually move it back to the core property system later,
-after removing usage of error_set_from_qdev_prop_error().
+Instead of duplicating the code that sets name, info, offset,
+and does type checking, make DEFINE_PROP accept a variable number
+of arguments and reuse it in all DEFINE_PROP_* macros.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-This is a new patch added in series v2
+Changes v1 -> v2:
+* Redone after UUID property was moved
 ---
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: "Daniel P. Berrangé" <berrange@redhat.com>
 Cc: Eduardo Habkost <ehabkost@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- hw/core/qdev-properties-system.c | 57 ++++++++++++++++++++++++++++++++
- hw/core/qdev-properties.c        | 57 --------------------------------
- 2 files changed, 57 insertions(+), 57 deletions(-)
+ include/hw/qdev-properties-system.h |  19 ++---
+ include/hw/qdev-properties.h        | 114 ++++++++++------------------
+ 2 files changed, 46 insertions(+), 87 deletions(-)
 
-diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
-index fca1b694ca..35515886a9 100644
---- a/hw/core/qdev-properties-system.c
-+++ b/hw/core/qdev-properties-system.c
-@@ -21,6 +21,7 @@
- #include "qemu/ctype.h"
- #include "qemu/cutils.h"
- #include "qemu/units.h"
-+#include "qemu/uuid.h"
- #include "qemu/error-report.h"
- #include "qdev-prop-internal.h"
+diff --git a/include/hw/qdev-properties-system.h b/include/hw/qdev-properties-system.h
+index 29529dc999..0ac327ae60 100644
+--- a/include/hw/qdev-properties-system.h
++++ b/include/hw/qdev-properties-system.h
+@@ -63,22 +63,15 @@ extern const PropertyInfo qdev_prop_pcie_link_width;
+     DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_pcie_link_width, \
+                         PCIExpLinkWidth)
  
-@@ -1105,3 +1106,59 @@ const PropertyInfo qdev_prop_pcie_link_width = {
-     .set = set_prop_pcielinkwidth,
-     .set_default_value = qdev_propinfo_set_default_value_enum,
- };
+-#define DEFINE_PROP_UUID(_name, _state, _field) {                  \
+-        .name      = (_name),                                      \
+-        .info      = &qdev_prop_uuid,                              \
+-        .offset    = offsetof(_state, _field)                      \
+-            + type_check(QemuUUID, typeof_field(_state, _field)),  \
+-        .set_default = true,                                       \
+-        }
++#define DEFINE_PROP_UUID(_name, _state, _field) \
++    DEFINE_PROP(_name, _state, _field, qdev_prop_uuid, QemuUUID, \
++                .set_default = true)
 +
-+/* --- UUID --- */
-+
-+static void get_uuid(Object *obj, Visitor *v, const char *name, void *opaque,
-+                     Error **errp)
-+{
-+    Property *prop = opaque;
-+    QemuUUID *uuid = qdev_get_prop_ptr(obj, prop);
-+    char buffer[UUID_FMT_LEN + 1];
-+    char *p = buffer;
-+
-+    qemu_uuid_unparse(uuid, buffer);
-+
-+    visit_type_str(v, name, &p, errp);
-+}
-+
-+#define UUID_VALUE_AUTO        "auto"
-+
-+static void set_uuid(Object *obj, Visitor *v, const char *name, void *opaque,
-+                    Error **errp)
-+{
-+    DeviceState *dev = DEVICE(obj);
-+    Property *prop = opaque;
-+    QemuUUID *uuid = qdev_get_prop_ptr(obj, prop);
-+    char *str;
-+
-+    if (dev->realized) {
-+        qdev_prop_set_after_realize(dev, name, errp);
-+        return;
-+    }
-+
-+    if (!visit_type_str(v, name, &str, errp)) {
-+        return;
-+    }
-+
-+    if (!strcmp(str, UUID_VALUE_AUTO)) {
-+        qemu_uuid_generate(uuid);
-+    } else if (qemu_uuid_parse(str, uuid) < 0) {
-+        error_set_from_qdev_prop_error(errp, EINVAL, obj, prop, str);
-+    }
-+    g_free(str);
-+}
-+
-+static void set_default_uuid_auto(ObjectProperty *op, const Property *prop)
-+{
-+    object_property_set_default_str(op, UUID_VALUE_AUTO);
-+}
-+
-+const PropertyInfo qdev_prop_uuid = {
-+    .name  = "str",
-+    .description = "UUID (aka GUID) or \"" UUID_VALUE_AUTO
-+        "\" for random value (default)",
-+    .get   = get_uuid,
-+    .set   = set_uuid,
-+    .set_default_value = set_default_uuid_auto,
-+};
-diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index 765e916c23..a2eaa43831 100644
---- a/hw/core/qdev-properties.c
-+++ b/hw/core/qdev-properties.c
-@@ -6,7 +6,6 @@
- #include "qemu/ctype.h"
- #include "qemu/error-report.h"
- #include "qapi/visitor.h"
--#include "qemu/uuid.h"
- #include "qemu/units.h"
- #include "qemu/cutils.h"
- #include "qdev-prop-internal.h"
-@@ -544,62 +543,6 @@ const PropertyInfo qdev_prop_size32 = {
-     .set_default_value = qdev_propinfo_set_default_value_uint,
- };
+ #define DEFINE_PROP_AUDIODEV(_n, _s, _f) \
+     DEFINE_PROP(_n, _s, _f, qdev_prop_audiodev, QEMUSoundCard)
  
--/* --- UUID --- */
--
--static void get_uuid(Object *obj, Visitor *v, const char *name, void *opaque,
--                     Error **errp)
--{
--    Property *prop = opaque;
--    QemuUUID *uuid = qdev_get_prop_ptr(obj, prop);
--    char buffer[UUID_FMT_LEN + 1];
--    char *p = buffer;
--
--    qemu_uuid_unparse(uuid, buffer);
--
--    visit_type_str(v, name, &p, errp);
--}
--
--#define UUID_VALUE_AUTO        "auto"
--
--static void set_uuid(Object *obj, Visitor *v, const char *name, void *opaque,
--                    Error **errp)
--{
--    DeviceState *dev = DEVICE(obj);
--    Property *prop = opaque;
--    QemuUUID *uuid = qdev_get_prop_ptr(obj, prop);
--    char *str;
--
--    if (dev->realized) {
--        qdev_prop_set_after_realize(dev, name, errp);
--        return;
--    }
--
--    if (!visit_type_str(v, name, &str, errp)) {
--        return;
--    }
--
--    if (!strcmp(str, UUID_VALUE_AUTO)) {
--        qemu_uuid_generate(uuid);
--    } else if (qemu_uuid_parse(str, uuid) < 0) {
--        error_set_from_qdev_prop_error(errp, EINVAL, obj, prop, str);
--    }
--    g_free(str);
--}
--
--static void set_default_uuid_auto(ObjectProperty *op, const Property *prop)
--{
--    object_property_set_default_str(op, UUID_VALUE_AUTO);
--}
--
--const PropertyInfo qdev_prop_uuid = {
--    .name  = "str",
--    .description = "UUID (aka GUID) or \"" UUID_VALUE_AUTO
--        "\" for random value (default)",
--    .get   = get_uuid,
--    .set   = set_uuid,
--    .set_default_value = set_default_uuid_auto,
--};
--
- /* --- support for array properties --- */
+-#define DEFINE_PROP_UUID_NODEFAULT(_name, _state, _field) {        \
+-        .name      = (_name),                                      \
+-        .info      = &qdev_prop_uuid,                              \
+-        .offset    = offsetof(_state, _field)                      \
+-            + type_check(QemuUUID, typeof_field(_state, _field)),  \
+-        }
++#define DEFINE_PROP_UUID_NODEFAULT(_name, _state, _field) \
++    DEFINE_PROP(_name, _state, _field, qdev_prop_uuid, QemuUUID)
  
- /* Used as an opaque for the object properties we add for each
+ 
+ #endif
+diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
+index d35d4aae84..1b58e4f922 100644
+--- a/include/hw/qdev-properties.h
++++ b/include/hw/qdev-properties.h
+@@ -61,73 +61,46 @@ extern const PropertyInfo qdev_prop_size32;
+ extern const PropertyInfo qdev_prop_arraylen;
+ extern const PropertyInfo qdev_prop_link;
+ 
+-#define DEFINE_PROP(_name, _state, _field, _prop, _type) { \
++#define DEFINE_PROP(_name, _state, _field, _prop, _type, ...) {  \
+         .name      = (_name),                                    \
+         .info      = &(_prop),                                   \
+         .offset    = offsetof(_state, _field)                    \
+             + type_check(_type, typeof_field(_state, _field)),   \
++        __VA_ARGS__                                              \
+         }
+ 
+-#define DEFINE_PROP_SIGNED(_name, _state, _field, _defval, _prop, _type) { \
+-        .name      = (_name),                                           \
+-        .info      = &(_prop),                                          \
+-        .offset    = offsetof(_state, _field)                           \
+-            + type_check(_type,typeof_field(_state, _field)),           \
+-        .set_default = true,                                            \
+-        .defval.i  = (_type)_defval,                                    \
+-        }
++#define DEFINE_PROP_SIGNED(_name, _state, _field, _defval, _prop, _type) \
++    DEFINE_PROP(_name, _state, _field, _prop, _type,                     \
++                .set_default = true,                                     \
++                .defval.i    = (_type)_defval)
+ 
+-#define DEFINE_PROP_SIGNED_NODEFAULT(_name, _state, _field, _prop, _type) { \
+-        .name      = (_name),                                           \
+-        .info      = &(_prop),                                          \
+-        .offset    = offsetof(_state, _field)                           \
+-            + type_check(_type, typeof_field(_state, _field)),          \
+-        }
++#define DEFINE_PROP_SIGNED_NODEFAULT(_name, _state, _field, _prop, _type) \
++    DEFINE_PROP(_name, _state, _field, _prop, _type)
+ 
+-#define DEFINE_PROP_BIT(_name, _state, _field, _bit, _defval) {  \
+-        .name      = (_name),                                    \
+-        .info      = &(qdev_prop_bit),                           \
+-        .bitnr    = (_bit),                                      \
+-        .offset    = offsetof(_state, _field)                    \
+-            + type_check(uint32_t,typeof_field(_state, _field)), \
+-        .set_default = true,                                     \
+-        .defval.u  = (bool)_defval,                              \
+-        }
++#define DEFINE_PROP_BIT(_name, _state, _field, _bit, _defval)   \
++    DEFINE_PROP(_name, _state, _field, qdev_prop_bit, uint32_t, \
++                .bitnr       = (_bit),                          \
++                .set_default = true,                            \
++                .defval.u    = (bool)_defval)
+ 
+-#define DEFINE_PROP_UNSIGNED(_name, _state, _field, _defval, _prop, _type) { \
+-        .name      = (_name),                                           \
+-        .info      = &(_prop),                                          \
+-        .offset    = offsetof(_state, _field)                           \
+-            + type_check(_type, typeof_field(_state, _field)),          \
+-        .set_default = true,                                            \
+-        .defval.u  = (_type)_defval,                                    \
+-        }
++#define DEFINE_PROP_UNSIGNED(_name, _state, _field, _defval, _prop, _type) \
++    DEFINE_PROP(_name, _state, _field, _prop, _type,                       \
++                .set_default = true,                                       \
++                .defval.u  = (_type)_defval)
+ 
+-#define DEFINE_PROP_UNSIGNED_NODEFAULT(_name, _state, _field, _prop, _type) { \
+-        .name      = (_name),                                           \
+-        .info      = &(_prop),                                          \
+-        .offset    = offsetof(_state, _field)                           \
+-            + type_check(_type, typeof_field(_state, _field)),          \
+-        }
++#define DEFINE_PROP_UNSIGNED_NODEFAULT(_name, _state, _field, _prop, _type) \
++    DEFINE_PROP(_name, _state, _field, _prop, _type)
+ 
+-#define DEFINE_PROP_BIT64(_name, _state, _field, _bit, _defval) {       \
+-        .name      = (_name),                                           \
+-        .info      = &(qdev_prop_bit64),                                \
+-        .bitnr    = (_bit),                                             \
+-        .offset    = offsetof(_state, _field)                           \
+-            + type_check(uint64_t, typeof_field(_state, _field)),       \
+-        .set_default = true,                                            \
+-        .defval.u  = (bool)_defval,                                     \
+-        }
++#define DEFINE_PROP_BIT64(_name, _state, _field, _bit, _defval)   \
++    DEFINE_PROP(_name, _state, _field, qdev_prop_bit64, uint64_t, \
++                .bitnr    = (_bit),                               \
++                .set_default = true,                              \
++                .defval.u  = (bool)_defval)
+ 
+-#define DEFINE_PROP_BOOL(_name, _state, _field, _defval) {       \
+-        .name      = (_name),                                    \
+-        .info      = &(qdev_prop_bool),                          \
+-        .offset    = offsetof(_state, _field)                    \
+-            + type_check(bool, typeof_field(_state, _field)),    \
+-        .set_default = true,                                     \
+-        .defval.u    = (bool)_defval,                            \
+-        }
++#define DEFINE_PROP_BOOL(_name, _state, _field, _defval)     \
++    DEFINE_PROP(_name, _state, _field, qdev_prop_bool, bool, \
++                .set_default = true,                         \
++                .defval.u    = (bool)_defval)
+ 
+ #define PROP_ARRAY_LEN_PREFIX "len-"
+ 
+@@ -155,26 +128,19 @@ extern const PropertyInfo qdev_prop_link;
+  * It is the responsibility of the device deinit code to free the
+  * @_arrayfield memory.
+  */
+-#define DEFINE_PROP_ARRAY(_name, _state, _field,                        \
+-                          _arrayfield, _arrayprop, _arraytype) {        \
+-        .name = (PROP_ARRAY_LEN_PREFIX _name),                          \
+-        .info = &(qdev_prop_arraylen),                                  \
+-        .set_default = true,                                            \
+-        .defval.u = 0,                                                  \
+-        .offset = offsetof(_state, _field)                              \
+-            + type_check(uint32_t, typeof_field(_state, _field)),       \
+-        .arrayinfo = &(_arrayprop),                                     \
+-        .arrayfieldsize = sizeof(_arraytype),                           \
+-        .arrayoffset = offsetof(_state, _arrayfield),                   \
+-        }
++#define DEFINE_PROP_ARRAY(_name, _state, _field,               \
++                          _arrayfield, _arrayprop, _arraytype) \
++    DEFINE_PROP((PROP_ARRAY_LEN_PREFIX _name),                 \
++                _state, _field, qdev_prop_arraylen, uint32_t,  \
++                .set_default = true,                           \
++                .defval.u = 0,                                 \
++                .arrayinfo = &(_arrayprop),                    \
++                .arrayfieldsize = sizeof(_arraytype),          \
++                .arrayoffset = offsetof(_state, _arrayfield))
+ 
+-#define DEFINE_PROP_LINK(_name, _state, _field, _type, _ptr_type) {     \
+-        .name = (_name),                                                \
+-        .info = &(qdev_prop_link),                                      \
+-        .offset = offsetof(_state, _field)                              \
+-            + type_check(_ptr_type, typeof_field(_state, _field)),      \
+-        .link_type  = _type,                                            \
+-        }
++#define DEFINE_PROP_LINK(_name, _state, _field, _type, _ptr_type)     \
++    DEFINE_PROP(_name, _state, _field, qdev_prop_link, _ptr_type,     \
++                .link_type  = _type)
+ 
+ #define DEFINE_PROP_UINT8(_n, _s, _f, _d)                       \
+     DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, qdev_prop_uint8, uint8_t)
 -- 
 2.28.0
 
