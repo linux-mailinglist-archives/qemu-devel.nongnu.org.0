@@ -2,69 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D34232B08CB
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 16:47:59 +0100 (CET)
-Received: from localhost ([::1]:44240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 676402B0893
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 16:40:07 +0100 (CET)
+Received: from localhost ([::1]:57322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdEpK-0002n6-T9
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 10:47:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60512)
+	id 1kdEhi-0004kh-Gn
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 10:40:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kdEnJ-0001W0-Fv
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 10:45:53 -0500
-Received: from indium.canonical.com ([91.189.90.7]:47012)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kdEgK-0003Tn-Dj
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 10:38:40 -0500
+Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:42703)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kdEnH-0002qu-Oe
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 10:45:53 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kdEnF-0001IJ-Lf
- for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 15:45:49 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 756B02E812F
- for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 15:45:49 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kdEgI-0008Iq-Vr
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 10:38:40 -0500
+Received: by mail-ed1-x544.google.com with SMTP id v22so6749978edt.9
+ for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 07:38:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5k+ydSJYc2lBIT2ga7TT3521OlGGZe3YfHotnBr34HE=;
+ b=Gyi763jrnVwXT4rlSY5vfmGMA8uLRkcvtM2BaNFS2I4gMptZmUAAK1sV1Zr+pUFIgr
+ YWvSZg1qpl8Z3iG8r3B3HkKp6eKpjeALs2j/aC6fN2hQX/CmE6LyhGvwB9UcwzYJIYS9
+ s54SR2fAONdp91OzjzP1DHAl9DXGmLcJum2dsdKPMMnWhmhcS6cPX3tE/sIK8GBtsIj5
+ 2Jqr3RJkVWbSoSx1yYdTSIHtHedBX1wGxSrmaF1+Pb66HxoZCEbdKw5P+9dL0oI51QeX
+ 38RMjvvKuHKzHiBkVTUXplZ80goTcw//vqC6eX/9PgU+jcx1C7P97PBcgyRJFgV/VQlP
+ vshA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5k+ydSJYc2lBIT2ga7TT3521OlGGZe3YfHotnBr34HE=;
+ b=oJOBWkso0+E7X3cIhJFH566V2YwOUw2Z6ex355TjVQzwQz2TaNFQKiYNdDkLK4wNCA
+ jawpEFnzSlz292TWaBgpi71wWKMmIZgwNHQDRw1ccaE3VzClXt3X/CWtZ8LC0pD4frXN
+ 1WU69fTZZEbDEoULhQpjnMUVnmVsJOm9WtAXLArYJaxcgOyjkSdoYUF9ERAtf00w90Qs
+ SnVoogEsmvXbVam8rvTA5a5rEu8DjUXHPOr7IhocbeMjWkq57ebBdsZBAsPM0OT9BhZf
+ jJzeMz0+aUElfXOPsHKDEZqP12peXXNnWRN6XfB2g5q3sbnvMQMK7MW8lR8B4SrSmSKl
+ MIgA==
+X-Gm-Message-State: AOAM532nWZdFGG1ja7adU6qtrSUan0QjkY+PLB6NLWNp7OE5a0Qbx+iz
+ hLAR/J58Q1mp89Lff/im+mG3mvqamdQRe6/gOEQXcA==
+X-Google-Smtp-Source: ABdhPJynnCix49QNzU2B/KsV+VltEIncRnglXQx7QHQg1QuHyEBf8MdYhs1Vnzmd/oJJspcBwbnM/QMCIJ+Qyc5BZhE=
+X-Received: by 2002:a50:fa92:: with SMTP id w18mr364056edr.44.1605195517724;
+ Thu, 12 Nov 2020 07:38:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 12 Nov 2020 15:38:00 -0000
-From: Thomas Huth <1782107@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: dh error
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: nadavr pmaydell th-huth
-X-Launchpad-Bug-Reporter: Nadav Ruskin (nadavr)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <153181978967.32137.15387354948382398538.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160519548069.29822.13885791815154452035.malone@chaenomeles.canonical.com>
-Subject: [Bug 1782107] Re: Random errors when emulating armv7 and using dh
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="9218c6cee10bde7201ace93cd659634a9bc6c70a"; Instance="production"
-X-Launchpad-Hash: f26907e65d550db81fd2c4ff1dc7252c2737f95a
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:20:56
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20201103114654.18540-1-peter.maydell@linaro.org>
+ <20201104071033.GB3294551@lianli.shorne-pla.net>
+ <CAFEAcA8mE=iDxyyBHAH2T1fMFK47eo1pkowJLGjBWQO7U5RRRQ@mail.gmail.com>
+ <20201104114403.GC3294551@lianli.shorne-pla.net>
+In-Reply-To: <20201104114403.GC3294551@lianli.shorne-pla.net>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 12 Nov 2020 15:38:26 +0000
+Message-ID: <CAFEAcA-NAZmiMXbdofrQu1+ZDuEXFGJMQCFK68Oy3tHtCA9neQ@mail.gmail.com>
+Subject: Re: [PATCH] target/openrisc: Remove dead code attempting to check "is
+ timer disabled"
+To: Stafford Horne <shorne@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::544;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x544.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,48 +82,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1782107 <1782107@bugs.launchpad.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently considering to move its bug tracking to anoth=
-er system. For this we need to know which bugs are still valid and which co=
-uld be closed already. Thus we are setting older bugs to "Incomplete" now.
-If you still think this bug report here is valid, then please switch the st=
-ate back to "New" within the next 60 days, otherwise this report will be ma=
-rked as "Expired". Or mark it as "Fix Released" if the problem has been sol=
-ved with a newer version of QEMU already. Thank you and sorry for the incon=
-venience.
+On Wed, 4 Nov 2020 at 11:44, Stafford Horne <shorne@gmail.com> wrote:
+> As for the patch.
+>
+> Acked-by: Stafford Horne <shorne@gmail.com>
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+Thanks; I'll take this via target-arm.next since I'm putting
+together a pullreq at the moment.
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1782107
-
-Title:
-  Random errors when emulating armv7 and using dh
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  Howdy,
-  I'm encountering random errors when using qemu to cross-package my projec=
-t using dh. In previous iterations of my project it would only fail once ev=
-ery two attempts. Now it fails every time.
-
-  Example error included.
-
-
-  If you'd like to try and replicate this error, a version of my project is=
- publicly available with simple instructions on how to package it (using qe=
-mu) here:
-  https://github.com/Nadav-Ruskin/configsite
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1782107/+subscriptions
+-- PMM
 
