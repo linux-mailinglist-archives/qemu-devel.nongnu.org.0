@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C53372B1152
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 23:21:14 +0100 (CET)
-Received: from localhost ([::1]:36048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DABF82B1105
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 23:08:29 +0100 (CET)
+Received: from localhost ([::1]:32950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdKxt-0004rp-RW
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 17:21:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34136)
+	id 1kdKlY-0008H0-T0
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 17:08:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kdKR8-0008NZ-9u
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:47:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40499)
+ id 1kdKR9-0008QW-UC
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:47:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23141)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kdKR1-0003kW-NS
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:47:21 -0500
+ id 1kdKR7-0003lp-S6
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:47:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605217635;
+ s=mimecast20190719; t=1605217639;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VQz84vMvQIIjiq4ifmE0IMvZDS24LI1ngCKhfV5ooUA=;
- b=hmmIEG+F1GXaM3BuAaueVImAyoSmEJ0WKG0m5lMXQxWBW8hmL9BJ+w9fi60B8BtyTxa23y
- GqeUojPN4vt5P5cGItff4KeyarAZ50lD1RObnxqEIoagKW992ED3Zv1gHSxbPqLNxv9ca7
- ism/4l9+CgsVK1FXwxrBbCm5fQGJJnI=
+ bh=Jr2c+hFD8dhsPQVQpHdxJpajRfP2ukTaXihihYrX088=;
+ b=c2n/MnZ4WtpNpjIo4z3S2Vdt4bZ7WsPQR5vb0TIN5Ab1JngrPIcrSbCngPYoPUp6Jnrq6Z
+ Kq+DEHwZwxGxVhYWzaxW+xdRPskVl+N5m0X5HF3Ictm4K2sVFobIOk0KCygWEEOLG1P7R5
+ hZ1PiETAR7CzdxxpCpNAZzU6FmKbiFY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-107-JlNz9ZXtPx6KH2P1xpe6uQ-1; Thu, 12 Nov 2020 16:47:13 -0500
-X-MC-Unique: JlNz9ZXtPx6KH2P1xpe6uQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-589-UNppuZPkMRWCgPqYSAXcUw-1; Thu, 12 Nov 2020 16:47:17 -0500
+X-MC-Unique: UNppuZPkMRWCgPqYSAXcUw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A17C107464A;
- Thu, 12 Nov 2020 21:47:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA9461006CBB;
+ Thu, 12 Nov 2020 21:47:16 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2CAAE5C1C2;
- Thu, 12 Nov 2020 21:47:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4548860C13;
+ Thu, 12 Nov 2020 21:47:13 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 47/53] qom: Include static property API reference in
- documentation
-Date: Thu, 12 Nov 2020 16:43:44 -0500
-Message-Id: <20201112214350.872250-48-ehabkost@redhat.com>
+Subject: [PATCH v3 48/53] qom: object_class_property_add_field() function
+Date: Thu, 12 Nov 2020 16:43:45 -0500
+Message-Id: <20201112214350.872250-49-ehabkost@redhat.com>
 In-Reply-To: <20201112214350.872250-1-ehabkost@redhat.com>
 References: <20201112214350.872250-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -90,156 +89,87 @@ Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Include the static-properties.h API reference in
-docs/devel/qom.rst.
+It is similar to object_class_property_add_field_static(), but
+gets a copy of a Property struct so we don't need
+static variables.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Changes v2 -> v3:
-* Redone patch after changes in previous patches in the series
-* Split into separate patches.  This one only adds the file to
-  qom.rst and Property/PropertyInfo doc comments.  Another patch
-  will add the documentation for DEFINE_PROP_* and PROP_*.
+This is a new patch added in v3 of this series, but v2 had a
+object_class_property_add_field() function too.
 
-Changes v1 -> v2:
-* Redone patch after changes in previous patches in the series
+This version of object_class_property_add_field() is slightly
+different from the one in v2, as it gets a copy of the Property
+struct (so it won't require static variables anymore).
 ---
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: "Daniel P. Berrangé" <berrange@redhat.com>
 Cc: Eduardo Habkost <ehabkost@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- docs/devel/qom.rst           | 17 +++++++++++++-
- include/qom/field-property.h | 45 ++++++++++++++++++++++++++++++------
- include/qom/property-types.h |  2 +-
- 3 files changed, 55 insertions(+), 9 deletions(-)
+ include/qom/field-property.h | 23 +++++++++++++++++++++++
+ qom/field-property.c         | 14 ++++++++++++++
+ 2 files changed, 37 insertions(+)
 
-diff --git a/docs/devel/qom.rst b/docs/devel/qom.rst
-index 42d0dc4f4d..9e43aa46f2 100644
---- a/docs/devel/qom.rst
-+++ b/docs/devel/qom.rst
-@@ -376,6 +376,21 @@ the OBJECT_DEFINE_ABSTRACT_TYPE() macro can be used instead:
- 
- 
- API Reference
---------------
-+=============
-+
-+Core QOM API Reference
-+----------------------
- 
- .. kernel-doc:: include/qom/object.h
-+
-+
-+Field Property API Reference
-+----------------------------
-+
-+.. kernel-doc:: include/qom/field-property.h
-+
-+
-+Property Types Reference
-+------------------------
-+
-+.. kernel-doc:: include/qom/property-types.h
 diff --git a/include/qom/field-property.h b/include/qom/field-property.h
-index 91e7a43165..419e5eef75 100644
+index 419e5eef75..a904f98609 100644
 --- a/include/qom/field-property.h
 +++ b/include/qom/field-property.h
-@@ -8,15 +8,14 @@
- #include "qapi/util.h"
- 
- /**
-- * Property:
-- * @set_default: true if the default value should be set from @defval,
-- *    in which case @info->set_default_value must not be NULL
-- *    (if false then no default value is set by the property system
-- *     and the field retains whatever value it was given by instance_init).
-- * @defval: default value for the property. This is used only if @set_default
-- *     is true.
-+ * struct Property: definition of a field property
-+ *
-+ * Field properties are used to read and write fields in object
-+ * instance structs.  Field properties are defined using
-+ * ``PROP_<type>`` or ``DEFINE_PROP_<type>``.
-  */
- struct Property {
-+    /* private: */
-     /**
-      * @name_template: Property name template
-      *
-@@ -28,27 +27,59 @@ struct Property {
-     const PropertyInfo *info;
-     ptrdiff_t    offset;
-     uint8_t      bitnr;
-+    /**
-+     * @set_default: true if the default value should be set from @defval,
-+     *    in which case @info->set_default_value must not be NULL
-+     *    (if false then no default value is set by the property system
-+     *     and the field retains whatever value it was given by instance_init).
-+     */
-     bool         set_default;
-+    /**
-+     * @defval: default value for the property. This is used only if @set_default
-+     *     is true.
-+     */
-     union {
-         int64_t i;
-         uint64_t u;
-     } defval;
-+    /* private: */
-     int          arrayoffset;
-     const PropertyInfo *arrayinfo;
-     int          arrayfieldsize;
-     const char   *link_type;
- };
- 
-+/**
-+ * struct PropertyInfo: information on a specific QOM property type
-+ */
- struct PropertyInfo {
-+    /** @name: property type name */
-     const char *name;
-+    /** @description: Description for help text */
-     const char *description;
-+    /** @enum_table: Used by field_prop_get_enum() and field_prop_set_enum() */
-     const QEnumLookup *enum_table;
-+    /** @print: String formatting function, for the human monitor */
-     int (*print)(Object *obj, Property *prop, char *dest, size_t len);
-+    /** @set_default_value: Callback for initializing the default value */
-     void (*set_default_value)(ObjectProperty *op, const Property *prop);
-+    /** @create: Optional callback for creation of property */
-     ObjectProperty *(*create)(ObjectClass *oc, const char *name,
-                               Property *prop);
-+    /**
-+     * @get: Property getter.  The opaque parameter will point to
-+     *        the &Property struct for the property.
-+     */
-     ObjectPropertyAccessor *get;
-+    /**
-+     * @set: Property setter.  The opaque parameter will point to
-+     *        the &Property struct for the property.
-+     */
-     ObjectPropertyAccessor *set;
-+    /**
-+     * @release: Optional release function, called when the object
-+     * is destroyed
-+     */
+@@ -83,6 +83,29 @@ struct PropertyInfo {
      ObjectPropertyRelease *release;
  };
  
-diff --git a/include/qom/property-types.h b/include/qom/property-types.h
-index 0aff0d9474..46c82da4e3 100644
---- a/include/qom/property-types.h
-+++ b/include/qom/property-types.h
-@@ -71,7 +71,7 @@ extern const PropertyInfo prop_info_link;
-  * @_name: name of the array
-  * @_state: name of the device state structure type
-  * @_field: uint32_t field in @_state to hold the array length
-- * @_arrayfield: field in @_state (of type '@_arraytype *') which
-+ * @_arrayfield: field in @_state (of type ``_arraytype *``) which
-  *               will point to the array
-  * @_arrayprop: PropertyInfo defining what property the array elements have
-  * @_arraytype: C type of the array elements
++/**
++ * object_class_property_add_field: Add a field property to object class
++ * @oc: object class
++ * @name: property name
++ * @prop: property definition
++ * @allow_set: check function called when property is set
++ *
++ * Add a field property to an object class.  A field property is
++ * a property that will change a field at a specific offset of the
++ * object instance struct.
++ *
++ * Note that data pointed by @prop (like strings or pointers to
++ * other structs) are not copied and must have static life time.
++ *
++ * @allow_set should not be NULL.  If the property can always be
++ * set, `prop_allow_set_always` can be used.  If the property can
++ * never be set, `prop_allow_set_never` can be used.
++ */
++ObjectProperty *
++object_class_property_add_field(ObjectClass *oc, const char *name,
++                                Property prop,
++                                ObjectPropertyAllowSet allow_set);
++
+ void *object_field_prop_ptr(Object *obj, Property *prop);
+ 
+ #endif
+diff --git a/qom/field-property.c b/qom/field-property.c
+index 1fd11f2ad3..cb729626ce 100644
+--- a/qom/field-property.c
++++ b/qom/field-property.c
+@@ -125,6 +125,20 @@ object_class_property_add_field_static(ObjectClass *oc, const char *name,
+     return op;
+ }
+ 
++ObjectProperty *
++object_class_property_add_field(ObjectClass *oc, const char *name,
++                                Property prop,
++                                ObjectPropertyAllowSet allow_set)
++{
++    /*
++     * QOM classes and class properties are never deallocated, so we don't
++     * have a corresponding release function that will free newprop.
++     */
++    Property *newprop = g_new0(Property, 1);
++    *newprop = prop;
++    return object_class_property_add_field_static(oc, name, newprop, allow_set);
++}
++
+ void object_class_add_field_properties(ObjectClass *oc, Property *props,
+                                        ObjectPropertyAllowSet allow_set)
+ {
 -- 
 2.28.0
 
