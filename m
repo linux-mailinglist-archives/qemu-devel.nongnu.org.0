@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEF1A2B10FE
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 23:05:49 +0100 (CET)
-Received: from localhost ([::1]:53846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C6402B10E8
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 23:04:14 +0100 (CET)
+Received: from localhost ([::1]:49454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdKiy-00053T-SX
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 17:05:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33480)
+	id 1kdKhR-0003Cr-JV
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 17:04:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kdKPw-0006ss-Oe
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:46:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31624)
+ id 1kdKPz-0006wl-1X
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:46:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43233)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kdKPu-0003az-5h
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:46:08 -0500
+ id 1kdKPu-0003b5-TX
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:46:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605217564;
+ s=mimecast20190719; t=1605217566;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pRVeBJC73oB1ZWLMle2oyb31+GPywq6tYIYiTT22tXA=;
- b=VQXHx2YGz0hV1HnWOEl9EwVkRKIc9xrPD0hkgV+yu/soEh9zkxfBk4pVCaBdfQFh6WzlQl
- CDN+0yPBFWyerxxbf1pq8BVGOG/w6Wm6W5zuegR28ukr5QQeVx636RQG5eSJFXbYF3zMJi
- C/Z8jGaSkhQh/bZzXkkS1obTw/ZeJOU=
+ bh=LXR7duY2tvL6a/t3iaiFSweT4mtqDHoY6W+RdWpyXN4=;
+ b=GKNHyojMe2c16wASWi6UvfF0w6monb3zj+wN6Tvwm3E8W6NVNAZyKd6ADXHnmCn0dDvGZA
+ d1RiHvMgmj40vvzTYYs3uiv2WvCZxlAyJOPIZhEKTHKSxOkci8mQvlYu9fehkelqIoOqW8
+ 4BwUrQM7+K0KAabvaez7NVg/7a3rwUE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-260-QeIJH6lMNC-jH--FLEVttg-1; Thu, 12 Nov 2020 16:46:00 -0500
-X-MC-Unique: QeIJH6lMNC-jH--FLEVttg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-472-JnHEIIEsNUezlM-4WMO4ew-1; Thu, 12 Nov 2020 16:46:04 -0500
+X-MC-Unique: JnHEIIEsNUezlM-4WMO4ew-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75CF5190A3E4;
- Thu, 12 Nov 2020 21:45:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7CE7A1018F73;
+ Thu, 12 Nov 2020 21:46:03 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 36F0F5C1C2;
- Thu, 12 Nov 2020 21:45:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1D3DB19C59;
+ Thu, 12 Nov 2020 21:46:00 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 26/53] qdev: Separate generic and device-specific property
- registration
-Date: Thu, 12 Nov 2020 16:43:23 -0500
-Message-Id: <20201112214350.872250-27-ehabkost@redhat.com>
+Subject: [PATCH v3 27/53] qdev: Rename qdev_propinfo_* to field_prop_*
+Date: Thu, 12 Nov 2020 16:43:24 -0500
+Message-Id: <20201112214350.872250-28-ehabkost@redhat.com>
 In-Reply-To: <20201112214350.872250-1-ehabkost@redhat.com>
 References: <20201112214350.872250-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -90,184 +89,372 @@ Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qdev_class_add_property() and qdev_property_add_static() will
-have code that's specific for device types.
-
-object_class_property_add_field_static() and
-object_property_add_field() will be generic and part of the QOM
-field property API.  Note that the new functions have a `name`
-parameter because the plan is to eventually get rid of the
-Property.name field.
-
-The declarations for the new functions are being added to
-qdev-properties-internal.h, but they will be moved to a QOM
-header later.
+These functions will be moved to be part of QOM, so rename them.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Changes v2 -> v3:
-* Re-added array-based array registration function, named
-  as object_class_add_field_properties()
-* Renamed object_class_property_add_field() to
-  object_class_property_add_field_static(), to indicate that
-  the function expect the Property argument to have static life
-  time.
-* Keep all new functions as internal API by now,
-  until we decide what's going to be the preferred API for
-  registering class field properties.
-
-Changes v1 -> v2:
-* Patch redone after changes in previous patches in the series
-* Rename new functions to object*_property_add_field()
+Changes v2:
+* Rename to field_prop_* instead of object_propinfo_*
 ---
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: "Daniel P. Berrangé" <berrange@redhat.com>
 Cc: Eduardo Habkost <ehabkost@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- hw/core/qdev-prop-internal.h | 42 ++++++++++++++++++++++++++++++++++++
- hw/core/qdev-properties.c    | 37 ++++++++++++++++++++++++-------
- 2 files changed, 71 insertions(+), 8 deletions(-)
+ hw/core/qdev-prop-internal.h     | 28 +++++++--------
+ hw/core/qdev-properties-system.c | 48 ++++++++++++-------------
+ hw/core/qdev-properties.c        | 62 ++++++++++++++++----------------
+ 3 files changed, 69 insertions(+), 69 deletions(-)
 
 diff --git a/hw/core/qdev-prop-internal.h b/hw/core/qdev-prop-internal.h
-index d7b77844fe..6f17ddf271 100644
+index 6f17ddf271..740a5e530b 100644
 --- a/hw/core/qdev-prop-internal.h
 +++ b/hw/core/qdev-prop-internal.h
-@@ -25,4 +25,46 @@ void qdev_propinfo_get_int32(Object *obj, Visitor *v, const char *name,
- void qdev_propinfo_get_size32(Object *obj, Visitor *v, const char *name,
-                               void *opaque, Error **errp);
+@@ -8,22 +8,22 @@
+ #ifndef HW_CORE_QDEV_PROP_INTERNAL_H
+ #define HW_CORE_QDEV_PROP_INTERNAL_H
  
-+/**
-+ * object_property_add_field: Add a field property to an object instance
-+ * @obj: object instance
-+ * @name: property name
-+ * @prop: property definition
-+ *
-+ * This function should not be used in new code.  Please add class properties
-+ * instead, using object_class_add_field().
-+ */
-+ObjectProperty *
-+object_property_add_field(Object *obj, const char *name,
-+                          Property *prop);
-+
-+/**
-+ * object_class_property_add_field_static: Add a field property to object class
-+ * @oc: object class
-+ * @name: property name
-+ * @prop: property definition
-+ *
-+ * Add a field property to an object class.  A field property is
-+ * a property that will change a field at a specific offset of the
-+ * object instance struct.
-+ *
-+ * *@prop must have static life time.
-+ */
-+ObjectProperty *
-+object_class_property_add_field_static(ObjectClass *oc, const char *name,
-+                                       Property *prop);
-+
-+/**
-+ * object_class_add_field_properties: Add field properties from array to a class
-+ * @oc: object class
-+ * @props: array of property definitions
-+ *
-+ * Register an array of field properties to a class, using
-+ * object_class_property_add_field_static() for each array element.
-+ *
-+ * The array at @props must end with DEFINE_PROP_END_OF_LIST(), and
-+ * must have static life time.
-+ */
-+void object_class_add_field_properties(ObjectClass *oc, Property *props);
-+
- #endif
-diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index fcda0c8f4b..8436b60ec4 100644
---- a/hw/core/qdev-properties.c
-+++ b/hw/core/qdev-properties.c
-@@ -835,20 +835,21 @@ const PropertyInfo qdev_prop_link = {
-     .create = create_link_property,
- };
+-void qdev_propinfo_get_enum(Object *obj, Visitor *v, const char *name,
+-                            void *opaque, Error **errp);
+-void qdev_propinfo_set_enum(Object *obj, Visitor *v, const char *name,
+-                            void *opaque, Error **errp);
++void field_prop_get_enum(Object *obj, Visitor *v, const char *name,
++                         void *opaque, Error **errp);
++void field_prop_set_enum(Object *obj, Visitor *v, const char *name,
++                         void *opaque, Error **errp);
  
--void qdev_property_add_static(DeviceState *dev, Property *prop)
-+ObjectProperty *
-+object_property_add_field(Object *obj, const char *name,
-+                          Property *prop)
- {
--    Object *obj = OBJECT(dev);
-     ObjectProperty *op;
+-void qdev_propinfo_set_default_value_enum(ObjectProperty *op,
+-                                          const Property *prop);
+-void qdev_propinfo_set_default_value_int(ObjectProperty *op,
+-                                         const Property *prop);
+-void qdev_propinfo_set_default_value_uint(ObjectProperty *op,
+-                                          const Property *prop);
++void field_prop_set_default_value_enum(ObjectProperty *op,
++                                       const Property *prop);
++void field_prop_set_default_value_int(ObjectProperty *op,
++                                      const Property *prop);
++void field_prop_set_default_value_uint(ObjectProperty *op,
++                                       const Property *prop);
  
-     assert(!prop->info->create);
- 
--    op = object_property_add(obj, prop->name, prop->info->name,
-+    op = object_property_add(obj, name, prop->info->name,
-                              field_prop_getter(prop->info),
-                              field_prop_setter(prop->info),
-                              prop->info->release,
-                              prop);
- 
--    object_property_set_description(obj, prop->name,
-+    object_property_set_description(obj, name,
-                                     prop->info->description);
- 
-     if (prop->set_default) {
-@@ -857,12 +858,14 @@ void qdev_property_add_static(DeviceState *dev, Property *prop)
-             op->init(obj, op);
-         }
-     }
-+
-+    return op;
- }
- 
--static void qdev_class_add_property(DeviceClass *klass, const char *name,
--                                    Property *prop)
-+ObjectProperty *
-+object_class_property_add_field_static(ObjectClass *oc, const char *name,
-+                                       Property *prop)
- {
--    ObjectClass *oc = OBJECT_CLASS(klass);
-     ObjectProperty *op;
- 
-     if (prop->info->create) {
-@@ -882,6 +885,22 @@ static void qdev_class_add_property(DeviceClass *klass, const char *name,
-         object_class_property_set_description(oc, name,
-                                               prop->info->description);
-     }
-+    return op;
-+}
-+
-+void object_class_add_field_properties(ObjectClass *oc, Property *props)
-+{
-+    Property *prop;
-+
-+    for (prop = props; prop && prop->name; prop++) {
-+        object_class_property_add_field_static(oc, prop->name, prop);
-+    }
-+}
-+
-+
-+void qdev_property_add_static(DeviceState *dev, Property *prop)
-+{
-+    object_property_add_field(OBJECT(dev), prop->name, prop);
- }
+-void qdev_propinfo_get_int32(Object *obj, Visitor *v, const char *name,
+-                             void *opaque, Error **errp);
+-void qdev_propinfo_get_size32(Object *obj, Visitor *v, const char *name,
+-                              void *opaque, Error **errp);
++void field_prop_get_int32(Object *obj, Visitor *v, const char *name,
++                          void *opaque, Error **errp);
++void field_prop_get_size32(Object *obj, Visitor *v, const char *name,
++                           void *opaque, Error **errp);
  
  /**
-@@ -932,13 +951,15 @@ static void qdev_class_add_legacy_property(DeviceClass *dc, Property *prop)
+  * object_property_add_field: Add a field property to an object instance
+diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
+index 0d3e57bba0..96a0bc5109 100644
+--- a/hw/core/qdev-properties-system.c
++++ b/hw/core/qdev-properties-system.c
+@@ -537,9 +537,9 @@ QEMU_BUILD_BUG_ON(sizeof(LostTickPolicy) != sizeof(int));
+ const PropertyInfo qdev_prop_losttickpolicy = {
+     .name  = "LostTickPolicy",
+     .enum_table  = &LostTickPolicy_lookup,
+-    .get   = qdev_propinfo_get_enum,
+-    .set   = qdev_propinfo_set_enum,
+-    .set_default_value = qdev_propinfo_set_default_value_enum,
++    .get   = field_prop_get_enum,
++    .set   = field_prop_set_enum,
++    .set_default_value = field_prop_set_default_value_enum,
+ };
  
- void device_class_set_props(DeviceClass *dc, Property *props)
- {
-+    ObjectClass *oc = OBJECT_CLASS(dc);
-     Property *prop;
+ /* --- blocksize --- */
+@@ -568,9 +568,9 @@ const PropertyInfo qdev_prop_blocksize = {
+     .name  = "size",
+     .description = "A power of two between " MIN_BLOCK_SIZE_STR
+                    " and " MAX_BLOCK_SIZE_STR,
+-    .get   = qdev_propinfo_get_size32,
++    .get   = field_prop_get_size32,
+     .set   = set_blocksize,
+-    .set_default_value = qdev_propinfo_set_default_value_uint,
++    .set_default_value = field_prop_set_default_value_uint,
+ };
  
-     dc->props_ = props;
-     for (prop = props; prop && prop->name; prop++) {
-         qdev_class_add_legacy_property(dc, prop);
--        qdev_class_add_property(dc, prop->name, prop);
-     }
-+
-+    object_class_add_field_properties(oc, props);
+ /* --- Block device error handling policy --- */
+@@ -582,9 +582,9 @@ const PropertyInfo qdev_prop_blockdev_on_error = {
+     .description = "Error handling policy, "
+                    "report/ignore/enospc/stop/auto",
+     .enum_table = &BlockdevOnError_lookup,
+-    .get = qdev_propinfo_get_enum,
+-    .set = qdev_propinfo_set_enum,
+-    .set_default_value = qdev_propinfo_set_default_value_enum,
++    .get = field_prop_get_enum,
++    .set = field_prop_set_enum,
++    .set_default_value = field_prop_set_default_value_enum,
+ };
+ 
+ /* --- BIOS CHS translation */
+@@ -596,9 +596,9 @@ const PropertyInfo qdev_prop_bios_chs_trans = {
+     .description = "Logical CHS translation algorithm, "
+                    "auto/none/lba/large/rechs",
+     .enum_table = &BiosAtaTranslation_lookup,
+-    .get = qdev_propinfo_get_enum,
+-    .set = qdev_propinfo_set_enum,
+-    .set_default_value = qdev_propinfo_set_default_value_enum,
++    .get = field_prop_get_enum,
++    .set = field_prop_set_enum,
++    .set_default_value = field_prop_set_default_value_enum,
+ };
+ 
+ /* --- FDC default drive types */
+@@ -608,9 +608,9 @@ const PropertyInfo qdev_prop_fdc_drive_type = {
+     .description = "FDC drive type, "
+                    "144/288/120/none/auto",
+     .enum_table = &FloppyDriveType_lookup,
+-    .get = qdev_propinfo_get_enum,
+-    .set = qdev_propinfo_set_enum,
+-    .set_default_value = qdev_propinfo_set_default_value_enum,
++    .get = field_prop_get_enum,
++    .set = field_prop_set_enum,
++    .set_default_value = field_prop_set_default_value_enum,
+ };
+ 
+ /* --- MultiFDCompression --- */
+@@ -620,9 +620,9 @@ const PropertyInfo qdev_prop_multifd_compression = {
+     .description = "multifd_compression values, "
+                    "none/zlib/zstd",
+     .enum_table = &MultiFDCompression_lookup,
+-    .get = qdev_propinfo_get_enum,
+-    .set = qdev_propinfo_set_enum,
+-    .set_default_value = qdev_propinfo_set_default_value_enum,
++    .get = field_prop_get_enum,
++    .set = field_prop_set_enum,
++    .set_default_value = field_prop_set_default_value_enum,
+ };
+ 
+ /* --- Reserved Region --- */
+@@ -766,9 +766,9 @@ const PropertyInfo qdev_prop_pci_devfn = {
+     .name  = "int32",
+     .description = "Slot and optional function number, example: 06.0 or 06",
+     .print = print_pci_devfn,
+-    .get   = qdev_propinfo_get_int32,
++    .get   = field_prop_get_int32,
+     .set   = set_pci_devfn,
+-    .set_default_value = qdev_propinfo_set_default_value_int,
++    .set_default_value = field_prop_set_default_value_int,
+ };
+ 
+ /* --- pci host address --- */
+@@ -881,9 +881,9 @@ const PropertyInfo qdev_prop_off_auto_pcibar = {
+     .name = "OffAutoPCIBAR",
+     .description = "off/auto/bar0/bar1/bar2/bar3/bar4/bar5",
+     .enum_table = &OffAutoPCIBAR_lookup,
+-    .get = qdev_propinfo_get_enum,
+-    .set = qdev_propinfo_set_enum,
+-    .set_default_value = qdev_propinfo_set_default_value_enum,
++    .get = field_prop_get_enum,
++    .set = field_prop_set_enum,
++    .set_default_value = field_prop_set_default_value_enum,
+ };
+ 
+ /* --- PCIELinkSpeed 2_5/5/8/16 -- */
+@@ -953,7 +953,7 @@ const PropertyInfo qdev_prop_pcie_link_speed = {
+     .enum_table = &PCIELinkSpeed_lookup,
+     .get = get_prop_pcielinkspeed,
+     .set = set_prop_pcielinkspeed,
+-    .set_default_value = qdev_propinfo_set_default_value_enum,
++    .set_default_value = field_prop_set_default_value_enum,
+ };
+ 
+ /* --- PCIELinkWidth 1/2/4/8/12/16/32 -- */
+@@ -1041,7 +1041,7 @@ const PropertyInfo qdev_prop_pcie_link_width = {
+     .enum_table = &PCIELinkWidth_lookup,
+     .get = get_prop_pcielinkwidth,
+     .set = set_prop_pcielinkwidth,
+-    .set_default_value = qdev_propinfo_set_default_value_enum,
++    .set_default_value = field_prop_set_default_value_enum,
+ };
+ 
+ /* --- UUID --- */
+diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
+index 8436b60ec4..d2f565f552 100644
+--- a/hw/core/qdev-properties.c
++++ b/hw/core/qdev-properties.c
+@@ -96,8 +96,8 @@ static ObjectPropertyAccessor *field_prop_setter(const PropertyInfo *info)
+     return info->set ? field_prop_set : NULL;
  }
  
- void qdev_alias_all_properties(DeviceState *target, Object *source)
+-void qdev_propinfo_get_enum(Object *obj, Visitor *v, const char *name,
+-                            void *opaque, Error **errp)
++void field_prop_get_enum(Object *obj, Visitor *v, const char *name,
++                         void *opaque, Error **errp)
+ {
+     Property *prop = opaque;
+     int *ptr = qdev_get_prop_ptr(obj, prop);
+@@ -105,8 +105,8 @@ void qdev_propinfo_get_enum(Object *obj, Visitor *v, const char *name,
+     visit_type_enum(v, name, ptr, prop->info->enum_table, errp);
+ }
+ 
+-void qdev_propinfo_set_enum(Object *obj, Visitor *v, const char *name,
+-                            void *opaque, Error **errp)
++void field_prop_set_enum(Object *obj, Visitor *v, const char *name,
++                         void *opaque, Error **errp)
+ {
+     Property *prop = opaque;
+     int *ptr = qdev_get_prop_ptr(obj, prop);
+@@ -114,8 +114,8 @@ void qdev_propinfo_set_enum(Object *obj, Visitor *v, const char *name,
+     visit_type_enum(v, name, ptr, prop->info->enum_table, errp);
+ }
+ 
+-void qdev_propinfo_set_default_value_enum(ObjectProperty *op,
+-                                          const Property *prop)
++void field_prop_set_default_value_enum(ObjectProperty *op,
++                                       const Property *prop)
+ {
+     object_property_set_default_str(op,
+         qapi_enum_lookup(prop->info->enum_table, prop->defval.i));
+@@ -123,9 +123,9 @@ void qdev_propinfo_set_default_value_enum(ObjectProperty *op,
+ 
+ const PropertyInfo qdev_prop_enum = {
+     .name  = "enum",
+-    .get   = qdev_propinfo_get_enum,
+-    .set   = qdev_propinfo_set_enum,
+-    .set_default_value = qdev_propinfo_set_default_value_enum,
++    .get   = field_prop_get_enum,
++    .set   = field_prop_set_enum,
++    .set_default_value = field_prop_set_default_value_enum,
+ };
+ 
+ /* Bit */
+@@ -278,14 +278,14 @@ static void set_uint8(Object *obj, Visitor *v, const char *name, void *opaque,
+     visit_type_uint8(v, name, ptr, errp);
+ }
+ 
+-void qdev_propinfo_set_default_value_int(ObjectProperty *op,
+-                                         const Property *prop)
++void field_prop_set_default_value_int(ObjectProperty *op,
++                                      const Property *prop)
+ {
+     object_property_set_default_int(op, prop->defval.i);
+ }
+ 
+-void qdev_propinfo_set_default_value_uint(ObjectProperty *op,
+-                                          const Property *prop)
++void field_prop_set_default_value_uint(ObjectProperty *op,
++                                       const Property *prop)
+ {
+     object_property_set_default_uint(op, prop->defval.u);
+ }
+@@ -294,7 +294,7 @@ const PropertyInfo qdev_prop_uint8 = {
+     .name  = "uint8",
+     .get   = get_uint8,
+     .set   = set_uint8,
+-    .set_default_value = qdev_propinfo_set_default_value_uint,
++    .set_default_value = field_prop_set_default_value_uint,
+ };
+ 
+ /* --- 16bit integer --- */
+@@ -321,7 +321,7 @@ const PropertyInfo qdev_prop_uint16 = {
+     .name  = "uint16",
+     .get   = get_uint16,
+     .set   = set_uint16,
+-    .set_default_value = qdev_propinfo_set_default_value_uint,
++    .set_default_value = field_prop_set_default_value_uint,
+ };
+ 
+ /* --- 32bit integer --- */
+@@ -344,8 +344,8 @@ static void set_uint32(Object *obj, Visitor *v, const char *name,
+     visit_type_uint32(v, name, ptr, errp);
+ }
+ 
+-void qdev_propinfo_get_int32(Object *obj, Visitor *v, const char *name,
+-                             void *opaque, Error **errp)
++void field_prop_get_int32(Object *obj, Visitor *v, const char *name,
++                          void *opaque, Error **errp)
+ {
+     Property *prop = opaque;
+     int32_t *ptr = qdev_get_prop_ptr(obj, prop);
+@@ -366,14 +366,14 @@ const PropertyInfo qdev_prop_uint32 = {
+     .name  = "uint32",
+     .get   = get_uint32,
+     .set   = set_uint32,
+-    .set_default_value = qdev_propinfo_set_default_value_uint,
++    .set_default_value = field_prop_set_default_value_uint,
+ };
+ 
+ const PropertyInfo qdev_prop_int32 = {
+     .name  = "int32",
+-    .get   = qdev_propinfo_get_int32,
++    .get   = field_prop_get_int32,
+     .set   = set_int32,
+-    .set_default_value = qdev_propinfo_set_default_value_int,
++    .set_default_value = field_prop_set_default_value_int,
+ };
+ 
+ /* --- 64bit integer --- */
+@@ -418,14 +418,14 @@ const PropertyInfo qdev_prop_uint64 = {
+     .name  = "uint64",
+     .get   = get_uint64,
+     .set   = set_uint64,
+-    .set_default_value = qdev_propinfo_set_default_value_uint,
++    .set_default_value = field_prop_set_default_value_uint,
+ };
+ 
+ const PropertyInfo qdev_prop_int64 = {
+     .name  = "int64",
+     .get   = get_int64,
+     .set   = set_int64,
+-    .set_default_value = qdev_propinfo_set_default_value_int,
++    .set_default_value = field_prop_set_default_value_int,
+ };
+ 
+ /* --- string --- */
+@@ -477,15 +477,15 @@ const PropertyInfo qdev_prop_on_off_auto = {
+     .name = "OnOffAuto",
+     .description = "on/off/auto",
+     .enum_table = &OnOffAuto_lookup,
+-    .get = qdev_propinfo_get_enum,
+-    .set = qdev_propinfo_set_enum,
+-    .set_default_value = qdev_propinfo_set_default_value_enum,
++    .get = field_prop_get_enum,
++    .set = field_prop_set_enum,
++    .set_default_value = field_prop_set_default_value_enum,
+ };
+ 
+ /* --- 32bit unsigned int 'size' type --- */
+ 
+-void qdev_propinfo_get_size32(Object *obj, Visitor *v, const char *name,
+-                              void *opaque, Error **errp)
++void field_prop_get_size32(Object *obj, Visitor *v, const char *name,
++                           void *opaque, Error **errp)
+ {
+     Property *prop = opaque;
+     uint32_t *ptr = qdev_get_prop_ptr(obj, prop);
+@@ -518,9 +518,9 @@ static void set_size32(Object *obj, Visitor *v, const char *name, void *opaque,
+ 
+ const PropertyInfo qdev_prop_size32 = {
+     .name  = "size",
+-    .get = qdev_propinfo_get_size32,
++    .get = field_prop_get_size32,
+     .set = set_size32,
+-    .set_default_value = qdev_propinfo_set_default_value_uint,
++    .set_default_value = field_prop_set_default_value_uint,
+ };
+ 
+ /* --- support for array properties --- */
+@@ -617,7 +617,7 @@ const PropertyInfo qdev_prop_arraylen = {
+     .name = "uint32",
+     .get = get_uint32,
+     .set = set_prop_arraylen,
+-    .set_default_value = qdev_propinfo_set_default_value_uint,
++    .set_default_value = field_prop_set_default_value_uint,
+ };
+ 
+ /* --- public helpers --- */
+@@ -816,7 +816,7 @@ const PropertyInfo qdev_prop_size = {
+     .name  = "size",
+     .get = get_size,
+     .set = set_size,
+-    .set_default_value = qdev_propinfo_set_default_value_uint,
++    .set_default_value = field_prop_set_default_value_uint,
+ };
+ 
+ /* --- object link property --- */
 -- 
 2.28.0
 
