@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABD722B0072
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 08:42:23 +0100 (CET)
-Received: from localhost ([::1]:36744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C15A22B008C
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 08:52:29 +0100 (CET)
+Received: from localhost ([::1]:40056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kd7FO-0006hm-PW
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 02:42:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55524)
+	id 1kd7PA-0000J9-L2
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 02:52:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kd7By-000553-8n
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 02:38:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30738)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kd7Bw-00048B-Fr
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 02:38:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605166727;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Rg1MH0xKrgji/zEAY3MwmLwrWW5lQmXkgY/iZDyz7O8=;
- b=FY0SMbEGKJyQz5p5hybQXoeYKZueP/UFx+h4IWX6mLCR+hX5Qm/Cm6L/8lUVI5M78tQzMh
- kzbJLBTq65mBQEjEGbLznv90s6AVHdSre8KtPIHHWwLc9x8JlCsf7kQPHzDf1qTRGXegVO
- UvddrPtMwKzxnmy9CKw9IrUsYL/DtBo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-498-b3zecu8uNrm_daPY3JRy9w-1; Thu, 12 Nov 2020 02:38:45 -0500
-X-MC-Unique: b3zecu8uNrm_daPY3JRy9w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5ABB718CB72C;
- Thu, 12 Nov 2020 07:38:44 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-74.ams2.redhat.com [10.36.112.74])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4C75834691;
- Thu, 12 Nov 2020 07:38:42 +0000 (UTC)
-Subject: Re: [PATCH v2 3/4] nand: put it into the 'storage' category
-To: Gan Qixin <ganqixin@huawei.com>, qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org
-References: <20201111164710.644863-1-ganqixin@huawei.com>
- <20201111164710.644863-4-ganqixin@huawei.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <4942269b-86bd-ce1b-eeaa-bebe27a4f0fb@redhat.com>
-Date: Thu, 12 Nov 2020 08:38:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <vitaly.wool@konsulko.com>)
+ id 1kd7Nb-0007xQ-L0
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 02:50:51 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:52328)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <vitaly.wool@konsulko.com>)
+ id 1kd7NZ-0008QJ-TV
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 02:50:51 -0500
+Received: by mail-wm1-x343.google.com with SMTP id 10so4382384wml.2
+ for <qemu-devel@nongnu.org>; Wed, 11 Nov 2020 23:50:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PsuOW9sVFo//2Vern0+Yco31gVROdhe7bT8B2J7Qm8M=;
+ b=dOX7LkWmsXXzWRVroKXv6bnYPZcJha24HW1RIrq7inisC8Wn5bq44i3tYOwG3nKp/C
+ XmMGJaDzrTsR/2F9t4T9DJERHriOMSfqIHCB7/W4Cf8Q2TVHYWxC7waTcRtQ0TEu6O4n
+ j4dlUdWSh4GianbOTOn2zL8Rbzd18RRurhhtE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PsuOW9sVFo//2Vern0+Yco31gVROdhe7bT8B2J7Qm8M=;
+ b=HKHo7RKUXlbdh/iZRUCqvOB2MXqUf2nTj7MlrHhF43+is2v2XscGm3QBZD+2rRbkqc
+ AEICnJfK8Xmrs6/PfJgsVYeEBxqvmCtfersW0ooy9nP7stgLuP6liFFPR10OOZwdQgDt
+ /jAyZ3cg2qV8xpn8UCd0iScYrqCFaJhcgvw4QL9PBcZ3wv5SsNhJ4wUtZHXJsBJDF9C/
+ k5WnulC2TdTzWsBspHgYjLbEwBrT7EWRvhK3Ru9/6HGK2TMy/6K4sv/aQclupp1sBxYW
+ EmuchMeIvt3s7P501dEhDC7Vlabyh8FKOf08BgapO5zAyHCxGFGnjN8hGmsDC6AlGREp
+ A7oA==
+X-Gm-Message-State: AOAM531ef0H7l/mB47Mg99dUeQ+AkUvBpSyxOhczJnxkcbHu49f3ScMa
+ eEsY1VH18y+4xO6GgJNUQHZ6OPJq8PWbIxTM
+X-Google-Smtp-Source: ABdhPJwNNEC8+6HmBxq3GDe7+U+vj8fhUy/V6Lsq2g7RJsBXdEu9zKY4iYqKqeBgQe+gstiLdvPWEA==
+X-Received: by 2002:a05:600c:219a:: with SMTP id
+ e26mr8680218wme.168.1605167447414; 
+ Wed, 11 Nov 2020 23:50:47 -0800 (PST)
+Received: from lootbox.konsulko.bg (lan.nucleusys.com. [92.247.61.126])
+ by smtp.gmail.com with ESMTPSA id f7sm6073644wrx.64.2020.11.11.23.50.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Nov 2020 23:50:46 -0800 (PST)
+From: Vitaly Wool <vitaly.wool@konsulko.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] hw/riscv: microchip_pfsoc: add QSPI NOR flash
+Date: Thu, 12 Nov 2020 09:49:51 +0200
+Message-Id: <20201112074950.33283-1-vitaly.wool@konsulko.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20201111164710.644863-4-ganqixin@huawei.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 00:52:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=vitaly.wool@konsulko.com; helo=mail-wm1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,35 +80,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, Qemu-block <qemu-block@nongnu.org>,
- laurent@vivier.eu, armbru@redhat.com, kuhn.chenqun@huawei.com,
- philmd@redhat.com
+Cc: Bin Meng <bmeng.cn@gmail.com>, Vitaly Wool <vitaly.wool@konsulko.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/11/2020 17.47, Gan Qixin wrote:
-> The category of the nand device is not set, put it into the 'storage'
-> category.
-> 
-> Signed-off-by: Gan Qixin <ganqixin@huawei.com>
-> ---
->  hw/block/nand.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/hw/block/nand.c b/hw/block/nand.c
-> index bcceb64ebb..1d7a48a2ec 100644
-> --- a/hw/block/nand.c
-> +++ b/hw/block/nand.c
-> @@ -449,6 +449,7 @@ static void nand_class_init(ObjectClass *klass, void *data)
->      dc->reset = nand_reset;
->      dc->vmsd = &vmstate_nand;
->      device_class_set_props(dc, nand_properties);
-> +    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
->  }
->  
->  static const TypeInfo nand_info = {
-> 
+Add QSPI NOR flash definition for Microchip PolarFire SoC.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Vitaly Wool <vitaly.wool@konsulko.com>
+---
+ hw/riscv/microchip_pfsoc.c         | 21 +++++++++++++++++++++
+ include/hw/riscv/microchip_pfsoc.h |  3 +++
+ 2 files changed, 24 insertions(+)
+
+diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
+index 37ac46a1af..e952b49e8c 100644
+--- a/hw/riscv/microchip_pfsoc.c
++++ b/hw/riscv/microchip_pfsoc.c
+@@ -113,6 +113,8 @@ static const struct MemmapEntry {
+     [MICROCHIP_PFSOC_MMUART2] =         { 0x20102000,     0x1000 },
+     [MICROCHIP_PFSOC_MMUART3] =         { 0x20104000,     0x1000 },
+     [MICROCHIP_PFSOC_MMUART4] =         { 0x20106000,     0x1000 },
++    [MICROCHIP_PFSOC_SPI0] =            { 0x20108000,     0x1000 },
++    [MICROCHIP_PFSOC_SPI1] =            { 0x20109000,     0x1000 },
+     [MICROCHIP_PFSOC_I2C1] =            { 0x2010b000,     0x1000 },
+     [MICROCHIP_PFSOC_GEM0] =            { 0x20110000,     0x2000 },
+     [MICROCHIP_PFSOC_GEM1] =            { 0x20112000,     0x2000 },
+@@ -121,6 +123,7 @@ static const struct MemmapEntry {
+     [MICROCHIP_PFSOC_GPIO2] =           { 0x20122000,     0x1000 },
+     [MICROCHIP_PFSOC_ENVM_CFG] =        { 0x20200000,     0x1000 },
+     [MICROCHIP_PFSOC_ENVM_DATA] =       { 0x20220000,    0x20000 },
++    [MICROCHIP_PFSOC_QSPI_XIP] =        { 0x21000000,  0x1000000 },
+     [MICROCHIP_PFSOC_IOSCB] =           { 0x30000000, 0x10000000 },
+     [MICROCHIP_PFSOC_DRAM_LO] =         { 0x80000000, 0x40000000 },
+     [MICROCHIP_PFSOC_DRAM_LO_ALIAS] =   { 0xc0000000, 0x40000000 },
+@@ -185,6 +188,7 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
+     MemoryRegion *e51_dtim_mem = g_new(MemoryRegion, 1);
+     MemoryRegion *l2lim_mem = g_new(MemoryRegion, 1);
+     MemoryRegion *envm_data = g_new(MemoryRegion, 1);
++    MemoryRegion *qspi_xip_mem = g_new(MemoryRegion, 1);
+     char *plic_hart_config;
+     size_t plic_hart_config_len;
+     NICInfo *nd;
+@@ -344,6 +348,14 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
+         qdev_get_gpio_in(DEVICE(s->plic), MICROCHIP_PFSOC_MMUART4_IRQ),
+         serial_hd(4));
+ 
++    /* SPI */
++    create_unimplemented_device("microchip.pfsoc.spi0",
++        memmap[MICROCHIP_PFSOC_SPI0].base,
++        memmap[MICROCHIP_PFSOC_SPI0].size);
++    create_unimplemented_device("microchip.pfsoc.spi1",
++        memmap[MICROCHIP_PFSOC_SPI1].base,
++        memmap[MICROCHIP_PFSOC_SPI1].size);
++
+     /* I2C1 */
+     create_unimplemented_device("microchip.pfsoc.i2c1",
+         memmap[MICROCHIP_PFSOC_I2C1].base,
+@@ -401,6 +413,15 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
+     sysbus_realize(SYS_BUS_DEVICE(&s->ioscb), errp);
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->ioscb), 0,
+                     memmap[MICROCHIP_PFSOC_IOSCB].base);
++
++    /* QSPI Flash */
++    memory_region_init_rom(qspi_xip_mem, OBJECT(dev),
++                           "microchip.pfsoc.qspi_xip",
++                           memmap[MICROCHIP_PFSOC_QSPI_XIP].size,
++                           &error_fatal);
++    memory_region_add_subregion(system_memory,
++                                memmap[MICROCHIP_PFSOC_QSPI_XIP].base,
++                                qspi_xip_mem);
+ }
+ 
+ static void microchip_pfsoc_soc_class_init(ObjectClass *oc, void *data)
+diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microchip_pfsoc.h
+index 51d44637db..d0c666aae0 100644
+--- a/include/hw/riscv/microchip_pfsoc.h
++++ b/include/hw/riscv/microchip_pfsoc.h
+@@ -97,6 +97,8 @@ enum {
+     MICROCHIP_PFSOC_MMUART2,
+     MICROCHIP_PFSOC_MMUART3,
+     MICROCHIP_PFSOC_MMUART4,
++    MICROCHIP_PFSOC_SPI0,
++    MICROCHIP_PFSOC_SPI1,
+     MICROCHIP_PFSOC_I2C1,
+     MICROCHIP_PFSOC_GEM0,
+     MICROCHIP_PFSOC_GEM1,
+@@ -105,6 +107,7 @@ enum {
+     MICROCHIP_PFSOC_GPIO2,
+     MICROCHIP_PFSOC_ENVM_CFG,
+     MICROCHIP_PFSOC_ENVM_DATA,
++    MICROCHIP_PFSOC_QSPI_XIP,
+     MICROCHIP_PFSOC_IOSCB,
+     MICROCHIP_PFSOC_DRAM_LO,
+     MICROCHIP_PFSOC_DRAM_LO_ALIAS,
+-- 
+2.20.1
 
 
