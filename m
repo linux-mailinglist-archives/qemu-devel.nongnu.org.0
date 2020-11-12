@@ -2,62 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D0A72B07EE
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 15:57:38 +0100 (CET)
-Received: from localhost ([::1]:46632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D2432B0818
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 16:05:54 +0100 (CET)
+Received: from localhost ([::1]:53942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdE2b-0002lH-EZ
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 09:57:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44884)
+	id 1kdEAa-0006hj-LS
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 10:05:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kdE13-0001is-3z
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 09:56:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54056)
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1kdE9U-00064K-Gl
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 10:04:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20298)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kdE0w-0000L4-TF
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 09:56:00 -0500
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1kdE9Q-0003kp-Vd
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 10:04:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605192953;
+ s=mimecast20190719; t=1605193478;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YDaFZBe9H/l5NRtHUvwJP/BI62z84wcEUkbn+ztX+3E=;
- b=SQYj+TpbSXq0wuM5jWFJYU2MFbuKc71Cz7P+wyKbxIAIiQ9ECMDJcgGMtgWTqWLajw/1W4
- mdQWm2sIkD3q6YExQmoeqQKaMxvxTIjbLrHSsfzSEwA5VzZNZnsZsLCgCzKpMOLURGQ2Pj
- fJw2nRuDt2gk4BziWGsG7UvR2G7L2JA=
+ bh=Wo3Zl06Ll4rBH6u4PwCbG5Xwk98aZ4BAOKwueyWpp4o=;
+ b=Nmfv+Rzao9fTssYegwMRgU+heuwSWiVIjeR7belKFk0C70i/DFoBaF5ksIsabW1vtmO/Si
+ uTfge4eSsmOo4p1jwFEeeQ0LQ0gHDKJ2MkNsIISnxacOVOOyk4IBSNeD3V7dhbB//Vl67J
+ TbEkBVMvtW8wmJtdnBVhLRue/378KZ8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-503-EveIPOktN7OfiI0n46g24Q-1; Thu, 12 Nov 2020 09:55:52 -0500
-X-MC-Unique: EveIPOktN7OfiI0n46g24Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-147-210iSGEEN2qJpBLP_yoDmA-1; Thu, 12 Nov 2020 10:04:34 -0500
+X-MC-Unique: 210iSGEEN2qJpBLP_yoDmA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B138A56ADD;
- Thu, 12 Nov 2020 14:55:50 +0000 (UTC)
-Received: from work-vm (ovpn-115-60.ams2.redhat.com [10.36.115.60])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BFFA060C13;
- Thu, 12 Nov 2020 14:55:48 +0000 (UTC)
-Date: Thu, 12 Nov 2020 14:55:46 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Chuan Zheng <zhengchuan@huawei.com>
-Subject: Re: [PATCH] migration/dirtyrate: simplify inlcudes in dirtyrate.c
-Message-ID: <20201112145546.GE13424@work-vm>
-References: <1604030281-112946-1-git-send-email-zhengchuan@huawei.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D09DC8049D5;
+ Thu, 12 Nov 2020 15:04:32 +0000 (UTC)
+Received: from starship (unknown [10.35.206.112])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A5B0F55766;
+ Thu, 12 Nov 2020 15:04:26 +0000 (UTC)
+Message-ID: <621d739815b25f8b6bc1b8cdd266a89a20bdd97a.camel@redhat.com>
+Subject: Re: [PATCH 2/2] qemu-img: align next status sector on destination
+ alignment.
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Eric Blake <eblake@redhat.com>, Peter Lieven <pl@kamp.de>, 
+ qemu-devel@nongnu.org
+Date: Thu, 12 Nov 2020 17:04:24 +0200
+In-Reply-To: <b4c49375-451b-1bc2-8c98-9d4e6fc62347@redhat.com>
+References: <20201111153913.41840-1-mlevitsk@redhat.com>
+ <20201111153913.41840-3-mlevitsk@redhat.com>
+ <2903c8a0-00c9-5f2c-b261-d825ded3042c@kamp.de>
+ <b4c49375-451b-1bc2-8c98-9d4e6fc62347@redhat.com>
+User-Agent: Evolution 3.36.3 (3.36.3-1.fc32)
 MIME-Version: 1.0
-In-Reply-To: <1604030281-112946-1-git-send-email-zhengchuan@huawei.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlevitsk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:00:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -80,53 +86,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yubihong@huawei.com, zhang.zhanghailiang@huawei.com, quintela@redhat.com,
- qemu-devel@nongnu.org, xiexiangyou@huawei.com, alex.chen@huawei.com,
- wanghao232@huawei.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Jan Kara <jack@suse.cz>,
+ qemu-block@nongnu.org, "Darrick J . Wong" <darrick.wong@oracle.com>,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Chuan Zheng (zhengchuan@huawei.com) wrote:
-> Remove redundant blank line which is left by Commit 662770af7c6e8c,
-> also take this opportunity to remove redundant includes in dirtyrate.c.
+On Thu, 2020-11-12 at 07:45 -0600, Eric Blake wrote:
+> On 11/12/20 6:40 AM, Peter Lieven wrote:
 > 
-> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
+> > >          /*
+> > > -         * Avoid that s->sector_next_status becomes unaligned to the source
+> > > -         * request alignment and/or cluster size to avoid unnecessary read
+> > > -         * cycles.
+> > > +         * Avoid that s->sector_next_status becomes unaligned to the
+> > > +         * source/destination request alignment and/or cluster size to avoid
+> > > +         * unnecessary read/write cycles.
+> > >           */
+> > > -        tail = (sector_num - src_cur_offset + n) % s->src_alignment[src_cur];
+> > > +        alignment = MAX(s->src_alignment[src_cur], s->alignment);
+> > > +        assert(is_power_of_2(alignment));
+> > > +
+> > > +        tail = (sector_num - src_cur_offset + n) % alignment;
+> > >          if (n > tail) {
+> > >              n -= tail;
+> > >          }
+> > 
+> > I was also considering including the s->alignment when adding this chance. However, you need the least common multiple of both alignments, not the maximum, otherwise
+> > 
+> > you might get misaligned to either source or destination.
+> > 
+> > 
+> > Why exactly do you need the power of two requirement?
+> 
+> The power of two requirement ensures that you h ave the least common
+> multiple of both alignments ;)
+-
+Yes, and in addition to that both alignments are already power of two because we align them
+to it. The assert I added is just in case.
 
-and queued
+This is how we calculate the destination alignment:
+ 
+s.alignment = MAX(pow2floor(s.min_sparse),
+                      DIV_ROUND_UP(out_bs->bl.request_alignment,
+                                   BDRV_SECTOR_SIZE));
+ 
+ 
+This is how we calculate the source alignments (it is possible to have several source files)
+ 
+s.src_alignment[bs_i] = DIV_ROUND_UP(src_bs->bl.request_alignment,
+                                             BDRV_SECTOR_SIZE);
+if (!bdrv_get_info(src_bs, &bdi)) {
+    s.src_alignment[bs_i] = MAX(s.src_alignment[bs_i], bdi.cluster_size / BDRV_SECTOR_SIZE);
+}
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-> ---
->  migration/dirtyrate.c | 5 -----
->  1 file changed, 5 deletions(-)
+The bl.request_alignment comment mentions that it must be power of 2,
+and cluster sizes are also very likely to be power of 2 in all drivers
+we support. An assert for s.src_alignment won't hurt though.
+
+ 
+Note though that we don't really read the discard alignment.
+We have max_pdiscard, and pdiscard_alignment, but max_pdiscard
+is only used to split 'too large' discard requests, and pdiscard_alignment
+is advisory and used only in a couple of places.
+Neither are set by file-posix.
+ 
+We do have request_alignment, which file-posix tries to align to the logical block
+size which is still often 512 for backward compatibility on many devices (even nvme)
+ 
+Now both source and destination alignments in qemu-img convert are based on request_aligment
+and on min_sparse (which is by default 4K, controlled by qemu-img -S parameter
+(which otherwise controls the minimum number of blocks to be zero, to consider
+discarding them in convert)
+ 
+
+This means that there is no guarantee to have 4K alignment, and besides,
+with sufficiently fragmented source file, the bdrv_block_status_above
+can return arbitrary short and unaligned extents which can't be aligned, 
+thus as I said this patch alone can't guarantee that we won't have 
+write and discard sharing the same page.
+ 
+Another thing that can be discussed is why is_allocated_sectors was patched
+to convert short discards to writes. Probably because underlying hardware
+ignores them or something? In theory we should detect this and fail
+back to regular zeroing in this case.
+Again though, while in case of converting an empty file, this is the only
+source of writes, and eliminating it, also 'fixes' this case, with sufficiently
+fragmented source file we can even without this code get a write and discard
+sharing a page.
+
+
+Best regards,
+	Maxim Levitsky
+
 > 
-> diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-> index 8f728d2..ccb9814 100644
-> --- a/migration/dirtyrate.c
-> +++ b/migration/dirtyrate.c
-> @@ -11,17 +11,12 @@
->   */
->  
->  #include "qemu/osdep.h"
-> -
->  #include <zlib.h>
->  #include "qapi/error.h"
->  #include "cpu.h"
-> -#include "qemu/config-file.h"
-> -#include "exec/memory.h"
->  #include "exec/ramblock.h"
-> -#include "exec/target_page.h"
->  #include "qemu/rcu_queue.h"
->  #include "qapi/qapi-commands-migration.h"
-> -#include "migration.h"
->  #include "ram.h"
->  #include "trace.h"
->  #include "dirtyrate.h"
-> -- 
-> 1.8.3.1
+> However, there ARE devices in practice that have advertised a
+> non-power-of-2 discard granularity, such as 15MiB (see commits 430b26a8,
+> 63188c24).  Which means you probably don't want to assert power-of-2,
+> and in turn need to worry about least common multiple.
 > 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
 
