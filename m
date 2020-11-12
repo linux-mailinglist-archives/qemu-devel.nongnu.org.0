@@ -2,68 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BFC42B0294
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 11:12:54 +0100 (CET)
-Received: from localhost ([::1]:42186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C03BE2B02A3
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 11:22:18 +0100 (CET)
+Received: from localhost ([::1]:45206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kd9b2-0004Gv-Sa
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 05:12:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32926)
+	id 1kd9k9-0006OM-DF
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 05:22:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kd9Zo-0003f8-Bk
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 05:11:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22800)
+ (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
+ id 1kd9is-0005w8-6B
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 05:20:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52327)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kd9Zl-00086G-Aa
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 05:11:35 -0500
+ (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
+ id 1kd9ip-0002bD-Cx
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 05:20:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605175890;
+ s=mimecast20190719; t=1605176453;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=o3PjKOZDRoMgjQSPM6TWJyjQWUH2KzOpx3n/I6iRMIc=;
- b=fHodinwwOjdttYecjUSA4E06pT+otpE53tRVfZRJIFTrv4p64Q8iBqH2E07fotBHr4/7SS
- AgFo0/95ZwLx6Ya2DuhZTGTfSAT+EDMebqfBbir8X9ueaTmdQOdRbqVBlpV9BQYxYbqCB6
- GRGjHR6KFEpahQNhZ8O9F6tbyVCrR/g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-296-nLQFPgHgPg2cW4QWCIi6Xg-1; Thu, 12 Nov 2020 05:11:29 -0500
-X-MC-Unique: nLQFPgHgPg2cW4QWCIi6Xg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE6071891E96;
- Thu, 12 Nov 2020 10:11:27 +0000 (UTC)
-Received: from [10.36.115.61] (ovpn-115-61.ams2.redhat.com [10.36.115.61])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 17A9C60C13;
- Thu, 12 Nov 2020 10:11:04 +0000 (UTC)
-Subject: Re: [PATCH PROTOTYPE 3/6] vfio: Implement support for sparse RAM
- memory regions
-To: Peter Xu <peterx@redhat.com>
-References: <20200924160423.106747-1-david@redhat.com>
- <20200924160423.106747-4-david@redhat.com> <20201020194434.GD200400@xz-x1>
- <14aaf9f1-9aa4-3a6b-ff25-8a4c7e29c2a6@redhat.com>
- <20201020204443.GE200400@xz-x1>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <9d3b2512-08cd-c566-9783-5e4e7e49770d@redhat.com>
-Date: Thu, 12 Nov 2020 11:11:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ bh=u09qZEUNg5i34rHlIlFdjTzRco9GEvxwG6punDX1dFw=;
+ b=SzzFF2S8KAuJZvN7yUj3ZKRVARWl/MaLoP+cmWu7VYlDOrbfg5Aaa5rln371GTMhvJUnZ4
+ sYaNoml1FkN8HK00i5bMno+++okgC5mVzFEVBC6O8A6v7e+bte2zjU3zQXJbUttFQ0OvIL
+ EFJ1gHxwiS7fFBkCyIVTllxWkGdsd44=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-300-ssrdz_thNoKj7U4F-9olSQ-1; Thu, 12 Nov 2020 05:20:48 -0500
+X-MC-Unique: ssrdz_thNoKj7U4F-9olSQ-1
+Received: by mail-ej1-f72.google.com with SMTP id v21so1667738ejy.3
+ for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 02:20:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=u09qZEUNg5i34rHlIlFdjTzRco9GEvxwG6punDX1dFw=;
+ b=s7rRMfju5osm8Ph6QPczE76SUt03BFOExZBmZUMM9EAV822VGXdPypHwi4643Vw4ob
+ EbbAAmRR2yvxa/3A0U0H/f/+QJ+GCaYBWNIOVsgRK9az+JdHjU67SUiv+cdAuNPq5nvN
+ Z2YYCxonhdA326Tu+4yfA2A06UEQXLZCvPzM9VjbhKguutksnrHNTM16wgUs8NjuAgQD
+ LEy2deK1iqY3KZDT4+lGSOQj70yERBNg6+Zyp1fUT2mJC3BXDhpNwUp/P6VIstziFQxZ
+ 2QliRY4TJY3jKgiT74uVB1GJiLeyBgDHt67WVzQRyTQ4n5gLprHueYYIMnEK+Fb+ClZA
+ +81A==
+X-Gm-Message-State: AOAM5325i62P8hQTjCC4BzvAPvseBgLJnJ1u8FId9et6QxQjP1arlOYS
+ EJjb2/jT6UvAB3Jy22y57ZRdMkWKmZ7h8Qu7Nds+eS4G4bTRlnnXyRZynh9KOjtz+uXQqjTaZVL
+ gYBZ1AV50hqR17d6BRg9nka+BcpP9LXs=
+X-Received: by 2002:a17:906:a385:: with SMTP id
+ k5mr29305693ejz.492.1605176447279; 
+ Thu, 12 Nov 2020 02:20:47 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwNERwpIhCWZMtG8CuZd4pp2fmXxzsoisnhcbJ0A8vRUqFqUsoYz0u8zIHxdWaP8oXXtREaSOz/aNW6bQm9Pus=
+X-Received: by 2002:a17:906:a385:: with SMTP id
+ k5mr29305681ejz.492.1605176447060; 
+ Thu, 12 Nov 2020 02:20:47 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201020204443.GE200400@xz-x1>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+References: <20201105105616.327593-1-mcascell@redhat.com>
+ <b34f724a-b4fc-6dbd-b660-2dfc2b8e943f@redhat.com>
+ <CAA8xKjUuM9XeBG920pRBmCWh_7DPdy3x=md=Q+JJ5+bQpn0=aw@mail.gmail.com>
+ <bd944924-d227-a22c-c8e4-07dbf82312c5@redhat.com>
+ <5421080d-ba5d-ee08-cbed-17c430114283@redhat.com>
+In-Reply-To: <5421080d-ba5d-ee08-cbed-17c430114283@redhat.com>
+From: Mauro Matteo Cascella <mcascell@redhat.com>
+Date: Thu, 12 Nov 2020 11:20:36 +0100
+Message-ID: <CAA8xKjXo-2wR1mDPFW3gMorrpaN_denP8b7W4bAKkx-ZgdvaQw@mail.gmail.com>
+Subject: Re: [PATCH] net/e1000e_core: make sure RDH never exceeds RDT in
+ e1000e_ring_advance()
+To: Jason Wang <jasowang@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mcascell@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mcascell@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 00:52:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -72,9 +84,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,46 +98,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Luiz Capitulino <lcapitulino@redhat.com>, Auger Eric <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Wei Yang <richardw.yang@linux.intel.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: gaoning.pgn@antgroup.com, 330cjfdn@gmail.com,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, Laszlo Ersek <lersek@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20.10.20 22:44, Peter Xu wrote:
-> On Tue, Oct 20, 2020 at 10:01:12PM +0200, David Hildenbrand wrote:
->> Thanks ... but I have an AMD system. Will try to find out how to get
->> that running with AMD :)
+On Wed, Nov 11, 2020 at 1:48 PM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> On 2020/11/11 =E4=B8=8B=E5=8D=884:54, Jason Wang wrote:
+> >
+> > On 2020/11/10 =E4=B8=8B=E5=8D=885:06, Mauro Matteo Cascella wrote:
+> >> On Mon, Nov 9, 2020 at 3:38 AM Jason Wang <jasowang@redhat.com> wrote:
+> >>>
+> >>> On 2020/11/5 =E4=B8=8B=E5=8D=886:56, Mauro Matteo Cascella wrote:
+> >>>> The e1000e_write_packet_to_guest() function iterates over a set of
+> >>>> receive descriptors by advancing rx descriptor head register (RDH)
+> >>>> from
+> >>>> its initial value to rx descriptor tail register (RDT). The check in
+> >>>> e1000e_ring_empty() is responsible for detecting whether RDH has
+> >>>> reached
+> >>>> RDT, terminating the loop if that's the case. Additional checks have
+> >>>> been added in the past to deal with bogus values submitted by the
+> >>>> guest
+> >>>> to prevent possible infinite loop. This is done by "wrapping
+> >>>> around" RDH
+> >>>> at some point and detecting whether it assumes the original value
+> >>>> during
+> >>>> the loop.
+> >>>>
+> >>>> However, when e1000e is configured to use the packet split feature,
+> >>>> RDH is
+> >>>> incremented by two instead of one, as the packet split descriptors a=
+re
+> >>>> 32 bytes while regular descriptors are 16 bytes. A malicious or bugg=
+y
+> >>>> guest may set RDT to an odd value and transmit only null RX
+> >>>> descriptors.
+> >>>> This corner case would prevent RDH from ever matching RDT, leading
+> >>>> to an
+> >>>> infinite loop. This patch adds a check in e1000e_ring_advance() to
+> >>>> make
+> >>>> sure RDH does never exceed RDT.
+> >>>>
+> >>>> This issue was independently reported by Gaoning Pan (Zhejiang
+> >>>> University)
+> >>>> and Cheolwoo Myung.
+> >>>>
+> >>>> Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
+> >>>> Reported-by: Gaoning Pan <gaoning.pgn@antgroup.com>
+> >>>> Reported-by: Cheolwoo Myung <330cjfdn@gmail.com>
+> >>>> ---
+> >>>> References:
+> >>>> https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3Ddd793a74882477ca38=
+d49e191110c17dfe
+> >>>>
+> >>>> https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3D4154c7e03fa55b4cf5=
+2509a83d50d6c09d743b7
+> >>>>
+> >>>> http://www.intel.com/content/dam/doc/datasheet/82574l-gbe-controller=
+-datasheet.pdf
+> >>>>
+> >>>>
+> >>>>    hw/net/e1000e_core.c | 4 ++++
+> >>>>    1 file changed, 4 insertions(+)
+> >>>>
+> >>>> diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+> >>>> index bcd186cac5..4c4d14b6ed 100644
+> >>>> --- a/hw/net/e1000e_core.c
+> >>>> +++ b/hw/net/e1000e_core.c
+> >>>> @@ -831,6 +831,10 @@ e1000e_ring_advance(E1000ECore *core, const
+> >>>> E1000E_RingInfo *r, uint32_t count)
+> >>>>    {
+> >>>>        core->mac[r->dh] +=3D count;
+> >>>>
+> >>>> +    if (core->mac[r->dh] > core->mac[r->dt]) {
+> >>>> +        core->mac[r->dh] =3D core->mac[r->dt];
+> >>>> +    }
+> >>>> +
+> >>>>        if (core->mac[r->dh] * E1000_RING_DESC_LEN >=3D
+> >>>> core->mac[r->dlen]) {
+> >>>>            core->mac[r->dh] =3D 0;
+> >>>>        }
+> >> Hi Jason,
+> >>
+> >>> A question here.
+> >>>
+> >>> When count > 1, is this correct to reset dh here?
+> >>>
+> >>> Thanks
+> >>>
+> >> My understanding is that wrapping at (or above) RDLEN is the correct
+> >> behavior regardless of count. I don't see why count > 1 should modify
+> >> this behavior. I'm not sure, though. Anyway, this patch fixes the
+> >> above reproducer, so I'm adding a Tested-by line here.
+> >>
+> >> Tested-by: Mauro Matteo Cascella <mcascell@redhat.com>
+> >>
+> >> Thank you,
+> >> --
+> >> Mauro Matteo Cascella
+> >> Red Hat Product Security
+> >> PGP-Key ID: BB3410B0
+> >>
+> >
+> > Right.
+> >
+> > Applied.
+> >
+> > Thanks
+>
+>
+> I had to drop this since it breaks e1000e PXE test.
+>
+> Thanks
+>
 
-I just did some more testing with the oldish GPU I have for that
-purpose. Seems to work, at least I get video output that keeps
-on working - did not try advanced things yet.
+By debugging the failing qtest (/x86_64/pxe/ipv4/q35/e1000e) I noticed
+several cases where RDH > RDT in e1000e_ring_advance(). Given the
+RX/TX descriptor ring structure, I guess this is a possible scenario
+when the tail pointer wraps back to base when maximum descriptors have
+been processed. I will send a new version to only cover cases where
+RDH < RDT and the increment would exceed RDT. This should be enough to
+fix the infinite loop issue while making the e1000e PXE test pass.
 
-I use
--device vfio-pci,host=05:00.0,x-vga=on
--device vfio-pci,host=05:00.1
-
-when adding "-device intel-iommu", I got
-
-"qemu-system-x86_64: -device vfio-pci,host=05:00.1: vfio 0000:05:00.1: group 23 used in multiple address spaces"
-
-... so I poked around the internet a bit and got it running with
-
--device intel-iommu,caching-mode=on \
--device pcie-pci-bridge,addr=1e.0,id=pci.1 \
--device vfio-pci,host=05:00.0,xvga=on,bus=pci.1,addr=1.0,multifunction=on \
--device vfio-pci,host=05:00.1,bus=pci.1,addr=1.1 \
-
-Things still seem to be working, so I assume it works
-(I guess ?!).
-
--- 
-Thanks,
-
-David / dhildenb
+Thank you,
+--=20
+Mauro Matteo Cascella
+Red Hat Product Security
+PGP-Key ID: BB3410B0
 
 
