@@ -2,57 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADBE92B0D04
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 19:53:06 +0100 (CET)
-Received: from localhost ([::1]:56138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3583E2B0D00
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 19:51:54 +0100 (CET)
+Received: from localhost ([::1]:52856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdHiT-0003zn-Qm
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 13:53:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51922)
+	id 1kdHhJ-0002dK-9f
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 13:51:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kdHgA-0001og-Kd
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 13:50:42 -0500
-Received: from indium.canonical.com ([91.189.90.7]:58224)
+ id 1kdHg9-0001na-6a
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 13:50:41 -0500
+Received: from indium.canonical.com ([91.189.90.7]:58202)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kdHg7-0002cp-0l
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 13:50:42 -0500
+ id 1kdHg7-0002cF-17
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 13:50:40 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kdHg5-0002rk-NG
+ id 1kdHg5-0002rz-7d
  for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 18:50:37 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id AEC3B2E812F
+ by loganberry.canonical.com (Postfix) with ESMTP id 38C6D2E80E8
  for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 18:50:37 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 12 Nov 2020 18:43:08 -0000
-From: Thomas Huth <1793635@bugs.launchpad.net>
+Date: Thu, 12 Nov 2020 18:43:53 -0000
+From: Thomas Huth <1793791@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: pflash u-boot
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: prosupcn th-huth
-X-Launchpad-Bug-Reporter: prosup (prosupcn)
+X-Launchpad-Bug-Commenters: eblake schu-schu th-huth
+X-Launchpad-Bug-Reporter: Matthew Schumacher (schu-schu)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <153750467250.30674.744561051616772902.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160520658838.5334.989411655300443688.malone@soybean.canonical.com>
-Subject: [Bug 1793635] Re: Using pflash with u-boot,
- when CONFIG_SYS_FLASH_USE_BUFFER_WRITE were defined,
- envirment args won't be able to save correctly
+References: <153754814620.30461.9078031705394909150.malonedeb@soybean.canonical.com>
+Message-Id: <160520663341.5683.15857629595257607308.malone@soybean.canonical.com>
+Subject: [Bug 1793791] Re: Crash with nbd_reply_chunk_iter_receive: Assertion
+ `chunk->flags & NBD_REPLY_FLAG_DONE' failed
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="9218c6cee10bde7201ace93cd659634a9bc6c70a"; Instance="production"
-X-Launchpad-Hash: 7e78994b335b7934d64edb45787b279428bfd5f2
+X-Launchpad-Hash: ad9d8fdea64d980e5987b82c0d769c81c0320833
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:20:56
@@ -75,11 +73,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1793635 <1793635@bugs.launchpad.net>
+Reply-To: Bug 1793791 <1793791@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-How did you run QEMU? Is this still an issue with the latest version?
+The QEMU project is currently considering to move its bug tracking to anoth=
+er system. For this we need to know which bugs are still valid and which co=
+uld be closed already. Thus we are setting older bugs to "Incomplete" now.
+If you still think this bug report here is valid, then please switch the st=
+ate back to "New" within the next 60 days, otherwise this report will be ma=
+rked as "Expired". Or mark it as "Fix Released" if the problem has been sol=
+ved with a newer version of QEMU already. Thank you and sorry for the incon=
+venience.
 
 ** Changed in: qemu
        Status: New =3D> Incomplete
@@ -88,26 +93,35 @@ How did you run QEMU? Is this still an issue with the latest version?
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1793635
+https://bugs.launchpad.net/bugs/1793791
 
 Title:
-  Using pflash with u-boot,when CONFIG_SYS_FLASH_USE_BUFFER_WRITE were
-  defined,envirment args won't be able to save correctly
+  Crash with nbd_reply_chunk_iter_receive: Assertion `chunk->flags &
+  NBD_REPLY_FLAG_DONE' failed
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Generated a u-boot image with qemu_arm_defconfig,did some modification to=
- qemu-arm.h.
-  Before added "CONFIG_SYS_FLASH_USE_BUFFER_WRITE",call saveenv in u-boot c=
-ommand line can save the envirment but painful slow.
+  Qemu version on both sides: 2.12.1
+  Host A Linux: 4.9.76
+  Host B Linux: 4.14.67
 
-  after added it,seems the action took no time,but the data won't be
-  saved correctly,reset the board to boot again(i'd waited a while to
-  reset the board) ,the u-boot will tell you enviremnt checksum
-  mismatch,using the default.
+  While calling from Host A:
+  virsh migrate virtualmachine qemu+ssh://hostB/system --live --undefinesou=
+rce --persistent --verbose --copy-storage-all
+
+  I get a qemu crash with:
+
+  2018-09-21 16:12:23.073+0000: 14428: info : virObjectUnref:350 : OBJECT_U=
+NREF: obj=3D0x7f922c03d990
+  qemu-system-x86_64: block/nbd-client.c:606: nbd_reply_chunk_iter_receive:=
+ Assertion `chunk->flags & NBD_REPLY_FLAG_DONE' failed.
+  2018-09-21 16:12:41.230+0000: shutting down, reason=3Dcrashed
+  2018-09-21 16:12:52.900+0000: shutting down, reason=3Dfailed
+
+  It doesn't do it every time, but most of the time.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1793635/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1793791/+subscriptions
 
