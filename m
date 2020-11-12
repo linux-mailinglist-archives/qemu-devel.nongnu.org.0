@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21FB12B0B4E
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 18:31:14 +0100 (CET)
-Received: from localhost ([::1]:43794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 971F32B0B52
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 18:34:01 +0100 (CET)
+Received: from localhost ([::1]:51030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdGRF-0002yl-3y
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 12:31:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57776)
+	id 1kdGTw-00067g-N6
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 12:34:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kdGPH-0001Dk-VM
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 12:29:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32894)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kdGPL-0001Lm-V6
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 12:29:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53070)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kdGPF-0006rn-TE
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 12:29:11 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kdGPJ-0006t7-87
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 12:29:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605202149;
+ s=mimecast20190719; t=1605202152;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kSi+8/J8t15Ik+ehJlrSnnY/IzaEAY/JX/NRXM3eXQs=;
- b=F80M+vxNzzDt8/aWcynJhqiU0Lgfzfjk4h36fub8/rGnqy4nbhEC12AxQOnyC4c2PwzvGu
- +NWjoaug4bpI3vtoX53VuysjiGZXtErsdJezmDHJ/+mQau7KSu75XoiuwhgsgkymKnkADO
- qFETT+TiD0xAq2FC1oZcePSBjlgGER4=
+ bh=ixBYd2cDtOY/iUT803LUCen8znSZN7Hg9/38Hw7Rd/s=;
+ b=LmQWyGkFMDB+pFoMHydFwslo4X92EyrAhuV8UUUXTnDKafb5xVTwf7qWFSx7v6WSF3n0N7
+ xD6vkLyKajYchkvzhBfpaT2pDCww8o6OPjP/8UkZfwBpRAVh14Yz8HVx1RUVlgn3+0GALd
+ cA7X7Vr6Hws5GKE/Erql9+LBzlnV+Xo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-14-XdAtEP8XNXeyszaNYg5Z4g-1; Thu, 12 Nov 2020 12:29:07 -0500
-X-MC-Unique: XdAtEP8XNXeyszaNYg5Z4g-1
+ us-mta-413-SncQjqvCOsqd8btQIJINyA-1; Thu, 12 Nov 2020 12:29:09 -0500
+X-MC-Unique: SncQjqvCOsqd8btQIJINyA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A83DC1009E4B
- for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 17:29:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2259B186DD3A
+ for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 17:29:08 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-115-57.ams2.redhat.com [10.36.115.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ADBCB5D9E4;
- Thu, 12 Nov 2020 17:29:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F2FBC5D9E4;
+ Thu, 12 Nov 2020 17:29:06 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/6] qapi: Apply aliases in qobject-input-visitor
-Date: Thu, 12 Nov 2020 18:28:48 +0100
-Message-Id: <20201112172850.401925-5-kwolf@redhat.com>
+Subject: [PATCH 5/6] qapi: Add support for aliases
+Date: Thu, 12 Nov 2020 18:28:49 +0100
+Message-Id: <20201112172850.401925-6-kwolf@redhat.com>
 In-Reply-To: <20201112172850.401925-1-kwolf@redhat.com>
 References: <20201112172850.401925-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -55,16 +55,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 00:52:29
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:00:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,240 +82,414 @@ Cc: kwolf@redhat.com, jsnow@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When looking for an object in a struct in the external representation,
-check not only the currently visited struct, but also whether an alias
-in the current StackObject matches and try to fetch the value from the
-alias then. Providing two values for the same object through different
-aliases is an error.
+Introduce alias definitions for object types (structs and unions). This
+allows using the same QAPI type and visitor for many syntax variations
+that exist in the external representation, like between QMP and the
+command line. It also provides a new tool for evolving the schema while
+maintaining backwards compatibility during a deprecation period.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- qapi/qobject-input-visitor.c | 169 +++++++++++++++++++++++++++++++++--
- 1 file changed, 160 insertions(+), 9 deletions(-)
+ docs/devel/qapi-code-gen.txt           | 37 +++++++++++++++++++++++---
+ docs/sphinx/qapidoc.py                 |  2 +-
+ scripts/qapi/expr.py                   | 34 +++++++++++++++++++++--
+ scripts/qapi/schema.py                 | 27 +++++++++++++++----
+ scripts/qapi/types.py                  |  4 ++-
+ scripts/qapi/visit.py                  | 33 ++++++++++++++++++++---
+ tests/qapi-schema/test-qapi.py         |  7 ++++-
+ tests/qapi-schema/double-type.err      |  2 +-
+ tests/qapi-schema/unknown-expr-key.err |  2 +-
+ 9 files changed, 130 insertions(+), 18 deletions(-)
 
-diff --git a/qapi/qobject-input-visitor.c b/qapi/qobject-input-visitor.c
-index 1415561828..faca5b6b55 100644
---- a/qapi/qobject-input-visitor.c
-+++ b/qapi/qobject-input-visitor.c
-@@ -74,6 +74,8 @@ struct QObjectInputVisitor {
-     QObject *root;
-     bool keyval;                /* Assume @root made with keyval_parse() */
+diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
+index 6906a06ad2..6da14d5275 100644
+--- a/docs/devel/qapi-code-gen.txt
++++ b/docs/devel/qapi-code-gen.txt
+@@ -231,7 +231,8 @@ Syntax:
+                'data': MEMBERS,
+                '*base': STRING,
+                '*if': COND,
+-               '*features': FEATURES }
++               '*features': FEATURES,
++               '*aliases': ALIASES }
+     MEMBERS = { MEMBER, ... }
+     MEMBER = STRING : TYPE-REF
+            | STRING : { 'type': TYPE-REF,
+@@ -286,13 +287,15 @@ Syntax:
+     UNION = { 'union': STRING,
+               'data': BRANCHES,
+               '*if': COND,
+-              '*features': FEATURES }
++              '*features': FEATURES,
++              '*aliases': ALIASES }
+           | { 'union': STRING,
+               'data': BRANCHES,
+               'base': ( MEMBERS | STRING ),
+               'discriminator': STRING,
+               '*if': COND,
+-              '*features': FEATURES }
++              '*features': FEATURES,
++              '*aliases': ALIASES }
+     BRANCHES = { BRANCH, ... }
+     BRANCH = STRING : TYPE-REF
+            | STRING : { 'type': TYPE-REF, '*if': COND }
+@@ -837,6 +840,34 @@ shows a conditional entity only when the condition is satisfied in
+ this particular build.
  
-+    QDict *empty_qdict;         /* Used for implicit objects */
+ 
++=== Aliases ===
 +
-     /* Stack of objects being visited (all entries will be either
-      * QDict or QList). */
-     QSLIST_HEAD(, StackObject) stack;
-@@ -141,9 +143,139 @@ static const char *full_name(QObjectInputVisitor *qiv, const char *name)
-     return full_name_so(qiv, name, tos);
++Object types, including structs and unions, can contain alias
++definitions.
++
++Aliases define alternative member names that may be used in the
++external representation to provide a value for a member in the same
++object or in a nested object.
++
++Syntax:
++    ALIAS = { '*alias': STRING,
++              'source': [ STRING, ... ] }
++
++'source' is a list of member names representing the path to an object
++member, starting from the type where the alias definition is
++specified.  It may refer to another alias name.  It is allowed to use
++a path that doesn't necessarily match an existing member in every
++variant or even at all; in this case, the alias remains unused.
++
++If 'alias' is present, then the single member referred to by 'source'
++is made accessible with the name given in 'alias' in the type where
++the alias definition is specified.
++
++If 'alias' is not present, then all members in the object referred to
++by 'source' are made accessible in the type where the alias definition
++is specified with the same name as they have in 'source'.
++
++
+ === Documentation comments ===
+ 
+ A multi-line comment that starts and ends with a '##' line is a
+diff --git a/docs/sphinx/qapidoc.py b/docs/sphinx/qapidoc.py
+index e03abcbb95..6c94c01148 100644
+--- a/docs/sphinx/qapidoc.py
++++ b/docs/sphinx/qapidoc.py
+@@ -310,7 +310,7 @@ class QAPISchemaGenRSTVisitor(QAPISchemaVisitor):
+                       + self._nodes_for_if_section(ifcond))
+ 
+     def visit_object_type(self, name, info, ifcond, features,
+-                          base, members, variants):
++                          base, members, variants, aliases):
+         doc = self._cur_doc
+         if base and base.is_implicit():
+             base = None
+diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+index 2fcaaa2497..21fded529b 100644
+--- a/scripts/qapi/expr.py
++++ b/scripts/qapi/expr.py
+@@ -198,6 +198,32 @@ def check_features(features, info):
+         check_if(f, info, source)
+ 
+ 
++def check_aliases(aliases, info):
++    if aliases is None:
++        return
++    if not isinstance(aliases, list):
++        raise QAPISemError(info, "'aliases' must be an array")
++    for a in aliases:
++        if not isinstance(a, dict):
++            raise QAPISemError(info, "'aliases' entries must be objects")
++        check_keys(a, info, "alias", ['source'], ['alias'])
++
++        if 'alias' in a:
++            source = "alias member 'alias'"
++            check_name_is_str(a['alias'], info, source)
++            check_name_str(a['alias'], info, source)
++
++        if not isinstance(a['source'], list):
++            raise QAPISemError(info, "'source' must be an array")
++        if not a['source']:
++            raise QAPISemError(info, "'source' must not be empty")
++
++        source = "element of alias member 'source'"
++        for s in a['source']:
++            check_name_is_str(s, info, source)
++            check_name_str(s, info, source)
++
++
+ def check_enum(expr, info):
+     name = expr['enum']
+     members = expr['data']
+@@ -228,6 +254,7 @@ def check_struct(expr, info):
+ 
+     check_type(members, info, "'data'", allow_dict=name)
+     check_type(expr.get('base'), info, "'base'")
++    check_aliases(expr.get('aliases'), info)
+ 
+ 
+ def check_union(expr, info):
+@@ -245,6 +272,8 @@ def check_union(expr, info):
+             raise QAPISemError(info, "'discriminator' requires 'base'")
+         check_name_is_str(discriminator, info, "'discriminator'")
+ 
++    check_aliases(expr.get('aliases'), info)
++
+     for (key, value) in members.items():
+         source = "'data' member '%s'" % key
+         check_name_str(key, info, source)
+@@ -331,7 +360,7 @@ def check_exprs(exprs):
+         elif meta == 'union':
+             check_keys(expr, info, meta,
+                        ['union', 'data'],
+-                       ['base', 'discriminator', 'if', 'features'])
++                       ['base', 'discriminator', 'if', 'features', 'aliases'])
+             normalize_members(expr.get('base'))
+             normalize_members(expr['data'])
+             check_union(expr, info)
+@@ -342,7 +371,8 @@ def check_exprs(exprs):
+             check_alternate(expr, info)
+         elif meta == 'struct':
+             check_keys(expr, info, meta,
+-                       ['struct', 'data'], ['base', 'if', 'features'])
++                       ['struct', 'data'],
++                       ['base', 'if', 'features', 'aliases'])
+             normalize_members(expr['data'])
+             check_struct(expr, info)
+         elif meta == 'command':
+diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+index 720449feee..5daa137163 100644
+--- a/scripts/qapi/schema.py
++++ b/scripts/qapi/schema.py
+@@ -117,7 +117,7 @@ class QAPISchemaVisitor:
+         pass
+ 
+     def visit_object_type(self, name, info, ifcond, features,
+-                          base, members, variants):
++                          base, members, variants, aliases):
+         pass
+ 
+     def visit_object_type_flat(self, name, info, ifcond, features,
+@@ -331,9 +331,16 @@ class QAPISchemaArrayType(QAPISchemaType):
+         return "%s type ['%s']" % (self.meta, self._element_type_name)
+ 
+ 
++class QAPISchemaAlias:
++    def __init__(self, alias, source):
++        assert source
++        self.alias = alias
++        self.source = source
++
++
+ class QAPISchemaObjectType(QAPISchemaType):
+     def __init__(self, name, info, doc, ifcond, features,
+-                 base, local_members, variants):
++                 base, local_members, variants, aliases=None):
+         # struct has local_members, optional base, and no variants
+         # flat union has base, variants, and no local_members
+         # simple union has local_members, variants, and no base
+@@ -351,6 +358,7 @@ class QAPISchemaObjectType(QAPISchemaType):
+         self.local_members = local_members
+         self.variants = variants
+         self.members = None
++        self.aliases = aliases or []
+ 
+     def check(self, schema):
+         # This calls another type T's .check() exactly when the C
+@@ -443,7 +451,7 @@ class QAPISchemaObjectType(QAPISchemaType):
+         super().visit(visitor)
+         visitor.visit_object_type(
+             self.name, self.info, self.ifcond, self.features,
+-            self.base, self.local_members, self.variants)
++            self.base, self.local_members, self.variants, self.aliases)
+         visitor.visit_object_type_flat(
+             self.name, self.info, self.ifcond, self.features,
+             self.members, self.variants)
+@@ -934,6 +942,12 @@ class QAPISchema:
+         return [QAPISchemaFeature(f['name'], info, f.get('if'))
+                 for f in features]
+ 
++    def _make_aliases(self, aliases):
++        if aliases is None:
++            return []
++        return [QAPISchemaAlias(a.get('alias'), a['source'])
++                for a in aliases]
++
+     def _make_enum_members(self, values, info):
+         return [QAPISchemaEnumMember(v['name'], info, v.get('if'))
+                 for v in values]
+@@ -1008,11 +1022,12 @@ class QAPISchema:
+         base = expr.get('base')
+         data = expr['data']
+         ifcond = expr.get('if')
++        aliases = self._make_aliases(expr.get('aliases'))
+         features = self._make_features(expr.get('features'), info)
+         self._def_entity(QAPISchemaObjectType(
+             name, info, doc, ifcond, features, base,
+             self._make_members(data, info),
+-            None))
++            None, aliases))
+ 
+     def _make_variant(self, case, typ, ifcond, info):
+         return QAPISchemaVariant(case, info, typ, ifcond)
+@@ -1031,6 +1046,7 @@ class QAPISchema:
+         data = expr['data']
+         base = expr.get('base')
+         ifcond = expr.get('if')
++        aliases = self._make_aliases(expr.get('aliases'))
+         features = self._make_features(expr.get('features'), info)
+         tag_name = expr.get('discriminator')
+         tag_member = None
+@@ -1055,7 +1071,8 @@ class QAPISchema:
+             QAPISchemaObjectType(name, info, doc, ifcond, features,
+                                  base, members,
+                                  QAPISchemaVariants(
+-                                     tag_name, info, tag_member, variants)))
++                                     tag_name, info, tag_member, variants),
++                                 aliases))
+ 
+     def _def_alternate_type(self, expr, info, doc):
+         name = expr['alternate']
+diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
+index 2b4916cdaa..e870bebb7e 100644
+--- a/scripts/qapi/types.py
++++ b/scripts/qapi/types.py
+@@ -25,6 +25,7 @@ from .common import (
+ from .gen import QAPISchemaModularCVisitor, ifcontext
+ from .schema import (
+     QAPISchema,
++    QAPISchemaAlias,
+     QAPISchemaEnumMember,
+     QAPISchemaFeature,
+     QAPISchemaObjectType,
+@@ -332,7 +333,8 @@ class QAPISchemaGenTypeVisitor(QAPISchemaModularCVisitor):
+                           features: List[QAPISchemaFeature],
+                           base: Optional[QAPISchemaObjectType],
+                           members: List[QAPISchemaObjectTypeMember],
+-                          variants: Optional[QAPISchemaVariants]) -> None:
++                          variants: Optional[QAPISchemaVariants],
++                          aliases: List[QAPISchemaAlias]) -> None:
+         # Nothing to do for the special empty builtin
+         if name == 'q_empty':
+             return
+diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
+index 339f152152..a35921ef2c 100644
+--- a/scripts/qapi/visit.py
++++ b/scripts/qapi/visit.py
+@@ -26,6 +26,7 @@ from .common import (
+ from .gen import QAPISchemaModularCVisitor, ifcontext
+ from .schema import (
+     QAPISchema,
++    QAPISchemaAlias,
+     QAPISchemaEnumMember,
+     QAPISchemaEnumType,
+     QAPISchemaFeature,
+@@ -60,7 +61,8 @@ bool visit_type_%(c_name)s_members(Visitor *v, %(c_name)s *obj, Error **errp);
+ def gen_visit_object_members(name: str,
+                              base: Optional[QAPISchemaObjectType],
+                              members: List[QAPISchemaObjectTypeMember],
+-                             variants: Optional[QAPISchemaVariants]) -> str:
++                             variants: Optional[QAPISchemaVariants],
++                             aliases: List[QAPISchemaAlias]) -> str:
+     ret = mcgen('''
+ 
+ bool visit_type_%(c_name)s_members(Visitor *v, %(c_name)s *obj, Error **errp)
+@@ -68,6 +70,25 @@ bool visit_type_%(c_name)s_members(Visitor *v, %(c_name)s *obj, Error **errp)
+ ''',
+                 c_name=c_name(name))
+ 
++    if aliases:
++        ret += mcgen('''
++    visit_start_alias_scope(v);
++''')
++
++    for a in aliases:
++        if a.alias:
++            alias = '"%s"' % a.alias
++        else:
++            alias = "NULL"
++
++        source_list = ", ".join('"%s"' % x for x in a.source)
++        source = "(const char * []) { %s, NULL }" % source_list
++
++        ret += mcgen('''
++    visit_define_alias(v, %(alias)s, %(source)s);
++''',
++                     alias=alias, source=source)
++
+     if base:
+         ret += mcgen('''
+     if (!visit_type_%(c_type)s_members(v, (%(c_type)s *)obj, errp)) {
+@@ -133,6 +154,11 @@ bool visit_type_%(c_name)s_members(Visitor *v, %(c_name)s *obj, Error **errp)
+     }
+ ''')
+ 
++    if aliases:
++        ret += mcgen('''
++    visit_end_alias_scope(v);
++''')
++
+     ret += mcgen('''
+     return true;
  }
+@@ -361,14 +387,15 @@ class QAPISchemaGenVisitVisitor(QAPISchemaModularCVisitor):
+                           features: List[QAPISchemaFeature],
+                           base: Optional[QAPISchemaObjectType],
+                           members: List[QAPISchemaObjectTypeMember],
+-                          variants: Optional[QAPISchemaVariants]) -> None:
++                          variants: Optional[QAPISchemaVariants],
++                          aliases: List[QAPISchemaAlias]) -> None:
+         # Nothing to do for the special empty builtin
+         if name == 'q_empty':
+             return
+         with ifcontext(ifcond, self._genh, self._genc):
+             self._genh.add(gen_visit_members_decl(name))
+             self._genc.add(gen_visit_object_members(name, base,
+-                                                    members, variants))
++                                                    members, variants, aliases))
+             # TODO Worth changing the visitor signature, so we could
+             # directly use rather than repeat type.is_implicit()?
+             if not name.startswith('q_'):
+diff --git a/tests/qapi-schema/test-qapi.py b/tests/qapi-schema/test-qapi.py
+index e8db9d09d9..adf8bda89a 100755
+--- a/tests/qapi-schema/test-qapi.py
++++ b/tests/qapi-schema/test-qapi.py
+@@ -47,7 +47,7 @@ class QAPISchemaTestVisitor(QAPISchemaVisitor):
+         self._print_if(ifcond)
  
-+static bool find_object_member(QObjectInputVisitor *qiv,
-+                               StackObject **so, const char **name,
-+                               bool *implicit_object, Error **errp);
-+
-+static bool alias_present(QObjectInputVisitor *qiv,
-+                          InputVisitorAlias *a, const char *name)
-+{
-+    StackObject *so = a->alias_so;
-+
-+    /*
-+     * The passed source @name is only relevant for wildcard aliases which
-+     * don't have a separate name, otherwise we use the alias name.
-+     */
-+    if (a->alias) {
-+        name = a->alias;
-+    }
-+
-+    if (!find_object_member(qiv, &so, &name, NULL, NULL)) {
-+        return false;
-+    }
-+
-+    /*
-+     * Every source can be used only once. If a value in the input would end up
-+     * being used twice through aliases, we'll fail the second access.
-+     */
-+    if (!g_hash_table_contains(so->h, name)) {
-+        return false;
-+    }
-+
-+    return true;
-+}
-+
-+static bool alias_source_matches(QObjectInputVisitor *qiv,
-+                                 StackObject *so, InputVisitorAlias *a,
-+                                 const char *name, bool *implicit_object)
-+{
-+    if (a->src[0] == NULL) {
-+        assert(a->alias == NULL);
-+        return true;
-+    }
-+
-+    if (!strcmp(a->src[0], name)) {
-+        if (a->alias && a->src[1] == NULL) {
-+            /*
-+             * We're matching an exact member, the source for this alias is
-+             * immediately in @so.
-+             */
-+            return true;
-+        } else if (implicit_object) {
-+            /*
-+             * We're only looking at a prefix of the source path for the alias.
-+             * If the input contains no object of the requested name, we will
-+             * implicitly create an empty one so that the alias can still be
-+             * used.
-+             *
-+             * We want to create the implicit object only if the alias is
-+             * actually used, but we can't tell here for wildcard aliases (only
-+             * a later visitor call will determine this). This means that
-+             * wildcard aliases must never have optional keys in their source
-+             * path.
-+             */
-+            if (!a->alias || alias_present(qiv, a, a->alias)) {
-+                *implicit_object = true;
-+            }
-+        }
-+    }
-+
-+    return false;
-+}
-+
-+static bool find_object_member(QObjectInputVisitor *qiv,
-+                               StackObject **so, const char **name,
-+                               bool *implicit_object, Error **errp)
-+{
-+    StackObject *cur_so = *so;
-+    QDict *qdict = qobject_to(QDict, cur_so->obj);
-+    const char *found = NULL;
-+    bool found_is_wildcard = false;
-+    InputVisitorAlias *a;
-+
-+    if (implicit_object) {
-+        *implicit_object = false;
-+    }
-+
-+    /* Directly present in the container */
-+    if (qdict_haskey(qdict, *name)) {
-+        found = *name;
-+    }
-+
-+    /*
-+     * Find aliases whose source path matches @name in this StackObject. We can
-+     * then get the value with the key a->alias from a->alias_so.
-+     */
-+    QSLIST_FOREACH(a, &cur_so->aliases, next) {
-+        if (a->alias == NULL && found) {
-+            /*
-+             * Skip wildcard aliases if we already have a match. This is
-+             * not a conflict that should result in an error.
-+             */
-+            continue;
-+        }
-+
-+        if (!alias_source_matches(qiv, cur_so, a, *name, implicit_object)) {
-+            continue;
-+        }
-+
-+        if (!alias_present(qiv, a, *name)) {
-+            continue;
-+        }
-+
-+        if (found && !found_is_wildcard) {
-+            error_setg(errp, "Value for parameter %s was already given "
-+                       "through an alias", full_name_so(qiv, *name, *so));
-+            return false;
-+        } else {
-+            found = a->alias ?: *name;
-+            *so = a->alias_so;
-+            found_is_wildcard = !a->alias;
-+        }
-+    }
-+
-+    /* Chained aliases: *so/found might be the source of another alias */
-+    if (found && (*so != cur_so || found != *name)) {
-+        find_object_member(qiv, so, &found, NULL, errp);
-+    }
-+
-+    *name = found;
-+    return found;
-+}
-+
- static QObject *qobject_input_try_get_object(QObjectInputVisitor *qiv,
-                                              const char *name,
--                                             bool consume)
-+                                             bool consume, Error **errp)
- {
-     StackObject *tos;
-     QObject *qobj;
-@@ -161,10 +293,24 @@ static QObject *qobject_input_try_get_object(QObjectInputVisitor *qiv,
-     assert(qobj);
- 
-     if (qobject_type(qobj) == QTYPE_QDICT) {
--        assert(name);
--        ret = qdict_get(qobject_to(QDict, qobj), name);
--        if (tos->h && consume && ret) {
--            bool removed = g_hash_table_remove(tos->h, name);
-+        StackObject *so = tos;
-+        const char *key = name;
-+        bool implicit_object;
-+
-+        assert(key);
-+        if (!find_object_member(qiv, &so, &key, &implicit_object, errp)) {
-+            if (implicit_object) {
-+                if (!qiv->empty_qdict) {
-+                    qiv->empty_qdict = qdict_new();
-+                }
-+                return QOBJECT(qiv->empty_qdict);
-+            } else {
-+                return NULL;
-+            }
-+        }
-+        ret = qdict_get(qobject_to(QDict, so->obj), key);
-+        if (so->h && consume && ret) {
-+            bool removed = g_hash_table_remove(so->h, key);
-             assert(removed);
-         }
-     } else {
-@@ -190,9 +336,10 @@ static QObject *qobject_input_get_object(QObjectInputVisitor *qiv,
-                                          const char *name,
-                                          bool consume, Error **errp)
- {
--    QObject *obj = qobject_input_try_get_object(qiv, name, consume);
-+    ERRP_GUARD();
-+    QObject *obj = qobject_input_try_get_object(qiv, name, consume, errp);
- 
--    if (!obj) {
-+    if (!obj && !*errp) {
-         error_setg(errp, QERR_MISSING_PARAMETER, full_name(qiv, name));
-     }
-     return obj;
-@@ -764,13 +911,16 @@ static bool qobject_input_type_size_keyval(Visitor *v, const char *name,
- static void qobject_input_optional(Visitor *v, const char *name, bool *present)
- {
-     QObjectInputVisitor *qiv = to_qiv(v);
--    QObject *qobj = qobject_input_try_get_object(qiv, name, false);
-+    Error *local_err = NULL;
-+    QObject *qobj = qobject_input_try_get_object(qiv, name, false, &local_err);
- 
--    if (!qobj) {
-+    /* If there was an error, let the caller try and run into the error */
-+    if (!qobj && !local_err) {
-         *present = false;
-         return;
-     }
- 
-+    error_free(local_err);
-     *present = true;
- }
- 
-@@ -785,6 +935,7 @@ static void qobject_input_free(Visitor *v)
-         qobject_input_stack_object_free(tos);
-     }
- 
-+    qobject_unref(qiv->empty_qdict);
-     qobject_unref(qiv->root);
-     if (qiv->errname) {
-         g_string_free(qiv->errname, TRUE);
+     def visit_object_type(self, name, info, ifcond, features,
+-                          base, members, variants):
++                          base, members, variants, aliases):
+         print('object %s' % name)
+         if base:
+             print('    base %s' % base.name)
+@@ -56,6 +56,11 @@ class QAPISchemaTestVisitor(QAPISchemaVisitor):
+                   % (m.name, m.type.name, m.optional))
+             self._print_if(m.ifcond, 8)
+             self._print_features(m.features, indent=8)
++        for a in aliases:
++            if a.alias:
++                print('    alias %s -> %s' % (a.alias, '/'.join(a.source)))
++            else:
++                print('    alias * -> %s/*' % '/'.join(a.source))
+         self._print_variants(variants)
+         self._print_if(ifcond)
+         self._print_features(features)
+diff --git a/tests/qapi-schema/double-type.err b/tests/qapi-schema/double-type.err
+index 71fc4dbb52..5d25d7623c 100644
+--- a/tests/qapi-schema/double-type.err
++++ b/tests/qapi-schema/double-type.err
+@@ -1,3 +1,3 @@
+ double-type.json: In struct 'bar':
+ double-type.json:2: struct has unknown key 'command'
+-Valid keys are 'base', 'data', 'features', 'if', 'struct'.
++Valid keys are 'aliases', 'base', 'data', 'features', 'if', 'struct'.
+diff --git a/tests/qapi-schema/unknown-expr-key.err b/tests/qapi-schema/unknown-expr-key.err
+index c5f395bf79..7429d1ff03 100644
+--- a/tests/qapi-schema/unknown-expr-key.err
++++ b/tests/qapi-schema/unknown-expr-key.err
+@@ -1,3 +1,3 @@
+ unknown-expr-key.json: In struct 'bar':
+ unknown-expr-key.json:2: struct has unknown keys 'bogus', 'phony'
+-Valid keys are 'base', 'data', 'features', 'if', 'struct'.
++Valid keys are 'aliases', 'base', 'data', 'features', 'if', 'struct'.
 -- 
 2.28.0
 
