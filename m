@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A89142B07C7
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 15:48:46 +0100 (CET)
-Received: from localhost ([::1]:51554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC22B2B07D3
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 15:52:50 +0100 (CET)
+Received: from localhost ([::1]:33944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdDu1-00016S-OB
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 09:48:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39564)
+	id 1kdDxx-0005aw-29
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 09:52:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kdDmT-0000sM-IH
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 09:40:57 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:33232)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kdDmR-0003nW-Pw
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 09:40:57 -0500
-Received: by mail-wr1-x432.google.com with SMTP id b8so6277424wrn.0
- for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 06:40:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=j9ihxds/2HDlaiV5N2nhzW+drU76gxcV4Dtdhkb6rXg=;
- b=qyHIIIw8fy5CfBzhfHH61KPTh+uhQYh43cql4FPjhVmIGvhGgXxJPJQRSwy6/XDt3s
- seCaeWUEKCyJPvqqKz/t6PNNMIEQHy56JdkPp6pPvdJTDze0zjCDWEDtcyT0GMwMhn1u
- jN87zRXIMfTYnj3MygdC/HSb2fiKJrSaM3HPXtmOiZt3eR0nYn+AfTVIObcBvyQHkPIi
- xKa41L8fRn6ZUBwSVrL3C+nFT+bhuV7OeooLDVjLTbRp/2kkFsFLy2mJ1x57aKE5vU6Y
- whr2SUf7Op3HgErkUuZ5eFbp3JXZjp3vd/wRr0uBbJ6r4tS/xYAmTAH1BlrA2fVZMy1O
- 0gmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=j9ihxds/2HDlaiV5N2nhzW+drU76gxcV4Dtdhkb6rXg=;
- b=h9he8TWFh4v5hcFVxpe0Uu3iBNeFWY4TC9qZwPd4LkBS6NAEFTdWXMdcNY+OR2M999
- QXjJkDpV8kv/8JwW4aIjn9up3wFbz7pT1woxBVyHzDhmp3T1//uHOEKEbxDSFT2zlAAC
- YpS/88o4fUnVcdAaYypnOi5Styh/Wb3J91xq1Jux3slX/aEWlo5Q9oSftMJ7ddxyYnOw
- ksK9Ue4llOUP0RNd5i2ZokUNlZaOrZD54KDawRn0AotCR2wMksDI4v0uL5gr3y7RRrox
- eVi+QmQ4s/VjjBOaLSZTSFu6Gj2VWVe4fpGmGzJHw7epy3kzQT4/odAw/I2iqFVuPEyr
- b0kg==
-X-Gm-Message-State: AOAM5330eeYWt3kvelSUU7L2lQ5na/xFxaGrGQDC1MLGU/+OrIcON3T8
- mzbWrm92JQn20LlcB1eScC9xG5y2ytFwPw==
-X-Google-Smtp-Source: ABdhPJxpF0ldTJb7kfMnGihbjee/nJV/AGvdQjv8hA1ORLzjZx4J9lToOq3SyaWrVgzrpW6kKYfxaw==
-X-Received: by 2002:adf:e992:: with SMTP id h18mr26732791wrm.356.1605192054150; 
- Thu, 12 Nov 2020 06:40:54 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id k16sm7410907wrl.65.2020.11.12.06.40.53
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Nov 2020 06:40:53 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [for-5.2 9/9] docs/system/pr-manager.rst: Fix minor docs nits
-Date: Thu, 12 Nov 2020 14:40:41 +0000
-Message-Id: <20201112144041.32278-10-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201112144041.32278-1-peter.maydell@linaro.org>
-References: <20201112144041.32278-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kdDv1-0003kl-M3
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 09:49:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20866)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kdDuz-0006Ts-3C
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 09:49:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605192582;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Bs/0GTEc9jblJWVx4QgmwZ2gt+QsfH1zqzvOiwogq2Q=;
+ b=SYy8C2GYlNaBVKpQj7HR68ug6veVwM7MvOiWgdEB7coXgqgVIUVI4xp8JyJwkUuu+1FWMS
+ cl05haT06FjE8f3MFEgJniHsL+TTh5vkpMg1VFcw8/g3KtwH8eoJO37P0L2TI13FWGUe53
+ eWlo/3oI7oJI/Pr3H14+9VxzCJMmHk8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-22-HBOt5A6sNHyutTLXSAAVAw-1; Thu, 12 Nov 2020 09:49:40 -0500
+X-MC-Unique: HBOt5A6sNHyutTLXSAAVAw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A535C593B2;
+ Thu, 12 Nov 2020 14:49:38 +0000 (UTC)
+Received: from work-vm (ovpn-115-60.ams2.redhat.com [10.36.115.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9351D73679;
+ Thu, 12 Nov 2020 14:49:36 +0000 (UTC)
+Date: Thu, 12 Nov 2020 14:49:33 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Chen Qun <kuhn.chenqun@huawei.com>
+Subject: Re: [PATCH v2 5/5] migration: fix uninitialized variable warning in
+ migrate_send_rp_req_pages()
+Message-ID: <20201112144933.GD13424@work-vm>
+References: <20201111142203.2359370-1-kuhn.chenqun@huawei.com>
+ <20201111142203.2359370-6-kuhn.chenqun@huawei.com>
 MIME-Version: 1.0
+In-Reply-To: <20201111142203.2359370-6-kuhn.chenqun@huawei.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 00:52:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,35 +84,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, zhang.zhanghailiang@huawei.com,
+ Juan Quintela <quintela@redhat.com>, qemu-trivial@nongnu.org,
+ qemu-devel@nongnu.org, ganqixin@huawei.com,
+ Euler Robot <euler.robot@huawei.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix a couple of nits in pr-manager.rst:
- * the title marker for the top level heading is overlength
- * stray capital 'R' in the middle of a sentence
+* Chen Qun (kuhn.chenqun@huawei.com) wrote:
+> After the WITH_QEMU_LOCK_GUARD macro is added, the compiler cannot identify
+>  that the statements in the macro must be executed. As a result, some variables
+>  assignment statements in the macro may be considered as unexecuted by the compiler.
+> 
+> When the -Wmaybe-uninitialized capability is enabled on GCC9,the compiler showed warning:
+> migration/migration.c: In function ‘migrate_send_rp_req_pages’:
+> migration/migration.c:384:8: warning: ‘received’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+>  384 |     if (received) {
+>      |        ^
+> 
+> Add a default value for 'received' to prevented the warning.
+> 
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- docs/system/pr-manager.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Queuing this one via migration
 
-diff --git a/docs/system/pr-manager.rst b/docs/system/pr-manager.rst
-index 3f5b9f94dcd..b19a0c15e66 100644
---- a/docs/system/pr-manager.rst
-+++ b/docs/system/pr-manager.rst
-@@ -1,8 +1,8 @@
--======================================
-+===============================
- Persistent reservation managers
--======================================
-+===============================
- 
--SCSI persistent Reservations allow restricting access to block devices
-+SCSI persistent reservations allow restricting access to block devices
- to specific initiators in a shared storage setup.  When implementing
- clustering of virtual machines, it is a common requirement for virtual
- machines to send persistent reservation SCSI commands.  However,
+> ---
+> Cc: Juan Quintela <quintela@redhat.com>
+> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> ---
+>  migration/migration.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 9bb4fee5ac..de90486a61 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -361,7 +361,7 @@ int migrate_send_rp_req_pages(MigrationIncomingState *mis,
+>                                RAMBlock *rb, ram_addr_t start, uint64_t haddr)
+>  {
+>      void *aligned = (void *)(uintptr_t)(haddr & (-qemu_ram_pagesize(rb)));
+> -    bool received;
+> +    bool received = false;
+>  
+>      WITH_QEMU_LOCK_GUARD(&mis->page_request_mutex) {
+>          received = ramblock_recv_bitmap_test_byte_offset(rb, start);
+> -- 
+> 2.27.0
+> 
+> 
 -- 
-2.20.1
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
