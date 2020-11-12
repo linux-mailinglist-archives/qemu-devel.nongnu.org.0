@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 324292B10CF
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 23:01:56 +0100 (CET)
-Received: from localhost ([::1]:43966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 270612B10F6
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 23:05:15 +0100 (CET)
+Received: from localhost ([::1]:52176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdKfD-0000k1-2B
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 17:01:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32880)
+	id 1kdKiQ-0004NC-3y
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 17:05:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kdKOy-0005uP-8W
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:45:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39611)
+ id 1kdKP4-0005wV-86
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:45:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24633)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kdKOv-0003GY-Ou
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:45:07 -0500
+ id 1kdKP2-0003H1-42
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:45:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605217504;
+ s=mimecast20190719; t=1605217509;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4QElOHDC/35LO7q4B7zn7FLHHICgXF/5toJDsrOlvt4=;
- b=IZ1ojGMETo7BTdeliBuD5KXin08MwjW7SiYoPMTyVGLmz2IFO+aeNbXXvmxn1g5ABB9/nt
- sC5K9Oc6mDk2xkCgxC2cb6IJ/aLBYkUiQzNk9sasU/qYCW6qFUW+7uJaFAg8uauR5rGlcD
- efWuhdtfquy4zWEXb8fuu8fgOlf2FRk=
+ bh=IjXLNzryal4KWXA/thVCt00XPDIwSnxo4OtC/UV3xq4=;
+ b=HZWBLSp3nCdjqNIguinthgZrLHg2esOfR2wi/0ZYhIHAkjr0IIkLHMNc6thISwO7qENYQB
+ 3xUPW8Mi2YKwvOGXy4LzYuqNogUT7rR912+hd8bBH4iHI0n4/3PG3Q0ja9Uu0FsJUirCmK
+ cPn5hN4L3heAXSy2p9G7j0Aog+JQXIs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-161-XGcBN1HSMuKPhQBkF01Wtw-1; Thu, 12 Nov 2020 16:45:03 -0500
-X-MC-Unique: XGcBN1HSMuKPhQBkF01Wtw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-109-zfjucTHyMASxtzyBO-qccg-1; Thu, 12 Nov 2020 16:45:08 -0500
+X-MC-Unique: zfjucTHyMASxtzyBO-qccg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4636190A3E1;
- Thu, 12 Nov 2020 21:45:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2253880474B;
+ Thu, 12 Nov 2020 21:45:07 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F14E460C13;
- Thu, 12 Nov 2020 21:44:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 968875D9CA;
+ Thu, 12 Nov 2020 21:45:02 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 12/53] qdev: Make error_set_from_qdev_prop_error() get
- Object* argument
-Date: Thu, 12 Nov 2020 16:43:09 -0500
-Message-Id: <20201112214350.872250-13-ehabkost@redhat.com>
+Subject: [PATCH v3 13/53] qdev: Make qdev_propinfo_get_uint16() static
+Date: Thu, 12 Nov 2020 16:43:10 -0500
+Message-Id: <20201112214350.872250-14-ehabkost@redhat.com>
 In-Reply-To: <20201112214350.872250-1-ehabkost@redhat.com>
 References: <20201112214350.872250-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,21 +80,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
+ John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- qemu-s390x@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
  Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make the code more generic and not specific to TYPE_DEVICE.
+There are no users of the function outside qdev-properties.c.
+Make function static and rename it to get_uint16().
 
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
@@ -103,136 +98,49 @@ Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: "Daniel P. Berrangé" <berrange@redhat.com>
 Cc: Eduardo Habkost <ehabkost@redhat.com>
-Cc: Cornelia Huck <cohuck@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Halil Pasic <pasic@linux.ibm.com>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>
 Cc: qemu-devel@nongnu.org
-Cc: qemu-s390x@nongnu.org
 ---
- include/hw/qdev-properties.h     |  2 +-
- hw/core/qdev-properties-system.c | 10 +++++-----
- hw/core/qdev-properties.c        | 10 +++++-----
- hw/s390x/css.c                   |  2 +-
- 4 files changed, 12 insertions(+), 12 deletions(-)
+ hw/core/qdev-prop-internal.h | 2 --
+ hw/core/qdev-properties.c    | 6 +++---
+ 2 files changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
-index 7620095fed..530286e869 100644
---- a/include/hw/qdev-properties.h
-+++ b/include/hw/qdev-properties.h
-@@ -309,7 +309,7 @@ const GlobalProperty *qdev_find_global_prop(Object *obj,
-                                             const char *name);
- int qdev_prop_check_globals(void);
- void qdev_prop_set_globals(DeviceState *dev);
--void error_set_from_qdev_prop_error(Error **errp, int ret, DeviceState *dev,
-+void error_set_from_qdev_prop_error(Error **errp, int ret, Object *obj,
-                                     Property *prop, const char *value);
+diff --git a/hw/core/qdev-prop-internal.h b/hw/core/qdev-prop-internal.h
+index 9cf5cc1d51..d7b77844fe 100644
+--- a/hw/core/qdev-prop-internal.h
++++ b/hw/core/qdev-prop-internal.h
+@@ -20,8 +20,6 @@ void qdev_propinfo_set_default_value_int(ObjectProperty *op,
+ void qdev_propinfo_set_default_value_uint(ObjectProperty *op,
+                                           const Property *prop);
  
- /**
-diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
-index 85dd38db0f..fca1b694ca 100644
---- a/hw/core/qdev-properties-system.c
-+++ b/hw/core/qdev-properties-system.c
-@@ -352,7 +352,7 @@ static void set_mac(Object *obj, Visitor *v, const char *name, void *opaque,
-     return;
- 
- inval:
--    error_set_from_qdev_prop_error(errp, EINVAL, dev, prop, str);
-+    error_set_from_qdev_prop_error(errp, EINVAL, obj, prop, str);
-     g_free(str);
- }
- 
-@@ -440,7 +440,7 @@ static void set_netdev(Object *obj, Visitor *v, const char *name,
-     peers_ptr->queues = queues;
- 
- out:
--    error_set_from_qdev_prop_error(errp, err, dev, prop, str);
-+    error_set_from_qdev_prop_error(errp, err, obj, prop, str);
-     g_free(str);
- }
- 
-@@ -492,7 +492,7 @@ static void set_audiodev(Object *obj, Visitor *v, const char* name,
-     card->state = state;
- 
- out:
--    error_set_from_qdev_prop_error(errp, err, dev, prop, str);
-+    error_set_from_qdev_prop_error(errp, err, obj, prop, str);
-     g_free(str);
- }
- 
-@@ -790,7 +790,7 @@ static void set_pci_devfn(Object *obj, Visitor *v, const char *name,
-     return;
- 
- invalid:
--    error_set_from_qdev_prop_error(errp, EINVAL, dev, prop, str);
-+    error_set_from_qdev_prop_error(errp, EINVAL, obj, prop, str);
-     g_free(str);
- }
- 
-@@ -913,7 +913,7 @@ static void set_pci_host_devaddr(Object *obj, Visitor *v, const char *name,
-     return;
- 
- inval:
--    error_set_from_qdev_prop_error(errp, EINVAL, dev, prop, str);
-+    error_set_from_qdev_prop_error(errp, EINVAL, obj, prop, str);
-     g_free(str);
- }
- 
+-void qdev_propinfo_get_uint16(Object *obj, Visitor *v, const char *name,
+-                              void *opaque, Error **errp);
+ void qdev_propinfo_get_int32(Object *obj, Visitor *v, const char *name,
+                              void *opaque, Error **errp);
+ void qdev_propinfo_get_size32(Object *obj, Visitor *v, const char *name,
 diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index 41482d83d1..5e010afdb8 100644
+index 5e010afdb8..765e916c23 100644
 --- a/hw/core/qdev-properties.c
 +++ b/hw/core/qdev-properties.c
-@@ -581,7 +581,7 @@ static void set_uuid(Object *obj, Visitor *v, const char *name, void *opaque,
-     if (!strcmp(str, UUID_VALUE_AUTO)) {
-         qemu_uuid_generate(uuid);
-     } else if (qemu_uuid_parse(str, uuid) < 0) {
--        error_set_from_qdev_prop_error(errp, EINVAL, dev, prop, str);
-+        error_set_from_qdev_prop_error(errp, EINVAL, obj, prop, str);
-     }
-     g_free(str);
- }
-@@ -735,22 +735,22 @@ static Property *qdev_prop_find(DeviceState *dev, const char *name)
-     return NULL;
- }
+@@ -278,8 +278,8 @@ const PropertyInfo qdev_prop_uint8 = {
  
--void error_set_from_qdev_prop_error(Error **errp, int ret, DeviceState *dev,
-+void error_set_from_qdev_prop_error(Error **errp, int ret, Object *obj,
-                                     Property *prop, const char *value)
+ /* --- 16bit integer --- */
+ 
+-void qdev_propinfo_get_uint16(Object *obj, Visitor *v, const char *name,
+-                              void *opaque, Error **errp)
++static void get_uint16(Object *obj, Visitor *v, const char *name,
++                       void *opaque, Error **errp)
  {
-     switch (ret) {
-     case -EEXIST:
-         error_setg(errp, "Property '%s.%s' can't take value '%s', it's in use",
--                  object_get_typename(OBJECT(dev)), prop->name, value);
-+                  object_get_typename(obj), prop->name, value);
-         break;
-     default:
-     case -EINVAL:
-         error_setg(errp, QERR_PROPERTY_VALUE_BAD,
--                   object_get_typename(OBJECT(dev)), prop->name, value);
-+                   object_get_typename(obj), prop->name, value);
-         break;
-     case -ENOENT:
-         error_setg(errp, "Property '%s.%s' can't find value '%s'",
--                  object_get_typename(OBJECT(dev)), prop->name, value);
-+                  object_get_typename(obj), prop->name, value);
-         break;
-     case 0:
-         break;
-diff --git a/hw/s390x/css.c b/hw/s390x/css.c
-index 2b8f33fec2..38fd46b9a9 100644
---- a/hw/s390x/css.c
-+++ b/hw/s390x/css.c
-@@ -2390,7 +2390,7 @@ static void set_css_devid(Object *obj, Visitor *v, const char *name,
+     Property *prop = opaque;
+     uint16_t *ptr = qdev_get_prop_ptr(obj, prop);
+@@ -304,7 +304,7 @@ static void set_uint16(Object *obj, Visitor *v, const char *name,
  
-     num = sscanf(str, "%2x.%1x%n.%4x%n", &cssid, &ssid, &n1, &devid, &n2);
-     if (num != 3 || (n2 - n1) != 5 || strlen(str) != n2) {
--        error_set_from_qdev_prop_error(errp, EINVAL, dev, prop, str);
-+        error_set_from_qdev_prop_error(errp, EINVAL, obj, prop, str);
-         goto out;
-     }
-     if ((cssid > MAX_CSSID) || (ssid > MAX_SSID)) {
+ const PropertyInfo qdev_prop_uint16 = {
+     .name  = "uint16",
+-    .get   = qdev_propinfo_get_uint16,
++    .get   = get_uint16,
+     .set   = set_uint16,
+     .set_default_value = qdev_propinfo_set_default_value_uint,
+ };
 -- 
 2.28.0
 
