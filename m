@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96EA82B10FC
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 23:05:41 +0100 (CET)
-Received: from localhost ([::1]:52998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB6C42B1183
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 23:28:48 +0100 (CET)
+Received: from localhost ([::1]:54882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdKiq-0004hy-Jp
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 17:05:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33952)
+	id 1kdL5D-0004f9-VW
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 17:28:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kdKQx-00088p-2K
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:47:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27665)
+ id 1kdKR0-0008FU-FM
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:47:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47995)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kdKQu-0003jI-AY
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:47:10 -0500
+ id 1kdKQv-0003jg-Up
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:47:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605217627;
+ s=mimecast20190719; t=1605217629;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qtP7hkoUO/2D4UzMSq43kPT6M2wSx5R64H5fw4LILMg=;
- b=OskzSXb/qa0HHJSk248eA0uAg7YLORs3OlTDF7h+o//9o3EtR43s6r0UtBPwj8zIwysdNL
- 8Fa+zPIWNoduNV+PeJfueQY+dFAx/hd1taSgTkvHW02bb2NT4vgvDcm97yLS6ZY5jG7c7P
- 91I5VtomzUel7mb5rQjgs2YMhT1qdzE=
+ bh=ckHrdG7afHO+vYKYk5rCNQ2Za/jOvDXsKRnppkOWbgE=;
+ b=UlGYS7DPrfgQKfHxlXMKwOsLpp4ryI8uc5AuWwRpGzUsaCajKAhs0V9/NjA/x/vl9EP4ar
+ JmTGLNTLdpshW4IFGPxX6Ce8FYtb0T87q3mclQCWXTlH7Vl1VEBLoVVH52V0NsNC4AXZh2
+ txkV1JYcCp9ILzbwRTL+MQ4J+ZAj6Kc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-106-K3qrJUprNfmKISncVNeGWA-1; Thu, 12 Nov 2020 16:47:05 -0500
-X-MC-Unique: K3qrJUprNfmKISncVNeGWA-1
+ us-mta-100-KhsZAAkkPVWl6GLsredfmw-1; Thu, 12 Nov 2020 16:47:07 -0500
+X-MC-Unique: KhsZAAkkPVWl6GLsredfmw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C986E1074657;
- Thu, 12 Nov 2020 21:47:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44651185A0C0;
+ Thu, 12 Nov 2020 21:47:06 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 179C810016DA;
- Thu, 12 Nov 2020 21:47:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AE4C71002382;
+ Thu, 12 Nov 2020 21:47:05 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 45/53] qdev: Move core field property code to QOM
-Date: Thu, 12 Nov 2020 16:43:42 -0500
-Message-Id: <20201112214350.872250-46-ehabkost@redhat.com>
+Subject: [PATCH v3 46/53] qdev: Move base property types to
+ qom/property-types.c
+Date: Thu, 12 Nov 2020 16:43:43 -0500
+Message-Id: <20201112214350.872250-47-ehabkost@redhat.com>
 In-Reply-To: <20201112214350.872250-1-ehabkost@redhat.com>
 References: <20201112214350.872250-1-ehabkost@redhat.com>
 MIME-Version: 1.0
@@ -89,524 +90,1433 @@ Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the core of the static property code to qom/field-property.c.
-
-The actual property type implementations are still in
-qdev-properties.c, they will be moved later.
+Move all property types from qdev-properties.c to
+qom/property-types.c.  Declarations are moved from
+hw/qdev-properties.h to qom/property-types.h.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
 Changes v2 -> v3:
-* Redone patch after changes in previous patches of this series
-* Reordered patch, tried to place it a bit earlier in the series
+* Redone after changes in previous patches in this series
+* Reordered patch, tried to put it a bit earlier in the series
 
 Changes v1 -> v2:
-* Rename static-property.* to field-property.*
+* Rebased after changes in previous patches in the series
 ---
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: "Daniel P. Berrangé" <berrange@redhat.com>
 Cc: Eduardo Habkost <ehabkost@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- include/hw/qdev-properties.h                  |  49 +------
- .../qom/field-property-internal.h             |   6 +-
- include/qom/field-property.h                  |  57 ++++++++
- include/qom/qom.h                             |   1 +
- hw/core/qdev-properties-system.c              |   2 +-
- hw/core/qdev-properties.c                     | 134 +----------------
- qom/field-property.c                          | 137 ++++++++++++++++++
- qom/meson.build                               |   1 +
- 8 files changed, 202 insertions(+), 185 deletions(-)
- rename hw/core/qdev-prop-internal.h => include/qom/field-property-internal.h (95%)
- create mode 100644 include/qom/field-property.h
- create mode 100644 qom/field-property.c
+ include/hw/qdev-properties.h | 125 +-------
+ include/qom/property-types.h | 131 +++++++++
+ include/qom/qom.h            |   1 +
+ hw/core/qdev-properties.c    | 538 ----------------------------------
+ qom/property-types.c         | 546 +++++++++++++++++++++++++++++++++++
+ qom/meson.build              |   1 +
+ 6 files changed, 680 insertions(+), 662 deletions(-)
+ create mode 100644 include/qom/property-types.h
+ create mode 100644 qom/property-types.c
 
 diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
-index 1208e12b9b..6585a8e693 100644
+index 6585a8e693..939b6dbf4e 100644
 --- a/include/hw/qdev-properties.h
 +++ b/include/hw/qdev-properties.h
-@@ -2,52 +2,7 @@
- #define QEMU_QDEV_PROPERTIES_H
+@@ -3,130 +3,7 @@
  
  #include "hw/qdev-core.h"
+ #include "qom/field-property.h"
+-
+-/*** qdev-properties.c ***/
+-
+-extern const PropertyInfo prop_info_bit;
+-extern const PropertyInfo prop_info_bit64;
+-extern const PropertyInfo prop_info_bool;
+-extern const PropertyInfo prop_info_enum;
+-extern const PropertyInfo prop_info_uint8;
+-extern const PropertyInfo prop_info_uint16;
+-extern const PropertyInfo prop_info_uint32;
+-extern const PropertyInfo prop_info_int32;
+-extern const PropertyInfo prop_info_uint64;
+-extern const PropertyInfo prop_info_int64;
+-extern const PropertyInfo prop_info_size;
+-extern const PropertyInfo prop_info_string;
+-extern const PropertyInfo prop_info_on_off_auto;
+-extern const PropertyInfo prop_info_size32;
+-extern const PropertyInfo prop_info_arraylen;
+-extern const PropertyInfo prop_info_link;
+-
+-#define DEFINE_PROP(_name, _state, _field, _prop, _type, ...) {  \
+-        .name_template = (_name),                           \
+-        .info      = &(_prop),                                   \
+-        .offset    = offsetof(_state, _field)                    \
+-            + type_check(_type, typeof_field(_state, _field)),   \
+-        __VA_ARGS__                                              \
+-        }
+-
+-#define DEFINE_PROP_SIGNED(_name, _state, _field, _defval, _prop, _type) \
+-    DEFINE_PROP(_name, _state, _field, _prop, _type,                     \
+-                .set_default = true,                                     \
+-                .defval.i    = (_type)_defval)
+-
+-#define DEFINE_PROP_SIGNED_NODEFAULT(_name, _state, _field, _prop, _type) \
+-    DEFINE_PROP(_name, _state, _field, _prop, _type)
+-
+-#define DEFINE_PROP_BIT(_name, _state, _field, _bit, _defval)   \
+-    DEFINE_PROP(_name, _state, _field, prop_info_bit, uint32_t, \
+-                .bitnr       = (_bit),                          \
+-                .set_default = true,                            \
+-                .defval.u    = (bool)_defval)
+-
+-#define DEFINE_PROP_UNSIGNED(_name, _state, _field, _defval, _prop, _type) \
+-    DEFINE_PROP(_name, _state, _field, _prop, _type,                       \
+-                .set_default = true,                                       \
+-                .defval.u  = (_type)_defval)
+-
+-#define DEFINE_PROP_UNSIGNED_NODEFAULT(_name, _state, _field, _prop, _type) \
+-    DEFINE_PROP(_name, _state, _field, _prop, _type)
+-
+-#define DEFINE_PROP_BIT64(_name, _state, _field, _bit, _defval)   \
+-    DEFINE_PROP(_name, _state, _field, prop_info_bit64, uint64_t, \
+-                .bitnr    = (_bit),                               \
+-                .set_default = true,                              \
+-                .defval.u  = (bool)_defval)
+-
+-#define DEFINE_PROP_BOOL(_name, _state, _field, _defval)     \
+-    DEFINE_PROP(_name, _state, _field, prop_info_bool, bool, \
+-                .set_default = true,                         \
+-                .defval.u    = (bool)_defval)
+-
+-#define PROP_ARRAY_LEN_PREFIX "len-"
 -
 -/**
-- * Property:
-- * @set_default: true if the default value should be set from @defval,
-- *    in which case @info->set_default_value must not be NULL
-- *    (if false then no default value is set by the property system
-- *     and the field retains whatever value it was given by instance_init).
-- * @defval: default value for the property. This is used only if @set_default
-- *     is true.
+- * DEFINE_PROP_ARRAY:
+- * @_name: name of the array
+- * @_state: name of the device state structure type
+- * @_field: uint32_t field in @_state to hold the array length
+- * @_arrayfield: field in @_state (of type '@_arraytype *') which
+- *               will point to the array
+- * @_arrayprop: PropertyInfo defining what property the array elements have
+- * @_arraytype: C type of the array elements
+- *
+- * Define device properties for a variable-length array _name.  A
+- * static property "len-arrayname" is defined. When the device creator
+- * sets this property to the desired length of array, further dynamic
+- * properties "arrayname[0]", "arrayname[1]", ...  are defined so the
+- * device creator can set the array element values. Setting the
+- * "len-arrayname" property more than once is an error.
+- *
+- * When the array length is set, the @_field member of the device
+- * struct is set to the array length, and @_arrayfield is set to point
+- * to (zero-initialised) memory allocated for the array.  For a zero
+- * length array, @_field will be set to 0 and @_arrayfield to NULL.
+- * It is the responsibility of the device deinit code to free the
+- * @_arrayfield memory.
 - */
--struct Property {
--    /**
--     * @name_template: Property name template
--     *
--     * This is a string containing the template to be used when
--     * creating the property.  It can be NULL, and code shouldn't
--     * assume it will contain the actual property name.
--     */
--    const char   *name_template;
--    const PropertyInfo *info;
--    ptrdiff_t    offset;
--    uint8_t      bitnr;
--    bool         set_default;
--    union {
--        int64_t i;
--        uint64_t u;
--    } defval;
--    int          arrayoffset;
--    const PropertyInfo *arrayinfo;
--    int          arrayfieldsize;
--    const char   *link_type;
--};
+-#define DEFINE_PROP_ARRAY(_name, _state, _field,               \
+-                          _arrayfield, _arrayprop, _arraytype) \
+-    DEFINE_PROP((PROP_ARRAY_LEN_PREFIX _name),                 \
+-                _state, _field, prop_info_arraylen, uint32_t,  \
+-                .set_default = true,                           \
+-                .defval.u = 0,                                 \
+-                .arrayinfo = &(_arrayprop),                    \
+-                .arrayfieldsize = sizeof(_arraytype),          \
+-                .arrayoffset = offsetof(_state, _arrayfield))
 -
--struct PropertyInfo {
--    const char *name;
--    const char *description;
--    const QEnumLookup *enum_table;
--    int (*print)(Object *obj, Property *prop, char *dest, size_t len);
--    void (*set_default_value)(ObjectProperty *op, const Property *prop);
--    ObjectProperty *(*create)(ObjectClass *oc, const char *name,
--                              Property *prop);
--    ObjectPropertyAccessor *get;
--    ObjectPropertyAccessor *set;
--    ObjectPropertyRelease *release;
--};
+-#define DEFINE_PROP_LINK(_name, _state, _field, _type, _ptr_type)     \
+-    DEFINE_PROP(_name, _state, _field, prop_info_link, _ptr_type,     \
+-                .link_type  = _type)
 -
-+#include "qom/field-property.h"
- 
- /*** qdev-properties.c ***/
- 
-@@ -200,8 +155,6 @@ void qdev_prop_set_macaddr(DeviceState *dev, const char *name,
-                            const uint8_t *value);
- void qdev_prop_set_enum(DeviceState *dev, const char *name, int value);
- 
--void *object_field_prop_ptr(Object *obj, Property *prop);
+-#define DEFINE_PROP_UINT8(_n, _s, _f, _d)                       \
+-    DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, prop_info_uint8, uint8_t)
+-#define DEFINE_PROP_UINT16(_n, _s, _f, _d)                      \
+-    DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, prop_info_uint16, uint16_t)
+-#define DEFINE_PROP_UINT32(_n, _s, _f, _d)                      \
+-    DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, prop_info_uint32, uint32_t)
+-#define DEFINE_PROP_INT32(_n, _s, _f, _d)                      \
+-    DEFINE_PROP_SIGNED(_n, _s, _f, _d, prop_info_int32, int32_t)
+-#define DEFINE_PROP_UINT64(_n, _s, _f, _d)                      \
+-    DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, prop_info_uint64, uint64_t)
+-#define DEFINE_PROP_INT64(_n, _s, _f, _d)                      \
+-    DEFINE_PROP_SIGNED(_n, _s, _f, _d, prop_info_int64, int64_t)
+-#define DEFINE_PROP_SIZE(_n, _s, _f, _d)                       \
+-    DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, prop_info_size, uint64_t)
+-#define DEFINE_PROP_STRING(_n, _s, _f)             \
+-    DEFINE_PROP(_n, _s, _f, prop_info_string, char*)
+-#define DEFINE_PROP_ON_OFF_AUTO(_n, _s, _f, _d) \
+-    DEFINE_PROP_SIGNED(_n, _s, _f, _d, prop_info_on_off_auto, OnOffAuto)
+-#define DEFINE_PROP_SIZE32(_n, _s, _f, _d)                       \
+-    DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, prop_info_size32, uint32_t)
 -
- void qdev_prop_register_global(GlobalProperty *prop);
- const GlobalProperty *qdev_find_global_prop(Object *obj,
-                                             const char *name);
-diff --git a/hw/core/qdev-prop-internal.h b/include/qom/field-property-internal.h
-similarity index 95%
-rename from hw/core/qdev-prop-internal.h
-rename to include/qom/field-property-internal.h
-index 47bab46810..a7b7e2b69d 100644
---- a/hw/core/qdev-prop-internal.h
-+++ b/include/qom/field-property-internal.h
-@@ -1,12 +1,12 @@
+-#define DEFINE_PROP_END_OF_LIST()               \
+-    {}
++#include "qom/property-types.h"
+ 
  /*
-- * qdev property parsing
-+ * QOM field property internal API (for implementing custom types)
-  *
-  * This work is licensed under the terms of the GNU GPL, version 2 or later.
-  * See the COPYING file in the top-level directory.
-  */
- 
--#ifndef HW_CORE_QDEV_PROP_INTERNAL_H
--#define HW_CORE_QDEV_PROP_INTERNAL_H
-+#ifndef QOM_STATIC_PROPERTY_INTERNAL_H
-+#define QOM_STATIC_PROPERTY_INTERNAL_H
- 
- void field_prop_get_enum(Object *obj, Visitor *v, const char *name,
-                          void *opaque, Error **errp);
-diff --git a/include/qom/field-property.h b/include/qom/field-property.h
+  * Set properties between creation and realization.
+diff --git a/include/qom/property-types.h b/include/qom/property-types.h
 new file mode 100644
-index 0000000000..91e7a43165
+index 0000000000..0aff0d9474
 --- /dev/null
-+++ b/include/qom/field-property.h
-@@ -0,0 +1,57 @@
++++ b/include/qom/property-types.h
+@@ -0,0 +1,131 @@
 +/*
-+ * QOM field property API
++ * QOM field property types
 + */
-+#ifndef QOM_FIELD_PROPERTY_H
-+#define QOM_FIELD_PROPERTY_H
++#ifndef QOM_PROPERTY_TYPES_H
++#define QOM_PROPERTY_TYPES_H
 +
-+#include "qom/object.h"
-+#include "qapi/util.h"
++#include "qom/field-property.h"
++
++extern const PropertyInfo prop_info_bit;
++extern const PropertyInfo prop_info_bit64;
++extern const PropertyInfo prop_info_bool;
++extern const PropertyInfo prop_info_enum;
++extern const PropertyInfo prop_info_uint8;
++extern const PropertyInfo prop_info_uint16;
++extern const PropertyInfo prop_info_uint32;
++extern const PropertyInfo prop_info_int32;
++extern const PropertyInfo prop_info_uint64;
++extern const PropertyInfo prop_info_int64;
++extern const PropertyInfo prop_info_size;
++extern const PropertyInfo prop_info_string;
++extern const PropertyInfo prop_info_on_off_auto;
++extern const PropertyInfo prop_info_size32;
++extern const PropertyInfo prop_info_arraylen;
++extern const PropertyInfo prop_info_link;
++
++#define DEFINE_PROP(_name, _state, _field, _prop, _type, ...) {  \
++        .name_template = (_name),                           \
++        .info      = &(_prop),                                   \
++        .offset    = offsetof(_state, _field)                    \
++            + type_check(_type, typeof_field(_state, _field)),   \
++        __VA_ARGS__                                              \
++        }
++
++#define DEFINE_PROP_SIGNED(_name, _state, _field, _defval, _prop, _type) \
++    DEFINE_PROP(_name, _state, _field, _prop, _type,                     \
++                .set_default = true,                                     \
++                .defval.i    = (_type)_defval)
++
++#define DEFINE_PROP_SIGNED_NODEFAULT(_name, _state, _field, _prop, _type) \
++    DEFINE_PROP(_name, _state, _field, _prop, _type)
++
++#define DEFINE_PROP_BIT(_name, _state, _field, _bit, _defval)   \
++    DEFINE_PROP(_name, _state, _field, prop_info_bit, uint32_t, \
++                .bitnr       = (_bit),                          \
++                .set_default = true,                            \
++                .defval.u    = (bool)_defval)
++
++#define DEFINE_PROP_UNSIGNED(_name, _state, _field, _defval, _prop, _type) \
++    DEFINE_PROP(_name, _state, _field, _prop, _type,                       \
++                .set_default = true,                                       \
++                .defval.u  = (_type)_defval)
++
++#define DEFINE_PROP_UNSIGNED_NODEFAULT(_name, _state, _field, _prop, _type) \
++    DEFINE_PROP(_name, _state, _field, _prop, _type)
++
++#define DEFINE_PROP_BIT64(_name, _state, _field, _bit, _defval)   \
++    DEFINE_PROP(_name, _state, _field, prop_info_bit64, uint64_t, \
++                .bitnr    = (_bit),                               \
++                .set_default = true,                              \
++                .defval.u  = (bool)_defval)
++
++#define DEFINE_PROP_BOOL(_name, _state, _field, _defval)     \
++    DEFINE_PROP(_name, _state, _field, prop_info_bool, bool, \
++                .set_default = true,                         \
++                .defval.u    = (bool)_defval)
++
++#define PROP_ARRAY_LEN_PREFIX "len-"
 +
 +/**
-+ * Property:
-+ * @set_default: true if the default value should be set from @defval,
-+ *    in which case @info->set_default_value must not be NULL
-+ *    (if false then no default value is set by the property system
-+ *     and the field retains whatever value it was given by instance_init).
-+ * @defval: default value for the property. This is used only if @set_default
-+ *     is true.
++ * DEFINE_PROP_ARRAY:
++ * @_name: name of the array
++ * @_state: name of the device state structure type
++ * @_field: uint32_t field in @_state to hold the array length
++ * @_arrayfield: field in @_state (of type '@_arraytype *') which
++ *               will point to the array
++ * @_arrayprop: PropertyInfo defining what property the array elements have
++ * @_arraytype: C type of the array elements
++ *
++ * Define device properties for a variable-length array _name.  A
++ * static property "len-arrayname" is defined. When the device creator
++ * sets this property to the desired length of array, further dynamic
++ * properties "arrayname[0]", "arrayname[1]", ...  are defined so the
++ * device creator can set the array element values. Setting the
++ * "len-arrayname" property more than once is an error.
++ *
++ * When the array length is set, the @_field member of the device
++ * struct is set to the array length, and @_arrayfield is set to point
++ * to (zero-initialised) memory allocated for the array.  For a zero
++ * length array, @_field will be set to 0 and @_arrayfield to NULL.
++ * It is the responsibility of the device deinit code to free the
++ * @_arrayfield memory.
 + */
-+struct Property {
-+    /**
-+     * @name_template: Property name template
-+     *
-+     * This is a string containing the template to be used when
-+     * creating the property.  It can be NULL, and code shouldn't
-+     * assume it will contain the actual property name.
-+     */
-+    const char   *name_template;
-+    const PropertyInfo *info;
-+    ptrdiff_t    offset;
-+    uint8_t      bitnr;
-+    bool         set_default;
-+    union {
-+        int64_t i;
-+        uint64_t u;
-+    } defval;
-+    int          arrayoffset;
-+    const PropertyInfo *arrayinfo;
-+    int          arrayfieldsize;
-+    const char   *link_type;
-+};
++#define DEFINE_PROP_ARRAY(_name, _state, _field,               \
++                          _arrayfield, _arrayprop, _arraytype) \
++    DEFINE_PROP((PROP_ARRAY_LEN_PREFIX _name),                 \
++                _state, _field, prop_info_arraylen, uint32_t,  \
++                .set_default = true,                           \
++                .defval.u = 0,                                 \
++                .arrayinfo = &(_arrayprop),                    \
++                .arrayfieldsize = sizeof(_arraytype),          \
++                .arrayoffset = offsetof(_state, _arrayfield))
 +
-+struct PropertyInfo {
-+    const char *name;
-+    const char *description;
-+    const QEnumLookup *enum_table;
-+    int (*print)(Object *obj, Property *prop, char *dest, size_t len);
-+    void (*set_default_value)(ObjectProperty *op, const Property *prop);
-+    ObjectProperty *(*create)(ObjectClass *oc, const char *name,
-+                              Property *prop);
-+    ObjectPropertyAccessor *get;
-+    ObjectPropertyAccessor *set;
-+    ObjectPropertyRelease *release;
-+};
++#define DEFINE_PROP_LINK(_name, _state, _field, _type, _ptr_type)     \
++    DEFINE_PROP(_name, _state, _field, prop_info_link, _ptr_type,     \
++                .link_type  = _type)
 +
-+void *object_field_prop_ptr(Object *obj, Property *prop);
++#define DEFINE_PROP_UINT8(_n, _s, _f, _d)                       \
++    DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, prop_info_uint8, uint8_t)
++#define DEFINE_PROP_UINT16(_n, _s, _f, _d)                      \
++    DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, prop_info_uint16, uint16_t)
++#define DEFINE_PROP_UINT32(_n, _s, _f, _d)                      \
++    DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, prop_info_uint32, uint32_t)
++#define DEFINE_PROP_INT32(_n, _s, _f, _d)                      \
++    DEFINE_PROP_SIGNED(_n, _s, _f, _d, prop_info_int32, int32_t)
++#define DEFINE_PROP_UINT64(_n, _s, _f, _d)                      \
++    DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, prop_info_uint64, uint64_t)
++#define DEFINE_PROP_INT64(_n, _s, _f, _d)                      \
++    DEFINE_PROP_SIGNED(_n, _s, _f, _d, prop_info_int64, int64_t)
++#define DEFINE_PROP_SIZE(_n, _s, _f, _d)                       \
++    DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, prop_info_size, uint64_t)
++#define DEFINE_PROP_STRING(_n, _s, _f)             \
++    DEFINE_PROP(_n, _s, _f, prop_info_string, char*)
++#define DEFINE_PROP_ON_OFF_AUTO(_n, _s, _f, _d) \
++    DEFINE_PROP_SIGNED(_n, _s, _f, _d, prop_info_on_off_auto, OnOffAuto)
++#define DEFINE_PROP_SIZE32(_n, _s, _f, _d)                       \
++    DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, prop_info_size32, uint32_t)
++
++#define DEFINE_PROP_END_OF_LIST()               \
++    {}
 +
 +#endif
 diff --git a/include/qom/qom.h b/include/qom/qom.h
-index 3286605083..9dbc88801d 100644
+index 9dbc88801d..ef37a317c3 100644
 --- a/include/qom/qom.h
 +++ b/include/qom/qom.h
-@@ -8,3 +8,4 @@
- #include "qom/object.h"
+@@ -9,3 +9,4 @@
  #include "qom/object_interfaces.h"
  #include "qom/qom-qobject.h"
-+#include "qom/field-property.h"
-diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
-index 8781b856d3..8da68f076c 100644
---- a/hw/core/qdev-properties-system.c
-+++ b/hw/core/qdev-properties-system.c
-@@ -24,7 +24,7 @@
- #include "qemu/units.h"
- #include "qemu/uuid.h"
- #include "qemu/error-report.h"
--#include "qdev-prop-internal.h"
-+#include "qom/field-property-internal.h"
- 
- #include "audio/audio.h"
- #include "chardev/char-fe.h"
+ #include "qom/field-property.h"
++#include "qom/property-types.h"
 diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index 7aa5d2ff45..c79cb9a89b 100644
+index c79cb9a89b..8979c40486 100644
 --- a/hw/core/qdev-properties.c
 +++ b/hw/core/qdev-properties.c
-@@ -8,7 +8,7 @@
- #include "qapi/visitor.h"
- #include "qemu/units.h"
- #include "qemu/cutils.h"
--#include "qdev-prop-internal.h"
-+#include "qom/field-property-internal.h"
- 
- void qdev_prop_set_after_realize(DeviceState *dev, const char *name,
-                                   Error **errp)
-@@ -50,48 +50,6 @@ void qdev_prop_allow_set_link_before_realize(const Object *obj,
+@@ -50,497 +50,6 @@ void qdev_prop_allow_set_link_before_realize(const Object *obj,
      }
  }
  
--void *object_field_prop_ptr(Object *obj, Property *prop)
--{
--    void *ptr = obj;
--    ptr += prop->offset;
--    return ptr;
--}
--
--static void field_prop_get(Object *obj, Visitor *v, const char *name,
--                           void *opaque, Error **errp)
+-void field_prop_get_enum(Object *obj, Visitor *v, const char *name,
+-                         void *opaque, Error **errp)
 -{
 -    Property *prop = opaque;
--    return prop->info->get(obj, v, name, opaque, errp);
+-    int *ptr = object_field_prop_ptr(obj, prop);
+-
+-    visit_type_enum(v, name, ptr, prop->info->enum_table, errp);
 -}
 -
--/**
-- * field_prop_getter: Return getter function to be used for property
-- *
-- * Return value can be NULL if @info has no getter function.
-- */
--static ObjectPropertyAccessor *field_prop_getter(const PropertyInfo *info)
--{
--    return info->get ? field_prop_get : NULL;
--}
--
--static void field_prop_set(Object *obj, Visitor *v, const char *name,
--                           void *opaque, Error **errp)
+-void field_prop_set_enum(Object *obj, Visitor *v, const char *name,
+-                         void *opaque, Error **errp)
 -{
 -    Property *prop = opaque;
+-    int *ptr = object_field_prop_ptr(obj, prop);
 -
--    return prop->info->set(obj, v, name, opaque, errp);
+-    visit_type_enum(v, name, ptr, prop->info->enum_table, errp);
 -}
 -
--/**
-- * field_prop_setter: Return setter function to be used for property
-- *
-- * Return value can be NULL if @info has not setter function.
-- */
--static ObjectPropertyAccessor *field_prop_setter(const PropertyInfo *info)
+-void field_prop_set_default_value_enum(ObjectProperty *op,
+-                                       const Property *prop)
 -{
--    return info->set ? field_prop_set : NULL;
+-    object_property_set_default_str(op,
+-        qapi_enum_lookup(prop->info->enum_table, prop->defval.i));
 -}
 -
- void field_prop_get_enum(Object *obj, Visitor *v, const char *name,
-                          void *opaque, Error **errp)
- {
-@@ -802,96 +760,6 @@ const PropertyInfo prop_info_link = {
-     .create = create_link_property,
- };
- 
--/*
-- * Property release callback for dynamically-created properties:
-- * We call the underlying element's property release hook, and
-- * then free the memory we allocated when we added the property.
-- */
--static void static_prop_release_dynamic_prop(Object *obj, const char *name,
--                                             void *opaque)
+-const PropertyInfo prop_info_enum = {
+-    .name  = "enum",
+-    .get   = field_prop_get_enum,
+-    .set   = field_prop_set_enum,
+-    .set_default_value = field_prop_set_default_value_enum,
+-};
+-
+-/* Bit */
+-
+-static uint32_t qdev_get_prop_mask(Property *prop)
 -{
--    Property *prop = opaque;
--    if (prop->info->release) {
--        prop->info->release(obj, name, opaque);
--    }
--    g_free(prop);
+-    assert(prop->info == &prop_info_bit);
+-    return 0x1 << prop->bitnr;
 -}
 -
--ObjectProperty *
--object_property_add_field(Object *obj, const char *name,
--                          Property *prop,
--                          ObjectPropertyAllowSet allow_set)
+-static void bit_prop_set(Object *obj, Property *props, bool val)
 -{
--    ObjectProperty *op;
--    Property *newprop = g_new0(Property, 1);
--
--    assert(allow_set);
--    assert(!prop->info->create);
--
--    *newprop = *prop;
--    op = object_property_add(obj, name, newprop->info->name,
--                             field_prop_getter(newprop->info),
--                             field_prop_setter(newprop->info),
--                             static_prop_release_dynamic_prop,
--                             newprop);
--
--    object_property_set_description(obj, name,
--                                    newprop->info->description);
--
--    if (newprop->set_default) {
--        newprop->info->set_default_value(op, newprop);
--        if (op->init) {
--            op->init(obj, op);
--        }
--    }
--
--    op->allow_set = allow_set;
--    return op;
--}
--
--ObjectProperty *
--object_class_property_add_field_static(ObjectClass *oc, const char *name,
--                                       Property *prop,
--                                       ObjectPropertyAllowSet allow_set)
--{
--    ObjectProperty *op;
--
--    assert(allow_set);
--
--    if (prop->info->create) {
--        op = prop->info->create(oc, name, prop);
+-    uint32_t *p = object_field_prop_ptr(obj, props);
+-    uint32_t mask = qdev_get_prop_mask(props);
+-    if (val) {
+-        *p |= mask;
 -    } else {
--        op = object_class_property_add(oc,
--                                       name, prop->info->name,
--                                       field_prop_getter(prop->info),
--                                       field_prop_setter(prop->info),
--                                       prop->info->release,
--                                       prop);
+-        *p &= ~mask;
 -    }
--    if (prop->set_default) {
--        prop->info->set_default_value(op, prop);
--    }
--    if (prop->info->description) {
--        object_class_property_set_description(oc, name,
--                                              prop->info->description);
--    }
--
--    op->allow_set = allow_set;
--    return op;
 -}
 -
--void object_class_add_field_properties(ObjectClass *oc, Property *props,
--                                       ObjectPropertyAllowSet allow_set)
+-static void prop_get_bit(Object *obj, Visitor *v, const char *name,
+-                         void *opaque, Error **errp)
 -{
--    Property *prop;
+-    Property *prop = opaque;
+-    uint32_t *p = object_field_prop_ptr(obj, prop);
+-    bool value = (*p & qdev_get_prop_mask(prop)) != 0;
 -
--    for (prop = props; prop && prop->name_template; prop++) {
--        object_class_property_add_field_static(oc, prop->name_template, prop,
--                                               allow_set);
+-    visit_type_bool(v, name, &value, errp);
+-}
+-
+-static void prop_set_bit(Object *obj, Visitor *v, const char *name,
+-                         void *opaque, Error **errp)
+-{
+-    Property *prop = opaque;
+-    bool value;
+-
+-    if (!visit_type_bool(v, name, &value, errp)) {
+-        return;
+-    }
+-    bit_prop_set(obj, prop, value);
+-}
+-
+-static void set_default_value_bool(ObjectProperty *op, const Property *prop)
+-{
+-    object_property_set_default_bool(op, prop->defval.u);
+-}
+-
+-const PropertyInfo prop_info_bit = {
+-    .name  = "bool",
+-    .description = "on/off",
+-    .get   = prop_get_bit,
+-    .set   = prop_set_bit,
+-    .set_default_value = set_default_value_bool,
+-};
+-
+-/* Bit64 */
+-
+-static uint64_t qdev_get_prop_mask64(Property *prop)
+-{
+-    assert(prop->info == &prop_info_bit64);
+-    return 0x1ull << prop->bitnr;
+-}
+-
+-static void bit64_prop_set(Object *obj, Property *props, bool val)
+-{
+-    uint64_t *p = object_field_prop_ptr(obj, props);
+-    uint64_t mask = qdev_get_prop_mask64(props);
+-    if (val) {
+-        *p |= mask;
+-    } else {
+-        *p &= ~mask;
 -    }
 -}
 -
+-static void prop_get_bit64(Object *obj, Visitor *v, const char *name,
+-                           void *opaque, Error **errp)
+-{
+-    Property *prop = opaque;
+-    uint64_t *p = object_field_prop_ptr(obj, prop);
+-    bool value = (*p & qdev_get_prop_mask64(prop)) != 0;
+-
+-    visit_type_bool(v, name, &value, errp);
+-}
+-
+-static void prop_set_bit64(Object *obj, Visitor *v, const char *name,
+-                           void *opaque, Error **errp)
+-{
+-    Property *prop = opaque;
+-    bool value;
+-
+-    if (!visit_type_bool(v, name, &value, errp)) {
+-        return;
+-    }
+-    bit64_prop_set(obj, prop, value);
+-}
+-
+-const PropertyInfo prop_info_bit64 = {
+-    .name  = "bool",
+-    .description = "on/off",
+-    .get   = prop_get_bit64,
+-    .set   = prop_set_bit64,
+-    .set_default_value = set_default_value_bool,
+-};
+-
+-/* --- bool --- */
+-
+-static void get_bool(Object *obj, Visitor *v, const char *name, void *opaque,
+-                     Error **errp)
+-{
+-    Property *prop = opaque;
+-    bool *ptr = object_field_prop_ptr(obj, prop);
+-
+-    visit_type_bool(v, name, ptr, errp);
+-}
+-
+-static void set_bool(Object *obj, Visitor *v, const char *name, void *opaque,
+-                     Error **errp)
+-{
+-    Property *prop = opaque;
+-    bool *ptr = object_field_prop_ptr(obj, prop);
+-
+-    visit_type_bool(v, name, ptr, errp);
+-}
+-
+-const PropertyInfo prop_info_bool = {
+-    .name  = "bool",
+-    .get   = get_bool,
+-    .set   = set_bool,
+-    .set_default_value = set_default_value_bool,
+-};
+-
+-/* --- 8bit integer --- */
+-
+-static void get_uint8(Object *obj, Visitor *v, const char *name, void *opaque,
+-                      Error **errp)
+-{
+-    Property *prop = opaque;
+-    uint8_t *ptr = object_field_prop_ptr(obj, prop);
+-
+-    visit_type_uint8(v, name, ptr, errp);
+-}
+-
+-static void set_uint8(Object *obj, Visitor *v, const char *name, void *opaque,
+-                      Error **errp)
+-{
+-    Property *prop = opaque;
+-    uint8_t *ptr = object_field_prop_ptr(obj, prop);
+-
+-    visit_type_uint8(v, name, ptr, errp);
+-}
+-
+-void field_prop_set_default_value_int(ObjectProperty *op,
+-                                      const Property *prop)
+-{
+-    object_property_set_default_int(op, prop->defval.i);
+-}
+-
+-void field_prop_set_default_value_uint(ObjectProperty *op,
+-                                       const Property *prop)
+-{
+-    object_property_set_default_uint(op, prop->defval.u);
+-}
+-
+-const PropertyInfo prop_info_uint8 = {
+-    .name  = "uint8",
+-    .get   = get_uint8,
+-    .set   = set_uint8,
+-    .set_default_value = field_prop_set_default_value_uint,
+-};
+-
+-/* --- 16bit integer --- */
+-
+-static void get_uint16(Object *obj, Visitor *v, const char *name,
+-                       void *opaque, Error **errp)
+-{
+-    Property *prop = opaque;
+-    uint16_t *ptr = object_field_prop_ptr(obj, prop);
+-
+-    visit_type_uint16(v, name, ptr, errp);
+-}
+-
+-static void set_uint16(Object *obj, Visitor *v, const char *name,
+-                       void *opaque, Error **errp)
+-{
+-    Property *prop = opaque;
+-    uint16_t *ptr = object_field_prop_ptr(obj, prop);
+-
+-    visit_type_uint16(v, name, ptr, errp);
+-}
+-
+-const PropertyInfo prop_info_uint16 = {
+-    .name  = "uint16",
+-    .get   = get_uint16,
+-    .set   = set_uint16,
+-    .set_default_value = field_prop_set_default_value_uint,
+-};
+-
+-/* --- 32bit integer --- */
+-
+-static void get_uint32(Object *obj, Visitor *v, const char *name,
+-                       void *opaque, Error **errp)
+-{
+-    Property *prop = opaque;
+-    uint32_t *ptr = object_field_prop_ptr(obj, prop);
+-
+-    visit_type_uint32(v, name, ptr, errp);
+-}
+-
+-static void set_uint32(Object *obj, Visitor *v, const char *name,
+-                       void *opaque, Error **errp)
+-{
+-    Property *prop = opaque;
+-    uint32_t *ptr = object_field_prop_ptr(obj, prop);
+-
+-    visit_type_uint32(v, name, ptr, errp);
+-}
+-
+-void field_prop_get_int32(Object *obj, Visitor *v, const char *name,
+-                          void *opaque, Error **errp)
+-{
+-    Property *prop = opaque;
+-    int32_t *ptr = object_field_prop_ptr(obj, prop);
+-
+-    visit_type_int32(v, name, ptr, errp);
+-}
+-
+-static void set_int32(Object *obj, Visitor *v, const char *name, void *opaque,
+-                      Error **errp)
+-{
+-    Property *prop = opaque;
+-    int32_t *ptr = object_field_prop_ptr(obj, prop);
+-
+-    visit_type_int32(v, name, ptr, errp);
+-}
+-
+-const PropertyInfo prop_info_uint32 = {
+-    .name  = "uint32",
+-    .get   = get_uint32,
+-    .set   = set_uint32,
+-    .set_default_value = field_prop_set_default_value_uint,
+-};
+-
+-const PropertyInfo prop_info_int32 = {
+-    .name  = "int32",
+-    .get   = field_prop_get_int32,
+-    .set   = set_int32,
+-    .set_default_value = field_prop_set_default_value_int,
+-};
+-
+-/* --- 64bit integer --- */
+-
+-static void get_uint64(Object *obj, Visitor *v, const char *name,
+-                       void *opaque, Error **errp)
+-{
+-    Property *prop = opaque;
+-    uint64_t *ptr = object_field_prop_ptr(obj, prop);
+-
+-    visit_type_uint64(v, name, ptr, errp);
+-}
+-
+-static void set_uint64(Object *obj, Visitor *v, const char *name,
+-                       void *opaque, Error **errp)
+-{
+-    Property *prop = opaque;
+-    uint64_t *ptr = object_field_prop_ptr(obj, prop);
+-
+-    visit_type_uint64(v, name, ptr, errp);
+-}
+-
+-static void get_int64(Object *obj, Visitor *v, const char *name,
+-                      void *opaque, Error **errp)
+-{
+-    Property *prop = opaque;
+-    int64_t *ptr = object_field_prop_ptr(obj, prop);
+-
+-    visit_type_int64(v, name, ptr, errp);
+-}
+-
+-static void set_int64(Object *obj, Visitor *v, const char *name,
+-                      void *opaque, Error **errp)
+-{
+-    Property *prop = opaque;
+-    int64_t *ptr = object_field_prop_ptr(obj, prop);
+-
+-    visit_type_int64(v, name, ptr, errp);
+-}
+-
+-const PropertyInfo prop_info_uint64 = {
+-    .name  = "uint64",
+-    .get   = get_uint64,
+-    .set   = set_uint64,
+-    .set_default_value = field_prop_set_default_value_uint,
+-};
+-
+-const PropertyInfo prop_info_int64 = {
+-    .name  = "int64",
+-    .get   = get_int64,
+-    .set   = set_int64,
+-    .set_default_value = field_prop_set_default_value_int,
+-};
+-
+-/* --- string --- */
+-
+-static void release_string(Object *obj, const char *name, void *opaque)
+-{
+-    Property *prop = opaque;
+-    g_free(*(char **)object_field_prop_ptr(obj, prop));
+-}
+-
+-static void get_string(Object *obj, Visitor *v, const char *name,
+-                       void *opaque, Error **errp)
+-{
+-    Property *prop = opaque;
+-    char **ptr = object_field_prop_ptr(obj, prop);
+-
+-    if (!*ptr) {
+-        char *str = (char *)"";
+-        visit_type_str(v, name, &str, errp);
+-    } else {
+-        visit_type_str(v, name, ptr, errp);
+-    }
+-}
+-
+-static void set_string(Object *obj, Visitor *v, const char *name,
+-                       void *opaque, Error **errp)
+-{
+-    Property *prop = opaque;
+-    char **ptr = object_field_prop_ptr(obj, prop);
+-    char *str;
+-
+-    if (!visit_type_str(v, name, &str, errp)) {
+-        return;
+-    }
+-    g_free(*ptr);
+-    *ptr = str;
+-}
+-
+-const PropertyInfo prop_info_string = {
+-    .name  = "str",
+-    .release = release_string,
+-    .get   = get_string,
+-    .set   = set_string,
+-};
+-
+-/* --- on/off/auto --- */
+-
+-const PropertyInfo prop_info_on_off_auto = {
+-    .name = "OnOffAuto",
+-    .description = "on/off/auto",
+-    .enum_table = &OnOffAuto_lookup,
+-    .get = field_prop_get_enum,
+-    .set = field_prop_set_enum,
+-    .set_default_value = field_prop_set_default_value_enum,
+-};
+-
+-/* --- 32bit unsigned int 'size' type --- */
+-
+-void field_prop_get_size32(Object *obj, Visitor *v, const char *name,
+-                           void *opaque, Error **errp)
+-{
+-    Property *prop = opaque;
+-    uint32_t *ptr = object_field_prop_ptr(obj, prop);
+-    uint64_t value = *ptr;
+-
+-    visit_type_size(v, name, &value, errp);
+-}
+-
+-static void set_size32(Object *obj, Visitor *v, const char *name, void *opaque,
+-                       Error **errp)
+-{
+-    Property *prop = opaque;
+-    uint32_t *ptr = object_field_prop_ptr(obj, prop);
+-    uint64_t value;
+-
+-    if (!visit_type_size(v, name, &value, errp)) {
+-        return;
+-    }
+-
+-    if (value > UINT32_MAX) {
+-        error_setg(errp,
+-                   "Property %s.%s doesn't take value %" PRIu64
+-                   " (maximum: %u)",
+-                   object_get_typename(obj), name, value, UINT32_MAX);
+-        return;
+-    }
+-
+-    *ptr = value;
+-}
+-
+-const PropertyInfo prop_info_size32 = {
+-    .name  = "size",
+-    .get = field_prop_get_size32,
+-    .set = set_size32,
+-    .set_default_value = field_prop_set_default_value_uint,
+-};
+-
+-/* --- support for array properties --- */
+-
+-static void set_prop_arraylen(Object *obj, Visitor *v, const char *name,
+-                              void *opaque, Error **errp)
+-{
+-    /* Setter for the property which defines the length of a
+-     * variable-sized property array. As well as actually setting the
+-     * array-length field in the device struct, we have to create the
+-     * array itself and dynamically add the corresponding properties.
+-     */
+-    Property *prop = opaque;
+-    ObjectProperty *op = object_property_find_err(obj, name, &error_abort);
+-    uint32_t *alenptr = object_field_prop_ptr(obj, prop);
+-    void **arrayptr = (void *)obj + prop->arrayoffset;
+-    void *eltptr;
+-    const char *arrayname;
+-    int i;
+-
+-    if (*alenptr) {
+-        error_setg(errp, "array size property %s may not be set more than once",
+-                   name);
+-        return;
+-    }
+-    if (!visit_type_uint32(v, name, alenptr, errp)) {
+-        return;
+-    }
+-    if (!*alenptr) {
+-        return;
+-    }
+-
+-    /* DEFINE_PROP_ARRAY guarantees that name should start with this prefix;
+-     * strip it off so we can get the name of the array itself.
+-     */
+-    assert(strncmp(name, PROP_ARRAY_LEN_PREFIX,
+-                   strlen(PROP_ARRAY_LEN_PREFIX)) == 0);
+-    arrayname = name + strlen(PROP_ARRAY_LEN_PREFIX);
+-
+-    /* Note that it is the responsibility of the individual device's deinit
+-     * to free the array proper.
+-     */
+-    *arrayptr = eltptr = g_malloc0(*alenptr * prop->arrayfieldsize);
+-    for (i = 0; i < *alenptr; i++, eltptr += prop->arrayfieldsize) {
+-        g_autofree char *propname = g_strdup_printf("%s[%d]", arrayname, i);
+-        Property arrayprop = { };
+-        arrayprop.info = prop->arrayinfo;
+-        /* This ugly piece of pointer arithmetic sets up the offset so
+-         * that when the underlying get/set hooks call qdev_get_prop_ptr
+-         * they get the right answer despite the array element not actually
+-         * being inside the device struct.
+-         */
+-        arrayprop.offset = eltptr - (void *)obj;
+-        assert(object_field_prop_ptr(obj, &arrayprop) == eltptr);
+-        object_property_add_field(obj, propname, &arrayprop,
+-                                  op->allow_set);
+-    }
+-}
+-
+-const PropertyInfo prop_info_arraylen = {
+-    .name = "uint32",
+-    .get = get_uint32,
+-    .set = set_prop_arraylen,
+-    .set_default_value = field_prop_set_default_value_uint,
+-};
+-
+ /* --- public helpers --- */
+ 
+ static Property *qdev_prop_walk(Property *props, const char *name)
+@@ -713,53 +222,6 @@ void qdev_prop_set_globals(DeviceState *dev)
+                               dev->hotplugged ? NULL : &error_fatal);
+ }
+ 
+-/* --- 64bit unsigned int 'size' type --- */
+-
+-static void get_size(Object *obj, Visitor *v, const char *name, void *opaque,
+-                     Error **errp)
+-{
+-    Property *prop = opaque;
+-    uint64_t *ptr = object_field_prop_ptr(obj, prop);
+-
+-    visit_type_size(v, name, ptr, errp);
+-}
+-
+-static void set_size(Object *obj, Visitor *v, const char *name, void *opaque,
+-                     Error **errp)
+-{
+-    Property *prop = opaque;
+-    uint64_t *ptr = object_field_prop_ptr(obj, prop);
+-
+-    visit_type_size(v, name, ptr, errp);
+-}
+-
+-const PropertyInfo prop_info_size = {
+-    .name  = "size",
+-    .get = get_size,
+-    .set = set_size,
+-    .set_default_value = field_prop_set_default_value_uint,
+-};
+-
+-/* --- object link property --- */
+-
+-static ObjectProperty *create_link_property(ObjectClass *oc, const char *name,
+-                                            Property *prop)
+-{
+-    /*
+-     * NOTE: object_property_allow_set_link is unconditional, but
+-     *       ObjectProperty.allow_set may be set for the property too.
+-     */
+-    return object_class_property_add_link(oc, name, prop->link_type,
+-                                          prop->offset,
+-                                          object_property_allow_set_link,
+-                                          OBJ_PROP_LINK_STRONG);
+-}
+-
+-const PropertyInfo prop_info_link = {
+-    .name = "link",
+-    .create = create_link_property,
+-};
 -
  void qdev_property_add_static(DeviceState *dev, Property *prop)
  {
      object_property_add_field(OBJECT(dev), prop->name_template, prop,
-diff --git a/qom/field-property.c b/qom/field-property.c
+diff --git a/qom/property-types.c b/qom/property-types.c
 new file mode 100644
-index 0000000000..1fd11f2ad3
+index 0000000000..4b3fe15b6a
 --- /dev/null
-+++ b/qom/field-property.c
-@@ -0,0 +1,137 @@
-+/*
-+ * QOM field property API implementation
-+ */
++++ b/qom/property-types.c
+@@ -0,0 +1,546 @@
 +#include "qemu/osdep.h"
 +#include "qom/field-property.h"
++#include "qom/property-types.h"
 +#include "qom/field-property-internal.h"
++#include "qapi/qapi-types-common.h"
++#include "qapi/visitor.h"
++#include "qapi/error.h"
++#include "qemu/uuid.h"
 +
-+void *object_field_prop_ptr(Object *obj, Property *prop)
-+{
-+    void *ptr = obj;
-+    ptr += prop->offset;
-+    return ptr;
-+}
-+
-+static void field_prop_get(Object *obj, Visitor *v, const char *name,
-+                           void *opaque, Error **errp)
++void field_prop_get_enum(Object *obj, Visitor *v, const char *name,
++                         void *opaque, Error **errp)
 +{
 +    Property *prop = opaque;
-+    return prop->info->get(obj, v, name, opaque, errp);
++    int *ptr = object_field_prop_ptr(obj, prop);
++
++    visit_type_enum(v, name, ptr, prop->info->enum_table, errp);
 +}
 +
-+/**
-+ * field_prop_getter: Return getter function to be used for property
-+ *
-+ * Return value can be NULL if @info has no getter function.
-+ */
-+static ObjectPropertyAccessor *field_prop_getter(const PropertyInfo *info)
-+{
-+    return info->get ? field_prop_get : NULL;
-+}
-+
-+static void field_prop_set(Object *obj, Visitor *v, const char *name,
-+                           void *opaque, Error **errp)
++void field_prop_set_enum(Object *obj, Visitor *v, const char *name,
++                         void *opaque, Error **errp)
 +{
 +    Property *prop = opaque;
++    int *ptr = object_field_prop_ptr(obj, prop);
 +
-+    return prop->info->set(obj, v, name, opaque, errp);
++    visit_type_enum(v, name, ptr, prop->info->enum_table, errp);
 +}
 +
-+/**
-+ * field_prop_setter: Return setter function to be used for property
-+ *
-+ * Return value can be NULL if @info has not setter function.
-+ */
-+static ObjectPropertyAccessor *field_prop_setter(const PropertyInfo *info)
++void field_prop_set_default_value_enum(ObjectProperty *op,
++                                       const Property *prop)
 +{
-+    return info->set ? field_prop_set : NULL;
++    object_property_set_default_str(op,
++        qapi_enum_lookup(prop->info->enum_table, prop->defval.i));
 +}
 +
-+/*
-+ * Property release callback for dynamically-created properties:
-+ * We call the underlying element's property release hook, and
-+ * then free the memory we allocated when we added the property.
-+ */
-+static void static_prop_release_dynamic_prop(Object *obj, const char *name,
-+                                             void *opaque)
++const PropertyInfo prop_info_enum = {
++    .name  = "enum",
++    .get   = field_prop_get_enum,
++    .set   = field_prop_set_enum,
++    .set_default_value = field_prop_set_default_value_enum,
++};
++
++/* Bit */
++
++static uint32_t qdev_get_prop_mask(Property *prop)
 +{
-+    Property *prop = opaque;
-+    if (prop->info->release) {
-+        prop->info->release(obj, name, opaque);
-+    }
-+    g_free(prop);
++    assert(prop->info == &prop_info_bit);
++    return 0x1 << prop->bitnr;
 +}
 +
-+ObjectProperty *
-+object_property_add_field(Object *obj, const char *name,
-+                          Property *prop,
-+                          ObjectPropertyAllowSet allow_set)
++static void bit_prop_set(Object *obj, Property *props, bool val)
 +{
-+    ObjectProperty *op;
-+    Property *newprop = g_new0(Property, 1);
-+
-+    assert(allow_set);
-+    assert(!prop->info->create);
-+
-+    *newprop = *prop;
-+    op = object_property_add(obj, name, newprop->info->name,
-+                             field_prop_getter(newprop->info),
-+                             field_prop_setter(newprop->info),
-+                             static_prop_release_dynamic_prop,
-+                             newprop);
-+
-+    object_property_set_description(obj, name,
-+                                    newprop->info->description);
-+
-+    if (newprop->set_default) {
-+        newprop->info->set_default_value(op, newprop);
-+        if (op->init) {
-+            op->init(obj, op);
-+        }
-+    }
-+
-+    op->allow_set = allow_set;
-+    return op;
-+}
-+
-+ObjectProperty *
-+object_class_property_add_field_static(ObjectClass *oc, const char *name,
-+                                       Property *prop,
-+                                       ObjectPropertyAllowSet allow_set)
-+{
-+    ObjectProperty *op;
-+
-+    assert(allow_set);
-+
-+    if (prop->info->create) {
-+        op = prop->info->create(oc, name, prop);
++    uint32_t *p = object_field_prop_ptr(obj, props);
++    uint32_t mask = qdev_get_prop_mask(props);
++    if (val) {
++        *p |= mask;
 +    } else {
-+        op = object_class_property_add(oc,
-+                                       name, prop->info->name,
-+                                       field_prop_getter(prop->info),
-+                                       field_prop_setter(prop->info),
-+                                       prop->info->release,
-+                                       prop);
++        *p &= ~mask;
 +    }
-+    if (prop->set_default) {
-+        prop->info->set_default_value(op, prop);
-+    }
-+    if (prop->info->description) {
-+        object_class_property_set_description(oc, name,
-+                                              prop->info->description);
-+    }
-+
-+    op->allow_set = allow_set;
-+    return op;
 +}
 +
-+void object_class_add_field_properties(ObjectClass *oc, Property *props,
-+                                       ObjectPropertyAllowSet allow_set)
++static void prop_get_bit(Object *obj, Visitor *v, const char *name,
++                         void *opaque, Error **errp)
 +{
-+    Property *prop;
++    Property *prop = opaque;
++    uint32_t *p = object_field_prop_ptr(obj, prop);
++    bool value = (*p & qdev_get_prop_mask(prop)) != 0;
 +
-+    for (prop = props; prop && prop->name_template; prop++) {
-+        object_class_property_add_field_static(oc, prop->name_template, prop,
-+                                               allow_set);
++    visit_type_bool(v, name, &value, errp);
++}
++
++static void prop_set_bit(Object *obj, Visitor *v, const char *name,
++                         void *opaque, Error **errp)
++{
++    Property *prop = opaque;
++    bool value;
++
++    if (!visit_type_bool(v, name, &value, errp)) {
++        return;
++    }
++    bit_prop_set(obj, prop, value);
++}
++
++static void set_default_value_bool(ObjectProperty *op, const Property *prop)
++{
++    object_property_set_default_bool(op, prop->defval.u);
++}
++
++const PropertyInfo prop_info_bit = {
++    .name  = "bool",
++    .description = "on/off",
++    .get   = prop_get_bit,
++    .set   = prop_set_bit,
++    .set_default_value = set_default_value_bool,
++};
++
++/* Bit64 */
++
++static uint64_t qdev_get_prop_mask64(Property *prop)
++{
++    assert(prop->info == &prop_info_bit64);
++    return 0x1ull << prop->bitnr;
++}
++
++static void bit64_prop_set(Object *obj, Property *props, bool val)
++{
++    uint64_t *p = object_field_prop_ptr(obj, props);
++    uint64_t mask = qdev_get_prop_mask64(props);
++    if (val) {
++        *p |= mask;
++    } else {
++        *p &= ~mask;
 +    }
 +}
++
++static void prop_get_bit64(Object *obj, Visitor *v, const char *name,
++                           void *opaque, Error **errp)
++{
++    Property *prop = opaque;
++    uint64_t *p = object_field_prop_ptr(obj, prop);
++    bool value = (*p & qdev_get_prop_mask64(prop)) != 0;
++
++    visit_type_bool(v, name, &value, errp);
++}
++
++static void prop_set_bit64(Object *obj, Visitor *v, const char *name,
++                           void *opaque, Error **errp)
++{
++    Property *prop = opaque;
++    bool value;
++
++    if (!visit_type_bool(v, name, &value, errp)) {
++        return;
++    }
++    bit64_prop_set(obj, prop, value);
++}
++
++const PropertyInfo prop_info_bit64 = {
++    .name  = "bool",
++    .description = "on/off",
++    .get   = prop_get_bit64,
++    .set   = prop_set_bit64,
++    .set_default_value = set_default_value_bool,
++};
++
++/* --- bool --- */
++
++static void get_bool(Object *obj, Visitor *v, const char *name, void *opaque,
++                     Error **errp)
++{
++    Property *prop = opaque;
++    bool *ptr = object_field_prop_ptr(obj, prop);
++
++    visit_type_bool(v, name, ptr, errp);
++}
++
++static void set_bool(Object *obj, Visitor *v, const char *name, void *opaque,
++                     Error **errp)
++{
++    Property *prop = opaque;
++    bool *ptr = object_field_prop_ptr(obj, prop);
++
++    visit_type_bool(v, name, ptr, errp);
++}
++
++const PropertyInfo prop_info_bool = {
++    .name  = "bool",
++    .get   = get_bool,
++    .set   = set_bool,
++    .set_default_value = set_default_value_bool,
++};
++
++/* --- 8bit integer --- */
++
++static void get_uint8(Object *obj, Visitor *v, const char *name, void *opaque,
++                      Error **errp)
++{
++    Property *prop = opaque;
++    uint8_t *ptr = object_field_prop_ptr(obj, prop);
++
++    visit_type_uint8(v, name, ptr, errp);
++}
++
++static void set_uint8(Object *obj, Visitor *v, const char *name, void *opaque,
++                      Error **errp)
++{
++    Property *prop = opaque;
++    uint8_t *ptr = object_field_prop_ptr(obj, prop);
++
++    visit_type_uint8(v, name, ptr, errp);
++}
++
++void field_prop_set_default_value_int(ObjectProperty *op,
++                                      const Property *prop)
++{
++    object_property_set_default_int(op, prop->defval.i);
++}
++
++void field_prop_set_default_value_uint(ObjectProperty *op,
++                                       const Property *prop)
++{
++    object_property_set_default_uint(op, prop->defval.u);
++}
++
++const PropertyInfo prop_info_uint8 = {
++    .name  = "uint8",
++    .get   = get_uint8,
++    .set   = set_uint8,
++    .set_default_value = field_prop_set_default_value_uint,
++};
++
++/* --- 16bit integer --- */
++
++static void get_uint16(Object *obj, Visitor *v, const char *name,
++                       void *opaque, Error **errp)
++{
++    Property *prop = opaque;
++    uint16_t *ptr = object_field_prop_ptr(obj, prop);
++
++    visit_type_uint16(v, name, ptr, errp);
++}
++
++static void set_uint16(Object *obj, Visitor *v, const char *name,
++                       void *opaque, Error **errp)
++{
++    Property *prop = opaque;
++    uint16_t *ptr = object_field_prop_ptr(obj, prop);
++
++    visit_type_uint16(v, name, ptr, errp);
++}
++
++const PropertyInfo prop_info_uint16 = {
++    .name  = "uint16",
++    .get   = get_uint16,
++    .set   = set_uint16,
++    .set_default_value = field_prop_set_default_value_uint,
++};
++
++/* --- 32bit integer --- */
++
++static void get_uint32(Object *obj, Visitor *v, const char *name,
++                       void *opaque, Error **errp)
++{
++    Property *prop = opaque;
++    uint32_t *ptr = object_field_prop_ptr(obj, prop);
++
++    visit_type_uint32(v, name, ptr, errp);
++}
++
++static void set_uint32(Object *obj, Visitor *v, const char *name,
++                       void *opaque, Error **errp)
++{
++    Property *prop = opaque;
++    uint32_t *ptr = object_field_prop_ptr(obj, prop);
++
++    visit_type_uint32(v, name, ptr, errp);
++}
++
++void field_prop_get_int32(Object *obj, Visitor *v, const char *name,
++                          void *opaque, Error **errp)
++{
++    Property *prop = opaque;
++    int32_t *ptr = object_field_prop_ptr(obj, prop);
++
++    visit_type_int32(v, name, ptr, errp);
++}
++
++static void set_int32(Object *obj, Visitor *v, const char *name, void *opaque,
++                      Error **errp)
++{
++    Property *prop = opaque;
++    int32_t *ptr = object_field_prop_ptr(obj, prop);
++
++    visit_type_int32(v, name, ptr, errp);
++}
++
++const PropertyInfo prop_info_uint32 = {
++    .name  = "uint32",
++    .get   = get_uint32,
++    .set   = set_uint32,
++    .set_default_value = field_prop_set_default_value_uint,
++};
++
++const PropertyInfo prop_info_int32 = {
++    .name  = "int32",
++    .get   = field_prop_get_int32,
++    .set   = set_int32,
++    .set_default_value = field_prop_set_default_value_int,
++};
++
++/* --- 64bit integer --- */
++
++static void get_uint64(Object *obj, Visitor *v, const char *name,
++                       void *opaque, Error **errp)
++{
++    Property *prop = opaque;
++    uint64_t *ptr = object_field_prop_ptr(obj, prop);
++
++    visit_type_uint64(v, name, ptr, errp);
++}
++
++static void set_uint64(Object *obj, Visitor *v, const char *name,
++                       void *opaque, Error **errp)
++{
++    Property *prop = opaque;
++    uint64_t *ptr = object_field_prop_ptr(obj, prop);
++
++    visit_type_uint64(v, name, ptr, errp);
++}
++
++static void get_int64(Object *obj, Visitor *v, const char *name,
++                      void *opaque, Error **errp)
++{
++    Property *prop = opaque;
++    int64_t *ptr = object_field_prop_ptr(obj, prop);
++
++    visit_type_int64(v, name, ptr, errp);
++}
++
++static void set_int64(Object *obj, Visitor *v, const char *name,
++                      void *opaque, Error **errp)
++{
++    Property *prop = opaque;
++    int64_t *ptr = object_field_prop_ptr(obj, prop);
++
++    visit_type_int64(v, name, ptr, errp);
++}
++
++const PropertyInfo prop_info_uint64 = {
++    .name  = "uint64",
++    .get   = get_uint64,
++    .set   = set_uint64,
++    .set_default_value = field_prop_set_default_value_uint,
++};
++
++const PropertyInfo prop_info_int64 = {
++    .name  = "int64",
++    .get   = get_int64,
++    .set   = set_int64,
++    .set_default_value = field_prop_set_default_value_int,
++};
++
++/* --- string --- */
++
++static void release_string(Object *obj, const char *name, void *opaque)
++{
++    Property *prop = opaque;
++    g_free(*(char **)object_field_prop_ptr(obj, prop));
++}
++
++static void get_string(Object *obj, Visitor *v, const char *name,
++                       void *opaque, Error **errp)
++{
++    Property *prop = opaque;
++    char **ptr = object_field_prop_ptr(obj, prop);
++
++    if (!*ptr) {
++        char *str = (char *)"";
++        visit_type_str(v, name, &str, errp);
++    } else {
++        visit_type_str(v, name, ptr, errp);
++    }
++}
++
++static void set_string(Object *obj, Visitor *v, const char *name,
++                       void *opaque, Error **errp)
++{
++    Property *prop = opaque;
++    char **ptr = object_field_prop_ptr(obj, prop);
++    char *str;
++
++    if (!visit_type_str(v, name, &str, errp)) {
++        return;
++    }
++    g_free(*ptr);
++    *ptr = str;
++}
++
++const PropertyInfo prop_info_string = {
++    .name  = "str",
++    .release = release_string,
++    .get   = get_string,
++    .set   = set_string,
++};
++
++/* --- on/off/auto --- */
++
++const PropertyInfo prop_info_on_off_auto = {
++    .name = "OnOffAuto",
++    .description = "on/off/auto",
++    .enum_table = &OnOffAuto_lookup,
++    .get = field_prop_get_enum,
++    .set = field_prop_set_enum,
++    .set_default_value = field_prop_set_default_value_enum,
++};
++
++/* --- 32bit unsigned int 'size' type --- */
++
++void field_prop_get_size32(Object *obj, Visitor *v, const char *name,
++                           void *opaque, Error **errp)
++{
++    Property *prop = opaque;
++    uint32_t *ptr = object_field_prop_ptr(obj, prop);
++    uint64_t value = *ptr;
++
++    visit_type_size(v, name, &value, errp);
++}
++
++static void set_size32(Object *obj, Visitor *v, const char *name, void *opaque,
++                       Error **errp)
++{
++    Property *prop = opaque;
++    uint32_t *ptr = object_field_prop_ptr(obj, prop);
++    uint64_t value;
++
++    if (!visit_type_size(v, name, &value, errp)) {
++        return;
++    }
++
++    if (value > UINT32_MAX) {
++        error_setg(errp,
++                   "Property %s.%s doesn't take value %" PRIu64
++                   " (maximum: %u)",
++                   object_get_typename(obj), name, value, UINT32_MAX);
++        return;
++    }
++
++    *ptr = value;
++}
++
++const PropertyInfo prop_info_size32 = {
++    .name  = "size",
++    .get = field_prop_get_size32,
++    .set = set_size32,
++    .set_default_value = field_prop_set_default_value_uint,
++};
++
++/* --- support for array properties --- */
++
++static void set_prop_arraylen(Object *obj, Visitor *v, const char *name,
++                              void *opaque, Error **errp)
++{
++    /* Setter for the property which defines the length of a
++     * variable-sized property array. As well as actually setting the
++     * array-length field in the device struct, we have to create the
++     * array itself and dynamically add the corresponding properties.
++     */
++    Property *prop = opaque;
++    ObjectProperty *op = object_property_find_err(obj, name, &error_abort);
++    uint32_t *alenptr = object_field_prop_ptr(obj, prop);
++    void **arrayptr = (void *)obj + prop->arrayoffset;
++    void *eltptr;
++    const char *arrayname;
++    int i;
++
++    if (*alenptr) {
++        error_setg(errp, "array size property %s may not be set more than once",
++                   name);
++        return;
++    }
++    if (!visit_type_uint32(v, name, alenptr, errp)) {
++        return;
++    }
++    if (!*alenptr) {
++        return;
++    }
++
++    /* DEFINE_PROP_ARRAY guarantees that name should start with this prefix;
++     * strip it off so we can get the name of the array itself.
++     */
++    assert(strncmp(name, PROP_ARRAY_LEN_PREFIX,
++                   strlen(PROP_ARRAY_LEN_PREFIX)) == 0);
++    arrayname = name + strlen(PROP_ARRAY_LEN_PREFIX);
++
++    /* Note that it is the responsibility of the individual device's deinit
++     * to free the array proper.
++     */
++    *arrayptr = eltptr = g_malloc0(*alenptr * prop->arrayfieldsize);
++    for (i = 0; i < *alenptr; i++, eltptr += prop->arrayfieldsize) {
++        g_autofree char *propname = g_strdup_printf("%s[%d]", arrayname, i);
++        Property arrayprop = { };
++        arrayprop.info = prop->arrayinfo;
++        /* This ugly piece of pointer arithmetic sets up the offset so
++         * that when the underlying get/set hooks call qdev_get_prop_ptr
++         * they get the right answer despite the array element not actually
++         * being inside the device struct.
++         */
++        arrayprop.offset = eltptr - (void *)obj;
++        assert(object_field_prop_ptr(obj, &arrayprop) == eltptr);
++        object_property_add_field(obj, propname, &arrayprop,
++                                  op->allow_set);
++    }
++}
++
++const PropertyInfo prop_info_arraylen = {
++    .name = "uint32",
++    .get = get_uint32,
++    .set = set_prop_arraylen,
++    .set_default_value = field_prop_set_default_value_uint,
++};
++
++/* --- 64bit unsigned int 'size' type --- */
++
++static void get_size(Object *obj, Visitor *v, const char *name, void *opaque,
++                     Error **errp)
++{
++    Property *prop = opaque;
++    uint64_t *ptr = object_field_prop_ptr(obj, prop);
++
++    visit_type_size(v, name, ptr, errp);
++}
++
++static void set_size(Object *obj, Visitor *v, const char *name, void *opaque,
++                     Error **errp)
++{
++    Property *prop = opaque;
++    uint64_t *ptr = object_field_prop_ptr(obj, prop);
++
++    visit_type_size(v, name, ptr, errp);
++}
++
++const PropertyInfo prop_info_size = {
++    .name  = "size",
++    .get = get_size,
++    .set = set_size,
++    .set_default_value = field_prop_set_default_value_uint,
++};
++
++/* --- object link property --- */
++
++static ObjectProperty *create_link_property(ObjectClass *oc, const char *name,
++                                            Property *prop)
++{
++    /*
++     * NOTE: object_property_allow_set_link is unconditional, but
++     *       ObjectProperty.allow_set may be set for the property too.
++     */
++    return object_class_property_add_link(oc, name, prop->link_type,
++                                          prop->offset,
++                                          object_property_allow_set_link,
++                                          OBJ_PROP_LINK_STRONG);
++}
++
++const PropertyInfo prop_info_link = {
++    .name = "link",
++    .create = create_link_property,
++};
 diff --git a/qom/meson.build b/qom/meson.build
-index 062a3789d8..e83794454d 100644
+index e83794454d..7fdfd6fe7b 100644
 --- a/qom/meson.build
 +++ b/qom/meson.build
-@@ -4,6 +4,7 @@ qom_ss.add(files(
-   'object.c',
+@@ -5,6 +5,7 @@ qom_ss.add(files(
    'object_interfaces.c',
    'qom-qobject.c',
-+  'field-property.c',
+   'field-property.c',
++  'property-types.c',
  ))
  
  qmp_ss.add(files('qom-qmp-cmds.c'))
