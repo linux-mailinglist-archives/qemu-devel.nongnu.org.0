@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A97272B0CE4
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 19:42:57 +0100 (CET)
-Received: from localhost ([::1]:51136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55ADB2B0CDC
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 19:40:57 +0100 (CET)
+Received: from localhost ([::1]:45316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdHYe-0006sM-OW
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 13:42:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48302)
+	id 1kdHWi-0004Fh-CG
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 13:40:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kdHU7-0002Gg-HV
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 13:38:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29758)
+ id 1kdHUD-0002Pf-4y
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 13:38:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29397)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kdHU5-0006N0-Qc
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 13:38:15 -0500
+ id 1kdHUB-0006PV-D7
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 13:38:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605206293;
+ s=mimecast20190719; t=1605206298;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rYUBVY78yAnySDLrisD3drGGMY9XwdwkOa964kiWAtY=;
- b=YHqncOvrrVLmc31G0QzMqqME9gCiUKEBRmIKVJPBcPZuWqR5vPpK8JIWOokBGaoOWM6W+B
- gtOFZhP2VjyrT+YptLMpOviaeemiy8gM0ByjkscZQc1mXikWbGh+5fkRtgOVWWOTZIUmYW
- SPIJb2GU9zs8ipNhcBALVsuCb9+ZUc0=
+ bh=UtM8AmbGW7trohI4UkXVaady5PCxEYTFhU1MA6rkjNA=;
+ b=JbOpJ4Md9xty3GWrt+hVy7+Fu2OcczJiOZc594sxk/EldBr6Qcl9k3zjHvNWZFrjVz87lF
+ k6DoBEFkilOkGWkkWwYrpPl8Tcan4aJ1adEftStpih6Fq7LqEC8RaH4Q/I4qJZ7+fbc1iU
+ d+sPIO/6EqXPbCFO7YVMxfTkIdKlbOI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-342-3k_j50CaOjuOUZ2iV93aDQ-1; Thu, 12 Nov 2020 13:38:11 -0500
-X-MC-Unique: 3k_j50CaOjuOUZ2iV93aDQ-1
+ us-mta-308-0xuL2W8APBCsEN_XfL0BxA-1; Thu, 12 Nov 2020 13:38:16 -0500
+X-MC-Unique: 0xuL2W8APBCsEN_XfL0BxA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29EC98049D4;
- Thu, 12 Nov 2020 18:38:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 751B3801817;
+ Thu, 12 Nov 2020 18:38:15 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-115-60.ams2.redhat.com
  [10.36.115.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2868E5D9E4;
- Thu, 12 Nov 2020 18:38:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 758235D9E4;
+ Thu, 12 Nov 2020 18:38:10 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, kuhn.chenqun@huawei.com, zhengchuan@huawei.com,
  lihaotian9@huawei.com, longpeng2@huawei.com, liangpeng10@huawei.com,
  philmd@redhat.com, liuzhiqiang26@huawei.com
-Subject: [PULL 01/11] migration/ram: Fix hexadecimal format string specifier
-Date: Thu, 12 Nov 2020 18:37:48 +0000
-Message-Id: <20201112183758.203176-2-dgilbert@redhat.com>
+Subject: [PULL 02/11] ACPI: Avoid infinite recursion when dump-vmstate
+Date: Thu, 12 Nov 2020 18:37:49 +0000
+Message-Id: <20201112183758.203176-3-dgilbert@redhat.com>
 In-Reply-To: <20201112183758.203176-1-dgilbert@redhat.com>
 References: <20201112183758.203176-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -58,8 +58,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 00:52:29
@@ -87,34 +87,52 @@ Cc: stefanha@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Peng Liang <liangpeng10@huawei.com>
 
-The '%u' conversion specifier is for decimal notation.
-When prefixing a format with '0x', we want the hexadecimal
-specifier ('%x').
+There is a field with vmstate_ghes_state as vmsd in vmstate_ghes_state,
+which will lead to infinite recursion in dump_vmstate_vmsd.
 
-Inspired-by: Dov Murik <dovmurik@linux.vnet.ibm.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20201103112558.2554390-5-philmd@redhat.com>
+Fixes: a08a64627b ("ACPI: Record the Generic Error Status Block address")
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Peng Liang <liangpeng10@huawei.com>
+Acked-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <20201112020638.874515-1-liangpeng10@huawei.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/ram.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/acpi/generic_event_device.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index add5396a62..7811cde643 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -3741,7 +3741,7 @@ int ram_dirty_bitmap_reload(MigrationState *s, RAMBlock *block)
+diff --git a/hw/acpi/generic_event_device.c b/hw/acpi/generic_event_device.c
+index 6df400e1ee..5454be67d5 100644
+--- a/hw/acpi/generic_event_device.c
++++ b/hw/acpi/generic_event_device.c
+@@ -322,6 +322,16 @@ static const VMStateDescription vmstate_ged_state = {
      }
+ };
  
-     if (end_mark != RAMBLOCK_RECV_BITMAP_ENDING) {
--        error_report("%s: ramblock '%s' end mark incorrect: 0x%"PRIu64,
-+        error_report("%s: ramblock '%s' end mark incorrect: 0x%"PRIx64,
-                      __func__, block->idstr, end_mark);
-         ret = -EINVAL;
-         goto out;
++static const VMStateDescription vmstate_ghes = {
++    .name = "acpi-ghes",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields     = (VMStateField[]) {
++        VMSTATE_UINT64(ghes_addr_le, AcpiGhesState),
++        VMSTATE_END_OF_LIST()
++    },
++};
++
+ static bool ghes_needed(void *opaque)
+ {
+     AcpiGedState *s = opaque;
+@@ -335,7 +345,7 @@ static const VMStateDescription vmstate_ghes_state = {
+     .needed = ghes_needed,
+     .fields      = (VMStateField[]) {
+         VMSTATE_STRUCT(ghes_state, AcpiGedState, 1,
+-                       vmstate_ghes_state, AcpiGhesState),
++                       vmstate_ghes, AcpiGhesState),
+         VMSTATE_END_OF_LIST()
+     }
+ };
 -- 
 2.28.0
 
