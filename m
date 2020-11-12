@@ -2,76 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BF1E2B0769
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 15:15:46 +0100 (CET)
-Received: from localhost ([::1]:41104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E7CC2B077F
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 15:21:53 +0100 (CET)
+Received: from localhost ([::1]:43828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdDO5-0008VO-Ld
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 09:15:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33240)
+	id 1kdDU0-0001YC-0Q
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 09:21:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kdDMw-0007dS-1c
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 09:14:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46556)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kdDMu-0002pB-F8
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 09:14:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605190471;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=iBRfY7dl+i0MCgO7nKQs2IYHo0CgNSSnhzqSnXIAKKc=;
- b=gFFQi+8URN3yBb10JaOSsJfr6y+KOeRuTy9xXvcAqsKDuupwhffZx+ATK1itiqWc8Q393b
- dJmLHMpnzwCg4KmpLWeRiqM122qJb73Laxm4sm5lxnpor/lIiBm3d/W+9CCAIJeBwAKY9G
- 8eT3cKF8HiuZtpi4djkF+Rf3JJYrz6c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-363-P_RFcSENMvyugFaEBafFaQ-1; Thu, 12 Nov 2020 09:14:29 -0500
-X-MC-Unique: P_RFcSENMvyugFaEBafFaQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D2E4CE642;
- Thu, 12 Nov 2020 14:14:28 +0000 (UTC)
-Received: from work-vm (ovpn-115-60.ams2.redhat.com [10.36.115.60])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A5D05577C;
- Thu, 12 Nov 2020 14:14:23 +0000 (UTC)
-Date: Thu, 12 Nov 2020 14:14:20 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peng Liang <liangpeng10@huawei.com>
-Subject: Re: [PATCH v2] ACPI: Avoid infinite recursion when dump-vmstate
-Message-ID: <20201112141420.GB13424@work-vm>
-References: <20201112020638.874515-1-liangpeng10@huawei.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kdDTA-000197-Ng
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 09:21:01 -0500
+Received: from indium.canonical.com ([91.189.90.7]:57696)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kdDT8-0005G8-EF
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 09:21:00 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kdDT5-0007ZN-FC
+ for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 14:20:55 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 71E0E2E80EA
+ for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 14:20:55 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20201112020638.874515-1-liangpeng10@huawei.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:00:44
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 12 Nov 2020 14:14:38 -0000
+From: Thomas Huth <1778966@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange black-silver th-huth yakman2020
+X-Launchpad-Bug-Reporter: Bruce Campbell (yakman2020)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <153012207304.7182.2374266143525192096.malonedeb@soybean.canonical.com>
+Message-Id: <160519047883.29269.8951227542266257115.malone@chaenomeles.canonical.com>
+Subject: [Bug 1778966] Re: Windows 1803 and later crashes on KVM
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="9218c6cee10bde7201ace93cd659634a9bc6c70a"; Instance="production"
+X-Launchpad-Hash: ac2173bf7a38d6d1f240620c5b6ccd8b1750695d
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:20:56
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,61 +72,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: imammedo@redhat.com, zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
- xiexiangyou@huawei.com, mst@redhat.com
+Reply-To: Bug 1778966 <1778966@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peng Liang (liangpeng10@huawei.com) wrote:
-> There is a field with vmstate_ghes_state as vmsd in vmstate_ghes_state,
-> which will lead to infinite recursion in dump_vmstate_vmsd.
-> 
-> Fixes: a08a64627b ("ACPI: Record the Generic Error Status Block address")
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Peng Liang <liangpeng10@huawei.com>
-> Acked-by: Igor Mammedov <imammedo@redhat.com>
+The QEMU project is currently considering to move its bug tracking to anoth=
+er system. For this we need to know which bugs are still valid and which co=
+uld be closed already. Thus we are setting older bugs to "Incomplete" now.
+If you still think this bug report here is valid, then please switch the st=
+ate back to "New" within the next 60 days, otherwise this report will be ma=
+rked as "Expired". Or mark it as "Fix Released" if the problem has been sol=
+ved with a newer version of QEMU already. Thank you and sorry for the incon=
+venience.
 
-Queued for migration
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-> ---
->  hw/acpi/generic_event_device.c | 12 +++++++++++-
->  1 file changed, 11 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/acpi/generic_event_device.c b/hw/acpi/generic_event_device.c
-> index 6df400e1ee16..5454be67d5f0 100644
-> --- a/hw/acpi/generic_event_device.c
-> +++ b/hw/acpi/generic_event_device.c
-> @@ -322,6 +322,16 @@ static const VMStateDescription vmstate_ged_state = {
->      }
->  };
->  
-> +static const VMStateDescription vmstate_ghes = {
-> +    .name = "acpi-ghes",
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .fields     = (VMStateField[]) {
-> +        VMSTATE_UINT64(ghes_addr_le, AcpiGhesState),
-> +        VMSTATE_END_OF_LIST()
-> +    },
-> +};
-> +
->  static bool ghes_needed(void *opaque)
->  {
->      AcpiGedState *s = opaque;
-> @@ -335,7 +345,7 @@ static const VMStateDescription vmstate_ghes_state = {
->      .needed = ghes_needed,
->      .fields      = (VMStateField[]) {
->          VMSTATE_STRUCT(ghes_state, AcpiGedState, 1,
-> -                       vmstate_ghes_state, AcpiGhesState),
-> +                       vmstate_ghes, AcpiGhesState),
->          VMSTATE_END_OF_LIST()
->      }
->  };
-> -- 
-> 2.26.2
-> 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1778966
+
+Title:
+  Windows 1803 and later crashes on KVM
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  For a bionic host, using the current public kvm modules, KVM is not
+  capable of booting a WindowsInsider or msdn Windows 1803 Windows
+  Server iso. In snstalling from an ISO from a started windows 2016
+  guest results in an unbootable and unrepairable guest.
+
+  The hardware is a threadripper 1920x with 32GB of main memory, disk
+  mydigital BPX SSD and WD based 4 column RAID 5 via mdadm.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1778966/+subscriptions
 
