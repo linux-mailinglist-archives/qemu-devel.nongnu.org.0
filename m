@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15CE32B0C41
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 19:05:37 +0100 (CET)
-Received: from localhost ([::1]:60508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 498EA2B0C4D
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 19:07:52 +0100 (CET)
+Received: from localhost ([::1]:39448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdGyW-0006qu-3X
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 13:05:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37594)
+	id 1kdH0h-0001Wq-AC
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 13:07:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kdGsq-00018z-0m
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 12:59:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23437)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kdGt3-0001BM-Ke
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 12:59:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33160)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kdGsi-0000l8-Ru
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 12:59:41 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kdGsp-0000m9-Qg
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 12:59:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605203976;
+ s=mimecast20190719; t=1605203980;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=y/YfDeWEKfxnOfqzTNmbt0iCSJjBpcio8N+uDvPxTDI=;
- b=jGuHpKgbCb7gsZ3MJNj3EOELP7OVAch/0ZsJz2PI7v6eEcEp/PXA2BgryZuaH/Rc5zcClx
- 13zGGHFe+ovyV9l1I9esl9VRrA1/c3TUxyvDXivWmwqGtoU9E+yS5I+SZ/A5gn4SFxE3OS
- qx95qjo7j4Mn0PaJ0lvYubfA51zWIy4=
+ bh=NmA3MmZqTxiwtBEfqDIKt2m4ARbVg0BIQ6mvwBFM2S4=;
+ b=XuSlxmgILIxEV53n9uTLn5/Tv/3hNq31mnDnRG3BQfr/esfrhSqsgH78neOAPozurmpIZO
+ cUSmIxOlBePBp75OjpkFUrZyH9nQDW05IGw8ogKQLl0KQn9H0JSWytLggzCyuYSysqWF5T
+ nlmcYzmxkKJPctglPbFjfHHI/g3sw2Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-417-zt1085Q2Mqec9s4cJfFfxw-1; Thu, 12 Nov 2020 12:59:34 -0500
-X-MC-Unique: zt1085Q2Mqec9s4cJfFfxw-1
+ us-mta-247-R1AmfjQXNpC5rU9H6cSqRg-1; Thu, 12 Nov 2020 12:59:35 -0500
+X-MC-Unique: R1AmfjQXNpC5rU9H6cSqRg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 457AB8031F9
- for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 17:59:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C4D3801817
+ for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 17:59:34 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-115-57.ams2.redhat.com [10.36.115.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B5E611002C1A;
- Thu, 12 Nov 2020 17:59:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 94DAB1002C13;
+ Thu, 12 Nov 2020 17:59:32 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/13] char: Add qemu_chr_parse_cli_dict/str()
-Date: Thu, 12 Nov 2020 18:58:59 +0100
-Message-Id: <20201112175905.404472-8-kwolf@redhat.com>
+Subject: [PATCH 08/13] char: Add mux option to ChardevOptions
+Date: Thu, 12 Nov 2020 18:59:00 +0100
+Message-Id: <20201112175905.404472-9-kwolf@redhat.com>
 In-Reply-To: <20201112175905.404472-1-kwolf@redhat.com>
 References: <20201112175905.404472-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -83,126 +83,95 @@ Cc: kwolf@redhat.com, armbru@redhat.com, dgilbert@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds a function that parses a command line definition of a
-character device into ChardevOptions, which can then be passed to
-qemu_chr_new_cli().
-
-You can start both from a string (for actual CLI) or from a QDict, which
-is not only the intermediate representation after calling the keyval
-parser, but also what HMP handlers receive.
+The final missing piece to achieve compatibility between
+qemu_chr_parse_cli_str()/qemu_chr_new_cli() and the legacy command line
+is support for the 'mux' option. Implement it.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/chardev/char.h | 30 ++++++++++++++++++++++++++++
- chardev/char.c         | 45 ++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 75 insertions(+)
+ qapi/char.json |  4 +++-
+ chardev/char.c | 41 +++++++++++++++++++++++++++++++++++------
+ 2 files changed, 38 insertions(+), 7 deletions(-)
 
-diff --git a/include/chardev/char.h b/include/chardev/char.h
-index c0944f5828..5cd46207f6 100644
---- a/include/chardev/char.h
-+++ b/include/chardev/char.h
-@@ -94,6 +94,36 @@ Chardev *qemu_chr_new_from_opts(QemuOpts *opts,
-  */
- Chardev *qemu_chr_new_cli(ChardevOptions *options, Error **errp);
+diff --git a/qapi/char.json b/qapi/char.json
+index e1f9347044..d6733a5473 100644
+--- a/qapi/char.json
++++ b/qapi/char.json
+@@ -453,12 +453,14 @@
+ #
+ # @id: the chardev's ID, must be unique
+ # @backend: backend type and parameters
++# @mux: enable multiplexing mode (default: false)
+ #
+ # Since: 6.0
+ ##
+ { 'struct': 'ChardevOptions',
+   'data': { 'id': 'str',
+-            'backend': 'ChardevBackend' },
++            'backend': 'ChardevBackend',
++            '*mux': 'bool' },
+   'aliases': [ { 'source': ['backend'] } ] }
  
-+/**
-+ * qemu_chr_parse_cli_dict:
-+ * @args: Options defining a new character device
-+ * @help: true if help should be printed instead of returning ChardevOptions
-+ *
-+ * Parses the given command line option QDict into ChardevOptions, using
-+ * qemu_chr_translate_legacy_options() to maintain compatibility with
-+ * legacy command line syntax.
-+ *
-+ * Returns: On successful conversion, a ChardevOptions object containing the
-+ * requested options. NULL and @errp is unchanged if help was requested and
-+ * printed. NULL and @errp is set in error cases.
-+ */
-+ChardevOptions *qemu_chr_parse_cli_dict(QDict *args, bool help,
-+                                        Error **errp);
-+
-+/**
-+ * qemu_chr_parse_cli_str:
-+ * @optarg: Command line argument defining a new character device
-+ *
-+ * Parses the given command line option into ChardevOptions, using
-+ * qemu_chr_translate_legacy_options() to maintain compatibility with
-+ * legacy command line syntax.
-+ *
-+ * Returns: On successful conversion, a ChardevOptions object containing the
-+ * requested options. NULL and @errp is unchanged if help was requested and
-+ * printed. NULL and @errp is set in error cases.
-+ */
-+ChardevOptions *qemu_chr_parse_cli_str(const char *optarg, Error **errp);
-+
- /**
-  * qemu_chr_translate_legacy_options:
-  * @args: Character device creation options as returned by the keyval parser
+ ##
 diff --git a/chardev/char.c b/chardev/char.c
-index 99feaae275..a5d6be9dc8 100644
+index a5d6be9dc8..3bb6a743f7 100644
 --- a/chardev/char.c
 +++ b/chardev/char.c
-@@ -32,8 +32,10 @@
- #include "chardev/char.h"
- #include "qapi/error.h"
- #include "qapi/qapi-commands-char.h"
-+#include "qapi/qapi-visit-char.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qerror.h"
-+#include "qapi/qobject-input-visitor.h"
- #include "sysemu/replay.h"
- #include "qemu/help_option.h"
- #include "qemu/module.h"
-@@ -1106,6 +1108,49 @@ Chardev *qemu_chr_new_cli(ChardevOptions *options, Error **errp)
-     return chardev_new_qapi(options->id, options->backend, errp);
+@@ -742,11 +742,6 @@ void qemu_chr_translate_legacy_options(QDict *args)
+ 
+     /* name may refer to a QDict entry, so delete it only now */
+     qdict_del(args, "backend");
+-
+-    /*
+-     * TODO:
+-     * All backend types: "mux"
+-     */
  }
  
-+ChardevOptions *qemu_chr_parse_cli_dict(QDict *args, bool help,
-+                                        Error **errp)
-+{
-+    Visitor *v;
-+    ChardevOptions *chr_options;
-+
-+    qemu_chr_translate_legacy_options(args);
-+
-+    if (help) {
-+        if (qdict_haskey(args, "type")) {
-+            /* TODO Print help based on the QAPI schema */
-+            qemu_opts_print_help(&qemu_chardev_opts, true);
-+        } else {
-+            qemu_chr_print_types();
-+        }
-+        return NULL;
-+    }
-+
-+    v = qobject_input_visitor_new_keyval(QOBJECT(args));
-+    visit_type_ChardevOptions(v, NULL, &chr_options, errp);
-+    visit_free(v);
-+
-+    return chr_options;
-+}
-+
-+ChardevOptions *qemu_chr_parse_cli_str(const char *optarg, Error **errp)
-+{
-+    ERRP_GUARD();
-+    QDict *args;
-+    ChardevOptions *chr_options;
-+    bool help;
-+
-+    args = keyval_parse(optarg, "backend", &help, errp);
-+    if (!args) {
-+        return NULL;
-+    }
-+
-+    chr_options = qemu_chr_parse_cli_dict(args, help, errp);
-+    qobject_unref(args);
-+
-+    return chr_options;
-+}
-+
- ChardevReturn *qmp_chardev_change(const char *id, ChardevBackend *backend,
-                                   Error **errp)
+ Chardev *qemu_chr_new_noreplay(const char *label, const char *filename,
+@@ -1105,7 +1100,41 @@ ChardevReturn *qmp_chardev_add(const char *id, ChardevBackend *backend,
+ 
+ Chardev *qemu_chr_new_cli(ChardevOptions *options, Error **errp)
  {
+-    return chardev_new_qapi(options->id, options->backend, errp);
++    Chardev *chr;
++    char *bid = NULL;
++
++    if (options->mux) {
++        bid = g_strdup_printf("%s-base", options->id);
++    }
++
++    chr = chardev_new_qapi(bid ?: options->id, options->backend, errp);
++    if (!chr) {
++        goto out;
++    }
++
++    if (options->mux) {
++        Chardev *mux;
++        ChardevMux mux_data = {
++            .chardev = bid,
++        };
++        ChardevBackend backend = {
++            .type = CHARDEV_BACKEND_KIND_MUX,
++            .u.mux.data = &mux_data,
++        };
++
++        mux = qemu_chardev_new(options->id, TYPE_CHARDEV_MUX, &backend, NULL,
++                               errp);
++        if (mux == NULL) {
++            object_unparent(OBJECT(chr));
++            chr = NULL;
++            goto out;
++        }
++        chr = mux;
++    }
++
++out:
++    g_free(bid);
++    return chr;
+ }
+ 
+ ChardevOptions *qemu_chr_parse_cli_dict(QDict *args, bool help,
 -- 
 2.28.0
 
