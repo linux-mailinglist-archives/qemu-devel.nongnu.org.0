@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60F8A2B10C9
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 22:59:31 +0100 (CET)
-Received: from localhost ([::1]:37196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61D7B2B10CC
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 23:00:47 +0100 (CET)
+Received: from localhost ([::1]:41448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdKcs-0006EI-DB
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 16:59:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33302)
+	id 1kdKe6-00083H-DQ
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 17:00:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kdKPZ-0006ck-DF
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:45:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31162)
+ id 1kdKPx-0006un-Nl
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:46:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30632)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kdKPX-0003Wj-Jl
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:45:45 -0500
+ id 1kdKPv-0003bc-Sy
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:46:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605217542;
+ s=mimecast20190719; t=1605217567;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IYld01Z63IvWlKMUi8NoC+O1zrbx+yCYFq9I1YV7iWs=;
- b=Ut5etrSQrAEDS+bREPoY9g5CyAERY4mSKPslbKk4ob5E2ku1TqCQO0kZsuaLUzdBPiqtSs
- mEQW2F8LDW61JOII+PzFN6IflZ0wd4MqQ8mhJMW5PkblGrZyqUd5dbD066iQ/LUtTjo1EU
- YTupqEcoUsWEupW63eCgfD13/rrRTiE=
+ bh=IdlqyPfqAles/T9xw/I9NuyjWfrvv4Cj5LG5Ssrh8zI=;
+ b=e8JSUdaVO/e7KUu7nZIE2tKY1gy3RxqyLkHVn8rg3vOLVOHiMXaiU/ei6CSuxlsAAUQslY
+ mtHUe9oim5lVSRny1VspS+fM9dIZN2oiKtJKdzEaHQAJ/ZF2JKYOUvTRCgzEf7G1/ErnCZ
+ OzfzERDaz2sU2HZpdUcwWEJEdJbMErU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-22-_jPE_hIUP9S2dpINJHiOcg-1; Thu, 12 Nov 2020 16:45:39 -0500
-X-MC-Unique: _jPE_hIUP9S2dpINJHiOcg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-172-o5ZCUdawOJ-jHx7S3y3WVw-1; Thu, 12 Nov 2020 16:46:05 -0500
+X-MC-Unique: o5ZCUdawOJ-jHx7S3y3WVw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 912F6803F4A;
- Thu, 12 Nov 2020 21:45:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9780F80364D;
+ Thu, 12 Nov 2020 21:46:04 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3F19E5C1C2;
- Thu, 12 Nov 2020 21:45:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2437A19C59;
+ Thu, 12 Nov 2020 21:46:04 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 22/53] qdev: Wrap getters and setters in separate helpers
-Date: Thu, 12 Nov 2020 16:43:19 -0500
-Message-Id: <20201112214350.872250-23-ehabkost@redhat.com>
+Subject: [PATCH v3 28/53] qdev: Move qdev_prop_tpm declaration to tpm_prop.h
+Date: Thu, 12 Nov 2020 16:43:25 -0500
+Message-Id: <20201112214350.872250-29-ehabkost@redhat.com>
 In-Reply-To: <20201112214350.872250-1-ehabkost@redhat.com>
 References: <20201112214350.872250-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,7 +81,8 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
- John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>, John Snow <jsnow@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
@@ -89,103 +90,47 @@ Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We'll add extra code to the qdev property getters and setters, so
-add wrapper functions where additional actions can be performed.
+Move the variable declaration close to the macro that uses it.
 
-The new functions have a "field_prop_" prefix instead of "qdev_"
-because the code will eventually be moved outside
-qdev-properties.c, to common QOM code.
-
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Changes v1 -> v2:
-* Redone after changes in previous patches in the series
-* Renamed functions from static_prop_* to field_prop_*
----
+Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: "Daniel P. Berrangé" <berrange@redhat.com>
 Cc: Eduardo Habkost <ehabkost@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- hw/core/qdev-properties.c | 44 +++++++++++++++++++++++++++++++++++----
- 1 file changed, 40 insertions(+), 4 deletions(-)
+ hw/tpm/tpm_prop.h            | 2 ++
+ include/hw/qdev-properties.h | 1 -
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index c68a20695d..b924f13d58 100644
---- a/hw/core/qdev-properties.c
-+++ b/hw/core/qdev-properties.c
-@@ -44,6 +44,40 @@ void *qdev_get_prop_ptr(Object *obj, Property *prop)
-     return ptr;
- }
+diff --git a/hw/tpm/tpm_prop.h b/hw/tpm/tpm_prop.h
+index 85e1ae5718..871af584b7 100644
+--- a/hw/tpm/tpm_prop.h
++++ b/hw/tpm/tpm_prop.h
+@@ -25,6 +25,8 @@
+ #include "sysemu/tpm_backend.h"
+ #include "hw/qdev-properties.h"
  
-+static void field_prop_get(Object *obj, Visitor *v, const char *name,
-+                           void *opaque, Error **errp)
-+{
-+    Property *prop = opaque;
-+    return prop->info->get(obj, v, name, opaque, errp);
-+}
++extern const PropertyInfo qdev_prop_tpm;
 +
-+/**
-+ * field_prop_getter: Return getter function to be used for property
-+ *
-+ * Return value can be NULL if @info has no getter function.
-+ */
-+static ObjectPropertyAccessor *field_prop_getter(const PropertyInfo *info)
-+{
-+    return info->get ? field_prop_get : NULL;
-+}
-+
-+static void field_prop_set(Object *obj, Visitor *v, const char *name,
-+                           void *opaque, Error **errp)
-+{
-+    Property *prop = opaque;
-+    return prop->info->set(obj, v, name, opaque, errp);
-+}
-+
-+/**
-+ * field_prop_setter: Return setter function to be used for property
-+ *
-+ * Return value can be NULL if @info has not setter function.
-+ */
-+static ObjectPropertyAccessor *field_prop_setter(const PropertyInfo *info)
-+{
-+    return info->set ? field_prop_set : NULL;
-+}
-+
- void qdev_propinfo_get_enum(Object *obj, Visitor *v, const char *name,
-                             void *opaque, Error **errp)
- {
-@@ -630,8 +664,8 @@ static void set_prop_arraylen(Object *obj, Visitor *v, const char *name,
-         assert(qdev_get_prop_ptr(obj, &arrayprop->prop) == eltptr);
-         object_property_add(obj, propname,
-                             arrayprop->prop.info->name,
--                            arrayprop->prop.info->get,
--                            arrayprop->prop.info->set,
-+                            field_prop_getter(arrayprop->prop.info),
-+                            field_prop_setter(arrayprop->prop.info),
-                             array_element_release,
-                             arrayprop);
-     }
-@@ -873,7 +907,8 @@ void qdev_property_add_static(DeviceState *dev, Property *prop)
-     assert(!prop->info->create);
+ #define DEFINE_PROP_TPMBE(_n, _s, _f)                     \
+     DEFINE_PROP(_n, _s, _f, qdev_prop_tpm, TPMBackend *)
  
-     op = object_property_add(obj, prop->name, prop->info->name,
--                             prop->info->get, prop->info->set,
-+                             field_prop_getter(prop->info),
-+                             field_prop_setter(prop->info),
-                              prop->info->release,
-                              prop);
- 
-@@ -900,7 +935,8 @@ static void qdev_class_add_property(DeviceClass *klass, const char *name,
- 
-         op = object_class_property_add(oc,
-                                        name, prop->info->name,
--                                       prop->info->get, prop->info->set,
-+                                       field_prop_getter(prop->info),
-+                                       field_prop_setter(prop->info),
-                                        prop->info->release,
-                                        prop);
-         if (prop->set_default) {
+diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
+index aae882317a..68e544708b 100644
+--- a/include/hw/qdev-properties.h
++++ b/include/hw/qdev-properties.h
+@@ -56,7 +56,6 @@ extern const PropertyInfo qdev_prop_uint64;
+ extern const PropertyInfo qdev_prop_int64;
+ extern const PropertyInfo qdev_prop_size;
+ extern const PropertyInfo qdev_prop_string;
+-extern const PropertyInfo qdev_prop_tpm;
+ extern const PropertyInfo qdev_prop_on_off_auto;
+ extern const PropertyInfo qdev_prop_size32;
+ extern const PropertyInfo qdev_prop_arraylen;
 -- 
 2.28.0
 
