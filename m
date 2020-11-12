@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31C1F2B0057
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 08:28:57 +0100 (CET)
-Received: from localhost ([::1]:49012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C1202B0056
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 08:28:07 +0100 (CET)
+Received: from localhost ([::1]:46532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kd72O-0007Kb-90
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 02:28:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51064)
+	id 1kd71a-0006JR-3a
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 02:28:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kd6uc-0007ex-Pj
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 02:20:54 -0500
-Received: from indium.canonical.com ([91.189.90.7]:54904)
+ id 1kd6zR-00051B-4c
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 02:25:53 -0500
+Received: from indium.canonical.com ([91.189.90.7]:55458)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kd6uY-0006Is-V0
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 02:20:54 -0500
+ id 1kd6zP-00086D-C7
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 02:25:52 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kd6uW-0005bQ-KQ
- for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 07:20:48 +0000
+ id 1kd6zN-00065x-Vm
+ for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 07:25:49 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 998692E80EA
- for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 07:20:48 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id EEB672E80EA
+ for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 07:25:49 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 12 Nov 2020 07:15:24 -0000
-From: Thomas Huth <1798057@bugs.launchpad.net>
+Date: Thu, 12 Nov 2020 07:17:05 -0000
+From: Thomas Huth <1798451@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: hvf x86
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: awalende dgilbert-h th-huth
-X-Launchpad-Bug-Reporter: Alex Walender (awalende)
+X-Launchpad-Bug-Commenters: mhaggard romell roolebo th-huth
+X-Launchpad-Bug-Reporter: Rob Maskell (romell)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <153968292598.9512.8127269016874180318.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160516532501.29026.928291577277635842.malone@chaenomeles.canonical.com>
-Subject: [Bug 1798057] Re: Not able to start instances larger than 1 TB
+References: <153980387714.3465.12419240219281347614.malonedeb@soybean.canonical.com>
+Message-Id: <160516542534.28624.3412697158654785246.malone@chaenomeles.canonical.com>
+Subject: [Bug 1798451] Re: MMX emulation is missing on HVF Acceleration
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="9218c6cee10bde7201ace93cd659634a9bc6c70a"; Instance="production"
-X-Launchpad-Hash: 0cfee20026b2193ff4a01bfa0427d1a26a14402d
+X-Launchpad-Hash: b14dadf3cdaf2c4a6efabca54635504aaf300616
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 01:35:39
@@ -72,68 +73,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1798057 <1798057@bugs.launchpad.net>
+Reply-To: Bug 1798451 <1798451@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm assuming that the right physbits setting fixed the bug? ... so I'm
-marking this ticket as "Invalid". If the problem still persists, then
-please open again.
+The QEMU project is currently considering to move its bug tracking to anoth=
+er system. For this we need to know which bugs are still valid and which co=
+uld be closed already. Thus we are setting older bugs to "Incomplete" now.
+If you still think this bug report here is valid, then please switch the st=
+ate back to "New" within the next 60 days, otherwise this report will be ma=
+rked as "Expired". Or mark it as "Fix Released" if the problem has been sol=
+ved with a newer version of QEMU already. Thank you and sorry for the incon=
+venience.
 
 ** Changed in: qemu
-       Status: New =3D> Invalid
+       Status: New =3D> Incomplete
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1798057
+https://bugs.launchpad.net/bugs/1798451
 
 Title:
-  Not able to start instances larger than 1 TB
+  MMX emulation is missing on HVF Acceleration
 
 Status in QEMU:
-  Invalid
+  Incomplete
 
 Bug description:
-  Specs:
+  Robs-MacBook-Pro-2:~ robmaskell$ qemu-system-x86_64 --version
+  QEMU emulator version 3.0.0
 
-  CPU: Intel(R) Xeon(R) Gold 6132 CPU @ 2.60GHz
-  OS: Ubuntu 18.04 AMD64
-  QEMU: 1:2.11+dfsg-1ubuntu7.6 (Ubuntu Bionic Package)
-  Openstack: Openstack Queens (Ubuntu Bionic Package)
-  Libvirt-daemon: 4.0.0-1ubuntu8.5
-  Seabios: 1.10.2-1ubuntu1
+  Host: MacOS - 10.13.6
+    Model Name:	MacBook Pro
+    Model Identifier:	MacBookPro14,3
+    Processor Name:	Intel Core i7
+    Processor Speed:	2.8 GHz
+    Number of Processors:	1
+    Total Number of Cores:	4
+    L2 Cache (per Core):	256 KB
+    L3 Cache:	6 MB
+    Memory:	16 GB
 
-  =
+  Guest OS: Elementary Linux Loki 0.4.1, patched up to date
 
-  The Problem:
-  We are not able to start instances, which have a memory size over 1 TB.
-  After starting the instance, they shortly lock up. Starting guests with a=
- lower amount of RAM works
-  perfectly. We dealt with the same problem in the past with an older Qemu =
-Version (2.5) by patching some source files according to this patch:
+  Command used to start QEMU:
 
-  https://git.centos.org/blob/rpms!!qemu-
-  kvm.git/34b32196890e2c41b0aee042e600ba422f29db17/SOURCES!kvm-fix-
-  guest-physical-bits-to-match-host-to-go-beyond-1.patch
+  qemu-system-x86_64 \
+    -name ElementaryLokiDev \
+    -machine pc,accel=3Dhvf \
+    -cpu max \
+    -smp cpus=3D2,sockets=3D2,cores=3D1,threads=3D1,maxcpus=3D2 \
+    -numa node,nodeid=3D0 \
+    -numa cpu,node-id=3D0,socket-id=3D0 -numa cpu,node-id=3D0,socket-id=3D1=
+ \
+    -m 8G \
+    -vga vmware \
+    -hda e4.qcow2
 
-  =
-
-  I think we now have somewhat the same problem here, however the source ba=
-se changed and I'am not able to find the corresponding snippet to patch thi=
-s.
-
-  Also, guests show a wrong physical address size which is probably the cau=
-se of the lock ups on high memory guests:
-  root@debug:~# grep physical /proc/cpuinfo =
-
-  physical id	: 0
-  address sizes	: 40 bits physical, 48 bits virtual =
-
-
-  Any way to fix this?
+  Symptoms: Started without the -smp / -numa commands to install the OS,
+  then added -smp / -numa and the machine boots and lscpu reports extra
+  cpu as expected. Restart VM and it hangs on startup. Remove -smp /
+  -numa and machine starts again.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1798057/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1798451/+subscriptions
 
