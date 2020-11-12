@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CED82B0859
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 16:26:58 +0100 (CET)
-Received: from localhost ([::1]:36654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F30B2B0863
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 16:27:47 +0100 (CET)
+Received: from localhost ([::1]:39042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdEUz-00048L-1r
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 10:26:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53284)
+	id 1kdEVm-00059X-KY
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 10:27:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kdEU4-0003dp-Lz
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 10:26:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39900)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kdEV1-0004bf-40
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 10:26:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55829)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kdEU0-0003nY-CH
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 10:26:00 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kdEUz-0004Hh-Al
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 10:26:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605194753;
+ s=mimecast20190719; t=1605194816;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aByCAGmirDMhNC7tHmREiG/7uhbpg+0xvcQ6fSKi9Yc=;
- b=YhoZKCn9EvWlN6r2BoRgEHvQtquc1mTkzXUMhjYh4uhTWOLKh5tussR1/DdUxC/wFQpj0e
- qC+oFnWRZkhVvFH5sPBQkFERzT70HjKoua20Tq/JXRFLz9UqtZ5juiQJqp1sfZQD7f3co+
- hL6xsy0JbURZerbJIKL2DQ5ae1jGkBo=
+ bh=YqZGJ1O856sik/5Eu4CLdJLS9iwG0y81oo1dB6lhaQg=;
+ b=AQspDKTMVXjbG45aHAWK+7r/DSFatOL6SjWSnK9kvR4DqHNXxpQ3/dtVSTMSPuuVZ89IGu
+ mhtkXzqGErl7NEDBqxYn8NUpM90Ju/iC+r2fmixr/dRTmE/PZIXrI+qQe1GTkMw2nXxwUw
+ lWnsuRGoDMfmoKw6rK0WziYQiyRnthE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-26-HSrAssUnNBy7URglUhYMeA-1; Thu, 12 Nov 2020 10:25:50 -0500
-X-MC-Unique: HSrAssUnNBy7URglUhYMeA-1
+ us-mta-345-T9OpRehtOleQziVtrAzp1g-1; Thu, 12 Nov 2020 10:26:54 -0500
+X-MC-Unique: T9OpRehtOleQziVtrAzp1g-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 997C16415B;
- Thu, 12 Nov 2020 15:25:49 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-37.ams2.redhat.com
- [10.36.114.37])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F02E255765;
- Thu, 12 Nov 2020 15:25:40 +0000 (UTC)
-Subject: Re: [PATCH for-5.2 08/10] block/export: port virtio-blk discard/write
- zeroes input validation
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-References: <20201111124331.1393747-1-stefanha@redhat.com>
- <20201111124331.1393747-9-stefanha@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <0446562a-c3bf-cff4-82e2-71b9ae2cf3bf@redhat.com>
-Date: Thu, 12 Nov 2020 16:25:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E882107B26B;
+ Thu, 12 Nov 2020 15:26:53 +0000 (UTC)
+Received: from gondolin (ovpn-113-69.ams2.redhat.com [10.36.113.69])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D142955765;
+ Thu, 12 Nov 2020 15:26:36 +0000 (UTC)
+Date: Thu, 12 Nov 2020 16:26:33 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
+Subject: Re: [RFC v3] VFIO Migration
+Message-ID: <20201112162633.67a5d8a6.cohuck@redhat.com>
+In-Reply-To: <20201111154850.GG906488@redhat.com>
+References: <20201110095349.GA1082456@stefanha-x1.localdomain>
+ <64fb6a41-fbfa-994c-9619-4df41ac97fde@redhat.com>
+ <20201111143615.GA1421166@stefanha-x1.localdomain>
+ <20201111154850.GG906488@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20201111124331.1393747-9-stefanha@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 00:52:29
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:00:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,119 +82,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Coiby Xu <Coiby.Xu@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: John G Johnson <john.g.johnson@oracle.com>, "Tian,
+ Kevin" <kevin.tian@intel.com>, mtsirkin@redhat.com,
+ Yan Zhao <yan.y.zhao@intel.com>, quintela@redhat.com,
+ Jason Wang <jasowang@redhat.com>, "Zeng, Xin" <xin.zeng@intel.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Kirti Wankhede <kwankhede@nvidia.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Felipe Franciosi <felipe@nutanix.com>,
+ Christophe de Dinechin <dinechin@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11.11.20 13:43, Stefan Hajnoczi wrote:
-> Validate discard/write zeroes the same way we do for virtio-blk. Some of
-> these checks are mandated by the VIRTIO specification, others are
-> internal to QEMU.
-> 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->   block/export/vhost-user-blk-server.c | 115 +++++++++++++++++++++------
->   1 file changed, 92 insertions(+), 23 deletions(-)
-> 
-> diff --git a/block/export/vhost-user-blk-server.c b/block/export/vhost-user-blk-server.c
-> index 62672d1cb9..3295d3c951 100644
-> --- a/block/export/vhost-user-blk-server.c
-> +++ b/block/export/vhost-user-blk-server.c
+On Wed, 11 Nov 2020 15:48:50 +0000
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
 
-[...]
+> In terms of validation I can't help but feel the whole proposal is
+> really very complicated.
+>=20
+> In validating QEMU migration compatibility we merely compare the
+> versioned machine type.
+>=20
+> IIUC, in this proposal, it would be more like exploding the machine
+> type into all its 100's of properties and then comparing each one
+> individually.
+>=20
+> I really prefer the simpler model of QEMU versioned machine types
+> where compatibility is a simple string comparison, hiding the
+> 100's of individual config parameters. =20
+>=20
+> Of course there are scenarios where this will lead a mgmt app to
+> refuse a migration, when it could in fact have permitted it.
+>=20
+> eg  consider   pc-i440fx-4.0  and pc-i440fx-5.0 machine types,
+> which only differ in the value  "foo=3D7" and "foo=3D8" respectively.
+>=20
+> Now if the target only supported machine type pc-i440fx-5.0, then
+> with a basic string comparison of machine type versin, we can't
+> migrate from a host uing pc-i440fx-4.0
+>=20
+> If we exploded the machine type into its params, we could see that
+> we can migrate from pc-i440fx-4.0 to pc-i440fx-5.0, simply by
+> overriding the value of "foo".
+>=20
+> So, yes, dealing with individual params is more flexible, but it
+> comes at an enourmous cost in complexity to process all the
+> parameters. I'm not convinced this is a good tradeoff.=20
 
-> @@ -58,30 +60,101 @@ static void vu_blk_req_complete(VuBlkReq *req)
->       free(req);
->   }
->   
-> +static bool vu_blk_sect_range_ok(VuBlkExport *vexp, uint64_t sector,
-> +                                 size_t size)
-> +{
-> +    uint64_t nb_sectors = size >> BDRV_SECTOR_BITS;
-> +    uint64_t total_sectors;
-> +
-> +    if (nb_sectors > BDRV_REQUEST_MAX_SECTORS) {
+For mdev devices, we could have something similar to versioned machine
+types by introducing versioned mdev types. (Which would fit well with
+mdev types having to match strictly for migration to be possible.)
 
-I wonder why you pass a byte length, then shift it down to sectors, when 
-it’s kind of unsafe on the caller’s side to even calculate that byte 
-length (because the caller has to verify that shifting the sector count 
-up to be a byte length is safe).
-
-Wouldn’t it be simpler to pass nb_sectors (perhaps even as uint64_t, 
-because why not) and then compare that against BDRV_REQUEST_MAX_BYTES here?
-
-(With how the code is written, it also has the problem of rounding down 
-@size.  Which isn’t a problem in practice because the caller effectively 
-guarantees that @size is aligned to sectors, but it still means that the 
-code looks a bit strange.  As in, “Why is it safe to round down?  Ah, 
-because the caller always produces an aligned value.  But why does the 
-caller even pass a byte count, then?  Especially given that the offset 
-is passed as a sector index, too.”)
-
-> +        return false;
-> +    }
-> +    if ((sector << BDRV_SECTOR_BITS) % vexp->blk_size) {
-
-This made me wonder why the discard/write-zeroes sector granularity 
-would be BDRV_SECTOR_BITS and not blk_size, which is used for IN/OUT 
-(read/write) requests.
-
-I still don’t know, but judging from the only reference I could find 
-quickly (contrib/vhost-user-blk/vhost-user-blk.c), it seems correct.
-
-OTOH, I wonder whether BDRV_SECTOR_BITS/BDRV_SECTOR_SIZE are the correct 
-constants.  Isn’t it just 9/512 as per some specification, i.e., 
-shouldn’t it be independent of qemu’s block layer’s sector size?
-
-> +        return false;
-> +    }
-> +    blk_get_geometry(vexp->export.blk, &total_sectors);
-> +    if (sector > total_sectors || nb_sectors > total_sectors - sector) {
-> +        return false;
-> +    }
-> +    return true;
-> +}
-> +
-
-[...]
-
-> @@ -170,19 +243,13 @@ static void coroutine_fn vu_blk_virtio_process_req(void *opaque)
->       }
->       case VIRTIO_BLK_T_DISCARD:
->       case VIRTIO_BLK_T_WRITE_ZEROES: {
-> -        int rc;
-> -
->           if (!vexp->writable) {
->               req->in->status = VIRTIO_BLK_S_IOERR;
->               break;
->           }
->   
-> -        rc = vu_blk_discard_write_zeroes(blk, &elem->out_sg[1], out_num, type);
-> -        if (rc == 0) {
-> -            req->in->status = VIRTIO_BLK_S_OK;
-> -        } else {
-> -            req->in->status = VIRTIO_BLK_S_IOERR;
-> -        }
-> +        req->in->status = vu_blk_discard_write_zeroes(vexp, elem->out_sg,
-> +                                                      out_num, type);
-
-elem->out_sg is different from &elem->out_sg[1], but from what I can 
-tell vu_blk_discard_write_zeroes() doesn’t really change in how it 
-treats @iov.
-
-I’m confused.  Is that a bug fix?  (If so, it isn’t mentioned in the 
-commit message)
-
-Apart from this, the patch looks good to me (although there are the two 
-things mentioned above that I find a bit strange, but definitely not wrong).
-
-Max
-
->           break;
->       }
->       default:
+For other use cases, we would need to introduce a new construct.
 
 
