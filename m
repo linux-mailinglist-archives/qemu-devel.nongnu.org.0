@@ -2,50 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96CF52B004C
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 08:23:07 +0100 (CET)
-Received: from localhost ([::1]:33264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75CF62AFFFE
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 08:04:15 +0100 (CET)
+Received: from localhost ([::1]:53076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kd6wk-0000ku-Mm
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 02:23:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50980)
+	id 1kd6eU-00041E-Ho
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 02:04:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kd6uR-0007IG-Ft; Thu, 12 Nov 2020 02:20:43 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2345)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kd6uO-0006E5-Tx; Thu, 12 Nov 2020 02:20:43 -0500
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CWtKf1SmfzkjfM;
- Thu, 12 Nov 2020 15:20:22 +0800 (CST)
-Received: from huawei.com (10.175.104.175) by DGGEMS413-HUB.china.huawei.com
- (10.3.19.213) with Microsoft SMTP Server id 14.3.487.0; Thu, 12 Nov 2020
- 15:20:28 +0800
-From: Gan Qixin <ganqixin@huawei.com>
-To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH v2 4/4] max111x: put it into the 'misc' category
-Date: Thu, 12 Nov 2020 00:47:10 +0800
-Message-ID: <20201111164710.644863-5-ganqixin@huawei.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20201111164710.644863-1-ganqixin@huawei.com>
-References: <20201111164710.644863-1-ganqixin@huawei.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kd6dS-0003Zp-01
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 02:03:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55211)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kd6dP-0000kc-0k
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 02:03:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605164585;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ISVnDNTM77uJT2CLRNIBuDfMdB7Vi/2pmQNkClMbaMo=;
+ b=XtSGSmw6Oq4Ktt5f1Jof9KEqrA2xWAzIKLVgIMg7336tM5thjxjFjVGgoyLZ+N5PJn3D/w
+ 13Xab/F4H7MjaGhUM2DPW2bDjvqHpkOHUlGrIGrx5gneqJy+ARlA7uKvkHOMZ4TndSMi0c
+ SbIBfD90c68XSmvh/yaEXE+28zMlTwg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-43-grgnQbJBPdKe1L4kSJgBhw-1; Thu, 12 Nov 2020 02:03:01 -0500
+X-MC-Unique: grgnQbJBPdKe1L4kSJgBhw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 634D25F9D6;
+ Thu, 12 Nov 2020 07:03:00 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-74.ams2.redhat.com [10.36.112.74])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 937F56198C;
+ Thu, 12 Nov 2020 07:02:52 +0000 (UTC)
+Subject: Re: [PATCH v3 06/11] gitlab-ci: Rename acceptance_test_job ->
+ integration_test_job
+To: Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20201108221925.2344515-1-philmd@redhat.com>
+ <20201108221925.2344515-7-philmd@redhat.com>
+ <579650f6-e8a1-fa8c-c28c-566d15ef2088@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <16b2e7ca-5d08-d55c-8db4-08a5d5d4663b@redhat.com>
+Date: Thu, 12 Nov 2020 08:02:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
+In-Reply-To: <579650f6-e8a1-fa8c-c28c-566d15ef2088@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.104.175]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190; envelope-from=ganqixin@huawei.com;
- helo=szxga04-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 02:20:35
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 00:51:38
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,33 +87,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, zhang.zhanghailiang@huawei.com, mst@redhat.com,
- laurent@vivier.eu, armbru@redhat.com, Gan Qixin <ganqixin@huawei.com>,
- kuhn.chenqun@huawei.com, philmd@redhat.com
+Cc: "Daniel P . Berrange" <berrange@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The category of the max111x device is not set, put it into the 'misc'
-category.
+On 10/11/2020 21.42, Wainer dos Santos Moschetta wrote:
+> Once Cleber said "acceptance" wasn't  a good name for those tests. Indeed
+> "integration" is widely used, so okay for this renaming.
 
-Signed-off-by: Gan Qixin <ganqixin@huawei.com>
----
- hw/misc/max111x.c | 1 +
- 1 file changed, 1 insertion(+)
+Should we maybe also rename the folder and "make check-acceptance" into
+"make check-integration" ?
 
-diff --git a/hw/misc/max111x.c b/hw/misc/max111x.c
-index 7e6723f343..eae0f9b598 100644
---- a/hw/misc/max111x.c
-+++ b/hw/misc/max111x.c
-@@ -185,6 +185,7 @@ static void max111x_class_init(ObjectClass *klass, void *data)
-     k->transfer = max111x_transfer;
-     dc->reset = max111x_reset;
-     dc->vmsd = &vmstate_max111x;
-+    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
- }
- 
- static const TypeInfo max111x_info = {
--- 
-2.23.0
+ Thomas
 
 
