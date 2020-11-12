@@ -2,80 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5DA32B07E4
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 15:55:39 +0100 (CET)
-Received: from localhost ([::1]:42154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D0A72B07EE
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 15:57:38 +0100 (CET)
+Received: from localhost ([::1]:46632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdE0g-0000hg-D5
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 09:55:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44066)
+	id 1kdE2b-0002lH-EZ
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 09:57:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kdDyj-0007fD-9s
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 09:53:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21646)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kdE13-0001is-3z
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 09:56:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54056)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kdDyh-0007rG-3X
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 09:53:36 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kdE0w-0000L4-TF
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 09:56:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605192813;
+ s=mimecast20190719; t=1605192953;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=j/BXgmg+yRwMkozcNYji3GRGLld8fzOmlmGZtOxgdRU=;
- b=MfIScndpmUoxlyWjMLbRc16uIWpSV/i6VLk+siO1dMXkbwi5xCnemGifAGXUIos00RvMXY
- UCoyv+Yvv0YelZ3NRg7SaEfBJ/bZmjYhcUr0oLNV8/Wy7dbnuz7PGRhqDgH0THIuqKtaf3
- VEExTxc1tOIOSTlh5RfSgCZkQ7Wq++0=
+ bh=YDaFZBe9H/l5NRtHUvwJP/BI62z84wcEUkbn+ztX+3E=;
+ b=SQYj+TpbSXq0wuM5jWFJYU2MFbuKc71Cz7P+wyKbxIAIiQ9ECMDJcgGMtgWTqWLajw/1W4
+ mdQWm2sIkD3q6YExQmoeqQKaMxvxTIjbLrHSsfzSEwA5VzZNZnsZsLCgCzKpMOLURGQ2Pj
+ fJw2nRuDt2gk4BziWGsG7UvR2G7L2JA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-474-F7PdR28aPN23HqQR15P62A-1; Thu, 12 Nov 2020 09:53:31 -0500
-X-MC-Unique: F7PdR28aPN23HqQR15P62A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-503-EveIPOktN7OfiI0n46g24Q-1; Thu, 12 Nov 2020 09:55:52 -0500
+X-MC-Unique: EveIPOktN7OfiI0n46g24Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B7BB803659;
- Thu, 12 Nov 2020 14:53:30 +0000 (UTC)
-Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F07C85C1C7;
- Thu, 12 Nov 2020 14:53:25 +0000 (UTC)
-Date: Thu, 12 Nov 2020 09:53:24 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 00/44] Make qdev static property API usable by any QOM
- type
-Message-ID: <20201112145324.GQ5733@habkost.net>
-References: <20201109152125.GZ5733@habkost.net>
- <2300fd53-afa1-b957-b33b-cff2986fcb93@redhat.com>
- <20201109171618.GA5733@habkost.net>
- <098ca211-3ad5-b194-e9f5-678291fe641e@redhat.com>
- <20201109185558.GB5733@habkost.net>
- <9659e726-7948-4e02-f303-abcbe4c96148@redhat.com>
- <20201109202855.GD5733@habkost.net>
- <20201110103804.GA6362@merkur.fritz.box>
- <20201111183905.GO5733@habkost.net>
- <c2c2f63f-111a-1c17-29af-72b83e9b600a@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B138A56ADD;
+ Thu, 12 Nov 2020 14:55:50 +0000 (UTC)
+Received: from work-vm (ovpn-115-60.ams2.redhat.com [10.36.115.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BFFA060C13;
+ Thu, 12 Nov 2020 14:55:48 +0000 (UTC)
+Date: Thu, 12 Nov 2020 14:55:46 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Chuan Zheng <zhengchuan@huawei.com>
+Subject: Re: [PATCH] migration/dirtyrate: simplify inlcudes in dirtyrate.c
+Message-ID: <20201112145546.GE13424@work-vm>
+References: <1604030281-112946-1-git-send-email-zhengchuan@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <c2c2f63f-111a-1c17-29af-72b83e9b600a@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <1604030281-112946-1-git-send-email-zhengchuan@huawei.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 00:52:29
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:00:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,37 +80,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
+Cc: yubihong@huawei.com, zhang.zhanghailiang@huawei.com, quintela@redhat.com,
+ qemu-devel@nongnu.org, xiexiangyou@huawei.com, alex.chen@huawei.com,
+ wanghao232@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 12, 2020 at 09:11:48AM +0100, Paolo Bonzini wrote:
-> On 11/11/20 19:39, Eduardo Habkost wrote:
-> > I will submit v3 of this series with both
-> > object_class_property_add_field() and
-> > object_class_add_field_properties() as internal QOM APIs.
-> > object_class_add_field_properties() will be used to implement
-> > device_class_set_props().
+* Chuan Zheng (zhengchuan@huawei.com) wrote:
+> Remove redundant blank line which is left by Commit 662770af7c6e8c,
+> also take this opportunity to remove redundant includes in dirtyrate.c.
 > 
-> I have no problem making both of them public APIs.  If an object can use
-> only a single array of static^Wfield properties that's totally fine; I'm
-> just not sure about splitting properties between class_init and static
-> arrays, which is the less consistent case.
+> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
 
-I agree that using a static array for a couple of properties and
-object_class_property_add*() for all the rest isn't desirable.
-Making both APIs public sounds like a good plan.
+and queued
 
-I'd like us to make almost every object use only an array (just
-like almost every device already use only an array, today), but
-maybe we'll hit too many obstacles trying to do that.  We'll see.
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
+> ---
+>  migration/dirtyrate.c | 5 -----
+>  1 file changed, 5 deletions(-)
+> 
+> diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+> index 8f728d2..ccb9814 100644
+> --- a/migration/dirtyrate.c
+> +++ b/migration/dirtyrate.c
+> @@ -11,17 +11,12 @@
+>   */
+>  
+>  #include "qemu/osdep.h"
+> -
+>  #include <zlib.h>
+>  #include "qapi/error.h"
+>  #include "cpu.h"
+> -#include "qemu/config-file.h"
+> -#include "exec/memory.h"
+>  #include "exec/ramblock.h"
+> -#include "exec/target_page.h"
+>  #include "qemu/rcu_queue.h"
+>  #include "qapi/qapi-commands-migration.h"
+> -#include "migration.h"
+>  #include "ram.h"
+>  #include "trace.h"
+>  #include "dirtyrate.h"
+> -- 
+> 1.8.3.1
+> 
+> 
 -- 
-Eduardo
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
