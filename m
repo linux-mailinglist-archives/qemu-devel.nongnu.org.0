@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FC232B0CEB
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 19:44:43 +0100 (CET)
-Received: from localhost ([::1]:58076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC1832B0CED
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 19:46:29 +0100 (CET)
+Received: from localhost ([::1]:36128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdHaM-0001O7-DH
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 13:44:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48374)
+	id 1kdHc4-00043e-Oy
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 13:46:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kdHUL-0002jX-P7
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 13:38:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43487)
+ id 1kdHUV-0002zy-HM
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 13:38:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44531)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kdHUK-0006TB-2F
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 13:38:29 -0500
+ id 1kdHUT-0006WP-Sj
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 13:38:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605206307;
+ s=mimecast20190719; t=1605206317;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uYkNpllGQa8BMTT9bn+m2l0xSF1xvQhp1umpfouqGPU=;
- b=hizrYyG7tZdjGSF4Hoi8CxL5v9vwJozShfq2dI+RhQUYURMO21Su8dRDSzAQN7pX1uZixG
- u03JkOZD0Bt4vN8IlRPNcaxtiMzcnAvhfss6XiObskcLn30Sn8sB7eN+lW0Jdu+jvMfuDD
- PBf+9RS/kwOQfT1R/y/OP8drrgysNQs=
+ bh=T3uZCA2pBHTQq5Zh8MKa+E90T+viNNaW//zz0jDKJYM=;
+ b=G2BWR7AyWjnvMBT7r5SZv5gXL5jS2EaMsnbsUp/8xsjGMpLpb/ktnyNKBBRFhvQle/B39t
+ N58j7pmicK+DO+pNrXHy4EBKipNlmXhgHtR8MZ80kUJ/Zhmptmor/Gf/pV/X465LvCfpP1
+ k4laFtmKRMzmmcXZpkpVQNPvKAvhPoY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-197-uZKT-qFzNQe5YNdyuz3LZQ-1; Thu, 12 Nov 2020 13:38:24 -0500
-X-MC-Unique: uZKT-qFzNQe5YNdyuz3LZQ-1
+ us-mta-173-h7FRlY_0N2ay4YsUO6-Ngg-1; Thu, 12 Nov 2020 13:38:32 -0500
+X-MC-Unique: h7FRlY_0N2ay4YsUO6-Ngg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA6E71087D63;
- Thu, 12 Nov 2020 18:38:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AACD9AF06A;
+ Thu, 12 Nov 2020 18:38:30 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-115-60.ams2.redhat.com
  [10.36.115.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BB0D15D9E4;
- Thu, 12 Nov 2020 18:38:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 13C955D9E4;
+ Thu, 12 Nov 2020 18:38:22 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, kuhn.chenqun@huawei.com, zhengchuan@huawei.com,
  lihaotian9@huawei.com, longpeng2@huawei.com, liangpeng10@huawei.com,
  philmd@redhat.com, liuzhiqiang26@huawei.com
-Subject: [PULL 04/11] migration: fix uninitialized variable warning in
- migrate_send_rp_req_pages()
-Date: Thu, 12 Nov 2020 18:37:51 +0000
-Message-Id: <20201112183758.203176-5-dgilbert@redhat.com>
+Subject: [PULL 05/11] migration/dirtyrate: simplify includes in dirtyrate.c
+Date: Thu, 12 Nov 2020 18:37:52 +0000
+Message-Id: <20201112183758.203176-6-dgilbert@redhat.com>
 In-Reply-To: <20201112183758.203176-1-dgilbert@redhat.com>
 References: <20201112183758.203176-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -59,8 +58,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:00:44
@@ -88,42 +87,41 @@ Cc: stefanha@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Chen Qun <kuhn.chenqun@huawei.com>
+From: Chuan Zheng <zhengchuan@huawei.com>
 
-After the WITH_QEMU_LOCK_GUARD macro is added, the compiler cannot identify
- that the statements in the macro must be executed. As a result, some variables
- assignment statements in the macro may be considered as unexecuted by the compiler.
+Remove redundant blank line which is left by Commit 662770af7c6e8c,
+also take this opportunity to remove redundant includes in dirtyrate.c.
 
-When the -Wmaybe-uninitialized capability is enabled on GCC9,the compiler showed warning:
-migration/migration.c: In function ‘migrate_send_rp_req_pages’:
-migration/migration.c:384:8: warning: ‘received’ may be used uninitialized in this function [-Wmaybe-uninitialized]
- 384 |     if (received) {
-     |        ^
-
-Add a default value for 'received' to prevented the warning.
-
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20201111142203.2359370-6-kuhn.chenqun@huawei.com>
+Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
+Message-Id: <1604030281-112946-1-git-send-email-zhengchuan@huawei.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/migration.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ migration/dirtyrate.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 3263aa55a9..f696e22fab 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -365,7 +365,7 @@ int migrate_send_rp_req_pages(MigrationIncomingState *mis,
-                               RAMBlock *rb, ram_addr_t start, uint64_t haddr)
- {
-     void *aligned = (void *)(uintptr_t)(haddr & (-qemu_ram_pagesize(rb)));
--    bool received;
-+    bool received = false;
+diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+index 8f728d2600..ccb98147e8 100644
+--- a/migration/dirtyrate.c
++++ b/migration/dirtyrate.c
+@@ -11,17 +11,12 @@
+  */
  
-     WITH_QEMU_LOCK_GUARD(&mis->page_request_mutex) {
-         received = ramblock_recv_bitmap_test_byte_offset(rb, start);
+ #include "qemu/osdep.h"
+-
+ #include <zlib.h>
+ #include "qapi/error.h"
+ #include "cpu.h"
+-#include "qemu/config-file.h"
+-#include "exec/memory.h"
+ #include "exec/ramblock.h"
+-#include "exec/target_page.h"
+ #include "qemu/rcu_queue.h"
+ #include "qapi/qapi-commands-migration.h"
+-#include "migration.h"
+ #include "ram.h"
+ #include "trace.h"
+ #include "dirtyrate.h"
 -- 
 2.28.0
 
