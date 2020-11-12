@@ -2,81 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C4DF2B017D
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 10:04:06 +0100 (CET)
-Received: from localhost ([::1]:47186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8AA52B01C0
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 10:08:27 +0100 (CET)
+Received: from localhost ([::1]:50758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kd8WT-0002gZ-Hv
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 04:04:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45318)
+	id 1kd8ag-0004Z3-Ox
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 04:08:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kd8VR-0002HW-MH
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 04:03:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22284)
+ (Exim 4.90_1) (envelope-from <mszeredi@redhat.com>)
+ id 1kd8ZC-0003cR-GY
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 04:06:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45398)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kd8VQ-0000DG-1M
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 04:03:01 -0500
+ (Exim 4.90_1) (envelope-from <mszeredi@redhat.com>)
+ id 1kd8ZA-0001eQ-Mv
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 04:06:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605171778;
+ s=mimecast20190719; t=1605172011;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9zI6+Rv/AmhA7uu+IDm59nbp2oqMHlDfy23ZWR+CxD0=;
- b=GybI3HvcwHCG7+2LM6hAIhngkDiCDspW1G+NSpos4g/0+bu5LQntRFqV5tZ0wZVzBhNhCO
- b4uRoM14w6QCWuUvKoApWE81h20OW6o1p7VJkxXhmqWMPHEWOIvqzXvsR+J9j8UKj4N6Gr
- bStVkNS9CaMJK67TzPQjj2CzPtyzpGI=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-218-tJZKRfVXPFSF8boDRNvrbw-1; Thu, 12 Nov 2020 04:02:55 -0500
-X-MC-Unique: tJZKRfVXPFSF8boDRNvrbw-1
-Received: by mail-wr1-f69.google.com with SMTP id y2so1647767wrl.3
- for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 01:02:54 -0800 (PST)
+ bh=YS7zr2lfSiVRepKauQV1W38IcQZ+8ZaQgejwf8gf/ys=;
+ b=jOBh98DI1YWtt0Ee06L8oNhj5Hrg9c/ZdgqkSjf+Xz5dBd03cE8N+/D3QlCmOympwSAR4s
+ Nde1wVtpkBHlPnUyxUGe6xaVoTCYeid1vO6P6DHbJgb6NpEF6wNLUmP7DgMU/LHNCRclkQ
+ ukvTtZncGXkNlTYoSoOd5DbcvnRE4GI=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-120-MjYkHWRVNyefeHoHlfO7GA-1; Thu, 12 Nov 2020 04:06:48 -0500
+X-MC-Unique: MjYkHWRVNyefeHoHlfO7GA-1
+Received: by mail-qk1-f197.google.com with SMTP id m76so3797463qke.3
+ for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 01:06:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=Gi/JrNtRBtbeVM1wZ7czmFe7o8/5M1SWX3/5TRufzYs=;
- b=sPWDvp3kFzRQLlQuFB8si8xDNmYstRa041sQiBVw9f+fkQM1NnvmCqKu+5Wnm/Ht7Y
- QqBRFCXpk7/v7Z8myjZMUXFAXdntnqtoprK4JF61lXPlVGXWoe6SqBukGItlFCtUQGXG
- i4/hCBGrzKX+rBGTNQ5JJWg1kcTKwQjjDYGC/UsiAfsoMJ97jrD6UWcZxn9MIwAHG2Wg
- A/LBCMVwwMR6WyUI+dglkO6ujpGEqYC8Rwb/1ZiEZJO1iQIMaJAB0lZEihEd7/Hgmb1f
- 31RfVQ9LH7ZYQRIWwQQjIwELydXadKT6fdWkysqA+rvuTv+uk033VVsL56UV16SsNWks
- pEUA==
-X-Gm-Message-State: AOAM532waJbRp4XHBnjOIo2a6/9b7irGIJp1w8f30X/k/jJ3vjbByb8c
- vMxDl/3j8zj7FiIfKJHuc15I7PiNq6TPFGCCX3H+7linKEih1pT6FC/a5QeG5FRGb/g6qhyY11t
- IhITpdreWswx9t3Y=
-X-Received: by 2002:a5d:5689:: with SMTP id f9mr22766297wrv.181.1605171773820; 
- Thu, 12 Nov 2020 01:02:53 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyGoC5Kt1n/mdi+pzaHWLub6jyqcIAlMfui5AN8Kra0NxxbfJBbDIdH9/KVMJLL4neL5v/npQ==
-X-Received: by 2002:a5d:5689:: with SMTP id f9mr22766269wrv.181.1605171773579; 
- Thu, 12 Nov 2020 01:02:53 -0800 (PST)
-Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id a131sm5198260wmh.30.2020.11.12.01.02.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Nov 2020 01:02:52 -0800 (PST)
-Date: Thu, 12 Nov 2020 04:02:44 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH-for-5.2 v2] hw/i386/acpi-build: Fix maybe-uninitialized
- error when ACPI hotplug off
-Message-ID: <20201112040236-mutt-send-email-mst@kernel.org>
-References: <20201107194045.438027-1-philmd@redhat.com>
- <CAARzgwxCXmCZsVWKFX6Fp=SBBj0BvY5=ntLwLZva2NZywD48Lw@mail.gmail.com>
- <752f4cfa-9213-299d-474c-fbccf312009d@redhat.com>
- <CAARzgwzz0qUwj3Wcx+ioXXi35kbefD5i+Ow=oLvC2a0DzDS_sA@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=YS7zr2lfSiVRepKauQV1W38IcQZ+8ZaQgejwf8gf/ys=;
+ b=YNFiLYznZ06w/59l8wMd9zIOjxeGW98p6MkUY44jkSyFeTWMH2Ctk+am0qlNu0g99u
+ DLAGteIeJJi3ZVboFzTa7D3l0oQCs2RZUZOdD7lBW8z9/I3hnZqTZ3Yfrng6096FoheF
+ GoMsE185ynwQYlIgeWpcbs1H/EcC+xSChYb+hy16QyfPvAt9es5LESmmKHNugIQHR5Xs
+ Ym1OvpY8jcKqjormV1Dq6r8IKPxA2BUEIwYF5dQbhK5WZqE9eA+8FbiTQmK0kxt95koD
+ /YbnMvxotqQx/FjS+CwRmvggSFYhCM9dWGYIrHPA/bR0JRUiKHnx/mjNMaZp8ScAT0Ij
+ 4QwQ==
+X-Gm-Message-State: AOAM5336oeGdtrn4zfsqjLYg8s5OMUqcOBIV6NtiL+q2rJMEU5JkYzBY
+ r9tdzM1f1HZjExK8+9DWcVjEf6Tf3abYq6PsYUz2B+G8KDqC88Hn4TZVRmPdJziSTsONIOFYvEW
+ ddtXaY6zth/8ixbu5lQZx/BNkFuxVBh8=
+X-Received: by 2002:a0c:bf05:: with SMTP id m5mr27686382qvi.16.1605172008325; 
+ Thu, 12 Nov 2020 01:06:48 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz1BCbH5xnzWxXDI0/iBu+YyOc6hYqINkr8fqiVaOQ8SG/RVbrhbL2YWTU5fQAx9yyF+S+W06t0SAsTHk+Okb4=
+X-Received: by 2002:a0c:bf05:: with SMTP id m5mr27686363qvi.16.1605172008050; 
+ Thu, 12 Nov 2020 01:06:48 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAARzgwzz0qUwj3Wcx+ioXXi35kbefD5i+Ow=oLvC2a0DzDS_sA@mail.gmail.com>
+References: <20201105194416.GA1384085@redhat.com>
+ <20201105195253.GB1384085@redhat.com>
+ <D9233684-9B76-468E-A5F1-B35DA3F3C091@intel.com>
+ <20201106223524.GG1436035@redhat.com>
+In-Reply-To: <20201106223524.GG1436035@redhat.com>
+From: Miklos Szeredi <mszeredi@redhat.com>
+Date: Thu, 12 Nov 2020 10:06:37 +0100
+Message-ID: <CAOssrKcJr9a_5EUTU19BTp1UaST64Shh9w0UeR6TXPLqkN7bBw@mail.gmail.com>
+Subject: Re: [Virtio-fs] [PATCH] virtiofsd: Use --thread-pool-size=0 to mean
+ no thread pool
+To: Vivek Goyal <vgoyal@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mszeredi@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+Content-Type: multipart/mixed; boundary="00000000000058113d05b3e53bc6"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mszeredi@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 00:52:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -99,51 +93,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: virtio-fs-list <virtio-fs@redhat.com>, "Shinde,
+ Archana M" <archana.m.shinde@intel.com>, "Venegas Munoz,
+ Jose Carlos" <jose.carlos.venegas.munoz@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Miklos Szeredi <miklos@szeredi.hu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 12, 2020 at 09:21:47AM +0530, Ani Sinha wrote:
-> 
-> 
-> On Sun, Nov 8, 2020 at 22:40 Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
-> 
->     On 11/8/20 4:58 AM, Ani Sinha wrote:
->     > On Sun, Nov 8, 2020 at 1:10 AM Philippe Mathieu-Daudé <philmd@redhat.com>
->     wrote:
->     >>
->     >> GCC 9.3.0 thinks that 'method' can be left uninitialized. This code
->     >> is already in the "if (bsel || pcihp_bridge_en)" block statement,
->     >> but it isn't smart enough to figure it out.
->     >>
->     >> Restrict the code to be used only in the "if (bsel || pcihp_bridge_en)"
->     >> block statement to fix (on Ubuntu):
->     >>
->     >>   ../hw/i386/acpi-build.c: In function 'build_append_pci_bus_devices':
->     >>   ../hw/i386/acpi-build.c:496:9: error: 'method' may be used
->     uninitialized
->     >>   in this function [-Werror=maybe-uninitialized]
->     >>     496 |         aml_append(parent_scope, method);
->     >>         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->     >>   cc1: all warnings being treated as errors
->     >
->     > OK I looked at the patch closely and it makes sense. Can you please
->     > run a "make check" to make sure we have not broken anything?
-> 
->     Yes I did...
-> 
-> 
-> Has this been queued Michael?
+--00000000000058113d05b3e53bc6
+Content-Type: text/plain; charset="UTF-8"
 
-tagged, thanks!
+On Fri, Nov 6, 2020 at 11:35 PM Vivek Goyal <vgoyal@redhat.com> wrote:
+>
+> On Fri, Nov 06, 2020 at 08:33:50PM +0000, Venegas Munoz, Jose Carlos wrote:
+> > Hi Vivek,
+> >
+> > I have tested with Kata 1.12-apha0, the results seems that are better for the use fio config I am tracking.
+> >
+> > The fio config does  randrw:
+> >
+> > fio --direct=1 --gtod_reduce=1 --name=test --filename=random_read_write.fio --bs=4k --iodepth=64 --size=200M --readwrite=randrw --rwmixread=75
+> >
+>
+> Hi Carlos,
+>
+> Thanks for the testing.
+>
+> So basically two conclusions from your tests.
+>
+> - for virtiofs, --thread-pool-size=0 is performing better as comapred
+>   to --thread-pool-size=1 as well as --thread-pool-size=64. Approximately
+>   35-40% better.
+>
+> - virtio-9p is still approximately 30% better than virtiofs
+>   --thread-pool-size=0.
+>
+> As I had done the analysis that this particular workload (mixed read and
+> write) is bad with virtiofs because after every write we are invalidating
+> attrs and cache so next read ends up fetching attrs again. I had posted
+> patches to gain some of the performance.
+>
+> https://lore.kernel.org/linux-fsdevel/20200929185015.GG220516@redhat.com/
+>
+> But I got the feedback to look into implementing file leases instead.
 
-> 
-> 
-> 
-> 
+Hmm, the FUSE_AUTO_INVAL_DATA feature is buggy, how about turning it
+off for now?   9p doesn't have it, so no point in enabling it for
+virtiofs by default.
+
+Also I think some confusion comes from cache=auto being the default
+for virtiofs.    Not sure what the default is for 9p, but comparing
+default to default will definitely not be apples to apples since this
+mode is nonexistent in 9p.
+
+9p:cache=none  <-> virtiofs:cache=none
+9p:cache=loose <-> virtiofs:cache=always
+
+"9p:cache=mmap" and "virtiofs:cache=auto" have no match.
+
+Untested patch attached.
+
+Thanks,
+Miklos
+
+--00000000000058113d05b3e53bc6
+Content-Type: application/x-patch; name="virtiofs-perf-fix.patch"
+Content-Disposition: attachment; filename="virtiofs-perf-fix.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_kheldrw30>
+X-Attachment-Id: f_kheldrw30
+
+ZGlmZiAtLWdpdCBhL3Rvb2xzL3ZpcnRpb2ZzZC9wYXNzdGhyb3VnaF9sbC5jIGIvdG9vbHMvdmly
+dGlvZnNkL3Bhc3N0aHJvdWdoX2xsLmMKaW5kZXggZWMxMDA4YmNlYmE4Li5kNDc0YzU1M2JiNWMg
+MTAwNjQ0Ci0tLSBhL3Rvb2xzL3ZpcnRpb2ZzZC9wYXNzdGhyb3VnaF9sbC5jCisrKyBiL3Rvb2xz
+L3ZpcnRpb2ZzZC9wYXNzdGhyb3VnaF9sbC5jCkBAIC02MTgsNiArNjE4LDkgQEAgc3RhdGljIHZv
+aWQgbG9faW5pdCh2b2lkICp1c2VyZGF0YSwgc3RydWN0IGZ1c2VfY29ubl9pbmZvICpjb25uKQog
+ICAgICAgICBsby0+YW5ub3VuY2Vfc3VibW91bnRzID0gZmFsc2U7CiAgICAgfQogI2VuZGlmCisK
+KyAgICAvKiBUaGlzIGlzIGN1cnJlbnRseSBidWdneSB3aXRoIG1peGVkIHJlYWQtd3JpdGUgbG9h
+ZCwgc28gZGlzYWJsZSAqLworICAgIGNvbm4tPndhbnQgJj0gfkZVU0VfQ0FQX0FVVE9fSU5WQUxf
+REFUQTsKIH0KIAogc3RhdGljIHZvaWQgbG9fZ2V0YXR0cihmdXNlX3JlcV90IHJlcSwgZnVzZV9p
+bm9fdCBpbm8sCkBAIC0zNDQ0LDcgKzM0NDcsNyBAQCBpbnQgbWFpbihpbnQgYXJnYywgY2hhciAq
+YXJndltdKQogICAgIGxvLmlub2RlcyA9IGdfaGFzaF90YWJsZV9uZXcobG9fa2V5X2hhc2gsIGxv
+X2tleV9lcXVhbCk7CiAgICAgbG8ucm9vdC5mZCA9IC0xOwogICAgIGxvLnJvb3QuZnVzZV9pbm8g
+PSBGVVNFX1JPT1RfSUQ7Ci0gICAgbG8uY2FjaGUgPSBDQUNIRV9BVVRPOworICAgIGxvLmNhY2hl
+ID0gQ0FDSEVfQUxXQVlTOwogCiAgICAgLyoKICAgICAgKiBTZXQgdXAgdGhlIGlubyBtYXAgbGlr
+ZSB0aGlzOgo=
+--00000000000058113d05b3e53bc6--
 
 
