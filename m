@@ -2,79 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 870AF2B0CB6
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 19:35:32 +0100 (CET)
-Received: from localhost ([::1]:60458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB60F2B0CC6
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 19:36:26 +0100 (CET)
+Received: from localhost ([::1]:35666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdHRT-0006tk-AO
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 13:35:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47242)
+	id 1kdHSL-0008Ss-TZ
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 13:36:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kdHPq-0005Vu-HP
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 13:33:50 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:34158)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kdHPn-0004hq-H9
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 13:33:50 -0500
-Received: by mail-wr1-x429.google.com with SMTP id r17so7110756wrw.1
- for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 10:33:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=nEwzLhUiz6sjYDejCxqXXemMeV0WhtLieEA4kzCwpjc=;
- b=Rt38Ku658/zdYoIDg0Y6FD0b0UB4i6vhzkGqwqenpDM1QvjBUHFlawpKhHgNlHPSzm
- JMS84vE4+bWeZLfSSowAfkP91DUjXZ4QVB4KgNjvFhWmftwN1xceoCbr+nme53WHluNj
- nRMXmje0yhy5pQ+ByymkDCV6cTLa9972lM2elt/g4TTY1bllrfB+qSD7c507HClz8Fd2
- mxH7xo1ZB/32TMnXarcg/2Z6CG3TyuXJKrpQ6t1gxdkDslfB8laEqs4HW8l7lVaDL0N8
- 4Rdm8sV/VF6fBogoCbzlLkTJ8qs9DnmC5VyxrsPYle03W+El6ocFgCOVfTAq7QuxAPDZ
- aH+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=nEwzLhUiz6sjYDejCxqXXemMeV0WhtLieEA4kzCwpjc=;
- b=DUlp0XxH100zOd5jGp0Hs2QyT00z4rcRv9t7x8A3tb7BOjdOvMQjpekkm8bXrqUFXe
- L/+1eE8Jd6wIsFFWo5hNDi4dDWy+ryIlccpK8p8FURaUpS678IrDVrFzN79PtwL+JwTK
- xKraxKtTV2z33Wh4CS+zjwM4wPrw5QOGRTbnPH7E0oGn3xxN1r+Qo57ARuvK47kcrXe3
- PC8w0nOKdmAJ95njEfB8u0/Fa+pNTBSKsqBV0t5OvfJS4AmeJc++m/M+MKkD2wIyRRcp
- MB9xuZxUchhfRgF/htg9SKc/LuSCtbiTo2c72/EtvA3HMksMyeh59BG6jeodbS0tSWiC
- f7OQ==
-X-Gm-Message-State: AOAM533mfPA6GGYNbkWoigl9YimRvzPMyqB23UAfT74nEYMhTuPOCQLE
- ZOcs3QIFkhzYZDLTmdWiqcG+3g==
-X-Google-Smtp-Source: ABdhPJxLrCDrPTOGhvxeqwXG4x22hbjklV9SXQx3IcFQBiMbc79jOxt6hYmK7XF5gMjtcr6s9G9LXw==
-X-Received: by 2002:a5d:5048:: with SMTP id h8mr963848wrt.135.1605206025417;
- Thu, 12 Nov 2020 10:33:45 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k84sm7409283wmf.42.2020.11.12.10.33.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Nov 2020 10:33:44 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 427FC1FF7E;
- Thu, 12 Nov 2020 18:33:43 +0000 (GMT)
-References: <20201112144041.32278-1-peter.maydell@linaro.org>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [for-5.2 0/9] docs: Move orphan top-level .rst files into manuals
-In-reply-to: <20201112144041.32278-1-peter.maydell@linaro.org>
-Date: Thu, 12 Nov 2020 18:33:43 +0000
-Message-ID: <87h7pu5ss8.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kdHQU-0006aT-WF
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 13:34:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48350)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kdHQP-0004wY-MB
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 13:34:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605206063;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5AUUXLKYqRyZ5SWmURW/hhF3LKFrydNZvRSAuYLFBac=;
+ b=WzVL1ue16JPESJdjDU0VHumibQFLw18PYMcNLH5ueX6dCdZBrTnNOQ0CZrC1lJpk0yJcXv
+ ypPYYROdGo3or7WQGEIuX85GGupUtXwn3bt5dU0DnECFabQwbN+xmlA3HOwEAtz/dV9mQ2
+ Zr14IdiX1wEhZy1B7TJpJtbFGK/GOHs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-366-QCqRdEqWPtGOF-K0vqXlLA-1; Thu, 12 Nov 2020 13:34:21 -0500
+X-MC-Unique: QCqRdEqWPtGOF-K0vqXlLA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE1978BE487
+ for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 18:34:20 +0000 (UTC)
+Received: from [10.3.113.51] (ovpn-113-51.phx2.redhat.com [10.3.113.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D23960C0F;
+ Thu, 12 Nov 2020 18:34:20 +0000 (UTC)
+Subject: Re: [PATCH 5/6] qapi: Add support for aliases
+To: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+References: <20201112172850.401925-1-kwolf@redhat.com>
+ <20201112172850.401925-6-kwolf@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <7864bd70-5567-134f-9238-bbed8a5fbfdb@redhat.com>
+Date: Thu, 12 Nov 2020 12:34:19 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
+In-Reply-To: <20201112172850.401925-6-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 00:52:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,39 +84,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: jsnow@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 11/12/20 11:28 AM, Kevin Wolf wrote:
+> Introduce alias definitions for object types (structs and unions). This
+> allows using the same QAPI type and visitor for many syntax variations
+> that exist in the external representation, like between QMP and the
+> command line. It also provides a new tool for evolving the schema while
+> maintaining backwards compatibility during a deprecation period.
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Cool! Obvious followup patch series: deprecate all QAPI members spelled
+with _ by making them aliases of new members spelled with -, so that we
+can finally have consistent spellings.
 
-> Currently we have a handful of rST documents that are sat in the top
-> level docs/ directory and do not get built into the manuals.  These
-> are a legacy from the period after we'd decided we wanted rST format
-> documentation but before we'd set up the manual structure.  This
-> patchset moves them all into at least plausibly suitable places in
-> the manual set:
->
->  * virtio-net-failover, cpu-hotplug, virtio-pmem all go into the
->    system manual
->  * microvm goes into the system manual, but first we have to create a
->    structure in target-i386.rst that lets us have a list of multiple
->    machine types (along the pattern that target-arm.rst does)
->  * pr-manager.rst goes into the system manual, but the part of it
->    documenting the qemu-pr-helper executable needs to go into the
->    tools manual
->
-> If anybody who cares about the x86 machine models would like to
-> create some documentation of the others ("q35", "isapc", "xenpv",
-> "xenfv") you now have a place for it to live :-)
 
-I should have read the cover letter ;-)
+> +=== Aliases ===
+> +
+> +Object types, including structs and unions, can contain alias
+> +definitions.
+> +
+> +Aliases define alternative member names that may be used in the
+> +external representation to provide a value for a member in the same
+> +object or in a nested object.
+> +
+> +Syntax:
+> +    ALIAS = { '*alias': STRING,
+> +              'source': [ STRING, ... ] }
+> +
+> +'source' is a list of member names representing the path to an object
+> +member, starting from the type where the alias definition is
+> +specified.  It may refer to another alias name.  It is allowed to use
+> +a path that doesn't necessarily match an existing member in every
+> +variant or even at all; in this case, the alias remains unused.
+> +
+> +If 'alias' is present, then the single member referred to by 'source'
+> +is made accessible with the name given in 'alias' in the type where
+> +the alias definition is specified.
+> +
+> +If 'alias' is not present, then all members in the object referred to
+> +by 'source' are made accessible in the type where the alias definition
+> +is specified with the same name as they have in 'source'.
 
-Anyway I also ran a build through rtd:
+Is it worth an example of how to use this?
 
-  https://qemu-stsquad.readthedocs.io/en/docs-review/index.html
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
---=20
-Alex Benn=C3=A9e
 
