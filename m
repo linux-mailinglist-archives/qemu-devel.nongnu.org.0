@@ -2,75 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D79DF2B024D
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 10:54:30 +0100 (CET)
-Received: from localhost ([::1]:53976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30EDB2B0251
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 10:54:58 +0100 (CET)
+Received: from localhost ([::1]:55896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kd9JF-00045E-VI
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 04:54:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56974)
+	id 1kd9Jh-0004vd-9k
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 04:54:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kd9HH-0003aO-R5
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 04:52:28 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:55922)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kd9HG-0001Qt-Em
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 04:52:27 -0500
-Received: by mail-wm1-x343.google.com with SMTP id c9so4672278wml.5
- for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 01:52:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xYEIW82b5MHqFEKL+1JEgs0hKZZIrkZWrh5gxg7iaIY=;
- b=vHWt51A0CSo+177Z43iK44k3kQ+T/Wo03zZ5omZyem5Wli57Fl47HoYQslSQH0VLgM
- T0OLEFZH+16Vw3ibjHOWP3n3bniHHUoqjLybnvyov7d+iQJWy0vaGWJp6PadWDzQ2kC3
- HqgcNYSZCBQKA79prkxsDUF+F0DN2cHErGfp03Nz51f7R1ghC6SashDJ14JO3VTSEASY
- /6MtM+CrWfFEYhWhKcG5aFhJIdgQ6PpyYorBAxjgwLtDXQdihOrNODyxBqH6UoCwxTC7
- nfal/ma6slP5BG68x9YP8Ng1h0+AtE0rYfdAmtn1xc8jXkhG3wOIEBmeBFTocWX0kwFf
- LEPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=xYEIW82b5MHqFEKL+1JEgs0hKZZIrkZWrh5gxg7iaIY=;
- b=mN9+VX3RPexcniI6sKpVJIHogDMTEY7AVAYWoKsHdjPqn8CJlBKj2dz+/7lvI3FfvG
- eLQjw2tYNEqxeNRBcMXFK6QuAR1SWKXbDOFp2qJtBRPRneqTiOuXKiin42Nevc5CXOW/
- 5nCwp0EtMi5VNG/Tio0cvMSt2B5r81YgLsE36v4dXST9hjv0/LNUGa3QW7X2PA/XGzBo
- q2lyJYg/CqTmwxKqTtXr844gjbFENWvdwatHiBngKoTrhW38Dv3sOu35/Gp5Y7kUnojp
- XCm/vWFZb9SevdQGr3sB/RCTdKUat81Xp4eJIhCrxqAcEU0NVkWaz9UzOrC8bmKlw+Uc
- wBsw==
-X-Gm-Message-State: AOAM530WsNZkKopIU5GcDv3hTP95X+R0vd5bjxtGMIZECDe0C1sc6cjB
- eUsPmRj/U/2ukeImsCWm+wvux/seFnI=
-X-Google-Smtp-Source: ABdhPJw9m/qYMYWyUaoe58rnXXWBENbIEDlIgf75aOIa+UcwC/02zTC7YMonq63jhcqoKQVls2Gvmw==
-X-Received: by 2002:a1c:4888:: with SMTP id v130mr8519165wma.84.1605174743031; 
- Thu, 12 Nov 2020 01:52:23 -0800 (PST)
-Received: from avogadro.lan ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id a128sm5859902wmf.5.2020.11.12.01.52.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Nov 2020 01:52:22 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] scsi-disk: convert more errno values back to SCSI statuses
-Date: Thu, 12 Nov 2020 10:52:20 +0100
-Message-Id: <20201112095220.52590-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.28.0
+ (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
+ id 1kd9Hu-00040m-C9
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 04:53:08 -0500
+Received: from shirlock.uni-paderborn.de ([2001:638:502:c003::15]:52720)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
+ id 1kd9Hp-0001as-Je
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 04:53:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=mail.uni-paderborn.de; s=20170601; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=+sK0jrD/3XkWVnWPWfZzVzSgOf5RRMeLIn9zC/p1hLo=; b=MKdKMIPUIBezQcMl+NZbNRNws0
+ PUyLpuwjpazXu5Z/rgMN0qpgMLBfFhHc7GBYo/qEfY15H48hE1hOavciFyNZ8nmQnS8UMuoQyEDym
+ 8tdJnJIjNVVFUDTn0qBu8glLmHtK/8P6bdh7168QF60CGkOZZB7mtex4oFOBamyaJV4k=;
+Date: Thu, 12 Nov 2020 10:52:53 +0100
+From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+To: David Brenken <david.brenken@efs-auto.org>
+Subject: Re: [PATCH v5 1/1] tricore: added triboard with tc27x_soc
+Message-ID: <20201112095253.u72kotizsxbn2rt4@mustique.upb.de>
+References: <20201109165055.10508-1-david.brenken@efs-auto.org>
+ <20201109165055.10508-2-david.brenken@efs-auto.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x343.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201109165055.10508-2-david.brenken@efs-auto.org>
+X-IMT-Spam-Score: 0.0 ()
+X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
+ Antispam-Data: 2020.11.12.94518, AntiVirus-Engine: 5.77.0,
+ AntiVirus-Data: 2020.11.11.5770003
+X-IMT-Authenticated-Sender: kbastian@UNI-PADERBORN.DE
+Received-SPF: pass client-ip=2001:638:502:c003::15;
+ envelope-from=kbastian@mail.uni-paderborn.de; helo=shirlock.uni-paderborn.de
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,52 +66,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hannes Reinecke <hare@suse.de>
+Cc: qemu-devel@nongnu.org, Lars Biermanski <lars.biermanski@efs-auto.de>,
+ Georg Hofstetter <georg.hofstetter@efs-auto.de>,
+ David Brenken <david.brenken@efs-auto.de>,
+ Robert Rasche <robert.rasche@efs-auto.de>,
+ Andreas Konopik <andreas.konopik@efs-auto.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Linux has some OS-specific (and sometimes weird) mappings for various SCSI
-statuses and sense codes.  The most important is probably RESERVATION
-CONFLICT.  Add them so that they can be reported back to the guest
-kernel.
+On Mon, Nov 09, 2020 at 05:50:55PM +0100, David Brenken wrote:
+> From: Andreas Konopik <andreas.konopik@efs-auto.de>
+> 
+> Signed-off-by: Andreas Konopik <andreas.konopik@efs-auto.de>
+> Signed-off-by: David Brenken <david.brenken@efs-auto.de>
+> Signed-off-by: Georg Hofstetter <georg.hofstetter@efs-auto.de>
+> Signed-off-by: Robert Rasche <robert.rasche@efs-auto.de>
+> Signed-off-by: Lars Biermanski <lars.biermanski@efs-auto.de>
+> ---
+>  default-configs/devices/tricore-softmmu.mak |   2 +-
+>  hw/tricore/Kconfig                          |   8 +
+>  hw/tricore/meson.build                      |   2 +
+>  hw/tricore/tc27x_soc.c                      | 246 ++++++++++++++++++++
+>  hw/tricore/triboard.c                       |  98 ++++++++
+>  include/hw/tricore/tc27x_soc.h              | 129 ++++++++++
+>  include/hw/tricore/triboard.h               |  50 ++++
+>  7 files changed, 534 insertions(+), 1 deletion(-)
+>  create mode 100644 hw/tricore/tc27x_soc.c
+>  create mode 100644 hw/tricore/triboard.c
+>  create mode 100644 include/hw/tricore/tc27x_soc.h
+>  create mode 100644 include/hw/tricore/triboard.h
 
-Cc: Hannes Reinecke <hare@suse.de>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- hw/scsi/scsi-disk.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+Reviewed-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 
-diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index 424bc192b7..fa14d1527a 100644
---- a/hw/scsi/scsi-disk.c
-+++ b/hw/scsi/scsi-disk.c
-@@ -461,6 +461,25 @@ static bool scsi_handle_rw_error(SCSIDiskReq *r, int error, bool acct_failed)
-             }
-             error = scsi_sense_buf_to_errno(r->req.sense, sizeof(r->req.sense));
-             break;
-+#ifdef CONFIG_LINUX
-+            /* These errno mapping are specific to Linux.  For more information:
-+             * - scsi_decide_disposition in drivers/scsi/scsi_error.c
-+             * - scsi_result_to_blk_status in drivers/scsi/scsi_lib.c
-+             * - blk_errors[] in block/blk-core.c
-+             */
-+        case EBADE:
-+            /* DID_NEXUS_FAILURE -> BLK_STS_NEXUS.  */
-+            scsi_req_complete(&r->req, RESERVATION_CONFLICT);
-+            break;
-+        case ENODATA:
-+            /* DID_MEDIUM_ERROR -> BLK_STS_MEDIUM.  */
-+            scsi_check_condition(r, SENSE_CODE(READ_ERROR));
-+            break;
-+        case EREMOTEIO:
-+            /* DID_TARGET_FAILURE -> BLK_STS_TARGET.  */
-+            scsi_req_complete(&r->req, HARDWARE_ERROR);
-+            break;
-+#endif
-         case ENOMEDIUM:
-             scsi_check_condition(r, SENSE_CODE(NO_MEDIUM));
-             break;
--- 
-2.28.0
+I applied this to my tricore.next tree.
 
+Cheers,
+Bastian
 
