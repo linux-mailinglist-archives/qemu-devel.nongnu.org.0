@@ -2,80 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8C792B0CEC
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 19:46:21 +0100 (CET)
-Received: from localhost ([::1]:35498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FB982B0D0A
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 19:54:12 +0100 (CET)
+Received: from localhost ([::1]:58248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdHbw-0003nn-Lf
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 13:46:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48560)
+	id 1kdHjX-0004u7-FW
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 13:54:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kdHUq-0003C7-On
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 13:39:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23319)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kdHUo-0006bi-VL
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 13:39:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605206338;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=44aOo1Hs4295NOX01ACaymULxAgiOQSYTEKlmJit1as=;
- b=cP6UMimYtsukC4b2bgsZ0/ObS6TSjBuJ/2s9iFmO3W8ig5+gMrNJXahcbP4cDw70S4rJ1m
- NCnHahE94wt+pYNk7NPNL5+uV7hQndGJ6sxHpTq8qcJOO8jurhtw8A5hbM+UtBX+Hr39Ea
- SG7vGG6SF5OChflTF4OBObmdIHO5vpM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-310-o8sxG84sOr6sX95ed8v7WA-1; Thu, 12 Nov 2020 13:38:54 -0500
-X-MC-Unique: o8sxG84sOr6sX95ed8v7WA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EEA4E101F00C;
- Thu, 12 Nov 2020 18:38:52 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-115-60.ams2.redhat.com
- [10.36.115.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F037C5D9E4;
- Thu, 12 Nov 2020 18:38:50 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, kuhn.chenqun@huawei.com, zhengchuan@huawei.com,
- lihaotian9@huawei.com, longpeng2@huawei.com, liangpeng10@huawei.com,
- philmd@redhat.com, liuzhiqiang26@huawei.com
-Subject: [PULL 11/11] virtiofsd: check whether strdup lo.source return NULL in
- main func
-Date: Thu, 12 Nov 2020 18:37:58 +0000
-Message-Id: <20201112183758.203176-12-dgilbert@redhat.com>
-In-Reply-To: <20201112183758.203176-1-dgilbert@redhat.com>
-References: <20201112183758.203176-1-dgilbert@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kdHgC-0001rB-L2
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 13:50:44 -0500
+Received: from indium.canonical.com ([91.189.90.7]:58308)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kdHgA-0002fJ-LA
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 13:50:44 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kdHg7-0002rz-GI
+ for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 18:50:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 794442E811E
+ for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 18:50:39 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 00:52:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 12 Nov 2020 18:41:18 -0000
+From: Thomas Huth <1793016@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: saint42 th-huth xanclic
+X-Launchpad-Bug-Reporter: simon (saint42)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <153721551557.8547.1211533042548718556.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160520647881.4455.5596569562364935062.malone@soybean.canonical.com>
+Subject: [Bug 1793016] Re: vmdk to cqow2 invalid VMDK image descriptor
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="9218c6cee10bde7201ace93cd659634a9bc6c70a"; Instance="production"
+X-Launchpad-Hash: 7735309824024f0670a05f4cc1fb3b132f308004
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:20:56
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,40 +72,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: stefanha@redhat.com, quintela@redhat.com
+Reply-To: Bug 1793016 <1793016@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Haotian Li <lihaotian9@huawei.com>
+I'm closing this ticket since it was likely just a wrong file extension
+... if you disagree, feel free to open the ticket again.
 
-In main func, strdup lo.source may fail. So check whether strdup
-lo.source return NULL before using it.
+** Changed in: qemu
+       Status: New =3D> Invalid
 
-Signed-off-by: Haotian Li <lihaotian9@huawei.com>
-Signed-off-by: Zhiqiang Liu <liuzhiqiang26@huawei.com>
-Message-Id: <f1e48ca8-d6de-d901-63c8-4f4024bda518@huawei.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- tools/virtiofsd/passthrough_ll.c | 4 ++++
- 1 file changed, 4 insertions(+)
+-- =
 
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 9545a0d174..97485b22b4 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -3517,6 +3517,10 @@ int main(int argc, char *argv[])
-         }
-     } else {
-         lo.source = strdup("/");
-+        if (!lo.source) {
-+            fuse_log(FUSE_LOG_ERR, "failed to strdup source\n");
-+            goto err_out1;
-+        }
-     }
- 
-     if (lo.xattrmap) {
--- 
-2.28.0
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1793016
 
+Title:
+  vmdk to cqow2 invalid VMDK image descriptor
+
+Status in QEMU:
+  Invalid
+
+Bug description:
+  Greetings,
+
+  CentOS 7.5.1804
+  Linux 3.10.0-862.11.6.el7.x86_64 =
+
+  qemu-img version 3.0.50 (v3.0.0-614-g19b599f)
+
+  When trying to convert a vmdk flat file to qcow2 format, I get the follow=
+ing error message:
+  qemu-img: Could not open './sk-R12-flat.vmdk': invalid VMDK image descrip=
+tor
+
+  The command line used is
+  root@s11kvm:/home/goinfre> qemu-img convert -f vmdk -O qcow2 ./sk-R12-fla=
+t.vmdk ./sk-R12-flat.qcow2
+
+  =
+
+  "file sk-R12-flat.vmdk" returns:
+  sk-R12-flat.vmdk: x86 boot sector;
+  GRand Unified Bootloader, stage1 version 0x3, boot drive 0x80, 1st sector=
+ stage2 0x40, GRUB version 0.97;
+  partition 1: ID=3D0x63, active, starthead 1, startsector 63, 16002 sector=
+s; =
+
+  partition 2: ID=3D0x83, starthead 0, startsector 16065, 3084480 sectors; =
+
+  partition 3: ID=3D0x83, starthead 0, startsector 3100545, 3084480 sectors=
+; =
+
+  partition 4: ID=3D0x5, starthead 0, startsector 6185025, 161581770 sector=
+s, code offset 0x48
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1793016/+subscriptions
 
