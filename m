@@ -2,54 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6DD22AFFC7
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 07:40:47 +0100 (CET)
-Received: from localhost ([::1]:41804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ADB92AFFF2
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 07:57:43 +0100 (CET)
+Received: from localhost ([::1]:48546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kd6Hm-0005wE-TT
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 01:40:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43542)
+	id 1kd6Y9-0001NW-Nr
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 01:57:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kd6Eg-0005HM-RA
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 01:37:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49077)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kd6WI-0008Nm-0k
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 01:55:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34998)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kd6Ec-0000gu-Re
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 01:37:34 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kd6WE-0006cZ-A7
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 01:55:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605163048;
+ s=mimecast20190719; t=1605164139;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MblwLlRo/xRioyUYtZ8dO1OBDQfPWyf0FC0X1b1dV14=;
- b=cMPRglu68FC4bJYOU7082fkAynCcWA37sNRTPH/ieeleYAJ64EI5HewHS1gXCSnYCrtsiK
- 42TbNmbzzL1FDAa3qN2+RUvPbOfektdlCutaTeWAsX2zUS5Fnmawdxv/u/VqHahkhRX1yO
- 5/jm1b65rJQ3AI8LOK6V/36UxK7Ou5g=
+ bh=nhhZw3vvckaICZaIt67vbc328AUKNugGLNLXi5a+rIo=;
+ b=UlkAGakP1tqAFSB/GkKwxE0FWk5+o81tEwByGUvD1+Xjz02s1hzfheob80vNHUNC34VqdY
+ U7mLfVXx+HFMVAtzHyPbkqSm3YljCsvp0+Tg/rCGaik84/Cq6Y6e9XVl2Q4OI9xIoABscs
+ QCmTGuCQYyidC2zlvhbwM0CZrL5pdmU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-330-8J0kP_wuP1WgVzWwZZBRuw-1; Thu, 12 Nov 2020 01:37:25 -0500
-X-MC-Unique: 8J0kP_wuP1WgVzWwZZBRuw-1
+ us-mta-179-_UrgP9E8Mk2IMqckAnuGpQ-1; Thu, 12 Nov 2020 01:55:37 -0500
+X-MC-Unique: _UrgP9E8Mk2IMqckAnuGpQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23905107ACF9;
- Thu, 12 Nov 2020 06:37:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 429411017DCC
+ for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 06:55:36 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
  [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8FC8F5C22D;
- Thu, 12 Nov 2020 06:37:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DE2FE5C22D;
+ Thu, 12 Nov 2020 06:55:35 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E61B611386A0; Thu, 12 Nov 2020 07:37:21 +0100 (CET)
+ id 4C0BE11386A0; Thu, 12 Nov 2020 07:55:34 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
-To: Alex Chen <alex.chen@huawei.com>
-Subject: Re: [PATCH] json: Fix a memleak in parse_pair()
-References: <20201111115609.48888-1-alex.chen@huawei.com>
-Date: Thu, 12 Nov 2020 07:37:21 +0100
-In-Reply-To: <20201111115609.48888-1-alex.chen@huawei.com> (Alex Chen's
- message of "Wed, 11 Nov 2020 11:56:09 +0000")
-Message-ID: <87imabkrmm.fsf@dusky.pond.sub.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] vl, qemu-config: remove -set
+References: <20201111135716.1209421-1-pbonzini@redhat.com>
+ <20201111150336.GF906488@redhat.com>
+ <a210eaa2-6d2c-0d7c-d7e3-96c73acaf6b0@redhat.com>
+Date: Thu, 12 Nov 2020 07:55:34 +0100
+In-Reply-To: <a210eaa2-6d2c-0d7c-d7e3-96c73acaf6b0@redhat.com> (Paolo
+ Bonzini's message of "Wed, 11 Nov 2020 16:48:49 +0100")
+Message-ID: <87blg3kqs9.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
@@ -57,18 +60,19 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 00:52:29
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 00:51:38
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,148 +85,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
- zhang.zhanghailiang@huawei.com
+Cc: "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Alex Chen <alex.chen@huawei.com> writes:
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-> In qobject_type(), NULL is returned when the 'QObject' returned from parse_value() is not of QString type,
-> and this 'QObject' memory will leaked.
-> So we need to first check whether the 'QObject' returned from parse_value() is of QString type,
-> and if not, we free 'QObject' memory and return an error.
+> On 11/11/20 16:03, Daniel P. Berrang=C3=A9 wrote:
+>> On Wed, Nov 11, 2020 at 08:57:16AM -0500, Paolo Bonzini wrote:
+>>> -set as far as I can see has basically no use.  It was intended as an o=
+verride
+>>> mechanism for configuration files, but even configuration files themsel=
+ves
+>>> are hardly used.  Drop it with prejudice.
+>>>=20
+>>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>>> ---
+>>>  docs/system/deprecated.rst |  6 ++++++
+>>>  include/qemu/config-file.h |  1 -
+>>>  qemu-options.hx            |  9 ---------
+>>>  softmmu/vl.c               |  4 ----
+>>>  util/qemu-config.c         | 33 ---------------------------------
+>>>  5 files changed, 6 insertions(+), 47 deletions(-)
+>>
+>> iotest 068 uses -set and qtest vhost-user-text.c also does
+>> IOW, it looks like it is valid to use -set, even if you're not using
+>> -readconfig.
+
+Of course that's valid.
+
+>> Libvirt doesn't use -set, but we've had users who make use of
+>> libvirt
+>> command line passthrough for QEMU with -set.
 >
-> The memleak stack is as follows:
-> Direct leak of 32 byte(s) in 1 object(s) allocated from:
->     #0 0xfffe4b3c34fb in __interceptor_malloc (/lib64/libasan.so.4+0xd34fb)
->     #1 0xfffe4ae48aa3 in g_malloc (/lib64/libglib-2.0.so.0+0x58aa3)
->     #2 0xaaab3557d9f7 in qnum_from_int /Images/source_org/qemu_master/qemu/qobject/qnum.c:25
->     #3 0xaaab35584d23 in parse_literal /Images/source_org/qemu_master/qemu/qobject/json-parser.c:511
->     #4 0xaaab35584d23 in parse_value /Images/source_org/qemu_master/qemu/qobject/json-parser.c:554
->     #5 0xaaab35583d77 in parse_pair /Images/source_org/qemu_master/qemu/qobject/json-parser.c:270
->     #6 0xaaab355845db in parse_object /Images/source_org/qemu_master/qemu/qobject/json-parser.c:327
->     #7 0xaaab355845db in parse_value /Images/source_org/qemu_master/qemu/qobject/json-parser.c:546
->     #8 0xaaab35585b1b in json_parser_parse /Images/source_org/qemu_master/qemu/qobject/json-parser.c:580
->     #9 0xaaab35583703 in json_message_process_token /Images/source_org/qemu_master/qemu/qobject/json-streamer.c:92
->     #10 0xaaab355ddccf in json_lexer_feed_char /Images/source_org/qemu_master/qemu/qobject/json-lexer.c:313
->     #11 0xaaab355de0eb in json_lexer_feed /Images/source_org/qemu_master/qemu/qobject/json-lexer.c:350
->     #12 0xaaab354aff67 in tcp_chr_read /Images/source_org/qemu_master/qemu/chardev/char-socket.c:525
->     #13 0xfffe4ae429db in g_main_context_dispatch (/lib64/libglib-2.0.so.0+0x529db)
->     #14 0xfffe4ae42d8f  (/lib64/libglib-2.0.so.0+0x52d8f)
->     #15 0xfffe4ae430df in g_main_loop_run (/lib64/libglib-2.0.so.0+0x530df)
->     #16 0xaaab34d70bff in iothread_run /Images/source_org/qemu_master/qemu/iothread.c:82
->     #17 0xaaab3559d71b in qemu_thread_start /Images/source_org/qemu_master/qemu/util/qemu-thread-posix.c:519
-
-Good catch, thanks!
-
-> Fixes: 532fb5328473 ("qapi: Make more of qobject_to()")
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Alex Chen <alex.chen@huawei.com>
-> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-> ---
->  qobject/json-parser.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
+> Hmm, indeed:
 >
-> diff --git a/qobject/json-parser.c b/qobject/json-parser.c
-> index d083810d37..b37762a203 100644
-> --- a/qobject/json-parser.c
-> +++ b/qobject/json-parser.c
-> @@ -267,10 +267,13 @@ static int parse_pair(JSONParserContext *ctxt, QDict *dict)
->          goto out;
->      }
->  
-> -    key = qobject_to(QString, parse_value(ctxt));
-> -    if (!key) {
-> -        parse_error(ctxt, peek, "key is not a string in object");
-> +    value = parse_value(ctxt);
-> +    if (!value || qobject_type(value) != QTYPE_QSTRING) {
+> https://patchwork.kernel.org/project/qemu-devel/patch/20181218041625.2496=
+9-16-mst@redhat.com/
 
-The "is string" test becomes more cumbersome.  Also, we reuse @value for
-another purpose.
+Such monkey-patching may not be wise, but unwise !=3D invalid.
 
-> +        qobject_unref(value);
-> +        parse_error(ctxt, peek, "value is not a string in object");
+>> IOW, I'm not convinced real world usage is near zero as suggested.
 
-Changing error messages in a memory leak fix is inappropriate.
-Accident?
+Guessing the gamut of usage out there in the real world correctly is
+always a tall order :)
 
->          goto out;
-> +    } else {
-> +        key = qobject_to(QString, value);
->      }
->  
->      token = parser_context_pop_token(ctxt);
+> Yes, perhaps it's not. :)  Though for both tests you pointed out it's
+> even cleaner not to use it, there seems to be real world usage at
+> least with "device".
 
-Here's a simpler, straightforward fix, with a test case thrown in:
+I have common test configurations files for -readconfig.  I've used -set
+for quick monkey-patching once in a great while.  Now, such ad hoc use
+is a *weak* argument against ditching the feature.  But it does
+undermine the "basically no use" proposition.
 
-diff --git a/qobject/json-parser.c b/qobject/json-parser.c
-index d083810d37..c0f521b56b 100644
---- a/qobject/json-parser.c
-+++ b/qobject/json-parser.c
-@@ -257,8 +257,9 @@ static JSONToken *parser_context_peek_token(JSONParserContext *ctxt)
-  */
- static int parse_pair(JSONParserContext *ctxt, QDict *dict)
- {
-+    QObject *key_obj = NULL;
-+    QString *key;
-     QObject *value;
--    QString *key = NULL;
-     JSONToken *peek, *token;
- 
-     peek = parser_context_peek_token(ctxt);
-@@ -267,7 +268,8 @@ static int parse_pair(JSONParserContext *ctxt, QDict *dict)
-         goto out;
-     }
- 
--    key = qobject_to(QString, parse_value(ctxt));
-+    key_obj = parse_value(ctxt);
-+    key = qobject_to(QString, key_obj);
-     if (!key) {
-         parse_error(ctxt, peek, "key is not a string in object");
-         goto out;
-@@ -297,13 +299,11 @@ static int parse_pair(JSONParserContext *ctxt, QDict *dict)
- 
-     qdict_put_obj(dict, qstring_get_str(key), value);
- 
--    qobject_unref(key);
--
-+    qobject_unref(key_obj);
-     return 0;
- 
- out:
--    qobject_unref(key);
--
-+    qobject_unref(key_obj);
-     return -1;
- }
- 
-diff --git a/tests/check-qjson.c b/tests/check-qjson.c
-index 07a773e653..9a02079099 100644
---- a/tests/check-qjson.c
-+++ b/tests/check-qjson.c
-@@ -1415,6 +1415,14 @@ static void invalid_dict_comma(void)
-     g_assert(obj == NULL);
- }
- 
-+static void invalid_dict_key(void)
-+{
-+    Error *err = NULL;
-+    QObject *obj = qobject_from_json("{32:'abc'}", &err);
-+    error_free_or_abort(&err);
-+    g_assert(obj == NULL);
-+}
-+
- static void unterminated_literal(void)
- {
-     Error *err = NULL;
-@@ -1500,6 +1508,7 @@ int main(int argc, char **argv)
-     g_test_add_func("/errors/unterminated/dict_comma", unterminated_dict_comma);
-     g_test_add_func("/errors/invalid_array_comma", invalid_array_comma);
-     g_test_add_func("/errors/invalid_dict_comma", invalid_dict_comma);
-+    g_test_add_func("/errors/invalid_dict_key", invalid_dict_key);
-     g_test_add_func("/errors/unterminated/literal", unterminated_literal);
-     g_test_add_func("/errors/limits/nesting", limits_nesting);
-     g_test_add_func("/errors/multiple_values", multiple_values);
+> It is probably more viable to deprecate or even forbid usage of "-set"
+> with anything but "device".  vhost-user-test.c would still be
+> affected, but it's a relatively small patch.
+
+Deprecating only some uses buys us next to nothing, I think.  If we want
+to deprecate it, just deprecate it.
+
+Immediate removal of -set / rejection of -set for some option groups
+needs more justification than just "I think we can get away with it":
+there has to be a tangible benefit.  What would immediate removal buy us
+over the orthodox "deprecate, wait for grace period to expire, remove"?
 
 
