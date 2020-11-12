@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 190C12B005A
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 08:31:00 +0100 (CET)
-Received: from localhost ([::1]:53360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C130C2B0058
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 08:29:21 +0100 (CET)
+Received: from localhost ([::1]:50982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kd74N-0000xO-5J
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 02:30:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51070)
+	id 1kd72m-0008Fc-TL
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 02:29:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kd6ue-0007gV-9N
+ id 1kd6ud-0007fv-6y
  for qemu-devel@nongnu.org; Thu, 12 Nov 2020 02:20:57 -0500
-Received: from indium.canonical.com ([91.189.90.7]:55006)
+Received: from indium.canonical.com ([91.189.90.7]:54974)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kd6ua-0006KA-JP
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 02:20:55 -0500
+ id 1kd6ua-0006Jt-5d
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 02:20:54 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kd6uZ-0005e5-Cy
- for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 07:20:51 +0000
+ id 1kd6uY-0005e5-KC
+ for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 07:20:50 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5EBE52E811E
- for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 07:20:51 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 969782E80E9
+ for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 07:20:50 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 12 Nov 2020 07:11:10 -0000
-From: Thomas Huth <1794950@bugs.launchpad.net>
+Date: Thu, 12 Nov 2020 07:12:11 -0000
+From: Thomas Huth <1795369@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -38,18 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: fdmanana2 th-huth
-X-Launchpad-Bug-Reporter: Filipe Manana (fdmanana2)
+X-Launchpad-Bug-Commenters: artem.pisarenko th-huth
+X-Launchpad-Bug-Reporter: Artem Pisarenko (artem.pisarenko)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <153813115023.24445.9281522775132548105.malonedeb@gac.canonical.com>
-Message-Id: <160516507030.25044.14006462798097732662.malone@wampee.canonical.com>
-Subject: [Bug 1794950] Re: qemu hangs when guest is using linux kernel 4.16+
+References: <153839106192.31215.12352296438682774073.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160516513166.23750.1381081838744528358.malone@wampee.canonical.com>
+Subject: [Bug 1795369] Re: Record/replay (icount rr) causes emulation hang or
+ exit with error about missing events in log
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="9218c6cee10bde7201ace93cd659634a9bc6c70a"; Instance="production"
-X-Launchpad-Hash: 709fa8aadcf0b7ddc79e7413b0e07d47afcf62a3
+X-Launchpad-Hash: ade9ab5ec335dc59b48d55bdadd6535b4a4eb43c
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 01:35:39
@@ -72,7 +73,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1794950 <1794950@bugs.launchpad.net>
+Reply-To: Bug 1795369 <1795369@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -92,124 +93,77 @@ venience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1794950
+https://bugs.launchpad.net/bugs/1795369
 
 Title:
-  qemu hangs when guest is using linux kernel 4.16+
+  Record/replay (icount rr) causes emulation hang or exit with error
+  about missing events in log
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  I have been using qemu on daily basis 5+ years in order to do btrfs
-  development and testing and it always worked perfectly, until I
-  upgraded the linux kernel of the guests to 4.16. With 4.16+ kernels,
-  when running all the fstests (previously called xfstests), the qemu
-  process hangs (console unresponsive, can't ping or ssh the guest
-  anymore, etc) and stays in a state Sl+ according to 'ps'.
+  Test case description:
 
-  This happens on two different physical machines, one running openSUSE
-  tumbleweed (which I don't access at the moment to check kernel
-  version) and another running xubuntu (tried kernels 4.15.0-32-generic
-  and vanilla 4.18.0). Using any kernel from 4.16 to 4.19-rc5 in the
-  guests (they use different debian versions) makes qemu hang running
-  the fstests suite (after about 30 to 40 minutes, either at test
-  generic/299 or test generic/451).
+  Guest image is Linux, which just powers off after kernel boots (instead o=
+f proceeding to user-space /init or /sbin/init).
+  Base cmdline:
+    qemu-system-x86_64 \
+      -nodefaults -nographic -machine pc,accel=3Dtcg -m 2048 -cpu qemu64 \
+      -kernel bzImage -initrd rootfs -append 'nokaslr console=3DttyS0 rdini=
+t=3D/init_poweroff' \
+      -serial SERIAL_VALUE \
+      -rtc clock=3Dvm,base=3D2000-01-01T00:00:00 \
+      -icount 1,sleep=3Doff,rr=3DRR_VALUE,rrfile=3Dicount_rr_capture.bin
 
-  I tried different qemu versions, 2.11.2, 2.12.1 and 3.0.0, and it
-  happens with all of them (all built from the sources available at
-  https://www.qemu.org/download/#source).
+  Test 1.
+  When SERIAL_VALUE=3Dnone
+  Running with RR_VALUE=3Drecord completes successfully.
+  Running with RR_VALUE=3Dreplay doesn't completes. qemu process just eatin=
+g ~100% cpu and memory usage doesn't grow after some moment. I don't see wh=
+at happens because of problem no.2 (see below).
 
-  I built 3.0.0 with debug enabled, using the following parameters for
-  'configure':
+  Test 2.
+  When SERIAL_VALUE=3Dstdio
+  Running with RR_VALUE=3Drecord completes successfully.
+  Running with RR_VALUE=3Dreplay causes exit with error:
+  "qemu-system-x86_64: Missing character write event in the replay log"
 
-  --prefix=3D/home/fdmanana/qemu-3.0.0 --enable-tools --enable-linux-aio
-  --enable-kvm --enable-vnc --enable-vnc-png --enable-debug --extra-
-  cflags=3D"-O0 -g3 -fno-omit-frame-pointer"
+  Tests 3,4,5...
+  SERIAL_VALUE=3Dstdio. Playing with "-rtc" clock and base suboptions, "-ic=
+ount" sleep suboptions produces non-repeatable results.
+  In most cases running with RR_VALUE=3Drecord completes successfully (but =
+may hang at very begining).
+  Running with RR_VALUE=3Dreplay with combinations of removing "-rtc base=
+=3D..." and "-icount sleep=3D..." goes better, but at different places of b=
+oot process it may either hang (as in test 1) or exit with error (as in tes=
+t 2).
+  When qemu "hangs", it may also happen differently: either it can be stopp=
+ed by Ctrl-C, or have to be killed.
 
-  And captured a coredump of the qemu process, available at:
+  =
 
-  https://www.dropbox.com/s/d1tlsimahykwhla/core_dump_debug.tar.xz?dl=3D0
+  Guest image uploaded here: https://drive.google.com/open?id=3D1SHG4HyBdcP=
+utc5Au4pyhN8z9w52et51A
 
-  the stack traces of all threads, for a quick look:
-
-  https://friendpaste.com/zqkz2pD0WgSdeSKITHPDf
-
-  qemu is being invoked with the following script:
-
-  #!/bin/bash -x
-
-  sudo modprobe tun
-  sudo modprobe kvm
-  sudo modprobe kvm-intel
-
-  sudo tunctl -t tap5 -u fdmanana
-  sudo ifconfig tap5 up
-  sudo brctl addif br0 tap5
-
-  sudo umount /mnt/tmp5
-  sudo mkdir -p /mnt/tmp5
-  sudo mount -t tmpfs -o size=3D14G tmpfs /mnt/tmp5
-  for ((i =3D 2; i <=3D 7; i++)); do
-          sudo qemu-img create -f qcow2 /mnt/tmp5/disk$i 13G
-  done
-  sudo chown fdmanana /mnt/tmp5/disk*
-
-  qemu-system-x86_64 -m 4G \
-          -device virtio-scsi-pci \
-          -boot c \
-  \
-          -drive if=3Dnone,file=3Ddebian5.qcow2,cache=3Dnone,aio=3Dnative,c=
-ache.direct=3Don,format=3Dqcow2,id=3Ddrive0,discard=3Don \
-          -device scsi-hd,drive=3Ddrive0,bus=3Dscsi.0 \
-  \
-          -drive if=3Dnone,file=3D/mnt/tmp5/disk2,cache=3Dwriteback,format=
-=3Dqcow2,id=3Ddrive1,discard=3Don \
-          -device scsi-hd,drive=3Ddrive1,bus=3Dscsi.0 \
-  \
-          -drive if=3Dnone,file=3D/mnt/tmp5/disk3,cache=3Dwriteback,format=
-=3Dqcow2,id=3Ddrive2,discard=3Don \
-          -device scsi-hd,drive=3Ddrive2,bus=3Dscsi.0 \
-  \
-          -drive if=3Dnone,file=3D/mnt/tmp5/disk4,cache=3Dwriteback,format=
-=3Dqcow2,id=3Ddrive3,discard=3Don \
-          -device scsi-hd,drive=3Ddrive3,bus=3Dscsi.0 \
-  \
-          -drive if=3Dnone,file=3D/mnt/tmp5/disk5,cache=3Dwriteback,format=
-=3Dqcow2,id=3Ddrive4,discard=3Don \
-          -device scsi-hd,drive=3Ddrive4,bus=3Dscsi.0 \
-  \
-          -drive if=3Dnone,file=3D/mnt/tmp5/disk6,cache=3Dwriteback,format=
-=3Dqcow2,id=3Ddrive5,discard=3Don \
-          -device scsi-hd,drive=3Ddrive5,bus=3Dscsi.0 \
-  \
-          -drive if=3Dnone,file=3D/mnt/tmp5/disk7,cache=3Dwriteback,format=
-=3Dqcow2,id=3Ddrive6,discard=3Don \
-          -device scsi-hd,drive=3Ddrive6,bus=3Dscsi.0 \
-  \
-          -drive if=3Dnone,file=3Ddisk8,cache=3Dwriteback,aio=3Dnative,cach=
-e.direct=3Don,format=3Dqcow2,id=3Ddrive7,discard=3Don \
-          -device scsi-hd,drive=3Ddrive7,bus=3Dscsi.0 \
-  \
-          -drive if=3Dnone,file=3Ddisk9,cache=3Dwriteback,aio=3Dnative,cach=
-e.direct=3Don,format=3Dqcow2,id=3Ddrive8,discard=3Don \
-          -device scsi-hd,drive=3Ddrive8,bus=3Dscsi.0 \
-  \
-          -drive if=3Dnone,file=3Ddisk10,cache=3Dwriteback,aio=3Dnative,cac=
-he.direct=3Don,format=3Dqcow2,id=3Ddrive9,discard=3Don \
-          -device scsi-hd,drive=3Ddrive9,bus=3Dscsi.0 \
-  \
-          -net nic,macaddr=3D52:54:00:12:34:fa -net tap,ifname=3Dtap5,scrip=
-t=3Dno,downscript=3Dno \
-          -rtc base=3Dlocaltime -enable-kvm -machine accel=3Dkvm -smp 4 -cp=
-u host \
-          -k pt -serial tcp:127.0.0.1:9997 -display vnc=3D:5
-
-
-  Is there anything else I can provided to help debug this?
-
-  Thanks.
+  QEMU built from master (commit 042938f46e1c477419d1931381fdadffaa49d45e) =
+with:
+  <SRC_ROOT>/configure --prefix=3D<INSTALL_ROOT> --target-list=3Dx86_64-sof=
+tmmu --enable-debug --disable-pie --enable-tcg --disable-tcg-interpreter --=
+enable-virtfs --disable-docs --disable-guest-agent --disable-modules --disa=
+ble-gnutls --disable-nettle --disable-gcrypt --disable-sdl --disable-curses=
+ --disable-vnc --disable-vnc-sasl --disable-vnc-jpeg --disable-vnc-png --di=
+sable-cocoa --disable-xen --disable-xen-pci-passthrough --disable-brlapi --=
+disable-curl --disable-fdt --disable-bluez --disable-kvm --disable-hax --di=
+sable-hvf --disable-whpx --disable-rdma --disable-vde --disable-netmap --di=
+sable-cap-ng --disable-spice --disable-rbd --disable-libiscsi --disable-lib=
+nfs --disable-smartcard --disable-libusb --disable-live-block-migration --d=
+isable-usb-redir --disable-glusterfs --disable-tpm --disable-libssh2 --disa=
+ble-numa --disable-libxml2 --disable-opengl --disable-virglrenderer --disab=
+le-qom-cast-debug --disable-tools --disable-vxhs --disable-crypto-afalg --d=
+isable-capstone --disable-replication --disable-xfsctl --disable-seccomp --=
+disable-pvrdma --disable-libpmem
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1794950/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1795369/+subscriptions
 
