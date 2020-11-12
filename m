@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE8AA2B1161
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 23:23:23 +0100 (CET)
-Received: from localhost ([::1]:42392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DAF02B1184
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 23:28:55 +0100 (CET)
+Received: from localhost ([::1]:55146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdKzy-0007cL-Ug
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 17:23:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34222)
+	id 1kdL5F-0004ls-4a
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 17:28:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kdKRE-00006u-5e
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:47:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23200)
+ id 1kdKRP-0000HB-EN
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:47:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21925)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kdKRC-0003nG-82
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:47:27 -0500
+ id 1kdKRM-0003oH-6r
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 16:47:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605217645;
+ s=mimecast20190719; t=1605217653;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0515GEVNq/EtBK0e9C2VJclhRHGVHipxK5dgMOIhNoA=;
- b=GTzhHUISiwApRCgcH2eA4lV9ZElN2sZRxedQIIZaQaf4q4wrCBEBolJvdzWF84WwcEYjCf
- V1u16Gx6NuLMMCJkW3DLemDI5XgYWRy6daFLh1g+ewc9B2x0G3vfJgSOxX5GSXDB8034qM
- DkRNhHg97swQdYqO9Ruk4ard2cDi4go=
+ bh=zKAMxkAZdWtHz59/oN5KECOch+qKM8v3q6+WMT/2vtU=;
+ b=V6G1ooSO25Vrk/+j0dJiLONWNLCttHfnN2LwZi52JHPKGtd3fzH30HQf71xTiJojmqCSzo
+ iVN8DJRJm7xrxIjmmz0kixY1ZG9lBqjmIsSUEH13wXAOHsxdiNKLMcCf3JFus9D361kK4N
+ tY30JwhMRPDb/P5d1olbPDeMNdA98Bk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-105-pc4ua6X1MwymxfChUOHSTQ-1; Thu, 12 Nov 2020 16:47:19 -0500
-X-MC-Unique: pc4ua6X1MwymxfChUOHSTQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-221-634AWudtOtKAp4o1Uz1sQA-1; Thu, 12 Nov 2020 16:47:32 -0500
+X-MC-Unique: 634AWudtOtKAp4o1Uz1sQA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 63854805EF7;
- Thu, 12 Nov 2020 21:47:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B534186DD3A;
+ Thu, 12 Nov 2020 21:47:31 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E1E2910016DA;
- Thu, 12 Nov 2020 21:47:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 821606EF62;
+ Thu, 12 Nov 2020 21:47:27 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 49/53] qom: FIELD_PROP macro
-Date: Thu, 12 Nov 2020 16:43:46 -0500
-Message-Id: <20201112214350.872250-50-ehabkost@redhat.com>
+Subject: [PATCH v3 52/53] tests: Use field property at check-qom-proplist test
+ case
+Date: Thu, 12 Nov 2020 16:43:49 -0500
+Message-Id: <20201112214350.872250-53-ehabkost@redhat.com>
 In-Reply-To: <20201112214350.872250-1-ehabkost@redhat.com>
 References: <20201112214350.872250-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,90 +90,105 @@ Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The FIELD_PROP macro can be used to define a Property struct when
-initializing static variables, or as a function parameter (e.g.
-as a paramter to object_class_property_add_field()).
-
-The qdev-specific DEFINE_PROP macro can be defined using the new
-macro.  The only difference is that DEFINE_PROP gets the property
-name as the first argument.
+Use the field property system for the "sv" property used at
+check-qom-proplist.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-This is a new patch added in v3 of this series.
+Changes v2 -> v3:
+* Don't register a instance field property, as
+  object_property_add_field() is an internal API
+
+Changes v1 -> v2:
+* Use PROP_* and object_class_property_add_field() interface
+
 ---
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: "Daniel P. Berrangé" <berrange@redhat.com>
 Cc: Eduardo Habkost <ehabkost@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- include/qom/field-property.h | 17 +++++++++++++++++
- include/qom/property-types.h | 26 +++++++++++++++++++-------
- 2 files changed, 36 insertions(+), 7 deletions(-)
+ tests/check-qom-proplist.c | 39 ++++----------------------------------
+ 1 file changed, 4 insertions(+), 35 deletions(-)
 
-diff --git a/include/qom/field-property.h b/include/qom/field-property.h
-index a904f98609..0cb1fe2217 100644
---- a/include/qom/field-property.h
-+++ b/include/qom/field-property.h
-@@ -108,4 +108,21 @@ object_class_property_add_field(ObjectClass *oc, const char *name,
+diff --git a/tests/check-qom-proplist.c b/tests/check-qom-proplist.c
+index 1b76581980..2ded6203fb 100644
+--- a/tests/check-qom-proplist.c
++++ b/tests/check-qom-proplist.c
+@@ -25,7 +25,7 @@
+ #include "qemu/module.h"
+ #include "qemu/option.h"
+ #include "qemu/config-file.h"
+-#include "qom/object_interfaces.h"
++#include "qom/qom.h"
  
- void *object_field_prop_ptr(Object *obj, Property *prop);
  
-+/**
-+ * FIELD_PROP: Expands to a compound literal for a #Property struct
-+ *
-+ * @_state: name of the object state structure type
-+ * @_field: name of field in @_state
-+ * @_prop: name of #PropertyInfo variable with type information
-+ * @_type: expected type of field @_field in struct @_state
-+ * @...: additional initializers for #Property struct fields
-+ */
-+#define FIELD_PROP(_state, _field, _prop, _type, ...) \
-+    (Property) {                                                 \
-+        .info      = &(_prop),                                   \
-+        .offset    = offsetof(_state, _field)                    \
-+            + type_check(_type, typeof_field(_state, _field)),   \
-+        __VA_ARGS__                                              \
-+    }
-+
- #endif
-diff --git a/include/qom/property-types.h b/include/qom/property-types.h
-index 46c82da4e3..62551c77e0 100644
---- a/include/qom/property-types.h
-+++ b/include/qom/property-types.h
-@@ -23,13 +23,25 @@ extern const PropertyInfo prop_info_size32;
- extern const PropertyInfo prop_info_arraylen;
- extern const PropertyInfo prop_info_link;
+ #define TYPE_DUMMY "qemu-dummy"
+@@ -103,26 +103,6 @@ static int dummy_get_av(Object *obj,
+     return dobj->av;
+ }
  
--#define DEFINE_PROP(_name, _state, _field, _prop, _type, ...) {  \
--        .name_template = (_name),                           \
--        .info      = &(_prop),                                   \
--        .offset    = offsetof(_state, _field)                    \
--            + type_check(_type, typeof_field(_state, _field)),   \
--        __VA_ARGS__                                              \
--        }
-+/**
-+ * DEFINE_PROP: Define a #Property struct, including a property name
-+ *
-+ * @_name: name of the property
-+ * @_state: name of the object state structure type
-+ * @_field: name of field in @_state
-+ * @_prop: name of #PropertyInfo variable with type information
-+ * @_type: expected type of field @_field in struct @_state
-+ * @...: additional initializers for #Property struct fields
-+ *
-+ * `DEFINE_PROP` or other ``DEFINE_PROP_*`` macros are normally
-+ * used when initialiing static const #Property arrays, to be
-+ * used with object_class_add_field_properties() or
-+ * device_class_set_props().
-+ */
-+#define DEFINE_PROP(_name, _state, _field, _prop, _type, ...) \
-+    FIELD_PROP(_state, _field, _prop, _type,                  \
-+               .name_template = (_name),                      \
-+               __VA_ARGS__)
+-
+-static void dummy_set_sv(Object *obj,
+-                         const char *value,
+-                         Error **errp)
+-{
+-    DummyObject *dobj = DUMMY_OBJECT(obj);
+-
+-    g_free(dobj->sv);
+-    dobj->sv = g_strdup(value);
+-}
+-
+-static char *dummy_get_sv(Object *obj,
+-                          Error **errp)
+-{
+-    DummyObject *dobj = DUMMY_OBJECT(obj);
+-
+-    return g_strdup(dobj->sv);
+-}
+-
+-
+ static void dummy_init(Object *obj)
+ {
+     object_property_add_bool(obj, "bv",
+@@ -130,12 +110,11 @@ static void dummy_init(Object *obj)
+                              dummy_set_bv);
+ }
  
- #define DEFINE_PROP_SIGNED(_name, _state, _field, _defval, _prop, _type) \
-     DEFINE_PROP(_name, _state, _field, _prop, _type,                     \
+-
+ static void dummy_class_init(ObjectClass *cls, void *data)
+ {
+-    object_class_property_add_str(cls, "sv",
+-                                  dummy_get_sv,
+-                                  dummy_set_sv);
++    object_class_property_add_field(cls, "sv",
++                                    PROP_STRING(DummyObject, sv),
++                                    prop_allow_set_always);
+     object_class_property_add_enum(cls, "av",
+                                    "DummyAnimal",
+                                    &dummy_animal_map,
+@@ -143,21 +122,11 @@ static void dummy_class_init(ObjectClass *cls, void *data)
+                                    dummy_set_av);
+ }
+ 
+-
+-static void dummy_finalize(Object *obj)
+-{
+-    DummyObject *dobj = DUMMY_OBJECT(obj);
+-
+-    g_free(dobj->sv);
+-}
+-
+-
+ static const TypeInfo dummy_info = {
+     .name          = TYPE_DUMMY,
+     .parent        = TYPE_OBJECT,
+     .instance_size = sizeof(DummyObject),
+     .instance_init = dummy_init,
+-    .instance_finalize = dummy_finalize,
+     .class_size = sizeof(DummyObjectClass),
+     .class_init = dummy_class_init,
+     .interfaces = (InterfaceInfo[]) {
 -- 
 2.28.0
 
