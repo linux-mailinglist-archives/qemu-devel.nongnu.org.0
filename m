@@ -2,60 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A1452B0223
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 10:41:39 +0100 (CET)
-Received: from localhost ([::1]:48918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2917C2B023C
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Nov 2020 10:48:06 +0100 (CET)
+Received: from localhost ([::1]:51728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kd96n-00014q-Qe
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 04:41:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54306)
+	id 1kd9D3-0002iC-8T
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 04:48:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kd95M-000050-EC; Thu, 12 Nov 2020 04:40:08 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:46502
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kd95J-0005Pd-MD; Thu, 12 Nov 2020 04:40:08 -0500
-Received: from host109-155-147-35.range109-155.btcentralplus.com
- ([109.155.147.35] helo=[192.168.1.110])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kd95P-0007ZQ-Mr; Thu, 12 Nov 2020 09:40:16 +0000
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: thuth@redhat.com, armbru@redhat.com, david@gibson.dropbear.id.au,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org, qemu-trivial@nongnu.org
-References: <thuth@redhat.com, armbru@redhat.com, david@gibson.dropbear.id.au, 
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- qemu-trivial@nongnu.org>
- <20201110103111.18395-1-mark.cave-ayland@ilande.co.uk>
-Message-ID: <1fd15956-056c-3a7e-7696-0ba09f116122@ilande.co.uk>
-Date: Thu, 12 Nov 2020 09:39:52 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
-MIME-Version: 1.0
-In-Reply-To: <20201110103111.18395-1-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 109.155.147.35
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2-for-5.2] macio: set user_creatable to false in
- macio_class_init()
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
+ (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1kd9C5-0002Gu-Kp
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 04:47:05 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38591)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1kd9C3-00086q-JF
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 04:47:05 -0500
+Received: by mail-wm1-x344.google.com with SMTP id h62so4873746wme.3
+ for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 01:47:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id;
+ bh=htgjkcVsMZNIrHt2+g/ErSOItfgqIHCyrEHFvj1N9QE=;
+ b=yTilNaVTQPxUyc4dvjWRYaUT1QUGbQYzfPiQmu+N757XlcNwkYqWEwaZdqiGqd1nqA
+ bCHxJEEjPUClQN3f2txb7JBLI7DjTwTEZ9jzfi2X1EfFAMeWfItfYBwl9jUJApXVkcHF
+ 95AoYXmbEEKWcEEipeKVM3PsW4s3OmDmsXmViV8cnw6b+XD3GTiGnO03z6DcRRF3eHs9
+ FGgEUjl4rCoyIIlyvbdjMOXorT7Yh1Lhi/5YOwetghqQC+DrdTnx6QYvoV5l7ngwQDMX
+ RaB9bRhERbpLc/n/VGmkEqRfC7wmzpoZq6XY5P7fTF1yLasURGyymi8upVMScQv8rpLK
+ ve/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=htgjkcVsMZNIrHt2+g/ErSOItfgqIHCyrEHFvj1N9QE=;
+ b=LZa1hcP24Q01JDCP0qDhpgp+xxa2o37pO5wjRaiQyldemnL2qGL9C3JiCCji5RHbvT
+ TGIqPyVc4iyJ+IdrnnTjCrVSebmLKP6hJUSBePa/p8KO+11YlAWQSjgQqxG7l+/SeuG7
+ /G3k8QXn82dWacAVuvM1wXUFK7xf4MdV/vDrwkkFr/iIqQaRT95+soM3JwHR5etPWujD
+ 4lqO9SU5i+Qr72XJaaOnVSKyg383h12Hvm7AiSMaQYfPnQqT6CD0bIbksAMuE17bzuY6
+ /p10Mo4o0ZYfCKF4h9A4kwS+8A8fpYhv8tjoc6x/QZ3CfSG13cxWRQEeOadPC6fOtWNZ
+ huzg==
+X-Gm-Message-State: AOAM5304uP2JIb2Ks9iKy/Q2gdC/2z6NwIk+Y+bl8iAUJaJNgRKQZ8xS
+ 3rwsj+gXmzbvP2qdtCF1OCkGqq5+DKgVDQ==
+X-Google-Smtp-Source: ABdhPJxR0jcoBvymkUxaxMaDn6TpXMNOy1VwImhgJU63LJ4NBGi4slxIpsDylw+edxZ/1iMIDjy/VQ==
+X-Received: by 2002:a7b:c384:: with SMTP id s4mr8792852wmj.77.1605174421279;
+ Thu, 12 Nov 2020 01:47:01 -0800 (PST)
+Received: from f2.Home (bzq-79-177-41-59.red.bezeqint.net. [79.177.41.59])
+ by smtp.gmail.com with ESMTPSA id u16sm5923764wrn.55.2020.11.12.01.46.59
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 12 Nov 2020 01:47:00 -0800 (PST)
+From: Yuri Benditovich <yuri.benditovich@daynix.com>
+To: qemu-devel@nongnu.org,
+	jasowang@redhat.com
+Subject: [PATCH] virtio-net: purge queued rx packets on queue deletion
+Date: Thu, 12 Nov 2020 11:46:53 +0200
+Message-Id: <20201112094653.20255-1-yuri.benditovich@daynix.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: none client-ip=2a00:1450:4864:20::344;
+ envelope-from=yuri.benditovich@daynix.com; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,56 +79,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: yan@daynix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/11/2020 10:31, Mark Cave-Ayland wrote:
+https://bugzilla.redhat.com/show_bug.cgi?id=1829272
+When deleting queue pair, purge pending RX packets if any.
+Example of problematic flow:
+1. Bring up q35 VM with tap (vhost off) and virtio-net or e1000e
+2. Run ping flood to the VM NIC ( 1 ms interval)
+3. Hot unplug the NIC device (device_del)
+   During unplug process one or more packets come, the NIC
+   can't receive, tap disables read_poll
+4. Hot plug the device (device_add) with the same netdev
+The tap stays with read_poll disabled and does not receive
+any packets anymore (tap_send never triggered)
 
-> Commit 348b8d1a76 "macio: don't reference serial_hd() directly within the device"
-> removed the setting of user_creatable to false on the basis that the restriction
-> was due to the use of serial_hd() in macio_instance_init().
-> 
-> Unfortunately this isn't the full story since the PIC object property links
-> must still be set before the device is realized. Whilst it is possible to update
-> the macio device and Mac machines to resolve this, the fix is too invasive at
-> this point in the release cycle.
-> 
-> For now simply set user_creatable back to false in macio_class_init() to
-> prevent QEMU from segfaulting in anticipation of the proper fix arriving in
-> QEMU 6.0.
-> 
-> Reported-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> ---
->   hw/misc/macio/macio.c | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> v2:
-> - Rebase onto master
-> - Add for-5.2 into subject prefix
-> - Add R-B tags from Philippe and Thomas
-> 
-> 
-> diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
-> index 51368884d0..bb601f782c 100644
-> --- a/hw/misc/macio/macio.c
-> +++ b/hw/misc/macio/macio.c
-> @@ -456,6 +456,8 @@ static void macio_class_init(ObjectClass *klass, void *data)
->       k->class_id = PCI_CLASS_OTHERS << 8;
->       device_class_set_props(dc, macio_properties);
->       set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
-> +    /* Reason: requires PIC property links to be set in macio_*_realize() */
-> +    dc->user_creatable = false;
->   }
->   
->   static const TypeInfo macio_bus_info = {
+Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
+---
+ net/net.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-Applied to my qemu-macppc branch.
+diff --git a/net/net.c b/net/net.c
+index 7a2a0fb5ac..a95b417300 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -411,10 +411,14 @@ void qemu_del_nic(NICState *nic)
+ 
+     qemu_macaddr_set_free(&nic->conf->macaddr);
+ 
+-    /* If this is a peer NIC and peer has already been deleted, free it now. */
+-    if (nic->peer_deleted) {
+-        for (i = 0; i < queues; i++) {
+-            qemu_free_net_client(qemu_get_subqueue(nic, i)->peer);
++    for (i = 0; i < queues; i++) {
++        NetClientState *nc = qemu_get_subqueue(nic, i);
++        /* If this is a peer NIC and peer has already been deleted, free it now. */
++        if (nic->peer_deleted) {
++            qemu_free_net_client(nc->peer);
++        } else if (nc->peer) {
++            /* if there are RX packets pending, complete them */
++            qemu_purge_queued_packets(nc->peer);
+         }
+     }
+ 
+-- 
+2.17.1
 
-
-ATB,
-
-Mark.
 
