@@ -2,76 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B6D02B23FC
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 19:46:47 +0100 (CET)
-Received: from localhost ([::1]:56328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03AD52B2402
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 19:47:37 +0100 (CET)
+Received: from localhost ([::1]:58766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kde5t-0007bV-Hy
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 13:46:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48552)
+	id 1kde6i-0000J2-3I
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 13:47:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kde3t-00073Q-4Y
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 13:44:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33194)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kde3j-0008P0-Td
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 13:44:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605293070;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XA7a1L0QaNP5xEeycdpTKAgWkXwShuI/8w+Rqmt/7oA=;
- b=E3mhjQbuWY00wMZOomR7HAdRgEPs60Xt15170J0FhdFPsTMMil8GGZP1jjQeBPaJu2NV9H
- h12hqRDeaCOU7AVIgS38rLP/ECU5e09/rI66n1ZkDKjvToqDV8DuekcXOxCeG5foWHaYth
- JJhs8nr4Kmc85QuQCrIx36kL7EJ87Wk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-521-UapbLK28PgiVLiDiRGJl0Q-1; Fri, 13 Nov 2020 13:44:27 -0500
-X-MC-Unique: UapbLK28PgiVLiDiRGJl0Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2ED51074648
- for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 18:44:26 +0000 (UTC)
-Received: from work-vm (ovpn-114-160.ams2.redhat.com [10.36.114.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2CEE519C66;
- Fri, 13 Nov 2020 18:44:22 +0000 (UTC)
-Date: Fri, 13 Nov 2020 18:44:19 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH 11/13] hmp/char: Use qemu_chr_parse_cli_str() for
- chardev-change
-Message-ID: <20201113184419.GV3251@work-vm>
-References: <20201112175905.404472-1-kwolf@redhat.com>
- <20201112175905.404472-12-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kde4p-0007U5-6I
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 13:45:39 -0500
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:34597)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kde4n-0000LU-Bs
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 13:45:38 -0500
+Received: by mail-ej1-x630.google.com with SMTP id o9so15013444ejg.1
+ for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 10:45:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iwdzo2y5MyzCQR9VPo9/0VDz7Gv7q4SgNuIjEu2Dtuk=;
+ b=pf3rhmJnuEUX8RNSEoRNvDoSs/UNmU41qTdFfnmdjW3uJlEhh0KPEWgNzyZyqcqeYB
+ ydD5NA8VvIoxpJglzxcMH2iTOHO9NAODAlvb+OoIOvR4gnHAMWdN59scppXHGZ4cX5V7
+ FVqXZ9DI6a6dOs/A2Bse7EbaZxfdo7dDMrlEM+EIlhksjwdEew4vq+paHti+h5K4lN1S
+ ZZCkPWU9f/JxDR157I1LK25c45g0umrK5qFnxMDQEyUsxjomBEpxN/lHm3EYHp7XEhD7
+ rSRTK8+HEddWtgLIAH5kNEl/Ina9vKq98kEeJX5H2A/cK5Rw9ApqFJY28g4AZNygLe03
+ T23g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iwdzo2y5MyzCQR9VPo9/0VDz7Gv7q4SgNuIjEu2Dtuk=;
+ b=fgQqzvoUOX+j16ASPO1kn5Es5/1DfgiowuUqI/kMmiQZObbM/4WcKBbo44tzhi08jF
+ lUwhCZkxi4qyig94O+vxi4QkoaUPShUBLArcClY1G5JxieJcOfsDh9OQ50+tyHC3DErl
+ G8Qs9wB4zPePbnlYncuT6+oPIpqCDLHBUnqocwaTUFqt+kYPjhcZPBTFsoz5o1loSvpK
+ d2aL/1RuBxLVJBVY2yfGUo+Pqyyhd8RTY3naqBF5Nc6mNkRaHJ2UsvjM2LxPMs6eyKOY
+ cggDrLY2A9StALPmR1GtUvW/SNNIQGXiHP/YHLuOPag68FGfFFq2DeNUZN1+Zb+0/Y9k
+ jtww==
+X-Gm-Message-State: AOAM530pZptaO9czCtUl4d2PRLgxP8BPrvWP5ZmpRZDrxhhpojHh5nRf
+ eiZQUNaA80DG8lTueLlzAsWeONakpOqZe/9Uhb8bGg==
+X-Google-Smtp-Source: ABdhPJxDdwNxIdOkktMlXvKPOLoomV7NPBiip7+11zur0aJTdZgWvoptZZMVTkzCau6e+bMlI/drb7ENCmUF2GgH1+Y=
+X-Received: by 2002:a17:906:3a97:: with SMTP id
+ y23mr3256064ejd.250.1605293135007; 
+ Fri, 13 Nov 2020 10:45:35 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201112175905.404472-12-kwolf@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:00:44
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20201113130548.127093-1-dgilbert@redhat.com>
+In-Reply-To: <20201113130548.127093-1-dgilbert@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 13 Nov 2020 18:45:23 +0000
+Message-ID: <CAFEAcA_dLpHZjJcbHnGjE4ejMV1PNpAPEuTKhH6VR3HyOSrZeQ@mail.gmail.com>
+Subject: Re: [PULL 0/3] hmp queue
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,85 +79,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org,
- armbru@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, lichun <lichun@ruijie.com.cn>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Kevin Wolf (kwolf@redhat.com) wrote:
-> Instead of going through the QemuOpts-based parser, go directly from the
-> given option string to ChardevOptions. This doesn't only avoid legacy
-> code, but it also simplifies the implementation.
->=20
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+On Fri, 13 Nov 2020 at 13:11, Dr. David Alan Gilbert (git)
+<dgilbert@redhat.com> wrote:
+>
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>
+> The following changes since commit be2df2ac6f6b9eeee21cc057de0a119ac30fbc60:
+>
+>   Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20201112' into staging (2020-11-13 11:36:30 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/dagrh/qemu.git tags/pull-hmp-20201113
+>
+> for you to fetch changes up to e7cff9c68d4a46343861fbc3cc6b2a0b63b2dbb8:
+>
+>   hmp: Pass monitor to mon_get_cpu_env() (2020-11-13 12:45:51 +0000)
+>
+> ----------------------------------------------------------------
+> HMP fixes
+>
+> Kevin's HMP fixes
 
-OK, from HMP I think
 
-Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Applied, thanks.
 
-I'm assuming there's no change in the escaping from you extracting it
-from the qdict and then printfing it back to go throguh the parser?
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
 
-Dave
-
-> ---
->  monitor/hmp-cmds.c | 27 +++++++++------------------
->  1 file changed, 9 insertions(+), 18 deletions(-)
->=20
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index a6a6684df1..0244068de8 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -1793,34 +1793,25 @@ void hmp_chardev_add(Monitor *mon, const QDict *q=
-dict)
->  void hmp_chardev_change(Monitor *mon, const QDict *qdict)
->  {
->      const char *args =3D qdict_get_str(qdict, "args");
-> -    const char *id;
-> +    const char *id =3D qdict_get_str(qdict, "id");
-> +    char *optstr;
->      Error *err =3D NULL;
-> -    ChardevBackend *backend =3D NULL;
-> +    ChardevOptions *options =3D NULL;
->      ChardevReturn *ret =3D NULL;
-> -    QemuOpts *opts =3D qemu_opts_parse_noisily(qemu_find_opts("chardev")=
-, args,
-> -                                             true);
-> -    if (!opts) {
-> -        error_setg(&err, "Parsing chardev args failed");
-> -        goto end;
-> -    }
-> =20
-> -    id =3D qdict_get_str(qdict, "id");
-> -    if (qemu_opts_id(opts)) {
-> -        error_setg(&err, "Unexpected 'id' parameter");
-> -        goto end;
-> -    }
-> +    optstr =3D g_strdup_printf("%s,id=3D%s", args, id);
-> =20
-> -    backend =3D qemu_chr_parse_opts(opts, &err);
-> -    if (!backend) {
-> +    options =3D qemu_chr_parse_cli_str(optstr, &err);
-> +    if (!options) {
->          goto end;
->      }
-> =20
-> -    ret =3D qmp_chardev_change(id, backend, &err);
-> +    ret =3D qmp_chardev_change(options->id, options->backend, &err);
-> =20
->  end:
-> +    g_free(optstr);
->      qapi_free_ChardevReturn(ret);
-> -    qapi_free_ChardevBackend(backend);
-> -    qemu_opts_del(opts);
-> +    qapi_free_ChardevOptions(options);
->      hmp_handle_error(mon, err);
->  }
-> =20
-> --=20
-> 2.28.0
->=20
---=20
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+-- PMM
 
