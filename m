@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 492512B175A
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 09:38:40 +0100 (CET)
-Received: from localhost ([::1]:43858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D42BA2B173C
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 09:32:39 +0100 (CET)
+Received: from localhost ([::1]:58700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdUbP-0000Oe-CN
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 03:38:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37214)
+	id 1kdUVa-00032r-Qh
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 03:32:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kdUPm-0006Eo-RY
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 03:26:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46126)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kdUPn-0006Fq-7A
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 03:26:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32258)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kdUPk-0005kR-3O
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kdUPk-0005kd-LJ
  for qemu-devel@nongnu.org; Fri, 13 Nov 2020 03:26:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1605255995;
@@ -23,35 +23,35 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dqGxUULY28XC559h0z469fbhrxPBtyGM8HwdceIc2oI=;
- b=QsEdHeDF0+/TjYv/T1mYfGKFMxgKHf4CX+p59aoTa/RCKMJOqTWd13hIznoZ9QYKj88brz
- ictajVood5yyQsb4jc4GCIIvVwDezsGmNKrk6yiRHaXDrROMWr7xcP4emPoW8JmzKMRWJQ
- pkuipyj0dBSFdiqt0D0uDRyDIVNHgzs=
+ bh=6HH4VnlO7j3VP+jymHOpgOK0e6DsBp6SHegRBnSl18c=;
+ b=O42oRTJpvPohRIejnbGZW3LuiGid4AomP0CxhSci4D6ysxn79Sw52vtDUq3myDnyNw+dy6
+ HHwNcgu0uIQhuPSgdTHip5350KauVZQAGNp/UpwHcCYDJQaAjTBjX9PxVSH+ZoZjqQ5qNY
+ edBBN/DVzTuO9ELcyxubFChIksTXVqU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-165-niBvEmYbP_qlsnZ8SBFV_w-1; Fri, 13 Nov 2020 03:26:33 -0500
-X-MC-Unique: niBvEmYbP_qlsnZ8SBFV_w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-195-gAD6HcCXOBKwCCQbJ08P2w-1; Fri, 13 Nov 2020 03:26:30 -0500
+X-MC-Unique: gAD6HcCXOBKwCCQbJ08P2w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B049F64092
- for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 08:26:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C04C5186DD4A;
+ Fri, 13 Nov 2020 08:26:29 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
  [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 902685D9E4;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 93E916EF62;
  Fri, 13 Nov 2020 08:26:29 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 948DB11384A8; Fri, 13 Nov 2020 09:26:26 +0100 (CET)
+ id 978FF1138400; Fri, 13 Nov 2020 09:26:26 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/10] ui: Tweak a client_migrate_info error message
-Date: Fri, 13 Nov 2020 09:26:22 +0100
-Message-Id: <20201113082626.2725812-7-armbru@redhat.com>
+Subject: [PATCH 07/10] qga: Replace an unreachable error by abort()
+Date: Fri, 13 Nov 2020 09:26:23 +0100
+Message-Id: <20201113082626.2725812-8-armbru@redhat.com>
 In-Reply-To: <20201113082626.2725812-1-armbru@redhat.com>
 References: <20201113082626.2725812-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,39 +81,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Change
+check_suspend_mode()'s error message
 
-    Parameter 'protocol' expects spice
+    Parameter 'mode' expects GuestSuspendMode
 
-to
+makes no sense to users: GuestSuspendMode is a C enum.  Fortunately,
+it is unreachable.  Replace it by abort().
 
-    Parameter 'protocol' expects 'spice'
-
-for consistency with similar error messages elsewhere.
-
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Michael Roth <mdroth@linux.vnet.ibm.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- monitor/misc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ qga/commands-win32.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/monitor/misc.c b/monitor/misc.c
-index f0d3d41753..354ac87736 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -447,7 +447,7 @@ void qmp_client_migrate_info(const char *protocol, const char *hostname,
-         return;
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+index 300b87c859..87dc43e837 100644
+--- a/qga/commands-win32.c
++++ b/qga/commands-win32.c
+@@ -1441,8 +1441,7 @@ static void check_suspend_mode(GuestSuspendMode mode, Error **errp)
+         }
+         break;
+     default:
+-        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "mode",
+-                   "GuestSuspendMode");
++        abort();
      }
- 
--    error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "protocol", "spice");
-+    error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "protocol", "'spice'");
  }
  
- static void hmp_logfile(Monitor *mon, const QDict *qdict)
 -- 
 2.26.2
 
