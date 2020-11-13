@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0134D2B13BA
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 02:16:06 +0100 (CET)
-Received: from localhost ([::1]:53052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5ED62B13BB
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 02:16:09 +0100 (CET)
+Received: from localhost ([::1]:53426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdNh6-0003Ws-Tc
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 20:16:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43698)
+	id 1kdNhA-0003fx-Qn
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 20:16:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kdNf4-0001o9-V7
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 20:13:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30770)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kdNf8-0001uN-6x
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 20:14:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59841)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kdNf3-00036I-6M
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 20:13:58 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kdNf6-00036S-64
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 20:14:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605230036;
+ s=mimecast20190719; t=1605230039;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DcYWlFiDPX0kq7l0FYGOKFr18Hst2o2xIotv7vhYvwI=;
- b=HbxUl4mHLnCwM8zvFajXLSmVYRwedga0VwTPp0ah4Ig4MAEly2O7TAIxA3T9HQEH1WAfpE
- JyNVkWnko+nm78EsWxyVOdBS7svf2zmeFwE1b5bpoSOFxT6hs8j/Zx8Nd6X2JvD1LLAumk
- ZSHp/ZeFJxlOXHILVe3w0RpNUdX29D8=
+ bh=i6eLL2NGvIaRgdI+2iw6npwBjc+h7GCl/XuFkvE6b4I=;
+ b=XwDQUqJwFR9kwdGmcPAe8RKCDkPThVOs1q43/AmOxQ88Yp4k80oi3di/A/0jLil/BZBLPH
+ E3O3I5I7Omm1Uj6pNdzUPijQAhWQI39CZCefUrvm5Fco58lh0Ewzqi5MLehXmbyZPPyIjm
+ GHEwIa+RTYmfU846OcLvAFi65umvtUQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-593-eHvBiHJfNYuZCn8ZLgmnmA-1; Thu, 12 Nov 2020 20:13:54 -0500
-X-MC-Unique: eHvBiHJfNYuZCn8ZLgmnmA-1
+ us-mta-242-lJw2R6ywMAGiuPQyd07txw-1; Thu, 12 Nov 2020 20:13:57 -0500
+X-MC-Unique: lJw2R6ywMAGiuPQyd07txw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E844802B6A;
- Fri, 13 Nov 2020 01:13:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67B385F9D1
+ for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 01:13:56 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-113-51.phx2.redhat.com [10.3.113.51])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C4CA719D6C;
- Fri, 13 Nov 2020 01:13:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C264419C59;
+ Fri, 13 Nov 2020 01:13:53 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/7] rocker: Revamp fp_port_get_info
-Date: Thu, 12 Nov 2020 19:13:35 -0600
-Message-Id: <20201113011340.463563-3-eblake@redhat.com>
+Subject: [PATCH v2 3/7] migration: Refactor migrate_cap_add
+Date: Thu, 12 Nov 2020 19:13:36 -0600
+Message-Id: <20201113011340.463563-4-eblake@redhat.com>
 In-Reply-To: <20201113011340.463563-1-eblake@redhat.com>
 References: <20201113011340.463563-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -55,16 +55,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:00:44
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 16:09:27
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,84 +78,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Jiri Pirko <jiri@resnulli.us>,
- armbru@redhat.com
+Cc: armbru@redhat.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of modifying the value member of a list element passed as a
-parameter, and open-coding the manipulation of that list, it's nicer
-to just return a freshly allocated value to be prepended to a list
-using QAPI_LIST_PREPEND.
+Instead of taking a list parameter and returning a new head at a
+distance, just return the new item for the caller to insert into a
+list via QAPI_LIST_PREPEND.
 
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- hw/net/rocker/rocker_fp.h |  2 +-
- hw/net/rocker/rocker.c    |  8 +-------
- hw/net/rocker/rocker_fp.c | 17 ++++++++++-------
- 3 files changed, 12 insertions(+), 15 deletions(-)
+ migration/migration.c | 22 +++++++++-------------
+ 1 file changed, 9 insertions(+), 13 deletions(-)
 
-diff --git a/hw/net/rocker/rocker_fp.h b/hw/net/rocker/rocker_fp.h
-index dbe1dd329a4b..7ff57aac0180 100644
---- a/hw/net/rocker/rocker_fp.h
-+++ b/hw/net/rocker/rocker_fp.h
-@@ -28,7 +28,7 @@ int fp_port_eg(FpPort *port, const struct iovec *iov, int iovcnt);
-
- char *fp_port_get_name(FpPort *port);
- bool fp_port_get_link_up(FpPort *port);
--void fp_port_get_info(FpPort *port, RockerPortList *info);
-+RockerPort *fp_port_get_info(FpPort *port);
- void fp_port_get_macaddr(FpPort *port, MACAddr *macaddr);
- void fp_port_set_macaddr(FpPort *port, MACAddr *macaddr);
- uint8_t fp_port_get_learning(FpPort *port);
-diff --git a/hw/net/rocker/rocker.c b/hw/net/rocker/rocker.c
-index 1af1e6fa2f9b..c53a02315e54 100644
---- a/hw/net/rocker/rocker.c
-+++ b/hw/net/rocker/rocker.c
-@@ -127,13 +127,7 @@ RockerPortList *qmp_query_rocker_ports(const char *name, Error **errp)
+diff --git a/migration/migration.c b/migration/migration.c
+index 3263aa55a9da..e8c414a7b8f0 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -1667,27 +1667,23 @@ void migrate_set_state(int *state, int old_state, int new_state)
      }
-
-     for (i = r->fp_ports - 1; i >= 0; i--) {
--        RockerPortList *info = g_malloc0(sizeof(*info));
--        info->value = g_malloc0(sizeof(*info->value));
--        struct fp_port *port = r->fp_port[i];
--
--        fp_port_get_info(port, info);
--        info->next = list;
--        list = info;
-+        QAPI_LIST_PREPEND(list, fp_port_get_info(r->fp_port[i]));
-     }
-
-     return list;
-diff --git a/hw/net/rocker/rocker_fp.c b/hw/net/rocker/rocker_fp.c
-index 4aa7da79b81d..cbeed65bd5ec 100644
---- a/hw/net/rocker/rocker_fp.c
-+++ b/hw/net/rocker/rocker_fp.c
-@@ -51,14 +51,17 @@ bool fp_port_get_link_up(FpPort *port)
-     return !qemu_get_queue(port->nic)->link_down;
  }
 
--void fp_port_get_info(FpPort *port, RockerPortList *info)
-+RockerPort *fp_port_get_info(FpPort *port)
+-static MigrationCapabilityStatusList *migrate_cap_add(
+-    MigrationCapabilityStatusList *list,
+-    MigrationCapability index,
+-    bool state)
++static MigrationCapabilityStatus *migrate_cap_add(MigrationCapability index,
++                                                  bool state)
  {
--    info->value->name = g_strdup(port->name);
--    info->value->enabled = port->enabled;
--    info->value->link_up = fp_port_get_link_up(port);
--    info->value->speed = port->speed;
--    info->value->duplex = port->duplex;
--    info->value->autoneg = port->autoneg;
-+    RockerPort *value = g_malloc0(sizeof(*value));
-+
-+    value->name = g_strdup(port->name);
-+    value->enabled = port->enabled;
-+    value->link_up = fp_port_get_link_up(port);
-+    value->speed = port->speed;
-+    value->duplex = port->duplex;
-+    value->autoneg = port->autoneg;
-+    return value;
+-    MigrationCapabilityStatusList *cap;
++    MigrationCapabilityStatus *cap;
+
+-    cap = g_new0(MigrationCapabilityStatusList, 1);
+-    cap->value = g_new0(MigrationCapabilityStatus, 1);
+-    cap->value->capability = index;
+-    cap->value->state = state;
+-    cap->next = list;
++    cap = g_new0(MigrationCapabilityStatus, 1);
++    cap->capability = index;
++    cap->state = state;
+
+     return cap;
  }
 
- void fp_port_get_macaddr(FpPort *port, MACAddr *macaddr)
+ void migrate_set_block_enabled(bool value, Error **errp)
+ {
+-    MigrationCapabilityStatusList *cap;
++    MigrationCapabilityStatusList *cap = NULL;
+
+-    cap = migrate_cap_add(NULL, MIGRATION_CAPABILITY_BLOCK, value);
++    QAPI_LIST_PREPEND(cap, migrate_cap_add(MIGRATION_CAPABILITY_BLOCK, value));
+     qmp_migrate_set_capabilities(cap, errp);
+     qapi_free_MigrationCapabilityStatusList(cap);
+ }
+@@ -3874,7 +3870,7 @@ static bool migration_object_check(MigrationState *ms, Error **errp)
+
+     for (i = 0; i < MIGRATION_CAPABILITY__MAX; i++) {
+         if (ms->enabled_capabilities[i]) {
+-            head = migrate_cap_add(head, i, true);
++            QAPI_LIST_PREPEND(head, migrate_cap_add(i, true));
+         }
+     }
+
 -- 
 2.28.0
 
