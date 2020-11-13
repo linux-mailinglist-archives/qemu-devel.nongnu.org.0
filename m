@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04C7C2B1D91
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 15:36:36 +0100 (CET)
-Received: from localhost ([::1]:55770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F26BF2B1D9A
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 15:42:08 +0100 (CET)
+Received: from localhost ([::1]:60844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdaBn-0006i6-1j
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 09:36:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42224)
+	id 1kdaH9-0000bu-P2
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 09:42:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kdaB0-0006DL-Kd
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 09:35:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56360)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kdaFp-0008LK-EO
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 09:40:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60806)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kdaAy-0005P4-Ax
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 09:35:46 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kdaFm-0007Ll-5C
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 09:40:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605278143;
+ s=mimecast20190719; t=1605278441;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=WfVX3IReCB2vUMrKBlFRyKh7sLAfSNjR5ckL5ikXt2g=;
- b=eY47lP7c0QIXectZ6DxiPoH+bF3FRkRkPYvUGH3Ej5Ax4Z4zG9hDQURBzblRrsn2Pc2npa
- DbeQM9Z185l33lj6FSX+v5BUDJIDZaC9si1KTl8A4XWPjcY0Z0w7kTqdqaGYHpuH5rKorT
- 9SvdKOTHQ9RvrwUlLI0de+pUKHB+A7s=
+ bh=tV0Te8+8skJPv6Ihli6kT04dEpR0MPmw52Bq0eSBypQ=;
+ b=e/BP+xzr9QurhWidT0Vdx35Ct9LBb5qu73/sztPLhlxLKbVeYgDZqKVHBxJuImU840vc8/
+ Am6MTXKWF/W1aa/LoduDyVHiW8HIKtI4NqBsHn8OjilCiN0G8f+galo0Sl7bUYpkwEhM/k
+ PE4960cJmtDmMNVJcM41mOabaMlquTA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-523-RKai2c49PqyL_vxbgqIJ0g-1; Fri, 13 Nov 2020 09:35:40 -0500
-X-MC-Unique: RKai2c49PqyL_vxbgqIJ0g-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-571-60kDafiZNYujx6yWxDm61Q-1; Fri, 13 Nov 2020 09:40:39 -0500
+X-MC-Unique: 60kDafiZNYujx6yWxDm61Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA6B31009E41
- for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 14:35:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 181971075620;
+ Fri, 13 Nov 2020 14:40:38 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-114-99.ams2.redhat.com [10.36.114.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4B5096EF5D;
- Fri, 13 Nov 2020 14:35:39 +0000 (UTC)
-Date: Fri, 13 Nov 2020 15:35:37 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3205678B23;
+ Fri, 13 Nov 2020 14:40:37 +0000 (UTC)
+Date: Fri, 13 Nov 2020 15:40:35 +0100
 From: Kevin Wolf <kwolf@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [RFC PATCH 00/12] Remove QemuOpts usage for HMP, -object and
- -readconfig
-Message-ID: <20201113143537.GF5834@merkur.fritz.box>
-References: <20201111142537.1213209-1-pbonzini@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH for-5.2] iotests: Replace deprecated ConfigParser.readfp()
+Message-ID: <20201113144035.GG5834@merkur.fritz.box>
+References: <20201113100602.15936-1-kwolf@redhat.com>
+ <51e5149a-5296-8d1f-2095-e8fefcd732ed@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201111142537.1213209-1-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <51e5149a-5296-8d1f-2095-e8fefcd732ed@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -78,38 +78,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 11.11.2020 um 15:25 hat Paolo Bonzini geschrieben:
-> This is yet another RFC on the command-line parsing overhaul.  Here,
-> I'm switching HMP, -object and -readconfig away from QemuOpts.  There are
-> pending QemuOpts and keyval patches that make the syntaxes the same
-> apart from:
+Am 13.11.2020 um 14:47 hat Eric Blake geschrieben:
+> On 11/13/20 4:06 AM, Kevin Wolf wrote:
+> > iotest 277 fails on Fedora 33 (Python 3.9) because a deprecation warning
+> > changes the output:
+> > 
+> >     nbd-fault-injector.py:230: DeprecationWarning: This method will be
+> >     removed in future versions.  Use 'parser.read_file()' instead.
+> > 
+> > In fact, readfp() has already been deprecated in Python 3.2 and the
+> > replacement has existed since the same version, so we can now
+> > unconditionally switch to read_file().
+> > 
+> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> > ---
+> >  tests/qemu-iotests/nbd-fault-injector.py | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> - "implicit value" options (where the lack of value is turned
-> into "on" or "off"), which will be deprecated
+> Reviewed-by: Eric Blake <eblake@redhat.com>
 > 
-> - the processing of invalid, empty or overlong keys which can be considered
-> bugfixes.
-> 
-> Along the way, the object_add HMP command grows help support.
-> 
-> The plan on top of this is to also keyval-ify -M and -accel.  The reason
-> for this, in my evil plan, is to allow for compound properties.  These
-> compound properties would be used for replacements of options like -smp
-> (-M smp.xxx), -icount (-accel tcg,icount.xxx) and -chardev (as in -object
-> chardev-socket,addr.host).
+> I'm happy to queue this through my NBD tree for -rc2.
 
-I haven't reviewed everything in detail, but this approach looks
-workable to me.
-
-Of course, at the moment -object is a bit different from other options
-in that it doesn't have a QAPI object for the options, but you just
-directly pass QDicts to user_creatable_add_dict(). But plugging in a
-visitor for other options groups doesn't suddenly require a different
-design, so this is fine.
+If you don't have other patches to send, I can take it through my own
+tree, but if you send a pull request anyway, that's fine, too.
 
 Kevin
 
