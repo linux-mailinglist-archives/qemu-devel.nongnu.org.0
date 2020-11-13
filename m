@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5FC72B2491
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 20:35:36 +0100 (CET)
-Received: from localhost ([::1]:48504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A7332B24BB
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 20:41:52 +0100 (CET)
+Received: from localhost ([::1]:52516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kder9-0003jr-Qx
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 14:35:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60768)
+	id 1kdexD-0006A5-1C
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 14:41:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kdep2-0002lS-Cp
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 14:33:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46021)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kdevN-0005Vc-A8
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 14:39:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59807)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kdep0-0000Uu-QV
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 14:33:24 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kdevG-0002rP-5T
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 14:39:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605296001;
+ s=mimecast20190719; t=1605296389;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Da0QkGFs5wnvUz06WOFLPFY752ZWzAaExDE8nyDEY+k=;
- b=TWTp9s6awKKRGDcgP5mKVUnMG4phI65hGS4a2KT4LbI0DDbx4TJwsEoodcxT78GrHDH+Ds
- CnYLkvoFtYExDhojTpS7QY3L9bUZGmwUUZ8DFwMw0Lk8FzYA8vel92R5hgHY5IIpER0fnF
- 3WQlVE6sbDP26ws96HIajTmyr+1CmR4=
+ bh=uattLuSYlWj2kxMmT4RTWiiRK0FSa2ikgmk3gBzGrME=;
+ b=FmAe1cPmsfS8KbN1CT76UQKj13IiSG5Rlezt396k9faAdAyLB635sMFH7hZNGY32T5SMbf
+ NJmhDcQYuqRb+7sWsoB+ue2E8Xim+NZp0ju/KxkPF2zUrAJu+wRseeZfdc0Sv1XgM6ZxrA
+ QEP1OoL7aYrKR/CFYTSCHYmhJnBcd5I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-247-CZ5ymdugPOKkAo4gkD-iAA-1; Fri, 13 Nov 2020 14:33:08 -0500
-X-MC-Unique: CZ5ymdugPOKkAo4gkD-iAA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-198-h0ZVjU08NVW_AJZYzu01yA-1; Fri, 13 Nov 2020 14:39:45 -0500
+X-MC-Unique: h0ZVjU08NVW_AJZYzu01yA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 297D683DC23;
- Fri, 13 Nov 2020 19:33:07 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-96.ams2.redhat.com
- [10.36.114.96])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C67776266E;
- Fri, 13 Nov 2020 19:33:01 +0000 (UTC)
-Subject: Re: [PATCH v7 00/21] preallocate filter
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20201021145859.11201-1-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <775a4a8a-a45b-e5e3-fcc3-ca1f5bf9e584@redhat.com>
-Date: Fri, 13 Nov 2020 20:33:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6387C1868407;
+ Fri, 13 Nov 2020 19:39:29 +0000 (UTC)
+Received: from work-vm (ovpn-114-160.ams2.redhat.com [10.36.114.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D0BBF78A94;
+ Fri, 13 Nov 2020 19:39:06 +0000 (UTC)
+Date: Fri, 13 Nov 2020 19:39:03 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH v2 7/7] qapi: More complex uses of QAPI_LIST_APPEND
+Message-ID: <20201113193903.GX3251@work-vm>
+References: <20201113011340.463563-1-eblake@redhat.com>
+ <20201113011340.463563-8-eblake@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201021145859.11201-1-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20201113011340.463563-8-eblake@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:00:44
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 16:09:27
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,38 +81,720 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, den@virtuozzo.com, qemu-devel@nongnu.org,
- armbru@redhat.com, stefanha@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "open list:GLUSTER" <integration@gluster.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "open list:GLUSTER" <qemu-block@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, armbru@redhat.com,
+ Jason Wang <jasowang@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21.10.20 16:58, Vladimir Sementsov-Ogievskiy wrote:
-> Hi all!
+* Eric Blake (eblake@redhat.com) wrote:
+> These cases require a bit more thought to review; in each case, the
+> code was appending to a list, but not with a FOOList **tail variable.
 > 
-> Here is a filter, which does preallocation on write.
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> ---
+>  block/gluster.c            |  13 +---
+>  block/qapi.c               |  14 +----
+>  dump/dump.c                |  22 ++-----
+>  hw/core/machine-qmp-cmds.c | 125 +++++++++++++++----------------------
+>  hw/mem/memory-device.c     |  12 +---
+>  hw/pci/pci.c               |  60 ++++++------------
+>  migration/migration.c      |  20 ++----
+>  monitor/hmp-cmds.c         |  23 +++----
+>  net/net.c                  |  13 +---
+>  qga/commands-posix.c       | 101 +++++++++++-------------------
+>  qga/commands-win32.c       |  88 +++++++++-----------------
+>  softmmu/tpm.c              |  38 ++---------
+>  ui/spice-core.c            |  27 +++-----
+>  13 files changed, 180 insertions(+), 376 deletions(-)
 > 
-> v7:
-> 01: add Alberto's r-b
-> 07: don't remove sentence from the comment
-> 08: - drop extra "s->file_end = end;" line
->      - improve check/set perm handlers
-> 09: add Max's r-b
-> 10: add Max's r-b
-> 11: new
-> 12: - skip if preallocate unsupported
->      - drop auto and quick groups
-> 13: new
-> 14: - improve 'average' field of result spec
->      - drop extra 'dim = ...' line
-> 15-18: new
-> 19: a lot of changes
-> 20: new
-> 21: add results dump to json
 
-Thanks, applied to my block-next branch (for 6.0):
+<snip>
 
-https://git.xanclic.moe/XanClic/qemu/commits/branch/block-next
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 84e5f4982fb2..b97eb2d0494e 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -797,29 +797,21 @@ void migrate_send_rp_resume_ack(MigrationIncomingState *mis, uint32_t value)
+> 
+>  MigrationCapabilityStatusList *qmp_query_migrate_capabilities(Error **errp)
+>  {
+> -    MigrationCapabilityStatusList *head = NULL;
+> -    MigrationCapabilityStatusList *caps;
+> +    MigrationCapabilityStatusList *head = NULL, **tail = &head;
+> +    MigrationCapabilityStatus *caps;
+>      MigrationState *s = migrate_get_current();
+>      int i;
+> 
+> -    caps = NULL; /* silence compiler warning */
+>      for (i = 0; i < MIGRATION_CAPABILITY__MAX; i++) {
+>  #ifndef CONFIG_LIVE_BLOCK_MIGRATION
+>          if (i == MIGRATION_CAPABILITY_BLOCK) {
+>              continue;
+>          }
+>  #endif
+> -        if (head == NULL) {
+> -            head = g_malloc0(sizeof(*caps));
+> -            caps = head;
+> -        } else {
+> -            caps->next = g_malloc0(sizeof(*caps));
+> -            caps = caps->next;
+> -        }
+> -        caps->value =
+> -            g_malloc(sizeof(*caps->value));
+> -        caps->value->capability = i;
+> -        caps->value->state = s->enabled_capabilities[i];
+> +        caps = g_malloc(sizeof(*caps));
+> +        caps->capability = i;
+> +        caps->state = s->enabled_capabilities[i];
+> +        QAPI_LIST_APPEND(tail, caps);
+>      }
+> 
+>      return head;
+> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> index 01a7d317c3c9..678f388d2e1f 100644
+> --- a/monitor/hmp-cmds.c
+> +++ b/monitor/hmp-cmds.c
+> @@ -1699,7 +1699,8 @@ void hmp_closefd(Monitor *mon, const QDict *qdict)
+>  void hmp_sendkey(Monitor *mon, const QDict *qdict)
+>  {
+>      const char *keys = qdict_get_str(qdict, "keys");
+> -    KeyValueList *keylist, *head = NULL, *tmp = NULL;
+> +    KeyValue *v;
+> +    KeyValueList *head = NULL, **tail = &head;
+>      int has_hold_time = qdict_haskey(qdict, "hold-time");
+>      int hold_time = qdict_get_try_int(qdict, "hold-time", -1);
+>      Error *err = NULL;
+> @@ -1716,16 +1717,7 @@ void hmp_sendkey(Monitor *mon, const QDict *qdict)
+>              keyname_len = 4;
+>          }
+> 
+> -        keylist = g_malloc0(sizeof(*keylist));
+> -        keylist->value = g_malloc0(sizeof(*keylist->value));
+> -
+> -        if (!head) {
+> -            head = keylist;
+> -        }
+> -        if (tmp) {
+> -            tmp->next = keylist;
+> -        }
+> -        tmp = keylist;
+> +        v = g_malloc0(sizeof(*v));
+> 
+>          if (strstart(keys, "0x", NULL)) {
+>              char *endp;
+> @@ -1734,16 +1726,17 @@ void hmp_sendkey(Monitor *mon, const QDict *qdict)
+>              if (endp != keys + keyname_len) {
+>                  goto err_out;
+>              }
+> -            keylist->value->type = KEY_VALUE_KIND_NUMBER;
+> -            keylist->value->u.number.data = value;
+> +            v->type = KEY_VALUE_KIND_NUMBER;
+> +            v->u.number.data = value;
+>          } else {
+>              int idx = index_from_key(keys, keyname_len);
+>              if (idx == Q_KEY_CODE__MAX) {
+>                  goto err_out;
+>              }
+> -            keylist->value->type = KEY_VALUE_KIND_QCODE;
+> -            keylist->value->u.qcode.data = idx;
+> +            v->type = KEY_VALUE_KIND_QCODE;
+> +            v->u.qcode.data = idx;
+>          }
+> +        QAPI_LIST_APPEND(tail, v);
+> 
+>          if (!*separator) {
+>              break;
 
-Max
+Don't you need to arrange for 'v' to be free'd in the err_out case?
+
+Dave
+
+> diff --git a/net/net.c b/net/net.c
+> index eb65e110871a..453865db6f10 100644
+> --- a/net/net.c
+> +++ b/net/net.c
+> @@ -1199,10 +1199,9 @@ RxFilterInfoList *qmp_query_rx_filter(bool has_name, const char *name,
+>                                        Error **errp)
+>  {
+>      NetClientState *nc;
+> -    RxFilterInfoList *filter_list = NULL, *last_entry = NULL;
+> +    RxFilterInfoList *filter_list = NULL, **last = &filter_list;
+> 
+>      QTAILQ_FOREACH(nc, &net_clients, next) {
+> -        RxFilterInfoList *entry;
+>          RxFilterInfo *info;
+> 
+>          if (has_name && strcmp(nc->name, name) != 0) {
+> @@ -1227,15 +1226,7 @@ RxFilterInfoList *qmp_query_rx_filter(bool has_name, const char *name,
+> 
+>          if (nc->info->query_rx_filter) {
+>              info = nc->info->query_rx_filter(nc);
+> -            entry = g_malloc0(sizeof(*entry));
+> -            entry->value = info;
+> -
+> -            if (!filter_list) {
+> -                filter_list = entry;
+> -            } else {
+> -                last_entry->next = entry;
+> -            }
+> -            last_entry = entry;
+> +            QAPI_LIST_APPEND(last, info);
+>          } else if (has_name) {
+>              error_setg(errp, "net client(%s) doesn't support"
+>                         " rx-filter querying", name);
+> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+> index d8bc40ea9f6e..55087e268cda 100644
+> --- a/qga/commands-posix.c
+> +++ b/qga/commands-posix.c
+> @@ -2118,17 +2118,17 @@ void qmp_guest_suspend_hybrid(Error **errp)
+>      guest_suspend(SUSPEND_MODE_HYBRID, errp);
+>  }
+> 
+> -static GuestNetworkInterfaceList *
+> +static GuestNetworkInterface *
+>  guest_find_interface(GuestNetworkInterfaceList *head,
+>                       const char *name)
+>  {
+>      for (; head; head = head->next) {
+>          if (strcmp(head->value->name, name) == 0) {
+> -            break;
+> +            return head->value;
+>          }
+>      }
+> 
+> -    return head;
+> +    return NULL;
+>  }
+> 
+>  static int guest_get_network_stats(const char *name,
+> @@ -2197,7 +2197,7 @@ static int guest_get_network_stats(const char *name,
+>   */
+>  GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+>  {
+> -    GuestNetworkInterfaceList *head = NULL, *cur_item = NULL;
+> +    GuestNetworkInterfaceList *head = NULL, **tail = &head;
+>      struct ifaddrs *ifap, *ifa;
+> 
+>      if (getifaddrs(&ifap) < 0) {
+> @@ -2206,9 +2206,10 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+>      }
+> 
+>      for (ifa = ifap; ifa; ifa = ifa->ifa_next) {
+> -        GuestNetworkInterfaceList *info;
+> -        GuestIpAddressList **address_list = NULL, *address_item = NULL;
+> -        GuestNetworkInterfaceStat  *interface_stat = NULL;
+> +        GuestNetworkInterface *info;
+> +        GuestIpAddressList **address_tail;
+> +        GuestIpAddress *address_item = NULL;
+> +        GuestNetworkInterfaceStat *interface_stat = NULL;
+>          char addr4[INET_ADDRSTRLEN];
+>          char addr6[INET6_ADDRSTRLEN];
+>          int sock;
+> @@ -2222,19 +2223,14 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+> 
+>          if (!info) {
+>              info = g_malloc0(sizeof(*info));
+> -            info->value = g_malloc0(sizeof(*info->value));
+> -            info->value->name = g_strdup(ifa->ifa_name);
+> +            info->name = g_strdup(ifa->ifa_name);
+> 
+> -            if (!cur_item) {
+> -                head = cur_item = info;
+> -            } else {
+> -                cur_item->next = info;
+> -                cur_item = info;
+> -            }
+> +            QAPI_LIST_APPEND(tail, info);
+>          }
+> 
+> -        if (!info->value->has_hardware_address &&
+> -            ifa->ifa_flags & SIOCGIFHWADDR) {
+> +        address_tail = &info->ip_addresses;
+> +
+> +        if (!info->has_hardware_address && ifa->ifa_flags & SIOCGIFHWADDR) {
+>              /* we haven't obtained HW address yet */
+>              sock = socket(PF_INET, SOCK_STREAM, 0);
+>              if (sock == -1) {
+> @@ -2243,7 +2239,7 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+>              }
+> 
+>              memset(&ifr, 0, sizeof(ifr));
+> -            pstrcpy(ifr.ifr_name, IF_NAMESIZE, info->value->name);
+> +            pstrcpy(ifr.ifr_name, IF_NAMESIZE, info->name);
+>              if (ioctl(sock, SIOCGIFHWADDR, &ifr) == -1) {
+>                  error_setg_errno(errp, errno,
+>                                   "failed to get MAC address of %s",
+> @@ -2255,13 +2251,13 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+>              close(sock);
+>              mac_addr = (unsigned char *) &ifr.ifr_hwaddr.sa_data;
+> 
+> -            info->value->hardware_address =
+> +            info->hardware_address =
+>                  g_strdup_printf("%02x:%02x:%02x:%02x:%02x:%02x",
+>                                  (int) mac_addr[0], (int) mac_addr[1],
+>                                  (int) mac_addr[2], (int) mac_addr[3],
+>                                  (int) mac_addr[4], (int) mac_addr[5]);
+> 
+> -            info->value->has_hardware_address = true;
+> +            info->has_hardware_address = true;
+>          }
+> 
+>          if (ifa->ifa_addr &&
+> @@ -2274,15 +2270,14 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+>              }
+> 
+>              address_item = g_malloc0(sizeof(*address_item));
+> -            address_item->value = g_malloc0(sizeof(*address_item->value));
+> -            address_item->value->ip_address = g_strdup(addr4);
+> -            address_item->value->ip_address_type = GUEST_IP_ADDRESS_TYPE_IPV4;
+> +            address_item->ip_address = g_strdup(addr4);
+> +            address_item->ip_address_type = GUEST_IP_ADDRESS_TYPE_IPV4;
+> 
+>              if (ifa->ifa_netmask) {
+>                  /* Count the number of set bits in netmask.
+>                   * This is safe as '1' and '0' cannot be shuffled in netmask. */
+>                  p = &((struct sockaddr_in *)ifa->ifa_netmask)->sin_addr;
+> -                address_item->value->prefix = ctpop32(((uint32_t *) p)[0]);
+> +                address_item->prefix = ctpop32(((uint32_t *) p)[0]);
+>              }
+>          } else if (ifa->ifa_addr &&
+>                     ifa->ifa_addr->sa_family == AF_INET6) {
+> @@ -2294,15 +2289,14 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+>              }
+> 
+>              address_item = g_malloc0(sizeof(*address_item));
+> -            address_item->value = g_malloc0(sizeof(*address_item->value));
+> -            address_item->value->ip_address = g_strdup(addr6);
+> -            address_item->value->ip_address_type = GUEST_IP_ADDRESS_TYPE_IPV6;
+> +            address_item->ip_address = g_strdup(addr6);
+> +            address_item->ip_address_type = GUEST_IP_ADDRESS_TYPE_IPV6;
+> 
+>              if (ifa->ifa_netmask) {
+>                  /* Count the number of set bits in netmask.
+>                   * This is safe as '1' and '0' cannot be shuffled in netmask. */
+>                  p = &((struct sockaddr_in6 *)ifa->ifa_netmask)->sin6_addr;
+> -                address_item->value->prefix =
+> +                address_item->prefix =
+>                      ctpop32(((uint32_t *) p)[0]) +
+>                      ctpop32(((uint32_t *) p)[1]) +
+>                      ctpop32(((uint32_t *) p)[2]) +
+> @@ -2314,29 +2308,18 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+>              continue;
+>          }
+> 
+> -        address_list = &info->value->ip_addresses;
+> +        QAPI_LIST_APPEND(address_tail, address_item);
+> 
+> -        while (*address_list && (*address_list)->next) {
+> -            address_list = &(*address_list)->next;
+> -        }
+> +        info->has_ip_addresses = true;
+> 
+> -        if (!*address_list) {
+> -            *address_list = address_item;
+> -        } else {
+> -            (*address_list)->next = address_item;
+> -        }
+> -
+> -        info->value->has_ip_addresses = true;
+> -
+> -        if (!info->value->has_statistics) {
+> +        if (!info->has_statistics) {
+>              interface_stat = g_malloc0(sizeof(*interface_stat));
+> -            if (guest_get_network_stats(info->value->name,
+> -                interface_stat) == -1) {
+> -                info->value->has_statistics = false;
+> +            if (guest_get_network_stats(info->name, interface_stat) == -1) {
+> +                info->has_statistics = false;
+>                  g_free(interface_stat);
+>              } else {
+> -                info->value->statistics = interface_stat;
+> -                info->value->has_statistics = true;
+> +                info->statistics = interface_stat;
+> +                info->has_statistics = true;
+>              }
+>          }
+>      }
+> @@ -2863,7 +2846,6 @@ qmp_guest_set_memory_blocks(GuestMemoryBlockList *mem_blks, Error **errp)
+> 
+>      while (mem_blks != NULL) {
+>          GuestMemoryBlockResponse *result;
+> -        GuestMemoryBlockResponseList *entry;
+>          GuestMemoryBlock *current_mem_blk = mem_blks->value;
+> 
+>          result = g_malloc0(sizeof(*result));
+> @@ -2872,11 +2854,7 @@ qmp_guest_set_memory_blocks(GuestMemoryBlockList *mem_blks, Error **errp)
+>          if (local_err) { /* should never happen */
+>              goto err;
+>          }
+> -        entry = g_malloc0(sizeof *entry);
+> -        entry->value = result;
+> -
+> -        *link = entry;
+> -        link = &entry->next;
+> +        QAPI_LIST_APPEND(link, result);
+>          mem_blks = mem_blks->next;
+>      }
+> 
+> @@ -3107,11 +3085,10 @@ static double ga_get_login_time(struct utmpx *user_info)
+>  GuestUserList *qmp_guest_get_users(Error **errp)
+>  {
+>      GHashTable *cache = NULL;
+> -    GuestUserList *head = NULL, *cur_item = NULL;
+> +    GuestUserList *head = NULL, **tail = &head;
+>      struct utmpx *user_info = NULL;
+>      gpointer value = NULL;
+>      GuestUser *user = NULL;
+> -    GuestUserList *item = NULL;
+>      double login_time = 0;
+> 
+>      cache = g_hash_table_new(g_str_hash, g_str_equal);
+> @@ -3134,19 +3111,13 @@ GuestUserList *qmp_guest_get_users(Error **errp)
+>              continue;
+>          }
+> 
+> -        item = g_new0(GuestUserList, 1);
+> -        item->value = g_new0(GuestUser, 1);
+> -        item->value->user = g_strdup(user_info->ut_user);
+> -        item->value->login_time = ga_get_login_time(user_info);
+> +        user = g_new0(GuestUser, 1);
+> +        user->user = g_strdup(user_info->ut_user);
+> +        user->login_time = ga_get_login_time(user_info);
+> 
+> -        g_hash_table_insert(cache, item->value->user, item->value);
+> +        g_hash_table_insert(cache, user->user, user);
+> 
+> -        if (!cur_item) {
+> -            head = cur_item = item;
+> -        } else {
+> -            cur_item->next = item;
+> -            cur_item = item;
+> -        }
+> +        QAPI_LIST_APPEND(tail, user);
+>      }
+>      endutxent();
+>      g_hash_table_destroy(cache);
+> diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+> index 031bbe223ecf..cfc530975170 100644
+> --- a/qga/commands-win32.c
+> +++ b/qga/commands-win32.c
+> @@ -1625,11 +1625,11 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+>  {
+>      IP_ADAPTER_ADDRESSES *adptr_addrs, *addr;
+>      IP_ADAPTER_UNICAST_ADDRESS *ip_addr = NULL;
+> -    GuestNetworkInterfaceList *head = NULL, *cur_item = NULL;
+> -    GuestIpAddressList *head_addr, *cur_addr;
+> -    GuestNetworkInterfaceList *info;
+> +    GuestNetworkInterfaceList *head = NULL, **tail = &head;
+> +    GuestIpAddressList *head_addr, **tail_addr;
+> +    GuestNetworkInterface *info;
+>      GuestNetworkInterfaceStat *interface_stat = NULL;
+> -    GuestIpAddressList *address_item = NULL;
+> +    GuestIpAddress *address_item = NULL;
+>      unsigned char *mac_addr;
+>      char *addr_str;
+>      WORD wsa_version;
+> @@ -1652,30 +1652,24 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+>      for (addr = adptr_addrs; addr; addr = addr->Next) {
+>          info = g_malloc0(sizeof(*info));
+> 
+> -        if (cur_item == NULL) {
+> -            head = cur_item = info;
+> -        } else {
+> -            cur_item->next = info;
+> -            cur_item = info;
+> -        }
+> +        QAPI_LIST_APPEND(tail, info);
+> 
+> -        info->value = g_malloc0(sizeof(*info->value));
+> -        info->value->name = guest_wctomb_dup(addr->FriendlyName);
+> +        info->name = guest_wctomb_dup(addr->FriendlyName);
+> 
+>          if (addr->PhysicalAddressLength != 0) {
+>              mac_addr = addr->PhysicalAddress;
+> 
+> -            info->value->hardware_address =
+> +            info->hardware_address =
+>                  g_strdup_printf("%02x:%02x:%02x:%02x:%02x:%02x",
+>                                  (int) mac_addr[0], (int) mac_addr[1],
+>                                  (int) mac_addr[2], (int) mac_addr[3],
+>                                  (int) mac_addr[4], (int) mac_addr[5]);
+> 
+> -            info->value->has_hardware_address = true;
+> +            info->has_hardware_address = true;
+>          }
+> 
+>          head_addr = NULL;
+> -        cur_addr = NULL;
+> +        tail_addr = &head_addr;
+>          for (ip_addr = addr->FirstUnicastAddress;
+>                  ip_addr;
+>                  ip_addr = ip_addr->Next) {
+> @@ -1686,37 +1680,29 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+> 
+>              address_item = g_malloc0(sizeof(*address_item));
+> 
+> -            if (!cur_addr) {
+> -                head_addr = cur_addr = address_item;
+> -            } else {
+> -                cur_addr->next = address_item;
+> -                cur_addr = address_item;
+> -            }
+> +            QAPI_LIST_APPEND(tail_addr, address_item);
+> 
+> -            address_item->value = g_malloc0(sizeof(*address_item->value));
+> -            address_item->value->ip_address = addr_str;
+> -            address_item->value->prefix = guest_ip_prefix(ip_addr);
+> +            address_item->ip_address = addr_str;
+> +            address_item->prefix = guest_ip_prefix(ip_addr);
+>              if (ip_addr->Address.lpSockaddr->sa_family == AF_INET) {
+> -                address_item->value->ip_address_type =
+> -                    GUEST_IP_ADDRESS_TYPE_IPV4;
+> +                address_item->ip_address_type = GUEST_IP_ADDRESS_TYPE_IPV4;
+>              } else if (ip_addr->Address.lpSockaddr->sa_family == AF_INET6) {
+> -                address_item->value->ip_address_type =
+> -                    GUEST_IP_ADDRESS_TYPE_IPV6;
+> +                address_item->ip_address_type = GUEST_IP_ADDRESS_TYPE_IPV6;
+>              }
+>          }
+>          if (head_addr) {
+> -            info->value->has_ip_addresses = true;
+> -            info->value->ip_addresses = head_addr;
+> +            info->has_ip_addresses = true;
+> +            info->ip_addresses = head_addr;
+>          }
+> -        if (!info->value->has_statistics) {
+> +        if (!info->has_statistics) {
+>              interface_stat = g_malloc0(sizeof(*interface_stat));
+>              if (guest_get_network_stats(addr->AdapterName,
+>                  interface_stat) == -1) {
+> -                info->value->has_statistics = false;
+> +                info->has_statistics = false;
+>                  g_free(interface_stat);
+>              } else {
+> -                info->value->statistics = interface_stat;
+> -                info->value->has_statistics = true;
+> +                info->statistics = interface_stat;
+> +                info->has_statistics = true;
+>              }
+>          }
+>      }
+> @@ -2083,12 +2069,11 @@ GuestUserList *qmp_guest_get_users(Error **errp)
+>  #define QGA_NANOSECONDS 10000000
+> 
+>      GHashTable *cache = NULL;
+> -    GuestUserList *head = NULL, *cur_item = NULL;
+> +    GuestUserList *head = NULL, **tail = &head;
+> 
+>      DWORD buffer_size = 0, count = 0, i = 0;
+>      GA_WTSINFOA *info = NULL;
+>      WTS_SESSION_INFOA *entries = NULL;
+> -    GuestUserList *item = NULL;
+>      GuestUser *user = NULL;
+>      gpointer value = NULL;
+>      INT64 login = 0;
+> @@ -2124,23 +2109,17 @@ GuestUserList *qmp_guest_get_users(Error **errp)
+>                          user->login_time = login_time;
+>                      }
+>                  } else {
+> -                    item = g_new0(GuestUserList, 1);
+> -                    item->value = g_new0(GuestUser, 1);
+> +                    user = g_new0(GuestUser, 1);
+> 
+> -                    item->value->user = g_strdup(info->UserName);
+> -                    item->value->domain = g_strdup(info->Domain);
+> -                    item->value->has_domain = true;
+> +                    user->user = g_strdup(info->UserName);
+> +                    user->domain = g_strdup(info->Domain);
+> +                    user->has_domain = true;
+> 
+> -                    item->value->login_time = login_time;
+> +                    user->login_time = login_time;
+> 
+> -                    g_hash_table_add(cache, item->value->user);
+> +                    g_hash_table_add(cache, user->user);
+> 
+> -                    if (!cur_item) {
+> -                        head = cur_item = item;
+> -                    } else {
+> -                        cur_item->next = item;
+> -                        cur_item = item;
+> -                    }
+> +                    QAPI_LIST_APPEND(tail, user);
+>                  }
+>              }
+>              WTSFreeMemory(info);
+> @@ -2425,7 +2404,7 @@ static GStrv ga_get_hardware_ids(DEVINST devInstance)
+> 
+>  GuestDeviceInfoList *qmp_guest_get_devices(Error **errp)
+>  {
+> -    GuestDeviceInfoList *head = NULL, *cur_item = NULL, *item = NULL;
+> +    GuestDeviceInfoList *head = NULL, **tail = &head;
+>      HDEVINFO dev_info = INVALID_HANDLE_VALUE;
+>      SP_DEVINFO_DATA dev_info_data;
+>      int i, j;
+> @@ -2523,14 +2502,7 @@ GuestDeviceInfoList *qmp_guest_get_devices(Error **errp)
+>          slog("driver: %s\ndriver version: %" PRId64 ",%s\n",
+>               device->driver_name, device->driver_date,
+>               device->driver_version);
+> -        item = g_new0(GuestDeviceInfoList, 1);
+> -        item->value = g_steal_pointer(&device);
+> -        if (!cur_item) {
+> -            head = cur_item = item;
+> -        } else {
+> -            cur_item->next = item;
+> -            cur_item = item;
+> -        }
+> +        QAPI_LIST_APPEND(tail, g_steal_pointer(&device));
+>      }
+> 
+>      if (dev_info != INVALID_HANDLE_VALUE) {
+> diff --git a/softmmu/tpm.c b/softmmu/tpm.c
+> index cab206355afd..578563f05a7b 100644
+> --- a/softmmu/tpm.c
+> +++ b/softmmu/tpm.c
+> @@ -196,22 +196,14 @@ int tpm_config_parse(QemuOptsList *opts_list, const char *optarg)
+>  TPMInfoList *qmp_query_tpm(Error **errp)
+>  {
+>      TPMBackend *drv;
+> -    TPMInfoList *info, *head = NULL, *cur_item = NULL;
+> +    TPMInfoList *head = NULL, **tail = &head;
+> 
+>      QLIST_FOREACH(drv, &tpm_backends, list) {
+>          if (!drv->tpmif) {
+>              continue;
+>          }
+> 
+> -        info = g_new0(TPMInfoList, 1);
+> -        info->value = tpm_backend_query_tpm(drv);
+> -
+> -        if (!cur_item) {
+> -            head = cur_item = info;
+> -        } else {
+> -            cur_item->next = info;
+> -            cur_item = info;
+> -        }
+> +        QAPI_LIST_APPEND(tail, tpm_backend_query_tpm(drv));
+>      }
+> 
+>      return head;
+> @@ -220,44 +212,26 @@ TPMInfoList *qmp_query_tpm(Error **errp)
+>  TpmTypeList *qmp_query_tpm_types(Error **errp)
+>  {
+>      unsigned int i = 0;
+> -    TpmTypeList *head = NULL, *prev = NULL, *cur_item;
+> +    TpmTypeList *head = NULL, **tail = &head;
+> 
+>      for (i = 0; i < TPM_TYPE__MAX; i++) {
+>          if (!tpm_be_find_by_type(i)) {
+>              continue;
+>          }
+> -        cur_item = g_new0(TpmTypeList, 1);
+> -        cur_item->value = i;
+> -
+> -        if (prev) {
+> -            prev->next = cur_item;
+> -        }
+> -        if (!head) {
+> -            head = cur_item;
+> -        }
+> -        prev = cur_item;
+> +        QAPI_LIST_APPEND(tail, i);
+>      }
+> 
+>      return head;
+>  }
+>  TpmModelList *qmp_query_tpm_models(Error **errp)
+>  {
+> -    TpmModelList *head = NULL, *prev = NULL, *cur_item;
+> +    TpmModelList *head = NULL, **tail = &head;
+>      GSList *e, *l = object_class_get_list(TYPE_TPM_IF, false);
+> 
+>      for (e = l; e; e = e->next) {
+>          TPMIfClass *c = TPM_IF_CLASS(e->data);
+> 
+> -        cur_item = g_new0(TpmModelList, 1);
+> -        cur_item->value = c->model;
+> -
+> -        if (prev) {
+> -            prev->next = cur_item;
+> -        }
+> -        if (!head) {
+> -            head = cur_item;
+> -        }
+> -        prev = cur_item;
+> +        QAPI_LIST_APPEND(tail, c->model);
+>      }
+>      g_slist_free(l);
+> 
+> diff --git a/ui/spice-core.c b/ui/spice-core.c
+> index eea52f538999..58232b649e60 100644
+> --- a/ui/spice-core.c
+> +++ b/ui/spice-core.c
+> @@ -355,11 +355,11 @@ static const char *wan_compression_names[] = {
+> 
+>  static SpiceChannelList *qmp_query_spice_channels(void)
+>  {
+> -    SpiceChannelList *cur_item = NULL, *head = NULL;
+> +    SpiceChannelList *head = NULL, **tail = &head;
+>      ChannelList *item;
+> 
+>      QTAILQ_FOREACH(item, &channel_list, link) {
+> -        SpiceChannelList *chan;
+> +        SpiceChannel *chan;
+>          char host[NI_MAXHOST], port[NI_MAXSERV];
+>          struct sockaddr *paddr;
+>          socklen_t plen;
+> @@ -367,29 +367,22 @@ static SpiceChannelList *qmp_query_spice_channels(void)
+>          assert(item->info->flags & SPICE_CHANNEL_EVENT_FLAG_ADDR_EXT);
+> 
+>          chan = g_malloc0(sizeof(*chan));
+> -        chan->value = g_malloc0(sizeof(*chan->value));
+> 
+>          paddr = (struct sockaddr *)&item->info->paddr_ext;
+>          plen = item->info->plen_ext;
+>          getnameinfo(paddr, plen,
+>                      host, sizeof(host), port, sizeof(port),
+>                      NI_NUMERICHOST | NI_NUMERICSERV);
+> -        chan->value->host = g_strdup(host);
+> -        chan->value->port = g_strdup(port);
+> -        chan->value->family = inet_netfamily(paddr->sa_family);
+> +        chan->host = g_strdup(host);
+> +        chan->port = g_strdup(port);
+> +        chan->family = inet_netfamily(paddr->sa_family);
+> 
+> -        chan->value->connection_id = item->info->connection_id;
+> -        chan->value->channel_type = item->info->type;
+> -        chan->value->channel_id = item->info->id;
+> -        chan->value->tls = item->info->flags & SPICE_CHANNEL_EVENT_FLAG_TLS;
+> +        chan->connection_id = item->info->connection_id;
+> +        chan->channel_type = item->info->type;
+> +        chan->channel_id = item->info->id;
+> +        chan->tls = item->info->flags & SPICE_CHANNEL_EVENT_FLAG_TLS;
+> 
+> -       /* XXX: waiting for the qapi to support GSList */
+> -        if (!cur_item) {
+> -            head = cur_item = chan;
+> -        } else {
+> -            cur_item->next = chan;
+> -            cur_item = chan;
+> -        }
+> +        QAPI_LIST_APPEND(tail, chan);
+>      }
+> 
+>      return head;
+> -- 
+> 2.28.0
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
