@@ -2,69 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A5632B18A7
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 10:51:04 +0100 (CET)
-Received: from localhost ([::1]:54218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E59752B18AF
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 10:58:04 +0100 (CET)
+Received: from localhost ([::1]:56602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdVjT-0004ml-Mi
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 04:51:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54468)
+	id 1kdVqG-0006AH-1Y
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 04:58:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kdViX-0003lg-96
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 04:50:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25245)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kdViU-0002LQ-8X
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 04:50:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605261001;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ilPCvmy3xOThJzQXSnihCMKADlGAlZTzySAKyMKkkjc=;
- b=QCXbTpg7lHV/eoCirdOJSgFVka4KxSg3mn6jBoPXeLVn6ovi3s+F0mO225rdQVBXIcGtNf
- x/7TzilVp1/KWG1cq5ED1RTmc599kZp2RDWkspPQHiS+gji5pp1TSHqJZerfTLhQKB7Ewm
- cf72d7nkEeDZseJWBWHHVfQJw5ktfbE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-220-E7WQMbQ8OvWZNXrguuJMfA-1; Fri, 13 Nov 2020 04:49:59 -0500
-X-MC-Unique: E7WQMbQ8OvWZNXrguuJMfA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7EDD1100960C;
- Fri, 13 Nov 2020 09:49:58 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-99.ams2.redhat.com [10.36.114.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ACE3B5B4D8;
- Fri, 13 Nov 2020 09:49:57 +0000 (UTC)
-Date: Fri, 13 Nov 2020 10:49:56 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH] docs: Better mention of qemu-img amend limitations
-Message-ID: <20201113094956.GC5834@merkur.fritz.box>
-References: <20200923203719.732958-1-eblake@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <20200923203719.732958-1-eblake@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 16:09:27
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kdVon-0005it-M8
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 04:56:33 -0500
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:38729)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kdVok-0004oM-3m
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 04:56:33 -0500
+Received: by mail-pl1-x644.google.com with SMTP id d17so2800941plr.5
+ for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 01:56:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=lS+bubuS1dgRzDNDIVlnH3l1r8xUutZnE6XMTZAVHW4=;
+ b=IXfAEyp/5BGDGimkWsp8rAACHEnqa4caS8fyuJeDTTEIu2ub3C1FnsIOOD8WGM1zSS
+ OViJVsG2bNhBbBp0FpqixhYpSG8EXTtWEMlRsn9+4Msb/am16KuI3r03PxfBtVYAXQ0G
+ YnKfcdNIGJoTXWmJlbBHz+Hnc2Mgjk4TkaMads3yjcmauVrvkOh2jrkwtyO7ZovbOLkz
+ QD1dHMQOOshjr+5wvZAoymek8rHs0X6qaulGurBwj6b5v1yFknQ2RBKBM84a6qAJESaL
+ yGCa3dqPJxoZLIhYmmb9ibt8MOrl5XR7209fNt0FCxEI09loU/y0LXyGUjP03Q7/9TNh
+ wasg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=lS+bubuS1dgRzDNDIVlnH3l1r8xUutZnE6XMTZAVHW4=;
+ b=h0h3qj57Wz2LSJrM9t6Q/mU80fPT3nwVo+/PRuTHlv0N4NGMmIkWMnekM0empUiU2m
+ CjQ36QoeAEHuUqQCnYLYxfTRZqrSG0y84s/jlMpFNef/6AkO9unSAo2m+NDLwhL3xGL9
+ bg1mkrZM+9BhaqWdzLfVYiK3/JT5uwemHuFdZ7dGkAbYn053ymnliG76ohzsqTARwpGi
+ oV/foDEqGg1X1ssYzt6eP9vAk+C2FQitJfFpSXKpcHOz8W+XZUQvNIWw93Atm8d4VPDY
+ 1rsVNiFAn0VYpNOdtCc9IRqFz29OpMCEKv+vMd18KlQuJz6O0+7sIEM6zFNlEIE2lLDS
+ 5woQ==
+X-Gm-Message-State: AOAM532d1Vo/HZrfu7DY0bnqLtAhpmv83chpzdqFlX7hDcRuZb9NfQ7r
+ Y0+6uKQrJvh36JdRkuvGZMY=
+X-Google-Smtp-Source: ABdhPJy4b8PPbhyBN5KDJz8JzyWrRxDcH/g2c7zhU27ic2k7VoSEtVxt6vp0q2djHEZwUHjzZW9p2Q==
+X-Received: by 2002:a17:902:c286:b029:d6:6cbd:eabf with SMTP id
+ i6-20020a170902c286b02900d66cbdeabfmr1499130pld.41.1605261387817; 
+ Fri, 13 Nov 2020 01:56:27 -0800 (PST)
+Received: from pek-vx-bsp2.wrs.com (unknown-224-80.windriver.com.
+ [147.11.224.80])
+ by smtp.gmail.com with ESMTPSA id l133sm9544096pfd.112.2020.11.13.01.56.25
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 13 Nov 2020 01:56:27 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Subject: [PATCH v2] target/i386: seg_helper: Correct segement selector
+ nullification in the RET/IRET helper
+Date: Fri, 13 Nov 2020 17:56:18 +0800
+Message-Id: <1605261378-77971-1-git-send-email-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x644.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,41 +82,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 23.09.2020 um 22:37 hat Eric Blake geschrieben:
-> Missed during merge resolution of commit bc5ee6da71.
-> 
-> Signed-off-by: Eric Blake <eblake@redhat.com>
-> ---
->  docs/tools/qemu-img.rst | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
-> index c35bd6482203..2b5891b54db7 100644
-> --- a/docs/tools/qemu-img.rst
-> +++ b/docs/tools/qemu-img.rst
-> @@ -265,6 +265,10 @@ Command description:
+From: Bin Meng <bin.meng@windriver.com>
 
-Adding a little more context:
+Per the SDM, when returning to outer privilege level, for segment
+registers (ES, FS, GS, and DS) if the check fails, the segment
+selector becomes null, but QEMU clears the base/limit/flags as well
+as nullifying the segment selector, which should be a spec violation.
 
->    The set of options that can be amended are dependent on the image
->    format, but note that amending the backing chain relationship should
->    instead be performed with ``qemu-img rebase``.
->
->    --force allows some unsafe operations. Currently for -f luks, it allows to
->    erase the last encryption key, and to overwrite an active encryption key.
-> 
-> +  The set of options that can be amended are dependent on the image
-> +  format, but note that amending the backing chain relationship should
-> +  instead be performed with ``qemu-img rebase``.
-> +
+Real hardware seems to be compliant with the spec, at least on one
+Coffee Lake board I tested.
 
-I think the problem is your local conflict resolution. This patch would
-duplicate the paragraph.
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-Kevin
+---
+
+Changes in v2:
+- clearing the DESC_P bit in the segment descriptor
+
+ target/i386/seg_helper.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/target/i386/seg_helper.c b/target/i386/seg_helper.c
+index be88938..d539573 100644
+--- a/target/i386/seg_helper.c
++++ b/target/i386/seg_helper.c
+@@ -2108,7 +2108,10 @@ static inline void validate_seg(CPUX86State *env, int seg_reg, int cpl)
+     if (!(e2 & DESC_CS_MASK) || !(e2 & DESC_C_MASK)) {
+         /* data or non conforming code segment */
+         if (dpl < cpl) {
+-            cpu_x86_load_seg_cache(env, seg_reg, 0, 0, 0, 0);
++            cpu_x86_load_seg_cache(env, seg_reg, 0,
++                                   env->segs[seg_reg].base,
++                                   env->segs[seg_reg].limit,
++                                   env->segs[seg_reg].flags & ~DESC_P_MASK);
+         }
+     }
+ }
+-- 
+2.7.4
 
 
