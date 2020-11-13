@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C6E72B15FA
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F3D52B15F8
 	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 07:54:06 +0100 (CET)
-Received: from localhost ([::1]:56250 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:56184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdSyD-0004tO-CN
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 01:54:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46782)
+	id 1kdSyC-0004rj-Ln
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 01:54:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kdSwv-0003e1-Dv
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 01:52:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54709)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kdSwt-0003cU-PE
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 01:52:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40639)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kdSwr-0006EC-Oz
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 01:52:45 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kdSwr-0006EA-Qk
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 01:52:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1605250360;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PSMGqAcqpFO3PXlsQxszL2ylrEgZdL+0PDflQgkyrQQ=;
- b=DTBVMj+/LIUQ2ITLrsRlhwuNGTHMlPyRuLQHwB+dEmFFNUQ1+WUKv66CScEiuIiIhNO4m1
- AmbClyZI3rpXKplIuKf5J76Fj/RtVn4vGs4b6gDEMuM3IkNnmQgMM0Fnk4Ifd9AHnOwqhl
- NVNOzXZPj8v/ofEw+oXNsU8YjJsH4qY=
+ bh=r34988DNBTpFNOk9EIdt1tJzaGPoIlQa3XjvfuNUiC0=;
+ b=C8tfAfR+i1Jnh7YIV7vqIj/sywsHDiBBbZNNy3TzUwimKGXADnyPDVNqlYp2hH0A7DVpMh
+ WH+92K5sK5gzOuo2mp6ZPctrmhyv5WCW5d5/CE5+85omkEphSNIKZIwhJqJJ6wTP6vfBkX
+ u7OPSfjAq/n7u0svEPJrYkd9jau0PEo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-493-fwEBcUaqMQSxNuXLtnPW0w-1; Fri, 13 Nov 2020 01:52:38 -0500
-X-MC-Unique: fwEBcUaqMQSxNuXLtnPW0w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-493-Q3yxXE_PPZSeEr7e-PwOig-1; Fri, 13 Nov 2020 01:52:38 -0500
+X-MC-Unique: Q3yxXE_PPZSeEr7e-PwOig-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED132804775
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C83F7106B819
  for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 06:52:37 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
  [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 989AB1002C02;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 989A260C15;
  Fri, 13 Nov 2020 06:52:37 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2918D113861C; Fri, 13 Nov 2020 07:52:36 +0100 (CET)
+ id 2C1C911385C9; Fri, 13 Nov 2020 07:52:36 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/6] migration: Clean up signed vs. unsigned XBZRLE cache-size
-Date: Fri, 13 Nov 2020 07:52:33 +0100
-Message-Id: <20201113065236.2644169-4-armbru@redhat.com>
+Subject: [PATCH 4/6] migration: Check xbzrle-cache-size more carefully
+Date: Fri, 13 Nov 2020 07:52:34 +0100
+Message-Id: <20201113065236.2644169-5-armbru@redhat.com>
 In-Reply-To: <20201113065236.2644169-1-armbru@redhat.com>
 References: <20201113065236.2644169-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -85,143 +85,76 @@ Cc: dgilbert@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-73af8dd8d7 "migration: Make xbzrle_cache_size a migration
-parameter" (v2.11.0) made the new parameter unsigned (QAPI type
-'size', uint64_t in C).  It neglected to update existing code, which
-continues to use int64_t.
+migrate-set-parameters passes the size to xbzrle_cache_resize().
+xbzrle_cache_resize() checks it fits into size_t before it passes it
+on to cache_init().  cache_init() checks it is a power of two no
+smaller than @page_size.
 
-migrate_xbzrle_cache_size() returns the new parameter.  Adjust its
-return type.
+cache_init() is also called from xbzrle_init(), bypassing
+xbzrle_cache_resize()'s check.
 
-QMP query-migrate-cache-size returns migrate_xbzrle_cache_size().
-Adjust its return type.
-
-migrate-set-parameters passes the new parameter to
-xbzrle_cache_resize().  Adjust its parameter type.
-
-xbzrle_cache_resize() passes it on to cache_init().  Adjust its
-parameter type.
+Drop xbzrle_cache_resize()'s check, and check more carefully in
+cache_init().
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/migration.json    | 4 ++--
- migration/migration.h  | 2 +-
- migration/page_cache.h | 2 +-
- migration/ram.h        | 2 +-
- migration/migration.c  | 4 ++--
- migration/page_cache.c | 2 +-
- migration/ram.c        | 2 +-
- 7 files changed, 9 insertions(+), 9 deletions(-)
+ migration/page_cache.c | 15 ++++-----------
+ migration/ram.c        |  7 -------
+ 2 files changed, 4 insertions(+), 18 deletions(-)
 
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 3ad3720cf0..e8a4dfecce 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -78,7 +78,7 @@
- # Since: 1.2
- ##
- { 'struct': 'XBZRLECacheStats',
--  'data': {'cache-size': 'int', 'bytes': 'int', 'pages': 'int',
-+  'data': {'cache-size': 'size', 'bytes': 'int', 'pages': 'int',
-            'cache-miss': 'int', 'cache-miss-rate': 'number',
-            'encoding-rate': 'number', 'overflow': 'int' } }
- 
-@@ -1465,7 +1465,7 @@
- # <- { "return": 67108864 }
- #
- ##
--{ 'command': 'query-migrate-cache-size', 'returns': 'int',
-+{ 'command': 'query-migrate-cache-size', 'returns': 'size',
-   'features': [ 'deprecated' ] }
- 
- ##
-diff --git a/migration/migration.h b/migration/migration.h
-index d096b77f74..0387dc40d6 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -324,7 +324,7 @@ int migrate_multifd_zlib_level(void);
- int migrate_multifd_zstd_level(void);
- 
- int migrate_use_xbzrle(void);
--int64_t migrate_xbzrle_cache_size(void);
-+uint64_t migrate_xbzrle_cache_size(void);
- bool migrate_colo_enabled(void);
- 
- bool migrate_use_block(void);
-diff --git a/migration/page_cache.h b/migration/page_cache.h
-index 0cb94498a0..8733b4df6e 100644
---- a/migration/page_cache.h
-+++ b/migration/page_cache.h
-@@ -28,7 +28,7 @@ typedef struct PageCache PageCache;
-  * @page_size: cache page size
-  * @errp: set *errp if the check failed, with reason
-  */
--PageCache *cache_init(int64_t cache_size, size_t page_size, Error **errp);
-+PageCache *cache_init(uint64_t cache_size, size_t page_size, Error **errp);
- /**
-  * cache_fini: free all cache resources
-  * @cache pointer to the PageCache struct
-diff --git a/migration/ram.h b/migration/ram.h
-index 011e85414e..016eaa3378 100644
---- a/migration/ram.h
-+++ b/migration/ram.h
-@@ -47,7 +47,7 @@ bool ramblock_is_ignored(RAMBlock *block);
-     INTERNAL_RAMBLOCK_FOREACH(block)                   \
-         if (!qemu_ram_is_migratable(block)) {} else
- 
--int xbzrle_cache_resize(int64_t new_size, Error **errp);
-+int xbzrle_cache_resize(uint64_t new_size, Error **errp);
- uint64_t ram_bytes_remaining(void);
- uint64_t ram_bytes_total(void);
- 
-diff --git a/migration/migration.c b/migration/migration.c
-index cad56fbf8c..3daed2da0e 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -2226,7 +2226,7 @@ void qmp_migrate_set_cache_size(int64_t value, Error **errp)
-     qmp_migrate_set_parameters(&p, errp);
- }
- 
--int64_t qmp_query_migrate_cache_size(Error **errp)
-+uint64_t qmp_query_migrate_cache_size(Error **errp)
- {
-     return migrate_xbzrle_cache_size();
- }
-@@ -2456,7 +2456,7 @@ int migrate_use_xbzrle(void)
-     return s->enabled_capabilities[MIGRATION_CAPABILITY_XBZRLE];
- }
- 
--int64_t migrate_xbzrle_cache_size(void)
-+uint64_t migrate_xbzrle_cache_size(void)
- {
-     MigrationState *s;
- 
 diff --git a/migration/page_cache.c b/migration/page_cache.c
-index 098b436223..b384f265fb 100644
+index b384f265fb..e07f4ad1dc 100644
 --- a/migration/page_cache.c
 +++ b/migration/page_cache.c
-@@ -38,7 +38,7 @@ struct PageCache {
-     size_t num_items;
- };
- 
--PageCache *cache_init(int64_t new_size, size_t page_size, Error **errp)
-+PageCache *cache_init(uint64_t new_size, size_t page_size, Error **errp)
+@@ -41,17 +41,10 @@ struct PageCache {
+ PageCache *cache_init(uint64_t new_size, size_t page_size, Error **errp)
  {
      int64_t i;
-     size_t num_pages = new_size / page_size;
+-    size_t num_pages = new_size / page_size;
++    uint64_t num_pages = new_size / page_size;
+     PageCache *cache;
+ 
+-    if (new_size < page_size) {
+-        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "cache size",
+-                   "is smaller than one target page size");
+-        return NULL;
+-    }
+-
+-    /* round down to the nearest power of 2 */
+-    if (!is_power_of_2(num_pages)) {
++    if (num_pages != (size_t)num_pages || !is_power_of_2(num_pages)) {
+         error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "cache size",
+                    "is not a power of two number of pages");
+         return NULL;
+@@ -71,8 +64,8 @@ PageCache *cache_init(uint64_t new_size, size_t page_size, Error **errp)
+     trace_migration_pagecache_init(cache->max_num_items);
+ 
+     /* We prefer not to abort if there is no memory */
+-    cache->page_cache = g_try_malloc((cache->max_num_items) *
+-                                     sizeof(*cache->page_cache));
++    cache->page_cache = g_try_malloc_n(cache->max_num_items,
++                                       sizeof(*cache->page_cache));
+     if (!cache->page_cache) {
+         error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "cache size",
+                    "Failed to allocate page cache");
 diff --git a/migration/ram.c b/migration/ram.c
-index add5396a62..a84425d04f 100644
+index a84425d04f..d632ae694c 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -126,7 +126,7 @@ static void XBZRLE_cache_unlock(void)
-  * @new_size: new cache size
-  * @errp: set *errp if the check failed, with reason
-  */
--int xbzrle_cache_resize(int64_t new_size, Error **errp)
-+int xbzrle_cache_resize(uint64_t new_size, Error **errp)
- {
+@@ -131,13 +131,6 @@ int xbzrle_cache_resize(uint64_t new_size, Error **errp)
      PageCache *new_cache;
      int64_t ret = 0;
+ 
+-    /* Check for truncation */
+-    if (new_size != (size_t)new_size) {
+-        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "cache size",
+-                   "exceeding address space");
+-        return -1;
+-    }
+-
+     if (new_size == migrate_xbzrle_cache_size()) {
+         /* nothing to do */
+         return 0;
 -- 
 2.26.2
 
