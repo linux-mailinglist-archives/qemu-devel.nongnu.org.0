@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE5032B1B30
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 13:31:40 +0100 (CET)
-Received: from localhost ([::1]:52192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 969362B1B33
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 13:35:24 +0100 (CET)
+Received: from localhost ([::1]:60792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdYEt-0007Kc-PC
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 07:31:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37762)
+	id 1kdYIV-0002bl-LV
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 07:35:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kdYDP-0005gC-2V
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 07:30:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22981)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kdYDO-0005fc-EI
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 07:30:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45641)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kdYDM-0002Cq-RL
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kdYDM-0002Cj-5v
  for qemu-devel@nongnu.org; Fri, 13 Nov 2020 07:30:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605270604;
+ s=mimecast20190719; t=1605270603;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=V/4XxXK60pEbYrTwzxPYg0oZK0WyW6xpHb+wGQlHFdY=;
- b=UQHdiQAl78utFEr2rBszZUWTz/CAi7D8R9IxsGsf1J94JnPyOxwDeAx1fa7f626qdxICr2
- 06yoNvJEL7Wit/XbdNqgx1esPkYCzBDnOfdqIr7E2LQyAqF1C4+pUqbEYRoAW7IVTWqDs+
- gBiC6CNrGQY84fIorA6kRf5SWM5bvJs=
+ bh=rqoRvS7z8P8K4yluc3kfEyV3wPwDXKPLMhJWSFMrBl4=;
+ b=cAV623KQfY9/pXklfXJxwQbli4AHwNQvuK7ppXuHivH2cWsEvBflcuL0YYtFII7YUMhggc
+ +DA0XXN3kuvo7p7Bh2/ojDOn/Tien1ahxbVfOVQGTuWLjs14yBcN44xmoOPyogjnevvPBX
+ KCvox+7iT3i8q51RhmfBq5oUaU0qf2Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-399-yi1gFhJLMhKxIJcRiSY3Yw-1; Fri, 13 Nov 2020 07:30:02 -0500
-X-MC-Unique: yi1gFhJLMhKxIJcRiSY3Yw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-59-t9s9WofyNGago1IZIKgw_w-1; Fri, 13 Nov 2020 07:30:01 -0500
+X-MC-Unique: t9s9WofyNGago1IZIKgw_w-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2C7E1018F76;
- Fri, 13 Nov 2020 12:30:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF0D76D248
+ for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 12:30:00 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-65.ams2.redhat.com
  [10.36.112.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5375519C66;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 52D256266E;
  Fri, 13 Nov 2020 12:29:57 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 84C989D9B; Fri, 13 Nov 2020 13:29:55 +0100 (CET)
+ id 8E0CF9D9C; Fri, 13 Nov 2020 13:29:55 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/6] hw/display/cirrus_vga: Fix hexadecimal format string
- specifier
-Date: Fri, 13 Nov 2020 13:29:54 +0100
-Message-Id: <20201113122955.759-6-kraxel@redhat.com>
+Subject: [PULL 6/6] xhci: fix nec-usb-xhci properties
+Date: Fri, 13 Nov 2020 13:29:55 +0100
+Message-Id: <20201113122955.759-7-kraxel@redhat.com>
 In-Reply-To: <20201113122955.759-1-kraxel@redhat.com>
 References: <20201113122955.759-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:00:44
@@ -82,40 +81,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dov Murik <dovmurik@linux.vnet.ibm.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+Storing properties directly in XHCIPciState.xhci doesn't work,
+the object_initialize_child() call in xhci_instance_init() will
+overwrite them.
 
-The '%u' conversion specifier is for decimal notation.
-When prefixing a format with '0x', we want the hexadecimal
-specifier ('%x').
+This changes the defaults for some properties, which in turn breaks
+live migration and possibly other things as well.
 
-Inspired-by: Dov Murik <dovmurik@linux.vnet.ibm.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-id: 20201103112558.2554390-3-philmd@redhat.com
+So add XHCINecState, store properties there, copy them over on
+instance init.
+
+Fixes: 8ddab8dd3d81 ("usb/hcd-xhci: Split pci wrapper for xhci base model")
+Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Message-id: 20201112103741.2335-1-kraxel@redhat.com
 ---
- hw/display/cirrus_vga.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/usb/hcd-xhci-nec.c | 31 ++++++++++++++++++++++++++-----
+ 1 file changed, 26 insertions(+), 5 deletions(-)
 
-diff --git a/hw/display/cirrus_vga.c b/hw/display/cirrus_vga.c
-index e14096deb46a..fdca6ca659f9 100644
---- a/hw/display/cirrus_vga.c
-+++ b/hw/display/cirrus_vga.c
-@@ -2105,7 +2105,7 @@ static void cirrus_vga_mem_write(void *opaque,
-     } else {
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "cirrus: mem_writeb 0x" TARGET_FMT_plx " "
--                      "value 0x%02" PRIu64 "\n", addr, mem_value);
-+                      "value 0x%02" PRIx64 "\n", addr, mem_value);
-     }
- }
+diff --git a/hw/usb/hcd-xhci-nec.c b/hw/usb/hcd-xhci-nec.c
+index 5707b2cabd16..13a125afe2f7 100644
+--- a/hw/usb/hcd-xhci-nec.c
++++ b/hw/usb/hcd-xhci-nec.c
+@@ -27,18 +27,37 @@
+ 
+ #include "hcd-xhci-pci.h"
+ 
++typedef struct XHCINecState {
++    /*< private >*/
++    XHCIPciState parent_obj;
++    /*< public >*/
++    uint32_t flags;
++    uint32_t intrs;
++    uint32_t slots;
++} XHCINecState;
++
+ static Property nec_xhci_properties[] = {
+     DEFINE_PROP_ON_OFF_AUTO("msi", XHCIPciState, msi, ON_OFF_AUTO_AUTO),
+     DEFINE_PROP_ON_OFF_AUTO("msix", XHCIPciState, msix, ON_OFF_AUTO_AUTO),
+-    DEFINE_PROP_BIT("superspeed-ports-first", XHCIPciState,
+-                    xhci.flags, XHCI_FLAG_SS_FIRST, true),
+-    DEFINE_PROP_BIT("force-pcie-endcap", XHCIPciState, xhci.flags,
++    DEFINE_PROP_BIT("superspeed-ports-first", XHCINecState, flags,
++                    XHCI_FLAG_SS_FIRST, true),
++    DEFINE_PROP_BIT("force-pcie-endcap", XHCINecState, flags,
+                     XHCI_FLAG_FORCE_PCIE_ENDCAP, false),
+-    DEFINE_PROP_UINT32("intrs", XHCIPciState, xhci.numintrs, XHCI_MAXINTRS),
+-    DEFINE_PROP_UINT32("slots", XHCIPciState, xhci.numslots, XHCI_MAXSLOTS),
++    DEFINE_PROP_UINT32("intrs", XHCINecState, intrs, XHCI_MAXINTRS),
++    DEFINE_PROP_UINT32("slots", XHCINecState, slots, XHCI_MAXSLOTS),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
++static void nec_xhci_instance_init(Object *obj)
++{
++    XHCIPciState *pci = XHCI_PCI(obj);
++    XHCINecState *nec = container_of(pci, XHCINecState, parent_obj);
++
++    pci->xhci.flags    = nec->flags;
++    pci->xhci.numintrs = nec->intrs;
++    pci->xhci.numslots = nec->slots;
++}
++
+ static void nec_xhci_class_init(ObjectClass *klass, void *data)
+ {
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+@@ -53,6 +72,8 @@ static void nec_xhci_class_init(ObjectClass *klass, void *data)
+ static const TypeInfo nec_xhci_info = {
+     .name          = TYPE_NEC_XHCI,
+     .parent        = TYPE_XHCI_PCI,
++    .instance_size = sizeof(XHCINecState),
++    .instance_init = nec_xhci_instance_init,
+     .class_init    = nec_xhci_class_init,
+ };
  
 -- 
 2.27.0
