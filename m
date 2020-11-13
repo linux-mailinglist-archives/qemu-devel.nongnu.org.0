@@ -2,76 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C0A42B185B
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 10:38:18 +0100 (CET)
-Received: from localhost ([::1]:43818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 712352B1874
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 10:41:01 +0100 (CET)
+Received: from localhost ([::1]:46704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdVX7-0008BR-Ep
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 04:38:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52162)
+	id 1kdVZk-00010W-Hi
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 04:41:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kdVW5-0007K5-36
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 04:37:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46327)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kdVW3-00068g-AG
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 04:37:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605260230;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FIvyiZRKr8ZD6+UHYM50vEtpnZ8SgBI53kC3MhcHdY8=;
- b=ckOL0pEj4Ymt2ZLl/wdmE1AM1xwl3hUd7S1IzZgIixzYh/Ptf+NOl5u1r5+qtQk7aGQbfU
- NXRNaESPC0w2INFlzWdMMYSWogKmTlSABAOcexOlICS7K0MYMUI/EOOJ75ZHKeryJFkCyV
- atWa2940Ms86i8ILK8SXan17U2pOus8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-291-0TgWY6Y-O_-MaDhe83GOnw-1; Fri, 13 Nov 2020 04:37:08 -0500
-X-MC-Unique: 0TgWY6Y-O_-MaDhe83GOnw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69FE9186DD4A
- for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 09:37:07 +0000 (UTC)
-Received: from redhat.com (ovpn-113-180.ams2.redhat.com [10.36.113.180])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8B3B46EF65;
- Fri, 13 Nov 2020 09:37:06 +0000 (UTC)
-Date: Fri, 13 Nov 2020 09:37:03 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 1/2] authz-list-file: Fix file read error handling
-Message-ID: <20201113093703.GB30434@redhat.com>
-References: <20201113062358.2563662-1-armbru@redhat.com>
- <20201113062358.2563662-2-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kdVYg-0000an-2q
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 04:39:54 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:44881)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kdVYe-0006vQ-Bi
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 04:39:53 -0500
+Received: by mail-wr1-x434.google.com with SMTP id c17so8996743wrc.11
+ for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 01:39:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=l737+8DWYdwzg//7dsOOiaTCGfedQ/0i1b4aCQIFV/s=;
+ b=Y5II7gC4ROVFMOMNGzzDeBT0GEqB9ArQUlZyb/qIf35ko1d8lR7JQmLUhJaZJOr4LH
+ LoY/nTMX9kZb6jdl64UKYA16lpwK0IzrHwnpwLhl0HafFrC7ZFSp0RSZ3oOJBcSI3hrL
+ J5jyv1RbNbGoKHUIe7ooAcnSdUObsChr9JwUjj3vMkeLDewielVCYELk4AVbtZjk4fKt
+ 8cxTevcyG69bzAejKNPkh7D1fIV0FQ8MbuIg8Mn0OK/HgLkRS7bUUPWso02Q3oatmlbO
+ ctIHClINZRV9r/eDKIwS3RzEqtO23TcIrQAAvp4lla2fvpGGeS9/VUgY3ZrYKJ8/3zs+
+ CDsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=l737+8DWYdwzg//7dsOOiaTCGfedQ/0i1b4aCQIFV/s=;
+ b=M5C+G9nmGG5GZfn26iJr20sLqaQf/5BF+js7QlCOzz3l9OuMMCy+4GiOSW5s+BAOHP
+ X3kShBvsbQIeX6wl+1eKzcTjtPsWCcXVBaYzoQpwi5ftSCPDvv+2jxTQRKmi4bqnIDGz
+ t9h23BOtJ0rAVuVo2dSKu6pPULB/3gYBJklLuPFnva+PT+EYFTNYIlt1/WqynaBYyUqq
+ 3NbiYXJR77b50KzcffuuessHUN8vxH73J3rZT2fQRHLuN2P6ijTrL1ob4mvCEt4HFNor
+ XrN/IAFg0lGJuenfZ06kMEM8gF4CqKUCzeqngQb2+QSXh7WyWAMgVrasA0JeQ1S4UFLz
+ qnJw==
+X-Gm-Message-State: AOAM533JBdE7D3eJUnjkaynubMJD5vIVHenIWbCKzTpFPwmerVCF1pRF
+ Vbh2yNMINepc6PtoTnskYEo=
+X-Google-Smtp-Source: ABdhPJxlO3nBEduJC7PWbsy5hEEIXyPIUG9KSX1tSpMIm60JtgIvewGxOyIhKK8R8vuKQe63S9Yhww==
+X-Received: by 2002:adf:de85:: with SMTP id w5mr2350560wrl.90.1605260389736;
+ Fri, 13 Nov 2020 01:39:49 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id c17sm10215253wro.19.2020.11.13.01.39.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Nov 2020 01:39:48 -0800 (PST)
+Subject: Re: [Qemu-devel] [PULL 8/8] target/mips: Preparing for adding MMI
+ instructions
+To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
+ qemu-devel@nongnu.org, Fredrik Noring <noring@nocrew.org>
+References: <1551276045-19143-1-git-send-email-aleksandar.markovic@rt-rk.com>
+ <1551276045-19143-9-git-send-email-aleksandar.markovic@rt-rk.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <8c3ac05a-91d4-6830-4ede-6574aca8af94@amsat.org>
+Date: Fri, 13 Nov 2020 10:39:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201113062358.2563662-2-armbru@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <1551276045-19143-9-git-send-email-aleksandar.markovic@rt-rk.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:00:44
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,42 +93,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 13, 2020 at 07:23:57AM +0100, Markus Armbruster wrote:
-> The Error ** argument must be NULL, &error_abort, &error_fatal, or a
-> pointer to a variable containing NULL.  Passing an argument of the
-> latter kind twice without clearing it in between is wrong: if the
-> first call sets an error, it no longer points to NULL for the second
-> call.
+Hi Mateja,
+
+(Cc'ing Fredrik)
+
+On 2/27/19 3:00 PM, Aleksandar Markovic wrote:
+> From: Mateja Marjanovic <Mateja.Marjanovic@rt-rk.com>
 > 
-> qauthz_list_file_complete() is wrong that way: it passes @errp to
-> qauthz_list_file_complete() without checking for failure.  If it runs
-> into another failure, it trips error_setv()'s assertion.  Reproducer:
+> Set up MMI code to be compiled only for TARGET_MIPS64. This is
+> needed so that GPRs are 64 bit, and combined with MMI registers,
+> they will form full 128 bit registers.
 > 
->     $ qemu-system-x86_64 -nodefaults -S -display none -object authz-list-file,id=authz0,filename=
->     qemu-system-x86_64: ../util/error.c:59: error_setv: Assertion `*errp == NULL' failed.
->     Aborted (core dumped)
-> 
-> Fix it to check for failure.
-> 
-> Fixes: 55d869846de802a16af1a50584c51737bd664387
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> Signed-off-by: Mateja Marjanovic <mateja.marjanovic@rt-rk.com>
+> Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+> Reviewed-by: Aleksandar Rikalo <arikalo@wavecomp.com>
+> Message-Id: <1551183797-13570-2-git-send-email-mateja.marjanovic@rt-rk.com>
 > ---
->  authz/listfile.c | 3 +++
->  1 file changed, 3 insertions(+)
+>  target/mips/translate.c | 43 +++++++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 41 insertions(+), 2 deletions(-)
+...
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+>  static void decode_opc_special3(CPUMIPSState *env, DisasContext *ctx)
+>  {
+>      int rs, rt, rd, sa;
+> @@ -28796,10 +28828,11 @@ static void decode_opc(CPUMIPSState *env, DisasContext *ctx)
+>          decode_opc_special(env, ctx);
+>          break;
+>      case OPC_SPECIAL2:
+> +#if defined(TARGET_MIPS64)
+>          if ((ctx->insn_flags & INSN_R5900) && (ctx->insn_flags & ASE_MMI)) {
+>              decode_mmi(env, ctx);
 
+This change is incorrect, you removed support for the
+MADD[U] and MULT[U] instructions on TXx9 32-bit targets
+(TX79 still works).
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+> -#if !defined(TARGET_MIPS64)
+> -        } else if (ctx->insn_flags & ASE_MXU) {
+> +#else
+> +        if (ctx->insn_flags & ASE_MXU) {
+>              decode_opc_mxu(env, ctx);
+>  #endif
+...
 
