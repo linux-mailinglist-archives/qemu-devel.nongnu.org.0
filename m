@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 897362B1BA0
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 14:10:54 +0100 (CET)
-Received: from localhost ([::1]:49434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33B752B1BBA
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 14:17:24 +0100 (CET)
+Received: from localhost ([::1]:60020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdYqq-0006R1-Dq
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 08:10:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46506)
+	id 1kdYx8-0002oB-NK
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 08:17:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kdYmA-0003Ac-Tz
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 08:06:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40644)
+ id 1kdYtr-0001iO-JH
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 08:13:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55780)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kdYm8-0006JC-7B
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 08:06:02 -0500
+ id 1kdYtk-0000eP-Qv
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 08:13:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605272759;
+ s=mimecast20190719; t=1605273231;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=C0QpDFYku7KF8qRkYAgDALb0KNinOxPjnve7O5z8dqc=;
- b=OIXawI+ljNX8rBbH4jVNMusqDuJZT7p5L+ozXLUb4ofNSAoN8d+p0Wz1nbSAyepfoE3Hij
- o+P7INxD0q3xqhTqPpI4D6iw2N+mH5fidLCr7tQsveeXEnKQBIeXy5Fjuki7xOHD2qEJdm
- R2SKp1GhtXXJkpfUPhqmMGm5yPJBYjc=
+ bh=dCPbkutU9Ja1iuqnJSgqmj9RWlua/OfJiesUN8QQ3Bg=;
+ b=ZF26sMS2Xjzpe8ieCl0L6s2/v/7nEK8QVtFxBc4fFtld4Y5twaRroXIw8ZawVhvgq00vHi
+ 4bTAMLHRFrUjjjf6wUFWeIH3FST32MjXfjPP2/kxXQpAR35vhLHH7t5TZstpz2IWI663tN
+ cV9pvNDb11SCGsTaSCPac8NU4SR82oE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-41-RdYkIBCmN1O4fGIU2a9HUA-1; Fri, 13 Nov 2020 08:05:57 -0500
-X-MC-Unique: RdYkIBCmN1O4fGIU2a9HUA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-353-ExW5MND4NIulmUofgTPcvg-1; Fri, 13 Nov 2020 08:13:47 -0500
+X-MC-Unique: ExW5MND4NIulmUofgTPcvg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A607804770;
- Fri, 13 Nov 2020 13:05:56 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-114-160.ams2.redhat.com
- [10.36.114.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 53C635C1C7;
- Fri, 13 Nov 2020 13:05:55 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org,
-	kwolf@redhat.com,
-	lichun@ruijie.com.cn
-Subject: [PULL 3/3] hmp: Pass monitor to mon_get_cpu_env()
-Date: Fri, 13 Nov 2020 13:05:48 +0000
-Message-Id: <20201113130548.127093-4-dgilbert@redhat.com>
-In-Reply-To: <20201113130548.127093-1-dgilbert@redhat.com>
-References: <20201113130548.127093-1-dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B01B107465F;
+ Fri, 13 Nov 2020 13:13:46 +0000 (UTC)
+Received: from work-vm (ovpn-114-160.ams2.redhat.com [10.36.114.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 065576EF5D;
+ Fri, 13 Nov 2020 13:13:44 +0000 (UTC)
+Date: Fri, 13 Nov 2020 13:13:42 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] arm/monitor: Add support for 'info tlb' command
+Message-ID: <20201113131342.GM3251@work-vm>
+References: <20201113095854.67668-1-changbin.du@gmail.com>
+ <CAFEAcA-3A2s3b5+kVPmDfPxG=gypOhD8agrqx0mUYt3gZKbMNg@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <CAFEAcA-3A2s3b5+kVPmDfPxG=gypOhD8agrqx0mUYt3gZKbMNg@mail.gmail.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:00:44
@@ -83,264 +81,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Changbin Du <changbin.du@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Kevin Wolf <kwolf@redhat.com>
+* Peter Maydell (peter.maydell@linaro.org) wrote:
+> On Fri, 13 Nov 2020 at 09:59, Changbin Du <changbin.du@gmail.com> wrote:
+> >
+> > This adds hmp 'info tlb' command support for the arm platform.
+> > The limitation is that this only implements a page walker for
+> > ARMv8-A AArch64 Long Descriptor format, 32bit addressing is
+> > not supported yet.
+> 
+> "info tlb" needs its own entirely independent implementation
+> of a page-table walk? I see this is how x86 has done it ,but
+> it seems like a recipe for the info command being perpetually
+> behind what we actually implement...
 
-mon_get_cpu_env() is indirectly called monitor_parse_arguments() where
-the current monitor isn't set yet. Instead of using monitor_cur_env(),
-explicitly pass the Monitor pointer to the function.
+I think the challenge is you want 'info tlb' to be quite easy
+to read from a debuggers point of view and robust at pointing out
+things that are odd; I'd hope at least you can use most of the macros
+to extract fields etc
 
-Without this fix, an HMP command like "x $pc" crashes like this:
+Dave
 
-  #0  0x0000555555caa01f in mon_get_cpu_sync (mon=0x0, synchronize=true) at ../monitor/misc.c:270
-  #1  0x0000555555caa141 in mon_get_cpu (mon=0x0) at ../monitor/misc.c:294
-  #2  0x0000555555caa158 in mon_get_cpu_env () at ../monitor/misc.c:299
-  #3  0x0000555555b19739 in monitor_get_pc (mon=0x555556ad2de0, md=0x5555565d2d40 <monitor_defs+1152>, val=0) at ../target/i386/monitor.c:607
-  #4  0x0000555555cadbec in get_monitor_def (mon=0x555556ad2de0, pval=0x7fffffffc208, name=0x7fffffffc220 "pc") at ../monitor/misc.c:1681
-  #5  0x000055555582ec4f in expr_unary (mon=0x555556ad2de0) at ../monitor/hmp.c:387
-  #6  0x000055555582edbb in expr_prod (mon=0x555556ad2de0) at ../monitor/hmp.c:421
-  #7  0x000055555582ee79 in expr_logic (mon=0x555556ad2de0) at ../monitor/hmp.c:455
-  #8  0x000055555582eefe in expr_sum (mon=0x555556ad2de0) at ../monitor/hmp.c:484
-  #9  0x000055555582efe8 in get_expr (mon=0x555556ad2de0, pval=0x7fffffffc418, pp=0x7fffffffc408) at ../monitor/hmp.c:511
-  #10 0x000055555582fcd4 in monitor_parse_arguments (mon=0x555556ad2de0, endp=0x7fffffffc890, cmd=0x555556675b50 <hmp_cmds+7920>) at ../monitor/hmp.c:876
-  #11 0x00005555558306a8 in handle_hmp_command (mon=0x555556ad2de0, cmdline=0x555556ada452 "$pc") at ../monitor/hmp.c:1087
-  #12 0x000055555582df14 in monitor_command_cb (opaque=0x555556ad2de0, cmdline=0x555556ada450 "x $pc", readline_opaque=0x0) at ../monitor/hmp.c:47
-
-After this fix, nothing is left in monitor_parse_arguments() that can
-indirectly call monitor_cur(), so the fix is complete.
-
-Fixes: ff04108a0e36e822519c517bd3bddbc1c7747c18
-Reported-by: lichun <lichun@ruijie.com.cn>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20201113114326.97663-4-kwolf@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- include/monitor/hmp-target.h |  2 +-
- monitor/misc.c               |  6 +++---
- target/i386/monitor.c        |  6 +++---
- target/m68k/monitor.c        |  2 +-
- target/nios2/monitor.c       |  2 +-
- target/ppc/monitor.c         | 10 +++++-----
- target/riscv/monitor.c       |  2 +-
- target/sh4/monitor.c         |  2 +-
- target/sparc/monitor.c       |  6 +++---
- target/xtensa/monitor.c      |  2 +-
- 10 files changed, 20 insertions(+), 20 deletions(-)
-
-diff --git a/include/monitor/hmp-target.h b/include/monitor/hmp-target.h
-index 385fb18664..60fc92722a 100644
---- a/include/monitor/hmp-target.h
-+++ b/include/monitor/hmp-target.h
-@@ -41,7 +41,7 @@ struct MonitorDef {
- const MonitorDef *target_monitor_defs(void);
- int target_get_monitor_def(CPUState *cs, const char *name, uint64_t *pval);
- 
--CPUArchState *mon_get_cpu_env(void);
-+CPUArchState *mon_get_cpu_env(Monitor *mon);
- CPUState *mon_get_cpu(Monitor *mon);
- 
- void hmp_info_mem(Monitor *mon, const QDict *qdict);
-diff --git a/monitor/misc.c b/monitor/misc.c
-index f566e28174..398211a034 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -294,9 +294,9 @@ CPUState *mon_get_cpu(Monitor *mon)
-     return mon_get_cpu_sync(mon, true);
- }
- 
--CPUArchState *mon_get_cpu_env(void)
-+CPUArchState *mon_get_cpu_env(Monitor *mon)
- {
--    CPUState *cs = mon_get_cpu(monitor_cur());
-+    CPUState *cs = mon_get_cpu(mon);
- 
-     return cs ? cs->env_ptr : NULL;
- }
-@@ -1680,7 +1680,7 @@ int get_monitor_def(Monitor *mon, int64_t *pval, const char *name)
-             if (md->get_value) {
-                 *pval = md->get_value(mon, md, md->offset);
-             } else {
--                CPUArchState *env = mon_get_cpu_env();
-+                CPUArchState *env = mon_get_cpu_env(mon);
-                 ptr = (uint8_t *)env + md->offset;
-                 switch(md->type) {
-                 case MD_I32:
-diff --git a/target/i386/monitor.c b/target/i386/monitor.c
-index fed4606aeb..9f9e1c42f4 100644
---- a/target/i386/monitor.c
-+++ b/target/i386/monitor.c
-@@ -222,7 +222,7 @@ void hmp_info_tlb(Monitor *mon, const QDict *qdict)
- {
-     CPUArchState *env;
- 
--    env = mon_get_cpu_env();
-+    env = mon_get_cpu_env(mon);
-     if (!env) {
-         monitor_printf(mon, "No CPU available\n");
-         return;
-@@ -550,7 +550,7 @@ void hmp_info_mem(Monitor *mon, const QDict *qdict)
- {
-     CPUArchState *env;
- 
--    env = mon_get_cpu_env();
-+    env = mon_get_cpu_env(mon);
-     if (!env) {
-         monitor_printf(mon, "No CPU available\n");
-         return;
-@@ -604,7 +604,7 @@ void hmp_mce(Monitor *mon, const QDict *qdict)
- static target_long monitor_get_pc(Monitor *mon, const struct MonitorDef *md,
-                                   int val)
- {
--    CPUArchState *env = mon_get_cpu_env();
-+    CPUArchState *env = mon_get_cpu_env(mon);
-     return env->eip + env->segs[R_CS].base;
- }
- 
-diff --git a/target/m68k/monitor.c b/target/m68k/monitor.c
-index 2055fe8a00..2bdf6acae0 100644
---- a/target/m68k/monitor.c
-+++ b/target/m68k/monitor.c
-@@ -12,7 +12,7 @@
- 
- void hmp_info_tlb(Monitor *mon, const QDict *qdict)
- {
--    CPUArchState *env1 = mon_get_cpu_env();
-+    CPUArchState *env1 = mon_get_cpu_env(mon);
- 
-     if (!env1) {
-         monitor_printf(mon, "No CPU available\n");
-diff --git a/target/nios2/monitor.c b/target/nios2/monitor.c
-index 6646836df5..0152dec3fa 100644
---- a/target/nios2/monitor.c
-+++ b/target/nios2/monitor.c
-@@ -29,7 +29,7 @@
- 
- void hmp_info_tlb(Monitor *mon, const QDict *qdict)
- {
--    CPUArchState *env1 = mon_get_cpu_env();
-+    CPUArchState *env1 = mon_get_cpu_env(mon);
- 
-     dump_mmu(env1);
- }
-diff --git a/target/ppc/monitor.c b/target/ppc/monitor.c
-index 9c0fc2b8c3..a475108b2d 100644
---- a/target/ppc/monitor.c
-+++ b/target/ppc/monitor.c
-@@ -32,7 +32,7 @@
- static target_long monitor_get_ccr(Monitor *mon, const struct MonitorDef *md,
-                                    int val)
- {
--    CPUArchState *env = mon_get_cpu_env();
-+    CPUArchState *env = mon_get_cpu_env(mon);
-     unsigned int u;
-     int i;
- 
-@@ -47,27 +47,27 @@ static target_long monitor_get_ccr(Monitor *mon, const struct MonitorDef *md,
- static target_long monitor_get_decr(Monitor *mon, const struct MonitorDef *md,
-                                     int val)
- {
--    CPUArchState *env = mon_get_cpu_env();
-+    CPUArchState *env = mon_get_cpu_env(mon);
-     return cpu_ppc_load_decr(env);
- }
- 
- static target_long monitor_get_tbu(Monitor *mon, const struct MonitorDef *md,
-                                    int val)
- {
--    CPUArchState *env = mon_get_cpu_env();
-+    CPUArchState *env = mon_get_cpu_env(mon);
-     return cpu_ppc_load_tbu(env);
- }
- 
- static target_long monitor_get_tbl(Monitor *mon, const struct MonitorDef *md,
-                                    int val)
- {
--    CPUArchState *env = mon_get_cpu_env();
-+    CPUArchState *env = mon_get_cpu_env(mon);
-     return cpu_ppc_load_tbl(env);
- }
- 
- void hmp_info_tlb(Monitor *mon, const QDict *qdict)
- {
--    CPUArchState *env1 = mon_get_cpu_env();
-+    CPUArchState *env1 = mon_get_cpu_env(mon);
- 
-     if (!env1) {
-         monitor_printf(mon, "No CPU available\n");
-diff --git a/target/riscv/monitor.c b/target/riscv/monitor.c
-index b569f08387..e51188f919 100644
---- a/target/riscv/monitor.c
-+++ b/target/riscv/monitor.c
-@@ -204,7 +204,7 @@ void hmp_info_mem(Monitor *mon, const QDict *qdict)
- {
-     CPUArchState *env;
- 
--    env = mon_get_cpu_env();
-+    env = mon_get_cpu_env(mon);
-     if (!env) {
-         monitor_printf(mon, "No CPU available\n");
-         return;
-diff --git a/target/sh4/monitor.c b/target/sh4/monitor.c
-index 918a5ccfc6..2da6a5426e 100644
---- a/target/sh4/monitor.c
-+++ b/target/sh4/monitor.c
-@@ -41,7 +41,7 @@ static void print_tlb(Monitor *mon, int idx, tlb_t *tlb)
- 
- void hmp_info_tlb(Monitor *mon, const QDict *qdict)
- {
--    CPUArchState *env = mon_get_cpu_env();
-+    CPUArchState *env = mon_get_cpu_env(mon);
-     int i;
- 
-     if (!env) {
-diff --git a/target/sparc/monitor.c b/target/sparc/monitor.c
-index bf979d6520..318413686a 100644
---- a/target/sparc/monitor.c
-+++ b/target/sparc/monitor.c
-@@ -30,7 +30,7 @@
- 
- void hmp_info_tlb(Monitor *mon, const QDict *qdict)
- {
--    CPUArchState *env1 = mon_get_cpu_env();
-+    CPUArchState *env1 = mon_get_cpu_env(mon);
- 
-     if (!env1) {
-         monitor_printf(mon, "No CPU available\n");
-@@ -43,7 +43,7 @@ void hmp_info_tlb(Monitor *mon, const QDict *qdict)
- static target_long monitor_get_psr(Monitor *mon, const struct MonitorDef *md,
-                                    int val)
- {
--    CPUArchState *env = mon_get_cpu_env();
-+    CPUArchState *env = mon_get_cpu_env(mon);
- 
-     return cpu_get_psr(env);
- }
-@@ -52,7 +52,7 @@ static target_long monitor_get_psr(Monitor *mon, const struct MonitorDef *md,
- static target_long monitor_get_reg(Monitor *mon, const struct MonitorDef *md,
-                                    int val)
- {
--    CPUArchState *env = mon_get_cpu_env();
-+    CPUArchState *env = mon_get_cpu_env(mon);
-     return env->regwptr[val];
- }
- 
-diff --git a/target/xtensa/monitor.c b/target/xtensa/monitor.c
-index 608173c238..fbf60d5553 100644
---- a/target/xtensa/monitor.c
-+++ b/target/xtensa/monitor.c
-@@ -29,7 +29,7 @@
- 
- void hmp_info_tlb(Monitor *mon, const QDict *qdict)
- {
--    CPUArchState *env1 = mon_get_cpu_env();
-+    CPUArchState *env1 = mon_get_cpu_env(mon);
- 
-     if (!env1) {
-         monitor_printf(mon, "No CPU available\n");
+> thanks
+> -- PMM
+> 
 -- 
-2.28.0
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
