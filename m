@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3908D2B1C05
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 14:43:47 +0100 (CET)
-Received: from localhost ([::1]:60088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AFAB2B1C04
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 14:43:35 +0100 (CET)
+Received: from localhost ([::1]:59454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdZMg-0007dT-8V
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 08:43:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55978)
+	id 1kdZMU-0007Ni-3i
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 08:43:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kdZJQ-0005DD-AQ
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 08:40:24 -0500
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:41073)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kdZJO-0001jO-Fi
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 08:40:23 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id cw8so13436352ejb.8
- for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 05:40:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1+ODGzweAcPuVO4kNwz9b6893bR5/trKy5hJj0TSKYA=;
- b=uxe2P4DeVIHhI5gkIilcbcWslEq0QibOVav9TBWgp6NUKnbBCbyhnWsttN6kYIY4Og
- q8SVCc0oep0qH3ON5AdE33SpSYlaH/aj2LNakUPXIPyRVIO/wQTGTnexyFwkcWjQHu/V
- 2ba6W2YTVDPPkQEzTZ9F0ImRaX7iXbWUkg+FtvNcQXvwb2UocC1jfPZzeSmC0tXKBRKv
- WwokHRv4tHcaTpLGxUwihTo9w5rgKkzqWgfzXG7t7DhKBfuKWl1ttlFRRi18h3BKhkaK
- 3NlOyu70JUaigA9jiR1xCfiWQ22YANXZv2YFos8966NzO6XGy67Q90K5C8LLK+yHvKoX
- eIgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1+ODGzweAcPuVO4kNwz9b6893bR5/trKy5hJj0TSKYA=;
- b=EyJ8pq+gVpitfHCI0qDSZakLMQ7lDljZY/zoGjim90gHilbj2NA5i/BAvqV31rK6gO
- e/R0WK64CcPdLNsqw4tVUkOfbvkCauXWTDybyT6kDsnw96Rw8TmnKxVmMa8deobDfNti
- +0JBxABdSePNsDS6CZTvgoaGtS2VA6cNhw1ACPC3wHA95+bsnT9+0GYjjHfq1/ncWSto
- bQu4tzK9CHS5W/K41Nswkzj+rr0XXjHBkP5U1/Cp92/sE3AMZ5ans0MR9Mrc5d3CSWuK
- /6euoCniVdGWJAwmEF85vz5rizg4ygBXSFiuNkrYm46Z7AKtD1Dzoe6BCNE0jG/xa5k/
- jGYQ==
-X-Gm-Message-State: AOAM532hXOdwrSSU3oZNaPyj4FGPcgsKCYBrYlWZrbqsGzcKqa6MRMTw
- VU8SdAz/1PcfBoingYGe0OGt8vPnUChnUrvGlkbEaQ==
-X-Google-Smtp-Source: ABdhPJxzBjK9TIZzdH4ekR1XMTQ7c/EAzanB/6LP119bfsDNXk6XVni5jBZRp3WCpJVzu3xiZ6qAYpkoaGGIl4Zd48I=
-X-Received: by 2002:a17:907:9e3:: with SMTP id ce3mr2043733ejc.4.1605274820901; 
- Fri, 13 Nov 2020 05:40:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kdZJT-0005IF-6F
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 08:40:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36808)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kdZJQ-0001nM-JK
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 08:40:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605274823;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nCtfiF1kCv1BGM6t7bOPbrPqh18WICLgRMZG07Nlwhk=;
+ b=Jw6/O9iOej769LjBw+CusRB7enyVoPMtbR4uuFKIHQn1FK0S7xid3CpICN8MBIUKZv7qIn
+ sYVo/TeZcx1H+02Nnrwq/CXVQW7t942JnCE4O+gwuT7Pjkhy2+QDmdVlTR9ucLdxb8pQzI
+ 2fQdLD9m0WbIZCVajbvqvK+VA3AiagI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-151-1yt7f8t4Ma2wCAFU4ItM5Q-1; Fri, 13 Nov 2020 08:40:20 -0500
+X-MC-Unique: 1yt7f8t4Ma2wCAFU4ItM5Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3C0318B9EC3;
+ Fri, 13 Nov 2020 13:40:19 +0000 (UTC)
+Received: from [10.3.113.51] (ovpn-113-51.phx2.redhat.com [10.3.113.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 72D8876644;
+ Fri, 13 Nov 2020 13:40:19 +0000 (UTC)
+Subject: Re: [PATCH] docs: Better mention of qemu-img amend limitations
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20200923203719.732958-1-eblake@redhat.com>
+ <20201113094956.GC5834@merkur.fritz.box>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <395f0c67-6526-6621-3e49-a87e76c2a0d3@redhat.com>
+Date: Fri, 13 Nov 2020 07:40:18 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-References: <20201113122955.759-1-kraxel@redhat.com>
-In-Reply-To: <20201113122955.759-1-kraxel@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 13 Nov 2020 13:40:09 +0000
-Message-ID: <CAFEAcA_1x=bCyhErhsMcmj3Vik+M4QcNtxgNKVZL2i-0qicMeA@mail.gmail.com>
-Subject: Re: [PULL 0/6] Fixes 20201113 patches
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <20201113094956.GC5834@merkur.fritz.box>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:00:44
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,34 +84,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 13 Nov 2020 at 12:31, Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> The following changes since commit cb5d19e8294486551c422759260883ed290226d9:
->
->   Merge remote-tracking branch 'remotes/mcayland/tags/qemu-macppc-20201112' i=
-> nto staging (2020-11-12 11:33:26 +0000)
->
-> are available in the Git repository at:
->
->   git://git.kraxel.org/qemu tags/fixes-20201113-pull-request
->
-> for you to fetch changes up to 172bc8520db1cb98d09b367360068a675fbc9413:
->
->   xhci: fix nec-usb-xhci properties (2020-11-13 07:36:33 +0100)
->
-> ----------------------------------------------------------------
-> fixes for console, audio, usb, vga.
->
+On 11/13/20 3:49 AM, Kevin Wolf wrote:
+> Am 23.09.2020 um 22:37 hat Eric Blake geschrieben:
+>> Missed during merge resolution of commit bc5ee6da71.
+>>
+>> Signed-off-by: Eric Blake <eblake@redhat.com>
+>> ---
+>>  docs/tools/qemu-img.rst | 4 ++++
+>>  1 file changed, 4 insertions(+)
+>>
+>> diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
+>> index c35bd6482203..2b5891b54db7 100644
+>> --- a/docs/tools/qemu-img.rst
+>> +++ b/docs/tools/qemu-img.rst
+>> @@ -265,6 +265,10 @@ Command description:
+> 
+> Adding a little more context:
+> 
+>>    The set of options that can be amended are dependent on the image
+>>    format, but note that amending the backing chain relationship should
+>>    instead be performed with ``qemu-img rebase``.
+>>
+>>    --force allows some unsafe operations. Currently for -f luks, it allows to
+>>    erase the last encryption key, and to overwrite an active encryption key.
+>>
+>> +  The set of options that can be amended are dependent on the image
+>> +  format, but note that amending the backing chain relationship should
+>> +  instead be performed with ``qemu-img rebase``.
+>> +
+> 
+> I think the problem is your local conflict resolution. This patch would
+> duplicate the paragraph.
+
+D'oh.  Thanks for spotting that, patch withdrawn.
 
 
-Applied, thanks.
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
-
--- PMM
 
