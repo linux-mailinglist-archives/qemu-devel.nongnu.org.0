@@ -2,62 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBDA52B1AF2
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 13:15:35 +0100 (CET)
-Received: from localhost ([::1]:44442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A682E2B1B2F
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 13:31:39 +0100 (CET)
+Received: from localhost ([::1]:52076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdXzK-0002Ze-Bn
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 07:15:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33798)
+	id 1kdYEs-0007Hx-M1
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 07:31:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kdXxF-00028F-DT
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 07:13:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49996)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kdYDN-0005fQ-M1
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 07:30:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34589)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kdXxC-0004td-1b
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 07:13:24 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kdYDL-0002Bw-Qm
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 07:30:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605269600;
+ s=mimecast20190719; t=1605270602;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=P3117fRc5vGD+LLFCVuKx5jgLq4P6zZu9np1hgnesYM=;
- b=AMnSTvg+iQZl6xEm+E0J+l5Rc8JBW0Xns9HKF4Yk2NWYkShV3gXRirNcQBZZK2rx0EfUB0
- quBYjyVcpTHiixIlAahxV/qQsf3px5IHbK73YdZ5pz3+fp+Arm/OcRRkEUGKczgBPl6WOK
- EuZNk0CMHmbJirki/F5xARkxds9M7hc=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=LuuTuKHSPwlDGXYjf+nVWvh+5mBgyV0FW5HJI1IWyKY=;
+ b=V2B5rVox5ZnwNESofy4Ul8Ki8AtVpYTlLvHfu8qAEkVS0pfmw5SsNJB9Ffgd2/TW1fbwUr
+ 4xs9yJTM8168GoLTWWiCS0Hb3c64g7i1jbR4YSvN+IhWxjJIYEMxLCiQQoNP1AOoUpty0m
+ KOiBDKnG/63Brz2WrW+nwYt237CSheg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-344-9QrQkPqlOL6Oras5n0uaSg-1; Fri, 13 Nov 2020 07:13:17 -0500
-X-MC-Unique: 9QrQkPqlOL6Oras5n0uaSg-1
+ us-mta-380-_Ku5nBBBNimAmh6onPADGg-1; Fri, 13 Nov 2020 07:30:00 -0500
+X-MC-Unique: _Ku5nBBBNimAmh6onPADGg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A46110B9CA6;
- Fri, 13 Nov 2020 12:13:16 +0000 (UTC)
-Received: from work-vm (ovpn-114-160.ams2.redhat.com [10.36.114.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C40EE5D9E8;
- Fri, 13 Nov 2020 12:13:14 +0000 (UTC)
-Date: Fri, 13 Nov 2020 12:13:11 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>, thuth@redhat.com
-Subject: Re: [PATCH for-5.2 0/3] hmp: Fix arg evaluation crash (regression)
-Message-ID: <20201113121311.GI3251@work-vm>
-References: <20201113114326.97663-1-kwolf@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DDE03809DE6
+ for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 12:29:59 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-65.ams2.redhat.com
+ [10.36.112.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5C0A35D9E8;
+ Fri, 13 Nov 2020 12:29:56 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 569C9A1E2; Fri, 13 Nov 2020 13:29:55 +0100 (CET)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/6] Fixes 20201113 patches
+Date: Fri, 13 Nov 2020 13:29:49 +0100
+Message-Id: <20201113122955.759-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201113114326.97663-1-kwolf@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 16:09:27
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -80,47 +78,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lichun@ruijie.com.cn, qemu-devel@nongnu.org, armbru@redhat.com
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Kevin Wolf (kwolf@redhat.com) wrote:
-> When I restricted the section where the current monitor is set to only
-> the command handler, I missed that monitor_parse_arguments() can use it
-> indirectly, too, when evaluating register variables. These cases get
-> NULL now and crash (easy to reproduce with "x $pc").
-> 
-> This series passes the right monitor object down instead of using
-> monitor_cur(), which fixes the crash.
-
-Why didn't the test-hmp.c find this?  It has a 'p $pc + 8'
-
-Dave
-
-
-> Kevin Wolf (3):
->   hmp: Pass monitor to mon_get_cpu()
->   hmp: Pass monitor to MonitorDef.get_value()
->   hmp: Pass monitor to mon_get_cpu_env()
-> 
->  include/monitor/hmp-target.h |  7 ++++---
->  monitor/monitor-internal.h   |  2 +-
->  monitor/hmp.c                |  2 +-
->  monitor/misc.c               | 24 ++++++++++++------------
->  target/i386/monitor.c        | 11 ++++++-----
->  target/m68k/monitor.c        |  2 +-
->  target/nios2/monitor.c       |  2 +-
->  target/ppc/monitor.c         | 22 +++++++++++++---------
->  target/riscv/monitor.c       |  2 +-
->  target/sh4/monitor.c         |  2 +-
->  target/sparc/monitor.c       | 12 +++++++-----
->  target/xtensa/monitor.c      |  2 +-
->  12 files changed, 49 insertions(+), 41 deletions(-)
-> 
-> -- 
-> 2.28.0
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+The following changes since commit cb5d19e8294486551c422759260883ed290226d9=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/mcayland/tags/qemu-macppc-20201112'=
+ i=3D=0D
+nto staging (2020-11-12 11:33:26 +0000)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://git.kraxel.org/qemu tags/fixes-20201113-pull-request=0D
+=0D
+for you to fetch changes up to 172bc8520db1cb98d09b367360068a675fbc9413:=0D
+=0D
+  xhci: fix nec-usb-xhci properties (2020-11-13 07:36:33 +0100)=0D
+=0D
+----------------------------------------------------------------=0D
+fixes for console, audio, usb, vga.=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Geoffrey McRae (1):=0D
+  audio/jack: fix use after free segfault=0D
+=0D
+Gerd Hoffmann (1):=0D
+  xhci: fix nec-usb-xhci properties=0D
+=0D
+Philippe Mathieu-Daud=3DC3=3DA9 (3):=0D
+  hw/usb/Kconfig: Fix USB_XHCI_NEC (depends on USB_XHCI_PCI)=0D
+  hw/display/cirrus_vga: Remove debugging code commented out=0D
+  hw/display/cirrus_vga: Fix hexadecimal format string specifier=0D
+=0D
+lichun (1):=0D
+  console: avoid passing con=3D3DNULL to graphic_hw_update_done()=0D
+=0D
+ audio/jackaudio.c       | 50 ++++++++++++++++++++++++++++++-----------=0D
+ hw/display/cirrus_vga.c | 20 +----------------=0D
+ hw/usb/hcd-xhci-nec.c   | 31 ++++++++++++++++++++-----=0D
+ ui/console.c            |  5 +++--=0D
+ hw/usb/Kconfig          |  3 +--=0D
+ 5 files changed, 68 insertions(+), 41 deletions(-)=0D
+=0D
+--=3D20=0D
+2.27.0=0D
+=0D
 
 
