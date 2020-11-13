@@ -2,78 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A481F2B20A3
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 17:41:01 +0100 (CET)
-Received: from localhost ([::1]:51468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 769A02B20E5
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 17:52:31 +0100 (CET)
+Received: from localhost ([::1]:38522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdc8C-0003rX-Nq
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 11:41:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48762)
+	id 1kdcJK-0002Uu-Hl
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 11:52:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kdc6o-0003OV-G9
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 11:39:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35967)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kdc6m-0007DR-If
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 11:39:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605285570;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=46jMfmB0N5ftnRhUDg83vBFQF19Fw3wf5bBGMuou4LI=;
- b=eW5Nf5Jo/grpBMJ4nEpl33iVJPS92BQTBTPWaVy2MZRoJKFvBTeP/pO2Z+5R7skeZhxo67
- AcEzIkD3OerOBy5X31LEocI4eCoVIgPRFlrJZtviLmA/FGREQgL/KjtA2edACg8lfrKMi4
- jnuadRy3SHAkvaMmbtQyTdM+anqO5cc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-546-kYMYjI4sORKbqdzsy_vW2Q-1; Fri, 13 Nov 2020 11:39:27 -0500
-X-MC-Unique: kYMYjI4sORKbqdzsy_vW2Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C5F741009E3E
- for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 16:39:26 +0000 (UTC)
-Received: from work-vm (ovpn-114-160.ams2.redhat.com [10.36.114.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E562B55785;
- Fri, 13 Nov 2020 16:39:25 +0000 (UTC)
-Date: Fri, 13 Nov 2020 16:39:23 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 4/6] migration: Check xbzrle-cache-size more carefully
-Message-ID: <20201113163923.GR3251@work-vm>
-References: <20201113065236.2644169-1-armbru@redhat.com>
- <20201113065236.2644169-5-armbru@redhat.com>
- <20201113105940.GC3251@work-vm> <87pn4hfkgc.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kdcHj-0001NH-U8
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 11:50:53 -0500
+Received: from indium.canonical.com ([91.189.90.7]:56870)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kdcHf-0002i0-Sc
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 11:50:51 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kdcHd-0002Oq-LG
+ for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 16:50:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 859F12E8130
+ for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 16:50:45 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <87pn4hfkgc.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 16:09:27
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 13 Nov 2020 16:43:16 -0000
+From: "mike@papersolve.com" <1759338@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: mike-papersolve pmaydell th-huth
+X-Launchpad-Bug-Reporter: mike@papersolve.com (mike-papersolve)
+X-Launchpad-Bug-Modifier: mike@papersolve.com (mike-papersolve)
+References: <152217198529.30594.10454069952660679046.malonedeb@gac.canonical.com>
+ <160528525964.19970.11803112365105391290.malone@soybean.canonical.com>
+Message-Id: <03D90702-69BB-4D58-80B2-984FE1A69740@papersolve.com>
+Subject: Re: [Bug 1759338] Re: qemu-system-sparc w/ SS-20 ROM does not add
+ processors
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="38ebca4a151c7e484f2992f7b90f5a3ede13f97f"; Instance="production"
+X-Launchpad-Hash: ef86543837b17af60186893d3c4b4cdb223d4ee4
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/13 09:15:41
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, NAME_EMAIL_DIFF=0.737, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,105 +74,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, quintela@redhat.com
+Reply-To: Bug 1759338 <1759338@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Markus Armbruster (armbru@redhat.com) wrote:
-> "Dr. David Alan Gilbert" <dgilbert@redhat.com> writes:
-> 
-> > * Markus Armbruster (armbru@redhat.com) wrote:
-> >> migrate-set-parameters passes the size to xbzrle_cache_resize().
-> >> xbzrle_cache_resize() checks it fits into size_t before it passes it
-> >> on to cache_init().  cache_init() checks it is a power of two no
-> >> smaller than @page_size.
-> >> 
-> >> cache_init() is also called from xbzrle_init(), bypassing
-> >> xbzrle_cache_resize()'s check.
-> >> 
-> >> Drop xbzrle_cache_resize()'s check, and check more carefully in
-> >> cache_init().
-> >> 
-> >> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> >> ---
-> >>  migration/page_cache.c | 15 ++++-----------
-> >>  migration/ram.c        |  7 -------
-> >>  2 files changed, 4 insertions(+), 18 deletions(-)
-> >> 
-> >> diff --git a/migration/page_cache.c b/migration/page_cache.c
-> >> index b384f265fb..e07f4ad1dc 100644
-> >> --- a/migration/page_cache.c
-> >> +++ b/migration/page_cache.c
-> >> @@ -41,17 +41,10 @@ struct PageCache {
-> >>  PageCache *cache_init(uint64_t new_size, size_t page_size, Error **errp)
-> >>  {
-> >>      int64_t i;
-> >> -    size_t num_pages = new_size / page_size;
-> >> +    uint64_t num_pages = new_size / page_size;
-> >>      PageCache *cache;
-> >>  
-> >> -    if (new_size < page_size) {
-> >> -        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "cache size",
-> >> -                   "is smaller than one target page size");
-> >> -        return NULL;
-> >> -    }
-> >> -
-> >> -    /* round down to the nearest power of 2 */
-> >> -    if (!is_power_of_2(num_pages)) {
-> >> +    if (num_pages != (size_t)num_pages || !is_power_of_2(num_pages)) {
-> >>          error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "cache size",
-> >>                     "is not a power of two number of pages");
-> >
-> > That error message is now wrong since it includes a whole bunch of
-> > reasons.
-> 
-> We could argue about "wrong", but I readily concedede it needs
-> improvement:
-> 
->     Parameter 'cache size' expects is not a power of two number of pages
-> 
-> is crap.  I fixed similar crap in my "[PATCH 00/10] Chipping away at
-> qerror.h"
+Yes this can be closed, no problems now using open bios to boot Solaris
+and it does support multiple processors though this is actually slower
+than one.
 
-The wording may be crap, but it does at least talk about the correct
-problem.
+Sent from my mobile device
 
-> but missed this one.
-> 
-> What about
-> 
->     Parameter 'xbzrle-cache-size' expects a power of two larger than $page_size
+On Nov 13, 2020, at 11:41 AM, Peter Maydell <1759338@bugs.launchpad.net>
+wrote:
 
-Yes, although you've also put a too-large check in ther=e with that
-size_t cast.
+=EF=BB=BF Reporter said in comment #1 that the bug can be closed, so let's =
+close
+it :-)
 
-> ?
-> 
-> > Also, the comparison is now on the divided num_pages, it's not that
-> > obvious to me that checking the num_pages makes sense in acomparison to
-> > checking the actual cache size.
-> 
-> Would you accept
-> 
->     if (!is_power_of_2(new_size)
->         || !num_pages || num_pages != (size_t)num_pages) {
 
-Well, why is it not  || new_size != (size_t)new_size   like in the
-original?
+** Changed in: qemu
+Status: Incomplete =3D> Fix Released
 
-> ?
-> 
-> If not, please propose something you like better.
-> 
-> > (Arguably the check should also happen in migrate_params_test_apply)
-> 
-> Feels like one bridge too far for this patch.
+--
+You received this bug notification because you are subscribed to the bug
+report.
+https://bugs.launchpad.net/bugs/1759338<https://bugs.launchpad.net/bugs/175=
+9338>
 
-Sure.
+Title:
+qemu-system-sparc w/ SS-20 ROM does not add processors
 
-Dave
+Status in QEMU:
+Fix Released
 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Bug description:
+When booting a SPARCstation-20 with the original ROM, qemu does not
+set the number of processors in a way that this ROM can understand it,
+and the ROM always reports only 1 processor installed:
 
+
+~/qemu =EE=82=B0 /usr/local/bin/qemu-system-sparc -bios ./ss20_v2.25_rom -M=
+ SS-20 -cpu "TI SuperSparc 60" -smp 2 -nographic
+
+Power-ON Reset
+
+
+SMCC SPARCstation 10/20 UP/MP POST version VRV3.45 (09/11/95)
+
+
+CPU_#0 TI, TMS390Z50(3.x) 0Mb External cache
+
+CPU_#1 ******* NOT installed *******
+CPU_#2 ******* NOT installed *******
+CPU_#3 ******* NOT installed *******
+
+<<< CPU_00000000 on MBus Slot_00000000 >>> IS RUNNING (MID =3D
+00000008)
+
+
+...
+
+Cpu #0 TI,TMS390Z50
+Cpu #1 Nothing there
+Cpu #2 Nothing there
+Cpu #3 Nothing there
+
+...
+
+SPARCstation 20 (1 X 390Z50), No Keyboard
+ROM Rev. 2.25, 128 MB memory installed, Serial #1193046.
+Ethernet address 52:54:0:12:34:56, Host ID: 72123456.
+
+
+(It is necessary use SS-20 since it is the only sun4m model that
+supports 512MB RAM, and I can't get Solaris to install on the SS-20
+using OpenBIOS.)
+
+When booting with OpenBIOS I can't seem to boot any version of Solaris
+though I had heard this did work. Solaris 8 and 9 do work nicely with
+this ROM, but I am opening this to see if it is possible to fix this
+to allow the original OBP ROM to see multiple processors.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1759338/+subscriptions<https://bugs.la=
+unchpad.net/qemu/+bug/1759338/+subscriptions>
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1759338
+
+Title:
+  qemu-system-sparc w/ SS-20 ROM does not add processors
+
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  When booting a SPARCstation-20 with the original ROM, qemu does not
+  set the number of processors in a way that this ROM can understand it,
+  and the ROM always reports only 1 processor installed:
+
+  =
+
+   ~/qemu =EE=82=B0 /usr/local/bin/qemu-system-sparc -bios ./ss20_v2.25_rom=
+ -M SS-20 -cpu "TI SuperSparc 60" -smp 2 -nographic
+
+  Power-ON Reset
+
+
+  =
+
+             SMCC SPARCstation 10/20 UP/MP POST version VRV3.45 (09/11/95)
+
+  =
+
+  CPU_#0       TI, TMS390Z50(3.x)       0Mb External cache
+
+  CPU_#1       ******* NOT installed *******
+  CPU_#2       ******* NOT installed *******
+  CPU_#3       ******* NOT installed *******
+
+      <<< CPU_00000000 on MBus Slot_00000000 >>> IS RUNNING (MID =3D
+  00000008)
+
+  =
+
+  ...
+
+  Cpu #0 TI,TMS390Z50 =
+
+  Cpu #1 Nothing there =
+
+  Cpu #2 Nothing there =
+
+  Cpu #3 Nothing there =
+
+
+  ...
+
+  SPARCstation 20 (1 X 390Z50), No Keyboard
+  ROM Rev. 2.25, 128 MB memory installed, Serial #1193046.
+  Ethernet address 52:54:0:12:34:56, Host ID: 72123456.
+
+
+  =
+
+  (It is necessary use SS-20 since it is the only sun4m model that supports=
+ 512MB RAM, and I can't get Solaris to install on the SS-20 using OpenBIOS.=
+) =
+
+
+  When booting with OpenBIOS I can't seem to boot any version of Solaris
+  though I had heard this did work.  Solaris 8 and 9 do work nicely with
+  this ROM, but I am opening this to see if it is possible to fix this
+  to allow the original OBP ROM to see multiple processors.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1759338/+subscriptions
 
