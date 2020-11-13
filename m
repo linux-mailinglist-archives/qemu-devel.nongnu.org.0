@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 570142B26AA
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 22:28:08 +0100 (CET)
-Received: from localhost ([::1]:45982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A46412B26C3
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 22:29:51 +0100 (CET)
+Received: from localhost ([::1]:50114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdgc3-0001Nr-DY
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 16:28:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59584)
+	id 1kdgdi-0003EQ-OD
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 16:29:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kdgaE-0000K3-OM
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 16:26:14 -0500
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:41047)
+ id 1kdgbI-0001BP-7c
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 16:27:20 -0500
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:41734)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kdgaD-0006jX-63
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 16:26:14 -0500
-Received: by mail-pf1-x442.google.com with SMTP id c20so8699667pfr.8
- for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 13:26:12 -0800 (PST)
+ id 1kdgbG-0006nI-NC
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 16:27:19 -0500
+Received: by mail-pf1-x433.google.com with SMTP id c20so8701829pfr.8
+ for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 13:27:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=iL0uRLI+yG9JxO21dMlu+eUszT9UXMWWrIEir3O7G28=;
- b=bOJYfXvGhivmabXxnuAaFlOILafCilhicL0NbYd1KvhTrg83h1Xen4BNtifCkN7G9J
- AxZXLVZpuRWFsZLOVGG8WwjCAp5okDzAuUbgDH62TJzjlElkBlFPxzsxlY9iU+h6/2Lb
- VWTrfklzoEjOPn125FMucybd76QHW+DxU4F1Sfb1zr+OcO5At3WC0JYqwFclzfb38XZh
- 9wZzuej8gw6FYUl6HEVED0SEYlFBh+OcELxmNGcprJ3veUW6DcY/fKri4URXKlvGedYI
- bMUAvGOKrzIvVE/VcdjRb8A0lGrOTK/qjII8iCO/DgJWNM6lThhz2+vQ/QQkO1+pDq9o
- ZZew==
+ bh=HchRy0qvK97I/8MArW4zQtV/25UEVbu3e2IYvDyPE0U=;
+ b=ijHL2CYUEwEzHwsPTnY5LqKw5VCwK59uWlix9VVp2YiarzpvD8BUWvnV9Cbm4ssxf6
+ /Eg6lg5t5WPR4uWy9Ccq2pG3lNuoEgWB3eSIc/aQQM2r/fjE+/+DOJmwHiqJBMttfxtj
+ r8E8z5otgmcPMmdGgAZnEDMiCbxxHr2UAahbIMOqWg6k6ev7gTHMZiRbzU8kMl1w4+G3
+ BLV1MlJiRurdDiW1cYmDkZeqjyZ1rXAuzSRLdCyhiz1RmpCsPGEPxBKaix5l9tyGb/Uw
+ OqF6uDCXISeC+AydL++kQHmYB0LodEHEI2znF+Qx3sPTwnIWrloJ+NMsdtAuZGccCHvE
+ I5yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=iL0uRLI+yG9JxO21dMlu+eUszT9UXMWWrIEir3O7G28=;
- b=R2jiCPT15Mbqrz8wmIdM2PaqccwQgAAFXQjSQfw71VCFhnJWCffMtpYrr3rreYgEmg
- mIw/Flik16YvyzDdQuOWgruXHBW0o6gjIuQxLYmdN57Q3p54j5UTKGjO4Q150EalUvSr
- /LO59m9PAyTJWc9MhVwScIpGsIa39IW/T1nTUmNaTJ/wHjW0rd2vhG5IAG9XNVFcv6Mj
- eWuJBbjxLm5ue1PDeX3aY8RiOC7zlLFLBlyp18tqKD4a2JJTh8gk9OYVlOoQn9ZWxrZT
- W0e5H1AQDeC+K1Wx+j0AqVeeAOB4cU1QEmE3CL7nQxY82OdnQbA7myPbZUKnov1vlzUy
- wWkA==
-X-Gm-Message-State: AOAM532N+Pk5K5juLufcLCG2Ip/chzyqryzBs2f+CpCmGiGYPlbyPtmy
- fFDKL9Vf216gQjgTe2wJEQWTeDVpvnmCbg==
-X-Google-Smtp-Source: ABdhPJwmv/vQvFGph5qxjwXPAFxz/AdCrkr5o/XN+zymVIIJiX2QRrnpRnc9Gc3AJJiThJQc3EzYmw==
-X-Received: by 2002:a17:90a:4881:: with SMTP id
- b1mr5038256pjh.32.1605302771268; 
- Fri, 13 Nov 2020 13:26:11 -0800 (PST)
+ bh=HchRy0qvK97I/8MArW4zQtV/25UEVbu3e2IYvDyPE0U=;
+ b=MK6xKTlvAs7qz4tTQDcHiZEw132NUbtpk6suJQfonunxHIxCZzihMemAzpjtEQZFxd
+ hIZEQPuizuJF48E+yf8P+qBqC/vAKNJDo+RtW6p/uP8DJNLWqphAM55mztmvdQJ4TFcT
+ YoxT0ZL1GjYJ+KLcwug911U5zKUwaScN6SpijTWxbIwQRTBlVlagMzLUbVFhz/PkVMJW
+ 7jNoSdfYaVf4fAMp63+prUcltAXM7C8uxrKQSRKz3TV7gZgFNXUmvu4cmLiFZlxg9700
+ kHBvXIehmXuSXvEK/BlapzoJWZMjLu8hyE/lJmWqaUrnShMHdB8Nv7qTz7EEm1QArdpO
+ tNcw==
+X-Gm-Message-State: AOAM533nYG4dDprKtZwaxzi/YJr1T3dxs/1Gwt4nT7GNbPjLCay7g51L
+ If8REuwvqvbU8wZqSIhVmz2X7h9AAYu28Q==
+X-Google-Smtp-Source: ABdhPJxzTv6yNi0VoZKlLZ2votgeFGVO1UIlse6/T/3x4fKeDSzpWryBDDaJ9dtpAXNpj5bxhVdV0Q==
+X-Received: by 2002:a17:90a:a58e:: with SMTP id
+ b14mr4773174pjq.203.1605302836936; 
+ Fri, 13 Nov 2020 13:27:16 -0800 (PST)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id j19sm11536828pfd.189.2020.11.13.13.26.10
+ by smtp.gmail.com with ESMTPSA id l20sm11080443pfd.103.2020.11.13.13.27.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Nov 2020 13:26:10 -0800 (PST)
-Subject: Re: [PATCH 09/17] target/arm: add MMU stage 1 for Secure EL2
+ Fri, 13 Nov 2020 13:27:16 -0800 (PST)
+Subject: Re: [PATCH 10/17] target/arm: add ARMv8.4-SEL2 system registers
 To: remi.denis.courmont@huawei.com, qemu-arm@nongnu.org
 References: <5554493.MhkbZ0Pkbq@basile.remlab.net>
- <20201109141020.27234-9-remi.denis.courmont@huawei.com>
+ <20201109141020.27234-10-remi.denis.courmont@huawei.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b6aaa5ef-bf43-4d95-3ce5-850dc888eefa@linaro.org>
-Date: Fri, 13 Nov 2020 13:26:08 -0800
+Message-ID: <41d975b4-0030-a249-32ea-057fbf66e017@linaro.org>
+Date: Fri, 13 Nov 2020 13:27:14 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201109141020.27234-9-remi.denis.courmont@huawei.com>
+In-Reply-To: <20201109141020.27234-10-remi.denis.courmont@huawei.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x442.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -97,20 +97,11 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 11/9/20 6:10 AM, remi.denis.courmont@huawei.com wrote:
 > From: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
 > 
-> This adds the MMU indices for EL2 stage 1 in secure mode.
-> 
-> To keep code contained, which is largelly identical between secure and
-> non-secure modes, the MMU indices are reassigned. The new assignments
-> provide a systematic pattern with a non-secure bit.
-> 
 > Signed-off-by: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
 > ---
->  target/arm/cpu-param.h     |   2 +-
->  target/arm/cpu.h           |  37 +++++++----
->  target/arm/helper.c        | 127 ++++++++++++++++++++++++-------------
->  target/arm/internals.h     |  12 ++++
->  target/arm/translate-a64.c |   4 ++
->  5 files changed, 124 insertions(+), 58 deletions(-)
+>  target/arm/cpu.h    |  2 ++
+>  target/arm/helper.c | 24 ++++++++++++++++++++++++
+>  2 files changed, 26 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
