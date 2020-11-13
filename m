@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D71D2B1374
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 01:47:03 +0100 (CET)
-Received: from localhost ([::1]:36574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BF0F2B1377
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 01:48:19 +0100 (CET)
+Received: from localhost ([::1]:38674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdNF0-0003GW-4O
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 19:47:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40024)
+	id 1kdNGE-00049D-Am
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 19:48:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kdNCr-0001rm-JK
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 19:44:49 -0500
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:43412)
+ id 1kdNFU-0003ix-CB
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 19:47:32 -0500
+Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:38300)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kdNCp-00084M-SY
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 19:44:49 -0500
-Received: by mail-io1-xd41.google.com with SMTP id m9so8060871iox.10
- for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 16:44:47 -0800 (PST)
+ id 1kdNFS-0008Ty-6q
+ for qemu-devel@nongnu.org; Thu, 12 Nov 2020 19:47:32 -0500
+Received: by mail-il1-x141.google.com with SMTP id e17so7029980ili.5
+ for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 16:47:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UUNlrYXkGH5ef0dsWB+F2ZMUFSohgx2XQy9dFr7kLP0=;
- b=lgOXHW6HeoH1/9Bpjie0DbNW7IDSRtCMbWn+7KutDk8c74c7NocU4LoVprwPd5bFfM
- 0H9LkfMgxHbhbx5oWul6C2nOjj5zbsLEf6RBRuV9M0exVgJqz0fT5pUSu6JyLtqJ35CD
- Y4GUSL3sndlj9GhFw53itYqqlvMrNufhZ51NqBweGYrLmXaYMbX2yfenBcW26rRXaFvA
- ecVlTHsifToON92IElBVVV3jvuitC9oqk1daDA0s3/rJxLULGSFONWB3lI7wCk55ctJ/
- dN6nXseDak3vGKZXiIbaUIYJgrS+Th+mX5zIx+WOcB4PhOswRolEzUGUVeJxJs/4EbYj
- AfFw==
+ :cc; bh=ogOARmn/PCGlHIfBJJNaFV7x3+XMoixdQwjG2Is8vvo=;
+ b=LgQGS226MInI1z5MLjYqUiDLLgqoMFxAIbsp+c29iM/L6bO0OwB6XzoNdJPe+XX7eY
+ KfP/wpSvcYfEkIBystOaYnp0WFw2rjgPceaLTcHM3bDDNXUq8B8OaJPv8JdfNa95uatT
+ g3Nr6BBQNGgfQGDEs8jkA5dUhaLgTwlv5+0QGiYvj6Mu4aeZsQYm5lKoGNz+cIEROgVA
+ O8hyswuT4u4r/a8iv0fn9lRNQhg9V+K8KU0GhqHKShE3ITM8ogZP38vLZRXWBAIXRl94
+ j3F4h4msjNceLjG5gI+b5tAbMAa6fLbQV3h8C9kjJSmZDpuUrbD0VYa4Yc9nCCKZ9WXE
+ Bdiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=UUNlrYXkGH5ef0dsWB+F2ZMUFSohgx2XQy9dFr7kLP0=;
- b=LqDv9Rq1BrOkLjsYXEXcR/57J4o1nWQd8cQ5VnEjDmnFal1HWGtqm0lbs/7LACN9Qw
- qks21+PqycadrveQU5i6Uz4wNqOkEq2cJKM2pEDjNNMC75wCviyYKFxVuOgM6Jl6d91t
- bzBQ2KA+K5MV8AJFISFG0U+TiTbZ/NXaYJtdXj6XVq4hKWqhuKGlEd7YvF5bYwdkfCm9
- rH7pu9trX35dcRzUxR7pFzCodI5zI7NLOBNyM+EQj2owkawYgUZ9v766Va0MKw64DyaN
- xChLBtAYxx+Dfdx7NLRCO35901+5W6+f3xM39KA4O5vX7kzGg3H7pNanar5E+9EZB9j2
- bGvQ==
-X-Gm-Message-State: AOAM530PqKxwbg/bGmMSmWOikw9UyTP5wld8RIZZaCl+QcijLTHGx6vZ
- TMR27+SiqRH5yjDQhvN5pGDj2yb1en7B3E87ers=
-X-Google-Smtp-Source: ABdhPJxurRlT7N42OlnZQkNKkRpPdZBEjzTT/xpdObnFHqzdc6Cc+m4c0ozoIhsxIIYWXpIARXrNveDbkZhuWIpX0LY=
-X-Received: by 2002:a02:7c4:: with SMTP id f187mr1895887jaf.91.1605228286332; 
- Thu, 12 Nov 2020 16:44:46 -0800 (PST)
+ bh=ogOARmn/PCGlHIfBJJNaFV7x3+XMoixdQwjG2Is8vvo=;
+ b=NrF4lAHaECth4d3bpCAvSloyFHemTvEKvvpFi9/wzI8KDXtbVRLiPsuonyMSKy5yHT
+ 3lCuUGphbCwIdPvbTqwWnXxqsAzyzRf5wHGWXryLa4Rm8LcsVLeMFZ0rf32wALOUk7/q
+ rwcNliFO7VNDxjhgQoP8J8JYyO148HZmaKJmXmDtL161yBi6bX1c73sF93k4dwE/KNsl
+ 413JcJDkwhnQoMzGMEiUlb+yGv5Rdu/kM7mQvrkHYi5W87689oOLj5DbEZOJOKkYS8vF
+ fv7ru2zWCwbH79yJQepJsczBUq/qUcui+o8vbuFbqZtesZkOBpYEsWSJVDzUyetDNcGq
+ 13Bw==
+X-Gm-Message-State: AOAM530/+yfwULgVRXd5l6PmtohyKiEXCG04+V6EBKu0XoM2JNrmNQPy
+ Cq6xzj5V4cm7W77hM9mGZOvR/3jE6QeTeAowA94=
+X-Google-Smtp-Source: ABdhPJxp1YlY+YQ6sQbh9UT2rGrdQdhlpFqm6G3uBujFvAfVvpkM3LJ0UpUcazx1uBYkhmtAz3jxhGgOjmGL4o/5q7w=
+X-Received: by 2002:a05:6e02:c:: with SMTP id
+ h12mr1896943ilr.177.1605228449117; 
+ Thu, 12 Nov 2020 16:47:29 -0800 (PST)
 MIME-Version: 1.0
-References: <2d8747944b70d105c7ce320be0151c4c4ec78d24.1601653938.git.alistair.francis@wdc.com>
- <CAFEAcA90cD8+NY-dGKzk9-yDKVRCR1d74OW+hNUHrZWXTgWqXA@mail.gmail.com>
-In-Reply-To: <CAFEAcA90cD8+NY-dGKzk9-yDKVRCR1d74OW+hNUHrZWXTgWqXA@mail.gmail.com>
+References: <20201112074950.33283-1-vitaly.wool@konsulko.com>
+In-Reply-To: <20201112074950.33283-1-vitaly.wool@konsulko.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 12 Nov 2020 16:32:42 -0800
-Message-ID: <CAKmqyKNVoR_RYzbrKSmk=sJs9TRU4nr5DncSVX4tHq2UYVwKNQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] register: Remove unnecessary NULL check
-To: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 12 Nov 2020 16:35:25 -0800
+Message-ID: <CAKmqyKNaFyiroRUk8V2a9+boUG1SSbxWaA_Dm2q7jfFKBqeong@mail.gmail.com>
+Subject: Re: [PATCH v2] hw/riscv: microchip_pfsoc: add QSPI NOR flash
+To: Vitaly Wool <vitaly.wool@konsulko.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd41.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x141.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -80,47 +80,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Bin Meng <bmeng.cn@gmail.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 12, 2020 at 7:51 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+On Wed, Nov 11, 2020 at 11:51 PM Vitaly Wool <vitaly.wool@konsulko.com> wrote:
 >
-> On Fri, 2 Oct 2020 at 17:04, Alistair Francis <alistair.francis@wdc.com> wrote:
-> >
-> > This patch fixes CID 1432800 by removing an unnecessary check.
-> >
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> >  hw/core/register.c | 4 ----
-> >  1 file changed, 4 deletions(-)
-> >
-> > diff --git a/hw/core/register.c b/hw/core/register.c
-> > index 31038bd7cc..3600ef5bde 100644
-> > --- a/hw/core/register.c
-> > +++ b/hw/core/register.c
-> > @@ -258,10 +258,6 @@ static RegisterInfoArray *register_init_block(DeviceState *owner,
-> >          int index = rae[i].addr / data_size;
-> >          RegisterInfo *r = &ri[index];
-> >
-> > -        if (data + data_size * index == 0 || !&rae[i]) {
-> > -            continue;
-> > -        }
-> > -
-> >          /* Init the register, this will zero it. */
-> >          object_initialize((void *)r, sizeof(*r), TYPE_REGISTER);
-> >
-> > --
-> > 2.28.0
+> Add QSPI NOR flash definition for Microchip PolarFire SoC.
 >
-> Applied to target-arm.next, thanks.
+> Signed-off-by: Vitaly Wool <vitaly.wool@konsulko.com>
 
-Thanks Peter
+Thanks!
+
+Applied to riscv-to-apply.next
 
 Alistair
 
+> ---
+>  hw/riscv/microchip_pfsoc.c         | 21 +++++++++++++++++++++
+>  include/hw/riscv/microchip_pfsoc.h |  3 +++
+>  2 files changed, 24 insertions(+)
 >
-> -- PMM
+> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
+> index 37ac46a1af..e952b49e8c 100644
+> --- a/hw/riscv/microchip_pfsoc.c
+> +++ b/hw/riscv/microchip_pfsoc.c
+> @@ -113,6 +113,8 @@ static const struct MemmapEntry {
+>      [MICROCHIP_PFSOC_MMUART2] =         { 0x20102000,     0x1000 },
+>      [MICROCHIP_PFSOC_MMUART3] =         { 0x20104000,     0x1000 },
+>      [MICROCHIP_PFSOC_MMUART4] =         { 0x20106000,     0x1000 },
+> +    [MICROCHIP_PFSOC_SPI0] =            { 0x20108000,     0x1000 },
+> +    [MICROCHIP_PFSOC_SPI1] =            { 0x20109000,     0x1000 },
+>      [MICROCHIP_PFSOC_I2C1] =            { 0x2010b000,     0x1000 },
+>      [MICROCHIP_PFSOC_GEM0] =            { 0x20110000,     0x2000 },
+>      [MICROCHIP_PFSOC_GEM1] =            { 0x20112000,     0x2000 },
+> @@ -121,6 +123,7 @@ static const struct MemmapEntry {
+>      [MICROCHIP_PFSOC_GPIO2] =           { 0x20122000,     0x1000 },
+>      [MICROCHIP_PFSOC_ENVM_CFG] =        { 0x20200000,     0x1000 },
+>      [MICROCHIP_PFSOC_ENVM_DATA] =       { 0x20220000,    0x20000 },
+> +    [MICROCHIP_PFSOC_QSPI_XIP] =        { 0x21000000,  0x1000000 },
+>      [MICROCHIP_PFSOC_IOSCB] =           { 0x30000000, 0x10000000 },
+>      [MICROCHIP_PFSOC_DRAM_LO] =         { 0x80000000, 0x40000000 },
+>      [MICROCHIP_PFSOC_DRAM_LO_ALIAS] =   { 0xc0000000, 0x40000000 },
+> @@ -185,6 +188,7 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
+>      MemoryRegion *e51_dtim_mem = g_new(MemoryRegion, 1);
+>      MemoryRegion *l2lim_mem = g_new(MemoryRegion, 1);
+>      MemoryRegion *envm_data = g_new(MemoryRegion, 1);
+> +    MemoryRegion *qspi_xip_mem = g_new(MemoryRegion, 1);
+>      char *plic_hart_config;
+>      size_t plic_hart_config_len;
+>      NICInfo *nd;
+> @@ -344,6 +348,14 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
+>          qdev_get_gpio_in(DEVICE(s->plic), MICROCHIP_PFSOC_MMUART4_IRQ),
+>          serial_hd(4));
+>
+> +    /* SPI */
+> +    create_unimplemented_device("microchip.pfsoc.spi0",
+> +        memmap[MICROCHIP_PFSOC_SPI0].base,
+> +        memmap[MICROCHIP_PFSOC_SPI0].size);
+> +    create_unimplemented_device("microchip.pfsoc.spi1",
+> +        memmap[MICROCHIP_PFSOC_SPI1].base,
+> +        memmap[MICROCHIP_PFSOC_SPI1].size);
+> +
+>      /* I2C1 */
+>      create_unimplemented_device("microchip.pfsoc.i2c1",
+>          memmap[MICROCHIP_PFSOC_I2C1].base,
+> @@ -401,6 +413,15 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
+>      sysbus_realize(SYS_BUS_DEVICE(&s->ioscb), errp);
+>      sysbus_mmio_map(SYS_BUS_DEVICE(&s->ioscb), 0,
+>                      memmap[MICROCHIP_PFSOC_IOSCB].base);
+> +
+> +    /* QSPI Flash */
+> +    memory_region_init_rom(qspi_xip_mem, OBJECT(dev),
+> +                           "microchip.pfsoc.qspi_xip",
+> +                           memmap[MICROCHIP_PFSOC_QSPI_XIP].size,
+> +                           &error_fatal);
+> +    memory_region_add_subregion(system_memory,
+> +                                memmap[MICROCHIP_PFSOC_QSPI_XIP].base,
+> +                                qspi_xip_mem);
+>  }
+>
+>  static void microchip_pfsoc_soc_class_init(ObjectClass *oc, void *data)
+> diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microchip_pfsoc.h
+> index 51d44637db..d0c666aae0 100644
+> --- a/include/hw/riscv/microchip_pfsoc.h
+> +++ b/include/hw/riscv/microchip_pfsoc.h
+> @@ -97,6 +97,8 @@ enum {
+>      MICROCHIP_PFSOC_MMUART2,
+>      MICROCHIP_PFSOC_MMUART3,
+>      MICROCHIP_PFSOC_MMUART4,
+> +    MICROCHIP_PFSOC_SPI0,
+> +    MICROCHIP_PFSOC_SPI1,
+>      MICROCHIP_PFSOC_I2C1,
+>      MICROCHIP_PFSOC_GEM0,
+>      MICROCHIP_PFSOC_GEM1,
+> @@ -105,6 +107,7 @@ enum {
+>      MICROCHIP_PFSOC_GPIO2,
+>      MICROCHIP_PFSOC_ENVM_CFG,
+>      MICROCHIP_PFSOC_ENVM_DATA,
+> +    MICROCHIP_PFSOC_QSPI_XIP,
+>      MICROCHIP_PFSOC_IOSCB,
+>      MICROCHIP_PFSOC_DRAM_LO,
+>      MICROCHIP_PFSOC_DRAM_LO_ALIAS,
+> --
+> 2.20.1
+>
+>
 
