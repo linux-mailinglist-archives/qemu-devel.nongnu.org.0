@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71D172B1FF1
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 17:18:02 +0100 (CET)
-Received: from localhost ([::1]:42518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CF102B1FF6
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 17:20:09 +0100 (CET)
+Received: from localhost ([::1]:47666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdblx-00042l-Fy
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 11:18:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42898)
+	id 1kdbo0-00069h-2n
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 11:20:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kdbkF-0002i9-7x
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 11:16:15 -0500
-Received: from indium.canonical.com ([91.189.90.7]:49188)
+ id 1kdbkD-0002gP-S8
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 11:16:13 -0500
+Received: from indium.canonical.com ([91.189.90.7]:49150)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kdbkC-0007pw-7c
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 11:16:14 -0500
+ id 1kdbkB-0007pQ-3k
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 11:16:13 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kdbkB-0006cS-48
- for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 16:16:11 +0000
+ id 1kdbk9-0006V3-Dt
+ for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 16:16:09 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 185CA2E80EA
- for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 16:16:11 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 676992E80E8
+ for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 16:16:09 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 13 Nov 2020 16:03:30 -0000
-From: Thomas Huth <1799792@bugs.launchpad.net>
+Date: Fri, 13 Nov 2020 16:04:14 -0000
+From: Thomas Huth <1799919@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -38,18 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dos-d ernstp th-huth
-X-Launchpad-Bug-Reporter: Sebastian Krzyszkowiak (dos-d)
+X-Launchpad-Bug-Commenters: th-huth yannick-duchene
+X-Launchpad-Bug-Reporter: =?utf-8?b?SGlib3U1N8KgKFlhbm5pY2vCoER1Y2jDqm5l?=
+ =?utf-8?q?=29_=28yannick-duchene=29?=
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <154041310239.24736.3249552536528955636.malonedeb@wampee.canonical.com>
-Message-Id: <160528341086.20100.10084769807652302990.malone@soybean.canonical.com>
-Subject: [Bug 1799792] Re: Broken scaling with gtk,gl=on on a hidpi display
+References: <154046086166.20410.16328785764794651694.malonedeb@gac.canonical.com>
+Message-Id: <160528345417.32723.13558222650814474051.malone@chaenomeles.canonical.com>
+Subject: [Bug 1799919] Re: IDE HDD emulation random read/write errors
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="38ebca4a151c7e484f2992f7b90f5a3ede13f97f"; Instance="production"
-X-Launchpad-Hash: 9b80407f2fe1e90935bbe597f5ae706b8a541b9c
+X-Launchpad-Hash: 4b14b158040f1115e3804ec232cb44c5d641540d
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/13 09:15:41
@@ -72,7 +73,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1799792 <1799792@bugs.launchpad.net>
+Reply-To: Bug 1799919 <1799919@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -92,29 +93,47 @@ venience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1799792
+https://bugs.launchpad.net/bugs/1799919
 
 Title:
-  Broken scaling with gtk,gl=3Don on a hidpi display
+  IDE HDD emulation random read/write errors
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Tested on QEMU 3.0.0 on Arch Linux.
+  I unfortunately can=E2=80=99t give more tracks other than how to reproduc=
+e the
+  bug, especially that the bug occurs randomly.
 
-  I'm using a hidpi screen, and therefore use those environment
-  variables in order to have GTK+ apps properly scaled:
+  Basically, I=E2=80=99m trying to install DOS 6.22 on an emulated ISA mach=
+ine,
+  and it fails, DOS complaining about read or write error on drive C.
+  Repeating the operation multiple time, I see it occurs at random
+  stage, sometime even before it partitions the drive, sometime when it
+  formats the drive, sometime when it copies the files from the floppy
+  to the drive.
 
-  GDK_SCALE=3D2
-  GDK_DPI_SCALE=3D0.5
+  To test it, unpack the attached archive and execute `./run` from the
+  extracted directory. The archive contains three raw floppy images for
+  installing DOS 6.22, and a Bourne Shell script which invokes QEmu.
+  Just press enter at any installation stage, the bug may occurs at any
+  stage.
 
-  However, QEMU, when launched with "-display gtk,gl=3Don" option, doesn't
-  scale the window content properly, as seen on the attached screenshot.
+  I tried with `cache=3Dnone` to be sure it=E2=80=99s not a cache issue, bu=
+t its
+  the same whatever the cache policy is.
 
-  Switching to "-display gtk,gl=3Doff" and "-display sdl,gl=3Don" makes it
-  work fine.
+  Version and environment: using QEmu 3.0 on Ubuntu 16.04 on a 32 bits
+  DELL Inspiron 9400 (not an emulation, that=E2=80=99s my real laptop).
+
+  For why I=E2=80=99m using QEmu for this: the installation proceeds with n=
+ot
+  error in VirtualBox, but I wanted to use QEmu to have a serial mouse
+  which is not available with QEmu and to have finer control over the
+  machine configuration ; VirtualBox although good, is more limited in
+  that regard.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1799792/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1799919/+subscriptions
 
