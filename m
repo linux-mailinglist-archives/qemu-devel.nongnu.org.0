@@ -2,72 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF0F2B1377
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 01:48:19 +0100 (CET)
-Received: from localhost ([::1]:38674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 101B02B1372
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 01:45:50 +0100 (CET)
+Received: from localhost ([::1]:34416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdNGE-00049D-Am
-	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 19:48:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40356)
+	id 1kdNDo-0002IX-NJ
+	for lists+qemu-devel@lfdr.de; Thu, 12 Nov 2020 19:45:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kdNFU-0003ix-CB
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 19:47:32 -0500
-Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:38300)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kdNFS-0008Ty-6q
- for qemu-devel@nongnu.org; Thu, 12 Nov 2020 19:47:32 -0500
-Received: by mail-il1-x141.google.com with SMTP id e17so7029980ili.5
- for <qemu-devel@nongnu.org>; Thu, 12 Nov 2020 16:47:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ogOARmn/PCGlHIfBJJNaFV7x3+XMoixdQwjG2Is8vvo=;
- b=LgQGS226MInI1z5MLjYqUiDLLgqoMFxAIbsp+c29iM/L6bO0OwB6XzoNdJPe+XX7eY
- KfP/wpSvcYfEkIBystOaYnp0WFw2rjgPceaLTcHM3bDDNXUq8B8OaJPv8JdfNa95uatT
- g3Nr6BBQNGgfQGDEs8jkA5dUhaLgTwlv5+0QGiYvj6Mu4aeZsQYm5lKoGNz+cIEROgVA
- O8hyswuT4u4r/a8iv0fn9lRNQhg9V+K8KU0GhqHKShE3ITM8ogZP38vLZRXWBAIXRl94
- j3F4h4msjNceLjG5gI+b5tAbMAa6fLbQV3h8C9kjJSmZDpuUrbD0VYa4Yc9nCCKZ9WXE
- Bdiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ogOARmn/PCGlHIfBJJNaFV7x3+XMoixdQwjG2Is8vvo=;
- b=NrF4lAHaECth4d3bpCAvSloyFHemTvEKvvpFi9/wzI8KDXtbVRLiPsuonyMSKy5yHT
- 3lCuUGphbCwIdPvbTqwWnXxqsAzyzRf5wHGWXryLa4Rm8LcsVLeMFZ0rf32wALOUk7/q
- rwcNliFO7VNDxjhgQoP8J8JYyO148HZmaKJmXmDtL161yBi6bX1c73sF93k4dwE/KNsl
- 413JcJDkwhnQoMzGMEiUlb+yGv5Rdu/kM7mQvrkHYi5W87689oOLj5DbEZOJOKkYS8vF
- fv7ru2zWCwbH79yJQepJsczBUq/qUcui+o8vbuFbqZtesZkOBpYEsWSJVDzUyetDNcGq
- 13Bw==
-X-Gm-Message-State: AOAM530/+yfwULgVRXd5l6PmtohyKiEXCG04+V6EBKu0XoM2JNrmNQPy
- Cq6xzj5V4cm7W77hM9mGZOvR/3jE6QeTeAowA94=
-X-Google-Smtp-Source: ABdhPJxp1YlY+YQ6sQbh9UT2rGrdQdhlpFqm6G3uBujFvAfVvpkM3LJ0UpUcazx1uBYkhmtAz3jxhGgOjmGL4o/5q7w=
-X-Received: by 2002:a05:6e02:c:: with SMTP id
- h12mr1896943ilr.177.1605228449117; 
- Thu, 12 Nov 2020 16:47:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
+ id 1kdNCZ-0001VT-PL; Thu, 12 Nov 2020 19:44:31 -0500
+Received: from mail-dm6nam11on2059.outbound.protection.outlook.com
+ ([40.107.223.59]:12577 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
+ id 1kdNCW-00083G-PF; Thu, 12 Nov 2020 19:44:30 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Rn3KPiGnihCVp6BfwmMpapvhQJ3seYNijeHaG0MzEyLBsSw1W5XNkFYmz0R9htoUll86jT8uS7em6WGRhXmlHKghZ7NVZIswo9+r/C2UK/mdVF2fpqz0gVDkiFMMDXu0O+zYF6Iee2aYTVUwndVaqKSRilb2VKO+I+hL/1gQFok5/EnetkAILbexdd6kI/Eg22f6p3cvcyAu0VVzpCBZiN7TpoyKqpYCrrQZTcv68mHpHmYAdwoHBxYP3uX/lnzuKr+UhmD4Y3rHJyz4yAq4RvNtBTYra3MaSlXL9Mm87a4tRtgDWO1EVaz7E09Lp6mxzfr2cqD5EloiwoKRQNN5wg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hRj3ULtXYHo8jMomSe7sj8Oqboypg9yfwyMu0vBhCJU=;
+ b=MS7ypVFwEBIq36o8bbwNGWNNXAb5HVion6+vzmrfe+XgNvKiFg5irEn++SQr9KVgZgjFgbW+aFglS0P06/BI5armp9kuj1IUIYn5jIlJmyJhRJlVuLpidPyilKKpP2rAllz8HT6O+AOX0Itnf1Rer6XUobIrpB4IgKbIfK71CAJWol2G+NDpTTOXRR401gESg2eQzjZ2D0AgLClHInvmKHM8g5+YP2k3ogcapCYtUgvw9pa+Xrf6H9sZolJhIJxo3OIS9sgo5Y9n1gyXk51SOn3p+6PctS3y0qhZSIOybVNWs097u84QhqMbUY4sjjYExIkPFTcbhrw8wztPuqRrmw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
+ dkim=pass header.d=xilinx.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hRj3ULtXYHo8jMomSe7sj8Oqboypg9yfwyMu0vBhCJU=;
+ b=rjfKXXvBJ1BWwrjbAwJs/OF5OblclAuH3/arwOc+HzQBCXu0V9yJBW7j92NLkAiUVvXKpmM49cndNKDDOLoyIinTF879FAB917d4bev1VpuxufVEMY3hbYELkCdyZAFq9yjxTc1KNYql0eX8qqQoZrGoNtWEvj054M1gUnIwdRY=
+Received: from BY5PR02MB6033.namprd02.prod.outlook.com (2603:10b6:a03:1ff::10)
+ by BY5PR02MB6865.namprd02.prod.outlook.com (2603:10b6:a03:238::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21; Fri, 13 Nov
+ 2020 00:44:25 +0000
+Received: from BY5PR02MB6033.namprd02.prod.outlook.com
+ ([fe80::f5f3:83c4:cc49:d415]) by BY5PR02MB6033.namprd02.prod.outlook.com
+ ([fe80::f5f3:83c4:cc49:d415%6]) with mapi id 15.20.3541.022; Fri, 13 Nov 2020
+ 00:44:25 +0000
+From: Joe Komlodi <komlodi@xilinx.com>
+To: Francisco Eduardo Iglesias <figlesia@xilinx.com>
+Subject: RE: [PATCH v3 1/3] hw/block/m25p80: Fix Numonyx NVCFG DIO and QIO bit
+ polarity
+Thread-Topic: [PATCH v3 1/3] hw/block/m25p80: Fix Numonyx NVCFG DIO and QIO
+ bit polarity
+Thread-Index: AQHWs90oDQkYXPhdcEam1mW+Sp8T3qnDB3AAgAI78YA=
+Date: Fri, 13 Nov 2020 00:44:25 +0000
+Message-ID: <BY5PR02MB60333DF17070620B53C104AAD0E60@BY5PR02MB6033.namprd02.prod.outlook.com>
+References: <1604626378-152352-1-git-send-email-komlodi@xilinx.com>
+ <1604626378-152352-2-git-send-email-komlodi@xilinx.com>
+ <20201111143310.6gmhyz4zk75k526j@debian>
+In-Reply-To: <20201111143310.6gmhyz4zk75k526j@debian>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+authentication-results: xilinx.com; dkim=none (message not signed)
+ header.d=none;xilinx.com; dmarc=none action=none header.from=xilinx.com;
+x-originating-ip: [76.217.55.39]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: f6d38919-9259-43be-b1df-08d8876d4520
+x-ms-traffictypediagnostic: BY5PR02MB6865:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BY5PR02MB68658917C6D738DF59314CA8D0E60@BY5PR02MB6865.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:989;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: PH2uq+TzVocgJDnZqmKNgauMgZLwd4o8BvLMmti/jY9hHXft6xlul6C0ZgEDHQIkKAhujI00cp7LRK1pcai5GCnLN5TGh0b3kn/Ux+eklr7vF/CruZqyDu6/VQexhaSEay/6oAnqe6O4Par3EkUBTL9DeLtNQd26kFfm+EB5OpoPBX9w+HQyePfWj2FCCt0wtStPfODZCNlJQzb1fGxVipCytNHsvg6SwjEimI/KhxGKYsOkBx1/h7LFhS7Zowj/aC/KvUGM1HP+dqIrm7/+WlSVvj9a3URt8R4cmi3vsVJMk2qpck9AEp18hybh5l73BBqnd+XVJaHWTj7+dgkNbA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR02MB6033.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(376002)(136003)(39860400002)(366004)(396003)(54906003)(8936002)(9686003)(71200400001)(478600001)(2906002)(53546011)(26005)(8676002)(4326008)(66446008)(66476007)(5660300002)(83380400001)(6506007)(6636002)(66556008)(64756008)(66946007)(76116006)(55016002)(186003)(6862004)(7696005)(33656002)(316002)(86362001)(52536014);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: +O6Qlosr3nczO3aAEqADFqIwcMAYh3iVDQ2Il9OFPcfsjLTOa8xaJOXPo1+NQ9Y16yfinZgVkHJDhTSUMdjnXTIRX1G1XJZEXhhFZNAAQ6iOPvgQBoCo/+Qwp4l2Ol8Z9OY1IRcdsqVAJSUb1RblJG5bgg2JBnWE6A5SgiDvhp2ecVSdiSrzEXg+SKMikQ9CWEWwDyzmUlUhvA6B0co1SjWG0x5SgVKpiiN1On35SQqZ1hjyvYzS7WZSHy7eG85nxxeWKHR3sGHDXgdTceeGOTGD8o9YFkeRPHbVkXr1k1TJVcGKCFHu8m9swbVkOVNn3BAlcF/HsvDUTLgK7SiFm4ZxwsQXHWmz7P2BE1TkyuA71puJ54x0jm4nI8d4A/w1ECQodTydG+7p5pczxPu2jen9TjUZ+RrlqSeMikgWJiNCAapCsHfqfEuR9q2BIWmq/VkiZjFzAkXtM8kcQHLcRhcmova4vT7zX3Jku3rzxv7mgUissQfC9VRXcjP4hA0Ir/o8ExEjdLGwzLw9uLMWVu6Y1C4gWZstDbxGzFgvPCSpnLLR1L/W6WmZkL3zKWhJITju+Jv1FnaNsxa7jHD9+li7mfZHk4fpQAdcIIjjaBSrbWyy3/T8jUF5OzeB1IFgpXGjtKoiTRCitnvr/rBvKJqGz4sK4CxT+l0v5kniJYZkaABFfmd2DDzF/rmf3Zf4i/EyzCV6NA2EgPw3XyfueMEACnFGSijSMhFcT8e7mqEGShKevHP5w0zfSVVLi2SdtkyIqh4CD3wSOPXwJ/8p3ZtM9g7dg/WyPG4fTom5QvQ60ERPI4Gwa+wl6+Km1xYYm4DeGDRXy+5ilZlaxknoKbeM2bugRIYxniuQ34+Mf6V6Slz8zqKj9ynb9aWCu8h+TDBn6kwdxmCqdN8Pr/Wx8g==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20201112074950.33283-1-vitaly.wool@konsulko.com>
-In-Reply-To: <20201112074950.33283-1-vitaly.wool@konsulko.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 12 Nov 2020 16:35:25 -0800
-Message-ID: <CAKmqyKNaFyiroRUk8V2a9+boUG1SSbxWaA_Dm2q7jfFKBqeong@mail.gmail.com>
-Subject: Re: [PATCH v2] hw/riscv: microchip_pfsoc: add QSPI NOR flash
-To: Vitaly Wool <vitaly.wool@konsulko.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x141.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB6033.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f6d38919-9259-43be-b1df-08d8876d4520
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Nov 2020 00:44:25.2991 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: KaGd5FSgzjVQpfGi1XFW2WVKsoH5oiwwhZ0UUoSuxjmbttx2Fcf6sFYRZkidHaj/W/Y+T8XgsDdGvFvPQPJ4cQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR02MB6865
+Received-SPF: pass client-ip=40.107.223.59; envelope-from=komlodi@xilinx.com;
+ helo=NAM11-DM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 19:44:26
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,111 +113,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bmeng.cn@gmail.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Francisco Eduardo Iglesias <figlesia@xilinx.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "alistair@alistair23.me" <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "mreitz@redhat.com" <mreitz@redhat.com>,
+ "philippe.mathieu.daude@gmail.com" <philippe.mathieu.daude@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 11, 2020 at 11:51 PM Vitaly Wool <vitaly.wool@konsulko.com> wrote:
->
-> Add QSPI NOR flash definition for Microchip PolarFire SoC.
->
-> Signed-off-by: Vitaly Wool <vitaly.wool@konsulko.com>
-
-Thanks!
-
-Applied to riscv-to-apply.next
-
-Alistair
-
-> ---
->  hw/riscv/microchip_pfsoc.c         | 21 +++++++++++++++++++++
->  include/hw/riscv/microchip_pfsoc.h |  3 +++
->  2 files changed, 24 insertions(+)
->
-> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-> index 37ac46a1af..e952b49e8c 100644
-> --- a/hw/riscv/microchip_pfsoc.c
-> +++ b/hw/riscv/microchip_pfsoc.c
-> @@ -113,6 +113,8 @@ static const struct MemmapEntry {
->      [MICROCHIP_PFSOC_MMUART2] =         { 0x20102000,     0x1000 },
->      [MICROCHIP_PFSOC_MMUART3] =         { 0x20104000,     0x1000 },
->      [MICROCHIP_PFSOC_MMUART4] =         { 0x20106000,     0x1000 },
-> +    [MICROCHIP_PFSOC_SPI0] =            { 0x20108000,     0x1000 },
-> +    [MICROCHIP_PFSOC_SPI1] =            { 0x20109000,     0x1000 },
->      [MICROCHIP_PFSOC_I2C1] =            { 0x2010b000,     0x1000 },
->      [MICROCHIP_PFSOC_GEM0] =            { 0x20110000,     0x2000 },
->      [MICROCHIP_PFSOC_GEM1] =            { 0x20112000,     0x2000 },
-> @@ -121,6 +123,7 @@ static const struct MemmapEntry {
->      [MICROCHIP_PFSOC_GPIO2] =           { 0x20122000,     0x1000 },
->      [MICROCHIP_PFSOC_ENVM_CFG] =        { 0x20200000,     0x1000 },
->      [MICROCHIP_PFSOC_ENVM_DATA] =       { 0x20220000,    0x20000 },
-> +    [MICROCHIP_PFSOC_QSPI_XIP] =        { 0x21000000,  0x1000000 },
->      [MICROCHIP_PFSOC_IOSCB] =           { 0x30000000, 0x10000000 },
->      [MICROCHIP_PFSOC_DRAM_LO] =         { 0x80000000, 0x40000000 },
->      [MICROCHIP_PFSOC_DRAM_LO_ALIAS] =   { 0xc0000000, 0x40000000 },
-> @@ -185,6 +188,7 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
->      MemoryRegion *e51_dtim_mem = g_new(MemoryRegion, 1);
->      MemoryRegion *l2lim_mem = g_new(MemoryRegion, 1);
->      MemoryRegion *envm_data = g_new(MemoryRegion, 1);
-> +    MemoryRegion *qspi_xip_mem = g_new(MemoryRegion, 1);
->      char *plic_hart_config;
->      size_t plic_hart_config_len;
->      NICInfo *nd;
-> @@ -344,6 +348,14 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
->          qdev_get_gpio_in(DEVICE(s->plic), MICROCHIP_PFSOC_MMUART4_IRQ),
->          serial_hd(4));
->
-> +    /* SPI */
-> +    create_unimplemented_device("microchip.pfsoc.spi0",
-> +        memmap[MICROCHIP_PFSOC_SPI0].base,
-> +        memmap[MICROCHIP_PFSOC_SPI0].size);
-> +    create_unimplemented_device("microchip.pfsoc.spi1",
-> +        memmap[MICROCHIP_PFSOC_SPI1].base,
-> +        memmap[MICROCHIP_PFSOC_SPI1].size);
-> +
->      /* I2C1 */
->      create_unimplemented_device("microchip.pfsoc.i2c1",
->          memmap[MICROCHIP_PFSOC_I2C1].base,
-> @@ -401,6 +413,15 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
->      sysbus_realize(SYS_BUS_DEVICE(&s->ioscb), errp);
->      sysbus_mmio_map(SYS_BUS_DEVICE(&s->ioscb), 0,
->                      memmap[MICROCHIP_PFSOC_IOSCB].base);
-> +
-> +    /* QSPI Flash */
-> +    memory_region_init_rom(qspi_xip_mem, OBJECT(dev),
-> +                           "microchip.pfsoc.qspi_xip",
-> +                           memmap[MICROCHIP_PFSOC_QSPI_XIP].size,
-> +                           &error_fatal);
-> +    memory_region_add_subregion(system_memory,
-> +                                memmap[MICROCHIP_PFSOC_QSPI_XIP].base,
-> +                                qspi_xip_mem);
->  }
->
->  static void microchip_pfsoc_soc_class_init(ObjectClass *oc, void *data)
-> diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microchip_pfsoc.h
-> index 51d44637db..d0c666aae0 100644
-> --- a/include/hw/riscv/microchip_pfsoc.h
-> +++ b/include/hw/riscv/microchip_pfsoc.h
-> @@ -97,6 +97,8 @@ enum {
->      MICROCHIP_PFSOC_MMUART2,
->      MICROCHIP_PFSOC_MMUART3,
->      MICROCHIP_PFSOC_MMUART4,
-> +    MICROCHIP_PFSOC_SPI0,
-> +    MICROCHIP_PFSOC_SPI1,
->      MICROCHIP_PFSOC_I2C1,
->      MICROCHIP_PFSOC_GEM0,
->      MICROCHIP_PFSOC_GEM1,
-> @@ -105,6 +107,7 @@ enum {
->      MICROCHIP_PFSOC_GPIO2,
->      MICROCHIP_PFSOC_ENVM_CFG,
->      MICROCHIP_PFSOC_ENVM_DATA,
-> +    MICROCHIP_PFSOC_QSPI_XIP,
->      MICROCHIP_PFSOC_IOSCB,
->      MICROCHIP_PFSOC_DRAM_LO,
->      MICROCHIP_PFSOC_DRAM_LO_ALIAS,
-> --
-> 2.20.1
->
->
+SGkgRnJhbmNpc2NvLA0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogRnJhbmNp
+c2NvIElnbGVzaWFzIDxmcmFuY2lzY28uaWdsZXNpYXNAeGlsaW54LmNvbT4gDQpTZW50OiBXZWRu
+ZXNkYXksIE5vdmVtYmVyIDExLCAyMDIwIDY6MzMgQU0NClRvOiBKb2UgS29tbG9kaSA8a29tbG9k
+aUB4aWxpbnguY29tPg0KQ2M6IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZzsgcGhpbGlwcGUubWF0aGll
+dS5kYXVkZUBnbWFpbC5jb207IEZyYW5jaXNjbyBFZHVhcmRvIElnbGVzaWFzIDxmaWdsZXNpYUB4
+aWxpbnguY29tPjsgYWxpc3RhaXJAYWxpc3RhaXIyMy5tZTsgcWVtdS1ibG9ja0Bub25nbnUub3Jn
+OyBtcmVpdHpAcmVkaGF0LmNvbQ0KU3ViamVjdDogUmU6IFtQQVRDSCB2MyAxLzNdIGh3L2Jsb2Nr
+L20yNXA4MDogRml4IE51bW9ueXggTlZDRkcgRElPIGFuZCBRSU8gYml0IHBvbGFyaXR5DQoNCkhp
+IEpvZSwNCg0KT24gVGh1LCBOb3YgMDUsIDIwMjAgYXQgMDU6MzI6NTZQTSAtMDgwMCwgSm9lIEtv
+bWxvZGkgd3JvdGU6DQo+IFFJTyBhbmQgRElPIG1vZGVzIHNob3VsZCBiZSBlbmFibGVkIHdoZW4g
+dGhlIGJpdHMgaW4gTlZDRkcgYXJlIHNldCB0byAwLg0KPiBUaGlzIG1hdGNoZXMgdGhlIGJlaGF2
+aW9yIG9mIHRoZSBvdGhlciBiaXRzIGluIHRoZSBOVkNGRyByZWdpc3Rlci4NCg0KVGhlIGVuaGFu
+Y2VkIHJlZ2lzdGVyIGhhcyB0aGUgYml0cyB3aXRoIHRoZSBzYW1lIHBvbGFyaXRpZXMsIG1lYW5p
+bmcgdGhhdCB0aGUgdmFsdWUgc2hvdWxkIGJlIHByb3BhZ2F0ZWQgYXMgaXQgd2FzIGJlZm9yZSAo
+MCAtIGVuYWJsZWQgYW5kIDEgLSBkaXNhYmxlZCkuIEkgZG8gc2VlIHRob3VnaCB0aGF0IHRoZSBk
+ZWZpbmUgbmFtaW5nIGlzIG5vdCBwZXJmZWN0IGFuZCBjYW4gbWFrZSB5b3UgYmVsaWV2ZSBvdGhl
+cndpc2UuDQoNCltKb2VdIEFoLCB5b3UncmUgcmlnaHQuICBJJ2xsIGZpeCB0aGF0IGFuZCBjaGFu
+Z2UgdGhlIGJpdCBjaGVja3MgaW4gdGhlIG90aGVyIHBhdGNoZXMgYWNjb3JkaW5nbHkuDQpJJ2xs
+IHByb2JhYmx5IGFsc28gYWRkIGEgcGF0Y2ggdG8gdGhpcyBzZXJpZXMgdG8gY2hhbmdlIHRoZSBk
+ZWZpbmUgbmFtZXMgdG8gbWFrZSB0aGVtIG1vcmUgYWNjdXJhdGUuDQoNClRoYW5rcyENCkpvZQ0K
+DQpCZXN0IHJlZ2FyZHMsDQpGcmFuY2lzY28gSWdsZXNpYXMNCg0KPiANCj4gU2lnbmVkLW9mZi1i
+eTogSm9lIEtvbWxvZGkgPGtvbWxvZGlAeGlsaW54LmNvbT4NCj4gLS0tDQo+ICBody9ibG9jay9t
+MjVwODAuYyB8IDQgKystLQ0KPiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBk
+ZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9ody9ibG9jay9tMjVwODAuYyBiL2h3L2Js
+b2NrL20yNXA4MC5jIGluZGV4IA0KPiA0ODM5MjVmLi40MjU1YTZhIDEwMDY0NA0KPiAtLS0gYS9o
+dy9ibG9jay9tMjVwODAuYw0KPiArKysgYi9ody9ibG9jay9tMjVwODAuYw0KPiBAQCAtNzgzLDEw
+ICs3ODMsMTAgQEAgc3RhdGljIHZvaWQgcmVzZXRfbWVtb3J5KEZsYXNoICpzKQ0KPiAgICAgICAg
+ICBzLT5lbmhfdm9sYXRpbGVfY2ZnIHw9IEVWQ0ZHX09VVF9EUklWRVJfU1RSRU5HVEhfREVGOw0K
+PiAgICAgICAgICBzLT5lbmhfdm9sYXRpbGVfY2ZnIHw9IEVWQ0ZHX1ZQUF9BQ0NFTEVSQVRPUjsN
+Cj4gICAgICAgICAgcy0+ZW5oX3ZvbGF0aWxlX2NmZyB8PSBFVkNGR19SRVNFVF9IT0xEX0VOQUJM
+RUQ7DQo+IC0gICAgICAgIGlmIChzLT5ub252b2xhdGlsZV9jZmcgJiBOVkNGR19EVUFMX0lPX01B
+U0spIHsNCj4gKyAgICAgICAgaWYgKCEocy0+bm9udm9sYXRpbGVfY2ZnICYgTlZDRkdfRFVBTF9J
+T19NQVNLKSkgew0KPiAgICAgICAgICAgICAgcy0+ZW5oX3ZvbGF0aWxlX2NmZyB8PSBFVkNGR19E
+VUFMX0lPX0VOQUJMRUQ7DQo+ICAgICAgICAgIH0NCj4gLSAgICAgICAgaWYgKHMtPm5vbnZvbGF0
+aWxlX2NmZyAmIE5WQ0ZHX1FVQURfSU9fTUFTSykgew0KPiArICAgICAgICBpZiAoIShzLT5ub252
+b2xhdGlsZV9jZmcgJiBOVkNGR19RVUFEX0lPX01BU0spKSB7DQo+ICAgICAgICAgICAgICBzLT5l
+bmhfdm9sYXRpbGVfY2ZnIHw9IEVWQ0ZHX1FVQURfSU9fRU5BQkxFRDsNCj4gICAgICAgICAgfQ0K
+PiAgICAgICAgICBpZiAoIShzLT5ub252b2xhdGlsZV9jZmcgJiBOVkNGR180QllURV9BRERSX01B
+U0spKSB7DQo+IC0tDQo+IDIuNy40DQo+IA0K
 
