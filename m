@@ -2,69 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA4C82B1FF2
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 17:18:02 +0100 (CET)
-Received: from localhost ([::1]:42478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1F5A2B1FA1
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 17:09:29 +0100 (CET)
+Received: from localhost ([::1]:34040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdbly-00041j-0l
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 11:18:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42890)
+	id 1kdbdg-0008T5-Oy
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 11:09:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kdbkE-0002gr-Gt
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 11:16:14 -0500
-Received: from indium.canonical.com ([91.189.90.7]:49096)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1kdbcW-0007kK-5y; Fri, 13 Nov 2020 11:08:16 -0500
+Received: from fanzine.igalia.com ([178.60.130.6]:45256)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kdbkA-0007om-B0
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 11:16:14 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kdbk8-0006V4-4X
- for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 16:16:08 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 02E5D2E8130
- for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 16:16:08 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1kdbcT-0004eU-6l; Fri, 13 Nov 2020 11:08:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=so2na1U3AMv8NwmsGByQuKWu4tlqRufg7RdNPMnNRsg=; 
+ b=ncGXfmRrEl6yw/lFaIRl0TaMQ0hV1rFgw99sgQohf+haNqdk6KyKU3vs3WOrE4PKG7nSea36wZhajBw61eU5sPt5nJ+vqODA4JNpmuTQzb2P2kK/LqY5gc/5zNSItP0/XoJ/B9VJAB0l5ocka5mFeqUYcgIaaVQ8FYxRiXnLlS4MB5FhfvxtnWEuJAb2N/SWRxj9EPS3FUEK7J8drweaMIfm5ryHfZ3MvinEALNAbVyru8gc4qMoSiEgmcn2E7WCVH0cNpNYTSBcTyyK8iptOqLbAlj79TjOlRfkrX2BWjEOu8f2LeDADWDlpGr7MA91OCLn/QXzEB33zWqlixFpug==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1kdbc3-0003z0-8X; Fri, 13 Nov 2020 17:07:47 +0100
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1kdbc2-0001Mf-VO; Fri, 13 Nov 2020 17:07:46 +0100
+From: Alberto Garcia <berto@igalia.com>
+To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v3 2/2] quorum: Implement bdrv_co_pwrite_zeroes()
+In-Reply-To: <5b5e73f3-a045-268d-e82a-f652668a8f02@redhat.com>
+References: <cover.1605111801.git.berto@igalia.com>
+ <2faad461e6bffc4a50547547b8c20c39e0f544e8.1605111801.git.berto@igalia.com>
+ <5b5e73f3-a045-268d-e82a-f652668a8f02@redhat.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Fri, 13 Nov 2020 17:07:46 +0100
+Message-ID: <w51a6vlfdf1.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 13 Nov 2020 16:05:23 -0000
-From: Thomas Huth <1800401@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: nvinson th-huth
-X-Launchpad-Bug-Reporter: Nicholas Vinson (nvinson)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <154077313146.29068.467827083588404194.malonedeb@soybean.canonical.com>
-Message-Id: <160528352351.29443.13635322310622706018.malone@wampee.canonical.com>
-Subject: [Bug 1800401] Re: efifb on Linux guest fails to load when using VGA
- passthrough
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="38ebca4a151c7e484f2992f7b90f5a3ede13f97f"; Instance="production"
-X-Launchpad-Hash: 8c268117bc5f08c0252abaee53792383fb1dfa31
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/13 09:15:41
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/13 11:07:49
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,78 +64,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1800401 <1800401@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Tao Xu <tao3.xu@intel.com>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently considering to move its bug tracking to anoth=
-er system. For this we need to know which bugs are still valid and which co=
-uld be closed already. Thus we are setting older bugs to "Incomplete" now.
-If you still think this bug report here is valid, then please switch the st=
-ate back to "New" within the next 60 days, otherwise this report will be ma=
-rked as "Expired". Or mark it as "Fix Released" if the problem has been sol=
-ved with a newer version of QEMU already. Thank you and sorry for the incon=
-venience.
+On Fri 13 Nov 2020 12:49:04 PM CET, Max Reitz wrote:
+> On 11.11.20 17:53, Alberto Garcia wrote:
+>> This simply calls bdrv_co_pwrite_zeroes() in all children
+>>=20
+>> Signed-off-by: Alberto Garcia <berto@igalia.com>
+>> ---
+>>   block/quorum.c             | 18 ++++++++++++++++--
+>>   tests/qemu-iotests/312     |  7 +++++++
+>>   tests/qemu-iotests/312.out |  4 ++++
+>>   3 files changed, 27 insertions(+), 2 deletions(-)
+>
+> Should we set supported_zero_flags to something?  I think we can at=20
+> least set BDRV_REQ_NO_FALLBACK.  We could also try BDRV_REQ_FUA.
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+We could set all supported_zero_flags as long as all children support
+them, right?=20
 
--- =
+>> +    if (acb->flags & BDRV_REQ_ZERO_WRITE) {
+>> +        sacb->ret =3D bdrv_co_pwrite_zeroes(s->children[i], acb->offset,
+>> +                                          acb->bytes, acb->flags);
+>> +    } else {
+>> +        sacb->ret =3D bdrv_co_pwritev(s->children[i], acb->offset, acb-=
+>bytes,
+>> +                                    acb->qiov, acb->flags);
+>> +    }
+>
+> Seems unnecessary (bdrv_co_pwritev() can handle BDRV_REQ_ZERO_WRITE),=20
+> but perhaps it=E2=80=99s good to be explicit.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1800401
+pwrite_zeroes() does this additionaly:
 
-Title:
-  efifb on Linux guest fails to load when using VGA passthrough
+    if (!(child->bs->open_flags & BDRV_O_UNMAP)) {
+        flags &=3D ~BDRV_REQ_MAY_UNMAP;
+    }
 
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  The EFI framebuffer fails to load when booting a Gentoo guest using
-  ovmf + vga_passthrough.  I retested using they system rescue CD and
-  saw the same issue, but also noticed that when a second framebuffer
-  loads, nouveaufb in my case, the terminal appears.  I have also
-  verified that the Gentoo min CD is not hanging at boot as I can type
-  'poweroff' after waiting a few minutes and the system responds by
-  powering off.  I am unable to reproduce with seabios as I have been
-  unable to get vga passthrough to work with that BIOS.
-
-  Steps to Reproduce:
-      1. Install qemu and ovmf
-      2. Download systemrescuecd-x86-5.3.1.iso
-      3. Run qemu using one of the configurations below
-      4. Select first boot option in GRUB menu
-      5. Wait 30 seconds
-      6. Press enter # System rescue is prompting for the keymap between st=
-eps 5 and 6
-      7. Wait 2 minutes
-      8. Observe fb console
-      9. Note lack of output until very late in boot process
-     10. Check dmesg
-     11. Note efifb failed to load (invalid address)
-     12. Note nouveaufb started late in boot process =
-
-
-  Expected Results:
-     The EFI FB to load and display output to monitor.  This is the behavio=
-r I see when booting the host system via UEFI.
-
-  Actual Results:
-     The EFI FB fails to load and display output.  System fails to display =
-any output until nouveaufb loads.  When booting using the Gentoo minCD, thi=
-s makes the system largely unusable.
-
-  Additional information:
-
-  Tested using Gentoo's app-emulation/qemu-3.0.0 version.  Bug report:
-  https://bugs.gentoo.org/669880
-
-  I also tested qemu at git commit
-  179f9ac887973c818b2578bd79fa3ed2522657d4.  Configuration log for the
-  build will be attached.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1800401/+subscriptions
+Berto
 
