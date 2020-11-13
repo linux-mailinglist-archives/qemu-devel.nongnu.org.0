@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D81F2B20A9
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 17:42:26 +0100 (CET)
-Received: from localhost ([::1]:54734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0D512B2083
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 17:34:48 +0100 (CET)
+Received: from localhost ([::1]:46662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdc9Z-0005N3-Ga
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 11:42:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49126)
+	id 1kdc2B-0001Q1-9s
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 11:34:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kdc8P-0004Vc-CU
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 11:41:13 -0500
-Received: from indium.canonical.com ([91.189.90.7]:56142)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kdc1C-0000wp-3o
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 11:33:46 -0500
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:41888)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kdc8K-0007tI-SV
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 11:41:13 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kdc8I-0001sM-1y
- for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 16:41:06 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BB55E2E8138
- for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 16:41:05 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kdc1A-0005HF-0D
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 11:33:45 -0500
+Received: by mail-ej1-x643.google.com with SMTP id cw8so14303981ejb.8
+ for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 08:33:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/cT6s0FA3o4uf3KxFqIHCoXfn45nfOqThtlFfHzTzL0=;
+ b=NuL4VWX5Jeq1/DI+tibxCflWCYyNuqQK0X+HT0rWByXhAw051RdVa/pl0mybOjzTYs
+ Sz4Acn9/vx1z3Kyq+5LMQjsnD2eeMgkjNx25hz9R+ERP5n3QA4lA8FXRat9i7ZKvmj0o
+ d5O5zCBW5B2OCjlN6/DDGMHyLIgmZA6KNXvPXfgr7aJqFmYk8mk7W0DaNKdoYbud2iVW
+ AqakXJUM09C42JvPmXbalXd0x3VGqz/c8H8Ves8gMexMb3i+q/UyoX31QQYPOxemexsv
+ KcQaBbMoSeAZekKyeEc873XZZRi5EUOOGL6Zcq0An5QF8YA778gRG/FrIF7mUT2X4iRf
+ dhPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/cT6s0FA3o4uf3KxFqIHCoXfn45nfOqThtlFfHzTzL0=;
+ b=a4CoOBSScskEzJKjsq/1svx7ICHLtpH8Hl8J7btSv+jrS5YEVWgAiZiKzW8ZlfnWnX
+ Iq1Of3fK8KmcggdnyHeoghg+YQnAd+5y2hrieolHwGvi/2uo+d1F9j0l9NVGGGUJwkYg
+ 14eS37Y9qcSfeGQtMdqa2kHLkgZW+pztvoVpHOOVfNjdhO9XE+SELyIPNbcoG27vOEx4
+ GWNtWP/9T5LLEdBlKk+Uhx8MDMGTJOEXpRZ0RMpSWMqcmAninkK4Q/xmwZo2tlR8qU2x
+ ZcZE7EhZYZyYVX9drruX/d30dh0EE/F94sFzy/01y/LsdiSSlX3nezEZ3VQ/Y0LvEW1I
+ iWhg==
+X-Gm-Message-State: AOAM531zLUaQPtOKJzwrewjlBl1TDmFKmzu0pvAWF3HjuiWigY9fo9y0
+ KkHIvwM/HV4bsjbcSBKHCXbdstD321b5hZM579Kuib5/ccQ=
+X-Google-Smtp-Source: ABdhPJxtxlIrNSIntTF62ZjLVUCseGBlb090sJNhTl+XLHt3cqJEhEKKjNAcTQQl4XYwwG2XJVWT34hl7KyjFbBRO/8=
+X-Received: by 2002:a17:906:6896:: with SMTP id
+ n22mr2886193ejr.56.1605285217095; 
+ Fri, 13 Nov 2020 08:33:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 13 Nov 2020 16:30:39 -0000
-From: Peter Maydell <1799919@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: pmaydell th-huth yannick-duchene
-X-Launchpad-Bug-Reporter: =?utf-8?b?SGlib3U1N8KgKFlhbm5pY2vCoER1Y2jDqm5l?=
- =?utf-8?q?=29_=28yannick-duchene=29?=
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <154046086166.20410.16328785764794651694.malonedeb@gac.canonical.com>
-Message-Id: <160528503930.1453.5862881580172472250.malone@gac.canonical.com>
-Subject: [Bug 1799919] Re: IDE HDD emulation random read/write errors
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="38ebca4a151c7e484f2992f7b90f5a3ede13f97f"; Instance="production"
-X-Launchpad-Hash: 6c627fe4eeed71d2e9141a26b8f26cebb21d2887
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/13 09:15:41
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20201113162248.4131-1-amphetamachine@gmail.com>
+In-Reply-To: <20201113162248.4131-1-amphetamachine@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 13 Nov 2020 16:33:25 +0000
+Message-ID: <CAFEAcA-COoCiVhCdnixVkAR9M9uSpLUrnY39zufmBkmag2Hcfg@mail.gmail.com>
+Subject: Re: [PATCH] configure: Force-remove temp dir
+To: Dan Church <amphetamachine@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x643.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,59 +79,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1799919 <1799919@bugs.launchpad.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I tried the repro case five times and each time it ran OK to the point
-of asking for floppy 2. So that suggests we probably fixed whatever it
-was...
+On Fri, 13 Nov 2020 at 16:26, Dan Church <amphetamachine@gmail.com> wrote:
+>
+> Sometimes the compiler will leave a write-protected .o file in the temp
+> directory, and GNU rm will ask before deleting it unless -f is
+> specified.
+>
+> Signed-off-by: Dan Church <amphetamachine@gmail.com>
+> ---
+>  configure | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/configure b/configure
+> index 4cef321d9d..663b91a334 100755
+> --- a/configure
+> +++ b/configure
+> @@ -7080,4 +7080,4 @@ done
+>  echo ' "$@"' >>config.status
+>  chmod +x config.status
+>
+> -rm -r "$TMPDIR1"
+> +rm -rf "$TMPDIR1"
 
--- =
+We rm -rf this directory at the top of configure, so it seems
+like an oversight that we don't use '-f' here at the bottom too.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1799919
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Title:
-  IDE HDD emulation random read/write errors
+You should probably look into why your compiler is generating
+write-protected .o files, though -- that doesn't sound normal.
 
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  I unfortunately can=E2=80=99t give more tracks other than how to reproduc=
-e the
-  bug, especially that the bug occurs randomly.
-
-  Basically, I=E2=80=99m trying to install DOS 6.22 on an emulated ISA mach=
-ine,
-  and it fails, DOS complaining about read or write error on drive C.
-  Repeating the operation multiple time, I see it occurs at random
-  stage, sometime even before it partitions the drive, sometime when it
-  formats the drive, sometime when it copies the files from the floppy
-  to the drive.
-
-  To test it, unpack the attached archive and execute `./run` from the
-  extracted directory. The archive contains three raw floppy images for
-  installing DOS 6.22, and a Bourne Shell script which invokes QEmu.
-  Just press enter at any installation stage, the bug may occurs at any
-  stage.
-
-  I tried with `cache=3Dnone` to be sure it=E2=80=99s not a cache issue, bu=
-t its
-  the same whatever the cache policy is.
-
-  Version and environment: using QEmu 3.0 on Ubuntu 16.04 on a 32 bits
-  DELL Inspiron 9400 (not an emulation, that=E2=80=99s my real laptop).
-
-  For why I=E2=80=99m using QEmu for this: the installation proceeds with n=
-ot
-  error in VirtualBox, but I wanted to use QEmu to have a serial mouse
-  which is not available with QEmu and to have finer control over the
-  machine configuration ; VirtualBox although good, is more limited in
-  that regard.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1799919/+subscriptions
+thanks
+-- PMM
 
