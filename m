@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 765352B1EF3
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 16:42:37 +0100 (CET)
-Received: from localhost ([::1]:54264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C01E12B1F6B
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 17:00:38 +0100 (CET)
+Received: from localhost ([::1]:45572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdbDg-0008TN-Iv
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 10:42:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32948)
+	id 1kdbV7-0000lR-S7
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 11:00:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kdbCI-0007sZ-W3
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 10:41:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31224)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kdbCE-0003Vu-VG
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 10:41:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605282065;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=alDwN/oL//UNytbhS/m/B1K2vBFS4KhuF6edG9owQQY=;
- b=e98mfW1is7c7ArR+LXPitmLFEQPlX7wqzZLFYA2+1+rIjhX2apib/OZdUzxAiWAGt6h9YZ
- kLaCUAOCbb/2DVkX+3AYDsCpxUmu0ItbtFbVpaEsBEYFv7CwLhdyzEnVKLPwBWSGhnAICF
- O7rsb/5v44nJoDFRoXMZVuyd5Nx+VLY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-8-79WJPKePPKagjaD9V3wdfQ-1; Fri, 13 Nov 2020 10:41:03 -0500
-X-MC-Unique: 79WJPKePPKagjaD9V3wdfQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D58F89CC05;
- Fri, 13 Nov 2020 15:41:02 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7413F5D9F1;
- Fri, 13 Nov 2020 15:41:02 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] io_uring: do not use pointer after free
-Date: Fri, 13 Nov 2020 10:41:02 -0500
-Message-Id: <20201113154102.1460459-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kdbQb-0004Gw-IB
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 10:55:57 -0500
+Received: from indium.canonical.com ([91.189.90.7]:43366)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kdbQX-0000SF-FV
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 10:55:57 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kdbQW-0003CU-82
+ for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 15:55:52 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 39FDE2E8130
+ for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 15:55:52 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 16:09:27
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 13 Nov 2020 15:45:37 -0000
+From: Thomas Huth <1787002@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: eh-plop th-huth
+X-Launchpad-Bug-Reporter: Elmar Hanlhofer (eh-plop)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <153427048296.8641.7939320989015317966.malonedeb@wampee.canonical.com>
+Message-Id: <160528233788.30105.7440958890771598602.malone@wampee.canonical.com>
+Subject: [Bug 1787002] Re: disas/i386.c compile error
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="38ebca4a151c7e484f2992f7b90f5a3ede13f97f"; Instance="production"
+X-Launchpad-Hash: cabfa4a9bda33169d657f30e91d2e00c81704a26
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/13 09:15:41
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,32 +72,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org
+Reply-To: Bug 1787002 <1787002@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Even though only the pointer value is only printed, it is untidy
-and Coverity complains.
+Looking through old bug tickets ... This sounds like it was rather a bug
+in your toolchain ... is it still reproducible with a newer version of
+your Linux distro and the latest version of QEMU?
 
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- block/io_uring.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-diff --git a/block/io_uring.c b/block/io_uring.c
-index 037af09471..00a3ee9fb8 100644
---- a/block/io_uring.c
-+++ b/block/io_uring.c
-@@ -425,6 +425,6 @@ LuringState *luring_init(Error **errp)
- void luring_cleanup(LuringState *s)
- {
-     io_uring_queue_exit(&s->ring);
--    g_free(s);
-     trace_luring_cleanup_state(s);
-+    g_free(s);
- }
--- 
-2.26.2
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1787002
+
+Title:
+  disas/i386.c compile error
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  QEMU Version: 2.12.1, 3.0.0-rc4
+  Compiling with GCC 8.2.0
+  System: Plop Linux, 32 bit =
+
+
+  Error:
+    CC      disas/i386.o
+  /tmp/ccK8tHRs.s: Assembler messages:
+  /tmp/ccK8tHRs.s:53353: Error: can't resolve `L0=01' {*ABS* section} - `ob=
+uf' {.bss section}
+
+  =
+
+  The problematic line is in 'disas/i386.c' in the function 'INVLPG_Fixup (=
+int bytemode, int sizeflag)':
+  strcpy (obuf + strlen (obuf) - 6, alt);
+
+  If I comment out this line, then compiling works without problems.
+
+  =
+
+  The error comes only on 32 bit. On 64 bit, compiling works without proble=
+ms.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1787002/+subscriptions
 
