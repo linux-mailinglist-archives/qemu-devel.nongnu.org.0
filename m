@@ -2,58 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB43B2B1E66
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 16:16:19 +0100 (CET)
-Received: from localhost ([::1]:35166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 644E32B1E6D
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 16:18:07 +0100 (CET)
+Received: from localhost ([::1]:37374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdaoE-00077C-9s
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 10:16:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53868)
+	id 1kdapy-00084k-FS
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 10:18:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kdamX-0006S1-7p
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 10:14:33 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:50558)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kdaoS-0007av-Lx
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 10:16:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39143)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kdamQ-00026V-QM
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 10:14:32 -0500
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-118-qKkJvsY5NIuXPcDmjRnMTw-1; Fri, 13 Nov 2020 10:14:14 -0500
-X-MC-Unique: qKkJvsY5NIuXPcDmjRnMTw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3755E1075621;
- Fri, 13 Nov 2020 15:14:13 +0000 (UTC)
-Received: from bahia.lan (ovpn-112-64.ams2.redhat.com [10.36.112.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 393A655785;
- Fri, 13 Nov 2020 15:14:10 +0000 (UTC)
-Subject: [PATCH for-5.2] spapr/xive: Create IPIs in KVM on demand
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>,
- =?utf-8?q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Date: Fri, 13 Nov 2020 16:14:10 +0100
-Message-ID: <160528045027.804522.6161091782230763832.stgit@bahia.lan>
-User-Agent: StGit/0.21
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kdaoM-0002uz-Bk
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 10:16:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605280585;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=WPgYr5jWbzaSNxYgqdY/WulbulmExoP72iq5yfdwMRg=;
+ b=Mhnqi8xara7+M6towh2AGKP0E3JIY2DHmsgdpNopsaX5sQDizDpryB9EA0CkmXUdOVPZpq
+ zZeN9H8QULpkRDAWQMXExEJkFauTRH4E7/nora53g9uTevSCk3mwA44lR89cPJweZzW6SS
+ 7LK+yi7D6uBYHEGZGdrJPEppaw7Xm3c=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-137-VPIHDaSUMwCjkVMgBgkEug-1; Fri, 13 Nov 2020 10:16:23 -0500
+X-MC-Unique: VPIHDaSUMwCjkVMgBgkEug-1
+Received: by mail-wm1-f69.google.com with SMTP id k128so4099076wme.7
+ for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 07:16:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=WPgYr5jWbzaSNxYgqdY/WulbulmExoP72iq5yfdwMRg=;
+ b=AYpmL1ZhvwgnKZmauvICInMM/oSrMuOahlDbSR6ckI+OxeFV9DxcSBJljohQODncU2
+ +ySr/fvoQ4a4afaePco1Qp+bhIQ5QrvRB+FDmHCJVJVuXDQ3ZncWRSNntyBSz4yPvA5D
+ 4T2XYaCL8LMhBi7q/OgruXGf5wUwXrQXPuUG1Z7URTu3rOmRvtk7TET8dalLc3Yv/uUU
+ prR5NF4+d6UUpayVEJ62pZEByaUUWW4hWevaj0vx9bgYADpBGagjAENtAigWbaoUdmPw
+ poZdN9YBSqwOTlMTTYpzb72QEcREdbe/3FXw6jLVuDRGLCvG2cPy7FagnK1NlR/FA6tS
+ VSqw==
+X-Gm-Message-State: AOAM532L3qfrTXJzjooVYWGecqPt/+qIAK6OhDiAaf/sfC8IKuuuIR+Y
+ Emf3ORqP2y8Z/Pd5H/jskeI03Rba8uLvNj3ZEquPCngv4rCYnKEvZvDgVyY5OfjutogoY8ZhhCE
+ aYxanpW539s5EpPk=
+X-Received: by 2002:adf:fd06:: with SMTP id e6mr4138779wrr.206.1605280578506; 
+ Fri, 13 Nov 2020 07:16:18 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwLRt/zkrGK7+698LQ1FIjJQt4wFeHJ76aUs2N4DrJ9SEaEF0Cfz5nDufoZh2TLfPuytnUCeg==
+X-Received: by 2002:adf:fd06:: with SMTP id e6mr4138641wrr.206.1605280577159; 
+ Fri, 13 Nov 2020 07:16:17 -0800 (PST)
+Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
+ by smtp.gmail.com with ESMTPSA id y185sm10840644wmb.29.2020.11.13.07.16.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Nov 2020 07:16:16 -0800 (PST)
+Date: Fri, 13 Nov 2020 10:16:12 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH] Clean up includes
+Message-ID: <20201113101605-mutt-send-email-mst@kernel.org>
+References: <20201113061216.2483385-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20201113061216.2483385-1-armbru@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/13 10:14:17
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:00:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,301 +92,490 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Satheesh Rajendran <sathnaga@linux.ibm.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Gustavo Romero <gromero@linux.ibm.com>
+Cc: alxndr@bu.edu, thuth@redhat.com, mjrosato@linux.ibm.com, david@redhat.com,
+ qemu-s390x@nongnu.org, cohuck@redhat.com, qemu-devel@nongnu.org,
+ laurent@vivier.eu, pasic@linux.ibm.com, borntraeger@de.ibm.com, bsd@redhat.com,
+ kraxel@redhat.com, stefanha@redhat.com, pbonzini@redhat.com,
+ marcandre.lureau@redhat.com, dgilbert@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Recent commit acbdb9956fe9 introduced a dedicated path to create
-IPIs in KVM. This is done from under kvmppc_xive_cpu_connect() with
-the assumption that the IPI number is equal to the vCPU id. The
-latter is wrong: the guest chooses an arbitrary LISN from the
-"ibm,xive-lisn-ranges" and assigns it to a target vCPU with the
-H_INT_SET_SOURCE_CONFIG hcall. This went unnoticed so far because
-IPI numbers and vCPU ids happen to match by default. This is no
-longer the case though when setting the VSMT machine property to
-a value that is different from (ie. bigger than) the number of
-vCPUs per core (ie. -smp threads). Wrong IPIs end up being created
-in KVM but the guest still uses the ones it has allocated and gets
-very confused (see BugLink below).
+On Fri, Nov 13, 2020 at 07:12:16AM +0100, Markus Armbruster wrote:
+> Clean up includes so that osdep.h is included first and headers
+> which it implies are not included manually.
+> 
+> This commit was created with scripts/clean-includes, with the changes
+> to the following files manually reverted:
+> 
+>     contrib/libvhost-user/libvhost-user-glib.h
+>     contrib/libvhost-user/libvhost-user.c
+>     contrib/libvhost-user/libvhost-user.h
+>     contrib/plugins/hotblocks.c
+>     contrib/plugins/hotpages.c
+>     contrib/plugins/howvec.c
+>     contrib/plugins/lockstep.c
+>     linux-user/mips64/cpu_loop.c
+>     linux-user/mips64/signal.c
+>     linux-user/sparc64/cpu_loop.c
+>     linux-user/sparc64/signal.c
+>     linux-user/x86_64/cpu_loop.c
+>     linux-user/x86_64/signal.c
+>     target/s390x/gen-features.c
+>     tests/fp/platform.h
+>     tests/migration/s390x/a-b-bios.c
+>     tests/plugin/bb.c
+>     tests/plugin/empty.c
+>     tests/plugin/insn.c
+>     tests/plugin/mem.c
+>     tests/test-rcu-simpleq.c
+>     tests/test-rcu-slist.c
+>     tests/test-rcu-tailq.c
+>     tests/uefi-test-tools/UefiTestToolsPkg/BiosTablesTest/BiosTablesTest.c
+> 
+> contrib/plugins/, tests/plugin/, and tests/test-rcu-slist.c appear not
+> to include osdep.h intentionally.  The remaining reverts are the same
+> as in commit bbfff19688d.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
-Fix this by creating the IPI at the only place where we have
-its appropriate number : when the guest allocates it with the
-H_INT_SET_SOURCE_CONFIG hcall. We detect this is an IPI because
-it is < SPAPR_XIRQ_BASE and we get the vCPU id from the hcall
-arguments. The EAS of the IPI is tracked in the kvm_enabled_cpus
-list. It is now used instead of vcpu_id to filter unallocated IPIs
-out in xive_source_is_valid(). It also allows to only reset the
-IPI on the first call to H_INT_SET_SOURCE_CONFIG.
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 
-Restore unmasked IPIs from the vCPU contexts in kvmppc_xive_post_load().
-Masked ones will be created when the guests eventually unmask them
-with H_INT_SET_SOURCE_CONFIG.
-
-Reported-by: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>
-Fixes: acbdb9956fe9 ("spapr/xive: Allocate IPIs independently from the othe=
-r sources")
-BugLink: https://bugs.launchpad.net/qemu/+bug/1900241
-Cc: clg@kaod.org
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
- hw/intc/spapr_xive_kvm.c |  141 +++++++++++++++++++++++++++++++++++++++++-=
-----
- 1 file changed, 127 insertions(+), 14 deletions(-)
-
-diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-index 66bf4c06fe55..4e5871c3aac2 100644
---- a/hw/intc/spapr_xive_kvm.c
-+++ b/hw/intc/spapr_xive_kvm.c
-@@ -30,6 +30,7 @@
-  */
- typedef struct KVMEnabledCPU {
-     unsigned long vcpu_id;
-+    XiveEAS *ipi_eas;
-     QLIST_ENTRY(KVMEnabledCPU) node;
- } KVMEnabledCPU;
-=20
-@@ -55,6 +56,7 @@ static void kvm_cpu_enable(CPUState *cs)
-=20
-     enabled_cpu =3D g_malloc(sizeof(*enabled_cpu));
-     enabled_cpu->vcpu_id =3D vcpu_id;
-+    enabled_cpu->ipi_eas =3D NULL;
-     QLIST_INSERT_HEAD(&kvm_enabled_cpus, enabled_cpu, node);
- }
-=20
-@@ -156,26 +158,29 @@ int kvmppc_xive_cpu_synchronize_state(XiveTCTX *tctx,=
- Error **errp)
-  */
- typedef struct {
-     SpaprXive *xive;
-+    uint32_t lisn;
-     Error *err;
-     int rc;
- } XiveInitIPI;
-=20
- static void kvmppc_xive_reset_ipi_on_cpu(CPUState *cs, run_on_cpu_data arg=
-)
- {
--    unsigned long ipi =3D kvm_arch_vcpu_id(cs);
-     XiveInitIPI *s =3D arg.host_ptr;
-+    unsigned long ipi =3D s->lisn;
-     uint64_t state =3D 0;
-=20
-     s->rc =3D kvm_device_access(s->xive->fd, KVM_DEV_XIVE_GRP_SOURCE, ipi,
-                               &state, true, &s->err);
- }
-=20
--static int kvmppc_xive_reset_ipi(SpaprXive *xive, CPUState *cs, Error **er=
-rp)
-+static int kvmppc_xive_reset_ipi(SpaprXive *xive, CPUState *cs, uint32_t l=
-isn,
-+                                 Error **errp)
- {
-     XiveInitIPI s =3D {
-         .xive =3D xive,
-         .err  =3D NULL,
-         .rc   =3D 0,
-+        .lisn =3D lisn,
-     };
-=20
-     run_on_cpu(cs, kvmppc_xive_reset_ipi_on_cpu, RUN_ON_CPU_HOST_PTR(&s));
-@@ -214,12 +219,6 @@ int kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **er=
-rp)
-         return ret;
-     }
-=20
--    /* Create/reset the vCPU IPI */
--    ret =3D kvmppc_xive_reset_ipi(xive, tctx->cs, errp);
--    if (ret < 0) {
--        return ret;
--    }
--
-     kvm_cpu_enable(tctx->cs);
-     return 0;
- }
-@@ -228,6 +227,62 @@ int kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **er=
-rp)
-  * XIVE Interrupt Source (KVM)
-  */
-=20
-+static bool spapr_xive_is_ipi(uint32_t lisn)
-+{
-+    return lisn < SPAPR_XIRQ_BASE;
-+}
-+
-+static bool kvm_ipi_is_enabled(SpaprXive *xive, uint32_t lisn)
-+{
-+    KVMEnabledCPU *enabled_cpu;
-+
-+    g_assert(spapr_xive_is_ipi(lisn));
-+
-+    QLIST_FOREACH(enabled_cpu, &kvm_enabled_cpus, node) {
-+        if (enabled_cpu->ipi_eas =3D=3D &xive->eat[lisn]) {
-+            return true;
-+        }
-+    }
-+    return false;
-+}
-+
-+static int kvm_ipi_enable(SpaprXive *xive, uint32_t lisn, uint32_t vcpu_id=
-,
-+                          Error **errp)
-+{
-+    KVMEnabledCPU *enabled_cpu;
-+
-+    g_assert(spapr_xive_is_ipi(lisn));
-+
-+    QLIST_FOREACH(enabled_cpu, &kvm_enabled_cpus, node) {
-+        if (enabled_cpu->vcpu_id =3D=3D vcpu_id) {
-+            CPUState *cs =3D CPU(spapr_find_cpu(vcpu_id));
-+            XiveEAS *eas =3D &xive->eat[lisn];
-+
-+            /* No change ? */
-+            if (enabled_cpu->ipi_eas && enabled_cpu->ipi_eas =3D=3D eas) {
-+                return 0;
-+            }
-+
-+            /* XXX: abort ? */
-+            if (!cs) {
-+                break;
-+            }
-+
-+            /* Create/reset the vCPU IPI */
-+            int ret =3D kvmppc_xive_reset_ipi(xive, cs, lisn, errp);
-+            if (ret < 0) {
-+                return ret;
-+            }
-+
-+            enabled_cpu->ipi_eas =3D eas;
-+            return 0;
-+        }
-+    }
-+
-+    error_setg(errp, "vCPU #%d not found", vcpu_id);
-+    return -ESRCH;
-+}
-+
- int kvmppc_xive_set_source_config(SpaprXive *xive, uint32_t lisn, XiveEAS =
-*eas,
-                                   Error **errp)
- {
-@@ -248,6 +303,14 @@ int kvmppc_xive_set_source_config(SpaprXive *xive, uin=
-t32_t lisn, XiveEAS *eas,
-=20
-     spapr_xive_end_to_target(end_blk, end_idx, &server, &priority);
-=20
-+    if (spapr_xive_is_ipi(lisn)) {
-+        /* Create the vCPU IPI */
-+        int ret =3D kvm_ipi_enable(xive, lisn, server, errp);
-+        if (ret < 0) {
-+            return ret;
-+        }
-+    }
-+
-     kvm_src =3D priority << KVM_XIVE_SOURCE_PRIORITY_SHIFT &
-         KVM_XIVE_SOURCE_PRIORITY_MASK;
-     kvm_src |=3D server << KVM_XIVE_SOURCE_SERVER_SHIFT &
-@@ -280,7 +343,7 @@ int kvmppc_xive_source_reset_one(XiveSource *xsrc, int =
-srcno, Error **errp)
-     assert(xive->fd !=3D -1);
-=20
-     /*
--     * The vCPU IPIs are now allocated in kvmppc_xive_cpu_connect()
-+     * The vCPU IPIs are now allocated in kvmppc_xive_set_source_config()
-      * and not with all sources in kvmppc_xive_source_reset()
-      */
-     assert(srcno >=3D SPAPR_XIRQ_BASE);
-@@ -300,12 +363,12 @@ int kvmppc_xive_source_reset_one(XiveSource *xsrc, in=
-t srcno, Error **errp)
-  * To be valid, a source must have been claimed by the machine (valid
-  * entry in the EAS table) and if it is a vCPU IPI, the vCPU should
-  * have been enabled, which means the IPI has been allocated in
-- * kvmppc_xive_cpu_connect().
-+ * kvmppc_xive_set_source_config().
-  */
- static bool xive_source_is_valid(SpaprXive *xive, int i)
- {
-     return xive_eas_is_valid(&xive->eat[i]) &&
--        (i >=3D SPAPR_XIRQ_BASE || kvm_cpu_is_enabled(i));
-+        (!spapr_xive_is_ipi(i) || kvm_ipi_is_enabled(xive, i));
- }
-=20
- static int kvmppc_xive_source_reset(XiveSource *xsrc, Error **errp)
-@@ -314,8 +377,8 @@ static int kvmppc_xive_source_reset(XiveSource *xsrc, E=
-rror **errp)
-     int i;
-=20
-     /*
--     * Skip the vCPU IPIs. These are created/reset when the vCPUs are
--     * connected in kvmppc_xive_cpu_connect()
-+     * Skip the vCPU IPIs. These are created/reset on-demand in
-+     * kvmppc_xive_set_source_config().
-      */
-     for (i =3D SPAPR_XIRQ_BASE; i < xsrc->nr_irqs; i++) {
-         int ret;
-@@ -724,7 +787,57 @@ int kvmppc_xive_post_load(SpaprXive *xive, int version=
-_id)
-     }
-=20
-     /* Restore the EAT */
--    for (i =3D 0; i < xive->nr_irqs; i++) {
-+
-+    /* IPIs are restored from the appropriate vCPU context */
-+    CPU_FOREACH(cs) {
-+        /*
-+         * The EAT has valid entries to accomodate all possible vCPUs,
-+         * but we only want to allocate in KVM the IPIs that were
-+         * actually allocated before migration. Let's consider the full
-+         * list of IPIs to find an EAS that matches the vCPU id.
-+         *
-+         * If an IPI appears unmasked in the EAT, it is a proof that the
-+         * guest did successfully call H_INT_SET_SOURCE_CONFIG and we
-+         * should thus create the IPI at the KVM level if the END index
-+         * matches the vCPU id.
-+         *
-+         * If an IPI appears masked in the EAT, then we don't know exactly
-+         * what happened before migration but we don't care. The IPI will
-+         * be created when the guest eventually unmasks it with a subseque=
-nt
-+         * call to H_INT_SET_SOURCE_CONFIG.
-+         */
-+        for (i =3D 0; i < SPAPR_XIRQ_BASE; i++) {
-+            XiveEAS *eas =3D &xive->eat[i];
-+            uint32_t end_idx;
-+            uint32_t end_blk;
-+            uint8_t priority;
-+            uint32_t server;
-+
-+            if (!xive_eas_is_valid(eas)) {
-+                continue;
-+            }
-+
-+            if (xive_eas_is_masked(eas)) {
-+                continue;
-+            }
-+
-+            end_idx =3D xive_get_field64(EAS_END_INDEX, eas->w);
-+            end_blk =3D xive_get_field64(EAS_END_BLOCK, eas->w);
-+            spapr_xive_end_to_target(end_blk, end_idx, &server, &priority)=
-;
-+            if (server !=3D kvm_arch_vcpu_id(cs)) {
-+                continue;
-+            }
-+
-+            ret =3D kvmppc_xive_set_source_config(xive, i, eas, &local_err=
-);
-+            if (ret < 0) {
-+                goto fail;
-+            }
-+            break;
-+        }
-+    }
-+
-+    /* Now restore non-IPIs */
-+    for (i =3D SPAPR_XIRQ_BASE; i < xive->nr_irqs; i++) {
-         if (!xive_source_is_valid(xive, i)) {
-             continue;
-         }
-
+> ---
+> No real need to get this into 5.2 at this stage.  No real risk either.
+> 
+>  contrib/vhost-user-gpu/vugbm.h          |  2 --
+>  contrib/vhost-user-gpu/vugpu.h          |  1 -
+>  include/hw/block/swim.h                 |  1 -
+>  include/hw/display/macfb.h              |  1 -
+>  include/qemu/nvdimm-utils.h             |  1 -
+>  tests/qtest/fuzz/fuzz.h                 |  1 -
+>  tests/qtest/fuzz/generic_fuzz_configs.h |  1 -
+>  tools/virtiofsd/fuse_common.h           |  2 --
+>  tools/virtiofsd/fuse_log.h              |  1 -
+>  tools/virtiofsd/fuse_lowlevel.h         |  3 ---
+>  tools/virtiofsd/fuse_misc.h             |  1 -
+>  tools/virtiofsd/passthrough_seccomp.h   |  1 -
+>  contrib/vhost-user-gpu/virgl.c          |  1 +
+>  contrib/vhost-user-gpu/vugbm.c          |  1 +
+>  contrib/vhost-user-input/main.c         |  1 -
+>  hw/display/artist.c                     |  1 -
+>  hw/s390x/s390-pci-vfio.c                |  3 ++-
+>  tools/virtiofsd/buffer.c                |  5 -----
+>  tools/virtiofsd/fuse_log.c              |  2 --
+>  tools/virtiofsd/fuse_lowlevel.c         | 10 ----------
+>  tools/virtiofsd/fuse_opt.c              |  4 ----
+>  tools/virtiofsd/fuse_signals.c          |  5 -----
+>  tools/virtiofsd/fuse_virtio.c           | 10 ----------
+>  tools/virtiofsd/helper.c                |  8 --------
+>  tools/virtiofsd/passthrough_ll.c        | 12 ------------
+>  tools/virtiofsd/passthrough_seccomp.c   |  3 ---
+>  util/nvdimm-utils.c                     |  1 +
+>  27 files changed, 5 insertions(+), 78 deletions(-)
+> 
+> diff --git a/contrib/vhost-user-gpu/vugbm.h b/contrib/vhost-user-gpu/vugbm.h
+> index 07e698fcd7..66f1520764 100644
+> --- a/contrib/vhost-user-gpu/vugbm.h
+> +++ b/contrib/vhost-user-gpu/vugbm.h
+> @@ -10,10 +10,8 @@
+>  #ifndef VHOST_USER_GPU_VUGBM_H
+>  #define VHOST_USER_GPU_VUGBM_H
+>  
+> -#include "qemu/osdep.h"
+>  
+>  #ifdef CONFIG_MEMFD
+> -#include <sys/mman.h>
+>  #include <sys/ioctl.h>
+>  #endif
+>  
+> diff --git a/contrib/vhost-user-gpu/vugpu.h b/contrib/vhost-user-gpu/vugpu.h
+> index 3153c9a6de..5eca2a96ab 100644
+> --- a/contrib/vhost-user-gpu/vugpu.h
+> +++ b/contrib/vhost-user-gpu/vugpu.h
+> @@ -15,7 +15,6 @@
+>  #ifndef VUGPU_H
+>  #define VUGPU_H
+>  
+> -#include "qemu/osdep.h"
+>  
+>  #include "contrib/libvhost-user/libvhost-user-glib.h"
+>  #include "standard-headers/linux/virtio_gpu.h"
+> diff --git a/include/hw/block/swim.h b/include/hw/block/swim.h
+> index 5a49029543..c1bd5f6555 100644
+> --- a/include/hw/block/swim.h
+> +++ b/include/hw/block/swim.h
+> @@ -11,7 +11,6 @@
+>  #ifndef SWIM_H
+>  #define SWIM_H
+>  
+> -#include "qemu/osdep.h"
+>  #include "hw/sysbus.h"
+>  #include "qom/object.h"
+>  
+> diff --git a/include/hw/display/macfb.h b/include/hw/display/macfb.h
+> index c133fa271e..80806b0306 100644
+> --- a/include/hw/display/macfb.h
+> +++ b/include/hw/display/macfb.h
+> @@ -13,7 +13,6 @@
+>  #ifndef MACFB_H
+>  #define MACFB_H
+>  
+> -#include "qemu/osdep.h"
+>  #include "exec/memory.h"
+>  #include "ui/console.h"
+>  #include "qom/object.h"
+> diff --git a/include/qemu/nvdimm-utils.h b/include/qemu/nvdimm-utils.h
+> index 4b8b198ba7..5f45774c2c 100644
+> --- a/include/qemu/nvdimm-utils.h
+> +++ b/include/qemu/nvdimm-utils.h
+> @@ -1,7 +1,6 @@
+>  #ifndef NVDIMM_UTILS_H
+>  #define NVDIMM_UTILS_H
+>  
+> -#include "qemu/osdep.h"
+>  
+>  GSList *nvdimm_get_device_list(void);
+>  #endif
+> diff --git a/tests/qtest/fuzz/fuzz.h b/tests/qtest/fuzz/fuzz.h
+> index 08e9560a79..3a8570e84c 100644
+> --- a/tests/qtest/fuzz/fuzz.h
+> +++ b/tests/qtest/fuzz/fuzz.h
+> @@ -14,7 +14,6 @@
+>  #ifndef FUZZER_H_
+>  #define FUZZER_H_
+>  
+> -#include "qemu/osdep.h"
+>  #include "qemu/units.h"
+>  #include "qapi/error.h"
+>  
+> diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h b/tests/qtest/fuzz/generic_fuzz_configs.h
+> index c4d925f9e6..b4c5fefeca 100644
+> --- a/tests/qtest/fuzz/generic_fuzz_configs.h
+> +++ b/tests/qtest/fuzz/generic_fuzz_configs.h
+> @@ -13,7 +13,6 @@
+>  #ifndef GENERIC_FUZZ_CONFIGS_H
+>  #define GENERIC_FUZZ_CONFIGS_H
+>  
+> -#include "qemu/osdep.h"
+>  
+>  typedef struct generic_fuzz_config {
+>      const char *name, *args, *objects;
+> diff --git a/tools/virtiofsd/fuse_common.h b/tools/virtiofsd/fuse_common.h
+> index 5aee5193eb..30b18b4966 100644
+> --- a/tools/virtiofsd/fuse_common.h
+> +++ b/tools/virtiofsd/fuse_common.h
+> @@ -18,8 +18,6 @@
+>  
+>  #include "fuse_log.h"
+>  #include "fuse_opt.h"
+> -#include <stdint.h>
+> -#include <sys/types.h>
+>  
+>  /** Major version of FUSE library interface */
+>  #define FUSE_MAJOR_VERSION 3
+> diff --git a/tools/virtiofsd/fuse_log.h b/tools/virtiofsd/fuse_log.h
+> index bf6c11ff11..8d7091bd4d 100644
+> --- a/tools/virtiofsd/fuse_log.h
+> +++ b/tools/virtiofsd/fuse_log.h
+> @@ -14,7 +14,6 @@
+>   * This file defines the logging interface of FUSE
+>   */
+>  
+> -#include <stdarg.h>
+>  
+>  /**
+>   * Log severity level
+> diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowlevel.h
+> index 9c06240f9e..0e10a14bc9 100644
+> --- a/tools/virtiofsd/fuse_lowlevel.h
+> +++ b/tools/virtiofsd/fuse_lowlevel.h
+> @@ -25,10 +25,7 @@
+>  
+>  #include "fuse_common.h"
+>  
+> -#include <fcntl.h>
+> -#include <sys/stat.h>
+>  #include <sys/statvfs.h>
+> -#include <sys/types.h>
+>  #include <sys/uio.h>
+>  #include <utime.h>
+>  
+> diff --git a/tools/virtiofsd/fuse_misc.h b/tools/virtiofsd/fuse_misc.h
+> index 5c618ce21f..f252baa752 100644
+> --- a/tools/virtiofsd/fuse_misc.h
+> +++ b/tools/virtiofsd/fuse_misc.h
+> @@ -7,7 +7,6 @@
+>   */
+>  
+>  #include <pthread.h>
+> -#include "config-host.h"
+>  
+>  /*
+>   * Versioned symbols cannot be used in some cases because it
+> diff --git a/tools/virtiofsd/passthrough_seccomp.h b/tools/virtiofsd/passthrough_seccomp.h
+> index d47c8eade6..a3ab073f08 100644
+> --- a/tools/virtiofsd/passthrough_seccomp.h
+> +++ b/tools/virtiofsd/passthrough_seccomp.h
+> @@ -9,7 +9,6 @@
+>  #ifndef VIRTIOFSD_SECCOMP_H
+>  #define VIRTIOFSD_SECCOMP_H
+>  
+> -#include <stdbool.h>
+>  
+>  void setup_seccomp(bool enable_syslog);
+>  
+> diff --git a/contrib/vhost-user-gpu/virgl.c b/contrib/vhost-user-gpu/virgl.c
+> index b0bc22c3c1..e647278052 100644
+> --- a/contrib/vhost-user-gpu/virgl.c
+> +++ b/contrib/vhost-user-gpu/virgl.c
+> @@ -12,6 +12,7 @@
+>   * See the COPYING file in the top-level directory.
+>   */
+>  
+> +#include "qemu/osdep.h"
+>  #include <virglrenderer.h>
+>  #include "virgl.h"
+>  
+> diff --git a/contrib/vhost-user-gpu/vugbm.c b/contrib/vhost-user-gpu/vugbm.c
+> index 9c357b6399..f5304ada2f 100644
+> --- a/contrib/vhost-user-gpu/vugbm.c
+> +++ b/contrib/vhost-user-gpu/vugbm.c
+> @@ -7,6 +7,7 @@
+>   * See the COPYING file in the top-level directory.
+>   */
+>  
+> +#include "qemu/osdep.h"
+>  #include "vugbm.h"
+>  
+>  static bool
+> diff --git a/contrib/vhost-user-input/main.c b/contrib/vhost-user-input/main.c
+> index 6020c6f33a..25e2faa16b 100644
+> --- a/contrib/vhost-user-input/main.c
+> +++ b/contrib/vhost-user-input/main.c
+> @@ -6,7 +6,6 @@
+>  
+>  #include "qemu/osdep.h"
+>  
+> -#include <glib.h>
+>  #include <linux/input.h>
+>  
+>  #include "qemu/iov.h"
+> diff --git a/hw/display/artist.c b/hw/display/artist.c
+> index ed0e637f25..aa7bd594aa 100644
+> --- a/hw/display/artist.c
+> +++ b/hw/display/artist.c
+> @@ -9,7 +9,6 @@
+>  #include "qemu/osdep.h"
+>  #include "qemu-common.h"
+>  #include "qemu/error-report.h"
+> -#include "qemu/typedefs.h"
+>  #include "qemu/log.h"
+>  #include "qemu/module.h"
+>  #include "qemu/units.h"
+> diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
+> index d5c78063b5..28343f90e3 100644
+> --- a/hw/s390x/s390-pci-vfio.c
+> +++ b/hw/s390x/s390-pci-vfio.c
+> @@ -9,11 +9,12 @@
+>   * directory.
+>   */
+>  
+> +#include "qemu/osdep.h"
+> +
+>  #include <sys/ioctl.h>
+>  #include <linux/vfio.h>
+>  #include <linux/vfio_zdev.h>
+>  
+> -#include "qemu/osdep.h"
+>  #include "trace.h"
+>  #include "hw/s390x/s390-pci-bus.h"
+>  #include "hw/s390x/s390-pci-clp.h"
+> diff --git a/tools/virtiofsd/buffer.c b/tools/virtiofsd/buffer.c
+> index 27c1377f22..2085db2743 100644
+> --- a/tools/virtiofsd/buffer.c
+> +++ b/tools/virtiofsd/buffer.c
+> @@ -12,11 +12,6 @@
+>  #include "qemu/osdep.h"
+>  #include "fuse_i.h"
+>  #include "fuse_lowlevel.h"
+> -#include <assert.h>
+> -#include <errno.h>
+> -#include <stdlib.h>
+> -#include <string.h>
+> -#include <unistd.h>
+>  
+>  size_t fuse_buf_size(const struct fuse_bufvec *bufv)
+>  {
+> diff --git a/tools/virtiofsd/fuse_log.c b/tools/virtiofsd/fuse_log.c
+> index c301ff6da1..745d88cd2a 100644
+> --- a/tools/virtiofsd/fuse_log.c
+> +++ b/tools/virtiofsd/fuse_log.c
+> @@ -11,8 +11,6 @@
+>  #include "qemu/osdep.h"
+>  #include "fuse_log.h"
+>  
+> -#include <stdarg.h>
+> -#include <stdio.h>
+>  
+>  static void default_log_func(__attribute__((unused)) enum fuse_log_level level,
+>                               const char *fmt, va_list ap)
+> diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
+> index c70fb16a9a..d4119e92ab 100644
+> --- a/tools/virtiofsd/fuse_lowlevel.c
+> +++ b/tools/virtiofsd/fuse_lowlevel.c
+> @@ -16,17 +16,7 @@
+>  #include "fuse_opt.h"
+>  #include "fuse_virtio.h"
+>  
+> -#include <assert.h>
+> -#include <errno.h>
+> -#include <glib.h>
+> -#include <limits.h>
+> -#include <stdbool.h>
+> -#include <stddef.h>
+> -#include <stdio.h>
+> -#include <stdlib.h>
+> -#include <string.h>
+>  #include <sys/file.h>
+> -#include <unistd.h>
+>  
+>  #define THREAD_POOL_SIZE 64
+>  
+> diff --git a/tools/virtiofsd/fuse_opt.c b/tools/virtiofsd/fuse_opt.c
+> index 28922361a2..f0ab8d22f4 100644
+> --- a/tools/virtiofsd/fuse_opt.c
+> +++ b/tools/virtiofsd/fuse_opt.c
+> @@ -14,10 +14,6 @@
+>  #include "fuse_i.h"
+>  #include "fuse_misc.h"
+>  
+> -#include <assert.h>
+> -#include <stdio.h>
+> -#include <stdlib.h>
+> -#include <string.h>
+>  
+>  struct fuse_opt_context {
+>      void *data;
+> diff --git a/tools/virtiofsd/fuse_signals.c b/tools/virtiofsd/fuse_signals.c
+> index f18625b6e2..1de46de1ce 100644
+> --- a/tools/virtiofsd/fuse_signals.c
+> +++ b/tools/virtiofsd/fuse_signals.c
+> @@ -12,11 +12,6 @@
+>  #include "fuse_i.h"
+>  #include "fuse_lowlevel.h"
+>  
+> -#include <errno.h>
+> -#include <signal.h>
+> -#include <stdio.h>
+> -#include <stdlib.h>
+> -#include <string.h>
+>  
+>  static struct fuse_session *fuse_instance;
+>  
+> diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+> index 83ba07c6cd..2c800418f1 100644
+> --- a/tools/virtiofsd/fuse_virtio.c
+> +++ b/tools/virtiofsd/fuse_virtio.c
+> @@ -20,20 +20,10 @@
+>  #include "fuse_opt.h"
+>  #include "fuse_virtio.h"
+>  
+> -#include <assert.h>
+> -#include <errno.h>
+> -#include <glib.h>
+> -#include <stdint.h>
+> -#include <stdio.h>
+> -#include <stdlib.h>
+> -#include <string.h>
+>  #include <sys/eventfd.h>
+>  #include <sys/socket.h>
+> -#include <sys/types.h>
+>  #include <sys/un.h>
+> -#include <sys/types.h>
+>  #include <grp.h>
+> -#include <unistd.h>
+>  
+>  #include "contrib/libvhost-user/libvhost-user.h"
+>  
+> diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
+> index 75ac48dec2..28243b51b2 100644
+> --- a/tools/virtiofsd/helper.c
+> +++ b/tools/virtiofsd/helper.c
+> @@ -16,16 +16,8 @@
+>  #include "fuse_misc.h"
+>  #include "fuse_opt.h"
+>  
+> -#include <errno.h>
+> -#include <limits.h>
+> -#include <stddef.h>
+> -#include <stdio.h>
+> -#include <stdlib.h>
+> -#include <string.h>
+>  #include <sys/param.h>
+> -#include <sys/time.h>
+>  #include <sys/resource.h>
+> -#include <unistd.h>
+>  
+>  #define FUSE_HELPER_OPT(t, p)                       \
+>      {                                               \
+> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> index ec1008bceb..56cff773e4 100644
+> --- a/tools/virtiofsd/passthrough_ll.c
+> +++ b/tools/virtiofsd/passthrough_ll.c
+> @@ -41,29 +41,17 @@
+>  #include "fuse_log.h"
+>  #include "fuse_lowlevel.h"
+>  #include "standard-headers/linux/fuse.h"
+> -#include <assert.h>
+>  #include <cap-ng.h>
+>  #include <dirent.h>
+> -#include <errno.h>
+> -#include <glib.h>
+> -#include <inttypes.h>
+> -#include <limits.h>
+>  #include <pthread.h>
+> -#include <stdbool.h>
+> -#include <stddef.h>
+> -#include <stdio.h>
+> -#include <stdlib.h>
+> -#include <string.h>
+>  #include <sys/file.h>
+>  #include <sys/mount.h>
+>  #include <sys/prctl.h>
+>  #include <sys/resource.h>
+>  #include <sys/syscall.h>
+> -#include <sys/types.h>
+>  #include <sys/wait.h>
+>  #include <sys/xattr.h>
+>  #include <syslog.h>
+> -#include <unistd.h>
+>  
+>  #include "qemu/cutils.h"
+>  #include "passthrough_helpers.h"
+> diff --git a/tools/virtiofsd/passthrough_seccomp.c b/tools/virtiofsd/passthrough_seccomp.c
+> index 11623f56f2..a60d7da4b4 100644
+> --- a/tools/virtiofsd/passthrough_seccomp.c
+> +++ b/tools/virtiofsd/passthrough_seccomp.c
+> @@ -10,10 +10,7 @@
+>  #include "passthrough_seccomp.h"
+>  #include "fuse_i.h"
+>  #include "fuse_log.h"
+> -#include <errno.h>
+> -#include <glib.h>
+>  #include <seccomp.h>
+> -#include <stdlib.h>
+>  
+>  /* Bodge for libseccomp 2.4.2 which broke ppoll */
+>  #if !defined(__SNR_ppoll) && defined(__SNR_brk)
+> diff --git a/util/nvdimm-utils.c b/util/nvdimm-utils.c
+> index 5cc768ca47..aa3d199f2d 100644
+> --- a/util/nvdimm-utils.c
+> +++ b/util/nvdimm-utils.c
+> @@ -1,3 +1,4 @@
+> +#include "qemu/osdep.h"
+>  #include "qemu/nvdimm-utils.h"
+>  #include "hw/mem/nvdimm.h"
+>  
+> -- 
+> 2.26.2
 
 
