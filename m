@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AFAB2B1C04
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 14:43:35 +0100 (CET)
-Received: from localhost ([::1]:59454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8B4B2B1C24
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 14:49:03 +0100 (CET)
+Received: from localhost ([::1]:38032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdZMU-0007Ni-3i
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 08:43:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56004)
+	id 1kdZRm-0001y5-ED
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 08:49:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kdZJT-0005IF-6F
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 08:40:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36808)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kdZQD-00014w-LR
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 08:47:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48120)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kdZJQ-0001nM-JK
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 08:40:26 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kdZQA-0004IF-1C
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 08:47:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605274823;
+ s=mimecast20190719; t=1605275241;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nCtfiF1kCv1BGM6t7bOPbrPqh18WICLgRMZG07Nlwhk=;
- b=Jw6/O9iOej769LjBw+CusRB7enyVoPMtbR4uuFKIHQn1FK0S7xid3CpICN8MBIUKZv7qIn
- sYVo/TeZcx1H+02Nnrwq/CXVQW7t942JnCE4O+gwuT7Pjkhy2+QDmdVlTR9ucLdxb8pQzI
- 2fQdLD9m0WbIZCVajbvqvK+VA3AiagI=
+ bh=9glxtQJdOdTA7AJvaO3gxuZMEBmzd8N1+cc5/WVW7Lo=;
+ b=PCPSx8zfx1ETPunVOnM7HXJdnq1+wKsrtEkOnQ4Dqr9+t/O607FSONX1chGccwp70Q4evG
+ Q5D2EdZZtAXSKfzbvUD5xMLM2hPhVsNDqiZwheFFynTgc0n2DRlWwpqE83i4GMstJ1pDAh
+ iIz01W2FwKnzunEO44fSSGKUQsPkKRg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-151-1yt7f8t4Ma2wCAFU4ItM5Q-1; Fri, 13 Nov 2020 08:40:20 -0500
-X-MC-Unique: 1yt7f8t4Ma2wCAFU4ItM5Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-325-aLzE0tlMNUKGXFMO1XyB0Q-1; Fri, 13 Nov 2020 08:47:18 -0500
+X-MC-Unique: aLzE0tlMNUKGXFMO1XyB0Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3C0318B9EC3;
- Fri, 13 Nov 2020 13:40:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8CACF1868401;
+ Fri, 13 Nov 2020 13:47:17 +0000 (UTC)
 Received: from [10.3.113.51] (ovpn-113-51.phx2.redhat.com [10.3.113.51])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 72D8876644;
- Fri, 13 Nov 2020 13:40:19 +0000 (UTC)
-Subject: Re: [PATCH] docs: Better mention of qemu-img amend limitations
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20200923203719.732958-1-eblake@redhat.com>
- <20201113094956.GC5834@merkur.fritz.box>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 33EA25C1C7;
+ Fri, 13 Nov 2020 13:47:17 +0000 (UTC)
+Subject: Re: [PATCH for-5.2] iotests: Replace deprecated ConfigParser.readfp()
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20201113100602.15936-1-kwolf@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <395f0c67-6526-6621-3e49-a87e76c2a0d3@redhat.com>
-Date: Fri, 13 Nov 2020 07:40:18 -0600
+Message-ID: <51e5149a-5296-8d1f-2095-e8fefcd732ed@redhat.com>
+Date: Fri, 13 Nov 2020 07:47:16 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201113094956.GC5834@merkur.fritz.box>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20201113100602.15936-1-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -84,44 +83,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/13/20 3:49 AM, Kevin Wolf wrote:
-> Am 23.09.2020 um 22:37 hat Eric Blake geschrieben:
->> Missed during merge resolution of commit bc5ee6da71.
->>
->> Signed-off-by: Eric Blake <eblake@redhat.com>
->> ---
->>  docs/tools/qemu-img.rst | 4 ++++
->>  1 file changed, 4 insertions(+)
->>
->> diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
->> index c35bd6482203..2b5891b54db7 100644
->> --- a/docs/tools/qemu-img.rst
->> +++ b/docs/tools/qemu-img.rst
->> @@ -265,6 +265,10 @@ Command description:
+On 11/13/20 4:06 AM, Kevin Wolf wrote:
+> iotest 277 fails on Fedora 33 (Python 3.9) because a deprecation warning
+> changes the output:
 > 
-> Adding a little more context:
+>     nbd-fault-injector.py:230: DeprecationWarning: This method will be
+>     removed in future versions.  Use 'parser.read_file()' instead.
 > 
->>    The set of options that can be amended are dependent on the image
->>    format, but note that amending the backing chain relationship should
->>    instead be performed with ``qemu-img rebase``.
->>
->>    --force allows some unsafe operations. Currently for -f luks, it allows to
->>    erase the last encryption key, and to overwrite an active encryption key.
->>
->> +  The set of options that can be amended are dependent on the image
->> +  format, but note that amending the backing chain relationship should
->> +  instead be performed with ``qemu-img rebase``.
->> +
+> In fact, readfp() has already been deprecated in Python 3.2 and the
+> replacement has existed since the same version, so we can now
+> unconditionally switch to read_file().
 > 
-> I think the problem is your local conflict resolution. This patch would
-> duplicate the paragraph.
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>  tests/qemu-iotests/nbd-fault-injector.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-D'oh.  Thanks for spotting that, patch withdrawn.
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
+I'm happy to queue this through my NBD tree for -rc2.
+
+> 
+> diff --git a/tests/qemu-iotests/nbd-fault-injector.py b/tests/qemu-iotests/nbd-fault-injector.py
+> index 78f42c4214..6e11ef89b8 100755
+> --- a/tests/qemu-iotests/nbd-fault-injector.py
+> +++ b/tests/qemu-iotests/nbd-fault-injector.py
+> @@ -227,7 +227,7 @@ def parse_config(config):
+>  def load_rules(filename):
+>      config = configparser.RawConfigParser()
+>      with open(filename, 'rt') as f:
+> -        config.readfp(f, filename)
+> +        config.read_file(f, filename)
+>      return parse_config(config)
+>  
+>  def open_socket(path):
+> 
 
 -- 
 Eric Blake, Principal Software Engineer
