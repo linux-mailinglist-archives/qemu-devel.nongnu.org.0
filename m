@@ -2,57 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 550122B1B4E
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 13:46:39 +0100 (CET)
-Received: from localhost ([::1]:46240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAA9C2B1B4F
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 13:47:48 +0100 (CET)
+Received: from localhost ([::1]:48736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdYTO-0000Hr-C0
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 07:46:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41994)
+	id 1kdYUV-0001K7-Ov
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 07:47:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kdYRS-0007pc-Ak
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 07:44:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43316)
+ id 1kdYTE-0000dS-DH
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 07:46:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60101)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kdYRQ-00079P-Gp
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 07:44:38 -0500
+ id 1kdYTC-0007vN-P5
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 07:46:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605271475;
+ s=mimecast20190719; t=1605271586;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=2ZXbcMpv3Fg9WP0rhbpmCnWuW8VkSA8CdeX26SrxCZA=;
- b=VwPIRq8pv/sVvA0tShKPpBo0pLk5z/EvkT/NevS6ZIpG4Hqgj0MIwzexyUtZU82UQuP7O+
- CB6OnP2yY+kt6qRPKNhAaP5sxvkWu2sgNSnzl/huQArXavYt6DACGYDNVp+TRslMuEhiAU
- 7VId259YrRZJarAX6y5STPN1q0WPGUY=
+ bh=dlo46hai5zCILqO2vwU5Y0wdS0ovbfBThEjyXRtaP2U=;
+ b=GukGuiYcuphfkjLEwVi9VzgVY+WJQb19IiFvMzJ3XP7jBfaVaaT7MBHilbWHG5irjGlhld
+ YSKoM1jWOhFvdjXXc6WGCGMtvWVKLbow+AFZFeUeXpVnyKwLTJHUnxQP2goF4Y0Ttspd0A
+ s6p8Fnna5ta3CTb97brrwypBNF8e18o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-367-hH5ICsmPM0ORJEN1jUzWMQ-1; Fri, 13 Nov 2020 07:44:33 -0500
-X-MC-Unique: hH5ICsmPM0ORJEN1jUzWMQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-435-qEB5AtF9OnGF_Pf52Nh9ow-1; Fri, 13 Nov 2020 07:46:24 -0500
+X-MC-Unique: qEB5AtF9OnGF_Pf52Nh9ow-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2F2F5108BBE0;
- Fri, 13 Nov 2020 12:44:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E7A618B9F83;
+ Fri, 13 Nov 2020 12:46:23 +0000 (UTC)
 Received: from work-vm (ovpn-114-160.ams2.redhat.com [10.36.114.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0B7125C1C2;
- Fri, 13 Nov 2020 12:44:15 +0000 (UTC)
-Date: Fri, 13 Nov 2020 12:44:13 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1803B6EF50;
+ Fri, 13 Nov 2020 12:46:21 +0000 (UTC)
+Date: Fri, 13 Nov 2020 12:46:19 +0000
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 To: Kevin Wolf <kwolf@redhat.com>
 Subject: Re: [PATCH for-5.2 0/3] hmp: Fix arg evaluation crash (regression)
-Message-ID: <20201113124413.GK3251@work-vm>
+Message-ID: <20201113124619.GL3251@work-vm>
 References: <20201113114326.97663-1-kwolf@redhat.com>
- <20201113121311.GI3251@work-vm>
- <20201113124305.GD5834@merkur.fritz.box>
 MIME-Version: 1.0
-In-Reply-To: <20201113124305.GD5834@merkur.fritz.box>
+In-Reply-To: <20201113114326.97663-1-kwolf@redhat.com>
 User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,42 +80,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, lichun@ruijie.com.cn, qemu-devel@nongnu.org,
- armbru@redhat.com
+Cc: lichun@ruijie.com.cn, qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 * Kevin Wolf (kwolf@redhat.com) wrote:
-> Am 13.11.2020 um 13:13 hat Dr. David Alan Gilbert geschrieben:
-> > * Kevin Wolf (kwolf@redhat.com) wrote:
-> > > When I restricted the section where the current monitor is set to only
-> > > the command handler, I missed that monitor_parse_arguments() can use it
-> > > indirectly, too, when evaluating register variables. These cases get
-> > > NULL now and crash (easy to reproduce with "x $pc").
-> > > 
-> > > This series passes the right monitor object down instead of using
-> > > monitor_cur(), which fixes the crash.
-> > 
-> > Why didn't the test-hmp.c find this?  It has a 'p $pc + 8'
+> When I restricted the section where the current monitor is set to only
+> the command handler, I missed that monitor_parse_arguments() can use it
+> indirectly, too, when evaluating register variables. These cases get
+> NULL now and crash (easy to reproduce with "x $pc").
 > 
-> Good question, a manual 'p $pc + 8' crashes for me on master.
+> This series passes the right monitor object down instead of using
+> monitor_cur(), which fixes the crash.
 > 
-> Aha, it doesn't use a real HMP monitor, but QMP human-monitor-command.
-> Then it would just get the wrong monitor (the QMP one instead of the
-> temporary HMP monitor) and not NULL. The accessed CPU is even the same
-> because neither QMP nor the temporary HMP monitor have a current CPU
-> set, so even if the test case did check the result, it wouldn't catch
-> this.
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+and queued; I'll send out an HMP pull shortly.
+
+> Kevin Wolf (3):
+>   hmp: Pass monitor to mon_get_cpu()
+>   hmp: Pass monitor to MonitorDef.get_value()
+>   hmp: Pass monitor to mon_get_cpu_env()
 > 
-> Only if the test case were using multiple CPUs and cpu-index had been
-> set for human-monitor-command (to something other than the default), we
-> would get a wrong result. But of course, it still wouldn't crash.
-
-Ah, fair enough.
-
-Dave
-
-> Kevin
+>  include/monitor/hmp-target.h |  7 ++++---
+>  monitor/monitor-internal.h   |  2 +-
+>  monitor/hmp.c                |  2 +-
+>  monitor/misc.c               | 24 ++++++++++++------------
+>  target/i386/monitor.c        | 11 ++++++-----
+>  target/m68k/monitor.c        |  2 +-
+>  target/nios2/monitor.c       |  2 +-
+>  target/ppc/monitor.c         | 22 +++++++++++++---------
+>  target/riscv/monitor.c       |  2 +-
+>  target/sh4/monitor.c         |  2 +-
+>  target/sparc/monitor.c       | 12 +++++++-----
+>  target/xtensa/monitor.c      |  2 +-
+>  12 files changed, 49 insertions(+), 41 deletions(-)
+> 
+> -- 
+> 2.28.0
+> 
 -- 
 Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
