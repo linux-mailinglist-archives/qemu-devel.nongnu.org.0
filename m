@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83EFC2B2732
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 22:39:07 +0100 (CET)
-Received: from localhost ([::1]:55882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD8DD2B2796
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 22:56:59 +0100 (CET)
+Received: from localhost ([::1]:38890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdgmg-0006N6-AV
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 16:39:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33578)
+	id 1kdh3I-0003qV-MW
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 16:56:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kdglI-0005ka-FM
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 16:37:40 -0500
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:39840)
+ id 1kdh1c-0003DN-Bg
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 16:54:32 -0500
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:42500)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kdglG-00080U-Nn
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 16:37:40 -0500
-Received: by mail-pg1-x542.google.com with SMTP id i7so8154923pgh.6
- for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 13:37:38 -0800 (PST)
+ id 1kdh1X-0001aY-HQ
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 16:54:30 -0500
+Received: by mail-pg1-x52c.google.com with SMTP id i13so8173075pgm.9
+ for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 13:54:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=8DIIYGkGVU+UWKtk2QW2/EiJ0+H+gUj3LpHi52ISySs=;
- b=H1hNBUKttLOTQ7QdqZj6bSkmBwyDvPNRiWe+WjYP2kc7U4qAn9sgFTbNdaP0lLgsDU
- Yot8EIQFWw1D2Vb4Za2XTlss0cmp7UdC1wQchUuNknqMRvDOhbRjSHQ/e6ANpMMHCePg
- kUgK9thh29a/WWglOQc1mmZ85wxn3dTR+3VouQANBQhD6Q4kBI/JmCuamozZTmmd1RPI
- S9X/TOZaN7/0sv3aJiSgzBrhxQVcVnJ9SjrgAgr3/lLhSdvDaLFrFwOviFoYzIMn8iEx
- egxgYXJT4kXIq9dpGYTBYGwIPP/K95AUGK4BFOUaLzByUawKWB/l7U/4IGOkVcW1aiCr
- joQQ==
+ bh=/KDwDwPZ10fx3D8quFHTsGGhNP/WVt6JhdufgI66SSg=;
+ b=XHG42vhp20Eub3Iv0H/PIPKvVlmk93fVwaWgYcGki/YKepIE76saKW+to6ddeLXM3c
+ NyJZt0C0Foz9DJ5JRvLqkBWf1LTTTr/ldKrbWAu/lmo4MOUrO08S3YZVjDjbbkOIf/3a
+ NFvbauRLJ40TXiE7PAHct9qsM8bGWLOyGy3MjY6fqa4zN+w2JuDJZcoF0Fvpb1ECMeEj
+ AJyGAP3+mnAIH6+WtXDrVbUwuR9kpP6xalxYkkYzavbn3DVh2YY0+awEwPSqUJ92Vsxr
+ N2P83ILmFu7yNB2VYb4nUnB2YUa/qSpRK9DMHNKfvkgQAnygJZI2vSQYOFIMnOwGjpj5
+ n2eA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=8DIIYGkGVU+UWKtk2QW2/EiJ0+H+gUj3LpHi52ISySs=;
- b=ApcdZKkv21GQb6TQtjEbaS/6EYVkZgb3w/0VZCZ2fpG9LkzGLdmTIeUrAQZPpuO9c/
- etDOG01gJmhXD3LXN5QIy1QaHrX3eFVgxcDF868AUyhRt+PH0LUc/CWfuCdwB6L6khHC
- AvLFSpsDXecGBRgKd0Y2hzs2KQi8AbhLc6/no4QbxxnuA9xosrcyf0YyFopEcbCDboV5
- YuwjXAR9+oZIseASoEW4JJGksRx0cQUvmXsCRMUYsaOl43ADGheDUc+vYfXnXsCzJB3h
- AuU683P+5Cbjy8OMHPre5GbsY2ptQMG5kC/2mJIsFbzbVqTBccvPLH2v9PCObVlwyOAb
- cQTw==
-X-Gm-Message-State: AOAM530R7eJd6dz7O+HzX4dOA4twIc8sxlH/2JDSKCpzqEQ0RjHWBzcZ
- gOFiOOQ6e9JcFTx19PQGUu7D2N5Q0CsGqg==
-X-Google-Smtp-Source: ABdhPJyUJCBeSkr1lp7k6n3VtuK2LO+0/MrFq7Ad2P9xn5u39ti149o1E7foSFO1V7XUGZ/VUFs5Dw==
-X-Received: by 2002:a17:90a:b118:: with SMTP id
- z24mr5063526pjq.108.1605303457083; 
- Fri, 13 Nov 2020 13:37:37 -0800 (PST)
+ bh=/KDwDwPZ10fx3D8quFHTsGGhNP/WVt6JhdufgI66SSg=;
+ b=r7kAAdbu7r6TuFREhmYT3oFEurBl5bR9wUjtt0haZuNpobpSfO+2/e6IGXrnnNJIMp
+ hX0ghOAfsXdk4KKOF6PdjkK73Zb+ixjypY82NitbMOwLq8Rfgf1jIOxL7zLlXoRY1iI8
+ GmsckNC3NN9HoqzoYfuq+rUoaqs04TafAZAk9l2Zpw2vRJG4+lPadV1vpwhh7Zkxxdr7
+ B4rx/Cb495par4FAY45ThdLGGLpXKUUrcKYEz8FqBfZEMEAk3JMhQn3/TlHhys+VwIcK
+ sSgYCEo6tYWffE1BmBGhadEhJ72aYsEYOAoCF6FZfrhi+dVljVrTy15tz5UbHp4O91Dn
+ n7wg==
+X-Gm-Message-State: AOAM532QnqqX/QAlMf4QPMntyE/06bG5VLK3WgUWJeF5oxl233bFpSSG
+ F8SKfcKNwIsK22RLrpp3VOl+qhvO9gwGfg==
+X-Google-Smtp-Source: ABdhPJwREOnuJzrqmeWIQSPtAuScA7MFSSqp7f1cjPYO4Zayt1oSdsn9T4bnwoIyvvFEgoTqLWJF/A==
+X-Received: by 2002:a17:90a:a104:: with SMTP id
+ s4mr5164750pjp.60.1605304465536; 
+ Fri, 13 Nov 2020 13:54:25 -0800 (PST)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id h5sm11820813pfk.126.2020.11.13.13.37.35
+ by smtp.gmail.com with ESMTPSA id 15sm12051782pjy.0.2020.11.13.13.54.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Nov 2020 13:37:36 -0800 (PST)
-Subject: Re: [PATCH 13/17] target/arm: handle VMID change in secure state
+ Fri, 13 Nov 2020 13:54:24 -0800 (PST)
+Subject: Re: [PATCH 14/17] target/arm: set HPFAR_EL2.NS on secure stage 2
+ faults
 To: remi.denis.courmont@huawei.com, qemu-arm@nongnu.org
 References: <5554493.MhkbZ0Pkbq@basile.remlab.net>
- <20201109141020.27234-13-remi.denis.courmont@huawei.com>
+ <20201109141020.27234-14-remi.denis.courmont@huawei.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <e44d7b3e-089a-1101-df2c-27096cc0732c@linaro.org>
-Date: Fri, 13 Nov 2020 13:37:34 -0800
+Message-ID: <bc4e0a70-872b-2e38-1af4-62b44e355c60@linaro.org>
+Date: Fri, 13 Nov 2020 13:54:22 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201109141020.27234-13-remi.denis.courmont@huawei.com>
+In-Reply-To: <20201109141020.27234-14-remi.denis.courmont@huawei.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -95,17 +96,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/9/20 6:10 AM, remi.denis.courmont@huawei.com wrote:
-> From: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
-> 
-> The VTTBR write callback so far assumes that the underlying VM lies in
-> non-secure state. This handles the secure state scenario.
-> 
-> Signed-off-by: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
-> ---
->  target/arm/helper.c | 13 +++++++++----
->  1 file changed, 9 insertions(+), 4 deletions(-)
+> @@ -3444,6 +3444,9 @@ static uint64_t do_ats_write(CPUARMState *env, uint64_t value,
+>                  target_el = 3;
+>              } else {
+>                  env->cp15.hpfar_el2 = extract64(fi.s2addr, 12, 47) << 4;
+> +                if (fi.s1ns) {
+> +                    env->cp15.hpfar_el2 |= HPFAR_NS;
+> +                }
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+This should only be set for SEL2, not non-secure EL2.
+
+> +        if (arm_is_secure_below_el3(env) && fi->s1ns) {
+> +            env->cp15.hpfar_el2 |= HPFAR_NS;
+> +        }
+
+... like you did here.
+
 
 r~
 
