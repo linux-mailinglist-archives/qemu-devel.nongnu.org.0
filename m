@@ -2,74 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EF202B197A
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 12:02:52 +0100 (CET)
-Received: from localhost ([::1]:45672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E08E72B198B
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 12:05:22 +0100 (CET)
+Received: from localhost ([::1]:48004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdWqx-0007V6-I9
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 06:02:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42722)
+	id 1kdWtO-00008P-1N
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 06:05:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kdWpU-0006aJ-7J
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 06:01:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36333)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kdWpS-0003Gv-1B
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 06:01:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605265269;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fsTg4XtlUP7ZDOYS++ggo5H0m1RYFoWwIneaq+B6UOw=;
- b=Kox61q7bElQWIOc1g+NAcOfuZ3+n+zJl90Wm3ZlhwMRnT9LUG+JwT4WTjl45ktMB7L0Ta1
- oDELHGN2tzr/w4dydwr/SZNJjvPLsQnD06631CSQ8Q3nAupwZBXWc0jl1luRxi7Tl3s4kN
- TRiJRoH7sLgRSLQ6pDnKaNs7MSCreq8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-387-22_i2mVqPyafsdY-bKZNXw-1; Fri, 13 Nov 2020 06:01:07 -0500
-X-MC-Unique: 22_i2mVqPyafsdY-bKZNXw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48C7957240
- for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 11:01:06 +0000 (UTC)
-Received: from work-vm (ovpn-114-160.ams2.redhat.com [10.36.114.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 16ED560C15;
- Fri, 13 Nov 2020 11:01:04 +0000 (UTC)
-Date: Fri, 13 Nov 2020 11:01:02 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 5/6] migration: Fix cache_init()'s "Failed to allocate"
- error messages
-Message-ID: <20201113110102.GD3251@work-vm>
-References: <20201113065236.2644169-1-armbru@redhat.com>
- <20201113065236.2644169-6-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <lichun@ruijie.com.cn>)
+ id 1kdWrs-00088V-PN
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 06:03:48 -0500
+Received: from [240e:678:8c0:5::c0a8:3a63] (port=60569
+ helo=FZEX4.ruijie.com.cn)
+ by eggs.gnu.org with esmtps (TLS1.0:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lichun@ruijie.com.cn>)
+ id 1kdWrn-00045K-Ch
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 06:03:47 -0500
+Received: from FZEX5.ruijie.com.cn ([fe80::f133:c96b:b8b4:690f]) by
+ FZEX4.ruijie.com.cn ([fe80::4814:fd0d:3b:861c%16]) with mapi id
+ 14.03.0123.003; Fri, 13 Nov 2020 19:03:31 +0800
+From: <lichun@ruijie.com.cn>
+To: <kwolf@redhat.com>
+Subject: Re: [PATCH] hmp: Update current monitor acts on the entire
+ handle_hmp_command()
+Thread-Topic: [PATCH] hmp: Update current monitor acts on the entire
+ handle_hmp_command()
+Thread-Index: AQHWuasmGkd1W997cEyPXBMPNN3WOg==
+Date: Fri, 13 Nov 2020 11:03:30 +0000
+Message-ID: <EEB2AE3E67807845A92E2350C6F5E02E0178EBE98D@FZEX5.ruijie.com.cn>
+References: <1605266020-51470-1-git-send-email-lichun@ruijie.com.cn>,
+ <20201113091818.GA5834@merkur.fritz.box>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.20.101.108]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <20201113065236.2644169-6-armbru@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:00:44
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 240e:678:8c0:5::c0a8:3a63
+ (failed)
+Received-SPF: permerror client-ip=240e:678:8c0:5::c0a8:3a63;
+ envelope-from=lichun@ruijie.com.cn; helo=FZEX4.ruijie.com.cn
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, T_SPF_PERMERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,58 +65,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, quintela@redhat.com
+Cc: qemu-devel@nongnu.org, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Markus Armbruster (armbru@redhat.com) wrote:
-> cache_init() attempts to handle allocation failure..  The two error
-> messages are garbage, as untested error messages commonly are:
-> 
->     Parameter 'cache size' expects Failed to allocate cache
->     Parameter 'cache size' expects Failed to allocate page cache
-> 
-> Fix them to just
-> 
->     Failed to allocate cache
->     Failed to allocate page cache
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-> ---
->  migration/page_cache.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/migration/page_cache.c b/migration/page_cache.c
-> index e07f4ad1dc..ed979eeb45 100644
-> --- a/migration/page_cache.c
-> +++ b/migration/page_cache.c
-> @@ -53,8 +53,7 @@ PageCache *cache_init(uint64_t new_size, size_t page_size, Error **errp)
->      /* We prefer not to abort if there is no memory */
->      cache = g_try_malloc(sizeof(*cache));
->      if (!cache) {
-> -        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "cache size",
-> -                   "Failed to allocate cache");
-> +        error_setg(errp, "Failed to allocate cache");
->          return NULL;
->      }
->      cache->page_size = page_size;
-> @@ -67,8 +66,7 @@ PageCache *cache_init(uint64_t new_size, size_t page_size, Error **errp)
->      cache->page_cache = g_try_malloc_n(cache->max_num_items,
->                                         sizeof(*cache->page_cache));
->      if (!cache->page_cache) {
-> -        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "cache size",
-> -                   "Failed to allocate page cache");
-> +        error_setg(errp, "Failed to allocate page cache");
->          g_free(cache);
->          return NULL;
->      }
-> -- 
-> 2.26.2
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+PkFtIDEzLjExLjIwMjAgdW0gMTI6MTMgaGF0IGxpY2h1biBnZXNjaHJpZWJlbjoKPj4gbW9uaXRv
+cl9wYXJzZV9hcmd1bWVudHMoKSBhbHNvIG5lZWQgdG8ga25vd24gdGhlIGN1cnJlbnQgbW9uaXRv
+YXI6Cj4+wqAgKGdkYikgYnQKPj7CoCAjMMKgIDB4MDAwMDU1NTU1NWFjNmE2ZCBpbiBtb25fZ2V0
+X2NwdV9zeW5jIChtb249MHgwLCBzeW5jaHJvbml6ZT1zeW5jaHJvbml6ZUBlbnRyeT10cnVlKSBh
+dCAuLi9tb25pdG9yL21pc2MuYzoyNzAKPj7CoCAjMcKgIDB4MDAwMDU1NTU1NWFjNmI0YSBpbiBt
+b25fZ2V0X2NwdSAoKSBhdCAuLi9tb25pdG9yL21pc2MuYzoyOTQKPj7CoCAjMsKgIDB4MDAwMDU1
+NTU1NWFjODBmZCBpbiBnZXRfbW9uaXRvcl9kZWYgKHB2YWw9cHZhbEBlbnRyeT0weDdmZmZmZmZm
+Y2M3OCwgbmFtZT1uYW1lQGVudHJ5PTB4N2ZmZmZmZmZjYzgwICJwYyIpIGF0IC4uL21vbml0b3Iv
+bWlzYy5jOjE2NjkKPj7CoCAjM8KgIDB4MDAwMDU1NTU1NTgzZmE4YSBpbiBleHByX3VuYXJ5ICht
+b249bW9uQGVudHJ5PTB4NTU1NTU2OGE3NWEwKSBhdCAuLi9tb25pdG9yL2htcC5jOjM4Nwo+PsKg
+ICM0wqAgMHgwMDAwNTU1NTU1ODNmYjMyIGluIGV4cHJfcHJvZCAobW9uPW1vbkBlbnRyeT0weDU1
+NTU1NjhhNzVhMCkgYXQgLi4vbW9uaXRvci9obXAuYzo0MjEKPj7CoCAjNcKgIDB4MDAwMDU1NTU1
+NTgzZmJjYyBpbiBleHByX2xvZ2ljIChtb249bW9uQGVudHJ5PTB4NTU1NTU2OGE3NWEwKSBhdCAu
+Li9tb25pdG9yL2htcC5jOjQ1NQo+PsKgICM2wqAgMHgwMDAwNTU1NTU1ODNmODJjIGluIGV4cHJf
+c3VtIChtb249bW9uQGVudHJ5PTB4NTU1NTU2OGE3NWEwKSBhdCAuLi9tb25pdG9yL2htcC5jOjQ4
+NAo+PsKgICM3wqAgMHgwMDAwNTU1NTU1ODNmYzk3IGluIGdldF9leHByIChtb249bW9uQGVudHJ5
+PTB4NTU1NTU2OGE3NWEwLCBwdmFsPXB2YWxAZW50cnk9MHg3ZmZmZmZmZmNlMTgsIHBwPXBwQGVu
+dHJ5PTB4N2ZmZmZmZmZjZTA4KSBhdCAuLi9tb25pdG9yL2htcC5jOjUxMQo+PsKgICM4wqAgMHgw
+MDAwNTU1NTU1ODQwOWIxIGluIG1vbml0b3JfcGFyc2VfYXJndW1lbnRzIChtb249bW9uQGVudHJ5
+PTB4NTU1NTU2OGE3NWEwLCBjbWQ9MHg1NTU1NTY1NjFlNDAgPGhtcF9jbWRzKzcwNDA+LCBjbWQ9
+MHg1NTU1NTY1NjFlNDAgPGhtcF9jbWRzKzcwNDA+LCBlbmRwPTB4N2ZmZmZmZmZkMjg4KSBhdCAu
+Li9tb25pdG9yL2htcC5jOjg3NiAKPj7CoCAjOcKgIDB4MDAwMDU1NTU1NTg0MTc5NiBpbiBoYW5k
+bGVfaG1wX2NvbW1hbmQgKG1vbj1tb25AZW50cnk9MHg1NTU1NTY4YTc1YTAsIGNtZGxpbmU9MHg1
+NTU1NTY4YjEyYjMgIiRwYyIsIGNtZGxpbmVAZW50cnk9MHg1NTU1NTY4YjEyYjAgInhwICRwYyIp
+IGF0IC4uL21vbml0b3IvaG1wLmM6MTA3Mwo+PiBUaGVyZWZvcmUgdXBkYXRlIGN1cnJlbnQgbW9u
+aXRvciBhcyBzb29uIGFzIHBvc3NpYmxlIHRvIGF2b2lkCj4+IGhtcC94cCBjb21tYW5kIGZhaWx1
+cmUuCj4+Cj4+IEZpeGVzOiBmZjA0MTA4YTBlMzYgKCJobXA6IFVwZGF0ZSBjdXJyZW50IG1vbml0
+b3Igb25seSBpbiBoYW5kbGVfaG1wX2NvbW1hbmQoKSIpCj4+IFNpZ25lZC1vZmYtYnk6IGxpY2h1
+biA8bGljaHVuQHJ1aWppZS5jb20uY24+Cj4+IC0tLQo+PsKgIG1vbml0b3IvaG1wLmMgfCA4ICsr
+KystLS0tCj4+wqAgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMo
+LSkKPj4KPj4gZGlmZiAtLWdpdCBhL21vbml0b3IvaG1wLmMgYi9tb25pdG9yL2htcC5jCj4+IGlu
+ZGV4IGM1Y2Q5ZDMuLmVlNTQxM2UgMTAwNjQ0Cj4+IC0tLSBhL21vbml0b3IvaG1wLmMKPj4gKysr
+IGIvbW9uaXRvci9obXAuYwo+PiBAQCAtMTA3Miw1MiArMTA3Miw1MiBAQCBzdGF0aWMgdm9pZCBo
+YW5kbGVfaG1wX2NvbW1hbmRfY28odm9pZCAqb3BhcXVlKQo+PsKgIH0KPj4KPj7CoCB2b2lkIGhh
+bmRsZV9obXBfY29tbWFuZChNb25pdG9ySE1QICptb24sIGNvbnN0IGNoYXIgKmNtZGxpbmUpCj4+
+wqAgewo+PsKgwqDCoMKgwqAgUURpY3QgKnFkaWN0Owo+PsKgwqDCoMKgwqAgY29uc3QgSE1QQ29t
+bWFuZCAqY21kOwo+PsKgwqDCoMKgwqAgY29uc3QgY2hhciAqY21kX3N0YXJ0ID0gY21kbGluZTsK
+Pj4KPj7CoMKgwqDCoMKgIHRyYWNlX2hhbmRsZV9obXBfY29tbWFuZChtb24sIGNtZGxpbmUpOwo+
+Pgo+PiArwqDCoMKgIC8qIG9sZF9tb24gaXMgbm9uLU5VTEwgd2hlbiBjYWxsZWQgZnJvbSBxbXBf
+aHVtYW5fbW9uaXRvcl9jb21tYW5kKCkgKi8KPj4gK8KgwqDCoCBNb25pdG9yICpvbGRfbW9uID0g
+bW9uaXRvcl9zZXRfY3VyKHFlbXVfY29yb3V0aW5lX3NlbGYoKSwgJm1vbi0+Y29tbW9uKTsKPj4g
+Kwo+PsKgwqDCoMKgwqAgY21kID0gbW9uaXRvcl9wYXJzZV9jb21tYW5kKG1vbiwgY21kbGluZSwg
+JmNtZGxpbmUsIGhtcF9jbWRzKTsKPj7CoMKgwqDCoMKgIGlmICghY21kKSB7Cj4+wqDCoMKgwqDC
+oMKgwqDCoMKgIHJldHVybjsKPj7CoMKgwqDCoMKgIH0KPgo+Tm93IHRoZSBtb25pdG9yIGlzbid0
+IGNoYW5nZWQgYmFjayBpbiBhbGwgZWFybHkgcmV0dXJuIGNhc2VzLgo+Cj4+Cj4+wqDCoMKgwqDC
+oCBxZGljdCA9IG1vbml0b3JfcGFyc2VfYXJndW1lbnRzKCZtb24tPmNvbW1vbiwgJmNtZGxpbmUs
+IGNtZCk7Cj4+wqDCoMKgwqDCoCBpZiAoIXFkaWN0KSB7Cj4+wqDCoMKgwqDCoMKgwqDCoMKgIHdo
+aWxlIChjbWRsaW5lID4gY21kX3N0YXJ0ICYmIHFlbXVfaXNzcGFjZShjbWRsaW5lWy0xXSkpIHsK
+Pj7CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjbWRsaW5lLS07Cj4+wqDCoMKgwqDCoMKgwqDC
+oMKgIH0KPj7CoMKgwqDCoMKgwqDCoMKgwqAgbW9uaXRvcl9wcmludGYoJm1vbi0+Y29tbW9uLCAi
+VHJ5IFwiaGVscCAlLipzXCIgZm9yIG1vcmUgaW5mb3JtYXRpb25cbiIsCj4+wqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIChpbnQpKGNtZGxpbmUgLSBjbWRf
+c3RhcnQpLCBjbWRfc3RhcnQpOwo+PsKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm47Cj4+wqDCoMKg
+wqDCoCB9Cj4+Cj4+wqDCoMKgwqDCoCBpZiAoIWNtZC0+Y29yb3V0aW5lKSB7Cj4+IC3CoMKgwqDC
+oMKgwqDCoCAvKiBvbGRfbW9uIGlzIG5vbi1OVUxMIHdoZW4gY2FsbGVkIGZyb20gcW1wX2h1bWFu
+X21vbml0b3JfY29tbWFuZCgpICovCj4+IC3CoMKgwqDCoMKgwqDCoCBNb25pdG9yICpvbGRfbW9u
+ID0gbW9uaXRvcl9zZXRfY3VyKHFlbXVfY29yb3V0aW5lX3NlbGYoKSwgJm1vbi0+Y29tbW9uKTsK
+Pj7CoMKgwqDCoMKgwqDCoMKgwqAgY21kLT5jbWQoJm1vbi0+Y29tbW9uLCBxZGljdCk7Cj4+IC3C
+oMKgwqDCoMKgwqDCoCBtb25pdG9yX3NldF9jdXIocWVtdV9jb3JvdXRpbmVfc2VsZigpLCBvbGRf
+bW9uKTsKPj7CoMKgwqDCoMKgIH0gZWxzZSB7Cj4+wqDCoMKgwqDCoMKgwqDCoMKgIEhhbmRsZUht
+cENvbW1hbmRDbyBkYXRhID0gewo+PsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC5tb24gPSAm
+bW9uLT5jb21tb24sCj4+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLmNtZCA9IGNtZCwKPj7C
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAucWRpY3QgPSBxZGljdCwKPj7CoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCAuZG9uZSA9IGZhbHNlLAo+PsKgwqDCoMKgwqDCoMKgwqDCoCB9Owo+PsKg
+wqDCoMKgwqDCoMKgwqDCoCBDb3JvdXRpbmUgKmNvID0gcWVtdV9jb3JvdXRpbmVfY3JlYXRlKGhh
+bmRsZV9obXBfY29tbWFuZF9jbywgJmRhdGEpOwo+PiAtwqDCoMKgwqDCoMKgwqAgbW9uaXRvcl9z
+ZXRfY3VyKGNvLCAmbW9uLT5jb21tb24pOwo+Cj5SZW1vdmluZyB0aGlzIGxpbmUgaXMgd3Jvbmcs
+IHdlIHN0aWxsIG5lZWQgdG8gc2V0IHRoZSBjdXJyZW50IG1vbml0b3IKPmZvciBjbywgd2hpY2gg
+aXMgbm90IHFlbXVfY29yb3V0aW5lX3NlbGYoKSBzZWxmLgo+Cj4+wqDCoMKgwqDCoMKgwqDCoMKg
+IGFpb19jb19lbnRlcihxZW11X2dldF9haW9fY29udGV4dCgpLCBjbyk7Cj4+wqDCoMKgwqDCoMKg
+wqDCoMKgIEFJT19XQUlUX1dISUxFKHFlbXVfZ2V0X2Fpb19jb250ZXh0KCksICFkYXRhLmRvbmUp
+Owo+PsKgwqDCoMKgwqAgfQo+PiArwqDCoMKgIG1vbml0b3Jfc2V0X2N1cihxZW11X2Nvcm91dGlu
+ZV9zZWxmKCksIG9sZF9tb24pOwo+Pgo+PsKgwqDCoMKgwqAgcW9iamVjdF91bnJlZihxZGljdCk7
+Cj4+wqAgfQo+Cj5XaXRoIHRoZSBhYm92ZSBidWdzIGZpeGVkLCB0aGlzIGFwcHJvYWNoIGlzIG9u
+ZSBvcHRpb24gdG8gZml4IHRoZSBidWcuCj4KPlBlcnNvbmFsbHksIGlmIGl0J3MgcG9zc2libGUg
+d2l0aCByZWFzb25hYmxlIGVmZm9ydCwgSSB3b3VsZCBwcmVmZXIgdGhlCj5vdGhlciB3YXksIHdo
+aWNoIGlzIG1ha2luZyBzdXJlIHRoYXQgbW9uaXRvcl9jdXIoKSBpc24ndCB1c2VkLCBidXQgdGhl
+Cj5Nb25pdG9yIHBvaW50ZXIgaXMganVzdCBwYXNzZWQgZG93bi7CoCBUaGlzIHdvdWxkIGJlIGEg
+YmlnZ2VyIGNoYW5nZSwgYnV0Cj5pdCB3b3VsZG4ndCBvbmx5IGZpeCB0aGUgYnVnLCBidXQgYWxz
+byBjbGVhbiB1cCB0aGUgY29kZSBhbmQgbWFrZSBpdAo+bW9yZSBtYWludGFpbmFibGUuIAo+Cj5J
+IGNhbiB0cnkgdG8gd3JpdGUgYSBwYXRjaCBzZXJpZXMgdG8gZG8gaXQgdGhpcyB3YXkgYW5kIHNl
+ZSBob3cgaXQgZ29lcy4gClRoaXMgaXMgdGhlIGJlc3Qgd2F5LCDCoEkgd2lsbCBub3QgcG9zdCB2
+Mi7CoFRoaXMgYnVnIHdpbGwgYmUgZml4ZWQgYnkgdGhhdCBzZXJpZXMuClRyYW5zZmVyIHRoZSB3
+b3JrIHRvIHlvdcKgS2V2aW4uCj4KPktldmluCj4=
 
