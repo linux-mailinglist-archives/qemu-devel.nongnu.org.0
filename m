@@ -2,70 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCEE42B267F
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 22:21:20 +0100 (CET)
-Received: from localhost ([::1]:60718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31E0B2B26A5
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 22:27:56 +0100 (CET)
+Received: from localhost ([::1]:45230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdgVT-0003na-Rq
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 16:21:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55848)
+	id 1kdgbr-00014i-7x
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 16:27:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kdgRp-00027h-Io
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 16:17:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41165)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kdgRn-0005Rv-ES
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 16:17:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605302250;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0BY9Kt2Se1GLO5uEflVDmlK8cvYfxG7lDxHk8+7I1jA=;
- b=e35/OdrnK7VtEjVOxj+gJteQ2xsrEnujkVIIeyXwEjP0csDVgGr9k1VZp/LXUTB8QJD+lO
- VlmyEMmus0J1a2V/v0Q6kHazF1ocjHYWKbBc+i35c00MhHpTk82aKy1NUst4Hbr8Ccc31I
- GghCosfu5kJcsANPLMd/1b1iHjgjp4k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-551-FfabKXsDOM2TyQO0aKCb7Q-1; Fri, 13 Nov 2020 16:17:29 -0500
-X-MC-Unique: FfabKXsDOM2TyQO0aKCb7Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 241EC57052;
- Fri, 13 Nov 2020 21:17:28 +0000 (UTC)
-Received: from localhost (ovpn-114-96.ams2.redhat.com [10.36.114.96])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B3B711C4;
- Fri, 13 Nov 2020 21:17:27 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH 3/3] iotests/081: Test rewrite-corrupted without WRITE
-Date: Fri, 13 Nov 2020 22:17:18 +0100
-Message-Id: <20201113211718.261671-4-mreitz@redhat.com>
-In-Reply-To: <20201113211718.261671-1-mreitz@redhat.com>
-References: <20201113211718.261671-1-mreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kdgSu-0003AE-AN
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 16:18:41 -0500
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:45352)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kdgSr-0005XT-LC
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 16:18:39 -0500
+Received: by mail-pf1-x442.google.com with SMTP id b63so5079325pfg.12
+ for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 13:18:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=1z2TQOjD4yoRTyAbO1fFLqWdCztBSj3wYN/Z/5fwMno=;
+ b=L1+Msx/zPaZWM5og28DxwKLsTameZAkhrFm9bnLHkNk+We/yCBHbaJqAX0Ch3xLh7x
+ ssvCQn7juTgBObm67LQn4KELvH3TFAcbpo3yvha7NgiinGNdX1VvWIgux9DL0FJ59L7u
+ l1xSeBls+WSdzK8BfGrKBBLHZ4axT/NwpXrRroOEIKXjtt5s2GfiO/jUq91PQlaY94N+
+ AMtJlBAnpyysZvkABmqJh2k7QZrulwi8FQUE8s7ZG+sOVwqbOzNW9UnEdMjSH14tI59z
+ FafQGuUEvdP0gjKMYJ7SBrH7q4Uje37NjPsoMPR+MmzzXga9LJBTAS7MXwzE5km2qdDR
+ XfTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1z2TQOjD4yoRTyAbO1fFLqWdCztBSj3wYN/Z/5fwMno=;
+ b=EuIo00OaOVpTZ9XT60EIdS51OwlzrQIYpVRrNTxFVWxdefTgZTD8wUNEviWe/OVybx
+ Wv6/FDvaHWVckqRtBydlOOMJmIG2zHNla0X8BBCrhNKFw4k94T0L67bQdnKYElF5rsqC
+ PYZu4j2AM1k/YUlUXI3PwxOh5yF1Mvp5sOW86lxZtZCqrhiiQFV/C88o57QTXDkAKL9w
+ qrLIaUROAANp1QF2xmYoabjNYw99XCLQrsIGpxIOoToCHH6frOG2YPb9PiDKTJGVKtJf
+ RyqdeGnn3JAnrY7sUorjIDMNA/5qv+5meOU84vIwoDnl/DDk0z/DUAK9jPJqXq4Dba5u
+ Hk/g==
+X-Gm-Message-State: AOAM531gWjfb9d9fRhEvzr6Q+3n8K2NstfWf9bGe2lDOVHNQ7UCcdxBJ
+ TceF2DTExmFWqD2ymbUy1IaRimpv5vIjxw==
+X-Google-Smtp-Source: ABdhPJzIlEEloP+4JKfkfeU8qGg6IS5SsxrLsj5sfaPqWw4xvqubGeEcSgMEd+oz/JMof9f5vhntSA==
+X-Received: by 2002:a17:90b:30d0:: with SMTP id
+ hi16mr4665227pjb.144.1605302315516; 
+ Fri, 13 Nov 2020 13:18:35 -0800 (PST)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id a3sm11077390pfd.58.2020.11.13.13.18.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Nov 2020 13:18:34 -0800 (PST)
+Subject: Re: [PATCH 01/17] target/arm: remove redundant tests
+To: remi.denis.courmont@huawei.com, qemu-arm@nongnu.org
+References: <5554493.MhkbZ0Pkbq@basile.remlab.net>
+ <20201109141020.27234-1-remi.denis.courmont@huawei.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <38693f30-7eb5-69db-b010-4471e0707699@linaro.org>
+Date: Fri, 13 Nov 2020 13:18:32 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20201109141020.27234-1-remi.denis.courmont@huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:00:44
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x442.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,131 +90,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Test what happens when a rewrite-corrupted quorum node performs such a
-rewrite, while there is no parent that has taken the WRITE permission.
+On 11/9/20 6:10 AM, remi.denis.courmont@huawei.com wrote:
+> From: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
+> 
+> In this context, the HCR value is the effective value, and thus is
+> zero in secure mode. The tests for HCR.{F,I}MO are sufficient.
+> 
+> Signed-off-by: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
+> ---
+>  target/arm/cpu.c    |  8 ++++----
+>  target/arm/helper.c | 10 ++++------
+>  2 files changed, 8 insertions(+), 10 deletions(-)
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- tests/qemu-iotests/081     | 54 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/081.out | 27 +++++++++++++++++++
- 2 files changed, 81 insertions(+)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/tests/qemu-iotests/081 b/tests/qemu-iotests/081
-index 253b7576be..4e19972931 100755
---- a/tests/qemu-iotests/081
-+++ b/tests/qemu-iotests/081
-@@ -42,6 +42,7 @@ _supported_fmt raw
- _supported_proto file
- _supported_os Linux
- _require_drivers quorum
-+_require_devices virtio-scsi
- 
- do_run_qemu()
- {
-@@ -155,6 +156,59 @@ echo "== checking that quorum has corrected the corrupted file =="
- 
- $QEMU_IO -c "read -P 0x32 0 $size" "$TEST_DIR/2.raw" | _filter_qemu_io
- 
-+echo
-+echo "== using quorum rewrite corrupted mode without WRITE permission =="
-+
-+# The same as above, but this time, do it on a quorum node whose only
-+# parent will not take the WRITE permission
-+
-+echo '-- corrupting --'
-+# Only corrupt a portion: The guest device (scsi-hd on virtio-scsi)
-+# will read some data (looking for a partition table to guess the
-+# disk's geometry), which would trigger a quorum mismatch if the
-+# beginning of the image was corrupted.  The subsequent
-+# QUORUM_REPORT_BAD event would be suppressed (because at that point,
-+# there cannot have been a qmp_capabilities on the monitor).  Because
-+# that event is rate-limited, the next QUORUM_REPORT_BAD that happens
-+# thanks to our qemu-io read (which should trigger a mismatch) would
-+# then be delayed past the VM quit and not appear in the output.
-+# So we keep the first 1M intact to see a QUORUM_REPORT_BAD resulting
-+# from the qemu-io invocation.
-+$QEMU_IO -c "write -P 0x42 1M 1M" "$TEST_DIR/2.raw" | _filter_qemu_io
-+
-+# Fix the corruption (on a read-only quorum node, i.e. without taking
-+# the WRITE permission on it -- its child nodes need to be R/W OTOH,
-+# so that rewrite-corrupted works)
-+echo
-+echo '-- running quorum --'
-+run_qemu \
-+    -blockdev file,node-name=file1,filename="$TEST_DIR/1.raw" \
-+    -blockdev file,node-name=file2,filename="$TEST_DIR/2.raw" \
-+    -blockdev file,node-name=file3,filename="$TEST_DIR/3.raw" \
-+    -blockdev '{
-+        "driver": "quorum",
-+        "node-name": "quorum",
-+        "read-only": true,
-+        "vote-threshold": 2,
-+        "rewrite-corrupted": true,
-+        "children": [ "file1", "file2", "file3" ]
-+    }' \
-+    -device virtio-scsi,id=scsi \
-+    -device scsi-hd,id=quorum-drive,bus=scsi.0,drive=quorum \
-+    <<EOF
-+{ "execute": "qmp_capabilities" }
-+{
-+    "execute": "human-monitor-command",
-+    "arguments": {
-+        "command-line": 'qemu-io -d quorum-drive "read -P 0x32 0 $size"'
-+    }
-+}
-+{ "execute": "quit" }
-+EOF
-+
-+echo '-- checking that the image has been corrected --'
-+$QEMU_IO -c "read -P 0x32 0 $size" "$TEST_DIR/2.raw" | _filter_qemu_io
-+
- echo
- echo "== breaking quorum =="
- 
-diff --git a/tests/qemu-iotests/081.out b/tests/qemu-iotests/081.out
-index 04091b64e5..1974262fac 100644
---- a/tests/qemu-iotests/081.out
-+++ b/tests/qemu-iotests/081.out
-@@ -47,6 +47,33 @@ read 10485760/10485760 bytes at offset 0
- read 10485760/10485760 bytes at offset 0
- 10 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 
-+== using quorum rewrite corrupted mode without WRITE permission ==
-+-- corrupting --
-+wrote 1048576/1048576 bytes at offset 1048576
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+-- running quorum --
-+Testing: -blockdev file,node-name=file1,filename=TEST_DIR/1.IMGFMT -blockdev file,node-name=file2,filename=TEST_DIR/2.IMGFMT -blockdev file,node-name=file3,filename=TEST_DIR/3.IMGFMT -blockdev {
-+        "driver": "quorum",
-+        "node-name": "quorum",
-+        "read-only": true,
-+        "vote-threshold": 2,
-+        "rewrite-corrupted": true,
-+        "children": [ "file1", "file2", "file3" ]
-+    } -device virtio-scsi,id=scsi -device scsi-hd,id=quorum-drive,bus=scsi.0,drive=quorum
-+QMP_VERSION
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "QUORUM_REPORT_BAD", "data": {"node-name": "file2", "sectors-count": 20480, "sector-num": 0, "type": "read"}}
-+read 10485760/10485760 bytes at offset 0
-+10 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+{"return": ""}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
-+
-+-- checking that the image has been corrected --
-+read 10485760/10485760 bytes at offset 0
-+10 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
- == breaking quorum ==
- wrote 10485760/10485760 bytes at offset 0
- 10 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
--- 
-2.28.0
-
+r~
 
