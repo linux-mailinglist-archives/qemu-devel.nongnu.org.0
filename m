@@ -2,74 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 644E32B1E6D
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 16:18:07 +0100 (CET)
-Received: from localhost ([::1]:37374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 635892B1E7E
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 16:22:01 +0100 (CET)
+Received: from localhost ([::1]:39562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdapy-00084k-FS
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 10:18:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54426)
+	id 1kdatk-0000pr-FX
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 10:22:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kdaoS-0007av-Lx
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 10:16:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39143)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kdasU-0000Ku-QD
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 10:20:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42401)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kdaoM-0002uz-Bk
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 10:16:30 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kdasS-0004OL-Rf
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 10:20:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605280585;
+ s=mimecast20190719; t=1605280839;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WPgYr5jWbzaSNxYgqdY/WulbulmExoP72iq5yfdwMRg=;
- b=Mhnqi8xara7+M6towh2AGKP0E3JIY2DHmsgdpNopsaX5sQDizDpryB9EA0CkmXUdOVPZpq
- zZeN9H8QULpkRDAWQMXExEJkFauTRH4E7/nora53g9uTevSCk3mwA44lR89cPJweZzW6SS
- 7LK+yi7D6uBYHEGZGdrJPEppaw7Xm3c=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-137-VPIHDaSUMwCjkVMgBgkEug-1; Fri, 13 Nov 2020 10:16:23 -0500
-X-MC-Unique: VPIHDaSUMwCjkVMgBgkEug-1
-Received: by mail-wm1-f69.google.com with SMTP id k128so4099076wme.7
- for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 07:16:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=WPgYr5jWbzaSNxYgqdY/WulbulmExoP72iq5yfdwMRg=;
- b=AYpmL1ZhvwgnKZmauvICInMM/oSrMuOahlDbSR6ckI+OxeFV9DxcSBJljohQODncU2
- +ySr/fvoQ4a4afaePco1Qp+bhIQ5QrvRB+FDmHCJVJVuXDQ3ZncWRSNntyBSz4yPvA5D
- 4T2XYaCL8LMhBi7q/OgruXGf5wUwXrQXPuUG1Z7URTu3rOmRvtk7TET8dalLc3Yv/uUU
- prR5NF4+d6UUpayVEJ62pZEByaUUWW4hWevaj0vx9bgYADpBGagjAENtAigWbaoUdmPw
- poZdN9YBSqwOTlMTTYpzb72QEcREdbe/3FXw6jLVuDRGLCvG2cPy7FagnK1NlR/FA6tS
- VSqw==
-X-Gm-Message-State: AOAM532L3qfrTXJzjooVYWGecqPt/+qIAK6OhDiAaf/sfC8IKuuuIR+Y
- Emf3ORqP2y8Z/Pd5H/jskeI03Rba8uLvNj3ZEquPCngv4rCYnKEvZvDgVyY5OfjutogoY8ZhhCE
- aYxanpW539s5EpPk=
-X-Received: by 2002:adf:fd06:: with SMTP id e6mr4138779wrr.206.1605280578506; 
- Fri, 13 Nov 2020 07:16:18 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwLRt/zkrGK7+698LQ1FIjJQt4wFeHJ76aUs2N4DrJ9SEaEF0Cfz5nDufoZh2TLfPuytnUCeg==
-X-Received: by 2002:adf:fd06:: with SMTP id e6mr4138641wrr.206.1605280577159; 
- Fri, 13 Nov 2020 07:16:17 -0800 (PST)
-Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id y185sm10840644wmb.29.2020.11.13.07.16.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Nov 2020 07:16:16 -0800 (PST)
-Date: Fri, 13 Nov 2020 10:16:12 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH] Clean up includes
-Message-ID: <20201113101605-mutt-send-email-mst@kernel.org>
-References: <20201113061216.2483385-1-armbru@redhat.com>
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=1anI/91abbemdP5blhPHZKS0shEKeNF5kR3ZfKUelNA=;
+ b=ZG+xngbJOAVtJngz+Jnp1fYRyp58rlkarTyA9scy8kc8OvhQ+Hb4hdBSUbsPTBk/nEJkFF
+ yRUzKJHVE7dgqnTMWTMhP+/NI2xVE2YYgiDsPcl2mlN/KX1GbDRC4vzfQOyVAZwOly6lXZ
+ xGbJbu2IDFrdLS5elg77OpYNi6wLEUw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-595-SliWMcMUM9GkmV5CRBGP6w-1; Fri, 13 Nov 2020 10:20:37 -0500
+X-MC-Unique: SliWMcMUM9GkmV5CRBGP6w-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02918846378
+ for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 15:20:36 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C523975125
+ for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 15:20:35 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] python, tests: do not use short-form boolean options
+Date: Fri, 13 Nov 2020 10:20:35 -0500
+Message-Id: <20201113152035.1459107-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201113061216.2483385-1-armbru@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:00:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -79,7 +65,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,490 +78,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alxndr@bu.edu, thuth@redhat.com, mjrosato@linux.ibm.com, david@redhat.com,
- qemu-s390x@nongnu.org, cohuck@redhat.com, qemu-devel@nongnu.org,
- laurent@vivier.eu, pasic@linux.ibm.com, borntraeger@de.ibm.com, bsd@redhat.com,
- kraxel@redhat.com, stefanha@redhat.com, pbonzini@redhat.com,
- marcandre.lureau@redhat.com, dgilbert@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 13, 2020 at 07:12:16AM +0100, Markus Armbruster wrote:
-> Clean up includes so that osdep.h is included first and headers
-> which it implies are not included manually.
-> 
-> This commit was created with scripts/clean-includes, with the changes
-> to the following files manually reverted:
-> 
->     contrib/libvhost-user/libvhost-user-glib.h
->     contrib/libvhost-user/libvhost-user.c
->     contrib/libvhost-user/libvhost-user.h
->     contrib/plugins/hotblocks.c
->     contrib/plugins/hotpages.c
->     contrib/plugins/howvec.c
->     contrib/plugins/lockstep.c
->     linux-user/mips64/cpu_loop.c
->     linux-user/mips64/signal.c
->     linux-user/sparc64/cpu_loop.c
->     linux-user/sparc64/signal.c
->     linux-user/x86_64/cpu_loop.c
->     linux-user/x86_64/signal.c
->     target/s390x/gen-features.c
->     tests/fp/platform.h
->     tests/migration/s390x/a-b-bios.c
->     tests/plugin/bb.c
->     tests/plugin/empty.c
->     tests/plugin/insn.c
->     tests/plugin/mem.c
->     tests/test-rcu-simpleq.c
->     tests/test-rcu-slist.c
->     tests/test-rcu-tailq.c
->     tests/uefi-test-tools/UefiTestToolsPkg/BiosTablesTest/BiosTablesTest.c
-> 
-> contrib/plugins/, tests/plugin/, and tests/test-rcu-slist.c appear not
-> to include osdep.h intentionally.  The remaining reverts are the same
-> as in commit bbfff19688d.
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+They are going to be deprecated, avoid warnings on stdout while the
+tests run.
 
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ python/qemu/machine.py               | 2 +-
+ tests/qtest/pflash-cfi02-test.c      | 4 ++--
+ tests/qtest/test-filter-redirector.c | 8 ++++----
+ tests/qtest/vhost-user-test.c        | 8 ++++----
+ tests/test-char.c                    | 8 ++++----
+ 5 files changed, 15 insertions(+), 15 deletions(-)
 
-> ---
-> No real need to get this into 5.2 at this stage.  No real risk either.
-> 
->  contrib/vhost-user-gpu/vugbm.h          |  2 --
->  contrib/vhost-user-gpu/vugpu.h          |  1 -
->  include/hw/block/swim.h                 |  1 -
->  include/hw/display/macfb.h              |  1 -
->  include/qemu/nvdimm-utils.h             |  1 -
->  tests/qtest/fuzz/fuzz.h                 |  1 -
->  tests/qtest/fuzz/generic_fuzz_configs.h |  1 -
->  tools/virtiofsd/fuse_common.h           |  2 --
->  tools/virtiofsd/fuse_log.h              |  1 -
->  tools/virtiofsd/fuse_lowlevel.h         |  3 ---
->  tools/virtiofsd/fuse_misc.h             |  1 -
->  tools/virtiofsd/passthrough_seccomp.h   |  1 -
->  contrib/vhost-user-gpu/virgl.c          |  1 +
->  contrib/vhost-user-gpu/vugbm.c          |  1 +
->  contrib/vhost-user-input/main.c         |  1 -
->  hw/display/artist.c                     |  1 -
->  hw/s390x/s390-pci-vfio.c                |  3 ++-
->  tools/virtiofsd/buffer.c                |  5 -----
->  tools/virtiofsd/fuse_log.c              |  2 --
->  tools/virtiofsd/fuse_lowlevel.c         | 10 ----------
->  tools/virtiofsd/fuse_opt.c              |  4 ----
->  tools/virtiofsd/fuse_signals.c          |  5 -----
->  tools/virtiofsd/fuse_virtio.c           | 10 ----------
->  tools/virtiofsd/helper.c                |  8 --------
->  tools/virtiofsd/passthrough_ll.c        | 12 ------------
->  tools/virtiofsd/passthrough_seccomp.c   |  3 ---
->  util/nvdimm-utils.c                     |  1 +
->  27 files changed, 5 insertions(+), 78 deletions(-)
-> 
-> diff --git a/contrib/vhost-user-gpu/vugbm.h b/contrib/vhost-user-gpu/vugbm.h
-> index 07e698fcd7..66f1520764 100644
-> --- a/contrib/vhost-user-gpu/vugbm.h
-> +++ b/contrib/vhost-user-gpu/vugbm.h
-> @@ -10,10 +10,8 @@
->  #ifndef VHOST_USER_GPU_VUGBM_H
->  #define VHOST_USER_GPU_VUGBM_H
->  
-> -#include "qemu/osdep.h"
->  
->  #ifdef CONFIG_MEMFD
-> -#include <sys/mman.h>
->  #include <sys/ioctl.h>
->  #endif
->  
-> diff --git a/contrib/vhost-user-gpu/vugpu.h b/contrib/vhost-user-gpu/vugpu.h
-> index 3153c9a6de..5eca2a96ab 100644
-> --- a/contrib/vhost-user-gpu/vugpu.h
-> +++ b/contrib/vhost-user-gpu/vugpu.h
-> @@ -15,7 +15,6 @@
->  #ifndef VUGPU_H
->  #define VUGPU_H
->  
-> -#include "qemu/osdep.h"
->  
->  #include "contrib/libvhost-user/libvhost-user-glib.h"
->  #include "standard-headers/linux/virtio_gpu.h"
-> diff --git a/include/hw/block/swim.h b/include/hw/block/swim.h
-> index 5a49029543..c1bd5f6555 100644
-> --- a/include/hw/block/swim.h
-> +++ b/include/hw/block/swim.h
-> @@ -11,7 +11,6 @@
->  #ifndef SWIM_H
->  #define SWIM_H
->  
-> -#include "qemu/osdep.h"
->  #include "hw/sysbus.h"
->  #include "qom/object.h"
->  
-> diff --git a/include/hw/display/macfb.h b/include/hw/display/macfb.h
-> index c133fa271e..80806b0306 100644
-> --- a/include/hw/display/macfb.h
-> +++ b/include/hw/display/macfb.h
-> @@ -13,7 +13,6 @@
->  #ifndef MACFB_H
->  #define MACFB_H
->  
-> -#include "qemu/osdep.h"
->  #include "exec/memory.h"
->  #include "ui/console.h"
->  #include "qom/object.h"
-> diff --git a/include/qemu/nvdimm-utils.h b/include/qemu/nvdimm-utils.h
-> index 4b8b198ba7..5f45774c2c 100644
-> --- a/include/qemu/nvdimm-utils.h
-> +++ b/include/qemu/nvdimm-utils.h
-> @@ -1,7 +1,6 @@
->  #ifndef NVDIMM_UTILS_H
->  #define NVDIMM_UTILS_H
->  
-> -#include "qemu/osdep.h"
->  
->  GSList *nvdimm_get_device_list(void);
->  #endif
-> diff --git a/tests/qtest/fuzz/fuzz.h b/tests/qtest/fuzz/fuzz.h
-> index 08e9560a79..3a8570e84c 100644
-> --- a/tests/qtest/fuzz/fuzz.h
-> +++ b/tests/qtest/fuzz/fuzz.h
-> @@ -14,7 +14,6 @@
->  #ifndef FUZZER_H_
->  #define FUZZER_H_
->  
-> -#include "qemu/osdep.h"
->  #include "qemu/units.h"
->  #include "qapi/error.h"
->  
-> diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h b/tests/qtest/fuzz/generic_fuzz_configs.h
-> index c4d925f9e6..b4c5fefeca 100644
-> --- a/tests/qtest/fuzz/generic_fuzz_configs.h
-> +++ b/tests/qtest/fuzz/generic_fuzz_configs.h
-> @@ -13,7 +13,6 @@
->  #ifndef GENERIC_FUZZ_CONFIGS_H
->  #define GENERIC_FUZZ_CONFIGS_H
->  
-> -#include "qemu/osdep.h"
->  
->  typedef struct generic_fuzz_config {
->      const char *name, *args, *objects;
-> diff --git a/tools/virtiofsd/fuse_common.h b/tools/virtiofsd/fuse_common.h
-> index 5aee5193eb..30b18b4966 100644
-> --- a/tools/virtiofsd/fuse_common.h
-> +++ b/tools/virtiofsd/fuse_common.h
-> @@ -18,8 +18,6 @@
->  
->  #include "fuse_log.h"
->  #include "fuse_opt.h"
-> -#include <stdint.h>
-> -#include <sys/types.h>
->  
->  /** Major version of FUSE library interface */
->  #define FUSE_MAJOR_VERSION 3
-> diff --git a/tools/virtiofsd/fuse_log.h b/tools/virtiofsd/fuse_log.h
-> index bf6c11ff11..8d7091bd4d 100644
-> --- a/tools/virtiofsd/fuse_log.h
-> +++ b/tools/virtiofsd/fuse_log.h
-> @@ -14,7 +14,6 @@
->   * This file defines the logging interface of FUSE
->   */
->  
-> -#include <stdarg.h>
->  
->  /**
->   * Log severity level
-> diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowlevel.h
-> index 9c06240f9e..0e10a14bc9 100644
-> --- a/tools/virtiofsd/fuse_lowlevel.h
-> +++ b/tools/virtiofsd/fuse_lowlevel.h
-> @@ -25,10 +25,7 @@
->  
->  #include "fuse_common.h"
->  
-> -#include <fcntl.h>
-> -#include <sys/stat.h>
->  #include <sys/statvfs.h>
-> -#include <sys/types.h>
->  #include <sys/uio.h>
->  #include <utime.h>
->  
-> diff --git a/tools/virtiofsd/fuse_misc.h b/tools/virtiofsd/fuse_misc.h
-> index 5c618ce21f..f252baa752 100644
-> --- a/tools/virtiofsd/fuse_misc.h
-> +++ b/tools/virtiofsd/fuse_misc.h
-> @@ -7,7 +7,6 @@
->   */
->  
->  #include <pthread.h>
-> -#include "config-host.h"
->  
->  /*
->   * Versioned symbols cannot be used in some cases because it
-> diff --git a/tools/virtiofsd/passthrough_seccomp.h b/tools/virtiofsd/passthrough_seccomp.h
-> index d47c8eade6..a3ab073f08 100644
-> --- a/tools/virtiofsd/passthrough_seccomp.h
-> +++ b/tools/virtiofsd/passthrough_seccomp.h
-> @@ -9,7 +9,6 @@
->  #ifndef VIRTIOFSD_SECCOMP_H
->  #define VIRTIOFSD_SECCOMP_H
->  
-> -#include <stdbool.h>
->  
->  void setup_seccomp(bool enable_syslog);
->  
-> diff --git a/contrib/vhost-user-gpu/virgl.c b/contrib/vhost-user-gpu/virgl.c
-> index b0bc22c3c1..e647278052 100644
-> --- a/contrib/vhost-user-gpu/virgl.c
-> +++ b/contrib/vhost-user-gpu/virgl.c
-> @@ -12,6 +12,7 @@
->   * See the COPYING file in the top-level directory.
->   */
->  
-> +#include "qemu/osdep.h"
->  #include <virglrenderer.h>
->  #include "virgl.h"
->  
-> diff --git a/contrib/vhost-user-gpu/vugbm.c b/contrib/vhost-user-gpu/vugbm.c
-> index 9c357b6399..f5304ada2f 100644
-> --- a/contrib/vhost-user-gpu/vugbm.c
-> +++ b/contrib/vhost-user-gpu/vugbm.c
-> @@ -7,6 +7,7 @@
->   * See the COPYING file in the top-level directory.
->   */
->  
-> +#include "qemu/osdep.h"
->  #include "vugbm.h"
->  
->  static bool
-> diff --git a/contrib/vhost-user-input/main.c b/contrib/vhost-user-input/main.c
-> index 6020c6f33a..25e2faa16b 100644
-> --- a/contrib/vhost-user-input/main.c
-> +++ b/contrib/vhost-user-input/main.c
-> @@ -6,7 +6,6 @@
->  
->  #include "qemu/osdep.h"
->  
-> -#include <glib.h>
->  #include <linux/input.h>
->  
->  #include "qemu/iov.h"
-> diff --git a/hw/display/artist.c b/hw/display/artist.c
-> index ed0e637f25..aa7bd594aa 100644
-> --- a/hw/display/artist.c
-> +++ b/hw/display/artist.c
-> @@ -9,7 +9,6 @@
->  #include "qemu/osdep.h"
->  #include "qemu-common.h"
->  #include "qemu/error-report.h"
-> -#include "qemu/typedefs.h"
->  #include "qemu/log.h"
->  #include "qemu/module.h"
->  #include "qemu/units.h"
-> diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
-> index d5c78063b5..28343f90e3 100644
-> --- a/hw/s390x/s390-pci-vfio.c
-> +++ b/hw/s390x/s390-pci-vfio.c
-> @@ -9,11 +9,12 @@
->   * directory.
->   */
->  
-> +#include "qemu/osdep.h"
-> +
->  #include <sys/ioctl.h>
->  #include <linux/vfio.h>
->  #include <linux/vfio_zdev.h>
->  
-> -#include "qemu/osdep.h"
->  #include "trace.h"
->  #include "hw/s390x/s390-pci-bus.h"
->  #include "hw/s390x/s390-pci-clp.h"
-> diff --git a/tools/virtiofsd/buffer.c b/tools/virtiofsd/buffer.c
-> index 27c1377f22..2085db2743 100644
-> --- a/tools/virtiofsd/buffer.c
-> +++ b/tools/virtiofsd/buffer.c
-> @@ -12,11 +12,6 @@
->  #include "qemu/osdep.h"
->  #include "fuse_i.h"
->  #include "fuse_lowlevel.h"
-> -#include <assert.h>
-> -#include <errno.h>
-> -#include <stdlib.h>
-> -#include <string.h>
-> -#include <unistd.h>
->  
->  size_t fuse_buf_size(const struct fuse_bufvec *bufv)
->  {
-> diff --git a/tools/virtiofsd/fuse_log.c b/tools/virtiofsd/fuse_log.c
-> index c301ff6da1..745d88cd2a 100644
-> --- a/tools/virtiofsd/fuse_log.c
-> +++ b/tools/virtiofsd/fuse_log.c
-> @@ -11,8 +11,6 @@
->  #include "qemu/osdep.h"
->  #include "fuse_log.h"
->  
-> -#include <stdarg.h>
-> -#include <stdio.h>
->  
->  static void default_log_func(__attribute__((unused)) enum fuse_log_level level,
->                               const char *fmt, va_list ap)
-> diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
-> index c70fb16a9a..d4119e92ab 100644
-> --- a/tools/virtiofsd/fuse_lowlevel.c
-> +++ b/tools/virtiofsd/fuse_lowlevel.c
-> @@ -16,17 +16,7 @@
->  #include "fuse_opt.h"
->  #include "fuse_virtio.h"
->  
-> -#include <assert.h>
-> -#include <errno.h>
-> -#include <glib.h>
-> -#include <limits.h>
-> -#include <stdbool.h>
-> -#include <stddef.h>
-> -#include <stdio.h>
-> -#include <stdlib.h>
-> -#include <string.h>
->  #include <sys/file.h>
-> -#include <unistd.h>
->  
->  #define THREAD_POOL_SIZE 64
->  
-> diff --git a/tools/virtiofsd/fuse_opt.c b/tools/virtiofsd/fuse_opt.c
-> index 28922361a2..f0ab8d22f4 100644
-> --- a/tools/virtiofsd/fuse_opt.c
-> +++ b/tools/virtiofsd/fuse_opt.c
-> @@ -14,10 +14,6 @@
->  #include "fuse_i.h"
->  #include "fuse_misc.h"
->  
-> -#include <assert.h>
-> -#include <stdio.h>
-> -#include <stdlib.h>
-> -#include <string.h>
->  
->  struct fuse_opt_context {
->      void *data;
-> diff --git a/tools/virtiofsd/fuse_signals.c b/tools/virtiofsd/fuse_signals.c
-> index f18625b6e2..1de46de1ce 100644
-> --- a/tools/virtiofsd/fuse_signals.c
-> +++ b/tools/virtiofsd/fuse_signals.c
-> @@ -12,11 +12,6 @@
->  #include "fuse_i.h"
->  #include "fuse_lowlevel.h"
->  
-> -#include <errno.h>
-> -#include <signal.h>
-> -#include <stdio.h>
-> -#include <stdlib.h>
-> -#include <string.h>
->  
->  static struct fuse_session *fuse_instance;
->  
-> diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-> index 83ba07c6cd..2c800418f1 100644
-> --- a/tools/virtiofsd/fuse_virtio.c
-> +++ b/tools/virtiofsd/fuse_virtio.c
-> @@ -20,20 +20,10 @@
->  #include "fuse_opt.h"
->  #include "fuse_virtio.h"
->  
-> -#include <assert.h>
-> -#include <errno.h>
-> -#include <glib.h>
-> -#include <stdint.h>
-> -#include <stdio.h>
-> -#include <stdlib.h>
-> -#include <string.h>
->  #include <sys/eventfd.h>
->  #include <sys/socket.h>
-> -#include <sys/types.h>
->  #include <sys/un.h>
-> -#include <sys/types.h>
->  #include <grp.h>
-> -#include <unistd.h>
->  
->  #include "contrib/libvhost-user/libvhost-user.h"
->  
-> diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-> index 75ac48dec2..28243b51b2 100644
-> --- a/tools/virtiofsd/helper.c
-> +++ b/tools/virtiofsd/helper.c
-> @@ -16,16 +16,8 @@
->  #include "fuse_misc.h"
->  #include "fuse_opt.h"
->  
-> -#include <errno.h>
-> -#include <limits.h>
-> -#include <stddef.h>
-> -#include <stdio.h>
-> -#include <stdlib.h>
-> -#include <string.h>
->  #include <sys/param.h>
-> -#include <sys/time.h>
->  #include <sys/resource.h>
-> -#include <unistd.h>
->  
->  #define FUSE_HELPER_OPT(t, p)                       \
->      {                                               \
-> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> index ec1008bceb..56cff773e4 100644
-> --- a/tools/virtiofsd/passthrough_ll.c
-> +++ b/tools/virtiofsd/passthrough_ll.c
-> @@ -41,29 +41,17 @@
->  #include "fuse_log.h"
->  #include "fuse_lowlevel.h"
->  #include "standard-headers/linux/fuse.h"
-> -#include <assert.h>
->  #include <cap-ng.h>
->  #include <dirent.h>
-> -#include <errno.h>
-> -#include <glib.h>
-> -#include <inttypes.h>
-> -#include <limits.h>
->  #include <pthread.h>
-> -#include <stdbool.h>
-> -#include <stddef.h>
-> -#include <stdio.h>
-> -#include <stdlib.h>
-> -#include <string.h>
->  #include <sys/file.h>
->  #include <sys/mount.h>
->  #include <sys/prctl.h>
->  #include <sys/resource.h>
->  #include <sys/syscall.h>
-> -#include <sys/types.h>
->  #include <sys/wait.h>
->  #include <sys/xattr.h>
->  #include <syslog.h>
-> -#include <unistd.h>
->  
->  #include "qemu/cutils.h"
->  #include "passthrough_helpers.h"
-> diff --git a/tools/virtiofsd/passthrough_seccomp.c b/tools/virtiofsd/passthrough_seccomp.c
-> index 11623f56f2..a60d7da4b4 100644
-> --- a/tools/virtiofsd/passthrough_seccomp.c
-> +++ b/tools/virtiofsd/passthrough_seccomp.c
-> @@ -10,10 +10,7 @@
->  #include "passthrough_seccomp.h"
->  #include "fuse_i.h"
->  #include "fuse_log.h"
-> -#include <errno.h>
-> -#include <glib.h>
->  #include <seccomp.h>
-> -#include <stdlib.h>
->  
->  /* Bodge for libseccomp 2.4.2 which broke ppoll */
->  #if !defined(__SNR_ppoll) && defined(__SNR_brk)
-> diff --git a/util/nvdimm-utils.c b/util/nvdimm-utils.c
-> index 5cc768ca47..aa3d199f2d 100644
-> --- a/util/nvdimm-utils.c
-> +++ b/util/nvdimm-utils.c
-> @@ -1,3 +1,4 @@
-> +#include "qemu/osdep.h"
->  #include "qemu/nvdimm-utils.h"
->  #include "hw/mem/nvdimm.h"
->  
-> -- 
-> 2.26.2
+diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+index 6420f01bed..06e3e22935 100644
+--- a/python/qemu/machine.py
++++ b/python/qemu/machine.py
+@@ -292,7 +292,7 @@ class QEMUMachine:
+         for _ in range(self._console_index):
+             args.extend(['-serial', 'null'])
+         if self._console_set:
+-            chardev = ('socket,id=console,path=%s,server,nowait' %
++            chardev = ('socket,id=console,path=%s,server=yes,wait=no' %
+                        self._console_address)
+             args.extend(['-chardev', chardev])
+             if self._console_device_type is None:
+diff --git a/tests/qtest/pflash-cfi02-test.c b/tests/qtest/pflash-cfi02-test.c
+index afb702b565..60db81a3a2 100644
+--- a/tests/qtest/pflash-cfi02-test.c
++++ b/tests/qtest/pflash-cfi02-test.c
+@@ -261,7 +261,7 @@ static void test_geometry(const void *opaque)
+     const FlashConfig *config = opaque;
+     QTestState *qtest;
+     qtest = qtest_initf("-M musicpal"
+-                        " -drive if=pflash,file=%s,format=raw,copy-on-read"
++                        " -drive if=pflash,file=%s,format=raw,copy-on-read=on"
+                         /* Device geometry properties. */
+                         " -global driver=cfi.pflash02,"
+                         "property=num-blocks0,value=%d"
+@@ -581,7 +581,7 @@ static void test_cfi_in_autoselect(const void *opaque)
+     const FlashConfig *config = opaque;
+     QTestState *qtest;
+     qtest = qtest_initf("-M musicpal"
+-                        " -drive if=pflash,file=%s,format=raw,copy-on-read",
++                        " -drive if=pflash,file=%s,format=raw,copy-on-read=on",
+                         image_path);
+     FlashConfig explicit_config = expand_config_defaults(config);
+     explicit_config.qtest = qtest;
+diff --git a/tests/qtest/test-filter-redirector.c b/tests/qtest/test-filter-redirector.c
+index 829db8c2ea..963fe2ba26 100644
+--- a/tests/qtest/test-filter-redirector.c
++++ b/tests/qtest/test-filter-redirector.c
+@@ -95,8 +95,8 @@ static void test_redirector_tx(void)
+     qts = qtest_initf(
+         "-netdev socket,id=qtest-bn0,fd=%d "
+         "-device %s,netdev=qtest-bn0,id=qtest-e0 "
+-        "-chardev socket,id=redirector0,path=%s,server,nowait "
+-        "-chardev socket,id=redirector1,path=%s,server,nowait "
++        "-chardev socket,id=redirector0,path=%s,server=yes,wait=no "
++        "-chardev socket,id=redirector1,path=%s,server=yes,wait=no "
+         "-chardev socket,id=redirector2,path=%s "
+         "-object filter-redirector,id=qtest-f0,netdev=qtest-bn0,"
+         "queue=tx,outdev=redirector0 "
+@@ -165,8 +165,8 @@ static void test_redirector_rx(void)
+     qts = qtest_initf(
+         "-netdev socket,id=qtest-bn0,fd=%d "
+         "-device %s,netdev=qtest-bn0,id=qtest-e0 "
+-        "-chardev socket,id=redirector0,path=%s,server,nowait "
+-        "-chardev socket,id=redirector1,path=%s,server,nowait "
++        "-chardev socket,id=redirector0,path=%s,server=yes,wait=no "
++        "-chardev socket,id=redirector1,path=%s,server=yes,wait=no "
+         "-chardev socket,id=redirector2,path=%s "
+         "-object filter-redirector,id=qtest-f0,netdev=qtest-bn0,"
+         "queue=rx,indev=redirector0 "
+diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
+index 3df5322614..2cf1208645 100644
+--- a/tests/qtest/vhost-user-test.c
++++ b/tests/qtest/vhost-user-test.c
+@@ -537,7 +537,7 @@ static void test_server_create_chr(TestServer *server, const gchar *opt)
+ 
+ static void test_server_listen(TestServer *server)
+ {
+-    test_server_create_chr(server, ",server,nowait");
++    test_server_create_chr(server, ",server=yes,wait=no");
+ }
+ 
+ static void test_server_free(TestServer *server)
+@@ -846,7 +846,7 @@ static void *vhost_user_test_setup_reconnect(GString *cmd_line, void *arg)
+ 
+     g_thread_new("connect", connect_thread, s);
+     append_mem_opts(s, cmd_line, 256, TEST_MEMFD_AUTO);
+-    s->vu_ops->append_opts(s, cmd_line, ",server");
++    s->vu_ops->append_opts(s, cmd_line, ",server=yes");
+ 
+     g_test_queue_destroy(vhost_user_test_cleanup, s);
+ 
+@@ -883,7 +883,7 @@ static void *vhost_user_test_setup_connect_fail(GString *cmd_line, void *arg)
+ 
+     g_thread_new("connect", connect_thread, s);
+     append_mem_opts(s, cmd_line, 256, TEST_MEMFD_AUTO);
+-    s->vu_ops->append_opts(s, cmd_line, ",server");
++    s->vu_ops->append_opts(s, cmd_line, ",server=yes");
+ 
+     g_test_queue_destroy(vhost_user_test_cleanup, s);
+ 
+@@ -898,7 +898,7 @@ static void *vhost_user_test_setup_flags_mismatch(GString *cmd_line, void *arg)
+ 
+     g_thread_new("connect", connect_thread, s);
+     append_mem_opts(s, cmd_line, 256, TEST_MEMFD_AUTO);
+-    s->vu_ops->append_opts(s, cmd_line, ",server");
++    s->vu_ops->append_opts(s, cmd_line, ",server=yes");
+ 
+     g_test_queue_destroy(vhost_user_test_cleanup, s);
+ 
+diff --git a/tests/test-char.c b/tests/test-char.c
+index 9196e566e9..0eae2c266e 100644
+--- a/tests/test-char.c
++++ b/tests/test-char.c
+@@ -413,7 +413,7 @@ static void char_websock_test(void)
+     CharBackend client_be;
+     Chardev *chr_client;
+     Chardev *chr = qemu_chr_new("server",
+-                                "websocket:127.0.0.1:0,server,nowait", NULL);
++                                "websocket:127.0.0.1:0,server=yes,wait=no", NULL);
+     const char handshake[] = "GET / HTTP/1.1\r\n"
+                              "Upgrade: websocket\r\n"
+                              "Connection: Upgrade\r\n"
+@@ -696,7 +696,7 @@ char_socket_addr_to_opt_str(SocketAddress *addr, bool fd_pass,
+         fd = ioc->fd;
+         ioc->fd = -1;
+         optstr = g_strdup_printf("socket,id=cdev0,fd=%d%s",
+-                                 fd, is_listen ? ",server,nowait" : "");
++                                 fd, is_listen ? ",server=yes,wait=no" : "");
+         object_unref(OBJECT(ioc));
+         return optstr;
+     } else {
+@@ -706,13 +706,13 @@ char_socket_addr_to_opt_str(SocketAddress *addr, bool fd_pass,
+                                    addr->u.inet.host,
+                                    addr->u.inet.port,
+                                    reconnect ? reconnect : "",
+-                                   is_listen ? ",server,nowait" : "");
++                                   is_listen ? ",server=yes,wait=no" : "");
+ 
+         case SOCKET_ADDRESS_TYPE_UNIX:
+             return g_strdup_printf("socket,id=cdev0,path=%s%s%s",
+                                    addr->u.q_unix.path,
+                                    reconnect ? reconnect : "",
+-                                   is_listen ? ",server,nowait" : "");
++                                   is_listen ? ",server=yes,wait=no" : "");
+ 
+         default:
+             g_assert_not_reached();
+-- 
+2.26.2
 
 
