@@ -2,85 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 712352B1874
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 10:41:01 +0100 (CET)
-Received: from localhost ([::1]:46704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6482B2B1899
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 10:47:21 +0100 (CET)
+Received: from localhost ([::1]:49730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdVZk-00010W-Hi
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 04:41:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52568)
+	id 1kdVfs-0002iH-Fr
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 04:47:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kdVYg-0000an-2q
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 04:39:54 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:44881)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kdVYe-0006vQ-Bi
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 04:39:53 -0500
-Received: by mail-wr1-x434.google.com with SMTP id c17so8996743wrc.11
- for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 01:39:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=l737+8DWYdwzg//7dsOOiaTCGfedQ/0i1b4aCQIFV/s=;
- b=Y5II7gC4ROVFMOMNGzzDeBT0GEqB9ArQUlZyb/qIf35ko1d8lR7JQmLUhJaZJOr4LH
- LoY/nTMX9kZb6jdl64UKYA16lpwK0IzrHwnpwLhl0HafFrC7ZFSp0RSZ3oOJBcSI3hrL
- J5jyv1RbNbGoKHUIe7ooAcnSdUObsChr9JwUjj3vMkeLDewielVCYELk4AVbtZjk4fKt
- 8cxTevcyG69bzAejKNPkh7D1fIV0FQ8MbuIg8Mn0OK/HgLkRS7bUUPWso02Q3oatmlbO
- ctIHClINZRV9r/eDKIwS3RzEqtO23TcIrQAAvp4lla2fvpGGeS9/VUgY3ZrYKJ8/3zs+
- CDsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=l737+8DWYdwzg//7dsOOiaTCGfedQ/0i1b4aCQIFV/s=;
- b=M5C+G9nmGG5GZfn26iJr20sLqaQf/5BF+js7QlCOzz3l9OuMMCy+4GiOSW5s+BAOHP
- X3kShBvsbQIeX6wl+1eKzcTjtPsWCcXVBaYzoQpwi5ftSCPDvv+2jxTQRKmi4bqnIDGz
- t9h23BOtJ0rAVuVo2dSKu6pPULB/3gYBJklLuPFnva+PT+EYFTNYIlt1/WqynaBYyUqq
- 3NbiYXJR77b50KzcffuuessHUN8vxH73J3rZT2fQRHLuN2P6ijTrL1ob4mvCEt4HFNor
- XrN/IAFg0lGJuenfZ06kMEM8gF4CqKUCzeqngQb2+QSXh7WyWAMgVrasA0JeQ1S4UFLz
- qnJw==
-X-Gm-Message-State: AOAM533JBdE7D3eJUnjkaynubMJD5vIVHenIWbCKzTpFPwmerVCF1pRF
- Vbh2yNMINepc6PtoTnskYEo=
-X-Google-Smtp-Source: ABdhPJxlO3nBEduJC7PWbsy5hEEIXyPIUG9KSX1tSpMIm60JtgIvewGxOyIhKK8R8vuKQe63S9Yhww==
-X-Received: by 2002:adf:de85:: with SMTP id w5mr2350560wrl.90.1605260389736;
- Fri, 13 Nov 2020 01:39:49 -0800 (PST)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id c17sm10215253wro.19.2020.11.13.01.39.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Nov 2020 01:39:48 -0800 (PST)
-Subject: Re: [Qemu-devel] [PULL 8/8] target/mips: Preparing for adding MMI
- instructions
-To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
- qemu-devel@nongnu.org, Fredrik Noring <noring@nocrew.org>
-References: <1551276045-19143-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <1551276045-19143-9-git-send-email-aleksandar.markovic@rt-rk.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <8c3ac05a-91d4-6830-4ede-6574aca8af94@amsat.org>
-Date: Fri, 13 Nov 2020 10:39:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kdVep-0002GN-Bu
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 04:46:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32604)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kdVem-000172-TJ
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 04:46:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605260771;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DZ4IRHsUgtsxzj6LeKVE9uxp2esRwI5cgPY1P4wQTyo=;
+ b=f5jpBCwgvKEbeGaPwNlzNTzbHnx9fK5/GD+MrIw1gwWM2CmFq4NF3CjW3HATzNT0qS2sAL
+ iox57YwyjmOGSJK2IBQMZFmtsTkR5zfnd6mkO3Z4fabEnTpBe2qE8nsu9AQjQ3EAFx4qZ9
+ +PY6Jyn2erSJTWS7IdajKWR2I8vH8nI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-81-cUG6-r1nNJaYfkHyopiiqA-1; Fri, 13 Nov 2020 04:46:09 -0500
+X-MC-Unique: cUG6-r1nNJaYfkHyopiiqA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4A2C6D246
+ for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 09:46:08 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-114-99.ams2.redhat.com [10.36.114.99])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1C0BB55795;
+ Fri, 13 Nov 2020 09:46:03 +0000 (UTC)
+Date: Fri, 13 Nov 2020 10:46:02 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH 5/6] qapi: Add support for aliases
+Message-ID: <20201113094602.GB5834@merkur.fritz.box>
+References: <20201112172850.401925-1-kwolf@redhat.com>
+ <20201112172850.401925-6-kwolf@redhat.com>
+ <7864bd70-5567-134f-9238-bbed8a5fbfdb@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <1551276045-19143-9-git-send-email-aleksandar.markovic@rt-rk.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <7864bd70-5567-134f-9238-bbed8a5fbfdb@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:00:44
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,50 +79,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, amarkovic@wavecomp.com
+Cc: libvir-list@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
+ armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Mateja,
-
-(Cc'ing Fredrik)
-
-On 2/27/19 3:00 PM, Aleksandar Markovic wrote:
-> From: Mateja Marjanovic <Mateja.Marjanovic@rt-rk.com>
+Am 12.11.2020 um 19:34 hat Eric Blake geschrieben:
+> On 11/12/20 11:28 AM, Kevin Wolf wrote:
+> > Introduce alias definitions for object types (structs and unions). This
+> > allows using the same QAPI type and visitor for many syntax variations
+> > that exist in the external representation, like between QMP and the
+> > command line. It also provides a new tool for evolving the schema while
+> > maintaining backwards compatibility during a deprecation period.
 > 
-> Set up MMI code to be compiled only for TARGET_MIPS64. This is
-> needed so that GPRs are 64 bit, and combined with MMI registers,
-> they will form full 128 bit registers.
+> Cool! Obvious followup patch series: deprecate all QAPI members spelled
+> with _ by making them aliases of new members spelled with -, so that we
+> can finally have consistent spellings.
+
+Ah, that's a nice one, too. I didn't even think of it. Another one I'd
+like to see is deprecation of SocketAddressLegacy.
+
+There is one part missing in this series that we would first need to
+address before we can actually use it to evolve parts of the schema that
+are visible in QMP: Exposing aliases in introspection and expressing
+that the original name of something is deprecated, but the alias will
+stay around (and probably also deprecating an alias without the original
+name or other aliases).
+
+If we can easily figure out a way to express this that everyone agrees
+with, I'm happy to include it in this series. Otherwise, since the first
+user is the command line and not QMP, I'd leave that for the future.
+
+For example, imagine we have an option 'foo' with a new alias 'bar'. If
+we just directly expose the alias rule (which would be the simplest
+solution from the QEMU perspective), management will check if the alias
+exists before accessing 'bar'. But in the final state, we remove 'foo'
+and 'bar' is not an alias any more, so the introspection for 'bar' would
+change. Is this desirable?
+
+On the other hand, we can't specify both as normal options because you
+must set (at most) one of them, but not both. Also exposing things as
+normal options becomes hard with wildcard aliases (mapping all fields
+from a nested struct), especially if unions are involved where some
+options exist in one or two variants, but not in others.
+
+Given this, I think just exposing the alias rules and letting the
+management tool check both alternatives - if the alias rule or the
+future option exists - might actually still be the least bad option.
+
+Hmm, I guess I should CC libvirt for this discussion, actually. :-)
+
+> > +=== Aliases ===
+> > +
+> > +Object types, including structs and unions, can contain alias
+> > +definitions.
+> > +
+> > +Aliases define alternative member names that may be used in the
+> > +external representation to provide a value for a member in the same
+> > +object or in a nested object.
+> > +
+> > +Syntax:
+> > +    ALIAS = { '*alias': STRING,
+> > +              'source': [ STRING, ... ] }
+> > +
+> > +'source' is a list of member names representing the path to an object
+> > +member, starting from the type where the alias definition is
+> > +specified.  It may refer to another alias name.  It is allowed to use
+> > +a path that doesn't necessarily match an existing member in every
+> > +variant or even at all; in this case, the alias remains unused.
+> > +
+> > +If 'alias' is present, then the single member referred to by 'source'
+> > +is made accessible with the name given in 'alias' in the type where
+> > +the alias definition is specified.
+> > +
+> > +If 'alias' is not present, then all members in the object referred to
+> > +by 'source' are made accessible in the type where the alias definition
+> > +is specified with the same name as they have in 'source'.
 > 
-> Signed-off-by: Mateja Marjanovic <mateja.marjanovic@rt-rk.com>
-> Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-> Reviewed-by: Aleksandar Rikalo <arikalo@wavecomp.com>
-> Message-Id: <1551183797-13570-2-git-send-email-mateja.marjanovic@rt-rk.com>
-> ---
->  target/mips/translate.c | 43 +++++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 41 insertions(+), 2 deletions(-)
-...
+> Is it worth an example of how to use this?
 
->  static void decode_opc_special3(CPUMIPSState *env, DisasContext *ctx)
->  {
->      int rs, rt, rd, sa;
-> @@ -28796,10 +28828,11 @@ static void decode_opc(CPUMIPSState *env, DisasContext *ctx)
->          decode_opc_special(env, ctx);
->          break;
->      case OPC_SPECIAL2:
-> +#if defined(TARGET_MIPS64)
->          if ((ctx->insn_flags & INSN_R5900) && (ctx->insn_flags & ASE_MMI)) {
->              decode_mmi(env, ctx);
+Yes, I should have included an example. Or actually, probably one
+example for aliasing a single field and another one for a wildcard alias
+that maps all fields in a struct.
 
-This change is incorrect, you removed support for the
-MADD[U] and MULT[U] instructions on TXx9 32-bit targets
-(TX79 still works).
+Kevin
 
-> -#if !defined(TARGET_MIPS64)
-> -        } else if (ctx->insn_flags & ASE_MXU) {
-> +#else
-> +        if (ctx->insn_flags & ASE_MXU) {
->              decode_opc_mxu(env, ctx);
->  #endif
-...
 
