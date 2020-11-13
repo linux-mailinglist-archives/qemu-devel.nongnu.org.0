@@ -2,67 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D66E2B18BF
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 11:07:18 +0100 (CET)
-Received: from localhost ([::1]:36628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82CAD2B18C1
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 11:08:18 +0100 (CET)
+Received: from localhost ([::1]:38914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdVzB-0001pm-Ak
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 05:07:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58086)
+	id 1kdW09-0002mK-KR
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 05:08:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kdVyO-0001KN-71
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 05:06:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48347)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kdVyH-0008ML-Ig
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 05:06:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605261979;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=w3yOvpl50DICaERouT3cgBPe25GX8F3vNl4csJj8v5I=;
- b=MRWBLOp7ax9ypbgUypIuCJE55lzkWxaFc9tE9bohtLwHQv6WIcLTzeElQGuHfOJDBc85H2
- HyiPkRUSMLRO76QVU4xXjjLQYC83yNXicel47hUJmedZYlENLIaMEeR5qk5RpeYenvxY9c
- EWsGvKHr1UWnIwxle9kq8UxIc8gM40s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-459-eLqLVKUlN722zhQBkx7eRA-1; Fri, 13 Nov 2020 05:06:17 -0500
-X-MC-Unique: eLqLVKUlN722zhQBkx7eRA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 707F96408A;
- Fri, 13 Nov 2020 10:06:16 +0000 (UTC)
-Received: from merkur.redhat.com (ovpn-114-99.ams2.redhat.com [10.36.114.99])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9C2896266E;
- Fri, 13 Nov 2020 10:06:15 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH for-5.2] iotests: Replace deprecated ConfigParser.readfp()
-Date: Fri, 13 Nov 2020 11:06:02 +0100
-Message-Id: <20201113100602.15936-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <jack@suse.cz>)
+ id 1kdVzR-0002Ha-HR; Fri, 13 Nov 2020 05:07:33 -0500
+Received: from mx2.suse.de ([195.135.220.15]:34214)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jack@suse.cz>)
+ id 1kdVzP-0000Ly-IP; Fri, 13 Nov 2020 05:07:33 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 4AF00AE42;
+ Fri, 13 Nov 2020 10:07:29 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+ id 030FD1E1312; Fri, 13 Nov 2020 11:07:28 +0100 (CET)
+Date: Fri, 13 Nov 2020 11:07:28 +0100
+From: Jan Kara <jack@suse.cz>
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Subject: Re: [PATCH 0/2] RFC: Issue with discards on raw block device without
+ O_DIRECT
+Message-ID: <20201113100728.GA8919@quack2.suse.cz>
+References: <20201111153913.41840-1-mlevitsk@redhat.com>
+ <03b01c699c9fab64736d04891f1e835aef06c886.camel@redhat.com>
+ <20201112111951.GB27697@quack2.suse.cz>
+ <fbe9f98d6fa9ecd5f53fd284216c740d2d4a723a.camel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:00:44
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fbe9f98d6fa9ecd5f53fd284216c740d2d4a723a.camel@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=jack@suse.cz;
+ helo=mx2.suse.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/13 03:44:45
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,39 +60,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Christoph Hellwig <hch@infradead.org>,
+ Jan Kara <jack@suse.cz>, qemu-block@nongnu.org,
+ "Darrick J . Wong" <darrick.wong@oracle.com>, Peter Lieven <pl@kamp.de>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ linux-block@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-iotest 277 fails on Fedora 33 (Python 3.9) because a deprecation warning
-changes the output:
+On Thu 12-11-20 17:38:36, Maxim Levitsky wrote:
+> On Thu, 2020-11-12 at 12:19 +0100, Jan Kara wrote:
+> > [added some relevant people and lists to CC]
+> > 
+> > On Wed 11-11-20 17:44:05, Maxim Levitsky wrote:
+> > > On Wed, 2020-11-11 at 17:39 +0200, Maxim Levitsky wrote:
+> > > > clone of "starship_production"
+> > > 
+> > > The git-publish destroyed the cover letter:
+> > > 
+> > > For the reference this is for bz #1872633
+> > > 
+> > > The issue is that current kernel code that implements 'fallocate'
+> > > on kernel block devices roughly works like that:
+> > > 
+> > > 1. Flush the page cache on the range that is about to be discarded.
+> > > 2. Issue the discard and wait for it to finish.
+> > >    (as far as I can see the discard doesn't go through the
+> > >    page cache).
+> > > 
+> > > 3. Check if the page cache is dirty for this range,
+> > >    if it is dirty (meaning that someone wrote to it meanwhile)
+> > >    return -EBUSY.
+> > > 
+> > > This means that if qemu (or qemu-img) issues a write, and then
+> > > discard to the area that shares a page, -EBUSY can be returned by
+> > > the kernel.
+> > 
+> > Indeed, if you don't submit PAGE_SIZE aligned discards, you can get back
+> > EBUSY which seems wrong to me. IMO we should handle this gracefully in the
+> > kernel so we need to fix this.
+> > 
+> > > On the other hand, for example, the ext4 implementation of discard
+> > > doesn't seem to be affected. It does take a lock on the inode to avoid
+> > > concurrent IO and flushes O_DIRECT writers prior to doing discard thought.
+> > 
+> > Well, filesystem hole punching is somewhat different beast than block device
+> > discard (at least implementation wise).
+> > 
+> > > Doing fsync and retrying is seems to resolve this issue, but it might be
+> > > a too big hammer.  Just retrying doesn't work, indicating that maybe the
+> > > code that flushes the page cache in (1) doesn't do this correctly ?
+> > > 
+> > > It also can be racy unless special means are done to block IO from happening
+> > > from qemu during this fsync.
+> > > 
+> > > This patch series contains two patches:
+> > > 
+> > > First patch just lets the file-posix ignore the -EBUSY errors, which is
+> > > technically enough to fail back to plain write in this case, but seems wrong.
+> > > 
+> > > And the second patch adds an optimization to qemu-img to avoid such a
+> > > fragmented write/discard in the first place.
+> > > 
+> > > Both patches make the reproducer work for this particular bugzilla,
+> > > but I don't think they are enough.
+> > > 
+> > > What do you think?
+> > 
+> > So if the EBUSY error happens because something happened to the page cache
+> > outside of discarded range (like you describe above), that is a kernel bug
+> > than needs to get fixed. EBUSY should really mean - someone wrote to the
+> > discarded range while discard was running and userspace app has to deal
+> > with that depending on what it aims to do...
+> I double checked this, those are the writes/discards according to my debug
+> prints (I print start and then start+len-1 for each request)
+> I have attached the patch for this for reference.
+> 
+> ZERO: 0x00007fe00000 00007fffefff (len:0x1ff000)
+>        fallocate 00007fe00000 00007fffefff
 
-    nbd-fault-injector.py:230: DeprecationWarning: This method will be
-    removed in future versions.  Use 'parser.read_file()' instead.
+Yeah, the end at 7ffff000 is indeed not 4k aligned...
 
-In fact, readfp() has already been deprecated in Python 3.2 and the
-replacement has existed since the same version, so we can now
-unconditionally switch to read_file().
+> WRITE: 0x00007ffff000 00007ffffdff (len:0xe00)
+>        write 00007ffff000 00007ffffdff
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- tests/qemu-iotests/nbd-fault-injector.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+.. and this write is following discarded area in the same page
+(7ffff000..7ffffdff).
 
-diff --git a/tests/qemu-iotests/nbd-fault-injector.py b/tests/qemu-iotests/nbd-fault-injector.py
-index 78f42c4214..6e11ef89b8 100755
---- a/tests/qemu-iotests/nbd-fault-injector.py
-+++ b/tests/qemu-iotests/nbd-fault-injector.py
-@@ -227,7 +227,7 @@ def parse_config(config):
- def load_rules(filename):
-     config = configparser.RawConfigParser()
-     with open(filename, 'rt') as f:
--        config.readfp(f, filename)
-+        config.read_file(f, filename)
-     return parse_config(config)
- 
- def open_socket(path):
+								Honza
 -- 
-2.28.0
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
 
