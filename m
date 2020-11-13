@@ -2,116 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F4372B1F22
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 16:47:59 +0100 (CET)
-Received: from localhost ([::1]:57932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D06D2B1F68
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 16:59:18 +0100 (CET)
+Received: from localhost ([::1]:42634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdbIs-0001ul-6s
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 10:47:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34704)
+	id 1kdbTp-0007t0-Nb
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 10:59:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kdbHR-0001Rz-It; Fri, 13 Nov 2020 10:46:29 -0500
-Received: from mail-eopbgr140103.outbound.protection.outlook.com
- ([40.107.14.103]:36449 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kdbHO-0005QJ-MS; Fri, 13 Nov 2020 10:46:28 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nAL+COjcC3vtkt5yRXJQvJaQPTwMWlPOkTdC6PujswWovFyVne8kse+1ZwLuavQyyt4GLetnLZbMBMb5xa/EDXlk4PCc8WuuDRLCHEKXpvSYvoQ1q3BbXuYa+0B5KTKVQSWdZwBjCrX0aWQ3uiWUX54y0u07kvJMero+lgi5kpU8YlsyRt9sw9xkjtMSvvlNeH2A5E6A0AmQk9ykZQGQga8sC1KHbI9xbOmfpw4PLW6P2dBQMurzkVJ2ZjUVPhq81GnBF2RZz036qlh2ekk+PHpTsM0auXoFiqFZXu466I3jB3jnNmnUzjM1m0a0FeZUrzUfUf4rIuTiWQzcQ7Z7YA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fCQNW7HAK61Rcg0DsuZ6IkLSdffA15lrEnKR50yEB2U=;
- b=Corvu9asWwp8Xwhgemp7bLLhll57jiuo3rVuQtl/K9kLbmgD+196c1s8pFpxGtc+a3l4tkjBwxMrIrOLuFjCcUjdeBVlkFPBBi0aNAgTBelSFRndFb2HSncMt+yE/lyHoHVKnNvwCvlp+e1NL/bMNlWA6xgGsgBeA3JfZWmGjDJGCWIHTpOXdE0hM3JHo/K3glHUxI46I/28KZGKAyF5zNYYjVBYJRYPJwgWIqZlF8CfJcR1YCJlOUsk25jYStBKOvA2/b+0VEQQWZcka+nncFulpyg4P3LANQ1UW8w3iJzPcg9Q9aqWt2uIG6H6b/dmFvuwTcCtByzc6lzjxsBx2w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fCQNW7HAK61Rcg0DsuZ6IkLSdffA15lrEnKR50yEB2U=;
- b=k2sbWu+5q0qX5Mk3BCtX0Wn+gGippRRNzVKflXZFhlozegtl3y+alVIlU7XJWQzaaVzyMZ+Qt939/j1Cwognz3Lj4T1O5Ys9pUdjtsEDLJQ8zBzUNYZn1RR8AzyMx/zyjbSTS6Toi0zn5BnNx58xRm3vAzhtVS6wDuCc9BhNr/o=
-Authentication-Results: virtuozzo.com; dkim=none (message not signed)
- header.d=none;virtuozzo.com; dmarc=none action=none
- header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6151.eurprd08.prod.outlook.com (2603:10a6:20b:290::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.23; Fri, 13 Nov
- 2020 15:46:19 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::fd02:1330:f620:1243]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::fd02:1330:f620:1243%9]) with mapi id 15.20.3499.032; Fri, 13 Nov 2020
- 15:46:19 +0000
-Subject: Re: [PATCH v7 08/21] block: introduce preallocate filter
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, eblake@redhat.com, armbru@redhat.com,
- fam@euphon.net, stefanha@redhat.com, kwolf@redhat.com, den@virtuozzo.com
-References: <20201021145859.11201-1-vsementsov@virtuozzo.com>
- <20201021145859.11201-9-vsementsov@virtuozzo.com>
- <78e540df-85b4-2a5a-7088-ef77eb7b5ab7@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <9e9eb0de-aa74-92d3-cf5b-b116bd087104@virtuozzo.com>
-Date: Fri, 13 Nov 2020 18:46:18 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.1
-In-Reply-To: <78e540df-85b4-2a5a-7088-ef77eb7b5ab7@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [185.215.60.71]
-X-ClientProxiedBy: AM9P191CA0014.EURP191.PROD.OUTLOOK.COM
- (2603:10a6:20b:21c::19) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kdbQY-0004Aa-OK
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 10:55:54 -0500
+Received: from indium.canonical.com ([91.189.90.7]:43298)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kdbQV-0000Rh-Dk
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 10:55:54 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kdbQU-0003Dg-6z
+ for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 15:55:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 336852E802A
+ for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 15:55:50 +0000 (UTC)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.71) by
- AM9P191CA0014.EURP191.PROD.OUTLOOK.COM (2603:10a6:20b:21c::19) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3541.21 via Frontend Transport; Fri, 13 Nov 2020 15:46:18 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 45fedbdb-fa05-424c-049e-08d887eb43a8
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6151:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB6151D9C81FAFB29CEB141FB1C1E60@AS8PR08MB6151.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:751;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LmWZnyJ2QnaKy+TSjKzAVSvN6m4ni21D624bcLfJC6Au2LfkK9t7ohiAjkaudmLEOtnS+D17+Vg8FFBb9XsNMysCTliMguUB4NLkilX9R5ExFA6Yz1OeueS8O4Wc3oRoNL9r4/IGikP4rIc3CYGVS9A9UuPbr3XlbSnLmZY3+rpAM0/KMERABU6x746J+30tyqYQtvwoohfHF7lypTf9UYq1Ym/8jk0xLxLB9lCcVFAN2dWY4Ms5deGfmISCQkVn/gpKpqUBlXj4rRCxQpU86slB/6kqPHq49Bwy2Ex2SIzk1VKq0bj0fYbOUr5ylojXoOJXHMRDwb51EI6/LED/fq9Dys1aFJiuMcEjM9rXtuHUvIQpOVUW3szywpWwS7x6
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(39840400004)(396003)(346002)(136003)(366004)(66946007)(53546011)(2906002)(956004)(316002)(31696002)(8936002)(107886003)(6486002)(52116002)(26005)(4326008)(16526019)(186003)(36756003)(66476007)(86362001)(31686004)(16576012)(66556008)(8676002)(2616005)(478600001)(83380400001)(5660300002)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: kiDlyWfL03sRaZfNkk7SRfUNF3Y4Pd8C/ERwuEbGM5kgCIDbZ5s+EZVe3SEF5jtzHRfoUksEVUxP7/QTKf4OU55pOpeDyseJVurz97LdbMRFgdjQpQRD7nyFOKjPpdZD9nMcF1Zq1j7BYw9kykxxWtXjfUFORaqgy8H3Mzfxy0fY3PWQdB6rJkFaBVyxyaebGxWKL0jZbd2K7PhnK4vrVt+IZ1SJgWzkRDyhs2E1Dn+0F9ELtvOQuaHYXEazacbcNs+4U6C5OUwFkxZHGPIghxxaRe14Ym1eG2+gu0WAf9lMWo4vV4pDSNt9qvuCIgIeJi57S6Qh/5S5hZz5vgvAX8LFONjFvAYHt+IZFv8Igm8SkNi6OBb3jZHJAtUy7wYlWrat0FT6UrShDRN0vZN/N2C4yUwrRt90N8LkhXnmQ1a0e2Edw1hr6cvK7MPE3PcaW0Fde4xjVRfHQWefNbqpdhRwTAMRi3nyh7qybxzW1BWm31PqfnS0dZY7GuRi17aTqd5GkA4lH1RkibGwAfnoz0TzLNdw/DGy5aFXEfPoY235eEyow8IGqyALGUZOSqMk96LeUy2CtHJBggxY/2Mb8zYHSkNfpItTw6B0I6KtWEYEySCRuWqlkCkIAkWZOVa09yEoObCaeNLjjDJwjHPAgw==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 45fedbdb-fa05-424c-049e-08d887eb43a8
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Nov 2020 15:46:19.6448 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ty5qkbf5owPCy36No2/LSKaoiM21i6HT1Pf7BPBmM29xwzm4p3gOIqdX3tpVn/ZQGCqGpSWMK2XaPpC6z7N5H8MkcvK4TXwzyT5d+dwXsdc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6151
-Received-SPF: pass client-ip=40.107.14.103;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-VE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/13 10:46:22
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 13 Nov 2020 15:46:28 -0000
+From: Thomas Huth <1788275@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ehabkost th-huth
+X-Launchpad-Bug-Reporter: Eduardo Habkost (ehabkost)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <153488040782.4713.14154400799820003858.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160528238879.1163.5548855864620583884.malone@gac.canonical.com>
+Subject: [Bug 1788275] Re: -cpu ...,+topoext works only with EPYC CPU model
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="38ebca4a151c7e484f2992f7b90f5a3ede13f97f"; Instance="production"
+X-Launchpad-Hash: 396a62b7f7e43b61564632f7f92a1521feec6c2a
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/13 09:15:41
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -120,64 +72,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1788275 <1788275@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-13.11.2020 17:32, Max Reitz wrote:
-> On 21.10.20 16:58, Vladimir Sementsov-Ogievskiy wrote:
->> It's intended to be inserted between format and protocol nodes to
->> preallocate additional space (expanding protocol file) on writes
->> crossing EOF. It improves performance for file-systems with slow
->> allocation.
->>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->>   docs/system/qemu-block-drivers.rst.inc |  26 ++
->>   qapi/block-core.json                   |  20 +-
->>   block/preallocate.c                    | 559 +++++++++++++++++++++++++
->>   block/meson.build                      |   1 +
->>   4 files changed, 605 insertions(+), 1 deletion(-)
->>   create mode 100644 block/preallocate.c
-> 
-> [...]
-> 
->> +    if (end <= s->file_end) {
->> +        /* No preallocation needed. */
->> +        return want_merge_zero && offset >= s->zero_start;
->> +    }
->> +
->> +    /* Now we want new preallocation, as request writes beyond s->data_end. */
-> 
-> True, but isn’t s->file_end more important?
+The QEMU project is currently considering to move its bug tracking to anoth=
+er system. For this we need to know which bugs are still valid and which co=
+uld be closed already. Thus we are setting older bugs to "Incomplete" now.
+If you still think this bug report here is valid, then please switch the st=
+ate back to "New" within the next 60 days, otherwise this report will be ma=
+rked as "Expired". Or mark it as "Fix Released" if the problem has been sol=
+ved with a newer version of QEMU already. Thank you and sorry for the incon=
+venience.
 
-Yes, file_end should be here.
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-> 
->> +
->> +    prealloc_start = want_merge_zero ? MIN(offset, s->file_end) : s->file_end;
->> +    prealloc_end = QEMU_ALIGN_UP(end + s->opts.prealloc_size,
->> +                                 s->opts.prealloc_align);
-> 
-> [...]
-> 
->> +        if (prealloc == PREALLOC_MODE_FALLOC) {
->> +            /*
->> +             * If offset <= s->file_end, the task is already done, just
->> +             * update s->file_end, to move part of "filter preallocation"
-> 
-> s/file_end/data_end/
+-- =
 
-yes
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1788275
 
-> 
-> With those fixed, and with %s/5\.2/6.0/:
-> 
-> Reviewed-by: Max Reitz <mreitz@redhat.com>
+Title:
+  -cpu ...,+topoext works only with EPYC CPU model
 
-Thanks!
+Status in QEMU:
+  Incomplete
 
+Bug description:
+  See bug report at:
+  https://bugzilla.redhat.com/show_bug.cgi?id=3D1615682
 
--- 
-Best regards,
-Vladimir
+  Probably this is caused by the inconsistent legacy cache information
+  on all CPU models except EPYC.
+
+  ---------------------------------------------
+  Description of problem:
+  Guest should get 2 threads per core and all of them should be on-line whe=
+n booting guest with old amd cpu model + smt
+
+  Steps to Reproduce:
+  1.Boot rhel7.6 guest with cli:
+  /usr/libexec/qemu-kvm -name rhel7.6 -m 16G -machine pc,accel=3Dkvm \
+          -S \
+          -cpu Opteron_G3,+topoext,xlevel=3D0x8000001e,enforce \
+          -smp 2,threads=3D2 \
+          -monitor stdio \
+          -qmp unix:/tmp/qmp2,server,nowait \
+          -device VGA \
+          -vnc :0 \
+          -serial unix:/tmp/console2,server,nowait \
+          -uuid 115e11b2-a869-41b5-91cd-6a32a907be7f \
+          -drive file=3Drhel7.6-20180812.qcow2,if=3Dnone,id=3Ddrive-scsi-di=
+sk0,format=3Dqcow2,cache=3Dnone,werror=3Dstop,rerror=3Dstop -device ide-hd,=
+drive=3Ddrive-scsi-disk0,id=3Dscsi-disk0 \
+          -netdev tap,id=3DidinWyYY,vhost=3Don -device virtio-net-pci,mac=
+=3D2e:39:fa:ff:88:a1,id=3Didlbq7eA,netdev=3DidinWyYY \
+
+  2.check cpu info inside guest
+  3.
+
+  Actual results:
+  Guest gets one online cpu, one offline cpu and one thread per core:
+  # lscpu
+  lscpu
+  Architecture:          x86_64
+  CPU op-mode(s):        32-bit, 64-bit
+  Byte Order:            Little Endian
+  CPU(s):                2
+  On-line CPU(s) list:   0
+  Off-line CPU(s) list:  1
+  Thread(s) per core:    1
+  Core(s) per socket:    1
+  Socket(s):             1
+  NUMA node(s):          1
+  Vendor ID:             AuthenticAMD
+  CPU family:            16
+  Model:                 2
+  Model name:            AMD Opteron 23xx (Gen 3 Class Opteron)
+  Stepping:              3
+  CPU MHz:               2096.060
+  BogoMIPS:              4192.12
+  Hypervisor vendor:     KVM
+  Virtualization type:   full
+  L1d cache:             64K
+  L1i cache:             64K
+  L2 cache:              512K
+  L3 cache:              16384K
+  NUMA node0 CPU(s):     0
+  Flags:                 fpu vme de pse tsc msr pae mce cx8 apic sep mtrr p=
+ge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx lm art rep_go=
+od nopl extd_apicid pni cx16 x2apic popcnt hypervisor lahf_lm cmp_legacy ab=
+m sse4a misalignsse topoext retpoline_amd ibp_disable vmmcall
+
+  =
+
+  Expected results:
+  Guest should get 2 threads per core and all of them should be on-line
+
+  ---------------------------------------------
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1788275/+subscriptions
 
