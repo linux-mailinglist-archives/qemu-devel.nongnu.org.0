@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CF102B1FF6
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 17:20:09 +0100 (CET)
-Received: from localhost ([::1]:47666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37D672B1FF0
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 17:18:00 +0100 (CET)
+Received: from localhost ([::1]:42310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdbo0-00069h-2n
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 11:20:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42882)
+	id 1kdblv-0003xM-2b
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 11:17:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kdbkD-0002gP-S8
+ id 1kdbkD-0002fk-6u
  for qemu-devel@nongnu.org; Fri, 13 Nov 2020 11:16:13 -0500
-Received: from indium.canonical.com ([91.189.90.7]:49150)
+Received: from indium.canonical.com ([91.189.90.7]:49110)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kdbkB-0007pQ-3k
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 11:16:13 -0500
+ id 1kdbkA-0007op-B1
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 11:16:12 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kdbk9-0006V3-Dt
- for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 16:16:09 +0000
+ id 1kdbk8-0006Ru-RT
+ for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 16:16:08 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 676992E80E8
- for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 16:16:09 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id C4E952E8130
+ for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 16:16:08 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 13 Nov 2020 16:04:14 -0000
-From: Thomas Huth <1799919@bugs.launchpad.net>
+Date: Fri, 13 Nov 2020 16:04:28 -0000
+From: Thomas Huth <1800088@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -38,19 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: th-huth yannick-duchene
-X-Launchpad-Bug-Reporter: =?utf-8?b?SGlib3U1N8KgKFlhbm5pY2vCoER1Y2jDqm5l?=
- =?utf-8?q?=29_=28yannick-duchene=29?=
+X-Launchpad-Bug-Commenters: th-huth yueyihua
+X-Launchpad-Bug-Reporter: yueyihua (yueyihua)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <154046086166.20410.16328785764794651694.malonedeb@gac.canonical.com>
-Message-Id: <160528345417.32723.13558222650814474051.malone@chaenomeles.canonical.com>
-Subject: [Bug 1799919] Re: IDE HDD emulation random read/write errors
+References: <154053534939.13909.2595594313857584610.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160528346887.614.242891635755051105.malone@gac.canonical.com>
+Subject: [Bug 1800088] Re: Assertion fail while usb camera redirect
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="38ebca4a151c7e484f2992f7b90f5a3ede13f97f"; Instance="production"
-X-Launchpad-Hash: 4b14b158040f1115e3804ec232cb44c5d641540d
+X-Launchpad-Hash: cb317807b73ae7bb0c62a27d522bccd86881a5b6
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/13 09:15:41
@@ -73,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1799919 <1799919@bugs.launchpad.net>
+Reply-To: Bug 1800088 <1800088@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -93,47 +92,25 @@ venience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1799919
+https://bugs.launchpad.net/bugs/1800088
 
 Title:
-  IDE HDD emulation random read/write errors
+  Assertion fail while usb camera redirect
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  I unfortunately can=E2=80=99t give more tracks other than how to reproduc=
-e the
-  bug, especially that the bug occurs randomly.
+  This may happen during usb camera redirect. But if i move the camera
+  lens from left to right or up to down, this always happen. My qemu-
+  version is 2.10.0 and following is the error information:
 
-  Basically, I=E2=80=99m trying to install DOS 6.22 on an emulated ISA mach=
-ine,
-  and it fails, DOS complaining about read or write error on drive C.
-  Repeating the operation multiple time, I see it occurs at random
-  stage, sometime even before it partitions the drive, sometime when it
-  formats the drive, sometime when it copies the files from the floppy
-  to the drive.
-
-  To test it, unpack the attached archive and execute `./run` from the
-  extracted directory. The archive contains three raw floppy images for
-  installing DOS 6.22, and a Bourne Shell script which invokes QEmu.
-  Just press enter at any installation stage, the bug may occurs at any
-  stage.
-
-  I tried with `cache=3Dnone` to be sure it=E2=80=99s not a cache issue, bu=
-t its
-  the same whatever the cache policy is.
-
-  Version and environment: using QEmu 3.0 on Ubuntu 16.04 on a 32 bits
-  DELL Inspiron 9400 (not an emulation, that=E2=80=99s my real laptop).
-
-  For why I=E2=80=99m using QEmu for this: the installation proceeds with n=
-ot
-  error in VirtualBox, but I wanted to use QEmu to have a serial mouse
-  which is not available with QEmu and to have finer control over the
-  machine configuration ; VirtualBox although good, is more limited in
-  that regard.
+  2018-10-26T03:37:54.925231Z qemu-kvm: usbredirparser: error unexpected ex=
+tra data ep 00
+  qemu-kvm: hw/usb/redirect.c:1313: usbredir_chardev_read: Assertion `dev->=
+read_buf =3D=3D ((void *)0)' failed.
+  2018-10-26 03:37:57.120+0000: shutting down, reason=3Dcrashed
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1799919/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1800088/+subscriptions
 
