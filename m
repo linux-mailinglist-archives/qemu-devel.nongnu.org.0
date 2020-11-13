@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 673D92B26E7
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 22:32:41 +0100 (CET)
-Received: from localhost ([::1]:52420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83EFC2B2732
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 22:39:07 +0100 (CET)
+Received: from localhost ([::1]:55882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdggS-0004U9-G1
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 16:32:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59758)
+	id 1kdgmg-0006N6-AV
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 16:39:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kdgc3-00020X-It
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 16:28:07 -0500
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:43181)
+ id 1kdglI-0005ka-FM
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 16:37:40 -0500
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:39840)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kdgc1-0006os-TM
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 16:28:07 -0500
-Received: by mail-pl1-x641.google.com with SMTP id u2so5155002pls.10
- for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 13:28:05 -0800 (PST)
+ id 1kdglG-00080U-Nn
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 16:37:40 -0500
+Received: by mail-pg1-x542.google.com with SMTP id i7so8154923pgh.6
+ for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 13:37:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=zkrnqIcBAUCTGXusmainKd107oengVqmGW7MiQG/UkE=;
- b=zAxbwA7sI1/NW3GCCb204kaIgoUATr2Cjh7N9cwasx9SNJxYA9s5paTRMRtTNFf4VD
- Qm5qgCV6L0hvay1cQyXTfJeBG01krF02CO/Avi+HamBBmJ2SRXOvYFDFKBELYoMwsR2H
- UAIVR8grVhX5SBUEQW4bhEOOxEFT54AThzzTqcBQ1l0TwD7Y2laCyhwKM9/KXXHrCpdi
- TS4cFl3W6j2aZd8cAcaILvvLH8PJnMLPc1Sl18hngT6ABZbgE3VwXFKTxKMHOTKL99HW
- /mLdtGRUsN0gapFlL4dJipumdNkz0AgmeR5QIA7tJGCymLh1iihc5NW7BHxpTOb81FkM
- pLJw==
+ bh=8DIIYGkGVU+UWKtk2QW2/EiJ0+H+gUj3LpHi52ISySs=;
+ b=H1hNBUKttLOTQ7QdqZj6bSkmBwyDvPNRiWe+WjYP2kc7U4qAn9sgFTbNdaP0lLgsDU
+ Yot8EIQFWw1D2Vb4Za2XTlss0cmp7UdC1wQchUuNknqMRvDOhbRjSHQ/e6ANpMMHCePg
+ kUgK9thh29a/WWglOQc1mmZ85wxn3dTR+3VouQANBQhD6Q4kBI/JmCuamozZTmmd1RPI
+ S9X/TOZaN7/0sv3aJiSgzBrhxQVcVnJ9SjrgAgr3/lLhSdvDaLFrFwOviFoYzIMn8iEx
+ egxgYXJT4kXIq9dpGYTBYGwIPP/K95AUGK4BFOUaLzByUawKWB/l7U/4IGOkVcW1aiCr
+ joQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=zkrnqIcBAUCTGXusmainKd107oengVqmGW7MiQG/UkE=;
- b=k1YEoGN7N1GPnOMobDS8Kg0FTBcPaicVIDzhzCZzc/g5x9FsiAZbUye2rn+yoH9RAE
- Venmxb4ofauAE+/HITcFAXd44ty1YUwiGxFS16D5+Xl1YztOaimMkgB4r9zXlBRSX2zo
- ub6my2cZNrPGTYCRlQYZKxqb0z7wkJ6hzWMB9SY5gEIWGHXbohTwRD2hZaY9I4231XzM
- JAHxvdZaVGNGhM8MnTb+bwFV3cKJZylauKstJUJ46gkljYjx8MUbG7h/8MrOh194mLW1
- 0I46SPunuKCHaIcwPxkh2CzGOEBNA28ogDI0TLVNm523SJfI4RwIrvcmdOqWGeu7agK1
- iCYw==
-X-Gm-Message-State: AOAM532/f3tOQV8eRjXOVflYkWhO67TsRIPtRRZEWxK7AoOg1IdoHoCs
- FzDBFWMeQAhResY4qHxnQP0SSwTqff/fDg==
-X-Google-Smtp-Source: ABdhPJwxIwI1MlaYWU/EJunW3l+bbmTVGyRiweqrhumE7IDifefVrTBtaIlXzTV+uskWXgjUBvKgXw==
-X-Received: by 2002:a17:902:6ac5:b029:d6:4e05:8343 with SMTP id
- i5-20020a1709026ac5b02900d64e058343mr3523281plt.8.1605302882805; 
- Fri, 13 Nov 2020 13:28:02 -0800 (PST)
+ bh=8DIIYGkGVU+UWKtk2QW2/EiJ0+H+gUj3LpHi52ISySs=;
+ b=ApcdZKkv21GQb6TQtjEbaS/6EYVkZgb3w/0VZCZ2fpG9LkzGLdmTIeUrAQZPpuO9c/
+ etDOG01gJmhXD3LXN5QIy1QaHrX3eFVgxcDF868AUyhRt+PH0LUc/CWfuCdwB6L6khHC
+ AvLFSpsDXecGBRgKd0Y2hzs2KQi8AbhLc6/no4QbxxnuA9xosrcyf0YyFopEcbCDboV5
+ YuwjXAR9+oZIseASoEW4JJGksRx0cQUvmXsCRMUYsaOl43ADGheDUc+vYfXnXsCzJB3h
+ AuU683P+5Cbjy8OMHPre5GbsY2ptQMG5kC/2mJIsFbzbVqTBccvPLH2v9PCObVlwyOAb
+ cQTw==
+X-Gm-Message-State: AOAM530R7eJd6dz7O+HzX4dOA4twIc8sxlH/2JDSKCpzqEQ0RjHWBzcZ
+ gOFiOOQ6e9JcFTx19PQGUu7D2N5Q0CsGqg==
+X-Google-Smtp-Source: ABdhPJyUJCBeSkr1lp7k6n3VtuK2LO+0/MrFq7Ad2P9xn5u39ti149o1E7foSFO1V7XUGZ/VUFs5Dw==
+X-Received: by 2002:a17:90a:b118:: with SMTP id
+ z24mr5063526pjq.108.1605303457083; 
+ Fri, 13 Nov 2020 13:37:37 -0800 (PST)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id a28sm10743392pfk.50.2020.11.13.13.28.01
+ by smtp.gmail.com with ESMTPSA id h5sm11820813pfk.126.2020.11.13.13.37.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Nov 2020 13:28:02 -0800 (PST)
-Subject: Re: [PATCH 11/17] target/arm: do S1_ptw_translate() before address
- space lookup
+ Fri, 13 Nov 2020 13:37:36 -0800 (PST)
+Subject: Re: [PATCH 13/17] target/arm: handle VMID change in secure state
 To: remi.denis.courmont@huawei.com, qemu-arm@nongnu.org
 References: <5554493.MhkbZ0Pkbq@basile.remlab.net>
- <20201109141020.27234-11-remi.denis.courmont@huawei.com>
+ <20201109141020.27234-13-remi.denis.courmont@huawei.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <6cc2a0d2-e8f1-ee35-3922-80e19e0b8a57@linaro.org>
-Date: Fri, 13 Nov 2020 13:28:00 -0800
+Message-ID: <e44d7b3e-089a-1101-df2c-27096cc0732c@linaro.org>
+Date: Fri, 13 Nov 2020 13:37:34 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201109141020.27234-11-remi.denis.courmont@huawei.com>
+In-Reply-To: <20201109141020.27234-13-remi.denis.courmont@huawei.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x641.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -98,14 +97,13 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 11/9/20 6:10 AM, remi.denis.courmont@huawei.com wrote:
 > From: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
 > 
-> In the secure stage 2 translation regime, the VSTCR.SW and VTCR.NSW
-> bits can invert the secure flag for pagetable walks. This patchset
-> allows S1_ptw_translate() to change the non-secure bit.
+> The VTTBR write callback so far assumes that the underlying VM lies in
+> non-secure state. This handles the secure state scenario.
 > 
 > Signed-off-by: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
 > ---
->  target/arm/helper.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
+>  target/arm/helper.c | 13 +++++++++----
+>  1 file changed, 9 insertions(+), 4 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
