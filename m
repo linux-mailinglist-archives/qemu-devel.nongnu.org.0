@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 246902B15F9
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C6E72B15FA
 	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 07:54:06 +0100 (CET)
-Received: from localhost ([::1]:56174 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:56250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdSyD-0004rU-4R
+	id 1kdSyD-0004tO-CN
 	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 01:54:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46764)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kdSwu-0003do-UX
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 01:52:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54771)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kdSwv-0003e1-Dv
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 01:52:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54709)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kdSwr-0006EF-Qm
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 01:52:44 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kdSwr-0006EC-Oz
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 01:52:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1605250360;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0u0jRF8PhO5IpV2JDmusHqZbrngV1YuoTb/jyYOt/Aw=;
- b=KogtU8ozXuqg45f9mi/RcV3pf1pMnXMASRLuTvlT2HoxhTQptOWubMFRhVfDzlIQQY0J1m
- FPkl2DLdN73DCyrrFL9F9H8biOk+glGm0HA4APkSheDto9m6d6tU2pBbFfLQRQnoyxQ/wc
- T9HL7FdLTjcciYOjEgONZraFqKRGVW0=
+ bh=PSMGqAcqpFO3PXlsQxszL2ylrEgZdL+0PDflQgkyrQQ=;
+ b=DTBVMj+/LIUQ2ITLrsRlhwuNGTHMlPyRuLQHwB+dEmFFNUQ1+WUKv66CScEiuIiIhNO4m1
+ AmbClyZI3rpXKplIuKf5J76Fj/RtVn4vGs4b6gDEMuM3IkNnmQgMM0Fnk4Ifd9AHnOwqhl
+ NVNOzXZPj8v/ofEw+oXNsU8YjJsH4qY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-513-l06yr7prOgmjhQWl96g5cg-1; Fri, 13 Nov 2020 01:52:39 -0500
-X-MC-Unique: l06yr7prOgmjhQWl96g5cg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-493-fwEBcUaqMQSxNuXLtnPW0w-1; Fri, 13 Nov 2020 01:52:38 -0500
+X-MC-Unique: fwEBcUaqMQSxNuXLtnPW0w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 082CA1006CA7
- for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 06:52:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED132804775
+ for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 06:52:37 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
  [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A833519C71;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 989AB1002C02;
  Fri, 13 Nov 2020 06:52:37 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 25E101138603; Fri, 13 Nov 2020 07:52:36 +0100 (CET)
+ id 2918D113861C; Fri, 13 Nov 2020 07:52:36 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/6] migration: Fix migrate-set-parameters argument validation
-Date: Fri, 13 Nov 2020 07:52:32 +0100
-Message-Id: <20201113065236.2644169-3-armbru@redhat.com>
+Subject: [PATCH 3/6] migration: Clean up signed vs. unsigned XBZRLE cache-size
+Date: Fri, 13 Nov 2020 07:52:33 +0100
+Message-Id: <20201113065236.2644169-4-armbru@redhat.com>
 In-Reply-To: <20201113065236.2644169-1-armbru@redhat.com>
 References: <20201113065236.2644169-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -85,176 +85,143 @@ Cc: dgilbert@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 741d4086c8 "migration: Use proper types in json" (v2.12.0)
-switched MigrationParameters to narrower integer types, and removed
-the simplified qmp_migrate_set_parameters()'s argument checking
-accordingly.
+73af8dd8d7 "migration: Make xbzrle_cache_size a migration
+parameter" (v2.11.0) made the new parameter unsigned (QAPI type
+'size', uint64_t in C).  It neglected to update existing code, which
+continues to use int64_t.
 
-Good idea, except qmp_migrate_set_parameters() takes
-MigrateSetParameters, not MigrationParameters.  Its job is updating
-migrate_get_current()->parameters (which *is* of type
-MigrationParameters) according to its argument.  The integers now get
-truncated silently.  Reproducer:
+migrate_xbzrle_cache_size() returns the new parameter.  Adjust its
+return type.
 
-    ---> {'execute': 'query-migrate-parameters'}
-    <--- {"return": {[...] "compress-threads": 8, [...]}}
-    ---> {"execute": "migrate-set-parameters", "arguments": {"compress-threads": 257}}
-    <--- {"return": {}}
-    ---> {'execute': 'query-migrate-parameters'}
-    <--- {"return": {[...] "compress-threads": 1, [...]}}
+QMP query-migrate-cache-size returns migrate_xbzrle_cache_size().
+Adjust its return type.
 
-Fix by resynchronizing MigrateSetParameters with MigrationParameters.
+migrate-set-parameters passes the new parameter to
+xbzrle_cache_resize().  Adjust its parameter type.
 
-Fixes: 741d4086c856320807a2575389d7c0505578270b
+xbzrle_cache_resize() passes it on to cache_init().  Adjust its
+parameter type.
+
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/migration.json | 28 ++++++++++++++--------------
- monitor/hmp-cmds.c  | 24 ++++++++++++------------
- 2 files changed, 26 insertions(+), 26 deletions(-)
+ qapi/migration.json    | 4 ++--
+ migration/migration.h  | 2 +-
+ migration/page_cache.h | 2 +-
+ migration/ram.h        | 2 +-
+ migration/migration.c  | 4 ++--
+ migration/page_cache.c | 2 +-
+ migration/ram.c        | 2 +-
+ 7 files changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/qapi/migration.json b/qapi/migration.json
-index 688e8da749..3ad3720cf0 100644
+index 3ad3720cf0..e8a4dfecce 100644
 --- a/qapi/migration.json
 +++ b/qapi/migration.json
-@@ -885,28 +885,28 @@
-             '*announce-max': 'size',
-             '*announce-rounds': 'size',
-             '*announce-step': 'size',
--            '*compress-level': 'int',
--            '*compress-threads': 'int',
-+            '*compress-level': 'uint8',
-+            '*compress-threads': 'uint8',
-             '*compress-wait-thread': 'bool',
--            '*decompress-threads': 'int',
--            '*throttle-trigger-threshold': 'int',
--            '*cpu-throttle-initial': 'int',
--            '*cpu-throttle-increment': 'int',
-+            '*decompress-threads': 'uint8',
-+            '*throttle-trigger-threshold': 'uint8',
-+            '*cpu-throttle-initial': 'uint8',
-+            '*cpu-throttle-increment': 'uint8',
-             '*cpu-throttle-tailslow': 'bool',
-             '*tls-creds': 'StrOrNull',
-             '*tls-hostname': 'StrOrNull',
-             '*tls-authz': 'StrOrNull',
--            '*max-bandwidth': 'int',
--            '*downtime-limit': 'int',
--            '*x-checkpoint-delay': 'int',
-+            '*max-bandwidth': 'size',
-+            '*downtime-limit': 'uint64',
-+            '*x-checkpoint-delay': 'uint32',
-             '*block-incremental': 'bool',
--            '*multifd-channels': 'int',
-+            '*multifd-channels': 'uint8',
-             '*xbzrle-cache-size': 'size',
-             '*max-postcopy-bandwidth': 'size',
--            '*max-cpu-throttle': 'int',
-+            '*max-cpu-throttle': 'uint8',
-             '*multifd-compression': 'MultiFDCompression',
--            '*multifd-zlib-level': 'int',
--            '*multifd-zstd-level': 'int',
-+            '*multifd-zlib-level': 'uint8',
-+            '*multifd-zstd-level': 'uint8',
-             '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ] } }
+@@ -78,7 +78,7 @@
+ # Since: 1.2
+ ##
+ { 'struct': 'XBZRLECacheStats',
+-  'data': {'cache-size': 'int', 'bytes': 'int', 'pages': 'int',
++  'data': {'cache-size': 'size', 'bytes': 'int', 'pages': 'int',
+            'cache-miss': 'int', 'cache-miss-rate': 'number',
+            'encoding-rate': 'number', 'overflow': 'int' } }
+ 
+@@ -1465,7 +1465,7 @@
+ # <- { "return": 67108864 }
+ #
+ ##
+-{ 'command': 'query-migrate-cache-size', 'returns': 'int',
++{ 'command': 'query-migrate-cache-size', 'returns': 'size',
+   'features': [ 'deprecated' ] }
  
  ##
-@@ -1093,7 +1093,7 @@
-             '*max-bandwidth': 'size',
-             '*downtime-limit': 'uint64',
-             '*x-checkpoint-delay': 'uint32',
--            '*block-incremental': 'bool' ,
-+            '*block-incremental': 'bool',
-             '*multifd-channels': 'uint8',
-             '*xbzrle-cache-size': 'size',
-             '*max-postcopy-bandwidth': 'size',
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 492789248f..f8ef061510 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -1292,11 +1292,11 @@ void hmp_migrate_set_parameter(Monitor *mon, const QDict *qdict)
-     switch (val) {
-     case MIGRATION_PARAMETER_COMPRESS_LEVEL:
-         p->has_compress_level = true;
--        visit_type_int(v, param, &p->compress_level, &err);
-+        visit_type_uint8(v, param, &p->compress_level, &err);
-         break;
-     case MIGRATION_PARAMETER_COMPRESS_THREADS:
-         p->has_compress_threads = true;
--        visit_type_int(v, param, &p->compress_threads, &err);
-+        visit_type_uint8(v, param, &p->compress_threads, &err);
-         break;
-     case MIGRATION_PARAMETER_COMPRESS_WAIT_THREAD:
-         p->has_compress_wait_thread = true;
-@@ -1304,19 +1304,19 @@ void hmp_migrate_set_parameter(Monitor *mon, const QDict *qdict)
-         break;
-     case MIGRATION_PARAMETER_DECOMPRESS_THREADS:
-         p->has_decompress_threads = true;
--        visit_type_int(v, param, &p->decompress_threads, &err);
-+        visit_type_uint8(v, param, &p->decompress_threads, &err);
-         break;
-     case MIGRATION_PARAMETER_THROTTLE_TRIGGER_THRESHOLD:
-         p->has_throttle_trigger_threshold = true;
--        visit_type_int(v, param, &p->throttle_trigger_threshold, &err);
-+        visit_type_uint8(v, param, &p->throttle_trigger_threshold, &err);
-         break;
-     case MIGRATION_PARAMETER_CPU_THROTTLE_INITIAL:
-         p->has_cpu_throttle_initial = true;
--        visit_type_int(v, param, &p->cpu_throttle_initial, &err);
-+        visit_type_uint8(v, param, &p->cpu_throttle_initial, &err);
-         break;
-     case MIGRATION_PARAMETER_CPU_THROTTLE_INCREMENT:
-         p->has_cpu_throttle_increment = true;
--        visit_type_int(v, param, &p->cpu_throttle_increment, &err);
-+        visit_type_uint8(v, param, &p->cpu_throttle_increment, &err);
-         break;
-     case MIGRATION_PARAMETER_CPU_THROTTLE_TAILSLOW:
-         p->has_cpu_throttle_tailslow = true;
-@@ -1324,7 +1324,7 @@ void hmp_migrate_set_parameter(Monitor *mon, const QDict *qdict)
-         break;
-     case MIGRATION_PARAMETER_MAX_CPU_THROTTLE:
-         p->has_max_cpu_throttle = true;
--        visit_type_int(v, param, &p->max_cpu_throttle, &err);
-+        visit_type_uint8(v, param, &p->max_cpu_throttle, &err);
-         break;
-     case MIGRATION_PARAMETER_TLS_CREDS:
-         p->has_tls_creds = true;
-@@ -1360,11 +1360,11 @@ void hmp_migrate_set_parameter(Monitor *mon, const QDict *qdict)
-         break;
-     case MIGRATION_PARAMETER_DOWNTIME_LIMIT:
-         p->has_downtime_limit = true;
--        visit_type_int(v, param, &p->downtime_limit, &err);
-+        visit_type_size(v, param, &p->downtime_limit, &err);
-         break;
-     case MIGRATION_PARAMETER_X_CHECKPOINT_DELAY:
-         p->has_x_checkpoint_delay = true;
--        visit_type_int(v, param, &p->x_checkpoint_delay, &err);
-+        visit_type_uint32(v, param, &p->x_checkpoint_delay, &err);
-         break;
-     case MIGRATION_PARAMETER_BLOCK_INCREMENTAL:
-         p->has_block_incremental = true;
-@@ -1372,7 +1372,7 @@ void hmp_migrate_set_parameter(Monitor *mon, const QDict *qdict)
-         break;
-     case MIGRATION_PARAMETER_MULTIFD_CHANNELS:
-         p->has_multifd_channels = true;
--        visit_type_int(v, param, &p->multifd_channels, &err);
-+        visit_type_uint8(v, param, &p->multifd_channels, &err);
-         break;
-     case MIGRATION_PARAMETER_MULTIFD_COMPRESSION:
-         p->has_multifd_compression = true;
-@@ -1381,11 +1381,11 @@ void hmp_migrate_set_parameter(Monitor *mon, const QDict *qdict)
-         break;
-     case MIGRATION_PARAMETER_MULTIFD_ZLIB_LEVEL:
-         p->has_multifd_zlib_level = true;
--        visit_type_int(v, param, &p->multifd_zlib_level, &err);
-+        visit_type_uint8(v, param, &p->multifd_zlib_level, &err);
-         break;
-     case MIGRATION_PARAMETER_MULTIFD_ZSTD_LEVEL:
-         p->has_multifd_zstd_level = true;
--        visit_type_int(v, param, &p->multifd_zstd_level, &err);
-+        visit_type_uint8(v, param, &p->multifd_zstd_level, &err);
-         break;
-     case MIGRATION_PARAMETER_XBZRLE_CACHE_SIZE:
-         p->has_xbzrle_cache_size = true;
+diff --git a/migration/migration.h b/migration/migration.h
+index d096b77f74..0387dc40d6 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -324,7 +324,7 @@ int migrate_multifd_zlib_level(void);
+ int migrate_multifd_zstd_level(void);
+ 
+ int migrate_use_xbzrle(void);
+-int64_t migrate_xbzrle_cache_size(void);
++uint64_t migrate_xbzrle_cache_size(void);
+ bool migrate_colo_enabled(void);
+ 
+ bool migrate_use_block(void);
+diff --git a/migration/page_cache.h b/migration/page_cache.h
+index 0cb94498a0..8733b4df6e 100644
+--- a/migration/page_cache.h
++++ b/migration/page_cache.h
+@@ -28,7 +28,7 @@ typedef struct PageCache PageCache;
+  * @page_size: cache page size
+  * @errp: set *errp if the check failed, with reason
+  */
+-PageCache *cache_init(int64_t cache_size, size_t page_size, Error **errp);
++PageCache *cache_init(uint64_t cache_size, size_t page_size, Error **errp);
+ /**
+  * cache_fini: free all cache resources
+  * @cache pointer to the PageCache struct
+diff --git a/migration/ram.h b/migration/ram.h
+index 011e85414e..016eaa3378 100644
+--- a/migration/ram.h
++++ b/migration/ram.h
+@@ -47,7 +47,7 @@ bool ramblock_is_ignored(RAMBlock *block);
+     INTERNAL_RAMBLOCK_FOREACH(block)                   \
+         if (!qemu_ram_is_migratable(block)) {} else
+ 
+-int xbzrle_cache_resize(int64_t new_size, Error **errp);
++int xbzrle_cache_resize(uint64_t new_size, Error **errp);
+ uint64_t ram_bytes_remaining(void);
+ uint64_t ram_bytes_total(void);
+ 
+diff --git a/migration/migration.c b/migration/migration.c
+index cad56fbf8c..3daed2da0e 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -2226,7 +2226,7 @@ void qmp_migrate_set_cache_size(int64_t value, Error **errp)
+     qmp_migrate_set_parameters(&p, errp);
+ }
+ 
+-int64_t qmp_query_migrate_cache_size(Error **errp)
++uint64_t qmp_query_migrate_cache_size(Error **errp)
+ {
+     return migrate_xbzrle_cache_size();
+ }
+@@ -2456,7 +2456,7 @@ int migrate_use_xbzrle(void)
+     return s->enabled_capabilities[MIGRATION_CAPABILITY_XBZRLE];
+ }
+ 
+-int64_t migrate_xbzrle_cache_size(void)
++uint64_t migrate_xbzrle_cache_size(void)
+ {
+     MigrationState *s;
+ 
+diff --git a/migration/page_cache.c b/migration/page_cache.c
+index 098b436223..b384f265fb 100644
+--- a/migration/page_cache.c
++++ b/migration/page_cache.c
+@@ -38,7 +38,7 @@ struct PageCache {
+     size_t num_items;
+ };
+ 
+-PageCache *cache_init(int64_t new_size, size_t page_size, Error **errp)
++PageCache *cache_init(uint64_t new_size, size_t page_size, Error **errp)
+ {
+     int64_t i;
+     size_t num_pages = new_size / page_size;
+diff --git a/migration/ram.c b/migration/ram.c
+index add5396a62..a84425d04f 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -126,7 +126,7 @@ static void XBZRLE_cache_unlock(void)
+  * @new_size: new cache size
+  * @errp: set *errp if the check failed, with reason
+  */
+-int xbzrle_cache_resize(int64_t new_size, Error **errp)
++int xbzrle_cache_resize(uint64_t new_size, Error **errp)
+ {
+     PageCache *new_cache;
+     int64_t ret = 0;
 -- 
 2.26.2
 
