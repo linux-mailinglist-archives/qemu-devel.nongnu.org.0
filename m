@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6482B2B1899
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 10:47:21 +0100 (CET)
-Received: from localhost ([::1]:49730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 633CF2B18A6
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 10:50:30 +0100 (CET)
+Received: from localhost ([::1]:51900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdVfs-0002iH-Fr
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 04:47:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54036)
+	id 1kdViv-0003kK-E0
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 04:50:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kdVep-0002GN-Bu
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 04:46:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32604)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kdVhj-0003Gp-Mu
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 04:49:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55885)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kdVem-000172-TJ
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 04:46:14 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kdVhi-000263-2d
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 04:49:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605260771;
+ s=mimecast20190719; t=1605260953;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DZ4IRHsUgtsxzj6LeKVE9uxp2esRwI5cgPY1P4wQTyo=;
- b=f5jpBCwgvKEbeGaPwNlzNTzbHnx9fK5/GD+MrIw1gwWM2CmFq4NF3CjW3HATzNT0qS2sAL
- iox57YwyjmOGSJK2IBQMZFmtsTkR5zfnd6mkO3Z4fabEnTpBe2qE8nsu9AQjQ3EAFx4qZ9
- +PY6Jyn2erSJTWS7IdajKWR2I8vH8nI=
+ bh=XGUQNmFbb1qgyKULmh1xswG69/gcHsODXA9gIlyI3ZQ=;
+ b=erTP7NzaimmXmalPvND0dr1k4NDkAXD+46KyKAlJOcmV9pLrqZk9eelZm7lGvAnhqldpmM
+ J+spRwmY52uhRRmBGVwZeHrx3lPDS+voFGD66TWeCivEstgujRC8CmbCeqj6hJgETCSMJ/
+ MVCu7XGD6SnvqQzAWZcsP3dgfLp7WTU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-81-cUG6-r1nNJaYfkHyopiiqA-1; Fri, 13 Nov 2020 04:46:09 -0500
-X-MC-Unique: cUG6-r1nNJaYfkHyopiiqA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-433-9KXaTZxdOmCnMydtwyXyAw-1; Fri, 13 Nov 2020 04:49:09 -0500
+X-MC-Unique: 9KXaTZxdOmCnMydtwyXyAw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4A2C6D246
- for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 09:46:08 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-99.ams2.redhat.com [10.36.114.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1C0BB55795;
- Fri, 13 Nov 2020 09:46:03 +0000 (UTC)
-Date: Fri, 13 Nov 2020 10:46:02 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH 5/6] qapi: Add support for aliases
-Message-ID: <20201113094602.GB5834@merkur.fritz.box>
-References: <20201112172850.401925-1-kwolf@redhat.com>
- <20201112172850.401925-6-kwolf@redhat.com>
- <7864bd70-5567-134f-9238-bbed8a5fbfdb@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F39C64160;
+ Fri, 13 Nov 2020 09:49:08 +0000 (UTC)
+Received: from gondolin (ovpn-113-133.ams2.redhat.com [10.36.113.133])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6138D10023A5;
+ Fri, 13 Nov 2020 09:48:38 +0000 (UTC)
+Date: Fri, 13 Nov 2020 10:47:58 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH] Clean up includes
+Message-ID: <20201113104758.35721e42.cohuck@redhat.com>
+In-Reply-To: <20201113061216.2483385-1-armbru@redhat.com>
+References: <20201113061216.2483385-1-armbru@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <7864bd70-5567-134f-9238-bbed8a5fbfdb@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 08:00:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -66,7 +66,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,89 +79,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
- armbru@redhat.com
+Cc: alxndr@bu.edu, thuth@redhat.com, mjrosato@linux.ibm.com, mst@redhat.com,
+ qemu-s390x@nongnu.org, david@redhat.com, qemu-devel@nongnu.org,
+ laurent@vivier.eu, pasic@linux.ibm.com, borntraeger@de.ibm.com, bsd@redhat.com,
+ kraxel@redhat.com, stefanha@redhat.com, pbonzini@redhat.com,
+ marcandre.lureau@redhat.com, dgilbert@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 12.11.2020 um 19:34 hat Eric Blake geschrieben:
-> On 11/12/20 11:28 AM, Kevin Wolf wrote:
-> > Introduce alias definitions for object types (structs and unions). This
-> > allows using the same QAPI type and visitor for many syntax variations
-> > that exist in the external representation, like between QMP and the
-> > command line. It also provides a new tool for evolving the schema while
-> > maintaining backwards compatibility during a deprecation period.
+On Fri, 13 Nov 2020 07:12:16 +0100
+Markus Armbruster <armbru@redhat.com> wrote:
+
+> Clean up includes so that osdep.h is included first and headers
+> which it implies are not included manually.
 > 
-> Cool! Obvious followup patch series: deprecate all QAPI members spelled
-> with _ by making them aliases of new members spelled with -, so that we
-> can finally have consistent spellings.
-
-Ah, that's a nice one, too. I didn't even think of it. Another one I'd
-like to see is deprecation of SocketAddressLegacy.
-
-There is one part missing in this series that we would first need to
-address before we can actually use it to evolve parts of the schema that
-are visible in QMP: Exposing aliases in introspection and expressing
-that the original name of something is deprecated, but the alias will
-stay around (and probably also deprecating an alias without the original
-name or other aliases).
-
-If we can easily figure out a way to express this that everyone agrees
-with, I'm happy to include it in this series. Otherwise, since the first
-user is the command line and not QMP, I'd leave that for the future.
-
-For example, imagine we have an option 'foo' with a new alias 'bar'. If
-we just directly expose the alias rule (which would be the simplest
-solution from the QEMU perspective), management will check if the alias
-exists before accessing 'bar'. But in the final state, we remove 'foo'
-and 'bar' is not an alias any more, so the introspection for 'bar' would
-change. Is this desirable?
-
-On the other hand, we can't specify both as normal options because you
-must set (at most) one of them, but not both. Also exposing things as
-normal options becomes hard with wildcard aliases (mapping all fields
-from a nested struct), especially if unions are involved where some
-options exist in one or two variants, but not in others.
-
-Given this, I think just exposing the alias rules and letting the
-management tool check both alternatives - if the alias rule or the
-future option exists - might actually still be the least bad option.
-
-Hmm, I guess I should CC libvirt for this discussion, actually. :-)
-
-> > +=== Aliases ===
-> > +
-> > +Object types, including structs and unions, can contain alias
-> > +definitions.
-> > +
-> > +Aliases define alternative member names that may be used in the
-> > +external representation to provide a value for a member in the same
-> > +object or in a nested object.
-> > +
-> > +Syntax:
-> > +    ALIAS = { '*alias': STRING,
-> > +              'source': [ STRING, ... ] }
-> > +
-> > +'source' is a list of member names representing the path to an object
-> > +member, starting from the type where the alias definition is
-> > +specified.  It may refer to another alias name.  It is allowed to use
-> > +a path that doesn't necessarily match an existing member in every
-> > +variant or even at all; in this case, the alias remains unused.
-> > +
-> > +If 'alias' is present, then the single member referred to by 'source'
-> > +is made accessible with the name given in 'alias' in the type where
-> > +the alias definition is specified.
-> > +
-> > +If 'alias' is not present, then all members in the object referred to
-> > +by 'source' are made accessible in the type where the alias definition
-> > +is specified with the same name as they have in 'source'.
+> This commit was created with scripts/clean-includes, with the changes
+> to the following files manually reverted:
 > 
-> Is it worth an example of how to use this?
+>     contrib/libvhost-user/libvhost-user-glib.h
+>     contrib/libvhost-user/libvhost-user.c
+>     contrib/libvhost-user/libvhost-user.h
+>     contrib/plugins/hotblocks.c
+>     contrib/plugins/hotpages.c
+>     contrib/plugins/howvec.c
+>     contrib/plugins/lockstep.c
+>     linux-user/mips64/cpu_loop.c
+>     linux-user/mips64/signal.c
+>     linux-user/sparc64/cpu_loop.c
+>     linux-user/sparc64/signal.c
+>     linux-user/x86_64/cpu_loop.c
+>     linux-user/x86_64/signal.c
+>     target/s390x/gen-features.c
+>     tests/fp/platform.h
+>     tests/migration/s390x/a-b-bios.c
+>     tests/plugin/bb.c
+>     tests/plugin/empty.c
+>     tests/plugin/insn.c
+>     tests/plugin/mem.c
+>     tests/test-rcu-simpleq.c
+>     tests/test-rcu-slist.c
+>     tests/test-rcu-tailq.c
+>     tests/uefi-test-tools/UefiTestToolsPkg/BiosTablesTest/BiosTablesTest.c
+> 
+> contrib/plugins/, tests/plugin/, and tests/test-rcu-slist.c appear not
+> to include osdep.h intentionally.  The remaining reverts are the same
+> as in commit bbfff19688d.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+> No real need to get this into 5.2 at this stage.  No real risk either.
+> 
+>  contrib/vhost-user-gpu/vugbm.h          |  2 --
+>  contrib/vhost-user-gpu/vugpu.h          |  1 -
+>  include/hw/block/swim.h                 |  1 -
+>  include/hw/display/macfb.h              |  1 -
+>  include/qemu/nvdimm-utils.h             |  1 -
+>  tests/qtest/fuzz/fuzz.h                 |  1 -
+>  tests/qtest/fuzz/generic_fuzz_configs.h |  1 -
+>  tools/virtiofsd/fuse_common.h           |  2 --
+>  tools/virtiofsd/fuse_log.h              |  1 -
+>  tools/virtiofsd/fuse_lowlevel.h         |  3 ---
+>  tools/virtiofsd/fuse_misc.h             |  1 -
+>  tools/virtiofsd/passthrough_seccomp.h   |  1 -
+>  contrib/vhost-user-gpu/virgl.c          |  1 +
+>  contrib/vhost-user-gpu/vugbm.c          |  1 +
+>  contrib/vhost-user-input/main.c         |  1 -
+>  hw/display/artist.c                     |  1 -
+>  hw/s390x/s390-pci-vfio.c                |  3 ++-
+>  tools/virtiofsd/buffer.c                |  5 -----
+>  tools/virtiofsd/fuse_log.c              |  2 --
+>  tools/virtiofsd/fuse_lowlevel.c         | 10 ----------
+>  tools/virtiofsd/fuse_opt.c              |  4 ----
+>  tools/virtiofsd/fuse_signals.c          |  5 -----
+>  tools/virtiofsd/fuse_virtio.c           | 10 ----------
+>  tools/virtiofsd/helper.c                |  8 --------
+>  tools/virtiofsd/passthrough_ll.c        | 12 ------------
+>  tools/virtiofsd/passthrough_seccomp.c   |  3 ---
+>  util/nvdimm-utils.c                     |  1 +
+>  27 files changed, 5 insertions(+), 78 deletions(-)
 
-Yes, I should have included an example. Or actually, probably one
-example for aliasing a single field and another one for a wildcard alias
-that maps all fields in a struct.
-
-Kevin
+Acked-by: Cornelia Huck <cohuck@redhat.com>
 
 
