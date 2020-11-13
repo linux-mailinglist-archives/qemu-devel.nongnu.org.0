@@ -2,75 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 218FA2B1BF8
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 14:37:43 +0100 (CET)
-Received: from localhost ([::1]:49304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3678D2B1BFF
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Nov 2020 14:41:21 +0100 (CET)
+Received: from localhost ([::1]:55262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdZGo-0002t6-6e
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 08:37:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54772)
+	id 1kdZKK-0005bb-1q
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 08:41:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kdZF5-0002N4-Lb
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 08:35:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54522)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kdZF3-0008WO-B2
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 08:35:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605274552;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9iN93joopWtVhYVZkdUyw4MD5pisYyfosIs2CISk+Eo=;
- b=ZShtfY1ocZi8B/+Qp8zHsEAKuCp+fiYC7/S0lbjmNd6YyOsDtEo1qAga/NnRDg2pKdzn95
- nlWEa1hKmkp9XA5J+wE7+zKSv/6doJ4LhKvunfDIBLLuhl3G35YFLddN7qfaLyaIjQZKV+
- rUzlua3oPMaxBT3/jChv8o7UsVFJ1l0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-164-ZvhxjMygMBC6UVv4yavR9w-1; Fri, 13 Nov 2020 08:35:49 -0500
-X-MC-Unique: ZvhxjMygMBC6UVv4yavR9w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D7771108E1A5
- for <qemu-devel@nongnu.org>; Fri, 13 Nov 2020 13:35:48 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
- [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AA6506EF48;
- Fri, 13 Nov 2020 13:35:48 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3296911386A0; Fri, 13 Nov 2020 14:35:47 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH 4/6] migration: Check xbzrle-cache-size more carefully
-References: <20201113065236.2644169-1-armbru@redhat.com>
- <20201113065236.2644169-5-armbru@redhat.com>
- <20201113105940.GC3251@work-vm>
-Date: Fri, 13 Nov 2020 14:35:47 +0100
-In-Reply-To: <20201113105940.GC3251@work-vm> (David Alan Gilbert's message of
- "Fri, 13 Nov 2020 10:59:40 +0000")
-Message-ID: <87pn4hfkgc.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kdZJ1-0004Xj-RZ
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 08:39:59 -0500
+Resent-Date: Fri, 13 Nov 2020 08:39:59 -0500
+Resent-Message-Id: <E1kdZJ1-0004Xj-RZ@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21793)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kdZIz-0001U9-4U
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 08:39:59 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1605274783; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=lf+smNPWwrrmBHHWd8n3/Slcq7+O2++K1lKI0I2FJ6k7sCfn5St2MHeCdf17t4gifL3MUw4hPOkV8jHXwFw0KIMYD8ua4GQ38HQZ+H2qU0mZafb2CqebkjKHYiAmHgBUg9uf9uN9iJdFGaURHdFGrTYtC1yZLogwHqEx+jX5sK0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1605274783;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=tMaq2uVwJxLyKF1kY9opiimD1sQna+QKtxjWpTzyjRc=; 
+ b=fOiDEDsZ4r96vjDw9rlRLb/peLjLMp9T7/adxqR0ASxxBpsqCSoOLA6GNhq4hKmlRFMFi8KtovfQgPJY4c1kTx/aJGdIlSdu7PMt5Z25AZkjEdeZPocu/8Aw9ROTzL96tsWtS8UrDImLDcThRNjBwwG2jiuyx56AcGlcL9rfxk8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1605274780971483.63256801563887;
+ Fri, 13 Nov 2020 05:39:40 -0800 (PST)
+Subject: Re: [PATCH] tests: add prefixes to the bare mkdtemp calls
+Message-ID: <160527477921.299.1181611218451080054@d9ec01ea6314>
+In-Reply-To: <20201113133424.8723-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/12 16:09:27
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: alex.bennee@linaro.org
+Date: Fri, 13 Nov 2020 05:39:40 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/13 08:39:54
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,86 +69,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, quintela@redhat.com
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, ehabkost@redhat.com,
+ alex.bennee@hackbox2.linaro.org, qemu-devel@nongnu.org, wainersm@redhat.com,
+ philmd@redhat.com, jsnow@redhat.com, crosa@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Dr. David Alan Gilbert" <dgilbert@redhat.com> writes:
-
-> * Markus Armbruster (armbru@redhat.com) wrote:
->> migrate-set-parameters passes the size to xbzrle_cache_resize().
->> xbzrle_cache_resize() checks it fits into size_t before it passes it
->> on to cache_init().  cache_init() checks it is a power of two no
->> smaller than @page_size.
->> 
->> cache_init() is also called from xbzrle_init(), bypassing
->> xbzrle_cache_resize()'s check.
->> 
->> Drop xbzrle_cache_resize()'s check, and check more carefully in
->> cache_init().
->> 
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> ---
->>  migration/page_cache.c | 15 ++++-----------
->>  migration/ram.c        |  7 -------
->>  2 files changed, 4 insertions(+), 18 deletions(-)
->> 
->> diff --git a/migration/page_cache.c b/migration/page_cache.c
->> index b384f265fb..e07f4ad1dc 100644
->> --- a/migration/page_cache.c
->> +++ b/migration/page_cache.c
->> @@ -41,17 +41,10 @@ struct PageCache {
->>  PageCache *cache_init(uint64_t new_size, size_t page_size, Error **errp)
->>  {
->>      int64_t i;
->> -    size_t num_pages = new_size / page_size;
->> +    uint64_t num_pages = new_size / page_size;
->>      PageCache *cache;
->>  
->> -    if (new_size < page_size) {
->> -        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "cache size",
->> -                   "is smaller than one target page size");
->> -        return NULL;
->> -    }
->> -
->> -    /* round down to the nearest power of 2 */
->> -    if (!is_power_of_2(num_pages)) {
->> +    if (num_pages != (size_t)num_pages || !is_power_of_2(num_pages)) {
->>          error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "cache size",
->>                     "is not a power of two number of pages");
->
-> That error message is now wrong since it includes a whole bunch of
-> reasons.
-
-We could argue about "wrong", but I readily concedede it needs
-improvement:
-
-    Parameter 'cache size' expects is not a power of two number of pages
-
-is crap.  I fixed similar crap in my "[PATCH 00/10] Chipping away at
-qerror.h", but missed this one.
-
-What about
-
-    Parameter 'xbzrle-cache-size' expects a power of two larger than $page_size
-
-?
-
-> Also, the comparison is now on the divided num_pages, it's not that
-> obvious to me that checking the num_pages makes sense in acomparison to
-> checking the actual cache size.
-
-Would you accept
-
-    if (!is_power_of_2(new_size)
-        || !num_pages || num_pages != (size_t)num_pages) {
-
-?
-
-If not, please propose something you like better.
-
-> (Arguably the check should also happen in migrate_params_test_apply)
-
-Feels like one bridge too far for this patch.
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTExMzEzMzQyNC44NzIz
+LTEtYWxleC5iZW5uZWVAbGluYXJvLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
+YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
+IGluZm9ybWF0aW9uOgoKTWVzc2FnZS1pZDogMjAyMDExMTMxMzM0MjQuODcyMy0xLWFsZXguYmVu
+bmVlQGxpbmFyby5vcmcKVHlwZTogc2VyaWVzClN1YmplY3Q6IFtQQVRDSF0gdGVzdHM6IGFkZCBw
+cmVmaXhlcyB0byB0aGUgYmFyZSBta2R0ZW1wIGNhbGxzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4g
+PT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAK
+Z2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwg
+ZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3Rv
+Z3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBT
+Q1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4
+ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogLSBb
+dGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjAxMTEzMDgyNjI2LjI3MjU4MTItMS1hcm1icnVA
+cmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMjAxMTEzMDgyNjI2LjI3MjU4MTItMS1hcm1icnVAcmVk
+aGF0LmNvbQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjAxMTEzMTMzNDI0Ljg3MjMt
+MS1hbGV4LmJlbm5lZUBsaW5hcm8ub3JnIC0+IHBhdGNoZXcvMjAyMDExMTMxMzM0MjQuODcyMy0x
+LWFsZXguYmVubmVlQGxpbmFyby5vcmcKU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0Jwow
+YTZkMTFlIHRlc3RzOiBhZGQgcHJlZml4ZXMgdG8gdGhlIGJhcmUgbWtkdGVtcCBjYWxscwoKPT09
+IE9VVFBVVCBCRUdJTiA9PT0KV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzIzOiBG
+SUxFOiBweXRob24vcWVtdS9tYWNoaW5lLnB5OjMwNjoKKyAgICAgICAgc2VsZi5fdGVtcF9kaXIg
+PSB0ZW1wZmlsZS5ta2R0ZW1wKHByZWZpeD0icWVtdS1tYWNoaW5lLSIsIGRpcj1zZWxmLl90ZXN0
+X2RpcikKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojMzY6IEZJTEU6IHRlc3RzL2Fj
+Y2VwdGFuY2UvYXZvY2Fkb19xZW11L19faW5pdF9fLnB5OjE3NDoKKyAgICAgICAgdm0gPSBRRU1V
+TWFjaGluZShzZWxmLnFlbXVfYmluLCBzb2NrX2Rpcj10ZW1wZmlsZS5ta2R0ZW1wKHByZWZpeD0i
+YXZvY2Fkb19xZW11X3NvY2tfIikpCgp0b3RhbDogMSBlcnJvcnMsIDEgd2FybmluZ3MsIDE2IGxp
+bmVzIGNoZWNrZWQKCkNvbW1pdCAwYTZkMTFlMDI4MjQgKHRlc3RzOiBhZGQgcHJlZml4ZXMgdG8g
+dGhlIGJhcmUgbWtkdGVtcCBjYWxscykgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3
+LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVt
+IHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09IE9V
+VFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxs
+IGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDExMTMxMzM0
+MjQuODcyMy0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcvdGVzdGluZy5jaGVja3BhdGNoLz90eXBl
+PW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFto
+dHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hl
+dy1kZXZlbEByZWRoYXQuY29t
 
