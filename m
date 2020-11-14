@@ -2,46 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F18142B2D44
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Nov 2020 14:11:28 +0100 (CET)
-Received: from localhost ([::1]:34150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A53392B2D52
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Nov 2020 14:18:05 +0100 (CET)
+Received: from localhost ([::1]:37284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdvKx-0008Iu-GM
-	for lists+qemu-devel@lfdr.de; Sat, 14 Nov 2020 08:11:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55464)
+	id 1kdvRM-0001bR-Mu
+	for lists+qemu-devel@lfdr.de; Sat, 14 Nov 2020 08:18:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhangxinhao1@huawei.com>)
- id 1kdvJP-0007Yn-0e; Sat, 14 Nov 2020 08:09:51 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:2144)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kdvPx-00017v-Bf; Sat, 14 Nov 2020 08:16:37 -0500
+Resent-Date: Sat, 14 Nov 2020 08:16:37 -0500
+Resent-Message-Id: <E1kdvPx-00017v-Bf@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21785)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhangxinhao1@huawei.com>)
- id 1kdvJJ-0004NY-Fj; Sat, 14 Nov 2020 08:09:50 -0500
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CYFz40P3rz6wHn;
- Sat, 14 Nov 2020 21:09:04 +0800 (CST)
-Received: from huawei.com (10.175.101.6) by DGGEMS406-HUB.china.huawei.com
- (10.3.19.206) with Microsoft SMTP Server id 14.3.487.0; Sat, 14 Nov 2020
- 21:09:09 +0800
-From: Xinhao Zhang <zhangxinhao1@huawei.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH] fpu/softfloat.c: add spaces around operator
-Date: Sat, 14 Nov 2020 21:07:15 +0800
-Message-ID: <20201114130715.1126922-1-zhangxinhao1@huawei.com>
-X-Mailer: git-send-email 2.29.0-rc1
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kdvPt-0006vC-FW; Sat, 14 Nov 2020 08:16:36 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1605359750; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=mgt9RfBd6MXAStF5eYhbm8nVxN/v+GwqgI1QduPKIKdQ/4VPnvgdfCVgQpHo+XLrGpAniHcu12Zay7gSdkGacWkfGuSniM5G9sHcw3s5Z2iZccd7+1X8xgH94DRMcrWS7mHdacnsn3gnvyPltrj6LzjHPaGmjwUfJIBRHC2snLo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1605359750;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=GbEl8pznJeAlFeKdc1G9DbBCywggVkvcVE/2YIz4BzE=; 
+ b=UOFWrHz3sF13iEJDRPSZ9Lgn1drT44q8Xc24dpg45ebURxpTCAsB+j7SUu2/GoYMjtWatmqZfEgqj8r0XUUzaJQRwfKWhmnx1Spc/98RmJg5xObo+Y24Dm7TT6CqvrklM0oAHRhlDvt1memK8ICkDANbASeTOZv5maxIULEqikQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1605359748404140.66207442901975;
+ Sat, 14 Nov 2020 05:15:48 -0800 (PST)
+Subject: Re: [PATCH] fpu/softfloat.c: add spaces around operator
+Message-ID: <160535974668.23942.2775074336991206257@d9ec01ea6314>
+In-Reply-To: <20201114130715.1126922-1-zhangxinhao1@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.101.6]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35;
- envelope-from=zhangxinhao1@huawei.com; helo=szxga07-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/14 08:09:16
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: zhangxinhao1@huawei.com
+Date: Sat, 14 Nov 2020 05:15:48 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/14 08:16:28
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
  RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -56,570 +67,431 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-trivial@nongnu.org, alex.chen@huawei.com,
- alex.bennee@linaro.org, aurelien@aurel32.net, dengkai1@huawei.com
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
+ alex.chen@huawei.com, alex.bennee@linaro.org, aurelien@aurel32.net,
+ dengkai1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix code style. Operator needs spaces both sides.
-
-Signed-off-by: Xinhao Zhang <zhangxinhao1@huawei.com>
-Signed-off-by: Kai Deng <dengkai1@huawei.com>
----
- fpu/softfloat.c | 150 ++++++++++++++++++++++++------------------------
- 1 file changed, 75 insertions(+), 75 deletions(-)
-
-diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 67cfa0fd82..9938a20905 100644
---- a/fpu/softfloat.c
-+++ b/fpu/softfloat.c
-@@ -3786,13 +3786,13 @@ static int32_t roundAndPackInt32(bool zSign, uint64_t absZ,
-         abort();
-     }
-     roundBits = absZ & 0x7F;
--    absZ = ( absZ + roundIncrement )>>7;
-+    absZ = ( absZ + roundIncrement ) >> 7;
-     if (!(roundBits ^ 0x40) && roundNearestEven) {
-         absZ &= ~1;
-     }
-     z = absZ;
-     if ( zSign ) z = - z;
--    if ( ( absZ>>32 ) || ( z && ( ( z < 0 ) ^ zSign ) ) ) {
-+    if ( ( absZ >> 32 ) || ( z && ( ( z < 0 ) ^ zSign ) ) ) {
-         float_raise(float_flag_invalid, status);
-         return zSign ? INT32_MIN : INT32_MAX;
-     }
-@@ -3938,7 +3938,7 @@ static void
-     int8_t shiftCount;
- 
-     shiftCount = clz32(aSig) - 8;
--    *zSigPtr = aSig<<shiftCount;
-+    *zSigPtr = aSig << shiftCount;
-     *zExpPtr = 1 - shiftCount;
- 
- }
-@@ -4033,7 +4033,7 @@ static float32 roundAndPackFloat32(bool zSign, int zExp, uint32_t zSig,
-     if (roundBits) {
-         status->float_exception_flags |= float_flag_inexact;
-     }
--    zSig = ( zSig + roundIncrement )>>7;
-+    zSig = ( zSig + roundIncrement ) >> 7;
-     if (!(roundBits ^ 0x40) && roundNearestEven) {
-         zSig &= ~1;
-     }
-@@ -4058,7 +4058,7 @@ static float32
-     int8_t shiftCount;
- 
-     shiftCount = clz32(zSig) - 1;
--    return roundAndPackFloat32(zSign, zExp - shiftCount, zSig<<shiftCount,
-+    return roundAndPackFloat32(zSign, zExp - shiftCount, zSig << shiftCount,
-                                status);
- 
- }
-@@ -4076,7 +4076,7 @@ static void
-     int8_t shiftCount;
- 
-     shiftCount = clz64(aSig) - 11;
--    *zSigPtr = aSig<<shiftCount;
-+    *zSigPtr = aSig << shiftCount;
-     *zExpPtr = 1 - shiftCount;
- 
- }
-@@ -4096,7 +4096,7 @@ static inline float64 packFloat64(bool zSign, int zExp, uint64_t zSig)
- {
- 
-     return make_float64(
--        ( ( (uint64_t) zSign )<<63 ) + ( ( (uint64_t) zExp )<<52 ) + zSig);
-+        ( ( (uint64_t) zSign ) << 63 ) + ( ( (uint64_t) zExp ) << 52 ) + zSig);
- 
- }
- 
-@@ -4189,7 +4189,7 @@ static float64 roundAndPackFloat64(bool zSign, int zExp, uint64_t zSig,
-     if (roundBits) {
-         status->float_exception_flags |= float_flag_inexact;
-     }
--    zSig = ( zSig + roundIncrement )>>10;
-+    zSig = ( zSig + roundIncrement ) >> 10;
-     if (!(roundBits ^ 0x200) && roundNearestEven) {
-         zSig &= ~1;
-     }
-@@ -4214,7 +4214,7 @@ static float64
-     int8_t shiftCount;
- 
-     shiftCount = clz64(zSig) - 1;
--    return roundAndPackFloat64(zSign, zExp - shiftCount, zSig<<shiftCount,
-+    return roundAndPackFloat64(zSign, zExp - shiftCount, zSig << shiftCount,
-                                status);
- 
- }
-@@ -4232,7 +4232,7 @@ void normalizeFloatx80Subnormal(uint64_t aSig, int32_t *zExpPtr,
-     int8_t shiftCount;
- 
-     shiftCount = clz64(aSig);
--    *zSigPtr = aSig<<shiftCount;
-+    *zSigPtr = aSig << shiftCount;
-     *zExpPtr = 1 - shiftCount;
- }
- 
-@@ -4326,7 +4326,7 @@ floatx80 roundAndPackFloatx80(int8_t roundingPrecision, bool zSign,
-             zSig0 += roundIncrement;
-             if ( (int64_t) zSig0 < 0 ) zExp = 1;
-             roundIncrement = roundMask + 1;
--            if ( roundNearestEven && ( roundBits<<1 == roundIncrement ) ) {
-+            if ( roundNearestEven && ( roundBits << 1 == roundIncrement ) ) {
-                 roundMask |= roundIncrement;
-             }
-             zSig0 &= ~ roundMask;
-@@ -4342,7 +4342,7 @@ floatx80 roundAndPackFloatx80(int8_t roundingPrecision, bool zSign,
-         zSig0 = UINT64_C(0x8000000000000000);
-     }
-     roundIncrement = roundMask + 1;
--    if ( roundNearestEven && ( roundBits<<1 == roundIncrement ) ) {
-+    if ( roundNearestEven && ( roundBits << 1 == roundIncrement ) ) {
-         roundMask |= roundIncrement;
-     }
-     zSig0 &= ~ roundMask;
-@@ -4509,7 +4509,7 @@ static inline uint64_t extractFloat128Frac0( float128 a )
- static inline int32_t extractFloat128Exp( float128 a )
- {
- 
--    return ( a.high>>48 ) & 0x7FFF;
-+    return ( a.high >> 48 ) & 0x7FFF;
- 
- }
- 
-@@ -4546,11 +4546,11 @@ static void
-     if ( aSig0 == 0 ) {
-         shiftCount = clz64(aSig1) - 15;
-         if ( shiftCount < 0 ) {
--            *zSig0Ptr = aSig1>>( - shiftCount );
--            *zSig1Ptr = aSig1<<( shiftCount & 63 );
-+            *zSig0Ptr = aSig1 >> ( - shiftCount );
-+            *zSig1Ptr = aSig1 << ( shiftCount & 63 );
-         }
-         else {
--            *zSig0Ptr = aSig1<<shiftCount;
-+            *zSig0Ptr = aSig1 << shiftCount;
-             *zSig1Ptr = 0;
-         }
-         *zExpPtr = - shiftCount - 63;
-@@ -4775,7 +4775,7 @@ floatx80 int32_to_floatx80(int32_t a, float_status *status)
-     absA = zSign ? - a : a;
-     shiftCount = clz32(absA) + 32;
-     zSig = absA;
--    return packFloatx80( zSign, 0x403E - shiftCount, zSig<<shiftCount );
-+    return packFloatx80( zSign, 0x403E - shiftCount, zSig << shiftCount );
- 
- }
- 
-@@ -4797,7 +4797,7 @@ float128 int32_to_float128(int32_t a, float_status *status)
-     absA = zSign ? - a : a;
-     shiftCount = clz32(absA) + 17;
-     zSig0 = absA;
--    return packFloat128( zSign, 0x402E - shiftCount, zSig0<<shiftCount, 0 );
-+    return packFloat128( zSign, 0x402E - shiftCount, zSig0 << shiftCount, 0 );
- 
- }
- 
-@@ -4818,7 +4818,7 @@ floatx80 int64_to_floatx80(int64_t a, float_status *status)
-     zSign = ( a < 0 );
-     absA = zSign ? - a : a;
-     shiftCount = clz64(absA);
--    return packFloatx80( zSign, 0x403E - shiftCount, absA<<shiftCount );
-+    return packFloatx80( zSign, 0x403E - shiftCount, absA << shiftCount );
- 
- }
- 
-@@ -4901,7 +4901,7 @@ floatx80 float32_to_floatx80(float32 a, float_status *status)
-         normalizeFloat32Subnormal( aSig, &aExp, &aSig );
-     }
-     aSig |= 0x00800000;
--    return packFloatx80( aSign, aExp + 0x3F80, ( (uint64_t) aSig )<<40 );
-+    return packFloatx80( aSign, aExp + 0x3F80, ( (uint64_t) aSig ) << 40 );
- 
- }
- 
-@@ -4933,7 +4933,7 @@ float128 float32_to_float128(float32 a, float_status *status)
-         normalizeFloat32Subnormal( aSig, &aExp, &aSig );
-         --aExp;
-     }
--    return packFloat128( aSign, aExp + 0x3F80, ( (uint64_t) aSig )<<25, 0 );
-+    return packFloat128( aSign, aExp + 0x3F80, ( (uint64_t) aSig ) << 25, 0 );
- 
- }
- 
-@@ -4997,10 +4997,10 @@ float32 float32_rem(float32 a, float32 b, float_status *status)
-         q = ( bSig <= aSig );
-         if ( q ) aSig -= bSig;
-         if ( 0 < expDiff ) {
--            q = ( ( (uint64_t) aSig )<<32 ) / bSig;
-+            q = ( ( (uint64_t) aSig ) << 32 ) / bSig;
-             q >>= 32 - expDiff;
-             bSig >>= 2;
--            aSig = ( ( aSig>>1 )<<( expDiff - 1 ) ) - bSig * q;
-+            aSig = ( ( aSig >> 1 ) << ( expDiff - 1 ) ) - bSig * q;
-         }
-         else {
-             aSig >>= 2;
-@@ -5009,21 +5009,21 @@ float32 float32_rem(float32 a, float32 b, float_status *status)
-     }
-     else {
-         if ( bSig <= aSig ) aSig -= bSig;
--        aSig64 = ( (uint64_t) aSig )<<40;
--        bSig64 = ( (uint64_t) bSig )<<40;
-+        aSig64 = ( (uint64_t) aSig ) << 40;
-+        bSig64 = ( (uint64_t) bSig ) << 40;
-         expDiff -= 64;
-         while ( 0 < expDiff ) {
-             q64 = estimateDiv128To64( aSig64, 0, bSig64 );
-             q64 = ( 2 < q64 ) ? q64 - 2 : 0;
--            aSig64 = - ( ( bSig * q64 )<<38 );
-+            aSig64 = - ( ( bSig * q64 ) << 38 );
-             expDiff -= 62;
-         }
-         expDiff += 64;
-         q64 = estimateDiv128To64( aSig64, 0, bSig64 );
-         q64 = ( 2 < q64 ) ? q64 - 2 : 0;
--        q = q64>>( 64 - expDiff );
-+        q = q64 >> ( 64 - expDiff );
-         bSig <<= 6;
--        aSig = ( ( aSig64>>33 )<<( expDiff - 1 ) ) - bSig * q;
-+        aSig = ( ( aSig64 >> 33 ) << ( expDiff - 1 ) ) - bSig * q;
-     }
-     do {
-         alternateASig = aSig;
-@@ -5302,7 +5302,7 @@ float64 float64_rem(float64 a, float64 b, float_status *status)
-     while ( 0 < expDiff ) {
-         q = estimateDiv128To64( aSig, 0, bSig );
-         q = ( 2 < q ) ? q - 2 : 0;
--        aSig = - ( ( bSig>>2 ) * q );
-+        aSig = - ( ( bSig >> 2 ) * q );
-         expDiff -= 62;
-     }
-     expDiff += 64;
-@@ -5311,7 +5311,7 @@ float64 float64_rem(float64 a, float64 b, float_status *status)
-         q = ( 2 < q ) ? q - 2 : 0;
-         q >>= 64 - expDiff;
-         bSig >>= 2;
--        aSig = ( ( aSig>>1 )<<( expDiff - 1 ) ) - bSig * q;
-+        aSig = ( ( aSig >> 1 ) << ( expDiff - 1 ) ) - bSig * q;
-     }
-     else {
-         aSig >>= 2;
-@@ -5404,7 +5404,7 @@ int32_t floatx80_to_int32(floatx80 a, float_status *status)
-     aSig = extractFloatx80Frac( a );
-     aExp = extractFloatx80Exp( a );
-     aSign = extractFloatx80Sign( a );
--    if ( ( aExp == 0x7FFF ) && (uint64_t) ( aSig<<1 ) ) aSign = 0;
-+    if ( ( aExp == 0x7FFF ) && (uint64_t) ( aSig << 1 ) ) aSign = 0;
-     shiftCount = 0x4037 - aExp;
-     if ( shiftCount <= 0 ) shiftCount = 1;
-     shift64RightJamming( aSig, shiftCount, &aSig );
-@@ -5437,7 +5437,7 @@ int32_t floatx80_to_int32_round_to_zero(floatx80 a, float_status *status)
-     aExp = extractFloatx80Exp( a );
-     aSign = extractFloatx80Sign( a );
-     if ( 0x401E < aExp ) {
--        if ( ( aExp == 0x7FFF ) && (uint64_t) ( aSig<<1 ) ) aSign = 0;
-+        if ( ( aExp == 0x7FFF ) && (uint64_t) ( aSig << 1 ) ) aSign = 0;
-         goto invalid;
-     }
-     else if ( aExp < 0x3FFF ) {
-@@ -5456,7 +5456,7 @@ int32_t floatx80_to_int32_round_to_zero(floatx80 a, float_status *status)
-         float_raise(float_flag_invalid, status);
-         return aSign ? (int32_t) 0x80000000 : 0x7FFFFFFF;
-     }
--    if ( ( aSig<<shiftCount ) != savedASig ) {
-+    if ( ( aSig << shiftCount ) != savedASig ) {
-         status->float_exception_flags |= float_flag_inexact;
-     }
-     return z;
-@@ -5545,8 +5545,8 @@ int64_t floatx80_to_int64_round_to_zero(floatx80 a, float_status *status)
-         }
-         return 0;
-     }
--    z = aSig>>( - shiftCount );
--    if ( (uint64_t) ( aSig<<( shiftCount & 63 ) ) ) {
-+    z = aSig >> ( - shiftCount );
-+    if ( (uint64_t) ( aSig << ( shiftCount & 63 ) ) ) {
-         status->float_exception_flags |= float_flag_inexact;
-     }
-     if ( aSign ) z = - z;
-@@ -5575,7 +5575,7 @@ float32 floatx80_to_float32(floatx80 a, float_status *status)
-     aExp = extractFloatx80Exp( a );
-     aSign = extractFloatx80Sign( a );
-     if ( aExp == 0x7FFF ) {
--        if ( (uint64_t) ( aSig<<1 ) ) {
-+        if ( (uint64_t) ( aSig << 1 ) ) {
-             float32 res = commonNaNToFloat32(floatx80ToCommonNaN(a, status),
-                                              status);
-             return float32_silence_nan(res, status);
-@@ -5609,7 +5609,7 @@ float64 floatx80_to_float64(floatx80 a, float_status *status)
-     aExp = extractFloatx80Exp( a );
-     aSign = extractFloatx80Sign( a );
-     if ( aExp == 0x7FFF ) {
--        if ( (uint64_t) ( aSig<<1 ) ) {
-+        if ( (uint64_t) ( aSig << 1 ) ) {
-             float64 res = commonNaNToFloat64(floatx80ToCommonNaN(a, status),
-                                              status);
-             return float64_silence_nan(res, status);
-@@ -5642,12 +5642,12 @@ float128 floatx80_to_float128(floatx80 a, float_status *status)
-     aSig = extractFloatx80Frac( a );
-     aExp = extractFloatx80Exp( a );
-     aSign = extractFloatx80Sign( a );
--    if ( ( aExp == 0x7FFF ) && (uint64_t) ( aSig<<1 ) ) {
-+    if ( ( aExp == 0x7FFF ) && (uint64_t) ( aSig << 1 ) ) {
-         float128 res = commonNaNToFloat128(floatx80ToCommonNaN(a, status),
-                                            status);
-         return float128_silence_nan(res, status);
-     }
--    shift128Right( aSig<<1, 0, 16, &zSig0, &zSig1 );
-+    shift128Right( aSig << 1, 0, 16, &zSig0, &zSig1 );
-     return packFloat128( aSign, aExp, zSig0, zSig1 );
- 
- }
-@@ -5688,7 +5688,7 @@ floatx80 floatx80_round_to_int(floatx80 a, float_status *status)
-     }
-     aExp = extractFloatx80Exp( a );
-     if ( 0x403E <= aExp ) {
--        if ( ( aExp == 0x7FFF ) && (uint64_t) ( extractFloatx80Frac( a )<<1 ) ) {
-+        if ( ( aExp == 0x7FFF ) && (uint64_t) ( extractFloatx80Frac( a ) << 1 ) ) {
-             return propagateFloatx80NaN(a, a, status);
-         }
-         return a;
-@@ -5702,7 +5702,7 @@ floatx80 floatx80_round_to_int(floatx80 a, float_status *status)
-         aSign = extractFloatx80Sign( a );
-         switch (status->float_rounding_mode) {
-          case float_round_nearest_even:
--            if ( ( aExp == 0x3FFE ) && (uint64_t) ( extractFloatx80Frac( a )<<1 )
-+            if ( ( aExp == 0x3FFE ) && (uint64_t) ( extractFloatx80Frac( a ) << 1 )
-                ) {
-                 return
-                     packFloatx80( aSign, 0x3FFF, UINT64_C(0x8000000000000000));
-@@ -5736,7 +5736,7 @@ floatx80 floatx80_round_to_int(floatx80 a, float_status *status)
-     z = a;
-     switch (status->float_rounding_mode) {
-     case float_round_nearest_even:
--        z.low += lastBitMask>>1;
-+        z.low += lastBitMask >> 1;
-         if ((z.low & roundBitsMask) == 0) {
-             z.low &= ~lastBitMask;
-         }
-@@ -5817,7 +5817,7 @@ static floatx80 addFloatx80Sigs(floatx80 a, floatx80 b, bool zSign,
-     }
-     else {
-         if ( aExp == 0x7FFF ) {
--            if ( (uint64_t) ( ( aSig | bSig )<<1 ) ) {
-+            if ( (uint64_t) ( ( aSig | bSig ) << 1 ) ) {
-                 return propagateFloatx80NaN(a, b, status);
-             }
-             return a;
-@@ -5874,7 +5874,7 @@ static floatx80 subFloatx80Sigs(floatx80 a, floatx80 b, bool zSign,
-     if ( 0 < expDiff ) goto aExpBigger;
-     if ( expDiff < 0 ) goto bExpBigger;
-     if ( aExp == 0x7FFF ) {
--        if ( (uint64_t) ( ( aSig | bSig )<<1 ) ) {
-+        if ( (uint64_t) ( ( aSig | bSig ) << 1 ) ) {
-             return propagateFloatx80NaN(a, b, status);
-         }
-         float_raise(float_flag_invalid, status);
-@@ -5994,8 +5994,8 @@ floatx80 floatx80_mul(floatx80 a, floatx80 b, float_status *status)
-     bSign = extractFloatx80Sign( b );
-     zSign = aSign ^ bSign;
-     if ( aExp == 0x7FFF ) {
--        if (    (uint64_t) ( aSig<<1 )
--             || ( ( bExp == 0x7FFF ) && (uint64_t) ( bSig<<1 ) ) ) {
-+        if (    (uint64_t) ( aSig << 1 )
-+             || ( ( bExp == 0x7FFF ) && (uint64_t) ( bSig << 1 ) ) ) {
-             return propagateFloatx80NaN(a, b, status);
-         }
-         if ( ( bExp | bSig ) == 0 ) goto invalid;
-@@ -6106,7 +6106,7 @@ floatx80 floatx80_div(floatx80 a, floatx80 b, float_status *status)
-         add128( rem0, rem1, 0, bSig, &rem0, &rem1 );
-     }
-     zSig1 = estimateDiv128To64( rem1, 0, bSig );
--    if ( (uint64_t) ( zSig1<<1 ) <= 8 ) {
-+    if ( (uint64_t) ( zSig1 << 1 ) <= 8 ) {
-         mul64To128( bSig, zSig1, &term1, &term2 );
-         sub128( rem1, 0, term1, term2, &rem1, &rem2 );
-         while ( (int64_t) rem1 < 0 ) {
-@@ -6147,8 +6147,8 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod, uint64_t *quotient,
-     bSig = extractFloatx80Frac( b );
-     bExp = extractFloatx80Exp( b );
-     if ( aExp == 0x7FFF ) {
--        if (    (uint64_t) ( aSig0<<1 )
--             || ( ( bExp == 0x7FFF ) && (uint64_t) ( bSig<<1 ) ) ) {
-+        if (    (uint64_t) ( aSig0 << 1 )
-+             || ( ( bExp == 0x7FFF ) && (uint64_t) ( bSig << 1 ) ) ) {
-             return propagateFloatx80NaN(a, b, status);
-         }
-         goto invalid;
-@@ -6213,7 +6213,7 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod, uint64_t *quotient,
-         q = estimateDiv128To64( aSig0, aSig1, bSig );
-         q = ( 2 < q ) ? q - 2 : 0;
-         q >>= 64 - expDiff;
--        mul64To128( bSig, q<<( 64 - expDiff ), &term0, &term1 );
-+        mul64To128( bSig, q << ( 64 - expDiff ), &term0, &term1 );
-         sub128( aSig0, aSig1, term0, term1, &aSig0, &aSig1 );
-         shortShift128Left( 0, bSig, 64 - expDiff, &term0, &term1 );
-         while ( le128( term0, term1, aSig0, aSig1 ) ) {
-@@ -6310,17 +6310,17 @@ floatx80 floatx80_sqrt(floatx80 a, float_status *status)
-         if ( aSig0 == 0 ) return packFloatx80( 0, 0, 0 );
-         normalizeFloatx80Subnormal( aSig0, &aExp, &aSig0 );
-     }
--    zExp = ( ( aExp - 0x3FFF )>>1 ) + 0x3FFF;
--    zSig0 = estimateSqrt32( aExp, aSig0>>32 );
-+    zExp = ( ( aExp - 0x3FFF ) >> 1 ) + 0x3FFF;
-+    zSig0 = estimateSqrt32( aExp, aSig0 >> 32 );
-     shift128Right( aSig0, 0, 2 + ( aExp & 1 ), &aSig0, &aSig1 );
--    zSig0 = estimateDiv128To64( aSig0, aSig1, zSig0<<32 ) + ( zSig0<<30 );
--    doubleZSig0 = zSig0<<1;
-+    zSig0 = estimateDiv128To64( aSig0, aSig1, zSig0 << 32 ) + ( zSig0 << 30 );
-+    doubleZSig0 = zSig0 << 1;
-     mul64To128( zSig0, zSig0, &term0, &term1 );
-     sub128( aSig0, aSig1, term0, term1, &rem0, &rem1 );
-     while ( (int64_t) rem0 < 0 ) {
-         --zSig0;
-         doubleZSig0 -= 2;
--        add128( rem0, rem1, zSig0>>63, doubleZSig0 | 1, &rem0, &rem1 );
-+        add128( rem0, rem1, zSig0 >> 63, doubleZSig0 | 1, &rem0, &rem1 );
-     }
-     zSig1 = estimateDiv128To64( rem1, 0, doubleZSig0 );
-     if ( ( zSig1 & UINT64_C(0x3FFFFFFFFFFFFFFF) ) <= 5 ) {
-@@ -6416,7 +6416,7 @@ int32_t float128_to_int32_round_to_zero(float128 a, float_status *status)
-         float_raise(float_flag_invalid, status);
-         return aSign ? INT32_MIN : INT32_MAX;
-     }
--    if ( ( aSig0<<shiftCount ) != savedASig ) {
-+    if ( ( aSig0 << shiftCount ) != savedASig ) {
-         status->float_exception_flags |= float_flag_inexact;
-     }
-     return z;
-@@ -6506,8 +6506,8 @@ int64_t float128_to_int64_round_to_zero(float128 a, float_status *status)
-             }
-             return INT64_MIN;
-         }
--        z = ( aSig0<<shiftCount ) | ( aSig1>>( ( - shiftCount ) & 63 ) );
--        if ( (uint64_t) ( aSig1<<shiftCount ) ) {
-+        z = ( aSig0 << shiftCount ) | ( aSig1 >> ( ( - shiftCount ) & 63 ) );
-+        if ( (uint64_t) ( aSig1 << shiftCount ) ) {
-             status->float_exception_flags |= float_flag_inexact;
-         }
-     }
-@@ -6518,9 +6518,9 @@ int64_t float128_to_int64_round_to_zero(float128 a, float_status *status)
-             }
-             return 0;
-         }
--        z = aSig0>>( - shiftCount );
-+        z = aSig0 >> ( - shiftCount );
-         if (    aSig1
--             || ( shiftCount && (uint64_t) ( aSig0<<( shiftCount & 63 ) ) ) ) {
-+             || ( shiftCount && (uint64_t) ( aSig0 << ( shiftCount & 63 ) ) ) ) {
-             status->float_exception_flags |= float_flag_inexact;
-         }
-     }
-@@ -6776,19 +6776,19 @@ float128 float128_round_to_int(float128 a, float_status *status)
-             return a;
-         }
-         lastBitMask = 1;
--        lastBitMask = ( lastBitMask<<( 0x406E - aExp ) )<<1;
-+        lastBitMask = ( lastBitMask << ( 0x406E - aExp ) ) << 1;
-         roundBitsMask = lastBitMask - 1;
-         z = a;
-         switch (status->float_rounding_mode) {
-         case float_round_nearest_even:
-             if ( lastBitMask ) {
--                add128( z.high, z.low, 0, lastBitMask>>1, &z.high, &z.low );
-+                add128( z.high, z.low, 0, lastBitMask >> 1, &z.high, &z.low );
-                 if ( ( z.low & roundBitsMask ) == 0 ) z.low &= ~ lastBitMask;
-             }
-             else {
-                 if ( (int64_t) z.low < 0 ) {
-                     ++z.high;
--                    if ( (uint64_t) ( z.low<<1 ) == 0 ) z.high &= ~1;
-+                    if ( (uint64_t) ( z.low << 1 ) == 0 ) z.high &= ~1;
-                 }
-             }
-             break;
-@@ -6829,7 +6829,7 @@ float128 float128_round_to_int(float128 a, float_status *status)
-     }
-     else {
-         if ( aExp < 0x3FFF ) {
--            if ( ( ( (uint64_t) ( a.high<<1 ) ) | a.low ) == 0 ) return a;
-+            if ( ( ( (uint64_t) ( a.high << 1 ) ) | a.low ) == 0 ) return a;
-             status->float_exception_flags |= float_flag_inexact;
-             aSign = extractFloat128Sign( a );
-             switch (status->float_rounding_mode) {
-@@ -6870,13 +6870,13 @@ float128 float128_round_to_int(float128 a, float_status *status)
-         z.high = a.high;
-         switch (status->float_rounding_mode) {
-         case float_round_nearest_even:
--            z.high += lastBitMask>>1;
-+            z.high += lastBitMask >> 1;
-             if ( ( ( z.high & roundBitsMask ) | a.low ) == 0 ) {
-                 z.high &= ~ lastBitMask;
-             }
-             break;
-         case float_round_ties_away:
--            z.high += lastBitMask>>1;
-+            z.high += lastBitMask >> 1;
-             break;
-         case float_round_to_zero:
-             break;
-@@ -7422,18 +7422,18 @@ float128 float128_sqrt(float128 a, float_status *status)
-         if ( ( aSig0 | aSig1 ) == 0 ) return packFloat128( 0, 0, 0, 0 );
-         normalizeFloat128Subnormal( aSig0, aSig1, &aExp, &aSig0, &aSig1 );
-     }
--    zExp = ( ( aExp - 0x3FFF )>>1 ) + 0x3FFE;
-+    zExp = ( ( aExp - 0x3FFF ) >> 1 ) + 0x3FFE;
-     aSig0 |= UINT64_C(0x0001000000000000);
--    zSig0 = estimateSqrt32( aExp, aSig0>>17 );
-+    zSig0 = estimateSqrt32( aExp, aSig0 >> 17 );
-     shortShift128Left( aSig0, aSig1, 13 - ( aExp & 1 ), &aSig0, &aSig1 );
--    zSig0 = estimateDiv128To64( aSig0, aSig1, zSig0<<32 ) + ( zSig0<<30 );
--    doubleZSig0 = zSig0<<1;
-+    zSig0 = estimateDiv128To64( aSig0, aSig1, zSig0 << 32 ) + ( zSig0 << 30 );
-+    doubleZSig0 = zSig0 << 1;
-     mul64To128( zSig0, zSig0, &term0, &term1 );
-     sub128( aSig0, aSig1, term0, term1, &rem0, &rem1 );
-     while ( (int64_t) rem0 < 0 ) {
-         --zSig0;
-         doubleZSig0 -= 2;
--        add128( rem0, rem1, zSig0>>63, doubleZSig0 | 1, &rem0, &rem1 );
-+        add128( rem0, rem1, zSig0 >> 63, doubleZSig0 | 1, &rem0, &rem1 );
-     }
-     zSig1 = estimateDiv128To64( rem1, 0, doubleZSig0 );
-     if ( ( zSig1 & 0x1FFF ) <= 5 ) {
-@@ -7467,9 +7467,9 @@ floatx80_compare_internal(floatx80 a, floatx80 b, bool is_quiet,
-         return float_relation_unordered;
-     }
-     if (( ( extractFloatx80Exp( a ) == 0x7fff ) &&
--          ( extractFloatx80Frac( a )<<1 ) ) ||
-+          ( extractFloatx80Frac( a ) << 1 ) ) ||
-         ( ( extractFloatx80Exp( b ) == 0x7fff ) &&
--          ( extractFloatx80Frac( b )<<1 ) )) {
-+          ( extractFloatx80Frac( b ) << 1 ) )) {
-         if (!is_quiet ||
-             floatx80_is_signaling_nan(a, status) ||
-             floatx80_is_signaling_nan(b, status)) {
-@@ -7535,7 +7535,7 @@ float128_compare_internal(float128 a, float128 b, bool is_quiet,
-     aSign = extractFloat128Sign( a );
-     bSign = extractFloat128Sign( b );
-     if ( aSign != bSign ) {
--        if ( ( ( ( a.high | b.high )<<1 ) | a.low | b.low ) == 0 ) {
-+        if ( ( ( ( a.high | b.high ) << 1 ) | a.low | b.low ) == 0 ) {
-             /* zero case */
-             return float_relation_equal;
-         } else {
-@@ -7576,7 +7576,7 @@ floatx80 floatx80_scalbn(floatx80 a, int n, float_status *status)
-     aSign = extractFloatx80Sign( a );
- 
-     if ( aExp == 0x7FFF ) {
--        if ( aSig<<1 ) {
-+        if ( aSig << 1 ) {
-             return propagateFloatx80NaN(a, a, status);
-         }
-         return a;
--- 
-2.29.0-rc1
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTExNDEzMDcxNS4xMTI2
+OTIyLTEtemhhbmd4aW5oYW8xQGh1YXdlaS5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMg
+dG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IK
+bW9yZSBpbmZvcm1hdGlvbjoKCk1lc3NhZ2UtaWQ6IDIwMjAxMTE0MTMwNzE1LjExMjY5MjItMS16
+aGFuZ3hpbmhhbzFAaHVhd2VpLmNvbQpUeXBlOiBzZXJpZXMKU3ViamVjdDogW1BBVENIXSBmcHUv
+c29mdGZsb2F0LmM6IGFkZCBzcGFjZXMgYXJvdW5kIG9wZXJhdG9yCgo9PT0gVEVTVCBTQ1JJUFQg
+QkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBl
+eGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0t
+bG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGht
+IGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0g
+VEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdm
+NDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVt
+dQogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjAxMTEzMTgzMzEyLjQzMjYzMC0xLW1p
+Y2hhZWwucm90aEBhbWQuY29tIC0+IHBhdGNoZXcvMjAyMDExMTMxODMzMTIuNDMyNjMwLTEtbWlj
+aGFlbC5yb3RoQGFtZC5jb20KICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIwMTExNDEz
+MDcxNS4xMTI2OTIyLTEtemhhbmd4aW5oYW8xQGh1YXdlaS5jb20gLT4gcGF0Y2hldy8yMDIwMTEx
+NDEzMDcxNS4xMTI2OTIyLTEtemhhbmd4aW5oYW8xQGh1YXdlaS5jb20KU3dpdGNoZWQgdG8gYSBu
+ZXcgYnJhbmNoICd0ZXN0JwoxNjI3OGI3IGZwdS9zb2Z0ZmxvYXQuYzogYWRkIHNwYWNlcyBhcm91
+bmQgb3BlcmF0b3IKCj09PSBPVVRQVVQgQkVHSU4gPT09CkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVk
+IGFmdGVyIHRoYXQgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzIyOiBGSUxFOiBmcHUvc29mdGZsb2F0
+LmM6Mzc4OToKKyAgICBhYnNaID0gKCBhYnNaICsgcm91bmRJbmNyZW1lbnQgKSA+PiA3OwoKRVJS
+T1I6IHNwYWNlIHByb2hpYml0ZWQgYmVmb3JlIHRoYXQgY2xvc2UgcGFyZW50aGVzaXMgJyknCiMy
+MjogRklMRTogZnB1L3NvZnRmbG9hdC5jOjM3ODk6CisgICAgYWJzWiA9ICggYWJzWiArIHJvdW5k
+SW5jcmVtZW50ICkgPj4gNzsKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGFmdGVyIHRoYXQgb3Bl
+biBwYXJlbnRoZXNpcyAnKCcKIzI5OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6Mzc5NToKKyAgICBp
+ZiAoICggYWJzWiA+PiAzMiApIHx8ICggeiAmJiAoICggeiA8IDAgKSBeIHpTaWduICkgKSApIHsK
+CkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGJlZm9yZSB0aGF0IGNsb3NlIHBhcmVudGhlc2lzICcp
+JwojMjk6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzozNzk1OgorICAgIGlmICggKCBhYnNaID4+IDMy
+ICkgfHwgKCB6ICYmICggKCB6IDwgMCApIF4gelNpZ24gKSApICkgewoKRVJST1I6IHNwYWNlIHBy
+b2hpYml0ZWQgYWZ0ZXIgdGhhdCBvcGVuIHBhcmVudGhlc2lzICcoJwojNDc6IEZJTEU6IGZwdS9z
+b2Z0ZmxvYXQuYzo0MDM2OgorICAgIHpTaWcgPSAoIHpTaWcgKyByb3VuZEluY3JlbWVudCApID4+
+IDc7CgpFUlJPUjogc3BhY2UgcHJvaGliaXRlZCBiZWZvcmUgdGhhdCBjbG9zZSBwYXJlbnRoZXNp
+cyAnKScKIzQ3OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6NDAzNjoKKyAgICB6U2lnID0gKCB6U2ln
+ICsgcm91bmRJbmNyZW1lbnQgKSA+PiA3OwoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYWZ0ZXIg
+dGhhdCBvcGVuIHBhcmVudGhlc2lzICcoJwojNzQ6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo0MDk5
+OgorICAgICAgICAoICggKHVpbnQ2NF90KSB6U2lnbiApIDw8IDYzICkgKyAoICggKHVpbnQ2NF90
+KSB6RXhwICkgPDwgNTIgKSArIHpTaWcpOwoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYmVmb3Jl
+IHRoYXQgY2xvc2UgcGFyZW50aGVzaXMgJyknCiM3NDogRklMRTogZnB1L3NvZnRmbG9hdC5jOjQw
+OTk6CisgICAgICAgICggKCAodWludDY0X3QpIHpTaWduICkgPDwgNjMgKSArICggKCAodWludDY0
+X3QpIHpFeHAgKSA8PCA1MiApICsgelNpZyk7CgpFUlJPUjogc3BhY2UgcHJvaGliaXRlZCBhZnRl
+ciB0aGF0IG9wZW4gcGFyZW50aGVzaXMgJygnCiM4MzogRklMRTogZnB1L3NvZnRmbG9hdC5jOjQx
+OTI6CisgICAgelNpZyA9ICggelNpZyArIHJvdW5kSW5jcmVtZW50ICkgPj4gMTA7CgpFUlJPUjog
+c3BhY2UgcHJvaGliaXRlZCBiZWZvcmUgdGhhdCBjbG9zZSBwYXJlbnRoZXNpcyAnKScKIzgzOiBG
+SUxFOiBmcHUvc29mdGZsb2F0LmM6NDE5MjoKKyAgICB6U2lnID0gKCB6U2lnICsgcm91bmRJbmNy
+ZW1lbnQgKSA+PiAxMDsKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGFmdGVyIHRoYXQgb3BlbiBw
+YXJlbnRoZXNpcyAnKCcKIzExMDogRklMRTogZnB1L3NvZnRmbG9hdC5jOjQzMjk6CisgICAgICAg
+ICAgICBpZiAoIHJvdW5kTmVhcmVzdEV2ZW4gJiYgKCByb3VuZEJpdHMgPDwgMSA9PSByb3VuZElu
+Y3JlbWVudCApICkgewoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYmVmb3JlIHRoYXQgY2xvc2Ug
+cGFyZW50aGVzaXMgJyknCiMxMTA6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo0MzI5OgorICAgICAg
+ICAgICAgaWYgKCByb3VuZE5lYXJlc3RFdmVuICYmICggcm91bmRCaXRzIDw8IDEgPT0gcm91bmRJ
+bmNyZW1lbnQgKSApIHsKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGFmdGVyIHRoYXQgb3BlbiBw
+YXJlbnRoZXNpcyAnKCcKIzExOTogRklMRTogZnB1L3NvZnRmbG9hdC5jOjQzNDU6CisgICAgaWYg
+KCByb3VuZE5lYXJlc3RFdmVuICYmICggcm91bmRCaXRzIDw8IDEgPT0gcm91bmRJbmNyZW1lbnQg
+KSApIHsKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGJlZm9yZSB0aGF0IGNsb3NlIHBhcmVudGhl
+c2lzICcpJwojMTE5OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6NDM0NToKKyAgICBpZiAoIHJvdW5k
+TmVhcmVzdEV2ZW4gJiYgKCByb3VuZEJpdHMgPDwgMSA9PSByb3VuZEluY3JlbWVudCApICkgewoK
+RVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYWZ0ZXIgdGhhdCBvcGVuIHBhcmVudGhlc2lzICcoJwoj
+MTI4OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6NDUxMjoKKyAgICByZXR1cm4gKCBhLmhpZ2ggPj4g
+NDggKSAmIDB4N0ZGRjsKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGJlZm9yZSB0aGF0IGNsb3Nl
+IHBhcmVudGhlc2lzICcpJwojMTI4OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6NDUxMjoKKyAgICBy
+ZXR1cm4gKCBhLmhpZ2ggPj4gNDggKSAmIDB4N0ZGRjsKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVk
+IGFmdGVyIHRoYXQgJy0nIChjdHg6V3hXKQojMTM4OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6NDU0
+OToKKyAgICAgICAgICAgICp6U2lnMFB0ciA9IGFTaWcxID4+ICggLSBzaGlmdENvdW50ICk7CiAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZSBwcm9oaWJp
+dGVkIGFmdGVyIHRoYXQgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzEzODogRklMRTogZnB1L3NvZnRm
+bG9hdC5jOjQ1NDk6CisgICAgICAgICAgICAqelNpZzBQdHIgPSBhU2lnMSA+PiAoIC0gc2hpZnRD
+b3VudCApOwoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYmVmb3JlIHRoYXQgY2xvc2UgcGFyZW50
+aGVzaXMgJyknCiMxMzg6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo0NTQ5OgorICAgICAgICAgICAg
+KnpTaWcwUHRyID0gYVNpZzEgPj4gKCAtIHNoaWZ0Q291bnQgKTsKCkVSUk9SOiBzcGFjZSBwcm9o
+aWJpdGVkIGFmdGVyIHRoYXQgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzEzOTogRklMRTogZnB1L3Nv
+ZnRmbG9hdC5jOjQ1NTA6CisgICAgICAgICAgICAqelNpZzFQdHIgPSBhU2lnMSA8PCAoIHNoaWZ0
+Q291bnQgJiA2MyApOwoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYmVmb3JlIHRoYXQgY2xvc2Ug
+cGFyZW50aGVzaXMgJyknCiMxMzk6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo0NTUwOgorICAgICAg
+ICAgICAgKnpTaWcxUHRyID0gYVNpZzEgPDwgKCBzaGlmdENvdW50ICYgNjMgKTsKCkVSUk9SOiBz
+cGFjZSBwcm9oaWJpdGVkIGFmdGVyIHRoYXQgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzE1MjogRklM
+RTogZnB1L3NvZnRmbG9hdC5jOjQ3Nzg6CisgICAgcmV0dXJuIHBhY2tGbG9hdHg4MCggelNpZ24s
+IDB4NDAzRSAtIHNoaWZ0Q291bnQsIHpTaWcgPDwgc2hpZnRDb3VudCApOwoKRVJST1I6IHNwYWNl
+IHByb2hpYml0ZWQgYmVmb3JlIHRoYXQgY2xvc2UgcGFyZW50aGVzaXMgJyknCiMxNTI6IEZJTEU6
+IGZwdS9zb2Z0ZmxvYXQuYzo0Nzc4OgorICAgIHJldHVybiBwYWNrRmxvYXR4ODAoIHpTaWduLCAw
+eDQwM0UgLSBzaGlmdENvdW50LCB6U2lnIDw8IHNoaWZ0Q291bnQgKTsKCkVSUk9SOiBzcGFjZSBw
+cm9oaWJpdGVkIGFmdGVyIHRoYXQgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzE2MTogRklMRTogZnB1
+L3NvZnRmbG9hdC5jOjQ4MDA6CisgICAgcmV0dXJuIHBhY2tGbG9hdDEyOCggelNpZ24sIDB4NDAy
+RSAtIHNoaWZ0Q291bnQsIHpTaWcwIDw8IHNoaWZ0Q291bnQsIDAgKTsKCkVSUk9SOiBzcGFjZSBw
+cm9oaWJpdGVkIGJlZm9yZSB0aGF0IGNsb3NlIHBhcmVudGhlc2lzICcpJwojMTYxOiBGSUxFOiBm
+cHUvc29mdGZsb2F0LmM6NDgwMDoKKyAgICByZXR1cm4gcGFja0Zsb2F0MTI4KCB6U2lnbiwgMHg0
+MDJFIC0gc2hpZnRDb3VudCwgelNpZzAgPDwgc2hpZnRDb3VudCwgMCApOwoKRVJST1I6IHNwYWNl
+IHByb2hpYml0ZWQgYWZ0ZXIgdGhhdCBvcGVuIHBhcmVudGhlc2lzICcoJwojMTcwOiBGSUxFOiBm
+cHUvc29mdGZsb2F0LmM6NDgyMToKKyAgICByZXR1cm4gcGFja0Zsb2F0eDgwKCB6U2lnbiwgMHg0
+MDNFIC0gc2hpZnRDb3VudCwgYWJzQSA8PCBzaGlmdENvdW50ICk7CgpFUlJPUjogc3BhY2UgcHJv
+aGliaXRlZCBiZWZvcmUgdGhhdCBjbG9zZSBwYXJlbnRoZXNpcyAnKScKIzE3MDogRklMRTogZnB1
+L3NvZnRmbG9hdC5jOjQ4MjE6CisgICAgcmV0dXJuIHBhY2tGbG9hdHg4MCggelNpZ24sIDB4NDAz
+RSAtIHNoaWZ0Q291bnQsIGFic0EgPDwgc2hpZnRDb3VudCApOwoKRVJST1I6IHNwYWNlIHByb2hp
+Yml0ZWQgYWZ0ZXIgdGhhdCBvcGVuIHBhcmVudGhlc2lzICcoJwojMTc5OiBGSUxFOiBmcHUvc29m
+dGZsb2F0LmM6NDkwNDoKKyAgICByZXR1cm4gcGFja0Zsb2F0eDgwKCBhU2lnbiwgYUV4cCArIDB4
+M0Y4MCwgKCAodWludDY0X3QpIGFTaWcgKSA8PCA0MCApOwoKRVJST1I6IHNwYWNlIHByb2hpYml0
+ZWQgYmVmb3JlIHRoYXQgY2xvc2UgcGFyZW50aGVzaXMgJyknCiMxNzk6IEZJTEU6IGZwdS9zb2Z0
+ZmxvYXQuYzo0OTA0OgorICAgIHJldHVybiBwYWNrRmxvYXR4ODAoIGFTaWduLCBhRXhwICsgMHgz
+RjgwLCAoICh1aW50NjRfdCkgYVNpZyApIDw8IDQwICk7CgpFUlJPUjogc3BhY2UgcHJvaGliaXRl
+ZCBhZnRlciB0aGF0IG9wZW4gcGFyZW50aGVzaXMgJygnCiMxODg6IEZJTEU6IGZwdS9zb2Z0Zmxv
+YXQuYzo0OTM2OgorICAgIHJldHVybiBwYWNrRmxvYXQxMjgoIGFTaWduLCBhRXhwICsgMHgzRjgw
+LCAoICh1aW50NjRfdCkgYVNpZyApIDw8IDI1LCAwICk7CgpFUlJPUjogc3BhY2UgcHJvaGliaXRl
+ZCBiZWZvcmUgdGhhdCBjbG9zZSBwYXJlbnRoZXNpcyAnKScKIzE4ODogRklMRTogZnB1L3NvZnRm
+bG9hdC5jOjQ5MzY6CisgICAgcmV0dXJuIHBhY2tGbG9hdDEyOCggYVNpZ24sIGFFeHAgKyAweDNG
+ODAsICggKHVpbnQ2NF90KSBhU2lnICkgPDwgMjUsIDAgKTsKCkVSUk9SOiBzcGFjZSBwcm9oaWJp
+dGVkIGFmdGVyIHRoYXQgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzE5NzogRklMRTogZnB1L3NvZnRm
+bG9hdC5jOjUwMDA6CisgICAgICAgICAgICBxID0gKCAoICh1aW50NjRfdCkgYVNpZyApIDw8IDMy
+ICkgLyBiU2lnOwoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYmVmb3JlIHRoYXQgY2xvc2UgcGFy
+ZW50aGVzaXMgJyknCiMxOTc6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo1MDAwOgorICAgICAgICAg
+ICAgcSA9ICggKCAodWludDY0X3QpIGFTaWcgKSA8PCAzMiApIC8gYlNpZzsKCkVSUk9SOiBzcGFj
+ZSBwcm9oaWJpdGVkIGFmdGVyIHRoYXQgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzIwMTogRklMRTog
+ZnB1L3NvZnRmbG9hdC5jOjUwMDM6CisgICAgICAgICAgICBhU2lnID0gKCAoIGFTaWcgPj4gMSAp
+IDw8ICggZXhwRGlmZiAtIDEgKSApIC0gYlNpZyAqIHE7CgpFUlJPUjogc3BhY2UgcHJvaGliaXRl
+ZCBiZWZvcmUgdGhhdCBjbG9zZSBwYXJlbnRoZXNpcyAnKScKIzIwMTogRklMRTogZnB1L3NvZnRm
+bG9hdC5jOjUwMDM6CisgICAgICAgICAgICBhU2lnID0gKCAoIGFTaWcgPj4gMSApIDw8ICggZXhw
+RGlmZiAtIDEgKSApIC0gYlNpZyAqIHE7CgpFUlJPUjogc3BhY2UgcHJvaGliaXRlZCBhZnRlciB0
+aGF0IG9wZW4gcGFyZW50aGVzaXMgJygnCiMyMTE6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo1MDEy
+OgorICAgICAgICBhU2lnNjQgPSAoICh1aW50NjRfdCkgYVNpZyApIDw8IDQwOwoKRVJST1I6IHNw
+YWNlIHByb2hpYml0ZWQgYmVmb3JlIHRoYXQgY2xvc2UgcGFyZW50aGVzaXMgJyknCiMyMTE6IEZJ
+TEU6IGZwdS9zb2Z0ZmxvYXQuYzo1MDEyOgorICAgICAgICBhU2lnNjQgPSAoICh1aW50NjRfdCkg
+YVNpZyApIDw8IDQwOwoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYWZ0ZXIgdGhhdCBvcGVuIHBh
+cmVudGhlc2lzICcoJwojMjEyOiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6NTAxMzoKKyAgICAgICAg
+YlNpZzY0ID0gKCAodWludDY0X3QpIGJTaWcgKSA8PCA0MDsKCkVSUk9SOiBzcGFjZSBwcm9oaWJp
+dGVkIGJlZm9yZSB0aGF0IGNsb3NlIHBhcmVudGhlc2lzICcpJwojMjEyOiBGSUxFOiBmcHUvc29m
+dGZsb2F0LmM6NTAxMzoKKyAgICAgICAgYlNpZzY0ID0gKCAodWludDY0X3QpIGJTaWcgKSA8PCA0
+MDsKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGFmdGVyIHRoYXQgJy0nIChjdHg6V3hXKQojMjE4
+OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6NTAxODoKKyAgICAgICAgICAgIGFTaWc2NCA9IC0gKCAo
+IGJTaWcgKiBxNjQgKSA8PCAzOCApOwogICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNw
+YWNlIHByb2hpYml0ZWQgYWZ0ZXIgdGhhdCBvcGVuIHBhcmVudGhlc2lzICcoJwojMjE4OiBGSUxF
+OiBmcHUvc29mdGZsb2F0LmM6NTAxODoKKyAgICAgICAgICAgIGFTaWc2NCA9IC0gKCAoIGJTaWcg
+KiBxNjQgKSA8PCAzOCApOwoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYmVmb3JlIHRoYXQgY2xv
+c2UgcGFyZW50aGVzaXMgJyknCiMyMTg6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo1MDE4OgorICAg
+ICAgICAgICAgYVNpZzY0ID0gLSAoICggYlNpZyAqIHE2NCApIDw8IDM4ICk7CgpFUlJPUjogc3Bh
+Y2UgcHJvaGliaXRlZCBhZnRlciB0aGF0IG9wZW4gcGFyZW50aGVzaXMgJygnCiMyMjU6IEZJTEU6
+IGZwdS9zb2Z0ZmxvYXQuYzo1MDI0OgorICAgICAgICBxID0gcTY0ID4+ICggNjQgLSBleHBEaWZm
+ICk7CgpFUlJPUjogc3BhY2UgcHJvaGliaXRlZCBiZWZvcmUgdGhhdCBjbG9zZSBwYXJlbnRoZXNp
+cyAnKScKIzIyNTogRklMRTogZnB1L3NvZnRmbG9hdC5jOjUwMjQ6CisgICAgICAgIHEgPSBxNjQg
+Pj4gKCA2NCAtIGV4cERpZmYgKTsKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGFmdGVyIHRoYXQg
+b3BlbiBwYXJlbnRoZXNpcyAnKCcKIzIyODogRklMRTogZnB1L3NvZnRmbG9hdC5jOjUwMjY6Cisg
+ICAgICAgIGFTaWcgPSAoICggYVNpZzY0ID4+IDMzICkgPDwgKCBleHBEaWZmIC0gMSApICkgLSBi
+U2lnICogcTsKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGJlZm9yZSB0aGF0IGNsb3NlIHBhcmVu
+dGhlc2lzICcpJwojMjI4OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6NTAyNjoKKyAgICAgICAgYVNp
+ZyA9ICggKCBhU2lnNjQgPj4gMzMgKSA8PCAoIGV4cERpZmYgLSAxICkgKSAtIGJTaWcgKiBxOwoK
+RVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYWZ0ZXIgdGhhdCAnLScgKGN0eDpXeFcpCiMyMzc6IEZJ
+TEU6IGZwdS9zb2Z0ZmxvYXQuYzo1MzA1OgorICAgICAgICBhU2lnID0gLSAoICggYlNpZyA+PiAy
+ICkgKiBxICk7CiAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2UgcHJvaGliaXRlZCBhZnRl
+ciB0aGF0IG9wZW4gcGFyZW50aGVzaXMgJygnCiMyMzc6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo1
+MzA1OgorICAgICAgICBhU2lnID0gLSAoICggYlNpZyA+PiAyICkgKiBxICk7CgpFUlJPUjogc3Bh
+Y2UgcHJvaGliaXRlZCBiZWZvcmUgdGhhdCBjbG9zZSBwYXJlbnRoZXNpcyAnKScKIzIzNzogRklM
+RTogZnB1L3NvZnRmbG9hdC5jOjUzMDU6CisgICAgICAgIGFTaWcgPSAtICggKCBiU2lnID4+IDIg
+KSAqIHEgKTsKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGFmdGVyIHRoYXQgb3BlbiBwYXJlbnRo
+ZXNpcyAnKCcKIzI0NjogRklMRTogZnB1L3NvZnRmbG9hdC5jOjUzMTQ6CisgICAgICAgIGFTaWcg
+PSAoICggYVNpZyA+PiAxICkgPDwgKCBleHBEaWZmIC0gMSApICkgLSBiU2lnICogcTsKCkVSUk9S
+OiBzcGFjZSBwcm9oaWJpdGVkIGJlZm9yZSB0aGF0IGNsb3NlIHBhcmVudGhlc2lzICcpJwojMjQ2
+OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6NTMxNDoKKyAgICAgICAgYVNpZyA9ICggKCBhU2lnID4+
+IDEgKSA8PCAoIGV4cERpZmYgLSAxICkgKSAtIGJTaWcgKiBxOwoKRVJST1I6IHNwYWNlIHByb2hp
+Yml0ZWQgYWZ0ZXIgdGhhdCBvcGVuIHBhcmVudGhlc2lzICcoJwojMjU1OiBGSUxFOiBmcHUvc29m
+dGZsb2F0LmM6NTQwNzoKKyAgICBpZiAoICggYUV4cCA9PSAweDdGRkYgKSAmJiAodWludDY0X3Qp
+ICggYVNpZyA8PCAxICkgKSBhU2lnbiA9IDA7CgpFUlJPUjogc3BhY2UgcHJvaGliaXRlZCBiZWZv
+cmUgdGhhdCBjbG9zZSBwYXJlbnRoZXNpcyAnKScKIzI1NTogRklMRTogZnB1L3NvZnRmbG9hdC5j
+OjU0MDc6CisgICAgaWYgKCAoIGFFeHAgPT0gMHg3RkZGICkgJiYgKHVpbnQ2NF90KSAoIGFTaWcg
+PDwgMSApICkgYVNpZ24gPSAwOwoKRVJST1I6IHRyYWlsaW5nIHN0YXRlbWVudHMgc2hvdWxkIGJl
+IG9uIG5leHQgbGluZQojMjU1OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6NTQwNzoKKyAgICBpZiAo
+ICggYUV4cCA9PSAweDdGRkYgKSAmJiAodWludDY0X3QpICggYVNpZyA8PCAxICkgKSBhU2lnbiA9
+IDA7CgpFUlJPUjogYnJhY2VzIHt9IGFyZSBuZWNlc3NhcnkgZm9yIGFsbCBhcm1zIG9mIHRoaXMg
+c3RhdGVtZW50CiMyNTU6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo1NDA3OgorICAgIGlmICggKCBh
+RXhwID09IDB4N0ZGRiApICYmICh1aW50NjRfdCkgKCBhU2lnIDw8IDEgKSApIGFTaWduID0gMDsK
+Wy4uLl0KCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGFmdGVyIHRoYXQgb3BlbiBwYXJlbnRoZXNp
+cyAnKCcKIzI2NDogRklMRTogZnB1L3NvZnRmbG9hdC5jOjU0NDA6CisgICAgICAgIGlmICggKCBh
+RXhwID09IDB4N0ZGRiApICYmICh1aW50NjRfdCkgKCBhU2lnIDw8IDEgKSApIGFTaWduID0gMDsK
+CkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGJlZm9yZSB0aGF0IGNsb3NlIHBhcmVudGhlc2lzICcp
+JwojMjY0OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6NTQ0MDoKKyAgICAgICAgaWYgKCAoIGFFeHAg
+PT0gMHg3RkZGICkgJiYgKHVpbnQ2NF90KSAoIGFTaWcgPDwgMSApICkgYVNpZ24gPSAwOwoKRVJS
+T1I6IHRyYWlsaW5nIHN0YXRlbWVudHMgc2hvdWxkIGJlIG9uIG5leHQgbGluZQojMjY0OiBGSUxF
+OiBmcHUvc29mdGZsb2F0LmM6NTQ0MDoKKyAgICAgICAgaWYgKCAoIGFFeHAgPT0gMHg3RkZGICkg
+JiYgKHVpbnQ2NF90KSAoIGFTaWcgPDwgMSApICkgYVNpZ24gPSAwOwoKRVJST1I6IGJyYWNlcyB7
+fSBhcmUgbmVjZXNzYXJ5IGZvciBhbGwgYXJtcyBvZiB0aGlzIHN0YXRlbWVudAojMjY0OiBGSUxF
+OiBmcHUvc29mdGZsb2F0LmM6NTQ0MDoKKyAgICAgICAgaWYgKCAoIGFFeHAgPT0gMHg3RkZGICkg
+JiYgKHVpbnQ2NF90KSAoIGFTaWcgPDwgMSApICkgYVNpZ24gPSAwOwpbLi4uXQoKRVJST1I6IHNw
+YWNlIHByb2hpYml0ZWQgYWZ0ZXIgdGhhdCBvcGVuIHBhcmVudGhlc2lzICcoJwojMjczOiBGSUxF
+OiBmcHUvc29mdGZsb2F0LmM6NTQ1OToKKyAgICBpZiAoICggYVNpZyA8PCBzaGlmdENvdW50ICkg
+IT0gc2F2ZWRBU2lnICkgewoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYmVmb3JlIHRoYXQgY2xv
+c2UgcGFyZW50aGVzaXMgJyknCiMyNzM6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo1NDU5OgorICAg
+IGlmICggKCBhU2lnIDw8IHNoaWZ0Q291bnQgKSAhPSBzYXZlZEFTaWcgKSB7CgpFUlJPUjogc3Bh
+Y2UgcHJvaGliaXRlZCBhZnRlciB0aGF0ICctJyAoY3R4Old4VykKIzI4MzogRklMRTogZnB1L3Nv
+ZnRmbG9hdC5jOjU1NDg6CisgICAgeiA9IGFTaWcgPj4gKCAtIHNoaWZ0Q291bnQgKTsKICAgICAg
+ICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGFmdGVyIHRoYXQgb3BlbiBw
+YXJlbnRoZXNpcyAnKCcKIzI4MzogRklMRTogZnB1L3NvZnRmbG9hdC5jOjU1NDg6CisgICAgeiA9
+IGFTaWcgPj4gKCAtIHNoaWZ0Q291bnQgKTsKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGJlZm9y
+ZSB0aGF0IGNsb3NlIHBhcmVudGhlc2lzICcpJwojMjgzOiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6
+NTU0ODoKKyAgICB6ID0gYVNpZyA+PiAoIC0gc2hpZnRDb3VudCApOwoKRVJST1I6IHNwYWNlIHBy
+b2hpYml0ZWQgYWZ0ZXIgdGhhdCBvcGVuIHBhcmVudGhlc2lzICcoJwojMjg0OiBGSUxFOiBmcHUv
+c29mdGZsb2F0LmM6NTU0OToKKyAgICBpZiAoICh1aW50NjRfdCkgKCBhU2lnIDw8ICggc2hpZnRD
+b3VudCAmIDYzICkgKSApIHsKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGJlZm9yZSB0aGF0IGNs
+b3NlIHBhcmVudGhlc2lzICcpJwojMjg0OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6NTU0OToKKyAg
+ICBpZiAoICh1aW50NjRfdCkgKCBhU2lnIDw8ICggc2hpZnRDb3VudCAmIDYzICkgKSApIHsKCkVS
+Uk9SOiBzcGFjZSBwcm9oaWJpdGVkIGFmdGVyIHRoYXQgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzI5
+MzogRklMRTogZnB1L3NvZnRmbG9hdC5jOjU1Nzg6CisgICAgICAgIGlmICggKHVpbnQ2NF90KSAo
+IGFTaWcgPDwgMSApICkgewoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYmVmb3JlIHRoYXQgY2xv
+c2UgcGFyZW50aGVzaXMgJyknCiMyOTM6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo1NTc4OgorICAg
+ICAgICBpZiAoICh1aW50NjRfdCkgKCBhU2lnIDw8IDEgKSApIHsKCkVSUk9SOiBzcGFjZSBwcm9o
+aWJpdGVkIGFmdGVyIHRoYXQgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzMwMjogRklMRTogZnB1L3Nv
+ZnRmbG9hdC5jOjU2MTI6CisgICAgICAgIGlmICggKHVpbnQ2NF90KSAoIGFTaWcgPDwgMSApICkg
+ewoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYmVmb3JlIHRoYXQgY2xvc2UgcGFyZW50aGVzaXMg
+JyknCiMzMDI6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo1NjEyOgorICAgICAgICBpZiAoICh1aW50
+NjRfdCkgKCBhU2lnIDw8IDEgKSApIHsKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGFmdGVyIHRo
+YXQgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzMxMTogRklMRTogZnB1L3NvZnRmbG9hdC5jOjU2NDU6
+CisgICAgaWYgKCAoIGFFeHAgPT0gMHg3RkZGICkgJiYgKHVpbnQ2NF90KSAoIGFTaWcgPDwgMSAp
+ICkgewoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYmVmb3JlIHRoYXQgY2xvc2UgcGFyZW50aGVz
+aXMgJyknCiMzMTE6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo1NjQ1OgorICAgIGlmICggKCBhRXhw
+ID09IDB4N0ZGRiApICYmICh1aW50NjRfdCkgKCBhU2lnIDw8IDEgKSApIHsKCkVSUk9SOiBzcGFj
+ZSBwcm9oaWJpdGVkIGFmdGVyIHRoYXQgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzMxNzogRklMRTog
+ZnB1L3NvZnRmbG9hdC5jOjU2NTA6CisgICAgc2hpZnQxMjhSaWdodCggYVNpZyA8PCAxLCAwLCAx
+NiwgJnpTaWcwLCAmelNpZzEgKTsKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGJlZm9yZSB0aGF0
+IGNsb3NlIHBhcmVudGhlc2lzICcpJwojMzE3OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6NTY1MDoK
+KyAgICBzaGlmdDEyOFJpZ2h0KCBhU2lnIDw8IDEsIDAsIDE2LCAmelNpZzAsICZ6U2lnMSApOwoK
+V0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzMyNjogRklMRTogZnB1L3NvZnRmbG9h
+dC5jOjU2OTE6CisgICAgICAgIGlmICggKCBhRXhwID09IDB4N0ZGRiApICYmICh1aW50NjRfdCkg
+KCBleHRyYWN0RmxvYXR4ODBGcmFjKCBhICkgPDwgMSApICkgewoKRVJST1I6IHNwYWNlIHByb2hp
+Yml0ZWQgYWZ0ZXIgdGhhdCBvcGVuIHBhcmVudGhlc2lzICcoJwojMzI2OiBGSUxFOiBmcHUvc29m
+dGZsb2F0LmM6NTY5MToKKyAgICAgICAgaWYgKCAoIGFFeHAgPT0gMHg3RkZGICkgJiYgKHVpbnQ2
+NF90KSAoIGV4dHJhY3RGbG9hdHg4MEZyYWMoIGEgKSA8PCAxICkgKSB7CgpFUlJPUjogc3BhY2Ug
+cHJvaGliaXRlZCBiZWZvcmUgdGhhdCBjbG9zZSBwYXJlbnRoZXNpcyAnKScKIzMyNjogRklMRTog
+ZnB1L3NvZnRmbG9hdC5jOjU2OTE6CisgICAgICAgIGlmICggKCBhRXhwID09IDB4N0ZGRiApICYm
+ICh1aW50NjRfdCkgKCBleHRyYWN0RmxvYXR4ODBGcmFjKCBhICkgPDwgMSApICkgewoKV0FSTklO
+RzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzMzNTogRklMRTogZnB1L3NvZnRmbG9hdC5jOjU3
+MDU6CisgICAgICAgICAgICBpZiAoICggYUV4cCA9PSAweDNGRkUgKSAmJiAodWludDY0X3QpICgg
+ZXh0cmFjdEZsb2F0eDgwRnJhYyggYSApIDw8IDEgKQoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQg
+YWZ0ZXIgdGhhdCBvcGVuIHBhcmVudGhlc2lzICcoJwojMzM1OiBGSUxFOiBmcHUvc29mdGZsb2F0
+LmM6NTcwNToKKyAgICAgICAgICAgIGlmICggKCBhRXhwID09IDB4M0ZGRSApICYmICh1aW50NjRf
+dCkgKCBleHRyYWN0RmxvYXR4ODBGcmFjKCBhICkgPDwgMSApCgpFUlJPUjogc3BhY2UgcHJvaGli
+aXRlZCBiZWZvcmUgdGhhdCBjbG9zZSBwYXJlbnRoZXNpcyAnKScKIzMzNTogRklMRTogZnB1L3Nv
+ZnRmbG9hdC5jOjU3MDU6CisgICAgICAgICAgICBpZiAoICggYUV4cCA9PSAweDNGRkUgKSAmJiAo
+dWludDY0X3QpICggZXh0cmFjdEZsb2F0eDgwRnJhYyggYSApIDw8IDEgKQoKRVJST1I6IHNwYWNl
+IHByb2hpYml0ZWQgYWZ0ZXIgdGhhdCBvcGVuIHBhcmVudGhlc2lzICcoJwojMzUzOiBGSUxFOiBm
+cHUvc29mdGZsb2F0LmM6NTgyMDoKKyAgICAgICAgICAgIGlmICggKHVpbnQ2NF90KSAoICggYVNp
+ZyB8IGJTaWcgKSA8PCAxICkgKSB7CgpFUlJPUjogc3BhY2UgcHJvaGliaXRlZCBiZWZvcmUgdGhh
+dCBjbG9zZSBwYXJlbnRoZXNpcyAnKScKIzM1MzogRklMRTogZnB1L3NvZnRmbG9hdC5jOjU4MjA6
+CisgICAgICAgICAgICBpZiAoICh1aW50NjRfdCkgKCAoIGFTaWcgfCBiU2lnICkgPDwgMSApICkg
+ewoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYWZ0ZXIgdGhhdCBvcGVuIHBhcmVudGhlc2lzICco
+JwojMzYyOiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6NTg3NzoKKyAgICAgICAgaWYgKCAodWludDY0
+X3QpICggKCBhU2lnIHwgYlNpZyApIDw8IDEgKSApIHsKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVk
+IGJlZm9yZSB0aGF0IGNsb3NlIHBhcmVudGhlc2lzICcpJwojMzYyOiBGSUxFOiBmcHUvc29mdGZs
+b2F0LmM6NTg3NzoKKyAgICAgICAgaWYgKCAodWludDY0X3QpICggKCBhU2lnIHwgYlNpZyApIDw8
+IDEgKSApIHsKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGFmdGVyIHRoYXQgb3BlbiBwYXJlbnRo
+ZXNpcyAnKCcKIzM3MjogRklMRTogZnB1L3NvZnRmbG9hdC5jOjU5OTc6CisgICAgICAgIGlmICgg
+ICAgKHVpbnQ2NF90KSAoIGFTaWcgPDwgMSApCgpFUlJPUjogc3BhY2UgcHJvaGliaXRlZCBiZWZv
+cmUgdGhhdCBjbG9zZSBwYXJlbnRoZXNpcyAnKScKIzM3MjogRklMRTogZnB1L3NvZnRmbG9hdC5j
+OjU5OTc6CisgICAgICAgIGlmICggICAgKHVpbnQ2NF90KSAoIGFTaWcgPDwgMSApCgpFUlJPUjog
+c3BhY2UgcHJvaGliaXRlZCBhZnRlciB0aGF0IG9wZW4gcGFyZW50aGVzaXMgJygnCiMzNzM6IEZJ
+TEU6IGZwdS9zb2Z0ZmxvYXQuYzo1OTk4OgorICAgICAgICAgICAgIHx8ICggKCBiRXhwID09IDB4
+N0ZGRiApICYmICh1aW50NjRfdCkgKCBiU2lnIDw8IDEgKSApICkgewoKRVJST1I6IHNwYWNlIHBy
+b2hpYml0ZWQgYmVmb3JlIHRoYXQgY2xvc2UgcGFyZW50aGVzaXMgJyknCiMzNzM6IEZJTEU6IGZw
+dS9zb2Z0ZmxvYXQuYzo1OTk4OgorICAgICAgICAgICAgIHx8ICggKCBiRXhwID09IDB4N0ZGRiAp
+ICYmICh1aW50NjRfdCkgKCBiU2lnIDw8IDEgKSApICkgewoKRVJST1I6IHNwYWNlIHByb2hpYml0
+ZWQgYWZ0ZXIgdGhhdCBvcGVuIHBhcmVudGhlc2lzICcoJwojMzgyOiBGSUxFOiBmcHUvc29mdGZs
+b2F0LmM6NjEwOToKKyAgICBpZiAoICh1aW50NjRfdCkgKCB6U2lnMSA8PCAxICkgPD0gOCApIHsK
+CkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGJlZm9yZSB0aGF0IGNsb3NlIHBhcmVudGhlc2lzICcp
+JwojMzgyOiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6NjEwOToKKyAgICBpZiAoICh1aW50NjRfdCkg
+KCB6U2lnMSA8PCAxICkgPD0gOCApIHsKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGFmdGVyIHRo
+YXQgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzM5MjogRklMRTogZnB1L3NvZnRmbG9hdC5jOjYxNTA6
+CisgICAgICAgIGlmICggICAgKHVpbnQ2NF90KSAoIGFTaWcwIDw8IDEgKQoKRVJST1I6IHNwYWNl
+IHByb2hpYml0ZWQgYmVmb3JlIHRoYXQgY2xvc2UgcGFyZW50aGVzaXMgJyknCiMzOTI6IEZJTEU6
+IGZwdS9zb2Z0ZmxvYXQuYzo2MTUwOgorICAgICAgICBpZiAoICAgICh1aW50NjRfdCkgKCBhU2ln
+MCA8PCAxICkKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGFmdGVyIHRoYXQgb3BlbiBwYXJlbnRo
+ZXNpcyAnKCcKIzM5MzogRklMRTogZnB1L3NvZnRmbG9hdC5jOjYxNTE6CisgICAgICAgICAgICAg
+fHwgKCAoIGJFeHAgPT0gMHg3RkZGICkgJiYgKHVpbnQ2NF90KSAoIGJTaWcgPDwgMSApICkgKSB7
+CgpFUlJPUjogc3BhY2UgcHJvaGliaXRlZCBiZWZvcmUgdGhhdCBjbG9zZSBwYXJlbnRoZXNpcyAn
+KScKIzM5MzogRklMRTogZnB1L3NvZnRmbG9hdC5jOjYxNTE6CisgICAgICAgICAgICAgfHwgKCAo
+IGJFeHAgPT0gMHg3RkZGICkgJiYgKHVpbnQ2NF90KSAoIGJTaWcgPDwgMSApICkgKSB7CgpFUlJP
+Ujogc3BhY2UgcHJvaGliaXRlZCBhZnRlciB0aGF0IG9wZW4gcGFyZW50aGVzaXMgJygnCiM0MDI6
+IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo2MjE2OgorICAgICAgICBtdWw2NFRvMTI4KCBiU2lnLCBx
+IDw8ICggNjQgLSBleHBEaWZmICksICZ0ZXJtMCwgJnRlcm0xICk7CgpFUlJPUjogc3BhY2UgcHJv
+aGliaXRlZCBiZWZvcmUgdGhhdCBjbG9zZSBwYXJlbnRoZXNpcyAnKScKIzQwMjogRklMRTogZnB1
+L3NvZnRmbG9hdC5jOjYyMTY6CisgICAgICAgIG11bDY0VG8xMjgoIGJTaWcsIHEgPDwgKCA2NCAt
+IGV4cERpZmYgKSwgJnRlcm0wLCAmdGVybTEgKTsKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGFm
+dGVyIHRoYXQgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzQxMjogRklMRTogZnB1L3NvZnRmbG9hdC5j
+OjYzMTM6CisgICAgekV4cCA9ICggKCBhRXhwIC0gMHgzRkZGICkgPj4gMSApICsgMHgzRkZGOwoK
+RVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYmVmb3JlIHRoYXQgY2xvc2UgcGFyZW50aGVzaXMgJykn
+CiM0MTI6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo2MzEzOgorICAgIHpFeHAgPSAoICggYUV4cCAt
+IDB4M0ZGRiApID4+IDEgKSArIDB4M0ZGRjsKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGFmdGVy
+IHRoYXQgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzQxMzogRklMRTogZnB1L3NvZnRmbG9hdC5jOjYz
+MTQ6CisgICAgelNpZzAgPSBlc3RpbWF0ZVNxcnQzMiggYUV4cCwgYVNpZzAgPj4gMzIgKTsKCkVS
+Uk9SOiBzcGFjZSBwcm9oaWJpdGVkIGJlZm9yZSB0aGF0IGNsb3NlIHBhcmVudGhlc2lzICcpJwoj
+NDEzOiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6NjMxNDoKKyAgICB6U2lnMCA9IGVzdGltYXRlU3Fy
+dDMyKCBhRXhwLCBhU2lnMCA+PiAzMiApOwoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYWZ0ZXIg
+dGhhdCBvcGVuIHBhcmVudGhlc2lzICcoJwojNDE3OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6NjMx
+NjoKKyAgICB6U2lnMCA9IGVzdGltYXRlRGl2MTI4VG82NCggYVNpZzAsIGFTaWcxLCB6U2lnMCA8
+PCAzMiApICsgKCB6U2lnMCA8PCAzMCApOwoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYmVmb3Jl
+IHRoYXQgY2xvc2UgcGFyZW50aGVzaXMgJyknCiM0MTc6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo2
+MzE2OgorICAgIHpTaWcwID0gZXN0aW1hdGVEaXYxMjhUbzY0KCBhU2lnMCwgYVNpZzEsIHpTaWcw
+IDw8IDMyICkgKyAoIHpTaWcwIDw8IDMwICk7CgpFUlJPUjogc3BhY2UgcHJvaGliaXRlZCBhZnRl
+ciB0aGF0IG9wZW4gcGFyZW50aGVzaXMgJygnCiM0MjU6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo2
+MzIzOgorICAgICAgICBhZGQxMjgoIHJlbTAsIHJlbTEsIHpTaWcwID4+IDYzLCBkb3VibGVaU2ln
+MCB8IDEsICZyZW0wLCAmcmVtMSApOwoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYmVmb3JlIHRo
+YXQgY2xvc2UgcGFyZW50aGVzaXMgJyknCiM0MjU6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo2MzIz
+OgorICAgICAgICBhZGQxMjgoIHJlbTAsIHJlbTEsIHpTaWcwID4+IDYzLCBkb3VibGVaU2lnMCB8
+IDEsICZyZW0wLCAmcmVtMSApOwoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYWZ0ZXIgdGhhdCBv
+cGVuIHBhcmVudGhlc2lzICcoJwojNDM0OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6NjQxOToKKyAg
+ICBpZiAoICggYVNpZzAgPDwgc2hpZnRDb3VudCApICE9IHNhdmVkQVNpZyApIHsKCkVSUk9SOiBz
+cGFjZSBwcm9oaWJpdGVkIGJlZm9yZSB0aGF0IGNsb3NlIHBhcmVudGhlc2lzICcpJwojNDM0OiBG
+SUxFOiBmcHUvc29mdGZsb2F0LmM6NjQxOToKKyAgICBpZiAoICggYVNpZzAgPDwgc2hpZnRDb3Vu
+dCApICE9IHNhdmVkQVNpZyApIHsKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGFmdGVyIHRoYXQg
+Jy0nIChjdHg6V3hXKQojNDQ0OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6NjUwOToKKyAgICAgICAg
+eiA9ICggYVNpZzAgPDwgc2hpZnRDb3VudCApIHwgKCBhU2lnMSA+PiAoICggLSBzaGlmdENvdW50
+ICkgJiA2MyApICk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGFmdGVyIHRoYXQgb3BlbiBwYXJl
+bnRoZXNpcyAnKCcKIzQ0NDogRklMRTogZnB1L3NvZnRmbG9hdC5jOjY1MDk6CisgICAgICAgIHog
+PSAoIGFTaWcwIDw8IHNoaWZ0Q291bnQgKSB8ICggYVNpZzEgPj4gKCAoIC0gc2hpZnRDb3VudCAp
+ICYgNjMgKSApOwoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYmVmb3JlIHRoYXQgY2xvc2UgcGFy
+ZW50aGVzaXMgJyknCiM0NDQ6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo2NTA5OgorICAgICAgICB6
+ID0gKCBhU2lnMCA8PCBzaGlmdENvdW50ICkgfCAoIGFTaWcxID4+ICggKCAtIHNoaWZ0Q291bnQg
+KSAmIDYzICkgKTsKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGFmdGVyIHRoYXQgb3BlbiBwYXJl
+bnRoZXNpcyAnKCcKIzQ0NTogRklMRTogZnB1L3NvZnRmbG9hdC5jOjY1MTA6CisgICAgICAgIGlm
+ICggKHVpbnQ2NF90KSAoIGFTaWcxIDw8IHNoaWZ0Q291bnQgKSApIHsKCkVSUk9SOiBzcGFjZSBw
+cm9oaWJpdGVkIGJlZm9yZSB0aGF0IGNsb3NlIHBhcmVudGhlc2lzICcpJwojNDQ1OiBGSUxFOiBm
+cHUvc29mdGZsb2F0LmM6NjUxMDoKKyAgICAgICAgaWYgKCAodWludDY0X3QpICggYVNpZzEgPDwg
+c2hpZnRDb3VudCApICkgewoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYWZ0ZXIgdGhhdCAnLScg
+KGN0eDpXeFcpCiM0NTQ6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo2NTIxOgorICAgICAgICB6ID0g
+YVNpZzAgPj4gKCAtIHNoaWZ0Q291bnQgKTsKICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJS
+T1I6IHNwYWNlIHByb2hpYml0ZWQgYWZ0ZXIgdGhhdCBvcGVuIHBhcmVudGhlc2lzICcoJwojNDU0
+OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6NjUyMToKKyAgICAgICAgeiA9IGFTaWcwID4+ICggLSBz
+aGlmdENvdW50ICk7CgpFUlJPUjogc3BhY2UgcHJvaGliaXRlZCBiZWZvcmUgdGhhdCBjbG9zZSBw
+YXJlbnRoZXNpcyAnKScKIzQ1NDogRklMRTogZnB1L3NvZnRmbG9hdC5jOjY1MjE6CisgICAgICAg
+IHogPSBhU2lnMCA+PiAoIC0gc2hpZnRDb3VudCApOwoKV0FSTklORzogbGluZSBvdmVyIDgwIGNo
+YXJhY3RlcnMKIzQ1NzogRklMRTogZnB1L3NvZnRmbG9hdC5jOjY1MjM6CisgICAgICAgICAgICAg
+fHwgKCBzaGlmdENvdW50ICYmICh1aW50NjRfdCkgKCBhU2lnMCA8PCAoIHNoaWZ0Q291bnQgJiA2
+MyApICkgKSApIHsKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGFmdGVyIHRoYXQgb3BlbiBwYXJl
+bnRoZXNpcyAnKCcKIzQ1NzogRklMRTogZnB1L3NvZnRmbG9hdC5jOjY1MjM6CisgICAgICAgICAg
+ICAgfHwgKCBzaGlmdENvdW50ICYmICh1aW50NjRfdCkgKCBhU2lnMCA8PCAoIHNoaWZ0Q291bnQg
+JiA2MyApICkgKSApIHsKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGJlZm9yZSB0aGF0IGNsb3Nl
+IHBhcmVudGhlc2lzICcpJwojNDU3OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6NjUyMzoKKyAgICAg
+ICAgICAgICB8fCAoIHNoaWZ0Q291bnQgJiYgKHVpbnQ2NF90KSAoIGFTaWcwIDw8ICggc2hpZnRD
+b3VudCAmIDYzICkgKSApICkgewoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYWZ0ZXIgdGhhdCBv
+cGVuIHBhcmVudGhlc2lzICcoJwojNDY2OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6Njc3OToKKyAg
+ICAgICAgbGFzdEJpdE1hc2sgPSAoIGxhc3RCaXRNYXNrIDw8ICggMHg0MDZFIC0gYUV4cCApICkg
+PDwgMTsKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGJlZm9yZSB0aGF0IGNsb3NlIHBhcmVudGhl
+c2lzICcpJwojNDY2OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6Njc3OToKKyAgICAgICAgbGFzdEJp
+dE1hc2sgPSAoIGxhc3RCaXRNYXNrIDw8ICggMHg0MDZFIC0gYUV4cCApICkgPDwgMTsKCkVSUk9S
+OiBzcGFjZSBwcm9oaWJpdGVkIGFmdGVyIHRoYXQgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzQ3Mzog
+RklMRTogZnB1L3NvZnRmbG9hdC5jOjY3ODU6CisgICAgICAgICAgICAgICAgYWRkMTI4KCB6Lmhp
+Z2gsIHoubG93LCAwLCBsYXN0Qml0TWFzayA+PiAxLCAmei5oaWdoLCAmei5sb3cgKTsKCkVSUk9S
+OiBzcGFjZSBwcm9oaWJpdGVkIGJlZm9yZSB0aGF0IGNsb3NlIHBhcmVudGhlc2lzICcpJwojNDcz
+OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6Njc4NToKKyAgICAgICAgICAgICAgICBhZGQxMjgoIHou
+aGlnaCwgei5sb3csIDAsIGxhc3RCaXRNYXNrID4+IDEsICZ6LmhpZ2gsICZ6LmxvdyApOwoKRVJS
+T1I6IHNwYWNlIHByb2hpYml0ZWQgYWZ0ZXIgdGhhdCBvcGVuIHBhcmVudGhlc2lzICcoJwojNDgw
+OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6Njc5MToKKyAgICAgICAgICAgICAgICAgICAgaWYgKCAo
+dWludDY0X3QpICggei5sb3cgPDwgMSApID09IDAgKSB6LmhpZ2ggJj0gfjE7CgpFUlJPUjogc3Bh
+Y2UgcHJvaGliaXRlZCBiZWZvcmUgdGhhdCBjbG9zZSBwYXJlbnRoZXNpcyAnKScKIzQ4MDogRklM
+RTogZnB1L3NvZnRmbG9hdC5jOjY3OTE6CisgICAgICAgICAgICAgICAgICAgIGlmICggKHVpbnQ2
+NF90KSAoIHoubG93IDw8IDEgKSA9PSAwICkgei5oaWdoICY9IH4xOwoKRVJST1I6IHRyYWlsaW5n
+IHN0YXRlbWVudHMgc2hvdWxkIGJlIG9uIG5leHQgbGluZQojNDgwOiBGSUxFOiBmcHUvc29mdGZs
+b2F0LmM6Njc5MToKKyAgICAgICAgICAgICAgICAgICAgaWYgKCAodWludDY0X3QpICggei5sb3cg
+PDwgMSApID09IDAgKSB6LmhpZ2ggJj0gfjE7CgpFUlJPUjogYnJhY2VzIHt9IGFyZSBuZWNlc3Nh
+cnkgZm9yIGFsbCBhcm1zIG9mIHRoaXMgc3RhdGVtZW50CiM0ODA6IEZJTEU6IGZwdS9zb2Z0Zmxv
+YXQuYzo2NzkxOgorICAgICAgICAgICAgICAgICAgICBpZiAoICh1aW50NjRfdCkgKCB6LmxvdyA8
+PCAxICkgPT0gMCApIHouaGlnaCAmPSB+MTsKWy4uLl0KCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVk
+IGFmdGVyIHRoYXQgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzQ4OTogRklMRTogZnB1L3NvZnRmbG9h
+dC5jOjY4MzI6CisgICAgICAgICAgICBpZiAoICggKCAodWludDY0X3QpICggYS5oaWdoIDw8IDEg
+KSApIHwgYS5sb3cgKSA9PSAwICkgcmV0dXJuIGE7CgpFUlJPUjogc3BhY2UgcHJvaGliaXRlZCBi
+ZWZvcmUgdGhhdCBjbG9zZSBwYXJlbnRoZXNpcyAnKScKIzQ4OTogRklMRTogZnB1L3NvZnRmbG9h
+dC5jOjY4MzI6CisgICAgICAgICAgICBpZiAoICggKCAodWludDY0X3QpICggYS5oaWdoIDw8IDEg
+KSApIHwgYS5sb3cgKSA9PSAwICkgcmV0dXJuIGE7CgpFUlJPUjogdHJhaWxpbmcgc3RhdGVtZW50
+cyBzaG91bGQgYmUgb24gbmV4dCBsaW5lCiM0ODk6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo2ODMy
+OgorICAgICAgICAgICAgaWYgKCAoICggKHVpbnQ2NF90KSAoIGEuaGlnaCA8PCAxICkgKSB8IGEu
+bG93ICkgPT0gMCApIHJldHVybiBhOwoKRVJST1I6IGJyYWNlcyB7fSBhcmUgbmVjZXNzYXJ5IGZv
+ciBhbGwgYXJtcyBvZiB0aGlzIHN0YXRlbWVudAojNDg5OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6
+NjgzMjoKKyAgICAgICAgICAgIGlmICggKCAoICh1aW50NjRfdCkgKCBhLmhpZ2ggPDwgMSApICkg
+fCBhLmxvdyApID09IDAgKSByZXR1cm4gYTsKWy4uLl0KCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVk
+IGFmdGVyIHRoYXQgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzUxNDogRklMRTogZnB1L3NvZnRmbG9h
+dC5jOjc0MjU6CisgICAgekV4cCA9ICggKCBhRXhwIC0gMHgzRkZGICkgPj4gMSApICsgMHgzRkZF
+OwoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYmVmb3JlIHRoYXQgY2xvc2UgcGFyZW50aGVzaXMg
+JyknCiM1MTQ6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo3NDI1OgorICAgIHpFeHAgPSAoICggYUV4
+cCAtIDB4M0ZGRiApID4+IDEgKSArIDB4M0ZGRTsKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGFm
+dGVyIHRoYXQgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzUxNzogRklMRTogZnB1L3NvZnRmbG9hdC5j
+Ojc0Mjc6CisgICAgelNpZzAgPSBlc3RpbWF0ZVNxcnQzMiggYUV4cCwgYVNpZzAgPj4gMTcgKTsK
+CkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGJlZm9yZSB0aGF0IGNsb3NlIHBhcmVudGhlc2lzICcp
+JwojNTE3OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6NzQyNzoKKyAgICB6U2lnMCA9IGVzdGltYXRl
+U3FydDMyKCBhRXhwLCBhU2lnMCA+PiAxNyApOwoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYWZ0
+ZXIgdGhhdCBvcGVuIHBhcmVudGhlc2lzICcoJwojNTIxOiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6
+NzQyOToKKyAgICB6U2lnMCA9IGVzdGltYXRlRGl2MTI4VG82NCggYVNpZzAsIGFTaWcxLCB6U2ln
+MCA8PCAzMiApICsgKCB6U2lnMCA8PCAzMCApOwoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYmVm
+b3JlIHRoYXQgY2xvc2UgcGFyZW50aGVzaXMgJyknCiM1MjE6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQu
+Yzo3NDI5OgorICAgIHpTaWcwID0gZXN0aW1hdGVEaXYxMjhUbzY0KCBhU2lnMCwgYVNpZzEsIHpT
+aWcwIDw8IDMyICkgKyAoIHpTaWcwIDw8IDMwICk7CgpFUlJPUjogc3BhY2UgcHJvaGliaXRlZCBh
+ZnRlciB0aGF0IG9wZW4gcGFyZW50aGVzaXMgJygnCiM1Mjk6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQu
+Yzo3NDM2OgorICAgICAgICBhZGQxMjgoIHJlbTAsIHJlbTEsIHpTaWcwID4+IDYzLCBkb3VibGVa
+U2lnMCB8IDEsICZyZW0wLCAmcmVtMSApOwoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYmVmb3Jl
+IHRoYXQgY2xvc2UgcGFyZW50aGVzaXMgJyknCiM1Mjk6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo3
+NDM2OgorICAgICAgICBhZGQxMjgoIHJlbTAsIHJlbTEsIHpTaWcwID4+IDYzLCBkb3VibGVaU2ln
+MCB8IDEsICZyZW0wLCAmcmVtMSApOwoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYWZ0ZXIgdGhh
+dCBvcGVuIHBhcmVudGhlc2lzICcoJwojNTM4OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6NzQ3MDoK
+KyAgICAgICAgICAoIGV4dHJhY3RGbG9hdHg4MEZyYWMoIGEgKSA8PCAxICkgKSB8fAoKRVJST1I6
+IHNwYWNlIHByb2hpYml0ZWQgYmVmb3JlIHRoYXQgY2xvc2UgcGFyZW50aGVzaXMgJyknCiM1Mzg6
+IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo3NDcwOgorICAgICAgICAgICggZXh0cmFjdEZsb2F0eDgw
+RnJhYyggYSApIDw8IDEgKSApIHx8CgpFUlJPUjogc3BhY2UgcHJvaGliaXRlZCBhZnRlciB0aGF0
+IG9wZW4gcGFyZW50aGVzaXMgJygnCiM1NDE6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo3NDcyOgor
+ICAgICAgICAgICggZXh0cmFjdEZsb2F0eDgwRnJhYyggYiApIDw8IDEgKSApKSB7CgpFUlJPUjog
+c3BhY2UgcHJvaGliaXRlZCBiZWZvcmUgdGhhdCBjbG9zZSBwYXJlbnRoZXNpcyAnKScKIzU0MTog
+RklMRTogZnB1L3NvZnRmbG9hdC5jOjc0NzI6CisgICAgICAgICAgKCBleHRyYWN0RmxvYXR4ODBG
+cmFjKCBiICkgPDwgMSApICkpIHsKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGFmdGVyIHRoYXQg
+b3BlbiBwYXJlbnRoZXNpcyAnKCcKIzU1MDogRklMRTogZnB1L3NvZnRmbG9hdC5jOjc1Mzg6Cisg
+ICAgICAgIGlmICggKCAoICggYS5oaWdoIHwgYi5oaWdoICkgPDwgMSApIHwgYS5sb3cgfCBiLmxv
+dyApID09IDAgKSB7CgpFUlJPUjogc3BhY2UgcHJvaGliaXRlZCBiZWZvcmUgdGhhdCBjbG9zZSBw
+YXJlbnRoZXNpcyAnKScKIzU1MDogRklMRTogZnB1L3NvZnRmbG9hdC5jOjc1Mzg6CisgICAgICAg
+IGlmICggKCAoICggYS5oaWdoIHwgYi5oaWdoICkgPDwgMSApIHwgYS5sb3cgfCBiLmxvdyApID09
+IDAgKSB7CgpFUlJPUjogc3BhY2UgcHJvaGliaXRlZCBhZnRlciB0aGF0IG9wZW4gcGFyZW50aGVz
+aXMgJygnCiM1NTk6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo3NTc5OgorICAgICAgICBpZiAoIGFT
+aWcgPDwgMSApIHsKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGJlZm9yZSB0aGF0IGNsb3NlIHBh
+cmVudGhlc2lzICcpJwojNTU5OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6NzU3OToKKyAgICAgICAg
+aWYgKCBhU2lnIDw8IDEgKSB7Cgp0b3RhbDogMTQyIGVycm9ycywgMyB3YXJuaW5ncywgNDk3IGxp
+bmVzIGNoZWNrZWQKCkNvbW1pdCAxNjI3OGI3MTUyMDQgKGZwdS9zb2Z0ZmxvYXQuYzogYWRkIHNw
+YWNlcyBhcm91bmQgb3BlcmF0b3IpIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4g
+IElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0
+byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCj09PSBPVVRQ
+VVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBs
+b2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAxMTE0MTMwNzE1
+LjExMjY5MjItMS16aGFuZ3hpbmhhbzFAaHVhd2VpLmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5
+cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcg
+W2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRj
+aGV3LWRldmVsQHJlZGhhdC5jb20=
 
