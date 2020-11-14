@@ -2,93 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1DF62B2AAC
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Nov 2020 02:52:40 +0100 (CET)
-Received: from localhost ([::1]:55806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABB102B2B21
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Nov 2020 04:46:40 +0100 (CET)
+Received: from localhost ([::1]:58210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdkk4-0008EX-0h
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 20:52:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48624)
+	id 1kdmWN-0005j5-8g
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 22:46:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <krish.sadhukhan@oracle.com>)
- id 1kdkho-0006nu-Hx
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 20:50:20 -0500
-Received: from userp2120.oracle.com ([156.151.31.85]:47728)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <krish.sadhukhan@oracle.com>)
- id 1kdkhj-0002Zo-3B
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 20:50:20 -0500
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AE1nnO2026863;
- Sat, 14 Nov 2020 01:50:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=corp-2020-01-29;
- bh=ISfln+HaDRfa94Trku7ZBKLGbuFAluUA4VyQ8Coqkqo=;
- b=TPiM7nEzK6CBEmb2m6p6Uq56TPLX8VZeLCkbVxxArru8tdYzp+RRUmLIUQ8syfHHk004
- dv4loWU9e62wyZYSQI9dMGluz2rcTtJkz5/8S55fqP6G4pKKqF7AjBhROECgvee/grh7
- FRsxxBBQN+REav/v62B90yE77nlHSL/P6zbqDca4meNn7rmocPWUzUw8VegdPGbCGdyn
- zoHZ+f4noWFKFQlCHIcYTEmT9PKzVTAA6QdO7J4sQh5ViEVuueGCokWVSwAO7ZYjezRH
- EWOesPgxMeh0yXIldIoLZ5zKqS1pLTD8TXhspWqMqCCJ8T+M/KeZm2iger06CsuNIDY/ 2Q== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2120.oracle.com with ESMTP id 34p72f31cr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Sat, 14 Nov 2020 01:50:09 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AE1jHqZ167743;
- Sat, 14 Nov 2020 01:50:09 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3020.oracle.com with ESMTP id 34rt58vky9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 14 Nov 2020 01:50:09 +0000
-Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0AE1o8rS009507;
- Sat, 14 Nov 2020 01:50:08 GMT
-Received: from nsvm-sadhukhan.osdevelopmeniad.oraclevcn.com (/100.100.230.216)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 13 Nov 2020 17:50:07 -0800
-From: Krish Sadhukhan <krish.sadhukhan@oracle.com>
-To: kvm@vger.kernel.org
-Subject: [PATCH 5/5 v5] KVM: nVMX: Fill in conforming vmx_nested_ops via macro
-Date: Sat, 14 Nov 2020 01:49:55 +0000
-Message-Id: <20201114014955.19749-6-krish.sadhukhan@oracle.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201114014955.19749-1-krish.sadhukhan@oracle.com>
-References: <20201114014955.19749-1-krish.sadhukhan@oracle.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kdmVR-0005AA-As
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 22:45:41 -0500
+Received: from indium.canonical.com ([91.189.90.7]:47604)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kdmVP-0000K4-2D
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 22:45:41 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kdmVM-0001as-H2
+ for <qemu-devel@nongnu.org>; Sat, 14 Nov 2020 03:45:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 792972E8019
+ for <qemu-devel@nongnu.org>; Sat, 14 Nov 2020 03:45:36 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9804
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- bulkscore=0 mlxscore=0
- mlxlogscore=999 suspectscore=3 adultscore=0 phishscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011140009
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9804
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- mlxlogscore=999 mlxscore=0
- malwarescore=0 suspectscore=3 lowpriorityscore=0 adultscore=0 phishscore=0
- priorityscore=1501 spamscore=0 impostorscore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011140009
-Received-SPF: pass client-ip=156.151.31.85;
- envelope-from=krish.sadhukhan@oracle.com; helo=userp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/13 20:50:10
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 14 Nov 2020 03:39:30 -0000
+From: Ivan Serdyuk <1904259@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: oceanfish81
+X-Launchpad-Bug-Reporter: Ivan Serdyuk (oceanfish81)
+X-Launchpad-Bug-Modifier: Ivan Serdyuk (oceanfish81)
+Message-Id: <160532517027.32164.5994775965173619452.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1904259] [NEW] include/qemu/atomic.h:495:5: error: misaligned
+ atomic operation may incur significant performance penalty (Clang 11;
+ Ubuntu 16 i686)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="38ebca4a151c7e484f2992f7b90f5a3ede13f97f"; Instance="production"
+X-Launchpad-Hash: 00dbff1cf9756f9903c9ae6f6b7b378c50f1a183
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/13 22:45:36
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -97,158 +72,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, vkuznets@redhat.com, qemu-devel@nongnu.org,
- sean.j.christopherson@intel.com, jmattson@google.com
+Reply-To: Bug 1904259 <1904259@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The names of some of the vmx_nested_ops functions do not have a corresponding
-'nested_vmx_' prefix. Generate the names using a macro so that the names are
-conformant. Fixing the naming will help in better readability and
-maintenance of the code.
+Public bug reported:
 
-Suggested-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
-Signed-off-by: Krish Sadhukhan <krish.sadhukhan@oracle.com>
----
- arch/x86/kvm/vmx/evmcs.c  |  6 +++---
- arch/x86/kvm/vmx/evmcs.h  |  4 ++--
- arch/x86/kvm/vmx/nested.c | 35 +++++++++++++++++++++--------------
- 3 files changed, 26 insertions(+), 19 deletions(-)
+Hello.
+I haven't found any "official" executables, for emulating RISC-V (32bit; 64=
+bit) so I had to compile those myself.
 
-diff --git a/arch/x86/kvm/vmx/evmcs.c b/arch/x86/kvm/vmx/evmcs.c
-index f3199bb02f22..e54b366ea114 100644
---- a/arch/x86/kvm/vmx/evmcs.c
-+++ b/arch/x86/kvm/vmx/evmcs.c
-@@ -324,7 +324,7 @@ bool nested_enlightened_vmentry(struct kvm_vcpu *vcpu, u64 *evmcs_gpa)
- 	return true;
- }
- 
--uint16_t nested_get_evmcs_version(struct kvm_vcpu *vcpu)
-+uint16_t nested_vmx_get_evmcs_version(struct kvm_vcpu *vcpu)
- {
- 	struct vcpu_vmx *vmx = to_vmx(vcpu);
- 	/*
-@@ -418,7 +418,7 @@ int nested_evmcs_check_controls(struct vmcs12 *vmcs12)
- 	return ret;
- }
- 
--int nested_enable_evmcs(struct kvm_vcpu *vcpu,
-+int nested_vmx_enable_evmcs(struct kvm_vcpu *vcpu,
- 			uint16_t *vmcs_version)
- {
- 	struct vcpu_vmx *vmx = to_vmx(vcpu);
-@@ -426,7 +426,7 @@ int nested_enable_evmcs(struct kvm_vcpu *vcpu,
- 	vmx->nested.enlightened_vmcs_enabled = true;
- 
- 	if (vmcs_version)
--		*vmcs_version = nested_get_evmcs_version(vcpu);
-+		*vmcs_version = nested_vmx_get_evmcs_version(vcpu);
- 
- 	return 0;
- }
-diff --git a/arch/x86/kvm/vmx/evmcs.h b/arch/x86/kvm/vmx/evmcs.h
-index bd41d9462355..150e7921b5fd 100644
---- a/arch/x86/kvm/vmx/evmcs.h
-+++ b/arch/x86/kvm/vmx/evmcs.h
-@@ -205,8 +205,8 @@ enum nested_evmptrld_status {
- };
- 
- bool nested_enlightened_vmentry(struct kvm_vcpu *vcpu, u64 *evmcs_gpa);
--uint16_t nested_get_evmcs_version(struct kvm_vcpu *vcpu);
--int nested_enable_evmcs(struct kvm_vcpu *vcpu,
-+uint16_t nested_vmx_get_evmcs_version(struct kvm_vcpu *vcpu);
-+int nested_vmx_enable_evmcs(struct kvm_vcpu *vcpu,
- 			uint16_t *vmcs_version);
- void nested_evmcs_filter_control_msr(u32 msr_index, u64 *pdata);
- int nested_evmcs_check_controls(struct vmcs12 *vmcs12);
-diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
-index 104d6782ddc3..ecff1117f598 100644
---- a/arch/x86/kvm/vmx/nested.c
-+++ b/arch/x86/kvm/vmx/nested.c
-@@ -3223,7 +3223,12 @@ static bool nested_get_vmcs12_pages(struct kvm_vcpu *vcpu)
- 	return true;
- }
- 
--static int nested_vmx_write_pml_buffer(struct kvm_vcpu *vcpu, gpa_t gpa)
-+static bool nested_vmx_get_pages(struct kvm_vcpu *vcpu)
-+{
-+	return nested_get_vmcs12_pages(vcpu);
-+}
-+
-+static int nested_vmx_write_log_dirty(struct kvm_vcpu *vcpu, gpa_t gpa)
- {
- 	struct vmcs12 *vmcs12;
- 	struct vcpu_vmx *vmx = to_vmx(vcpu);
-@@ -3769,13 +3774,13 @@ static void nested_vmx_update_pending_dbg(struct kvm_vcpu *vcpu)
- 			    vcpu->arch.exception.payload);
- }
- 
--static bool nested_vmx_preemption_timer_pending(struct kvm_vcpu *vcpu)
-+static bool nested_vmx_hv_timer_pending(struct kvm_vcpu *vcpu)
- {
- 	return nested_cpu_has_preemption_timer(get_vmcs12(vcpu)) &&
- 	       to_vmx(vcpu)->nested.preemption_timer_expired;
- }
- 
--static int vmx_check_nested_events(struct kvm_vcpu *vcpu)
-+static int nested_vmx_check_events(struct kvm_vcpu *vcpu)
- {
- 	struct vcpu_vmx *vmx = to_vmx(vcpu);
- 	unsigned long exit_qual;
-@@ -3830,7 +3835,7 @@ static int vmx_check_nested_events(struct kvm_vcpu *vcpu)
- 		return 0;
- 	}
- 
--	if (nested_vmx_preemption_timer_pending(vcpu)) {
-+	if (nested_vmx_hv_timer_pending(vcpu)) {
- 		if (block_nested_events)
- 			return -EBUSY;
- 		nested_vmx_vmexit(vcpu, EXIT_REASON_PREEMPTION_TIMER, 0, 0);
-@@ -5964,7 +5969,7 @@ bool nested_vmx_reflect_vmexit(struct kvm_vcpu *vcpu)
- 	return true;
- }
- 
--static int vmx_get_nested_state(struct kvm_vcpu *vcpu,
-+static int nested_vmx_get_state(struct kvm_vcpu *vcpu,
- 				struct kvm_nested_state __user *user_kvm_nested_state,
- 				u32 user_data_size)
- {
-@@ -6088,7 +6093,7 @@ void vmx_leave_nested(struct kvm_vcpu *vcpu)
- 	free_nested(vcpu);
- }
- 
--static int vmx_set_nested_state(struct kvm_vcpu *vcpu,
-+static int nested_vmx_set_state(struct kvm_vcpu *vcpu,
- 				struct kvm_nested_state __user *user_kvm_nested_state,
- 				struct kvm_nested_state *kvm_state)
- {
-@@ -6568,13 +6573,15 @@ __init int nested_vmx_hardware_setup(int (*exit_handlers[])(struct kvm_vcpu *))
- 	return 0;
- }
- 
-+#define KVM_X86_NESTED_OP_NAME(name) .name = nested_vmx_##name
-+
- struct kvm_x86_nested_ops vmx_nested_ops = {
--	.check_events = vmx_check_nested_events,
--	.hv_timer_pending = nested_vmx_preemption_timer_pending,
--	.get_state = vmx_get_nested_state,
--	.set_state = vmx_set_nested_state,
--	.get_pages = nested_get_vmcs12_pages,
--	.write_log_dirty = nested_vmx_write_pml_buffer,
--	.enable_evmcs = nested_enable_evmcs,
--	.get_evmcs_version = nested_get_evmcs_version,
-+	KVM_X86_NESTED_OP_NAME(check_events),
-+	KVM_X86_NESTED_OP_NAME(hv_timer_pending),
-+	KVM_X86_NESTED_OP_NAME(get_state),
-+	KVM_X86_NESTED_OP_NAME(set_state),
-+	KVM_X86_NESTED_OP_NAME(get_pages),
-+	KVM_X86_NESTED_OP_NAME(write_log_dirty),
-+	KVM_X86_NESTED_OP_NAME(enable_evmcs),
-+	KVM_X86_NESTED_OP_NAME(get_evmcs_version),
- };
--- 
-2.27.0
+I found that auto-generated build scripts, for Ninja, contained some
+warnings interpreted as errors:
 
+
+oceanfish81@gollvm:~/Desktop/qemu/build$ ninja -j 1
+[2/1977] Compiling C object libqemuutil.a.p/util_qsp.c.o
+FAILED: libqemuutil.a.p/util_qsp.c.o =
+
+clang-11 -Ilibqemuutil.a.p -I. -I.. -Iqapi -Itrace -Iui -Iui/shader -I/usr/=
+include/glib-2.0 -I/usr/lib/i386-linux-gnu/glib-2.0/include -I/usr/include/=
+gio-unix-2.0/ -Xclang -fcolor-diagnostics -pipe -Wall -Winvalid-pch -Werror=
+ -std=3Dgnu99 -O2 -g -m32 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFI=
+LE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef -Wwrite-strings -Wm=
+issing-prototypes -fno-strict-aliasing -fno-common -fwrapv -Wold-style-defi=
+nition -Wtype-limits -Wformat-security -Wformat-y2k -Winit-self -Wignored-q=
+ualifiers -Wempty-body -Wnested-externs -Wendif-labels -Wexpansion-to-defin=
+ed -Wno-initializer-overrides -Wno-missing-include-dirs -Wno-shift-negative=
+-value -Wno-string-plus-int -Wno-typedef-redefinition -Wno-tautological-typ=
+e-limit-compare -Wno-psabi -fstack-protector-strong -isystem /home/oceanfis=
+h81/Desktop/qemu/linux-headers -isystem linux-headers -iquote /home/oceanfi=
+sh81/Desktop/qemu/tcg/i386 -iquote . -iquote /home/oceanfish81/Desktop/qemu=
+ -iquote /home/oceanfish81/Desktop/qemu/accel/tcg -iquote /home/oceanfish81=
+/Desktop/qemu/include -iquote /home/oceanfish81/Desktop/qemu/disas/libvixl =
+-pthread -Wno-unused-function -fPIC -MD -MQ libqemuutil.a.p/util_qsp.c.o -M=
+F libqemuutil.a.p/util_qsp.c.o.d -o libqemuutil.a.p/util_qsp.c.o -c ../util=
+/qsp.c
+In file included from ../util/qsp.c:62:
+In file included from /home/oceanfish81/Desktop/qemu/include/qemu/thread.h:=
+4:
+In file included from /home/oceanfish81/Desktop/qemu/include/qemu/processor=
+.h:10:
+/home/oceanfish81/Desktop/qemu/include/qemu/atomic.h:495:5: error: misalign=
+ed atomic operation may incur significant performance penalty [-Werror,-Wat=
+omic-alignment]
+    qatomic_set__nocheck(ptr, val);
+    ^
+/home/oceanfish81/Desktop/qemu/include/qemu/atomic.h:138:5: note: expanded =
+from macro 'qatomic_set__nocheck'
+    __atomic_store_n(ptr, i, __ATOMIC_RELAXED)
+    ^
+/home/oceanfish81/Desktop/qemu/include/qemu/atomic.h:485:12: error: misalig=
+ned atomic operation may incur significant performance penalty [-Werror,-Wa=
+tomic-alignment]
+    return qatomic_read__nocheck(ptr);
+           ^
+/home/oceanfish81/Desktop/qemu/include/qemu/atomic.h:129:5: note: expanded =
+from macro 'qatomic_read__nocheck'
+    __atomic_load_n(ptr, __ATOMIC_RELAXED)
+    ^
+2 errors generated.
+ninja: build stopped: subcommand failed.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Attachment added: "Attaching my build.ninja file, in case it would be of=
+ help"
+   https://bugs.launchpad.net/bugs/1904259/+attachment/5434234/+files/build=
+.ninja
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1904259
+
+Title:
+  include/qemu/atomic.h:495:5: error: misaligned atomic operation may
+  incur significant performance penalty (Clang 11; Ubuntu 16 i686)
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello.
+  I haven't found any "official" executables, for emulating RISC-V (32bit; =
+64bit) so I had to compile those myself.
+
+  I found that auto-generated build scripts, for Ninja, contained some
+  warnings interpreted as errors:
+
+  =
+
+  oceanfish81@gollvm:~/Desktop/qemu/build$ ninja -j 1
+  [2/1977] Compiling C object libqemuutil.a.p/util_qsp.c.o
+  FAILED: libqemuutil.a.p/util_qsp.c.o =
+
+  clang-11 -Ilibqemuutil.a.p -I. -I.. -Iqapi -Itrace -Iui -Iui/shader -I/us=
+r/include/glib-2.0 -I/usr/lib/i386-linux-gnu/glib-2.0/include -I/usr/includ=
+e/gio-unix-2.0/ -Xclang -fcolor-diagnostics -pipe -Wall -Winvalid-pch -Werr=
+or -std=3Dgnu99 -O2 -g -m32 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGE=
+FILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef -Wwrite-strings -=
+Wmissing-prototypes -fno-strict-aliasing -fno-common -fwrapv -Wold-style-de=
+finition -Wtype-limits -Wformat-security -Wformat-y2k -Winit-self -Wignored=
+-qualifiers -Wempty-body -Wnested-externs -Wendif-labels -Wexpansion-to-def=
+ined -Wno-initializer-overrides -Wno-missing-include-dirs -Wno-shift-negati=
+ve-value -Wno-string-plus-int -Wno-typedef-redefinition -Wno-tautological-t=
+ype-limit-compare -Wno-psabi -fstack-protector-strong -isystem /home/oceanf=
+ish81/Desktop/qemu/linux-headers -isystem linux-headers -iquote /home/ocean=
+fish81/Desktop/qemu/tcg/i386 -iquote . -iquote /home/oceanfish81/Desktop/qe=
+mu -iquote /home/oceanfish81/Desktop/qemu/accel/tcg -iquote /home/oceanfish=
+81/Desktop/qemu/include -iquote /home/oceanfish81/Desktop/qemu/disas/libvix=
+l -pthread -Wno-unused-function -fPIC -MD -MQ libqemuutil.a.p/util_qsp.c.o =
+-MF libqemuutil.a.p/util_qsp.c.o.d -o libqemuutil.a.p/util_qsp.c.o -c ../ut=
+il/qsp.c
+  In file included from ../util/qsp.c:62:
+  In file included from /home/oceanfish81/Desktop/qemu/include/qemu/thread.=
+h:4:
+  In file included from /home/oceanfish81/Desktop/qemu/include/qemu/process=
+or.h:10:
+  /home/oceanfish81/Desktop/qemu/include/qemu/atomic.h:495:5: error: misali=
+gned atomic operation may incur significant performance penalty [-Werror,-W=
+atomic-alignment]
+      qatomic_set__nocheck(ptr, val);
+      ^
+  /home/oceanfish81/Desktop/qemu/include/qemu/atomic.h:138:5: note: expande=
+d from macro 'qatomic_set__nocheck'
+      __atomic_store_n(ptr, i, __ATOMIC_RELAXED)
+      ^
+  /home/oceanfish81/Desktop/qemu/include/qemu/atomic.h:485:12: error: misal=
+igned atomic operation may incur significant performance penalty [-Werror,-=
+Watomic-alignment]
+      return qatomic_read__nocheck(ptr);
+             ^
+  /home/oceanfish81/Desktop/qemu/include/qemu/atomic.h:129:5: note: expande=
+d from macro 'qatomic_read__nocheck'
+      __atomic_load_n(ptr, __ATOMIC_RELAXED)
+      ^
+  2 errors generated.
+  ninja: build stopped: subcommand failed.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1904259/+subscriptions
 
