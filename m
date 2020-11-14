@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FB3C2B2EA6
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Nov 2020 17:53:32 +0100 (CET)
-Received: from localhost ([::1]:57366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 656402B2EAF
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Nov 2020 17:56:33 +0100 (CET)
+Received: from localhost ([::1]:34708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdynr-00019m-98
-	for lists+qemu-devel@lfdr.de; Sat, 14 Nov 2020 11:53:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48164)
+	id 1kdyqm-0003Ug-DB
+	for lists+qemu-devel@lfdr.de; Sat, 14 Nov 2020 11:56:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kdymG-0008RO-U2
- for qemu-devel@nongnu.org; Sat, 14 Nov 2020 11:51:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37687)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kdymK-0008Rv-T8
+ for qemu-devel@nongnu.org; Sat, 14 Nov 2020 11:51:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27774)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kdymE-0000RF-Eo
- for qemu-devel@nongnu.org; Sat, 14 Nov 2020 11:51:52 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kdymF-0000RP-BH
+ for qemu-devel@nongnu.org; Sat, 14 Nov 2020 11:51:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605372708;
+ s=mimecast20190719; t=1605372710;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=WM3VyNUlHk9uyaZtc5pH+5uiZLsHpx37zVoLdLjxnNg=;
- b=EVf/4tn56AYf7uUTwQ7SH0LGfrdTE50fTYMVc9xPi/zwbCABE6DNdPKPNKagrBH1vTv0g/
- XeVeCOKCNxTNF1k6694T3q6839AzZ9hD+1dQI4gge2c7uPYIM8/+lpPRCyX2MjdHl6Rx4R
- T/Rpv9tH0GHzqwV/+GhRmqFPvrLGeS8=
+ to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=XxJfwnwqWSvlq369in7kd5hgSRPxWxlId9gtSc87U4E=;
+ b=DCrVMQJE+hnjZbosjSVbOEl3ePtWRMdI0gM5unUGLaFy0Vhs4RP6PioS8GgeTqhoTnB/iv
+ ReuMYYaeK8eZ7oBscxc43teTvnvJSWZkIEzfl74FMKsOPEwZ3ouJ3GZXW7FO4rKYulfrtY
+ 7KyVJ0UEiUQGM+h5jcy0rz5m27BxM5w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-42-bG5bhpA9O--3w11UPNpFPA-1; Sat, 14 Nov 2020 11:51:46 -0500
-X-MC-Unique: bG5bhpA9O--3w11UPNpFPA-1
+ us-mta-595-FapTO5C0MumFo3RCDKKmpQ-1; Sat, 14 Nov 2020 11:51:48 -0500
+X-MC-Unique: FapTO5C0MumFo3RCDKKmpQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BFB031842160;
- Sat, 14 Nov 2020 16:51:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53A271006CB6;
+ Sat, 14 Nov 2020 16:51:47 +0000 (UTC)
 Received: from thuth.com (ovpn-112-86.ams2.redhat.com [10.36.112.86])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 69F545F7D8;
- Sat, 14 Nov 2020 16:51:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 292455F7D8;
+ Sat, 14 Nov 2020 16:51:44 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.2? 0/4] Fix build failures on Haiku
-Date: Sat, 14 Nov 2020 17:51:33 +0100
-Message-Id: <20201114165137.15379-1-thuth@redhat.com>
-MIME-Version: 1.0
+Subject: [PATCH 1/4] configure: Fix the _BSD_SOURCE define for the Haiku build
+Date: Sat, 14 Nov 2020 17:51:34 +0100
+Message-Id: <20201114165137.15379-2-thuth@redhat.com>
+In-Reply-To: <20201114165137.15379-1-thuth@redhat.com>
+References: <20201114165137.15379-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/14 11:51:48
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/14 11:46:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,32 +83,31 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some patches to fix build failures on Haiku, and the final patch
-adds a VM for testing compilation there. "make check" is still
-failing, but at least compiling of the sources can now be tested.
+The Haiku VM that we are going to add is using _BSD_SOURCE instead
+of BSD_SOURCE (without initial underscore)... according to David
+Carlier, the BSD_SOURCE without underscore was likely a typo, so
+let's simply add the underscore there now.
+This fixes the build failure with the bswapXX() macros not being
+defined after including <endian.h>.
 
-Alexander von Gluck IV (1):
-  tests/vm: Add Haiku test based on their vagrant images
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thomas Huth (3):
-  configure: Fix the _BSD_SOURCE define for the Haiku build
-  configure: Do not build pc-bios/optionrom on Haiku
-  configure: Add a proper check for sys/ioccom.h and use it in
-    tpm_ioctl.h
-
- backends/tpm/tpm_ioctl.h  |   4 ++
- configure                 |  15 ++++-
- nbd/nbd-internal.h        |   2 +-
- tests/keys/vagrant        |  27 +++++++++
- tests/keys/vagrant.pub    |   1 +
- tests/vm/Makefile.include |   3 +-
- tests/vm/basevm.py        |   5 +-
- tests/vm/haiku.x86_64     | 119 ++++++++++++++++++++++++++++++++++++++
- 8 files changed, 169 insertions(+), 7 deletions(-)
- create mode 100644 tests/keys/vagrant
- create mode 100644 tests/keys/vagrant.pub
- create mode 100755 tests/vm/haiku.x86_64
-
+diff --git a/configure b/configure
+index 4cef321d9d..a273a93377 100755
+--- a/configure
++++ b/configure
+@@ -790,7 +790,7 @@ SunOS)
+ ;;
+ Haiku)
+   haiku="yes"
+-  QEMU_CFLAGS="-DB_USE_POSITIVE_POSIX_ERRORS -DBSD_SOURCE $QEMU_CFLAGS"
++  QEMU_CFLAGS="-DB_USE_POSITIVE_POSIX_ERRORS -D_BSD_SOURCE $QEMU_CFLAGS"
+ ;;
+ Linux)
+   audio_drv_list="try-pa oss"
 -- 
 2.18.4
 
