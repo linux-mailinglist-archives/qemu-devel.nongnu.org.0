@@ -2,70 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 228012B2D1D
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Nov 2020 13:23:04 +0100 (CET)
-Received: from localhost ([::1]:40382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F18142B2D44
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Nov 2020 14:11:28 +0100 (CET)
+Received: from localhost ([::1]:34150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdua6-0004BQ-N5
-	for lists+qemu-devel@lfdr.de; Sat, 14 Nov 2020 07:23:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46412)
+	id 1kdvKx-0008Iu-GM
+	for lists+qemu-devel@lfdr.de; Sat, 14 Nov 2020 08:11:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kduZ9-0003TC-QH
- for qemu-devel@nongnu.org; Sat, 14 Nov 2020 07:22:04 -0500
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:36606)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kduZ6-0004Kl-3T
- for qemu-devel@nongnu.org; Sat, 14 Nov 2020 07:22:03 -0500
-Received: by mail-ed1-x543.google.com with SMTP id o20so13906068eds.3
- for <qemu-devel@nongnu.org>; Sat, 14 Nov 2020 04:21:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5cwadVd4VAquABhv8dfPfFccMf9QiYNkFXVKl2ntGk4=;
- b=LRXch8ikm+UTwroL4WYiYujUlP4mk3OB2qEp1AWJBUBSR0K4Ne+9q3RUkRafNvl/g3
- NapxWYcCfKnhp8W4Lw4F6Q9hvB8jIC+YIvygnmBXtlcGFDccQBLMgY2uQI1kIm6K/aRe
- +SPeXD8FO9oHQOBoTL6K1c40X8cgeiAJcqh3P7jqqe/3cpJpbxlfg2AxjgoTYgkbO0Fh
- Ah4+kQUCSwyA51oAPm7DN5pqWUuQuqKIy6vsDPhDZids0oDkuhDoj6Bnp/HN6pH60USh
- +xGR7ye9vWNiGwr2iX5U1BUVYxKAdZ68A7avj7t7sA/Ug88pVUD6ZHH2vTFhROK2KIbn
- hI4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5cwadVd4VAquABhv8dfPfFccMf9QiYNkFXVKl2ntGk4=;
- b=ksMTKtOMO71sP+BbAb79aow/LuUPrHK6lqVWKbzC9sRqHc4TUHeAVK0WrVU8d/+iYJ
- Y/BQqrKlnijiuqVeEJA8vxtn34gosqv4OQnxoEtx7nP/le0vsltBiPuf63b7Wd9Qo0ey
- czSQzM/D1B06kPWaclqnv464TwCMI0/yMOemN+z4XorTPl1LHbhwqe75hVJvCqOBVmle
- 1Jq7nmXVtFol2O2xGA4dtNCr9C/0QNI3V87bFBDUMSYVOivxrFjPFcN7aKdFpbqZRi+9
- LORREBlHTnZqJl5uFd3GumVg+7ZKcdq8z1sDcr3e0aJm/wX1HaIBQ8BdtRz2tcVGx7gd
- t6gQ==
-X-Gm-Message-State: AOAM531rDYzTHlhK59C6twXbAgRBugGDvnce+ht9/xwbBu8tDz0m5S/P
- 1lM2tfEZIbhQr0qKaKfCa6EIzjnIjRXlXMKojnY=
-X-Google-Smtp-Source: ABdhPJw99IwsOJEEzil2aGr5avsQtmrFWlDx0R04tbONdaeZmf05xW0Eei9B/X1DaB+7fH1Nt6GIWACz9i1fIVzmeHo=
-X-Received: by 2002:aa7:cd56:: with SMTP id v22mr7379238edw.245.1605356516142; 
- Sat, 14 Nov 2020 04:21:56 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <zhangxinhao1@huawei.com>)
+ id 1kdvJP-0007Yn-0e; Sat, 14 Nov 2020 08:09:51 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:2144)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhangxinhao1@huawei.com>)
+ id 1kdvJJ-0004NY-Fj; Sat, 14 Nov 2020 08:09:50 -0500
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CYFz40P3rz6wHn;
+ Sat, 14 Nov 2020 21:09:04 +0800 (CST)
+Received: from huawei.com (10.175.101.6) by DGGEMS406-HUB.china.huawei.com
+ (10.3.19.206) with Microsoft SMTP Server id 14.3.487.0; Sat, 14 Nov 2020
+ 21:09:09 +0800
+From: Xinhao Zhang <zhangxinhao1@huawei.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH] fpu/softfloat.c: add spaces around operator
+Date: Sat, 14 Nov 2020 21:07:15 +0800
+Message-ID: <20201114130715.1126922-1-zhangxinhao1@huawei.com>
+X-Mailer: git-send-email 2.29.0-rc1
 MIME-Version: 1.0
-References: <20201113183312.432630-1-michael.roth@amd.com>
-In-Reply-To: <20201113183312.432630-1-michael.roth@amd.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Sat, 14 Nov 2020 16:21:44 +0400
-Message-ID: <CAJ+F1CKMZViPfKpsaAS-afARx582_4trSOg722cwe_qSbgaSaA@mail.gmail.com>
-Subject: Re: [PATCH for-5.2] qga: update schema for guest-get-disks
- 'dependents' field
-To: Michael Roth <michael.roth@amd.com>
-Content-Type: multipart/alternative; boundary="000000000000e1f3bf05b410306b"
-Received-SPF: pass client-ip=2a00:1450:4864:20::543;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x543.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.101.6]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.35;
+ envelope-from=zhangxinhao1@huawei.com; helo=szxga07-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/14 08:09:16
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,266 +56,570 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?VG9tw6HFoSBHb2xlbWJpb3Zza8O9?= <tgolembi@redhat.com>,
- QEMU <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, qemu-trivial@nongnu.org, alex.chen@huawei.com,
+ alex.bennee@linaro.org, aurelien@aurel32.net, dengkai1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e1f3bf05b410306b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Fix code style. Operator needs spaces both sides.
 
-On Fri, Nov 13, 2020 at 10:49 PM Michael Roth <michael.roth@amd.com> wrote:
+Signed-off-by: Xinhao Zhang <zhangxinhao1@huawei.com>
+Signed-off-by: Kai Deng <dengkai1@huawei.com>
+---
+ fpu/softfloat.c | 150 ++++++++++++++++++++++++------------------------
+ 1 file changed, 75 insertions(+), 75 deletions(-)
 
-> The recently-added 'guest-get-disk' command returns a list of
-> GuestDiskInfo entries, which in turn have a 'dependents' field which
-> lists devices these entries are dependent upon. Thus, 'dependencies'
-> is a better name for this field. Address this by renaming the field
-> accordingly.
->
-> Additionally, 'dependents' is specified as non-optional, even though
-> it's not implemented for w32. This is misleading, since it gives users
-> the impression that a particular disk might not have dependencies,
-> when in reality that information is simply not known to the guest
-> agent. Address this by making 'dependents' an optional field, and only
-> marking it as in-use when the facilities to obtain this information are
-> available to the guest agent.
->
-> Cc: Eric Blake <eblake@redhat.com>
-> Cc: Tom=C3=A1=C5=A1 Golembiovsk=C3=BD <tgolembi@redhat.com>
-> Cc: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> Signed-off-by: Michael Roth <michael.roth@amd.com>
->
+diff --git a/fpu/softfloat.c b/fpu/softfloat.c
+index 67cfa0fd82..9938a20905 100644
+--- a/fpu/softfloat.c
++++ b/fpu/softfloat.c
+@@ -3786,13 +3786,13 @@ static int32_t roundAndPackInt32(bool zSign, uint64_t absZ,
+         abort();
+     }
+     roundBits = absZ & 0x7F;
+-    absZ = ( absZ + roundIncrement )>>7;
++    absZ = ( absZ + roundIncrement ) >> 7;
+     if (!(roundBits ^ 0x40) && roundNearestEven) {
+         absZ &= ~1;
+     }
+     z = absZ;
+     if ( zSign ) z = - z;
+-    if ( ( absZ>>32 ) || ( z && ( ( z < 0 ) ^ zSign ) ) ) {
++    if ( ( absZ >> 32 ) || ( z && ( ( z < 0 ) ^ zSign ) ) ) {
+         float_raise(float_flag_invalid, status);
+         return zSign ? INT32_MIN : INT32_MAX;
+     }
+@@ -3938,7 +3938,7 @@ static void
+     int8_t shiftCount;
+ 
+     shiftCount = clz32(aSig) - 8;
+-    *zSigPtr = aSig<<shiftCount;
++    *zSigPtr = aSig << shiftCount;
+     *zExpPtr = 1 - shiftCount;
+ 
+ }
+@@ -4033,7 +4033,7 @@ static float32 roundAndPackFloat32(bool zSign, int zExp, uint32_t zSig,
+     if (roundBits) {
+         status->float_exception_flags |= float_flag_inexact;
+     }
+-    zSig = ( zSig + roundIncrement )>>7;
++    zSig = ( zSig + roundIncrement ) >> 7;
+     if (!(roundBits ^ 0x40) && roundNearestEven) {
+         zSig &= ~1;
+     }
+@@ -4058,7 +4058,7 @@ static float32
+     int8_t shiftCount;
+ 
+     shiftCount = clz32(zSig) - 1;
+-    return roundAndPackFloat32(zSign, zExp - shiftCount, zSig<<shiftCount,
++    return roundAndPackFloat32(zSign, zExp - shiftCount, zSig << shiftCount,
+                                status);
+ 
+ }
+@@ -4076,7 +4076,7 @@ static void
+     int8_t shiftCount;
+ 
+     shiftCount = clz64(aSig) - 11;
+-    *zSigPtr = aSig<<shiftCount;
++    *zSigPtr = aSig << shiftCount;
+     *zExpPtr = 1 - shiftCount;
+ 
+ }
+@@ -4096,7 +4096,7 @@ static inline float64 packFloat64(bool zSign, int zExp, uint64_t zSig)
+ {
+ 
+     return make_float64(
+-        ( ( (uint64_t) zSign )<<63 ) + ( ( (uint64_t) zExp )<<52 ) + zSig);
++        ( ( (uint64_t) zSign ) << 63 ) + ( ( (uint64_t) zExp ) << 52 ) + zSig);
+ 
+ }
+ 
+@@ -4189,7 +4189,7 @@ static float64 roundAndPackFloat64(bool zSign, int zExp, uint64_t zSig,
+     if (roundBits) {
+         status->float_exception_flags |= float_flag_inexact;
+     }
+-    zSig = ( zSig + roundIncrement )>>10;
++    zSig = ( zSig + roundIncrement ) >> 10;
+     if (!(roundBits ^ 0x200) && roundNearestEven) {
+         zSig &= ~1;
+     }
+@@ -4214,7 +4214,7 @@ static float64
+     int8_t shiftCount;
+ 
+     shiftCount = clz64(zSig) - 1;
+-    return roundAndPackFloat64(zSign, zExp - shiftCount, zSig<<shiftCount,
++    return roundAndPackFloat64(zSign, zExp - shiftCount, zSig << shiftCount,
+                                status);
+ 
+ }
+@@ -4232,7 +4232,7 @@ void normalizeFloatx80Subnormal(uint64_t aSig, int32_t *zExpPtr,
+     int8_t shiftCount;
+ 
+     shiftCount = clz64(aSig);
+-    *zSigPtr = aSig<<shiftCount;
++    *zSigPtr = aSig << shiftCount;
+     *zExpPtr = 1 - shiftCount;
+ }
+ 
+@@ -4326,7 +4326,7 @@ floatx80 roundAndPackFloatx80(int8_t roundingPrecision, bool zSign,
+             zSig0 += roundIncrement;
+             if ( (int64_t) zSig0 < 0 ) zExp = 1;
+             roundIncrement = roundMask + 1;
+-            if ( roundNearestEven && ( roundBits<<1 == roundIncrement ) ) {
++            if ( roundNearestEven && ( roundBits << 1 == roundIncrement ) ) {
+                 roundMask |= roundIncrement;
+             }
+             zSig0 &= ~ roundMask;
+@@ -4342,7 +4342,7 @@ floatx80 roundAndPackFloatx80(int8_t roundingPrecision, bool zSign,
+         zSig0 = UINT64_C(0x8000000000000000);
+     }
+     roundIncrement = roundMask + 1;
+-    if ( roundNearestEven && ( roundBits<<1 == roundIncrement ) ) {
++    if ( roundNearestEven && ( roundBits << 1 == roundIncrement ) ) {
+         roundMask |= roundIncrement;
+     }
+     zSig0 &= ~ roundMask;
+@@ -4509,7 +4509,7 @@ static inline uint64_t extractFloat128Frac0( float128 a )
+ static inline int32_t extractFloat128Exp( float128 a )
+ {
+ 
+-    return ( a.high>>48 ) & 0x7FFF;
++    return ( a.high >> 48 ) & 0x7FFF;
+ 
+ }
+ 
+@@ -4546,11 +4546,11 @@ static void
+     if ( aSig0 == 0 ) {
+         shiftCount = clz64(aSig1) - 15;
+         if ( shiftCount < 0 ) {
+-            *zSig0Ptr = aSig1>>( - shiftCount );
+-            *zSig1Ptr = aSig1<<( shiftCount & 63 );
++            *zSig0Ptr = aSig1 >> ( - shiftCount );
++            *zSig1Ptr = aSig1 << ( shiftCount & 63 );
+         }
+         else {
+-            *zSig0Ptr = aSig1<<shiftCount;
++            *zSig0Ptr = aSig1 << shiftCount;
+             *zSig1Ptr = 0;
+         }
+         *zExpPtr = - shiftCount - 63;
+@@ -4775,7 +4775,7 @@ floatx80 int32_to_floatx80(int32_t a, float_status *status)
+     absA = zSign ? - a : a;
+     shiftCount = clz32(absA) + 32;
+     zSig = absA;
+-    return packFloatx80( zSign, 0x403E - shiftCount, zSig<<shiftCount );
++    return packFloatx80( zSign, 0x403E - shiftCount, zSig << shiftCount );
+ 
+ }
+ 
+@@ -4797,7 +4797,7 @@ float128 int32_to_float128(int32_t a, float_status *status)
+     absA = zSign ? - a : a;
+     shiftCount = clz32(absA) + 17;
+     zSig0 = absA;
+-    return packFloat128( zSign, 0x402E - shiftCount, zSig0<<shiftCount, 0 );
++    return packFloat128( zSign, 0x402E - shiftCount, zSig0 << shiftCount, 0 );
+ 
+ }
+ 
+@@ -4818,7 +4818,7 @@ floatx80 int64_to_floatx80(int64_t a, float_status *status)
+     zSign = ( a < 0 );
+     absA = zSign ? - a : a;
+     shiftCount = clz64(absA);
+-    return packFloatx80( zSign, 0x403E - shiftCount, absA<<shiftCount );
++    return packFloatx80( zSign, 0x403E - shiftCount, absA << shiftCount );
+ 
+ }
+ 
+@@ -4901,7 +4901,7 @@ floatx80 float32_to_floatx80(float32 a, float_status *status)
+         normalizeFloat32Subnormal( aSig, &aExp, &aSig );
+     }
+     aSig |= 0x00800000;
+-    return packFloatx80( aSign, aExp + 0x3F80, ( (uint64_t) aSig )<<40 );
++    return packFloatx80( aSign, aExp + 0x3F80, ( (uint64_t) aSig ) << 40 );
+ 
+ }
+ 
+@@ -4933,7 +4933,7 @@ float128 float32_to_float128(float32 a, float_status *status)
+         normalizeFloat32Subnormal( aSig, &aExp, &aSig );
+         --aExp;
+     }
+-    return packFloat128( aSign, aExp + 0x3F80, ( (uint64_t) aSig )<<25, 0 );
++    return packFloat128( aSign, aExp + 0x3F80, ( (uint64_t) aSig ) << 25, 0 );
+ 
+ }
+ 
+@@ -4997,10 +4997,10 @@ float32 float32_rem(float32 a, float32 b, float_status *status)
+         q = ( bSig <= aSig );
+         if ( q ) aSig -= bSig;
+         if ( 0 < expDiff ) {
+-            q = ( ( (uint64_t) aSig )<<32 ) / bSig;
++            q = ( ( (uint64_t) aSig ) << 32 ) / bSig;
+             q >>= 32 - expDiff;
+             bSig >>= 2;
+-            aSig = ( ( aSig>>1 )<<( expDiff - 1 ) ) - bSig * q;
++            aSig = ( ( aSig >> 1 ) << ( expDiff - 1 ) ) - bSig * q;
+         }
+         else {
+             aSig >>= 2;
+@@ -5009,21 +5009,21 @@ float32 float32_rem(float32 a, float32 b, float_status *status)
+     }
+     else {
+         if ( bSig <= aSig ) aSig -= bSig;
+-        aSig64 = ( (uint64_t) aSig )<<40;
+-        bSig64 = ( (uint64_t) bSig )<<40;
++        aSig64 = ( (uint64_t) aSig ) << 40;
++        bSig64 = ( (uint64_t) bSig ) << 40;
+         expDiff -= 64;
+         while ( 0 < expDiff ) {
+             q64 = estimateDiv128To64( aSig64, 0, bSig64 );
+             q64 = ( 2 < q64 ) ? q64 - 2 : 0;
+-            aSig64 = - ( ( bSig * q64 )<<38 );
++            aSig64 = - ( ( bSig * q64 ) << 38 );
+             expDiff -= 62;
+         }
+         expDiff += 64;
+         q64 = estimateDiv128To64( aSig64, 0, bSig64 );
+         q64 = ( 2 < q64 ) ? q64 - 2 : 0;
+-        q = q64>>( 64 - expDiff );
++        q = q64 >> ( 64 - expDiff );
+         bSig <<= 6;
+-        aSig = ( ( aSig64>>33 )<<( expDiff - 1 ) ) - bSig * q;
++        aSig = ( ( aSig64 >> 33 ) << ( expDiff - 1 ) ) - bSig * q;
+     }
+     do {
+         alternateASig = aSig;
+@@ -5302,7 +5302,7 @@ float64 float64_rem(float64 a, float64 b, float_status *status)
+     while ( 0 < expDiff ) {
+         q = estimateDiv128To64( aSig, 0, bSig );
+         q = ( 2 < q ) ? q - 2 : 0;
+-        aSig = - ( ( bSig>>2 ) * q );
++        aSig = - ( ( bSig >> 2 ) * q );
+         expDiff -= 62;
+     }
+     expDiff += 64;
+@@ -5311,7 +5311,7 @@ float64 float64_rem(float64 a, float64 b, float_status *status)
+         q = ( 2 < q ) ? q - 2 : 0;
+         q >>= 64 - expDiff;
+         bSig >>= 2;
+-        aSig = ( ( aSig>>1 )<<( expDiff - 1 ) ) - bSig * q;
++        aSig = ( ( aSig >> 1 ) << ( expDiff - 1 ) ) - bSig * q;
+     }
+     else {
+         aSig >>= 2;
+@@ -5404,7 +5404,7 @@ int32_t floatx80_to_int32(floatx80 a, float_status *status)
+     aSig = extractFloatx80Frac( a );
+     aExp = extractFloatx80Exp( a );
+     aSign = extractFloatx80Sign( a );
+-    if ( ( aExp == 0x7FFF ) && (uint64_t) ( aSig<<1 ) ) aSign = 0;
++    if ( ( aExp == 0x7FFF ) && (uint64_t) ( aSig << 1 ) ) aSign = 0;
+     shiftCount = 0x4037 - aExp;
+     if ( shiftCount <= 0 ) shiftCount = 1;
+     shift64RightJamming( aSig, shiftCount, &aSig );
+@@ -5437,7 +5437,7 @@ int32_t floatx80_to_int32_round_to_zero(floatx80 a, float_status *status)
+     aExp = extractFloatx80Exp( a );
+     aSign = extractFloatx80Sign( a );
+     if ( 0x401E < aExp ) {
+-        if ( ( aExp == 0x7FFF ) && (uint64_t) ( aSig<<1 ) ) aSign = 0;
++        if ( ( aExp == 0x7FFF ) && (uint64_t) ( aSig << 1 ) ) aSign = 0;
+         goto invalid;
+     }
+     else if ( aExp < 0x3FFF ) {
+@@ -5456,7 +5456,7 @@ int32_t floatx80_to_int32_round_to_zero(floatx80 a, float_status *status)
+         float_raise(float_flag_invalid, status);
+         return aSign ? (int32_t) 0x80000000 : 0x7FFFFFFF;
+     }
+-    if ( ( aSig<<shiftCount ) != savedASig ) {
++    if ( ( aSig << shiftCount ) != savedASig ) {
+         status->float_exception_flags |= float_flag_inexact;
+     }
+     return z;
+@@ -5545,8 +5545,8 @@ int64_t floatx80_to_int64_round_to_zero(floatx80 a, float_status *status)
+         }
+         return 0;
+     }
+-    z = aSig>>( - shiftCount );
+-    if ( (uint64_t) ( aSig<<( shiftCount & 63 ) ) ) {
++    z = aSig >> ( - shiftCount );
++    if ( (uint64_t) ( aSig << ( shiftCount & 63 ) ) ) {
+         status->float_exception_flags |= float_flag_inexact;
+     }
+     if ( aSign ) z = - z;
+@@ -5575,7 +5575,7 @@ float32 floatx80_to_float32(floatx80 a, float_status *status)
+     aExp = extractFloatx80Exp( a );
+     aSign = extractFloatx80Sign( a );
+     if ( aExp == 0x7FFF ) {
+-        if ( (uint64_t) ( aSig<<1 ) ) {
++        if ( (uint64_t) ( aSig << 1 ) ) {
+             float32 res = commonNaNToFloat32(floatx80ToCommonNaN(a, status),
+                                              status);
+             return float32_silence_nan(res, status);
+@@ -5609,7 +5609,7 @@ float64 floatx80_to_float64(floatx80 a, float_status *status)
+     aExp = extractFloatx80Exp( a );
+     aSign = extractFloatx80Sign( a );
+     if ( aExp == 0x7FFF ) {
+-        if ( (uint64_t) ( aSig<<1 ) ) {
++        if ( (uint64_t) ( aSig << 1 ) ) {
+             float64 res = commonNaNToFloat64(floatx80ToCommonNaN(a, status),
+                                              status);
+             return float64_silence_nan(res, status);
+@@ -5642,12 +5642,12 @@ float128 floatx80_to_float128(floatx80 a, float_status *status)
+     aSig = extractFloatx80Frac( a );
+     aExp = extractFloatx80Exp( a );
+     aSign = extractFloatx80Sign( a );
+-    if ( ( aExp == 0x7FFF ) && (uint64_t) ( aSig<<1 ) ) {
++    if ( ( aExp == 0x7FFF ) && (uint64_t) ( aSig << 1 ) ) {
+         float128 res = commonNaNToFloat128(floatx80ToCommonNaN(a, status),
+                                            status);
+         return float128_silence_nan(res, status);
+     }
+-    shift128Right( aSig<<1, 0, 16, &zSig0, &zSig1 );
++    shift128Right( aSig << 1, 0, 16, &zSig0, &zSig1 );
+     return packFloat128( aSign, aExp, zSig0, zSig1 );
+ 
+ }
+@@ -5688,7 +5688,7 @@ floatx80 floatx80_round_to_int(floatx80 a, float_status *status)
+     }
+     aExp = extractFloatx80Exp( a );
+     if ( 0x403E <= aExp ) {
+-        if ( ( aExp == 0x7FFF ) && (uint64_t) ( extractFloatx80Frac( a )<<1 ) ) {
++        if ( ( aExp == 0x7FFF ) && (uint64_t) ( extractFloatx80Frac( a ) << 1 ) ) {
+             return propagateFloatx80NaN(a, a, status);
+         }
+         return a;
+@@ -5702,7 +5702,7 @@ floatx80 floatx80_round_to_int(floatx80 a, float_status *status)
+         aSign = extractFloatx80Sign( a );
+         switch (status->float_rounding_mode) {
+          case float_round_nearest_even:
+-            if ( ( aExp == 0x3FFE ) && (uint64_t) ( extractFloatx80Frac( a )<<1 )
++            if ( ( aExp == 0x3FFE ) && (uint64_t) ( extractFloatx80Frac( a ) << 1 )
+                ) {
+                 return
+                     packFloatx80( aSign, 0x3FFF, UINT64_C(0x8000000000000000));
+@@ -5736,7 +5736,7 @@ floatx80 floatx80_round_to_int(floatx80 a, float_status *status)
+     z = a;
+     switch (status->float_rounding_mode) {
+     case float_round_nearest_even:
+-        z.low += lastBitMask>>1;
++        z.low += lastBitMask >> 1;
+         if ((z.low & roundBitsMask) == 0) {
+             z.low &= ~lastBitMask;
+         }
+@@ -5817,7 +5817,7 @@ static floatx80 addFloatx80Sigs(floatx80 a, floatx80 b, bool zSign,
+     }
+     else {
+         if ( aExp == 0x7FFF ) {
+-            if ( (uint64_t) ( ( aSig | bSig )<<1 ) ) {
++            if ( (uint64_t) ( ( aSig | bSig ) << 1 ) ) {
+                 return propagateFloatx80NaN(a, b, status);
+             }
+             return a;
+@@ -5874,7 +5874,7 @@ static floatx80 subFloatx80Sigs(floatx80 a, floatx80 b, bool zSign,
+     if ( 0 < expDiff ) goto aExpBigger;
+     if ( expDiff < 0 ) goto bExpBigger;
+     if ( aExp == 0x7FFF ) {
+-        if ( (uint64_t) ( ( aSig | bSig )<<1 ) ) {
++        if ( (uint64_t) ( ( aSig | bSig ) << 1 ) ) {
+             return propagateFloatx80NaN(a, b, status);
+         }
+         float_raise(float_flag_invalid, status);
+@@ -5994,8 +5994,8 @@ floatx80 floatx80_mul(floatx80 a, floatx80 b, float_status *status)
+     bSign = extractFloatx80Sign( b );
+     zSign = aSign ^ bSign;
+     if ( aExp == 0x7FFF ) {
+-        if (    (uint64_t) ( aSig<<1 )
+-             || ( ( bExp == 0x7FFF ) && (uint64_t) ( bSig<<1 ) ) ) {
++        if (    (uint64_t) ( aSig << 1 )
++             || ( ( bExp == 0x7FFF ) && (uint64_t) ( bSig << 1 ) ) ) {
+             return propagateFloatx80NaN(a, b, status);
+         }
+         if ( ( bExp | bSig ) == 0 ) goto invalid;
+@@ -6106,7 +6106,7 @@ floatx80 floatx80_div(floatx80 a, floatx80 b, float_status *status)
+         add128( rem0, rem1, 0, bSig, &rem0, &rem1 );
+     }
+     zSig1 = estimateDiv128To64( rem1, 0, bSig );
+-    if ( (uint64_t) ( zSig1<<1 ) <= 8 ) {
++    if ( (uint64_t) ( zSig1 << 1 ) <= 8 ) {
+         mul64To128( bSig, zSig1, &term1, &term2 );
+         sub128( rem1, 0, term1, term2, &rem1, &rem2 );
+         while ( (int64_t) rem1 < 0 ) {
+@@ -6147,8 +6147,8 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod, uint64_t *quotient,
+     bSig = extractFloatx80Frac( b );
+     bExp = extractFloatx80Exp( b );
+     if ( aExp == 0x7FFF ) {
+-        if (    (uint64_t) ( aSig0<<1 )
+-             || ( ( bExp == 0x7FFF ) && (uint64_t) ( bSig<<1 ) ) ) {
++        if (    (uint64_t) ( aSig0 << 1 )
++             || ( ( bExp == 0x7FFF ) && (uint64_t) ( bSig << 1 ) ) ) {
+             return propagateFloatx80NaN(a, b, status);
+         }
+         goto invalid;
+@@ -6213,7 +6213,7 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod, uint64_t *quotient,
+         q = estimateDiv128To64( aSig0, aSig1, bSig );
+         q = ( 2 < q ) ? q - 2 : 0;
+         q >>= 64 - expDiff;
+-        mul64To128( bSig, q<<( 64 - expDiff ), &term0, &term1 );
++        mul64To128( bSig, q << ( 64 - expDiff ), &term0, &term1 );
+         sub128( aSig0, aSig1, term0, term1, &aSig0, &aSig1 );
+         shortShift128Left( 0, bSig, 64 - expDiff, &term0, &term1 );
+         while ( le128( term0, term1, aSig0, aSig1 ) ) {
+@@ -6310,17 +6310,17 @@ floatx80 floatx80_sqrt(floatx80 a, float_status *status)
+         if ( aSig0 == 0 ) return packFloatx80( 0, 0, 0 );
+         normalizeFloatx80Subnormal( aSig0, &aExp, &aSig0 );
+     }
+-    zExp = ( ( aExp - 0x3FFF )>>1 ) + 0x3FFF;
+-    zSig0 = estimateSqrt32( aExp, aSig0>>32 );
++    zExp = ( ( aExp - 0x3FFF ) >> 1 ) + 0x3FFF;
++    zSig0 = estimateSqrt32( aExp, aSig0 >> 32 );
+     shift128Right( aSig0, 0, 2 + ( aExp & 1 ), &aSig0, &aSig1 );
+-    zSig0 = estimateDiv128To64( aSig0, aSig1, zSig0<<32 ) + ( zSig0<<30 );
+-    doubleZSig0 = zSig0<<1;
++    zSig0 = estimateDiv128To64( aSig0, aSig1, zSig0 << 32 ) + ( zSig0 << 30 );
++    doubleZSig0 = zSig0 << 1;
+     mul64To128( zSig0, zSig0, &term0, &term1 );
+     sub128( aSig0, aSig1, term0, term1, &rem0, &rem1 );
+     while ( (int64_t) rem0 < 0 ) {
+         --zSig0;
+         doubleZSig0 -= 2;
+-        add128( rem0, rem1, zSig0>>63, doubleZSig0 | 1, &rem0, &rem1 );
++        add128( rem0, rem1, zSig0 >> 63, doubleZSig0 | 1, &rem0, &rem1 );
+     }
+     zSig1 = estimateDiv128To64( rem1, 0, doubleZSig0 );
+     if ( ( zSig1 & UINT64_C(0x3FFFFFFFFFFFFFFF) ) <= 5 ) {
+@@ -6416,7 +6416,7 @@ int32_t float128_to_int32_round_to_zero(float128 a, float_status *status)
+         float_raise(float_flag_invalid, status);
+         return aSign ? INT32_MIN : INT32_MAX;
+     }
+-    if ( ( aSig0<<shiftCount ) != savedASig ) {
++    if ( ( aSig0 << shiftCount ) != savedASig ) {
+         status->float_exception_flags |= float_flag_inexact;
+     }
+     return z;
+@@ -6506,8 +6506,8 @@ int64_t float128_to_int64_round_to_zero(float128 a, float_status *status)
+             }
+             return INT64_MIN;
+         }
+-        z = ( aSig0<<shiftCount ) | ( aSig1>>( ( - shiftCount ) & 63 ) );
+-        if ( (uint64_t) ( aSig1<<shiftCount ) ) {
++        z = ( aSig0 << shiftCount ) | ( aSig1 >> ( ( - shiftCount ) & 63 ) );
++        if ( (uint64_t) ( aSig1 << shiftCount ) ) {
+             status->float_exception_flags |= float_flag_inexact;
+         }
+     }
+@@ -6518,9 +6518,9 @@ int64_t float128_to_int64_round_to_zero(float128 a, float_status *status)
+             }
+             return 0;
+         }
+-        z = aSig0>>( - shiftCount );
++        z = aSig0 >> ( - shiftCount );
+         if (    aSig1
+-             || ( shiftCount && (uint64_t) ( aSig0<<( shiftCount & 63 ) ) ) ) {
++             || ( shiftCount && (uint64_t) ( aSig0 << ( shiftCount & 63 ) ) ) ) {
+             status->float_exception_flags |= float_flag_inexact;
+         }
+     }
+@@ -6776,19 +6776,19 @@ float128 float128_round_to_int(float128 a, float_status *status)
+             return a;
+         }
+         lastBitMask = 1;
+-        lastBitMask = ( lastBitMask<<( 0x406E - aExp ) )<<1;
++        lastBitMask = ( lastBitMask << ( 0x406E - aExp ) ) << 1;
+         roundBitsMask = lastBitMask - 1;
+         z = a;
+         switch (status->float_rounding_mode) {
+         case float_round_nearest_even:
+             if ( lastBitMask ) {
+-                add128( z.high, z.low, 0, lastBitMask>>1, &z.high, &z.low );
++                add128( z.high, z.low, 0, lastBitMask >> 1, &z.high, &z.low );
+                 if ( ( z.low & roundBitsMask ) == 0 ) z.low &= ~ lastBitMask;
+             }
+             else {
+                 if ( (int64_t) z.low < 0 ) {
+                     ++z.high;
+-                    if ( (uint64_t) ( z.low<<1 ) == 0 ) z.high &= ~1;
++                    if ( (uint64_t) ( z.low << 1 ) == 0 ) z.high &= ~1;
+                 }
+             }
+             break;
+@@ -6829,7 +6829,7 @@ float128 float128_round_to_int(float128 a, float_status *status)
+     }
+     else {
+         if ( aExp < 0x3FFF ) {
+-            if ( ( ( (uint64_t) ( a.high<<1 ) ) | a.low ) == 0 ) return a;
++            if ( ( ( (uint64_t) ( a.high << 1 ) ) | a.low ) == 0 ) return a;
+             status->float_exception_flags |= float_flag_inexact;
+             aSign = extractFloat128Sign( a );
+             switch (status->float_rounding_mode) {
+@@ -6870,13 +6870,13 @@ float128 float128_round_to_int(float128 a, float_status *status)
+         z.high = a.high;
+         switch (status->float_rounding_mode) {
+         case float_round_nearest_even:
+-            z.high += lastBitMask>>1;
++            z.high += lastBitMask >> 1;
+             if ( ( ( z.high & roundBitsMask ) | a.low ) == 0 ) {
+                 z.high &= ~ lastBitMask;
+             }
+             break;
+         case float_round_ties_away:
+-            z.high += lastBitMask>>1;
++            z.high += lastBitMask >> 1;
+             break;
+         case float_round_to_zero:
+             break;
+@@ -7422,18 +7422,18 @@ float128 float128_sqrt(float128 a, float_status *status)
+         if ( ( aSig0 | aSig1 ) == 0 ) return packFloat128( 0, 0, 0, 0 );
+         normalizeFloat128Subnormal( aSig0, aSig1, &aExp, &aSig0, &aSig1 );
+     }
+-    zExp = ( ( aExp - 0x3FFF )>>1 ) + 0x3FFE;
++    zExp = ( ( aExp - 0x3FFF ) >> 1 ) + 0x3FFE;
+     aSig0 |= UINT64_C(0x0001000000000000);
+-    zSig0 = estimateSqrt32( aExp, aSig0>>17 );
++    zSig0 = estimateSqrt32( aExp, aSig0 >> 17 );
+     shortShift128Left( aSig0, aSig1, 13 - ( aExp & 1 ), &aSig0, &aSig1 );
+-    zSig0 = estimateDiv128To64( aSig0, aSig1, zSig0<<32 ) + ( zSig0<<30 );
+-    doubleZSig0 = zSig0<<1;
++    zSig0 = estimateDiv128To64( aSig0, aSig1, zSig0 << 32 ) + ( zSig0 << 30 );
++    doubleZSig0 = zSig0 << 1;
+     mul64To128( zSig0, zSig0, &term0, &term1 );
+     sub128( aSig0, aSig1, term0, term1, &rem0, &rem1 );
+     while ( (int64_t) rem0 < 0 ) {
+         --zSig0;
+         doubleZSig0 -= 2;
+-        add128( rem0, rem1, zSig0>>63, doubleZSig0 | 1, &rem0, &rem1 );
++        add128( rem0, rem1, zSig0 >> 63, doubleZSig0 | 1, &rem0, &rem1 );
+     }
+     zSig1 = estimateDiv128To64( rem1, 0, doubleZSig0 );
+     if ( ( zSig1 & 0x1FFF ) <= 5 ) {
+@@ -7467,9 +7467,9 @@ floatx80_compare_internal(floatx80 a, floatx80 b, bool is_quiet,
+         return float_relation_unordered;
+     }
+     if (( ( extractFloatx80Exp( a ) == 0x7fff ) &&
+-          ( extractFloatx80Frac( a )<<1 ) ) ||
++          ( extractFloatx80Frac( a ) << 1 ) ) ||
+         ( ( extractFloatx80Exp( b ) == 0x7fff ) &&
+-          ( extractFloatx80Frac( b )<<1 ) )) {
++          ( extractFloatx80Frac( b ) << 1 ) )) {
+         if (!is_quiet ||
+             floatx80_is_signaling_nan(a, status) ||
+             floatx80_is_signaling_nan(b, status)) {
+@@ -7535,7 +7535,7 @@ float128_compare_internal(float128 a, float128 b, bool is_quiet,
+     aSign = extractFloat128Sign( a );
+     bSign = extractFloat128Sign( b );
+     if ( aSign != bSign ) {
+-        if ( ( ( ( a.high | b.high )<<1 ) | a.low | b.low ) == 0 ) {
++        if ( ( ( ( a.high | b.high ) << 1 ) | a.low | b.low ) == 0 ) {
+             /* zero case */
+             return float_relation_equal;
+         } else {
+@@ -7576,7 +7576,7 @@ floatx80 floatx80_scalbn(floatx80 a, int n, float_status *status)
+     aSign = extractFloatx80Sign( a );
+ 
+     if ( aExp == 0x7FFF ) {
+-        if ( aSig<<1 ) {
++        if ( aSig << 1 ) {
+             return propagateFloatx80NaN(a, a, status);
+         }
+         return a;
+-- 
+2.29.0-rc1
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
-
-> ---
->  qga/commands-posix.c | 10 ++++++----
->  qga/qapi-schema.json |  8 ++++----
->  2 files changed, 10 insertions(+), 8 deletions(-)
->
-> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-> index 12c1ba5ef7..c089e38120 100644
-> --- a/qga/commands-posix.c
-> +++ b/qga/commands-posix.c
-> @@ -1285,6 +1285,7 @@ static void get_disk_deps(const char *disk_dir,
-> GuestDiskInfo *disk)
->          g_debug("failed to list entries in %s", deps_dir);
->          return;
->      }
-> +    disk->has_dependencies =3D true;
->      while ((dep =3D g_dir_read_name(dp_deps)) !=3D NULL) {
->          g_autofree char *dep_dir =3D NULL;
->          strList *dep_item =3D NULL;
-> @@ -1297,8 +1298,8 @@ static void get_disk_deps(const char *disk_dir,
-> GuestDiskInfo *disk)
->              g_debug("  adding dependent device: %s", dev_name);
->              dep_item =3D g_new0(strList, 1);
->              dep_item->value =3D dev_name;
-> -            dep_item->next =3D disk->dependents;
-> -            disk->dependents =3D dep_item;
-> +            dep_item->next =3D disk->dependencies;
-> +            disk->dependencies =3D dep_item;
->          }
->      }
->      g_dir_close(dp_deps);
-> @@ -1351,8 +1352,9 @@ static GuestDiskInfoList *get_disk_partitions(
->          partition->name =3D dev_name;
->          partition->partition =3D true;
->          /* Add parent disk as dependent for easier tracking of hierarchy
-> */
-> -        partition->dependents =3D g_new0(strList, 1);
-> -        partition->dependents->value =3D g_strdup(disk_dev);
-> +        partition->dependencies =3D g_new0(strList, 1);
-> +        partition->dependencies->value =3D g_strdup(disk_dev);
-> +        partition->has_dependencies =3D true;
->
->          item =3D g_new0(GuestDiskInfoList, 1);
->          item->value =3D partition;
-> diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
-> index 6ca85f995f..3b3d1d0bd9 100644
-> --- a/qga/qapi-schema.json
-> +++ b/qga/qapi-schema.json
-> @@ -870,9 +870,9 @@
->  #
->  # @name: device node (Linux) or device UNC (Windows)
->  # @partition: whether this is a partition or disk
-> -# @dependents: list of dependent devices; e.g. for LVs of the LVM this
-> will
-> -#              hold the list of PVs, for LUKS encrypted volume this will
-> -#              contain the disk where the volume is placed.     (Linux)
-> +# @dependencies: list of device dependencies; e.g. for LVs of the LVM
-> this will
-> +#                hold the list of PVs, for LUKS encrypted volume this wi=
-ll
-> +#                contain the disk where the volume is placed.     (Linux=
-)
->  # @address: disk address information (only for non-virtual devices)
->  # @alias: optional alias assigned to the disk, on Linux this is a name
-> assigned
->  #         by device mapper
-> @@ -880,7 +880,7 @@
->  # Since 5.2
->  ##
->  { 'struct': 'GuestDiskInfo',
-> -  'data': {'name': 'str', 'partition': 'bool', 'dependents': ['str'],
-> +  'data': {'name': 'str', 'partition': 'bool', '*dependencies': ['str'],
->             '*address': 'GuestDiskAddress', '*alias': 'str'} }
->
->  ##
-> --
-> 2.25.1
->
->
->
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---000000000000e1f3bf05b410306b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Nov 13, 2020 at 10:49 PM Mich=
-ael Roth &lt;<a href=3D"mailto:michael.roth@amd.com" target=3D"_blank">mich=
-ael.roth@amd.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex">The recently-added &#39;guest-get-disk&#39; command returns=
- a list of<br>
-GuestDiskInfo entries, which in turn have a &#39;dependents&#39; field whic=
-h<br>
-lists devices these entries are dependent upon. Thus, &#39;dependencies&#39=
-;<br>
-is a better name for this field. Address this by renaming the field<br>
-accordingly.<br>
-<br>
-Additionally, &#39;dependents&#39; is specified as non-optional, even thoug=
-h<br>
-it&#39;s not implemented for w32. This is misleading, since it gives users<=
-br>
-the impression that a particular disk might not have dependencies,<br>
-when in reality that information is simply not known to the guest<br>
-agent. Address this by making &#39;dependents&#39; an optional field, and o=
-nly<br>
-marking it as in-use when the facilities to obtain this information are<br>
-available to the guest agent.<br>
-<br>
-Cc: Eric Blake &lt;<a href=3D"mailto:eblake@redhat.com" target=3D"_blank">e=
-blake@redhat.com</a>&gt;<br>
-Cc: Tom=C3=A1=C5=A1 Golembiovsk=C3=BD &lt;<a href=3D"mailto:tgolembi@redhat=
-.com" target=3D"_blank">tgolembi@redhat.com</a>&gt;<br>
-Cc: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.co=
-m" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-Signed-off-by: Michael Roth &lt;<a href=3D"mailto:michael.roth@amd.com" tar=
-get=3D"_blank">michael.roth@amd.com</a>&gt;<br></blockquote><div><br></div>=
-<div>Reviewed-by:=20
-Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com" t=
-arget=3D"_blank">marcandre.lureau@redhat.com</a>&gt;
-
-</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0qga/commands-posix.c | 10 ++++++----<br>
-=C2=A0qga/qapi-schema.json |=C2=A0 8 ++++----<br>
-=C2=A02 files changed, 10 insertions(+), 8 deletions(-)<br>
-<br>
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c<br>
-index 12c1ba5ef7..c089e38120 100644<br>
---- a/qga/commands-posix.c<br>
-+++ b/qga/commands-posix.c<br>
-@@ -1285,6 +1285,7 @@ static void get_disk_deps(const char *disk_dir, Guest=
-DiskInfo *disk)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_debug(&quot;failed to list entries in %=
-s&quot;, deps_dir);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 disk-&gt;has_dependencies =3D true;<br>
-=C2=A0 =C2=A0 =C2=A0while ((dep =3D g_dir_read_name(dp_deps)) !=3D NULL) {<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_autofree char *dep_dir =3D NULL;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0strList *dep_item =3D NULL;<br>
-@@ -1297,8 +1298,8 @@ static void get_disk_deps(const char *disk_dir, Guest=
-DiskInfo *disk)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_debug(&quot;=C2=A0 adding=
- dependent device: %s&quot;, dev_name);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dep_item =3D g_new0(strList=
-, 1);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dep_item-&gt;value =3D dev_=
-name;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dep_item-&gt;next =3D disk-&gt;d=
-ependents;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 disk-&gt;dependents =3D dep_item=
-;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dep_item-&gt;next =3D disk-&gt;d=
-ependencies;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 disk-&gt;dependencies =3D dep_it=
-em;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0g_dir_close(dp_deps);<br>
-@@ -1351,8 +1352,9 @@ static GuestDiskInfoList *get_disk_partitions(<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0partition-&gt;name =3D dev_name;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0partition-&gt;partition =3D true;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Add parent disk as dependent for easie=
-r tracking of hierarchy */<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 partition-&gt;dependents =3D g_new0(strList, 1=
-);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 partition-&gt;dependents-&gt;value =3D g_strdu=
-p(disk_dev);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 partition-&gt;dependencies =3D g_new0(strList,=
- 1);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 partition-&gt;dependencies-&gt;value =3D g_str=
-dup(disk_dev);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 partition-&gt;has_dependencies =3D true;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0item =3D g_new0(GuestDiskInfoList, 1);<br=
->
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0item-&gt;value =3D partition;<br>
-diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json<br>
-index 6ca85f995f..3b3d1d0bd9 100644<br>
---- a/qga/qapi-schema.json<br>
-+++ b/qga/qapi-schema.json<br>
-@@ -870,9 +870,9 @@<br>
-=C2=A0#<br>
-=C2=A0# @name: device node (Linux) or device UNC (Windows)<br>
-=C2=A0# @partition: whether this is a partition or disk<br>
--# @dependents: list of dependent devices; e.g. for LVs of the LVM this wil=
-l<br>
--#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 hold the list of PVs, fo=
-r LUKS encrypted volume this will<br>
--#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 contain the disk where t=
-he volume is placed.=C2=A0 =C2=A0 =C2=A0(Linux)<br>
-+# @dependencies: list of device dependencies; e.g. for LVs of the LVM this=
- will<br>
-+#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 hold the list of =
-PVs, for LUKS encrypted volume this will<br>
-+#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 contain the disk =
-where the volume is placed.=C2=A0 =C2=A0 =C2=A0(Linux)<br>
-=C2=A0# @address: disk address information (only for non-virtual devices)<b=
-r>
-=C2=A0# @alias: optional alias assigned to the disk, on Linux this is a nam=
-e assigned<br>
-=C2=A0#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0by device mapper<br>
-@@ -880,7 +880,7 @@<br>
-=C2=A0# Since 5.2<br>
-=C2=A0##<br>
-=C2=A0{ &#39;struct&#39;: &#39;GuestDiskInfo&#39;,<br>
--=C2=A0 &#39;data&#39;: {&#39;name&#39;: &#39;str&#39;, &#39;partition&#39;=
-: &#39;bool&#39;, &#39;dependents&#39;: [&#39;str&#39;],<br>
-+=C2=A0 &#39;data&#39;: {&#39;name&#39;: &#39;str&#39;, &#39;partition&#39;=
-: &#39;bool&#39;, &#39;*dependencies&#39;: [&#39;str&#39;],<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;*address&#39;: &#39;GuestDis=
-kAddress&#39;, &#39;*alias&#39;: &#39;str&#39;} }<br>
-<br>
-=C2=A0##<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr">Marc-Andr=
-=C3=A9 Lureau<br></div></div>
-
---000000000000e1f3bf05b410306b--
 
