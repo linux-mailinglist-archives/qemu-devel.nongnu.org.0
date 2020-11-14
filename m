@@ -2,71 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6CE82B2B36
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Nov 2020 05:02:05 +0100 (CET)
-Received: from localhost ([::1]:36528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADB652B2B39
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Nov 2020 05:03:51 +0100 (CET)
+Received: from localhost ([::1]:38638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdmlI-0000wY-Uk
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 23:02:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35796)
+	id 1kdmn0-0001r1-Px
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 23:03:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kdmkA-0000X0-1T
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 23:00:54 -0500
-Received: from indium.canonical.com ([91.189.90.7]:49210)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kdmk7-0005b2-R2
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 23:00:53 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kdmk6-0002s1-3b
- for <qemu-devel@nongnu.org>; Sat, 14 Nov 2020 04:00:50 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 19D022E80E9
- for <qemu-devel@nongnu.org>; Sat, 14 Nov 2020 04:00:50 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 14 Nov 2020 03:52:04 -0000
-From: Ivan Serdyuk <1904259@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1kdmlI-0001Gn-QW
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 23:02:04 -0500
+Received: from speedy.comstyle.com ([2607:f938:3000:8::2]:28311
+ helo=mail.comstyle.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1kdmlG-0005s0-Ub
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 23:02:04 -0500
+Received: from mail.comstyle.com (localhost [127.0.0.1])
+ by mail.comstyle.com (Postfix) with ESMTP id 4CY1sS5M4bz8PbN;
+ Fri, 13 Nov 2020 23:03:24 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=comstyle.com; h=date:from
+ :to:cc:subject:message-id:mime-version:content-type; s=default;
+ bh=HjOCJAbofVPLVfDVfDfUYdu4YW4=; b=Er4odOlKPCOPnZcibrIXUt1/ug8D
+ QTFBC8Zik8BFl8K1DBuRCv+652qL2FiZHZf4YFmD6sDeI29kDM4xFdX9fm2tqW5L
+ NqkGlhCTH0X2u+fhjFBtKABL1OVsUeSMlTbm33aBaqkTEu5UFbE+5+ON+vt0T+Ov
+ OAkRoZYWT2u9Cic=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=comstyle.com; h=date:from:to
+ :cc:subject:message-id:mime-version:content-type; q=dns; s=
+ default; b=NsqoHC81H6KwE/XUIsImmF608pYxcYxKpaC1jlvd8nAVE6T/TgcAi
+ Rz+kOGglHNMCnithJ9N8iqKTMP7uBBeBBNOfOnKnZ4qJVepI5kKU9ei1eHf4udtK
+ nS/4tnGlMzysXXsbWAPYCmiWfQvmjY+/ZXWEroz5/0+W1CWL2G40Z8=
+Received: from humpty.home.comstyle.com
+ (bras-base-toroon2719w-grc-36-142-114-120-158.dsl.bell.ca [142.114.120.158])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: brad)
+ by mail.comstyle.com (Postfix) with ESMTPSA id 4CY1sS4dB4z8PbK;
+ Fri, 13 Nov 2020 23:03:24 -0500 (EST)
+Date: Fri, 13 Nov 2020 23:01:50 -0500
+From: Brad Smith <brad@comstyle.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=None; component=None;
- status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: oceanfish81
-X-Launchpad-Bug-Reporter: Ivan Serdyuk (oceanfish81)
-X-Launchpad-Bug-Modifier: Ivan Serdyuk (oceanfish81)
-References: <160532517027.32164.5994775965173619452.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160532592487.315.15353784962142260138.malone@chaenomeles.canonical.com>
-Subject: [Bug 1904259] Re: include/qemu/atomic.h:495:5: error: misaligned
- atomic operation may incur significant performance penalty (Clang 11;
- Ubuntu 16 i686)
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="38ebca4a151c7e484f2992f7b90f5a3ede13f97f"; Instance="production"
-X-Launchpad-Hash: a538e8b97091a4daac6ed2929964dc31acc4127a
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/13 22:45:36
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH] tests/vm: update NetBSD to 9.1
+Message-ID: <20201114040150.GD13329@humpty.home.comstyle.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=2607:f938:3000:8::2;
+ envelope-from=brad@comstyle.com; helo=mail.comstyle.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,89 +69,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1904259 <1904259@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Solved by removing -Werror flag
+tests/vm: update NetBSD to 9.1
 
-** Also affects: ubuntu
-   Importance: Undecided
-       Status: New
+Signed-off-by: Brad Smith <brad@comstyle.com>
+Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
+Tested-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ tests/vm/netbsd | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
--- =
+diff --git a/tests/vm/netbsd b/tests/vm/netbsd
+index 447de9747d..596717cc76 100755
+--- a/tests/vm/netbsd
++++ b/tests/vm/netbsd
+@@ -22,8 +22,8 @@ class NetBSDVM(basevm.BaseVM):
+     name = "netbsd"
+     arch = "x86_64"
+ 
+-    link = "https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.0/images/NetBSD-9.0-amd64.iso"
+-    csum = "34da4882ee61bdbf69f241195a8933dc800949d30b43fc6988da853d57fc2b8cac50cf97a0d2adaf93250b4e329d189c1a8b83c33bd515226f37745d50c33369"
++    link = "https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-amd64.iso"
++    csum = "65bddc95945991c3b2021f9c8ded7f34c25f0a7611b7aa15a15fe23399e902307e926ae97fcd01dc1662ac67b5f6e4be643c6a2b581692ddcb616d30125066f9"
+     size = "20G"
+     pkgs = [
+         # tools
+@@ -38,7 +38,7 @@ class NetBSDVM(basevm.BaseVM):
+         "bash",
+         "gmake",
+         "gsed",
+-        "gettext",
++        "gettext-tools",
+ 
+         # libs: crypto
+         "gnutls",
+-- 
+2.28.0
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1904259
-
-Title:
-  include/qemu/atomic.h:495:5: error: misaligned atomic operation may
-  incur significant performance penalty (Clang 11; Ubuntu 16 i686)
-
-Status in QEMU:
-  New
-Status in Ubuntu:
-  New
-
-Bug description:
-  Hello.
-  I haven't found any "official" executables, for emulating RISC-V (32bit; =
-64bit) so I had to compile those myself.
-
-  I found that auto-generated build scripts, for Ninja, contained some
-  warnings interpreted as errors:
-
-  =
-
-  oceanfish81@gollvm:~/Desktop/qemu/build$ ninja -j 1
-  [2/1977] Compiling C object libqemuutil.a.p/util_qsp.c.o
-  FAILED: libqemuutil.a.p/util_qsp.c.o =
-
-  clang-11 -Ilibqemuutil.a.p -I. -I.. -Iqapi -Itrace -Iui -Iui/shader -I/us=
-r/include/glib-2.0 -I/usr/lib/i386-linux-gnu/glib-2.0/include -I/usr/includ=
-e/gio-unix-2.0/ -Xclang -fcolor-diagnostics -pipe -Wall -Winvalid-pch -Werr=
-or -std=3Dgnu99 -O2 -g -m32 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGE=
-FILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef -Wwrite-strings -=
-Wmissing-prototypes -fno-strict-aliasing -fno-common -fwrapv -Wold-style-de=
-finition -Wtype-limits -Wformat-security -Wformat-y2k -Winit-self -Wignored=
--qualifiers -Wempty-body -Wnested-externs -Wendif-labels -Wexpansion-to-def=
-ined -Wno-initializer-overrides -Wno-missing-include-dirs -Wno-shift-negati=
-ve-value -Wno-string-plus-int -Wno-typedef-redefinition -Wno-tautological-t=
-ype-limit-compare -Wno-psabi -fstack-protector-strong -isystem /home/oceanf=
-ish81/Desktop/qemu/linux-headers -isystem linux-headers -iquote /home/ocean=
-fish81/Desktop/qemu/tcg/i386 -iquote . -iquote /home/oceanfish81/Desktop/qe=
-mu -iquote /home/oceanfish81/Desktop/qemu/accel/tcg -iquote /home/oceanfish=
-81/Desktop/qemu/include -iquote /home/oceanfish81/Desktop/qemu/disas/libvix=
-l -pthread -Wno-unused-function -fPIC -MD -MQ libqemuutil.a.p/util_qsp.c.o =
--MF libqemuutil.a.p/util_qsp.c.o.d -o libqemuutil.a.p/util_qsp.c.o -c ../ut=
-il/qsp.c
-  In file included from ../util/qsp.c:62:
-  In file included from /home/oceanfish81/Desktop/qemu/include/qemu/thread.=
-h:4:
-  In file included from /home/oceanfish81/Desktop/qemu/include/qemu/process=
-or.h:10:
-  /home/oceanfish81/Desktop/qemu/include/qemu/atomic.h:495:5: error: misali=
-gned atomic operation may incur significant performance penalty [-Werror,-W=
-atomic-alignment]
-      qatomic_set__nocheck(ptr, val);
-      ^
-  /home/oceanfish81/Desktop/qemu/include/qemu/atomic.h:138:5: note: expande=
-d from macro 'qatomic_set__nocheck'
-      __atomic_store_n(ptr, i, __ATOMIC_RELAXED)
-      ^
-  /home/oceanfish81/Desktop/qemu/include/qemu/atomic.h:485:12: error: misal=
-igned atomic operation may incur significant performance penalty [-Werror,-=
-Watomic-alignment]
-      return qatomic_read__nocheck(ptr);
-             ^
-  /home/oceanfish81/Desktop/qemu/include/qemu/atomic.h:129:5: note: expande=
-d from macro 'qatomic_read__nocheck'
-      __atomic_load_n(ptr, __ATOMIC_RELAXED)
-      ^
-  2 errors generated.
-  ninja: build stopped: subcommand failed.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1904259/+subscriptions
 
