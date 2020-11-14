@@ -2,38 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6799C2B2B23
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Nov 2020 04:51:44 +0100 (CET)
-Received: from localhost ([::1]:32960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6CE82B2B36
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Nov 2020 05:02:05 +0100 (CET)
+Received: from localhost ([::1]:36528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdmbH-0007Ll-FZ
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 22:51:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34702)
+	id 1kdmlI-0000wY-Uk
+	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 23:02:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kdmaE-0006XH-RY
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 22:50:38 -0500
-Received: from indium.canonical.com ([91.189.90.7]:48124)
+ id 1kdmkA-0000X0-1T
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 23:00:54 -0500
+Received: from indium.canonical.com ([91.189.90.7]:49210)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kdmaC-0001uo-Tf
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 22:50:38 -0500
+ id 1kdmk7-0005b2-R2
+ for qemu-devel@nongnu.org; Fri, 13 Nov 2020 23:00:53 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kdmaB-00021h-Bb
- for <qemu-devel@nongnu.org>; Sat, 14 Nov 2020 03:50:35 +0000
+ id 1kdmk6-0002s1-3b
+ for <qemu-devel@nongnu.org>; Sat, 14 Nov 2020 04:00:50 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 533E32E804B
- for <qemu-devel@nongnu.org>; Sat, 14 Nov 2020 03:50:35 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 19D022E80E9
+ for <qemu-devel@nongnu.org>; Sat, 14 Nov 2020 04:00:50 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 14 Nov 2020 03:45:09 -0000
+Date: Sat, 14 Nov 2020 03:52:04 -0000
 From: Ivan Serdyuk <1904259@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=None; component=None;
+ status=New; importance=Undecided; assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
@@ -41,7 +43,7 @@ X-Launchpad-Bug-Commenters: oceanfish81
 X-Launchpad-Bug-Reporter: Ivan Serdyuk (oceanfish81)
 X-Launchpad-Bug-Modifier: Ivan Serdyuk (oceanfish81)
 References: <160532517027.32164.5994775965173619452.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160532550944.856.10240544872244742767.malone@chaenomeles.canonical.com>
+Message-Id: <160532592487.315.15353784962142260138.malone@chaenomeles.canonical.com>
 Subject: [Bug 1904259] Re: include/qemu/atomic.h:495:5: error: misaligned
  atomic operation may incur significant performance penalty (Clang 11;
  Ubuntu 16 i686)
@@ -50,7 +52,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="38ebca4a151c7e484f2992f7b90f5a3ede13f97f"; Instance="production"
-X-Launchpad-Hash: e95f372a711da5be1ff91d8c1032986658df3fa0
+X-Launchpad-Hash: a538e8b97091a4daac6ed2929964dc31acc4127a
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/13 22:45:36
@@ -77,21 +79,11 @@ Reply-To: Bug 1904259 <1904259@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-$ python3.7 ../meson/meson.py --version
-0.55.3
+Solved by removing -Werror flag
 
-$ clang-11 --version
-Ubuntu clang version 11.0.0-++20200721055954+cebd637c886-1~exp1~20200721161=
-335.13
-Target: i686-pc-linux-gnu
-Thread model: posix
-
-$ ninja --version
-1.10.0.git.kitware.jobserver-1
-
-$ uname -a
-Linux laptop 4.15.0-123-generic #126~16.04.1-Ubuntu SMP Wed Oct 21 13:51:51=
- UTC 2020 i686 i686 i686 GNU/Linux
+** Also affects: ubuntu
+   Importance: Undecided
+       Status: New
 
 -- =
 
@@ -104,6 +96,8 @@ Title:
   incur significant performance penalty (Clang 11; Ubuntu 16 i686)
 
 Status in QEMU:
+  New
+Status in Ubuntu:
   New
 
 Bug description:
