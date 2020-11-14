@@ -2,60 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADB652B2B39
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Nov 2020 05:03:51 +0100 (CET)
-Received: from localhost ([::1]:38638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 766402B2BB1
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Nov 2020 06:57:55 +0100 (CET)
+Received: from localhost ([::1]:51972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdmn0-0001r1-Px
-	for lists+qemu-devel@lfdr.de; Fri, 13 Nov 2020 23:03:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35908)
+	id 1kdoZO-0005zX-1r
+	for lists+qemu-devel@lfdr.de; Sat, 14 Nov 2020 00:57:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1kdmlI-0001Gn-QW
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 23:02:04 -0500
-Received: from speedy.comstyle.com ([2607:f938:3000:8::2]:28311
- helo=mail.comstyle.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1kdmlG-0005s0-Ub
- for qemu-devel@nongnu.org; Fri, 13 Nov 2020 23:02:04 -0500
-Received: from mail.comstyle.com (localhost [127.0.0.1])
- by mail.comstyle.com (Postfix) with ESMTP id 4CY1sS5M4bz8PbN;
- Fri, 13 Nov 2020 23:03:24 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=comstyle.com; h=date:from
- :to:cc:subject:message-id:mime-version:content-type; s=default;
- bh=HjOCJAbofVPLVfDVfDfUYdu4YW4=; b=Er4odOlKPCOPnZcibrIXUt1/ug8D
- QTFBC8Zik8BFl8K1DBuRCv+652qL2FiZHZf4YFmD6sDeI29kDM4xFdX9fm2tqW5L
- NqkGlhCTH0X2u+fhjFBtKABL1OVsUeSMlTbm33aBaqkTEu5UFbE+5+ON+vt0T+Ov
- OAkRoZYWT2u9Cic=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=comstyle.com; h=date:from:to
- :cc:subject:message-id:mime-version:content-type; q=dns; s=
- default; b=NsqoHC81H6KwE/XUIsImmF608pYxcYxKpaC1jlvd8nAVE6T/TgcAi
- Rz+kOGglHNMCnithJ9N8iqKTMP7uBBeBBNOfOnKnZ4qJVepI5kKU9ei1eHf4udtK
- nS/4tnGlMzysXXsbWAPYCmiWfQvmjY+/ZXWEroz5/0+W1CWL2G40Z8=
-Received: from humpty.home.comstyle.com
- (bras-base-toroon2719w-grc-36-142-114-120-158.dsl.bell.ca [142.114.120.158])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested) (Authenticated sender: brad)
- by mail.comstyle.com (Postfix) with ESMTPSA id 4CY1sS4dB4z8PbK;
- Fri, 13 Nov 2020 23:03:24 -0500 (EST)
-Date: Fri, 13 Nov 2020 23:01:50 -0500
-From: Brad Smith <brad@comstyle.com>
-To: qemu-devel@nongnu.org
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH] tests/vm: update NetBSD to 9.1
-Message-ID: <20201114040150.GD13329@humpty.home.comstyle.com>
+ (Exim 4.90_1)
+ (envelope-from <prvs=58086a3e2=alistair.francis@wdc.com>)
+ id 1kdoYT-0005BC-Sa
+ for qemu-devel@nongnu.org; Sat, 14 Nov 2020 00:56:57 -0500
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:27199)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=58086a3e2=alistair.francis@wdc.com>)
+ id 1kdoYR-0004LV-BC
+ for qemu-devel@nongnu.org; Sat, 14 Nov 2020 00:56:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1605333415; x=1636869415;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=IS0cvR6JD28Nwk+M8hWPd4ZLpGDhrZkEcFcvsBOawvs=;
+ b=UjJ6GRw5GyuWKhyK/YZTph8pQf3avUQ5n3z9Lhy0GrZXhogj/yennFkD
+ aHLwY5JS5JAjCemwLVgGo7ZjKxREVFSs7K0zQfA4z7rnr7chwhLQ3ntG1
+ J8QGwNp+78uyIP9rmUrxOcNF7eAwnJkGaogu9Jr5DPOB1IXIeCMcqgqi2
+ yQGF9xNGGVBedTzYWOEf66lyuBH9dVBtuei74oOCNxxIcUQQvbgvI072z
+ i1FbG1r2uzlE2hnK7WqLfJ7GZU+9f/LXU9741d+V7rppF/Poj5DEVFm1a
+ ACaIp9tLLOc3Fq2PXgV1A/WLeAfKyLfgHs3ZnBAysGFa7hzYYMZRuOLZJ A==;
+IronPort-SDR: GP4fgAiYx3ESXR/0Np5SLCiSxLkAjF6sRkuCowwGt/LNG1zeZ3sfbqfYxiKkMgyI1Y5/U+9J8d
+ C0Gr6QFCV3LTJacR6rfwkTPV9WDcrUubgCuDa31tOHMvkOJW9tH7l6EAm70n67sgSYo6K3TOga
+ fR5mFffgdlSkMxXbgi9rO9IJciDGv7Lnz/HTEvrXm7j2uWRSs6sILXCw/50ssHHkSdAlBLn3cG
+ EsOWemih+MJk4XZZL2eYDlOmu0BLKce28VXDdDDGlIORFIb4LRHohJaDgUI1sZHpzjSv0t41B7
+ TUY=
+X-IronPort-AV: E=Sophos;i="5.77,477,1596470400"; d="scan'208";a="152517555"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 14 Nov 2020 13:56:52 +0800
+IronPort-SDR: vRQazAWF7WKY0uA/05CjX8F4tUuAOgtQUq2ZsHvHaVwoplQ8NHoN5llsmphvXBerhS1vnzQLa5
+ /X7tnUZadsIWWMl+kfttIAYFACm+lUfL/dMTfYnpm25t95saD9+Sr+tz4AYnLlthTLxepxcoK+
+ 81sTYGNdPE/+7Twpc7RwlxQhhZn+Q7zCkgDKFTasEDTqj760P3tnOfKlmu7UbVrdS7OU7qwGKE
+ l70sUqSo6XFRUT8odlh/r4DbaqF8AlLmxMVC3EoJpK05ZUI/yhDYGdNMT4ciV2+EjiXwy+VTc3
+ pcUry2nxPTmlhTZ0E0fyx9by
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Nov 2020 21:41:31 -0800
+IronPort-SDR: oh26hB2vaJsYM8ddJJSUZZdC0VmZfjhDONSM94K7mLPCVQqVJQCnqd0voC4ZTBSUMgJuWnHIhE
+ pCSpwwQ0ngNZ7kPgP223mNkrMEKAFOMjhGyrZqEBRQaE+tvAsunp6x/BTYc9XLq+onPsJAgAcn
+ jSy0sU+pvgEIuZwOjQmzUS4g7SiGRYn0TdGXjfUCYPB1musivVzE7V0QuW4veFISonrvaciQFh
+ yMizUtUsBDvrhguFXt8fW0Dr76POn+B68Ni/WBfJuFdYPoXdic4JRDI/26N6MtTav4Vvu5ydxq
+ bWg=
+WDCIronportException: Internal
+Received: from cne130336.ad.shared (HELO risc6-mainframe.hgst.com)
+ ([10.86.61.81])
+ by uls-op-cesaip02.wdc.com with ESMTP; 13 Nov 2020 21:56:51 -0800
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	peter.maydell@linaro.org
+Subject: [PULL 0/2] riscv-to-apply queue
+Date: Fri, 13 Nov 2020 21:45:07 -0800
+Message-Id: <20201114054509.180352-1-alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=2607:f938:3000:8::2;
- envelope-from=brad@comstyle.com; helo=mail.comstyle.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.71.154.42;
+ envelope-from=prvs=58086a3e2=alistair.francis@wdc.com;
+ helo=esa4.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/14 00:56:52
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,43 +92,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-tests/vm: update NetBSD to 9.1
+The following changes since commit 5ececc3a0b0086c6168e12f4d032809477b30fe5:
 
-Signed-off-by: Brad Smith <brad@comstyle.com>
-Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
-Tested-by: Gerd Hoffmann <kraxel@redhat.com>
----
- tests/vm/netbsd | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+  Merge remote-tracking branch 'remotes/dgilbert/tags/pull-hmp-20201113' into staging (2020-11-13 13:40:23 +0000)
 
-diff --git a/tests/vm/netbsd b/tests/vm/netbsd
-index 447de9747d..596717cc76 100755
---- a/tests/vm/netbsd
-+++ b/tests/vm/netbsd
-@@ -22,8 +22,8 @@ class NetBSDVM(basevm.BaseVM):
-     name = "netbsd"
-     arch = "x86_64"
- 
--    link = "https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.0/images/NetBSD-9.0-amd64.iso"
--    csum = "34da4882ee61bdbf69f241195a8933dc800949d30b43fc6988da853d57fc2b8cac50cf97a0d2adaf93250b4e329d189c1a8b83c33bd515226f37745d50c33369"
-+    link = "https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-amd64.iso"
-+    csum = "65bddc95945991c3b2021f9c8ded7f34c25f0a7611b7aa15a15fe23399e902307e926ae97fcd01dc1662ac67b5f6e4be643c6a2b581692ddcb616d30125066f9"
-     size = "20G"
-     pkgs = [
-         # tools
-@@ -38,7 +38,7 @@ class NetBSDVM(basevm.BaseVM):
-         "bash",
-         "gmake",
-         "gsed",
--        "gettext",
-+        "gettext-tools",
- 
-         # libs: crypto
-         "gnutls",
--- 
-2.28.0
+are available in the Git repository at:
 
+  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20201113-1
+
+for you to fetch changes up to deef3d2568a7fbaa62d9bee07708cf3a4dc3ac53:
+
+  intc/ibex_plic: Ensure we don't loose interrupts (2020-11-13 21:43:48 -0800)
+
+----------------------------------------------------------------
+Two small additional fixes for the Ibex PLIC.
+
+----------------------------------------------------------------
+Alistair Francis (2):
+      intc/ibex_plic: Fix some typos in the comments
+      intc/ibex_plic: Ensure we don't loose interrupts
+
+ include/hw/intc/ibex_plic.h |  1 +
+ hw/intc/ibex_plic.c         | 21 ++++++++++++++++++---
+ 2 files changed, 19 insertions(+), 3 deletions(-)
 
