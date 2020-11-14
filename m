@@ -2,96 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 379692B3172
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 00:46:10 +0100 (CET)
-Received: from localhost ([::1]:47154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E80BB2B317A
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 00:46:52 +0100 (CET)
+Received: from localhost ([::1]:48848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ke5FB-0003R8-9c
-	for lists+qemu-devel@lfdr.de; Sat, 14 Nov 2020 18:46:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60472)
+	id 1ke5Fs-00048L-1H
+	for lists+qemu-devel@lfdr.de; Sat, 14 Nov 2020 18:46:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1ke5DM-0002Sp-86
- for qemu-devel@nongnu.org; Sat, 14 Nov 2020 18:44:16 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:59618
+ id 1ke5Df-0002eH-CG
+ for qemu-devel@nongnu.org; Sat, 14 Nov 2020 18:44:35 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:58880
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1ke5DI-0005DT-Rs
- for qemu-devel@nongnu.org; Sat, 14 Nov 2020 18:44:15 -0500
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ id 1ke5Dd-0005EB-6o
+ for qemu-devel@nongnu.org; Sat, 14 Nov 2020 18:44:35 -0500
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
  by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0AENVGdm102359; Sat, 14 Nov 2020 18:44:11 -0500
+ 0AENW9wu145375; Sat, 14 Nov 2020 18:44:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=subject : to : cc :
  references : from : message-id : date : mime-version : in-reply-to :
  content-type : content-transfer-encoding; s=pp1;
- bh=XSA2rJegU7LYMMlPnE8IbID3CXQd/B/uAEyz3IwwdY0=;
- b=VH7N4KYVjzJi3W/U77/wcJQvP439HzcU9v5X6cdP+pu89fGf71uGot9QZNcKw6B1bMaY
- kpN3TRrn2RJ3iut1J759PHLL+KTwMFoTnLIFQSvhMydJAzJ/50v57wzyTu7xsVKICs6e
- vUcKcZu2Qy5pFF/eSJIGjo/OfHMpztQftGYPxUSrIrYBe7VeDEPl3Pg2+YT4UN/ftG6p
- qEQl9UJwnIUPKR2dCWkT1T0A5oo/8XO5/ValIMvqkISo6//h3MUjwJjePlt95h/6uQC/
- otTdH9DPn74BIrkpQLL3nR9J8Oy/Qm7n30J1lbtjAwhSDTxtyECP+yfWh1JQNljH+2uj ZQ== 
+ bh=Zj/MktW8gtnGIysDP8YmYzZHMyDSir8RZcFVXYuR3/E=;
+ b=Qk6G1utls8mKMapIiaLPCY2fZH+xOtxmyH1kMqxselB73ABR/GYnRgT1nSU2Ju5SNqHA
+ C898liMbwx7u9ws/ZmVbvoG3rPQfQ83DRkt7CMZao8gA8MUt3SDQtarhY7C5DzVoVAHH
+ Z6ZHkuzKq1zjHD2bS6s58jOwcSeFDIS6KzeKGIhpX9LT1UG7TUOJtU8qTAqaR6qJrujd
+ 3DD6Gs3VMN7c9AleE0XlpFUPrTqNI0qiA+gfSAnMdhbyPs1is8feg7f+bYIo9AaepXOx
+ 7CeLZCOhy+wyXX8z+8GqwO6OFU6uv9cup2C0wWVfpS7tWgrA+wsvso85dpBZki53vNMJ 3A== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 34tq2s9vq6-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 34tc8hcdvk-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 14 Nov 2020 18:44:11 -0500
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0AENeVo5127243;
- Sat, 14 Nov 2020 18:44:10 -0500
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0b-001b2d01.pphosted.com with ESMTP id 34tq2s9vq0-1
+ Sat, 14 Nov 2020 18:44:30 -0500
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0AENiUum173227;
+ Sat, 14 Nov 2020 18:44:30 -0500
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 34tc8hcdvc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 14 Nov 2020 18:44:10 -0500
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0AENfYd7016199;
- Sat, 14 Nov 2020 23:44:10 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma03dal.us.ibm.com with ESMTP id 34t6v8p08s-1
+ Sat, 14 Nov 2020 18:44:30 -0500
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0AENgavL003918;
+ Sat, 14 Nov 2020 23:44:29 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com
+ (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+ by ppma01dal.us.ibm.com with ESMTP id 34t6v9e0ng-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 14 Nov 2020 23:44:09 +0000
+ Sat, 14 Nov 2020 23:44:29 +0000
 Received: from b03ledav005.gho.boulder.ibm.com
  (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0AENi85P27984256
+ by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0AENiMB543778358
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 14 Nov 2020 23:44:08 GMT
+ Sat, 14 Nov 2020 23:44:22 GMT
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A0972BE053;
- Sat, 14 Nov 2020 23:44:08 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 47589BE053;
+ Sat, 14 Nov 2020 23:44:28 +0000 (GMT)
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0982EBE054;
- Sat, 14 Nov 2020 23:44:07 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 8DB87BE04F;
+ Sat, 14 Nov 2020 23:44:27 +0000 (GMT)
 Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
  by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Sat, 14 Nov 2020 23:44:07 +0000 (GMT)
-Subject: Re: [PATCH 2/4] configure: Do not build pc-bios/optionrom on Haiku
+ Sat, 14 Nov 2020 23:44:27 +0000 (GMT)
+Subject: Re: [PATCH 1/4] configure: Fix the _BSD_SOURCE define for the Haiku
+ build
 To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
 References: <20201114165137.15379-1-thuth@redhat.com>
- <20201114165137.15379-3-thuth@redhat.com>
+ <20201114165137.15379-2-thuth@redhat.com>
 From: Stefan Berger <stefanb@linux.ibm.com>
-Message-ID: <b1fab224-f6e0-7178-2e33-41f24b0c667a@linux.ibm.com>
-Date: Sat, 14 Nov 2020 18:44:07 -0500
+Message-ID: <60928711-0d58-7dd4-7c41-0951793ca2fe@linux.ibm.com>
+Date: Sat, 14 Nov 2020 18:44:27 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20201114165137.15379-3-thuth@redhat.com>
+In-Reply-To: <20201114165137.15379-2-thuth@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
- definitions=2020-11-14_08:2020-11-13,
+ definitions=2020-11-14_09:2020-11-13,
  2020-11-14 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 suspectscore=0
- lowpriorityscore=0 mlxlogscore=999 adultscore=0 phishscore=0
- priorityscore=1501 bulkscore=0 clxscore=1015 malwarescore=0
- impostorscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2009150000 definitions=main-2011140156
+ spamscore=0 mlxlogscore=999
+ mlxscore=0 suspectscore=0 phishscore=0 adultscore=0 lowpriorityscore=0
+ malwarescore=0 impostorscore=0 bulkscore=0 priorityscore=1501
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011140156
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/14 18:43:21
@@ -125,15 +126,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/14/20 11:51 AM, Thomas Huth wrote:
-> Compilation of pc-bios/optionrom fails on Haiku with:
->
->     BUILD   pvh.img
->   ld: pvh_main.o: in function `pvh_load_kernel':
->   pc-bios/optionrom/pvh_main.c:73: undefined reference to `GLOBAL_OFFSET_TABLE_'
->   Makefile:57: recipe for target 'pvh.img' failed
->   make[1]: *** [pvh.img] Error 1
->
-> Let's simply disable it, like it is already done on macOS and Solaris.
+> The Haiku VM that we are going to add is using _BSD_SOURCE instead
+> of BSD_SOURCE (without initial underscore)... according to David
+> Carlier, the BSD_SOURCE without underscore was likely a typo, so
+> let's simply add the underscore there now.
+> This fixes the build failure with the bswapXX() macros not being
+> defined after including <endian.h>.
 >
 > Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
@@ -141,19 +139,19 @@ On 11/14/20 11:51 AM, Thomas Huth wrote:
 >   1 file changed, 1 insertion(+), 1 deletion(-)
 >
 > diff --git a/configure b/configure
-> index a273a93377..c0acda164d 100755
+> index 4cef321d9d..a273a93377 100755
 > --- a/configure
 > +++ b/configure
-> @@ -5842,7 +5842,7 @@ fi
->   roms=
->   if { test "$cpu" = "i386" || test "$cpu" = "x86_64"; } && \
->           test "$targetos" != "Darwin" && test "$targetos" != "SunOS" && \
-> -        test "$softmmu" = yes ; then
-> +        test "$targetos" != "Haiku" && test "$softmmu" = yes ; then
->       # Different host OS linkers have different ideas about the name of the ELF
->       # emulation. Linux and OpenBSD/amd64 use 'elf_i386'; FreeBSD uses the _fbsd
->       # variant; OpenBSD/i386 uses the _obsd variant; and Windows uses i386pe.
+> @@ -790,7 +790,7 @@ SunOS)
+>   ;;
+>   Haiku)
+>     haiku="yes"
+> -  QEMU_CFLAGS="-DB_USE_POSITIVE_POSIX_ERRORS -DBSD_SOURCE $QEMU_CFLAGS"
+> +  QEMU_CFLAGS="-DB_USE_POSITIVE_POSIX_ERRORS -D_BSD_SOURCE $QEMU_CFLAGS"
+>   ;;
+>   Linux)
+>     audio_drv_list="try-pa oss"
 
-Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+Reviewed-by: Stefan Berger <stefanb@linux.ibm.com
 
 
