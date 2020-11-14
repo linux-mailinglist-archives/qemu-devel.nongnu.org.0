@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C30282B2EA8
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Nov 2020 17:53:53 +0100 (CET)
-Received: from localhost ([::1]:57620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B20432B2EAD
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Nov 2020 17:54:05 +0100 (CET)
+Received: from localhost ([::1]:57960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdyoC-0001GJ-R4
-	for lists+qemu-devel@lfdr.de; Sat, 14 Nov 2020 11:53:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48178)
+	id 1kdyoO-0001PX-NA
+	for lists+qemu-devel@lfdr.de; Sat, 14 Nov 2020 11:54:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kdymL-0008T2-UX
- for qemu-devel@nongnu.org; Sat, 14 Nov 2020 11:51:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30688)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kdymN-0008VC-F4
+ for qemu-devel@nongnu.org; Sat, 14 Nov 2020 11:51:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35400)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kdymI-0000SH-RK
- for qemu-devel@nongnu.org; Sat, 14 Nov 2020 11:51:57 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kdymL-0000TI-S9
+ for qemu-devel@nongnu.org; Sat, 14 Nov 2020 11:51:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605372713;
+ s=mimecast20190719; t=1605372717;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=bLAePTtGcecxV0gOEt66l+EqT1AGeqliPWsZztwFPGA=;
- b=GiDdVFhpVT7sX1TcPX01WLSJKexE0uKzVBpg74QbS0iWsyRM+GlfUZfQGQFoQQpzCT9+7H
- 23Q7z11znuKP8bIxY3al1w5IMIIHnnQFGk+yOMuEpSunsRQCz/Co8EXiwF6sxTQihsmnVW
- uO/SLC7GDiyQ8lL8ETTE50L0g7wIHlg=
+ references:references; bh=hKevCePf+YmCkBj6lSBZPWzUNkMXUtphyqhCqYAO7Hc=;
+ b=DaJ6UhvB9ebbW6HFXq3kOS+pBnXIb9i5mspK3maY9Hi8voDLIatySTk7RNAGMyZ+UPQFJK
+ ZX+PqZiMU+nNEy8Me+w8KXlm7wcZTNAmLgcnxKszXJV2Mc0agSOR1hPZezqciC3HpRkxgu
+ bzV6cjaKky6c0vfeWbpvkD4JgepIdik=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-6iAbxEyYNrGxJdM3aoQ3sg-1; Sat, 14 Nov 2020 11:51:51 -0500
-X-MC-Unique: 6iAbxEyYNrGxJdM3aoQ3sg-1
+ us-mta-442-QouY9uCQOZ-6ZkHcD9fDdw-1; Sat, 14 Nov 2020 11:51:53 -0500
+X-MC-Unique: QouY9uCQOZ-6ZkHcD9fDdw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C38168015A4;
- Sat, 14 Nov 2020 16:51:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17A9D804006;
+ Sat, 14 Nov 2020 16:51:52 +0000 (UTC)
 Received: from thuth.com (ovpn-112-86.ams2.redhat.com [10.36.112.86])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B0C026EF5A;
- Sat, 14 Nov 2020 16:51:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2C63A5F7D8;
+ Sat, 14 Nov 2020 16:51:49 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/4] configure: Do not build pc-bios/optionrom on Haiku
-Date: Sat, 14 Nov 2020 17:51:35 +0100
-Message-Id: <20201114165137.15379-3-thuth@redhat.com>
+Subject: [PATCH 3/4] configure: Add a proper check for sys/ioccom.h and use it
+ in tpm_ioctl.h
+Date: Sat, 14 Nov 2020 17:51:36 +0100
+Message-Id: <20201114165137.15379-4-thuth@redhat.com>
 In-Reply-To: <20201114165137.15379-1-thuth@redhat.com>
 References: <20201114165137.15379-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
@@ -83,34 +84,75 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Compilation of pc-bios/optionrom fails on Haiku with:
-
-   BUILD   pvh.img
- ld: pvh_main.o: in function `pvh_load_kernel':
- pc-bios/optionrom/pvh_main.c:73: undefined reference to `GLOBAL_OFFSET_TABLE_'
- Makefile:57: recipe for target 'pvh.img' failed
- make[1]: *** [pvh.img] Error 1
-
-Let's simply disable it, like it is already done on macOS and Solaris.
+On Solaris and Haiku, the _IO() macros are defined in <sys/ioccom.h>.
+Add a proper check for this header to our configure scripts, and
+make sure to include the header in tpm_ioctl.h to fix a build failure
+on Solaris and Haiku.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- configure | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ backends/tpm/tpm_ioctl.h |  4 ++++
+ configure                | 11 ++++++++++-
+ nbd/nbd-internal.h       |  2 +-
+ 3 files changed, 15 insertions(+), 2 deletions(-)
 
+diff --git a/backends/tpm/tpm_ioctl.h b/backends/tpm/tpm_ioctl.h
+index f5f5c553a9..bd6c12cb86 100644
+--- a/backends/tpm/tpm_ioctl.h
++++ b/backends/tpm/tpm_ioctl.h
+@@ -12,6 +12,10 @@
+ #include <sys/uio.h>
+ #include <sys/ioctl.h>
+ 
++#ifdef HAVE_SYS_IOCCOM_H
++#include <sys/ioccom.h>
++#endif
++
+ /*
+  * Every response from a command involving a TPM command execution must hold
+  * the ptm_res as the first element.
 diff --git a/configure b/configure
-index a273a93377..c0acda164d 100755
+index c0acda164d..764e903748 100755
 --- a/configure
 +++ b/configure
-@@ -5842,7 +5842,7 @@ fi
- roms=
- if { test "$cpu" = "i386" || test "$cpu" = "x86_64"; } && \
-         test "$targetos" != "Darwin" && test "$targetos" != "SunOS" && \
--        test "$softmmu" = yes ; then
-+        test "$targetos" != "Haiku" && test "$softmmu" = yes ; then
-     # Different host OS linkers have different ideas about the name of the ELF
-     # emulation. Linux and OpenBSD/amd64 use 'elf_i386'; FreeBSD uses the _fbsd
-     # variant; OpenBSD/i386 uses the _obsd variant; and Windows uses i386pe.
+@@ -3123,6 +3123,13 @@ if check_include "sys/signal.h" ; then
+   have_sys_signal_h=yes
+ fi
+ 
++#########################################
++# sys/ioccom.h check
++have_sys_ioccom_h=no
++if check_include "sys/ioccom.h" ; then
++  have_sys_ioccom_h=yes
++fi
++
+ ##########################################
+ # VTE probe
+ 
+@@ -6214,7 +6221,9 @@ fi
+ if test "$have_sys_signal_h" = "yes" ; then
+     echo "HAVE_SYS_SIGNAL_H=y" >> $config_host_mak
+ fi
+-
++if test "$have_sys_ioccom_h" = "yes" ; then
++    echo "HAVE_SYS_IOCCOM_H=y" >> $config_host_mak
++fi
+ # Work around a system header bug with some kernel/XFS header
+ # versions where they both try to define 'struct fsxattr':
+ # xfs headers will not try to redefine structs from linux headers
+diff --git a/nbd/nbd-internal.h b/nbd/nbd-internal.h
+index 60629ef160..1b2141ab4b 100644
+--- a/nbd/nbd-internal.h
++++ b/nbd/nbd-internal.h
+@@ -19,7 +19,7 @@
+ #ifndef _WIN32
+ #include <sys/ioctl.h>
+ #endif
+-#if defined(__sun__) || defined(__HAIKU__)
++#ifdef HAVE_SYS_IOCCOM_H
+ #include <sys/ioccom.h>
+ #endif
+ 
 -- 
 2.18.4
 
