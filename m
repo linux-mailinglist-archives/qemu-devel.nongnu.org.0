@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 766402B2BB1
+	by mail.lfdr.de (Postfix) with ESMTPS id AEE492B2BB2
 	for <lists+qemu-devel@lfdr.de>; Sat, 14 Nov 2020 06:57:55 +0100 (CET)
-Received: from localhost ([::1]:51972 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:52040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdoZO-0005zX-1r
+	id 1kdoZO-00061H-PL
 	for lists+qemu-devel@lfdr.de; Sat, 14 Nov 2020 00:57:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47588)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=58086a3e2=alistair.francis@wdc.com>)
- id 1kdoYT-0005BC-Sa
- for qemu-devel@nongnu.org; Sat, 14 Nov 2020 00:56:57 -0500
+ id 1kdoYV-0005BR-LI
+ for qemu-devel@nongnu.org; Sat, 14 Nov 2020 00:56:59 -0500
 Received: from esa4.hgst.iphmx.com ([216.71.154.42]:27199)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=58086a3e2=alistair.francis@wdc.com>)
- id 1kdoYR-0004LV-BC
- for qemu-devel@nongnu.org; Sat, 14 Nov 2020 00:56:57 -0500
+ id 1kdoYU-0004LV-1a
+ for qemu-devel@nongnu.org; Sat, 14 Nov 2020 00:56:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1605333415; x=1636869415;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=IS0cvR6JD28Nwk+M8hWPd4ZLpGDhrZkEcFcvsBOawvs=;
- b=UjJ6GRw5GyuWKhyK/YZTph8pQf3avUQ5n3z9Lhy0GrZXhogj/yennFkD
- aHLwY5JS5JAjCemwLVgGo7ZjKxREVFSs7K0zQfA4z7rnr7chwhLQ3ntG1
- J8QGwNp+78uyIP9rmUrxOcNF7eAwnJkGaogu9Jr5DPOB1IXIeCMcqgqi2
- yQGF9xNGGVBedTzYWOEf66lyuBH9dVBtuei74oOCNxxIcUQQvbgvI072z
- i1FbG1r2uzlE2hnK7WqLfJ7GZU+9f/LXU9741d+V7rppF/Poj5DEVFm1a
- ACaIp9tLLOc3Fq2PXgV1A/WLeAfKyLfgHs3ZnBAysGFa7hzYYMZRuOLZJ A==;
-IronPort-SDR: GP4fgAiYx3ESXR/0Np5SLCiSxLkAjF6sRkuCowwGt/LNG1zeZ3sfbqfYxiKkMgyI1Y5/U+9J8d
- C0Gr6QFCV3LTJacR6rfwkTPV9WDcrUubgCuDa31tOHMvkOJW9tH7l6EAm70n67sgSYo6K3TOga
- fR5mFffgdlSkMxXbgi9rO9IJciDGv7Lnz/HTEvrXm7j2uWRSs6sILXCw/50ssHHkSdAlBLn3cG
- EsOWemih+MJk4XZZL2eYDlOmu0BLKce28VXDdDDGlIORFIb4LRHohJaDgUI1sZHpzjSv0t41B7
- TUY=
-X-IronPort-AV: E=Sophos;i="5.77,477,1596470400"; d="scan'208";a="152517555"
+ t=1605333417; x=1636869417;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=PDGjOCrPcBr55qeG23BqMw3++1CZi6hyle/slqh0rVI=;
+ b=pAzdD9R2DCOj75nO3ZeuCXyUAKwOt2SxhqpsvBpJlEMMk0wqadN0ds+C
+ LetFBDY1gL6YDIdXLij1NjwXDwd1+q1KShAH7jJQvKM8F0Tncd1hF+ob6
+ bVqyusJkRfiZ7Uo4K2KJWP7Pq9MT4RCoz9rGRmLrKjwwjt2lTndwZlJjL
+ /bwUbClN0bzZrzj8LfqBp4XhlgZYTeOBI4KBtz2tgcDSDJ9u6NQsMmimd
+ Ss+L1a1vXXpxfB7DaBHUrLHbB3WrpYF8+mW/8romUjIC9qMsBqAOuVWPl
+ aKPy7vinsFKyR4bABdB9LG/EwEmHYyNDlxCaPMO/yV88BNurhXSrEOJ6m Q==;
+IronPort-SDR: +KU2XQxgx/tPxJMjHgV4bIvkP3VLjoOHWkl/V8Np9jTePbka7dnzLXmueTgaovMbyVfuMDumfy
+ DnAt+0zxzKqmTjSR/QCgnBs7x+nM2SyvOpQVU60Gr8SUpzFxPzMgmMFODRGvkTmPDoNe8ixEHh
+ NY7FTxaNxgwvUG/YAGxYvueGZBRRGaw3J2GpPhUoaOzQWvTDwnqiB8jWQ6UWEGsH3mPXZKKI3p
+ hSFQZPL5FsTvGxwC7gIBdsqiZqPU28q/zSErx4plx5i7vrFHzOUjKgar2ah7H2wgauGlLjxWgw
+ o3o=
+X-IronPort-AV: E=Sophos;i="5.77,477,1596470400"; d="scan'208";a="152517556"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
  by ob1.hgst.iphmx.com with ESMTP; 14 Nov 2020 13:56:52 +0800
-IronPort-SDR: vRQazAWF7WKY0uA/05CjX8F4tUuAOgtQUq2ZsHvHaVwoplQ8NHoN5llsmphvXBerhS1vnzQLa5
- /X7tnUZadsIWWMl+kfttIAYFACm+lUfL/dMTfYnpm25t95saD9+Sr+tz4AYnLlthTLxepxcoK+
- 81sTYGNdPE/+7Twpc7RwlxQhhZn+Q7zCkgDKFTasEDTqj760P3tnOfKlmu7UbVrdS7OU7qwGKE
- l70sUqSo6XFRUT8odlh/r4DbaqF8AlLmxMVC3EoJpK05ZUI/yhDYGdNMT4ciV2+EjiXwy+VTc3
- pcUry2nxPTmlhTZ0E0fyx9by
+IronPort-SDR: rSOJG38a+T54aMzsp0SXWo7IYcKPFXQO5TpW5SkJq3Zsavv39TE81PbkDRB7WoEXiqnL9YNMpK
+ OQuFbAqR5rk4anPukJX9lT1TCItOdQL67X5UHD7Xb+g2bT5ZWa+nlD+24mfaFItKx0d03JCQ81
+ OHX96pPDibfl6lYgyohKL+Z8DvRm97nmoU+44t1coATL/UnC2qJceOwT7wobAmoEHWBykwSmcs
+ /p2YncTqAJp8Vx8B0hnRM5EUSPSj4xlVvwARPkGmTfl23FYingq33waP18cWFYG19D4CcBBbn4
+ eeq9SAMX0uf0HL7uxsjmDBUz
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Nov 2020 21:41:31 -0800
-IronPort-SDR: oh26hB2vaJsYM8ddJJSUZZdC0VmZfjhDONSM94K7mLPCVQqVJQCnqd0voC4ZTBSUMgJuWnHIhE
- pCSpwwQ0ngNZ7kPgP223mNkrMEKAFOMjhGyrZqEBRQaE+tvAsunp6x/BTYc9XLq+onPsJAgAcn
- jSy0sU+pvgEIuZwOjQmzUS4g7SiGRYn0TdGXjfUCYPB1musivVzE7V0QuW4veFISonrvaciQFh
- yMizUtUsBDvrhguFXt8fW0Dr76POn+B68Ni/WBfJuFdYPoXdic4JRDI/26N6MtTav4Vvu5ydxq
- bWg=
+ 13 Nov 2020 21:41:32 -0800
+IronPort-SDR: Qr0EUvK33lzjoN5y/8iK6Zzz8S3mGgY1PaW8PCHLorxx9WMxUHlpGZfsmk8SGu2ZCLkr7NkLes
+ 7cstHwd+9zBlpSuXiLxZ1bcHqyNcxpeuFWm4d9neVFm37l3mc99+ybMNHcpvAEa3IM5mvA/YjS
+ 9WYuwcFgFbmliwbUb9O69aW7uTcSNKtCtGu3a6wojIURJlQtUQ3RYeJG3UDKJtp79ROUPPyK0c
+ gK+6g6NfkjlQKHcSkEGcVhNfc/jaUHe7Nc3yOMMrp0NorZSRmY3F5HyahqWK4i6LWowuEKyfGN
+ sPU=
 WDCIronportException: Internal
 Received: from cne130336.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.61.81])
- by uls-op-cesaip02.wdc.com with ESMTP; 13 Nov 2020 21:56:51 -0800
+ by uls-op-cesaip02.wdc.com with ESMTP; 13 Nov 2020 21:56:52 -0800
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 0/2] riscv-to-apply queue
-Date: Fri, 13 Nov 2020 21:45:07 -0800
-Message-Id: <20201114054509.180352-1-alistair.francis@wdc.com>
+Subject: [PULL 1/2] intc/ibex_plic: Fix some typos in the comments
+Date: Fri, 13 Nov 2020 21:45:08 -0800
+Message-Id: <20201114054509.180352-2-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201114054509.180352-1-alistair.francis@wdc.com>
+References: <20201114054509.180352-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.71.154.42;
@@ -96,27 +98,35 @@ Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 5ececc3a0b0086c6168e12f4d032809477b30fe5:
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 22d2fb0d7af5ca316c67ac909926368d1bcb7cf5.1605136387.git.alistair.francis@wdc.com
+---
+ hw/intc/ibex_plic.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-  Merge remote-tracking branch 'remotes/dgilbert/tags/pull-hmp-20201113' into staging (2020-11-13 13:40:23 +0000)
+diff --git a/hw/intc/ibex_plic.c b/hw/intc/ibex_plic.c
+index 235e6b88ff..db9e0aa25f 100644
+--- a/hw/intc/ibex_plic.c
++++ b/hw/intc/ibex_plic.c
+@@ -45,7 +45,7 @@ static void ibex_plic_irqs_set_pending(IbexPlicState *s, int irq, bool level)
+ 
+     if (s->claimed[pending_num] & 1 << (irq % 32)) {
+         /*
+-         * The interrupt has been claimed, but not compelted.
++         * The interrupt has been claimed, but not completed.
+          * The pending bit can't be set.
+          */
+         return;
+@@ -133,7 +133,7 @@ static uint64_t ibex_plic_read(void *opaque, hwaddr addr,
+         int pending_num = s->claim / 32;
+         s->pending[pending_num] &= ~(1 << (s->claim % 32));
+ 
+-        /* Set the interrupt as claimed, but not compelted */
++        /* Set the interrupt as claimed, but not completed */
+         s->claimed[pending_num] |= 1 << (s->claim % 32);
+ 
+         /* Return the current claimed interrupt */
+-- 
+2.29.2
 
-are available in the Git repository at:
-
-  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20201113-1
-
-for you to fetch changes up to deef3d2568a7fbaa62d9bee07708cf3a4dc3ac53:
-
-  intc/ibex_plic: Ensure we don't loose interrupts (2020-11-13 21:43:48 -0800)
-
-----------------------------------------------------------------
-Two small additional fixes for the Ibex PLIC.
-
-----------------------------------------------------------------
-Alistair Francis (2):
-      intc/ibex_plic: Fix some typos in the comments
-      intc/ibex_plic: Ensure we don't loose interrupts
-
- include/hw/intc/ibex_plic.h |  1 +
- hw/intc/ibex_plic.c         | 21 ++++++++++++++++++---
- 2 files changed, 19 insertions(+), 3 deletions(-)
 
