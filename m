@@ -2,53 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C02242B2C00
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Nov 2020 08:41:28 +0100 (CET)
-Received: from localhost ([::1]:53560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AFD82B2C4C
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Nov 2020 09:49:24 +0100 (CET)
+Received: from localhost ([::1]:43954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kdqBb-0007nf-Rc
-	for lists+qemu-devel@lfdr.de; Sat, 14 Nov 2020 02:41:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57920)
+	id 1kdrFK-0002wu-Ow
+	for lists+qemu-devel@lfdr.de; Sat, 14 Nov 2020 03:49:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kdq8b-0004uH-1n; Sat, 14 Nov 2020 02:38:21 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:33817 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kdq8Z-0005Ad-56; Sat, 14 Nov 2020 02:38:20 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CY6cz1xwqz9sTv; Sat, 14 Nov 2020 18:37:55 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1605339475;
- bh=zZzdFquSOkXU8Idfmi2IOczKqTqkmJRr84AAXaSmEMM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QZA+sDNTDtRJY2jpSqMxDD9tq7rbeq+cfl56ivHTHD0GTSGHTRZ8FLYdsUk5w2RgD
- TYFWqYFnog6olJuy36YDTglHk/dMwZg7JTfx/8TI+hWESTYNu3H2O/bBe5JQUZRCdy
- h8y4rFxxyPGjHpJmorDiSMLIRgvLRVv3zWZhLjCI=
-Date: Wed, 11 Nov 2020 17:22:32 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: LemonBoy <thatlemon@gmail.com>
-Subject: Re: [PATCH 1/2] ppc/translate: Implement lxvwsx opcode
-Message-ID: <20201111062232.GC396466@yekko.fritz.box>
-References: <d7d533e18c2bc10d924ee3e09907ff2b41fddb3a.1604912739.git.thatlemon@gmail.com>
- <a1c67758-7b2c-725c-67b6-e0c52a971d67@linaro.org>
- <9096a38b-0b6f-3531-b88b-e1be1d946831@gmail.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kdrE2-00024A-Cb
+ for qemu-devel@nongnu.org; Sat, 14 Nov 2020 03:48:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21128)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kdrDx-00045S-Cw
+ for qemu-devel@nongnu.org; Sat, 14 Nov 2020 03:48:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605343674;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=X7j3+ES9llbBadPcfrLRda1Nrt7FqSunLwJTYCU+460=;
+ b=Mlf2gE6yWMPDWDy+TFZsZYNDN9Lrt7m2MDTIx82gYSJX/gi1Run4O9/DNnClRmLzXHqLIO
+ Y9WXGgspNVmk96rdObPh7IKB3c23LesEjUhiCb5n1dE138fP/TCZX5UPyYi1G5x1nEm3fM
+ RhLOxSoWic1qIFtRiUznsqzJvw1UHtc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-444-cbYMvCtMMnCDPM_oV_cviQ-1; Sat, 14 Nov 2020 03:47:51 -0500
+X-MC-Unique: cbYMvCtMMnCDPM_oV_cviQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E84E4107B46F;
+ Sat, 14 Nov 2020 08:47:50 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-25.ams2.redhat.com [10.36.112.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 491921002C0E;
+ Sat, 14 Nov 2020 08:47:49 +0000 (UTC)
+Subject: Re: [PATCH 1/9] Enabling BSD symbols
+To: David CARLIER <devnexen@gmail.com>
+References: <CA+XhMqxuYwkJLbCRZpAM7pM14CbLzx3BZ=n6FW14cg344xsFJA@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <3a964985-cfda-a5ba-5412-f3ff31515383@redhat.com>
+Date: Sat, 14 Nov 2020 09:47:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ABTtc+pdwF7KHXCz"
-Content-Disposition: inline
-In-Reply-To: <9096a38b-0b6f-3531-b88b-e1be1d946831@gmail.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <CA+XhMqxuYwkJLbCRZpAM7pM14CbLzx3BZ=n6FW14cg344xsFJA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/14 01:01:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,66 +82,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 29/06/2020 23.48, David CARLIER wrote:
+> From 5c6022f21289eb6e78e93d584c766db82165dced Mon Sep 17 00:00:00 2001
+> From: David Carlier <devnexen@gmail.com>
+> Date: Mon, 29 Jun 2020 22:13:35 +0000
+> Subject: [PATCH 1/9] Enabling BSD symbols.
+> 
+> Signed-off-by: David Carlier <devnexen@gmail.com>
+> ---
+>  configure | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/configure b/configure
+> index 4a22dcd563..d81931ba5e 100755
+> --- a/configure
+> +++ b/configure
+> @@ -903,8 +903,8 @@ SunOS)
+>  ;;
+>  Haiku)
+>    haiku="yes"
+> -  QEMU_CFLAGS="-DB_USE_POSITIVE_POSIX_ERRORS $QEMU_CFLAGS"
+> -  LIBS="-lposix_error_mapper -lnetwork $LIBS"
+> +  QEMU_CFLAGS="-DB_USE_POSITIVE_POSIX_ERRORS -DBSD_SOURCE $QEMU_CFLAGS"
 
---ABTtc+pdwF7KHXCz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+ Hi David!
 
-On Tue, Nov 10, 2020 at 10:14:23AM +0100, LemonBoy wrote:
-> Is there any chance for this patch series to be merged for 5.2?
+In the version of Haiku that has recently been contributed as a VM for the
+test/vm/ test suite, this is rather called _BSD_SOURCE, i.e. with an
+underscore at the beginning. Has this been renamed in the course of time, or
+was this a typo in your patch?
 
-No.  We are now in hard freeze, and this is not a bugfix.
+ Thomas
 
->=20
-> On 09/11/20 18:39, Richard Henderson wrote:
-> > On 11/9/20 1:17 AM, LemonBoy wrote:
-> >> Implement the "Load VSX Vector Word & Splat Indexed" opcode, introduced
-> >> in Power ISA v3.0.
-> >>
-> >> Buglink: https://bugs.launchpad.net/qemu/+bug/1793608
-> >> Signed-off-by: Giuseppe Musacchio <thatlemon@gmail.com>
-> >> ---
-> >>  target/ppc/translate/vsx-impl.c.inc | 30 +++++++++++++++++++++++++++++
-> >>  target/ppc/translate/vsx-ops.c.inc  |  1 +
-> >>  2 files changed, 31 insertions(+)
-> >=20
-> > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> >=20
-> > r~
-> >=20
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---ABTtc+pdwF7KHXCz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+rgygACgkQbDjKyiDZ
-s5IiIBAApkz5OZmNMsLCEATw5c2PI5fLRbmk5HpDBTwHdWzK58N8TrnIzTXHhvMF
-QcGFiZtenF4PV/mLHW9xep5ZYbwhshD+s7I1IZCqoiRq1Qx3Ar8axGmPSqgGru8X
-Ov/jynSyyc2Zk8EBa6+Pc0DV7YICxZz+WsGyHgQWtHPsJwBxhVvp5+HtUIgdQ8gR
-Dphl3OUk7GGnNb5NFhITm78boSxU1H1hvqGL1npXpwUMc/LyOzwtrsIoZ4L0K5ZT
-cHZhNpnzP7wNCzInqdIB/rtj1HB/J/zAUxmqcADlYYGWG/4mjm/GgbEd61I9vpoa
-+4F1KFNeO955/SBechPBVOzpbHeBA7cDBTBPFQMtd0K7Yd8S44FfIYEYkNnQSdO0
-okxREXXNFhyVmbsvcaVvUDwV1az1YmNV0JaXTC6EwHt2XGYo1XZtOKo/Xc8yJTqQ
-tc51775dVOC3FcBRnJ4YmwbN2F/BUv3V2BohKnZ1mkisq/+LVyB5xa4YUf1/W6x5
-LnXn00WkR9PODiTp4sFJUfuWlMy+M6B1cVDgGshT3I7Xke/YjZqcfjGM8EW7M5Cf
-oohFtTMfvH+fyMuFJQDlgK/vRxKrWGQMsQClChjNDEWvfq9CeOPGkMxqrin3yOkB
-JNXg7lKVuICP4IXNhoOdKJwoiyxzHYj0XRDJszbrr5HkEcm/qP8=
-=YYOB
------END PGP SIGNATURE-----
-
---ABTtc+pdwF7KHXCz--
 
