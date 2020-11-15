@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BE552B32F1
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 09:30:51 +0100 (CET)
-Received: from localhost ([::1]:56708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD7C52B32F2
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 09:31:22 +0100 (CET)
+Received: from localhost ([::1]:57580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keDQv-0003kX-F5
-	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 03:30:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56232)
+	id 1keDRR-00046R-MZ
+	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 03:31:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1keDPS-0002yS-0B; Sun, 15 Nov 2020 03:29:18 -0500
-Received: from mout.web.de ([212.227.15.4]:49329)
+ id 1keDPq-0003DL-JW; Sun, 15 Nov 2020 03:29:42 -0500
+Received: from mout.web.de ([217.72.192.78]:58613)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1keDPQ-0001Ko-11; Sun, 15 Nov 2020 03:29:17 -0500
+ id 1keDPo-0001RV-QA; Sun, 15 Nov 2020 03:29:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1605428947;
- bh=dCfbyKlA/XQICjPT/dI5O9eYswXZ/+HqYNWvaQjkHDE=;
+ s=dbaedf251592; t=1605428973;
+ bh=vVK3NQmLEIeXaFrcAg0mr+0pImC2ZdOh2XBLNfktYS4=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=hKptWbGUB6TI85bzHM49xAwUxOcKkqB5bXLZRQkamFcsp+7PceFy7r0ySFAJR+4Yf
- pfhSb1f6/grznD3HdcO9CjsRZ2wF2nC/wvnqZYeo0R+ozL8grl7PpeyKziY26HTvWs
- tBEWrrJer/tHPbeWZIu+gSv5c1lNwDG90/C2Calc=
+ b=bkN+BkL8wCQnFYAE6EpriNg7bUbz1i+BfQxJfXap3hlKg0g76crnXTGQmszQaO/f8
+ qtuNmXeXFGfJj7gZwYe33ySUzL79MgkI3f1sgR2LIn2vneqHfPbjK0w+w7ZWWX4XhL
+ FxitAxU2YikwWQnEfyeFycU1Pzal00ZGiAvuvw6I=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([87.123.206.172]) by smtp.web.de (mrweb003
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0MAvFE-1kWTeJ02XU-009zSH; Sun, 15
- Nov 2020 09:29:07 +0100
-Date: Sun, 15 Nov 2020 09:28:55 +0100
+Received: from luklap ([87.123.206.172]) by smtp.web.de (mrweb101
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0MRU72-1kp7Tx1Zai-00SeQO; Sun, 15
+ Nov 2020 09:29:33 +0100
+Date: Sun, 15 Nov 2020 09:29:32 +0100
 From: Lukas Straub <lukasstraub2@web.de>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v10 1/8] Introduce yank feature
-Message-ID: <20201115092855.7bd59f97@luklap>
-In-Reply-To: <87y2jkp8tk.fsf@dusky.pond.sub.org>
+Subject: Re: [PATCH v10 7/8] MAINTAINERS: Add myself as maintainer for yank
+ feature
+Message-ID: <20201115092932.7ca62155@luklap>
+In-Reply-To: <87r1pcp8rx.fsf@dusky.pond.sub.org>
 References: <cover.1604075469.git.lukasstraub2@web.de>
- <20201030174108.1c88195b@luklap>
- <87y2jkp8tk.fsf@dusky.pond.sub.org>
+ <20201030174138.071af6a3@luklap>
+ <87r1pcp8rx.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/MlyWWb7zWeQb7Nbp9PGHVem";
+Content-Type: multipart/signed; boundary="Sig_/iya+=G8eA25VbEf2BTy8RTU";
  protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:KJySkjW4fg3RRBGv8mhcAkL2fy+Ix1g8764+I7plN0+wFmkDrhj
- WowvU0xAI4cGlAXriQT4eOYp+hULnF3ENC+TCVOO/C6NQ2h0fTgJxwLsMrkNXn6riMXx7SV
- MYazN97183Uv+qDGM7QEVbusczFxJshecbwsYj7F2ND63pLEPtPWHkDFLz2a8FE4PWFz7GD
- YWyRZCG7R3lVdj34aVIQA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:lyViRjBzNKA=:Xe7PglaPjfg5Jwph8mowVT
- X5srzJLAmBd7unNVmNoRTbmgDewuxK1Tn60jbeU/P+pKirgeQik9nDD/oMCw67VAuAKi+aEWR
- kodtdiRKMl8NynhAJBWt0JKJRtID+0LbF6tRWepC2LlYLTOPWWZd3vzH27Z4szuVRgbpQO6ZY
- Sxfp50OJpQ4vtj13DPLhAP5m7Gq3eUal+UbNhcokkChpQR76WvYkvquanAoDNYaAEys8ZcuFj
- leXmF7/GchACYMNiOADBuzdDBG4Zdl3CPNBglms0wt3ll7VJOpW5Fk5UqiXMcnpR243nQ2NG1
- vsgwGFHktq/La5BXQfwF0hcTozxcJ2E+Am2Sh4U4y5TbHM5Cit+BaWhhyHabNBQcsVfHYMu1g
- T0jAucpX//Gro5tby15UVnL8dSFjv0KGMzlHBRG5Iy7GTBxeqoBERIhO5rb/1QucD2G5cdZM2
- i2jGWLnffqGBZFiXxRoR/G2rw8yP2087HI37z4wu79pgyQ+fO3fk3N0CUfEO4/fBoucW0vTGo
- wkGgswEbhBQBi+n/1cv70BbTSeasYRgDjsOwLIAyIw6/PipNHjqawSVzN3oWf+m4xAQEzHnoh
- Dfyc4LJ1MoMTNhVxOegjqeGMZHBI8qoTZJYMME6fcc3sQZHuZSRgXb73sWAhL7TLqP8dQNMoL
- /9re2yVYv/LgBnZuWIn8ypg0o6X7Bm+DXpSTcyq/oR69iaXEkbv1jowGkpmaSOsd8HWBGeLJb
- js8I0UZKa31djwFh8T8lticVaJRz7pxx06hj8031sef2KCFoMb2Dk5aA36h59w/IzO6z7wONT
- OhOKGIeXManPb9p8InBGlBD5Fr8XJYsJPjpbmzRKYafkLIoBgUI+92W7CdilBwKqNceITTLuV
- A+TpRq0swN89ZERy7s0Q==
-Received-SPF: pass client-ip=212.227.15.4; envelope-from=lukasstraub2@web.de;
+X-Provags-ID: V03:K1:mqUEvb8bIWsvg4pPJa+zW4adeX5ED/m+WVF/J+nN3EPJXsgXgv+
+ 1iNFXQy1cO0hIfiZCOh98w9+HO8/kZ+5Bb8Fj6PwmT6x+n60r+NYRF6U4yIZ73ArKlI8geM
+ HCye5ckRJTxWXywnH+kd2DpkuwFcBhKwT0kR6mOgbi7xWKvTEXJ7PEf1FMvzFh/5M0BUU7u
+ 7sqTzEEfZ4DljZsNivLXA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:mhqBrQD4zLI=:q1IpPvbHkNAZyosCZil/qn
+ QWsY/btgFwGunAaWh4zmRvULBZt7RnROZGygJIHz4U0eVbG0mT1+bnipNr2wSsHrfdkXzVySb
+ YAI2HCgduWLJpV0Esx5YOR//oBzBCHGO7oFIk7mxdowQgJXja16vlvw3f0kLmJ38gr0cTrD/s
+ 86jbzJlMjldFk+NsjjBpWAB/7Wnsw37O9PjFspnUaRNetdjTJnEOtHe5i9PmtuIFBNVgXBHRZ
+ EvgmEWwTlWGPgoWLNFtY7G0xMtEatZcmyy24fHBtxjEPVt+UqgG4GShgjDFbRMWt3RhPQ7brh
+ 9WeWEDfN6wCzUMqvfw9wj/G6EmEdCpGHK/NA5suSWklX5AfD5ptepiiB5cab45cyuDaSRxslH
+ G1Ad5uezc0mXqnKKisnj5/fI7FNn1+nQKmqDUB9ovsSJxJKsDPzWfGUq9OziBM+bjgQ9Hni57
+ yS1AW8aOl5T2UiT5TsGATkYuqig4azMhiKVOljs2V0Jcsoh6h+LGea+lBuO7sZhhOGmF6C8AV
+ lVckmiZAMfjEXJve+ugOx5qtTp0fawtt1bz3Cdbd8Dub98/zHa9uOIAZwML/mzzn0m2e907MI
+ 2TNBvoDv85+eIt0t3bgDbXe6T7618knPDR83tBs5Exs5f5PtVoSEYbDxlTMfYVe24G0SQHwzC
+ LCUDcXtm5BmIDX1pIbrEuKEEuCibopK2wqQ2EK9VRODgDmAJS2eW8ksNGxVqylVRoQh6p9aIE
+ L3oLBCGA98XVeNyVfrB05ZIRrKlrPNYMBJJg95b9atbKfFOmMt4WTgzDFZ8/U1jL88zQDGrEA
+ bvGV/ivKnnbdtcrez2Ia6Znqqu9Dz/umwCZHf4YnDo1lbVN5VgqvvmaJpR/N0OBVoyYjLc/Uc
+ Zr77RGiWEvyiOorv9VtQ==
+Received-SPF: pass client-ip=217.72.192.78; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 03:29:12
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 03:29:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -24
 X-Spam_score: -2.5
@@ -68,7 +69,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,99 +93,74 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/MlyWWb7zWeQb7Nbp9PGHVem
+--Sig_/iya+=G8eA25VbEf2BTy8RTU
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 02 Nov 2020 07:32:55 +0100
+On Mon, 02 Nov 2020 07:33:54 +0100
 Markus Armbruster <armbru@redhat.com> wrote:
 
 > Lukas Straub <lukasstraub2@web.de> writes:
 >=20
-> > The yank feature allows to recover from hanging qemu by "yanking"
-> > at various parts. Other qemu systems can register themselves and
-> > multiple yank functions. Then all yank functions for selected
-> > instances can be called by the 'yank' out-of-band qmp command.
-> > Available instances can be queried by a 'query-yank' oob command.
+> > I'll maintain this for now as the colo usecase is the first user
+> > of this functionality.
 > >
 > > Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-> > Acked-by: Stefan Hajnoczi <stefanha@redhat.com> =20
-> [...]
-> >  qapi_storage_daemon_modules =3D [
-> > diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
-> > index 0b444b76d2..79c1705ed7 100644
-> > --- a/qapi/qapi-schema.json
-> > +++ b/qapi/qapi-schema.json
-> > @@ -91,3 +91,4 @@
-> >  { 'include': 'audio.json' }
-> >  { 'include': 'acpi.json' }
-> >  { 'include': 'pci.json' }
-> > +{ 'include': 'yank.json' } =20
+> > Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > ---
+> >  MAINTAINERS | 7 +++++++
+> >  1 file changed, 7 insertions(+)
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 8c744a9bdf..81288fd219 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -2676,6 +2676,13 @@ F: util/uuid.c
+> >  F: include/qemu/uuid.h
+> >  F: tests/test-uuid.c
+> >
+> > +Yank feature
+> > +M: Lukas Straub <lukasstraub2@web.de>
+> > +S: Odd fixes
+> > +F: util/yank.c
+> > +F: include/qemu/yank.h
+> > +F: qapi/yank.json
+> > +
+> >  COLO Framework
+> >  M: zhanghailiang <zhang.zhanghailiang@huawei.com>
+> >  S: Maintained =20
 >=20
-> This adds the documentation at the very end of the reference manual.  Is
-> this where you want it to go?  Check generated
-> docs/interop/qemu-qmp-ref.html.
-
-I've moved it above misc for the next version.
-
-> > diff --git a/qapi/yank.json b/qapi/yank.json
-> > new file mode 100644
-> > index 0000000000..1964a2202e
-> > --- /dev/null
-> > +++ b/qapi/yank.json
-> > @@ -0,0 +1,115 @@
-> > +# -*- Mode: Python -*-
-> > +# vim: filetype=3Dpython
-> > +#
-> > + =20
+> I'd squash this into PATCH 1 to mollify checkpatch.pl.
 >=20
-> Please add a suitable heading here.  Headings look like this:
->=20
->    ##
->    # Text of heading goes here
->    ##
-
-Changed for the next version.
-
-> Without it, the yank stuff gets squashed into the previous section
-> (happens to be PCI).
->=20
-> If you want to add an introduction or overview, it goes right below the
-> heading.  I'm not asking you to do that, I'm only telling you what's
-> possible.
->=20
-> [...]
->=20
-> Solid work, pleasant to review, thanks!
->=20
+> Regardless,
 > Reviewed-by: Markus Armbruster <armbru@redhat.com>
 >=20
 
-Thanks!
+Changed for the next version.
 
 --=20
 
 
---Sig_/MlyWWb7zWeQb7Nbp9PGHVem
+--Sig_/iya+=G8eA25VbEf2BTy8RTU
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl+w5scACgkQNasLKJxd
-slhVwg/+KsWGr+CDeyG6HePSlvfQYsg+63TIC2Fug4KaD4EpUyi+oz3T4+EpFso8
-sRKzZil91+alXKpqXjiLJz4Su0g+l0BPUe/X1W1knObd+mKKQlQ5RulDZYF5qYvB
-sJavFVCCDZhZ8OJ7IfPyGJam6SUX/R31wDoTtLtXA7JXFpuUizBp0FrDDCPfVVnf
-ZfFgiwefURxrQTZCKGjI9N2fsrmD3oY0sOQHQZwTJruKQAtvAhl6IWq9iHrUKPRV
-dOP90kZrNGVrDGVGSKEin05gU2bDO4AFue5wp1lPbwOkVgAn9jrXzHR/OVEM3MMr
-PZOl1Y9cIuOs8hq5cnFz3n24Cv6xeW1MNLZbAma2QvL+yA7mdDmm3kr0GO1Qo1zz
-E6w2In1x72tnKtIRinHrHQHcRoBTSrgFLnqJCfI+swF0rxBYB9ObAKcz4+6DLey3
-XvHuGhwIEEueX0SYh268dPGRPhIWhnk7sizuQ/ajrwMWETboeauky+LuDjhD+Gde
-5QGgT9kJBvj3I3RkOfW1Qtjbq8ouHFTRrj0K2vXBskuM29IXZGWsABZ4n5jOQwcE
-A2yCCStmUEIEA/g9IzL0Jz8/GQkylOtzNO0o+udh8hLlo/qJ1iTXGP+CI7irmIIu
-K8ffUm+QKAS8EWLp+udLl3RR+er+3yW+Q7/zB5mZo9werpv3e0Q=
-=04+q
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl+w5uwACgkQNasLKJxd
+slj2nRAAixcGyemU4uNHGCc7RA6I/encVI/6Sy3MRgW1niGdY85xfbkP0RrpB+Xj
++F4IU+HD6MJmVxJUbBvhsc6KCX0wSwy9qORIm+MmfLYuWtOy4dA4C7wyJkxwZ/ma
+CKvgy+Fp3juT/iSST2fCrv0LSvKYMYw3XSMsMuNedQGz5CtiNzY1VnIpiudpgowg
+q/N/ytbURlLMlpiheQnvNCAkU2tyUHPPpiBgl0rYIB0uOK0GnnMupdoh1UPGh3BT
+6/dekNmYf/btYNJ5K9804y6guBUJhFGeAXAWvOgB7O+DEKdjHLzqvb0q5Yy7KXbZ
+HpQYOQNHYD5Zabg7YGIWyIi4GVQS8FJBBTPeAXogFL/op3aDOm0b1WhIt0hD5ebj
+mrKR5Bs/ZxCZr/XXWb6m806jKgdAoOiDb80yhSeMz6nc04cXGYuo3gMMBTWJ9iuv
+hil8FWDWLCHPTP5PTAs97WV0Z5xRT53ztpF9op488Wc9X/oxhtR86HLA78rWRQpN
+z2elkUd2OmzUphyFyVaFVwoWs+/qCM6t5o50SqPvQnFIcWlVpcdol/2TM56Co8SY
+cBbq8l7zAWtlvYWoChdbjUYYJP4hIwxXBhrU2FRhP7zSyUFyZht16tVbiNH8qiVr
+ayj8/09C3pwb23b+tYfUfxqYReZrG9v1lF2KfH2SyvmJsgn/dTg=
+=or0A
 -----END PGP SIGNATURE-----
 
---Sig_/MlyWWb7zWeQb7Nbp9PGHVem--
+--Sig_/iya+=G8eA25VbEf2BTy8RTU--
 
