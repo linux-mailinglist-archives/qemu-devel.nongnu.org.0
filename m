@@ -2,72 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 663722B36B8
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 17:49:35 +0100 (CET)
-Received: from localhost ([::1]:60992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2E562B36C5
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 17:50:30 +0100 (CET)
+Received: from localhost ([::1]:35610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keLDa-0006Ie-FI
-	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 11:49:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49994)
+	id 1keLET-0007Vr-W3
+	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 11:50:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcel.apfelbaum@gmail.com>)
- id 1keLCL-0005kA-RF
- for qemu-devel@nongnu.org; Sun, 15 Nov 2020 11:48:17 -0500
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:39033)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcel.apfelbaum@gmail.com>)
- id 1keLCK-0004j2-0B
- for qemu-devel@nongnu.org; Sun, 15 Nov 2020 11:48:17 -0500
-Received: by mail-ot1-x342.google.com with SMTP id z16so13599854otq.6
- for <qemu-devel@nongnu.org>; Sun, 15 Nov 2020 08:48:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sCLjhQLTcLwP9IZs7NI9UEstZ8f984nO3DlttmApaQo=;
- b=l7c5Zr5itDMQtqSs0q6EcpxuugXsgn2Qz5DFpiECkgoEjp6+HHD9bA7iM83yuHGEij
- vWOM1fM7aswEanB9KuvSKPdnZ6nPFz2q/t1BXlLG1A7p+7Q3uXqh3J8r9th+s1tckIHT
- bUUUbHHPcdw9yWqFgJQK60AnavSGtB1+FFiqK2cAPvEmC/a9ICDRso/hy2fb+3BROhez
- p0jC2s4qtVuv/wtP8hjLfdEfj8mFKDu6/SADzeYGEh7Nak+BQ3WsVygdAlBOIzM+aOuT
- lvWM5hHHi9C3TpMj+bLdIGAzwFF+iLcyf2Jb1ap16bg2PZ7c/5d3qLA959rQdH1Z/XaG
- TIaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sCLjhQLTcLwP9IZs7NI9UEstZ8f984nO3DlttmApaQo=;
- b=Xccor7IaFiwCTBpm29zyPritPDhPI9/UgsQWou+T+oGwo146xfFSiImcbJoP/Zpgjr
- Vt7289OQW9XAx6ro+e6/CTbgXb3KQ4aELfaw/vYfi7vQh1HLxBXw5/2zaVHMbhU+0har
- RN+2Wt64coD3Fbuluo+OsRB2BkqaoZ08PVspS0d3zeXMxfu5d07/hfGOaMx6T+v/cNTR
- +QJuPYtIDAq8zVimuYbnQ8xT2wm/WErKg2wWzygv+xd9pnsvXm+D4VD8EUcfJRVitMDp
- 16bPK7DnV7Wofr1oqE2ZM3kQQP8UMtbMNZZmfo5G1QPpL8/y7Bm8xbzYRZbvLALXZQTt
- yPBA==
-X-Gm-Message-State: AOAM531K7SEdrioHLF7xCCXfiR0rlVhynmvRcICnKyCkzA84hKzHdu0n
- ZnBW9wfjUX9DTNDeFIIJQKiVqkJCLlVIGCPD0cs=
-X-Google-Smtp-Source: ABdhPJxJ0x4w6JzYMRriz9mTBPIsH0pTsWJcaBnoNYz0yy4ShRU+9/1G3Zp8OPU4FEHvCAvtay8RPsm/yT1IfRb4AS8=
-X-Received: by 2002:a05:6830:18f8:: with SMTP id
- d24mr8237999otf.44.1605458895064; 
- Sun, 15 Nov 2020 08:48:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1keLDD-0006Om-2K
+ for qemu-devel@nongnu.org; Sun, 15 Nov 2020 11:49:12 -0500
+Resent-Date: Sun, 15 Nov 2020 11:49:11 -0500
+Resent-Message-Id: <E1keLDD-0006Om-2K@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21318)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1keLD8-0004xx-Rf
+ for qemu-devel@nongnu.org; Sun, 15 Nov 2020 11:49:10 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1605458936; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=ehFJx8h4ES6ZGjlU78vxvII84TJWgLQ04fvHndIagCPeUaejpT5L8huJxj8TIPBkzJnUgU1adP8gwo9ClAurIWEs8BnPIcl/onh2WiqZw3HS5EyjB8rCrJHrZYOyazYGdG6J1GL6syhNHNKt2EN2LcpAX9/J0g6IZz+HXaMskyM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1605458936;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=ne9TzGSrgS2XIo0Xfg4Clc2+YCG6q7hKwJzqYh2V6TM=; 
+ b=aqxAKGfCfiVhOuFqL0ILtF+PbXj12vs/9SXar0Sr06/VWAKuAlBn+irufVeHSrfAUbs9TnCIVNbJcM4FJ75X1+qFIX0Z8hqIjRav3/eBtLGGayBsJWnIkDB7FukcMF9+JOoTJcyIQTNuu/UH6WwaTJvILoJL+i97LDryp7vxUII=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1605458934900697.7399918989117;
+ Sun, 15 Nov 2020 08:48:54 -0800 (PST)
+Subject: Re: [PULL 00/26] Fixes for Lesser GPL license statements
+Message-ID: <160545893368.23942.8924794931053827096@d9ec01ea6314>
+In-Reply-To: <20201115162613.74645-1-thuth@redhat.com>
 MIME-Version: 1.0
-References: <20201022114026.31968-1-marcel.apfelbaum@gmail.com>
- <20201111073443-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20201111073443-mutt-send-email-mst@kernel.org>
-From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Date: Sun, 15 Nov 2020 18:48:03 +0200
-Message-ID: <CAC_L=vXH3=33h3xQwpT1ftPYtCcXeSn39LoizxW7qHrDuN61CQ@mail.gmail.com>
-Subject: Re: [PATCH] pci: Refuse to hotplug PCI Devices when the Guest OS is
- not ready
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000024546a05b428071d"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=marcel.apfelbaum@gmail.com; helo=mail-ot1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: thuth@redhat.com
+Date: Sun, 15 Nov 2020 08:48:54 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 11:49:02
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,179 +69,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <dgibson@redhat.com>, Julia Suvorova <jusual@redhat.com>,
- qemu devel list <qemu-devel@nongnu.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000024546a05b428071d
-Content-Type: text/plain; charset="UTF-8"
-
-Hi Michael,
-
-On Wed, Nov 11, 2020 at 2:35 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-
-> On Thu, Oct 22, 2020 at 02:40:26PM +0300, Marcel Apfelbaum wrote:
-> > From: Marcel Apfelbaum <marcel@redhat.com>
-> >
-> > During PCIe Root Port's transition from Power-Off to Power-ON (or
-> vice-versa)
-> > the "Slot Control Register" has the "Power Indicator Control"
-> > set to "Blinking" expressing a "power transition" mode.
-> >
-> > Any hotplug operation during the "power transition" mode is not permitted
-> > or at least not expected by the Guest OS leading to strange failures.
-> >
-> > Detect and refuse hotplug operations in such case.
-> >
-> > Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
->
->
-> Going back to this I have another question: could we get
-> a bit more detail on when do we get into this situation?
-> When does guest start blinking the indicator without us
-> first starting a hotplug operation?
->
-
-While David has more insight on the kernel behavior during the mentioned
-issue,
-it seems the PCI subsystem sets the Power Indicator
-to "blinking" as part of the init sequence of the PCIe Root Port.
-The kernel will turn it off as soon as it finishes the init sequence.
-
-A hotplug operation during the "init" sequence will surprise the Guest OS.
-I'll let David to give us more info.
-
-Thank you,
-Marcel
-
-
-> > ---
-> >  hw/pci/pcie.c | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> >
-> > diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-> > index 5b48bae0f6..2fe5c1473f 100644
-> > --- a/hw/pci/pcie.c
-> > +++ b/hw/pci/pcie.c
-> > @@ -410,6 +410,7 @@ void pcie_cap_slot_pre_plug_cb(HotplugHandler
-> *hotplug_dev, DeviceState *dev,
-> >      PCIDevice *hotplug_pdev = PCI_DEVICE(hotplug_dev);
-> >      uint8_t *exp_cap = hotplug_pdev->config + hotplug_pdev->exp.exp_cap;
-> >      uint32_t sltcap = pci_get_word(exp_cap + PCI_EXP_SLTCAP);
-> > +    uint32_t sltctl = pci_get_word(exp_cap + PCI_EXP_SLTCTL);
-> >
-> >      /* Check if hot-plug is disabled on the slot */
-> >      if (dev->hotplugged && (sltcap & PCI_EXP_SLTCAP_HPC) == 0) {
-> > @@ -418,6 +419,12 @@ void pcie_cap_slot_pre_plug_cb(HotplugHandler
-> *hotplug_dev, DeviceState *dev,
-> >          return;
-> >      }
-> >
-> > +    if ((sltctl & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PWR_IND_BLINK) {
-> > +        error_setg(errp, "Hot-plug failed: %s is in Power Transition",
-> > +                   DEVICE(hotplug_pdev)->id);
-> > +        return;
-> > +    }
-> > +
-> >      pcie_cap_slot_plug_common(PCI_DEVICE(hotplug_dev), dev, errp);
-> >  }
-> >
-> > --
-> > 2.17.2
->
->
-
---00000000000024546a05b428071d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi Michael,</div><br><div class=3D"gmail_=
-quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Nov 11, 2020 at 2:35 P=
-M Michael S. Tsirkin &lt;<a href=3D"mailto:mst@redhat.com">mst@redhat.com</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On=
- Thu, Oct 22, 2020 at 02:40:26PM +0300, Marcel Apfelbaum wrote:<br>
-&gt; From: Marcel Apfelbaum &lt;<a href=3D"mailto:marcel@redhat.com" target=
-=3D"_blank">marcel@redhat.com</a>&gt;<br>
-&gt; <br>
-&gt; During PCIe Root Port&#39;s transition from Power-Off to Power-ON (or =
-vice-versa)<br>
-&gt; the &quot;Slot Control Register&quot; has the &quot;Power Indicator Co=
-ntrol&quot;<br>
-&gt; set to &quot;Blinking&quot; expressing a &quot;power transition&quot; =
-mode.<br>
-&gt; <br>
-&gt; Any hotplug operation during the &quot;power transition&quot; mode is =
-not permitted<br>
-&gt; or at least not expected by the Guest OS leading to strange failures.<=
-br>
-&gt; <br>
-&gt; Detect and refuse hotplug operations in such case.<br>
-&gt; <br>
-&gt; Signed-off-by: Marcel Apfelbaum &lt;<a href=3D"mailto:marcel.apfelbaum=
-@gmail.com" target=3D"_blank">marcel.apfelbaum@gmail.com</a>&gt;<br>
-<br>
-<br>
-Going back to this I have another question: could we get<br>
-a bit more detail on when do we get into this situation?<br>
-When does guest start blinking the indicator without us<br>
-first starting a hotplug operation?<br></blockquote><div><br></div><div>Whi=
-le David has more insight on the kernel behavior during the mentioned issue=
-,</div><div>it seems the PCI subsystem sets the Power Indicator</div><div>t=
-o &quot;blinking&quot; as part of the init sequence of the PCIe Root Port.<=
-/div><div>The kernel will turn it off as soon as it finishes the init seque=
-nce.</div><div><br></div><div>A hotplug operation during the &quot;init&quo=
-t; sequence will surprise the Guest OS.</div><div>I&#39;ll let David to giv=
-e us more info.</div><div><br></div><div>Thank you,</div><div>Marcel=C2=A0<=
-/div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-&gt; ---<br>
-&gt;=C2=A0 hw/pci/pcie.c | 7 +++++++<br>
-&gt;=C2=A0 1 file changed, 7 insertions(+)<br>
-&gt; <br>
-&gt; diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c<br>
-&gt; index 5b48bae0f6..2fe5c1473f 100644<br>
-&gt; --- a/hw/pci/pcie.c<br>
-&gt; +++ b/hw/pci/pcie.c<br>
-&gt; @@ -410,6 +410,7 @@ void pcie_cap_slot_pre_plug_cb(HotplugHandler *hot=
-plug_dev, DeviceState *dev,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 PCIDevice *hotplug_pdev =3D PCI_DEVICE(hotplug_dev=
-);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 uint8_t *exp_cap =3D hotplug_pdev-&gt;config + hot=
-plug_pdev-&gt;exp.exp_cap;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 uint32_t sltcap =3D pci_get_word(exp_cap + PCI_EXP=
-_SLTCAP);<br>
-&gt; +=C2=A0 =C2=A0 uint32_t sltctl =3D pci_get_word(exp_cap + PCI_EXP_SLTC=
-TL);<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 /* Check if hot-plug is disabled on the slot */<br=
->
-&gt;=C2=A0 =C2=A0 =C2=A0 if (dev-&gt;hotplugged &amp;&amp; (sltcap &amp; PC=
-I_EXP_SLTCAP_HPC) =3D=3D 0) {<br>
-&gt; @@ -418,6 +419,12 @@ void pcie_cap_slot_pre_plug_cb(HotplugHandler *ho=
-tplug_dev, DeviceState *dev,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 <br>
-&gt; +=C2=A0 =C2=A0 if ((sltctl &amp; PCI_EXP_SLTCTL_PIC) =3D=3D PCI_EXP_SL=
-TCTL_PWR_IND_BLINK) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;Hot-plug failed: %=
-s is in Power Transition&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-DEVICE(hotplug_pdev)-&gt;id);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 pcie_cap_slot_plug_common(PCI_DEVICE(hotplug_dev),=
- dev, errp);<br>
-&gt;=C2=A0 }<br>
-&gt;=C2=A0 <br>
-&gt; -- <br>
-&gt; 2.17.2<br>
-<br>
-</blockquote></div></div>
-
---00000000000024546a05b428071d--
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTExNTE2MjYxMy43NDY0
+NS0xLXRodXRoQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBz
+b21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZv
+cm1hdGlvbjoKCk1lc3NhZ2UtaWQ6IDIwMjAxMTE1MTYyNjEzLjc0NjQ1LTEtdGh1dGhAcmVkaGF0
+LmNvbQpUeXBlOiBzZXJpZXMKU3ViamVjdDogW1BVTEwgMDAvMjZdIEZpeGVzIGZvciBMZXNzZXIg
+R1BMIGxpY2Vuc2Ugc3RhdGVtZW50cwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4v
+YmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcg
+LS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1l
+cyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3Jp
+cHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9
+PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJv
+bSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICogW25ldyB0YWddICAg
+ICAgICAgcGF0Y2hldy8yMDIwMTExNTE2MjYxMy43NDY0NS0xLXRodXRoQHJlZGhhdC5jb20gLT4g
+cGF0Y2hldy8yMDIwMTExNTE2MjYxMy43NDY0NS0xLXRodXRoQHJlZGhhdC5jb20KU3dpdGNoZWQg
+dG8gYSBuZXcgYnJhbmNoICd0ZXN0JwpiOGE2NDAxIG5vbWFpbnRhaW5lcjogRml4IExlc3NlciBH
+UEwgdmVyc2lvbiBudW1iZXIKMGJkMjdiOCB0ZXN0OiBGaXggTEdQTCBpbmZvcm1hdGlvbiBpbiB0
+aGUgZmlsZSBoZWFkZXJzCjQ4NTYxZDEgdGVzdHMvYWNjZXB0YW5jZTogRml4IExHUEwgaW5mb3Jt
+YXRpb24gaW4gdGhlIGZpbGUgaGVhZGVycwoxZDAzZTMxIHRlc3RzL21pZ3JhdGlvbjogRml4IExH
+UEwgaW5mb3JtYXRpb24gaW4gdGhlIGZpbGUgaGVhZGVycwpiZGUyNWEwIHNwYXJjIHRjZyBjcHVz
+OiBGaXggTGVzc2VyIEdQTCB2ZXJzaW9uIG51bWJlcgoyOWYwZGVlIGUxMDAwZTogRml4IExlc3Nl
+ciBHUEwgdmVyc2lvbiBudW1iZXIKZTliNTExMiB4ODYgaHZmIGNwdXM6IEZpeCBMZXNzZXIgR1BM
+IHZlcnNpb24gbnVtYmVyCjllYjgxZDAgbnZkaW1tOiBGaXggTGVzc2VyIEdQTCB2ZXJzaW9uIG51
+bWJlcgoxN2Q1ODlhIHczMjogRml4IExlc3NlciBHUEwgdmVyc2lvbiBudW1iZXIKMmVjYjJkOSB0
+cG06IEZpeCBMZXNzZXIgR1BMIHZlcnNpb24gbnVtYmVyCmJhOGI5ZDIgb3ZlcmFsbC9hbHBoYSB0
+Y2cgY3B1c3xocHBhOiBGaXggTGVzc2VyIEdQTCB2ZXJzaW9uIG51bWJlcgo3ZDA5Njg3IG92ZXJh
+bGwgdXNlcm1vZGUuLi46IEZpeCBMZXNzZXIgR1BMIHZlcnNpb24gbnVtYmVyCmVhNjE4ODggbWln
+cmF0aW9uOiBGaXggTGVzc2VyIEdQTCB2ZXJzaW9uIG51bWJlcgplZDA3NDFkIHBhcmFsbGVsIG5v
+ciBmbGFzaDogRml4IExlc3NlciBHUEwgdmVyc2lvbiBudW1iZXIKMzAwZmU5ZiBhcm0gdGNnIGNw
+dXM6IEZpeCBMZXNzZXIgR1BMIHZlcnNpb24gbnVtYmVyCjBlOWY1MTUgeDg2IHRjZyBjcHVzOiBG
+aXggTGVzc2VyIEdQTCB2ZXJzaW9uIG51bWJlcgpiMDA4NzI3IGxpbnV4IHVzZXI6IEZpeCBMZXNz
+ZXIgR1BMIHZlcnNpb24gbnVtYmVyCjY4MWFjMjggdXNiOiBGaXggTGVzc2VyIEdQTCB2ZXJzaW9u
+IG51bWJlcgozYTIxNWZkIHRyaWNvcmUgdGNnIGNwdXM6IEZpeCBMZXNzZXIgR1BMIHZlcnNpb24g
+bnVtYmVyCmM4YWZkZGEgeHRlbnNhIHRjZyBjcHVzOiBGaXggTGVzc2VyIEdQTCB2ZXJzaW9uIG51
+bWJlcgo1YzIxZWMzIHByZXA6IEZpeCBMZXNzZXIgR1BMIHZlcnNpb24gbnVtYmVyCmMzY2NjY2Mg
+bWljcm9ibGF6ZSB0Y2cgY3B1czogRml4IExlc3NlciBHUEwgdmVyc2lvbiBudW1iZXIKMjRiNzFm
+MiBjcmlzIHRjZyBjcHVzOiBGaXggTGVzc2VyIEdQTCB2ZXJzaW9uIG51bWJlcgo2NGE2NTIxIHBv
+d2VycGMgdGNnOiBGaXggTGVzc2VyIEdQTCB2ZXJzaW9uIG51bWJlcgo4YjIzNTU0IG5vbi12aXJ0
+OiBGaXggTGVzc2VyIEdQTCB2ZXJzaW9uIG51bWJlcgpmMGRlZDYzIHNlbWlob3N0aW5nOiBGaXgg
+TGVzc2VyIEdQTCB2ZXJzaW9uIG51bWJlcgoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8yNiBDaGVj
+a2luZyBjb21taXQgZjBkZWQ2M2UzYzhmIChzZW1paG9zdGluZzogRml4IExlc3NlciBHUEwgdmVy
+c2lvbiBudW1iZXIpCjIvMjYgQ2hlY2tpbmcgY29tbWl0IDhiMjM1NTRkZTkyYyAobm9uLXZpcnQ6
+IEZpeCBMZXNzZXIgR1BMIHZlcnNpb24gbnVtYmVyKQozLzI2IENoZWNraW5nIGNvbW1pdCA2NGE2
+NTIxNjk2MDUgKHBvd2VycGMgdGNnOiBGaXggTGVzc2VyIEdQTCB2ZXJzaW9uIG51bWJlcikKNC8y
+NiBDaGVja2luZyBjb21taXQgMjRiNzFmMjA5ZGQ5IChjcmlzIHRjZyBjcHVzOiBGaXggTGVzc2Vy
+IEdQTCB2ZXJzaW9uIG51bWJlcikKNS8yNiBDaGVja2luZyBjb21taXQgYzNjY2NjYzgzNGI1ICht
+aWNyb2JsYXplIHRjZyBjcHVzOiBGaXggTGVzc2VyIEdQTCB2ZXJzaW9uIG51bWJlcikKNi8yNiBD
+aGVja2luZyBjb21taXQgNWMyMWVjM2ZhMDdkIChwcmVwOiBGaXggTGVzc2VyIEdQTCB2ZXJzaW9u
+IG51bWJlcikKNy8yNiBDaGVja2luZyBjb21taXQgYzhhZmRkYWJlZjZmICh4dGVuc2EgdGNnIGNw
+dXM6IEZpeCBMZXNzZXIgR1BMIHZlcnNpb24gbnVtYmVyKQo4LzI2IENoZWNraW5nIGNvbW1pdCAz
+YTIxNWZkYTJhMWYgKHRyaWNvcmUgdGNnIGNwdXM6IEZpeCBMZXNzZXIgR1BMIHZlcnNpb24gbnVt
+YmVyKQo5LzI2IENoZWNraW5nIGNvbW1pdCA2ODFhYzI4ZjQ5MmIgKHVzYjogRml4IExlc3NlciBH
+UEwgdmVyc2lvbiBudW1iZXIpCjEwLzI2IENoZWNraW5nIGNvbW1pdCBiMDA4NzI3NDIyMjYgKGxp
+bnV4IHVzZXI6IEZpeCBMZXNzZXIgR1BMIHZlcnNpb24gbnVtYmVyKQoxMS8yNiBDaGVja2luZyBj
+b21taXQgMGU5ZjUxNTQ2MzEwICh4ODYgdGNnIGNwdXM6IEZpeCBMZXNzZXIgR1BMIHZlcnNpb24g
+bnVtYmVyKQoxMi8yNiBDaGVja2luZyBjb21taXQgMzAwZmU5ZjBlOTdiIChhcm0gdGNnIGNwdXM6
+IEZpeCBMZXNzZXIgR1BMIHZlcnNpb24gbnVtYmVyKQoxMy8yNiBDaGVja2luZyBjb21taXQgZWQw
+NzQxZDI1MWRjIChwYXJhbGxlbCBub3IgZmxhc2g6IEZpeCBMZXNzZXIgR1BMIHZlcnNpb24gbnVt
+YmVyKQoxNC8yNiBDaGVja2luZyBjb21taXQgZWE2MTg4ODNmMWQyIChtaWdyYXRpb246IEZpeCBM
+ZXNzZXIgR1BMIHZlcnNpb24gbnVtYmVyKQoxNS8yNiBDaGVja2luZyBjb21taXQgN2QwOTY4N2Vh
+YmY2IChvdmVyYWxsIHVzZXJtb2RlLi4uOiBGaXggTGVzc2VyIEdQTCB2ZXJzaW9uIG51bWJlcikK
+MTYvMjYgQ2hlY2tpbmcgY29tbWl0IGJhOGI5ZDI1NTVkNiAob3ZlcmFsbC9hbHBoYSB0Y2cgY3B1
+c3xocHBhOiBGaXggTGVzc2VyIEdQTCB2ZXJzaW9uIG51bWJlcikKMTcvMjYgQ2hlY2tpbmcgY29t
+bWl0IDJlY2IyZDk1NjIxYiAodHBtOiBGaXggTGVzc2VyIEdQTCB2ZXJzaW9uIG51bWJlcikKMTgv
+MjYgQ2hlY2tpbmcgY29tbWl0IDE3ZDU4OWFhNWE3YyAodzMyOiBGaXggTGVzc2VyIEdQTCB2ZXJz
+aW9uIG51bWJlcikKMTkvMjYgQ2hlY2tpbmcgY29tbWl0IDllYjgxZDA3NDZkNSAobnZkaW1tOiBG
+aXggTGVzc2VyIEdQTCB2ZXJzaW9uIG51bWJlcikKMjAvMjYgQ2hlY2tpbmcgY29tbWl0IGU5YjUx
+MTI0NTVkNCAoeDg2IGh2ZiBjcHVzOiBGaXggTGVzc2VyIEdQTCB2ZXJzaW9uIG51bWJlcikKRVJS
+T1I6IGRvIG5vdCB1c2UgQzk5IC8vIGNvbW1lbnRzCiMxNTM6IEZJTEU6IHRhcmdldC9pMzg2L2h2
+Zi94ODZfZW11LmM6MjY6CisvLyAgdmVyc2lvbiAyLjEgb2YgdGhlIExpY2Vuc2UsIG9yIChhdCB5
+b3VyIG9wdGlvbikgYW55IGxhdGVyIHZlcnNpb24uCgpFUlJPUjogZG8gbm90IHVzZSBDOTkgLy8g
+Y29tbWVudHMKIzE3OTogRklMRTogdGFyZ2V0L2kzODYvaHZmL3g4Nl9mbGFncy5jOjk6CisvLyAg
+dmVyc2lvbiAyLjEgb2YgdGhlIExpY2Vuc2UsIG9yIChhdCB5b3VyIG9wdGlvbikgYW55IGxhdGVy
+IHZlcnNpb24uCgpFUlJPUjogZG8gbm90IHVzZSBDOTkgLy8gY29tbWVudHMKIzE5MjogRklMRTog
+dGFyZ2V0L2kzODYvaHZmL3g4Nl9mbGFncy5oOjk6CisvLyAgdmVyc2lvbiAyLjEgb2YgdGhlIExp
+Y2Vuc2UsIG9yIChhdCB5b3VyIG9wdGlvbikgYW55IGxhdGVyIHZlcnNpb24uCgp0b3RhbDogMyBl
+cnJvcnMsIDAgd2FybmluZ3MsIDE0NCBsaW5lcyBjaGVja2VkCgpQYXRjaCAyMC8yNiBoYXMgc3R5
+bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBm
+YWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BB
+VENIIGluIE1BSU5UQUlORVJTLgoKMjEvMjYgQ2hlY2tpbmcgY29tbWl0IDI5ZjBkZWUxMmU2NSAo
+ZTEwMDBlOiBGaXggTGVzc2VyIEdQTCB2ZXJzaW9uIG51bWJlcikKRVJST1I6IHNwYWNlIHByb2hp
+Yml0ZWQgYmV0d2VlbiBmdW5jdGlvbiBuYW1lIGFuZCBvcGVuIHBhcmVudGhlc2lzICcoJwojMjc6
+IEZJTEU6IGh3L25ldC9lMTAwMGUuYzoyNToKKyogdmVyc2lvbiAyLjEgb2YgdGhlIExpY2Vuc2Us
+IG9yIChhdCB5b3VyIG9wdGlvbikgYW55IGxhdGVyIHZlcnNpb24uCgpFUlJPUjogc3BhY2UgcHJv
+aGliaXRlZCBiZXR3ZWVuIGZ1bmN0aW9uIG5hbWUgYW5kIG9wZW4gcGFyZW50aGVzaXMgJygnCiM0
+MDogRklMRTogaHcvbmV0L2UxMDAwZV9jb3JlLmM6MjU6CisqIHZlcnNpb24gMi4xIG9mIHRoZSBM
+aWNlbnNlLCBvciAoYXQgeW91ciBvcHRpb24pIGFueSBsYXRlciB2ZXJzaW9uLgoKRVJST1I6IHNw
+YWNlIHByb2hpYml0ZWQgYmV0d2VlbiBmdW5jdGlvbiBuYW1lIGFuZCBvcGVuIHBhcmVudGhlc2lz
+ICcoJwojNTM6IEZJTEU6IGh3L25ldC9lMTAwMGVfY29yZS5oOjI1OgorKiB2ZXJzaW9uIDIuMSBv
+ZiB0aGUgTGljZW5zZSwgb3IgKGF0IHlvdXIgb3B0aW9uKSBhbnkgbGF0ZXIgdmVyc2lvbi4KCkVS
+Uk9SOiBzcGFjZSBwcm9oaWJpdGVkIGJldHdlZW4gZnVuY3Rpb24gbmFtZSBhbmQgb3BlbiBwYXJl
+bnRoZXNpcyAnKCcKIzY2OiBGSUxFOiBody9uZXQvZTEwMDB4X2NvbW1vbi5jOjE0OgorKiB2ZXJz
+aW9uIDIuMSBvZiB0aGUgTGljZW5zZSwgb3IgKGF0IHlvdXIgb3B0aW9uKSBhbnkgbGF0ZXIgdmVy
+c2lvbi4KCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGJldHdlZW4gZnVuY3Rpb24gbmFtZSBhbmQg
+b3BlbiBwYXJlbnRoZXNpcyAnKCcKIzc5OiBGSUxFOiBody9uZXQvZTEwMDB4X2NvbW1vbi5oOjE0
+OgorKiB2ZXJzaW9uIDIuMSBvZiB0aGUgTGljZW5zZSwgb3IgKGF0IHlvdXIgb3B0aW9uKSBhbnkg
+bGF0ZXIgdmVyc2lvbi4KCnRvdGFsOiA1IGVycm9ycywgMCB3YXJuaW5ncywgNDAgbGluZXMgY2hl
+Y2tlZAoKUGF0Y2ggMjEvMjYgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYg
+YW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRo
+ZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjIyLzI2IENoZWNr
+aW5nIGNvbW1pdCBiZGUyNWEwNDg3MDQgKHNwYXJjIHRjZyBjcHVzOiBGaXggTGVzc2VyIEdQTCB2
+ZXJzaW9uIG51bWJlcikKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYmV0d2VlbiBmdW5jdGlvbiBu
+YW1lIGFuZCBvcGVuIHBhcmVudGhlc2lzICcoJwojMTQ0OiBGSUxFOiB0YXJnZXQvc3BhcmMvdHJh
+bnNsYXRlLmM6MTA6CisgICB2ZXJzaW9uIDIuMSBvZiB0aGUgTGljZW5zZSwgb3IgKGF0IHlvdXIg
+b3B0aW9uKSBhbnkgbGF0ZXIgdmVyc2lvbi4KCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywg
+OTYgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMjIvMjYgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2Ug
+cmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9y
+dCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4K
+CjIzLzI2IENoZWNraW5nIGNvbW1pdCAxZDAzZTMxY2YwMWYgKHRlc3RzL21pZ3JhdGlvbjogRml4
+IExHUEwgaW5mb3JtYXRpb24gaW4gdGhlIGZpbGUgaGVhZGVycykKMjQvMjYgQ2hlY2tpbmcgY29t
+bWl0IDQ4NTYxZDEwZTZjZSAodGVzdHMvYWNjZXB0YW5jZTogRml4IExHUEwgaW5mb3JtYXRpb24g
+aW4gdGhlIGZpbGUgaGVhZGVycykKMjUvMjYgQ2hlY2tpbmcgY29tbWl0IDBiZDI3Yjg2NGNjZSAo
+dGVzdDogRml4IExHUEwgaW5mb3JtYXRpb24gaW4gdGhlIGZpbGUgaGVhZGVycykKMjYvMjYgQ2hl
+Y2tpbmcgY29tbWl0IGI4YTY0MDFlMTEyNiAobm9tYWludGFpbmVyOiBGaXggTGVzc2VyIEdQTCB2
+ZXJzaW9uIG51bWJlcikKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdp
+dGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcu
+b3JnL2xvZ3MvMjAyMDExMTUxNjI2MTMuNzQ2NDUtMS10aHV0aEByZWRoYXQuY29tL3Rlc3Rpbmcu
+Y2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2Fs
+bHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZl
+ZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
