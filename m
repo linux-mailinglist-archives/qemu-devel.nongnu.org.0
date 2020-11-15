@@ -2,79 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD7C52B32F2
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 09:31:22 +0100 (CET)
-Received: from localhost ([::1]:57580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF0E32B32FB
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 09:42:11 +0100 (CET)
+Received: from localhost ([::1]:60970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keDRR-00046R-MZ
-	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 03:31:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56276)
+	id 1keDbu-0006MQ-Gb
+	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 03:42:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1keDPq-0003DL-JW; Sun, 15 Nov 2020 03:29:42 -0500
-Received: from mout.web.de ([217.72.192.78]:58613)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1keDPo-0001RV-QA; Sun, 15 Nov 2020 03:29:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1605428973;
- bh=vVK3NQmLEIeXaFrcAg0mr+0pImC2ZdOh2XBLNfktYS4=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=bkN+BkL8wCQnFYAE6EpriNg7bUbz1i+BfQxJfXap3hlKg0g76crnXTGQmszQaO/f8
- qtuNmXeXFGfJj7gZwYe33ySUzL79MgkI3f1sgR2LIn2vneqHfPbjK0w+w7ZWWX4XhL
- FxitAxU2YikwWQnEfyeFycU1Pzal00ZGiAvuvw6I=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([87.123.206.172]) by smtp.web.de (mrweb101
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0MRU72-1kp7Tx1Zai-00SeQO; Sun, 15
- Nov 2020 09:29:33 +0100
-Date: Sun, 15 Nov 2020 09:29:32 +0100
-From: Lukas Straub <lukasstraub2@web.de>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v10 7/8] MAINTAINERS: Add myself as maintainer for yank
- feature
-Message-ID: <20201115092932.7ca62155@luklap>
-In-Reply-To: <87r1pcp8rx.fsf@dusky.pond.sub.org>
-References: <cover.1604075469.git.lukasstraub2@web.de>
- <20201030174138.071af6a3@luklap>
- <87r1pcp8rx.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1keDab-0005w6-Ez
+ for qemu-devel@nongnu.org; Sun, 15 Nov 2020 03:40:49 -0500
+Received: from indium.canonical.com ([91.189.90.7]:45298)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1keDaX-0005NI-Ah
+ for qemu-devel@nongnu.org; Sun, 15 Nov 2020 03:40:48 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1keDaV-00042f-5m
+ for <qemu-devel@nongnu.org>; Sun, 15 Nov 2020 08:40:43 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 071982E80E9
+ for <qemu-devel@nongnu.org>; Sun, 15 Nov 2020 08:40:43 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/iya+=G8eA25VbEf2BTy8RTU";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:mqUEvb8bIWsvg4pPJa+zW4adeX5ED/m+WVF/J+nN3EPJXsgXgv+
- 1iNFXQy1cO0hIfiZCOh98w9+HO8/kZ+5Bb8Fj6PwmT6x+n60r+NYRF6U4yIZ73ArKlI8geM
- HCye5ckRJTxWXywnH+kd2DpkuwFcBhKwT0kR6mOgbi7xWKvTEXJ7PEf1FMvzFh/5M0BUU7u
- 7sqTzEEfZ4DljZsNivLXA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:mhqBrQD4zLI=:q1IpPvbHkNAZyosCZil/qn
- QWsY/btgFwGunAaWh4zmRvULBZt7RnROZGygJIHz4U0eVbG0mT1+bnipNr2wSsHrfdkXzVySb
- YAI2HCgduWLJpV0Esx5YOR//oBzBCHGO7oFIk7mxdowQgJXja16vlvw3f0kLmJ38gr0cTrD/s
- 86jbzJlMjldFk+NsjjBpWAB/7Wnsw37O9PjFspnUaRNetdjTJnEOtHe5i9PmtuIFBNVgXBHRZ
- EvgmEWwTlWGPgoWLNFtY7G0xMtEatZcmyy24fHBtxjEPVt+UqgG4GShgjDFbRMWt3RhPQ7brh
- 9WeWEDfN6wCzUMqvfw9wj/G6EmEdCpGHK/NA5suSWklX5AfD5ptepiiB5cab45cyuDaSRxslH
- G1Ad5uezc0mXqnKKisnj5/fI7FNn1+nQKmqDUB9ovsSJxJKsDPzWfGUq9OziBM+bjgQ9Hni57
- yS1AW8aOl5T2UiT5TsGATkYuqig4azMhiKVOljs2V0Jcsoh6h+LGea+lBuO7sZhhOGmF6C8AV
- lVckmiZAMfjEXJve+ugOx5qtTp0fawtt1bz3Cdbd8Dub98/zHa9uOIAZwML/mzzn0m2e907MI
- 2TNBvoDv85+eIt0t3bgDbXe6T7618knPDR83tBs5Exs5f5PtVoSEYbDxlTMfYVe24G0SQHwzC
- LCUDcXtm5BmIDX1pIbrEuKEEuCibopK2wqQ2EK9VRODgDmAJS2eW8ksNGxVqylVRoQh6p9aIE
- L3oLBCGA98XVeNyVfrB05ZIRrKlrPNYMBJJg95b9atbKfFOmMt4WTgzDFZ8/U1jL88zQDGrEA
- bvGV/ivKnnbdtcrez2Ia6Znqqu9Dz/umwCZHf4YnDo1lbVN5VgqvvmaJpR/N0OBVoyYjLc/Uc
- Zr77RGiWEvyiOorv9VtQ==
-Received-SPF: pass client-ip=217.72.192.78; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 03:29:37
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 15 Nov 2020 08:31:33 -0000
+From: Takumi Nakamura <1904315@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: chapuni
+X-Launchpad-Bug-Reporter: Takumi Nakamura (chapuni)
+X-Launchpad-Bug-Modifier: Takumi Nakamura (chapuni)
+Message-Id: <160542909340.674.17512745365232880697.malonedeb@gac.canonical.com>
+Subject: [Bug 1904315] [NEW] CTRL+ALT is ignored on gtk window (configured
+ with gtk and sdl)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="38ebca4a151c7e484f2992f7b90f5a3ede13f97f"; Instance="production"
+X-Launchpad-Hash: f4db8f427c879a04f878a54108ebe946681b5ad4
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 03:40:43
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,84 +71,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
- "Dr. David
- Alan Gilbert" <dgilbert@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>
+Reply-To: Bug 1904315 <1904315@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/iya+=G8eA25VbEf2BTy8RTU
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Public bug reported:
 
-On Mon, 02 Nov 2020 07:33:54 +0100
-Markus Armbruster <armbru@redhat.com> wrote:
+I am building and using qemu on Windows 10 via git.
+Building for targeting windows, on debian.
 
-> Lukas Straub <lukasstraub2@web.de> writes:
->=20
-> > I'll maintain this for now as the colo usecase is the first user
-> > of this functionality.
-> >
-> > Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-> > Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > ---
-> >  MAINTAINERS | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 8c744a9bdf..81288fd219 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -2676,6 +2676,13 @@ F: util/uuid.c
-> >  F: include/qemu/uuid.h
-> >  F: tests/test-uuid.c
-> >
-> > +Yank feature
-> > +M: Lukas Straub <lukasstraub2@web.de>
-> > +S: Odd fixes
-> > +F: util/yank.c
-> > +F: include/qemu/yank.h
-> > +F: qapi/yank.json
-> > +
-> >  COLO Framework
-> >  M: zhanghailiang <zhang.zhanghailiang@huawei.com>
-> >  S: Maintained =20
->=20
-> I'd squash this into PATCH 1 to mollify checkpatch.pl.
->=20
-> Regardless,
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
->=20
+Since meson is introduced, my executable, qemu-system-x86_64.exe, tends to =
+ignore hotkeys
+(like CTRL+ATL+G, CTRL+ALT+2)
 
-Changed for the next version.
+As far as I have been investigating the issue, I am suspicious that gtk and=
+ sdl might be incompatible.
+With configure --disable-sdl, my executable works fine.
+My application doesn't require sdl.
 
---=20
+Possibly due to link order, especially SDLmain, I guess.
 
+I suggest;
+- Clarify that gtk and sdl are incompatible.
+- Tweak built script or startup not to prevent gtk and sdl each other.
 
---Sig_/iya+=G8eA25VbEf2BTy8RTU
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Excuse me, the issue has not been reproduced at home yet. I met it at work.
+(My manager said it's fine to report issues by me at home)
+I will construct reproducible environment at home, if my further investigat=
+ion would be required.
 
------BEGIN PGP SIGNATURE-----
+Thanks.
 
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl+w5uwACgkQNasLKJxd
-slj2nRAAixcGyemU4uNHGCc7RA6I/encVI/6Sy3MRgW1niGdY85xfbkP0RrpB+Xj
-+F4IU+HD6MJmVxJUbBvhsc6KCX0wSwy9qORIm+MmfLYuWtOy4dA4C7wyJkxwZ/ma
-CKvgy+Fp3juT/iSST2fCrv0LSvKYMYw3XSMsMuNedQGz5CtiNzY1VnIpiudpgowg
-q/N/ytbURlLMlpiheQnvNCAkU2tyUHPPpiBgl0rYIB0uOK0GnnMupdoh1UPGh3BT
-6/dekNmYf/btYNJ5K9804y6guBUJhFGeAXAWvOgB7O+DEKdjHLzqvb0q5Yy7KXbZ
-HpQYOQNHYD5Zabg7YGIWyIi4GVQS8FJBBTPeAXogFL/op3aDOm0b1WhIt0hD5ebj
-mrKR5Bs/ZxCZr/XXWb6m806jKgdAoOiDb80yhSeMz6nc04cXGYuo3gMMBTWJ9iuv
-hil8FWDWLCHPTP5PTAs97WV0Z5xRT53ztpF9op488Wc9X/oxhtR86HLA78rWRQpN
-z2elkUd2OmzUphyFyVaFVwoWs+/qCM6t5o50SqPvQnFIcWlVpcdol/2TM56Co8SY
-cBbq8l7zAWtlvYWoChdbjUYYJP4hIwxXBhrU2FRhP7zSyUFyZht16tVbiNH8qiVr
-ayj8/09C3pwb23b+tYfUfxqYReZrG9v1lF2KfH2SyvmJsgn/dTg=
-=or0A
------END PGP SIGNATURE-----
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
---Sig_/iya+=G8eA25VbEf2BTy8RTU--
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1904315
+
+Title:
+  CTRL+ALT is ignored on gtk window (configured with gtk and sdl)
+
+Status in QEMU:
+  New
+
+Bug description:
+  I am building and using qemu on Windows 10 via git.
+  Building for targeting windows, on debian.
+
+  Since meson is introduced, my executable, qemu-system-x86_64.exe, tends t=
+o ignore hotkeys
+  (like CTRL+ATL+G, CTRL+ALT+2)
+
+  As far as I have been investigating the issue, I am suspicious that gtk a=
+nd sdl might be incompatible.
+  With configure --disable-sdl, my executable works fine.
+  My application doesn't require sdl.
+
+  Possibly due to link order, especially SDLmain, I guess.
+
+  I suggest;
+  - Clarify that gtk and sdl are incompatible.
+  - Tweak built script or startup not to prevent gtk and sdl each other.
+
+  Excuse me, the issue has not been reproduced at home yet. I met it at wor=
+k.
+  (My manager said it's fine to report issues by me at home)
+  I will construct reproducible environment at home, if my further investig=
+ation would be required.
+
+  Thanks.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1904315/+subscriptions
 
