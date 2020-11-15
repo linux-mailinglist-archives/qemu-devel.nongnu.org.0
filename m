@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A4802B3649
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 17:38:00 +0100 (CET)
-Received: from localhost ([::1]:33652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABD932B364E
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 17:39:39 +0100 (CET)
+Received: from localhost ([::1]:40866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keL2N-0002yg-8m
-	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 11:37:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46108)
+	id 1keL3y-0005xf-Bx
+	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 11:39:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1keKrI-0004Sd-Qn
- for qemu-devel@nongnu.org; Sun, 15 Nov 2020 11:26:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55549)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1keKrM-0004Sz-1d
+ for qemu-devel@nongnu.org; Sun, 15 Nov 2020 11:26:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50295)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1keKrH-0005ok-5x
- for qemu-devel@nongnu.org; Sun, 15 Nov 2020 11:26:32 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1keKrK-0005pv-8i
+ for qemu-devel@nongnu.org; Sun, 15 Nov 2020 11:26:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605457590;
+ s=mimecast20190719; t=1605457593;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=NUTiU2UNYrUQ5PH10FsxHInQuLAJlRyH/Vr9F/ETOCw=;
- b=BUC10AhO1xN7eZeU9Q7xt4uOlRCroYquBc1wnst6BPoZ99xy+VyJrC3R/sghEmhdS0k4iG
- BvwQcZXsVDLMae+aG79KUYiDmoMMwOoLadHsMqiFMam2i6mQq6bczYmmCMNW2JJ5gLvm8j
- xFHVxoVAkSDBxNoy9x9p+mMaSmIf7aY=
+ references:references; bh=cbUVEcEgyWP5BtiAhF06O7KNMp1Ej7xnoslms3RhL7Q=;
+ b=iyQSFxM5nHCxPR+C5wFmyFDr1HviWHta68QNQOlFm+GQdPTsmFyWCdCWcCBqoJ5nC7H0mV
+ +DJfdfnl2peRUem1apKdSI8s+2c2ho/20GA2thwwSDiNiErW9mhY8JyBOr+1mAz40CyV+6
+ qLzNtLuOqRZz+1GPsx+SyxIoxi8keHM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-349-y8Hrhs-xO3KpjJ6i0Lts-Q-1; Sun, 15 Nov 2020 11:26:28 -0500
-X-MC-Unique: y8Hrhs-xO3KpjJ6i0Lts-Q-1
+ us-mta-381-zexKMT3COwuoJ-LEHo2cgg-1; Sun, 15 Nov 2020 11:26:29 -0500
+X-MC-Unique: zexKMT3COwuoJ-LEHo2cgg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E1511005504;
- Sun, 15 Nov 2020 16:26:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46601835BB8;
+ Sun, 15 Nov 2020 16:26:28 +0000 (UTC)
 Received: from thuth.com (ovpn-112-23.ams2.redhat.com [10.36.112.23])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 356605B4D6;
- Sun, 15 Nov 2020 16:26:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6CF685B4D6;
+ Sun, 15 Nov 2020 16:26:27 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/26] tricore tcg cpus: Fix Lesser GPL version number
-Date: Sun, 15 Nov 2020 17:25:55 +0100
-Message-Id: <20201115162613.74645-9-thuth@redhat.com>
+Subject: [PULL 09/26] usb: Fix Lesser GPL version number
+Date: Sun, 15 Nov 2020 17:25:56 +0100
+Message-Id: <20201115162613.74645-10-thuth@redhat.com>
 In-Reply-To: <20201115162613.74645-1-thuth@redhat.com>
 References: <20201115162613.74645-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
@@ -86,20 +86,23 @@ This patch replaces all occurrences of "Lesser GPL version 2" with
 "Lesser GPL version 2.1" in comment section.
 
 Signed-off-by: Chetan Pant <chetan4windows@gmail.com>
-Message-Id: <20201023122157.19321-1-chetan4windows@gmail.com>
+Message-Id: <20201023122332.19369-1-chetan4windows@gmail.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Acked-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/tricore/tricore_testboard.c | 2 +-
- target/tricore/gdbstub.c       | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ hw/usb/hcd-ohci.c     | 2 +-
+ hw/usb/hcd-xhci-nec.c | 2 +-
+ hw/usb/hcd-xhci-pci.c | 2 +-
+ hw/usb/hcd-xhci-pci.h | 2 +-
+ hw/usb/hcd-xhci.c     | 2 +-
+ hw/usb/hcd-xhci.h     | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/hw/tricore/tricore_testboard.c b/hw/tricore/tricore_testboard.c
-index 8ec2b5bddd..12ea1490fd 100644
---- a/hw/tricore/tricore_testboard.c
-+++ b/hw/tricore/tricore_testboard.c
-@@ -6,7 +6,7 @@
+diff --git a/hw/usb/hcd-ohci.c b/hw/usb/hcd-ohci.c
+index 8b912e95d3..f8c64c8b95 100644
+--- a/hw/usb/hcd-ohci.c
++++ b/hw/usb/hcd-ohci.c
+@@ -7,7 +7,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
   * License as published by the Free Software Foundation; either
@@ -108,11 +111,63 @@ index 8ec2b5bddd..12ea1490fd 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/tricore/gdbstub.c b/target/tricore/gdbstub.c
-index 0f4e612a04..3ce55abb8e 100644
---- a/target/tricore/gdbstub.c
-+++ b/target/tricore/gdbstub.c
-@@ -6,7 +6,7 @@
+diff --git a/hw/usb/hcd-xhci-nec.c b/hw/usb/hcd-xhci-nec.c
+index 13a125afe2..13c9ac5dbd 100644
+--- a/hw/usb/hcd-xhci-nec.c
++++ b/hw/usb/hcd-xhci-nec.c
+@@ -8,7 +8,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/hw/usb/hcd-xhci-pci.c b/hw/usb/hcd-xhci-pci.c
+index b78fcd2bb2..bba628d3d2 100644
+--- a/hw/usb/hcd-xhci-pci.c
++++ b/hw/usb/hcd-xhci-pci.c
+@@ -12,7 +12,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/hw/usb/hcd-xhci-pci.h b/hw/usb/hcd-xhci-pci.h
+index aa2e890627..c193f79443 100644
+--- a/hw/usb/hcd-xhci-pci.h
++++ b/hw/usb/hcd-xhci-pci.h
+@@ -10,7 +10,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
+index 79ce5c4be6..c8f14a6616 100644
+--- a/hw/usb/hcd-xhci.c
++++ b/hw/usb/hcd-xhci.c
+@@ -8,7 +8,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/hw/usb/hcd-xhci.h b/hw/usb/hcd-xhci.h
+index ccf50ae28b..02ebd76450 100644
+--- a/hw/usb/hcd-xhci.h
++++ b/hw/usb/hcd-xhci.h
+@@ -8,7 +8,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
   * License as published by the Free Software Foundation; either
