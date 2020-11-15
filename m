@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05A222B34AD
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 12:43:17 +0100 (CET)
-Received: from localhost ([::1]:41188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFBF62B352B
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 15:02:26 +0100 (CET)
+Received: from localhost ([::1]:54200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keGRA-0004x7-2T
-	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 06:43:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57086)
+	id 1keIbp-0006D7-Ag
+	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 09:02:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1keGKh-0005MM-90; Sun, 15 Nov 2020 06:36:35 -0500
-Received: from mout.web.de ([212.227.17.12]:43159)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1keGKe-0008L7-V0; Sun, 15 Nov 2020 06:36:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1605440185;
- bh=JmiqDl6XpRwd1d8HX6JcVAODaYhiNxH8lCQr3soufF8=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=JX5yhI1SeTQ9SLHqcYZgQjpRANVAQiISnXb1edk0t1zw2xaPeSajklRH9m5MTMSTr
- oJr7gxg8O9Ib6z0Da5/A9ONnvJRJNx17vm1lO6aI4Ne09xyeU5j+AOGb8+aCBHR1ni
- gCGDA99xvoMde71cL90Yn4T/gEGvmaM+4Ua0E330=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([87.123.206.172]) by smtp.web.de (mrweb101
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0MVtxM-1kkxMn2TTE-00X27P; Sun, 15
- Nov 2020 12:36:25 +0100
-Date: Sun, 15 Nov 2020 12:36:23 +0100
-From: Lukas Straub <lukasstraub2@web.de>
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v11 7/7] tests/test-char.c: Wait for the chardev to connect
- in char_socket_client_dupid_test
-Message-ID: <1318bc2b2d8254b972bc9f2a5fcc05cd79eee513.1605439674.git.lukasstraub2@web.de>
-In-Reply-To: <cover.1605439674.git.lukasstraub2@web.de>
-References: <cover.1605439674.git.lukasstraub2@web.de>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1keIaA-0005aK-Ap
+ for qemu-devel@nongnu.org; Sun, 15 Nov 2020 09:00:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45633)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1keIa6-0005xK-J7
+ for qemu-devel@nongnu.org; Sun, 15 Nov 2020 09:00:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605448830;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UyU2OVlF0gh+xjMok96EChBtXb/KyVlQn3tdtAPnFaE=;
+ b=L/fUyLxFYn1Zbhl8vDcwcYIIvZdcOQ9veHwoNCV/hPdE0BMRaEBvZjQfj80NmsMt9kBOqX
+ kOjPIqnQ92Aq67xnXqJsuG4To5uO4xdSgFFkQxxrGs3yNpgNlPYqWex4TaVk+62bDpUnqq
+ L+2WPXY1dB3nsEImbLdHCpGo+baFYgA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-384-OXRYsBuJNjeZyvL8D1jk4w-1; Sun, 15 Nov 2020 09:00:27 -0500
+X-MC-Unique: OXRYsBuJNjeZyvL8D1jk4w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48ED5809DD3;
+ Sun, 15 Nov 2020 14:00:26 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-23.ams2.redhat.com [10.36.112.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E415321E93;
+ Sun, 15 Nov 2020 14:00:16 +0000 (UTC)
+Subject: Re: [PATCH 3/4] configure: Add a proper check for sys/ioccom.h and
+ use it in tpm_ioctl.h
+To: luoyonggang@gmail.com, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+References: <20201114165137.15379-1-thuth@redhat.com>
+ <20201114165137.15379-4-thuth@redhat.com>
+ <CAE2XoE9yU4S=N5eQKaY6NHCVFOQPg+WQFiv05SbrtrUUMWmMQg@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <44c43a8c-2b10-a951-6aaa-813a7db325a2@redhat.com>
+Date: Sun, 15 Nov 2020 15:00:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/501dvskr5C.ifACNmwoBDgd";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:9wFlkpRheyIy9h6oIeWXW2Ov7DXp3V8BQLa9zJNStbbkZE6iXeK
- L8uJoaO9guY41UgkqwSNs7srRUZBZoYDashCBjvsa4HmboQoS7bGbV0sIrJ2gf4ylLOC+/z
- UBcOLEAU9H8XcytdCwpCZOpDCxRLyPaqRVoWqigGoD48lS0eQQK6k9KmQBa9Tu25xKH4/HK
- C5cLcWXzi/jZPa2kIDCaw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:/DRjsa7S6Os=:vP6F0VYDJVzWwzM5KFCooc
- Zfn17Fcp3+nwK08UBJdtDMHPW/84V1Ns+pr87ukSqR9u1ASNXt7byttMEiuRxaLmYJp1LMrBD
- 8KyBu4X1rN8WAQ1iqec/7SC0y0Kao8AdVwXBRpTUcMzLYJxhJKAU6rFxdESKepJ0jJVnP5eLc
- a7rKl4OMiTrkM48n4TCoUKl45gvLsXepe/Lt1ouxQzKBWzcx69N3lj6kCElKZ2b00mWL3KhAu
- m+aKlfrSCuBTMyXea6vnarQOUg9MnPAJH+wlvPX+PMg3xC1sOh5xh7yFr3NiQnJvholejUcxD
- mWvqQdF46esUofh/ygJXMytu4nxDDaqmoF7gFc8LDhET1ROUDdTkv/GNIp8HisBTgjkPQ5KjC
- B+8W5bNPKEMVWKTPJQyaHSjPAjiMs/S1UbRgbAW7syyYP1twQlRSrulqSY9KDzYkOpTSq3FMX
- 8hsDw+1L19+tudhNm66m215+qZU7X1+zhiPaTUl+O4VrOPjHrfapUuWxzGv690qkNqicT9Owx
- SfkK9yHLQOZ8yk2eBtTg2rfLzLW+czHl26hQAxySLFPT3UPSG4Ke2dgq1GQ8Z37YWDV5DyIRM
- NEYQ7U8iqe5/rA/uHPBjaZhzNkdxN9nuOSFZB5AfP6+UYIXU/E6tCa7sFd2VmyAvHy0pSHUJO
- O3i3K7gHxQkjYYn6zmowbggAI0vHWT6d80HQxCeCoffX6CFbf0jkM38cFLwEDVohP2TIZ8+zi
- IPOcT/0lBGKoA4+S4LQCMkqpKtXjNjJ6xPfuHXp+wFTweBxax3mSqEjn3eNIBSWU3C+PCdGtf
- 24L8eD9hZs7a5MKKsWy06+FI9w/xBzbra6Qn8P68WWnTAQRVMRzPX8fwPD3LngbhnV63HPzrU
- hrRHi13WRnvG32WnOLUg==
-Received-SPF: pass client-ip=212.227.17.12; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 06:36:31
+In-Reply-To: <CAE2XoE9yU4S=N5eQKaY6NHCVFOQPg+WQFiv05SbrtrUUMWmMQg@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 08:01:03
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,69 +86,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRy?= =?UTF-8?B?w6k=?= Lureau <marcandre.lureau@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alexander von Gluck IV <kallisti5@unixzen.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-level <qemu-devel@nongnu.org>, David CARLIER <devnexen@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/501dvskr5C.ifACNmwoBDgd
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On 14/11/2020 17.56, 罗勇刚(Yonggang Luo) wrote:
+> Can we check this in meson.build?
 
-A connecting chardev object has an additional reference by the connecting
-thread, so if the chardev is still connecting by the end of the test,
-then the chardev object won't be freed. This in turn means that the yank
-instance won't be unregistered and when running the next test-case
-yank_register_instance will abort, because the yank instance is
-already/still registered.
+That would be nicer, indeed, but I did not spot a place where I could add my
+code there ... all the other HAVE_xxx_H symbols are added in the configure
+script.
+Maybe Paolo or Marc-André (now on CC:) have an idea whether it could be done
+easily in meson.build?, too?
 
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
----
- tests/test-char.c | 1 +
- 1 file changed, 1 insertion(+)
+ Thomas
 
-diff --git a/tests/test-char.c b/tests/test-char.c
-index 9196e566e9..aedb5c9eda 100644
---- a/tests/test-char.c
-+++ b/tests/test-char.c
-@@ -937,6 +937,7 @@ static void char_socket_client_dupid_test(gconstpointer=
- opaque)
-     g_assert_nonnull(opts);
-     chr1 =3D qemu_chr_new_from_opts(opts, NULL, &error_abort);
-     g_assert_nonnull(chr1);
-+    qemu_chr_wait_connected(chr1, &error_abort);
 
-     chr2 =3D qemu_chr_new_from_opts(opts, NULL, &local_err);
-     g_assert_null(chr2);
---
-2.20.1
+> On Sun, Nov 15, 2020 at 12:53 AM Thomas Huth <thuth@redhat.com
+> <mailto:thuth@redhat.com>> wrote:
+>>
+>> On Solaris and Haiku, the _IO() macros are defined in <sys/ioccom.h>.
+>> Add a proper check for this header to our configure scripts, and
+>> make sure to include the header in tpm_ioctl.h to fix a build failure
+>> on Solaris and Haiku.
+>>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com <mailto:thuth@redhat.com>>
+>> ---
+>>  backends/tpm/tpm_ioctl.h |  4 ++++
+>>  configure                | 11 ++++++++++-
+>>  nbd/nbd-internal.h       |  2 +-
+>>  3 files changed, 15 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/backends/tpm/tpm_ioctl.h b/backends/tpm/tpm_ioctl.h
+>> index f5f5c553a9..bd6c12cb86 100644
+>> --- a/backends/tpm/tpm_ioctl.h
+>> +++ b/backends/tpm/tpm_ioctl.h
+>> @@ -12,6 +12,10 @@
+>>  #include <sys/uio.h>
+>>  #include <sys/ioctl.h>
+>>
+>> +#ifdef HAVE_SYS_IOCCOM_H
+>> +#include <sys/ioccom.h>
+>> +#endif
+>> +
+>>  /*
+>>   * Every response from a command involving a TPM command execution must hold
+>>   * the ptm_res as the first element.
+>> diff --git a/configure b/configure
+>> index c0acda164d..764e903748 100755
+>> --- a/configure
+>> +++ b/configure
+>> @@ -3123,6 +3123,13 @@ if check_include "sys/signal.h" ; then
+>>    have_sys_signal_h=yes
+>>  fi
+>>
+>> +#########################################
+>> +# sys/ioccom.h check
+>> +have_sys_ioccom_h=no
+>> +if check_include "sys/ioccom.h" ; then
+>> +  have_sys_ioccom_h=yes
+>> +fi
+>> +
+>>  ##########################################
+>>  # VTE probe
+>>
+>> @@ -6214,7 +6221,9 @@ fi
+>>  if test "$have_sys_signal_h" = "yes" ; then
+>>      echo "HAVE_SYS_SIGNAL_H=y" >> $config_host_mak
+>>  fi
+>> -
+>> +if test "$have_sys_ioccom_h" = "yes" ; then
+>> +    echo "HAVE_SYS_IOCCOM_H=y" >> $config_host_mak
+>> +fi
+>>  # Work around a system header bug with some kernel/XFS header
+>>  # versions where they both try to define 'struct fsxattr':
+>>  # xfs headers will not try to redefine structs from linux headers
+>> diff --git a/nbd/nbd-internal.h b/nbd/nbd-internal.h
+>> index 60629ef160..1b2141ab4b 100644
+>> --- a/nbd/nbd-internal.h
+>> +++ b/nbd/nbd-internal.h
+>> @@ -19,7 +19,7 @@
+>>  #ifndef _WIN32
+>>  #include <sys/ioctl.h>
+>>  #endif
+>> -#if defined(__sun__) || defined(__HAIKU__)
+>> +#ifdef HAVE_SYS_IOCCOM_H
+>>  #include <sys/ioccom.h>
+>>  #endif
+>>
+>> --
+>> 2.18.4
+>>
+>>
+> 
+> 
+> --
+>          此致
+> 礼
+> 罗勇刚
+> Yours
+>     sincerely,
+> Yonggang Luo
 
---Sig_/501dvskr5C.ifACNmwoBDgd
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl+xErcACgkQNasLKJxd
-sliRsxAAk9W1zhjA7kvgJcNPzjK5d4wzkQgY3PcFBXznNlPkM+LfBYobQzJkNttO
-IJuWajFr7eV7DMeSQfzPHdn7J4fBL/KZb6V6sttp/UyHITkiZ2nSE8TX8Myrt/r5
-BfUaauc+y9nLhOEi6ZRONdzUIU8JMruRF0ruYCjFScDBXxUgPSalrJoUtJcH3Rrc
-Deagcj5hW4oQcCsM59HyUdXO8iv5Hf0ybR9ilWfLkz5LWCY99fOzA4ZoQEH2xnFh
-hTsv93XgIwlMZhwcgR2UDKSEk6hXpSaiWjStHLsmFGBsjm6+uVnImT+BGTns4P+C
-M0CPJbp+35XwL7fkrkXIUROot6Ms9kwndnvG4jKCSltCHG5QKB/U2JUyZ2zpLj40
-eZY6HYNuv6wdRHGYrt6auq8yc/ZG0xmhyYRXFB4mBiykeFh9fVPpOjmyeTp275+f
-ZZRlctOQ32Nmd68uWiQYNWWA9IGxEIG5nZv1S2giZYBlz6YMpOEFIUd2trqtE3QT
-/2NqoJdvRzNP8swrSHZZ+QX1OpIky+0Y9ytEywLs6/gPuZ5wkh8viTw/uVNc46Tl
-y22Cpxl2vvyDN/yGhKIZKGgtENSUsJXDBNzp/6YUqZ/uXNPK8UPASxyG/zb1863C
-RMDwnYIK/ZSXlB/eFHOXPVziWOKT9tj5SOGnM0NaECvCiTravSY=
-=dlMT
------END PGP SIGNATURE-----
-
---Sig_/501dvskr5C.ifACNmwoBDgd--
 
