@@ -2,65 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4BDF2B36AB
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 17:44:53 +0100 (CET)
-Received: from localhost ([::1]:55180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 663722B36B8
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 17:49:35 +0100 (CET)
+Received: from localhost ([::1]:60992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keL92-0003Y0-O8
-	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 11:44:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48884)
+	id 1keLDa-0006Ie-FI
+	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 11:49:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcel.apfelbaum@gmail.com>)
- id 1keL7j-0002FW-WF
- for qemu-devel@nongnu.org; Sun, 15 Nov 2020 11:43:32 -0500
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:38053)
+ id 1keLCL-0005kA-RF
+ for qemu-devel@nongnu.org; Sun, 15 Nov 2020 11:48:17 -0500
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:39033)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcel.apfelbaum@gmail.com>)
- id 1keL7h-0002sK-K0
- for qemu-devel@nongnu.org; Sun, 15 Nov 2020 11:43:31 -0500
-Received: by mail-ot1-x342.google.com with SMTP id a15so13596936otf.5
- for <qemu-devel@nongnu.org>; Sun, 15 Nov 2020 08:43:26 -0800 (PST)
+ id 1keLCK-0004j2-0B
+ for qemu-devel@nongnu.org; Sun, 15 Nov 2020 11:48:17 -0500
+Received: by mail-ot1-x342.google.com with SMTP id z16so13599854otq.6
+ for <qemu-devel@nongnu.org>; Sun, 15 Nov 2020 08:48:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=cd8vA8Z1NV/HTn9FN2aFf3IlzkCsIritCPkupUEBmCs=;
- b=pxYExwkJ1XvyUGluYUUhh6I8TXWCoLU6IvPg/1r8E//rtAZ6OnRynYGIA2WoBojRpf
- uhUsXt1ZtYhg1DRJ9s09e/47vnm+cJit1XwzoLGWQHR2a+DYY9AfcGY/BUeN2+XQz0vJ
- kpkFyhfDEuwyLDJ8LLJWb7PukwVQhmNFAcYLtFBk6sinEEtoue2lSwJ8P5tLyfxDqlVe
- l/mmR2QAyCs//07PMNXsywJ5xBCuXjKlmpvXYaC8YltSPhPAK78HiIY5h35sLAFR1VJK
- GhfqUJ4XnQxQKUavpFnB1i7mrV2KA2RdrluMwRXSVFqP8JCm0aCEGqsYm/DbRAJXId32
- Ax7g==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sCLjhQLTcLwP9IZs7NI9UEstZ8f984nO3DlttmApaQo=;
+ b=l7c5Zr5itDMQtqSs0q6EcpxuugXsgn2Qz5DFpiECkgoEjp6+HHD9bA7iM83yuHGEij
+ vWOM1fM7aswEanB9KuvSKPdnZ6nPFz2q/t1BXlLG1A7p+7Q3uXqh3J8r9th+s1tckIHT
+ bUUUbHHPcdw9yWqFgJQK60AnavSGtB1+FFiqK2cAPvEmC/a9ICDRso/hy2fb+3BROhez
+ p0jC2s4qtVuv/wtP8hjLfdEfj8mFKDu6/SADzeYGEh7Nak+BQ3WsVygdAlBOIzM+aOuT
+ lvWM5hHHi9C3TpMj+bLdIGAzwFF+iLcyf2Jb1ap16bg2PZ7c/5d3qLA959rQdH1Z/XaG
+ TIaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=cd8vA8Z1NV/HTn9FN2aFf3IlzkCsIritCPkupUEBmCs=;
- b=uHwJYv/NWBVKaOLLPL8UeXyM+LSTvraIRpXe1F3s+V7Zk7p2J8+blapfbxkl3idlv9
- +WsJeyj6TFHUdlUlmI60tmpRRwDkKv9bRv9GbA+gx/Mg5HUoISciO4FqitUCNj/rX/HQ
- A1NZZfUgw5sqCipA4OJ7AcdaKX1j4pmz7QSE6VwmUbytJagthnzs7pEUJ+UJKQ2M91di
- 1KwOpDTx4g9yYGTkTvPFwkgCMeJ17MVvnQMOOCGHoWhljLmnRrEvjrgt1CjfcNFvbjcO
- fXXiGzBaEv2wKwZEt87zj0d7PsFnp12p4r4ZT4YeYanIEXN3tboELqFRoziPhjeZT4Te
- UPzA==
-X-Gm-Message-State: AOAM531V+TzuJiZ+CpVPt8iMINdfYDfpEWqTuo0JjxV0ejNeRLLxbu/v
- 4eW+mUHBrK5VIn1pNgpeKkYsoPtGbf0MStCkY+Q=
-X-Google-Smtp-Source: ABdhPJxbrX/RS9A6bpziHTcNAb3SfxwyjL0ZYpLHVq/2Y0uvYcexMuuknBCIcNcnnOWcPKdfntsKTHi56tlA1L0POtg=
-X-Received: by 2002:a05:6830:1556:: with SMTP id
- l22mr8575838otp.102.1605458605626; 
- Sun, 15 Nov 2020 08:43:25 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=sCLjhQLTcLwP9IZs7NI9UEstZ8f984nO3DlttmApaQo=;
+ b=Xccor7IaFiwCTBpm29zyPritPDhPI9/UgsQWou+T+oGwo146xfFSiImcbJoP/Zpgjr
+ Vt7289OQW9XAx6ro+e6/CTbgXb3KQ4aELfaw/vYfi7vQh1HLxBXw5/2zaVHMbhU+0har
+ RN+2Wt64coD3Fbuluo+OsRB2BkqaoZ08PVspS0d3zeXMxfu5d07/hfGOaMx6T+v/cNTR
+ +QJuPYtIDAq8zVimuYbnQ8xT2wm/WErKg2wWzygv+xd9pnsvXm+D4VD8EUcfJRVitMDp
+ 16bPK7DnV7Wofr1oqE2ZM3kQQP8UMtbMNZZmfo5G1QPpL8/y7Bm8xbzYRZbvLALXZQTt
+ yPBA==
+X-Gm-Message-State: AOAM531K7SEdrioHLF7xCCXfiR0rlVhynmvRcICnKyCkzA84hKzHdu0n
+ ZnBW9wfjUX9DTNDeFIIJQKiVqkJCLlVIGCPD0cs=
+X-Google-Smtp-Source: ABdhPJxJ0x4w6JzYMRriz9mTBPIsH0pTsWJcaBnoNYz0yy4ShRU+9/1G3Zp8OPU4FEHvCAvtay8RPsm/yT1IfRb4AS8=
+X-Received: by 2002:a05:6830:18f8:: with SMTP id
+ d24mr8237999otf.44.1605458895064; 
+ Sun, 15 Nov 2020 08:48:15 -0800 (PST)
 MIME-Version: 1.0
 References: <20201022114026.31968-1-marcel.apfelbaum@gmail.com>
- <20201111160953.GA2865@rvkaganb.lan>
-In-Reply-To: <20201111160953.GA2865@rvkaganb.lan>
+ <20201111073443-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20201111073443-mutt-send-email-mst@kernel.org>
 From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Date: Sun, 15 Nov 2020 18:43:14 +0200
-Message-ID: <CAC_L=vVDARMcT2a5Rr=DpW7jRJjW4VWJo0GZKeOK_zjg9PdwUQ@mail.gmail.com>
+Date: Sun, 15 Nov 2020 18:48:03 +0200
+Message-ID: <CAC_L=vXH3=33h3xQwpT1ftPYtCcXeSn39LoizxW7qHrDuN61CQ@mail.gmail.com>
 Subject: Re: [PATCH] pci: Refuse to hotplug PCI Devices when the Guest OS is
  not ready
-To: Roman Kagan <rvkagan@yandex-team.ru>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
- qemu devel list <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- David Gibson <dgibson@redhat.com>, Julia Suvorova <jusual@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000e3da4905b427f53c"
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000024546a05b428071d"
 Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
  envelope-from=marcel.apfelbaum@gmail.com; helo=mail-ot1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
@@ -84,15 +81,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: David Gibson <dgibson@redhat.com>, Julia Suvorova <jusual@redhat.com>,
+ qemu devel list <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e3da4905b427f53c
+--00000000000024546a05b428071d
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Roman,
+Hi Michael,
 
-On Wed, Nov 11, 2020 at 6:10 PM Roman Kagan <rvkagan@yandex-team.ru> wrote:
+On Wed, Nov 11, 2020 at 2:35 PM Michael S. Tsirkin <mst@redhat.com> wrote:
 
 > On Thu, Oct 22, 2020 at 02:40:26PM +0300, Marcel Apfelbaum wrote:
 > > From: Marcel Apfelbaum <marcel@redhat.com>
@@ -108,6 +107,27 @@ On Wed, Nov 11, 2020 at 6:10 PM Roman Kagan <rvkagan@yandex-team.ru> wrote:
 > > Detect and refuse hotplug operations in such case.
 > >
 > > Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+>
+>
+> Going back to this I have another question: could we get
+> a bit more detail on when do we get into this situation?
+> When does guest start blinking the indicator without us
+> first starting a hotplug operation?
+>
+
+While David has more insight on the kernel behavior during the mentioned
+issue,
+it seems the PCI subsystem sets the Power Indicator
+to "blinking" as part of the init sequence of the PCIe Root Port.
+The kernel will turn it off as soon as it finishes the init sequence.
+
+A hotplug operation during the "init" sequence will surprise the Guest OS.
+I'll let David to give us more info.
+
+Thank you,
+Marcel
+
+
 > > ---
 > >  hw/pci/pcie.c | 7 +++++++
 > >  1 file changed, 7 insertions(+)
@@ -138,40 +158,22 @@ On Wed, Nov 11, 2020 at 6:10 PM Roman Kagan <rvkagan@yandex-team.ru> wrote:
 > > +
 > >      pcie_cap_slot_plug_common(PCI_DEVICE(hotplug_dev), dev, errp);
 > >  }
+> >
+> > --
+> > 2.17.2
 >
-> I wonder if hw/pci/shpc.c is free from this issue?
->
->
-I did not encounter the issue with shpc.
-
-However, the SHPC spec describes the Power Indicator behavior for hotplug
-only leaving the booting sequence out of it:
-    "Although the Standard Usage Model presented in Section 2.2.1.2
-requires a specific
-     relationship between the Power Indicator and the state of the slot,
-this relationship is
-     enforced by software, not by the SHPC."
-
-It looks like it depends on the software implementation.
-
-
-Thanks,
-Marcel
-
-
-> Roman.
 >
 
---000000000000e3da4905b427f53c
+--00000000000024546a05b428071d
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi Roman,</div><br><div class=3D"gmail_qu=
-ote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Nov 11, 2020 at 6:10 PM =
-Roman Kagan &lt;<a href=3D"mailto:rvkagan@yandex-team.ru">rvkagan@yandex-te=
-am.ru</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">On Thu, Oct 22, 2020 at 02:40:26PM +0300, Marcel Apfelbaum wrote:<br>
+<div dir=3D"ltr"><div dir=3D"ltr">Hi Michael,</div><br><div class=3D"gmail_=
+quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Nov 11, 2020 at 2:35 P=
+M Michael S. Tsirkin &lt;<a href=3D"mailto:mst@redhat.com">mst@redhat.com</=
+a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On=
+ Thu, Oct 22, 2020 at 02:40:26PM +0300, Marcel Apfelbaum wrote:<br>
 &gt; From: Marcel Apfelbaum &lt;<a href=3D"mailto:marcel@redhat.com" target=
 =3D"_blank">marcel@redhat.com</a>&gt;<br>
 &gt; <br>
@@ -191,6 +193,22 @@ br>
 &gt; <br>
 &gt; Signed-off-by: Marcel Apfelbaum &lt;<a href=3D"mailto:marcel.apfelbaum=
 @gmail.com" target=3D"_blank">marcel.apfelbaum@gmail.com</a>&gt;<br>
+<br>
+<br>
+Going back to this I have another question: could we get<br>
+a bit more detail on when do we get into this situation?<br>
+When does guest start blinking the indicator without us<br>
+first starting a hotplug operation?<br></blockquote><div><br></div><div>Whi=
+le David has more insight on the kernel behavior during the mentioned issue=
+,</div><div>it seems the PCI subsystem sets the Power Indicator</div><div>t=
+o &quot;blinking&quot; as part of the init sequence of the PCIe Root Port.<=
+/div><div>The kernel will turn it off as soon as it finishes the init seque=
+nce.</div><div><br></div><div>A hotplug operation during the &quot;init&quo=
+t; sequence will surprise the Guest OS.</div><div>I&#39;ll let David to giv=
+e us more info.</div><div><br></div><div>Thank you,</div><div>Marcel=C2=A0<=
+/div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
 &gt; ---<br>
 &gt;=C2=A0 hw/pci/pcie.c | 7 +++++++<br>
 &gt;=C2=A0 1 file changed, 7 insertions(+)<br>
@@ -231,21 +249,11 @@ DEVICE(hotplug_pdev)-&gt;id);<br>
 &gt;=C2=A0 =C2=A0 =C2=A0 pcie_cap_slot_plug_common(PCI_DEVICE(hotplug_dev),=
  dev, errp);<br>
 &gt;=C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt; -- <br>
+&gt; 2.17.2<br>
 <br>
-I wonder if hw/pci/shpc.c is free from this issue?<br>
-<br></blockquote><div><br></div><div>I did not encounter the issue with shp=
-c.</div><div><br></div><div>However, the SHPC spec describes the Power Indi=
-cator behavior for hotplug only leaving the booting sequence out of it:=C2=
-=A0</div><div>=C2=A0 =C2=A0 &quot;Although the Standard Usage Model present=
-ed in Section 2.2.1.2 requires a specific</div>=C2=A0 =C2=A0 =C2=A0relation=
-ship between the Power Indicator and the state of the slot, this relationsh=
-ip is<br><div>=C2=A0 =C2=A0 =C2=A0enforced by software, not by the SHPC.&qu=
-ot;</div><div><br></div><div>It looks like it depends on the software imple=
-mentation.</div><div><br></div><div><br></div><div>Thanks,</div><div>Marcel=
-</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-Roman.<br>
 </blockquote></div></div>
 
---000000000000e3da4905b427f53c--
+--00000000000024546a05b428071d--
 
