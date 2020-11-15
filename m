@@ -2,55 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D0F52B3480
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 11:58:55 +0100 (CET)
-Received: from localhost ([::1]:55880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 953A92B3494
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 12:20:43 +0100 (CET)
+Received: from localhost ([::1]:39680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keFkD-0001lO-Sm
-	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 05:58:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51362)
+	id 1keG5K-0008Os-5C
+	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 06:20:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1keFjX-0001L1-FQ
- for qemu-devel@nongnu.org; Sun, 15 Nov 2020 05:58:11 -0500
-Received: from mail.weilnetz.de ([37.120.169.71]:49332
- helo=v2201612906741603.powersrv.de)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1keG3u-0007IG-Mt
+ for qemu-devel@nongnu.org; Sun, 15 Nov 2020 06:19:14 -0500
+Received: from mout.web.de ([217.72.192.78]:55283)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1keFjV-0003Pc-5g
- for qemu-devel@nongnu.org; Sun, 15 Nov 2020 05:58:11 -0500
-Received: from localhost (localhost [127.0.0.1])
- by v2201612906741603.powersrv.de (Postfix) with ESMTP id 748EEDA2F9E
- for <qemu-devel@nongnu.org>; Sun, 15 Nov 2020 11:58:05 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at v2201612906741603.powersrv.de
-Received: from v2201612906741603.powersrv.de ([127.0.0.1])
- by localhost (v2201612906741603.powersrv.de [127.0.0.1]) (amavisd-new,
- port 10024) with ESMTP id gECVD4DonULR for <qemu-devel@nongnu.org>;
- Sun, 15 Nov 2020 11:57:26 +0100 (CET)
-Received: from macbook02.fritz.box (pd9ec344e.dip0.t-ipconnect.de
- [217.236.52.78])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 1AF08DA2495
- for <qemu-devel@nongnu.org>; Sun, 15 Nov 2020 11:57:26 +0100 (CET)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1keG3s-0002GB-TZ
+ for qemu-devel@nongnu.org; Sun, 15 Nov 2020 06:19:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1605439139;
+ bh=pZiOEa6b9LtXt9TFE/niox+QeG33wBkI+lbANrpPgNc=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+ b=byTnCoA6rpNtMDb7Tncm1GRtnOp7ek7Rawh0VYJQX3PhozvIEc0DLF/R3TH7wZXOR
+ BOXvuaCfwCVNNoUF6HRGhT9eW8tLT3M8yNsXXNbW/YSA6vmjAhmtiunkbUAMwf7E7W
+ B3Ao/wXfDIFTvJEUZsRVFBugysefSYJBXFWqw2xk=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from luklap ([87.123.206.172]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MzkSZ-1kID0E0PUf-00viol; Sun, 15
+ Nov 2020 12:18:59 +0100
+Date: Sun, 15 Nov 2020 12:18:49 +0100
+From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
-From: Stefan Weil <sw@weilnetz.de>
-Subject: Regressions in build process introduced since August
-Message-ID: <97b04446-ca94-cebd-2d8d-4c2013521208@weilnetz.de>
-Date: Sun, 15 Nov 2020 11:57:25 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.4.2
+Subject: [PATCH 0/2] colo-compare: Fix memory leak for non-tcp packet
+Message-ID: <cover.1605438886.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
- helo=v2201612906741603.powersrv.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 05:58:05
+Content-Type: multipart/signed; boundary="Sig_/cDrEE8FWV_mRFy_HeFQk_El";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
+X-Provags-ID: V03:K1:kPCYVc8l+xlD2NSXHD6cGD8RTIMEtvnDQ8piFqM4LbaWFfXjFZk
+ LCxMC1kA6fe0OxZpC4Q+imKWFRZt80S/bgcJqaeo6VyJJlVvpvm/k5xQJujnwJu/7AONOMm
+ O35AI/gZ+lzJmAV8ttA+uAWT8L2pwq7iwvkGXO2t2YErIomzD+tSLpGSAj6LDEiuoH0yt47
+ M742ReQ0Ty6XV9/GNtEaQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:wTP5FRZHL4k=:Jji1vWxDp7uxKukQhc6FgL
+ g07F++6T+n4qnjo6P8yicxF9dQFbXl5dQgYMqyhDGhNX3+g/Rq8OkCdEhU/3AFXahy5RflexN
+ /YIYtEuUPW7cj9E6fSDE8cE0PY3Gdwwk3+KSfjafvnZs7p22UY0WH5+Cnrw+XmJeKFFKpJRJv
+ bn7wXQCDcJi0CUG1Qldx3INbBaUVZKurbvhBRpR2nQPo2KPAW4J1oj4UuvQY2X4dYhHGpYGz3
+ zsTJiVWHZHahYe15hSUeYP2Y1Zb4DdxEFp1fKYzVTZMfglVXvHpmvQ8XTn+VekCMV62sbFt5X
+ GZvhT1gwnHPPDYrcGTVdj+vjgxFyb1NjPy1zgTNOpMAAmjy+2rKe/b8iOh2EZgPl/cJmp8BWE
+ JxwGRU51CR31JX/8gVP7sckG1QU/KLHQHPjuMseY6IUUOiPxkRUOeC9tch0R5XHl7dSTYgjuQ
+ LTr0u+DpfblCGIeNvjNEgpBlO6Dp43lbjJBceVApymOncX5FV5da9AQwkTr4pOJiZ1l3j45Tq
+ w9h7+e1aVO5V2JwqD+3RHwobVYLa/r3WtHjbyDzgf7JezCJ1CTE7ryZzQzN52b6O+b8VVVqIk
+ AdO3lPEkmNTZUY1D79M5otsE4WU8uJOKDFmhCDDuvwyn/8YTpQpgJvdgpripYI9asdpP2z03X
+ GIIQYxbYSShTk6MZIdTiOwzTcYsNxGJ2zlJKsQYBd9HH7xA6Y4yi0Zv38sbqgswBSwCIHvj6y
+ 3ZRS647MaOFEqXRXRM3yzw2g77WJijnZhqBDFT9PlvQmp4Uk0zQMFBohvDS8Yrm2erLTWKXo9
+ /aa1eOwlpMJ1Q+bwpwIJ/VBiQycEDsdWRBBxJKByMjmdPjTZl8jQDtv9R3oLY4qbpnYbUE1IG
+ y6hnO2pwtV7dR33EyA8w==
+Received-SPF: pass client-ip=217.72.192.78; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 05:44:48
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,39 +80,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Zhang Chen <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
+ Li Zhijian <lizhijian@cn.fujitsu.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Dear all,
+--Sig_/cDrEE8FWV_mRFy_HeFQk_El
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-yesterday I tried to build new QEMU installers for Windows and noticed=20
-two regressions which break my build process:
+Hello Everyone,
+This fixes a memory leak for non-tcp packets and optimizes the removal from
+the queue.
 
-*** Change in handling of --extra-cflags
+Lukas Straub (2):
+  net/colo-compare.c: Fix memory leak for non-tcp packet
+  net/colo-compare.c: Optimize removal of secondary packet
 
-Running `configure [...] --extra-cflags=3D"-I /xyz"` results in compiler =
+ net/colo-compare.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-flags `-I [...] /xyz`, so the `-I` and `/xyz` are separated by other=20
-compiler flags which obviously cannot work as expected. I could work=20
-around that by removing the space and using a pattern like `-I/xyz`.
+--
+2.20.1
 
-This regression is not restricted to builds targeting Windows.
+--Sig_/cDrEE8FWV_mRFy_HeFQk_El
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-*** Setting INSTALLER no longer handled
+-----BEGIN PGP SIGNATURE-----
 
-meson.build sets a hard name for the Windows installer executable:=20
-installer =3D 'qemu-setup-' + meson.project_version() + '.exe'.
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl+xDpkACgkQNasLKJxd
+slhiNxAAss4BWnws27DMSpMuu9gtJ/AE3LAjmqSavP/cFo1h+t+/7HQUwW9jypOy
+gb0A+ZAhMXiDu44Mv5PjIXXlW0j5Xab2HQu56Ne1jFpha0ytA/JFQsQ2mYwVwflE
+T9XDuXUQDefWXpxMt7/Vut2/lj1PzIUu/MvQeot0Xe7BakGjd1PstsOE7fylllcV
+oUM+sPLcHLwKglMTL+dpZIkkZf1KK6XWNw6fXOo1ChO0ny/hFP24QFajSnpAZ7M7
+L97TJJj/oZCXnT4jRKcGtK+jVdjCFaPgHGDYNZHcg5r3+N4IQ41T4S5AK86g4fDm
+vdzoXc4ZixmWCo6XmW4Us8B8FYo7xM5MVUX+DRpsqEAWfkNR5NmcLOXhCyI8x3a9
+nWj41Rq4HtmMoLbAvdDADoWeFQz29joeKEH1g5816VxZBix4YR5MaiJNTNcGzSJD
+yONS/DyqqDS2SCoEMOxKBLwLlCiU4SGzYxYyQWYlcQkM0wuwqzi4w1rmVoAKRJeA
++UxzPb5adkMcZIqzvwQKrLsRLo/1zXPKvLp7qmM6XcMRjn67jUUvzmkPlZeArVys
+yQM4SkaP4y6kxCxS5Aeb632Eqhvyg9Mj8WX99uoMWvuK6daLmX6XuUvymGFXN3nV
+yWS4jA9997e87e4/lQ7j3YkQIFMKS4/7uym9qb68QWvQDty7H1c=
+=UL0B
+-----END PGP SIGNATURE-----
 
-Previously the installer name could be changed by running `make=20
-installer INSTALLER=3Dqemu-setup-something.exe`. This no longer works. Is=
-=20
-there an alternative solution how the name of the installer executable=20
-can be set? Or how could I reimplement the lost functionality?
-
-Kind regards
-
-Stefan Weil
-
-
-
+--Sig_/cDrEE8FWV_mRFy_HeFQk_El--
 
