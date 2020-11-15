@@ -2,32 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 768842B3FAA
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 10:25:39 +0100 (CET)
-Received: from localhost ([::1]:34922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4D742B3FB6
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 10:28:19 +0100 (CET)
+Received: from localhost ([::1]:45618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kealW-0000ZO-DU
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 04:25:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39366)
+	id 1keao6-000520-TZ
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 04:28:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1keais-0006pZ-0Z; Mon, 16 Nov 2020 04:22:54 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2356)
+ id 1keaiv-0006tY-GB; Mon, 16 Nov 2020 04:22:57 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2792)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1keaip-0004DB-I3; Mon, 16 Nov 2020 04:22:53 -0500
+ id 1keaip-0004DG-Rw; Mon, 16 Nov 2020 04:22:57 -0500
 Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CZNrl1pypzkYxK;
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CZNrl2FqBzkZ18;
  Mon, 16 Nov 2020 17:22:31 +0800 (CST)
 Received: from huawei.com (10.175.104.175) by DGGEMS402-HUB.china.huawei.com
  (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0; Mon, 16 Nov 2020
- 17:22:38 +0800
+ 17:22:42 +0800
 From: Gan Qixin <ganqixin@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH 09/13] u2f-passthru: put it into the 'usb' category
-Date: Mon, 16 Nov 2020 02:48:59 +0800
-Message-ID: <20201115184903.1292715-10-ganqixin@huawei.com>
+Subject: [PATCH 11/13] spitz: put some Spitz-family devices into the correct
+ category
+Date: Mon, 16 Nov 2020 02:49:01 +0800
+Message-ID: <20201115184903.1292715-12-ganqixin@huawei.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20201115184903.1292715-1-ganqixin@huawei.com>
 References: <20201115184903.1292715-1-ganqixin@huawei.com>
@@ -59,32 +60,39 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: kuhn.chenqun@huawei.com, thuth@redhat.com, zhang.zhanghailiang@huawei.com,
- Gan Qixin <ganqixin@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>
+ Gan Qixin <ganqixin@huawei.com>, Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The category of the u2f-passthru device is not set, put it into the 'usb'
-category.
+Some Spitz-family devices have no category, put them into the correct category.
 
 Signed-off-by: Gan Qixin <ganqixin@huawei.com>
 ---
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/usb/u2f-passthru.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/arm/spitz.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/usb/u2f-passthru.c b/hw/usb/u2f-passthru.c
-index ae00e93f35..000822f396 100644
---- a/hw/usb/u2f-passthru.c
-+++ b/hw/usb/u2f-passthru.c
-@@ -534,6 +534,7 @@ static void u2f_passthru_class_init(ObjectClass *klass, void *data)
-     dc->desc = "QEMU U2F passthrough key";
-     dc->vmsd = &u2f_passthru_vmstate;
-     device_class_set_props(dc, u2f_passthru_properties);
-+    set_bit(DEVICE_CATEGORY_USB, dc->categories);
+diff --git a/hw/arm/spitz.c b/hw/arm/spitz.c
+index 32bdeacfd3..0e5e8a4634 100644
+--- a/hw/arm/spitz.c
++++ b/hw/arm/spitz.c
+@@ -1218,6 +1218,7 @@ static void corgi_ssp_class_init(ObjectClass *klass, void *data)
+     k->realize = corgi_ssp_realize;
+     k->transfer = corgi_ssp_transfer;
+     dc->vmsd = &vmstate_corgi_ssp_regs;
++    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
  }
  
- static const TypeInfo u2f_key_passthru_info = {
+ static const TypeInfo corgi_ssp_info = {
+@@ -1247,6 +1248,7 @@ static void spitz_lcdtg_class_init(ObjectClass *klass, void *data)
+     k->realize = spitz_lcdtg_realize;
+     k->transfer = spitz_lcdtg_transfer;
+     dc->vmsd = &vmstate_spitz_lcdtg_regs;
++    set_bit(DEVICE_CATEGORY_DISPLAY, dc->categories);
+ }
+ 
+ static const TypeInfo spitz_lcdtg_info = {
 -- 
 2.23.0
 
