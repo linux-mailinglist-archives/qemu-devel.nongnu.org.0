@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE2B92B3FA8
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 10:25:11 +0100 (CET)
-Received: from localhost ([::1]:33910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8CB72B3FB5
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 10:28:14 +0100 (CET)
+Received: from localhost ([::1]:45088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keal2-00006C-U1
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 04:25:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39218)
+	id 1keao2-0004pF-0n
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 04:28:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1keaih-0006kZ-1U; Mon, 16 Nov 2020 04:22:43 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:2095)
+ id 1keaik-0006lo-VP; Mon, 16 Nov 2020 04:22:50 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2354)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1keaid-00049f-D8; Mon, 16 Nov 2020 04:22:42 -0500
+ id 1keaif-0004AB-H3; Mon, 16 Nov 2020 04:22:45 -0500
 Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4CZNrb6txJzhZQW;
- Mon, 16 Nov 2020 17:22:23 +0800 (CST)
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CZNrY16m2zkZ0k;
+ Mon, 16 Nov 2020 17:22:21 +0800 (CST)
 Received: from huawei.com (10.175.104.175) by DGGEMS402-HUB.china.huawei.com
  (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0; Mon, 16 Nov 2020
- 17:22:25 +0800
+ 17:22:27 +0800
 From: Gan Qixin <ganqixin@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH 01/13] pc-dimm: put it into the 'storage' category
-Date: Mon, 16 Nov 2020 02:48:51 +0800
-Message-ID: <20201115184903.1292715-2-ganqixin@huawei.com>
+Subject: [PATCH 02/13] virtio-pmem: put it into the 'storage' category
+Date: Mon, 16 Nov 2020 02:48:52 +0800
+Message-ID: <20201115184903.1292715-3-ganqixin@huawei.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20201115184903.1292715-1-ganqixin@huawei.com>
 References: <20201115184903.1292715-1-ganqixin@huawei.com>
@@ -36,9 +36,9 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.175.104.175]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32; envelope-from=ganqixin@huawei.com;
- helo=szxga06-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 04:22:34
+Received-SPF: pass client-ip=45.249.212.190; envelope-from=ganqixin@huawei.com;
+ helo=szxga04-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 04:22:28
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -63,28 +63,28 @@ Cc: kuhn.chenqun@huawei.com, thuth@redhat.com, zhang.zhanghailiang@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The category of the pc-dimm device is not set, put it into the 'storage'
+The category of the virtio-pmem device is not set, put it into the 'storage'
 category.
 
 Signed-off-by: Gan Qixin <ganqixin@huawei.com>
 ---
 Cc: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/mem/pc-dimm.c | 1 +
+ hw/virtio/virtio-pmem.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c
-index 2ffc986734..017146e3d1 100644
---- a/hw/mem/pc-dimm.c
-+++ b/hw/mem/pc-dimm.c
-@@ -282,6 +282,7 @@ static void pc_dimm_class_init(ObjectClass *oc, void *data)
-     mdc->get_plugged_size = memory_device_get_region_size;
-     mdc->get_memory_region = pc_dimm_md_get_memory_region;
-     mdc->fill_device_info = pc_dimm_md_fill_device_info;
+diff --git a/hw/virtio/virtio-pmem.c b/hw/virtio/virtio-pmem.c
+index ddb0125901..98b3139cd0 100644
+--- a/hw/virtio/virtio-pmem.c
++++ b/hw/virtio/virtio-pmem.c
+@@ -175,6 +175,7 @@ static void virtio_pmem_class_init(ObjectClass *klass, void *data)
+ 
+     vpc->fill_device_info = virtio_pmem_fill_device_info;
+     vpc->get_memory_region = virtio_pmem_get_memory_region;
 +    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
  }
  
- static TypeInfo pc_dimm_info = {
+ static TypeInfo virtio_pmem_info = {
 -- 
 2.23.0
 
