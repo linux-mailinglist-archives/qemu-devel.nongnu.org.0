@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38DA12B32DB
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 08:55:41 +0100 (CET)
-Received: from localhost ([::1]:52054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BE552B32F1
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 09:30:51 +0100 (CET)
+Received: from localhost ([::1]:56708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keCst-0007VZ-Qs
-	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 02:55:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52760)
+	id 1keDQv-0003kX-F5
+	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 03:30:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <changbin.du@gmail.com>)
- id 1keCrJ-0006mv-Oq; Sun, 15 Nov 2020 02:54:01 -0500
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:55499)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <changbin.du@gmail.com>)
- id 1keCrF-0006G0-Eo; Sun, 15 Nov 2020 02:54:01 -0500
-Received: by mail-pj1-x1043.google.com with SMTP id r9so2371476pjl.5;
- Sat, 14 Nov 2020 23:53:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9ybLAm8v1RsSKAp3L7gXvHr4V9JDk/hOqsmC8qK64TA=;
- b=GB8MBZiTm93mqJTtRh5vKtZSYZ+YSMCB6k9N17VNUhEwgdMSLL7fObgyYrux5fC12e
- eGDeErI3TvS8mYeEtn13NoyIDpsGhGiKnFEmQ/+p7M971WcbLzprTaDpCFwqfnbXyqWg
- Xo89gkFoj1lnXTkYqtQ2+VasqPzGzAF6QQWI3OVWEnSj0G4ATceWbQS6tQU1j22W+X7H
- pUdsTRrxvQlXaPm375vRl7vtqfW0w51H7D45YQ8eG7/xL854k7bTqDINM7NagxzYWckg
- ka3gSsUPiU7EthrQpgfJAHrnI7CyoiZGzErfLJYQ5U5nqiwSnGUt57IiakPdk2d7AP3N
- e2cQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9ybLAm8v1RsSKAp3L7gXvHr4V9JDk/hOqsmC8qK64TA=;
- b=nE2MM2jR9+pZQAOnFfuroPl0QFPxP0aX/hfOt+RnH1OIH3ukinwkI/mBvHECvOa4pi
- PMO+xdJAaXB7iuqw9PA8tCayjoVXCsg73ex472ds+OH4Oz+fKuqJ80n7K7iGVqJuZ6HS
- CXqHRSZEKBSJVqIMWU+YU66ipnfOG/YV1lyu4mCzLU+35W7rRgXTtJsNFmyDg1TcshUL
- DkfxRT2IO54QKa6y0TmrHRrv3GS7qPIIjRJojNFZ9tpA8Bz+RQxiFjHGwLO4T/anZkwU
- afdUlQupFxlDPzM2DTBYiskovJUg6lSFBIE7bStOflQutD3vQZ9owUFJUkBSngUgFIwh
- wSAQ==
-X-Gm-Message-State: AOAM530pCrL1z9kfXk8rn1r5AN0QLItTirwWhKeLc6afyFUYY/9XwpBA
- +PLoF6+Oi/CNfAA6YhYuMK0=
-X-Google-Smtp-Source: ABdhPJxJDnB5YCrP6lWUDMDQ72FsnRRWyi1pnR83oB4KsuMDxhBgm4oAkNoOkKiFwmho+kauDxk4Ew==
-X-Received: by 2002:a17:902:fe0f:b029:d6:9fa1:eee0 with SMTP id
- g15-20020a170902fe0fb02900d69fa1eee0mr8389315plj.24.1605426835517; 
- Sat, 14 Nov 2020 23:53:55 -0800 (PST)
-Received: from vultr.guest ([141.164.41.4])
- by smtp.gmail.com with ESMTPSA id x192sm14516879pgx.9.2020.11.14.23.53.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 14 Nov 2020 23:53:54 -0800 (PST)
-From: Changbin Du <changbin.du@gmail.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v3] arm/monitor: Add support for 'info tlb' command
-Date: Sun, 15 Nov 2020 15:53:47 +0800
-Message-Id: <20201115075347.74622-1-changbin.du@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1keDPS-0002yS-0B; Sun, 15 Nov 2020 03:29:18 -0500
+Received: from mout.web.de ([212.227.15.4]:49329)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1keDPQ-0001Ko-11; Sun, 15 Nov 2020 03:29:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1605428947;
+ bh=dCfbyKlA/XQICjPT/dI5O9eYswXZ/+HqYNWvaQjkHDE=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=hKptWbGUB6TI85bzHM49xAwUxOcKkqB5bXLZRQkamFcsp+7PceFy7r0ySFAJR+4Yf
+ pfhSb1f6/grznD3HdcO9CjsRZ2wF2nC/wvnqZYeo0R+ozL8grl7PpeyKziY26HTvWs
+ tBEWrrJer/tHPbeWZIu+gSv5c1lNwDG90/C2Calc=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from luklap ([87.123.206.172]) by smtp.web.de (mrweb003
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0MAvFE-1kWTeJ02XU-009zSH; Sun, 15
+ Nov 2020 09:29:07 +0100
+Date: Sun, 15 Nov 2020 09:28:55 +0100
+From: Lukas Straub <lukasstraub2@web.de>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v10 1/8] Introduce yank feature
+Message-ID: <20201115092855.7bd59f97@luklap>
+In-Reply-To: <87y2jkp8tk.fsf@dusky.pond.sub.org>
+References: <cover.1604075469.git.lukasstraub2@web.de>
+ <20201030174108.1c88195b@luklap>
+ <87y2jkp8tk.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
- envelope-from=changbin.du@gmail.com; helo=mail-pj1-x1043.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; boundary="Sig_/MlyWWb7zWeQb7Nbp9PGHVem";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
+X-Provags-ID: V03:K1:KJySkjW4fg3RRBGv8mhcAkL2fy+Ix1g8764+I7plN0+wFmkDrhj
+ WowvU0xAI4cGlAXriQT4eOYp+hULnF3ENC+TCVOO/C6NQ2h0fTgJxwLsMrkNXn6riMXx7SV
+ MYazN97183Uv+qDGM7QEVbusczFxJshecbwsYj7F2ND63pLEPtPWHkDFLz2a8FE4PWFz7GD
+ YWyRZCG7R3lVdj34aVIQA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:lyViRjBzNKA=:Xe7PglaPjfg5Jwph8mowVT
+ X5srzJLAmBd7unNVmNoRTbmgDewuxK1Tn60jbeU/P+pKirgeQik9nDD/oMCw67VAuAKi+aEWR
+ kodtdiRKMl8NynhAJBWt0JKJRtID+0LbF6tRWepC2LlYLTOPWWZd3vzH27Z4szuVRgbpQO6ZY
+ Sxfp50OJpQ4vtj13DPLhAP5m7Gq3eUal+UbNhcokkChpQR76WvYkvquanAoDNYaAEys8ZcuFj
+ leXmF7/GchACYMNiOADBuzdDBG4Zdl3CPNBglms0wt3ll7VJOpW5Fk5UqiXMcnpR243nQ2NG1
+ vsgwGFHktq/La5BXQfwF0hcTozxcJ2E+Am2Sh4U4y5TbHM5Cit+BaWhhyHabNBQcsVfHYMu1g
+ T0jAucpX//Gro5tby15UVnL8dSFjv0KGMzlHBRG5Iy7GTBxeqoBERIhO5rb/1QucD2G5cdZM2
+ i2jGWLnffqGBZFiXxRoR/G2rw8yP2087HI37z4wu79pgyQ+fO3fk3N0CUfEO4/fBoucW0vTGo
+ wkGgswEbhBQBi+n/1cv70BbTSeasYRgDjsOwLIAyIw6/PipNHjqawSVzN3oWf+m4xAQEzHnoh
+ Dfyc4LJ1MoMTNhVxOegjqeGMZHBI8qoTZJYMME6fcc3sQZHuZSRgXb73sWAhL7TLqP8dQNMoL
+ /9re2yVYv/LgBnZuWIn8ypg0o6X7Bm+DXpSTcyq/oR69iaXEkbv1jowGkpmaSOsd8HWBGeLJb
+ js8I0UZKa31djwFh8T8lticVaJRz7pxx06hj8031sef2KCFoMb2Dk5aA36h59w/IzO6z7wONT
+ OhOKGIeXManPb9p8InBGlBD5Fr8XJYsJPjpbmzRKYafkLIoBgUI+92W7CdilBwKqNceITTLuV
+ A+TpRq0swN89ZERy7s0Q==
+Received-SPF: pass client-ip=212.227.15.4; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 03:29:12
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,371 +82,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- Changbin Du <changbin.du@gmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David
+ Alan Gilbert" <dgilbert@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds hmp 'info tlb' command support for the arm platform.
-The limitation is that this only implements a page walker for
-ARMv8-A AArch64 Long Descriptor format, 32bit addressing is
-not supported yet.
+--Sig_/MlyWWb7zWeQb7Nbp9PGHVem
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-To reuse existing code, this patch also extracts some APIs from
-helper.c, including regime_translation_disabled(),
-pt_start_level_stage1(), regime_ttbr().
+On Mon, 02 Nov 2020 07:32:55 +0100
+Markus Armbruster <armbru@redhat.com> wrote:
 
-(qemu) info tlb
-vaddr            paddr            size             attr
----------------- ---------------- ---------------- ------------------------------
-ffff800000000000 0000000040000000 0000000000001000 RW        AF           PXN UXN
-ffff800000001000 0000000040001000 0000000000001000 RW        AF           PXN UXN
-ffff800000002000 0000000040002000 0000000000001000 RW        AF           PXN UXN
-ffff800000003000 0000000040003000 0000000000001000 RW        AF           PXN UXN
-ffff800000004000 0000000040004000 0000000000001000 RW        AF           PXN UXN
-ffff800000005000 0000000040005000 0000000000001000 RW        AF           PXN UXN
-ffff800000006000 0000000040006000 0000000000001000 RW        AF           PXN UXN
+> Lukas Straub <lukasstraub2@web.de> writes:
+>=20
+> > The yank feature allows to recover from hanging qemu by "yanking"
+> > at various parts. Other qemu systems can register themselves and
+> > multiple yank functions. Then all yank functions for selected
+> > instances can be called by the 'yank' out-of-band qmp command.
+> > Available instances can be queried by a 'query-yank' oob command.
+> >
+> > Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+> > Acked-by: Stefan Hajnoczi <stefanha@redhat.com> =20
+> [...]
+> >  qapi_storage_daemon_modules =3D [
+> > diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
+> > index 0b444b76d2..79c1705ed7 100644
+> > --- a/qapi/qapi-schema.json
+> > +++ b/qapi/qapi-schema.json
+> > @@ -91,3 +91,4 @@
+> >  { 'include': 'audio.json' }
+> >  { 'include': 'acpi.json' }
+> >  { 'include': 'pci.json' }
+> > +{ 'include': 'yank.json' } =20
+>=20
+> This adds the documentation at the very end of the reference manual.  Is
+> this where you want it to go?  Check generated
+> docs/interop/qemu-qmp-ref.html.
 
-Signed-off-by: Changbin Du <changbin.du@gmail.com>
+I've moved it above misc for the next version.
 
----
-v3: rebase to latest mainline.
-v2:
-  o fix coding style
-  o extract common code pt_start_level_stage1()
----
- hmp-commands-info.hx   |   3 +-
- target/arm/helper.c    |  30 +------
- target/arm/internals.h |  33 ++++++++
- target/arm/monitor.c   | 183 +++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 220 insertions(+), 29 deletions(-)
+> > diff --git a/qapi/yank.json b/qapi/yank.json
+> > new file mode 100644
+> > index 0000000000..1964a2202e
+> > --- /dev/null
+> > +++ b/qapi/yank.json
+> > @@ -0,0 +1,115 @@
+> > +# -*- Mode: Python -*-
+> > +# vim: filetype=3Dpython
+> > +#
+> > + =20
+>=20
+> Please add a suitable heading here.  Headings look like this:
+>=20
+>    ##
+>    # Text of heading goes here
+>    ##
 
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index 117ba25f91..1b5b3f2616 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -222,7 +222,8 @@ SRST
- ERST
- 
- #if defined(TARGET_I386) || defined(TARGET_SH4) || defined(TARGET_SPARC) || \
--    defined(TARGET_PPC) || defined(TARGET_XTENSA) || defined(TARGET_M68K)
-+    defined(TARGET_PPC) || defined(TARGET_XTENSA) || defined(TARGET_M68K) || \
-+    defined(TARGET_ARM)
-     {
-         .name       = "tlb",
-         .args_type  = "",
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 11b0803df7..e7f0f27c8e 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -9974,8 +9974,7 @@ static inline uint64_t regime_sctlr(CPUARMState *env, ARMMMUIdx mmu_idx)
- #ifndef CONFIG_USER_ONLY
- 
- /* Return true if the specified stage of address translation is disabled */
--static inline bool regime_translation_disabled(CPUARMState *env,
--                                               ARMMMUIdx mmu_idx)
-+bool regime_translation_disabled(CPUARMState *env, ARMMMUIdx mmu_idx)
- {
-     if (arm_feature(env, ARM_FEATURE_M)) {
-         switch (env->v7m.mpu_ctrl[regime_is_secure(env, mmu_idx)] &
-@@ -10021,20 +10020,6 @@ static inline bool regime_translation_big_endian(CPUARMState *env,
-     return (regime_sctlr(env, mmu_idx) & SCTLR_EE) != 0;
- }
- 
--/* Return the TTBR associated with this translation regime */
--static inline uint64_t regime_ttbr(CPUARMState *env, ARMMMUIdx mmu_idx,
--                                   int ttbrn)
--{
--    if (mmu_idx == ARMMMUIdx_Stage2) {
--        return env->cp15.vttbr_el2;
--    }
--    if (ttbrn == 0) {
--        return env->cp15.ttbr0_el[regime_el(env, mmu_idx)];
--    } else {
--        return env->cp15.ttbr1_el[regime_el(env, mmu_idx)];
--    }
--}
--
- #endif /* !CONFIG_USER_ONLY */
- 
- /* Convert a possible stage1+2 MMU index into the appropriate
-@@ -11077,18 +11062,7 @@ static bool get_phys_addr_lpae(CPUARMState *env, target_ulong address,
-     }
- 
-     if (mmu_idx != ARMMMUIdx_Stage2) {
--        /* The starting level depends on the virtual address size (which can
--         * be up to 48 bits) and the translation granule size. It indicates
--         * the number of strides (stride bits at a time) needed to
--         * consume the bits of the input address. In the pseudocode this is:
--         *  level = 4 - RoundUp((inputsize - grainsize) / stride)
--         * where their 'inputsize' is our 'inputsize', 'grainsize' is
--         * our 'stride + 3' and 'stride' is our 'stride'.
--         * Applying the usual "rounded up m/n is (m+n-1)/n" and simplifying:
--         * = 4 - (inputsize - stride - 3 + stride - 1) / stride
--         * = 4 - (inputsize - 4) / stride;
--         */
--        level = 4 - (inputsize - 4) / stride;
-+        level = pt_start_level_stage1(inputsize, stride);
-     } else {
-         /* For stage 2 translations the starting level is specified by the
-          * VTCR_EL2.SL0 field (whose interpretation depends on the page size)
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 5460678756..69c21be774 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -949,6 +949,8 @@ static inline uint32_t regime_el(CPUARMState *env, ARMMMUIdx mmu_idx)
-     }
- }
- 
-+bool regime_translation_disabled(CPUARMState *env, ARMMMUIdx mmu_idx);
-+
- /* Return the TCR controlling this translation regime */
- static inline TCR *regime_tcr(CPUARMState *env, ARMMMUIdx mmu_idx)
- {
-@@ -958,6 +960,20 @@ static inline TCR *regime_tcr(CPUARMState *env, ARMMMUIdx mmu_idx)
-     return &env->cp15.tcr_el[regime_el(env, mmu_idx)];
- }
- 
-+/* Return the TTBR associated with this translation regime */
-+static inline uint64_t regime_ttbr(CPUARMState *env, ARMMMUIdx mmu_idx,
-+                                   int ttbrn)
-+{
-+    if (mmu_idx == ARMMMUIdx_Stage2) {
-+        return env->cp15.vttbr_el2;
-+    }
-+    if (ttbrn == 0) {
-+        return env->cp15.ttbr0_el[regime_el(env, mmu_idx)];
-+    } else {
-+        return env->cp15.ttbr1_el[regime_el(env, mmu_idx)];
-+    }
-+}
-+
- /* Return the FSR value for a debug exception (watchpoint, hardware
-  * breakpoint or BKPT insn) targeting the specified exception level.
-  */
-@@ -1291,6 +1307,23 @@ typedef struct ARMCacheAttrs {
-     unsigned int shareability:2; /* as in the SH field of the VMSAv8-64 PTEs */
- } ARMCacheAttrs;
- 
-+static inline int pt_start_level_stage1(int inputsize, int stride)
-+{
-+    /*
-+     * The starting level depends on the virtual address size (which can
-+     * be up to 48 bits) and the translation granule size. It indicates
-+     * the number of strides (stride bits at a time) needed to
-+     * consume the bits of the input address. In the pseudocode this is:
-+     *  level = 4 - RoundUp((inputsize - grainsize) / stride)
-+     * where their 'inputsize' is our 'inputsize', 'grainsize' is
-+     * our 'stride + 3' and 'stride' is our 'stride'.
-+     * Applying the usual "rounded up m/n is (m+n-1)/n" and simplifying:
-+     * = 4 - (inputsize - stride - 3 + stride - 1) / stride
-+     * = 4 - (inputsize - 4) / stride;
-+     */
-+    return 4 - (inputsize - 4) / stride;
-+}
-+
- bool get_phys_addr(CPUARMState *env, target_ulong address,
-                    MMUAccessType access_type, ARMMMUIdx mmu_idx,
-                    hwaddr *phys_ptr, MemTxAttrs *attrs, int *prot,
-diff --git a/target/arm/monitor.c b/target/arm/monitor.c
-index 169d8a64b6..6991533a07 100644
---- a/target/arm/monitor.c
-+++ b/target/arm/monitor.c
-@@ -31,6 +31,9 @@
- #include "qapi/qmp/qerror.h"
- #include "qapi/qmp/qdict.h"
- #include "qom/qom-qobject.h"
-+#include "monitor/monitor.h"
-+#include "monitor/hmp-target.h"
-+#include "internals.h"
- 
- static GICCapability *gic_cap_new(int version)
- {
-@@ -236,3 +239,183 @@ CpuModelExpansionInfo *qmp_query_cpu_model_expansion(CpuModelExpansionType type,
- 
-     return expansion_info;
- }
-+
-+/* Perform linear address sign extension */
-+static target_ulong addr_canonical(int va_bits, target_ulong addr)
-+{
-+#ifdef TARGET_AARCH64
-+    if (addr & (1UL << (va_bits - 1))) {
-+        addr |= (hwaddr)-(1L << va_bits);
-+    }
-+#endif
-+
-+    return addr;
-+}
-+
-+#define PTE_HEADER_FIELDS       "vaddr            paddr            "\
-+                                "size             attr\n"
-+#define PTE_HEADER_DELIMITER    "---------------- ---------------- "\
-+                                "---------------- ------------------------------\n"
-+
-+static void print_pte_header(Monitor *mon)
-+{
-+    monitor_printf(mon, PTE_HEADER_FIELDS);
-+    monitor_printf(mon, PTE_HEADER_DELIMITER);
-+}
-+
-+static void
-+print_pte_lpae(Monitor *mon, uint32_t tableattrs, int va_bits,
-+               target_ulong vaddr, hwaddr paddr, target_ulong size,
-+               target_ulong pte)
-+{
-+    uint32_t ns = extract64(pte, 5, 1) | extract32(tableattrs, 4, 1);
-+    uint32_t ap = extract64(pte, 6, 2) & ~extract32(tableattrs, 2, 2);
-+    uint32_t af = extract64(pte, 10, 1);
-+    uint32_t ng = extract64(pte, 11, 1);
-+    uint32_t gp = extract64(pte, 50, 1);
-+    uint32_t con = extract64(pte, 52, 1);
-+    uint32_t pxn = extract64(pte, 53, 1) | extract32(tableattrs, 0, 1);
-+    uint32_t uxn = extract64(pte, 54, 1) | extract32(tableattrs, 1, 1);
-+
-+    monitor_printf(mon, TARGET_FMT_lx " " TARGET_FMT_plx " " TARGET_FMT_lx
-+                   " %s %s %s %s %s %s %s %s %s\n",
-+                   addr_canonical(va_bits, vaddr), paddr, size,
-+                   ap & 0x2 ? "ro" : "RW",
-+                   ap & 0x1 ? "USR" : "   ",
-+                   ns ? "NS" : "  ",
-+                   af ? "AF" : "  ",
-+                   ng ? "nG" : "  ",
-+                   gp ? "GP" : "  ",
-+                   con ? "Con" : "   ",
-+                   pxn ? "PXN" : "   ",
-+                   uxn ? "UXN" : "   ");
-+}
-+
-+static void
-+walk_pte_lpae(Monitor *mon, bool aarch64, uint32_t tableattrs, hwaddr pt_base,
-+              target_ulong vstart, int cur_level, int stride, int va_bits)
-+{
-+    int pg_shift = stride + 3;
-+    int descaddr_high = aarch64 ? 47 : 39;
-+    int max_level = 3;
-+    int ptshift = pg_shift + (max_level - cur_level) * stride;
-+    target_ulong pgsize = 1UL << ptshift;
-+    int idx;
-+
-+    for (idx = 0; idx < (1UL << stride) && vstart < (1UL << va_bits);
-+         idx++, vstart += pgsize) {
-+        hwaddr pte_addr = pt_base + idx * 8;
-+        target_ulong pte = 0;
-+        hwaddr paddr;
-+
-+        cpu_physical_memory_read(pte_addr, &pte, 8);
-+
-+        if (!extract64(pte, 0, 1)) {
-+            /* invalid entry */
-+            continue;
-+        }
-+
-+        if (cur_level == max_level) {
-+            /* leaf entry */
-+            paddr = (hwaddr)extract64(pte, pg_shift,
-+                                descaddr_high - pg_shift + 1) << pg_shift;
-+            print_pte_lpae(mon, tableattrs, va_bits, vstart, paddr,
-+                           pgsize, pte);
-+        } else {
-+            if (extract64(pte, 1, 1)) {
-+                /* table entry */
-+                paddr = (hwaddr)extract64(pte, pg_shift,
-+                                    descaddr_high - pg_shift + 1) << pg_shift;
-+                tableattrs |= extract64(pte, 59, 5);
-+
-+                walk_pte_lpae(mon, aarch64, tableattrs, paddr, vstart,
-+                              cur_level + 1, stride, va_bits);
-+            } else {
-+                /* block entry */
-+                if ((pg_shift == 12 && (cur_level != 1 && cur_level != 2)) ||
-+                    (pg_shift == 14 && (cur_level != 2)) ||
-+                    (pg_shift == 16 && (cur_level != 0 && cur_level != 1))) {
-+                    monitor_printf(mon, "illegal block entry at level%d\n",
-+                                   cur_level);
-+                    continue;
-+                }
-+                paddr = (hwaddr)extract64(pte, ptshift,
-+                                    descaddr_high - ptshift + 1) << ptshift;
-+                print_pte_lpae(mon, tableattrs, va_bits, vstart, paddr,
-+                               pgsize, pte);
-+            }
-+        }
-+    }
-+}
-+
-+/* ARMv8-A AArch64 Long Descriptor format */
-+static void tlb_info_vmsav8_64(Monitor *mon, CPUArchState *env)
-+{
-+    ARMMMUIdx mmu_idx = arm_stage1_mmu_idx(env);
-+    uint64_t ttbr[2];
-+    uint64_t tcr;
-+    int tsz[2];
-+    bool using16k, using64k;
-+    int stride;
-+
-+    ttbr[0] = regime_ttbr(env, mmu_idx, 0);
-+    ttbr[1] = regime_ttbr(env, mmu_idx, 1);
-+
-+    tcr = regime_tcr(env, mmu_idx)->raw_tcr;
-+    using64k = extract32(tcr, 14, 1);
-+    using16k = extract32(tcr, 15, 1);
-+    tsz[0] = extract32(tcr, 0, 6);
-+    tsz[1] = extract32(tcr, 16, 6);
-+
-+    if (using64k) {
-+        stride = 13;
-+    } else if (using16k) {
-+        stride = 11;
-+    } else {
-+        stride = 9;
-+    }
-+
-+    /* print header */
-+    print_pte_header(mon);
-+
-+    for (unsigned int i = 0; i < 2; i++) {
-+        if (ttbr[i]) {
-+            hwaddr base = extract64(ttbr[i], 1, 47) << 1;
-+            int va_bits = 64 - tsz[i];
-+            target_ulong vstart = (target_ulong)i << (va_bits - 1);
-+            int startlevel = pt_start_level_stage1(va_bits, stride);
-+
-+            /* walk ttbrx page tables, starting from address @vstart */
-+            walk_pte_lpae(mon, true, 0, base, vstart, startlevel,
-+                          stride, va_bits);
-+        }
-+    }
-+}
-+
-+void hmp_info_tlb(Monitor *mon, const QDict *qdict)
-+{
-+    CPUArchState *env;
-+
-+    env = mon_get_cpu_env(mon);
-+    if (!env) {
-+        monitor_printf(mon, "No CPU available\n");
-+        return;
-+    }
-+
-+    if (arm_feature(env, ARM_FEATURE_PMSA)) {
-+        monitor_printf(mon, "No MMU\n");
-+        return;
-+    }
-+
-+    if (regime_translation_disabled(env, arm_stage1_mmu_idx(env))) {
-+        monitor_printf(mon, "MMU disabled\n");
-+        return;
-+    }
-+
-+    if (!arm_el_is_aa64(env, 1)) {
-+        monitor_printf(mon, "Only AArch64 Long Descriptor is supported\n");
-+        return;
-+    }
-+
-+    tlb_info_vmsav8_64(mon, env);
-+}
--- 
-2.25.1
+Changed for the next version.
 
+> Without it, the yank stuff gets squashed into the previous section
+> (happens to be PCI).
+>=20
+> If you want to add an introduction or overview, it goes right below the
+> heading.  I'm not asking you to do that, I'm only telling you what's
+> possible.
+>=20
+> [...]
+>=20
+> Solid work, pleasant to review, thanks!
+>=20
+> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+>=20
+
+Thanks!
+
+--=20
+
+
+--Sig_/MlyWWb7zWeQb7Nbp9PGHVem
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl+w5scACgkQNasLKJxd
+slhVwg/+KsWGr+CDeyG6HePSlvfQYsg+63TIC2Fug4KaD4EpUyi+oz3T4+EpFso8
+sRKzZil91+alXKpqXjiLJz4Su0g+l0BPUe/X1W1knObd+mKKQlQ5RulDZYF5qYvB
+sJavFVCCDZhZ8OJ7IfPyGJam6SUX/R31wDoTtLtXA7JXFpuUizBp0FrDDCPfVVnf
+ZfFgiwefURxrQTZCKGjI9N2fsrmD3oY0sOQHQZwTJruKQAtvAhl6IWq9iHrUKPRV
+dOP90kZrNGVrDGVGSKEin05gU2bDO4AFue5wp1lPbwOkVgAn9jrXzHR/OVEM3MMr
+PZOl1Y9cIuOs8hq5cnFz3n24Cv6xeW1MNLZbAma2QvL+yA7mdDmm3kr0GO1Qo1zz
+E6w2In1x72tnKtIRinHrHQHcRoBTSrgFLnqJCfI+swF0rxBYB9ObAKcz4+6DLey3
+XvHuGhwIEEueX0SYh268dPGRPhIWhnk7sizuQ/ajrwMWETboeauky+LuDjhD+Gde
+5QGgT9kJBvj3I3RkOfW1Qtjbq8ouHFTRrj0K2vXBskuM29IXZGWsABZ4n5jOQwcE
+A2yCCStmUEIEA/g9IzL0Jz8/GQkylOtzNO0o+udh8hLlo/qJ1iTXGP+CI7irmIIu
+K8ffUm+QKAS8EWLp+udLl3RR+er+3yW+Q7/zB5mZo9werpv3e0Q=
+=04+q
+-----END PGP SIGNATURE-----
+
+--Sig_/MlyWWb7zWeQb7Nbp9PGHVem--
 
