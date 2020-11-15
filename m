@@ -2,74 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 562CE2B37F4
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 19:44:09 +0100 (CET)
-Received: from localhost ([::1]:42338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9A372B39DE
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 23:29:24 +0100 (CET)
+Received: from localhost ([::1]:58806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keN0R-0006LX-Tq
-	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 13:44:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42568)
+	id 1keQWR-0001Wk-8v
+	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 17:29:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1keMyz-0005oA-PF
- for qemu-devel@nongnu.org; Sun, 15 Nov 2020 13:42:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42307)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1keQUT-0008Qp-11
+ for qemu-devel@nongnu.org; Sun, 15 Nov 2020 17:27:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53644)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1keMyw-0002Zx-Gf
- for qemu-devel@nongnu.org; Sun, 15 Nov 2020 13:42:36 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1keQUQ-0001XT-3V
+ for qemu-devel@nongnu.org; Sun, 15 Nov 2020 17:27:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605465752;
+ s=mimecast20190719; t=1605479235;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6sUED5MhUUVOIdAf6M19MKL+FjvUUmVnheWnKNqEQLU=;
- b=MIvc44geKleoQ+/GbpL/qLBl2Vwu9LMMl5gPwkTpVBAwryUrx76U+jWfe/XJVX6Wg042nI
- VizDRy5Ytd/tkAVJC1+RZdI7VPABSc0lXOUqfDHsC7UjS2sa4W0gksGbH5fEbIeXguTFri
- QA0KuOdsYT13AAplNO0hCunHW4D+BEg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-49-McbvDtM1PBu0hQywemSyCA-1; Sun, 15 Nov 2020 13:42:24 -0500
-X-MC-Unique: McbvDtM1PBu0hQywemSyCA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7AAB81074664;
- Sun, 15 Nov 2020 18:42:23 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-23.ams2.redhat.com [10.36.112.23])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8EBEA17253;
- Sun, 15 Nov 2020 18:42:19 +0000 (UTC)
-Subject: Re: [PATCH] tests/vm: update NetBSD to 9.1
-To: Brad Smith <brad@comstyle.com>, qemu-devel@nongnu.org
-References: <20201114040150.GD13329@humpty.home.comstyle.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <9dac5490-cc47-3b1c-3235-5553c785a9c2@redhat.com>
-Date: Sun, 15 Nov 2020 19:42:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ content-transfer-encoding:content-transfer-encoding;
+ bh=18Fc3V72Nt+I75V7UwGykm3r5Q46kep57s8eGL/Us2c=;
+ b=cvS3QkTkduzAQJePOXbxvoaYD4pZXRXFLwQksviq5yjwFp6Cuo5ntojpYqVqZo1fyhaU33
+ 80LlVBtZJpPNa1IVzgjnxRKmeiKWxJXHtRPveT//J+oAmVOnrCPsoqvQaVDWfYeu3jw6DB
+ ya//NvI0W4tbkLe+ZYEc3wrGF8wAAXk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-160-24cHN-FmOTaB-ocFkXcb6g-1; Sun, 15 Nov 2020 17:27:11 -0500
+X-MC-Unique: 24cHN-FmOTaB-ocFkXcb6g-1
+Received: by mail-wm1-f72.google.com with SMTP id h2so9104252wmm.0
+ for <qemu-devel@nongnu.org>; Sun, 15 Nov 2020 14:27:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:content-transfer-encoding;
+ bh=18Fc3V72Nt+I75V7UwGykm3r5Q46kep57s8eGL/Us2c=;
+ b=elEOb3Azydk14gf4Ny8vkorgIt2OkKDu6KFsommpZxd/4Juux62cSWCNlEf5yiaM3r
+ koJrpKpO2EIx5RH3/7oLwYueHR7Csz/FIjKYfGAeUx+k90pAlFolCfHRGjS/IWS3oO2D
+ DliUpN4DtHKS+eqSjlqJiVcjVB4bfGgyfOgqWYdrjF8k49aVnFy2kqZ2sIAVlq+bLHb0
+ ULoWbQVZMc6eQaCuOte3BIc2D0qudTnNCTiBPGJ4ehEktNYQ6qg2ZI5zFiS3VTcggcCZ
+ JdpaxZZgN0LqX70/5YeuDIBl9lUoXA4vu5sYtdyUVu7/zeOZzBmvCuLk9SqxzAcavtJl
+ FbdA==
+X-Gm-Message-State: AOAM533Zi0s2u6i/tSGa9BmYnaH7B6E5cN7cCUjzSOcVFhlP6e+BddRT
+ 23JXUu0+lipIXEL4SfUY6tB5MRTZbVAiAcbW/FXtdGHGTORxIV6kQ0V54jJvKTdzz12zBWa6r4B
+ Q4Xh0zrhO0Hn0Afz8xN7/IMV6NWXdJM+sAuLxlLcsOQirO6CcM2PU8g/sADBW
+X-Received: by 2002:a05:6000:36f:: with SMTP id
+ f15mr16355203wrf.78.1605479230073; 
+ Sun, 15 Nov 2020 14:27:10 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwQHuS/s4QKiuFBFBfJ3DTfsV/lzTpBUfxvU4/4VkcAdEdIixJk1PSKYa8bBaT269bt/FEHqA==
+X-Received: by 2002:a05:6000:36f:: with SMTP id
+ f15mr16355184wrf.78.1605479229816; 
+ Sun, 15 Nov 2020 14:27:09 -0800 (PST)
+Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
+ by smtp.gmail.com with ESMTPSA id u5sm16692976wml.13.2020.11.15.14.27.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 15 Nov 2020 14:27:08 -0800 (PST)
+Date: Sun, 15 Nov 2020 17:27:07 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/17] pc,vhost: fixes, new test
+Message-ID: <20201115220740.488850-1-mst@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201114040150.GD13329@humpty.home.comstyle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 10:03:07
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 17:27:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,48 +95,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/11/2020 05.01, Brad Smith wrote:
-> tests/vm: update NetBSD to 9.1
-> 
-> Signed-off-by: Brad Smith <brad@comstyle.com>
-> Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
-> Tested-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  tests/vm/netbsd | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/tests/vm/netbsd b/tests/vm/netbsd
-> index 447de9747d..596717cc76 100755
-> --- a/tests/vm/netbsd
-> +++ b/tests/vm/netbsd
-> @@ -22,8 +22,8 @@ class NetBSDVM(basevm.BaseVM):
->      name = "netbsd"
->      arch = "x86_64"
->  
-> -    link = "https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.0/images/NetBSD-9.0-amd64.iso"
-> -    csum = "34da4882ee61bdbf69f241195a8933dc800949d30b43fc6988da853d57fc2b8cac50cf97a0d2adaf93250b4e329d189c1a8b83c33bd515226f37745d50c33369"
-> +    link = "https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-amd64.iso"
-> +    csum = "65bddc95945991c3b2021f9c8ded7f34c25f0a7611b7aa15a15fe23399e902307e926ae97fcd01dc1662ac67b5f6e4be643c6a2b581692ddcb616d30125066f9"
->      size = "20G"
->      pkgs = [
->          # tools
-> @@ -38,7 +38,7 @@ class NetBSDVM(basevm.BaseVM):
->          "bash",
->          "gmake",
->          "gsed",
-> -        "gettext",
-> +        "gettext-tools",
->  
->          # libs: crypto
->          "gnutls",
-> 
+The following changes since commit c6f28ed5075df79fef39c500362a3f4089256c9c:
 
-Works for me.
+  Update version for v5.2.0-rc1 release (2020-11-10 22:29:57 +0000)
 
-Tested-by: Thomas Huth <thuth@redhat.com>
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+
+for you to fetch changes up to fe8d9946228d4df6c020f2cb38b6ac08981727cf:
+
+  vhost-user-blk/scsi: Fix broken error handling for socket call (2020-11-15 17:05:47 -0500)
+
+----------------------------------------------------------------
+pc,vhost: fixes, new test
+
+Lots of fixes all over the place.
+A new test case which seems like a good idea even at
+this late stage: can't break things and will make
+sure we don't introduce regressions.
+
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
+----------------------------------------------------------------
+AlexChen (2):
+      contrib/libvhost-user: Fix bad printf format specifiers
+      vhost-user-blk/scsi: Fix broken error handling for socket call
+
+Coiby Xu (1):
+      test: new qTest case to test the vhost-user-blk-server
+
+Philippe Mathieu-Daudé (1):
+      hw/i386/acpi-build: Fix maybe-uninitialized error when ACPI hotplug off
+
+Stefan Hajnoczi (13):
+      vhost-user: fix VHOST_USER_ADD/REM_MEM_REG truncation
+      meson: move vhost_user_blk_server to meson.build
+      vhost-user-blk-server: depend on CONFIG_VHOST_USER
+      configure: mark vhost-user Linux-only
+      tests/qtest: add multi-queue test case to vhost-user-blk-test
+      libqtest: add qtest_socket_server()
+      vhost-user-blk-test: rename destroy_drive() to destroy_file()
+      vhost-user-blk-test: close fork child file descriptors
+      vhost-user-blk-test: drop unused return value
+      vhost-user-blk-test: fix races by using fd passing
+      block/export: port virtio-blk discard/write zeroes input validation
+      vhost-user-blk-test: test discard/write zeroes invalid inputs
+      block/export: port virtio-blk read/write range check
+
+ meson_options.txt                         |   2 +
+ configure                                 |  25 +-
+ contrib/libvhost-user/libvhost-user.h     |   2 +-
+ tests/qtest/libqos/libqtest.h             |  25 +
+ tests/qtest/libqos/vhost-user-blk.h       |  48 ++
+ block/export/vhost-user-blk-server.c      | 129 +++-
+ contrib/libvhost-user/libvhost-user.c     |  24 +-
+ contrib/vhost-user-blk/vhost-user-blk.c   |   2 +-
+ contrib/vhost-user-scsi/vhost-user-scsi.c |   2 +-
+ hw/i386/acpi-build.c                      |  45 +-
+ hw/virtio/vhost-user.c                    |   5 +-
+ tests/qtest/libqos/vhost-user-blk.c       | 129 ++++
+ tests/qtest/libqtest.c                    |  76 ++-
+ tests/qtest/vhost-user-blk-test.c         | 965 ++++++++++++++++++++++++++++++
+ block/export/meson.build                  |   5 +-
+ docs/interop/vhost-user.rst               |  21 +-
+ meson.build                               |  15 +
+ tests/qtest/libqos/meson.build            |   1 +
+ tests/qtest/meson.build                   |   2 +
+ 19 files changed, 1419 insertions(+), 104 deletions(-)
+ create mode 100644 tests/qtest/libqos/vhost-user-blk.h
+ create mode 100644 tests/qtest/libqos/vhost-user-blk.c
+ create mode 100644 tests/qtest/vhost-user-blk-test.c
 
 
