@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF0E32B32FB
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 09:42:11 +0100 (CET)
-Received: from localhost ([::1]:60970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFAA22B3329
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 10:16:51 +0100 (CET)
+Received: from localhost ([::1]:41372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keDbu-0006MQ-Gb
-	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 03:42:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57970)
+	id 1keE9S-0001Xw-8W
+	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 04:16:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1keDab-0005w6-Ez
- for qemu-devel@nongnu.org; Sun, 15 Nov 2020 03:40:49 -0500
-Received: from indium.canonical.com ([91.189.90.7]:45298)
+ id 1keE8M-0008CM-RX
+ for qemu-devel@nongnu.org; Sun, 15 Nov 2020 04:15:42 -0500
+Received: from indium.canonical.com ([91.189.90.7]:48606)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1keDaX-0005NI-Ah
- for qemu-devel@nongnu.org; Sun, 15 Nov 2020 03:40:48 -0500
+ id 1keE8K-0000ip-Bc
+ for qemu-devel@nongnu.org; Sun, 15 Nov 2020 04:15:42 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1keDaV-00042f-5m
- for <qemu-devel@nongnu.org>; Sun, 15 Nov 2020 08:40:43 +0000
+ id 1keE8H-0005ua-Rq
+ for <qemu-devel@nongnu.org>; Sun, 15 Nov 2020 09:15:37 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 071982E80E9
- for <qemu-devel@nongnu.org>; Sun, 15 Nov 2020 08:40:43 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id CD8102E80EA
+ for <qemu-devel@nongnu.org>; Sun, 15 Nov 2020 09:15:37 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 15 Nov 2020 08:31:33 -0000
-From: Takumi Nakamura <1904315@bugs.launchpad.net>
+Date: Sun, 15 Nov 2020 09:06:22 -0000
+From: Takumi Nakamura <1904317@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -40,15 +40,15 @@ X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: chapuni
 X-Launchpad-Bug-Reporter: Takumi Nakamura (chapuni)
 X-Launchpad-Bug-Modifier: Takumi Nakamura (chapuni)
-Message-Id: <160542909340.674.17512745365232880697.malonedeb@gac.canonical.com>
-Subject: [Bug 1904315] [NEW] CTRL+ALT is ignored on gtk window (configured
- with gtk and sdl)
+Message-Id: <160543118215.29327.13808899207251644228.malonedeb@wampee.canonical.com>
+Subject: [Bug 1904317] [NEW] cpu feature selection is not affected to guest 's
+ cpuid with whpx
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="38ebca4a151c7e484f2992f7b90f5a3ede13f97f"; Instance="production"
-X-Launchpad-Hash: f4db8f427c879a04f878a54108ebe946681b5ad4
+X-Launchpad-Hash: 1a5ce775706b9f56b235268e0f07aad00d4d654c
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 03:40:43
@@ -71,36 +71,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1904315 <1904315@bugs.launchpad.net>
+Reply-To: Bug 1904317 <1904317@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Public bug reported:
 
-I am building and using qemu on Windows 10 via git.
-Building for targeting windows, on debian.
+On windows with -accel whpx, "-cpu" is ignored without any messages.
+Guest recognizes features as same as host's.
 
-Since meson is introduced, my executable, qemu-system-x86_64.exe, tends to =
-ignore hotkeys
-(like CTRL+ATL+G, CTRL+ALT+2)
+Confirmed on v5.2.0-rc1.
 
-As far as I have been investigating the issue, I am suspicious that gtk and=
- sdl might be incompatible.
-With configure --disable-sdl, my executable works fine.
-My application doesn't require sdl.
+I suggest qemu may do,
 
-Possibly due to link order, especially SDLmain, I guess.
+- Warn with incompatible -cpu options were given.
+- Enhance cpuid handling.
 
-I suggest;
-- Clarify that gtk and sdl are incompatible.
-- Tweak built script or startup not to prevent gtk and sdl each other.
+Background:
+I was investigated mmio and block copy issue in Linux kernel.
+I met a problem that Linux went ill for touching mmio with whpx. (not with =
+tcg)
+I suspect erms(enhanced rep movs) might trigger.
+I tried to mask erms on qemu with -feature,erms, but it was ineffective.
 
-Excuse me, the issue has not been reproduced at home yet. I met it at work.
-(My manager said it's fine to report issues by me at home)
-I will construct reproducible environment at home, if my further investigat=
-ion would be required.
+At last, I disabled erms manually, to tweak whpx-all.c to mask erms in
+cpuid.
 
-Thanks.
+FYI, qemu with whpx from/to mmio, "rep movsb" does byte access regardless o=
+f erms.
+Linux kernel tends to choose not "rep movsq" but "rep movsb" with erms.
 
 ** Affects: qemu
      Importance: Undecided
@@ -110,41 +109,39 @@ Thanks.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1904315
+https://bugs.launchpad.net/bugs/1904317
 
 Title:
-  CTRL+ALT is ignored on gtk window (configured with gtk and sdl)
+  cpu feature selection is not affected to guest 's cpuid with whpx
 
 Status in QEMU:
   New
 
 Bug description:
-  I am building and using qemu on Windows 10 via git.
-  Building for targeting windows, on debian.
+  On windows with -accel whpx, "-cpu" is ignored without any messages.
+  Guest recognizes features as same as host's.
 
-  Since meson is introduced, my executable, qemu-system-x86_64.exe, tends t=
-o ignore hotkeys
-  (like CTRL+ATL+G, CTRL+ALT+2)
+  Confirmed on v5.2.0-rc1.
 
-  As far as I have been investigating the issue, I am suspicious that gtk a=
-nd sdl might be incompatible.
-  With configure --disable-sdl, my executable works fine.
-  My application doesn't require sdl.
+  I suggest qemu may do,
 
-  Possibly due to link order, especially SDLmain, I guess.
+  - Warn with incompatible -cpu options were given.
+  - Enhance cpuid handling.
 
-  I suggest;
-  - Clarify that gtk and sdl are incompatible.
-  - Tweak built script or startup not to prevent gtk and sdl each other.
+  Background:
+  I was investigated mmio and block copy issue in Linux kernel.
+  I met a problem that Linux went ill for touching mmio with whpx. (not wit=
+h tcg)
+  I suspect erms(enhanced rep movs) might trigger.
+  I tried to mask erms on qemu with -feature,erms, but it was ineffective.
 
-  Excuse me, the issue has not been reproduced at home yet. I met it at wor=
-k.
-  (My manager said it's fine to report issues by me at home)
-  I will construct reproducible environment at home, if my further investig=
-ation would be required.
+  At last, I disabled erms manually, to tweak whpx-all.c to mask erms in
+  cpuid.
 
-  Thanks.
+  FYI, qemu with whpx from/to mmio, "rep movsb" does byte access regardless=
+ of erms.
+  Linux kernel tends to choose not "rep movsq" but "rep movsb" with erms.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1904315/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1904317/+subscriptions
 
