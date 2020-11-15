@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D17EF2B3642
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 17:33:55 +0100 (CET)
-Received: from localhost ([::1]:45748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 323532B3655
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 17:42:12 +0100 (CET)
+Received: from localhost ([::1]:47424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keKyQ-0004lq-S2
-	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 11:33:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46252)
+	id 1keL6R-0000K1-AN
+	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 11:42:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1keKrV-0004X4-V6
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1keKrW-0004XH-Oh
  for qemu-devel@nongnu.org; Sun, 15 Nov 2020 11:26:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35266)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29524)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1keKrT-0005tU-UN
- for qemu-devel@nongnu.org; Sun, 15 Nov 2020 11:26:45 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1keKrU-0005tg-Co
+ for qemu-devel@nongnu.org; Sun, 15 Nov 2020 11:26:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1605457603;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=5FB9ot+shrvxzGQxkGeQyJZP/HwIJZCQV4F+YDRIZdU=;
- b=bv0vfs7kh8pwHa5NTdAp4M304SlYk8RhxAGXkdpvSqQM4UFfclwo2TGflr09fZizyF+OT0
- eoEogHPReLBf5rmHQWtzGJLENiSkBhiayDYuGCVfTha7truMuyRfxpMI4YK/CtP7bxShbO
- /XAKALTeOV9wMHiKye/eC7llAIxJzB4=
+ references:references; bh=d/e2EzdtQds427DxawENOvQNqbz2nPY4okrKrAPqXuM=;
+ b=LCqCPyB1ZobfkHSnNiGlOxopHB7UrK0IhQbPZaPFtq0oZkRLWa9GrSZW0VdnABh/wLJ18e
+ 4YAXv4Fb9bB9XMlo1/h8IeouiHLe5OY2I5KfB0pMlwbSjVwgc+50s25XOxS/gClTJpSC3s
+ /V3h/X6Dpbr4IoyhamMYIVa0UAbYKpw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-300-K90swuBKM1OYJpB6cPJANQ-1; Sun, 15 Nov 2020 11:26:40 -0500
-X-MC-Unique: K90swuBKM1OYJpB6cPJANQ-1
+ us-mta-352-kRkUkkPIOOeZS3wXYBlyFA-1; Sun, 15 Nov 2020 11:26:41 -0500
+X-MC-Unique: kRkUkkPIOOeZS3wXYBlyFA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7472710866A1;
- Sun, 15 Nov 2020 16:26:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C1D96D242;
+ Sun, 15 Nov 2020 16:26:40 +0000 (UTC)
 Received: from thuth.com (ovpn-112-23.ams2.redhat.com [10.36.112.23])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 73A585B4BE;
- Sun, 15 Nov 2020 16:26:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B3A9D5B4D6;
+ Sun, 15 Nov 2020 16:26:39 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/26] w32: Fix Lesser GPL version number
-Date: Sun, 15 Nov 2020 17:26:05 +0100
-Message-Id: <20201115162613.74645-19-thuth@redhat.com>
+Subject: [PULL 19/26] nvdimm: Fix Lesser GPL version number
+Date: Sun, 15 Nov 2020 17:26:06 +0100
+Message-Id: <20201115162613.74645-20-thuth@redhat.com>
 In-Reply-To: <20201115162613.74645-1-thuth@redhat.com>
 References: <20201115162613.74645-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
@@ -86,18 +86,18 @@ This patch replaces all occurrences of "Lesser GPL version 2" with
 "Lesser GPL version 2.1" in comment section.
 
 Signed-off-by: Chetan Pant <chetan4windows@gmail.com>
-Message-Id: <20201023123624.19891-1-chetan4windows@gmail.com>
-Reviewed-by: Stefan Weil <sw@weilnetz.de>
+Message-Id: <20201023123749.19941-1-chetan4windows@gmail.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- util/oslib-win32.c | 2 +-
+ hw/acpi/nvdimm.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-index e99debfb8d..23a7c7320b 100644
---- a/util/oslib-win32.c
-+++ b/util/oslib-win32.c
-@@ -373,7 +373,7 @@ const char *qemu_get_exec_dir(void)
+diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
+index 8ad5516142..aa95b0cbaf 100644
+--- a/hw/acpi/nvdimm.c
++++ b/hw/acpi/nvdimm.c
+@@ -15,7 +15,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
   * License as published by the Free Software Foundation; either
