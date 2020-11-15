@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C8B12B3654
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 17:41:40 +0100 (CET)
-Received: from localhost ([::1]:45956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 252332B365B
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 17:43:51 +0100 (CET)
+Received: from localhost ([::1]:51594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keL5v-00088g-1b
-	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 11:41:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46276)
+	id 1keL82-00024R-4y
+	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 11:43:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1keKrY-0004XO-Mu
- for qemu-devel@nongnu.org; Sun, 15 Nov 2020 11:26:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29981)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1keKra-0004a4-RD
+ for qemu-devel@nongnu.org; Sun, 15 Nov 2020 11:26:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34457)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1keKrV-0005ub-Uw
- for qemu-devel@nongnu.org; Sun, 15 Nov 2020 11:26:48 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1keKrY-0005vo-Vl
+ for qemu-devel@nongnu.org; Sun, 15 Nov 2020 11:26:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605457605;
+ s=mimecast20190719; t=1605457608;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=IwzbZBnBi8MmmqgD8uj60YH0Zt7ckMAcN9rY+hQ1naM=;
- b=c8CXTOylBhkWquhZfy3FjWArufAf3wuYp2v/vsHIcGPlb05zImrI/FgUIJdYjnF1tEE/w/
- DbkoKJm8agH1hKtHmEMv1dEv89m6etJmewQA/GTZaPvAdEcR0XU/7vE6rNybnG+REgeltH
- CHRiaEQNZ8tCKgFeXdCmVYpHzURCwUc=
+ references:references; bh=uVR04LXz+M9B1VRthMSTkgP7FLl3VRAWxq3C+u1pyz0=;
+ b=gtQLl0UQxDuj+5UiSuJhxR4G5N0U57YWoGrsmPtkhEcU6rppATUvrAVS53tNFaXAHot+p7
+ zkmIz5XaQ7wVKyIfEOI8AjdMi+uM3JHE/Fr3ljeDjG13ysbp1UI9XHTyCg/kn/GeBqZCRE
+ 4Bq94CFsVCtP4/lO9fnNH7KGSwJK4to=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-201-VsYZk23AMEmMb3dLG674GQ-1; Sun, 15 Nov 2020 11:26:42 -0500
-X-MC-Unique: VsYZk23AMEmMb3dLG674GQ-1
+ us-mta-61-eC71cebhOnyYXhuYbFRV9w-1; Sun, 15 Nov 2020 11:26:44 -0500
+X-MC-Unique: eC71cebhOnyYXhuYbFRV9w-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C39436D246;
- Sun, 15 Nov 2020 16:26:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07B821891E82;
+ Sun, 15 Nov 2020 16:26:43 +0000 (UTC)
 Received: from thuth.com (ovpn-112-23.ams2.redhat.com [10.36.112.23])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EAC865B4BE;
- Sun, 15 Nov 2020 16:26:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2F3335B4BE;
+ Sun, 15 Nov 2020 16:26:41 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/26] x86 hvf cpus: Fix Lesser GPL version number
-Date: Sun, 15 Nov 2020 17:26:07 +0100
-Message-Id: <20201115162613.74645-21-thuth@redhat.com>
+Subject: [PULL 21/26] e1000e: Fix Lesser GPL version number
+Date: Sun, 15 Nov 2020 17:26:08 +0100
+Message-Id: <20201115162613.74645-22-thuth@redhat.com>
 In-Reply-To: <20201115162613.74645-1-thuth@redhat.com>
 References: <20201115162613.74645-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
@@ -86,259 +86,82 @@ This patch replaces all occurrences of "Lesser GPL version 2" with
 "Lesser GPL version 2.1" in comment section.
 
 Signed-off-by: Chetan Pant <chetan4windows@gmail.com>
-Message-Id: <20201023124012.20035-1-chetan4windows@gmail.com>
+Message-Id: <20201023124134.20083-1-chetan4windows@gmail.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- target/i386/hvf/panic.h      | 2 +-
- target/i386/hvf/vmx.h        | 2 +-
- target/i386/hvf/x86.c        | 2 +-
- target/i386/hvf/x86.h        | 2 +-
- target/i386/hvf/x86_cpuid.c  | 2 +-
- target/i386/hvf/x86_decode.c | 2 +-
- target/i386/hvf/x86_decode.h | 2 +-
- target/i386/hvf/x86_descr.c  | 2 +-
- target/i386/hvf/x86_descr.h  | 2 +-
- target/i386/hvf/x86_emu.c    | 4 ++--
- target/i386/hvf/x86_emu.h    | 2 +-
- target/i386/hvf/x86_flags.c  | 2 +-
- target/i386/hvf/x86_flags.h  | 2 +-
- target/i386/hvf/x86_mmu.c    | 2 +-
- target/i386/hvf/x86_mmu.h    | 2 +-
- target/i386/hvf/x86hvf.c     | 2 +-
- target/i386/hvf/x86hvf.h     | 2 +-
- 17 files changed, 18 insertions(+), 18 deletions(-)
+ hw/net/e1000e.c        | 2 +-
+ hw/net/e1000e_core.c   | 2 +-
+ hw/net/e1000e_core.h   | 2 +-
+ hw/net/e1000x_common.c | 2 +-
+ hw/net/e1000x_common.h | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/target/i386/hvf/panic.h b/target/i386/hvf/panic.h
-index 411ef43a5b..a3eabebbb4 100644
---- a/target/i386/hvf/panic.h
-+++ b/target/i386/hvf/panic.h
-@@ -5,7 +5,7 @@
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/hvf/vmx.h b/target/i386/hvf/vmx.h
-index 587b1b8375..24c4cdf0be 100644
---- a/target/i386/hvf/vmx.h
-+++ b/target/i386/hvf/vmx.h
-@@ -8,7 +8,7 @@
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/hvf/x86.c b/target/i386/hvf/x86.c
-index fdb11c8db9..cd045183a8 100644
---- a/target/i386/hvf/x86.c
-+++ b/target/i386/hvf/x86.c
-@@ -5,7 +5,7 @@
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/hvf/x86.h b/target/i386/hvf/x86.h
-index bacade7b65..9e2c0039e6 100644
---- a/target/i386/hvf/x86.h
-+++ b/target/i386/hvf/x86.h
-@@ -5,7 +5,7 @@
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/hvf/x86_cpuid.c b/target/i386/hvf/x86_cpuid.c
-index 16762b6eb4..ac731c2b85 100644
---- a/target/i386/hvf/x86_cpuid.c
-+++ b/target/i386/hvf/x86_cpuid.c
-@@ -7,7 +7,7 @@
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/hvf/x86_decode.c b/target/i386/hvf/x86_decode.c
-index 34c5e3006c..062713b1a4 100644
---- a/target/i386/hvf/x86_decode.c
-+++ b/target/i386/hvf/x86_decode.c
-@@ -5,7 +5,7 @@
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/hvf/x86_decode.h b/target/i386/hvf/x86_decode.h
-index ef7960113f..a2d7a2a27b 100644
---- a/target/i386/hvf/x86_decode.h
-+++ b/target/i386/hvf/x86_decode.h
-@@ -4,7 +4,7 @@
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/hvf/x86_descr.c b/target/i386/hvf/x86_descr.c
-index 8c05c34f33..9f539e73f6 100644
---- a/target/i386/hvf/x86_descr.c
-+++ b/target/i386/hvf/x86_descr.c
-@@ -5,7 +5,7 @@
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/hvf/x86_descr.h b/target/i386/hvf/x86_descr.h
-index 049ef9a417..c356932fa4 100644
---- a/target/i386/hvf/x86_descr.h
-+++ b/target/i386/hvf/x86_descr.h
-@@ -5,7 +5,7 @@
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/hvf/x86_emu.c b/target/i386/hvf/x86_emu.c
-index d3e289ed87..da570e352b 100644
---- a/target/i386/hvf/x86_emu.c
-+++ b/target/i386/hvf/x86_emu.c
-@@ -5,7 +5,7 @@
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-@@ -23,7 +23,7 @@
- //  This library is free software; you can redistribute it and/or
- //  modify it under the terms of the GNU Lesser General Public
- //  License as published by the Free Software Foundation; either
--//  version 2 of the License, or (at your option) any later version.
-+//  version 2.1 of the License, or (at your option) any later version.
- //
- //  This library is distributed in the hope that it will be useful,
- //  but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/hvf/x86_emu.h b/target/i386/hvf/x86_emu.h
-index f92a9c54b5..233f7b8daa 100644
---- a/target/i386/hvf/x86_emu.h
-+++ b/target/i386/hvf/x86_emu.h
-@@ -5,7 +5,7 @@
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/hvf/x86_flags.c b/target/i386/hvf/x86_flags.c
-index 5ca4f41f5c..fecbca7517 100644
---- a/target/i386/hvf/x86_flags.c
-+++ b/target/i386/hvf/x86_flags.c
-@@ -6,7 +6,7 @@
- //  This library is free software; you can redistribute it and/or
- //  modify it under the terms of the GNU Lesser General Public
- //  License as published by the Free Software Foundation; either
--//  version 2 of the License, or (at your option) any later version.
-+//  version 2.1 of the License, or (at your option) any later version.
- //
- //  This library is distributed in the hope that it will be useful,
- //  but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/hvf/x86_flags.h b/target/i386/hvf/x86_flags.h
-index 785e80cfca..75c2a7feab 100644
---- a/target/i386/hvf/x86_flags.h
-+++ b/target/i386/hvf/x86_flags.h
-@@ -6,7 +6,7 @@
- //  This library is free software; you can redistribute it and/or
- //  modify it under the terms of the GNU Lesser General Public
- //  License as published by the Free Software Foundation; either
--//  version 2 of the License, or (at your option) any later version.
-+//  version 2.1 of the License, or (at your option) any later version.
- //
- //  This library is distributed in the hope that it will be useful,
- //  but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/hvf/x86_mmu.c b/target/i386/hvf/x86_mmu.c
-index 65d4603dbf..882a6237ee 100644
---- a/target/i386/hvf/x86_mmu.c
-+++ b/target/i386/hvf/x86_mmu.c
-@@ -5,7 +5,7 @@
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/hvf/x86_mmu.h b/target/i386/hvf/x86_mmu.h
-index cd6e137e79..9ae8a548de 100644
---- a/target/i386/hvf/x86_mmu.h
-+++ b/target/i386/hvf/x86_mmu.h
-@@ -5,7 +5,7 @@
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/hvf/x86hvf.c b/target/i386/hvf/x86hvf.c
-index b986213c0f..bbec412b6c 100644
---- a/target/i386/hvf/x86hvf.c
-+++ b/target/i386/hvf/x86hvf.c
-@@ -6,7 +6,7 @@
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/hvf/x86hvf.h b/target/i386/hvf/x86hvf.h
-index 4fabc6d582..635ab0f34e 100644
---- a/target/i386/hvf/x86hvf.h
-+++ b/target/i386/hvf/x86hvf.h
-@@ -5,7 +5,7 @@
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/hw/net/e1000e.c b/hw/net/e1000e.c
+index b6f1ae3c8f..a8a77eca95 100644
+--- a/hw/net/e1000e.c
++++ b/hw/net/e1000e.c
+@@ -22,7 +22,7 @@
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+-* version 2 of the License, or (at your option) any later version.
++* version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+index bcfd46696f..d8b9e4b2f4 100644
+--- a/hw/net/e1000e_core.c
++++ b/hw/net/e1000e_core.c
+@@ -22,7 +22,7 @@
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+-* version 2 of the License, or (at your option) any later version.
++* version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/hw/net/e1000e_core.h b/hw/net/e1000e_core.h
+index aee32f7e48..4ddb4d2c39 100644
+--- a/hw/net/e1000e_core.h
++++ b/hw/net/e1000e_core.h
+@@ -22,7 +22,7 @@
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+-* version 2 of the License, or (at your option) any later version.
++* version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/hw/net/e1000x_common.c b/hw/net/e1000x_common.c
+index 717f9df1c9..a8d93870b5 100644
+--- a/hw/net/e1000x_common.c
++++ b/hw/net/e1000x_common.c
+@@ -11,7 +11,7 @@
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+-* version 2 of the License, or (at your option) any later version.
++* version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/hw/net/e1000x_common.h b/hw/net/e1000x_common.h
+index 19c56f409f..b7742775c4 100644
+--- a/hw/net/e1000x_common.h
++++ b/hw/net/e1000x_common.h
+@@ -11,7 +11,7 @@
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+-* version 2 of the License, or (at your option) any later version.
++* version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
 -- 
 2.18.4
 
