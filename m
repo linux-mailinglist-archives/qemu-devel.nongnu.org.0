@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8CB72B3FB5
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 10:28:14 +0100 (CET)
-Received: from localhost ([::1]:45088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E84E2B3FB4
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 10:27:29 +0100 (CET)
+Received: from localhost ([::1]:42384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keao2-0004pF-0n
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 04:28:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39254)
+	id 1keanI-0003iM-6s
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 04:27:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1keaik-0006lo-VP; Mon, 16 Nov 2020 04:22:50 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2354)
+ id 1keail-0006lp-10; Mon, 16 Nov 2020 04:22:50 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2355)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1keaif-0004AB-H3; Mon, 16 Nov 2020 04:22:45 -0500
+ id 1keaig-0004AE-IS; Mon, 16 Nov 2020 04:22:46 -0500
 Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CZNrY16m2zkZ0k;
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CZNrY1KMNzkZ0t;
  Mon, 16 Nov 2020 17:22:21 +0800 (CST)
 Received: from huawei.com (10.175.104.175) by DGGEMS402-HUB.china.huawei.com
  (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0; Mon, 16 Nov 2020
- 17:22:27 +0800
+ 17:22:29 +0800
 From: Gan Qixin <ganqixin@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH 02/13] virtio-pmem: put it into the 'storage' category
-Date: Mon, 16 Nov 2020 02:48:52 +0800
-Message-ID: <20201115184903.1292715-3-ganqixin@huawei.com>
+Subject: [PATCH 03/13] vmmouse: put it into the 'input' category
+Date: Mon, 16 Nov 2020 02:48:53 +0800
+Message-ID: <20201115184903.1292715-4-ganqixin@huawei.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20201115184903.1292715-1-ganqixin@huawei.com>
 References: <20201115184903.1292715-1-ganqixin@huawei.com>
@@ -63,28 +63,28 @@ Cc: kuhn.chenqun@huawei.com, thuth@redhat.com, zhang.zhanghailiang@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The category of the virtio-pmem device is not set, put it into the 'storage'
+The category of the vmmouse device is not set, put it into the 'input'
 category.
 
 Signed-off-by: Gan Qixin <ganqixin@huawei.com>
 ---
 Cc: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio-pmem.c | 1 +
+ hw/i386/vmmouse.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/hw/virtio/virtio-pmem.c b/hw/virtio/virtio-pmem.c
-index ddb0125901..98b3139cd0 100644
---- a/hw/virtio/virtio-pmem.c
-+++ b/hw/virtio/virtio-pmem.c
-@@ -175,6 +175,7 @@ static void virtio_pmem_class_init(ObjectClass *klass, void *data)
- 
-     vpc->fill_device_info = virtio_pmem_fill_device_info;
-     vpc->get_memory_region = virtio_pmem_get_memory_region;
-+    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+diff --git a/hw/i386/vmmouse.c b/hw/i386/vmmouse.c
+index a3556438f0..df4798f502 100644
+--- a/hw/i386/vmmouse.c
++++ b/hw/i386/vmmouse.c
+@@ -308,6 +308,7 @@ static void vmmouse_class_initfn(ObjectClass *klass, void *data)
+     dc->reset = vmmouse_reset;
+     dc->vmsd = &vmstate_vmmouse;
+     device_class_set_props(dc, vmmouse_properties);
++    set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
  }
  
- static TypeInfo virtio_pmem_info = {
+ static const TypeInfo vmmouse_info = {
 -- 
 2.23.0
 
