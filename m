@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A291D2B3552
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 15:35:35 +0100 (CET)
-Received: from localhost ([::1]:38912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 789E42B359F
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 16:04:36 +0100 (CET)
+Received: from localhost ([::1]:47522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keJ7u-0005KG-MK
-	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 09:35:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56206)
+	id 1keJZz-0002Fk-11
+	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 10:04:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1keJ75-0004th-Ci
- for qemu-devel@nongnu.org; Sun, 15 Nov 2020 09:34:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25555)
+ id 1keJYd-0001g5-VD
+ for qemu-devel@nongnu.org; Sun, 15 Nov 2020 10:03:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24709)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1keJ70-0000o4-Ju
- for qemu-devel@nongnu.org; Sun, 15 Nov 2020 09:34:42 -0500
+ id 1keJYb-0002An-57
+ for qemu-devel@nongnu.org; Sun, 15 Nov 2020 10:03:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605450876;
+ s=mimecast20190719; t=1605452587;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vCFU4oE7mEUNLMkewQKl/TPUVmO2mfCNKZlSR7AgKOk=;
- b=L9xmgFWIJO7jL3jFn3YOMY/lkKzBiim+0e7Kvl9b6e+ZFe0TiFN0Mtw0LJrogtllGD4rpb
- 3U7a6bl1yEuqEAG8HbjGhhfE5+kg9uWt8oq88ayz7pq3WCsFwxo8OHA82BTtQMjW3RXKlD
- rfNnUCya41bI16nX41Y5LWCiU7BvaqE=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-432-Bn6gl11ZMaWCYw4Sk0BJzA-1; Sun, 15 Nov 2020 09:34:33 -0500
-X-MC-Unique: Bn6gl11ZMaWCYw4Sk0BJzA-1
-Received: by mail-wm1-f71.google.com with SMTP id a134so7412732wmd.8
- for <qemu-devel@nongnu.org>; Sun, 15 Nov 2020 06:34:33 -0800 (PST)
+ bh=9ZNerx0NuasBF/VoD3sPh+wO1jzxvpgrEpggJesm+1A=;
+ b=Arv0OkwWaKMqn52Wxi/clnCSsG1vxm5dTZlIFrggDO8sLvCqjnT2yCZg3KgrKr+d0mh4tE
+ HIyOurcgYvk88K6IbBl3s5ySfaRz4aphX7qxw0RcGm25mlUIyZYX6TpnhXpY9BBIenyPkY
+ L2DQGawQ5irngVxaDWT40NIXwKw4XRA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-259-5ktPhUBIMPCfSRavE8hQwQ-1; Sun, 15 Nov 2020 10:03:06 -0500
+X-MC-Unique: 5ktPhUBIMPCfSRavE8hQwQ-1
+Received: by mail-wr1-f70.google.com with SMTP id 67so9383678wra.2
+ for <qemu-devel@nongnu.org>; Sun, 15 Nov 2020 07:03:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=DjnR36RFC3kks8ZKKSrLXuw/KWwCf4ByHRjWPvjd32A=;
- b=cuxUbDK1dIGtZWQhEU3b6aPlhGXxNA7Ia3ubrPQB9jTpXqAkmjbXKtwF8Z3/hzrbOM
- Vd6MMhulY4kB6EmMG8cZPo8hH8X4Z+KTyt4ECtsiAB+vQXcGViGi9fjS6vrWM8F601/R
- YvRWT1UPDNVY4aVV2YRMUGuOCkZNE+Ceh6GeGoqQlmefoOO6x557kKtv9oIo4Q6EbJvf
- 63MwNR++SmhlQghL45UxWohX97E61E6qLRrr6ETY99zLfpqcpD0WEzbafS+pAyKxRPBR
- f/A8ya5WlIj6HWVG/a9fbKuiuovpAggE/gokDyCyo/+xYb7D1Wvsf0Xj9coT9vEWMoNV
- ggig==
-X-Gm-Message-State: AOAM530RmaObUUh1yzIHnPUFUJuwkKVz6NHy8ohlrT4CUx6xmNXIrrzj
- H1XDwjlbHpnji5Y5VlT2cqACCasaNF4/mWtFaV5aen0K4e6Ajo2F0plR5bciWBPrgMLSnt+QD+J
- wtgr+g6rI1In8c9w=
-X-Received: by 2002:a5d:4084:: with SMTP id o4mr14037749wrp.278.1605450872158; 
- Sun, 15 Nov 2020 06:34:32 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzU/RDPRRg1f7WixeVWk4U/bTkRZgBj2/II3v4cZq26HGvR+Frb7jwdVLdM7w12u01KNyw15A==
-X-Received: by 2002:a5d:4084:: with SMTP id o4mr14037727wrp.278.1605450871986; 
- Sun, 15 Nov 2020 06:34:31 -0800 (PST)
-Received: from [192.168.10.118] ([93.56.170.5])
- by smtp.gmail.com with ESMTPSA id k22sm16009618wmi.34.2020.11.15.06.34.30
+ bh=9ZNerx0NuasBF/VoD3sPh+wO1jzxvpgrEpggJesm+1A=;
+ b=Rm5hB94+laGaGHribLeaADcUmol6b+A5TIZV5TxgyXeDT9UPpzxfKzT3/mhWgeoyVC
+ ReaBd8dNcbJ2g1umLpGPgOdPR7KdUUo/CINTug3ETqRz9zs15IUnV/0njKX10dpLvKDq
+ 4j9nOb8rn/vMsSUOnPjS/ve6WyjMW2fWCU6dQVaOY9uOa5hncp4bwcNyfo3Uxcmglvz8
+ rksZWWpVlP0TTydVsPUoDESBflsgeBy7LH7ska2sNIGnB8bp6AuJyUe3dea4LIDz33q+
+ bjxl0HaEO2xJUtiwSx96fpyyzJhQ76FO6Sytk5AQlCMrPmHmJXVUU5eixERbqcZ/5SGg
+ TuuQ==
+X-Gm-Message-State: AOAM532Lt2bRpH+IH+bvJfMgB40pNQmkotFtDBj9GoTINk/rRSr9ftbr
+ FWJ2Dd6LhYf/fteHMe9CW1eaBTO6nqVmxHbQYDAr6hv8M9OzVfv2YDbOypswgQTQ8QuEqbZegKY
+ xu5yOSiz1TVnvvSg=
+X-Received: by 2002:a1c:23cf:: with SMTP id j198mr11103050wmj.6.1605452585036; 
+ Sun, 15 Nov 2020 07:03:05 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzKaU+OOSUTFi1TX0E4onGfSoazqyVlZ4WyTDQncgt3CQLJ7gesHe1pcj3/63/eT9hmRNwncA==
+X-Received: by 2002:a1c:23cf:: with SMTP id j198mr11103026wmj.6.1605452584773; 
+ Sun, 15 Nov 2020 07:03:04 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
+ ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.gmail.com with ESMTPSA id f23sm15924999wmb.43.2020.11.15.07.03.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 15 Nov 2020 06:34:30 -0800 (PST)
-Subject: Re: [PATCH 3/4] configure: Add a proper check for sys/ioccom.h and
- use it in tpm_ioctl.h
-To: Thomas Huth <thuth@redhat.com>, luoyonggang@gmail.com,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-References: <20201114165137.15379-1-thuth@redhat.com>
- <20201114165137.15379-4-thuth@redhat.com>
- <CAE2XoE9yU4S=N5eQKaY6NHCVFOQPg+WQFiv05SbrtrUUMWmMQg@mail.gmail.com>
- <44c43a8c-2b10-a951-6aaa-813a7db325a2@redhat.com>
+ Sun, 15 Nov 2020 07:03:03 -0800 (PST)
+Subject: Re: [RFC] vfio-pci/migration: Dirty logging of the Memory BAR region?
+To: Zenghui Yu <yuzenghui@huawei.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org
+References: <fd18627a-e012-1af8-9d9f-9ae8a1415258@huawei.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <50de5469-11eb-0ee6-44dc-d5cc67b4f8b6@redhat.com>
-Date: Sun, 15 Nov 2020 15:34:29 +0100
+Message-ID: <2825e816-9ade-07f9-19e3-ccfd57ffb568@redhat.com>
+Date: Sun, 15 Nov 2020 16:03:01 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <44c43a8c-2b10-a951-6aaa-813a7db325a2@redhat.com>
+In-Reply-To: <fd18627a-e012-1af8-9d9f-9ae8a1415258@huawei.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,16 +78,16 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 08:01:03
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 10:03:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01,
  RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -105,56 +102,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alexander von Gluck IV <kallisti5@unixzen.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-level <qemu-devel@nongnu.org>, David CARLIER <devnexen@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: wanghaibin.wang@huawei.com, Alex Williamson <alex.williamson@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ kvmarm@lists.cs.columbia.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/11/20 15:00, Thomas Huth wrote:
-> On 14/11/2020 17.56, 罗勇刚(Yonggang Luo) wrote:
->> Can we check this in meson.build?
-> 
-> That would be nicer, indeed, but I did not spot a place where I could add my
-> code there ... all the other HAVE_xxx_H symbols are added in the configure
-> script.
+On 15/11/20 15:31, Zenghui Yu wrote:
+> diff --git a/softmmu/memory.c b/softmmu/memory.c
+> index 71951fe4dc..0958db1a08 100644
+> --- a/softmmu/memory.c
+> +++ b/softmmu/memory.c
+> @@ -1806,7 +1806,10 @@ bool memory_region_is_ram_device(MemoryRegion *mr)
+>   uint8_t memory_region_get_dirty_log_mask(MemoryRegion *mr)
+>   {
+>       uint8_t mask = mr->dirty_log_mask;
+> -    if (global_dirty_log && (mr->ram_block || 
+> memory_region_is_iommu(mr))) {
+> +    RAMBlock *rb = mr->ram_block;
+> +
+> +    if (global_dirty_log && ((rb && qemu_ram_is_migratable(rb)) ||
+> +                             memory_region_is_iommu(mr))) {
+>           mask |= (1 << DIRTY_MEMORY_MIGRATION);
+>       }
+>       return mask;
 
-There is one similar test, it was split in two:
-
-has_gettid = cc.has_function('gettid')
-...
-config_host_data.set('CONFIG_GETTID', has_gettid)
-
-but there's no particular reason for that.  You can just add
-
-config_host_data.set('HAVE_SYS_IOCCOM_H', cc.has_headers('sys/ioccom.h'))
-
-in the config-host.h section of meson.build?.
-
-Paolo
-
->> On Sun, Nov 15, 2020 at 12:53 AM Thomas Huth <thuth@redhat.com
->> <mailto:thuth@redhat.com>> wrote:
->>>
->>> On Solaris and Haiku, the _IO() macros are defined in <sys/ioccom.h>.
->>> Add a proper check for this header to our configure scripts, and
->>> make sure to include the header in tpm_ioctl.h to fix a build failure
->>> on Solaris and Haiku.
->>>
->>> Signed-off-by: Thomas Huth <thuth@redhat.com <mailto:thuth@redhat.com>>
-
->>> +#########################################
->>> +# sys/ioccom.h check
->>> +have_sys_ioccom_h=no
->>> +if check_include "sys/ioccom.h" ; then
->>> +  have_sys_ioccom_h=yes
->>> +fi
-
-
+Yes, this makes sense.  Please send it as a patch, thanks!
 
 Paolo
 
