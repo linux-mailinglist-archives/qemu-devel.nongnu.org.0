@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF8982B3495
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 12:20:46 +0100 (CET)
-Received: from localhost ([::1]:39936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EABE2B3496
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 12:21:13 +0100 (CET)
+Received: from localhost ([::1]:40474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keG5N-0008VE-UF
-	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 06:20:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54924)
+	id 1keG5o-0000H4-H6
+	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 06:21:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1keG3w-0007JR-S2
- for qemu-devel@nongnu.org; Sun, 15 Nov 2020 06:19:16 -0500
-Received: from mout.web.de ([212.227.15.4]:43265)
+ id 1keG41-0007Qq-BK
+ for qemu-devel@nongnu.org; Sun, 15 Nov 2020 06:19:21 -0500
+Received: from mout.web.de ([212.227.17.11]:37853)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1keG3v-0002I9-4a
- for qemu-devel@nongnu.org; Sun, 15 Nov 2020 06:19:16 -0500
+ id 1keG3z-0002Jx-MG
+ for qemu-devel@nongnu.org; Sun, 15 Nov 2020 06:19:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1605439144;
- bh=DWWz3RQJAiKf+bWo3KoTKX1phBYkYcwBFKWPtTGuopw=;
+ s=dbaedf251592; t=1605439148;
+ bh=2m6KLdz+PYWruXNprCZ4fZAwrpa1VYxIyz6mC92iSzU=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=NqLuj3CkJabIqs4QBsGDMBCt3A4Z+5Yi+OaLau8vpusB0u9NO1uCPIZRZci00nqHb
- yTSRXAcSgoca5NNZWZT6Bf5+9AbwktY0s757JnFyhyKFeuu7LOOZiaeEyDGAaS+HDe
- F1pJzq6LnEF6ppSEO6smUBYh9RCZKXcqbTjdr170=
+ b=gNDt65CLUuBsJ1S1w+BYiHjEG1EEnF2I+8iuINeX8rQf603V659CH8UsrvzKpkjt6
+ 6kGC1pgokQ1854/8WRnorSoXcOu92pr/SA4IT886C2FG+f57lq5TAZR1YKNgFLgaRV
+ Z4EZ+a7Xm08yQYC3UdN5uDDcBucEiG3aFrnBYQUc=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([87.123.206.172]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1Meler-1k61Er1fWf-00aePw; Sun, 15
- Nov 2020 12:19:04 +0100
-Date: Sun, 15 Nov 2020 12:19:02 +0100
+Received: from luklap ([87.123.206.172]) by smtp.web.de (mrweb101
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0LzK61-1k9RYz26nB-014S8l; Sun, 15
+ Nov 2020 12:19:08 +0100
+Date: Sun, 15 Nov 2020 12:19:06 +0100
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH 1/2] net/colo-compare.c: Fix memory leak for non-tcp packet
-Message-ID: <af6051bf9a72151cfc5e7ec8c72dedd30ef6b332.1605438886.git.lukasstraub2@web.de>
+Subject: [PATCH 2/2] net/colo-compare.c: Optimize removal of secondary packet
+Message-ID: <fa4d5eb0bb2ea3f247af5bb7792499cf9cd56a14.1605438886.git.lukasstraub2@web.de>
 In-Reply-To: <cover.1605438886.git.lukasstraub2@web.de>
 References: <cover.1605438886.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/tKfYi5H=/0NzxtYsrXhxoYn";
+Content-Type: multipart/signed; boundary="Sig_/nXZRJHh0H4.xT0z7A.TSjk6";
  protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:QpbuwVIbQ6Lw53/UnQUPsurCn+zp23kMKkhkk0jMlfOLP9L6VQt
- HQZv1LT5D6YVa2zG7Q5ia5g4aL+omkRf+RJAejBftkFcyyZ98IbQp19FXKwxyd0DaeaC9WS
- twsoLfEEeYh4TJrCUSPkCGyxTyL2KCYpZpuqReWf/odFnGZ6Tuo6ufIF5ojG0Va9pAFJKed
- CiUkj5Bhlsqo6tqcfN9Mg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:dm5oMXAPeO0=:/C6SqKXbdMUDR/d0aJvY01
- mHpIiRamIqyJ5HCqY9IuI3CKNhBfwZiMwxKVFHtOI/MZv9/s7uHSLTOObRdJJTtCa99f2w2kd
- NMTEQvrCvnTcszk8iuO6gtWx/dN7TLJVrfdVVzheOJ3USPn/LiIlm43tb5tfxs5dx4uhMx4Np
- xVOwJYlVv+umJlxy52hlWI7aRwkqV8MMeABcBqfNOrDjobjqsy5tOXkTNQqNRf4ctBPnaMb6B
- LqGm1pThWTzO7vJnGXeRW6PQ3msr+tjclPoEZoq8cQxkjYFn0WytAwlogGszcE2izA1HpFEK+
- Z9KG3RbulOW97buSEAugLJp7+AtCF+0dprBv2ZTp5co0iI3V6YI63Pjh1CtJcxXCGB+SlPtP2
- E7ygsb41Q2pDdqB4hbj8dnzEMNORYDM8UT//xMo68IDDvym92W/J5QAGvD8MUvdYFNVMCXz8w
- lHJowBe4LmebqnZpoI7iIMPlglWrL99uZMkFa4hHwo45R8wr3YPoGEz/K9vUxHo+rUUgNBP/L
- 3rRkF0D1NwgOuGTEpdEtEcDHem76UTDvwJ/WfOAB6CD0Suyl2Cj1P0PZ6EMfn1DGwaE6ECUbX
- 2LvQN8AyHEBd3knZAh6jSJsIxIjCyiRnqpFyVgx/q76EjJEfZ0wM1LbrcyGU4ZQnOg0BfKIjJ
- FPY5F+GbCQC/rhwQcJpglD1kjagVti3vF60lVJ8JFkXDUyeIPIJGHB3QCM6TUQzULKFdUxiI8
- 0TcIdziPKe/OTJ/k6HxhtfBrByXW+XuhXxRE+DmsUgXhIrkaQ8jjS2PV+1tEldZW+mKgCQkil
- kmmVSQUfzKHxRPgf3PyPny7mU31eyq0un78mn6ddAHRgYSrT3SD6VAKxVJHPtzP/BXatBrj3/
- 1P+R+AmmXwdyjYd2h6Ig==
-Received-SPF: pass client-ip=212.227.15.4; envelope-from=lukasstraub2@web.de;
+X-Provags-ID: V03:K1:CRXYGbgtRGVUABxcV2dt8ggRkt22pFWJZxtYEItfzDOqgn/rGLX
+ eKaAmx5eRtxFYzQX4nszp/wr0GuB2N/LNPppyayhKECk42HJ8MrRXicdr5ntCkUcon1ElyT
+ ECB6ckC5Smt75QGxMNpzC0YR8XFab3U1E2AEtwz1UseQqVS08WbWbRZ/04W2NFlIA/CCnXN
+ bf0/ZUVMXqkYZBJkqLK4Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:/UEWZMsvk+c=:DhOHJKVrbXKBbd6khonrC1
+ K3NR82v/2JAeaw6+wOQOa8K6RaavU2tKY9J58ggEhrgyIiAwNcJIZJmPT400fRjN2M/5EsOUx
+ Wq2Qdxyo6yfsAvNktHTwV2VMnuBtxLSBiua67MbIF6O3+szFDwSOBb9MU4ScJS861IWGMxao8
+ hFL1AW7l2ul3tecHIKOV1a1s6nudoTRhhvNiLbvt3FJeh4y0kSVlMS4cXDrUa4TezDZ0Qq8yh
+ IPLQ/EIJvvOH5Cgsff0HT5/i4AHKcCorL5zaUIcaNMfgEjaYvAnvUhr2FHwjk3BOh034y/2o/
+ oiEaUjb7gX8SRAEKql4HkBs6pDZswMU/ufkHEvb12Av908IUj+icnaFnqIPp2uGlHiO67npCB
+ q2ZpRxi75wQUG0RcVcn5E/4VetrPAnm1XLCfTQwloTpsmi5HPDL9Gzb1qEztTrHQnFpbTZXib
+ ISHpljTjf7ySFvMDBa5jc2ppJzlUyVfwaqTAGCDOFZO1HI2G7yhwD5pt7w8ZDcD58sNEibGZb
+ QvVuxqjToMUVc0uxUOIiTxPPYC5MuFc3Hdd87j65jDp8hYuWtUjQxNKpXNKHQVTj/prAC43/Z
+ IpXaHf/gH9n4Ngl1YRCuiz8q79evjU+b0CA3NnoBWVVowi2vg9DDw0WKv/GaQZKSFXMYvPyVG
+ 7BmaJyiTHLj2NtFwSYNMuUxAjfOeO86CslhaNdEGU/f98YgmI96S0Ve3ryoC4gWkdEzhUjgFX
+ Kwn2brVnCv0+duBFQgdOmAef93aajpvlBWoqqY1mFl22e2zrEKULbQvO8UFLhMJNsRAb/HvJB
+ uolSHcAac+VY5znrw4Qf6Q0J8CaEKhn7aFtRVHTsgDGAG+I+9pQxh6cqpdvFXriAPCI2sLRVx
+ XiiMGjHrSDEJKBWmF4OQ==
+Received-SPF: pass client-ip=212.227.17.11; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 06:19:13
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 06:19:18
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -24
 X-Spam_score: -2.5
@@ -87,55 +87,56 @@ Cc: Zhang Chen <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/tKfYi5H=/0NzxtYsrXhxoYn
+--Sig_/nXZRJHh0H4.xT0z7A.TSjk6
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-Additional to removing the packet from the secondary queue,
-we also need to free it.
+g_queue_remove needs to look up the list entry first, but we
+already have it as result and can remove it directly with
+g_queue_delete_link.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 ---
- net/colo-compare.c | 1 +
- 1 file changed, 1 insertion(+)
+ net/colo-compare.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/net/colo-compare.c b/net/colo-compare.c
-index 337025b44f..eed0fbb27b 100644
+index eed0fbb27b..4e2af8ff00 100644
 --- a/net/colo-compare.c
 +++ b/net/colo-compare.c
-@@ -690,6 +690,7 @@ static void colo_compare_packet(CompareState *s, Connec=
+@@ -691,7 +691,7 @@ static void colo_compare_packet(CompareState *s, Connec=
 tion *conn,
-
          if (result) {
              colo_release_primary_pkt(s, pkt);
-+            packet_destroy(result->data, NULL);
-             g_queue_remove(&conn->secondary_list, result->data);
+             packet_destroy(result->data, NULL);
+-            g_queue_remove(&conn->secondary_list, result->data);
++            g_queue_delete_link(&conn->secondary_list, result);
          } else {
              /*
+              * If one packet arrive late, the secondary_list or
 --
 2.20.1
 
-
---Sig_/tKfYi5H=/0NzxtYsrXhxoYn
+--Sig_/nXZRJHh0H4.xT0z7A.TSjk6
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl+xDqYACgkQNasLKJxd
-slgTPQ/+LG4mrN/zqhrTbW2jhrE/mEGbge/xnZ8tHVITrkmqiW8mP363av7PQyjM
-XijOmnB7Tr5STe1VdcnqEP5bHKAhyy8n8GBK4iNkc48x3Jn38/C0HyEx5WX7TDZe
-ld7RfBUP+6Us72jd/pDiP+usv/UZRZ1MD752lnjbmh8rBU0Z+DTNwgkNLjGs39Zh
-VuKw4FpeATs/M9+FGAtfFzWCY+hwqcm01Lw5khlTdGga4w1ViQYdhxCN7xkKAUw2
-aoJIJRU/7rnJwJQtg4FphTGsW7CDKT/Tbe4qZ/cjUJgPF53sdrNZs8jiBfXrfFxi
-QtOPVjvi+1QdeJuYmIi7afnrFYXGwaD6w9b/+M+7NnRan+6UifzjbIXUkZjwUsuA
-74lRLBa4Nh+raFoOauC7i8WAsHMrNnFK4yRLsV42avqzXfi6LrPopKk1D6N/3ie0
-nV6vhvzdXrwLUpYcFmaBkB75nZu0nNCOcjjQ1loLv5tsiky9sDCEEQ37OM41NBN4
-UyRbGQ0eS79EIo+HQdJvCTHQp4rBORgEip8EG9GffRqw7Trksdt5P1N84YeCCqnK
-oTNj8YYW0z4xQfzmQUzJRMV4bE76rDTIqsASsFZhhtjKv2ku0X/QLrilfNo/uBYq
-r3SRrn4dQ4SU+J3qdz5qWhm3FdI3EjNBUlCH4QgYC7gA3MLJWNQ=
-=iG7z
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl+xDqoACgkQNasLKJxd
+slgT3g/9G4x5Zg0QMCo6nOOMCA5zY3r3c0yJKqzl2sta1JFm2Eq6JFHM6MvT+eRv
+pK+9E/rgh14L8fJ5FBthENt02FkHqcaJIBsapwTIJT2611UNsO2C4DnNOujjSgqs
+xVtEvL5VPnIXnFLJXHTpe6gBPxiGeI2dezc+A4kRGx102g3KwywmqczQW2JPWlUU
+kvE6f9MQjGkNx1pIrDE4/6AFAJD35WnpQS1mjdh9fPubXd1ZzA6oAqk4Su6WYS/L
+NcIdjV6mBtZCwKR1hKmz/5OPo6TptuxeCkMZqCSHUGgj+Igk1w7CgEG1/3sJJ5Yl
+rKn7tvxqngVMN+6hKDueDTKtDe8GfG/xsI449zl1Iukqa4c3fqAhPHYouABikau/
+Kwb1AEhunua4lmQP7faOKjeqJX1g8GSTLzKG/g04CsLVAL0d5gzg/V89nOamYtSf
+9vInP5vLBh0Q5pbeqXWbCYwYW5Nscc5ilI9q3udhWMom1z0/lbbvfm5DQwu0oT2B
+eoSEQJSMsYl2cELk+Syf1RrstW5BC4/84qU3lg53ldXvjvsk/tkpbds/X7YcTFmh
+2LXyUiFJqxXQfGwxvIIjMMLrfTRZBw9iT6WknWIBcfK8fYPrpQL7ZLNQsVDJ20u9
+hC2t0MMkq2HAp0XU0/ulqHTLTCJA784q692eX+QGZ2f2lv5XMVw=
+=j05B
 -----END PGP SIGNATURE-----
 
---Sig_/tKfYi5H=/0NzxtYsrXhxoYn--
+--Sig_/nXZRJHh0H4.xT0z7A.TSjk6--
 
