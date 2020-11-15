@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E07C92B3FC5
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 10:32:17 +0100 (CET)
-Received: from localhost ([::1]:56610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DDE62B3FF4
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 10:37:04 +0100 (CET)
+Received: from localhost ([::1]:39006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kearw-0001EF-VY
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 04:32:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39332)
+	id 1keawZ-0005rq-N9
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 04:37:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1keaip-0006nB-SN; Mon, 16 Nov 2020 04:22:51 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:2148)
+ id 1keaix-0006uE-Et; Mon, 16 Nov 2020 04:23:02 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2357)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1keail-0004Cg-L9; Mon, 16 Nov 2020 04:22:51 -0500
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CZNrk5PMrz6xcq;
- Mon, 16 Nov 2020 17:22:30 +0800 (CST)
+ id 1keaip-0004DE-TH; Mon, 16 Nov 2020 04:22:59 -0500
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CZNrl22m9zkZ0k;
+ Mon, 16 Nov 2020 17:22:31 +0800 (CST)
 Received: from huawei.com (10.175.104.175) by DGGEMS402-HUB.china.huawei.com
  (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0; Mon, 16 Nov 2020
- 17:22:34 +0800
+ 17:22:40 +0800
 From: Gan Qixin <ganqixin@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH 07/13] tpm: put some tpm devices into the correct category
-Date: Mon, 16 Nov 2020 02:48:57 +0800
-Message-ID: <20201115184903.1292715-8-ganqixin@huawei.com>
+Subject: [PATCH 10/13] tosa-ssp: put it into the 'misc' category
+Date: Mon, 16 Nov 2020 02:49:00 +0800
+Message-ID: <20201115184903.1292715-11-ganqixin@huawei.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20201115184903.1292715-1-ganqixin@huawei.com>
 References: <20201115184903.1292715-1-ganqixin@huawei.com>
@@ -36,9 +36,9 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.175.104.175]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35; envelope-from=ganqixin@huawei.com;
- helo=szxga07-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 04:22:43
+Received-SPF: pass client-ip=45.249.212.190; envelope-from=ganqixin@huawei.com;
+ helo=szxga04-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 04:22:28
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -59,44 +59,37 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: kuhn.chenqun@huawei.com, thuth@redhat.com, zhang.zhanghailiang@huawei.com,
- Gan Qixin <ganqixin@huawei.com>, Stefan Berger <stefanb@linux.vnet.ibm.com>
+ Gan Qixin <ganqixin@huawei.com>, Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some tpm devices have no category, put them into the correct category.
+The category of the tosa-ssp device is not set, put it into the 'misc'
+category.
 
 Signed-off-by: Gan Qixin <ganqixin@huawei.com>
 ---
-Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/tpm/tpm_tis_isa.c    | 1 +
- hw/tpm/tpm_tis_sysbus.c | 1 +
- 2 files changed, 2 insertions(+)
+ hw/arm/tosa.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/tpm/tpm_tis_isa.c b/hw/tpm/tpm_tis_isa.c
-index 6fd876eebf..10d8a14f19 100644
---- a/hw/tpm/tpm_tis_isa.c
-+++ b/hw/tpm/tpm_tis_isa.c
-@@ -150,6 +150,7 @@ static void tpm_tis_isa_class_init(ObjectClass *klass, void *data)
-     dc->reset = tpm_tis_isa_reset;
-     tc->request_completed = tpm_tis_isa_request_completed;
-     tc->get_version = tpm_tis_isa_get_tpm_version;
+diff --git a/hw/arm/tosa.c b/hw/arm/tosa.c
+index fe88ed89fe..0e3461c8ed 100644
+--- a/hw/arm/tosa.c
++++ b/hw/arm/tosa.c
+@@ -292,10 +292,12 @@ static const TypeInfo tosa_dac_info = {
+ 
+ static void tosa_ssp_class_init(ObjectClass *klass, void *data)
+ {
++    DeviceClass *dc = DEVICE_CLASS(klass);
+     SSISlaveClass *k = SSI_SLAVE_CLASS(klass);
+ 
+     k->realize = tosa_ssp_realize;
+     k->transfer = tosa_ssp_tansfer;
 +    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
  }
  
- static const TypeInfo tpm_tis_isa_info = {
-diff --git a/hw/tpm/tpm_tis_sysbus.c b/hw/tpm/tpm_tis_sysbus.c
-index 2c32aa7099..45e63efd63 100644
---- a/hw/tpm/tpm_tis_sysbus.c
-+++ b/hw/tpm/tpm_tis_sysbus.c
-@@ -139,6 +139,7 @@ static void tpm_tis_sysbus_class_init(ObjectClass *klass, void *data)
-     dc->reset = tpm_tis_sysbus_reset;
-     tc->request_completed = tpm_tis_sysbus_request_completed;
-     tc->get_version = tpm_tis_sysbus_get_tpm_version;
-+    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
- }
- 
- static const TypeInfo tpm_tis_sysbus_info = {
+ static const TypeInfo tosa_ssp_info = {
 -- 
 2.23.0
 
