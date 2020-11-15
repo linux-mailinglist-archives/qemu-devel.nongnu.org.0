@@ -2,84 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFA812B32CD
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 08:04:40 +0100 (CET)
-Received: from localhost ([::1]:44146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38DA12B32DB
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 08:55:41 +0100 (CET)
+Received: from localhost ([::1]:52054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keC5X-00005m-I7
-	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 02:04:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47594)
+	id 1keCst-0007VZ-Qs
+	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 02:55:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1keC3s-0007tW-Sw
- for qemu-devel@nongnu.org; Sun, 15 Nov 2020 02:02:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25695)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1keC3o-0006Ds-Gv
- for qemu-devel@nongnu.org; Sun, 15 Nov 2020 02:02:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605423770;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lsUCpeuRHZF8acA8BDnsIuSnKs7aLULMhD6CNVrKv20=;
- b=UWaScm+IA4oTFwfO73OEx185Asn1QnKREdbDVdvQf8r0/mFSwUnA4tSPG8NMEuWL7tjp6V
- 61Vn6KvYYDDX2pPLBiRAPwBWQlbZIAMv9FxLxn/an5sV7fKPLNB2rw4TbNtOWG/OBzvITX
- /6IPs+42PoAzCFo1oJcL9NJmwUfDLss=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-491-18W5T5bvNba4cK0UNj1aEw-1; Sun, 15 Nov 2020 02:02:49 -0500
-X-MC-Unique: 18W5T5bvNba4cK0UNj1aEw-1
-Received: by mail-wr1-f71.google.com with SMTP id z7so7499357wrl.14
- for <qemu-devel@nongnu.org>; Sat, 14 Nov 2020 23:02:48 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <changbin.du@gmail.com>)
+ id 1keCrJ-0006mv-Oq; Sun, 15 Nov 2020 02:54:01 -0500
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:55499)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <changbin.du@gmail.com>)
+ id 1keCrF-0006G0-Eo; Sun, 15 Nov 2020 02:54:01 -0500
+Received: by mail-pj1-x1043.google.com with SMTP id r9so2371476pjl.5;
+ Sat, 14 Nov 2020 23:53:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9ybLAm8v1RsSKAp3L7gXvHr4V9JDk/hOqsmC8qK64TA=;
+ b=GB8MBZiTm93mqJTtRh5vKtZSYZ+YSMCB6k9N17VNUhEwgdMSLL7fObgyYrux5fC12e
+ eGDeErI3TvS8mYeEtn13NoyIDpsGhGiKnFEmQ/+p7M971WcbLzprTaDpCFwqfnbXyqWg
+ Xo89gkFoj1lnXTkYqtQ2+VasqPzGzAF6QQWI3OVWEnSj0G4ATceWbQS6tQU1j22W+X7H
+ pUdsTRrxvQlXaPm375vRl7vtqfW0w51H7D45YQ8eG7/xL854k7bTqDINM7NagxzYWckg
+ ka3gSsUPiU7EthrQpgfJAHrnI7CyoiZGzErfLJYQ5U5nqiwSnGUt57IiakPdk2d7AP3N
+ e2cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=lsUCpeuRHZF8acA8BDnsIuSnKs7aLULMhD6CNVrKv20=;
- b=JzZY7Um0kF1g0yWFULiVmnhdmVaLViVlx+WBgcO9ifVqusTo7JspFUQYW8ZRkoiz1k
- jVlSvgBHNqzSZlKZdMita+P2z34UtufcZ3Jwm4u4W2BY9V9UKQXPjCcUZ51nQivitPNC
- UdgU8hbXFXNYUt9LwKdXhSU50Caq5+8G2Vk0K/OxMd5LgSq4SQ89yitmCQpqMSjEYnug
- zRS0KbcgE6g+xbt56Ina48JquBPuQ6cVR5n4pisfII0X2/ZfxXLvtrZeF0KZ/1TTz5cT
- /hCgvy7DS0w1lCwU4UFtP7K/N9GrnU6W7J07igwb3ngxPoUC5gwTxaW/m8yZ8pEypOAb
- 5duQ==
-X-Gm-Message-State: AOAM533+aefFNHn+KvO9KYsIBtqiF3cHinPDHAzga/QIeCMP5ybsT/PD
- ZZfW9GragZUiVS5HsSz7+VPmIlN42qSurDS2xEccpdWIkNjSwsymPPSSRvuZwuaFjwuywYBx0sF
- a43ABNUC0zN6T0ww=
-X-Received: by 2002:adf:f3d2:: with SMTP id g18mr13404020wrp.77.1605423767754; 
- Sat, 14 Nov 2020 23:02:47 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyvPYihtBdPgbQNZ+krh4Sn8nKMZMNGOys50oY4DAIAY2jEg4CtHgyQI8ZEGee0+fCO4aGcpA==
-X-Received: by 2002:adf:f3d2:: with SMTP id g18mr13403987wrp.77.1605423767410; 
- Sat, 14 Nov 2020 23:02:47 -0800 (PST)
-Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id g131sm15996459wma.35.2020.11.14.23.02.45
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9ybLAm8v1RsSKAp3L7gXvHr4V9JDk/hOqsmC8qK64TA=;
+ b=nE2MM2jR9+pZQAOnFfuroPl0QFPxP0aX/hfOt+RnH1OIH3ukinwkI/mBvHECvOa4pi
+ PMO+xdJAaXB7iuqw9PA8tCayjoVXCsg73ex472ds+OH4Oz+fKuqJ80n7K7iGVqJuZ6HS
+ CXqHRSZEKBSJVqIMWU+YU66ipnfOG/YV1lyu4mCzLU+35W7rRgXTtJsNFmyDg1TcshUL
+ DkfxRT2IO54QKa6y0TmrHRrv3GS7qPIIjRJojNFZ9tpA8Bz+RQxiFjHGwLO4T/anZkwU
+ afdUlQupFxlDPzM2DTBYiskovJUg6lSFBIE7bStOflQutD3vQZ9owUFJUkBSngUgFIwh
+ wSAQ==
+X-Gm-Message-State: AOAM530pCrL1z9kfXk8rn1r5AN0QLItTirwWhKeLc6afyFUYY/9XwpBA
+ +PLoF6+Oi/CNfAA6YhYuMK0=
+X-Google-Smtp-Source: ABdhPJxJDnB5YCrP6lWUDMDQ72FsnRRWyi1pnR83oB4KsuMDxhBgm4oAkNoOkKiFwmho+kauDxk4Ew==
+X-Received: by 2002:a17:902:fe0f:b029:d6:9fa1:eee0 with SMTP id
+ g15-20020a170902fe0fb02900d69fa1eee0mr8389315plj.24.1605426835517; 
+ Sat, 14 Nov 2020 23:53:55 -0800 (PST)
+Received: from vultr.guest ([141.164.41.4])
+ by smtp.gmail.com with ESMTPSA id x192sm14516879pgx.9.2020.11.14.23.53.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 14 Nov 2020 23:02:46 -0800 (PST)
-Date: Sun, 15 Nov 2020 02:02:43 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [PATCH] hw: add compat machines for 6.0
-Message-ID: <20201115020234-mutt-send-email-mst@kernel.org>
-References: <20201109173928.1001764-1-cohuck@redhat.com>
+ Sat, 14 Nov 2020 23:53:54 -0800 (PST)
+From: Changbin Du <changbin.du@gmail.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH v3] arm/monitor: Add support for 'info tlb' command
+Date: Sun, 15 Nov 2020 15:53:47 +0800
+Message-Id: <20201115075347.74622-1-changbin.du@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20201109173928.1001764-1-cohuck@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 02:02:50
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
+ envelope-from=changbin.du@gmail.com; helo=mail-pj1-x1043.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,244 +82,371 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ Changbin Du <changbin.du@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 09, 2020 at 06:39:28PM +0100, Cornelia Huck wrote:
-> Add 6.0 machine types for arm/i440fx/q35/s390x/spapr.
-> 
-> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+This adds hmp 'info tlb' command support for the arm platform.
+The limitation is that this only implements a page walker for
+ARMv8-A AArch64 Long Descriptor format, 32bit addressing is
+not supported yet.
 
-pc part
+To reuse existing code, this patch also extracts some APIs from
+helper.c, including regime_translation_disabled(),
+pt_start_level_stage1(), regime_ttbr().
 
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+(qemu) info tlb
+vaddr            paddr            size             attr
+---------------- ---------------- ---------------- ------------------------------
+ffff800000000000 0000000040000000 0000000000001000 RW        AF           PXN UXN
+ffff800000001000 0000000040001000 0000000000001000 RW        AF           PXN UXN
+ffff800000002000 0000000040002000 0000000000001000 RW        AF           PXN UXN
+ffff800000003000 0000000040003000 0000000000001000 RW        AF           PXN UXN
+ffff800000004000 0000000040004000 0000000000001000 RW        AF           PXN UXN
+ffff800000005000 0000000040005000 0000000000001000 RW        AF           PXN UXN
+ffff800000006000 0000000040006000 0000000000001000 RW        AF           PXN UXN
 
-> ---
->  hw/arm/virt.c              |  9 ++++++++-
->  hw/core/machine.c          |  3 +++
->  hw/i386/pc.c               |  3 +++
->  hw/i386/pc_piix.c          | 14 +++++++++++++-
->  hw/i386/pc_q35.c           | 13 ++++++++++++-
->  hw/ppc/spapr.c             | 15 +++++++++++++--
->  hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
->  include/hw/boards.h        |  3 +++
->  include/hw/i386/pc.h       |  3 +++
->  9 files changed, 71 insertions(+), 6 deletions(-)
-> 
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index 27dbeb549ef1..d21dad4491c4 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -2587,10 +2587,17 @@ static void machvirt_machine_init(void)
->  }
->  type_init(machvirt_machine_init);
->  
-> +static void virt_machine_6_0_options(MachineClass *mc)
-> +{
-> +}
-> +DEFINE_VIRT_MACHINE_AS_LATEST(6, 0)
-> +
->  static void virt_machine_5_2_options(MachineClass *mc)
->  {
-> +    virt_machine_6_0_options(mc);
-> +    compat_props_add(mc->compat_props, hw_compat_5_2, hw_compat_5_2_len);
->  }
-> -DEFINE_VIRT_MACHINE_AS_LATEST(5, 2)
-> +DEFINE_VIRT_MACHINE(5, 2)
->  
->  static void virt_machine_5_1_options(MachineClass *mc)
->  {
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index 98b87f76cbbe..c5a6c517bb9d 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -28,6 +28,9 @@
->  #include "hw/mem/nvdimm.h"
->  #include "migration/vmstate.h"
->  
-> +GlobalProperty hw_compat_5_2[] = {};
-> +const size_t hw_compat_5_2_len = G_N_ELEMENTS(hw_compat_5_2);
-> +
->  GlobalProperty hw_compat_5_1[] = {
->      { "vhost-scsi", "num_queues", "1"},
->      { "vhost-user-blk", "num-queues", "1"},
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index 5e6c0023e0c7..d386c5662698 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -97,6 +97,9 @@
->  #include "trace.h"
->  #include CONFIG_DEVICES
->  
-> +GlobalProperty pc_compat_5_2[] = {};
-> +const size_t pc_compat_5_2_len = G_N_ELEMENTS(pc_compat_5_2);
-> +
->  GlobalProperty pc_compat_5_1[] = {
->      { "ICH9-LPC", "x-smi-cpu-hotplug", "off" },
->  };
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index 13d1628f13bf..6188c3e97eaf 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -426,7 +426,7 @@ static void pc_i440fx_machine_options(MachineClass *m)
->      machine_class_allow_dynamic_sysbus_dev(m, TYPE_VMBUS_BRIDGE);
->  }
->  
-> -static void pc_i440fx_5_2_machine_options(MachineClass *m)
-> +static void pc_i440fx_6_0_machine_options(MachineClass *m)
->  {
->      PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
->      pc_i440fx_machine_options(m);
-> @@ -435,6 +435,18 @@ static void pc_i440fx_5_2_machine_options(MachineClass *m)
->      pcmc->default_cpu_version = 1;
->  }
->  
-> +DEFINE_I440FX_MACHINE(v6_0, "pc-i440fx-6.0", NULL,
-> +                      pc_i440fx_6_0_machine_options);
-> +
-> +static void pc_i440fx_5_2_machine_options(MachineClass *m)
-> +{
-> +    pc_i440fx_6_0_machine_options(m);
-> +    m->alias = NULL;
-> +    m->is_default = false;
-> +    compat_props_add(m->compat_props, hw_compat_5_2, hw_compat_5_2_len);
-> +    compat_props_add(m->compat_props, pc_compat_5_2, pc_compat_5_2_len);
-> +}
-> +
->  DEFINE_I440FX_MACHINE(v5_2, "pc-i440fx-5.2", NULL,
->                        pc_i440fx_5_2_machine_options);
->  
-> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-> index a3f4959c4357..0a212443aa84 100644
-> --- a/hw/i386/pc_q35.c
-> +++ b/hw/i386/pc_q35.c
-> @@ -344,7 +344,7 @@ static void pc_q35_machine_options(MachineClass *m)
->      m->max_cpus = 288;
->  }
->  
-> -static void pc_q35_5_2_machine_options(MachineClass *m)
-> +static void pc_q35_6_0_machine_options(MachineClass *m)
->  {
->      PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
->      pc_q35_machine_options(m);
-> @@ -352,6 +352,17 @@ static void pc_q35_5_2_machine_options(MachineClass *m)
->      pcmc->default_cpu_version = 1;
->  }
->  
-> +DEFINE_Q35_MACHINE(v6_0, "pc-q35-6.0", NULL,
-> +                   pc_q35_6_0_machine_options);
-> +
-> +static void pc_q35_5_2_machine_options(MachineClass *m)
-> +{
-> +    pc_q35_6_0_machine_options(m);
-> +    m->alias = NULL;
-> +    compat_props_add(m->compat_props, hw_compat_5_2, hw_compat_5_2_len);
-> +    compat_props_add(m->compat_props, pc_compat_5_2, pc_compat_5_2_len);
-> +}
-> +
->  DEFINE_Q35_MACHINE(v5_2, "pc-q35-5.2", NULL,
->                     pc_q35_5_2_machine_options);
->  
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 227075103e9a..45e0afbeba49 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -4515,15 +4515,26 @@ static void spapr_machine_latest_class_options(MachineClass *mc)
->      }                                                                \
->      type_init(spapr_machine_register_##suffix)
->  
-> +/*
-> + * pseries-6.0
-> + */
-> +static void spapr_machine_6_0_class_options(MachineClass *mc)
-> +{
-> +    /* Defaults for the latest behaviour inherited from the base class */
-> +}
-> +
-> +DEFINE_SPAPR_MACHINE(6_0, "6.0", true);
-> +
->  /*
->   * pseries-5.2
->   */
->  static void spapr_machine_5_2_class_options(MachineClass *mc)
->  {
-> -    /* Defaults for the latest behaviour inherited from the base class */
-> +    spapr_machine_6_0_class_options(mc);
-> +    compat_props_add(mc->compat_props, hw_compat_5_2, hw_compat_5_2_len);
->  }
->  
-> -DEFINE_SPAPR_MACHINE(5_2, "5.2", true);
-> +DEFINE_SPAPR_MACHINE(5_2, "5.2", false);
->  
->  /*
->   * pseries-5.1
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index 22222c4fd5ad..b1229abc3134 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -785,14 +785,26 @@ bool css_migration_enabled(void)
->      }                                                                         \
->      type_init(ccw_machine_register_##suffix)
->  
-> +static void ccw_machine_6_0_instance_options(MachineState *machine)
-> +{
-> +}
-> +
-> +static void ccw_machine_6_0_class_options(MachineClass *mc)
-> +{
-> +}
-> +DEFINE_CCW_MACHINE(6_0, "6.0", true);
-> +
->  static void ccw_machine_5_2_instance_options(MachineState *machine)
->  {
-> +    ccw_machine_6_0_instance_options(machine);
->  }
->  
->  static void ccw_machine_5_2_class_options(MachineClass *mc)
->  {
-> +    ccw_machine_6_0_class_options(mc);
-> +    compat_props_add(mc->compat_props, hw_compat_5_2, hw_compat_5_2_len);
->  }
-> -DEFINE_CCW_MACHINE(5_2, "5.2", true);
-> +DEFINE_CCW_MACHINE(5_2, "5.2", false);
->  
->  static void ccw_machine_5_1_instance_options(MachineState *machine)
->  {
-> diff --git a/include/hw/boards.h b/include/hw/boards.h
-> index a49e3a6b4481..f94f4ad5d83c 100644
-> --- a/include/hw/boards.h
-> +++ b/include/hw/boards.h
-> @@ -310,6 +310,9 @@ struct MachineState {
->      } \
->      type_init(machine_initfn##_register_types)
->  
-> +extern GlobalProperty hw_compat_5_2[];
-> +extern const size_t hw_compat_5_2_len;
-> +
->  extern GlobalProperty hw_compat_5_1[];
->  extern const size_t hw_compat_5_1_len;
->  
-> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-> index 911e4600970c..49dfa667de09 100644
-> --- a/include/hw/i386/pc.h
-> +++ b/include/hw/i386/pc.h
-> @@ -191,6 +191,9 @@ void pc_system_firmware_init(PCMachineState *pcms, MemoryRegion *rom_memory);
->  void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
->                         const CPUArchIdList *apic_ids, GArray *entry);
->  
-> +extern GlobalProperty pc_compat_5_2[];
-> +extern const size_t pc_compat_5_2_len;
-> +
->  extern GlobalProperty pc_compat_5_1[];
->  extern const size_t pc_compat_5_1_len;
->  
-> -- 
-> 2.26.2
+Signed-off-by: Changbin Du <changbin.du@gmail.com>
+
+---
+v3: rebase to latest mainline.
+v2:
+  o fix coding style
+  o extract common code pt_start_level_stage1()
+---
+ hmp-commands-info.hx   |   3 +-
+ target/arm/helper.c    |  30 +------
+ target/arm/internals.h |  33 ++++++++
+ target/arm/monitor.c   | 183 +++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 220 insertions(+), 29 deletions(-)
+
+diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+index 117ba25f91..1b5b3f2616 100644
+--- a/hmp-commands-info.hx
++++ b/hmp-commands-info.hx
+@@ -222,7 +222,8 @@ SRST
+ ERST
+ 
+ #if defined(TARGET_I386) || defined(TARGET_SH4) || defined(TARGET_SPARC) || \
+-    defined(TARGET_PPC) || defined(TARGET_XTENSA) || defined(TARGET_M68K)
++    defined(TARGET_PPC) || defined(TARGET_XTENSA) || defined(TARGET_M68K) || \
++    defined(TARGET_ARM)
+     {
+         .name       = "tlb",
+         .args_type  = "",
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 11b0803df7..e7f0f27c8e 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -9974,8 +9974,7 @@ static inline uint64_t regime_sctlr(CPUARMState *env, ARMMMUIdx mmu_idx)
+ #ifndef CONFIG_USER_ONLY
+ 
+ /* Return true if the specified stage of address translation is disabled */
+-static inline bool regime_translation_disabled(CPUARMState *env,
+-                                               ARMMMUIdx mmu_idx)
++bool regime_translation_disabled(CPUARMState *env, ARMMMUIdx mmu_idx)
+ {
+     if (arm_feature(env, ARM_FEATURE_M)) {
+         switch (env->v7m.mpu_ctrl[regime_is_secure(env, mmu_idx)] &
+@@ -10021,20 +10020,6 @@ static inline bool regime_translation_big_endian(CPUARMState *env,
+     return (regime_sctlr(env, mmu_idx) & SCTLR_EE) != 0;
+ }
+ 
+-/* Return the TTBR associated with this translation regime */
+-static inline uint64_t regime_ttbr(CPUARMState *env, ARMMMUIdx mmu_idx,
+-                                   int ttbrn)
+-{
+-    if (mmu_idx == ARMMMUIdx_Stage2) {
+-        return env->cp15.vttbr_el2;
+-    }
+-    if (ttbrn == 0) {
+-        return env->cp15.ttbr0_el[regime_el(env, mmu_idx)];
+-    } else {
+-        return env->cp15.ttbr1_el[regime_el(env, mmu_idx)];
+-    }
+-}
+-
+ #endif /* !CONFIG_USER_ONLY */
+ 
+ /* Convert a possible stage1+2 MMU index into the appropriate
+@@ -11077,18 +11062,7 @@ static bool get_phys_addr_lpae(CPUARMState *env, target_ulong address,
+     }
+ 
+     if (mmu_idx != ARMMMUIdx_Stage2) {
+-        /* The starting level depends on the virtual address size (which can
+-         * be up to 48 bits) and the translation granule size. It indicates
+-         * the number of strides (stride bits at a time) needed to
+-         * consume the bits of the input address. In the pseudocode this is:
+-         *  level = 4 - RoundUp((inputsize - grainsize) / stride)
+-         * where their 'inputsize' is our 'inputsize', 'grainsize' is
+-         * our 'stride + 3' and 'stride' is our 'stride'.
+-         * Applying the usual "rounded up m/n is (m+n-1)/n" and simplifying:
+-         * = 4 - (inputsize - stride - 3 + stride - 1) / stride
+-         * = 4 - (inputsize - 4) / stride;
+-         */
+-        level = 4 - (inputsize - 4) / stride;
++        level = pt_start_level_stage1(inputsize, stride);
+     } else {
+         /* For stage 2 translations the starting level is specified by the
+          * VTCR_EL2.SL0 field (whose interpretation depends on the page size)
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index 5460678756..69c21be774 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -949,6 +949,8 @@ static inline uint32_t regime_el(CPUARMState *env, ARMMMUIdx mmu_idx)
+     }
+ }
+ 
++bool regime_translation_disabled(CPUARMState *env, ARMMMUIdx mmu_idx);
++
+ /* Return the TCR controlling this translation regime */
+ static inline TCR *regime_tcr(CPUARMState *env, ARMMMUIdx mmu_idx)
+ {
+@@ -958,6 +960,20 @@ static inline TCR *regime_tcr(CPUARMState *env, ARMMMUIdx mmu_idx)
+     return &env->cp15.tcr_el[regime_el(env, mmu_idx)];
+ }
+ 
++/* Return the TTBR associated with this translation regime */
++static inline uint64_t regime_ttbr(CPUARMState *env, ARMMMUIdx mmu_idx,
++                                   int ttbrn)
++{
++    if (mmu_idx == ARMMMUIdx_Stage2) {
++        return env->cp15.vttbr_el2;
++    }
++    if (ttbrn == 0) {
++        return env->cp15.ttbr0_el[regime_el(env, mmu_idx)];
++    } else {
++        return env->cp15.ttbr1_el[regime_el(env, mmu_idx)];
++    }
++}
++
+ /* Return the FSR value for a debug exception (watchpoint, hardware
+  * breakpoint or BKPT insn) targeting the specified exception level.
+  */
+@@ -1291,6 +1307,23 @@ typedef struct ARMCacheAttrs {
+     unsigned int shareability:2; /* as in the SH field of the VMSAv8-64 PTEs */
+ } ARMCacheAttrs;
+ 
++static inline int pt_start_level_stage1(int inputsize, int stride)
++{
++    /*
++     * The starting level depends on the virtual address size (which can
++     * be up to 48 bits) and the translation granule size. It indicates
++     * the number of strides (stride bits at a time) needed to
++     * consume the bits of the input address. In the pseudocode this is:
++     *  level = 4 - RoundUp((inputsize - grainsize) / stride)
++     * where their 'inputsize' is our 'inputsize', 'grainsize' is
++     * our 'stride + 3' and 'stride' is our 'stride'.
++     * Applying the usual "rounded up m/n is (m+n-1)/n" and simplifying:
++     * = 4 - (inputsize - stride - 3 + stride - 1) / stride
++     * = 4 - (inputsize - 4) / stride;
++     */
++    return 4 - (inputsize - 4) / stride;
++}
++
+ bool get_phys_addr(CPUARMState *env, target_ulong address,
+                    MMUAccessType access_type, ARMMMUIdx mmu_idx,
+                    hwaddr *phys_ptr, MemTxAttrs *attrs, int *prot,
+diff --git a/target/arm/monitor.c b/target/arm/monitor.c
+index 169d8a64b6..6991533a07 100644
+--- a/target/arm/monitor.c
++++ b/target/arm/monitor.c
+@@ -31,6 +31,9 @@
+ #include "qapi/qmp/qerror.h"
+ #include "qapi/qmp/qdict.h"
+ #include "qom/qom-qobject.h"
++#include "monitor/monitor.h"
++#include "monitor/hmp-target.h"
++#include "internals.h"
+ 
+ static GICCapability *gic_cap_new(int version)
+ {
+@@ -236,3 +239,183 @@ CpuModelExpansionInfo *qmp_query_cpu_model_expansion(CpuModelExpansionType type,
+ 
+     return expansion_info;
+ }
++
++/* Perform linear address sign extension */
++static target_ulong addr_canonical(int va_bits, target_ulong addr)
++{
++#ifdef TARGET_AARCH64
++    if (addr & (1UL << (va_bits - 1))) {
++        addr |= (hwaddr)-(1L << va_bits);
++    }
++#endif
++
++    return addr;
++}
++
++#define PTE_HEADER_FIELDS       "vaddr            paddr            "\
++                                "size             attr\n"
++#define PTE_HEADER_DELIMITER    "---------------- ---------------- "\
++                                "---------------- ------------------------------\n"
++
++static void print_pte_header(Monitor *mon)
++{
++    monitor_printf(mon, PTE_HEADER_FIELDS);
++    monitor_printf(mon, PTE_HEADER_DELIMITER);
++}
++
++static void
++print_pte_lpae(Monitor *mon, uint32_t tableattrs, int va_bits,
++               target_ulong vaddr, hwaddr paddr, target_ulong size,
++               target_ulong pte)
++{
++    uint32_t ns = extract64(pte, 5, 1) | extract32(tableattrs, 4, 1);
++    uint32_t ap = extract64(pte, 6, 2) & ~extract32(tableattrs, 2, 2);
++    uint32_t af = extract64(pte, 10, 1);
++    uint32_t ng = extract64(pte, 11, 1);
++    uint32_t gp = extract64(pte, 50, 1);
++    uint32_t con = extract64(pte, 52, 1);
++    uint32_t pxn = extract64(pte, 53, 1) | extract32(tableattrs, 0, 1);
++    uint32_t uxn = extract64(pte, 54, 1) | extract32(tableattrs, 1, 1);
++
++    monitor_printf(mon, TARGET_FMT_lx " " TARGET_FMT_plx " " TARGET_FMT_lx
++                   " %s %s %s %s %s %s %s %s %s\n",
++                   addr_canonical(va_bits, vaddr), paddr, size,
++                   ap & 0x2 ? "ro" : "RW",
++                   ap & 0x1 ? "USR" : "   ",
++                   ns ? "NS" : "  ",
++                   af ? "AF" : "  ",
++                   ng ? "nG" : "  ",
++                   gp ? "GP" : "  ",
++                   con ? "Con" : "   ",
++                   pxn ? "PXN" : "   ",
++                   uxn ? "UXN" : "   ");
++}
++
++static void
++walk_pte_lpae(Monitor *mon, bool aarch64, uint32_t tableattrs, hwaddr pt_base,
++              target_ulong vstart, int cur_level, int stride, int va_bits)
++{
++    int pg_shift = stride + 3;
++    int descaddr_high = aarch64 ? 47 : 39;
++    int max_level = 3;
++    int ptshift = pg_shift + (max_level - cur_level) * stride;
++    target_ulong pgsize = 1UL << ptshift;
++    int idx;
++
++    for (idx = 0; idx < (1UL << stride) && vstart < (1UL << va_bits);
++         idx++, vstart += pgsize) {
++        hwaddr pte_addr = pt_base + idx * 8;
++        target_ulong pte = 0;
++        hwaddr paddr;
++
++        cpu_physical_memory_read(pte_addr, &pte, 8);
++
++        if (!extract64(pte, 0, 1)) {
++            /* invalid entry */
++            continue;
++        }
++
++        if (cur_level == max_level) {
++            /* leaf entry */
++            paddr = (hwaddr)extract64(pte, pg_shift,
++                                descaddr_high - pg_shift + 1) << pg_shift;
++            print_pte_lpae(mon, tableattrs, va_bits, vstart, paddr,
++                           pgsize, pte);
++        } else {
++            if (extract64(pte, 1, 1)) {
++                /* table entry */
++                paddr = (hwaddr)extract64(pte, pg_shift,
++                                    descaddr_high - pg_shift + 1) << pg_shift;
++                tableattrs |= extract64(pte, 59, 5);
++
++                walk_pte_lpae(mon, aarch64, tableattrs, paddr, vstart,
++                              cur_level + 1, stride, va_bits);
++            } else {
++                /* block entry */
++                if ((pg_shift == 12 && (cur_level != 1 && cur_level != 2)) ||
++                    (pg_shift == 14 && (cur_level != 2)) ||
++                    (pg_shift == 16 && (cur_level != 0 && cur_level != 1))) {
++                    monitor_printf(mon, "illegal block entry at level%d\n",
++                                   cur_level);
++                    continue;
++                }
++                paddr = (hwaddr)extract64(pte, ptshift,
++                                    descaddr_high - ptshift + 1) << ptshift;
++                print_pte_lpae(mon, tableattrs, va_bits, vstart, paddr,
++                               pgsize, pte);
++            }
++        }
++    }
++}
++
++/* ARMv8-A AArch64 Long Descriptor format */
++static void tlb_info_vmsav8_64(Monitor *mon, CPUArchState *env)
++{
++    ARMMMUIdx mmu_idx = arm_stage1_mmu_idx(env);
++    uint64_t ttbr[2];
++    uint64_t tcr;
++    int tsz[2];
++    bool using16k, using64k;
++    int stride;
++
++    ttbr[0] = regime_ttbr(env, mmu_idx, 0);
++    ttbr[1] = regime_ttbr(env, mmu_idx, 1);
++
++    tcr = regime_tcr(env, mmu_idx)->raw_tcr;
++    using64k = extract32(tcr, 14, 1);
++    using16k = extract32(tcr, 15, 1);
++    tsz[0] = extract32(tcr, 0, 6);
++    tsz[1] = extract32(tcr, 16, 6);
++
++    if (using64k) {
++        stride = 13;
++    } else if (using16k) {
++        stride = 11;
++    } else {
++        stride = 9;
++    }
++
++    /* print header */
++    print_pte_header(mon);
++
++    for (unsigned int i = 0; i < 2; i++) {
++        if (ttbr[i]) {
++            hwaddr base = extract64(ttbr[i], 1, 47) << 1;
++            int va_bits = 64 - tsz[i];
++            target_ulong vstart = (target_ulong)i << (va_bits - 1);
++            int startlevel = pt_start_level_stage1(va_bits, stride);
++
++            /* walk ttbrx page tables, starting from address @vstart */
++            walk_pte_lpae(mon, true, 0, base, vstart, startlevel,
++                          stride, va_bits);
++        }
++    }
++}
++
++void hmp_info_tlb(Monitor *mon, const QDict *qdict)
++{
++    CPUArchState *env;
++
++    env = mon_get_cpu_env(mon);
++    if (!env) {
++        monitor_printf(mon, "No CPU available\n");
++        return;
++    }
++
++    if (arm_feature(env, ARM_FEATURE_PMSA)) {
++        monitor_printf(mon, "No MMU\n");
++        return;
++    }
++
++    if (regime_translation_disabled(env, arm_stage1_mmu_idx(env))) {
++        monitor_printf(mon, "MMU disabled\n");
++        return;
++    }
++
++    if (!arm_el_is_aa64(env, 1)) {
++        monitor_printf(mon, "Only AArch64 Long Descriptor is supported\n");
++        return;
++    }
++
++    tlb_info_vmsav8_64(mon, env);
++}
+-- 
+2.25.1
 
 
