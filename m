@@ -2,84 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A0312B43D1
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 13:36:22 +0100 (CET)
-Received: from localhost ([::1]:49968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57D6A2B43E0
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 13:42:21 +0100 (CET)
+Received: from localhost ([::1]:55296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kedk5-0004JK-Ad
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 07:36:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60234)
+	id 1kedpr-0006mo-SO
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 07:42:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kedie-0003k7-Of
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 07:34:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28364)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kednd-0006E1-QS
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 07:40:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37547)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kedic-0006h6-Ol
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 07:34:52 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kednb-0000Bg-99
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 07:40:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605530089;
+ s=mimecast20190719; t=1605530398;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4fRowPRLWo7MhX/aICCHMXvy7T0JG8hcB9vRhGadNnw=;
- b=bpEjWlwgg9DX7rNoK5ZVVg50yN192TArfBsQFandK0HZiOEulnbbgw2VvOHqy53zAijx+d
- z3xTmzysXLBqTxErwssW6S64FmQA9QcZAP3c1pl2QDB+db4Lc2X/Re+FJxxmuGO/XPc2BG
- QMcXOWdZiTopSt591WJK20gtTIAAy3k=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-473-HqnLisj_PzaDMkqN_13xpQ-1; Mon, 16 Nov 2020 07:34:37 -0500
-X-MC-Unique: HqnLisj_PzaDMkqN_13xpQ-1
-Received: by mail-wr1-f71.google.com with SMTP id c8so11078126wrh.16
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 04:34:37 -0800 (PST)
+ bh=N6vJafF+ZWVlhyoMmgfR0sAS+baM5HwENF+9ycZo8cY=;
+ b=IxgP110/jQp90zWilQ02uEFOHTsQ6OYdW9iac6bJpiWVnVydqoh+y6MWiPh+/r0M2A7Ysl
+ p4V4wUmGPoNUo3e2TbnM1rt/R5KM3eISaYC27x+IUrIcfHZgamMgF0X/l3H74cediJLsO7
+ hAWlIqs2/G1h0M2HDcDIlw+qHQDycsk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-507-y1IRJfsUNgWHo2RiSqSJqA-1; Mon, 16 Nov 2020 07:39:55 -0500
+X-MC-Unique: y1IRJfsUNgWHo2RiSqSJqA-1
+Received: by mail-wr1-f69.google.com with SMTP id y2so11136743wrl.3
+ for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 04:39:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=Mq7FmKDBTQ8E/P/PmqP5EOPpEZXcg4D1Jv7QsiasXDE=;
- b=dNTNvPHr/5RNsS+B9LKztS9W8x+TD7IP93urkPUfhsqwx8j5iPCLh0/vODZC4D72Y/
- zAgLhErzUameD6Oudf++lSe36PAQsWJ0+DsFiHX2DgJRuVPFc6Z4Tci7OQLfpEfTLDb5
- fZAvB2+agsHSxB+SFeu7wjEwcsxQQZSQdkqm6+Ewgt9Mv3Zw9yE5GYzVrUbm3m3ZISif
- Ds1lSyNgn6wCkiSoBjmPQSdQCzxQa1CsISNCbf6gWc0j9gp/EClIhkMF9P4v7CyUQ7tW
- g9aG7fFIi/ry6ofnKTatXcKDDJMIaiNW+q4oLil0LYk6zyLyePfsgr5Af+ad7MgZS5nB
- xtaA==
-X-Gm-Message-State: AOAM530QiPO9dY7yxdSEwMQUDZE25UUg6vJAU4ysJ5szypJRYmpmEt5s
- ZOR8CqD+XcPskRu2nyPRW5hJqJzGeQjIq6gnRJWKCeBx7IheSn2jtWA8kvOoxI2Aipc92D5lTMH
- 0Hxkk5L02DMrNeo8=
-X-Received: by 2002:a5d:548b:: with SMTP id h11mr19513693wrv.306.1605530076179; 
- Mon, 16 Nov 2020 04:34:36 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxUkICpESBAxVjKmieygtSdnDHq3wyt6Y6vvxyqobk66uqzrwxiSc+8TevdflNxsbB9DpbI4w==
-X-Received: by 2002:a5d:548b:: with SMTP id h11mr19513663wrv.306.1605530075988; 
- Mon, 16 Nov 2020 04:34:35 -0800 (PST)
-Received: from redhat.com ([147.161.8.56])
- by smtp.gmail.com with ESMTPSA id t136sm16970457wmt.18.2020.11.16.04.34.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Nov 2020 04:34:35 -0800 (PST)
-Date: Mon, 16 Nov 2020 07:34:25 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [RFC v3] VFIO Migration
-Message-ID: <20201116072805-mutt-send-email-mst@kernel.org>
-References: <20201110095349.GA1082456@stefanha-x1.localdomain>
- <64fb6a41-fbfa-994c-9619-4df41ac97fde@redhat.com>
- <20201111143615.GA1421166@stefanha-x1.localdomain>
- <20201111154850.GG906488@redhat.com>
- <20201116111524.GD96297@stefanha-x1.localdomain>
- <20201116114125.GE104771@redhat.com>
- <20201116065906-mutt-send-email-mst@kernel.org>
- <20201116120518.GH104771@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=N6vJafF+ZWVlhyoMmgfR0sAS+baM5HwENF+9ycZo8cY=;
+ b=VOUFV3tcCYdC/w3o9HTlhX2e45+EIY8T8EKeb0mT6+s9TwndsPn/bSvuxfWf7WPvrb
+ z25hR9rIOiSTPQfAUn0AhuT+4lqRyxMxp0TgNlNq+vfZF4tWeJrHPPOMCrOw6ZEjhSg3
+ nw2R1uTu2/7nKCGzKOx7pDi0/qQ5VPDcA9GG9FRdBAlX9X1c61BsxUBEqr+BcflNRQHu
+ aVm7M+jmmgdFNg7JeRRNgAsK6Juhpi9hRnt0kjHfSuk4VHQr5b+KpVhpGz9U2AAz4nDu
+ fyUa+uXP/ERCfkWS3XWG7g51RhIzRFZsQRJ4lD7YexxyyJWiW9LUyb09OEOuYrRMwRAt
+ Andg==
+X-Gm-Message-State: AOAM532GTT5f4rEYvGifSVhwPfEYaknVD/GGD98UNDVUYrTZbQS+bZIS
+ 3VeP6zM/8IBlB4k7oPBmrgXymyPHNZCASBSfD++7MoR7gVbldBnfUvJRuCm6oXnHbSp1JxCZPjA
+ tzLo2X8DTVrkHe77BOH5NNBKRXy5UTKY/Y0pEKZEUNSC2qPOGDc5EqQ13Zn5vkjTX
+X-Received: by 2002:a5d:4d87:: with SMTP id b7mr20063395wru.115.1605530394506; 
+ Mon, 16 Nov 2020 04:39:54 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy+Hl7nWspvikPy3CQCflRfja98CLPGTsQzN4Sh3h9WNhrV9Jcbw6db60eUdxrPa54MUjhr3A==
+X-Received: by 2002:a5d:4d87:: with SMTP id b7mr20063376wru.115.1605530394302; 
+ Mon, 16 Nov 2020 04:39:54 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id t9sm22579950wrr.49.2020.11.16.04.39.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Nov 2020 04:39:53 -0800 (PST)
+Subject: Re: [PATCH for-5.2] iotests: Replace deprecated ConfigParser.readfp()
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20201113100602.15936-1-kwolf@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <e8e6509f-6f95-27f2-f9f5-108a70267e3a@redhat.com>
+Date: Mon, 16 Nov 2020 13:39:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201116120518.GH104771@redhat.com>
+In-Reply-To: <20201113100602.15936-1-kwolf@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 22:35:17
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -88,8 +84,9 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,80 +99,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John G Johnson <john.g.johnson@oracle.com>, "Tian,
- Kevin" <kevin.tian@intel.com>, Yan Zhao <yan.y.zhao@intel.com>,
- quintela@redhat.com, Jason Wang <jasowang@redhat.com>, "Zeng,
- Xin" <xin.zeng@intel.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Kirti Wankhede <kwankhede@nvidia.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Felipe Franciosi <felipe@nutanix.com>,
- Christophe de Dinechin <dinechin@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 16, 2020 at 12:05:18PM +0000, Daniel P. Berrangé wrote:
-> On Mon, Nov 16, 2020 at 07:03:03AM -0500, Michael S. Tsirkin wrote:
-> > On Mon, Nov 16, 2020 at 11:41:25AM +0000, Daniel P. BerrangÃ© wrote:
-> > > > It is possible to simplify the problem, but we'll lose freedom. For
-> > > > example, hard coding knowledge of the device implementation into the
-> > > > management tool eliminates the need for a general migration checking
-> > > > algorithm. Or we might be able to simplify it by explicitly not
-> > > > supporting cross-device implementation migration (although that would
-> > > > place stricter rules on what a new version of an existing device can
-> > > > change in order to preserve migration compatibility).
-> > > 
-> > > Is migrating between 2 different vendors' impls of the same core
-> > > device spec really a thing that's needed ? 
-> > 
-> > If there's intent to have this supercede vhost-user then certainly.
-> > Same I'm guessing for NVMe.
-> > 
-> > 
-> > > > I have doubts that these trade-offs can be made without losing support
-> > > > for use cases that are necessary.
-> > > 
-> > > >From my POV, the key goal is that it should be possible to migrate
-> > > between two hosts without needing to check every single possible
-> > > config parameter that the device supports. It should only be neccessary
-> > > to check the parameters that are actually changed from their default
-> > > values. Then there just needs to be some simple string parameter that
-> > > encodes a particular set of devices, akin to the versioned machine
-> > > type.
-> > > 
-> > > Applications that want to migration between cross-vendor device impls
-> > > could opt-in to checking every single little parameter, but most can
-> > > just stick with a much simplified view where they only have to check
-> > > the parameters that they've actually overriden/exposed.
-> > 
-> > It's a problem even for a single vendor. And we have lots of experience
-> > telling us it's a messy, difficult one. Just punting and saying
-> > vendors will do the right thing will not lead to quality
-> > implementations.
+On 11/13/20 11:06 AM, Kevin Wolf wrote:
+> iotest 277 fails on Fedora 33 (Python 3.9) because a deprecation warning
+> changes the output:
 > 
-> I'm not suggesting we punt on the problem. I'm saying that checking for
-> migration compatibility should not need to be made more complex than what
-> we already do for QEMU. The core problem being tackled is essentially the
-> same in both cases.
+>     nbd-fault-injector.py:230: DeprecationWarning: This method will be
+>     removed in future versions.  Use 'parser.read_file()' instead.
 > 
-> Regards,
-> Daniel
+> In fact, readfp() has already been deprecated in Python 3.2 and the
+> replacement has existed since the same version, so we can now
+> unconditionally switch to read_file().
+> 
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>  tests/qemu-iotests/nbd-fault-injector.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-There's a difference: in case of QEMU versions are release based.  At
-release time a new version is generated.  So QEMU upstream ships version
-X and Red Hat ships Y at a different time and they are not compatible.
-
-This won't work for devices: same device needs to work with
-both upstream and Red Hat and migrate upstream-upstream and Red Hat-Red Hat
-(though not upstream-Red Hat).
-
-
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
