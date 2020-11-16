@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 245A52B53F5
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 22:45:48 +0100 (CET)
-Received: from localhost ([::1]:41376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8AD72B53F9
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 22:48:28 +0100 (CET)
+Received: from localhost ([::1]:46948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kemJn-0006O9-5j
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 16:45:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60212)
+	id 1kemMN-0000Rk-I7
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 16:48:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1kemHI-0005WA-Tm
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 16:43:12 -0500
-Received: from mga14.intel.com ([192.55.52.115]:17594)
+ id 1kemJW-0007Ek-P6
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 16:45:30 -0500
+Received: from mga07.intel.com ([134.134.136.100]:18255)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1kemHF-0001Yq-7Z
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 16:43:12 -0500
-IronPort-SDR: kZcrOMTobSF8LeRLzMDXKyDectx6ks3stbQ12VzynPvmn0gQtR15zVgP0CKPUtnZwpsvsSGAi8
- IDy1cbTD6ceg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9807"; a="170036031"
-X-IronPort-AV: E=Sophos;i="5.77,483,1596524400"; d="scan'208";a="170036031"
+ id 1kemJT-0001pY-Sp
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 16:45:30 -0500
+IronPort-SDR: TCQv47Y++E2QeCc7fURw2HuAR/XtudGtCbVxL1Znv8pXVR/Kbdnre63Nvt0n/R8s3UZzLaL5Ak
+ /59tpCTa3a9Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9807"; a="234972206"
+X-IronPort-AV: E=Sophos;i="5.77,483,1596524400"; d="scan'208";a="234972206"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2020 13:42:59 -0800
-IronPort-SDR: yvU4yvaalNL8CMWdJsNgMkhKz92iauXLFWxdSSN59SLRwpEZ9gsBxREGIx0MWbw7B2m4+sRsbW
- 8zvScFeYSfzA==
-X-IronPort-AV: E=Sophos;i="5.77,483,1596524400"; d="scan'208";a="329842867"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Nov 2020 13:45:09 -0800
+IronPort-SDR: oFWyoKxhSQnUTGHd1K+dEPMEl6636SmEMqIN7tmvLcUComrVHJWwvne9iZA8dmp9BLSRNAu5BG
+ kEKSzEg9kZzQ==
+X-IronPort-AV: E=Sophos;i="5.77,483,1596524400"; d="scan'208";a="358620831"
 Received: from vbenjes-mobl.amr.corp.intel.com (HELO intel.com)
  ([10.252.134.15])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2020 13:42:57 -0800
-Date: Mon, 16 Nov 2020 13:42:55 -0800
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Nov 2020 13:45:08 -0800
+Date: Mon, 16 Nov 2020 13:45:05 -0800
 From: Ben Widawsky <ben.widawsky@intel.com>
 To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [RFC PATCH 07/25] hw/cxl/device: Implement basic mailbox (8.2.8.4)
-Message-ID: <20201116214255.4x7vjkmdlygj7syx@intel.com>
+Subject: Re: [RFC PATCH 08/25] hw/cxl/device: Add memory devices (8.2.8.5)
+Message-ID: <20201116214505.baogbkuiggkyrmee@intel.com>
 References: <20201111054724.794888-1-ben.widawsky@intel.com>
- <20201111054724.794888-8-ben.widawsky@intel.com>
- <20201116134651.00004dcf@Huawei.com>
+ <20201111054724.794888-9-ben.widawsky@intel.com>
+ <20201116163722.000079f4@Huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201116134651.00004dcf@Huawei.com>
-Received-SPF: pass client-ip=192.55.52.115;
- envelope-from=ben.widawsky@intel.com; helo=mga14.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 16:18:56
+In-Reply-To: <20201116163722.000079f4@Huawei.com>
+Received-SPF: pass client-ip=134.134.136.100;
+ envelope-from=ben.widawsky@intel.com; helo=mga07.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 16:11:26
 X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,41 +73,34 @@ Cc: Vishal Verma <vishal.l.verma@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20-11-16 13:46:51, Jonathan Cameron wrote:
-> On Tue, 10 Nov 2020 21:47:06 -0800
+On 20-11-16 16:37:22, Jonathan Cameron wrote:
+> On Tue, 10 Nov 2020 21:47:07 -0800
 > Ben Widawsky <ben.widawsky@intel.com> wrote:
 > 
-> > This is the beginning of implementing mailbox support for CXL 2.0
-> > devices.
+> > Memory devices implement extra capabilities on top of CXL devices. This
+> > adds support for that.
 > > 
 > > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> Mostly patch set cleanup suggestions rather than anything meaningful
-> in here.
-> 
-> Thanks,
-> 
-> Jonathan
-> 
 > > ---
-> >  hw/cxl/cxl-device-utils.c   | 131 ++++++++++++++++++++++++++++++++++++
-> >  hw/cxl/cxl-mailbox-utils.c  |  93 +++++++++++++++++++++++++
-> >  hw/cxl/meson.build          |   1 +
-> >  include/hw/cxl/cxl.h        |   3 +
-> >  include/hw/cxl/cxl_device.h |  10 ++-
-> >  5 files changed, 237 insertions(+), 1 deletion(-)
-> >  create mode 100644 hw/cxl/cxl-mailbox-utils.c
+> >  hw/cxl/cxl-device-utils.c   | 48 ++++++++++++++++++++++++++++++++++++-
+> >  hw/cxl/cxl-mailbox-utils.c  | 48 ++++++++++++++++++++++++++++++++++++-
+> >  include/hw/cxl/cxl_device.h | 15 ++++++++++++
+> >  3 files changed, 109 insertions(+), 2 deletions(-)
 > > 
 > > diff --git a/hw/cxl/cxl-device-utils.c b/hw/cxl/cxl-device-utils.c
-> > index 78144e103c..aec8b0d421 100644
+> > index aec8b0d421..6544a68567 100644
 > > --- a/hw/cxl/cxl-device-utils.c
 > > +++ b/hw/cxl/cxl-device-utils.c
-> > @@ -55,6 +55,123 @@ static uint64_t dev_reg_read(void *opaque, hwaddr offset, unsigned size)
-> >      return ldn_le_p(&retval, size);
+> > @@ -158,6 +158,45 @@ static void mailbox_reg_write(void *opaque, hwaddr offset, uint64_t value,
+> >          process_mailbox(cxl_dstate);
 > >  }
 > >  
-> > +static uint64_t mailbox_reg_read(void *opaque, hwaddr offset, unsigned size)
+> > +static uint64_t mdev_reg_read(void *opaque, hwaddr offset, unsigned size)
 > > +{
-> > +    CXLDeviceState *cxl_dstate = opaque;
+> > +    uint64_t retval = 0;
+> > +
+> > +    retval = FIELD_DP64(retval, CXL_MEM_DEV_STS, MEDIA_STATUS, 1);
+> > +    retval = FIELD_DP64(retval, CXL_MEM_DEV_STS, MBOX_READY, 1);
 > > +
 > > +    switch (size) {
 > > +    case 4:
@@ -122,99 +115,14 @@ On 20-11-16 13:46:51, Jonathan Cameron wrote:
 > > +            return 0;
 > > +        }
 > > +        break;
-> > +    default:
-> > +        qemu_log_mask(LOG_UNIMP, "%uB component register read\n", size);
-> > +        return 0;
 > > +    }
 > > +
-> > +    return ldn_le_p(cxl_dstate->mbox_reg_state + offset, size);
+> > +    return ldn_le_p(&retval, size);
 > > +}
 > > +
-> > +static void mailbox_mem_writel(uint32_t *reg_state, hwaddr offset,
-> > +                               uint64_t value)
-> > +{
-> > +    switch (offset) {
-> > +    case A_CXL_DEV_MAILBOX_CTRL:
-> > +        /* fallthrough */
-> > +    case A_CXL_DEV_MAILBOX_CAP:
-> > +        /* RO register */
-> > +        break;
-> > +    default:
-> > +        qemu_log_mask(LOG_UNIMP,
-> > +                      "%s Unexpected 32-bit access to 0x%" PRIx64 " (WI)\n",
-> > +                      __func__, offset);
-> > +        break;
-> > +    }
-> > +
-> > +    stl_le_p((uint8_t *)reg_state + offset, value);
-> > +}
-> > +
-> > +static void mailbox_mem_writeq(uint64_t *reg_state, hwaddr offset,
-> > +                               uint64_t value)
-> > +{
-> > +    switch (offset) {
-> > +    case A_CXL_DEV_MAILBOX_CMD:
-> > +        break;
-> > +    case A_CXL_DEV_BG_CMD_STS:
-> > +        /* BG not supported */
-> > +        /* fallthrough */
-> > +    case A_CXL_DEV_MAILBOX_STS:
-> > +        /* Read only register, will get updated by the state machine */
-> > +        return;
-> > +    case A_CXL_DEV_MAILBOX_CAP:
-> > +    case A_CXL_DEV_MAILBOX_CTRL:
-> 
-> I wouldn't bother listing these here given you don't list the MAILBOX_STS etc in
-> the 32 bit version.
-> 
-> > +    default:
-> > +        qemu_log_mask(LOG_UNIMP,
-> > +                      "%s Unexpected 64-bit access to 0x%" PRIx64 " (WI)\n",
-> > +                      __func__, offset);
-> > +        return;
-> > +    }
-> > +
-> > +    stq_le_p((uint8_t *)reg_state + offset, value);
-> > +}
-> > +
-> > +static void mailbox_reg_write(void *opaque, hwaddr offset, uint64_t value,
-> > +                              unsigned size)
-> > +{
-> > +    CXLDeviceState *cxl_dstate = opaque;
-> > +
-> > +    /*
-> > +     * Lock is needed to prevent concurrent writes as well as to prevent writes
-> > +     * coming in while the firmware is processing. Without background commands
-> > +     * or the second mailbox implemented, this serves no purpose since the
-> > +     * memory access is synchronized at a higher level (per memory region).
-> > +     */
-> > +    RCU_READ_LOCK_GUARD();
-> > +
-> > +    switch (size) {
-> > +    case 4:
-> > +        if (unlikely(offset & (sizeof(uint32_t) - 1))) {
-> > +            qemu_log_mask(LOG_UNIMP, "Unaligned register read\n");
-> > +            return;
-> > +        }
-> > +        mailbox_mem_writel(cxl_dstate->mbox_reg_state32, offset, value);
-> > +        break;
-> > +    case 8:
-> > +        if (unlikely(offset & (sizeof(uint64_t) - 1))) {
-> > +            qemu_log_mask(LOG_UNIMP, "Unaligned register read\n");
-> > +            return;
-> > +        }
-> > +        mailbox_mem_writeq(cxl_dstate->mbox_reg_state64, offset, value);
-> > +        break;
-> > +    }
-> > +
-> > +    if (ARRAY_FIELD_EX32(cxl_dstate->mbox_reg_state32, CXL_DEV_MAILBOX_CTRL,
-> > +                         DOORBELL))
-> > +        process_mailbox(cxl_dstate);
-> > +}
-> > +
-> > +static const MemoryRegionOps mailbox_ops = {
-> > +    .read = mailbox_reg_read,
-> > +    .write = mailbox_reg_write,
+> > +static const MemoryRegionOps mdev_ops = {
+> > +    .read = mdev_reg_read,
+> > +    .write = NULL,
 > > +    .endianness = DEVICE_LITTLE_ENDIAN,
 > > +    .valid = {
 > > +        .min_access_size = 4,
@@ -226,226 +134,187 @@ On 20-11-16 13:46:51, Jonathan Cameron wrote:
 > > +    },
 > > +};
 > > +
-> >  static const MemoryRegionOps dev_ops = {
-> >      .read = dev_reg_read,
-> >      .write = NULL,
-> > @@ -94,12 +211,23 @@ void cxl_device_register_block_init(Object *obj, CXLDeviceState *cxl_dstate)
-> >                            "cap-array", CXL_DEVICE_REGISTERS_OFFSET - 0);
-> >      memory_region_init_io(&cxl_dstate->device, obj, &dev_ops, cxl_dstate,
+> >  static const MemoryRegionOps mailbox_ops = {
+> >      .read = mailbox_reg_read,
+> >      .write = mailbox_reg_write,
+> > @@ -213,6 +252,9 @@ void cxl_device_register_block_init(Object *obj, CXLDeviceState *cxl_dstate)
 > >                            "device-status", CXL_DEVICE_REGISTERS_LENGTH);
-> > +    memory_region_init_io(&cxl_dstate->mailbox, obj, &mailbox_ops, cxl_dstate,
-> > +                          "mailbox", CXL_MAILBOX_REGISTERS_LENGTH);
+> >      memory_region_init_io(&cxl_dstate->mailbox, obj, &mailbox_ops, cxl_dstate,
+> >                            "mailbox", CXL_MAILBOX_REGISTERS_LENGTH);
+> > +    memory_region_init_io(&cxl_dstate->memory_device, obj, &mdev_ops,
+> > +                          cxl_dstate, "memory device caps",
+> > +                          CXL_MEMORY_DEVICE_REGISTERS_LENGTH);
 > >  
 > >      memory_region_add_subregion(&cxl_dstate->device_registers, 0,
 > >                                  &cxl_dstate->caps);
-> >      memory_region_add_subregion(&cxl_dstate->device_registers,
-> >                                  CXL_DEVICE_REGISTERS_OFFSET,
+> > @@ -221,6 +263,9 @@ void cxl_device_register_block_init(Object *obj, CXLDeviceState *cxl_dstate)
 > >                                  &cxl_dstate->device);
+> >      memory_region_add_subregion(&cxl_dstate->device_registers,
+> >                                  CXL_MAILBOX_REGISTERS_OFFSET, &cxl_dstate->mailbox);
 > > +    memory_region_add_subregion(&cxl_dstate->device_registers,
-> > +                                CXL_MAILBOX_REGISTERS_OFFSET, &cxl_dstate->mailbox);
-> > +}
-> > +
-> > +static void mailbox_init_common(uint32_t *mbox_regs)
-> > +{
-> > +    /* 2048 payload size, with no interrupt or background support */
-> > +    ARRAY_FIELD_DP32(mbox_regs, CXL_DEV_MAILBOX_CAP, PAYLOAD_SIZE,
-> > +                     CXL_MAILBOX_PAYLOAD_SHIFT);
+> > +                                CXL_MEMORY_DEVICE_REGISTERS_OFFSET,
+> > +                                &cxl_dstate->memory_device);
 > >  }
 > >  
+> >  static void mailbox_init_common(uint32_t *mbox_regs)
+> > @@ -233,7 +278,7 @@ static void mailbox_init_common(uint32_t *mbox_regs)
 > >  void cxl_device_register_init_common(CXLDeviceState *cxl_dstate)
-> > @@ -113,4 +241,7 @@ void cxl_device_register_init_common(CXLDeviceState *cxl_dstate)
-> >      ARRAY_FIELD_DP32(cap_hdrs, CXL_DEV_CAP_ARRAY2, CAP_COUNT, cap_count);
+> >  {
+> >      uint32_t *cap_hdrs = cxl_dstate->caps_reg_state32;
+> > -    const int cap_count = 1;
+> 
+> Guessing this should previously have been 2?
+> 
+> > +    const int cap_count = 3;
+> >  
+> >      /* CXL Device Capabilities Array Register */
+> >      ARRAY_FIELD_DP32(cap_hdrs, CXL_DEV_CAP_ARRAY, CAP_ID, 0);
+> > @@ -242,6 +287,7 @@ void cxl_device_register_init_common(CXLDeviceState *cxl_dstate)
 > >  
 > >      cxl_device_cap_init(cxl_dstate, DEVICE, 1);
-> > +    cxl_device_cap_init(cxl_dstate, MAILBOX, 2);
-> > +
-> > +    mailbox_init_common(cxl_dstate->mbox_reg_state32);
+> >      cxl_device_cap_init(cxl_dstate, MAILBOX, 2);
+> > +    cxl_device_cap_init(cxl_dstate, MEMORY_DEVICE, 0x4000);
+> >  
+> >      mailbox_init_common(cxl_dstate->mbox_reg_state32);
 > >  }
 > > diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
-> > new file mode 100644
-> > index 0000000000..2d1b0ef9e4
-> > --- /dev/null
+> > index 2d1b0ef9e4..5d2579800e 100644
+> > --- a/hw/cxl/cxl-mailbox-utils.c
 > > +++ b/hw/cxl/cxl-mailbox-utils.c
-> > @@ -0,0 +1,93 @@
-> > +/*
-> > + * CXL Utility library for mailbox interface
-> > + *
-> > + * Copyright(C) 2020 Intel Corporation.
-> > + *
-> > + * This work is licensed under the terms of the GNU GPL, version 2. See the
-> > + * COPYING file in the top-level directory.
-> > + */
-> > +
-> > +#include "qemu/osdep.h"
-> > +#include "qemu/log.h"
-> > +#include "hw/pci/pci.h"
-> > +#include "hw/cxl/cxl.h"
-> > +
-> > +/* 8.2.8.4.5.1 Command Return Codes */
-> > +enum {
-> > +    RET_SUCCESS                 = 0x0,
-> > +    RET_BG_STARTED              = 0x1, /* Background Command Started */
-> > +    RET_EINVAL                  = 0x2, /* Invalid Input */
-> > +    RET_ENOTSUP                 = 0x3, /* Unsupported */
-> > +    RET_ENODEV                  = 0x4, /* Internal Error */
-> > +    RET_ERESTART                = 0x5, /* Retry Required */
-> > +    RET_EBUSY                   = 0x6, /* Busy */
-> > +    RET_MEDIA_DISABLED          = 0x7, /* Media Disabled */
-> > +    RET_FW_EBUSY                = 0x8, /* FW Transfer in Progress */
-> > +    RET_FW_OOO                  = 0x9, /* FW Transfer Out of Order */
-> > +    RET_FW_AUTH                 = 0xa, /* FW Authentication Failed */
-> > +    RET_FW_EBADSLT              = 0xb, /* Invalid Slot */
-> > +    RET_FW_ROLLBACK             = 0xc, /* Activation Failed, FW Rolled Back */
-> > +    RET_FW_REBOOT               = 0xd, /* Activation Failed, Cold Reset Required */
-> > +    RET_ENOENT                  = 0xe, /* Invalid Handle */
-> > +    RET_EFAULT                  = 0xf, /* Invalid Physical Address */
-> > +    RET_POISON_E2BIG            = 0x10, /* Inject Poison Limit Reached */
-> > +    RET_EIO                     = 0x11, /* Permanent Media Failure */
-> > +    RET_ECANCELED               = 0x12, /* Aborted */
-> > +    RET_EACCESS                 = 0x13, /* Invalid Security State */
-> > +    RET_EPERM                   = 0x14, /* Incorrect Passphrase */
-> > +    RET_EPROTONOSUPPORT         = 0x15, /* Unsupported Mailbox */
-> > +    RET_EMSGSIZE                = 0x16, /* Invalid Payload Length */
-> > +    RET_MAX                     = 0x17
+> > @@ -12,6 +12,12 @@
+> >  #include "hw/pci/pci.h"
+> >  #include "hw/cxl/cxl.h"
+> >  
+> > +enum cxl_opcode {
+> > +    CXL_EVENTS      = 0x1,
+> > +    CXL_IDENTIFY    = 0x40,
+> > +        #define CXL_IDENTIFY_MEMORY_DEVICE = 0x0
 > > +};
-> 
-> Ah back again.  Just drop the earlier add and remove of this list and
-> we are all good.
-> 
 > > +
-> > +void process_mailbox(CXLDeviceState *cxl_dstate)
+> >  /* 8.2.8.4.5.1 Command Return Codes */
+> >  enum {
+> >      RET_SUCCESS                 = 0x0,
+> > @@ -40,6 +46,43 @@ enum {
+> >      RET_MAX                     = 0x17
+> >  };
+> >  
+> > +/* 8.2.9.5.1.1 */
+> > +static int cmd_set_identify(CXLDeviceState *cxl_dstate, uint8_t cmd,
+> > +                            uint32_t *ret_size)
+> 
+> I'm a bit confused on naming here, perhaps rsp_set_identity makes
+> it clearer which direction this is going in?  I think this is
+> filling in the reply for a command from software running on the
+> system. Naming seems to me to suggest we are setting the identity
+> of the hardware.  
+> 
+
+It sounds like maybe you read "identify" as "identity"?
+
+You're correct, this represents the firmware running on the memory device that
+is receiving the identify command from the host. I've been thinking about
+renaming these based on what the underlying device is. For instance, this might
+become:
+
+mem_dev_identify()
+
 > > +{
-> > +    uint16_t ret = RET_SUCCESS;
-> > +    uint32_t ret_len = 0;
-> > +    uint64_t status_reg;
+> > +    struct identify {
+> > +        char fw_revision[0x10];
+> > +        uint64_t total_capacity;
+> > +        uint64_t volatile_capacity;
+> > +        uint64_t persistent_capacity;
+> > +        uint64_t partition_align;
+> > +        uint16_t info_event_log_size;
+> > +        uint16_t warning_event_log_size;
+> > +        uint16_t failure_event_log_size;
+> > +        uint16_t fatal_event_log_size;
+> > +        uint32_t lsa_size;
+> > +        uint8_t poison_list_max_mer[3];
+> > +        uint16_t inject_poison_limit;
+> > +        uint8_t poison_caps;
+> > +        uint8_t qos_telemetry_caps;
+> > +    } __attribute__((packed)) *id;
+> > +    _Static_assert(sizeof(struct identify) == 0x43, "Bad identify size");
 > > +
-> > +    /*
-> > +     * current state of mailbox interface
-> > +     *  uint32_t mbox_cap_reg = cxl_dstate->reg_state32[R_CXL_DEV_MAILBOX_CAP];
-> > +     *  uint32_t mbox_ctrl_reg = cxl_dstate->reg_state32[R_CXL_DEV_MAILBOX_CTRL];
-> > +     *  uint64_t status_reg = *(uint64_t *)&cxl_dstate->reg_state[A_CXL_DEV_MAILBOX_STS];
-> > +     */
-> > +    uint64_t command_reg =
-> > +        *(uint64_t *)&cxl_dstate->mbox_reg_state[A_CXL_DEV_MAILBOX_CMD];
-> > +
-> > +    /* Check if we have to do anything */
-> > +    if (!ARRAY_FIELD_EX32(cxl_dstate->mbox_reg_state32, CXL_DEV_MAILBOX_CTRL, DOORBELL)) {
-> > +        qemu_log_mask(LOG_UNIMP, "Corrupt internal state for firmware\n");
-> > +        return;
+> > +    if (memory_region_size(cxl_dstate->pmem) < (256 << 20)) {
+> > +        return RET_ENODEV;
 > > +    }
 > > +
-> > +    uint8_t cmd_set = FIELD_EX64(command_reg, CXL_DEV_MAILBOX_CMD, COMMAND_SET);
-> > +    uint8_t cmd = FIELD_EX64(command_reg, CXL_DEV_MAILBOX_CMD, COMMAND);
-> > +    (void)cmd;
-> 
-> ?
-
-I have plans for this, so you can ignore it for now.
-
-> 
-> > +    switch (cmd_set) {
-> > +    default:
-> > +        ret = RET_ENOTSUP;
-> > +    }
+> > +    /* PMEM only */
+> > +    id = (struct identify *)((void *)cxl_dstate->mbox_reg_state +
+> > +                             A_CXL_DEV_CMD_PAYLOAD);
+> > +    snprintf(id->fw_revision, 0x10, "BWFW VERSION %02d", 0);
+> > +    id->total_capacity = memory_region_size(cxl_dstate->pmem);
+> > +    id->persistent_capacity = memory_region_size(cxl_dstate->pmem);
 > > +
-> > +    /*
-> > +     * Set the return code
-> > +     * XXX: it's a 64b register, but we're not setting the vendor, so we can get
-> > +     * away with this
-> 
-> Also mention not setting background operation bit?
-> 
-> > +     */
-> > +    status_reg = FIELD_DP64(0, CXL_DEV_MAILBOX_STS, ERRNO, ret);
-> > +
-> > +    /*
-> > +     * Set the return length
-> > +     */
-> > +    command_reg = FIELD_DP64(command_reg, CXL_DEV_MAILBOX_CMD, COMMAND_SET, 0);
-> > +    command_reg = FIELD_DP64(command_reg, CXL_DEV_MAILBOX_CMD, COMMAND, 0);
-> > +    command_reg = FIELD_DP64(command_reg, CXL_DEV_MAILBOX_CMD, LENGTH, ret_len);
-> 
-> Rather convoluted way of setting just the length field, I assume because there
-> are RsvdP fields in there we can't touch.
-> 
-> > +
-> > +    stq_le_p(cxl_dstate->mbox_reg_state + A_CXL_DEV_MAILBOX_CMD, command_reg);
-> > +    stq_le_p(cxl_dstate->mbox_reg_state + A_CXL_DEV_MAILBOX_STS, status_reg);
-> > +
-> > +    /* Tell the host we're done */
-> > +    ARRAY_FIELD_DP32(cxl_dstate->mbox_reg_state32, CXL_DEV_MAILBOX_CTRL,
-> > +                     DOORBELL, 0);
+> > +    *ret_size = 0x43;
+> > +    return RET_SUCCESS;
 > > +}
 > > +
-> > diff --git a/hw/cxl/meson.build b/hw/cxl/meson.build
-> > index 47154d6850..0eca715d10 100644
-> > --- a/hw/cxl/meson.build
-> > +++ b/hw/cxl/meson.build
-> > @@ -1,4 +1,5 @@
-> >  softmmu_ss.add(when: 'CONFIG_CXL', if_true: files(
-> >    'cxl-component-utils.c',
-> >    'cxl-device-utils.c',
-> > +  'cxl-mailbox-utils.c',
-> >  ))
-> > diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
-> > index 23f52c4cf9..362cda40de 100644
-> > --- a/include/hw/cxl/cxl.h
-> > +++ b/include/hw/cxl/cxl.h
-> > @@ -14,5 +14,8 @@
-> >  #include "cxl_component.h"
-> >  #include "cxl_device.h"
+> >  void process_mailbox(CXLDeviceState *cxl_dstate)
+> >  {
+> >      uint16_t ret = RET_SUCCESS;
+> > @@ -63,8 +106,11 @@ void process_mailbox(CXLDeviceState *cxl_dstate)
 > >  
-> > +#define COMPONENT_REG_BAR_IDX 0
-> > +#define DEVICE_REG_BAR_IDX 2
-> > +
-> >  #endif
-> >  
+> >      uint8_t cmd_set = FIELD_EX64(command_reg, CXL_DEV_MAILBOX_CMD, COMMAND_SET);
+> >      uint8_t cmd = FIELD_EX64(command_reg, CXL_DEV_MAILBOX_CMD, COMMAND);
+> > -    (void)cmd;
+> 
+> Clean this stuff up before v2.
+> 
+> >      switch (cmd_set) {
+> > +    case CXL_IDENTIFY:
+> > +        ret = cmd_set_identify(cxl_dstate, cmd, &ret_len);
+> > +        /* Fill in payload here */
+> > +        break;
+> >      default:
+> >          ret = RET_ENOTSUP;
+> >      }
 > > diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-> > index 2c674fdc9c..df00998def 100644
+> > index df00998def..2cb2a9af3c 100644
 > > --- a/include/hw/cxl/cxl_device.h
 > > +++ b/include/hw/cxl/cxl_device.h
-> > @@ -87,6 +87,11 @@ typedef struct cxl_device_state {
-> >          uint8_t caps_reg_state[CXL_DEVICE_CAP_REG_SIZE * 4]; /* ARRAY + 3 CAPS */
-> >          uint32_t caps_reg_state32[0];
-> >      };
-> > +    union {
-> > +        uint8_t mbox_reg_state[CXL_MAILBOX_REGISTERS_LENGTH];
-> > +        uint32_t mbox_reg_state32[0];
-> > +        uint64_t mbox_reg_state64[0];
-> > +    };
-> >  } CXLDeviceState;
+> > @@ -69,6 +69,10 @@
+> >  #define CXL_MAILBOX_REGISTERS_LENGTH \
+> >      (CXL_MAILBOX_REGISTERS_SIZE + CXL_MAILBOX_MAX_PAYLOAD_SIZE)
 > >  
-> >  /* Initialize the register block for a device */
-> > @@ -127,6 +132,8 @@ CXL_DEVICE_CAPABILITY_HEADER_REGISTER(DEVICE, CXL_DEVICE_CAP_HDR1_OFFSET)
+> > +#define CXL_MEMORY_DEVICE_REGISTERS_OFFSET \
+> > +    (CXL_MAILBOX_REGISTERS_OFFSET + CXL_MAILBOX_REGISTERS_LENGTH)
+> > +#define CXL_MEMORY_DEVICE_REGISTERS_LENGTH 0x8
+> > +
+> >  typedef struct cxl_device_state {
+> >      /* Boss container and caps registers */
+> >      MemoryRegion device_registers;
+> > @@ -76,6 +80,7 @@ typedef struct cxl_device_state {
+> >      MemoryRegion caps;
+> >      MemoryRegion device;
+> >      MemoryRegion mailbox;
+> > +    MemoryRegion memory_device;
+> >  
+> >      MemoryRegion *pmem;
+> >      MemoryRegion *vmem;
+> > @@ -131,6 +136,8 @@ REG32(CXL_DEV_CAP_ARRAY2, 4) /* We're going to pretend it's 64b */
+> >  CXL_DEVICE_CAPABILITY_HEADER_REGISTER(DEVICE, CXL_DEVICE_CAP_HDR1_OFFSET)
 > >  CXL_DEVICE_CAPABILITY_HEADER_REGISTER(MAILBOX, CXL_DEVICE_CAP_HDR1_OFFSET + \
 > >                                                 CXL_DEVICE_CAP_REG_SIZE)
+> > +CXL_DEVICE_CAPABILITY_HEADER_REGISTER(MEMORY_DEVICE, CXL_DEVICE_CAP_HDR1_OFFSET + \
+> > +                                                     CXL_DEVICE_CAP_REG_SIZE * 2)
 > >  
-> > +void process_mailbox(CXLDeviceState *cxl_dstate);
+> >  void process_mailbox(CXLDeviceState *cxl_dstate);
+> >  
+> > @@ -181,4 +188,12 @@ REG32(CXL_DEV_BG_CMD_STS, 0x18)
+> >  
+> >  REG32(CXL_DEV_CMD_PAYLOAD, 0x20)
+> >  
+> > +/* XXX: actually a 64b registers */
+> > +REG32(CXL_MEM_DEV_STS, 0)
+> > +    FIELD(CXL_MEM_DEV_STS, FATAL, 0, 1)
+> > +    FIELD(CXL_MEM_DEV_STS, FW_HALT, 1, 1)
+> > +    FIELD(CXL_MEM_DEV_STS, MEDIA_STATUS, 2, 2)
+> > +    FIELD(CXL_MEM_DEV_STS, MBOX_READY, 4, 1)
+> > +    FIELD(CXL_MEM_DEV_STS, RESET_NEEDED, 5, 3)
 > > +
-> >  #define cxl_device_cap_init(dstate, reg, cap_id)                                   \
-> >      do {                                                                           \
-> >          uint32_t *cap_hdrs = dstate->caps_reg_state32;                             \
-> > @@ -155,7 +162,8 @@ REG32(CXL_DEV_MAILBOX_CTRL, 4)
-> >      FIELD(CXL_DEV_MAILBOX_CTRL, BG_INT_EN, 2, 1)
-> >  
-> >  REG32(CXL_DEV_MAILBOX_CMD, 8)
-> > -    FIELD(CXL_DEV_MAILBOX_CMD, OP, 0, 16)
-> > +    FIELD(CXL_DEV_MAILBOX_CMD, COMMAND, 0, 8)
-> 
-> Can we fix the original introduction of this so we don't end up modifying it here?
-> From spec I can fully see how you ended up with this as you wrote the code
-> but nice to get rid of the two step definition now anyway.
-> (the field is first defined as 16 bits, then later it says there are two 8 bit fields).
-
-I'll change it...
-
-Please see this commit (and branch) for what I'm planning to do here:
-https://gitlab.com/bwidawsk/qemu/-/commit/bdb9f9a5337873aedb89558d28968caa130db05e#0d08a7f7c79cf3169f15ad6c4bb7a440c3603af6_47_65
-
-> 
-> > +    FIELD(CXL_DEV_MAILBOX_CMD, COMMAND_SET, 8, 8)
-> >      FIELD(CXL_DEV_MAILBOX_CMD, LENGTH, 16, 20)
-> >  
-> >  /* XXX: actually a 64b register */
+> >  #endif
 > 
 
