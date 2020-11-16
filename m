@@ -2,62 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3A7C2B44E8
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 14:45:23 +0100 (CET)
-Received: from localhost ([::1]:53544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D591C2B44E9
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 14:45:24 +0100 (CET)
+Received: from localhost ([::1]:53536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keeos-0005qY-2i
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 08:45:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47920)
+	id 1keeot-0005qI-VM
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 08:45:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1keen2-0004iC-AL; Mon, 16 Nov 2020 08:43:32 -0500
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:52393)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1keemy-0005i2-PE; Mon, 16 Nov 2020 08:43:28 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.42])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 7E86E730213A;
- Mon, 16 Nov 2020 14:43:13 +0100 (CET)
-Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Mon, 16 Nov
- 2020 14:43:12 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G0037feb3e37-944c-484b-8f30-ac1768c8a5b4,
- 4C8231DAC7BA0B5668AD0293EB9EBEB96F7691F2) smtp.auth=clg@kaod.org
-Subject: Re: [PATCH for-5.2] spapr/xive: Create IPIs in KVM on demand
-To: Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
-References: <160528045027.804522.6161091782230763832.stgit@bahia.lan>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <8e600620-8721-c9fe-08bf-df3138437200@kaod.org>
-Date: Mon, 16 Nov 2020 14:43:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1keemz-0004fQ-SQ
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 08:43:25 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41114)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1keemy-0005kJ-0V
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 08:43:25 -0500
+Received: by mail-wr1-x441.google.com with SMTP id 23so18710146wrc.8
+ for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 05:43:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dme-org.20150623.gappssmtp.com; s=20150623;
+ h=to:cc:subject:in-reply-to:references:from:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=Lverj1xUIond2tO7njcqRpVOFBxkhCoEJ+h8zwPEMEI=;
+ b=JE4igB3ijKyXSMAE2p/RZMBZ0kT1ym5BOUliQpKEhDr8NWyAjZMwEI824UfvZyD7fs
+ dMiC9C6ssdRZ93VX4MA55ImH/21LiLIAWEo9I5LMc+dyvsneD9Zl9+UTIIxdCa41UYnZ
+ jrihQSnWm/op0xs7tYC0xZSLIOdBsAPGQXv79lx3pqr2ONw0GrP96vetvuzwMdq0aB8n
+ 24JtEvHL++gstOXNoAzZ72K5uvvarOEdRdxRpWp386kD0qPefvyXnjhiz8WSYx8sM+s3
+ bXj75kDWQc7gvV7BE322qX6CWHlTcAI4zhOTgBgeinn00e+G7IGQpCsZP5u2rZPmRowo
+ Omcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:subject:in-reply-to:references:from:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Lverj1xUIond2tO7njcqRpVOFBxkhCoEJ+h8zwPEMEI=;
+ b=l+pFkNVLVNPxhK70FU44zKyApE+fvkankyVj0iIlFBx8x55hBenhNP/hYD4Bu8k+rA
+ J/z6MVku1I0BKrJo9Y2a5gNSV3U73C7ssQOnZDS/oVVWXWxbRdapVyOcR790rC3mHcFP
+ xgT/3fFYwgGY+I1kkhPgiZ0HFjiata7WLLXsQtWd/A8iPnF8XYQCj46U8rakjeANHSmj
+ saW3CikeRJ1Q0X76xnPXi2TKqRtCFbQuwVSE+dzLYIq3Vi7JnRiyhShHlQ/xX3upbkX6
+ uOTvInGmYlEnw8qNnMTP2khQXvR/Yw8b3Ak4yxLVurcr+viy8++8uQcCMYjQhFPdTFP8
+ Ygog==
+X-Gm-Message-State: AOAM530vvXfg0z+2FVY2hT4fp9IqPhrelshYSskspx7VDNDUFaaCWAeY
+ JAuzcTC1lrX/5ej7BdMhamKq9A==
+X-Google-Smtp-Source: ABdhPJxXbrKOYKS0nKJYo7YHZ0HeMWqKSQUcu6aGwMP9TtzyfwLhixz8uBV9xQt/0Ttrdy/MHGe5ow==
+X-Received: by 2002:a5d:514a:: with SMTP id u10mr19259795wrt.312.1605534200590; 
+ Mon, 16 Nov 2020 05:43:20 -0800 (PST)
+Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net.
+ [2001:8b0:bb71:7140:64::1])
+ by smtp.gmail.com with ESMTPSA id v67sm20695550wma.17.2020.11.16.05.43.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Nov 2020 05:43:19 -0800 (PST)
+Received: from localhost (disaster-area.hh.sledj.net [local])
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 4a67b6e6;
+ Mon, 16 Nov 2020 13:43:18 +0000 (UTC)
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH 0/5] ARM: reduce the memory consumed when mapping
+ UEFI flash images
+In-Reply-To: <3da830b6-8200-6df9-9ba3-1f51bf887c4e@redhat.com>
+References: <20201116104216.439650-1-david.edmondson@oracle.com>
+ <3da830b6-8200-6df9-9ba3-1f51bf887c4e@redhat.com>
+X-HGTTG: zarquon
+From: David Edmondson <dme@dme.org>
+Date: Mon, 16 Nov 2020 13:43:18 +0000
+Message-ID: <cuna6vhju2x.fsf@zarquon.hh.sledj.net>
 MIME-Version: 1.0
-In-Reply-To: <160528045027.804522.6161091782230763832.stgit@bahia.lan>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 549d0f34-9821-4d49-811f-fcc57f1f37fd
-X-Ovh-Tracer-Id: 9363265104130247462
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudefuddgheeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeffieefueejhfegvdevvddvleeikeefveeljefghfdujeelvdegkefhleekueeknecuffhomhgrihhnpehlrghunhgthhhprggurdhnvghtnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout1.mo804.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 08:43:14
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: neutral client-ip=2a00:1450:4864:20::441;
+ envelope-from=dme@dme.org; helo=mail-wr1-x441.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NEUTRAL=0.779, UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,298 +90,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Satheesh Rajendran <sathnaga@linux.ibm.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Gustavo Romero <gromero@linux.ibm.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/13/20 4:14 PM, Greg Kurz wrote:
-> Recent commit acbdb9956fe9 introduced a dedicated path to create
-> IPIs in KVM. This is done from under kvmppc_xive_cpu_connect() with
-> the assumption that the IPI number is equal to the vCPU id. The
-> latter is wrong: the guest chooses an arbitrary LISN from the
-> "ibm,xive-lisn-ranges" and assigns it to a target vCPU with the
-> H_INT_SET_SOURCE_CONFIG hcall. This went unnoticed so far because
-> IPI numbers and vCPU ids happen to match by default. This is no
-> longer the case though when setting the VSMT machine property to
-> a value that is different from (ie. bigger than) the number of
-> vCPUs per core (ie. -smp threads). Wrong IPIs end up being created
-> in KVM but the guest still uses the ones it has allocated and gets
-> very confused (see BugLink below).
-> 
-> Fix this by creating the IPI at the only place where we have
-> its appropriate number : when the guest allocates it with the
-> H_INT_SET_SOURCE_CONFIG hcall. We detect this is an IPI because
-> it is < SPAPR_XIRQ_BASE and we get the vCPU id from the hcall
-> arguments. The EAS of the IPI is tracked in the kvm_enabled_cpus
-> list. It is now used instead of vcpu_id to filter unallocated IPIs
-> out in xive_source_is_valid(). It also allows to only reset the
-> IPI on the first call to H_INT_SET_SOURCE_CONFIG.
-> 
-> Restore unmasked IPIs from the vCPU contexts in kvmppc_xive_post_load().
-> Masked ones will be created when the guests eventually unmask them
-> with H_INT_SET_SOURCE_CONFIG.
-> 
-> Reported-by: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>
-> Fixes: acbdb9956fe9 ("spapr/xive: Allocate IPIs independently from the other sources")
-> BugLink: https://bugs.launchpad.net/qemu/+bug/1900241
-> Cc: clg@kaod.org
-> Signed-off-by: Greg Kurz <groug@kaod.org>
+On Monday, 2020-11-16 at 12:39:46 +01, Philippe Mathieu-Daud=C3=A9 wrote:
 
+> Hi David,
+>
+> On 11/16/20 11:42 AM, David Edmondson wrote:
+>> Currently ARM UEFI images are typically built as 2MB/768kB flash
+>> images for code and variables respectively. These images are both then
+>> padded out to 64MB before being loaded by QEMU.
+>>=20
+>> Because the images are 64MB each, QEMU allocates 128MB of memory to
+>> read them, and then proceeds to read all 128MB from disk (dirtying the
+>> memory). Of this 128MB less than 3MB is useful - the rest is zero
+>> padding.
+>
+> 2 years ago I commented the same problem, and suggested to access the
+> underlying storage by "block", as this is a "block storage".
+>
+> Back then the response was "do not try to fix something that works".
+> This is why we choose the big hammer "do not accept image size not
+> matching device size" way.
+>
+> While your series seems to help, it only postpone the same
+> implementation problem. If what you want is use the least memory
+> required, I still believe accessing the device by block is the
+> best approach.
 
-I am quite certain this is correct but the complexity looks like a 
-potential source of bugs. So I think it is simpler to revert the 
-optimization introduced by acbdb9956fe9 and find a better solution 
-covering SMT also. 
+I agree that would reduce the size further, but it feels like it may be
+a case of diminishing returns.
 
-Thanks,
+Currently the consumption for a single guest is 128MB. This change will
+bring it down under 3MB, with the block approach perhaps reducing that
+to zero (there will be some buffer block usage presumably, and perhaps a
+small cache would make sense, so it won't really be zero).
 
-C.
+Scaling that up for 100 guests, we're going from 12.5GB now down to
+under 300MB with the changes, and again something around zero with the
+block based approach.
 
+I guess that it would mean that the machine model wouldn't have to
+change, as we could return zeros for reads outside the underlying device
+extent. This seems like the most interesting part - are there likely to
+be any consequential *benefits* from reducing the amount of guest
+address space consumed by the flash regions?
 
+> Regards,
+>
+> Phil.
+>
+>>=20
+>> On a machine with 100 VMs this wastes over 12GB of memory.
+>>=20
+>> This set of patches aims to reclaim the wasted memory by allowing QEMU
+>> to respect the size of the flash images and allocate only the
+>> necessary memory. This will, of course, require that the flash build
+>> process be modified to avoid padding the images to 64MB.
+>>=20
+>> Because existing machine types expect the full 128MB reserved for
+>> flash to be occupied, do so for machine types older than virt-5.2. The
+>> changes are beneficial even in this case, because while the full 128MB
+>> of memory is allocated, only that required to actually load the flash
+>> images from disk is touched.
+>>=20
+>> David Edmondson (5):
+>>   hw/block: blk_check_size_and_read_all should report backend name
+>>   hw/block: Flash images can be smaller than the device
+>>   hw/arm: Convert assertions about flash image size to error_report
+>>   hw/arm: Flash image mapping follows image size
+>>   hw/arm: Only minimise flash size on older machines
+>>=20
+>>  hw/arm/trace-events      |  2 +
+>>  hw/arm/virt-acpi-build.c | 30 ++++++++------
+>>  hw/arm/virt.c            | 86 +++++++++++++++++++++++++++++-----------
+>>  hw/block/block.c         | 26 ++++++------
+>>  include/hw/arm/virt.h    |  2 +
+>>  5 files changed, 97 insertions(+), 49 deletions(-)
+>>=20
 
-> ---
->  hw/intc/spapr_xive_kvm.c |  141 +++++++++++++++++++++++++++++++++++++++++-----
->  1 file changed, 127 insertions(+), 14 deletions(-)
-> 
-> diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-> index 66bf4c06fe55..4e5871c3aac2 100644
-> --- a/hw/intc/spapr_xive_kvm.c
-> +++ b/hw/intc/spapr_xive_kvm.c
-> @@ -30,6 +30,7 @@
->   */
->  typedef struct KVMEnabledCPU {
->      unsigned long vcpu_id;
-> +    XiveEAS *ipi_eas;
->      QLIST_ENTRY(KVMEnabledCPU) node;
->  } KVMEnabledCPU;
->  
-> @@ -55,6 +56,7 @@ static void kvm_cpu_enable(CPUState *cs)
->  
->      enabled_cpu = g_malloc(sizeof(*enabled_cpu));
->      enabled_cpu->vcpu_id = vcpu_id;
-> +    enabled_cpu->ipi_eas = NULL;
->      QLIST_INSERT_HEAD(&kvm_enabled_cpus, enabled_cpu, node);
->  }
->  
-> @@ -156,26 +158,29 @@ int kvmppc_xive_cpu_synchronize_state(XiveTCTX *tctx, Error **errp)
->   */
->  typedef struct {
->      SpaprXive *xive;
-> +    uint32_t lisn;
->      Error *err;
->      int rc;
->  } XiveInitIPI;
->  
->  static void kvmppc_xive_reset_ipi_on_cpu(CPUState *cs, run_on_cpu_data arg)
->  {
-> -    unsigned long ipi = kvm_arch_vcpu_id(cs);
->      XiveInitIPI *s = arg.host_ptr;
-> +    unsigned long ipi = s->lisn;
->      uint64_t state = 0;
->  
->      s->rc = kvm_device_access(s->xive->fd, KVM_DEV_XIVE_GRP_SOURCE, ipi,
->                                &state, true, &s->err);
->  }
->  
-> -static int kvmppc_xive_reset_ipi(SpaprXive *xive, CPUState *cs, Error **errp)
-> +static int kvmppc_xive_reset_ipi(SpaprXive *xive, CPUState *cs, uint32_t lisn,
-> +                                 Error **errp)
->  {
->      XiveInitIPI s = {
->          .xive = xive,
->          .err  = NULL,
->          .rc   = 0,
-> +        .lisn = lisn,
->      };
->  
->      run_on_cpu(cs, kvmppc_xive_reset_ipi_on_cpu, RUN_ON_CPU_HOST_PTR(&s));
-> @@ -214,12 +219,6 @@ int kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp)
->          return ret;
->      }
->  
-> -    /* Create/reset the vCPU IPI */
-> -    ret = kvmppc_xive_reset_ipi(xive, tctx->cs, errp);
-> -    if (ret < 0) {
-> -        return ret;
-> -    }
-> -
->      kvm_cpu_enable(tctx->cs);
->      return 0;
->  }
-> @@ -228,6 +227,62 @@ int kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp)
->   * XIVE Interrupt Source (KVM)
->   */
->  
-> +static bool spapr_xive_is_ipi(uint32_t lisn)
-> +{
-> +    return lisn < SPAPR_XIRQ_BASE;
-> +}
-> +
-> +static bool kvm_ipi_is_enabled(SpaprXive *xive, uint32_t lisn)
-> +{
-> +    KVMEnabledCPU *enabled_cpu;
-> +
-> +    g_assert(spapr_xive_is_ipi(lisn));
-> +
-> +    QLIST_FOREACH(enabled_cpu, &kvm_enabled_cpus, node) {
-> +        if (enabled_cpu->ipi_eas == &xive->eat[lisn]) {
-> +            return true;
-> +        }
-> +    }
-> +    return false;
-> +}
-> +
-> +static int kvm_ipi_enable(SpaprXive *xive, uint32_t lisn, uint32_t vcpu_id,
-> +                          Error **errp)
-> +{
-> +    KVMEnabledCPU *enabled_cpu;
-> +
-> +    g_assert(spapr_xive_is_ipi(lisn));
-> +
-> +    QLIST_FOREACH(enabled_cpu, &kvm_enabled_cpus, node) {
-> +        if (enabled_cpu->vcpu_id == vcpu_id) {
-> +            CPUState *cs = CPU(spapr_find_cpu(vcpu_id));
-> +            XiveEAS *eas = &xive->eat[lisn];
-> +
-> +            /* No change ? */
-> +            if (enabled_cpu->ipi_eas && enabled_cpu->ipi_eas == eas) {
-> +                return 0;
-> +            }
-> +
-> +            /* XXX: abort ? */
-> +            if (!cs) {
-> +                break;
-> +            }
-> +
-> +            /* Create/reset the vCPU IPI */
-> +            int ret = kvmppc_xive_reset_ipi(xive, cs, lisn, errp);
-> +            if (ret < 0) {
-> +                return ret;
-> +            }
-> +
-> +            enabled_cpu->ipi_eas = eas;
-> +            return 0;
-> +        }
-> +    }
-> +
-> +    error_setg(errp, "vCPU #%d not found", vcpu_id);
-> +    return -ESRCH;
-> +}
-> +
->  int kvmppc_xive_set_source_config(SpaprXive *xive, uint32_t lisn, XiveEAS *eas,
->                                    Error **errp)
->  {
-> @@ -248,6 +303,14 @@ int kvmppc_xive_set_source_config(SpaprXive *xive, uint32_t lisn, XiveEAS *eas,
->  
->      spapr_xive_end_to_target(end_blk, end_idx, &server, &priority);
->  
-> +    if (spapr_xive_is_ipi(lisn)) {
-> +        /* Create the vCPU IPI */
-> +        int ret = kvm_ipi_enable(xive, lisn, server, errp);
-> +        if (ret < 0) {
-> +            return ret;
-> +        }
-> +    }
-> +
->      kvm_src = priority << KVM_XIVE_SOURCE_PRIORITY_SHIFT &
->          KVM_XIVE_SOURCE_PRIORITY_MASK;
->      kvm_src |= server << KVM_XIVE_SOURCE_SERVER_SHIFT &
-> @@ -280,7 +343,7 @@ int kvmppc_xive_source_reset_one(XiveSource *xsrc, int srcno, Error **errp)
->      assert(xive->fd != -1);
->  
->      /*
-> -     * The vCPU IPIs are now allocated in kvmppc_xive_cpu_connect()
-> +     * The vCPU IPIs are now allocated in kvmppc_xive_set_source_config()
->       * and not with all sources in kvmppc_xive_source_reset()
->       */
->      assert(srcno >= SPAPR_XIRQ_BASE);
-> @@ -300,12 +363,12 @@ int kvmppc_xive_source_reset_one(XiveSource *xsrc, int srcno, Error **errp)
->   * To be valid, a source must have been claimed by the machine (valid
->   * entry in the EAS table) and if it is a vCPU IPI, the vCPU should
->   * have been enabled, which means the IPI has been allocated in
-> - * kvmppc_xive_cpu_connect().
-> + * kvmppc_xive_set_source_config().
->   */
->  static bool xive_source_is_valid(SpaprXive *xive, int i)
->  {
->      return xive_eas_is_valid(&xive->eat[i]) &&
-> -        (i >= SPAPR_XIRQ_BASE || kvm_cpu_is_enabled(i));
-> +        (!spapr_xive_is_ipi(i) || kvm_ipi_is_enabled(xive, i));
->  }
->  
->  static int kvmppc_xive_source_reset(XiveSource *xsrc, Error **errp)
-> @@ -314,8 +377,8 @@ static int kvmppc_xive_source_reset(XiveSource *xsrc, Error **errp)
->      int i;
->  
->      /*
-> -     * Skip the vCPU IPIs. These are created/reset when the vCPUs are
-> -     * connected in kvmppc_xive_cpu_connect()
-> +     * Skip the vCPU IPIs. These are created/reset on-demand in
-> +     * kvmppc_xive_set_source_config().
->       */
->      for (i = SPAPR_XIRQ_BASE; i < xsrc->nr_irqs; i++) {
->          int ret;
-> @@ -724,7 +787,57 @@ int kvmppc_xive_post_load(SpaprXive *xive, int version_id)
->      }
->  
->      /* Restore the EAT */
-> -    for (i = 0; i < xive->nr_irqs; i++) {
-> +
-> +    /* IPIs are restored from the appropriate vCPU context */
-> +    CPU_FOREACH(cs) {
-> +        /*
-> +         * The EAT has valid entries to accomodate all possible vCPUs,
-> +         * but we only want to allocate in KVM the IPIs that were
-> +         * actually allocated before migration. Let's consider the full
-> +         * list of IPIs to find an EAS that matches the vCPU id.
-> +         *
-> +         * If an IPI appears unmasked in the EAT, it is a proof that the
-> +         * guest did successfully call H_INT_SET_SOURCE_CONFIG and we
-> +         * should thus create the IPI at the KVM level if the END index
-> +         * matches the vCPU id.
-> +         *
-> +         * If an IPI appears masked in the EAT, then we don't know exactly
-> +         * what happened before migration but we don't care. The IPI will
-> +         * be created when the guest eventually unmasks it with a subsequent
-> +         * call to H_INT_SET_SOURCE_CONFIG.
-> +         */
-> +        for (i = 0; i < SPAPR_XIRQ_BASE; i++) {
-> +            XiveEAS *eas = &xive->eat[i];
-> +            uint32_t end_idx;
-> +            uint32_t end_blk;
-> +            uint8_t priority;
-> +            uint32_t server;
-> +
-> +            if (!xive_eas_is_valid(eas)) {
-> +                continue;
-> +            }
-> +
-> +            if (xive_eas_is_masked(eas)) {
-> +                continue;
-> +            }
-> +
-> +            end_idx = xive_get_field64(EAS_END_INDEX, eas->w);
-> +            end_blk = xive_get_field64(EAS_END_BLOCK, eas->w);
-> +            spapr_xive_end_to_target(end_blk, end_idx, &server, &priority);
-> +            if (server != kvm_arch_vcpu_id(cs)) {
-> +                continue;
-> +            }
-> +
-> +            ret = kvmppc_xive_set_source_config(xive, i, eas, &local_err);
-> +            if (ret < 0) {
-> +                goto fail;
-> +            }
-> +            break;
-> +        }
-> +    }
-> +
-> +    /* Now restore non-IPIs */
-> +    for (i = SPAPR_XIRQ_BASE; i < xive->nr_irqs; i++) {
->          if (!xive_source_is_valid(xive, i)) {
->              continue;
->          }
-> 
-> 
-
+dme.
+--=20
+Please forgive me if I act a little strange, for I know not what I do.
 
