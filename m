@@ -2,78 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 840F62B4F89
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 19:30:51 +0100 (CET)
-Received: from localhost ([::1]:43900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 407972B4FFC
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 19:42:00 +0100 (CET)
+Received: from localhost ([::1]:39472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kejH8-0001U6-Ck
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 13:30:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34786)
+	id 1kejRv-0003TV-Ay
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 13:41:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1kej4D-0002PV-Mr
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:17:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48795)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1kej4C-0001iV-4V
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:17:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605550647;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ggQit1RgH0yZThe4/XKFSk7HmP+4GmQIfPuwULIsekA=;
- b=ZHLvvSqnXfGZKEnfJJoaEvwpT5Cy+6IwDAhDUI2eNK2FPWPHIFsRvh1pFsHCqC5QuBgI3n
- 0zMkG+3ySbWoRJg+mCaRoNzCjOknFTC3DHSak/5vHhbvruV04KhgpSOJDvxYlQmsRu/ZSz
- N1Pf8IMaucNDqODo6oN+ntSe1Y2UnCA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-196-g2IV2g8hN0qlzQfjvAgMNA-1; Mon, 16 Nov 2020 13:17:24 -0500
-X-MC-Unique: g2IV2g8hN0qlzQfjvAgMNA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0197E57201;
- Mon, 16 Nov 2020 18:17:23 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-113-230.ams2.redhat.com [10.36.113.230])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AFCA75C1CF;
- Mon, 16 Nov 2020 18:17:14 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, alex.williamson@redhat.com
-Subject: [RFC v7 20/26] hw/arm/smmuv3: Fill the IOTLBEntry arch_id on NH_VA
- invalidation
-Date: Mon, 16 Nov 2020 19:13:43 +0100
-Message-Id: <20201116181349.11908-21-eric.auger@redhat.com>
-In-Reply-To: <20201116181349.11908-1-eric.auger@redhat.com>
-References: <20201116181349.11908-1-eric.auger@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kej7k-0007w9-82
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:21:09 -0500
+Received: from indium.canonical.com ([91.189.90.7]:42000)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kej7h-0002tD-6v
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:21:07 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kej7f-0001E8-2n
+ for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 18:21:03 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6950F2E81AC
+ for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 18:21:00 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eric.auger@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 04:46:27
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 16 Nov 2020 18:06:26 -0000
+From: Thomas Huth <1699867@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: anatol th-huth
+X-Launchpad-Bug-Reporter: Anatol Pomozov (anatol)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <149815632727.3205.9408286229805240743.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160554998685.14520.14413259433614215909.malone@soybean.canonical.com>
+Subject: [Bug 1699867] Re: x86_64 qemu crashes at far call into long-mode
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a2ee2035671f86427804714f331b9ff7fecaef7e"; Instance="production"
+X-Launchpad-Hash: 475eef2e58ec672d888fe0895e0ae373b56062cb
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 13:11:09
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,37 +72,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, jacob.jun.pan@linux.intel.com,
- jean-philippe@linaro.org, tn@semihalf.com,
- shameerali.kolothum.thodi@huawei.com, nicoleotsuka@gmail.com,
- vivek.gautam@arm.com, yi.l.liu@intel.com, peterx@redhat.com,
- zhangfei.gao@gmail.com, yuzenghui@huawei.com
+Reply-To: Bug 1699867 <1699867@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the guest invalidates one S1 entry, it passes the asid.
-When propagating this invalidation downto the host, the asid
-information also must be passed. So let's fill the arch_id field
-introduced for that purpose.
+The QEMU project is currently considering to move its bug tracking to anoth=
+er system. For this we need to know which bugs are still valid and which co=
+uld be closed already. Thus we are setting older bugs to "Incomplete" now.
+If you still think this bug report here is valid, then please switch the st=
+ate back to "New" within the next 60 days, otherwise this report will be ma=
+rked as "Expired". Or mark it as "Fix Released" if the problem has been sol=
+ved with a newer version of QEMU already. Thank you and sorry for the incon=
+venience.
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
----
- hw/arm/smmuv3.c | 1 +
- 1 file changed, 1 insertion(+)
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-index 8a01382255..553b785fda 100644
---- a/hw/arm/smmuv3.c
-+++ b/hw/arm/smmuv3.c
-@@ -828,6 +828,7 @@ static void smmuv3_notify_iova(IOMMUMemoryRegion *mr,
-     entry.iova = iova;
-     entry.addr_mask = num_pages * (1 << granule) - 1;
-     entry.perm = IOMMU_NONE;
-+    entry.arch_id = asid;
- 
-     memory_region_notify_one(n, &entry);
- }
--- 
-2.21.3
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1699867
+
+Title:
+  x86_64 qemu crashes at far call into long-mode
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  I am experimenting with this OS https://github.com/phil-opp/blog_os
+  and spotted a weird behavior with qemu.
+
+  I am looking at code that does transition from 32bit mode to 64bit
+  mode. Right now it does 'jmp $SELECTOR,64bitfunction'.
+  https://github.com/phil-
+  opp/blog_os/blob/557c6a58ea11e31685b9d014d307002d64df5c22/src/arch/x86_64=
+/boot.asm#L32
+
+  This code works fine with qemu/kvm/vmware.
+
+  To transition from 32 to 64 bit code it is possible to use 'call'
+  operation. So I am trying to replace that code with 'call
+  $SELECTOR,64bitfunction'. It works fine with kvm and wmware. But it
+  fails with Qemu emulation. See the interrup debug log attached. qemu
+  crashes at 10302c (far call mnemonic).
+
+  =
+
+    103016:       e8 18 00 00 00          callq  103033 <set_up_page_tables>
+    10301b:       e8 5c 00 00 00          callq  10307c <enable_paging>
+    103020:       e8 ec 00 00 00          callq  103111 <set_up_SSE>
+    103025:       0f 01 15 28 00 10 00    lgdt   0x100028(%rip)        # 20=
+3054 <GCC_except_table2+0xdb5f8>
+    10302c:       9a                      (bad)  =
+
+    10302d:       40 31 10                rex xor %edx,(%rax)
+    103030:       00 08                   add    %cl,(%rax)
+
+  =
+
+  As the code works at hardware I expect it to work with qemu. Thus current=
+ qemu behavior looks like a bug.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1699867/+subscriptions
 
