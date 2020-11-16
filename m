@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D2442B4473
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 14:12:10 +0100 (CET)
-Received: from localhost ([::1]:52238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2452D2B4474
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 14:12:14 +0100 (CET)
+Received: from localhost ([::1]:52468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keeIj-0005Gp-IQ
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 08:12:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40370)
+	id 1keeIn-0005MN-6L
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 08:12:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1keeH2-0003zi-5s
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 08:10:24 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:35640 helo=mta-01.yadro.com)
+ id 1keeH4-00040m-Ft
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 08:10:26 -0500
+Received: from mta-02.yadro.com ([89.207.88.252]:35650 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1keeH0-0002l5-FJ
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 08:10:23 -0500
+ id 1keeH2-0002qg-Na
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 08:10:26 -0500
 Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 02F9441393
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 13:10:19 +0000 (UTC)
+ by mta-01.yadro.com (Postfix) with ESMTP id 5F6C141396;
+ Mon, 16 Nov 2020 13:10:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
  content-type:content-type:content-transfer-encoding:mime-version
- :x-mailer:message-id:date:date:subject:subject:from:from
- :received:received:received; s=mta-01; t=1605532218; x=
- 1607346619; bh=SpKRceBLDJwn8pyvNdLD8sSxJXosMFnlGQOhYWtlDGo=; b=h
- V6V/nOG11X+xtKQYv/CrmqUJf6a523xq4KtnIvT5CFgTUTxG9tLJR2xpn5IN0Qc4
- 4cemVdZSuVBjzUPXI/av1naWIlgAzxcHAxWrZVL8BqMXzkPqQb6rwfZa40x94JzY
- nJByMOZ60oQHqVrMnU5qNoh5AAIfn4Ot+TzkBuvs3E=
+ :references:in-reply-to:x-mailer:message-id:date:date:subject
+ :subject:from:from:received:received:received; s=mta-01; t=
+ 1605532222; x=1607346623; bh=NkZL88GV2C/4arjpUh/JrUJtze4bu+ghmiN
+ O15N3+Vo=; b=OOOFX+dWXniSWqJRZJFpU6D4//nHdq4Cz3eTsm7pXVLCU/daNP7
+ 6XAxp3y9oNm20pCRB2C1Zrtw4cFRnIXk1EGl9BaLtvntZmRFjoGsxA4A7InK+D/Q
+ WMKBQ53VgpDqt2FC3lz6pD2/hInEg6ycPy5ONnkue/mOiU5dDTQpJ2y4=
 X-Virus-Scanned: amavisd-new at yadro.com
 Received: from mta-01.yadro.com ([127.0.0.1])
  by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id P1UA-QdANrWS for <qemu-devel@nongnu.org>;
- Mon, 16 Nov 2020 16:10:18 +0300 (MSK)
+ with ESMTP id p7_aHXS5jNGk; Mon, 16 Nov 2020 16:10:22 +0300 (MSK)
 Received: from T-EXCH-04.corp.yadro.com (t-exch-04.corp.yadro.com
  [172.17.100.104])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 1AB2141373
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 16:10:18 +0300 (MSK)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 6B82941392;
+ Mon, 16 Nov 2020 16:10:22 +0300 (MSK)
 Received: from localhost (172.17.204.212) by T-EXCH-04.corp.yadro.com
  (172.17.100.104) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Mon, 16
- Nov 2020 16:10:16 +0300
+ Nov 2020 16:10:21 +0300
 From: Roman Bolshakov <r.bolshakov@yadro.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH for-6.0 0/6] Add HMP/QMP commands to query accelerator
-Date: Mon, 16 Nov 2020 16:10:05 +0300
-Message-ID: <20201116131011.26607-1-r.bolshakov@yadro.com>
+Subject: [PATCH for-6.0 1/6] qapi: Add query-accel command
+Date: Mon, 16 Nov 2020 16:10:06 +0300
+Message-ID: <20201116131011.26607-2-r.bolshakov@yadro.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201116131011.26607-1-r.bolshakov@yadro.com>
+References: <20201116131011.26607-1-r.bolshakov@yadro.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -79,41 +80,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Roman Bolshakov <r.bolshakov@yadro.com>
+Cc: Roman Bolshakov <r.bolshakov@yadro.com>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+There's a problem for management applications to determine if certain
+accelerators available. Generic QMP command should help with that.
 
-Management applications have no way to determine if certain accelerator
-is available. That complicates discovery of non-KVM accelerators.
+Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+---
+ monitor/qmp-cmds.c | 15 +++++++++++++++
+ qapi/machine.json  | 19 +++++++++++++++++++
+ 2 files changed, 34 insertions(+)
 
-To address the issue, the series adds two commands:
-
-  'query-accel' for QMP to be used by management apps, and
-
-  'info accel' for HMP to replace 'info kvm' in future.
-
-Thanks,
-Roman
-
-Roman Bolshakov (6):
-  qapi: Add query-accel command
-  qapi: Rename KvmInfo to AccelInfo
-  qapi: Use qmp_query_accel() in qmp_query_kvm()
-  softmmu: Remove kvm_available()
-  hmp: Add 'info accel' command
-  qapi: Deprecate 'query-kvm'
-
- hmp-commands-info.hx       | 13 +++++++++++++
- include/monitor/hmp.h      |  1 +
- include/sysemu/arch_init.h |  1 -
- monitor/hmp-cmds.c         | 36 ++++++++++++++++++++++++++++++++++--
- monitor/qmp-cmds.c         | 18 ++++++++++++++----
- qapi/machine.json          | 37 ++++++++++++++++++++++++++++++-------
- softmmu/arch_init.c        |  9 ---------
- 7 files changed, 92 insertions(+), 23 deletions(-)
-
+diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+index a08143b323..0454394e76 100644
+--- a/monitor/qmp-cmds.c
++++ b/monitor/qmp-cmds.c
+@@ -62,6 +62,21 @@ KvmInfo *qmp_query_kvm(Error **errp)
+     return info;
+ }
+ 
++KvmInfo *qmp_query_accel(const char *name, Error **errp)
++{
++    KvmInfo *info = g_malloc0(sizeof(*info));
++
++    AccelClass *ac = accel_find(name);
++
++    if (ac) {
++        info->enabled = *ac->allowed;
++        info->present = true;
++    }
++
++    return info;
++}
++
++
+ UuidInfo *qmp_query_uuid(Error **errp)
+ {
+     UuidInfo *info = g_malloc0(sizeof(*info));
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 7c9a263778..11f364fab4 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -591,6 +591,25 @@
+ ##
+ { 'command': 'query-kvm', 'returns': 'KvmInfo' }
+ 
++##
++# @query-accel:
++#
++# Returns information about an accelerator
++#
++# Returns: @KvmInfo
++#
++# Since: 6.0.0
++#
++# Example:
++#
++# -> { "execute": "query-accel", "arguments": { "name": "kvm" } }
++# <- { "return": { "enabled": true, "present": true } }
++#
++##
++{ 'command': 'query-accel',
++  'data': { 'name': 'str' },
++  'returns': 'KvmInfo' }
++
+ ##
+ # @NumaOptionsType:
+ #
 -- 
 2.29.2
 
