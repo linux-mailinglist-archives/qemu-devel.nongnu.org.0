@@ -2,94 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94CA12B5019
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 19:46:35 +0100 (CET)
-Received: from localhost ([::1]:47494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74CF82B505B
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 19:56:14 +0100 (CET)
+Received: from localhost ([::1]:54566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kejWM-0007Id-Jl
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 13:46:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36008)
+	id 1kejfh-00052W-DN
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 13:56:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kej8r-0000kn-NX
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:22:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39221)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kej8p-0003Fj-M9
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:22:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605550935;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WTH8Zd5sAmskzAYo30mvhMBg66bSsnSUzhU1/p/F/PA=;
- b=NUnkwL8W5yihws1r2HLhtzhQGieR2jePsVDRAmAFTKQoi4M0ldKMPiR6yB323y8ZmsiXLI
- EgjLmSAKD3Eiru1mwM554MRp9y/tzsLXZHIKAKs1Q+btcd+tFBFt93BcfXG2tlYdZ2V9sg
- n8T7PZYdhPdaMU5yxXT9GoQrZWvm3m8=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-150-Nx-Q4XOANayPo2b_UmaFGQ-1; Mon, 16 Nov 2020 13:22:11 -0500
-X-MC-Unique: Nx-Q4XOANayPo2b_UmaFGQ-1
-Received: by mail-wr1-f71.google.com with SMTP id x16so6757619wrn.9
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 10:22:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=WTH8Zd5sAmskzAYo30mvhMBg66bSsnSUzhU1/p/F/PA=;
- b=KVZfc/5MGCX+dLcQilvIl675j9iXMalIJWGXcRhKP+bd/N/WACq4lnirfSdnxVf8LY
- DAv7XXdfpBB3B9uCUTUs4GdppW4d/41luCMnWwi4LBWR0gOzoyG962C6DbXAWIBywZKW
- XqKTjl1mc+tpH6eM/R5zOdaqAp0qlqE5Zci68pUMKWL1fOkHE3s274Sk25GfYGaGFWQb
- U3LljJyO9scMSTDLpsCJnd5zZd3S0wlxhu7tAH8ey1d71cNy4eSH7dnB14W9XvAKQs+B
- bUZqTkqOR3qGQxf9toaFybh3HbPIQVa3G7yFoZwoSGtg5kELJwucIHmQivSFJJ32TieE
- Duqg==
-X-Gm-Message-State: AOAM530WrcsNq/GzTFhoFdFagLc4vurDelReVtCfSYpxVgwxGKju9G6Q
- zdV+OmXv8L9YWc/ryBJSEPZ6kyUxz+JgB/WABb/CyTNAIo0pGAES7OVzEW6GiuiTxSgm7IC/NuH
- A5tCiCZOTkyCQC3A=
-X-Received: by 2002:a5d:5222:: with SMTP id i2mr21960365wra.247.1605550929808; 
- Mon, 16 Nov 2020 10:22:09 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzygKN/jKZPOR2Tp8R1RkidCe1Eg2IUxg/VtBLvORkfaFPUmdDs+xVTr36C8G5FbkcJI0uy0Q==
-X-Received: by 2002:a5d:5222:: with SMTP id i2mr21960352wra.247.1605550929645; 
- Mon, 16 Nov 2020 10:22:09 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id p10sm24465695wre.2.2020.11.16.10.22.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Nov 2020 10:22:08 -0800 (PST)
-Subject: Re: [PATCH] memory: Skip dirty tracking for un-migratable memory
- regions
-To: Zenghui Yu <yuzenghui@huawei.com>, qemu-devel@nongnu.org
-References: <20201116132210.1730-1-yuzenghui@huawei.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <5f5cc5a8-c5e4-4a69-5fdd-7020459d9d17@redhat.com>
-Date: Mon, 16 Nov 2020 19:22:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
-MIME-Version: 1.0
-In-Reply-To: <20201116132210.1730-1-yuzenghui@huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+ (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
+ id 1kejBn-0004fV-Mg
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:25:19 -0500
+Received: from mail-bn8nam11on2087.outbound.protection.outlook.com
+ ([40.107.236.87]:11840 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
+ id 1kejBl-00049Q-CU
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:25:18 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Z/8YXRL9CEbHU3e4p79OouZzZo+09oZdDWbcz3dqFbS8EIAbVd+Q6tp/0gB684i3Jeq+2oy9HI79RmmE622n8XkK96fNdGKUlJvcxa46XWsGrSgrR1WI+IX3hYcZsXwHpS4vkrwZMkPwrlGVi9xfppSXzrBIi0O4J4bvej6IV8Q21/hqcGvhzgsnBKF8PNXLRpqVs0uRX8d6H79SsRxZLb2imBEQ69Gpr0Rjhx8+H23kbtx4y0pZ/pjsnMb5swHrF5gHFwJW+5Ej6voULfjsWwaTGHwJ4o+1F7t1icpraY+oADGbkWMS5ShSA9zPBzsnXkGF9gm0hoHlXoaWQ7JkbA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OVHSJfFVpBs6Puj9AswYrqHKBGNF+EdJ8zTextYHY50=;
+ b=QKCnqlB5L5h95tFEQl4ulsl199tXED5jOiKPxGGqtd9+FnI5nxruIJf7DHkhAb6FZXsQ9Mo2eSixUrkJFN/e8LtaBi1uTmuRH25faRSIzUuBBcR9GmTGkFOQY1gugUOYvt3cEtPYM64hV/vNkUTjI4R8XrHAwoA1LpKssbTtqhHuFjyh28HaBPVHb+4MOfX0FJEiX3xOwowhRWCmcknE4ukuRJ4vW60cpET4M2+OoXYnbRT3hsGsJLVjeOMpcsS9ebgCI1qc32JKgRjo3/VpDuKwNJFzYXHKG9fb5nwwamgGEBU8ST6ahR0B/KkICmAYlClLvH/he2jIOElFDWwRdQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OVHSJfFVpBs6Puj9AswYrqHKBGNF+EdJ8zTextYHY50=;
+ b=UGQBarf6A0g7kWJJzikxkmumGJp4fmJ7Ji9ugeU7Qa8UQauwQzgi+gIpHAQ44EonUsO75YV6mKLqIFfvveOrOUw9F+x5MIsO8ZQjjtsOt3dFA9HUVKxXbQQYaPqq3fFHsBTP9OE7vjXbUfS4TovpKezQuq3l4joh9Iny1GL0UPw=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB1355.namprd12.prod.outlook.com (2603:10b6:3:6e::7) by
+ DM5PR12MB1771.namprd12.prod.outlook.com (2603:10b6:3:110::22) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3541.24; Mon, 16 Nov 2020 18:25:15 +0000
+Received: from DM5PR12MB1355.namprd12.prod.outlook.com
+ ([fe80::dcda:c3e8:2386:e7fe]) by DM5PR12MB1355.namprd12.prod.outlook.com
+ ([fe80::dcda:c3e8:2386:e7fe%12]) with mapi id 15.20.3564.028; Mon, 16 Nov
+ 2020 18:25:15 +0000
+Subject: Re: [PATCH] kvm/i386: Set proper nested state format for SVM
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ kvm@vger.kernel.org
+References: <fe53d00fe0d884e812960781284cd48ae9206acc.1605546140.git.thomas.lendacky@amd.com>
+ <a29c92be-d32b-f7c3-ed00-4c3823f8c9a5@redhat.com>
+From: Tom Lendacky <thomas.lendacky@amd.com>
+Message-ID: <f58c08c7-0c80-efe8-b976-ffb85b488723@amd.com>
+Date: Mon, 16 Nov 2020 12:25:13 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <a29c92be-d32b-f7c3-ed00-4c3823f8c9a5@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 04:46:27
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [165.204.77.1]
+X-ClientProxiedBy: DM6PR05CA0059.namprd05.prod.outlook.com
+ (2603:10b6:5:335::28) To DM5PR12MB1355.namprd12.prod.outlook.com
+ (2603:10b6:3:6e::7)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [10.236.30.118] (165.204.77.1) by
+ DM6PR05CA0059.namprd05.prod.outlook.com (2603:10b6:5:335::28) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3589.15 via Frontend Transport; Mon, 16 Nov 2020 18:25:14 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 806aa8aa-eeed-439c-1d4f-08d88a5cf640
+X-MS-TrafficTypeDiagnostic: DM5PR12MB1771:
+X-Microsoft-Antispam-PRVS: <DM5PR12MB1771440F480C560DB161ED44ECE30@DM5PR12MB1771.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /PHqeTn7FRITProNeKHUoB8qgvvYavqPHxaRTpOPEhthUE2zch1UVYpi3WZEdFW6V/9+Lo6AJ+2QKOdWdl1TZFONMucyMZ4bYxrGBCboDPNt4fGrFeWSiVC6suGfaV5yCYmQ+EU5IRAkkQyA3jaJIaK6fLInK/X/Z95Y2ise4AovSCtypg6y8o5EnoXKnAztpYRjZJUjUW8nwp5fLfna/XvjqVAt2dtJts1ZXs7aT7eHQd7NQJtSzUQXbISz8y0Bnn2ohoVWP/IKkYuglehx1/a0Rdsy5eFKifH2Ny/7q9Yp6Uo9u8TuWCDUBKcmQWLDZTvIiT2fqyU0D54aQycPzajwj19Knv6xDbQPxhPC1Sa+5TzoPe15kceeM+sFF4F4
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB1355.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(396003)(136003)(376002)(366004)(39860400002)(186003)(66556008)(4326008)(66476007)(6486002)(66946007)(31686004)(956004)(2906002)(31696002)(478600001)(16526019)(83380400001)(16576012)(26005)(8936002)(8676002)(36756003)(2616005)(52116002)(5660300002)(54906003)(53546011)(86362001)(316002)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: /SE77x5e2SvspcJzpyEXQ0hVOB/yxOBJ5XVrY4BZKzOVdDYpptPYdg0IzuseDn14sVfldvWHlM6Vd5wmam6WJKW/WNs4z6PT9LJLE5hMzdRD5XfpUQwva8NiRLUjH3yHQv90Fmzc/fAEFHdQBRgIPfzh+/qgttG0FFiOZ3eVida1e7F8SuUKWppwadvjiH4ojlP/zs47s0xx3F9OXBEF9qxhwXQN0PCGGfEZJav4wtUWU8x2M3QjQCEK/iSR4RsdyEwpOCK+eGofaYpcr+ZFkwIMCIdAv6nRfbR6EeSIrmxsG/gqLcSUjOZNKN0iMarD8JP8sHUicbn2vIE/kV7I+bTpMoG+RJRgM+lVIMbjZAxs5wWOvxM6CGT4IuUr/t72QkuGUoupup5BEVq1nwmbLKt0qeFr2yOemXpYiFJZaxj2TfoOL4Rge+qNQRFLPXGu9HHAK6W6PquGHCschx4UUwIRGxhs0qU7qAMzaalQ6eXJqLjldK7XZvEYiJLCpKalErTEllqS3UgA+O+uA/XEZePUUAbe5HCiDA9BfJ+NFCi1+v20ze9QF7tn2WwDhz4iTqDEmnYd1Zr0YPt+Tk8VDqI0mt+QEcfQfnOJ5+c5XkuLj2BhTsTmfrSReSszKgPudDH+jTG3PSjQCVgTZ4M2TQ==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 806aa8aa-eeed-439c-1d4f-08d88a5cf640
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1355.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2020 18:25:14.9404 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 65cce/489fQ/7s+8csLK+sTYt9aR4ZHonCjM446Y4antRlRiFoL8owtcv2xsrxRVgOnXtb8uuzECzuhDG8QIuQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1771
+Received-SPF: none client-ip=40.107.236.87;
+ envelope-from=Thomas.Lendacky@amd.com;
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 13:25:16
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FORGED_SPF_HELO=1, MSGID_FROM_MTA_HEADER=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,46 +118,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, kwankhede@nvidia.com, alex.williamson@redhat.com,
- qemu-arm@nongnu.org, wanghaibin.wang@huawei.com, kvmarm@lists.cs.columbia.edu
+Cc: Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/11/20 14:22, Zenghui Yu wrote:
-> It makes no sense to track dirty pages for those un-migratable memory
-> regions (e.g., Memory BAR region of the VFIO PCI device) and doing so
-> will potentially lead to some unpleasant issues during migration [1].
+On 11/16/20 12:09 PM, Paolo Bonzini wrote:
+> On 16/11/20 18:02, Tom Lendacky wrote:
+>> From: Tom Lendacky<thomas.lendacky@amd.com>
+>>
+>> Currently, the nested state format is hardcoded to VMX. This will result
+>> in kvm_put_nested_state() returning an error because the KVM SVM support
+>> checks for the nested state to be KVM_STATE_NESTED_FORMAT_SVM. As a
+>> result, kvm_arch_put_registers() errors out early.
+>>
+>> Update the setting of the format based on the virtualization feature:
+>>    VMX - KVM_STATE_NESTED_FORMAT_VMX
+>>    SVM - KVM_STATE_NESTED_FORMAT_SVM
 > 
-> Skip dirty tracking for those regions by evaluating if the region is
-> migratable before setting dirty_log_mask (DIRTY_MEMORY_MIGRATION).
-> 
-> [1] https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg03757.html
-> 
-> Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
-> ---
->   softmmu/memory.c | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/softmmu/memory.c b/softmmu/memory.c
-> index 71951fe4dc..aa393f1bb0 100644
-> --- a/softmmu/memory.c
-> +++ b/softmmu/memory.c
-> @@ -1806,7 +1806,10 @@ bool memory_region_is_ram_device(MemoryRegion *mr)
->   uint8_t memory_region_get_dirty_log_mask(MemoryRegion *mr)
->   {
->       uint8_t mask = mr->dirty_log_mask;
-> -    if (global_dirty_log && (mr->ram_block || memory_region_is_iommu(mr))) {
-> +    RAMBlock *rb = mr->ram_block;
-> +
-> +    if (global_dirty_log && ((rb && qemu_ram_is_migratable(rb)) ||
-> +                             memory_region_is_iommu(mr))) {
->           mask |= (1 << DIRTY_MEMORY_MIGRATION);
->       }
->       return mask;
-> 
+> Looks good, but what are the symptoms of this in practice?
 
-Queued, thanks.
+I discovered this while testing my SEV-ES patches. When I specified the
+'+svm' feature, the new SEV-ES reset address for the APs wasn't getting
+set because kvm_arch_put_registers() erred out before it could call
+kvm_getput_regs(). This resulted in the guest crashing when OVMF tried to
+start the APs.
 
-Paolo
+For a non-SEV-ES guest, I'm not sure if other updates could be missed,
+potentially.
 
+Thanks,
+Tom
+
+> 
+> Paolo
+> 
 
