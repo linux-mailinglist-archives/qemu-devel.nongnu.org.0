@@ -2,61 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B8CE2B4BBD
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 17:55:58 +0100 (CET)
-Received: from localhost ([::1]:48710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 947C22B4BD3
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 17:58:28 +0100 (CET)
+Received: from localhost ([::1]:52766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kehnJ-0003UB-DN
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 11:55:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41984)
+	id 1kehpj-0005CI-LU
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 11:58:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1kehlz-0002wE-9H
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 11:54:35 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2060)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1kehlw-0006rc-JJ
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 11:54:35 -0500
-Received: from fraeml708-chm.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4CZZr9184lz67DYt;
- Tue, 17 Nov 2020 00:52:41 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml708-chm.china.huawei.com (10.206.15.36) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1913.5; Mon, 16 Nov 2020 17:54:27 +0100
-Received: from localhost (10.52.125.36) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1913.5; Mon, 16 Nov
- 2020 16:54:26 +0000
-Date: Mon, 16 Nov 2020 16:54:19 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Ben Widawsky <ben.widawsky@intel.com>
-Subject: Re: [RFC PATCH 15/25] acpi/pxb/cxl: Reserve host bridge MMIO
-Message-ID: <20201116165419.000003eb@Huawei.com>
-In-Reply-To: <20201111054724.794888-16-ben.widawsky@intel.com>
-References: <20201111054724.794888-1-ben.widawsky@intel.com>
- <20201111054724.794888-16-ben.widawsky@intel.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1kehnB-0003li-SY
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 11:55:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40876)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1kehn9-0007Jx-Oh
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 11:55:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605545747;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=fwBE+ExosQFL03ktaF8Dsl/SYZHWvIGc995oC199ORc=;
+ b=aTErZ/4JwJcNnCBpEH1YRqXMjtUSQiwdKVegEk9uIJXFfTTDdZeuedF2sSOlReHZZnfRPg
+ BnnOpbioEc3Sa0BzEpj4CiAlXd54f/GFR3REBoMheO4RkXoh61XickfIIDxkWz5UmsmH+c
+ ORo3+Dhq7pe0QiQo2rkVnaRSu51Sipg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-421-vrFtV5cWPRe2F6yk8n5WWw-1; Mon, 16 Nov 2020 11:55:42 -0500
+X-MC-Unique: vrFtV5cWPRe2F6yk8n5WWw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F8D91891E84;
+ Mon, 16 Nov 2020 16:55:32 +0000 (UTC)
+Received: from eperezma.remote.csb (ovpn-115-134.ams2.redhat.com
+ [10.36.115.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7E9355D9D3;
+ Mon, 16 Nov 2020 16:55:08 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>, Peter Xu <peterx@redhat.com>,
+ qemu-devel@nongnu.org
+Subject: [PATCH v3 0/5] memory: Skip assertion in
+ memory_region_unregister_iommu_notifier
+Date: Mon, 16 Nov 2020 17:55:01 +0100
+Message-Id: <20201116165506.31315-1-eperezma@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.52.125.36]
-X-ClientProxiedBy: lhreml702-chm.china.huawei.com (10.201.108.51) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 11:37:31
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 22:35:17
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,100 +80,221 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, "Michael
- S. Tsirkin" <mst@redhat.com>, Vishal Verma <vishal.l.verma@intel.com>,
- qemu-devel@nongnu.org, Paolo
- Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>, Dan
- Williams <dan.j.williams@intel.com>, Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Juan Quintela <quintela@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Avi Kivity <avi@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Thomas Huth <thuth@redhat.com>, Yan Zhao <yan.y.zhao@intel.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eric Auger <eric.auger@redhat.com>, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 10 Nov 2020 21:47:14 -0800
-Ben Widawsky <ben.widawsky@intel.com> wrote:
+I am able to hit this assertion when a Red Hat 7 guest virtio_net device
+raises an "Invalidation" of all the TLB entries. This happens in the
+guest's startup if 'intel_iommu=on' argument is passed to the guest
+kernel and right IOMMU/ATS devices are declared in qemu's command line.
 
-> For all host bridges, reserve MMIO space with _CRS. The MMIO for the
-> host bridge lives in a magically hard coded space in the system's
-> physical address space. The standard mechanism to tell the OS about
-> regions which can't be used for host bridges is _CRS.
-> 
-> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> ---
->  hw/i386/acpi-build.c | 22 +++++++++++++++++++---
->  1 file changed, 19 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index aaed7da7dc..fae4fa28e1 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -28,6 +28,7 @@
->  #include "qemu/bitmap.h"
->  #include "qemu/error-report.h"
->  #include "hw/pci/pci.h"
-> +#include "hw/cxl/cxl.h"
->  #include "hw/core/cpu.h"
->  #include "target/i386/cpu.h"
->  #include "hw/misc/pvpanic.h"
-> @@ -1486,7 +1487,7 @@ static void build_smb0(Aml *table, I2CBus *smbus, int devnr, int func)
->      aml_append(table, scope);
->  }
->  
-> -enum { PCI, PCIE };
-> +enum { PCI, PCIE, CXL };
->  static void init_pci_acpi(Aml *dev, int uid, int type)
->  {
->      if (type == PCI) {
-> @@ -1635,20 +1636,28 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->              uint8_t bus_num = pci_bus_num(bus);
->              uint8_t numa_node = pci_bus_numa_node(bus);
->              int32_t uid = pci_bus_uid(bus);
-> +            int type;
->  
->              /* look only for expander root buses */
->              if (!pci_bus_is_root(bus)) {
->                  continue;
->              }
->  
-> +            type = pci_bus_is_cxl(bus) ? CXL :
-> +                                         pci_bus_is_express(bus) ? PCIE : PCI;
-> +
->              if (bus_num < root_bus_limit) {
->                  root_bus_limit = bus_num - 1;
->              }
->  
->              scope = aml_scope("\\_SB");
-> -            dev = aml_device("PC%.02X", bus_num);
-> +            if (type == CXL) {
-> +                dev = aml_device("CXL%.01X", pci_bus_uid(bus));
-> +            } else {
-> +                dev = aml_device("PC%.02X", bus_num);
-> +            }
->              aml_append(dev, aml_name_decl("_BBN", aml_int(bus_num)));
-> -            init_pci_acpi(dev, uid, pci_bus_is_express(bus) ? PCIE : PCI);
-> +            init_pci_acpi(dev, uid, type);
+Command line:
+/home/qemu/x86_64-softmmu/qemu-system-x86_64 -name \
+guest=rhel7-test,debug-threads=on -machine \
+pc-q35-5.1,accel=kvm,usb=off,dump-guest-core=off,kernel_irqchip=split \
+-cpu \
+Broadwell,vme=on,ss=on,vmx=on,f16c=on,rdrand=on,hypervisor=on,arat=on,tsc-adjust=on,umip=on,arch-capabilities=on,xsaveopt=on,pdpe1gb=on,abm=on,skip-l1dfl-vmentry=on,rtm=on,hle=on \
+-m 8096 -realtime mlock=off -smp 2,sockets=2,cores=1,threads=1 -uuid \
+d022ecbf-679e-4755-87ce-eb87fc5bbc5d -display none -no-user-config \
+-nodefaults -rtc base=utc,driftfix=slew -global \
+kvm-pit.lost_tick_policy=delay -no-hpet -no-shutdown -global \
+ICH9-LPC.disable_s3=1 -global ICH9-LPC.disable_s4=1 -boot strict=on \
+-device intel-iommu,intremap=on,device-iotlb=on -device \
+pcie-root-port,port=0x8,chassis=1,id=pci.1,bus=pcie.0,multifunction=on,addr=0x1 \
+-device \
+pcie-root-port,port=0x9,chassis=2,id=pci.2,bus=pcie.0,addr=0x1.0x1 \
+-device \
+pcie-root-port,port=0xa,chassis=3,id=pci.3,bus=pcie.0,addr=0x1.0x2 \
+-device \
+pcie-root-port,port=0xb,chassis=4,id=pci.4,bus=pcie.0,addr=0x1.0x3 \
+-device \
+pcie-root-port,port=0xc,chassis=5,id=pci.5,bus=pcie.0,addr=0x1.0x4 \
+-device \
+pcie-root-port,port=0xd,chassis=6,id=pci.6,bus=pcie.0,addr=0x1.0x5 \
+-device \
+pcie-root-port,port=0xe,chassis=7,id=pci.7,bus=pcie.0,addr=0x1.0x6 \
+-device qemu-xhci,p2=15,p3=15,id=usb,bus=pci.2,addr=0x0 -device \
+virtio-serial-pci,id=virtio-serial0,bus=pci.3,addr=0x0 -drive \
+file=/home/virtio-test2.qcow2,format=qcow2,if=none,id=drive-virtio-disk0 \
+-device \
+virtio-blk-pci,scsi=off,bus=pci.4,addr=0x0,drive=drive-virtio-disk0,id=virtio-disk0,bootindex=1 \
+-netdev tap,id=hostnet0,vhost=on,vhostforce=on -device \
+virtio-net-pci,netdev=hostnet0,id=net0,mac=52:54:00:0d:1d:f2,bus=pci.1,addr=0x0,iommu_platform=on,ats=on \
+-device virtio-balloon-pci,id=balloon0,bus=pci.5,addr=0x0 -object \
+rng-random,id=objrng0,filename=/dev/urandom -device \
+virtio-rng-pci,rng=objrng0,id=rng0,bus=pci.6,addr=0x0 -s -msg \
+timestamp=on
 
-Ah, so you are relying on the fact you didn't do a switch in init_pci_acpi.
-I'd rather see that called out explicitly there though as then obvious what
-subset of bus types share the same init. It isn't trivial to follow through
-this code right now adn work out what ends up in the AML for each type.
-It might even be worth just allowing some repetition to make that easier
-to see.
+Full backtrace:
+ #0  0x00007ffff521370f in raise () at /lib64/libc.so.6
+ #1  0x00007ffff51fdb25 in abort () at /lib64/libc.so.6
+ #2  0x00007ffff51fd9f9 in _nl_load_domain.cold.0 () at /lib64/libc.so.6
+ #3  0x00007ffff520bcc6 in .annobin_assert.c_end () at /lib64/libc.so.6
+ #4  0x0000555555888171 in memory_region_notify_one (notifier=0x7ffde0487fa8,
+                                                    entry=0x7ffde5dfe200)
+                          at /home/qemu/memory.c:1918
+ #5  0x0000555555888247 in memory_region_notify_iommu (iommu_mr=0x555556f6c0b0,
+                                                      iommu_idx=0, entry=...)
+                          at /home/qemu/memory.c:1941
+ #6  0x0000555555951c8d in vtd_process_device_iotlb_desc (s=0x555557609000,
+                                                       inv_desc=0x7ffde5dfe2d0)
+                          at /home/qemu/hw/i386/intel_iommu.c:2468
+ #7  0x0000555555951e6a in vtd_process_inv_desc (s=0x555557609000)
+                          at /home/qemu/hw/i386/intel_iommu.c:2531
+ #8  0x0000555555951fa5 in vtd_fetch_inv_desc (s=0x555557609000)
+                          at /home/qemu/hw/i386/intel_iommu.c:2563
+ #9  0x00005555559520e5 in vtd_handle_iqt_write (s=0x555557609000)
+                          at /home/qemu/hw/i386/intel_iommu.c:2590
+ #10 0x0000555555952b45 in vtd_mem_write (opaque=0x555557609000, addr=136,
+                                         val=2688, size=4)
+                          at /home/qemu/hw/i386/intel_iommu.c:2837
+ #11 0x0000555555883e17 in memory_region_write_accessor (mr=0x555557609330,
+                                                        addr=136,
+                                                        value=0x7ffde5dfe478,
+                                                        size=4,
+                                                        shift=0,
+                                                        mask=4294967295,
+                                                        attrs=...)
+                         at /home/qemu/memory.c:483
+ #12 0x000055555588401d in access_with_adjusted_size (addr=136,
+                       value=0x7ffde5dfe478,
+                       size=4,
+                       access_size_min=4,
+                       access_size_max=8,
+                       access_fn=0x555555883d38 <memory_region_write_accessor>,
+                       mr=0x555557609330,
+                       attrs=...)
+                       at /home/qemu/memory.c:544
+ #13 0x0000555555886f37 in memory_region_dispatch_write (mr=0x555557609330,
+                                                       addr=136,
+                                                       data=2688,
+                                                       op=MO_32,
+                                                       attrs=...)
+                         at /home/qemu/memory.c:1476
+ #14 0x0000555555827a03 in flatview_write_continue (fv=0x7ffdd8503150,
+                                                   addr=4275634312,
+                                                   attrs=...,
+                                                   ptr=0x7ffff7ff0028,
+                                                   len=4,
+                                                   addr1=136,
+                                                   l=4,
+                                                   mr=0x555557609330)
+                          at /home/qemu/exec.c:3146
+ #15 0x0000555555827b48 in flatview_write (fv=0x7ffdd8503150,
+                                          addr=4275634312,
+                                          attrs=...,
+                                          buf=0x7ffff7ff0028,
+                                          len=4)
+                          at /home/qemu/exec.c:3186
+ #16 0x0000555555827e9d in address_space_write (
+                                      as=0x5555567ca640 <address_space_memory>,
+                                      addr=4275634312,
+                                      attrs=...,
+                                      buf=0x7ffff7ff0028,
+                                      len=4)
+                          at /home/qemu/exec.c:3277
+ #17 0x0000555555827f0a in address_space_rw (
+                                      as=0x5555567ca640 <address_space_memory>,
+                                      addr=4275634312,
+                                      attrs=...,
+                                      buf=0x7ffff7ff0028,
+                                      len=4,
+                                      is_write=true)
+                          at /home/qemu/exec.c:3287
+ #18 0x000055555589b633 in kvm_cpu_exec (cpu=0x555556b65640)
+                               at /home/qemu/accel/kvm/kvm-all.c:2511
+ #19 0x0000555555876ba8 in qemu_kvm_cpu_thread_fn (arg=0x555556b65640)
+                               at /home/qemu/cpus.c:1284
+ #20 0x0000555555dafff1 in qemu_thread_start (args=0x555556b8c3b0)
+                               at util/qemu-thread-posix.c:521
+ #21 0x00007ffff55a62de in start_thread () at /lib64/libpthread.so.0
+ #22 0x00007ffff52d7e83 in clone () at /lib64/libc.so.6
 
->  
->              if (numa_node != NUMA_NODE_UNASSIGNED) {
->                  aml_append(dev, aml_name_decl("_PXM", aml_int(numa_node)));
-> @@ -1659,6 +1668,13 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->              aml_append(dev, aml_name_decl("_CRS", crs));
->              aml_append(scope, dev);
->              aml_append(dsdt, scope);
-> +
-> +            /* Handle the ranges for the PXB expanders */
-> +            if (type == CXL) {
-> +                uint64_t base = CXL_HOST_BASE + uid * 0x10000;
-> +                crs_range_insert(crs_range_set.mem_ranges, base,
-> +                                 base + 0x10000 - 1);
-> +            }
->          }
->      }
->  
+(gdb) frame 4
+ #4  0x0000555555888171 in memory_region_notify_one
+                      (notifier=0x7ffde0487fa8, entry=0x7ffde5dfe200)
+                      at /home/qemu/memory.c:1918
+1918        assert(entry->iova >= notifier->start && entry_end <=
+notifier->end);
+(gdb) p *entry
+$1 = {target_as = 0x555556f6c050, iova = 0, translated_addr = 0,
+addr_mask = 18446744073709551615, perm = IOMMU_NONE}
+--
+
+Tested with vhost-net and qemu driver, host<->guest communication.
+
+v3: * Remove superfluous comment.
+    * Changes on s390_pci_update_iotlb.
+
+v2: * Delete underflow assertion
+    * Tested again rebased over ("3e407488349 Merge remote-tracking
+      branch 'remotes/rth/tags/pull-mb-20201014' into staging")
+  at https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg05223.html
+
+v1: * IOMMU_NOTIFIER_ALL now includes IOMMU_NOTIFIER_DEVIOTLB_EVENTS
+      also. VFIO IOMMU notifier will register for all events (as before
+      of the patching)
+    * Cosmetic changes, like:
+      - Expand commit messages
+      - Better naming and checks
+      - Fix alignment issues
+      - Avoid an already present casting from `void *`
+ at https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg01505.html
+
+RFC v8: Fix use of "tmp" notification in memory.c:memory_region_notify_iommu_one
+
+v7: Add IOMMUTLBNotification, and move introduced "type" from
+    IOMMUTLBEntry to the former.
+
+v6: Introduce "type" field for IOMMUTLBEntry. Fill in all uses.
+    Update tests reports with more fine-tuning (CPU, RPS/XPS tunning).
+
+v5: Skip regular IOTLB notifications in dev_iotlb notifiers
+
+v4: Rename IOMMU_NOTIFIER_IOTLB -> IOMMU_NOTIFIER_DEVIOTLB.
+    Make vhost-net notifier just IOMMU_NOTIFIER_DEVIOTLB, not
+    IOMMU_NOTIFIER_UNMAP
+
+v3: Skip the assertion in case notifier is a IOTLB one, since they can manage
+    arbitrary ranges. Using a flag in the notifier for now, as Peter suggested.
+
+v2: Actually delete assertion instead of just commenting out using C99
+
+Eugenio Pérez (5):
+  memory: Rename memory_region_notify_one to
+    memory_region_notify_iommu_one
+  memory: Add IOMMUTLBEvent
+  memory: Add IOMMU_NOTIFIER_DEVIOTLB_UNMAP IOMMUTLBNotificationType
+  intel_iommu: Skip page walking on device iotlb invalidations
+  memory: Skip bad range assertion if notifier is DEVIOTLB_UNMAP type
+
+ include/exec/memory.h    | 40 +++++++++--------
+ hw/arm/smmu-common.c     | 13 +++---
+ hw/arm/smmuv3.c          | 13 +++---
+ hw/i386/intel_iommu.c    | 92 +++++++++++++++++++++++-----------------
+ hw/misc/tz-mpc.c         | 32 ++++++++------
+ hw/ppc/spapr_iommu.c     | 15 ++++---
+ hw/s390x/s390-pci-inst.c | 27 +++++++-----
+ hw/virtio/vhost.c        |  2 +-
+ hw/virtio/virtio-iommu.c | 30 +++++++------
+ softmmu/memory.c         | 29 +++++++------
+ 10 files changed, 165 insertions(+), 128 deletions(-)
+
+-- 
+2.18.4
 
 
