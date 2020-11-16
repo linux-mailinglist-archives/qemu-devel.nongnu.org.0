@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0EEB2B4A58
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 17:10:48 +0100 (CET)
-Received: from localhost ([::1]:32836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D74552B4A74
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 17:14:31 +0100 (CET)
+Received: from localhost ([::1]:40026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keh5U-0000md-2I
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 11:10:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57628)
+	id 1keh9C-0004Bm-O1
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 11:14:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1keh2B-0007N2-Sm
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 11:07:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31159)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1keh25-0007MP-03
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 11:07:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605542821;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jlhXw4wRO66yj+OY2OOMl/xFZewC2Gz8TowFHGrjRpM=;
- b=WsJGJlJxW+BcGII31/5DOT/itlemKBif8Ohlok6vXd5w6v98TokQnYv0vQ5VB3p0RMyjWa
- rU2zb5CQVsQajgv77Y4vngNlTUfblZYgvcCddt2oSCPikOyW0EXPpAygV46x+YvQWS+SI/
- hfjSpOHW4iSrNkVV5jToIhtSJCjm6Rc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-439-VIFUXOFjOtSCupGL6OiQsw-1; Mon, 16 Nov 2020 11:06:56 -0500
-X-MC-Unique: VIFUXOFjOtSCupGL6OiQsw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B213905402;
- Mon, 16 Nov 2020 16:06:55 +0000 (UTC)
-Received: from [10.3.113.36] (ovpn-113-36.phx2.redhat.com [10.3.113.36])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E3A318E23;
- Mon, 16 Nov 2020 16:06:52 +0000 (UTC)
-Subject: Re: [PATCH for-5.2] qga: update schema for guest-get-disks
- 'dependents' field
-To: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org
-References: <20201113183312.432630-1-michael.roth@amd.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <b1eef574-0398-2a29-36fa-f89e1aeaa564@redhat.com>
-Date: Mon, 16 Nov 2020 10:06:51 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1keh3X-0008F9-Um
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 11:08:39 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:54400)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1keh3V-0007nm-Tq
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 11:08:39 -0500
+Received: by mail-wm1-x334.google.com with SMTP id d142so24238707wmd.4
+ for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 08:08:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=48eZQ2C/nYOS2OAqVNbzBjE7TFGlmkjwCx4T6ymfUuI=;
+ b=GSjjoidCB6ukhgqIRqApgozrZ/KueBqfCf5qdLV2MD37WNygYcPEMwvPWbSIF0561q
+ HOenOcFCfCDO05Ovv/9y/HhbEWXAeOODBM23kW/jDztL2Mk6rTNm+pPv+zFGHSHxNY00
+ MtR7gRuaAEBqdkYWpmE6tNwKf4SwqzRBRS/PjUuc8c9CuA9B0Vaw1j0fqw2ypJ3nUdSX
+ pClVS8EfBDEJApCy+FunX4yS/IaAJL9TC75vpQwMtrcNF25UNw+st4htvZ4ZLIoh6mb5
+ 2XaNnYmfKCRCXof8tXA+xFKakRvaHF95wtAV6UVwxTZL/ftqekrJuuRj/IfNkXBjm4ry
+ rIxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=48eZQ2C/nYOS2OAqVNbzBjE7TFGlmkjwCx4T6ymfUuI=;
+ b=P5ly8YhCg+oG3pp2Ji2MbrLI4ha2kQ5XW2o41+9iXYIJi0vq32yHLGoBW+JxbIicoe
+ B+3xc+97yW+sxE5y/9FNGbVMvcsuh8hG1G/nnWzIGPekV7HAj7SlCxiR6HEM/vFhN/tg
+ LztZUplBF0F1SkbNLWr+4KDc5q+PhrL7GQO1bU4BaIC4A6gJPLLwjRlENiJttbmP1pmW
+ aHM25TK01RVPzbWFtzraHVUq+vRbkzhhgPh8xW+mEMRkJPlojIlFcVvGubb9BTbvIMYH
+ T+WcQ35NbBHtv9evSIHi2196PKnGISDA2bynCLgSLHbDacQbdhSUPxYAtI1z0dBHDOWw
+ AEkA==
+X-Gm-Message-State: AOAM533YZi6782kpi/GkQinZepFxU+G1w7eR+fAA16guZnYVsdYNqFIe
+ Mh/51yEMHrQIdOf7RSkGoG1pFChmJz03Cw==
+X-Google-Smtp-Source: ABdhPJxwooqONL0X+twf7xf8zknq79pZgTzg6jByhkcKwXGMcN6RHFF1ab/BLAaV+ytHFSW/Fk5tQw==
+X-Received: by 2002:a1c:4485:: with SMTP id
+ r127mr16232430wma.177.1605542913760; 
+ Mon, 16 Nov 2020 08:08:33 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id g20sm20116975wmh.20.2020.11.16.08.08.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Nov 2020 08:08:33 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH 00/15] target/arm: More v8.1M features
+Date: Mon, 16 Nov 2020 16:08:16 +0000
+Message-Id: <20201116160831.31000-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20201113183312.432630-1-michael.roth@amd.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 22:35:17
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,79 +84,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?B?VG9tw6HFoSBHb2xlbWJpb3Zza8O9?= <tgolembi@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/13/20 12:33 PM, Michael Roth wrote:
-> The recently-added 'guest-get-disk' command returns a list of
-> GuestDiskInfo entries, which in turn have a 'dependents' field which
-> lists devices these entries are dependent upon. Thus, 'dependencies'
-> is a better name for this field. Address this by renaming the field
-> accordingly.
-> 
-> Additionally, 'dependents' is specified as non-optional, even though
-> it's not implemented for w32. This is misleading, since it gives users
-> the impression that a particular disk might not have dependencies,
-> when in reality that information is simply not known to the guest
-> agent. Address this by making 'dependents' an optional field, and only
-> marking it as in-use when the facilities to obtain this information are
-> available to the guest agent.
-> 
-> Cc: Eric Blake <eblake@redhat.com>
-> Cc: Tomáš Golembiovský <tgolembi@redhat.com>
-> Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
-> Signed-off-by: Michael Roth <michael.roth@amd.com>
-> ---
->  qga/commands-posix.c | 10 ++++++----
->  qga/qapi-schema.json |  8 ++++----
->  2 files changed, 10 insertions(+), 8 deletions(-)
-> 
-> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-> index 12c1ba5ef7..c089e38120 100644
-> --- a/qga/commands-posix.c
-> +++ b/qga/commands-posix.c
-> @@ -1285,6 +1285,7 @@ static void get_disk_deps(const char *disk_dir, GuestDiskInfo *disk)
->          g_debug("failed to list entries in %s", deps_dir);
->          return;
->      }
-> +    disk->has_dependencies = true;
->      while ((dep = g_dir_read_name(dp_deps)) != NULL) {
->          g_autofree char *dep_dir = NULL;
->          strList *dep_item = NULL;
-> @@ -1297,8 +1298,8 @@ static void get_disk_deps(const char *disk_dir, GuestDiskInfo *disk)
->              g_debug("  adding dependent device: %s", dev_name);
->              dep_item = g_new0(strList, 1);
->              dep_item->value = dev_name;
-> -            dep_item->next = disk->dependents;
-> -            disk->dependents = dep_item;
-> +            dep_item->next = disk->dependencies;
-> +            disk->dependencies = dep_item;
+This patchset implements a somewhat miscellaneous collection of
+new-in-v8.1M features, as well as some bugfixes. It's for-6.0
+material.
 
-You could use QAPI_LIST_PREPEND() here (which was just recently added);
-but if not, then my work to use that macro in more places in 6.0 will
-revisit this code.
+In the bugfix category:
+ * RAZWI (or BusFault for unprivileged accesses) the whole of the
+   system PPB address range, not just the SCS
+ * Don't clobber ID_PFR1.Security on M-profile
+ * Don't allow VMRS/VMSR to fp sysregs that don't exist on M-profile
 
->          }
->      }
->      g_dir_close(dp_deps);
-> @@ -1351,8 +1352,9 @@ static GuestDiskInfoList *get_disk_partitions(
->          partition->name = dev_name;
->          partition->partition = true;
->          /* Add parent disk as dependent for easier tracking of hierarchy */
-> -        partition->dependents = g_new0(strList, 1);
-> -        partition->dependents->value = g_strdup(disk_dev);
-> +        partition->dependencies = g_new0(strList, 1);
-> +        partition->dependencies->value = g_strdup(disk_dev);
+In the features category:
+ * v8.1M PXN extension
+ * VSCCLRM and CLRM insns
+ * VLDR/VSTR (sysreg) insns
+ * new M-profile fp sysregs: FPSCR_nzcvqc, FPCXT_S, FPCXT_NS
+ * update FPDSCR masking to allow new-in-v8.1M bits in that register
 
-Same here.
+As usual, none of this will be enabled until we eventually get
+to the point of a complete v8.1M implementation and can define
+a Cortex-M55 CPU model.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+thanks
+-- PMM
+
+Peter Maydell (15):
+  hw/intc/armv7m_nvic: Make all of system PPB range be RAZWI/BusFault
+  target/arm: Implement v8.1M PXN extension
+  target/arm: Don't clobber ID_PFR1.Security on M-profile cores
+  target/arm: Implement VSCCLRM insn
+  target/arm: Implement CLRM instruction
+  target/arm: Enforce M-profile VMRS/VMSR register restrictions
+  target/arm: Refactor M-profile VMSR/VMRS handling
+  target/arm: Move general-use constant expanders up in translate.c
+  target/arm: Implement VLDR/VSTR system register
+  target/arm: Implement M-profile FPSCR_nzcvqc
+  target/arm: Use new FPCR_NZCV_MASK constant
+  target/arm: Factor out preserve-fp-state from full_vfp_access_check()
+  target/arm: Implement FPCXT_S fp system register
+  target/arm: Implement FPCXT_NS fp system register
+  hw/intc/armv7m_nvic: Update FPDSCR masking for v8.1M
+
+ include/hw/intc/armv7m_nvic.h  |   1 +
+ target/arm/cpu.h               |  30 ++
+ target/arm/m-nocp.decode       |   8 +-
+ target/arm/t32.decode          |   6 +-
+ target/arm/vfp.decode          |  14 +
+ hw/arm/armv7m.c                |   2 +-
+ hw/intc/armv7m_nvic.c          |  87 ++++-
+ target/arm/cpu.c               |   5 +-
+ target/arm/helper.c            |   7 +-
+ target/arm/translate.c         | 102 ++++--
+ target/arm/translate-vfp.c.inc | 581 +++++++++++++++++++++++++++++++--
+ 11 files changed, 765 insertions(+), 78 deletions(-)
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2.20.1
 
 
