@@ -2,55 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BF572B5093
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 20:12:25 +0100 (CET)
-Received: from localhost ([::1]:35292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E5DE2B5086
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 20:07:19 +0100 (CET)
+Received: from localhost ([::1]:53844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kejvM-0004Fd-Fk
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 14:12:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40796)
+	id 1kejqP-0008Mo-1v
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 14:07:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kejVj-000765-Go
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:45:55 -0500
-Received: from indium.canonical.com ([91.189.90.7]:47580)
+ id 1kejVi-00073y-TP
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:45:54 -0500
+Received: from indium.canonical.com ([91.189.90.7]:47574)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kejVf-0002PC-Ll
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:45:55 -0500
+ id 1kejVf-0002P6-Iq
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:45:54 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kejVe-0004MK-2j
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 18:45:50 +0000
+ id 1kejVd-0004RK-BS
+ for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 18:45:49 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 08D1A2E812F
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 18:45:50 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 553A42E8132
+ for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 18:45:49 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 16 Nov 2020 18:37:10 -0000
-From: Thomas Huth <1784919@bugs.launchpad.net>
+Date: Mon, 16 Nov 2020 18:40:00 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1809291@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Wishlist; assignee=None; 
-X-Launchpad-Bug-Tags: wishlist
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=philmd@redhat.com; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: zem-g
-X-Launchpad-Bug-Reporter: Hans (zem-g)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <153314732349.28680.8240678335924309425.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160555183189.18318.16281629286594966688.launchpad@wampee.canonical.com>
-Subject: [Bug 1784919] Re: native libgfapi glusterfs support for virtio 9p
- filesystem passthrough
+X-Launchpad-Bug-Commenters: kcwang lemonboy misaz philmd pmaydell
+X-Launchpad-Bug-Reporter: k.c. Wang (kcwang)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <154532874183.18487.10011391612831676105.malonedeb@gac.canonical.com>
+Message-Id: <160555200060.29047.14415344269594240193.malone@gac.canonical.com>
+Subject: [Bug 1809291] Re: SD Card not working in Ubuntu 18.10 (CMD 2,
+ 3 timeout). The device worked fine in Ubuntu 18.04 and earlier
+ versions but not in Ubuntu 18.10
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="a2ee2035671f86427804714f331b9ff7fecaef7e"; Instance="production"
-X-Launchpad-Hash: 4b2ae943367fb99f221a10dc031498876134c92f
+X-Launchpad-Hash: 5a01482807418a2984217bb402fcedb7668b4363
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 13:11:09
@@ -73,55 +75,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1784919 <1784919@bugs.launchpad.net>
+Reply-To: Bug 1809291 <1809291@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The test expects the card wired as SPI, so adding "-global sd-
+card.spi=3Dtrue" makes the test case work.
+
 ** Changed in: qemu
-   Importance: Undecided =3D> Wishlist
+       Status: Confirmed =3D> Invalid
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1784919
+https://bugs.launchpad.net/bugs/1809291
 
 Title:
-  native libgfapi  glusterfs support for virtio 9p filesystem
-  passthrough
+  SD Card not working in Ubuntu 18.10 (CMD 2,3 timeout).  The device
+  worked fine in Ubuntu 18.04 and earlier versions but not in Ubuntu
+  18.10
 
 Status in QEMU:
-  New
+  Invalid
 
 Bug description:
-  I can add block devices on glusterfs natively to my virtual machines sinc=
-e qemu 1.3 =
+  ARM PL181 MMC card no longer working in qemu-system-arm in Ubuntu 18.10
+  The MMC driver code worked fine in Ubuntu 15.10 to 18.04.
+  The command to run qemu-system-arm is
 
-  I would like to see the same feature for virtio 9p filesystems added on m=
-y VM. =
+      qemu-system-arm -M versatilepb -m 256M -sd sdimage -kernel t.bin
+  -serial mon:stdio
 
+  During SDC initialization, SDC commands 2, 3, 9, 13, 7, 16 all timeout, =
 
-  Accessing a filesystem mounted on the Metal is my favorite solution
-  for storage that is to be shared between more than one VM. But because
-  my VMs are not running as root, they are not able to passthrough
-  userids and gids to gluster-fuse. uid mapping is also not possible
-  because no xattr support.
+  which cause subsequent read/write commands 17/24 to fail also.
 
-  So all I can do is either setting up seperate NFS Servers to bring the
-  Filesystem in via Network, or to start qemu as root or to add
-  fuse_xattr on top of glusterfs_fuse. I do expect however that the
-  fastest and most relieable solution is to make something like this
-  possible:
-
-  -fsdev
-  local,id=3Dtest_dev,path=3Dgluster://this.node/test_mount,security_model=
-=3Dpassthrough
-  -device virtio-9p-pci,fsdev=3Dtest_dev,mount_tag=3Dtest_mount
-
-  regards
-
-      Hans
+  Tried both ARM versatilepb and realview-pb-a8, realview-pbx-a9 boards:
+  all the same.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1784919/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1809291/+subscriptions
 
