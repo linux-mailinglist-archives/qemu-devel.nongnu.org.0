@@ -2,87 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D10D2B39F3
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Nov 2020 23:42:07 +0100 (CET)
-Received: from localhost ([::1]:57368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E15D22B3B1F
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 02:12:53 +0100 (CET)
+Received: from localhost ([::1]:48400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keQik-0004eC-JV
-	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 17:42:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53578)
+	id 1keT4e-0002IN-Ge
+	for lists+qemu-devel@lfdr.de; Sun, 15 Nov 2020 20:12:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1keQY7-00059X-Ub
- for qemu-devel@nongnu.org; Sun, 15 Nov 2020 17:31:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57114)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1keQY5-00022d-5n
- for qemu-devel@nongnu.org; Sun, 15 Nov 2020 17:31:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605479464;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=eTDyF8qZ/+kyOvEMv/zkAMXekpV6mWj/zaDDozu+j7g=;
- b=izupUJ0eVDgfSzTz6WNKbsOYMuJI7uFzhBFOkRrUlCeIZiGjzR8shND9KfPA8rlNxqsjoe
- rG0PvnNYg/lrmu/qPp/njFjQaM+x8S5lxxSbfVCTXS2osuaqq/qo2HWfuUwcsb7i+Su2ZH
- PfS34mKqnkI0+wVCC3BGzW9QSUK+jSE=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-516-ulJksqMvOI6qhboLzqSv0A-1; Sun, 15 Nov 2020 17:28:00 -0500
-X-MC-Unique: ulJksqMvOI6qhboLzqSv0A-1
-Received: by mail-wm1-f71.google.com with SMTP id u123so7774768wmu.5
- for <qemu-devel@nongnu.org>; Sun, 15 Nov 2020 14:28:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=eTDyF8qZ/+kyOvEMv/zkAMXekpV6mWj/zaDDozu+j7g=;
- b=Bok6WUOL54xNeABaM029s9940ydSXOLOgEAQx1PypLG9JavKTHlbPYTZ37SdTRUs8I
- gunwOCNznQ8BFQdBZnG7cMtiZ7GrZtAHUs3LoVNXem97EcXDtJeREQs4B2TVGpMezgjX
- ASoi9yOB+OrgzcF4XRRjMZJT3P5CgWbIgKTez0kzT3OBGdkhTXPR7iuT29o33qmBeeSs
- z3rh/Mspg0Rq6ghTsKzNUEHnnXvq4fG5VycnorKpOTITn0PL08T3HeqxGApcKpUuQIOg
- rHzM+iTdWRbIM6g5uLL1BMQDpxuzcEIuxRxnJBlI7r8Z8bCP24LrT/KK1w3yLCVDicEE
- tH8Q==
-X-Gm-Message-State: AOAM532f/IOGakrlQSyHUuXFe4SeDWu1EPepb9mOeY6qYkb7ieoRxyzK
- hqSms2NCkszx9AJMqsw1FDhypX2gcDON4u5Pq8R4MwsyacZc4qGfvKrTu61c2wk/9Vk02gDuvsB
- ZJEnrrf1WfalGD4aGBNVdOZVet+MIuH/hLmJ3llI3CxfVxzovGP3BZVKcIGtq
-X-Received: by 2002:adf:f906:: with SMTP id b6mr15874155wrr.244.1605479278715; 
- Sun, 15 Nov 2020 14:27:58 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwHBgrC1JX1YB6mBve5qxMgW1rryENpjvFcfCa5Ef0WRz5jjZZPEmw5NtVaPaUD72Z8VrSoGg==
-X-Received: by 2002:adf:f906:: with SMTP id b6mr15874140wrr.244.1605479278531; 
- Sun, 15 Nov 2020 14:27:58 -0800 (PST)
-Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id i11sm20553636wro.85.2020.11.15.14.27.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Nov 2020 14:27:57 -0800 (PST)
-Date: Sun, 15 Nov 2020 17:27:56 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 17/17] vhost-user-blk/scsi: Fix broken error handling for
- socket call
-Message-ID: <20201115220740.488850-18-mst@redhat.com>
-References: <20201115220740.488850-1-mst@redhat.com>
+ (Exim 4.90_1) (envelope-from <jinzeyu@huawei.com>)
+ id 1keT3X-0001mO-Rp
+ for qemu-devel@nongnu.org; Sun, 15 Nov 2020 20:11:43 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2486)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jinzeyu@huawei.com>)
+ id 1keT3S-0001Cc-HK
+ for qemu-devel@nongnu.org; Sun, 15 Nov 2020 20:11:43 -0500
+Received: from DGGEMM405-HUB.china.huawei.com (unknown [172.30.72.57])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4CZ9xY6QswzVnrW;
+ Mon, 16 Nov 2020 09:10:57 +0800 (CST)
+Received: from dggemi758-chm.china.huawei.com (10.1.198.144) by
+ DGGEMM405-HUB.china.huawei.com (10.3.20.213) with Microsoft SMTP Server (TLS)
+ id 14.3.487.0; Mon, 16 Nov 2020 09:11:21 +0800
+Received: from [10.174.187.211] (10.174.187.211) by
+ dggemi758-chm.china.huawei.com (10.1.198.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1913.5; Mon, 16 Nov 2020 09:11:20 +0800
+Subject: Re: [RFC PATCH 0/6] migration: Multi-thread compression with zstd
+ method
+To: <quintela@redhat.com>, <dgilbert@redhat.com>
+References: <20201109090850.2424-1-jinzeyu@huawei.com>
+From: Zeyu Jin <jinzeyu@huawei.com>
+Message-ID: <2aa603e9-f9d4-3c79-eea2-a3ae7f371eea@huawei.com>
+Date: Mon, 16 Nov 2020 09:11:20 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20201115220740.488850-1-mst@redhat.com>
-X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
-X-Mutt-Fcc: =sent
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 17:27:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201109090850.2424-1-jinzeyu@huawei.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.187.211]
+X-ClientProxiedBy: dggemi704-chm.china.huawei.com (10.3.20.103) To
+ dggemi758-chm.china.huawei.com (10.1.198.144)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187; envelope-from=jinzeyu@huawei.com;
+ helo=szxga01-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 20:11:22
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,54 +69,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: AlexChen <alex.chen@huawei.com>, Peter Maydell <peter.maydell@linaro.org>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Euler Robot <euler.robot@huawei.com>
+Cc: qemu-devel@nongnu.org, zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: AlexChen <alex.chen@huawei.com>
+On 2020/11/9 17:08, Zeyu Jin wrote:
+> Currently we have both multi-thread compression and multifd to optimize
+> live migration in Qemu. Mulit-thread compression deals with the situation
+> where network bandwith is limited but cpu resource adequate. Multifd instead
+> aims to take full advantage of network bandwith. Moreover it supports both
+> zlib and zstd compression on each channel.
+> 
+> In this patch series, we did some code refactoring on multi-thread compression
+> live migration and bring zstd compression method support for it.
+> 
+> Below is the test result of multi-thread compression live migration
+> with different compress methods. Test result shows that zstd outperforms
+> zlib by about 70%.
+> 
+>  Migration Configuration:
+>  Guest 8U 32G
+>  compress-threads   8
+>  decompress-threads 2
+>  compress-level 1
+>  bandwidth-limit 100Mbps
+> 
+>  Test Result:
+>  +---------------------+--------------+-------------+
+>  |  compress method    |   zlib       |    zstd     |
+>  +---------------------+--------------+-------------+
+>  |  total time (ms)    |   75256      |    44187    |
+>  +---------------------+--------------+-------------+
+>  |  downtime(ms)       |   128        |    81       |
+>  +---------------------+--------------+-------------+
+>  |  transferred ram(kB)|   1576866    |    736117   |
+>  +---------------------+--------------+-------------+
+>  |  throughput(mbps)   |   172.06     |    137.16   |
+>  +---------------------+--------------+-------------+
+>  |  total ram(kB)      |   33685952   |    33685952 |
+>  +---------------------+--------------+-------------+
+> 
+> Zeyu Jin (6):
+>   migration: Add multi-thread compress method
+>   migration: Refactoring multi-thread compress migration
+>   migration: Add multi-thread compress ops
+>   migration: Add zstd support in multi-thread compression
+>   migration: Add compress_level sanity check
+>   doc: Update multi-thread compression doc
+> 
+>  docs/multi-thread-compression.txt |  31 ++-
+>  hw/core/qdev-properties-system.c  |  11 +
+>  include/hw/qdev-properties.h      |   4 +
+>  migration/migration.c             |  56 ++++-
+>  migration/migration.h             |   1 +
+>  migration/qemu-file.c             |  62 +----
+>  migration/qemu-file.h             |   4 +-
+>  migration/ram.c                   | 381 +++++++++++++++++++++++++-----
+>  monitor/hmp-cmds.c                |  12 +
+>  qapi/migration.json               |  26 +-
+>  10 files changed, 465 insertions(+), 123 deletions(-)
+> 
 
-When socket() fails, it returns -1, 0 is the normal return value and should not return error.
-
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: AlexChen <alex.chen@huawei.com>
-Message-Id: <5F9A5B48.9030509@huawei.com>
-Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- contrib/vhost-user-blk/vhost-user-blk.c   | 2 +-
- contrib/vhost-user-scsi/vhost-user-scsi.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/contrib/vhost-user-blk/vhost-user-blk.c b/contrib/vhost-user-blk/vhost-user-blk.c
-index caad88637e..dc981bf945 100644
---- a/contrib/vhost-user-blk/vhost-user-blk.c
-+++ b/contrib/vhost-user-blk/vhost-user-blk.c
-@@ -476,7 +476,7 @@ static int unix_sock_new(char *unix_fn)
-     assert(unix_fn);
- 
-     sock = socket(AF_UNIX, SOCK_STREAM, 0);
--    if (sock <= 0) {
-+    if (sock < 0) {
-         perror("socket");
-         return -1;
-     }
-diff --git a/contrib/vhost-user-scsi/vhost-user-scsi.c b/contrib/vhost-user-scsi/vhost-user-scsi.c
-index 3c912384e9..0f9ba4b2a2 100644
---- a/contrib/vhost-user-scsi/vhost-user-scsi.c
-+++ b/contrib/vhost-user-scsi/vhost-user-scsi.c
-@@ -320,7 +320,7 @@ static int unix_sock_new(char *unix_fn)
-     assert(unix_fn);
- 
-     sock = socket(AF_UNIX, SOCK_STREAM, 0);
--    if (sock <= 0) {
-+    if (sock < 0) {
-         perror("socket");
-         return -1;
-     }
--- 
-MST
-
+Ping
 
