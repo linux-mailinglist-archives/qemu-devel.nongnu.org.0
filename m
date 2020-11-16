@@ -2,65 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ED8E2B41B2
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 11:50:44 +0100 (CET)
-Received: from localhost ([::1]:58650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B1B52B41C6
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 11:58:43 +0100 (CET)
+Received: from localhost ([::1]:43790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kec5r-0007i1-Fj
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 05:50:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36478)
+	id 1kecDa-0005Kr-Cw
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 05:58:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kec47-0006Nk-CL
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 05:48:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47345)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1kecC0-0004lu-LS
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 05:57:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23328)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kec44-0002fI-1H
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 05:48:54 -0500
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1kecBw-0005ZK-Bu
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 05:57:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605523730;
+ s=mimecast20190719; t=1605524216;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=C3Y/j0nAPGAHZJOqrHpfC3naXdO+j3+wc1WNCyb/l/I=;
- b=ajcIoTBDUnmwYoPgUZFR0fFpRWAxS5qeDt64jjZ6NEpT2T5jMVQvQtzThWrqHTi7AeXLUn
- uinIdCRItfTWl8XdFW7i5Tx44fKMb6oJYSqCJWVw0OvtNOgS8c92Cg+4bSSG1aDwmHavyO
- Zt0XT8HozFukqem8+heDtnaORu1w8wo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-297-tP9aH64ePJim68IeVdQkfg-1; Mon, 16 Nov 2020 05:48:46 -0500
-X-MC-Unique: tP9aH64ePJim68IeVdQkfg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6C0A8049EA;
- Mon, 16 Nov 2020 10:48:44 +0000 (UTC)
-Received: from localhost (ovpn-114-237.ams2.redhat.com [10.36.114.237])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ECF0C5B4CF;
- Mon, 16 Nov 2020 10:48:33 +0000 (UTC)
-Date: Mon, 16 Nov 2020 10:48:32 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [RFC v3] VFIO Migration
-Message-ID: <20201116104832.GB96297@stefanha-x1.localdomain>
-References: <20201110095349.GA1082456@stefanha-x1.localdomain>
- <64fb6a41-fbfa-994c-9619-4df41ac97fde@redhat.com>
- <20201111143615.GA1421166@stefanha-x1.localdomain>
- <20201111154850.GG906488@redhat.com>
+ bh=bMj3XwWXbSFkG4yXyANi3gbSbjw7wgVq/Qjkf1eDkPg=;
+ b=BuadEQ37hT7qqfnZu7IEitA8GV9v4o+6rvLJaWonAwKoQ1+Q9Sc4PuVmNx1jNPGETK7/Mn
+ wmQrLgc/V1rc+zUNqN5aPaFXpY3CT9WpNcNX7Z2nJryNl1Jsym20tum0Oi22URrKMcsCOA
+ KvriIRqf2gXI6eH5y6ZDJvOXWHG8rZc=
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-431-FgzdNFN6MLiWVU5_Jynvvg-1; Mon, 16 Nov 2020 05:56:54 -0500
+X-MC-Unique: FgzdNFN6MLiWVU5_Jynvvg-1
+Received: by mail-il1-f199.google.com with SMTP id t14so3872096ilg.9
+ for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 02:56:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=bMj3XwWXbSFkG4yXyANi3gbSbjw7wgVq/Qjkf1eDkPg=;
+ b=MYi9NL/g0rcyeDStuWkbLBjBaHpVCDfFLLExnCczBGI8fXvCdYobaiqHcyP4LAI4m/
+ oeEHWk0chepBkIAt9iBf63pNaa6k/CMzhx/3g6OPLJbxhwfRnE5LA3cTaIua/+BFCx1B
+ c8bXyj3NCS3Imk8Mqlk7w8RJXMTvmICXh3QU6Jht77QG8qWJi4UTCD7zLQTD3zi1d5vF
+ kiKnN8NXSCvpnF+aXS9Qj9y3HuNHByiNjfZkJy4M5NpDdpmTxl319sS996bYhdh+Fc/z
+ XOaVVeSEnf0mpqYamjRvkk01XgptnADYHfnbEi0Niw4LP2rpzn3jBGxKCKxfzW7tdvZd
+ Agxg==
+X-Gm-Message-State: AOAM530uNuuw7ic51S9CQb4HMVKSBLqpoE/xhso8R8s9h6Hv5eUqRu2x
+ tdh75bUzkJM5eSrTc+9NUUMn5X2BVxkAGq7+VNW7zi0a1mditNKXr9Y6Jo7iFvi1lwUK6FMKn86
+ ts2hx1IxeYDAz5k14l8wxFOU0L50EHrE=
+X-Received: by 2002:a6b:8b0d:: with SMTP id n13mr7916685iod.111.1605524213169; 
+ Mon, 16 Nov 2020 02:56:53 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJydSvn4ofOvvORut9VwNK/t+juErHBMFgEjs4ExgNewXo35NHXyHQIBQVyVWEP6PIW7FwXcv3cAo3Kse5prir0=
+X-Received: by 2002:a6b:8b0d:: with SMTP id n13mr7916679iod.111.1605524212919; 
+ Mon, 16 Nov 2020 02:56:52 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201111154850.GG906488@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+References: <20201105160335.1222062-1-marcandre.lureau@redhat.com>
+In-Reply-To: <20201105160335.1222062-1-marcandre.lureau@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Mon, 16 Nov 2020 14:56:42 +0400
+Message-ID: <CAMxuvayPZ7FR4JCpuNk_9P8NTSo_G=F6c2cWK+gDvv676ibLxQ@mail.gmail.com>
+Subject: Re: [PATCH] RFC: sphinx: adopt kernel readthedoc theme
+To: qemu-devel <qemu-devel@nongnu.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="mojUlQ0s9EVzWg2t"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 22:35:17
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -83,91 +91,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John G Johnson <john.g.johnson@oracle.com>, "Tian,
- Kevin" <kevin.tian@intel.com>, mtsirkin@redhat.com,
- Yan Zhao <yan.y.zhao@intel.com>, quintela@redhat.com,
- Jason Wang <jasowang@redhat.com>, "Zeng, Xin" <xin.zeng@intel.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Kirti Wankhede <kwankhede@nvidia.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Felipe Franciosi <felipe@nutanix.com>,
- Christophe de Dinechin <dinechin@redhat.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, "P. Berrange,
+ Daniel" <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---mojUlQ0s9EVzWg2t
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Wed, Nov 11, 2020 at 03:48:50PM +0000, Daniel P. Berrang=E9 wrote:
-> On Wed, Nov 11, 2020 at 02:36:15PM +0000, Stefan Hajnoczi wrote:
-> > On Tue, Nov 10, 2020 at 12:12:31PM +0100, Paolo Bonzini wrote:
-> > > On 10/11/20 10:53, Stefan Hajnoczi wrote:
-> In terms of validation I can't help but feel the whole proposal is
-> really very complicated.
->=20
-> In validating QEMU migration compatibility we merely compare the
-> versioned machine type.
->=20
-> IIUC, in this proposal, it would be more like exploding the machine
-> type into all its 100's of properties and then comparing each one
-> individually.
->=20
-> I really prefer the simpler model of QEMU versioned machine types
-> where compatibility is a simple string comparison, hiding the
-> 100's of individual config parameters. =20
->=20
-> Of course there are scenarios where this will lead a mgmt app to
-> refuse a migration, when it could in fact have permitted it.
->=20
-> eg  consider   pc-i440fx-4.0  and pc-i440fx-5.0 machine types,
-> which only differ in the value  "foo=3D7" and "foo=3D8" respectively.
->=20
-> Now if the target only supported machine type pc-i440fx-5.0, then
-> with a basic string comparison of machine type versin, we can't
-> migrate from a host uing pc-i440fx-4.0
->=20
-> If we exploded the machine type into its params, we could see that
-> we can migrate from pc-i440fx-4.0 to pc-i440fx-5.0, simply by
-> overriding the value of "foo".
->=20
-> So, yes, dealing with individual params is more flexible, but it
-> comes at an enourmous cost in complexity to process all the
-> parameters. I'm not convinced this is a good tradeoff.=20
+On Thu, Nov 5, 2020 at 8:03 PM <marcandre.lureau@redhat.com> wrote:
+>
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> The default "alabaster" sphinx theme has a couple shortcomings:
+> - the navbar moves along the page
+> - the search bar is not always at the same place
+> - it lacks some contrast and colours
+>
+> The "rtd" theme from readthedocs.org is a popular third party theme used
+> notably by the kernel, with a custom style sheet. I like it better,
+> perhaps others do too. It also has features that may come handy, such as
+> "Edit on Gitlab".
+>
+> Tweak the nav header background to match qemu.org style, use the
+> QEMU logo, and favicon.
+>
+> The html_theme_options['description'] workaround doesn't seem necessary.
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  docs/conf.py                           |  36 +++----
+>  docs/devel/conf.py                     |   4 -
+>  docs/interop/conf.py                   |   4 -
+>  docs/specs/conf.py                     |   5 -
+>  docs/sphinx-static/theme_overrides.css | 137 +++++++++++++++++++++++++
+>  docs/system/conf.py                    |   4 -
+>  docs/tools/conf.py                     |   5 -
+>  docs/user/conf.py                      |   4 -
+>  8 files changed, 155 insertions(+), 44 deletions(-)
+>  create mode 100644 docs/sphinx-static/theme_overrides.css
+>
 
-A single standard version number is not enough since there are optional
-features and resource capacity (number of queues, memory sizes, etc)
-varies between implementations.
+Am I the only one finding the default sphinx theme inferior to rtd ?
 
-At best, a version number can summarize multiple migration parameters,
-but it cannot eliminate all of them.
-
-If we don't care about checking compatiblity ahead of time then we can
-use just a device model and version, but then migration fails when the
-source and destination end up being incompatible.
-
-Since you raised the requirement of checking migration compatibility
-ahead of time, I don't see a way to avoid the complexity.
-
-Stefan
-
---mojUlQ0s9EVzWg2t
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+yWQAACgkQnKSrs4Gr
-c8iv6ggAroZzZ1hxCIZFzf6Q4p+z5rAapA1+ytr0qK+9bPKkD5NMfuPg4rrVSju4
-P5TdhSueEzlnEbO3lBrvnf/qPmBYLV4tHBm5VLfYW56q14Bt0XmyvP+vicgBih8q
-PRA/c0rm/+VcaTXN3Bljir52ta3u2223sKVWIyNjIAeuJRnARFVkqmQRe6hu0ZEy
-g0KEtAEc+43lqEpeCx3I+qxLvi5V6Pi3GTGApPWBXBvPtjLsR5epJW6GGRVm38zy
-YAJWK/JLvMxWc21omB3fao1sjsN5eWwc/uUX8x0VxW6ttdYbIYBtEbSDn0tBft/t
-63/9RVDPTxzHVWSmSVNgAZshuhw4yg==
-=xObQ
------END PGP SIGNATURE-----
-
---mojUlQ0s9EVzWg2t--
+thanks
 
 
