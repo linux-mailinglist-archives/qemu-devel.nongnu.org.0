@@ -2,62 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8D752B4363
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 13:13:49 +0100 (CET)
-Received: from localhost ([::1]:38288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 339442B4352
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 13:08:27 +0100 (CET)
+Received: from localhost ([::1]:51710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kedOG-0003uK-H0
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 07:13:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53574)
+	id 1kedJ4-000646-7h
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 07:08:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1kedF5-0003VW-Fq
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 07:04:21 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2052)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1kedEy-0004QQ-8d
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 07:04:19 -0500
-Received: from fraeml711-chm.china.huawei.com (unknown [172.18.147.201])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4CZSNd0G6Tz67DmW;
- Mon, 16 Nov 2020 20:01:53 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml711-chm.china.huawei.com (10.206.15.60) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1913.5; Mon, 16 Nov 2020 13:04:01 +0100
-Received: from localhost (10.52.125.36) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1913.5; Mon, 16 Nov
- 2020 12:04:00 +0000
-Date: Mon, 16 Nov 2020 12:03:52 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Ben Widawsky <ben.widawsky@intel.com>
-Subject: Re: [RFC PATCH 03/25] hw/cxl/component: Introduce CXL components
- (8.1.x, 8.2.5)
-Message-ID: <20201116120352.00004f25@Huawei.com>
-In-Reply-To: <20201111054724.794888-4-ben.widawsky@intel.com>
-References: <20201111054724.794888-1-ben.widawsky@intel.com>
- <20201111054724.794888-4-ben.widawsky@intel.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kedGY-0004Vs-Nk
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 07:05:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26121)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kedGW-0004yC-BL
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 07:05:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605528347;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sH//rE9t/G3tvxuT237KbgnX0K5nswsbLkbC+n3/QSo=;
+ b=IgR6QhbNwIbfaaXb88UGz8PN5CWWhUB8iWzXQHULNKMIUcuYJy3OOgrOPlzyka5mRUJ2XJ
+ 5l8WoXtzahm2tcT7DzP5JjFyb8+7IS8PQTWZidipnOM51G+dXtCsKmgxip1jBoJF5JTvjk
+ LF6rtdE1nTOzAkwdIW7nUr5g2LjuzP4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-563-WLvDj-5cP2i12UWITiXapQ-1; Mon, 16 Nov 2020 07:05:43 -0500
+X-MC-Unique: WLvDj-5cP2i12UWITiXapQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E18B188C122;
+ Mon, 16 Nov 2020 12:05:42 +0000 (UTC)
+Received: from redhat.com (ovpn-114-241.ams2.redhat.com [10.36.114.241])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8AE9760BF1;
+ Mon, 16 Nov 2020 12:05:20 +0000 (UTC)
+Date: Mon, 16 Nov 2020 12:05:18 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [RFC v3] VFIO Migration
+Message-ID: <20201116120518.GH104771@redhat.com>
+References: <20201110095349.GA1082456@stefanha-x1.localdomain>
+ <64fb6a41-fbfa-994c-9619-4df41ac97fde@redhat.com>
+ <20201111143615.GA1421166@stefanha-x1.localdomain>
+ <20201111154850.GG906488@redhat.com>
+ <20201116111524.GD96297@stefanha-x1.localdomain>
+ <20201116114125.GE104771@redhat.com>
+ <20201116065906-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.52.125.36]
-X-ClientProxiedBy: lhreml702-chm.china.huawei.com (10.201.108.51) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 07:04:05
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201116065906-mutt-send-email-mst@kernel.org>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 22:35:17
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,760 +89,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vishal Verma <vishal.l.verma@intel.com>, Dan
- Williams <dan.j.williams@intel.com>, qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: John G Johnson <john.g.johnson@oracle.com>, "Tian,
+ Kevin" <kevin.tian@intel.com>, Yan Zhao <yan.y.zhao@intel.com>,
+ quintela@redhat.com, Jason Wang <jasowang@redhat.com>, "Zeng,
+ Xin" <xin.zeng@intel.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Kirti Wankhede <kwankhede@nvidia.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Felipe Franciosi <felipe@nutanix.com>,
+ Christophe de Dinechin <dinechin@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 10 Nov 2020 21:47:02 -0800
-Ben Widawsky <ben.widawsky@intel.com> wrote:
-
-> A CXL 2.0 component is any entity in the CXL topology. All components
-> have a analogous function in PCIe. Except for the CXL host bridge, all
-> have a PCIe config space that is accessible via the common PCIe
-> mechanisms. CXL components are enumerated via DVSEC fields in the
-> extended PCIe header space. CXL components will minimally implement some
-> subset of CXL.mem and CXL.cache registers defined in 8.2.5 of the CXL
-> 2.0 specification. Two headers and a utility library are introduced to
-> support the minimum functionality needed to enumerate components.
+On Mon, Nov 16, 2020 at 07:03:03AM -0500, Michael S. Tsirkin wrote:
+> On Mon, Nov 16, 2020 at 11:41:25AM +0000, Daniel P. BerrangÃ© wrote:
+> > > It is possible to simplify the problem, but we'll lose freedom. For
+> > > example, hard coding knowledge of the device implementation into the
+> > > management tool eliminates the need for a general migration checking
+> > > algorithm. Or we might be able to simplify it by explicitly not
+> > > supporting cross-device implementation migration (although that would
+> > > place stricter rules on what a new version of an existing device can
+> > > change in order to preserve migration compatibility).
+> > 
+> > Is migrating between 2 different vendors' impls of the same core
+> > device spec really a thing that's needed ? 
 > 
-> The cxl_pci header manages bits associated with PCI, specifically the
-> DVSEC and related fields. The cxl_component.h variant has data
-> structures and APIs that are useful for drivers implementing any of the
-> CXL 2.0 components. The library takes care of making use of the DVSEC
-> bits and the CXL.[mem|cache] regisetrs.
+> If there's intent to have this supercede vhost-user then certainly.
+> Same I'm guessing for NVMe.
 > 
-> None of the mechanisms required to enumerate a CXL capable hostbridge
-> are introduced at this point.
 > 
-> Note that the CXL.mem and CXL.cache registers used are always 4B wide.
-> It's possible in the future that this constraint will not hold.
+> > > I have doubts that these trade-offs can be made without losing support
+> > > for use cases that are necessary.
+> > 
+> > >From my POV, the key goal is that it should be possible to migrate
+> > between two hosts without needing to check every single possible
+> > config parameter that the device supports. It should only be neccessary
+> > to check the parameters that are actually changed from their default
+> > values. Then there just needs to be some simple string parameter that
+> > encodes a particular set of devices, akin to the versioned machine
+> > type.
+> > 
+> > Applications that want to migration between cross-vendor device impls
+> > could opt-in to checking every single little parameter, but most can
+> > just stick with a much simplified view where they only have to check
+> > the parameters that they've actually overriden/exposed.
 > 
-> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> 
-> --
-> It's tempting to have a more generalized DVSEC infrastructure. As far as
-> I can tell, the amount this would actually save in terms of code is
-> minimal because most of DVESC is vendor specific.
+> It's a problem even for a single vendor. And we have lots of experience
+> telling us it's a messy, difficult one. Just punting and saying
+> vendors will do the right thing will not lead to quality
+> implementations.
 
-Agreed.  Probably not worth bothering with generic infrastructure for 2.5 DW.
+I'm not suggesting we punt on the problem. I'm saying that checking for
+migration compatibility should not need to be made more complex than what
+we already do for QEMU. The core problem being tackled is essentially the
+same in both cases.
 
-A few comments inline.
-
-Jonathan
-
-
-> ---
->  MAINTAINERS                    |   6 ++
->  hw/Kconfig                     |   1 +
->  hw/cxl/Kconfig                 |   3 +
->  hw/cxl/cxl-component-utils.c   | 192 +++++++++++++++++++++++++++++++++
->  hw/cxl/cxl-device-utils.c      |   0
->  hw/cxl/meson.build             |   3 +
->  hw/meson.build                 |   1 +
->  include/hw/cxl/cxl.h           |  17 +++
->  include/hw/cxl/cxl_component.h | 181 +++++++++++++++++++++++++++++++
->  include/hw/cxl/cxl_pci.h       | 133 +++++++++++++++++++++++
->  10 files changed, 537 insertions(+)
->  create mode 100644 hw/cxl/Kconfig
->  create mode 100644 hw/cxl/cxl-component-utils.c
->  create mode 100644 hw/cxl/cxl-device-utils.c
->  create mode 100644 hw/cxl/meson.build
->  create mode 100644 include/hw/cxl/cxl.h
->  create mode 100644 include/hw/cxl/cxl_component.h
->  create mode 100644 include/hw/cxl/cxl_pci.h
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index c1d16026ba..02b8e2274d 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2184,6 +2184,12 @@ F: qapi/block*.json
->  F: qapi/transaction.json
->  T: git https://repo.or.cz/qemu/armbru.git block-next
->  
-> +Compute Express Link
-> +M: Ben Widawsky <ben.widawsky@intel.com>
-> +S: Supported
-> +F: hw/cxl/
-> +F: include/hw/cxl/
-> +
->  Dirty Bitmaps
->  M: Eric Blake <eblake@redhat.com>
->  M: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> diff --git a/hw/Kconfig b/hw/Kconfig
-> index 4de1797ffd..efed27805a 100644
-> --- a/hw/Kconfig
-> +++ b/hw/Kconfig
-> @@ -6,6 +6,7 @@ source audio/Kconfig
->  source block/Kconfig
->  source char/Kconfig
->  source core/Kconfig
-> +source cxl/Kconfig
->  source display/Kconfig
->  source dma/Kconfig
->  source gpio/Kconfig
-> diff --git a/hw/cxl/Kconfig b/hw/cxl/Kconfig
-> new file mode 100644
-> index 0000000000..8e67519b16
-> --- /dev/null
-> +++ b/hw/cxl/Kconfig
-> @@ -0,0 +1,3 @@
-> +config CXL
-> +    bool
-> +    default y if PCI_EXPRESS
-> diff --git a/hw/cxl/cxl-component-utils.c b/hw/cxl/cxl-component-utils.c
-> new file mode 100644
-> index 0000000000..c52bd5bfc7
-> --- /dev/null
-> +++ b/hw/cxl/cxl-component-utils.c
-> @@ -0,0 +1,192 @@
-> +/*
-> + * CXL Utility library for components
-> + *
-> + * Copyright(C) 2020 Intel Corporation.
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2. See the
-> + * COPYING file in the top-level directory.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu/log.h"
-> +#include "hw/pci/pci.h"
-> +#include "hw/cxl/cxl.h"
-> +
-> +static uint64_t cxl_cache_mem_read_reg(void *opaque, hwaddr offset,
-> +                                       unsigned size)
-> +{
-> +    CXLComponentState *cxl_cstate = opaque;
-> +    ComponentRegisters *cregs = &cxl_cstate->crb;
-> +    uint32_t *cache_mem = cregs->cache_mem_registers;
-> +
-> +    if (size != 4) {
-> +        qemu_log_mask(LOG_UNIMP, "%uB component register read (RAZ)\n", size);
-> +        return 0;
-> +    }
-> +
-> +    if (cregs->special_ops && cregs->special_ops->read) {
-> +        return cregs->special_ops->read(cxl_cstate, offset, size);
-> +    } else {
-> +        return cache_mem[offset >> 2];
-> +    }
-> +}
-> +
-> +static void cxl_cache_mem_write_reg(void *opaque, hwaddr offset, uint64_t value,
-> +                                    unsigned size)
-> +{
-> +    CXLComponentState *cxl_cstate = opaque;
-> +    ComponentRegisters *cregs = &cxl_cstate->crb;
-> +
-> +    if (size != 4) {
-> +        qemu_log_mask(LOG_UNIMP, "%uB component register write (WI)\n", size);
-> +        return;
-> +    }
-> +
-> +    if (cregs->special_ops && cregs->special_ops->write) {
-> +        cregs->special_ops->write(cxl_cstate, offset, value, size);
-> +    }
-> +}
-> +
-> +static const MemoryRegionOps cache_mem_ops = {
-> +    .read = cxl_cache_mem_read_reg,
-> +    .write = cxl_cache_mem_write_reg,
-> +    .endianness = DEVICE_LITTLE_ENDIAN,
-> +    .valid = {
-> +        .min_access_size = 4,
-> +        .max_access_size = 4,
-> +    },
-> +    .impl = {
-> +        .min_access_size = 4,
-> +        .max_access_size = 4,
-> +    },
-> +};
-> +
-> +void cxl_component_register_block_init(Object *obj,
-> +                                       CXLComponentState *cxl_cstate,
-> +                                       const char *type)
-
-What the type parameter means, is not immediately obvious so docs appreciated.
-
-> +{
-> +    ComponentRegisters *cregs = &cxl_cstate->crb;
-> +
-> +    memory_region_init(&cregs->component_registers, obj, type, 0x10000);
-> +    memory_region_init_io(&cregs->io, obj, NULL, cregs, ".io", 0x1000);
-> +    memory_region_init_io(&cregs->cache_mem, obj, &cache_mem_ops, cregs,
-> +                          ".cache_mem", 0x1000);
-> +
-> +    memory_region_add_subregion(&cregs->component_registers, 0, &cregs->io);
-> +    memory_region_add_subregion(&cregs->component_registers, 0x1000,
-> +                                &cregs->cache_mem);
-> +}
-> +
-> +static void ras_init_common(uint32_t *reg_state)
-> +{
-> +    reg_state[R_CXL_RAS_UNC_ERR_STATUS] = 0;
-> +    reg_state[R_CXL_RAS_UNC_ERR_MASK] = 0x1efff;
-> +    reg_state[R_CXL_RAS_UNC_ERR_SEVERITY] = 0x1efff;
-> +    reg_state[R_CXL_RAS_COR_ERR_STATUS] = 0;
-> +    reg_state[R_CXL_RAS_COR_ERR_MASK] = 0x3f;
-> +    reg_state[R_CXL_RAS_ERR_CAP_CTRL] = 0; /* CXL switches and devices must set */
-> +}
-> +
-> +static void hdm_init_common(uint32_t *reg_state)
-> +{
-> +    ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_CAPABILITY, DECODER_COUNT, 0);
-> +    ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_GLOBAL_CONTROL, HDM_DECODER_ENABLE, 0);
-> +}
-> +
-> +void cxl_component_register_init_common(uint32_t *reg_state, enum reg_type type)
-> +{
-> +    int caps = 0;
-
-> +    switch (type) {
-> +    case CXL2_DOWNSTREAM_PORT:
-> +    case CXL2_DEVICE:
-> +        /* CAP, RAS, Link */
-> +        caps = 3;
-> +        break;
-> +    case CXL2_UPSTREAM_PORT:
-> +    case CXL2_TYPE3_DEVICE:
-> +    case CXL2_LOGICAL_DEVICE:
-> +        /* + HDM */
-> +        caps = 4;
-> +        break;
-> +    case CXL2_ROOT_PORT:
-> +        /* + Extended Security, + Snoop */
-> +        caps = 6;
-> +        break;
-> +    default:
-> +        abort();
-> +    }
-> +
-> +    memset(reg_state, 0, 0x1000);
-> +
-> +    /* CXL Capability Header Register */
-> +    ARRAY_FIELD_DP32(reg_state, CXL_CAPABILITY_HEADER, ID, 1);
-> +    ARRAY_FIELD_DP32(reg_state, CXL_CAPABILITY_HEADER, VERSION, 1);
-> +    ARRAY_FIELD_DP32(reg_state, CXL_CAPABILITY_HEADER, CACHE_MEM_VERSION, 1);
-> +    ARRAY_FIELD_DP32(reg_state, CXL_CAPABILITY_HEADER, ARRAY_SIZE, caps);
-> +
-> +
-> +#define init_cap_reg(reg, id, version)                                        \
-> +    do {                                                                      \
-> +        int which = R_CXL_##reg##_CAPABILITY_HEADER;                          \
-> +        reg_state[which] = FIELD_DP32(reg_state[which],                       \
-> +                                      CXL_##reg##_CAPABILITY_HEADER, ID, id); \
-> +        reg_state[which] =                                                    \
-> +            FIELD_DP32(reg_state[which], CXL_##reg##_CAPABILITY_HEADER,       \
-> +                       VERSION, version);                                     \
-> +        reg_state[which] =                                                    \
-> +            FIELD_DP32(reg_state[which], CXL_##reg##_CAPABILITY_HEADER, PTR,  \
-> +                       CXL_##reg##_REGISTERS_OFFSET);                         \
-> +    } while (0)
-> +
-> +    init_cap_reg(RAS, 2, 1);
-> +    ras_init_common(reg_state);
-> +
-> +    init_cap_reg(LINK, 4, 2);
-> +
-> +    if (caps < 4) {
-> +        return;
-> +    }
-> +
-> +    init_cap_reg(HDM, 5, 1);
-> +    hdm_init_common(reg_state);
-> +
-> +    if (caps < 6) {
-> +        return;
-> +    }
-> +
-> +    init_cap_reg(EXTSEC, 6, 1);
-> +    init_cap_reg(SNOOP, 8, 1);
-> +
-> +#undef init_cap_reg
-> +}
-> +
-> +/*
-> + * Helper to creates a DVSEC header for a CXL entity. The caller is responsible
-> + * for tracking the valid offset.
-> + *
-> + * This function will build the DVSEC header on behalf of the caller and then
-> + * copy in the remaining data for the vendor specific bits.
-> + */
-> +void cxl_component_create_dvsec(CXLComponentState *cxl, uint16_t length,
-> +                                uint16_t type, uint8_t rev, uint8_t *body)
-> +{
-> +    PCIDevice *pdev = cxl->pdev;
-> +    uint16_t offset = cxl->dvsec_offset;
-> +
-> +    assert(offset >= PCI_CFG_SPACE_SIZE && offset < PCI_CFG_SPACE_EXP_SIZE);
-
-Better perhaps to check if offset + length < PCI_CFG_SPACE_EXP_SIZE?
-
-> +    assert((length & 0xf000) == 0);
-> +    assert((rev & 0xf0) == 0);
-
-I'd prefer to express as mask of what we do want as doesn't rely on someone having
-to look back to see how large rev is
-Something like...
-
-assert ((rev & ~0xf) == 0);
-
-> +
-> +    /* Create the DVSEC in the MCFG space */
-> +    pcie_add_capability(pdev, PCI_EXT_CAP_ID_DVSEC, 1, offset, length);
-> +    pci_set_long(pdev->config + offset + PCIE_DVSEC_HEADER_OFFSET,
-> +                 (length << 20) | (rev << 16) | CXL_VENDOR_ID);
-> +    pci_set_word(pdev->config + offset + PCIE_DVSEC_ID_OFFSET, type);
-> +    memcpy(pdev->config + offset + sizeof(struct dvsec_header),
-> +           body + sizeof(struct dvsec_header),
-> +           length - sizeof(struct dvsec_header));
-> +
-> +    /* Update state for future DVSEC additions */
-> +    range_init_nofail(&cxl->dvsecs[type], cxl->dvsec_offset, length);
-> +    cxl->dvsec_offset += length;
-> +}
-> diff --git a/hw/cxl/cxl-device-utils.c b/hw/cxl/cxl-device-utils.c
-> new file mode 100644
-> index 0000000000..e69de29bb2
-> diff --git a/hw/cxl/meson.build b/hw/cxl/meson.build
-> new file mode 100644
-> index 0000000000..00c3876a0f
-> --- /dev/null
-> +++ b/hw/cxl/meson.build
-> @@ -0,0 +1,3 @@
-> +softmmu_ss.add(when: 'CONFIG_CXL', if_true: files(
-> +  'cxl-component-utils.c',
-> +))
-> diff --git a/hw/meson.build b/hw/meson.build
-> index 010de7219c..3e440c341a 100644
-> --- a/hw/meson.build
-> +++ b/hw/meson.build
-> @@ -6,6 +6,7 @@ subdir('block')
->  subdir('char')
->  subdir('core')
->  subdir('cpu')
-> +subdir('cxl')
->  subdir('display')
->  subdir('dma')
->  subdir('gpio')
-> diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
-> new file mode 100644
-> index 0000000000..55f6cc30a5
-> --- /dev/null
-> +++ b/include/hw/cxl/cxl.h
-> @@ -0,0 +1,17 @@
-> +/*
-> + * QEMU CXL Support
-> + *
-> + * Copyright (c) 2020 Intel
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2. See the
-> + * COPYING file in the top-level directory.
-> + */
-> +
-> +#ifndef CXL_H
-> +#define CXL_H
-> +
-> +#include "cxl_pci.h"
-> +#include "cxl_component.h"
-> +
-> +#endif
-> +
-> diff --git a/include/hw/cxl/cxl_component.h b/include/hw/cxl/cxl_component.h
-> new file mode 100644
-> index 0000000000..014d9d10d3
-> --- /dev/null
-> +++ b/include/hw/cxl/cxl_component.h
-> @@ -0,0 +1,181 @@
-> +/*
-> + * QEMU CXL Component
-> + *
-> + * Copyright (c) 2020 Intel
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2. See the
-> + * COPYING file in the top-level directory.
-> + */
-> +
-> +#ifndef CXL_COMPONENT_H
-> +#define CXL_COMPONENT_H
-> +
-> +/* CXL 2.0 - 8.2.4 */
-> +#define CXL2_COMPONENT_IO_REGION_SIZE 0x1000
-> +#define CXL2_COMPONENT_CM_REGION_SIZE 0x1000
-> +#define CXL2_COMPONENT_BLOCK_SIZE 0x10000
-> +
-> +#include "qemu/range.h"
-> +#include "qemu/typedefs.h"
-> +#include "hw/register.h"
-> +
-> +enum reg_type {
-> +    CXL2_DEVICE,
-> +    CXL2_TYPE3_DEVICE,
-> +    CXL2_LOGICAL_DEVICE,
-> +    CXL2_ROOT_PORT,
-> +    CXL2_UPSTREAM_PORT,
-> +    CXL2_DOWNSTREAM_PORT
-> +};
-> +
-> +/*
-> + * Capability registers are defined at the top of the CXL.cache/mem region and
-> + * are packed. For our purposes we will always define the caps in the same
-> + * order.
-> + * CXL 2.0 - 8.2.5 Table 142 for details.
-> + */
-> +
-> +/* CXL 2.0 - 8.2.5.1 */
-> +REG32(CXL_CAPABILITY_HEADER, 0)
-> +    FIELD(CXL_CAPABILITY_HEADER, ID, 0, 16)
-> +    FIELD(CXL_CAPABILITY_HEADER, VERSION, 16, 4)
-> +    FIELD(CXL_CAPABILITY_HEADER, CACHE_MEM_VERSION, 20, 4)
-> +    FIELD(CXL_CAPABILITY_HEADER, ARRAY_SIZE, 24, 8)
-> +
-> +#define CXLx_CAPABILITY_HEADER(type, offset)                  \
-> +    REG32(CXL_##type##_CAPABILITY_HEADER, offset)             \
-> +        FIELD(CXL_##type##_CAPABILITY_HEADER, ID, 0, 16)      \
-> +        FIELD(CXL_##type##_CAPABILITY_HEADER, VERSION, 16, 4) \
-> +        FIELD(CXL_##type##_CAPABILITY_HEADER, PTR, 20, 12)
-> +CXLx_CAPABILITY_HEADER(RAS, 0x4)
-> +CXLx_CAPABILITY_HEADER(LINK, 0x8)
-> +CXLx_CAPABILITY_HEADER(HDM, 0xc)
-> +CXLx_CAPABILITY_HEADER(EXTSEC, 0x10)
-> +CXLx_CAPABILITY_HEADER(SNOOP, 0x14)
-> +
-> +/*
-> + * Capability structures contain the actual registers that the CXL component
-> + * implements. Some of these are specific to certain types of components, but
-> + * this implementation leaves enough space regardless.
-> + */
-> +/* 8.2.5.9 - CXL RAS Capability Structure */
-> +#define CXL_RAS_REGISTERS_OFFSET 0x80 /* Give ample space for caps before this */
-> +#define CXL_RAS_REGISTERS_SIZE   0x58
-> +REG32(CXL_RAS_UNC_ERR_STATUS, CXL_RAS_REGISTERS_OFFSET)
-> +REG32(CXL_RAS_UNC_ERR_MASK, CXL_RAS_REGISTERS_OFFSET + 0x4)
-> +REG32(CXL_RAS_UNC_ERR_SEVERITY, CXL_RAS_REGISTERS_OFFSET + 0x8)
-> +REG32(CXL_RAS_COR_ERR_STATUS, CXL_RAS_REGISTERS_OFFSET + 0xc)
-> +REG32(CXL_RAS_COR_ERR_MASK, CXL_RAS_REGISTERS_OFFSET + 0x10)
-> +REG32(CXL_RAS_ERR_CAP_CTRL, CXL_RAS_REGISTERS_OFFSET + 0x14)
-
-Maybe a comment on header log registers coming after this?
-Will make it obvious why the size is 0x58 above.
-
-
-> +
-> +/* 8.2.5.10 - CXL Security Capability Structure */
-> +#define CXL_SEC_REGISTERS_OFFSET (CXL_RAS_REGISTERS_OFFSET + CXL_RAS_REGISTERS_SIZE)
-> +#define CXL_SEC_REGISTERS_SIZE   0 /* We don't implement 1.1 downstream ports */
-> +
-> +/* 8.2.5.11 - CXL Link Capability Structure */
-> +#define CXL_LINK_REGISTERS_OFFSET (CXL_SEC_REGISTERS_OFFSET + CXL_SEC_REGISTERS_SIZE)
-> +#define CXL_LINK_REGISTERS_SIZE   0x38
-
-Bit odd to introduce this but not define anything... Can't we bring these
-in when we need them later?
-
-> +
-> +/* 8.2.5.12 - CXL HDM Decoder Capability Structure */
-> +#define HDM_DECODE_MAX 10 /* 8.2.5.12.1 */
-> +#define CXL_HDM_REGISTERS_OFFSET \
-> +    (CXL_LINK_REGISTERS_OFFSET + CXL_LINK_REGISTERS_SIZE) /* 8.2.5.12 */
-> +#define CXL_HDM_REGISTERS_SIZE (0x20 + HDM_DECODE_MAX * 10)
-> +#define HDM_DECODER_INIT(n, base)                          \
-> +    REG32(CXL_HDM_DECODER##n##_BASE_LO, base + 0x10)       \
-
-Offset n should be included in the address calc.  It's always 0 at the moment
-but might as well put it in now.  Mind you there is something a bit odd
-in the spec I'm looking at. Nothing defined at 0x2c but no reserved line
-either in the table.
-
-
-> +        FIELD(CXL_HDM_DECODER##n##_BASE_LO, L, 28, 4)      \
-> +    REG32(CXL_HDM_DECODER##n##_BASE_HI, base + 0x14)       \
-> +        FIELD(CXL_HDM_DECODER##n##_BASE_HI, H, 0, 32)      \
-> +    REG32(CXL_HDM_DECODER##n##_SIZE_LO, base + 0x18)       \
-
-Consistency would argue for fields for this and the next.
-
-> +    REG32(CXL_HDM_DECODER##n##_SIZE_HI, base + 0x1C)       \
-> +    REG32(CXL_HDM_DECODER##n##_CTRL, base + 0x20)          \
-> +        FIELD(CXL_HDM_DECODER##n##_CTRL, IG, 0, 4)         \
-> +        FIELD(CXL_HDM_DECODER##n##_CTRL, IW, 4, 4)         \
-> +        FIELD(CXL_HDM_DECODER##n##_CTRL, LOCK, 8, 1)       \
-LOCK_ON_COMMIT  semantics of that are unusual enough probably worth naming
-to call them out.
-
-> +        FIELD(CXL_HDM_DECODER##n##_CTRL, COMMIT, 9, 1)     \
-> +        FIELD(CXL_HDM_DECODER##n##_CTRL, COMMITTED, 10, 1) \
-> +        FIELD(CXL_HDM_DECODER##n##_CTRL, ERROR, 11, 1)     \
-> +        FIELD(CXL_HDM_DECODER##n##_CTRL, TYPE, 12, 1)      \
-> +    REG32(CXL_HDM_DECODER##n##_TARGET_LIST_LO, 0x24)       \
-> +    REG32(CXL_HDM_DECODER##n##_TARGET_LIST_HI, 0x28)
-
-Blank line here would make it easier to spot the end of the macro
-
-> +REG32(CXL_HDM_DECODER_CAPABILITY, 0)
-> +    FIELD(CXL_HDM_DECODER_CAPABILITY, DECODER_COUNT, 0, 4)
-> +    FIELD(CXL_HDM_DECODER_CAPABILITY, TARGET_COUNT, 4, 4)
-> +    FIELD(CXL_HDM_DECODER_CAPABILITY, INTERLEAVE_256B, 8, 1)
-> +    FIELD(CXL_HDM_DECODER_CAPABILITY, INTELEAVE_4K, 9, 1)
-> +    FIELD(CXL_HDM_DECODER_CAPABILITY, POISON_ON_ERR_CAP, 10, 1)
-> +REG32(CXL_HDM_DECODER_GLOBAL_CONTROL, 0)
-> +    FIELD(CXL_HDM_DECODER_GLOBAL_CONTROL, POISON_ON_ERR_EN, 0, 1)
-> +    FIELD(CXL_HDM_DECODER_GLOBAL_CONTROL, HDM_DECODER_ENABLE, 1, 1)
-> +
-> +HDM_DECODER_INIT(0, CXL_HDM_REGISTERS_OFFSET);
-> +
-> +/* 8.2.5.13 - CXL Extended Security Capability Structure (Root complex only) */
-> +#define EXTSEC_ENTRY_MAX        256
-> +#define CXL_EXTSEC_REGISTERS_OFFSET (CXL_HDM_REGISTERS_OFFSET + CXL_HDM_REGISTERS_SIZE)
-> +#define CXL_EXTSEC_REGISTERS_SIZE   (8 * EXTSEC_ENTRY_MAX + 4)
-> +
-> +/* 8.2.5.14 - CXL IDE Capability Structure */
-> +#define CXL_IDE_REGISTERS_OFFSET (CXL_EXTSEC_REGISTERS_OFFSET + CXL_EXTSEC_REGISTERS_SIZE)
-> +#define CXL_IDE_REGISTERS_SIZE   0
-> +
-> +/* 8.2.5.15 - CXL Snoop Filter Capability Structure */
-> +#define CXL_SNOOP_REGISTERS_OFFSET (CXL_IDE_REGISTERS_OFFSET + CXL_IDE_REGISTERS_SIZE)
-> +#define CXL_SNOOP_REGISTERS_SIZE   0x8
-> +
-> +_Static_assert((CXL_SNOOP_REGISTERS_OFFSET + CXL_SNOOP_REGISTERS_SIZE) < 0x1000,
-> +               "No space for registers");
-> +
-> +typedef struct component_registers {
-> +    /*
-> +     * Main memory region to be registered with QEMU core.
-> +     */
-> +    MemoryRegion component_registers;
-> +
-> +    /*
-> +     * 8.2.4 Table 141:
-> +     *   0x0000 - 0x0fff CXL.io registers
-> +     *   0x1000 - 0x1fff CXL.cache and CXL.mem
-> +     *   0x2000 - 0xdfff Implementation specific
-> +     *   0xe000 - 0xe3ff CXL ARB/MUX registers
-> +     *   0xe400 - 0xffff RSVD
-> +     */
-> +    uint32_t io_registers[CXL2_COMPONENT_IO_REGION_SIZE >> 2];
-> +    MemoryRegion io;
-> +
-> +    uint32_t cache_mem_registers[CXL2_COMPONENT_CM_REGION_SIZE >> 2];
-> +    MemoryRegion cache_mem;
-> +
-> +    MemoryRegion impl_specific;
-> +    MemoryRegion arb_mux;
-> +    MemoryRegion rsvd;
-> +
-> +    /* special_ops is used for any component that needs any specific handling */
-> +    MemoryRegionOps *special_ops;
-> +} ComponentRegisters;
-> +
-> +/*
-> + * A CXL component represents all entities in a CXL hierarchy. This includes,
-> + * host bridges, root ports, upstream/downstream ports, and devices
-> + */
-> +typedef struct cxl_component {
-> +    ComponentRegisters crb;
-> +    union {
-> +        struct {
-> +            Range dvsecs[CXL20_MAX_DVSEC];
-> +            uint16_t dvsec_offset;
-> +            struct PCIDevice *pdev;
-> +        };
-> +    };
-> +} CXLComponentState;
-> +
-> +void cxl_component_register_block_init(Object *obj,
-> +                                       CXLComponentState *cxl_cstate,
-> +                                       const char *type);
-> +void cxl_component_register_init_common(uint32_t *reg_state,
-> +                                        enum reg_type type);
-> +
-> +void cxl_component_create_dvsec(CXLComponentState *cxl_cstate, uint16_t length,
-> +                                uint16_t type, uint8_t rev, uint8_t *body);
-> +
-> +#endif
-> diff --git a/include/hw/cxl/cxl_pci.h b/include/hw/cxl/cxl_pci.h
-> new file mode 100644
-> index 0000000000..b403770424
-> --- /dev/null
-> +++ b/include/hw/cxl/cxl_pci.h
-> @@ -0,0 +1,133 @@
-> +/*
-> + * QEMU CXL PCI interfaces
-> + *
-> + * Copyright (c) 2020 Intel
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2. See the
-> + * COPYING file in the top-level directory.
-> + */
-> +
-> +#ifndef CXL_PCI_H
-> +#define CXL_PCI_H
-> +
-> +#include "hw/pci/pci.h"
-> +#include "hw/pci/pcie.h"
-> +
-> +#define CXL_VENDOR_ID 0x1e98
-> +
-> +#define PCIE_DVSEC_HEADER_OFFSET 0x4 /* Offset from start of extend cap */
-
-To keep this clearly aligned with PCIe spec I'd call it HEADER_1_OFFSET
-
-> +#define PCIE_DVSEC_ID_OFFSET     0x8
-> +
-> +#define PCIE_CXL_DEVICE_DVSEC_LENGTH 0x38
-> +#define PCIE_CXL_DEVICE_DVSEC_REVID  1
-
-Make it clear this is the CXL 2.0 revid.
-It would be 0 for CXL 1.1 I think? (8.1.3 of CXL 2.0 spec)
-
-
-> +
-> +#define EXTENSIONS_PORT_DVSEC_LENGTH 0x28
-> +#define EXTENSIONS_PORT_DVSEC_REVID  1
-
-I'm assuming this is the CXL 2.0 exensions DVSEC for ports
-in figure 128?
-
-If so table 128 has dvsec revision as 0. 
-
-> +
-> +#define GPF_PORT_DVSEC_LENGTH 0x10
-> +#define GPF_PORT_DVSEC_REVID  0
-> +
-> +#define PCIE_FLEXBUS_PORT_DVSEC_LENGTH_2_0 0x14
-> +#define PCIE_FLEXBUS_PORT_DVSEC_REVID_2_0  1
-> +
-> +#define REG_LOC_DVSEC_LENGTH 0x24
-> +#define REG_LOC_DVSEC_REVID  0
-
-Whilst I appreciate this is an RFC it would seem more logical
-to me to only list things in the following enum if we
-have also defined them here.  E.g. GPF_DEVICE_DVSEC doesn't
-have length and revid defines.
-
-> +
-> +enum {
-> +    PCIE_CXL_DEVICE_DVSEC      = 0,
-> +    NON_CXL_FUNCTION_MAP_DVSEC = 2,
-> +    EXTENSIONS_PORT_DVSEC      = 3,
-> +    GPF_PORT_DVSEC             = 4,
-> +    GPF_DEVICE_DVSEC           = 5,
-> +    PCIE_FLEXBUS_PORT_DVSEC    = 7,
-> +    REG_LOC_DVSEC              = 8,
-> +    MLD_DVSEC                  = 9,
-> +    CXL20_MAX_DVSEC
-> +};
-> +
-> +struct dvsec_header {
-> +    uint32_t cap_hdr;
-> +    uint32_t dv_hdr1;
-> +    uint16_t dv_hdr2;
-> +} __attribute__((__packed__));
-> +_Static_assert(sizeof(struct dvsec_header) == 10,
-> +               "dvsec header size incorrect");
-> +
-> +/*
-> + * CXL 2.0 devices must implement certain DVSEC IDs, and can [optionally]
-> + * implement others.
-> + *
-> + * CXL 2.0 Device: 0, [2], 5, 8
-> + * CXL 2.0 RP: 3, 4, 7, 8
-> + * CXL 2.0 Upstream Port: [2], 7, 8
-> + * CXL 2.0 Downstream Port: 3, 4, 7, 8
-> + */
-> +
-> +/* CXL 2.0 - 8.1.5 (ID 0003) */
-> +struct dvsec_port {
-
-I'd keep naming consistent.  It's called EXTENSIONS_PORT_DVSEC above
-so extensions_dvsec_port here.
-
-> +    struct dvsec_header hdr;
-> +    uint16_t status;
-> +    uint16_t control;
-> +    uint8_t alt_bus_base;
-> +    uint8_t alt_bus_limit;
-> +    uint16_t alt_memory_base;
-> +    uint16_t alt_memory_limit;
-> +    uint16_t alt_prefetch_base;
-> +    uint16_t alt_prefetch_limit;
-> +    uint32_t alt_prefetch_base_high;
-> +    uint32_t alt_prefetch_base_low;
-> +    uint32_t rcrb_base;
-> +    uint32_t rcrb_base_high;
-> +};
-> +_Static_assert(sizeof(struct dvsec_port) == 0x28, "dvsec port size incorrect");
-> +#define PORT_CONTROL_OVERRIDE_OFFSET 0xc
-I'm not totally sure what this define is, but seems
-like it's simply the offset of the control field above.
-If so can't we get it from the there directly?
-
-> +#define PORT_CONTROL_UNMASK_SBR      1
-> +#define PORT_CONTROL_ALT_MEMID_EN    4
-
-Use something to make it clear that 4 is simply bit 3. (1 << 3) maybe?
-
-> +
-> +/* CXL 2.0 - 8.1.6 GPF DVSEC (ID 0004) */
-> +struct dvsec_port_gpf {
-> +    struct dvsec_header hdr;
-> +    uint16_t rsvd;
-> +    uint16_t phase1_ctrl;
-> +    uint16_t phase2_ctrl;
-> +};
-> +_Static_assert(sizeof(struct dvsec_port_gpf) == 0x10,
-> +               "dvsec port GPF size incorrect");
-> +
-> +/* CXL 2.0 - 8.1.8/8.2.1.3 Flexbus DVSEC (ID 0007) */
-> +struct dvsec_port_flexbus {
-> +    struct dvsec_header hdr;
-> +    uint16_t cap;
-> +    uint16_t ctrl;
-> +    uint16_t status;
-> +    uint32_t rcvd_mod_ts_data;
-> +};
-> +_Static_assert(sizeof(struct dvsec_port_flexbus) == 0x14,
-> +               "dvsec port flexbus size incorrect");
-> +
-> +/* CXL 2.0 - 8.1.9 Register Locator DVSEC (ID 0008) */
-> +struct dvsec_register_locator {
-> +    struct dvsec_header hdr;
-> +    uint16_t rsvd;
-> +    uint32_t reg0_base_lo;
-> +    uint32_t reg0_base_hi;
-> +    uint32_t reg1_base_lo;
-> +    uint32_t reg1_base_hi;
-> +    uint32_t reg2_base_lo;
-> +    uint32_t reg2_base_hi;
-> +};
-> +_Static_assert(sizeof(struct dvsec_register_locator) == 0x24,
-> +               "dvsec register locator size incorrect");
-> +#define BEI_BAR_10H 0
-
-BEI is obscure enough I'd add a comment giving full name
-(BAR equivalent indicator)
-
-> +#define BEI_BAR_14H 1
-> +#define BEI_BAR_18H 2
-> +#define BEI_BAR_1cH 3
-> +#define BEI_BAR_20H 4
-> +#define BEI_BAR_24H 5
-> +
-> +#define RBI_EMPTY          0
-
-Likewise, RBI isn't actually used on spec that I can see.
-So call out that it is Register Block Identifier.
-
-> +#define RBI_COMPONENT_REG  (1 << 8)
-> +#define RBI_BAR_VIRT_ACL   (2 << 8)
-> +#define RBI_CXL_DEVICE_REG (3 << 8)
-
-Nice to treat these as value of field (0,1,2,3) and a macro
-to put it in the right place rather than rolling them together
-directly.
-
-> +
-> +#endif
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
