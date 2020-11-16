@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D925E2B54C7
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 00:13:33 +0100 (CET)
-Received: from localhost ([::1]:44806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F258E2B54CF
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 00:14:59 +0100 (CET)
+Received: from localhost ([::1]:49560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kengi-0007RC-SQ
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 18:13:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50166)
+	id 1keni7-00011b-2p
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 18:14:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
- id 1keneV-0005wp-LO; Mon, 16 Nov 2020 18:11:15 -0500
-Received: from mail-dm6nam11on2083.outbound.protection.outlook.com
- ([40.107.223.83]:24441 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ id 1keneX-0005xL-2y; Mon, 16 Nov 2020 18:11:17 -0500
+Received: from mail-bn8nam11on2050.outbound.protection.outlook.com
+ ([40.107.236.50]:56480 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
- id 1keneS-0003x7-6s; Mon, 16 Nov 2020 18:11:15 -0500
+ id 1keneU-0003xW-Pn; Mon, 16 Nov 2020 18:11:16 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XS2PKTr/D/NoCGbxc2awqrxjO1uwL0b1eB9UIdUgI9Lx5d07PqOODXfccWzfvgfxBPr7RcuvrLR++ad9B/G71THU0udZJqFUeIve4eGpPsaNNzeeadz0llQn/jwvqkosDwKLRiU+e+XFB+rczZ9UR+lbBOBsTPW7DFmQN5BDzolsvT7Ny5fmuhOpZw6bibAFEbc87MpC4q7b3ffyiW/ETi2bFILT11jUBDBpkWhKQFoaNCxu+6wbypoyd/UG773i4aocFwddKZqtaTqB7ueX2aYqFf65bEPrQRar2SUzt4xafiH9gj5+izXnGvSrUtkGt2rw3Z+Xo1lUg4KEi39WQg==
+ b=fUefF2pID87ZFAj1a6+KIVoebssecoG2mqCgCyGM2S7Dw2bMaS+KENHquaIagSQb8NpSyyObsKoxq7K9ey518IiGKhYuN06qZOu0KrIU4uEBCEGimyT4CNXWcYuRNSLBYFzpaZ8one6/UReTn/+ly75C9mHwxGKIMirLFWuutT7nygtewybB4A1N8fujsw1cQL/5slpwVHl5XgDd6qZ8cqqtA7ZFN9q58sa/0dlen7HPaS+1gPqMLPsvap6othi/lrme9u3eC5Rm6WOIYvxffXYwDI2P1BX3sQOagTejLAgGjHwy0zJwRFW+FUCkiegjLHCiaWp0/MhqTRmC+S1tpg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jmGw24mey98EVD29QVHkLwGkDmwy6TrrfDnUFlk1POA=;
- b=jKgj+2c8SSgua5Vvbu8dvDnRLAFD6OaWhFYGmrR/Eoo+w+Qh3/6DGlWZvllxMKOgJ7vKo7msatXLjseYvx5oHORF6oA2ccLXPBWtcuBAvAfGRMSGYEevCjQuSmhswsrbIxx4MXZPcy1Y9ga8pnrW5jUIK1pGXnRorQv4cuWgs5ROjSRXR3Vhs4ORHHMHp0YmzxVzaDX95B4tEFUhCvZCDoiDg0uzg729+pWlDbEFAus/ckV5mNr2gM4CryT65gQAKPDpXs+BJ1HKCDf9PZG14zs+hsr2Ld6IykVdyr/S7uwqOmKmLVU///xWomZl8dxxjGJOVS3EHFUbSlNU3xyDSw==
+ bh=xB72zoCgJMQKkC69oOANDzU8BLU6bdkDfmXEYRE1ftA=;
+ b=TOWZlC2dbisfLt8AkscH47YfZ+TjXEGOsVqhCmfKEpNfMGXkd0eaP50/9zOrWHzN0WgGl6v0Fa/DrZnnfCNK5TolaXdXnycdWNsT+ndIMEQ60SjmaE02l4GGoD8GWXFwEznQP9HIuFMB8DMIz6UoMy6js6KDlENrY5NyJat0U2LdJ7itESVpWvl5viKEwKXfiCCVGvHw2Ri8ShAwX3lzpm117Cl8Um3y0hhlBJf02DeVNHIvjhLadoBD0oSzoTPmIcrWdOjpvyI1x4Z0Lqxy7lqb4rkyPmmaQ9qkzYsGbJP1hByRJhKre5MndQBs1Zq+K40cVOXZPMhjgK3+4UWT+Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  149.199.62.198) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
  dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
@@ -32,17 +32,17 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jmGw24mey98EVD29QVHkLwGkDmwy6TrrfDnUFlk1POA=;
- b=dQQgTgTcMeVldAeeo5nVLYzEkv5F7rA/r7Nqzj2zaO02XQ861PPZlB1EslFawyIfBh1pIALw+8M4HyffhaVBD8klhfUIa4cK5RVuMrDGiaIEVdJCi1GmVxenrsRhvXrs73+p7utUZ7oq3jDFGqXB34ID546ItyYMOKEFmpbb0sw=
-Received: from MN2PR13CA0032.namprd13.prod.outlook.com (2603:10b6:208:160::45)
- by DM6PR02MB6010.namprd02.prod.outlook.com (2603:10b6:5:157::30) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.22; Mon, 16 Nov
- 2020 23:11:08 +0000
-Received: from BL2NAM02FT050.eop-nam02.prod.protection.outlook.com
- (2603:10b6:208:160:cafe::1c) by MN2PR13CA0032.outlook.office365.com
- (2603:10b6:208:160::45) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.15 via Frontend
+ bh=xB72zoCgJMQKkC69oOANDzU8BLU6bdkDfmXEYRE1ftA=;
+ b=ns1IT9rmQVBnI749v0Y1pwVzhHrmFqLuQqqI1YO2w1MCleDzNSHze7BnwcRDeGHfBmTaEsHRoEL+4MerkV9bwtUeUqASd1gcBHisgQ0XasXBn03lip+dmq6r5U+8K3M4ZO9JBGNKC1fOImgkAsMbSq0gA4ftUBBuTGKFezHQNNg=
+Received: from DM6PR10CA0031.namprd10.prod.outlook.com (2603:10b6:5:60::44) by
+ CH2PR02MB6854.namprd02.prod.outlook.com (2603:10b6:610:aa::19) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3564.28; Mon, 16 Nov 2020 23:11:08 +0000
+Received: from CY1NAM02FT022.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:5:60:cafe::27) by DM6PR10CA0031.outlook.office365.com
+ (2603:10b6:5:60::44) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.25 via Frontend
  Transport; Mon, 16 Nov 2020 23:11:08 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
  smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
@@ -50,60 +50,62 @@ X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
  header.from=xilinx.com;
 Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
  149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
-Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
- BL2NAM02FT050.mail.protection.outlook.com (10.152.77.101) with Microsoft SMTP
+ client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
+Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
+ CY1NAM02FT022.mail.protection.outlook.com (10.152.75.185) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.3564.22 via Frontend Transport; Mon, 16 Nov 2020 23:11:06 +0000
-Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
+ 15.20.3564.22 via Frontend Transport; Mon, 16 Nov 2020 23:11:08 +0000
+Received: from xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) by
+ xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
  15.1.1913.5; Mon, 16 Nov 2020 15:11:04 -0800
 Received: from smtp.xilinx.com (172.19.127.96) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
+ xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server id
  15.1.1913.5 via Frontend Transport; Mon, 16 Nov 2020 15:11:04 -0800
 Received: from [172.19.2.32] (port=55506 helo=xsjkomlodi50.xilinx.com)
  by smtp.xilinx.com with esmtp (Exim 4.90)
  (envelope-from <joe.komlodi@xilinx.com>)
- id 1keneK-0007S0-Hj; Mon, 16 Nov 2020 15:11:04 -0800
+ id 1keneK-0007S0-Ib; Mon, 16 Nov 2020 15:11:04 -0800
 From: Joe Komlodi <joe.komlodi@xilinx.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v5 0/4] hw/block/m25p80: Numonyx: Fix dummy cycles and check
- for SPI mode on cmds
-Date: Mon, 16 Nov 2020 15:11:00 -0800
-Message-ID: <1605568264-26376-1-git-send-email-komlodi@xilinx.com>
+Subject: [PATCH v5 1/4] hw/block/m25p80: Make Numonyx config field names more
+ accurate
+Date: Mon, 16 Nov 2020 15:11:01 -0800
+Message-ID: <1605568264-26376-2-git-send-email-komlodi@xilinx.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1605568264-26376-1-git-send-email-komlodi@xilinx.com>
+References: <1605568264-26376-1-git-send-email-komlodi@xilinx.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-Office365-Filtering-HT: Tenant
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1990db90-f04d-4a9a-816d-08d88a84e5ef
-X-MS-TrafficTypeDiagnostic: DM6PR02MB6010:
-X-Microsoft-Antispam-PRVS: <DM6PR02MB6010DD37933BFB1A298052FCD0E30@DM6PR02MB6010.namprd02.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: b19dbd0f-b10c-4767-550c-08d88a84e6de
+X-MS-TrafficTypeDiagnostic: CH2PR02MB6854:
+X-Microsoft-Antispam-PRVS: <CH2PR02MB6854934AEFDEB82F07E5CCB8D0E30@CH2PR02MB6854.namprd02.prod.outlook.com>
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:2887;
+X-MS-Oob-TLC-OOBClassifiers: OLM:186;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ACHvGaZn9Y3XGuZi9WUQ3qP+nqXxWtCKi3JBkmvo3HM5y+F11Rh0OzTDlW5HJ8DIJLKBJ+0hV4c6PfD4PX2y/3sFtmU4Kx1LGkCDp8kCXMShISLewed/nVeg7aMdQpZu8wuSLziEMPXfj3OzEHxajDIePhlCbpiIqYkYe9BQa/YuYAfr5OKGEYll0npI62ZRKE9fW4rFyvC7+MvVnmVuDaN23dOfuapSPbhCKO1z5SfcauXiLc1xB4QpvkzXk3InSrGO8rmFF54mzW4l/kC2C9jMCdQtaKJdRWr1g0IWc/Fle0xwvkqH65a3JDmc8fxS9DD7fmMT6iAa7wGO1Y0oFJVAFWsxG08ZLNKL+S+YDUosx68QzXroaqGg//4eChvslzH9wi+WbY4dU+kCPtQ0IILddCxEPYZljvmwWvc8s/0=
+X-Microsoft-Antispam-Message-Info: H3J4Q99Zj0ZUc/wrDq8O91ookCB+8Xw5iI6lXRJS3vf6vt0U2A4cmWCkczf0FwkfwyAZYkFppjJLkx/Lj3nKQyX8EJkpcl+dIHBVf452sSRghmrW7xArJCATqI7v8BcwkUA5Vrt1VA99BFsAxw13zaRXKgktI1sppK0CUFgGAs969mlK0IRuhOcZVAzZ1IISbOzHISI+3v/86iECGxrV5nfZQPSuHfLTCsxLEunRizz9BvMFJj1H76ukJajqiLWh6qFVhp6odwNT9mUP8BQLqO1vAiGCNFEL+jcXBb89PTchMLgf2xFj3sJWuwyH6zGinACj/Wp5a7E8/RPU4m1+ONwNUTQyNtfJ2JTwzP6xrI8LEcxfAKFNg47+53ddD/7REEJOF3ScneNc25UEqXkVWT45yIf8XsjweRjsNRErAW4=
 X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapexch01.xlnx.xilinx.com;
  PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(4636009)(396003)(376002)(39860400002)(346002)(136003)(46966005)(82310400003)(186003)(2616005)(6666004)(47076004)(356005)(4326008)(426003)(336012)(54906003)(82740400003)(26005)(316002)(478600001)(7696005)(9786002)(8936002)(36756003)(86362001)(70206006)(70586007)(8676002)(5660300002)(44832011)(7636003)(2906002)(6916009)(83380400001)(102446001);
+ SFS:(4636009)(136003)(396003)(39860400002)(376002)(346002)(46966005)(2616005)(478600001)(44832011)(356005)(316002)(4326008)(36906005)(82740400003)(47076004)(2906002)(9786002)(7636003)(8936002)(5660300002)(54906003)(6916009)(8676002)(83380400001)(70206006)(82310400003)(70586007)(36756003)(26005)(186003)(6666004)(86362001)(336012)(426003)(7696005)(102446001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2020 23:11:06.9510 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1990db90-f04d-4a9a-816d-08d88a84e5ef
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2020 23:11:08.5932 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b19dbd0f-b10c-4767-550c-08d88a84e6de
 X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
- Helo=[xsj-pvapexch02.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL2NAM02FT050.eop-nam02.prod.protection.outlook.com
+ Helo=[xsj-pvapexch01.xlnx.xilinx.com]
+X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT022.eop-nam02.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB6010
-Received-SPF: pass client-ip=40.107.223.83; envelope-from=komlodi@xilinx.com;
- helo=NAM11-DM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 18:11:10
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR02MB6854
+Received-SPF: pass client-ip=40.107.236.50; envelope-from=komlodi@xilinx.com;
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 18:11:13
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -128,56 +130,62 @@ Cc: figlesia@xilinx.com, alistair@alistair23.me,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changelog:
-v4 -> v5
- - 3/4: Simplify logic when changing state and checking mode.
- - 3/4: numonyx_get_mode -> numonyx_mode
- - 4/4: Reword commit message to include QIO mode.
+The previous naming of the configuration registers made it sound like that if
+the bits were set the settings would be enabled, while the opposite is true.
 
-v3 -> v4
- - 1/4: Patch changed to change names of register fields to be more accurate.
- - 1/4: Revert polarity change from v3.
- - 2/4: Added, fixes polarity of VCFG XIP mode when copied from NVCFG.
- - 3/4: Removed check_cmd_mode function, each command check is done in decode_new_cmd instead.
- - 3/4: Add guest error print if JEDEC read is executed in QIO or DIO mode.
- - 3/4: Don't check PP and PP4, they work regardless of mode. PP4_4 is left as is.
- - 3/4: Simplify get_mode function.
- - 4/4: Simplify extract_cfg_num_dummies function.
- - 4/4: Use switch statement instead of table for cycle retrieving.
+Signed-off-by: Joe Komlodi <komlodi@xilinx.com>
+Reviewed-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
+---
+ hw/block/m25p80.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-v2 -> v3
- - 1/3: Added, Fixes NVCFG polarity for DIO/QIO.
- - 2/3: Added, Checks if we can execute the current command in standard/DIO/QIO mode.
- - 3/3: Was 1/1 in v2.  Added cycle counts for DIO/QIO mode.
-
-v1 -> v2
- - 1/2: Change function name to be more accurate
- - 2/2: Dropped
-
-Hi all,
-
-The series fixes the behavior of the dummy cycle register for Numonyx flashes so
-it's closer to how hardware behaves.
-It also checks if a command can be executed in the current SPI mode
-(standard, DIO, or QIO) before extracting dummy cycles for the command.
-
-On hardware, the dummy cycles for fast read commands are set to a specific value
-(8 or 10) if the register is all 0s or 1s.
-If the register value isn't all 0s or 1s, then the flash expects the amount of
-cycles sent to be equal to the count in the register.
-
-Thanks!
-Joe
-
-Joe Komlodi (4):
-  hw/block/m25p80: Make Numonyx config field names more accurate
-  hw/block/m25p80: Fix when VCFG XIP bit is set for Numonyx
-  hw/block/m25p80: Check SPI mode before running some Numonyx commands
-  hw/block/m25p80: Fix Numonyx fast read dummy cycle count
-
- hw/block/m25p80.c | 158 ++++++++++++++++++++++++++++++++++++++++++++----------
- 1 file changed, 129 insertions(+), 29 deletions(-)
-
+diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+index 483925f..452d252 100644
+--- a/hw/block/m25p80.c
++++ b/hw/block/m25p80.c
+@@ -136,7 +136,7 @@ typedef struct FlashPartInfo {
+ #define VCFG_WRAP_SEQUENTIAL 0x2
+ #define NVCFG_XIP_MODE_DISABLED (7 << 9)
+ #define NVCFG_XIP_MODE_MASK (7 << 9)
+-#define VCFG_XIP_MODE_ENABLED (1 << 3)
++#define VCFG_XIP_MODE_DISABLED (1 << 3)
+ #define CFG_DUMMY_CLK_LEN 4
+ #define NVCFG_DUMMY_CLK_POS 12
+ #define VCFG_DUMMY_CLK_POS 4
+@@ -144,9 +144,9 @@ typedef struct FlashPartInfo {
+ #define EVCFG_VPP_ACCELERATOR (1 << 3)
+ #define EVCFG_RESET_HOLD_ENABLED (1 << 4)
+ #define NVCFG_DUAL_IO_MASK (1 << 2)
+-#define EVCFG_DUAL_IO_ENABLED (1 << 6)
++#define EVCFG_DUAL_IO_DISABLED (1 << 6)
+ #define NVCFG_QUAD_IO_MASK (1 << 3)
+-#define EVCFG_QUAD_IO_ENABLED (1 << 7)
++#define EVCFG_QUAD_IO_DISABLED (1 << 7)
+ #define NVCFG_4BYTE_ADDR_MASK (1 << 0)
+ #define NVCFG_LOWER_SEGMENT_MASK (1 << 1)
+ 
+@@ -769,7 +769,7 @@ static void reset_memory(Flash *s)
+         s->volatile_cfg |= VCFG_WRAP_SEQUENTIAL;
+         if ((s->nonvolatile_cfg & NVCFG_XIP_MODE_MASK)
+                                 != NVCFG_XIP_MODE_DISABLED) {
+-            s->volatile_cfg |= VCFG_XIP_MODE_ENABLED;
++            s->volatile_cfg |= VCFG_XIP_MODE_DISABLED;
+         }
+         s->volatile_cfg |= deposit32(s->volatile_cfg,
+                             VCFG_DUMMY_CLK_POS,
+@@ -784,10 +784,10 @@ static void reset_memory(Flash *s)
+         s->enh_volatile_cfg |= EVCFG_VPP_ACCELERATOR;
+         s->enh_volatile_cfg |= EVCFG_RESET_HOLD_ENABLED;
+         if (s->nonvolatile_cfg & NVCFG_DUAL_IO_MASK) {
+-            s->enh_volatile_cfg |= EVCFG_DUAL_IO_ENABLED;
++            s->enh_volatile_cfg |= EVCFG_DUAL_IO_DISABLED;
+         }
+         if (s->nonvolatile_cfg & NVCFG_QUAD_IO_MASK) {
+-            s->enh_volatile_cfg |= EVCFG_QUAD_IO_ENABLED;
++            s->enh_volatile_cfg |= EVCFG_QUAD_IO_DISABLED;
+         }
+         if (!(s->nonvolatile_cfg & NVCFG_4BYTE_ADDR_MASK)) {
+             s->four_bytes_address_mode = true;
 -- 
 2.7.4
 
