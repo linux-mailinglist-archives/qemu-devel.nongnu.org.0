@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E4D62B43BB
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 13:28:46 +0100 (CET)
-Received: from localhost ([::1]:35408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ED562B43AC
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 13:26:56 +0100 (CET)
+Received: from localhost ([::1]:55224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kedcj-0006VX-5M
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 07:28:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57956)
+	id 1kedax-00039I-6b
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 07:26:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kedYa-0001Xe-O2
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 07:24:28 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:40553)
+ id 1kedYX-0001Th-Tp
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 07:24:25 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:51103)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kedYW-000370-5x
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 07:24:28 -0500
-Received: by mail-wm1-x333.google.com with SMTP id a3so23432675wmb.5
+ id 1kedYW-00037o-8n
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 07:24:25 -0500
+Received: by mail-wm1-x335.google.com with SMTP id h2so23567988wmm.0
  for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 04:24:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=P3s89U5AWlEpkPlD2N62ryzJUTNQUgTz9hN8LcwRn8I=;
- b=DGtApeOSTeRsUU6ua7ByjaZbqaCAXA4RcIUHoO+mIbeLgYaM9miJVhoOQigFLCCPV6
- +kSCHh16CbwC/B8O/VnXFBqozmtOvsi9B8iUBzIqXDr0uKgm4qNUR/5tRxAq05Dovjgi
- dHZIIcxMqR3MPgrhlgiPO0QYt1zNXWbtxzErXfmhRBUquKaRSS3jn/mzVj8C6z9eQ4+Z
- H86QXmfiuXSc6lNCvolVW4rMr1H3owQ1bLEDmT/cOI7+cH1CbojsmG6LxT+uonBhw+Kh
- NmW+wtu/aIAE+4v9v16edy+zxlXqzSXvmV/V8GVyb/sDFZEnVJF+GWpCjiBqSdabkP3q
- q0QQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=vHv4EHcIqVjX/nk8AgqAMkp9FkP1WHOt6fzSvyu1HXc=;
+ b=cQEEMK3h469kTNKn+cv+AOMt5eP0GBBv7ROtsjqyUby9+ebseIjkMAOT19cBFMgLQ/
+ p0rlk2EKbmjb61rpxVbl5Gweq8u3/m6Tzp/Ys1BPn24iiNR3ys23qPjqmHM8yGKGbWhx
+ ac1GyJ+u5sHU4gHrjVSpS/1AgY8seaCgV5pjWv5txsRdRJ7esfwTzV2adHj2AJ7oAKdm
+ d9w9gC2Z60TnfaDYaWUxt1yhCptvlW2c2+SFcFb+FwFjoJEo4LSteqcvemYXl7wZCPxL
+ PoSlTr19wo6hMJTaMLsKKBCeApzqU8lNs2Z8jkZtsjZnbG1WaB37+6LfMbXlpu54h8LY
+ K3Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=P3s89U5AWlEpkPlD2N62ryzJUTNQUgTz9hN8LcwRn8I=;
- b=HwJ3seYdwRDRDvOco1YC0fJbeo1/FSRMVy0UHtJT91nIvQi2aSZuPJKn9pWw+TJqvp
- YDA1nEawpkSS5QzFUjBFnb+wcFkv+I6VVdh1e4ZE2/RKK1q17caIi2mTSZpdHTKtbRmR
- ju7yJbO/lr2jOfM0WfjKS0psx470PkdkVzUIpLAebs3lmLjeFe8zPs8NpyP+yULRtlFu
- Jo3kG6usENv6U5iguRm1J+TzxDZXcunnwRg1/TlNjaDM0ZBm245IzppkT/WkLm/3lmZz
- JZeWvwGV1hwrLM8ASn30PJHPQ+o7ZyVUAiIWYKFIORgAWPLdgCsvw5M7nCvlWhE0+MVS
- I08Q==
-X-Gm-Message-State: AOAM532fwMj3D9g0FLitu2fkoKpkoKtdikm1NeKGRHx2e+k5XTz8ldHj
- BIGxdVVJkY0nqboPur/eS3uqRw==
-X-Google-Smtp-Source: ABdhPJxKzhpgT3EmjowkHownE8gEqcOobwD37NKssvRyzWIAP3CZZWNZ3lnJWi5zv750p3pz9sr2Yw==
-X-Received: by 2002:a1c:5946:: with SMTP id n67mr14977568wmb.162.1605529459675; 
- Mon, 16 Nov 2020 04:24:19 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=vHv4EHcIqVjX/nk8AgqAMkp9FkP1WHOt6fzSvyu1HXc=;
+ b=N7BDPitqUqJtPSLOPCI5ExBpSKQntojKAjvOs64RSBUS6XpJJgdYxC1Vjx+BnmbFyg
+ COfU+zcp+PnWsp0dG0ZYJxq7HbQL9+jQS65uQGjzntea1itHIzlK1+p1pygKI4to7bPo
+ xWMlfOlpNUFRYdCdWkEZINuq2QbOKP4DCE6rNhWXbdjpDmB9lcgHIUPd5E0l9jvxy4qM
+ wMPHOsThkk8FDyE8+jwFgGNcziHyRTIAv/8j33PwcqGSROm/raPdIOQ7EqGbTDfuxuZZ
+ Au0CBnb7KVO5tvk8rGYCi0I5ZMmPurZAOCqLiNsoyh20dOXvSnUoNHUphbByMObors23
+ ArRQ==
+X-Gm-Message-State: AOAM530z3VEpreI36jxAT9lsp0STQbQPYRHQVnIxehmRFyfA44TXe+ny
+ 5xwIJJyETucj0P3+5mqzv1Ommw==
+X-Google-Smtp-Source: ABdhPJxbwWRk6RY9E2tws1WsjJHbJOzUnonsWnD0joOlbeNDW+0cMMCNrND/mDURqN/rSkdcS+FtsA==
+X-Received: by 2002:a7b:c202:: with SMTP id x2mr14950568wmi.48.1605529460860; 
+ Mon, 16 Nov 2020 04:24:20 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b1sm20415092wmd.43.2020.11.16.04.24.18
+ by smtp.gmail.com with ESMTPSA id t74sm20045679wmt.8.2020.11.16.04.24.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 16 Nov 2020 04:24:18 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CA7B51FF7E;
+ by zen.linaroharston (Postfix) with ESMTP id DF03F1FF87;
  Mon, 16 Nov 2020 12:24:17 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 0/9] various fixes (CI, Xen, warnings)
-Date: Mon, 16 Nov 2020 12:24:08 +0000
-Message-Id: <20201116122417.28346-1-alex.bennee@linaro.org>
+Subject: [PULL 1/9] plugins: Fix resource leak in connect_socket()
+Date: Mon, 16 Nov 2020 12:24:09 +0000
+Message-Id: <20201116122417.28346-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201116122417.28346-1-alex.bennee@linaro.org>
+References: <20201116122417.28346-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,59 +88,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: Alex Chen <alex.chen@huawei.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit b50ea0d54bbca7d440315c3d0c0f7a4d6537b180:
+From: Alex Chen <alex.chen@huawei.com>
 
-  Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply-20201113-1' into staging (2020-11-14 11:22:07 +0000)
+Close the fd when the connect() fails.
 
-are available in the Git repository at:
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Alex Chen <alex.chen@huawei.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20201109082829.87496-2-alex.chen@huawei.com>
+Message-Id: <20201110192316.26397-2-alex.bennee@linaro.org>
 
-  https://github.com/stsquad/qemu.git tags/pull-testing-and-misc-161120-1
-
-for you to fetch changes up to 7025111a199b97ae806817788bec50f456c47d85:
-
-  .gitlab-ci.d/check-patch: tweak output for CI logs (2020-11-16 11:08:40 +0000)
-
-----------------------------------------------------------------
-Various fixes
-
-  - fix resource leak in a couple of plugin
-  - fix build of Xen enabled i386 image on Aarch64
-  - maybe unitialized warning fix
-  - disable unstable Spartan-3A acceptance test
-  - terser output of gitlab checkpatch check
-
-----------------------------------------------------------------
-Alex Bennée (5):
-      meson.build: fix building of Xen support for aarch64
-      include/hw/xen.h: drop superfluous struct
-      stubs/xen-hw-stub: drop xenstore_store_pv_console_info stub
-      accel/stubs: drop unused cpu.h include
-      .gitlab-ci.d/check-patch: tweak output for CI logs
-
-Alex Chen (2):
-      plugins: Fix resource leak in connect_socket()
-      plugins: Fix two resource leaks in setup_socket()
-
-Philippe Mathieu-Daudé (2):
-      hw/i386/acpi-build: Fix maybe-uninitialized error when ACPI hotplug off
-      tests/acceptance: Disable Spartan-3A DSP 1800A test
-
- meson.build                            |  7 +++++-
- include/hw/xen/xen.h                   |  2 +-
- accel/stubs/hax-stub.c                 |  1 -
- contrib/plugins/lockstep.c             |  3 +++
- hw/i386/acpi-build.c                   | 41 ++++++++++++++++------------------
- stubs/xen-hw-stub.c                    |  4 ----
- .gitlab-ci.d/check-patch.py            |  4 ++--
- tests/acceptance/boot_linux_console.py |  2 ++
- tests/acceptance/replay_kernel.py      |  2 ++
- 9 files changed, 35 insertions(+), 31 deletions(-)
-
+diff --git a/contrib/plugins/lockstep.c b/contrib/plugins/lockstep.c
+index a696673dff..319bd44b83 100644
+--- a/contrib/plugins/lockstep.c
++++ b/contrib/plugins/lockstep.c
+@@ -292,6 +292,7 @@ static bool connect_socket(const char *path)
+ 
+     if (connect(fd, (struct sockaddr *)&sockaddr, sizeof(sockaddr)) < 0) {
+         perror("failed to connect");
++        close(fd);
+         return false;
+     }
+ 
 -- 
 2.20.1
 
