@@ -2,76 +2,119 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32BD02B4B64
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 17:39:19 +0100 (CET)
-Received: from localhost ([::1]:45400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 138FA2B4B4D
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 17:35:46 +0100 (CET)
+Received: from localhost ([::1]:33582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kehXC-0006Mj-57
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 11:39:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33074)
+	id 1kehTl-0001Lp-1r
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 11:35:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kehEl-0003SJ-OO
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 11:20:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46660)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kehEh-00033l-Ua
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 11:20:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605543609;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=m9Hw6FKtnCz4lDiRodp2ss1CqBRCirABE+S5cZvxTSs=;
- b=eParcPwlrBnfKsYofXKfNH/a0AzghCtGmbBGEHe/VQVkp4+OiLMLWB5m1qkteFBH5nF6ok
- C9xdhaa4AmMEJJdVCzcx2gnbQJf1zTp/+rLo7cQHsxTvIRDfXlTHbg2y8CFlNnZMZM7bNP
- O8sq84Otd1/E00l3TkMuEf0TjP0cyVE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-592-Ri2nVE82NpG6AXGVY3OepQ-1; Mon, 16 Nov 2020 11:20:06 -0500
-X-MC-Unique: Ri2nVE82NpG6AXGVY3OepQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6ED2188C13D;
- Mon, 16 Nov 2020 16:20:05 +0000 (UTC)
-Received: from [10.3.113.36] (ovpn-113-36.phx2.redhat.com [10.3.113.36])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4F41F5DA33;
- Mon, 16 Nov 2020 16:20:05 +0000 (UTC)
-Subject: Re: [PATCH for-6.0 1/6] qapi: Add query-accel command
-To: Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
-References: <20201116131011.26607-1-r.bolshakov@yadro.com>
- <20201116131011.26607-2-r.bolshakov@yadro.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <2d934855-ad11-9f61-28a1-7c0a35347a66@redhat.com>
-Date: Mon, 16 Nov 2020 10:20:04 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <figlesia@xilinx.com>)
+ id 1kehOy-00069F-Ic; Mon, 16 Nov 2020 11:30:52 -0500
+Received: from mail-dm6nam12on2051.outbound.protection.outlook.com
+ ([40.107.243.51]:23361 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <figlesia@xilinx.com>)
+ id 1kehOt-0006lq-Hn; Mon, 16 Nov 2020 11:30:47 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VzAHY5F03NApy1rMZyfEtAppmyj3ydEbKHBZh/Js/8ZdD2LdgIEyOngKfxFhdUBLajnDQ7YoHPBZZoUFRaih0RipLGDDpVLCzG4ObCjd6+P1IF/CH/b8IL/WYUzV8Gl/NFzQMdyJQmlEnGeytqPlPAdiEdLJsMYVXqiJG6vcf6//E5NJ1AedSPre6AdX9+zob4eidkRDEw+pVUiSoRZYDQPKHnVmWbuLWcK5gEzUFDrGcpSRUmHSjp8UsZsFz/4V+7HE1AHjNRwr8T8NXJT9rlp+YD5h8Cxzr7ZYFJsqSGcdMrczqWCK7czn568oYSKXy+l5Ad7DR0gJUGLFla7+JQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pm9T72FcGJE9yGTJM2Fhtfy/31dB6u5DAsoYXW4f2m0=;
+ b=QVZQXPRVHGvzc6B9qp05Ji/B6aNdEheEFJCkuim33VHkggsQ6hA5k3hhcwDXIrIaleKAjUNokDNSMKbFSmzwESzLGfa0klLptUVxNvDG352XViA8LBipszWEWnUT2f7zU+lHN2X6zHFjCExw4Fv8PbHhRGw3Gn6qKFkn0ZGlKs8EUG8rSlXS7P0ndtnRhJEfGMa4nzAtdJCDK12M91uyYCocHGRHdBN8TYjsXInXOJLVJXxlIbtmhdl5z06vy396R/KxnmVZ/21KZV2V0d+I8y6NMqUAKm0OyJ2veli95ELsajQClAYLl9S3rJTT/Y2Y3mc/4Qp9aWZrxNwclgILsw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.62.198) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pm9T72FcGJE9yGTJM2Fhtfy/31dB6u5DAsoYXW4f2m0=;
+ b=ARhx0NHXqmT0HxOVPNw0Mew7D9+DzIRynsFic1xN32gqa0UntiAQ3uGXVh2Zb94BxPWU89geyE+A+HwiboAuZR52g+sJo1bf1bP4Mv5gmvTodMsnNVlu/eDsxrc6JEA1jEwRm8Bb9oaYxFcgmUJeK6WPCCZVM1nlfYlsE1Ccd90=
+Received: from BL1PR13CA0103.namprd13.prod.outlook.com (2603:10b6:208:2b9::18)
+ by BYAPR02MB4997.namprd02.prod.outlook.com (2603:10b6:a03:71::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.25; Mon, 16 Nov
+ 2020 16:30:38 +0000
+Received: from BL2NAM02FT029.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:208:2b9:cafe::56) by BL1PR13CA0103.outlook.office365.com
+ (2603:10b6:208:2b9::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.21 via Frontend
+ Transport; Mon, 16 Nov 2020 16:30:38 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
+ smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
+Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
+ BL2NAM02FT029.mail.protection.outlook.com (10.152.77.100) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.3564.22 via Frontend Transport; Mon, 16 Nov 2020 16:30:38 +0000
+Received: from xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) by
+ xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1913.5; Mon, 16 Nov 2020 08:30:27 -0800
+Received: from smtp.xilinx.com (172.19.127.96) by
+ xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server id
+ 15.1.1913.5 via Frontend Transport; Mon, 16 Nov 2020 08:30:27 -0800
+Received: from [10.23.120.221] (port=64090 helo=debian)
+ by smtp.xilinx.com with esmtp (Exim 4.90)
+ (envelope-from <francisco.iglesias@xilinx.com>)
+ id 1kehOd-0000uf-Eq; Mon, 16 Nov 2020 08:30:27 -0800
+Date: Mon, 16 Nov 2020 16:30:25 +0000
+From: Francisco Iglesias <francisco.iglesias@xilinx.com>
+To: Joe Komlodi <joe.komlodi@xilinx.com>
+Subject: Re: [PATCH v4 4/4] hw/block/m25p80: Fix Numonyx fast read dummy
+ cycle count
+Message-ID: <20201116163024.a6c27ni6p6junfth@debian>
+References: <1605237055-393580-1-git-send-email-komlodi@xilinx.com>
+ <1605237055-393580-5-git-send-email-komlodi@xilinx.com>
 MIME-Version: 1.0
-In-Reply-To: <20201116131011.26607-2-r.bolshakov@yadro.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 04:46:27
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+In-Reply-To: <1605237055-393580-5-git-send-email-komlodi@xilinx.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 53cd944a-ce60-43d1-393f-08d88a4cf3ad
+X-MS-TrafficTypeDiagnostic: BYAPR02MB4997:
+X-Microsoft-Antispam-PRVS: <BYAPR02MB4997CB05F2E197A36F2D0D33ADE30@BYAPR02MB4997.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:549;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: x0CLiOJ/WrD+H8q0BXvh8Hq/hxOrQmPlgpTWF17r11Sss31RmC8k+gD4kcPuaPV0Sbc62oUPzJmRTJQFQpoQzgyF6A6rOcnMGx0Sz3Okuwu8EBmv0LVQD4FVRhIkQqmZ/BdcpaE7hHzDzHsygLyyd3Lae5rUjniQ2yQITDnRc1PW6Fr1g0RAcob9s5PomBbXutfBk/+7c43oOJ3A3b4dKV5vbdPuWQBkWccnSuOeQGEk6CyDdiqfLuP8u+myLKBQB+kR9OGFrFnge2y9rr3xSUICwcO4EA9yiih4qSuGL7x34YluxCeUErWPQL29D+jjlW14leJbYts17j94nQjDky692VvtWYC85KH/dS6xkWllLYbM4EvM5w95ipXGcz5ZzE/YgGvFz10qfRE3on54oAmOmaXUF6uMKXhmu7jYYTuNxbr0L2sfa3XoGLz6AucxWTVkmxt2pSboof7jlllzGiZMhLVM2JbjTHGPf9hpHN0=
+X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapexch01.xlnx.xilinx.com;
+ PTR:unknown-62-198.xilinx.com; CAT:NONE;
+ SFS:(4636009)(396003)(39860400002)(376002)(346002)(136003)(46966005)(70586007)(70206006)(36906005)(316002)(8676002)(26005)(2906002)(33716001)(478600001)(186003)(1076003)(8936002)(9576002)(9686003)(54906003)(426003)(966005)(9786002)(336012)(7636003)(356005)(47076004)(82740400003)(6862004)(5660300002)(4326008)(83380400001)(44832011)(6636002)(82310400003);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2020 16:30:38.1859 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 53cd944a-ce60-43d1-393f-08d88a4cf3ad
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
+ Helo=[xsj-pvapexch01.xlnx.xilinx.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL2NAM02FT029.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4997
+Received-SPF: pass client-ip=40.107.243.51; envelope-from=figlesia@xilinx.com;
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 11:30:39
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,59 +127,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: figlesia@xilinx.com, qemu-block@nongnu.org, alistair@alistair23.me,
+ qemu-devel@nongnu.org, mreitz@redhat.com, philippe.mathieu.daude@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/16/20 7:10 AM, Roman Bolshakov wrote:
-> There's a problem for management applications to determine if certain
-> accelerators available. Generic QMP command should help with that.
+Hi Joe,
+
+On Thu, Nov 12, 2020 at 07:10:55PM -0800, Joe Komlodi wrote:
+> Numonyx chips determine the number of cycles to wait based on bits 7:4
+> in the volatile configuration register.
 > 
-> Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+> However, if these bits are 0x0 or 0xF, the number of dummy cycles to
+> wait is
+> 10 on a QIOR or QIOR4 command, or 8 on any other currently supported
+> fast read command. [1]
+
+With above changed to:
+
+"
+However, if these bits are 0x0 or 0xF, the number of dummy cycles to wait
+is 10 on a QIOR or QIOR4 command or when in QIO mode and else 8 for the
+currently supported fast read commands. [1]
+"
+
+Reviewed-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
+
+Best regards,
+Francisco Iglesias
+
+
+> 
+> [1]
+> https://www.micron.com/-/media/client/global/documents/products/data-sheet/nor-flash/serial-nor/mt25q/die-rev-b/mt25q_qlkt_u_02g_cbb_0.pdf?rev=9b167fbf2b3645efba6385949a72e453
+> 
+> Signed-off-by: Joe Komlodi <komlodi@xilinx.com>
 > ---
->  monitor/qmp-cmds.c | 15 +++++++++++++++
->  qapi/machine.json  | 19 +++++++++++++++++++
->  2 files changed, 34 insertions(+)
+>  hw/block/m25p80.c | 30 +++++++++++++++++++++++++++---
+>  1 file changed, 27 insertions(+), 3 deletions(-)
 > 
-
-> +++ b/qapi/machine.json
-> @@ -591,6 +591,25 @@
->  ##
->  { 'command': 'query-kvm', 'returns': 'KvmInfo' }
+> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+> index 2552f2c..0c78015 100644
+> --- a/hw/block/m25p80.c
+> +++ b/hw/block/m25p80.c
+> @@ -837,6 +837,30 @@ static uint8_t numonyx_get_mode(Flash *s)
+>      }
+>  }
 >  
-> +##
-> +# @query-accel:
-> +#
-> +# Returns information about an accelerator
-> +#
-> +# Returns: @KvmInfo
-> +#
-> +# Since: 6.0.0
-
-We're inconsistent on whether we have 'Since: x.y' or 'Since: x.y.z',
-although I prefer the shorter form.  Maybe Markus has an opnion on that.
-
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "query-accel", "arguments": { "name": "kvm" } }
-> +# <- { "return": { "enabled": true, "present": true } }
-> +#
-> +##
-> +{ 'command': 'query-accel',
-> +  'data': { 'name': 'str' },
-> +  'returns': 'KvmInfo' }
-
-'@name' is undocumented and an open-coded string.  Better would be
-requiring 'name' to be one of an enum type.  Even better would be
-returning an array of KvmInfo with information on all supported
-accelerators at once, rather than making the user call this command once
-per name.
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+> +static uint8_t numonyx_extract_cfg_num_dummies(Flash *s)
+> +{
+> +    uint8_t num_dummies;
+> +    uint8_t mode;
+> +    assert(get_man(s) == MAN_NUMONYX);
+> +
+> +    mode = numonyx_get_mode(s);
+> +    num_dummies = extract32(s->volatile_cfg, 4, 4);
+> +
+> +    if (num_dummies == 0x0 || num_dummies == 0xf) {
+> +        switch (s->cmd_in_progress) {
+> +        case QIOR:
+> +        case QIOR4:
+> +            num_dummies = 10;
+> +            break;
+> +        default:
+> +            num_dummies = (mode == MODE_QIO) ? 10 : 8;
+> +            break;
+> +        }
+> +    }
+> +
+> +    return num_dummies;
+> +}
+> +
+>  static void decode_fast_read_cmd(Flash *s)
+>  {
+>      s->needed_bytes = get_addr_length(s);
+> @@ -847,7 +871,7 @@ static void decode_fast_read_cmd(Flash *s)
+>          s->state = STATE_COLLECTING_DATA;
+>          break;
+>      case MAN_NUMONYX:
+> -        s->needed_bytes += extract32(s->volatile_cfg, 4, 4);
+> +        s->needed_bytes += numonyx_extract_cfg_num_dummies(s);
+>          s->state = STATE_COLLECTING_DATA;
+>          break;
+>      case MAN_MACRONIX:
+> @@ -891,7 +915,7 @@ static void decode_dio_read_cmd(Flash *s)
+>          s->state = STATE_COLLECTING_DATA;
+>          break;
+>      case MAN_NUMONYX:
+> -        s->needed_bytes += extract32(s->volatile_cfg, 4, 4);
+> +        s->needed_bytes += numonyx_extract_cfg_num_dummies(s);
+>          s->state = STATE_COLLECTING_DATA;
+>          break;
+>      case MAN_MACRONIX:
+> @@ -935,7 +959,7 @@ static void decode_qio_read_cmd(Flash *s)
+>          s->state = STATE_COLLECTING_DATA;
+>          break;
+>      case MAN_NUMONYX:
+> -        s->needed_bytes += extract32(s->volatile_cfg, 4, 4);
+> +        s->needed_bytes += numonyx_extract_cfg_num_dummies(s);
+>          s->state = STATE_COLLECTING_DATA;
+>          break;
+>      case MAN_MACRONIX:
+> -- 
+> 2.7.4
+> 
 
