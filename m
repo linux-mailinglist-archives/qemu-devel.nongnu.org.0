@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB6A42B4AC2
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 17:21:12 +0100 (CET)
-Received: from localhost ([::1]:56244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 198F72B4AC4
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 17:21:58 +0100 (CET)
+Received: from localhost ([::1]:57942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kehFf-000382-T7
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 11:21:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58152)
+	id 1kehGP-0003sX-37
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 11:21:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1keh3c-0008Pm-F8
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 11:08:44 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:46211)
+ id 1keh3e-0008T8-5c
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 11:08:46 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:33921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1keh3Z-0007pk-9U
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 11:08:44 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id d12so19230101wrr.13
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 08:08:40 -0800 (PST)
+ id 1keh3a-0007q3-74
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 11:08:45 -0500
+Received: by mail-wr1-x442.google.com with SMTP id r17so19295139wrw.1
+ for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 08:08:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ojq6mFjue/Cb7cv+9VNy9lJWWzr++JeLPodwO0KuPSM=;
- b=gzvYgcnkPF5RIQxhNjtVd3CwkJEuMoO7e2kEvyBAWvOoNA0O4Vza0DGAmcpQNIs3qS
- iKwcuFMeQ1iQIsVIZiidJSmFTFwRVAoj+Kl/SghcwE/epC3ADd+6QHPfAOduvUNv7wGH
- M3RezU5SsoOknlryQ+FPALBoInSgty1YBiHteyoFqV2aVyv7xheljWUewEsUMHuf0DZH
- LLnSkcO+aOI1lK40OkeRkb4l3ooyMjj2BDgggAB83BPUns5Rh3XRlUxcSRxSKmRcTuML
- HXzJZkkS8t448ppjADlB5h9snP/w6izVdyYE4UvT4vZHdIXjzU0YS0MqjHDMGQjhP8LT
- odNQ==
+ bh=ndVG3Ur/YVssArwv222lKAY0FdZzdrlIXHioNrSqs3Q=;
+ b=iJB9gGn2i4gB7DNDRGs9+1HkmXJXvC7IipL/5wAyfqNYX3Ig0DxUiriQv//NWw0Tgz
+ IevpZjYLiMVElxkkkb8KezbqVaZa/zMtJvD6TPRg7GJ0co1mt1SzTEDHuzDPlkbYMnf1
+ hKiivlnEIwzmChT7KNtInscSHKNXGF0EA9Zew79NyOzZI/hS3tdArgybeP6VO2eDfPmb
+ u87+0MkNVV/8AGYa+SMV6BPi2hWMbQjwXqrgNNV00KrdfZWngHp6VsaeFrJXoyGI+Wg0
+ 7Q3r6a2IGBCjRAMsCoRFg0FroPf3o/tsJZdQ567wdxetcBEt9SC660rG705EkatMGm/R
+ ybiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ojq6mFjue/Cb7cv+9VNy9lJWWzr++JeLPodwO0KuPSM=;
- b=PfBJIwxVZm8k6dK9jxNCGFiYzlbSfpt6SNqGtlxs8TiFUvS2+aHFmKZ+tj3L/VwqFc
- 0N9tUCXjUG2jCdoibdzOBG/wXTTEiuY223pooe/ZCdzdYw1S+S9+bjc6WzD5lZlXh1Px
- lt4n73TDbBwfptq+6UavAMqTtn/qbXSH72jP0lypYc5OjJc5nUAI/R5Qcb5ooerrARj5
- RPjoHUma9EAfjwE6P/za9BQ3c+p50ID/3/BXLpveksi5UibicF7gdx88KkIHE2hJvjHI
- Wn7aBKi9j9yIAv5MV9ODZJlLCe+J9DRtzVzyhXeCQMUId8LfDPSGWdm0qzS+/TLA2I6x
- K82Q==
-X-Gm-Message-State: AOAM532pNaA0OwMJdBG7yFYyrpwm0eraOFItvz/yK92qYQU94SZHQRxD
- 49bqp+RN8btG0vyiZFByrVmZ5fbYvEb1gQ==
-X-Google-Smtp-Source: ABdhPJxgd/Jl0BYTqvwSnsmMjE0AoMeB54Ki4cTrHmzTGWSdwDZj13RFf1tPkKIvPETbRF6bA9DI0g==
-X-Received: by 2002:a5d:438f:: with SMTP id i15mr20325739wrq.121.1605542919794; 
- Mon, 16 Nov 2020 08:08:39 -0800 (PST)
+ bh=ndVG3Ur/YVssArwv222lKAY0FdZzdrlIXHioNrSqs3Q=;
+ b=eK7mBCunY6mJhfF6pR2b8KLwDgdYVX14jtqt8/0x7+Lt5Rvl2ZDI0WsMMChjjUyrIF
+ PuknHoXd/SLJ272TYNvuJmQSIpZX/fotBGrE+1qOf0gQ1ec91DTvntmDbLzMY1+3lwOW
+ 86xNqbR+pub4usya8+9cwGs7DzP/BbzRwr3r4s8pLooQ4KAZ8FMe9VxABtgjouCVDzjR
+ XQQJmLG2CTQzWqhS3O1aaxViMvtmU86dEfKAvCm4UGptRDjBow2jDXn9QmLAsSf2WYHC
+ krr4iWcyZph9cT/uMfUgiF1daHD6V+2BNHFQ6VN4zQFPr9LqRktxd0iPep8rG8KAcHW1
+ ce8A==
+X-Gm-Message-State: AOAM531QDMmcxU7V68NgpE/JaG7Bn3YTn/6HqaTPdJ0O/MqrBIA3ZUOu
+ ABqc8j6jK3EaVAWq4WAWSydEFw==
+X-Google-Smtp-Source: ABdhPJwcPDXqAuG991Zsn2W1zVHgoXzT+f38/iTAh4+D8arH1/DEs6YGk94fFZSTYfO93limTxCu+A==
+X-Received: by 2002:adf:dccd:: with SMTP id x13mr21348550wrm.394.1605542920918; 
+ Mon, 16 Nov 2020 08:08:40 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g20sm20116975wmh.20.2020.11.16.08.08.38
+ by smtp.gmail.com with ESMTPSA id g20sm20116975wmh.20.2020.11.16.08.08.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Nov 2020 08:08:38 -0800 (PST)
+ Mon, 16 Nov 2020 08:08:40 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 05/15] target/arm: Implement CLRM instruction
-Date: Mon, 16 Nov 2020 16:08:21 +0000
-Message-Id: <20201116160831.31000-6-peter.maydell@linaro.org>
+Subject: [PATCH 06/15] target/arm: Enforce M-profile VMRS/VMSR register
+ restrictions
+Date: Mon, 16 Nov 2020 16:08:22 +0000
+Message-Id: <20201116160831.31000-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201116160831.31000-1-peter.maydell@linaro.org>
 References: <20201116160831.31000-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,84 +89,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In v8.1M the new CLRM instruction allows zeroing an arbitrary set of
-the general-purpose registers and APSR.  Implement this.
-
-The encoding is a subset of the LDMIA T2 encoding, using what would
-be Rn=0b1111 (which UNDEFs for LDMIA).
+For M-profile before v8.1M, the only valid register for VMSR/VMRS is
+the FPSCR.  We have a comment that states this, but the actual logic
+to forbid accesses for any other register value is missing, so we
+would end up with A-profile style behaviour.  Add the missing check.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/t32.decode  |  6 +++++-
- target/arm/translate.c | 38 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 43 insertions(+), 1 deletion(-)
+ target/arm/translate-vfp.c.inc | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/t32.decode b/target/arm/t32.decode
-index 8152739b52b..59ab974c661 100644
---- a/target/arm/t32.decode
-+++ b/target/arm/t32.decode
-@@ -609,7 +609,11 @@ UXTAB            1111 1010 0101 .... 1111 .... 10.. ....      @rrr_rot
- 
- STM_t32          1110 1000 10.0 .... ................         @ldstm i=1 b=0
- STM_t32          1110 1001 00.0 .... ................         @ldstm i=0 b=1
--LDM_t32          1110 1000 10.1 .... ................         @ldstm i=1 b=0
-+{
-+  # Rn=15 UNDEFs for LDM; M-profile CLRM uses that encoding
-+  CLRM           1110 1000 1001 1111 list:16
-+  LDM_t32        1110 1000 10.1 .... ................         @ldstm i=1 b=0
-+}
- LDM_t32          1110 1001 00.1 .... ................         @ldstm i=0 b=1
- 
- &rfe             !extern rn w pu
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 4b17b2e0d46..ac8c118427f 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -7965,6 +7965,44 @@ static bool trans_LDM_t16(DisasContext *s, arg_ldst_block *a)
-     return do_ldm(s, a, 1);
- }
- 
-+static bool trans_CLRM(DisasContext *s, arg_CLRM *a)
-+{
-+    int i;
-+    TCGv_i32 zero;
-+
-+    if (!dc_isar_feature(aa32_m_sec_state, s)) {
-+        return false;
-+    }
-+
-+    if (extract32(a->list, 13, 1)) {
-+        return false;
-+    }
-+
-+    if (!a->list) {
-+        /* UNPREDICTABLE; we choose to UNDEF */
-+        return false;
-+    }
-+
-+    zero = tcg_const_i32(0);
-+    for (i = 0; i < 15; i++) {
-+        if (extract32(a->list, i, 1)) {
-+            /* Clear R[i] */
-+            tcg_gen_mov_i32(cpu_R[i], zero);
+diff --git a/target/arm/translate-vfp.c.inc b/target/arm/translate-vfp.c.inc
+index daf39306d04..aee60ff98b3 100644
+--- a/target/arm/translate-vfp.c.inc
++++ b/target/arm/translate-vfp.c.inc
+@@ -622,7 +622,10 @@ static bool trans_VMSR_VMRS(DisasContext *s, arg_VMSR_VMRS *a)
+          * Accesses to R15 are UNPREDICTABLE; we choose to undef.
+          * (FPSCR -> r15 is a special case which writes to the PSR flags.)
+          */
+-        if (a->rt == 15 && (!a->l || a->reg != ARM_VFP_FPSCR)) {
++        if (a->reg != ARM_VFP_FPSCR) {
++            return false;
 +        }
-+    }
-+    if (extract32(a->list, 15, 1)) {
-+        /*
-+         * Clear APSR (by calling the MSR helper with the same argument
-+         * as for "MSR APSR_nzcvqg, Rn": mask = 0b1100, SYSM=0)
-+         */
-+        TCGv_i32 maskreg = tcg_const_i32(0xc << 8);
-+        gen_helper_v7m_msr(cpu_env, maskreg, zero);
-+        tcg_temp_free_i32(maskreg);
-+    }
-+    tcg_temp_free_i32(zero);
-+    return true;
-+}
-+
- /*
-  * Branch, branch with link
-  */
++        if (a->rt == 15 && !a->l) {
+             return false;
+         }
+     }
 -- 
 2.20.1
 
