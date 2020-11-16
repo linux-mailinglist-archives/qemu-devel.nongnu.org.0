@@ -2,94 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B9F32B53EB
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 22:45:00 +0100 (CET)
-Received: from localhost ([::1]:40130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 245A52B53F5
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 22:45:48 +0100 (CET)
+Received: from localhost ([::1]:41376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kemJ0-0005qI-Eb
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 16:44:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60162)
+	id 1kemJn-0006O9-5j
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 16:45:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1kemGx-0005Dg-LW; Mon, 16 Nov 2020 16:42:51 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:55316)
+ (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
+ id 1kemHI-0005WA-Tm
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 16:43:12 -0500
+Received: from mga14.intel.com ([192.55.52.115]:17594)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1kemGt-0001Xs-MZ; Mon, 16 Nov 2020 16:42:51 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0AGLXVsU167975; Mon, 16 Nov 2020 16:42:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject : date : message-id; s=pp1;
- bh=sFKCnlveLEECgaZ7Er717TwZvtOJCIUg4aMmMCOuHsw=;
- b=La7qAOvPFyv0Y92iJEhxsI/MV9JHAIC3/u3q6w0xVFQd2mhyYgd3aqx97d3JEa1afOi3
- Ew2wd31ajnrX7dw+aBafHrtqFlojfefeuVQrt4fvOdri3tECDLbpqdzitpNhQZdXHoKm
- hmZ2bRHNxfwm28EsiwQi+j65Z8efVL0KNny7cGwkXdH2oW33Os/dH9OIZnaGQJ75AZmM
- UmPHxAo7zRrpmlrOLi88hwVIFFSWiEa/2A2UOzUo4vv1WPHDt62DRJtSC/4ivLC8kg+H
- 9J2+cVFK2CUK517KoWKtrwi08QCFFvlATpuPzCNdYRBUGMj2IzRSyv2Bq91cIJLfHP9W nw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34ux64n1fd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 16 Nov 2020 16:42:43 -0500
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0AGLXkA2168978;
- Mon, 16 Nov 2020 16:42:43 -0500
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34ux64n1f6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 16 Nov 2020 16:42:43 -0500
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0AGLS6nm027509;
- Mon, 16 Nov 2020 21:42:42 GMT
-Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
- [9.57.198.25]) by ppma02dal.us.ibm.com with ESMTP id 34t6v966s5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 16 Nov 2020 21:42:42 +0000
-Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
- [9.57.199.111])
- by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0AGLgf4x62128388
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 16 Nov 2020 21:42:41 GMT
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 92012AC05B;
- Mon, 16 Nov 2020 21:42:41 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0B224AC059;
- Mon, 16 Nov 2020 21:42:39 +0000 (GMT)
-Received: from oc4221205838.ibm.com (unknown [9.163.48.2])
- by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
- Mon, 16 Nov 2020 21:42:38 +0000 (GMT)
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-To: cohuck@redhat.com
-Subject: [PATCH for-5.2] s390x/pci: Unregister listeners before destroying
- IOMMU address space
-Date: Mon, 16 Nov 2020 16:42:35 -0500
-Message-Id: <1605562955-21152-1-git-send-email-mjrosato@linux.ibm.com>
-X-Mailer: git-send-email 1.8.3.1
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
- definitions=2020-11-16_11:2020-11-13,
- 2020-11-16 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- suspectscore=3 mlxscore=0 priorityscore=1501 phishscore=0 spamscore=0
- malwarescore=0 mlxlogscore=999 impostorscore=0 clxscore=1011 bulkscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011160127
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 15:04:57
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
+ id 1kemHF-0001Yq-7Z
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 16:43:12 -0500
+IronPort-SDR: kZcrOMTobSF8LeRLzMDXKyDectx6ks3stbQ12VzynPvmn0gQtR15zVgP0CKPUtnZwpsvsSGAi8
+ IDy1cbTD6ceg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9807"; a="170036031"
+X-IronPort-AV: E=Sophos;i="5.77,483,1596524400"; d="scan'208";a="170036031"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Nov 2020 13:42:59 -0800
+IronPort-SDR: yvU4yvaalNL8CMWdJsNgMkhKz92iauXLFWxdSSN59SLRwpEZ9gsBxREGIx0MWbw7B2m4+sRsbW
+ 8zvScFeYSfzA==
+X-IronPort-AV: E=Sophos;i="5.77,483,1596524400"; d="scan'208";a="329842867"
+Received: from vbenjes-mobl.amr.corp.intel.com (HELO intel.com)
+ ([10.252.134.15])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Nov 2020 13:42:57 -0800
+Date: Mon, 16 Nov 2020 13:42:55 -0800
+From: Ben Widawsky <ben.widawsky@intel.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [RFC PATCH 07/25] hw/cxl/device: Implement basic mailbox (8.2.8.4)
+Message-ID: <20201116214255.4x7vjkmdlygj7syx@intel.com>
+References: <20201111054724.794888-1-ben.widawsky@intel.com>
+ <20201111054724.794888-8-ben.widawsky@intel.com>
+ <20201116134651.00004dcf@Huawei.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201116134651.00004dcf@Huawei.com>
+Received-SPF: pass client-ip=192.55.52.115;
+ envelope-from=ben.widawsky@intel.com; helo=mga14.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 16:18:56
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,59 +68,384 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, pmorel@linux.ibm.com, david@redhat.com,
- qemu-devel@nongnu.org, schnelle@linux.ibm.com, richard.henderson@linaro.org,
- groug@kaod.org, mlevitsk@redhat.com, pasic@linux.ibm.com,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org
+Cc: Vishal Verma <vishal.l.verma@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hot-unplugging a vfio-pci device on s390x causes a QEMU crash:
+On 20-11-16 13:46:51, Jonathan Cameron wrote:
+> On Tue, 10 Nov 2020 21:47:06 -0800
+> Ben Widawsky <ben.widawsky@intel.com> wrote:
+> 
+> > This is the beginning of implementing mailbox support for CXL 2.0
+> > devices.
+> > 
+> > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+> Mostly patch set cleanup suggestions rather than anything meaningful
+> in here.
+> 
+> Thanks,
+> 
+> Jonathan
+> 
+> > ---
+> >  hw/cxl/cxl-device-utils.c   | 131 ++++++++++++++++++++++++++++++++++++
+> >  hw/cxl/cxl-mailbox-utils.c  |  93 +++++++++++++++++++++++++
+> >  hw/cxl/meson.build          |   1 +
+> >  include/hw/cxl/cxl.h        |   3 +
+> >  include/hw/cxl/cxl_device.h |  10 ++-
+> >  5 files changed, 237 insertions(+), 1 deletion(-)
+> >  create mode 100644 hw/cxl/cxl-mailbox-utils.c
+> > 
+> > diff --git a/hw/cxl/cxl-device-utils.c b/hw/cxl/cxl-device-utils.c
+> > index 78144e103c..aec8b0d421 100644
+> > --- a/hw/cxl/cxl-device-utils.c
+> > +++ b/hw/cxl/cxl-device-utils.c
+> > @@ -55,6 +55,123 @@ static uint64_t dev_reg_read(void *opaque, hwaddr offset, unsigned size)
+> >      return ldn_le_p(&retval, size);
+> >  }
+> >  
+> > +static uint64_t mailbox_reg_read(void *opaque, hwaddr offset, unsigned size)
+> > +{
+> > +    CXLDeviceState *cxl_dstate = opaque;
+> > +
+> > +    switch (size) {
+> > +    case 4:
+> > +        if (unlikely(offset & (sizeof(uint32_t) - 1))) {
+> > +            qemu_log_mask(LOG_UNIMP, "Unaligned register read\n");
+> > +            return 0;
+> > +        }
+> > +        break;
+> > +    case 8:
+> > +        if (unlikely(offset & (sizeof(uint64_t) - 1))) {
+> > +            qemu_log_mask(LOG_UNIMP, "Unaligned register read\n");
+> > +            return 0;
+> > +        }
+> > +        break;
+> > +    default:
+> > +        qemu_log_mask(LOG_UNIMP, "%uB component register read\n", size);
+> > +        return 0;
+> > +    }
+> > +
+> > +    return ldn_le_p(cxl_dstate->mbox_reg_state + offset, size);
+> > +}
+> > +
+> > +static void mailbox_mem_writel(uint32_t *reg_state, hwaddr offset,
+> > +                               uint64_t value)
+> > +{
+> > +    switch (offset) {
+> > +    case A_CXL_DEV_MAILBOX_CTRL:
+> > +        /* fallthrough */
+> > +    case A_CXL_DEV_MAILBOX_CAP:
+> > +        /* RO register */
+> > +        break;
+> > +    default:
+> > +        qemu_log_mask(LOG_UNIMP,
+> > +                      "%s Unexpected 32-bit access to 0x%" PRIx64 " (WI)\n",
+> > +                      __func__, offset);
+> > +        break;
+> > +    }
+> > +
+> > +    stl_le_p((uint8_t *)reg_state + offset, value);
+> > +}
+> > +
+> > +static void mailbox_mem_writeq(uint64_t *reg_state, hwaddr offset,
+> > +                               uint64_t value)
+> > +{
+> > +    switch (offset) {
+> > +    case A_CXL_DEV_MAILBOX_CMD:
+> > +        break;
+> > +    case A_CXL_DEV_BG_CMD_STS:
+> > +        /* BG not supported */
+> > +        /* fallthrough */
+> > +    case A_CXL_DEV_MAILBOX_STS:
+> > +        /* Read only register, will get updated by the state machine */
+> > +        return;
+> > +    case A_CXL_DEV_MAILBOX_CAP:
+> > +    case A_CXL_DEV_MAILBOX_CTRL:
+> 
+> I wouldn't bother listing these here given you don't list the MAILBOX_STS etc in
+> the 32 bit version.
+> 
+> > +    default:
+> > +        qemu_log_mask(LOG_UNIMP,
+> > +                      "%s Unexpected 64-bit access to 0x%" PRIx64 " (WI)\n",
+> > +                      __func__, offset);
+> > +        return;
+> > +    }
+> > +
+> > +    stq_le_p((uint8_t *)reg_state + offset, value);
+> > +}
+> > +
+> > +static void mailbox_reg_write(void *opaque, hwaddr offset, uint64_t value,
+> > +                              unsigned size)
+> > +{
+> > +    CXLDeviceState *cxl_dstate = opaque;
+> > +
+> > +    /*
+> > +     * Lock is needed to prevent concurrent writes as well as to prevent writes
+> > +     * coming in while the firmware is processing. Without background commands
+> > +     * or the second mailbox implemented, this serves no purpose since the
+> > +     * memory access is synchronized at a higher level (per memory region).
+> > +     */
+> > +    RCU_READ_LOCK_GUARD();
+> > +
+> > +    switch (size) {
+> > +    case 4:
+> > +        if (unlikely(offset & (sizeof(uint32_t) - 1))) {
+> > +            qemu_log_mask(LOG_UNIMP, "Unaligned register read\n");
+> > +            return;
+> > +        }
+> > +        mailbox_mem_writel(cxl_dstate->mbox_reg_state32, offset, value);
+> > +        break;
+> > +    case 8:
+> > +        if (unlikely(offset & (sizeof(uint64_t) - 1))) {
+> > +            qemu_log_mask(LOG_UNIMP, "Unaligned register read\n");
+> > +            return;
+> > +        }
+> > +        mailbox_mem_writeq(cxl_dstate->mbox_reg_state64, offset, value);
+> > +        break;
+> > +    }
+> > +
+> > +    if (ARRAY_FIELD_EX32(cxl_dstate->mbox_reg_state32, CXL_DEV_MAILBOX_CTRL,
+> > +                         DOORBELL))
+> > +        process_mailbox(cxl_dstate);
+> > +}
+> > +
+> > +static const MemoryRegionOps mailbox_ops = {
+> > +    .read = mailbox_reg_read,
+> > +    .write = mailbox_reg_write,
+> > +    .endianness = DEVICE_LITTLE_ENDIAN,
+> > +    .valid = {
+> > +        .min_access_size = 4,
+> > +        .max_access_size = 8,
+> > +    },
+> > +    .impl = {
+> > +        .min_access_size = 4,
+> > +        .max_access_size = 8,
+> > +    },
+> > +};
+> > +
+> >  static const MemoryRegionOps dev_ops = {
+> >      .read = dev_reg_read,
+> >      .write = NULL,
+> > @@ -94,12 +211,23 @@ void cxl_device_register_block_init(Object *obj, CXLDeviceState *cxl_dstate)
+> >                            "cap-array", CXL_DEVICE_REGISTERS_OFFSET - 0);
+> >      memory_region_init_io(&cxl_dstate->device, obj, &dev_ops, cxl_dstate,
+> >                            "device-status", CXL_DEVICE_REGISTERS_LENGTH);
+> > +    memory_region_init_io(&cxl_dstate->mailbox, obj, &mailbox_ops, cxl_dstate,
+> > +                          "mailbox", CXL_MAILBOX_REGISTERS_LENGTH);
+> >  
+> >      memory_region_add_subregion(&cxl_dstate->device_registers, 0,
+> >                                  &cxl_dstate->caps);
+> >      memory_region_add_subregion(&cxl_dstate->device_registers,
+> >                                  CXL_DEVICE_REGISTERS_OFFSET,
+> >                                  &cxl_dstate->device);
+> > +    memory_region_add_subregion(&cxl_dstate->device_registers,
+> > +                                CXL_MAILBOX_REGISTERS_OFFSET, &cxl_dstate->mailbox);
+> > +}
+> > +
+> > +static void mailbox_init_common(uint32_t *mbox_regs)
+> > +{
+> > +    /* 2048 payload size, with no interrupt or background support */
+> > +    ARRAY_FIELD_DP32(mbox_regs, CXL_DEV_MAILBOX_CAP, PAYLOAD_SIZE,
+> > +                     CXL_MAILBOX_PAYLOAD_SHIFT);
+> >  }
+> >  
+> >  void cxl_device_register_init_common(CXLDeviceState *cxl_dstate)
+> > @@ -113,4 +241,7 @@ void cxl_device_register_init_common(CXLDeviceState *cxl_dstate)
+> >      ARRAY_FIELD_DP32(cap_hdrs, CXL_DEV_CAP_ARRAY2, CAP_COUNT, cap_count);
+> >  
+> >      cxl_device_cap_init(cxl_dstate, DEVICE, 1);
+> > +    cxl_device_cap_init(cxl_dstate, MAILBOX, 2);
+> > +
+> > +    mailbox_init_common(cxl_dstate->mbox_reg_state32);
+> >  }
+> > diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
+> > new file mode 100644
+> > index 0000000000..2d1b0ef9e4
+> > --- /dev/null
+> > +++ b/hw/cxl/cxl-mailbox-utils.c
+> > @@ -0,0 +1,93 @@
+> > +/*
+> > + * CXL Utility library for mailbox interface
+> > + *
+> > + * Copyright(C) 2020 Intel Corporation.
+> > + *
+> > + * This work is licensed under the terms of the GNU GPL, version 2. See the
+> > + * COPYING file in the top-level directory.
+> > + */
+> > +
+> > +#include "qemu/osdep.h"
+> > +#include "qemu/log.h"
+> > +#include "hw/pci/pci.h"
+> > +#include "hw/cxl/cxl.h"
+> > +
+> > +/* 8.2.8.4.5.1 Command Return Codes */
+> > +enum {
+> > +    RET_SUCCESS                 = 0x0,
+> > +    RET_BG_STARTED              = 0x1, /* Background Command Started */
+> > +    RET_EINVAL                  = 0x2, /* Invalid Input */
+> > +    RET_ENOTSUP                 = 0x3, /* Unsupported */
+> > +    RET_ENODEV                  = 0x4, /* Internal Error */
+> > +    RET_ERESTART                = 0x5, /* Retry Required */
+> > +    RET_EBUSY                   = 0x6, /* Busy */
+> > +    RET_MEDIA_DISABLED          = 0x7, /* Media Disabled */
+> > +    RET_FW_EBUSY                = 0x8, /* FW Transfer in Progress */
+> > +    RET_FW_OOO                  = 0x9, /* FW Transfer Out of Order */
+> > +    RET_FW_AUTH                 = 0xa, /* FW Authentication Failed */
+> > +    RET_FW_EBADSLT              = 0xb, /* Invalid Slot */
+> > +    RET_FW_ROLLBACK             = 0xc, /* Activation Failed, FW Rolled Back */
+> > +    RET_FW_REBOOT               = 0xd, /* Activation Failed, Cold Reset Required */
+> > +    RET_ENOENT                  = 0xe, /* Invalid Handle */
+> > +    RET_EFAULT                  = 0xf, /* Invalid Physical Address */
+> > +    RET_POISON_E2BIG            = 0x10, /* Inject Poison Limit Reached */
+> > +    RET_EIO                     = 0x11, /* Permanent Media Failure */
+> > +    RET_ECANCELED               = 0x12, /* Aborted */
+> > +    RET_EACCESS                 = 0x13, /* Invalid Security State */
+> > +    RET_EPERM                   = 0x14, /* Incorrect Passphrase */
+> > +    RET_EPROTONOSUPPORT         = 0x15, /* Unsupported Mailbox */
+> > +    RET_EMSGSIZE                = 0x16, /* Invalid Payload Length */
+> > +    RET_MAX                     = 0x17
+> > +};
+> 
+> Ah back again.  Just drop the earlier add and remove of this list and
+> we are all good.
+> 
+> > +
+> > +void process_mailbox(CXLDeviceState *cxl_dstate)
+> > +{
+> > +    uint16_t ret = RET_SUCCESS;
+> > +    uint32_t ret_len = 0;
+> > +    uint64_t status_reg;
+> > +
+> > +    /*
+> > +     * current state of mailbox interface
+> > +     *  uint32_t mbox_cap_reg = cxl_dstate->reg_state32[R_CXL_DEV_MAILBOX_CAP];
+> > +     *  uint32_t mbox_ctrl_reg = cxl_dstate->reg_state32[R_CXL_DEV_MAILBOX_CTRL];
+> > +     *  uint64_t status_reg = *(uint64_t *)&cxl_dstate->reg_state[A_CXL_DEV_MAILBOX_STS];
+> > +     */
+> > +    uint64_t command_reg =
+> > +        *(uint64_t *)&cxl_dstate->mbox_reg_state[A_CXL_DEV_MAILBOX_CMD];
+> > +
+> > +    /* Check if we have to do anything */
+> > +    if (!ARRAY_FIELD_EX32(cxl_dstate->mbox_reg_state32, CXL_DEV_MAILBOX_CTRL, DOORBELL)) {
+> > +        qemu_log_mask(LOG_UNIMP, "Corrupt internal state for firmware\n");
+> > +        return;
+> > +    }
+> > +
+> > +    uint8_t cmd_set = FIELD_EX64(command_reg, CXL_DEV_MAILBOX_CMD, COMMAND_SET);
+> > +    uint8_t cmd = FIELD_EX64(command_reg, CXL_DEV_MAILBOX_CMD, COMMAND);
+> > +    (void)cmd;
+> 
+> ?
 
-qemu-system-s390x: ../softmmu/memory.c:2772:
- do_address_space_destroy: Assertion `QTAILQ_EMPTY(&as->listeners)' failed.
+I have plans for this, so you can ignore it for now.
 
-In s390, the IOMMU address space is freed during device unplug but the
-associated vfio-pci device may not yet be finalized and therefore may
-still have a listener registered to the IOMMU address space.
+> 
+> > +    switch (cmd_set) {
+> > +    default:
+> > +        ret = RET_ENOTSUP;
+> > +    }
+> > +
+> > +    /*
+> > +     * Set the return code
+> > +     * XXX: it's a 64b register, but we're not setting the vendor, so we can get
+> > +     * away with this
+> 
+> Also mention not setting background operation bit?
+> 
+> > +     */
+> > +    status_reg = FIELD_DP64(0, CXL_DEV_MAILBOX_STS, ERRNO, ret);
+> > +
+> > +    /*
+> > +     * Set the return length
+> > +     */
+> > +    command_reg = FIELD_DP64(command_reg, CXL_DEV_MAILBOX_CMD, COMMAND_SET, 0);
+> > +    command_reg = FIELD_DP64(command_reg, CXL_DEV_MAILBOX_CMD, COMMAND, 0);
+> > +    command_reg = FIELD_DP64(command_reg, CXL_DEV_MAILBOX_CMD, LENGTH, ret_len);
+> 
+> Rather convoluted way of setting just the length field, I assume because there
+> are RsvdP fields in there we can't touch.
+> 
+> > +
+> > +    stq_le_p(cxl_dstate->mbox_reg_state + A_CXL_DEV_MAILBOX_CMD, command_reg);
+> > +    stq_le_p(cxl_dstate->mbox_reg_state + A_CXL_DEV_MAILBOX_STS, status_reg);
+> > +
+> > +    /* Tell the host we're done */
+> > +    ARRAY_FIELD_DP32(cxl_dstate->mbox_reg_state32, CXL_DEV_MAILBOX_CTRL,
+> > +                     DOORBELL, 0);
+> > +}
+> > +
+> > diff --git a/hw/cxl/meson.build b/hw/cxl/meson.build
+> > index 47154d6850..0eca715d10 100644
+> > --- a/hw/cxl/meson.build
+> > +++ b/hw/cxl/meson.build
+> > @@ -1,4 +1,5 @@
+> >  softmmu_ss.add(when: 'CONFIG_CXL', if_true: files(
+> >    'cxl-component-utils.c',
+> >    'cxl-device-utils.c',
+> > +  'cxl-mailbox-utils.c',
+> >  ))
+> > diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
+> > index 23f52c4cf9..362cda40de 100644
+> > --- a/include/hw/cxl/cxl.h
+> > +++ b/include/hw/cxl/cxl.h
+> > @@ -14,5 +14,8 @@
+> >  #include "cxl_component.h"
+> >  #include "cxl_device.h"
+> >  
+> > +#define COMPONENT_REG_BAR_IDX 0
+> > +#define DEVICE_REG_BAR_IDX 2
+> > +
+> >  #endif
+> >  
+> > diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
+> > index 2c674fdc9c..df00998def 100644
+> > --- a/include/hw/cxl/cxl_device.h
+> > +++ b/include/hw/cxl/cxl_device.h
+> > @@ -87,6 +87,11 @@ typedef struct cxl_device_state {
+> >          uint8_t caps_reg_state[CXL_DEVICE_CAP_REG_SIZE * 4]; /* ARRAY + 3 CAPS */
+> >          uint32_t caps_reg_state32[0];
+> >      };
+> > +    union {
+> > +        uint8_t mbox_reg_state[CXL_MAILBOX_REGISTERS_LENGTH];
+> > +        uint32_t mbox_reg_state32[0];
+> > +        uint64_t mbox_reg_state64[0];
+> > +    };
+> >  } CXLDeviceState;
+> >  
+> >  /* Initialize the register block for a device */
+> > @@ -127,6 +132,8 @@ CXL_DEVICE_CAPABILITY_HEADER_REGISTER(DEVICE, CXL_DEVICE_CAP_HDR1_OFFSET)
+> >  CXL_DEVICE_CAPABILITY_HEADER_REGISTER(MAILBOX, CXL_DEVICE_CAP_HDR1_OFFSET + \
+> >                                                 CXL_DEVICE_CAP_REG_SIZE)
+> >  
+> > +void process_mailbox(CXLDeviceState *cxl_dstate);
+> > +
+> >  #define cxl_device_cap_init(dstate, reg, cap_id)                                   \
+> >      do {                                                                           \
+> >          uint32_t *cap_hdrs = dstate->caps_reg_state32;                             \
+> > @@ -155,7 +162,8 @@ REG32(CXL_DEV_MAILBOX_CTRL, 4)
+> >      FIELD(CXL_DEV_MAILBOX_CTRL, BG_INT_EN, 2, 1)
+> >  
+> >  REG32(CXL_DEV_MAILBOX_CMD, 8)
+> > -    FIELD(CXL_DEV_MAILBOX_CMD, OP, 0, 16)
+> > +    FIELD(CXL_DEV_MAILBOX_CMD, COMMAND, 0, 8)
+> 
+> Can we fix the original introduction of this so we don't end up modifying it here?
+> From spec I can fully see how you ended up with this as you wrote the code
+> but nice to get rid of the two step definition now anyway.
+> (the field is first defined as 16 bits, then later it says there are two 8 bit fields).
 
-Commit a2166410ad74 ("spapr_pci: Unregister listeners before destroying
-the IOMMU address space") previously resolved this issue for spapr_pci.
-We are now seeing this in s390x; it would seem the possibility for this
-issue was already present but based on a bisect commit 2d24a6466154
-("device-core: use RCU for list of children of a bus") has now changed
-the timing such that it is now readily reproducible.
+I'll change it...
 
-Add logic to ensure listeners are removed before destroying the address
-space.
+Please see this commit (and branch) for what I'm planning to do here:
+https://gitlab.com/bwidawsk/qemu/-/commit/bdb9f9a5337873aedb89558d28968caa130db05e#0d08a7f7c79cf3169f15ad6c4bb7a440c3603af6_47_65
 
-Reported-by: Niklas Schnelle <schnelle@linux.ibm.com>
-Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
-Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
-Tested-by: Niklas Schnelle <schnelle@linux.ibm.com>
----
- hw/s390x/s390-pci-bus.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
-index 48a3be8..e0dc20c 100644
---- a/hw/s390x/s390-pci-bus.c
-+++ b/hw/s390x/s390-pci-bus.c
-@@ -732,6 +732,13 @@ static void s390_pci_iommu_free(S390pciState *s, PCIBus *bus, int32_t devfn)
- 
-     table->iommu[PCI_SLOT(devfn)] = NULL;
-     g_hash_table_destroy(iommu->iotlb);
-+    /*
-+     * An attached PCI device may have memory listeners, eg. VFIO PCI.
-+     * The associated subregion will already have been unmapped in
-+     * s390_pci_iommu_disable in response to the guest deconfigure request.
-+     * Remove the listeners now before destroying the address space.
-+     */
-+    address_space_remove_listeners(&iommu->as);
-     address_space_destroy(&iommu->as);
-     object_unparent(OBJECT(&iommu->mr));
-     object_unparent(OBJECT(iommu));
--- 
-1.8.3.1
-
+> 
+> > +    FIELD(CXL_DEV_MAILBOX_CMD, COMMAND_SET, 8, 8)
+> >      FIELD(CXL_DEV_MAILBOX_CMD, LENGTH, 16, 20)
+> >  
+> >  /* XXX: actually a 64b register */
+> 
 
