@@ -2,70 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B09F62B5143
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 20:36:36 +0100 (CET)
-Received: from localhost ([::1]:33264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBC092B5164
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 20:44:13 +0100 (CET)
+Received: from localhost ([::1]:54166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kekIl-0002H1-No
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 14:36:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43350)
+	id 1kekQ7-0002mz-B6
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 14:44:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kejfN-0005WV-G5
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:55:53 -0500
-Received: from indium.canonical.com ([91.189.90.7]:50924)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kejfL-0005y5-Gj
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:55:53 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kejfK-0005ux-3Z
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 18:55:50 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 180212E80EA
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 18:55:50 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <Ashish.Kalra@amd.com>)
+ id 1kejn8-0006uA-Ap
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 14:03:56 -0500
+Received: from mail-bn8nam11on2068.outbound.protection.outlook.com
+ ([40.107.236.68]:16033 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Ashish.Kalra@amd.com>)
+ id 1kejn1-0008OQ-0k
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 14:03:52 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lioW1Kctv0pULbwXVjxWcRMCyFL6Wfm3C5oxokdwniTK9gDNevTcBtFtejZCgXQ7CoozcPAXpfrW/1QLbmSyV5UF1BxSxAm3LCV74iy9YIhbCn+vSOPXZZMMxR4cfDpzk2JSzrMgIStpmN1rfQ/drYg8S3Ha1EOgZ0ZdYDZntm+WGsyB3IKrQ3ZR3D9i4tGNdnyP3xF9hwOU4Cuz+Rm5pqU4U3df1Tv9i3KL8WifAQKgENZtRZQhxqnngVFE91U6IWckYKGfxveDhb80VmUDOrBEygYeccaa9u/ZNE53i8fUjYMPgs8nlV9tIGhq/WY/xkFKrl1q+dxfoPR4pD+Gbg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IKE/Uoe+YycYp4dENPgGTLg3L4L3gwfpPsOFlfdazJs=;
+ b=d6zD01R+NMFxUVq2PLwX0Kmr0vXAyrM4a6bO1qWuCWg2aKNBhaW4zciyPqs/TxGde4AIyB4C8KjWJo+ZVUuQYL2MC93v3sDAQ4WLJEMDI1zH9biGJM4kMehRd0PfHF1c50Ft8QQ36loXFcczwsu2vR6Q7Ruwy0EhTXW0NWcVL7dVavE2ZlZcbjdTkWCmpJNc7WM7JTXH2ChWt4jbjW9SEslqNMAKCKcHp2DlKL7RxWzXAufrdo7eD2OMja18qNNQgB/D2hMkIhgCeZinIw2ZLXDA6GTdlTn45VyN8ZzCoiB9fEpDGYsRXThcKF5WJhmufYnkx4Sfmlbi246lTfFDBQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IKE/Uoe+YycYp4dENPgGTLg3L4L3gwfpPsOFlfdazJs=;
+ b=uhuj9bCjZD+LOwsMiAlLTdJIksoT9zwrl93fn8Mg1y5MXEZkYP4Ke6wEKJzD3GsQMA66dqmpJOPwDxjplpO5E1lA9Tfeg3PZyk+s4E7dr9CZLcRWjz0R0WvLM0FZjB54kNLMPgOxUCTDNiNdqjQg44l6O6OHA3bnut5A58EqFHI=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+Received: from SN6PR12MB2767.namprd12.prod.outlook.com (2603:10b6:805:75::23)
+ by SN6PR12MB2782.namprd12.prod.outlook.com (2603:10b6:805:73::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.19; Mon, 16 Nov
+ 2020 18:48:35 +0000
+Received: from SN6PR12MB2767.namprd12.prod.outlook.com
+ ([fe80::d8f2:fde4:5e1d:afec]) by SN6PR12MB2767.namprd12.prod.outlook.com
+ ([fe80::d8f2:fde4:5e1d:afec%3]) with mapi id 15.20.3541.025; Mon, 16 Nov 2020
+ 18:48:35 +0000
+From: Ashish Kalra <Ashish.Kalra@amd.com>
+To: pbonzini@redhat.com
+Subject: [PATCH 00/11] Add QEMU debug support for SEV guests
+Date: Mon, 16 Nov 2020 18:48:24 +0000
+Message-Id: <cover.1605316268.git.ashish.kalra@amd.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-Originating-IP: [165.204.77.1]
+X-ClientProxiedBy: DM5PR07CA0112.namprd07.prod.outlook.com
+ (2603:10b6:4:ae::41) To SN6PR12MB2767.namprd12.prod.outlook.com
+ (2603:10b6:805:75::23)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 16 Nov 2020 18:45:28 -0000
-From: Thomas Huth <1766841@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=ubuntu@weilnetz.de; 
-X-Launchpad-Bug-Tags: installation windows
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: andrechalella justbesage stefanha th-huth
- ubuntu-weilnetz
-X-Launchpad-Bug-Reporter: Justin (justbesage)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <152465178789.21509.8085388028037824608.malonedeb@soybean.canonical.com>
-Message-Id: <160555232880.14943.8592663641579934224.malone@soybean.canonical.com>
-Subject: [Bug 1766841] Re: QEMU 2.12 Running Problem in Windows 7 Installation
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a2ee2035671f86427804714f331b9ff7fecaef7e"; Instance="production"
-X-Launchpad-Hash: 9b5bc5d6337cf5e8a1fdf6239605613af89956e7
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 13:11:09
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ashkalra_ubuntu_server.amd.com (165.204.77.1) by
+ DM5PR07CA0112.namprd07.prod.outlook.com (2603:10b6:4:ae::41) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3564.28 via Frontend Transport; Mon, 16 Nov 2020 18:48:34 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 0e6c01e9-f661-4db3-76e8-08d88a60394a
+X-MS-TrafficTypeDiagnostic: SN6PR12MB2782:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN6PR12MB27824E23E9AAD2623E47C47B8EE30@SN6PR12MB2782.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2IWaVGE5KqNBfjjnO+SAwdpMLaFv7c8u0U3RXbPk5SBcxVtn+fkdBtfkuullMDz1r1RSSSvrYpomnSbp4G2wu22ZIR2mjeN+9ULTNW68vXubc1Kbu9tHQmIzjuQU3RS3lPcJKjAHgHVC1nEsDONzZKn1v/RJgGvrdIOnoaPE12Rz/sYxnIQHYlkSnHsIjlUVqoCRN1yo0HJWtFB95EWp7tNlj9CAGxMzi/SD5NlLoOxvVQ+LqNMdSK8UylH7CtlWyi9J62+C+VfZ2Rv6byuNb1WCywh06+1ISAF+EDhXXiWzFo2zSdMOf4rLbBmQhKg6
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR12MB2767.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(376002)(39860400002)(366004)(396003)(346002)(7416002)(6666004)(186003)(83380400001)(478600001)(4326008)(5660300002)(8936002)(2616005)(66556008)(8676002)(66476007)(6916009)(16526019)(66946007)(86362001)(316002)(7696005)(36756003)(52116002)(2906002)(26005)(6486002)(956004);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: FCUO8amu29drj4ZAY9teRNEjKR0QsmLPL8Fwp3Upl8w404zv+V9/Q+eaIb7yewra6KuuvAGTyVFUu0PSM7WsfZuH7MEA3O2TKgklBO6DPrQ6mv/7YET8cqX+ZQwd0/LcsMQteJZ4u+wBG16HLc1aQBb1DvS9fMBCmtqFjZ9GkRSw6yK42FCWsvVW50FFJu21H6VZxiY68dMVKwXi/clyIDdzq0vTFRyMGlPSheZhJQhDhhUsI1LsuTmGUrmS9NGgSF5DpNFC1XHowHytNpdB+kNPiWBwXka0zHl89xUkqQ2vV9kgL984C45bqxVUTljYybjacQafFbH1hIakCv66E2f1Q52Xc3XYAK5yeJXHGHGmAldhAQwvdTc7P8TUxPBMReVh2Z3v4UJzZW0xfDCluZjQEr4WGx4MWFw7HyDUhLAZFa18sRs5sfgeEEnzdB+N5WX4IEvvGgHxvkpRwi0H3Urwi10GJSW4B+NhItYBvCblFpBDvdhwyXYzyxDLqiZM0yCHJPpWWgpbKkAGL10Oz011hm2Bgi9pGORU9NUSIl5BRaZEhTO7akfa5uOj8138+colPGzYVdaJs60lp3Nf9ie43PKxTIPUlGRsmaxuLBCKNACbcMCFFx3Gh5wUdD0R86LiZwbGAeH71n/l4Xoilq/hBfIWdijxa8E7dWZhKtdSEcFIduyzuMf1dn15n0/5ubE2GNWueqV3YKRbw/dg8ff5wgK5mgyxLJ50ODLMNTt9iNsbrov+mEG7/ZLICuWDPpfg8a+pCumfdMPUTPI7Ylnn4dIeFbIq8dcDsH17WP72xUnfy4lmn7djnkCvxH2v1MG5G+L3y4R+umCIWw6V+oeCE3clRAfs/Q+pfKsRh89+thn1d2ukpluBTip7//SoMSAHxkmS7IJk54TFDpyGVw==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0e6c01e9-f661-4db3-76e8-08d88a60394a
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2767.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2020 18:48:35.7099 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mNFKoiplmUI1+A+qBTwC67OVJTheV75xXRfnyJEExvjXqBy/2sB0LcXdp0y/Hcw1Mdsl8Cu2TCfN8bTzhgAT0A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2782
+Received-SPF: none client-ip=40.107.236.68; envelope-from=Ashish.Kalra@amd.com;
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 14:03:41
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FORGED_SPF_HELO=1, MSGID_FROM_MTA_HEADER=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,64 +111,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1766841 <1766841@bugs.launchpad.net>
+Cc: Thomas.Lendacky@amd.com, brijesh.singh@amd.com, ehabkost@redhat.com,
+ kvm@vger.kernel.org, mst@redhat.com, mtosatti@redhat.com,
+ ssg.sos.patches@amd.com, armbru@redhat.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently considering to move its bug tracking to anoth=
-er system. For this we need to know which bugs are still valid and which co=
-uld be closed already. Thus we are setting older bugs to "Incomplete" now.
-If you still think this bug report here is valid, then please switch the st=
-ate back to "New" within the next 60 days, otherwise this report will be ma=
-rked as "Expired". Or mark it as "Fix Released" if the problem has been sol=
-ved with a newer version of QEMU already. Thank you and sorry for the incon=
-venience.
+From: Ashish Kalra <ashish.kalra@amd.com>
 
-** Changed in: qemu
-       Status: Confirmed =3D> Incomplete
+This patchset adds QEMU debug support for SEV guests. Debug requires access to the guest pages, which is encrypted when SEV is enabled.
 
--- =
+KVM_SEV_DBG_DECRYPT and KVM_SEV_DBG_ENCRYPT commands are available to decrypt/encrypt the guest pages, if the guest policy allows for debugging.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1766841
+Changes are made to the guest page table walker since SEV guest pte entries will have the C-bit set.
 
-Title:
-  QEMU 2.12 Running Problem in Windows 7 Installation
+Also introduces new MemoryDebugOps which hook into guest virtual and physical memory debug interfaces such as cpu_memory_rw_debug,
+to allow vendor specific assist/hooks for debugging and delegating accessing the guest memory.  This is used for example in case of
+AMD SEV platform where the guest memory is encrypted and a SEV specific debug assist/hook will be required to access the guest memory.
 
-Status in QEMU:
-  Incomplete
+The MemoryDebugOps are used by cpu_memory_rw_debug() and default to address_space_read and address_space_write_rom as described below.
 
-Bug description:
-  QEMU Version: 2.12 (Binary installer qemu-w64-setup-20180424.exe  from St=
-efan Weil's website so I am not sure I should report it to Weil by email or=
- by this bug report system.)
-  Host System: Windows 7 64bit
-  Guest System: 9front 6350 (Codename=E2=80=9CCONTENTS, MAINTAINED, STABLE=
-=E2=80=9D, Release 2018/02/02)
+typedef struct MemoryDebugOps {
+    MemTxResult (*read)(AddressSpace *as, hwaddr phys_addr,
+                        MemTxAttrs attrs, void *buf,
+                        hwaddr len);
+    MemTxResult (*write)(AddressSpace *as, hwaddr phys_addr,
+                         MemTxAttrs attrs, const void *buf,
+                         hwaddr len);
+} MemoryDebugOps;
 
-  QEMU Command:
-  qemu-system-x86_64 -usb -device usb-mouse -hda plan9.qcow2.img -cdrom 9fr=
-ont-6350.iso -boot d
+These ops would be used only by cpu_memory_rw_debug and would default to
 
-  QEMU warning: =
+static const MemoryDebugOps default_debug_ops = {
+    .translate = cpu_get_phys_page_attrs_debug,
+    .read = address_space_read,
+    .write = address_space_write_rom
+};
 
-  (qemu-system-x86_64.exe:8844): GdkPixbuf-WARNING **: Cannot open pixbuf l=
-oader module file 'D:\qemu\lib\gdk-pixbuf-2.0\2.10.0\loaders.cache': No suc=
-h file or directory
+static const MemoryDebugOps *debug_ops = &default_debug_ops;
 
-  This likely means that your installation is broken.
-  Try running the command
-    gdk-pixbuf-query-loaders > D:\qemu\lib\gdk-pixbuf-2.0\2.10.0\loaders.ca=
-che
-  to make things work again for the time being.
+Ashish Kalra (3):
+  exec: Add new MemoryDebugOps.
+  exec: Add address_space_read and address_space_write debug helpers.
+  sev/i386: add SEV specific MemoryDebugOps.
 
-  (qemu-system-x86_64.exe:8844): Gtk-WARNING **: Could not find the icon 'w=
-indow-minimize-symbolic-ltr'. The 'hicolor' theme was not found either, per=
-haps you need to install it.
-  You can get a copy from:
-          http://icon-theme.freedesktop.org/releases
+Brijesh Singh (8):
+  memattrs: add debug attribute
+  exec: add ram_debug_ops support
+  exec: add debug version of physical memory read and write API
+  monitor/i386: use debug APIs when accessing guest memory
+  kvm: introduce debug memory encryption API
+  sev/i386: add debug encrypt and decrypt commands
+  hw/i386: set ram_debug_ops when memory encryption is enabled
+  target/i386: clear C-bit when walking SEV guest page table
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1766841/+subscriptions
+ accel/kvm/kvm-all.c       |  22 ++++
+ accel/kvm/sev-stub.c      |   8 ++
+ accel/stubs/kvm-stub.c    |   8 ++
+ hw/i386/pc.c              |   9 ++
+ hw/i386/pc_sysfw.c        |   6 +
+ include/exec/cpu-common.h |  18 +++
+ include/exec/memattrs.h   |   2 +
+ include/exec/memory.h     |  49 ++++++++
+ include/sysemu/kvm.h      |  15 +++
+ include/sysemu/sev.h      |  12 ++
+ monitor/misc.c            |   4 +-
+ softmmu/cpus.c            |   2 +-
+ softmmu/physmem.c         | 170 +++++++++++++++++++++++++-
+ target/i386/kvm.c         |   4 +
+ target/i386/monitor.c     | 124 +++++++++++--------
+ target/i386/sev.c         | 244 ++++++++++++++++++++++++++++++++++++++
+ target/i386/trace-events  |   1 +
+ 17 files changed, 642 insertions(+), 56 deletions(-)
+
+-- 
+2.17.1
+
 
