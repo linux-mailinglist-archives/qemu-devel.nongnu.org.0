@@ -2,71 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E5DE2B5086
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 20:07:19 +0100 (CET)
-Received: from localhost ([::1]:53844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43A422B50E4
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 20:19:21 +0100 (CET)
+Received: from localhost ([::1]:47290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kejqP-0008Mo-1v
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 14:07:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40794)
+	id 1kek24-00012L-A3
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 14:19:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kejVi-00073y-TP
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:45:54 -0500
-Received: from indium.canonical.com ([91.189.90.7]:47574)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kejVf-0002P6-Iq
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:45:54 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kejVd-0004RK-BS
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 18:45:49 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 553A42E8132
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 18:45:49 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 16 Nov 2020 18:40:00 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1809291@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
- assignee=philmd@redhat.com; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: kcwang lemonboy misaz philmd pmaydell
-X-Launchpad-Bug-Reporter: k.c. Wang (kcwang)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-References: <154532874183.18487.10011391612831676105.malonedeb@gac.canonical.com>
-Message-Id: <160555200060.29047.14415344269594240193.malone@gac.canonical.com>
-Subject: [Bug 1809291] Re: SD Card not working in Ubuntu 18.10 (CMD 2,
- 3 timeout). The device worked fine in Ubuntu 18.04 and earlier
- versions but not in Ubuntu 18.10
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a2ee2035671f86427804714f331b9ff7fecaef7e"; Instance="production"
-X-Launchpad-Hash: 5a01482807418a2984217bb402fcedb7668b4363
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 13:11:09
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ (Exim 4.90_1) (envelope-from <hare@suse.de>) id 1kejQt-0003sX-Ce
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:40:55 -0500
+Received: from mx2.suse.de ([195.135.220.15]:45334)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hare@suse.de>) id 1kejQo-0000lH-Oj
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:40:55 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 41A94AE1C;
+ Mon, 16 Nov 2020 18:40:49 +0000 (UTC)
+From: Hannes Reinecke <hare@suse.de>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH 1/7] scsi-disk: Add sg_io callback to evaluate status
+Date: Mon, 16 Nov 2020 19:40:35 +0100
+Message-Id: <20201116184041.60465-2-hare@suse.de>
+X-Mailer: git-send-email 2.16.4
+In-Reply-To: <20201116184041.60465-1-hare@suse.de>
+References: <20201116184041.60465-1-hare@suse.de>
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=hare@suse.de;
+ helo=mx2.suse.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 12:53:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,45 +51,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1809291 <1809291@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org, Hannes Reinecke <hare@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The test expects the card wired as SPI, so adding "-global sd-
-card.spi=3Dtrue" makes the test case work.
+Add a separate sg_io callback to allow us to evaluate the various
+states returned by the SG_IO ioctl.
 
-** Changed in: qemu
-       Status: Confirmed =3D> Invalid
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+---
+ hw/scsi/scsi-disk.c | 28 ++++++++++++++++++++++------
+ 1 file changed, 22 insertions(+), 6 deletions(-)
 
--- =
+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+index dd23a38d6a..5d6c892f29 100644
+--- a/hw/scsi/scsi-disk.c
++++ b/hw/scsi/scsi-disk.c
+@@ -76,7 +76,6 @@ typedef struct SCSIDiskReq {
+     struct iovec iov;
+     QEMUIOVector qiov;
+     BlockAcctCookie acct;
+-    unsigned char *status;
+ } SCSIDiskReq;
+ 
+ #define SCSI_DISK_F_REMOVABLE             0
+@@ -188,7 +187,7 @@ static bool scsi_disk_req_check_error(SCSIDiskReq *r, int ret, bool acct_failed)
+         return true;
+     }
+ 
+-    if (ret < 0 || (r->status && *r->status)) {
++    if (ret < 0 || r->req.status) {
+         return scsi_handle_rw_error(r, -ret, acct_failed);
+     }
+ 
+@@ -452,11 +451,11 @@ static bool scsi_handle_rw_error(SCSIDiskReq *r, int error, bool acct_failed)
+              * whether the error has to be handled by the guest or should rather
+              * pause the host.
+              */
+-            assert(r->status && *r->status);
++            assert(r->req.status);
+             if (scsi_sense_buf_is_guest_recoverable(r->req.sense, sizeof(r->req.sense))) {
+                 /* These errors are handled by guest. */
+                 sdc->update_sense(&r->req);
+-                scsi_req_complete(&r->req, *r->status);
++                scsi_req_complete(&r->req, r->req.status);
+                 return true;
+             }
+             error = scsi_sense_buf_to_errno(r->req.sense, sizeof(r->req.sense));
+@@ -2688,8 +2687,24 @@ typedef struct SCSIBlockReq {
+ 
+     /* CDB passed to SG_IO.  */
+     uint8_t cdb[16];
++    BlockCompletionFunc *cb;
++    void *cb_opaque;
+ } SCSIBlockReq;
+ 
++static void scsi_block_sgio_complete(void *opaque, int ret)
++{
++    SCSIBlockReq *req = (SCSIBlockReq *)opaque;
++    SCSIDiskReq *r = &req->req;
++    SCSISense sense;
++
++    r->req.status = sg_io_sense_from_errno(-ret, &req->io_header, &sense);
++    if (r->req.status == CHECK_CONDITION &&
++        req->io_header.status != CHECK_CONDITION)
++        scsi_req_build_sense(&r->req, sense);
++
++    req->cb(req->cb_opaque, ret);
++}
++
+ static BlockAIOCB *scsi_block_do_sgio(SCSIBlockReq *req,
+                                       int64_t offset, QEMUIOVector *iov,
+                                       int direction,
+@@ -2768,9 +2783,11 @@ static BlockAIOCB *scsi_block_do_sgio(SCSIBlockReq *req,
+     io_header->timeout = s->qdev.io_timeout * 1000;
+     io_header->usr_ptr = r;
+     io_header->flags |= SG_FLAG_DIRECT_IO;
++    req->cb = cb;
++    req->cb_opaque = opaque;
+     trace_scsi_disk_aio_sgio_command(r->req.tag, req->cdb[0], lba,
+                                      nb_logical_blocks, io_header->timeout);
+-    aiocb = blk_aio_ioctl(s->qdev.conf.blk, SG_IO, io_header, cb, opaque);
++    aiocb = blk_aio_ioctl(s->qdev.conf.blk, SG_IO, io_header, scsi_block_sgio_complete, req);
+     assert(aiocb != NULL);
+     return aiocb;
+ }
+@@ -2884,7 +2901,6 @@ static int32_t scsi_block_dma_command(SCSIRequest *req, uint8_t *buf)
+         return 0;
+     }
+ 
+-    r->req.status = &r->io_header.status;
+     return scsi_disk_dma_command(req, buf);
+ }
+ 
+-- 
+2.16.4
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1809291
-
-Title:
-  SD Card not working in Ubuntu 18.10 (CMD 2,3 timeout).  The device
-  worked fine in Ubuntu 18.04 and earlier versions but not in Ubuntu
-  18.10
-
-Status in QEMU:
-  Invalid
-
-Bug description:
-  ARM PL181 MMC card no longer working in qemu-system-arm in Ubuntu 18.10
-  The MMC driver code worked fine in Ubuntu 15.10 to 18.04.
-  The command to run qemu-system-arm is
-
-      qemu-system-arm -M versatilepb -m 256M -sd sdimage -kernel t.bin
-  -serial mon:stdio
-
-  During SDC initialization, SDC commands 2, 3, 9, 13, 7, 16 all timeout, =
-
-  which cause subsequent read/write commands 17/24 to fail also.
-
-  Tried both ARM versatilepb and realview-pb-a8, realview-pbx-a9 boards:
-  all the same.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1809291/+subscriptions
 
