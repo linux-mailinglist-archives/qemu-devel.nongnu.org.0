@@ -2,83 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E23702B432E
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 12:54:54 +0100 (CET)
-Received: from localhost ([::1]:35338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9DCF2B4337
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 13:00:33 +0100 (CET)
+Received: from localhost ([::1]:38614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ked5y-0006dt-0b
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 06:54:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50962)
+	id 1kedBQ-0008Kf-NM
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 07:00:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ked3D-0005GO-Cx
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 06:52:03 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:56034)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ked3B-0000J0-Jp
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 06:52:02 -0500
-Received: by mail-wm1-x341.google.com with SMTP id c9so23447326wml.5
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 03:52:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=wE4Z2uEU5zkP059wesIVpV5pqjvxIAvibtXumDX0rcU=;
- b=pZv5nIDkvIaVfz884AbaFixDJfJccrja3ZJQBFmO98B+uYb/hOrFO428izxE/4YCcn
- 18IOieBUdmEG3z0cXMh0th0V5Zf2Zs5m0Lz1INxI5BUPu5VkQ6c1kn4oZGytfn88qsE5
- 77DCaLgc6JskzKtzqC8B6gXJTzaBFWpFxTXesXRRR/oKsLEQB4KSuzRNwJyATEiDOV8Z
- YuZoDeXMACQcEH34NdQxy5Uhizw8ATteUqXXn1z5BtMgfeUN4El0ZBRzfW27yLO/jMG5
- mjbYjvN0t1AkXOH5t7AGMmP9xG2Ytdsd4lc8didPCqSrGR+MmmAbztHzg6aKmZquoG2x
- QNOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wE4Z2uEU5zkP059wesIVpV5pqjvxIAvibtXumDX0rcU=;
- b=LoESyMayZHB2SSZIpFmN0HxWHlgk20JX0ezBl9dc8IoJ1vycx7SroDB0mvJnQ4GZk4
- Pp6AyJF/U53YBtvlLXxzA6pOFB8IsNFEW1HWDef1eI3Xnmer82h3MK/5z08Zo8YFAyEd
- RebH2K8w8qd6oMVm0D8/1fAsinrkLt2ANiA8cCjumnMD26sAjWklYJr2d/sPFugckgGZ
- rbSqVZmJSH9quXOEQo+XNE1itm91HgJidjZJBrkHIzbR24JmJokVUImXoUvJDfif4Qq4
- Jbk3sUtDaFHYFrm32mL+SdaVv6Z7EdjOOgc+zrMbJYzCuAMWJSNxvs/c+ns+vuepKRW8
- 7UNA==
-X-Gm-Message-State: AOAM53277BNBlHOMp38/V9qJsVbR+RyMo5cQJ+QuBTaBTFIECQCQZpFH
- pCXS7+c8aaE714+NcoGHchk=
-X-Google-Smtp-Source: ABdhPJwBtTi7h+GlxAMUjBrSrfPNmfdzjCvH9CDIKTs6Y5vQV0NiuK7ayaI7ugoShgOdEZi7SFEYCw==
-X-Received: by 2002:a1c:b387:: with SMTP id c129mr14754574wmf.58.1605527519991; 
- Mon, 16 Nov 2020 03:51:59 -0800 (PST)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id s202sm19631917wme.39.2020.11.16.03.51.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Nov 2020 03:51:59 -0800 (PST)
-Subject: Re: [PATCH 2/4] configure: Do not build pc-bios/optionrom on Haiku
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20201114165137.15379-1-thuth@redhat.com>
- <20201114165137.15379-3-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <3ffffe64-3045-8162-4f65-9830b1ea01d7@amsat.org>
-Date: Mon, 16 Nov 2020 12:51:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1ked40-0005vi-1L; Mon, 16 Nov 2020 06:52:52 -0500
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:51839)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1ked3x-0000Z6-Ly; Mon, 16 Nov 2020 06:52:51 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 69C585C0071;
+ Mon, 16 Nov 2020 06:52:46 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Mon, 16 Nov 2020 06:52:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=+xIC9G/v+cVzrXBc3tJyurRR/aQ
+ ohrLO+ewXqZtXmgI=; b=VhWvgGqiKENDZecJL7Pam0CZbQKTR6GPP5KBNf5qnE1
+ e57w2BEw7yA+1DyzCl73Ad7Fm0G7ErFGC1EHcd8FtPqgsZ2RlkPRkS7SyANA32qB
+ E2g/fuJASBf763jaIJB1La8JW0qCqkfLUQLcbaHL/T+Jo+SBn6WIFLJAikw483Zw
+ Pf4tdTF79XxFmJtHoDy1hRpPqGUP+KFUmSXhgpjC1q+ZFxJrAIqUGcUBO/YT75vC
+ 0QPTu9a4rmb1LWk8XhIWEVlRrZoPWoIJvBbkDmvF0YtGTeTmQZAgMLbWokbLO0JY
+ Wj+NZK6fS7cLGyjL3TMQn7xp/TqgSIDh7uYvMXMdhiA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=+xIC9G
+ /v+cVzrXBc3tJyurRR/aQohrLO+ewXqZtXmgI=; b=O5j4Wge6X7D5kOQCX94i3g
+ LUDKpZexRgidcqANHHHU9n3ZjuJi180HoQ/s0OGt9pT07dC1ZtxOqPmy/oZ+jMtq
+ Dq45kJjqpBDYf4zqYl1DgzP+5EIb6K6JveSRCCezixn5qVGTxupzBOpWauPa24n4
+ U/LqSjuD9sboZX7TkvRjY/lP9WLP8/3G99T16/NlQWFKFj2zNPGH2JvgQF2qE+yH
+ Yn+8C73/md8nBE4O/9jzvDfXbFPBFWWnlR9sYfvrjJmZOJKIXFb3Z8YvKsCfw7AO
+ XoUN4pL8PqjZx03fA5HvF3ZdTkpuEoQpDpQyU/UkoAgBx4hAyiKB/yhEJ2tz8lWg
+ ==
+X-ME-Sender: <xms:DWiyX03oJGY0tQzqUgPOsjP2wApGMt6AFHUw8DWz81kS1_nGJvpI3A>
+ <xme:DWiyX_EyXttzlnnm9a1MPbJwI-G0JTTH0yzq1LR6HyjBkI7m4UB0YOKypUCbsl2Em
+ BfMcZN012TJtyUxkjY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudefuddgfeegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:DWiyX86ObPQoK_JvObX_bWsZlij1i2o51YvkrYC-xIZXeDripBrK-w>
+ <xmx:DWiyX91NUSlm7qdDvGnXe7UqaLSHQQRj6E4jgvsiu4FVLd7nYiOpsw>
+ <xmx:DWiyX3F5kk3GhHI7qzvYnPdV8TgJ0cCEuLLufp_s5g2_QZiRHljmmw>
+ <xmx:DmiyX876gAeCvNJO46EYyiWeD_rkqxt75h_GaHqHJCJtGnlkrc_62Q>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 581513064AB4;
+ Mon, 16 Nov 2020 06:52:44 -0500 (EST)
+Date: Mon, 16 Nov 2020 12:52:42 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Minwoo Im <minwoo.im.dev@gmail.com>
+Subject: Re: [PATCH v8 2/5] hw/block/nvme: pull aio error handling
+Message-ID: <20201116115242.GB982821@apples.localdomain>
+References: <20201112195945.819915-1-its@irrelevant.dk>
+ <20201112195945.819915-3-its@irrelevant.dk>
+ <20201116113654.GB7308@localhost.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20201114165137.15379-3-thuth@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="jho1yZJdad60DJr+"
+Content-Disposition: inline
+In-Reply-To: <20201116113654.GB7308@localhost.localdomain>
+Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
+ helo=out1-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 06:52:46
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,28 +97,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alexander von Gluck IV <kallisti5@unixzen.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>, David CARLIER <devnexen@gmail.com>,
- kraxel@redhat.com, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/14/20 5:51 PM, Thomas Huth wrote:
-> Compilation of pc-bios/optionrom fails on Haiku with:
-> 
->    BUILD   pvh.img
->  ld: pvh_main.o: in function `pvh_load_kernel':
->  pc-bios/optionrom/pvh_main.c:73: undefined reference to `GLOBAL_OFFSET_TABLE_'
->  Makefile:57: recipe for target 'pvh.img' failed
->  make[1]: *** [pvh.img] Error 1
-> 
-> Let's simply disable it, like it is already done on macOS and Solaris.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  configure | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+--jho1yZJdad60DJr+
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Nov 16 20:36, Minwoo Im wrote:
+> On 11/12 20:59, Klaus Jensen wrote:
+> > From: Klaus Jensen <k.jensen@samsung.com>
+> >=20
+> > Add a new function, nvme_aio_err, to handle errors resulting from AIOs
+> > and use this from the callbacks.
+> >=20
+> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> > ---
+> >  hw/block/nvme.c | 61 +++++++++++++++++++++++++++++--------------------
+> >  1 file changed, 36 insertions(+), 25 deletions(-)
+> >=20
+> > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> > index 51f35e8cf18b..a96a996ddc0d 100644
+> > --- a/hw/block/nvme.c
+> > +++ b/hw/block/nvme.c
+> > @@ -878,6 +878,41 @@ static inline uint16_t nvme_check_bounds(NvmeNames=
+pace *ns, uint64_t slba,
+> >      return NVME_SUCCESS;
+> >  }
+> > =20
+> > +static void nvme_aio_err(NvmeRequest *req, int ret)
+> > +{
+> > +    uint16_t status =3D NVME_SUCCESS;
+> > +    Error *local_err =3D NULL;
+> > +
+> > +    switch (req->cmd.opcode) {
+> > +    case NVME_CMD_READ:
+> > +        status =3D NVME_UNRECOVERED_READ;
+> > +        break;
+> > +    case NVME_CMD_FLUSH:
+> > +    case NVME_CMD_WRITE:
+> > +    case NVME_CMD_WRITE_ZEROES:
+> > +        status =3D NVME_WRITE_FAULT;
+> > +        break;
+> > +    default:
+> > +        status =3D NVME_INTERNAL_DEV_ERROR;
+> > +        break;
+> > +    }
+> > +
+> > +    trace_pci_nvme_err_aio(nvme_cid(req), strerror(ret), status);
+> > +
+> > +    error_setg_errno(&local_err, -ret, "aio failed");
+> > +    error_report_err(local_err);
+> > +
+> > +    /*
+> > +     * Set the command status code to the first encountered error but =
+allow a
+> > +     * subsequent Internal Device Error to trump it.
+> > +     */
+> > +    if (req->status && status !=3D NVME_INTERNAL_DEV_ERROR) {
+> > +        return;
+> > +    }
+>=20
+> Are we okay with the trace print up there in case that this if is taken?
+> I guess if this if is taken, the trace print may not that matter.
+>=20
+
+Yeah, I was thinking we always print the error that corresponds to the
+AIO that we are handling right now.
+
+But maybe we should not include the "translated" nvme error in the trace
+at all. That might make more sense.
+
+--jho1yZJdad60DJr+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl+yaAgACgkQTeGvMW1P
+Dem6cAf/YDmlbvL7T7gq3CTekmewWEFm+oZmIjdrp4wR9NCeuhWKy22sT6BI7btt
+1C3vSRlgZz2BKn34vbQPKY7+DJC0gWHBK/8tBZHtpmD8utKumNINATmeaBIbky9Z
+ETg4epVsPXFFHYCqX3/Hv3kHDEfscXjehxKxnCyxMUCWW2hXhCZDn09TiYZnUkqE
+cGOeIHBzLjCAPJdyGHj0yX0Zveaeq33I+uXsXU83zPIXfrQtd8edeKJO3VYr8dHo
+alqU2D+JJTEceymVrAzwGIbjDGtX2oJp7PWAqhbavcYSZDyKB1HCuoAG9zaTVGvD
+4tu5P2ULhfBBl4WzrzSyjsuMxCb4Yg==
+=UPl9
+-----END PGP SIGNATURE-----
+
+--jho1yZJdad60DJr+--
 
