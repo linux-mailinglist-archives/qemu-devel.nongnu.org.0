@@ -2,83 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 862A32B4561
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 15:01:44 +0100 (CET)
-Received: from localhost ([::1]:40690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21AB52B4587
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 15:07:53 +0100 (CET)
+Received: from localhost ([::1]:52178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kef4h-0005KA-Ca
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 09:01:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52042)
+	id 1kefAe-00022k-5s
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 09:07:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kef2Q-0004WN-V2; Mon, 16 Nov 2020 08:59:22 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:46459)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kef2P-0003GY-CD; Mon, 16 Nov 2020 08:59:22 -0500
-Received: by mail-wr1-x442.google.com with SMTP id d12so18754300wrr.13;
- Mon, 16 Nov 2020 05:59:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=mrSkhpHV/FX7vqyYHrqYZ+ipl4u9XbEx+c2jRbUV4po=;
- b=Ayw7gkge+v31z3D8wzZciPE9LkBC7hu5bVN/AlOzGuLAQv0n0Ovs8pCZB+B8/45G0L
- P1U/NLJOxmGXktopLgI6/YdTG0UtjQeG4KIP11Ip/NfTLoPirEYd2l0GU6+WExyPD/OL
- 6fjQlOKAtNsn40nMYjkpsVucNvG8MXNxy1p/YLSrKGi7rSCPijKjgp5xBw7vtbapdmKb
- W3FZD0NSb8GsnrHk2tGgr0OegnzSMQ4ZB9AR/q3JYVGrsJRap+ZxJrUOnkbY3dJZ5Jj1
- 7DJtPdHBXh/AMbm86tyvU+BMBWRw+nFlOO/K8Fv8T+m30wUjmllCfkKYTtf5v9FvDDKT
- yFzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=mrSkhpHV/FX7vqyYHrqYZ+ipl4u9XbEx+c2jRbUV4po=;
- b=PhmA8wolZfZ7V5YZwoHDxZN01NNmiYaFgbVzqPG2E8H97xq8vcXpoPF3uKqV4s7S2v
- mXLHX4gYicvdSW06bzoBwxSB0O8uR4GVMdXPpmXMiG/rGnRkJLbYa1kKteezOpqN+YuD
- YK138vAYZZmjEddBIXs4rCSkAx81XbkRje9pvSKIXc84enRP/GSbaYnUvr2OgQNqyd68
- iYR2FRMXFrwIBQzBN9wVysMzzvzGcjndX5F6KbY1CDxrI3xu3Cxd+AkqASGQhVcpIqKX
- A5kxVf39NiCjjSzBDbqu5ZerzdHbtDP55Lv8mmJ4K7pZyjPvdca234EAmmVKf/Jn11Cm
- ppfw==
-X-Gm-Message-State: AOAM530D4h2EMtjBxrRjoXxmr3yIi30PhTPzPfhCeWLlN5scznMrqQGj
- kW6piFrRY1+cUbDQ36CCM7M=
-X-Google-Smtp-Source: ABdhPJxALO93PUv5D9i1rfEggAvlnJ1aMGlQAELb4P8RsQf1W0hdeajvG9tKnWL9JK3sNjnrf1nTeA==
-X-Received: by 2002:adf:eb4d:: with SMTP id u13mr18670657wrn.146.1605535159527; 
- Mon, 16 Nov 2020 05:59:19 -0800 (PST)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id a15sm23042774wrn.75.2020.11.16.05.59.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Nov 2020 05:59:18 -0800 (PST)
-Subject: Re: [PATCH 12/13] SPI flash devices: put them into the 'storage'
- category
-To: Gan Qixin <ganqixin@huawei.com>, qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org
-References: <20201115184903.1292715-1-ganqixin@huawei.com>
- <20201115184903.1292715-13-ganqixin@huawei.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <e4591e68-04c5-8645-f50a-e5a9553326c9@amsat.org>
-Date: Mon, 16 Nov 2020 14:59:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <zhangxinhao1@huawei.com>)
+ id 1kef7M-0006dN-Ra; Mon, 16 Nov 2020 09:04:28 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2795)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhangxinhao1@huawei.com>)
+ id 1kef7E-0004dG-H5; Mon, 16 Nov 2020 09:04:28 -0500
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CZW522bP6zkWwS;
+ Mon, 16 Nov 2020 22:03:34 +0800 (CST)
+Received: from huawei.com (10.175.101.6) by DGGEMS406-HUB.china.huawei.com
+ (10.3.19.206) with Microsoft SMTP Server id 14.3.487.0; Mon, 16 Nov 2020
+ 22:03:43 +0800
+From: Xinhao Zhang <zhangxinhao1@huawei.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH] hw/core/register.c: Don't use '#' flag of printf format
+Date: Mon, 16 Nov 2020 22:01:48 +0800
+Message-ID: <20201116140148.2850128-1-zhangxinhao1@huawei.com>
+X-Mailer: git-send-email 2.29.0-rc1
 MIME-Version: 1.0
-In-Reply-To: <20201115184903.1292715-13-ganqixin@huawei.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.175.101.6]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=zhangxinhao1@huawei.com; helo=szxga04-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 08:22:57
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,21 +56,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kuhn.chenqun@huawei.com, thuth@redhat.com,
- Alistair Francis <alistair@alistair23.me>, zhang.zhanghailiang@huawei.com
+Cc: alex.chen@huawei.com, qemu-trivial@nongnu.org, alistair@alistair23.me,
+ dengkai1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/15/20 7:49 PM, Gan Qixin wrote:
-> SPI flash devices have no category, put them into the 'storage' category.
-> 
-> Signed-off-by: Gan Qixin <ganqixin@huawei.com>
-> ---
-> Cc: Alistair Francis <alistair@alistair23.me>
-> ---
->  hw/block/m25p80.c | 1 +
->  1 file changed, 1 insertion(+)
+Fix code style. Don't use '#' flag of printf format ('%#') in
+format strings, use '0x' prefix instead
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Xinhao Zhang <zhangxinhao1@huawei.com>
+Signed-off-by: Kai Deng <dengkai1@huawei.com>
+---
+ hw/core/register.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/hw/core/register.c b/hw/core/register.c
+index 31038bd7cc..7986913130 100644
+--- a/hw/core/register.c
++++ b/hw/core/register.c
+@@ -80,7 +80,7 @@ void register_write(RegisterInfo *reg, uint64_t val, uint64_t we,
+ 
+     if (!ac || !ac->name) {
+         qemu_log_mask(LOG_GUEST_ERROR, "%s: write to undefined device state "
+-                      "(written value: %#" PRIx64 ")\n", prefix, val);
++                      "(written value: 0x%" PRIx64 ")\n", prefix, val);
+         return;
+     }
+ 
+@@ -89,14 +89,14 @@ void register_write(RegisterInfo *reg, uint64_t val, uint64_t we,
+     test = (old_val ^ val) & ac->rsvd;
+     if (test) {
+         qemu_log_mask(LOG_GUEST_ERROR, "%s: change of value in reserved bit"
+-                      "fields: %#" PRIx64 ")\n", prefix, test);
++                      "fields: 0x%" PRIx64 ")\n", prefix, test);
+     }
+ 
+     test = val & ac->unimp;
+     if (test) {
+         qemu_log_mask(LOG_UNIMP,
+-                      "%s:%s writing %#" PRIx64 " to unimplemented bits:" \
+-                      " %#" PRIx64 "\n",
++                      "%s:%s writing 0x%" PRIx64 " to unimplemented bits:" \
++                      " 0x%" PRIx64 "\n",
+                       prefix, reg->access->name, val, ac->unimp);
+     }
+ 
+@@ -112,7 +112,7 @@ void register_write(RegisterInfo *reg, uint64_t val, uint64_t we,
+     }
+ 
+     if (debug) {
+-        qemu_log("%s:%s: write of value %#" PRIx64 "\n", prefix, ac->name,
++        qemu_log("%s:%s: write of value 0x%" PRIx64 "\n", prefix, ac->name,
+                  new_val);
+     }
+ 
+@@ -150,7 +150,7 @@ uint64_t register_read(RegisterInfo *reg, uint64_t re, const char* prefix,
+     }
+ 
+     if (debug) {
+-        qemu_log("%s:%s: read of value %#" PRIx64 "\n", prefix,
++        qemu_log("%s:%s: read of value 0x%" PRIx64 "\n", prefix,
+                  ac->name, ret);
+     }
+ 
+@@ -193,7 +193,7 @@ void register_write_memory(void *opaque, hwaddr addr,
+ 
+     if (!reg) {
+         qemu_log_mask(LOG_GUEST_ERROR, "%s: write to unimplemented register " \
+-                      "at address: %#" PRIx64 "\n", reg_array->prefix, addr);
++                      "at address: 0x%" PRIx64 "\n", reg_array->prefix, addr);
+         return;
+     }
+ 
+@@ -222,7 +222,7 @@ uint64_t register_read_memory(void *opaque, hwaddr addr,
+ 
+     if (!reg) {
+         qemu_log_mask(LOG_GUEST_ERROR, "%s:  read to unimplemented register " \
+-                      "at address: %#" PRIx64 "\n", reg_array->prefix, addr);
++                      "at address: 0x%" PRIx64 "\n", reg_array->prefix, addr);
+         return 0;
+     }
+ 
+-- 
+2.29.0-rc1
 
 
