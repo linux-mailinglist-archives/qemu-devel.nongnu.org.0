@@ -2,66 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8CAC2B44BF
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 14:34:05 +0100 (CET)
-Received: from localhost ([::1]:44562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD1AC2B44D3
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 14:37:11 +0100 (CET)
+Received: from localhost ([::1]:48480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keedw-0001EX-NE
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 08:34:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45362)
+	id 1keegw-00038B-Qp
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 08:37:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1keec3-00082w-F5
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 08:32:07 -0500
-Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:37423)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1keegB-0002an-IN
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 08:36:23 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39799)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1keec0-0001jv-LW
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 08:32:07 -0500
-Received: by mail-ed1-x542.google.com with SMTP id cq7so18701281edb.4
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 05:32:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1keeg8-0003LI-Qw
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 08:36:23 -0500
+Received: by mail-wr1-x444.google.com with SMTP id o15so18716171wru.6
+ for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 05:36:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=wVNK869LYYO4+TwdW/v2+bqKYpO5DtOQj8cjmnI82NQ=;
- b=BjDaJENqg2vQ25Lzbo6dYbh+dIDQMBYfeHyUl9mETBsFHE+GQhFWS1HcPcVL+cAUnV
- HR7e4xLEX3RBaUk8MlskSyc1MCNKuda4hHZUqGBU8UUgie4GmShP7FLEgGiGp7FC57Vv
- oeEboFAarkF51y0aRLsncr5BlJBcYwR6F1IGU9AkRNzoaH8o3WKkKsIqwY+01JfiVJ0/
- PsE6iaD9ke2qqzz3q8gFCpGfDUE19JQDsJc+1Z+Sx8uUCiV5SVjR1404c40p5DuTbIf0
- 5w1gpSmQoSS501pMweRRLoHx3v6PE7s5Z3Dcyb1P71NQ6VFhvS4X9nncOdAnsHdnlOK1
- wQUA==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=1ubJJlH9rfte8+pUGPT5fJGB+P3KWcyR5Xhz7Eq0wQo=;
+ b=Qv/uxgQslJmb+ZD0djxrBv7NMeR7zBpwB4PiRJ0EsU4uezvQvoEUzEkTqgdHxPdSUh
+ WOdNbDTegPp6bHxTto+eSsWmCEEH3cX1BgG3TKcqWOQnkAY2m9ZRElaBXZT68aTpcf7b
+ YG+bfuPWracV54yEZFctS0I0jBwm4M3+wiRykqioSDvASsi4goGwFFG4yVdAEdVwcBJn
+ cwLIr91sp/x+pGnzHnQmwrSJgZMaqVe+5+ZgfkqmuP3E1qMoUV1uRbo9p3ODQr0kZeHO
+ /czwXPHetorwxXBMlNIzg+kd6I+igJhJ4v/qqHvaI+jrUnFfv5snW/ZO4D7kVAphJsIv
+ /Edg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=wVNK869LYYO4+TwdW/v2+bqKYpO5DtOQj8cjmnI82NQ=;
- b=HD1k7A57/ZxMI6hZnIzipmovifU/NWY5D+JnKjHatrtvMsPhGZdJG/4D1CKiu011/i
- 7ofQbD01gwJlAdmuyzpDl9ERX1/q9V7q1LjUdGDnvFVVF5fPCSBOrUfzgtf5cTDSQ9dw
- QunUEogBVmg0A0xW8kfaiMNfYip87OkGBx+e9pdznP0bJjwZ10VkxDc8SQfcvT0ly4I/
- vTo1F/OvqBrTiPlTDtoJ+NSr4ly9yBIW3pZqOkEJjI662BUcfUzHKhpBXYwnJsaWV8eu
- Mn4JXZkUe02C1pn70CwT/XMU/4Qx8QGLJyL5/MiV6ToFDfNJ6Xq4BLoYLmr2ovV9kBW6
- QKUA==
-X-Gm-Message-State: AOAM532lwZbgZsChzDh7RcmlDjCq+SflqqhnH/N/hXi9Vk+yKiHY1HuE
- PmqjVbNcD9g2MTYyxPU92/I66BGx7zoGbOcuK9jXuw==
-X-Google-Smtp-Source: ABdhPJwR+21LooH6cNCMhYKVOC+T/Yok1BYZQl6WMg4fY1VejSaQRKZmvZ7KTjaKhr0Ra2t9UpcLel3iZvCNpiSnN0M=
-X-Received: by 2002:aa7:d3cc:: with SMTP id o12mr15844440edr.36.1605533522347; 
- Mon, 16 Nov 2020 05:32:02 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=1ubJJlH9rfte8+pUGPT5fJGB+P3KWcyR5Xhz7Eq0wQo=;
+ b=ez7fa/wHiJYvZ/hBqW5vVmJjsiPHx6hSrQVkE7mStl9z3zsXKubI7yewBEyaZagUlD
+ /Sv6zKYutosstRxo0U50aBEHeO+ikwZO4Q1TtsNPRhmY6Y+wMIjKIBnHsQWuJev6q8GP
+ mqREw8D5X1zI83reV+QvVTjtRpM93tEaagyFY6ZrxbEQpBro/ygYX8LJe2Tf1Voc2oPC
+ BETmDjQO8xOGfv4O/GqIe7/sdsn0Kis5qmgnXxLuiASspNcQW4Me8MzhaHfgR7SJijzv
+ w3qc2sRGWsl5CggATfHKbLoVR5aTXCtqcuZkg3T/wfRqK31d512H8SJ85HguSYs/tC3g
+ ceLg==
+X-Gm-Message-State: AOAM532ERHF+q2K+w/2S3HlHJQmCZqF9OtIf4NIq5HCQLRohnd/AxQ8W
+ mE/hhJewcV9m8bOws3mkoXk+Zg==
+X-Google-Smtp-Source: ABdhPJxZIChO3DPXHVR9hOQmoAnN1LPQJR99VkoBh31qWTI0kcRylJRbQW3nCdq51Dl1EGx/wTx+Rg==
+X-Received: by 2002:a05:6000:89:: with SMTP id
+ m9mr19571523wrx.412.1605533779174; 
+ Mon, 16 Nov 2020 05:36:19 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a131sm19683212wmh.30.2020.11.16.05.36.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Nov 2020 05:36:17 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9CB811FF7E;
+ Mon, 16 Nov 2020 13:36:16 +0000 (GMT)
+References: <20201116024810.2415819-1-kuhn.chenqun@huawei.com>
+ <20201116024810.2415819-4-kuhn.chenqun@huawei.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Chen Qun <kuhn.chenqun@huawei.com>
+Subject: Re: [PATCH v3 3/7] accel/tcg/user-exec: silence the compiler warnings
+In-reply-to: <20201116024810.2415819-4-kuhn.chenqun@huawei.com>
+Date: Mon, 16 Nov 2020 13:36:16 +0000
+Message-ID: <87v9e5whin.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20201115184903.1292715-1-ganqixin@huawei.com>
- <20201115184903.1292715-14-ganqixin@huawei.com>
- <c2ca2185-4253-da71-eab4-f96b29067c96@amsat.org>
-In-Reply-To: <c2ca2185-4253-da71-eab4-f96b29067c96@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 16 Nov 2020 13:31:51 +0000
-Message-ID: <CAFEAcA9nF=RFnjFoC6b3iCN2Cu_QFsWHzouiK4EZ8TFb6cZaeg@mail.gmail.com>
-Subject: Re: [PATCH 13/13] bcm2835_cprman: put some peripherals of bcm2835
- cprman into the 'misc' category
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::542;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x542.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -83,34 +90,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- zhanghailiang <zhang.zhanghailiang@huawei.com>,
- QEMU Trivial <qemu-trivial@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Gan Qixin <ganqixin@huawei.com>,
- "Chenqun \(kuhn\)" <kuhn.chenqun@huawei.com>
+Cc: Thomas Huth <thuth@redhat.com>, zhang.zhanghailiang@huawei.com,
+ qemu-trivial@nongnu.org, Riku Voipio <riku.voipio@iki.fi>, Richard
+ Henderson <richard.henderson@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Dau?= =?utf-8?Q?d=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, ganqixin@huawei.com,
+ Euler Robot <euler.robot@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 16 Nov 2020 at 13:28, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
-> Well, this is not an usable device but a part of a bigger device,
-> so here we want the opposite: not list this device in any category.
->
-> Maybe we could add a DEVICE_CATEGORY_COMPOSITE for all such QOM
-> types so management apps can filter them out? (And so we are sure
-> all QOM is classified).
->
-> Thomas, you already dealt with categorizing devices in the past,
-> what do you think about this? Who else could help? Maybe add
-> someone from libvirt in the thread?
 
-If we could get to the point where we can assert() that
-dc->categories is non-zero in class init, we would be able
-to avoid further "forgot to categorize device" bugs getting
-into the tree in future, which seems like an argument for
-having some way of marking "really just an implementation
-detail" devices I guess?
+Chen Qun <kuhn.chenqun@huawei.com> writes:
 
-thanks
--- PMM
+> When using -Wimplicit-fallthrough in our CFLAGS on GCC9, the compiler sho=
+wed warning:
+> ../accel/tcg/user-exec.c: In function =E2=80=98handle_cpu_signal=E2=80=99:
+> ../accel/tcg/user-exec.c:169:13: warning: this statement may fall through=
+ [-Wimplicit-fallthrough=3D]
+>   169 |             cpu_exit_tb_from_sighandler(cpu, old_set);
+>       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> ../accel/tcg/user-exec.c:172:9: note: here
+>   172 |         default:
+>
+> Mark the cpu_exit_tb_from_sighandler() function with QEMU_NORETURN to fix=
+ it.
+>
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
