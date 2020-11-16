@@ -2,69 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB9992B5057
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 19:55:06 +0100 (CET)
-Received: from localhost ([::1]:50600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94CA12B5019
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 19:46:35 +0100 (CET)
+Received: from localhost ([::1]:47494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kejeb-0003LT-KB
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 13:55:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37422)
+	id 1kejWM-0007Id-Jl
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 13:46:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kejHE-0002xo-TM
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:30:56 -0500
-Received: from indium.canonical.com ([91.189.90.7]:42698)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kejHC-0005xq-RI
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:30:56 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kejHB-00020s-8K
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 18:30:53 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3E0E42E811E
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 18:30:53 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kej8r-0000kn-NX
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:22:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39221)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kej8p-0003Fj-M9
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:22:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605550935;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WTH8Zd5sAmskzAYo30mvhMBg66bSsnSUzhU1/p/F/PA=;
+ b=NUnkwL8W5yihws1r2HLhtzhQGieR2jePsVDRAmAFTKQoi4M0ldKMPiR6yB323y8ZmsiXLI
+ EgjLmSAKD3Eiru1mwM554MRp9y/tzsLXZHIKAKs1Q+btcd+tFBFt93BcfXG2tlYdZ2V9sg
+ n8T7PZYdhPdaMU5yxXT9GoQrZWvm3m8=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-150-Nx-Q4XOANayPo2b_UmaFGQ-1; Mon, 16 Nov 2020 13:22:11 -0500
+X-MC-Unique: Nx-Q4XOANayPo2b_UmaFGQ-1
+Received: by mail-wr1-f71.google.com with SMTP id x16so6757619wrn.9
+ for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 10:22:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=WTH8Zd5sAmskzAYo30mvhMBg66bSsnSUzhU1/p/F/PA=;
+ b=KVZfc/5MGCX+dLcQilvIl675j9iXMalIJWGXcRhKP+bd/N/WACq4lnirfSdnxVf8LY
+ DAv7XXdfpBB3B9uCUTUs4GdppW4d/41luCMnWwi4LBWR0gOzoyG962C6DbXAWIBywZKW
+ XqKTjl1mc+tpH6eM/R5zOdaqAp0qlqE5Zci68pUMKWL1fOkHE3s274Sk25GfYGaGFWQb
+ U3LljJyO9scMSTDLpsCJnd5zZd3S0wlxhu7tAH8ey1d71cNy4eSH7dnB14W9XvAKQs+B
+ bUZqTkqOR3qGQxf9toaFybh3HbPIQVa3G7yFoZwoSGtg5kELJwucIHmQivSFJJ32TieE
+ Duqg==
+X-Gm-Message-State: AOAM530WrcsNq/GzTFhoFdFagLc4vurDelReVtCfSYpxVgwxGKju9G6Q
+ zdV+OmXv8L9YWc/ryBJSEPZ6kyUxz+JgB/WABb/CyTNAIo0pGAES7OVzEW6GiuiTxSgm7IC/NuH
+ A5tCiCZOTkyCQC3A=
+X-Received: by 2002:a5d:5222:: with SMTP id i2mr21960365wra.247.1605550929808; 
+ Mon, 16 Nov 2020 10:22:09 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzygKN/jKZPOR2Tp8R1RkidCe1Eg2IUxg/VtBLvORkfaFPUmdDs+xVTr36C8G5FbkcJI0uy0Q==
+X-Received: by 2002:a5d:5222:: with SMTP id i2mr21960352wra.247.1605550929645; 
+ Mon, 16 Nov 2020 10:22:09 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id p10sm24465695wre.2.2020.11.16.10.22.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Nov 2020 10:22:08 -0800 (PST)
+Subject: Re: [PATCH] memory: Skip dirty tracking for un-migratable memory
+ regions
+To: Zenghui Yu <yuzenghui@huawei.com>, qemu-devel@nongnu.org
+References: <20201116132210.1730-1-yuzenghui@huawei.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <5f5cc5a8-c5e4-4a69-5fdd-7020459d9d17@redhat.com>
+Date: Mon, 16 Nov 2020 19:22:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 16 Nov 2020 18:21:34 -0000
-From: Thomas Huth <1744009@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: qihaimou th-huth
-X-Launchpad-Bug-Reporter: qihaimou (qihaimou)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <151626726470.4861.474936740354528920.malonedeb@wampee.canonical.com>
-Message-Id: <160555089470.28800.9533537856848597229.malone@gac.canonical.com>
-Subject: [Bug 1744009] Re: qemu for windows fails to use multicast socket as
- netdev
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a2ee2035671f86427804714f331b9ff7fecaef7e"; Instance="production"
-X-Launchpad-Hash: 6de6ba44991ecb7d8217c47c99c038fb1ebec673
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 13:11:09
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201116132210.1730-1-yuzenghui@huawei.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 04:46:27
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,49 +102,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1744009 <1744009@bugs.launchpad.net>
+Cc: cohuck@redhat.com, kwankhede@nvidia.com, alex.williamson@redhat.com,
+ qemu-arm@nongnu.org, wanghaibin.wang@huawei.com, kvmarm@lists.cs.columbia.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Have you ever tried to suggest your change as a patch to the qemu-devel mai=
-ling list? See:
-https://wiki.qemu.org/Contribute/SubmitAPatch
+On 16/11/20 14:22, Zenghui Yu wrote:
+> It makes no sense to track dirty pages for those un-migratable memory
+> regions (e.g., Memory BAR region of the VFIO PCI device) and doing so
+> will potentially lead to some unpleasant issues during migration [1].
+> 
+> Skip dirty tracking for those regions by evaluating if the region is
+> migratable before setting dirty_log_mask (DIRTY_MEMORY_MIGRATION).
+> 
+> [1] https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg03757.html
+> 
+> Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
+> ---
+>   softmmu/memory.c | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/softmmu/memory.c b/softmmu/memory.c
+> index 71951fe4dc..aa393f1bb0 100644
+> --- a/softmmu/memory.c
+> +++ b/softmmu/memory.c
+> @@ -1806,7 +1806,10 @@ bool memory_region_is_ram_device(MemoryRegion *mr)
+>   uint8_t memory_region_get_dirty_log_mask(MemoryRegion *mr)
+>   {
+>       uint8_t mask = mr->dirty_log_mask;
+> -    if (global_dirty_log && (mr->ram_block || memory_region_is_iommu(mr))) {
+> +    RAMBlock *rb = mr->ram_block;
+> +
+> +    if (global_dirty_log && ((rb && qemu_ram_is_migratable(rb)) ||
+> +                             memory_region_is_iommu(mr))) {
+>           mask |= (1 << DIRTY_MEMORY_MIGRATION);
+>       }
+>       return mask;
+> 
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+Queued, thanks.
 
--- =
+Paolo
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1744009
-
-Title:
-  qemu for windows fails to use multicast socket as netdev
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  My host OS is Windows 7 x64 SP1. I installed qemu for windows from
-  https://qemu.weilnetz.de/w64/.The version is 2.10.1,
-  qemu-w64-setup-20171006.exe. I run qemu with the following command:
-
-  qemu-system-x86_64.exe -net nic -net socket,mcast=3D234.5.5.5:6000
-  disk1.qcow2
-
-  It stopped with error:
-  bind: Unknown error
-  qemu-system-x86_64.exe: -net socket,mcast=3D234.5.5.5:6000: Device 'socke=
-t' could not be initialized
-
-  Using the -netdev option has the same problem:
-  qemu-system-x86_64.exe -netdev socket,id=3Dhostnet0,mcast=3D234.5.5.5:600=
-0 -device e1000,netdev=3Dhostnet0 disk1.qcow2
-
-  I tried many versions from https://qemu.weilnetz.de/w64/, but none of
-  them could work.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1744009/+subscriptions
 
