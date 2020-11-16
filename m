@@ -2,71 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72BED2B4DE3
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 18:48:14 +0100 (CET)
-Received: from localhost ([::1]:44706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B6152B4E81
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 18:54:48 +0100 (CET)
+Received: from localhost ([::1]:49804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keibt-0006Iu-2H
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 12:48:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55224)
+	id 1keiiF-0000TF-1c
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 12:54:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1keiaT-0005Qb-1z
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 12:46:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43438)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1keiaQ-0008DN-2w
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 12:46:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605548801;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=K3SZrwFy94uqqUNynXuBp4m3e29h27rqR4XdQ73aJwA=;
- b=KmZCPotS0MHEg20B8wotBCWY4VJIUQv7t6pdWLFbxd0pRPw35Hu4WZLm9Prkt+qngDyHyF
- IatbjJthS0tmvZ7+elx+r+YyiU4iDl5fdZDtXPqubEpYuQlZSRi8/Mej5byvRgu1zczOXJ
- CEp38G+gPLLjVXNbeUbMtbzpFs+I3VU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-245-Fs1SYoHcM8y6DcdAEDrZqg-1; Mon, 16 Nov 2020 12:46:36 -0500
-X-MC-Unique: Fs1SYoHcM8y6DcdAEDrZqg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99F5B803F44;
- Mon, 16 Nov 2020 17:46:34 +0000 (UTC)
-Received: from gondolin (ovpn-113-142.ams2.redhat.com [10.36.113.142])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 866176BF6B;
- Mon, 16 Nov 2020 17:46:32 +0000 (UTC)
-Date: Mon, 16 Nov 2020 18:46:29 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Zenghui Yu <yuzenghui@huawei.com>
-Subject: Re: [PATCH] memory: Skip dirty tracking for un-migratable memory
- regions
-Message-ID: <20201116184629.7455b82a.cohuck@redhat.com>
-In-Reply-To: <20201116132210.1730-1-yuzenghui@huawei.com>
-References: <20201116132210.1730-1-yuzenghui@huawei.com>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1keigm-0008KW-JN
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 12:53:16 -0500
+Received: from mx2.suse.de ([195.135.220.15]:41298)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1keigk-0001yI-Px
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 12:53:16 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 1667CAD11;
+ Mon, 16 Nov 2020 17:53:11 +0000 (UTC)
+Subject: Re: [RFC v1 09/10] i386: split cpu.c and defer x86 models registration
+To: Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20201109172755.16500-1-cfontana@suse.de>
+ <20201109172755.16500-10-cfontana@suse.de>
+ <20201109180302.GB814975@redhat.com>
+ <971cfde9-d24e-a3dc-6389-8a7c9e477f63@suse.de>
+ <20201110100438.GF866671@redhat.com>
+ <c4c56c06-7530-5705-9ce8-5eff8cf1a0d3@redhat.com>
+ <20201110152314.GF5733@habkost.net>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <a02438ad-70eb-854e-c042-c93c5305f811@suse.de>
+Date: Mon, 16 Nov 2020 18:53:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 22:35:17
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <20201110152314.GF5733@habkost.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 12:53:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,48 +62,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, kwankhede@nvidia.com, alex.williamson@redhat.com,
- qemu-arm@nongnu.org, wanghaibin.wang@huawei.com, pbonzini@redhat.com,
- kvmarm@lists.cs.columbia.edu
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Colin Xu <colin.xu@intel.com>, Paul Durrant <paul@xen.org>,
+ Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Dario Faggioli <dfaggioli@suse.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Cameron Esfahani <dirty@apple.com>, haxm-team@intel.com,
+ Wenchao Wang <wenchao.wang@intel.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>, Bruce Rogers <brogers@suse.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 16 Nov 2020 21:22:10 +0800
-Zenghui Yu <yuzenghui@huawei.com> wrote:
-
-> It makes no sense to track dirty pages for those un-migratable memory
-> regions (e.g., Memory BAR region of the VFIO PCI device) and doing so
-> will potentially lead to some unpleasant issues during migration [1].
+On 11/10/20 4:23 PM, Eduardo Habkost wrote:
+> On Tue, Nov 10, 2020 at 11:41:46AM +0100, Paolo Bonzini wrote:
+>> On 10/11/20 11:04, Daniel P. Berrangé wrote:
+>>>
+>>> ie, we should have one class hierarchy for CPU model definitions, and
+>>> one class hierarchy  for accelerator CPU implementations.
+>>>
+>>> So at runtime we then get two object instances - a CPU implementation
+>>> and a CPU definition. The CPU implementation object should have a
+>>> property which is a link to the desired CPU definition.
+>>
+>> It doesn't even have to be two object instances.  The implementation can be
+>> nothing more than a set of function pointers.
 > 
-> Skip dirty tracking for those regions by evaluating if the region is
-> migratable before setting dirty_log_mask (DIRTY_MEMORY_MIGRATION).
+> A set of function pointers is exactly what a QOM interface is.
+> Could the methods be provided by a TYPE_X86_ACCEL interface type,
+> implemented by the accel object?
 > 
-> [1] https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg03757.html
-> 
-> Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
-> ---
->  softmmu/memory.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/softmmu/memory.c b/softmmu/memory.c
-> index 71951fe4dc..aa393f1bb0 100644
-> --- a/softmmu/memory.c
-> +++ b/softmmu/memory.c
-> @@ -1806,7 +1806,10 @@ bool memory_region_is_ram_device(MemoryRegion *mr)
->  uint8_t memory_region_get_dirty_log_mask(MemoryRegion *mr)
->  {
->      uint8_t mask = mr->dirty_log_mask;
-> -    if (global_dirty_log && (mr->ram_block || memory_region_is_iommu(mr))) {
-> +    RAMBlock *rb = mr->ram_block;
-> +
-> +    if (global_dirty_log && ((rb && qemu_ram_is_migratable(rb)) ||
-> +                             memory_region_is_iommu(mr))) {
->          mask |= (1 << DIRTY_MEMORY_MIGRATION);
->      }
->      return mask;
 
-Looks reasonable.
+Hi Eduardo, Paolo,
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+conceptually this is also an attractive option, but there are a few issues I can see with this approach,
 
+the first and most evident of which is that accel classes are used only for softmmu,
+while we need the tcg cpu (or TYPE_X86_ACCEL interface to be used by the cpu) for user mode too.
+
+I'll start working on some new prototype, trying to incorporate some ideas exchanged here, see what comes out.
+
+Thanks,
+
+Ciao,
+
+CLaudio
 
