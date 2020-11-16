@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7978F2B4B0C
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 17:29:11 +0100 (CET)
-Received: from localhost ([::1]:46274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCDEB2B4B0A
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 17:28:46 +0100 (CET)
+Received: from localhost ([::1]:45480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kehNO-0002rI-GI
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 11:29:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58254)
+	id 1kehMz-0002UU-TG
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 11:28:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1keh3f-00005r-KR
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 11:08:47 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:36337)
+ id 1keh3h-0000A9-93
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 11:08:49 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:43261)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1keh3d-0007rd-3F
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 11:08:47 -0500
-Received: by mail-wm1-x344.google.com with SMTP id a65so24119449wme.1
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 08:08:44 -0800 (PST)
+ id 1keh3e-0007s1-7R
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 11:08:48 -0500
+Received: by mail-wr1-x444.google.com with SMTP id s8so19244567wrw.10
+ for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 08:08:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=oWhq3GtfKWqTzUPWOIICtNkc0+RZpcNcf71L6lZS9uI=;
- b=COfaHfnl8XMb6UY2VD03kaxrx5qfkq/h2AWwUX99JE9s5kVzMKHVYMpg8Zg7w3rFKk
- 7iNmiHlMw+eXvj8P5WxwpG9hxyp9XTIkuH2PPF//rHI24W3J0CtJyhQ9GWEUlkiHQJSt
- WdLrTRcu5oTJyRTlT76fMPy6XUzWpX4A73OdIrOI7vVkpy/oY6DlIdh7xpdt62Gi0hWj
- +km/hbxsF3wbtci8A/q1AQ+CV7cx6dWzgg/ziUl32XDpOXDzcz4li3PrjkuIK3FpmhC1
- rt5U3mDSpwrjIb6WLSkcBnGRpKgldk8O2wFvqenlTdJjt8+u5fdnwgPCmZFPSmew/Hf9
- yb8A==
+ bh=aHtpQRU3H8qXd2uvyEa+TFGGzXeXygeYRFKCnGAFOiY=;
+ b=Thn+dm+ZO0TrYHQlTvaQ4VzGkVaWnLuvydHfSoJ+yjvYVpb0xU0c/oS3rxUK4e37id
+ KDPW+v6Hi6G50IR02aXSv104DfYj35r6oQ58JndUeetO9ok7lJ3YzjnGGk5eOOpIjOP1
+ 2K0kYq3i26Gzx76lQ7BgpsMkZWkyePoN2eDx3dqBdZszMOw7t8RcJb3IjReHi1mK2QiJ
+ AJxKM4dZ+GTxYMOuwIky57yn37lTsFdqBtWtW0JY5aCXqUmRxLrq2+3t2sM5TgSDnGnA
+ GTDnnhWhsr+Q5L4efYhGSSL2NnpcccOApcjBrF80eodvwzaiP+VrwQsUVrWhQmEr7sw0
+ i98Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oWhq3GtfKWqTzUPWOIICtNkc0+RZpcNcf71L6lZS9uI=;
- b=N+rTrWU7MAt9x9hPXMUVR4J5h98dBAEpelhzg63SDUN9NOsAHqND79FGq1YFywrWvU
- 0LQ5BwNBG2CWFiqZx3LvDrxvBZGu0TY6dLRmeENpEo5xZIGdNWJXok7d8ZLYaqYE88pD
- U5eB9TkfEKHJxHlp9Ojq7CmIVTmcK1UynNzIp+C2B6xu3gylyJZE0tulVDmCw1sBEcLc
- uKhdryVFuRpYh47UBaQrBkQvGywbC8gSFiYU4TEVPbHNir7bYKcdZYG03WYvfZtpxOlf
- mNKsujpvtqHwDrcBGF+/wlYY9JOLjAgTIABqousTb4AVsjgbZdxU1g9Jpt0vZ9KJSXXL
- UslQ==
-X-Gm-Message-State: AOAM530W8gcL9h+hBTavwElfMWvLJdB25rUn63xiObFM7dytdjI2J8IY
- aqiQ0mEdxU6XrDCS8RnDvHf9Gxel2FEo9w==
-X-Google-Smtp-Source: ABdhPJy3Kqdy3cptyN7Blf3xKo80MPwk/GR3l2X8t/CCPg/J0IiCyvj6XS4Q31+33VxKOJu1M7VO6A==
-X-Received: by 2002:a1c:23cf:: with SMTP id j198mr16010519wmj.6.1605542923617; 
- Mon, 16 Nov 2020 08:08:43 -0800 (PST)
+ bh=aHtpQRU3H8qXd2uvyEa+TFGGzXeXygeYRFKCnGAFOiY=;
+ b=b6nlTgWVCGfqLobhN/Q+VNNPw0SGUNFQ1mtuPfRmS1vG5hS0MyiCWSMfLZ8aXMqxDr
+ 335xEpGE98PSlg54ge0GCuP90flY07SbUiC0W0GExcbInEsZfUvqcNU3Fyrdd02696Jz
+ Y2l8f/irqYHoz34VQeePiUdCDLLhk5IiQbeUhfuvnZpuq4Rb9u1kqiuioHekZX65LnIq
+ rwxXv9TXgu4G5X7vT/UH+Rh9d8fiwM9pgDQFKV8YNHbCArv7xaf+YFcUuQTpGRznjYdt
+ Mc3iOEGpY91NnQc6eNPqtMSi4XiW9/x3kZRl9ofS9Slu+gi1vSPQTl4lSFnNKIG5eg0t
+ a2pw==
+X-Gm-Message-State: AOAM533fIs7HkI7Lmdyv1AiYsRuBm1ikHg1/T1jxGVVoUQYkzCJc6XXV
+ 4WbKG8NC1YX1eNlZD+0GUKQMDnBtNau9/Q==
+X-Google-Smtp-Source: ABdhPJwezl7TBLITZpqjDkGzJ2covezL9PcIMp/fJ71ZVDcc28lHmaKujTPQXGF1Gdy0/UwqtAxYpg==
+X-Received: by 2002:adf:eb07:: with SMTP id s7mr19207487wrn.320.1605542924788; 
+ Mon, 16 Nov 2020 08:08:44 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g20sm20116975wmh.20.2020.11.16.08.08.42
+ by smtp.gmail.com with ESMTPSA id g20sm20116975wmh.20.2020.11.16.08.08.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Nov 2020 08:08:42 -0800 (PST)
+ Mon, 16 Nov 2020 08:08:44 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 08/15] target/arm: Move general-use constant expanders up in
- translate.c
-Date: Mon, 16 Nov 2020 16:08:24 +0000
-Message-Id: <20201116160831.31000-9-peter.maydell@linaro.org>
+Subject: [PATCH 09/15] target/arm: Implement VLDR/VSTR system register
+Date: Mon, 16 Nov 2020 16:08:25 +0000
+Message-Id: <20201116160831.31000-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201116160831.31000-1-peter.maydell@linaro.org>
 References: <20201116160831.31000-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,81 +88,140 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The constant-expander functions like negate, plus_2, etc, are
-generally useful; move them up in translate.c so we can use them in
-the VFP/Neon decoders as well as in the A32/T32/T16 decoders.
+Implement the new-in-v8.1M VLDR/VSTR variants which directly
+read or write FP system registers to memory.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate.c | 46 +++++++++++++++++++++++-------------------
- 1 file changed, 25 insertions(+), 21 deletions(-)
+ target/arm/vfp.decode          | 14 ++++++
+ target/arm/translate-vfp.c.inc | 89 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 103 insertions(+)
 
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index ac8c118427f..3e5bcab0a62 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -109,6 +109,30 @@ static void arm_gen_condlabel(DisasContext *s)
-     }
+diff --git a/target/arm/vfp.decode b/target/arm/vfp.decode
+index 51f143b4a51..45e3023840b 100644
+--- a/target/arm/vfp.decode
++++ b/target/arm/vfp.decode
+@@ -84,6 +84,20 @@ VLDR_VSTR_hp ---- 1101 u:1 .0 l:1 rn:4 .... 1001 imm:8      vd=%vd_sp
+ VLDR_VSTR_sp ---- 1101 u:1 .0 l:1 rn:4 .... 1010 imm:8      vd=%vd_sp
+ VLDR_VSTR_dp ---- 1101 u:1 .0 l:1 rn:4 .... 1011 imm:8      vd=%vd_dp
+ 
++# M-profile VLDR/VSTR to sysreg
++%vldr_sysreg 22:1 13:3
++%imm7_0x4 0:7 !function=times_4
++
++&vldr_sysreg rn reg imm a w p
++@vldr_sysreg .... ... . a:1 . . . rn:4 ... . ... .. ....... \
++             reg=%vldr_sysreg imm=%imm7_0x4 &vldr_sysreg
++
++# P=0 W=0 is SEE "Related encodings", so split into two patterns
++VLDR_sysreg  ---- 110 1 . . w:1 1 .... ... 0 111 11 ....... @vldr_sysreg p=1
++VLDR_sysreg  ---- 110 0 . . 1   1 .... ... 0 111 11 ....... @vldr_sysreg p=0 w=1
++VSTR_sysreg  ---- 110 1 . . w:1 0 .... ... 0 111 11 ....... @vldr_sysreg p=1
++VSTR_sysreg  ---- 110 0 . . 1   0 .... ... 0 111 11 ....... @vldr_sysreg p=0 w=1
++
+ # We split the load/store multiple up into two patterns to avoid
+ # overlap with other insns in the "Advanced SIMD load/store and 64-bit move"
+ # grouping:
+diff --git a/target/arm/translate-vfp.c.inc b/target/arm/translate-vfp.c.inc
+index 5d880d12116..cc115f1d35d 100644
+--- a/target/arm/translate-vfp.c.inc
++++ b/target/arm/translate-vfp.c.inc
+@@ -912,6 +912,95 @@ static bool trans_VMSR_VMRS(DisasContext *s, arg_VMSR_VMRS *a)
+     return true;
  }
  
-+/*
-+ * Constant expanders for the decoders.
-+ */
-+
-+static int negate(DisasContext *s, int x)
++static void fp_sysreg_to_memory(DisasContext *s, void *opaque, TCGv_i32 value)
 +{
-+    return -x;
++    arg_vldr_sysreg *a = opaque;
++    uint32_t offset = a->imm;
++    TCGv_i32 addr;
++
++    if (!a->a) {
++        offset = - offset;
++    }
++
++    addr = load_reg(s, a->rn);
++    if (a->p) {
++        tcg_gen_addi_i32(addr, addr, offset);
++    }
++
++    if (s->v8m_stackcheck && a->rn == 13 && a->w) {
++        gen_helper_v8m_stackcheck(cpu_env, addr);
++    }
++
++    gen_aa32_st32(s, value, addr, get_mem_index(s));
++    tcg_temp_free_i32(value);
++
++    if (a->w) {
++        /* writeback */
++        if (!a->p) {
++            tcg_gen_addi_i32(addr, addr, offset);
++        }
++        store_reg(s, a->rn, addr);
++    } else {
++        tcg_temp_free_i32(addr);
++    }
 +}
 +
-+static int plus_2(DisasContext *s, int x)
++static TCGv_i32 memory_to_fp_sysreg(DisasContext *s, void *opaque)
 +{
-+    return x + 2;
++    arg_vldr_sysreg *a = opaque;
++    uint32_t offset = a->imm;
++    TCGv_i32 addr;
++    TCGv_i32 value = tcg_temp_new_i32();
++
++    if (!a->a) {
++        offset = - offset;
++    }
++
++    addr = load_reg(s, a->rn);
++    if (a->p) {
++        tcg_gen_addi_i32(addr, addr, offset);
++    }
++
++    if (s->v8m_stackcheck && a->rn == 13 && a->w) {
++        gen_helper_v8m_stackcheck(cpu_env, addr);
++    }
++
++    gen_aa32_ld32u(s, value, addr, get_mem_index(s));
++
++    if (a->w) {
++        /* writeback */
++        if (!a->p) {
++            tcg_gen_addi_i32(addr, addr, offset);
++        }
++        store_reg(s, a->rn, addr);
++    } else {
++        tcg_temp_free_i32(addr);
++    }
++    return value;
 +}
 +
-+static int times_2(DisasContext *s, int x)
++static bool trans_VLDR_sysreg(DisasContext *s, arg_vldr_sysreg *a)
 +{
-+    return x * 2;
++    if (!arm_dc_feature(s, ARM_FEATURE_V8_1M)) {
++        return false;
++    }
++    if (a->rn == 15) {
++        return false;
++    }
++    return gen_M_fp_sysreg_write(s, a->reg, memory_to_fp_sysreg, a);
 +}
 +
-+static int times_4(DisasContext *s, int x)
++static bool trans_VSTR_sysreg(DisasContext *s, arg_vldr_sysreg *a)
 +{
-+    return x * 4;
++    if (!arm_dc_feature(s, ARM_FEATURE_V8_1M)) {
++        return false;
++    }
++    if (a->rn == 15) {
++        return false;
++    }
++    return gen_M_fp_sysreg_read(s, a->reg, fp_sysreg_to_memory, a);
 +}
 +
- /* Flags for the disas_set_da_iss info argument:
-  * lower bits hold the Rt register number, higher bits are flags.
-  */
-@@ -5174,29 +5198,9 @@ static void arm_skip_unless(DisasContext *s, uint32_t cond)
- 
- 
- /*
-- * Constant expanders for the decoders.
-+ * Constant expanders used by T16/T32 decode
-  */
- 
--static int negate(DisasContext *s, int x)
--{
--    return -x;
--}
--
--static int plus_2(DisasContext *s, int x)
--{
--    return x + 2;
--}
--
--static int times_2(DisasContext *s, int x)
--{
--    return x * 2;
--}
--
--static int times_4(DisasContext *s, int x)
--{
--    return x * 4;
--}
--
- /* Return only the rotation part of T32ExpandImm.  */
- static int t32_expandimm_rot(DisasContext *s, int x)
+ static bool trans_VMOV_half(DisasContext *s, arg_VMOV_single *a)
  {
+     TCGv_i32 tmp;
 -- 
 2.20.1
 
