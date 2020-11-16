@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51F122B41C1
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 11:55:13 +0100 (CET)
-Received: from localhost ([::1]:39948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ED8E2B41B2
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 11:50:44 +0100 (CET)
+Received: from localhost ([::1]:58650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kecAC-0003UR-DQ
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 05:55:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35652)
+	id 1kec5r-0007i1-Fj
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 05:50:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kec1i-0004nn-9I
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 05:46:26 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:55801)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kec1f-00020h-Gk
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 05:46:25 -0500
-Received: by mail-wm1-x344.google.com with SMTP id c9so23261843wml.5
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 02:46:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9hC4mZju6fiKVbmQVI3PVbZnvzhvghSpZgN5hDu6vns=;
- b=q55V/hWJmTBizSc43J6pExx0CmClcC5FXjUE5wITFScaIqyjdIUsZUTvnqZ1gOxXe0
- XWRc+B7dR0IijCC3Ks9qfQOnht/fy9eRiseASaeBK/iAYkTso3VFAYqwHwSzIj29f7hP
- AAFd/KYeTZ03wUXbDAE7ntRuH2ZiovRUqGSqW3tvDb/qVMhPGqCLbtFmwN9NHz1yYQLd
- lSIbMyMXh6KPioeZRbBQYxc1rfGJzLBeuNP+Wcz8NSJHtGROv2+HAG/12pIbi4T/TaZ6
- fVQuf7o0EqvmhAHW/Dz+UBmHeNbKI1SusaiZEMaDmcOg0Yo1EQR5kOF7mEJPOBZ5ADQB
- qZpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9hC4mZju6fiKVbmQVI3PVbZnvzhvghSpZgN5hDu6vns=;
- b=jDcpVU8ig0Wd5DMMuSXBiVmfl05UnzmXogZS+0fwSIld90DwHzsFLcccWTAfY6Gm86
- AXunnGmdmF+6Tm5JE1bBMR8MWMao67afesVCjHI5S0Y4UyiOiwHlP1xrUicsmejkUsGl
- oa+Abh1xNbUyW7Don2e+BHd44EftVEj5va1twUkvEfBpIx6XE71TPQ+qXVHjugwzHX29
- ebWVGBbblIIWYAZWQ5I1z4rlI/RrJUlq/P2DB61qL7jHoVoYebiFEd2I9Gj/4lfHCqxD
- MP31exSv3BdaznuPV7TMkOyG7+dq32slclrN7Kh8a5ba+g0XdFQFaRsZBcIeJEnSqgU4
- MgWw==
-X-Gm-Message-State: AOAM532V6vI3VHNjkPp6vGOb7uTPtY6xJrFM5MeFYXhJma3cRrKcDL1+
- s0pi/sWExAm383E45wJgDLitMtU4WzyaXw==
-X-Google-Smtp-Source: ABdhPJziu14j4NYxQav/L304LSdPvftAJcz9Cri9zBp0UjlREt09HX/235bFeefoiILK6BGdlHL6RA==
-X-Received: by 2002:a1c:103:: with SMTP id 3mr14532568wmb.81.1605523580055;
- Mon, 16 Nov 2020 02:46:20 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id f5sm22973617wrg.32.2020.11.16.02.46.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Nov 2020 02:46:19 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.2] configure: Make "does libgio work" test pull in some
- actual functions
-Date: Mon, 16 Nov 2020 10:46:17 +0000
-Message-Id: <20201116104617.18333-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kec47-0006Nk-CL
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 05:48:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47345)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kec44-0002fI-1H
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 05:48:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605523730;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=C3Y/j0nAPGAHZJOqrHpfC3naXdO+j3+wc1WNCyb/l/I=;
+ b=ajcIoTBDUnmwYoPgUZFR0fFpRWAxS5qeDt64jjZ6NEpT2T5jMVQvQtzThWrqHTi7AeXLUn
+ uinIdCRItfTWl8XdFW7i5Tx44fKMb6oJYSqCJWVw0OvtNOgS8c92Cg+4bSSG1aDwmHavyO
+ Zt0XT8HozFukqem8+heDtnaORu1w8wo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-297-tP9aH64ePJim68IeVdQkfg-1; Mon, 16 Nov 2020 05:48:46 -0500
+X-MC-Unique: tP9aH64ePJim68IeVdQkfg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6C0A8049EA;
+ Mon, 16 Nov 2020 10:48:44 +0000 (UTC)
+Received: from localhost (ovpn-114-237.ams2.redhat.com [10.36.114.237])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ECF0C5B4CF;
+ Mon, 16 Nov 2020 10:48:33 +0000 (UTC)
+Date: Mon, 16 Nov 2020 10:48:32 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [RFC v3] VFIO Migration
+Message-ID: <20201116104832.GB96297@stefanha-x1.localdomain>
+References: <20201110095349.GA1082456@stefanha-x1.localdomain>
+ <64fb6a41-fbfa-994c-9619-4df41ac97fde@redhat.com>
+ <20201111143615.GA1421166@stefanha-x1.localdomain>
+ <20201111154850.GG906488@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <20201111154850.GG906488@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="mojUlQ0s9EVzWg2t"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 22:35:17
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,61 +83,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: John G Johnson <john.g.johnson@oracle.com>, "Tian,
+ Kevin" <kevin.tian@intel.com>, mtsirkin@redhat.com,
+ Yan Zhao <yan.y.zhao@intel.com>, quintela@redhat.com,
+ Jason Wang <jasowang@redhat.com>, "Zeng, Xin" <xin.zeng@intel.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Kirti Wankhede <kwankhede@nvidia.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Felipe Franciosi <felipe@nutanix.com>,
+ Christophe de Dinechin <dinechin@redhat.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In commit 76346b6264a9b01979 we tried to add a configure check that
-the libgio pkg-config data was correct, which builds an executable
-linked against it.  Unfortunately this doesn't catch the problem
-(missing static library dependency info), because a "do nothing" test
-source file doesn't have any symbol references that cause the linker
-to pull in .o files from libgio.a, and so we don't see the "missing
-symbols from libmount" error that a full QEMU link triggers.
+--mojUlQ0s9EVzWg2t
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-(The ineffective test went unnoticed because of a typo that
-effectively disabled libgio unconditionally, but after commit
-3569a5dfc11f2 fixed that, a static link of the system emulator on
-Ubuntu stopped working again.)
+On Wed, Nov 11, 2020 at 03:48:50PM +0000, Daniel P. Berrang=E9 wrote:
+> On Wed, Nov 11, 2020 at 02:36:15PM +0000, Stefan Hajnoczi wrote:
+> > On Tue, Nov 10, 2020 at 12:12:31PM +0100, Paolo Bonzini wrote:
+> > > On 10/11/20 10:53, Stefan Hajnoczi wrote:
+> In terms of validation I can't help but feel the whole proposal is
+> really very complicated.
+>=20
+> In validating QEMU migration compatibility we merely compare the
+> versioned machine type.
+>=20
+> IIUC, in this proposal, it would be more like exploding the machine
+> type into all its 100's of properties and then comparing each one
+> individually.
+>=20
+> I really prefer the simpler model of QEMU versioned machine types
+> where compatibility is a simple string comparison, hiding the
+> 100's of individual config parameters. =20
+>=20
+> Of course there are scenarios where this will lead a mgmt app to
+> refuse a migration, when it could in fact have permitted it.
+>=20
+> eg  consider   pc-i440fx-4.0  and pc-i440fx-5.0 machine types,
+> which only differ in the value  "foo=3D7" and "foo=3D8" respectively.
+>=20
+> Now if the target only supported machine type pc-i440fx-5.0, then
+> with a basic string comparison of machine type versin, we can't
+> migrate from a host uing pc-i440fx-4.0
+>=20
+> If we exploded the machine type into its params, we could see that
+> we can migrate from pc-i440fx-4.0 to pc-i440fx-5.0, simply by
+> overriding the value of "foo".
+>=20
+> So, yes, dealing with individual params is more flexible, but it
+> comes at an enourmous cost in complexity to process all the
+> parameters. I'm not convinced this is a good tradeoff.=20
 
-Improve the gio test by having the test source fragment reference a
-g_dbus function (which is what is indirectly causing us to end up
-wanting functions from libmount).
+A single standard version number is not enough since there are optional
+features and resource capacity (number of queues, memory sizes, etc)
+varies between implementations.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-The ideal thing here might perhaps be to force the linker to
-pull in everything in the library rather than trusting that
-this particular function is sufficient to trigger the need
-for libmount functions, but annoyingly gcc and clang
-have different command line options to do that.
+At best, a version number can summarize multiple migration parameters,
+but it cannot eliminate all of them.
 
- configure | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+If we don't care about checking compatiblity ahead of time then we can
+use just a device model and version, but then migration fails when the
+source and destination end up being incompatible.
 
-diff --git a/configure b/configure
-index 4cef321d9dc..2717cf1db0a 100755
---- a/configure
-+++ b/configure
-@@ -3512,8 +3512,15 @@ if $pkg_config --atleast-version=$glib_req_ver gio-2.0; then
-     # Check that the libraries actually work -- Ubuntu 18.04 ships
-     # with pkg-config --static --libs data for gio-2.0 that is missing
-     # -lblkid and will give a link error.
--    write_c_skeleton
--    if compile_prog "" "$gio_libs" ; then
-+    cat > $TMPC <<EOF
-+#include <gio/gio.h>
-+int main(void)
-+{
-+    g_dbus_proxy_new_sync(0, 0, 0, 0, 0, 0, 0, 0);
-+    return 0;
-+}
-+EOF
-+    if compile_prog "$gio_cflags" "$gio_libs" ; then
-         gio=yes
-     else
-         gio=no
--- 
-2.20.1
+Since you raised the requirement of checking migration compatibility
+ahead of time, I don't see a way to avoid the complexity.
+
+Stefan
+
+--mojUlQ0s9EVzWg2t
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+yWQAACgkQnKSrs4Gr
+c8iv6ggAroZzZ1hxCIZFzf6Q4p+z5rAapA1+ytr0qK+9bPKkD5NMfuPg4rrVSju4
+P5TdhSueEzlnEbO3lBrvnf/qPmBYLV4tHBm5VLfYW56q14Bt0XmyvP+vicgBih8q
+PRA/c0rm/+VcaTXN3Bljir52ta3u2223sKVWIyNjIAeuJRnARFVkqmQRe6hu0ZEy
+g0KEtAEc+43lqEpeCx3I+qxLvi5V6Pi3GTGApPWBXBvPtjLsR5epJW6GGRVm38zy
+YAJWK/JLvMxWc21omB3fao1sjsN5eWwc/uUX8x0VxW6ttdYbIYBtEbSDn0tBft/t
+63/9RVDPTxzHVWSmSVNgAZshuhw4yg==
+=xObQ
+-----END PGP SIGNATURE-----
+
+--mojUlQ0s9EVzWg2t--
 
 
