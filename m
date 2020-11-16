@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0D382B4B38
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 17:33:28 +0100 (CET)
-Received: from localhost ([::1]:57938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 383DB2B4B90
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 17:46:35 +0100 (CET)
+Received: from localhost ([::1]:35286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kehRX-0007yD-Qd
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 11:33:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58446)
+	id 1keheD-0005bX-LZ
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 11:46:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1keh3q-0000PW-SX
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 11:08:58 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:37006)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kehQA-0008Ic-7k; Mon, 16 Nov 2020 11:32:05 -0500
+Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:38996)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1keh3l-0007wF-F6
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 11:08:58 -0500
-Received: by mail-wm1-x344.google.com with SMTP id h21so3329842wmb.2
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 08:08:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=dmUyi/R+ezwoa9Zookpa//dbcIevyh3Q24fEDsNNr4I=;
- b=A9jKsO2jS97925bKIIYt+DQKvxYSDL4kFF6fBU/HEBqINFi+xsxLycAeViy+gn84u2
- AGdB0iVOE+XT0Xe3bV/0DckXWrVJqmsXDiATdTs8HN5byG40vI8g7xM/KyxBL5j9+giR
- G3yAHtFQVHErtfUmTv84MGprIUMMdIMxSK4Jx/NQSes8P1SRVKBzqlIuD2bS/VU6/yw5
- +iE2Eptj48xR0qfFnboykh4jzU7wH1u3d/tgOld0UPKvIcP4NyBQIqBAlzwaw47TFx3i
- kmmEFck8c//1JPirt+1fp0RR57r8Tu+GYRWB4/VZWs/p8NjbT7g0/Rx4paneIrT/vggX
- MBCQ==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kehQ7-00078e-R6; Mon, 16 Nov 2020 11:32:01 -0500
+Received: by mail-io1-xd44.google.com with SMTP id j23so2145161iog.6;
+ Mon, 16 Nov 2020 08:31:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=K0XipTWujXiNWwh8ZYB969l148TX9roKPYYgxCYiaik=;
+ b=soqM/SeiBjs1po98yFsEc6eZjJaHud0shZWqp4lVZCNybDmDUQ+StFMJbEEth1PopS
+ GSFNQiymVlRx+LFcszxLgJ1KbXin5Em1w0IMRi1781t87YCDwoOxtX/UEW5Byv2LNEu9
+ LyUn0EdCkpXwLVp5nYBEwxgMOnhdJaN/cTre+cV8VGMDSatW1fgI+Aaor1qzTkzK8z/g
+ k0cjTDOMldIiavVoUUiLh4fvhGZoP8acowCEDqBx16hmJI3mX8RSDRmXHLaG7++ZoTbV
+ yLnr1ok+BOb8To0v0taPWdW49eqd0V9G9+Shs2EA+1N4m/G1QxwyKKw2LGXV8Et1pSJ4
+ HUHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=dmUyi/R+ezwoa9Zookpa//dbcIevyh3Q24fEDsNNr4I=;
- b=NNCptngS4S0u/+9O7SojiYHpizhazREsAE6sLss+cWHr0JP9pNVuhbYi9TheDcsIGs
- +HW+hyFTNzP2Vkdtp+LJs8GNZn4TlRjJBkjuMH80u31O4yzyJlUmHxe0WCCeu4Xlzr69
- OBbhI4+EwCwx55ZR8SpLDKMbIK2ank3skFMTADYRcB2Z4mkVq+BsCII6C++6lpnTnJqa
- zITU4qp4AfRrmtiVPDKBCZv38i1MeHpUPeXWfo4OzKBrKqD6odvilU5v9VrO7iHXeZ+X
- jVM7dngwxgGbQouDuYjs7AJhdM/vkO7LmyGaKr6+c9smMu07zsag1LaHxyrNzkKI6w2N
- yQQQ==
-X-Gm-Message-State: AOAM531zUYdTZo0vVBQVPKnRrjnauOl27oh5PezAJgGgWArzcCWsJ3Yv
- YRktUwXUFd3M7A08C7JfosUHsw==
-X-Google-Smtp-Source: ABdhPJxD+JFxXTPAQniQC3luxBOOxrAB49YahcxGvXhyz0Y2YGZUabU98QtHlBXOtpnRZMKwx+ZTrw==
-X-Received: by 2002:a1c:7413:: with SMTP id p19mr4270639wmc.44.1605542932228; 
- Mon, 16 Nov 2020 08:08:52 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g20sm20116975wmh.20.2020.11.16.08.08.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Nov 2020 08:08:51 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH 15/15] hw/intc/armv7m_nvic: Update FPDSCR masking for v8.1M
-Date: Mon, 16 Nov 2020 16:08:31 +0000
-Message-Id: <20201116160831.31000-16-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201116160831.31000-1-peter.maydell@linaro.org>
-References: <20201116160831.31000-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=K0XipTWujXiNWwh8ZYB969l148TX9roKPYYgxCYiaik=;
+ b=JQYIl/FWgAVWRNHHMtoIuKeM9lKxSLNVR05iD62Vq//9NrLr+45NhjqLv7UznRqi+C
+ xNWjvUONtzGxj0DtW8ckZ1+eu96zG8Pr15xmDT5KeByf8RyLuO5BFnUEy95jWZ5hkJ5u
+ UhN/47paRxFLnlj5RD20K2otXdSXd6/LQbIpmETB2oZ2kyM3c5lYvrvXvM0yx02lUfZa
+ TY4w64PUZeJnPvTcG1Aru7RFlfKZb4/SaImXr4RmSAG2IxXqhGtJzofQbc+oTqA6fdsg
+ u5lb8gFkdzUncenKR6Lwi07fDIbZgc7Nq+3gqFpC5DwcAfUHFmfBVfMBZqsfwJ/PGDbp
+ CJgg==
+X-Gm-Message-State: AOAM530ZL+XFCEEB9/9CPjYBuO3j1UFVyn72xg8XR47L5mN/XYU4GxNO
+ 4sMmcDYlfprXsYL/R/lW5xvXlB5IkVvsAy48N08=
+X-Google-Smtp-Source: ABdhPJw4Tt0gontzi6TchllUZw0PVS/DJrgBVTdeVT0Zid42pI+f0O7X9ZUSeTM6i0rBj9vi2Jjx36ZuIWWxWf2CMiM=
+X-Received: by 2002:a02:ce26:: with SMTP id v6mr230044jar.91.1605544316239;
+ Mon, 16 Nov 2020 08:31:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x344.google.com
+References: <20201115184903.1292715-1-ganqixin@huawei.com>
+ <20201115184903.1292715-13-ganqixin@huawei.com>
+In-Reply-To: <20201115184903.1292715-13-ganqixin@huawei.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 16 Nov 2020 08:19:41 -0800
+Message-ID: <CAKmqyKO_bfuvYx_Cr_9zEX9afVubBu=E-9XRm5FfgZ6weyMeJg@mail.gmail.com>
+Subject: Re: [PATCH 12/13] SPI flash devices: put them into the 'storage'
+ category
+To: Gan Qixin <ganqixin@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd44.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,80 +79,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>,
+ Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ QEMU Trivial <qemu-trivial@nongnu.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ kuhn.chenqun@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The FPDSCR register has a similar layout to the FPSCR.  In v8.1M it
-gains new fields FZ16 (if half-precision floating point is supported)
-and LTPSIZE (always reads as 4).  Update the reset value and the code
-that handles writes to this register accordingly.
+On Mon, Nov 16, 2020 at 1:30 AM Gan Qixin <ganqixin@huawei.com> wrote:
+>
+> SPI flash devices have no category, put them into the 'storage' category.
+>
+> Signed-off-by: Gan Qixin <ganqixin@huawei.com>
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/cpu.h      | 5 +++++
- hw/intc/armv7m_nvic.c | 9 ++++++++-
- target/arm/cpu.c      | 3 +++
- 3 files changed, 16 insertions(+), 1 deletion(-)
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 34f8f4afe18..2bc25b65ab0 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -1521,14 +1521,19 @@ void vfp_set_fpscr(CPUARMState *env, uint32_t val);
- #define FPCR_IXE    (1 << 12)   /* Inexact exception trap enable */
- #define FPCR_IDE    (1 << 15)   /* Input Denormal exception trap enable */
- #define FPCR_FZ16   (1 << 19)   /* ARMv8.2+, FP16 flush-to-zero */
-+#define FPCR_RMODE_MASK (3 << 22) /* Rounding mode */
- #define FPCR_FZ     (1 << 24)   /* Flush-to-zero enable bit */
- #define FPCR_DN     (1 << 25)   /* Default NaN enable bit */
-+#define FPCR_AHP    (1 << 26)   /* Alternative half-precision */
- #define FPCR_QC     (1 << 27)   /* Cumulative saturation bit */
- #define FPCR_V      (1 << 28)   /* FP overflow flag */
- #define FPCR_C      (1 << 29)   /* FP carry flag */
- #define FPCR_Z      (1 << 30)   /* FP zero flag */
- #define FPCR_N      (1 << 31)   /* FP negative flag */
- 
-+#define FPCR_LTPSIZE_SHIFT 16   /* LTPSIZE, M-profile only */
-+#define FPCR_LTPSIZE_MASK (7 << FPCR_LTPSIZE_SHIFT)
-+
- #define FPCR_NZCV_MASK (FPCR_N | FPCR_Z | FPCR_C | FPCR_V)
- #define FPCR_NZCVQC_MASK (FPCR_NZCV_MASK | FPCR_QC)
- 
-diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
-index 9628ce876e0..be3bc1f1f45 100644
---- a/hw/intc/armv7m_nvic.c
-+++ b/hw/intc/armv7m_nvic.c
-@@ -2068,7 +2068,14 @@ static void nvic_writel(NVICState *s, uint32_t offset, uint32_t value,
-         break;
-     case 0xf3c: /* FPDSCR */
-         if (cpu_isar_feature(aa32_vfp_simd, cpu)) {
--            value &= 0x07c00000;
-+            uint32_t mask = FPCR_AHP | FPCR_DN | FPCR_FZ | FPCR_RMODE_MASK;
-+            if (cpu_isar_feature(any_fp16, cpu)) {
-+                mask |= FPCR_FZ16;
-+            }
-+            value &= mask;
-+            if (cpu_isar_feature(aa32_lob, cpu)) {
-+                value |= 4 << FPCR_LTPSIZE_SHIFT;
-+            }
-             cpu->env.v7m.fpdscr[attrs.secure] = value;
-         }
-         break;
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 40f3f798b2b..d6188f6566a 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -262,6 +262,9 @@ static void arm_cpu_reset(DeviceState *dev)
-              * always reset to 4.
-              */
-             env->v7m.ltpsize = 4;
-+            /* The LTPSIZE field in FPDSCR is constant and reads as 4. */
-+            env->v7m.fpdscr[M_REG_NS] = 4 << FPCR_LTPSIZE_SHIFT;
-+            env->v7m.fpdscr[M_REG_S] = 4 << FPCR_LTPSIZE_SHIFT;
-         }
- 
-         if (arm_feature(env, ARM_FEATURE_M_SECURITY)) {
--- 
-2.20.1
+Alistair
 
+> ---
+> Cc: Alistair Francis <alistair@alistair23.me>
+> ---
+>  hw/block/m25p80.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+> index 483925f57a..8dd3ef8559 100644
+> --- a/hw/block/m25p80.c
+> +++ b/hw/block/m25p80.c
+> @@ -1397,6 +1397,7 @@ static void m25p80_class_init(ObjectClass *klass, void *data)
+>      device_class_set_props(dc, m25p80_properties);
+>      dc->reset = m25p80_reset;
+>      mc->pi = data;
+> +    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+>  }
+>
+>  static const TypeInfo m25p80_info = {
+> --
+> 2.23.0
+>
+>
 
