@@ -2,76 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 932D22B41FD
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 12:04:19 +0100 (CET)
-Received: from localhost ([::1]:48790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 067342B424A
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 12:12:48 +0100 (CET)
+Received: from localhost ([::1]:57282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kecJ0-0007xA-MZ
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 06:04:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40048)
+	id 1kecRC-0003ej-W6
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 06:12:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kecHx-0007WY-GI
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 06:03:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53425)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kecHv-0007a9-Kl
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 06:03:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605524590;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bLoKy8m+qH3bYcW+szne1f18hxzn7LLqRNFCl3fL2Us=;
- b=VcQ+rFSFdUHqWjyTJ/SKkDjQsHdngT1721r5xwMK0iIWB4jFO1ereesFXmdepKkUHX8EZb
- ZqMNVMVL+LnUSkM35ju+lePNTyXEdJyTQBFb/vWKI7/Eyss+v5tPZV9qkmohxgkLnMYBaX
- AA2CAFHq428dB634lKcXWREUzH5/Nzk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-567-ePTK7AV3PXOwt6SpxLgIIg-1; Mon, 16 Nov 2020 06:03:06 -0500
-X-MC-Unique: ePTK7AV3PXOwt6SpxLgIIg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AEAFD64150;
- Mon, 16 Nov 2020 11:03:04 +0000 (UTC)
-Received: from localhost (ovpn-114-237.ams2.redhat.com [10.36.114.237])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 236E850B44;
- Mon, 16 Nov 2020 11:02:52 +0000 (UTC)
-Date: Mon, 16 Nov 2020 11:02:51 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [RFC v3] VFIO Migration
-Message-ID: <20201116110251.GC96297@stefanha-x1.localdomain>
-References: <20201110095349.GA1082456@stefanha-x1.localdomain>
- <20201110131404.2c0f0d9d@w520.home>
- <20201111124853.5a7fa359.cohuck@redhat.com>
- <20201111151449.GC1421166@stefanha-x1.localdomain>
- <20201111163543.2839e4c7.cohuck@redhat.com>
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1kecP6-0001ie-Vw; Mon, 16 Nov 2020 06:10:37 -0500
+Received: from mail-am6eur05on2102.outbound.protection.outlook.com
+ ([40.107.22.102]:13706 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1kecP3-0001z6-Ej; Mon, 16 Nov 2020 06:10:36 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MMxg/4jWl9AEJHDTygOueXFvV5mcgeoJz0XE7D1fhgR4NYlr02GFlwSc7nwSc2DI13aaYi9JxsjDvtfA9kKE3E70aki/j+SiFhDYk7X2rU/bmayexoFh1LRuK3FCs+xTbujwOLl6ddumf6WAu42awmvuwTT860y9PZVudgQwOEsKokpyoXSfgWuwBFmZ6iRUhHSMPGl25awayxrlgdmRWnZg5Ol5nMZKPQ7WCBlNFJI+JYAH/Dn8M1ErU0HlLKF37Z4DR//RmDDr/qagcyyLy54fR+XDQ2dmMMlyCFQznxAOFukS31eSApuDQQBzjzNm8+vc9EcT4BJIwifLgN6NHA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KYzyFwB5C0QU80eAbj7j9+IxkW4oV12IB+swk3QLS90=;
+ b=WQAxBIvWflLasS6xtM0mb80k8frhnHltJrsspwCLuCSMs5n8Sl6e9s8mdNThk2iGrVghFxA0b248A+xq28ZnFK0NiJMZ80wTN5/q0Y3uTMcAtxClBbddblDjNlVp1djGD4wtqTrCJmD6vLsVVQTX5lU+C3r1lynRHKNz+P04O5WhiePDRjOGbAukpCkDwL+HDtVOAxW34nZwco4ewkmNILu1vJO2t4NgR+TCW7e6blzxG/7lxhhljFOv6eGQiDYZA7tWr5KkewjsgEvL5q51q/svPHstF/LfXYXVVmWwmZp7W5lfKyfPmXMc7XVInjZN6SCH4TtIvMgu2phb1A0iRQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KYzyFwB5C0QU80eAbj7j9+IxkW4oV12IB+swk3QLS90=;
+ b=DFV+M1+lqOyVIzhCcA/z8kQMIsBZww2lcE8uPOn5Filz9JEcrXcICYsFGBfzIzHADApX6U+ol/Dhh7W7jE1Zi2yX8sgSN33w/xd81Wp+bptSQkT8DUF8uHYJHKjkzhhpUHYS3rn3Zkt2JRQRqvXqW82bDKHmPiiGSC7Tdy7utto=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from HE1PR0801MB2124.eurprd08.prod.outlook.com (2603:10a6:3:89::22)
+ by HE1PR0802MB2219.eurprd08.prod.outlook.com (2603:10a6:3:c3::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.28; Mon, 16 Nov
+ 2020 11:10:27 +0000
+Received: from HE1PR0801MB2124.eurprd08.prod.outlook.com
+ ([fe80::c565:a7d7:a7ab:e9c4]) by HE1PR0801MB2124.eurprd08.prod.outlook.com
+ ([fe80::c565:a7d7:a7ab:e9c4%10]) with mapi id 15.20.3564.028; Mon, 16 Nov
+ 2020 11:10:27 +0000
+Subject: Re: [PATCH 2/2] monitor: increase amount of data for monitor to read
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, jcody@redhat.com, kwolf@redhat.com,
+ mreitz@redhat.com, armbru@redhat.com, dgilbert@redhat.com,
+ pbonzini@redhat.com, eblake@redhat.com, marcandre.lureau@redhat.com,
+ den@openvz.org
+References: <1604666522-545580-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1604666522-545580-3-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <f50a09b6-06b1-499a-8aeb-abb0cc52f729@virtuozzo.com>
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Message-ID: <f4b24445-23f3-1b4d-823e-8b62a324495a@virtuozzo.com>
+Date: Mon, 16 Nov 2020 14:10:23 +0300
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.9.0
+In-Reply-To: <f50a09b6-06b1-499a-8aeb-abb0cc52f729@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [109.252.36.39]
+X-ClientProxiedBy: FR2P281CA0036.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:14::23) To HE1PR0801MB2124.eurprd08.prod.outlook.com
+ (2603:10a6:3:89::22)
 MIME-Version: 1.0
-In-Reply-To: <20201111163543.2839e4c7.cohuck@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="eHhjakXzOLJAF9wJ"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 22:35:17
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from Admins-MacBook-Pro.local (109.252.36.39) by
+ FR2P281CA0036.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:14::23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3589.15 via Frontend Transport; Mon, 16 Nov 2020 11:10:25 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: dc81d835-495d-47a1-d0a8-08d88a2038b1
+X-MS-TrafficTypeDiagnostic: HE1PR0802MB2219:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <HE1PR0802MB2219C4487E144E60A7939873F4E30@HE1PR0802MB2219.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 06RK/Kx07XxjIorQil5W00JFbPaMhZBLxUE4zC8yM4Qw0bEDT9xK/wfVkrcHy1aC5GyzonntbCjjRiq3VKQbca7Y+NINIu6yrAJLKydnhLQmFSxHLv3RicIXM4nRP79h03rm5gBKyxOFt5O2XJjI9aJesXYqgFxxPtr5/quXm3fzTDYWAAOfC7m1a2UJlFoW8vJtqko2dvzsK0xfR9uUj6F/rcCMUzXjULFc5G3VJYzMRQq3u1xkXRSp+WCMs9rubvkqvKWW/PeJgglwDAmmmYjGqBwLqeEVwyXjBXUPUKcvB2lSQptc/yPqfbEFE0Wtbz21xrWmkuxHn89OCeC1JrCjYwj/sqE5RBq8I+TMcR7SW7n/T8q+34TZRRdEh5Ba
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:HE1PR0801MB2124.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(136003)(376002)(346002)(39840400004)(396003)(86362001)(53546011)(8676002)(316002)(6506007)(83380400001)(66476007)(66556008)(66946007)(31696002)(5660300002)(7416002)(478600001)(956004)(2616005)(44832011)(36756003)(186003)(6512007)(26005)(16526019)(4326008)(2906002)(8936002)(6486002)(31686004)(107886003)(52116002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: DIJNPlmyoLHzUyw9gVTQTcApeAehIcgesIMAskk68Z7+Qz2IkQyp/ydOpfflBKatOVRCKACgQpOmT6UZXdnoVVD1H6hGzKy+kiJPmONjGGHtpsHQIQobFVuDYVjLcx00OWzTDmChGtZmKuF0e66dUyPL3Eeir3vOdzezm6WPVmTX5D0Y4kjpNCKb/ktuzRfuMVFspMVyzVcy1+1cH/iYMGZgPyhd9talnUy6aFlmMRk8XsbMEXheLDuc3ojJCSDSVikQMHtvQVP6bpXuqX5HLgGevnYj4A9mIfGhHiQVCHmas8/kKndyH6Mkdrx/bmNxtfOk7Zp+SUukCO7ghQXlBhbwFQnzjJDcf3lKYGp5clrI9M29ZB+1ilORSvxQaVGmXzBj5GBgPLvZAvy1OxKvvimCDUrJQ3nEzxW2k3eqDJmAbj96DNDoj4NDOfMagUHEXeAM0JTmfTHU5iekm4Ym6DBvg4rvMRL353NwjX8W+U9kFMCsvY2mhNjCGKp4+rz1q9tZEE6oXEJgwXWmppXPv4MA8O8zXbLwri6LYRKKAS0cOlfJDeH8HrOU67qwu+asAHFJ6eU4NXgWUUstxJ21265/psp+J+eH4qCNI02TMU+f6JGIXowbD0fbOINTIm7auvt95bpMnNS1rJkmvOovhMlL04nRfEqtRh3Ncy08/60hjoBj7bWEdm7ljv/onUwu33yHM/vGGQhHZ8MRFYqN8ttI6F9Jps77nWHMY/AJVPWc5APw6dGd+lUt2MeS0uax25NA+wadSwUl+6lsVcZN8bMwwy19yPysl26f5Jl7LybDryjO5iBO4EHP0kZz/o3em2+rBgNMVthLOtJDmmsaR8rDVNYYjynxUS8vxNTHPallSXMYNuRlWlhXm/AL3kU8hEtTQ9xcZ8QKPt8SIGaghw==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dc81d835-495d-47a1-d0a8-08d88a2038b1
+X-MS-Exchange-CrossTenant-AuthSource: HE1PR0801MB2124.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2020 11:10:27.0063 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lq/31Sgj+0cYqzSt2raEvLhD1W2qicmdFpS6aVOg2g4WVd4ORn9plF8Bf5ZlnyP24w5URbwpTEgYdEAzldLiNPVMprJM6Oub4waNclnDDjc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0802MB2219
+Received-SPF: pass client-ip=40.107.22.102;
+ envelope-from=andrey.shinkevich@virtuozzo.com;
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 06:10:29
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,164 +122,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John G Johnson <john.g.johnson@oracle.com>, "Tian,
- Kevin" <kevin.tian@intel.com>, mtsirkin@redhat.com,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- quintela@redhat.com, Jason Wang <jasowang@redhat.com>,
- Felipe Franciosi <felipe@nutanix.com>, "Zeng, Xin" <xin.zeng@intel.com>,
- qemu-devel@nongnu.org, Kirti Wankhede <kwankhede@nvidia.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Christophe de Dinechin <dinechin@redhat.com>, Yan Zhao <yan.y.zhao@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---eHhjakXzOLJAF9wJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 09.11.2020 12:55, Vladimir Sementsov-Ogievskiy wrote:
+> 06.11.2020 15:42, Andrey Shinkevich wrote:
+>> QMP and HMP monitors read one byte at a time from the socket or stdin,
+>> which is very inefficient. With 100+ VMs on the host, this results in
+>> multiple extra system calls and CPU overuse.
+>> This patch increases the amount of read data up to 4096 bytes that fits
+>> the buffer size on the channel level.
+>>
+>> Suggested-by: Denis V. Lunev <den@openvz.org>
+>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+>> ---
+>>   chardev/char-fd.c          | 64 
+>> +++++++++++++++++++++++++++++++++++++++++++++-
+>>   chardev/char-socket.c      | 54 +++++++++++++++++++++++++++-----------
+>>   chardev/char.c             | 40 +++++++++++++++++++++++++++++
+>>   include/chardev/char.h     | 15 +++++++++++
+>>   monitor/monitor.c          |  2 +-
+>>   tests/qemu-iotests/247.out |  2 +-
+>>   6 files changed, 159 insertions(+), 18 deletions(-)
 
-On Wed, Nov 11, 2020 at 04:35:43PM +0100, Cornelia Huck wrote:
-> On Wed, 11 Nov 2020 15:14:49 +0000
-> Stefan Hajnoczi <stefanha@redhat.com> wrote:
->=20
-> > On Wed, Nov 11, 2020 at 12:48:53PM +0100, Cornelia Huck wrote:
-> > > On Tue, 10 Nov 2020 13:14:04 -0700
-> > > Alex Williamson <alex.williamson@redhat.com> wrote: =20
-> > > > On Tue, 10 Nov 2020 09:53:49 +0000
-> > > > Stefan Hajnoczi <stefanha@redhat.com> wrote: =20
-> > >  =20
-> > > > > Device models supported by an mdev driver and their details can b=
-e read from
-> > > > > the migration_info.json attr. Each mdev type supports one device =
-model. If a
-> > > > > parent device supports multiple device models then each device mo=
-del has an
-> > > > > mdev type. There may be multiple mdev types for a single device m=
-odel when they
-> > > > > offer different migration parameters such as resource capacity or=
- feature
-> > > > > availability.
-> > > > >=20
-> > > > > For example, a graphics card that supports 4 GB and 8 GB device i=
-nstances would
-> > > > > provide gfx-4GB and gfx-8GB mdev types with memory=3D4096 and mem=
-ory=3D8192
-> > > > > migration parameters, respectively.   =20
-> > > >=20
-> > > >=20
-> > > > I think this example could be expanded for clarity.  I think this i=
-s
-> > > > suggesting we have mdev_types of gfx-4GB and gfx-8GB, which each
-> > > > implement some common device model, ie. com.gfx/GPU, where the
-> > > > migration parameter 'memory' for each defaults to a value matching =
-the
-> > > > type name.  But it seems like this can also lead to some combinator=
-ial
-> > > > challenges for management tools if these parameters are writable.  =
-For
-> > > > example, should a management tool create a gfx-4GB device and chang=
-e to
-> > > > memory parameter to 8192 or a gfx-8GB device with the default param=
-eter? =20
-> > >=20
-> > > I would expect that the mdev types need to match in the first place.
-> > > What role would the memory=3D parameter play, then? Allowing gfx-4GB =
-to
-> > > have memory=3D8192 feels wrong to me. =20
-> >=20
-> > Yes, I expected these mdev types to only accept a fixed "memory" value,
-> > but there's nothing stopping a driver author from making "memory" accep=
-t
-> > any value.
->=20
-> I'm wondering how useful the memory parameter is, then. The layer
-> checking for compatibility can filter out inconsistent settings, but
-> why would we need to express something that is already implied in the
-> mdev type separately?
+[...]
 
-To avoid tying device instances to specific mdev types. An mdev type is
-a device implementation, but the goal is to enable migration between
-device implementations (new/old or completely different
-implementations).
+>> +        ret = qio_channel_read(
+>> +            chan, (gchar *)thl.buf, len, NULL);
+>> +        if (ret == 0) {
+>> +            remove_fd_in_watch(chr);
+>> +            qemu_chr_be_event(chr, CHR_EVENT_CLOSED);
+>> +            thl = (const JSONthrottle){0};
+>> +            return FALSE;
+>> +        }
+>> +        if (ret < 0) {
+>> +            return TRUE;
+>> +        }
+> 
+> large code chunk is shared with fd_chr_read_hmp(). Would be not bad to 
+> avoid duplication..
+> 
 
-Imagine a new physical device that now offers variable memory because
-users found the static mdev types too constraining.  How do you migrate
-back and forth between new and old physical devices if the migration
-parameters don't describe the memory size? Migration parameters make it
-possible. Without them the management tool needs to hard-code knowledge
-of specific mdev types that support migration.
+There were two reasons to split the function:
+1. Not to make the code complicated.
+2. Avoid unused buffer of 4k on the stack:
+    fd_chr_read_hmp() { uint8_t buf[CHR_READ_BUF_LEN];..
 
-> > > > > An open mdev device typically does not allow migration parameters=
- to be changed
-> > > > > at runtime. However, certain migration/params attrs may allow wri=
-tes at
-> > > > > runtime. Usually these migration parameters only affect the devic=
-e state
-> > > > > representation and not the hardware interface. This makes it poss=
-ible to
-> > > > > upgrade or downgrade the device state representation at runtime s=
-o that
-> > > > > migration is possible to newer or older device implementations.  =
- =20
-> > >=20
-> > > This refers to generation of device implementations, but not to dynam=
-ic
-> > > configuration changes. Maybe I'm just confused by this sentence, but
-> > > how are we supposed to get changes while the mdev is live across? =20
-> >=20
-> > This is about dynamic configuration changes. For example, if a field wa=
-s
-> > forgotten in the device state representation then a migration parameter
-> > can be added to enable the fix. When the parameter is off the device
-> > state is incomplete but migration to old device implementations still
-> > works. An old device can be migrated to a new device implementation wit=
-h
-> > the parameter turned off. And then you can safely enable the migration
-> > parameter at runtime without powering off the guest because it's purely
-> > a device state representation change, not a hardware interface change
-> > that would disturb the guest.
-> >=20
-> > This is kind of similar to QEMU migration subsections.
->=20
-> Ok, I was a bit confused here.
->=20
-> So, we build the stream with the then-current parameters? How is the
-> compat-checking layer supposed to deal with parameters changing after
-> the check -- is it a "you get to keep the pieces" situation?
+>> +        thl.load = ret;
+>> +        thl.cursor = 0;
+>> +    }
+>> +
+>> +    size = thl.load;
+>> +    start = thl.buf + thl.cursor;
+> 
+> you may use uint8_t* pointer type for thl.curser and get rid of size and 
+> start variables.
+> 
 
-Migration compatibility checking is part of orchestrating the migration.
-The migration parameters are assumed to be immutable during the
-migration process (i.e. the management tool won't let you change them).
-But you are free to change them while there is no ongoing migration.
+For the 'start', yes. And I will want the 'size' anyway.
 
-Changing parameters at runtime is something that requires knowledge from
-the user or management tool. "I want to upgrade the device to fix a bug
-and I know it affects migration compatibility." However, the migration
-compatibility check still does its job: if you changed a parameter you
-might find the old source is no longer compatible because it lacks
-support for the new parameter you set. In that case you could revert the
-parameter before migrating back to the old source.
+[...]
 
-Stefan
+>> +int qemu_chr_end_position(const char *buf, int size, JSONthrottle *thl)
+>> +{
+>> +    int i;
+>> +
+>> +    for (i = 0; i < size; i++) {
+>> +        switch (buf[i]) {
+>> +        case ' ':
+>> +        case '\n':
+>> +        case '\r':
+>> +            continue;
+>> +        case '{':
+>> +            thl->brace_count++;
+>> +            break;
+>> +        case '}':
+>> +            thl->brace_count--;
+>> +            break;
+>> +        case '[':
+>> +            thl->bracket_count++;
+>> +            break;
+>> +        case ']':
+>> +            thl->bracket_count--;
+> 
+> I don't think you need to care about square brackets, as QMP queries and 
+> answers are always json objects, i.e. in pair of '{' and '}'.
+> 
 
---eHhjakXzOLJAF9wJ
-Content-Type: application/pgp-signature; name="signature.asc"
+I've kept the brackets because it is another condition to put a command 
+into the requests queue (see json_message_process_token()).
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+yXFsACgkQnKSrs4Gr
-c8j5+gf/evgyoiGXQtdxVGPDdIpDFvztx7vIVoIFRVwtFPsH3wm4JUPfZhqpHoP7
-3HN56PR527D2qE+xV/uPFOdpE7UWQUb2I4oqvAapgvnPBCqC9vAyzRoyAUEvP7q9
-hXCIDKmQu7nGu4C6AqQ6+D0hgUYsojoysSRsPPBl5CUfaMkZMHg0S43ToH0i12Of
-Nu0xpQ/1eHuP6WuKR8JqGgAEyW/DZXSjzNw6iTAL7MoEhmTM1hE551aPM5j01nH8
-nfgv50AwRW85txHNGDfdVxyxv27jFlIGr+91wNjo4r9plsEd5C0jagxL5Brhp51M
-RXioUBGz93Ct0gvWWUrK7BmYHKb/cg==
-=QVCL
------END PGP SIGNATURE-----
-
---eHhjakXzOLJAF9wJ--
-
+Andrey
 
