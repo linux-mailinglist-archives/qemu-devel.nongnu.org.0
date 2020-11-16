@@ -2,68 +2,119 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A8932B549E
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 23:52:40 +0100 (CET)
-Received: from localhost ([::1]:58206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D925E2B54C7
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 00:13:33 +0100 (CET)
+Received: from localhost ([::1]:44806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kenMV-0007tP-5g
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 17:52:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45338)
+	id 1kengi-0007RC-SQ
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 18:13:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kenKn-00074F-VM
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 17:50:53 -0500
-Received: from indium.canonical.com ([91.189.90.7]:55342)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kenKk-0001FG-H0
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 17:50:53 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kenKi-0008Qc-DL
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 22:50:48 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3B6402E8130
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 22:50:48 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
+ id 1keneV-0005wp-LO; Mon, 16 Nov 2020 18:11:15 -0500
+Received: from mail-dm6nam11on2083.outbound.protection.outlook.com
+ ([40.107.223.83]:24441 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
+ id 1keneS-0003x7-6s; Mon, 16 Nov 2020 18:11:15 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XS2PKTr/D/NoCGbxc2awqrxjO1uwL0b1eB9UIdUgI9Lx5d07PqOODXfccWzfvgfxBPr7RcuvrLR++ad9B/G71THU0udZJqFUeIve4eGpPsaNNzeeadz0llQn/jwvqkosDwKLRiU+e+XFB+rczZ9UR+lbBOBsTPW7DFmQN5BDzolsvT7Ny5fmuhOpZw6bibAFEbc87MpC4q7b3ffyiW/ETi2bFILT11jUBDBpkWhKQFoaNCxu+6wbypoyd/UG773i4aocFwddKZqtaTqB7ueX2aYqFf65bEPrQRar2SUzt4xafiH9gj5+izXnGvSrUtkGt2rw3Z+Xo1lUg4KEi39WQg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jmGw24mey98EVD29QVHkLwGkDmwy6TrrfDnUFlk1POA=;
+ b=jKgj+2c8SSgua5Vvbu8dvDnRLAFD6OaWhFYGmrR/Eoo+w+Qh3/6DGlWZvllxMKOgJ7vKo7msatXLjseYvx5oHORF6oA2ccLXPBWtcuBAvAfGRMSGYEevCjQuSmhswsrbIxx4MXZPcy1Y9ga8pnrW5jUIK1pGXnRorQv4cuWgs5ROjSRXR3Vhs4ORHHMHp0YmzxVzaDX95B4tEFUhCvZCDoiDg0uzg729+pWlDbEFAus/ckV5mNr2gM4CryT65gQAKPDpXs+BJ1HKCDf9PZG14zs+hsr2Ld6IykVdyr/S7uwqOmKmLVU///xWomZl8dxxjGJOVS3EHFUbSlNU3xyDSw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.62.198) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jmGw24mey98EVD29QVHkLwGkDmwy6TrrfDnUFlk1POA=;
+ b=dQQgTgTcMeVldAeeo5nVLYzEkv5F7rA/r7Nqzj2zaO02XQ861PPZlB1EslFawyIfBh1pIALw+8M4HyffhaVBD8klhfUIa4cK5RVuMrDGiaIEVdJCi1GmVxenrsRhvXrs73+p7utUZ7oq3jDFGqXB34ID546ItyYMOKEFmpbb0sw=
+Received: from MN2PR13CA0032.namprd13.prod.outlook.com (2603:10b6:208:160::45)
+ by DM6PR02MB6010.namprd02.prod.outlook.com (2603:10b6:5:157::30) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.22; Mon, 16 Nov
+ 2020 23:11:08 +0000
+Received: from BL2NAM02FT050.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:208:160:cafe::1c) by MN2PR13CA0032.outlook.office365.com
+ (2603:10b6:208:160::45) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.15 via Frontend
+ Transport; Mon, 16 Nov 2020 23:11:08 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
+ smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
+Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
+ BL2NAM02FT050.mail.protection.outlook.com (10.152.77.101) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.3564.22 via Frontend Transport; Mon, 16 Nov 2020 23:11:06 +0000
+Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1913.5; Mon, 16 Nov 2020 15:11:04 -0800
+Received: from smtp.xilinx.com (172.19.127.96) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
+ 15.1.1913.5 via Frontend Transport; Mon, 16 Nov 2020 15:11:04 -0800
+Received: from [172.19.2.32] (port=55506 helo=xsjkomlodi50.xilinx.com)
+ by smtp.xilinx.com with esmtp (Exim 4.90)
+ (envelope-from <joe.komlodi@xilinx.com>)
+ id 1keneK-0007S0-Hj; Mon, 16 Nov 2020 15:11:04 -0800
+From: Joe Komlodi <joe.komlodi@xilinx.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH v5 0/4] hw/block/m25p80: Numonyx: Fix dummy cycles and check
+ for SPI mode on cmds
+Date: Mon, 16 Nov 2020 15:11:00 -0800
+Message-ID: <1605568264-26376-1-git-send-email-komlodi@xilinx.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 16 Nov 2020 22:42:10 -0000
-From: Rob Maskell <1798451@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: hvf x86
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: mhaggard romell roolebo th-huth
-X-Launchpad-Bug-Reporter: Rob Maskell (romell)
-X-Launchpad-Bug-Modifier: Rob Maskell (romell)
-References: <153980387714.3465.12419240219281347614.malonedeb@soybean.canonical.com>
-Message-Id: <160556653288.18318.13402316655673731894.launchpad@wampee.canonical.com>
-Subject: [Bug 1798451] Re: MMX emulation is missing on HVF Acceleration
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a2ee2035671f86427804714f331b9ff7fecaef7e"; Instance="production"
-X-Launchpad-Hash: b71779dd0d1dd1f582d43eee8b29a4ba1b2a116d
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 13:11:09
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1990db90-f04d-4a9a-816d-08d88a84e5ef
+X-MS-TrafficTypeDiagnostic: DM6PR02MB6010:
+X-Microsoft-Antispam-PRVS: <DM6PR02MB6010DD37933BFB1A298052FCD0E30@DM6PR02MB6010.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:2887;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ACHvGaZn9Y3XGuZi9WUQ3qP+nqXxWtCKi3JBkmvo3HM5y+F11Rh0OzTDlW5HJ8DIJLKBJ+0hV4c6PfD4PX2y/3sFtmU4Kx1LGkCDp8kCXMShISLewed/nVeg7aMdQpZu8wuSLziEMPXfj3OzEHxajDIePhlCbpiIqYkYe9BQa/YuYAfr5OKGEYll0npI62ZRKE9fW4rFyvC7+MvVnmVuDaN23dOfuapSPbhCKO1z5SfcauXiLc1xB4QpvkzXk3InSrGO8rmFF54mzW4l/kC2C9jMCdQtaKJdRWr1g0IWc/Fle0xwvkqH65a3JDmc8fxS9DD7fmMT6iAa7wGO1Y0oFJVAFWsxG08ZLNKL+S+YDUosx68QzXroaqGg//4eChvslzH9wi+WbY4dU+kCPtQ0IILddCxEPYZljvmwWvc8s/0=
+X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
+ PTR:unknown-62-198.xilinx.com; CAT:NONE;
+ SFS:(4636009)(396003)(376002)(39860400002)(346002)(136003)(46966005)(82310400003)(186003)(2616005)(6666004)(47076004)(356005)(4326008)(426003)(336012)(54906003)(82740400003)(26005)(316002)(478600001)(7696005)(9786002)(8936002)(36756003)(86362001)(70206006)(70586007)(8676002)(5660300002)(44832011)(7636003)(2906002)(6916009)(83380400001)(102446001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2020 23:11:06.9510 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1990db90-f04d-4a9a-816d-08d88a84e5ef
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
+ Helo=[xsj-pvapexch02.xlnx.xilinx.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL2NAM02FT050.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB6010
+Received-SPF: pass client-ip=40.107.223.83; envelope-from=komlodi@xilinx.com;
+ helo=NAM11-DM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 18:11:10
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,61 +123,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1798451 <1798451@bugs.launchpad.net>
+Cc: figlesia@xilinx.com, alistair@alistair23.me,
+ philippe.mathieu.daude@gmail.com, qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: Incomplete =3D> New
+Changelog:
+v4 -> v5
+ - 3/4: Simplify logic when changing state and checking mode.
+ - 3/4: numonyx_get_mode -> numonyx_mode
+ - 4/4: Reword commit message to include QIO mode.
 
--- =
+v3 -> v4
+ - 1/4: Patch changed to change names of register fields to be more accurate.
+ - 1/4: Revert polarity change from v3.
+ - 2/4: Added, fixes polarity of VCFG XIP mode when copied from NVCFG.
+ - 3/4: Removed check_cmd_mode function, each command check is done in decode_new_cmd instead.
+ - 3/4: Add guest error print if JEDEC read is executed in QIO or DIO mode.
+ - 3/4: Don't check PP and PP4, they work regardless of mode. PP4_4 is left as is.
+ - 3/4: Simplify get_mode function.
+ - 4/4: Simplify extract_cfg_num_dummies function.
+ - 4/4: Use switch statement instead of table for cycle retrieving.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1798451
+v2 -> v3
+ - 1/3: Added, Fixes NVCFG polarity for DIO/QIO.
+ - 2/3: Added, Checks if we can execute the current command in standard/DIO/QIO mode.
+ - 3/3: Was 1/1 in v2.  Added cycle counts for DIO/QIO mode.
 
-Title:
-  MMX emulation is missing on HVF Acceleration
+v1 -> v2
+ - 1/2: Change function name to be more accurate
+ - 2/2: Dropped
 
-Status in QEMU:
-  New
+Hi all,
 
-Bug description:
-  Robs-MacBook-Pro-2:~ robmaskell$ qemu-system-x86_64 --version
-  QEMU emulator version 3.0.0
+The series fixes the behavior of the dummy cycle register for Numonyx flashes so
+it's closer to how hardware behaves.
+It also checks if a command can be executed in the current SPI mode
+(standard, DIO, or QIO) before extracting dummy cycles for the command.
 
-  Host: MacOS - 10.13.6
-    Model Name:	MacBook Pro
-    Model Identifier:	MacBookPro14,3
-    Processor Name:	Intel Core i7
-    Processor Speed:	2.8 GHz
-    Number of Processors:	1
-    Total Number of Cores:	4
-    L2 Cache (per Core):	256 KB
-    L3 Cache:	6 MB
-    Memory:	16 GB
+On hardware, the dummy cycles for fast read commands are set to a specific value
+(8 or 10) if the register is all 0s or 1s.
+If the register value isn't all 0s or 1s, then the flash expects the amount of
+cycles sent to be equal to the count in the register.
 
-  Guest OS: Elementary Linux Loki 0.4.1, patched up to date
+Thanks!
+Joe
 
-  Command used to start QEMU:
+Joe Komlodi (4):
+  hw/block/m25p80: Make Numonyx config field names more accurate
+  hw/block/m25p80: Fix when VCFG XIP bit is set for Numonyx
+  hw/block/m25p80: Check SPI mode before running some Numonyx commands
+  hw/block/m25p80: Fix Numonyx fast read dummy cycle count
 
-  qemu-system-x86_64 \
-    -name ElementaryLokiDev \
-    -machine pc,accel=3Dhvf \
-    -cpu max \
-    -smp cpus=3D2,sockets=3D2,cores=3D1,threads=3D1,maxcpus=3D2 \
-    -numa node,nodeid=3D0 \
-    -numa cpu,node-id=3D0,socket-id=3D0 -numa cpu,node-id=3D0,socket-id=3D1=
- \
-    -m 8G \
-    -vga vmware \
-    -hda e4.qcow2
+ hw/block/m25p80.c | 158 ++++++++++++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 129 insertions(+), 29 deletions(-)
 
-  Symptoms: Started without the -smp / -numa commands to install the OS,
-  then added -smp / -numa and the machine boots and lscpu reports extra
-  cpu as expected. Restart VM and it hangs on startup. Remove -smp /
-  -numa and machine starts again.
+-- 
+2.7.4
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1798451/+subscriptions
 
