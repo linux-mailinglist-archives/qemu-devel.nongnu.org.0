@@ -2,61 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EF642B4ED9
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 19:11:55 +0100 (CET)
-Received: from localhost ([::1]:46868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 319DB2B4EEC
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 19:12:18 +0100 (CET)
+Received: from localhost ([::1]:48586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keiyo-0003Mq-CV
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 13:11:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60830)
+	id 1keizB-00048D-7H
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 13:12:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1keivt-0001kE-Ff
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:08:55 -0500
-Received: from mga07.intel.com ([134.134.136.100]:64658)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1keivl-00078W-VZ
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:08:51 -0500
-IronPort-SDR: 5vpJGVSGWagjedh3yKihegIDOfiUmDSUiLrmMuRg336udvzE47YsE7h/JR40j7UYwGgUj0upBs
- HrRD50sRVsug==
-X-IronPort-AV: E=McAfee;i="6000,8403,9807"; a="234941700"
-X-IronPort-AV: E=Sophos;i="5.77,483,1596524400"; d="scan'208";a="234941700"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2020 10:08:42 -0800
-IronPort-SDR: ICgQth9XAlCM9+NOjsnp7fLSeCJKpA7rM5Fc5h1aDrFZnRFtoFaYnmMeX5BE/L1MvdO2/UOuW+
- uf8AAF9dmOBA==
-X-IronPort-AV: E=Sophos;i="5.77,483,1596524400"; d="scan'208";a="329771634"
-Received: from vbenjes-mobl.amr.corp.intel.com (HELO intel.com)
- ([10.252.134.15])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2020 10:08:41 -0800
-Date: Mon, 16 Nov 2020 10:08:40 -0800
-From: Ben Widawsky <ben.widawsky@intel.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [RFC PATCH 05/25] hw/cxl/device: Implement the CAP array
- (8.2.8.1-2)
-Message-ID: <20201116180840.xjh6xyevooh7fspf@intel.com>
-References: <20201111054724.794888-1-ben.widawsky@intel.com>
- <20201111054724.794888-6-ben.widawsky@intel.com>
- <20201116131119.00004d23@Huawei.com>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1keix1-0002hp-Dn
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:10:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43097)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1keiwv-0007UH-7U
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:10:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605550193;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GIFV53zQFLU+Cuk+mK8udHxZ0BakVben5sR1NOOPdzU=;
+ b=M0CnI/3y149HQlviziFq2RqiIPrx+sJKiBUB5kn9aUBDdgtr7O7SSvObyuQyyhNd2XFSyu
+ 2a6RgGanshA27q+fPd3tA7ll4iCSw7wOUv6qernI05DM+inakBbo0XvdbmI5SDWCtANoQL
+ 0XRUNd8uHN+3PDA+Hdtg4bQ55723wsg=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-425-yIu2GZS_MTaVdm7SEPxfSw-1; Mon, 16 Nov 2020 13:09:51 -0500
+X-MC-Unique: yIu2GZS_MTaVdm7SEPxfSw-1
+Received: by mail-wm1-f72.google.com with SMTP id h2so73671wmm.0
+ for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 10:09:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=GIFV53zQFLU+Cuk+mK8udHxZ0BakVben5sR1NOOPdzU=;
+ b=paomjo2/OvGlxJ+71uJS2cmTq1B7apMjRgUmwiw888AGGVDxilwOG0+IiQudkWd0O5
+ SU51Dj1ac0n1hey9sSqIPThjtrE/jm8RS9OOPzIFhzQkn45WUv4hgd/n814Ji0JLx15r
+ JlUcEYC58jlSNf5uFJaTy+cknE6LeJAVrzZbtMNhEe2LlPj7Q3qCZHXQWR3kTbkrTJ4D
+ wBdHuEmSehubYppubtiyH+VI22zqufce7ZgqNnr/9m6+E+AKTF/j56T76iBFA35CmTpz
+ h3pPq3NHNLKi7CNpgn7KFOu3YOhl/vlPcPZCA1me4rC9ai+9/oRaCMXINs01COCVQRV6
+ jQEw==
+X-Gm-Message-State: AOAM531C9TRxJflj82NLe2K01D94y1uUQALmlT+CQ92roWP4DqU24or7
+ p/pmPLbW9fivtVuwX0Tb/18mfYpBi/oEYcAnk2VuCGPmy3P7o4Kc7yKyP1AjZXA46kZv4a+V/cb
+ 8yNR/LTws6mvt4og=
+X-Received: by 2002:a05:600c:2244:: with SMTP id
+ a4mr143004wmm.144.1605550190762; 
+ Mon, 16 Nov 2020 10:09:50 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx8voa0U785E/TVlZInUE54gWinMnCsSO5znB4tr/qYHX2ypKNC8m+RmnHzV+KwIie+vPZwww==
+X-Received: by 2002:a05:600c:2244:: with SMTP id
+ a4mr142982wmm.144.1605550190525; 
+ Mon, 16 Nov 2020 10:09:50 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id m21sm928130wmi.3.2020.11.16.10.09.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Nov 2020 10:09:49 -0800 (PST)
+Subject: Re: [PATCH] kvm/i386: Set proper nested state format for SVM
+To: Tom Lendacky <thomas.lendacky@amd.com>, qemu-devel@nongnu.org,
+ kvm@vger.kernel.org
+References: <fe53d00fe0d884e812960781284cd48ae9206acc.1605546140.git.thomas.lendacky@amd.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <a29c92be-d32b-f7c3-ed00-4c3823f8c9a5@redhat.com>
+Date: Mon, 16 Nov 2020 19:09:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201116131119.00004d23@Huawei.com>
-Received-SPF: pass client-ip=134.134.136.100;
- envelope-from=ben.widawsky@intel.com; helo=mga07.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 13:08:43
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <fe53d00fe0d884e812960781284cd48ae9206acc.1605546140.git.thomas.lendacky@amd.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 22:35:17
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,131 +104,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vishal Verma <vishal.l.verma@intel.com>,
- Dan Williams <dan.j.williams@intel.com>, qemu-devel@nongnu.org
+Cc: Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20-11-16 13:11:19, Jonathan Cameron wrote:
-> On Tue, 10 Nov 2020 21:47:04 -0800
-> Ben Widawsky <ben.widawsky@intel.com> wrote:
+On 16/11/20 18:02, Tom Lendacky wrote:
+> From: Tom Lendacky<thomas.lendacky@amd.com>
 > 
-> > This implements all device MMIO up to the first capability .That
-> > includes the CXL Device Capabilities Array Register, as well as all of
-> > the CXL Device Capability Header Registers. The latter are filled in as
-> > they are implemented in the following patches.
-> > 
-> > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+> Currently, the nested state format is hardcoded to VMX. This will result
+> in kvm_put_nested_state() returning an error because the KVM SVM support
+> checks for the nested state to be KVM_STATE_NESTED_FORMAT_SVM. As a
+> result, kvm_arch_put_registers() errors out early.
 > 
-> Question below.
-> 
-> Thanks,
-> 
-> Jonathan
-> 
-> > ---
-> >  hw/cxl/cxl-device-utils.c | 73 +++++++++++++++++++++++++++++++++++++++
-> >  hw/cxl/meson.build        |  1 +
-> >  2 files changed, 74 insertions(+)
-> > 
-> > diff --git a/hw/cxl/cxl-device-utils.c b/hw/cxl/cxl-device-utils.c
-> > index e69de29bb2..a391bb15c6 100644
-> > --- a/hw/cxl/cxl-device-utils.c
-> > +++ b/hw/cxl/cxl-device-utils.c
-> > @@ -0,0 +1,73 @@
-> > +/*
-> > + * CXL Utility library for devices
-> > + *
-> > + * Copyright(C) 2020 Intel Corporation.
-> > + *
-> > + * This work is licensed under the terms of the GNU GPL, version 2. See the
-> > + * COPYING file in the top-level directory.
-> > + */
-> > +
-> > +#include "qemu/osdep.h"
-> > +#include "qemu/log.h"
-> > +#include "hw/cxl/cxl.h"
-> > +
-> > +static uint64_t caps_reg_read(void *opaque, hwaddr offset, unsigned size)
-> > +{
-> > +    CXLDeviceState *cxl_dstate = opaque;
-> > +
-> > +    switch (size) {
-> > +    case 4:
-> > +        if (unlikely(offset & (sizeof(uint32_t) - 1))) {
-> > +            qemu_log_mask(LOG_UNIMP, "Unaligned register read\n");
-> > +            return 0;
-> > +        }
-> > +        break;
-> > +    case 8:
-> > +        if (unlikely(offset & (sizeof(uint64_t) - 1))) {
-> > +            qemu_log_mask(LOG_UNIMP, "Unaligned register read\n");
-> > +            return 0;
-> > +        }
-> > +        break;
-> 
-> Seems unlikely but in theory we might get other sizes such as 2 and need
-> that to be aligned?
-> 
-> If we just don't want to support them perhaps a default with suitable error
-> print is appropriate?
-> 
+> Update the setting of the format based on the virtualization feature:
+>    VMX - KVM_STATE_NESTED_FORMAT_VMX
+>    SVM - KVM_STATE_NESTED_FORMAT_SVM
 
-Shouldn't - the .impl field below makes QEMU internals round up/down access
-sizes to be only 4 or 8. I've been assuming I don't need to handle non powers of
-2, but if I do, that'd be an issue.
+Looks good, but what are the symptoms of this in practice?
 
-> > +    }
-> > +
-> > +    return ldn_le_p(cxl_dstate->caps_reg_state + offset, size);
-> > +}
-> > +
-> > +static const MemoryRegionOps caps_ops = {
-> > +    .read = caps_reg_read,
-> > +    .write = NULL,
-> > +    .endianness = DEVICE_LITTLE_ENDIAN,
-> > +    .valid = {
-> > +        .min_access_size = 4,
-> > +        .max_access_size = 8,
-> > +    },
-> > +    .impl = {
-> > +        .min_access_size = 4,
-> > +        .max_access_size = 8,
-> > +    },
-> > +};
-> > +
-> > +void cxl_device_register_block_init(Object *obj, CXLDeviceState *cxl_dstate)
-> > +{
-> > +    /* This will be a BAR, so needs to be rounded up to pow2 for PCI spec */
-> > +    memory_region_init(
-> > +        &cxl_dstate->device_registers, obj, "device-registers",
-> > +        pow2ceil(CXL_MAILBOX_REGISTERS_LENGTH + CXL_MAILBOX_REGISTERS_OFFSET));
-> > +
-> > +    memory_region_init_io(&cxl_dstate->caps, obj, &caps_ops, cxl_dstate,
-> > +                          "cap-array", CXL_DEVICE_REGISTERS_OFFSET - 0);
-> > +
-> > +    memory_region_add_subregion(&cxl_dstate->device_registers, 0,
-> > +                                &cxl_dstate->caps);
-> > +}
-> > +
-> > +void cxl_device_register_init_common(CXLDeviceState *cxl_dstate)
-> > +{
-> > +    uint32_t *cap_hdrs = cxl_dstate->caps_reg_state32;
-> > +    const int cap_count = 0;
-> > +
-> > +    /* CXL Device Capabilities Array Register */
-> > +    ARRAY_FIELD_DP32(cap_hdrs, CXL_DEV_CAP_ARRAY, CAP_ID, 0);
-> > +    ARRAY_FIELD_DP32(cap_hdrs, CXL_DEV_CAP_ARRAY, CAP_VERSION, 1);
-> > +    ARRAY_FIELD_DP32(cap_hdrs, CXL_DEV_CAP_ARRAY2, CAP_COUNT, cap_count);
-> > +}
-> > diff --git a/hw/cxl/meson.build b/hw/cxl/meson.build
-> > index 00c3876a0f..47154d6850 100644
-> > --- a/hw/cxl/meson.build
-> > +++ b/hw/cxl/meson.build
-> > @@ -1,3 +1,4 @@
-> >  softmmu_ss.add(when: 'CONFIG_CXL', if_true: files(
-> >    'cxl-component-utils.c',
-> > +  'cxl-device-utils.c',
-> >  ))
-> 
+Paolo
+
 
