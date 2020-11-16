@@ -2,94 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A17772B4318
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 12:44:46 +0100 (CET)
-Received: from localhost ([::1]:48824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A4872B4319
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 12:45:13 +0100 (CET)
+Received: from localhost ([::1]:50618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kecw9-0008LC-No
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 06:44:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49222)
+	id 1kecwa-0000ek-3Q
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 06:45:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kecuq-0007ju-JO
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 06:43:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35447)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kecun-0005NP-MG
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 06:43:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605527001;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8TxbNsxDba/PpkOpadrLl3SFBEeq3y4TuCfmJNDGjyE=;
- b=M+5N5IMW1aGRFoqC3DT9wqPduc1uKNGsqAUr5vsTRuBx9Oiukl5hYQ43rt/HdHrKh99xe7
- YutTLG2Iw5nBYbhK78Fp3vGyxxja/6Fg2iDLMlOFfa2KQc/wkuLfscoX6gjK++JmGDUylQ
- vEunlB6Hb3u790ZAO8SDSFpIxI8BggE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-72-cMb_QDcNOae7ZreXGrMy_Q-1; Mon, 16 Nov 2020 06:43:19 -0500
-X-MC-Unique: cMb_QDcNOae7ZreXGrMy_Q-1
-Received: by mail-wm1-f72.google.com with SMTP id b206so8599337wmd.3
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 03:43:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1kecvO-0008Cw-0b; Mon, 16 Nov 2020 06:43:58 -0500
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:39288)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1kecvI-0005Wx-Nt; Mon, 16 Nov 2020 06:43:57 -0500
+Received: by mail-pl1-x642.google.com with SMTP id y22so8253630plr.6;
+ Mon, 16 Nov 2020 03:43:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=TD/tfthmHuwpS7ng/v2sETXaSTgWVIMyichi5ZSi0/8=;
+ b=TdSk+49emfaprV4I0rjUs0AT8qL1fUujOYZtyzGPdXc41tyZOR6osDf+zQzJ3OgIwE
+ v2vw9MWV+1tnPUuwI+IcpTkY1jrjFkMNRIorXxoiei9O/MNGa77ESskuHeNOsjyfY7vb
+ pS9rJY2BIZACUGrUW+M7jQVJ+GkUC5cSgSKL4T2ofboEK7aTbPVWzTlH1NwZRPTx35lS
+ MkVsF+RCdfR7F7a1NjwVfZt0cPrFQ39+dJ6GFeKEtpVg9VQuua58Tt97FS8MT80BnUgc
+ fAsSgCPqrZC9yYaTkcFHVmTLX2pYQHY+us4NDxAnHe8eIq+flNBdXHGdU/I8wJYSuaWZ
+ qjqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=8TxbNsxDba/PpkOpadrLl3SFBEeq3y4TuCfmJNDGjyE=;
- b=ro7UvGcvU6VxM4CDE4AwpDKnux1oHp1m0eUpo63g5FS+o+rOkrhoFBHiFd+3dH9BbY
- TOvjpKrPr22MUeXKRmHNlIqeMqw8t92zg0T1oTStX54UR+bwmWxWdDSqgElo8v1exwaO
- 6LGEStXMIphOngM1m154axL9Zd3g4oylMSfnuWyrTBRBLv0LDsVK5Iz4sIebX52rygMk
- i52LJyopWYaehOyDP8d/cWclM2QkvNMi9+eauy5G+yAIY3U3qG3EtjiiFpGelZegp7xV
- EItAUSYyuShzc9f2jedNN3FHtQaGFhFMEh0OAs3wPmJc1BldZ9Dbncw59pzeRXC02VXb
- VpKw==
-X-Gm-Message-State: AOAM531+z50bXX+WT1V3FdGScm4VoFqSBf2l56Ip3bAf3Fk6JoX0JN4w
- 6btgfKdUfJWzIS/Py5vJARcJmVsHTIVrwhyvJ/4cjBASSAjmcLnwVqPN/+lZFCcI+Y77eIYYtHF
- ivJpLVC2Vj3Me1SkjTxoXfAZyGDNKKFLq3ux4/m+TSWzsrbFyojPzwm9Yy4s5Rts7
-X-Received: by 2002:a5d:44cf:: with SMTP id z15mr18608242wrr.353.1605526997992; 
- Mon, 16 Nov 2020 03:43:17 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxufs6WxW9VKFdEXS/pzY2fYpoPOOCqP0eC9RwXsS1BNmnO4tWw2dKblBmTq30js/11RdDK7A==
-X-Received: by 2002:a5d:44cf:: with SMTP id z15mr18608214wrr.353.1605526997725; 
- Mon, 16 Nov 2020 03:43:17 -0800 (PST)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id t11sm16097571wrm.8.2020.11.16.03.43.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Nov 2020 03:43:17 -0800 (PST)
-Subject: Re: [PATCH v2] json: Fix a memleak in parse_pair()
-To: Markus Armbruster <armbru@redhat.com>,
- "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>
-References: <20201113145525.85151-1-alex.chen@huawei.com>
- <7412CDE03601674DA8197E2EBD8937E83BA6762C@dggemm511-mbs.china.huawei.com>
- <87eektkdjw.fsf@dusky.pond.sub.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <895daa42-e241-ff9c-6f55-a369ccfe9eb9@redhat.com>
-Date: Mon, 16 Nov 2020 12:43:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=TD/tfthmHuwpS7ng/v2sETXaSTgWVIMyichi5ZSi0/8=;
+ b=TQj00c12VQlWJ+naj9C0AziZo0UWS5tNNf/Yl5ButRRllADM+4GnN7/4hEGwtrtiVj
+ 9zvIPVvfmkt8nlGAPvohkYGsqhHVovFoVGpOaJh/YL4+kOIBbLMoWUh7zdQY21C3GOSs
+ Quvhg6o0LKtyiIHj33jZ1e9FXe1k2dICg9jsQipmotctP73fZDGu10g24GPCM68S/1SW
+ GyoapqQBVey81YPFSB27+pZ+F6qBZ/rw6VvpjrHy4/cAFxOHzl8tVQIIGY43CrANcvBt
+ 66/Zw16LHsA7Y0wYtzbAB1oamy79c/LPGOGaHFYS2ebcclJEm1gBli9z6hLDZxjerUrM
+ 2RqA==
+X-Gm-Message-State: AOAM532prl6bfuueUestdCukUO1r0sZuJ6bJkUIJq+kAQyoSi/SVNB4g
+ Tj0f+YuZZwmEkaaSWiGQnrc=
+X-Google-Smtp-Source: ABdhPJwI1J51bJtP79Li/IC0YhrxJGj8e0L89M2HWyia4bGxXZ6A4XOXGO4Tr7w4EBxaJ+7NpC8o2A==
+X-Received: by 2002:a17:902:6a84:b029:d7:d023:5723 with SMTP id
+ n4-20020a1709026a84b02900d7d0235723mr12675379plk.34.1605527030932; 
+ Mon, 16 Nov 2020 03:43:50 -0800 (PST)
+Received: from localhost ([211.108.35.36])
+ by smtp.gmail.com with ESMTPSA id t16sm10206989pga.51.2020.11.16.03.43.50
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Mon, 16 Nov 2020 03:43:50 -0800 (PST)
+Date: Mon, 16 Nov 2020 20:43:48 +0900
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH v8 3/5] hw/block/nvme: add dulbe support
+Message-ID: <20201116114348.GC7308@localhost.localdomain>
+References: <20201112195945.819915-1-its@irrelevant.dk>
+ <20201112195945.819915-4-its@irrelevant.dk>
 MIME-Version: 1.0
-In-Reply-To: <87eektkdjw.fsf@dusky.pond.sub.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 04:46:27
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Disposition: inline
+In-Reply-To: <20201112195945.819915-4-its@irrelevant.dk>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pl1-x642.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,75 +85,281 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Chenzhendong \(alex\)" <alex.chen@huawei.com>,
- "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
- Zhanghailiang <zhang.zhanghailiang@huawei.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/16/20 7:42 AM, Markus Armbruster wrote:
-> "Chenqun (kuhn)" <kuhn.chenqun@huawei.com> writes:
+On 11/12 20:59, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
 > 
->>> -----Original Message-----
->>> From: Chenzhendong (alex)
->>> Sent: Friday, November 13, 2020 10:55 PM
->>> To: armbru@redhat.com
->>> Cc: Chenzhendong (alex) <alex.chen@huawei.com>; qemu-devel@nongnu.org;
->>> qemu-trivial@nongnu.org; Zhanghailiang <zhang.zhanghailiang@huawei.com>;
->>> Chenqun (kuhn) <kuhn.chenqun@huawei.com>
->>> Subject: [PATCH v2] json: Fix a memleak in parse_pair()
->>>
->>> In qobject_type(), NULL is returned when the 'QObject' returned from
->>> parse_value() is not of QString type, and this 'QObject' memory will leaked.
->>> So we need to first cache the 'QObject' returned from parse_value(), and finally
->>> free 'QObject' memory at the end of the function.
->>> Also, we add a testcast about invalid dict key.
->>>
->>> The memleak stack is as follows:
->>> Direct leak of 32 byte(s) in 1 object(s) allocated from:
->>>     #0 0xfffe4b3c34fb in __interceptor_malloc (/lib64/libasan.so.4+0xd34fb)
->>>     #1 0xfffe4ae48aa3 in g_malloc (/lib64/libglib-2.0.so.0+0x58aa3)
->>>     #2 0xaaab3557d9f7 in qnum_from_int
->>> /Images/source_org/qemu_master/qemu/qobject/qnum.c:25
->>>     #3 0xaaab35584d23 in parse_literal
->>> /Images/source_org/qemu_master/qemu/qobject/json-parser.c:511
->>>     #4 0xaaab35584d23 in parse_value
->>> /Images/source_org/qemu_master/qemu/qobject/json-parser.c:554
->>>     #5 0xaaab35583d77 in parse_pair
->>> /Images/source_org/qemu_master/qemu/qobject/json-parser.c:270
->>>     #6 0xaaab355845db in parse_object
->>> /Images/source_org/qemu_master/qemu/qobject/json-parser.c:327
->>>     #7 0xaaab355845db in parse_value
->>> /Images/source_org/qemu_master/qemu/qobject/json-parser.c:546
->>>     #8 0xaaab35585b1b in json_parser_parse
->>> /Images/source_org/qemu_master/qemu/qobject/json-parser.c:580
->>>     #9 0xaaab35583703 in json_message_process_token
->>> /Images/source_org/qemu_master/qemu/qobject/json-streamer.c:92
->>>     #10 0xaaab355ddccf in json_lexer_feed_char
->>> /Images/source_org/qemu_master/qemu/qobject/json-lexer.c:313
->>>     #11 0xaaab355de0eb in json_lexer_feed
->>> /Images/source_org/qemu_master/qemu/qobject/json-lexer.c:350
->>>     #12 0xaaab354aff67 in tcp_chr_read
->>> /Images/source_org/qemu_master/qemu/chardev/char-socket.c:525
->>>     #13 0xfffe4ae429db in g_main_context_dispatch
->>> (/lib64/libglib-2.0.so.0+0x529db)
->>>     #14 0xfffe4ae42d8f  (/lib64/libglib-2.0.so.0+0x52d8f)
->>>     #15 0xfffe4ae430df in g_main_loop_run (/lib64/libglib-2.0.so.0+0x530df)
->>>     #16 0xaaab34d70bff in iothread_run
->>> /Images/source_org/qemu_master/qemu/iothread.c:82
->>>     #17 0xaaab3559d71b in qemu_thread_start
->>> /Images/source_org/qemu_master/qemu/util/qemu-thread-posix.c:519
->>>
-...
+> Add support for reporting the Deallocated or Unwritten Logical Block
+> Error (DULBE).
 > 
-> Queued, thanks!
+> Rely on the block status flags reported by the block layer and consider
+> any block with the BDRV_BLOCK_ZERO flag to be deallocated.
+> 
+> Multiple factors affect when a Write Zeroes command result in
+> deallocation of blocks.
+> 
+>   * the underlying file system block size
+>   * the blockdev format
+>   * the 'discard' and 'logical_block_size' parameters
+> 
+>      format | discard | wz (512B)  wz (4KiB)  wz (64KiB)
+>     -----------------------------------------------------
+>       qcow2    ignore   n          n          y
+>       qcow2    unmap    n          n          y
+>       raw      ignore   n          y          y
+>       raw      unmap    n          y          y
+> 
+> So, this works best with an image in raw format and 4KiB LBAs, since
+> holes can then be punched on a per-block basis (this assumes a file
+> system with a 4kb block size, YMMV). A qcow2 image, uses a cluster size
+> of 64KiB by default and blocks will only be marked deallocated if a full
+> cluster is zeroed or discarded. However, this *is* consistent with the
+> spec since Write Zeroes "should" deallocate the block if the Deallocate
+> attribute is set and "may" deallocate if the Deallocate attribute is not
+> set. Thus, we always try to deallocate (the BDRV_REQ_MAY_UNMAP flag is
+> always set).
+> 
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> ---
+>  hw/block/nvme-ns.h    |  4 ++
+>  include/block/nvme.h  |  5 +++
+>  hw/block/nvme-ns.c    |  8 ++--
+>  hw/block/nvme.c       | 91 ++++++++++++++++++++++++++++++++++++++++++-
+>  hw/block/trace-events |  4 ++
+>  5 files changed, 107 insertions(+), 5 deletions(-)
+> 
+> diff --git a/hw/block/nvme-ns.h b/hw/block/nvme-ns.h
+> index 83734f4606e1..44bf6271b744 100644
+> --- a/hw/block/nvme-ns.h
+> +++ b/hw/block/nvme-ns.h
+> @@ -31,6 +31,10 @@ typedef struct NvmeNamespace {
+>      NvmeIdNs     id_ns;
+>  
+>      NvmeNamespaceParams params;
+> +
+> +    struct {
+> +        uint32_t err_rec;
+> +    } features;
+>  } NvmeNamespace;
+>  
+>  static inline uint32_t nvme_nsid(NvmeNamespace *ns)
+> diff --git a/include/block/nvme.h b/include/block/nvme.h
+> index 8a46d9cf015f..966c3bb304bd 100644
+> --- a/include/block/nvme.h
+> +++ b/include/block/nvme.h
+> @@ -687,6 +687,7 @@ enum NvmeStatusCodes {
+>      NVME_E2E_REF_ERROR          = 0x0284,
+>      NVME_CMP_FAILURE            = 0x0285,
+>      NVME_ACCESS_DENIED          = 0x0286,
+> +    NVME_DULB                   = 0x0287,
+>      NVME_MORE                   = 0x2000,
+>      NVME_DNR                    = 0x4000,
+>      NVME_NO_COMPLETE            = 0xffff,
+> @@ -903,6 +904,9 @@ enum NvmeIdCtrlLpa {
+>  #define NVME_AEC_NS_ATTR(aec)       ((aec >> 8) & 0x1)
+>  #define NVME_AEC_FW_ACTIVATION(aec) ((aec >> 9) & 0x1)
+>  
+> +#define NVME_ERR_REC_TLER(err_rec)  (err_rec & 0xffff)
+> +#define NVME_ERR_REC_DULBE(err_rec) (err_rec & 0x10000)
+> +
+>  enum NvmeFeatureIds {
+>      NVME_ARBITRATION                = 0x1,
+>      NVME_POWER_MANAGEMENT           = 0x2,
+> @@ -1023,6 +1027,7 @@ enum NvmeNsIdentifierType {
+>  
+>  
+>  #define NVME_ID_NS_NSFEAT_THIN(nsfeat)      ((nsfeat & 0x1))
+> +#define NVME_ID_NS_NSFEAT_DULBE(nsfeat)     ((nsfeat >> 2) & 0x1)
+>  #define NVME_ID_NS_FLBAS_EXTENDED(flbas)    ((flbas >> 4) & 0x1)
+>  #define NVME_ID_NS_FLBAS_INDEX(flbas)       ((flbas & 0xf))
+>  #define NVME_ID_NS_MC_SEPARATE(mc)          ((mc >> 1) & 0x1)
+> diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
+> index 31c80cdf5b5f..f1cc734c60f5 100644
+> --- a/hw/block/nvme-ns.c
+> +++ b/hw/block/nvme-ns.c
+> @@ -33,9 +33,7 @@ static void nvme_ns_init(NvmeNamespace *ns)
+>      NvmeIdNs *id_ns = &ns->id_ns;
+>      int lba_index = NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas);
+>  
+> -    if (blk_get_flags(ns->blkconf.blk) & BDRV_O_UNMAP) {
+> -        ns->id_ns.dlfeat = 0x9;
+> -    }
+> +    ns->id_ns.dlfeat = 0x9;
+>  
+>      id_ns->lbaf[lba_index].ds = 31 - clz32(ns->blkconf.logical_block_size);
+>  
+> @@ -44,6 +42,9 @@ static void nvme_ns_init(NvmeNamespace *ns)
+>      /* no thin provisioning */
+>      id_ns->ncap = id_ns->nsze;
+>      id_ns->nuse = id_ns->ncap;
+> +
+> +    /* support DULBE */
+> +    id_ns->nsfeat |= 0x4;
+>  }
+>  
+>  static int nvme_ns_init_blk(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
+> @@ -92,6 +93,7 @@ int nvme_ns_setup(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
+>      }
+>  
+>      nvme_ns_init(ns);
+> +
+>      if (nvme_register_namespace(n, ns, errp)) {
+>          return -1;
+>      }
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index a96a996ddc0d..8d75a89fd872 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -105,6 +105,7 @@ static const bool nvme_feature_support[NVME_FID_MAX] = {
+>  
+>  static const uint32_t nvme_feature_cap[NVME_FID_MAX] = {
+>      [NVME_TEMPERATURE_THRESHOLD]    = NVME_FEAT_CAP_CHANGE,
+> +    [NVME_ERROR_RECOVERY]           = NVME_FEAT_CAP_CHANGE | NVME_FEAT_CAP_NS,
+>      [NVME_VOLATILE_WRITE_CACHE]     = NVME_FEAT_CAP_CHANGE,
+>      [NVME_NUMBER_OF_QUEUES]         = NVME_FEAT_CAP_CHANGE,
+>      [NVME_ASYNCHRONOUS_EVENT_CONF]  = NVME_FEAT_CAP_CHANGE,
+> @@ -878,6 +879,49 @@ static inline uint16_t nvme_check_bounds(NvmeNamespace *ns, uint64_t slba,
+>      return NVME_SUCCESS;
+>  }
+>  
+> +static uint16_t nvme_check_dulbe(NvmeNamespace *ns, uint64_t slba,
+> +                                 uint32_t nlb)
+> +{
+> +    BlockDriverState *bs = blk_bs(ns->blkconf.blk);
+> +
+> +    int64_t pnum = 0, bytes = nvme_l2b(ns, nlb);
+> +    int64_t offset = nvme_l2b(ns, slba);
+> +    bool zeroed;
+> +    int ret;
+> +
+> +    Error *local_err = NULL;
+> +
+> +    /*
+> +     * `pnum` holds the number of bytes after offset that shares the same
+> +     * allocation status as the byte at offset. If `pnum` is different from
+> +     * `bytes`, we should check the allocation status of the next range and
+> +     * continue this until all bytes have been checked.
+> +     */
+> +    do {
+> +        bytes -= pnum;
+> +
+> +        ret = bdrv_block_status(bs, offset, bytes, &pnum, NULL, NULL);
+> +        if (ret < 0) {
+> +            error_setg_errno(&local_err, -ret, "unable to get block status");
+> +            error_report_err(local_err);
+> +
+> +            return NVME_INTERNAL_DEV_ERROR;
+> +        }
+> +
+> +        zeroed = !!(ret & BDRV_BLOCK_ZERO);
+> +
+> +        trace_pci_nvme_block_status(offset, bytes, pnum, ret, zeroed);
+> +
+> +        if (zeroed) {
+> +            return NVME_DULB;
+> +        }
+> +
+> +        offset += pnum;
+> +    } while (pnum != bytes);
+> +
+> +    return NVME_SUCCESS;
+> +}
+> +
+>  static void nvme_aio_err(NvmeRequest *req, int ret)
+>  {
+>      uint16_t status = NVME_SUCCESS;
+> @@ -996,6 +1040,15 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeRequest *req)
+>          goto invalid;
+>      }
+>  
+> +    if (acct == BLOCK_ACCT_READ) {
+> +        if (NVME_ERR_REC_DULBE(ns->features.err_rec)) {
+> +            status = nvme_check_dulbe(ns, slba, nlb);
+> +            if (status) {
+> +                goto invalid;
+> +            }
+> +        }
+> +    }
+> +
+>      status = nvme_map_dptr(n, data_size, req);
+>      if (status) {
+>          goto invalid;
+> @@ -1643,6 +1696,7 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeRequest *req)
+>      uint8_t fid = NVME_GETSETFEAT_FID(dw10);
+>      NvmeGetFeatureSelect sel = NVME_GETFEAT_SELECT(dw10);
+>      uint16_t iv;
+> +    NvmeNamespace *ns;
+>  
+>      static const uint32_t nvme_feature_default[NVME_FID_MAX] = {
+>          [NVME_ARBITRATION] = NVME_ARB_AB_NOLIMIT,
+> @@ -1705,6 +1759,18 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeRequest *req)
+>          }
+>  
+>          return NVME_INVALID_FIELD | NVME_DNR;
+> +    case NVME_ERROR_RECOVERY:
+> +        if (!nvme_nsid_valid(n, nsid)) {
+> +            return NVME_INVALID_NSID | NVME_DNR;
+> +        }
+> +
+> +        ns = nvme_ns(n, nsid);
+> +        if (unlikely(!ns)) {
+> +            return NVME_INVALID_FIELD | NVME_DNR;
+> +        }
+> +
+> +        result = ns->features.err_rec;
+> +        goto out;
+>      case NVME_VOLATILE_WRITE_CACHE:
+>          result = n->features.vwc;
+>          trace_pci_nvme_getfeat_vwcache(result ? "enabled" : "disabled");
+> @@ -1777,7 +1843,7 @@ static uint16_t nvme_set_feature_timestamp(NvmeCtrl *n, NvmeRequest *req)
+>  
+>  static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeRequest *req)
+>  {
+> -    NvmeNamespace *ns;
+> +    NvmeNamespace *ns = NULL;
+>  
+>      NvmeCmd *cmd = &req->cmd;
+>      uint32_t dw10 = le32_to_cpu(cmd->cdw10);
+> @@ -1785,6 +1851,7 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeRequest *req)
+>      uint32_t nsid = le32_to_cpu(cmd->nsid);
+>      uint8_t fid = NVME_GETSETFEAT_FID(dw10);
+>      uint8_t save = NVME_SETFEAT_SAVE(dw10);
+> +    int i;
+>  
+>      trace_pci_nvme_setfeat(nvme_cid(req), nsid, fid, save, dw11);
+>  
+> @@ -1844,11 +1911,31 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeRequest *req)
+>                                 NVME_LOG_SMART_INFO);
+>          }
+>  
+> +        break;
+> +    case NVME_ERROR_RECOVERY:
+> +        if (nsid == NVME_NSID_BROADCAST) {
+> +            for (i = 1; i <= n->num_namespaces; i++) {
+> +                ns = nvme_ns(n, i);
+> +
+> +                if (!ns) {
+> +                    continue;
+> +                }
+> +
+> +                if (NVME_ID_NS_NSFEAT_DULBE(ns->id_ns.nsfeat)) {
+> +                    ns->features.err_rec = dw11;
+> +                }
+> +            }
+> +
+> +            break;
+> +        }
+> +
+> +        assert(ns);
 
-If possible can you s%/Images/source_org/qemu_master/qemu/%% to make
-description more readable...?
+Klaus,
 
-Thanks,
-
-Phil.
-
+Sorry, but can we have assert for the failure that might happen due to
+user's mis-behavior?  Why don't we have NVME_INVALID_NSID for this case?
 
