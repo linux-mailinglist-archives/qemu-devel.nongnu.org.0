@@ -2,65 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19D292B426F
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 12:18:26 +0100 (CET)
-Received: from localhost ([::1]:47282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA7572B42BB
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 12:24:28 +0100 (CET)
+Received: from localhost ([::1]:54298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kecWf-0002vd-53
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 06:18:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42812)
+	id 1keccV-0006A4-BL
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 06:24:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kecU1-0000oi-UV
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 06:15:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44349)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kecbd-0005W2-NL
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 06:23:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59091)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kecU0-0003vH-3n
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 06:15:41 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kecbb-0006gH-KI
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 06:23:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605525339;
+ s=mimecast20190719; t=1605525810;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ApaK5AkBqBKx+JodcELvhV+KMBGbiR+yxgABC+3SgeI=;
- b=WC2OCkXKC+Rr7fvZQNnW6mRiViM8BValhUv3QEZJNNDOBI12nHBcwZN0a+zin9ertwpvMX
- 1iyEpr6p0O9sdTIWOR8k3rx0wgC8lURw9tkE9X0HdYkgneZEoIX7CjAdt1ZTbYxs0uUmQf
- UI1AnJPf/jPdbF4NiCJphQt80nfQTeA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-116-X_M8aC6XMjiwnCPRBxOwzA-1; Mon, 16 Nov 2020 06:15:37 -0500
-X-MC-Unique: X_M8aC6XMjiwnCPRBxOwzA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D741F11BD341;
- Mon, 16 Nov 2020 11:15:35 +0000 (UTC)
-Received: from localhost (ovpn-114-237.ams2.redhat.com [10.36.114.237])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 658FC5D9CC;
- Mon, 16 Nov 2020 11:15:25 +0000 (UTC)
-Date: Mon, 16 Nov 2020 11:15:24 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [RFC v3] VFIO Migration
-Message-ID: <20201116111524.GD96297@stefanha-x1.localdomain>
-References: <20201110095349.GA1082456@stefanha-x1.localdomain>
- <64fb6a41-fbfa-994c-9619-4df41ac97fde@redhat.com>
- <20201111143615.GA1421166@stefanha-x1.localdomain>
- <20201111154850.GG906488@redhat.com>
+ bh=DRKTTWsWHGZGO/jv9zo6HJH4VdJ1mbhniezBmF0H5lY=;
+ b=QxPLWU7MZo3oAxZ3sYfGrVjrhu78OhC1xAFOq/Z0V5cQMoTlrj1euRRHqAM/GVi8fdPMQG
+ 6i+bgY/Fzcg/2GT6XyBtLWLoagx4iZ8G8lLVMM7n8JxWUyh/DAkBeZo3m6NQOZZI/HSXrQ
+ ieAHCT34WYcUSlXo0XPfpwj9uMWtjgw=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-510-VvqnlgRfOSS1Tcq3LGA_ig-1; Mon, 16 Nov 2020 06:23:28 -0500
+X-MC-Unique: VvqnlgRfOSS1Tcq3LGA_ig-1
+Received: by mail-wm1-f71.google.com with SMTP id u123so8592032wmu.5
+ for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 03:23:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=DRKTTWsWHGZGO/jv9zo6HJH4VdJ1mbhniezBmF0H5lY=;
+ b=BgGwaOJoSogRILP8lsPhUWLAgVHIkKNK/96YfAVCu6pMhfDjB9qLiAUS1rbTB4DsaZ
+ cX+DmsDDbQ3AATRIDgJwr62B/3Y+qLUflL3iIYLW365rfyn7jnDSTIJpKMoJOSKxrful
+ IqgHaOUbvgR26QwMT1Ks+FkwmGLBTFknScR97zpHM5PjSeMQEXpr4d1/oihEg8lukODF
+ Bar82/Vs9Lg/z0suR3MfUbCzjaS7E8C6x0g8c5Jbn3peo3i6co0dj/NGu90gXl/XeHPA
+ D0ss0+EfcHypF6JXIHaW0oBB01jOYRViPKaXWKVv3jwYr0zFkoUEbe+Ah+IcKd41JJsj
+ m8+w==
+X-Gm-Message-State: AOAM532QCB1mHX2lk1Zdoge2Q0Z0IumWBjYy84QsJBCZ3broKJha7BbE
+ DC/bdcIsEcKk+cCSAnP1AJSznwKjVshVzcpsmG2DZlWeFoo/XJKb/Ch095fzR7mVVzpr1aIYB0n
+ VTWHtJ326omnHf1Y=
+X-Received: by 2002:a5d:4448:: with SMTP id x8mr18564693wrr.364.1605525806969; 
+ Mon, 16 Nov 2020 03:23:26 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwq8ahWW6DJmJpLjMvjxslRtPXy4xkatqnOM/Hgddkk+NilHlaQKYWe6b5gLcqGM9ipnna32w==
+X-Received: by 2002:a5d:4448:: with SMTP id x8mr18564669wrr.364.1605525806704; 
+ Mon, 16 Nov 2020 03:23:26 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id g11sm22591845wrq.7.2020.11.16.03.23.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Nov 2020 03:23:25 -0800 (PST)
+Subject: Re: [RFC PATCH 1/5] hw/block: blk_check_size_and_read_all should
+ report backend name
+To: David Edmondson <david.edmondson@oracle.com>, qemu-devel@nongnu.org
+References: <20201116104216.439650-1-david.edmondson@oracle.com>
+ <20201116104216.439650-2-david.edmondson@oracle.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <0a06d4fd-215b-4bfb-cef7-5d1a03e1a41d@redhat.com>
+Date: Mon, 16 Nov 2020 12:23:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201111154850.GG906488@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20201116104216.439650-2-david.edmondson@oracle.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="+KJYzRxRHjYqLGl5"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 04:46:27
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -69,8 +86,9 @@ X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,89 +101,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John G Johnson <john.g.johnson@oracle.com>, "Tian,
- Kevin" <kevin.tian@intel.com>, mtsirkin@redhat.com,
- Yan Zhao <yan.y.zhao@intel.com>, quintela@redhat.com,
- Jason Wang <jasowang@redhat.com>, "Zeng, Xin" <xin.zeng@intel.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Kirti Wankhede <kwankhede@nvidia.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Felipe Franciosi <felipe@nutanix.com>,
- Christophe de Dinechin <dinechin@redhat.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ qemu-arm@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---+KJYzRxRHjYqLGl5
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 11/16/20 11:42 AM, David Edmondson wrote:
+> If there are problems examining or reading data from the block
+> backend, the error messages should include an appropriate identifier
+> to assist in diagnoses.
+> 
+> Signed-off-by: David Edmondson <david.edmondson@oracle.com>
+> ---
+>  hw/block/block.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/hw/block/block.c b/hw/block/block.c
+> index 1e34573da7..8b284e1f14 100644
+> --- a/hw/block/block.c
+> +++ b/hw/block/block.c
+> @@ -20,9 +20,6 @@
+>   * BDRV_REQUEST_MAX_BYTES.
+>   * On success, return true.
+>   * On failure, store an error through @errp and return false.
+> - * Note that the error messages do not identify the block backend.
+> - * TODO Since callers don't either, this can result in confusing
+> - * errors.
+>   * This function not intended for actual block devices, which read on
+>   * demand.  It's for things like memory devices that (ab)use a block
+>   * backend to provide persistence.
+> @@ -32,17 +29,19 @@ bool blk_check_size_and_read_all(BlockBackend *blk, void *buf, hwaddr size,
+>  {
+>      int64_t blk_len;
+>      int ret;
+> +    const char *name = blk_name(blk);
+>  
+>      blk_len = blk_getlength(blk);
+>      if (blk_len < 0) {
+>          error_setg_errno(errp, -blk_len,
+> -                         "can't get size of block backend");
+> +                         "can't get size of block backend %s",
 
-On Wed, Nov 11, 2020 at 03:48:50PM +0000, Daniel P. Berrang=E9 wrote:
-> On Wed, Nov 11, 2020 at 02:36:15PM +0000, Stefan Hajnoczi wrote:
-> > On Tue, Nov 10, 2020 at 12:12:31PM +0100, Paolo Bonzini wrote:
-> > > On 10/11/20 10:53, Stefan Hajnoczi wrote:
-> > Yes, the current syntax supports sparse ranges and multiple ranges.
-> >=20
-> > The trade-off is that a tool cannot validate inputs beforehand. You nee=
-d
-> > to instantiate the device to see if it accepts your inputs. This is not
-> > great for management tools because they cannot select a destination
-> > device if they don't know which exact values are supported.
-> >=20
-> > Daniel Berrange raised this requirement in a previous revision, so I
-> > wonder what his thoughts are?
->=20
-> In terms of validation I can't help but feel the whole proposal is
-> really very complicated.
->=20
-> In validating QEMU migration compatibility we merely compare the
-> versioned machine type.
+Maybe '%s' to notice empty name?
 
-Thinking more about this, maybe the big picture is:
-
-Today the managment tool controls the variables in the migration (the
-device configuration). It has knowledge of the VMM, can set a machine
-type, apply a device configuration on top, and then migrate safely.
-
-VFIO changes this model because VMMs and management tools do not have
-knowledge of specific device implementations. The device implementation
-is a new source of variables in the migration and the management tool no
-longer has the full picture.
-
-I'm trying to define a standard interface for exposing migration
-compatibility information from device implementations to management
-tools, and a general algorithm that management tools can use without
-knowledge of specific device implementations.
-
-It is possible to simplify the problem, but we'll lose freedom. For
-example, hard coding knowledge of the device implementation into the
-management tool eliminates the need for a general migration checking
-algorithm. Or we might be able to simplify it by explicitly not
-supporting cross-device implementation migration (although that would
-place stricter rules on what a new version of an existing device can
-change in order to preserve migration compatibility).
-
-I have doubts that these trade-offs can be made without losing support
-for use cases that are necessary.
-
-Stefan
-
---+KJYzRxRHjYqLGl5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+yX0wACgkQnKSrs4Gr
-c8i2AQf/dGQvHjQNhgj76Wcb71VLZblPZ63Kk5z9KbiLSmiHCqXwX9st8uBc2gH2
-8hw0bCHTOTwARpz2X0SV1AfxGsZzbXlvv+r+cv3+9WWDJW9PxFi2CKQTbB0ioEoZ
-oXl7Ug2wnqEEeb9mTIHdROWA7gxnR3dzyXF+ijmknBYOU5TBtCg69r3naJKb5b/h
-ZP7Zpyj1x9Tt0GwapV4GBgkTj+ciooimseXBu///bZeSnJZU8d8kBQscbla4tE6z
-u4Tez5jilBSZYTXbKduJCBX+RgH2cDEJTVbrr2CZv4FcIMj5H5K2ojz1vGYfXXvc
-XBZrFEC5Nkcs9pmAiONfeT8Pvj2n1A==
-=ywDr
------END PGP SIGNATURE-----
-
---+KJYzRxRHjYqLGl5--
+> +                         name);
+>          return false;
+>      }
+>      if (blk_len != size) {
+>          error_setg(errp, "device requires %" HWADDR_PRIu " bytes, "
+> -                   "block backend provides %" PRIu64 " bytes",
+> -                   size, blk_len);
+> +                   "block backend %s provides %" PRIu64 " bytes",
+> +                   size, name, blk_len);
+>          return false;
+>      }
+>  
+> @@ -55,7 +54,8 @@ bool blk_check_size_and_read_all(BlockBackend *blk, void *buf, hwaddr size,
+>      assert(size <= BDRV_REQUEST_MAX_BYTES);
+>      ret = blk_pread(blk, 0, buf, size);
+>      if (ret < 0) {
+> -        error_setg_errno(errp, -ret, "can't read block backend");
+> +        error_setg_errno(errp, -ret, "can't read block backend %s",
+> +                         name);
+>          return false;
+>      }
+>      return true;
+> 
 
 
