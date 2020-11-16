@@ -2,99 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78CE92B4ED1
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 19:05:49 +0100 (CET)
-Received: from localhost ([::1]:36392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A27152B4EF3
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 19:14:38 +0100 (CET)
+Received: from localhost ([::1]:55734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keisu-0007CC-FA
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 13:05:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59170)
+	id 1kej1R-00077q-NH
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 13:14:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1keipO-0004Jk-01
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:02:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39838)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1keipK-00054V-US
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:02:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605549725;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nqWL+fiC6eqjBW5BBpJksJvlJ97FN4rdV04/8ow8snM=;
- b=B+c0fzs2qBSG/BX9gaRQXERh+rDQMKP+MW70sQozIFLH/3SwgoW1xYmffXsPgzHY8vpgmR
- DxmV6X7W7cKhAqNlmo7Gj6keJz42OlAz9uoiZLRZcQLyCyfZVRqzMlAIuQIjsc9DDabqJZ
- mGfg7pn9O2OWS/8bScfqavBdsoPzhPA=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-29Scp-u-PReJr2-QHuiE9A-1; Mon, 16 Nov 2020 13:02:01 -0500
-X-MC-Unique: 29Scp-u-PReJr2-QHuiE9A-1
-Received: by mail-wr1-f72.google.com with SMTP id h13so6026367wrr.7
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 10:02:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=nqWL+fiC6eqjBW5BBpJksJvlJ97FN4rdV04/8ow8snM=;
- b=RuLq1tanW/jgZSr+eTJWxNiC1CnDfiiC2WHYlPwBQ6X6DSk39qEO8wQ0EOgrbb6oyf
- ZEiqhZD2um92FvR34wiAYBMaOBYc66+jTuhaH0XwWs2tv51oQSqBP5fXbcGo7F8U5aa3
- ae+Doo+dRIrwVLd2HDSMCigpcOMuaBLBE1qHfGg0ZaifKlvcJFsp9S3CXQicd+xT8/PL
- SgejSp4Gd6Q0dD8vTI/kQ5+bBGNL/4zCtcGW2zyfXW28DmfmtIKRIgmT69MHPZ7OxVg6
- h+0OKN7VmxOoWzUKW0UrT5EhbjJWZdcmaa4TR0cTdikxC0dZz0NoYKDSkimzb8wpVfJY
- KxJw==
-X-Gm-Message-State: AOAM533EmtsGwm2Mzhv34lv5Q0Hd7ryhneUKembzDZOKqRXrAVuipkCK
- QYqANpzfF80YduDkRicGTtogSYAXS+jqxNXcxXf3I/jo9CeMUc/w47rVTVbeRbW1PoCH+05vZgS
- GdCwhpHRsfr+TUJU8O2KrzjxiYxiyGcdzBxeoqcWbUJ8phVUBZ3OuFZsv3ai+FsUc
-X-Received: by 2002:a7b:c848:: with SMTP id c8mr112729wml.86.1605549720205;
- Mon, 16 Nov 2020 10:02:00 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyfPw0K4Q649VF2qE7pDPUCjacWqIjTPF2lUTrpMqw4ANOjne2j9eR/he3cpuhLXDRcbuukLw==
-X-Received: by 2002:a7b:c848:: with SMTP id c8mr112695wml.86.1605549719984;
- Mon, 16 Nov 2020 10:01:59 -0800 (PST)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id u14sm20910566wrq.93.2020.11.16.10.01.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Nov 2020 10:01:59 -0800 (PST)
-Subject: Re: [PULL 05/17] hw/i386/acpi-build: Fix maybe-uninitialized error
- when ACPI hotplug off
-To: Ani Sinha <ani@anisinha.ca>, "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20201115220740.488850-1-mst@redhat.com>
- <20201115220740.488850-6-mst@redhat.com>
- <CAARzgwzVqPC5jwx9DERjW8cy+OsZ5cgkQceX=DOzZT5-0U09Yw@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <7074a192-ecfe-c0ab-065f-5494bca52dd9@redhat.com>
-Date: Mon, 16 Nov 2020 19:01:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1keiyA-0003rd-Au
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:11:14 -0500
+Received: from indium.canonical.com ([91.189.90.7]:40264)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1keiy7-0007zP-MA
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:11:14 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1keiy3-0000TE-Qz
+ for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 18:11:07 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A49772E815B
+ for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 18:11:06 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAARzgwzVqPC5jwx9DERjW8cy+OsZ5cgkQceX=DOzZT5-0U09Yw@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 22:35:17
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 16 Nov 2020 18:05:28 -0000
+From: Thomas Huth <1696746@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: nathan-renniewaldock th-huth
+X-Launchpad-Bug-Reporter: Nathan Rennie-Waldock (nathan-renniewaldock)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <149692831501.10366.4878345375882367011.malonedeb@wampee.canonical.com>
+Message-Id: <160554992820.26399.16209873733231114004.malone@chaenomeles.canonical.com>
+Subject: [Bug 1696746] Re: netdev user,
+ restrict=on prevents forwarded ports from being accessed from other
+ systems
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a2ee2035671f86427804714f331b9ff7fecaef7e"; Instance="production"
+X-Launchpad-Hash: 48adeb90602956e9703440cae796632b51e9774d
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 13:11:09
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -103,58 +74,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Reply-To: Bug 1696746 <1696746@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/16/20 6:44 PM, Ani Sinha wrote:
-> 
-> 
-> On Mon, Nov 16, 2020 at 03:57 Michael S. Tsirkin <mst@redhat.com
-> <mailto:mst@redhat.com>> wrote:
-> 
->     From: Philippe Mathieu-Daudé <philmd@redhat.com
->     <mailto:philmd@redhat.com>>
-> 
->     GCC 9.3.0 thinks that 'method' can be left uninitialized. This code
->     is already in the "if (bsel || pcihp_bridge_en)" block statement,
->     but it isn't smart enough to figure it out.
-> 
->     Restrict the code to be used only in the "if (bsel || pcihp_bridge_en)"
->     block statement to fix (on Ubuntu):
-> 
->       ../hw/i386/acpi-build.c: In function 'build_append_pci_bus_devices':
->       ../hw/i386/acpi-build.c:496:9: error: 'method' may be used
->     uninitialized
->       in this function [-Werror=maybe-uninitialized]
->         496 |         aml_append(parent_scope, method);
->             |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->       cc1: all warnings being treated as errors
-> 
->     Fixes: df4008c9c59 ("piix4: don't reserve hw resources when hotplug
->     is off globally")
->     Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com
->     <mailto:philmd@redhat.com>>
->     Message-Id: <20201107194045.438027-1-philmd@redhat.com
->     <mailto:20201107194045.438027-1-philmd@redhat.com>>
->     Acked-by: Ani Sinha <ani@anisinha.ca <mailto:ani@anisinha.ca>>
->     Reviewed-by: Michael S. Tsirkin <mst@redhat.com <mailto:mst@redhat.com>>
->     Signed-off-by: Michael S. Tsirkin <mst@redhat.com
->     <mailto:mst@redhat.com>>
-> 
-> 
-> Is there any reason why my ack was removed from the patch that was
-> ultimately merged?
+slirp (i.e. user networking) has been moved to a separate project...
+does this problem still persist with the latest version of QEMU? If so,
+could you please report it to the libslirp project instead:
 
-The patch merged is not the patch Michael queued. So your Ack has not
-been removed, simply Alex queued an older version previous to your Ack.
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg760119.html
+https://gitlab.freedesktop.org/slirp/libslirp/-/issues
 
-> 
-> https://git.qemu.org/?p=qemu.git;a=commit;h=811c74fb657db0559274a710e50ef0096a1915a3
-> <https://git.qemu.org/?p=qemu.git;a=commit;h=811c74fb657db0559274a710e50ef0096a1915a3>
+Thanks!
 
+** Changed in: qemu
+       Status: New =3D> Incomplete
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1696746
+
+Title:
+  netdev user,restrict=3Don prevents forwarded ports from being accessed
+  from other systems
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  I've got a guest only network and I'm wanting to access SSH on one of the=
+ guests externally.
+  I'm using -netdev user,id=3Dusernet0,hostfwd=3Dtcp::2222-:22,restrict=3Dy=
+es -device virtio-net-pci,netdev=3Dusernet0
+  to forward 2222 to 22 in the guest.
+
+  The docs state:
+  restrict=3Don|off
+
+      If this option is enabled, the guest will be isolated, i.e. it
+  will not be able to contact the host and no guest IP packets will be
+  routed over the host to the outside. This option does not affect any
+  explicitly set forwarding rules.
+
+  =
+
+  However, with restrict=3Don, the forwarded port is only accessible from t=
+he host. Other systems receive no data.
+
+  This was tested with qemu 2.8. Changelog for 2.9 doesn't mention any
+  (relevant) user networking changes, so that should also fail.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1696746/+subscriptions
 
