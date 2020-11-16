@@ -2,86 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65B2C2B4408
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 13:53:02 +0100 (CET)
-Received: from localhost ([::1]:52474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE07B2B4409
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 13:53:16 +0100 (CET)
+Received: from localhost ([::1]:53804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kee0D-0000lt-Et
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 07:53:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35672)
+	id 1kee0R-0001J5-OZ
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 07:53:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kedyb-0008CV-8W
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 07:51:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54773)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kedz5-0008Rk-NP
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 07:51:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42456)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kedyZ-0004Dt-NO
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 07:51:20 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kedz0-0004Lk-H6
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 07:51:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605531078;
+ s=mimecast20190719; t=1605531105;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=g0SydAvbxjMTvugtDImHbAVQ8wSyiM9uvdrkFGX/8UA=;
- b=YyK86puen/bL4WcyTDxu0gcW1pYE8ej7ZghEMBW6t5dGy4W/VHquS9ZTJeD5lQsetCnRCA
- Ha9V0/mxGJYzv/xVWNgiV0Q/xIgE8jDGkmkJiQJzxa8NT7LVJG3qH/gpJ2zyjDtpzFx9Wt
- zWhiUw6ys8SYSGNETrE9ukIOI+rK9LI=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-103-qcqpg-MGME-fY297gExWJw-1; Mon, 16 Nov 2020 07:51:17 -0500
-X-MC-Unique: qcqpg-MGME-fY297gExWJw-1
-Received: by mail-wr1-f72.google.com with SMTP id f4so11081845wru.21
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 04:51:16 -0800 (PST)
+ bh=ggrFBsbLftxCVNh/VJ09LR9peWJ4I9crEfEBtd0Jt1o=;
+ b=UWqz/AnHWjG+vl0Qx38Y8SjKQLGkbxdhW+nwqZGLNV6mC5iLIugL3sxN/3Q2+ygCji4qfV
+ QZ9AUCGxg1TRkD/tZpIxXW8abfg/L1Ufis89R79yiaMtwIUjjN9c/l304hLuNsg6S4+dML
+ aMNYGj73Dr5jKB4tFOmH+wCXaQWSCXY=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-291-S-88QuH-PkWNfacJ108J6Q-1; Mon, 16 Nov 2020 07:51:40 -0500
+X-MC-Unique: S-88QuH-PkWNfacJ108J6Q-1
+Received: by mail-wm1-f71.google.com with SMTP id y26so8704845wmj.7
+ for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 04:51:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=JOe2HWkSmt0fhGkcCbCemujxluwzAojByihZjfB43TI=;
- b=fHW2nVQsr0bMKX0hvO2XVp6CQvsJ6SCaED/zf5mssULCm7aR/4z5ROiHLSnTpBW8jc
- dwl0DxDo0fdf7Ng+J8+Cjo4xvVkttO+5wh+1SZMpcEobUTE5ruLW1m/HPMeyR06+TdgP
- fGKbuu/uv/aw+4XHm/ngTn0JVYGg5Iiat+22v2edD2jkujYf8aPtGxsS2ut7U2MAS/Q/
- eYFcjGLSJlIZ+1ZiSuEXi0OlStJ18U43a8Xgs0scpqNa2uY+mkduJIzyEOwmdMH/TsMD
- O5LaBv5nWL/e+6TTWkYvrZUI6e6hu4W8KQGzGkI7hJY0XXv4qIZefDT8R8cHSCIDT+M1
- 97Dg==
-X-Gm-Message-State: AOAM533OLjECTatLlt0nkTHWRfYUDZhmLF54WwLzq7AdkQY6gInrMfgI
- iN3S3Z1KVm4nzPj26cBwN+H2x5iHpL146dwnrtUi7GAuA+EB6vZlLg4RWlaOt34B3J7nl3aDznw
- 9Lojl6qaRpqcSoBk=
-X-Received: by 2002:adf:a3c1:: with SMTP id m1mr18728778wrb.28.1605531075867; 
- Mon, 16 Nov 2020 04:51:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzKv/QYDGGbQx/O3vEz4FvWVFLDDdaaITeRrfkcqOAUi/d20gFeICwWzLuMJNhDqT4dbLXtAw==
-X-Received: by 2002:adf:a3c1:: with SMTP id m1mr18728748wrb.28.1605531075638; 
- Mon, 16 Nov 2020 04:51:15 -0800 (PST)
-Received: from redhat.com ([147.161.8.56])
- by smtp.gmail.com with ESMTPSA id 30sm15852966wrd.88.2020.11.16.04.51.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Nov 2020 04:51:14 -0800 (PST)
-Date: Mon, 16 Nov 2020 07:51:06 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [RFC v3] VFIO Migration
-Message-ID: <20201116074748-mutt-send-email-mst@kernel.org>
-References: <20201110095349.GA1082456@stefanha-x1.localdomain>
- <64fb6a41-fbfa-994c-9619-4df41ac97fde@redhat.com>
- <20201111143615.GA1421166@stefanha-x1.localdomain>
- <20201111154850.GG906488@redhat.com>
- <20201116111524.GD96297@stefanha-x1.localdomain>
- <20201116114125.GE104771@redhat.com>
- <20201116065906-mutt-send-email-mst@kernel.org>
- <20201116120518.GH104771@redhat.com>
- <20201116072805-mutt-send-email-mst@kernel.org>
- <20201116124549.GI104771@redhat.com>
+ h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ggrFBsbLftxCVNh/VJ09LR9peWJ4I9crEfEBtd0Jt1o=;
+ b=EeEsHlmfVTNZLf5wizp2BuC0UnEA+kmxuoy5H79AN5nvi13MIPug+JpIMb7ncPAG/g
+ Og91vM/3SgMHGFJ8b73nJzMnBAl0FKt6pCAaDiO4j25lIFMUs2ERf9AxIfmYjgh73xxw
+ 9/Rcu0MlrsC18Wsydm/kT+JJxWOYHgzVjUyyOblgcnhENHwmndzSZo0+fdxJ8K+NBS2A
+ MXgOApxBcY7nYxrfqw+MRm/iuVju/LmjNcQLb6u0lb/5Ztnb7SLv40fxvSH9LSjzb+ie
+ rKW++cqEECeJJY61+u+cpVIOL7F3UyeK4UFdMwRs25asv12/qNudNpU4f6BxA/5iy8uA
+ eVcA==
+X-Gm-Message-State: AOAM533elcXZBkNEn6ZZXpAJOITOHq8TgjK4epsL3A3xNft18Eu0Vujf
+ 3n7ZbrKkMfjKZOrSH7RUrOBdyjHoYwdWknr2DFNIul9k0QR3OJKHogkDlNFmQ3W/YPpujC+qIpU
+ H2/+2gC7IC95xfuNwHDebq/TPYU7jH4ofHklftZmepwvnvCX0QjVYIlhpkijbQMwf
+X-Received: by 2002:adf:c50e:: with SMTP id q14mr18281384wrf.270.1605531098835; 
+ Mon, 16 Nov 2020 04:51:38 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxXkP9TuqvTxlBICR/kbfKq5ATYoRfcMCQz9vaeURlXNZJbF9qMDHH2imG8R9JOALAAOpCozQ==
+X-Received: by 2002:adf:c50e:: with SMTP id q14mr18281358wrf.270.1605531098592; 
+ Mon, 16 Nov 2020 04:51:38 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id v189sm21134336wmg.14.2020.11.16.04.51.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Nov 2020 04:51:37 -0800 (PST)
+Subject: Re: Property '.hmat' not found
+To: Jack <s108062518@m108.nthu.edu.tw>, qemu-discuss@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+References: <69ce94c221fc90c6963c3529ddc46e66@m108.nthu.edu.tw>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <1547b1c8-36e2-179e-8406-4faf0324f4f2@redhat.com>
+Date: Mon, 16 Nov 2020 13:51:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201116124549.GI104771@redhat.com>
+In-Reply-To: <69ce94c221fc90c6963c3529ddc46e66@m108.nthu.edu.tw>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 22:35:17
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -90,8 +85,9 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,37 +100,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John G Johnson <john.g.johnson@oracle.com>, "Tian,
- Kevin" <kevin.tian@intel.com>, Yan Zhao <yan.y.zhao@intel.com>,
- quintela@redhat.com, Jason Wang <jasowang@redhat.com>, "Zeng,
- Xin" <xin.zeng@intel.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Kirti Wankhede <kwankhede@nvidia.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Felipe Franciosi <felipe@nutanix.com>,
- Christophe de Dinechin <dinechin@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 16, 2020 at 12:45:49PM +0000, Daniel P. Berrangé wrote:
-> > This won't work for devices: same device needs to work with
-> > both upstream and Red Hat and migrate upstream-upstream and Red Hat-Red Hat
-> > (though not upstream-Red Hat).
+Cc'ing Igor & Eduardo.
+
+On 11/13/20 10:17 AM, Jack wrote:
+> Hi all,
 > 
-> That's fine, we can cope with that. It simply means whomever owns
-> responsibility for maintaining the code has to be more careful about
-> changes they make in their downstream.
-
-When we are talking about device vendors, "has to be more careful"
-equals broken code. We need to make things super easy
-for vendors doing the right thing, like publishing the migration
-format, including a standard place to publish it and a tool
-that uses that info to make migration just work.
-
--- 
-MST
+> As I follow the document[1] to enable hmat, it fails and shows the message:
+>   qemu-system-x86_64: Property '.hmat' not found
+> 
+> My QEMU version is 5.1.90
+> 
+> Does anyone know why?
+> 
+> Here is my command:
+> 
+> ```
+> $ sudo qemu-system-x86_64 \
+> -machine hmat=on \
+> -m 2G \
+> -object memory-backend-ram,size=1G,id=m0 \
+> -object memory-backend-ram,size=1G,id=m1 \
+> -smp 2 \
+> -numa node,nodeid=0,memdev=m0 \
+> -numa node,nodeid=1,memdev=m1,initiator=0 \
+> -numa cpu,node-id=0,socket-id=0 \
+> -numa cpu,node-id=0,socket-id=1 \
+> -numa
+> hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=5
+> \
+> -numa
+> hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=200M
+> \
+> -numa
+> hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=10
+> \
+> -numa
+> hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M
+> \
+> -numa
+> hmat-cache,node-id=0,size=10K,level=1,associativity=direct,policy=write-back,line=8
+> \
+> -numa
+> hmat-cache,node-id=1,size=10K,level=1,associativity=direct,policy=write-back,line=8
+> \
+> -cpu host \
+> -m 4g -vga virtio -hda ubuntu20.04.qcow2 \
+> -nic user,model=virtio \
+> -nic tap,model=e1000 \
+> -nic tap,model=e1000 \
+> -accel kvm
+> ```
+> 
+> Thanks.
+> 
+> [1]
+> https://www.qemu.org/docs/master/system/qemu-manpage.html?highlight=numa
+> 
+> 
+> Sincerely,
+> Jack
+> 
 
 
