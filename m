@@ -2,93 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6496C2B505F
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 19:58:09 +0100 (CET)
-Received: from localhost ([::1]:35090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 280522B505D
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 19:57:21 +0100 (CET)
+Received: from localhost ([::1]:58712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kejhY-0000CU-CA
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 13:58:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36510)
+	id 1kejgm-0006kc-5X
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 13:57:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kejCW-0005a8-1J
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:26:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33015)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kejCQ-0004T9-4u
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:26:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605551155;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YBEtFSxXTL9EM6rBIX9Jvb1S6R80yFa70Vk5Uicv2sE=;
- b=EeFVDV9PivF7CtyxurcwkfzzTYky/GJcltYQb0DXA2499580SojCOuDIQ6uDcHBf63hQV3
- lsXM6fUFc2ahyblcLxmNvXZn01I9bC/7mUjFKklU+mpVn21p4pfaU3NXHLKFPgswWcTMHs
- RvokmjpVKOOJuvClbtA5duoKTiEuDv0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-277-_4LA8Q_iPf6rdtOwe9z4Nw-1; Mon, 16 Nov 2020 13:25:54 -0500
-X-MC-Unique: _4LA8Q_iPf6rdtOwe9z4Nw-1
-Received: by mail-wm1-f69.google.com with SMTP id h9so73389wmf.8
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 10:25:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=YBEtFSxXTL9EM6rBIX9Jvb1S6R80yFa70Vk5Uicv2sE=;
- b=YrxEpsNcHtwhF68tOvkCE3q92gd911wD2hIkfq7B05NIQmzGabM8s4Q49yOIns4G1A
- vEpotnB+Zx2MffTI27UcME2X1rMHKLF0xz4lmkJb/iK9CNDt/0ZdzHAEZ3zQnKFLGw/g
- yCB3GYOXfX5ImvLz79f9FbK+gYAiQszz/8ljHCJcRq9Uict1qjBaW+vsYq5TBOqKGhte
- UubxCTYV/6+J3c2HAwrHdSO1G8Bg0ILUE5h53YLt0WdT3ZwcmOqgTK/O0TR5JP9SLydQ
- 9oGK09NULh52D6+9J1ag+N6k+8PlQPcBIYPNP+Bj9QFwQHn5YAHOM7qlLTowCem+c5t7
- cn0w==
-X-Gm-Message-State: AOAM532ukCUWPeWcYiBH78r1/B4/5r4NizmuSt6e1IKQkT8s1rneAwL8
- CRWUEaY1PehBtGMkdEa+1cpcHQO9CymoVTfqV03/f+abj+eDLrn0tgKNiiMyhRLGgWeAGzLFtnr
- G7Xb4TOYbJjXPGqvsCJaVNfe6qLVx0md32xTKuYaJ/8uMfcIY1K2LfYFq3vaJ0hXUmz4=
-X-Received: by 2002:a1c:e056:: with SMTP id x83mr189438wmg.83.1605551149677;
- Mon, 16 Nov 2020 10:25:49 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyI6eho+6cqTjJ27Wb1X4AYFe2LfNI3C8P5z7VicmcBVXZSgqzGY460FIsl4VUwZHKPnhrpzA==
-X-Received: by 2002:a1c:e056:: with SMTP id x83mr189412wmg.83.1605551149248;
- Mon, 16 Nov 2020 10:25:49 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id v6sm26489033wrb.53.2020.11.16.10.25.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Nov 2020 10:25:48 -0800 (PST)
-Subject: Re: [PATCH for-5.2] configure: Make "does libgio work" test pull in
- some actual functions
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20201116104617.18333-1-peter.maydell@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <1f4476ba-fe58-e7f8-c165-9cf501511f95@redhat.com>
-Date: Mon, 16 Nov 2020 19:25:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
-MIME-Version: 1.0
-In-Reply-To: <20201116104617.18333-1-peter.maydell@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 22:35:17
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <hare@suse.de>) id 1kejHh-0003Te-1F
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:31:26 -0500
+Received: from mx2.suse.de ([195.135.220.15]:34660)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hare@suse.de>) id 1kejHa-0006BH-IQ
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:31:24 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id D972CB05D;
+ Mon, 16 Nov 2020 18:31:15 +0000 (UTC)
+From: Hannes Reinecke <hare@suse.de>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH 1/3] virtio-scsi: trace events
+Date: Mon, 16 Nov 2020 19:31:12 +0100
+Message-Id: <20201116183114.55703-2-hare@suse.de>
+X-Mailer: git-send-email 2.16.4
+In-Reply-To: <20201116183114.55703-1-hare@suse.de>
+References: <20201116183114.55703-1-hare@suse.de>
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=hare@suse.de;
+ helo=mx2.suse.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 12:53:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,66 +51,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, Hannes Reinecke <hare@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/11/20 11:46, Peter Maydell wrote:
-> In commit 76346b6264a9b01979 we tried to add a configure check that
-> the libgio pkg-config data was correct, which builds an executable
-> linked against it.  Unfortunately this doesn't catch the problem
-> (missing static library dependency info), because a "do nothing" test
-> source file doesn't have any symbol references that cause the linker
-> to pull in .o files from libgio.a, and so we don't see the "missing
-> symbols from libmount" error that a full QEMU link triggers.
-> 
-> (The ineffective test went unnoticed because of a typo that
-> effectively disabled libgio unconditionally, but after commit
-> 3569a5dfc11f2 fixed that, a static link of the system emulator on
-> Ubuntu stopped working again.)
-> 
-> Improve the gio test by having the test source fragment reference a
-> g_dbus function (which is what is indirectly causing us to end up
-> wanting functions from libmount).
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> The ideal thing here might perhaps be to force the linker to
-> pull in everything in the library rather than trusting that
-> this particular function is sufficient to trigger the need
-> for libmount functions, but annoyingly gcc and clang
-> have different command line options to do that.
-> 
->   configure | 11 +++++++++--
->   1 file changed, 9 insertions(+), 2 deletions(-)
-> 
-> diff --git a/configure b/configure
-> index 4cef321d9dc..2717cf1db0a 100755
-> --- a/configure
-> +++ b/configure
-> @@ -3512,8 +3512,15 @@ if $pkg_config --atleast-version=$glib_req_ver gio-2.0; then
->       # Check that the libraries actually work -- Ubuntu 18.04 ships
->       # with pkg-config --static --libs data for gio-2.0 that is missing
->       # -lblkid and will give a link error.
-> -    write_c_skeleton
-> -    if compile_prog "" "$gio_libs" ; then
-> +    cat > $TMPC <<EOF
-> +#include <gio/gio.h>
-> +int main(void)
-> +{
-> +    g_dbus_proxy_new_sync(0, 0, 0, 0, 0, 0, 0, 0);
-> +    return 0;
-> +}
-> +EOF
-> +    if compile_prog "$gio_cflags" "$gio_libs" ; then
->           gio=yes
->       else
->           gio=no
-> 
+Add trace events for virtio command and response tracing.
 
-Looks good,
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+---
+ hw/scsi/trace-events  |  9 +++++++++
+ hw/scsi/virtio-scsi.c | 30 +++++++++++++++++++++++++++++-
+ 2 files changed, 38 insertions(+), 1 deletion(-)
 
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-
-Paolo
+diff --git a/hw/scsi/trace-events b/hw/scsi/trace-events
+index 9a4a60ca63..0e0aa9847d 100644
+--- a/hw/scsi/trace-events
++++ b/hw/scsi/trace-events
+@@ -294,6 +294,15 @@ lsi_awoken(void) "Woken by SIGP"
+ lsi_reg_read(const char *name, int offset, uint8_t ret) "Read reg %s 0x%x = 0x%02x"
+ lsi_reg_write(const char *name, int offset, uint8_t val) "Write reg %s 0x%x = 0x%02x"
+ 
++# virtio-scsi.c
++virtio_scsi_cmd_req(int lun, uint32_t tag, uint8_t cmd) "virtio_scsi_cmd_req lun=%u tag=0x%x cmd=0x%x"
++virtio_scsi_cmd_resp(int lun, uint32_t tag, int response, uint8_t status) "virtio_scsi_cmd_resp lun=%u tag=0x%x response=%d status=0x%x"
++virtio_scsi_tmf_req(int lun, uint32_t tag, int subtype) "virtio_scsi_tmf_req lun=%u tag=0x%x subtype=%d"
++virtio_scsi_tmf_resp(int lun, uint32_t tag, int response) "virtio_scsi_tmf_resp lun=%u tag=0x%x response=%d"
++virtio_scsi_an_req(int lun, uint32_t event_requested) "virtio_scsi_an_req lun=%u event_requested=0x%x"
++virtio_scsi_an_resp(int lun, int response) "virtio_scsi_an_resp lun=%u response=%d"
++virtio_scsi_event(int lun, int event, int reason) "virtio_scsi_event lun=%u event=%d reason=%d"
++
+ # scsi-disk.c
+ scsi_disk_check_condition(uint32_t tag, uint8_t key, uint8_t asc, uint8_t ascq) "Command complete tag=0x%x sense=%d/%d/%d"
+ scsi_disk_read_complete(uint32_t tag, size_t size) "Data ready tag=0x%x len=%zd"
+diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
+index 3a71ea7097..c9873d5af7 100644
+--- a/hw/scsi/virtio-scsi.c
++++ b/hw/scsi/virtio-scsi.c
+@@ -27,6 +27,7 @@
+ #include "scsi/constants.h"
+ #include "hw/virtio/virtio-bus.h"
+ #include "hw/virtio/virtio-access.h"
++#include "trace.h"
+ 
+ static inline int virtio_scsi_get_lun(uint8_t *lun)
+ {
+@@ -239,7 +240,11 @@ static void virtio_scsi_cancel_notify(Notifier *notifier, void *data)
+                                                notifier);
+ 
+     if (--n->tmf_req->remaining == 0) {
+-        virtio_scsi_complete_req(n->tmf_req);
++        VirtIOSCSIReq *req = n->tmf_req;
++
++        trace_virtio_scsi_tmf_resp(virtio_scsi_get_lun(req->req.tmf.lun),
++                                   req->req.tmf.tag, req->resp.tmf.response);
++        virtio_scsi_complete_req(req);
+     }
+     g_free(n);
+ }
+@@ -273,6 +278,9 @@ static int virtio_scsi_do_tmf(VirtIOSCSI *s, VirtIOSCSIReq *req)
+     req->req.tmf.subtype =
+         virtio_tswap32(VIRTIO_DEVICE(s), req->req.tmf.subtype);
+ 
++    trace_virtio_scsi_tmf_req(virtio_scsi_get_lun(req->req.tmf.lun),
++                              req->req.tmf.tag, req->req.tmf.subtype);
++
+     switch (req->req.tmf.subtype) {
+     case VIRTIO_SCSI_T_TMF_ABORT_TASK:
+     case VIRTIO_SCSI_T_TMF_QUERY_TASK:
+@@ -422,11 +430,23 @@ static void virtio_scsi_handle_ctrl_req(VirtIOSCSI *s, VirtIOSCSIReq *req)
+             virtio_scsi_bad_req(req);
+             return;
+         } else {
++            req->req.an.event_requested =
++                virtio_tswap32(VIRTIO_DEVICE(s), req->req.an.event_requested);
++            trace_virtio_scsi_an_req(virtio_scsi_get_lun(req->req.an.lun),
++                                     req->req.an.event_requested);
+             req->resp.an.event_actual = 0;
+             req->resp.an.response = VIRTIO_SCSI_S_OK;
+         }
+     }
+     if (r == 0) {
++        if (type == VIRTIO_SCSI_T_TMF)
++            trace_virtio_scsi_tmf_resp(virtio_scsi_get_lun(req->req.tmf.lun),
++                                       req->req.tmf.tag,
++                                       req->resp.tmf.response);
++        else if (type == VIRTIO_SCSI_T_AN_QUERY ||
++                 type == VIRTIO_SCSI_T_AN_SUBSCRIBE)
++            trace_virtio_scsi_an_resp(virtio_scsi_get_lun(req->req.an.lun),
++                                      req->resp.an.response);
+         virtio_scsi_complete_req(req);
+     } else {
+         assert(r == -EINPROGRESS);
+@@ -462,6 +482,10 @@ static void virtio_scsi_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
+ 
+ static void virtio_scsi_complete_cmd_req(VirtIOSCSIReq *req)
+ {
++    trace_virtio_scsi_cmd_resp(virtio_scsi_get_lun(req->req.cmd.lun),
++                               req->req.cmd.tag,
++                               req->resp.cmd.response,
++                               req->resp.cmd.status);
+     /* Sense data is not in req->resp and is copied separately
+      * in virtio_scsi_command_complete.
+      */
+@@ -559,6 +583,8 @@ static int virtio_scsi_handle_cmd_req_prepare(VirtIOSCSI *s, VirtIOSCSIReq *req)
+             return -EINVAL;
+         }
+     }
++    trace_virtio_scsi_cmd_req(virtio_scsi_get_lun(req->req.cmd.lun),
++                              req->req.cmd.tag, req->req.cmd.cdb[0]);
+ 
+     d = virtio_scsi_device_find(s, req->req.cmd.lun);
+     if (!d) {
+@@ -758,6 +784,8 @@ void virtio_scsi_push_event(VirtIOSCSI *s, SCSIDevice *dev,
+         }
+         evt->lun[3] = dev->lun & 0xFF;
+     }
++    trace_virtio_scsi_event(virtio_scsi_get_lun(evt->lun), event, reason);
++     
+     virtio_scsi_complete_req(req);
+ }
+ 
+-- 
+2.16.4
 
 
