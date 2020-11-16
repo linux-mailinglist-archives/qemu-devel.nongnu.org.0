@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34EBC2B4990
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 16:39:34 +0100 (CET)
-Received: from localhost ([::1]:35106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81EFE2B4994
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 16:41:14 +0100 (CET)
+Received: from localhost ([::1]:37784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kegbN-0003lw-8r
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 10:39:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49720)
+	id 1kegcz-00051S-K4
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 10:41:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <figlesia@xilinx.com>)
- id 1kegZr-0003Ba-Vv; Mon, 16 Nov 2020 10:38:00 -0500
-Received: from mail-dm6nam10on2075.outbound.protection.outlook.com
- ([40.107.93.75]:20320 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ id 1kegaK-0003ct-M4; Mon, 16 Nov 2020 10:38:28 -0500
+Received: from mail-mw2nam12on2056.outbound.protection.outlook.com
+ ([40.107.244.56]:55584 helo=NAM12-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <figlesia@xilinx.com>)
- id 1kegZo-0005RR-82; Mon, 16 Nov 2020 10:37:58 -0500
+ id 1kegaH-0005fa-08; Mon, 16 Nov 2020 10:38:28 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nBq7UXEfYPbLET3aJwsaSVSu4rjWa1RbRvzrrUZ1ptsU/4/7sJm04aVK33b0UgrVufFmhu7BmCzdVpsZgzhP52buIS90ovfq6f8PGM5pOPOUVCjXSds7AOO5uD4nHbs9THnPwOuerZDXYXJ2gYsbNI86KWO07aVDUPNbbOFEMBCEN0ghDR1XANZAnh0A21teopbsjaQVhUddjt8+mqFA/c/cXDR7Ycpxh6ycMn3hC4vMu2T94RxZu1mpJ4JVBVVQzHAJXmMcVNcHZzdubIjw3YrgcNr2NvwUsoVYb1DW2UwwWmWdj1JT2ZcLryHrFPCZ4SOlroYIGDHKn77Q98voxw==
+ b=hldkWSPU3ME7mzc0HMhv2OccvykU2qsmFhs8Jopso1QowHcBw37aiIeI2Cw7gn+WlK/16sXwHJmx/CgNfcPWmz6KRyGJatp3iAhqFaWv12meWk9J9W+ohXe5Wul59nCoJK93ZwNXteQEAQM3wh8NhURHW5fKdfCjRGdj7BjEK50Lz5cixOJt7PpyhFkWJ7K6fkW/lBIAbiWOWB6j9CfP6s4cKsPp4iFhonI6zu/fd7zHEiCH0SLyd9J6qO4gC6KB1cPOvWufzgYP4ivx0sOGzfk0XS+dAMRWwPV25COIpqn3CdWpcUaVOVKZnQ5f0bcvrxgYEaZFkRvYh3/LmhwvNw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TRxf5JZ5B5xNWBVorbUFtFLk/ofxhZt1BnJdtqIxcE8=;
- b=Mhdp7f3Bo2P/TH3OlatMvhZaKhr+LOJDZuJVFIVio/fXmVLbCnurQ33g5VObmW3UKEl/vnqeL94fSTROezPcWvccjhAZLehnQ6cVGBMsiX1eqJZP3P5rm8PJ44Z96YLn1JSjGaNOjzVzOzeJ9cm3tewqA842n/Vf26NM1jGnISoi6bcu73fGBl1xAmLdvtvLkRhZt6rRycgGuAuyh/BQkWuqRvhe+RmOfpzfizA/65JPQA+WZaACRWuRZNBrFBXNNaWR6M4vJJr/L0TLCn8ER17too2HZacdAF3+uSzYhxhVl+oYdWxUeJnBLXQ6I3XrkYqnIN+Uu7I/4kCKULw4zg==
+ bh=kSucJQBOdADHedM2ULnyxMJ9gWq61lQbltKa1eBnK74=;
+ b=i6RIRaHQy92Er5aWkXhGLGANSNmjp57aYRFDm/l0aqqta+0FbvsllyEUGpnwMyxk65joWstd+qJy+hnYcA36NjwyFOonBK9+xCBhntF+FAhXJSTQAUuC2i2hyVrnQiuy1RTkm/8p4SLLQ2GnRMHPcpmk0BcxsPGkG595CMD01aqbTrAZzcEttvzWXp0L6fkQUsbqwnIksSs1ZELYjGFI83asT10s9g6mBtpqDOwNE8Df2KHiKeAI5wvmCHYdHB3AhnJb1fHT2/H3JLjo4rGmg84k1BWw1orvwQkfLeTNpUKXb89VFfQqBE6BP3nwSr8B5WtLWnuBPl82pEnITbW+vg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  149.199.62.198) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
  dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
@@ -32,18 +32,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TRxf5JZ5B5xNWBVorbUFtFLk/ofxhZt1BnJdtqIxcE8=;
- b=qISf7cRE+uwfx6kqC7YcwElSXSCXv4/JvQ4bwrNrRzokLILj+7wvKwROfc+aW9Ls+vyV2DAE0w85/bLc1idgxJ3ScJKSl764fIgM+TmeupuqaAXk0kcygZxYn2jj8DCp0P7MheRiu9f7ScZelDKYDgexYJE/56Y7bcfODX4v9HU=
-Received: from MN2PR15CA0034.namprd15.prod.outlook.com (2603:10b6:208:1b4::47)
- by BY5PR02MB6947.namprd02.prod.outlook.com (2603:10b6:a03:23e::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.25; Mon, 16 Nov
- 2020 15:37:51 +0000
-Received: from BL2NAM02FT034.eop-nam02.prod.protection.outlook.com
- (2603:10b6:208:1b4:cafe::47) by MN2PR15CA0034.outlook.office365.com
- (2603:10b6:208:1b4::47) with Microsoft SMTP Server (version=TLS1_2,
+ bh=kSucJQBOdADHedM2ULnyxMJ9gWq61lQbltKa1eBnK74=;
+ b=cWFrQxkg1/TdekvQ7d/UMnpxgyL1uvbkH7DOHPYQWqkeyIGOMZkxVdoFr7FJrqu8XNxdiQVGW9dHfxK4iPZK2XCUD7zbA5hIpDEZZD+Vuk6UbbE5GMYunMiTEyxeBBG6AWkpQ25VdH9ATFegO2Pi2AZL9Y0zmy4zdHcvngSdurs=
+Received: from BL0PR0102CA0042.prod.exchangelabs.com (2603:10b6:208:25::19) by
+ SA0PR02MB7209.namprd02.prod.outlook.com (2603:10b6:806:da::7) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3564.28; Mon, 16 Nov 2020 15:38:16 +0000
+Received: from BL2NAM02FT051.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:208:25:cafe::4f) by BL0PR0102CA0042.outlook.office365.com
+ (2603:10b6:208:25::19) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.25 via Frontend
- Transport; Mon, 16 Nov 2020 15:37:51 +0000
+ Transport; Mon, 16 Nov 2020 15:38:16 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
  smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=bestguesspass action=none
@@ -52,62 +52,62 @@ Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
  149.199.62.198 as permitted sender) receiver=protection.outlook.com;
  client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
 Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
- BL2NAM02FT034.mail.protection.outlook.com (10.152.77.161) with Microsoft SMTP
+ BL2NAM02FT051.mail.protection.outlook.com (10.152.76.181) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.3564.22 via Frontend Transport; Mon, 16 Nov 2020 15:37:51 +0000
+ 15.20.3564.22 via Frontend Transport; Mon, 16 Nov 2020 15:38:16 +0000
 Received: from xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) by
  xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1913.5; Mon, 16 Nov 2020 07:37:51 -0800
+ 15.1.1913.5; Mon, 16 Nov 2020 07:38:15 -0800
 Received: from smtp.xilinx.com (172.19.127.95) by
  xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server id
- 15.1.1913.5 via Frontend Transport; Mon, 16 Nov 2020 07:37:51 -0800
-Received: from [10.23.120.221] (port=52648 helo=debian)
+ 15.1.1913.5 via Frontend Transport; Mon, 16 Nov 2020 07:38:15 -0800
+Received: from [10.23.120.221] (port=52666 helo=debian)
  by smtp.xilinx.com with esmtp (Exim 4.90)
  (envelope-from <francisco.iglesias@xilinx.com>)
- id 1kegZi-0006pW-Rc; Mon, 16 Nov 2020 07:37:51 -0800
-Date: Mon, 16 Nov 2020 15:37:48 +0000
+ id 1kega7-0006sC-Ae; Mon, 16 Nov 2020 07:38:15 -0800
+Date: Mon, 16 Nov 2020 15:38:13 +0000
 From: Francisco Iglesias <francisco.iglesias@xilinx.com>
 To: Joe Komlodi <joe.komlodi@xilinx.com>
-Subject: Re: [PATCH v4 1/4] hw/block/m25p80: Make Numonyx config field names
- more accurate
-Message-ID: <20201116153747.htumfxnhvzvfk4es@debian>
+Subject: Re: [PATCH v4 2/4] hw/block/m25p80: Fix when VCFG XIP bit is set for
+ Numonyx
+Message-ID: <20201116153812.xitssj6xkpervz5e@debian>
 References: <1605237055-393580-1-git-send-email-komlodi@xilinx.com>
- <1605237055-393580-2-git-send-email-komlodi@xilinx.com>
+ <1605237055-393580-3-git-send-email-komlodi@xilinx.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-In-Reply-To: <1605237055-393580-2-git-send-email-komlodi@xilinx.com>
+In-Reply-To: <1605237055-393580-3-git-send-email-komlodi@xilinx.com>
 User-Agent: NeoMutt/20170113 (1.7.2)
 X-EOPAttributedMessage: 0
 X-MS-Office365-Filtering-HT: Tenant
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: db2891c8-f4e3-4cd0-caa4-08d88a45943c
-X-MS-TrafficTypeDiagnostic: BY5PR02MB6947:
-X-Microsoft-Antispam-PRVS: <BY5PR02MB69477AAB1BB1C65E0884C32CADE30@BY5PR02MB6947.namprd02.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 432409c2-98df-435a-78d3-08d88a45a2d9
+X-MS-TrafficTypeDiagnostic: SA0PR02MB7209:
+X-Microsoft-Antispam-PRVS: <SA0PR02MB72099F809006186A57052286ADE30@SA0PR02MB7209.namprd02.prod.outlook.com>
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:221;
+X-MS-Oob-TLC-OOBClassifiers: OLM:125;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QSw0+ZCBtzogF9OQSTjFECNs+3FyleUJquMXxu5KQFWm2actKVX1usvOKL2FcsZobDgweGRcsm0ZWKEvQQkwqWTQ+8SlB1djU1dXcNOqQD1ElV8Ycs0RW5xTMGfjhY6X1DNezt5NLsWtGh5NBrI8AT8/9HMhFmTe3NCQ0p1iu9l3JOXzpIAOG5D5gNQ4TeoAfNobINFU7m5xI2pcI3h7qm92m/54X7TaCSEejb3s7uQefmn5KM7FswLA+0aQeKZX5Tne6rLmxVRUBALctN99Mx3qUBP965/+8iBbA8AOFN2qg7XoxlE5Vg2vKNMNnBuyayDQUqccuJvrFGEmtNvsNCuVB7kvN9aTkyEBwxr4uZulDiS3LMgJberB7jpg2mnHYP4IIlwxay+SkxcPsFKzSg==
+X-Microsoft-Antispam-Message-Info: XOBFLz8tLPryNEClxbqFcuf1QCzqPoasigbZshucHali2JM6A+vaFaW1gkZfsZf+kUwKe1pDQVCXqGvizbMHo01KTVna7DjcXqOQoerG9Oc4RIlWntic0EywWSSVMavHhsbi9P0QG2i0JX7AoAwR3rQmsmAmxggLdCpzF4Y+DMSgx/zwosR3rpqr3o7G7Noc2CFGM/rq5Qht7/PmTgNyXxjbrf4iIBp4GgW90zEdafssXGSfeAkEcB/45bFhk5twjSPXhD7R59qNFpWMggw+5MRzTew/ZqpGdRk51F7PAinHZI5zCSrPDeBUVhwRsrY1aYHALQfWSsFvq67ChCNkPIL+3YSXpyROw+gXDtmVSYSVq8dEsIpzni6Bt2mmqr448AbyWynmqmJZn8MekKwuHw==
 X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
  PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(4636009)(39860400002)(376002)(346002)(396003)(136003)(46966005)(336012)(26005)(426003)(6862004)(70206006)(4326008)(6666004)(356005)(478600001)(70586007)(54906003)(2906002)(186003)(1076003)(44832011)(9686003)(316002)(6636002)(36906005)(9576002)(9786002)(5660300002)(7636003)(47076004)(82740400003)(33716001)(8676002)(8936002)(82310400003)(83380400001);
+ SFS:(4636009)(346002)(396003)(136003)(376002)(39860400002)(46966005)(336012)(6862004)(44832011)(426003)(9786002)(26005)(8936002)(186003)(9576002)(6636002)(2906002)(316002)(4326008)(54906003)(9686003)(478600001)(36906005)(8676002)(83380400001)(70586007)(47076004)(70206006)(7636003)(82740400003)(82310400003)(356005)(1076003)(33716001)(4744005)(5660300002);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2020 15:37:51.5894 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: db2891c8-f4e3-4cd0-caa4-08d88a45943c
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2020 15:38:16.1053 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 432409c2-98df-435a-78d3-08d88a45a2d9
 X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
  Helo=[xsj-pvapexch02.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL2NAM02FT034.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BL2NAM02FT051.eop-nam02.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR02MB6947
-Received-SPF: pass client-ip=40.107.93.75; envelope-from=figlesia@xilinx.com;
- helo=NAM10-DM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 10:37:53
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR02MB7209
+Received-SPF: pass client-ip=40.107.244.56; envelope-from=figlesia@xilinx.com;
+ helo=NAM12-MW2-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 10:38:22
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -132,65 +132,30 @@ Cc: figlesia@xilinx.com, qemu-block@nongnu.org, alistair@alistair23.me,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 12, 2020 at 07:10:52PM -0800, Joe Komlodi wrote:
-> The previous naming of the configuration registers made it sound like that if
-> the bits were set the settings would be enabled, while the opposite is true.
+On Thu, Nov 12, 2020 at 07:10:53PM -0800, Joe Komlodi wrote:
+> VCFG XIP is set (disabled) when the NVCFG XIP bits are all set (disabled).
 > 
 > Signed-off-by: Joe Komlodi <komlodi@xilinx.com>
 
 Reviewed-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
 
 > ---
->  hw/block/m25p80.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+>  hw/block/m25p80.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-> index 483925f..452d252 100644
+> index 452d252..eb6539f 100644
 > --- a/hw/block/m25p80.c
 > +++ b/hw/block/m25p80.c
-> @@ -136,7 +136,7 @@ typedef struct FlashPartInfo {
->  #define VCFG_WRAP_SEQUENTIAL 0x2
->  #define NVCFG_XIP_MODE_DISABLED (7 << 9)
->  #define NVCFG_XIP_MODE_MASK (7 << 9)
-> -#define VCFG_XIP_MODE_ENABLED (1 << 3)
-> +#define VCFG_XIP_MODE_DISABLED (1 << 3)
->  #define CFG_DUMMY_CLK_LEN 4
->  #define NVCFG_DUMMY_CLK_POS 12
->  #define VCFG_DUMMY_CLK_POS 4
-> @@ -144,9 +144,9 @@ typedef struct FlashPartInfo {
->  #define EVCFG_VPP_ACCELERATOR (1 << 3)
->  #define EVCFG_RESET_HOLD_ENABLED (1 << 4)
->  #define NVCFG_DUAL_IO_MASK (1 << 2)
-> -#define EVCFG_DUAL_IO_ENABLED (1 << 6)
-> +#define EVCFG_DUAL_IO_DISABLED (1 << 6)
->  #define NVCFG_QUAD_IO_MASK (1 << 3)
-> -#define EVCFG_QUAD_IO_ENABLED (1 << 7)
-> +#define EVCFG_QUAD_IO_DISABLED (1 << 7)
->  #define NVCFG_4BYTE_ADDR_MASK (1 << 0)
->  #define NVCFG_LOWER_SEGMENT_MASK (1 << 1)
->  
-> @@ -769,7 +769,7 @@ static void reset_memory(Flash *s)
+> @@ -768,7 +768,7 @@ static void reset_memory(Flash *s)
+>          s->volatile_cfg |= VCFG_DUMMY;
 >          s->volatile_cfg |= VCFG_WRAP_SEQUENTIAL;
 >          if ((s->nonvolatile_cfg & NVCFG_XIP_MODE_MASK)
->                                  != NVCFG_XIP_MODE_DISABLED) {
-> -            s->volatile_cfg |= VCFG_XIP_MODE_ENABLED;
-> +            s->volatile_cfg |= VCFG_XIP_MODE_DISABLED;
+> -                                != NVCFG_XIP_MODE_DISABLED) {
+> +                                == NVCFG_XIP_MODE_DISABLED) {
+>              s->volatile_cfg |= VCFG_XIP_MODE_DISABLED;
 >          }
 >          s->volatile_cfg |= deposit32(s->volatile_cfg,
->                              VCFG_DUMMY_CLK_POS,
-> @@ -784,10 +784,10 @@ static void reset_memory(Flash *s)
->          s->enh_volatile_cfg |= EVCFG_VPP_ACCELERATOR;
->          s->enh_volatile_cfg |= EVCFG_RESET_HOLD_ENABLED;
->          if (s->nonvolatile_cfg & NVCFG_DUAL_IO_MASK) {
-> -            s->enh_volatile_cfg |= EVCFG_DUAL_IO_ENABLED;
-> +            s->enh_volatile_cfg |= EVCFG_DUAL_IO_DISABLED;
->          }
->          if (s->nonvolatile_cfg & NVCFG_QUAD_IO_MASK) {
-> -            s->enh_volatile_cfg |= EVCFG_QUAD_IO_ENABLED;
-> +            s->enh_volatile_cfg |= EVCFG_QUAD_IO_DISABLED;
->          }
->          if (!(s->nonvolatile_cfg & NVCFG_4BYTE_ADDR_MASK)) {
->              s->four_bytes_address_mode = true;
 > -- 
 > 2.7.4
 > 
