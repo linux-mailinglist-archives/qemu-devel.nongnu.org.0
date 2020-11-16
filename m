@@ -2,98 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 555A12B50EC
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 20:21:27 +0100 (CET)
-Received: from localhost ([::1]:50462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 822E02B50AE
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 20:18:28 +0100 (CET)
+Received: from localhost ([::1]:45458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kek46-0002NG-C0
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 14:21:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42446)
+	id 1kek1D-0000Eu-Gf
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 14:18:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Ashish.Kalra@amd.com>)
- id 1kejcK-0001Qs-4B
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:52:44 -0500
-Received: from mail-mw2nam12on2049.outbound.protection.outlook.com
- ([40.107.244.49]:2144 helo=NAM12-MW2-obe.outbound.protection.outlook.com)
+ id 1kejcx-00027M-7A
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:53:26 -0500
+Received: from mail-mw2nam12on2066.outbound.protection.outlook.com
+ ([40.107.244.66]:14593 helo=NAM12-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Ashish.Kalra@amd.com>)
- id 1kejcI-0004hq-L0
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:52:43 -0500
+ id 1kejcv-0004xz-4K
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:53:22 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Qgn/FV6PYle1OO8pJ1OKBZK8PF93KIWC+pcpX5QciPGn39FQZ6R9uatXScF3RwdCkn6G5LjP23/GcLqoVMBPAva5opLqp+sDjNmu6GBgxhiyHKDqpcYS6fiuM0yY4dQHprIJGiCq5cNLEPDwJkrH5eKK0EDKe7c5AnS2JFEgAPkGjkqiF+39lzkZvcIV3Bx5bLOWpM3Tx3iRJPZkJZrf4oOq4kfYji2rhfuJ31vpa6VUzYbXUU/CVVcfNkP6o74pm22rook/cKwDQreaZKvXVAzbP1W0eQVlsf1/ZTlcqY+w1ifPEoriN3yJiABzFAPi+x9YzOYYDurSn9U8V5+TAQ==
+ b=edMlc9eM2CovJkEiso2bfcumfPyy39Nz3CXmbM3EbBt9TBqZWtW1AJsq45fN+/taSxuQDLX8EX38v/R+JLpCdBmA7Xwo/wGxxxguoZSLWrggiBRlvIe5E0jHVbwr1teyoyU7vw7sKL11KbjJlTI5sBJcaWZyYLL8wSfKapUBeAjBKLOsT7f/ez5hX37RnrWAvkiQe5b5ooBrSKmpdF/tmqFKv1Lcv8e55/hB653SYYL968cCcO21it4cGei9so69ncGdi/0PdZ+W4dMeK/pEMwUnVRNaVe3WGFJMKzyFklNkua9Uzf3mDddGs9zBIP35iWJjV4AWM5HYXcNV5zGyBQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=saSJH9H2CfgXz0bDJfF8295ijeMeqMLuM37DA6kaYVU=;
- b=EgzvX7GGkDqFnYS3uKk1mYdo6cGo68yro/mRaufw0bRrvCxkG7395Gerz/aN8IcL0RJ/Xb+2KMhETmUwZWSrmLbx3xbZQcYfAt8FDQnBL1OF3awOxHYGo7Ezz1TTnX6tpEm+CjS+ObH46GQpgWazywn4WGPkDaeg6mzU11RcteprMf8bXGnkkm+6jLYB2oOn9i53orGQ9BDl/W3N4DpmX58CVS/NYc3/y10Rr6MLeIcoXij6EvdXLB+9lXkUT+LRja01bOx6UyVRhwoTBEuKQC9zoC/ufNyFagjpT00IYZzEd3D7dgO4SqABsBgAFuHA18z4Faw/RJMRNRie14Vx/g==
+ bh=FGQW7eMWcRAl63yyStxmlmbSiV6ZK4fIJOoXMqlgVuE=;
+ b=ZxwwHkoXczQjFlMu7vUCHfu00B3Mr3zONnOlXg7lrkbZPSq8L75lyX2J4IVy+M2EOPbVi/mI2LCXanc8aNaDeqOdnDZQu0A4LqBrCZ4/0fphRENcAOmrkhxlmtspPzN9+wrCu0xxdIg9n0qvqWfN48skUMvLCqMz5WjXtQA9LNyZv9o6hcuRgh+P6xCXUs2ty9T11PFDSW/X4OnBptbiiPZkpCwtVm9NGM6ohLzgsuwzEEQNw232p9EbZl2ZuwYSg5gWYqPOxdqGV3abM8Mr3Uwoyzo5ngEzJlfxDuOMTnNSdYCaI1bhbIBddw8TUudhD4tCik9Eh4YUYv4wbjy32Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=saSJH9H2CfgXz0bDJfF8295ijeMeqMLuM37DA6kaYVU=;
- b=sFsHuQn600heDUY4otM0SnQrfBRO2jPYWazLiK3nlJVD+A6GKIbSyxKnOTXmGxIigPsPREo6SfCxvwMJxU4TSMRr5RiKG0ip3SlOK5Y/iPBJlNgsjf/zb9bxrODAFEpSjA+DjXGeMDb9/zA1P7yk8Wy5kxUliw1uo+F74MYEVuU=
+ bh=FGQW7eMWcRAl63yyStxmlmbSiV6ZK4fIJOoXMqlgVuE=;
+ b=jeVjZ+O7U0PK8IkyfBu4bu7UkQ5Mtd/kodRAuc+KvJPXhF/HBo0EzocWvdOuT0ONMHMsWk+fDxWTBUf6CGfzwFG5bSK37DGV//Ax9fMHtzMikuBY0pdmPLh+fPtcR/KdzelzOOjUm88bCw9JQdPKcQ70fS5syXno6wKkUYf4lxs=
 Authentication-Results: redhat.com; dkim=none (message not signed)
  header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
 Received: from SN6PR12MB2767.namprd12.prod.outlook.com (2603:10b6:805:75::23)
  by SA0PR12MB4557.namprd12.prod.outlook.com (2603:10b6:806:9d::10)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.25; Mon, 16 Nov
- 2020 18:52:40 +0000
+ 2020 18:53:13 +0000
 Received: from SN6PR12MB2767.namprd12.prod.outlook.com
  ([fe80::d8f2:fde4:5e1d:afec]) by SN6PR12MB2767.namprd12.prod.outlook.com
  ([fe80::d8f2:fde4:5e1d:afec%3]) with mapi id 15.20.3541.025; Mon, 16 Nov 2020
- 18:52:40 +0000
+ 18:53:13 +0000
 From: Ashish Kalra <Ashish.Kalra@amd.com>
 To: pbonzini@redhat.com
-Subject: [PATCH 09/11] hw/i386: set ram_debug_ops when memory encryption is
- enabled
-Date: Mon, 16 Nov 2020 18:52:29 +0000
-Message-Id: <0afaef32bcf868297eff2837e2462a3c5efd21ba.1605316268.git.ashish.kalra@amd.com>
+Subject: [PATCH 11/11] target/i386: clear C-bit when walking SEV guest page
+ table
+Date: Mon, 16 Nov 2020 18:53:02 +0000
+Message-Id: <82ab6378638ce00118bff1c006bd346be598caec.1605316268.git.ashish.kalra@amd.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1605316268.git.ashish.kalra@amd.com>
 References: <cover.1605316268.git.ashish.kalra@amd.com>
 Content-Type: text/plain
 X-Originating-IP: [165.204.77.1]
-X-ClientProxiedBy: DM6PR05CA0038.namprd05.prod.outlook.com
- (2603:10b6:5:335::7) To SN6PR12MB2767.namprd12.prod.outlook.com
+X-ClientProxiedBy: DM6PR06CA0030.namprd06.prod.outlook.com
+ (2603:10b6:5:120::43) To SN6PR12MB2767.namprd12.prod.outlook.com
  (2603:10b6:805:75::23)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from ashkalra_ubuntu_server.amd.com (165.204.77.1) by
- DM6PR05CA0038.namprd05.prod.outlook.com (2603:10b6:5:335::7) with Microsoft
+ DM6PR06CA0030.namprd06.prod.outlook.com (2603:10b6:5:120::43) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3589.15 via Frontend Transport; Mon, 16 Nov 2020 18:52:39 +0000
+ 15.20.3564.25 via Frontend Transport; Mon, 16 Nov 2020 18:53:12 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 12f37d1b-6481-40b8-b40f-08d88a60cb0d
+X-MS-Office365-Filtering-Correlation-Id: a79cfd89-ac0f-460f-d47e-08d88a60deac
 X-MS-TrafficTypeDiagnostic: SA0PR12MB4557:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA0PR12MB4557DAAA038076A523BDA2B88EE30@SA0PR12MB4557.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-Microsoft-Antispam-PRVS: <SA0PR12MB4557FE7C2A075241003395088EE30@SA0PR12MB4557.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 7Er6b46T2y2XEl1UbEbylb4LkuZ8vIt/dv15KFb5WSk5entKvyZUSMs+mJ/y9rRY8Atu5lPIMITaXDN0En8v3S5jsvy2iewhQKj50aYd5gFUDYUick7zTg/OPLUD5LqRrNteZf3YUlU82466uJUaV9ZKKde8du88HnTOvrOIfzo6ruXpsCdmQHKFS3acKZy+RW0IX3HiIUOK1Ux13sLJdbS0T28gYUjVIjjUdYKYGm9by2TqFOY1f7sw5aOy04bw3gaxBMNMD5OcPXk0pq6r5SyIDWo41IVIlxNRSg+jUoSEpDNL8IxI9kMmGW5owvzRtKGVMd4EcDFDwFwZRMmw8Q==
+X-Microsoft-Antispam-Message-Info: X3gy4fdc8R01KEDDui0ypgJuygXuFOXaUERJ9zlfEtGNO099aaNdFgRrng+2BD+vVdH+sEjQiJeK6/3dahYrE/Wxsp0xBMw6QFoeTdNC4UEk4zrgpvHsNIIZihXI6pBa5vbV8K719Cay0CPHTEaGD81SaBodVJg9NKPZSL/v6czoy6MO+DkTu+BoyP4b5EzF4b4MsBICbVfpzD76iToIiKVClbXqfMCfS7ISA9giU2iDSdA/Y169Ng2j8SojfGpDqlbtn2YbliREnWNyprDtMOPQ7pq1gTEZ0eEcTAFMyYsGkiO3+HQYLqrIJbOyAyE7
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN6PR12MB2767.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(366004)(136003)(346002)(376002)(39860400002)(66946007)(36756003)(86362001)(2616005)(956004)(8936002)(83380400001)(66476007)(66556008)(5660300002)(6666004)(2906002)(6486002)(478600001)(7696005)(8676002)(6916009)(16526019)(186003)(26005)(52116002)(316002)(7416002)(4326008);
+ SFS:(4636009)(396003)(366004)(136003)(346002)(376002)(39860400002)(66946007)(36756003)(86362001)(2616005)(956004)(8936002)(30864003)(83380400001)(66476007)(66556008)(5660300002)(6666004)(2906002)(6486002)(478600001)(7696005)(8676002)(6916009)(16526019)(186003)(26005)(52116002)(316002)(7416002)(4326008);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: Mbqa4elDzTns/SvsQMhHHY7cBxNkepBTSyCuOWzv8OgK3rvQ2FhbO5gkNc/Id4yIaftSn5jGcXpOVmzJDIXHDeZQRrdMfAWnS4f41ckPHVbNqET/g3ydQ+1M0v7QIrkEuwvtnbvhfs6P44IhkbqrNp5HOOi+vvibQcC69ua98pbMJqblrGiPuaZvZsuwYxNorGA3mOGerIA1qw0aj0nA6JAxiC0cE8Ow5WjNpl7lkKl/HDQJGSk0kGKvod0J0XSzIiP5J6/ogDA7spKNoIQ0uXx7He978ZfqgXltt1ZGwrbRXend9T1wSXfnzfkFznmpHXvvU7sXkqOW7721pCA0kJb/zNMbDu8JOrw7DURy9n4+QC5be87BjHibiFqQxN1Q7cGq8+AxvwUJ+18pG1RXUf3lVMiOp+ft8nG8JhemE7W66y42M553Kf+rHoPi1EDjGSN7iaBQ58o7HBZ4FAfTK9iEWhQBXbHWWObdA900YhBXSQgkbYUgVkiYz+EAJHuTcmadKDAmS2AHO0Xa8eMId7l7msMTxNJurXkMW5yjlBEErebAPihs5vYv4SN+KfMzWJ0mR1hLXyGpmHgJwTTn39wjKlPs2QgiTO/hJ9PwIiaSQuWgqV302ehWfkRHacOhAK3GJsY3+wp9/9KGyIlj6I2WjdKQRS/+aBD7P4ElV8ZXtRCHCEHIkuGxJ3fTaCYDxcSXfHKDaWJl72j0WuHRtk4SNv9D8yJXHZnjFbQBvcVK89Ia8/1LqZM6oGcixjf9T2UrFQYAf+gqWxhMo7FtRuESYE6pKQ3ufXfHXn38+rGVeix9etLShYSAd+rbUBRcl/ECNOC08fU7bcIH0g7QiIwwTvREZDFw0T4bE8Mh/YIbHcxtR8B6kAPLh7ie4j0kmUAK8x/AVmvg6oER3YmUGg==
+X-MS-Exchange-AntiSpam-MessageData: xgPHY3cN2q9jgNw48iRwD+ziTp4cyuu4L4caLGyv5emzICAzTndBRF3pUpYGtyfB9c+XWZN/k9D3SsINDPaEmWqb0pnQNZqPWNNYI7M4zKgtuhGB9+8+/4HrOnQLPyMPane4vlf2F0uPyieQD8N66C4p6/7SPOSlUN9ps3laEk4ZO6DdCb4WFfa6qvkfauqGXIfhNDrGTax9GWo0PuoHDQ2fTGYgWhvdpY+iY/dOjiAkhTTaprvrTe927Nn2RYccXQXxKb3CaJE8w5xYVXtURTKISClwXN0JmYfkH8IGAaHDvPCNj046iBDgarv92UL2wKZhzTqJLjJQYcmC154yUjGGNRAdP37L0QZy8auZaMkcObm1+bSCDzWN4kJEzrkWcfnCXBsGXhcoz7UPOW/obTy3i8IngNOp0ZV+vbbsD2wngAGgZlkrflPVWKZtS5eykA/OXljaThZ/o+oszy4CTzkCWcg218U717miewa7oP/8mdWkyPdj8jkKeVUx7KBAe3iMt/vHWeIqXy70CyHiTejrsmVnrjWtnAYcxLJfxDKwWjhwB1Qr1IJSKF15GWcX8I/0g7mRueqIIbSJ42HnDHFmvkbwxkgvSbB0i964aZaO1X/hdBhFeWfg2iAClbhytdhCnH/pUAfYmV+XZPcDnu+ssPvcNHGw437HawEfE8PVvzP6W9nr0oUeb/59yUnssX4jNmKDTqQQqTD2cfjpHrOxNQvnE9dpkJo7pkQbRYDF32gg8OpO6eCV83rIdQ5u/sUKLsikh1yfa99UFNPl1AFmOAT+DIuHp/ihX3hdjsqT2BzMIq1bNf19ZivoWR6j6ohmObFtDK6EvACcnPiplnk5j56L0XX9/mHcPz+4QSiih6IGg82cWwzFj7J7sLOOEPaOL1pbGfTeElmC1x1t/w==
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 12f37d1b-6481-40b8-b40f-08d88a60cb0d
+X-MS-Exchange-CrossTenant-Network-Message-Id: a79cfd89-ac0f-460f-d47e-08d88a60deac
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2767.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2020 18:52:40.3800 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2020 18:53:13.2725 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3DKwTQLiV7Gu42pA3CxoUHyOdJY3DLiZzZJFMj6qGauczk3qDfVv/cn9GKOYGEg+UBg/6rPyQRPIFthqWY5oBQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: +MzcMe2PuLSFC2czRN0/LkmtIORiahutx/07mUwpRKhiN7dfaTDd4D7f23Ys9iLQKSdHFStuQaA3cXs06w2DvQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4557
-Received-SPF: none client-ip=40.107.244.49; envelope-from=Ashish.Kalra@amd.com;
+Received-SPF: none client-ip=40.107.244.66; envelope-from=Ashish.Kalra@amd.com;
  helo=NAM12-MW2-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 13:51:26
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 13:53:16
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -8
 X-Spam_score: -0.9
@@ -123,54 +123,332 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Brijesh Singh <brijesh.singh@amd.com>
 
-When memory encryption is enabled, the guest RAM and boot flash ROM will
-contain the encrypted data. By setting the debug ops allow us to invoke
-encryption APIs when accessing the memory for the debug purposes.
+In SEV-enabled guest the pte entry will have C-bit set, we need to clear
+the C-bit when walking the page table.
+
+This ensures that the proper page address translation occurs and, with the
+C-bit reset, the true physical address is got.
+
+The pte_mask to be used during guest page table walk is added as a
+vendor specific assist/hook as part of the new MemoryDebugOps and
+available via the new debug API interface cpu_physical_memory_pte_mask_debug().
 
 Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
 Signed-off-by: Ashish Kalra <ashish.kalra@amd.com>
 ---
- hw/i386/pc.c       | 9 +++++++++
- hw/i386/pc_sysfw.c | 6 ++++++
- 2 files changed, 15 insertions(+)
+ include/exec/cpu-common.h |  3 ++
+ include/exec/memory.h     |  1 +
+ softmmu/physmem.c         | 13 +++++++-
+ target/i386/monitor.c     | 70 +++++++++++++++++++++++++--------------
+ target/i386/sev.c         |  3 +-
+ 5 files changed, 63 insertions(+), 27 deletions(-)
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 5e6c0023e0..dfb63cd686 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -913,6 +913,15 @@ void pc_memory_init(PCMachineState *pcms,
-         e820_add_entry(0x100000000ULL, x86ms->above_4g_mem_size, E820_RAM);
-     }
+diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
+index d2089e6873..3374573d39 100644
+--- a/include/exec/cpu-common.h
++++ b/include/exec/cpu-common.h
+@@ -96,6 +96,9 @@ static inline void cpu_physical_memory_write(hwaddr addr,
+ {
+     cpu_physical_memory_rw(addr, (void *)buf, len, true);
+ }
++
++uint64_t cpu_physical_memory_pte_mask_debug(void);
++
+ void *cpu_physical_memory_map(hwaddr addr,
+                               hwaddr *plen,
+                               bool is_write);
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 74f2dcec00..ebe8ffc1eb 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -2428,6 +2428,7 @@ typedef struct MemoryDebugOps {
+     MemTxResult (*write)(AddressSpace *as, hwaddr phys_addr,
+                          MemTxAttrs attrs, const void *buf,
+                          hwaddr len);
++    uint64_t (*pte_mask)(void);
+ } MemoryDebugOps;
  
-+    /*
-+     * When memory encryption is enabled, the guest RAM will be encrypted with
-+     * a guest unique key. Set the debug ops so that any debug access to the
-+     * guest RAM will go through the memory encryption APIs.
-+     */
-+    if (kvm_memcrypt_enabled()) {
-+        kvm_memcrypt_set_debug_ops_memory_region(*ram_memory);
-+    }
+ void address_space_set_debug_ops(const MemoryDebugOps *ops);
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index 6945bd5efe..fc6b5588fc 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -166,9 +166,15 @@ struct DirtyBitmapSnapshot {
+     unsigned long dirty[];
+ };
+ 
++static uint64_t address_space_pte_mask(void)
++{
++    return ~0;
++}
 +
-     if (!pcmc->has_reserved_memory &&
-         (machine->ram_slots ||
-          (machine->maxram_size > machine->ram_size))) {
-diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
-index b6c0822fe3..9f90c9d761 100644
---- a/hw/i386/pc_sysfw.c
-+++ b/hw/i386/pc_sysfw.c
-@@ -209,6 +209,12 @@ static void pc_system_flash_map(PCMachineState *pcms,
-                     error_report("failed to encrypt pflash rom");
-                     exit(1);
-                 }
+ static const MemoryDebugOps default_debug_ops = {
+     .read = address_space_read,
+-    .write = address_space_write_rom
++    .write = address_space_write_rom,
++    .pte_mask = address_space_pte_mask
+ };
+ 
+ static const MemoryDebugOps *debug_ops = &default_debug_ops;
+@@ -3401,6 +3407,11 @@ void cpu_physical_memory_rw_debug(hwaddr addr, uint8_t *buf,
+ 
+ }
+ 
++uint64_t cpu_physical_memory_pte_mask_debug(void)
++{
++    return debug_ops->pte_mask();
++}
 +
-+                /*
-+                 * The pflash ROM is encrypted, set the debug ops so that any
-+                 * debug accesses will use memory encryption APIs.
-+                 */
-+                kvm_memcrypt_set_debug_ops_memory_region(flash_mem);
+ int64_t address_space_cache_init(MemoryRegionCache *cache,
+                                  AddressSpace *as,
+                                  hwaddr addr,
+diff --git a/target/i386/monitor.c b/target/i386/monitor.c
+index 9ca9c677a5..c73cac04cb 100644
+--- a/target/i386/monitor.c
++++ b/target/i386/monitor.c
+@@ -106,16 +106,20 @@ static void tlb_info_pae32(Monitor *mon, CPUArchState *env)
+     unsigned int l1, l2, l3;
+     uint64_t pdpe, pde, pte;
+     uint64_t pdp_addr, pd_addr, pt_addr;
++    uint64_t me_mask;
++
++    me_mask = cpu_physical_memory_pte_mask_debug();
+ 
+     pdp_addr = env->cr[3] & ~0x1f;
++    pdp_addr &= me_mask;
+     for (l1 = 0; l1 < 4; l1++) {
+         cpu_physical_memory_read_debug(pdp_addr + l1 * 8, &pdpe, 8);
+-        pdpe = le64_to_cpu(pdpe);
++        pdpe = le64_to_cpu(pdpe & me_mask);
+         if (pdpe & PG_PRESENT_MASK) {
+             pd_addr = pdpe & 0x3fffffffff000ULL;
+             for (l2 = 0; l2 < 512; l2++) {
+                 cpu_physical_memory_read_debug(pd_addr + l2 * 8, &pde, 8);
+-                pde = le64_to_cpu(pde);
++                pde = le64_to_cpu(pde & me_mask);
+                 if (pde & PG_PRESENT_MASK) {
+                     if (pde & PG_PSE_MASK) {
+                         /* 2M pages with PAE, CR4.PSE is ignored */
+@@ -126,7 +130,7 @@ static void tlb_info_pae32(Monitor *mon, CPUArchState *env)
+                         for (l3 = 0; l3 < 512; l3++) {
+                             cpu_physical_memory_read_debug(pt_addr + l3 * 8,
+                                                            &pte, 8);
+-                            pte = le64_to_cpu(pte);
++                            pte = le64_to_cpu(pte & me_mask);
+                             if (pte & PG_PRESENT_MASK) {
+                                 print_pte(mon, env, (l1 << 30) + (l2 << 21)
+                                           + (l3 << 12),
+@@ -148,10 +152,13 @@ static void tlb_info_la48(Monitor *mon, CPUArchState *env,
+     uint64_t l1, l2, l3, l4;
+     uint64_t pml4e, pdpe, pde, pte;
+     uint64_t pdp_addr, pd_addr, pt_addr;
++    uint64_t me_mask;
++
++    me_mask = cpu_physical_memory_pte_mask_debug();
+ 
+     for (l1 = 0; l1 < 512; l1++) {
+         cpu_physical_memory_read_debug(pml4_addr + l1 * 8, &pml4e, 8);
+-        pml4e = le64_to_cpu(pml4e);
++        pml4e = le64_to_cpu(pml4e & me_mask);
+         if (!(pml4e & PG_PRESENT_MASK)) {
+             continue;
+         }
+@@ -159,7 +166,7 @@ static void tlb_info_la48(Monitor *mon, CPUArchState *env,
+         pdp_addr = pml4e & 0x3fffffffff000ULL;
+         for (l2 = 0; l2 < 512; l2++) {
+             cpu_physical_memory_read_debug(pdp_addr + l2 * 8, &pdpe, 8);
+-            pdpe = le64_to_cpu(pdpe);
++            pdpe = le64_to_cpu(pdpe & me_mask);
+             if (!(pdpe & PG_PRESENT_MASK)) {
+                 continue;
              }
+@@ -174,7 +181,7 @@ static void tlb_info_la48(Monitor *mon, CPUArchState *env,
+             pd_addr = pdpe & 0x3fffffffff000ULL;
+             for (l3 = 0; l3 < 512; l3++) {
+                 cpu_physical_memory_read_debug(pd_addr + l3 * 8, &pde, 8);
+-                pde = le64_to_cpu(pde);
++                pde = le64_to_cpu(pde & me_mask);
+                 if (!(pde & PG_PRESENT_MASK)) {
+                     continue;
+                 }
+@@ -191,7 +198,7 @@ static void tlb_info_la48(Monitor *mon, CPUArchState *env,
+                     cpu_physical_memory_read_debug(pt_addr
+                             + l4 * 8,
+                             &pte, 8);
+-                    pte = le64_to_cpu(pte);
++                    pte = le64_to_cpu(pte & me_mask);
+                     if (pte & PG_PRESENT_MASK) {
+                         print_pte(mon, env, (l0 << 48) + (l1 << 39) +
+                                 (l2 << 30) + (l3 << 21) + (l4 << 12),
+@@ -208,13 +215,17 @@ static void tlb_info_la57(Monitor *mon, CPUArchState *env)
+     uint64_t l0;
+     uint64_t pml5e;
+     uint64_t pml5_addr;
++    uint64_t me_mask;
+ 
+-    pml5_addr = env->cr[3] & 0x3fffffffff000ULL;
++    me_mask = cpu_physical_memory_pte_mask_debug();
++
++    pml5_addr = env->cr[3] & 0x3fffffffff000ULL & me_mask;
+     for (l0 = 0; l0 < 512; l0++) {
+         cpu_physical_memory_read_debug(pml5_addr + l0 * 8, &pml5e, 8);
+-        pml5e = le64_to_cpu(pml5e);
++        pml5e = le64_to_cpu(pml5e & me_mask);
+         if (pml5e & PG_PRESENT_MASK) {
+-            tlb_info_la48(mon, env, l0, pml5e & 0x3fffffffff000ULL);
++            tlb_info_la48(mon, env, l0, pml5e & 0x3fffffffff000ULL &
++                          cpu_physical_memory_pte_mask_debug());
          }
      }
+ }
+@@ -326,19 +337,22 @@ static void mem_info_pae32(Monitor *mon, CPUArchState *env)
+     uint64_t pdpe, pde, pte;
+     uint64_t pdp_addr, pd_addr, pt_addr;
+     hwaddr start, end;
++    uint64_t me_mask;
+ 
+-    pdp_addr = env->cr[3] & ~0x1f;
++    me_mask = cpu_physical_memory_pte_mask_debug();
++
++    pdp_addr = env->cr[3] & ~0x1f & me_mask;
+     last_prot = 0;
+     start = -1;
+     for (l1 = 0; l1 < 4; l1++) {
+         cpu_physical_memory_read_debug(pdp_addr + l1 * 8, &pdpe, 8);
+-        pdpe = le64_to_cpu(pdpe);
++        pdpe = le64_to_cpu(pdpe & me_mask);
+         end = l1 << 30;
+         if (pdpe & PG_PRESENT_MASK) {
+             pd_addr = pdpe & 0x3fffffffff000ULL;
+             for (l2 = 0; l2 < 512; l2++) {
+                 cpu_physical_memory_read_debug(pd_addr + l2 * 8, &pde, 8);
+-                pde = le64_to_cpu(pde);
++                pde = le64_to_cpu(pde & me_mask);
+                 end = (l1 << 30) + (l2 << 21);
+                 if (pde & PG_PRESENT_MASK) {
+                     if (pde & PG_PSE_MASK) {
+@@ -350,7 +364,7 @@ static void mem_info_pae32(Monitor *mon, CPUArchState *env)
+                         for (l3 = 0; l3 < 512; l3++) {
+                             cpu_physical_memory_read_debug(pt_addr + l3 * 8,
+                                                            &pte, 8);
+-                            pte = le64_to_cpu(pte);
++                            pte = le64_to_cpu(pte & me_mask);
+                             end = (l1 << 30) + (l2 << 21) + (l3 << 12);
+                             if (pte & PG_PRESENT_MASK) {
+                                 prot = pte & pde & (PG_USER_MASK | PG_RW_MASK |
+@@ -383,19 +397,22 @@ static void mem_info_la48(Monitor *mon, CPUArchState *env)
+     uint64_t l1, l2, l3, l4;
+     uint64_t pml4e, pdpe, pde, pte;
+     uint64_t pml4_addr, pdp_addr, pd_addr, pt_addr, start, end;
++    uint64_t me_mask;
++
++    me_mask = cpu_physical_memory_pte_mask_debug();
+ 
+-    pml4_addr = env->cr[3] & 0x3fffffffff000ULL;
++    pml4_addr = env->cr[3] & 0x3fffffffff000ULL & me_mask;
+     last_prot = 0;
+     start = -1;
+     for (l1 = 0; l1 < 512; l1++) {
+         cpu_physical_memory_read_debug(pml4_addr + l1 * 8, &pml4e, 8);
+-        pml4e = le64_to_cpu(pml4e);
++        pml4e = le64_to_cpu(pml4e & me_mask);
+         end = l1 << 39;
+         if (pml4e & PG_PRESENT_MASK) {
+             pdp_addr = pml4e & 0x3fffffffff000ULL;
+             for (l2 = 0; l2 < 512; l2++) {
+                 cpu_physical_memory_read_debug(pdp_addr + l2 * 8, &pdpe, 8);
+-                pdpe = le64_to_cpu(pdpe);
++                pdpe = le64_to_cpu(pdpe & me_mask);
+                 end = (l1 << 39) + (l2 << 30);
+                 if (pdpe & PG_PRESENT_MASK) {
+                     if (pdpe & PG_PSE_MASK) {
+@@ -408,7 +425,7 @@ static void mem_info_la48(Monitor *mon, CPUArchState *env)
+                         for (l3 = 0; l3 < 512; l3++) {
+                             cpu_physical_memory_read_debug(pd_addr + l3 * 8,
+                                                            &pde, 8);
+-                            pde = le64_to_cpu(pde);
++                            pde = le64_to_cpu(pde & me_mask);
+                             end = (l1 << 39) + (l2 << 30) + (l3 << 21);
+                             if (pde & PG_PRESENT_MASK) {
+                                 if (pde & PG_PSE_MASK) {
+@@ -423,7 +440,7 @@ static void mem_info_la48(Monitor *mon, CPUArchState *env)
+                                         cpu_physical_memory_read_debug(pt_addr
+                                                                  + l4 * 8,
+                                                                  &pte, 8);
+-                                        pte = le64_to_cpu(pte);
++                                        pte = le64_to_cpu(pte & me_mask);
+                                         end = (l1 << 39) + (l2 << 30) +
+                                             (l3 << 21) + (l4 << 12);
+                                         if (pte & PG_PRESENT_MASK) {
+@@ -464,13 +481,16 @@ static void mem_info_la57(Monitor *mon, CPUArchState *env)
+     uint64_t l0, l1, l2, l3, l4;
+     uint64_t pml5e, pml4e, pdpe, pde, pte;
+     uint64_t pml5_addr, pml4_addr, pdp_addr, pd_addr, pt_addr, start, end;
++    uint64_t me_mask;
++
++    me_mask = cpu_physical_memory_pte_mask_debug();
+ 
+-    pml5_addr = env->cr[3] & 0x3fffffffff000ULL;
++    pml5_addr = env->cr[3] & 0x3fffffffff000ULL & me_mask;
+     last_prot = 0;
+     start = -1;
+     for (l0 = 0; l0 < 512; l0++) {
+         cpu_physical_memory_read_debug(pml5_addr + l0 * 8, &pml5e, 8);
+-        pml5e = le64_to_cpu(pml5e);
++        pml5e = le64_to_cpu(pml5e & me_mask);
+         end = l0 << 48;
+         if (!(pml5e & PG_PRESENT_MASK)) {
+             prot = 0;
+@@ -481,7 +501,7 @@ static void mem_info_la57(Monitor *mon, CPUArchState *env)
+         pml4_addr = pml5e & 0x3fffffffff000ULL;
+         for (l1 = 0; l1 < 512; l1++) {
+             cpu_physical_memory_read_debug(pml4_addr + l1 * 8, &pml4e, 8);
+-            pml4e = le64_to_cpu(pml4e);
++            pml4e = le64_to_cpu(pml4e & me_mask);
+             end = (l0 << 48) + (l1 << 39);
+             if (!(pml4e & PG_PRESENT_MASK)) {
+                 prot = 0;
+@@ -492,7 +512,7 @@ static void mem_info_la57(Monitor *mon, CPUArchState *env)
+             pdp_addr = pml4e & 0x3fffffffff000ULL;
+             for (l2 = 0; l2 < 512; l2++) {
+                 cpu_physical_memory_read_debug(pdp_addr + l2 * 8, &pdpe, 8);
+-                pdpe = le64_to_cpu(pdpe);
++                pdpe = le64_to_cpu(pdpe & me_mask);
+                 end = (l0 << 48) + (l1 << 39) + (l2 << 30);
+                 if (pdpe & PG_PRESENT_MASK) {
+                     prot = 0;
+@@ -511,7 +531,7 @@ static void mem_info_la57(Monitor *mon, CPUArchState *env)
+                 pd_addr = pdpe & 0x3fffffffff000ULL;
+                 for (l3 = 0; l3 < 512; l3++) {
+                     cpu_physical_memory_read_debug(pd_addr + l3 * 8, &pde, 8);
+-                    pde = le64_to_cpu(pde);
++                    pde = le64_to_cpu(pde & me_mask);
+                     end = (l0 << 48) + (l1 << 39) + (l2 << 30) + (l3 << 21);
+                     if (pde & PG_PRESENT_MASK) {
+                         prot = 0;
+@@ -531,7 +551,7 @@ static void mem_info_la57(Monitor *mon, CPUArchState *env)
+                     for (l4 = 0; l4 < 512; l4++) {
+                         cpu_physical_memory_read_debug(pt_addr + l4 * 8,
+                                                        &pte, 8);
+-                        pte = le64_to_cpu(pte);
++                        pte = le64_to_cpu(pte & me_mask);
+                         end = (l0 << 48) + (l1 << 39) + (l2 << 30) +
+                             (l3 << 21) + (l4 << 12);
+                         if (pte & PG_PRESENT_MASK) {
+diff --git a/target/i386/sev.c b/target/i386/sev.c
+index b942593bc8..97726a639f 100644
+--- a/target/i386/sev.c
++++ b/target/i386/sev.c
+@@ -1003,7 +1003,8 @@ MemTxResult sev_address_space_read_debug(AddressSpace *as, hwaddr addr,
+ 
+ static const MemoryDebugOps sev_debug_ops = {
+     .read = sev_address_space_read_debug,
+-    .write = sev_address_space_write_rom_debug
++    .write = sev_address_space_write_rom_debug,
++    .pte_mask = sev_get_me_mask,
+ };
+ 
+ void
 -- 
 2.17.1
 
