@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCDEB2B4B0A
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 17:28:46 +0100 (CET)
-Received: from localhost ([::1]:45480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 101682B4A8D
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 17:17:40 +0100 (CET)
+Received: from localhost ([::1]:47322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kehMz-0002UU-TG
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 11:28:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58302)
+	id 1kehCF-0007Xu-0r
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 11:17:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1keh3h-0000A9-93
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 11:08:49 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:43261)
+ id 1keh3j-0000HW-Sn
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 11:08:51 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:40717)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1keh3e-0007s1-7R
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 11:08:48 -0500
-Received: by mail-wr1-x444.google.com with SMTP id s8so19244567wrw.10
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 08:08:45 -0800 (PST)
+ id 1keh3h-0007uP-Up
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 11:08:51 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id m6so2089666wrg.7
+ for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 08:08:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=aHtpQRU3H8qXd2uvyEa+TFGGzXeXygeYRFKCnGAFOiY=;
- b=Thn+dm+ZO0TrYHQlTvaQ4VzGkVaWnLuvydHfSoJ+yjvYVpb0xU0c/oS3rxUK4e37id
- KDPW+v6Hi6G50IR02aXSv104DfYj35r6oQ58JndUeetO9ok7lJ3YzjnGGk5eOOpIjOP1
- 2K0kYq3i26Gzx76lQ7BgpsMkZWkyePoN2eDx3dqBdZszMOw7t8RcJb3IjReHi1mK2QiJ
- AJxKM4dZ+GTxYMOuwIky57yn37lTsFdqBtWtW0JY5aCXqUmRxLrq2+3t2sM5TgSDnGnA
- GTDnnhWhsr+Q5L4efYhGSSL2NnpcccOApcjBrF80eodvwzaiP+VrwQsUVrWhQmEr7sw0
- i98Q==
+ bh=5URRqI2Uq5Oefocw0RaK3NP6xNImZJ6yO5PhF2xMruc=;
+ b=JxEeSDAYk4z9qhN8UxPH2ARPR/BxXTLpHOI/tjuBAndRPZ+m54neCaOeyTwNZbGspT
+ Xe5i9MjF2vstH3UYzJsJ6c9wS48QDuhJKn+JVhxuLiMgD3G+C6pONEEhWlfsETLLfznB
+ 9J/MX36Qw2FxSwppyr8pWEdoSLgeEfIys1xps10wnd1T8nMDZR7O8VtfW2HgRp/K0/7b
+ 5xpee2wtZ0odVsK8NEdQgs7Oy61iw3Yi6JHv1ZC3m5VyOVpKy+zLBgAND7M501PwNhb6
+ pZaU/tQyi253j5u4g8C1X9ecM7HFVfR9WJPwcDwuWosOEwYtFNnLFYPmj/y6UhSVgtrg
+ jG6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aHtpQRU3H8qXd2uvyEa+TFGGzXeXygeYRFKCnGAFOiY=;
- b=b6nlTgWVCGfqLobhN/Q+VNNPw0SGUNFQ1mtuPfRmS1vG5hS0MyiCWSMfLZ8aXMqxDr
- 335xEpGE98PSlg54ge0GCuP90flY07SbUiC0W0GExcbInEsZfUvqcNU3Fyrdd02696Jz
- Y2l8f/irqYHoz34VQeePiUdCDLLhk5IiQbeUhfuvnZpuq4Rb9u1kqiuioHekZX65LnIq
- rwxXv9TXgu4G5X7vT/UH+Rh9d8fiwM9pgDQFKV8YNHbCArv7xaf+YFcUuQTpGRznjYdt
- Mc3iOEGpY91NnQc6eNPqtMSi4XiW9/x3kZRl9ofS9Slu+gi1vSPQTl4lSFnNKIG5eg0t
- a2pw==
-X-Gm-Message-State: AOAM533fIs7HkI7Lmdyv1AiYsRuBm1ikHg1/T1jxGVVoUQYkzCJc6XXV
- 4WbKG8NC1YX1eNlZD+0GUKQMDnBtNau9/Q==
-X-Google-Smtp-Source: ABdhPJwezl7TBLITZpqjDkGzJ2covezL9PcIMp/fJ71ZVDcc28lHmaKujTPQXGF1Gdy0/UwqtAxYpg==
-X-Received: by 2002:adf:eb07:: with SMTP id s7mr19207487wrn.320.1605542924788; 
- Mon, 16 Nov 2020 08:08:44 -0800 (PST)
+ bh=5URRqI2Uq5Oefocw0RaK3NP6xNImZJ6yO5PhF2xMruc=;
+ b=dBE05NNQn/jgIGfeEDADTKvGAdoqVFPzP+OnkNd1R97a4GfRS3f621sCCckNm1ohbw
+ LxCC0cl1RBLpEQZ1lgPEKZBxWzkkSYn9bkdGOerCtA7c+r1uJrJyyyxQz2WvqI5y+jIn
+ x0DfOzypJ65lJE6P6r3NDUwnjsFjFhFhxk5nS7LSBz4VKFjIewePnfGj27+bXhCHtLss
+ H7lO5zJYq51S+702rMJwkA5wy+D4M+iGkGAnELFzIT2GO8l7Bmxcu38+AJQ104yWpAD4
+ fJhBw2q69qTJ/xGJqS5D1Cmb0hPCzn9aWa9E87+OBun+TtSLLNyB1VG7SsGBwiCQWIfp
+ D4/g==
+X-Gm-Message-State: AOAM5333Up5AfZOIgiYtnE3xAQdh1bPGLnEpr/IpKy5ZjM8wrXwPN6ab
+ XQhf90+/lkSGUMI2Bv2RrITxfzV0BCQ2EA==
+X-Google-Smtp-Source: ABdhPJy4kT1qoVBKV+DO0d45wYE1yaYrFedtarkzA/aumowjDBt5TxGhSY9LIyqDt8T05xSe40V9Hg==
+X-Received: by 2002:adf:f546:: with SMTP id j6mr21353805wrp.219.1605542928517; 
+ Mon, 16 Nov 2020 08:08:48 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g20sm20116975wmh.20.2020.11.16.08.08.43
+ by smtp.gmail.com with ESMTPSA id g20sm20116975wmh.20.2020.11.16.08.08.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Nov 2020 08:08:44 -0800 (PST)
+ Mon, 16 Nov 2020 08:08:47 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 09/15] target/arm: Implement VLDR/VSTR system register
-Date: Mon, 16 Nov 2020 16:08:25 +0000
-Message-Id: <20201116160831.31000-10-peter.maydell@linaro.org>
+Subject: [PATCH 12/15] target/arm: Factor out preserve-fp-state from
+ full_vfp_access_check()
+Date: Mon, 16 Nov 2020 16:08:28 +0000
+Message-Id: <20201116160831.31000-13-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201116160831.31000-1-peter.maydell@linaro.org>
 References: <20201116160831.31000-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,140 +89,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the new-in-v8.1M VLDR/VSTR variants which directly
-read or write FP system registers to memory.
+Factor out the code which handles M-profile lazy FP state preservation
+from full_vfp_access_check(); accesses to the FPCXT_NS register are
+a special case which need to do just this part (corresponding in the
+pseudocode to the PreserveFPState() function), and not the full
+set of actions matching the pseudocode ExecuteFPCheck() which
+normal FP instructions need to do.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/vfp.decode          | 14 ++++++
- target/arm/translate-vfp.c.inc | 89 ++++++++++++++++++++++++++++++++++
- 2 files changed, 103 insertions(+)
+ target/arm/translate-vfp.c.inc | 45 ++++++++++++++++++++--------------
+ 1 file changed, 27 insertions(+), 18 deletions(-)
 
-diff --git a/target/arm/vfp.decode b/target/arm/vfp.decode
-index 51f143b4a51..45e3023840b 100644
---- a/target/arm/vfp.decode
-+++ b/target/arm/vfp.decode
-@@ -84,6 +84,20 @@ VLDR_VSTR_hp ---- 1101 u:1 .0 l:1 rn:4 .... 1001 imm:8      vd=%vd_sp
- VLDR_VSTR_sp ---- 1101 u:1 .0 l:1 rn:4 .... 1010 imm:8      vd=%vd_sp
- VLDR_VSTR_dp ---- 1101 u:1 .0 l:1 rn:4 .... 1011 imm:8      vd=%vd_dp
- 
-+# M-profile VLDR/VSTR to sysreg
-+%vldr_sysreg 22:1 13:3
-+%imm7_0x4 0:7 !function=times_4
-+
-+&vldr_sysreg rn reg imm a w p
-+@vldr_sysreg .... ... . a:1 . . . rn:4 ... . ... .. ....... \
-+             reg=%vldr_sysreg imm=%imm7_0x4 &vldr_sysreg
-+
-+# P=0 W=0 is SEE "Related encodings", so split into two patterns
-+VLDR_sysreg  ---- 110 1 . . w:1 1 .... ... 0 111 11 ....... @vldr_sysreg p=1
-+VLDR_sysreg  ---- 110 0 . . 1   1 .... ... 0 111 11 ....... @vldr_sysreg p=0 w=1
-+VSTR_sysreg  ---- 110 1 . . w:1 0 .... ... 0 111 11 ....... @vldr_sysreg p=1
-+VSTR_sysreg  ---- 110 0 . . 1   0 .... ... 0 111 11 ....... @vldr_sysreg p=0 w=1
-+
- # We split the load/store multiple up into two patterns to avoid
- # overlap with other insns in the "Advanced SIMD load/store and 64-bit move"
- # grouping:
 diff --git a/target/arm/translate-vfp.c.inc b/target/arm/translate-vfp.c.inc
-index 5d880d12116..cc115f1d35d 100644
+index 1ccaccbc834..6bc07992eb4 100644
 --- a/target/arm/translate-vfp.c.inc
 +++ b/target/arm/translate-vfp.c.inc
-@@ -912,6 +912,95 @@ static bool trans_VMSR_VMRS(DisasContext *s, arg_VMSR_VMRS *a)
-     return true;
+@@ -83,6 +83,32 @@ static inline long vfp_f16_offset(unsigned reg, bool top)
+     return offs;
  }
  
-+static void fp_sysreg_to_memory(DisasContext *s, void *opaque, TCGv_i32 value)
++/*
++ * Generate code for M-profile lazy FP state preservation if needed;
++ * this corresponds to the pseudocode PreserveFPState() function.
++ */
++static void gen_preserve_fp_state(DisasContext *s)
 +{
-+    arg_vldr_sysreg *a = opaque;
-+    uint32_t offset = a->imm;
-+    TCGv_i32 addr;
-+
-+    if (!a->a) {
-+        offset = - offset;
-+    }
-+
-+    addr = load_reg(s, a->rn);
-+    if (a->p) {
-+        tcg_gen_addi_i32(addr, addr, offset);
-+    }
-+
-+    if (s->v8m_stackcheck && a->rn == 13 && a->w) {
-+        gen_helper_v8m_stackcheck(cpu_env, addr);
-+    }
-+
-+    gen_aa32_st32(s, value, addr, get_mem_index(s));
-+    tcg_temp_free_i32(value);
-+
-+    if (a->w) {
-+        /* writeback */
-+        if (!a->p) {
-+            tcg_gen_addi_i32(addr, addr, offset);
++    if (s->v7m_lspact) {
++        /*
++         * Lazy state saving affects external memory and also the NVIC,
++         * so we must mark it as an IO operation for icount (and cause
++         * this to be the last insn in the TB).
++         */
++        if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
++            s->base.is_jmp = DISAS_UPDATE_EXIT;
++            gen_io_start();
 +        }
-+        store_reg(s, a->rn, addr);
-+    } else {
-+        tcg_temp_free_i32(addr);
++        gen_helper_v7m_preserve_fp_state(cpu_env);
++        /*
++         * If the preserve_fp_state helper doesn't throw an exception
++         * then it will clear LSPACT; we don't need to repeat this for
++         * any further FP insns in this TB.
++         */
++        s->v7m_lspact = false;
 +    }
 +}
 +
-+static TCGv_i32 memory_to_fp_sysreg(DisasContext *s, void *opaque)
-+{
-+    arg_vldr_sysreg *a = opaque;
-+    uint32_t offset = a->imm;
-+    TCGv_i32 addr;
-+    TCGv_i32 value = tcg_temp_new_i32();
-+
-+    if (!a->a) {
-+        offset = - offset;
-+    }
-+
-+    addr = load_reg(s, a->rn);
-+    if (a->p) {
-+        tcg_gen_addi_i32(addr, addr, offset);
-+    }
-+
-+    if (s->v8m_stackcheck && a->rn == 13 && a->w) {
-+        gen_helper_v8m_stackcheck(cpu_env, addr);
-+    }
-+
-+    gen_aa32_ld32u(s, value, addr, get_mem_index(s));
-+
-+    if (a->w) {
-+        /* writeback */
-+        if (!a->p) {
-+            tcg_gen_addi_i32(addr, addr, offset);
-+        }
-+        store_reg(s, a->rn, addr);
-+    } else {
-+        tcg_temp_free_i32(addr);
-+    }
-+    return value;
-+}
-+
-+static bool trans_VLDR_sysreg(DisasContext *s, arg_vldr_sysreg *a)
-+{
-+    if (!arm_dc_feature(s, ARM_FEATURE_V8_1M)) {
-+        return false;
-+    }
-+    if (a->rn == 15) {
-+        return false;
-+    }
-+    return gen_M_fp_sysreg_write(s, a->reg, memory_to_fp_sysreg, a);
-+}
-+
-+static bool trans_VSTR_sysreg(DisasContext *s, arg_vldr_sysreg *a)
-+{
-+    if (!arm_dc_feature(s, ARM_FEATURE_V8_1M)) {
-+        return false;
-+    }
-+    if (a->rn == 15) {
-+        return false;
-+    }
-+    return gen_M_fp_sysreg_read(s, a->reg, fp_sysreg_to_memory, a);
-+}
-+
- static bool trans_VMOV_half(DisasContext *s, arg_VMOV_single *a)
- {
-     TCGv_i32 tmp;
+ /*
+  * Check that VFP access is enabled. If it is, do the necessary
+  * M-profile lazy-FP handling and then return true.
+@@ -113,24 +139,7 @@ static bool full_vfp_access_check(DisasContext *s, bool ignore_vfp_enabled)
+         /* Handle M-profile lazy FP state mechanics */
+ 
+         /* Trigger lazy-state preservation if necessary */
+-        if (s->v7m_lspact) {
+-            /*
+-             * Lazy state saving affects external memory and also the NVIC,
+-             * so we must mark it as an IO operation for icount (and cause
+-             * this to be the last insn in the TB).
+-             */
+-            if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
+-                s->base.is_jmp = DISAS_UPDATE_EXIT;
+-                gen_io_start();
+-            }
+-            gen_helper_v7m_preserve_fp_state(cpu_env);
+-            /*
+-             * If the preserve_fp_state helper doesn't throw an exception
+-             * then it will clear LSPACT; we don't need to repeat this for
+-             * any further FP insns in this TB.
+-             */
+-            s->v7m_lspact = false;
+-        }
++        gen_preserve_fp_state(s);
+ 
+         /* Update ownership of FP context: set FPCCR.S to match current state */
+         if (s->v8m_fpccr_s_wrong) {
 -- 
 2.20.1
 
