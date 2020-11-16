@@ -2,76 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB3642B51FA
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 21:09:00 +0100 (CET)
-Received: from localhost ([::1]:37458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 790F02B5212
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 21:12:39 +0100 (CET)
+Received: from localhost ([::1]:46790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keko7-0003hI-V5
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 15:08:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32830)
+	id 1kekre-0007zF-Et
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 15:12:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jrtc27@jrtc27.com>) id 1kekjj-0007Ux-L0
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 15:04:27 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:55642)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jrtc27@jrtc27.com>) id 1kekjh-00042w-Rd
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 15:04:27 -0500
-Received: by mail-wm1-x342.google.com with SMTP id c9so495198wml.5
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 12:04:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jrtc27.com; s=gmail.jrtc27.user;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xsag5METdBTQqAXmknMMlYVgiIrKBnd3jnkhKjDpOWE=;
- b=STjciWGQTlcFvwkoGcnHzp5gsR7ulFcO/rH0Qk9siqiwWb4A7wPB8d4trko6PvhbnK
- 2C8kECMmsavOqXBusIWPRDM3gPVPjADHvCHUNlU9OAPB9mhEYUhIlyU2owtFEs9UIc1k
- 2MDYr9ZMoRJKZK9E5lN6jzzbHvKxBf/pNlmJoJapDeOPl1ZbsnY0R2SmjtBov0H5/F7A
- w3rdu0WY/o8Gsybr8/8NkNOscsGfDLS8XxKhal8HEXpnRzhjM4F9NDQcO2Iugk5wRkiC
- JC5AraHE5jbvEn+fvTWsV7gs13ZDa0koo0v61WX9CGcHMyXmGR9e1QLqfD9mC9w2gMcx
- mnfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xsag5METdBTQqAXmknMMlYVgiIrKBnd3jnkhKjDpOWE=;
- b=APQ9D+66OxDrzmBDeN/sx6ZOdWxJ5BNZbLxIpCpWT0ZfhUHTt3ZCQmDA444bO9dwat
- sEOahRFpjPtj7H2w0Lc6iYsCyDvvkBfpDr3PDbRYRwKfueSnStQMfFMTfBaXK1nj4/tQ
- h29PdVcYN6byVF+hybFgp8OFjvefz302OtAc6SC1qrB7fd9wMN2Jp1B0oftBjh5aCLRv
- EAg1zMb1MA4Td3dCoV7rK9kQ/+3pEgSLtTsn5cPrmAs/1EX9bmrOs/QEkl4m1GtLrmla
- XTW7gdAJkFXsH48xpeRbTLksioiGgvAh7dM5GUL3c9V/qCC/giRbYoLG3FVKhjMGzPwG
- BQYw==
-X-Gm-Message-State: AOAM533eMKEnTKEh86LE0m+0mkYsGvdDWVCCRZK+3y8vpFFZ2zM+3MCD
- Idi+EKJ68SsY9xNFWtsuI0Q8KQ==
-X-Google-Smtp-Source: ABdhPJz62hjDEDqipJZiiTYBQJ9MazWtEObEToWAlzUZeBb48Y4ZUvOJLzdyOZ4VStBA300+hT/+4g==
-X-Received: by 2002:a05:600c:2202:: with SMTP id
- z2mr533520wml.115.1605557063916; 
- Mon, 16 Nov 2020 12:04:23 -0800 (PST)
-Received: from Jessicas-MacBook.local (trinity-students-nat.trin.cam.ac.uk.
- [131.111.193.104])
- by smtp.gmail.com with ESMTPSA id k22sm414251wmi.34.2020.11.16.12.04.23
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 16 Nov 2020 12:04:23 -0800 (PST)
-Received: by Jessicas-MacBook.local (Postfix, from userid 501)
- id 0E42120985F0DC; Mon, 16 Nov 2020 20:04:23 +0000 (GMT)
-From: Jessica Clarke <jrtc27@jrtc27.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hvf: Fix segment selector format
-Date: Mon, 16 Nov 2020 20:04:14 +0000
-Message-Id: <20201116200414.28286-1-jrtc27@jrtc27.com>
-X-Mailer: git-send-email 2.28.0
+ (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
+ id 1kekkg-0007qq-8a; Mon, 16 Nov 2020 15:05:26 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:63080)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
+ id 1kekkb-0004H5-4k; Mon, 16 Nov 2020 15:05:25 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0AGK3ASp193848; Mon, 16 Nov 2020 15:05:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=lJA+AnT/l241lTjBCfyBEQuQBdKCm1lzeY8dCbALNGY=;
+ b=sAXt9KPJSpNgRDXKIlxDRgZ2tGr1s439jPKy0ImJBGFMwjmNrpKjJlKXCmVqsQwPTQkt
+ bhSxjGB9tF2w8Wc9GZoe85BjFktuC83QWKub2yGJOUMigM2PO0THaF43E6uOAfRojvnl
+ /z5RV/foRZPv9dyXM4TCYDvroXYK8Lvw1ZIqrvpKG8mTQ0qyVr7zkDQ21Kvh1AsUr2Bi
+ OrAeAUT+3pY76Elm3n/02F4HSoaP6obfslkDOVDWGcoD/EuIbaaRQIjOskuMhOAM0liZ
+ jhWN2FmDqEJUWQB/WAkZ4c9uJJgvr5D8s4KljGkOsEVH21j0eFFCTPAAm0GN4U/yTu3l Iw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34ux91aw3x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 16 Nov 2020 15:05:17 -0500
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0AGK3IeN194371;
+ Mon, 16 Nov 2020 15:05:17 -0500
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34ux91aw3g-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 16 Nov 2020 15:05:17 -0500
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0AGJqVAx026780;
+ Mon, 16 Nov 2020 20:05:16 GMT
+Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
+ [9.57.198.24]) by ppma01dal.us.ibm.com with ESMTP id 34uttr2d91-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 16 Nov 2020 20:05:16 +0000
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
+ [9.57.199.108])
+ by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0AGK5FJw16122344
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 16 Nov 2020 20:05:15 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 06ACDB205F;
+ Mon, 16 Nov 2020 20:05:15 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D56DBB2066;
+ Mon, 16 Nov 2020 20:05:14 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.85.168.118])
+ by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+ Mon, 16 Nov 2020 20:05:14 +0000 (GMT)
+Subject: Re: [PATCH v3] s390/kvm: fix diag318 propagation and reset
+ functionality
+To: Cornelia Huck <cohuck@redhat.com>
+References: <20201113221022.257054-1-walling@linux.ibm.com>
+ <20201116131241.29a13126.cohuck@redhat.com>
+From: Collin Walling <walling@linux.ibm.com>
+Message-ID: <0e47b7bd-f6ca-0e57-3a71-57560acbc669@linux.ibm.com>
+Date: Mon, 16 Nov 2020 15:05:14 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=jrtc27@jrtc27.com; helo=mail-wm1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20201116131241.29a13126.cohuck@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
+ definitions=2020-11-16_10:2020-11-13,
+ 2020-11-16 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 mlxlogscore=999
+ clxscore=1015 mlxscore=0 impostorscore=0 malwarescore=0 bulkscore=0
+ lowpriorityscore=0 phishscore=0 priorityscore=1501 spamscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011160116
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=walling@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 12:29:39
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,48 +112,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Jessica Clarke <jrtc27@jrtc27.com>
+Cc: thuth@redhat.com, frankja@linux.ibm.com, david@redhat.com,
+ qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com,
+ qemu-s390x@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Requested Privilege Level field is 2 bits, the Table Indicator field
-is 1 bit and the Index field is the remaining 15 bits, with TI=0 meaning
-GDT and TI=1 meaning LDT.
+On 11/16/20 7:12 AM, Cornelia Huck wrote:
+> On Fri, 13 Nov 2020 17:10:22 -0500
+> Collin Walling <walling@linux.ibm.com> wrote:
+> 
+> [please remember to put qemu-devel on cc: as well]
+> 
+>> The Control Program Name Code (CPNC) portion of the diag318
+>> info must be set within the SIE block of each VCPU in the
+>> configuration. The handler will iterate through each VCPU
+>> and dirty the diag318_info reg to be synced with KVM on a
+>> subsequent sync_regs call.
+>>
+>> Additionally, the diag318 info resets must be handled via
+>> userspace. As such, QEMU will reset this value for each
+>> VCPU during a modified clear, load normal, and load clear
+>> reset event.
+>>
+>> Fixes: fabdada9357b ("s390: guest support for diagnose 0x318")
+>> Signed-off-by: Collin Walling <walling@linux.ibm.com>
+>> ---
+>>
+>> Changelog:
+>>
+>>         v3:
+>>         - moved loop outside of switch block
+>>         - added kvm_s390_set_diag318 function, called by
+>>             do_cpu_function (this is so other archs do
+>>             not complain)
+>>
+>>         v2:
+>>         - added Fixes tag
+>>         - added CPU feat check in do_cpu function
+>>
+>> ---
+>>  hw/s390x/s390-virtio-ccw.c |  4 ++++
+>>  target/s390x/cpu.c         |  7 +++++++
+>>  target/s390x/cpu.h         |  1 +
+>>  target/s390x/kvm-stub.c    |  4 ++++
+>>  target/s390x/kvm.c         | 22 +++++++++++++++++-----
+>>  target/s390x/kvm_s390x.h   |  1 +
+>>  6 files changed, 34 insertions(+), 5 deletions(-)
+> 
+> Thanks, queued to s390-fixes.
+> 
+> I plan to send a pull request tomorrow.
+> 
+> 
 
-Signed-off-by: Jessica Clarke <jrtc27@jrtc27.com>
----
- target/i386/hvf/x86.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Much appreciated.
 
-diff --git a/target/i386/hvf/x86.h b/target/i386/hvf/x86.h
-index bacade7b65..ea3e1b86b3 100644
---- a/target/i386/hvf/x86.h
-+++ b/target/i386/hvf/x86.h
-@@ -214,16 +214,16 @@ static inline uint32_t x86_call_gate_offset(x86_call_gate *gate)
-     return (uint32_t)((gate->offset1 << 16) | gate->offset0);
- }
- 
--#define LDT_SEL     0
--#define GDT_SEL     1
-+#define GDT_SEL     0
-+#define LDT_SEL     1
- 
- typedef struct x68_segment_selector {
-     union {
-         uint16_t sel;
-         struct {
--            uint16_t rpl:3;
-+            uint16_t rpl:2;
-             uint16_t ti:1;
--            uint16_t index:12;
-+            uint16_t index:13;
-         };
-     };
- } __attribute__ ((__packed__)) x68_segment_selector;
 -- 
-2.28.0
+Regards,
+Collin
 
+Stay safe and stay healthy
 
