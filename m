@@ -2,95 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 086FB2B540D
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 23:03:21 +0100 (CET)
-Received: from localhost ([::1]:37250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54A102B5411
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 23:04:52 +0100 (CET)
+Received: from localhost ([::1]:40628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kemal-0000lV-I9
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 17:03:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35532)
+	id 1kemcF-0002IY-CY
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 17:04:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kemYR-00085p-6m
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 17:00:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24089)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kemYN-0003ka-FL
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 17:00:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605564048;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LTkGuDo0j3Atz/qt4g20i2I/LX3e3+7mF5t8VLZXd5s=;
- b=RjV+Q7e33RRP21x2HEfPb7KiBGcf6g4HGkjmHGRp8XfOTIP0A6mv5HB0jQNx2zB2CFx9ya
- WCdl6YzYgFISfBsFzUDDMHLqRSRAlVdotgT9ru/Gi3/WLKEuft2WGKth8VR6sFlFPGHS9F
- pJz3l+8RrXnUNbtxYV54a1gjciIkCI0=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-347-ABrMchXDNde-pKu4TSb1sQ-1; Mon, 16 Nov 2020 17:00:46 -0500
-X-MC-Unique: ABrMchXDNde-pKu4TSb1sQ-1
-Received: by mail-wr1-f69.google.com with SMTP id z13so11758995wrm.19
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 14:00:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=LTkGuDo0j3Atz/qt4g20i2I/LX3e3+7mF5t8VLZXd5s=;
- b=XDJyY1+nwRr3O04YwF6xS+JJR/pciU8ZKEF1UYTa16oNBXjrLFxX8yUfC0Kbu64dCP
- RLNdrIo7jW8kTwqqoAVhtXkV0mdf9XhsUd3bcADWd5oIowAVOCIoIAmJVY8CFMRgJ2WT
- Cf+bTx4qjyo/tXFISHbvBFvkd1/zE7exDWFw8WBc5KaVIImU0LYVcoHPjFnwRs92NRdz
- Xjh1s9hske9GiJlYbCWmvgk+qIvSiwsHQyRtKNS8b/rF/86pt7D36HsC7blc58snHG/v
- 3CR4LRvjlNVMiKT+pF5JlIpkl7MjjYgfvoohRwmJpqmCyQEIAak59XBce+KAs3Xnygp3
- ks8g==
-X-Gm-Message-State: AOAM531OXO5KHgh+fsPdfcG/xcftAu/AY1V560Zqo6CohFGkf2PV+JZ1
- iwhrXgRSUIh2+RcvJSU1Es8HJfOfoMy3hxcxnASzttQXD0naeshJfw2YMBbXcQXKZLoeOKqDmh/
- RHXcPz3iYJWaHY8CKQtmSVv3a13tC3gShmDP8XTHbc3hYiuludyZO9c3hy/bw6fl3mEQ=
-X-Received: by 2002:adf:fd06:: with SMTP id e6mr21935022wrr.206.1605564045588; 
- Mon, 16 Nov 2020 14:00:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy8w58UiBhxOvxmDFvJHZerZgAvwafpQ/T7C/t9MQZkngp4JoYvhyRcwUhELbib3zzpJ+fIaQ==
-X-Received: by 2002:adf:fd06:: with SMTP id e6mr21935011wrr.206.1605564045405; 
- Mon, 16 Nov 2020 14:00:45 -0800 (PST)
-Received: from [192.168.10.118] ([93.56.170.5])
- by smtp.gmail.com with ESMTPSA id h17sm18030262wrp.54.2020.11.16.14.00.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Nov 2020 14:00:44 -0800 (PST)
-Subject: Re: [PATCH 7/7] scsi: move host_status handling into SCSI drivers
-To: Hannes Reinecke <hare@suse.de>
-References: <20201116184041.60465-1-hare@suse.de>
- <20201116184041.60465-8-hare@suse.de>
- <e16d0002-8038-2ad0-da7f-969e770df2fc@redhat.com>
- <08795f50-2b4e-14cb-f5dd-709b054308c0@suse.de>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <d2a538ca-d865-07d7-1c8f-380633bd4b0e@redhat.com>
-Date: Mon, 16 Nov 2020 23:00:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
+ id 1kemZY-0000Mp-Nz
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 17:02:05 -0500
+Received: from mga07.intel.com ([134.134.136.100]:19576)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
+ id 1kemZV-0003tH-7v
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 17:02:03 -0500
+IronPort-SDR: 8F+OdqIBS5wBb9QDYrKT7U8YPudYxs84B5oxsfoZE/W5Yk8unYcXgEeAA6QJho7G10VU0vzOV6
+ py7vwrn5ve9A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9807"; a="234974407"
+X-IronPort-AV: E=Sophos;i="5.77,483,1596524400"; d="scan'208";a="234974407"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Nov 2020 14:01:49 -0800
+IronPort-SDR: M+XA0+a3h+UP+MRv8dHfUWuJdtQ/F8mxAs2OmDZlbZDk+XpW8d1wdnXaEthH/XcuJaAO4Chk86
+ bFdrXOAKSuhA==
+X-IronPort-AV: E=Sophos;i="5.77,483,1596524400"; d="scan'208";a="430288903"
+Received: from vbenjes-mobl.amr.corp.intel.com (HELO intel.com)
+ ([10.252.134.15])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Nov 2020 14:01:48 -0800
+Date: Mon, 16 Nov 2020 14:01:40 -0800
+From: Ben Widawsky <ben.widawsky@intel.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [RFC PATCH 11/25] hw/pxb: Allow creation of a CXL PXB (host
+ bridge)
+Message-ID: <20201116220140.axtjp2q6267ne43q@intel.com>
+References: <20201111054724.794888-1-ben.widawsky@intel.com>
+ <20201111054724.794888-12-ben.widawsky@intel.com>
+ <20201116164409.00005f3b@Huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <08795f50-2b4e-14cb-f5dd-709b054308c0@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 22:35:17
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201116164409.00005f3b@Huawei.com>
+Received-SPF: pass client-ip=134.134.136.100;
+ envelope-from=ben.widawsky@intel.com; helo=mga07.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 16:11:26
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,31 +69,227 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Vishal Verma <vishal.l.verma@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/11/20 20:05, Hannes Reinecke wrote:
->>> +    if (sreq->host_status == SCSI_HOST_OK) {
->>> +        SCSISense sense;
->>> +
->>> +        sreq->status = 
->>> scsi_sense_from_host_status(sreq->host_status, &sense);
->>> +        if (sreq->status == CHECK_CONDITION) {
->>> +            scsi_req_build_sense(sreq, sense);
->>> +        }
->>> +    }
->>
->> Should be != of course.
->>
-> No.
-> scsi_req_build_sense() transfers the sense code from the second argument
-> into a proper SCSI sense. Which is only set if the status is 
-> CHECK_CONDITION...
+On 20-11-16 16:44:09, Jonathan Cameron wrote:
+> On Tue, 10 Nov 2020 21:47:10 -0800
+> Ben Widawsky <ben.widawsky@intel.com> wrote:
+> 
+> > This works like adding a typical pxb device, except the name is
+> > 'pxb-cxl' instead of 'pxb-pcie'. An example command line would be as
+> > follows:
+> >   -device pxb-cxl,id=cxl.0,bus="pcie.0",bus_nr=1
+> > 
+> > A CXL PXB is backward compatible with PCIe. What this means in practice
+> > is that an operating system that is unaware of CXL should still be able
+> > to enumerate this topology as if it were PCIe.
+> > 
+> > One can create multiple CXL PXB host bridges, but a host bridge can only
+> > be connected to the main root bus. Host bridges cannot appear elsewhere
+> > in the topology.
+> > 
+> > Note that as of this patch, the ACPI tables needed for the host bridge
+> > (specifically, an ACPI object in _SB named ACPI0016 and the CEDT) aren't
+> > created. So while this patch internally creates it, it cannot be
+> > properly used by an operating system or other system software.
+> > 
+> > Upcoming patches will allow creating multiple host bridges.
+> > 
+> > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+> Hi Ben,
+> 
+> Few minor things inline.
+> 
+> Jonathan
+> 
+> > ---
+> >  hw/pci-bridge/pci_expander_bridge.c | 67 ++++++++++++++++++++++++++++-
+> >  hw/pci/pci.c                        |  7 +++
+> >  include/hw/pci/pci.h                |  6 +++
+> >  3 files changed, 78 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
+> > index 88c45dc3b5..3a8d815231 100644
+> > --- a/hw/pci-bridge/pci_expander_bridge.c
+> > +++ b/hw/pci-bridge/pci_expander_bridge.c
+> > @@ -56,6 +56,10 @@ DECLARE_INSTANCE_CHECKER(PXBDev, PXB_DEV,
+> >  DECLARE_INSTANCE_CHECKER(PXBDev, PXB_PCIE_DEV,
+> >                           TYPE_PXB_PCIE_DEVICE)
+> >  
+> > +#define TYPE_PXB_CXL_DEVICE "pxb-cxl"
+> > +DECLARE_INSTANCE_CHECKER(PXBDev, PXB_CXL_DEV,
+> > +                         TYPE_PXB_CXL_DEVICE)
+> > +
+> >  struct PXBDev {
+> >      /*< private >*/
+> >      PCIDevice parent_obj;
+> > @@ -67,6 +71,11 @@ struct PXBDev {
+> >  
+> >  static PXBDev *convert_to_pxb(PCIDevice *dev)
+> >  {
+> > +    /* A CXL PXB's parent bus is PCIe, so the normal check won't work */
+> > +    if (object_dynamic_cast(OBJECT(dev), TYPE_PXB_CXL_DEVICE)) {
+> > +        return PXB_CXL_DEV(dev);
+> > +    }
+> > +
+> >      return pci_bus_is_express(pci_get_bus(dev))
+> >          ? PXB_PCIE_DEV(dev) : PXB_DEV(dev);
+> >  }
+> > @@ -111,11 +120,20 @@ static const TypeInfo pxb_pcie_bus_info = {
+> >      .class_init    = pxb_bus_class_init,
+> >  };
+> >  
+> > +static const TypeInfo pxb_cxl_bus_info = {
+> > +    .name          = TYPE_PXB_CXL_BUS,
+> > +    .parent        = TYPE_CXL_BUS,
+> > +    .instance_size = sizeof(PXBBus),
+> > +    .class_init    = pxb_bus_class_init,
+> > +};
+> > +
+> >  static const char *pxb_host_root_bus_path(PCIHostState *host_bridge,
+> >                                            PCIBus *rootbus)
+> >  {
+> > -    PXBBus *bus = pci_bus_is_express(rootbus) ?
+> > -                  PXB_PCIE_BUS(rootbus) : PXB_BUS(rootbus);
+> > +    PXBBus *bus = pci_bus_is_cxl(rootbus) ?
+> > +                      PXB_CXL_BUS(rootbus) :
+> > +                      pci_bus_is_express(rootbus) ? PXB_PCIE_BUS(rootbus) :
+> > +                                                    PXB_BUS(rootbus);
+> 
+> There comes a point where if / else is much more readable.
+> 
+> >  
+> >      snprintf(bus->bus_path, 8, "0000:%02x", pxb_bus_num(rootbus));
+> >      return bus->bus_path;
+> > @@ -380,13 +398,58 @@ static const TypeInfo pxb_pcie_dev_info = {
+> >      },
+> >  };
+> >  
+> > +static void pxb_cxl_dev_realize(PCIDevice *dev, Error **errp)
+> > +{
+> > +    /* A CXL PXB's parent bus is still PCIe */
+> > +    if (!pci_bus_is_express(pci_get_bus(dev))) {
+> > +        error_setg(errp, "pxb-cxl devices cannot reside on a PCI bus");
+> > +        return;
+> > +    }
+> > +
+> > +    pxb_dev_realize_common(dev, CXL, errp);
+> > +}
+> > +
+> > +static void pxb_cxl_dev_class_init(ObjectClass *klass, void *data)
+> > +{
+> > +    DeviceClass *dc   = DEVICE_CLASS(klass);
+> > +    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+> > +
+> > +    k->realize             = pxb_cxl_dev_realize;
+> > +    k->exit                = pxb_dev_exitfn;
+> > +    k->vendor_id           = PCI_VENDOR_ID_INTEL;
+> > +    k->device_id           = 0xabcd;
+> 
+> Just to check, is that an officially assigned device_id that we will never
+> have a clash with?  Nice ID to get if it is :)
 
-I mean sreq->host_status != SCSI_HOST_OK.  I might be wrong, but every 
-other HBA is using that...
+No, not the real ID.
 
-Paolo
+My understanding is that the host bridge won't exist at all in the PCI
+hierarchy. So basically all of these can be undeclared. For testing/development
+purposes I wanted to see this info.
 
+Awesomely, it appears if I remove vendor, device, class, and subsystem
+everything still works and I do not see a bridge device in lspci. So v2 will
+have this all gone.
+
+Thanks.
+
+> 
+> 
+> > +    k->class_id            = PCI_CLASS_BRIDGE_HOST;
+> > +    k->subsystem_vendor_id = PCI_VENDOR_ID_INTEL;
+> > +
+> > +    dc->desc = "CXL Host Bridge";
+> > +    device_class_set_props(dc, pxb_dev_properties);
+> > +    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+> > +
+> > +    /* Host bridges aren't hotpluggable. FIXME: spec reference */
+> > +    dc->hotpluggable = false;
+> > +}
+> > +
+> > +static const TypeInfo pxb_cxl_dev_info = {
+> > +    .name          = TYPE_PXB_CXL_DEVICE,
+> > +    .parent        = TYPE_PCI_DEVICE,
+> > +    .instance_size = sizeof(PXBDev),
+> > +    .class_init    = pxb_cxl_dev_class_init,
+> > +    .interfaces =
+> > +        (InterfaceInfo[]){
+> > +            { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+> > +            {},
+> > +        },
+> > +};
+> > +
+> >  static void pxb_register_types(void)
+> >  {
+> >      type_register_static(&pxb_bus_info);
+> >      type_register_static(&pxb_pcie_bus_info);
+> > +    type_register_static(&pxb_cxl_bus_info);
+> >      type_register_static(&pxb_host_info);
+> >      type_register_static(&pxb_dev_info);
+> >      type_register_static(&pxb_pcie_dev_info);
+> > +    type_register_static(&pxb_cxl_dev_info);
+> >  }
+> >  
+> >  type_init(pxb_register_types)
+> > diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+> > index db88788c4b..67eed889a4 100644
+> > --- a/hw/pci/pci.c
+> > +++ b/hw/pci/pci.c
+> > @@ -220,6 +220,12 @@ static const TypeInfo pcie_bus_info = {
+> >      .class_init = pcie_bus_class_init,
+> >  };
+> >  
+> > +static const TypeInfo cxl_bus_info = {
+> > +    .name       = TYPE_CXL_BUS,
+> > +    .parent     = TYPE_PCIE_BUS,
+> > +    .class_init = pcie_bus_class_init,
+> > +};
+> > +
+> >  static PCIBus *pci_find_bus_nr(PCIBus *bus, int bus_num);
+> >  static void pci_update_mappings(PCIDevice *d);
+> >  static void pci_irq_handler(void *opaque, int irq_num, int level);
+> > @@ -2847,6 +2853,7 @@ static void pci_register_types(void)
+> >  {
+> >      type_register_static(&pci_bus_info);
+> >      type_register_static(&pcie_bus_info);
+> > +    type_register_static(&cxl_bus_info);
+> >      type_register_static(&conventional_pci_interface_info);
+> >      type_register_static(&cxl_interface_info);
+> >      type_register_static(&pcie_interface_info);
+> > diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+> > index 4e6fd59fdd..52267ff69e 100644
+> > --- a/include/hw/pci/pci.h
+> > +++ b/include/hw/pci/pci.h
+> > @@ -405,6 +405,7 @@ typedef PCIINTxRoute (*pci_route_irq_fn)(void *opaque, int pin);
+> >  #define TYPE_PCI_BUS "PCI"
+> >  OBJECT_DECLARE_TYPE(PCIBus, PCIBusClass, PCI_BUS)
+> >  #define TYPE_PCIE_BUS "PCIE"
+> > +#define TYPE_CXL_BUS "CXL"
+> >  
+> >  bool pci_bus_is_express(PCIBus *bus);
+> >  
+> > @@ -753,6 +754,11 @@ static inline void pci_irq_pulse(PCIDevice *pci_dev)
+> >      pci_irq_deassert(pci_dev);
+> >  }
+> >  
+> > +static inline int pci_is_cxl(const PCIDevice *d)
+> > +{
+> > +    return d->cap_present & QEMU_PCIE_CAP_CXL;
+> > +}
+> > +
+> >  static inline int pci_is_express(const PCIDevice *d)
+> >  {
+> >      return d->cap_present & QEMU_PCI_CAP_EXPRESS;
+> 
 
