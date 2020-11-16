@@ -2,69 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EEBC2B51E6
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 21:06:11 +0100 (CET)
-Received: from localhost ([::1]:56540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 602F02B51F9
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 21:08:41 +0100 (CET)
+Received: from localhost ([::1]:36444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keklO-0007Xt-58
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 15:06:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60358)
+	id 1kekno-0003B2-Bi
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 15:08:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kekgO-00044k-5l
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 15:01:00 -0500
-Received: from indium.canonical.com ([91.189.90.7]:33182)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kekgM-00034s-0I
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 15:00:59 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kekgK-0003HH-34
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 20:00:56 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 164BE2E80EA
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 20:00:56 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 16 Nov 2020 19:50:49 -0000
-From: Christian Schoenebeck <1784919@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kekeR-00027c-TG
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 14:59:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45909)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kekeO-0002HE-Pl
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 14:58:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605556736;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Mp6AI4yjBA89AM3hbXlLeLe9qoOTDL/u/dSmckc7M1s=;
+ b=WoUW5k2SUsJOvAvnannyoux9GKze6G+tucxs4f0x641oEonsHyO/uHKZxVTL5/ECegkJQ3
+ RlAnDJJSwKcUsTj92Bg0BZsaInFL/QyPqPatVSKH7WKoKMV2IyMrW8UQJnpIWcPhhXJ5/Q
+ kLSfypZBa5wEcqP/s6QfqYyhb5N6HkE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-176-ZdQvrby3Nzu2vYYdbYm-pA-1; Mon, 16 Nov 2020 14:58:27 -0500
+X-MC-Unique: ZdQvrby3Nzu2vYYdbYm-pA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C869186DD25
+ for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 19:58:16 +0000 (UTC)
+Received: from virtlab511.virt.lab.eng.bos.redhat.com
+ (virtlab511.virt.lab.eng.bos.redhat.com [10.19.152.198])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6AA7119930
+ for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 19:58:16 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Wishlist; assignee=None; 
-X-Launchpad-Bug-Tags: wishlist
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: schoenebeck zem-g
-X-Launchpad-Bug-Reporter: Hans (zem-g)
-X-Launchpad-Bug-Modifier: Christian Schoenebeck (schoenebeck)
-References: <153314732349.28680.8240678335924309425.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160555624945.15012.11971966063086196090.malone@soybean.canonical.com>
-Subject: [Bug 1784919] Re: native libgfapi glusterfs support for virtio 9p
- filesystem passthrough
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a2ee2035671f86427804714f331b9ff7fecaef7e"; Instance="production"
-X-Launchpad-Hash: 76bffbcf81d80f6c15111580ad363de81640825c
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 13:11:09
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PULL 0/5] Misc fixes for QEMU 5.2
+Date: Mon, 16 Nov 2020 14:58:10 -0500
+Message-Id: <20201116195815.48264-1-pbonzini@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 04:46:27
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,65 +78,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1784919 <1784919@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are currently no plans to implement a GlusterFS fs driver backend
-for 9pfs in QEMU.
+The following changes since commit cb5ed407a1ddadf788fd373fed41c87c9e81e5b0:
 
-Right now the status of 9p in QEMU is "odd fixes", which means there are
-currently no paid developers maintaining 9p, nor do current 9p
-maintainers have sufficient time to work on it on a daily basis. New 9p
-features for that reason are only likely to appear if there is an effort
-for the feature coming from outside.
+  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2020-11-15' into staging (2020-11-16 17:00:36 +0000)
 
-As xattrs are apparently not available with GlusterFS yet, you might want t=
-o try security_model=3Dmapped-file with 9p as workaround instead:
-https://wiki.qemu.org/Documentation/9psetup
+are available in the Git repository at:
 
--- =
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1784919
+for you to fetch changes up to 1370d61ae3c9934861d2349349447605202f04e9:
 
-Title:
-  native libgfapi  glusterfs support for virtio 9p filesystem
-  passthrough
+  memory: Skip dirty tracking for un-migratable memory regions (2020-11-16 13:22:25 -0500)
 
-Status in QEMU:
-  New
+----------------------------------------------------------------
+Bug fixes
 
-Bug description:
-  I can add block devices on glusterfs natively to my virtual machines sinc=
-e qemu 1.3 =
+----------------------------------------------------------------
+David Hildenbrand (1):
+      util/vfio-helpers.c: Use ram_block_discard_disable() in qemu_vfio_open_pci()
 
-  I would like to see the same feature for virtio 9p filesystems added on m=
-y VM. =
+Paolo Bonzini (2):
+      scsi-disk: convert more errno values back to SCSI statuses
+      target/i386: avoid theoretical leak on MCE injection
 
+Tom Lendacky (1):
+      kvm/i386: Set proper nested state format for SVM
 
-  Accessing a filesystem mounted on the Metal is my favorite solution
-  for storage that is to be shared between more than one VM. But because
-  my VMs are not running as root, they are not able to passthrough
-  userids and gids to gluster-fuse. uid mapping is also not possible
-  because no xattr support.
+Zenghui Yu (1):
+      memory: Skip dirty tracking for un-migratable memory regions
 
-  So all I can do is either setting up seperate NFS Servers to bring the
-  Filesystem in via Network, or to start qemu as root or to add
-  fuse_xattr on top of glusterfs_fuse. I do expect however that the
-  fastest and most relieable solution is to make something like this
-  possible:
+ hw/scsi/scsi-disk.c  | 19 +++++++++++++++++++
+ softmmu/memory.c     |  5 ++++-
+ stubs/ram-block.c    |  6 ++++++
+ target/i386/helper.c | 10 ++++------
+ target/i386/kvm.c    | 10 ++++++----
+ util/vfio-helpers.c  | 14 ++++++++++++++
+ 6 files changed, 53 insertions(+), 11 deletions(-)
+-- 
+2.26.2
 
-  -fsdev
-  local,id=3Dtest_dev,path=3Dgluster://this.node/test_mount,security_model=
-=3Dpassthrough
-  -device virtio-9p-pci,fsdev=3Dtest_dev,mount_tag=3Dtest_mount
-
-  regards
-
-      Hans
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1784919/+subscriptions
 
