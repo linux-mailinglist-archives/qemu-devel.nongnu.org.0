@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ACDF2B54C6
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 00:13:33 +0100 (CET)
-Received: from localhost ([::1]:44746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70E702B54EE
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 00:28:08 +0100 (CET)
+Received: from localhost ([::1]:36410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kengi-0007Pd-Du
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 18:13:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50162)
+	id 1kenuo-0007wd-SZ
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 18:28:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
- id 1keneV-0005wn-Kz; Mon, 16 Nov 2020 18:11:15 -0500
-Received: from mail-mw2nam12on2076.outbound.protection.outlook.com
- ([40.107.244.76]:8512 helo=NAM12-MW2-obe.outbound.protection.outlook.com)
+ id 1kent3-0006xT-50; Mon, 16 Nov 2020 18:26:18 -0500
+Received: from mail-dm6nam12on2052.outbound.protection.outlook.com
+ ([40.107.243.52]:38433 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
- id 1keneR-0003wy-Of; Mon, 16 Nov 2020 18:11:14 -0500
+ id 1kensz-0005YY-4W; Mon, 16 Nov 2020 18:26:16 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZIt+xoZ+fVnv3cJRGZsqbSLGDhoTv+sSMkbWuTKvNagJ0I945JyP39r+tg/mWoUxbr1UxMgHXll8gGgBIQYg0yCZTc8GDbd/7fuvzTu5esOok5Hi3UXFKqRznCz2hmeRVqJOlGCMYZ6de027lMv9bzt7cCGiNfgq8z7tkvwkP3cOxVUVL5K7ZIuZzS4IUqRHcODc3v38ZE2+/mAEd3E9AISO2gibb5S9j/UCwQpVlM52GkGR8tJLxMYtpxtGKV2UiCwyIEM6NRbxn4byqQTMWsMvlTjjW4WcwefRV3DaxdfYGlBwmUf3k65z9PCaIlcEMkXg9T7h2Z3PWytRFEse0Q==
+ b=ikxEXJy61f7QXzOxUusPSx15im+e5spkeeAy8aWkhTKAe3lM0G2g+yNVidd0lwNzEunpkHIJPcn66agHq8lP5O4uB4ww+TbAUIidKn+0NGKHS6AeW06b8uvngdh6ses7CdhoE/9ykSTtKdvjV3lqchBPikRYe1gbrc6sqOj7vvXyIewRVxDwddlIBqdaMLEjPyohqKDLvmDmRx4iC4kSzqFuxdMjLx9dbYaF0B5ZsLmn/fjAJ6k9ArZN8HdkLN1cRgdIt52KCgVG6df6zvAWR0Skzpw57DbTqoEQd/Y76KxATlnyyCneJxbEPlXMUvIudNHCyd5+y17tswImjtp5kg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=odIGpw+UDMOf/66/cVK3QbqoaDlb7lRd65ebuQoUHq8=;
- b=En41xqlUwVACFf2cnS1mNuNKl9FCNF68/YMwGk6EMwDeCJMVQrXnPTG7P8+IxftVWSK9L8/Mm64m8Iy0V3Rm+jc0YKheA8urly+Avx7+RzvIRcFQaC8KhwMaT4zQHqifXAeXC97bOvRTSGL+KypZgp1TpNQvN1V+H4Ybbyl8tEje+EcY/z0QjPx5cT1WrCi0jA12qEIP0g6DXmmHbJFu03IjUYPaTZMPBjBikqCxnO269kk/+VWntPuC/E6/a1y+aDCeP49ueTroHmA0upxFLPNCzRdar3Xoecr+lZMxkzcyTi7uFqJRxwMvv68MQb/NpS+dJoh/3G2ELWDw1zZglw==
+ bh=7GRwkfAOwkzUcWIMd6ntQxe8ao+JW3mT3KWLg5aFFls=;
+ b=ZyMo2bahYpvW7Roam4bTgHFYdDJ3I7Dvlq5fPRB1Buf5byi9RGu1QaxkccajndJlRBcEU1d2JgrI8T+tf2G7RIQdRyKx7LfBym/QCfpiBBcfBemudh3t/lruedH2t/cpfS7xgvE4e9ZDzxy7iGJeeFse70SZFN94sQCPBbt20t04AsVei15GXqau0RxP9Tsq2z+uaeW0gsfZpjObtBEe1NAuUhD9FEuDHE/rjw3r5oTPJixllc9fGf2vHE2CxW9CFLgtD+Bs10kt0xwUa8UQZzyCFslqH4HWjsmFSH9SIqxnVPfpaRWoASGnoFCeIGfJiLtGHl2Agc6EaeaFrKZeKA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  149.199.62.198) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
  dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
@@ -32,18 +32,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=odIGpw+UDMOf/66/cVK3QbqoaDlb7lRd65ebuQoUHq8=;
- b=SbJ8mKPEqr7Q2++LpCYlYUNH0kjBByJQM1LyY2/MR4OHCyOPvlvwC5xs3hmg5LeRS58If/a9nCBERRrwlp0HF7avHfUG6ZSvvTPLgQe6vAqrpcb6X3If5LbH5e+CxDqTnGa+PavZEA7fxa+miLjX+rGiPa0jVhWJ7Cj7MhLwSDI=
-Received: from DM6PR10CA0011.namprd10.prod.outlook.com (2603:10b6:5:60::24) by
- SN6PR02MB5485.namprd02.prod.outlook.com (2603:10b6:805:ed::26) with
+ bh=7GRwkfAOwkzUcWIMd6ntQxe8ao+JW3mT3KWLg5aFFls=;
+ b=GQP3PdtMMdQdwEc+O5PP+2ngMWHVqW6XejyaM7xm9hYDFrmVF25yfLEQQApMlTJseHS5Rjbmhriuk58QrTD+jZvmPzMecOZYiM1eHOspwKre3wzNhZcHz063rIN3GuqpmB7xTV5VDObQymMuj/wBNPE6Hup+Wm+N8DAuXRpy9Xo=
+Received: from DM6PR10CA0019.namprd10.prod.outlook.com (2603:10b6:5:60::32) by
+ CH2PR02MB6326.namprd02.prod.outlook.com (2603:10b6:610:10::32) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3564.25; Mon, 16 Nov 2020 23:11:08 +0000
+ 15.20.3564.28; Mon, 16 Nov 2020 23:11:07 +0000
 Received: from CY1NAM02FT022.eop-nam02.prod.protection.outlook.com
- (2603:10b6:5:60:cafe::69) by DM6PR10CA0011.outlook.office365.com
- (2603:10b6:5:60::24) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10b6:5:60:cafe::5f) by DM6PR10CA0019.outlook.office365.com
+ (2603:10b6:5:60::32) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.25 via Frontend
- Transport; Mon, 16 Nov 2020 23:11:08 +0000
+ Transport; Mon, 16 Nov 2020 23:11:07 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
  smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=bestguesspass action=none
@@ -65,13 +65,13 @@ Received: from smtp.xilinx.com (172.19.127.96) by
 Received: from [172.19.2.32] (port=55506 helo=xsjkomlodi50.xilinx.com)
  by smtp.xilinx.com with esmtp (Exim 4.90)
  (envelope-from <joe.komlodi@xilinx.com>)
- id 1keneK-0007S0-Jp; Mon, 16 Nov 2020 15:11:04 -0800
+ id 1keneK-0007S0-KX; Mon, 16 Nov 2020 15:11:04 -0800
 From: Joe Komlodi <joe.komlodi@xilinx.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v5 3/4] hw/block/m25p80: Check SPI mode before running some
- Numonyx commands
-Date: Mon, 16 Nov 2020 15:11:03 -0800
-Message-ID: <1605568264-26376-4-git-send-email-komlodi@xilinx.com>
+Subject: [PATCH v5 4/4] hw/block/m25p80: Fix Numonyx fast read dummy cycle
+ count
+Date: Mon, 16 Nov 2020 15:11:04 -0800
+Message-ID: <1605568264-26376-5-git-send-email-komlodi@xilinx.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1605568264-26376-1-git-send-email-komlodi@xilinx.com>
 References: <1605568264-26376-1-git-send-email-komlodi@xilinx.com>
@@ -80,32 +80,32 @@ Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-Office365-Filtering-HT: Tenant
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: aaafe1cd-f0e8-4c95-56c0-08d88a84e66a
-X-MS-TrafficTypeDiagnostic: SN6PR02MB5485:
-X-Microsoft-Antispam-PRVS: <SN6PR02MB54857692C38E534ED27AA3F2D0E30@SN6PR02MB5485.namprd02.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: bd576801-1e1d-4da2-7b36-08d88a84e5f0
+X-MS-TrafficTypeDiagnostic: CH2PR02MB6326:
+X-Microsoft-Antispam-PRVS: <CH2PR02MB632662BB0A26326F61A4A186D0E30@CH2PR02MB6326.namprd02.prod.outlook.com>
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:114;
+X-MS-Oob-TLC-OOBClassifiers: OLM:291;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: DIRnFbbVm4MNzelr1NGhSyRh26q1Ft4yRWjqKwHXxgy0PB+Kj4Al/fJLtRtKXvDPb7WwrcbomBFSW8txLBSMRIEVR1yCaUr25TEEgvQRF/u40qSuK7qY0K46BKeMai3z26781pebFYZEQLGQvABl9P3YcTGA/l30VM7Dmt4zNF4bSc2cklLDu7eiNmeOT0AC92Z+XktSFs4xPjl2rEmsrAILYwORQ5CNiNGE2o3tYZ1D5WVgXqxzz42n9jJytlczqWD47sj4PHbVjAjcsoM4mxc84scIYCJBRpHf/SF3meagCNjm/1dfek+uIFxVZ6VsrwK9T0Nkd5OgkizC3fSbd9H/zMOQ50j0zLLkFMOEpIKngydam8eBxzeEPSUcWj54ovjT+vwCU3U7/e8p7L3Q7BB4MTbOYNZxDxkCfhkGf+0=
+X-Microsoft-Antispam-Message-Info: /qVV/o2a4e3gX4J5AE1FnYUhCbN6BHBCevOE7NRqcfTlxplngOMpM0vODr0ABJkFBorjkv+p7iteRecN5XStrBDLRJCNv98gkwd+SssgXjN9fA8kNg8INEQhOtxjaGFC0WY9B4VBcGcQOMyYUGEQTSpWtmCcVqlepgqwR6EHOBG/S/6z+YSCknjqaiOn1pUIDxdLl7TKBV2NHB6SCwuG4N5g8DYk8qCyKaiHfhMqhDetd2BzHW8G4FyjVlRsDfmnBz/vXlLncbm9FG954vkhi321BXeMFeuppwfrA9CDljI/peEVKyRN6MjCItsmuV9MamY+Hq2P2eUacss+VQUbHSvj8Rl0SpcsLJ6FS79rS+fBXMRNFDL1xpr/VMoMBBvVYfGjao8puiTnCEiv1J/wSgHNB/TAM/8DuzuYVajcS8LTw/6gzmr53GHBlkjuaC9i2T6dZB78FLD00b6Ws83+THtBL4bxzcWwOabECcvRjU/vyNYue8FGiLmOk+lYcpTC
 X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:xsj-pvapexch01.xlnx.xilinx.com;
  PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(4636009)(396003)(136003)(39860400002)(376002)(346002)(46966005)(83380400001)(6916009)(336012)(186003)(44832011)(316002)(8936002)(54906003)(426003)(2906002)(82740400003)(356005)(36756003)(7696005)(5660300002)(82310400003)(26005)(86362001)(8676002)(478600001)(70206006)(70586007)(9786002)(47076004)(4326008)(2616005)(7636003)(102446001);
+ SFS:(4636009)(39860400002)(346002)(376002)(396003)(136003)(46966005)(2616005)(7636003)(426003)(356005)(70206006)(82310400003)(336012)(186003)(26005)(8936002)(7696005)(8676002)(70586007)(83380400001)(9786002)(82740400003)(5660300002)(47076004)(36906005)(36756003)(478600001)(44832011)(86362001)(2906002)(6916009)(4326008)(54906003)(316002)(966005)(102446001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2020 23:11:07.8336 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: aaafe1cd-f0e8-4c95-56c0-08d88a84e66a
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2020 23:11:07.0090 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bd576801-1e1d-4da2-7b36-08d88a84e5f0
 X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
  Helo=[xsj-pvapexch01.xlnx.xilinx.com]
 X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT022.eop-nam02.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR02MB5485
-Received-SPF: pass client-ip=40.107.244.76; envelope-from=komlodi@xilinx.com;
- helo=NAM12-MW2-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 18:11:09
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR02MB6326
+Received-SPF: pass client-ip=40.107.243.52; envelope-from=komlodi@xilinx.com;
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 18:26:10
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -130,185 +130,84 @@ Cc: figlesia@xilinx.com, alistair@alistair23.me,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some Numonyx flash commands cannot be executed in DIO and QIO mode, such as
-trying to do DPP or DOR when in QIO mode.
+Numonyx chips determine the number of cycles to wait based on bits 7:4
+in the volatile configuration register.
+
+However, if these bits are 0x0 or 0xF, the number of dummy cycles to
+wait is 10 for QIOR and QIOR4 commands or when in QIO mode, and otherwise 8 for
+the currently supported fast read commands. [1]
+
+[1]
+https://www.micron.com/-/media/client/global/documents/products/data-sheet/nor-flash/serial-nor/mt25q/die-rev-b/mt25q_qlkt_u_02g_cbb_0.pdf?rev=9b167fbf2b3645efba6385949a72e453
 
 Signed-off-by: Joe Komlodi <komlodi@xilinx.com>
+Reviewed-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
 ---
- hw/block/m25p80.c | 114 +++++++++++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 95 insertions(+), 19 deletions(-)
+ hw/block/m25p80.c | 30 +++++++++++++++++++++++++++---
+ 1 file changed, 27 insertions(+), 3 deletions(-)
 
 diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-index eb6539f..56bd5bc 100644
+index 56bd5bc..a67dc53 100644
 --- a/hw/block/m25p80.c
 +++ b/hw/block/m25p80.c
-@@ -413,6 +413,12 @@ typedef enum {
-     MAN_GENERIC,
- } Manufacturer;
- 
-+typedef enum {
-+    MODE_STD = 0,
-+    MODE_DIO = 1,
-+    MODE_QIO = 2
-+} SPIMode;
-+
- #define M25P80_INTERNAL_DATA_BUFFER_SZ 16
- 
- struct Flash {
-@@ -820,6 +826,17 @@ static void reset_memory(Flash *s)
-     trace_m25p80_reset_done(s);
+@@ -837,6 +837,30 @@ static uint8_t numonyx_mode(Flash *s)
+     }
  }
  
-+static uint8_t numonyx_mode(Flash *s)
++static uint8_t numonyx_extract_cfg_num_dummies(Flash *s)
 +{
-+    if (!(s->enh_volatile_cfg & EVCFG_QUAD_IO_DISABLED)) {
-+        return MODE_QIO;
-+    } else if (!(s->enh_volatile_cfg & EVCFG_DUAL_IO_DISABLED)) {
-+        return MODE_DIO;
-+    } else {
-+        return MODE_STD;
++    uint8_t num_dummies;
++    uint8_t mode;
++    assert(get_man(s) == MAN_NUMONYX);
++
++    mode = numonyx_mode(s);
++    num_dummies = extract32(s->volatile_cfg, 4, 4);
++
++    if (num_dummies == 0x0 || num_dummies == 0xf) {
++        switch (s->cmd_in_progress) {
++        case QIOR:
++        case QIOR4:
++            num_dummies = 10;
++            break;
++        default:
++            num_dummies = (mode == MODE_QIO) ? 10 : 8;
++            break;
++        }
 +    }
++
++    return num_dummies;
 +}
 +
  static void decode_fast_read_cmd(Flash *s)
  {
      s->needed_bytes = get_addr_length(s);
-@@ -950,14 +967,8 @@ static void decode_new_cmd(Flash *s, uint32_t value)
-     case ERASE4_32K:
-     case ERASE_SECTOR:
-     case ERASE4_SECTOR:
--    case READ:
--    case READ4:
--    case DPP:
--    case QPP:
--    case QPP_4:
-     case PP:
-     case PP4:
--    case PP4_4:
-     case DIE_ERASE:
-     case RDID_90:
-     case RDID_AB:
-@@ -966,24 +977,84 @@ static void decode_new_cmd(Flash *s, uint32_t value)
-         s->len = 0;
-         s->state = STATE_COLLECTING_DATA;
+@@ -846,7 +870,7 @@ static void decode_fast_read_cmd(Flash *s)
+         s->needed_bytes += 8;
          break;
-+    case READ:
-+    case READ4:
-+        if (get_man(s) != MAN_NUMONYX || numonyx_mode(s) == MODE_STD) {
-+            s->needed_bytes = get_addr_length(s);
-+            s->pos = 0;
-+            s->len = 0;
-+            s->state = STATE_COLLECTING_DATA;
-+        } else {
-+            qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Cannot execute cmd %x in "
-+                          "DIO or QIO mode\n", s->cmd_in_progress);
-+        }
-+        break;
-+    case DPP:
-+        if (get_man(s) != MAN_NUMONYX || numonyx_mode(s) != MODE_QIO) {
-+            s->needed_bytes = get_addr_length(s);
-+            s->pos = 0;
-+            s->len = 0;
-+            s->state = STATE_COLLECTING_DATA;
-+        } else {
-+            qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Cannot execute cmd %x in "
-+                          "QIO mode\n", s->cmd_in_progress);
-+        }
-+        break;
-+    case QPP:
-+    case QPP_4:
-+    case PP4_4:
-+        if (get_man(s) != MAN_NUMONYX || numonyx_mode(s) != MODE_DIO) {
-+            s->needed_bytes = get_addr_length(s);
-+            s->pos = 0;
-+            s->len = 0;
-+            s->state = STATE_COLLECTING_DATA;
-+        } else {
-+            qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Cannot execute cmd %x in "
-+                          "DIO mode\n", s->cmd_in_progress);
-+        }
-+        break;
- 
-     case FAST_READ:
-     case FAST_READ4:
-+        decode_fast_read_cmd(s);
-+        break;
-     case DOR:
-     case DOR4:
-+        if (get_man(s) != MAN_NUMONYX || numonyx_mode(s) != MODE_QIO) {
-+            decode_fast_read_cmd(s);
-+        } else {
-+            qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Cannot execute cmd %x in "
-+                          "QIO mode\n", s->cmd_in_progress);
-+        }
-+        break;
-     case QOR:
-     case QOR4:
--        decode_fast_read_cmd(s);
-+        if (get_man(s) != MAN_NUMONYX || numonyx_mode(s) != MODE_DIO) {
-+            decode_fast_read_cmd(s);
-+        } else {
-+            qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Cannot execute cmd %x in "
-+                          "DIO mode\n", s->cmd_in_progress);
-+        }
+     case MAN_NUMONYX:
+-        s->needed_bytes += extract32(s->volatile_cfg, 4, 4);
++        s->needed_bytes += numonyx_extract_cfg_num_dummies(s);
          break;
- 
-     case DIOR:
-     case DIOR4:
--        decode_dio_read_cmd(s);
-+        if (get_man(s) != MAN_NUMONYX || numonyx_mode(s) != MODE_QIO) {
-+            decode_dio_read_cmd(s);
-+        } else {
-+            qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Cannot execute cmd %x in "
-+                          "QIO mode\n", s->cmd_in_progress);
-+        }
+     case MAN_MACRONIX:
+         if (extract32(s->volatile_cfg, 6, 2) == 1) {
+@@ -885,7 +909,7 @@ static void decode_dio_read_cmd(Flash *s)
+                                     );
          break;
- 
-     case QIOR:
-     case QIOR4:
--        decode_qio_read_cmd(s);
-+        if (get_man(s) != MAN_NUMONYX || numonyx_mode(s) != MODE_DIO) {
-+            decode_qio_read_cmd(s);
-+        } else {
-+            qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Cannot execute cmd %x in "
-+                          "DIO mode\n", s->cmd_in_progress);
-+        }
+     case MAN_NUMONYX:
+-        s->needed_bytes += extract32(s->volatile_cfg, 4, 4);
++        s->needed_bytes += numonyx_extract_cfg_num_dummies(s);
          break;
- 
-     case WRSR:
-@@ -1035,17 +1106,22 @@ static void decode_new_cmd(Flash *s, uint32_t value)
+     case MAN_MACRONIX:
+         switch (extract32(s->volatile_cfg, 6, 2)) {
+@@ -925,7 +949,7 @@ static void decode_qio_read_cmd(Flash *s)
+                                     );
          break;
- 
-     case JEDEC_READ:
--        trace_m25p80_populated_jedec(s);
--        for (i = 0; i < s->pi->id_len; i++) {
--            s->data[i] = s->pi->id[i];
--        }
--        for (; i < SPI_NOR_MAX_ID_LEN; i++) {
--            s->data[i] = 0;
--        }
-+        if (get_man(s) != MAN_NUMONYX || numonyx_mode(s) == MODE_STD) {
-+            trace_m25p80_populated_jedec(s);
-+            for (i = 0; i < s->pi->id_len; i++) {
-+                s->data[i] = s->pi->id[i];
-+            }
-+            for (; i < SPI_NOR_MAX_ID_LEN; i++) {
-+                s->data[i] = 0;
-+            }
- 
--        s->len = SPI_NOR_MAX_ID_LEN;
--        s->pos = 0;
--        s->state = STATE_READING_DATA;
-+            s->len = SPI_NOR_MAX_ID_LEN;
-+            s->pos = 0;
-+            s->state = STATE_READING_DATA;
-+        } else {
-+            qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Cannot execute JEDEC read "
-+                          "in DIO or QIO mode\n");
-+        }
+     case MAN_NUMONYX:
+-        s->needed_bytes += extract32(s->volatile_cfg, 4, 4);
++        s->needed_bytes += numonyx_extract_cfg_num_dummies(s);
          break;
- 
-     case RDCR:
+     case MAN_MACRONIX:
+         switch (extract32(s->volatile_cfg, 6, 2)) {
 -- 
 2.7.4
 
