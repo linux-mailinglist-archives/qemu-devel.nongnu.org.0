@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E39A2B409E
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 11:18:54 +0100 (CET)
-Received: from localhost ([::1]:39508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC7092B40E7
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 11:20:25 +0100 (CET)
+Received: from localhost ([::1]:41782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kebb3-0003XM-NT
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 05:18:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51594)
+	id 1kebcW-0004WY-Pb
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 05:20:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kebZS-000346-I6
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 05:17:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38012)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kebZQ-0007H6-3s
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 05:17:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605521831;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=e48lMfzrL3vaXjBF85EhlQQyBoyZ2h9n3rF5f5EjXDE=;
- b=X88jWtNvQcfezBx5F2ye3f6QCVGEGYaDq54772/g71mdobTRlrDMREJHHx37QrhBhYeJOa
- nkw4KPLGOLS1A2ott1AyOVDey7MEfSjH7VPznQGMb9viwY2obXLQX+Pf2t0gGaep2kAKK+
- wjggq9tNOmjko252XU/9aP/aFP831FY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-167-58RSTaPkPqW5y1j69UzAcg-1; Mon, 16 Nov 2020 05:17:09 -0500
-X-MC-Unique: 58RSTaPkPqW5y1j69UzAcg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 61D84802B61
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 10:17:08 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
- [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F4B955765;
- Mon, 16 Nov 2020 10:17:08 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9554A11358BA; Mon, 16 Nov 2020 11:17:06 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 10/11] qapi/introspect.py: improve readability of
- _tree_to_qlit
-References: <20201026194251.11075-1-jsnow@redhat.com>
- <20201026194251.11075-11-jsnow@redhat.com>
-Date: Mon, 16 Nov 2020 11:17:06 +0100
-In-Reply-To: <20201026194251.11075-11-jsnow@redhat.com> (John Snow's message
- of "Mon, 26 Oct 2020 15:42:50 -0400")
-Message-ID: <87tutpzjvh.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kebbU-00046f-5l
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 05:19:20 -0500
+Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:33842)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kebbS-00086Z-6P
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 05:19:19 -0500
+Received: by mail-ed1-x544.google.com with SMTP id a15so18146270edy.1
+ for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 02:19:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=30UNeIYvZeeOatsqxOuMTlux/JAngHTyzEg7w08T+gU=;
+ b=vREbNb3LzM/UwGck7OW/1WwB4uUyAUOLe/Ey//G0ZCYY+3vcWj4XVKTz5kjq1E1Y23
+ 9qYYa0i8TVRctYJ2Me4HhvQ+xQbl3WoucY288UNodiieerLP28FVIfOsEtpaXB73m6ks
+ FquP8n/oSMKaJSBH1wv+bDlZ6wlzXedy2gFHzW6sa4e6k3VxmfHaMruOOSvskwtwwFee
+ BmD4GKIg0mj345XFDacrp8hojyoPNs40rKx9DgNPXv1BxqRUBVMCQr1vJNmtnxCJLu8q
+ gfhzct8S18aCZBbjAZ4QG94X+ieQvwUDkk3mCqr0xT2FU+ntCvajSIqEjPo5TeVaEu7z
+ Gh4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=30UNeIYvZeeOatsqxOuMTlux/JAngHTyzEg7w08T+gU=;
+ b=JlFwHWwNF+hQTo8XQwSsh2sk8A/l9sl9Xf+sDHztQetet8serheWJCVZpc/Z62TytO
+ GWFy+WGsa2BM39YSjtOsI9OLDGJGOcN/81w7YahloMFNfKDZaQerEF1qda6QUqL6qSlw
+ bbx7TnfKBatNQbMy9kuBlPiYOX4LOokXvifnBQ4e6zn6RfB3bpM22F5y+EuQvCYMUEws
+ Sd6XaxHxQJXdhB5jNrEMhpi6F4l/j/UummPJFLOIL7MyIISdn6CmWDlt8J+yq1/f9hBm
+ QU4TlWe5UwqpJOMnhOI+jXY0HgEoggX3Kjv7FOo5VeaeNjJ/FNsOl4zp+5Ywc2ufvZRf
+ nDtA==
+X-Gm-Message-State: AOAM532Ov6xA0WLor7EpS/I8KeAj5rAT/57yqA33rvF9OGLGdK0HxlLu
+ Ok7LZLbkjQ7jDm0luzvMJBEi2ooFl7DVuVy6vbf1HQ==
+X-Google-Smtp-Source: ABdhPJzmpnJm8p5NV4+4GTC/xtW98DgiMPkENCCI+ZSGuJgVZYSi/7i90tdgTcyRnN/S2XMRifhqfdM6cOKyZR98cQ4=
+X-Received: by 2002:a05:6402:30b5:: with SMTP id
+ df21mr14772644edb.146.1605521956134; 
+ Mon, 16 Nov 2020 02:19:16 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 22:35:17
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <1604991130-12965-1-git-send-email-sai.pavan.boddu@xilinx.com>
+ <BY5PR02MB67725D033C3725C001D0AE05CAE30@BY5PR02MB6772.namprd02.prod.outlook.com>
+In-Reply-To: <BY5PR02MB67725D033C3725C001D0AE05CAE30@BY5PR02MB6772.namprd02.prod.outlook.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 16 Nov 2020 10:19:04 +0000
+Message-ID: <CAFEAcA-eR+BkbRGWAEh-6HFXgx2DkHZrxf2=tBprw-H6mm4kfw@mail.gmail.com>
+Subject: Re: [PATCH v13 0/4] Add Versal usb model
+To: Sai Pavan Boddu <saipava@xilinx.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::544;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x544.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,98 +80,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Francisco Eduardo Iglesias <figlesia@xilinx.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Vikram Garhwal <fnuv@xilinx.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Edgar Iglesias <edgari@xilinx.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ying Fang <fangying1@huawei.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Paul Zimmerman <pauldzim@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
-
-> Subjective, but I find getting rid of the comprehensions helps. Also,
-> divide the sections into scalar and non-scalar sections, and remove
-> old-style string formatting.
+On Mon, 16 Nov 2020 at 08:10, Sai Pavan Boddu <saipava@xilinx.com> wrote:
 >
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  scripts/qapi/introspect.py | 37 +++++++++++++++++++++----------------
->  1 file changed, 21 insertions(+), 16 deletions(-)
+> Hi Peter,
 >
-> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-> index a261e402d69..d4f28485ba5 100644
-> --- a/scripts/qapi/introspect.py
-> +++ b/scripts/qapi/introspect.py
-> @@ -100,7 +100,7 @@ def indent(level: int) -> str:
->  
->          ret = ''
->          if obj.comment:
-> -            ret += indent(level) + '/* %s */\n' % obj.comment
-> +            ret += indent(level) + f"/* {obj.comment} */\n"
->          if obj.ifcond:
->              ret += gen_if(obj.ifcond)
->          ret += _tree_to_qlit(obj.value, level, suppress_first_indent)
-> @@ -111,31 +111,36 @@ def indent(level: int) -> str:
->      ret = ''
->      if not suppress_first_indent:
->          ret += indent(level)
-> +
-> +    # Scalars:
->      if obj is None:
->          ret += 'QLIT_QNULL'
->      elif isinstance(obj, str):
-> -        ret += 'QLIT_QSTR(' + to_c_string(obj) + ')'
-> +        ret += f"QLIT_QSTR({to_c_string(obj)})"
-> +    elif isinstance(obj, bool):
-> +        ret += "QLIT_QBOOL({:s})".format(str(obj).lower())
 
-Changed from
+> Does these changes looks good ?
 
-           ret += 'QLIT_QBOOL(%s)' % ('true' if obj else 'false')
+Hi; this is on my to-review queue, but I'm currently
+prioritizing work that will go into the 5.2 release.
 
-Doesn't look like an improvement to me.
-
-> +
-> +    # Non-scalars:
->      elif isinstance(obj, list):
-> -        elts = [_tree_to_qlit(elt, level + 1).strip('\n')
-> -                for elt in obj]
-> -        elts.append(indent(level + 1) + "{}")
->          ret += 'QLIT_QLIST(((QLitObject[]) {\n'
-> -        ret += '\n'.join(elts) + '\n'
-> +        for value in obj:
-> +            ret += _tree_to_qlit(value, level + 1).strip('\n') + '\n'
-> +        ret += indent(level + 1) + '{}\n'
->          ret += indent(level) + '}))'
->      elif isinstance(obj, dict):
-> -        elts = []
-> -        for key, value in sorted(obj.items()):
-> -            elts.append(indent(level + 1) + '{ %s, %s }' %
-> -                        (to_c_string(key),
-> -                         _tree_to_qlit(value, level + 1, True)))
-> -        elts.append(indent(level + 1) + '{}')
->          ret += 'QLIT_QDICT(((QLitDictEntry[]) {\n'
-> -        ret += ',\n'.join(elts) + '\n'
-> +        for key, value in sorted(obj.items()):
-> +            ret += indent(level + 1) + "{{ {:s}, {:s} }},\n".format(
-> +                to_c_string(key),
-> +                _tree_to_qlit(value, level + 1, suppress_first_indent=True)
-> +            )
-> +        ret += indent(level + 1) + '{}\n'
->          ret += indent(level) + '}))'
-> -    elif isinstance(obj, bool):
-> -        ret += 'QLIT_QBOOL(%s)' % ('true' if obj else 'false')
->      else:
-> -        assert False                # not implemented
-> +        raise NotImplementedError(
-> +            f"type '{type(obj).__name__}' not implemented"
-> +        )
-
-Not covered by the commit message's mandate.
-
-Why bother?
-
-> +
->      if level > 0:
->          ret += ','
->      return ret
-
+thanks
+-- PMM
 
