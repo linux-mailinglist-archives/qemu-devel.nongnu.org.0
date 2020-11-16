@@ -2,76 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 858B62B4C72
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 18:18:08 +0100 (CET)
-Received: from localhost ([::1]:38174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BBF02B4C9B
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 18:23:32 +0100 (CET)
+Received: from localhost ([::1]:46594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kei8l-0006mc-Hv
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 12:18:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47560)
+	id 1keiDz-00028W-8L
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 12:23:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kei6P-0005Zg-W4
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 12:15:43 -0500
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:36201)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kei6N-0005gE-Bt
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 12:15:41 -0500
-Received: by mail-ej1-x644.google.com with SMTP id o21so25504863ejb.3
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 09:15:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=L5mMiBadc9w/evurIbvGFs4bOERi8qxxgcjltNn6VIs=;
- b=X0Vgm+nRxTw3U3iTBRdtyaLn9s7B2xADRzGZsAQSlAj7qaPHGCO7O0Mfje+zMWEwMK
- Qg5UArU7Dd2x26CPnD3MwdnNFhVDgwvHP9TsCV4tgdEl6YIl4tWHUUgOZivDsID9cH1I
- 7LtJ7QjWOKlj35J1b6YKykeV7+OB6dpdBOCxJEu/Y8eRJMFy0iE3sO0I0xmNuss4e73O
- oxQyUYpM5zn+8VKhdbE5RnUh3G8B2tAbz8oRZ+QM8wrs7MrENdm1tVxbwUvSa2/mBqBq
- T4n3Y/oRn8O11lmmZi0huZE3NHR4Sj7gHKwB+lwp3HApLqfJswqlwqbGSpsUqjqEYY5X
- PaOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=L5mMiBadc9w/evurIbvGFs4bOERi8qxxgcjltNn6VIs=;
- b=jLgcT6CelK8Owm6sgSrufRFJaKFx/dC7Vh9TW7QIFDYLsS+a6/g9mvX7EudEXNAbQK
- odSi0+kjWHtMMF/2kf+E5fz+CwptSl/cdp6dZCCqaN0s8Q36y7PnIXDqcUCeTvSh2a3T
- G+F7BiuaA0I1oMwTE4j14++2sjasHmHW5ihDJA2XVPexKg+MJLg11d7n8sxNQXX3//p6
- wHmglA8lrFWEnckPtVPw02LwkuSTxewSIZ/FkexEZMHRbaX7pimrQJaNSsuWq2hRP9oP
- hazPQuv1v7hLAZ3MdHKDUWUXlIVnp+3r4gl+kykJnH7kPz4oTxhrxo/qDyZm2cDrAaaw
- gPZw==
-X-Gm-Message-State: AOAM532E/wlXL8K6w2j/FNkEwMfbWumS6xuqC0TlmljEhZNySOdd7Omp
- VMUv0DMOPzk54W66svyqoOyXQFwr2eycmxrW6Acy7w==
-X-Google-Smtp-Source: ABdhPJyzJSCaEQIo8u2ye6+2VjuT/d6ANKBUJAognrKtcu2r87Tt225mJW5qMCCIQEly8YLpKabXINhcQygPMUQJXdE=
-X-Received: by 2002:a17:906:1542:: with SMTP id
- c2mr5865408ejd.382.1605546937127; 
- Mon, 16 Nov 2020 09:15:37 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1keiBt-0000ys-Vt
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 12:21:22 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2062)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1keiBr-0007Yr-Dn
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 12:21:21 -0500
+Received: from fraeml742-chm.china.huawei.com (unknown [172.18.147.201])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4CZbR44mQKz67Dml;
+ Tue, 17 Nov 2020 01:19:28 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml742-chm.china.huawei.com (10.206.15.223) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1913.5; Mon, 16 Nov 2020 18:21:15 +0100
+Received: from localhost (10.52.125.36) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1913.5; Mon, 16 Nov
+ 2020 17:21:14 +0000
+Date: Mon, 16 Nov 2020 17:21:07 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Ben Widawsky <ben.widawsky@intel.com>
+Subject: Re: [RFC PATCH 00/25] Introduce CXL 2.0 Emulation
+Message-ID: <20201116172107.00005ad9@Huawei.com>
+In-Reply-To: <20201111054724.794888-1-ben.widawsky@intel.com>
+References: <20201111054724.794888-1-ben.widawsky@intel.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
 MIME-Version: 1.0
-References: <20201115184903.1292715-1-ganqixin@huawei.com>
- <20201115184903.1292715-14-ganqixin@huawei.com>
- <c2ca2185-4253-da71-eab4-f96b29067c96@amsat.org>
- <882df4ee-948c-7e00-d951-9b14ea40b2df@redhat.com>
- <877dqldyoh.fsf@dusky.pond.sub.org>
-In-Reply-To: <877dqldyoh.fsf@dusky.pond.sub.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 16 Nov 2020 17:15:25 +0000
-Message-ID: <CAFEAcA-u3jZT2bU6snRL7BWXHUzXuVr9gByssOjoicGZ2-MLXQ@mail.gmail.com>
-Subject: Re: [PATCH 13/13] bcm2835_cprman: put some peripherals of bcm2835
- cprman into the 'misc' category
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.52.125.36]
+X-ClientProxiedBy: lhreml702-chm.china.huawei.com (10.201.108.51) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 11:37:31
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,33 +68,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- zhanghailiang <zhang.zhanghailiang@huawei.com>,
- QEMU Trivial <qemu-trivial@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Gan Qixin <ganqixin@huawei.com>, "Chenqun \(kuhn\)" <kuhn.chenqun@huawei.com>
+Cc: Vishal Verma <vishal.l.verma@intel.com>, Dan
+ Williams <dan.j.williams@intel.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 16 Nov 2020 at 17:09, Markus Armbruster <armbru@redhat.com> wrote:
-> But TYPE_CPRMAN_PLL is *not* a descendant of TYPE_SYS_BUS_DEVICE, it's a
-> bus-less device:
->
->     static const TypeInfo cprman_pll_info = {
->         .name = TYPE_CPRMAN_PLL,
-> --->    .parent = TYPE_DEVICE,
->         .instance_size = sizeof(CprmanPllState),
->         .class_init = pll_class_init,
->         .instance_init = pll_init,
->     };
+On Tue, 10 Nov 2020 21:46:59 -0800
+Ben Widawsky <ben.widawsky@intel.com> wrote:
 
-I'm really dubious of devices that directly inherit from
-TYPE_DEVICE, because their reset method won't be automatically
-called. In this case it looks like the TYPE_BCM2835_CPRMAN
-device's reset method manually calls reset on these devices,
-though, so it isn't actually buggy, just confusing.
+> Introduce emulation of Compute Express Link 2.0, which was released
+> today at https://www.computeexpresslink.org/.
+> 
+> I've pushed a branch here: https://gitlab.com/bwidawsk/qemu/-/tree/cxl-2.0
+> 
+> The emulation has been critical to get the Linux enabling started
+> (https://lore.kernel.org/linux-cxl/), it would be an ideal place to land
+> regression tests for different topology handling, and there may be applications
+> for this emulation as a way for a guest to manipulate its address space relative
+> to different performance memories. I am new to QEMU development, so please
+> forgive and point me in the right direction if I severely misinterpreted where a
+> piece of infrastructure belongs.
+> 
+> Three of the five CXL component types are emulated with some level of functionality:
+> host bridge, root port, and memory device. Upstream ports and downstream ports
+> aren't implemented (the two components needed to make up a switch).
+> 
+> CXL 2.0 is built on top of PCIe (see spec for details). As a result, much of the
+> implementation utilizes existing PCI paradigms. To implement the host bridge,
+> I've chosen to use PXB (PCI Expander Bridge). It seemed to be the most natural
+> fit even though it doesn't directly map to how hardware will work. For
+> persistent capacity of the memory device, I utilized the memory subsystem
+> (hw/mem).
+> 
+> We have 3 reasons why this work is valuable:
+> 1. OS driver development and testing
+> 2. OS driver regression testing
+> 3. Possible guest support for HDMs
+> 
+> As mentioned above there are three benefits to carrying this enabling in
+> upstream QEMU:
+> 
+> 1. Linux driver feature development benefits from emulation both due to
+> a lack of initial hardware availability, but also, as is seen with
+> NVDIMM/PMEM emulation, there is value in being able to share
+> topologies with system-software developers even after hardware is
+> available.
+> 
+> 2. The Linux kernel's unit test suite for NVDIMM/PMEM ended up injecting fake
+> resources via custom modules (nfit_test). In retrospect a QEMU emulation of
+> nfit_test capabilities would have made the test environment more portable, and
+> allowed for easier community contributions of example configurations.
+> 
+> 3. This is still being fleshed out, but in short it provides a standardized
+> mechanism for the guest to provide feedback to the host about size and placement
+> needs of the memory. After the host gives the guest a physical window mapping to
+> the CXL device, the emulated HDM decoders allow the guest a way to tell the host
+> how much it wants and where. There are likely simpler ways to do this, but
+> they'd require inventing a new interface and you'd need to have diverging driver
+> code in the guest programming of the HDM decoder vs. the host. Since we've
+> already done this work, why not use it?
+> 
+> There is quite a long list of work to do for full spec compliance, but I don't
+> believe that any of it precludes merging. Off the top of my head:
+> - Main host bridge support (WIP)
+> - Interleaving
+> - Better Tests
+> - Huge swaths of firmware functionality
+> - Hot plug support
+> - Emulating volatile capacity
+> 
+> The flow of the patches in general is to define all the data structures and
+> registers associated with the various components in a top down manner. Host
+> bridge, component, ports, devices. Then, the actual implementation is done in
+> the same order.
+> 
+> The summary is:
+> 1-8: Put infrastructure in place for emulation of the components.
+> 9-11: Create the concept of a CXL bus and plumb into PXB
+> 12-16: Implement host bridges
+> 17: Implement a root port
+> 18: Implement a memory device
+> 19: Implement HDM decoders
+> 20-24: ACPI bits
+> 25: Start working on enabling the main host bridge
 
-thanks
--- PMM
+Hi Ben,
+
+I've take a look at the whole series and offered a few comments in things that
+stood out.  Unfortunately I'm playing catchup on CXL 2.0 and my qemu knowledge
+is not what I'd like it to be.
+
+Having said that, this feels like a good start to me.  Please clean up
+the few patch handling issues before a v2.  Code that appears, disappears and
+reappears is a bit distracting :)
+
+Next up, the kernel side.
+
+Thanks,
+
+Jonathan
+
+> 
+> Ben Widawsky (23):
+>   hw/pci/cxl: Add a CXL component type (interface)
+>   hw/cxl/component: Introduce CXL components (8.1.x, 8.2.5)
+>   hw/cxl/device: Introduce a CXL device (8.2.8)
+>   hw/cxl/device: Implement the CAP array (8.2.8.1-2)
+>   hw/cxl/device: Add device status (8.2.8.3)
+>   hw/cxl/device: Implement basic mailbox (8.2.8.4)
+>   hw/cxl/device: Add memory devices (8.2.8.5)
+>   hw/pxb: Use a type for realizing expanders
+>   hw/pci/cxl: Create a CXL bus type
+>   hw/pxb: Allow creation of a CXL PXB (host bridge)
+>   acpi/pci: Consolidate host bridge setup
+>   hw/pci: Plumb _UID through host bridges
+>   hw/cxl/component: Implement host bridge MMIO (8.2.5, table 142)
+>   acpi/pxb/cxl: Reserve host bridge MMIO
+>   hw/pxb/cxl: Add "windows" for host bridges
+>   hw/cxl/rp: Add a root port
+>   hw/cxl/device: Add a memory device (8.2.8.5)
+>   hw/cxl/device: Implement MMIO HDM decoding (8.2.5.12)
+>   acpi/cxl: Add _OSC implementation (9.14.2)
+>   acpi/cxl: Create the CEDT (9.14.1)
+>   Temp: acpi/cxl: Add ACPI0017 (CEDT awareness)
+>   WIP: i386/cxl: Initialize a host bridge
+>   qtest/cxl: Add very basic sanity tests
+> 
+> Jonathan Cameron (1):
+>   Temp: Add the PCI_EXT_ID_DVSEC definition to the qemu pci_regs.h copy.
+> 
+> Vishal Verma (1):
+>   acpi/cxl: Introduce a compat-driver UUID for CXL _OSC
+> 
+>  MAINTAINERS                               |   6 +
+>  hw/Kconfig                                |   1 +
+>  hw/acpi/Kconfig                           |   5 +
+>  hw/acpi/cxl.c                             | 198 +++++++++++++
+>  hw/acpi/meson.build                       |   1 +
+>  hw/arm/virt.c                             |   1 +
+>  hw/core/machine.c                         |  26 ++
+>  hw/core/numa.c                            |   3 +
+>  hw/cxl/Kconfig                            |   3 +
+>  hw/cxl/cxl-component-utils.c              | 192 +++++++++++++
+>  hw/cxl/cxl-device-utils.c                 | 293 +++++++++++++++++++
+>  hw/cxl/cxl-mailbox-utils.c                | 139 +++++++++
+>  hw/cxl/meson.build                        |   5 +
+>  hw/i386/acpi-build.c                      |  87 +++++-
+>  hw/i386/microvm.c                         |   1 +
+>  hw/i386/pc.c                              |   2 +
+>  hw/mem/Kconfig                            |   5 +
+>  hw/mem/cxl_type3.c                        | 334 ++++++++++++++++++++++
+>  hw/mem/meson.build                        |   1 +
+>  hw/meson.build                            |   1 +
+>  hw/pci-bridge/Kconfig                     |   5 +
+>  hw/pci-bridge/cxl_root_port.c             | 231 +++++++++++++++
+>  hw/pci-bridge/meson.build                 |   1 +
+>  hw/pci-bridge/pci_expander_bridge.c       | 209 +++++++++++++-
+>  hw/pci-bridge/pcie_root_port.c            |   6 +-
+>  hw/pci/pci.c                              |  32 ++-
+>  hw/pci/pcie.c                             |  30 ++
+>  hw/ppc/spapr.c                            |   2 +
+>  include/hw/acpi/cxl.h                     |  27 ++
+>  include/hw/boards.h                       |   2 +
+>  include/hw/cxl/cxl.h                      |  30 ++
+>  include/hw/cxl/cxl_component.h            | 181 ++++++++++++
+>  include/hw/cxl/cxl_device.h               | 199 +++++++++++++
+>  include/hw/cxl/cxl_pci.h                  | 155 ++++++++++
+>  include/hw/pci/pci.h                      |  15 +
+>  include/hw/pci/pci_bridge.h               |  25 ++
+>  include/hw/pci/pci_bus.h                  |   8 +
+>  include/hw/pci/pci_ids.h                  |   1 +
+>  include/standard-headers/linux/pci_regs.h |   1 +
+>  monitor/hmp-cmds.c                        |  15 +
+>  qapi/machine.json                         |   1 +
+>  tests/qtest/cxl-test.c                    |  93 ++++++
+>  tests/qtest/meson.build                   |   4 +
+>  43 files changed, 2547 insertions(+), 30 deletions(-)
+>  create mode 100644 hw/acpi/cxl.c
+>  create mode 100644 hw/cxl/Kconfig
+>  create mode 100644 hw/cxl/cxl-component-utils.c
+>  create mode 100644 hw/cxl/cxl-device-utils.c
+>  create mode 100644 hw/cxl/cxl-mailbox-utils.c
+>  create mode 100644 hw/cxl/meson.build
+>  create mode 100644 hw/mem/cxl_type3.c
+>  create mode 100644 hw/pci-bridge/cxl_root_port.c
+>  create mode 100644 include/hw/acpi/cxl.h
+>  create mode 100644 include/hw/cxl/cxl.h
+>  create mode 100644 include/hw/cxl/cxl_component.h
+>  create mode 100644 include/hw/cxl/cxl_device.h
+>  create mode 100644 include/hw/cxl/cxl_pci.h
+>  create mode 100644 tests/qtest/cxl-test.c
+> 
+
 
