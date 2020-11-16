@@ -2,77 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 861232B431D
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 12:49:24 +0100 (CET)
-Received: from localhost ([::1]:56746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D53502B432B
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 12:52:31 +0100 (CET)
+Received: from localhost ([::1]:60592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ked0d-0003St-L0
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 06:49:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50030)
+	id 1ked3e-0005ME-VK
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 06:52:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1keczQ-0002eg-UR; Mon, 16 Nov 2020 06:48:10 -0500
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:40279)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ked2W-0004si-81
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 06:51:20 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:36369)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1keczL-00070M-Ai; Mon, 16 Nov 2020 06:48:07 -0500
-Received: by mail-pf1-x442.google.com with SMTP id w14so13857206pfd.7;
- Mon, 16 Nov 2020 03:48:01 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ked2U-0008Uw-HS
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 06:51:19 -0500
+Received: by mail-wm1-x343.google.com with SMTP id a65so23382262wme.1
+ for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 03:51:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=z6P2Snms+F8VSdWdaOAwSc23aWtl6JBv8nhoYYOjcsg=;
- b=PblhGhj7X67HrWocWShbB6e+4yWvkLShVo8TP9+U9XEI9oR8fP3+U3IA8huidgdxyZ
- VyIkdr6rRaCc7RNGsNbZhxquLjVxWgN17R9NyVzYSfKhJPeC2eXyXb9h6VcsAJTQIWId
- Dh48GwoTHdbeUI29CKvm+n8fRVxVtctKHe7b6RvIaXtDKzyeaznJ4CcO55VYrHWr+lGR
- tUjWCasMWQaBrjpMSk7OBCJ9K89ztEBEEHRLKSUcgqeTJ0+7lHKjw+/wtZC/NZnv1hfw
- atKRQyGpVIsm5QGoVQfV0y6oONnxL383XhMaB35jxQJOj9ytURh3JEpErumGIgHl/WkR
- 0qJg==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=G0X9hrYmems051nyC2ahgyG2j/F7SvJQcwy/fdSZXSY=;
+ b=sKsmboj3FoZ3AIohYV1UnXx7xBxIo6iV0+RFVIAqnHotRV707lxiub7C1n5JFC9WIR
+ CSSW/rCdVDjJhO9lzd3p77rmLZQY4fu4EaStAvTs93XyX9R+/J2zbzmOfoLKEHyV9oG6
+ G6utfh4fYvsJZ4DPAQY+vya+NRSgNN/4T63jOj7tS4kZ3yeyp1YJokXrillhC5X8CNr8
+ ePw/AKYHqubqFtU0AtnwxkUgc90QPQagK4ckWFvVLqO9dab5zBqkIuEzXqusmJIvl7du
+ dr9rq9dZoFw7GHIRtu9o61WVo33q+9l3OF00j8fR/l9wleoRbb5gzRAbnQF8A0Cwc1s8
+ OiCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=z6P2Snms+F8VSdWdaOAwSc23aWtl6JBv8nhoYYOjcsg=;
- b=ZCTGdRcQh0gdKpP9n15cU/kADsavW4jsC+5Qzkfla/T634bUs6EBAxxVPAMWydWVjk
- wCTpuAaIcPWMoDA7ZON64l9zPnhmlEjJE7n4KUReXG+e0yDM1AG8nSGq7LUkMPk1zA2V
- 4XpkBG0zkxeM+D3Ycstp1KMvcER/xuw1OFBgFymzd2xGnKaAGz42b5xniVQRqVHSaQFk
- v06fs+q/b+AdalhLqALxttk5hGVxNyjTmXd64yqh5Uu7xouWPPFO/Z9VfPdcQB2vPTJs
- PtUAcMmFI9rKaltEqAXn9VRmDcnwWfgSQlweNzPreMYCEEPxBvOTnfv2bAGeJCUQnXjs
- CyCw==
-X-Gm-Message-State: AOAM530b+9iLM5RAkZHGmYULuLdM3owfbDK3+QM/ymXaahBqBreZtEVJ
- HkiSnONzK5W2LnQm2cLango=
-X-Google-Smtp-Source: ABdhPJx475RWaFow2HEZQdvcbqryVwBkrVQTPQYPMZ7kNnIJ6oxXu8MkipK2iNB7YvaesKc7U6wPEw==
-X-Received: by 2002:a63:5a07:: with SMTP id o7mr12259237pgb.77.1605527279822; 
- Mon, 16 Nov 2020 03:47:59 -0800 (PST)
-Received: from localhost ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id y19sm17526140pfn.147.2020.11.16.03.47.58
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 16 Nov 2020 03:47:59 -0800 (PST)
-Date: Mon, 16 Nov 2020 20:47:57 +0900
-From: Minwoo Im <minwoo.im.dev@gmail.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH v8 4/5] nvme: add namespace I/O optimization fields to
- shared header
-Message-ID: <20201116114757.GD7308@localhost.localdomain>
-References: <20201112195945.819915-1-its@irrelevant.dk>
- <20201112195945.819915-5-its@irrelevant.dk>
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=G0X9hrYmems051nyC2ahgyG2j/F7SvJQcwy/fdSZXSY=;
+ b=bDhAd8lWl0YkbAHxpwmSjZc0ullCaqF0Z26z3n7YnZ2fksllz2UaeOkQfRmjFNjPih
+ cXqF6rXtvHGAqbyYBHpDR0M3VCXltQYEm5IHpmrcLq/pC/JTYtcTPHN8ZJ3hjq3x0qER
+ 6DWB7CMgtxYA/mXbXN04emiwPQQBFUa8dyxRZ6L51FSrGyYEHKUuWPaT4Q8nvlE8EPk0
+ 4QzQLe1rL178xdUJinYUuNdGK2IiGzz7dnNrOkwPqhUCyRD7FzjRPX6eSZ/XQkk2bvK1
+ +RV2cpo6WR1xsTvpZBWjST92VsMqXZU2H/xZT8ZoMy4/EnGks4R9kyQs9BaZ/cNrHayt
+ TrPw==
+X-Gm-Message-State: AOAM532VacruKwEdVrZJVmZYBCo7jFAQDjA55Z0ncNQ+Ed15ZYzXoss7
+ G5Po1hN/ranNO4hY6LD8NhA=
+X-Google-Smtp-Source: ABdhPJyq0KLdoPGrB01Pr61PBM3o+n03Ur3b8hZRaGvo1uCjsrouC+me7hP6SY2Zw0mli44GiTaH6w==
+X-Received: by 2002:a1c:8095:: with SMTP id
+ b143mr15291487wmd.147.1605527476544; 
+ Mon, 16 Nov 2020 03:51:16 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id 35sm22766232wro.71.2020.11.16.03.51.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Nov 2020 03:51:15 -0800 (PST)
+Subject: Re: [PATCH v2 3/4] configure: Add a proper check for sys/ioccom.h and
+ use it in tpm_ioctl.h
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20201114165137.15379-4-thuth@redhat.com>
+ <20201115152317.42752-1-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <cf354b64-cd22-e6a1-31e7-baf62fcbc0ed@amsat.org>
+Date: Mon, 16 Nov 2020 12:51:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
+In-Reply-To: <20201115152317.42752-1-thuth@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201112195945.819915-5-its@irrelevant.dk>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-pf1-x442.google.com
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,24 +93,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Alexander von Gluck IV <kallisti5@unixzen.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ =?UTF-8?B?572X5YuH5Yia?= <luoyonggang@gmail.com>,
+ David CARLIER <devnexen@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/12 20:59, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
+On 11/15/20 4:23 PM, Thomas Huth wrote:
+> On Solaris and Haiku, the _IO() macros are defined in <sys/ioccom.h>.
+> Add a proper check for this header to our build system, and make sure
+> to include the header in tpm_ioctl.h to fix a build failure on Solaris
+> and Haiku.
 > 
-> This adds the NPWG, NPWA, NPDG, NPDA and NOWS family of fields to the
-> shared nvme.h header for use by later patches.
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  v2: Check in meson.build instead of using the configure script
 > 
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> Cc: Stefan Hajnoczi <stefanha@redhat.com>
-> Cc: Fam Zheng <fam@euphon.net>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+>  backends/tpm/tpm_ioctl.h | 4 ++++
+>  meson.build              | 2 ++
+>  nbd/nbd-internal.h       | 2 +-
+>  3 files changed, 7 insertions(+), 1 deletion(-)
 
-Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
