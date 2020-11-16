@@ -2,105 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0C552B3CA2
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 06:36:29 +0100 (CET)
-Received: from localhost ([::1]:56758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B1AB2B3D3A
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 07:44:39 +0100 (CET)
+Received: from localhost ([::1]:45458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keXBk-0003eb-J7
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 00:36:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54564)
+	id 1keYFh-00072c-Qc
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 01:44:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1keX8v-0002FJ-2u
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 00:33:33 -0500
-Received: from mail-dm6nam10on2060.outbound.protection.outlook.com
- ([40.107.93.60]:6880 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1keX8r-0007WZ-SW
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 00:33:32 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iS9kXYcjTJFaFU5DOOioGVFjsTrvBpaPerQlGPRCC0pnWtdTyTKPQFUMwatKm1p90DAFEh3uS9qrzzZgUTHKZDzrcia0IhM4YZQ7LfH5phTNOmy8LPtAXUO7yIfTE1GPBfBE5zdn/+5tHTlO9lRTfuub5RerERiXEnxjuLZ4Mf6R3qmhquj+Lzp5uX78WBgTndTVkGKfpNwh4Jerv3IaUrSBPA/5Wix39ZdM8jQXzG9IYDm1+IU+Zsx27qc7UQDu2BFhYiNFAlNXk1G5R7+dJyCy56Tg7+7VVgORAbVaVFJe3nwJjT/CdcEwRFrJZCUbsZuMytbF1bYng5np2UFNcw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=y+N0hFzZJy7gsKBBdfE7PPEdp4NWX5bzLsUoRY8PdCc=;
- b=bU/pBainoAjf82Qf1YFrgA4zybm/DhqdrNTAsGP3nM1Zkn2eU8RtOMbwGKe+D+mZYw8cLvbE7rJDDFrE/08oZJJiEfjvGBEVlMpdk1aATj/0fkdIbRfybzq9A2/tqKHEy8oPG814Ea8Ql4HfUYYOdMbAlIBmx2BYeF+44DpdTG+ogefhcFZ+zmkaDZca9qnAgiOL66/AtNqsVHFa4RN2A/zs8eeAlIg3SmeU/uAREUbNzTyMCeC6QMkpwCyhzHTzrBuhoWufLXe7lmV10vxibGZH3DR5xwTBCkstIB97lgSz8xVVy/GYhV7gsDb4YFw9y8QroEaHkVpm7sL97F/WEw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
- dkim=pass header.d=xilinx.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=y+N0hFzZJy7gsKBBdfE7PPEdp4NWX5bzLsUoRY8PdCc=;
- b=GqpsqMQmHPlRjh4lki/pOZzbEh2jYQ8qG0+OKttCVy7oddkj4Q3WEjtUj0Tkydea9BzZeS/GUSxn70zbVbXOXzyHDpsvtWmv1lnTxceC2+RKqcmpx2nuvjtmhDJ5ssBsWWJk73qOPVnZwrwhpAliDBliRV5X4sC4YHKVGPXEBrA=
-Received: from BY5PR02MB6772.namprd02.prod.outlook.com (2603:10b6:a03:206::11)
- by BYAPR02MB4566.namprd02.prod.outlook.com (2603:10b6:a03:57::27)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.25; Mon, 16 Nov
- 2020 05:18:22 +0000
-Received: from BY5PR02MB6772.namprd02.prod.outlook.com
- ([fe80::75ed:4271:263b:fd15]) by BY5PR02MB6772.namprd02.prod.outlook.com
- ([fe80::75ed:4271:263b:fd15%3]) with mapi id 15.20.3564.028; Mon, 16 Nov 2020
- 05:18:22 +0000
-From: Sai Pavan Boddu <saipava@xilinx.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, "kraxel@redhat.com"
- <kraxel@redhat.com>, "marcandre.lureau@redhat.com"
- <marcandre.lureau@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
-Subject: RE: nec-usb-xhci migration breakage
-Thread-Topic: nec-usb-xhci migration breakage
-Thread-Index: AQHWuE5pWzwvtuxFgkaiq/cAd2w4p6nKPlEw
-Date: Mon, 16 Nov 2020 05:18:22 +0000
-Message-ID: <BY5PR02MB6772B2DC08D1BAE7994CBA28CAE30@BY5PR02MB6772.namprd02.prod.outlook.com>
-References: <20201111171622.GI3232@work-vm>
-In-Reply-To: <20201111171622.GI3232@work-vm>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=xilinx.com;
-x-originating-ip: [49.205.235.17]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: d73bacc2-4dfb-4323-5bc0-08d889ef097d
-x-ms-traffictypediagnostic: BYAPR02MB4566:
-x-microsoft-antispam-prvs: <BYAPR02MB4566EBC28B504C5C76EEE3A4CAE30@BYAPR02MB4566.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2733;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 6x1LOchajw/cEg1WZE1hnFg4NmfaXmCZ6o9qsdKO2ybk18ztQCraUMGvssQx62+LmnCZJkdFy3CuYwmzQ7WJMszsa0UjDWK+25ZVmM33tZGRjHjabiVzlF/zc04YdKC29gBeIpbtb4AGTFm7pbCd3apXXcYSnRfuK1388FQePPw14FrvtVbiiZ2vDbUt0zEr4v5tBnUvHx1duUK97dKe+KIdOEQ8n7aaFpbMPgQ0va3OZPsMr+7wath+A8LwS3rU3EsglkjgGPfNfvxFZKm/0hL9tjjQOTSgXsuoaR2eD1o2RNno0EBvdJIpiekz/8kyL9V5HtL+XLBM/H3CfKe1cA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR02MB6772.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(396003)(39850400004)(346002)(376002)(366004)(6506007)(8676002)(53546011)(9686003)(5660300002)(86362001)(64756008)(66446008)(8936002)(66556008)(76116006)(66946007)(66476007)(3480700007)(33656002)(55016002)(83380400001)(7696005)(2906002)(110136005)(71200400001)(186003)(316002)(52536014)(478600001)(4326008)(26005);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: hMns9wOqC74wqoaQGpXs2J1oaceGkprhKEzvpJS35eagPpkUb4rY7LvvdRXUV7aoWo76w/cHeqvRfXCvGYm0gtuJf9toYdTe4ll3O83HbIU0+gfEKsvEheHipUu3aIdAhSvb/+7pvJ+OElgrkL8waiSbE1MdgHWVbqllgeU2pfQbDcgnLxl8K/4Nn24qYNGZd3ZSa08crynVa1mlrhZ6USwkcj0EEHISZbfHJYyHOIPAX5N1FWtJ3G6Ze/2AXwiXfE+m0tTn315cGICddi7uVtF77UPIuvlYZuRoJPnuzLpJ1b+r+uGPpbr/KxIQZGIJsgicdavmN7r9zW6/l8d9AzhbOl9tCFszZWVMwpQ7B9wlNKPCIAzuz4sahEM8cwRzIEojcPs2c0l+mIIieTI9/ENsgOiTSFQd2yXQ12yQM/iCfksO97212e6aTg5grbL5ztEqDU172xiD7TGbq9Zs7/GhqUxJHYmzw9f+Pdeu8zZQAkRtoh65l9FplqjDTuDzoo5V8XYFwUvPdMDy3Vgwt0Ala7gOnU4/UTdJ2lbqnb3egjsiwZiVxZfL0Gi9XiA9RYq8i7XkM95DbtTgiSApfm7plwN1aHAay7Ma17KCsDGP6kslzzpKHjvkXSon+iv/+3+GHcRuozUACGkgcQ9B+w==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1keYE3-00068z-Bj
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 01:42:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39533)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1keYDz-0006Dm-Ot
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 01:42:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605508969;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=MCAFL6AN+aQXOh4ElNUwG5MPfCTqzbV738jDqk4vLMc=;
+ b=d7BJy3IrebitBZGWnrKFkDtDbogMrWX6N4u3C/WvJUhp6fxMzM7mhb+ROZugFVfATSD8U8
+ V0ghB005jPBrg8oIDJDO11Uk0cxKdRfYpwU+B1RtLx0VVqq1At9UCdi7WJyXT9ANo26NXB
+ Y9X/4xQTrD0vaamXiwFm9kQKk7qInEM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-294-V_LcebjTNAG3RuJyAkElkw-1; Mon, 16 Nov 2020 01:42:47 -0500
+X-MC-Unique: V_LcebjTNAG3RuJyAkElkw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB9E1802B7A;
+ Mon, 16 Nov 2020 06:42:45 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3F7425D9D2;
+ Mon, 16 Nov 2020 06:42:45 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 9801911358BA; Mon, 16 Nov 2020 07:42:43 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>
+Subject: Re: [PATCH v2] json: Fix a memleak in parse_pair()
+References: <20201113145525.85151-1-alex.chen@huawei.com>
+ <7412CDE03601674DA8197E2EBD8937E83BA6762C@dggemm511-mbs.china.huawei.com>
+Date: Mon, 16 Nov 2020 07:42:43 +0100
+In-Reply-To: <7412CDE03601674DA8197E2EBD8937E83BA6762C@dggemm511-mbs.china.huawei.com>
+ (Chenqun's message of "Sat, 14 Nov 2020 09:08:20 +0000")
+Message-ID: <87eektkdjw.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB6772.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d73bacc2-4dfb-4323-5bc0-08d889ef097d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Nov 2020 05:18:22.0532 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: kzsrjh3FXlBpsGVTZ8UMv6QxFZ3aFSQCZqrsxFtzY+CtdOlXO9x4vmhDKRCUML48pHv8TNtq46Np+2BWPM64DQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4566
-Received-SPF: pass client-ip=40.107.93.60; envelope-from=saipava@xilinx.com;
- helo=NAM10-DM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 00:33:28
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 01:42:49
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,133 +82,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: "Chenzhendong \(alex\)" <alex.chen@huawei.com>,
+ "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
+ Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ "armbru@redhat.com" <armbru@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+Gerd
-Hi David,
+"Chenqun (kuhn)" <kuhn.chenqun@huawei.com> writes:
 
-Sorry for the delayed response. I was able to reproduce your issue with nec=
--usb-xhci,  in my previous testing we have tested with qemu-xhci model whic=
-h was good.
-I would look further into this.=20
+>> -----Original Message-----
+>> From: Chenzhendong (alex)
+>> Sent: Friday, November 13, 2020 10:55 PM
+>> To: armbru@redhat.com
+>> Cc: Chenzhendong (alex) <alex.chen@huawei.com>; qemu-devel@nongnu.org;
+>> qemu-trivial@nongnu.org; Zhanghailiang <zhang.zhanghailiang@huawei.com>;
+>> Chenqun (kuhn) <kuhn.chenqun@huawei.com>
+>> Subject: [PATCH v2] json: Fix a memleak in parse_pair()
+>> 
+>> In qobject_type(), NULL is returned when the 'QObject' returned from
+>> parse_value() is not of QString type, and this 'QObject' memory will leaked.
+>> So we need to first cache the 'QObject' returned from parse_value(), and finally
+>> free 'QObject' memory at the end of the function.
+>> Also, we add a testcast about invalid dict key.
+>> 
+>> The memleak stack is as follows:
+>> Direct leak of 32 byte(s) in 1 object(s) allocated from:
+>>     #0 0xfffe4b3c34fb in __interceptor_malloc (/lib64/libasan.so.4+0xd34fb)
+>>     #1 0xfffe4ae48aa3 in g_malloc (/lib64/libglib-2.0.so.0+0x58aa3)
+>>     #2 0xaaab3557d9f7 in qnum_from_int
+>> /Images/source_org/qemu_master/qemu/qobject/qnum.c:25
+>>     #3 0xaaab35584d23 in parse_literal
+>> /Images/source_org/qemu_master/qemu/qobject/json-parser.c:511
+>>     #4 0xaaab35584d23 in parse_value
+>> /Images/source_org/qemu_master/qemu/qobject/json-parser.c:554
+>>     #5 0xaaab35583d77 in parse_pair
+>> /Images/source_org/qemu_master/qemu/qobject/json-parser.c:270
+>>     #6 0xaaab355845db in parse_object
+>> /Images/source_org/qemu_master/qemu/qobject/json-parser.c:327
+>>     #7 0xaaab355845db in parse_value
+>> /Images/source_org/qemu_master/qemu/qobject/json-parser.c:546
+>>     #8 0xaaab35585b1b in json_parser_parse
+>> /Images/source_org/qemu_master/qemu/qobject/json-parser.c:580
+>>     #9 0xaaab35583703 in json_message_process_token
+>> /Images/source_org/qemu_master/qemu/qobject/json-streamer.c:92
+>>     #10 0xaaab355ddccf in json_lexer_feed_char
+>> /Images/source_org/qemu_master/qemu/qobject/json-lexer.c:313
+>>     #11 0xaaab355de0eb in json_lexer_feed
+>> /Images/source_org/qemu_master/qemu/qobject/json-lexer.c:350
+>>     #12 0xaaab354aff67 in tcp_chr_read
+>> /Images/source_org/qemu_master/qemu/chardev/char-socket.c:525
+>>     #13 0xfffe4ae429db in g_main_context_dispatch
+>> (/lib64/libglib-2.0.so.0+0x529db)
+>>     #14 0xfffe4ae42d8f  (/lib64/libglib-2.0.so.0+0x52d8f)
+>>     #15 0xfffe4ae430df in g_main_loop_run (/lib64/libglib-2.0.so.0+0x530df)
+>>     #16 0xaaab34d70bff in iothread_run
+>> /Images/source_org/qemu_master/qemu/iothread.c:82
+>>     #17 0xaaab3559d71b in qemu_thread_start
+>> /Images/source_org/qemu_master/qemu/util/qemu-thread-posix.c:519
+>> 
+>> Fixes: 532fb5328473 ("qapi: Make more of qobject_to()")
+>> Reported-by: Euler Robot <euler.robot@huawei.com>
+>> Signed-off-by: Alex Chen <alex.chen@huawei.com>
+>> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> ---
+>>  qobject/json-parser.c | 12 ++++++------
+>>  tests/check-qjson.c   |  9 +++++++++
+>>  2 files changed, 15 insertions(+), 6 deletions(-)
+>> 
+>> diff --git a/qobject/json-parser.c b/qobject/json-parser.c index
+>> d083810d37..c0f521b56b 100644
+>> --- a/qobject/json-parser.c
+>> +++ b/qobject/json-parser.c
+>> @@ -257,8 +257,9 @@ static JSONToken
+>> *parser_context_peek_token(JSONParserContext *ctxt)
+>>   */
+>>  static int parse_pair(JSONParserContext *ctxt, QDict *dict)  {
+>> +    QObject *key_obj = NULL;
+>> +    QString *key;
+>>      QObject *value;
+>> -    QString *key = NULL;
+>>      JSONToken *peek, *token;
+>> 
+>>      peek = parser_context_peek_token(ctxt); @@ -267,7 +268,8 @@ static
+>> int parse_pair(JSONParserContext *ctxt, QDict *dict)
+>>          goto out;
+>>      }
+>> 
+>> -    key = qobject_to(QString, parse_value(ctxt));
+>> +    key_obj = parse_value(ctxt);
+>> +    key = qobject_to(QString, key_obj);
+>>      if (!key) {
+>>          parse_error(ctxt, peek, "key is not a string in object");
+>>          goto out;
+>> @@ -297,13 +299,11 @@ static int parse_pair(JSONParserContext *ctxt,
+>> QDict *dict)
+>> 
+>>      qdict_put_obj(dict, qstring_get_str(key), value);
+>> 
+>> -    qobject_unref(key);
+>> -
+>> +    qobject_unref(key_obj);
+>>      return 0;
+>> 
+>>  out:
+>> -    qobject_unref(key);
+>> -
+>> +    qobject_unref(key_obj);
+>>      return -1;
+>>  }
+>> 
+>
+> Hi Alex,
+>   Perhaps it would be more appropriate to provide the testcase as a separate patch which from Markus.
 
-@Gerd: Do you have any high level comments on this ?
+I appreciate your consideration.  Since both fix and test case are
+simple, and we need to hurry to have a chance at getting this into 5.2,
+and the part of the work deserving credit the most is finding and
+analyzing the bug, I'd like to take the patch as is.
 
-Regards,
-Sai Pavan
-
-> -----Original Message-----
-> From: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Sent: Wednesday, November 11, 2020 10:46 PM
-> To: kraxel@redhat.com; Sai Pavan Boddu <saipava@xilinx.com>;
-> marcandre.lureau@redhat.com
-> Cc: qemu-devel@nongnu.org
-> Subject: nec-usb-xhci migration breakage
->=20
-> Hi,
->   Somewhere between 5.1.0 and 5.2.0-rc1 there's a migration breakage on t=
-he
-> nec-usb-xhci device:
->=20
-> [dgilbert@dgilbert-t580 try]$ ./x86_64-softmmu/qemu-system-x86_64 -M pc-
-> q35-5.1 -device nec-usb-xhci -nographic -incoming tcp::4444
-> qemu-system-x86_64: get_pci_config_device: Bad config data: i=3D0x72 read=
-: 88
-> device: 80 cmask: ff wmask: 71 w1cmask:0
-> qemu-system-x86_64: Failed to load PCIDevice:config
-> qemu-system-x86_64: Failed to load xhci:parent_obj
-> qemu-system-x86_64: error while loading state for instance 0x0 of device
-> '0000:00:03.0/xhci'
-> qemu-system-x86_64: load of migration failed: Invalid argument
->=20
-> lspci is showing the MSI count ifferent, but I'm not sure if that's the o=
-nly
-> problem or not:
->=20
-> 5.1.0 showing:
-> [root@localhost ~]# lspci -v -s 00:03.0 -v
-> 00:03.0 USB controller: NEC Corporation uPD720200 USB 3.0 Host Controller
-> (rev 03) (prog-if 30 [XHCI])
->         Subsystem: Red Hat, Inc. QEMU Virtual Machine
->         Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop-
-> ParErr- Stepping- SERR+ FastB2B- DisINTx+
->         Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=3Dfast >TAbort- =
-<TAbort-
-> <MAbort- >SERR- <PERR- INTx-
->         Latency: 0, Cache Line Size: 64 bytes
->         Interrupt: pin A routed to IRQ 23
->         Region 0: Memory at febd4000 (64-bit, non-prefetchable) [size=3D1=
-6K]
->         Capabilities: [90] MSI-X: Enable+ Count=3D16 Masked-
->                 Vector table: BAR=3D0 offset=3D00003000
->                 PBA: BAR=3D0 offset=3D00003800
->         Capabilities: [a0] Express (v2) Root Complex Integrated Endpoint,=
- MSI 00
->                 DevCap: MaxPayload 128 bytes, PhantFunc 0
->                         ExtTag- RBE+
->                 DevCtl: CorrErr- NonFatalErr- FatalErr- UnsupReq-
->                         RlxdOrd- ExtTag- PhantFunc- AuxPwr- NoSnoop-
->                         MaxPayload 128 bytes, MaxReadReq 128 bytes
->                 DevSta: CorrErr- NonFatalErr- FatalErr- UnsupReq- AuxPwr-
-> TransPend-
->                 DevCap2: Completion Timeout: Not Supported, TimeoutDis-, =
-LTR-,
-> OBFF Not Supported
->                          AtomicOpsCap: 32bit- 64bit- 128bitCAS-
->                 DevCtl2: Completion Timeout: 50us to 50ms, TimeoutDis-, L=
-TR-, OBFF
-> Disabled
->                          AtomicOpsCtl: ReqEn-
->         Capabilities: [70] MSI: Enable- Count=3D1/16 Maskable- 64bit+
->                 Address: 0000000000000000  Data: 0000
->         Kernel driver in use: xhci_hcd
->=20
-> 5.2.0rc1 showing
-> [root@localhost ~]# lspci -v -s 00:03.0 -v
-> 00:03.0 USB controller: NEC Corporation uPD720200 USB 3.0 Host Controller
-> (rev 03) (prog-if 30 [XHCI])
->         Subsystem: Red Hat, Inc. QEMU Virtual Machine
->         Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop-
-> ParErr- Stepping- SERR+ FastB2B- DisINTx+
->         Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=3Dfast >TAbort- =
-<TAbort-
-> <MAbort- >SERR- <PERR- INTx-
->         Latency: 0, Cache Line Size: 64 bytes
->         Interrupt: pin A routed to IRQ 23
->         Region 0: Memory at febd4000 (64-bit, non-prefetchable) [size=3D1=
-6K]
->         Capabilities: [90] MSI-X: Enable+ Count=3D1 Masked-
->                 Vector table: BAR=3D0 offset=3D00003000
->                 PBA: BAR=3D0 offset=3D00003800
->         Capabilities: [a0] Express (v2) Root Complex Integrated Endpoint,=
- MSI 00
->                 DevCap: MaxPayload 128 bytes, PhantFunc 0
->                         ExtTag- RBE+
->                 DevCtl: CorrErr- NonFatalErr- FatalErr- UnsupReq-
->                         RlxdOrd- ExtTag- PhantFunc- AuxPwr- NoSnoop-
->                         MaxPayload 128 bytes, MaxReadReq 128 bytes
->                 DevSta: CorrErr- NonFatalErr- FatalErr- UnsupReq- AuxPwr-
-> TransPend-
->                 DevCap2: Completion Timeout: Not Supported, TimeoutDis-, =
-LTR-,
-> OBFF Not Supported
->                          AtomicOpsCap: 32bit- 64bit- 128bitCAS-
->                 DevCtl2: Completion Timeout: 50us to 50ms, TimeoutDis-, L=
-TR-, OBFF
-> Disabled
->                          AtomicOpsCtl: ReqEn-
->         Capabilities: [70] MSI: Enable- Count=3D1/1 Maskable- 64bit+
->                 Address: 0000000000000000  Data: 0000
->         Kernel driver in use: xhci_hcd
->=20
-> I see there's quite a few differences in the output of info qtree for the=
- device.
->=20
-> Dave
->=20
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Queued, thanks!
 
 
