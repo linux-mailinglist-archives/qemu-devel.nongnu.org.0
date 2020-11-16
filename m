@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09BC02B5210
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 21:12:07 +0100 (CET)
-Received: from localhost ([::1]:45602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB3642B51FA
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 21:09:00 +0100 (CET)
+Received: from localhost ([::1]:37458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kekr7-0007Uc-US
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 15:12:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60888)
+	id 1keko7-0003hI-V5
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 15:08:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jrtc27@jrtc27.com>) id 1kekj5-0006Zp-Hr
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 15:03:47 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38059)
+ (Exim 4.90_1) (envelope-from <jrtc27@jrtc27.com>) id 1kekjj-0007Ux-L0
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 15:04:27 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:55642)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jrtc27@jrtc27.com>) id 1kekiz-0003qY-H0
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 15:03:47 -0500
-Received: by mail-wr1-x443.google.com with SMTP id p8so20178295wrx.5
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 12:03:40 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jrtc27@jrtc27.com>) id 1kekjh-00042w-Rd
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 15:04:27 -0500
+Received: by mail-wm1-x342.google.com with SMTP id c9so495198wml.5
+ for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 12:04:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=jrtc27.com; s=gmail.jrtc27.user;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=LQ5PlTLBPaWjXBJdYVTH/A1PITEFjXh0Af0OEsuDpOY=;
- b=TbDzE1O8e6JkTTKvi0CIzHQSn6srYvNl9nJmq9+tUjC+ITIVQW1vyG4b8ggnDa5Anz
- M1++UT2bqZ3wAqpIX1bp9gCfXsrNQYpgBt2DaL9CfLqjQjYXX3nJ3rr0oqx9SfWYTnYf
- 4/F3GKa/5rUVyjP56ks5uejoW2A/rXHnfk/zFW6WoJokMc6LbXMZK7DK92lDxgWTkzU/
- YcwN3FE8zHdhHzX8UfyFrkjC+8h6ulaU3/bnAXYYnI1TOqqAI2DHTRGuO49xmvdjj4kF
- LrMNjZYaQNUcvQotlbF9iUblvHj8vJpUwuro6JCTK3Uihwpxw+ZCekxu2GMB2bJRS+3m
- x5LA==
+ bh=xsag5METdBTQqAXmknMMlYVgiIrKBnd3jnkhKjDpOWE=;
+ b=STjciWGQTlcFvwkoGcnHzp5gsR7ulFcO/rH0Qk9siqiwWb4A7wPB8d4trko6PvhbnK
+ 2C8kECMmsavOqXBusIWPRDM3gPVPjADHvCHUNlU9OAPB9mhEYUhIlyU2owtFEs9UIc1k
+ 2MDYr9ZMoRJKZK9E5lN6jzzbHvKxBf/pNlmJoJapDeOPl1ZbsnY0R2SmjtBov0H5/F7A
+ w3rdu0WY/o8Gsybr8/8NkNOscsGfDLS8XxKhal8HEXpnRzhjM4F9NDQcO2Iugk5wRkiC
+ JC5AraHE5jbvEn+fvTWsV7gs13ZDa0koo0v61WX9CGcHMyXmGR9e1QLqfD9mC9w2gMcx
+ mnfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=LQ5PlTLBPaWjXBJdYVTH/A1PITEFjXh0Af0OEsuDpOY=;
- b=pw9OEIe4TClWOiSOi+g6WoCk5FQthKnq0HgxWGB4tRxwYU5MgrHQpQAoRT4eic7i3U
- s7Q8sVdVV9f8+ztgOuMULAc14HTzRaLdeVue8BQ/UxzQJy4eKZ8iYAVsYf34iFlK9Ow2
- pM2lqkCmmvkCnJWkhpg+RVFeTkVvFOWAZdOChrUSTsn/4nyL6uJqZQ6zZyF5Q/O8KrVG
- 4XIenjpBKhz806IXhhdsj0mTsQh6fM6suUf7eXuIgDD51WnzYw6Cp97EiEpEUOZ0OSrn
- mFY+m2a9v50vyi4Lr5Xjb913ker1qL9G6L9/P8121eGYlVjATCiEY5t6oVXP2FpLjumM
- wm1w==
-X-Gm-Message-State: AOAM531goxRcFHtdWM34Wer7FNNzynWyRQIpGOi611BNznafY3mVlTBt
- HVAYfC2syHWqyU3RaIHWG3+pYQ==
-X-Google-Smtp-Source: ABdhPJysIZip0TFeFwrIXOdre1cczGpSt1InwB7uaXXWTezp2wyf7/Hk9c0zNQV1ZXMvDcMKDyIysA==
-X-Received: by 2002:a5d:448a:: with SMTP id j10mr20214467wrq.33.1605557019271; 
- Mon, 16 Nov 2020 12:03:39 -0800 (PST)
+ bh=xsag5METdBTQqAXmknMMlYVgiIrKBnd3jnkhKjDpOWE=;
+ b=APQ9D+66OxDrzmBDeN/sx6ZOdWxJ5BNZbLxIpCpWT0ZfhUHTt3ZCQmDA444bO9dwat
+ sEOahRFpjPtj7H2w0Lc6iYsCyDvvkBfpDr3PDbRYRwKfueSnStQMfFMTfBaXK1nj4/tQ
+ h29PdVcYN6byVF+hybFgp8OFjvefz302OtAc6SC1qrB7fd9wMN2Jp1B0oftBjh5aCLRv
+ EAg1zMb1MA4Td3dCoV7rK9kQ/+3pEgSLtTsn5cPrmAs/1EX9bmrOs/QEkl4m1GtLrmla
+ XTW7gdAJkFXsH48xpeRbTLksioiGgvAh7dM5GUL3c9V/qCC/giRbYoLG3FVKhjMGzPwG
+ BQYw==
+X-Gm-Message-State: AOAM533eMKEnTKEh86LE0m+0mkYsGvdDWVCCRZK+3y8vpFFZ2zM+3MCD
+ Idi+EKJ68SsY9xNFWtsuI0Q8KQ==
+X-Google-Smtp-Source: ABdhPJz62hjDEDqipJZiiTYBQJ9MazWtEObEToWAlzUZeBb48Y4ZUvOJLzdyOZ4VStBA300+hT/+4g==
+X-Received: by 2002:a05:600c:2202:: with SMTP id
+ z2mr533520wml.115.1605557063916; 
+ Mon, 16 Nov 2020 12:04:23 -0800 (PST)
 Received: from Jessicas-MacBook.local (trinity-students-nat.trin.cam.ac.uk.
  [131.111.193.104])
- by smtp.gmail.com with ESMTPSA id s202sm436173wme.39.2020.11.16.12.03.38
+ by smtp.gmail.com with ESMTPSA id k22sm414251wmi.34.2020.11.16.12.04.23
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 16 Nov 2020 12:03:38 -0800 (PST)
+ Mon, 16 Nov 2020 12:04:23 -0800 (PST)
 Received: by Jessicas-MacBook.local (Postfix, from userid 501)
- id 45D6F20985F094; Mon, 16 Nov 2020 20:03:38 +0000 (GMT)
+ id 0E42120985F0DC; Mon, 16 Nov 2020 20:04:23 +0000 (GMT)
 From: Jessica Clarke <jrtc27@jrtc27.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] hvf: Gate RDTSCP on CPU_BASED2_RDTSCP,
- not just CPU_BASED_TSC_OFFSET
-Date: Mon, 16 Nov 2020 20:03:19 +0000
-Message-Id: <20201116200319.28138-1-jrtc27@jrtc27.com>
+Subject: [PATCH] hvf: Fix segment selector format
+Date: Mon, 16 Nov 2020 20:04:14 +0000
+Message-Id: <20201116200414.28286-1-jrtc27@jrtc27.com>
 X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=jrtc27@jrtc27.com; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=jrtc27@jrtc27.com; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,27 +92,40 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Buglink: https://bugs.launchpad.net/qemu/+bug/1894836
+The Requested Privilege Level field is 2 bits, the Table Indicator field
+is 1 bit and the Index field is the remaining 15 bits, with TI=0 meaning
+GDT and TI=1 meaning LDT.
+
 Signed-off-by: Jessica Clarke <jrtc27@jrtc27.com>
 ---
- target/i386/hvf/x86_cpuid.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ target/i386/hvf/x86.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/target/i386/hvf/x86_cpuid.c b/target/i386/hvf/x86_cpuid.c
-index 16762b6eb4..fc1f87ec57 100644
---- a/target/i386/hvf/x86_cpuid.c
-+++ b/target/i386/hvf/x86_cpuid.c
-@@ -122,6 +122,10 @@ uint32_t hvf_get_supported_cpuid(uint32_t func, uint32_t idx,
-                 CPUID_PAT | CPUID_PSE36 | CPUID_EXT2_MMXEXT | CPUID_MMX |
-                 CPUID_FXSR | CPUID_EXT2_FXSR | CPUID_EXT2_PDPE1GB | CPUID_EXT2_3DNOWEXT |
-                 CPUID_EXT2_3DNOW | CPUID_EXT2_LM | CPUID_EXT2_RDTSCP | CPUID_EXT2_NX;
-+        hv_vmx_read_capability(HV_VMX_CAP_PROCBASED2, &cap);
-+        if (!(cap & CPU_BASED2_RDTSCP)) {
-+            edx &= ~CPUID_EXT2_RDTSCP;
-+        }
-         hv_vmx_read_capability(HV_VMX_CAP_PROCBASED, &cap);
-         if (!(cap & CPU_BASED_TSC_OFFSET)) {
-             edx &= ~CPUID_EXT2_RDTSCP;
+diff --git a/target/i386/hvf/x86.h b/target/i386/hvf/x86.h
+index bacade7b65..ea3e1b86b3 100644
+--- a/target/i386/hvf/x86.h
++++ b/target/i386/hvf/x86.h
+@@ -214,16 +214,16 @@ static inline uint32_t x86_call_gate_offset(x86_call_gate *gate)
+     return (uint32_t)((gate->offset1 << 16) | gate->offset0);
+ }
+ 
+-#define LDT_SEL     0
+-#define GDT_SEL     1
++#define GDT_SEL     0
++#define LDT_SEL     1
+ 
+ typedef struct x68_segment_selector {
+     union {
+         uint16_t sel;
+         struct {
+-            uint16_t rpl:3;
++            uint16_t rpl:2;
+             uint16_t ti:1;
+-            uint16_t index:12;
++            uint16_t index:13;
+         };
+     };
+ } __attribute__ ((__packed__)) x68_segment_selector;
 -- 
 2.28.0
 
