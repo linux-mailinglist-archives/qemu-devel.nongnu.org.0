@@ -2,71 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FD8C2B4A97
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 17:20:25 +0100 (CET)
-Received: from localhost ([::1]:54836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D09BB2B4AF6
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 17:27:09 +0100 (CET)
+Received: from localhost ([::1]:41998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kehEu-0002Wx-82
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 11:20:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60572)
+	id 1kehLQ-0000zR-T2
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 11:27:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kehBX-0007h0-KB
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 11:16:59 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:41587)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kehBR-00025i-AD
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 11:16:54 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id t9so19307305edq.8
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 08:16:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to
- :content-transfer-encoding;
- bh=Y+zGCOmIx8+ggmpkbTj2m1sSySdnAZWwk2aVeACcFwM=;
- b=fi3h5PFQUyFBRM19K6jAXF/yu0RPjK70i/VHkq3PBxSs+SYaM88Ikp4/RzReDRjGHe
- K/vD9SlD/mW27MYcmSQBUi0eLxGG+j6+Gh0Dy38E7ooOHwvnbGA10DdOpS44Ck1pSRVN
- PxYTaccXFg6oGALAftREYh2wqROJMRAPvcroS9mYhCTY305Ttl/b7dzGahVaPDI9kRGl
- hFdt1TJuD2XHIGCP5aaPD0pEyoYQhc76e9ayFrFhacvtjBBu3DjtWhgBnBbojAaRxsNH
- 5GG31+a7nUOurs4RhfdrcHoGBncilQrvwHvQCyfzg/uxfnilRXPCyFcdZ45TbvqSqs3B
- jeyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to
- :content-transfer-encoding;
- bh=Y+zGCOmIx8+ggmpkbTj2m1sSySdnAZWwk2aVeACcFwM=;
- b=mUfE46A9zgoTnAf8vh38lE0TqsqTOhPtoa+14l2OBakakFef1Jo/3RmNruXGJQ9XYD
- hX+aQiWKHIGl5RasyVve6gGHoN1NPilFHTI6ru8PFzoABz53BmL3iBJ5ANCS7E0jX9JW
- zdb4JC9M6D43xIxw0TXcxzIRQS+8blYC7m526T8Kh0kP8GTlUdkDKMlsqEUj3b4HtO3J
- v4RUQJYmrFp8F2gJQGhAO9GCsidNvppMylRBUzdJQmctKSJ/0Aqq9IO3HBfA18H0wmD6
- /EHkLV5dCRUfOUqlqXZMOx9XMudJp8Cv/ObPNpWonCQ3RFBkmTqi+BZf00Mhd+H0E99L
- opow==
-X-Gm-Message-State: AOAM530/hKIeBYbLXzhJkh/6EJewiOUKT47q0WtBz4NFYNrazUJGYtqz
- A9a9/r9AbpjAyn0B7arrAXX8px03oW2RjQ9+vx4lmy3y964rWA==
-X-Google-Smtp-Source: ABdhPJy/gu+PWF/N6886z5Et4emuAhVpgi3HfDgR/mMttEyR2xKzo+NEzusbPEc0/H2IIltJAh5ltDf/6RszMrVxWtU=
-X-Received: by 2002:a05:6402:b35:: with SMTP id
- bo21mr17355997edb.52.1605543406598; 
- Mon, 16 Nov 2020 08:16:46 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kehIo-0007BZ-97; Mon, 16 Nov 2020 11:24:26 -0500
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:57083)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kehIm-0004L8-1j; Mon, 16 Nov 2020 11:24:25 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.54])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 138EF730C56C;
+ Mon, 16 Nov 2020 17:24:19 +0100 (CET)
+Received: from kaod.org (37.59.142.104) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Mon, 16 Nov
+ 2020 17:24:18 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-104R00570843d4e-e766-4f2b-be7a-a415865bf593,
+ 5DC1A71B4DA47E6A258F2FD66590EA27958A2DF2) smtp.auth=groug@kaod.org
+Date: Mon, 16 Nov 2020 17:24:17 +0100
+From: Greg Kurz <groug@kaod.org>
+To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH for-5.2] Revert series "spapr/xive: Allocate vCPU IPIs
+ from the vCPU contexts"
+Message-ID: <20201116172417.6c23a679@bahia.lan>
+In-Reply-To: <46173c00-f0db-1d58-2dec-7c4f1acc9847@kaod.org>
+References: <160554086275.1325084.12110142252189044646.stgit@bahia.lan>
+ <46173c00-f0db-1d58-2dec-7c4f1acc9847@kaod.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 16 Nov 2020 16:16:35 +0000
-Message-ID: <CAFEAcA8OqZe9MYmp=B023bTqatP-KcoGsh_vQ4OZ=a=jh09wcQ@mail.gmail.com>
-Subject: iotest 030 still occasionally intermittently failing
-To: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Originating-IP: [37.59.142.104]
+X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 8bffd6cc-5ed9-4fac-a960-b4743380816b
+X-Ovh-Tracer-Id: 12084002227500063081
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudefuddgledtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeevlefhtddufffhieevhefhleegleelgfetffetkedugeehjeffgfehhfefueduffenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo804.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 11:24:20
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,126 +69,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter
+ Maydell <peter.maydell@linaro.org>, Satheesh Rajendran <sathnaga@linux.ibm.com>,
+ Gustavo Romero <gromero@linux.ibm.com>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just saw this on a test run on the OpenBSD VM build-and-test,
-so this test is still intermittently failing...
+On Mon, 16 Nov 2020 16:54:32 +0100
+C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 
+> On 11/16/20 4:34 PM, Greg Kurz wrote:
+> > This series was largely built on the assumption that IPI numbers are
+> > numerically equal to vCPU ids. Even if this happens to be the case
+> > in practice with the default machine settings, this ceases to be true
+> > if VSMT is set to a different value than the number of vCPUs per core.
+> > This causes bogus IPI numbers to be created in KVM from a guest stand
+> > point. This leads to unknow results in the guest, including crashes
+> > or missing vCPUs (see BugLink) and even non-fatal oopses in current
+> > KVM that lacks a check before accessing misconfigured HW (see [1]).
+> >=20
+> > A tentative patch was sent (see [2]) but it seems too complex to be
+> > merged in an RC. Since the original changes are essentially an
+> > optimization, it seems safer to revert them for now. The damage is
+> > done by commit acbdb9956fe9 ("spapr/xive: Allocate IPIs independently
+> > from the other sources") but the previous patches in the series are
+> > really preparatory patches. So this reverts the whole series:
+> >=20
+> > eab0a2d06e97 ("spapr/xive: Allocate vCPU IPIs from the vCPU contexts")
+> > acbdb9956fe9 ("spapr/xive: Allocate IPIs independently from the other s=
+ources")
+>=20
+> These are introducing the optimisation to allocate the vCPU IPI from the=
+=20
+> running task, and, at the same time, the issue for guests using vSMT.
+>=20
+> > fa94447a2cd6 ("spapr/xive: Use kvmppc_xive_source_reset() in post_load")
+> > 235d3b116213 ("spapr/xive: Modify kvm_cpu_is_enabled() interface")
+>=20
+> IMO, these two last patches are fine.=20
+>=20
 
-  TEST    iotest-qcow2: 030 [fail]
-QEMU          --
-"/home/qemu/qemu-test.h37iBt/build/tests/qemu-iotests/../../qemu-system-aar=
-ch64"
--nodefaults -display none -accel qtest -machine virt
-QEMU_IMG      --
-"/home/qemu/qemu-test.h37iBt/build/tests/qemu-iotests/../../qemu-img"
-QEMU_IO       --
-"/home/qemu/qemu-test.h37iBt/build/tests/qemu-iotests/../../qemu-io"
---cache writeback --aio threads -f qcow2
-QEMU_NBD      --
-"/home/qemu/qemu-test.h37iBt/build/tests/qemu-iotests/../../qemu-nbd"
-IMGFMT        -- qcow2 (compat=3D1.1)
-IMGPROTO      -- file
-PLATFORM      -- OpenBSD/amd64 openbsd 6.8
-TEST_DIR      -- /home/qemu/qemu-test.h37iBt/build/tests/qemu-iotests/scrat=
-ch
-SOCK_DIR      -- /tmp/tmp.XpU6JjBMml
-SOCKET_SCM_HELPER --
+235d3b116213 is useless if you no longer want to feed kvm_cpu_is_enabled()
+with IPI numbers ;-) , so it seems safer to keep it taking a CPU state
+pointer.
 
---- /home/qemu/qemu-test.h37iBt/src/tests/qemu-iotests/030.out  Mon
-Nov 16 15:33:05 2020
-+++ /home/qemu/qemu-test.h37iBt/build/tests/qemu-iotests/030.out.bad
- Mon Nov 16 16:03:42 2020
-@@ -1,5 +1,47 @@
--...........................
-+WARNING:qemu.machine:qemu received signal 6; command:
-"/home/qemu/qemu-test.h37iBt/build/tests/qemu-iotests/../../qemu-system-aar=
-ch64
--display none -vga none -chardev
-socket,id=3Dmon,path=3D/tmp/tmp.XpU6JjBMml/qemu-42319-monitor.sock -mon
-chardev=3Dmon,mode=3Dcontrol -qtest
-unix:path=3D/tmp/tmp.XpU6JjBMml/qemu-42319-qtest.sock -accel qtest
--nodefaults -display none -accel qtest -machine virt -drive
-if=3Dvirtio,id=3Ddrive0,file=3D/home/qemu/qemu-test.h37iBt/build/tests/qemu=
--iotests/scratch/img-8.img,format=3Dqcow2,cache=3Dwriteback,aio=3Dthreads,b=
-acking.backing.backing.backing.backing.backing.backing.backing.node-name=3D=
-node0,backing.backing.backing.backing.backing.backing.backing.node-name=3Dn=
-ode1,backing.backing.backing.backing.backing.backing.node-name=3Dnode2,back=
-ing.backing.backing.backing.backing.node-name=3Dnode3,backing.backing.backi=
-ng.backing.node-name=3Dnode4,backing.backing.backing.node-name=3Dnode5,back=
-ing.backing.node-name=3Dnode6,backing.node-name=3Dnode7,node-name=3Dnode8"
-+............EE..............
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+ERROR: test_stream_commit_2 (__main__.TestParallelOps)
- ----------------------------------------------------------------------
-+Traceback (most recent call last):
-+  File "030", line 492, in test_stream_commit_2
-+    self.assert_no_active_block_jobs()
-+  File "/home/qemu/qemu-test.h37iBt/src/tests/qemu-iotests/iotests.py",
-line 932, in assert_no_active_block_jobs
-+    result =3D self.vm.qmp('query-block-jobs')
-+  File "/home/qemu/qemu-test.h37iBt/src/tests/qemu-iotests/../../python/qe=
-mu/machine.py",
-line 559, in qmp
-+    return self._qmp.cmd(cmd, args=3Dqmp_args)
-+  File "/home/qemu/qemu-test.h37iBt/src/tests/qemu-iotests/../../python/qe=
-mu/qmp.py",
-line 278, in cmd
-+    return self.cmd_obj(qmp_cmd)
-+  File "/home/qemu/qemu-test.h37iBt/src/tests/qemu-iotests/../../python/qe=
-mu/qmp.py",
-line 259, in cmd_obj
-+    raise QMPConnectError("Unexpected empty reply from server")
-+qemu.qmp.QMPConnectError: Unexpected empty reply from server
-+
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+ERROR: test_stream_commit_2 (__main__.TestParallelOps)
-+----------------------------------------------------------------------
-+Traceback (most recent call last):
-+  File "/home/qemu/qemu-test.h37iBt/src/tests/qemu-iotests/../../python/qe=
-mu/machine.py",
-line 476, in _do_shutdown
-+    self._soft_shutdown(timeout, has_quit)
-+  File "/home/qemu/qemu-test.h37iBt/src/tests/qemu-iotests/../../python/qe=
-mu/machine.py",
-line 456, in _soft_shutdown
-+    self._qmp.cmd('quit')
-+  File "/home/qemu/qemu-test.h37iBt/src/tests/qemu-iotests/../../python/qe=
-mu/qmp.py",
-line 278, in cmd
-+    return self.cmd_obj(qmp_cmd)
-+  File "/home/qemu/qemu-test.h37iBt/src/tests/qemu-iotests/../../python/qe=
-mu/qmp.py",
-line 256, in cmd_obj
-+    self.__sock.sendall(json.dumps(qmp_cmd).encode('utf-8'))
-+BrokenPipeError: [Errno 32] Broken pipe
-+
-+The above exception was the direct cause of the following exception:
-+
-+Traceback (most recent call last):
-+  File "030", line 226, in tearDown
-+    self.vm.shutdown()
-+  File "/home/qemu/qemu-test.h37iBt/src/tests/qemu-iotests/../../python/qe=
-mu/machine.py",
-line 506, in shutdown
-+    self._do_shutdown(timeout, has_quit)
-+  File "/home/qemu/qemu-test.h37iBt/src/tests/qemu-iotests/../../python/qe=
-mu/machine.py",
-line 479, in _do_shutdown
-+    raise AbnormalShutdown("Could not perform graceful shutdown") \
-+qemu.machine.AbnormalShutdown: Could not perform graceful shutdown
-+
-+----------------------------------------------------------------------
- Ran 27 tests
+Keeping fa94447a2cd6 without 235d3b116213 and fa94447a2cd6 wouldn't make
+a lot of sense since the next try at implementing the optimization will
+likely result in a different set of changes. It would certainly be more
+beneficial to get the feature with a brand new series IMHO.
 
--OK
-+FAILED (errors=3D2, skipped=3D1)
+Cheers,
 
-thanks
--- PMM
+--
+Greg
+
+> C.=20
+>=20
+> =20
 
