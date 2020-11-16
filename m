@@ -2,59 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F17F2B4493
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 14:19:54 +0100 (CET)
-Received: from localhost ([::1]:42336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A6082B449D
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 14:22:33 +0100 (CET)
+Received: from localhost ([::1]:49052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keeQD-0004h3-HI
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 08:19:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41582)
+	id 1keeSm-0007cP-4G
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 08:22:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1keeMp-0003Ea-6X
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 08:16:23 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2055)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1keeMl-0004uu-5O
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 08:16:22 -0500
-Received: from fraeml712-chm.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4CZV0j3BXbz67Dwq;
- Mon, 16 Nov 2020 21:14:45 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml712-chm.china.huawei.com (10.206.15.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1913.5; Mon, 16 Nov 2020 14:16:16 +0100
-Received: from localhost (10.52.125.36) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1913.5; Mon, 16 Nov
- 2020 13:16:16 +0000
-Date: Mon, 16 Nov 2020 13:16:08 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Ben Widawsky <ben.widawsky@intel.com>
-Subject: Re: [RFC PATCH 06/25] hw/cxl/device: Add device status (8.2.8.3)
-Message-ID: <20201116131608.000052e6@Huawei.com>
-In-Reply-To: <20201111054724.794888-7-ben.widawsky@intel.com>
-References: <20201111054724.794888-1-ben.widawsky@intel.com>
- <20201111054724.794888-7-ben.widawsky@intel.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1keeNI-0003VE-1c
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 08:16:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29072)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1keeNF-00053L-TL
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 08:16:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605532608;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EJMSftO+upgxQy1xjdHE+lpsmVnm2U9NZlHAVf/nHTs=;
+ b=h9VSpzJdr3Zmzz3cAVm80LtEtUdppPGzhzDOMVsrKrmsAEFRoETy7bPnPkNzsUDiDQwaSH
+ Rap8gB5UYB+HQ6WGV0CV3+ssPw1gveZbMCKI7T2DHrRrzS3SkLQiQpCMlW2ed1x2irPApu
+ Ivoac1Pd2fdD0XppUnFdLALBSWtOY5k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-169-QHIVULBnMOSAfadDLvPYAQ-1; Mon, 16 Nov 2020 08:16:46 -0500
+X-MC-Unique: QHIVULBnMOSAfadDLvPYAQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46FDC808255;
+ Mon, 16 Nov 2020 13:16:45 +0000 (UTC)
+Received: from [10.36.114.132] (ovpn-114-132.ams2.redhat.com [10.36.114.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2EE5B196FB;
+ Mon, 16 Nov 2020 13:16:31 +0000 (UTC)
+Subject: Re: [PATCH] util/vfio-helpers.c: Use ram_block_discard_disable() in
+ qemu_vfio_open_pci()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20201116105947.9194-1-david@redhat.com>
+ <1cbb9248-aaf1-ed15-643c-0be73f14f1a9@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <5cad43b1-3488-1f36-c678-c2d832bf06ab@redhat.com>
+Date: Mon, 16 Nov 2020 14:16:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.52.125.36]
-X-ClientProxiedBy: lhreml702-chm.china.huawei.com (10.201.108.51) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 07:04:05
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H3=0.001,
+In-Reply-To: <1cbb9248-aaf1-ed15-643c-0be73f14f1a9@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 22:35:17
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -69,187 +86,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vishal Verma <vishal.l.verma@intel.com>, Dan
- Williams <dan.j.williams@intel.com>, qemu-devel@nongnu.org
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Wei Yang <richardw.yang@linux.intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 10 Nov 2020 21:47:05 -0800
-Ben Widawsky <ben.widawsky@intel.com> wrote:
-
-> This implements the CXL device status registers from 8.2.8.3.1 in the
-> CXL 2.0 specification. It is capability ID 0001h.
+On 16.11.20 14:14, Philippe Mathieu-Daudé wrote:
+> Hi David,
 > 
-> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+> Is this aiming at 5.2?
 
-It does some other stuff it shouldn't as well.  Please tidy that up before
-v2.  A few other passing comments inline.
+Hi,
 
+Good point!
+
+If possible, we want this in 5.2.
+
+Thanks!
+
+> 
+> On 11/16/20 11:59 AM, David Hildenbrand wrote:
+>> Currently, when using "nvme://" for a block device, like
+>>      -drive file=nvme://0000:01:00.0/1,if=none,id=drive0 \
+>>      -device virtio-blk,drive=drive0 \
+>>
+>> VFIO may pin all guest memory, and discarding of RAM no longer works as
+>> expected. I was able to reproduce this easily with my
+>>      01:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd
+>>              NVMe SSD Controller SM981/PM981/PM983
+>>
+>> Similar to common VFIO, we have to disable it, making sure that:
+>> a) virtio-balloon won't discard any memory ("silently disabled")
+>> b) virtio-mem and nvme:// run mutually exclusive
+>>
+>> Cc: Paolo Bonzini <pbonzini@redhat.com>
+>> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+>> Cc: Alex Williamson <alex.williamson@redhat.com>
+>> Cc: Wei Yang <richardw.yang@linux.intel.com>
+>> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>> Cc: Igor Mammedov <imammedo@redhat.com>
+>> Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+>> Cc: Peter Xu <peterx@redhat.com>
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> ---
+>>   stubs/ram-block.c   |  6 ++++++
+>>   util/vfio-helpers.c | 14 ++++++++++++++
+>>   2 files changed, 20 insertions(+)
+>>
+>> diff --git a/stubs/ram-block.c b/stubs/ram-block.c
+>> index 73c0a3ee08..108197683b 100644
+>> --- a/stubs/ram-block.c
+>> +++ b/stubs/ram-block.c
+>> @@ -1,6 +1,7 @@
+>>   #include "qemu/osdep.h"
+>>   #include "exec/ramlist.h"
+>>   #include "exec/cpu-common.h"
+>> +#include "exec/memory.h"
+>>   
+>>   void *qemu_ram_get_host_addr(RAMBlock *rb)
+>>   {
+>> @@ -29,3 +30,8 @@ int qemu_ram_foreach_block(RAMBlockIterFunc func, void *opaque)
+>>   {
+>>       return 0;
+>>   }
+>> +
+>> +int ram_block_discard_disable(bool state)
+>> +{
+>> +    return 0;
+>> +}
+>> diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
+>> index c469beb061..2bec48e163 100644
+>> --- a/util/vfio-helpers.c
+>> +++ b/util/vfio-helpers.c
+>> @@ -16,6 +16,7 @@
+>>   #include "qapi/error.h"
+>>   #include "exec/ramlist.h"
+>>   #include "exec/cpu-common.h"
+>> +#include "exec/memory.h"
+>>   #include "trace.h"
+>>   #include "qemu/error-report.h"
+>>   #include "standard-headers/linux/pci_regs.h"
+>> @@ -494,8 +495,20 @@ QEMUVFIOState *qemu_vfio_open_pci(const char *device, Error **errp)
+>>       int r;
+>>       QEMUVFIOState *s = g_new0(QEMUVFIOState, 1);
+>>   
+>> +    /*
+>> +     * VFIO may pin all memory inside mappings, resulting it in pinning
+>> +     * all memory inside RAM blocks unconditionally.
+>> +     */
+>> +    r = ram_block_discard_disable(true);
+>> +    if (r) {
+>> +        error_setg_errno(errp, -r, "Cannot set discarding of RAM broken");
+>> +        g_free(s);
+>> +        return NULL;
+>> +    }
+>> +
+>>       r = qemu_vfio_init_pci(s, device, errp);
+>>       if (r) {
+>> +        ram_block_discard_disable(false);
+>>           g_free(s);
+>>           return NULL;
+>>       }
+>> @@ -837,4 +850,5 @@ void qemu_vfio_close(QEMUVFIOState *s)
+>>       close(s->device);
+>>       close(s->group);
+>>       close(s->container);
+>> +    ram_block_discard_disable(false);
+>>   }
+>>
+> 
+
+
+-- 
 Thanks,
 
-Jonathan
-
-
-> ---
->  hw/cxl/cxl-device-utils.c   | 45 +++++++++++++++++++++++++++++++++-
->  include/hw/cxl/cxl_device.h | 49 ++++++++++++-------------------------
->  2 files changed, 60 insertions(+), 34 deletions(-)
-> 
-> diff --git a/hw/cxl/cxl-device-utils.c b/hw/cxl/cxl-device-utils.c
-> index a391bb15c6..78144e103c 100644
-> --- a/hw/cxl/cxl-device-utils.c
-> +++ b/hw/cxl/cxl-device-utils.c
-> @@ -33,6 +33,42 @@ static uint64_t caps_reg_read(void *opaque, hwaddr offset, unsigned size)
->      return ldn_le_p(cxl_dstate->caps_reg_state + offset, size);
->  }
->  
-> +static uint64_t dev_reg_read(void *opaque, hwaddr offset, unsigned size)
-> +{
-> +    uint64_t retval = 0;
-
-Doesn't seem to be used.
-
-> +
-
-Perhaps break the alignment check out to a utility function given this sanity check
-is same as in previous patch.
-
-> +    switch (size) {
-> +    case 4:
-> +        if (unlikely(offset & (sizeof(uint32_t) - 1))) {
-> +            qemu_log_mask(LOG_UNIMP, "Unaligned register read\n");
-> +            return 0;
-> +        }
-> +        break;
-> +    case 8:
-> +        if (unlikely(offset & (sizeof(uint64_t) - 1))) {
-> +            qemu_log_mask(LOG_UNIMP, "Unaligned register read\n");
-> +            return 0;
-> +        }
-> +        break;
-> +    }
-> +
-> +    return ldn_le_p(&retval, size);
-> +}
-> +
-> +static const MemoryRegionOps dev_ops = {
-> +    .read = dev_reg_read,
-> +    .write = NULL,
-> +    .endianness = DEVICE_LITTLE_ENDIAN,
-> +    .valid = {
-> +        .min_access_size = 4,
-> +        .max_access_size = 8,
-> +    },
-> +    .impl = {
-> +        .min_access_size = 4,
-> +        .max_access_size = 8,
-> +    },
-> +};
-> +
->  static const MemoryRegionOps caps_ops = {
->      .read = caps_reg_read,
->      .write = NULL,
-> @@ -56,18 +92,25 @@ void cxl_device_register_block_init(Object *obj, CXLDeviceState *cxl_dstate)
->  
->      memory_region_init_io(&cxl_dstate->caps, obj, &caps_ops, cxl_dstate,
->                            "cap-array", CXL_DEVICE_REGISTERS_OFFSET - 0);
-> +    memory_region_init_io(&cxl_dstate->device, obj, &dev_ops, cxl_dstate,
-> +                          "device-status", CXL_DEVICE_REGISTERS_LENGTH);
->  
->      memory_region_add_subregion(&cxl_dstate->device_registers, 0,
->                                  &cxl_dstate->caps);
-> +    memory_region_add_subregion(&cxl_dstate->device_registers,
-> +                                CXL_DEVICE_REGISTERS_OFFSET,
-> +                                &cxl_dstate->device);
->  }
->  
->  void cxl_device_register_init_common(CXLDeviceState *cxl_dstate)
->  {
->      uint32_t *cap_hdrs = cxl_dstate->caps_reg_state32;
-> -    const int cap_count = 0;
-> +    const int cap_count = 1;
->  
->      /* CXL Device Capabilities Array Register */
->      ARRAY_FIELD_DP32(cap_hdrs, CXL_DEV_CAP_ARRAY, CAP_ID, 0);
->      ARRAY_FIELD_DP32(cap_hdrs, CXL_DEV_CAP_ARRAY, CAP_VERSION, 1);
->      ARRAY_FIELD_DP32(cap_hdrs, CXL_DEV_CAP_ARRAY2, CAP_COUNT, cap_count);
-> +
-> +    cxl_device_cap_init(cxl_dstate, DEVICE, 1);
->  }
-> diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-> index 491eca6e05..2c674fdc9c 100644
-> --- a/include/hw/cxl/cxl_device.h
-> +++ b/include/hw/cxl/cxl_device.h
-> @@ -127,6 +127,22 @@ CXL_DEVICE_CAPABILITY_HEADER_REGISTER(DEVICE, CXL_DEVICE_CAP_HDR1_OFFSET)
->  CXL_DEVICE_CAPABILITY_HEADER_REGISTER(MAILBOX, CXL_DEVICE_CAP_HDR1_OFFSET + \
->                                                 CXL_DEVICE_CAP_REG_SIZE)
->  
-> +#define cxl_device_cap_init(dstate, reg, cap_id)                                   \
-> +    do {                                                                           \
-> +        uint32_t *cap_hdrs = dstate->caps_reg_state32;                             \
-> +        int which = R_CXL_DEV_##reg##_CAP_HDR0;                                    \
-> +        cap_hdrs[which] =                                                          \
-> +            FIELD_DP32(cap_hdrs[which], CXL_DEV_##reg##_CAP_HDR0, CAP_ID, cap_id); \
-> +        cap_hdrs[which] = FIELD_DP32(                                              \
-> +            cap_hdrs[which], CXL_DEV_##reg##_CAP_HDR0, CAP_VERSION, 1);            \
-> +        cap_hdrs[which + 1] =                                                      \
-> +            FIELD_DP32(cap_hdrs[which + 1], CXL_DEV_##reg##_CAP_HDR1,              \
-> +                       CAP_OFFSET, CXL_##reg##_REGISTERS_OFFSET);                  \
-> +        cap_hdrs[which + 2] =                                                      \
-> +            FIELD_DP32(cap_hdrs[which + 2], CXL_DEV_##reg##_CAP_HDR2,              \
-> +                       CAP_LENGTH, CXL_##reg##_REGISTERS_LENGTH);                  \
-> +    } while (0)
-> +
->  REG32(CXL_DEV_MAILBOX_CAP, 0)
->      FIELD(CXL_DEV_MAILBOX_CAP, PAYLOAD_SIZE, 0, 5)
->      FIELD(CXL_DEV_MAILBOX_CAP, INT_CAP, 5, 1)
-> @@ -138,43 +154,10 @@ REG32(CXL_DEV_MAILBOX_CTRL, 4)
->      FIELD(CXL_DEV_MAILBOX_CTRL, INT_EN, 1, 2)
->      FIELD(CXL_DEV_MAILBOX_CTRL, BG_INT_EN, 2, 1)
->  
-> -enum {
-> -    CXL_CMD_EVENTS              = 0x1,
-> -    CXL_CMD_IDENTIFY            = 0x40,
-> -};
-> -
->  REG32(CXL_DEV_MAILBOX_CMD, 8)
->      FIELD(CXL_DEV_MAILBOX_CMD, OP, 0, 16)
->      FIELD(CXL_DEV_MAILBOX_CMD, LENGTH, 16, 20)
->  
-> -/* 8.2.8.4.5.1 Command Return Codes */
-
-Umm. We only just introduced this a few patches ago.  Please tidy that
-up so we don't end up bringing things in and out again.
-
-> -enum {
-> -    RET_SUCCESS                 = 0x0,
-> -    RET_BG_STARTED              = 0x1, /* Background Command Started */
-> -    RET_EINVAL                  = 0x2, /* Invalid Input */
-> -    RET_ENOTSUP                 = 0x3, /* Unsupported */
-> -    RET_ENODEV                  = 0x4, /* Internal Error */
-> -    RET_ERESTART                = 0x5, /* Retry Required */
-> -    RET_EBUSY                   = 0x6, /* Busy */
-> -    RET_MEDIA_DISABLED          = 0x7, /* Media Disabled */
-> -    RET_FW_EBUSY                = 0x8, /* FW Transfer in Progress */
-> -    RET_FW_OOO                  = 0x9, /* FW Transfer Out of Order */
-> -    RET_FW_AUTH                 = 0xa, /* FW Authentication Failed */
-> -    RET_FW_EBADSLT              = 0xb, /* Invalid Slot */
-> -    RET_FW_ROLLBACK             = 0xc, /* Activation Failed, FW Rolled Back */
-> -    RET_FW_REBOOT               = 0xd, /* Activation Failed, Cold Reset Required */
-> -    RET_ENOENT                  = 0xe, /* Invalid Handle */
-> -    RET_EFAULT                  = 0xf, /* Invalid Physical Address */
-> -    RET_POISON_E2BIG            = 0x10, /* Inject Poison Limit Reached */
-> -    RET_EIO                     = 0x11, /* Permanent Media Failure */
-> -    RET_ECANCELED               = 0x12, /* Aborted */
-> -    RET_EACCESS                 = 0x13, /* Invalid Security State */
-> -    RET_EPERM                   = 0x14, /* Incorrect Passphrase */
-> -    RET_EPROTONOSUPPORT         = 0x15, /* Unsupported Mailbox */
-> -    RET_EMSGSIZE                = 0x16, /* Invalid Payload Length */
-> -    RET_MAX                     = 0x17
-> -};
-> -
->  /* XXX: actually a 64b register */
->  REG32(CXL_DEV_MAILBOX_STS, 0x10)
->      FIELD(CXL_DEV_MAILBOX_STS, BG_OP, 0, 1)
+David / dhildenb
 
 
