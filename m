@@ -2,63 +2,119 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F40E2B4A16
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 16:56:39 +0100 (CET)
-Received: from localhost ([::1]:45112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B95752B4A27
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 16:59:54 +0100 (CET)
+Received: from localhost ([::1]:47666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kegru-0000xM-OR
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 10:56:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54768)
+	id 1kegv3-0002O1-Qr
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 10:59:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1kegq1-0000NX-7v; Mon, 16 Nov 2020 10:54:41 -0500
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:55371)
+ (Exim 4.90_1) (envelope-from <figlesia@xilinx.com>)
+ id 1kegu3-0001qr-KB; Mon, 16 Nov 2020 10:58:51 -0500
+Received: from mail-dm6nam12on2082.outbound.protection.outlook.com
+ ([40.107.243.82]:8030 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1kegpy-0003BC-3x; Mon, 16 Nov 2020 10:54:40 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.36])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 3F5266CA7879;
- Mon, 16 Nov 2020 16:54:34 +0100 (CET)
-Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <figlesia@xilinx.com>)
+ id 1kegtw-0004Rr-Tg; Mon, 16 Nov 2020 10:58:49 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=M0nS277uhxHLZEn2DxJ3W+xVeVJZJSJcfd3sYw+B0Qu153BUyJHniv6tFyBwnJPullonUsxHLmCHsf5R+c4vwuFZ9rdm9Fss2gg+Zwe3ZvIPA1O8IQddjbNWEpm4PQ2BGG6lLLvQUv5MFsQUWRrM49iFQwYwaqdLwj2KQH8ELXd0uLJUwRVmvJPrjbkpr0vbZEpnMIvZqdAEWlj8pMv/9FyCeH/ZJdd7MgH7h33gokAA+qe6XoKFjXqIku3qgD+M9tyAzdIAJPIYiFfbOxF56zTsyp+1z9Yvx/tKRsRdhtJ3clvc1eMw2qOEY5GgEhoICJwXq8kPMGNpE228Y/ojZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=waeebzD014wkySlF66mOBBtU7GcNNw9aIrNF8jrOrhk=;
+ b=NDEcidybUmk3wnG0mV4Mk0AY9tTCm1XI9xgJ6q8ttIfjp8CS1M5rrKci/0Ooixbyp/EiWVYC2YsLo/9zjNb3jjySeCi5ZNJMX4d2KoKH/GSnpHrl+BA9UFqdoYWo9bAwnOHBpve/kh0qhlSht+LVuYuYX7XyZ/PGWa3DjOvMb6+8T4g5cvEXcJhJjArMsUwtEh+OreFhyJU4jCfxYpxc7ei9+efk6oE+fzmC0EEZT9JroOOmHKvRV72ip9wmZ0wpQ26VD1o0qLeCkxnixpF4R94atXAv7KOvHbwUkusfkIBNdcu/I2ImV9YOpYoK+DR0sqDhaQGQ4XvJeAHMAi/1ug==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.62.198) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=waeebzD014wkySlF66mOBBtU7GcNNw9aIrNF8jrOrhk=;
+ b=YIKjpM7ypnsmfn8OWMb4rWrFr6LST2XOT520HGxgwKyDFExMy9pagjOseITP85UGfz/vsvsUm6t0z7beckzXXjQPJnTW7Zdj6uSZS7ImORlGJ8eG6WTGrouRWZwrRnH+OfUurLdsAYCYth+k1zjrb1+QUdlAvduORgKSUs7WEa8=
+Received: from MN2PR20CA0021.namprd20.prod.outlook.com (2603:10b6:208:e8::34)
+ by SN4PR0201MB3501.namprd02.prod.outlook.com (2603:10b6:803:4d::21)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Mon, 16 Nov
- 2020 16:54:33 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-106R00682808f80-31e8-426c-8b5e-fb59c78c5876,
- 4C8231DAC7BA0B5668AD0293EB9EBEB96F7691F2) smtp.auth=clg@kaod.org
-Subject: Re: [PATCH for-5.2] Revert series "spapr/xive: Allocate vCPU IPIs
- from the vCPU contexts"
-To: Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
-References: <160554086275.1325084.12110142252189044646.stgit@bahia.lan>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <46173c00-f0db-1d58-2dec-7c4f1acc9847@kaod.org>
-Date: Mon, 16 Nov 2020 16:54:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.28; Mon, 16 Nov
+ 2020 15:58:40 +0000
+Received: from BL2NAM02FT060.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:208:e8:cafe::d1) by MN2PR20CA0021.outlook.office365.com
+ (2603:10b6:208:e8::34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.25 via Frontend
+ Transport; Mon, 16 Nov 2020 15:58:40 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
+ smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
+Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
+ BL2NAM02FT060.mail.protection.outlook.com (10.152.76.124) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.3564.22 via Frontend Transport; Mon, 16 Nov 2020 15:58:40 +0000
+Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
+ xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1913.5; Mon, 16 Nov 2020 07:58:39 -0800
+Received: from smtp.xilinx.com (172.19.127.95) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
+ 15.1.1913.5 via Frontend Transport; Mon, 16 Nov 2020 07:58:39 -0800
+Received: from [10.23.120.221] (port=52932 helo=debian)
+ by smtp.xilinx.com with esmtp (Exim 4.90)
+ (envelope-from <francisco.iglesias@xilinx.com>)
+ id 1kegtr-0000Rn-Cu; Mon, 16 Nov 2020 07:58:39 -0800
+Date: Mon, 16 Nov 2020 15:58:37 +0000
+From: Francisco Iglesias <francisco.iglesias@xilinx.com>
+To: Joe Komlodi <joe.komlodi@xilinx.com>
+Subject: Re: [PATCH v4 3/4] hw/block/m25p80: Check SPI mode before running
+ some Numonyx commands
+Message-ID: <20201116155836.th2cvcawoo3pkvit@debian>
+References: <1605237055-393580-1-git-send-email-komlodi@xilinx.com>
+ <1605237055-393580-4-git-send-email-komlodi@xilinx.com>
 MIME-Version: 1.0
-In-Reply-To: <160554086275.1325084.12110142252189044646.stgit@bahia.lan>
 Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.106]
-X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 6db0bb33-e297-4103-81d9-d07ce4e2d3d4
-X-Ovh-Tracer-Id: 11581287919062977385
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudefuddgkeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfeetuddufeduudffgeeutdfguefhhfekvedufeefjedvfffhfeeuudevjeeftdehnecuffhomhgrihhnpehmrghrtgdrihhnfhhopdhgnhhurdhorhhgpdhlrghunhgthhhprggurdhnvghtnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 10:54:35
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+Content-Disposition: inline
+In-Reply-To: <1605237055-393580-4-git-send-email-komlodi@xilinx.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ccffdab1-b2ec-498a-c335-08d88a487cb0
+X-MS-TrafficTypeDiagnostic: SN4PR0201MB3501:
+X-Microsoft-Antispam-PRVS: <SN4PR0201MB3501EFF284DD0A82AC9EB7E8ADE30@SN4PR0201MB3501.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:489;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: EXPk2+6z/av8kh1Ol6CEFINXUH6/m4NgrqgopFfO9Iic7////3aUHqo9tls1JcsOX46/QIUBM4pImUpv56Lm9tmzMocAP6iZcCpz+swU3qQQUdU6JvYA6WjfVRJyKYPRiO/THa2WKmxj8peuC5m191hgtjA5F7CVXWow6SqtD6Q/h8iPPnQ4By1M7OxPW32xyVVuiGVZ+aoKssIMSZiDVQqA5JzE6gy/KblcR2MSl+6HZTagwI/ACTvSQMU3Nq2G+cpi2hFSaIDruOdmbuMpZ2nkxbiF8RHmBh6ChQQXJWetQuUAvn5D8CLMoB1k9X/N0NatLYonsaxX7mTTjjb6pxbpyxr/++sBdUDEQelnzKHTdQpsTx4u3E2JfBBCAyMgMXDHaQjTPMSoNPm+Udz1hg==
+X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapexch01.xlnx.xilinx.com;
+ PTR:unknown-62-198.xilinx.com; CAT:NONE;
+ SFS:(4636009)(39860400002)(346002)(396003)(376002)(136003)(46966005)(9686003)(316002)(44832011)(478600001)(54906003)(9786002)(6862004)(26005)(9576002)(2906002)(186003)(4326008)(8676002)(8936002)(6636002)(426003)(36906005)(83380400001)(336012)(70206006)(82740400003)(70586007)(1076003)(47076004)(7636003)(5660300002)(356005)(33716001)(82310400003);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2020 15:58:40.5743 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ccffdab1-b2ec-498a-c335-08d88a487cb0
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
+ Helo=[xsj-pvapexch01.xlnx.xilinx.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL2NAM02FT060.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR0201MB3501
+Received-SPF: pass client-ip=40.107.243.82; envelope-from=figlesia@xilinx.com;
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 10:58:42
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,254 +127,321 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Satheesh Rajendran <sathnaga@linux.ibm.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Gustavo Romero <gromero@linux.ibm.com>
+Cc: figlesia@xilinx.com, qemu-block@nongnu.org, alistair@alistair23.me,
+ qemu-devel@nongnu.org, mreitz@redhat.com, philippe.mathieu.daude@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/16/20 4:34 PM, Greg Kurz wrote:
-> This series was largely built on the assumption that IPI numbers are
-> numerically equal to vCPU ids. Even if this happens to be the case
-> in practice with the default machine settings, this ceases to be true
-> if VSMT is set to a different value than the number of vCPUs per core.
-> This causes bogus IPI numbers to be created in KVM from a guest stand
-> point. This leads to unknow results in the guest, including crashes
-> or missing vCPUs (see BugLink) and even non-fatal oopses in current
-> KVM that lacks a check before accessing misconfigured HW (see [1]).
+Hi Joe,
+
+On Thu, Nov 12, 2020 at 07:10:54PM -0800, Joe Komlodi wrote:
+> Some Numonyx flash commands cannot be executed in DIO and QIO mode, such as
+> trying to do DPP or DOR when in QIO mode.
 > 
-> A tentative patch was sent (see [2]) but it seems too complex to be
-> merged in an RC. Since the original changes are essentially an
-> optimization, it seems safer to revert them for now. The damage is
-> done by commit acbdb9956fe9 ("spapr/xive: Allocate IPIs independently
-> from the other sources") but the previous patches in the series are
-> really preparatory patches. So this reverts the whole series:
-> 
-> eab0a2d06e97 ("spapr/xive: Allocate vCPU IPIs from the vCPU contexts")
-> acbdb9956fe9 ("spapr/xive: Allocate IPIs independently from the other sources")
-
-These are introducing the optimisation to allocate the vCPU IPI from the 
-running task, and, at the same time, the issue for guests using vSMT.
-
-> fa94447a2cd6 ("spapr/xive: Use kvmppc_xive_source_reset() in post_load")
-> 235d3b116213 ("spapr/xive: Modify kvm_cpu_is_enabled() interface")
-
-IMO, these two last patches are fine. 
-
-C. 
-
- 
-> [1] https://marc.info/?l=kvm-ppc&m=160458409722959&w=4
-> [2] https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg03626.html
-> 
-> Reported-by: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>
-> Fixes: acbdb9956fe9 ("spapr/xive: Allocate IPIs independently from the other sources")
-> BugLink: https://bugs.launchpad.net/qemu/+bug/1900241
-> Signed-off-by: Greg Kurz <groug@kaod.org>
+> Signed-off-by: Joe Komlodi <komlodi@xilinx.com>
 > ---
+>  hw/block/m25p80.c | 134 +++++++++++++++++++++++++++++++++++++++++++++---------
+>  1 file changed, 112 insertions(+), 22 deletions(-)
 > 
-> Peter,
-> 
-> I'm Cc'ing you because we really want to fix this regression in 5.2.
-> Reverting the culprit optimization seems a lot safer than the changes
-> proposed in my other patch. David is on PTO right now and I'm not sure
-> if he can post a PR anytime soon. Just in case: would it be acceptable
-> to you if I send a PR after it got some positive feedback from the
-> people on the Cc: list ? The better the sooner or do we wait for David
-> to get a chance to step in ?
-> ---
->  hw/intc/spapr_xive_kvm.c |  102 ++++++++--------------------------------------
->  1 file changed, 18 insertions(+), 84 deletions(-)
-> 
-> diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-> index 66bf4c06fe55..e8667ce5f621 100644
-> --- a/hw/intc/spapr_xive_kvm.c
-> +++ b/hw/intc/spapr_xive_kvm.c
-> @@ -36,9 +36,10 @@ typedef struct KVMEnabledCPU {
->  static QLIST_HEAD(, KVMEnabledCPU)
->      kvm_enabled_cpus = QLIST_HEAD_INITIALIZER(&kvm_enabled_cpus);
+> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+> index eb6539f..2552f2c 100644
+> --- a/hw/block/m25p80.c
+> +++ b/hw/block/m25p80.c
+> @@ -413,6 +413,12 @@ typedef enum {
+>      MAN_GENERIC,
+>  } Manufacturer;
 >  
-> -static bool kvm_cpu_is_enabled(unsigned long vcpu_id)
-> +static bool kvm_cpu_is_enabled(CPUState *cs)
->  {
->      KVMEnabledCPU *enabled_cpu;
-> +    unsigned long vcpu_id = kvm_arch_vcpu_id(cs);
->  
->      QLIST_FOREACH(enabled_cpu, &kvm_enabled_cpus, node) {
->          if (enabled_cpu->vcpu_id == vcpu_id) {
-> @@ -146,45 +147,6 @@ int kvmppc_xive_cpu_synchronize_state(XiveTCTX *tctx, Error **errp)
->      return s.ret;
->  }
->  
-> -/*
-> - * Allocate the vCPU IPIs from the vCPU context. This will allocate
-> - * the XIVE IPI interrupt on the chip on which the vCPU is running.
-> - * This gives a better distribution of IPIs when the guest has a lot
-> - * of vCPUs. When the vCPUs are pinned, this will make the IPI local
-> - * to the chip of the vCPU. It will reduce rerouting between interrupt
-> - * controllers and gives better performance.
-> - */
-> -typedef struct {
-> -    SpaprXive *xive;
-> -    Error *err;
-> -    int rc;
-> -} XiveInitIPI;
-> -
-> -static void kvmppc_xive_reset_ipi_on_cpu(CPUState *cs, run_on_cpu_data arg)
-> -{
-> -    unsigned long ipi = kvm_arch_vcpu_id(cs);
-> -    XiveInitIPI *s = arg.host_ptr;
-> -    uint64_t state = 0;
-> -
-> -    s->rc = kvm_device_access(s->xive->fd, KVM_DEV_XIVE_GRP_SOURCE, ipi,
-> -                              &state, true, &s->err);
-> -}
-> -
-> -static int kvmppc_xive_reset_ipi(SpaprXive *xive, CPUState *cs, Error **errp)
-> -{
-> -    XiveInitIPI s = {
-> -        .xive = xive,
-> -        .err  = NULL,
-> -        .rc   = 0,
-> -    };
-> -
-> -    run_on_cpu(cs, kvmppc_xive_reset_ipi_on_cpu, RUN_ON_CPU_HOST_PTR(&s));
-> -    if (s.err) {
-> -        error_propagate(errp, s.err);
-> -    }
-> -    return s.rc;
-> -}
-> -
->  int kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp)
->  {
->      ERRP_GUARD();
-> @@ -195,7 +157,7 @@ int kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp)
->      assert(xive->fd != -1);
->  
->      /* Check if CPU was hot unplugged and replugged. */
-> -    if (kvm_cpu_is_enabled(kvm_arch_vcpu_id(tctx->cs))) {
-> +    if (kvm_cpu_is_enabled(tctx->cs)) {
->          return 0;
->      }
->  
-> @@ -214,12 +176,6 @@ int kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp)
->          return ret;
->      }
->  
-> -    /* Create/reset the vCPU IPI */
-> -    ret = kvmppc_xive_reset_ipi(xive, tctx->cs, errp);
-> -    if (ret < 0) {
-> -        return ret;
-> -    }
-> -
->      kvm_cpu_enable(tctx->cs);
->      return 0;
->  }
-> @@ -279,12 +235,6 @@ int kvmppc_xive_source_reset_one(XiveSource *xsrc, int srcno, Error **errp)
->  
->      assert(xive->fd != -1);
->  
-> -    /*
-> -     * The vCPU IPIs are now allocated in kvmppc_xive_cpu_connect()
-> -     * and not with all sources in kvmppc_xive_source_reset()
-> -     */
-> -    assert(srcno >= SPAPR_XIRQ_BASE);
-> -
->      if (xive_source_irq_is_lsi(xsrc, srcno)) {
->          state |= KVM_XIVE_LEVEL_SENSITIVE;
->          if (xsrc->status[srcno] & XIVE_STATUS_ASSERTED) {
-> @@ -296,28 +246,12 @@ int kvmppc_xive_source_reset_one(XiveSource *xsrc, int srcno, Error **errp)
->                               true, errp);
->  }
->  
-> -/*
-> - * To be valid, a source must have been claimed by the machine (valid
-> - * entry in the EAS table) and if it is a vCPU IPI, the vCPU should
-> - * have been enabled, which means the IPI has been allocated in
-> - * kvmppc_xive_cpu_connect().
-> - */
-> -static bool xive_source_is_valid(SpaprXive *xive, int i)
-> -{
-> -    return xive_eas_is_valid(&xive->eat[i]) &&
-> -        (i >= SPAPR_XIRQ_BASE || kvm_cpu_is_enabled(i));
-> -}
-> -
->  static int kvmppc_xive_source_reset(XiveSource *xsrc, Error **errp)
->  {
->      SpaprXive *xive = SPAPR_XIVE(xsrc->xive);
->      int i;
->  
-> -    /*
-> -     * Skip the vCPU IPIs. These are created/reset when the vCPUs are
-> -     * connected in kvmppc_xive_cpu_connect()
-> -     */
-> -    for (i = SPAPR_XIRQ_BASE; i < xsrc->nr_irqs; i++) {
-> +    for (i = 0; i < xsrc->nr_irqs; i++) {
->          int ret;
->  
->          if (!xive_eas_is_valid(&xive->eat[i])) {
-> @@ -399,7 +333,7 @@ static void kvmppc_xive_source_get_state(XiveSource *xsrc)
->      for (i = 0; i < xsrc->nr_irqs; i++) {
->          uint8_t pq;
->  
-> -        if (!xive_source_is_valid(xive, i)) {
-> +        if (!xive_eas_is_valid(&xive->eat[i])) {
->              continue;
->          }
->  
-> @@ -582,7 +516,7 @@ static void kvmppc_xive_change_state_handler(void *opaque, int running,
->              uint8_t pq;
->              uint8_t old_pq;
->  
-> -            if (!xive_source_is_valid(xive, i)) {
-> +            if (!xive_eas_is_valid(&xive->eat[i])) {
->                  continue;
->              }
->  
-> @@ -610,7 +544,7 @@ static void kvmppc_xive_change_state_handler(void *opaque, int running,
->      for (i = 0; i < xsrc->nr_irqs; i++) {
->          uint8_t pq;
->  
-> -        if (!xive_source_is_valid(xive, i)) {
-> +        if (!xive_eas_is_valid(&xive->eat[i])) {
->              continue;
->          }
->  
-> @@ -713,22 +647,22 @@ int kvmppc_xive_post_load(SpaprXive *xive, int version_id)
->          }
->      }
->  
-> -    /*
-> -     * We can only restore the source config if the source has been
-> -     * previously set in KVM. Since we don't do that at reset time
-> -     * when restoring a VM, let's do it now.
-> -     */
-> -    ret = kvmppc_xive_source_reset(&xive->source, &local_err);
-> -    if (ret < 0) {
-> -        goto fail;
-> -    }
-> -
->      /* Restore the EAT */
->      for (i = 0; i < xive->nr_irqs; i++) {
-> -        if (!xive_source_is_valid(xive, i)) {
-> +        if (!xive_eas_is_valid(&xive->eat[i])) {
->              continue;
->          }
->  
-> +        /*
-> +         * We can only restore the source config if the source has been
-> +         * previously set in KVM. Since we don't do that for all interrupts
-> +         * at reset time anymore, let's do it now.
-> +         */
-> +        ret = kvmppc_xive_source_reset_one(&xive->source, i, &local_err);
-> +        if (ret < 0) {
-> +            goto fail;
-> +        }
+> +typedef enum {
+> +    MODE_STD = 0,
+> +    MODE_DIO = 1,
+> +    MODE_QIO = 2
+> +} SPIMode;
 > +
->          ret = kvmppc_xive_set_source_config(xive, i, &xive->eat[i], &local_err);
->          if (ret < 0) {
->              goto fail;
-> 
-> 
+>  #define M25P80_INTERNAL_DATA_BUFFER_SZ 16
+>  
+>  struct Flash {
+> @@ -820,6 +826,17 @@ static void reset_memory(Flash *s)
+>      trace_m25p80_reset_done(s);
+>  }
+>  
+> +static uint8_t numonyx_get_mode(Flash *s)
+> +{
+> +    if (!(s->enh_volatile_cfg & EVCFG_QUAD_IO_DISABLED)) {
+> +        return MODE_QIO;
+> +    } else if (!(s->enh_volatile_cfg & EVCFG_DUAL_IO_DISABLED)) {
+> +        return MODE_DIO;
+> +    } else {
+> +        return MODE_STD;
+> +    }
+> +}
+> +
+>  static void decode_fast_read_cmd(Flash *s)
+>  {
+>      s->needed_bytes = get_addr_length(s);
+> @@ -827,9 +844,11 @@ static void decode_fast_read_cmd(Flash *s)
+>      /* Dummy cycles - modeled with bytes writes instead of bits */
+>      case MAN_WINBOND:
+>          s->needed_bytes += 8;
+> +        s->state = STATE_COLLECTING_DATA;
+>          break;
+>      case MAN_NUMONYX:
+>          s->needed_bytes += extract32(s->volatile_cfg, 4, 4);
+> +        s->state = STATE_COLLECTING_DATA;
+>          break;
+>      case MAN_MACRONIX:
+>          if (extract32(s->volatile_cfg, 6, 2) == 1) {
+> @@ -837,19 +856,21 @@ static void decode_fast_read_cmd(Flash *s)
+>          } else {
+>              s->needed_bytes += 8;
+>          }
+> +        s->state = STATE_COLLECTING_DATA;
+>          break;
+>      case MAN_SPANSION:
+>          s->needed_bytes += extract32(s->spansion_cr2v,
+>                                      SPANSION_DUMMY_CLK_POS,
+>                                      SPANSION_DUMMY_CLK_LEN
+>                                      );
+> +        s->state = STATE_COLLECTING_DATA;
+>          break;
+>      default:
+> +        s->state = STATE_COLLECTING_DATA;
+>          break;
+>      }
+>      s->pos = 0;
+>      s->len = 0;
+> -    s->state = STATE_COLLECTING_DATA;
 
+Above change in this function and the similar ones in below two functions
+don't seem to be needed anymore (s->state = STATE_COLLECTING_DATA is being done
+in all cases).
+
+>  }
+>  
+>  static void decode_dio_read_cmd(Flash *s)
+> @@ -859,6 +880,7 @@ static void decode_dio_read_cmd(Flash *s)
+>      switch (get_man(s)) {
+>      case MAN_WINBOND:
+>          s->needed_bytes += WINBOND_CONTINUOUS_READ_MODE_CMD_LEN;
+> +        s->state = STATE_COLLECTING_DATA;
+>          break;
+>      case MAN_SPANSION:
+>          s->needed_bytes += SPANSION_CONTINUOUS_READ_MODE_CMD_LEN;
+> @@ -866,9 +888,11 @@ static void decode_dio_read_cmd(Flash *s)
+>                                      SPANSION_DUMMY_CLK_POS,
+>                                      SPANSION_DUMMY_CLK_LEN
+>                                      );
+> +        s->state = STATE_COLLECTING_DATA;
+>          break;
+>      case MAN_NUMONYX:
+>          s->needed_bytes += extract32(s->volatile_cfg, 4, 4);
+> +        s->state = STATE_COLLECTING_DATA;
+>          break;
+>      case MAN_MACRONIX:
+>          switch (extract32(s->volatile_cfg, 6, 2)) {
+> @@ -882,13 +906,14 @@ static void decode_dio_read_cmd(Flash *s)
+>              s->needed_bytes += 4;
+>              break;
+>          }
+> +        s->state = STATE_COLLECTING_DATA;
+>          break;
+>      default:
+> +        s->state = STATE_COLLECTING_DATA;
+>          break;
+>      }
+>      s->pos = 0;
+>      s->len = 0;
+> -    s->state = STATE_COLLECTING_DATA;
+>  }
+>  
+>  static void decode_qio_read_cmd(Flash *s)
+> @@ -899,6 +924,7 @@ static void decode_qio_read_cmd(Flash *s)
+>      case MAN_WINBOND:
+>          s->needed_bytes += WINBOND_CONTINUOUS_READ_MODE_CMD_LEN;
+>          s->needed_bytes += 4;
+> +        s->state = STATE_COLLECTING_DATA;
+>          break;
+>      case MAN_SPANSION:
+>          s->needed_bytes += SPANSION_CONTINUOUS_READ_MODE_CMD_LEN;
+> @@ -906,9 +932,11 @@ static void decode_qio_read_cmd(Flash *s)
+>                                      SPANSION_DUMMY_CLK_POS,
+>                                      SPANSION_DUMMY_CLK_LEN
+>                                      );
+> +        s->state = STATE_COLLECTING_DATA;
+>          break;
+>      case MAN_NUMONYX:
+>          s->needed_bytes += extract32(s->volatile_cfg, 4, 4);
+> +        s->state = STATE_COLLECTING_DATA;
+>          break;
+>      case MAN_MACRONIX:
+>          switch (extract32(s->volatile_cfg, 6, 2)) {
+> @@ -922,13 +950,14 @@ static void decode_qio_read_cmd(Flash *s)
+>              s->needed_bytes += 6;
+>              break;
+>          }
+> +        s->state = STATE_COLLECTING_DATA;
+>          break;
+>      default:
+> +        s->state = STATE_COLLECTING_DATA;
+>          break;
+>      }
+>      s->pos = 0;
+>      s->len = 0;
+> -    s->state = STATE_COLLECTING_DATA;
+>  }
+>  
+>  static void decode_new_cmd(Flash *s, uint32_t value)
+> @@ -950,14 +979,8 @@ static void decode_new_cmd(Flash *s, uint32_t value)
+>      case ERASE4_32K:
+>      case ERASE_SECTOR:
+>      case ERASE4_SECTOR:
+> -    case READ:
+> -    case READ4:
+> -    case DPP:
+> -    case QPP:
+> -    case QPP_4:
+>      case PP:
+>      case PP4:
+> -    case PP4_4:
+>      case DIE_ERASE:
+>      case RDID_90:
+>      case RDID_AB:
+> @@ -966,24 +989,85 @@ static void decode_new_cmd(Flash *s, uint32_t value)
+>          s->len = 0;
+>          s->state = STATE_COLLECTING_DATA;
+>          break;
+> +    case READ:
+> +    case READ4:
+> +        if (!(get_man(s) == MAN_NUMONYX) || (numonyx_get_mode(s) != MODE_DIO &&
+> +            numonyx_get_mode(s) != MODE_QIO)) {
+
+Above seems easier to check if we are in the correct mode here instead:
+
+if (get_man(s) != MAN_NUMONYX || numonyx_get_mode(s) == MODE_STD) {
+
+> +            s->needed_bytes = get_addr_length(s);
+> +            s->pos = 0;
+> +            s->len = 0;
+> +            s->state = STATE_COLLECTING_DATA;
+> +        } else {
+> +            qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Cannot execute cmd %x in "
+> +                          "DIO or QIO mode\n", s->cmd_in_progress);
+> +        }
+> +        break;
+> +    case DPP:
+> +        if (!(get_man(s) == MAN_NUMONYX) || numonyx_get_mode(s) != MODE_QIO) {
+> +            s->needed_bytes = get_addr_length(s);
+> +            s->pos = 0;
+> +            s->len = 0;
+> +            s->state = STATE_COLLECTING_DATA;
+> +        } else {
+> +            qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Cannot execute cmd %x in "
+> +                          "QIO mode\n", s->cmd_in_progress);
+> +        }
+> +        break;
+> +    case QPP:
+> +    case QPP_4:
+> +    case PP4_4:
+> +        if (!(get_man(s) == MAN_NUMONYX) || numonyx_get_mode(s) != MODE_DIO) {
+> +            s->needed_bytes = get_addr_length(s);
+> +            s->pos = 0;
+> +            s->len = 0;
+> +            s->state = STATE_COLLECTING_DATA;
+> +        } else {
+> +            qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Cannot execute cmd %x in "
+> +                          "DIO mode\n", s->cmd_in_progress);
+> +        }
+> +        break;
+>  
+>      case FAST_READ:
+>      case FAST_READ4:
+> +        decode_fast_read_cmd(s);
+> +        break;
+>      case DOR:
+>      case DOR4:
+> +        if (!(get_man(s) == MAN_NUMONYX) || numonyx_get_mode(s) != MODE_QIO) {
+> +            decode_fast_read_cmd(s);
+> +        } else {
+> +            qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Cannot execute cmd %x in "
+> +                          "QIO mode\n", s->cmd_in_progress);
+> +        }
+> +        break;
+>      case QOR:
+>      case QOR4:
+> -        decode_fast_read_cmd(s);
+> +        if (!(get_man(s) == MAN_NUMONYX) || numonyx_get_mode(s) != MODE_DIO) {
+> +            decode_fast_read_cmd(s);
+> +        } else {
+> +            qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Cannot execute cmd %x in "
+> +                          "DIO mode\n", s->cmd_in_progress);
+> +        }
+>          break;
+>  
+>      case DIOR:
+>      case DIOR4:
+> -        decode_dio_read_cmd(s);
+> +        if (!(get_man(s) == MAN_NUMONYX) || numonyx_get_mode(s) != MODE_QIO) {
+> +            decode_dio_read_cmd(s);
+> +        } else {
+> +            qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Cannot execute cmd %x in "
+> +                          "QIO mode\n", s->cmd_in_progress);
+> +        }
+>          break;
+>  
+>      case QIOR:
+>      case QIOR4:
+> -        decode_qio_read_cmd(s);
+> +        if (!(get_man(s) == MAN_NUMONYX) || numonyx_get_mode(s) != MODE_DIO) {
+> +            decode_qio_read_cmd(s);
+> +        } else {
+> +            qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Cannot execute cmd %x in "
+> +                          "DIO mode\n", s->cmd_in_progress);
+> +        }
+>          break;
+>  
+>      case WRSR:
+> @@ -1035,17 +1119,23 @@ static void decode_new_cmd(Flash *s, uint32_t value)
+>          break;
+>  
+>      case JEDEC_READ:
+> -        trace_m25p80_populated_jedec(s);
+> -        for (i = 0; i < s->pi->id_len; i++) {
+> -            s->data[i] = s->pi->id[i];
+> -        }
+> -        for (; i < SPI_NOR_MAX_ID_LEN; i++) {
+> -            s->data[i] = 0;
+> -        }
+> +        if (!(get_man(s) == MAN_NUMONYX) || (numonyx_get_mode(s) != MODE_DIO &&
+> +            numonyx_get_mode(s) != MODE_QIO)) {
+
+The same here as above:
+if (get_man(s) != MAN_NUMONYX || numonyx_get_mode(s) == MODE_STD) {
+
+Best regards,
+Francisco Iglesias
+
+
+> +            trace_m25p80_populated_jedec(s);
+> +            for (i = 0; i < s->pi->id_len; i++) {
+> +                s->data[i] = s->pi->id[i];
+> +            }
+> +            for (; i < SPI_NOR_MAX_ID_LEN; i++) {
+> +                s->data[i] = 0;
+> +            }
+>  
+> -        s->len = SPI_NOR_MAX_ID_LEN;
+> -        s->pos = 0;
+> -        s->state = STATE_READING_DATA;
+> +            s->len = SPI_NOR_MAX_ID_LEN;
+> +            s->pos = 0;
+> +            s->state = STATE_READING_DATA;
+> +        } else {
+> +            qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Cannot execute JEDEC read "
+> +                          "in DIO or QIO mode\n");
+> +        }
+>          break;
+>  
+>      case RDCR:
+> -- 
+> 2.7.4
+> 
 
