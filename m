@@ -2,54 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A0022B44A0
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 14:24:42 +0100 (CET)
-Received: from localhost ([::1]:54280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B46E62B44AE
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 14:28:09 +0100 (CET)
+Received: from localhost ([::1]:59534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keeUr-0001Pf-MQ
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 08:24:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43052)
+	id 1keeYC-0003jr-Ny
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 08:28:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1keeSt-0000Gl-B1; Mon, 16 Nov 2020 08:22:39 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:2096)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1keeSp-0006ud-Q3; Mon, 16 Nov 2020 08:22:39 -0500
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4CZV9N39V1zhXwn;
- Mon, 16 Nov 2020 21:22:16 +0800 (CST)
-Received: from [10.174.187.138] (10.174.187.138) by
- DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 16 Nov 2020 21:22:16 +0800
-Message-ID: <5FB27D08.2070600@huawei.com>
-Date: Mon, 16 Nov 2020 21:22:16 +0800
-From: Alex Chen <alex.chen@huawei.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64;
- rv:17.0) Gecko/20130509 Thunderbird/17.0.6
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1keeVI-0002Kg-9L; Mon, 16 Nov 2020 08:25:09 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:45554)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1keeVG-0007jF-Ci; Mon, 16 Nov 2020 08:25:07 -0500
+Received: by mail-wr1-x441.google.com with SMTP id p1so18640647wrf.12;
+ Mon, 16 Nov 2020 05:25:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=2Ow6H+k9oBLjZNGV3A76EvsZIHDDw/grfEuj7xmVHqE=;
+ b=eoTE1vAFAzO42zxshhRgRcDF49nIMFNcBnx/VT6mYUwaMTF96xERC6rONugy4vCpLt
+ 8qnVbl+AjWUDGgwS1SbcRzhsOHgK2Ycl3Q2MFlWk9Fv6oZOaru/mFPmnb8wZXU0cYGZe
+ dGjRMNs82cvm+ovRkAwMbu0qW44bFqQFK2rAEdf9g3URXmtodpF99LB5ZDPLg6eVk/Vz
+ 3Awztyngi8ZRkfyuICLxxJFl55yPYDv3ru328vO5bkRDqOQxC8dT80cx8DvZygP5pKSk
+ 1mBc2qiLEYdmEBZIDmtWwGkTMZAMQheTFkVvxcf2cxbt+vR92MDPo8Dt1xBv3gEoizrw
+ XENA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=2Ow6H+k9oBLjZNGV3A76EvsZIHDDw/grfEuj7xmVHqE=;
+ b=aXVN4hjHX1jWFH8e0UFzaTfSbbkK3oFr76NRywdgIXHPYNYX4GL0kva8x/N2DznML8
+ vSHsN59T14YhKa0wos3qUdoc2VJ15zTaneqFtLGW/mZErhNzBJBiFNUYQuRBPaYa7RkM
+ rPMbQB6+Um2vzNq5m33BC8aEln2JB3Gz6+GV8HkhLSoDXIh69lnP7o4EV1dRizLMXXiL
+ rTklH3ZAvPmDl+A4ZFisIhDNoCQRx1UhHFPaAnxCIAy+Sa0nct7bUJLmfIQ/o+KdrnMr
+ CpSzNVws9hKh/OMcnB+ZSRzhT5ghMC51i9pxrV3vlug3Jsih1hARqVe2aDzlqbgmkjkD
+ O1Hw==
+X-Gm-Message-State: AOAM532BArcmJNgrXDDondtaGYUE4ZceMRjHAOLctJbsWZaMnqO1aKmT
+ MDT16wro66T9EUdxROORzEA=
+X-Google-Smtp-Source: ABdhPJyY/bFH4rO+6kiV5VZxDpxhR40zmXfPJ3gLWfRqV2gxf31YMN5X3RmYlgGJ9kFKk0LTVaII3w==
+X-Received: by 2002:adf:fb90:: with SMTP id a16mr6878307wrr.192.1605533103862; 
+ Mon, 16 Nov 2020 05:25:03 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id m18sm21258839wru.37.2020.11.16.05.25.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Nov 2020 05:25:03 -0800 (PST)
+Subject: Re: [PATCH 13/13] bcm2835_cprman: put some peripherals of bcm2835
+ cprman into the 'misc' category
+To: Gan Qixin <ganqixin@huawei.com>, qemu-devel@nongnu.org,
+ qemu-trivial@nongnu.org, thuth@redhat.com
+References: <20201115184903.1292715-1-ganqixin@huawei.com>
+ <20201115184903.1292715-14-ganqixin@huawei.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <c2ca2185-4253-da71-eab4-f96b29067c96@amsat.org>
+Date: Mon, 16 Nov 2020 14:25:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-To: =?UTF-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-Subject: Re: [PATCH v2] json: Fix a memleak in parse_pair()
-References: <20201113145525.85151-1-alex.chen@huawei.com>
- <7412CDE03601674DA8197E2EBD8937E83BA6762C@dggemm511-mbs.china.huawei.com>
- <87eektkdjw.fsf@dusky.pond.sub.org>
- <895daa42-e241-ff9c-6f55-a369ccfe9eb9@redhat.com>
-In-Reply-To: <895daa42-e241-ff9c-6f55-a369ccfe9eb9@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20201115184903.1292715-14-ganqixin@huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.187.138]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32; envelope-from=alex.chen@huawei.com;
- helo=szxga06-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 08:22:26
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,82 +91,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
- "Chenqun \(kuhn\)" <kuhn.chenqun@huawei.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>,
- Zhanghailiang <zhang.zhanghailiang@huawei.com>
+Cc: kuhn.chenqun@huawei.com, zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2020/11/16 19:43, Philippe Mathieu-Daudé wrote:
-> On 11/16/20 7:42 AM, Markus Armbruster wrote:
->> "Chenqun (kuhn)" <kuhn.chenqun@huawei.com> writes:
->>
->>>> -----Original Message-----
->>>> From: Chenzhendong (alex)
->>>> Sent: Friday, November 13, 2020 10:55 PM
->>>> To: armbru@redhat.com
->>>> Cc: Chenzhendong (alex) <alex.chen@huawei.com>; qemu-devel@nongnu.org;
->>>> qemu-trivial@nongnu.org; Zhanghailiang <zhang.zhanghailiang@huawei.com>;
->>>> Chenqun (kuhn) <kuhn.chenqun@huawei.com>
->>>> Subject: [PATCH v2] json: Fix a memleak in parse_pair()
->>>>
->>>> In qobject_type(), NULL is returned when the 'QObject' returned from
->>>> parse_value() is not of QString type, and this 'QObject' memory will leaked.
->>>> So we need to first cache the 'QObject' returned from parse_value(), and finally
->>>> free 'QObject' memory at the end of the function.
->>>> Also, we add a testcast about invalid dict key.
->>>>
->>>> The memleak stack is as follows:
->>>> Direct leak of 32 byte(s) in 1 object(s) allocated from:
->>>>     #0 0xfffe4b3c34fb in __interceptor_malloc (/lib64/libasan.so.4+0xd34fb)
->>>>     #1 0xfffe4ae48aa3 in g_malloc (/lib64/libglib-2.0.so.0+0x58aa3)
->>>>     #2 0xaaab3557d9f7 in qnum_from_int
->>>> /Images/source_org/qemu_master/qemu/qobject/qnum.c:25
->>>>     #3 0xaaab35584d23 in parse_literal
->>>> /Images/source_org/qemu_master/qemu/qobject/json-parser.c:511
->>>>     #4 0xaaab35584d23 in parse_value
->>>> /Images/source_org/qemu_master/qemu/qobject/json-parser.c:554
->>>>     #5 0xaaab35583d77 in parse_pair
->>>> /Images/source_org/qemu_master/qemu/qobject/json-parser.c:270
->>>>     #6 0xaaab355845db in parse_object
->>>> /Images/source_org/qemu_master/qemu/qobject/json-parser.c:327
->>>>     #7 0xaaab355845db in parse_value
->>>> /Images/source_org/qemu_master/qemu/qobject/json-parser.c:546
->>>>     #8 0xaaab35585b1b in json_parser_parse
->>>> /Images/source_org/qemu_master/qemu/qobject/json-parser.c:580
->>>>     #9 0xaaab35583703 in json_message_process_token
->>>> /Images/source_org/qemu_master/qemu/qobject/json-streamer.c:92
->>>>     #10 0xaaab355ddccf in json_lexer_feed_char
->>>> /Images/source_org/qemu_master/qemu/qobject/json-lexer.c:313
->>>>     #11 0xaaab355de0eb in json_lexer_feed
->>>> /Images/source_org/qemu_master/qemu/qobject/json-lexer.c:350
->>>>     #12 0xaaab354aff67 in tcp_chr_read
->>>> /Images/source_org/qemu_master/qemu/chardev/char-socket.c:525
->>>>     #13 0xfffe4ae429db in g_main_context_dispatch
->>>> (/lib64/libglib-2.0.so.0+0x529db)
->>>>     #14 0xfffe4ae42d8f  (/lib64/libglib-2.0.so.0+0x52d8f)
->>>>     #15 0xfffe4ae430df in g_main_loop_run (/lib64/libglib-2.0.so.0+0x530df)
->>>>     #16 0xaaab34d70bff in iothread_run
->>>> /Images/source_org/qemu_master/qemu/iothread.c:82
->>>>     #17 0xaaab3559d71b in qemu_thread_start
->>>> /Images/source_org/qemu_master/qemu/util/qemu-thread-posix.c:519
->>>>
-> ...
->>
->> Queued, thanks!
+Hi Gan,
+
+On 11/15/20 7:49 PM, Gan Qixin wrote:
+> Some peripherals of bcm2835 cprman have no category, put them into the 'misc'
+> category.
 > 
-> If possible can you s%/Images/source_org/qemu_master/qemu/%% to make
-> description more readable...?
+> Signed-off-by: Gan Qixin <ganqixin@huawei.com>
+> ---
+> Cc: Philippe Mathieu-DaudÃƒÂ© <f4bug@amsat.org>
+> ---
+>  hw/misc/bcm2835_cprman.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
+> diff --git a/hw/misc/bcm2835_cprman.c b/hw/misc/bcm2835_cprman.c
+> index 7e415a017c..c62958a99e 100644
+> --- a/hw/misc/bcm2835_cprman.c
+> +++ b/hw/misc/bcm2835_cprman.c
+> @@ -136,6 +136,7 @@ static void pll_class_init(ObjectClass *klass, void *data)
+>  
+>      dc->reset = pll_reset;
+>      dc->vmsd = &pll_vmstate;
+> +    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
 
-Hi Philippe,
-I am sorry for that, considering that the patch has been queued,
-do I need to modify the commit message and send patch v3?
+Well, this is not an usable device but a part of a bigger device,
+so here we want the opposite: not list this device in any category.
 
-Thanks,
-Alex
+Maybe we could add a DEVICE_CATEGORY_COMPOSITE for all such QOM
+types so management apps can filter them out? (And so we are sure
+all QOM is classified).
 
+Thomas, you already dealt with categorizing devices in the past,
+what do you think about this? Who else could help? Maybe add
+someone from libvirt in the thread?
 
+>  }
+>  
+>  static const TypeInfo cprman_pll_info = {
+> @@ -239,6 +240,7 @@ static void pll_channel_class_init(ObjectClass *klass, void *data)
+>  
+>      dc->reset = pll_channel_reset;
+>      dc->vmsd = &pll_channel_vmstate;
+> +    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+>  }
+>  
+>  static const TypeInfo cprman_pll_channel_info = {
+> @@ -359,6 +361,7 @@ static void clock_mux_class_init(ObjectClass *klass, void *data)
+>  
+>      dc->reset = clock_mux_reset;
+>      dc->vmsd = &clock_mux_vmstate;
+> +    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+>  }
+>  
+>  static const TypeInfo cprman_clock_mux_info = {
+> @@ -411,6 +414,7 @@ static void dsi0hsck_mux_class_init(ObjectClass *klass, void *data)
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+>  
+>      dc->vmsd = &dsi0hsck_mux_vmstate;
+> +    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+>  }
+>  
+>  static const TypeInfo cprman_dsi0hsck_mux_info = {
+> 
 
