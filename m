@@ -2,76 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D44BB2B44BA
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 14:33:24 +0100 (CET)
-Received: from localhost ([::1]:42008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE7CE2B44BD
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 14:33:45 +0100 (CET)
+Received: from localhost ([::1]:42782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keedH-00006v-Ue
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 08:33:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44594)
+	id 1keedd-0000S0-1F
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 08:33:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1keeYz-0005VK-Tl
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 08:28:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24209)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1keeYu-0000c7-GF
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 08:28:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605533331;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=C84wb64GVK5Hfx4W9EPu91xWCvByaxhkzJ7uMzAPmYY=;
- b=ebH94QgDmjoFV3iZ0F7T/jcvyDPqcRFtl68jf+oThhVyVvKUY2S3iny4R9av5lK6YPrqeL
- FhVDE4AdRF5pzDLK9pFnlisRiYPRzoR9RxFzTx2YJAhr7xtSm63PKPHQ8AUEHU0AhuQgaZ
- e9959zLOzjfCMpjID/tmWRc6hoQw2Zg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-4-vwjTsNNkPamHm4Zunxhe3g-1; Mon, 16 Nov 2020 08:28:48 -0500
-X-MC-Unique: vwjTsNNkPamHm4Zunxhe3g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 464798015AA;
- Mon, 16 Nov 2020 13:28:47 +0000 (UTC)
-Received: from [10.3.113.36] (ovpn-113-36.phx2.redhat.com [10.3.113.36])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6ACBB5D9D2;
- Mon, 16 Nov 2020 13:28:01 +0000 (UTC)
-Subject: Re: [PATCH v2 7/7] qapi: More complex uses of QAPI_LIST_APPEND
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20201113011340.463563-1-eblake@redhat.com>
- <20201113011340.463563-8-eblake@redhat.com> <20201113193903.GX3251@work-vm>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <55fccf13-d431-3986-f7f8-e6b8ca02cfde@redhat.com>
-Date: Mon, 16 Nov 2020 07:27:49 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1keeZl-0006Dr-0E
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 08:29:45 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37018)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1keeZh-0000qH-E4
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 08:29:44 -0500
+Received: by mail-wr1-x444.google.com with SMTP id b6so18701032wrt.4
+ for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 05:29:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dme-org.20150623.gappssmtp.com; s=20150623;
+ h=to:cc:subject:in-reply-to:references:from:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=01OHeiGwAA19CYkGsvQcr9lQyVQ7kmJrkjS3w/O4NJo=;
+ b=lwFYv5WstgsuIKu76pwciW4jUK5Omy4Q4IY3GY2wgk7mGBKvS2q7Bdz2W6H8+M1II1
+ aug1w413DJoIQi201xI0/xSU/I7dX0yULHqxTxPJ8AhLuWWok3camJwYy2jta3vFkC5m
+ oIb1zQmyRYlB59BDUD6Y5ko0Es5E5t4a34lPPve+2drdGUE3mmHyvd36Vs6AL1jqBY8l
+ jWZ9MjhTep5HMJ6FpwwRUpcTcPRJSq6n4U+yGe/dHdytXQ+sapblYXHsYUBOOPMjImXK
+ DcXe+gr8JZpxSQXQJGCpCCbXnRKqdfTvlYUaxC+CN1GvmAGqz2updJLhFGxOcPv6ii+0
+ R0+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:subject:in-reply-to:references:from:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=01OHeiGwAA19CYkGsvQcr9lQyVQ7kmJrkjS3w/O4NJo=;
+ b=keW4sPQl8m0p5mC7ArZBi3ejAlPqJG6r6yJjaloE8bUp93AqRzdPx+A8P97cWo9pBN
+ W7S4fBhSeAlFCKYeS/5QtsDjfQT3bT+WOoW8nfx+e7ceMLnRnrn3ssM4XsbalME94dwo
+ JZuIfOMWf8YW8FQPPFeo064hkS5hv+0OFeM695ES9HYIATh9/DkhijAB4n3SPd9S5yGi
+ hF6WorDFjHa04q9FnYRixCBi5SPIlLweyizBWQRUSOuLKuPga3EY/L1mbmOKDzlUNDUX
+ i1UgxRNlchZ0XqkbAVweecPNj+i30JyUdCTu//MGT27XUT+qAlmBog5EwZdaK/plyLxA
+ yV9Q==
+X-Gm-Message-State: AOAM531MskVRh02SPw3+0Z7x5p3nNYb0vJK8vX8HW1sfdVfRoHVUTdPO
+ HjJoLM7L64ugmD1I0NsRyF4w0A==
+X-Google-Smtp-Source: ABdhPJx14arDk3/AvUOLgTFcv8c62ouqslBo8yUTuGye2kulfOV/1xjwXZzFMUVlz1T/flot06H/YQ==
+X-Received: by 2002:a05:6000:372:: with SMTP id
+ f18mr20881238wrf.149.1605533379162; 
+ Mon, 16 Nov 2020 05:29:39 -0800 (PST)
+Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net.
+ [2001:8b0:bb71:7140:64::1])
+ by smtp.gmail.com with ESMTPSA id y11sm18941870wmj.36.2020.11.16.05.29.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Nov 2020 05:29:38 -0800 (PST)
+Received: from localhost (disaster-area.hh.sledj.net [local])
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 47e299cc;
+ Mon, 16 Nov 2020 13:29:37 +0000 (UTC)
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH 1/5] hw/block: blk_check_size_and_read_all should
+ report backend name
+In-Reply-To: <0a06d4fd-215b-4bfb-cef7-5d1a03e1a41d@redhat.com>
+References: <20201116104216.439650-1-david.edmondson@oracle.com>
+ <20201116104216.439650-2-david.edmondson@oracle.com>
+ <0a06d4fd-215b-4bfb-cef7-5d1a03e1a41d@redhat.com>
+X-HGTTG: zarquon
+From: David Edmondson <dme@dme.org>
+Date: Mon, 16 Nov 2020 13:29:37 +0000
+Message-ID: <cund00djupq.fsf@zarquon.hh.sledj.net>
 MIME-Version: 1.0
-In-Reply-To: <20201113193903.GX3251@work-vm>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 04:46:27
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: neutral client-ip=2a00:1450:4864:20::444;
+ envelope-from=dme@dme.org; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NEUTRAL=0.779, UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,92 +92,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "open list:GLUSTER" <integration@gluster.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "open list:GLUSTER" <qemu-block@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, armbru@redhat.com,
- Jason Wang <jasowang@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ qemu-arm@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/13/20 1:39 PM, Dr. David Alan Gilbert wrote:
-> * Eric Blake (eblake@redhat.com) wrote:
->> These cases require a bit more thought to review; in each case, the
->> code was appending to a list, but not with a FOOList **tail variable.
->>
->> Signed-off-by: Eric Blake <eblake@redhat.com>
+On Monday, 2020-11-16 at 12:23:24 +01, Philippe Mathieu-Daud=C3=A9 wrote:
+
+> On 11/16/20 11:42 AM, David Edmondson wrote:
+>> If there are problems examining or reading data from the block
+>> backend, the error messages should include an appropriate identifier
+>> to assist in diagnoses.
+>>=20
+>> Signed-off-by: David Edmondson <david.edmondson@oracle.com>
 >> ---
-
-> 
-> <snip>
-> 
-
->> +++ b/monitor/hmp-cmds.c
->> @@ -1699,7 +1699,8 @@ void hmp_closefd(Monitor *mon, const QDict *qdict)
->>  void hmp_sendkey(Monitor *mon, const QDict *qdict)
+>>  hw/block/block.c | 14 +++++++-------
+>>  1 file changed, 7 insertions(+), 7 deletions(-)
+>>=20
+>> diff --git a/hw/block/block.c b/hw/block/block.c
+>> index 1e34573da7..8b284e1f14 100644
+>> --- a/hw/block/block.c
+>> +++ b/hw/block/block.c
+>> @@ -20,9 +20,6 @@
+>>   * BDRV_REQUEST_MAX_BYTES.
+>>   * On success, return true.
+>>   * On failure, store an error through @errp and return false.
+>> - * Note that the error messages do not identify the block backend.
+>> - * TODO Since callers don't either, this can result in confusing
+>> - * errors.
+>>   * This function not intended for actual block devices, which read on
+>>   * demand.  It's for things like memory devices that (ab)use a block
+>>   * backend to provide persistence.
+>> @@ -32,17 +29,19 @@ bool blk_check_size_and_read_all(BlockBackend *blk, =
+void *buf, hwaddr size,
 >>  {
->>      const char *keys = qdict_get_str(qdict, "keys");
->> -    KeyValueList *keylist, *head = NULL, *tmp = NULL;
->> +    KeyValue *v;
->> +    KeyValueList *head = NULL, **tail = &head;
->>      int has_hold_time = qdict_haskey(qdict, "hold-time");
->>      int hold_time = qdict_get_try_int(qdict, "hold-time", -1);
->>      Error *err = NULL;
->> @@ -1716,16 +1717,7 @@ void hmp_sendkey(Monitor *mon, const QDict *qdict)
->>              keyname_len = 4;
->>          }
->>
->> -        keylist = g_malloc0(sizeof(*keylist));
->> -        keylist->value = g_malloc0(sizeof(*keylist->value));
->> -
->> -        if (!head) {
->> -            head = keylist;
->> -        }
->> -        if (tmp) {
->> -            tmp->next = keylist;
->> -        }
->> -        tmp = keylist;
->> +        v = g_malloc0(sizeof(*v));
->>
->>          if (strstart(keys, "0x", NULL)) {
->>              char *endp;
->> @@ -1734,16 +1726,17 @@ void hmp_sendkey(Monitor *mon, const QDict *qdict)
->>              if (endp != keys + keyname_len) {
->>                  goto err_out;
->>              }
->> -            keylist->value->type = KEY_VALUE_KIND_NUMBER;
->> -            keylist->value->u.number.data = value;
->> +            v->type = KEY_VALUE_KIND_NUMBER;
->> +            v->u.number.data = value;
->>          } else {
->>              int idx = index_from_key(keys, keyname_len);
->>              if (idx == Q_KEY_CODE__MAX) {
->>                  goto err_out;
->>              }
->> -            keylist->value->type = KEY_VALUE_KIND_QCODE;
->> -            keylist->value->u.qcode.data = idx;
->> +            v->type = KEY_VALUE_KIND_QCODE;
->> +            v->u.qcode.data = idx;
->>          }
->> +        QAPI_LIST_APPEND(tail, v);
->>
->>          if (!*separator) {
->>              break;
-> 
-> Don't you need to arrange for 'v' to be free'd in the err_out case?
+>>      int64_t blk_len;
+>>      int ret;
+>> +    const char *name =3D blk_name(blk);
+>>=20=20
+>>      blk_len =3D blk_getlength(blk);
+>>      if (blk_len < 0) {
+>>          error_setg_errno(errp, -blk_len,
+>> -                         "can't get size of block backend");
+>> +                         "can't get size of block backend %s",
+>
+> Maybe '%s' to notice empty name?
 
-Good catch.  Pre-patch, the allocation was appended to the list before
-it was possible to reach 'goto err_out', but post-patch, the use of a
-separate variable and delayed addition to the list matters.  Will fix.
+Okay.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+>> +                         name);
+>>          return false;
+>>      }
+>>      if (blk_len !=3D size) {
+>>          error_setg(errp, "device requires %" HWADDR_PRIu " bytes, "
+>> -                   "block backend provides %" PRIu64 " bytes",
+>> -                   size, blk_len);
+>> +                   "block backend %s provides %" PRIu64 " bytes",
+>> +                   size, name, blk_len);
+>>          return false;
+>>      }
+>>=20=20
+>> @@ -55,7 +54,8 @@ bool blk_check_size_and_read_all(BlockBackend *blk, vo=
+id *buf, hwaddr size,
+>>      assert(size <=3D BDRV_REQUEST_MAX_BYTES);
+>>      ret =3D blk_pread(blk, 0, buf, size);
+>>      if (ret < 0) {
+>> -        error_setg_errno(errp, -ret, "can't read block backend");
+>> +        error_setg_errno(errp, -ret, "can't read block backend %s",
+>> +                         name);
+>>          return false;
+>>      }
+>>      return true;
+>>=20
 
+dme.
+--=20
+She looks like Eve Marie Saint in "On the Waterfront".
 
