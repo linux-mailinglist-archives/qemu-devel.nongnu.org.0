@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06B272B4962
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 16:33:41 +0100 (CET)
-Received: from localhost ([::1]:53370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2ADC2B4964
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 16:34:34 +0100 (CET)
+Received: from localhost ([::1]:55396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kegVf-0007bS-Qb
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 10:33:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47928)
+	id 1kegWX-0008SW-Sq
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 10:34:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kegUY-00076T-JJ
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 10:32:32 -0500
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:43484)
+ id 1kegV6-0007ZF-OG
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 10:33:04 -0500
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:36593)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kegUU-0003Us-HU
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 10:32:30 -0500
-Received: by mail-ej1-x641.google.com with SMTP id me8so24995000ejb.10
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 07:32:26 -0800 (PST)
+ id 1kegV4-0003gt-W8
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 10:33:04 -0500
+Received: by mail-ed1-x535.google.com with SMTP id m16so4279192edr.3
+ for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 07:33:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EivzUuW0cVvBlcvj7ngnJrD8lCaxTZu5YKiv5xyEo24=;
- b=JQzVBs138CE5Y940Ymyvest8Xy4yXADojfjwbc2ym33hmrqeuMGTefInTKJzdzXJ2r
- kWbZhf8dT5Eu5tpCPEf8tm2ESDLyCHCSIsYc7JdmydPw1YNiX4eBSVSMZHopV3kbb75U
- fDCGEWaLQpRm6j5FD3YrGYE5ovMw0p9lOvOt0Wz+8j7IYJktoB6cnyqamYMgPFMFPezf
- zlPf2a4X8ySuAdMz4B3glkcjLnFsW1e5BnR53UnkeunROCmcD0avpiaeUqgVNgMBuB8t
- Zw6juvcJPub9hRND6xoxB2d82hJNzrvsdnK+R6t5OqPji1xDpDDZWTuMrSeU4vNsN3n+
- pnig==
+ :cc; bh=hPlKqUFWUEPaXmY7DcfN5sy/Sc5R3fRccUMs1cgCaEc=;
+ b=dS3Yailj1Itb2ECOmI6nJTBdHRSNwZZmHeH1Pt+H6HMeGaECRiQI2b/RYM+orpmKXD
+ ovD2ZT5UVzwBbnfZ5vqyfCyC8FMTuhD9B9Nd3E4yeOIXHxhEE+/QkKpEqQhjTXoi7KCS
+ gYZA7erTMZ9weOEfMeFwsRTQd1sD27plzu+J85k+Wq99IfPN1dxXoePqeW31HbUI+9Va
+ f9rX1hZctuR5Q6yH3FMwS/0Xh9oqGFWVauAvPKwW1vUbkJuSSBnW9zEaeta+2SYwHoOL
+ qw31XbiRH9q+alIeqAEpe9pNbLKFP+/5yP2MzdnHD/+XEasTUaDSDkO2jZ26D2S4dcSd
+ 2+sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=EivzUuW0cVvBlcvj7ngnJrD8lCaxTZu5YKiv5xyEo24=;
- b=j7njWmaiiuu/Wh2NIazcseZqhY07N23tA6nZXnkTh8WXD1R87vVc/SNs5ZuDrEdKXt
- A2XYuEVqXwW5y10HyxJ+JkMam7voI1DlQxyd5Hrp8FlPvcchz3dAEjAfVYMq48FjpZbu
- nH6N4BdQ5ouJmzd/cv04oe0a6jYZaY/befkWRv92jWADeG5CyOiEy1gSshTVVkvv4lPs
- ZvKuBfEJuUOvrJB4kfw0huAsTpejcJfFez7KPkYteMF9+UQ/u/bpjY47cBPbV/+iOBWj
- ThlbLxTYzxK9m0ZlAx5m3mFQKzFsscJNfir/0/DhuWfyuhOVjEC3Smj87RUs/BuksHVP
- Ln7A==
-X-Gm-Message-State: AOAM5327ZzeSzomul93e/FZA13zZUYjiCxwwHebHYtj2no5wBl4sHN/4
- sGann388NqpRGCGAcYyuok3IULLhMYt6p0wZ51srTw==
-X-Google-Smtp-Source: ABdhPJx5uqYAH4RFVaL4+EMSmMqkBpkNnMVO2wJ03fy5XweU8LeAPRjxksUKXJe0FpkaIlfXRyfwj028gg9JGiwIme4=
-X-Received: by 2002:a17:906:6949:: with SMTP id
- c9mr14826500ejs.482.1605540744645; 
- Mon, 16 Nov 2020 07:32:24 -0800 (PST)
+ bh=hPlKqUFWUEPaXmY7DcfN5sy/Sc5R3fRccUMs1cgCaEc=;
+ b=szSwWOkrH6E4kRuetss64phTE6elTMbViE+njqSQgiaiKsqugtPFFSshV4gLPUrGon
+ yoD5KekEOWN5Ym5WFLQR3/JsegaACZkHIonyu/qjOCaN3r/Z6ShS2vh+eoYi9HB/c2pJ
+ jNEiJdbFmurVFLb2d8BucG79sEsCtK0lhQdfYFGic6iF2O2E+j5FWw3zfkQh4+XuddAD
+ UB0OsLycJVapkcPmbxb67cLWmENR3UqpcW0ftmNmvmtE4fMy2VOWsI6ZLuev3TqfEiiY
+ EQ9UbMwz2D/MIo2A3qk/fiiFF/aPlBQRPTyCtbE20KiBOG6Zruej9t4u7Pot4TGnGTt5
+ dSGQ==
+X-Gm-Message-State: AOAM53022XIZ753voqzm1NtTVx9by7r4KZtlc2BZoU0xsMGYuok1uQQ0
+ 8WOMe+ojqI6bVz1MFm7Edtw18qpGYLqMlxJNIC8Xww==
+X-Google-Smtp-Source: ABdhPJyXa2EK3/W0zzBArBGS4JT+PvOi+zWD1m7cyAN0zT5rOK6wMEy4OUx+GcZNQcCZytLdt1RHdDp9sEvkOX1Fxwc=
+X-Received: by 2002:a50:fa92:: with SMTP id w18mr15786510edr.44.1605540781413; 
+ Mon, 16 Nov 2020 07:33:01 -0800 (PST)
 MIME-Version: 1.0
-References: <20201116145341.91606-1-thuth@redhat.com>
-In-Reply-To: <20201116145341.91606-1-thuth@redhat.com>
+References: <20201116111036.12820-1-kraxel@redhat.com>
+In-Reply-To: <20201116111036.12820-1-kraxel@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 16 Nov 2020 15:32:12 +0000
-Message-ID: <CAFEAcA9DGwpG2JE-=-EUf6G6ER0U0gy+aW69=hkrkUSDTrKsRQ@mail.gmail.com>
-Subject: Re: [PATCH for-5.2] docs: Get rid of the weird _005f links in the man
- page
-To: Thomas Huth <thuth@redhat.com>
+Date: Mon, 16 Nov 2020 15:32:50 +0000
+Message-ID: <CAFEAcA9NAKD=oR-_E9mHjGhQEGa2kQg7fyKpbqHkeHp_rYCkpg@mail.gmail.com>
+Subject: Re: [PULL 0/6] Fixes 20201116 patches
+To: Gerd Hoffmann <kraxel@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -80,27 +78,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 16 Nov 2020 at 14:53, Thomas Huth <thuth@redhat.com> wrote:
+On Mon, 16 Nov 2020 at 11:12, Gerd Hoffmann <kraxel@redhat.com> wrote:
 >
-> The man page does not contain all the chapters from the System Emulation
-> Users Guide, so some of the links that we've put into the qemu options
-> descriptions can not be resolved and thus the link names are used in the
-> man pages instead. These link names currently contain weird "_005f" letters
-> in the middle and just do not make any sense for the users. To avoid this
-> situation, replace the link names with more descriptive, natural text.
+> The following changes since commit b50ea0d54bbca7d440315c3d0c0f7a4d6537b180:
+>
+>   Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply-20201113-1' into staging (2020-11-14 11:22:07 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://git.kraxel.org/qemu tags/fixes-20201116-pull-request
+>
+> for you to fetch changes up to c590fe3aa23acb923159c41c741dd694cba9c544:
+>
+>   xhci: move sanity checks (2020-11-16 09:11:21 +0100)
+>
+> ----------------------------------------------------------------
+> usb: a bunch of fixes for guest-triggerable asserts
+> (should have been in last friday's pull, sorry ...).
+>
+> ----------------------------------------------------------------
 
-The "_005f" is a legacy from the automatic conversion from Texinfo.
-In Texinfo, link names could not contain underscores and so for
-instance the link to the GDB usage was "gdb_usage". The conversion
-to rST seems to have taken a broad view of what might be a
-punctuation character that needed escaping, and so converted the '_'
-into a hex-representation (ASCII 0x5f being '_'), giving
-"gdb_005fusage".
 
-thanks
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
+
 -- PMM
 
