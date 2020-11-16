@@ -2,87 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3D9F2B4C17
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 18:07:09 +0100 (CET)
-Received: from localhost ([::1]:45450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D57A2B4C69
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 18:17:35 +0100 (CET)
+Received: from localhost ([::1]:37220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kehy8-0005ye-PO
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 12:07:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44820)
+	id 1kei8D-0006Mx-Vc
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 12:17:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1kehvK-0003xT-Ev
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 12:04:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30469)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1kehvG-0001eM-Tf
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 12:04:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605546250;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nUt/gTa2dac9B0xkfQROf+jZpnpIxiACGMB8Yw4uC8E=;
- b=fNsX6gibQyajMI5lbJFTnwax+ZMORAwA05ScHewgJCdOhAMnK7lGe/EC78CFrYb5uqAce6
- EhzcO6fvr1FR852qwnYThaUROzfo3bSm64AvMR0f6S6wOQWyKPf36A2WMCOb4hUlj6OdPa
- hOjRdajE+g+1InddLSahtH8im8iXLb4=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-243-EH2VEcCCOrS7qlpXX8tbdw-1; Mon, 16 Nov 2020 12:04:08 -0500
-X-MC-Unique: EH2VEcCCOrS7qlpXX8tbdw-1
-Received: by mail-qk1-f198.google.com with SMTP id z68so12108876qkc.4
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 09:04:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=nUt/gTa2dac9B0xkfQROf+jZpnpIxiACGMB8Yw4uC8E=;
- b=iA0mKcrPh725GH55ZU/gSxyg2hsIogvBZLNDgJ1WE1aH3tFvn/i+YKmanKv07wqSB7
- 9fI3HuxKG1mnL07fczoGdPhgrI7glF5zRO114zs28m0t2it1hC31dwrrWD01qUAVe7F9
- 0netHns4PG5xn5M58mZAm3TrelGsT6P4AoOhrQQ1cZ8cXDzuE4VM5uRIvcuXXKukN805
- 6uImB8BHagiM7tVcP7tsDxE4u0nl68zA2pO3fyVjp5+PQbZnIrrex+7DPhGbemTcjiDV
- ijuPq6e5JBENSPN3vkiNJwxcK8JZrqigHnJ+ZjmilWDf11aELdo5Or7nDXXMbgzHe/i2
- djzQ==
-X-Gm-Message-State: AOAM530lSFJu1fV45wgUt+erLl2t6u0dBl/n8cmqycnex5+EBq69TCCz
- XE/v8BBeE2yUFryefyZv6spB2hiwNJ87+E3Uazg507fG4fpnRMhrirHJa8XJCFSdW8XR47OTjrj
- 6U4WoHURZ2YM8x6p9fk8oUhwZZIivzKo=
-X-Received: by 2002:a37:41d2:: with SMTP id
- o201mr14870962qka.425.1605546247816; 
- Mon, 16 Nov 2020 09:04:07 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxWT3mOv9ulFn4M6k70jJxe4d4lSgKrx8dm+bvv+WPDpZShH38iqZb9R7JPp7ZDqt4G41iZnRrbnGZpJwxU0bw=
-X-Received: by 2002:a37:41d2:: with SMTP id
- o201mr14870930qka.425.1605546247486; 
- Mon, 16 Nov 2020 09:04:07 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1kei67-0005R2-NE
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 12:15:25 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2061)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1kei63-0005Ng-1Y
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 12:15:23 -0500
+Received: from fraeml734-chm.china.huawei.com (unknown [172.18.147.201])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4CZbJN5Hy2z67Dqw;
+ Tue, 17 Nov 2020 01:13:40 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml734-chm.china.huawei.com (10.206.15.215) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1913.5; Mon, 16 Nov 2020 18:15:12 +0100
+Received: from localhost (10.52.125.36) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1913.5; Mon, 16 Nov
+ 2020 17:15:11 +0000
+Date: Mon, 16 Nov 2020 17:15:03 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Ben Widawsky <ben.widawsky@intel.com>
+Subject: Re: [RFC PATCH 22/25] acpi/cxl: Create the CEDT (9.14.1)
+Message-ID: <20201116171503.00007b4f@Huawei.com>
+In-Reply-To: <20201111054724.794888-23-ben.widawsky@intel.com>
+References: <20201111054724.794888-1-ben.widawsky@intel.com>
+ <20201111054724.794888-23-ben.widawsky@intel.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
 MIME-Version: 1.0
-References: <20201019104332.22033-1-eperezma@redhat.com>
- <20201019104332.22033-3-eperezma@redhat.com>
- <20201030064912-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20201030064912-mutt-send-email-mst@kernel.org>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Mon, 16 Nov 2020 18:03:30 +0100
-Message-ID: <CAJaqyWfFB-0BPE1q-mHqA_mpkkrQ0meEg66_btq1QDN3igkZ8A@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] memory: Add IOMMUTLBEvent
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 22:35:17
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.52.125.36]
+X-ClientProxiedBy: lhreml702-chm.china.huawei.com (10.201.108.51) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 11:37:31
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,93 +69,268 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Yan Zhao <yan.y.zhao@intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-ppc@nongnu.org,
- Jason Wang <jasowang@redhat.com>, qemu-level <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>, Eric Auger <eric.auger@redhat.com>,
- qemu-arm@nongnu.org, =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Avi Kivity <avi@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Richard Henderson <rth@twiddle.net>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, "Michael
+ S. Tsirkin" <mst@redhat.com>, Vishal Verma <vishal.l.verma@intel.com>,
+ qemu-devel@nongnu.org, Paolo
+ Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>, Dan
+ Williams <dan.j.williams@intel.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 30, 2020 at 11:50 AM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Mon, Oct 19, 2020 at 12:43:29PM +0200, Eugenio P=C3=A9rez wrote:
-> > This way we can tell between regular IOMMUTLBEntry (entry of IOMMU
-> > hardware) and notifications.
-> >
-> > In the notifications, we set explicitly if it is a MAPs or an UNMAP,
-> > instead of trusting in entry permissions to differentiate them.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > Reviewed-by: Peter Xu <peterx@redhat.com>
-> > Reviewed-by: Juan Quintela <quintela@redhat.com>
->
-> Breaks s390:
->
-> FAILED: libqemu-s390x-softmmu.fa.p/hw_s390x_s390-pci-inst.c.o
-> cc -Ilibqemu-s390x-softmmu.fa.p -I. -I../qemu -Itarget/s390x -I../qemu/ta=
-rget/s390x -Iqapi -Itrace -Iui -Iui/shader -I/usr/include/spice-1 -I/usr/in=
-clude/spice-server -I/usr/include/cacard -I/usr/include/glib-2.0 -I/usr/lib=
-64/glib-2.0/include -I/usr/include/nss3 -I/usr/include/nspr4 -I/usr/include=
-/libmount -I/usr/include/blkid -I/usr/include/pixman-1 -I/usr/include/capst=
-one -fdiagnostics-color=3Dauto -pipe -Wall -Winvalid-pch -Werror -std=3Dgnu=
-99 -O2 -g -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3D2 -m64 -mcx16 -D_GNU_SOURCE=
- -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredunda=
-nt-decls -Wundef -Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing =
--fno-common -fwrapv -Wold-style-declaration -Wold-style-definition -Wtype-l=
-imits -Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers -Wemp=
-ty-body -Wnested-externs -Wendif-labels -Wexpansion-to-defined -Wno-missing=
--include-dirs -Wno-shift-negative-value -Wno-psabi -fstack-protector-strong=
- -isystem /scm/qemu/linux-headers -isystem linux-headers -iquote /scm/qemu/=
-tcg/i386 -iquote . -iquote /scm/qemu -iquote /scm/qemu/accel/tcg -iquote /s=
-cm/qemu/include -iquote /scm/qemu/disas/libvixl -pthread -fPIC -isystem../q=
-emu/linux-headers -isystemlinux-headers -DNEED_CPU_H '-DCONFIG_TARGET=3D"s3=
-90x-softmmu-config-target.h"' '-DCONFIG_DEVICES=3D"s390x-softmmu-config-dev=
-ices.h"' -MD -MQ libqemu-s390x-softmmu.fa.p/hw_s390x_s390-pci-inst.c.o -MF =
-libqemu-s390x-softmmu.fa.p/hw_s390x_s390-pci-inst.c.o.d -o libqemu-s390x-so=
-ftmmu.fa.p/hw_s390x_s390-pci-inst.c.o -c ../qemu/hw/s390x/s390-pci-inst.c
-> ../qemu/hw/s390x/s390-pci-inst.c: In function =E2=80=98s390_pci_update_io=
-tlb=E2=80=99:
-> ../qemu/hw/s390x/s390-pci-inst.c:599:61: error: incompatible type for arg=
-ument 3 of =E2=80=98memory_region_notify_iommu=E2=80=99
->   599 |             memory_region_notify_iommu(&iommu->iommu_mr, 0, notif=
-y);
->       |                                                             ^~~~~=
-~
->       |                                                             |
->       |                                                             IOMMU=
-TLBEntry
-> In file included from /scm/qemu/include/exec/cpu-all.h:23,
->                  from ../qemu/target/s390x/cpu.h:846,
->                  from ../qemu/hw/s390x/s390-pci-inst.c:15:
-> /scm/qemu/include/exec/memory.h:1324:47: note: expected =E2=80=98IOMMUTLB=
-Event=E2=80=99 but argument is of type =E2=80=98IOMMUTLBEntry=E2=80=99
->  1324 |                                 IOMMUTLBEvent event);
->       |                                 ~~~~~~~~~~~~~~^~~~~
-> ../qemu/hw/s390x/s390-pci-inst.c:611:53: error: incompatible type for arg=
-ument 3 of =E2=80=98memory_region_notify_iommu=E2=80=99
->   611 |     memory_region_notify_iommu(&iommu->iommu_mr, 0, notify);
->       |                                                     ^~~~~~
->       |                                                     |
->       |                                                     IOMMUTLBEntry
-> In file included from /scm/qemu/include/exec/cpu-all.h:23,
->                  from ../qemu/target/s390x/cpu.h:846,
->                  from ../qemu/hw/s390x/s390-pci-inst.c:15:
-> /scm/qemu/include/exec/memory.h:1324:47: note: expected =E2=80=98IOMMUTLB=
-Event=E2=80=99 but argument is of type =E2=80=98IOMMUTLBEntry=E2=80=99
->  1324 |                                 IOMMUTLBEvent event);
->       |                                 ~~~~~~~~~~~~~~^~~~~
->
+On Tue, 10 Nov 2020 21:47:21 -0800
+Ben Widawsky <ben.widawsky@intel.com> wrote:
 
-Sorry, will compile every target next time.
+> The CXL Early Discovery Table is defined in the CXL 2.0 specification as
+> a way for the OS to get CXL specific information from the system
+> firmware.
+> 
+> As of CXL 2.0 spec, only 1 sub structure is defined, the CXL Host Bridge
+> Structure (CHBS) which is primarily useful for telling the OS exactly
+> where the MMIO for the host bridge is.
+> 
+> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+Trivial comments inline.
 
-Sending v3 with s390x changes.
+Jonathan
 
-Thanks!
+> ---
+>  hw/acpi/cxl.c                       | 72 +++++++++++++++++++++++++++++
+>  hw/i386/acpi-build.c                |  6 ++-
+>  hw/pci-bridge/pci_expander_bridge.c | 21 +--------
+>  include/hw/acpi/cxl.h               |  4 ++
+>  include/hw/pci/pci_bridge.h         | 25 ++++++++++
+>  5 files changed, 107 insertions(+), 21 deletions(-)
+> 
+> diff --git a/hw/acpi/cxl.c b/hw/acpi/cxl.c
+> index 31ceaeecc3..c9631763ad 100644
+> --- a/hw/acpi/cxl.c
+> +++ b/hw/acpi/cxl.c
+> @@ -18,14 +18,86 @@
+>   */
+>  
+>  #include "qemu/osdep.h"
+> +#include "hw/sysbus.h"
+> +#include "hw/pci/pci_bridge.h"
+> +#include "hw/pci/pci_host.h"
+>  #include "hw/cxl/cxl.h"
+> +#include "hw/mem/memory-device.h"
+>  #include "hw/acpi/acpi.h"
+>  #include "hw/acpi/aml-build.h"
+>  #include "hw/acpi/bios-linker-loader.h"
+>  #include "hw/acpi/cxl.h"
+> +#include "hw/acpi/cxl.h"
+>  #include "qapi/error.h"
+>  #include "qemu/uuid.h"
+>  
+> +static void cedt_build_chbs(GArray *table_data, PXBDev *cxl)
+> +{
+> +    SysBusDevice *sbd = SYS_BUS_DEVICE(cxl->cxl.cxl_host_bridge);
+> +    struct MemoryRegion *mr = sbd->mmio[0].memory;
+> +
+> +    /* Type */
+> +    build_append_int_noprefix(table_data, 0, 1);
+> +
+> +    /* Reserved */
+> +    build_append_int_noprefix(table_data, 0xff, 1);
+
+Why 0xff rather than 0x00?  ACPI uses default of 0 for reserved bits
+(5.2.1 in ACPI 6.3 spec)
+
+> +
+> +    /* Record Length */
+> +    build_append_int_noprefix(table_data, 32, 2);
+> +
+> +    /* UID */
+> +    build_append_int_noprefix(table_data, cxl->uid, 4);
+> +
+> +    /* Version */
+> +    build_append_int_noprefix(table_data, 1, 4);
+> +
+> +    /* Reserved */
+> +    build_append_int_noprefix(table_data, 0xffffffff, 4);
+> +
+> +    /* Base */
+> +    build_append_int_noprefix(table_data, mr->addr, 8);
+> +
+> +    /* Length */
+> +    build_append_int_noprefix(table_data, memory_region_size(mr), 4);
+
+Better to just treat this as a 64 bit field as per the spec, even though
+it can only contain 0x10000?
+
+> +
+> +    /* Reserved */
+> +    build_append_int_noprefix(table_data, 0xffffffff, 4);
+> +}
+> +
+> +static int cxl_foreach_pxb_hb(Object *obj, void *opaque)
+> +{
+> +    Aml *cedt = opaque;
+> +
+> +    if (object_dynamic_cast(obj, TYPE_PXB_CXL_DEVICE)) {
+> +        PXBDev *pxb = PXB_CXL_DEV(obj);
+> +
+> +        cedt_build_chbs(cedt->buf, pxb);
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+> +void cxl_build_cedt(GArray *table_offsets, GArray *table_data,
+> +                    BIOSLinker *linker)
+> +{
+> +    const int cedt_start = table_data->len;
+> +    Aml *cedt;
+> +
+> +    cedt = init_aml_allocator();
+> +
+> +    /* reserve space for CEDT header */
+> +    acpi_add_table(table_offsets, table_data);
+> +    acpi_data_push(cedt->buf, sizeof(AcpiTableHeader));
+> +
+> +    object_child_foreach_recursive(object_get_root(), cxl_foreach_pxb_hb, cedt);
+> +
+> +    /* copy AML table into ACPI tables blob and patch header there */
+> +    g_array_append_vals(table_data, cedt->buf->data, cedt->buf->len);
+> +    build_header(linker, table_data, (void *)(table_data->data + cedt_start),
+> +                 "CEDT", table_data->len - cedt_start, 1, NULL, NULL);
+> +    free_aml_allocator();
+> +}
+> +
+>  static Aml *__build_cxl_osc_method(void)
+>  {
+>      Aml *method, *if_uuid, *else_uuid, *if_arg1_not_1, *if_cxl, *if_caps_masked;
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index dd1f8b39d4..eda62dcd6a 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -75,6 +75,8 @@
+>  #include "hw/acpi/ipmi.h"
+>  #include "hw/acpi/hmat.h"
+>  
+> +#include "hw/acpi/cxl.h"
+> +
+>  /* These are used to size the ACPI tables for -M pc-i440fx-1.7 and
+>   * -M pc-i440fx-2.0.  Even if the actual amount of AML generated grows
+>   * a little bit, there should be plenty of free space since the DSDT
+> @@ -1662,7 +1664,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>  
+>              scope = aml_scope("\\_SB");
+>              if (type == CXL) {
+> -                dev = aml_device("CXL%.01X", pci_bus_uid(bus));
+> +                dev = aml_device("CXL%.01X", uid);
+>              } else {
+>                  dev = aml_device("PC%.02X", bus_num);
+>              }
+> @@ -2568,6 +2570,8 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+>                            machine->nvdimms_state, machine->ram_slots);
+>      }
+>  
+> +    cxl_build_cedt(table_offsets, tables_blob, tables->linker);
+> +
+>      acpi_add_table(table_offsets, tables_blob);
+>      build_waet(tables_blob, tables->linker);
+>  
+> diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
+> index 75910f5870..b2c1d9056a 100644
+> --- a/hw/pci-bridge/pci_expander_bridge.c
+> +++ b/hw/pci-bridge/pci_expander_bridge.c
+> @@ -57,26 +57,6 @@ DECLARE_INSTANCE_CHECKER(PXBDev, PXB_DEV,
+>  DECLARE_INSTANCE_CHECKER(PXBDev, PXB_PCIE_DEV,
+>                           TYPE_PXB_PCIE_DEVICE)
+>  
+> -#define TYPE_PXB_CXL_DEVICE "pxb-cxl"
+> -DECLARE_INSTANCE_CHECKER(PXBDev, PXB_CXL_DEV,
+> -                         TYPE_PXB_CXL_DEVICE)
+> -
+> -struct PXBDev {
+> -    /*< private >*/
+> -    PCIDevice parent_obj;
+> -    /*< public >*/
+> -
+> -    uint8_t bus_nr;
+> -    uint16_t numa_node;
+> -    int32_t uid;
+> -    struct cxl_dev {
+> -        HostMemoryBackend *memory_window[CXL_WINDOW_MAX];
+> -
+> -        uint32_t num_windows;
+> -        hwaddr *window_base[CXL_WINDOW_MAX];
+> -    } cxl;
+> -};
+> -
+>  typedef struct CXLHost {
+>      PCIHostState parent_obj;
+>  
+> @@ -351,6 +331,7 @@ static void pxb_dev_realize_common(PCIDevice *dev, enum BusType type,
+>          bus = pci_root_bus_new(ds, dev_name, NULL, NULL, 0, TYPE_PXB_CXL_BUS);
+>          bus->flags |= PCI_BUS_CXL;
+>          PXB_CXL_HOST(ds)->dev = PXB_CXL_DEV(dev);
+> +        PXB_CXL_DEV(dev)->cxl.cxl_host_bridge = ds;
+>      } else {
+>          bus = pci_root_bus_new(ds, "pxb-internal", NULL, NULL, 0, TYPE_PXB_BUS);
+>          bds = qdev_new("pci-bridge");
+> diff --git a/include/hw/acpi/cxl.h b/include/hw/acpi/cxl.h
+> index 7b8f3b8a2e..db2063f8c9 100644
+> --- a/include/hw/acpi/cxl.h
+> +++ b/include/hw/acpi/cxl.h
+> @@ -18,6 +18,10 @@
+>  #ifndef HW_ACPI_CXL_H
+>  #define HW_ACPI_CXL_H
+>  
+> +#include "hw/acpi/bios-linker-loader.h"
+> +
+> +void cxl_build_cedt(GArray *table_offsets, GArray *table_data,
+> +                    BIOSLinker *linker);
+>  void build_cxl_osc_method(Aml *dev);
+>  
+>  #endif
+> diff --git a/include/hw/pci/pci_bridge.h b/include/hw/pci/pci_bridge.h
+> index a94d350034..50dd7fdf33 100644
+> --- a/include/hw/pci/pci_bridge.h
+> +++ b/include/hw/pci/pci_bridge.h
+> @@ -28,6 +28,7 @@
+>  
+>  #include "hw/pci/pci.h"
+>  #include "hw/pci/pci_bus.h"
+> +#include "hw/cxl/cxl.h"
+>  #include "qom/object.h"
+>  
+>  typedef struct PCIBridgeWindows PCIBridgeWindows;
+> @@ -81,6 +82,30 @@ struct PCIBridge {
+>  #define PCI_BRIDGE_DEV_PROP_MSI        "msi"
+>  #define PCI_BRIDGE_DEV_PROP_SHPC       "shpc"
+>  
+> +struct PXBDev {
+> +    /*< private >*/
+> +    PCIDevice parent_obj;
+> +    /*< public >*/
+> +
+> +    uint8_t bus_nr;
+> +    uint16_t numa_node;
+> +    int32_t uid;
+> +
+> +    struct cxl_dev {
+> +        HostMemoryBackend *memory_window[CXL_WINDOW_MAX];
+> +
+> +        uint32_t num_windows;
+> +        hwaddr *window_base[CXL_WINDOW_MAX];
+> +
+> +        void *cxl_host_bridge; /* Pointer to a CXLHost */
+> +    } cxl;
+> +};
+> +
+> +typedef struct PXBDev PXBDev;
+> +#define TYPE_PXB_CXL_DEVICE "pxb-cxl"
+> +DECLARE_INSTANCE_CHECKER(PXBDev, PXB_CXL_DEV,
+> +                         TYPE_PXB_CXL_DEVICE)
+> +
+
+Seems like this could sensibly be on one line?
+Could have been in earlier patch as well of course.
+
+>  int pci_bridge_ssvid_init(PCIDevice *dev, uint8_t offset,
+>                            uint16_t svid, uint16_t ssid,
+>                            Error **errp);
 
 
