@@ -2,105 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B65792B513D
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 20:34:23 +0100 (CET)
-Received: from localhost ([::1]:57404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4E562B514E
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 20:38:33 +0100 (CET)
+Received: from localhost ([::1]:37978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kekGc-0000Vl-QU
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 14:34:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47754)
+	id 1kekKe-0004MZ-LD
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 14:38:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
- id 1kejxU-0007GC-RH; Mon, 16 Nov 2020 14:14:36 -0500
-Received: from mail-bn8nam11on2079.outbound.protection.outlook.com
- ([40.107.236.79]:42241 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
+ id 1kek2a-0002ec-BL
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 14:19:53 -0500
+Received: from mga02.intel.com ([134.134.136.20]:53309)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
- id 1kejxN-0003P4-VM; Mon, 16 Nov 2020 14:14:35 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Nll6YezoLG3j2T5Mkosk0f56fVzDBJduMcC1U7Z+G8zhL62RSXfR/tT7NwK4OnPc+ePdUo1bc5/qNaJd+sz0EtwrRhXJbkAC6ETfocv66BcQnToe4FR/YMGnFadRqiR4vvMotIYAAtlDD00pmMKrv9GlODfBilBlSBo3FagLndd9aHgAJcm93Jxlqvk7mpFmD2R+zNrO8C3qQvNNTPfuMLaPFkUuTxgkxAM9QTTQJ4I4bFlLjMSPomXcK+xEoeFmcBWBLvlo2JAoCCiSF4yLQ8JAg53EGAWMQHq3r3SmJispLPODtx1Crxy3k8rQ8EAxDFdr9NNbcZU9+/hwW1uuhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HJ31DIziYe5JXfM/sNcGTI/kHzUT3SVRjhJnnfJlf4M=;
- b=EBJua+VnF2lfQVM0WHdJtpwxjtOQyLraDTN+xGw3OOekAYLwDCs6bWLP92zHwIDcOnDoE4KRK84S708NTzQmwPbkfApsXn9oT/q/U58x5vLnSFE+/H0GOJP5yE75/Ao97tW/OFDzW7QvWJV8v0mWagud+7qCEAIPkJjDx443hWzSlD/fl/j4u0HjKGYzSjOcAYGaFjWK6HFQvRIeszWYCkdi0lX0JExBN3Kp7TPteVwhyU2AiSIA3vfVWfBaeYJeDHbK0+mdirEx3b4wczfbAVUQnyTSacfmRXE+C+9uF6leu9X/o69tu2BRA+aHplk2Hcie75R0+rqx9QRZGOzwtw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
- dkim=pass header.d=xilinx.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HJ31DIziYe5JXfM/sNcGTI/kHzUT3SVRjhJnnfJlf4M=;
- b=P0ToLkccRkv6apZ/x3CLY5HDp95dn1AKtJrfGuTdDCbHfRhPu0fv8afuM0ufmIh2/jP3O6QaqlHuy6eEz3XcN2DeY7Qy8x5QM76TQLvOZz6PnRwmCkj6MWd0tSaZjhYq5yfPR15VRhT1YEZoxhctOS3LQ8EDOIF48qpg9z2WkZc=
-Received: from BY5PR02MB6033.namprd02.prod.outlook.com (2603:10b6:a03:1ff::10)
- by SJ0PR02MB7693.namprd02.prod.outlook.com (2603:10b6:a03:318::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.25; Mon, 16 Nov
- 2020 19:14:25 +0000
-Received: from BY5PR02MB6033.namprd02.prod.outlook.com
- ([fe80::f5f3:83c4:cc49:d415]) by BY5PR02MB6033.namprd02.prod.outlook.com
- ([fe80::f5f3:83c4:cc49:d415%6]) with mapi id 15.20.3564.028; Mon, 16 Nov 2020
- 19:14:25 +0000
-From: Joe Komlodi <komlodi@xilinx.com>
-To: Francisco Eduardo Iglesias <figlesia@xilinx.com>
-Subject: RE: [PATCH v4 3/4] hw/block/m25p80: Check SPI mode before running
- some Numonyx commands
-Thread-Topic: [PATCH v4 3/4] hw/block/m25p80: Check SPI mode before running
- some Numonyx commands
-Thread-Index: AQHWuWrAv5Dovq6gjUafhOrnOXw0ranK79qAgAA1OrA=
-Date: Mon, 16 Nov 2020 19:14:25 +0000
-Message-ID: <BY5PR02MB6033D144215EA95F569524F1D0E30@BY5PR02MB6033.namprd02.prod.outlook.com>
-References: <1605237055-393580-1-git-send-email-komlodi@xilinx.com>
- <1605237055-393580-4-git-send-email-komlodi@xilinx.com>
- <20201116155836.th2cvcawoo3pkvit@debian>
-In-Reply-To: <20201116155836.th2cvcawoo3pkvit@debian>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: xilinx.com; dkim=none (message not signed)
- header.d=none;xilinx.com; dmarc=none action=none header.from=xilinx.com;
-x-originating-ip: [149.199.62.133]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: e76c0a0d-885b-4389-af4d-08d88a63d52e
-x-ms-traffictypediagnostic: SJ0PR02MB7693:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SJ0PR02MB7693E962678270660F38DE4FD0E30@SJ0PR02MB7693.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:462;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Z14z/drwzuIRJfnKTlXzAhsZKGWDQFoRYHp1RajiSN98afTNIFLp4NL9Ayhq8163iHRcJ8s254em24SKR4nLmoQGdPFJkldoCjIrL3C2b+8z+Id0Gh3vIqZcXoaQ2N+k207X1pdw/uf2R79kQuE94E97shabyxorkvFewEUPfBUcEeEsYrk8B6bgHnBV3u8j3GiLOqoBJmtCKiWNZaqQAnemKNIN0kg5hf9mrb7BbhDrKNOmI0uWpCjbL10chJgvgiVuSwZf5n+gEkIu24QEWK+qTQHZawpyhxcHf8+aoc/MOYeut/2XRwl91HKKwErx5rjrT9IS7zu+czJFLWHymw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR02MB6033.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(376002)(39860400002)(136003)(396003)(366004)(6506007)(83380400001)(54906003)(2906002)(316002)(5660300002)(6636002)(6862004)(9686003)(478600001)(26005)(53546011)(86362001)(4326008)(66476007)(66556008)(64756008)(66446008)(52536014)(66946007)(71200400001)(33656002)(186003)(7696005)(55016002)(8676002)(8936002)(76116006);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: FtfUdV6cF9Qu4aLldAuCe/TyQgU+Ur3H2ek1OpDX/ovL0tr5u/cSdI1Im7POPhcTlJlHOPUkrk3Kr8T2RLLxeouRSbgdMEzDbhJeLYJyD5QkY0omwEoGAtJ+hxVj8dExkmw1ankhTzxqg+MQU2VO1hUpLQWtBqHGyO826pSvjnb2Jcwt3ZehfnzDjJOfsa1hZgInF4pbfg+BBxUyXFDLnpLAO6c6qlg0xb98XQiEdIgakp9Cl1R0wp2zl94MuennTRGc+UHTdbvHobbYFWloZ6dX13x7PVrpCCpf1/egyXxnktgXFfYz3JCl8E7qFIdHuNfPe2nG+1WPa7J7rUenCFDhBxB/PFwUlFHJbDs8onIWbxILlXdVgCfKkFPat8bThuESi7OLZ7zUYUltiI9A4L1NrlqfSagUskiws8+/xOK21YtU5LP4MsWNpI62z9OK3dr8q5JYrHrtnzkJwIn88FNfrsdie8RvNrujYClzXXD3mxaIf2CfjkwrvxiU/8LVH6//UOk5rkVSfLZ3EUAruTm97HSYiI0jgnq0QNep2dM4feZ9TFrLaoIWfcUDfRNWGQb2OV/V+US7LRw9FF1oYmOIECsLEUnLn+IWTUU9rZHyYmckR55aL2/tUvh6uRTFJaSVQY0hZ7NB11L3ftxsWn1hVwlZ03aVzmxYaks1VxFCLUWoXHhjckQdQVbLHiImqBYmnRZYXSuL3jrZanJ8k+E09mX3RnLzsAe7ijKtJrbgh0jQK46v6RiA3KDesYRM1CK3gCe4UriQitfX6lJVXN54XufvsaR9cfOLGVR8DxMW64OgsMfLyZ7h76r84XDMiUhION85DWFL2ocVQ6rUttDR2mABL7+doU+NL+MtQ4QpCjBduuroSDvx6WGk1yHx2r25ODlMniN8+L81kHHACw==
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
+ id 1kek2V-00059T-Rw
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 14:19:51 -0500
+IronPort-SDR: Z/WKpFc1N3Fi0NZ4E20oR5OGvMwVUuduFcoC6lsvcSdqV5gneZ1a6AWuZcbdrkJ3EMXdCr53uc
+ XlVOLyuZkvug==
+X-IronPort-AV: E=McAfee;i="6000,8403,9807"; a="157827038"
+X-IronPort-AV: E=Sophos;i="5.77,483,1596524400"; d="scan'208";a="157827038"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Nov 2020 11:19:40 -0800
+IronPort-SDR: 693YdM1U+oahIZgOyicWgwWblDBDuqczQ4N7SFjUDDBPjDWdic6wod0Srie1WMqCnis105g5OG
+ KyA8RKVgGsHw==
+X-IronPort-AV: E=Sophos;i="5.77,483,1596524400"; d="scan'208";a="329795152"
+Received: from vbenjes-mobl.amr.corp.intel.com (HELO intel.com)
+ ([10.252.134.15])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Nov 2020 11:19:37 -0800
+Date: Mon, 16 Nov 2020 11:19:36 -0800
+From: Ben Widawsky <ben.widawsky@intel.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [RFC PATCH 03/25] hw/cxl/component: Introduce CXL components
+ (8.1.x, 8.2.5)
+Message-ID: <20201116191936.nhchktyrnc5ijoue@intel.com>
+References: <20201111054724.794888-1-ben.widawsky@intel.com>
+ <20201111054724.794888-4-ben.widawsky@intel.com>
+ <20201116120352.00004f25@Huawei.com>
 MIME-Version: 1.0
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB6033.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e76c0a0d-885b-4389-af4d-08d88a63d52e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Nov 2020 19:14:25.5037 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: tX5Ya6zj7EK/fV/nxoghjJXjanA7CqnbBImnQB7l3x/hpvisV1L1KKP5sBl1G5Pi5xWqjYEt55B4h2yrmWUVUA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR02MB7693
-Received-SPF: pass client-ip=40.107.236.79; envelope-from=komlodi@xilinx.com;
- helo=NAM11-BN8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 14:14:27
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201116120352.00004f25@Huawei.com>
+Received-SPF: pass client-ip=134.134.136.20;
+ envelope-from=ben.widawsky@intel.com; helo=mga02.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 14:19:44
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,212 +70,803 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Francisco Eduardo Iglesias <figlesia@xilinx.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "alistair@alistair23.me" <alistair@alistair23.me>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- "philippe.mathieu.daude@gmail.com" <philippe.mathieu.daude@gmail.com>
+Cc: Vishal Verma <vishal.l.verma@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SGkgRnJhbmNpc2NvLA0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogRnJhbmNp
-c2NvIElnbGVzaWFzIDxmcmFuY2lzY28uaWdsZXNpYXNAeGlsaW54LmNvbT4gDQpTZW50OiBNb25k
-YXksIE5vdmVtYmVyIDE2LCAyMDIwIDc6NTkgQU0NClRvOiBKb2UgS29tbG9kaSA8a29tbG9kaUB4
-aWxpbnguY29tPg0KQ2M6IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZzsgcGhpbGlwcGUubWF0aGlldS5k
-YXVkZUBnbWFpbC5jb207IEZyYW5jaXNjbyBFZHVhcmRvIElnbGVzaWFzIDxmaWdsZXNpYUB4aWxp
-bnguY29tPjsgYWxpc3RhaXJAYWxpc3RhaXIyMy5tZTsgcWVtdS1ibG9ja0Bub25nbnUub3JnOyBt
-cmVpdHpAcmVkaGF0LmNvbQ0KU3ViamVjdDogUmU6IFtQQVRDSCB2NCAzLzRdIGh3L2Jsb2NrL20y
-NXA4MDogQ2hlY2sgU1BJIG1vZGUgYmVmb3JlIHJ1bm5pbmcgc29tZSBOdW1vbnl4IGNvbW1hbmRz
-DQoNCkhpIEpvZSwNCg0KT24gVGh1LCBOb3YgMTIsIDIwMjAgYXQgMDc6MTA6NTRQTSAtMDgwMCwg
-Sm9lIEtvbWxvZGkgd3JvdGU6DQo+IFNvbWUgTnVtb255eCBmbGFzaCBjb21tYW5kcyBjYW5ub3Qg
-YmUgZXhlY3V0ZWQgaW4gRElPIGFuZCBRSU8gbW9kZSwgDQo+IHN1Y2ggYXMgdHJ5aW5nIHRvIGRv
-IERQUCBvciBET1Igd2hlbiBpbiBRSU8gbW9kZS4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEpvZSBL
-b21sb2RpIDxrb21sb2RpQHhpbGlueC5jb20+DQo+IC0tLQ0KPiAgaHcvYmxvY2svbTI1cDgwLmMg
-fCAxMzQgDQo+ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0t
-LS0tLS0tLQ0KPiAgMSBmaWxlIGNoYW5nZWQsIDExMiBpbnNlcnRpb25zKCspLCAyMiBkZWxldGlv
-bnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9ody9ibG9jay9tMjVwODAuYyBiL2h3L2Jsb2NrL20y
-NXA4MC5jIGluZGV4IA0KPiBlYjY1MzlmLi4yNTUyZjJjIDEwMDY0NA0KPiAtLS0gYS9ody9ibG9j
-ay9tMjVwODAuYw0KPiArKysgYi9ody9ibG9jay9tMjVwODAuYw0KPiBAQCAtNDEzLDYgKzQxMywx
-MiBAQCB0eXBlZGVmIGVudW0gew0KPiAgICAgIE1BTl9HRU5FUklDLA0KPiAgfSBNYW51ZmFjdHVy
-ZXI7DQo+ICANCj4gK3R5cGVkZWYgZW51bSB7DQo+ICsgICAgTU9ERV9TVEQgPSAwLA0KPiArICAg
-IE1PREVfRElPID0gMSwNCj4gKyAgICBNT0RFX1FJTyA9IDINCj4gK30gU1BJTW9kZTsNCj4gKw0K
-PiAgI2RlZmluZSBNMjVQODBfSU5URVJOQUxfREFUQV9CVUZGRVJfU1ogMTYNCj4gIA0KPiAgc3Ry
-dWN0IEZsYXNoIHsNCj4gQEAgLTgyMCw2ICs4MjYsMTcgQEAgc3RhdGljIHZvaWQgcmVzZXRfbWVt
-b3J5KEZsYXNoICpzKQ0KPiAgICAgIHRyYWNlX20yNXA4MF9yZXNldF9kb25lKHMpOw0KPiAgfQ0K
-PiAgDQo+ICtzdGF0aWMgdWludDhfdCBudW1vbnl4X2dldF9tb2RlKEZsYXNoICpzKSB7DQo+ICsg
-ICAgaWYgKCEocy0+ZW5oX3ZvbGF0aWxlX2NmZyAmIEVWQ0ZHX1FVQURfSU9fRElTQUJMRUQpKSB7
-DQo+ICsgICAgICAgIHJldHVybiBNT0RFX1FJTzsNCj4gKyAgICB9IGVsc2UgaWYgKCEocy0+ZW5o
-X3ZvbGF0aWxlX2NmZyAmIEVWQ0ZHX0RVQUxfSU9fRElTQUJMRUQpKSB7DQo+ICsgICAgICAgIHJl
-dHVybiBNT0RFX0RJTzsNCj4gKyAgICB9IGVsc2Ugew0KPiArICAgICAgICByZXR1cm4gTU9ERV9T
-VEQ7DQo+ICsgICAgfQ0KPiArfQ0KPiArDQo+ICBzdGF0aWMgdm9pZCBkZWNvZGVfZmFzdF9yZWFk
-X2NtZChGbGFzaCAqcykgIHsNCj4gICAgICBzLT5uZWVkZWRfYnl0ZXMgPSBnZXRfYWRkcl9sZW5n
-dGgocyk7IEBAIC04MjcsOSArODQ0LDExIEBAIHN0YXRpYyANCj4gdm9pZCBkZWNvZGVfZmFzdF9y
-ZWFkX2NtZChGbGFzaCAqcykNCj4gICAgICAvKiBEdW1teSBjeWNsZXMgLSBtb2RlbGVkIHdpdGgg
-Ynl0ZXMgd3JpdGVzIGluc3RlYWQgb2YgYml0cyAqLw0KPiAgICAgIGNhc2UgTUFOX1dJTkJPTkQ6
-DQo+ICAgICAgICAgIHMtPm5lZWRlZF9ieXRlcyArPSA4Ow0KPiArICAgICAgICBzLT5zdGF0ZSA9
-IFNUQVRFX0NPTExFQ1RJTkdfREFUQTsNCj4gICAgICAgICAgYnJlYWs7DQo+ICAgICAgY2FzZSBN
-QU5fTlVNT05ZWDoNCj4gICAgICAgICAgcy0+bmVlZGVkX2J5dGVzICs9IGV4dHJhY3QzMihzLT52
-b2xhdGlsZV9jZmcsIDQsIDQpOw0KPiArICAgICAgICBzLT5zdGF0ZSA9IFNUQVRFX0NPTExFQ1RJ
-TkdfREFUQTsNCj4gICAgICAgICAgYnJlYWs7DQo+ICAgICAgY2FzZSBNQU5fTUFDUk9OSVg6DQo+
-ICAgICAgICAgIGlmIChleHRyYWN0MzIocy0+dm9sYXRpbGVfY2ZnLCA2LCAyKSA9PSAxKSB7IEBA
-IC04MzcsMTkgDQo+ICs4NTYsMjEgQEAgc3RhdGljIHZvaWQgZGVjb2RlX2Zhc3RfcmVhZF9jbWQo
-Rmxhc2ggKnMpDQo+ICAgICAgICAgIH0gZWxzZSB7DQo+ICAgICAgICAgICAgICBzLT5uZWVkZWRf
-Ynl0ZXMgKz0gODsNCj4gICAgICAgICAgfQ0KPiArICAgICAgICBzLT5zdGF0ZSA9IFNUQVRFX0NP
-TExFQ1RJTkdfREFUQTsNCj4gICAgICAgICAgYnJlYWs7DQo+ICAgICAgY2FzZSBNQU5fU1BBTlNJ
-T046DQo+ICAgICAgICAgIHMtPm5lZWRlZF9ieXRlcyArPSBleHRyYWN0MzIocy0+c3BhbnNpb25f
-Y3IydiwNCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFNQQU5TSU9OX0RV
-TU1ZX0NMS19QT1MsDQo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBTUEFO
-U0lPTl9EVU1NWV9DTEtfTEVODQo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICApOw0KPiArICAgICAgICBzLT5zdGF0ZSA9IFNUQVRFX0NPTExFQ1RJTkdfREFUQTsNCj4gICAg
-ICAgICAgYnJlYWs7DQo+ICAgICAgZGVmYXVsdDoNCj4gKyAgICAgICAgcy0+c3RhdGUgPSBTVEFU
-RV9DT0xMRUNUSU5HX0RBVEE7DQo+ICAgICAgICAgIGJyZWFrOw0KPiAgICAgIH0NCj4gICAgICBz
-LT5wb3MgPSAwOw0KPiAgICAgIHMtPmxlbiA9IDA7DQo+IC0gICAgcy0+c3RhdGUgPSBTVEFURV9D
-T0xMRUNUSU5HX0RBVEE7DQoNCkFib3ZlIGNoYW5nZSBpbiB0aGlzIGZ1bmN0aW9uIGFuZCB0aGUg
-c2ltaWxhciBvbmVzIGluIGJlbG93IHR3byBmdW5jdGlvbnMgZG9uJ3Qgc2VlbSB0byBiZSBuZWVk
-ZWQgYW55bW9yZSAocy0+c3RhdGUgPSBTVEFURV9DT0xMRUNUSU5HX0RBVEEgaXMgYmVpbmcgZG9u
-ZSBpbiBhbGwgY2FzZXMpLg0KW0pvZV0gT29wcywgSSdsbCBzaW1wbGlmeSB0aGF0Lg0KDQo+ICB9
-DQo+ICANCj4gIHN0YXRpYyB2b2lkIGRlY29kZV9kaW9fcmVhZF9jbWQoRmxhc2ggKnMpIEBAIC04
-NTksNiArODgwLDcgQEAgc3RhdGljIA0KPiB2b2lkIGRlY29kZV9kaW9fcmVhZF9jbWQoRmxhc2gg
-KnMpDQo+ICAgICAgc3dpdGNoIChnZXRfbWFuKHMpKSB7DQo+ICAgICAgY2FzZSBNQU5fV0lOQk9O
-RDoNCj4gICAgICAgICAgcy0+bmVlZGVkX2J5dGVzICs9IFdJTkJPTkRfQ09OVElOVU9VU19SRUFE
-X01PREVfQ01EX0xFTjsNCj4gKyAgICAgICAgcy0+c3RhdGUgPSBTVEFURV9DT0xMRUNUSU5HX0RB
-VEE7DQo+ICAgICAgICAgIGJyZWFrOw0KPiAgICAgIGNhc2UgTUFOX1NQQU5TSU9OOg0KPiAgICAg
-ICAgICBzLT5uZWVkZWRfYnl0ZXMgKz0gU1BBTlNJT05fQ09OVElOVU9VU19SRUFEX01PREVfQ01E
-X0xFTjsNCj4gQEAgLTg2Niw5ICs4ODgsMTEgQEAgc3RhdGljIHZvaWQgZGVjb2RlX2Rpb19yZWFk
-X2NtZChGbGFzaCAqcykNCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFNQ
-QU5TSU9OX0RVTU1ZX0NMS19QT1MsDQo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICBTUEFOU0lPTl9EVU1NWV9DTEtfTEVODQo+ICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICApOw0KPiArICAgICAgICBzLT5zdGF0ZSA9IFNUQVRFX0NPTExFQ1RJTkdfREFU
-QTsNCj4gICAgICAgICAgYnJlYWs7DQo+ICAgICAgY2FzZSBNQU5fTlVNT05ZWDoNCj4gICAgICAg
-ICAgcy0+bmVlZGVkX2J5dGVzICs9IGV4dHJhY3QzMihzLT52b2xhdGlsZV9jZmcsIDQsIDQpOw0K
-PiArICAgICAgICBzLT5zdGF0ZSA9IFNUQVRFX0NPTExFQ1RJTkdfREFUQTsNCj4gICAgICAgICAg
-YnJlYWs7DQo+ICAgICAgY2FzZSBNQU5fTUFDUk9OSVg6DQo+ICAgICAgICAgIHN3aXRjaCAoZXh0
-cmFjdDMyKHMtPnZvbGF0aWxlX2NmZywgNiwgMikpIHsgQEAgLTg4MiwxMyANCj4gKzkwNiwxNCBA
-QCBzdGF0aWMgdm9pZCBkZWNvZGVfZGlvX3JlYWRfY21kKEZsYXNoICpzKQ0KPiAgICAgICAgICAg
-ICAgcy0+bmVlZGVkX2J5dGVzICs9IDQ7DQo+ICAgICAgICAgICAgICBicmVhazsNCj4gICAgICAg
-ICAgfQ0KPiArICAgICAgICBzLT5zdGF0ZSA9IFNUQVRFX0NPTExFQ1RJTkdfREFUQTsNCj4gICAg
-ICAgICAgYnJlYWs7DQo+ICAgICAgZGVmYXVsdDoNCj4gKyAgICAgICAgcy0+c3RhdGUgPSBTVEFU
-RV9DT0xMRUNUSU5HX0RBVEE7DQo+ICAgICAgICAgIGJyZWFrOw0KPiAgICAgIH0NCj4gICAgICBz
-LT5wb3MgPSAwOw0KPiAgICAgIHMtPmxlbiA9IDA7DQo+IC0gICAgcy0+c3RhdGUgPSBTVEFURV9D
-T0xMRUNUSU5HX0RBVEE7DQo+ICB9DQo+ICANCj4gIHN0YXRpYyB2b2lkIGRlY29kZV9xaW9fcmVh
-ZF9jbWQoRmxhc2ggKnMpIEBAIC04OTksNiArOTI0LDcgQEAgc3RhdGljIA0KPiB2b2lkIGRlY29k
-ZV9xaW9fcmVhZF9jbWQoRmxhc2ggKnMpDQo+ICAgICAgY2FzZSBNQU5fV0lOQk9ORDoNCj4gICAg
-ICAgICAgcy0+bmVlZGVkX2J5dGVzICs9IFdJTkJPTkRfQ09OVElOVU9VU19SRUFEX01PREVfQ01E
-X0xFTjsNCj4gICAgICAgICAgcy0+bmVlZGVkX2J5dGVzICs9IDQ7DQo+ICsgICAgICAgIHMtPnN0
-YXRlID0gU1RBVEVfQ09MTEVDVElOR19EQVRBOw0KPiAgICAgICAgICBicmVhazsNCj4gICAgICBj
-YXNlIE1BTl9TUEFOU0lPTjoNCj4gICAgICAgICAgcy0+bmVlZGVkX2J5dGVzICs9IFNQQU5TSU9O
-X0NPTlRJTlVPVVNfUkVBRF9NT0RFX0NNRF9MRU47DQo+IEBAIC05MDYsOSArOTMyLDExIEBAIHN0
-YXRpYyB2b2lkIGRlY29kZV9xaW9fcmVhZF9jbWQoRmxhc2ggKnMpDQo+ICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICBTUEFOU0lPTl9EVU1NWV9DTEtfUE9TLA0KPiAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgU1BBTlNJT05fRFVNTVlfQ0xLX0xFTg0KPiAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKTsNCj4gKyAgICAgICAgcy0+c3Rh
-dGUgPSBTVEFURV9DT0xMRUNUSU5HX0RBVEE7DQo+ICAgICAgICAgIGJyZWFrOw0KPiAgICAgIGNh
-c2UgTUFOX05VTU9OWVg6DQo+ICAgICAgICAgIHMtPm5lZWRlZF9ieXRlcyArPSBleHRyYWN0MzIo
-cy0+dm9sYXRpbGVfY2ZnLCA0LCA0KTsNCj4gKyAgICAgICAgcy0+c3RhdGUgPSBTVEFURV9DT0xM
-RUNUSU5HX0RBVEE7DQo+ICAgICAgICAgIGJyZWFrOw0KPiAgICAgIGNhc2UgTUFOX01BQ1JPTklY
-Og0KPiAgICAgICAgICBzd2l0Y2ggKGV4dHJhY3QzMihzLT52b2xhdGlsZV9jZmcsIDYsIDIpKSB7
-IEBAIC05MjIsMTMgDQo+ICs5NTAsMTQgQEAgc3RhdGljIHZvaWQgZGVjb2RlX3Fpb19yZWFkX2Nt
-ZChGbGFzaCAqcykNCj4gICAgICAgICAgICAgIHMtPm5lZWRlZF9ieXRlcyArPSA2Ow0KPiAgICAg
-ICAgICAgICAgYnJlYWs7DQo+ICAgICAgICAgIH0NCj4gKyAgICAgICAgcy0+c3RhdGUgPSBTVEFU
-RV9DT0xMRUNUSU5HX0RBVEE7DQo+ICAgICAgICAgIGJyZWFrOw0KPiAgICAgIGRlZmF1bHQ6DQo+
-ICsgICAgICAgIHMtPnN0YXRlID0gU1RBVEVfQ09MTEVDVElOR19EQVRBOw0KPiAgICAgICAgICBi
-cmVhazsNCj4gICAgICB9DQo+ICAgICAgcy0+cG9zID0gMDsNCj4gICAgICBzLT5sZW4gPSAwOw0K
-PiAtICAgIHMtPnN0YXRlID0gU1RBVEVfQ09MTEVDVElOR19EQVRBOw0KPiAgfQ0KPiAgDQo+ICBz
-dGF0aWMgdm9pZCBkZWNvZGVfbmV3X2NtZChGbGFzaCAqcywgdWludDMyX3QgdmFsdWUpIEBAIC05
-NTAsMTQgDQo+ICs5NzksOCBAQCBzdGF0aWMgdm9pZCBkZWNvZGVfbmV3X2NtZChGbGFzaCAqcywg
-dWludDMyX3QgdmFsdWUpDQo+ICAgICAgY2FzZSBFUkFTRTRfMzJLOg0KPiAgICAgIGNhc2UgRVJB
-U0VfU0VDVE9SOg0KPiAgICAgIGNhc2UgRVJBU0U0X1NFQ1RPUjoNCj4gLSAgICBjYXNlIFJFQUQ6
-DQo+IC0gICAgY2FzZSBSRUFENDoNCj4gLSAgICBjYXNlIERQUDoNCj4gLSAgICBjYXNlIFFQUDoN
-Cj4gLSAgICBjYXNlIFFQUF80Og0KPiAgICAgIGNhc2UgUFA6DQo+ICAgICAgY2FzZSBQUDQ6DQo+
-IC0gICAgY2FzZSBQUDRfNDoNCj4gICAgICBjYXNlIERJRV9FUkFTRToNCj4gICAgICBjYXNlIFJE
-SURfOTA6DQo+ICAgICAgY2FzZSBSRElEX0FCOg0KPiBAQCAtOTY2LDI0ICs5ODksODUgQEAgc3Rh
-dGljIHZvaWQgZGVjb2RlX25ld19jbWQoRmxhc2ggKnMsIHVpbnQzMl90IHZhbHVlKQ0KPiAgICAg
-ICAgICBzLT5sZW4gPSAwOw0KPiAgICAgICAgICBzLT5zdGF0ZSA9IFNUQVRFX0NPTExFQ1RJTkdf
-REFUQTsNCj4gICAgICAgICAgYnJlYWs7DQo+ICsgICAgY2FzZSBSRUFEOg0KPiArICAgIGNhc2Ug
-UkVBRDQ6DQo+ICsgICAgICAgIGlmICghKGdldF9tYW4ocykgPT0gTUFOX05VTU9OWVgpIHx8IChu
-dW1vbnl4X2dldF9tb2RlKHMpICE9IE1PREVfRElPICYmDQo+ICsgICAgICAgICAgICBudW1vbnl4
-X2dldF9tb2RlKHMpICE9IE1PREVfUUlPKSkgew0KDQpBYm92ZSBzZWVtcyBlYXNpZXIgdG8gY2hl
-Y2sgaWYgd2UgYXJlIGluIHRoZSBjb3JyZWN0IG1vZGUgaGVyZSBpbnN0ZWFkOg0KDQppZiAoZ2V0
-X21hbihzKSAhPSBNQU5fTlVNT05ZWCB8fCBudW1vbnl4X2dldF9tb2RlKHMpID09IE1PREVfU1RE
-KSB7DQoNCj4gKyAgICAgICAgICAgIHMtPm5lZWRlZF9ieXRlcyA9IGdldF9hZGRyX2xlbmd0aChz
-KTsNCj4gKyAgICAgICAgICAgIHMtPnBvcyA9IDA7DQo+ICsgICAgICAgICAgICBzLT5sZW4gPSAw
-Ow0KPiArICAgICAgICAgICAgcy0+c3RhdGUgPSBTVEFURV9DT0xMRUNUSU5HX0RBVEE7DQo+ICsg
-ICAgICAgIH0gZWxzZSB7DQo+ICsgICAgICAgICAgICBxZW11X2xvZ19tYXNrKExPR19HVUVTVF9F
-UlJPUiwgIk0yNVA4MDogQ2Fubm90IGV4ZWN1dGUgY21kICV4IGluICINCj4gKyAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIkRJTyBvciBRSU8gbW9kZVxuIiwgcy0+Y21kX2luX3Byb2dyZXNzKTsN
-Cj4gKyAgICAgICAgfQ0KPiArICAgICAgICBicmVhazsNCj4gKyAgICBjYXNlIERQUDoNCj4gKyAg
-ICAgICAgaWYgKCEoZ2V0X21hbihzKSA9PSBNQU5fTlVNT05ZWCkgfHwgbnVtb255eF9nZXRfbW9k
-ZShzKSAhPSBNT0RFX1FJTykgew0KPiArICAgICAgICAgICAgcy0+bmVlZGVkX2J5dGVzID0gZ2V0
-X2FkZHJfbGVuZ3RoKHMpOw0KPiArICAgICAgICAgICAgcy0+cG9zID0gMDsNCj4gKyAgICAgICAg
-ICAgIHMtPmxlbiA9IDA7DQo+ICsgICAgICAgICAgICBzLT5zdGF0ZSA9IFNUQVRFX0NPTExFQ1RJ
-TkdfREFUQTsNCj4gKyAgICAgICAgfSBlbHNlIHsNCj4gKyAgICAgICAgICAgIHFlbXVfbG9nX21h
-c2soTE9HX0dVRVNUX0VSUk9SLCAiTTI1UDgwOiBDYW5ub3QgZXhlY3V0ZSBjbWQgJXggaW4gIg0K
-PiArICAgICAgICAgICAgICAgICAgICAgICAgICAiUUlPIG1vZGVcbiIsIHMtPmNtZF9pbl9wcm9n
-cmVzcyk7DQo+ICsgICAgICAgIH0NCj4gKyAgICAgICAgYnJlYWs7DQo+ICsgICAgY2FzZSBRUFA6
-DQo+ICsgICAgY2FzZSBRUFBfNDoNCj4gKyAgICBjYXNlIFBQNF80Og0KPiArICAgICAgICBpZiAo
-IShnZXRfbWFuKHMpID09IE1BTl9OVU1PTllYKSB8fCBudW1vbnl4X2dldF9tb2RlKHMpICE9IE1P
-REVfRElPKSB7DQo+ICsgICAgICAgICAgICBzLT5uZWVkZWRfYnl0ZXMgPSBnZXRfYWRkcl9sZW5n
-dGgocyk7DQo+ICsgICAgICAgICAgICBzLT5wb3MgPSAwOw0KPiArICAgICAgICAgICAgcy0+bGVu
-ID0gMDsNCj4gKyAgICAgICAgICAgIHMtPnN0YXRlID0gU1RBVEVfQ09MTEVDVElOR19EQVRBOw0K
-PiArICAgICAgICB9IGVsc2Ugew0KPiArICAgICAgICAgICAgcWVtdV9sb2dfbWFzayhMT0dfR1VF
-U1RfRVJST1IsICJNMjVQODA6IENhbm5vdCBleGVjdXRlIGNtZCAleCBpbiAiDQo+ICsgICAgICAg
-ICAgICAgICAgICAgICAgICAgICJESU8gbW9kZVxuIiwgcy0+Y21kX2luX3Byb2dyZXNzKTsNCj4g
-KyAgICAgICAgfQ0KPiArICAgICAgICBicmVhazsNCj4gIA0KPiAgICAgIGNhc2UgRkFTVF9SRUFE
-Og0KPiAgICAgIGNhc2UgRkFTVF9SRUFENDoNCj4gKyAgICAgICAgZGVjb2RlX2Zhc3RfcmVhZF9j
-bWQocyk7DQo+ICsgICAgICAgIGJyZWFrOw0KPiAgICAgIGNhc2UgRE9SOg0KPiAgICAgIGNhc2Ug
-RE9SNDoNCj4gKyAgICAgICAgaWYgKCEoZ2V0X21hbihzKSA9PSBNQU5fTlVNT05ZWCkgfHwgbnVt
-b255eF9nZXRfbW9kZShzKSAhPSBNT0RFX1FJTykgew0KPiArICAgICAgICAgICAgZGVjb2RlX2Zh
-c3RfcmVhZF9jbWQocyk7DQo+ICsgICAgICAgIH0gZWxzZSB7DQo+ICsgICAgICAgICAgICBxZW11
-X2xvZ19tYXNrKExPR19HVUVTVF9FUlJPUiwgIk0yNVA4MDogQ2Fubm90IGV4ZWN1dGUgY21kICV4
-IGluICINCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgIlFJTyBtb2RlXG4iLCBzLT5jbWRf
-aW5fcHJvZ3Jlc3MpOw0KPiArICAgICAgICB9DQo+ICsgICAgICAgIGJyZWFrOw0KPiAgICAgIGNh
-c2UgUU9SOg0KPiAgICAgIGNhc2UgUU9SNDoNCj4gLSAgICAgICAgZGVjb2RlX2Zhc3RfcmVhZF9j
-bWQocyk7DQo+ICsgICAgICAgIGlmICghKGdldF9tYW4ocykgPT0gTUFOX05VTU9OWVgpIHx8IG51
-bW9ueXhfZ2V0X21vZGUocykgIT0gTU9ERV9ESU8pIHsNCj4gKyAgICAgICAgICAgIGRlY29kZV9m
-YXN0X3JlYWRfY21kKHMpOw0KPiArICAgICAgICB9IGVsc2Ugew0KPiArICAgICAgICAgICAgcWVt
-dV9sb2dfbWFzayhMT0dfR1VFU1RfRVJST1IsICJNMjVQODA6IENhbm5vdCBleGVjdXRlIGNtZCAl
-eCBpbiAiDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICJESU8gbW9kZVxuIiwgcy0+Y21k
-X2luX3Byb2dyZXNzKTsNCj4gKyAgICAgICAgfQ0KPiAgICAgICAgICBicmVhazsNCj4gIA0KPiAg
-ICAgIGNhc2UgRElPUjoNCj4gICAgICBjYXNlIERJT1I0Og0KPiAtICAgICAgICBkZWNvZGVfZGlv
-X3JlYWRfY21kKHMpOw0KPiArICAgICAgICBpZiAoIShnZXRfbWFuKHMpID09IE1BTl9OVU1PTllY
-KSB8fCBudW1vbnl4X2dldF9tb2RlKHMpICE9IE1PREVfUUlPKSB7DQo+ICsgICAgICAgICAgICBk
-ZWNvZGVfZGlvX3JlYWRfY21kKHMpOw0KPiArICAgICAgICB9IGVsc2Ugew0KPiArICAgICAgICAg
-ICAgcWVtdV9sb2dfbWFzayhMT0dfR1VFU1RfRVJST1IsICJNMjVQODA6IENhbm5vdCBleGVjdXRl
-IGNtZCAleCBpbiAiDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICJRSU8gbW9kZVxuIiwg
-cy0+Y21kX2luX3Byb2dyZXNzKTsNCj4gKyAgICAgICAgfQ0KPiAgICAgICAgICBicmVhazsNCj4g
-IA0KPiAgICAgIGNhc2UgUUlPUjoNCj4gICAgICBjYXNlIFFJT1I0Og0KPiAtICAgICAgICBkZWNv
-ZGVfcWlvX3JlYWRfY21kKHMpOw0KPiArICAgICAgICBpZiAoIShnZXRfbWFuKHMpID09IE1BTl9O
-VU1PTllYKSB8fCBudW1vbnl4X2dldF9tb2RlKHMpICE9IE1PREVfRElPKSB7DQo+ICsgICAgICAg
-ICAgICBkZWNvZGVfcWlvX3JlYWRfY21kKHMpOw0KPiArICAgICAgICB9IGVsc2Ugew0KPiArICAg
-ICAgICAgICAgcWVtdV9sb2dfbWFzayhMT0dfR1VFU1RfRVJST1IsICJNMjVQODA6IENhbm5vdCBl
-eGVjdXRlIGNtZCAleCBpbiAiDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICJESU8gbW9k
-ZVxuIiwgcy0+Y21kX2luX3Byb2dyZXNzKTsNCj4gKyAgICAgICAgfQ0KPiAgICAgICAgICBicmVh
-azsNCj4gIA0KPiAgICAgIGNhc2UgV1JTUjoNCj4gQEAgLTEwMzUsMTcgKzExMTksMjMgQEAgc3Rh
-dGljIHZvaWQgZGVjb2RlX25ld19jbWQoRmxhc2ggKnMsIHVpbnQzMl90IHZhbHVlKQ0KPiAgICAg
-ICAgICBicmVhazsNCj4gIA0KPiAgICAgIGNhc2UgSkVERUNfUkVBRDoNCj4gLSAgICAgICAgdHJh
-Y2VfbTI1cDgwX3BvcHVsYXRlZF9qZWRlYyhzKTsNCj4gLSAgICAgICAgZm9yIChpID0gMDsgaSA8
-IHMtPnBpLT5pZF9sZW47IGkrKykgew0KPiAtICAgICAgICAgICAgcy0+ZGF0YVtpXSA9IHMtPnBp
-LT5pZFtpXTsNCj4gLSAgICAgICAgfQ0KPiAtICAgICAgICBmb3IgKDsgaSA8IFNQSV9OT1JfTUFY
-X0lEX0xFTjsgaSsrKSB7DQo+IC0gICAgICAgICAgICBzLT5kYXRhW2ldID0gMDsNCj4gLSAgICAg
-ICAgfQ0KPiArICAgICAgICBpZiAoIShnZXRfbWFuKHMpID09IE1BTl9OVU1PTllYKSB8fCAobnVt
-b255eF9nZXRfbW9kZShzKSAhPSBNT0RFX0RJTyAmJg0KPiArICAgICAgICAgICAgbnVtb255eF9n
-ZXRfbW9kZShzKSAhPSBNT0RFX1FJTykpIHsNCg0KVGhlIHNhbWUgaGVyZSBhcyBhYm92ZToNCmlm
-IChnZXRfbWFuKHMpICE9IE1BTl9OVU1PTllYIHx8IG51bW9ueXhfZ2V0X21vZGUocykgPT0gTU9E
-RV9TVEQpIHsNCg0KW0pvZV0gQWdyZWVkLCB0aGF0J3MgbXVjaCBlYXNpZXIgYW5kIGtlZXBzIGl0
-IG9uIG9uZSBsaW5lLCBub3Qgc3VyZSBob3cgSSBtaXNzZWQgdGhhdC4uLg0KVGhhbmtzIQ0KSm9l
-DQoNCkJlc3QgcmVnYXJkcywNCkZyYW5jaXNjbyBJZ2xlc2lhcw0KDQoNCj4gKyAgICAgICAgICAg
-IHRyYWNlX20yNXA4MF9wb3B1bGF0ZWRfamVkZWMocyk7DQo+ICsgICAgICAgICAgICBmb3IgKGkg
-PSAwOyBpIDwgcy0+cGktPmlkX2xlbjsgaSsrKSB7DQo+ICsgICAgICAgICAgICAgICAgcy0+ZGF0
-YVtpXSA9IHMtPnBpLT5pZFtpXTsNCj4gKyAgICAgICAgICAgIH0NCj4gKyAgICAgICAgICAgIGZv
-ciAoOyBpIDwgU1BJX05PUl9NQVhfSURfTEVOOyBpKyspIHsNCj4gKyAgICAgICAgICAgICAgICBz
-LT5kYXRhW2ldID0gMDsNCj4gKyAgICAgICAgICAgIH0NCj4gIA0KPiAtICAgICAgICBzLT5sZW4g
-PSBTUElfTk9SX01BWF9JRF9MRU47DQo+IC0gICAgICAgIHMtPnBvcyA9IDA7DQo+IC0gICAgICAg
-IHMtPnN0YXRlID0gU1RBVEVfUkVBRElOR19EQVRBOw0KPiArICAgICAgICAgICAgcy0+bGVuID0g
-U1BJX05PUl9NQVhfSURfTEVOOw0KPiArICAgICAgICAgICAgcy0+cG9zID0gMDsNCj4gKyAgICAg
-ICAgICAgIHMtPnN0YXRlID0gU1RBVEVfUkVBRElOR19EQVRBOw0KPiArICAgICAgICB9IGVsc2Ug
-ew0KPiArICAgICAgICAgICAgcWVtdV9sb2dfbWFzayhMT0dfR1VFU1RfRVJST1IsICJNMjVQODA6
-IENhbm5vdCBleGVjdXRlIEpFREVDIHJlYWQgIg0KPiArICAgICAgICAgICAgICAgICAgICAgICAg
-ICAiaW4gRElPIG9yIFFJTyBtb2RlXG4iKTsNCj4gKyAgICAgICAgfQ0KPiAgICAgICAgICBicmVh
-azsNCj4gIA0KPiAgICAgIGNhc2UgUkRDUjoNCj4gLS0NCj4gMi43LjQNCj4gDQo=
+On 20-11-16 12:03:52, Jonathan Cameron wrote:
+> On Tue, 10 Nov 2020 21:47:02 -0800
+> Ben Widawsky <ben.widawsky@intel.com> wrote:
+> 
+> > A CXL 2.0 component is any entity in the CXL topology. All components
+> > have a analogous function in PCIe. Except for the CXL host bridge, all
+> > have a PCIe config space that is accessible via the common PCIe
+> > mechanisms. CXL components are enumerated via DVSEC fields in the
+> > extended PCIe header space. CXL components will minimally implement some
+> > subset of CXL.mem and CXL.cache registers defined in 8.2.5 of the CXL
+> > 2.0 specification. Two headers and a utility library are introduced to
+> > support the minimum functionality needed to enumerate components.
+> > 
+> > The cxl_pci header manages bits associated with PCI, specifically the
+> > DVSEC and related fields. The cxl_component.h variant has data
+> > structures and APIs that are useful for drivers implementing any of the
+> > CXL 2.0 components. The library takes care of making use of the DVSEC
+> > bits and the CXL.[mem|cache] regisetrs.
+> > 
+> > None of the mechanisms required to enumerate a CXL capable hostbridge
+> > are introduced at this point.
+> > 
+> > Note that the CXL.mem and CXL.cache registers used are always 4B wide.
+> > It's possible in the future that this constraint will not hold.
+> > 
+> > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+> > 
+> > --
+> > It's tempting to have a more generalized DVSEC infrastructure. As far as
+> > I can tell, the amount this would actually save in terms of code is
+> > minimal because most of DVESC is vendor specific.
+> 
+> Agreed.  Probably not worth bothering with generic infrastructure for 2.5 DW.
+> 
+> A few comments inline.
+> 
+> Jonathan
+> 
+
+Anything I didn't respond to is accepted and will be in v2.
+
+Thanks.
+Ben
+
+> 
+> > ---
+> >  MAINTAINERS                    |   6 ++
+> >  hw/Kconfig                     |   1 +
+> >  hw/cxl/Kconfig                 |   3 +
+> >  hw/cxl/cxl-component-utils.c   | 192 +++++++++++++++++++++++++++++++++
+> >  hw/cxl/cxl-device-utils.c      |   0
+> >  hw/cxl/meson.build             |   3 +
+> >  hw/meson.build                 |   1 +
+> >  include/hw/cxl/cxl.h           |  17 +++
+> >  include/hw/cxl/cxl_component.h | 181 +++++++++++++++++++++++++++++++
+> >  include/hw/cxl/cxl_pci.h       | 133 +++++++++++++++++++++++
+> >  10 files changed, 537 insertions(+)
+> >  create mode 100644 hw/cxl/Kconfig
+> >  create mode 100644 hw/cxl/cxl-component-utils.c
+> >  create mode 100644 hw/cxl/cxl-device-utils.c
+> >  create mode 100644 hw/cxl/meson.build
+> >  create mode 100644 include/hw/cxl/cxl.h
+> >  create mode 100644 include/hw/cxl/cxl_component.h
+> >  create mode 100644 include/hw/cxl/cxl_pci.h
+> > 
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index c1d16026ba..02b8e2274d 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -2184,6 +2184,12 @@ F: qapi/block*.json
+> >  F: qapi/transaction.json
+> >  T: git https://repo.or.cz/qemu/armbru.git block-next
+> >  
+> > +Compute Express Link
+> > +M: Ben Widawsky <ben.widawsky@intel.com>
+> > +S: Supported
+> > +F: hw/cxl/
+> > +F: include/hw/cxl/
+> > +
+> >  Dirty Bitmaps
+> >  M: Eric Blake <eblake@redhat.com>
+> >  M: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> > diff --git a/hw/Kconfig b/hw/Kconfig
+> > index 4de1797ffd..efed27805a 100644
+> > --- a/hw/Kconfig
+> > +++ b/hw/Kconfig
+> > @@ -6,6 +6,7 @@ source audio/Kconfig
+> >  source block/Kconfig
+> >  source char/Kconfig
+> >  source core/Kconfig
+> > +source cxl/Kconfig
+> >  source display/Kconfig
+> >  source dma/Kconfig
+> >  source gpio/Kconfig
+> > diff --git a/hw/cxl/Kconfig b/hw/cxl/Kconfig
+> > new file mode 100644
+> > index 0000000000..8e67519b16
+> > --- /dev/null
+> > +++ b/hw/cxl/Kconfig
+> > @@ -0,0 +1,3 @@
+> > +config CXL
+> > +    bool
+> > +    default y if PCI_EXPRESS
+> > diff --git a/hw/cxl/cxl-component-utils.c b/hw/cxl/cxl-component-utils.c
+> > new file mode 100644
+> > index 0000000000..c52bd5bfc7
+> > --- /dev/null
+> > +++ b/hw/cxl/cxl-component-utils.c
+> > @@ -0,0 +1,192 @@
+> > +/*
+> > + * CXL Utility library for components
+> > + *
+> > + * Copyright(C) 2020 Intel Corporation.
+> > + *
+> > + * This work is licensed under the terms of the GNU GPL, version 2. See the
+> > + * COPYING file in the top-level directory.
+> > + */
+> > +
+> > +#include "qemu/osdep.h"
+> > +#include "qemu/log.h"
+> > +#include "hw/pci/pci.h"
+> > +#include "hw/cxl/cxl.h"
+> > +
+> > +static uint64_t cxl_cache_mem_read_reg(void *opaque, hwaddr offset,
+> > +                                       unsigned size)
+> > +{
+> > +    CXLComponentState *cxl_cstate = opaque;
+> > +    ComponentRegisters *cregs = &cxl_cstate->crb;
+> > +    uint32_t *cache_mem = cregs->cache_mem_registers;
+> > +
+> > +    if (size != 4) {
+> > +        qemu_log_mask(LOG_UNIMP, "%uB component register read (RAZ)\n", size);
+> > +        return 0;
+> > +    }
+> > +
+> > +    if (cregs->special_ops && cregs->special_ops->read) {
+> > +        return cregs->special_ops->read(cxl_cstate, offset, size);
+> > +    } else {
+> > +        return cache_mem[offset >> 2];
+> > +    }
+> > +}
+> > +
+> > +static void cxl_cache_mem_write_reg(void *opaque, hwaddr offset, uint64_t value,
+> > +                                    unsigned size)
+> > +{
+> > +    CXLComponentState *cxl_cstate = opaque;
+> > +    ComponentRegisters *cregs = &cxl_cstate->crb;
+> > +
+> > +    if (size != 4) {
+> > +        qemu_log_mask(LOG_UNIMP, "%uB component register write (WI)\n", size);
+> > +        return;
+> > +    }
+> > +
+> > +    if (cregs->special_ops && cregs->special_ops->write) {
+> > +        cregs->special_ops->write(cxl_cstate, offset, value, size);
+> > +    }
+> > +}
+> > +
+> > +static const MemoryRegionOps cache_mem_ops = {
+> > +    .read = cxl_cache_mem_read_reg,
+> > +    .write = cxl_cache_mem_write_reg,
+> > +    .endianness = DEVICE_LITTLE_ENDIAN,
+> > +    .valid = {
+> > +        .min_access_size = 4,
+> > +        .max_access_size = 4,
+> > +    },
+> > +    .impl = {
+> > +        .min_access_size = 4,
+> > +        .max_access_size = 4,
+> > +    },
+> > +};
+> > +
+> > +void cxl_component_register_block_init(Object *obj,
+
+> > +                                       CXLComponentState *cxl_cstate,
+> > +                                       const char *type)
+> 
+> What the type parameter means, is not immediately obvious so docs appreciated.
+
+It's just the name associated with the memory region internal to QEMU. AFAICT,
+it doesn't serve any purpose other than for debugging, but I also haven't looked
+at exactly how memory access functions work. Since I have no callers of the
+function I think it is indeed a good idea to document it.
+
+> 
+> > +{
+> > +    ComponentRegisters *cregs = &cxl_cstate->crb;
+> > +
+> > +    memory_region_init(&cregs->component_registers, obj, type, 0x10000);
+> > +    memory_region_init_io(&cregs->io, obj, NULL, cregs, ".io", 0x1000);
+> > +    memory_region_init_io(&cregs->cache_mem, obj, &cache_mem_ops, cregs,
+> > +                          ".cache_mem", 0x1000);
+> > +
+> > +    memory_region_add_subregion(&cregs->component_registers, 0, &cregs->io);
+> > +    memory_region_add_subregion(&cregs->component_registers, 0x1000,
+> > +                                &cregs->cache_mem);
+> > +}
+> > +
+> > +static void ras_init_common(uint32_t *reg_state)
+> > +{
+> > +    reg_state[R_CXL_RAS_UNC_ERR_STATUS] = 0;
+> > +    reg_state[R_CXL_RAS_UNC_ERR_MASK] = 0x1efff;
+> > +    reg_state[R_CXL_RAS_UNC_ERR_SEVERITY] = 0x1efff;
+> > +    reg_state[R_CXL_RAS_COR_ERR_STATUS] = 0;
+> > +    reg_state[R_CXL_RAS_COR_ERR_MASK] = 0x3f;
+> > +    reg_state[R_CXL_RAS_ERR_CAP_CTRL] = 0; /* CXL switches and devices must set */
+> > +}
+> > +
+> > +static void hdm_init_common(uint32_t *reg_state)
+> > +{
+> > +    ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_CAPABILITY, DECODER_COUNT, 0);
+> > +    ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_GLOBAL_CONTROL, HDM_DECODER_ENABLE, 0);
+> > +}
+> > +
+> > +void cxl_component_register_init_common(uint32_t *reg_state, enum reg_type type)
+> > +{
+> > +    int caps = 0;
+> 
+> > +    switch (type) {
+> > +    case CXL2_DOWNSTREAM_PORT:
+> > +    case CXL2_DEVICE:
+> > +        /* CAP, RAS, Link */
+> > +        caps = 3;
+> > +        break;
+> > +    case CXL2_UPSTREAM_PORT:
+> > +    case CXL2_TYPE3_DEVICE:
+> > +    case CXL2_LOGICAL_DEVICE:
+> > +        /* + HDM */
+> > +        caps = 4;
+> > +        break;
+> > +    case CXL2_ROOT_PORT:
+> > +        /* + Extended Security, + Snoop */
+> > +        caps = 6;
+> > +        break;
+> > +    default:
+> > +        abort();
+> > +    }
+> > +
+> > +    memset(reg_state, 0, 0x1000);
+> > +
+> > +    /* CXL Capability Header Register */
+> > +    ARRAY_FIELD_DP32(reg_state, CXL_CAPABILITY_HEADER, ID, 1);
+> > +    ARRAY_FIELD_DP32(reg_state, CXL_CAPABILITY_HEADER, VERSION, 1);
+> > +    ARRAY_FIELD_DP32(reg_state, CXL_CAPABILITY_HEADER, CACHE_MEM_VERSION, 1);
+> > +    ARRAY_FIELD_DP32(reg_state, CXL_CAPABILITY_HEADER, ARRAY_SIZE, caps);
+> > +
+> > +
+> > +#define init_cap_reg(reg, id, version)                                        \
+> > +    do {                                                                      \
+> > +        int which = R_CXL_##reg##_CAPABILITY_HEADER;                          \
+> > +        reg_state[which] = FIELD_DP32(reg_state[which],                       \
+> > +                                      CXL_##reg##_CAPABILITY_HEADER, ID, id); \
+> > +        reg_state[which] =                                                    \
+> > +            FIELD_DP32(reg_state[which], CXL_##reg##_CAPABILITY_HEADER,       \
+> > +                       VERSION, version);                                     \
+> > +        reg_state[which] =                                                    \
+> > +            FIELD_DP32(reg_state[which], CXL_##reg##_CAPABILITY_HEADER, PTR,  \
+> > +                       CXL_##reg##_REGISTERS_OFFSET);                         \
+> > +    } while (0)
+> > +
+> > +    init_cap_reg(RAS, 2, 1);
+> > +    ras_init_common(reg_state);
+> > +
+> > +    init_cap_reg(LINK, 4, 2);
+> > +
+> > +    if (caps < 4) {
+> > +        return;
+> > +    }
+> > +
+> > +    init_cap_reg(HDM, 5, 1);
+> > +    hdm_init_common(reg_state);
+> > +
+> > +    if (caps < 6) {
+> > +        return;
+> > +    }
+> > +
+> > +    init_cap_reg(EXTSEC, 6, 1);
+> > +    init_cap_reg(SNOOP, 8, 1);
+> > +
+> > +#undef init_cap_reg
+> > +}
+> > +
+> > +/*
+> > + * Helper to creates a DVSEC header for a CXL entity. The caller is responsible
+> > + * for tracking the valid offset.
+> > + *
+> > + * This function will build the DVSEC header on behalf of the caller and then
+> > + * copy in the remaining data for the vendor specific bits.
+> > + */
+> > +void cxl_component_create_dvsec(CXLComponentState *cxl, uint16_t length,
+> > +                                uint16_t type, uint8_t rev, uint8_t *body)
+> > +{
+> > +    PCIDevice *pdev = cxl->pdev;
+> > +    uint16_t offset = cxl->dvsec_offset;
+> > +
+> > +    assert(offset >= PCI_CFG_SPACE_SIZE && offset < PCI_CFG_SPACE_EXP_SIZE);
+> 
+> Better perhaps to check if offset + length < PCI_CFG_SPACE_EXP_SIZE?
+> 
+> > +    assert((length & 0xf000) == 0);
+> > +    assert((rev & 0xf0) == 0);
+> 
+> I'd prefer to express as mask of what we do want as doesn't rely on someone having
+> to look back to see how large rev is
+> Something like...
+> 
+> assert ((rev & ~0xf) == 0);
+> 
+> > +
+> > +    /* Create the DVSEC in the MCFG space */
+> > +    pcie_add_capability(pdev, PCI_EXT_CAP_ID_DVSEC, 1, offset, length);
+> > +    pci_set_long(pdev->config + offset + PCIE_DVSEC_HEADER_OFFSET,
+> > +                 (length << 20) | (rev << 16) | CXL_VENDOR_ID);
+> > +    pci_set_word(pdev->config + offset + PCIE_DVSEC_ID_OFFSET, type);
+> > +    memcpy(pdev->config + offset + sizeof(struct dvsec_header),
+> > +           body + sizeof(struct dvsec_header),
+> > +           length - sizeof(struct dvsec_header));
+> > +
+> > +    /* Update state for future DVSEC additions */
+> > +    range_init_nofail(&cxl->dvsecs[type], cxl->dvsec_offset, length);
+> > +    cxl->dvsec_offset += length;
+> > +}
+> > diff --git a/hw/cxl/cxl-device-utils.c b/hw/cxl/cxl-device-utils.c
+> > new file mode 100644
+> > index 0000000000..e69de29bb2
+> > diff --git a/hw/cxl/meson.build b/hw/cxl/meson.build
+> > new file mode 100644
+> > index 0000000000..00c3876a0f
+> > --- /dev/null
+> > +++ b/hw/cxl/meson.build
+> > @@ -0,0 +1,3 @@
+> > +softmmu_ss.add(when: 'CONFIG_CXL', if_true: files(
+> > +  'cxl-component-utils.c',
+> > +))
+> > diff --git a/hw/meson.build b/hw/meson.build
+> > index 010de7219c..3e440c341a 100644
+> > --- a/hw/meson.build
+> > +++ b/hw/meson.build
+> > @@ -6,6 +6,7 @@ subdir('block')
+> >  subdir('char')
+> >  subdir('core')
+> >  subdir('cpu')
+> > +subdir('cxl')
+> >  subdir('display')
+> >  subdir('dma')
+> >  subdir('gpio')
+> > diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
+> > new file mode 100644
+> > index 0000000000..55f6cc30a5
+> > --- /dev/null
+> > +++ b/include/hw/cxl/cxl.h
+> > @@ -0,0 +1,17 @@
+> > +/*
+> > + * QEMU CXL Support
+> > + *
+> > + * Copyright (c) 2020 Intel
+> > + *
+> > + * This work is licensed under the terms of the GNU GPL, version 2. See the
+> > + * COPYING file in the top-level directory.
+> > + */
+> > +
+> > +#ifndef CXL_H
+> > +#define CXL_H
+> > +
+> > +#include "cxl_pci.h"
+> > +#include "cxl_component.h"
+> > +
+> > +#endif
+> > +
+> > diff --git a/include/hw/cxl/cxl_component.h b/include/hw/cxl/cxl_component.h
+> > new file mode 100644
+> > index 0000000000..014d9d10d3
+> > --- /dev/null
+> > +++ b/include/hw/cxl/cxl_component.h
+> > @@ -0,0 +1,181 @@
+> > +/*
+> > + * QEMU CXL Component
+> > + *
+> > + * Copyright (c) 2020 Intel
+> > + *
+> > + * This work is licensed under the terms of the GNU GPL, version 2. See the
+> > + * COPYING file in the top-level directory.
+> > + */
+> > +
+> > +#ifndef CXL_COMPONENT_H
+> > +#define CXL_COMPONENT_H
+> > +
+> > +/* CXL 2.0 - 8.2.4 */
+> > +#define CXL2_COMPONENT_IO_REGION_SIZE 0x1000
+> > +#define CXL2_COMPONENT_CM_REGION_SIZE 0x1000
+> > +#define CXL2_COMPONENT_BLOCK_SIZE 0x10000
+> > +
+> > +#include "qemu/range.h"
+> > +#include "qemu/typedefs.h"
+> > +#include "hw/register.h"
+> > +
+> > +enum reg_type {
+> > +    CXL2_DEVICE,
+> > +    CXL2_TYPE3_DEVICE,
+> > +    CXL2_LOGICAL_DEVICE,
+> > +    CXL2_ROOT_PORT,
+> > +    CXL2_UPSTREAM_PORT,
+> > +    CXL2_DOWNSTREAM_PORT
+> > +};
+> > +
+> > +/*
+> > + * Capability registers are defined at the top of the CXL.cache/mem region and
+> > + * are packed. For our purposes we will always define the caps in the same
+> > + * order.
+> > + * CXL 2.0 - 8.2.5 Table 142 for details.
+> > + */
+> > +
+> > +/* CXL 2.0 - 8.2.5.1 */
+> > +REG32(CXL_CAPABILITY_HEADER, 0)
+> > +    FIELD(CXL_CAPABILITY_HEADER, ID, 0, 16)
+> > +    FIELD(CXL_CAPABILITY_HEADER, VERSION, 16, 4)
+> > +    FIELD(CXL_CAPABILITY_HEADER, CACHE_MEM_VERSION, 20, 4)
+> > +    FIELD(CXL_CAPABILITY_HEADER, ARRAY_SIZE, 24, 8)
+> > +
+> > +#define CXLx_CAPABILITY_HEADER(type, offset)                  \
+> > +    REG32(CXL_##type##_CAPABILITY_HEADER, offset)             \
+> > +        FIELD(CXL_##type##_CAPABILITY_HEADER, ID, 0, 16)      \
+> > +        FIELD(CXL_##type##_CAPABILITY_HEADER, VERSION, 16, 4) \
+> > +        FIELD(CXL_##type##_CAPABILITY_HEADER, PTR, 20, 12)
+> > +CXLx_CAPABILITY_HEADER(RAS, 0x4)
+> > +CXLx_CAPABILITY_HEADER(LINK, 0x8)
+> > +CXLx_CAPABILITY_HEADER(HDM, 0xc)
+> > +CXLx_CAPABILITY_HEADER(EXTSEC, 0x10)
+> > +CXLx_CAPABILITY_HEADER(SNOOP, 0x14)
+> > +
+> > +/*
+> > + * Capability structures contain the actual registers that the CXL component
+> > + * implements. Some of these are specific to certain types of components, but
+> > + * this implementation leaves enough space regardless.
+> > + */
+> > +/* 8.2.5.9 - CXL RAS Capability Structure */
+> > +#define CXL_RAS_REGISTERS_OFFSET 0x80 /* Give ample space for caps before this */
+> > +#define CXL_RAS_REGISTERS_SIZE   0x58
+> > +REG32(CXL_RAS_UNC_ERR_STATUS, CXL_RAS_REGISTERS_OFFSET)
+> > +REG32(CXL_RAS_UNC_ERR_MASK, CXL_RAS_REGISTERS_OFFSET + 0x4)
+> > +REG32(CXL_RAS_UNC_ERR_SEVERITY, CXL_RAS_REGISTERS_OFFSET + 0x8)
+> > +REG32(CXL_RAS_COR_ERR_STATUS, CXL_RAS_REGISTERS_OFFSET + 0xc)
+> > +REG32(CXL_RAS_COR_ERR_MASK, CXL_RAS_REGISTERS_OFFSET + 0x10)
+> > +REG32(CXL_RAS_ERR_CAP_CTRL, CXL_RAS_REGISTERS_OFFSET + 0x14)
+> 
+> Maybe a comment on header log registers coming after this?
+> Will make it obvious why the size is 0x58 above.
+> 
+> 
+> > +
+> > +/* 8.2.5.10 - CXL Security Capability Structure */
+> > +#define CXL_SEC_REGISTERS_OFFSET (CXL_RAS_REGISTERS_OFFSET + CXL_RAS_REGISTERS_SIZE)
+> > +#define CXL_SEC_REGISTERS_SIZE   0 /* We don't implement 1.1 downstream ports */
+> > +
+> > +/* 8.2.5.11 - CXL Link Capability Structure */
+> > +#define CXL_LINK_REGISTERS_OFFSET (CXL_SEC_REGISTERS_OFFSET + CXL_SEC_REGISTERS_SIZE)
+> > +#define CXL_LINK_REGISTERS_SIZE   0x38
+> 
+> Bit odd to introduce this but not define anything... Can't we bring these
+> in when we need them later?
+
+Repeating my comment from 00/25...
+
+For this specific patch series I liked providing #defines in bulk so that it's
+easy enough to just bring up the spec and review them. Not sure if there is a
+preference from others in the community on this.
+
+I could also introduce the library that generates the capability headers with
+this. Either is fine, I just wanted to point out the intent.
+
+> 
+> > +
+> > +/* 8.2.5.12 - CXL HDM Decoder Capability Structure */
+> > +#define HDM_DECODE_MAX 10 /* 8.2.5.12.1 */
+> > +#define CXL_HDM_REGISTERS_OFFSET \
+> > +    (CXL_LINK_REGISTERS_OFFSET + CXL_LINK_REGISTERS_SIZE) /* 8.2.5.12 */
+> > +#define CXL_HDM_REGISTERS_SIZE (0x20 + HDM_DECODE_MAX * 10)
+> > +#define HDM_DECODER_INIT(n, base)                          \
+> > +    REG32(CXL_HDM_DECODER##n##_BASE_LO, base + 0x10)       \
+> 
+> Offset n should be included in the address calc.  It's always 0 at the moment
+> but might as well put it in now.  Mind you there is something a bit odd
+> in the spec I'm looking at. Nothing defined at 0x2c but no reserved line
+> either in the table.
+
+My guess is some earlier version of the spec had the decoder registers as 64b
+and so they wanted to keep natural alignment.
+
+> 
+> 
+> > +        FIELD(CXL_HDM_DECODER##n##_BASE_LO, L, 28, 4)      \
+> > +    REG32(CXL_HDM_DECODER##n##_BASE_HI, base + 0x14)       \
+> > +        FIELD(CXL_HDM_DECODER##n##_BASE_HI, H, 0, 32)      \
+> > +    REG32(CXL_HDM_DECODER##n##_SIZE_LO, base + 0x18)       \
+> 
+> Consistency would argue for fields for this and the next.
+> 
+> > +    REG32(CXL_HDM_DECODER##n##_SIZE_HI, base + 0x1C)       \
+> > +    REG32(CXL_HDM_DECODER##n##_CTRL, base + 0x20)          \
+> > +        FIELD(CXL_HDM_DECODER##n##_CTRL, IG, 0, 4)         \
+> > +        FIELD(CXL_HDM_DECODER##n##_CTRL, IW, 4, 4)         \
+> > +        FIELD(CXL_HDM_DECODER##n##_CTRL, LOCK, 8, 1)       \
+> LOCK_ON_COMMIT  semantics of that are unusual enough probably worth naming
+> to call them out.
+> 
+> > +        FIELD(CXL_HDM_DECODER##n##_CTRL, COMMIT, 9, 1)     \
+> > +        FIELD(CXL_HDM_DECODER##n##_CTRL, COMMITTED, 10, 1) \
+> > +        FIELD(CXL_HDM_DECODER##n##_CTRL, ERROR, 11, 1)     \
+> > +        FIELD(CXL_HDM_DECODER##n##_CTRL, TYPE, 12, 1)      \
+> > +    REG32(CXL_HDM_DECODER##n##_TARGET_LIST_LO, 0x24)       \
+> > +    REG32(CXL_HDM_DECODER##n##_TARGET_LIST_HI, 0x28)
+> 
+> Blank line here would make it easier to spot the end of the macro
+> 
+> > +REG32(CXL_HDM_DECODER_CAPABILITY, 0)
+> > +    FIELD(CXL_HDM_DECODER_CAPABILITY, DECODER_COUNT, 0, 4)
+> > +    FIELD(CXL_HDM_DECODER_CAPABILITY, TARGET_COUNT, 4, 4)
+> > +    FIELD(CXL_HDM_DECODER_CAPABILITY, INTERLEAVE_256B, 8, 1)
+> > +    FIELD(CXL_HDM_DECODER_CAPABILITY, INTELEAVE_4K, 9, 1)
+> > +    FIELD(CXL_HDM_DECODER_CAPABILITY, POISON_ON_ERR_CAP, 10, 1)
+> > +REG32(CXL_HDM_DECODER_GLOBAL_CONTROL, 0)
+> > +    FIELD(CXL_HDM_DECODER_GLOBAL_CONTROL, POISON_ON_ERR_EN, 0, 1)
+> > +    FIELD(CXL_HDM_DECODER_GLOBAL_CONTROL, HDM_DECODER_ENABLE, 1, 1)
+> > +
+> > +HDM_DECODER_INIT(0, CXL_HDM_REGISTERS_OFFSET);
+> > +
+> > +/* 8.2.5.13 - CXL Extended Security Capability Structure (Root complex only) */
+> > +#define EXTSEC_ENTRY_MAX        256
+> > +#define CXL_EXTSEC_REGISTERS_OFFSET (CXL_HDM_REGISTERS_OFFSET + CXL_HDM_REGISTERS_SIZE)
+> > +#define CXL_EXTSEC_REGISTERS_SIZE   (8 * EXTSEC_ENTRY_MAX + 4)
+> > +
+> > +/* 8.2.5.14 - CXL IDE Capability Structure */
+> > +#define CXL_IDE_REGISTERS_OFFSET (CXL_EXTSEC_REGISTERS_OFFSET + CXL_EXTSEC_REGISTERS_SIZE)
+> > +#define CXL_IDE_REGISTERS_SIZE   0
+> > +
+> > +/* 8.2.5.15 - CXL Snoop Filter Capability Structure */
+> > +#define CXL_SNOOP_REGISTERS_OFFSET (CXL_IDE_REGISTERS_OFFSET + CXL_IDE_REGISTERS_SIZE)
+> > +#define CXL_SNOOP_REGISTERS_SIZE   0x8
+> > +
+> > +_Static_assert((CXL_SNOOP_REGISTERS_OFFSET + CXL_SNOOP_REGISTERS_SIZE) < 0x1000,
+> > +               "No space for registers");
+> > +
+> > +typedef struct component_registers {
+> > +    /*
+> > +     * Main memory region to be registered with QEMU core.
+> > +     */
+> > +    MemoryRegion component_registers;
+> > +
+> > +    /*
+> > +     * 8.2.4 Table 141:
+> > +     *   0x0000 - 0x0fff CXL.io registers
+> > +     *   0x1000 - 0x1fff CXL.cache and CXL.mem
+> > +     *   0x2000 - 0xdfff Implementation specific
+> > +     *   0xe000 - 0xe3ff CXL ARB/MUX registers
+> > +     *   0xe400 - 0xffff RSVD
+> > +     */
+> > +    uint32_t io_registers[CXL2_COMPONENT_IO_REGION_SIZE >> 2];
+> > +    MemoryRegion io;
+> > +
+> > +    uint32_t cache_mem_registers[CXL2_COMPONENT_CM_REGION_SIZE >> 2];
+> > +    MemoryRegion cache_mem;
+> > +
+> > +    MemoryRegion impl_specific;
+> > +    MemoryRegion arb_mux;
+> > +    MemoryRegion rsvd;
+> > +
+> > +    /* special_ops is used for any component that needs any specific handling */
+> > +    MemoryRegionOps *special_ops;
+> > +} ComponentRegisters;
+> > +
+> > +/*
+> > + * A CXL component represents all entities in a CXL hierarchy. This includes,
+> > + * host bridges, root ports, upstream/downstream ports, and devices
+> > + */
+> > +typedef struct cxl_component {
+> > +    ComponentRegisters crb;
+> > +    union {
+> > +        struct {
+> > +            Range dvsecs[CXL20_MAX_DVSEC];
+> > +            uint16_t dvsec_offset;
+> > +            struct PCIDevice *pdev;
+> > +        };
+> > +    };
+> > +} CXLComponentState;
+> > +
+> > +void cxl_component_register_block_init(Object *obj,
+> > +                                       CXLComponentState *cxl_cstate,
+> > +                                       const char *type);
+> > +void cxl_component_register_init_common(uint32_t *reg_state,
+> > +                                        enum reg_type type);
+> > +
+> > +void cxl_component_create_dvsec(CXLComponentState *cxl_cstate, uint16_t length,
+> > +                                uint16_t type, uint8_t rev, uint8_t *body);
+> > +
+> > +#endif
+> > diff --git a/include/hw/cxl/cxl_pci.h b/include/hw/cxl/cxl_pci.h
+> > new file mode 100644
+> > index 0000000000..b403770424
+> > --- /dev/null
+> > +++ b/include/hw/cxl/cxl_pci.h
+> > @@ -0,0 +1,133 @@
+> > +/*
+> > + * QEMU CXL PCI interfaces
+> > + *
+> > + * Copyright (c) 2020 Intel
+> > + *
+> > + * This work is licensed under the terms of the GNU GPL, version 2. See the
+> > + * COPYING file in the top-level directory.
+> > + */
+> > +
+> > +#ifndef CXL_PCI_H
+> > +#define CXL_PCI_H
+> > +
+> > +#include "hw/pci/pci.h"
+> > +#include "hw/pci/pcie.h"
+> > +
+> > +#define CXL_VENDOR_ID 0x1e98
+> > +
+> > +#define PCIE_DVSEC_HEADER_OFFSET 0x4 /* Offset from start of extend cap */
+> 
+> To keep this clearly aligned with PCIe spec I'd call it HEADER_1_OFFSET
+> 
+> > +#define PCIE_DVSEC_ID_OFFSET     0x8
+> > +
+> > +#define PCIE_CXL_DEVICE_DVSEC_LENGTH 0x38
+> > +#define PCIE_CXL_DEVICE_DVSEC_REVID  1
+> 
+> Make it clear this is the CXL 2.0 revid.
+> It would be 0 for CXL 1.1 I think? (8.1.3 of CXL 2.0 spec)
+
+Got it. BTW, you're correct. It is in the verbiage there
+"DVSEC Revision ID of 0h represents the structure as defined in CXL 1.1 specification."
+
+A bit hidden IMO.
+
+> 
+> 
+> > +
+> > +#define EXTENSIONS_PORT_DVSEC_LENGTH 0x28
+> > +#define EXTENSIONS_PORT_DVSEC_REVID  1
+> 
+> I'm assuming this is the CXL 2.0 exensions DVSEC for ports
+> in figure 128?
+> 
+> If so table 128 has dvsec revision as 0. 
+> 
+
+Good catch, btw a shortcut is to look at Table 124.
+
+> > +
+> > +#define GPF_PORT_DVSEC_LENGTH 0x10
+> > +#define GPF_PORT_DVSEC_REVID  0
+> > +
+> > +#define PCIE_FLEXBUS_PORT_DVSEC_LENGTH_2_0 0x14
+> > +#define PCIE_FLEXBUS_PORT_DVSEC_REVID_2_0  1
+> > +
+> > +#define REG_LOC_DVSEC_LENGTH 0x24
+> > +#define REG_LOC_DVSEC_REVID  0
+> 
+> Whilst I appreciate this is an RFC it would seem more logical
+> to me to only list things in the following enum if we
+> have also defined them here.  E.g. GPF_DEVICE_DVSEC doesn't
+> have length and revid defines.
+> 
+> > +
+> > +enum {
+> > +    PCIE_CXL_DEVICE_DVSEC      = 0,
+> > +    NON_CXL_FUNCTION_MAP_DVSEC = 2,
+> > +    EXTENSIONS_PORT_DVSEC      = 3,
+> > +    GPF_PORT_DVSEC             = 4,
+> > +    GPF_DEVICE_DVSEC           = 5,
+> > +    PCIE_FLEXBUS_PORT_DVSEC    = 7,
+> > +    REG_LOC_DVSEC              = 8,
+> > +    MLD_DVSEC                  = 9,
+> > +    CXL20_MAX_DVSEC
+> > +};
+> > +
+> > +struct dvsec_header {
+> > +    uint32_t cap_hdr;
+> > +    uint32_t dv_hdr1;
+> > +    uint16_t dv_hdr2;
+> > +} __attribute__((__packed__));
+> > +_Static_assert(sizeof(struct dvsec_header) == 10,
+> > +               "dvsec header size incorrect");
+> > +
+> > +/*
+> > + * CXL 2.0 devices must implement certain DVSEC IDs, and can [optionally]
+> > + * implement others.
+> > + *
+> > + * CXL 2.0 Device: 0, [2], 5, 8
+> > + * CXL 2.0 RP: 3, 4, 7, 8
+> > + * CXL 2.0 Upstream Port: [2], 7, 8
+> > + * CXL 2.0 Downstream Port: 3, 4, 7, 8
+> > + */
+> > +
+> > +/* CXL 2.0 - 8.1.5 (ID 0003) */
+> > +struct dvsec_port {
+> 
+> I'd keep naming consistent.  It's called EXTENSIONS_PORT_DVSEC above
+> so extensions_dvsec_port here.
+> 
+> > +    struct dvsec_header hdr;
+> > +    uint16_t status;
+> > +    uint16_t control;
+> > +    uint8_t alt_bus_base;
+> > +    uint8_t alt_bus_limit;
+> > +    uint16_t alt_memory_base;
+> > +    uint16_t alt_memory_limit;
+> > +    uint16_t alt_prefetch_base;
+> > +    uint16_t alt_prefetch_limit;
+> > +    uint32_t alt_prefetch_base_high;
+> > +    uint32_t alt_prefetch_base_low;
+> > +    uint32_t rcrb_base;
+> > +    uint32_t rcrb_base_high;
+> > +};
+> > +_Static_assert(sizeof(struct dvsec_port) == 0x28, "dvsec port size incorrect");
+> > +#define PORT_CONTROL_OVERRIDE_OFFSET 0xc
+> I'm not totally sure what this define is, but seems
+> like it's simply the offset of the control field above.
+> If so can't we get it from the there directly?
+
+Firstly, I only define these to show how one would handle DVSEC writes. I don't
+actually have a use for them as of now. It is just the offset, but I don't know
+what you mean by getting it from there directly. Could you elaborate a bit?
+
+
+> 
+> > +#define PORT_CONTROL_UNMASK_SBR      1
+> > +#define PORT_CONTROL_ALT_MEMID_EN    4
+> 
+> Use something to make it clear that 4 is simply bit 3. (1 << 3) maybe?
+> 
+> > +
+> > +/* CXL 2.0 - 8.1.6 GPF DVSEC (ID 0004) */
+> > +struct dvsec_port_gpf {
+> > +    struct dvsec_header hdr;
+> > +    uint16_t rsvd;
+> > +    uint16_t phase1_ctrl;
+> > +    uint16_t phase2_ctrl;
+> > +};
+> > +_Static_assert(sizeof(struct dvsec_port_gpf) == 0x10,
+> > +               "dvsec port GPF size incorrect");
+> > +
+> > +/* CXL 2.0 - 8.1.8/8.2.1.3 Flexbus DVSEC (ID 0007) */
+> > +struct dvsec_port_flexbus {
+> > +    struct dvsec_header hdr;
+> > +    uint16_t cap;
+> > +    uint16_t ctrl;
+> > +    uint16_t status;
+> > +    uint32_t rcvd_mod_ts_data;
+> > +};
+> > +_Static_assert(sizeof(struct dvsec_port_flexbus) == 0x14,
+> > +               "dvsec port flexbus size incorrect");
+> > +
+> > +/* CXL 2.0 - 8.1.9 Register Locator DVSEC (ID 0008) */
+> > +struct dvsec_register_locator {
+> > +    struct dvsec_header hdr;
+> > +    uint16_t rsvd;
+> > +    uint32_t reg0_base_lo;
+> > +    uint32_t reg0_base_hi;
+> > +    uint32_t reg1_base_lo;
+> > +    uint32_t reg1_base_hi;
+> > +    uint32_t reg2_base_lo;
+> > +    uint32_t reg2_base_hi;
+> > +};
+> > +_Static_assert(sizeof(struct dvsec_register_locator) == 0x24,
+> > +               "dvsec register locator size incorrect");
+> > +#define BEI_BAR_10H 0
+> 
+> BEI is obscure enough I'd add a comment giving full name
+> (BAR equivalent indicator)
+> 
+> > +#define BEI_BAR_14H 1
+> > +#define BEI_BAR_18H 2
+> > +#define BEI_BAR_1cH 3
+> > +#define BEI_BAR_20H 4
+> > +#define BEI_BAR_24H 5
+> > +
+> > +#define RBI_EMPTY          0
+> 
+> Likewise, RBI isn't actually used on spec that I can see.
+> So call out that it is Register Block Identifier.
+> 
+> > +#define RBI_COMPONENT_REG  (1 << 8)
+> > +#define RBI_BAR_VIRT_ACL   (2 << 8)
+> > +#define RBI_CXL_DEVICE_REG (3 << 8)
+> 
+> Nice to treat these as value of field (0,1,2,3) and a macro
+> to put it in the right place rather than rolling them together
+> directly.
+> 
+> > +
+> > +#endif
+> 
 
