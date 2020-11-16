@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA1D72B43F1
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 13:47:57 +0100 (CET)
-Received: from localhost ([::1]:37476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93EBC2B43F5
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 13:50:05 +0100 (CET)
+Received: from localhost ([::1]:43496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kedvI-0002uB-IX
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 07:47:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34592)
+	id 1kedxM-0005NL-Jb
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 07:50:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kedtv-00021E-Bf
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 07:46:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54944)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kedtt-0002VH-0F
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 07:46:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605530788;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iAII9NimIJPcVrzDkTqRiw6iebaE78/LEZ1Pg0oL8h4=;
- b=fjcXIuymIG6KowNwS+UARYnEVf2jZMndL9uEYMhZs9qryCtb0t5qv7mRUV0C2MvnFy57pe
- zVGxPIdpHeN2QuJ+azX2hRVtefdL0O7UXSKmrQOvRMGX62fL46CYlakMxwJ3EeyM/TvO9n
- 6qD77MKCuuwP9rXHRkMsxOlHJ4Gp82k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-419-nf0o_TL5NvuNdWrUbA26UQ-1; Mon, 16 Nov 2020 07:46:25 -0500
-X-MC-Unique: nf0o_TL5NvuNdWrUbA26UQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D65F186DD2A;
- Mon, 16 Nov 2020 12:46:23 +0000 (UTC)
-Received: from redhat.com (ovpn-114-241.ams2.redhat.com [10.36.114.241])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 129CE5C5B7;
- Mon, 16 Nov 2020 12:45:52 +0000 (UTC)
-Date: Mon, 16 Nov 2020 12:45:49 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [RFC v3] VFIO Migration
-Message-ID: <20201116124549.GI104771@redhat.com>
-References: <20201110095349.GA1082456@stefanha-x1.localdomain>
- <64fb6a41-fbfa-994c-9619-4df41ac97fde@redhat.com>
- <20201111143615.GA1421166@stefanha-x1.localdomain>
- <20201111154850.GG906488@redhat.com>
- <20201116111524.GD96297@stefanha-x1.localdomain>
- <20201116114125.GE104771@redhat.com>
- <20201116065906-mutt-send-email-mst@kernel.org>
- <20201116120518.GH104771@redhat.com>
- <20201116072805-mutt-send-email-mst@kernel.org>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kedtM-0001Od-Bs; Mon, 16 Nov 2020 07:46:00 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:32795)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kedtK-0002IS-Rv; Mon, 16 Nov 2020 07:45:56 -0500
+Received: by mail-wm1-x343.google.com with SMTP id p19so11960063wmg.0;
+ Mon, 16 Nov 2020 04:45:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=2jIbk/38FH8QQjTl8UliVYTI6/dfVe2pjOe88w0owD0=;
+ b=WAzJwyNzRh9ikhbDBuUYY4jmSrjrzA3ylg7UpJbNCELeozEttj/AZkIWqN3ZA6ZHa7
+ YPLu2TJIy+9BYyh9MkPXgadETCmJ7poj93LRU6QIh3ktx19WRV+BY1Zej4waOaiY+lYz
+ QjNNfYT2Gedx43Bu76FtboNlDdOEmu+FRUoQ6zL76C8TO95Er85wfQ1hh5KUHytsjyA5
+ eIVfLchU//12617oBw6sBX+zkEBmI/noaqLMRhFX7QER62pEBfIoLcZ3BLMeEvGJx8mi
+ d6fYtLp40h9vQW7nrEyVWk0XcrrgwJjmbN6cvdExv3UQ7Ybu6ECP2q+Y+oT/jqSR3wmJ
+ XHlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=2jIbk/38FH8QQjTl8UliVYTI6/dfVe2pjOe88w0owD0=;
+ b=FkbxbRHJe0ZeRpZzeXFQsY8sGCW8kvFQ+P2a8/2kQLX/z7kMDJ52CQhUocIgOLAR+m
+ ECemnlBoGbZCXuq/dAFD88onBDtDY/K77Vgu8Mmi5KeaMitfVExE4TFpaaXBWUMq3w8/
+ i3UwtyMWQi215QtjqniHLQJYyiO2kxziNJyYHhBJKJ45utBSTB3Ly5YtAR3qjt0xOJr2
+ ZAsEpk9yudDYG1D/qHoK2gHA3vvEzmaMi6C0sn5g5cfL4diJTnuGTFgLkmRwMf9zxCQi
+ R9gR1Dsx14upGLbdG7Lyih8Mh2Hz24GCrRZ0WYWSJHf+l/lTunO+4v1oXRpqjsYchJyV
+ ngbw==
+X-Gm-Message-State: AOAM530BSof2fhF+JyvJhxvol/qMzbj6g7zJgIEQLGGHqXUschexp7g7
+ GbWdxeN+cNEs22P+2Jw5B5M=
+X-Google-Smtp-Source: ABdhPJx5yIBRzmHkdNN6SRzx2gS/wJwUrcc3gXlNPIHuRP0Cn7aZqzJyZWOV9NrlGkGUM+e+i32kzQ==
+X-Received: by 2002:a7b:c5c6:: with SMTP id n6mr15911857wmk.131.1605530753167; 
+ Mon, 16 Nov 2020 04:45:53 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id f13sm17178570wrq.78.2020.11.16.04.45.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Nov 2020 04:45:52 -0800 (PST)
+Subject: Re: [PATCH v3 3/4] nand: put it into the 'storage' category
+To: Gan Qixin <ganqixin@huawei.com>, qemu-devel@nongnu.org,
+ qemu-trivial@nongnu.org
+References: <20201112125824.763182-1-ganqixin@huawei.com>
+ <20201112125824.763182-4-ganqixin@huawei.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <347769b3-78d4-6378-5b7a-3c1f6030bf6b@amsat.org>
+Date: Mon, 16 Nov 2020 13:45:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201116072805-mutt-send-email-mst@kernel.org>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20201112125824.763182-4-ganqixin@huawei.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 22:35:17
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,93 +90,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: John G Johnson <john.g.johnson@oracle.com>, "Tian,
- Kevin" <kevin.tian@intel.com>, Yan Zhao <yan.y.zhao@intel.com>,
- quintela@redhat.com, Jason Wang <jasowang@redhat.com>, "Zeng,
- Xin" <xin.zeng@intel.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Kirti Wankhede <kwankhede@nvidia.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Felipe Franciosi <felipe@nutanix.com>,
- Christophe de Dinechin <dinechin@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: thuth@redhat.com, zhang.zhanghailiang@huawei.com, mst@redhat.com,
+ laurent@vivier.eu, armbru@redhat.com, kuhn.chenqun@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 16, 2020 at 07:34:25AM -0500, Michael S. Tsirkin wrote:
-> On Mon, Nov 16, 2020 at 12:05:18PM +0000, Daniel P. BerrangÃ© wrote:
-> > On Mon, Nov 16, 2020 at 07:03:03AM -0500, Michael S. Tsirkin wrote:
-> > > On Mon, Nov 16, 2020 at 11:41:25AM +0000, Daniel P. BerrangÃÂ© wrote:
-> > > > > It is possible to simplify the problem, but we'll lose freedom. For
-> > > > > example, hard coding knowledge of the device implementation into the
-> > > > > management tool eliminates the need for a general migration checking
-> > > > > algorithm. Or we might be able to simplify it by explicitly not
-> > > > > supporting cross-device implementation migration (although that would
-> > > > > place stricter rules on what a new version of an existing device can
-> > > > > change in order to preserve migration compatibility).
-> > > > 
-> > > > Is migrating between 2 different vendors' impls of the same core
-> > > > device spec really a thing that's needed ? 
-> > > 
-> > > If there's intent to have this supercede vhost-user then certainly.
-> > > Same I'm guessing for NVMe.
-> > > 
-> > > 
-> > > > > I have doubts that these trade-offs can be made without losing support
-> > > > > for use cases that are necessary.
-> > > > 
-> > > > >From my POV, the key goal is that it should be possible to migrate
-> > > > between two hosts without needing to check every single possible
-> > > > config parameter that the device supports. It should only be neccessary
-> > > > to check the parameters that are actually changed from their default
-> > > > values. Then there just needs to be some simple string parameter that
-> > > > encodes a particular set of devices, akin to the versioned machine
-> > > > type.
-> > > > 
-> > > > Applications that want to migration between cross-vendor device impls
-> > > > could opt-in to checking every single little parameter, but most can
-> > > > just stick with a much simplified view where they only have to check
-> > > > the parameters that they've actually overriden/exposed.
-> > > 
-> > > It's a problem even for a single vendor. And we have lots of experience
-> > > telling us it's a messy, difficult one. Just punting and saying
-> > > vendors will do the right thing will not lead to quality
-> > > implementations.
-> > 
-> > I'm not suggesting we punt on the problem. I'm saying that checking for
-> > migration compatibility should not need to be made more complex than what
-> > we already do for QEMU. The core problem being tackled is essentially the
-> > same in both cases.
+On 11/12/20 1:58 PM, Gan Qixin wrote:
+> The category of the nand device is not set, put it into the 'storage'
+> category.
 > 
-> There's a difference: in case of QEMU versions are release based.  At
-> release time a new version is generated.  So QEMU upstream ships version
-> X and Red Hat ships Y at a different time and they are not compatible.
+> Signed-off-by: Gan Qixin <ganqixin@huawei.com>
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  hw/block/nand.c | 1 +
+>  1 file changed, 1 insertion(+)
 
-That's a difference that Red Hat maintainers chose to introduce. RHEL
-could have stuck with upstream QEMU machine types if it wished to, but
-it chose to ship different machine types, because it made life easier
-to backport features that impacted machine types, and also to some extent
-to let us fix migration compat screw ups. We could have stuck to upstream
-machine types though and remained compatible.  Many other distros do just
-that.
-
-> This won't work for devices: same device needs to work with
-> both upstream and Red Hat and migrate upstream-upstream and Red Hat-Red Hat
-> (though not upstream-Red Hat).
-
-That's fine, we can cope with that. It simply means whomever owns
-responsibility for maintaining the code has to be more careful about
-changes they make in their downstream.
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
