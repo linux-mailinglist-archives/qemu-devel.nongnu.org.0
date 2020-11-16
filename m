@@ -2,80 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 559672B5256
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 21:19:23 +0100 (CET)
-Received: from localhost ([::1]:39588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F2AC2B534C
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 21:56:58 +0100 (CET)
+Received: from localhost ([::1]:59336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keky9-00088T-6g
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 15:19:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37400)
+	id 1kelYW-0001qd-UL
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 15:56:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jrtc27@jrtc27.com>) id 1keksa-0002jh-JB
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 15:13:36 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:36396)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kelXJ-0001Mj-Sm
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 15:55:41 -0500
+Received: from indium.canonical.com ([91.189.90.7]:39002)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jrtc27@jrtc27.com>) id 1keksY-0008Bl-St
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 15:13:36 -0500
-Received: by mail-wr1-x442.google.com with SMTP id j7so20199113wrp.3
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 12:13:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jrtc27.com; s=gmail.jrtc27.user;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=69gd4UN+z86xHk+RMAE90GOrIog9CrBV8/hHw9xYkTg=;
- b=WzruLyA9WWaWInrZAKheBmzCCPJZ2S7H5CPk0qRESdE1PCCKV+7hES0U8E7E+SaTML
- bmstiNAQNmBhHEt9w4sZ1bJvmsOj577b1jihCOZ0YuYzpBWnkGQuygBtenOaPLrXfdod
- sT3ApR+/jc+I/WKi6cWzprw9GLFiEvvMWh8K53WmCK6+PDSBkvnSNO7I1LzeuBRfKQz8
- mjCPFXblQwc/iDIeFsZqD+YbG7ZNTuRPiWzsHAH7JtpEPpTlsSYStcRTjreq+ipF5F7b
- SQawhL/QcT2hacVybKWSLNpHduHO7RGumeaPDZKSyGr5AUDy8Al4P9AkwKYd33MbX6z+
- cyJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=69gd4UN+z86xHk+RMAE90GOrIog9CrBV8/hHw9xYkTg=;
- b=D5w74aD0zYYi794FNP33r0URDEmsKa3fcSiwUENQbrL9cRKJZ/g921Vpwqnnyt2Koa
- NPX/oVtXjgLAELJkbBjVfLIR2ZGr4kSDPdw8yWz/q1ez7h2gXYjb8821qgMofaSwxg8H
- JgXyFZ6E9npoQc2YTNU2o9FxaAtVCF7eu/gPtRytQRQ+//eX8LG+aa1Cg+9sNi8OxJOk
- fPbwjl1nM8jLNy3JsvFLX6Lc0gzQgpa0asjwmzR5dtTelD/StiaOxZuAbm15XywDDvoY
- zhXphMg6GwzzPSrhQz3pjNoRo0NClKfKrgZLJBf5DDyf3enRWOvl0MxJj00g3Mo9/H2f
- EQnQ==
-X-Gm-Message-State: AOAM532d29LrcIh0Hs+ZG6NbzCy48AYN4hcb8y2Ck3yG7vSF7oEu3Mgx
- ITmR0olg5NnZY9+FoBZ+6qpGqA==
-X-Google-Smtp-Source: ABdhPJyAOKUbK2wVcSCIMK2RKztI7B0CQcwWv3kFv1zVsCobRKzXSrw5a8BCOpuC58Vk/IA5lsWKMA==
-X-Received: by 2002:a5d:5146:: with SMTP id u6mr22234175wrt.66.1605557612456; 
- Mon, 16 Nov 2020 12:13:32 -0800 (PST)
-Received: from Jessicas-MacBook.local (trinity-students-nat.trin.cam.ac.uk.
- [131.111.193.104])
- by smtp.gmail.com with ESMTPSA id u203sm468594wme.32.2020.11.16.12.13.31
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 16 Nov 2020 12:13:31 -0800 (PST)
-Received: by Jessicas-MacBook.local (Postfix, from userid 501)
- id 8D59720985F670; Mon, 16 Nov 2020 20:13:31 +0000 (GMT)
-From: Jessica Clarke <jrtc27@jrtc27.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hvf: Fix value of MMU_PAGE_NX and add MMU_PAGE_RS
-Date: Mon, 16 Nov 2020 20:13:22 +0000
-Message-Id: <20201116201322.29262-1-jrtc27@jrtc27.com>
-X-Mailer: git-send-email 2.28.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kelXH-0007KL-M7
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 15:55:41 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kelXD-0007Iq-6a
+ for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 20:55:35 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 306042E8055
+ for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 20:55:35 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=jrtc27@jrtc27.com; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 16 Nov 2020 20:46:39 -0000
+From: Fabrice Fontaine <1904464@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ffontaine
+X-Launchpad-Bug-Reporter: Fabrice Fontaine (ffontaine)
+X-Launchpad-Bug-Modifier: Fabrice Fontaine (ffontaine)
+Message-Id: <160555959985.17306.1370815502265671907.malonedeb@wampee.canonical.com>
+Subject: [Bug 1904464] [NEW] Build fails with 64 bits time_t
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a2ee2035671f86427804714f331b9ff7fecaef7e"; Instance="production"
+X-Launchpad-Hash: 87114e854b04cb19323facf8fbef5a4577fabb30
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 13:11:09
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,37 +70,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Jessica Clarke <jrtc27@jrtc27.com>
+Reply-To: Bug 1904464 <1904464@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These are meant to correspond to the error code reported for #PF, so fix
-the definition for Instruction Fetch faults and add one for Reserved Bit
-faults (checking for that is currently a TODO in x86_mmu.c).
+Public bug reported:
 
-Signed-off-by: Jessica Clarke <jrtc27@jrtc27.com>
----
- target/i386/hvf/x86_mmu.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+time element is deprecated on new input_event structure in kernel's
+input.h [1]
 
-diff --git a/target/i386/hvf/x86_mmu.h b/target/i386/hvf/x86_mmu.h
-index cd6e137e79..710adb82b5 100644
---- a/target/i386/hvf/x86_mmu.h
-+++ b/target/i386/hvf/x86_mmu.h
-@@ -34,7 +34,8 @@
- #define MMU_PAGE_PT             (1 << 0)
- #define MMU_PAGE_WT             (1 << 1)
- #define MMU_PAGE_US             (1 << 2)
--#define MMU_PAGE_NX             (1 << 3)
-+#define MMU_PAGE_RS             (1 << 3)
-+#define MMU_PAGE_NX             (1 << 4)
- 
- bool mmu_gva_to_gpa(struct CPUState *cpu, target_ulong gva, uint64_t *gpa);
- 
--- 
-2.28.0
+This will avoid the following build failure:
 
+hw/input/virtio-input-host.c: In function 'virtio_input_host_handle_status':
+hw/input/virtio-input-host.c:198:28: error: 'struct input_event' has no mem=
+ber named 'time'
+  198 |     if (gettimeofday(&evdev.time, NULL)) {
+      |                            ^
+
+Fixes:
+ - http://autobuild.buildroot.org/results/a538167e288c14208d557cd45446df86d=
+3d599d5
+ - http://autobuild.buildroot.org/results/efd4474fb4b6c0ce0ab3838ce130429c5=
+1e43bbb
+
+[1]
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?i=
+d=3D152194fe9c3f
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Patch added: "0002-Fix-build-with-64-bits-time_t.patch"
+   https://bugs.launchpad.net/bugs/1904464/+attachment/5434882/+files/0002-=
+Fix-build-with-64-bits-time_t.patch
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1904464
+
+Title:
+  Build fails with 64 bits time_t
+
+Status in QEMU:
+  New
+
+Bug description:
+  time element is deprecated on new input_event structure in kernel's
+  input.h [1]
+
+  This will avoid the following build failure:
+
+  hw/input/virtio-input-host.c: In function 'virtio_input_host_handle_statu=
+s':
+  hw/input/virtio-input-host.c:198:28: error: 'struct input_event' has no m=
+ember named 'time'
+    198 |     if (gettimeofday(&evdev.time, NULL)) {
+        |                            ^
+
+  Fixes:
+   - http://autobuild.buildroot.org/results/a538167e288c14208d557cd45446df8=
+6d3d599d5
+   - http://autobuild.buildroot.org/results/efd4474fb4b6c0ce0ab3838ce130429=
+c51e43bbb
+
+  [1]
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
+?id=3D152194fe9c3f
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1904464/+subscriptions
 
