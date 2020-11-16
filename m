@@ -2,95 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 231272B43FC
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 13:50:43 +0100 (CET)
-Received: from localhost ([::1]:45976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8740F2B43FF
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 13:50:57 +0100 (CET)
+Received: from localhost ([::1]:47634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kedxy-0006Mw-6O
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 07:50:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35002)
+	id 1kedyC-000730-KD
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 07:50:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kedwA-0004rJ-Dh
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 07:48:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38074)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kedwa-0005Ml-7Q
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 07:49:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20785)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kedw7-0003Ep-NO
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 07:48:50 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kedwY-0003Nz-Ic
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 07:49:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605530925;
+ s=mimecast20190719; t=1605530953;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PTWWKBiJb0Zfw9B1RfrhlrgPZz1Oc5gjK3Jm1vkbD2M=;
- b=dTK2bJ1oyfoeKNAxyXiYfee7QSTcDNhESawlepFTGaQBhdVQwYGpi/LErxuyGDHVkRP//s
- zt82vQrb6n51cV4cTpDU29tCb421OdsWt6KZfmROoPUeGNPLc01kj279F+S6xDA7TlOXjX
- 3meYK/zyBh08vidxgPvS0GQfvtxYq44=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-108-oLhknK2-NOq0ZnT1zKyjJA-1; Mon, 16 Nov 2020 07:48:44 -0500
-X-MC-Unique: oLhknK2-NOq0ZnT1zKyjJA-1
-Received: by mail-wr1-f71.google.com with SMTP id y2so11145727wrl.3
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 04:48:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=PTWWKBiJb0Zfw9B1RfrhlrgPZz1Oc5gjK3Jm1vkbD2M=;
- b=Gmd5jTIpzER3iGDwoiANhbWqEqEWkT9wh7C1qqnus+aI4L03R/rFn7SgZ5lSmOe4FL
- 6I7hUElUJZMToGZd1oBnerA9Vm6HelokOfa7c6qcViNaUdJ58ekfk1rer3BBfC6LGtuz
- z5/C1ry2RVIKOM1D0wBQv9jSvsQOqxYnOkzvBwn/z0/cY3LjynRmVYBsPeB4UbP8VHRY
- 5jQ8CcTTnGqj0zmxk448nqqduKZP5BWrlH8usRauSQRwS4rVgxm9neIjpwWuWWCVdS8+
- qMVzZxb7jMT78jHBdfJxaio/o04lMJYpAu0P8zAqVZ+q0iPSGKtQu8F05nCPMXMmgfn7
- X+VQ==
-X-Gm-Message-State: AOAM531A6YNQQwsV0K+kZDezclKOGunkBv/5kFsjU5ImCv+bK4IS7no7
- uakk0ogW9Q9sYIEvbjkl+uy6qB/3Bpth9WWPTW5TTLW+7b00RUuZVW+b9ahFhLn8rw5vtGGoNWe
- 2wd3lJ4r/s054ims=
-X-Received: by 2002:a1c:2b03:: with SMTP id r3mr14719437wmr.184.1605530922464; 
- Mon, 16 Nov 2020 04:48:42 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwQgImdTeAsJt+jMXpUPhVDlXhZzIw9NV8xvTGv1KUcs0QezYalGdS/wDmBFvkq8ig3V7D08A==
-X-Received: by 2002:a1c:2b03:: with SMTP id r3mr14719419wmr.184.1605530922331; 
- Mon, 16 Nov 2020 04:48:42 -0800 (PST)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id q16sm22840091wrn.13.2020.11.16.04.48.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Nov 2020 04:48:41 -0800 (PST)
-Subject: Re: [PATCH v2] target/i386: seg_helper: Correct segement selector
- nullification in the RET/IRET helper
-To: Paolo Bonzini <pbonzini@redhat.com>, Bin Meng <bmeng.cn@gmail.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <1605261378-77971-1-git-send-email-bmeng.cn@gmail.com>
- <4e7e41c4-ce96-05c7-f2cf-27f926639d49@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <8a814c60-7863-6f63-0f69-a909eb371d7d@redhat.com>
-Date: Mon, 16 Nov 2020 13:48:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ bh=r74z7IOp6K9IMxyYJ9QaLX1EDVX8ulECyblS9b3lkl8=;
+ b=QpmQUOKVTzfpnR3C54ZARb+W3Pm82nPCroVw/kKMqLYcMzTIMI1tfUGNN6XTB1UcRVukn4
+ OSUNJxt+oDSUu4HA7tbpjpOHaEZvpayHJZWG9nk6RK6k9CufD1fCZ4HvU0XV0CobaJvUR6
+ l77K/BToZFVJm18SRRLszxUV5UuTRjA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-5-_gM3osg7MhmG5SOAAuuipw-1; Mon, 16 Nov 2020 07:49:12 -0500
+X-MC-Unique: _gM3osg7MhmG5SOAAuuipw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81385186DD23;
+ Mon, 16 Nov 2020 12:49:10 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-65.ams2.redhat.com
+ [10.36.112.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 732C26B8D4;
+ Mon, 16 Nov 2020 12:48:59 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 697C416E31; Mon, 16 Nov 2020 13:48:58 +0100 (CET)
+Date: Mon, 16 Nov 2020 13:48:58 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [RFC v3] VFIO Migration
+Message-ID: <20201116124858.epiz322osx753plo@sirius.home.kraxel.org>
+References: <20201110095349.GA1082456@stefanha-x1.localdomain>
+ <64fb6a41-fbfa-994c-9619-4df41ac97fde@redhat.com>
+ <20201111143615.GA1421166@stefanha-x1.localdomain>
+ <20201111154850.GG906488@redhat.com>
+ <20201116111524.GD96297@stefanha-x1.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <4e7e41c4-ce96-05c7-f2cf-27f926639d49@redhat.com>
+In-Reply-To: <20201116111524.GD96297@stefanha-x1.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 04:46:27
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 22:35:17
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,22 +84,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>
+Cc: John G Johnson <john.g.johnson@oracle.com>, "Tian,
+ Kevin" <kevin.tian@intel.com>, mtsirkin@redhat.com,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>, quintela@redhat.com,
+ Jason Wang <jasowang@redhat.com>, "Zeng, Xin" <xin.zeng@intel.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Yan Zhao <yan.y.zhao@intel.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Felipe Franciosi <felipe@nutanix.com>,
+ Christophe de Dinechin <dinechin@redhat.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/13/20 11:18 AM, Paolo Bonzini wrote:
-> On 13/11/20 10:56, Bin Meng wrote:
-...
+> > In validating QEMU migration compatibility we merely compare the
+> > versioned machine type.
 > 
-> Queued, thanks.  It would be nicer if the commit message explained how
-> the guest can notice the difference.
+> Thinking more about this, maybe the big picture is:
+> 
+> Today the managment tool controls the variables in the migration (the
+> device configuration). It has knowledge of the VMM, can set a machine
+> type, apply a device configuration on top, and then migrate safely.
+> 
+> VFIO changes this model because VMMs and management tools do not have
+> knowledge of specific device implementations. The device implementation
+> is a new source of variables in the migration and the management tool no
+> longer has the full picture.
 
-Typo "segement" -> "segment" in subject.
+Well.  We actually have the variables.  They are device properties.
+Then the qemu compat properties basically map a machine type to a
+set of device properties.  That way we hide the complexity inside
+qemu.  The management apps have to deal with the (versioned) machine
+type only.
 
-> 
-> Paolo
-> 
-> 
+I guess now we have to decide whenever we want expose the individual
+variables or whenever we want something like "profiles", i.e. basically
+a set of variables with a name attached.
+
+At the end of the day it is a complexity vs. flexibility tradeoff ...
+
+take care,
+  Gerd
 
 
