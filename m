@@ -2,51 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 602F02B51F9
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 21:08:41 +0100 (CET)
-Received: from localhost ([::1]:36444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C55302B51C6
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 21:01:20 +0100 (CET)
+Received: from localhost ([::1]:46260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kekno-0003B2-Bi
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 15:08:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59952)
+	id 1kekge-0003Fl-LK
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 15:01:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kekeR-00027c-TG
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 14:59:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45909)
+ id 1kekdv-0001iK-Ou
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 14:58:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23250)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kekeO-0002HE-Pl
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 14:58:59 -0500
+ id 1kekds-00027B-IG
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 14:58:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605556736;
+ s=mimecast20190719; t=1605556702;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Mp6AI4yjBA89AM3hbXlLeLe9qoOTDL/u/dSmckc7M1s=;
- b=WoUW5k2SUsJOvAvnannyoux9GKze6G+tucxs4f0x641oEonsHyO/uHKZxVTL5/ECegkJQ3
- RlAnDJJSwKcUsTj92Bg0BZsaInFL/QyPqPatVSKH7WKoKMV2IyMrW8UQJnpIWcPhhXJ5/Q
- kLSfypZBa5wEcqP/s6QfqYyhb5N6HkE=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QSPnvg9euamjrYg5jqtgzZhjYxiV6NfN68S6J0bI35s=;
+ b=cIYeIRg+pWnGJnZNJXnx/RWTYIAu1nCEXAY3i/IAcW4R4vUdj6Emwn+JbRuO+TJh2gw9jH
+ 9/W4RNt93VuWL0sZLNx4b41H67r/0nBvxW82IHFJeFQczhkJCnZH3w0dFusnGNyQbBWOUm
+ qQGnJfdOL1TWpSbsuNG5x6W0DtREwMs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-176-ZdQvrby3Nzu2vYYdbYm-pA-1; Mon, 16 Nov 2020 14:58:27 -0500
-X-MC-Unique: ZdQvrby3Nzu2vYYdbYm-pA-1
+ us-mta-204-j6GX429pP46yJWWk-TW7Ag-1; Mon, 16 Nov 2020 14:58:18 -0500
+X-MC-Unique: j6GX429pP46yJWWk-TW7Ag-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C869186DD25
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 19:58:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 440F61007B09;
+ Mon, 16 Nov 2020 19:58:17 +0000 (UTC)
 Received: from virtlab511.virt.lab.eng.bos.redhat.com
  (virtlab511.virt.lab.eng.bos.redhat.com [10.19.152.198])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6AA7119930
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 19:58:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B70CF19930;
+ Mon, 16 Nov 2020 19:58:16 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/5] Misc fixes for QEMU 5.2
-Date: Mon, 16 Nov 2020 14:58:10 -0500
-Message-Id: <20201116195815.48264-1-pbonzini@redhat.com>
+Subject: [PULL 1/5] kvm/i386: Set proper nested state format for SVM
+Date: Mon, 16 Nov 2020 14:58:11 -0500
+Message-Id: <20201116195815.48264-2-pbonzini@redhat.com>
+In-Reply-To: <20201116195815.48264-1-pbonzini@redhat.com>
+References: <20201116195815.48264-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
@@ -78,46 +81,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit cb5ed407a1ddadf788fd373fed41c87c9e81e5b0:
+From: Tom Lendacky <thomas.lendacky@amd.com>
 
-  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2020-11-15' into staging (2020-11-16 17:00:36 +0000)
+Currently, the nested state format is hardcoded to VMX. This will result
+in kvm_put_nested_state() returning an error because the KVM SVM support
+checks for the nested state to be KVM_STATE_NESTED_FORMAT_SVM. As a
+result, kvm_arch_put_registers() errors out early.
 
-are available in the Git repository at:
+Update the setting of the format based on the virtualization feature:
+  VMX - KVM_STATE_NESTED_FORMAT_VMX
+  SVM - KVM_STATE_NESTED_FORMAT_SVM
 
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
+Also, fix the code formatting while at it.
 
-for you to fetch changes up to 1370d61ae3c9934861d2349349447605202f04e9:
+Fixes: b16c0e20c7 ("KVM: add support for AMD nested live migration")
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Marcelo Tosatti <mtosatti@redhat.com>
+Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+Message-Id: <fe53d00fe0d884e812960781284cd48ae9206acc.1605546140.git.thomas.lendacky@amd.com>
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ target/i386/kvm.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-  memory: Skip dirty tracking for un-migratable memory regions (2020-11-16 13:22:25 -0500)
-
-----------------------------------------------------------------
-Bug fixes
-
-----------------------------------------------------------------
-David Hildenbrand (1):
-      util/vfio-helpers.c: Use ram_block_discard_disable() in qemu_vfio_open_pci()
-
-Paolo Bonzini (2):
-      scsi-disk: convert more errno values back to SCSI statuses
-      target/i386: avoid theoretical leak on MCE injection
-
-Tom Lendacky (1):
-      kvm/i386: Set proper nested state format for SVM
-
-Zenghui Yu (1):
-      memory: Skip dirty tracking for un-migratable memory regions
-
- hw/scsi/scsi-disk.c  | 19 +++++++++++++++++++
- softmmu/memory.c     |  5 ++++-
- stubs/ram-block.c    |  6 ++++++
- target/i386/helper.c | 10 ++++------
- target/i386/kvm.c    | 10 ++++++----
- util/vfio-helpers.c  | 14 ++++++++++++++
- 6 files changed, 53 insertions(+), 11 deletions(-)
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index cf46259534..a2934dda02 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -1820,12 +1820,14 @@ int kvm_arch_init_vcpu(CPUState *cs)
+ 
+             env->nested_state = g_malloc0(max_nested_state_len);
+             env->nested_state->size = max_nested_state_len;
+-            env->nested_state->format = KVM_STATE_NESTED_FORMAT_VMX;
+ 
+             if (cpu_has_vmx(env)) {
+-                    vmx_hdr = &env->nested_state->hdr.vmx;
+-                    vmx_hdr->vmxon_pa = -1ull;
+-                    vmx_hdr->vmcs12_pa = -1ull;
++                env->nested_state->format = KVM_STATE_NESTED_FORMAT_VMX;
++                vmx_hdr = &env->nested_state->hdr.vmx;
++                vmx_hdr->vmxon_pa = -1ull;
++                vmx_hdr->vmcs12_pa = -1ull;
++            } else {
++                env->nested_state->format = KVM_STATE_NESTED_FORMAT_SVM;
+             }
+         }
+     }
 -- 
 2.26.2
+
 
 
