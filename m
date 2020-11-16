@@ -2,95 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBC092B5164
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 20:44:13 +0100 (CET)
-Received: from localhost ([::1]:54166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15F6F2B5135
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 20:32:57 +0100 (CET)
+Received: from localhost ([::1]:53206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kekQ7-0002mz-B6
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 14:44:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45274)
+	id 1kekFE-0007Ce-15
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 14:32:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Ashish.Kalra@amd.com>)
- id 1kejn8-0006uA-Ap
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 14:03:56 -0500
-Received: from mail-bn8nam11on2068.outbound.protection.outlook.com
- ([40.107.236.68]:16033 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+ id 1kejcc-0001gd-LS
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:53:02 -0500
+Received: from mail-dm6nam12on2078.outbound.protection.outlook.com
+ ([40.107.243.78]:20225 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Ashish.Kalra@amd.com>)
- id 1kejn1-0008OQ-0k
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 14:03:52 -0500
+ id 1kejcZ-0004oB-Ut
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 13:53:01 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lioW1Kctv0pULbwXVjxWcRMCyFL6Wfm3C5oxokdwniTK9gDNevTcBtFtejZCgXQ7CoozcPAXpfrW/1QLbmSyV5UF1BxSxAm3LCV74iy9YIhbCn+vSOPXZZMMxR4cfDpzk2JSzrMgIStpmN1rfQ/drYg8S3Ha1EOgZ0ZdYDZntm+WGsyB3IKrQ3ZR3D9i4tGNdnyP3xF9hwOU4Cuz+Rm5pqU4U3df1Tv9i3KL8WifAQKgENZtRZQhxqnngVFE91U6IWckYKGfxveDhb80VmUDOrBEygYeccaa9u/ZNE53i8fUjYMPgs8nlV9tIGhq/WY/xkFKrl1q+dxfoPR4pD+Gbg==
+ b=SaCN9QcRfnUSMpS/nD8vQavZowWUy8e52CduWWFxosH5Xb6qfyrkxvqTZCZo2FkNRJjIy7ZGCp5MaHhpVILMQoMH8ht2DLtPeJfUuk1Ydub7jcZGeoZHhYYWy5ERSAV7+YTuq9/7UIZ6fs3xQbr09ezQJbV2PDD/IY6zFccS3x10ld+68yGV905SyBBp8grcqQKhGgXs5MvlsllEAnRZ73YWInBmlCqQTshWH4d9r8Fin3rr240o/uZ5uTFjxUyXlq1dTJu0M7s0Uzu5zvVPq2SowFEbkzgPhhxESBDO0xptnvE3TifdCs9eMXyT8B/er3Sq9wiHCqnSrAm293LixA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IKE/Uoe+YycYp4dENPgGTLg3L4L3gwfpPsOFlfdazJs=;
- b=d6zD01R+NMFxUVq2PLwX0Kmr0vXAyrM4a6bO1qWuCWg2aKNBhaW4zciyPqs/TxGde4AIyB4C8KjWJo+ZVUuQYL2MC93v3sDAQ4WLJEMDI1zH9biGJM4kMehRd0PfHF1c50Ft8QQ36loXFcczwsu2vR6Q7Ruwy0EhTXW0NWcVL7dVavE2ZlZcbjdTkWCmpJNc7WM7JTXH2ChWt4jbjW9SEslqNMAKCKcHp2DlKL7RxWzXAufrdo7eD2OMja18qNNQgB/D2hMkIhgCeZinIw2ZLXDA6GTdlTn45VyN8ZzCoiB9fEpDGYsRXThcKF5WJhmufYnkx4Sfmlbi246lTfFDBQ==
+ bh=vK36Zg/1QYy9Yne1JbuCJ0smnKXs7y6N61xip+7YPN0=;
+ b=WUrqLms3TG9sCYNk0l6Mr/GW3LsJV6DeZz5N73t7SLEeZdnQaCHR5sijhp7616HYvpjeVG32bFlNizQvI7ZZY0XlzGH1Wy7rhab8TyqGOMLzJKHovDqUOwak2uFfNgylRj4860fJ4JARTshOPl3nFz4KOLFU4FjYsNYUK16Nctb7MVKvA7S54NJc1UAaposlGd6roVTwkIV1ARogMtLzqOR9Ppv77w4qLhbJ1kTBeeRPesvyeuJ6l5SeGnmJ6/vU6xaCCZ/R5u5voapLQ322+uvwBZEYtB9Xl65za0TdbHYokrJuvHk4Rvxr/iPNlBrGNrfAXg1SbpbXOFJ1gPtzIQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IKE/Uoe+YycYp4dENPgGTLg3L4L3gwfpPsOFlfdazJs=;
- b=uhuj9bCjZD+LOwsMiAlLTdJIksoT9zwrl93fn8Mg1y5MXEZkYP4Ke6wEKJzD3GsQMA66dqmpJOPwDxjplpO5E1lA9Tfeg3PZyk+s4E7dr9CZLcRWjz0R0WvLM0FZjB54kNLMPgOxUCTDNiNdqjQg44l6O6OHA3bnut5A58EqFHI=
+ bh=vK36Zg/1QYy9Yne1JbuCJ0smnKXs7y6N61xip+7YPN0=;
+ b=UjoSyWbSHKlEg8Qh/F/WXjLCPGLqlyOxxZqRZypljqvFUHgJsG2ENboUD134JJjpiNFVx8SD6dyBtv/EAXla0MapI7aJelpk0ScKdCPqgTrBSidoG9l25iU+etmPPsH/xsBzn8Pi7H55K+Uii3Tql0xbZvQLZG7exQ9bhoS1zOc=
 Authentication-Results: redhat.com; dkim=none (message not signed)
  header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
 Received: from SN6PR12MB2767.namprd12.prod.outlook.com (2603:10b6:805:75::23)
- by SN6PR12MB2782.namprd12.prod.outlook.com (2603:10b6:805:73::19)
+ by SA0PR12MB4557.namprd12.prod.outlook.com (2603:10b6:806:9d::10)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.19; Mon, 16 Nov
- 2020 18:48:35 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.25; Mon, 16 Nov
+ 2020 18:52:57 +0000
 Received: from SN6PR12MB2767.namprd12.prod.outlook.com
  ([fe80::d8f2:fde4:5e1d:afec]) by SN6PR12MB2767.namprd12.prod.outlook.com
  ([fe80::d8f2:fde4:5e1d:afec%3]) with mapi id 15.20.3541.025; Mon, 16 Nov 2020
- 18:48:35 +0000
+ 18:52:57 +0000
 From: Ashish Kalra <Ashish.Kalra@amd.com>
 To: pbonzini@redhat.com
-Subject: [PATCH 00/11] Add QEMU debug support for SEV guests
-Date: Mon, 16 Nov 2020 18:48:24 +0000
-Message-Id: <cover.1605316268.git.ashish.kalra@amd.com>
+Subject: [PATCH 10/11] sev/i386: add SEV specific MemoryDebugOps.
+Date: Mon, 16 Nov 2020 18:52:45 +0000
+Message-Id: <fad5f676176aa01eff3eac4d2c0ecbbc8c975681.1605316268.git.ashish.kalra@amd.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <cover.1605316268.git.ashish.kalra@amd.com>
+References: <cover.1605316268.git.ashish.kalra@amd.com>
 Content-Type: text/plain
 X-Originating-IP: [165.204.77.1]
-X-ClientProxiedBy: DM5PR07CA0112.namprd07.prod.outlook.com
- (2603:10b6:4:ae::41) To SN6PR12MB2767.namprd12.prod.outlook.com
+X-ClientProxiedBy: DM6PR07CA0098.namprd07.prod.outlook.com
+ (2603:10b6:5:337::31) To SN6PR12MB2767.namprd12.prod.outlook.com
  (2603:10b6:805:75::23)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from ashkalra_ubuntu_server.amd.com (165.204.77.1) by
- DM5PR07CA0112.namprd07.prod.outlook.com (2603:10b6:4:ae::41) with Microsoft
+ DM6PR07CA0098.namprd07.prod.outlook.com (2603:10b6:5:337::31) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3564.28 via Frontend Transport; Mon, 16 Nov 2020 18:48:34 +0000
+ 15.20.3564.21 via Frontend Transport; Mon, 16 Nov 2020 18:52:56 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 0e6c01e9-f661-4db3-76e8-08d88a60394a
-X-MS-TrafficTypeDiagnostic: SN6PR12MB2782:
+X-MS-Office365-Filtering-Correlation-Id: 6e819050-fb0c-4261-1b71-08d88a60d4f8
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4557:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR12MB27824E23E9AAD2623E47C47B8EE30@SN6PR12MB2782.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Microsoft-Antispam-PRVS: <SA0PR12MB45578FC31795DDF9854FBD8C8EE30@SA0PR12MB4557.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1013;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2IWaVGE5KqNBfjjnO+SAwdpMLaFv7c8u0U3RXbPk5SBcxVtn+fkdBtfkuullMDz1r1RSSSvrYpomnSbp4G2wu22ZIR2mjeN+9ULTNW68vXubc1Kbu9tHQmIzjuQU3RS3lPcJKjAHgHVC1nEsDONzZKn1v/RJgGvrdIOnoaPE12Rz/sYxnIQHYlkSnHsIjlUVqoCRN1yo0HJWtFB95EWp7tNlj9CAGxMzi/SD5NlLoOxvVQ+LqNMdSK8UylH7CtlWyi9J62+C+VfZ2Rv6byuNb1WCywh06+1ISAF+EDhXXiWzFo2zSdMOf4rLbBmQhKg6
+X-Microsoft-Antispam-Message-Info: FnJzGL790xU81cF0ssuD8T87S9h5+63zZ23NSLfkCBGiwv0tKfUYk7+PbrtyOeqI9uxFnEGDqGTNeQxd2dzjV990nWFHB/cz64GMEa+c3iOA+e/CAH6+PeG1QIHkMqfGZ/6z3Z8+bmilac5a3rO5Ya7I8YjDK1pOLVuD9Q2eMblEPVg+3dC2mGTj0TMA7aOoEMQBc4S2jH/C+aq0NT/zgB61cyCS+t5YoXvBZu8gHj7WXJDOVxdci4r9avO3vyBEZyLb3zcnUaPyCf4idB5QPXASOuzxV74hWKTqg8ojI3xiu8eepsdS0YOfTL/0PlLf
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN6PR12MB2767.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(376002)(39860400002)(366004)(396003)(346002)(7416002)(6666004)(186003)(83380400001)(478600001)(4326008)(5660300002)(8936002)(2616005)(66556008)(8676002)(66476007)(6916009)(16526019)(66946007)(86362001)(316002)(7696005)(36756003)(52116002)(2906002)(26005)(6486002)(956004);
+ SFS:(4636009)(396003)(366004)(136003)(346002)(376002)(39860400002)(66946007)(36756003)(86362001)(2616005)(956004)(8936002)(83380400001)(66476007)(66556008)(5660300002)(6666004)(2906002)(6486002)(478600001)(7696005)(8676002)(6916009)(16526019)(186003)(26005)(52116002)(316002)(7416002)(4326008);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: FCUO8amu29drj4ZAY9teRNEjKR0QsmLPL8Fwp3Upl8w404zv+V9/Q+eaIb7yewra6KuuvAGTyVFUu0PSM7WsfZuH7MEA3O2TKgklBO6DPrQ6mv/7YET8cqX+ZQwd0/LcsMQteJZ4u+wBG16HLc1aQBb1DvS9fMBCmtqFjZ9GkRSw6yK42FCWsvVW50FFJu21H6VZxiY68dMVKwXi/clyIDdzq0vTFRyMGlPSheZhJQhDhhUsI1LsuTmGUrmS9NGgSF5DpNFC1XHowHytNpdB+kNPiWBwXka0zHl89xUkqQ2vV9kgL984C45bqxVUTljYybjacQafFbH1hIakCv66E2f1Q52Xc3XYAK5yeJXHGHGmAldhAQwvdTc7P8TUxPBMReVh2Z3v4UJzZW0xfDCluZjQEr4WGx4MWFw7HyDUhLAZFa18sRs5sfgeEEnzdB+N5WX4IEvvGgHxvkpRwi0H3Urwi10GJSW4B+NhItYBvCblFpBDvdhwyXYzyxDLqiZM0yCHJPpWWgpbKkAGL10Oz011hm2Bgi9pGORU9NUSIl5BRaZEhTO7akfa5uOj8138+colPGzYVdaJs60lp3Nf9ie43PKxTIPUlGRsmaxuLBCKNACbcMCFFx3Gh5wUdD0R86LiZwbGAeH71n/l4Xoilq/hBfIWdijxa8E7dWZhKtdSEcFIduyzuMf1dn15n0/5ubE2GNWueqV3YKRbw/dg8ff5wgK5mgyxLJ50ODLMNTt9iNsbrov+mEG7/ZLICuWDPpfg8a+pCumfdMPUTPI7Ylnn4dIeFbIq8dcDsH17WP72xUnfy4lmn7djnkCvxH2v1MG5G+L3y4R+umCIWw6V+oeCE3clRAfs/Q+pfKsRh89+thn1d2ukpluBTip7//SoMSAHxkmS7IJk54TFDpyGVw==
+X-MS-Exchange-AntiSpam-MessageData: sV5RY2O7bmNrluNDFwrE+3Qth+mHlUrDTl+QQ6ZdC6iTTOv7ZrgEBhaMBgZWDF+eKWqAvSKdc2EfSVw0VusaLmAcvy0uW4hhtIbCyARLwxBucPV9fGPijifqkzXnxe4urSUsyuI7Xk9LX6XOmblNtP54g6gZSH0nSOd4RSPQDQeLdG26wBXjxcM7DwxjiqML7lY6N4Uo0Eu0qlWtb++CesBEMSdEZEI5LjbtW3A30+f4pq7Xk9y3EJhkzXMuQq/O7J9nxdBp6/gLIOiGm6GTSxlg9idyAwMIurw5jkRaZ1GnMFDYHbHkiGDe0jKEULdEH67plT3wjpUeoaY4SmEhzf1/EWoWRpS1AEaWUg33SerusURgga7T87Ymdf9QYCAaPGG3tbeovTFZBhehFeMnoHQfcwNOkydszYxi5KVTDotioVVL7lmyzSQniYlzFTr8NzGPhsA7isWaadfi2S1dY5J2eiszK0gFHQvTcgV9+PPFBtp1iYiTTOXUFgJ5U2AVu59fB709zjdsYZOp3kAsm2FZaKcspI9H+R7Do8ca0TQ1jUipyYX5VAvXuFaSVsJbwukEWiVba7L4iS8zE//zX5XDiFVWGO4m/lIMqcRXthbENyu5uEgDp08z9XQuNXFfLY3hytWlAcnpeMXR6WN9X7oPRddwhca/MR5xCQSRPc72d60GfM/J2iqioWhDHCvF9cDyPs19aw8Tt5VJslbPmD9bHS4BezE/5DXojyTKaWbjjaHwQgplWNo4zVNuKBwtB+n0pYAyPDvQpyeisqncwgity2bIVJOjqkLgqYkfCYQP5Ws3ETd6dQhF2M2zLTANbG1koJMA+hm4T8iFOJyVRMsdLX4bz7hobFmOaRl8fAp7xsKgD8HF3ckSg2+aAC8ZYJY+zDu+qjENdQY5dAJeFA==
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0e6c01e9-f661-4db3-76e8-08d88a60394a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e819050-fb0c-4261-1b71-08d88a60d4f8
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2767.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2020 18:48:35.7099 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2020 18:52:57.0866 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mNFKoiplmUI1+A+qBTwC67OVJTheV75xXRfnyJEExvjXqBy/2sB0LcXdp0y/Hcw1Mdsl8Cu2TCfN8bTzhgAT0A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2782
-Received-SPF: none client-ip=40.107.236.68; envelope-from=Ashish.Kalra@amd.com;
- helo=NAM11-BN8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 14:03:41
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2R61lQ/L/LFp0ICw+WLr9vxW0SJPgksqeQ2Q8iGzx7wJnYKloZ+paPPD0ujJ1vDvsU/AUwzOVvD9Lv79JGsdwg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4557
+Received-SPF: none client-ip=40.107.243.78; envelope-from=Ashish.Kalra@amd.com;
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 13:52:58
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -8
 X-Spam_score: -0.9
@@ -120,71 +122,286 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Ashish Kalra <ashish.kalra@amd.com>
 
-This patchset adds QEMU debug support for SEV guests. Debug requires access to the guest pages, which is encrypted when SEV is enabled.
+Add SEV specific MemoryDebugOps which override the default MemoryDebugOps
+when SEV memory encryption is enabled. The SEV specific MemoryDebugOps
+invoke the generic address_space_rw_debug helpers which will then invoke
+the memory region specific callbacks to handle and access encrypted memory
+when guest RAM is accessed.
 
-KVM_SEV_DBG_DECRYPT and KVM_SEV_DBG_ENCRYPT commands are available to decrypt/encrypt the guest pages, if the guest policy allows for debugging.
+Also invoke the memory encryption API to override any CPU class specific
+callbacks to handle memory encryption.
 
-Changes are made to the guest page table walker since SEV guest pte entries will have the C-bit set.
+Specifically for SEV we override CPU class specific guest MMU/page-table walker
+to invoke a SEV specific handler which can handle guest encrypted memory and
+also clear C-bit when walking SEV guest page table.
 
-Also introduces new MemoryDebugOps which hook into guest virtual and physical memory debug interfaces such as cpu_memory_rw_debug,
-to allow vendor specific assist/hooks for debugging and delegating accessing the guest memory.  This is used for example in case of
-AMD SEV platform where the guest memory is encrypted and a SEV specific debug assist/hook will be required to access the guest memory.
+Signed-off-by: Ashish Kalra <ashish.kalra@amd.com>
+---
+ accel/kvm/kvm-all.c  |   1 +
+ accel/kvm/sev-stub.c |   4 +
+ include/sysemu/sev.h |  11 +++
+ target/i386/kvm.c    |   4 +
+ target/i386/sev.c    | 185 +++++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 205 insertions(+)
 
-The MemoryDebugOps are used by cpu_memory_rw_debug() and default to address_space_read and address_space_write_rom as described below.
-
-typedef struct MemoryDebugOps {
-    MemTxResult (*read)(AddressSpace *as, hwaddr phys_addr,
-                        MemTxAttrs attrs, void *buf,
-                        hwaddr len);
-    MemTxResult (*write)(AddressSpace *as, hwaddr phys_addr,
-                         MemTxAttrs attrs, const void *buf,
-                         hwaddr len);
-} MemoryDebugOps;
-
-These ops would be used only by cpu_memory_rw_debug and would default to
-
-static const MemoryDebugOps default_debug_ops = {
-    .translate = cpu_get_phys_page_attrs_debug,
-    .read = address_space_read,
-    .write = address_space_write_rom
-};
-
-static const MemoryDebugOps *debug_ops = &default_debug_ops;
-
-Ashish Kalra (3):
-  exec: Add new MemoryDebugOps.
-  exec: Add address_space_read and address_space_write debug helpers.
-  sev/i386: add SEV specific MemoryDebugOps.
-
-Brijesh Singh (8):
-  memattrs: add debug attribute
-  exec: add ram_debug_ops support
-  exec: add debug version of physical memory read and write API
-  monitor/i386: use debug APIs when accessing guest memory
-  kvm: introduce debug memory encryption API
-  sev/i386: add debug encrypt and decrypt commands
-  hw/i386: set ram_debug_ops when memory encryption is enabled
-  target/i386: clear C-bit when walking SEV guest page table
-
- accel/kvm/kvm-all.c       |  22 ++++
- accel/kvm/sev-stub.c      |   8 ++
- accel/stubs/kvm-stub.c    |   8 ++
- hw/i386/pc.c              |   9 ++
- hw/i386/pc_sysfw.c        |   6 +
- include/exec/cpu-common.h |  18 +++
- include/exec/memattrs.h   |   2 +
- include/exec/memory.h     |  49 ++++++++
- include/sysemu/kvm.h      |  15 +++
- include/sysemu/sev.h      |  12 ++
- monitor/misc.c            |   4 +-
- softmmu/cpus.c            |   2 +-
- softmmu/physmem.c         | 170 +++++++++++++++++++++++++-
- target/i386/kvm.c         |   4 +
- target/i386/monitor.c     | 124 +++++++++++--------
- target/i386/sev.c         | 244 ++++++++++++++++++++++++++++++++++++++
- target/i386/trace-events  |   1 +
- 17 files changed, 642 insertions(+), 56 deletions(-)
-
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 042205e3e1..6d812d5b09 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -2234,6 +2234,7 @@ static int kvm_init(MachineState *ms)
+         kvm_state->memcrypt_encrypt_data = sev_encrypt_data;
+         kvm_state->memcrypt_debug_ops_memory_region =
+             sev_set_debug_ops_memory_region;
++        kvm_state->memcrypt_debug_ops_cpu_state = sev_set_debug_ops_cpu_state;
+     }
+ 
+     ret = kvm_arch_init(ms, s);
+diff --git a/accel/kvm/sev-stub.c b/accel/kvm/sev-stub.c
+index 3f1f0ef217..ad27226058 100644
+--- a/accel/kvm/sev-stub.c
++++ b/accel/kvm/sev-stub.c
+@@ -19,6 +19,10 @@ void sev_set_debug_ops_memory_region(void *handle, MemoryRegion *mr)
+ {
+ }
+ 
++void sev_set_debug_ops_cpu_state(void *handle, CPUState *cpu)
++{
++}
++
+ int sev_encrypt_data(void *handle, uint8_t *ptr, uint64_t len)
+ {
+     abort();
+diff --git a/include/sysemu/sev.h b/include/sysemu/sev.h
+index 6c37247915..e6f176b85b 100644
+--- a/include/sysemu/sev.h
++++ b/include/sysemu/sev.h
+@@ -19,4 +19,15 @@
+ void *sev_guest_init(const char *id);
+ int sev_encrypt_data(void *handle, uint8_t *ptr, uint64_t len);
+ void sev_set_debug_ops_memory_region(void *handle, MemoryRegion *mr);
++void sev_set_debug_ops_cpu_state(void *handle, CPUState *cpu);
++hwaddr sev_cpu_get_phys_page_attrs_debug(CPUState *cs, vaddr addr,
++                                         MemTxAttrs *attrs);
++MemTxResult sev_address_space_read_debug(AddressSpace *as, hwaddr addr,
++                                         MemTxAttrs attrs, void *ptr,
++                                         hwaddr len);
++MemTxResult sev_address_space_write_rom_debug(AddressSpace *as,
++                                              hwaddr addr,
++                                              MemTxAttrs attrs,
++                                              const void *ptr,
++                                              hwaddr len);
+ #endif
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index cf46259534..7a2d10b745 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -1838,6 +1838,10 @@ int kvm_arch_init_vcpu(CPUState *cs)
+ 
+     kvm_init_msrs(cpu);
+ 
++    if (kvm_memcrypt_enabled()) {
++        kvm_memcrypt_set_debug_ops_cpu_state(cs);
++    }
++
+     r = hyperv_init_vcpu(cpu);
+     if (r) {
+         goto fail;
+diff --git a/target/i386/sev.c b/target/i386/sev.c
+index 3036fb3e43..b942593bc8 100644
+--- a/target/i386/sev.c
++++ b/target/i386/sev.c
+@@ -843,6 +843,191 @@ sev_set_debug_ops_memory_region(void *handle, MemoryRegion *mr)
+     memory_region_set_ram_debug_ops(mr, &sev_ops);
+ }
+ 
++hwaddr sev_cpu_get_phys_page_attrs_debug(CPUState *cs, vaddr addr,
++                                         MemTxAttrs *attrs)
++{
++    X86CPU *cpu = X86_CPU(cs);
++    CPUX86State *env = &cpu->env;
++    target_ulong pde_addr, pte_addr;
++    uint64_t pte;
++    int32_t a20_mask;
++    uint32_t page_offset;
++    int page_size;
++    uint64_t me_mask;
++
++    me_mask = sev_get_me_mask();
++
++    *attrs = cpu_get_mem_attrs(env);
++
++    a20_mask = x86_get_a20_mask(env);
++    if (!(env->cr[0] & CR0_PG_MASK)) {
++        pte = addr & a20_mask;
++        page_size = 4096;
++    } else if (env->cr[4] & CR4_PAE_MASK) {
++        target_ulong pdpe_addr;
++        uint64_t pde, pdpe;
++
++#ifdef TARGET_X86_64
++        if (env->hflags & HF_LMA_MASK) {
++            bool la57 = env->cr[4] & CR4_LA57_MASK;
++            uint64_t pml5e_addr, pml5e;
++            uint64_t pml4e_addr, pml4e;
++            int32_t sext;
++
++            /* test virtual address sign extension */
++            sext = la57 ? (int64_t)addr >> 56 : (int64_t)addr >> 47;
++            if (sext != 0 && sext != -1) {
++                return -1;
++            }
++
++            if (la57) {
++                pml5e_addr = ((env->cr[3] & ~0xfff & me_mask) +
++                        (((addr >> 48) & 0x1ff) << 3)) & a20_mask;
++                pml5e = ldq_phys_debug(cs, pml5e_addr) & me_mask;
++                if (!(pml5e & PG_PRESENT_MASK)) {
++                    return -1;
++                }
++            } else {
++                pml5e = env->cr[3] & me_mask;
++            }
++
++            pml4e_addr = ((pml5e & PG_ADDRESS_MASK) +
++                    (((addr >> 39) & 0x1ff) << 3)) & a20_mask;
++            pml4e = ldq_phys_debug(cs, pml4e_addr) & me_mask;
++            if (!(pml4e & PG_PRESENT_MASK)) {
++                return -1;
++            }
++            pdpe_addr = ((pml4e & PG_ADDRESS_MASK) +
++                         (((addr >> 30) & 0x1ff) << 3)) & a20_mask;
++            pdpe = ldq_phys_debug(cs, pdpe_addr) & me_mask;
++            if (!(pdpe & PG_PRESENT_MASK)) {
++                return -1;
++            }
++            if (pdpe & PG_PSE_MASK) {
++                page_size = 1024 * 1024 * 1024;
++                pte = pdpe;
++                goto out;
++            }
++
++        } else
++#endif
++        {
++            pdpe_addr = ((env->cr[3] & ~0x1f & me_mask) +
++                         ((addr >> 27) & 0x18)) & a20_mask;
++            pdpe = ldq_phys_debug(cs, pdpe_addr) & me_mask;
++            if (!(pdpe & PG_PRESENT_MASK)) {
++                return -1;
++            }
++        }
++
++        pde_addr = ((pdpe & PG_ADDRESS_MASK) +
++                    (((addr >> 21) & 0x1ff) << 3)) & a20_mask;
++        pde = ldq_phys_debug(cs, pde_addr) & me_mask;
++        if (!(pde & PG_PRESENT_MASK)) {
++            return -1;
++        }
++        if (pde & PG_PSE_MASK) {
++            /* 2 MB page */
++            page_size = 2048 * 1024;
++            pte = pde;
++        } else {
++            /* 4 KB page */
++            pte_addr = ((pde & PG_ADDRESS_MASK) +
++                        (((addr >> 12) & 0x1ff) << 3)) & a20_mask;
++            page_size = 4096;
++            pte = ldq_phys_debug(cs, pte_addr) & me_mask;
++        }
++        if (!(pte & PG_PRESENT_MASK)) {
++            return -1;
++        }
++    } else {
++        uint32_t pde;
++
++        /* page directory entry */
++        pde_addr = ((env->cr[3] & ~0xfff & me_mask) +
++                    ((addr >> 20) & 0xffc)) & a20_mask;
++        pde = x86_ldl_phys(cs, pde_addr) & me_mask;
++        if (!(pde & PG_PRESENT_MASK)) {
++            return -1;
++        }
++        if ((pde & PG_PSE_MASK) && (env->cr[4] & CR4_PSE_MASK)) {
++            pte = pde | ((pde & 0x1fe000LL) << (32 - 13));
++            page_size = 4096 * 1024;
++        } else {
++            /* page directory entry */
++            pte_addr = ((pde & ~0xfff) + ((addr >> 10) & 0xffc)) & a20_mask;
++            pte = ldl_phys_debug(cs, pte_addr) & me_mask;
++            if (!(pte & PG_PRESENT_MASK)) {
++                return -1;
++            }
++            page_size = 4096;
++        }
++        pte = pte & a20_mask;
++    }
++
++#ifdef TARGET_X86_64
++out:
++#endif
++    pte &= PG_ADDRESS_MASK & ~(page_size - 1);
++    page_offset = (addr & TARGET_PAGE_MASK) & (page_size - 1);
++    return pte | page_offset;
++}
++
++MemTxResult sev_address_space_write_rom_debug(AddressSpace *as,
++                                              hwaddr addr,
++                                              MemTxAttrs attrs,
++                                              const void *ptr,
++                                              hwaddr len)
++{
++    /* set debug attrs to indicate memory access is from the debugger */
++    attrs.debug = 1;
++
++    /*
++     * Invoke address_space_rw debug helper
++     */
++    return address_space_write_rom_debug(as, addr, attrs, ptr, len);
++}
++
++MemTxResult sev_address_space_read_debug(AddressSpace *as, hwaddr addr,
++                                         MemTxAttrs attrs, void *ptr,
++                                         hwaddr len)
++{
++    /* set debug attrs to indicate memory access is from the debugger */
++    attrs.debug = 1;
++
++    /*
++     * Invoke address_space_rw debug helper
++     */
++    return address_space_read_debug(as, addr, attrs, ptr, len);
++}
++
++static const MemoryDebugOps sev_debug_ops = {
++    .read = sev_address_space_read_debug,
++    .write = sev_address_space_write_rom_debug
++};
++
++void
++sev_set_debug_ops_cpu_state(void *handle, CPUState *cs)
++{
++    SevGuestState *s = handle;
++    CPUClass *cc;
++
++    /* If policy does not allow debug then no need to register ops */
++    if (s->policy & SEV_POLICY_NODBG) {
++        return;
++    }
++
++    cc = CPU_GET_CLASS(cs);
++
++    /*
++     * Override guest MMU lookup/page-table-walker with SEV specific
++     * callback to handle encrypted memory.
++     */
++    cc->get_phys_page_attrs_debug = sev_cpu_get_phys_page_attrs_debug;
++
++    address_space_set_debug_ops(&sev_debug_ops);
++}
++
+ static void
+ sev_register_types(void)
+ {
 -- 
 2.17.1
 
