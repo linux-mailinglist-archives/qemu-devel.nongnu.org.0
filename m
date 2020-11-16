@@ -2,79 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B5372B4C27
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 18:09:42 +0100 (CET)
-Received: from localhost ([::1]:55254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6F3D2B4C3C
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 18:12:17 +0100 (CET)
+Received: from localhost ([::1]:59514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kei0b-0001cf-8u
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 12:09:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43980)
+	id 1kei36-0003Vz-On
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 12:12:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kehs9-0000q6-Er
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kehs9-0000q9-FG
  for qemu-devel@nongnu.org; Mon, 16 Nov 2020 12:00:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36961)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kehrv-0000g9-DN
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 12:00:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605546038;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Po0Lb1cL0dWUu4MKnXXiq1I6mH8QJSBnupCTrPmQg5w=;
- b=iM3p7gvBWbVQRZkhvLEm6xyCP8zncL7MGnU7L3T1eV1nLhrEGQPatU1jnXqhc9Ed+CyvrY
- LJ+MLN5VrL1IqUTmB0RNoIXSZSZTvWP7Hz6b2QHWNbul450tRycrPWisd4r+f1bM+GNI5z
- HxwYnPv+IRQjL3daJXVCbc5vFwggqmo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-153-j3FYjU06PhG0ztMKMY-tfg-1; Mon, 16 Nov 2020 12:00:34 -0500
-X-MC-Unique: j3FYjU06PhG0ztMKMY-tfg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7BCBD188C13E;
- Mon, 16 Nov 2020 17:00:32 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
- [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 448F619C66;
- Mon, 16 Nov 2020 17:00:32 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4F2C311358BA; Mon, 16 Nov 2020 18:00:30 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 13/13] bcm2835_cprman: put some peripherals of bcm2835
- cprman into the 'misc' category
-References: <20201115184903.1292715-1-ganqixin@huawei.com>
- <20201115184903.1292715-14-ganqixin@huawei.com>
- <c2ca2185-4253-da71-eab4-f96b29067c96@amsat.org>
- <882df4ee-948c-7e00-d951-9b14ea40b2df@redhat.com>
-Date: Mon, 16 Nov 2020 18:00:30 +0100
-In-Reply-To: <882df4ee-948c-7e00-d951-9b14ea40b2df@redhat.com> (Thomas Huth's
- message of "Mon, 16 Nov 2020 15:30:20 +0100")
-Message-ID: <877dqldyoh.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+Received: from 9.mo52.mail-out.ovh.net ([87.98.180.222]:57737)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kehrv-0000fZ-T3
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 12:00:56 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.250])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 8CD21203B17;
+ Mon, 16 Nov 2020 18:00:32 +0100 (CET)
+Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Mon, 16 Nov
+ 2020 18:00:31 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-104R005eddb01d5-9fa6-466c-92ed-dcf5f6cbe392,
+ 4C8231DAC7BA0B5668AD0293EB9EBEB96F7691F2) smtp.auth=clg@kaod.org
+Subject: Re: [PATCH 2/2] tmp105: Correct handling of temperature limit checks
+To: Peter Maydell <peter.maydell@linaro.org>, <qemu-arm@nongnu.org>,
+ <qemu-devel@nongnu.org>
+References: <20201110150023.25533-1-peter.maydell@linaro.org>
+ <20201110150023.25533-3-peter.maydell@linaro.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <24d24e3a-b594-c45e-309e-a1bb51586d6b@kaod.org>
+Date: Mon, 16 Nov 2020 18:00:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/15 22:35:17
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20201110150023.25533-3-peter.maydell@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.104]
+X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 03c924b4-b0fe-4117-bbe9-c6a6e348c6b1
+X-Ovh-Tracer-Id: 12695647353376836573
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudefuddgleejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeduvdetleefffevieejtedvjeejjeevhfegvddtleejffefvdfftdduteetleevnecuffhomhgrihhnpehtihdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhg
+Received-SPF: pass client-ip=87.98.180.222; envelope-from=clg@kaod.org;
+ helo=9.mo52.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 12:00:33
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,102 +72,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, qemu-trivial@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Gan Qixin <ganqixin@huawei.com>,
- kuhn.chenqun@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thomas Huth <thuth@redhat.com> writes:
+On 11/10/20 4:00 PM, Peter Maydell wrote:
+> The TMP105 datasheet says that in Interrupt Mode (when TM==1) the device
+> signals an alert when the temperature equals or exceeds the T_high value and
+> then remains high until a device register is read or the device responds to
+> the SMBUS Alert Response address, or the device is put into Shutdown Mode.
+> Thereafter the Alert pin will only be re-signalled when temperature falls
+> below T_low; alert can then be cleared in the same set of ways, and the
+> device returns to its initial "alert when temperature goes above T_high"
+> mode. (If this textual description is confusing, see figure 3 in the
+> TI datasheet at https://www.ti.com/lit/gpn/tmp105 .)
+> 
+> We were misimplementing this as a simple "always alert if temperature is
+> above T_high or below T_low" condition, which gives a spurious alert on
+> startup if using the "T_high = 80 degrees C, T_low = 75 degrees C" reset
+> limit values.
+> 
+> Implement the correct (hysteresis) behaviour by tracking whether we
+> are currently looking for the temperature to rise over T_high or
+> for it to fall below T_low. Our implementation of the comparator
+> mode (TM==0) wasn't wrong, but rephrase it to match the way that
+> interrupt mode is now handled for clarity.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-> On 16/11/2020 14.25, Philippe Mathieu-Daud=C3=A9 wrote:
->> Hi Gan,
->>=20
->> On 11/15/20 7:49 PM, Gan Qixin wrote:
->>> Some peripherals of bcm2835 cprman have no category, put them into the =
-'misc'
->>> category.
->>>
->>> Signed-off-by: Gan Qixin <ganqixin@huawei.com>
->>> ---
->>> Cc: Philippe Mathieu-Daud=C3=83=C6=92=C3=82=C2=A9 <f4bug@amsat.org>
->>> ---
->>>  hw/misc/bcm2835_cprman.c | 4 ++++
->>>  1 file changed, 4 insertions(+)
->>>
->>> diff --git a/hw/misc/bcm2835_cprman.c b/hw/misc/bcm2835_cprman.c
->>> index 7e415a017c..c62958a99e 100644
->>> --- a/hw/misc/bcm2835_cprman.c
->>> +++ b/hw/misc/bcm2835_cprman.c
->>> @@ -136,6 +136,7 @@ static void pll_class_init(ObjectClass *klass, void=
- *data)
->>> =20
->>>      dc->reset =3D pll_reset;
->>>      dc->vmsd =3D &pll_vmstate;
->>> +    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
->>=20
->> Well, this is not an usable device but a part of a bigger device,
->> so here we want the opposite: not list this device in any category.
->>=20
->> Maybe we could add a DEVICE_CATEGORY_COMPOSITE for all such QOM
->> types so management apps can filter them out? (And so we are sure
->> all QOM is classified).
->>=20
->> Thomas, you already dealt with categorizing devices in the past,
->> what do you think about this? Who else could help? Maybe add
->> someone from libvirt in the thread?
->
-> My 0.02 =E2=82=AC : Mark the device as user_creatable =3D false if it can=
- not really
-> be used by the user with the -device CLI parameter. Then it also does not
-> need a category. I know Markus will likely have a different opinion, but =
-in
+LGTM,
 
-You're hurting my feelings!  ;-P
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
-> my eyes it's just ugly if we present devices to the users that they can n=
-ot use.
+Thanks,
 
-If we believe a device should only ever be used from C, then we should
-keep it away from the UI.
+C.
 
-However, I'm wary of overloading user_creatable.  Even though it has
-shifted shape a number of times (cannot_instantiate_with_device_add_yet,
-no_user, and now user_creatable), its purpose has always been focused:
-distinguishing devices that can be instantiated by generic code from the
-ones that need device-specific code.  See user_creatable's comment in
-qdev-core.h.
 
-I don't want to lose that distinction.  That's all.
-
-> (By the way, this device here seems to be a decendant of TYPE_SYS_BUS_DEV=
-ICE
-> ... shouldn't these show up as user_creatable =3D false automatically?)
-
-Yes, unless it is a dynamic sysbus device (which I consider a flawed
-concept).
-
-But TYPE_CPRMAN_PLL is *not* a descendant of TYPE_SYS_BUS_DEVICE, it's a
-bus-less device:
-
-    static const TypeInfo cprman_pll_info =3D {
-        .name =3D TYPE_CPRMAN_PLL,
---->    .parent =3D TYPE_DEVICE,
-        .instance_size =3D sizeof(CprmanPllState),
-        .class_init =3D pll_class_init,
-        .instance_init =3D pll_init,
-    };
-
-Unless bus-less devices are somehow usable with -device, they should
-have user_creatable =3D false.
-
-qdev_device_add() looks like a bus-less device is usable if the machine
-provides a hotplug handler for it.  Commit 03fcbd9dc5 "qdev: Check for
-the availability of a hotplug controller before adding a device" seems
-to be pertinent.
-
-Are there any hotplug handlers for this device?  If yes, which machines
-provide one?
+> ---
+>  hw/misc/tmp105.c | 70 +++++++++++++++++++++++++++++++++++++++++-------
+>  hw/misc/tmp105.h |  7 +++++
+>  2 files changed, 68 insertions(+), 9 deletions(-)
+> 
+> diff --git a/hw/misc/tmp105.c b/hw/misc/tmp105.c
+> index 0a4aad4854..d299d9b21b 100644
+> --- a/hw/misc/tmp105.c
+> +++ b/hw/misc/tmp105.c
+> @@ -41,16 +41,40 @@ static void tmp105_alarm_update(TMP105State *s)
+>              return;
+>      }
+>  
+> -    if ((s->config >> 1) & 1) {					/* TM */
+> -        if (s->temperature >= s->limit[1])
+> -            s->alarm = 1;
+> -        else if (s->temperature < s->limit[0])
+> -            s->alarm = 1;
+> +    if (s->config >> 1 & 1) {
+> +        /*
+> +         * TM == 1 : Interrupt mode. We signal Alert when the
+> +         * temperature rises above T_high, and expect the guest to clear
+> +         * it (eg by reading a device register).
+> +         */
+> +        if (s->detect_falling) {
+> +            if (s->temperature < s->limit[0]) {
+> +                s->alarm = 1;
+> +                s->detect_falling = false;
+> +            }
+> +        } else {
+> +            if (s->temperature >= s->limit[1]) {
+> +                s->alarm = 1;
+> +                s->detect_falling = true;
+> +            }
+> +        }
+>      } else {
+> -        if (s->temperature >= s->limit[1])
+> -            s->alarm = 1;
+> -        else if (s->temperature < s->limit[0])
+> -            s->alarm = 0;
+> +        /*
+> +         * TM == 0 : Comparator mode. We signal Alert when the temperature
+> +         * rises above T_high, and stop signalling it when the temperature
+> +         * falls below T_low.
+> +         */
+> +        if (s->detect_falling) {
+> +            if (s->temperature < s->limit[0]) {
+> +                s->alarm = 0;
+> +                s->detect_falling = false;
+> +            }
+> +        } else {
+> +            if (s->temperature >= s->limit[1]) {
+> +                s->alarm = 1;
+> +                s->detect_falling = true;
+> +            }
+> +        }
+>      }
+>  
+>      tmp105_interrupt_update(s);
+> @@ -197,6 +221,29 @@ static int tmp105_post_load(void *opaque, int version_id)
+>      return 0;
+>  }
+>  
+> +static bool detect_falling_needed(void *opaque)
+> +{
+> +    TMP105State *s = opaque;
+> +
+> +    /*
+> +     * We only need to migrate the detect_falling bool if it's set;
+> +     * for migration from older machines we assume that it is false
+> +     * (ie temperature is not out of range).
+> +     */
+> +    return s->detect_falling;
+> +}
+> +
+> +static const VMStateDescription vmstate_tmp105_detect_falling = {
+> +    .name = "TMP105/detect-falling",
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .needed = detect_falling_needed,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_BOOL(detect_falling, TMP105State),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+>  static const VMStateDescription vmstate_tmp105 = {
+>      .name = "TMP105",
+>      .version_id = 0,
+> @@ -212,6 +259,10 @@ static const VMStateDescription vmstate_tmp105 = {
+>          VMSTATE_UINT8(alarm, TMP105State),
+>          VMSTATE_I2C_SLAVE(i2c, TMP105State),
+>          VMSTATE_END_OF_LIST()
+> +    },
+> +    .subsections = (const VMStateDescription*[]) {
+> +        &vmstate_tmp105_detect_falling,
+> +        NULL
+>      }
+>  };
+>  
+> @@ -224,6 +275,7 @@ static void tmp105_reset(I2CSlave *i2c)
+>      s->config = 0;
+>      s->faults = tmp105_faultq[(s->config >> 3) & 3];
+>      s->alarm = 0;
+> +    s->detect_falling = false;
+>  
+>      s->limit[0] = 0x4b00; /* T_LOW, 75 degrees C */
+>      s->limit[1] = 0x5000; /* T_HIGH, 80 degrees C */
+> diff --git a/hw/misc/tmp105.h b/hw/misc/tmp105.h
+> index e5198fce80..7c97071ad7 100644
+> --- a/hw/misc/tmp105.h
+> +++ b/hw/misc/tmp105.h
+> @@ -43,6 +43,13 @@ struct TMP105State {
+>      int16_t limit[2];
+>      int faults;
+>      uint8_t alarm;
+> +    /*
+> +     * The TMP105 initially looks for a temperature rising above T_high;
+> +     * once this is detected, the condition it looks for next is the
+> +     * temperature falling below T_low. This flag is false when initially
+> +     * looking for T_high, true when looking for T_low.
+> +     */
+> +    bool detect_falling;
+>  };
+>  
+>  #endif
+> 
 
 
