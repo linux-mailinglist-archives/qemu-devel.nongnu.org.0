@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93EBC2B43F5
+	by mail.lfdr.de (Postfix) with ESMTPS id 445002B43F4
 	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 13:50:05 +0100 (CET)
-Received: from localhost ([::1]:43496 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:43530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kedxM-0005NL-Jb
+	id 1kedxM-0005OA-8D
 	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 07:50:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34462)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kedtM-0001Od-Bs; Mon, 16 Nov 2020 07:46:00 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:32795)
+ id 1keduX-0002Sy-B9; Mon, 16 Nov 2020 07:47:09 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:53146)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kedtK-0002IS-Rv; Mon, 16 Nov 2020 07:45:56 -0500
-Received: by mail-wm1-x343.google.com with SMTP id p19so11960063wmg.0;
- Mon, 16 Nov 2020 04:45:54 -0800 (PST)
+ id 1keduT-0002en-V7; Mon, 16 Nov 2020 07:47:09 -0500
+Received: by mail-wm1-x342.google.com with SMTP id 10so23606640wml.2;
+ Mon, 16 Nov 2020 04:47:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=2jIbk/38FH8QQjTl8UliVYTI6/dfVe2pjOe88w0owD0=;
- b=WAzJwyNzRh9ikhbDBuUYY4jmSrjrzA3ylg7UpJbNCELeozEttj/AZkIWqN3ZA6ZHa7
- YPLu2TJIy+9BYyh9MkPXgadETCmJ7poj93LRU6QIh3ktx19WRV+BY1Zej4waOaiY+lYz
- QjNNfYT2Gedx43Bu76FtboNlDdOEmu+FRUoQ6zL76C8TO95Er85wfQ1hh5KUHytsjyA5
- eIVfLchU//12617oBw6sBX+zkEBmI/noaqLMRhFX7QER62pEBfIoLcZ3BLMeEvGJx8mi
- d6fYtLp40h9vQW7nrEyVWk0XcrrgwJjmbN6cvdExv3UQ7Ybu6ECP2q+Y+oT/jqSR3wmJ
- XHlw==
+ bh=yDKUYrbVhVTNCOiYfY9csEa0hYbgukv7ixcFC0fUONo=;
+ b=TuG9SC1Ohls4FZ0y6tQtBOm81jFl8vgnAenWeOwAJoHjjJl+BVUjcheLx/BJui7ZOC
+ jRKXqoJnLXkm5ZlsU+19yeFxSiDsQn77++rzjgWBkAeeWmlZLrunz1m2kp9zpiUSn+vV
+ ihcNtlfsMY2MNGt00x43jtLEFh5GJv7k9NvmMHm2OaG2qpU8IVrY0iICiCFrP2PLciHi
+ Pdj4OZXi+PBxHKEd/flxqGlyFdA7O2APaRlswz7L5W8A7OCdfPXVO6hMDpoqk1iOX9ue
+ xMrTX6QWKj9zTBsDUGwqiiOJxzL5f0usAQEfJVfsfmmWqzEZWNk6UYVejpwYycq6ZtwO
+ OS+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=2jIbk/38FH8QQjTl8UliVYTI6/dfVe2pjOe88w0owD0=;
- b=FkbxbRHJe0ZeRpZzeXFQsY8sGCW8kvFQ+P2a8/2kQLX/z7kMDJ52CQhUocIgOLAR+m
- ECemnlBoGbZCXuq/dAFD88onBDtDY/K77Vgu8Mmi5KeaMitfVExE4TFpaaXBWUMq3w8/
- i3UwtyMWQi215QtjqniHLQJYyiO2kxziNJyYHhBJKJ45utBSTB3Ly5YtAR3qjt0xOJr2
- ZAsEpk9yudDYG1D/qHoK2gHA3vvEzmaMi6C0sn5g5cfL4diJTnuGTFgLkmRwMf9zxCQi
- R9gR1Dsx14upGLbdG7Lyih8Mh2Hz24GCrRZ0WYWSJHf+l/lTunO+4v1oXRpqjsYchJyV
- ngbw==
-X-Gm-Message-State: AOAM530BSof2fhF+JyvJhxvol/qMzbj6g7zJgIEQLGGHqXUschexp7g7
- GbWdxeN+cNEs22P+2Jw5B5M=
-X-Google-Smtp-Source: ABdhPJx5yIBRzmHkdNN6SRzx2gS/wJwUrcc3gXlNPIHuRP0Cn7aZqzJyZWOV9NrlGkGUM+e+i32kzQ==
-X-Received: by 2002:a7b:c5c6:: with SMTP id n6mr15911857wmk.131.1605530753167; 
- Mon, 16 Nov 2020 04:45:53 -0800 (PST)
+ bh=yDKUYrbVhVTNCOiYfY9csEa0hYbgukv7ixcFC0fUONo=;
+ b=ckchQTEmShky5V31X2G3F0nd6YztgBxWz4R440V2n6+SIGB68TFW8Rs2U+TIICim8K
+ y6uVr1jGfsHWGNAnzS61y86HlCMxragQV92j403Uj5jYOupFnwJoNf89wGAXgPCweCHP
+ 89/nciJTtaoF8gHeOlab7TWcnZg4XNxyGKi8tiC1RkYXLmS6SCtfVlQkiAc2IUhbDV0C
+ e92IUmLoNbIw+MGcJrc59EscpdoPfh/vbs2zB2dX5o7+km0p8tg/vpYmOCY3fSo+1z3c
+ ru1e7Vjn5o4D5705ajC+rlSGH1cbji/8BvF2wzgGvMIpQAPYzslQMCu5xyHtlIehMS3P
+ KqNg==
+X-Gm-Message-State: AOAM530gazsjMDI04UUZRH+tkZG4n06kTm8D2ZR829qdNjcmupEhBbHD
+ R3g3IOqAOpRSSogFpbQB190=
+X-Google-Smtp-Source: ABdhPJztf0Z2OvGOK4OqBuol5F+q9zFY+hVrhrgto0HXdIzMe0nSVFiIegUFYKuC3K1u602B4cInPQ==
+X-Received: by 2002:a1c:61c5:: with SMTP id
+ v188mr13762107wmb.141.1605530819992; 
+ Mon, 16 Nov 2020 04:46:59 -0800 (PST)
 Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id f13sm17178570wrq.78.2020.11.16.04.45.51
+ by smtp.gmail.com with ESMTPSA id b124sm19662365wmh.13.2020.11.16.04.46.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Nov 2020 04:45:52 -0800 (PST)
-Subject: Re: [PATCH v3 3/4] nand: put it into the 'storage' category
+ Mon, 16 Nov 2020 04:46:59 -0800 (PST)
+Subject: Re: [PATCH v3 2/4] ads7846: put it into the 'input' category
 To: Gan Qixin <ganqixin@huawei.com>, qemu-devel@nongnu.org,
  qemu-trivial@nongnu.org
 References: <20201112125824.763182-1-ganqixin@huawei.com>
- <20201112125824.763182-4-ganqixin@huawei.com>
+ <20201112125824.763182-3-ganqixin@huawei.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <347769b3-78d4-6378-5b7a-3c1f6030bf6b@amsat.org>
-Date: Mon, 16 Nov 2020 13:45:51 +0100
+Message-ID: <2ea44c8c-2bc7-a868-e27a-59655c5e8daf@amsat.org>
+Date: Mon, 16 Nov 2020 13:46:57 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201112125824.763182-4-ganqixin@huawei.com>
+In-Reply-To: <20201112125824.763182-3-ganqixin@huawei.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -90,20 +91,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, zhang.zhanghailiang@huawei.com, mst@redhat.com,
- laurent@vivier.eu, armbru@redhat.com, kuhn.chenqun@huawei.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, thuth@redhat.com,
+ zhang.zhanghailiang@huawei.com, mst@redhat.com, laurent@vivier.eu,
+ armbru@redhat.com, kuhn.chenqun@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/12/20 1:58 PM, Gan Qixin wrote:
-> The category of the nand device is not set, put it into the 'storage'
+> The category of the ads7846 device is not set, put it into the 'input'
 > category.
 > 
 > Signed-off-by: Gan Qixin <ganqixin@huawei.com>
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
 > ---
->  hw/block/nand.c | 1 +
->  1 file changed, 1 insertion(+)
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  hw/display/ads7846.c | 2 ++
+>  1 file changed, 2 insertions(+)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
