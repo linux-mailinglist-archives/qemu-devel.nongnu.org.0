@@ -2,64 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6F3D2B4C3C
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 18:12:17 +0100 (CET)
-Received: from localhost ([::1]:59514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F20C2B4C8A
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 18:21:23 +0100 (CET)
+Received: from localhost ([::1]:42956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kei36-0003Vz-On
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 12:12:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43988)
+	id 1keiBu-0000T0-8a
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 12:21:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kehs9-0000q9-FG
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 12:00:57 -0500
-Received: from 9.mo52.mail-out.ovh.net ([87.98.180.222]:57737)
+ (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
+ id 1kei8I-0007Bk-9M
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 12:17:38 -0500
+Received: from mail-co1nam11on2049.outbound.protection.outlook.com
+ ([40.107.220.49]:41793 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kehrv-0000fZ-T3
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 12:00:56 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.250])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 8CD21203B17;
- Mon, 16 Nov 2020 18:00:32 +0100 (CET)
-Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Mon, 16 Nov
- 2020 18:00:31 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R005eddb01d5-9fa6-466c-92ed-dcf5f6cbe392,
- 4C8231DAC7BA0B5668AD0293EB9EBEB96F7691F2) smtp.auth=clg@kaod.org
-Subject: Re: [PATCH 2/2] tmp105: Correct handling of temperature limit checks
-To: Peter Maydell <peter.maydell@linaro.org>, <qemu-arm@nongnu.org>,
- <qemu-devel@nongnu.org>
-References: <20201110150023.25533-1-peter.maydell@linaro.org>
- <20201110150023.25533-3-peter.maydell@linaro.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <24d24e3a-b594-c45e-309e-a1bb51586d6b@kaod.org>
-Date: Mon, 16 Nov 2020 18:00:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
+ id 1kei8G-0006Gt-0Q
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 12:17:37 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XEil32iAGq+WuwvOY8EzR5lTZHzVQrpndhhU00DffZsIsoYIvPMug7YF3+u3gjQyoOYx1wDIho49YZW7zqR2KZZNaoBxZ1GiVkTINhmVXdjyxEDrI0vqyvFWQAoGEHIhdwivpiPEUhPLS4G/fnRqDHmmmgxSXO/6L1VbzES4ejI9fEVQzCZAZfgQv+piX6E7CmBb1SpNWxlFBGWuNyv9elSnbFJCHL5kTlIRLP9Z6rgaCCV6P1XRrwlGWM0AakvXk3+G637GmiA1gxED2QfMGPbZCgGaJ5OHr6ag3MUvGp87zw9XKCKCX90gzw4Zqbdo7H49ufMV3gy7NiAfatuiQA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5HwLxd1NROFUCuu7wqamBzkODr/KJ5H+JQDwMutOx44=;
+ b=RGoKdAtso+Ihiv2d9bJnN8cH3+TIjueNmuSoYdTXg34lRG457SvUlH+skFG9KdrX8KVjxVmMJ4ZBgxk59BDnMpGzD2Yzu9ajMs4tEn6U1yfmKp+HkrwTx0fbr/KYWdcnYtkTs8DfZqwWEVi6DOUFLB4a9QydJnv6g86zGMC114/Y5gimnkAICgk8VCtMd0ZvsBXOee0Y+bPE7SkkO1qYKwOP5WiSm3F+JsVZZ4OF0TVzaJxu8pgFTvE8YMXzs8s9ryjKdrKNn62X1jKT7NowDdM+zn4bZ2Uve0wz36QnRDjQEALeb6HivItO73nKDhYRso5RicwfpqiuYmHKJ3TTxw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5HwLxd1NROFUCuu7wqamBzkODr/KJ5H+JQDwMutOx44=;
+ b=ER0ESuLF5uHqI/RNTM3O+lHYg+yhhGHL6bARCEBoMLStilAmuk/65ND3xnpOazOKh61H670AO6aycdVGZLkKZVzRt5FQFEBj9JNTYULgQGE4KyHxOMRizJfoC+egqu2PwfiXsihb1+ocVHBR1Cupj2Ply6j3LPwZp+GVXZX+IMk=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB1355.namprd12.prod.outlook.com (2603:10b6:3:6e::7) by
+ DM6PR12MB4603.namprd12.prod.outlook.com (2603:10b6:5:166::11) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3564.28; Mon, 16 Nov 2020 17:02:31 +0000
+Received: from DM5PR12MB1355.namprd12.prod.outlook.com
+ ([fe80::dcda:c3e8:2386:e7fe]) by DM5PR12MB1355.namprd12.prod.outlook.com
+ ([fe80::dcda:c3e8:2386:e7fe%12]) with mapi id 15.20.3564.028; Mon, 16 Nov
+ 2020 17:02:31 +0000
+From: Tom Lendacky <thomas.lendacky@amd.com>
+To: qemu-devel@nongnu.org,
+	kvm@vger.kernel.org
+Subject: [PATCH] kvm/i386: Set proper nested state format for SVM
+Date: Mon, 16 Nov 2020 11:02:20 -0600
+Message-Id: <fe53d00fe0d884e812960781284cd48ae9206acc.1605546140.git.thomas.lendacky@amd.com>
+X-Mailer: git-send-email 2.28.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [165.204.77.1]
+X-ClientProxiedBy: DM5PR10CA0021.namprd10.prod.outlook.com (2603:10b6:4:2::31)
+ To DM5PR12MB1355.namprd12.prod.outlook.com
+ (2603:10b6:3:6e::7)
 MIME-Version: 1.0
-In-Reply-To: <20201110150023.25533-3-peter.maydell@linaro.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 03c924b4-b0fe-4117-bbe9-c6a6e348c6b1
-X-Ovh-Tracer-Id: 12695647353376836573
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudefuddgleejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeduvdetleefffevieejtedvjeejjeevhfegvddtleejffefvdfftdduteetleevnecuffhomhgrihhnpehtihdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhg
-Received-SPF: pass client-ip=87.98.180.222; envelope-from=clg@kaod.org;
- helo=9.mo52.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 12:00:33
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from tlendack-t1.amd.com (165.204.77.1) by
+ DM5PR10CA0021.namprd10.prod.outlook.com (2603:10b6:4:2::31) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3564.28 via Frontend Transport; Mon, 16 Nov 2020 17:02:30 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 875cb946-18a7-4e67-76ee-08d88a5167cf
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4603:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR12MB460391EDD637742E792ADBF9ECE30@DM6PR12MB4603.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: fPKmZAgwSpKl6m6q8IK5TGQNMQSgMW0LIC3Pvh/PxLcqOJ11JrMRZkcwqzXunSeEYbbjC6TAqPQf5rFFP3A9HDHzz7oxCFKjoeuyIU1mu8rfj6sV3r1Vv3OErJEORhwsct6GpzuUtQlGpdFN52wc6UMT9euzq3QQyqKwr0YXrSWgHcfPKap1f1aPLeuXBSP0gyY6PesvlLNi52W6npcxJcHQCkt8632A7vSj27+W6eJvJhG0pgk45+xowJ767AAgbe4jijgq39F550GCmVIKXUrCRtyNIPnLxKacT47UutBDHF25yue/q9D+wh9YDRIT
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB1355.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(136003)(346002)(376002)(366004)(39860400002)(2906002)(16526019)(26005)(86362001)(478600001)(7696005)(2616005)(956004)(186003)(54906003)(5660300002)(66476007)(36756003)(83380400001)(52116002)(6486002)(8936002)(66556008)(316002)(66946007)(6666004)(4326008)(8676002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: Ama0HmYMx3TxCYmLVioRy6yghQrO8Xn+frrRoeIIvot4SCaE7tZdfnn/kc6IVw8hCGRRSoX2S8H2sjo7sYLwnJgEOEc62zbhWXKs6DJE1HPfRQrrpEKEChn5EkYAh4Op/dTo6E8EFoTW9uqAgsooN695xMknaqQ9GjaaYGf29Zg+dZQHOVcbSDbTM7mhF5ubwN74uPHI4IdM2TlvjwWcblQN6jMFTr+/6GE/7ArgiS7flktBBiNFlCm0gUh/iISo1nvcrHlgrNhXG0Rqin++/6ypeYorggYLbDLCcNtE6AvKlgyTRTp864Ngjs8BWIiGN5VCF8x4zIRrkSnzb6OixlmLQMhNb2TDdePN3BkKkbcAXHAKacKOEMuCunC5UxGM4ritZvoWW49pXuFwrMaHB4Etyw8cT9CojG8r4CYOp144Fjr89pB0Qp8a6GcL+A2JQNTeIrIFOAFBpkDgQRyNQXKXPnyOzWjDPuqq1NNs9kX7wqEs3hQoJ0Byy+WNWDaH6ssjU9gy/QDXB1lOT1iqqtc4BD9H676SSU24eNNkfzH4hmqhwG1pk7BLLkAMkrzms1yqOIYwcAYwM4ZrJKiSfvCrwG+wTy0ygdPj/QvKwSAfDOmMNLsuLVj7I+dM4nudzwMtkeRkCPxDEp4N+6igCQ==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 875cb946-18a7-4e67-76ee-08d88a5167cf
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1355.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2020 17:02:31.3787 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tvA3bHV6Q6lZsRygMJmsxMSl702ZKa5vXFedCxONPDJAOeAEJQonPOQI/2ikTLyv2blqiX3S2DudHGeiAoaLgg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4603
+Received-SPF: none client-ip=40.107.220.49;
+ envelope-from=Thomas.Lendacky@amd.com;
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 12:17:33
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FORGED_SPF_HELO=1, MSGID_FROM_MTA_HEADER=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,168 +114,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/10/20 4:00 PM, Peter Maydell wrote:
-> The TMP105 datasheet says that in Interrupt Mode (when TM==1) the device
-> signals an alert when the temperature equals or exceeds the T_high value and
-> then remains high until a device register is read or the device responds to
-> the SMBUS Alert Response address, or the device is put into Shutdown Mode.
-> Thereafter the Alert pin will only be re-signalled when temperature falls
-> below T_low; alert can then be cleared in the same set of ways, and the
-> device returns to its initial "alert when temperature goes above T_high"
-> mode. (If this textual description is confusing, see figure 3 in the
-> TI datasheet at https://www.ti.com/lit/gpn/tmp105 .)
-> 
-> We were misimplementing this as a simple "always alert if temperature is
-> above T_high or below T_low" condition, which gives a spurious alert on
-> startup if using the "T_high = 80 degrees C, T_low = 75 degrees C" reset
-> limit values.
-> 
-> Implement the correct (hysteresis) behaviour by tracking whether we
-> are currently looking for the temperature to rise over T_high or
-> for it to fall below T_low. Our implementation of the comparator
-> mode (TM==0) wasn't wrong, but rephrase it to match the way that
-> interrupt mode is now handled for clarity.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+From: Tom Lendacky <thomas.lendacky@amd.com>
 
-LGTM,
+Currently, the nested state format is hardcoded to VMX. This will result
+in kvm_put_nested_state() returning an error because the KVM SVM support
+checks for the nested state to be KVM_STATE_NESTED_FORMAT_SVM. As a
+result, kvm_arch_put_registers() errors out early.
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Update the setting of the format based on the virtualization feature:
+  VMX - KVM_STATE_NESTED_FORMAT_VMX
+  SVM - KVM_STATE_NESTED_FORMAT_SVM
 
-Thanks,
+Also, fix the code formatting while at it.
 
-C.
+Fixes: b16c0e20c7 ("KVM: add support for AMD nested live migration")
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Marcelo Tosatti <mtosatti@redhat.com>
+Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+---
+ target/i386/kvm.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-
-> ---
->  hw/misc/tmp105.c | 70 +++++++++++++++++++++++++++++++++++++++++-------
->  hw/misc/tmp105.h |  7 +++++
->  2 files changed, 68 insertions(+), 9 deletions(-)
-> 
-> diff --git a/hw/misc/tmp105.c b/hw/misc/tmp105.c
-> index 0a4aad4854..d299d9b21b 100644
-> --- a/hw/misc/tmp105.c
-> +++ b/hw/misc/tmp105.c
-> @@ -41,16 +41,40 @@ static void tmp105_alarm_update(TMP105State *s)
->              return;
->      }
->  
-> -    if ((s->config >> 1) & 1) {					/* TM */
-> -        if (s->temperature >= s->limit[1])
-> -            s->alarm = 1;
-> -        else if (s->temperature < s->limit[0])
-> -            s->alarm = 1;
-> +    if (s->config >> 1 & 1) {
-> +        /*
-> +         * TM == 1 : Interrupt mode. We signal Alert when the
-> +         * temperature rises above T_high, and expect the guest to clear
-> +         * it (eg by reading a device register).
-> +         */
-> +        if (s->detect_falling) {
-> +            if (s->temperature < s->limit[0]) {
-> +                s->alarm = 1;
-> +                s->detect_falling = false;
-> +            }
-> +        } else {
-> +            if (s->temperature >= s->limit[1]) {
-> +                s->alarm = 1;
-> +                s->detect_falling = true;
-> +            }
-> +        }
->      } else {
-> -        if (s->temperature >= s->limit[1])
-> -            s->alarm = 1;
-> -        else if (s->temperature < s->limit[0])
-> -            s->alarm = 0;
-> +        /*
-> +         * TM == 0 : Comparator mode. We signal Alert when the temperature
-> +         * rises above T_high, and stop signalling it when the temperature
-> +         * falls below T_low.
-> +         */
-> +        if (s->detect_falling) {
-> +            if (s->temperature < s->limit[0]) {
-> +                s->alarm = 0;
-> +                s->detect_falling = false;
-> +            }
-> +        } else {
-> +            if (s->temperature >= s->limit[1]) {
-> +                s->alarm = 1;
-> +                s->detect_falling = true;
-> +            }
-> +        }
->      }
->  
->      tmp105_interrupt_update(s);
-> @@ -197,6 +221,29 @@ static int tmp105_post_load(void *opaque, int version_id)
->      return 0;
->  }
->  
-> +static bool detect_falling_needed(void *opaque)
-> +{
-> +    TMP105State *s = opaque;
-> +
-> +    /*
-> +     * We only need to migrate the detect_falling bool if it's set;
-> +     * for migration from older machines we assume that it is false
-> +     * (ie temperature is not out of range).
-> +     */
-> +    return s->detect_falling;
-> +}
-> +
-> +static const VMStateDescription vmstate_tmp105_detect_falling = {
-> +    .name = "TMP105/detect-falling",
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .needed = detect_falling_needed,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_BOOL(detect_falling, TMP105State),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
->  static const VMStateDescription vmstate_tmp105 = {
->      .name = "TMP105",
->      .version_id = 0,
-> @@ -212,6 +259,10 @@ static const VMStateDescription vmstate_tmp105 = {
->          VMSTATE_UINT8(alarm, TMP105State),
->          VMSTATE_I2C_SLAVE(i2c, TMP105State),
->          VMSTATE_END_OF_LIST()
-> +    },
-> +    .subsections = (const VMStateDescription*[]) {
-> +        &vmstate_tmp105_detect_falling,
-> +        NULL
->      }
->  };
->  
-> @@ -224,6 +275,7 @@ static void tmp105_reset(I2CSlave *i2c)
->      s->config = 0;
->      s->faults = tmp105_faultq[(s->config >> 3) & 3];
->      s->alarm = 0;
-> +    s->detect_falling = false;
->  
->      s->limit[0] = 0x4b00; /* T_LOW, 75 degrees C */
->      s->limit[1] = 0x5000; /* T_HIGH, 80 degrees C */
-> diff --git a/hw/misc/tmp105.h b/hw/misc/tmp105.h
-> index e5198fce80..7c97071ad7 100644
-> --- a/hw/misc/tmp105.h
-> +++ b/hw/misc/tmp105.h
-> @@ -43,6 +43,13 @@ struct TMP105State {
->      int16_t limit[2];
->      int faults;
->      uint8_t alarm;
-> +    /*
-> +     * The TMP105 initially looks for a temperature rising above T_high;
-> +     * once this is detected, the condition it looks for next is the
-> +     * temperature falling below T_low. This flag is false when initially
-> +     * looking for T_high, true when looking for T_low.
-> +     */
-> +    bool detect_falling;
->  };
->  
->  #endif
-> 
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index cf46259534..a2934dda02 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -1820,12 +1820,14 @@ int kvm_arch_init_vcpu(CPUState *cs)
+ 
+             env->nested_state = g_malloc0(max_nested_state_len);
+             env->nested_state->size = max_nested_state_len;
+-            env->nested_state->format = KVM_STATE_NESTED_FORMAT_VMX;
+ 
+             if (cpu_has_vmx(env)) {
+-                    vmx_hdr = &env->nested_state->hdr.vmx;
+-                    vmx_hdr->vmxon_pa = -1ull;
+-                    vmx_hdr->vmcs12_pa = -1ull;
++                env->nested_state->format = KVM_STATE_NESTED_FORMAT_VMX;
++                vmx_hdr = &env->nested_state->hdr.vmx;
++                vmx_hdr->vmxon_pa = -1ull;
++                vmx_hdr->vmcs12_pa = -1ull;
++            } else {
++                env->nested_state->format = KVM_STATE_NESTED_FORMAT_SVM;
+             }
+         }
+     }
+-- 
+2.28.0
 
 
