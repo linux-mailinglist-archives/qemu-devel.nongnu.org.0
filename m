@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1124E2B4089
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 11:14:09 +0100 (CET)
-Received: from localhost ([::1]:37114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E39A2B409E
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Nov 2020 11:18:54 +0100 (CET)
+Received: from localhost ([::1]:39508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kebWR-0002ET-ST
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 05:14:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50770)
+	id 1kebb3-0003XM-NT
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 05:18:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kebV2-0001f6-VZ
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 05:12:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51567)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kebZS-000346-I6
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 05:17:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38012)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kebUz-0005bn-Nq
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 05:12:40 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kebZQ-0007H6-3s
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 05:17:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605521555;
+ s=mimecast20190719; t=1605521831;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=gHkiI5x0LHkR+uU2ZpXgRtkhFEH/lrI4KFnExAMZGSg=;
- b=MPM+SniPqnkovM4yuMMJlbglb+zFPX3UXDXT/hwJrqjEZfHInyWUwTEGrsqjFw2o4Hy5Es
- DxTd7rEFL2IhAQckf0cW4HfKCwqFut+eN5a1Ya/fHnXnQV+RAuqtexk7FqOhm7eVP7p6SY
- PUj8FASfoB8IBIFAo06Mz6ernXgGQ/0=
+ bh=e48lMfzrL3vaXjBF85EhlQQyBoyZ2h9n3rF5f5EjXDE=;
+ b=X88jWtNvQcfezBx5F2ye3f6QCVGEGYaDq54772/g71mdobTRlrDMREJHHx37QrhBhYeJOa
+ nkw4KPLGOLS1A2ott1AyOVDey7MEfSjH7VPznQGMb9viwY2obXLQX+Pf2t0gGaep2kAKK+
+ wjggq9tNOmjko252XU/9aP/aFP831FY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-527-rja3qqEENqaD5VEGk_Ca7A-1; Mon, 16 Nov 2020 05:12:33 -0500
-X-MC-Unique: rja3qqEENqaD5VEGk_Ca7A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-167-58RSTaPkPqW5y1j69UzAcg-1; Mon, 16 Nov 2020 05:17:09 -0500
+X-MC-Unique: 58RSTaPkPqW5y1j69UzAcg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A19A801FCC
- for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 10:12:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 61D84802B61
+ for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 10:17:08 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
  [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3275B7667A;
- Mon, 16 Nov 2020 10:12:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F4B955765;
+ Mon, 16 Nov 2020 10:17:08 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A750A11358BA; Mon, 16 Nov 2020 11:12:30 +0100 (CET)
+ id 9554A11358BA; Mon, 16 Nov 2020 11:17:06 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 09/11] qapi/introspect.py: create a typed 'Annotated'
- data strutcure
+Subject: Re: [PATCH v2 10/11] qapi/introspect.py: improve readability of
+ _tree_to_qlit
 References: <20201026194251.11075-1-jsnow@redhat.com>
- <20201026194251.11075-10-jsnow@redhat.com>
-Date: Mon, 16 Nov 2020 11:12:30 +0100
-In-Reply-To: <20201026194251.11075-10-jsnow@redhat.com> (John Snow's message
- of "Mon, 26 Oct 2020 15:42:49 -0400")
-Message-ID: <87y2j1zk35.fsf@dusky.pond.sub.org>
+ <20201026194251.11075-11-jsnow@redhat.com>
+Date: Mon, 16 Nov 2020 11:17:06 +0100
+In-Reply-To: <20201026194251.11075-11-jsnow@redhat.com> (John Snow's message
+ of "Mon, 26 Oct 2020 15:42:50 -0400")
+Message-ID: <87tutpzjvh.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -90,233 +90,91 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 John Snow <jsnow@redhat.com> writes:
 
-> This replaces _make_tree with Annotated(). By creating it as a generic
-> container, we can more accurately describe the exact nature of this
-> particular value. i.e., each Annotated object is actually an
-> Annotated<T>, describing its contained value.
+> Subjective, but I find getting rid of the comprehensions helps. Also,
+> divide the sections into scalar and non-scalar sections, and remove
+> old-style string formatting.
 >
-> This adds stricter typing to Annotated nodes and extra annotated
-> information.
-
-Inhowfar?
-
->              It also replaces a check of "isinstance tuple" with the
-> much more explicit "isinstance Annotated" which is guaranteed not to
-> break if a tuple is accidentally introduced into the type tree. (Perhaps
-> as a result of a bad conversion from a list.)
-
-Sure this is worth writing home about?  Such accidents seem quite
-unlikely.
-
-For me, the commit's benefit is making the structure of the annotated
-tree node more explicit (your first paragraph, I guess).  It's a bit of
-a pattern in developing Python code: we start with a Tuple because it's
-terse and easy, then things get more complex, terse becomes too terse,
-and we're replacing the Tuple with a class.
-
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  scripts/qapi/introspect.py | 97 +++++++++++++++++++-------------------
->  1 file changed, 48 insertions(+), 49 deletions(-)
+>  scripts/qapi/introspect.py | 37 +++++++++++++++++++++----------------
+>  1 file changed, 21 insertions(+), 16 deletions(-)
 >
 > diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-> index a0978cb3adb..a261e402d69 100644
+> index a261e402d69..d4f28485ba5 100644
 > --- a/scripts/qapi/introspect.py
 > +++ b/scripts/qapi/introspect.py
-> @@ -13,12 +13,13 @@
->  from typing import (
->      Any,
->      Dict,
-> +    Generic,
-> +    Iterable,
->      List,
->      Optional,
->      Sequence,
-> -    Tuple,
-> +    TypeVar,
->      Union,
-> -    cast,
->  )
->  
->  from .common import (
-> @@ -63,50 +64,48 @@
->  _scalar = Union[str, bool, None]
->  _nonscalar = Union[Dict[str, _stub], List[_stub]]
->  _value = Union[_scalar, _nonscalar]
-> -TreeValue = Union[_value, 'Annotated']
-> +TreeValue = Union[_value, 'Annotated[_value]']
->  
->  # This is just an alias for an object in the structure described above:
->  _DObject = Dict[str, object]
->  
-> -# Represents the annotations themselves:
-> -Annotations = Dict[str, object]
->  
-> -# Represents an annotated node (of some kind).
-> -Annotated = Tuple[_value, Annotations]
-> +_AnnoType = TypeVar('_AnnoType', bound=TreeValue)
->  
->  
-> -def _make_tree(obj: Union[_DObject, str], ifcond: List[str],
-> -               comment: Optional[str] = None) -> Annotated:
-> -    extra: Annotations = {
-> -        'if': ifcond,
-> -        'comment': comment,
-> -    }
-> -    return (obj, extra)
-> +class Annotated(Generic[_AnnoType]):
-> +    """
-> +    Annotated generally contains a SchemaInfo-like type (as a dict),
-> +    But it also used to wrap comments/ifconds around scalar leaf values,
-> +    for the benefit of features and enums.
-> +    """
-> +    # Remove after 3.7 adds @dataclass:
-> +    # pylint: disable=too-few-public-methods
-> +    def __init__(self, value: _AnnoType, ifcond: Iterable[str],
-> +                 comment: Optional[str] = None):
-> +        self.value = value
-> +        self.comment: Optional[str] = comment
-> +        self.ifcond: Sequence[str] = tuple(ifcond)
->  
->  
-> -def _tree_to_qlit(obj: TreeValue,
-> -                  level: int = 0,
-> +def _tree_to_qlit(obj: TreeValue, level: int = 0,
->                    suppress_first_indent: bool = False) -> str:
->  
->      def indent(level: int) -> str:
->          return level * 4 * ' '
->  
-> -    if isinstance(obj, tuple):
-> -        ifobj, extra = obj
-> -        ifcond = cast(Optional[Sequence[str]], extra.get('if'))
-> -        comment = extra.get('comment')
-> -
-> +    if isinstance(obj, Annotated):
->          msg = "Comments and Conditionals not implemented for dict values"
-> -        assert not (suppress_first_indent and (ifcond or comment)), msg
-> +        assert not (suppress_first_indent and (obj.comment or obj.ifcond)), msg
+> @@ -100,7 +100,7 @@ def indent(level: int) -> str:
 >  
 >          ret = ''
-> -        if comment:
-> -            ret += indent(level) + '/* %s */\n' % comment
-> -        if ifcond:
-> -            ret += gen_if(ifcond)
-> -        ret += _tree_to_qlit(ifobj, level, suppress_first_indent)
-> -        if ifcond:
-> -            ret += '\n' + gen_endif(ifcond)
-> +        if obj.comment:
-> +            ret += indent(level) + '/* %s */\n' % obj.comment
-> +        if obj.ifcond:
-> +            ret += gen_if(obj.ifcond)
-> +        ret += _tree_to_qlit(obj.value, level, suppress_first_indent)
-> +        if obj.ifcond:
-> +            ret += '\n' + gen_endif(obj.ifcond)
->          return ret
->  
+>          if obj.comment:
+> -            ret += indent(level) + '/* %s */\n' % obj.comment
+> +            ret += indent(level) + f"/* {obj.comment} */\n"
+>          if obj.ifcond:
+>              ret += gen_if(obj.ifcond)
+>          ret += _tree_to_qlit(obj.value, level, suppress_first_indent)
+> @@ -111,31 +111,36 @@ def indent(level: int) -> str:
 >      ret = ''
-> @@ -153,7 +152,7 @@ def __init__(self, prefix: str, unmask: bool):
->              ' * QAPI/QMP schema introspection', __doc__)
->          self._unmask = unmask
->          self._schema: Optional[QAPISchema] = None
-> -        self._trees: List[Annotated] = []
-> +        self._trees: List[Annotated[_DObject]] = []
->          self._used_types: List[QAPISchemaType] = []
->          self._name_map: Dict[str, str] = {}
->          self._genc.add(mcgen('''
-> @@ -219,10 +218,9 @@ def _use_type(self, typ: QAPISchemaType) -> str:
->          return self._name(typ.name)
->  
->      @classmethod
-> -    def _gen_features(cls,
-> -                      features: List[QAPISchemaFeature]
-> -                      ) -> List[Annotated]:
-> -        return [_make_tree(f.name, f.ifcond) for f in features]
-> +    def _gen_features(
-> +            cls, features: List[QAPISchemaFeature]) -> List[Annotated[str]]:
+>      if not suppress_first_indent:
+>          ret += indent(level)
+> +
+> +    # Scalars:
+>      if obj is None:
+>          ret += 'QLIT_QNULL'
+>      elif isinstance(obj, str):
+> -        ret += 'QLIT_QSTR(' + to_c_string(obj) + ')'
+> +        ret += f"QLIT_QSTR({to_c_string(obj)})"
+> +    elif isinstance(obj, bool):
+> +        ret += "QLIT_QBOOL({:s})".format(str(obj).lower())
 
-Indent this way from the start for lesser churn.
+Changed from
 
-> +        return [Annotated(f.name, f.ifcond) for f in features]
->  
->      def _gen_tree(self, name: str, mtype: str, obj: _DObject,
->                    ifcond: List[str],
-> @@ -238,10 +236,10 @@ def _gen_tree(self, name: str, mtype: str, obj: _DObject,
->          obj['meta-type'] = mtype
->          if features:
->              obj['features'] = self._gen_features(features)
-> -        self._trees.append(_make_tree(obj, ifcond, comment))
-> +        self._trees.append(Annotated(obj, ifcond, comment))
->  
->      def _gen_member(self,
-> -                    member: QAPISchemaObjectTypeMember) -> Annotated:
-> +                    member: QAPISchemaObjectTypeMember) -> Annotated[_DObject]:
+           ret += 'QLIT_QBOOL(%s)' % ('true' if obj else 'false')
 
-Long line.  Ty hanging indent.
+Doesn't look like an improvement to me.
 
->          obj: _DObject = {
->              'name': member.name,
->              'type': self._use_type(member.type)
-> @@ -250,19 +248,19 @@ def _gen_member(self,
->              obj['default'] = None
->          if member.features:
->              obj['features'] = self._gen_features(member.features)
-> -        return _make_tree(obj, member.ifcond)
-> +        return Annotated(obj, member.ifcond)
->  
->      def _gen_variants(self, tag_name: str,
->                        variants: List[QAPISchemaVariant]) -> _DObject:
->          return {'tag': tag_name,
->                  'variants': [self._gen_variant(v) for v in variants]}
->  
-> -    def _gen_variant(self, variant: QAPISchemaVariant) -> Annotated:
-> +    def _gen_variant(self, variant: QAPISchemaVariant) -> Annotated[_DObject]:
->          obj: _DObject = {
->              'case': variant.name,
->              'type': self._use_type(variant.type)
->          }
-> -        return _make_tree(obj, variant.ifcond)
-> +        return Annotated(obj, variant.ifcond)
->  
->      def visit_builtin_type(self, name: str, info: Optional[QAPISourceInfo],
->                             json_type: str) -> None:
-> @@ -272,10 +270,11 @@ def visit_enum_type(self, name: str, info: QAPISourceInfo,
->                          ifcond: List[str], features: List[QAPISchemaFeature],
->                          members: List[QAPISchemaEnumMember],
->                          prefix: Optional[str]) -> None:
-> -        self._gen_tree(name, 'enum',
-> -                       {'values': [_make_tree(m.name, m.ifcond, None)
-> -                                   for m in members]},
-> -                       ifcond, features)
-> +        self._gen_tree(
-> +            name, 'enum',
-> +            {'values': [Annotated(m.name, m.ifcond) for m in members]},
-> +            ifcond, features
+> +
+> +    # Non-scalars:
+>      elif isinstance(obj, list):
+> -        elts = [_tree_to_qlit(elt, level + 1).strip('\n')
+> -                for elt in obj]
+> -        elts.append(indent(level + 1) + "{}")
+>          ret += 'QLIT_QLIST(((QLitObject[]) {\n'
+> -        ret += '\n'.join(elts) + '\n'
+> +        for value in obj:
+> +            ret += _tree_to_qlit(value, level + 1).strip('\n') + '\n'
+> +        ret += indent(level + 1) + '{}\n'
+>          ret += indent(level) + '}))'
+>      elif isinstance(obj, dict):
+> -        elts = []
+> -        for key, value in sorted(obj.items()):
+> -            elts.append(indent(level + 1) + '{ %s, %s }' %
+> -                        (to_c_string(key),
+> -                         _tree_to_qlit(value, level + 1, True)))
+> -        elts.append(indent(level + 1) + '{}')
+>          ret += 'QLIT_QDICT(((QLitDictEntry[]) {\n'
+> -        ret += ',\n'.join(elts) + '\n'
+> +        for key, value in sorted(obj.items()):
+> +            ret += indent(level + 1) + "{{ {:s}, {:s} }},\n".format(
+> +                to_c_string(key),
+> +                _tree_to_qlit(value, level + 1, suppress_first_indent=True)
+> +            )
+> +        ret += indent(level + 1) + '{}\n'
+>          ret += indent(level) + '}))'
+> -    elif isinstance(obj, bool):
+> -        ret += 'QLIT_QBOOL(%s)' % ('true' if obj else 'false')
+>      else:
+> -        assert False                # not implemented
+> +        raise NotImplementedError(
+> +            f"type '{type(obj).__name__}' not implemented"
 > +        )
->  
->      def visit_array_type(self, name: str, info: Optional[QAPISourceInfo],
->                           ifcond: List[str],
-> @@ -300,12 +299,12 @@ def visit_alternate_type(self, name: str, info: QAPISourceInfo,
->                               ifcond: List[str],
->                               features: List[QAPISchemaFeature],
->                               variants: QAPISchemaVariants) -> None:
-> -        self._gen_tree(name, 'alternate',
-> -                       {'members': [
-> -                           _make_tree({'type': self._use_type(m.type)},
-> -                                      m.ifcond, None)
-> -                           for m in variants.variants]},
-> -                       ifcond, features)
-> +        self._gen_tree(
-> +            name, 'alternate',
-> +            {'members': [Annotated({'type': self._use_type(m.type)}, m.ifcond)
 
-Long line.  Try breaking the line before m.ifcond, or before Annotated.
+Not covered by the commit message's mandate.
 
-> +                         for m in variants.variants]},
-> +            ifcond, features
-> +        )
->  
->      def visit_command(self, name: str, info: QAPISourceInfo, ifcond: List[str],
->                        features: List[QAPISchemaFeature],
+Why bother?
+
+> +
+>      if level > 0:
+>          ret += ','
+>      return ret
 
 
