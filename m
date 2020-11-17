@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 294782B6EFE
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 20:44:06 +0100 (CET)
-Received: from localhost ([::1]:50378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8422C2B6F48
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 20:49:51 +0100 (CET)
+Received: from localhost ([::1]:53892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf6tZ-00026d-6q
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 14:44:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40104)
+	id 1kf6z8-0003wj-KM
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 14:49:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kf6sC-00013g-FS
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 14:42:40 -0500
-Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:50435)
+ id 1kf6xQ-0002zr-3D
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 14:48:04 -0500
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:37725)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kf6s8-0000zA-6Q
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 14:42:40 -0500
-Received: by mail-pj1-x1041.google.com with SMTP id js21so1036208pjb.0
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 11:42:35 -0800 (PST)
+ id 1kf6xO-0002w7-La
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 14:48:03 -0500
+Received: by mail-pf1-x443.google.com with SMTP id c66so18009698pfa.4
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 11:48:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=yI5JqCPS5RgKI64igo2ind3oyCXfj1mIIYdDl5pk/IQ=;
- b=sMZqbHlbBhDs086yU+2SP0ID9jvYbMqZTMRZxve8NXzO1HtUe7AXvm13MxPu8aB0Yy
- XftNAkLXn0QItOTeTq7wJ5aJIjR7Lx2c9K/llyOKAZhteHHf1SQeXXiZQ++uonsk/z6J
- vIMTe5xtvUgeZK8xMk5PGwHjwTaal5JBSKYEZWGhFOLOyaEgxk5M5wb1Oh6lgKp8rStH
- cwoXOX2gEyLR/PGDpSR1+HdezfMJ9KZ7SdVAMeR/ih5wqDD7Oe96G3bIw41wcjuMZspO
- V/2d27v+QSMELjpObTSEAP/0KRye/E61OadyTChgNPjOEKum3s+6YVA+8Xu6QnaYayXW
- Ax9w==
+ bh=DIUXeoA3lk+w4RURriBvHtMBcIS7LrYTyXNTTVsuak4=;
+ b=e4kzEMnTWHyq8+GOL79UE+or0ikPU2voYAke04JBolYIgzZrg1wVixwEEbDyDsKE4n
+ 5/UTxsS6IIRrVkNg0bHhWT1B4RvlyqRQMSBxv7am0/Y+sGpAjOb1xNk/yGOUFJVcMjzD
+ 9Ya7jqowgP6C8VQGBBkV2y48QROoqsT8cRCPMIS1jx5xLN6eKk2agfg6+DEh9+gxAi/z
+ 46QswlsBHleahwsXNLZtLARdc8HosAl+cuEwsmtO00itCDga9/XkhWZQCGn567TS2y+e
+ PXNKc/qV0I1xe86ekp7ajScCJj9rO4Lzfe37lx5cslYys4AhCbGv8G9LK84NERrF39s6
+ bWbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=yI5JqCPS5RgKI64igo2ind3oyCXfj1mIIYdDl5pk/IQ=;
- b=Lk+UOwGJueGrWdISlzDXPP+MqqyQzzicPKyETJDWdRw8X/K8ClTTbNYfjLYKNXfQ73
- aptZi3yLBRqZDhrsIhpS1mCyJnQ3sy+0PpmYmwM/0C4/5skdP0aGh11qwg714fDmHcfD
- +paRZuXW210dpzCrCQv4XlW7/yzMVlYJePk3/aSpHt/y4GTO2x/qnz87vIrL8lY514yr
- hmfNgr0ecehnfa93jgwYootjsKl5BBgr9+XOBjN2PXAfsJfVIO5tmKHiN2Vu8yEKCL0c
- aM55e6rf80MFtinYgMtaKp8rVm8J+ucX6n7iT6zxQtWbBiASFgIMjpbfpxcRk9aeZCgZ
- mvOA==
-X-Gm-Message-State: AOAM5331WXY3Np9yeUpWIjDaf4KY2d/tCuzQxbr0baKtsj0CJFE++a+W
- Hxc2z8wA0UCOp4bgV4qNxE4gm1NLvdflGQ==
-X-Google-Smtp-Source: ABdhPJyH5bLTyQcWdcJWcGgrPzQ9Rd7/mpTlaZ2TM3QcR+b1I1BHVPS/3fy5FJ9v5jVQZcJHSEFz0w==
-X-Received: by 2002:a17:90a:7343:: with SMTP id j3mr621656pjs.51.1605642153996; 
- Tue, 17 Nov 2020 11:42:33 -0800 (PST)
+ bh=DIUXeoA3lk+w4RURriBvHtMBcIS7LrYTyXNTTVsuak4=;
+ b=SngrOjVZkxD74PIVaDs7cXN9tjzg8dqEcCtmn2bwG4gsNA0iWFThxAoCHMW5iZ/VxK
+ rr+d22bJkLvssD0F1yc237AXmE6jMENFk1ZbTfXpW6RHsfDXjoHhS511znE5opbz1iyi
+ IXWkMG5Aeb7nZOfM+IdSvkRXuSytWYGyl4b7VboX0J6ingi1JNopXd5JfaWs2QUqBdQC
+ DjUgEvFUTc7KVH5/kT5/v1vxfgnoxrTA6RqYcLj6PkC+LjWlFA+lo8h71mv9ablKr6pE
+ Btg0o65l1B/vIPpNPdsoIjRDApdCUXzcDOxuUcbZT7r9RLI+c5GnmVLfI87s4TwpaJrO
+ 9xuQ==
+X-Gm-Message-State: AOAM5304Esp2bkut6JrPZZxhr5KhfoDPs2f1S2/OU56DdcC28ZL6PySA
+ n44ORx0G6VCOYHFNDBBQnVnpYw4rC2EOHg==
+X-Google-Smtp-Source: ABdhPJxDwjj0byI8NnuSoztjD7pvK7OlvdtB6mAzL3CEJUjTLTho8upl1QBBZ6y/y4jz/Xf++RULCQ==
+X-Received: by 2002:a63:570b:: with SMTP id l11mr4933852pgb.110.1605642479168; 
+ Tue, 17 Nov 2020 11:47:59 -0800 (PST)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id a18sm15240699pfa.151.2020.11.17.11.42.32
+ by smtp.gmail.com with ESMTPSA id c6sm15160690pgl.38.2020.11.17.11.47.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Nov 2020 11:42:33 -0800 (PST)
-Subject: Re: [PATCH 06/15] target/arm: Enforce M-profile VMRS/VMSR register
- restrictions
+ Tue, 17 Nov 2020 11:47:58 -0800 (PST)
+Subject: Re: [PATCH 08/15] target/arm: Move general-use constant expanders up
+ in translate.c
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20201116160831.31000-1-peter.maydell@linaro.org>
- <20201116160831.31000-7-peter.maydell@linaro.org>
+ <20201116160831.31000-9-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d5cf2b31-0eb5-8147-2104-93b0c4c54b9b@linaro.org>
-Date: Tue, 17 Nov 2020 11:42:31 -0800
+Message-ID: <21e3448e-2574-19d9-3573-193af7795913@linaro.org>
+Date: Tue, 17 Nov 2020 11:47:56 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201116160831.31000-7-peter.maydell@linaro.org>
+In-Reply-To: <20201116160831.31000-9-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1041.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -95,18 +95,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/16/20 8:08 AM, Peter Maydell wrote:
-> -        if (a->rt == 15 && (!a->l || a->reg != ARM_VFP_FPSCR)) {
-> +        if (a->reg != ARM_VFP_FPSCR) {
-> +            return false;
-> +        }
-> +        if (a->rt == 15 && !a->l) {
+> The constant-expander functions like negate, plus_2, etc, are
+> generally useful; move them up in translate.c so we can use them in
+> the VFP/Neon decoders as well as in the A32/T32/T16 decoders.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  target/arm/translate.c | 46 +++++++++++++++++++++++-------------------
+>  1 file changed, 25 insertions(+), 21 deletions(-)
 
-Alternately, the parenthesis are just off:
-
-  if ((a->rt == 15 && !a->l) || a->reg != ARM_VFP_FPSCR)
-
-Either way,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
+
 
