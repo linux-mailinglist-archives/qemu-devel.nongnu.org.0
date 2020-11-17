@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 699122B6AD8
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 18:01:32 +0100 (CET)
-Received: from localhost ([::1]:44404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0340C2B6B0B
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 18:06:15 +0100 (CET)
+Received: from localhost ([::1]:60540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf4MF-0005mP-FU
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 12:01:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43786)
+	id 1kf4Qo-00041z-2e
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 12:06:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kf4Eq-00030b-8Z
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:52 -0500
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:40281)
+ id 1kf4Er-00032C-Vo
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:54 -0500
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:41163)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kf4Eo-0007FA-HA
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:51 -0500
-Received: by mail-ej1-x644.google.com with SMTP id oq3so30380289ejb.7
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:53:50 -0800 (PST)
+ id 1kf4Ep-0007GA-I5
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:53 -0500
+Received: by mail-ej1-x643.google.com with SMTP id gj5so2911885ejb.8
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:53:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=l8OWihoDLGOUB+IKO0uLTru1BYpQyrVbsBOdCF81cxk=;
- b=PIIM6+VKREMAfKDyQXJyn4jNTiGV8sVl2T1wfMBPkZuGUsW4MU6SVcT/mACmUsGCLb
- iTnzTJ5/sCm6CZLBLf+Ttyhm3Yj+XR9d9KglOFSwQheUC0nGQ7CnsskU9bJtPx76HnNq
- flQZXLaBAwzAEC13xGpNgU9hgPCeUN/0n1vCYYLqJy7A2q4wWCBmEiB5sXmkBTaJhV5/
- bOc+FqXnoTy4+sFhKglBZrR94PgrNCMJBAISh3+5Aeqa5zSHV6AAOsn1J9qiehZxyr/Y
- v1b4/z/fIl7fxJ6r9n13IyiuTr4miSJZSCQDSUkEKEEj17qdlzhlCQk59H2hS0omo83F
- cyGg==
+ bh=ryf6omjdRP3QKleQxuXUTo2JT7FTp9P5wBUuqReBuz8=;
+ b=gvYl4B09s9rdssuKsWHn3EgBKNQztmmbriK+/Wa87Zu4SECdI+cQSnbtbAN3vaN90U
+ 3huXnUejKoCGBPn+AzbL0NVw++q1SnrCjBN/QTWrG2WG9V87kJNXiYDLaeKObQqbUFLp
+ XGZWLRXICgdqiuBlRx0R7odaV8tunXlUl7UlI5qEMjBtrGYC9YYYQyVEdylNfRl3DiHD
+ KF37EljQPTD9lF6GhJ4EnPt4kpIVPU/T6M6wiqHExeZcRKpHzd1IxM63e8x+LpHx/j+M
+ 0s7I1kXnFHAvRH4nkwgHxg0UY93z3uJdn4C9JWCyQB7rx02QeHdCbnHk0h+K2BfNawIs
+ DDPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=l8OWihoDLGOUB+IKO0uLTru1BYpQyrVbsBOdCF81cxk=;
- b=uf5DmNZx6nb6Hb9HM4axyO7/t1P3xteFpbOuCjT0WNOZTfGGZYSkPSA+2+KF+rElql
- IeebVrgxos7jS7K6UdAt3G7vh+H8bjcHo+pGLzGlqeOUiBO+ikMrSoF1bCmcSQeZFsY6
- ahkkQCLRKDCst1aL1S+e5eACKTX36Gsdzx3QY+gtdRFynRKBrlbXqHxp3MoTyOX7ossW
- A+Hf6B9x+Mg1WsLUk8eMUCRnC3UHtlujUG15PPvOzG0rTn4HHMPP23lrAkCpx2wQoL3J
- aGXeZSvk2L0OyQQTjBwDBPZxMrTA2sBGw+NWNop3KXnIj4y1bO7uVbC28XKKScOwJ3mU
- 7ZEQ==
-X-Gm-Message-State: AOAM5300EjVycNz8zr84xIKX1rkYIchHnWAmiPD65i2uH1Id8JjPimxk
- KBuceROx6+gY4No7W66OQ6xoAucakW0=
-X-Google-Smtp-Source: ABdhPJxsbijP2ir7//8TSnM+NbEWsv3bgGGVTlfZHJ53K+hyztJTOmlITC9ShhFSz6jku3bMqeFHzw==
-X-Received: by 2002:a17:906:36d9:: with SMTP id
- b25mr2568850ejc.155.1605632028951; 
- Tue, 17 Nov 2020 08:53:48 -0800 (PST)
+ bh=ryf6omjdRP3QKleQxuXUTo2JT7FTp9P5wBUuqReBuz8=;
+ b=Q4SKFZXq4hcNGTh6o19IroGzNFlJXQtqMCZiKkW3iSS8egLual4Z3uV8QcOr0mr96r
+ MRUZKTd1qrl55ZpSj6+ukXLyOErav8JNd1Jk3Gwn5WSRW7pm0AyCcTw9inhoQFu8nQRn
+ Q0FZu8mDN2XPUd/Izjw1IEnXca8dayP0LV/2JoRv+5feh9SoFCzMDnleI/ex2KM0HSwG
+ kqF6HUxztB3te8mFgpaPZMD4ryF/RdzRbfT0RFir6FL1QXRLapcNKP1hGtzAbzIt2MYy
+ e3oCceOShP0XL6Goa4wpTqTftweu/ylWRDgrJ82jxnJxGBRlT4y8z1pmH4k4kK5MEFPR
+ BzJg==
+X-Gm-Message-State: AOAM533CvYRH8mzN0ZkIeeZ3trZ/wHdHehoLT98PmGIIIfWtVL7L70DK
+ Cq3V0htO1uWhSWY+WG79j/0ZDsWyLCQ=
+X-Google-Smtp-Source: ABdhPJyrjU4GOHFYFgmnpu3VZO23R6r5+pMAmJPaLoHphEGoBIzPbZP0HOifm4fEfV1b/5Ow92HNSQ==
+X-Received: by 2002:a17:906:892:: with SMTP id
+ n18mr19578559eje.1.1605632030002; 
+ Tue, 17 Nov 2020 08:53:50 -0800 (PST)
 Received: from localhost.localdomain ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id u7sm639067ejf.83.2020.11.17.08.53.48
+ by smtp.gmail.com with ESMTPSA id u7sm639067ejf.83.2020.11.17.08.53.49
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Nov 2020 08:53:48 -0800 (PST)
+ Tue, 17 Nov 2020 08:53:49 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 23/29] scripts: kernel-doc: fix line number handling
-Date: Tue, 17 Nov 2020 17:53:06 +0100
-Message-Id: <20201117165312.118257-24-pbonzini@redhat.com>
+Subject: [PATCH 24/29] scripts: kernel-doc: try to use c:function if possible
+Date: Tue, 17 Nov 2020 17:53:07 +0100
+Message-Id: <20201117165312.118257-25-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201117165312.118257-1-pbonzini@redhat.com>
 References: <20201117165312.118257-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x644.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -92,91 +92,92 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Address several issues related to pointing to the wrong line
-number:
+There are a few namespace clashes by using c:macro everywhere:
 
-1) ensure that line numbers will always be initialized
+basically, when using it, we can't have something like:
 
-   When section is the default (Description), the line number
-   is not initializing, producing this:
+	.. c:struct:: pwm_capture
 
-	$ ./scripts/kernel-doc --enable-lineno ./drivers/media/v4l2-core/v4l2-mem2mem.c|less
+	.. c:macro:: pwm_capture
 
-	**Description**
+So, we need to use, instead:
 
-	#define LINENO 0
-	In case of streamoff or release called on any context,
-	1] If the context is currently running, then abort job will be called
-	2] If the context is queued, then the context will be removed from
-	   the job_queue
+	.. c:function:: int pwm_capture (struct pwm_device * pwm, struct pwm_capture * result, unsigned long timeout)
 
-  Which is not right. Ensure that the line number will always
-  be there. After applied, the result now points to the right location:
+for the function declaration.
 
-	**Description**
+The kernel-doc change was proposed by Jakob Lykke Andersen here:
 
-	#define LINENO 410
-	In case of streamoff or release called on any context,
-	1] If the context is currently running, then abort job will be called
-	2] If the context is queued, then the context will be removed from
-	   the job_queue
+	https://github.com/jakobandersen/linux_docs/commit/6fd2076ec001cca7466857493cd678df4dfe4a65
 
-2) The line numbers for function prototypes are always + 1,
-   because it is taken at the line after handling the prototype.
-   Change the logic to point to the next line after the /** */
-   block;
-
-3) The "DOC:" line number should point to the same line as this
-   markup is found, and not to the next one.
-
-Probably part of the issues were due to a but that was causing
-the line number offset to be incremented by one, if --export
-were used.
+Although I did a different implementation.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/kernel-doc | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ scripts/kernel-doc | 23 ++++++++++++++---------
+ 1 file changed, 14 insertions(+), 9 deletions(-)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 667ad3169c..98752164eb 100755
+index 98752164eb..2d56c46933 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -1705,7 +1705,7 @@ sub dump_function($$) {
-     my $file = shift;
-     my $noret = 0;
+@@ -917,6 +917,7 @@ sub output_function_rst(%) {
+     my ($parameter, $section);
+     my $oldprefix = $lineprefix;
+     my $start = "";
++    my $is_macro = 0;
  
--    print_lineno($.);
-+    print_lineno($new_start_line);
+     if ($sphinx_major < 3) {
+ 	if ($args{'typedef'}) {
+@@ -926,11 +927,17 @@ sub output_function_rst(%) {
+ 	    $lineprefix = "";
+ 	    output_highlight_rst($args{'purpose'});
+ 	    $start = "\n\n**Syntax**\n\n  ``";
++	    $is_macro = 1;
+ 	} else {
+ 	    print ".. c:function:: ";
+ 	}
+     } else {
+-	print ".. c:macro:: ". $args{'function'} . "\n\n";
++	if ($args{'typedef'} || $args{'functiontype'} eq "") {
++	    $is_macro = 1;
++	    print ".. c:macro:: ". $args{'function'} . "\n\n";
++	} else {
++	    print ".. c:function:: ";
++	}
  
-     $prototype =~ s/^static +//;
-     $prototype =~ s/^extern +//;
-@@ -2033,7 +2033,7 @@ sub process_name($$) {
-     if (/$doc_block/o) {
- 	$state = STATE_DOCBLOCK;
- 	$contents = "";
--	$new_start_line = $. + 1;
-+	$new_start_line = $.;
- 
- 	if ( $1 eq "" ) {
- 	    $section = $section_intro;
-@@ -2116,6 +2116,7 @@ sub process_body($$) {
-     if ($state == STATE_BODY_WITH_BLANK_LINE && /^\s*\*\s?\S/) {
- 	dump_section($file, $section, $contents);
- 	$section = $section_default;
-+	$new_start_line = $.;
- 	$contents = "";
+ 	if ($args{'typedef'}) {
+ 	    print_lineno($declaration_start_line);
+@@ -939,7 +946,7 @@ sub output_function_rst(%) {
+ 	    output_highlight_rst($args{'purpose'});
+ 	    $start = "\n\n**Syntax**\n\n  ``";
+ 	} else {
+-	    print "``";
++	    print "``" if ($is_macro);
+ 	}
      }
- 
-@@ -2171,6 +2172,7 @@ sub process_body($$) {
- 	$prototype = "";
- 	$state = STATE_PROTO;
- 	$brcount = 0;
-+        $new_start_line = $. + 1;
-     } elsif (/$doc_content/) {
- 	if ($1 eq "") {
- 	    if ($section eq $section_context) {
+     if ($args{'functiontype'} ne "") {
+@@ -964,14 +971,12 @@ sub output_function_rst(%) {
+ 	    print $type;
+ 	}
+     }
+-    if ($args{'typedef'}) {
+-	print ");``\n\n";
++    if ($is_macro) {
++	print ")``\n\n";
+     } else {
+-	if ($sphinx_major < 3) {
+-	    print ")\n\n";
+-	} else {
+-	    print ")``\n";
+-	}
++	print ")\n\n";
++    }
++    if (!$args{'typedef'}) {
+ 	print_lineno($declaration_start_line);
+ 	$lineprefix = "   ";
+ 	output_highlight_rst($args{'purpose'});
 -- 
 2.28.0
 
