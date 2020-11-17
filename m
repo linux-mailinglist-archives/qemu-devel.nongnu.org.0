@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5A8D2B6494
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 14:50:28 +0100 (CET)
-Received: from localhost ([::1]:40750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B8762B6496
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 14:50:31 +0100 (CET)
+Received: from localhost ([::1]:40946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf1NL-00050r-Ma
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 08:50:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53036)
+	id 1kf1NO-00055d-9A
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 08:50:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kf1Lc-0003Ns-Py
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 08:48:40 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:53029)
+ id 1kf1Le-0003OE-45
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 08:48:42 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:38847)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kf1La-0001uT-OS
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 08:48:40 -0500
-Received: by mail-wm1-x332.google.com with SMTP id 10so3326782wml.2
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 05:48:38 -0800 (PST)
+ id 1kf1Lc-0001uX-3G
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 08:48:41 -0500
+Received: by mail-wm1-x331.google.com with SMTP id 1so1780895wme.3
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 05:48:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=L3Z8jXG2BnPxZEhfi0MgrQ41vpPqcERXYiZc9uYCSUU=;
- b=q8AOjE1g9yAxyW/JMz/Mmy5eQYRSW23clFQOdintVUFLGxr2BnTDcSMj0ybHQNxoTF
- ovisAwfDrK3ElIm7f9CDj/v2MCN03ediKjeJdhdTsN5607SteJ164u7VY80r3zs7HVDg
- 9ky3bcxSZVVXZfwozvSZgdT9WMGTXhSAlfJEnhIWwtPkG0A3F6Z4KgfZMkcH+/sYJXkX
- wL5HyIrbV3IoR9w4XKRzkXaLs99AyysUdGX91AT8AeF4UQtO0D6agze8nx8VYD9gft1I
- qp1Ac8SJxQjpmETyhTkGnQYJmoKHviOmnP885BK7wVeD8Svxtu+akclyxwPgyYORS7oq
- n0/A==
+ bh=EJXyyAUUfoS63NoOHsrWihhaSKcfYx5yWaS+ZUcS+aw=;
+ b=nfTrI6ZOeteitIDSieKJlHw+vCvR0AD5j7BOsxafYuIpP1lXHC4BJpkTjMrMwuwzCg
+ s1BdUwmF1LVxzdv/glheQSSdBItLzolkSVpRMbCr5wFhwHiGaIkECrBGRrLn6FAAp2Wj
+ qwqRd2t3y6IuanTY8R/5R5R78y0YNFlmoKKx6q6ErG7qwidn/9oYejgIO2177v8BQCEU
+ bRwlZ7Am08CMoNhUjo6PTcOaII5LZ4W9vhfBY0k2ruPja3nTS1ZQlFRN5lmRzDSHMOm8
+ E3XdkeazQhn2eYyIWsRbmXRGcptOSj5zzS7qBI+OCepr2894DTKsNKLI7C0zbqEMNsbI
+ qrfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=L3Z8jXG2BnPxZEhfi0MgrQ41vpPqcERXYiZc9uYCSUU=;
- b=rr5U8Nptvvy0j+cLrgQzofp35i6fcBiK+DDV4ZDN1gxI9mepAUVq9lpPbfTfSrtRlc
- 0IJmoNFxh6JCXtk5U40qwoFHWi3HfAlH0bRHcf4lCv+N+bpOYzX9OuHPspN3CgnWKFFO
- GZEiyXElWEHq5yWt0SC9AAJElwSsktoanN7QYsLDYO4tvQxduBOoul71XMA2mEskuScW
- OdpVTvvx7A4HAyjj4STtK8WcJDZ/jtfZHvdz9l+jrm64563GKg/p9BmGDcUyPMGTZG8u
- E3HaABpwn98+ZzSvrIM0O613asOiFzijE/bBZEr2pMpNAsi0IPYooKpDNmYdSktEGzJA
- 6naQ==
-X-Gm-Message-State: AOAM530dFQbmGBBi8tnOUp8vN7HWlXsGB73AvmT4YDoXVYq2BSXzNeXH
- 1wZKA88PDMg0JfdkntjkbELM4Uz3s3YHFA==
-X-Google-Smtp-Source: ABdhPJzG58Y7E48VyqftpuH9bRvLcI0TVRQ15gpWN2/9x5/sw41XNmVMnECCrtOwkql3XdAfhmscXQ==
-X-Received: by 2002:a1c:2e48:: with SMTP id u69mr4553081wmu.30.1605620916622; 
- Tue, 17 Nov 2020 05:48:36 -0800 (PST)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=EJXyyAUUfoS63NoOHsrWihhaSKcfYx5yWaS+ZUcS+aw=;
+ b=hDT6sm2T5oVfyW3cW5OHSHSH74CInvNQ6EmWAnk8g2K7i8M4nMFsuHlD7WeisMA1i8
+ Ojffpu1RSE30hXSFLu1QI9X8BPk2KVwF59qN76+Y12CKQNqcq5yzm+ycBMiO5LPfwPWB
+ wu8RPSBav0E475g180Wd0gTg9oXmFVBF1fQWktpd07aqPBXMeW2ADWxyCKIcOEA1tobJ
+ sbJZ2pVt0DM6EXFz7Jb2NzQ6rFmR8mleN9qc2eCYJPf2Xg9mikapAiY4zHv7uHraSVyM
+ d/pkEjkKMhv6rRLk3G9lFu0fgUHdK7xwYWdoG+l1FSLFvrEQNpVEswIoSjigGT/E3pbl
+ LSBg==
+X-Gm-Message-State: AOAM531fWlww8TUuyrYLZkl8eJAj0QB/TqJw/wq8KjrxYDWR6+QxwNjl
+ CNLdfZfneyw+EUmLjlxlp6OPQEhMFtsPWA==
+X-Google-Smtp-Source: ABdhPJyg2B8gyELYAVvLQsn7IqaPRyMmN0iLXhq6bDUk15dEr6OIdEm7Qp52NfFAHQ/ne+f0r4aT3Q==
+X-Received: by 2002:a1c:208f:: with SMTP id g137mr4440725wmg.116.1605620917876; 
+ Tue, 17 Nov 2020 05:48:37 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d8sm3578630wmb.11.2020.11.17.05.48.35
+ by smtp.gmail.com with ESMTPSA id d8sm3578630wmb.11.2020.11.17.05.48.36
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 17 Nov 2020 05:48:36 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/9] target-arm queue
-Date: Tue, 17 Nov 2020 13:48:25 +0000
-Message-Id: <20201117134834.31731-1-peter.maydell@linaro.org>
+Subject: [PULL 1/9] hw/arm/virt: ARM_VIRT must select ARM_GIC
+Date: Tue, 17 Nov 2020 13:48:26 +0000
+Message-Id: <20201117134834.31731-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201117134834.31731-1-peter.maydell@linaro.org>
+References: <20201117134834.31731-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,64 +89,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Arm queue; bugfixes only.
+From: Andrew Jones <drjones@redhat.com>
 
-thanks
--- PMM
+The removal of the selection of A15MPCORE from ARM_VIRT also
+removed what A15MPCORE selects, ARM_GIC. We still need ARM_GIC.
 
-The following changes since commit 48aa8f0ac536db3550a35c295ff7de94e4c33739:
+Fixes: bec3c97e0cf9 ("hw/arm/virt: Remove dependency on Cortex-A15 MPCore peripherals")
+Reported-by: Miroslav Rezanina <mrezanin@redhat.com>
+Signed-off-by: Andrew Jones <drjones@redhat.com>
+Reviewed-by: Miroslav Rezanina <mrezanin@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20201111143440.112763-1-drjones@redhat.com
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/arm/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-  Merge remote-tracking branch 'remotes/ericb/tags/pull-nbd-2020-11-16' into staging (2020-11-17 11:07:00 +0000)
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 7d022eeefdb..e69a9009cf0 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -6,6 +6,7 @@ config ARM_VIRT
+     imply VFIO_PLATFORM
+     imply VFIO_XGMAC
+     imply TPM_TIS_SYSBUS
++    select ARM_GIC
+     select ACPI
+     select ARM_SMMUV3
+     select GPIO_KEY
+-- 
+2.20.1
 
-are available in the Git repository at:
-
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20201117
-
-for you to fetch changes up to ab135622cf478585bdfcb68b85e4a817d74a0c42:
-
-  tmp105: Correct handling of temperature limit checks (2020-11-17 12:56:33 +0000)
-
-----------------------------------------------------------------
-target-arm queue:
- * hw/arm/virt: ARM_VIRT must select ARM_GIC
- * exynos: Fix bad printf format specifiers
- * hw/input/ps2.c: Remove remnants of printf debug
- * target/openrisc: Remove dead code attempting to check "is timer disabled"
- * register: Remove unnecessary NULL check
- * util/cutils: Fix Coverity array overrun in freq_to_str()
- * configure: Make "does libgio work" test pull in some actual functions
- * tmp105: reset the T_low and T_High registers
- * tmp105: Correct handling of temperature limit checks
-
-----------------------------------------------------------------
-Alex Chen (1):
-      exynos: Fix bad printf format specifiers
-
-Alistair Francis (1):
-      register: Remove unnecessary NULL check
-
-Andrew Jones (1):
-      hw/arm/virt: ARM_VIRT must select ARM_GIC
-
-Peter Maydell (5):
-      hw/input/ps2.c: Remove remnants of printf debug
-      target/openrisc: Remove dead code attempting to check "is timer disabled"
-      configure: Make "does libgio work" test pull in some actual functions
-      hw/misc/tmp105: reset the T_low and T_High registers
-      tmp105: Correct handling of temperature limit checks
-
-Philippe Mathieu-Daudé (1):
-      util/cutils: Fix Coverity array overrun in freq_to_str()
-
- configure                    | 11 +++++--
- hw/misc/tmp105.h             |  7 +++++
- hw/core/register.c           |  4 ---
- hw/input/ps2.c               |  9 ------
- hw/misc/tmp105.c             | 73 ++++++++++++++++++++++++++++++++++++++------
- hw/timer/exynos4210_mct.c    |  4 +--
- hw/timer/exynos4210_pwm.c    |  8 ++---
- target/openrisc/sys_helper.c |  3 --
- util/cutils.c                |  3 +-
- hw/arm/Kconfig               |  1 +
- 10 files changed, 89 insertions(+), 34 deletions(-)
 
