@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28BD32B6AD1
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 17:58:46 +0100 (CET)
-Received: from localhost ([::1]:35958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C82A2B6AD6
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 18:01:19 +0100 (CET)
+Received: from localhost ([::1]:43634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf4JZ-0002Mf-6a
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 11:58:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43732)
+	id 1kf4M2-0005Rf-JO
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 12:01:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kf4En-0002wl-A4
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:49 -0500
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:32801)
+ id 1kf4EQ-00023n-Hs
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:26 -0500
+Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:39177)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kf4Ek-0007Di-IQ
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:48 -0500
-Received: by mail-ed1-x543.google.com with SMTP id k4so6473354edl.0
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:53:46 -0800 (PST)
+ id 1kf4EO-00074C-Lb
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:26 -0500
+Received: by mail-ed1-x544.google.com with SMTP id e18so23206227edy.6
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:53:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Dr8gMwgBg3UV8aY4p4ptlc+t94D+s2hF4B9N6GvwKs8=;
- b=svtgP5Dj9JZNWhyzirN9MdvqaUeF3/+W/Gbms7sj3VR1RmEMSOglp4J/+IHznfafW7
- T3h4PmADmbacwx3/PA2BrA7TM94dM0ciMVpvWMuZ+EHDEI5XY3ZajAFpwlhtZkdSeGda
- VuMqJthvh3llh6OiXIs5mLocEkhPIur24xv6SGR9iaq7kxshKsxLgB3tQPJ9U+nfAHao
- 4dL43pkcXfkZgmZpsClKM43rLQc36B+H+Spa9MVZuPE5L46yWnr/4LWWL/Sk09GZo069
- LuSvOuYZGi6z8WDIEY33bNY7vh7TNgnKaN+Nxmj5prIUJPa4OaZqda725pzOGVxXBx11
- 5WPg==
+ bh=gNWJ/VEx1uTE8wxM/bFQps9+VkdXGSnUdRqMFFMtLWI=;
+ b=rYInS5QIiVulKKyP3KjWYttA1MOwrN056PVQGDYCOTzKnqWufNzbFGvpKF/xVdSkXC
+ PlAxUQUpvDWXx7m5TbRS0MfVgB0LdFgbMbR5s/otboTRjE1C/vuOiWydhAxtzlTb42So
+ S0rQAMlmnDEQhT5webkub15bX3claOoCnD3JlmVxAg8DDJWkZz4XP7//zqgdneTC9fKz
+ zCs1Lfa1sC1ZG+o4ANo0hfyGG3wALOLQu9bYICNf9EsKU8CM3itsTnT1XLRkYrbu8JSr
+ 0U9KvP7wDPCY/ZBZd3tCj3g78V9c/LLmt/QtF6fbX9+8iZ2HLVQO/Pdz38A6XMQYQUJt
+ vOsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Dr8gMwgBg3UV8aY4p4ptlc+t94D+s2hF4B9N6GvwKs8=;
- b=OCpgLoDJIA0ccE+XeUpHaPR3GNGKTH270h0uJy+BzupkCGzppRjYqqgAnwJEdWMGUm
- yIqVQdeC/VXWJGZbEfAwifea79Q8n55oJOObDF9V5vg6SOgZomicpjxPcScUcOc+6P/D
- eTmp5gnMOfIZDe+Tr3gotw2+fT1GfKbkpdmrQ7C0N0/S0waPyUAfF5b/oddkRushz1Q/
- hijGgQOlh3RZI++twFn8PflhlCjsGhsf3eVswqmfltdc1J3wSpDu0McQgtpO3sglVFnP
- /W5fZ0UYP3+n1rxnPRW9IkQZuem6Oy9AmX5BoE8RbWXxFmbY7d5NgI/mn6/Hxzyct9cE
- tLWA==
-X-Gm-Message-State: AOAM532/QtMCOSlX+iTymfMRIdHpqu+kU3jKzLvSTv/6o9pnkPsTmYbh
- 4inxXtwPIWsuQy63FfGMH1F5ovCreic=
-X-Google-Smtp-Source: ABdhPJwZ5pvVuVCxwDe0tfeOPxxpvRVrCh9APPVkw05dGIl1GTOQfyz0n5JS9roDn764qeT0pvOZnA==
-X-Received: by 2002:aa7:da44:: with SMTP id w4mr21824259eds.131.1605632024869; 
- Tue, 17 Nov 2020 08:53:44 -0800 (PST)
+ bh=gNWJ/VEx1uTE8wxM/bFQps9+VkdXGSnUdRqMFFMtLWI=;
+ b=rWYMudIFgblCaG8C3UBKoPlX1Wy/lid7Uj+d9xzureKdFKmpMLKkUFJEGszh+BtACP
+ 5ui7iH5TvCfRROQUV9z1SGuOyrrSu6Iz6HGJUo3AsygiqBucJ1EIniTfu2FxC4vDvO/8
+ 81eqiTvNhLy13nrK5GCe417eMF6DarY8zBZdRirhI/olwfcYlEwvcAdR7vU5Fm5op9oE
+ h8FceFiC3q0O5Pq+gdoh1MDZGwjLs1OzhQXSbUcGeA9RDOxh9WP9GR1RH7XG8COeNQoP
+ QJ+hY32VkU7lrHbzbTu7TMMK3ncn0gSiRBklB79uat2fXFShFZOtlVo0Un6Q9z6AYeAm
+ Ia9A==
+X-Gm-Message-State: AOAM532KoDMroWJnMrLwg2XI1DlJrSYl6I26vFhDJisD9PqNBJaX6FLD
+ eAkPaMVigs9MG09aRGggESHO/GcTHCs=
+X-Google-Smtp-Source: ABdhPJxFXRFTnwia/1OwEcbBoBA8P+CKT+sCd4WwD5aLuSz42sObQ/PvnDcLRym4hmhHkbDJ6QrXfg==
+X-Received: by 2002:a50:da4b:: with SMTP id a11mr4449648edk.364.1605632003055; 
+ Tue, 17 Nov 2020 08:53:23 -0800 (PST)
 Received: from localhost.localdomain ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id u7sm639067ejf.83.2020.11.17.08.53.44
+ by smtp.gmail.com with ESMTPSA id u7sm639067ejf.83.2020.11.17.08.53.21
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Nov 2020 08:53:44 -0800 (PST)
+ Tue, 17 Nov 2020 08:53:22 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 19/29] scripts: kernel-doc: reimplement -nofunction argument
-Date: Tue, 17 Nov 2020 17:53:02 +0100
-Message-Id: <20201117165312.118257-20-pbonzini@redhat.com>
+Subject: [PATCH 07/29] Replace HTTP links with HTTPS ones: documentation
+Date: Tue, 17 Nov 2020 17:52:50 +0100
+Message-Id: <20201117165312.118257-8-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201117165312.118257-1-pbonzini@redhat.com>
 References: <20201117165312.118257-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::543;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x543.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::544;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -89,150 +89,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+From: "Alexander A. Klimov" <grandmaster@al2klimov.de>
 
-Right now, the build system doesn't use -nofunction, as
-it is pretty much useless, because it doesn't consider
-the other output modes (extern, internal), working only
-with all.
+Rationale:
+Reduces attack surface on kernel devs opening the links for MITM
+as HTTPS traffic is much harder to manipulate.
 
-Also, it is limited to exclude functions.
+Deterministic algorithm:
+For each file:
+  For each line:
+    If doesn't contain `\bxmlns\b`:
+      For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+        If both the HTTP and HTTPS versions
+        return 200 OK and serve the same content:
+          Replace HTTP with HTTPS.
 
-Re-implement it in order to allow excluding any symbols from
-the document output, no matter what mode is used.
-
-The parameter was also renamed to "-nosymbol", as it express
-better its meaning.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+Link: https://lore.kernel.org/r/20200526060544.25127-1-grandmaster@al2klimov.de
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/kernel-doc | 44 +++++++++++++++++++++-----------------------
- 1 file changed, 21 insertions(+), 23 deletions(-)
+ scripts/kernel-doc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index f33a4b1cc7..35d60af834 100755
+index 95f2d7adcf..fadc2f5b86 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -66,9 +66,8 @@ Output selection (mutually exclusive):
-   -function NAME	Only output documentation for the given function(s)
- 			or DOC: section title(s). All other functions and DOC:
- 			sections are ignored. May be specified multiple times.
--  -nofunction NAME	Do NOT output documentation for the given function(s);
--			only output documentation for the other functions and
--			DOC: sections. May be specified multiple times.
-+  -nosymbol NAME	Exclude the specified symbols from the output
-+		        documentation. May be specified multiple times.
+@@ -324,7 +324,7 @@ if (defined($ENV{'KBUILD_VERBOSE'})) {
  
- Output selection modifiers:
-   -no-doc-sections	Do not output DOC: sections.
-@@ -288,9 +287,8 @@ my $modulename = "Kernel API";
- use constant {
-     OUTPUT_ALL          => 0, # output all symbols and doc sections
-     OUTPUT_INCLUDE      => 1, # output only specified symbols
--    OUTPUT_EXCLUDE      => 2, # output everything except specified symbols
--    OUTPUT_EXPORTED     => 3, # output exported symbols
--    OUTPUT_INTERNAL     => 4, # output non-exported symbols
-+    OUTPUT_EXPORTED     => 2, # output exported symbols
-+    OUTPUT_INTERNAL     => 3, # output non-exported symbols
- };
- my $output_selection = OUTPUT_ALL;
- my $show_not_found = 0;	# No longer used
-@@ -315,6 +313,7 @@ my $man_date = ('January', 'February', 'March', 'April', 'May', 'June',
- # CAVEAT EMPTOR!  Some of the others I localised may not want to be, which
- # could cause "use of undefined value" or other bugs.
- my ($function, %function_table, %parametertypes, $declaration_purpose);
-+my %nosymbol_table = ();
- my $declaration_start_line;
- my ($type, $declaration_name, $return_type);
- my ($newsection, $newcontents, $prototype, $brcount, %source_map);
-@@ -434,10 +433,9 @@ while ($ARGV[0] =~ m/^--?(.*)/) {
- 	$output_selection = OUTPUT_INCLUDE;
- 	$function = shift @ARGV;
- 	$function_table{$function} = 1;
--    } elsif ($cmd eq "nofunction") { # output all except specific functions
--	$output_selection = OUTPUT_EXCLUDE;
--	$function = shift @ARGV;
--	$function_table{$function} = 1;
-+    } elsif ($cmd eq "nosymbol") { # Exclude specific symbols
-+	my $symbol = shift @ARGV;
-+	$nosymbol_table{$symbol} = 1;
-     } elsif ($cmd eq "export") { # only exported symbols
- 	$output_selection = OUTPUT_EXPORTED;
- 	%function_table = ();
-@@ -570,11 +568,11 @@ sub dump_doc_section {
-         return;
-     }
- 
-+    return if (defined($nosymbol_table{$name}));
-+
-     if (($output_selection == OUTPUT_ALL) ||
--	($output_selection == OUTPUT_INCLUDE &&
--	 defined($function_table{$name})) ||
--	($output_selection == OUTPUT_EXCLUDE &&
--	 !defined($function_table{$name})))
-+	(($output_selection == OUTPUT_INCLUDE) &&
-+	 defined($function_table{$name})))
-     {
- 	dump_section($file, $name, $contents);
- 	output_blockhead({'sectionlist' => \@sectionlist,
-@@ -800,6 +798,8 @@ sub output_blockhead_rst(%) {
-     my ($parameter, $section);
- 
-     foreach $section (@{$args{'sectionlist'}}) {
-+	next if (defined($nosymbol_table{$section}));
-+
- 	if ($output_selection != OUTPUT_INCLUDE) {
- 	    print "**$section**\n\n";
- 	}
-@@ -1115,12 +1115,14 @@ sub output_declaration {
-     my $name = shift;
-     my $functype = shift;
-     my $func = "output_${functype}_$output_mode";
-+
-+    return if (defined($nosymbol_table{$name}));
-+
-     if (($output_selection == OUTPUT_ALL) ||
- 	(($output_selection == OUTPUT_INCLUDE ||
- 	  $output_selection == OUTPUT_EXPORTED) &&
- 	 defined($function_table{$name})) ||
--	(($output_selection == OUTPUT_EXCLUDE ||
--	  $output_selection == OUTPUT_INTERNAL) &&
-+	($output_selection == OUTPUT_INTERNAL &&
- 	 !($functype eq "function" && defined($function_table{$name}))))
-     {
- 	&$func(@_);
-@@ -1301,6 +1303,8 @@ sub show_warnings($$) {
- 	my $functype = shift;
- 	my $name = shift;
- 
-+	return 0 if (defined($nosymbol_table{$name}));
-+
- 	return 1 if ($output_selection == OUTPUT_ALL);
- 
- 	if ($output_selection == OUTPUT_EXPORTED) {
-@@ -1324,13 +1328,6 @@ sub show_warnings($$) {
- 			return 0;
- 		}
- 	}
--	if ($output_selection == OUTPUT_EXCLUDE) {
--		if (!defined($function_table{$name})) {
--			return 1;
--		} else {
--			return 0;
--		}
--	}
- 	die("Please add the new output type at show_warnings()");
- }
- 
-@@ -1952,6 +1949,7 @@ sub process_export_file($) {
- 
-     while (<IN>) {
- 	if (/$export_symbol/) {
-+	    next if (defined($nosymbol_table{$2}));
- 	    $function_table{$2} = 1;
- 	}
-     }
+ # Generated docbook code is inserted in a template at a point where
+ # docbook v3.1 requires a non-zero sequence of RefEntry's; see:
+-# http://www.oasis-open.org/docbook/documentation/reference/html/refentry.html
++# https://www.oasis-open.org/docbook/documentation/reference/html/refentry.html
+ # We keep track of number of generated entries and generate a dummy
+ # if needs be to ensure the expanded template can be postprocessed
+ # into html.
 -- 
 2.28.0
 
