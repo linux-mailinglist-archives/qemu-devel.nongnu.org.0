@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E536B2B6B10
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 18:06:50 +0100 (CET)
-Received: from localhost ([::1]:35040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C39782B6B15
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 18:08:31 +0100 (CET)
+Received: from localhost ([::1]:43346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf4RN-0005Dk-UH
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 12:06:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43704)
+	id 1kf4T0-00007J-RZ
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 12:08:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kf4El-0002sS-Gt
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:47 -0500
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:43670)
+ id 1kf4En-0002zN-Sl
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:51 -0500
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:38822)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kf4Ej-0007DW-IU
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:47 -0500
-Received: by mail-ed1-x541.google.com with SMTP id q16so7995237edv.10
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:53:45 -0800 (PST)
+ id 1kf4El-0007E5-Ho
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:49 -0500
+Received: by mail-ej1-x644.google.com with SMTP id a16so2630045ejj.5
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:53:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DUmfTNjlKy0Q9IhZ7wEbjJoGFlCIUy8CMRbJxon/jUY=;
- b=TiYEwZf4V5gjaz1FDKXBdeEfvcV6bPClWt80nRUNAf1R900c9O+kpSUG6PXVq1YPW0
- 5mlPdTZ0FPAKCDa81p9VT9XuV5BO/ms9xt8i3FEBb3uw6XJzE730z/hr8+lCMR8tfJhe
- C/8JK3AEI5uEANeuRklPRi4DxqL1l4QRvercKUL3V7rOgMTkihYoupdnbtczjc8WC5YK
- TEwY6XFkeg0453wt4/qActlKql8lRSpKEwu0ytxd5/3imWP8Eb62uWq198oiwQHkaUo+
- 2UFH08GHF9cO7pzuRa3q4Id/25oyfYd9Ii90h5zASMMgiWIzdR/Nf9S7cCOus35DTfIL
- CQQA==
+ bh=xnRU/+C+RBHC9xmiriPbBDTgdYPtBV1fZ8ucza31GT8=;
+ b=CXaMqqJbNs7MYvub9e5YFZvQlA8kMlRG+bbcNaQZvS9B1tjxY8lQJjAtRnvhkb+NoL
+ ypBjWZwrgUZ6WnxdM5tU60tvePdfhKM3w8tXv+qmFafb/4k41peS1XRkWcG7VfgKP++w
+ 8qvgGRvQRTl1C4iz1MU2bhvoHLVj59FnKq1WZ+Ael42gUCKNrEx12Moj+diRxJ20P8JM
+ u/OB2cBV9omThG4nDoLOWCJzXJvOp7alt/PcmZUlJIeR0a/PzV0SlmN6A8P+b3TdjC/1
+ u2asfR86R2g+/AY9zhFpqx+RrsS8lbgZvDiimryoDnStlJc4CifmHpbkvABV5/NSSi6Q
+ bklg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=DUmfTNjlKy0Q9IhZ7wEbjJoGFlCIUy8CMRbJxon/jUY=;
- b=N1l/rw5hXAOCXPIMRJ0+0PF+TSZLRU4LZPC99vR/X0FHSBO8asRD/hdk1QALst4xOh
- nqLJlj9gCOQN3dA9nbD+ih+vVycDV1sjpC+cF6A9J9SMCIWw/QRIC4sZJQLvPe1zFIix
- TlTyTNPk9a1Ch19a/D6w2B10M4K1OK+dll7Sgh9ttjIWh3KWjvp//28XexJfrzuEtIk3
- FPYfjjtyD901aL4iSD4MT/mK2gk05U+YkV4gwVnLAXw5hDUitFbqC1jYAx4NsUdaSC1S
- TLvRdPf3M8BLq0p9o/n9+IdwH1GnQy/ou/zJfM1lfQClK/u+iF5npsABm4/GiTGQY2Xw
- wBjA==
-X-Gm-Message-State: AOAM5316gfWcwr+ERKxF+j4xyY4W+TbwD54xgwfW3Pnbs63YpCMi9MML
- B5AX466mW3OEdVPRBaYScYvFREPIJjs=
-X-Google-Smtp-Source: ABdhPJyN+ZnMmXBe4gyOASStVpUJHkBiNcbBez1WOgLZb51sT2J+8WnKF80CoILVMFFsxfmzhkSxBw==
-X-Received: by 2002:a05:6402:1d3b:: with SMTP id
- dh27mr20622536edb.183.1605632024020; 
- Tue, 17 Nov 2020 08:53:44 -0800 (PST)
+ bh=xnRU/+C+RBHC9xmiriPbBDTgdYPtBV1fZ8ucza31GT8=;
+ b=YJ245nPMQ4y4ZfmN6USpak4ZBKtXtAol4Wn3Wt2OGOFmhvAnabaEdgLsZvsw1/03qh
+ Ifh2gIwzIJNDrxpcFoV4TyfAvwABwiCvPCaUlTcX9QzuVzs6A7bPlrperPjzkbC7jCIU
+ D+EmfYK1jM8LVlVQdSoHQZLsUC13wt1nnUjebbwOLv7+AD6tWEstH4JvgjI1x5hJxw74
+ DRAGzK95XiNhHhBy4psTNwkwYPOQOVYG1U7K64BNZLmLhP8H+VQGaXrklpwnzb4/moxm
+ WBQDyhjJVvsm1FWClK3NgpNDGpF/qeHXwOzn6NhCaFvNEe0oBR6YiQXQb/QiyPglSkbJ
+ jh/w==
+X-Gm-Message-State: AOAM533aQu3CoFoNOH7mwfdmMGsE1+bbLnK95JmKSXXcJnS1fgbhcpyB
+ rrIAFu8ZURm/dvf/rplIn7St4ASjSn4=
+X-Google-Smtp-Source: ABdhPJyNS7EZg3c6d5ESGbW9WgaEOKmhp5SPefGU/iFMtMki/JYUyESguQBYAxCmvDPdLDsLIGwvGA==
+X-Received: by 2002:a17:906:2886:: with SMTP id
+ o6mr21110581ejd.259.1605632025877; 
+ Tue, 17 Nov 2020 08:53:45 -0800 (PST)
 Received: from localhost.localdomain ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id u7sm639067ejf.83.2020.11.17.08.53.42
+ by smtp.gmail.com with ESMTPSA id u7sm639067ejf.83.2020.11.17.08.53.44
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Nov 2020 08:53:43 -0800 (PST)
+ Tue, 17 Nov 2020 08:53:45 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 18/29] scripts: kernel-doc: fix troubles with line counts
-Date: Tue, 17 Nov 2020 17:53:01 +0100
-Message-Id: <20201117165312.118257-19-pbonzini@redhat.com>
+Subject: [PATCH 20/29] scripts: kernel-doc: fix typedef identification
+Date: Tue, 17 Nov 2020 17:53:03 +0100
+Message-Id: <20201117165312.118257-21-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201117165312.118257-1-pbonzini@redhat.com>
 References: <20201117165312.118257-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x541.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x644.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -92,77 +92,95 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-There's currently a bug with the way kernel-doc script
-counts line numbers that can be seen with:
+Some typedef expressions are output as normal functions.
 
-	$ ./scripts/kernel-doc -rst  -enable-lineno include/linux/math64.h >all && ./scripts/kernel-doc -rst -internal -enable-lineno include/linux/math64.h >int && diff -U0 int all
+As we need to be clearer about the type with Sphinx 3.x,
+detect such cases.
 
-	--- int	2020-09-28 12:58:08.927486808 +0200
-	+++ all	2020-09-28 12:58:08.905486845 +0200
-	@@ -1 +1 @@
-	-#define LINENO 27
-	+#define LINENO 26
-	@@ -3 +3 @@
-	-#define LINENO 16
-	+#define LINENO 15
-	@@ -9 +9 @@
-	-#define LINENO 17
-	+#define LINENO 16
-	...
-
-This is happening with perl version 5.30.3, but I'm not
-so sure if this is a perl bug, or if this is due to something
-else.
-
-In any case, fixing it is easy. Basically, when "-internal"
-parameter is used, the process_export_file() function opens the
-handle "IN". This makes the line number to be incremented, as the
-handler for the main open is also "IN".
-
-Fix the problem by using a different handler for the
-main open().
-
-While here, add a missing close for it.
+While here, fix a wrongly-indented block.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/kernel-doc | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ scripts/kernel-doc | 64 +++++++++++++++++++++++++++++-----------------
+ 1 file changed, 41 insertions(+), 23 deletions(-)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 75ddd3b5e6..f33a4b1cc7 100755
+index 35d60af834..0c31e9ad66 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -2268,7 +2268,7 @@ sub process_file($) {
- 
-     $file = map_filename($orig_file);
- 
--    if (!open(IN,"<$file")) {
-+    if (!open(IN_FILE,"<$file")) {
- 	print STDERR "Error: Cannot open file $file\n";
- 	++$errors;
+@@ -1748,30 +1748,48 @@ sub dump_function($$) {
  	return;
-@@ -2277,9 +2277,9 @@ sub process_file($) {
-     $. = 1;
- 
-     $section_counter = 0;
--    while (<IN>) {
-+    while (<IN_FILE>) {
- 	while (s/\\\s*$//) {
--	    $_ .= <IN>;
-+	    $_ .= <IN_FILE>;
- 	}
- 	# Replace tabs by spaces
-         while ($_ =~ s/\t+/' ' x (length($&) * 8 - length($`) % 8)/e) {};
-@@ -2311,6 +2311,7 @@ sub process_file($) {
- 	    print STDERR "${file}:1: warning: no structured comments found\n";
- 	}
      }
-+    close IN_FILE;
+ 
+-	my $prms = join " ", @parameterlist;
+-	check_sections($file, $declaration_name, "function", $sectcheck, $prms);
+-
+-        # This check emits a lot of warnings at the moment, because many
+-        # functions don't have a 'Return' doc section. So until the number
+-        # of warnings goes sufficiently down, the check is only performed in
+-        # verbose mode.
+-        # TODO: always perform the check.
+-        if ($verbose && !$noret) {
+-                check_return_section($file, $declaration_name, $return_type);
+-        }
++    my $prms = join " ", @parameterlist;
++    check_sections($file, $declaration_name, "function", $sectcheck, $prms);
++
++    # This check emits a lot of warnings at the moment, because many
++    # functions don't have a 'Return' doc section. So until the number
++    # of warnings goes sufficiently down, the check is only performed in
++    # verbose mode.
++    # TODO: always perform the check.
++    if ($verbose && !$noret) {
++	    check_return_section($file, $declaration_name, $return_type);
++    }
+ 
+-    output_declaration($declaration_name,
+-		       'function',
+-		       {'function' => $declaration_name,
+-			'module' => $modulename,
+-			'functiontype' => $return_type,
+-			'parameterlist' => \@parameterlist,
+-			'parameterdescs' => \%parameterdescs,
+-			'parametertypes' => \%parametertypes,
+-			'sectionlist' => \@sectionlist,
+-			'sections' => \%sections,
+-			'purpose' => $declaration_purpose
+-		       });
++    # The function parser can be called with a typedef parameter.
++    # Handle it.
++    if ($return_type =~ /typedef/) {
++	output_declaration($declaration_name,
++			   'function',
++			   {'function' => $declaration_name,
++			    'typedef' => 1,
++			    'module' => $modulename,
++			    'functiontype' => $return_type,
++			    'parameterlist' => \@parameterlist,
++			    'parameterdescs' => \%parameterdescs,
++			    'parametertypes' => \%parametertypes,
++			    'sectionlist' => \@sectionlist,
++			    'sections' => \%sections,
++			    'purpose' => $declaration_purpose
++			   });
++    } else {
++	output_declaration($declaration_name,
++			   'function',
++			   {'function' => $declaration_name,
++			    'module' => $modulename,
++			    'functiontype' => $return_type,
++			    'parameterlist' => \@parameterlist,
++			    'parameterdescs' => \%parameterdescs,
++			    'parametertypes' => \%parametertypes,
++			    'sectionlist' => \@sectionlist,
++			    'sections' => \%sections,
++			    'purpose' => $declaration_purpose
++			   });
++    }
  }
  
- 
+ sub reset_state {
 -- 
 2.28.0
 
