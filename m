@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50F112B64FA
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 14:53:14 +0100 (CET)
-Received: from localhost ([::1]:49250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C9102B649C
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 14:50:33 +0100 (CET)
+Received: from localhost ([::1]:41148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf1Q1-0000BA-CW
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 08:53:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53160)
+	id 1kf1NQ-0005Aa-Eb
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 08:50:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kf1Lk-0003Tz-6m
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 08:48:49 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:34515)
+ id 1kf1Lg-0003QF-Q7
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 08:48:44 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:53024)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kf1Ld-0001vE-IG
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 08:48:47 -0500
-Received: by mail-wm1-x330.google.com with SMTP id 23so2078769wmg.1
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 05:48:41 -0800 (PST)
+ id 1kf1Le-0001vd-IK
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 08:48:44 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id 10so3326986wml.2
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 05:48:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=SvXzb1LM/VlcgFEm6/Dvj5K8p8EtRfYYdKzhQEsVrn8=;
- b=axWP7W8y7F+sltOPhmLb90zUO2rQ7Q4k7lmz+Z9Qn+a5dtVV1VlpP8Iij00K7C98jH
- Ro4p+UrzTacUwoj3PlLnthCQdcBS9z56kQHqrMf7i0TyGhn0xkVCeQ2p+58J0gikc1vD
- 76ZwFC4bgsiCSTT3Aq0z3rOoq7gLfe/jpLudk1bcESwOnCCog1XN3s88X8XctIcxDoA4
- mm8/cMdMVfFqcZXHzCkcwFE1MHxIRyWcMoXaliyMZru+nwJUAjwSl7fzsKfuXw7S2S8a
- v8VQwlUGYfzncofSQza0qxXXo1Me6jL+flAJ3Yq3veTirHJ7jsFUqDeD1Cg5bVB7a3Pb
- Hgpw==
+ bh=qbgmkx0Ds80yl68jLC3K3LY6B17L2yWeDQHhhL2KqDw=;
+ b=MmWcWEHcvtQyDG1TbUVoijLny4rpz8kjpI/xxkx1EKQUsI2gPQ2Qml7kvcmOMN9ASc
+ MuG1dQHmYCcJ0LD0f9zEc/0WdmA0Nxljww56tGoiDIXhmctje9IedgGugqQPhyEtWg+/
+ xeCqsKW3eBKSiE+BjkkaiACmc9MKtFN1EDa4Svo8LlEywKZMkS5NDrIR3TdBY+cIAnQW
+ KqkAluzffan82OzQaggXfjOFG9ioCZKV78dSBfAQ3ElLN9HPsXlmKgphm4aiEIMl3QNJ
+ wrVE5P0N0Yj3pHl1yLnhqYXNASdF6jfNfpif5TVarLPFFQ6bBWKK6DwQDt8m1wkIToWY
+ v1gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SvXzb1LM/VlcgFEm6/Dvj5K8p8EtRfYYdKzhQEsVrn8=;
- b=Y7mYVWa5CV5cT0b1jDdGhUPKfIJZGx9hKU9f0pP8FLLn3gbFnaIB/avw/7nWppA7EB
- iwY8bl3dbpyfPWx4sZ9cx4wtXagVrrW9UHzYnNFUgeN6qoPHZFKxtjptqxRJ+BXNiNqc
- DxxPSmZbLv+BFdE5BrenUomA5BB/GKHcyzpiPTIQWMafJF3G5SxHQvr6cZTn4seDSfZ3
- ooYfHT8tkejzIPm8GU4yMpTnkGxkFu/Qmw3GU0TgUDKWjg87evZ4MAF/mxhGrWaeD4Ap
- wnKQ5X7eUIDCYafvxmFCX4ZuS1XzhDWEgNFk+ylRNF6peEAdV2aQZ2ZJ72u08vjBwh31
- 3iFw==
-X-Gm-Message-State: AOAM530/9xEo61/hh5EjUdRZdSMcmkHi5zY3zOV4oFxO6bNLWPzLPOV2
- hxV4+AiGmW7+zIDTqK/ec8lDw7JtI+8NAA==
-X-Google-Smtp-Source: ABdhPJzMJBSLUwOrWz9s/weumjlgY8U2v8iE7UYZGmqxBwXgN3tYrUKlGh7xBAFGLf0ZqVOzdKgNAg==
-X-Received: by 2002:a1c:660b:: with SMTP id a11mr4288532wmc.159.1605620919918; 
- Tue, 17 Nov 2020 05:48:39 -0800 (PST)
+ bh=qbgmkx0Ds80yl68jLC3K3LY6B17L2yWeDQHhhL2KqDw=;
+ b=VpK0SYZMG4EUZI6oboMr0GrliWodR2hFgKjDtOMfKzLqHztIhBE7zNaguqoSyGfna2
+ 1YZWX5QMGLGn6weCsIgaU8JEVVH8vWqeS2UhW4bKrpWJhKEui6i+jwNnXzZONrmzVPLU
+ 8bukdcwW3pbLj/aYgpQvjiRGihwttoPoJHTiGxIM1OC/qmMgIf4w29RfEqNg0BbZzOv7
+ 47z0Wn6MzdZttNZ0p9F9r1xgRQeouCBP5v6EdUXqQqTCgz58T5Y+w25hNpbcMNUzXi8E
+ frjkRYaaNoG+tNxgpGl/2Om6N3IriazGykt/QUJqoYrPMM3dWDI4Md6XCLZcCeSvLuj8
+ dicA==
+X-Gm-Message-State: AOAM532BrUiRjJQsMS+BouMmzgDKZa89KOuLJGy0Jgil33/DKuGcDmjL
+ R5JdyMfy54AydvKiJa7Vsnupqmdc/GPBYQ==
+X-Google-Smtp-Source: ABdhPJx+qjWiWZqAhRWa+ibZDFE5DUWnVkfacAFJFoT0CDHAJSBMEQeMX3etQhK6HxtEoZnVpvFxig==
+X-Received: by 2002:a7b:ce0c:: with SMTP id m12mr4309136wmc.114.1605620920953; 
+ Tue, 17 Nov 2020 05:48:40 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d8sm3578630wmb.11.2020.11.17.05.48.38
+ by smtp.gmail.com with ESMTPSA id d8sm3578630wmb.11.2020.11.17.05.48.40
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Nov 2020 05:48:39 -0800 (PST)
+ Tue, 17 Nov 2020 05:48:40 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/9] hw/input/ps2.c: Remove remnants of printf debug
-Date: Tue, 17 Nov 2020 13:48:28 +0000
-Message-Id: <20201117134834.31731-4-peter.maydell@linaro.org>
+Subject: [PULL 4/9] target/openrisc: Remove dead code attempting to check "is
+ timer disabled"
+Date: Tue, 17 Nov 2020 13:48:29 +0000
+Message-Id: <20201117134834.31731-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201117134834.31731-1-peter.maydell@linaro.org>
 References: <20201117134834.31731-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,47 +89,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In commit 5edab03d4040 we added tracepoints to the ps2 keyboard
-and mouse emulation. However we didn't remove all the debug-by-printf
-support. In fact there is only one printf() remaining, and it is
-redundant with the trace_ps2_write_mouse() event next to it.
-Remove the printf() and the now-unused DEBUG* macros.
+In the mtspr helper we attempt to check for "is the timer disabled"
+with "if (env->ttmr & TIMER_NONE)".  This is wrong because TIMER_NONE
+is zero and the condition is always false (Coverity complains about
+the dead code.)
 
+The correct check would be to test whether the TTMR_M field in the
+register is equal to TIMER_NONE instead.  However, the
+cpu_openrisc_timer_update() function checks whether the timer is
+enabled (it looks at cpu->env.is_counting, which is set to 0 via
+cpu_openrisc_count_stop() when the TTMR_M field is set to
+TIMER_NONE), so there's no need to check for "timer disabled" in the
+target/openrisc code.  Instead, simply remove the dead code.
+
+Fixes: Coverity CID 1005812
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Message-id: 20201101133258.4240-1-peter.maydell@linaro.org
+Acked-by: Stafford Horne <shorne@gmail.com>
+Message-id: 20201103114654.18540-1-peter.maydell@linaro.org
 ---
- hw/input/ps2.c | 9 ---------
- 1 file changed, 9 deletions(-)
+ target/openrisc/sys_helper.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/hw/input/ps2.c b/hw/input/ps2.c
-index f8746d2f52c..72cdb80ae1c 100644
---- a/hw/input/ps2.c
-+++ b/hw/input/ps2.c
-@@ -33,12 +33,6 @@
+diff --git a/target/openrisc/sys_helper.c b/target/openrisc/sys_helper.c
+index d9fe6c59489..41390d046f6 100644
+--- a/target/openrisc/sys_helper.c
++++ b/target/openrisc/sys_helper.c
+@@ -176,9 +176,6 @@ void HELPER(mtspr)(CPUOpenRISCState *env, target_ulong spr, target_ulong rb)
  
- #include "trace.h"
- 
--/* debug PC keyboard */
--//#define DEBUG_KBD
--
--/* debug PC keyboard : only mouse */
--//#define DEBUG_MOUSE
--
- /* Keyboard Commands */
- #define KBD_CMD_SET_LEDS	0xED	/* Set keyboard leds */
- #define KBD_CMD_ECHO     	0xEE
-@@ -790,9 +784,6 @@ void ps2_write_mouse(void *opaque, int val)
-     PS2MouseState *s = (PS2MouseState *)opaque;
- 
-     trace_ps2_write_mouse(opaque, val);
--#ifdef DEBUG_MOUSE
--    printf("kbd: write mouse 0x%02x\n", val);
--#endif
-     switch(s->common.write_cmd) {
-     default:
-     case -1:
+     case TO_SPR(10, 1): /* TTCR */
+         cpu_openrisc_count_set(cpu, rb);
+-        if (env->ttmr & TIMER_NONE) {
+-            return;
+-        }
+         cpu_openrisc_timer_update(cpu);
+         break;
+ #endif
 -- 
 2.20.1
 
