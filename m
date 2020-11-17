@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 211BD2B6743
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 15:22:24 +0100 (CET)
-Received: from localhost ([::1]:44138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90AE22B6744
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 15:23:31 +0100 (CET)
+Received: from localhost ([::1]:47478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf1sF-0005dq-4z
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 09:22:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33764)
+	id 1kf1tK-000713-Js
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 09:23:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kf1qY-0004co-8o
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 09:20:38 -0500
-Received: from mout.kundenserver.de ([217.72.192.74]:53259)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1kf1ri-0005jq-6V
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 09:21:50 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2065)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kf1qW-0004lU-GN
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 09:20:37 -0500
-Received: from [192.168.100.1] ([82.252.130.226]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MLyzP-1kwHkR2odN-00HzcE for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020
- 15:20:34 +0100
-Subject: Re: [PATCH] linux-user, netlink: add IFLA_BRPORT_MRP_RING_OPEN,
- IFLA_BRPORT_MRP_IN_OPEN
-To: qemu-devel@nongnu.org
-References: <20201117111905.843925-1-laurent@vivier.eu>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <49545d3b-2662-f8ac-fe6b-2792c1e47ac7@vivier.eu>
-Date: Tue, 17 Nov 2020 15:20:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1kf1rf-0005B8-JY
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 09:21:49 -0500
+Received: from fraeml743-chm.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Cb7PQ1SSCz67Djr;
+ Tue, 17 Nov 2020 22:19:54 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml743-chm.china.huawei.com (10.206.15.224) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1913.5; Tue, 17 Nov 2020 15:21:42 +0100
+Received: from localhost (10.47.31.177) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Tue, 17 Nov
+ 2020 14:21:42 +0000
+Date: Tue, 17 Nov 2020 14:21:34 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Ben Widawsky <ben.widawsky@intel.com>
+Subject: Re: [RFC PATCH 04/25] hw/cxl/device: Introduce a CXL device (8.2.8)
+Message-ID: <20201117142134.0000642c@Huawei.com>
+In-Reply-To: <20201116211116.s73jj3gyogp5qasf@intel.com>
+References: <20201111054724.794888-1-ben.widawsky@intel.com>
+ <20201111054724.794888-5-ben.widawsky@intel.com>
+ <20201116130756.000002a0@Huawei.com>
+ <20201116211116.s73jj3gyogp5qasf@intel.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
 MIME-Version: 1.0
-In-Reply-To: <20201117111905.843925-1-laurent@vivier.eu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:9r6ckGzaYCOYXC4tfcvK4dy+KT4GA8VQDJOgSDWVlPs/PvqZmgR
- xVYsUu8TVNZgGr7GntVYsD8FqdWXHlzMgRMkJ2BajgaMObS8b73Vdx2rTIYO1fO9n9/Bl2/
- Cm87s7laKUY/283pJ0WppE8NUPT+vhRauLdo5jafg0f67YLnJQKYNzvN1DU6kpph7Bd9qH3
- gT5pLh81U2xcumK99OTUQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:we17LGe3K9U=:PyJBlD14tBJxSm4QL81aQN
- v/3Z9dcF8il2HqAUkfnKGA26+IJ4hq5hBvmPQ6E5ROXNoxqmuaN3gk6mGhkH9zcsSnAzA6ov+
- nrTBFR5rBjMLLmqXfNjKVuDkt7+HbcEh97LpTbbxcqck3KHLFlvfzcaw2eTI+W0R5JarRVqY5
- Bt8l2aV9UfPm239mG/XFZ+cW7MqR1EFAFc/JqK52gQiDbw21EAhTBVm3Two9AyrLp9WdXuM44
- krtjOKpHAJIX+YNKLX5lce+N9cUlfN4Zy1kc/GaafVVUgMTnjf4zEBAwFZMB0yb+ZHA5UDWJn
- IeiCxHKe5e+WGZRrci0JNz2kZlOSCpiETG9lfcPRT43mwHx/0sc1BSxRuUdr5Xlm6y8ETr7ou
- W99SlkMKCgkls6terUoTdmuJVZMLR6Xmr8GjZ5uce1MtYrWkr1B6GEN5z+xNFTgzPwN3B06VO
- 3VEOlSsCBQ==
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 09:20:35
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.47.31.177]
+X-ClientProxiedBy: lhreml736-chm.china.huawei.com (10.201.108.87) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 07:29:50
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,66 +71,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Vishal Verma <vishal.l.verma@intel.com>, Dan
+ Williams <dan.j.williams@intel.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 17/11/2020 à 12:19, Laurent Vivier a écrit :
-> Fix "-d unimp" trace results:
+On Mon, 16 Nov 2020 13:11:16 -0800
+Ben Widawsky <ben.widawsky@intel.com> wrote:
+
+> On 20-11-16 13:07:56, Jonathan Cameron wrote:
+> > On Tue, 10 Nov 2020 21:47:03 -0800
+> > Ben Widawsky <ben.widawsky@intel.com> wrote:
+> >   
+> > > A CXL device is a type of CXL component. Conceptually, a CXL device
+> > > would be a leaf node in a CXL topology. From an emulation perspective,
+> > > CXL devices are the most complex and so the actual implementation is
+> > > reserved for discrete commits.
+> > > 
+> > > This new device type is specifically catered towards the eventually
+> > > implementation of a Type3 CXL.mem device, 8.2.8.5 in the CXL 2.0
+> > > specification.
+> > > 
+> > > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>  
+> > 
+> > As an RFC, would be good to have questions relavant to individual
+> > patches if possible.  Makes it easier to know what you want feedback on.
+> > 
+> > The REG32 being used for 64 bit registers seems awkward. I'd suggest
+> > we either break them up into DW and deal with the edge parts manually.
+> > 
+> > I'm not sure a REG64 definition would work due to lack of explicit alignment
+> > guarantees.  Might be fine though.  
 > 
->   Unknown QEMU_IFLA_BRPORT type 35
->   Unknown QEMU_IFLA_BRPORT type 36
+> Agreed, although I think the current frequency with which I've had to do this,
+> and the XXX comments are decent, it's definitely a bit ugly. I found at least
+> two registers (I don't recall one, but the very important command register was
+> the other that you noticed below) which have a field that straddles the 32b
+> boundary. I think having to do an upper and lower field for that would kind of
+> stink.
 > 
-> Also process IFLA_EXT_MASK to fix:
+> Given that the codebase has gone on long enough without REG64, I didn't want to
+> poke that bear, although I had wired it up at some point.
 > 
->   Unknown target QEMU_IFLA type: 29
+> So for now, I'd like to just leave these as they are.
 > 
-> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-> ---
->  linux-user/fd-trans.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+> > 
+> > One buglet inline and a few other comments.
+> > 
+> > Jonathan  
 > 
-> diff --git a/linux-user/fd-trans.c b/linux-user/fd-trans.c
-> index 1486c81aaa27..913b3cd12a90 100644
-> --- a/linux-user/fd-trans.c
-> +++ b/linux-user/fd-trans.c
-> @@ -175,6 +175,8 @@ enum {
->      QEMU_IFLA_BRPORT_NEIGH_SUPPRESS,
->      QEMU_IFLA_BRPORT_ISOLATED,
->      QEMU_IFLA_BRPORT_BACKUP_PORT,
-> +    QEMU_IFLA_BRPORT_MRP_RING_OPEN,
-> +    QEMU_IFLA_BRPORT_MRP_IN_OPEN,
->      QEMU___IFLA_BRPORT_MAX
->  };
->  
-> @@ -552,6 +554,8 @@ static abi_long host_to_target_slave_data_bridge_nlattr(struct nlattr *nlattr,
->      case QEMU_IFLA_BRPORT_BCAST_FLOOD:
->      case QEMU_IFLA_BRPORT_NEIGH_SUPPRESS:
->      case QEMU_IFLA_BRPORT_ISOLATED:
-> +    case QEMU_IFLA_BRPORT_MRP_RING_OPEN:
-> +    case QEMU_IFLA_BRPORT_MRP_IN_OPEN:
->          break;
->      /* uint16_t */
->      case QEMU_IFLA_BRPORT_PRIORITY:
-> @@ -1125,7 +1129,14 @@ static abi_long target_to_host_for_each_rtattr(struct rtattr *rtattr,
->  
->  static abi_long target_to_host_data_link_rtattr(struct rtattr *rtattr)
->  {
-> +    uint32_t *u32;
-> +
->      switch (rtattr->rta_type) {
-> +    /* uint32_t */
-> +    case QEMU_IFLA_EXT_MASK:
-> +        u32 = RTA_DATA(rtattr);
-> +        *u32 = tswap32(*u32);
-> +        break;
->      default:
->          qemu_log_mask(LOG_UNIMP, "Unknown target QEMU_IFLA type: %d\n",
->                        rtattr->rta_type);
+> Thanks. Anything not responded to is acknowledged and will hopefully make its
+> way into v2.
 > 
 
-Applied to my linux-user-for-5.2 branch.
+...
 
-Thanks,
-Laurent
+> 
+> >   
+> > > +
+> > > +/* 8.2.8.4.5.1 Command Return Codes */
+> > > +enum {
+> > > +    RET_SUCCESS                 = 0x0,
+> > > +    RET_BG_STARTED              = 0x1, /* Background Command Started */
+> > > +    RET_EINVAL                  = 0x2, /* Invalid Input */
+> > > +    RET_ENOTSUP                 = 0x3, /* Unsupported */
+> > > +    RET_ENODEV                  = 0x4, /* Internal Error */  
+> > 
+> > Mapping that to NODEV seems less than obvious.  
+> 
+> I tried to be cute and map as many things to errno as possible. Suggestions?
+
+Don't bother being cute? :)
+More seriously, I'd carry them as matching the spec out until you actually
+have to return a standard error.   Fine to have a conversion function
+that does a best possible mapping though so as to keep things consistent
+across multiple locations.  Mind you perhaps qemu has a standard idiom for this?
+
+cxl_cmd_ret_to_errno()
+
+
+> 
+> >   
+> > > +    RET_ERESTART                = 0x5, /* Retry Required */
+> > > +    RET_EBUSY                   = 0x6, /* Busy */
+> > > +    RET_MEDIA_DISABLED          = 0x7, /* Media Disabled */
+> > > +    RET_FW_EBUSY                = 0x8, /* FW Transfer in Progress */
+> > > +    RET_FW_OOO                  = 0x9, /* FW Transfer Out of Order */
+> > > +    RET_FW_AUTH                 = 0xa, /* FW Authentication Failed */
+> > > +    RET_FW_EBADSLT              = 0xb, /* Invalid Slot */
+> > > +    RET_FW_ROLLBACK             = 0xc, /* Activation Failed, FW Rolled Back */
+> > > +    RET_FW_REBOOT               = 0xd, /* Activation Failed, Cold Reset Required */
+> > > +    RET_ENOENT                  = 0xe, /* Invalid Handle */
+> > > +    RET_EFAULT                  = 0xf, /* Invalid Physical Address */
+> > > +    RET_POISON_E2BIG            = 0x10, /* Inject Poison Limit Reached */
+> > > +    RET_EIO                     = 0x11, /* Permanent Media Failure */
+> > > +    RET_ECANCELED               = 0x12, /* Aborted */
+> > > +    RET_EACCESS                 = 0x13, /* Invalid Security State */
+> > > +    RET_EPERM                   = 0x14, /* Incorrect Passphrase */
+> > > +    RET_EPROTONOSUPPORT         = 0x15, /* Unsupported Mailbox */
+> > > +    RET_EMSGSIZE                = 0x16, /* Invalid Payload Length */
+> > > +    RET_MAX                     = 0x17
+> > > +};
+> > > +
+> > > +/* XXX: actually a 64b register */
+> > > +REG32(CXL_DEV_MAILBOX_STS, 0x10)
+> > > +    FIELD(CXL_DEV_MAILBOX_STS, BG_OP, 0, 1)
+> > > +    FIELD(CXL_DEV_MAILBOX_STS, ERRNO, 32, 16)
+> > > +    FIELD(CXL_DEV_MAILBOX_STS, VENDOR_ERRNO, 48, 16)
+> > > +
+> > > +/* XXX: actually a 64b register */
+> > > +REG32(CXL_DEV_BG_CMD_STS, 0x18)
+> > > +    FIELD(CXL_DEV_BG_CMD_STS, BG, 0, 16)
+> > > +    FIELD(CXL_DEV_BG_CMD_STS, DONE, 16, 7)
+> > > +    FIELD(CXL_DEV_BG_CMD_STS, ERRNO, 32, 16)
+> > > +    FIELD(CXL_DEV_BG_CMD_STS, VENDOR_ERRNO, 48, 16)
+> > > +
+> > > +REG32(CXL_DEV_CMD_PAYLOAD, 0x20)
+> > > +
+> > > +#endif  
+> >   
 
 
