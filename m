@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0983E2B5BA8
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 10:22:07 +0100 (CET)
-Received: from localhost ([::1]:46648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 303B42B5BA5
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 10:20:33 +0100 (CET)
+Received: from localhost ([::1]:39020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kexBe-0006ie-1h
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 04:22:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45372)
+	id 1kexA8-0003Yd-7g
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 04:20:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kex8n-0001uN-W0
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 04:19:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25144)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kex8p-0001y1-W0
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 04:19:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38790)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kex8l-0006Nd-8V
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 04:19:09 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kex8n-0006OY-Sr
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 04:19:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605604746;
+ s=mimecast20190719; t=1605604748;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Sut9Fzws5tusu6SI48So6UTIt/7CxEKNGpGPWzrkgbI=;
- b=caTd1jrkDLHTlxOn6rvln86dD7q8rWNUt3Qpm61H/ea1l0ihwoo7jT974Bp2qt7zEqiHAP
- /ag7gf5Q+n/RBrPD3SGpMPufZ1glJq/NNLDT7NuIRPtnKc1vY2D9bCdcf6jjKtH0ceBYva
- CfffuhYQOZW8Jvubf70TRQXm/VY3fTU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-132-X9EbmBuCOtGAX3pgtP1vNw-1; Tue, 17 Nov 2020 04:19:04 -0500
-X-MC-Unique: X9EbmBuCOtGAX3pgtP1vNw-1
-Received: by mail-wm1-f70.google.com with SMTP id y1so1425805wma.5
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 01:19:04 -0800 (PST)
+ bh=0RnLT5+JMl+oOfkBbmmWTI1h88S6MNDyRCGrZS7inZw=;
+ b=bS0PzNGzEtlLAxFM7TwToXP8Ls/SGPPuHbOunliNvFO4rZVltjiTzgL8A76McQoQa7GSgr
+ JmdAJ48xacJLHIF9PgJPiDGu7n3tQ543HNQkgxaJPXTYHiZhja+FIrZ/YOCwUakipRn6bj
+ Q8QfYOEi0lwYELWmBf7sKANwKqE7eWA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-256-2mrFOCMEOXWsd4wPBdKnjQ-1; Tue, 17 Nov 2020 04:19:06 -0500
+X-MC-Unique: 2mrFOCMEOXWsd4wPBdKnjQ-1
+Received: by mail-wr1-f70.google.com with SMTP id v5so12696742wrr.0
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 01:19:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Sut9Fzws5tusu6SI48So6UTIt/7CxEKNGpGPWzrkgbI=;
- b=K8wweF8gbYBmEY9fcl85a0GzDdMtYam2WhqnkLdW6MzZYICHVBrszX+emaQxxeykrV
- CQ3E6txvMCExNIcMD5fY80ok4O+A71/GNuMlzOw9uWicqcZbn1ASv+BpXmKA9EtUxhnR
- FCH6mqvJZrsmhNY1f4t/Oc6byd9ebOx+oKoZgjUwy76yJF2i6a5vWeKxLKzP2g2YGzYd
- 8tD2UArTHoB/OWQuG1cG6LYCa/p90cR2JshlIXE/YMTk365D3fklrMymrEncXX52RSdk
- +j4ycEqMrl1naxTLU/Y6uLQGoBw0ShJdRW97Mq2PVzBc8pGdJortueNspH7Ak9hMBISr
- MgDA==
-X-Gm-Message-State: AOAM5319ixKpetf0QxyZqWZAd6nJd43WQduwjTPhLpfrOIie36VuEMAM
- 9axK/n2GkvNHfQe1ox+m7gEQMMmX3ym3B0Memy8mEhLoiISMy8P9pP0u8/QEcPYcQv3IGzzOCaR
- HoN8VRLRwRM2nyIx/5HY1QeExGN8xmNPxIhlKJVmt9IGdwQlBYg6qmV2vhpWv
-X-Received: by 2002:a1c:2842:: with SMTP id o63mr3240731wmo.59.1605604742634; 
- Tue, 17 Nov 2020 01:19:02 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxfaXDI3EETa2d8ZYePsNLWQ/hruIlJ6AZSB7WcJVKIlHUCYAYTwE7kAq174peTipC7ADUGIA==
-X-Received: by 2002:a1c:2842:: with SMTP id o63mr3240702wmo.59.1605604742388; 
- Tue, 17 Nov 2020 01:19:02 -0800 (PST)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=0RnLT5+JMl+oOfkBbmmWTI1h88S6MNDyRCGrZS7inZw=;
+ b=nlv9thMaHG8APCHHJ+3uQMLE2OlIqtXyoZuDBlxpAAxiswFd8888YpvoYEOx9KjllU
+ bgoc6gJjd3lK8Hgzhyv5uuBNz+dkEiU9UZFpkLMQscqlCX/mWmClxQaAo++j+5J/5DaW
+ UwfjZfbcRpJDTbBMOb+jpoPpLQ2IPcWrdACGQXpp7iaWg6UC+VK+e6arcwrohG8gkQRj
+ 1cXS4WAyBC+/2AvPMNBU2Up6h0NJfGozD81IeZ4eBkm6hG9fKJxqIO13pn9QgItNFHNe
+ LWJV7FwwtkoSaHSQTaM40KsMJ1OoLHyZalQBjNuWB1HSf+PwHi+bmqRw3ZcROeOgEZ/h
+ g1rA==
+X-Gm-Message-State: AOAM530mIc+oab+jQrJU9ddZ2UktH/0SYSU0vIJnA5lnoia2D5GBPnX9
+ nm/M8TwWOfDc8WK5P5R05mXNqJqlEUNZdqSXxcmu0ngzh6DbiTKvxA3ncJnqUzU0r9JwSqtIj1w
+ PmXEKeJCjnoCWXyZ5/5cSK041JFim4f1NBSEfmL5V2cwS/XZUvrlUt5UJSH0Z
+X-Received: by 2002:a1c:9949:: with SMTP id b70mr3286166wme.85.1605604745228; 
+ Tue, 17 Nov 2020 01:19:05 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwx7DteglsDPtOoPBRfIn1LlenLWX9itX2ZK2hwmvEKaHrNQfFRfgZ6wkzcXJH9PDESd6gD4w==
+X-Received: by 2002:a1c:9949:: with SMTP id b70mr3286145wme.85.1605604744976; 
+ Tue, 17 Nov 2020 01:19:04 -0800 (PST)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id a17sm28844427wra.61.2020.11.17.01.19.01
+ by smtp.gmail.com with ESMTPSA id s25sm2570302wmh.16.2020.11.17.01.19.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Nov 2020 01:19:01 -0800 (PST)
-Date: Tue, 17 Nov 2020 04:19:00 -0500
+ Tue, 17 Nov 2020 01:19:04 -0800 (PST)
+Date: Tue, 17 Nov 2020 04:19:02 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 1/7] vhost-user: fix VHOST_USER_ADD/REM_MEM_REG truncation
-Message-ID: <20201117091848.695370-2-mst@redhat.com>
+Subject: [PULL v2 2/7] meson: move vhost_user_blk_server to meson.build
+Message-ID: <20201117091848.695370-3-mst@redhat.com>
 References: <20201117091848.695370-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201117091848.695370-1-mst@redhat.com>
@@ -69,8 +71,9 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 00:41:22
@@ -94,164 +97,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
-QEMU currently truncates the mmap_offset field when sending
-VHOST_USER_ADD_MEM_REG and VHOST_USER_REM_MEM_REG messages. The struct
-layout looks like this:
+The --enable/disable-vhost-user-blk-server options were implemented in
+./configure. There has been confusion about them and part of the problem
+is that the shell syntax used for setting the default value is not easy
+to read. Move the option over to meson where the conditions are easier
+to understand:
 
-  typedef struct VhostUserMemoryRegion {
-      uint64_t guest_phys_addr;
-      uint64_t memory_size;
-      uint64_t userspace_addr;
-      uint64_t mmap_offset;
-  } VhostUserMemoryRegion;
+  have_vhost_user_blk_server = (targetos == 'linux')
 
-  typedef struct VhostUserMemRegMsg {
-      uint32_t padding;
-      /* WARNING: there is a 32-bit hole here! */
-      VhostUserMemoryRegion region;
-  } VhostUserMemRegMsg;
+  if get_option('vhost_user_blk_server').enabled()
+      if targetos != 'linux'
+          error('vhost_user_blk_server requires linux')
+      endif
+  elif get_option('vhost_user_blk_server').disabled() or not have_system
+      have_vhost_user_blk_server = false
+  endif
 
-The payload size is calculated as follows when sending the message in
-hw/virtio/vhost-user.c:
+This patch does not change behavior.
 
-  msg->hdr.size = sizeof(msg->payload.mem_reg.padding) +
-      sizeof(VhostUserMemoryRegion);
-
-This calculation produces an incorrect result of only 36 bytes.
-sizeof(VhostUserMemRegMsg) is actually 40 bytes.
-
-The consequence of this is that the final field, mmap_offset, is
-truncated. This breaks x86_64 TCG guests on s390 hosts. Other guest/host
-combinations may get lucky if either of the following holds:
-1. The guest memory layout does not need mmap_offset != 0.
-2. The host is little-endian and mmap_offset <= 0xffffffff so the
-   truncation has no effect.
-
-Fix this by extending the existing 32-bit padding field to 64-bit. Now
-the padding reflects the actual compiler padding. This can be verified
-using pahole(1).
-
-Also document the layout properly in the vhost-user specification.  The
-vhost-user spec did not document the exact layout. It would be
-impossible to implement the spec without looking at the QEMU source
-code.
-
-Existing vhost-user frontends and device backends continue to work after
-this fix has been applied. The only change in the wire protocol is that
-QEMU now sets hdr.size to 40 instead of 36. If a vhost-user
-implementation has a hardcoded size check for 36 bytes, then it will
-fail with new QEMUs. Both QEMU and DPDK/SPDK don't check the exact
-payload size, so they continue to work.
-
-Fixes: f1aeb14b0809e313c74244d838645ed25e85ea63 ("Transmit vhost-user memory regions individually")
-Cc: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Cc: Cornelia Huck <cohuck@redhat.com>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20201109174355.1069147-1-stefanha@redhat.com>
+Message-Id: <20201110171121.1265142-2-stefanha@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Fixes: f1aeb14b0809 ("Transmit vhost-user memory regions individually")
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- contrib/libvhost-user/libvhost-user.h |  2 +-
- hw/virtio/vhost-user.c                |  5 ++---
- docs/interop/vhost-user.rst           | 21 +++++++++++++++++++--
- 3 files changed, 22 insertions(+), 6 deletions(-)
+ meson_options.txt        |  2 ++
+ configure                | 16 ++++------------
+ block/export/meson.build |  5 ++++-
+ meson.build              | 12 ++++++++++++
+ 4 files changed, 22 insertions(+), 13 deletions(-)
 
-diff --git a/contrib/libvhost-user/libvhost-user.h b/contrib/libvhost-user/libvhost-user.h
-index a1539dbb69..7d47f1364a 100644
---- a/contrib/libvhost-user/libvhost-user.h
-+++ b/contrib/libvhost-user/libvhost-user.h
-@@ -136,7 +136,7 @@ typedef struct VhostUserMemory {
- } VhostUserMemory;
+diff --git a/meson_options.txt b/meson_options.txt
+index b4f1801875..f6f64785fe 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -64,6 +64,8 @@ option('xkbcommon', type : 'feature', value : 'auto',
+        description: 'xkbcommon support')
+ option('virtiofsd', type: 'feature', value: 'auto',
+        description: 'build virtiofs daemon (virtiofsd)')
++option('vhost_user_blk_server', type: 'feature', value: 'auto',
++       description: 'build vhost-user-blk server')
  
- typedef struct VhostUserMemRegMsg {
--    uint32_t padding;
-+    uint64_t padding;
-     VhostUserMemoryRegion region;
- } VhostUserMemRegMsg;
+ option('capstone', type: 'combo', value: 'auto',
+        choices: ['disabled', 'enabled', 'auto', 'system', 'internal'],
+diff --git a/configure b/configure
+index 4cef321d9d..516f28a088 100755
+--- a/configure
++++ b/configure
+@@ -329,7 +329,7 @@ vhost_crypto=""
+ vhost_scsi=""
+ vhost_vsock=""
+ vhost_user=""
+-vhost_user_blk_server=""
++vhost_user_blk_server="auto"
+ vhost_user_fs=""
+ kvm="auto"
+ hax="auto"
+@@ -1247,9 +1247,9 @@ for opt do
+   ;;
+   --enable-vhost-vsock) vhost_vsock="yes"
+   ;;
+-  --disable-vhost-user-blk-server) vhost_user_blk_server="no"
++  --disable-vhost-user-blk-server) vhost_user_blk_server="disabled"
+   ;;
+-  --enable-vhost-user-blk-server) vhost_user_blk_server="yes"
++  --enable-vhost-user-blk-server) vhost_user_blk_server="enabled"
+   ;;
+   --disable-vhost-user-fs) vhost_user_fs="no"
+   ;;
+@@ -2390,12 +2390,6 @@ if test "$vhost_net" = ""; then
+   test "$vhost_kernel" = "yes" && vhost_net=yes
+ fi
  
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index 9c5b4f7fbc..2fdd5daf74 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -149,7 +149,7 @@ typedef struct VhostUserMemory {
- } VhostUserMemory;
+-# libvhost-user is Linux-only
+-test "$vhost_user_blk_server" = "" && vhost_user_blk_server=$linux
+-if test "$vhost_user_blk_server" = "yes" && test "$linux" = "no"; then
+-  error_exit "--enable-vhost-user-blk-server is only available on Linux"
+-fi
+-
+ ##########################################
+ # pkg-config probe
  
- typedef struct VhostUserMemRegMsg {
--    uint32_t padding;
-+    uint64_t padding;
-     VhostUserMemoryRegion region;
- } VhostUserMemRegMsg;
+@@ -6289,9 +6283,6 @@ fi
+ if test "$vhost_vdpa" = "yes" ; then
+   echo "CONFIG_VHOST_VDPA=y" >> $config_host_mak
+ fi
+-if test "$vhost_user_blk_server" = "yes" ; then
+-  echo "CONFIG_VHOST_USER_BLK_SERVER=y" >> $config_host_mak
+-fi
+ if test "$vhost_user_fs" = "yes" ; then
+   echo "CONFIG_VHOST_USER_FS=y" >> $config_host_mak
+ fi
+@@ -7012,6 +7003,7 @@ NINJA=$ninja $meson setup \
+         -Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt \
+         -Diconv=$iconv -Dcurses=$curses -Dlibudev=$libudev\
+         -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
++        -Dvhost_user_blk_server=$vhost_user_blk_server \
+         $cross_arg \
+         "$PWD" "$source_path"
  
-@@ -800,8 +800,7 @@ static int vhost_user_add_remove_regions(struct vhost_dev *dev,
-     uint64_t shadow_pcb[VHOST_USER_MAX_RAM_SLOTS] = {};
-     int nr_add_reg, nr_rem_reg;
- 
--    msg->hdr.size = sizeof(msg->payload.mem_reg.padding) +
--        sizeof(VhostUserMemoryRegion);
-+    msg->hdr.size = sizeof(msg->payload.mem_reg);
- 
-     /* Find the regions which need to be removed or added. */
-     scrub_shadow_regions(dev, add_reg, &nr_add_reg, rem_reg, &nr_rem_reg,
-diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
-index 988f154144..6d4025ba6a 100644
---- a/docs/interop/vhost-user.rst
-+++ b/docs/interop/vhost-user.rst
-@@ -131,6 +131,23 @@ A region is:
- 
- :mmap offset: 64-bit offset where region starts in the mapped memory
- 
-+Single memory region description
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+diff --git a/block/export/meson.build b/block/export/meson.build
+index 19526435d8..135b356775 100644
+--- a/block/export/meson.build
++++ b/block/export/meson.build
+@@ -1,2 +1,5 @@
+ blockdev_ss.add(files('export.c'))
+-blockdev_ss.add(when: 'CONFIG_VHOST_USER_BLK_SERVER', if_true: files('vhost-user-blk-server.c'))
 +
-++---------+---------------+------+--------------+-------------+
-+| padding | guest address | size | user address | mmap offset |
-++---------+---------------+------+--------------+-------------+
-+
-+:padding: 64-bit
-+
-+:guest address: a 64-bit guest address of the region
-+
-+:size: a 64-bit size
-+
-+:user address: a 64-bit user address
-+
-+:mmap offset: 64-bit offset where region starts in the mapped memory
-+
- Log description
- ^^^^^^^^^^^^^^^
++if have_vhost_user_blk_server
++    blockdev_ss.add(files('vhost-user-blk-server.c'))
++endif
+diff --git a/meson.build b/meson.build
+index b473620321..4b789f18c1 100644
+--- a/meson.build
++++ b/meson.build
+@@ -751,6 +751,16 @@ statx_test = '''
  
-@@ -1281,7 +1298,7 @@ Master message types
- ``VHOST_USER_ADD_MEM_REG``
-   :id: 37
-   :equivalent ioctl: N/A
--  :slave payload: memory region
-+  :slave payload: single memory region description
+ has_statx = cc.links(statx_test)
  
-   When the ``VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS`` protocol
-   feature has been successfully negotiated, this message is submitted
-@@ -1296,7 +1313,7 @@ Master message types
- ``VHOST_USER_REM_MEM_REG``
-   :id: 38
-   :equivalent ioctl: N/A
--  :slave payload: memory region
-+  :slave payload: single memory region description
- 
-   When the ``VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS`` protocol
-   feature has been successfully negotiated, this message is submitted
++have_vhost_user_blk_server = (targetos == 'linux')
++
++if get_option('vhost_user_blk_server').enabled()
++    if targetos != 'linux'
++        error('vhost_user_blk_server requires linux')
++    endif
++elif get_option('vhost_user_blk_server').disabled() or not have_system
++    have_vhost_user_blk_server = false
++endif
++
+ #################
+ # config-host.h #
+ #################
+@@ -775,6 +785,7 @@ config_host_data.set('CONFIG_MPATH_NEW_API', mpathpersist_new_api)
+ config_host_data.set('CONFIG_CURSES', curses.found())
+ config_host_data.set('CONFIG_SDL', sdl.found())
+ config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
++config_host_data.set('CONFIG_VHOST_USER_BLK_SERVER', have_vhost_user_blk_server)
+ config_host_data.set('CONFIG_VNC', vnc.found())
+ config_host_data.set('CONFIG_VNC_JPEG', jpeg.found())
+ config_host_data.set('CONFIG_VNC_PNG', png.found())
+@@ -2103,6 +2114,7 @@ summary_info += {'vhost-crypto support': config_host.has_key('CONFIG_VHOST_CRYPT
+ summary_info += {'vhost-scsi support': config_host.has_key('CONFIG_VHOST_SCSI')}
+ summary_info += {'vhost-vsock support': config_host.has_key('CONFIG_VHOST_VSOCK')}
+ summary_info += {'vhost-user support': config_host.has_key('CONFIG_VHOST_KERNEL')}
++summary_info += {'vhost-user-blk server support': have_vhost_user_blk_server}
+ summary_info += {'vhost-user-fs support': config_host.has_key('CONFIG_VHOST_USER_FS')}
+ summary_info += {'vhost-vdpa support': config_host.has_key('CONFIG_VHOST_VDPA')}
+ summary_info += {'Trace backends':    config_host['TRACE_BACKENDS']}
 -- 
 MST
 
