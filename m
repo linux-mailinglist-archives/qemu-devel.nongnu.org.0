@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BD5F2B6AB5
+	by mail.lfdr.de (Postfix) with ESMTPS id B7EF02B6AB6
 	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 17:54:45 +0100 (CET)
-Received: from localhost ([::1]:46750 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:46812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf4Fg-0003Yi-8u
+	id 1kf4Fg-0003aF-Oc
 	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 11:54:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43272)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kf4EJ-0001tT-MI
+ id 1kf4EJ-0001tV-PT
  for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:19 -0500
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:39979)
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:33627)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kf4EH-00071f-Mx
+ id 1kf4EI-00071i-4N
  for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:19 -0500
-Received: by mail-ed1-x541.google.com with SMTP id d18so10288109edt.7
+Received: by mail-ej1-x642.google.com with SMTP id 7so30389307ejm.0
  for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:53:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=OIGmoXRFZVJq4dWZr7TxTP9dW37vSekRJavmhYEo1A0=;
- b=AAXhX9Ye5Zpv9HNMFB/2Znx2XXjltrX5t2ixlAfSGMhVtnn+vR4R/j6WHzIlbMj1TR
- kIlJmNxwoM8SXpKv97eGQRfxNEsd2QlNB9ceqe27Eo/d+sUL4bG04DC3gVFwOvPYdhE4
- vhM7ShQ73kaixLz8+mTsK7HH5Dls2nvQ5LolhN8uRQ0NGb1qo+qPuqBBJQsMR8vNPuPq
- SF7mh4dlM0Ni41Z/vK7s5VAqiFQOiAUl0X+hgTxx7A2u/QghvoI/wJEd7bvA1opMDgbj
- 1ShEPTzQyRuZH9XUQoDXZOhBfMw3sHsUG4VXW9lcoqyOzpL1DYL/CfUz/9rHAaz5ufEk
- gbeQ==
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=oYPzWMFrHNuaSUUxoAwHWUxCwjgdcly0qE/fwm5druY=;
+ b=PX6+m+yP+Ln/RXfQy7QG61hTZLYoD17p9cyp2APDhJly39gYPyQpakftiD1zGZTsaa
+ xe/nBeaZXdcu/MQlM9iLy6Aj90bM9KM0cCYmBvSNRg+lBlG+Snf1JafbMUvMCW9bgPVX
+ OGo53rey+irxAqQ6fvSvMnwUWsaU39DLY+21xLCVZFdMhku2C5rECClEuHfNECdjXDoq
+ gkkBWH7YgfI+fg0JJJA0Oa8qTBHDhTcDXtArIgc1PuR8t4rrcpunWsN359kdnUfjuHpr
+ Wmfq/s8+0aL4PUrtIIbdHKgeuHdoul2Ot95pleD+Fy1wXh6qeyrl5Ogq0SUFgmTVBMph
+ 8SZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=OIGmoXRFZVJq4dWZr7TxTP9dW37vSekRJavmhYEo1A0=;
- b=hyc1KZUkt2CxQvIawU0ZHVU39LPYiK52BmqTknkQuMUxKD411tmSx1P+etu8qKRRKX
- i7QueedObVxwUu0G+yltJqw4DdyPoQyO2ibNvmGy5geceiNLaLhp4SHrf7dzlc1AycKd
- nYLhwwm564FlP9MGIYjcTr3J4B3XeVttfNafvIDDr4AVBK6br74Vm+SP1UkOC1AorE+o
- P+c56svYiFG/wTTimKpaPRTBu0/LSXtFEXfJkA5gN92e0ymZd0B7sKB+KwQBvoonOscK
- Ovan7t65N/NjRbb9LoZmn7PUEW63g6KuZtm7GxvF2rnzQzzj2cHWHJAVVbL2tih6aQmv
- Qy5g==
-X-Gm-Message-State: AOAM530uexvDeG4mgk0MrKncJ8C/IwcBsrhWTzShjllZNOzsIuIyAbfG
- kLaYd08s8DNEfciDN3w1n4ETo8US7ts=
-X-Google-Smtp-Source: ABdhPJye3RNL+Aif6TSfAwsW+Edu/f1dwHrKjmXAXQFYg46zvE/rpVFY/A1U6WmNb/6xPHI8zUuieg==
-X-Received: by 2002:a50:9e05:: with SMTP id z5mr20787563ede.231.1605631995370; 
- Tue, 17 Nov 2020 08:53:15 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=oYPzWMFrHNuaSUUxoAwHWUxCwjgdcly0qE/fwm5druY=;
+ b=i/los89WttC+xD/zoT/9s8m41xYp6Yj0F3XIvCueJjqaZFYhqgYNj0bOFY750SU57O
+ 211V3xvaFKvJ9qDm8aup/cCIlkkSTo+QqD3pNQ68a1Hl/8O1cg6a7bQz5poR2xnSukKB
+ voG2tkOjuDOteDxsfe42wOZNwe3e5ahhbOJUB30UNsKQbsC9pv1qtpfaXt8c8CsB35VC
+ fqJ+aYyeiLdzEoDDIx85Nbmr7aASgf3tNHuIrnwTjz/LPH/okfC1HW2sbhNrrrY+51vs
+ VPH+CAMOHcp9ZYXo3jtEM3jirxpFrLN64z3HLIEw/PdUBhgT9FWa4dRoW2h5iRGOEOPF
+ 2MRQ==
+X-Gm-Message-State: AOAM530kmd9IRP5fmK3hE6xR70aipp+IjEYNfdJneQoBZ+6hy3bT1HQz
+ 36A3247BLcUfjVwNlXMbbheAhKK7u8g=
+X-Google-Smtp-Source: ABdhPJyCSKaBM3LZZBZNFLz09qmJ3XGnMK+2Lx/3zEQ1457fZRAJ9Kmpg7mdAJB3NWWensedsE0bOA==
+X-Received: by 2002:a17:906:604e:: with SMTP id
+ p14mr21221026ejj.515.1605631996293; 
+ Tue, 17 Nov 2020 08:53:16 -0800 (PST)
 Received: from localhost.localdomain ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id u7sm639067ejf.83.2020.11.17.08.53.14
+ by smtp.gmail.com with ESMTPSA id u7sm639067ejf.83.2020.11.17.08.53.15
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Nov 2020 08:53:14 -0800 (PST)
+ Tue, 17 Nov 2020 08:53:15 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 00/29] kernel-doc: update from Linux 5.10
-Date: Tue, 17 Nov 2020 17:52:43 +0100
-Message-Id: <20201117165312.118257-1-pbonzini@redhat.com>
+Subject: [PATCH 01/29] kernel-doc: fix processing nested structs with
+ attributes
+Date: Tue, 17 Nov 2020 17:52:44 +0100
+Message-Id: <20201117165312.118257-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201117165312.118257-1-pbonzini@redhat.com>
+References: <20201117165312.118257-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x541.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -88,63 +92,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series updates kernel-doc to Linux 5.10, which removes the need for
-all of our downstream patches (except for the syntax changes, of course).
-Sphinx 3 works, as do the QOM typedefs that needed QEMU-specific changes.
-All the patches apply cleanly.
+From: André Almeida <andrealmeid@collabora.com>
 
-Paolo
+The current regular expression for strip attributes of structs (and
+for nested ones as well) also removes all whitespaces that may
+surround the attribute. After that, the code will split structs and
+iterate for each symbol separated by comma at the end of struct
+definition (e.g. "} alias1, alias2;"). However, if the nested struct
+does not have any alias and has an attribute, it will result in a
+empty string at the closing bracket (e.g "};"). This will make the
+split return nothing and $newmember will keep uninitialized. Fix
+that, by ensuring that the attribute substitution will leave at least
+one whitespace.
 
-Alexander A. Klimov (1):
-  Replace HTTP links with HTTPS ones: documentation
+Signed-off-by: André Almeida <andrealmeid@collabora.com>
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ scripts/kernel-doc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-André Almeida (2):
-  kernel-doc: fix processing nested structs with attributes
-  kernel-doc: add support for ____cacheline_aligned_in_smp attribute
-
-Jonathan Cameron (1):
-  kernel-doc: add support for ____cacheline_aligned attribute
-
-Jonathan Neuschäfer (1):
-  scripts/kernel-doc: Add support for named variable macro arguments
-
-Mauro Carvalho Chehab (19):
-  scripts: kernel-doc: proper handle @foo->bar()
-  scripts: kernel-doc: accept negation like !@var
-  scripts: kernel-doc: accept blank lines on parameter description
-  scripts/kernel-doc: parse __ETHTOOL_DECLARE_LINK_MODE_MASK
-  scripts/kernel-doc: handle function pointer prototypes
-  kernel-doc: include line numbers for function prototypes
-  scripts: kernel-doc: add support for typedef enum
-  scripts: kernel-doc: make it more compatible with Sphinx 3.x
-  scripts: kernel-doc: use a less pedantic markup for funcs on Sphinx
-    3.x
-  scripts: kernel-doc: fix troubles with line counts
-  scripts: kernel-doc: reimplement -nofunction argument
-  scripts: kernel-doc: fix typedef identification
-  scripts: kernel-doc: don't mangle with parameter list
-  scripts: kernel-doc: allow passing desired Sphinx C domain dialect
-  scripts: kernel-doc: fix line number handling
-  scripts: kernel-doc: try to use c:function if possible
-  scripts: kernel-doc: fix typedef parsing
-  scripts: kernel-doc: split typedef complex regex
-  scripts: kernel-doc: use :c:union when needed
-
-Paolo Bonzini (4):
-  Revert "scripts/kerneldoc: For Sphinx 3 use c:macro for macros with
-    arguments"
-  Revert "kernel-doc: Use c:struct for Sphinx 3.0 and later"
-  Revert "kernel-doc: Handle function typedefs without asterisks"
-  Revert "kernel-doc: Handle function typedefs that return pointers"
-
-Pierre-Louis Bossart (1):
-  scripts/kernel-doc: optionally treat warnings as errors
-
- docs/sphinx/kerneldoc.py |   1 -
- scripts/kernel-doc       | 453 +++++++++++++++++++++++++++------------
- 2 files changed, 318 insertions(+), 136 deletions(-)
-
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 4fbaaa05e3..d6bdb77ceb 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -1103,10 +1103,10 @@ sub dump_struct($$) {
+ 	# strip comments:
+ 	$members =~ s/\/\*.*?\*\///gos;
+ 	# strip attributes
+-	$members =~ s/\s*__attribute__\s*\(\([a-z0-9,_\*\s\(\)]*\)\)//gi;
+-	$members =~ s/\s*__aligned\s*\([^;]*\)//gos;
+-	$members =~ s/\s*__packed\s*//gos;
+-	$members =~ s/\s*CRYPTO_MINALIGN_ATTR//gos;
++	$members =~ s/\s*__attribute__\s*\(\([a-z0-9,_\*\s\(\)]*\)\)/ /gi;
++	$members =~ s/\s*__aligned\s*\([^;]*\)/ /gos;
++	$members =~ s/\s*__packed\s*/ /gos;
++	$members =~ s/\s*CRYPTO_MINALIGN_ATTR/ /gos;
+ 	# replace DECLARE_BITMAP
+ 	$members =~ s/DECLARE_BITMAP\s*\(([^,)]+),\s*([^,)]+)\)/unsigned long $1\[BITS_TO_LONGS($2)\]/gos;
+ 	# replace DECLARE_HASHTABLE
 -- 
 2.28.0
+
 
 
