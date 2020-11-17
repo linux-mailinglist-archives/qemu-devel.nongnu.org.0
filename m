@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 036912B56B1
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 03:22:16 +0100 (CET)
-Received: from localhost ([::1]:34960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 955DA2B57B8
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 04:16:35 +0100 (CET)
+Received: from localhost ([::1]:41358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keqdK-0007o5-Io
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 21:22:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56036)
+	id 1kerTu-0005H6-7k
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 22:16:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1keqbr-0007Ld-DZ
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 21:20:43 -0500
-Received: from indium.canonical.com ([91.189.90.7]:52298)
+ id 1kerT8-0004hb-TQ
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 22:15:46 -0500
+Received: from indium.canonical.com ([91.189.90.7]:33536)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1keqbp-0000BZ-1t
- for qemu-devel@nongnu.org; Mon, 16 Nov 2020 21:20:43 -0500
+ id 1kerT6-0006as-Hm
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 22:15:46 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1keqbl-0008GQ-DG
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 02:20:37 +0000
+ id 1kerT4-0005Ag-J8
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 03:15:42 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5B1442E80EA
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 02:20:37 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 80CE62E811E
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 03:15:42 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 17 Nov 2020 02:15:23 -0000
-From: yuanjungong <1904486@bugs.launchpad.net>
+Date: Tue, 17 Nov 2020 03:05:43 -0000
+From: Jacob <1904490@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: intel-hda
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: yjruc
-X-Launchpad-Bug-Reporter: yuanjungong (yjruc)
-X-Launchpad-Bug-Modifier: yuanjungong (yjruc)
-Message-Id: <160557932327.14164.11613670931205353723.malonedeb@soybean.canonical.com>
-Subject: [Bug 1904486] [NEW] resource leak in /net/tap.c
+X-Launchpad-Bug-Commenters: jacob11
+X-Launchpad-Bug-Reporter: Jacob (jacob11)
+X-Launchpad-Bug-Modifier: Jacob (jacob11)
+Message-Id: <160558234310.29971.12864468607339587807.malonedeb@gac.canonical.com>
+Subject: [Bug 1904490] [NEW] intel-hda: valid registers are unknown
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="a2ee2035671f86427804714f331b9ff7fecaef7e"; Instance="production"
-X-Launchpad-Hash: 896bfbcbb257041f733b756f739816967d69c0e8
+X-Launchpad-Hash: 7e10a513fae6f7a405c67d20b91840ad84ba09d4
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 21:20:37
@@ -70,101 +71,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1904486 <1904486@bugs.launchpad.net>
+Reply-To: Bug 1904490 <1904490@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Public bug reported:
 
-Hi,there might be a resource leak in function net_init_tap in
-/net/tap.c.
+According to HDA specification, "3.1.2 General Register Behaviors and
+Access Requirements":
 
- 811         fd =3D monitor_fd_param(monitor_cur(), tap->fd, errp);
- 812         if (fd =3D=3D -1) {
- 813             return -1;
- 814         }
- 815 =
+"All controller registers must be addressable as byte, Word, and Dword
+quantities."
 
- 816         ret =3D qemu_try_set_nonblock(fd);
- 817         if (ret < 0) {
- 818             error_setg_errno(errp, -ret, "%s: Can't use file descripto=
-r %d",
- 819                              name, fd);
- 820             return -1;
- 821         }
- 822 =
+But e.g. if you try the following to reset and enable the CORB, assuming
+es:esi contains the base MMIO address of the controller,
 
- 823         vnet_hdr =3D tap_probe_vnet_hdr(fd, errp);
- 824         if (vnet_hdr < 0) {
- 825             close(fd);
- 826             return -1;
- 827         }
- 828 =
+ es or [esi+4bh], byte 80h   ; reset CORB
+corbresetloop:
+ es test [esi+4bh], byte 80h ; is HW done resetting yet?
+ jnz corbreset1ok            ; yes, bit is now 1
+ hlt                         ; wait a little bit
+ jmp corbresetloop           ; and check again
+corbreset1ok:
+ es and [esi+4bh], byte 7fh  ; clear the bit
 
- 829         net_init_tap_one(tap, peer, "tap", name, NULL,
- 830                          script, downscript,
- 831                          vhostfdname, vnet_hdr, fd, &err);
- 832         if (err) {
- 833             error_propagate(errp, err);
- 834             return -1;
- 835         }
+It will hang indefinitely because the bit never gets set, and if you
+enable debug output of the controller with "-device intel-hda,debug=3D1",
+you will see infinitely the line "unknown register, addr 0x4b" output.
+The same code on a real hardware (I tried with ICH7M) works fine, as it
+should according to the spec.
 
-fd should be closed before return in line 820 and line 834, similar to
-the implementation in line 825.
+Host/guest/version does not matter (I am writing own drivers) --- as of
+right now, latest version still has this code:
+
+https://github.com/qemu/qemu/blob/master/hw/audio/intel-hda.c
+
+which seems to emit "unknown register" message in intel_hda_reg_find(),
+and this function does not take into account range of addresses that
+each register occupies.
 
 ** Affects: qemu
      Importance: Undecided
          Status: New
 
+
+** Tags: intel-hda
+
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1904486
+https://bugs.launchpad.net/bugs/1904490
 
 Title:
-  resource leak in /net/tap.c
+  intel-hda: valid registers are unknown
 
 Status in QEMU:
   New
 
 Bug description:
-  Hi,there might be a resource leak in function net_init_tap in
-  /net/tap.c.
+  According to HDA specification, "3.1.2 General Register Behaviors and
+  Access Requirements":
 
-   811         fd =3D monitor_fd_param(monitor_cur(), tap->fd, errp);
-   812         if (fd =3D=3D -1) {
-   813             return -1;
-   814         }
-   815 =
+  "All controller registers must be addressable as byte, Word, and Dword
+  quantities."
 
-   816         ret =3D qemu_try_set_nonblock(fd);
-   817         if (ret < 0) {
-   818             error_setg_errno(errp, -ret, "%s: Can't use file descrip=
-tor %d",
-   819                              name, fd);
-   820             return -1;
-   821         }
-   822 =
+  But e.g. if you try the following to reset and enable the CORB,
+  assuming es:esi contains the base MMIO address of the controller,
 
-   823         vnet_hdr =3D tap_probe_vnet_hdr(fd, errp);
-   824         if (vnet_hdr < 0) {
-   825             close(fd);
-   826             return -1;
-   827         }
-   828 =
+   es or [esi+4bh], byte 80h   ; reset CORB
+  corbresetloop:
+   es test [esi+4bh], byte 80h ; is HW done resetting yet?
+   jnz corbreset1ok            ; yes, bit is now 1
+   hlt                         ; wait a little bit
+   jmp corbresetloop           ; and check again
+  corbreset1ok:
+   es and [esi+4bh], byte 7fh  ; clear the bit
 
-   829         net_init_tap_one(tap, peer, "tap", name, NULL,
-   830                          script, downscript,
-   831                          vhostfdname, vnet_hdr, fd, &err);
-   832         if (err) {
-   833             error_propagate(errp, err);
-   834             return -1;
-   835         }
+  It will hang indefinitely because the bit never gets set, and if you
+  enable debug output of the controller with "-device intel-
+  hda,debug=3D1", you will see infinitely the line "unknown register, addr
+  0x4b" output. The same code on a real hardware (I tried with ICH7M)
+  works fine, as it should according to the spec.
 
-  fd should be closed before return in line 820 and line 834, similar to
-  the implementation in line 825.
+  Host/guest/version does not matter (I am writing own drivers) --- as
+  of right now, latest version still has this code:
+
+  https://github.com/qemu/qemu/blob/master/hw/audio/intel-hda.c
+
+  which seems to emit "unknown register" message in
+  intel_hda_reg_find(), and this function does not take into account
+  range of addresses that each register occupies.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1904486/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1904490/+subscriptions
 
