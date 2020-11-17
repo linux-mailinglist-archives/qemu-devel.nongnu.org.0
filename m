@@ -2,49 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14CB12B5C72
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 11:01:29 +0100 (CET)
-Received: from localhost ([::1]:45590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89E2F2B5C77
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 11:02:04 +0100 (CET)
+Received: from localhost ([::1]:47316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kexnj-0006RX-Vk
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 05:01:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54224)
+	id 1kexoJ-00079B-J4
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 05:02:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kexkP-0003La-7R
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kexkO-0003LJ-SL
  for qemu-devel@nongnu.org; Tue, 17 Nov 2020 04:58:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45749)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52078)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kexkL-0003Ug-ST
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kexkL-0003Uj-UV
  for qemu-devel@nongnu.org; Tue, 17 Nov 2020 04:58:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605607075;
+ s=mimecast20190719; t=1605607076;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=VYt2udeLJcHsFXYDZK/CzT10367CpuNo41e7rUgoYGY=;
- b=Oy6yKDY99HAjArnlfCTwEYWi8iNApEDKy2NT1H0HiUBZ0wf49l4uWru4o0bQTOK4SQNCCU
- pHahiJqnF5hsTY9LGy8VRhemKdeZC7YXieHE7j4P2JyeIwPBW9VU7jo8lFXunuiykQA47/
- m1/EEXUWWKiULjirmbBHD22IHwmebnU=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=a58ip3fhIQWC725sqe6TyIlIuM+QnBNQy9RtBJFzd9M=;
+ b=bdXnnvZGi7TD9SurDKHpoEB3/a7fCapSuStjmTDyhLq0TTv05OVtAPSIzop0F/a0GYL0rI
+ CsNlmShtZ76fPnqf/kZ0kOriUMr0VY9+182+khRSFwaQtYvql4epvGd0Vj7OksA9jTwgl7
+ sd1DWmhRZJRY2rFVUkmRMjbfLaD1Q4s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-562-x2OjtiVVM2m7_yUEpg65UA-1; Tue, 17 Nov 2020 04:57:52 -0500
-X-MC-Unique: x2OjtiVVM2m7_yUEpg65UA-1
+ us-mta-578-iDoO5vIuNlS7TgKO61GA9w-1; Tue, 17 Nov 2020 04:57:54 -0500
+X-MC-Unique: iDoO5vIuNlS7TgKO61GA9w-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1F26805EF4;
- Tue, 17 Nov 2020 09:57:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17754186DD56;
+ Tue, 17 Nov 2020 09:57:53 +0000 (UTC)
 Received: from thuth.com (ovpn-113-138.ams2.redhat.com [10.36.113.138])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2F8AF76640;
- Tue, 17 Nov 2020 09:57:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3C1B15B4B6;
+ Tue, 17 Nov 2020 09:57:52 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 00/12] Misc fixes for 5.2
-Date: Tue, 17 Nov 2020 10:57:36 +0100
-Message-Id: <20201117095748.122371-1-thuth@redhat.com>
+Subject: [PULL 01/12] qemu/bswap: Remove unused qemu_bswap_len()
+Date: Tue, 17 Nov 2020 10:57:37 +0100
+Message-Id: <20201117095748.122371-2-thuth@redhat.com>
+In-Reply-To: <20201117095748.122371-1-thuth@redhat.com>
+References: <20201117095748.122371-1-thuth@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
@@ -79,72 +82,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
- Hi Peter,
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-the following changes since commit b17d3b7b77f043f0e76f0e6ce6def3c1b1d5ee8b:
+Last use of qemu_bswap_len() has been removed in commit
+e5fd1eb05ec ("apb: add busA qdev property to PBM PCI bridge").
 
-  Merge remote-tracking branch 'remotes/mdroth/tags/qga-pull-2020-11-16-tag' into staging (2020-11-16 20:15:57 +0000)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200928131934.739451-2-philmd@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ include/qemu/bswap.h | 6 ------
+ 1 file changed, 6 deletions(-)
 
-are available in the Git repository at:
-
-  https://gitlab.com/huth/qemu.git tags/pull-request-2020-11-17
-
-for you to fetch changes up to 46b42f715d1310cd80acfeb7c84337a128fd190b:
-
-  max111x: put it into the 'misc' category (2020-11-17 10:17:02 +0100)
-
-----------------------------------------------------------------
-* Fixes for compiling on Haiku, and add Haiku VM for compile-testing
-* Update NetBSD VM to version 9.1
-* Misc fixes (e.g. categorize some devices)
-----------------------------------------------------------------
-
-AlexChen (1):
-      target/microblaze: Fix possible array out of bounds in mmu_write()
-
-Alexander von Gluck IV (1):
-      tests/vm: Add Haiku test based on their vagrant images
-
-Brad Smith (1):
-      tests/vm: update NetBSD to 9.1
-
-Gan Qixin (4):
-      ssd0323: put it into the 'display' category
-      ads7846: put it into the 'input' category
-      nand: put it into the 'storage' category
-      max111x: put it into the 'misc' category
-
-Philippe Mathieu-Daudé (1):
-      qemu/bswap: Remove unused qemu_bswap_len()
-
-Rebecca Cran (1):
-      gitlab-ci: Use $CI_REGISTRY instead of hard-coding registry.gitlab.com
-
-Thomas Huth (3):
-      configure: Fix the _BSD_SOURCE define for the Haiku build
-      configure: Do not build pc-bios/optionrom on Haiku
-      configure: Add a proper check for sys/ioccom.h and use it in tpm_ioctl.h
-
- .gitlab-ci.d/containers.yml |   2 +-
- backends/tpm/tpm_ioctl.h    |   4 ++
- configure                   |   4 +-
- hw/block/nand.c             |   1 +
- hw/display/ads7846.c        |   2 +
- hw/display/ssd0323.c        |   1 +
- hw/misc/max111x.c           |   1 +
- include/qemu/bswap.h        |   6 ---
- meson.build                 |   2 +
- nbd/nbd-internal.h          |   2 +-
- target/microblaze/mmu.c     |   3 +-
- tests/keys/vagrant          |  27 ++++++++++
- tests/keys/vagrant.pub      |   1 +
- tests/vm/Makefile.include   |   3 +-
- tests/vm/basevm.py          |   5 +-
- tests/vm/haiku.x86_64       | 119 ++++++++++++++++++++++++++++++++++++++++++++
- tests/vm/netbsd             |   6 +--
- 17 files changed, 172 insertions(+), 17 deletions(-)
- create mode 100644 tests/keys/vagrant
- create mode 100644 tests/keys/vagrant.pub
- create mode 100755 tests/vm/haiku.x86_64
+diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
+index 1d3e4c24e4..8b01c38040 100644
+--- a/include/qemu/bswap.h
++++ b/include/qemu/bswap.h
+@@ -169,12 +169,6 @@ CPU_CONVERT(le, 16, uint16_t)
+ CPU_CONVERT(le, 32, uint32_t)
+ CPU_CONVERT(le, 64, uint64_t)
+ 
+-/* len must be one of 1, 2, 4 */
+-static inline uint32_t qemu_bswap_len(uint32_t value, int len)
+-{
+-    return bswap32(value) >> (32 - 8 * len);
+-}
+-
+ /*
+  * Same as cpu_to_le{16,32}, except that gcc will figure the result is
+  * a compile-time constant if you pass in a constant.  So this can be
+-- 
+2.18.4
 
 
