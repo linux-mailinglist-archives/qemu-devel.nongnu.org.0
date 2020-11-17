@@ -2,57 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 282D22B5E13
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 12:14:13 +0100 (CET)
-Received: from localhost ([::1]:33760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB82C2B5E11
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 12:13:28 +0100 (CET)
+Received: from localhost ([::1]:60544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keyw8-0008PZ-6h
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 06:14:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42750)
+	id 1keyvP-0007mM-PZ
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 06:13:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1keytn-0006wd-UZ
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 06:11:47 -0500
-Received: from indium.canonical.com ([91.189.90.7]:54498)
+ id 1keytm-0006uz-Ee
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 06:11:46 -0500
+Received: from indium.canonical.com ([91.189.90.7]:54564)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1keytk-000498-H0
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 06:11:47 -0500
+ id 1keytk-00049D-Ef
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 06:11:46 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1keytg-0005Wr-4m
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 11:11:40 +0000
+ id 1keyth-0005We-25
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 11:11:41 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5E62E2E8160
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 11:11:39 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id E541C2E8131
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 11:11:40 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 17 Nov 2020 11:03:33 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1900155@bugs.launchpad.net>
+Date: Tue, 17 Nov 2020 11:05:31 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1858461@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: ide
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: linux-user mips
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jnsnow philmd
-X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
+X-Launchpad-Bug-Commenters: aladjev-andrew amarkovic pmaydell
+X-Launchpad-Bug-Reporter: puchuu (aladjev-andrew)
 X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
  =?utf-8?q?=29?=
-References: <160285970200.13301.15621205793966891788.malonedeb@wampee.canonical.com>
-Message-Id: <160561101363.29478.9574300258647874040.malone@gac.canonical.com>
-Subject: [Bug 1900155] Re: MIPS Malta fails booting due to IDE error
+References: <157833123209.15024.12557979334447840996.malonedeb@wampee.canonical.com>
+Message-Id: <160561113163.27496.2313775571214855752.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1858461] Re: Please refactor linux-user/mips/cpu_loop.c
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="a2ee2035671f86427804714f331b9ff7fecaef7e"; Instance="production"
-X-Launchpad-Hash: ff44e463395c811c49e8bcd816fd5e16730bc50d
+X-Launchpad-Hash: 3b32e504b96c725ea97789cdaf398fbf38fbebe2
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 04:35:40
@@ -75,102 +73,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1900155 <1900155@bugs.launchpad.net>
+Reply-To: Bug 1858461 <1858461@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixed by commits 4ac4e7281a2..1a9925e3390.
-
-** Changed in: qemu
-       Status: New =3D> Fix Committed
+** Tags added: linux-user mips
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1900155
+https://bugs.launchpad.net/bugs/1858461
 
 Title:
-  MIPS Malta fails booting due to IDE error
+  Please refactor linux-user/mips/cpu_loop.c
 
 Status in QEMU:
-  Fix Committed
+  New
 
 Bug description:
-  As of commit 3e407488349:
+  Hello. I am working with qemu on test images. I've added a new syscall
+  (436) to qemu but received ENOSYS from mips application.
 
-  $ avocado --show=3Dconsole run -t machine:malta tests/acceptance/boot_lin=
-ux_console.py    =
+  Please open "linux-user/mips/cpu_loop.c". I've added at the end of
+  "mips_syscall_args" the following:
 
-  console: [    0.000000] Linux version 4.5.0-2-4kc-malta (debian-kernel@li=
-sts.debian.org) (gcc version 5.3.1 20160519 (Debian 5.3.1-20) ) #1 Debian 4=
-.5.5-1 (2016-05-29)
-  console: [    0.000000] earlycon: Early serial console at I/O port 0x3f8 =
-(options '38400n8')
-  console: [    0.000000] bootconsole [uart0] enabled
-  console: [    0.000000] CPU0 revision is: 00019300 (MIPS 24Kc)
-  console: [    0.000000] FPU revision is: 00739300
-  console: [    0.000000] MIPS: machine is mti,malta
-  [...]
-  console: ata2.00: ATAPI: QEMU DVD-ROM, 2.5+, max UDMA/100
-  console: ata2.00: Drive reports diagnostics failure. This may indicate a =
-drive
-  console: ata2.00: fault or invalid emulation. Contact drive vendor for in=
-formation.
-  console: ata2.00: configured for UDMA/33
-  console: scsi 1:0:0:0: CD-ROM            QEMU     QEMU DVD-ROM     2.5+ P=
-Q: 0 ANSI: 5
-  console: Freeing unused kernel memory: 412K (80979000 - 809e0000)
-  console: do_page_fault(): sending SIGSEGV to mount for invalid write acce=
-ss to 0018a000
-  console: epc =3D 775cca54 in libc-2.27.so[775b3000+177000]
-  console: ra  =3D 77754618 in ld-2.27.so[77743000+24000]
-  console: do_page_fault(): sending SIGSEGV to klogd for invalid write acce=
-ss to 0018a000
-  console: epc =3D 770f0a54 in libc-2.27.so[770d7000+177000]
-  console: ra  =3D 77278618 in ld-2.27.so[77267000+24000]
-  console: do_page_fault(): sending SIGSEGV to S20urandom for invalid write=
- access to 0018a000
-  console: epc =3D 77d0ca54 in libc-2.27.so[77cf3000+177000]
-  console: ra  =3D 77e94618 in ld-2.27.so[77e83000+24000]
-  console: do_page_fault(): sending SIGSEGV to mkdir for invalid write acce=
-ss to 0018a000
-  console: epc =3D 776b8a54 in libc-2.27.so[7769f000+177000]
-  console: ra  =3D 77840618 in ld-2.27.so[7782f000+24000]
-  console: do_page_fault(): sending SIGSEGV to sh for invalid write access =
-to 0018a000
-  console: epc =3D 77364a54 in libc-2.27.so[7734b000+177000]
-  console: ra  =3D 774ec618 in ld-2.27.so[774db000+24000]
-  console: do_page_fault(): sending SIGSEGV to sh for invalid write access =
-to 0018a000
-  console: epc =3D 77bd4a54 in libc-2.27.so[77bbb000+177000]
-  console: ra  =3D 77d5c618 in ld-2.27.so[77d4b000+24000]
-  console: do_page_fault(): sending SIGSEGV to awk for invalid write access=
- to 0018a000
-  console: epc =3D 76f44a54 in libc-2.27.so[76f2b000+177000]
-  console: ra  =3D 770cc618 in ld-2.27.so[770bb000+24000]
-  console: do_page_fault(): sending SIGSEGV to cat for invalid write access=
- to 0018a000
-  console: epc =3D 770cca54 in libc-2.27.so[770b3000+177000]
-  console: ra  =3D 77254618 in ld-2.27.so[77243000+24000]
-  $ echo $?
-  8
+  ```
+  MIPS_SYS(sys_getdents64_x32, 3)
+  ```
 
-  55adb3c45620c31f29978f209e2a44a08d34e2da is the first bad commit
-  commit 55adb3c45620c31f29978f209e2a44a08d34e2da
-  Author: John Snow <jsnow@redhat.com>
-  Date:   Fri Jul 24 01:23:00 2020 -0400
+  But
 
-      ide: cancel pending callbacks on SRST
+  ```
+  syscall_num =3D env->active_tc.gpr[2] - 4000;
+  if (syscall_num >=3D sizeof(mips_syscall_args)) {
+    ret =3D -TARGET_ENOSYS;
+  ```
 
-      The SRST implementation did not keep up with the rest of IDE; it is
-      possible to perform a weak reset on an IDE device to remove the BSY/D=
-RQ
-      bits, and then issue writes to the control/device registers which can
-      cause chaos with the state machine.
+  returns -TARGET_ENOSYS
 
-      Fix that by actually performing a real reset.
+  We can see that "linux-user/mips/cpu_loop.c" differs a lot from
+  "linux-user/arm/cpu_loop.c". Arm has it's own "ARM_NR_BASE" and etc.
+
+  Can you please refactor mips cpu loop in the same way as arm? Thank
+  you.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1900155/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1858461/+subscriptions
 
