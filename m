@@ -2,63 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB32D2B603A
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 14:09:17 +0100 (CET)
-Received: from localhost ([::1]:56738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B6082B60C3
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 14:13:19 +0100 (CET)
+Received: from localhost ([::1]:60092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf0jU-0002W0-VM
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 08:09:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43820)
+	id 1kf0nO-0004AA-FY
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 08:13:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kf0iJ-0001ic-07
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 08:08:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56235)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kf0mG-0003jD-Mq
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 08:12:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48751)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kf0iH-0003aj-DC
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 08:08:02 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kf0mE-000536-Rc
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 08:12:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605618480;
+ s=mimecast20190719; t=1605618725;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AgMbxMUBhWuyPsa8PpPPOK+LOWd1CJ56WBIRc5XYOME=;
- b=iq/gslqNVwWzHC30cv8WniRiSnN65nvPGdNEAJh8tn5HOp2V5PBmQRvrAJMLEBJ6D438Wv
- RI8yp94qKQNL/Az1YplavOlFjLpk9cUOZ22QwA9ExO6keqo/chXiDYPWzvo8yB5uv6gHSr
- ZVRD8JZPXNV3zOV0OfMUTpZl0gZtAPY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-484-xYSferWSMJGJO6_R-PunfA-1; Tue, 17 Nov 2020 08:07:57 -0500
-X-MC-Unique: xYSferWSMJGJO6_R-PunfA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 62BDE100749B;
- Tue, 17 Nov 2020 13:07:56 +0000 (UTC)
-Received: from localhost (ovpn-115-113.ams2.redhat.com [10.36.115.113])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C2A3F6EF51;
- Tue, 17 Nov 2020 13:07:52 +0000 (UTC)
-Date: Tue, 17 Nov 2020 13:07:51 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Mike Christie <michael.christie@oracle.com>
-Subject: Re: [PATCH 03/10] vhost poll: fix coding style
-Message-ID: <20201117130751.GM131917@stefanha-x1.localdomain>
-References: <1605223150-10888-1-git-send-email-michael.christie@oracle.com>
- <1605223150-10888-5-git-send-email-michael.christie@oracle.com>
+ bh=+V9ZCFU+uzTqhYjJgP48CtJ9WjH1j1l6N4Yo8/ZI+XA=;
+ b=NShb+iRfZv4rn+jmqk4XavbSbaCHN0Unj0/3mD7tuUi1YNizoK1MXcVR4sLR1JddP6yYbZ
+ b4W/G5t1P6rzyujO/bpCOZjWYSg1n+WkpsgmbsJN7CT6UBkWetab4csBXdFpF5iQY8jwvQ
+ 6qyj0/ph1iUGbyCVuG2A5kQv5+R1o9I=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-458-zCTsxwyFPJ25uTEwqkDzaA-1; Tue, 17 Nov 2020 08:12:04 -0500
+X-MC-Unique: zCTsxwyFPJ25uTEwqkDzaA-1
+Received: by mail-wm1-f69.google.com with SMTP id g3so1505254wmh.9
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 05:12:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+V9ZCFU+uzTqhYjJgP48CtJ9WjH1j1l6N4Yo8/ZI+XA=;
+ b=b3+XjTkfqJY0s1Qvn3eeprpoosjzicTJ5mPfS/ICeUOlpbwwPw9pd08hrPs2bpfdel
+ xc3Tco9C/wTmI94vfH4+xuVTFsL3lzGQP+HLBew9dy+yc0a7ZOLaQqciofbL/yanf0A0
+ AzEob/iuAL4xsDpKuSxsfbmnjruJYANfj0pSGMuzWJRG3OTvsgHEDHqxRI8fYlCF8nPQ
+ 7t2ztDKXj62tJFTj4iNTQN4mYfQwjeVuiGP8mEyHIhZADAWnvmYins6B0QinfKfpfef5
+ nGU4TKTq3ZUsvTCwY4wSUrSoWTqyaiz/zLG80M69tPEgZwh14VF/iX49uOnxoGIXPxja
+ ybIw==
+X-Gm-Message-State: AOAM533SaU6kNS+LOYSxPP4/34fp7sz+eT5kk96Hoc/nBmIX7Igqra8+
+ OsplHOLQ1hJQzG8a85ISXjSHCdhU8YuvU6hHFz26orR+DnGCgzh+ensO3DDjGiRLH1PTzyq5PH3
+ CZHFNFJjZyNdDzIo=
+X-Received: by 2002:a5d:474d:: with SMTP id o13mr26275995wrs.178.1605618723007; 
+ Tue, 17 Nov 2020 05:12:03 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwyB6HFnnlFRx6qvZBKRv6w+AJ8UiZeFG6TPt2RXCJ4BK3YbW1uyz+Z6YCs/FEb0uYiu78P6g==
+X-Received: by 2002:a5d:474d:: with SMTP id o13mr26275968wrs.178.1605618722820; 
+ Tue, 17 Nov 2020 05:12:02 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id z7sm2134607wmf.33.2020.11.17.05.12.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Nov 2020 05:12:01 -0800 (PST)
+Subject: Re: [RFC PATCH-for-5.2] hw/s390x/pci: Fix endianness issue
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20201117120115.1234994-1-philmd@redhat.com>
+ <CAFEAcA-c3hw2w23OR0moKDYuvyD3O=Bqjp3fiid0byH7K+nr-Q@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <00719607-a890-6d45-a89f-d261d5029a63@redhat.com>
+Date: Tue, 17 Nov 2020 14:12:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <1605223150-10888-5-git-send-email-michael.christie@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <CAFEAcA-c3hw2w23OR0moKDYuvyD3O=Bqjp3fiid0byH7K+nr-Q@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="fDP66DSfTvWAYVew"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 00:41:22
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -67,8 +85,9 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,44 +100,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, linux-scsi@vger.kernel.org, mst@redhat.com,
- jasowang@redhat.com, qemu-devel@nongnu.org,
- virtualization@lists.linux-foundation.org, target-devel@vger.kernel.org,
- pbonzini@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
+ Pierre Morel <pmorel@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Alex Williamson <alex.williamson@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---fDP66DSfTvWAYVew
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 11/17/20 2:00 PM, Peter Maydell wrote:
+> On Tue, 17 Nov 2020 at 12:03, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
+>>
+>> Fix an endianness issue reported by Cornelia:
+>>
+>>> s390x tcg guest on x86, virtio-pci devices are not detected. The
+>>> relevant feature bits are visible to the guest. Same breakage with
+>>> different guest kernels.
+>>> KVM guests and s390x tcg guests on s390x are fine.
+>>
+>> Fixes: 28dc86a0729 ("s390x/pci: use a PCI Group structure")
+>> Reported-by: Cornelia Huck <cohuck@redhat.com>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>> RFC because review-only patch, untested
+>> ---
+>>  hw/s390x/s390-pci-inst.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
+>> index 58cd041d17f..cfb54b4d8ec 100644
+>> --- a/hw/s390x/s390-pci-inst.c
+>> +++ b/hw/s390x/s390-pci-inst.c
+>> @@ -305,7 +305,7 @@ int clp_service_call(S390CPU *cpu, uint8_t r2, uintptr_t ra)
+>>          ClpReqQueryPciGrp *reqgrp = (ClpReqQueryPciGrp *)reqh;
+>>          S390PCIGroup *group;
+>>
+>> -        group = s390_group_find(reqgrp->g);
+>> +        group = s390_group_find(ldl_p(&reqgrp->g));
+> 
+> 'g' in the ClpReqQueryPciGrp struct is a uint32_t, so
+> adding the ldl_p() will have no effect unless (a) the
+> structure is not 4-aligned and (b) the host will fault on
+> unaligned accesses, which isn't the case for x86 hosts.
+> 
+> Q: is this struct really in host order, or should we
+> be using ldl_le_p() or ldl_be_p() and friends here and
+> elsewhere?
 
-On Thu, Nov 12, 2020 at 05:19:03PM -0600, Mike Christie wrote:
-> We use like 3 coding styles in this struct. Switch to just tabs.
->=20
-> Signed-off-by: Mike Christie <michael.christie@oracle.com>
-> Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-> ---
->  drivers/vhost/vhost.h | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+Now than I had lunch, your comment is obvious...
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+IIUC we should use ldl_le_p() here and fix all the other
+uses.
 
---fDP66DSfTvWAYVew
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+zyycACgkQnKSrs4Gr
-c8iBFwgAj6yOsAzlghmcCCrVu68vX+WsP17kZuD3YNiOns9BH2qt8Ck6DNzZxhjK
-h68yt2O4ggpB1ttLCN+jrnqrHXEfSqBS/bg9DxRf2OsLwmIKT0cGR8gXMwU+0g+1
-tWXrULd/X6VuhPYbnrLJ0PDvnW2OVvUmYOGXG7J0DR8IL4Ubq/CJtL1GicNpwjAV
-4+tSFKRRQFd9NFzzkVX9o8hGS7jH2dOoAl3m1s1wyIEwJa6tMwRTgZM9DNM2diq4
-kfWLs1cXoyjBAAb9h4CMXr9Ns5x9BE8YQs86v3h99qrY+75INN49/UqMr7wA+97w
-05bXLMLXQF6ssYfDRw5LPB3tJzl75w==
-=/8zK
------END PGP SIGNATURE-----
-
---fDP66DSfTvWAYVew--
+> 
+> thanks
+> -- PMM
+> 
 
 
