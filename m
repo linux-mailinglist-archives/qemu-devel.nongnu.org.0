@@ -2,56 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B666A2B5BD7
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 10:36:35 +0100 (CET)
-Received: from localhost ([::1]:41206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E936A2B5C5D
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 10:57:48 +0100 (CET)
+Received: from localhost ([::1]:35570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kexPe-0008GJ-BT
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 04:36:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49240)
+	id 1kexkB-0002C9-VJ
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 04:57:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kexOs-0007p3-17
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 04:35:46 -0500
-Received: from indium.canonical.com ([91.189.90.7]:48930)
+ id 1kexiB-0000sb-B5
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 04:55:43 -0500
+Received: from indium.canonical.com ([91.189.90.7]:52472)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kexOo-0003rA-Na
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 04:35:45 -0500
+ id 1kexi6-0002iW-DB
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 04:55:42 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kexOl-0004IX-R8
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 09:35:39 +0000
+ id 1kexi3-0006VU-OR
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 09:55:35 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CC2252E8041
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 09:35:39 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id B57162E80E8
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 09:55:35 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 17 Nov 2020 09:26:12 -0000
-From: Thomas Huth <1784919@bugs.launchpad.net>
+Date: Tue, 17 Nov 2020 09:40:53 -0000
+From: Thomas Huth <1022023@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Won't Fix; importance=Wishlist;
- assignee=None; 
-X-Launchpad-Bug-Tags: wishlist
+X-Launchpad-Bug: product=qemu; status=New; importance=Wishlist; assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: schoenebeck th-huth zem-g
-X-Launchpad-Bug-Reporter: Hans (zem-g)
+X-Launchpad-Bug-Commenters: pluto-pld-linux th-huth
+X-Launchpad-Bug-Reporter: =?utf-8?q?Pawe=C5=82_Sikora_=28pluto-pld-linux=29?=
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <153314732349.28680.8240678335924309425.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160560517209.29478.6453429068193571959.malone@gac.canonical.com>
-Subject: [Bug 1784919] Re: native libgfapi glusterfs support for virtio 9p
- filesystem passthrough
+References: <20120707081203.6181.33768.malonedeb@gac.canonical.com>
+Message-Id: <160560605355.14393.11916227400246435518.malone@soybean.canonical.com>
+Subject: [Bug 1022023] Re: vga/std lacks few wide screen modes.
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="a2ee2035671f86427804714f331b9ff7fecaef7e"; Instance="production"
-X-Launchpad-Hash: 0fac91ce1d150fcce8de7e954c52fb4146e81dea
+X-Launchpad-Hash: 99a81168c18e999b62dbf6ee102dcac08e46bb5c
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 04:35:40
@@ -74,58 +71,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1784919 <1784919@bugs.launchpad.net>
+Reply-To: Bug 1022023 <1022023@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ok, then let's mark this ticket as WONTFIX since nobody will be working
-on it in the near future.
+There are more requests in other bug tickets:
 
-** Changed in: qemu
-       Status: New =3D> Won't Fix
+- 1366x768 (from https://bugs.launchpad.net/qemu/+bug/1054558)
+
+- 1080 wide x 1920 high (from
+https://bugs.launchpad.net/qemu/+bug/1665789)
+
+... so these should be considered, too, I think.
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1784919
+https://bugs.launchpad.net/bugs/1022023
 
 Title:
-  native libgfapi  glusterfs support for virtio 9p filesystem
-  passthrough
+  vga/std lacks few wide screen modes.
 
 Status in QEMU:
-  Won't Fix
+  New
 
 Bug description:
-  I can add block devices on glusterfs natively to my virtual machines sinc=
-e qemu 1.3 =
-
-  I would like to see the same feature for virtio 9p filesystems added on m=
-y VM. =
-
-
-  Accessing a filesystem mounted on the Metal is my favorite solution
-  for storage that is to be shared between more than one VM. But because
-  my VMs are not running as root, they are not able to passthrough
-  userids and gids to gluster-fuse. uid mapping is also not possible
-  because no xattr support.
-
-  So all I can do is either setting up seperate NFS Servers to bring the
-  Filesystem in via Network, or to start qemu as root or to add
-  fuse_xattr on top of glusterfs_fuse. I do expect however that the
-  fastest and most relieable solution is to make something like this
-  possible:
-
-  -fsdev
-  local,id=3Dtest_dev,path=3Dgluster://this.node/test_mount,security_model=
-=3Dpassthrough
-  -device virtio-9p-pci,fsdev=3Dtest_dev,mount_tag=3Dtest_mount
-
-  regards
-
-      Hans
+  hi,
+  i have noticed that qemu-1.0.1 doesn't support few widescreen modes on -v=
+ga std, e.g. 1680x1050, 1600x1000, 1440x900.
+  i have a few laptops with kvm and i would like to work with qemu windows =
+guest native full wide screen mode.
+  could you please add these modes?
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1784919/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1022023/+subscriptions
 
