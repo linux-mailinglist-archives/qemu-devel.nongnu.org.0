@@ -2,79 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B2142B6B48
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 18:11:58 +0100 (CET)
-Received: from localhost ([::1]:57100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05F6A2B6AD5
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 18:01:19 +0100 (CET)
+Received: from localhost ([::1]:43598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf4WK-0005iO-Sg
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 12:11:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43868)
+	id 1kf4M1-0005Qf-TT
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 12:01:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kf4Ew-00039A-LU
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:58 -0500
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:42192)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kf4EZ-0002QL-Kz
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:35 -0500
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:39452)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kf4Eu-0007Hp-PC
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:58 -0500
-Received: by mail-ej1-x642.google.com with SMTP id i19so30379426ejx.9
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:53:56 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kf4EW-00077r-OT
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:35 -0500
+Received: by mail-ej1-x643.google.com with SMTP id s25so30383777ejy.6
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:53:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ax4JFkEmtB9bFkwgtcdzLquJHfwUo36YwYi9uzfBSKY=;
- b=NJKHokCZvr50w62/FWf4TTt2ZHDVEgZMvS2nxl/1AKTd7YYghIdNTsM926Lg/bXAGa
- 3BkhOVHOSWgu17AVQQiouh9qslkK6DNxgoG6Sc+GNplyB0EP7jQfxHQSIOFaEwYZ8DsK
- Fhsrp7FVtBCfZXuABq4WL93ilnc92RSYLg40+lYIYrxDP5YYQmYXRfxVa0GqX/U2Lhl1
- Vjgr/XJwKGDDY/ByLwRu/ylAWfhOxq++W8UCpwp5ArAfVVyJUSvVJ/CI9XheFsFoo5es
- oV0nic+zOS3E+yI9qp1r0qDjf7PUXTmHjg8W6KaRA/0fkQzBrF3Q6dULbjWDyP83R9/R
- sGPA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7428R+oR0lGYl7J4nUR6BeZwcrYbFQnKX3t9FLn/kmg=;
+ b=mt2GXHB35AWclUA/snqtOkVyRKChzf4tsjWJS8DTvZJhX+PxnUSaboO7N/IgMkbHfj
+ M/vygk32pu509TDsnsgXwTMtxc8+Sh5xX9CHPVAv1BfBaOIDcTzpfRarwmSoE+0tdy7b
+ 1ol6etWFnEPiUobDfnlPRXqEM0TgyNJvgM5rXfbBoekGr9gIg5Dqde26S1/7gc/Yt/uk
+ q1SQ5Nv0EtW/eB+D/CKBA6RVxuYW4Ukg7VDocFD1PnxNd1PWeTsGPIH3Dyx5skh8L2uR
+ Q2uYS5QeQjbd9mqq27Ql2en/RLyp9btSvWWnCct+n3aynWAALXsiWLrsAhTiBw/DCY2m
+ tzFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ax4JFkEmtB9bFkwgtcdzLquJHfwUo36YwYi9uzfBSKY=;
- b=KKduinzOEnBQ+GnDUTVgIy+uRI201rcsIyHJwJznUOFzYePk+CIFim88eX1bKNaoqN
- YpPXpvOyt9DI3BY05QiM83zez6AM7gbmCB6F2ygIUsl92IVXkhZRJXsIrSeQL4qzRMoE
- pC537nYxUNefi+Xsxd8yLnpjAyVN3WMRpRuf5iaSFP0fPw9qLk/CuPiUKedX/Rf/053w
- +LJxtsrf1z2pgCjESVVgx2eNUKLzOLMyplHBN3Q64vJlqexzJC+Fz6YQzMgZ5m6y2DBq
- 7uJvEeVuIoyK77B+VTFzDJg6ts9/oMwJVic0c7wZxRrQ05jiUjgSF4MT3C0TiG7eJrUH
- Ckag==
-X-Gm-Message-State: AOAM533FINWgup55O5a/QOfcUlQWmjqQMGodeJkSu0e4egttQ8LCIZ8Z
- W/dYdwAxuSBOluZs2LK7+PAdRsxfJGY=
-X-Google-Smtp-Source: ABdhPJzwWLy7KVpTf74wlqX1A3l0afNNpHOn/YQQ11XyGpdb3Pp/XwfMgpkXMl1n1fOBvmjKR/LOcg==
-X-Received: by 2002:a17:906:e2c3:: with SMTP id
- gr3mr19653166ejb.471.1605632035158; 
- Tue, 17 Nov 2020 08:53:55 -0800 (PST)
-Received: from localhost.localdomain ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id u7sm639067ejf.83.2020.11.17.08.53.54
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Nov 2020 08:53:54 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 29/29] scripts: kernel-doc: use :c:union when needed
-Date: Tue, 17 Nov 2020 17:53:12 +0100
-Message-Id: <20201117165312.118257-30-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201117165312.118257-1-pbonzini@redhat.com>
-References: <20201117165312.118257-1-pbonzini@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7428R+oR0lGYl7J4nUR6BeZwcrYbFQnKX3t9FLn/kmg=;
+ b=M61BfyQP8QXXdI7wvZWG8wQ0e9GFBIMZHxt2900nYl6VlM3qpmSXzqWPu/JkDXzVpl
+ Uzofd38zufXY5kWoKyN4p0a/5Rl0bR9kEzVxOj6JUOG5GYH61j/ZmG2MfzbitKiHMq0w
+ yAIulN+zwnwmSjkp8X6DITq8RfDDDCf/KN4wRyTYccVUS6dPpu/iMyWLWottQnvdsFo5
+ 6bGkpS/L8uj/k/d16i5uxut9Un1G3mS6JOVzWJARUJ05Nd7M5r8Y2yxUYvqnz8TN3wCj
+ Uo01SiUpqF5SQueIEEHxNXFFEVVc/Uy3QekKNJOxFhJhHsyfwj+jJY1UJYxG9byxbGQ0
+ ONzw==
+X-Gm-Message-State: AOAM530TAonUJ/lyd8ir6aVDLP4vlaTBVNDzO84oO0KZ/A7xYIKGPgXd
+ pKEXEEBySTQ9HvZrMA0IbBFM4UIHOWr0CoamGeI=
+X-Google-Smtp-Source: ABdhPJwPIfdXR3CtGZjXfkNM7Q8IOqqE+fDuHEEpj8yU+s6yXl8ipsm1PLV2mGyhHOXbXPV/DVmkNSot9uEjnUU7pwg=
+X-Received: by 2002:a17:906:bcd4:: with SMTP id
+ lw20mr19730122ejb.527.1605632011446; 
+ Tue, 17 Nov 2020 08:53:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x642.google.com
+References: <20201116224143.1284278-1-ehabkost@redhat.com>
+ <20201116224143.1284278-5-ehabkost@redhat.com>
+ <CAJ+F1CJYPfYa+3acEQVJAnKxtOG7rx1uJG+siqEQX6h=F9p8kA@mail.gmail.com>
+ <20201117154940.GG1235237@habkost.net>
+In-Reply-To: <20201117154940.GG1235237@habkost.net>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 17 Nov 2020 20:53:19 +0400
+Message-ID: <CAJ+F1CJrg4V9=TLcrPQNFRCzGR6+rUXm_MKy6fehCZ2txguVsg@mail.gmail.com>
+Subject: Re: [PATCH v2 4/8] qnum: qnum_value_is_equal() function
+To: Eduardo Habkost <ehabkost@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000aeb10a05b4505513"
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,45 +82,303 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+--000000000000aeb10a05b4505513
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Sphinx C domain code after 3.2.1 will start complaning if :c:struct
-would be used for an union type:
+On Tue, Nov 17, 2020 at 7:49 PM Eduardo Habkost <ehabkost@redhat.com> wrote=
+:
 
-	.../Documentation/gpu/drm-kms-helpers:352: ../drivers/video/hdmi.c:851: WARNING: C 'identifier' cross-reference uses wrong tag: reference name is 'union hdmi_infoframe' but found name is 'struct hdmi_infoframe'. Full reference name is 'union hdmi_infoframe'. Full found name is 'struct hdmi_infoframe'.
+> On Tue, Nov 17, 2020 at 12:42:47PM +0400, Marc-Andr=C3=A9 Lureau wrote:
+> > On Tue, Nov 17, 2020 at 2:42 AM Eduardo Habkost <ehabkost@redhat.com>
+> wrote:
+> >
+> > > Extract the QNum value comparison logic to a function that takes
+> > > QNumValue* as argument.
+> > >
+> > > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> > > ---
+> > >  include/qapi/qmp/qnum.h |  1 +
+> > >  qobject/qnum.c          | 29 +++++++++++++++++++----------
+> > >  2 files changed, 20 insertions(+), 10 deletions(-)
+> > >
+> > > diff --git a/include/qapi/qmp/qnum.h b/include/qapi/qmp/qnum.h
+> > > index 62fbdfda68..0327ecd0f0 100644
+> > > --- a/include/qapi/qmp/qnum.h
+> > > +++ b/include/qapi/qmp/qnum.h
+> > > @@ -106,6 +106,7 @@ double qnum_get_double(const QNum *qn);
+> > >
+> > >  char *qnum_to_string(QNum *qn);
+> > >
+> > > +bool qnum_value_is_equal(const QNumValue *num_x, const QNumValue
+> *num_y);
+> > >  bool qnum_is_equal(const QObject *x, const QObject *y);
+> > >  void qnum_destroy_obj(QObject *obj);
+> > >
+> > > diff --git a/qobject/qnum.c b/qobject/qnum.c
+> > > index f80d4efd76..6a0f948b16 100644
+> > > --- a/qobject/qnum.c
+> > > +++ b/qobject/qnum.c
+> > > @@ -207,9 +207,9 @@ char *qnum_to_string(QNum *qn)
+> > >  }
+> > >
+> > >  /**
+> > > - * qnum_is_equal(): Test whether the two QNums are equal
+> > > - * @x: QNum object
+> > > - * @y: QNum object
+> > > + * qnum_value_is_equal(): Test whether two QNumValues are equal
+> > > + * @num_x: QNum value
+> > > + * @num_y: QNum value
+> > >
+> >
+> > val_x: a QNumValue ?
+>
+> Do you mean:
+>   @num_x: a QNumValue
+>
+?
+>
+> I was not planning to rename the existing num_x/num_y variables.
+>
+>
+Not renaming because that would make some churn? But this is already quite
+confusing, so it's better to use "val" for QNumVal and "num" for QNum I
+guess.
 
-So, let's address this issue too in advance, in order to
-avoid future issues.
+If you don't want to rename it in the code, may I suggest doing it at the
+declaration side? Not sure it's a better idea.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Link: https://lore.kernel.org/r/6e4ec3eec914df62389a299797a3880ae4490f35.1603791716.git.mchehab+huawei@kernel.org
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- scripts/kernel-doc | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 524fc626ed..b95bae3654 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -1092,7 +1092,11 @@ sub output_struct_rst(%) {
- 	print "\n\n.. c:type:: " . $name . "\n\n";
-     } else {
- 	my $name = $args{'struct'};
--	print "\n\n.. c:struct:: " . $name . "\n\n";
-+	if ($args{'type'} eq 'union') {
-+	    print "\n\n.. c:union:: " . $name . "\n\n";
-+	} else {
-+	    print "\n\n.. c:struct:: " . $name . "\n\n";
-+	}
-     }
-     print_lineno($declaration_start_line);
-     $lineprefix = "   ";
--- 
-2.28.0
+> >
+> >   *
+> > >   * Negative integers are never considered equal to unsigned integers=
+,
+> > >   * but positive integers in the range [0, INT64_MAX] are considered
+> > > @@ -217,13 +217,8 @@ char *qnum_to_string(QNum *qn)
+> > >   *
+> > >   * Doubles are never considered equal to integers.
+> > >   */
+> > > -bool qnum_is_equal(const QObject *x, const QObject *y)
+> > > +bool qnum_value_is_equal(const QNumValue *num_x, const QNumValue
+> *num_y)
+> > >  {
+> > > -    const QNum *qnum_x =3D qobject_to(QNum, x);
+> > > -    const QNum *qnum_y =3D qobject_to(QNum, y);
+> > > -    const QNumValue *num_x =3D &qnum_x->value;
+> > > -    const QNumValue *num_y =3D &qnum_y->value;
+> > > -
+> > >      switch (num_x->kind) {
+> > >      case QNUM_I64:
+> > >          switch (num_y->kind) {
+> > > @@ -241,7 +236,7 @@ bool qnum_is_equal(const QObject *x, const QObjec=
+t
+> *y)
+> > >      case QNUM_U64:
+> > >          switch (num_y->kind) {
+> > >          case QNUM_I64:
+> > > -            return qnum_is_equal(y, x);
+> > > +            return qnum_value_is_equal(num_y, num_x);
+> > >          case QNUM_U64:
+> > >              /* Comparison in native uint64_t type */
+> > >              return num_x->u.u64 =3D=3D num_y->u.u64;
+> > > @@ -264,6 +259,20 @@ bool qnum_is_equal(const QObject *x, const
+> QObject *y)
+> > >      abort();
+> > >  }
+> > >
+> > > +/**
+> > > + * qnum_is_equal(): Test whether the two QNums are equal
+> > > + * @x: QNum object
+> > > + * @y: QNum object
+> > > + *
+> > > + * See qnum_value_is_equal() for details on the comparison rules.
+> > > + */
+> > > +bool qnum_is_equal(const QObject *x, const QObject *y)
+> > > +{
+> > > +    const QNum *qnum_x =3D qobject_to(QNum, x);
+> > > +    const QNum *qnum_y =3D qobject_to(QNum, y);
+> > > +    return qnum_value_is_equal(&qnum_x->value, &qnum_y->value);
+> > > +}
+> > > +
+> > >  /**
+> > >   * qnum_destroy_obj(): Free all memory allocated by a QNum object
+> > >   *
+> > > --
+> > > 2.28.0
+> > >
+> > >
+> > >
+> > beside that,
+> > Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> Thanks!
+>
+> --
+> Eduardo
+>
+>
 
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000aeb10a05b4505513
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 17, 2020 at 7:49 PM Eduar=
+do Habkost &lt;<a href=3D"mailto:ehabkost@redhat.com">ehabkost@redhat.com</=
+a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On=
+ Tue, Nov 17, 2020 at 12:42:47PM +0400, Marc-Andr=C3=A9 Lureau wrote:<br>
+&gt; On Tue, Nov 17, 2020 at 2:42 AM Eduardo Habkost &lt;<a href=3D"mailto:=
+ehabkost@redhat.com" target=3D"_blank">ehabkost@redhat.com</a>&gt; wrote:<b=
+r>
+&gt; <br>
+&gt; &gt; Extract the QNum value comparison logic to a function that takes<=
+br>
+&gt; &gt; QNumValue* as argument.<br>
+&gt; &gt;<br>
+&gt; &gt; Signed-off-by: Eduardo Habkost &lt;<a href=3D"mailto:ehabkost@red=
+hat.com" target=3D"_blank">ehabkost@redhat.com</a>&gt;<br>
+&gt; &gt; ---<br>
+&gt; &gt;=C2=A0 include/qapi/qmp/qnum.h |=C2=A0 1 +<br>
+&gt; &gt;=C2=A0 qobject/qnum.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 29 +++++=
+++++++++++++++----------<br>
+&gt; &gt;=C2=A0 2 files changed, 20 insertions(+), 10 deletions(-)<br>
+&gt; &gt;<br>
+&gt; &gt; diff --git a/include/qapi/qmp/qnum.h b/include/qapi/qmp/qnum.h<br=
+>
+&gt; &gt; index 62fbdfda68..0327ecd0f0 100644<br>
+&gt; &gt; --- a/include/qapi/qmp/qnum.h<br>
+&gt; &gt; +++ b/include/qapi/qmp/qnum.h<br>
+&gt; &gt; @@ -106,6 +106,7 @@ double qnum_get_double(const QNum *qn);<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 char *qnum_to_string(QNum *qn);<br>
+&gt; &gt;<br>
+&gt; &gt; +bool qnum_value_is_equal(const QNumValue *num_x, const QNumValue=
+ *num_y);<br>
+&gt; &gt;=C2=A0 bool qnum_is_equal(const QObject *x, const QObject *y);<br>
+&gt; &gt;=C2=A0 void qnum_destroy_obj(QObject *obj);<br>
+&gt; &gt;<br>
+&gt; &gt; diff --git a/qobject/qnum.c b/qobject/qnum.c<br>
+&gt; &gt; index f80d4efd76..6a0f948b16 100644<br>
+&gt; &gt; --- a/qobject/qnum.c<br>
+&gt; &gt; +++ b/qobject/qnum.c<br>
+&gt; &gt; @@ -207,9 +207,9 @@ char *qnum_to_string(QNum *qn)<br>
+&gt; &gt;=C2=A0 }<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 /**<br>
+&gt; &gt; - * qnum_is_equal(): Test whether the two QNums are equal<br>
+&gt; &gt; - * @x: QNum object<br>
+&gt; &gt; - * @y: QNum object<br>
+&gt; &gt; + * qnum_value_is_equal(): Test whether two QNumValues are equal<=
+br>
+&gt; &gt; + * @num_x: QNum value<br>
+&gt; &gt; + * @num_y: QNum value<br>
+&gt; &gt;<br>
+&gt; <br>
+&gt; val_x: a QNumValue ?<br>
+<br>
+Do you mean:<br>
+=C2=A0 @num_x: a QNumValue<br></blockquote><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">
+?<br>
+<br>
+I was not planning to rename the existing num_x/num_y variables.<br>
+<br></blockquote><div><br></div><div>Not renaming because that would make s=
+ome churn? But this is already quite confusing, so it&#39;s better to use &=
+quot;val&quot; for QNumVal and &quot;num&quot; for QNum I guess.</div><div>=
+<br></div><div>If you don&#39;t want to rename it in the code, may I sugges=
+t doing it at the declaration side? Not sure it&#39;s a better idea.<br></d=
+iv><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+&gt; <br>
+&gt;=C2=A0 =C2=A0*<br>
+&gt; &gt;=C2=A0 =C2=A0* Negative integers are never considered equal to uns=
+igned integers,<br>
+&gt; &gt;=C2=A0 =C2=A0* but positive integers in the range [0, INT64_MAX] a=
+re considered<br>
+&gt; &gt; @@ -217,13 +217,8 @@ char *qnum_to_string(QNum *qn)<br>
+&gt; &gt;=C2=A0 =C2=A0*<br>
+&gt; &gt;=C2=A0 =C2=A0* Doubles are never considered equal to integers.<br>
+&gt; &gt;=C2=A0 =C2=A0*/<br>
+&gt; &gt; -bool qnum_is_equal(const QObject *x, const QObject *y)<br>
+&gt; &gt; +bool qnum_value_is_equal(const QNumValue *num_x, const QNumValue=
+ *num_y)<br>
+&gt; &gt;=C2=A0 {<br>
+&gt; &gt; -=C2=A0 =C2=A0 const QNum *qnum_x =3D qobject_to(QNum, x);<br>
+&gt; &gt; -=C2=A0 =C2=A0 const QNum *qnum_y =3D qobject_to(QNum, y);<br>
+&gt; &gt; -=C2=A0 =C2=A0 const QNumValue *num_x =3D &amp;qnum_x-&gt;value;<=
+br>
+&gt; &gt; -=C2=A0 =C2=A0 const QNumValue *num_y =3D &amp;qnum_y-&gt;value;<=
+br>
+&gt; &gt; -<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 switch (num_x-&gt;kind) {<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 case QNUM_I64:<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 switch (num_y-&gt;kind) {<br>
+&gt; &gt; @@ -241,7 +236,7 @@ bool qnum_is_equal(const QObject *x, const QO=
+bject *y)<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 case QNUM_U64:<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 switch (num_y-&gt;kind) {<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case QNUM_I64:<br>
+&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return qnum_is_equal(y=
+, x);<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return qnum_value_is_e=
+qual(num_y, num_x);<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case QNUM_U64:<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Comparison in =
+native uint64_t type */<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return num_x-&gt;=
+u.u64 =3D=3D num_y-&gt;u.u64;<br>
+&gt; &gt; @@ -264,6 +259,20 @@ bool qnum_is_equal(const QObject *x, const Q=
+Object *y)<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 abort();<br>
+&gt; &gt;=C2=A0 }<br>
+&gt; &gt;<br>
+&gt; &gt; +/**<br>
+&gt; &gt; + * qnum_is_equal(): Test whether the two QNums are equal<br>
+&gt; &gt; + * @x: QNum object<br>
+&gt; &gt; + * @y: QNum object<br>
+&gt; &gt; + *<br>
+&gt; &gt; + * See qnum_value_is_equal() for details on the comparison rules=
+.<br>
+&gt; &gt; + */<br>
+&gt; &gt; +bool qnum_is_equal(const QObject *x, const QObject *y)<br>
+&gt; &gt; +{<br>
+&gt; &gt; +=C2=A0 =C2=A0 const QNum *qnum_x =3D qobject_to(QNum, x);<br>
+&gt; &gt; +=C2=A0 =C2=A0 const QNum *qnum_y =3D qobject_to(QNum, y);<br>
+&gt; &gt; +=C2=A0 =C2=A0 return qnum_value_is_equal(&amp;qnum_x-&gt;value, =
+&amp;qnum_y-&gt;value);<br>
+&gt; &gt; +}<br>
+&gt; &gt; +<br>
+&gt; &gt;=C2=A0 /**<br>
+&gt; &gt;=C2=A0 =C2=A0* qnum_destroy_obj(): Free all memory allocated by a =
+QNum object<br>
+&gt; &gt;=C2=A0 =C2=A0*<br>
+&gt; &gt; --<br>
+&gt; &gt; 2.28.0<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; beside that,<br>
+&gt; Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lu=
+reau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+<br>
+Thanks!<br>
+<br>
+-- <br>
+Eduardo<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--000000000000aeb10a05b4505513--
 
