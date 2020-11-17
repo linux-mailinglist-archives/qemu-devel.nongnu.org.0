@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C39782B6B15
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 18:08:31 +0100 (CET)
-Received: from localhost ([::1]:43346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D04EF2B6B16
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 18:09:46 +0100 (CET)
+Received: from localhost ([::1]:49196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf4T0-00007J-RZ
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 12:08:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43746)
+	id 1kf4UD-0002Tv-Tu
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 12:09:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kf4En-0002zN-Sl
+ id 1kf4Eo-0002zw-G9
  for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:51 -0500
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:38822)
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:44534)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kf4El-0007E5-Ho
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:49 -0500
-Received: by mail-ej1-x644.google.com with SMTP id a16so2630045ejj.5
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:53:47 -0800 (PST)
+ id 1kf4Em-0007Ep-Jl
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:50 -0500
+Received: by mail-ed1-x542.google.com with SMTP id l5so23151308edq.11
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:53:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xnRU/+C+RBHC9xmiriPbBDTgdYPtBV1fZ8ucza31GT8=;
- b=CXaMqqJbNs7MYvub9e5YFZvQlA8kMlRG+bbcNaQZvS9B1tjxY8lQJjAtRnvhkb+NoL
- ypBjWZwrgUZ6WnxdM5tU60tvePdfhKM3w8tXv+qmFafb/4k41peS1XRkWcG7VfgKP++w
- 8qvgGRvQRTl1C4iz1MU2bhvoHLVj59FnKq1WZ+Ael42gUCKNrEx12Moj+diRxJ20P8JM
- u/OB2cBV9omThG4nDoLOWCJzXJvOp7alt/PcmZUlJIeR0a/PzV0SlmN6A8P+b3TdjC/1
- u2asfR86R2g+/AY9zhFpqx+RrsS8lbgZvDiimryoDnStlJc4CifmHpbkvABV5/NSSi6Q
- bklg==
+ bh=N5gZJAJK4fXqO+74lu1SvTAsbKiMd18NcoO5xUvOas8=;
+ b=uOTDMUWuMsu/Tsn3qlAO8Vs6SHwPrY1xn1BzRnsyOjo0M530Pi++sTuWCeg8KC6Aef
+ JltwgEkaobH+IvFpTEk+7hczPsKKwQOVimZFbCUN+B0WRlo3k7M9tsZuPkQoAk0AP4n1
+ UeBUpXB68ZhoaWyKWNf+R1QqIZPal+ntvR9ktZx23vPsxh24GqvKk2Gf7NzYpKvGDEm1
+ CWXENUynOkrj4dJOLk3VzrNilEsiAi26tuvfiDLAkwGmqssWCKxVhE/RRILuKKWAc5DH
+ 32gVZ6EnbaY2gMFqnJuPk+jRbtfFdblD9apyUZVYKjnTUWwOJrvGmInQQNZT21aNZRWV
+ 4Sgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=xnRU/+C+RBHC9xmiriPbBDTgdYPtBV1fZ8ucza31GT8=;
- b=YJ245nPMQ4y4ZfmN6USpak4ZBKtXtAol4Wn3Wt2OGOFmhvAnabaEdgLsZvsw1/03qh
- Ifh2gIwzIJNDrxpcFoV4TyfAvwABwiCvPCaUlTcX9QzuVzs6A7bPlrperPjzkbC7jCIU
- D+EmfYK1jM8LVlVQdSoHQZLsUC13wt1nnUjebbwOLv7+AD6tWEstH4JvgjI1x5hJxw74
- DRAGzK95XiNhHhBy4psTNwkwYPOQOVYG1U7K64BNZLmLhP8H+VQGaXrklpwnzb4/moxm
- WBQDyhjJVvsm1FWClK3NgpNDGpF/qeHXwOzn6NhCaFvNEe0oBR6YiQXQb/QiyPglSkbJ
- jh/w==
-X-Gm-Message-State: AOAM533aQu3CoFoNOH7mwfdmMGsE1+bbLnK95JmKSXXcJnS1fgbhcpyB
- rrIAFu8ZURm/dvf/rplIn7St4ASjSn4=
-X-Google-Smtp-Source: ABdhPJyNS7EZg3c6d5ESGbW9WgaEOKmhp5SPefGU/iFMtMki/JYUyESguQBYAxCmvDPdLDsLIGwvGA==
-X-Received: by 2002:a17:906:2886:: with SMTP id
- o6mr21110581ejd.259.1605632025877; 
- Tue, 17 Nov 2020 08:53:45 -0800 (PST)
+ bh=N5gZJAJK4fXqO+74lu1SvTAsbKiMd18NcoO5xUvOas8=;
+ b=Wbllow5txJbHqpFGQ8mPY9mdyrHLil2IEFHE/FYUUFgCluzGrvliB0koJQNd2PET8w
+ n3TxYv4Hse0/4s+XVLWMbn6dL83EPWjBZms9YMPnNmu4FY7n58jb3RaXhbcmORLmG4b6
+ 67lnf96uysG6PnteghjNbV4wuvOVacBNIz+48AAFg62Tr6W4CahB0jSq67pLnGvP7CbC
+ bBrGSuwpgQddBFqE9ddW2rSmlF5Rb/jGnjF7BzAkY37mYmoqGLPWm6zOJQT43pD+NKjs
+ T8v4kfB015Dvp5O6ZY9iyRnMfLVNzipSpITgie7uPBQR4UGQs9ZbDh72DNMDECNo+neB
+ DT1w==
+X-Gm-Message-State: AOAM531h/a6AOWk8ANETXKR+s8cdIj7hKd9ax5Yzfqzd954AElkUTXby
+ De9tjRprbRflKuI+wYNBTE2RLrxeuo4=
+X-Google-Smtp-Source: ABdhPJympmPmKjumJIqkPmUxM1nlrOuOFYR33msVoqxgxiX62ONQnblju0dsfEOsELoc1mbtQ5/6hg==
+X-Received: by 2002:a05:6402:18:: with SMTP id
+ d24mr2487022edu.382.1605632026945; 
+ Tue, 17 Nov 2020 08:53:46 -0800 (PST)
 Received: from localhost.localdomain ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id u7sm639067ejf.83.2020.11.17.08.53.44
+ by smtp.gmail.com with ESMTPSA id u7sm639067ejf.83.2020.11.17.08.53.46
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Nov 2020 08:53:45 -0800 (PST)
+ Tue, 17 Nov 2020 08:53:46 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 20/29] scripts: kernel-doc: fix typedef identification
-Date: Tue, 17 Nov 2020 17:53:03 +0100
-Message-Id: <20201117165312.118257-21-pbonzini@redhat.com>
+Subject: [PATCH 21/29] scripts: kernel-doc: don't mangle with parameter list
+Date: Tue, 17 Nov 2020 17:53:04 +0100
+Message-Id: <20201117165312.118257-22-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201117165312.118257-1-pbonzini@redhat.com>
 References: <20201117165312.118257-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x644.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -92,95 +92,131 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Some typedef expressions are output as normal functions.
+While kernel-doc needs to parse parameters in order to
+identify its name, it shouldn't be touching the type,
+as parsing it is very difficult, and errors happen.
 
-As we need to be clearer about the type with Sphinx 3.x,
-detect such cases.
+One current error is when parsing this parameter:
 
-While here, fix a wrongly-indented block.
+	const u32 (*tab)[256]
+
+Found at ./lib/crc32.c, on this function:
+
+	u32 __pure crc32_be_generic (u32 crc, unsigned char const *p, size_t len, const u32 (*tab)[256], u32 polynomial);
+
+The current logic mangles it, producing this output:
+
+	const u32 ( *tab
+
+That's something that it is not recognizeable.
+
+So, instead, let's push the argument as-is, and use it
+when printing the function prototype and when describing
+each argument.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/kernel-doc | 64 +++++++++++++++++++++++++++++-----------------
- 1 file changed, 41 insertions(+), 23 deletions(-)
+ scripts/kernel-doc | 26 ++++++++++++++------------
+ 1 file changed, 14 insertions(+), 12 deletions(-)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 35d60af834..0c31e9ad66 100755
+index 0c31e9ad66..478037f736 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -1748,30 +1748,48 @@ sub dump_function($$) {
- 	return;
+@@ -655,10 +655,10 @@ sub output_function_man(%) {
+ 	$type = $args{'parametertypes'}{$parameter};
+ 	if ($type =~ m/([^\(]*\(\*)\s*\)\s*\(([^\)]*)\)/) {
+ 	    # pointer-to-function
+-	    print ".BI \"" . $parenth . $1 . "\" " . $parameter . " \") (" . $2 . ")" . $post . "\"\n";
++	    print ".BI \"" . $parenth . $1 . "\" " . " \") (" . $2 . ")" . $post . "\"\n";
+ 	} else {
+ 	    $type =~ s/([^\*])$/$1 /;
+-	    print ".BI \"" . $parenth . $type . "\" " . $parameter . " \"" . $post . "\"\n";
++	    print ".BI \"" . $parenth . $type . "\" " . " \"" . $post . "\"\n";
+ 	}
+ 	$count++;
+ 	$parenth = "";
+@@ -929,7 +929,7 @@ sub output_function_rst(%) {
+ 	    # pointer-to-function
+ 	    print $1 . $parameter . ") (" . $2 . ")";
+ 	} else {
+-	    print $type . " " . $parameter;
++	    print $type;
+ 	}
      }
+     if ($args{'typedef'}) {
+@@ -954,7 +954,7 @@ sub output_function_rst(%) {
+ 	$type = $args{'parametertypes'}{$parameter};
  
--	my $prms = join " ", @parameterlist;
--	check_sections($file, $declaration_name, "function", $sectcheck, $prms);
--
--        # This check emits a lot of warnings at the moment, because many
--        # functions don't have a 'Return' doc section. So until the number
--        # of warnings goes sufficiently down, the check is only performed in
--        # verbose mode.
--        # TODO: always perform the check.
--        if ($verbose && !$noret) {
--                check_return_section($file, $declaration_name, $return_type);
--        }
-+    my $prms = join " ", @parameterlist;
-+    check_sections($file, $declaration_name, "function", $sectcheck, $prms);
+ 	if ($type ne "") {
+-	    print "``$type $parameter``\n";
++	    print "``$type``\n";
+ 	} else {
+ 	    print "``$parameter``\n";
+ 	}
+@@ -1479,7 +1479,7 @@ sub create_parameterlist($$$$) {
+ 	    # Treat preprocessor directive as a typeless variable just to fill
+ 	    # corresponding data structures "correctly". Catch it later in
+ 	    # output_* subs.
+-	    push_parameter($arg, "", $file);
++	    push_parameter($arg, "", "", $file);
+ 	} elsif ($arg =~ m/\(.+\)\s*\(/) {
+ 	    # pointer-to-function
+ 	    $arg =~ tr/#/,/;
+@@ -1488,7 +1488,7 @@ sub create_parameterlist($$$$) {
+ 	    $type = $arg;
+ 	    $type =~ s/([^\(]+\(\*?)\s*$param/$1/;
+ 	    save_struct_actual($param);
+-	    push_parameter($param, $type, $file, $declaration_name);
++	    push_parameter($param, $type, $arg, $file, $declaration_name);
+ 	} elsif ($arg) {
+ 	    $arg =~ s/\s*:\s*/:/g;
+ 	    $arg =~ s/\s*\[/\[/g;
+@@ -1513,26 +1513,28 @@ sub create_parameterlist($$$$) {
+ 	    foreach $param (@args) {
+ 		if ($param =~ m/^(\*+)\s*(.*)/) {
+ 		    save_struct_actual($2);
+-		    push_parameter($2, "$type $1", $file, $declaration_name);
 +
-+    # This check emits a lot of warnings at the moment, because many
-+    # functions don't have a 'Return' doc section. So until the number
-+    # of warnings goes sufficiently down, the check is only performed in
-+    # verbose mode.
-+    # TODO: always perform the check.
-+    if ($verbose && !$noret) {
-+	    check_return_section($file, $declaration_name, $return_type);
-+    }
- 
--    output_declaration($declaration_name,
--		       'function',
--		       {'function' => $declaration_name,
--			'module' => $modulename,
--			'functiontype' => $return_type,
--			'parameterlist' => \@parameterlist,
--			'parameterdescs' => \%parameterdescs,
--			'parametertypes' => \%parametertypes,
--			'sectionlist' => \@sectionlist,
--			'sections' => \%sections,
--			'purpose' => $declaration_purpose
--		       });
-+    # The function parser can be called with a typedef parameter.
-+    # Handle it.
-+    if ($return_type =~ /typedef/) {
-+	output_declaration($declaration_name,
-+			   'function',
-+			   {'function' => $declaration_name,
-+			    'typedef' => 1,
-+			    'module' => $modulename,
-+			    'functiontype' => $return_type,
-+			    'parameterlist' => \@parameterlist,
-+			    'parameterdescs' => \%parameterdescs,
-+			    'parametertypes' => \%parametertypes,
-+			    'sectionlist' => \@sectionlist,
-+			    'sections' => \%sections,
-+			    'purpose' => $declaration_purpose
-+			   });
-+    } else {
-+	output_declaration($declaration_name,
-+			   'function',
-+			   {'function' => $declaration_name,
-+			    'module' => $modulename,
-+			    'functiontype' => $return_type,
-+			    'parameterlist' => \@parameterlist,
-+			    'parameterdescs' => \%parameterdescs,
-+			    'parametertypes' => \%parametertypes,
-+			    'sectionlist' => \@sectionlist,
-+			    'sections' => \%sections,
-+			    'purpose' => $declaration_purpose
-+			   });
-+    }
++		    push_parameter($2, "$type $1", $arg, $file, $declaration_name);
+ 		}
+ 		elsif ($param =~ m/(.*?):(\d+)/) {
+ 		    if ($type ne "") { # skip unnamed bit-fields
+ 			save_struct_actual($1);
+-			push_parameter($1, "$type:$2", $file, $declaration_name)
++			push_parameter($1, "$type:$2", $arg, $file, $declaration_name)
+ 		    }
+ 		}
+ 		else {
+ 		    save_struct_actual($param);
+-		    push_parameter($param, $type, $file, $declaration_name);
++		    push_parameter($param, $type, $arg, $file, $declaration_name);
+ 		}
+ 	    }
+ 	}
+     }
  }
  
- sub reset_state {
+-sub push_parameter($$$$) {
++sub push_parameter($$$$$) {
+ 	my $param = shift;
+ 	my $type = shift;
++	my $org_arg = shift;
+ 	my $file = shift;
+ 	my $declaration_name = shift;
+ 
+@@ -1596,8 +1598,8 @@ sub push_parameter($$$$) {
+ 	# "[blah" in a parameter string;
+ 	###$param =~ s/\s*//g;
+ 	push @parameterlist, $param;
+-	$type =~ s/\s\s+/ /g;
+-	$parametertypes{$param} = $type;
++	$org_arg =~ s/\s\s+/ /g;
++	$parametertypes{$param} = $org_arg;
+ }
+ 
+ sub check_sections($$$$$) {
 -- 
 2.28.0
 
