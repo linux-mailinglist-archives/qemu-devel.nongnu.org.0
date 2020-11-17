@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 303B42B5BA5
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 10:20:33 +0100 (CET)
-Received: from localhost ([::1]:39020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 680B12B5BA7
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 10:21:57 +0100 (CET)
+Received: from localhost ([::1]:45624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kexA8-0003Yd-7g
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 04:20:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45394)
+	id 1kexBU-0006Jf-Ch
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 04:21:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kex8p-0001y1-W0
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 04:19:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38790)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kex8r-00021D-Ur
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 04:19:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37640)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kex8n-0006OY-Sr
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 04:19:11 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kex8q-0006Pa-2D
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 04:19:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605604748;
+ s=mimecast20190719; t=1605604751;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0RnLT5+JMl+oOfkBbmmWTI1h88S6MNDyRCGrZS7inZw=;
- b=bS0PzNGzEtlLAxFM7TwToXP8Ls/SGPPuHbOunliNvFO4rZVltjiTzgL8A76McQoQa7GSgr
- JmdAJ48xacJLHIF9PgJPiDGu7n3tQ543HNQkgxaJPXTYHiZhja+FIrZ/YOCwUakipRn6bj
- Q8QfYOEi0lwYELWmBf7sKANwKqE7eWA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-256-2mrFOCMEOXWsd4wPBdKnjQ-1; Tue, 17 Nov 2020 04:19:06 -0500
-X-MC-Unique: 2mrFOCMEOXWsd4wPBdKnjQ-1
-Received: by mail-wr1-f70.google.com with SMTP id v5so12696742wrr.0
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 01:19:06 -0800 (PST)
+ bh=yB+iWwjcAdJo3aku5jv0oHVt9QpfV3gRJttPbNSWZik=;
+ b=FPqa+fXBqLlnz1evzr4BAY74fBJzaFVq54YNg7k4DCkpCThB/2Tza0H+H9N5qAp18fdpTG
+ Q994ddNVvKBCY1QBdmDrfwegss0Ol9Kaj6ZqNdj8INyHhy9vDKi8knr2RMvCs15CdCd+Kx
+ 5z9ZRkY2aopixv4bsL/aX/dQCOWd3vc=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-416-JToRFjPPNj2lOaOmaQMqew-1; Tue, 17 Nov 2020 04:19:09 -0500
+X-MC-Unique: JToRFjPPNj2lOaOmaQMqew-1
+Received: by mail-wr1-f71.google.com with SMTP id e18so12700208wrs.23
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 01:19:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=0RnLT5+JMl+oOfkBbmmWTI1h88S6MNDyRCGrZS7inZw=;
- b=nlv9thMaHG8APCHHJ+3uQMLE2OlIqtXyoZuDBlxpAAxiswFd8888YpvoYEOx9KjllU
- bgoc6gJjd3lK8Hgzhyv5uuBNz+dkEiU9UZFpkLMQscqlCX/mWmClxQaAo++j+5J/5DaW
- UwfjZfbcRpJDTbBMOb+jpoPpLQ2IPcWrdACGQXpp7iaWg6UC+VK+e6arcwrohG8gkQRj
- 1cXS4WAyBC+/2AvPMNBU2Up6h0NJfGozD81IeZ4eBkm6hG9fKJxqIO13pn9QgItNFHNe
- LWJV7FwwtkoSaHSQTaM40KsMJ1OoLHyZalQBjNuWB1HSf+PwHi+bmqRw3ZcROeOgEZ/h
- g1rA==
-X-Gm-Message-State: AOAM530mIc+oab+jQrJU9ddZ2UktH/0SYSU0vIJnA5lnoia2D5GBPnX9
- nm/M8TwWOfDc8WK5P5R05mXNqJqlEUNZdqSXxcmu0ngzh6DbiTKvxA3ncJnqUzU0r9JwSqtIj1w
- PmXEKeJCjnoCWXyZ5/5cSK041JFim4f1NBSEfmL5V2cwS/XZUvrlUt5UJSH0Z
-X-Received: by 2002:a1c:9949:: with SMTP id b70mr3286166wme.85.1605604745228; 
- Tue, 17 Nov 2020 01:19:05 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwx7DteglsDPtOoPBRfIn1LlenLWX9itX2ZK2hwmvEKaHrNQfFRfgZ6wkzcXJH9PDESd6gD4w==
-X-Received: by 2002:a1c:9949:: with SMTP id b70mr3286145wme.85.1605604744976; 
- Tue, 17 Nov 2020 01:19:04 -0800 (PST)
+ bh=yB+iWwjcAdJo3aku5jv0oHVt9QpfV3gRJttPbNSWZik=;
+ b=HqmBLHLBP8uFlunop+q0BxjDs25RTW+SxNTE/7u+Ri6bd1vx+mRQN0VkBCEZlhB5bU
+ JgiCkA4nxwlxEUgWvB1hTFhxZVsCQLDjbEl9rVl0M22/ACs0pDMohpGa2L0pUOKSDT+U
+ Ht5JH6FwnhGsuaGn27nl6R3bNOXKAlkdBs3RGYPevzuzSwj3J1EC5mFLk9l0CLtk6jT5
+ EGMXbEApsbxWDVKhdyfzwTneiwH1E0iOgVsuDyMZdcnCAaCvJcnH+BRCrAz0tcfu7UOl
+ P+rw7pXFMSmXph6p96OnPP65luYHrtHCmYu0j9HRP6tki7/6dcrwE5+LAlF9i0hDNrT7
+ TbDw==
+X-Gm-Message-State: AOAM53026tNg/1qHRD/fqf09RlsWiBA6R4cYKw2FSGjOG1Q7hxekHTu7
+ 4d8faN4JIvSX/qGRohTRlOFiL34xXN46nsPU8FVQyjE6EjGuo/io8LRpZNMfPxPJ9lnRGLU5LfW
+ yoxGk8PxsFZxao+dnlQJ0N+Dsl42gG3+jKe1Q1e7578o1jqS1pkHPbXgFFlLa
+X-Received: by 2002:adf:ea91:: with SMTP id s17mr24183394wrm.349.1605604748113; 
+ Tue, 17 Nov 2020 01:19:08 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz4CwnD/LQAUutPnCY/95mmA/mtP7BghVZduSZfnuSBQiLFFJf8KbyZ2JT3FQfE1rmjsaWgHA==
+X-Received: by 2002:adf:ea91:: with SMTP id s17mr24183370wrm.349.1605604747942; 
+ Tue, 17 Nov 2020 01:19:07 -0800 (PST)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id s25sm2570302wmh.16.2020.11.17.01.19.03
+ by smtp.gmail.com with ESMTPSA id w10sm27404440wra.34.2020.11.17.01.19.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Nov 2020 01:19:04 -0800 (PST)
-Date: Tue, 17 Nov 2020 04:19:02 -0500
+ Tue, 17 Nov 2020 01:19:07 -0800 (PST)
+Date: Tue, 17 Nov 2020 04:19:05 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 2/7] meson: move vhost_user_blk_server to meson.build
-Message-ID: <20201117091848.695370-3-mst@redhat.com>
+Subject: [PULL v2 3/7] vhost-user-blk-server: depend on CONFIG_VHOST_USER
+Message-ID: <20201117091848.695370-4-mst@redhat.com>
 References: <20201117091848.695370-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201117091848.695370-1-mst@redhat.com>
@@ -97,162 +97,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
-The --enable/disable-vhost-user-blk-server options were implemented in
-./configure. There has been confusion about them and part of the problem
-is that the shell syntax used for setting the default value is not easy
-to read. Move the option over to meson where the conditions are easier
-to understand:
+I interpreted CONFIG_VHOST_USER as controlling only QEMU's vhost-user
+device frontends. However, virtiofsd and contrib/ vhost-user device
+backends are also controlled by CONFIG_VHOST_USER. Make the
+vhost-user-blk server depend on CONFIG_VHOST_USER for consistency.
 
-  have_vhost_user_blk_server = (targetos == 'linux')
+Now the following error is printed when the vhost-user-blk server is
+enabled without CONFIG_VHOST_USER:
 
-  if get_option('vhost_user_blk_server').enabled()
-      if targetos != 'linux'
-          error('vhost_user_blk_server requires linux')
-      endif
-  elif get_option('vhost_user_blk_server').disabled() or not have_system
-      have_vhost_user_blk_server = false
-  endif
+  $ ./configure --disable-vhost-user --enable-vhost-user-blk ...
+  ../meson.build:761:8: ERROR: Problem encountered: vhost_user_blk_server requires vhost-user support
 
-This patch does not change behavior.
-
+Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Suggested-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20201110171121.1265142-2-stefanha@redhat.com>
+Message-Id: <20201110171121.1265142-3-stefanha@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- meson_options.txt        |  2 ++
- configure                | 16 ++++------------
- block/export/meson.build |  5 ++++-
- meson.build              | 12 ++++++++++++
- 4 files changed, 22 insertions(+), 13 deletions(-)
+ meson.build | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meson_options.txt b/meson_options.txt
-index b4f1801875..f6f64785fe 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -64,6 +64,8 @@ option('xkbcommon', type : 'feature', value : 'auto',
-        description: 'xkbcommon support')
- option('virtiofsd', type: 'feature', value: 'auto',
-        description: 'build virtiofs daemon (virtiofsd)')
-+option('vhost_user_blk_server', type: 'feature', value: 'auto',
-+       description: 'build vhost-user-blk server')
- 
- option('capstone', type: 'combo', value: 'auto',
-        choices: ['disabled', 'enabled', 'auto', 'system', 'internal'],
-diff --git a/configure b/configure
-index 4cef321d9d..516f28a088 100755
---- a/configure
-+++ b/configure
-@@ -329,7 +329,7 @@ vhost_crypto=""
- vhost_scsi=""
- vhost_vsock=""
- vhost_user=""
--vhost_user_blk_server=""
-+vhost_user_blk_server="auto"
- vhost_user_fs=""
- kvm="auto"
- hax="auto"
-@@ -1247,9 +1247,9 @@ for opt do
-   ;;
-   --enable-vhost-vsock) vhost_vsock="yes"
-   ;;
--  --disable-vhost-user-blk-server) vhost_user_blk_server="no"
-+  --disable-vhost-user-blk-server) vhost_user_blk_server="disabled"
-   ;;
--  --enable-vhost-user-blk-server) vhost_user_blk_server="yes"
-+  --enable-vhost-user-blk-server) vhost_user_blk_server="enabled"
-   ;;
-   --disable-vhost-user-fs) vhost_user_fs="no"
-   ;;
-@@ -2390,12 +2390,6 @@ if test "$vhost_net" = ""; then
-   test "$vhost_kernel" = "yes" && vhost_net=yes
- fi
- 
--# libvhost-user is Linux-only
--test "$vhost_user_blk_server" = "" && vhost_user_blk_server=$linux
--if test "$vhost_user_blk_server" = "yes" && test "$linux" = "no"; then
--  error_exit "--enable-vhost-user-blk-server is only available on Linux"
--fi
--
- ##########################################
- # pkg-config probe
- 
-@@ -6289,9 +6283,6 @@ fi
- if test "$vhost_vdpa" = "yes" ; then
-   echo "CONFIG_VHOST_VDPA=y" >> $config_host_mak
- fi
--if test "$vhost_user_blk_server" = "yes" ; then
--  echo "CONFIG_VHOST_USER_BLK_SERVER=y" >> $config_host_mak
--fi
- if test "$vhost_user_fs" = "yes" ; then
-   echo "CONFIG_VHOST_USER_FS=y" >> $config_host_mak
- fi
-@@ -7012,6 +7003,7 @@ NINJA=$ninja $meson setup \
-         -Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt \
-         -Diconv=$iconv -Dcurses=$curses -Dlibudev=$libudev\
-         -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
-+        -Dvhost_user_blk_server=$vhost_user_blk_server \
-         $cross_arg \
-         "$PWD" "$source_path"
- 
-diff --git a/block/export/meson.build b/block/export/meson.build
-index 19526435d8..135b356775 100644
---- a/block/export/meson.build
-+++ b/block/export/meson.build
-@@ -1,2 +1,5 @@
- blockdev_ss.add(files('export.c'))
--blockdev_ss.add(when: 'CONFIG_VHOST_USER_BLK_SERVER', if_true: files('vhost-user-blk-server.c'))
-+
-+if have_vhost_user_blk_server
-+    blockdev_ss.add(files('vhost-user-blk-server.c'))
-+endif
 diff --git a/meson.build b/meson.build
-index b473620321..4b789f18c1 100644
+index 4b789f18c1..7fd874eec7 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -751,6 +751,16 @@ statx_test = '''
+@@ -751,11 +751,14 @@ statx_test = '''
  
  has_statx = cc.links(statx_test)
  
-+have_vhost_user_blk_server = (targetos == 'linux')
-+
-+if get_option('vhost_user_blk_server').enabled()
-+    if targetos != 'linux'
-+        error('vhost_user_blk_server requires linux')
-+    endif
-+elif get_option('vhost_user_blk_server').disabled() or not have_system
-+    have_vhost_user_blk_server = false
-+endif
-+
- #################
- # config-host.h #
- #################
-@@ -775,6 +785,7 @@ config_host_data.set('CONFIG_MPATH_NEW_API', mpathpersist_new_api)
- config_host_data.set('CONFIG_CURSES', curses.found())
- config_host_data.set('CONFIG_SDL', sdl.found())
- config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
-+config_host_data.set('CONFIG_VHOST_USER_BLK_SERVER', have_vhost_user_blk_server)
- config_host_data.set('CONFIG_VNC', vnc.found())
- config_host_data.set('CONFIG_VNC_JPEG', jpeg.found())
- config_host_data.set('CONFIG_VNC_PNG', png.found())
-@@ -2103,6 +2114,7 @@ summary_info += {'vhost-crypto support': config_host.has_key('CONFIG_VHOST_CRYPT
- summary_info += {'vhost-scsi support': config_host.has_key('CONFIG_VHOST_SCSI')}
- summary_info += {'vhost-vsock support': config_host.has_key('CONFIG_VHOST_VSOCK')}
- summary_info += {'vhost-user support': config_host.has_key('CONFIG_VHOST_KERNEL')}
-+summary_info += {'vhost-user-blk server support': have_vhost_user_blk_server}
- summary_info += {'vhost-user-fs support': config_host.has_key('CONFIG_VHOST_USER_FS')}
- summary_info += {'vhost-vdpa support': config_host.has_key('CONFIG_VHOST_VDPA')}
- summary_info += {'Trace backends':    config_host['TRACE_BACKENDS']}
+-have_vhost_user_blk_server = (targetos == 'linux')
++have_vhost_user_blk_server = (targetos == 'linux' and
++    'CONFIG_VHOST_USER' in config_host)
+ 
+ if get_option('vhost_user_blk_server').enabled()
+     if targetos != 'linux'
+         error('vhost_user_blk_server requires linux')
++    elif 'CONFIG_VHOST_USER' not in config_host
++        error('vhost_user_blk_server requires vhost-user support')
+     endif
+ elif get_option('vhost_user_blk_server').disabled() or not have_system
+     have_vhost_user_blk_server = false
 -- 
 MST
 
