@@ -2,73 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7962A2B695F
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 17:06:59 +0100 (CET)
-Received: from localhost ([::1]:59904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A61D2B696A
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 17:09:27 +0100 (CET)
+Received: from localhost ([::1]:39772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf3VS-0004nK-E9
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 11:06:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59992)
+	id 1kf3Xq-00086v-B7
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 11:09:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kf3UG-0003Re-1N
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:05:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32043)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kf3UE-0007c0-74
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:05:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605629141;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ed1LhVKjQj2PeSGWg14twvLm6/KTivQ3jK64P+HzZhQ=;
- b=ezfol46Sj4p1U0voYLXJk/vY49O+0vECAZkD+X7mregjeG86qxaxRNUdPNTWVWWzofHnYi
- cNIjtnehOPKNyU2zZGgGVQ0JNs8BiR8TiUnsixxEobPWQBevysATso8CPVvQ1KJsRfwCbN
- zs8thBTSdYnY80Py8WU6HRUBZcYLIE8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-254-BpNF29LAMia3uJ9rQX57TA-1; Tue, 17 Nov 2020 11:05:39 -0500
-X-MC-Unique: BpNF29LAMia3uJ9rQX57TA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
+ id 1kf3WR-0007M7-9T
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:07:59 -0500
+Received: from mail.kernel.org ([198.145.29.99]:51626)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
+ id 1kf3WP-0008DV-3X
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:07:58 -0500
+Received: from trantor (unknown [2.26.170.190])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31A8D11BD341;
- Tue, 17 Nov 2020 16:05:37 +0000 (UTC)
-Received: from localhost (ovpn-115-113.ams2.redhat.com [10.36.115.113])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 75CDD1001E73;
- Tue, 17 Nov 2020 16:05:33 +0000 (UTC)
-Date: Tue, 17 Nov 2020 16:05:32 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Mike Christie <michael.christie@oracle.com>
-Subject: Re: [PATCH 07/10] vhost, vhost-scsi: flush IO vqs then send TMF rsp
-Message-ID: <20201117160532.GP131917@stefanha-x1.localdomain>
-References: <1605223150-10888-1-git-send-email-michael.christie@oracle.com>
- <1605223150-10888-9-git-send-email-michael.christie@oracle.com>
+ by mail.kernel.org (Postfix) with ESMTPSA id 1E8D7241A7;
+ Tue, 17 Nov 2020 16:07:50 +0000 (UTC)
+Date: Tue, 17 Nov 2020 16:07:48 +0000
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v4 2/2] arm64: kvm: Introduce MTE VCPU feature
+Message-ID: <X7P1VLZhBh045tsr@trantor>
+References: <20201026155727.36685-1-steven.price@arm.com>
+ <20201026155727.36685-3-steven.price@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <1605223150-10888-9-git-send-email-michael.christie@oracle.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="+gHRqQ1BTyNna/y8"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 00:41:22
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201026155727.36685-3-steven.price@arm.com>
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=cmarinas@kernel.org;
+ helo=mail.kernel.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 11:07:54
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,52 +57,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, linux-scsi@vger.kernel.org, mst@redhat.com,
- jasowang@redhat.com, qemu-devel@nongnu.org,
- virtualization@lists.linux-foundation.org, target-devel@vger.kernel.org,
- pbonzini@redhat.com
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---+gHRqQ1BTyNna/y8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Steven,
 
-On Thu, Nov 12, 2020 at 05:19:07PM -0600, Mike Christie wrote:
-> With one worker we will always send the scsi cmd responses then send the
-> TMF rsp, because LIO will always complete the scsi cmds first which
-> calls vhost_scsi_release_cmd to add them to the work queue.
->=20
-> When the next patch adds multiple worker support, the worker threads
-> could still be sending their responses when the tmf's work is run.
-> So this patch has vhost-scsi flush the IO vqs on other worker threads
-> before we send the tmf response.
->=20
-> Signed-off-by: Mike Christie <michael.christie@oracle.com>
-> ---
->  drivers/vhost/scsi.c  | 16 ++++++++++++++--
->  drivers/vhost/vhost.c |  6 ++++++
->  drivers/vhost/vhost.h |  1 +
->  3 files changed, 21 insertions(+), 2 deletions(-)
+On Mon, Oct 26, 2020 at 03:57:27PM +0000, Steven Price wrote:
+> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+> index 19aacc7d64de..38fe25310ca1 100644
+> --- a/arch/arm64/kvm/mmu.c
+> +++ b/arch/arm64/kvm/mmu.c
+> @@ -862,6 +862,26 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
+>  	if (vma_pagesize == PAGE_SIZE && !force_pte)
+>  		vma_pagesize = transparent_hugepage_adjust(memslot, hva,
+>  							   &pfn, &fault_ipa);
+> +
+> +	/*
+> +	 * The otherwise redundant test for system_supports_mte() allows the
+> +	 * code to be compiled out when CONFIG_ARM64_MTE is not present.
+> +	 */
+> +	if (system_supports_mte() && kvm->arch.mte_enabled && pfn_valid(pfn)) {
+> +		/*
+> +		 * VM will be able to see the page's tags, so we must ensure
+> +		 * they have been initialised.
+> +		 */
+> +		struct page *page = pfn_to_page(pfn);
+> +		long i, nr_pages = compound_nr(page);
+> +
+> +		/* if PG_mte_tagged is set, tags have already been initialised */
+> +		for (i = 0; i < nr_pages; i++, page++) {
+> +			if (!test_and_set_bit(PG_mte_tagged, &page->flags))
+> +				mte_clear_page_tags(page_address(page));
+> +		}
+> +	}
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+If this page was swapped out and mapped back in, where does the
+restoring from swap happen?
 
---+gHRqQ1BTyNna/y8
-Content-Type: application/pgp-signature; name="signature.asc"
+I may have asked in the past, is user_mem_abort() the only path for
+mapping Normal pages into stage 2?
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+z9MwACgkQnKSrs4Gr
-c8gaqgf/ezD3eMZkmyNkKq/TS6tnuCAH04YabhXKm+dLdSH9xZvaLGPKG/CnwF6o
-/gS0CjOu5YrvXmP+VlZ+uwaOIqOHgxP79NAm57j5mPXi6VLcz3tK7ctF8jrGDqYH
-wzSkCP2Wjr0Dvc3t2d5gAyggrabBtyPzuT9oUjolzEo6DXKQQXN3Ok3sVDDinQ2d
-/jF39oufcFmWT3+EeUEBXr2MHtC7ccx3ZFCCASkNznT5s+CuwLrLeqVIS+2wC9FK
-x4XdBOvZ0qy/rggn3UAmDQe2cfuaU28vwZhddyVjeBjSyimYbnoSQT1XheHB/45v
-MyMI5NxDJBU3WStraKoA/MQRSYcB8A==
-=IxzD
------END PGP SIGNATURE-----
-
---+gHRqQ1BTyNna/y8--
-
+-- 
+Catalin
 
