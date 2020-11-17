@@ -2,71 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F50E2B5E2C
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 12:22:42 +0100 (CET)
-Received: from localhost ([::1]:43424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D46C52B5E02
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 12:10:40 +0100 (CET)
+Received: from localhost ([::1]:55188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kez4L-0004L4-Dt
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 06:22:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44492)
+	id 1keysh-0005Sn-V6
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 06:10:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kez32-0003vk-SX
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 06:21:20 -0500
-Received: from indium.canonical.com ([91.189.90.7]:57278)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1keyr8-00048U-E1
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 06:09:02 -0500
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:45466)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kez30-0007JU-Cs
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 06:21:20 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kez2x-0007Gu-W6
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 11:21:15 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id EF3802E802A
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 11:21:15 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1keyr6-0003C3-Tt
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 06:09:02 -0500
+Received: by mail-ed1-x541.google.com with SMTP id q3so21968830edr.12
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 03:09:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2IH4vI/cojJ2JGnrZTz/JsoKacG5tD4dYZfJttKUyuo=;
+ b=kJc0CBNzZkqodB/4osuhe08RMTsRPJW0cLdehbOpP0hPrxTbC8CSjhoF4dTbBxhowa
+ HQePcmlFBDoalfA+lOXCG/lm+L16j8ZAQCfxf6qvNa4jhXGgo3yLfufUM9pqNet/jTN2
+ jd9lGSOwltNn6r5bCQP4+Q4bgdY5msKYouR95CPA1nA5ZdACIbwgfW/0SROT1NmGNlnG
+ xlL97R1abIJzvIBO17gvhS5CJv1/RX56GS0cH8ZTOhfrvReLkIzI2w8Q/Qaxpq1aQ1rw
+ ++EKjJ81RRdErCALolzm7mbd9IPiZbGOKmIW+wHGfLdlOdidS1MeRpZVcZILwrFoQFTW
+ /G8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2IH4vI/cojJ2JGnrZTz/JsoKacG5tD4dYZfJttKUyuo=;
+ b=phmoLvBltZVjxalzYGOacYysTYwyQQfEqxMhep8uKESZeq469wtU8OB/JG5K881i17
+ Fcw8jcRC7906fC/Vxxf/SBawmS6jbi3X+1s0IG78AZvuY1j+YDCpKxcyMXJQREfT0qF5
+ 6CeWW17ekz8+ElzzeCvo0IXyW5bs9eiCy8d2D/SA1whuF+BWNPG1f/BkiJRNtrYAfD5G
+ GY5r+mob2yv69oM9+nmV5lOvYzhtxGugRJ/rG62VDYjEOBfPLuVCEB/WnT61An5w8dcr
+ EEg0RSkoWKxkGzldtQYkpBIMQbzYoE9seZ6Lp6Wgs4fDkvhBTejZYACVg4GEjHbs+M87
+ 1fMg==
+X-Gm-Message-State: AOAM532Bm9nFO5DnW5pn7EHDrFC6U79kdRZ7I1sZyEJwjoKqDl4nbje5
+ m8X9XOwtzg4eNQPZGoM+eeTnsrjNqcHhf7NLWURG2A==
+X-Google-Smtp-Source: ABdhPJzBpBeSyMX0rxzJFws3Ph5+8RIUPv0Qg+ZwOsDMMaQZvbspJrbOySccuF0CTchI1uGtPQie/ZJz/CwtDE1GSGg=
+X-Received: by 2002:a05:6402:3089:: with SMTP id
+ de9mr20719188edb.100.1605611339133; 
+ Tue, 17 Nov 2020 03:08:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 17 Nov 2020 11:08:38 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1757363@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: mips
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dantachen philmd
-X-Launchpad-Bug-Reporter: dantachen (dantachen)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-References: <152162151775.22331.14638507477656772309.malonedeb@soybean.canonical.com>
-Message-Id: <160561131864.14393.13010021144583621946.malone@soybean.canonical.com>
-Subject: [Bug 1757363] Re: infinite loop due to improper deal with "eret" on
- mips32
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a2ee2035671f86427804714f331b9ff7fecaef7e"; Instance="production"
-X-Launchpad-Hash: 4513bb321dedc0961c716c295c2750dba42c6fac
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 04:35:40
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20201115184903.1292715-1-ganqixin@huawei.com>
+ <20201115184903.1292715-14-ganqixin@huawei.com>
+ <c2ca2185-4253-da71-eab4-f96b29067c96@amsat.org>
+ <882df4ee-948c-7e00-d951-9b14ea40b2df@redhat.com>
+ <877dqldyoh.fsf@dusky.pond.sub.org>
+ <CAFEAcA-u3jZT2bU6snRL7BWXHUzXuVr9gByssOjoicGZ2-MLXQ@mail.gmail.com>
+ <873618czgj.fsf@dusky.pond.sub.org>
+In-Reply-To: <873618czgj.fsf@dusky.pond.sub.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 17 Nov 2020 11:08:48 +0000
+Message-ID: <CAFEAcA8fUnjmDy-1g0fsQyaNCHDqvEnLgE5073h-dGkCk7Rztg@mail.gmail.com>
+Subject: Re: [PATCH 13/13] bcm2835_cprman: put some peripherals of bcm2835
+ cprman into the 'misc' category
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::541;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,65 +86,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1757363 <1757363@bugs.launchpad.net>
+Cc: Thomas Huth <thuth@redhat.com>,
+ zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ QEMU Trivial <qemu-trivial@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Gan Qixin <ganqixin@huawei.com>,
+ "Chenqun \(kuhn\)" <kuhn.chenqun@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-My guess is your router CPU doesn't match the ISA (likely your CPU has
-extensions to the 24Kf ISA).
+On Tue, 17 Nov 2020 at 05:41, Markus Armbruster <armbru@redhat.com> wrote:
+>
+> Peter Maydell <peter.maydell@linaro.org> writes:
+> > I'm really dubious of devices that directly inherit from
+> > TYPE_DEVICE, because their reset method won't be automatically
+> > called. In this case it looks like the TYPE_BCM2835_CPRMAN
+> > device's reset method manually calls reset on these devices,
+> > though, so it isn't actually buggy, just confusing.
+>
+> I guess this is a trap for unwary implementers, aggravated by our usual
+> dearth of qdev documentation.  I can see ~100 .parent = TYPE_DEVICE
+> lines.  Checking them all manually won't be fun.  Any automation ideas?
+>
+> The concept "bus-less device" is sane.  We used not to have it, and the
+> resulting need for pseudo-busses was annoying enough to make us add
+> bus-less devices.
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+Yeah, the problem really is that our reset handling remains a
+mess. I'm not sure (a) what the right model for reset is and
+(b) what would be a feasible transition plan to get from
+here to there...
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1757363
-
-Title:
-  infinite loop due to improper deal with "eret" on mips32
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  1.qemu 2.9.1 release on the official web build with tcg
-  2.cmd: qemu-system-mips -kernel kernelfile
-  3. host: ubuntu 16.04.1 with linux kernel 4.6.2 x86_64
-     guest: mips bigendian 32bit (tplink firmware)
-
-  =
-
-  detail:
-
-  static inline void exception_return(CPUMIPSState *env)
-  {
-      debug_pre_eret(env);
-      if (env->CP0_Status & (1 << CP0St_ERL)) {
-          set_pc(env, env->CP0_ErrorEPC);
-          env->CP0_Status &=3D ~(1 << CP0St_ERL);
-      } else {
-          set_pc(env, env->CP0_EPC);
-          env->CP0_Status &=3D ~(1 << CP0St_EXL);=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D> ISSUE????
-      }
-      compute_hflags(env);
-      debug_post_eret(env);
-  }
-
-  void helper_eret(CPUMIPSState *env)
-  {
-      exception_return(env);
-      env->lladdr =3D 1;
-  }
-
-  =
-
-  In the Issue Line, there is no check CP0_Status whether int is disabled (=
-should not enter int routine),
-  that result in the cpu can not jump out the int routine.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1757363/+subscriptions
+thanks
+-- PMM
 
