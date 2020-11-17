@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5EB92B6B34
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 18:10:23 +0100 (CET)
-Received: from localhost ([::1]:51636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 699122B6AD8
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 18:01:32 +0100 (CET)
+Received: from localhost ([::1]:44404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf4Uo-0003RM-RP
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 12:10:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43778)
+	id 1kf4MF-0005mP-FU
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 12:01:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kf4Ep-00030Q-NN
+ id 1kf4Eq-00030b-8Z
  for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:52 -0500
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:39452)
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:40281)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kf4En-0007F1-Nw
+ id 1kf4Eo-0007FA-HA
  for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:51 -0500
-Received: by mail-ej1-x641.google.com with SMTP id s25so30385081ejy.6
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:53:49 -0800 (PST)
+Received: by mail-ej1-x644.google.com with SMTP id oq3so30380289ejb.7
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:53:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uAgpvqohpBXsyMVNyA8GR5izit02yQRNmZMUYiepav8=;
- b=X9BPg9UapgtZph3d6U1aNS7OiBlNZRBUnDJyS7GMrqg7AVViSnWENLEjt1JB2ZLGVb
- OV6spRdfrQNMjhntqZnQVW9SEN/hDk05TQMvuPsCnJpUoImqwUdZwdgcuCePHmqkhOTA
- vHmW5BRfBgIyH3bO5Y9AMdmo5Vcsl9Hcu+XRLQgUz7SdcTqpxu1pach53HdDfMGszE6g
- sUOrrxWR91ZfWJ269DkOFAzVAfTvI2VWFXZuhAoPedjaa95EHFGDWgT+sERr42ZxGadE
- NbdFmAm19MJT70hDr9CzAODn8AoNSWkJMwclt30jX9HzqN+qD0WVB+K7TqIKsG0bxpsU
- BUiQ==
+ bh=l8OWihoDLGOUB+IKO0uLTru1BYpQyrVbsBOdCF81cxk=;
+ b=PIIM6+VKREMAfKDyQXJyn4jNTiGV8sVl2T1wfMBPkZuGUsW4MU6SVcT/mACmUsGCLb
+ iTnzTJ5/sCm6CZLBLf+Ttyhm3Yj+XR9d9KglOFSwQheUC0nGQ7CnsskU9bJtPx76HnNq
+ flQZXLaBAwzAEC13xGpNgU9hgPCeUN/0n1vCYYLqJy7A2q4wWCBmEiB5sXmkBTaJhV5/
+ bOc+FqXnoTy4+sFhKglBZrR94PgrNCMJBAISh3+5Aeqa5zSHV6AAOsn1J9qiehZxyr/Y
+ v1b4/z/fIl7fxJ6r9n13IyiuTr4miSJZSCQDSUkEKEEj17qdlzhlCQk59H2hS0omo83F
+ cyGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=uAgpvqohpBXsyMVNyA8GR5izit02yQRNmZMUYiepav8=;
- b=hWjBfP58IgGDS30hKL7f5EybsLNpD0QaM9spL3MBE8lDqQ+7b9/xf/aBmEq0aQH5ZE
- g8lz3fP3ZGBFeJOwr7C1UBxC8hrCwLroD+HH//bw+0wYwkSgwN/MKhHpn3QQ62fEW2PF
- hPzdiGPO5wQw/Ym1R9WU5LjQ2PtqdeNz7iv9rlk1Z03/5Mlv3P4EL4wOWILU4tL4MD+q
- iZ83vVgRcysgeJSaO/VvVI9CMmNiVKz0RNPER62elqqs09Flbq8DjdnoHIzGDakC/ylp
- UMx8+vrkpnUwhCpsprKk8S/om0NxWIDLScva+fENQHshpYS1FjMEv2pwR57V2Whkv9xI
- 0Tbg==
-X-Gm-Message-State: AOAM532t/mOh/KE79ky1n6a7tjiHLhnPh4yAq6pxCR7E9j5phxTiv5dP
- iVRBP0n/nR1yXlouP5Rlj3fkf/fPTt8=
-X-Google-Smtp-Source: ABdhPJzwjrftEpDwCSkGeYtZnsb80uf8lmLT4OWpMtZciony9fj18ZO4B3OADvQYXweQahycvhLb/Q==
-X-Received: by 2002:a17:906:2756:: with SMTP id
- a22mr7902925ejd.81.1605632027978; 
- Tue, 17 Nov 2020 08:53:47 -0800 (PST)
+ bh=l8OWihoDLGOUB+IKO0uLTru1BYpQyrVbsBOdCF81cxk=;
+ b=uf5DmNZx6nb6Hb9HM4axyO7/t1P3xteFpbOuCjT0WNOZTfGGZYSkPSA+2+KF+rElql
+ IeebVrgxos7jS7K6UdAt3G7vh+H8bjcHo+pGLzGlqeOUiBO+ikMrSoF1bCmcSQeZFsY6
+ ahkkQCLRKDCst1aL1S+e5eACKTX36Gsdzx3QY+gtdRFynRKBrlbXqHxp3MoTyOX7ossW
+ A+Hf6B9x+Mg1WsLUk8eMUCRnC3UHtlujUG15PPvOzG0rTn4HHMPP23lrAkCpx2wQoL3J
+ aGXeZSvk2L0OyQQTjBwDBPZxMrTA2sBGw+NWNop3KXnIj4y1bO7uVbC28XKKScOwJ3mU
+ 7ZEQ==
+X-Gm-Message-State: AOAM5300EjVycNz8zr84xIKX1rkYIchHnWAmiPD65i2uH1Id8JjPimxk
+ KBuceROx6+gY4No7W66OQ6xoAucakW0=
+X-Google-Smtp-Source: ABdhPJxsbijP2ir7//8TSnM+NbEWsv3bgGGVTlfZHJ53K+hyztJTOmlITC9ShhFSz6jku3bMqeFHzw==
+X-Received: by 2002:a17:906:36d9:: with SMTP id
+ b25mr2568850ejc.155.1605632028951; 
+ Tue, 17 Nov 2020 08:53:48 -0800 (PST)
 Received: from localhost.localdomain ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id u7sm639067ejf.83.2020.11.17.08.53.47
+ by smtp.gmail.com with ESMTPSA id u7sm639067ejf.83.2020.11.17.08.53.48
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Nov 2020 08:53:47 -0800 (PST)
+ Tue, 17 Nov 2020 08:53:48 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 22/29] scripts: kernel-doc: allow passing desired Sphinx C
- domain dialect
-Date: Tue, 17 Nov 2020 17:53:05 +0100
-Message-Id: <20201117165312.118257-23-pbonzini@redhat.com>
+Subject: [PATCH 23/29] scripts: kernel-doc: fix line number handling
+Date: Tue, 17 Nov 2020 17:53:06 +0100
+Message-Id: <20201117165312.118257-24-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201117165312.118257-1-pbonzini@redhat.com>
 References: <20201117165312.118257-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x641.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x644.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -93,137 +92,91 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-When kernel-doc is called via kerneldoc.py, there's no need to
-auto-detect the Sphinx version, as the Sphinx module already
-knows it. So, add an optional parameter to allow changing the
-Sphinx dialect.
+Address several issues related to pointing to the wrong line
+number:
 
-As kernel-doc can also be manually called, keep the auto-detection
-logic if the parameter was not specified. On such case, emit
-a warning if sphinx-build can't be found at PATH.
+1) ensure that line numbers will always be initialized
 
-I ended using a suggestion from Joe for using a more readable
-regex, instead of using a complex one with a hidden group like:
+   When section is the default (Description), the line number
+   is not initializing, producing this:
 
-	m/^(\d+)\.(\d+)(?:\.?(\d+)?)/
+	$ ./scripts/kernel-doc --enable-lineno ./drivers/media/v4l2-core/v4l2-mem2mem.c|less
 
-in order to get the optional <patch> argument.
+	**Description**
 
-Thanks-to: Joe Perches <joe@perches.com>
-Suggested-by: Jonathan Corbet <corbet@lwn.net>
+	#define LINENO 0
+	In case of streamoff or release called on any context,
+	1] If the context is currently running, then abort job will be called
+	2] If the context is queued, then the context will be removed from
+	   the job_queue
+
+  Which is not right. Ensure that the line number will always
+  be there. After applied, the result now points to the right location:
+
+	**Description**
+
+	#define LINENO 410
+	In case of streamoff or release called on any context,
+	1] If the context is currently running, then abort job will be called
+	2] If the context is queued, then the context will be removed from
+	   the job_queue
+
+2) The line numbers for function prototypes are always + 1,
+   because it is taken at the line after handling the prototype.
+   Change the logic to point to the next line after the /** */
+   block;
+
+3) The "DOC:" line number should point to the same line as this
+   markup is found, and not to the next one.
+
+Probably part of the issues were due to a but that was causing
+the line number offset to be incremented by one, if --export
+were used.
+
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/kernel-doc | 51 ++++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 43 insertions(+), 8 deletions(-)
+ scripts/kernel-doc | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 478037f736..667ad3169c 100755
+index 667ad3169c..98752164eb 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -56,6 +56,13 @@ Output format selection (mutually exclusive):
-   -rst			Output reStructuredText format.
-   -none			Do not output documentation, only warnings.
+@@ -1705,7 +1705,7 @@ sub dump_function($$) {
+     my $file = shift;
+     my $noret = 0;
  
-+Output format selection modifier (affects only ReST output):
-+
-+  -sphinx-version	Use the ReST C domain dialect compatible with an
-+			specific Sphinx Version.
-+			If not specified, kernel-doc will auto-detect using
-+			the sphinx-build version found on PATH.
-+
- Output selection (mutually exclusive):
-   -export		Only output documentation for symbols that have been
- 			exported using EXPORT_SYMBOL() or EXPORT_SYMBOL_GPL()
-@@ -270,7 +277,7 @@ if ($#ARGV == -1) {
- }
+-    print_lineno($.);
++    print_lineno($new_start_line);
  
- my $kernelversion;
--my $sphinx_major;
-+my ($sphinx_major, $sphinx_minor, $sphinx_patch);
+     $prototype =~ s/^static +//;
+     $prototype =~ s/^extern +//;
+@@ -2033,7 +2033,7 @@ sub process_name($$) {
+     if (/$doc_block/o) {
+ 	$state = STATE_DOCBLOCK;
+ 	$contents = "";
+-	$new_start_line = $. + 1;
++	$new_start_line = $.;
  
- my $dohighlight = "";
+ 	if ( $1 eq "" ) {
+ 	    $section = $section_intro;
+@@ -2116,6 +2116,7 @@ sub process_body($$) {
+     if ($state == STATE_BODY_WITH_BLANK_LINE && /^\s*\*\s?\S/) {
+ 	dump_section($file, $section, $contents);
+ 	$section = $section_default;
++	$new_start_line = $.;
+ 	$contents = "";
+     }
  
-@@ -457,6 +464,23 @@ while ($ARGV[0] =~ m/^--?(.*)/) {
- 	    $enable_lineno = 1;
-     } elsif ($cmd eq 'show-not-found') {
- 	$show_not_found = 1;  # A no-op but don't fail
-+    } elsif ($cmd eq "sphinx-version") {
-+	my $ver_string = shift @ARGV;
-+	if ($ver_string =~ m/^(\d+)(\.\d+)?(\.\d+)?/) {
-+	    $sphinx_major = $1;
-+	    if (defined($2)) {
-+		$sphinx_minor = substr($2,1);
-+	    } else {
-+		$sphinx_minor = 0;
-+	    }
-+	    if (defined($3)) {
-+		$sphinx_patch = substr($3,1)
-+	    } else {
-+		$sphinx_patch = 0;
-+	    }
-+	} else {
-+	    die "Sphinx version should either major.minor or major.minor.patch format\n";
-+	}
-     } else {
- 	# Unknown argument
-         usage();
-@@ -477,29 +501,37 @@ sub findprog($)
- sub get_sphinx_version()
- {
- 	my $ver;
--	my $major = 1;
- 
- 	my $cmd = "sphinx-build";
- 	if (!findprog($cmd)) {
- 		my $cmd = "sphinx-build3";
--		return $major if (!findprog($cmd));
-+		if (!findprog($cmd)) {
-+			$sphinx_major = 1;
-+			$sphinx_minor = 2;
-+			$sphinx_patch = 0;
-+			printf STDERR "Warning: Sphinx version not found. Using default (Sphinx version %d.%d.%d)\n",
-+			       $sphinx_major, $sphinx_minor, $sphinx_patch;
-+			return;
-+		}
- 	}
- 
- 	open IN, "$cmd --version 2>&1 |";
- 	while (<IN>) {
- 		if (m/^\s*sphinx-build\s+([\d]+)\.([\d\.]+)(\+\/[\da-f]+)?$/) {
--			$major=$1;
-+			$sphinx_major = $1;
-+			$sphinx_minor = $2;
-+			$sphinx_patch = $3;
- 			last;
- 		}
- 		# Sphinx 1.2.x uses a different format
- 		if (m/^\s*Sphinx.*\s+([\d]+)\.([\d\.]+)$/) {
--			$major=$1;
-+			$sphinx_major = $1;
-+			$sphinx_minor = $2;
-+			$sphinx_patch = $3;
- 			last;
- 		}
- 	}
- 	close IN;
--
--	return $major;
- }
- 
- # get kernel version from env
-@@ -2333,7 +2365,10 @@ sub process_file($) {
- }
- 
- 
--$sphinx_major = get_sphinx_version();
-+if ($output_mode eq "rst") {
-+	get_sphinx_version() if (!$sphinx_major);
-+}
-+
- $kernelversion = get_kernel_version();
- 
- # generate a sequence of code that will splice in highlighting information
+@@ -2171,6 +2172,7 @@ sub process_body($$) {
+ 	$prototype = "";
+ 	$state = STATE_PROTO;
+ 	$brcount = 0;
++        $new_start_line = $. + 1;
+     } elsif (/$doc_content/) {
+ 	if ($1 eq "") {
+ 	    if ($section eq $section_context) {
 -- 
 2.28.0
 
