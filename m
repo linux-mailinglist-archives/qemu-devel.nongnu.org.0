@@ -2,52 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15A7D2B6EDC
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 20:40:58 +0100 (CET)
-Received: from localhost ([::1]:44740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45F562B6ED1
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 20:38:02 +0100 (CET)
+Received: from localhost ([::1]:37408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf6qX-0007yn-60
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 14:40:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37680)
+	id 1kf6nh-0004up-Bq
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 14:38:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefan@weilnetz.de>)
- id 1kf6lL-0003Q2-Sc; Tue, 17 Nov 2020 14:35:35 -0500
-Received: from mail.weilnetz.de ([37.120.169.71]:50572
- helo=v2201612906741603.powersrv.de)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1kf6lf-0003ul-Uf
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 14:35:57 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58024)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefan@weilnetz.de>)
- id 1kf6lI-0006iD-PP; Tue, 17 Nov 2020 14:35:35 -0500
-Received: from localhost (localhost [127.0.0.1])
- by v2201612906741603.powersrv.de (Postfix) with ESMTP id 796BEDB2587;
- Tue, 17 Nov 2020 20:35:30 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at v2201612906741603.powersrv.de
-Received: from v2201612906741603.powersrv.de ([127.0.0.1])
- by localhost (v2201612906741603.powersrv.de [127.0.0.1]) (amavisd-new,
- port 10024)
- with ESMTP id UzZSkkzj4TIz; Tue, 17 Nov 2020 20:34:54 +0100 (CET)
-Received: from qemu.weilnetz.de (qemu.weilnetz.de [188.68.58.204])
- by v2201612906741603.powersrv.de (Postfix) with ESMTP id 1C4B4DB2583;
- Tue, 17 Nov 2020 20:34:54 +0100 (CET)
-Received: by qemu.weilnetz.de (Postfix, from userid 1000)
- id 0E1C5460019; Tue, 17 Nov 2020 20:34:54 +0100 (CET)
-From: Stefan Weil <sw@weilnetz.de>
-To: qemu-devel@nongnu.org,
-	Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH for-5.2] docs: Fix some typos (found by codespell)
-Date: Tue, 17 Nov 2020 20:34:48 +0100
-Message-Id: <20201117193448.393472-1-sw@weilnetz.de>
-X-Mailer: git-send-email 2.29.2
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1kf6lc-0006tp-7e
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 14:35:55 -0500
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
+ [51.254.78.96])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6A4D52463B;
+ Tue, 17 Nov 2020 19:35:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1605641750;
+ bh=99AH2Pflh0GwKHkWBYpSX6kuQO3h28x2SHcSILfOZbk=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=SsOiLaC2b5E319CIqSVfbBjX1ZCEiVfxcU+YTgV5K2evaZJiz5Kecgq1KkBq3vMkr
+ i7WmyYfxEWMnDM6f9T1wmrWwz2uDrDTMaJVkpwpJPc8jOiXrKxuzJpGkOIVlmXHWjw
+ F08wCG8b1AXUBpnxdrUACJo6BjrsWAas6hRc5SK8=
+Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94)
+ (envelope-from <maz@kernel.org>)
+ id 1kf6lY-00BTAR-6r; Tue, 17 Nov 2020 19:35:48 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=stefan@weilnetz.de;
- helo=v2201612906741603.powersrv.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 14:07:30
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Tue, 17 Nov 2020 19:35:48 +0000
+From: Marc Zyngier <maz@kernel.org>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v4 2/2] arm64: kvm: Introduce MTE VCPU feature
+In-Reply-To: <20201026155727.36685-3-steven.price@arm.com>
+References: <20201026155727.36685-1-steven.price@arm.com>
+ <20201026155727.36685-3-steven.price@arm.com>
+User-Agent: Roundcube Webmail/1.4.9
+Message-ID: <8507a92b4ba3bbc45814b7197bd4e2fb@kernel.org>
+X-Sender: maz@kernel.org
+X-SA-Exim-Connect-IP: 51.254.78.96
+X-SA-Exim-Rcpt-To: steven.price@arm.com, catalin.marinas@arm.com,
+ will@kernel.org, james.morse@arm.com, julien.thierry.kdev@gmail.com,
+ suzuki.poulose@arm.com, kvmarm@lists.cs.columbia.edu,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Dave.Martin@arm.com, mark.rutland@arm.com, tglx@linutronix.de,
+ qemu-devel@nongnu.org, quintela@redhat.com, dgilbert@redhat.com,
+ richard.henderson@linaro.org, peter.maydell@linaro.org, Haibo.Xu@arm.com,
+ drjones@redhat.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=maz@kernel.org;
+ helo=mail.kernel.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 14:20:37
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,147 +84,195 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
- Stefan Weil <sw@weilnetz.de>, libvir-list@redhat.com,
- Alex Williamson <alex.williamson@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>, "Dr. David Alan
+ Gilbert" <dgilbert@redhat.com>, Andrew Jones <drjones@redhat.com>,
+ Haibo Xu <Haibo.Xu@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ qemu-devel@nongnu.org, Catalin Marinas <catalin.marinas@arm.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix also a similar typo in a code comment.
+Hi Steven,
 
-Signed-off-by: Stefan Weil <sw@weilnetz.de>
----
- docs/can.txt                  | 8 ++++----
- docs/interop/vhost-user.rst   | 2 +-
- docs/replay.txt               | 2 +-
- docs/specs/ppc-spapr-numa.rst | 2 +-
- docs/system/deprecated.rst    | 4 ++--
- docs/tools/virtiofsd.rst      | 2 +-
- hw/vfio/igd.c                 | 2 +-
- 7 files changed, 11 insertions(+), 11 deletions(-)
+On 2020-10-26 15:57, Steven Price wrote:
+> Add a new VM feature 'KVM_ARM_CAP_MTE' which enables memory tagging
+> for a VM. This exposes the feature to the guest and automatically tags
+> memory pages touched by the VM as PG_mte_tagged (and clears the tags
+> storage) to ensure that the guest cannot see stale tags, and so that 
+> the
+> tags are correctly saved/restored across swap.
+> 
+> Signed-off-by: Steven Price <steven.price@arm.com>
+> Reviewed-by: Andrew Jones <drjones@redhat.com>
+> ---
+>  arch/arm64/include/asm/kvm_emulate.h |  3 +++
+>  arch/arm64/include/asm/kvm_host.h    |  3 +++
+>  arch/arm64/kvm/arm.c                 |  9 +++++++++
+>  arch/arm64/kvm/mmu.c                 | 20 ++++++++++++++++++++
+>  arch/arm64/kvm/sys_regs.c            |  6 +++++-
+>  include/uapi/linux/kvm.h             |  1 +
+>  6 files changed, 41 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/arm64/include/asm/kvm_emulate.h
+> b/arch/arm64/include/asm/kvm_emulate.h
+> index 5ef2669ccd6c..66c0d9e7c2b4 100644
+> --- a/arch/arm64/include/asm/kvm_emulate.h
+> +++ b/arch/arm64/include/asm/kvm_emulate.h
+> @@ -79,6 +79,9 @@ static inline void vcpu_reset_hcr(struct kvm_vcpu 
+> *vcpu)
+>  	if (cpus_have_const_cap(ARM64_MISMATCHED_CACHE_TYPE) ||
+>  	    vcpu_el1_is_32bit(vcpu))
+>  		vcpu->arch.hcr_el2 |= HCR_TID2;
+> +
+> +	if (vcpu->kvm->arch.mte_enabled)
 
-diff --git a/docs/can.txt b/docs/can.txt
-index 5838f6620c..0d310237df 100644
---- a/docs/can.txt
-+++ b/docs/can.txt
-@@ -19,7 +19,7 @@ interface to implement because such device can be easily connected
- to systems with different CPU architectures (x86, PowerPC, Arm, etc.).
- 
- In 2020, CTU CAN FD controller model has been added as part
--of the bachelor theses of Jan Charvat. This controller is complete
-+of the bachelor thesis of Jan Charvat. This controller is complete
- open-source/design/hardware solution. The core designer
- of the project is Ondrej Ille, the financial support has been
- provided by CTU, and more companies including Volkswagen subsidiaries.
-@@ -31,7 +31,7 @@ testing lead to goal change to provide environment which provides complete
- emulated environment for testing and RTEMS GSoC slot has been donated
- to work on CAN hardware emulation on QEMU.
- 
--Examples how to use CAN emulation for SJA1000 based borads
-+Examples how to use CAN emulation for SJA1000 based boards
- ==========================================================
- 
- When QEMU with CAN PCI support is compiled then one of the next
-@@ -106,8 +106,8 @@ This open-source core provides CAN FD support. CAN FD drames are
- delivered even to the host systems when SocketCAN interface is found
- CAN FD capable.
- 
--The PCIe borad emulation is provided for now (the device identifier is
--ctucan_pci). The defauld build defines two CTU CAN FD cores
-+The PCIe board emulation is provided for now (the device identifier is
-+ctucan_pci). The default build defines two CTU CAN FD cores
- on the board.
- 
- Example how to connect the canbus0-bus (virtual wire) to the host
-diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
-index 988f154144..72b2e8c7ba 100644
---- a/docs/interop/vhost-user.rst
-+++ b/docs/interop/vhost-user.rst
-@@ -513,7 +513,7 @@ descriptor table (split virtqueue) or descriptor ring (packed
- virtqueue). However, it can't work when we process descriptors
- out-of-order because some entries which store the information of
- inflight descriptors in available ring (split virtqueue) or descriptor
--ring (packed virtqueue) might be overrided by new entries. To solve
-+ring (packed virtqueue) might be overridden by new entries. To solve
- this problem, slave need to allocate an extra buffer to store this
- information of inflight descriptors and share it with master for
- persistent. ``VHOST_USER_GET_INFLIGHT_FD`` and
-diff --git a/docs/replay.txt b/docs/replay.txt
-index 87a64ae068..5b008ca491 100644
---- a/docs/replay.txt
-+++ b/docs/replay.txt
-@@ -328,7 +328,7 @@ between the snapshots. Each of the passes include the following steps:
-  1. loading the snapshot
-  2. replaying to examine the breakpoints
-  3. if breakpoint or watchpoint was met
--    - loading the snaphot again
-+    - loading the snapshot again
-     - replaying to the required breakpoint
-  4. else
-     - proceeding to the p.1 with the earlier snapshot
-diff --git a/docs/specs/ppc-spapr-numa.rst b/docs/specs/ppc-spapr-numa.rst
-index 5fca2bdd8e..ffa687dc89 100644
---- a/docs/specs/ppc-spapr-numa.rst
-+++ b/docs/specs/ppc-spapr-numa.rst
-@@ -198,7 +198,7 @@ This is how it is being done:
- * user distance 121 and beyond will be interpreted as 160
- * user distance 10 stays 10
- 
--The reasoning behind this aproximation is to avoid any round up to the local
-+The reasoning behind this approximation is to avoid any round up to the local
- distance (10), keeping it exclusive to the 4th NUMA level (which is still
- exclusive to the node_id). All other ranges were chosen under the developer
- discretion of what would be (somewhat) sensible considering the user input.
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 32a0e620db..63e9db1463 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -465,7 +465,7 @@ default configuration.
- 
- The CPU model runnability guarantee won't apply anymore to
- existing CPU models.  Management software that needs runnability
--guarantees must resolve the CPU model aliases using te
-+guarantees must resolve the CPU model aliases using the
- ``alias-of`` field returned by the ``query-cpu-definitions`` QMP
- command.
- 
-@@ -637,7 +637,7 @@ Splitting RAM by default between NUMA nodes had the same issues as ``mem``
- parameter with the difference that the role of the user plays QEMU using
- implicit generic or board specific splitting rule.
- Use ``memdev`` with *memory-backend-ram* backend or ``mem`` (if
--it's supported by used machine type) to define mapping explictly instead.
-+it's supported by used machine type) to define mapping explicitly instead.
- Users of existing VMs, wishing to preserve the same RAM distribution, should
- configure it explicitly using ``-numa node,memdev`` options. Current RAM
- distribution can be retrieved using HMP command ``info numa`` and if separate
-diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
-index 34a9e40146..866b7db3ee 100644
---- a/docs/tools/virtiofsd.rst
-+++ b/docs/tools/virtiofsd.rst
-@@ -174,7 +174,7 @@ Using ':' as the separator a rule is of the form:
- - 'bad' - If a client tries to use a name matching 'key' it's
-   denied using EPERM; when the server passes an attribute
-   name matching 'prepend' it's hidden.  In many ways it's use is very like
--  'ok' as either an explict terminator or for special handling of certain
-+  'ok' as either an explicit terminator or for special handling of certain
-   patterns.
- 
- **key** is a string tested as a prefix on an attribute name originating
-diff --git a/hw/vfio/igd.c b/hw/vfio/igd.c
-index 64e332746b..470205f487 100644
---- a/hw/vfio/igd.c
-+++ b/hw/vfio/igd.c
-@@ -535,7 +535,7 @@ void vfio_probe_igd_bar4_quirk(VFIOPCIDevice *vdev, int nr)
-     }
- 
-     /*
--     * Assume we have no GMS memory, but allow it to be overrided by device
-+     * Assume we have no GMS memory, but allow it to be overridden by device
-      * option (experimental).  The spec doesn't actually allow zero GMS when
-      * when IVD (IGD VGA Disable) is clear, but the claim is that it's unused,
-      * so let's not waste VM memory for it.
+Please add a predicate (vcpu_has_mte() or kvm_has_mte()?) for this.
+
+> +		vcpu->arch.hcr_el2 |= HCR_ATA;
+>  }
+> 
+>  static inline unsigned long *vcpu_hcr(struct kvm_vcpu *vcpu)
+> diff --git a/arch/arm64/include/asm/kvm_host.h
+> b/arch/arm64/include/asm/kvm_host.h
+> index 95ab7345dcc8..cd993aec0440 100644
+> --- a/arch/arm64/include/asm/kvm_host.h
+> +++ b/arch/arm64/include/asm/kvm_host.h
+> @@ -118,6 +118,9 @@ struct kvm_arch {
+>  	 */
+>  	unsigned long *pmu_filter;
+>  	unsigned int pmuver;
+> +
+> +	/* Memory Tagging Extension enabled for the guest */
+> +	bool mte_enabled;
+>  };
+> 
+>  struct kvm_vcpu_fault_info {
+> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+> index f56122eedffc..7ee93bcac017 100644
+> --- a/arch/arm64/kvm/arm.c
+> +++ b/arch/arm64/kvm/arm.c
+> @@ -89,6 +89,12 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
+>  		r = 0;
+>  		kvm->arch.return_nisv_io_abort_to_user = true;
+>  		break;
+> +	case KVM_CAP_ARM_MTE:
+> +		if (!system_supports_mte() || kvm->created_vcpus)
+> +			return -EINVAL;
+
+You also want to avoid 32bit guests. Also, what is the rational for
+this being a VM capability as opposed to a CPU feature, similar
+to SVE and PMU?
+
+> +		r = 0;
+> +		kvm->arch.mte_enabled = true;
+> +		break;
+>  	default:
+>  		r = -EINVAL;
+>  		break;
+> @@ -210,6 +216,9 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, 
+> long ext)
+>  		 */
+>  		r = 1;
+>  		break;
+> +	case KVM_CAP_ARM_MTE:
+> +		r = system_supports_mte();
+
+Same comment about 32bit.
+
+> +		break;
+>  	case KVM_CAP_STEAL_TIME:
+>  		r = kvm_arm_pvtime_supported();
+>  		break;
+> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+> index 19aacc7d64de..38fe25310ca1 100644
+> --- a/arch/arm64/kvm/mmu.c
+> +++ b/arch/arm64/kvm/mmu.c
+> @@ -862,6 +862,26 @@ static int user_mem_abort(struct kvm_vcpu *vcpu,
+> phys_addr_t fault_ipa,
+>  	if (vma_pagesize == PAGE_SIZE && !force_pte)
+>  		vma_pagesize = transparent_hugepage_adjust(memslot, hva,
+>  							   &pfn, &fault_ipa);
+> +
+> +	/*
+> +	 * The otherwise redundant test for system_supports_mte() allows the
+> +	 * code to be compiled out when CONFIG_ARM64_MTE is not present.
+> +	 */
+> +	if (system_supports_mte() && kvm->arch.mte_enabled && pfn_valid(pfn)) 
+> {
+> +		/*
+> +		 * VM will be able to see the page's tags, so we must ensure
+> +		 * they have been initialised.
+> +		 */
+> +		struct page *page = pfn_to_page(pfn);
+> +		long i, nr_pages = compound_nr(page);
+> +
+> +		/* if PG_mte_tagged is set, tags have already been initialised */
+> +		for (i = 0; i < nr_pages; i++, page++) {
+> +			if (!test_and_set_bit(PG_mte_tagged, &page->flags))
+> +				mte_clear_page_tags(page_address(page));
+> +		}
+> +	}
+
+What are the visibility requirements for the tags, specially if the
+guest has its MMU off? Is there any cache management that needs to
+occur?
+
+Another thing is device-like memory that is managed by userspace,
+such as the QEMU emulated flash, for which there also might be tags.
+How is that dealt with? In general, what are the expectations for
+tags on memory shared between host and guest? Who owns them?
+
+> +
+>  	if (writable) {
+>  		prot |= KVM_PGTABLE_PROT_W;
+>  		kvm_set_pfn_dirty(pfn);
+> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+> index 430e36e1a13d..35a3dc448231 100644
+> --- a/arch/arm64/kvm/sys_regs.c
+> +++ b/arch/arm64/kvm/sys_regs.c
+> @@ -1132,7 +1132,8 @@ static u64 read_id_reg(const struct kvm_vcpu 
+> *vcpu,
+>  		    arm64_get_spectre_v2_state() == SPECTRE_UNAFFECTED)
+>  			val |= (1UL << ID_AA64PFR0_CSV2_SHIFT);
+>  	} else if (id == SYS_ID_AA64PFR1_EL1) {
+> -		val &= ~(0xfUL << ID_AA64PFR1_MTE_SHIFT);
+> +		if (!vcpu->kvm->arch.mte_enabled)
+> +			val &= ~(0xfUL << ID_AA64PFR1_MTE_SHIFT);
+>  	} else if (id == SYS_ID_AA64ISAR1_EL1 && !vcpu_has_ptrauth(vcpu)) {
+>  		val &= ~((0xfUL << ID_AA64ISAR1_APA_SHIFT) |
+>  			 (0xfUL << ID_AA64ISAR1_API_SHIFT) |
+> @@ -1394,6 +1395,9 @@ static bool access_mte_regs(struct kvm_vcpu
+> *vcpu, struct sys_reg_params *p,
+>  static unsigned int mte_visibility(const struct kvm_vcpu *vcpu,
+>  				   const struct sys_reg_desc *rd)
+>  {
+> +	if (vcpu->kvm->arch.mte_enabled)
+> +		return 0;
+> +
+>  	return REG_HIDDEN_USER | REG_HIDDEN_GUEST;
+>  }
+> 
+> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> index ca41220b40b8..3e6fb5b580a9 100644
+> --- a/include/uapi/linux/kvm.h
+> +++ b/include/uapi/linux/kvm.h
+> @@ -1053,6 +1053,7 @@ struct kvm_ppc_resize_hpt {
+>  #define KVM_CAP_X86_USER_SPACE_MSR 188
+>  #define KVM_CAP_X86_MSR_FILTER 189
+>  #define KVM_CAP_ENFORCE_PV_FEATURE_CPUID 190
+> +#define KVM_CAP_ARM_MTE 191
+> 
+>  #ifdef KVM_CAP_IRQ_ROUTING
+
+Thanks,
+
+         M.
 -- 
-2.29.2
-
+Jazz is not dead. It just smells funny...
 
