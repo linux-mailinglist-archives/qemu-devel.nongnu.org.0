@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2529A2B6B0D
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 18:06:21 +0100 (CET)
-Received: from localhost ([::1]:32952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B2142B6B48
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 18:11:58 +0100 (CET)
+Received: from localhost ([::1]:57100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf4Qu-0004HZ-5H
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 12:06:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43874)
+	id 1kf4WK-0005iO-Sg
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 12:11:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kf4Ey-0003BP-6r
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:54:00 -0500
-Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:35455)
+ id 1kf4Ew-00039A-LU
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:58 -0500
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:42192)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kf4Et-0007Hh-Rk
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:59 -0500
-Received: by mail-ed1-x542.google.com with SMTP id ay21so23235873edb.2
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:53:55 -0800 (PST)
+ id 1kf4Eu-0007Hp-PC
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:58 -0500
+Received: by mail-ej1-x642.google.com with SMTP id i19so30379426ejx.9
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:53:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=R47RebFwpB3UEbuBQ1d7o5hCrsXuVfaPA/oJ9sZEmas=;
- b=uF7RfRNf1GzkYoPY8pdmN1kz89FV3XNtfswSJKZQJaCWqtP1EC7nI/+Or1wsZJ2ydQ
- 27Sjql3nI0lg/wXssWba3J8k2TTSNjc9+3hFvHDtvXvhRyzFOw+iTaUyGx2pXH3c7bgc
- Jv9anAN8NcCODhUxaeEcDoZH5NeLjCgI2ZAjPt+cJYy+BLdBWCC/ez9nxm9iZYQxA06L
- C6xnx5uCpCydJE/VCTrYR9PZZoSa4BgNIgfcA+XnPDHqLMkcRW1kcPnoklVYRpgCgVuJ
- l28dgzuKeWdPM6/HQEAwCsd39IgAWAL7tcUPJl//owCHj/v+74FGG4SmImZ7jp6gtBQA
- VfkA==
+ bh=ax4JFkEmtB9bFkwgtcdzLquJHfwUo36YwYi9uzfBSKY=;
+ b=NJKHokCZvr50w62/FWf4TTt2ZHDVEgZMvS2nxl/1AKTd7YYghIdNTsM926Lg/bXAGa
+ 3BkhOVHOSWgu17AVQQiouh9qslkK6DNxgoG6Sc+GNplyB0EP7jQfxHQSIOFaEwYZ8DsK
+ Fhsrp7FVtBCfZXuABq4WL93ilnc92RSYLg40+lYIYrxDP5YYQmYXRfxVa0GqX/U2Lhl1
+ Vjgr/XJwKGDDY/ByLwRu/ylAWfhOxq++W8UCpwp5ArAfVVyJUSvVJ/CI9XheFsFoo5es
+ oV0nic+zOS3E+yI9qp1r0qDjf7PUXTmHjg8W6KaRA/0fkQzBrF3Q6dULbjWDyP83R9/R
+ sGPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=R47RebFwpB3UEbuBQ1d7o5hCrsXuVfaPA/oJ9sZEmas=;
- b=a2tAqVS5Sh1dosE4ni8tb140rSQfDbSWTq6H3V+q2Oh9isIepIcnVk97gWaAqbRcFW
- rfmsCBrjpq5jKFNFuzmfTKWxZgNeuuDSyzcKoPN+NgKXOElxWHEbeLl/Rg6u/Nu2IJOq
- /FFrXJh7gapjkZp88Wj5TDkQgG3pcKpMZ+ZsgYwJ6m1d+niBEx7c6gWEVLJqvTYrRrq2
- 1h3VKJc6GPr+WwmUCpdm8vzyuH7hwXimWwOmARA2h7lCbW3gfWb3CAPgraCH1pm75Xe+
- eY+oj2FQa8v4YBOqeSOF6q5X3n0KkyW+O+09f4R9M6dJIrd7xE3x6HEmw/6KWe2adLtu
- hS6w==
-X-Gm-Message-State: AOAM531qTap+Hb05aGQ0dBQSbzRLxeXcc6YAfbnmfJZa0KXH3lrGpZI/
- V/8nzKwC6XQTWWDZJE8xpSV/KPqRNxw=
-X-Google-Smtp-Source: ABdhPJzp1qwegibNoNzvP/K13GXwzJ2FWPHg47A88LzFiPeK/wPua8aYrsi9AMMNY0Zd+4n5p/Csnw==
-X-Received: by 2002:a05:6402:c83:: with SMTP id
- cm3mr21534049edb.189.1605632034114; 
- Tue, 17 Nov 2020 08:53:54 -0800 (PST)
+ bh=ax4JFkEmtB9bFkwgtcdzLquJHfwUo36YwYi9uzfBSKY=;
+ b=KKduinzOEnBQ+GnDUTVgIy+uRI201rcsIyHJwJznUOFzYePk+CIFim88eX1bKNaoqN
+ YpPXpvOyt9DI3BY05QiM83zez6AM7gbmCB6F2ygIUsl92IVXkhZRJXsIrSeQL4qzRMoE
+ pC537nYxUNefi+Xsxd8yLnpjAyVN3WMRpRuf5iaSFP0fPw9qLk/CuPiUKedX/Rf/053w
+ +LJxtsrf1z2pgCjESVVgx2eNUKLzOLMyplHBN3Q64vJlqexzJC+Fz6YQzMgZ5m6y2DBq
+ 7uJvEeVuIoyK77B+VTFzDJg6ts9/oMwJVic0c7wZxRrQ05jiUjgSF4MT3C0TiG7eJrUH
+ Ckag==
+X-Gm-Message-State: AOAM533FINWgup55O5a/QOfcUlQWmjqQMGodeJkSu0e4egttQ8LCIZ8Z
+ W/dYdwAxuSBOluZs2LK7+PAdRsxfJGY=
+X-Google-Smtp-Source: ABdhPJzwWLy7KVpTf74wlqX1A3l0afNNpHOn/YQQ11XyGpdb3Pp/XwfMgpkXMl1n1fOBvmjKR/LOcg==
+X-Received: by 2002:a17:906:e2c3:: with SMTP id
+ gr3mr19653166ejb.471.1605632035158; 
+ Tue, 17 Nov 2020 08:53:55 -0800 (PST)
 Received: from localhost.localdomain ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id u7sm639067ejf.83.2020.11.17.08.53.52
+ by smtp.gmail.com with ESMTPSA id u7sm639067ejf.83.2020.11.17.08.53.54
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Nov 2020 08:53:53 -0800 (PST)
+ Tue, 17 Nov 2020 08:53:54 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 28/29] scripts: kernel-doc: split typedef complex regex
-Date: Tue, 17 Nov 2020 17:53:11 +0100
-Message-Id: <20201117165312.118257-29-pbonzini@redhat.com>
+Subject: [PATCH 29/29] scripts: kernel-doc: use :c:union when needed
+Date: Tue, 17 Nov 2020 17:53:12 +0100
+Message-Id: <20201117165312.118257-30-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201117165312.118257-1-pbonzini@redhat.com>
 References: <20201117165312.118257-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::542;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x542.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -92,51 +92,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The typedef regex for function prototypes are very complex.
-Split them into 3 separate regex and then join them using
-qr.
+Sphinx C domain code after 3.2.1 will start complaning if :c:struct
+would be used for an union type:
+
+	.../Documentation/gpu/drm-kms-helpers:352: ../drivers/video/hdmi.c:851: WARNING: C 'identifier' cross-reference uses wrong tag: reference name is 'union hdmi_infoframe' but found name is 'struct hdmi_infoframe'. Full reference name is 'union hdmi_infoframe'. Full found name is 'struct hdmi_infoframe'.
+
+So, let's address this issue too in advance, in order to
+avoid future issues.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Link: https://lore.kernel.org/r/3a4af999a0d62d4ab9dfae1cdefdfcad93383356.1603792384.git.mchehab+huawei@kernel.org
+Link: https://lore.kernel.org/r/6e4ec3eec914df62389a299797a3880ae4490f35.1603791716.git.mchehab+huawei@kernel.org
 Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/kernel-doc | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ scripts/kernel-doc | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 862b77686e..524fc626ed 100755
+index 524fc626ed..b95bae3654 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -1427,17 +1427,21 @@ sub dump_enum($$) {
+@@ -1092,7 +1092,11 @@ sub output_struct_rst(%) {
+ 	print "\n\n.. c:type:: " . $name . "\n\n";
+     } else {
+ 	my $name = $args{'struct'};
+-	print "\n\n.. c:struct:: " . $name . "\n\n";
++	if ($args{'type'} eq 'union') {
++	    print "\n\n.. c:union:: " . $name . "\n\n";
++	} else {
++	    print "\n\n.. c:struct:: " . $name . "\n\n";
++	}
      }
- }
- 
-+my $typedef_type = qr { ((?:\s+[\w\*]+){1,8})\s* }x;
-+my $typedef_ident = qr { \*?\s*(\w\S+)\s* }x;
-+my $typedef_args = qr { \s*\((.*)\); }x;
-+
-+my $typedef1 = qr { typedef$typedef_type\($typedef_ident\)$typedef_args }x;
-+my $typedef2 = qr { typedef$typedef_type$typedef_ident$typedef_args }x;
-+
- sub dump_typedef($$) {
-     my $x = shift;
-     my $file = shift;
- 
-     $x =~ s@/\*.*?\*/@@gos;	# strip comments.
- 
--    # Parse function prototypes
--    if ($x =~ /typedef((?:\s+[\w\*]+){1,8})\s*\(\*?\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
--	$x =~ /typedef((?:\s+[\w\*]+\s+){1,8})\s*\*?(\w\S+)\s*\s*\((.*)\);/) {
--
--	# Function typedefs
-+    # Parse function typedef prototypes
-+    if ($x =~ $typedef1 || $x =~ $typedef2) {
- 	$return_type = $1;
- 	$declaration_name = $2;
- 	my $args = $3;
+     print_lineno($declaration_start_line);
+     $lineprefix = "   ";
 -- 
 2.28.0
-
 
 
