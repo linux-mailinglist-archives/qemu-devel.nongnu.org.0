@@ -2,82 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4617A2B5D44
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 11:54:02 +0100 (CET)
-Received: from localhost ([::1]:42088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A652B5DCB
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 12:02:29 +0100 (CET)
+Received: from localhost ([::1]:46070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keycb-00079E-1M
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 05:54:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38036)
+	id 1keykl-0001B6-UC
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 06:02:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1keyb9-0006Cm-CJ; Tue, 17 Nov 2020 05:52:31 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:33263)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1keyjN-0000hM-13
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 06:01:01 -0500
+Received: from indium.canonical.com ([91.189.90.7]:48864)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1keyb6-0005gK-LB; Tue, 17 Nov 2020 05:52:30 -0500
-Received: by mail-wm1-x335.google.com with SMTP id p19so1764340wmg.0;
- Tue, 17 Nov 2020 02:52:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=QcIRTqJWAxUI4wqXZlNdJ3yOnii0HylN6UXy5e3pkQw=;
- b=R+UXGMk/oCz2FpFXmRqqCRZIO7NfaUHvLaElud5JbUWPlMo9BjQU4uu5atHVPcnYop
- z9B2+3nkLwqPtE0MOm5cLKpDQdu+kTxJDH2mNcVTqsbmkezwvvAJQey14dDA4B6maAca
- c7Qh+ubE7QvjxCAtKudHUCo8F6ScG/wTDPB9zqBZBn/7wMnAuObrnmAtuOzj5a+Uzw1A
- Rgbb1mypw+H/eP4AV48be/lEDSwddMws+uya0keB5NMxFOXQPtkR/x4L1ABXKPjcgP/v
- cI6cVwNyOSJeoXVwCNWddWVs1GGuYfrgw/CV4DlMTJk7NhNOLgWSC3suaokboFbG3epc
- g7qQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=QcIRTqJWAxUI4wqXZlNdJ3yOnii0HylN6UXy5e3pkQw=;
- b=KGlvJMQxNrYjQe45IervhugH+cTtkZClQiiQNtHm6DqzX9XZlniRZ3krH1vL/l/VzM
- J7YmSrYaIbV6b5LO50gYZrQart912u4cKlglB2Nvt1/m6FWXhBDL9pbe7t515JadhSfi
- yVzYUgOiY2S8BK3bUNmXGsb8JD5u9l9ca2yOB/0uwHU2mjO/05g6FPDYiyDeAyzTeyon
- CNAH8PcxwgTRO+8RxEWPAcV1ytkTOv0h5eRPAnrtnFS6YT5uW7epPLfRCq0IavAMvq0i
- C9Llr9viKCdynPTjvY20/kJBjfV/qgGC1JiuggO7Pt+4QM6OBQvU/YtCYE90N4XnT5Kw
- SOGg==
-X-Gm-Message-State: AOAM532/dnIZO/DiCJd8TjpD0LUM9iVO78MEkZIRMdbrwLgzifHXRAXd
- s3jWOUvEIHWvook9CSKsX8pQFHfwxGA=
-X-Google-Smtp-Source: ABdhPJyOJBsjlp7PSnVq/5zPSiOkv3V9l0R29irm/JjNeakRf8H3lawn6oxLCYxGusj7bLnOSJz+Fg==
-X-Received: by 2002:a05:600c:2252:: with SMTP id
- a18mr3637465wmm.139.1605610346867; 
- Tue, 17 Nov 2020 02:52:26 -0800 (PST)
-Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id t23sm2820049wmn.4.2020.11.17.02.52.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Nov 2020 02:52:26 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 1/1] hw/sd: Fix 2 GiB card CSD register values
-Date: Tue, 17 Nov 2020 11:52:19 +0100
-Message-Id: <20201117105219.1185736-2-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201117105219.1185736-1-f4bug@amsat.org>
-References: <20201117105219.1185736-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1keyjK-0000YE-Pi
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 06:01:00 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1keyjH-00035U-Kv
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 11:00:55 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 94D1F2E804B
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 11:00:55 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 17 Nov 2020 10:51:25 -0000
+From: Thomas Huth <1904464@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ffontaine th-huth
+X-Launchpad-Bug-Reporter: Fabrice Fontaine (ffontaine)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <160555959985.17306.1370815502265671907.malonedeb@wampee.canonical.com>
+Message-Id: <160561028601.30031.1273354227634249725.malone@gac.canonical.com>
+Subject: [Bug 1904464] Re: Build fails with 64 bits time_t
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a2ee2035671f86427804714f331b9ff7fecaef7e"; Instance="production"
+X-Launchpad-Hash: a0debec5d58fcd587cc05ec2d0ed246a35013fd1
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 04:35:40
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -86,78 +71,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Niek Linnenbank <nieklinnenbank@gmail.com>,
- Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-block@nongnu.org
+Reply-To: Bug 1904464 <1904464@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+Please send patches to the qemu-devel mailing list (and CC: the
+corresponding maintainers) for proper review of your patch. See
+https://wiki.qemu.org/Contribute/SubmitAPatch for details. Thanks!
 
-Per the SD spec, to indicate a 2 GiB card, BLOCK_LEN shall be 1024
-bytes, hence the READ_BL_LEN field in the CSD register shall be 10
-instead of 9.
+-- =
 
-This fixes the acceptance test error for the NetBSD 9.0 test of the
-Orange Pi PC that has an expanded SD card image of 2 GiB size.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1904464
 
-Fixes: 6d2d4069c47e ("hw/sd: Correct the maximum size of a Standard Capacity SD Memory Card")
-Reported-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Tested-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-Message-Id: <20201025152357.11865-1-bmeng.cn@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/sd/sd.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+Title:
+  Build fails with 64 bits time_t
 
-diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 30913826145..1842c037978 100644
---- a/hw/sd/sd.c
-+++ b/hw/sd/sd.c
-@@ -389,10 +389,17 @@ static const uint8_t sd_csd_rw_mask[16] = {
- 
- static void sd_set_csd(SDState *sd, uint64_t size)
- {
--    uint32_t csize = (size >> (CMULT_SHIFT + HWBLOCK_SHIFT)) - 1;
-+    int hwblock_shift = HWBLOCK_SHIFT;
-+    uint32_t csize;
-     uint32_t sectsize = (1 << (SECTOR_SHIFT + 1)) - 1;
-     uint32_t wpsize = (1 << (WPGROUP_SHIFT + 1)) - 1;
- 
-+    /* To indicate 2 GiB card, BLOCK_LEN shall be 1024 bytes */
-+    if (size == SDSC_MAX_CAPACITY) {
-+        hwblock_shift += 1;
-+    }
-+    csize = (size >> (CMULT_SHIFT + hwblock_shift)) - 1;
-+
-     if (size <= SDSC_MAX_CAPACITY) { /* Standard Capacity SD */
-         sd->csd[0] = 0x00;	/* CSD structure */
-         sd->csd[1] = 0x26;	/* Data read access-time-1 */
-@@ -400,7 +407,7 @@ static void sd_set_csd(SDState *sd, uint64_t size)
-         sd->csd[3] = 0x32;      /* Max. data transfer rate: 25 MHz */
-         sd->csd[4] = 0x5f;	/* Card Command Classes */
-         sd->csd[5] = 0x50 |	/* Max. read data block length */
--            HWBLOCK_SHIFT;
-+            hwblock_shift;
-         sd->csd[6] = 0xe0 |	/* Partial block for read allowed */
-             ((csize >> 10) & 0x03);
-         sd->csd[7] = 0x00 |	/* Device size */
-@@ -414,9 +421,9 @@ static void sd_set_csd(SDState *sd, uint64_t size)
-         sd->csd[11] = 0x00 |	/* Write protect group size */
-             ((sectsize << 7) & 0x80) | wpsize;
-         sd->csd[12] = 0x90 |	/* Write speed factor */
--            (HWBLOCK_SHIFT >> 2);
-+            (hwblock_shift >> 2);
-         sd->csd[13] = 0x20 |	/* Max. write data block length */
--            ((HWBLOCK_SHIFT << 6) & 0xc0);
-+            ((hwblock_shift << 6) & 0xc0);
-         sd->csd[14] = 0x00;	/* File format group */
-     } else {			/* SDHC */
-         size /= 512 * KiB;
--- 
-2.26.2
+Status in QEMU:
+  New
 
+Bug description:
+  time element is deprecated on new input_event structure in kernel's
+  input.h [1]
+
+  This will avoid the following build failure:
+
+  hw/input/virtio-input-host.c: In function 'virtio_input_host_handle_statu=
+s':
+  hw/input/virtio-input-host.c:198:28: error: 'struct input_event' has no m=
+ember named 'time'
+    198 |     if (gettimeofday(&evdev.time, NULL)) {
+        |                            ^
+
+  Fixes:
+   - http://autobuild.buildroot.org/results/a538167e288c14208d557cd45446df8=
+6d3d599d5
+   - http://autobuild.buildroot.org/results/efd4474fb4b6c0ce0ab3838ce130429=
+c51e43bbb
+
+  [1]
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
+?id=3D152194fe9c3f
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1904464/+subscriptions
 
