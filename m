@@ -2,70 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8170A2B5EFE
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 13:19:39 +0100 (CET)
-Received: from localhost ([::1]:41136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D5872B5F25
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 13:31:31 +0100 (CET)
+Received: from localhost ([::1]:52034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kezxS-00076J-JC
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 07:19:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58778)
+	id 1kf08w-0003gd-7B
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 07:31:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kezuW-0002ZA-B4
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 07:16:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44624)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kezuI-0002jf-60
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 07:16:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605615380;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0mQJbM/9DQsgu+0544X/GcuXqB5Nc5QMqfzmDY9E92A=;
- b=CRLmPDT2jGGu7hHY9GQOyHCSvM6yrke5PWhFLmiJknq7Ex6YtaYtBRKC7TquQzeC7nGfQ6
- DVtxvmQUyiNrb157hPSJgoT4e3HPtdKw82SAx/xr27OhQtr4WmvbnmW0m5QdS96ghzRYhX
- xV20ZTSCa1tea4Yfqn5iYwhGWK1gh20=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-288-a8SMFGlIOv-0ozcY6OvMWQ-1; Tue, 17 Nov 2020 07:16:16 -0500
-X-MC-Unique: a8SMFGlIOv-0ozcY6OvMWQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C73A610B9CA3;
- Tue, 17 Nov 2020 12:16:15 +0000 (UTC)
-Received: from merkur.redhat.com (ovpn-114-113.ams2.redhat.com [10.36.114.113])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C797110013D0;
- Tue, 17 Nov 2020 12:16:14 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL 7/7] iotests/081: Test rewrite-corrupted without WRITE
-Date: Tue, 17 Nov 2020 13:15:58 +0100
-Message-Id: <20201117121558.249585-8-kwolf@redhat.com>
-In-Reply-To: <20201117121558.249585-1-kwolf@redhat.com>
-References: <20201117121558.249585-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1kf07b-0003BH-1a
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 07:30:07 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2063)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1kf07X-0007HK-0z
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 07:30:06 -0500
+Received: from fraeml735-chm.china.huawei.com (unknown [172.18.147.200])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Cb4wK1lCsz67Djw;
+ Tue, 17 Nov 2020 20:28:01 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml735-chm.china.huawei.com (10.206.15.216) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1913.5; Tue, 17 Nov 2020 13:29:49 +0100
+Received: from localhost (10.47.31.177) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Tue, 17 Nov
+ 2020 12:29:49 +0000
+Date: Tue, 17 Nov 2020 12:29:40 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Ben Widawsky <ben.widawsky@intel.com>
+Subject: Re: [RFC PATCH 03/25] hw/cxl/component: Introduce CXL components
+ (8.1.x, 8.2.5)
+Message-ID: <20201117122940.00002902@Huawei.com>
+In-Reply-To: <20201116191936.nhchktyrnc5ijoue@intel.com>
+References: <20201111054724.794888-1-ben.widawsky@intel.com>
+ <20201111054724.794888-4-ben.widawsky@intel.com>
+ <20201116120352.00004f25@Huawei.com>
+ <20201116191936.nhchktyrnc5ijoue@intel.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 00:41:22
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.47.31.177]
+X-ClientProxiedBy: lhreml736-chm.china.huawei.com (10.201.108.87) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 07:29:50
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,134 +72,229 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: Vishal Verma <vishal.l.verma@intel.com>, Dan
+ Williams <dan.j.williams@intel.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Max Reitz <mreitz@redhat.com>
+On Mon, 16 Nov 2020 11:19:36 -0800
+Ben Widawsky <ben.widawsky@intel.com> wrote:
 
-Test what happens when a rewrite-corrupted quorum node performs such a
-rewrite, while there is no parent that has taken the WRITE permission.
+> On 20-11-16 12:03:52, Jonathan Cameron wrote:
+> > On Tue, 10 Nov 2020 21:47:02 -0800
+> > Ben Widawsky <ben.widawsky@intel.com> wrote:
+> >   
+> > > A CXL 2.0 component is any entity in the CXL topology. All components
+> > > have a analogous function in PCIe. Except for the CXL host bridge, all
+> > > have a PCIe config space that is accessible via the common PCIe
+> > > mechanisms. CXL components are enumerated via DVSEC fields in the
+> > > extended PCIe header space. CXL components will minimally implement some
+> > > subset of CXL.mem and CXL.cache registers defined in 8.2.5 of the CXL
+> > > 2.0 specification. Two headers and a utility library are introduced to
+> > > support the minimum functionality needed to enumerate components.
+> > > 
+> > > The cxl_pci header manages bits associated with PCI, specifically the
+> > > DVSEC and related fields. The cxl_component.h variant has data
+> > > structures and APIs that are useful for drivers implementing any of the
+> > > CXL 2.0 components. The library takes care of making use of the DVSEC
+> > > bits and the CXL.[mem|cache] regisetrs.
+> > > 
+> > > None of the mechanisms required to enumerate a CXL capable hostbridge
+> > > are introduced at this point.
+> > > 
+> > > Note that the CXL.mem and CXL.cache registers used are always 4B wide.
+> > > It's possible in the future that this constraint will not hold.
+> > > 
+> > > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+> > > 
+> > > --
+> > > It's tempting to have a more generalized DVSEC infrastructure. As far as
+> > > I can tell, the amount this would actually save in terms of code is
+> > > minimal because most of DVESC is vendor specific.  
+> > 
+> > Agreed.  Probably not worth bothering with generic infrastructure for 2.5 DW.
+> > 
+> > A few comments inline.
+> > 
+> > Jonathan
+> >   
+> 
+> Anything I didn't respond to is accepted and will be in v2.
+> 
+> Thanks.
+> Ben
+> 
+Hi Ben,
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20201113211718.261671-4-mreitz@redhat.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- tests/qemu-iotests/081     | 54 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/081.out | 27 +++++++++++++++++++
- 2 files changed, 81 insertions(+)
+...
 
-diff --git a/tests/qemu-iotests/081 b/tests/qemu-iotests/081
-index 253b7576be..4e19972931 100755
---- a/tests/qemu-iotests/081
-+++ b/tests/qemu-iotests/081
-@@ -42,6 +42,7 @@ _supported_fmt raw
- _supported_proto file
- _supported_os Linux
- _require_drivers quorum
-+_require_devices virtio-scsi
- 
- do_run_qemu()
- {
-@@ -155,6 +156,59 @@ echo "== checking that quorum has corrected the corrupted file =="
- 
- $QEMU_IO -c "read -P 0x32 0 $size" "$TEST_DIR/2.raw" | _filter_qemu_io
- 
-+echo
-+echo "== using quorum rewrite corrupted mode without WRITE permission =="
-+
-+# The same as above, but this time, do it on a quorum node whose only
-+# parent will not take the WRITE permission
-+
-+echo '-- corrupting --'
-+# Only corrupt a portion: The guest device (scsi-hd on virtio-scsi)
-+# will read some data (looking for a partition table to guess the
-+# disk's geometry), which would trigger a quorum mismatch if the
-+# beginning of the image was corrupted.  The subsequent
-+# QUORUM_REPORT_BAD event would be suppressed (because at that point,
-+# there cannot have been a qmp_capabilities on the monitor).  Because
-+# that event is rate-limited, the next QUORUM_REPORT_BAD that happens
-+# thanks to our qemu-io read (which should trigger a mismatch) would
-+# then be delayed past the VM quit and not appear in the output.
-+# So we keep the first 1M intact to see a QUORUM_REPORT_BAD resulting
-+# from the qemu-io invocation.
-+$QEMU_IO -c "write -P 0x42 1M 1M" "$TEST_DIR/2.raw" | _filter_qemu_io
-+
-+# Fix the corruption (on a read-only quorum node, i.e. without taking
-+# the WRITE permission on it -- its child nodes need to be R/W OTOH,
-+# so that rewrite-corrupted works)
-+echo
-+echo '-- running quorum --'
-+run_qemu \
-+    -blockdev file,node-name=file1,filename="$TEST_DIR/1.raw" \
-+    -blockdev file,node-name=file2,filename="$TEST_DIR/2.raw" \
-+    -blockdev file,node-name=file3,filename="$TEST_DIR/3.raw" \
-+    -blockdev '{
-+        "driver": "quorum",
-+        "node-name": "quorum",
-+        "read-only": true,
-+        "vote-threshold": 2,
-+        "rewrite-corrupted": true,
-+        "children": [ "file1", "file2", "file3" ]
-+    }' \
-+    -device virtio-scsi,id=scsi \
-+    -device scsi-hd,id=quorum-drive,bus=scsi.0,drive=quorum \
-+    <<EOF
-+{ "execute": "qmp_capabilities" }
-+{
-+    "execute": "human-monitor-command",
-+    "arguments": {
-+        "command-line": 'qemu-io -d quorum-drive "read -P 0x32 0 $size"'
-+    }
-+}
-+{ "execute": "quit" }
-+EOF
-+
-+echo '-- checking that the image has been corrected --'
-+$QEMU_IO -c "read -P 0x32 0 $size" "$TEST_DIR/2.raw" | _filter_qemu_io
-+
- echo
- echo "== breaking quorum =="
- 
-diff --git a/tests/qemu-iotests/081.out b/tests/qemu-iotests/081.out
-index 04091b64e5..1974262fac 100644
---- a/tests/qemu-iotests/081.out
-+++ b/tests/qemu-iotests/081.out
-@@ -47,6 +47,33 @@ read 10485760/10485760 bytes at offset 0
- read 10485760/10485760 bytes at offset 0
- 10 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 
-+== using quorum rewrite corrupted mode without WRITE permission ==
-+-- corrupting --
-+wrote 1048576/1048576 bytes at offset 1048576
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+-- running quorum --
-+Testing: -blockdev file,node-name=file1,filename=TEST_DIR/1.IMGFMT -blockdev file,node-name=file2,filename=TEST_DIR/2.IMGFMT -blockdev file,node-name=file3,filename=TEST_DIR/3.IMGFMT -blockdev {
-+        "driver": "quorum",
-+        "node-name": "quorum",
-+        "read-only": true,
-+        "vote-threshold": 2,
-+        "rewrite-corrupted": true,
-+        "children": [ "file1", "file2", "file3" ]
-+    } -device virtio-scsi,id=scsi -device scsi-hd,id=quorum-drive,bus=scsi.0,drive=quorum
-+QMP_VERSION
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "QUORUM_REPORT_BAD", "data": {"node-name": "file2", "sectors-count": 20480, "sector-num": 0, "type": "read"}}
-+read 10485760/10485760 bytes at offset 0
-+10 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+{"return": ""}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
-+
-+-- checking that the image has been corrected --
-+read 10485760/10485760 bytes at offset 0
-+10 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
- == breaking quorum ==
- wrote 10485760/10485760 bytes at offset 0
- 10 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
--- 
-2.28.0
+> >   
+> > > +
+> > > +/* 8.2.5.10 - CXL Security Capability Structure */
+> > > +#define CXL_SEC_REGISTERS_OFFSET (CXL_RAS_REGISTERS_OFFSET + CXL_RAS_REGISTERS_SIZE)
+> > > +#define CXL_SEC_REGISTERS_SIZE   0 /* We don't implement 1.1 downstream ports */
+> > > +
+> > > +/* 8.2.5.11 - CXL Link Capability Structure */
+> > > +#define CXL_LINK_REGISTERS_OFFSET (CXL_SEC_REGISTERS_OFFSET + CXL_SEC_REGISTERS_SIZE)
+> > > +#define CXL_LINK_REGISTERS_SIZE   0x38  
+> > 
+> > Bit odd to introduce this but not define anything... Can't we bring these
+> > in when we need them later?  
+> 
+> Repeating my comment from 00/25...
+> 
+> For this specific patch series I liked providing #defines in bulk so that it's
+> easy enough to just bring up the spec and review them. Not sure if there is a
+> preference from others in the community on this.
 
+Personally I'd prefer to see the lot if you are going to do that, on basis
+should only need reviewing against the spec once.
+Not sure others will agree though as "the lot" is an awful lot.
+
+> 
+> I could also introduce the library that generates the capability headers with
+> this. Either is fine, I just wanted to point out the intent.
+> 
+> >   
+> > > +
+> > > +/* 8.2.5.12 - CXL HDM Decoder Capability Structure */
+> > > +#define HDM_DECODE_MAX 10 /* 8.2.5.12.1 */
+> > > +#define CXL_HDM_REGISTERS_OFFSET \
+> > > +    (CXL_LINK_REGISTERS_OFFSET + CXL_LINK_REGISTERS_SIZE) /* 8.2.5.12 */
+> > > +#define CXL_HDM_REGISTERS_SIZE (0x20 + HDM_DECODE_MAX * 10)
+> > > +#define HDM_DECODER_INIT(n, base)                          \
+> > > +    REG32(CXL_HDM_DECODER##n##_BASE_LO, base + 0x10)       \  
+> > 
+> > Offset n should be included in the address calc.  It's always 0 at the moment
+> > but might as well put it in now.  Mind you there is something a bit odd
+> > in the spec I'm looking at. Nothing defined at 0x2c but no reserved line
+> > either in the table.  
+> 
+> My guess is some earlier version of the spec had the decoder registers as 64b
+> and so they wanted to keep natural alignment.
+
+Agreed, but having a hole in the spec isn't great.  Looks like a reserved
+field should be inserted.
+
+> 
+> > 
+...
+
+> >   
+> > > +#define PCIE_DVSEC_ID_OFFSET     0x8
+> > > +
+> > > +#define PCIE_CXL_DEVICE_DVSEC_LENGTH 0x38
+> > > +#define PCIE_CXL_DEVICE_DVSEC_REVID  1  
+> > 
+> > Make it clear this is the CXL 2.0 revid.
+> > It would be 0 for CXL 1.1 I think? (8.1.3 of CXL 2.0 spec)  
+> 
+> Got it. BTW, you're correct. It is in the verbiage there
+> "DVSEC Revision ID of 0h represents the structure as defined in CXL 1.1 specification."
+> 
+> A bit hidden IMO.
+
+Yes, it's 'fun' finding some stuff in that doc, though most things you are looking
+for turn out to be somewhere at least.
+
+> 
+> > 
+> >   
+> > > +
+> > > +#define EXTENSIONS_PORT_DVSEC_LENGTH 0x28
+> > > +#define EXTENSIONS_PORT_DVSEC_REVID  1  
+> > 
+> > I'm assuming this is the CXL 2.0 exensions DVSEC for ports
+> > in figure 128?
+> > 
+> > If so table 128 has dvsec revision as 0. 
+> >   
+> 
+> Good catch, btw a shortcut is to look at Table 124.
+
+Good point - I'd missed the revision column in that :)
+
+> 
+> > > +
+> > > +#define GPF_PORT_DVSEC_LENGTH 0x10
+> > > +#define GPF_PORT_DVSEC_REVID  0
+> > > +
+> > > +#define PCIE_FLEXBUS_PORT_DVSEC_LENGTH_2_0 0x14
+> > > +#define PCIE_FLEXBUS_PORT_DVSEC_REVID_2_0  1
+> > > +
+> > > +#define REG_LOC_DVSEC_LENGTH 0x24
+> > > +#define REG_LOC_DVSEC_REVID  0  
+> > 
+> > Whilst I appreciate this is an RFC it would seem more logical
+> > to me to only list things in the following enum if we
+> > have also defined them here.  E.g. GPF_DEVICE_DVSEC doesn't
+> > have length and revid defines.
+> >   
+> > > +
+> > > +enum {
+> > > +    PCIE_CXL_DEVICE_DVSEC      = 0,
+> > > +    NON_CXL_FUNCTION_MAP_DVSEC = 2,
+> > > +    EXTENSIONS_PORT_DVSEC      = 3,
+> > > +    GPF_PORT_DVSEC             = 4,
+> > > +    GPF_DEVICE_DVSEC           = 5,
+> > > +    PCIE_FLEXBUS_PORT_DVSEC    = 7,
+> > > +    REG_LOC_DVSEC              = 8,
+> > > +    MLD_DVSEC                  = 9,
+> > > +    CXL20_MAX_DVSEC
+> > > +};
+> > > +
+> > > +struct dvsec_header {
+> > > +    uint32_t cap_hdr;
+> > > +    uint32_t dv_hdr1;
+> > > +    uint16_t dv_hdr2;
+> > > +} __attribute__((__packed__));
+> > > +_Static_assert(sizeof(struct dvsec_header) == 10,
+> > > +               "dvsec header size incorrect");
+> > > +
+> > > +/*
+> > > + * CXL 2.0 devices must implement certain DVSEC IDs, and can [optionally]
+> > > + * implement others.
+> > > + *
+> > > + * CXL 2.0 Device: 0, [2], 5, 8
+> > > + * CXL 2.0 RP: 3, 4, 7, 8
+> > > + * CXL 2.0 Upstream Port: [2], 7, 8
+> > > + * CXL 2.0 Downstream Port: 3, 4, 7, 8
+> > > + */
+> > > +
+> > > +/* CXL 2.0 - 8.1.5 (ID 0003) */
+> > > +struct dvsec_port {  
+> > 
+> > I'd keep naming consistent.  It's called EXTENSIONS_PORT_DVSEC above
+> > so extensions_dvsec_port here.
+> >   
+> > > +    struct dvsec_header hdr;
+> > > +    uint16_t status;
+> > > +    uint16_t control;
+> > > +    uint8_t alt_bus_base;
+> > > +    uint8_t alt_bus_limit;
+> > > +    uint16_t alt_memory_base;
+> > > +    uint16_t alt_memory_limit;
+> > > +    uint16_t alt_prefetch_base;
+> > > +    uint16_t alt_prefetch_limit;
+> > > +    uint32_t alt_prefetch_base_high;
+> > > +    uint32_t alt_prefetch_base_low;
+> > > +    uint32_t rcrb_base;
+> > > +    uint32_t rcrb_base_high;
+> > > +};
+> > > +_Static_assert(sizeof(struct dvsec_port) == 0x28, "dvsec port size incorrect");
+> > > +#define PORT_CONTROL_OVERRIDE_OFFSET 0xc  
+> > I'm not totally sure what this define is, but seems
+> > like it's simply the offset of the control field above.
+> > If so can't we get it from the there directly?  
+> 
+> Firstly, I only define these to show how one would handle DVSEC writes. I don't
+> actually have a use for them as of now. It is just the offset, but I don't know
+> what you mean by getting it from there directly. Could you elaborate a bit?
+
+As you have a packed representation you should be able to do some
+address arthmetic to get it.  offsetof(dvsec_port, control) I think....
+
+Thanks,
+
+Jonathan
 
