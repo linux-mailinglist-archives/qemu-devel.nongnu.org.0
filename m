@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5524B2B6ACE
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 17:58:38 +0100 (CET)
-Received: from localhost ([::1]:35154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC9E92B6AC3
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 17:56:44 +0100 (CET)
+Received: from localhost ([::1]:55500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf4JR-00022x-A9
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 11:58:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43378)
+	id 1kf4Hb-0007An-P6
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 11:56:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kf4ER-00026r-Ms
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:27 -0500
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:36746)
+ id 1kf4ES-00029P-Nw
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:28 -0500
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:37596)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kf4EP-000759-NG
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:27 -0500
-Received: by mail-ej1-x643.google.com with SMTP id o21so30406228ejb.3
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:53:25 -0800 (PST)
+ id 1kf4EQ-00075N-Nl
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:28 -0500
+Received: by mail-ej1-x644.google.com with SMTP id f20so30406138ejz.4
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:53:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XQrna4rwZXMJJQSjXOwFxD8k5atGx5lFfFM7NcFB024=;
- b=DhdjDQMovt9sIrNXiQvZkjKPY8RBi7bHVLsPiRaVY3u7MxGZuzr2mk9obJTMLiljZz
- H09o+Yg6NSwbko8r+bMcGcBCK7qybAwQHc4WS0GZpi2VGMXvy9hmqCrxV0Iv6p/pwFmY
- vpmuKs15L4uLGpmYFLXjWZlSS2wMh008u335oBlp2KwMSUZVtrWGgBBOSEWWakRjfYcP
- JjflxIZ4Dsa00Ba1oxO1f/fAsAIZ8HW+qwcRNHnwgA/xD4W8uv2Uvx0oy3A/MUa/zC5T
- sCTJxAq2jeH3DpDv5LCO8vRao2xJZTy/3yJDlHQQUxNvC69Auh0CyG/0wupf+k5wML0w
- +r9g==
+ bh=diMMQnnjwdchxcFLq3HawYvuPKfV5ciSzV6TIRp0xJo=;
+ b=N75MFvRJ/308yQq7qQBwaJ+NK2I5Y8qyE22wHOOy+/wdBiJjfKwNuZ3xi+xAEl9CdO
+ ZE0zF0CKL/Lw8MEJsIn5xeYQ2YIdsUmp1i0SyEWdeOcXJSh78EGQpbezy4piQ3uHvDas
+ AJCFSqEjCRm1Vft8DrqsY4J5iZpBrOb+zEHiXSd8hSIkc5eAz3IYeMcbWR6RLH1UIsOK
+ 1wgjsw469Ef0SUfk2TxqhCMBDZC6uxmjwd5NtV5w3s+gf11hAGgQzPwdQlOiZFS04OLs
+ L3ipHpGNpfHVL8xcETcIXZquXQ58Cu/BpfwpCA1x3moqQWZWn0L2c88ntr5uA90KXL19
+ esqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=XQrna4rwZXMJJQSjXOwFxD8k5atGx5lFfFM7NcFB024=;
- b=XTS0a6U0Bn2rZMxvPIXLVBgamERMeA4/9b0yvzXGiGXIuJ+w0rYnul89bowzItgRHy
- XEtoPyfFeseu57738nR2RyL0qU8Vzba6WW3T8y7amwEkUgFd9H3aSe/zlk5kG8vx0KtR
- fIuBqZ04LXU7rICba/yOCL6NVgienMqZOkl0XBCCsh8fvtTYodvVWwsldy5Cr07sk7yJ
- VMEtdioJXZg2wqC4M5sa921LhTb+CSrXyrf+MFkROgiYYEdekR4MRzzXLFsLAOAoutDh
- yT4e/K/b1xdRygh8dgDghh+hGyibfxwdG+fgxIUVFM6Lm/tc5KzNRa9qDGTs7eL6+y7p
- vZqA==
-X-Gm-Message-State: AOAM5335J7YjmtNYvkiCYPJEUFpMihUJlHYUvOGOeoFUZ7uOzLJjpJPc
- XF/59rUpI9sQ0jTsmGbNcaW7zXm4rKk=
-X-Google-Smtp-Source: ABdhPJys5lE9HPclkauEdGIHncXm1/HdsGkNVAQytc/3AOGdW/d9u1qlgH8Cp9VkC8LGKVFAnXnI8Q==
-X-Received: by 2002:a17:907:411b:: with SMTP id
- nw19mr19690576ejb.150.1605632004064; 
- Tue, 17 Nov 2020 08:53:24 -0800 (PST)
+ bh=diMMQnnjwdchxcFLq3HawYvuPKfV5ciSzV6TIRp0xJo=;
+ b=O8Io66SAXKYjh5gkBx4qkmPKenRiVgtiw/BFwimEoKJLilinjXBrWgkWUXrA9W8xJ2
+ sqrPgHX9wRXEZ4HrCT/T2dbBjBDTs7XS+S4y3BCMePHuyE3cNtQp4kWypFzRgAlhqDZ/
+ sdrx/mogj77LIxZ0MyxgyxstgvqMnAfrt+exCxJKR7GXcnSDr11I3aK3tKP+2AOhnwFo
+ hfRZt+Z+vO6SIk5LZwHX9kdiq/qf7JGpK5W1OfBN+mSnPEfds1nqeL65FQUfJ1UAs1J1
+ vqeCUXR8Ord/QOZq7EUo72z8U6ZWKiO4O2QERlh6NloJ5XIB+FZvAxejX8CWcd8jFusa
+ Yqqw==
+X-Gm-Message-State: AOAM531BwY9sz0b61eEx18SWelXGf1j8NyJypBPt16M7lBcY1hyOvsJk
+ BgQ8w6uGfem5UG1Tk3d8/WGPn/C/RXw=
+X-Google-Smtp-Source: ABdhPJwcVocxHEu5CaDlDtY1vjF6/GarnTZrbB2ov85TsdydrYI2s2nQnB/HjT5hFoHsan28NiFNGw==
+X-Received: by 2002:a17:906:e2c3:: with SMTP id
+ gr3mr19651113ejb.471.1605632005052; 
+ Tue, 17 Nov 2020 08:53:25 -0800 (PST)
 Received: from localhost.localdomain ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id u7sm639067ejf.83.2020.11.17.08.53.23
+ by smtp.gmail.com with ESMTPSA id u7sm639067ejf.83.2020.11.17.08.53.24
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Nov 2020 08:53:23 -0800 (PST)
+ Tue, 17 Nov 2020 08:53:24 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/29] scripts/kernel-doc: parse
- __ETHTOOL_DECLARE_LINK_MODE_MASK
-Date: Tue, 17 Nov 2020 17:52:51 +0100
-Message-Id: <20201117165312.118257-9-pbonzini@redhat.com>
+Subject: [PATCH 09/29] scripts/kernel-doc: handle function pointer prototypes
+Date: Tue, 17 Nov 2020 17:52:52 +0100
+Message-Id: <20201117165312.118257-10-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201117165312.118257-1-pbonzini@redhat.com>
 References: <20201117165312.118257-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x643.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x644.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -93,36 +92,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The __ETHTOOL_DECLARE_LINK_MODE_MASK macro is a variant of
-DECLARE_BITMAP(), used by phylink.h. As we have already a
-parser for DECLARE_BITMAP(), let's add one for this macro,
-in order to avoid such warnings:
+There are some function pointer prototypes inside the net
+includes, like this one:
 
-	./include/linux/phylink.h:54: warning: Function parameter or member '__ETHTOOL_DECLARE_LINK_MODE_MASK(advertising' not described in 'phylink_link_state'
-	./include/linux/phylink.h:54: warning: Function parameter or member '__ETHTOOL_DECLARE_LINK_MODE_MASK(lp_advertising' not described in 'phylink_link_state'
+	int (*pcs_config)(struct phylink_config *config, unsigned int mode,
+			  phy_interface_t interface, const unsigned long *advertising);
+
+There's nothing wrong using it with kernel-doc, but we need to
+add a rule for it to parse such kind of prototype.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Link: https://lore.kernel.org/r/d1d1dea67a28117c0b0c33271b139c4455fef287.1592895969.git.mchehab+huawei@kernel.org
+Link: https://lore.kernel.org/r/fec520dd731a273013ae06b7653a19c7d15b9562.1592895969.git.mchehab+huawei@kernel.org
 Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/kernel-doc | 2 ++
- 1 file changed, 2 insertions(+)
+ scripts/kernel-doc | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index fadc2f5b86..e8fff6a525 100755
+index e8fff6a525..1cdece23fb 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -1113,7 +1113,9 @@ sub dump_struct($$) {
- 	$members =~ s/\s*__packed\s*/ /gos;
- 	$members =~ s/\s*CRYPTO_MINALIGN_ATTR/ /gos;
- 	$members =~ s/\s*____cacheline_aligned_in_smp/ /gos;
+@@ -1801,6 +1801,11 @@ sub process_proto_function($$) {
+ 	$prototype =~ s@/\*.*?\*/@@gos;	# strip comments.
+ 	$prototype =~ s@[\r\n]+@ @gos; # strip newlines/cr's.
+ 	$prototype =~ s@^\s+@@gos; # strip leading spaces
 +
- 	# replace DECLARE_BITMAP
-+	$members =~ s/__ETHTOOL_DECLARE_LINK_MODE_MASK\s*\(([^\)]+)\)/DECLARE_BITMAP($1, __ETHTOOL_LINK_MODE_MASK_NBITS)/gos;
- 	$members =~ s/DECLARE_BITMAP\s*\(([^,)]+),\s*([^,)]+)\)/unsigned long $1\[BITS_TO_LONGS($2)\]/gos;
- 	# replace DECLARE_HASHTABLE
- 	$members =~ s/DECLARE_HASHTABLE\s*\(([^,)]+),\s*([^,)]+)\)/unsigned long $1\[1 << (($2) - 1)\]/gos;
++	 # Handle prototypes for function pointers like:
++	 # int (*pcs_config)(struct foo)
++	$prototype =~ s@^(\S+\s+)\(\s*\*(\S+)\)@$1$2@gos;
++
+ 	if ($prototype =~ /SYSCALL_DEFINE/) {
+ 		syscall_munge();
+ 	}
 -- 
 2.28.0
 
