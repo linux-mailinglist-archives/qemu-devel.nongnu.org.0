@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06E572B6AC1
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 17:56:41 +0100 (CET)
-Received: from localhost ([::1]:55116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E08852B6AB7
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 17:54:48 +0100 (CET)
+Received: from localhost ([::1]:47154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf4HY-00071E-1g
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 11:56:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43304)
+	id 1kf4Fj-0003iV-SQ
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 11:54:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kf4EM-0001wx-R1
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:22 -0500
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:38817)
+ id 1kf4EO-0001zZ-Cx
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:24 -0500
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:34857)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kf4EK-00072p-Mp
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:22 -0500
-Received: by mail-ej1-x642.google.com with SMTP id a16so2627912ejj.5
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:53:20 -0800 (PST)
+ id 1kf4EM-00073q-9k
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:24 -0500
+Received: by mail-ej1-x643.google.com with SMTP id f23so30458748ejk.2
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:53:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nAr7FMMY1Aekrxeh4MeSfYXr651AgfiypgckE+9CcNk=;
- b=UKXuRsb0ue0nf1raLR4Pd6olHOOT22WzzDo3P25IHe4ufm6Y7ZZCk5PK8XCEF+4bIm
- E15Rm7HxOQIzGi2yRK1Hx24z0AqesjaJlo86smuVDNnh582ADqDHV+2IEqHPz2yf+EFP
- LC/5DFhRI8OJafjHqIJzEELLLjKP34htqKwa9BahzdslNQYROPU5p/e30F5j+bU1ZOUK
- RfJMDBUIIPpQi5fPx34T5wj30pvBtm5bTc9QsCD0uRRQ+aCGLl0o0gGdgH/fYtixUomd
- mF7VZkGUIXcy5pYU6OTSJDlcUsxdlzinS6z5KneGSZXdAdqOJ1DNBy/feSjiX/xwfk1b
- JANQ==
+ bh=ArDMKySatkMVEUjIFtkfkJUZ/d5fmcXFZVM5ofr2RH0=;
+ b=R9hSN4keg1Zrt2jt25PXAKIiPCXCcQBilYLO6EmVKOqbw/IIBpjz8dRZ1VGINXCAkt
+ PL0YnOFEWR9bzMeWgD7Lt66GZB+K802ufbunydzOnEVrIuwrzpcpMKANW8WFXHRTKkUG
+ 5Gv/GfwqOIqUhwLqQ9l86LgaO6ltoc11dHITk7v1zEbwLM7RL5yKq1mvz9gQr++eEIzp
+ 2Y8PawiYeD27PRliHWlmwvtzHPQWdMWdukeAIwjKeKYEz1EdaBOk5v7+DZmpKf+AQuVk
+ CeZ9HMCXjMjvOXfo2mF5Nv8RpjP0L6lmNXLy4gEszDC8IQb9lTnC7abx6i8UBl/dQWE9
+ WZDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=nAr7FMMY1Aekrxeh4MeSfYXr651AgfiypgckE+9CcNk=;
- b=tjZQD8M5zNiff7Ttxa7kmvCn5X1WzsbJ9PczB+CSjXvhHgZoNCDBCokQHoQhEvr/Nr
- 08q046NUn01+DQiWib/c+OXZ4NNoOVjX3R6rC8B5Y6Rgd7QYbdkhZg4g8Kyq/pNyVL+L
- lheMYLJ26HyPQw4wYb0HjK5o+8dY+vMQm7ffelKdKs/cwEkLb1zPp4uLTOD2O4Raq/OY
- Jp8ltDMKwsXv4qmRt5WnSHpQMTbYCWdkjCBLNaTBxdKzZB4qsOzuwONn7RUJDqnfCxGI
- Kx9ahHOaaQU9vbA6J7/ujfyjRKHyYB2JVKS2gQ9wsl30vcuet+vhFo2HzvjV3Nhyl85V
- JbZw==
-X-Gm-Message-State: AOAM530E0Mr9D0CLRea69H96nvqcsdA/VveuD4ojJsXcPg+aqX1b49b+
- PtY9TnWPfi5YBFydnoS9U1oqXVwwMPU=
-X-Google-Smtp-Source: ABdhPJzGQ+++xv5cVoLsw39rGUUwgGyxj9M3iCgCOhSJOeo1Wrp+rohxH1Raknoc8SOJUiJKH8S32A==
-X-Received: by 2002:a17:906:6d99:: with SMTP id
- h25mr20581507ejt.281.1605631998425; 
- Tue, 17 Nov 2020 08:53:18 -0800 (PST)
+ bh=ArDMKySatkMVEUjIFtkfkJUZ/d5fmcXFZVM5ofr2RH0=;
+ b=tEYI5xV1tLXFueXhxPdS1wLTdKLhBA/8Bmb+Au5wgGt+l22BNNfjf0ReWTRQzkQMdJ
+ ps5T4USFB3F5bk3DjzRUh1UXHra8KBAHJgAqD5eqtKkCRhhwP0G/E1s4xy4PX0rVv9C8
+ 4DzrZ5EdCNzT1SDpibnEVme6ANqUu0ncUIALMtpQ6WlY0xDvrz0UNnJmxgJ5vXM5v205
+ Yy7mH7FxEDqrFcw0i0q1j7KMqihD4ouUAvfO0tDE2LvHS6g5vHyliKfrp6PSVOMwtSAs
+ my1qvhd0kfw0R6OYVVjoKoOev5XdVpgA3gr3etvD8sMJPU751OCF4ASLCNDf75KMfnaD
+ D8bQ==
+X-Gm-Message-State: AOAM533DBWIp3L094vzhm3htfEfWDz9ez40CW8ltUPKL7P/x8NfmmcV9
+ B06TAczEbN5F5pijg6oewrhekhxykhI=
+X-Google-Smtp-Source: ABdhPJwbfV0/x1notpgJgS+mRhGcNXK3T/XD+ttoA8oE9X7EUXClGTLLWmK9NwJ++BN9KxarGRR9AA==
+X-Received: by 2002:a17:906:e4f:: with SMTP id
+ q15mr19729316eji.220.1605631999505; 
+ Tue, 17 Nov 2020 08:53:19 -0800 (PST)
 Received: from localhost.localdomain ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id u7sm639067ejf.83.2020.11.17.08.53.17
+ by smtp.gmail.com with ESMTPSA id u7sm639067ejf.83.2020.11.17.08.53.18
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Nov 2020 08:53:17 -0800 (PST)
+ Tue, 17 Nov 2020 08:53:18 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/29] scripts/kernel-doc: Add support for named variable
- macro arguments
-Date: Tue, 17 Nov 2020 17:52:46 +0100
-Message-Id: <20201117165312.118257-4-pbonzini@redhat.com>
+Subject: [PATCH 04/29] scripts: kernel-doc: proper handle @foo->bar()
+Date: Tue, 17 Nov 2020 17:52:47 +0100
+Message-Id: <20201117165312.118257-5-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201117165312.118257-1-pbonzini@redhat.com>
 References: <20201117165312.118257-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x642.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -92,85 +90,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Currently, when kernel-doc encounters a macro with a named variable
-argument[1], such as this:
+The pattern @foo->bar() is valid, as it can be used by a
+function pointer inside a struct passed as a parameter.
 
-   #define hlist_for_each_entry_rcu(pos, head, member, cond...)
+Right now, it causes a warning:
 
-... it expects the variable argument to be documented as `cond...`,
-rather than `cond`. This is semantically wrong, because the name (as
-used in the macro body) is actually `cond`.
+	./drivers/firewire/core-transaction.c:606: WARNING: Inline strong start-string without end-string.
 
-With this patch, kernel-doc will accept the name without dots (`cond`
-in the example above) in doc comments, and warn if the name with dots
-(`cond...`) is used and verbose mode[2] is enabled.
+In this specific case, the kernel-doc markup is:
 
-The support for the `cond...` syntax can be removed later, when the
-documentation of all such macros has been switched to the new syntax.
+	/**
+	 * fw_core_remove_address_handler() - unregister an address handler
+	 * @handler: callback
+	 *
+	 * To be called in process context.
+	 *
+	 * When fw_core_remove_address_handler() returns, @handler->callback() is
+	 * guaranteed to not run on any CPU anymore.
+	 */
 
-Testing this patch on top of v5.4-rc6, `make htmldocs` shows a few
-changes in log output and HTML output:
+With seems valid on my eyes. So, instead of trying to hack
+the kernel-doc markup, let's teach it about how to handle
+such things. This should likely remove lots of other similar
+warnings as well.
 
- 1) The following warnings[3] are eliminated:
-
-   ./include/linux/rculist.h:374: warning:
-        Excess function parameter 'cond' description in 'list_for_each_entry_rcu'
-   ./include/linux/rculist.h:651: warning:
-        Excess function parameter 'cond' description in 'hlist_for_each_entry_rcu'
-
- 2) For list_for_each_entry_rcu and hlist_for_each_entry_rcu, the
-    correct description is shown
-
- 3) Named variable arguments are shown without dots
-
-[1]: https://gcc.gnu.org/onlinedocs/cpp/Variadic-Macros.html
-[2]: scripts/kernel-doc -v
-[3]: See also https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git/commit/?h=dev&id=5bc4bc0d6153617eabde275285b7b5a8137fdf3c
-
-Signed-off-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
-Tested-by: Paul E. McKenney <paulmck@kernel.org>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Link: https://lore.kernel.org/r/48b46426d7bf6ff7529f20e5718fbf4e9758e62c.1586881715.git.mchehab+huawei@kernel.org
 Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/kernel-doc | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ scripts/kernel-doc | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 2f421b7313..0f67664165 100755
+index 0f67664165..99530fb08b 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -1480,6 +1480,10 @@ sub push_parameter($$$$) {
- 	      # handles unnamed variable parameters
- 	      $param = "...";
- 	    }
-+	    elsif ($param =~ /\w\.\.\.$/) {
-+	      # for named variable parameters of the form `x...`, remove the dots
-+	      $param =~ s/\.\.\.$//;
-+	    }
- 	    if (!defined $parameterdescs{$param} || $parameterdescs{$param} eq "") {
- 		$parameterdescs{$param} = "variable arguments";
- 	    }
-@@ -1967,6 +1971,18 @@ sub process_name($$) {
- sub process_body($$) {
-     my $file = shift;
- 
-+    # Until all named variable macro parameters are
-+    # documented using the bare name (`x`) rather than with
-+    # dots (`x...`), strip the dots:
-+    if ($section =~ /\w\.\.\.$/) {
-+	$section =~ s/\.\.\.$//;
-+
-+	if ($verbose) {
-+	    print STDERR "${file}:$.: warning: Variable macro arguments should be documented without dots\n";
-+	    ++$warnings;
-+	}
-+    }
-+
-     if (/$doc_sect/i) { # case insensitive for supported section names
- 	$newsection = $1;
- 	$newcontents = $2;
+@@ -216,6 +216,7 @@ my $type_constant2 = '\%([-_\w]+)';
+ my $type_func = '(\w+)\(\)';
+ my $type_param = '\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
+ my $type_fp_param = '\@(\w+)\(\)';  # Special RST handling for func ptr params
++my $type_fp_param2 = '\@(\w+->\S+)\(\)';  # Special RST handling for structs with func ptr params
+ my $type_env = '(\$\w+)';
+ my $type_enum = '#(enum\s*([_\w]+))';
+ my $type_struct = '#(struct\s*([_\w]+))';
+@@ -251,6 +252,7 @@ my @highlights_rst = (
+                        [$type_member_func, "\\:c\\:type\\:`\$1\$2\$3\\\\(\\\\) <\$1>`"],
+                        [$type_member, "\\:c\\:type\\:`\$1\$2\$3 <\$1>`"],
+ 		       [$type_fp_param, "**\$1\\\\(\\\\)**"],
++		       [$type_fp_param2, "**\$1\\\\(\\\\)**"],
+                        [$type_func, "\$1()"],
+                        [$type_enum, "\\:c\\:type\\:`\$1 <\$2>`"],
+                        [$type_struct, "\\:c\\:type\\:`\$1 <\$2>`"],
 -- 
 2.28.0
 
