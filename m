@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67CAD2B5E93
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 12:48:34 +0100 (CET)
-Received: from localhost ([::1]:44300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 146A52B5E9D
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 12:49:04 +0100 (CET)
+Received: from localhost ([::1]:46108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kezTN-0000sZ-HA
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 06:48:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49936)
+	id 1kezTr-0001d9-59
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 06:49:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kezQS-0007M4-Ij
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 06:45:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52424)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kezQQ-00082L-38
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 06:45:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605613528;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QxY4UqZf4gJmvDKADBBZL/DLc3RbCkyBC5jEFej02Pw=;
- b=S2/k96lphTO2OvlhRBmCW/X3AjKRivoUH1YvQMd4ZW4D+3GoRBhW4Hvw9XiCZpJAP7bHn/
- nLBr8Vwe4JQZx5qGPHHTntfvV4e1y4H634UTetdQOJT+NktIzs5Tu7MiTuIhc5PGw2lndV
- 38GRCwQoVc29YY6MMpHs8xKOA9wDg/Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-564-tj-qtaBzNSOnScqnf18RwQ-1; Tue, 17 Nov 2020 06:45:26 -0500
-X-MC-Unique: tj-qtaBzNSOnScqnf18RwQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21F0E57097;
- Tue, 17 Nov 2020 11:45:24 +0000 (UTC)
-Received: from localhost (ovpn-113-172.ams2.redhat.com [10.36.113.172])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 72F165D9CC;
- Tue, 17 Nov 2020 11:45:09 +0000 (UTC)
-Date: Tue, 17 Nov 2020 11:45:08 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v2 4/7] qapi: Use QAPI_LIST_PREPEND() where possible
-Message-ID: <20201117114508.GI131917@stefanha-x1.localdomain>
-References: <20201113011340.463563-1-eblake@redhat.com>
- <20201113011340.463563-5-eblake@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kezRv-0000jj-9j; Tue, 17 Nov 2020 06:47:03 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:34551)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kezRt-000089-Ic; Tue, 17 Nov 2020 06:47:03 -0500
+Received: by mail-wr1-x442.google.com with SMTP id r17so22890884wrw.1;
+ Tue, 17 Nov 2020 03:47:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BUzHDIJvM7T4wLFIeN2N+aVQfm+vrWPFdkmupYjZjVY=;
+ b=EUcgOXvHEtCCUt7vHYKnKzgwKD/COPfVB868020gMgHQOsHREefLEiHhoiqAIVURX6
+ 0FJLbvts3BrO+9jlfypwTvGOqcSPuuLrT60PO7yVxarnpmCe2nr5/JQA0Avm+g22KxXG
+ oslW7Yqc/zyjX6M/dRDqxxtO4NgpsKquoIEPxru0BZeDJWwikgtAQxh1eRNR0kJZ31+L
+ hPBqvgjp+8qWaZM9gkYXsCW4OTu13bcJVNeS0LfqDWkwXZR02HvP9mfXgLRtGTFLewXN
+ x0PDRBFjjLK+C/lUAXzS/ZIF/hBCXd9J+HP7l1gzRf7JHvQ0BBZmjEHMqFCtFsoh1wRp
+ 09rQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=BUzHDIJvM7T4wLFIeN2N+aVQfm+vrWPFdkmupYjZjVY=;
+ b=nAJ5egN/W6KnoZ7XqbrWk2j5tZBdGQ3UBT1OXc1BAyZ0Cflmz9/YJrqzkCPbYNV1N2
+ Nh/XpiNwYPpmHexME5G9jSBbKgtQUaLhf8jvhqIxrBHUZNFrU3yWUrTQ+l5wU3NyREc6
+ ZFugt/isKI0zURDOzhhztEST3nS7KMVDzI3co1bCd5UhJdwgwD+Ic/xakzq5BbVQYPiK
+ sZW7kqcwHLDbXmWq5pdWSXFkzGgQbJnlrPBQH1+lOoqwKqkdoSn3DB5IjEJlY43IrHOJ
+ hQRd7QCiB537lop/6hFmy8ODHpTYGJrPJv37j7syiITSemfffrbFzh3iNKtfQQQEo8Tf
+ J34w==
+X-Gm-Message-State: AOAM530H+/cRocefdDoQRm3baKAM4Aweu2/KbwWCAOtv6kCDL0PU46b5
+ CSyo3K1Ums0vynFdF9Ovvc8nqUR3vlI=
+X-Google-Smtp-Source: ABdhPJwrIxHbUWYVnuYtWPdx5Jb32uLtzmWiQHIjFt1W+XVm+kJn/oBIfD5bDrA+SUUzyv9JwSLESw==
+X-Received: by 2002:adf:f041:: with SMTP id t1mr25026819wro.139.1605613618687; 
+ Tue, 17 Nov 2020 03:46:58 -0800 (PST)
+Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id 35sm27419340wro.71.2020.11.17.03.46.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Nov 2020 03:46:58 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH-for-5.2?] MAINTAINERS: Fix default-configs/ entries
+Date: Tue, 17 Nov 2020 12:46:56 +0100
+Message-Id: <20201117114656.1222555-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20201113011340.463563-5-eblake@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="6lCXDTVICvIQMz0h"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 00:41:22
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,103 +83,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>,
- Gerd Hoffmann <kraxel@redhat.com>, "open list:GLUSTER" <qemu-block@nongnu.org>,
- Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
- armbru@redhat.com, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, Thomas Huth <thuth@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Richard Henderson <rth@twiddle.net>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Jiri Pirko <jiri@resnulli.us>, Eduardo Habkost <ehabkost@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "open list:S390 KVM CPUs" <qemu-s390x@nongnu.org>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
- "open list:GLUSTER" <integration@gluster.org>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Max Reitz <mreitz@redhat.com>,
- "open list:PowerPC TCG CPUs" <qemu-ppc@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---6lCXDTVICvIQMz0h
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Update the F: line after the Meson refactor.
 
-On Thu, Nov 12, 2020 at 07:13:37PM -0600, Eric Blake wrote:
-> Anywhere we create a list of just one item or by prepending items
-> (typically because order doesn't matter), we can use the now-public
-> macro.  But places where we must keep the list in order by appending
-> remain open-coded until later patches.
->=20
-> Note that as a side effect, this also performs a cleanup of two minor
-> issues in qga/commands-posix.c: the old code was performing
->  new =3D g_malloc0(sizeof(*ret));
-> which 1) is confusing because you have to verify whether 'new' and
-> 'ret' are variables with the same type, and 2) would conflict with C++
-> compilation (not an actual problem for this file, but makes
-> copy-and-paste harder).
->=20
-> Signed-off-by: Eric Blake <eblake@redhat.com>
-> ---
->  docs/devel/writing-qmp-commands.txt |  12 +--
->  block/gluster.c                     |   4 +-
->  block/qapi.c                        |   7 +-
->  chardev/char.c                      |  20 ++---
->  hw/core/machine-qmp-cmds.c          |   6 +-
->  hw/core/machine.c                   |  11 +--
->  hw/net/rocker/rocker_of_dpa.c       |  20 ++---
->  hw/net/virtio-net.c                 |  21 ++----
->  migration/migration.c               |   7 +-
->  migration/postcopy-ram.c            |   7 +-
->  monitor/hmp-cmds.c                  |  13 ++--
->  monitor/misc.c                      |  25 +++---
->  monitor/qmp-cmds-control.c          |  10 +--
->  qemu-img.c                          |   5 +-
->  qga/commands-posix-ssh.c            |   7 +-
->  qga/commands-posix.c                |  46 +++--------
->  qga/commands-win32.c                |  32 ++------
->  qga/commands.c                      |   6 +-
->  qom/qom-qmp-cmds.c                  |  29 ++-----
->  target/arm/helper.c                 |   6 +-
->  target/arm/monitor.c                |  13 +---
->  target/i386/cpu.c                   |   6 +-
->  target/mips/helper.c                |   6 +-
->  target/s390x/cpu_models.c           |  12 +--
->  tests/test-clone-visitor.c          |   7 +-
->  tests/test-qobject-output-visitor.c |  42 +++++------
->  tests/test-visitor-serialization.c  | 113 ++++------------------------
->  trace/qmp.c                         |  22 +++---
->  ui/input.c                          |  16 ++--
->  ui/vnc.c                            |  21 ++----
->  util/qemu-config.c                  |  14 +---
->  target/ppc/translate_init.c.inc     |  12 +--
->  32 files changed, 158 insertions(+), 420 deletions(-)
+Fixes: 1bb4cb1c338..73362fc0b0c ("default-configs: ...")
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ MAINTAINERS | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
-
---6lCXDTVICvIQMz0h
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+zt8QACgkQnKSrs4Gr
-c8hDhQf+L+hNWNd8XdGQ9pCFfFVridvlCLSADlS2y068TIxm3ULn6992E/HIwgNE
-XTPQv9doC8lpzcvqJuU2ymAZJYG7+z3S4vDey718utlHEzd9OlnrL5jr/bWATcEU
-TO37SfDmorxQh6ocRX99I4wYqTgXXWNj/7yWjrluwWtZ+2U/cuSNxNTmc0BVoxdT
-JEc67hGQynMWUHnI3WstlcuiqGfeH2YD3P3s6QqwKtg7X0uehiFPbBmYn8+F8R2V
-zL/zlGTtQvUzNEJhMh7QVwDtYqxeFt8BsU4D7u27VAf7gHfdnXmyvUktukA41dp+
-Huec0TudNHVqqA3ypLRmZMoqxWh/SA==
-=OD36
------END PGP SIGNATURE-----
-
---6lCXDTVICvIQMz0h--
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 2e018a0c1da..6378b5ae416 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -87,7 +87,7 @@ S390 general architecture support
+ M: Cornelia Huck <cohuck@redhat.com>
+ M: Thomas Huth <thuth@redhat.com>
+ S: Supported
+-F: default-configs/s390x-softmmu.mak
++F: default-configs/*/s390x-softmmu.mak
+ F: gdb-xml/s390*.xml
+ F: hw/char/sclp*.[hc]
+ F: hw/char/terminal3270.c
+@@ -226,7 +226,7 @@ R: Jiaxun Yang <jiaxun.yang@flygoat.com>
+ R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+ S: Odd Fixes
+ F: target/mips/
+-F: default-configs/*mips*
++F: default-configs/*/*mips*
+ F: disas/mips.c
+ F: docs/system/cpu-models-mips.rst.inc
+ F: hw/intc/mips_gic.c
+@@ -250,7 +250,7 @@ S: Maintained
+ F: target/moxie/
+ F: disas/moxie.c
+ F: hw/moxie/
+-F: default-configs/moxie-softmmu.mak
++F: default-configs/*/moxie-softmmu.mak
+ 
+ NiosII TCG CPUs
+ M: Chris Wulff <crwulff@gmail.com>
+@@ -260,7 +260,7 @@ F: target/nios2/
+ F: hw/nios2/
+ F: hw/intc/nios2_iic.c
+ F: disas/nios2.c
+-F: default-configs/nios2-softmmu.mak
++F: default-configs/*/nios2-softmmu.mak
+ 
+ OpenRISC TCG CPUs
+ M: Stafford Horne <shorne@gmail.com>
+@@ -353,7 +353,7 @@ F: hw/xtensa/
+ F: tests/tcg/xtensa/
+ F: disas/xtensa.c
+ F: include/hw/xtensa/xtensa-isa.h
+-F: default-configs/xtensa*.mak
++F: default-configs/*/xtensa*.mak
+ 
+ TriCore TCG CPUs
+ M: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+@@ -1018,7 +1018,7 @@ AVR MCUs
+ M: Michael Rolnik <mrolnik@gmail.com>
+ R: Sarah Harris <S.E.Harris@kent.ac.uk>
+ S: Maintained
+-F: default-configs/avr-softmmu.mak
++F: default-configs/*/avr-softmmu.mak
+ F: hw/avr/
+ F: include/hw/char/avr_usart.h
+ F: hw/char/avr_usart.c
+@@ -1047,7 +1047,7 @@ HP B160L
+ M: Richard Henderson <richard.henderson@linaro.org>
+ R: Helge Deller <deller@gmx.de>
+ S: Odd Fixes
+-F: default-configs/hppa-softmmu.mak
++F: default-configs/*/hppa-softmmu.mak
+ F: hw/hppa/
+ F: pc-bios/hppa-firmware.img
+ 
+@@ -1420,7 +1420,7 @@ F: hw/s390x/
+ F: include/hw/s390x/
+ F: hw/watchdog/wdt_diag288.c
+ F: include/hw/watchdog/wdt_diag288.h
+-F: default-configs/s390x-softmmu.mak
++F: default-configs/*/s390x-softmmu.mak
+ T: git https://github.com/cohuck/qemu.git s390-next
+ T: git https://github.com/borntraeger/qemu.git s390-next
+ L: qemu-s390x@nongnu.org
+@@ -2792,13 +2792,13 @@ F: accel/tcg/user-exec*.c
+ BSD user
+ S: Orphan
+ F: bsd-user/
+-F: default-configs/*-bsd-user.mak
++F: default-configs/targets/*-bsd-user.mak
+ 
+ Linux user
+ M: Laurent Vivier <laurent@vivier.eu>
+ S: Maintained
+ F: linux-user/
+-F: default-configs/*-linux-user.mak
++F: default-configs/targets/*linux-user.mak
+ F: scripts/qemu-binfmt-conf.sh
+ F: scripts/update-syscalltbl.sh
+ F: scripts/update-mips-syscall-args.sh
+-- 
+2.26.2
 
 
