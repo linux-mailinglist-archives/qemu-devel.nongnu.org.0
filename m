@@ -2,68 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 079FB2B6856
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 16:11:36 +0100 (CET)
-Received: from localhost ([::1]:43894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FEC12B686F
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 16:16:08 +0100 (CET)
+Received: from localhost ([::1]:52186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf2dr-000674-2T
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 10:11:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46538)
+	id 1kf2iF-0001Jg-7f
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 10:16:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kf2c5-0004wz-No
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 10:09:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50687)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kf2h7-0000pb-Tj
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 10:14:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53479)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kf2c1-0004wR-EU
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 10:09:44 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kf2h0-0006li-Ob
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 10:14:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605625780;
+ s=mimecast20190719; t=1605626088;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=L/44/kaSwn5bTGRI+Vx3gkYmpHc88CQ/6q+syrKe3Vc=;
- b=RFTga5ONshtFjJBiYCsJgumB7LAp/Cv45TABQXWNbgmvUNy5Fo/Ymm31NqDFjDqUVpsmAW
- JUUXJwRnsj7HaqefNZgia1MLSRNu489ZWNLBP/shrsNNH1NjE2ABr8Hy7PbAG7sqziZG90
- Ss0Pq9OEwF25ek3JZDKb0zvnLt1rXrQ=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=6SPwhFAz79Lrdw36vErQ4OtlEc/ZekepLOP+VMRQ9r0=;
+ b=IInYFi125rA6p1YQirTHPWfkxDP8dnBDgccdtUUyI1PZMneyk6LCbsR7ZMiaIkGOITmZqR
+ bdVRk3u8eVNGzuDsOgIT/+P1noLHHhtQpl7Jf+A2dj8IpTzpGgW64ho4Jz1prbL6jBeepH
+ MmIjAVHiDgTLCezH1O11ulIg7xVOZ/E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-329-L1yZbEssOPmI5Badx8q31g-1; Tue, 17 Nov 2020 10:09:37 -0500
-X-MC-Unique: L1yZbEssOPmI5Badx8q31g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-452-zxY2Q1SAOxy56OTw5sVpVw-1; Tue, 17 Nov 2020 10:14:47 -0500
+X-MC-Unique: zxY2Q1SAOxy56OTw5sVpVw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9B9D1800D42;
- Tue, 17 Nov 2020 15:09:35 +0000 (UTC)
-Received: from localhost (ovpn-115-101.rdu2.redhat.com [10.10.115.101])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4E8965C1CF;
- Tue, 17 Nov 2020 15:09:35 +0000 (UTC)
-Date: Tue, 17 Nov 2020 10:09:34 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: =?utf-8?B?6YOt5L+K55SrIChKYWNrIEt1byk=?= <jackkuo@jackkuo.org>
-Subject: Re: Property '.hmat' not found
-Message-ID: <20201117150934.GF1235237@habkost.net>
-References: <69ce94c221fc90c6963c3529ddc46e66@m108.nthu.edu.tw>
- <1547b1c8-36e2-179e-8406-4faf0324f4f2@redhat.com>
- <20201116190221.GA1235237@habkost.net>
- <CALen4BRv-FUnD0P7bMS0bKhZ9uZoSVawa2xvO5Ncb70Z7npJbw@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 486B680364D
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 15:14:46 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E95A119D6C;
+ Tue, 17 Nov 2020 15:14:39 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 61F2B11358BA; Tue, 17 Nov 2020 16:14:38 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Use of g_return_if_fail(), g_return_val_if_fail()
+Date: Tue, 17 Nov 2020 16:14:38 +0100
+Message-ID: <87r1os6mn5.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <CALen4BRv-FUnD0P7bMS0bKhZ9uZoSVawa2xvO5Ncb70Z7npJbw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 01:18:45
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 00:41:22
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -84,268 +79,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, qemu-discuss@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Jack <s108062518@m108.nthu.edu.tw>
+Cc: =?utf-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 17, 2020 at 11:49:38AM +0800, 郭俊甫 (Jack Kuo) wrote:
-> >
-> > Do you have the output of `qemu-system-x86_64 -version`, and more
-> > information on how your binary was built?
-> 
-> 
-> I have 2 machines, both of them encounter the .hmat problem.
-> 
-> (1) *5.1.90 (v5.2.0-rc0*)
->     - follow this wiki [1], and configure cmd: `./configure
-> --target-list=x86_64-softmmu`
->     - i5-8400, Ubuntu 20.04.1 LTS, kernel: 5.4.0-53-generic
+g_return_if_fail(), g_return_val_if_fail() are for programming errors:
 
-This one is supposed to work, and I see the pc-i440fx-5.2.hmat
-property below.
+    If expr evaluates to FALSE, the current function should be
+    considered to have undefined behaviour (a programmer error). The
+    only correct solution to such an error is to change the module that
+    is calling the current function, so that it avoids this incorrect
+    call.
 
+Unlike assert(), they continue regardless, undefined behavior be damned:
 
-> 
-> (2) *4.2.1 (Debian 1:4.2-3ubuntu6.8)*
+    To make this undefined behaviour visible, if expr evaluates to
+    FALSE, the result is usually that a critical message is logged and
+    the current function returns.
 
-This one isn't expect to have "hmat", as the feature was
-introduced in v5.0.0.
+Except when you ask for abort():
 
->     - use apt install qemu
->     - E5-2670 * 2, Ubuntu 20.04.1 LTS, kernel: 5.4.0-53-generic, Dell
-> PowerEdge-R720
-> 
-> I can't reproduce it here.  I've tested both qemu.git master
-> 
-> 
-> That’s strange, also I try the command you (Eduardo) provided, '.hmat' not
-> found, too.
-> Does the kernel module matter? or PC architecture?
+    To debug failure of a g_return_if_fail() check, run the code under a
+    debugger with G_DEBUG=3Dfatal-criticals or G_DEBUG=3Dfatal-warnings
+    defined in the environment.
 
-Kernel or host architecture shouldn't matter.  The choice of
-machine type matters, but the default is supposed to be "pc".
-The output of "-machine help" might be useful to debug it.
+Like assert(), they can be compiled out:
 
-Could you check what happens if you use
-"-machine pc-i440fx-5.2,hmat=on" instead of "-machine hmat=on"?
+    If G_DISABLE_CHECKS is defined then the check is not performed. You
+    should therefore not depend on any side effects of expr .
 
+There are just three uses outside contrib/:
 
-> 
-> Output of `-machine help` and `-machine pc,help` would be useful
-> > to debug it, too.
-> 
-> 
->  (1) *5.1.90 (i5-8400)*
-> *```*
-> $ qemu-system-x86_64 -machine pc,help
-> pc-i440fx-5.2.nvdimm-persistence=string (Set NVDIMM persistenceValid values
-> are cpu, mem-ctrl)
-> pc-i440fx-5.2.hmat=bool (Set on/off to enable/disable ACPI Heterogeneous
-> Memory Attribute Table (HMAT))
-> pc-i440fx-5.2.nvdimm=bool (Set on/off to enable/disable NVDIMM
-> instantiation)
-> pc-i440fx-5.2.pcspk-audiodev=str (ID of an audiodev to use as a backend)
-> pc-i440fx-5.2.pflash1=str (Node name or ID of a block device to use as a
-> backend)
-> pc-i440fx-5.2.pflash0=str (Node name or ID of a block device to use as a
-> backend)
-> pc-i440fx-5.2.hpet=bool
-> pc-i440fx-5.2.vmport=OnOffAuto (Enable vmport (pc & q35))
-> pc-i440fx-5.2.sata=bool
-> pc-i440fx-5.2.pit=bool
-> pc-i440fx-5.2.max-ram-below-4g=size (Maximum ram below the 4G boundary
-> (32bit boundary))
-> pc-i440fx-5.2.smbus=bool
-> pc-i440fx-5.2.acpi=OnOffAuto (Enable ACPI)
-> pc-i440fx-5.2.smm=OnOffAuto (Enable SMM)
-> pc-i440fx-5.2.memory-backend=string (Set RAM backendValid value is ID of
-> hostmem based backend)
-> pc-i440fx-5.2.firmware=string (Firmware image)
-> pc-i440fx-5.2.initrd=string (Linux initial ramdisk file)
-> pc-i440fx-5.2.dumpdtb=string (Dump current dtb to a file and quit)
-> pc-i440fx-5.2.kernel=string (Linux kernel image file)
-> pc-i440fx-5.2.dt-compatible=string (Overrides the "compatible" property of
-> the dt root node)
-> pc-i440fx-5.2.mem-merge=bool (Enable/disable memory merge support)
-> pc-i440fx-5.2.suppress-vmdesc=bool (Set on to disable self-describing
-> migration)
-> pc-i440fx-5.2.append=string (Linux kernel command line)
-> pc-i440fx-5.2.dump-guest-core=bool (Include guest memory in a core dump)
-> pc-i440fx-5.2.phandle-start=int (The first phandle ID we may generate
-> dynamically)
-> pc-i440fx-5.2.usb=bool (Set on/off to enable/disable usb)
-> pc-i440fx-5.2.dtb=string (Linux kernel device tree file)
-> pc-i440fx-5.2.memory-encryption=string (Set memory encryption object to use)
-> pc-i440fx-5.2.graphics=bool (Set on/off to enable/disable graphics
-> emulation)
-> ```
-> 
-> (2) *4.2.1 (E5-2670 * 2)*
-> *```*
-> qemu-system-x86_64 -machine pc,help
-> pc-i440fx-4.2.nvdimm-persistence=string (Set NVDIMM persistenceValid values
-> are cpu, mem-ctrl)
-> pc-i440fx-4.2.pflash0=str (Node name or ID of a block device to use as a
-> backend)
-> pc-i440fx-4.2.nvdimm=bool (Set on/off to enable/disable NVDIMM
-> instantiation)
-> pc-i440fx-4.2.pflash1=str (Node name or ID of a block device to use as a
-> backend)
-> pc-i440fx-4.2.vmport=OnOffAuto (Enable vmport (pc & q35))
-> pc-i440fx-4.2.sata=bool
-> pc-i440fx-4.2.pit=bool
-> pc-i440fx-4.2.smm=OnOffAuto (Enable SMM (pc & q35))
-> pc-i440fx-4.2.smbus=bool
-> pc-i440fx-4.2.max-ram-below-4g=size (Maximum ram below the 4G boundary
-> (32bit boundary))
-> pc-i440fx-4.2.suppress-vmdesc=bool (Set on to disable self-describing
-> migration)
-> pc-i440fx-4.2.append=string (Linux kernel command line)
-> pc-i440fx-4.2.accel=string (Accelerator list)
-> pc-i440fx-4.2.dtb=string (Linux kernel device tree file)
-> pc-i440fx-4.2.mem-merge=bool (Enable/disable memory merge support)
-> pc-i440fx-4.2.dumpdtb=string (Dump current dtb to a file and quit)
-> pc-i440fx-4.2.phandle-start=int (The first phandle ID we may generate
-> dynamically)
-> pc-i440fx-4.2.igd-passthru=bool (Set on/off to enable/disable igd passthrou)
-> pc-i440fx-4.2.kvm-shadow-mem=int (KVM shadow MMU size)
-> pc-i440fx-4.2.dump-guest-core=bool (Include guest memory in a core dump)
-> pc-i440fx-4.2.memory-encryption=string (Set memory encryption object to use)
-> pc-i440fx-4.2.firmware=string (Firmware image)
-> pc-i440fx-4.2.usb=bool (Set on/off to enable/disable usb)
-> pc-i440fx-4.2.kernel-irqchip=on|off|split (Configure KVM in-kernel irqchip)
-> pc-i440fx-4.2.graphics=bool (Set on/off to enable/disable graphics
-> emulation)
-> pc-i440fx-4.2.initrd=string (Linux initial ramdisk file)
-> pc-i440fx-4.2.dt-compatible=string (Overrides the "compatible" property of
-> the dt root node)
-> pc-i440fx-4.2.kernel=string (Linux kernel image file)
-> pc-i440fx-4.2.enforce-config-section=bool (Set on to enforce configuration
-> section migration)
-> ```
-> 
-> [1] https://wiki.qemu.org/Hosts/Linux#Building_QEMU_for_Linux
-> 
-> Sincerely,
-> Jack
-> 
-> Eduardo Habkost <ehabkost@redhat.com> 於 2020年11月17日 週二 上午3:02寫道：
-> 
-> > On Mon, Nov 16, 2020 at 01:51:37PM +0100, Philippe Mathieu-Daudé wrote:
-> > > Cc'ing Igor & Eduardo.
-> >
-> > Thanks!
-> >
-> > >
-> > > On 11/13/20 10:17 AM, Jack wrote:
-> > > > Hi all,
-> > > >
-> > > > As I follow the document[1] to enable hmat, it fails and shows the
-> > message:
-> > > >   qemu-system-x86_64: Property '.hmat' not found
-> > > >
-> > > > My QEMU version is 5.1.90
-> >
-> > Do you have the output of `qemu-system-x86_64 -version`, and more
-> > information on how your binary was built?
-> >
-> > Output of `-machine help` and `-machine pc,help` would be useful
-> > to debug it, too.
-> >
-> > I can't reproduce it here.  I've tested both qemu.git master
-> > (commit cb5ed407a1dd) and v5.2.0-rc (commit 3d6e32347a3b).
-> >
-> >   [build/(cb5ed407a1...)]$ ./qemu-system-x86_64 -version
-> >   QEMU emulator version 5.1.91 (v5.2.0-rc1-107-gcb5ed407a1)
-> >   Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
-> >   [build/(cb5ed407a1...)]$ ./qemu-system-x86_64 -machine hmat=on -m 2G
-> > -object memory-backend-ram,size=1G,id=m0 -object
-> > memory-backend-ram,size=1G,id=m1 -smp 2 -numa node,nodeid=0,memdev=m0 -numa
-> > node,nodeid=1,memdev=m1,initiator=0 -numa cpu ,node-id=0,socket-id=0 -numa
-> > cpu,node-id=0,socket-id=1 -numa
-> > hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=5
-> > -numa
-> > hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=200M
-> > -numa
-> > hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=10
-> > -numa
-> > hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M
-> > -numa
-> > hmat-cache,node-id=0,size=10K,level=1,associativity=direct,policy=write-back,line=8
-> > -numa
-> > hmat-cache,node-id=1,size=10K,level=1,associativity=direct,policy=write-back,line=8
-> > -cpu host -vga virtio -accel kvm
-> >   [VM boots]
-> >
-> >
-> > > >
-> > > > Does anyone know why?
-> > > >
-> > > > Here is my command:
-> > > >
-> > > > ```
-> > > > $ sudo qemu-system-x86_64 \
-> > > > -machine hmat=on \
-> > > > -m 2G \
-> > > > -object memory-backend-ram,size=1G,id=m0 \
-> > > > -object memory-backend-ram,size=1G,id=m1 \
-> > > > -smp 2 \
-> > > > -numa node,nodeid=0,memdev=m0 \
-> > > > -numa node,nodeid=1,memdev=m1,initiator=0 \
-> > > > -numa cpu,node-id=0,socket-id=0 \
-> > > > -numa cpu,node-id=0,socket-id=1 \
-> > > > -numa
-> > > >
-> > hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=5
-> > > > \
-> > > > -numa
-> > > >
-> > hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=200M
-> > > > \
-> > > > -numa
-> > > >
-> > hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=10
-> > > > \
-> > > > -numa
-> > > >
-> > hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M
-> > > > \
-> > > > -numa
-> > > >
-> > hmat-cache,node-id=0,size=10K,level=1,associativity=direct,policy=write-back,line=8
-> > > > \
-> > > > -numa
-> > > >
-> > hmat-cache,node-id=1,size=10K,level=1,associativity=direct,policy=write-back,line=8
-> > > > \
-> > > > -cpu host \
-> > > > -m 4g -vga virtio -hda ubuntu20.04.qcow2 \
-> > > > -nic user,model=virtio \
-> > > > -nic tap,model=e1000 \
-> > > > -nic tap,model=e1000 \
-> > > > -accel kvm
-> > > > ```
-> > > >
-> > > > Thanks.
-> > > >
-> > > > [1]
-> > > >
-> > https://www.qemu.org/docs/master/system/qemu-manpage.html?highlight=numa
-> > > >
-> > > >
-> > > > Sincerely,
-> > > > Jack
-> > > >
-> > >
-> >
-> > --
-> > Eduardo
-> >
-> >
+* backends/dbus-vmstate.c:232:        g_return_val_if_fail(bytes_read =3D=
+=3D len, -1);
 
--- 
-Eduardo
+  Marc-Andr=C3=A9, why is bytes_read !=3D len a programming error?
+
+  Why is returning safe?
+
+* block/export/vhost-user-blk-server.c:270:    g_return_val_if_fail(len <=
+=3D sizeof(struct virtio_blk_config), -1);
+
+  Stefan, why is len > sizeof(struct virtio_blk_config) a programming
+  error?
+
+  Why is returning safe?
+
+* hw/display/vhost-user-gpu.c:335:    g_return_if_fail(msg !=3D NULL);
+
+  This one is obviously dead code: g_malloc() cannot fail.
+
+  If it could, I do doubt returning after reading a partial message
+  would be safe.
 
 
