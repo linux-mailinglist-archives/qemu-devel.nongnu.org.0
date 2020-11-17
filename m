@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10CB12B6B13
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 18:07:57 +0100 (CET)
-Received: from localhost ([::1]:40640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6FE62B6B6C
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 18:13:07 +0100 (CET)
+Received: from localhost ([::1]:59804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf4SS-0007TD-30
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 12:07:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43822)
+	id 1kf4XS-0006qE-LP
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 12:13:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kf4Es-00033K-P7
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:54 -0500
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:38820)
+ id 1kf4Et-00033c-5A
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:55 -0500
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:38822)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kf4Er-0007GN-3K
+ id 1kf4Er-0007GY-HX
  for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:54 -0500
-Received: by mail-ej1-x641.google.com with SMTP id a16so2630405ejj.5
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:53:52 -0800 (PST)
+Received: by mail-ej1-x643.google.com with SMTP id a16so2630502ejj.5
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:53:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8iCIsS6iawpdK6Fw8H0eciTPNsaXNfuGScuB1cNwv4Q=;
- b=BUfDXxRQpHAxeJStCXJwMfOD+Z1c0ypMLkhDrZNv8XnfwlTPvQYRi+j8/2btF8auEi
- /mlYnHltJKbs5kitmebDgtlKaldgQtfs29rCY6E5kGduSw31nYPhZXAxUWIIClXsWsVx
- 03VMnoUZsl2ZGQ3jZD32s7ZikTdIMZtJPffxW+2rXq7WRKX50+5vExgSfL8CYR9t+kax
- Z/f9zvMj/mjMuU2NtWfFQMDbvzNT1/A4+0MQqmeZT1CvkFxxVhfP/gFpBem5Dux0pBjc
- 52gl3h9fXjOxgRnC4Hh73EPTpjUOYJwv4LKv0WiERnD1E+A95n1bUE9uKly16CnfOPAy
- XGdA==
+ bh=MtelKqLZh4dFsPBgnxF0HdQsyjUnFNYeWjU1dgG+VRk=;
+ b=otzhKc24ftE4TuOMMiA57FfCRGYzgu8zcYUhndgfy7eHtHZf8al1kgYWePpEGNTLbo
+ wT6RTQf+ZLSNW+0L4Tctvxe1AS8ykCwd0USBIPPR+k60FprD9tJ9Ef4T5SkpGmnIW6mK
+ /WHvNil5AH9dIFTicW+ITUhPZIdf7ryBsSO39SNaVoxorYGoaFbvTXT10Sl2pemj7Q7s
+ uSk5aP2Dys8W/n1ZHwUyOeY6LtN+L7jHguacKF+RphgHMJrz8m/FTis4iZOZnH12lkuB
+ XWKQlWUju6jdh7NPEmHv2p5yf/C2DI//1PhuFHDTnJ2f9Mw3KsHXLSDygh3dUOPjmDuO
+ DpvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=8iCIsS6iawpdK6Fw8H0eciTPNsaXNfuGScuB1cNwv4Q=;
- b=pyIc1FB07x6UdiBeRHWbfnbklisWRgTKnnVpeFOS8B6SGQ5B2e4t6bkC61AL1MI5L7
- tJzOatCHo6KPjJY1bmRdfVpHB4gEX1q6Nia/wKk825jsOPWsXrAaFpkxxx9cZEefDe+p
- xcec9H/gpVkOg2llkHhtdrZSOrNMG7SUhYZ21lWLggVe6Pd2v+n+t0TjJfC1I5OLWvxq
- rgqM4IDTpwK85feALLYrqSoErJp6T+a04KVS2aNffmaahP9Cc8cLSTLih1oJrwII9Fpl
- Jri+q0n+S58Dd/YLBEc7S3XPzrk5DQn9rUcB0/SIa+Lm2dfMFXx82FHih5w2rJgn12SV
- tz9g==
-X-Gm-Message-State: AOAM530LBAbbL6rw8LA0CP/kQNHdRG2pixL8k7H3jzjjoSBnjKbgrXvY
- LU7VmI7BcYI4GMcEm7R+3knplY3YlfI=
-X-Google-Smtp-Source: ABdhPJzT/EB5ZJN2eVWmVjte7wkqVCmpVWRmXiYtSonRLCC2dsuGswierfDUGC1fQ+03OBawBE+Zmg==
-X-Received: by 2002:a17:906:6013:: with SMTP id
- o19mr19585693ejj.348.1605632030933; 
- Tue, 17 Nov 2020 08:53:50 -0800 (PST)
+ bh=MtelKqLZh4dFsPBgnxF0HdQsyjUnFNYeWjU1dgG+VRk=;
+ b=r+lag4hZlrP96aVy1WtiByNVxxWL4l5/DHTYV5/HzrBbSi92vKQCHJcuPy7L6h8R/e
+ BzausuZ7Y78qxifA2bTX9P5e1WuyPTEaRWGaOY5uRAwY0fo5jRGBtwgX8givi+v3GULe
+ Wif6oUGfhInPg/DUsAkrZSXmHPwa8nTIeTMqiE5rf0x/xkEJKb6RjNxEoFJahOhy/1U2
+ H4HDU78/cKUtWIsdxWWeLbrMupEQA/53uraEqmKo/LDHC/ZYSFWl5Y8OtCof0XdPy5W3
+ IdLnn5a/h99dQZ2JINiE864AxEF49pvkb+9ja1PJ0JQxtk/pwgswDJWvHDSJo4pqgvzA
+ Pbvw==
+X-Gm-Message-State: AOAM530mH0LBiVrAciXDYKuiLyVhHyKLOAZVy9W+I8Vc2i/G4qLiOMSQ
+ sypWwAKwWlr8dDdT8QQ1x+p1gBnKgjk=
+X-Google-Smtp-Source: ABdhPJy4DAPN2S3C681sIu74xowUUge9GNL8NHPjx7zsSGwC3E+Fap1gntJgONrr6YTX6OkCQsjAXw==
+X-Received: by 2002:a17:906:ca93:: with SMTP id
+ js19mr21281011ejb.537.1605632031930; 
+ Tue, 17 Nov 2020 08:53:51 -0800 (PST)
 Received: from localhost.localdomain ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id u7sm639067ejf.83.2020.11.17.08.53.50
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Nov 2020 08:53:50 -0800 (PST)
+ Tue, 17 Nov 2020 08:53:51 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 25/29] Revert "kernel-doc: Handle function typedefs without
- asterisks"
-Date: Tue, 17 Nov 2020 17:53:08 +0100
-Message-Id: <20201117165312.118257-26-pbonzini@redhat.com>
+Subject: [PATCH 26/29] Revert "kernel-doc: Handle function typedefs that
+ return pointers"
+Date: Tue, 17 Nov 2020 17:53:09 +0100
+Message-Id: <20201117165312.118257-27-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201117165312.118257-1-pbonzini@redhat.com>
 References: <20201117165312.118257-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x641.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -91,27 +91,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This reverts commit 3cd3c5193cde5242e243c25759f85802e267994f.
+This reverts commit 19ab6044be0c55d529e875e3ee16fdd5c3b54d33.
 We will replace the commit with the fix from Linux.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/kernel-doc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/kernel-doc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 2d56c46933..780aee4e92 100755
+index 780aee4e92..d3a289628c 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -1434,7 +1434,7 @@ sub dump_typedef($$) {
+@@ -1434,8 +1434,8 @@ sub dump_typedef($$) {
      $x =~ s@/\*.*?\*/@@gos;	# strip comments.
  
      # Parse function prototypes
--    if ($x =~ /typedef\s+(\w+\s*\**)\s*\(\*?\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
-+    if ($x =~ /typedef\s+(\w+\s*\**)\s*\(\*\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
- 	$x =~ /typedef\s+(\w+\s*\**)\s*(\w\S+)\s*\s*\((.*)\);/) {
+-    if ($x =~ /typedef\s+(\w+\s*\**)\s*\(\*\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
+-	$x =~ /typedef\s+(\w+\s*\**)\s*(\w\S+)\s*\s*\((.*)\);/) {
++    if ($x =~ /typedef\s+(\w+)\s*\(\*\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
++	$x =~ /typedef\s+(\w+)\s*(\w\S+)\s*\s*\((.*)\);/) {
  
  	# Function typedefs
+ 	$return_type = $1;
 -- 
 2.28.0
 
