@@ -2,82 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9C542B6EBC
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 20:34:25 +0100 (CET)
-Received: from localhost ([::1]:57868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15A7D2B6EDC
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 20:40:58 +0100 (CET)
+Received: from localhost ([::1]:44740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf6kC-0001TJ-EM
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 14:34:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36854)
+	id 1kf6qX-0007yn-60
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 14:40:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kf6hf-0000cN-OU
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 14:31:47 -0500
-Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:53427)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kf6hd-0005af-UY
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 14:31:47 -0500
-Received: by mail-pj1-x1041.google.com with SMTP id gv24so1018211pjb.3
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 11:31:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:subject:to:references:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=YmMwDUJOjVzvjInAFciw2UH0pSNsvv6drOfJF5Dp8wk=;
- b=pyQHAOz884VVxf/RqXr4ssAJgFO11YvBFf8f1dDx8WV841/xsVqinSJ7r1txhaiyHZ
- xQzwxmRYymRizeaOt1sAR3gn6JJYUK+x/TvIWb80pPkasA7rveeItxyT9FB6N3zgFRik
- pPyHfQp9TjJFBIIA0N/SJnYni6cPrHywUuwLqj21owEFjUGbSYqAt+9l37eo5ptTGvx5
- cJhtjQY8/DOYhuTpDxUpHkhfMZ7RzS+2BaSJkSdY11UiYdnIjX9BuahbbJrQlt8mjN88
- /vVEaA9Nz+DtTeJBN9BH2pAkdi4xDpZhtqs6TqlVDVJLJCsccDTR7OJP30z9MPCPLaFN
- uSYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:subject:to:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=YmMwDUJOjVzvjInAFciw2UH0pSNsvv6drOfJF5Dp8wk=;
- b=fxHdpae6XUE6iWXRT+v2wEV4cLbS3gOBPM3tb9JcHk4FMtgVeLmxkarINbA6dnlSZR
- /eUcJUpA+JLywu9ucoNZ/7iAs1sJQzIbzyK1Wsh6ZQiOc281I4Qtv1JHujjDtA1X8eBQ
- tde32yOpMA4WFaC2X7wliLVh7bsBSEADb+V+xQsO814ft4h3kdIMUY+4AdeFb81s2RLK
- aQ+juz0hH3FtGq9vAafvRV5nzeZ0sA+WmJNcaFhiSayHod5xqtAF1GXjwmigbwV9ZFR0
- Z1oIg+yKsZqzy8rIqvIDS2RbwSp6Ds1N+UKoZUkcXZuw6BTafZwedi0YrqT+YkSxcQQ5
- 5t7A==
-X-Gm-Message-State: AOAM532PLk+PDAEinEe6WyAQA++r/xd8perTEqN0YJAHbe8Bz6zxeApk
- 2seMtQxd+Kn2ECqBlc9mX1XKr3SemQOMOg==
-X-Google-Smtp-Source: ABdhPJyMY0TgYv/BRZlWrIbaKLbTjmUkbi9wuml6KMhz2Mu9pVxPLBX/9jUcgGGR44wfB16CzetfjA==
-X-Received: by 2002:a17:902:7004:b029:d8:fc7c:4fef with SMTP id
- y4-20020a1709027004b02900d8fc7c4fefmr594285plk.75.1605641504272; 
- Tue, 17 Nov 2020 11:31:44 -0800 (PST)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id e6sm22084788pfn.190.2020.11.17.11.31.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Nov 2020 11:31:43 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 04/15] target/arm: Implement VSCCLRM insn
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20201116160831.31000-1-peter.maydell@linaro.org>
- <20201116160831.31000-5-peter.maydell@linaro.org>
-Message-ID: <698b908c-0406-cdb9-4bdf-253693a85655@linaro.org>
-Date: Tue, 17 Nov 2020 11:31:40 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <stefan@weilnetz.de>)
+ id 1kf6lL-0003Q2-Sc; Tue, 17 Nov 2020 14:35:35 -0500
+Received: from mail.weilnetz.de ([37.120.169.71]:50572
+ helo=v2201612906741603.powersrv.de)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefan@weilnetz.de>)
+ id 1kf6lI-0006iD-PP; Tue, 17 Nov 2020 14:35:35 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by v2201612906741603.powersrv.de (Postfix) with ESMTP id 796BEDB2587;
+ Tue, 17 Nov 2020 20:35:30 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at v2201612906741603.powersrv.de
+Received: from v2201612906741603.powersrv.de ([127.0.0.1])
+ by localhost (v2201612906741603.powersrv.de [127.0.0.1]) (amavisd-new,
+ port 10024)
+ with ESMTP id UzZSkkzj4TIz; Tue, 17 Nov 2020 20:34:54 +0100 (CET)
+Received: from qemu.weilnetz.de (qemu.weilnetz.de [188.68.58.204])
+ by v2201612906741603.powersrv.de (Postfix) with ESMTP id 1C4B4DB2583;
+ Tue, 17 Nov 2020 20:34:54 +0100 (CET)
+Received: by qemu.weilnetz.de (Postfix, from userid 1000)
+ id 0E1C5460019; Tue, 17 Nov 2020 20:34:54 +0100 (CET)
+From: Stefan Weil <sw@weilnetz.de>
+To: qemu-devel@nongnu.org,
+	Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH for-5.2] docs: Fix some typos (found by codespell)
+Date: Tue, 17 Nov 2020 20:34:48 +0100
+Message-Id: <20201117193448.393472-1-sw@weilnetz.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20201116160831.31000-5-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1041.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=37.120.169.71; envelope-from=stefan@weilnetz.de;
+ helo=v2201612906741603.powersrv.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 14:07:30
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,39 +61,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
+ Stefan Weil <sw@weilnetz.de>, libvir-list@redhat.com,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/16/20 8:08 AM, Peter Maydell wrote:
-> +    aspen = load_cpu_field(v7m.fpccr[M_REG_S]);
-> +    sfpa = load_cpu_field(v7m.control[M_REG_S]);
-> +    tcg_gen_andi_i32(aspen, aspen, R_V7M_FPCCR_ASPEN_MASK);
-> +    tcg_gen_subi_i32(aspen, aspen, R_V7M_FPCCR_ASPEN_MASK);
+Fix also a similar typo in a code comment.
 
-xori would be clearer, i think.
+Signed-off-by: Stefan Weil <sw@weilnetz.de>
+---
+ docs/can.txt                  | 8 ++++----
+ docs/interop/vhost-user.rst   | 2 +-
+ docs/replay.txt               | 2 +-
+ docs/specs/ppc-spapr-numa.rst | 2 +-
+ docs/system/deprecated.rst    | 4 ++--
+ docs/tools/virtiofsd.rst      | 2 +-
+ hw/vfio/igd.c                 | 2 +-
+ 7 files changed, 11 insertions(+), 11 deletions(-)
 
-> +    /* Zero the Sregs from btmreg to topreg inclusive. */
-> +    zero64 = tcg_const_i64(0);
-> +    zero32 = tcg_const_i32(0);
-> +    if (btmreg & 1) {
-> +        write_neon_element32(zero32, btmreg >> 1, 1, MO_32);
-> +        btmreg++;
-> +    }
-> +    for (; btmreg + 1 <= topreg; btmreg += 2) {
-> +        write_neon_element64(zero64, btmreg >> 1, 0, MO_64);
-> +    }
-> +    if (btmreg == topreg) {
-> +        write_neon_element32(zero32, btmreg >> 1, 0, MO_32);
-> +        btmreg++;
-> +    }
+diff --git a/docs/can.txt b/docs/can.txt
+index 5838f6620c..0d310237df 100644
+--- a/docs/can.txt
++++ b/docs/can.txt
+@@ -19,7 +19,7 @@ interface to implement because such device can be easily connected
+ to systems with different CPU architectures (x86, PowerPC, Arm, etc.).
+ 
+ In 2020, CTU CAN FD controller model has been added as part
+-of the bachelor theses of Jan Charvat. This controller is complete
++of the bachelor thesis of Jan Charvat. This controller is complete
+ open-source/design/hardware solution. The core designer
+ of the project is Ondrej Ille, the financial support has been
+ provided by CTU, and more companies including Volkswagen subsidiaries.
+@@ -31,7 +31,7 @@ testing lead to goal change to provide environment which provides complete
+ emulated environment for testing and RTEMS GSoC slot has been donated
+ to work on CAN hardware emulation on QEMU.
+ 
+-Examples how to use CAN emulation for SJA1000 based borads
++Examples how to use CAN emulation for SJA1000 based boards
+ ==========================================================
+ 
+ When QEMU with CAN PCI support is compiled then one of the next
+@@ -106,8 +106,8 @@ This open-source core provides CAN FD support. CAN FD drames are
+ delivered even to the host systems when SocketCAN interface is found
+ CAN FD capable.
+ 
+-The PCIe borad emulation is provided for now (the device identifier is
+-ctucan_pci). The defauld build defines two CTU CAN FD cores
++The PCIe board emulation is provided for now (the device identifier is
++ctucan_pci). The default build defines two CTU CAN FD cores
+ on the board.
+ 
+ Example how to connect the canbus0-bus (virtual wire) to the host
+diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
+index 988f154144..72b2e8c7ba 100644
+--- a/docs/interop/vhost-user.rst
++++ b/docs/interop/vhost-user.rst
+@@ -513,7 +513,7 @@ descriptor table (split virtqueue) or descriptor ring (packed
+ virtqueue). However, it can't work when we process descriptors
+ out-of-order because some entries which store the information of
+ inflight descriptors in available ring (split virtqueue) or descriptor
+-ring (packed virtqueue) might be overrided by new entries. To solve
++ring (packed virtqueue) might be overridden by new entries. To solve
+ this problem, slave need to allocate an extra buffer to store this
+ information of inflight descriptors and share it with master for
+ persistent. ``VHOST_USER_GET_INFLIGHT_FD`` and
+diff --git a/docs/replay.txt b/docs/replay.txt
+index 87a64ae068..5b008ca491 100644
+--- a/docs/replay.txt
++++ b/docs/replay.txt
+@@ -328,7 +328,7 @@ between the snapshots. Each of the passes include the following steps:
+  1. loading the snapshot
+  2. replaying to examine the breakpoints
+  3. if breakpoint or watchpoint was met
+-    - loading the snaphot again
++    - loading the snapshot again
+     - replaying to the required breakpoint
+  4. else
+     - proceeding to the p.1 with the earlier snapshot
+diff --git a/docs/specs/ppc-spapr-numa.rst b/docs/specs/ppc-spapr-numa.rst
+index 5fca2bdd8e..ffa687dc89 100644
+--- a/docs/specs/ppc-spapr-numa.rst
++++ b/docs/specs/ppc-spapr-numa.rst
+@@ -198,7 +198,7 @@ This is how it is being done:
+ * user distance 121 and beyond will be interpreted as 160
+ * user distance 10 stays 10
+ 
+-The reasoning behind this aproximation is to avoid any round up to the local
++The reasoning behind this approximation is to avoid any round up to the local
+ distance (10), keeping it exclusive to the 4th NUMA level (which is still
+ exclusive to the node_id). All other ranges were chosen under the developer
+ discretion of what would be (somewhat) sensible considering the user input.
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index 32a0e620db..63e9db1463 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -465,7 +465,7 @@ default configuration.
+ 
+ The CPU model runnability guarantee won't apply anymore to
+ existing CPU models.  Management software that needs runnability
+-guarantees must resolve the CPU model aliases using te
++guarantees must resolve the CPU model aliases using the
+ ``alias-of`` field returned by the ``query-cpu-definitions`` QMP
+ command.
+ 
+@@ -637,7 +637,7 @@ Splitting RAM by default between NUMA nodes had the same issues as ``mem``
+ parameter with the difference that the role of the user plays QEMU using
+ implicit generic or board specific splitting rule.
+ Use ``memdev`` with *memory-backend-ram* backend or ``mem`` (if
+-it's supported by used machine type) to define mapping explictly instead.
++it's supported by used machine type) to define mapping explicitly instead.
+ Users of existing VMs, wishing to preserve the same RAM distribution, should
+ configure it explicitly using ``-numa node,memdev`` options. Current RAM
+ distribution can be retrieved using HMP command ``info numa`` and if separate
+diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
+index 34a9e40146..866b7db3ee 100644
+--- a/docs/tools/virtiofsd.rst
++++ b/docs/tools/virtiofsd.rst
+@@ -174,7 +174,7 @@ Using ':' as the separator a rule is of the form:
+ - 'bad' - If a client tries to use a name matching 'key' it's
+   denied using EPERM; when the server passes an attribute
+   name matching 'prepend' it's hidden.  In many ways it's use is very like
+-  'ok' as either an explict terminator or for special handling of certain
++  'ok' as either an explicit terminator or for special handling of certain
+   patterns.
+ 
+ **key** is a string tested as a prefix on an attribute name originating
+diff --git a/hw/vfio/igd.c b/hw/vfio/igd.c
+index 64e332746b..470205f487 100644
+--- a/hw/vfio/igd.c
++++ b/hw/vfio/igd.c
+@@ -535,7 +535,7 @@ void vfio_probe_igd_bar4_quirk(VFIOPCIDevice *vdev, int nr)
+     }
+ 
+     /*
+-     * Assume we have no GMS memory, but allow it to be overrided by device
++     * Assume we have no GMS memory, but allow it to be overridden by device
+      * option (experimental).  The spec doesn't actually allow zero GMS when
+      * when IVD (IGD VGA Disable) is clear, but the claim is that it's unused,
+      * so let's not waste VM memory for it.
+-- 
+2.29.2
 
-I hadn't implemented MO_32 for write_neon_element64 because there were no
-users.  Better to just add the case there using tcg_gen_st32_i64, then you
-don't need a 32-bit zero.
-
-Otherwise,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-
-r~
 
