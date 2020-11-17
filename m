@@ -2,78 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D46C52B5E02
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 12:10:40 +0100 (CET)
-Received: from localhost ([::1]:55188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3CAB2B5E08
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 12:11:59 +0100 (CET)
+Received: from localhost ([::1]:58132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keysh-0005Sn-V6
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 06:10:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42224)
+	id 1keyty-0006lg-L4
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 06:11:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1keyr8-00048U-E1
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 06:09:02 -0500
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:45466)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1keyr6-0003C3-Tt
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 06:09:02 -0500
-Received: by mail-ed1-x541.google.com with SMTP id q3so21968830edr.12
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 03:09:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2IH4vI/cojJ2JGnrZTz/JsoKacG5tD4dYZfJttKUyuo=;
- b=kJc0CBNzZkqodB/4osuhe08RMTsRPJW0cLdehbOpP0hPrxTbC8CSjhoF4dTbBxhowa
- HQePcmlFBDoalfA+lOXCG/lm+L16j8ZAQCfxf6qvNa4jhXGgo3yLfufUM9pqNet/jTN2
- jd9lGSOwltNn6r5bCQP4+Q4bgdY5msKYouR95CPA1nA5ZdACIbwgfW/0SROT1NmGNlnG
- xlL97R1abIJzvIBO17gvhS5CJv1/RX56GS0cH8ZTOhfrvReLkIzI2w8Q/Qaxpq1aQ1rw
- ++EKjJ81RRdErCALolzm7mbd9IPiZbGOKmIW+wHGfLdlOdidS1MeRpZVcZILwrFoQFTW
- /G8A==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1keysU-0005np-1S
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 06:10:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57217)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1keysS-0003bt-6K
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 06:10:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605611423;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+JOyj4kutaU2iZnp/EOgkgJPA2zLV7S8aMUZchlyxms=;
+ b=M0Gh4a8/c4Oh5VK3bDGbLgH9zSzDxeAX6GA8BayKi2DYXoO/57BGYN3de5dnjMpEEaDVli
+ 8EZnTzkP30Q7jNuVFSi+ODC2+UdGVc1Am57AtPnOR0fTsdYFzUHCyaUjrTFKPLFecby38n
+ xpUYsqTRn2RgCICBhJkQFClQJwZnrwQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-495-QMy2cz1xOLG4Rk78vdmjJA-1; Tue, 17 Nov 2020 06:10:21 -0500
+X-MC-Unique: QMy2cz1xOLG4Rk78vdmjJA-1
+Received: by mail-wm1-f69.google.com with SMTP id h9so1556629wmf.8
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 03:10:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2IH4vI/cojJ2JGnrZTz/JsoKacG5tD4dYZfJttKUyuo=;
- b=phmoLvBltZVjxalzYGOacYysTYwyQQfEqxMhep8uKESZeq469wtU8OB/JG5K881i17
- Fcw8jcRC7906fC/Vxxf/SBawmS6jbi3X+1s0IG78AZvuY1j+YDCpKxcyMXJQREfT0qF5
- 6CeWW17ekz8+ElzzeCvo0IXyW5bs9eiCy8d2D/SA1whuF+BWNPG1f/BkiJRNtrYAfD5G
- GY5r+mob2yv69oM9+nmV5lOvYzhtxGugRJ/rG62VDYjEOBfPLuVCEB/WnT61An5w8dcr
- EEg0RSkoWKxkGzldtQYkpBIMQbzYoE9seZ6Lp6Wgs4fDkvhBTejZYACVg4GEjHbs+M87
- 1fMg==
-X-Gm-Message-State: AOAM532Bm9nFO5DnW5pn7EHDrFC6U79kdRZ7I1sZyEJwjoKqDl4nbje5
- m8X9XOwtzg4eNQPZGoM+eeTnsrjNqcHhf7NLWURG2A==
-X-Google-Smtp-Source: ABdhPJzBpBeSyMX0rxzJFws3Ph5+8RIUPv0Qg+ZwOsDMMaQZvbspJrbOySccuF0CTchI1uGtPQie/ZJz/CwtDE1GSGg=
-X-Received: by 2002:a05:6402:3089:: with SMTP id
- de9mr20719188edb.100.1605611339133; 
- Tue, 17 Nov 2020 03:08:59 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+JOyj4kutaU2iZnp/EOgkgJPA2zLV7S8aMUZchlyxms=;
+ b=mkIN8oN/hQ4ecm14ea/VpKjbBy/eQqcsNBGdRJCj4AH7oGtIUmjWFuZqTluZL5DSF1
+ QqJe3xHxkdOAxaFcCRzZaoBz+crBCP5Gcz2kyCdXXCRE52VjrUl7FjXwoyPkTupw8bZD
+ 4rRp5RuyQmiPWU1x/fZkLhKHCectm49DJvom0ZSw/6Pc1RGXnki8npMIeL/mspR6yVfV
+ qgVC97/aa3Pz2XZ/iL16pST0YeQuUGWV97QuBjVvJWdmnZHvCI7sQQX3RlAnqhtOydBP
+ lL0Ho2heZ8fTvV33FsT6IW9Nm3UwnpkINx8iWXVv4TIR3Sk0P/6cqddRYlrC80GCOK5d
+ zihA==
+X-Gm-Message-State: AOAM531ryM6FGTy67Gar3qZC2heEpt9o026EeyUTEF/dLakeoczx5ah0
+ AWTSXoiomilteJENwamiONCEKnGqfoHBDDn4U4Q57+x7VYJn5tURotM3hm4PHVbvnkCopymsbMQ
+ 8ZqkSDns22NJptLqw1G5gi9dzphTeg3HIz+Vrx7mTaTDxjsTC3H91RVnEzNNfSXUMsgc=
+X-Received: by 2002:a5d:4046:: with SMTP id w6mr23946491wrp.51.1605611419770; 
+ Tue, 17 Nov 2020 03:10:19 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwHZjUKS8Gc6GN/TNoRRrZKiXqYVQv72/IP8OtxM0N6PAb2xYKpO/yytkWi88ou/73ztiqwQw==
+X-Received: by 2002:a5d:4046:: with SMTP id w6mr23946457wrp.51.1605611419482; 
+ Tue, 17 Nov 2020 03:10:19 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id a12sm26562128wrr.31.2020.11.17.03.10.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Nov 2020 03:10:18 -0800 (PST)
+Subject: Re: [PATCH 7/7] scsi: move host_status handling into SCSI drivers
+To: Hannes Reinecke <hare@suse.de>
+References: <20201116184041.60465-1-hare@suse.de>
+ <20201116184041.60465-8-hare@suse.de>
+ <e16d0002-8038-2ad0-da7f-969e770df2fc@redhat.com>
+ <08795f50-2b4e-14cb-f5dd-709b054308c0@suse.de>
+ <d2a538ca-d865-07d7-1c8f-380633bd4b0e@redhat.com>
+ <f97fc536-d666-4a5e-5178-8ee86b2f3f7b@suse.de>
+ <483cc7e9-fc93-2994-49cb-bd97e383dbb6@redhat.com>
+ <a64eea56-f54d-f2df-4036-0ffddf24aee2@suse.de>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <f87ead6f-ab96-7205-cbb5-148cdd8a4f91@redhat.com>
+Date: Tue, 17 Nov 2020 12:10:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-References: <20201115184903.1292715-1-ganqixin@huawei.com>
- <20201115184903.1292715-14-ganqixin@huawei.com>
- <c2ca2185-4253-da71-eab4-f96b29067c96@amsat.org>
- <882df4ee-948c-7e00-d951-9b14ea40b2df@redhat.com>
- <877dqldyoh.fsf@dusky.pond.sub.org>
- <CAFEAcA-u3jZT2bU6snRL7BWXHUzXuVr9gByssOjoicGZ2-MLXQ@mail.gmail.com>
- <873618czgj.fsf@dusky.pond.sub.org>
-In-Reply-To: <873618czgj.fsf@dusky.pond.sub.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 17 Nov 2020 11:08:48 +0000
-Message-ID: <CAFEAcA8fUnjmDy-1g0fsQyaNCHDqvEnLgE5073h-dGkCk7Rztg@mail.gmail.com>
-Subject: Re: [PATCH 13/13] bcm2835_cprman: put some peripherals of bcm2835
- cprman into the 'misc' category
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <a64eea56-f54d-f2df-4036-0ffddf24aee2@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 01:18:45
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,37 +108,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- zhanghailiang <zhang.zhanghailiang@huawei.com>,
- QEMU Trivial <qemu-trivial@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Gan Qixin <ganqixin@huawei.com>,
- "Chenqun \(kuhn\)" <kuhn.chenqun@huawei.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 Nov 2020 at 05:41, Markus Armbruster <armbru@redhat.com> wrote:
->
-> Peter Maydell <peter.maydell@linaro.org> writes:
-> > I'm really dubious of devices that directly inherit from
-> > TYPE_DEVICE, because their reset method won't be automatically
-> > called. In this case it looks like the TYPE_BCM2835_CPRMAN
-> > device's reset method manually calls reset on these devices,
-> > though, so it isn't actually buggy, just confusing.
->
-> I guess this is a trap for unwary implementers, aggravated by our usual
-> dearth of qdev documentation.  I can see ~100 .parent = TYPE_DEVICE
-> lines.  Checking them all manually won't be fun.  Any automation ideas?
->
-> The concept "bus-less device" is sane.  We used not to have it, and the
-> resulting need for pseudo-busses was annoying enough to make us add
-> bus-less devices.
+On 17/11/20 09:50, Hannes Reinecke wrote:
+>> Since we're right in the middle of the freeze, let me send a RFC patch 
+>> for Linux to clean up DID_* a little bit.
+>>
+> What's your intention there? I do have (of course) a larger patchset for 
+> revisiting the SCSI status codes, so I could resubmit those portions 
+> relating to DID_ codes ...
 
-Yeah, the problem really is that our reset handling remains a
-mess. I'm not sure (a) what the right model for reset is and
-(b) what would be a feasible transition plan to get from
-here to there...
+Not much.  First, renaming DID_NEXUS_FAILURE and BLK_STS_NEXUS to 
+DID_RESERVATION_CONFLICT and BLK_STS_RESERVATION respectively.  Second, 
+adding a __ in front of those DID_* constants that are ultimately 
+changed back to DID_OK.
 
-thanks
--- PMM
+Thanks,
+
+Paolo
+
 
