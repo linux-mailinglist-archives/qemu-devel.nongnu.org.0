@@ -2,68 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25C1E2B5ED0
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 13:04:22 +0100 (CET)
-Received: from localhost ([::1]:46074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 686902B5ECB
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 13:03:01 +0100 (CET)
+Received: from localhost ([::1]:43142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kezif-0005WH-8E
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 07:04:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54880)
+	id 1kezhM-0004F6-8t
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 07:03:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kezgP-0003YK-Hl
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 07:02:01 -0500
-Received: from indium.canonical.com ([91.189.90.7]:42862)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kezgN-0005lc-3z
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 07:02:01 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kezgJ-0004g0-Fk
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 12:01:55 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6295A2E81B8
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 12:01:50 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 17 Nov 2020 11:52:41 -0000
-From: Thomas Huth <1681688@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kezfz-0003O4-Eg
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 07:01:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37911)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kezft-0005dO-RR
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 07:01:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605614489;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=BcOAMM8T64H99sWBWVknGqExdGrrYQhRqVV+46dbmRs=;
+ b=Y7+07mi3FRJDIpAl3weTt/dPqjz13aYUTKUH/fnU+QeMbx3f358dNm2MOMnk4bDdNSW+7E
+ VthGvjx766RMUoFkHqOVK4X770kceTPEz1xTJZPgE18HSmA5KEFybt+GL+G8HmFkNICfRa
+ A9pB6jz08jeq++wWzJtL4sYJG3zxB2A=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-458-5xuOVrUwO0ifdWkZchd7tA-1; Tue, 17 Nov 2020 07:01:19 -0500
+X-MC-Unique: 5xuOVrUwO0ifdWkZchd7tA-1
+Received: by mail-wr1-f69.google.com with SMTP id w5so10736817wrm.22
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 04:01:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BcOAMM8T64H99sWBWVknGqExdGrrYQhRqVV+46dbmRs=;
+ b=PgxI0erfYbjKESvJpQC5LA6k4HSrxvAhPUKjTSnl7RMQKn3c5gJsyeQlN1QVTU9LXp
+ 7bdioJUvttvJjaym0J9j8XKQ+SyU7AQbKurACrLyf2MPfAPStoVxuSghr+mB1l5Au6ut
+ Jiikcv3c6cnznWT3n3nXvFDClLtHTVKRVW/kqdjmw6d521/Jqj/gbPcRlyKJwbJZbFQC
+ QoOHsFU2VLMCn5ojCJjvTp/ltKtoKZ56DPnbvevBjtCpSqavgZ3XbQDJazHx44637+zU
+ sbcA0ILJTxNLqMcuZSjjqLBST518+QNN9XvAsbqrjX1GQii5svPgBVDO/ijzkcyqDXNe
+ 6Wjw==
+X-Gm-Message-State: AOAM530NhHZdBnD0SQTN4akYZ6TM1YdAP8O3ScGR75k+u/upzT5EOInE
+ NEo5/qc6vT/GLU4W2XaBAXPYwcUFg8O3iDeOPuI5+iPwaKB8bW74GYbXxkF4m5yOANg16pmBnh3
+ 38DXfZZKgXHLvKHNPu6Fc4R8xwZlGdWkCqixsu1Ok3neBp5l7U6BGKyuskKeuEVTn
+X-Received: by 2002:adf:f24a:: with SMTP id b10mr25326594wrp.352.1605614478382; 
+ Tue, 17 Nov 2020 04:01:18 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzWqA5VDMUyiYK1SZxCX8gOJVVgIK0vu6h+j/ehAlmDnj0zhrOmywzsvnw39Q6Ym2Yi2Y+5cA==
+X-Received: by 2002:adf:f24a:: with SMTP id b10mr25326537wrp.352.1605614478020; 
+ Tue, 17 Nov 2020 04:01:18 -0800 (PST)
+Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id e16sm1532063wmk.5.2020.11.17.04.01.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Nov 2020 04:01:17 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jemmy858585 kwolf-redhat th-huth
-X-Launchpad-Bug-Reporter: Lidong Chen (jemmy858585)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20170411080154.12474.20009.malonedeb@gac.canonical.com>
-Message-Id: <160561396152.29047.14691681329062041249.malone@gac.canonical.com>
-Subject: [Bug 1681688] Re: qemu live migration failed
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a2ee2035671f86427804714f331b9ff7fecaef7e"; Instance="production"
-X-Launchpad-Hash: 9f175018ff730778a15d67ced23dcd1b840379ff
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 04:35:40
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [RFC PATCH-for-5.2] hw/s390x/pci: Fix endianness issue
+Date: Tue, 17 Nov 2020 13:01:15 +0100
+Message-Id: <20201117120115.1234994-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 00:41:22
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,49 +92,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1681688 <1681688@bugs.launchpad.net>
+Cc: Thomas Huth <thuth@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently considering to move its bug tracking to anoth=
-er system. For this we need to know which bugs are still valid and which co=
-uld be closed already. Thus we are setting older bugs to "Incomplete" now.
-If you still think this bug report here is valid, then please switch the st=
-ate back to "New" within the next 60 days, otherwise this report will be ma=
-rked as "Expired". Or mark it as "Fix Released" if the problem has been sol=
-ved with a newer version of QEMU already. Thank you and sorry for the incon=
-venience.
+Fix an endianness issue reported by Cornelia:
 
-** Changed in: qemu
-       Status: Confirmed =3D> Incomplete
+> s390x tcg guest on x86, virtio-pci devices are not detected. The
+> relevant feature bits are visible to the guest. Same breakage with
+> different guest kernels.
+> KVM guests and s390x tcg guests on s390x are fine.
 
--- =
+Fixes: 28dc86a0729 ("s390x/pci: use a PCI Group structure")
+Reported-by: Cornelia Huck <cohuck@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+RFC because review-only patch, untested
+---
+ hw/s390x/s390-pci-inst.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1681688
+diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
+index 58cd041d17f..cfb54b4d8ec 100644
+--- a/hw/s390x/s390-pci-inst.c
++++ b/hw/s390x/s390-pci-inst.c
+@@ -305,7 +305,7 @@ int clp_service_call(S390CPU *cpu, uint8_t r2, uintptr_t ra)
+         ClpReqQueryPciGrp *reqgrp = (ClpReqQueryPciGrp *)reqh;
+         S390PCIGroup *group;
+ 
+-        group = s390_group_find(reqgrp->g);
++        group = s390_group_find(ldl_p(&reqgrp->g));
+         if (!group) {
+             /* We do not allow access to unknown groups */
+             /* The group must have been obtained with a vfio device */
+-- 
+2.26.2
 
-Title:
-  qemu live migration failed
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  qemu live migration failed
-
-  the dest qemu report this error.
-
-  Receiving block device images
-  Completed 0 %^Mqemu-system-x86_64: block/io.c:1348: bdrv_aligned_pwritev:=
- Assertion `child->perm & BLK_PERM_WRITE' failed.
-
-  this bug is caused by this patch:
-  http://git.qemu-project.org/?p=3Dqemu.git;a=3Dcommit;h=3Dd35ff5e6b3aa3a70=
-6b0aa3bcf11400fac945b67a
-
-  rollback this commit, the problem solved.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1681688/+subscriptions
 
