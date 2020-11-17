@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D04EF2B6B16
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 18:09:46 +0100 (CET)
-Received: from localhost ([::1]:49196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5EB92B6B34
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 18:10:23 +0100 (CET)
+Received: from localhost ([::1]:51636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf4UD-0002Tv-Tu
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 12:09:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43760)
+	id 1kf4Uo-0003RM-RP
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 12:10:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kf4Eo-0002zw-G9
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:51 -0500
-Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:44534)
+ id 1kf4Ep-00030Q-NN
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:52 -0500
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:39452)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kf4Em-0007Ep-Jl
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:50 -0500
-Received: by mail-ed1-x542.google.com with SMTP id l5so23151308edq.11
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:53:48 -0800 (PST)
+ id 1kf4En-0007F1-Nw
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:51 -0500
+Received: by mail-ej1-x641.google.com with SMTP id s25so30385081ejy.6
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:53:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=N5gZJAJK4fXqO+74lu1SvTAsbKiMd18NcoO5xUvOas8=;
- b=uOTDMUWuMsu/Tsn3qlAO8Vs6SHwPrY1xn1BzRnsyOjo0M530Pi++sTuWCeg8KC6Aef
- JltwgEkaobH+IvFpTEk+7hczPsKKwQOVimZFbCUN+B0WRlo3k7M9tsZuPkQoAk0AP4n1
- UeBUpXB68ZhoaWyKWNf+R1QqIZPal+ntvR9ktZx23vPsxh24GqvKk2Gf7NzYpKvGDEm1
- CWXENUynOkrj4dJOLk3VzrNilEsiAi26tuvfiDLAkwGmqssWCKxVhE/RRILuKKWAc5DH
- 32gVZ6EnbaY2gMFqnJuPk+jRbtfFdblD9apyUZVYKjnTUWwOJrvGmInQQNZT21aNZRWV
- 4Sgg==
+ bh=uAgpvqohpBXsyMVNyA8GR5izit02yQRNmZMUYiepav8=;
+ b=X9BPg9UapgtZph3d6U1aNS7OiBlNZRBUnDJyS7GMrqg7AVViSnWENLEjt1JB2ZLGVb
+ OV6spRdfrQNMjhntqZnQVW9SEN/hDk05TQMvuPsCnJpUoImqwUdZwdgcuCePHmqkhOTA
+ vHmW5BRfBgIyH3bO5Y9AMdmo5Vcsl9Hcu+XRLQgUz7SdcTqpxu1pach53HdDfMGszE6g
+ sUOrrxWR91ZfWJ269DkOFAzVAfTvI2VWFXZuhAoPedjaa95EHFGDWgT+sERr42ZxGadE
+ NbdFmAm19MJT70hDr9CzAODn8AoNSWkJMwclt30jX9HzqN+qD0WVB+K7TqIKsG0bxpsU
+ BUiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=N5gZJAJK4fXqO+74lu1SvTAsbKiMd18NcoO5xUvOas8=;
- b=Wbllow5txJbHqpFGQ8mPY9mdyrHLil2IEFHE/FYUUFgCluzGrvliB0koJQNd2PET8w
- n3TxYv4Hse0/4s+XVLWMbn6dL83EPWjBZms9YMPnNmu4FY7n58jb3RaXhbcmORLmG4b6
- 67lnf96uysG6PnteghjNbV4wuvOVacBNIz+48AAFg62Tr6W4CahB0jSq67pLnGvP7CbC
- bBrGSuwpgQddBFqE9ddW2rSmlF5Rb/jGnjF7BzAkY37mYmoqGLPWm6zOJQT43pD+NKjs
- T8v4kfB015Dvp5O6ZY9iyRnMfLVNzipSpITgie7uPBQR4UGQs9ZbDh72DNMDECNo+neB
- DT1w==
-X-Gm-Message-State: AOAM531h/a6AOWk8ANETXKR+s8cdIj7hKd9ax5Yzfqzd954AElkUTXby
- De9tjRprbRflKuI+wYNBTE2RLrxeuo4=
-X-Google-Smtp-Source: ABdhPJympmPmKjumJIqkPmUxM1nlrOuOFYR33msVoqxgxiX62ONQnblju0dsfEOsELoc1mbtQ5/6hg==
-X-Received: by 2002:a05:6402:18:: with SMTP id
- d24mr2487022edu.382.1605632026945; 
- Tue, 17 Nov 2020 08:53:46 -0800 (PST)
+ bh=uAgpvqohpBXsyMVNyA8GR5izit02yQRNmZMUYiepav8=;
+ b=hWjBfP58IgGDS30hKL7f5EybsLNpD0QaM9spL3MBE8lDqQ+7b9/xf/aBmEq0aQH5ZE
+ g8lz3fP3ZGBFeJOwr7C1UBxC8hrCwLroD+HH//bw+0wYwkSgwN/MKhHpn3QQ62fEW2PF
+ hPzdiGPO5wQw/Ym1R9WU5LjQ2PtqdeNz7iv9rlk1Z03/5Mlv3P4EL4wOWILU4tL4MD+q
+ iZ83vVgRcysgeJSaO/VvVI9CMmNiVKz0RNPER62elqqs09Flbq8DjdnoHIzGDakC/ylp
+ UMx8+vrkpnUwhCpsprKk8S/om0NxWIDLScva+fENQHshpYS1FjMEv2pwR57V2Whkv9xI
+ 0Tbg==
+X-Gm-Message-State: AOAM532t/mOh/KE79ky1n6a7tjiHLhnPh4yAq6pxCR7E9j5phxTiv5dP
+ iVRBP0n/nR1yXlouP5Rlj3fkf/fPTt8=
+X-Google-Smtp-Source: ABdhPJzwjrftEpDwCSkGeYtZnsb80uf8lmLT4OWpMtZciony9fj18ZO4B3OADvQYXweQahycvhLb/Q==
+X-Received: by 2002:a17:906:2756:: with SMTP id
+ a22mr7902925ejd.81.1605632027978; 
+ Tue, 17 Nov 2020 08:53:47 -0800 (PST)
 Received: from localhost.localdomain ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id u7sm639067ejf.83.2020.11.17.08.53.46
+ by smtp.gmail.com with ESMTPSA id u7sm639067ejf.83.2020.11.17.08.53.47
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Nov 2020 08:53:46 -0800 (PST)
+ Tue, 17 Nov 2020 08:53:47 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 21/29] scripts: kernel-doc: don't mangle with parameter list
-Date: Tue, 17 Nov 2020 17:53:04 +0100
-Message-Id: <20201117165312.118257-22-pbonzini@redhat.com>
+Subject: [PATCH 22/29] scripts: kernel-doc: allow passing desired Sphinx C
+ domain dialect
+Date: Tue, 17 Nov 2020 17:53:05 +0100
+Message-Id: <20201117165312.118257-23-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201117165312.118257-1-pbonzini@redhat.com>
 References: <20201117165312.118257-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::542;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x542.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x641.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -92,131 +93,137 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-While kernel-doc needs to parse parameters in order to
-identify its name, it shouldn't be touching the type,
-as parsing it is very difficult, and errors happen.
+When kernel-doc is called via kerneldoc.py, there's no need to
+auto-detect the Sphinx version, as the Sphinx module already
+knows it. So, add an optional parameter to allow changing the
+Sphinx dialect.
 
-One current error is when parsing this parameter:
+As kernel-doc can also be manually called, keep the auto-detection
+logic if the parameter was not specified. On such case, emit
+a warning if sphinx-build can't be found at PATH.
 
-	const u32 (*tab)[256]
+I ended using a suggestion from Joe for using a more readable
+regex, instead of using a complex one with a hidden group like:
 
-Found at ./lib/crc32.c, on this function:
+	m/^(\d+)\.(\d+)(?:\.?(\d+)?)/
 
-	u32 __pure crc32_be_generic (u32 crc, unsigned char const *p, size_t len, const u32 (*tab)[256], u32 polynomial);
+in order to get the optional <patch> argument.
 
-The current logic mangles it, producing this output:
-
-	const u32 ( *tab
-
-That's something that it is not recognizeable.
-
-So, instead, let's push the argument as-is, and use it
-when printing the function prototype and when describing
-each argument.
-
+Thanks-to: Joe Perches <joe@perches.com>
+Suggested-by: Jonathan Corbet <corbet@lwn.net>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/kernel-doc | 26 ++++++++++++++------------
- 1 file changed, 14 insertions(+), 12 deletions(-)
+ scripts/kernel-doc | 51 ++++++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 43 insertions(+), 8 deletions(-)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 0c31e9ad66..478037f736 100755
+index 478037f736..667ad3169c 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -655,10 +655,10 @@ sub output_function_man(%) {
- 	$type = $args{'parametertypes'}{$parameter};
- 	if ($type =~ m/([^\(]*\(\*)\s*\)\s*\(([^\)]*)\)/) {
- 	    # pointer-to-function
--	    print ".BI \"" . $parenth . $1 . "\" " . $parameter . " \") (" . $2 . ")" . $post . "\"\n";
-+	    print ".BI \"" . $parenth . $1 . "\" " . " \") (" . $2 . ")" . $post . "\"\n";
- 	} else {
- 	    $type =~ s/([^\*])$/$1 /;
--	    print ".BI \"" . $parenth . $type . "\" " . $parameter . " \"" . $post . "\"\n";
-+	    print ".BI \"" . $parenth . $type . "\" " . " \"" . $post . "\"\n";
- 	}
- 	$count++;
- 	$parenth = "";
-@@ -929,7 +929,7 @@ sub output_function_rst(%) {
- 	    # pointer-to-function
- 	    print $1 . $parameter . ") (" . $2 . ")";
- 	} else {
--	    print $type . " " . $parameter;
-+	    print $type;
- 	}
-     }
-     if ($args{'typedef'}) {
-@@ -954,7 +954,7 @@ sub output_function_rst(%) {
- 	$type = $args{'parametertypes'}{$parameter};
+@@ -56,6 +56,13 @@ Output format selection (mutually exclusive):
+   -rst			Output reStructuredText format.
+   -none			Do not output documentation, only warnings.
  
- 	if ($type ne "") {
--	    print "``$type $parameter``\n";
-+	    print "``$type``\n";
- 	} else {
- 	    print "``$parameter``\n";
- 	}
-@@ -1479,7 +1479,7 @@ sub create_parameterlist($$$$) {
- 	    # Treat preprocessor directive as a typeless variable just to fill
- 	    # corresponding data structures "correctly". Catch it later in
- 	    # output_* subs.
--	    push_parameter($arg, "", $file);
-+	    push_parameter($arg, "", "", $file);
- 	} elsif ($arg =~ m/\(.+\)\s*\(/) {
- 	    # pointer-to-function
- 	    $arg =~ tr/#/,/;
-@@ -1488,7 +1488,7 @@ sub create_parameterlist($$$$) {
- 	    $type = $arg;
- 	    $type =~ s/([^\(]+\(\*?)\s*$param/$1/;
- 	    save_struct_actual($param);
--	    push_parameter($param, $type, $file, $declaration_name);
-+	    push_parameter($param, $type, $arg, $file, $declaration_name);
- 	} elsif ($arg) {
- 	    $arg =~ s/\s*:\s*/:/g;
- 	    $arg =~ s/\s*\[/\[/g;
-@@ -1513,26 +1513,28 @@ sub create_parameterlist($$$$) {
- 	    foreach $param (@args) {
- 		if ($param =~ m/^(\*+)\s*(.*)/) {
- 		    save_struct_actual($2);
--		    push_parameter($2, "$type $1", $file, $declaration_name);
++Output format selection modifier (affects only ReST output):
 +
-+		    push_parameter($2, "$type $1", $arg, $file, $declaration_name);
- 		}
- 		elsif ($param =~ m/(.*?):(\d+)/) {
- 		    if ($type ne "") { # skip unnamed bit-fields
- 			save_struct_actual($1);
--			push_parameter($1, "$type:$2", $file, $declaration_name)
-+			push_parameter($1, "$type:$2", $arg, $file, $declaration_name)
- 		    }
- 		}
- 		else {
- 		    save_struct_actual($param);
--		    push_parameter($param, $type, $file, $declaration_name);
-+		    push_parameter($param, $type, $arg, $file, $declaration_name);
- 		}
- 	    }
++  -sphinx-version	Use the ReST C domain dialect compatible with an
++			specific Sphinx Version.
++			If not specified, kernel-doc will auto-detect using
++			the sphinx-build version found on PATH.
++
+ Output selection (mutually exclusive):
+   -export		Only output documentation for symbols that have been
+ 			exported using EXPORT_SYMBOL() or EXPORT_SYMBOL_GPL()
+@@ -270,7 +277,7 @@ if ($#ARGV == -1) {
+ }
+ 
+ my $kernelversion;
+-my $sphinx_major;
++my ($sphinx_major, $sphinx_minor, $sphinx_patch);
+ 
+ my $dohighlight = "";
+ 
+@@ -457,6 +464,23 @@ while ($ARGV[0] =~ m/^--?(.*)/) {
+ 	    $enable_lineno = 1;
+     } elsif ($cmd eq 'show-not-found') {
+ 	$show_not_found = 1;  # A no-op but don't fail
++    } elsif ($cmd eq "sphinx-version") {
++	my $ver_string = shift @ARGV;
++	if ($ver_string =~ m/^(\d+)(\.\d+)?(\.\d+)?/) {
++	    $sphinx_major = $1;
++	    if (defined($2)) {
++		$sphinx_minor = substr($2,1);
++	    } else {
++		$sphinx_minor = 0;
++	    }
++	    if (defined($3)) {
++		$sphinx_patch = substr($3,1)
++	    } else {
++		$sphinx_patch = 0;
++	    }
++	} else {
++	    die "Sphinx version should either major.minor or major.minor.patch format\n";
++	}
+     } else {
+ 	# Unknown argument
+         usage();
+@@ -477,29 +501,37 @@ sub findprog($)
+ sub get_sphinx_version()
+ {
+ 	my $ver;
+-	my $major = 1;
+ 
+ 	my $cmd = "sphinx-build";
+ 	if (!findprog($cmd)) {
+ 		my $cmd = "sphinx-build3";
+-		return $major if (!findprog($cmd));
++		if (!findprog($cmd)) {
++			$sphinx_major = 1;
++			$sphinx_minor = 2;
++			$sphinx_patch = 0;
++			printf STDERR "Warning: Sphinx version not found. Using default (Sphinx version %d.%d.%d)\n",
++			       $sphinx_major, $sphinx_minor, $sphinx_patch;
++			return;
++		}
  	}
-     }
+ 
+ 	open IN, "$cmd --version 2>&1 |";
+ 	while (<IN>) {
+ 		if (m/^\s*sphinx-build\s+([\d]+)\.([\d\.]+)(\+\/[\da-f]+)?$/) {
+-			$major=$1;
++			$sphinx_major = $1;
++			$sphinx_minor = $2;
++			$sphinx_patch = $3;
+ 			last;
+ 		}
+ 		# Sphinx 1.2.x uses a different format
+ 		if (m/^\s*Sphinx.*\s+([\d]+)\.([\d\.]+)$/) {
+-			$major=$1;
++			$sphinx_major = $1;
++			$sphinx_minor = $2;
++			$sphinx_patch = $3;
+ 			last;
+ 		}
+ 	}
+ 	close IN;
+-
+-	return $major;
  }
  
--sub push_parameter($$$$) {
-+sub push_parameter($$$$$) {
- 	my $param = shift;
- 	my $type = shift;
-+	my $org_arg = shift;
- 	my $file = shift;
- 	my $declaration_name = shift;
- 
-@@ -1596,8 +1598,8 @@ sub push_parameter($$$$) {
- 	# "[blah" in a parameter string;
- 	###$param =~ s/\s*//g;
- 	push @parameterlist, $param;
--	$type =~ s/\s\s+/ /g;
--	$parametertypes{$param} = $type;
-+	$org_arg =~ s/\s\s+/ /g;
-+	$parametertypes{$param} = $org_arg;
+ # get kernel version from env
+@@ -2333,7 +2365,10 @@ sub process_file($) {
  }
  
- sub check_sections($$$$$) {
+ 
+-$sphinx_major = get_sphinx_version();
++if ($output_mode eq "rst") {
++	get_sphinx_version() if (!$sphinx_major);
++}
++
+ $kernelversion = get_kernel_version();
+ 
+ # generate a sequence of code that will splice in highlighting information
 -- 
 2.28.0
 
