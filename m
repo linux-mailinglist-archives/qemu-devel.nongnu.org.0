@@ -2,48 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA0302B5EF2
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 13:18:12 +0100 (CET)
-Received: from localhost ([::1]:33052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC0C92B5EF3
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 13:18:17 +0100 (CET)
+Received: from localhost ([::1]:33548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kezw3-0003re-Io
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 07:18:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58580)
+	id 1kezw8-00043l-Sd
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 07:18:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kezu9-0002MQ-1U
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 07:16:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60791)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kezuB-0002OZ-Ij
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 07:16:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43186)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kezu6-0002dT-Pz
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 07:16:12 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kezuA-0002el-0D
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 07:16:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605615369;
+ s=mimecast20190719; t=1605615373;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Fb5B6lE4tNGEjdbPXYcZmdmp1gTQvC7DXjihuTUxdiQ=;
- b=Q30qiysu2A04xFRr3Ff+n+6EFI3C/YrZbvV62oLpfv1wLmN6OodOIk9K961IKQRi2hwyI3
- MiBxKhyt/oOJ3ps5TvVQNcdslD1c5TuDD/EEE+YbdKggd8SQds3gja9OEYOETH/xQQaUFa
- xkK2s0Iw6he5umh0HEiwr/t28fxDigI=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MsxXkIhF01+c5mYUNzcpRyzD+aT+05ACEJDrxdECM3w=;
+ b=DWX8HFrz4yJm+R7NRka4kgQhFXdi5Yc9SjzbZCEHFjpK8GFWDzvWsP0PbOMPUI9uXp1Pm6
+ RrglgEDWPUjQExMnsBL1egX1Ud4CtapScmAcFYd9Cnw9f45DltBVPcnaobTqOh+/zZKwKn
+ 0B4gLBrBixku7oSYtDXJOCsvRtGuz9Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-145-iuMfV25fPxKBuuKJpcE4hw-1; Tue, 17 Nov 2020 07:16:08 -0500
-X-MC-Unique: iuMfV25fPxKBuuKJpcE4hw-1
+ us-mta-151-U0odU1Y0MKar5tuKauM71g-1; Tue, 17 Nov 2020 07:16:09 -0500
+X-MC-Unique: U0odU1Y0MKar5tuKauM71g-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0ECC879520;
- Tue, 17 Nov 2020 12:16:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 224F387951F;
+ Tue, 17 Nov 2020 12:16:08 +0000 (UTC)
 Received: from merkur.redhat.com (ovpn-114-113.ams2.redhat.com [10.36.114.113])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 95BB510013D0;
- Tue, 17 Nov 2020 12:16:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 254AD10013D0;
+ Tue, 17 Nov 2020 12:16:06 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 0/7] Patches for 5.2.0-rc2
-Date: Tue, 17 Nov 2020 13:15:51 +0100
-Message-Id: <20201117121558.249585-1-kwolf@redhat.com>
+Subject: [PULL 1/7] char-stdio: Fix QMP default for 'signal'
+Date: Tue, 17 Nov 2020 13:15:52 +0100
+Message-Id: <20201117121558.249585-2-kwolf@redhat.com>
+In-Reply-To: <20201117121558.249585-1-kwolf@redhat.com>
+References: <20201117121558.249585-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
@@ -62,7 +65,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,51 +82,57 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit bce36c6c5436c0c2679b42c6de54de5393dfcf59:
+Commit 02c4bdf1 tried to make signal=on the default for stdio chardevs
+except for '-serial mon:stdio', but it forgot about QMP and accidentally
+switched the QMP default from true (except for -nographic) to false
+(always). The documentation was kept unchanged and still describes the
+opposite of the old behaviour (which is an even older documentation
+bug).
 
-  Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2020-11-16 22:29:51 +0000)
+Fix all of this by making signal=true the default in ChardevStdio and
+documenting it as such.
 
-are available in the Git repository at:
+Fixes: 02c4bdf1d2ca8c02a9bae16398f260b5c08d08bf
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Message-Id: <20201023101222.250147-2-kwolf@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ qapi/char.json       | 3 +--
+ chardev/char-stdio.c | 4 +---
+ 2 files changed, 2 insertions(+), 5 deletions(-)
 
-  git://repo.or.cz/qemu/kevin.git tags/for-upstream
-
-for you to fetch changes up to c61c644f59c43017f9577d7f867c48bb9d7a28ad:
-
-  iotests/081: Test rewrite-corrupted without WRITE (2020-11-17 12:38:32 +0100)
-
-----------------------------------------------------------------
-Patches for 5.2.0-rc2:
-
-- quorum: Fix crash with rewrite-corrupted and without read-write user
-- io_uring: do not use pointer after free
-- file-posix: Use fallback path for -EBUSY from FALLOC_FL_PUNCH_HOLE
-- iotests: Fix failure on Python 3.9 due to use of a deprecated function
-- char-stdio: Fix QMP default for 'signal'
-
-----------------------------------------------------------------
-Kevin Wolf (2):
-      char-stdio: Fix QMP default for 'signal'
-      iotests: Replace deprecated ConfigParser.readfp()
-
-Max Reitz (3):
-      quorum: Require WRITE perm with rewrite-corrupted
-      iotests/081: Filter image format after testdir
-      iotests/081: Test rewrite-corrupted without WRITE
-
-Maxim Levitsky (1):
-      file-posix: allow -EBUSY errors during write zeros on raw block devices
-
-Paolo Bonzini (1):
-      io_uring: do not use pointer after free
-
- qapi/char.json                           |  3 +-
- block/file-posix.c                       |  1 +
- block/io_uring.c                         |  2 +-
- block/quorum.c                           |  5 +++
- chardev/char-stdio.c                     |  4 +--
- tests/qemu-iotests/nbd-fault-injector.py |  2 +-
- tests/qemu-iotests/081                   | 61 ++++++++++++++++++++++++++++++--
- tests/qemu-iotests/081.out               | 27 ++++++++++++++
- 8 files changed, 95 insertions(+), 10 deletions(-)
+diff --git a/qapi/char.json b/qapi/char.json
+index b4d66ec90b..43486d1daa 100644
+--- a/qapi/char.json
++++ b/qapi/char.json
+@@ -321,8 +321,7 @@
+ # Configuration info for stdio chardevs.
+ #
+ # @signal: Allow signals (such as SIGINT triggered by ^C)
+-#          be delivered to qemu.  Default: true in -nographic mode,
+-#          false otherwise.
++#          be delivered to qemu.  Default: true.
+ #
+ # Since: 1.5
+ ##
+diff --git a/chardev/char-stdio.c b/chardev/char-stdio.c
+index 82eaebc1db..403da308c9 100644
+--- a/chardev/char-stdio.c
++++ b/chardev/char-stdio.c
+@@ -112,9 +112,7 @@ static void qemu_chr_open_stdio(Chardev *chr,
+ 
+     qemu_chr_open_fd(chr, 0, 1);
+ 
+-    if (opts->has_signal) {
+-        stdio_allow_signal = opts->signal;
+-    }
++    stdio_allow_signal = !opts->has_signal || opts->signal;
+     qemu_chr_set_echo_stdio(chr, false);
+ }
+ #endif
+-- 
+2.28.0
 
 
