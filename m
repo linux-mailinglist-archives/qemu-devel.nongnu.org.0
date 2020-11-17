@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFB022B6BB4
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 18:28:37 +0100 (CET)
-Received: from localhost ([::1]:40776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5B8B2B6BE8
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 18:38:37 +0100 (CET)
+Received: from localhost ([::1]:52462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf4mS-0006I8-Ll
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 12:28:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55632)
+	id 1kf4w8-0003M0-B6
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 12:38:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kf4km-0005mE-GC
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 12:26:52 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:36915)
+ id 1kf4uJ-0001iC-A0
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 12:36:43 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:46212)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kf4kk-0002bR-P7
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 12:26:52 -0500
-Received: by mail-wm1-x344.google.com with SMTP id h21so3979728wmb.2
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 09:26:50 -0800 (PST)
+ id 1kf4uH-0006LQ-G4
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 12:36:42 -0500
+Received: by mail-wr1-x435.google.com with SMTP id d12so23990192wrr.13
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 09:36:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=qsyzZMeq8aidi9nA7AJx3SY7dRgdbzxyet8D12H3+7w=;
- b=YVMcpyBoWR5E7OaJzRUmVEoN+jmrKoTlMHuMfv4SDjHs4ccYoBdga90IcVrs1nNelo
- kooEu1AR6O9qqBiaa1x1ZjRNr2Oui9ozoERxz5aBr1J4WaDfe7WF3+7yWGpwVoElv1ex
- LRuP9bdNuzTTJPotBeiMmUwFoW5NdL2gV5OzyktyD7XoarSsj9L6e7FRBhgfA169o1z8
- VfVjWsJdCRDt54nAahFhZBI1up8tOvSeFB12D3WRZSRJqjSvlEzDAhEJK7bOn6vebU1o
- vitSwA52vJon57TD0Do+icN7xtA6PCAWA8FnfnMlereRdJiT3xTKXOAJ06+5aVCrtsIi
- +RRw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cORYvcJojm/q7/iRMhCj6jVk76IWQV3RoYfns1SZ8Ig=;
+ b=IIfwsRnGIDE4NE7FPhrgCWIYsusJBLxSoUSJKVIGX95kBdoRWuxHZO2JoPGuDL/pwY
+ VmONkGl4p3mr1EmJQTbdXNhvAPJhOkGofGZL1B3sPSyRLsrAbKhf++MGhbIsmAVFXUfw
+ M4i0+An8lCHm34/e0xtf/UF3JdU3keLF0pLSrggCHcnCAjJrocpFT3zE8tWy87l0zEZ3
+ OSGh234//+74qyj8npySh1kNrhhlSRqS20ZtI6zsK88TB2CA2cFpaLZ/FTleEI8pFkgC
+ V+jOuKouEdyiG5vDdhA+kzVR4odkbfDzuvTSQYWRv0ku3LtHyX8URb/hcPk/6wouJ3Eq
+ VNjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=qsyzZMeq8aidi9nA7AJx3SY7dRgdbzxyet8D12H3+7w=;
- b=E9M1Ez1wiXjglJUzFrDdi3eMrS8mhM5BM4S3JbN9nONgEnrtggrmnYbh0cvUWsngk4
- hEGbHaxBgNLGb50bkmLHoerGuKDwo5YAAoeU+nLmBpwpe9yQ83jkFsduegHXr00zXAjP
- y75wwmu65tis5fOofgslFwybaFZAmDSTNwUHt5MYC4pKMTLzQ6Suuc/7XbQxekerY3SK
- hB2Sefm8ohYnIO4OEdbrQEuhOpPzlZZIIXrPqRZFOqhXGWLwEvUDItWY1WPvWlpRzg83
- GVp814kYxeKAsuFdPj3ZT+b2QX3SjTPMko/dXaUuA5r7Kqg9R4aikJTpSBAnb8eYzLVZ
- D6SQ==
-X-Gm-Message-State: AOAM531+MM4RY1gqQKphMf43Q4s59Jqdd/wMoYDBAP/2kmEWaBRZbdIq
- lbFicgt+tfUsOX2NS0caqq89VQ==
-X-Google-Smtp-Source: ABdhPJwtHkgqc9201aX5R85PXtmUn8rhllVTGJSXOOQ6XEbjnw9gs0sgoij27cbTyhPsslTAjnra+A==
-X-Received: by 2002:a7b:c925:: with SMTP id h5mr143402wml.5.1605634008969;
- Tue, 17 Nov 2020 09:26:48 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cORYvcJojm/q7/iRMhCj6jVk76IWQV3RoYfns1SZ8Ig=;
+ b=LEqAEkxxcnUsnmJnt4HYoFvSZL352NAh2LgDtEqXtEmIWrwpxMahhczw75uCpgiCli
+ O31YFZe6HX8FVleINONJWqvzCKS7W3pIyRE6LOlpRFCiLlVXTB9ACUbkcoSS3exBFDfQ
+ szakRdlGIu4/X9fKpzKOo8AhAByXWS/+MIXPFUGDwl3/7UWVPn+tLr/qnmjvpDK8t2QT
+ Y48RuDi0zFwPe2Mf2G78Hyxnanz32ggBb4Yp6Mf7KBi07Rsc4Yxq2D3iR8tueEY7VyAl
+ 1RnVAF1YDOR/nHqmIzGWtc1e6Yl6w07sjXONbIAvPRzJvJaCIGQ9gFtAb6iPAj75qpxe
+ sTqw==
+X-Gm-Message-State: AOAM532gTEdKIQcLi+kYdb+jeWMgZGRc1sGXL124k1NTDxHCvoVdL1Ga
+ KYHIo+Y+3WgGF8+wtWBSGHI7zw==
+X-Google-Smtp-Source: ABdhPJx6/z47tZFuhcYemk3gv75dQmI1LPqf/QwbQwi2T3W6CeiZF286634CxiaLomQ9ZcT26cHgYQ==
+X-Received: by 2002:a5d:6250:: with SMTP id m16mr660127wrv.400.1605634597175; 
+ Tue, 17 Nov 2020 09:36:37 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x12sm22264114wrt.18.2020.11.17.09.26.47
+ by smtp.gmail.com with ESMTPSA id j8sm24780548wrx.11.2020.11.17.09.36.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Nov 2020 09:26:47 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DD7101FF7E;
- Tue, 17 Nov 2020 17:26:46 +0000 (GMT)
-References: <20201106032921.600200-1-richard.henderson@linaro.org>
- <CA+E+eSAOL+Gx=8X54HTFup5Qash7erpuCSY3_t2gynr1X27tXg@mail.gmail.com>
- <8b0e2ecd-0a2d-de71-2fa6-6e47758d4db6@linaro.org>
- <CA+E+eSB6xuwWDvfzbwY1D6mxXg78ouhNyvHgzeaUDwgBhvyjQA@mail.gmail.com>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Joelle van Dyne <j@getutm.app>
-Subject: Re: [PATCH v3 00/41] Mirror map JIT memory for TCG
-In-reply-to: <CA+E+eSB6xuwWDvfzbwY1D6mxXg78ouhNyvHgzeaUDwgBhvyjQA@mail.gmail.com>
-Date: Tue, 17 Nov 2020 17:26:46 +0000
-Message-ID: <87blfvx5bd.fsf@linaro.org>
+ Tue, 17 Nov 2020 09:36:36 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 5B60D1FF7E;
+ Tue, 17 Nov 2020 17:36:35 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for 5.3-rc3 v1 0/6] testing fixes (avocado, gitlab)
+Date: Tue, 17 Nov 2020 17:36:29 +0000
+Message-Id: <20201117173635.29101-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,47 +86,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
 
-Joelle van Dyne <j@getutm.app> writes:
+Here are a few more minor fixes for 5.2-rc3:
 
-> Sorry, are you asking for a review from me? I don=E2=80=99t know if I=E2=
-=80=99m
-> qualified to review the other patches but I did review the iOS patch.
+  - a tweak to the gitlab status script (from last series)
+  - moving check-tcg to gitlab (also in last series)
+  - fix some tempdir names and left overs
+  - moving some more tests to gitlab
 
-Anyone can review code and given you wrote the original patches you
-certainly know enough about the flow to give some opinion. If things
-aren't clear then please do ask questions. The pool of TCG backend
-reviewers is small enough and helping out does help.
+The following need review:
 
-Failing that you can always send Tested-by: tags once you've tested a
-series on the HW.
+  - gitlab: move remaining x86 check-tcg targets to gitlab
+  - tests/avocado: clean-up socket directory after run
+  - tests: add prefixes to the bare mkdtemp calls
+  - scripts/ci: clean up default args logic a little
 
->
-> -j
->
-> On Tue, Nov 17, 2020 at 9:20 AM Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> On 11/16/20 7:47 PM, Joelle van Dyne wrote:
->> > Hi, I'm wondering what the progress is for this patch set and the iOS
->> > support one? I know 5.2 is frozen, so will this be considered for 6.0?
->> > Apple Silicon Macs are out now and a few people are asking about QEMU
->> > support :)
->>
->> Yes, this will be considered for 6.0.
->>
->> It does need to be reviewed more completely than a "LGTM", but there's t=
-ime for
->> that.
->>
->>
->> r~
+Alex Bennée (4):
+  scripts/ci: clean up default args logic a little
+  tests: add prefixes to the bare mkdtemp calls
+  tests/avocado: clean-up socket directory after run
+  gitlab: move remaining x86 check-tcg targets to gitlab
 
+Philippe Mathieu-Daudé (2):
+  tests/docker: Install liblttng-ust-dev package in Ubuntu 20.04 image
+  gitlab-ci: Move trace backend tests across to gitlab
 
---=20
-Alex Benn=C3=A9e
+ .gitlab-ci.yml                             | 35 +++++++++++++++++
+ .travis.yml                                | 45 ----------------------
+ python/qemu/machine.py                     |  3 +-
+ scripts/ci/gitlab-pipeline-status          | 24 ++++++------
+ tests/acceptance/avocado_qemu/__init__.py  |  4 +-
+ tests/docker/dockerfiles/ubuntu2004.docker |  1 +
+ 6 files changed, 54 insertions(+), 58 deletions(-)
+
+-- 
+2.20.1
+
 
