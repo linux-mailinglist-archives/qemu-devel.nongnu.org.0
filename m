@@ -2,100 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 185D52B57D8
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 04:27:38 +0100 (CET)
-Received: from localhost ([::1]:50456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFA3D2B587A
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 04:49:47 +0100 (CET)
+Received: from localhost ([::1]:58436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kerea-0000vd-Mt
-	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 22:27:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37218)
+	id 1kes02-00054t-7C
+	for lists+qemu-devel@lfdr.de; Mon, 16 Nov 2020 22:49:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1kerdK-0008Qd-34; Mon, 16 Nov 2020 22:26:18 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:63568)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1kerdH-0007ys-VU; Mon, 16 Nov 2020 22:26:17 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0AH31khP183435; Mon, 16 Nov 2020 22:26:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references; s=pp1;
- bh=LLDg9M17rvfyUJ3mF0ORdVIDv9Yuo1rSpK51HGiOziA=;
- b=U+8A63rN+4Hrz5WtKwb0pnJUikTe7GgmyKw0S3Y8PTve3GfyWf88eFF2EqaTKtAaoflL
- g8qJoLADPl5kAWMYIlwsMmr8aVVSkps0vdRzRK/VkOOWgiw/9E3bW4kYd7ivXkeAtjdK
- q4tIttDj3SsW2W09Z0UfLkXmv8z8YNauNAHi3I5WBct8Ctn8w2bs6vZfZoYthUrrzi9q
- NBAsMzuvlnSuEwtoekJD+BFIF+7Hof7ErFomv262Z/975rrm6QNX1nWteibvzX9TJHtQ
- nFYk93UgHwsuYuEpWa5VwPWdgkQMSCrG8U4Z7P7InNIwVyzoYa9DfYgC2fK1o9B6O9qu +w== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34v3w9kbcf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 16 Nov 2020 22:26:12 -0500
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0AH31l6s183470;
- Mon, 16 Nov 2020 22:26:12 -0500
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34v3w9kbby-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 16 Nov 2020 22:26:12 -0500
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0AH3Msax025902;
- Tue, 17 Nov 2020 03:26:09 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma06fra.de.ibm.com with ESMTP id 34t6gh9ck0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 17 Nov 2020 03:26:09 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 0AH3Q7j458065320
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 17 Nov 2020 03:26:07 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7146E4C058;
- Tue, 17 Nov 2020 03:26:07 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 59B494C05A;
- Tue, 17 Nov 2020 03:26:07 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Tue, 17 Nov 2020 03:26:07 +0000 (GMT)
-Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 4958)
- id 1A8CEE14DC; Tue, 17 Nov 2020 04:26:07 +0100 (CET)
-From: Eric Farman <farman@linux.ibm.com>
-To: Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>
-Subject: [RFC PATCH 2/2] vfio-ccw: Connect the device request notifier
-Date: Tue, 17 Nov 2020 04:26:05 +0100
-Message-Id: <20201117032605.56831-3-farman@linux.ibm.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201117032605.56831-1-farman@linux.ibm.com>
-References: <20201117032605.56831-1-farman@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
- definitions=2020-11-16_13:2020-11-13,
- 2020-11-16 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- suspectscore=0 impostorscore=0 spamscore=0 priorityscore=1501 adultscore=0
- phishscore=0 malwarescore=0 mlxscore=0 bulkscore=0 lowpriorityscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011170020
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farman@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 22:26:13
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1kery8-0004dw-RE
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 22:47:48 -0500
+Received: from mail-io1-f66.google.com ([209.85.166.66]:33954)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1kery6-0004Ip-St
+ for qemu-devel@nongnu.org; Mon, 16 Nov 2020 22:47:48 -0500
+Received: by mail-io1-f66.google.com with SMTP id s10so19778071ioe.1
+ for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 19:47:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QFW1eAYUfhB1godtUy6RpnSfAi5590YyU1T0bVVFuwY=;
+ b=sS2UU8bT3Rr5YxQCYfRevnJImBNxGppM2D68HxpYXnxGti8wPBfaief46OZsyXfZJd
+ ETHYqZJ8Cw19DjCZ0Vc3WOcUV+Ok4/E/lNV1NsYpb4YLHX/e3QW9VTbgcRkZIAWTuQL8
+ a+XtwY2uKnrYP2eXk0eH/t0DSFfGWYLVsFpNU/hFFpI0pJZZsBsEEADgNwds2pIrIAXS
+ lT12pMs0Fk6HzSlLTf4JiexE1IN6lgOXdRWO5cc7nYkEKLRHOKB7niFEPtr4gbpSv+Ia
+ j6pMmmNFwA/dkj1UtANuU+eW2ApdDpn2qDoPXUsMVpGmnvB9FoLJRpUD+Xbl9ZenDKxr
+ lefA==
+X-Gm-Message-State: AOAM5314+zaFrcP5PSkrs+912bajcVleUPqhCmYr18tmK9SQwi8ri6zK
+ ZWE5fc6+1TsewWXqJLHaVNyda5FdfJM=
+X-Google-Smtp-Source: ABdhPJzEqQMka7MiUnGiPqhj19O2J+fjh7yvUAbUX6L1Wq9SwB5LJyCEFNCJCqsJ1sCvFFxPQ6H6Gg==
+X-Received: by 2002:a6b:c8c1:: with SMTP id
+ y184mr10015941iof.109.1605584865230; 
+ Mon, 16 Nov 2020 19:47:45 -0800 (PST)
+Received: from mail-il1-f169.google.com (mail-il1-f169.google.com.
+ [209.85.166.169])
+ by smtp.gmail.com with ESMTPSA id u1sm12044012ilb.74.2020.11.16.19.47.40
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Nov 2020 19:47:41 -0800 (PST)
+Received: by mail-il1-f169.google.com with SMTP id w8so7267423ilg.12
+ for <qemu-devel@nongnu.org>; Mon, 16 Nov 2020 19:47:40 -0800 (PST)
+X-Received: by 2002:a92:ddc2:: with SMTP id d2mr8513361ilr.33.1605584860624;
+ Mon, 16 Nov 2020 19:47:40 -0800 (PST)
+MIME-Version: 1.0
+References: <20201106032921.600200-1-richard.henderson@linaro.org>
+In-Reply-To: <20201106032921.600200-1-richard.henderson@linaro.org>
+From: Joelle van Dyne <j@getutm.app>
+Date: Mon, 16 Nov 2020 21:47:29 -0600
+X-Gmail-Original-Message-ID: <CA+E+eSAOL+Gx=8X54HTFup5Qash7erpuCSY3_t2gynr1X27tXg@mail.gmail.com>
+Message-ID: <CA+E+eSAOL+Gx=8X54HTFup5Qash7erpuCSY3_t2gynr1X27tXg@mail.gmail.com>
+Subject: Re: [PATCH v3 00/41] Mirror map JIT memory for TCG
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=209.85.166.66; envelope-from=osy86dev@gmail.com;
+ helo=mail-io1-f66.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/16 22:47:45
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,116 +81,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Farman <farman@linux.ibm.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that the vfio-ccw code has a notifier interface to request that
-a device be unplugged, let's wire that together.
+Hi, I'm wondering what the progress is for this patch set and the iOS
+support one? I know 5.2 is frozen, so will this be considered for 6.0?
+Apple Silicon Macs are out now and a few people are asking about QEMU
+support :)
 
-Signed-off-by: Eric Farman <farman@linux.ibm.com>
----
- hw/vfio/ccw.c | 40 ++++++++++++++++++++++++++++++++++++----
- 1 file changed, 36 insertions(+), 4 deletions(-)
+-j
 
-diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
-index d2755d7fc5..bc78a0ad76 100644
---- a/hw/vfio/ccw.c
-+++ b/hw/vfio/ccw.c
-@@ -49,6 +49,7 @@ struct VFIOCCWDevice {
-     struct ccw_crw_region *crw_region;
-     EventNotifier io_notifier;
-     EventNotifier crw_notifier;
-+    EventNotifier req_notifier;
-     bool force_orb_pfch;
-     bool warned_orb_pfch;
- };
-@@ -287,6 +288,21 @@ static void vfio_ccw_crw_read(VFIOCCWDevice *vcdev)
-     } while (1);
- }
- 
-+static void vfio_ccw_req_notifier_handler(void *opaque)
-+{
-+    VFIOCCWDevice *vcdev = opaque;
-+    Error *err = NULL;
-+
-+    if (!event_notifier_test_and_clear(&vcdev->req_notifier)) {
-+        return;
-+    }
-+
-+    qdev_unplug(DEVICE(vcdev), &err);
-+    if (err) {
-+        warn_reportf_err(err, VFIO_MSG_PREFIX, vcdev->vdev.name);
-+    }
-+}
-+
- static void vfio_ccw_crw_notifier_handler(void *opaque)
- {
-     VFIOCCWDevice *vcdev = opaque;
-@@ -386,6 +402,10 @@ static void vfio_ccw_register_irq_notifier(VFIOCCWDevice *vcdev,
-         notifier = &vcdev->crw_notifier;
-         fd_read = vfio_ccw_crw_notifier_handler;
-         break;
-+    case VFIO_CCW_REQ_IRQ_INDEX:
-+        notifier = &vcdev->req_notifier;
-+        fd_read = vfio_ccw_req_notifier_handler;
-+        break;
-     default:
-         error_setg(errp, "vfio: Unsupported device irq(%d)", irq);
-         return;
-@@ -440,6 +460,9 @@ static void vfio_ccw_unregister_irq_notifier(VFIOCCWDevice *vcdev,
-     case VFIO_CCW_CRW_IRQ_INDEX:
-         notifier = &vcdev->crw_notifier;
-         break;
-+    case VFIO_CCW_REQ_IRQ_INDEX:
-+        notifier = &vcdev->req_notifier;
-+        break;
-     default:
-         error_report("vfio: Unsupported device irq(%d)", irq);
-         return;
-@@ -661,20 +684,28 @@ static void vfio_ccw_realize(DeviceState *dev, Error **errp)
- 
-     vfio_ccw_register_irq_notifier(vcdev, VFIO_CCW_IO_IRQ_INDEX, &err);
-     if (err) {
--        goto out_notifier_err;
-+        goto out_io_notifier_err;
-     }
- 
-     if (vcdev->crw_region) {
-         vfio_ccw_register_irq_notifier(vcdev, VFIO_CCW_CRW_IRQ_INDEX, &err);
-         if (err) {
--            vfio_ccw_unregister_irq_notifier(vcdev, VFIO_CCW_IO_IRQ_INDEX);
--            goto out_notifier_err;
-+            goto out_crw_notifier_err;
-         }
-     }
- 
-+    vfio_ccw_register_irq_notifier(vcdev, VFIO_CCW_REQ_IRQ_INDEX, &err);
-+    if (err) {
-+        goto out_req_notifier_err;
-+    }
-+
-     return;
- 
--out_notifier_err:
-+out_req_notifier_err:
-+    vfio_ccw_unregister_irq_notifier(vcdev, VFIO_CCW_CRW_IRQ_INDEX);
-+out_crw_notifier_err:
-+    vfio_ccw_unregister_irq_notifier(vcdev, VFIO_CCW_IO_IRQ_INDEX);
-+out_io_notifier_err:
-     vfio_ccw_put_region(vcdev);
- out_region_err:
-     vfio_ccw_put_device(vcdev);
-@@ -696,6 +727,7 @@ static void vfio_ccw_unrealize(DeviceState *dev)
-     S390CCWDeviceClass *cdc = S390_CCW_DEVICE_GET_CLASS(cdev);
-     VFIOGroup *group = vcdev->vdev.group;
- 
-+    vfio_ccw_unregister_irq_notifier(vcdev, VFIO_CCW_REQ_IRQ_INDEX);
-     vfio_ccw_unregister_irq_notifier(vcdev, VFIO_CCW_CRW_IRQ_INDEX);
-     vfio_ccw_unregister_irq_notifier(vcdev, VFIO_CCW_IO_IRQ_INDEX);
-     vfio_ccw_put_region(vcdev);
--- 
-2.17.1
-
+On Thu, Nov 5, 2020 at 9:29 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> This is my take on Joelle's patch set:
+> https://lists.nongnu.org/archive/html/qemu-devel/2020-10/msg07837.html
+>
+> Changes for v3:
+>   * Even more patches -- all tcg backends converted.
+>   * Fixups for darwin/ios merged (Joelle).
+>   * Feature renamed to splitwx (Paolo).
+>
+>
+> r~
+>
+>
+> Richard Henderson (41):
+>   tcg: Enhance flush_icache_range with separate data pointer
+>   tcg: Move tcg prologue pointer out of TCGContext
+>   tcg: Move tcg epilogue pointer out of TCGContext
+>   tcg: Add in_code_gen_buffer
+>   tcg: Introduce tcg_splitwx_to_{rx,rw}
+>   tcg: Adjust TCGLabel for const
+>   tcg: Adjust tcg_out_call for const
+>   tcg: Adjust tcg_out_label for const
+>   tcg: Adjust tcg_register_jit for const
+>   tcg: Adjust tb_target_set_jmp_target for split-wx
+>   tcg: Make DisasContextBase.tb const
+>   tcg: Make tb arg to synchronize_from_tb const
+>   tcg: Use Error with alloc_code_gen_buffer
+>   tcg: Add --accel tcg,split-wx property
+>   accel/tcg: Support split-wx for linux with memfd
+>   accel/tcg: Support split-wx for darwin/iOS with vm_remap
+>   tcg: Return the TB pointer from the rx region from exit_tb
+>   tcg/i386: Support split-wx code generation
+>   tcg/aarch64: Use B not BL for tcg_out_goto_long
+>   tcg/aarch64: Implement flush_idcache_range manually
+>   tcg/aarch64: Support split-wx code generation
+>   disas: Push const down through host disasassembly
+>   tcg/tci: Push const down through bytecode reading
+>   tcg: Introduce tcg_tbrel_diff
+>   tcg/ppc: Use tcg_tbrel_diff
+>   tcg/ppc: Use tcg_out_mem_long to reset TCG_REG_TB
+>   tcg/ppc: Support split-wx code generation
+>   tcg/sparc: Use tcg_tbrel_diff
+>   tcg/sparc: Support split-wx code generation
+>   tcg/s390: Use tcg_tbrel_diff
+>   tcg/s390: Support split-wx code generation
+>   tcg/riscv: Fix branch range checks
+>   tcg/riscv: Remove branch-over-branch fallback
+>   tcg/riscv: Support split-wx code generation
+>   accel/tcg: Add mips support to alloc_code_gen_buffer_splitwx_memfd
+>   tcg/mips: Do not assert on relocation overflow
+>   tcg/mips: Support split-wx code generation
+>   tcg/arm: Support split-wx code generation
+>   tcg: Remove TCG_TARGET_SUPPORT_MIRROR
+>   tcg: Constify tcg_code_gen_epilogue
+>   tcg: Constify TCGLabelQemuLdst.raddr
+>
+>  accel/tcg/tcg-runtime.h      |   2 +-
+>  include/disas/dis-asm.h      |   4 +-
+>  include/disas/disas.h        |   2 +-
+>  include/exec/exec-all.h      |   2 +-
+>  include/exec/gen-icount.h    |   4 +-
+>  include/exec/log.h           |   2 +-
+>  include/exec/translator.h    |   2 +-
+>  include/hw/core/cpu.h        |   3 +-
+>  include/sysemu/tcg.h         |   3 +-
+>  include/tcg/tcg-op.h         |   2 +-
+>  include/tcg/tcg.h            |  56 +++++--
+>  tcg/aarch64/tcg-target.h     |   8 +-
+>  tcg/arm/tcg-target.h         |  10 +-
+>  tcg/i386/tcg-target.h        |   9 +-
+>  tcg/mips/tcg-target.h        |  10 +-
+>  tcg/ppc/tcg-target.h         |   4 +-
+>  tcg/riscv/tcg-target.h       |  10 +-
+>  tcg/s390/tcg-target.h        |  11 +-
+>  tcg/sparc/tcg-target.h       |  10 +-
+>  tcg/tci/tcg-target.h         |  11 +-
+>  accel/tcg/cpu-exec.c         |  41 +++--
+>  accel/tcg/tcg-all.c          |  26 ++-
+>  accel/tcg/tcg-runtime.c      |   4 +-
+>  accel/tcg/translate-all.c    | 307 +++++++++++++++++++++++++++--------
+>  accel/tcg/translator.c       |   4 +-
+>  bsd-user/main.c              |   2 +-
+>  disas.c                      |   2 +-
+>  disas/capstone.c             |   2 +-
+>  linux-user/main.c            |   2 +-
+>  softmmu/physmem.c            |   9 +-
+>  target/arm/cpu.c             |   3 +-
+>  target/arm/translate-a64.c   |   2 +-
+>  target/avr/cpu.c             |   3 +-
+>  target/hppa/cpu.c            |   3 +-
+>  target/i386/cpu.c            |   3 +-
+>  target/microblaze/cpu.c      |   3 +-
+>  target/mips/cpu.c            |   3 +-
+>  target/riscv/cpu.c           |   3 +-
+>  target/rx/cpu.c              |   3 +-
+>  target/sh4/cpu.c             |   3 +-
+>  target/sparc/cpu.c           |   3 +-
+>  target/tricore/cpu.c         |   2 +-
+>  tcg/tcg-op.c                 |  15 +-
+>  tcg/tcg.c                    |  86 ++++++++--
+>  tcg/tci.c                    |  60 ++++---
+>  accel/tcg/trace-events       |   2 +-
+>  tcg/aarch64/tcg-target.c.inc | 139 ++++++++++++----
+>  tcg/arm/tcg-target.c.inc     |  41 ++---
+>  tcg/i386/tcg-target.c.inc    |  36 ++--
+>  tcg/mips/tcg-target.c.inc    |  97 +++++------
+>  tcg/ppc/tcg-target.c.inc     | 105 ++++++------
+>  tcg/riscv/tcg-target.c.inc   | 125 +++++---------
+>  tcg/s390/tcg-target.c.inc    |  91 +++++------
+>  tcg/sparc/tcg-target.c.inc   |  58 +++----
+>  tcg/tcg-ldst.c.inc           |   2 +-
+>  tcg/tcg-pool.c.inc           |   6 +-
+>  tcg/tci/tcg-target.c.inc     |   2 +-
+>  57 files changed, 917 insertions(+), 546 deletions(-)
+>
+> --
+> 2.25.1
+>
 
