@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C2BD2B6855
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 16:11:28 +0100 (CET)
-Received: from localhost ([::1]:43870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 079FB2B6856
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 16:11:36 +0100 (CET)
+Received: from localhost ([::1]:43894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf2di-00066W-QI
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 10:11:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46558)
+	id 1kf2dr-000674-2T
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 10:11:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kf2c6-0004yC-VD
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 10:09:47 -0500
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:41813)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kf2c4-0004xt-Qy
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 10:09:46 -0500
-Received: by mail-ej1-x62e.google.com with SMTP id gj5so2404863ejb.8
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 07:09:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Xg3P1iM2VIw8YzK7brUP3xFVM80JOZluf1nHCQ3SAX8=;
- b=rkA+a6uNQ+7BxY2jxS+mcSQD83QCFksSK40KU9e0loaujOudK9tZSLXKixMRWWguf2
- Ly8Xo0hqpC48WQbLbSRk+Tf3LcOi5XyM0lyrbMp2OrMEOasihH+KhPO9cuXZ6M7xGK7w
- cAUzYVHYu9TnGbtBQUhn3OMirfeYsjh9fbXaBPMrD9t7Vd2+T9eJvLwDBik37bGI/VlI
- XAyxa21HQGV8sp1VXsV7LPcHasMuKOjBOT+kCXTi4nYHBSJNGr4+0QuKSytbXM8N5nAf
- cS+ysi14KFZM7C6xevVr9al+EYwSGwjp4stZzGuEJoqYqvxFMhOtm1BoLvOETZ1xLIMZ
- JYuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Xg3P1iM2VIw8YzK7brUP3xFVM80JOZluf1nHCQ3SAX8=;
- b=FB6JcRDZ8aHkFvW9TVoQ/yoOjMmHjWynC/GnBKCC61J3gPyEI/5oUnDOoa5jVWBkyo
- PrFIzlbhatl31b8xKFIsF/v20t1HbcXti5yS3dzwiG5FgHuoUBsfCtlpEY86kYse5+jp
- di0kBgmqJutF59N4/khMtGz4D0m9jqyh3hIb9CJUz3Qmpc1YFVBIW0NBieXoWggwQ5V5
- K/y9HD9Oeuseu2NIdGbHqo+OA3B5yQs7je8KbL7wUgkwXNNCGZSh6KWLO8AHivrIW8zh
- xkqCyxGElO/9i/+c8FCkBUKin3pZt1WFrJjlcoXnAso9gOE10bLB7QQp1uHCRstZUTh5
- aELw==
-X-Gm-Message-State: AOAM530rSfAJdl3CQ49tJiyEWpbM3lHCbMc12q8yyBhGA93aX5lnvyQF
- OVBcWZCBDxMwIdGLKIVJ7dnj1W9bNO+/d3gjY5T3tg==
-X-Google-Smtp-Source: ABdhPJzZdVw4wdxlFSCIeOO18prhzmASWpndtKLBb5VcYO06POjK7hGY0cxVGxJy2lhJvwEG0UutHs4WTV1IGVKzkjk=
-X-Received: by 2002:a17:906:c084:: with SMTP id f4mr5656909ejz.4.1605625782637; 
- Tue, 17 Nov 2020 07:09:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kf2c5-0004wz-No
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 10:09:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50687)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kf2c1-0004wR-EU
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 10:09:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605625780;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=L/44/kaSwn5bTGRI+Vx3gkYmpHc88CQ/6q+syrKe3Vc=;
+ b=RFTga5ONshtFjJBiYCsJgumB7LAp/Cv45TABQXWNbgmvUNy5Fo/Ymm31NqDFjDqUVpsmAW
+ JUUXJwRnsj7HaqefNZgia1MLSRNu489ZWNLBP/shrsNNH1NjE2ABr8Hy7PbAG7sqziZG90
+ Ss0Pq9OEwF25ek3JZDKb0zvnLt1rXrQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-329-L1yZbEssOPmI5Badx8q31g-1; Tue, 17 Nov 2020 10:09:37 -0500
+X-MC-Unique: L1yZbEssOPmI5Badx8q31g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9B9D1800D42;
+ Tue, 17 Nov 2020 15:09:35 +0000 (UTC)
+Received: from localhost (ovpn-115-101.rdu2.redhat.com [10.10.115.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4E8965C1CF;
+ Tue, 17 Nov 2020 15:09:35 +0000 (UTC)
+Date: Tue, 17 Nov 2020 10:09:34 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: =?utf-8?B?6YOt5L+K55SrIChKYWNrIEt1byk=?= <jackkuo@jackkuo.org>
+Subject: Re: Property '.hmat' not found
+Message-ID: <20201117150934.GF1235237@habkost.net>
+References: <69ce94c221fc90c6963c3529ddc46e66@m108.nthu.edu.tw>
+ <1547b1c8-36e2-179e-8406-4faf0324f4f2@redhat.com>
+ <20201116190221.GA1235237@habkost.net>
+ <CALen4BRv-FUnD0P7bMS0bKhZ9uZoSVawa2xvO5Ncb70Z7npJbw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20201117095748.122371-1-thuth@redhat.com>
-In-Reply-To: <20201117095748.122371-1-thuth@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 17 Nov 2020 15:09:31 +0000
-Message-ID: <CAFEAcA8iyZohvnPtQ23+hpUktS8ccc+7aG5cg_ja4Esghc8raQ@mail.gmail.com>
-Subject: Re: [PULL 00/12] Misc fixes for 5.2
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <CALen4BRv-FUnD0P7bMS0bKhZ9uZoSVawa2xvO5Ncb70Z7npJbw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 01:18:45
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,36 +84,268 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-discuss@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Jack <s108062518@m108.nthu.edu.tw>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 Nov 2020 at 09:57, Thomas Huth <thuth@redhat.com> wrote:
->
->  Hi Peter,
->
-> the following changes since commit b17d3b7b77f043f0e76f0e6ce6def3c1b1d5ee8b:
->
->   Merge remote-tracking branch 'remotes/mdroth/tags/qga-pull-2020-11-16-tag' into staging (2020-11-16 20:15:57 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/huth/qemu.git tags/pull-request-2020-11-17
->
-> for you to fetch changes up to 46b42f715d1310cd80acfeb7c84337a128fd190b:
->
->   max111x: put it into the 'misc' category (2020-11-17 10:17:02 +0100)
->
-> ----------------------------------------------------------------
-> * Fixes for compiling on Haiku, and add Haiku VM for compile-testing
-> * Update NetBSD VM to version 9.1
-> * Misc fixes (e.g. categorize some devices)
-> ----------------------------------------------------------------
+On Tue, Nov 17, 2020 at 11:49:38AM +0800, 郭俊甫 (Jack Kuo) wrote:
+> >
+> > Do you have the output of `qemu-system-x86_64 -version`, and more
+> > information on how your binary was built?
+> 
+> 
+> I have 2 machines, both of them encounter the .hmat problem.
+> 
+> (1) *5.1.90 (v5.2.0-rc0*)
+>     - follow this wiki [1], and configure cmd: `./configure
+> --target-list=x86_64-softmmu`
+>     - i5-8400, Ubuntu 20.04.1 LTS, kernel: 5.4.0-53-generic
 
-Applied, thanks.
+This one is supposed to work, and I see the pc-i440fx-5.2.hmat
+property below.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
 
--- PMM
+> 
+> (2) *4.2.1 (Debian 1:4.2-3ubuntu6.8)*
+
+This one isn't expect to have "hmat", as the feature was
+introduced in v5.0.0.
+
+>     - use apt install qemu
+>     - E5-2670 * 2, Ubuntu 20.04.1 LTS, kernel: 5.4.0-53-generic, Dell
+> PowerEdge-R720
+> 
+> I can't reproduce it here.  I've tested both qemu.git master
+> 
+> 
+> That’s strange, also I try the command you (Eduardo) provided, '.hmat' not
+> found, too.
+> Does the kernel module matter? or PC architecture?
+
+Kernel or host architecture shouldn't matter.  The choice of
+machine type matters, but the default is supposed to be "pc".
+The output of "-machine help" might be useful to debug it.
+
+Could you check what happens if you use
+"-machine pc-i440fx-5.2,hmat=on" instead of "-machine hmat=on"?
+
+
+> 
+> Output of `-machine help` and `-machine pc,help` would be useful
+> > to debug it, too.
+> 
+> 
+>  (1) *5.1.90 (i5-8400)*
+> *```*
+> $ qemu-system-x86_64 -machine pc,help
+> pc-i440fx-5.2.nvdimm-persistence=string (Set NVDIMM persistenceValid values
+> are cpu, mem-ctrl)
+> pc-i440fx-5.2.hmat=bool (Set on/off to enable/disable ACPI Heterogeneous
+> Memory Attribute Table (HMAT))
+> pc-i440fx-5.2.nvdimm=bool (Set on/off to enable/disable NVDIMM
+> instantiation)
+> pc-i440fx-5.2.pcspk-audiodev=str (ID of an audiodev to use as a backend)
+> pc-i440fx-5.2.pflash1=str (Node name or ID of a block device to use as a
+> backend)
+> pc-i440fx-5.2.pflash0=str (Node name or ID of a block device to use as a
+> backend)
+> pc-i440fx-5.2.hpet=bool
+> pc-i440fx-5.2.vmport=OnOffAuto (Enable vmport (pc & q35))
+> pc-i440fx-5.2.sata=bool
+> pc-i440fx-5.2.pit=bool
+> pc-i440fx-5.2.max-ram-below-4g=size (Maximum ram below the 4G boundary
+> (32bit boundary))
+> pc-i440fx-5.2.smbus=bool
+> pc-i440fx-5.2.acpi=OnOffAuto (Enable ACPI)
+> pc-i440fx-5.2.smm=OnOffAuto (Enable SMM)
+> pc-i440fx-5.2.memory-backend=string (Set RAM backendValid value is ID of
+> hostmem based backend)
+> pc-i440fx-5.2.firmware=string (Firmware image)
+> pc-i440fx-5.2.initrd=string (Linux initial ramdisk file)
+> pc-i440fx-5.2.dumpdtb=string (Dump current dtb to a file and quit)
+> pc-i440fx-5.2.kernel=string (Linux kernel image file)
+> pc-i440fx-5.2.dt-compatible=string (Overrides the "compatible" property of
+> the dt root node)
+> pc-i440fx-5.2.mem-merge=bool (Enable/disable memory merge support)
+> pc-i440fx-5.2.suppress-vmdesc=bool (Set on to disable self-describing
+> migration)
+> pc-i440fx-5.2.append=string (Linux kernel command line)
+> pc-i440fx-5.2.dump-guest-core=bool (Include guest memory in a core dump)
+> pc-i440fx-5.2.phandle-start=int (The first phandle ID we may generate
+> dynamically)
+> pc-i440fx-5.2.usb=bool (Set on/off to enable/disable usb)
+> pc-i440fx-5.2.dtb=string (Linux kernel device tree file)
+> pc-i440fx-5.2.memory-encryption=string (Set memory encryption object to use)
+> pc-i440fx-5.2.graphics=bool (Set on/off to enable/disable graphics
+> emulation)
+> ```
+> 
+> (2) *4.2.1 (E5-2670 * 2)*
+> *```*
+> qemu-system-x86_64 -machine pc,help
+> pc-i440fx-4.2.nvdimm-persistence=string (Set NVDIMM persistenceValid values
+> are cpu, mem-ctrl)
+> pc-i440fx-4.2.pflash0=str (Node name or ID of a block device to use as a
+> backend)
+> pc-i440fx-4.2.nvdimm=bool (Set on/off to enable/disable NVDIMM
+> instantiation)
+> pc-i440fx-4.2.pflash1=str (Node name or ID of a block device to use as a
+> backend)
+> pc-i440fx-4.2.vmport=OnOffAuto (Enable vmport (pc & q35))
+> pc-i440fx-4.2.sata=bool
+> pc-i440fx-4.2.pit=bool
+> pc-i440fx-4.2.smm=OnOffAuto (Enable SMM (pc & q35))
+> pc-i440fx-4.2.smbus=bool
+> pc-i440fx-4.2.max-ram-below-4g=size (Maximum ram below the 4G boundary
+> (32bit boundary))
+> pc-i440fx-4.2.suppress-vmdesc=bool (Set on to disable self-describing
+> migration)
+> pc-i440fx-4.2.append=string (Linux kernel command line)
+> pc-i440fx-4.2.accel=string (Accelerator list)
+> pc-i440fx-4.2.dtb=string (Linux kernel device tree file)
+> pc-i440fx-4.2.mem-merge=bool (Enable/disable memory merge support)
+> pc-i440fx-4.2.dumpdtb=string (Dump current dtb to a file and quit)
+> pc-i440fx-4.2.phandle-start=int (The first phandle ID we may generate
+> dynamically)
+> pc-i440fx-4.2.igd-passthru=bool (Set on/off to enable/disable igd passthrou)
+> pc-i440fx-4.2.kvm-shadow-mem=int (KVM shadow MMU size)
+> pc-i440fx-4.2.dump-guest-core=bool (Include guest memory in a core dump)
+> pc-i440fx-4.2.memory-encryption=string (Set memory encryption object to use)
+> pc-i440fx-4.2.firmware=string (Firmware image)
+> pc-i440fx-4.2.usb=bool (Set on/off to enable/disable usb)
+> pc-i440fx-4.2.kernel-irqchip=on|off|split (Configure KVM in-kernel irqchip)
+> pc-i440fx-4.2.graphics=bool (Set on/off to enable/disable graphics
+> emulation)
+> pc-i440fx-4.2.initrd=string (Linux initial ramdisk file)
+> pc-i440fx-4.2.dt-compatible=string (Overrides the "compatible" property of
+> the dt root node)
+> pc-i440fx-4.2.kernel=string (Linux kernel image file)
+> pc-i440fx-4.2.enforce-config-section=bool (Set on to enforce configuration
+> section migration)
+> ```
+> 
+> [1] https://wiki.qemu.org/Hosts/Linux#Building_QEMU_for_Linux
+> 
+> Sincerely,
+> Jack
+> 
+> Eduardo Habkost <ehabkost@redhat.com> 於 2020年11月17日 週二 上午3:02寫道：
+> 
+> > On Mon, Nov 16, 2020 at 01:51:37PM +0100, Philippe Mathieu-Daudé wrote:
+> > > Cc'ing Igor & Eduardo.
+> >
+> > Thanks!
+> >
+> > >
+> > > On 11/13/20 10:17 AM, Jack wrote:
+> > > > Hi all,
+> > > >
+> > > > As I follow the document[1] to enable hmat, it fails and shows the
+> > message:
+> > > >   qemu-system-x86_64: Property '.hmat' not found
+> > > >
+> > > > My QEMU version is 5.1.90
+> >
+> > Do you have the output of `qemu-system-x86_64 -version`, and more
+> > information on how your binary was built?
+> >
+> > Output of `-machine help` and `-machine pc,help` would be useful
+> > to debug it, too.
+> >
+> > I can't reproduce it here.  I've tested both qemu.git master
+> > (commit cb5ed407a1dd) and v5.2.0-rc (commit 3d6e32347a3b).
+> >
+> >   [build/(cb5ed407a1...)]$ ./qemu-system-x86_64 -version
+> >   QEMU emulator version 5.1.91 (v5.2.0-rc1-107-gcb5ed407a1)
+> >   Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
+> >   [build/(cb5ed407a1...)]$ ./qemu-system-x86_64 -machine hmat=on -m 2G
+> > -object memory-backend-ram,size=1G,id=m0 -object
+> > memory-backend-ram,size=1G,id=m1 -smp 2 -numa node,nodeid=0,memdev=m0 -numa
+> > node,nodeid=1,memdev=m1,initiator=0 -numa cpu ,node-id=0,socket-id=0 -numa
+> > cpu,node-id=0,socket-id=1 -numa
+> > hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=5
+> > -numa
+> > hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=200M
+> > -numa
+> > hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=10
+> > -numa
+> > hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M
+> > -numa
+> > hmat-cache,node-id=0,size=10K,level=1,associativity=direct,policy=write-back,line=8
+> > -numa
+> > hmat-cache,node-id=1,size=10K,level=1,associativity=direct,policy=write-back,line=8
+> > -cpu host -vga virtio -accel kvm
+> >   [VM boots]
+> >
+> >
+> > > >
+> > > > Does anyone know why?
+> > > >
+> > > > Here is my command:
+> > > >
+> > > > ```
+> > > > $ sudo qemu-system-x86_64 \
+> > > > -machine hmat=on \
+> > > > -m 2G \
+> > > > -object memory-backend-ram,size=1G,id=m0 \
+> > > > -object memory-backend-ram,size=1G,id=m1 \
+> > > > -smp 2 \
+> > > > -numa node,nodeid=0,memdev=m0 \
+> > > > -numa node,nodeid=1,memdev=m1,initiator=0 \
+> > > > -numa cpu,node-id=0,socket-id=0 \
+> > > > -numa cpu,node-id=0,socket-id=1 \
+> > > > -numa
+> > > >
+> > hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=5
+> > > > \
+> > > > -numa
+> > > >
+> > hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=200M
+> > > > \
+> > > > -numa
+> > > >
+> > hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=10
+> > > > \
+> > > > -numa
+> > > >
+> > hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M
+> > > > \
+> > > > -numa
+> > > >
+> > hmat-cache,node-id=0,size=10K,level=1,associativity=direct,policy=write-back,line=8
+> > > > \
+> > > > -numa
+> > > >
+> > hmat-cache,node-id=1,size=10K,level=1,associativity=direct,policy=write-back,line=8
+> > > > \
+> > > > -cpu host \
+> > > > -m 4g -vga virtio -hda ubuntu20.04.qcow2 \
+> > > > -nic user,model=virtio \
+> > > > -nic tap,model=e1000 \
+> > > > -nic tap,model=e1000 \
+> > > > -accel kvm
+> > > > ```
+> > > >
+> > > > Thanks.
+> > > >
+> > > > [1]
+> > > >
+> > https://www.qemu.org/docs/master/system/qemu-manpage.html?highlight=numa
+> > > >
+> > > >
+> > > > Sincerely,
+> > > > Jack
+> > > >
+> > >
+> >
+> > --
+> > Eduardo
+> >
+> >
+
+-- 
+Eduardo
+
 
