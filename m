@@ -2,55 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30F9D2B6E0D
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 20:08:36 +0100 (CET)
-Received: from localhost ([::1]:60840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 294CE2B6E0C
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 20:08:29 +0100 (CET)
+Received: from localhost ([::1]:60208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf6LD-0006He-8n
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 14:08:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60262)
+	id 1kf6L5-00062I-Lr
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 14:08:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefan@weilnetz.de>)
- id 1kf6KG-0005Sj-Sd
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 14:07:36 -0500
-Received: from mail.weilnetz.de ([37.120.169.71]:50206
- helo=v2201612906741603.powersrv.de)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefan@weilnetz.de>)
- id 1kf6KD-0005Ux-P2
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 14:07:36 -0500
-Received: from localhost (localhost [127.0.0.1])
- by v2201612906741603.powersrv.de (Postfix) with ESMTP id 04EB7DB2587;
- Tue, 17 Nov 2020 20:07:29 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at v2201612906741603.powersrv.de
-Received: from v2201612906741603.powersrv.de ([127.0.0.1])
- by localhost (v2201612906741603.powersrv.de [127.0.0.1]) (amavisd-new,
- port 10024)
- with ESMTP id M1CFy4Wk9CY7; Tue, 17 Nov 2020 20:06:43 +0100 (CET)
-Received: from qemu.weilnetz.de (qemu.weilnetz.de [188.68.58.204])
- by v2201612906741603.powersrv.de (Postfix) with ESMTP id 738C2DB2579;
- Tue, 17 Nov 2020 20:06:43 +0100 (CET)
-Received: by qemu.weilnetz.de (Postfix, from userid 1000)
- id 1F9C8460019; Tue, 17 Nov 2020 20:06:43 +0100 (CET)
-From: Stefan Weil <sw@weilnetz.de>
-To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH for-5.2] meson: Fix argument for makensis (build regression)
-Date: Tue, 17 Nov 2020 20:06:40 +0100
-Message-Id: <20201117190640.390359-1-sw@weilnetz.de>
-X-Mailer: git-send-email 2.29.2
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kf6K6-0005D5-0Z
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 14:07:26 -0500
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:39289)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kf6K4-0005Sx-60
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 14:07:25 -0500
+Received: by mail-pj1-x1044.google.com with SMTP id oc3so1044651pjb.4
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 11:07:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=cI5vzjMjkZwOCABGdt4PTtHtT649Rp34MdRuM72kzf0=;
+ b=tak9mN5pLXHGFZd1r4Lc3WYSIWZPANmdTkWOL7cpfPpffbax+YU6Ni+4NuxhTL/Y8a
+ RBd6+HvGmuUhd1ffxy3xqAaXaG7K7W6aiCr5/GF8m1ybK2RsTplVPKbciwKDWUW/sigE
+ dB7k39z2XWWw2vrZltCLFdkDKVQM5hJbBeLUOglFU/IXO8CTBM2JyJzdIPg4scBZNyZy
+ 3yI0TdFec92/zMdGEQ1rk02JQ9Kw7fKlPCzUOh0s5F3EynLiVW1JeXIUaaPBYnf8tXyp
+ Y56GeXAz7mW/sz8GaHc8BUC+GDHspv4WxoRzAYYWxANHWn8LEjiiE5LGJYigiVWanjQP
+ 0sEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=cI5vzjMjkZwOCABGdt4PTtHtT649Rp34MdRuM72kzf0=;
+ b=CvD9WOQeZvhYZ9uVe4jCZRicWdxKEqpeaGhey6Pjs68Fv7mBrsVKI3N+ZnPyMACmm6
+ YwsD0ORLd2zN7ahze6FzYzz6zzLeKM0yjWS89M2UH8JoxJM5ZEeLS+iAKJUDS1QIxChf
+ a02BE+5F1d9LhQ6iSkkQ5CXgvqmrNsNGOzaowQWHNtQ+PRCkt90mjMTnhXfVypJJ+i0a
+ ePP6tCz1RLngp3vj+yWenKTqpos/J/0zFdBu/0tiVUGnUkvBtCmOV9uJMBjPrxmfTGU+
+ D5485GFMSYrf2U3wLkcxQFoNine5Yj1wCOkXN8cIF9CMQMSNwxKBLH3h+o5naDmCw4oV
+ NtEw==
+X-Gm-Message-State: AOAM530CMixkIS7092KDZEWqIRCXSSbQs1XZwyXEgakuC9dyyQ7BxEvo
+ BdwwBCzFPp6+ss2zPDNufPGbPyNClqc+vw==
+X-Google-Smtp-Source: ABdhPJygyVAz5q88b/feHc0znGtvKxKBRznN4+rcMfFOiUgU9vP9tzM7Pm3a8I74grkbCbi6yIbNeQ==
+X-Received: by 2002:a17:90a:5309:: with SMTP id x9mr503800pjh.98.1605640042294; 
+ Tue, 17 Nov 2020 11:07:22 -0800 (PST)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id g18sm21603192pfu.131.2020.11.17.11.07.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Nov 2020 11:07:21 -0800 (PST)
+Subject: Re: [PATCH 01/15] hw/intc/armv7m_nvic: Make all of system PPB range
+ be RAZWI/BusFault
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20201116160831.31000-1-peter.maydell@linaro.org>
+ <20201116160831.31000-2-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <c3b2e0dd-0a7f-3c9c-1e14-d358ea15f1f7@linaro.org>
+Date: Tue, 17 Nov 2020 11:07:19 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=stefan@weilnetz.de;
- helo=v2201612906741603.powersrv.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 14:07:30
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+In-Reply-To: <20201116160831.31000-2-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1044.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,31 +91,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-`make installer` with a DLL directory was broken.
+On 11/16/20 8:08 AM, Peter Maydell wrote:
+> For M-profile CPUs, the range from 0xe0000000 to 0xe00fffff is the
+> Private Peripheral Bus range, which includes all of the memory mapped
+> devices and registers that are part of the CPU itself, including the
+> NVIC, systick timer, and debug and trace components like the Data
+> Watchpoint and Trace unit (DWT).  Within this large region, the range
+> 0xe000e000 to 0xe000efff is the System Control Space (NVIC, system
+> registers, systick) and 0xe002e000 to 0exe002efff is its Non-secure
+> alias.
+> 
+> The architecture is clear that within the SCS unimplemented registers
+> should be RES0 for privileged accesses and generate BusFault for
+> unprivileged accesses, and we currently implement this.
+> 
+> It is less clear about how to handle accesses to unimplemented
+> regions of the wider PPB.  Unprivileged accesses should definitely
+> cause BusFaults (R_DQQS), but the behaviour of privileged accesses is
+> not given as a general rule.  However, the register definitions of
+> individual registers for components like the DWT all state that they
+> are RES0 if the relevant component is not implemented, so the
+> simplest way to provide that is to provide RAZ/WI for the whole range
+> for privileged accesses.  (The v7M Arm ARM does say that reserved
+> registers should be UNK/SBZP.)
+> 
+> Expand the container MemoryRegion that the NVIC exposes so that
+> it covers the whole PPB space. This means:
+>  * moving the address that the ARMV7M device maps it to down by
+>    0xe000 bytes
+>  * moving the off and the offsets within the container of all the
+>    subregions forward by 0xe000 bytes
+>  * adding a new default MemoryRegion that covers the whole container
+>    at a lower priority than anything else and which provides the
+>    RAZWI/BusFault behaviour
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
 
-Signed-off-by: Stefan Weil <sw@weilnetz.de>
----
- scripts/nsis.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/scripts/nsis.py b/scripts/nsis.py
-index e1c409344e..5135a05831 100644
---- a/scripts/nsis.py
-+++ b/scripts/nsis.py
-@@ -65,7 +65,7 @@ def main():
-             dlldir = "w64"
-             makensis += ["-DW64"]
-         if os.path.exists(os.path.join(args.srcdir, "dll")):
--            makensis += "-DDLLDIR={0}/dll/{1}".format(args.srcdir, dlldir)
-+            makensis += ["-DDLLDIR={0}/dll/{1}".format(args.srcdir, dlldir)]
- 
-         makensis += ["-DOUTFILE=" + args.outfile] + args.nsisargs
-         subprocess.run(makensis)
--- 
-2.29.2
-
+r~
 
