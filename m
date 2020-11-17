@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 752532B6B00
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 18:04:05 +0100 (CET)
-Received: from localhost ([::1]:52790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2529A2B6B0D
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 18:06:21 +0100 (CET)
+Received: from localhost ([::1]:32952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf4Oi-0000uh-Cw
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 12:04:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43846)
+	id 1kf4Qu-0004HZ-5H
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 12:06:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kf4Eu-00036O-Oz
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:56 -0500
-Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:38265)
+ id 1kf4Ey-0003BP-6r
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:54:00 -0500
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:35455)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kf4Es-0007H9-L7
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:56 -0500
-Received: by mail-ed1-x542.google.com with SMTP id y4so17364967edy.5
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:53:54 -0800 (PST)
+ id 1kf4Et-0007Hh-Rk
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:59 -0500
+Received: by mail-ed1-x542.google.com with SMTP id ay21so23235873edb.2
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:53:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0hpNhB+71NE6300hqz+D0elj2q3QPE1W5PnnI+BNNPw=;
- b=W+7WnU7jvKgxvRXF8ksUHmp3hWjLQf1xnuWrGyTMKVIJTRXCIJbNqY4uWhB51U9BBd
- jeE9TmBfOWjlMmg1TPw09EhJG+DyTFHIFm1RB2PiarWL2lUPTz9MWGGKvg3F1mCzI7gD
- PiqRksLlOEkCy9P/f1E19CPur6aEWlipDadt3TKy/DdRWH4A5xqgVsMU9enKRbjCQSXU
- 8fpKN0Yu+LON7fR+cgPkwzMWA/xt/y5fEeOXcPRlyY+0FTXdSIZ3IakX096aeMwbWw2f
- wR3y6Rh+9RiZsBU3zW0qyu9PROlnoXYKPb8xKceVU4hM2dZBoTH+JVjwgqAerYVd3IxR
- GUmg==
+ bh=R47RebFwpB3UEbuBQ1d7o5hCrsXuVfaPA/oJ9sZEmas=;
+ b=uF7RfRNf1GzkYoPY8pdmN1kz89FV3XNtfswSJKZQJaCWqtP1EC7nI/+Or1wsZJ2ydQ
+ 27Sjql3nI0lg/wXssWba3J8k2TTSNjc9+3hFvHDtvXvhRyzFOw+iTaUyGx2pXH3c7bgc
+ Jv9anAN8NcCODhUxaeEcDoZH5NeLjCgI2ZAjPt+cJYy+BLdBWCC/ez9nxm9iZYQxA06L
+ C6xnx5uCpCydJE/VCTrYR9PZZoSa4BgNIgfcA+XnPDHqLMkcRW1kcPnoklVYRpgCgVuJ
+ l28dgzuKeWdPM6/HQEAwCsd39IgAWAL7tcUPJl//owCHj/v+74FGG4SmImZ7jp6gtBQA
+ VfkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=0hpNhB+71NE6300hqz+D0elj2q3QPE1W5PnnI+BNNPw=;
- b=qwP/C/GVZ9VEcNbMFOTgz6WK+WCDqg8IzJyfWP4e4XQ/TUQtaI1oTv/2irJxNARl28
- AjFEe7zafsgwdL3XtHypwAMNIQt0eaQcIgOTXwlJUjDhBufYOkBIqRCL9xLrDTRRC4fx
- PUgjz1pE50m1WgV6yB571DkUh8pnjbuxCINgcu0nFLOBrLiWVMA707XitAFug2JvvEuQ
- DY/fY0kvK9JjECZqflvWR/WFzpX+4pgwh+GcxTPwkemHR0VAuPy3sTLeG5jqCF+A7rUJ
- GgewQTmlooqhIjTSIItBIBDuERy9GTkeaYuTAmN/HsjyqT8QPpSFiWNlnkPbVeCddVhD
- GQsQ==
-X-Gm-Message-State: AOAM530Ln16tHQzqsOHz9E9Ty1YSFzmjM7u23/C7IzS1QbRQPsJSZ6gS
- vpsgJIbqjVWy7Ke/Q8eOLT4EuSbf3ws=
-X-Google-Smtp-Source: ABdhPJyy75BWfKEy9/G9uQDhf4fG/QNQXeG0yhcgVKyHlqeuspHz8Ts/0E4PtaWnRPnhyMlv4YBKaA==
-X-Received: by 2002:a05:6402:a51:: with SMTP id
- bt17mr20774118edb.328.1605632032876; 
- Tue, 17 Nov 2020 08:53:52 -0800 (PST)
+ bh=R47RebFwpB3UEbuBQ1d7o5hCrsXuVfaPA/oJ9sZEmas=;
+ b=a2tAqVS5Sh1dosE4ni8tb140rSQfDbSWTq6H3V+q2Oh9isIepIcnVk97gWaAqbRcFW
+ rfmsCBrjpq5jKFNFuzmfTKWxZgNeuuDSyzcKoPN+NgKXOElxWHEbeLl/Rg6u/Nu2IJOq
+ /FFrXJh7gapjkZp88Wj5TDkQgG3pcKpMZ+ZsgYwJ6m1d+niBEx7c6gWEVLJqvTYrRrq2
+ 1h3VKJc6GPr+WwmUCpdm8vzyuH7hwXimWwOmARA2h7lCbW3gfWb3CAPgraCH1pm75Xe+
+ eY+oj2FQa8v4YBOqeSOF6q5X3n0KkyW+O+09f4R9M6dJIrd7xE3x6HEmw/6KWe2adLtu
+ hS6w==
+X-Gm-Message-State: AOAM531qTap+Hb05aGQ0dBQSbzRLxeXcc6YAfbnmfJZa0KXH3lrGpZI/
+ V/8nzKwC6XQTWWDZJE8xpSV/KPqRNxw=
+X-Google-Smtp-Source: ABdhPJzp1qwegibNoNzvP/K13GXwzJ2FWPHg47A88LzFiPeK/wPua8aYrsi9AMMNY0Zd+4n5p/Csnw==
+X-Received: by 2002:a05:6402:c83:: with SMTP id
+ cm3mr21534049edb.189.1605632034114; 
+ Tue, 17 Nov 2020 08:53:54 -0800 (PST)
 Received: from localhost.localdomain ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id u7sm639067ejf.83.2020.11.17.08.53.52
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Nov 2020 08:53:52 -0800 (PST)
+ Tue, 17 Nov 2020 08:53:53 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 27/29] scripts: kernel-doc: fix typedef parsing
-Date: Tue, 17 Nov 2020 17:53:10 +0100
-Message-Id: <20201117165312.118257-28-pbonzini@redhat.com>
+Subject: [PATCH 28/29] scripts: kernel-doc: split typedef complex regex
+Date: Tue, 17 Nov 2020 17:53:11 +0100
+Message-Id: <20201117165312.118257-29-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201117165312.118257-1-pbonzini@redhat.com>
 References: <20201117165312.118257-1-pbonzini@redhat.com>
@@ -92,49 +92,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The include/linux/genalloc.h file defined this typedef:
-
-	typedef unsigned long (*genpool_algo_t)(unsigned long *map,unsigned long size,unsigned long start,unsigned int nr,void *data, struct gen_pool *pool, unsigned long start_addr);
-
-Because it has a type composite of two words (unsigned long),
-the parser gets the typedef name wrong:
-
-.. c:macro:: long
-
-   **Typedef**: Allocation callback function type definition
-
-Fix the regex in order to accept composite types when
-defining a typedef for a function pointer.
+The typedef regex for function prototypes are very complex.
+Split them into 3 separate regex and then join them using
+qr.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Link: https://lore.kernel.org/r/328e8018041cc44f7a1684e57f8d111230761c4f.1603792384.git.mchehab+huawei@kernel.org
+Link: https://lore.kernel.org/r/3a4af999a0d62d4ab9dfae1cdefdfcad93383356.1603792384.git.mchehab+huawei@kernel.org
 Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/kernel-doc | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ scripts/kernel-doc | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index d3a289628c..862b77686e 100755
+index 862b77686e..524fc626ed 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -1434,13 +1434,14 @@ sub dump_typedef($$) {
+@@ -1427,17 +1427,21 @@ sub dump_enum($$) {
+     }
+ }
+ 
++my $typedef_type = qr { ((?:\s+[\w\*]+){1,8})\s* }x;
++my $typedef_ident = qr { \*?\s*(\w\S+)\s* }x;
++my $typedef_args = qr { \s*\((.*)\); }x;
++
++my $typedef1 = qr { typedef$typedef_type\($typedef_ident\)$typedef_args }x;
++my $typedef2 = qr { typedef$typedef_type$typedef_ident$typedef_args }x;
++
+ sub dump_typedef($$) {
+     my $x = shift;
+     my $file = shift;
+ 
      $x =~ s@/\*.*?\*/@@gos;	# strip comments.
  
-     # Parse function prototypes
--    if ($x =~ /typedef\s+(\w+)\s*\(\*\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
--	$x =~ /typedef\s+(\w+)\s*(\w\S+)\s*\s*\((.*)\);/) {
-+    if ($x =~ /typedef((?:\s+[\w\*]+){1,8})\s*\(\*?\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
-+	$x =~ /typedef((?:\s+[\w\*]+\s+){1,8})\s*\*?(\w\S+)\s*\s*\((.*)\);/) {
- 
- 	# Function typedefs
+-    # Parse function prototypes
+-    if ($x =~ /typedef((?:\s+[\w\*]+){1,8})\s*\(\*?\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
+-	$x =~ /typedef((?:\s+[\w\*]+\s+){1,8})\s*\*?(\w\S+)\s*\s*\((.*)\);/) {
+-
+-	# Function typedefs
++    # Parse function typedef prototypes
++    if ($x =~ $typedef1 || $x =~ $typedef2) {
  	$return_type = $1;
  	$declaration_name = $2;
  	my $args = $3;
-+	$return_type =~ s/^\s+//;
- 
- 	create_parameterlist($args, ',', $file, $declaration_name);
- 
 -- 
 2.28.0
 
