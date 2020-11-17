@@ -2,71 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBFB62B672D
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 15:14:52 +0100 (CET)
-Received: from localhost ([::1]:57756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D3BA2B6735
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 15:18:40 +0100 (CET)
+Received: from localhost ([::1]:40096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf1kx-0007s9-QB
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 09:14:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59544)
+	id 1kf1oc-0003po-MF
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 09:18:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kf1ib-0006Vi-Tk
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 09:12:25 -0500
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:33702)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kf1ia-0001sf-01
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 09:12:25 -0500
-Received: by mail-ed1-x531.google.com with SMTP id k4so5873200edl.0
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 06:12:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DYZ4Hss8nEz0dfl4Xs8GDB1c2drZEUgYBaWxDjRuOqQ=;
- b=Q6ObUDXSrEzBZaX1USOrhcFJjYd1pNcVjiwninUqNmLWobNxSZKcvNWdsa7KQnikrD
- G8SFDInhp2pAXXPPIT3SgWLJfnrbKZVUxXhLrr4BESlTf8qjGLk6PHM7ViAJtP5SOe2s
- jjISI/8uTEm7F/9RAskk69zeo5yjyJQo3aUFf/VD1/6JZdrhCZ29c5pkkOHCtVDnxNJd
- ogqkVrTqSeUSK1Ndwd4RjVI66kSZls0/u15m63riJ2KbxP4Hrg0A1L/JwbyIFEt2sUmC
- WtBOREhMsWrpbakJiuKoAe2ENTBoDqwbUXf3Iy3jr/Xx5Ohpa8p/I1xc7ItlujaI5oM7
- FqcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DYZ4Hss8nEz0dfl4Xs8GDB1c2drZEUgYBaWxDjRuOqQ=;
- b=GVCCoeqaLgGEaAarrWikCnyCMdgcKElH6J8kvh1881cbytMcnSrm1Qjr8lAzQa/VrG
- cmlZ+VnlN7n1hq4PSWw1vKdwfhq45kPkNjI9altgJ/Tgdofkn9XLqlRKj39+SaywwjFX
- WqBNCoPeMwakqYS5QAcFzdSAYvz9bOZx1bX9hughdZS0oYixkucPHRv+w4L23l3bZDlc
- FsJ/JY2auB2D7nZZ8TXzJKxn2ZACpNUQWpHAfPEI+doWgrebH1KIHqNcCVx30RFZX/5w
- M888Xb79nWxD6DUyACEVChXsmHja4S7+/3dBZygCln8jfL1Trc7TEz8f/wfEPZRaGe1U
- 96qw==
-X-Gm-Message-State: AOAM533tTvJG+Dz4IioZjD9NnsSpqsCRR2whibZDVd2pvSXuwr9mUMpf
- 1y5GuLyyN22uqlp9DTL9yzUYHb9qhDK/Xsu4czH8tg==
-X-Google-Smtp-Source: ABdhPJwiIcFeLAVw2qU1cpbdHmc1EcEwQ4eux/3kF+3p0CYAruQzHWcyWsejFllazVX9pg8xQPloIoj95PZa3+JIFFY=
-X-Received: by 2002:a05:6402:30b5:: with SMTP id
- df21mr20642917edb.146.1605622337810; 
- Tue, 17 Nov 2020 06:12:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kf1kK-0007gd-Tm
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 09:14:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35658)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kf1kI-0002Np-SK
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 09:14:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605622450;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WxlETIixCnXncrzehMeusPU6L4CxgBvniAps6EzuUPs=;
+ b=O7T84opMZ4Q6NkEH6UekcKZFA1HARVnrM86Lnemu2aAFqlCD/NGJQ+moUrZuPIswKZD4eU
+ 99u/PosVcMwq4dIvWcC4r4wV6bbk4wl9WC2iGGX7N5wVjsZgFZLJK1GFsr5n/hvSiJJY/7
+ aX4wnAz60zqFeS4nXq1iu5LyWNZybyA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-211-_VB4l4kjMx--v-Geg_GkBQ-1; Tue, 17 Nov 2020 09:13:53 -0500
+X-MC-Unique: _VB4l4kjMx--v-Geg_GkBQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B69C0800050;
+ Tue, 17 Nov 2020 14:13:51 +0000 (UTC)
+Received: from gondolin (ovpn-113-115.ams2.redhat.com [10.36.113.115])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 567A018439;
+ Tue, 17 Nov 2020 14:13:43 +0000 (UTC)
+Date: Tue, 17 Nov 2020 15:13:40 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Matthew Rosato <mjrosato@linux.ibm.com>
+Subject: Re: [RFC PATCH-for-5.2] hw/s390x/pci: Fix endianness issue
+Message-ID: <20201117151340.539d55b2.cohuck@redhat.com>
+In-Reply-To: <c3c71d14-f891-83e4-5ecd-e5067f9e74c7@linux.ibm.com>
+References: <20201117120115.1234994-1-philmd@redhat.com>
+ <CAFEAcA-c3hw2w23OR0moKDYuvyD3O=Bqjp3fiid0byH7K+nr-Q@mail.gmail.com>
+ <d945234d-4725-9928-11cb-f34606c8524c@linux.ibm.com>
+ <20201117143117.4b05db78.cohuck@redhat.com>
+ <c3c71d14-f891-83e4-5ecd-e5067f9e74c7@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-References: <20201117091848.695370-1-mst@redhat.com>
-In-Reply-To: <20201117091848.695370-1-mst@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 17 Nov 2020 14:12:06 +0000
-Message-ID: <CAFEAcA-WEmprEY50zAmvjzHawHqTMd-M14=RPU4AwwPnW56m6g@mail.gmail.com>
-Subject: Re: [PULL v2 0/7] pc,vhost: fixes
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 01:18:45
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,38 +83,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Pierre Morel <pmorel@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 Nov 2020 at 09:19, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> The following changes since commit c6f28ed5075df79fef39c500362a3f4089256c9c:
->
->   Update version for v5.2.0-rc1 release (2020-11-10 22:29:57 +0000)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
->
-> for you to fetch changes up to 91010f0407a07caeacb11037bb5b493bab7ce203:
->
->   vhost-user-blk/scsi: Fix broken error handling for socket call (2020-11-17 04:16:55 -0500)
->
-> ----------------------------------------------------------------
-> pc,vhost: fixes
->
-> Fixes all over the place.
->
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
->
-> ----------------------------------------------------------------
+On Tue, 17 Nov 2020 09:02:37 -0500
+Matthew Rosato <mjrosato@linux.ibm.com> wrote:
 
+> On 11/17/20 8:31 AM, Cornelia Huck wrote:
+> > On Tue, 17 Nov 2020 14:23:57 +0100
+> > Pierre Morel <pmorel@linux.ibm.com> wrote:
+> >  =20
+> >> On 11/17/20 2:00 PM, Peter Maydell wrote: =20
+> >>> On Tue, 17 Nov 2020 at 12:03, Philippe Mathieu-Daud=C3=A9 <philmd@red=
+hat.com> wrote: =20
+> >>>>
+> >>>> Fix an endianness issue reported by Cornelia:
+> >>>>    =20
+> >>>>> s390x tcg guest on x86, virtio-pci devices are not detected. The
+> >>>>> relevant feature bits are visible to the guest. Same breakage with
+> >>>>> different guest kernels.
+> >>>>> KVM guests and s390x tcg guests on s390x are fine. =20
+> >>>>
+> >>>> Fixes: 28dc86a0729 ("s390x/pci: use a PCI Group structure")
+> >>>> Reported-by: Cornelia Huck <cohuck@redhat.com>
+> >>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> >>>> ---
+> >>>> RFC because review-only patch, untested
+> >>>> ---
+> >>>>    hw/s390x/s390-pci-inst.c | 2 +-
+> >>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>>
+> >>>> diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
+> >>>> index 58cd041d17f..cfb54b4d8ec 100644
+> >>>> --- a/hw/s390x/s390-pci-inst.c
+> >>>> +++ b/hw/s390x/s390-pci-inst.c
+> >>>> @@ -305,7 +305,7 @@ int clp_service_call(S390CPU *cpu, uint8_t r2, u=
+intptr_t ra)
+> >>>>            ClpReqQueryPciGrp *reqgrp =3D (ClpReqQueryPciGrp *)reqh;
+> >>>>            S390PCIGroup *group;
+> >>>>
+> >>>> -        group =3D s390_group_find(reqgrp->g);
+> >>>> +        group =3D s390_group_find(ldl_p(&reqgrp->g)); =20
+> >>>
+> >>> 'g' in the ClpReqQueryPciGrp struct is a uint32_t, so
+> >>> adding the ldl_p() will have no effect unless (a) the
+> >>> structure is not 4-aligned and (b) the host will fault on
+> >>> unaligned accesses, which isn't the case for x86 hosts.
+> >>>
+> >>> Q: is this struct really in host order, or should we
+> >>> be using ldl_le_p() or ldl_be_p() and friends here and
+> >>> elsewhere?
+> >>>
+> >>> thanks
+> >>> -- PMM
+> >>>     =20
+> >>
+> >> Hi, I think we better modify the structure here, g should be a byte.
+> >>
+> >> Connie, can you please try this if it resolves the issue?
+> >>
+> >> diff --git a/hw/s390x/s390-pci-inst.h b/hw/s390x/s390-pci-inst.h
+> >> index fa3bf8b5aa..641d19c815 100644
+> >> --- a/hw/s390x/s390-pci-inst.h
+> >> +++ b/hw/s390x/s390-pci-inst.h
+> >> @@ -146,7 +146,8 @@ typedef struct ClpReqQueryPciGrp {
+> >>        uint32_t fmt;
+> >>        uint64_t reserved1;
+> >>    #define CLP_REQ_QPCIG_MASK_PFGID 0xff
+> >> -    uint32_t g;
+> >> +    uint32_t g0 :24;
+> >> +    uint32_t g  :8;
+> >>        uint32_t reserved2;
+> >>        uint64_t reserved3;
+> >>    } QEMU_PACKED ClpReqQueryPciGrp;
+> >> =20
+> >=20
+> > No, same crash... I fear there are more things broken wrt endianness.
+> >  =20
+>=20
+> Sorry, just getting online now, looking at the code....  Are the 2=20
+> memcpy calls added in 9670ee75 and 28dc86a0 the issue?  Won't they just=
+=20
+> present the Q PCI FN / Q PCI FN GRP results in host endianness?
+>=20
 
-Applied, thanks.
+I just re-added some st?_p operations in set_pbdev_info and that fixes
+at least the crash I was seeing with Phil's patch applied. Still, no
+pci functions get detected, so that's not enough. Those memcpy calls
+look like a possible culprit.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
-
--- PMM
 
