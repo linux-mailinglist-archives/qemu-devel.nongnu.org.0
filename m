@@ -2,47 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98CDB2B6873
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 16:18:28 +0100 (CET)
-Received: from localhost ([::1]:55342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B83C42B6881
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 16:19:51 +0100 (CET)
+Received: from localhost ([::1]:59514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf2kV-0002qt-MU
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 10:18:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48378)
+	id 1kf2lq-0004ZM-Qy
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 10:19:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kf2j7-0001xw-4A
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 10:17:01 -0500
-Received: from mout.kundenserver.de ([212.227.126.135]:41259)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kf2j8-0001zP-Qe
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 10:17:02 -0500
+Received: from mout.kundenserver.de ([212.227.126.187]:43287)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kf2j3-0007ZR-B7
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 10:17:00 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kf2j3-0007ZT-3m
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 10:17:02 -0500
 Received: from localhost.localdomain ([82.252.130.226]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MP2zs-1kvUBW0gRg-00PQyH; Tue, 17 Nov 2020 16:16:54 +0100
+ id 1MODeL-1ku6bn2KPB-00ObUa; Tue, 17 Nov 2020 16:16:54 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/2] Linux user for 5.2 patches
-Date: Tue, 17 Nov 2020 16:16:48 +0100
-Message-Id: <20201117151650.867836-1-laurent@vivier.eu>
+Subject: [PULL 1/2] linux-user,
+ netlink: fix message translation with ip command
+Date: Tue, 17 Nov 2020 16:16:49 +0100
+Message-Id: <20201117151650.867836-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.28.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20201117151650.867836-1-laurent@vivier.eu>
+References: <20201117151650.867836-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:k/FqnbMiSSKR3ZMQSQ2CfiOnqA57En4t6iHPA63H7Od5J08Dkq5
- KpvEBIugrQvJXIvsADKlNYobeFfbC86xiWlzItweOKUPA1IwJFl4Vki7M4fgvVaiSno/IW1
- wYPlzelL+v4PA7nR/VXRpMpO9EBpsATZOcS2NKIDEtlUSbotwSaGwsVDjEZQXQ34nMRBr5/
- okxUENNbc+ial76XOh5PA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:kyovd6HkpMc=:txoHCzzufDQdCJUnIkDt/e
- M4OhH0d/O/VOfOn4COTYh0FBywPHItkdhrPR3uS532yinPRzszscH2a4oc96BR0a2Cha9Ogog
- kHGZen0O9HWOihk81MmB26T3sEu+fJfyp3bd+YZ/15ZVlnWIamrO4L6c9r0TEDr1zf/8qm4hH
- rFVKEYzC3hGMworEAAQ60qrX/xRhpfsaBsRPlfgU6+aIJ2bFIxgDoT/aqYygJ+rOy+FQa+vUJ
- vLbUaQMKENVcj6YYMu23AKHTXkG4K5jLLDtzhCa1LrrWjmbcSciF7O0CKhBEixcHgcO2nXpWn
- ENkai0g9otbIOWpVUPtGq3qPBCESlP2R7c1PnE938R2TBNFQvZiuGpenCBCVpoayjhXEieg4k
- uoMOCXHOhwg3XeVMH/rN78O4jX9qPkqr1DM3HGnLm1bX40y2DOrzTLBxJajTn
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:Wm4qTgjFtLerns3oucEypn99wNOAhakzrHK6/UlahNhi8d/Hfy6
+ UkrN49r3ZnqVzNOVIQJAsmeQk0IS80HQZhrmQbaq9jnPSuhaVWC7V3dteKl9ti1NE7Bm8X+
+ NoPi92ptf7Zg0AbVr0eNEvvloucJZ4nfVB2I3xCqOVpgFT+0NmPIE2YLPG9O+wAoHFkPAJ/
+ Ds/2p5ZAsBwUXgccZ0J9w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:A+ovUduV6Tg=:biuRMXa+b8CM+E8+W8VQQP
+ lfqDF5lP+SfMicU9apDtLXRwIJ9XUpuy2E29G8M307Il8b8p9ijRkWojHhe/8dxxHLrm4mnzr
+ NTM1mANtHBfoHynrCIugSj4546LRN530DqTNugBRSGnZ6Y5mkQwbX1TPvEg5dUIDfq+r8zuh0
+ mVJUlEmf3FIOPptV9L0GstlOjoRyfGJOdg9r7kkYp/GXug1U/H6Gogtpz2ek/WMjxsQl9mfCe
+ Ym6BzWFJwrbGyeEabOUrZ/pSZdzEBjASqtE+6tqCxTkxbvo9AF0ya4M1ppKnEbqYu7sCO94DV
+ VKUglLG0vI11lqT6aHoVdTIhnDE2Z6pslimjvWwnliEKRu3YXh7kfESUPX/EDMFqDfYoyWnjw
+ mJJK+xPguVUNkvmiIUcYtlaX1nC1NPk00mB6kbbl2KNUlVaaW9NCNbbFCN2O8
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 10:16:54
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 10:16:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -66,37 +68,65 @@ Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit cb5ed407a1ddadf788fd373fed41c87c9e81e5b0=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2020-=
-11=3D=0D
--15' into staging (2020-11-16 17:00:36 +0000)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://github.com/vivier/qemu.git tags/linux-user-for-5.2-pull-request=0D
-=0D
-for you to fetch changes up to 5351f4075dc17825df8e0628a93f9baa9b9bda4b:=0D
-=0D
-  linux-user,netlink: add IFLA_BRPORT_MRP_RING_OPEN, IFLA_BRPORT_MRP_IN_OPE=
-N =3D=0D
-(2020-11-17 15:22:52 +0100)=0D
-=0D
-----------------------------------------------------------------=0D
-Fix netlink with latest iproute=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Laurent Vivier (2):=0D
-  linux-user,netlink: fix message translation with ip command=0D
-  linux-user,netlink: add IFLA_BRPORT_MRP_RING_OPEN,=0D
-    IFLA_BRPORT_MRP_IN_OPEN=0D
-=0D
- linux-user/fd-trans.c | 18 ++++++++++++++----=0D
- 1 file changed, 14 insertions(+), 4 deletions(-)=0D
-=0D
---=3D20=0D
-2.28.0=0D
-=0D
+With iproute2-5.8.0, the route, link and addr show commands fail:
+
+  root@sid:~# ip addr show
+  RTNETLINK answers: Unknown error 352321537
+  Dump terminated
+  root@sid:~# ip link show
+  RTNETLINK answers: Unknown error 352321537
+  Dump terminated
+  root@sid:~# ip route show
+  RTNETLINK answers: Unknown error 352321537
+  Dump terminated
+
+This patch correctly decodes the GETROUTE and GETLINK commands and adds
+the RTA_TABLE message.
+
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20201116163622.791442-1-laurent@vivier.eu>
+---
+ linux-user/fd-trans.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/linux-user/fd-trans.c b/linux-user/fd-trans.c
+index 1486c81aaa27..7551c883304a 100644
+--- a/linux-user/fd-trans.c
++++ b/linux-user/fd-trans.c
+@@ -1160,6 +1160,7 @@ static abi_long target_to_host_data_route_rtattr(struct rtattr *rtattr)
+         break;
+     /* u32 */
+     case QEMU_RTA_PRIORITY:
++    case QEMU_RTA_TABLE:
+     case QEMU_RTA_OIF:
+         u32 = RTA_DATA(rtattr);
+         *u32 = tswap32(*u32);
+@@ -1200,11 +1201,10 @@ static abi_long target_to_host_data_route(struct nlmsghdr *nlh)
+     struct rtmsg *rtm;
+ 
+     switch (nlh->nlmsg_type) {
+-    case RTM_GETLINK:
+-        break;
+     case RTM_NEWLINK:
+     case RTM_DELLINK:
+     case RTM_SETLINK:
++    case RTM_GETLINK:
+         if (nlh->nlmsg_len >= NLMSG_LENGTH(sizeof(*ifi))) {
+             ifi = NLMSG_DATA(nlh);
+             ifi->ifi_type = tswap16(ifi->ifi_type);
+@@ -1225,10 +1225,9 @@ static abi_long target_to_host_data_route(struct nlmsghdr *nlh)
+                                        NLMSG_LENGTH(sizeof(*ifa)));
+         }
+         break;
+-    case RTM_GETROUTE:
+-        break;
+     case RTM_NEWROUTE:
+     case RTM_DELROUTE:
++    case RTM_GETROUTE:
+         if (nlh->nlmsg_len >= NLMSG_LENGTH(sizeof(*rtm))) {
+             rtm = NLMSG_DATA(nlh);
+             rtm->rtm_flags = tswap32(rtm->rtm_flags);
+-- 
+2.28.0
+
 
