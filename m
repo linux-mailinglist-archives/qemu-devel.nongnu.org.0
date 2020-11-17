@@ -2,67 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E16FC2B5C86
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 11:03:12 +0100 (CET)
-Received: from localhost ([::1]:53932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B03C62B5CA6
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 11:10:34 +0100 (CET)
+Received: from localhost ([::1]:46576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kexpP-0001Zi-TI
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 05:03:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54404)
+	id 1kexwX-0001u9-Ps
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 05:10:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kexkc-0003rq-81
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 04:58:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31092)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kexka-0003aF-FC
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 04:58:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605607091;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=dx4iQ6/bvUhKAcvhxvQSYfXw8/ZRkSe6hKQOd1gdGeo=;
- b=HPkWX6K71Ux9Ij+4mxAixX9FtpTjlhnsiLXk0JpDvBWih/3RcxsHBYDNve26t+ZKaFtV7T
- Uu2O4a79q1n7Lh3WfzH7YjSsj/aVPntW14/dioqaf6Ocibc2313AuI76N3cERmcFcn0LyH
- VpKiwN52ndLAGw8ox8lC/mDbe9Nlt2Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-130-r2Lm7YtsPaKNjx5cJ1zB9w-1; Tue, 17 Nov 2020 04:58:08 -0500
-X-MC-Unique: r2Lm7YtsPaKNjx5cJ1zB9w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA1146D241;
- Tue, 17 Nov 2020 09:58:07 +0000 (UTC)
-Received: from thuth.com (ovpn-113-138.ams2.redhat.com [10.36.113.138])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EF89B76646;
- Tue, 17 Nov 2020 09:58:06 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 12/12] max111x: put it into the 'misc' category
-Date: Tue, 17 Nov 2020 10:57:48 +0100
-Message-Id: <20201117095748.122371-13-thuth@redhat.com>
-In-Reply-To: <20201117095748.122371-1-thuth@redhat.com>
-References: <20201117095748.122371-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 00:41:22
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kexv5-0000Ht-2m
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 05:09:03 -0500
+Received: from mail-yb1-xb43.google.com ([2607:f8b0:4864:20::b43]:37439)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kexv3-00071x-4W
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 05:09:02 -0500
+Received: by mail-yb1-xb43.google.com with SMTP id v92so18436971ybi.4
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 02:09:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Z8/AJj8tzmvrV/3K1tfmDqMsYoflHAZ1xLVBxcEq/JA=;
+ b=fM3M4e4txYjKcoEFn4ydPOEKwy5V98q+yb3rQaIzftc1EHEGKFTU0IHcIW5/TAvmWf
+ +LQrI6inEOgXs+9tFzVI4waX30kYTVuPA2iWSL9uEmSCl4LBeBlil/U9jC0WygknuPqM
+ ySfqM6Q3dyrsitvJybusGfutl+vFh4K00V5WFZn44cmjjBVQUHKry5xHEbfhbcBu8Gzu
+ 3p1YBJ0rXsCTNg2TTb0N8oZyzhchs+xsu/I4qWMIaFcXG0vF7A9LJzwJCKbK9Qhvz2s5
+ afZrnjLBDBezV+C7EM6tSsxOksog1qK3jepYOlIXDIh8pRuE9B5pYzoL5swDUbQ4V5GO
+ SHTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Z8/AJj8tzmvrV/3K1tfmDqMsYoflHAZ1xLVBxcEq/JA=;
+ b=rIrgN1xZynmFuhwPYgS20aKMb88AzNEUFqGCOIE3hbBdLL8bfP6p6XbBLEMR089+6R
+ 8Bwiq6MN/w6EZvM5dNHgJ0tgTZobKdh1pH+L5d+9LeotodhzpIBpQa7EUMWEUcZKkIQq
+ QS0YYOEMfWXnz206LZ/CcTX7PdaT54APTSzU6orCj7+AnNQkSilDdbaHIPI0PkmalURS
+ oHq7ydUoyD/ZRIWmmiSakftY28jP7pDNSogKjk3pqvSeI6FsALOZNn/FbDlP5LjnXT8z
+ 3mkHNmpNOame3TFzE5ioTTO8mSDv9AvIe1kruS5m48BA4yztCQ+ndZCYXIn/r2jwnSJR
+ GduQ==
+X-Gm-Message-State: AOAM532QOS0n0u0HVBo5pl+qOKFFjkhXIHDbZy89LIXHOIFmAI36eAWt
+ 9rLy9nyhQdgIDr+ywV1WjMbGOMgp8jd27zl8vSM=
+X-Google-Smtp-Source: ABdhPJzYAiEeqRNcfO3twisjJ0D37cr/oJ8UEzvyQ63sOFbRnHzMMBllJhKT7HD8ibZ18SZlrZA+mrkRpgPqW/hv+jY=
+X-Received: by 2002:a25:9a02:: with SMTP id x2mr21265521ybn.306.1605607739736; 
+ Tue, 17 Nov 2020 02:08:59 -0800 (PST)
+MIME-Version: 1.0
+References: <1605261378-77971-1-git-send-email-bmeng.cn@gmail.com>
+ <4e7e41c4-ce96-05c7-f2cf-27f926639d49@redhat.com>
+ <CAEUhbmWDXFExcYGy6SZzz9t+TwHRD3LCuPAvg_S9_5tHRHF6-A@mail.gmail.com>
+ <a29cdbe7-12f0-839e-4296-7bf4b846bcef@redhat.com>
+In-Reply-To: <a29cdbe7-12f0-839e-4296-7bf4b846bcef@redhat.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 17 Nov 2020 18:08:48 +0800
+Message-ID: <CAEUhbmWPi=4u8y0U0Py7rxyFVkD5gqkDQsze39XjPaXsADnJtg@mail.gmail.com>
+Subject: Re: [PATCH v2] target/i386: seg_helper: Correct segement selector
+ nullification in the RET/IRET helper
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b43;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb43.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,35 +82,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gan Qixin <ganqixin@huawei.com>
+Hi Paolo,
 
-The category of the max111x device is not set, put it into the 'misc'
-category.
+On Fri, Nov 13, 2020 at 6:39 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> On 13/11/20 11:23, Bin Meng wrote:
+> >> It would be nicer if the commit message explained how
+> >> the guest can notice the difference.
+> >
+> > The commit message says "Per the SDM" :) The actual failure case
+> > involves a special code sequence that is exposed in VxWorks guest
+> > testing. Linux does not expose this however.
+>
+> I see.  Is there any chance you could write a testcase for
+> kvm-unit-tests?  Or just explain how to write such a test, and then I
+> can write it myself; it's not clear to me how the guest can observe the
+> base and limit of a non-present segment.
 
-Signed-off-by: Gan Qixin <ganqixin@huawei.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20201112125824.763182-5-ganqixin@huawei.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- hw/misc/max111x.c | 1 +
- 1 file changed, 1 insertion(+)
+I am not familiar with kvm-unit-test. The original issue cannot be
+reproduced with a KVM enabled QEMU as the codes-in-flaw is in the
+emulation path.
 
-diff --git a/hw/misc/max111x.c b/hw/misc/max111x.c
-index 7e6723f343..eae0f9b598 100644
---- a/hw/misc/max111x.c
-+++ b/hw/misc/max111x.c
-@@ -185,6 +185,7 @@ static void max111x_class_init(ObjectClass *klass, void *data)
-     k->transfer = max111x_transfer;
-     dc->reset = max111x_reset;
-     dc->vmsd = &vmstate_max111x;
-+    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
- }
- 
- static const TypeInfo max111x_info = {
--- 
-2.18.4
-
+Regards,
+Bin
 
