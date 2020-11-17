@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDE1D2B5B61
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 09:55:23 +0100 (CET)
-Received: from localhost ([::1]:43442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAF5D2B5B6F
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 09:58:11 +0100 (CET)
+Received: from localhost ([::1]:46180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kewlm-0008WF-To
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 03:55:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38314)
+	id 1kewoU-0001SY-Sy
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 03:58:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kewkO-0007GD-1J
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 03:53:56 -0500
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:37119)
+ id 1kewnT-000123-9G
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 03:57:07 -0500
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:33213)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kewkL-0005tn-QY
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 03:53:55 -0500
-Received: by mail-ed1-x543.google.com with SMTP id cq7so21589039edb.4
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 00:53:52 -0800 (PST)
+ id 1kewnR-000777-KD
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 03:57:07 -0500
+Received: by mail-ej1-x644.google.com with SMTP id 7so28318782ejm.0
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 00:57:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VrMZELjb0sgoVlgL0ZPnjj9/RyjbdaMWcGhOXuM7Lf4=;
- b=eyWsfcFAMuS4eCw1MVfel6WWQ0dzkcQWTsH7Xmgrz7ugq2vpzMn9NQa+/kjwcOcPmG
- Q8uTmWIK7mhWJsWA7TO+fGnrVzqp//emmYn0r61tiqE7C8YkNGRKsBCPlkguz9LLcxaA
- nV5xkOasP2S4tBaCmXwpDkIgp97jE//f2fIBj+hnOXwWNGvwS8VzMn2jlqdzCeGOGk7+
- w2bTfuGGyP3ml5poIbv5xZ5T3f1n7g5iytxm/qfqL8GXGrkkXyLt0JEvQDG6d6v96mtd
- aj42+ZgaMEZT5h90VYBqFVgXmBP+AT4tJ3w1scfmb3tOAN5lFDh4Nj2Q0+B0IjOz5Kcv
- mCBA==
+ :cc; bh=JEoGtrFwgumM6e96chpR5UzJ4mOHMuGKZwdLfcZb+Q0=;
+ b=DKEFqSzyzdoqyCEy4NQ8Q0OS/A14HaL6YuLdkXo7MpLcUPESjXzfxmwSAShEEJvsAj
+ J54wF3LNq7cxPRgK4RzWv+uvqOWDrL4u2vMo2t1hYV67skJG8gPbwPurcidh44Tx2G0f
+ mEXEknlY/aRGCg9OaKF7+MD0CHuVaMBDBW959o0xpjClaAe8JCS7reCuOM2TgL12RPAW
+ rAdy62Itg0iDr4p7Sc4HxZuBc8DFJlVcqmgL9ISgvIUjXNXFctI6whtK6Qx4O2O0ztsa
+ 6bV9M6IpmPfBHWzpqH4OahOOn62sWHbUdiXE0FtfQE0XI1ysU2KedYLpErjV2KwPeh2U
+ 9M5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=VrMZELjb0sgoVlgL0ZPnjj9/RyjbdaMWcGhOXuM7Lf4=;
- b=KuH4MqiGMDIuPtMqKFvf1bCrFO+K4rhItuuhlWhnygyUtNAJ8GdLO0/YxXirtt9dC3
- coe4BUOCWCmw7BWWY5DMiUhw3Qaz6FjGQ04q+FbaLGW+l05Wes2opEFEue4eV4cRatqw
- piY+Td9P1Sq4LrGBaxQG0dikSnTWzHBEXCqIcTmEXpcfJspJ7SxqdKcXPYnmahtzh5F5
- gFlhrc5HEYqXzzFLLtLxSx02BTJcJuh3Fd6C5/ql/3xyFUghJLTSKffZ1Tuh8F5gtZ86
- 8iF8tJFua0In2d+Du5O/uoT64cDRswWUKU5mQxiuzCLcK4vODtm027re1clfg752POEI
- G17A==
-X-Gm-Message-State: AOAM530euV3lQewb8ET0o095Q9PSE9+fDcd4y+zlqnpeAte6WiWjJfAX
- JXZUa8ejGTfzd67lh8kPSfyx/cB1f51QJf5j1k6SJMgKSJsP4A==
-X-Google-Smtp-Source: ABdhPJwjTwOLrA1N3PkKhd2DJ9LRSmxa0fpdI5dNejZ4O63cfmdjHAQ4xXYrc3mFks1bO7jhChdEEQo05ZFO496AgfE=
-X-Received: by 2002:a05:6402:1155:: with SMTP id
- g21mr19621582edw.53.1605603231586; 
- Tue, 17 Nov 2020 00:53:51 -0800 (PST)
+ bh=JEoGtrFwgumM6e96chpR5UzJ4mOHMuGKZwdLfcZb+Q0=;
+ b=iK9GbgG8B0rEAoxKDBd2ljeQJ9NY8VH4a1vzX5HyHdz/eDcf4btSdigG6zzbZYSu3u
+ mTYnMPvUhvU7PjMDWaYiB0NefAxgPIqvIbBnwJtNLQmOFtDZb81R2mwzyESlD3d+QJ3G
+ TLa09UruFVZr14jH+tgX+gkg26wJCDhzpNwLHjC8oN2ogKhtMqGhAVkQb4BDjxQ9dLZw
+ EVgqn4nQT4RHpvlp9RZ3ahx8ozwMYsVoiej/ij4LUfw0QLGA47Faq54S81rnW/JQXNCc
+ +8XsnZPR65DMO3AmiPV7Pu3usvPlTpxGgIrBexMPjCTyxbiZNmBdvzn8Izx9qy8BFSIB
+ 0H5Q==
+X-Gm-Message-State: AOAM5311w835Ag3K/rbgSiuT8aDfeKChWWEk8mUbRGLYw4FGaUuxqd7f
+ PFyXNgNNzbgOHeNrvX8f+cOjSToqI6rzzyD2rmg=
+X-Google-Smtp-Source: ABdhPJyF5DTr3U9BFP1g4KpGfncToxYBxl8Cwfqtz9BcIzZtznKSU35ma4LRuiLzvV+tfwv/znYzpNAZA3xIIAnUkAU=
+X-Received: by 2002:a17:906:7c54:: with SMTP id
+ g20mr18780801ejp.105.1605603423801; 
+ Tue, 17 Nov 2020 00:57:03 -0800 (PST)
 MIME-Version: 1.0
 References: <20201116224143.1284278-1-ehabkost@redhat.com>
- <20201116224143.1284278-7-ehabkost@redhat.com>
-In-Reply-To: <20201116224143.1284278-7-ehabkost@redhat.com>
+ <20201116224143.1284278-8-ehabkost@redhat.com>
+In-Reply-To: <20201116224143.1284278-8-ehabkost@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 17 Nov 2020 12:53:39 +0400
-Message-ID: <CAJ+F1CJu4QRwpXGhcYXgszy-e218q2DJ=vG5N6e3Dij2805JoQ@mail.gmail.com>
-Subject: Re: [PATCH v2 6/8] qlit: qlit_type() function
+Date: Tue, 17 Nov 2020 12:56:52 +0400
+Message-ID: <CAJ+F1CLZs0zLJfvFOg8uoE-9OS5Cqz4m=d9Mg+ZzpeEOmOgM2g@mail.gmail.com>
+Subject: Re: [PATCH v2 7/8] qom: Make object_property_set_default() public
 To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000044df7205b449a237"
-Received-SPF: pass client-ip=2a00:1450:4864:20::543;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x543.google.com
+Content-Type: multipart/alternative; boundary="000000000000b9d74605b449adaf"
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x644.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,15 +86,15 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000044df7205b449a237
+--000000000000b9d74605b449adaf
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 17, 2020 at 2:48 AM Eduardo Habkost <ehabkost@redhat.com> wrote=
+On Tue, Nov 17, 2020 at 2:44 AM Eduardo Habkost <ehabkost@redhat.com> wrote=
 :
 
-> Useful function where we need to check for the qlit type before
-> converting it to an actual QObject.
+> The function will be used outside qom/object.c, to simplify the
+> field property code that sets the property default value.
 >
 > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 >
@@ -102,24 +102,50 @@ On Tue, Nov 17, 2020 at 2:48 AM Eduardo Habkost <ehabkost@redhat.com> wrote=
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 ---
->  include/qapi/qmp/qlit.h | 5 +++++
->  1 file changed, 5 insertions(+)
+>  include/qom/object.h | 11 +++++++++++
+>  qom/object.c         |  2 +-
+>  2 files changed, 12 insertions(+), 1 deletion(-)
 >
-> diff --git a/include/qapi/qmp/qlit.h b/include/qapi/qmp/qlit.h
-> index f9e356d31e..acddb80831 100644
-> --- a/include/qapi/qmp/qlit.h
-> +++ b/include/qapi/qmp/qlit.h
-> @@ -59,4 +59,9 @@ bool qlit_equal_qobject(const QLitObject *lhs, const
-> QObject *rhs);
+> diff --git a/include/qom/object.h b/include/qom/object.h
+> index 2ab124b8f0..4234cc9b66 100644
+> --- a/include/qom/object.h
+> +++ b/include/qom/object.h
+> @@ -1090,6 +1090,17 @@ ObjectProperty
+> *object_class_property_add(ObjectClass *klass, const char *name,
+>                                            ObjectPropertyRelease *release=
+,
+>                                            void *opaque);
 >
->  QObject *qobject_from_qlit(const QLitObject *qlit);
->
-> +static inline QType qlit_type(const QLitObject *qlit)
-> +{
-> +    return qlit->type;
-> +}
+> +/**
+> + * object_property_set_default:
+> + * @prop: the property to set
+> + * @value: the value to be written to the property
+> + *
+> + * Set the property default value.
+> + *
+> + * Ownership of @value is transferred to the property.
+> + */
+> +void object_property_set_default(ObjectProperty *prop, QObject *value);
 > +
->  #endif /* QLIT_H */
+>  /**
+>   * object_property_set_default_bool:
+>   * @prop: the property to set
+> diff --git a/qom/object.c b/qom/object.c
+> index 7c11bcd3b1..6b0d9d8c79 100644
+> --- a/qom/object.c
+> +++ b/qom/object.c
+> @@ -1547,7 +1547,7 @@ static void object_property_init_defval(Object *obj=
+,
+> ObjectProperty *prop)
+>      visit_free(v);
+>  }
+>
+> -static void object_property_set_default(ObjectProperty *prop, QObject
+> *defval)
+> +void object_property_set_default(ObjectProperty *prop, QObject *defval)
+>  {
+>      assert(!prop->defval);
+>      assert(!prop->init);
 > --
 > 2.28.0
 >
@@ -129,17 +155,17 @@ Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 --=20
 Marc-Andr=C3=A9 Lureau
 
---00000000000044df7205b449a237
+--000000000000b9d74605b449adaf
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 17, 2020 at 2:48 AM Eduar=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 17, 2020 at 2:44 AM Eduar=
 do Habkost &lt;<a href=3D"mailto:ehabkost@redhat.com">ehabkost@redhat.com</=
 a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Us=
-eful function where we need to check for the qlit type before<br>
-converting it to an actual QObject.<br>
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Th=
+e function will be used outside qom/object.c, to simplify the<br>
+field property code that sets the property default value.<br>
 <br>
 Signed-off-by: Eduardo Habkost &lt;<a href=3D"mailto:ehabkost@redhat.com" t=
 arget=3D"_blank">ehabkost@redhat.com</a>&gt;<br></blockquote><div><br></div=
@@ -148,24 +174,54 @@ ureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;=C2=A0 <br></div><div>=
 <br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
 ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
 ---<br>
-=C2=A0include/qapi/qmp/qlit.h | 5 +++++<br>
-=C2=A01 file changed, 5 insertions(+)<br>
+=C2=A0include/qom/object.h | 11 +++++++++++<br>
+=C2=A0qom/object.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 2 +-<br>
+=C2=A02 files changed, 12 insertions(+), 1 deletion(-)<br>
 <br>
-diff --git a/include/qapi/qmp/qlit.h b/include/qapi/qmp/qlit.h<br>
-index f9e356d31e..acddb80831 100644<br>
---- a/include/qapi/qmp/qlit.h<br>
-+++ b/include/qapi/qmp/qlit.h<br>
-@@ -59,4 +59,9 @@ bool qlit_equal_qobject(const QLitObject *lhs, const QObj=
-ect *rhs);<br>
+diff --git a/include/qom/object.h b/include/qom/object.h<br>
+index 2ab124b8f0..4234cc9b66 100644<br>
+--- a/include/qom/object.h<br>
++++ b/include/qom/object.h<br>
+@@ -1090,6 +1090,17 @@ ObjectProperty *object_class_property_add(ObjectClas=
+s *klass, const char *name,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0ObjectPropertyRelease *release,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0void *opaque);<br>
 <br>
-=C2=A0QObject *qobject_from_qlit(const QLitObject *qlit);<br>
-<br>
-+static inline QType qlit_type(const QLitObject *qlit)<br>
-+{<br>
-+=C2=A0 =C2=A0 return qlit-&gt;type;<br>
-+}<br>
++/**<br>
++ * object_property_set_default:<br>
++ * @prop: the property to set<br>
++ * @value: the value to be written to the property<br>
++ *<br>
++ * Set the property default value.<br>
++ *<br>
++ * Ownership of @value is transferred to the property.<br>
++ */<br>
++void object_property_set_default(ObjectProperty *prop, QObject *value);<br=
+>
 +<br>
-=C2=A0#endif /* QLIT_H */<br>
+=C2=A0/**<br>
+=C2=A0 * object_property_set_default_bool:<br>
+=C2=A0 * @prop: the property to set<br>
+diff --git a/qom/object.c b/qom/object.c<br>
+index 7c11bcd3b1..6b0d9d8c79 100644<br>
+--- a/qom/object.c<br>
++++ b/qom/object.c<br>
+@@ -1547,7 +1547,7 @@ static void object_property_init_defval(Object *obj, =
+ObjectProperty *prop)<br>
+=C2=A0 =C2=A0 =C2=A0visit_free(v);<br>
+=C2=A0}<br>
+<br>
+-static void object_property_set_default(ObjectProperty *prop, QObject *def=
+val)<br>
++void object_property_set_default(ObjectProperty *prop, QObject *defval)<br=
+>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0assert(!prop-&gt;defval);<br>
+=C2=A0 =C2=A0 =C2=A0assert(!prop-&gt;init);<br>
 -- <br>
 2.28.0<br>
 <br>
@@ -173,5 +229,5 @@ ect *rhs);<br>
 </blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
 mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---00000000000044df7205b449a237--
+--000000000000b9d74605b449adaf--
 
