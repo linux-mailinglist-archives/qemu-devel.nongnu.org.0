@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 294CE2B6E0C
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 20:08:29 +0100 (CET)
-Received: from localhost ([::1]:60208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3817E2B6E1F
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 20:11:29 +0100 (CET)
+Received: from localhost ([::1]:35800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf6L5-00062I-Lr
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 14:08:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60204)
+	id 1kf6O0-0007kp-Al
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 14:11:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kf6K6-0005D5-0Z
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 14:07:26 -0500
-Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:39289)
+ id 1kf6Mm-00077t-VP
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 14:10:13 -0500
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:33702)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kf6K4-0005Sx-60
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 14:07:25 -0500
-Received: by mail-pj1-x1044.google.com with SMTP id oc3so1044651pjb.4
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 11:07:23 -0800 (PST)
+ id 1kf6Mj-0006Py-Kz
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 14:10:12 -0500
+Received: by mail-pf1-x443.google.com with SMTP id q10so17952466pfn.0
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 11:10:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=cI5vzjMjkZwOCABGdt4PTtHtT649Rp34MdRuM72kzf0=;
- b=tak9mN5pLXHGFZd1r4Lc3WYSIWZPANmdTkWOL7cpfPpffbax+YU6Ni+4NuxhTL/Y8a
- RBd6+HvGmuUhd1ffxy3xqAaXaG7K7W6aiCr5/GF8m1ybK2RsTplVPKbciwKDWUW/sigE
- dB7k39z2XWWw2vrZltCLFdkDKVQM5hJbBeLUOglFU/IXO8CTBM2JyJzdIPg4scBZNyZy
- 3yI0TdFec92/zMdGEQ1rk02JQ9Kw7fKlPCzUOh0s5F3EynLiVW1JeXIUaaPBYnf8tXyp
- Y56GeXAz7mW/sz8GaHc8BUC+GDHspv4WxoRzAYYWxANHWn8LEjiiE5LGJYigiVWanjQP
- 0sEg==
+ bh=JSW+R87KG3d6MD5/aj2X6jQckA3PI5mUzsKWCkllkOw=;
+ b=SpIAqrtVc3fMpGNlbDwtLkOf0KSfveV9vyeIFyJCCr+Cphnaat+6u3u5rG3F7vo5+v
+ V3uIcuCdvT0WYMPA7xxOm+PopY97/V+78Aq0DS1PcEi+kwl6ffdrFE06sEt695XMLa38
+ pUPKVj1zBBuag1q5/wVz5VNLCGZuNDsUc2lkjWmGJ/07cqO/G5b7pbVUpblGVMbte8by
+ DOPrw0KVHoTTCf/tXR5lPmUnS7WUB5uKE2YhISokJY4ZiSaYWcS6bb/UG/QyPRXTgswC
+ avpwV4TbC7YlhwXZgczM/QL2A0lW/YO3fhzWZU9Mvl90iuTLs4Re97ece9/JHhoEi4nU
+ TOig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=cI5vzjMjkZwOCABGdt4PTtHtT649Rp34MdRuM72kzf0=;
- b=CvD9WOQeZvhYZ9uVe4jCZRicWdxKEqpeaGhey6Pjs68Fv7mBrsVKI3N+ZnPyMACmm6
- YwsD0ORLd2zN7ahze6FzYzz6zzLeKM0yjWS89M2UH8JoxJM5ZEeLS+iAKJUDS1QIxChf
- a02BE+5F1d9LhQ6iSkkQ5CXgvqmrNsNGOzaowQWHNtQ+PRCkt90mjMTnhXfVypJJ+i0a
- ePP6tCz1RLngp3vj+yWenKTqpos/J/0zFdBu/0tiVUGnUkvBtCmOV9uJMBjPrxmfTGU+
- D5485GFMSYrf2U3wLkcxQFoNine5Yj1wCOkXN8cIF9CMQMSNwxKBLH3h+o5naDmCw4oV
- NtEw==
-X-Gm-Message-State: AOAM530CMixkIS7092KDZEWqIRCXSSbQs1XZwyXEgakuC9dyyQ7BxEvo
- BdwwBCzFPp6+ss2zPDNufPGbPyNClqc+vw==
-X-Google-Smtp-Source: ABdhPJygyVAz5q88b/feHc0znGtvKxKBRznN4+rcMfFOiUgU9vP9tzM7Pm3a8I74grkbCbi6yIbNeQ==
-X-Received: by 2002:a17:90a:5309:: with SMTP id x9mr503800pjh.98.1605640042294; 
- Tue, 17 Nov 2020 11:07:22 -0800 (PST)
+ bh=JSW+R87KG3d6MD5/aj2X6jQckA3PI5mUzsKWCkllkOw=;
+ b=Eb0Ov+W6zP8rs9zQEHBdwF+VfIl04q5mC85/Rp9bFP+9ALmmrgZIkO4OpCfpJG9k8G
+ wWKKLOBCiQPJXOFGzDeyZ2VN2iy1l7XHb1/YvUgQuNidC+WUIZ0NXikHeraNaLGlI5we
+ 55dF4fCqOBvBn8e2+PluRykx+vNtp/JPCQ8Ic384G4HkSpKk7DZf2dzWdxdLRH0l+mIi
+ sa3tY/sdpxF5tF1yDXcTC5RHM8Ekz3mzSHU/g0Tt33COZTlAf8PCWcb/R1nIzq0LN1f+
+ FOiNmit2q2/1lQadi1iQJ9Bp0pvBEJ2uxPbfbUCHc5VtLsWiExieBe/XQcE597F0eUEs
+ kWjA==
+X-Gm-Message-State: AOAM532hApbcCMdwk8aReVfFMD3FV637/wfpQxHXdWaEtvV/y9b5Uf0Q
+ dx5uv0GHpSuIs8/TqPwE25QAVhJsynbTcA==
+X-Google-Smtp-Source: ABdhPJxFzE6Bsfk0nMJmlpYbcZJhOHpLq/dClJGRatOQwfZox8GCQsYnVKOFELpO9b+mLAD7hqTP1w==
+X-Received: by 2002:aa7:953c:0:b029:18b:bfb:9fa1 with SMTP id
+ c28-20020aa7953c0000b029018b0bfb9fa1mr788641pfp.14.1605640207962; 
+ Tue, 17 Nov 2020 11:10:07 -0800 (PST)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id g18sm21603192pfu.131.2020.11.17.11.07.21
+ by smtp.gmail.com with ESMTPSA id e8sm3932688pjr.30.2020.11.17.11.10.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Nov 2020 11:07:21 -0800 (PST)
-Subject: Re: [PATCH 01/15] hw/intc/armv7m_nvic: Make all of system PPB range
- be RAZWI/BusFault
+ Tue, 17 Nov 2020 11:10:06 -0800 (PST)
+Subject: Re: [PATCH 02/15] target/arm: Implement v8.1M PXN extension
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20201116160831.31000-1-peter.maydell@linaro.org>
- <20201116160831.31000-2-peter.maydell@linaro.org>
+ <20201116160831.31000-3-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <c3b2e0dd-0a7f-3c9c-1e14-d358ea15f1f7@linaro.org>
-Date: Tue, 17 Nov 2020 11:07:19 -0800
+Message-ID: <a4d9213b-057a-8401-9d42-e47cf9db9f8a@linaro.org>
+Date: Tue, 17 Nov 2020 11:10:04 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201116160831.31000-2-peter.maydell@linaro.org>
+In-Reply-To: <20201116160831.31000-3-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1044.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -95,43 +95,20 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/16/20 8:08 AM, Peter Maydell wrote:
-> For M-profile CPUs, the range from 0xe0000000 to 0xe00fffff is the
-> Private Peripheral Bus range, which includes all of the memory mapped
-> devices and registers that are part of the CPU itself, including the
-> NVIC, systick timer, and debug and trace components like the Data
-> Watchpoint and Trace unit (DWT).  Within this large region, the range
-> 0xe000e000 to 0xe000efff is the System Control Space (NVIC, system
-> registers, systick) and 0xe002e000 to 0exe002efff is its Non-secure
-> alias.
+> In v8.1M the PXN architecture extension adds a new PXN bit to the
+> MPU_RLAR registers, which forbids execution of code in the region
+> from a privileged mode.
 > 
-> The architecture is clear that within the SCS unimplemented registers
-> should be RES0 for privileged accesses and generate BusFault for
-> unprivileged accesses, and we currently implement this.
-> 
-> It is less clear about how to handle accesses to unimplemented
-> regions of the wider PPB.  Unprivileged accesses should definitely
-> cause BusFaults (R_DQQS), but the behaviour of privileged accesses is
-> not given as a general rule.  However, the register definitions of
-> individual registers for components like the DWT all state that they
-> are RES0 if the relevant component is not implemented, so the
-> simplest way to provide that is to provide RAZ/WI for the whole range
-> for privileged accesses.  (The v7M Arm ARM does say that reserved
-> registers should be UNK/SBZP.)
-> 
-> Expand the container MemoryRegion that the NVIC exposes so that
-> it covers the whole PPB space. This means:
->  * moving the address that the ARMV7M device maps it to down by
->    0xe000 bytes
->  * moving the off and the offsets within the container of all the
->    subregions forward by 0xe000 bytes
->  * adding a new default MemoryRegion that covers the whole container
->    at a lower priority than anything else and which provides the
->    RAZWI/BusFault behaviour
+> This is another feature which is just in the generic "in v8.1M" set
+> and has no ID register field indicating its presence.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
+>  target/arm/helper.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
+
 
