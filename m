@@ -2,68 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFA002B6B99
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 18:20:55 +0100 (CET)
-Received: from localhost ([::1]:52552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 152AE2B6BA0
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 18:24:29 +0100 (CET)
+Received: from localhost ([::1]:34478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf4f0-0007CZ-BR
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 12:20:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48362)
+	id 1kf4iS-0003Df-69
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 12:24:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kf4YL-0000ij-RC
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 12:14:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25841)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kf4YI-0005fW-HU
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 12:14:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605633236;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=KKpN7MqU1XhgZHhY/Yyh/0O7Axufvn5px5hIzIdKh9U=;
- b=U77KfhPZ2Nstc8uB9C/GMfPgNqQipiOItCC5F0JMFhIbjrI05hQ+DDmmfcOG0RfTb1qImx
- Fd1VOfPNurOu4GCECCcz84djru1Gy9saV0TWwEn5Kokrv4tTVGztMs0kaWMvVKOS8+8z0U
- 2rA0i3SWBywa4jx6UaCJn3qM94Lyg5E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-88-fz1LJk1jNQKPqFcYfIKffA-1; Tue, 17 Nov 2020 12:13:54 -0500
-X-MC-Unique: fz1LJk1jNQKPqFcYfIKffA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 27E3B100855D;
- Tue, 17 Nov 2020 17:13:53 +0000 (UTC)
-Received: from gondolin.redhat.com (ovpn-113-115.ams2.redhat.com
- [10.36.113.115])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A01A06EF51;
- Tue, 17 Nov 2020 17:13:44 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Matthew Rosato <mjrosato@linux.ibm.com>
-Subject: [PATCH for-5.2] s390x/pci: fix endianness issues
-Date: Tue, 17 Nov 2020 18:13:40 +0100
-Message-Id: <20201117171340.1289659-1-cohuck@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kf4be-0004Qg-UG
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 12:17:26 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:46665)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kf4bd-0006u3-71
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 12:17:26 -0500
+Received: by mail-wr1-x442.google.com with SMTP id d12so23927840wrr.13
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 09:17:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=R3hkeBTrMG2RevdVkYwGzpMpqR561oprnUAQuYRFR1E=;
+ b=CJlfR0a+xtJ9TeQkDOhGtJTDTNKNq4SvuQk2ScDUJZUXs0WHKjnvtwr3hEjpSTYzBR
+ QOlw0wpfMWthz7fWZpzpwAY/zZfpSJpX56g495f73YXv2dLj9o+OPU/RWB5rC2AEgdsP
+ Cifb4gwgCzCb09ECiO4yAIlLLCrG4b+xnwAbpZrSPjGA9tfEnG6pU4RIfIpsCY0qwwq2
+ 2BaQz01smbNSrIWZ5P/7IswBzZO4av9zKLDSoPuoPc8clvRDyhYB2TemXhPTywASiVCm
+ PIMgkM0Ps+Di+Q4Cuu1VJss3Xbgz3fJNjArnDLXn7Bb3pB3NqbMvxgD9e8kkvL6s/sh3
+ Kvdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=R3hkeBTrMG2RevdVkYwGzpMpqR561oprnUAQuYRFR1E=;
+ b=OEz0iQQMfQRkoLE0faajRcfIbIDIgBTxqdJ0I2dw3nDzpxMwrmiqU7XEOu4Fklwnxn
+ ZHywVj2SPBpfvR9ns+vyTAYZ2budQ/U8Jsk19KOT1tdM8uZBc5t+ggNOOL52NzfKcNWM
+ OjYXn8J7qdHERltprJrm9Mxz2ukbdzDpgwfGBiAyHBYTgby/F46yu9Ya8xzGXHcXTAqG
+ xGwJ9A5hRr+EgYMVsGIJnioE8n0o2oOAtY2OYG+jBtmOSA3RcTknNyWvp/hi4MS8CJMa
+ YSCWAItdykAMXQO8wXspdoYH5GmM/1l4FJSaaGU0s5AfUqreAs/3LimuFADMLrs2uW5h
+ vj9Q==
+X-Gm-Message-State: AOAM531z7c0v+V1bSn32E3+2fT5/pS++g9Nrrc6T88XpUdmMHMmBtiJ6
+ yWAU2Rh4mhmBq868RtwR0Sw=
+X-Google-Smtp-Source: ABdhPJyRy4rdtBPPo+hvaM/p8A6gwj4sTU+PruTsnu+eaV90UKOCe4WqvcJNNpoQxw5uNs5yjmESxw==
+X-Received: by 2002:a5d:6743:: with SMTP id l3mr589842wrw.82.1605633443115;
+ Tue, 17 Nov 2020 09:17:23 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id s4sm27792114wro.10.2020.11.17.09.17.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Nov 2020 09:17:22 -0800 (PST)
+Subject: Re: [PATCH V13 2/9] meson.build: Re-enable KVM support for MIPS
+To: Huacai Chen <zltjiangshi@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+References: <1602059975-10115-1-git-send-email-chenhc@lemote.com>
+ <1602059975-10115-3-git-send-email-chenhc@lemote.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <0dfbe14a-9ddb-0069-9d86-62861c059d12@amsat.org>
+Date: Tue, 17 Nov 2020 18:17:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 00:41:22
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <1602059975-10115-3-git-send-email-chenhc@lemote.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,112 +92,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>, qemu-s390x@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@gmail.com>, qemu-devel@nongnu.org,
+ Huacai Chen <chenhc@lemote.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-zPCI control blocks are big endian, we need to take care that we
-do proper accesses in order not to break tcg guests on little endian
-hosts.
+Hi Huacai,
 
-Fixes: 28dc86a07299 ("s390x/pci: use a PCI Group structure")
-Fixes: 9670ee752727 ("s390x/pci: use a PCI Function structure")
-Fixes: 1e7552ff5c34 ("s390x/pci: get zPCI function info from host")
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
----
+On 10/7/20 10:39 AM, Huacai Chen wrote:
+> After converting from configure to meson, KVM support is lost for MIPS,
+> so re-enable it in meson.build.
+> 
+> Fixes: fdb75aeff7c212e1afaaa3a43 ("configure: remove target configuration")
+> Fixes: 8a19980e3fc42239aae054bc9 ("configure: move accelerator logic to meson")
+> Cc: aolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Huacai Chen <chenhc@lemote.com>
+> ---
+>  meson.build | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/meson.build b/meson.build
+> index 17c89c8..b407ff4 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -59,6 +59,8 @@ elif cpu == 's390x'
+>    kvm_targets = ['s390x-softmmu']
+>  elif cpu in ['ppc', 'ppc64']
+>    kvm_targets = ['ppc-softmmu', 'ppc64-softmmu']
+> +elif cpu in ['mips', 'mips64']
+> +  kvm_targets = ['mips-softmmu', 'mipsel-softmmu', 'mips64-softmmu', 'mips64el-softmmu']
 
-Works for me with virtio-pci devices for tcg on x86 and s390x, and for kvm.
-The vfio changes are not strictly needed; did not test them due to lack of
-hardware -- testing appreciated.
+Are you sure both 32-bit hosts and targets are supported?
 
-As this fixes a regression, I want this in 5.2.
+I don't have hardware to test. If you are not working with
+32-bit hardware I'd remove them.
 
----
- hw/s390x/s390-pci-bus.c  | 12 ++++++------
- hw/s390x/s390-pci-inst.c |  4 ++--
- hw/s390x/s390-pci-vfio.c |  8 ++++----
- 3 files changed, 12 insertions(+), 12 deletions(-)
-
-diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
-index e0dc20ce4a56..17e64e0b1200 100644
---- a/hw/s390x/s390-pci-bus.c
-+++ b/hw/s390x/s390-pci-bus.c
-@@ -787,12 +787,12 @@ static void s390_pci_init_default_group(void)
- 
- static void set_pbdev_info(S390PCIBusDevice *pbdev)
- {
--    pbdev->zpci_fn.sdma = ZPCI_SDMA_ADDR;
--    pbdev->zpci_fn.edma = ZPCI_EDMA_ADDR;
--    pbdev->zpci_fn.pchid = 0;
-+    stq_p(&pbdev->zpci_fn.sdma, ZPCI_SDMA_ADDR);
-+    stq_p(&pbdev->zpci_fn.edma, ZPCI_EDMA_ADDR);
-+    stw_p(&pbdev->zpci_fn.pchid, 0);
-     pbdev->zpci_fn.pfgid = ZPCI_DEFAULT_FN_GRP;
--    pbdev->zpci_fn.fid = pbdev->fid;
--    pbdev->zpci_fn.uid = pbdev->uid;
-+    stl_p(&pbdev->zpci_fn.fid, pbdev->fid);
-+    stl_p(&pbdev->zpci_fn.uid, pbdev->uid);
-     pbdev->pci_group = s390_group_find(ZPCI_DEFAULT_FN_GRP);
- }
- 
-@@ -871,7 +871,7 @@ static int s390_pci_msix_init(S390PCIBusDevice *pbdev)
-     memory_region_init_io(&pbdev->msix_notify_mr, OBJECT(pbdev),
-                           &s390_msi_ctrl_ops, pbdev, name, PAGE_SIZE);
-     memory_region_add_subregion(&pbdev->iommu->mr,
--                                pbdev->pci_group->zpci_group.msia,
-+                                ldq_p(&pbdev->pci_group->zpci_group.msia),
-                                 &pbdev->msix_notify_mr);
-     g_free(name);
- 
-diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
-index 58cd041d17fb..7bc6b79f10ce 100644
---- a/hw/s390x/s390-pci-inst.c
-+++ b/hw/s390x/s390-pci-inst.c
-@@ -305,7 +305,7 @@ int clp_service_call(S390CPU *cpu, uint8_t r2, uintptr_t ra)
-         ClpReqQueryPciGrp *reqgrp = (ClpReqQueryPciGrp *)reqh;
-         S390PCIGroup *group;
- 
--        group = s390_group_find(reqgrp->g);
-+        group = s390_group_find(ldl_p(&reqgrp->g));
-         if (!group) {
-             /* We do not allow access to unknown groups */
-             /* The group must have been obtained with a vfio device */
-@@ -788,7 +788,7 @@ int pcistb_service_call(S390CPU *cpu, uint8_t r1, uint8_t r3, uint64_t gaddr,
-     /* Length must be greater than 8, a multiple of 8 */
-     /* and not greater than maxstbl */
-     if ((len <= 8) || (len % 8) ||
--        (len > pbdev->pci_group->zpci_group.maxstbl)) {
-+        (len > lduw_p(&pbdev->pci_group->zpci_group.maxstbl))) {
-         goto specification_error;
-     }
-     /* Do not cross a 4K-byte boundary */
-diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
-index d5c78063b5bc..f455c6f20a1a 100644
---- a/hw/s390x/s390-pci-vfio.c
-+++ b/hw/s390x/s390-pci-vfio.c
-@@ -116,10 +116,10 @@ static void s390_pci_read_base(S390PCIBusDevice *pbdev,
-     }
-     cap = (void *) hdr;
- 
--    pbdev->zpci_fn.sdma = cap->start_dma;
--    pbdev->zpci_fn.edma = cap->end_dma;
--    pbdev->zpci_fn.pchid = cap->pchid;
--    pbdev->zpci_fn.vfn = cap->vfn;
-+    stq_p(&pbdev->zpci_fn.sdma, cap->start_dma);
-+    stq_p(&pbdev->zpci_fn.edma, cap->end_dma);
-+    stw_p(&pbdev->zpci_fn.pchid, cap->pchid);
-+    stw_p(&pbdev->zpci_fn.vfn, cap->vfn);
-     pbdev->zpci_fn.pfgid = cap->gid;
-     /* The following values remain 0 until we support other FMB formats */
-     pbdev->zpci_fn.fmbl = 0;
--- 
-2.26.2
-
+>  else
+>    kvm_targets = []
+>  endif
+> 
 
