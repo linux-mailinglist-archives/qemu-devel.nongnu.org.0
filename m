@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C82A2B6AD6
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 18:01:19 +0100 (CET)
-Received: from localhost ([::1]:43634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 755352B6AFE
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 18:03:59 +0100 (CET)
+Received: from localhost ([::1]:52230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf4M2-0005Rf-JO
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 12:01:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43364)
+	id 1kf4Oc-0000go-IH
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 12:03:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kf4EQ-00023n-Hs
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:26 -0500
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:39177)
+ id 1kf4EW-0002IH-9T
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:32 -0500
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:46800)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kf4EO-00074C-Lb
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:26 -0500
-Received: by mail-ed1-x544.google.com with SMTP id e18so23206227edy.6
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:53:24 -0800 (PST)
+ id 1kf4ET-00076P-11
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:31 -0500
+Received: by mail-ej1-x632.google.com with SMTP id w13so30379041eju.13
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:53:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gNWJ/VEx1uTE8wxM/bFQps9+VkdXGSnUdRqMFFMtLWI=;
- b=rYInS5QIiVulKKyP3KjWYttA1MOwrN056PVQGDYCOTzKnqWufNzbFGvpKF/xVdSkXC
- PlAxUQUpvDWXx7m5TbRS0MfVgB0LdFgbMbR5s/otboTRjE1C/vuOiWydhAxtzlTb42So
- S0rQAMlmnDEQhT5webkub15bX3claOoCnD3JlmVxAg8DDJWkZz4XP7//zqgdneTC9fKz
- zCs1Lfa1sC1ZG+o4ANo0hfyGG3wALOLQu9bYICNf9EsKU8CM3itsTnT1XLRkYrbu8JSr
- 0U9KvP7wDPCY/ZBZd3tCj3g78V9c/LLmt/QtF6fbX9+8iZ2HLVQO/Pdz38A6XMQYQUJt
- vOsw==
+ bh=ztc3Pu+lAjCUdGZER5PIFUAkxhZApbW0E7GC3IpMpXw=;
+ b=cYe8BIGOv7uElwe4SETkIfo+UEgDbbBpES1f/0gT+rg6FHzQhUf4b1BxkQvZTit7CV
+ tO2kdM+UbWe9eaW5BEuJ9lH+xozi95lmTe+txglw5fmYVvtgwgsJ7H/sPsGuKYrDd8N1
+ 17Q3rrUWKD2EyBLs9cQXaZrce3PF6wdh+EJR3SacVzUgNA/p/exbSl3UPBMgHap1R6rq
+ FD56melD5dgw/AvdNYk5xSgZTaspcgqVSatVSnuQprhqhjBteopDA7KGqwZiWXiFwsg6
+ LmaDfIWnmO4Q89xc+fBWJApB3Q6TcpmppRD4wilJdQ7QDXpFgFaZfluVuOcCgTpv1MA7
+ dRhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=gNWJ/VEx1uTE8wxM/bFQps9+VkdXGSnUdRqMFFMtLWI=;
- b=rWYMudIFgblCaG8C3UBKoPlX1Wy/lid7Uj+d9xzureKdFKmpMLKkUFJEGszh+BtACP
- 5ui7iH5TvCfRROQUV9z1SGuOyrrSu6Iz6HGJUo3AsygiqBucJ1EIniTfu2FxC4vDvO/8
- 81eqiTvNhLy13nrK5GCe417eMF6DarY8zBZdRirhI/olwfcYlEwvcAdR7vU5Fm5op9oE
- h8FceFiC3q0O5Pq+gdoh1MDZGwjLs1OzhQXSbUcGeA9RDOxh9WP9GR1RH7XG8COeNQoP
- QJ+hY32VkU7lrHbzbTu7TMMK3ncn0gSiRBklB79uat2fXFShFZOtlVo0Un6Q9z6AYeAm
- Ia9A==
-X-Gm-Message-State: AOAM532KoDMroWJnMrLwg2XI1DlJrSYl6I26vFhDJisD9PqNBJaX6FLD
- eAkPaMVigs9MG09aRGggESHO/GcTHCs=
-X-Google-Smtp-Source: ABdhPJxFXRFTnwia/1OwEcbBoBA8P+CKT+sCd4WwD5aLuSz42sObQ/PvnDcLRym4hmhHkbDJ6QrXfg==
-X-Received: by 2002:a50:da4b:: with SMTP id a11mr4449648edk.364.1605632003055; 
- Tue, 17 Nov 2020 08:53:23 -0800 (PST)
+ bh=ztc3Pu+lAjCUdGZER5PIFUAkxhZApbW0E7GC3IpMpXw=;
+ b=r/bfWnSh+y1mRsXLp6aeBVK8SBhWkyqKS9prDvGFliXiC6KgZ2daYDvwzV+Rs/wAqk
+ fojDcsS5NmkTbbCDoOqJ00oOJIi3YA8v39YbabVLXvnPtcyXkROKnPGT4/L05Wc79Wwm
+ jCSrYai4cMh27xTHDXhT6zQlsYdhblnxQ5ZdBh5ONiBGM+21gt9zAV/3bHrKJTiuYYpg
+ 9ZWwE3/AxnbFUh56POw7SRaKfOgOfm4t/wWGfJmKKEuAy+44OspNzgB352DYBoX6PQKu
+ hLEiLUkHCLNpB1aArSKdJqcjjQPa43s7B9UM9/7iAs+/Wd+hL6HZNlLVeZ3pNjTjQpBe
+ HNkg==
+X-Gm-Message-State: AOAM532Cgu2LxiraCkIs7iO6CkxEFH3zDttfSRcpoNZraFh1vYalaqsi
+ rvng6/SWl//Au/Xn6stDZeUIwA4PnEs=
+X-Google-Smtp-Source: ABdhPJyyFvDIRmJyL2P+TXgB9AOTnj6o0JtyR9BPJr5USDrnXSg/fJnrkkRiMz7bdbKjcmOnd+WYWg==
+X-Received: by 2002:a17:906:adcd:: with SMTP id
+ lb13mr19233612ejb.362.1605632007287; 
+ Tue, 17 Nov 2020 08:53:27 -0800 (PST)
 Received: from localhost.localdomain ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id u7sm639067ejf.83.2020.11.17.08.53.21
+ by smtp.gmail.com with ESMTPSA id u7sm639067ejf.83.2020.11.17.08.53.26
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Nov 2020 08:53:22 -0800 (PST)
+ Tue, 17 Nov 2020 08:53:26 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/29] Replace HTTP links with HTTPS ones: documentation
-Date: Tue, 17 Nov 2020 17:52:50 +0100
-Message-Id: <20201117165312.118257-8-pbonzini@redhat.com>
+Subject: [PATCH 11/29] kernel-doc: include line numbers for function prototypes
+Date: Tue, 17 Nov 2020 17:52:54 +0100
+Message-Id: <20201117165312.118257-12-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201117165312.118257-1-pbonzini@redhat.com>
 References: <20201117165312.118257-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::544;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x544.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x632.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -89,42 +90,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Alexander A. Klimov" <grandmaster@al2klimov.de>
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Rationale:
-Reduces attack surface on kernel devs opening the links for MITM
-as HTTPS traffic is much harder to manipulate.
+This should solve bad error reports like this one:
 
-Deterministic algorithm:
-For each file:
-  For each line:
-    If doesn't contain `\bxmlns\b`:
-      For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
-        If both the HTTP and HTTPS versions
-        return 200 OK and serve the same content:
-          Replace HTTP with HTTPS.
+	./include/linux/iio/iio.h:0: WARNING: Unknown target name: "devm".
 
-Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
-Link: https://lore.kernel.org/r/20200526060544.25127-1-grandmaster@al2klimov.de
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Link: https://lore.kernel.org/r/56eed0ba50cd726236acd12b11b55ce54854c5ea.1599660067.git.mchehab+huawei@kernel.org
 Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/kernel-doc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/kernel-doc | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 95f2d7adcf..fadc2f5b86 100755
+index eb635eb94c..3fd6f3925e 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -324,7 +324,7 @@ if (defined($ENV{'KBUILD_VERBOSE'})) {
+@@ -1624,6 +1624,8 @@ sub dump_function($$) {
+     my $file = shift;
+     my $noret = 0;
  
- # Generated docbook code is inserted in a template at a point where
- # docbook v3.1 requires a non-zero sequence of RefEntry's; see:
--# http://www.oasis-open.org/docbook/documentation/reference/html/refentry.html
-+# https://www.oasis-open.org/docbook/documentation/reference/html/refentry.html
- # We keep track of number of generated entries and generate a dummy
- # if needs be to ensure the expanded template can be postprocessed
- # into html.
++    print_lineno($.);
++
+     $prototype =~ s/^static +//;
+     $prototype =~ s/^extern +//;
+     $prototype =~ s/^asmlinkage +//;
 -- 
 2.28.0
 
