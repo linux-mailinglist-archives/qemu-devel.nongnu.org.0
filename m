@@ -2,68 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56CF32B6EE4
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 20:42:55 +0100 (CET)
-Received: from localhost ([::1]:47416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 294782B6EFE
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 20:44:06 +0100 (CET)
+Received: from localhost ([::1]:50378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf6sQ-0000pq-Eu
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 14:42:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39864)
+	id 1kf6tZ-00026d-6q
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 14:44:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kf6rL-0000OG-Ue
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 14:41:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30029)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kf6rJ-0000iK-4P
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 14:41:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605642103;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=pPtEmvleLqsZuszS9+VwDzspY7+t14Oe/2By0aaLHrg=;
- b=UtVdlKOGPVRjGJ34dwkYDvYsj5HT+rx1PF5rzLtXCQW5ijItWIn8MMeGy9HMBoPVNlWl+C
- 9CFGgu10z8YNkPJ58NRSJc16OCx7kYT0MZK1RTEQb/iJGL1PIFYRt1+zWyy5ixS40fxlcL
- k3HkJSvpKNVJPcDjyT7PYBYpRxeBito=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-111-yoRrZhQhN466P_QojHOW3w-1; Tue, 17 Nov 2020 14:41:39 -0500
-X-MC-Unique: yoRrZhQhN466P_QojHOW3w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA4BC1007485;
- Tue, 17 Nov 2020 19:41:38 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-116-186.rdu2.redhat.com [10.10.116.186])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 60C8519C78;
- Tue, 17 Nov 2020 19:41:32 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 7F4EB220BCF; Tue, 17 Nov 2020 14:41:31 -0500 (EST)
-Date: Tue, 17 Nov 2020 14:41:31 -0500
-From: Vivek Goyal <vgoyal@redhat.com>
-To: qemu-devel@nongnu.org, virtio-fs-list <virtio-fs@redhat.com>
-Subject: [PATCH v3] virtiofsd: Use --thread-pool-size=0 to mean no thread pool
-Message-ID: <20201117194131.GA96587@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kf6sC-00013g-FS
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 14:42:40 -0500
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:50435)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kf6s8-0000zA-6Q
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 14:42:40 -0500
+Received: by mail-pj1-x1041.google.com with SMTP id js21so1036208pjb.0
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 11:42:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=yI5JqCPS5RgKI64igo2ind3oyCXfj1mIIYdDl5pk/IQ=;
+ b=sMZqbHlbBhDs086yU+2SP0ID9jvYbMqZTMRZxve8NXzO1HtUe7AXvm13MxPu8aB0Yy
+ XftNAkLXn0QItOTeTq7wJ5aJIjR7Lx2c9K/llyOKAZhteHHf1SQeXXiZQ++uonsk/z6J
+ vIMTe5xtvUgeZK8xMk5PGwHjwTaal5JBSKYEZWGhFOLOyaEgxk5M5wb1Oh6lgKp8rStH
+ cwoXOX2gEyLR/PGDpSR1+HdezfMJ9KZ7SdVAMeR/ih5wqDD7Oe96G3bIw41wcjuMZspO
+ V/2d27v+QSMELjpObTSEAP/0KRye/E61OadyTChgNPjOEKum3s+6YVA+8Xu6QnaYayXW
+ Ax9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=yI5JqCPS5RgKI64igo2ind3oyCXfj1mIIYdDl5pk/IQ=;
+ b=Lk+UOwGJueGrWdISlzDXPP+MqqyQzzicPKyETJDWdRw8X/K8ClTTbNYfjLYKNXfQ73
+ aptZi3yLBRqZDhrsIhpS1mCyJnQ3sy+0PpmYmwM/0C4/5skdP0aGh11qwg714fDmHcfD
+ +paRZuXW210dpzCrCQv4XlW7/yzMVlYJePk3/aSpHt/y4GTO2x/qnz87vIrL8lY514yr
+ hmfNgr0ecehnfa93jgwYootjsKl5BBgr9+XOBjN2PXAfsJfVIO5tmKHiN2Vu8yEKCL0c
+ aM55e6rf80MFtinYgMtaKp8rVm8J+ucX6n7iT6zxQtWbBiASFgIMjpbfpxcRk9aeZCgZ
+ mvOA==
+X-Gm-Message-State: AOAM5331WXY3Np9yeUpWIjDaf4KY2d/tCuzQxbr0baKtsj0CJFE++a+W
+ Hxc2z8wA0UCOp4bgV4qNxE4gm1NLvdflGQ==
+X-Google-Smtp-Source: ABdhPJyH5bLTyQcWdcJWcGgrPzQ9Rd7/mpTlaZ2TM3QcR+b1I1BHVPS/3fy5FJ9v5jVQZcJHSEFz0w==
+X-Received: by 2002:a17:90a:7343:: with SMTP id j3mr621656pjs.51.1605642153996; 
+ Tue, 17 Nov 2020 11:42:33 -0800 (PST)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id a18sm15240699pfa.151.2020.11.17.11.42.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Nov 2020 11:42:33 -0800 (PST)
+Subject: Re: [PATCH 06/15] target/arm: Enforce M-profile VMRS/VMSR register
+ restrictions
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20201116160831.31000-1-peter.maydell@linaro.org>
+ <20201116160831.31000-7-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <d5cf2b31-0eb5-8147-2104-93b0c4c54b9b@linaro.org>
+Date: Tue, 17 Nov 2020 11:42:31 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 01:18:45
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+In-Reply-To: <20201116160831.31000-7-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1041.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,104 +91,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jose.carlos.venegas.munoz@intel.com, dgilbert@redhat.com,
- stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is V3 of the patch. A minor change since V2 is to reverse the list
-before executing requests. We are prepending elements to the list and that
-means when we start processing requests, we are processing these in
-the reverse order. Though we don't guarantee any ordering but it does
-not hurt to process requests in same order as received as much as
-possible.
+On 11/16/20 8:08 AM, Peter Maydell wrote:
+> -        if (a->rt == 15 && (!a->l || a->reg != ARM_VFP_FPSCR)) {
+> +        if (a->reg != ARM_VFP_FPSCR) {
+> +            return false;
+> +        }
+> +        if (a->rt == 15 && !a->l) {
 
-Right now we create a thread pool and main thread hands over the request
-to thread in thread pool to process. Number of threads in thread pool
-can be managed by option --thread-pool-size.
+Alternately, the parenthesis are just off:
 
-In tests we have noted that many of the workloads are getting better
-performance if we don't use a thread pool at all and process all
-the requests in the context of a thread receiving the request.
+  if ((a->rt == 15 && !a->l) || a->reg != ARM_VFP_FPSCR)
 
-Hence give user an option to be able to run virtiofsd without using
-a thread pool.
+Either way,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-To implement this, I have used existing option --thread-pool-size. This
-option defines how many maximum threads can be in the thread pool.
-Thread pool size zero freezes thead pool. I can't see why will one
-start virtiofsd with a frozen thread pool (hence frozen file system).
-So I am redefining --thread-pool-size=0 to mean, don't use a thread pool.
-Instead process the request in the context of thread receiving request
-from the queue.
-
-Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
----
- tools/virtiofsd/fuse_virtio.c | 37 ++++++++++++++++++++++++++---------
- 1 file changed, 28 insertions(+), 9 deletions(-)
-
-diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index 83ba07c6cd..6c56e606ef 100644
---- a/tools/virtiofsd/fuse_virtio.c
-+++ b/tools/virtiofsd/fuse_virtio.c
-@@ -588,13 +588,18 @@ static void *fv_queue_thread(void *opaque)
-     struct VuDev *dev = &qi->virtio_dev->dev;
-     struct VuVirtq *q = vu_get_queue(dev, qi->qidx);
-     struct fuse_session *se = qi->virtio_dev->se;
--    GThreadPool *pool;
--
--    pool = g_thread_pool_new(fv_queue_worker, qi, se->thread_pool_size, FALSE,
--                             NULL);
--    if (!pool) {
--        fuse_log(FUSE_LOG_ERR, "%s: g_thread_pool_new failed\n", __func__);
--        return NULL;
-+    GThreadPool *pool = NULL;
-+    GList *req_list = NULL;
-+
-+    if (se->thread_pool_size) {
-+        fuse_log(FUSE_LOG_DEBUG, "%s: Creating thread pool for Queue %d\n",
-+                 __func__, qi->qidx);
-+        pool = g_thread_pool_new(fv_queue_worker, qi, se->thread_pool_size,
-+                                 FALSE, NULL);
-+        if (!pool) {
-+            fuse_log(FUSE_LOG_ERR, "%s: g_thread_pool_new failed\n", __func__);
-+            return NULL;
-+        }
-     }
- 
-     fuse_log(FUSE_LOG_INFO, "%s: Start for queue %d kick_fd %d\n", __func__,
-@@ -669,14 +674,28 @@ static void *fv_queue_thread(void *opaque)
- 
-             req->reply_sent = false;
- 
--            g_thread_pool_push(pool, req, NULL);
-+            if (!se->thread_pool_size) {
-+                req_list = g_list_prepend(req_list, req);
-+            } else {
-+                g_thread_pool_push(pool, req, NULL);
-+            }
-         }
- 
-         pthread_mutex_unlock(&qi->vq_lock);
-         pthread_rwlock_unlock(&qi->virtio_dev->vu_dispatch_rwlock);
-+
-+        /* Process all the requests. */
-+        if (!se->thread_pool_size && req_list != NULL) {
-+            req_list = g_list_reverse(req_list);
-+            g_list_foreach(req_list, fv_queue_worker, qi);
-+            g_list_free(req_list);
-+            req_list = NULL;
-+        }
-     }
- 
--    g_thread_pool_free(pool, FALSE, TRUE);
-+    if (pool) {
-+        g_thread_pool_free(pool, FALSE, TRUE);
-+    }
- 
-     return NULL;
- }
--- 
-2.25.4
-
+r~
 
