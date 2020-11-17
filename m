@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21FD82B656F
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 14:56:19 +0100 (CET)
-Received: from localhost ([::1]:60602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 754AB2B651E
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 14:54:54 +0100 (CET)
+Received: from localhost ([::1]:55262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf1T0-0004wk-85
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 08:56:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53194)
+	id 1kf1Rd-0002gb-Gc
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 08:54:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kf1Ln-0003VT-VB
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 08:48:52 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:47058)
+ id 1kf1Ln-0003Uu-FX
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 08:48:51 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:40533)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kf1Lg-0001wT-Ro
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 08:48:51 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id d12so23200954wrr.13
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 05:48:44 -0800 (PST)
+ id 1kf1Li-0001ws-0I
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 08:48:50 -0500
+Received: by mail-wr1-x429.google.com with SMTP id m6so6056585wrg.7
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 05:48:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=DaQ2Ssteyoh9bTakUkfVf51UsrSaiaOBWtYl8OKifX8=;
- b=UCb4V4/toPgMB0Z1BJLoZQ5s8ziWnl90DLN+ZZsXsjrTF93RmEDsHZW9yHUmdi6jpo
- OG/M79L30et6LhDImPZM0KDHS/Kqb/yyR7PW5F/9WW1l7U47FfXv99A55HyTEmYRVGMv
- QS1b4NZTnb9i8jNpiPHLdspeSdEqgLIkjeLkpxEvpR5WCh0qmmRUd53vVOMgSxaT4FQR
- dciNiAicqFZYhL8nwNvSh01MwvHx74QZfQRe3hrDP480hGQvJcS1z86hGwBeZpODt2NY
- HFlCmsraY5bKu4xzQQA5s/G8ZbmehLsoij8OA9pCfH8Dej9qvLZzzrbKIh5P2gaTX5fw
- 1qMw==
+ bh=WIwwMdEY5387t3nDgbRHskTkVvKEvXfLu8ZPGnOtUxY=;
+ b=xfY0UgcjKcButQjNTurQwHAJdg6jpbZvH05Sf49iKNGgZsX+sh6SROA6Zv9sjDTT5U
+ NIjPmsJ6GjNdjo5BwiNniq+ZWfIY2PnhBzTqZplIAIu98Rui+87QNEsIHsPEjDh/idod
+ 48E9K7HGsWd3p3UCULlhkwEYCfxKo2Qzqjr5nYCjotcslEFmDbaKVo/RRAf38NJY+5CD
+ ydKruyL0y/BW6NLVes2m/ake425Gf6Ror6A+qv0abuvY3NGQtcKPwx456fHxnOqFDXlE
+ GXR7xCNUJYiJbmqT9B6dpG6vuO+Rpgda6CgDQpNokLLZbjs8crsObK2nn669RxB5CeQj
+ QjeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DaQ2Ssteyoh9bTakUkfVf51UsrSaiaOBWtYl8OKifX8=;
- b=kIxWjfkgsAX5ogIjd7MEM3WsGa5HjtekItWxex1dgPlL/AJDj3dgr16tgIT6sZvN+I
- rin7CuPLheN6PcI/FYMEn9x4q8YQMk86gRKlGjFAnMxL0zwWUmQ7eY/gmx6O6TicItwz
- /bK5QjGyumi+bl6J3kwLQBLVKE7QjAbbKrVj1X/39b0YgUVtWfl3IJ5Tzk0pevJxMhNb
- T3Xj61vd4t3FOxN7nr0VIGrUlKZqK30NDL+SnaeZy7P1HpHdBIzQKknh8kMZNPd0YCrZ
- vkHvt4g3bbwWy3OEm901+8FPOgb5C9NMXKIZjLwyf/QGfLOOx7T+vFW3CFY0bANMa/OL
- ss/w==
-X-Gm-Message-State: AOAM53058xLdQd6jVU4z0bG9XUm3I58O9W7/wCHd85igtpApx3CYzIKC
- C/FW/qnTkAQ+ImkrHXhqGj4GE7MZnRSb6A==
-X-Google-Smtp-Source: ABdhPJyHUDee1IHcxQPrzIAIinio+hHI6roEfhHjXHzOUQW5levf3u7u2IpgX1JaLmmvJ+8cWKWMzw==
-X-Received: by 2002:adf:93e1:: with SMTP id 88mr24301822wrp.37.1605620923033; 
- Tue, 17 Nov 2020 05:48:43 -0800 (PST)
+ bh=WIwwMdEY5387t3nDgbRHskTkVvKEvXfLu8ZPGnOtUxY=;
+ b=oqADNlbHJPCD+OvlOq4NSIdYkJGNfhBMr5Mz9SMtlYlzAc+/60OgTPxKMonv9FtB5R
+ g82wXBfTiZaD7AHCA1P7Bc1fT3v25vd6Su7nWze6lWTRwnneRAvwqG9W2B11OzRhIkKP
+ e3cTYL7fT5khDwi60NdemNPz1Y8ouxncwZQ2A/QvSnhCv5G9mGHGaHTqKcSaNMIiWJX8
+ S649MV37jEgzW2OQTYNa4EzwUDYqnIPzHt/hi5cmr2ARYYYfc+hIqnqn5lDkFcQU4RjS
+ iMrSpLcJ+Uh87S8II0Q94znotfSi6GJc/m8QzQCNh8vZBfLPGPaLMY6JI3FfT6tzNHJ2
+ 1SwQ==
+X-Gm-Message-State: AOAM531XtYJjuT7CxhjWl2Pd8xFRIfKaj9IFfXc/B6q6r2MLz3ZHwq5k
+ IfBrN/FXwZrV/lzTkUQ2ZtNmg+50mxEYSw==
+X-Google-Smtp-Source: ABdhPJzmrX4/ebdGkeqQHzFYbmqTXAHTtTn8vsGODGlpqztXCuo53bPzFRx/uXS4RUR6R+8IaWlvmA==
+X-Received: by 2002:adf:e789:: with SMTP id n9mr24905264wrm.211.1605620924265; 
+ Tue, 17 Nov 2020 05:48:44 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d8sm3578630wmb.11.2020.11.17.05.48.42
+ by smtp.gmail.com with ESMTPSA id d8sm3578630wmb.11.2020.11.17.05.48.43
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Nov 2020 05:48:42 -0800 (PST)
+ Tue, 17 Nov 2020 05:48:43 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 6/9] util/cutils: Fix Coverity array overrun in freq_to_str()
-Date: Tue, 17 Nov 2020 13:48:31 +0000
-Message-Id: <20201117134834.31731-7-peter.maydell@linaro.org>
+Subject: [PULL 7/9] configure: Make "does libgio work" test pull in some
+ actual functions
+Date: Tue, 17 Nov 2020 13:48:32 +0000
+Message-Id: <20201117134834.31731-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201117134834.31731-1-peter.maydell@linaro.org>
 References: <20201117134834.31731-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,46 +89,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+In commit 76346b6264a9b01979 we tried to add a configure check that
+the libgio pkg-config data was correct, which builds an executable
+linked against it.  Unfortunately this doesn't catch the problem
+(missing static library dependency info), because a "do nothing" test
+source file doesn't have any symbol references that cause the linker
+to pull in .o files from libgio.a, and so we don't see the "missing
+symbols from libmount" error that a full QEMU link triggers.
 
-Fix Coverity CID 1435957:  Memory - illegal accesses (OVERRUN):
+(The ineffective test went unnoticed because of a typo that
+effectively disabled libgio unconditionally, but after commit
+3569a5dfc11f2 fixed that, a static link of the system emulator on
+Ubuntu stopped working again.)
 
->>> Overrunning array "suffixes" of 7 8-byte elements at element
-    index 7 (byte offset 63) using index "idx" (which evaluates to 7).
+Improve the gio test by having the test source fragment reference a
+g_dbus function (which is what is indirectly causing us to end up
+wanting functions from libmount).
 
-Note, the biggest input value freq_to_str() can accept is UINT64_MAX,
-which is ~18.446 EHz, less than 1000 EHz.
-
-Reported-by: Eduardo Habkost <ehabkost@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Luc Michel <luc@lmichel.fr>
-Message-id: 20201101215755.2021421-1-f4bug@amsat.org
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-id: 20201116104617.18333-1-peter.maydell@linaro.org
 ---
- util/cutils.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ configure | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/util/cutils.c b/util/cutils.c
-index 9498e28e1a2..0b5073b3301 100644
---- a/util/cutils.c
-+++ b/util/cutils.c
-@@ -891,10 +891,11 @@ char *freq_to_str(uint64_t freq_hz)
-     double freq = freq_hz;
-     size_t idx = 0;
- 
--    while (freq >= 1000.0 && idx < ARRAY_SIZE(suffixes)) {
-+    while (freq >= 1000.0) {
-         freq /= 1000.0;
-         idx++;
-     }
-+    assert(idx < ARRAY_SIZE(suffixes));
- 
-     return g_strdup_printf("%0.3g %sHz", freq, suffixes[idx]);
- }
+diff --git a/configure b/configure
+index 4cef321d9dc..2717cf1db0a 100755
+--- a/configure
++++ b/configure
+@@ -3512,8 +3512,15 @@ if $pkg_config --atleast-version=$glib_req_ver gio-2.0; then
+     # Check that the libraries actually work -- Ubuntu 18.04 ships
+     # with pkg-config --static --libs data for gio-2.0 that is missing
+     # -lblkid and will give a link error.
+-    write_c_skeleton
+-    if compile_prog "" "$gio_libs" ; then
++    cat > $TMPC <<EOF
++#include <gio/gio.h>
++int main(void)
++{
++    g_dbus_proxy_new_sync(0, 0, 0, 0, 0, 0, 0, 0);
++    return 0;
++}
++EOF
++    if compile_prog "$gio_cflags" "$gio_libs" ; then
+         gio=yes
+     else
+         gio=no
 -- 
 2.20.1
 
