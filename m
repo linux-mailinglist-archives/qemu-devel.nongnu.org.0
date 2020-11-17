@@ -2,93 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A85A42B6E35
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 20:15:50 +0100 (CET)
-Received: from localhost ([::1]:43006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 192AF2B6E7F
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 20:22:20 +0100 (CET)
+Received: from localhost ([::1]:46542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf6SD-0002L2-Oj
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 14:15:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33282)
+	id 1kf6YU-0004Ie-SI
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 14:22:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <michael.christie@oracle.com>)
- id 1kf6Q6-0001DE-Sc
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 14:13:38 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:37686)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1kf6Ww-0003X8-Gh
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 14:20:42 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45268)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <michael.christie@oracle.com>)
- id 1kf6Q3-0007cn-Ei
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 14:13:38 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AHJAFnA181353;
- Tue, 17 Nov 2020 19:13:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : subject : to :
- cc : references : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=djak48Dm8W8eJ8PwHiNWuLA+Vkz2o4ZEIbY+xzn/pnc=;
- b=jqs2tPku3BCO2xjT+eTSyhqMu/BHVJ+vFlhx/gXOG2Y2BodLiVcg8Wu3HZkcqq+huk78
- gj7oXyU6uNQYOAt7xTRGHN8XSSdIXCh7ZUYYD+N53iT/cq3q2EAOwgQc2de2YLJNmlqJ
- LLUiHcgjLVgVHwpQRa6hmHa9qbnLkSDylH+QRIaS++49RsdF/5/Bsx+WNgQVChscjHL6
- j2YHk5fPNpo693n3lq2/eFXmnXvmfpaOpWc0TTYwdeV1rV9fV+lmnYR5NucxRdSqJjSF
- BMmm33X6R+bjoi6OZtp1za/sHIbeqcufuqTnwHwNoSD9eqxZATN14X0Jg9yNpAwfk0PX YQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2130.oracle.com with ESMTP id 34t4ravfgx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 17 Nov 2020 19:13:19 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AHJBKi1142106;
- Tue, 17 Nov 2020 19:13:18 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3020.oracle.com with ESMTP id 34umcyksqx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 17 Nov 2020 19:13:18 +0000
-Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0AHJDGFT015759;
- Tue, 17 Nov 2020 19:13:16 GMT
-Received: from [20.15.0.202] (/73.88.28.6)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 17 Nov 2020 11:13:15 -0800
-From: Mike Christie <michael.christie@oracle.com>
-Subject: Re: [PATCH 00/10] vhost/qemu: thread per IO SCSI vq
-To: Stefan Hajnoczi <stefanha@redhat.com>
-References: <1605223150-10888-1-git-send-email-michael.christie@oracle.com>
- <20201117164043.GS131917@stefanha-x1.localdomain>
-Message-ID: <b3343762-bb11-b750-46ec-43b5556f2b8e@oracle.com>
-Date: Tue, 17 Nov 2020 13:13:14 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1kf6Wt-0001le-SB
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 14:20:42 -0500
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
+ [51.254.78.96])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 0309C24631;
+ Tue, 17 Nov 2020 19:20:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1605640837;
+ bh=ohOh5WPXiqeSu0K35QMhfsgvCplCZR23KeDba4m8iGI=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=qM2lhbVfp8tuRszbBkvzfLyHV88MlpBMhPmcEo+APzoMMPQUG3LZmem8/HJsZ+3vX
+ V+J7ajFzNUGxfUMq7hh9awyECnFBpACJZ1RElQ4VzdJRAvn6mAO5f+RktOx1jA8Mg3
+ vPd6NfjYIexuIUTewlstCwGmgpZxJfqhYltGD3C0=
+Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94)
+ (envelope-from <maz@kernel.org>)
+ id 1kf6Wo-00BSt5-Ja; Tue, 17 Nov 2020 19:20:34 +0000
 MIME-Version: 1.0
-In-Reply-To: <20201117164043.GS131917@stefanha-x1.localdomain>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: base64
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9808
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- mlxscore=0 phishscore=0
- spamscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011170138
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9808
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- clxscore=1015
- malwarescore=0 impostorscore=0 lowpriorityscore=0 priorityscore=1501
- mlxlogscore=999 adultscore=0 phishscore=0 suspectscore=0 spamscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011170138
-Received-SPF: pass client-ip=141.146.126.79;
- envelope-from=michael.christie@oracle.com; helo=aserp2130.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 14:13:29
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Tue, 17 Nov 2020 19:20:34 +0000
+From: Marc Zyngier <maz@kernel.org>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v4 1/2] arm64: kvm: Save/restore MTE registers
+In-Reply-To: <20201026155727.36685-2-steven.price@arm.com>
+References: <20201026155727.36685-1-steven.price@arm.com>
+ <20201026155727.36685-2-steven.price@arm.com>
+User-Agent: Roundcube Webmail/1.4.9
+Message-ID: <b8f2fe15e0cab5c24094915b8c000930@kernel.org>
+X-Sender: maz@kernel.org
+X-SA-Exim-Connect-IP: 51.254.78.96
+X-SA-Exim-Rcpt-To: steven.price@arm.com, catalin.marinas@arm.com,
+ will@kernel.org, james.morse@arm.com, julien.thierry.kdev@gmail.com,
+ suzuki.poulose@arm.com, kvmarm@lists.cs.columbia.edu,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Dave.Martin@arm.com, mark.rutland@arm.com, tglx@linutronix.de,
+ qemu-devel@nongnu.org, quintela@redhat.com, dgilbert@redhat.com,
+ richard.henderson@linaro.org, peter.maydell@linaro.org, Haibo.Xu@arm.com,
+ drjones@redhat.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=maz@kernel.org;
+ helo=mail.kernel.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 14:20:37
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,281 +84,201 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, linux-scsi@vger.kernel.org, mst@redhat.com,
- jasowang@redhat.com, qemu-devel@nongnu.org,
- virtualization@lists.linux-foundation.org, target-devel@vger.kernel.org,
- pbonzini@redhat.com
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>, "Dr. David Alan
+ Gilbert" <dgilbert@redhat.com>, Andrew Jones <drjones@redhat.com>,
+ Haibo Xu <Haibo.Xu@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ qemu-devel@nongnu.org, Catalin Marinas <catalin.marinas@arm.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gMTEvMTcvMjAgMTA6NDAgQU0sIFN0ZWZhbiBIYWpub2N6aSB3cm90ZToNCj4gT24gVGh1
-LCBOb3YgMTIsIDIwMjAgYXQgMDU6MTg6NTlQTSAtMDYwMCwgTWlrZSBDaHJpc3RpZSB3cm90
-ZToNCj4+IFRoZSBmb2xsb3dpbmcga2VybmVsIHBhdGNoZXMgd2VyZSBtYWRlIG92ZXIgTWlj
-aGFlbCdzIHZob3N0IGJyYW5jaDoNCj4+DQo+PiBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1
-Yi9zY20vbGludXgva2VybmVsL2dpdC9tc3Qvdmhvc3QuZ2l0L2xvZy8/aD12aG9zdA0KPj4N
-Cj4+IGFuZCB0aGUgdmhvc3Qtc2NzaSBidWcgZml4IHBhdGNoc2V0Og0KPj4NCj4+IGh0dHBz
-Oi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LXNjc2kvMjAyMDExMTIxNzAwMDguR0IxNTU1NjUz
-QHN0ZWZhbmhhLXgxLmxvY2FsZG9tYWluL1QvI3QNCj4+DQo+PiBBbmQgdGhlIHFlbXUgcGF0
-Y2ggd2FzIG1hZGUgb3ZlciB0aGUgcWVtdSBtYXN0ZXIgYnJhbmNoLg0KPj4NCj4+IHZob3N0
-LXNjc2kgY3VycmVudGx5IHN1cHBvcnRzIG11bHRpcGxlIHF1ZXVlcyB3aXRoIHRoZSBudW1f
-cXVldWVzDQo+PiBzZXR0aW5nLCBidXQgd2UgZW5kIHVwIHdpdGggYSBzZXR1cCB3aGVyZSB0
-aGUgZ3Vlc3QncyBzY3NpL2Jsb2NrDQo+PiBsYXllciBjYW4gZG8gYSBxdWV1ZSBwZXIgdkNQ
-VSBhbmQgdGhlIGxheWVycyBiZWxvdyB2aG9zdCBjYW4gZG8NCj4+IGEgcXVldWUgcGVyIENQ
-VS4gdmhvc3Qtc2NzaSB3aWxsIHRoZW4gZG8gYSBudW1fcXVldWUgdmlydHF1ZXVlcywNCj4+
-IGJ1dCBhbGwgSU8gZ2V0cyBzZXQgb24gYW5kIGNvbXBsZXRlZCBvbiBhIHNpbmdsZSB2aG9z
-dC1zY3NpIHRocmVhZC4NCj4+IEFmdGVyIDIgLSA0IHZxcyB0aGlzIGJlY29tZXMgYSBib3R0
-bGVuZWNrLg0KPj4NCj4+IFRoaXMgcGF0Y2hzZXQgYWxsb3dzIHVzIHRvIGNyZWF0ZSBhIHdv
-cmtlciB0aHJlYWQgcGVyIElPIHZxLCBzbyB3ZQ0KPj4gY2FuIGJldHRlciB1dGlsaXplIG11
-bHRpcGxlIENQVXMgd2l0aCB0aGUgbXVsdGlwbGUgcXVldWVzLiBJdA0KPj4gaW1wbG1lbnRz
-IEphc29uJ3Mgc3VnZ2VzdGlvbiB0byBjcmVhdGUgdGhlIGluaXRpYWwgd29ya2VyIGxpa2UN
-Cj4+IG5vcm1hbCwgdGhlbiBjcmVhdGUgdGhlIGV4dHJhIHdvcmtlcnMgZm9yIElPIHZxcyB3
-aXRoIHRoZQ0KPj4gVkhPU1RfU0VUX1ZSSU5HX0VOQUJMRSBpb2N0bCBjb21tYW5kIGFkZGVk
-IGluIHRoaXMgcGF0Y2hzZXQuDQo+IA0KPiBIb3cgZG9lcyB1c2Vyc3BhY2UgZmluZCBvdXQg
-dGhlIHRpZHMgYW5kIHNldCB0aGVpciBDUFUgYWZmaW5pdHk/DQo+IA0KDQpXaGVuIHdlIGNy
-ZWF0ZSB0aGUgd29ya2VyIHRocmVhZCB3ZSBhZGQgaXQgdG8gdGhlIGRldmljZSBvd25lcidz
-IGNncm91cCwNCnNvIHdlIGVuZCB1cCBpbmhlcml0aW5nIHRob3NlIHNldHRpbmdzIGxpa2Ug
-YWZmaW5pdHkuDQoNCkhvd2V2ZXIsIGFyZSB5b3UgbW9yZSBhc2tpbmcgYWJvdXQgZmluZXIg
-Y29udHJvbCBsaWtlIGlmIHRoZSBndWVzdCBpcw0KZG9pbmcgbXEsIGFuZCB0aGUgbXEgaHcg
-cXVldWUgaXMgYm91bmQgdG8gY3B1MCwgaXQgd291bGQgcGVyZm9ybQ0KYmV0dGVyIGlmIHdl
-IGNvdWxkIGJpbmQgdmhvc3QgdnEncyB3b3JrZXIgdGhyZWFkIHRvIGNwdTA/IEkgdGhpbmsg
-dGhlDQpwcm9ibGVtIG1pZ2h0IGlzIGlmIHlvdSBhcmUgaW4gdGhlIGNncm91cCB0aGVuIHdl
-IGNhbid0IHNldCBhIHNwZWNpZmljDQp0aHJlYWRzIENQVSBhZmZpbml0eSB0byBqdXN0IG9u
-ZSBzcGVjaWZpYyBDUFUuIFNvIHlvdSBjYW4gZWl0aGVyIGRvDQpjZ3JvdXBzIG9yIG5vdC4N
-Cg0KDQo+IFdoYXQgaXMgdGhlIG1lYW5pbmcgb2YgdGhlIG5ldyBWSE9TVF9TRVRfVlJJTkdf
-RU5BQkxFIGlvY3RsPyBJdCBkb2Vzbid0DQo+IHJlYWxseSAiZW5hYmxlIiBvciAiZGlzYWJs
-ZSIgdGhlIHZxLCByZXF1ZXN0cyBhcmUgcHJvY2Vzc2VkIHJlZ2FyZGxlc3MuDQo+IA0KDQpZ
-ZWFoLCBJIGFncmVlLiBUaGUgcHJvYmxlbSBJJ3ZlIG1lbnRpb25lZCBiZWZvcmUgaXM6DQoN
-CjEuIEZvciBuZXQgYW5kIHZzb2NrLCBpdCdzIG5vdCB1c2VmdWwgYmVjYXVzZSB0aGUgdnFz
-IGFyZSBoYXJkIGNvZGVkIGluDQp0aGUga2VybmVsIGFuZCB1c2Vyc3BhY2UsIHNvIHlvdSBj
-YW4ndCBkaXNhYmxlIGEgdnEgYW5kIHlvdSBuZXZlciBuZWVkDQp0byBlbmFibGUgb25lLg0K
-DQoyLiB2ZHBhIGhhcyBpdCdzIG93biBlbmFibGUgaW9jdGwuDQoNCjMuIEZvciBzY3NpLCBi
-ZWNhdXNlIHdlIGFscmVhZHkgYXJlIGRvaW5nIG11bHRpcGxlIHZxcyBiYXNlZCBvbiB0aGUN
-Cm51bV9xdWV1ZXMgdmFsdWUsIHdlIGhhdmUgdG8gaGF2ZSBzb21lIHNvcnQgb2YgY29tcGF0
-IHN1cHBvcnQgYW5kDQpjb2RlIHRvIGRldGVjdCBpZiB1c2Vyc3BhY2UgaXMgZXZlbiBnb2lu
-ZyB0byBzZW5kIHRoZSBuZXcgaW9jdGwuDQpJbiB0aGlzIHBhdGNoc2V0LCBjb21wYXQganVz
-dCBtZWFudCBlbmFibGUvZGlzYWJsZSB0aGUgZXh0cmEgZnVuY3Rpb25hbGl0eQ0Kb2YgZXh0
-cmEgd29ya2VyIHRocmVhZHMgZm9yIGEgdnEuIFdlIHdpbGwgc3RpbGwgdXNlIHRoZSB2cSBp
-Zg0KdXNlcnNwYWNlIHNldCBpdCB1cC4NCg0KDQo+IFRoZSBwdXJwb3NlIG9mIHRoZSBpb2N0
-bCBpc24ndCBjbGVhciB0byBtZSBiZWNhdXNlIHRoZSBrZXJuZWwgY291bGQNCj4gYXV0b21h
-dGljYWxseSBjcmVhdGUgMSB0aHJlYWQgcGVyIHZxIHdpdGhvdXQgYSBuZXcgaW9jdGwuIE9u
-IHRoZSBvdGhlcg0KPiBoYW5kLCBpZiB1c2Vyc3BhY2UgaXMgc3VwcG9zZWQgdG8gY29udHJv
-bCB3b3JrZXIgdGhyZWFkcyB0aGVuIGENCj4gZGlmZmVyZW50IGludGVyZmFjZSB3b3VsZCBi
-ZSBtb3JlIHBvd2VyZnVsOg0KPiANCg0KTXkgcHJlZmVyZW5jZSBoYXMgYmVlbjoNCg0KMS4g
-SWYgd2Ugd2VyZSB0byBkaXRjaCBjZ3JvdXBzLCB0aGVuIGFkZCBhIG5ldyBpbnRlcmZhY2Ug
-dGhhdCB3b3VsZCBhbGxvdw0KdXMgdG8gYmluZCB0aHJlYWRzIHRvIGEgc3BlY2lmaWMgQ1BV
-LCBzbyB0aGF0IGl0IGxpbmVzIHVwIHdpdGggdGhlIGd1ZXN0J3MNCm1xIHRvIENQVSBtYXBw
-aW5nLg0KDQoyLiBJZiB3ZSBjb250aW51ZSB3aXRoIGNncm91cHMgdGhlbiBJIHRoaW5rIGp1
-c3QgY3JlYXRpbmcgdGhlIHdvcmtlcg0KdGhyZWFkcyBmcm9tIHZob3N0X3Njc2lfc2V0X2Vu
-ZHBvaW50IGlzIGJlc3QsIGJlY2F1c2UgdGhhdCBpcyB0aGUgcG9pbnQNCndlIGRvIHRoZSBv
-dGhlciBmaW5hbCB2cSBzZXR1cCBvcHMgdmhvc3RfdnFfc2V0X2JhY2tlbmQgYW5kDQp2aG9z
-dF92cV9pbml0X2FjY2Vzcy4NCg0KRm9yIG9wdGlvbiBudW1iZXIgMiBpdCB3b3VsZCBiZSBz
-aW1wbGUuIEluc3RlYWQgb2YgdGhlIHZyaW5nIGVuYWJsZSBwYXRjaGVzOg0KDQpbUEFUQ0gg
-MDgvMTBdIHZob3N0OiBtb3ZlIG1zZ19oYW5kbGVyIHRvIG5ldyBvcHMgc3RydWN0DQpbUEFU
-Q0ggMDkvMTBdIHZob3N0OiBhZGQgVkhPU1RfU0VUX1ZSSU5HX0VOQUJMRSBzdXBwb3J0DQpb
-UEFUQ0ggMTAvMTBdIHZob3N0LXNjc2k6IGNyZWF0ZSBhIHdva2VyIHBlciBJTyB2cQ0KYW5k
-DQpbUEFUQ0ggMS8xXSBxZW11IHZob3N0IHNjc2k6IGFkZCBWSE9TVF9TRVRfVlJJTkdfRU5B
-QkxFIHN1cHBvcnQNCg0KDQp3ZSBjb3VsZCBkbyB0aGlzIHBhdGNoIGxpa2UgSSBoYWQgZG9u
-ZSBpbiBwcmV2aW91cyB2ZXJzaW9uczoNCg0KDQpGcm9tIGJjYzRjMjljMjhkYWYwNDY3OWNl
-NjU2NmQwNjg0NWI5ZTFiMzFlYjQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxDQpGcm9tOiBN
-aWtlIENocmlzdGllIDxtaWNoYWVsLmNocmlzdGllQG9yYWNsZS5jb20+DQpEYXRlOiBXZWQs
-IDExIE5vdiAyMDIwIDIyOjUwOjU2IC0wNjAwDQpTdWJqZWN0OiAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgdmhvc3Qgc2NzaTogbXVsdGlwbGUgd29ya2VyIHN1cHBvcnQNCg0KVGhpcyBwYXRj
-aCBjcmVhdGVzIGEgd29ya2VyIHBlciBJTyB2cSB0byBmaXggYW4gaXNzdWUgd2hlcmUgYWZ0
-ZXINCjIgdnFzIGFuZC9vciBtdWx0cGxlIGx1bnMgdGhlIHNpbmdsZSB3b3JrZXIgdGhyZWFk
-IGJlY29tZXMgYQ0KYm90dGxlbmVjayBkdWUgdG8gdGhlIG11bHRpcGxlIHF1ZXVlcy9sdW5z
-IHRyeWluZyB0byBleGVjdXRlLw0KY29tcGxldGUgdGhlaXIgSU8gb24gdGhlIHNhbWUgdGhy
-ZWFkL0NQVS4gVGhpcyBwYXRjaCBhbGxvd3MgdXMNCnRvIGJldHRlciBtYXRjaCB0aGUgZ3Vl
-c3QgYW5kIGxvd2VyIGxldmVscyBtdWx0aXF1ZXVlIHNldHVwcy4NCg0KU2lnbmVkLW9mZi1i
-eTogTWlrZSBDaHJpc3RpZSA8bWljaGFlbC5jaHJpc3RpZUBvcmFjbGUuY29tPg0KLS0tDQog
-ZHJpdmVycy92aG9zdC9zY3NpLmMgfCA0MSArKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKy0tLS0tLS0tLQ0KIDEgZmlsZSBjaGFuZ2VkLCAzMiBpbnNlcnRpb25zKCspLCA5IGRl
-bGV0aW9ucygtKQ0KDQpkaWZmIC0tZ2l0IGEvZHJpdmVycy92aG9zdC9zY3NpLmMgYi9kcml2
-ZXJzL3Zob3N0L3Njc2kuYw0KaW5kZXggNDRjMTA4YS4uMmMxMTlkMyAxMDA2NDQNCi0tLSBh
-L2RyaXZlcnMvdmhvc3Qvc2NzaS5jDQorKysgYi9kcml2ZXJzL3Zob3N0L3Njc2kuYw0KQEAg
-LTE2NDAsOSArMTY0MCwxOCBAQCBzdGF0aWMgaW50IHZob3N0X3Njc2lfc2V0dXBfdnFfY21k
-cyhzdHJ1Y3Qgdmhvc3RfdmlydHF1ZXVlICp2cSwgaW50IG1heF9jbWRzKQ0KIAkJCXZxID0g
-JnZzLT52cXNbaV0udnE7DQogCQkJaWYgKCF2aG9zdF92cV9pc19zZXR1cCh2cSkpDQogCQkJ
-CWNvbnRpbnVlOw0KKwkJCS8qDQorCQkJICogRm9yIGNvbXBhdCwgd2UgaGF2ZSB0aGUgZXZ0
-LCBjdGwgYW5kIGZpcnN0IElPIHZxDQorCQkJICogc2hhcmUgd29ya2VyMCBsaWtlIGlzIHNl
-dHVwIGJ5IGRlZmF1bHQuIEFkZGl0aW9uYWwNCisJCQkgKiB2cXMgZ2V0IHRoZWlyIG93biB3
-b3JrZXIuDQorCQkJICovDQorCQkJaWYgKGkgPiBWSE9TVF9TQ1NJX1ZRX0lPKSB7DQorCQkJ
-CWlmICh2aG9zdF92cV93b3JrZXJfYWRkKCZ2cy0+ZGV2LCB2cSkpDQorCQkJCQlnb3RvIGNs
-ZWFudXBfdnE7DQorCQkJfQ0KIA0KIAkJCWlmICh2aG9zdF9zY3NpX3NldHVwX3ZxX2NtZHMo
-dnEsIHZxLT5udW0pKQ0KLQkJCQlnb3RvIGRlc3Ryb3lfdnFfY21kczsNCisJCQkJZ290byBj
-bGVhbnVwX3ZxOw0KIAkJfQ0KIA0KIAkJZm9yIChpID0gMDsgaSA8IFZIT1NUX1NDU0lfTUFY
-X1ZROyBpKyspIHsNCkBAIC0xNjY2LDEwICsxNjc1LDE0IEBAIHN0YXRpYyBpbnQgdmhvc3Rf
-c2NzaV9zZXR1cF92cV9jbWRzKHN0cnVjdCB2aG9zdF92aXJ0cXVldWUgKnZxLCBpbnQgbWF4
-X2NtZHMpDQogCXZzLT52c190cGcgPSB2c190cGc7DQogCWdvdG8gb3V0Ow0KIA0KLWRlc3Ry
-b3lfdnFfY21kczoNCi0JZm9yIChpLS07IGkgPj0gVkhPU1RfU0NTSV9WUV9JTzsgaS0tKSB7
-DQotCQlpZiAoIXZob3N0X3ZxX2dldF9iYWNrZW5kKCZ2cy0+dnFzW2ldLnZxKSkNCi0JCQl2
-aG9zdF9zY3NpX2Rlc3Ryb3lfdnFfY21kcygmdnMtPnZxc1tpXS52cSk7DQorY2xlYW51cF92
-cToNCisJZm9yICg7IGkgPj0gVkhPU1RfU0NTSV9WUV9JTzsgaS0tKSB7DQorCQlpZiAodmhv
-c3RfdnFfZ2V0X2JhY2tlbmQoJnZzLT52cXNbaV0udnEpKQ0KKwkJCWNvbnRpbnVlOw0KKw0K
-KwkJaWYgKGkgPiBWSE9TVF9TQ1NJX1ZRX0lPKQ0KKwkJCXZob3N0X3ZxX3dvcmtlcl9yZW1v
-dmUoJnZzLT5kZXYsICZ2cy0+dnFzW2ldLnZxKTsNCisJCXZob3N0X3Njc2lfZGVzdHJveV92
-cV9jbWRzKCZ2cy0+dnFzW2ldLnZxKTsNCiAJfQ0KIHVuZGVwZW5kOg0KIAlmb3IgKGkgPSAw
-OyBpIDwgVkhPU1RfU0NTSV9NQVhfVEFSR0VUOyBpKyspIHsNCkBAIC0xNzUyLDE0ICsxNzY1
-LDI0IEBAIHN0YXRpYyBpbnQgdmhvc3Rfc2NzaV9zZXR1cF92cV9jbWRzKHN0cnVjdCB2aG9z
-dF92aXJ0cXVldWUgKnZxLCBpbnQgbWF4X2NtZHMpDQogCQkJbXV0ZXhfbG9jaygmdnEtPm11
-dGV4KTsNCiAJCQl2aG9zdF92cV9zZXRfYmFja2VuZCh2cSwgTlVMTCk7DQogCQkJbXV0ZXhf
-dW5sb2NrKCZ2cS0+bXV0ZXgpOw0KKwkJfQ0KKwkJdmhvc3Rfc2NzaV9mbHVzaCh2cyk7DQor
-DQorCQlmb3IgKGkgPSBWSE9TVF9TQ1NJX1ZRX0lPOyBpIDwgVkhPU1RfU0NTSV9NQVhfVlE7
-IGkrKykgew0KKwkJCXZxID0gJnZzLT52cXNbaV0udnE7DQorCQkJaWYgKCF2aG9zdF92cV9p
-c19zZXR1cCh2cSkpDQorCQkJCWNvbnRpbnVlOw0KIAkJCS8qDQotCQkJICogTWFrZSBzdXJl
-IGNtZHMgYXJlIG5vdCBydW5uaW5nIGJlZm9yZSB0ZWFyaW5nIHRoZW0NCi0JCQkgKiBkb3du
-Lg0KLQkJCSAqLw0KLQkJCXZob3N0X3Njc2lfZmx1c2godnMpOw0KKwkJCSAqIFdlIG9ubHkg
-cmVtb3ZlIHRoZSBleHRyYSB3b3JrZXJzIHdlIGNyZWF0ZWQgaW4gY2FzZQ0KKwkJCSAqIHRo
-aXMgaXMgZm9yIGEgcmVib290LiBUaGUgZGVmYXVsdCB3b3JrZXIgd2lsbCBiZQ0KKwkJCSAq
-IHJlbW92ZWQgYXQgZGV2IGNsZWFudXAuDQorCQkJICovIA0KKwkJCWlmIChpID4gVkhPU1Rf
-U0NTSV9WUV9JTykNCisJCQkJdmhvc3RfdnFfd29ya2VyX3JlbW92ZSgmdnMtPmRldiwgdnEp
-Ow0KIAkJCXZob3N0X3Njc2lfZGVzdHJveV92cV9jbWRzKHZxKTsNCiAJCX0NCiAJfQ0KKw0K
-IAkvKg0KIAkgKiBBY3QgYXMgc3luY2hyb25pemVfcmN1IHRvIG1ha2Ugc3VyZSBhY2Nlc3Mg
-dG8NCiAJICogb2xkIHZzLT52c190cGcgaXMgZmluaXNoZWQuDQotLSANCjEuOC4zLjENCg0K
-DQoNCg0KDQo=
+Hi Steven,
+
+These patches unfortunately don't apply to -rc4 anymore, as we repainted
+quite a bit while working on fixes. I'd be grateful if you could rebase 
+them.
+
+A few other things though:
+
+On 2020-10-26 15:57, Steven Price wrote:
+> Define the new system registers that MTE introduces and context switch
+> them. The MTE feature is still hidden from the ID register as it isn't
+> supported in a VM yet.
+> 
+> Signed-off-by: Steven Price <steven.price@arm.com>
+> Reviewed-by: Andrew Jones <drjones@redhat.com>
+> ---
+>  arch/arm64/include/asm/kvm_host.h          |  4 ++++
+>  arch/arm64/include/asm/sysreg.h            |  3 ++-
+>  arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h | 14 ++++++++++++++
+>  arch/arm64/kvm/sys_regs.c                  | 14 ++++++++++----
+>  4 files changed, 30 insertions(+), 5 deletions(-)
+> 
+> diff --git a/arch/arm64/include/asm/kvm_host.h
+> b/arch/arm64/include/asm/kvm_host.h
+> index 0aecbab6a7fb..95ab7345dcc8 100644
+> --- a/arch/arm64/include/asm/kvm_host.h
+> +++ b/arch/arm64/include/asm/kvm_host.h
+> @@ -134,6 +134,8 @@ enum vcpu_sysreg {
+>  	SCTLR_EL1,	/* System Control Register */
+>  	ACTLR_EL1,	/* Auxiliary Control Register */
+>  	CPACR_EL1,	/* Coprocessor Access Control */
+> +	RGSR_EL1,	/* Random Allocation Tag Seed Register */
+> +	GCR_EL1,	/* Tag Control Register */
+>  	ZCR_EL1,	/* SVE Control */
+>  	TTBR0_EL1,	/* Translation Table Base Register 0 */
+>  	TTBR1_EL1,	/* Translation Table Base Register 1 */
+> @@ -150,6 +152,8 @@ enum vcpu_sysreg {
+>  	TPIDR_EL1,	/* Thread ID, Privileged */
+>  	AMAIR_EL1,	/* Aux Memory Attribute Indirection Register */
+>  	CNTKCTL_EL1,	/* Timer Control Register (EL1) */
+> +	TFSRE0_EL1,	/* Tag Fault Status Register (EL0) */
+> +	TFSR_EL1,	/* Tag Fault Stauts Register (EL1) */
+>  	PAR_EL1,	/* Physical Address Register */
+>  	MDSCR_EL1,	/* Monitor Debug System Control Register */
+>  	MDCCINT_EL1,	/* Monitor Debug Comms Channel Interrupt Enable Reg */
+> diff --git a/arch/arm64/include/asm/sysreg.h 
+> b/arch/arm64/include/asm/sysreg.h
+> index d52c1b3ce589..7727df0bc09d 100644
+> --- a/arch/arm64/include/asm/sysreg.h
+> +++ b/arch/arm64/include/asm/sysreg.h
+> @@ -565,7 +565,8 @@
+>  #define SCTLR_ELx_M	(BIT(0))
+> 
+>  #define SCTLR_ELx_FLAGS	(SCTLR_ELx_M  | SCTLR_ELx_A | SCTLR_ELx_C | \
+> -			 SCTLR_ELx_SA | SCTLR_ELx_I | SCTLR_ELx_IESB)
+> +			 SCTLR_ELx_SA | SCTLR_ELx_I | SCTLR_ELx_IESB | \
+> +			 SCTLR_ELx_ITFSB)
+> 
+>  /* SCTLR_EL2 specific flags. */
+>  #define SCTLR_EL2_RES1	((BIT(4))  | (BIT(5))  | (BIT(11)) | (BIT(16)) 
+> | \
+> diff --git a/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
+> b/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
+> index 7a986030145f..a124ffa49ba3 100644
+> --- a/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
+> +++ b/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
+> @@ -18,6 +18,11 @@
+>  static inline void __sysreg_save_common_state(struct kvm_cpu_context 
+> *ctxt)
+>  {
+>  	ctxt_sys_reg(ctxt, MDSCR_EL1)	= read_sysreg(mdscr_el1);
+> +	if (system_supports_mte()) {
+> +		ctxt_sys_reg(ctxt, RGSR_EL1)	= read_sysreg_s(SYS_RGSR_EL1);
+> +		ctxt_sys_reg(ctxt, GCR_EL1)	= read_sysreg_s(SYS_GCR_EL1);
+> +		ctxt_sys_reg(ctxt, TFSRE0_EL1)	= read_sysreg_s(SYS_TFSRE0_EL1);
+
+As far as I can tell, HCR_EL2.ATA is still clear when running a guest.
+So why, do we save/restore this state yet?
+
+Also, I wonder whether we should keep these in the C code. If one day
+we enable MTE in the kernel, we will have to move them to the assembly
+part, much like we do for PAuth. And I fear that "one day" is pretty
+soon:
+
+https://lore.kernel.org/linux-arm-kernel/cover.1605046192.git.andreyknvl@google.com/
+
+
+> +	}
+>  }
+> 
+>  static inline void __sysreg_save_user_state(struct kvm_cpu_context 
+> *ctxt)
+> @@ -45,6 +50,8 @@ static inline void __sysreg_save_el1_state(struct
+> kvm_cpu_context *ctxt)
+>  	ctxt_sys_reg(ctxt, CNTKCTL_EL1)	= read_sysreg_el1(SYS_CNTKCTL);
+>  	ctxt_sys_reg(ctxt, PAR_EL1)	= read_sysreg(par_el1);
+>  	ctxt_sys_reg(ctxt, TPIDR_EL1)	= read_sysreg(tpidr_el1);
+> +	if (system_supports_mte())
+> +		ctxt_sys_reg(ctxt, TFSR_EL1) = read_sysreg_el1(SYS_TFSR);
+> 
+>  	ctxt_sys_reg(ctxt, SP_EL1)	= read_sysreg(sp_el1);
+>  	ctxt_sys_reg(ctxt, ELR_EL1)	= read_sysreg_el1(SYS_ELR);
+> @@ -63,6 +70,11 @@ static inline void
+> __sysreg_save_el2_return_state(struct kvm_cpu_context *ctxt)
+>  static inline void __sysreg_restore_common_state(struct 
+> kvm_cpu_context *ctxt)
+>  {
+>  	write_sysreg(ctxt_sys_reg(ctxt, MDSCR_EL1),  mdscr_el1);
+> +	if (system_supports_mte()) {
+> +		write_sysreg_s(ctxt_sys_reg(ctxt, RGSR_EL1), SYS_RGSR_EL1);
+> +		write_sysreg_s(ctxt_sys_reg(ctxt, GCR_EL1), SYS_GCR_EL1);
+> +		write_sysreg_s(ctxt_sys_reg(ctxt, TFSRE0_EL1), SYS_TFSRE0_EL1);
+> +	}
+>  }
+> 
+>  static inline void __sysreg_restore_user_state(struct kvm_cpu_context 
+> *ctxt)
+> @@ -106,6 +118,8 @@ static inline void
+> __sysreg_restore_el1_state(struct kvm_cpu_context *ctxt)
+>  	write_sysreg_el1(ctxt_sys_reg(ctxt, CNTKCTL_EL1), SYS_CNTKCTL);
+>  	write_sysreg(ctxt_sys_reg(ctxt, PAR_EL1),	par_el1);
+>  	write_sysreg(ctxt_sys_reg(ctxt, TPIDR_EL1),	tpidr_el1);
+> +	if (system_supports_mte())
+> +		write_sysreg_el1(ctxt_sys_reg(ctxt, TFSR_EL1), SYS_TFSR);
+> 
+>  	if (!has_vhe() &&
+>  	    cpus_have_final_cap(ARM64_WORKAROUND_SPECULATIVE_AT) &&
+> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+> index d9117bc56237..430e36e1a13d 100644
+> --- a/arch/arm64/kvm/sys_regs.c
+> +++ b/arch/arm64/kvm/sys_regs.c
+> @@ -1391,6 +1391,12 @@ static bool access_mte_regs(struct kvm_vcpu
+> *vcpu, struct sys_reg_params *p,
+>  	return false;
+>  }
+> 
+> +static unsigned int mte_visibility(const struct kvm_vcpu *vcpu,
+> +				   const struct sys_reg_desc *rd)
+> +{
+> +	return REG_HIDDEN_USER | REG_HIDDEN_GUEST;
+
+The handling of visibility has changed somehow since 01fe5ace92dd.
+
+> +}
+> +
+>  /* sys_reg_desc initialiser for known cpufeature ID registers */
+>  #define ID_SANITISED(name) {			\
+>  	SYS_DESC(SYS_##name),			\
+> @@ -1557,8 +1563,8 @@ static const struct sys_reg_desc sys_reg_descs[] 
+> = {
+>  	{ SYS_DESC(SYS_ACTLR_EL1), access_actlr, reset_actlr, ACTLR_EL1 },
+>  	{ SYS_DESC(SYS_CPACR_EL1), NULL, reset_val, CPACR_EL1, 0 },
+> 
+> -	{ SYS_DESC(SYS_RGSR_EL1), access_mte_regs },
+> -	{ SYS_DESC(SYS_GCR_EL1), access_mte_regs },
+> +	{ SYS_DESC(SYS_RGSR_EL1), access_mte_regs, reset_unknown, RGSR_EL1,
+> .visibility = mte_visibility },
+> +	{ SYS_DESC(SYS_GCR_EL1), access_mte_regs, reset_unknown, GCR_EL1,
+> .visibility = mte_visibility },
+> 
+>  	{ SYS_DESC(SYS_ZCR_EL1), NULL, reset_val, ZCR_EL1, 0, .visibility =
+> sve_visibility },
+>  	{ SYS_DESC(SYS_TTBR0_EL1), access_vm_reg, reset_unknown, TTBR0_EL1 },
+> @@ -1584,8 +1590,8 @@ static const struct sys_reg_desc sys_reg_descs[] 
+> = {
+>  	{ SYS_DESC(SYS_ERXMISC0_EL1), trap_raz_wi },
+>  	{ SYS_DESC(SYS_ERXMISC1_EL1), trap_raz_wi },
+> 
+> -	{ SYS_DESC(SYS_TFSR_EL1), access_mte_regs },
+> -	{ SYS_DESC(SYS_TFSRE0_EL1), access_mte_regs },
+> +	{ SYS_DESC(SYS_TFSR_EL1), access_mte_regs, reset_unknown, TFSR_EL1,
+> .visibility = mte_visibility },
+> +	{ SYS_DESC(SYS_TFSRE0_EL1), access_mte_regs, reset_unknown,
+> TFSRE0_EL1, .visibility = mte_visibility },
+> 
+>  	{ SYS_DESC(SYS_FAR_EL1), access_vm_reg, reset_unknown, FAR_EL1 },
+>  	{ SYS_DESC(SYS_PAR_EL1), NULL, reset_unknown, PAR_EL1 },
+
+Thanks,
+
+         M.
+-- 
+Jazz is not dead. It just smells funny...
 
