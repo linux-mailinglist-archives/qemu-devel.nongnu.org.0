@@ -2,53 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A61D2B696A
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 17:09:27 +0100 (CET)
-Received: from localhost ([::1]:39772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C392D2B69C4
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 17:18:01 +0100 (CET)
+Received: from localhost ([::1]:49906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf3Xq-00086v-B7
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 11:09:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60378)
+	id 1kf3g8-0004cE-SR
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 11:18:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1kf3WR-0007M7-9T
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:07:59 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51626)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1kf3WP-0008DV-3X
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:07:58 -0500
-Received: from trantor (unknown [2.26.170.190])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 1E8D7241A7;
- Tue, 17 Nov 2020 16:07:50 +0000 (UTC)
-Date: Tue, 17 Nov 2020 16:07:48 +0000
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v4 2/2] arm64: kvm: Introduce MTE VCPU feature
-Message-ID: <X7P1VLZhBh045tsr@trantor>
-References: <20201026155727.36685-1-steven.price@arm.com>
- <20201026155727.36685-3-steven.price@arm.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kf3e4-0002oO-4g
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:15:53 -0500
+Received: from indium.canonical.com ([91.189.90.7]:59422)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kf3dw-0002Tm-Ry
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:15:51 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kf3du-0005Yd-AS
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 16:15:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 4E1372E811E
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 16:15:42 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201026155727.36685-3-steven.price@arm.com>
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=cmarinas@kernel.org;
- helo=mail.kernel.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 11:07:54
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -66
-X-Spam_score: -6.7
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 17 Nov 2020 16:08:49 -0000
+From: Peter Maydell <1904210@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: k1eee pmaydell
+X-Launchpad-Bug-Reporter: Wang Zhongwei (k1eee)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <160527852783.476.2473984132248883691.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160562932965.27851.16940748773201678411.malone@chaenomeles.canonical.com>
+Subject: [Bug 1904210] Re: Crashed with 'uncaught target signal SIGILL' while
+ program has registered by signal(SIGILL, handler)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a2ee2035671f86427804714f331b9ff7fecaef7e"; Instance="production"
+X-Launchpad-Hash: f9569edcf9b6f020771a9da9410b962acd74a29b
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 09:50:44
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
 X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -57,57 +72,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
- Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
- Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
- linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
- Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
- Julien Thierry <julien.thierry.kdev@gmail.com>
+Reply-To: Bug 1904210 <1904210@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Steven,
+This patch makes QEMU's linux-user emulation follow the real kernel's handl=
+ing of "udf 1" (and the other magic-treat-like-breakpoint insns) and delive=
+r a SIGTRAP:
+https://patchew.org/QEMU/20201117155634.6924-1-peter.maydell@linaro.org/
 
-On Mon, Oct 26, 2020 at 03:57:27PM +0000, Steven Price wrote:
-> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
-> index 19aacc7d64de..38fe25310ca1 100644
-> --- a/arch/arm64/kvm/mmu.c
-> +++ b/arch/arm64/kvm/mmu.c
-> @@ -862,6 +862,26 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
->  	if (vma_pagesize == PAGE_SIZE && !force_pte)
->  		vma_pagesize = transparent_hugepage_adjust(memslot, hva,
->  							   &pfn, &fault_ipa);
-> +
-> +	/*
-> +	 * The otherwise redundant test for system_supports_mte() allows the
-> +	 * code to be compiled out when CONFIG_ARM64_MTE is not present.
-> +	 */
-> +	if (system_supports_mte() && kvm->arch.mte_enabled && pfn_valid(pfn)) {
-> +		/*
-> +		 * VM will be able to see the page's tags, so we must ensure
-> +		 * they have been initialised.
-> +		 */
-> +		struct page *page = pfn_to_page(pfn);
-> +		long i, nr_pages = compound_nr(page);
-> +
-> +		/* if PG_mte_tagged is set, tags have already been initialised */
-> +		for (i = 0; i < nr_pages; i++, page++) {
-> +			if (!test_and_set_bit(PG_mte_tagged, &page->flags))
-> +				mte_clear_page_tags(page_address(page));
-> +		}
-> +	}
+Your binary still won't run even with that patch, but it doesn't run on
+real hardware either, so I think that the remaining issues are bugs in
+your binary, not in QEMU.
 
-If this page was swapped out and mapped back in, where does the
-restoring from swap happen?
+-- =
 
-I may have asked in the past, is user_mem_abort() the only path for
-mapping Normal pages into stage 2?
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1904210
 
--- 
-Catalin
+Title:
+  Crashed with 'uncaught target signal SIGILL' while program has
+  registered by signal(SIGILL, handler)
+
+Status in QEMU:
+  New
+
+Bug description:
+  This binary is an CTF reverse challenge binary, it registers signal
+  handler via 'signal(SIGILL, 0x1193D);' while 0x1193D is the SIGILL
+  handler.
+
+  Please see the attachment, the file 'repair' is the binary i mentioned
+  above, the file 'qemu-arm' is an old version qemu at 2.5.0, and it
+  seems an official release (not modified).
+
+  Which means, it could be a bug in recent release.
+
+  You need to input 'flag{' to the stdin to let the binary execute the
+  illegal instruction at 0x10A68.
+
+  In 2.5.0 version the -strace logs:
+  116 uname(0xf6ffed40) =3D 0
+  116 brk(NULL) =3D 0x0009f000
+  116 brk(0x0009fd00) =3D 0x0009fd00
+  116 readlink("/proc/self/exe",0xf6ffde78,4096) =3D 21
+  116 brk(0x000c0d00) =3D 0x000c0d00
+  116 brk(0x000c1000) =3D 0x000c1000
+  116 access("/etc/ld.so.nohwcap",F_OK) =3D -1 errno=3D2 (No such file or d=
+irectory)
+  116 rt_sigaction(SIGILL,0xf6ffec48,0xf6ffecd4) =3D 0
+  116 fstat64(1,0xf6ffe8e8) =3D 0
+  116 ioctl(1,21505,-151000980,-151000924,652480,640808) =3D 0
+  116 fstat64(0,0xf6ffe7d0) =3D 0
+  116 ioctl(0,21505,-151001260,-151001204,652480,641152) =3D 0
+  116 write(1,0xa5548,6)input: =3D 6
+  116 read(0,0xa6550,4096)flag{
+   =3D 6
+  116 write(1,0xa5548,7)wrong!
+   =3D 7
+  116 _llseek(0,4294967295,4294967295,0xf6ffee18,SEEK_CUR) =3D -1 errno=3D2=
+9 (Illegal seek)
+  116 exit_group(0)
+
+  In 2.11.1, it shows:
+  113 uname(0xfffeed30) =3D 0
+  113 brk(NULL) =3D 0x0009f000
+  113 brk(0x0009fd00) =3D 0x0009fd00
+  113 readlink("/proc/self/exe",0xfffede68,4096) =3D 21
+  113 brk(0x000c0d00) =3D 0x000c0d00
+  113 brk(0x000c1000) =3D 0x000c1000
+  113 access("/etc/ld.so.nohwcap",F_OK) =3D -1 errno=3D2 (No such file or d=
+irectory)
+  113 rt_sigaction(SIGILL,0xfffeec38,0xfffeecc4) =3D 0
+  113 fstat64(1,0xfffee8d8) =3D 0
+  113 ioctl(1,21505,-71588,-71532,652480,640808) =3D 0
+  113 fstat64(0,0xfffee7c0) =3D 0
+  113 ioctl(0,21505,-71868,-71812,652480,641152) =3D 0
+  113 write(1,0xa5548,6)input: =3D 6
+  113 read(0,0xa6550,4096)flag{
+   =3D 6
+  --- SIGILL {si_signo=3DSIGILL, si_code=3D2, si_addr=3D0x00010a68} ---
+  --- SIGILL {si_signo=3DSIGILL, si_code=3D2, si_addr=3D0x0001182c} ---
+  qemu: uncaught target signal 4 (Illegal instruction) - core dumped
+  Illegal instruction (core dumped)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1904210/+subscriptions
 
