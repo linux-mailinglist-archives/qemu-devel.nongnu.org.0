@@ -2,68 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 404852B67DA
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 15:51:59 +0100 (CET)
-Received: from localhost ([::1]:54330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 724382B67B0
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 15:43:46 +0100 (CET)
+Received: from localhost ([::1]:45104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf2Kq-0005wW-TX
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 09:51:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40978)
+	id 1kf2Cv-0001jN-BC
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 09:43:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kf2Jq-00053p-RL
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 09:50:54 -0500
-Received: from indium.canonical.com ([91.189.90.7]:60206)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kf2Jo-0006us-El
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 09:50:54 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kf2Jg-000663-8e
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 14:50:44 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3FDD92E805D
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 14:50:44 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kf2CA-0001IQ-JC
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 09:42:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43040)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kf2C7-00049C-7u
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 09:42:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605624173;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=X2Bgt4WAr1YrAOWmOzqtOHcXDIPw3aOcbAgG/DxHnpM=;
+ b=EaTHeYOhe5IsJvtOuVnB84ShE18QSjY6HTFOyPwWcpah6fPekAz7ijG56XnrdJML0QTOcs
+ 7jFXJR6iofHGQp3zAI0VrKf8iaQH4Z7DGwPCacNHR5KmiihZQyjcs5kIt9QnZsvNLvHizp
+ UWTeRxuDoTHqdRWWhQw3sFb8TCsc0Ws=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-142-TKb5dEDANGOcf2HN38XbIw-1; Tue, 17 Nov 2020 09:42:49 -0500
+X-MC-Unique: TKb5dEDANGOcf2HN38XbIw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 381B264142;
+ Tue, 17 Nov 2020 14:42:48 +0000 (UTC)
+Received: from localhost (ovpn-115-101.rdu2.redhat.com [10.10.115.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CFF115D707;
+ Tue, 17 Nov 2020 14:42:47 +0000 (UTC)
+Date: Tue, 17 Nov 2020 09:42:46 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
+Subject: Re: [PATCH v2 3/8] qnum: QNumValue type for QNum value literals
+Message-ID: <20201117144246.GD1235237@habkost.net>
+References: <20201116224143.1284278-1-ehabkost@redhat.com>
+ <20201116224143.1284278-4-ehabkost@redhat.com>
+ <CAJ+F1C+YUZdP56MuLtZbO0fK6rPsDosgxXG4zaDq=mjwqsV74A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 17 Nov 2020 14:39:34 -0000
-From: Peter Maydell <1904210@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: k1eee pmaydell
-X-Launchpad-Bug-Reporter: Wang Zhongwei (k1eee)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <160527852783.476.2473984132248883691.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160562397477.26986.7619077276839258285.malone@chaenomeles.canonical.com>
-Subject: [Bug 1904210] Re: Crashed with 'uncaught target signal SIGILL' while
- program has registered by signal(SIGILL, handler)
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a2ee2035671f86427804714f331b9ff7fecaef7e"; Instance="production"
-X-Launchpad-Hash: de68c24e2e9b8e20a73871ba4d54fe8e9fb15e7e
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 09:50:44
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAJ+F1C+YUZdP56MuLtZbO0fK6rPsDosgxXG4zaDq=mjwqsV74A@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 00:41:22
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,97 +83,361 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1904210 <1904210@bugs.launchpad.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This binary doesn't execute on a real Arm CPU (it takes a SIGTRAP when
-it executes the first 'udf 1' insn), so I suspect it's never been tested
-on anything except QEMU and it happened to rely on incorrect older
-signal handling emulation in previous QEMU versions.
+On Tue, Nov 17, 2020 at 12:37:56PM +0400, Marc-André Lureau wrote:
+> On Tue, Nov 17, 2020 at 2:43 AM Eduardo Habkost <ehabkost@redhat.com> wrote:
+> 
+> > Provide a separate QNumValue type that can be used for QNum value
+> > literals without the referencing counting and memory allocation
+> > features provided by QObject.
+> >
+> > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> > ---
+> > Changes v1 -> v2:
+> > * Fix "make check" failure, by updating check-qnum unit test to
+> >   use the new struct fields
+> > ---
+> >  include/qapi/qmp/qnum.h | 40 +++++++++++++++++++--
+> >  qobject/qnum.c          | 78 ++++++++++++++++++++---------------------
+> >  tests/check-qnum.c      | 14 ++++----
+> >  3 files changed, 84 insertions(+), 48 deletions(-)
+> >
+> > diff --git a/include/qapi/qmp/qnum.h b/include/qapi/qmp/qnum.h
+> > index 55c27b1c24..62fbdfda68 100644
+> > --- a/include/qapi/qmp/qnum.h
+> > +++ b/include/qapi/qmp/qnum.h
+> > @@ -46,20 +46,56 @@ typedef enum {
+> >   * in range: qnum_get_try_int() / qnum_get_try_uint() check range and
+> >   * convert under the hood.
+> >   */
+> > -struct QNum {
+> > -    struct QObjectBase_ base;
+> > +
+> > +/**
+> > + * struct QNumValue: the value of a QNum
+> > + *
+> > + * QNumValue literals can be constructed using the `QNUM_VAL_INT`,
+> > + * `QNUM_VAL_UINT`, and `QNUM_VAL_DOUBLE` macros.
+> > + */
+> > +typedef struct QNumValue {
+> > +    /* private: */
+> >      QNumKind kind;
+> >      union {
+> >          int64_t i64;
+> >          uint64_t u64;
+> >          double dbl;
+> >      } u;
+> > +} QNumValue;
+> > +
+> > +#define QNUM_VAL_INT(value) \
+> > +    { .kind = QNUM_I64, .u.i64 = value }
+> > +#define QNUM_VAL_UINT(value) \
+> > +    { .kind = QNUM_U64, .u.u64 = value }
+> > +#define QNUM_VAL_DOUBLE(value) \
+> > +    { .kind = QNUM_DOUBLE, .u.dbl = value }
+> > +
+> > +struct QNum {
+> > +    struct QObjectBase_ base;
+> > +    QNumValue value;
+> >  };
+> >
+> > +/**
+> > + * qnum_from_int(): Create a new QNum from a QNumValue
+> >
+> 
+> Copy-pasta qnum_from_int() -> qnum_from_value()
 
-As far as I can see the binary executes an illegal insn ("udf 1"), which
-causes a SIGILL on QEMU; execution continues inside the SIGILL handler
-and the binary then executes another "udf 1". Since the SIGILL signal is
-still blocked we can't invoke the handler again and so this time around
-it's fatal.
+Oops!  I will fix it in v3, or submit a fixup patch if that's the
+only needed change.
 
-If you still think QEMU has a bug in here, please provide more details
-of exactly what the guest program does and where QEMU diverges from real
-Arm Linux kernel behaviour.
+> 
+> I wonder if there is a check for that kind of mistake, as it may be common.
 
--- =
+It looks like kernel-doc ignores what's before the colon in the
+summary line.  It probably shouldn't.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1904210
+> 
+> + * @value: QNumValue
+> > + *
+> > + * Return strong reference.
+> > + */
+> > +QNum *qnum_from_value(QNumValue value);
+> >
+> +
+> >  QNum *qnum_from_int(int64_t value);
+> >  QNum *qnum_from_uint(uint64_t value);
+> >  QNum *qnum_from_double(double value);
+> >
+> > +/**
+> > + * qnum_get_value(): Get QNumValue from QNum
+> > + * @qn: QNum object
+> > + */
+> > +static inline const QNumValue *qnum_get_value(const QNum *qn)
+> > +{
+> > +    return &qn->value;
+> > +}
+> > +
+> >
+> 
+> Nothing uses that function in this patch. Should be put into use.
 
-Title:
-  Crashed with 'uncaught target signal SIGILL' while program has
-  registered by signal(SIGILL, handler)
+It is used in patch 5/8.  Why do you think it's necessary to use
+it in internal code too?
 
-Status in QEMU:
-  New
+> 
+>  bool qnum_get_try_int(const QNum *qn, int64_t *val);
+> >  int64_t qnum_get_int(const QNum *qn);
+> >
+> > diff --git a/qobject/qnum.c b/qobject/qnum.c
+> > index 69fd9a82d9..f80d4efd76 100644
+> > --- a/qobject/qnum.c
+> > +++ b/qobject/qnum.c
+> > @@ -15,6 +15,15 @@
+> >  #include "qemu/osdep.h"
+> >  #include "qapi/qmp/qnum.h"
+> >
+> > +QNum *qnum_from_value(QNumValue value)
+> >
+> 
+> I wonder if it shouldn't be made "inline" in header too (if that can help
+> avoid argument copy).
 
-Bug description:
-  This binary is an CTF reverse challenge binary, it registers signal
-  handler via 'signal(SIGILL, 0x1193D);' while 0x1193D is the SIGILL
-  handler.
+I'm unsure.  I would make it inline (in a separate patch) if
+there's evidence it's worth it.  I expect the g_new() call to be
+more expensive than any argument copying, though.
 
-  Please see the attachment, the file 'repair' is the binary i mentioned
-  above, the file 'qemu-arm' is an old version qemu at 2.5.0, and it
-  seems an official release (not modified).
+> 
+> +{
+> > +    QNum *qn = g_new(QNum, 1);
+> > +
+> > +    qobject_init(QOBJECT(qn), QTYPE_QNUM);
+> > +    qn->value = value;
+> > +    return qn;
+> > +}
+> > +
+> >  /**
+> >   * qnum_from_int(): Create a new QNum from an int64_t
+> >   * @value: int64_t value
+> > @@ -23,13 +32,7 @@
+> >   */
+> >  QNum *qnum_from_int(int64_t value)
+> >  {
+> > -    QNum *qn = g_new(QNum, 1);
+> > -
+> > -    qobject_init(QOBJECT(qn), QTYPE_QNUM);
+> > -    qn->kind = QNUM_I64;
+> > -    qn->u.i64 = value;
+> > -
+> > -    return qn;
+> > +    return qnum_from_value((QNumValue) QNUM_VAL_INT(value));
+> >  }
+> >
+> >  /**
+> > @@ -40,13 +43,7 @@ QNum *qnum_from_int(int64_t value)
+> >   */
+> >  QNum *qnum_from_uint(uint64_t value)
+> >  {
+> > -    QNum *qn = g_new(QNum, 1);
+> > -
+> > -    qobject_init(QOBJECT(qn), QTYPE_QNUM);
+> > -    qn->kind = QNUM_U64;
+> > -    qn->u.u64 = value;
+> > -
+> > -    return qn;
+> > +    return qnum_from_value((QNumValue) QNUM_VAL_UINT(value));
+> >  }
+> >
+> >  /**
+> > @@ -57,13 +54,7 @@ QNum *qnum_from_uint(uint64_t value)
+> >   */
+> >  QNum *qnum_from_double(double value)
+> >  {
+> > -    QNum *qn = g_new(QNum, 1);
+> > -
+> > -    qobject_init(QOBJECT(qn), QTYPE_QNUM);
+> > -    qn->kind = QNUM_DOUBLE;
+> > -    qn->u.dbl = value;
+> > -
+> > -    return qn;
+> > +    return qnum_from_value((QNumValue) QNUM_VAL_DOUBLE(value));
+> >  }
+> >
+> >  /**
+> > @@ -75,15 +66,17 @@ QNum *qnum_from_double(double value)
+> >   */
+> >  bool qnum_get_try_int(const QNum *qn, int64_t *val)
+> >  {
+> > -    switch (qn->kind) {
+> > +    const QNumValue *qv = &qn->value;
+> > +
+> > +    switch (qv->kind) {
+> >      case QNUM_I64:
+> > -        *val = qn->u.i64;
+> > +        *val = qv->u.i64;
+> >          return true;
+> >      case QNUM_U64:
+> > -        if (qn->u.u64 > INT64_MAX) {
+> > +        if (qv->u.u64 > INT64_MAX) {
+> >              return false;
+> >          }
+> > -        *val = qn->u.u64;
+> > +        *val = qv->u.u64;
+> >          return true;
+> >      case QNUM_DOUBLE:
+> >          return false;
+> > @@ -116,15 +109,17 @@ int64_t qnum_get_int(const QNum *qn)
+> >   */
+> >  bool qnum_get_try_uint(const QNum *qn, uint64_t *val)
+> >  {
+> > -    switch (qn->kind) {
+> > +    const QNumValue *qv = &qn->value;
+> > +
+> > +    switch (qv->kind) {
+> >      case QNUM_I64:
+> > -        if (qn->u.i64 < 0) {
+> > +        if (qv->u.i64 < 0) {
+> >              return false;
+> >          }
+> > -        *val = qn->u.i64;
+> > +        *val = qv->u.i64;
+> >          return true;
+> >      case QNUM_U64:
+> > -        *val = qn->u.u64;
+> > +        *val = qv->u.u64;
+> >          return true;
+> >      case QNUM_DOUBLE:
+> >          return false;
+> > @@ -156,13 +151,15 @@ uint64_t qnum_get_uint(const QNum *qn)
+> >   */
+> >  double qnum_get_double(const QNum *qn)
+> >  {
+> > -    switch (qn->kind) {
+> > +    const QNumValue *qv = &qn->value;
+> > +
+> > +    switch (qv->kind) {
+> >      case QNUM_I64:
+> > -        return qn->u.i64;
+> > +        return qv->u.i64;
+> >      case QNUM_U64:
+> > -        return qn->u.u64;
+> > +        return qv->u.u64;
+> >      case QNUM_DOUBLE:
+> > -        return qn->u.dbl;
+> > +        return qv->u.dbl;
+> >      }
+> >
+> >      assert(0);
+> > @@ -171,14 +168,15 @@ double qnum_get_double(const QNum *qn)
+> >
+> >  char *qnum_to_string(QNum *qn)
+> >  {
+> > +    const QNumValue *qv = &qn->value;
+> >
+> 
+> qnum_get_value() ?
 
-  Which means, it could be a bug in recent release.
+I prefer to not hide this behind a function call, in internal
+code.  But I don't mind changing it if you think it's important.
 
-  You need to input 'flag{' to the stdin to let the binary execute the
-  illegal instruction at 0x10A68.
 
-  In 2.5.0 version the -strace logs:
-  116 uname(0xf6ffed40) =3D 0
-  116 brk(NULL) =3D 0x0009f000
-  116 brk(0x0009fd00) =3D 0x0009fd00
-  116 readlink("/proc/self/exe",0xf6ffde78,4096) =3D 21
-  116 brk(0x000c0d00) =3D 0x000c0d00
-  116 brk(0x000c1000) =3D 0x000c1000
-  116 access("/etc/ld.so.nohwcap",F_OK) =3D -1 errno=3D2 (No such file or d=
-irectory)
-  116 rt_sigaction(SIGILL,0xf6ffec48,0xf6ffecd4) =3D 0
-  116 fstat64(1,0xf6ffe8e8) =3D 0
-  116 ioctl(1,21505,-151000980,-151000924,652480,640808) =3D 0
-  116 fstat64(0,0xf6ffe7d0) =3D 0
-  116 ioctl(0,21505,-151001260,-151001204,652480,641152) =3D 0
-  116 write(1,0xa5548,6)input: =3D 6
-  116 read(0,0xa6550,4096)flag{
-   =3D 6
-  116 write(1,0xa5548,7)wrong!
-   =3D 7
-  116 _llseek(0,4294967295,4294967295,0xf6ffee18,SEEK_CUR) =3D -1 errno=3D2=
-9 (Illegal seek)
-  116 exit_group(0)
+> 
+>      char *buffer;
+> >      int len;
+> >
+> > -    switch (qn->kind) {
+> > +    switch (qv->kind) {
+> >      case QNUM_I64:
+> > -        return g_strdup_printf("%" PRId64, qn->u.i64);
+> > +        return g_strdup_printf("%" PRId64, qv->u.i64);
+> >      case QNUM_U64:
+> > -        return g_strdup_printf("%" PRIu64, qn->u.u64);
+> > +        return g_strdup_printf("%" PRIu64, qv->u.u64);
+> >      case QNUM_DOUBLE:
+> >          /* FIXME: snprintf() is locale dependent; but JSON requires
+> >           * numbers to be formatted as if in the C locale. Dependence
+> > @@ -189,7 +187,7 @@ char *qnum_to_string(QNum *qn)
+> >           * rounding errors; we should be using DBL_DECIMAL_DIG (17),
+> >           * and only rounding to a shorter number if the result would
+> >           * still produce the same floating point value.  */
+> > -        buffer = g_strdup_printf("%f" , qn->u.dbl);
+> > +        buffer = g_strdup_printf("%f" , qv->u.dbl);
+> >          len = strlen(buffer);
+> >          while (len > 0 && buffer[len - 1] == '0') {
+> >              len--;
+> > @@ -221,8 +219,10 @@ char *qnum_to_string(QNum *qn)
+> >   */
+> >  bool qnum_is_equal(const QObject *x, const QObject *y)
+> >  {
+> > -    QNum *num_x = qobject_to(QNum, x);
+> > -    QNum *num_y = qobject_to(QNum, y);
+> > +    const QNum *qnum_x = qobject_to(QNum, x);
+> > +    const QNum *qnum_y = qobject_to(QNum, y);
+> > +    const QNumValue *num_x = &qnum_x->value;
+> > +    const QNumValue *num_y = &qnum_y->value;
+> >
+> >      switch (num_x->kind) {
+> >      case QNUM_I64:
+> > diff --git a/tests/check-qnum.c b/tests/check-qnum.c
+> > index 4105015872..9499b0d845 100644
+> > --- a/tests/check-qnum.c
+> > +++ b/tests/check-qnum.c
+> > @@ -30,8 +30,8 @@ static void qnum_from_int_test(void)
+> >
+> >      qn = qnum_from_int(value);
+> >      g_assert(qn != NULL);
+> > -    g_assert_cmpint(qn->kind, ==, QNUM_I64);
+> > -    g_assert_cmpint(qn->u.i64, ==, value);
+> > +    g_assert_cmpint(qn->value.kind, ==, QNUM_I64);
+> > +    g_assert_cmpint(qn->value.u.i64, ==, value);
+> >      g_assert_cmpint(qn->base.refcnt, ==, 1);
+> >      g_assert_cmpint(qobject_type(QOBJECT(qn)), ==, QTYPE_QNUM);
+> >
+> > @@ -45,8 +45,8 @@ static void qnum_from_uint_test(void)
+> >
+> >      qn = qnum_from_uint(value);
+> >      g_assert(qn != NULL);
+> > -    g_assert_cmpint(qn->kind, ==, QNUM_U64);
+> > -    g_assert(qn->u.u64 == value);
+> > +    g_assert_cmpint(qn->value.kind, ==, QNUM_U64);
+> > +    g_assert(qn->value.u.u64 == value);
+> >      g_assert(qn->base.refcnt == 1);
+> >      g_assert(qobject_type(QOBJECT(qn)) == QTYPE_QNUM);
+> >
+> > @@ -60,8 +60,8 @@ static void qnum_from_double_test(void)
+> >
+> >      qn = qnum_from_double(value);
+> >      g_assert(qn != NULL);
+> > -    g_assert_cmpint(qn->kind, ==, QNUM_DOUBLE);
+> > -    g_assert_cmpfloat(qn->u.dbl, ==, value);
+> > +    g_assert_cmpint(qn->value.kind, ==, QNUM_DOUBLE);
+> > +    g_assert_cmpfloat(qn->value.u.dbl, ==, value);
+> >      g_assert_cmpint(qn->base.refcnt, ==, 1);
+> >      g_assert_cmpint(qobject_type(QOBJECT(qn)), ==, QTYPE_QNUM);
+> >
+> > @@ -74,7 +74,7 @@ static void qnum_from_int64_test(void)
+> >      const int64_t value = 0x1234567890abcdefLL;
+> >
+> >      qn = qnum_from_int(value);
+> > -    g_assert_cmpint((int64_t) qn->u.i64, ==, value);
+> > +    g_assert_cmpint((int64_t) qn->value.u.i64, ==, value);
+> >
+> >      qobject_unref(qn);
+> >  }
+> > --
+> > 2.28.0
+> >
+> >
+> >
+> lgtm otherwise
 
-  In 2.11.1, it shows:
-  113 uname(0xfffeed30) =3D 0
-  113 brk(NULL) =3D 0x0009f000
-  113 brk(0x0009fd00) =3D 0x0009fd00
-  113 readlink("/proc/self/exe",0xfffede68,4096) =3D 21
-  113 brk(0x000c0d00) =3D 0x000c0d00
-  113 brk(0x000c1000) =3D 0x000c1000
-  113 access("/etc/ld.so.nohwcap",F_OK) =3D -1 errno=3D2 (No such file or d=
-irectory)
-  113 rt_sigaction(SIGILL,0xfffeec38,0xfffeecc4) =3D 0
-  113 fstat64(1,0xfffee8d8) =3D 0
-  113 ioctl(1,21505,-71588,-71532,652480,640808) =3D 0
-  113 fstat64(0,0xfffee7c0) =3D 0
-  113 ioctl(0,21505,-71868,-71812,652480,641152) =3D 0
-  113 write(1,0xa5548,6)input: =3D 6
-  113 read(0,0xa6550,4096)flag{
-   =3D 6
-  --- SIGILL {si_signo=3DSIGILL, si_code=3D2, si_addr=3D0x00010a68} ---
-  --- SIGILL {si_signo=3DSIGILL, si_code=3D2, si_addr=3D0x0001182c} ---
-  qemu: uncaught target signal 4 (Illegal instruction) - core dumped
-  Illegal instruction (core dumped)
+Thanks!
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1904210/+subscriptions
+-- 
+Eduardo
+
 
