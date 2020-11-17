@@ -2,75 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D3BA2B6735
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 15:18:40 +0100 (CET)
-Received: from localhost ([::1]:40096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AFDB2B6742
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 15:22:17 +0100 (CET)
+Received: from localhost ([::1]:43778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf1oc-0003po-MF
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 09:18:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60118)
+	id 1kf1s8-0005V5-MF
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 09:22:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kf1kK-0007gd-Tm
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 09:14:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35658)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kf1kI-0002Np-SK
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 09:14:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605622450;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WxlETIixCnXncrzehMeusPU6L4CxgBvniAps6EzuUPs=;
- b=O7T84opMZ4Q6NkEH6UekcKZFA1HARVnrM86Lnemu2aAFqlCD/NGJQ+moUrZuPIswKZD4eU
- 99u/PosVcMwq4dIvWcC4r4wV6bbk4wl9WC2iGGX7N5wVjsZgFZLJK1GFsr5n/hvSiJJY/7
- aX4wnAz60zqFeS4nXq1iu5LyWNZybyA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-211-_VB4l4kjMx--v-Geg_GkBQ-1; Tue, 17 Nov 2020 09:13:53 -0500
-X-MC-Unique: _VB4l4kjMx--v-Geg_GkBQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B69C0800050;
- Tue, 17 Nov 2020 14:13:51 +0000 (UTC)
-Received: from gondolin (ovpn-113-115.ams2.redhat.com [10.36.113.115])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 567A018439;
- Tue, 17 Nov 2020 14:13:43 +0000 (UTC)
-Date: Tue, 17 Nov 2020 15:13:40 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Matthew Rosato <mjrosato@linux.ibm.com>
-Subject: Re: [RFC PATCH-for-5.2] hw/s390x/pci: Fix endianness issue
-Message-ID: <20201117151340.539d55b2.cohuck@redhat.com>
-In-Reply-To: <c3c71d14-f891-83e4-5ecd-e5067f9e74c7@linux.ibm.com>
-References: <20201117120115.1234994-1-philmd@redhat.com>
- <CAFEAcA-c3hw2w23OR0moKDYuvyD3O=Bqjp3fiid0byH7K+nr-Q@mail.gmail.com>
- <d945234d-4725-9928-11cb-f34606c8524c@linux.ibm.com>
- <20201117143117.4b05db78.cohuck@redhat.com>
- <c3c71d14-f891-83e4-5ecd-e5067f9e74c7@linux.ibm.com>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kf1qR-0004VS-JG
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 09:20:31 -0500
+Received: from mout.kundenserver.de ([217.72.192.75]:34185)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kf1qO-0004ie-7R
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 09:20:31 -0500
+Received: from [192.168.100.1] ([82.252.130.226]) by mrelayeu.kundenserver.de
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1N1xZX-1kGNPM2LRR-012Fah for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020
+ 15:20:25 +0100
+Subject: Re: [PATCH] linux-user,netlink: fix message translation with ip
+ command
+To: qemu-devel@nongnu.org
+References: <20201116163622.791442-1-laurent@vivier.eu>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <d3c42072-4a9a-87e1-5d60-031686838fb7@vivier.eu>
+Date: Tue, 17 Nov 2020 15:20:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 01:18:45
+In-Reply-To: <20201116163622.791442-1-laurent@vivier.eu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:FZ1ciOOqYIctY7sQJSgDszbiPJcNZ7h/Itex/6pQBoY+/bkLs9R
+ SIg0+WNGcRNiVQ9kzy09OxrvqEjoZQkdPjlAFKw1eLt+6ADOiomWxwkhj4axJ6nsw++ZyV1
+ EFCgm9hblNC8aRtFn8y4m7+haOsQZldyi6Z0eyu51lWNOmX9ftZTShAaKxd1ujLKtN/kTsy
+ 0lqh3tWMcUtRydXTEo7Uw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:i4FTjz7Nvxo=:DPXpfGz55w2QC6O8x4Zjdt
+ k8/fJPiNYOV474T8kiU3kZJIRpZo+Wmr0pbyDkiZMOW6Pf6b4kSH2U3+9qSIykfCLgsuS6Ccu
+ lsQDwDc3SN8NxZ9RPsYqLpp/2ci8marEcvcsz71BBDUxzhpqeCUf9JwKgU+22LHP3Y88NKmOw
+ 4+PHKQVUiLd3kb6zsAhbvZI3aaJNHt2sTiMZRSpK5mG2WzhOWEY6Ob3bKIsRKQ+mBF4cVSwpp
+ 9PZ9mLrJKeCLMzXqSlIeHSDDJcagJtuPF+7ifKKVW+pmMhPP1+k1VJ5eCkavUHSSRy5had6mu
+ d+du1QJHKMMuvxqbknqoo6hISMjjcny1un+FtM+y5h4adzGF/UTgWhkCE4LYvFDYqQp9TBlX6
+ oa5dY8mBA/15hef9b1yQqeWU1oOW/J1WU487W1gO6jwgOXwFXFtEDWEf/VBPz
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 09:20:26
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,101 +68,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Pierre Morel <pmorel@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
- qemu-s390x <qemu-s390x@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 Nov 2020 09:02:37 -0500
-Matthew Rosato <mjrosato@linux.ibm.com> wrote:
+Le 16/11/2020 à 17:36, Laurent Vivier a écrit :
+> With iproute2-5.8.0, the route, link and addr show commands fail:
+> 
+>   root@sid:~# ip addr show
+>   RTNETLINK answers: Unknown error 352321537
+>   Dump terminated
+>   root@sid:~# ip link show
+>   RTNETLINK answers: Unknown error 352321537
+>   Dump terminated
+>   root@sid:~# ip route show
+>   RTNETLINK answers: Unknown error 352321537
+>   Dump terminated
+> 
+> This patch correctly decodes the GETROUTE and GETLINK commands and adds
+> the RTA_TABLE message.
+> 
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> ---
+>  linux-user/fd-trans.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
+> 
+> diff --git a/linux-user/fd-trans.c b/linux-user/fd-trans.c
+> index 1486c81aaa27..7551c883304a 100644
+> --- a/linux-user/fd-trans.c
+> +++ b/linux-user/fd-trans.c
+> @@ -1160,6 +1160,7 @@ static abi_long target_to_host_data_route_rtattr(struct rtattr *rtattr)
+>          break;
+>      /* u32 */
+>      case QEMU_RTA_PRIORITY:
+> +    case QEMU_RTA_TABLE:
+>      case QEMU_RTA_OIF:
+>          u32 = RTA_DATA(rtattr);
+>          *u32 = tswap32(*u32);
+> @@ -1200,11 +1201,10 @@ static abi_long target_to_host_data_route(struct nlmsghdr *nlh)
+>      struct rtmsg *rtm;
+>  
+>      switch (nlh->nlmsg_type) {
+> -    case RTM_GETLINK:
+> -        break;
+>      case RTM_NEWLINK:
+>      case RTM_DELLINK:
+>      case RTM_SETLINK:
+> +    case RTM_GETLINK:
+>          if (nlh->nlmsg_len >= NLMSG_LENGTH(sizeof(*ifi))) {
+>              ifi = NLMSG_DATA(nlh);
+>              ifi->ifi_type = tswap16(ifi->ifi_type);
+> @@ -1225,10 +1225,9 @@ static abi_long target_to_host_data_route(struct nlmsghdr *nlh)
+>                                         NLMSG_LENGTH(sizeof(*ifa)));
+>          }
+>          break;
+> -    case RTM_GETROUTE:
+> -        break;
+>      case RTM_NEWROUTE:
+>      case RTM_DELROUTE:
+> +    case RTM_GETROUTE:
+>          if (nlh->nlmsg_len >= NLMSG_LENGTH(sizeof(*rtm))) {
+>              rtm = NLMSG_DATA(nlh);
+>              rtm->rtm_flags = tswap32(rtm->rtm_flags);
+> 
 
-> On 11/17/20 8:31 AM, Cornelia Huck wrote:
-> > On Tue, 17 Nov 2020 14:23:57 +0100
-> > Pierre Morel <pmorel@linux.ibm.com> wrote:
-> >  =20
-> >> On 11/17/20 2:00 PM, Peter Maydell wrote: =20
-> >>> On Tue, 17 Nov 2020 at 12:03, Philippe Mathieu-Daud=C3=A9 <philmd@red=
-hat.com> wrote: =20
-> >>>>
-> >>>> Fix an endianness issue reported by Cornelia:
-> >>>>    =20
-> >>>>> s390x tcg guest on x86, virtio-pci devices are not detected. The
-> >>>>> relevant feature bits are visible to the guest. Same breakage with
-> >>>>> different guest kernels.
-> >>>>> KVM guests and s390x tcg guests on s390x are fine. =20
-> >>>>
-> >>>> Fixes: 28dc86a0729 ("s390x/pci: use a PCI Group structure")
-> >>>> Reported-by: Cornelia Huck <cohuck@redhat.com>
-> >>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> >>>> ---
-> >>>> RFC because review-only patch, untested
-> >>>> ---
-> >>>>    hw/s390x/s390-pci-inst.c | 2 +-
-> >>>>    1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>>
-> >>>> diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
-> >>>> index 58cd041d17f..cfb54b4d8ec 100644
-> >>>> --- a/hw/s390x/s390-pci-inst.c
-> >>>> +++ b/hw/s390x/s390-pci-inst.c
-> >>>> @@ -305,7 +305,7 @@ int clp_service_call(S390CPU *cpu, uint8_t r2, u=
-intptr_t ra)
-> >>>>            ClpReqQueryPciGrp *reqgrp =3D (ClpReqQueryPciGrp *)reqh;
-> >>>>            S390PCIGroup *group;
-> >>>>
-> >>>> -        group =3D s390_group_find(reqgrp->g);
-> >>>> +        group =3D s390_group_find(ldl_p(&reqgrp->g)); =20
-> >>>
-> >>> 'g' in the ClpReqQueryPciGrp struct is a uint32_t, so
-> >>> adding the ldl_p() will have no effect unless (a) the
-> >>> structure is not 4-aligned and (b) the host will fault on
-> >>> unaligned accesses, which isn't the case for x86 hosts.
-> >>>
-> >>> Q: is this struct really in host order, or should we
-> >>> be using ldl_le_p() or ldl_be_p() and friends here and
-> >>> elsewhere?
-> >>>
-> >>> thanks
-> >>> -- PMM
-> >>>     =20
-> >>
-> >> Hi, I think we better modify the structure here, g should be a byte.
-> >>
-> >> Connie, can you please try this if it resolves the issue?
-> >>
-> >> diff --git a/hw/s390x/s390-pci-inst.h b/hw/s390x/s390-pci-inst.h
-> >> index fa3bf8b5aa..641d19c815 100644
-> >> --- a/hw/s390x/s390-pci-inst.h
-> >> +++ b/hw/s390x/s390-pci-inst.h
-> >> @@ -146,7 +146,8 @@ typedef struct ClpReqQueryPciGrp {
-> >>        uint32_t fmt;
-> >>        uint64_t reserved1;
-> >>    #define CLP_REQ_QPCIG_MASK_PFGID 0xff
-> >> -    uint32_t g;
-> >> +    uint32_t g0 :24;
-> >> +    uint32_t g  :8;
-> >>        uint32_t reserved2;
-> >>        uint64_t reserved3;
-> >>    } QEMU_PACKED ClpReqQueryPciGrp;
-> >> =20
-> >=20
-> > No, same crash... I fear there are more things broken wrt endianness.
-> >  =20
->=20
-> Sorry, just getting online now, looking at the code....  Are the 2=20
-> memcpy calls added in 9670ee75 and 28dc86a0 the issue?  Won't they just=
-=20
-> present the Q PCI FN / Q PCI FN GRP results in host endianness?
->=20
+Applied to my linux-user-for-5.2 branch.
 
-I just re-added some st?_p operations in set_pbdev_info and that fixes
-at least the crash I was seeing with Phil's patch applied. Still, no
-pci functions get detected, so that's not enough. Those memcpy calls
-look like a possible culprit.
+Thanks,
+Laurent
+
 
 
