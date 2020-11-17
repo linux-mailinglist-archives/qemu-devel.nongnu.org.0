@@ -2,57 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D89322B6874
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 16:18:31 +0100 (CET)
-Received: from localhost ([::1]:55558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA1D32B688A
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 16:21:34 +0100 (CET)
+Received: from localhost ([::1]:34736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf2kY-0002wJ-Vi
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 10:18:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48384)
+	id 1kf2nU-00068Y-DI
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 10:21:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kf2jB-000211-QP
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 10:17:05 -0500
-Received: from mout.kundenserver.de ([212.227.126.135]:50803)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kf2j3-0007ZW-Aq
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 10:17:05 -0500
-Received: from localhost.localdomain ([82.252.130.226]) by
- mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MvsyF-1kNWCn3zGB-00sxxS; Tue, 17 Nov 2020 16:16:55 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL 2/2] linux-user, netlink: add IFLA_BRPORT_MRP_RING_OPEN,
- IFLA_BRPORT_MRP_IN_OPEN
-Date: Tue, 17 Nov 2020 16:16:50 +0100
-Message-Id: <20201117151650.867836-3-laurent@vivier.eu>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201117151650.867836-1-laurent@vivier.eu>
-References: <20201117151650.867836-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kf2jj-0002RD-GG
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 10:17:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43399)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kf2jf-0007kx-8s
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 10:17:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605626253;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5yW2vxOUKDaggfU5vkMEnwiUtU9gdEHNkQzXqnGxScE=;
+ b=hScRW12yIpwH91nPdqZaxjF+xAy4mzrrP1BmA70RFdpuIaDTReA3Ugq++ypn3c5QYaN0Xa
+ mR7xi5bQM5PPakCq4rMy7Ntu1RwA4N2lxhE+eDoZudY/NWV1Impj8aJ2FHpKFsbKH3hj7l
+ uDXNklkzToY/dtFiglYTumBroZdSAgg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-568-25nJ6-RzOr2wIheV0gu_YA-1; Tue, 17 Nov 2020 10:17:29 -0500
+X-MC-Unique: 25nJ6-RzOr2wIheV0gu_YA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04723879524;
+ Tue, 17 Nov 2020 15:17:28 +0000 (UTC)
+Received: from gondolin (ovpn-113-115.ams2.redhat.com [10.36.113.115])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A2CB375121;
+ Tue, 17 Nov 2020 15:17:19 +0000 (UTC)
+Date: Tue, 17 Nov 2020 16:17:16 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Matthew Rosato <mjrosato@linux.ibm.com>
+Subject: Re: [RFC PATCH-for-5.2] hw/s390x/pci: Fix endianness issue
+Message-ID: <20201117161716.7e3e67ca.cohuck@redhat.com>
+In-Reply-To: <a62491d5-0dfa-f202-7673-9eebce2425c7@linux.ibm.com>
+References: <20201117120115.1234994-1-philmd@redhat.com>
+ <CAFEAcA-c3hw2w23OR0moKDYuvyD3O=Bqjp3fiid0byH7K+nr-Q@mail.gmail.com>
+ <d945234d-4725-9928-11cb-f34606c8524c@linux.ibm.com>
+ <20201117143117.4b05db78.cohuck@redhat.com>
+ <c3c71d14-f891-83e4-5ecd-e5067f9e74c7@linux.ibm.com>
+ <20201117151340.539d55b2.cohuck@redhat.com>
+ <a62491d5-0dfa-f202-7673-9eebce2425c7@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:RG3h/1GIPmujHFsVODM+JcG424mz7FrVXkLR0BkhHuGtPQi7Y1n
- fsoIMq1FqD1OhyCW+tfdd7uSa0u3KpL0o8GlzYO/swmd5lrTwHTWgK2mTtaj5UBq9PdYPx2
- IfySBLZyFtXPhnEkj6Na9QEhqrbcS0UJ4JNca2KK8l9ffshsb1XaXS8o/6o7CuRkYoJV1JT
- AttLCjz+CjAg1Ji2Z6sQw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:DDJ+cZWVjcY=:stKsdyJtSQ80hB9tOG68PP
- R1G/M0viCU9BgUVjbDXwybInc+HpgX3OQLLvXkyOFIMhUF8ST5VnWR4DszwZDe4kPmltIc30X
- H9lJXxRKJDHRfsfHzzAx3XIsXt29EDWDFzYUlW2J5ZcINKQCrzNzQoPulK5TKRb9xWcrlWYQJ
- 1IAlVHVG2GHEnRzeuVrC/uhLWX7T9LVQUnUNJffjBvxr3kkPN+NFsl6qpsNOqekAFNl0XKzAy
- aE5Vr87rzcL1/1vegqIJ3tG/hGrkZT6hAKmYyxSKXRofBunloQnceeYUnBxlc5jeIkKeCGiEm
- vJ6VoOXOZY33meaIRN/dT8U9l6TlggwFHOEky8T/pzw11jM4k4nx29NBFmmT1l+zNWnR6JISN
- mwf5/TPr4Co1DEoKnP6fNUTS1rsObIKYaXX51ioYGE9sYx2CVLqO6dvrmxACeIji+hyxtVHIK
- YNaOByNP6A==
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 10:16:54
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 00:41:22
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,63 +85,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Pierre Morel <pmorel@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix "-d unimp" trace results:
+On Tue, 17 Nov 2020 09:34:41 -0500
+Matthew Rosato <mjrosato@linux.ibm.com> wrote:
 
-  Unknown QEMU_IFLA_BRPORT type 35
-  Unknown QEMU_IFLA_BRPORT type 36
+> On 11/17/20 9:13 AM, Cornelia Huck wrote:
+> > On Tue, 17 Nov 2020 09:02:37 -0500
+> > Matthew Rosato <mjrosato@linux.ibm.com> wrote:
+> >  =20
+> >> On 11/17/20 8:31 AM, Cornelia Huck wrote: =20
+> >>> On Tue, 17 Nov 2020 14:23:57 +0100
+> >>> Pierre Morel <pmorel@linux.ibm.com> wrote:
+> >>>     =20
+> >>>> On 11/17/20 2:00 PM, Peter Maydell wrote: =20
+> >>>>> On Tue, 17 Nov 2020 at 12:03, Philippe Mathieu-Daud=C3=A9 <philmd@r=
+edhat.com> wrote: =20
+> >>>>>>
+> >>>>>> Fix an endianness issue reported by Cornelia:
+> >>>>>>       =20
+> >>>>>>> s390x tcg guest on x86, virtio-pci devices are not detected. The
+> >>>>>>> relevant feature bits are visible to the guest. Same breakage wit=
+h
+> >>>>>>> different guest kernels.
+> >>>>>>> KVM guests and s390x tcg guests on s390x are fine. =20
+> >>>>>>
+> >>>>>> Fixes: 28dc86a0729 ("s390x/pci: use a PCI Group structure")
+> >>>>>> Reported-by: Cornelia Huck <cohuck@redhat.com>
+> >>>>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> >>>>>> ---
+> >>>>>> RFC because review-only patch, untested
+> >>>>>> ---
+> >>>>>>     hw/s390x/s390-pci-inst.c | 2 +-
+> >>>>>>     1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>>>>
+> >>>>>> diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
+> >>>>>> index 58cd041d17f..cfb54b4d8ec 100644
+> >>>>>> --- a/hw/s390x/s390-pci-inst.c
+> >>>>>> +++ b/hw/s390x/s390-pci-inst.c
+> >>>>>> @@ -305,7 +305,7 @@ int clp_service_call(S390CPU *cpu, uint8_t r2,=
+ uintptr_t ra)
+> >>>>>>             ClpReqQueryPciGrp *reqgrp =3D (ClpReqQueryPciGrp *)req=
+h;
+> >>>>>>             S390PCIGroup *group;
+> >>>>>>
+> >>>>>> -        group =3D s390_group_find(reqgrp->g);
+> >>>>>> +        group =3D s390_group_find(ldl_p(&reqgrp->g)); =20
+> >>>>>
+> >>>>> 'g' in the ClpReqQueryPciGrp struct is a uint32_t, so
+> >>>>> adding the ldl_p() will have no effect unless (a) the
+> >>>>> structure is not 4-aligned and (b) the host will fault on
+> >>>>> unaligned accesses, which isn't the case for x86 hosts.
+> >>>>>
+> >>>>> Q: is this struct really in host order, or should we
+> >>>>> be using ldl_le_p() or ldl_be_p() and friends here and
+> >>>>> elsewhere?
+> >>>>>
+> >>>>> thanks
+> >>>>> -- PMM
+> >>>>>        =20
+> >>>>
+> >>>> Hi, I think we better modify the structure here, g should be a byte.
+> >>>>
+> >>>> Connie, can you please try this if it resolves the issue?
+> >>>>
+> >>>> diff --git a/hw/s390x/s390-pci-inst.h b/hw/s390x/s390-pci-inst.h
+> >>>> index fa3bf8b5aa..641d19c815 100644
+> >>>> --- a/hw/s390x/s390-pci-inst.h
+> >>>> +++ b/hw/s390x/s390-pci-inst.h
+> >>>> @@ -146,7 +146,8 @@ typedef struct ClpReqQueryPciGrp {
+> >>>>         uint32_t fmt;
+> >>>>         uint64_t reserved1;
+> >>>>     #define CLP_REQ_QPCIG_MASK_PFGID 0xff
+> >>>> -    uint32_t g;
+> >>>> +    uint32_t g0 :24;
+> >>>> +    uint32_t g  :8;
+> >>>>         uint32_t reserved2;
+> >>>>         uint64_t reserved3;
+> >>>>     } QEMU_PACKED ClpReqQueryPciGrp;
+> >>>>    =20
+> >>>
+> >>> No, same crash... I fear there are more things broken wrt endianness.
+> >>>     =20
+> >>
+> >> Sorry, just getting online now, looking at the code....  Are the 2
+> >> memcpy calls added in 9670ee75 and 28dc86a0 the issue?  Won't they jus=
+t
+> >> present the Q PCI FN / Q PCI FN GRP results in host endianness?
+> >> =20
+> >=20
+> > I just re-added some st?_p operations in set_pbdev_info and that fixes
+> > at least the crash I was seeing with Phil's patch applied. Still, no
+> > pci functions get detected, so that's not enough. Those memcpy calls
+> > look like a possible culprit.
+> >  =20
+>=20
+> OK, so if everything in set_pbdev_info and s390_pci_init_default_group()=
+=20
+> is handled with st?_p operations, then the memcpy should be OK...
+>=20
+> Pierre was on to something with his recommendation, as the group id is=20
+> only 1B of the 'g' field (see CLP_REQ_QPCIG_MASK_PFGID) - the other bits=
+=20
+> just happen to be unused.
+>=20
+> Did you include his change with your st?_p changes to set_pbdev_info=20
+> (sorry, I don't have this environment set up but clearly need to do so=20
+> for future testing)
 
-Also process IFLA_EXT_MASK to fix:
-
-  Unknown target QEMU_IFLA type: 29
-
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20201117111905.843925-1-laurent@vivier.eu>
----
- linux-user/fd-trans.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/linux-user/fd-trans.c b/linux-user/fd-trans.c
-index 7551c883304a..23adaca83639 100644
---- a/linux-user/fd-trans.c
-+++ b/linux-user/fd-trans.c
-@@ -175,6 +175,8 @@ enum {
-     QEMU_IFLA_BRPORT_NEIGH_SUPPRESS,
-     QEMU_IFLA_BRPORT_ISOLATED,
-     QEMU_IFLA_BRPORT_BACKUP_PORT,
-+    QEMU_IFLA_BRPORT_MRP_RING_OPEN,
-+    QEMU_IFLA_BRPORT_MRP_IN_OPEN,
-     QEMU___IFLA_BRPORT_MAX
- };
- 
-@@ -552,6 +554,8 @@ static abi_long host_to_target_slave_data_bridge_nlattr(struct nlattr *nlattr,
-     case QEMU_IFLA_BRPORT_BCAST_FLOOD:
-     case QEMU_IFLA_BRPORT_NEIGH_SUPPRESS:
-     case QEMU_IFLA_BRPORT_ISOLATED:
-+    case QEMU_IFLA_BRPORT_MRP_RING_OPEN:
-+    case QEMU_IFLA_BRPORT_MRP_IN_OPEN:
-         break;
-     /* uint16_t */
-     case QEMU_IFLA_BRPORT_PRIORITY:
-@@ -1125,7 +1129,14 @@ static abi_long target_to_host_for_each_rtattr(struct rtattr *rtattr,
- 
- static abi_long target_to_host_data_link_rtattr(struct rtattr *rtattr)
- {
-+    uint32_t *u32;
-+
-     switch (rtattr->rta_type) {
-+    /* uint32_t */
-+    case QEMU_IFLA_EXT_MASK:
-+        u32 = RTA_DATA(rtattr);
-+        *u32 = tswap32(*u32);
-+        break;
-     default:
-         qemu_log_mask(LOG_UNIMP, "Unknown target QEMU_IFLA type: %d\n",
-                       rtattr->rta_type);
--- 
-2.28.0
+I tried in conjunction with Phil's patch (otherwise, I don't even get
+to the part where it crashes.) Do we need to apply that mask somewhere?
+It is hard to guess if you don't know what the structure is supposed to
+look like :)
 
 
