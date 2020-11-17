@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AC7C2B71F1
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 00:06:01 +0100 (CET)
-Received: from localhost ([::1]:40908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AACC2B728E
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 00:41:32 +0100 (CET)
+Received: from localhost ([::1]:53156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfA2x-0007kM-Uc
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 18:05:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34760)
+	id 1kfAbJ-00071Q-Rb
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 18:41:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kfA0o-0006nn-Dx
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 18:03:46 -0500
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:46518)
+ (Exim 4.90_1) (envelope-from <linus.walleij@linaro.org>)
+ id 1kfAYr-0006AJ-5d
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 18:38:57 -0500
+Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:40234)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kfA0l-0002H0-Ld
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 18:03:46 -0500
-Received: by mail-ed1-x532.google.com with SMTP id t11so24218519edj.13
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 15:03:43 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <linus.walleij@linaro.org>)
+ id 1kfAYp-0006Pp-CP
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 18:38:56 -0500
+Received: by mail-lf1-x142.google.com with SMTP id u19so296855lfr.7
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 15:38:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8Ch1t/rZ/gcL9txv94R2hesXLj5ZJhvLQ04fbWWMBME=;
- b=zpt0SbmyXzQQb6Ow3Th0BznTG9ebj414DwEhlJtAiYnKPxCxs6RErSWOwQlH5Ir+KE
- k/aQxXuK//xr6R74aOLur1MX4u9ojHRPNVcOXm5W+XFJvbLtY+Ye8cLpYWJBX37vi3Hn
- xm+CDhwYkw0fce1EbAOSacoyHms5zgsZZcK/CrwwRHyP/0RBs2o9bSxnM1j6M0gLXb/R
- 32HnVwVd1OEG1fGkPmbmvNFbBaLuLlusfJhXf3eXFdWy8yquck0G0llpxqdA8c5j8fVO
- a29PO8XZyLWEJCuhcsMNdLiBpRt0wmSDXrYHB48qIbC4RqkCKcqtuLCogDNIV/T13yfA
- hMeQ==
+ :cc; bh=PgbGhxXCXE3uvLAMGWkjJK4WmB/v6iS8EBQqNl2pLPI=;
+ b=OBJfkgzQBj9kHYb1L6tM3RsVNEtxEjS8ET0Oh9YK0275YFj9QadFCAwWSCozN1QtCo
+ +8Zz4vWkjpcxgMUMVDIsC7IboLPaOi0ADF1TZADraVsZmRwj/NsiImqyAR/KgSYJNR8X
+ ueDXr5NVFB/NX7+PUdIQbuXJ0/Xn1IKQaTgwH0JlwVPOQ4U7BNCy8dygFfyfSFbzvMPj
+ KNBOrDZJk2o+gWAICmNIT3BDdwL6xbmjbK4mnEg0HnMpBfrKjfO9/sARAlJuRLBusV0N
+ +r735iTU1GwDxFrw8cviIxYPtfyPzaG3pqHLpRgNqOVbnYc1FdyiqF3KfAPDV2bJ3VxT
+ v8JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=8Ch1t/rZ/gcL9txv94R2hesXLj5ZJhvLQ04fbWWMBME=;
- b=AafRXDWyGmePuX1DfPkVeavaNQ6PmGyM+rLmc5vm9PCMPRieh7suo6yXFu4SP1V89S
- qCTatKhQUqn83JtGRl46F8Xiah/bAqgMX9J785aMPM72yOK//01s9HnovoLPfHqzFUVt
- nEh9wk1l16OaHllmyEFAWqC9FtQLJ398oKJduVuCAsLVwczStAGSfSl+xbY11vLn+37L
- 9rmd+aGQ+nMz5FRWL/2Li7tL+tKKZXYueVJybEmC+DPDegVIAEcoJKs21RvUQKKOCawk
- cwXDcwO2IKbfLA5dG3DsNd9Mu78O/FORDZ7dkEnmwqgTDtg/BCF7x7Yu4+Jdtm0SRaea
- 6ECQ==
-X-Gm-Message-State: AOAM530d+6JvhkXD2/9NuN8UO8JjnetPAn8xsjhLOjg5fCqVlEcwsL3v
- K0adcr9JuvVDUFpwbe9QjyFDWYrODJzkRM6xxTiggg==
-X-Google-Smtp-Source: ABdhPJzPS++hHH89ARZzw0g1hAFpoBmN+9IuoqQ91+w2QsYvM5U7nSAH0i4m/0p0UKZyhDVNgGG/B45IMZIXAYyHSqw=
-X-Received: by 2002:a05:6402:3089:: with SMTP id
- de9mr23767822edb.100.1605654221998; 
- Tue, 17 Nov 2020 15:03:41 -0800 (PST)
+ bh=PgbGhxXCXE3uvLAMGWkjJK4WmB/v6iS8EBQqNl2pLPI=;
+ b=mR2r5naH2mc/e1uMcv983rH4Qto15VT9wUXf+XWhwGBkMP5Jm4eJwPSP9+7DERc6ex
+ kSSmW8aMmOh5nuSSIgwu0Ej6yNfh6DC/xo/yP8MlftBTGzHzyT/p/9A0Jb+yB6KvrGpz
+ AAks3l79RtOGSJ+HZHCNAR5+zfIAVQhb6JqDpJPHrIW870UixjFEV72wYq+LFuFIrFvM
+ 0g0I/Afo3+Wb9wp1YufzWQUz47lh52TFmmpnhQKSFDWuWAX3xSKavDWr4ZWOgho4T74X
+ BwaMH6KM5zs9u8PrSckc4sq0wJZ9fDAn/VyGLe10pGFIQse1ssX9Hdbu+mFkL2U28q4M
+ SKnw==
+X-Gm-Message-State: AOAM531ua14GMQi1H6Cl2qVN2Ct/+Gz2kznPNop5S1C12JQgZSTgsn+C
+ BTAuzOaqBhVHqO7owOPe6pLlk8raiZFPaNolJ1rUHA==
+X-Google-Smtp-Source: ABdhPJyodrlIwxvXj9j6gGI51r9cXRj8xfoOFdh+vq78US7qyWBMu+ApjS1npnI+qftmyyjBQOFSWsXXnoO8nCD8tvg=
+X-Received: by 2002:a19:e08:: with SMTP id 8mr2417659lfo.441.1605656332549;
+ Tue, 17 Nov 2020 15:38:52 -0800 (PST)
 MIME-Version: 1.0
-References: <20201117151650.867836-1-laurent@vivier.eu>
-In-Reply-To: <20201117151650.867836-1-laurent@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 17 Nov 2020 23:03:31 +0000
-Message-ID: <CAFEAcA9h8wx4SyWsUW4gSHzXvbgJgDAdB9SK7jPdhsnnQo772g@mail.gmail.com>
-Subject: Re: [PULL 0/2] Linux user for 5.2 patches
-To: Laurent Vivier <laurent@vivier.eu>
+References: <20201012220620.124408-1-linus.walleij@linaro.org>
+ <20201013092240.GI32292@arm.com>
+In-Reply-To: <20201013092240.GI32292@arm.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 18 Nov 2020 00:38:41 +0100
+Message-ID: <CACRpkdZoMoUQX+CPd31qwjXSKJvaZ6=jcFvUrK_3hkxaUWJNJg@mail.gmail.com>
+Subject: Re: [PATCH v3 RESEND] fcntl: Add 32bit filesystem mode
+To: Dave Martin <Dave.Martin@arm.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::142;
+ envelope-from=linus.walleij@linaro.org; helo=mail-lf1-x142.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -79,36 +79,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Theodore Ts'o <tytso@mit.edu>,
+ Linux API <linux-api@vger.kernel.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Florian Weimer <fw@deneb.enyo.de>, Andreas Dilger <adilger.kernel@dilger.ca>,
+ Andy Lutomirski <luto@kernel.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ Ext4 Developers List <linux-ext4@vger.kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 Nov 2020 at 15:18, Laurent Vivier <laurent@vivier.eu> wrote:
->
-> The following changes since commit cb5ed407a1ddadf788fd373fed41c87c9e81e5b0:
->
->   Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2020-11=
-> -15' into staging (2020-11-16 17:00:36 +0000)
->
-> are available in the Git repository at:
->
->   git://github.com/vivier/qemu.git tags/linux-user-for-5.2-pull-request
->
-> for you to fetch changes up to 5351f4075dc17825df8e0628a93f9baa9b9bda4b:
->
->   linux-user,netlink: add IFLA_BRPORT_MRP_RING_OPEN, IFLA_BRPORT_MRP_IN_OPEN =
-> (2020-11-17 15:22:52 +0100)
->
-> ----------------------------------------------------------------
-> Fix netlink with latest iproute
->
-> ----------------------------------------------------------------
+On Tue, Oct 13, 2020 at 11:22 AM Dave Martin <Dave.Martin@arm.com> wrote:
 
+> >       case F_SETFD:
+> >               err = 0;
+> >               set_close_on_exec(fd, arg & FD_CLOEXEC);
+> > +             if (arg & FD_32BIT_MODE)
+> > +                     filp->f_mode |= FMODE_32BITHASH;
+> > +             else
+> > +                     filp->f_mode &= ~FMODE_32BITHASH;
+>
+> This seems inconsistent?  F_SETFD is for setting flags on a file
+> descriptor.  Won't setting a flag on filp here instead cause the
+> behaviour to change for all file descriptors across the system that are
+> open on this struct file?  Compare set_close_on_exec().
+>
+> I don't see any discussion on whether this should be an F_SETFL or an
+> F_SETFD, though I see F_SETFD was Ted's suggestion originally.
 
-Applied, thanks.
+I cannot honestly say I know the semantic difference.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
+I would ask the QEMU people how a user program would expect
+the flag to behave.
 
--- PMM
+Yours,
+Linus Walleij
 
