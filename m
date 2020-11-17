@@ -2,89 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3CAB2B5E08
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 12:11:59 +0100 (CET)
-Received: from localhost ([::1]:58132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA5882B5E1C
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 12:18:02 +0100 (CET)
+Received: from localhost ([::1]:38720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keyty-0006lg-L4
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 06:11:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42564)
+	id 1keyzp-0002Dw-Pl
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 06:18:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1keysU-0005np-1S
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 06:10:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57217)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1keyyX-0001j3-Iz
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 06:16:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44162)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1keysS-0003bt-6K
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 06:10:25 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1keyyV-0005p9-Oh
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 06:16:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605611423;
+ s=mimecast20190719; t=1605611798;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+JOyj4kutaU2iZnp/EOgkgJPA2zLV7S8aMUZchlyxms=;
- b=M0Gh4a8/c4Oh5VK3bDGbLgH9zSzDxeAX6GA8BayKi2DYXoO/57BGYN3de5dnjMpEEaDVli
- 8EZnTzkP30Q7jNuVFSi+ODC2+UdGVc1Am57AtPnOR0fTsdYFzUHCyaUjrTFKPLFecby38n
- xpUYsqTRn2RgCICBhJkQFClQJwZnrwQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-495-QMy2cz1xOLG4Rk78vdmjJA-1; Tue, 17 Nov 2020 06:10:21 -0500
-X-MC-Unique: QMy2cz1xOLG4Rk78vdmjJA-1
-Received: by mail-wm1-f69.google.com with SMTP id h9so1556629wmf.8
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 03:10:21 -0800 (PST)
+ bh=3cfGsKt9HD4Xi3BcN9IItcpglxjDLhHHCagA5AacvXo=;
+ b=Ov/mLW5tScpx/aPiCgKaGIP23TT46ZFVpxtPJiBGS1xTsNp8GxIq2/+2NFAbLZQPve1BN8
+ wBGKzbVH7BBVxuzFRTXmLZxMDSMnUTHal7o/ZU33JBRXVzQrlzd2WTQfNXS/DbV1lYKAuP
+ 477yZSnZH2ePpZl485WGsLo8a4cacj0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-241-09bKxGDQMs--qMbdXdaAag-1; Tue, 17 Nov 2020 06:16:36 -0500
+X-MC-Unique: 09bKxGDQMs--qMbdXdaAag-1
+Received: by mail-wr1-f69.google.com with SMTP id x16so8156363wrn.9
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 03:16:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=+JOyj4kutaU2iZnp/EOgkgJPA2zLV7S8aMUZchlyxms=;
- b=mkIN8oN/hQ4ecm14ea/VpKjbBy/eQqcsNBGdRJCj4AH7oGtIUmjWFuZqTluZL5DSF1
- QqJe3xHxkdOAxaFcCRzZaoBz+crBCP5Gcz2kyCdXXCRE52VjrUl7FjXwoyPkTupw8bZD
- 4rRp5RuyQmiPWU1x/fZkLhKHCectm49DJvom0ZSw/6Pc1RGXnki8npMIeL/mspR6yVfV
- qgVC97/aa3Pz2XZ/iL16pST0YeQuUGWV97QuBjVvJWdmnZHvCI7sQQX3RlAnqhtOydBP
- lL0Ho2heZ8fTvV33FsT6IW9Nm3UwnpkINx8iWXVv4TIR3Sk0P/6cqddRYlrC80GCOK5d
- zihA==
-X-Gm-Message-State: AOAM531ryM6FGTy67Gar3qZC2heEpt9o026EeyUTEF/dLakeoczx5ah0
- AWTSXoiomilteJENwamiONCEKnGqfoHBDDn4U4Q57+x7VYJn5tURotM3hm4PHVbvnkCopymsbMQ
- 8ZqkSDns22NJptLqw1G5gi9dzphTeg3HIz+Vrx7mTaTDxjsTC3H91RVnEzNNfSXUMsgc=
-X-Received: by 2002:a5d:4046:: with SMTP id w6mr23946491wrp.51.1605611419770; 
- Tue, 17 Nov 2020 03:10:19 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwHZjUKS8Gc6GN/TNoRRrZKiXqYVQv72/IP8OtxM0N6PAb2xYKpO/yytkWi88ou/73ztiqwQw==
-X-Received: by 2002:a5d:4046:: with SMTP id w6mr23946457wrp.51.1605611419482; 
- Tue, 17 Nov 2020 03:10:19 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id a12sm26562128wrr.31.2020.11.17.03.10.18
+ bh=3cfGsKt9HD4Xi3BcN9IItcpglxjDLhHHCagA5AacvXo=;
+ b=JsE0h9FjS4NTHiok1Qd0QGpHwQzIIRiQQIWejv+f11HUKwZuwpjHfMwk47PxxJMuZE
+ DGeXQBBpBEQgIQ9i1HPB7pnWaT7t3rxQLpgZqe6V3g/dfqytvPKryYnXh8OWZRYBxtLC
+ DWUY4MEYkyvmz6+2O+J2Zc7wh17hNbHlTkfzp5blkaCDq2sKqPUebF/zYVt0O/TqWsNq
+ b/rF9bT/9VbPY+jYH+KPqlVNnMTeqrXwkaTfmddTdRM4/04OcUrTMcmgUm9Z6dAvl9QD
+ 4wNcQ/+plyPGsIMo0Y2Rhc1DQVGjSTQYH4eaSGhr5mRkDmODnrlg6w7Pg42sxF2ZdVJA
+ 0UFw==
+X-Gm-Message-State: AOAM530Y6yfqeaNp2f+j9q7y3Hnh4A1Jd4xZzHWWbQGxg8+jwLptdD7/
+ 10XodnrutuwJK6NaGiQ1gL735xzmTj3TkFcmiQRfkmb+yAN+B5MfZ8GewU48kczwhc2IDF9IrRu
+ sKTUk0YK9q6cHHJE=
+X-Received: by 2002:a5d:6406:: with SMTP id z6mr24959922wru.241.1605611795505; 
+ Tue, 17 Nov 2020 03:16:35 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyhIU769XUf3/vhYNTugIWgm3/cbLczbZ+1V0bcw5HroIvP0r5vMf3Vx71+IhmQJzHzygEubA==
+X-Received: by 2002:a5d:6406:: with SMTP id z6mr24959892wru.241.1605611795261; 
+ Tue, 17 Nov 2020 03:16:35 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id p4sm27467008wrm.51.2020.11.17.03.16.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Nov 2020 03:10:18 -0800 (PST)
-Subject: Re: [PATCH 7/7] scsi: move host_status handling into SCSI drivers
-To: Hannes Reinecke <hare@suse.de>
-References: <20201116184041.60465-1-hare@suse.de>
- <20201116184041.60465-8-hare@suse.de>
- <e16d0002-8038-2ad0-da7f-969e770df2fc@redhat.com>
- <08795f50-2b4e-14cb-f5dd-709b054308c0@suse.de>
- <d2a538ca-d865-07d7-1c8f-380633bd4b0e@redhat.com>
- <f97fc536-d666-4a5e-5178-8ee86b2f3f7b@suse.de>
- <483cc7e9-fc93-2994-49cb-bd97e383dbb6@redhat.com>
- <a64eea56-f54d-f2df-4036-0ffddf24aee2@suse.de>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <f87ead6f-ab96-7205-cbb5-148cdd8a4f91@redhat.com>
-Date: Tue, 17 Nov 2020 12:10:17 +0100
+ Tue, 17 Nov 2020 03:16:34 -0800 (PST)
+Subject: Re: [PATCH-for-5.2 v2] hw/core/qdev-properties-system: Rewrite
+ set_pci_host_devaddr using GLib
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, Igor Mammedov <imammedo@redhat.com>
+References: <20201013102252.3562860-1-philmd@redhat.com>
+ <60f5af9c-4153-7702-cd99-b317a6de89c0@redhat.com>
+ <ccf65075-c0e9-7358-f483-2c7fbbd3fb81@redhat.com>
+Message-ID: <fa5ed32a-1553-2490-b266-375a000f0cef@redhat.com>
+Date: Tue, 17 Nov 2020 12:16:32 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <a64eea56-f54d-f2df-4036-0ffddf24aee2@suse.de>
+In-Reply-To: <ccf65075-c0e9-7358-f483-2c7fbbd3fb81@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 01:18:45
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -108,25 +104,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Klaus Herman <kherman@inbox.lv>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/11/20 09:50, Hannes Reinecke wrote:
->> Since we're right in the middle of the freeze, let me send a RFC patch 
->> for Linux to clean up DID_* a little bit.
+ping???
+
+On 11/9/20 3:16 PM, Philippe Mathieu-Daudé wrote:
+> Cc'ing PCI developers (rc2 is scheduled for tomorrow).
+> 
+> On 11/7/20 9:59 AM, Philippe Mathieu-Daudé wrote:
+>> Ping for 5.2 as this is a bugfix.
 >>
-> What's your intention there? I do have (of course) a larger patchset for 
-> revisiting the SCSI status codes, so I could resubmit those portions 
-> relating to DID_ codes ...
-
-Not much.  First, renaming DID_NEXUS_FAILURE and BLK_STS_NEXUS to 
-DID_RESERVATION_CONFLICT and BLK_STS_RESERVATION respectively.  Second, 
-adding a __ in front of those DID_* constants that are ultimately 
-changed back to DID_OK.
-
-Thanks,
-
-Paolo
+>> On 10/13/20 12:22 PM, Philippe Mathieu-Daudé wrote:
+>>> set_pci_host_devaddr() is hard to follow, thus bug-prone.
+>>> We indeed introduced a bug in commit bccb20c49df, as the
+>>> same line might be used to parse a bus (up to 0xff) or a
+>>> slot (up to 0x1f). Instead of making things worst, rewrite
+>>> using g_strsplit().
+>>>
+>>> Fixes: bccb20c49df ("Use qemu_strtoul() in set_pci_host_devaddr()")
+>>> Reported-by: Klaus Herman <kherman@inbox.lv>
+>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>> ---
+>>> v2: Free g_strsplit() with g_auto(GStrv) (Daniel)
+>>> ---
+>>>  hw/core/qdev-properties-system.c | 61 ++++++++++++++------------------
+>>>  1 file changed, 27 insertions(+), 34 deletions(-)
+>>>
+>>> diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
+>>> index 49bdd125814..36d4fd8b22a 100644
+>>> --- a/hw/core/qdev-properties-system.c
+>>> +++ b/hw/core/qdev-properties-system.c
+>>> @@ -878,11 +878,11 @@ static void set_pci_host_devaddr(Object *obj, Visitor *v, const char *name,
+>>>      DeviceState *dev = DEVICE(obj);
+>>>      Property *prop = opaque;
+>>>      PCIHostDeviceAddress *addr = qdev_get_prop_ptr(dev, prop);
+>>> -    char *str, *p;
+>>> -    const char *e;
+>>> +    g_autofree char *str = NULL;
+>>> +    g_auto(GStrv) col_s0 = NULL;
+>>> +    g_auto(GStrv) dot_s = NULL;
+>>> +    char **col_s;
+>>>      unsigned long val;
+>>> -    unsigned long dom = 0, bus = 0;
+>>> -    unsigned int slot = 0, func = 0;
+>>>  
+>>>      if (dev->realized) {
+>>>          qdev_prop_set_after_realize(dev, name, errp);
+>>> @@ -893,57 +893,50 @@ static void set_pci_host_devaddr(Object *obj, Visitor *v, const char *name,
+>>>          return;
+>>>      }
+>>>  
+>>> -    p = str;
+>>> -    if (qemu_strtoul(p, &e, 16, &val) < 0 || val > 0xffff || e == p) {
+>>> +    col_s = col_s0 = g_strsplit(str, ":", 3);
+>>> +    if (!col_s || !col_s[0] || !col_s[1]) {
+>>>          goto inval;
+>>>      }
+>>> -    if (*e != ':') {
+>>> -        goto inval;
+>>> -    }
+>>> -    bus = val;
+>>>  
+>>> -    p = (char *)e + 1;
+>>> -    if (qemu_strtoul(p, &e, 16, &val) < 0 || val > 0x1f || e == p) {
+>>> -        goto inval;
+>>> -    }
+>>> -    if (*e == ':') {
+>>> -        dom = bus;
+>>> -        bus = val;
+>>> -        p = (char *)e + 1;
+>>> -        if (qemu_strtoul(p, &e, 16, &val) < 0 || val > 0x1f || e == p) {
+>>> +    /* domain */
+>>> +    if (col_s[2]) {
+>>> +        if (qemu_strtoul(col_s[0], NULL, 16, &val) < 0 || val > 0xffff) {
+>>>              goto inval;
+>>>          }
+>>> +        addr->domain = val;
+>>> +        col_s++;
+>>> +    } else {
+>>> +        addr->domain = 0;
+>>>      }
+>>> -    slot = val;
+>>>  
+>>> -    if (*e != '.') {
+>>> +    /* bus */
+>>> +    if (qemu_strtoul(col_s[0], NULL, 16, &val) < 0 || val > 0xff) {
+>>>          goto inval;
+>>>      }
+>>> -    p = (char *)e + 1;
+>>> -    if (qemu_strtoul(p, &e, 10, &val) < 0 || val > 7 || e == p) {
+>>> -        goto inval;
+>>> -    }
+>>> -    func = val;
+>>> +    addr->bus = val;
+>>>  
+>>> -    if (bus > 0xff) {
+>>> +    /* <slot>.<func> */
+>>> +    dot_s = g_strsplit(col_s[1], ".", 2);
+>>> +    if (!dot_s || !dot_s[0] || !dot_s[1]) {
+>>>          goto inval;
+>>>      }
+>>>  
+>>> -    if (*e) {
+>>> +    /* slot */
+>>> +    if (qemu_strtoul(dot_s[0], NULL, 16, &val) < 0 || val > 0x1f) {
+>>>          goto inval;
+>>>      }
+>>> +    addr->slot = val;
+>>>  
+>>> -    addr->domain = dom;
+>>> -    addr->bus = bus;
+>>> -    addr->slot = slot;
+>>> -    addr->function = func;
+>>> +    /* func */
+>>> +    if (qemu_strtoul(dot_s[1], NULL, 10, &val) < 0 || val > 7) {
+>>> +        goto inval;
+>>> +    }
+>>> +    addr->function = val;
+>>>  
+>>> -    g_free(str);
+>>>      return;
+>>>  
+>>>  inval:
+>>>      error_set_from_qdev_prop_error(errp, EINVAL, dev, prop, str);
+>>> -    g_free(str);
+>>>  }
+>>>  
+>>>  const PropertyInfo qdev_prop_pci_host_devaddr = {
+>>>
+>>
+> 
 
 
