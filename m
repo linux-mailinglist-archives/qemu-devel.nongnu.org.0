@@ -2,75 +2,119 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 724382B67B0
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 15:43:46 +0100 (CET)
-Received: from localhost ([::1]:45104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 911A92B67BE
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 15:46:51 +0100 (CET)
+Received: from localhost ([::1]:47704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf2Cv-0001jN-BC
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 09:43:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38998)
+	id 1kf2Fu-0002xE-KK
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 09:46:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kf2CA-0001IQ-JC
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 09:42:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43040)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kf2C7-00049C-7u
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 09:42:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605624173;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=X2Bgt4WAr1YrAOWmOzqtOHcXDIPw3aOcbAgG/DxHnpM=;
- b=EaTHeYOhe5IsJvtOuVnB84ShE18QSjY6HTFOyPwWcpah6fPekAz7ijG56XnrdJML0QTOcs
- 7jFXJR6iofHGQp3zAI0VrKf8iaQH4Z7DGwPCacNHR5KmiihZQyjcs5kIt9QnZsvNLvHizp
- UWTeRxuDoTHqdRWWhQw3sFb8TCsc0Ws=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-142-TKb5dEDANGOcf2HN38XbIw-1; Tue, 17 Nov 2020 09:42:49 -0500
-X-MC-Unique: TKb5dEDANGOcf2HN38XbIw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 381B264142;
- Tue, 17 Nov 2020 14:42:48 +0000 (UTC)
-Received: from localhost (ovpn-115-101.rdu2.redhat.com [10.10.115.101])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CFF115D707;
- Tue, 17 Nov 2020 14:42:47 +0000 (UTC)
-Date: Tue, 17 Nov 2020 09:42:46 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
-Subject: Re: [PATCH v2 3/8] qnum: QNumValue type for QNum value literals
-Message-ID: <20201117144246.GD1235237@habkost.net>
-References: <20201116224143.1284278-1-ehabkost@redhat.com>
- <20201116224143.1284278-4-ehabkost@redhat.com>
- <CAJ+F1C+YUZdP56MuLtZbO0fK6rPsDosgxXG4zaDq=mjwqsV74A@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <figlesia@xilinx.com>)
+ id 1kf2E3-0002ES-BG; Tue, 17 Nov 2020 09:44:55 -0500
+Received: from mail-dm6nam12on2071.outbound.protection.outlook.com
+ ([40.107.243.71]:28460 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <figlesia@xilinx.com>)
+ id 1kf2E0-0004mV-5t; Tue, 17 Nov 2020 09:44:54 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eDVnywoVEY7WOyqg/yezpXIMsi1/XWl6rdM4YISTB+dLYrRoADyt940fF0HhxzIN+jbj5GtKvo+Gf13I5cTmXIdbrfjDWKaG6NlRvw/uF5bJHUTHQjcT+RSCguBx0Esf1LyasOw3WnQpbcz82RjfMawx3/qUDIuDJ8bAP+hjpbreaIUTmEfT96Z6IvnWsqLBsqxZdbngVOY6Hj/DAwnoAn14mRWPPnS3Hn8lbmCeo13Hi09GDmCdAEX7XqIOwebQWrd0Lq+cwUcwWy+qEnXw4T8oEnkdk09II89NrPS5/T6UiZPTk8fjk8jWxIiFrVnrDCSeAceUzWSJbd9HL07p4w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uShfnTRMOSfMS9d+tsBDkfXySCRShSv+odubFu0Rcw4=;
+ b=EReATknElK0p5R1FNOxa5UNeevZNCxY2ZJqai70OFzkcm6a2QOAG8LmYLdhAk5OhSc0DneA0ApFA2mM94dd5rxthEV0TncaacPnZP3LkeXqRo8jL0NSF555juqg/UHOnmn8C74bsKzTx3sWRajiZIBwA4KnQcpY9pIQQS7gBRPKLD37DvdvSLdnROnwFHAzBIzMVleRMlIsHopRen6i3kkQCjm7d/QgyOyBKAy5Q+nvs7I8C/VSPu7it2eSW8RhxL/yEMVJ3+B90XTtB/DHtdCsUSKXbu7qranF2sErEXxKgIm9//Q7CYDKfi+MRyYhEWsbINuKa3+860Qc2eCxvoA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.62.198) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uShfnTRMOSfMS9d+tsBDkfXySCRShSv+odubFu0Rcw4=;
+ b=WRRlczTFKlbBqMFjXX2Mb/kjcc8YIuFYcxR+uuVQ5ap+W/3FYdgXlNax01OHcz7UYCz6aSVxHVAbCjbx/SuJ5slb40ygr+1+NQ6jIETqloOdiO+2EjMOeJi60vTXeBcaeOREYC+oK4j4KkXW8UxEz2bPDJnPEpKH03tla/0zm9k=
+Received: from SN4PR0401CA0017.namprd04.prod.outlook.com
+ (2603:10b6:803:21::27) by BN6PR02MB2708.namprd02.prod.outlook.com
+ (2603:10b6:404:fa::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.28; Tue, 17 Nov
+ 2020 14:44:46 +0000
+Received: from SN1NAM02FT035.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:803:21:cafe::9a) by SN4PR0401CA0017.outlook.office365.com
+ (2603:10b6:803:21::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.28 via Frontend
+ Transport; Tue, 17 Nov 2020 14:44:45 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
+ smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
+Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
+ SN1NAM02FT035.mail.protection.outlook.com (10.152.72.145) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.3564.22 via Frontend Transport; Tue, 17 Nov 2020 14:44:45 +0000
+Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
+ xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1913.5; Tue, 17 Nov 2020 06:44:40 -0800
+Received: from smtp.xilinx.com (172.19.127.96) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
+ 15.1.1913.5 via Frontend Transport; Tue, 17 Nov 2020 06:44:40 -0800
+Received: from [10.23.127.172] (port=62124 helo=debian)
+ by smtp.xilinx.com with esmtp (Exim 4.90)
+ (envelope-from <francisco.iglesias@xilinx.com>)
+ id 1kf2Do-0002fI-D5; Tue, 17 Nov 2020 06:44:40 -0800
+Date: Tue, 17 Nov 2020 14:44:38 +0000
+From: Francisco Iglesias <francisco.iglesias@xilinx.com>
+To: Joe Komlodi <joe.komlodi@xilinx.com>
+Subject: Re: [PATCH v5 3/4] hw/block/m25p80: Check SPI mode before running
+ some Numonyx commands
+Message-ID: <20201117144436.kjqzk5yzxyhdk75s@debian>
+References: <1605568264-26376-1-git-send-email-komlodi@xilinx.com>
+ <1605568264-26376-4-git-send-email-komlodi@xilinx.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJ+F1C+YUZdP56MuLtZbO0fK6rPsDosgxXG4zaDq=mjwqsV74A@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 00:41:22
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <1605568264-26376-4-git-send-email-komlodi@xilinx.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f097e345-7754-4a69-520e-08d88b0753a1
+X-MS-TrafficTypeDiagnostic: BN6PR02MB2708:
+X-Microsoft-Antispam-PRVS: <BN6PR02MB2708402E99A995EAD645DC05ADE20@BN6PR02MB2708.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:155;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: QG5Lti0cMNQvWxTovKycSXpEAxb++vH6Fle4WyAjbUvKM3xG4tzYZsiZ6TWrZMX8vT43N6E915pYCeg1rgD0wbpj7O5xPtNR8j3oU/eiAyeyU8NRaV4vZULQeM0Bm1+LWy1P3OjYOmTYCVlmYaX0vcbcNc371bgVA1GfKX5qWpwqifAg3bUqWk85BX80rc0pABRSP/+6YEIxZIxRgYPwIbHtyZ//sX7eKMXRSPzuEnB3te3wmAirVVVUd3PA9NBlUQtmA6fSWM2zyTjIbJZXMTxAWEIr85wRjt1uQqziay1hxmdFR5pTERoswvN4vrbdUHnbQ3uYSogrxqBtIcQXHaMh9dcznp+Htxg7itDyEqSEaKhKlmbUNZqFAFMZj6r5BRi1WD4WmVJ1ERikNiXBeA==
+X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapexch01.xlnx.xilinx.com;
+ PTR:unknown-62-198.xilinx.com; CAT:NONE;
+ SFS:(4636009)(136003)(396003)(346002)(376002)(39860400002)(46966005)(186003)(6862004)(26005)(478600001)(82310400003)(4326008)(36906005)(7636003)(356005)(316002)(70586007)(70206006)(33716001)(9786002)(426003)(6636002)(54906003)(9686003)(5660300002)(44832011)(336012)(9576002)(47076004)(8936002)(83380400001)(8676002)(2906002)(82740400003)(1076003);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2020 14:44:45.6218 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f097e345-7754-4a69-520e-08d88b0753a1
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
+ Helo=[xsj-pvapexch01.xlnx.xilinx.com]
+X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT035.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR02MB2708
+Received-SPF: pass client-ip=40.107.243.71; envelope-from=figlesia@xilinx.com;
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 09:44:50
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,361 +127,195 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- QEMU <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>
+Cc: figlesia@xilinx.com, qemu-block@nongnu.org, alistair@alistair23.me,
+ qemu-devel@nongnu.org, mreitz@redhat.com, philippe.mathieu.daude@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 17, 2020 at 12:37:56PM +0400, Marc-André Lureau wrote:
-> On Tue, Nov 17, 2020 at 2:43 AM Eduardo Habkost <ehabkost@redhat.com> wrote:
+On Mon, Nov 16, 2020 at 03:11:03PM -0800, Joe Komlodi wrote:
+> Some Numonyx flash commands cannot be executed in DIO and QIO mode, such as
+> trying to do DPP or DOR when in QIO mode.
 > 
-> > Provide a separate QNumValue type that can be used for QNum value
-> > literals without the referencing counting and memory allocation
-> > features provided by QObject.
-> >
-> > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> > ---
-> > Changes v1 -> v2:
-> > * Fix "make check" failure, by updating check-qnum unit test to
-> >   use the new struct fields
-> > ---
-> >  include/qapi/qmp/qnum.h | 40 +++++++++++++++++++--
-> >  qobject/qnum.c          | 78 ++++++++++++++++++++---------------------
-> >  tests/check-qnum.c      | 14 ++++----
-> >  3 files changed, 84 insertions(+), 48 deletions(-)
-> >
-> > diff --git a/include/qapi/qmp/qnum.h b/include/qapi/qmp/qnum.h
-> > index 55c27b1c24..62fbdfda68 100644
-> > --- a/include/qapi/qmp/qnum.h
-> > +++ b/include/qapi/qmp/qnum.h
-> > @@ -46,20 +46,56 @@ typedef enum {
-> >   * in range: qnum_get_try_int() / qnum_get_try_uint() check range and
-> >   * convert under the hood.
-> >   */
-> > -struct QNum {
-> > -    struct QObjectBase_ base;
-> > +
-> > +/**
-> > + * struct QNumValue: the value of a QNum
-> > + *
-> > + * QNumValue literals can be constructed using the `QNUM_VAL_INT`,
-> > + * `QNUM_VAL_UINT`, and `QNUM_VAL_DOUBLE` macros.
-> > + */
-> > +typedef struct QNumValue {
-> > +    /* private: */
-> >      QNumKind kind;
-> >      union {
-> >          int64_t i64;
-> >          uint64_t u64;
-> >          double dbl;
-> >      } u;
-> > +} QNumValue;
-> > +
-> > +#define QNUM_VAL_INT(value) \
-> > +    { .kind = QNUM_I64, .u.i64 = value }
-> > +#define QNUM_VAL_UINT(value) \
-> > +    { .kind = QNUM_U64, .u.u64 = value }
-> > +#define QNUM_VAL_DOUBLE(value) \
-> > +    { .kind = QNUM_DOUBLE, .u.dbl = value }
-> > +
-> > +struct QNum {
-> > +    struct QObjectBase_ base;
-> > +    QNumValue value;
-> >  };
-> >
-> > +/**
-> > + * qnum_from_int(): Create a new QNum from a QNumValue
-> >
+> Signed-off-by: Joe Komlodi <komlodi@xilinx.com>
+
+Reviewed-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
+
+> ---
+>  hw/block/m25p80.c | 114 +++++++++++++++++++++++++++++++++++++++++++++---------
+>  1 file changed, 95 insertions(+), 19 deletions(-)
 > 
-> Copy-pasta qnum_from_int() -> qnum_from_value()
-
-Oops!  I will fix it in v3, or submit a fixup patch if that's the
-only needed change.
-
-> 
-> I wonder if there is a check for that kind of mistake, as it may be common.
-
-It looks like kernel-doc ignores what's before the colon in the
-summary line.  It probably shouldn't.
-
-> 
-> + * @value: QNumValue
-> > + *
-> > + * Return strong reference.
-> > + */
-> > +QNum *qnum_from_value(QNumValue value);
-> >
+> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+> index eb6539f..56bd5bc 100644
+> --- a/hw/block/m25p80.c
+> +++ b/hw/block/m25p80.c
+> @@ -413,6 +413,12 @@ typedef enum {
+>      MAN_GENERIC,
+>  } Manufacturer;
+>  
+> +typedef enum {
+> +    MODE_STD = 0,
+> +    MODE_DIO = 1,
+> +    MODE_QIO = 2
+> +} SPIMode;
 > +
-> >  QNum *qnum_from_int(int64_t value);
-> >  QNum *qnum_from_uint(uint64_t value);
-> >  QNum *qnum_from_double(double value);
-> >
-> > +/**
-> > + * qnum_get_value(): Get QNumValue from QNum
-> > + * @qn: QNum object
-> > + */
-> > +static inline const QNumValue *qnum_get_value(const QNum *qn)
-> > +{
-> > +    return &qn->value;
-> > +}
-> > +
-> >
-> 
-> Nothing uses that function in this patch. Should be put into use.
-
-It is used in patch 5/8.  Why do you think it's necessary to use
-it in internal code too?
-
-> 
->  bool qnum_get_try_int(const QNum *qn, int64_t *val);
-> >  int64_t qnum_get_int(const QNum *qn);
-> >
-> > diff --git a/qobject/qnum.c b/qobject/qnum.c
-> > index 69fd9a82d9..f80d4efd76 100644
-> > --- a/qobject/qnum.c
-> > +++ b/qobject/qnum.c
-> > @@ -15,6 +15,15 @@
-> >  #include "qemu/osdep.h"
-> >  #include "qapi/qmp/qnum.h"
-> >
-> > +QNum *qnum_from_value(QNumValue value)
-> >
-> 
-> I wonder if it shouldn't be made "inline" in header too (if that can help
-> avoid argument copy).
-
-I'm unsure.  I would make it inline (in a separate patch) if
-there's evidence it's worth it.  I expect the g_new() call to be
-more expensive than any argument copying, though.
-
-> 
+>  #define M25P80_INTERNAL_DATA_BUFFER_SZ 16
+>  
+>  struct Flash {
+> @@ -820,6 +826,17 @@ static void reset_memory(Flash *s)
+>      trace_m25p80_reset_done(s);
+>  }
+>  
+> +static uint8_t numonyx_mode(Flash *s)
 > +{
-> > +    QNum *qn = g_new(QNum, 1);
-> > +
-> > +    qobject_init(QOBJECT(qn), QTYPE_QNUM);
-> > +    qn->value = value;
-> > +    return qn;
-> > +}
-> > +
-> >  /**
-> >   * qnum_from_int(): Create a new QNum from an int64_t
-> >   * @value: int64_t value
-> > @@ -23,13 +32,7 @@
-> >   */
-> >  QNum *qnum_from_int(int64_t value)
-> >  {
-> > -    QNum *qn = g_new(QNum, 1);
-> > -
-> > -    qobject_init(QOBJECT(qn), QTYPE_QNUM);
-> > -    qn->kind = QNUM_I64;
-> > -    qn->u.i64 = value;
-> > -
-> > -    return qn;
-> > +    return qnum_from_value((QNumValue) QNUM_VAL_INT(value));
-> >  }
-> >
-> >  /**
-> > @@ -40,13 +43,7 @@ QNum *qnum_from_int(int64_t value)
-> >   */
-> >  QNum *qnum_from_uint(uint64_t value)
-> >  {
-> > -    QNum *qn = g_new(QNum, 1);
-> > -
-> > -    qobject_init(QOBJECT(qn), QTYPE_QNUM);
-> > -    qn->kind = QNUM_U64;
-> > -    qn->u.u64 = value;
-> > -
-> > -    return qn;
-> > +    return qnum_from_value((QNumValue) QNUM_VAL_UINT(value));
-> >  }
-> >
-> >  /**
-> > @@ -57,13 +54,7 @@ QNum *qnum_from_uint(uint64_t value)
-> >   */
-> >  QNum *qnum_from_double(double value)
-> >  {
-> > -    QNum *qn = g_new(QNum, 1);
-> > -
-> > -    qobject_init(QOBJECT(qn), QTYPE_QNUM);
-> > -    qn->kind = QNUM_DOUBLE;
-> > -    qn->u.dbl = value;
-> > -
-> > -    return qn;
-> > +    return qnum_from_value((QNumValue) QNUM_VAL_DOUBLE(value));
-> >  }
-> >
-> >  /**
-> > @@ -75,15 +66,17 @@ QNum *qnum_from_double(double value)
-> >   */
-> >  bool qnum_get_try_int(const QNum *qn, int64_t *val)
-> >  {
-> > -    switch (qn->kind) {
-> > +    const QNumValue *qv = &qn->value;
-> > +
-> > +    switch (qv->kind) {
-> >      case QNUM_I64:
-> > -        *val = qn->u.i64;
-> > +        *val = qv->u.i64;
-> >          return true;
-> >      case QNUM_U64:
-> > -        if (qn->u.u64 > INT64_MAX) {
-> > +        if (qv->u.u64 > INT64_MAX) {
-> >              return false;
-> >          }
-> > -        *val = qn->u.u64;
-> > +        *val = qv->u.u64;
-> >          return true;
-> >      case QNUM_DOUBLE:
-> >          return false;
-> > @@ -116,15 +109,17 @@ int64_t qnum_get_int(const QNum *qn)
-> >   */
-> >  bool qnum_get_try_uint(const QNum *qn, uint64_t *val)
-> >  {
-> > -    switch (qn->kind) {
-> > +    const QNumValue *qv = &qn->value;
-> > +
-> > +    switch (qv->kind) {
-> >      case QNUM_I64:
-> > -        if (qn->u.i64 < 0) {
-> > +        if (qv->u.i64 < 0) {
-> >              return false;
-> >          }
-> > -        *val = qn->u.i64;
-> > +        *val = qv->u.i64;
-> >          return true;
-> >      case QNUM_U64:
-> > -        *val = qn->u.u64;
-> > +        *val = qv->u.u64;
-> >          return true;
-> >      case QNUM_DOUBLE:
-> >          return false;
-> > @@ -156,13 +151,15 @@ uint64_t qnum_get_uint(const QNum *qn)
-> >   */
-> >  double qnum_get_double(const QNum *qn)
-> >  {
-> > -    switch (qn->kind) {
-> > +    const QNumValue *qv = &qn->value;
-> > +
-> > +    switch (qv->kind) {
-> >      case QNUM_I64:
-> > -        return qn->u.i64;
-> > +        return qv->u.i64;
-> >      case QNUM_U64:
-> > -        return qn->u.u64;
-> > +        return qv->u.u64;
-> >      case QNUM_DOUBLE:
-> > -        return qn->u.dbl;
-> > +        return qv->u.dbl;
-> >      }
-> >
-> >      assert(0);
-> > @@ -171,14 +168,15 @@ double qnum_get_double(const QNum *qn)
-> >
-> >  char *qnum_to_string(QNum *qn)
-> >  {
-> > +    const QNumValue *qv = &qn->value;
-> >
+> +    if (!(s->enh_volatile_cfg & EVCFG_QUAD_IO_DISABLED)) {
+> +        return MODE_QIO;
+> +    } else if (!(s->enh_volatile_cfg & EVCFG_DUAL_IO_DISABLED)) {
+> +        return MODE_DIO;
+> +    } else {
+> +        return MODE_STD;
+> +    }
+> +}
+> +
+>  static void decode_fast_read_cmd(Flash *s)
+>  {
+>      s->needed_bytes = get_addr_length(s);
+> @@ -950,14 +967,8 @@ static void decode_new_cmd(Flash *s, uint32_t value)
+>      case ERASE4_32K:
+>      case ERASE_SECTOR:
+>      case ERASE4_SECTOR:
+> -    case READ:
+> -    case READ4:
+> -    case DPP:
+> -    case QPP:
+> -    case QPP_4:
+>      case PP:
+>      case PP4:
+> -    case PP4_4:
+>      case DIE_ERASE:
+>      case RDID_90:
+>      case RDID_AB:
+> @@ -966,24 +977,84 @@ static void decode_new_cmd(Flash *s, uint32_t value)
+>          s->len = 0;
+>          s->state = STATE_COLLECTING_DATA;
+>          break;
+> +    case READ:
+> +    case READ4:
+> +        if (get_man(s) != MAN_NUMONYX || numonyx_mode(s) == MODE_STD) {
+> +            s->needed_bytes = get_addr_length(s);
+> +            s->pos = 0;
+> +            s->len = 0;
+> +            s->state = STATE_COLLECTING_DATA;
+> +        } else {
+> +            qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Cannot execute cmd %x in "
+> +                          "DIO or QIO mode\n", s->cmd_in_progress);
+> +        }
+> +        break;
+> +    case DPP:
+> +        if (get_man(s) != MAN_NUMONYX || numonyx_mode(s) != MODE_QIO) {
+> +            s->needed_bytes = get_addr_length(s);
+> +            s->pos = 0;
+> +            s->len = 0;
+> +            s->state = STATE_COLLECTING_DATA;
+> +        } else {
+> +            qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Cannot execute cmd %x in "
+> +                          "QIO mode\n", s->cmd_in_progress);
+> +        }
+> +        break;
+> +    case QPP:
+> +    case QPP_4:
+> +    case PP4_4:
+> +        if (get_man(s) != MAN_NUMONYX || numonyx_mode(s) != MODE_DIO) {
+> +            s->needed_bytes = get_addr_length(s);
+> +            s->pos = 0;
+> +            s->len = 0;
+> +            s->state = STATE_COLLECTING_DATA;
+> +        } else {
+> +            qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Cannot execute cmd %x in "
+> +                          "DIO mode\n", s->cmd_in_progress);
+> +        }
+> +        break;
+>  
+>      case FAST_READ:
+>      case FAST_READ4:
+> +        decode_fast_read_cmd(s);
+> +        break;
+>      case DOR:
+>      case DOR4:
+> +        if (get_man(s) != MAN_NUMONYX || numonyx_mode(s) != MODE_QIO) {
+> +            decode_fast_read_cmd(s);
+> +        } else {
+> +            qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Cannot execute cmd %x in "
+> +                          "QIO mode\n", s->cmd_in_progress);
+> +        }
+> +        break;
+>      case QOR:
+>      case QOR4:
+> -        decode_fast_read_cmd(s);
+> +        if (get_man(s) != MAN_NUMONYX || numonyx_mode(s) != MODE_DIO) {
+> +            decode_fast_read_cmd(s);
+> +        } else {
+> +            qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Cannot execute cmd %x in "
+> +                          "DIO mode\n", s->cmd_in_progress);
+> +        }
+>          break;
+>  
+>      case DIOR:
+>      case DIOR4:
+> -        decode_dio_read_cmd(s);
+> +        if (get_man(s) != MAN_NUMONYX || numonyx_mode(s) != MODE_QIO) {
+> +            decode_dio_read_cmd(s);
+> +        } else {
+> +            qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Cannot execute cmd %x in "
+> +                          "QIO mode\n", s->cmd_in_progress);
+> +        }
+>          break;
+>  
+>      case QIOR:
+>      case QIOR4:
+> -        decode_qio_read_cmd(s);
+> +        if (get_man(s) != MAN_NUMONYX || numonyx_mode(s) != MODE_DIO) {
+> +            decode_qio_read_cmd(s);
+> +        } else {
+> +            qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Cannot execute cmd %x in "
+> +                          "DIO mode\n", s->cmd_in_progress);
+> +        }
+>          break;
+>  
+>      case WRSR:
+> @@ -1035,17 +1106,22 @@ static void decode_new_cmd(Flash *s, uint32_t value)
+>          break;
+>  
+>      case JEDEC_READ:
+> -        trace_m25p80_populated_jedec(s);
+> -        for (i = 0; i < s->pi->id_len; i++) {
+> -            s->data[i] = s->pi->id[i];
+> -        }
+> -        for (; i < SPI_NOR_MAX_ID_LEN; i++) {
+> -            s->data[i] = 0;
+> -        }
+> +        if (get_man(s) != MAN_NUMONYX || numonyx_mode(s) == MODE_STD) {
+> +            trace_m25p80_populated_jedec(s);
+> +            for (i = 0; i < s->pi->id_len; i++) {
+> +                s->data[i] = s->pi->id[i];
+> +            }
+> +            for (; i < SPI_NOR_MAX_ID_LEN; i++) {
+> +                s->data[i] = 0;
+> +            }
+>  
+> -        s->len = SPI_NOR_MAX_ID_LEN;
+> -        s->pos = 0;
+> -        s->state = STATE_READING_DATA;
+> +            s->len = SPI_NOR_MAX_ID_LEN;
+> +            s->pos = 0;
+> +            s->state = STATE_READING_DATA;
+> +        } else {
+> +            qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Cannot execute JEDEC read "
+> +                          "in DIO or QIO mode\n");
+> +        }
+>          break;
+>  
+>      case RDCR:
+> -- 
+> 2.7.4
 > 
-> qnum_get_value() ?
-
-I prefer to not hide this behind a function call, in internal
-code.  But I don't mind changing it if you think it's important.
-
-
-> 
->      char *buffer;
-> >      int len;
-> >
-> > -    switch (qn->kind) {
-> > +    switch (qv->kind) {
-> >      case QNUM_I64:
-> > -        return g_strdup_printf("%" PRId64, qn->u.i64);
-> > +        return g_strdup_printf("%" PRId64, qv->u.i64);
-> >      case QNUM_U64:
-> > -        return g_strdup_printf("%" PRIu64, qn->u.u64);
-> > +        return g_strdup_printf("%" PRIu64, qv->u.u64);
-> >      case QNUM_DOUBLE:
-> >          /* FIXME: snprintf() is locale dependent; but JSON requires
-> >           * numbers to be formatted as if in the C locale. Dependence
-> > @@ -189,7 +187,7 @@ char *qnum_to_string(QNum *qn)
-> >           * rounding errors; we should be using DBL_DECIMAL_DIG (17),
-> >           * and only rounding to a shorter number if the result would
-> >           * still produce the same floating point value.  */
-> > -        buffer = g_strdup_printf("%f" , qn->u.dbl);
-> > +        buffer = g_strdup_printf("%f" , qv->u.dbl);
-> >          len = strlen(buffer);
-> >          while (len > 0 && buffer[len - 1] == '0') {
-> >              len--;
-> > @@ -221,8 +219,10 @@ char *qnum_to_string(QNum *qn)
-> >   */
-> >  bool qnum_is_equal(const QObject *x, const QObject *y)
-> >  {
-> > -    QNum *num_x = qobject_to(QNum, x);
-> > -    QNum *num_y = qobject_to(QNum, y);
-> > +    const QNum *qnum_x = qobject_to(QNum, x);
-> > +    const QNum *qnum_y = qobject_to(QNum, y);
-> > +    const QNumValue *num_x = &qnum_x->value;
-> > +    const QNumValue *num_y = &qnum_y->value;
-> >
-> >      switch (num_x->kind) {
-> >      case QNUM_I64:
-> > diff --git a/tests/check-qnum.c b/tests/check-qnum.c
-> > index 4105015872..9499b0d845 100644
-> > --- a/tests/check-qnum.c
-> > +++ b/tests/check-qnum.c
-> > @@ -30,8 +30,8 @@ static void qnum_from_int_test(void)
-> >
-> >      qn = qnum_from_int(value);
-> >      g_assert(qn != NULL);
-> > -    g_assert_cmpint(qn->kind, ==, QNUM_I64);
-> > -    g_assert_cmpint(qn->u.i64, ==, value);
-> > +    g_assert_cmpint(qn->value.kind, ==, QNUM_I64);
-> > +    g_assert_cmpint(qn->value.u.i64, ==, value);
-> >      g_assert_cmpint(qn->base.refcnt, ==, 1);
-> >      g_assert_cmpint(qobject_type(QOBJECT(qn)), ==, QTYPE_QNUM);
-> >
-> > @@ -45,8 +45,8 @@ static void qnum_from_uint_test(void)
-> >
-> >      qn = qnum_from_uint(value);
-> >      g_assert(qn != NULL);
-> > -    g_assert_cmpint(qn->kind, ==, QNUM_U64);
-> > -    g_assert(qn->u.u64 == value);
-> > +    g_assert_cmpint(qn->value.kind, ==, QNUM_U64);
-> > +    g_assert(qn->value.u.u64 == value);
-> >      g_assert(qn->base.refcnt == 1);
-> >      g_assert(qobject_type(QOBJECT(qn)) == QTYPE_QNUM);
-> >
-> > @@ -60,8 +60,8 @@ static void qnum_from_double_test(void)
-> >
-> >      qn = qnum_from_double(value);
-> >      g_assert(qn != NULL);
-> > -    g_assert_cmpint(qn->kind, ==, QNUM_DOUBLE);
-> > -    g_assert_cmpfloat(qn->u.dbl, ==, value);
-> > +    g_assert_cmpint(qn->value.kind, ==, QNUM_DOUBLE);
-> > +    g_assert_cmpfloat(qn->value.u.dbl, ==, value);
-> >      g_assert_cmpint(qn->base.refcnt, ==, 1);
-> >      g_assert_cmpint(qobject_type(QOBJECT(qn)), ==, QTYPE_QNUM);
-> >
-> > @@ -74,7 +74,7 @@ static void qnum_from_int64_test(void)
-> >      const int64_t value = 0x1234567890abcdefLL;
-> >
-> >      qn = qnum_from_int(value);
-> > -    g_assert_cmpint((int64_t) qn->u.i64, ==, value);
-> > +    g_assert_cmpint((int64_t) qn->value.u.i64, ==, value);
-> >
-> >      qobject_unref(qn);
-> >  }
-> > --
-> > 2.28.0
-> >
-> >
-> >
-> lgtm otherwise
-
-Thanks!
-
--- 
-Eduardo
-
 
