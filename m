@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3817E2B6E1F
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 20:11:29 +0100 (CET)
-Received: from localhost ([::1]:35800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBC8B2B6E30
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 20:14:16 +0100 (CET)
+Received: from localhost ([::1]:40658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf6O0-0007kp-Al
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 14:11:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60666)
+	id 1kf6Qh-0001M6-Jl
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 14:14:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kf6Mm-00077t-VP
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 14:10:13 -0500
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:33702)
+ id 1kf6P1-0000RX-Mr
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 14:12:31 -0500
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:35532)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kf6Mj-0006Py-Kz
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 14:10:12 -0500
-Received: by mail-pf1-x443.google.com with SMTP id q10so17952466pfn.0
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 11:10:09 -0800 (PST)
+ id 1kf6Ox-0007LT-Hm
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 14:12:31 -0500
+Received: by mail-pf1-x444.google.com with SMTP id g7so17944225pfc.2
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 11:12:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=JSW+R87KG3d6MD5/aj2X6jQckA3PI5mUzsKWCkllkOw=;
- b=SpIAqrtVc3fMpGNlbDwtLkOf0KSfveV9vyeIFyJCCr+Cphnaat+6u3u5rG3F7vo5+v
- V3uIcuCdvT0WYMPA7xxOm+PopY97/V+78Aq0DS1PcEi+kwl6ffdrFE06sEt695XMLa38
- pUPKVj1zBBuag1q5/wVz5VNLCGZuNDsUc2lkjWmGJ/07cqO/G5b7pbVUpblGVMbte8by
- DOPrw0KVHoTTCf/tXR5lPmUnS7WUB5uKE2YhISokJY4ZiSaYWcS6bb/UG/QyPRXTgswC
- avpwV4TbC7YlhwXZgczM/QL2A0lW/YO3fhzWZU9Mvl90iuTLs4Re97ece9/JHhoEi4nU
- TOig==
+ bh=MjVn+fo4ZmvONEERM7jkwbaqBmcWHw8AO/SWg/VJg5E=;
+ b=oKLyTYBG4UYixeBoDeP0LwE5wZc7qZFIrQ8BVolUr4uuteeI9chKG0DnqAkpLtQF1Q
+ UTDYlbpmEkvCOiXX8V2oHpEEmaRrq3m5b9gVESGD7cmYCZ39dWepzeKLBetaisynj6bY
+ JTNC0hLdQurBu3qf3C0A05JOE+9s/VDQHRCWa23PS2shjMHG0piR7A1eynKDEM31ddgz
+ 3pLN9EKAz69KtOHkANvVBabbrRR8OX7cVejpHU1GJUJLN83Tfd7qXSLTqeZhIRBZps63
+ U6R+orQ2a5hYEhB0hrA2wTLROxoeHugBsvQrz2SqQ8k/34PXs5fFpQt+VjM4oi6GiJhO
+ GdCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=JSW+R87KG3d6MD5/aj2X6jQckA3PI5mUzsKWCkllkOw=;
- b=Eb0Ov+W6zP8rs9zQEHBdwF+VfIl04q5mC85/Rp9bFP+9ALmmrgZIkO4OpCfpJG9k8G
- wWKKLOBCiQPJXOFGzDeyZ2VN2iy1l7XHb1/YvUgQuNidC+WUIZ0NXikHeraNaLGlI5we
- 55dF4fCqOBvBn8e2+PluRykx+vNtp/JPCQ8Ic384G4HkSpKk7DZf2dzWdxdLRH0l+mIi
- sa3tY/sdpxF5tF1yDXcTC5RHM8Ekz3mzSHU/g0Tt33COZTlAf8PCWcb/R1nIzq0LN1f+
- FOiNmit2q2/1lQadi1iQJ9Bp0pvBEJ2uxPbfbUCHc5VtLsWiExieBe/XQcE597F0eUEs
- kWjA==
-X-Gm-Message-State: AOAM532hApbcCMdwk8aReVfFMD3FV637/wfpQxHXdWaEtvV/y9b5Uf0Q
- dx5uv0GHpSuIs8/TqPwE25QAVhJsynbTcA==
-X-Google-Smtp-Source: ABdhPJxFzE6Bsfk0nMJmlpYbcZJhOHpLq/dClJGRatOQwfZox8GCQsYnVKOFELpO9b+mLAD7hqTP1w==
-X-Received: by 2002:aa7:953c:0:b029:18b:bfb:9fa1 with SMTP id
- c28-20020aa7953c0000b029018b0bfb9fa1mr788641pfp.14.1605640207962; 
- Tue, 17 Nov 2020 11:10:07 -0800 (PST)
+ bh=MjVn+fo4ZmvONEERM7jkwbaqBmcWHw8AO/SWg/VJg5E=;
+ b=pkW/0V6DuiSPJB2pgCU9Ve5ZskvKrpb0RrH43JoQRNoohRRHiHNL7cnAEDVcwx7GzE
+ CETX6Q6IOwy2FUV3WyCK0X1POSLZJpfbAdzLGwqaSMZpXwsP5drmG8uOJZDIQMEIBP3O
+ Xakx/SUIli63QZ89eCnJHloBN6MadeBB4ytZypBV4DVpI480yiKpL1wfDVAtqZgq+hdw
+ XRb9p8VZAZa64ltvlkHzXDLOJzna9cLKcqtiXUNJd42gCO7Y4xUoqa5Svyr96WVM0mJA
+ peRyygnv8WjVHMVpICQQr3cFQYiyUHUFqckAhSCGrC63hyQg4H7moyazsBA74kp+JVbU
+ ZWTA==
+X-Gm-Message-State: AOAM532fbr9KP3jPXJkY9vx0xyATKoX6im75MNY9okj6DeRt/+FhPjqG
+ T1s55LrXSL20pIYMaXq6PYFRhfna51h5bw==
+X-Google-Smtp-Source: ABdhPJwFo1ufcmA5DafZWRk0WEagm/SY/5JQ5NDYAgOvgz9TdxtYs5x1BXDgPUALWrWXrhlkN3kEEA==
+X-Received: by 2002:aa7:981a:0:b029:18b:490f:77d9 with SMTP id
+ e26-20020aa7981a0000b029018b490f77d9mr782229pfl.46.1605640345773; 
+ Tue, 17 Nov 2020 11:12:25 -0800 (PST)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id e8sm3932688pjr.30.2020.11.17.11.10.06
+ by smtp.gmail.com with ESMTPSA id d68sm376655pfd.32.2020.11.17.11.12.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Nov 2020 11:10:06 -0800 (PST)
-Subject: Re: [PATCH 02/15] target/arm: Implement v8.1M PXN extension
+ Tue, 17 Nov 2020 11:12:25 -0800 (PST)
+Subject: Re: [PATCH 03/15] target/arm: Don't clobber ID_PFR1.Security on
+ M-profile cores
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20201116160831.31000-1-peter.maydell@linaro.org>
- <20201116160831.31000-3-peter.maydell@linaro.org>
+ <20201116160831.31000-4-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a4d9213b-057a-8401-9d42-e47cf9db9f8a@linaro.org>
-Date: Tue, 17 Nov 2020 11:10:04 -0800
+Message-ID: <75fe1394-e68f-a3f1-1240-298114243cd3@linaro.org>
+Date: Tue, 17 Nov 2020 11:12:23 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201116160831.31000-3-peter.maydell@linaro.org>
+In-Reply-To: <20201116160831.31000-4-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x443.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -95,17 +96,23 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/16/20 8:08 AM, Peter Maydell wrote:
-> In v8.1M the PXN architecture extension adds a new PXN bit to the
-> MPU_RLAR registers, which forbids execution of code in the region
-> from a privileged mode.
+> In arm_cpu_realizefn() we check whether the board code disabled EL3
+> via the has_el3 CPU object property, which we create if the CPU
+> starts with the ARM_FEATURE_EL3 feature bit.  If it is disabled, then
+> we turn off ARM_FEATURE_EL3 and also zero out the relevant fields in
+> the ID_PFR1 and ID_AA64PFR0 registers.
 > 
-> This is another feature which is just in the generic "in v8.1M" set
-> and has no ID register field indicating its presence.
+> This codepath was incorrectly being taken for M-profile CPUs, which
+> do not have an EL3 and don't set ARM_FEATURE_EL3, but which may have
+> the M-profile Security extension and so should have non-zero values
+> in the ID_PFR1.Security field.
+> 
+> Restrict the handling of the feature flag to A/R-profile cores.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  target/arm/helper.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+>  target/arm/cpu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
