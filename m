@@ -2,86 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE2CE2B69F0
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 17:20:55 +0100 (CET)
-Received: from localhost ([::1]:54288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B20B2B6A2E
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 17:32:21 +0100 (CET)
+Received: from localhost ([::1]:34126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf3iw-0006bz-SV
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 11:20:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35258)
+	id 1kf3tz-0002N0-Nz
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 11:32:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kf3ht-00068B-7Z
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:19:49 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:40063)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kf3hr-0003lF-2q
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:19:48 -0500
-Received: by mail-wm1-x330.google.com with SMTP id a3so3749063wmb.5
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:19:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=/cUU/579DHsgDQUzYQ6dmKkUqMQpXjyKmkLrYpPVF+s=;
- b=cDZdm5j5/CaZZiu9kIu6PrBBkQ1OGMsQQWBHPpeop1mRMGLql3Dyqco1kvbzBXSFKF
- AB4zqWT2k2yD5RwPV31zldPrvKr8lsAqAHS8kZL51qpHFeNfbuWXv75J5LPkJjpbQRt3
- 84gDh+8f9Hc9sa6JBD3dr698OEFioMTftQt9Yk8tJzAj/ZzmiZydIpGq0uOuw8hQO3eZ
- cAItcrNFxJNS2G9PAMXjyrF02q2Zkj6TgKaOR0Z0sG5KJSGfy3D8TAqIoBiOK3ByR1hy
- BZ+06MoDQHN9h0vM2ZdxXXjudRF1w6DbbFJvBXlUOkOhoXR5HEnZ9QJbBgMtJA3oxjRz
- nwbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=/cUU/579DHsgDQUzYQ6dmKkUqMQpXjyKmkLrYpPVF+s=;
- b=PRs0iher+CiikQ4dFXumUKD7yrIZQ2lp/9xLV15L/K/dYy7RMVf9fTGilZ1aFixFDe
- kpk4CeqC1dNoMUVs8nfe6lFeiU/XiMdufZmxA4sx9W9xZaErxUkfDDxQ3imVVM4WWIpc
- J6hvV9Aq7ZZTRDzXNTbT+PaR8xDflByUPobCggh9QIlnH1rX9AHo2bj5GnsHz/kGAZrV
- gexHdtkIHHmatKdFd8PerKXQ2XHzOgyoATozcejZvRczrTvV4bB3Eqx7oozE9vEKxIiO
- mK6ynPFDwzV/2/e521TGcVaePnppevVziI2Mff/x0HpXIonBqWiQM2XoYtCM/eiTWkz4
- AwdA==
-X-Gm-Message-State: AOAM531ex1/olROSzS3jDiFCK3cBWb8rCghm+wQkjPSoHYgUa2nMBKd2
- C0WMUI+sx1qCQo49MQ8PmWU=
-X-Google-Smtp-Source: ABdhPJwU5A0wZtuaw9qWYyairTwu8vLiuSUmNJcRMbsx4nzlPh15Ob61CYLP+9zE/ftGvKvW1v/aLw==
-X-Received: by 2002:a1c:b783:: with SMTP id h125mr443424wmf.108.1605629985398; 
- Tue, 17 Nov 2020 08:19:45 -0800 (PST)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id c2sm30184452wrf.68.2020.11.17.08.19.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Nov 2020 08:19:44 -0800 (PST)
-Date: Tue, 17 Nov 2020 16:19:42 +0000
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: P J P <ppandit@redhat.com>
-Subject: Re: About 'qemu-security' mailing list
-Message-ID: <20201117161942.GA147428@stefanha-x1.localdomain>
-References: <20200914101517.GD579094@stefanha-x1.localdomain>
- <nycvar.YSQ.7.78.906.2009151536090.10832@xnncv>
- <20200916111025.GA756728@stefanha-x1.localdomain>
- <nycvar.YSQ.7.78.906.2009181031500.10832@xnncv>
- <m2362z8dvx.fsf@oracle.com>
- <nycvar.YSQ.7.78.906.2010011502290.830962@xnncv>
- <m2mu166uyg.fsf@oracle.com>
- <nycvar.YSQ.7.78.906.2010012320290.830962@xnncv>
- <nycvar.YSQ.7.78.906.2010161910530.1246156@xnncv>
- <20201117144612.GA140001@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kf3s5-0001BB-Lx
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:30:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53771)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kf3rw-0007SK-R6
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:30:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605630609;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=a2snzBSHpbEqo6grNlcW7KTCJ8KldkySfp2Ksifpk6Q=;
+ b=VtUHNdelGTBu23zjZ/8bhl34vzaKC43n6WBLYq3beo9g9YYfzXZtHHdo2ij4ZX/Ysz7nky
+ 4QiIwo+0t3TJGEpDTumaRJR9V8jZlwlHSDRQYN027KGIvsct4n7OGTjJam+ORXRYJC21no
+ LjJAPJGZcj3slo9tsBAmrdCMkIx5aYA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-471-V-Bfck6PPdSlSWHjoZxErA-1; Tue, 17 Nov 2020 11:30:07 -0500
+X-MC-Unique: V-Bfck6PPdSlSWHjoZxErA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A03C803639
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 16:30:06 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 57B7B19C78;
+ Tue, 17 Nov 2020 16:30:06 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id AFAED11358BA; Tue, 17 Nov 2020 17:30:04 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v2 02/16] qapi/expr.py: Check for dict instead of
+ OrderedDict
+References: <20201026213637.47087-1-jsnow@redhat.com>
+ <20201026213637.47087-3-jsnow@redhat.com>
+Date: Tue, 17 Nov 2020 17:30:04 +0100
+In-Reply-To: <20201026213637.47087-3-jsnow@redhat.com> (John Snow's message of
+ "Mon, 26 Oct 2020 17:36:23 -0400")
+Message-ID: <87y2j0q73n.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="gKMricLos+KVdGMg"
-Content-Disposition: inline
-In-Reply-To: <20201117144612.GA140001@stefanha-x1.localdomain>
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=stefanha@gmail.com; helo=mail-wm1-x330.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 01:18:45
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,97 +83,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, sstabellini@kernel.org,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>, mst@redhat.com,
- michael.roth@amd.com, Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Darren Kenny <darren.kenny@oracle.com>, pmatouse@redhat.com
+Cc: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+John Snow <jsnow@redhat.com> writes:
 
---gKMricLos+KVdGMg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> OrderedDict is a subtype of dict, so we can check for a more general form.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+> Reviewed-by: Cleber Rosa <crosa@redhat.com>
+> ---
+>  scripts/qapi/expr.py | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+>
+> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+> index 35695c4c653b..5694c501fa38 100644
+> --- a/scripts/qapi/expr.py
+> +++ b/scripts/qapi/expr.py
+> @@ -14,7 +14,6 @@
+>  # This work is licensed under the terms of the GNU GPL, version 2.
+>  # See the COPYING file in the top-level directory.
+>  
+> -from collections import OrderedDict
+>  import re
+>  
+>  from .common import c_name
+> @@ -131,7 +130,7 @@ def check_if_str(ifcond):
+>  
+>  
+>  def normalize_members(members):
+> -    if isinstance(members, OrderedDict):
+> +    if isinstance(members, dict):
+>          for key, arg in members.items():
+>              if isinstance(arg, dict):
+>                  continue
+> @@ -162,7 +161,7 @@ def check_type(value, info, source,
+>      if not allow_dict:
+>          raise QAPISemError(info, "%s should be a type name" % source)
+>  
+> -    if not isinstance(value, OrderedDict):
+> +    if not isinstance(value, dict):
+>          raise QAPISemError(info,
+>                             "%s should be an object or type name" % source)
 
-On Tue, Nov 17, 2020 at 02:46:12PM +0000, Stefan Hajnoczi wrote:
-> On Fri, Oct 16, 2020 at 07:47:01PM +0530, P J P wrote:
->=20
-> I have CCed everyone from the Security Process wiki page so they can
-> participate in discussing changes to the process.
->=20
-> > * So ie. we need to:
-> >=20
-> >   1. Create/setup a regular non-encrypted 'qemu-security' list.
-> >=20
-> >   2. Invite representatives from user/downstream communities to subscri=
-be to=20
-> >      it.
-> >=20
-> >   3. Collect & store their PGP public keys. Also create a key for the l=
-ist.
-> >=20
-> >   4. Write 'encrypt & email' automation tool(s) to provide encryption s=
-upport.
-> >=20
-> >   5. Document and publish above details and list workflow on a page.
-> >=20
-> >=20
-> > ...wdyt?
->=20
-> Writing/maintaining automation tools will take time so I suggest going
-> with confidential GitLab Issues instead:
-> https://docs.gitlab.com/ee/user/project/issues/confidential_issues.html
->=20
-> If you would like to test GitLab Issues, please post your username and
-> you will be given the "Reporter" role so you can view confidential
-> issues.
->=20
-> I have created a confidential issue here (you'll get 404 if you don't
-> have permissions to view it):
-> https://gitlab.com/qemu-project/qemu/-/issues/2
->=20
-> The intention is to migrate QEMU's bug tracker from Launchpad to GitLab
-> so this will unify reporting regular bugs and security bugs. It also
-> uses encryption all the time instead of relying on users explicitly
-> encrypting emails.
+Plain dict remembers insertion order since Python 3.6, but it wasn't
+formally promised until 3.7.  
 
-Dan and I tried out confidential issues and unfortunately it is
-currently too limited for our workflow.
+Can we simply ditch OrderedDict entirely?
 
-It is not possible to add non-members to a confidential issue. Members
-need at least the 'Reporter' role to view confidential issues, and then
-they can view all of them (!).
-
-This means there is no way of working on a need-to-know basis. We would
-have to give anyone who ever needs to comment on an issue access to all
-other issues :(.
-
-Dan found this open feature request from 2 years ago:
-https://gitlab.com/gitlab-org/gitlab/-/issues/20252
-
-For now I think we should stick to email. I'm still concerned about the
-prospect of writing custom mailing list software and hosting it
-somewhere. Can we run an encrypted mailing list without developing the
-software ourselves?
-
-Stefan
-
---gKMricLos+KVdGMg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+z+B4ACgkQnKSrs4Gr
-c8jGeggApC8dADSPIDux+JNVLFg9iEIv/7cOi796h5knsBjGr5qsqE0S8kG97Vvh
-JunlY+jovEllWP0PKUd+ZQJWYG4Hxvs0r9zi39m2S9xB16Uwm80vOe7JgOKoK2nO
-+WePBN2c5qFiA+46W3V+C46t1nnk5dmjVUun/vfPiOOtPCTm4h+78oTpRCXzzIsY
-VCsnWkJo3seSzbn1JLIVdoS67iNZ8oW+ilcixgxZdqp4/uStUKRdf+LmMMUstk3/
-c85h12dx6HhVBaB0hbANy3vF5CU1SmmIlw1mPi54X4ftianNThaHtfsW5KC+dnmU
-vAKIBDkM27DC8PHhZaPzEjGe2o0rfA==
-=Xmnk
------END PGP SIGNATURE-----
-
---gKMricLos+KVdGMg--
 
