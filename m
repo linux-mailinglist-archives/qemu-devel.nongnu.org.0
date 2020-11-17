@@ -2,74 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05F6A2B6AD5
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 18:01:19 +0100 (CET)
-Received: from localhost ([::1]:43598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D65B2B6B77
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 18:15:24 +0100 (CET)
+Received: from localhost ([::1]:38098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf4M1-0005Qf-TT
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 12:01:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43488)
+	id 1kf4Zf-000181-Ep
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 12:15:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kf4EZ-0002QL-Kz
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:35 -0500
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:39452)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kf4EW-00077r-OT
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:35 -0500
-Received: by mail-ej1-x643.google.com with SMTP id s25so30383777ejy.6
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:53:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7428R+oR0lGYl7J4nUR6BeZwcrYbFQnKX3t9FLn/kmg=;
- b=mt2GXHB35AWclUA/snqtOkVyRKChzf4tsjWJS8DTvZJhX+PxnUSaboO7N/IgMkbHfj
- M/vygk32pu509TDsnsgXwTMtxc8+Sh5xX9CHPVAv1BfBaOIDcTzpfRarwmSoE+0tdy7b
- 1ol6etWFnEPiUobDfnlPRXqEM0TgyNJvgM5rXfbBoekGr9gIg5Dqde26S1/7gc/Yt/uk
- q1SQ5Nv0EtW/eB+D/CKBA6RVxuYW4Ukg7VDocFD1PnxNd1PWeTsGPIH3Dyx5skh8L2uR
- Q2uYS5QeQjbd9mqq27Ql2en/RLyp9btSvWWnCct+n3aynWAALXsiWLrsAhTiBw/DCY2m
- tzFQ==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kf4F5-0003GG-A6
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:54:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39832)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kf4F1-0007K0-Or
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:54:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605632041;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=y4o3s9ejNVx1IUie8C1SfuX/g4e20xz8EV0i3FT5lJg=;
+ b=WLRss/bxhZ/jvexhtP24YMfDkvJgds3yvswcjCojZNW1duGfMsyIHs/DkjVnAp3KDo0tC9
+ jeTlZBSIXT3zHCeJbvKkIiZ8qehv1x5BgOGqjCE9xwksRvwr19I2DOkKgyF6deIwreP7Wx
+ a8FZtJ1E28DGH6bBgYsiQeRnHB764Jg=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-380-JT1G7RB9NpKc_YmfqsSVZg-1; Tue, 17 Nov 2020 11:53:59 -0500
+X-MC-Unique: JT1G7RB9NpKc_YmfqsSVZg-1
+Received: by mail-wr1-f72.google.com with SMTP id h11so13149822wrq.20
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:53:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7428R+oR0lGYl7J4nUR6BeZwcrYbFQnKX3t9FLn/kmg=;
- b=M61BfyQP8QXXdI7wvZWG8wQ0e9GFBIMZHxt2900nYl6VlM3qpmSXzqWPu/JkDXzVpl
- Uzofd38zufXY5kWoKyN4p0a/5Rl0bR9kEzVxOj6JUOG5GYH61j/ZmG2MfzbitKiHMq0w
- yAIulN+zwnwmSjkp8X6DITq8RfDDDCf/KN4wRyTYccVUS6dPpu/iMyWLWottQnvdsFo5
- 6bGkpS/L8uj/k/d16i5uxut9Un1G3mS6JOVzWJARUJ05Nd7M5r8Y2yxUYvqnz8TN3wCj
- Uo01SiUpqF5SQueIEEHxNXFFEVVc/Uy3QekKNJOxFhJhHsyfwj+jJY1UJYxG9byxbGQ0
- ONzw==
-X-Gm-Message-State: AOAM530TAonUJ/lyd8ir6aVDLP4vlaTBVNDzO84oO0KZ/A7xYIKGPgXd
- pKEXEEBySTQ9HvZrMA0IbBFM4UIHOWr0CoamGeI=
-X-Google-Smtp-Source: ABdhPJwPIfdXR3CtGZjXfkNM7Q8IOqqE+fDuHEEpj8yU+s6yXl8ipsm1PLV2mGyhHOXbXPV/DVmkNSot9uEjnUU7pwg=
-X-Received: by 2002:a17:906:bcd4:: with SMTP id
- lw20mr19730122ejb.527.1605632011446; 
- Tue, 17 Nov 2020 08:53:31 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=y4o3s9ejNVx1IUie8C1SfuX/g4e20xz8EV0i3FT5lJg=;
+ b=mLUmqPQ956/qiOb0fOE6pfMLgNWOUrk3sfZ8jpkgCASNb6rzW1BVlZ8Gr3VAIl5GCZ
+ 4BwYMFrFtN8YD9VwwLOMU/Fa99c/TqEWBbxLVU4cZHG04x+gR6dzctZXzSgWGQNdcqz0
+ OsxxVqZhEN9fqFOi5Y7xzfjZjl/qPWeGYc5AAhoVLtOwGxkmKpXoSNLTtTGWjx8JuO3e
+ W+g8VkrkTo9kFEBJgh6NF6Ts8reOcre+2qacpThI7iWPCPLQB0y/y4SHzVkIcCCWeKqs
+ 4gZahOre1bFnfexPNMAlfuHuQ9LGH4fXuVQ8dwwvqpSL3co7tIJDxia68KmsTXdH+DvJ
+ DSBw==
+X-Gm-Message-State: AOAM532LsEcML6LRO3nEYN+QZzN3cS2oxzbHx/WzHDYg7fHuwCWuXtbs
+ QzFIqwZqWaYtleTTFz0jRJtHMx6NWJMEszZWB7MYCJlEX7/Y2v9GtHW5yfz5ENFYgaOb5sV11GH
+ uFtVpLdVhEvHd0Kw=
+X-Received: by 2002:a5d:5450:: with SMTP id w16mr379966wrv.425.1605632038191; 
+ Tue, 17 Nov 2020 08:53:58 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwCYfr1tysM4EmMCJQZZ4bUk6FIpOVBMOTONZ1BuwtXOOgfkItKrOy84NoEu569szIxZ3Gp/g==
+X-Received: by 2002:a5d:5450:: with SMTP id w16mr379938wrv.425.1605632037672; 
+ Tue, 17 Nov 2020 08:53:57 -0800 (PST)
+Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
+ by smtp.gmail.com with ESMTPSA id c5sm18888868wrb.64.2020.11.17.08.53.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Nov 2020 08:53:56 -0800 (PST)
+Date: Tue, 17 Nov 2020 11:53:53 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Erich Mcmillan <erich.mcmillan@hp.com>
+Subject: Re: [PATCH v6] hw/i386/pc: add max combined fw size as machine
+ configuration option
+Message-ID: <20201117115329-mutt-send-email-mst@kernel.org>
+References: <20200925175751.4017-1-erich.mcmillan@hp.com>
 MIME-Version: 1.0
-References: <20201116224143.1284278-1-ehabkost@redhat.com>
- <20201116224143.1284278-5-ehabkost@redhat.com>
- <CAJ+F1CJYPfYa+3acEQVJAnKxtOG7rx1uJG+siqEQX6h=F9p8kA@mail.gmail.com>
- <20201117154940.GG1235237@habkost.net>
-In-Reply-To: <20201117154940.GG1235237@habkost.net>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 17 Nov 2020 20:53:19 +0400
-Message-ID: <CAJ+F1CJrg4V9=TLcrPQNFRCzGR6+rUXm_MKy6fehCZ2txguVsg@mail.gmail.com>
-Subject: Re: [PATCH v2 4/8] qnum: qnum_value_is_equal() function
-To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000aeb10a05b4505513"
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x643.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <20200925175751.4017-1-erich.mcmillan@hp.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 00:41:22
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,303 +93,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- QEMU <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, kraxel@redhat.com,
+ imammedo@redhat.com, lersek@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000aeb10a05b4505513
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Fri, Sep 25, 2020 at 05:57:51PM +0000, Erich Mcmillan wrote:
+> From: Erich McMillan <erich.mcmillan@hp.com>
+> 
+> At Hewlett Packard Inc. we have a need for increased fw size to enable testing of our custom fw.
+> Move return statement for early return
+> 
+> Signed-off-by: Erich McMillan <erich.mcmillan@hp.com>
 
-On Tue, Nov 17, 2020 at 7:49 PM Eduardo Habkost <ehabkost@redhat.com> wrote=
-:
+My bad that I dropped it by mistake before code freeze.
+I will queue it for the next release.
 
-> On Tue, Nov 17, 2020 at 12:42:47PM +0400, Marc-Andr=C3=A9 Lureau wrote:
-> > On Tue, Nov 17, 2020 at 2:42 AM Eduardo Habkost <ehabkost@redhat.com>
-> wrote:
-> >
-> > > Extract the QNum value comparison logic to a function that takes
-> > > QNumValue* as argument.
-> > >
-> > > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> > > ---
-> > >  include/qapi/qmp/qnum.h |  1 +
-> > >  qobject/qnum.c          | 29 +++++++++++++++++++----------
-> > >  2 files changed, 20 insertions(+), 10 deletions(-)
-> > >
-> > > diff --git a/include/qapi/qmp/qnum.h b/include/qapi/qmp/qnum.h
-> > > index 62fbdfda68..0327ecd0f0 100644
-> > > --- a/include/qapi/qmp/qnum.h
-> > > +++ b/include/qapi/qmp/qnum.h
-> > > @@ -106,6 +106,7 @@ double qnum_get_double(const QNum *qn);
-> > >
-> > >  char *qnum_to_string(QNum *qn);
-> > >
-> > > +bool qnum_value_is_equal(const QNumValue *num_x, const QNumValue
-> *num_y);
-> > >  bool qnum_is_equal(const QObject *x, const QObject *y);
-> > >  void qnum_destroy_obj(QObject *obj);
-> > >
-> > > diff --git a/qobject/qnum.c b/qobject/qnum.c
-> > > index f80d4efd76..6a0f948b16 100644
-> > > --- a/qobject/qnum.c
-> > > +++ b/qobject/qnum.c
-> > > @@ -207,9 +207,9 @@ char *qnum_to_string(QNum *qn)
-> > >  }
-> > >
-> > >  /**
-> > > - * qnum_is_equal(): Test whether the two QNums are equal
-> > > - * @x: QNum object
-> > > - * @y: QNum object
-> > > + * qnum_value_is_equal(): Test whether two QNumValues are equal
-> > > + * @num_x: QNum value
-> > > + * @num_y: QNum value
-> > >
-> >
-> > val_x: a QNumValue ?
->
-> Do you mean:
->   @num_x: a QNumValue
->
-?
->
-> I was not planning to rename the existing num_x/num_y variables.
->
->
-Not renaming because that would make some churn? But this is already quite
-confusing, so it's better to use "val" for QNumVal and "num" for QNum I
-guess.
+> ---
+> 
+> Changes since v5:
+> 
+>      Move return statement for pc_machine_set_max_fw_size() to follow error_setg() as early return.
+> 
+>  hw/i386/pc.c         | 51 ++++++++++++++++++++++++++++++++++++++++++++
+>  hw/i386/pc_sysfw.c   | 13 ++---------
+>  include/hw/i386/pc.h |  2 ++
+>  3 files changed, 55 insertions(+), 11 deletions(-)
+> 
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index d11daacc23..70c8c9adcf 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -1869,6 +1869,50 @@ static void pc_machine_set_max_ram_below_4g(Object *obj, Visitor *v,
+>      pcms->max_ram_below_4g = value;
+>  }
+>  
+> +static void pc_machine_get_max_fw_size(Object *obj, Visitor *v,
+> +                                       const char *name, void *opaque,
+> +                                       Error **errp)
+> +{
+> +    PCMachineState *pcms = PC_MACHINE(obj);
+> +    uint64_t value = pcms->max_fw_size;
+> +
+> +    visit_type_size(v, name, &value, errp);
+> +}
+> +
+> +static void pc_machine_set_max_fw_size(Object *obj, Visitor *v,
+> +                                       const char *name, void *opaque,
+> +                                       Error **errp)
+> +{
+> +    PCMachineState *pcms = PC_MACHINE(obj);
+> +    Error *error = NULL;
+> +    uint64_t value;
+> +
+> +    visit_type_size(v, name, &value, &error);
+> +    if (error) {
+> +        error_propagate(errp, error);
+> +        return;
+> +    }
+> +
+> +    /*
+> +    * We don't have a theoretically justifiable exact lower bound on the base
+> +    * address of any flash mapping. In practice, the IO-APIC MMIO range is
+> +    * [0xFEE00000..0xFEE01000] -- see IO_APIC_DEFAULT_ADDRESS --, leaving free
+> +    * only 18MB-4KB below 4G. For now, restrict the cumulative mapping to 8MB in
+> +    * size.
+> +    */
+> +    if (value > 16 * MiB) {
+> +        error_setg(errp,
+> +                   "User specified max allowed firmware size %" PRIu64 " is "
+> +                   "greater than 16MiB. If combined firwmare size exceeds "
+> +                   "16MiB the system may not boot, or experience intermittent"
+> +                   "stability issues.",
+> +                   value);
+> +        return;
+> +    }
+> +
+> +    pcms->max_fw_size = value;
+> +}
+> +
+>  static void pc_machine_initfn(Object *obj)
+>  {
+>      PCMachineState *pcms = PC_MACHINE(obj);
+> @@ -1884,6 +1928,7 @@ static void pc_machine_initfn(Object *obj)
+>      pcms->smbus_enabled = true;
+>      pcms->sata_enabled = true;
+>      pcms->pit_enabled = true;
+> +    pcms->max_fw_size = 8 * MiB;
+>  
+>      pc_system_flash_create(pcms);
+>      pcms->pcspk = isa_new(TYPE_PC_SPEAKER);
+> @@ -2004,6 +2049,12 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
+>  
+>      object_class_property_add_bool(oc, PC_MACHINE_PIT,
+>          pc_machine_get_pit, pc_machine_set_pit);
+> +
+> +    object_class_property_add(oc, PC_MACHINE_MAX_FW_SIZE, "size",
+> +        pc_machine_get_max_fw_size, pc_machine_set_max_fw_size,
+> +        NULL, NULL);
+> +    object_class_property_set_description(oc, PC_MACHINE_MAX_FW_SIZE,
+> +        "Maximum combined firmware size");
+>  }
+>  
+>  static const TypeInfo pc_machine_info = {
+> diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
+> index b6c0822fe3..22450ba0ef 100644
+> --- a/hw/i386/pc_sysfw.c
+> +++ b/hw/i386/pc_sysfw.c
+> @@ -39,15 +39,6 @@
+>  #include "hw/block/flash.h"
+>  #include "sysemu/kvm.h"
+>  
+> -/*
+> - * We don't have a theoretically justifiable exact lower bound on the base
+> - * address of any flash mapping. In practice, the IO-APIC MMIO range is
+> - * [0xFEE00000..0xFEE01000] -- see IO_APIC_DEFAULT_ADDRESS --, leaving free
+> - * only 18MB-4KB below 4G. For now, restrict the cumulative mapping to 8MB in
+> - * size.
+> - */
+> -#define FLASH_SIZE_LIMIT (8 * MiB)
+> -
+>  #define FLASH_SECTOR_SIZE 4096
+>  
+>  static void pc_isa_bios_init(MemoryRegion *rom_memory,
+> @@ -182,10 +173,10 @@ static void pc_system_flash_map(PCMachineState *pcms,
+>          }
+>          if ((hwaddr)size != size
+>              || total_size > HWADDR_MAX - size
+> -            || total_size + size > FLASH_SIZE_LIMIT) {
+> +            || total_size + size > pcms->max_fw_size) {
+>              error_report("combined size of system firmware exceeds "
+>                           "%" PRIu64 " bytes",
+> -                         FLASH_SIZE_LIMIT);
+> +                         pcms->max_fw_size);
+>              exit(1);
+>          }
+>  
+> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+> index fe52e165b2..f7c8e7cbfe 100644
+> --- a/include/hw/i386/pc.h
+> +++ b/include/hw/i386/pc.h
+> @@ -43,6 +43,7 @@ struct PCMachineState {
+>      bool smbus_enabled;
+>      bool sata_enabled;
+>      bool pit_enabled;
+> +    uint64_t max_fw_size;
+>  
+>      /* NUMA information: */
+>      uint64_t numa_nodes;
+> @@ -59,6 +60,7 @@ struct PCMachineState {
+>  #define PC_MACHINE_SMBUS            "smbus"
+>  #define PC_MACHINE_SATA             "sata"
+>  #define PC_MACHINE_PIT              "pit"
+> +#define PC_MACHINE_MAX_FW_SIZE      "max-fw-size"
+>  
+>  /**
+>   * PCMachineClass:
+> -- 
+> 2.25.1
 
-If you don't want to rename it in the code, may I suggest doing it at the
-declaration side? Not sure it's a better idea.
-
-
-> >
-> >   *
-> > >   * Negative integers are never considered equal to unsigned integers=
-,
-> > >   * but positive integers in the range [0, INT64_MAX] are considered
-> > > @@ -217,13 +217,8 @@ char *qnum_to_string(QNum *qn)
-> > >   *
-> > >   * Doubles are never considered equal to integers.
-> > >   */
-> > > -bool qnum_is_equal(const QObject *x, const QObject *y)
-> > > +bool qnum_value_is_equal(const QNumValue *num_x, const QNumValue
-> *num_y)
-> > >  {
-> > > -    const QNum *qnum_x =3D qobject_to(QNum, x);
-> > > -    const QNum *qnum_y =3D qobject_to(QNum, y);
-> > > -    const QNumValue *num_x =3D &qnum_x->value;
-> > > -    const QNumValue *num_y =3D &qnum_y->value;
-> > > -
-> > >      switch (num_x->kind) {
-> > >      case QNUM_I64:
-> > >          switch (num_y->kind) {
-> > > @@ -241,7 +236,7 @@ bool qnum_is_equal(const QObject *x, const QObjec=
-t
-> *y)
-> > >      case QNUM_U64:
-> > >          switch (num_y->kind) {
-> > >          case QNUM_I64:
-> > > -            return qnum_is_equal(y, x);
-> > > +            return qnum_value_is_equal(num_y, num_x);
-> > >          case QNUM_U64:
-> > >              /* Comparison in native uint64_t type */
-> > >              return num_x->u.u64 =3D=3D num_y->u.u64;
-> > > @@ -264,6 +259,20 @@ bool qnum_is_equal(const QObject *x, const
-> QObject *y)
-> > >      abort();
-> > >  }
-> > >
-> > > +/**
-> > > + * qnum_is_equal(): Test whether the two QNums are equal
-> > > + * @x: QNum object
-> > > + * @y: QNum object
-> > > + *
-> > > + * See qnum_value_is_equal() for details on the comparison rules.
-> > > + */
-> > > +bool qnum_is_equal(const QObject *x, const QObject *y)
-> > > +{
-> > > +    const QNum *qnum_x =3D qobject_to(QNum, x);
-> > > +    const QNum *qnum_y =3D qobject_to(QNum, y);
-> > > +    return qnum_value_is_equal(&qnum_x->value, &qnum_y->value);
-> > > +}
-> > > +
-> > >  /**
-> > >   * qnum_destroy_obj(): Free all memory allocated by a QNum object
-> > >   *
-> > > --
-> > > 2.28.0
-> > >
-> > >
-> > >
-> > beside that,
-> > Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> Thanks!
->
-> --
-> Eduardo
->
->
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---000000000000aeb10a05b4505513
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 17, 2020 at 7:49 PM Eduar=
-do Habkost &lt;<a href=3D"mailto:ehabkost@redhat.com">ehabkost@redhat.com</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On=
- Tue, Nov 17, 2020 at 12:42:47PM +0400, Marc-Andr=C3=A9 Lureau wrote:<br>
-&gt; On Tue, Nov 17, 2020 at 2:42 AM Eduardo Habkost &lt;<a href=3D"mailto:=
-ehabkost@redhat.com" target=3D"_blank">ehabkost@redhat.com</a>&gt; wrote:<b=
-r>
-&gt; <br>
-&gt; &gt; Extract the QNum value comparison logic to a function that takes<=
-br>
-&gt; &gt; QNumValue* as argument.<br>
-&gt; &gt;<br>
-&gt; &gt; Signed-off-by: Eduardo Habkost &lt;<a href=3D"mailto:ehabkost@red=
-hat.com" target=3D"_blank">ehabkost@redhat.com</a>&gt;<br>
-&gt; &gt; ---<br>
-&gt; &gt;=C2=A0 include/qapi/qmp/qnum.h |=C2=A0 1 +<br>
-&gt; &gt;=C2=A0 qobject/qnum.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 29 +++++=
-++++++++++++++----------<br>
-&gt; &gt;=C2=A0 2 files changed, 20 insertions(+), 10 deletions(-)<br>
-&gt; &gt;<br>
-&gt; &gt; diff --git a/include/qapi/qmp/qnum.h b/include/qapi/qmp/qnum.h<br=
->
-&gt; &gt; index 62fbdfda68..0327ecd0f0 100644<br>
-&gt; &gt; --- a/include/qapi/qmp/qnum.h<br>
-&gt; &gt; +++ b/include/qapi/qmp/qnum.h<br>
-&gt; &gt; @@ -106,6 +106,7 @@ double qnum_get_double(const QNum *qn);<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 char *qnum_to_string(QNum *qn);<br>
-&gt; &gt;<br>
-&gt; &gt; +bool qnum_value_is_equal(const QNumValue *num_x, const QNumValue=
- *num_y);<br>
-&gt; &gt;=C2=A0 bool qnum_is_equal(const QObject *x, const QObject *y);<br>
-&gt; &gt;=C2=A0 void qnum_destroy_obj(QObject *obj);<br>
-&gt; &gt;<br>
-&gt; &gt; diff --git a/qobject/qnum.c b/qobject/qnum.c<br>
-&gt; &gt; index f80d4efd76..6a0f948b16 100644<br>
-&gt; &gt; --- a/qobject/qnum.c<br>
-&gt; &gt; +++ b/qobject/qnum.c<br>
-&gt; &gt; @@ -207,9 +207,9 @@ char *qnum_to_string(QNum *qn)<br>
-&gt; &gt;=C2=A0 }<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 /**<br>
-&gt; &gt; - * qnum_is_equal(): Test whether the two QNums are equal<br>
-&gt; &gt; - * @x: QNum object<br>
-&gt; &gt; - * @y: QNum object<br>
-&gt; &gt; + * qnum_value_is_equal(): Test whether two QNumValues are equal<=
-br>
-&gt; &gt; + * @num_x: QNum value<br>
-&gt; &gt; + * @num_y: QNum value<br>
-&gt; &gt;<br>
-&gt; <br>
-&gt; val_x: a QNumValue ?<br>
-<br>
-Do you mean:<br>
-=C2=A0 @num_x: a QNumValue<br></blockquote><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">
-?<br>
-<br>
-I was not planning to rename the existing num_x/num_y variables.<br>
-<br></blockquote><div><br></div><div>Not renaming because that would make s=
-ome churn? But this is already quite confusing, so it&#39;s better to use &=
-quot;val&quot; for QNumVal and &quot;num&quot; for QNum I guess.</div><div>=
-<br></div><div>If you don&#39;t want to rename it in the code, may I sugges=
-t doing it at the declaration side? Not sure it&#39;s a better idea.<br></d=
-iv><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-&gt; <br>
-&gt;=C2=A0 =C2=A0*<br>
-&gt; &gt;=C2=A0 =C2=A0* Negative integers are never considered equal to uns=
-igned integers,<br>
-&gt; &gt;=C2=A0 =C2=A0* but positive integers in the range [0, INT64_MAX] a=
-re considered<br>
-&gt; &gt; @@ -217,13 +217,8 @@ char *qnum_to_string(QNum *qn)<br>
-&gt; &gt;=C2=A0 =C2=A0*<br>
-&gt; &gt;=C2=A0 =C2=A0* Doubles are never considered equal to integers.<br>
-&gt; &gt;=C2=A0 =C2=A0*/<br>
-&gt; &gt; -bool qnum_is_equal(const QObject *x, const QObject *y)<br>
-&gt; &gt; +bool qnum_value_is_equal(const QNumValue *num_x, const QNumValue=
- *num_y)<br>
-&gt; &gt;=C2=A0 {<br>
-&gt; &gt; -=C2=A0 =C2=A0 const QNum *qnum_x =3D qobject_to(QNum, x);<br>
-&gt; &gt; -=C2=A0 =C2=A0 const QNum *qnum_y =3D qobject_to(QNum, y);<br>
-&gt; &gt; -=C2=A0 =C2=A0 const QNumValue *num_x =3D &amp;qnum_x-&gt;value;<=
-br>
-&gt; &gt; -=C2=A0 =C2=A0 const QNumValue *num_y =3D &amp;qnum_y-&gt;value;<=
-br>
-&gt; &gt; -<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 switch (num_x-&gt;kind) {<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 case QNUM_I64:<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 switch (num_y-&gt;kind) {<br>
-&gt; &gt; @@ -241,7 +236,7 @@ bool qnum_is_equal(const QObject *x, const QO=
-bject *y)<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 case QNUM_U64:<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 switch (num_y-&gt;kind) {<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case QNUM_I64:<br>
-&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return qnum_is_equal(y=
-, x);<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return qnum_value_is_e=
-qual(num_y, num_x);<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case QNUM_U64:<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Comparison in =
-native uint64_t type */<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return num_x-&gt;=
-u.u64 =3D=3D num_y-&gt;u.u64;<br>
-&gt; &gt; @@ -264,6 +259,20 @@ bool qnum_is_equal(const QObject *x, const Q=
-Object *y)<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 abort();<br>
-&gt; &gt;=C2=A0 }<br>
-&gt; &gt;<br>
-&gt; &gt; +/**<br>
-&gt; &gt; + * qnum_is_equal(): Test whether the two QNums are equal<br>
-&gt; &gt; + * @x: QNum object<br>
-&gt; &gt; + * @y: QNum object<br>
-&gt; &gt; + *<br>
-&gt; &gt; + * See qnum_value_is_equal() for details on the comparison rules=
-.<br>
-&gt; &gt; + */<br>
-&gt; &gt; +bool qnum_is_equal(const QObject *x, const QObject *y)<br>
-&gt; &gt; +{<br>
-&gt; &gt; +=C2=A0 =C2=A0 const QNum *qnum_x =3D qobject_to(QNum, x);<br>
-&gt; &gt; +=C2=A0 =C2=A0 const QNum *qnum_y =3D qobject_to(QNum, y);<br>
-&gt; &gt; +=C2=A0 =C2=A0 return qnum_value_is_equal(&amp;qnum_x-&gt;value, =
-&amp;qnum_y-&gt;value);<br>
-&gt; &gt; +}<br>
-&gt; &gt; +<br>
-&gt; &gt;=C2=A0 /**<br>
-&gt; &gt;=C2=A0 =C2=A0* qnum_destroy_obj(): Free all memory allocated by a =
-QNum object<br>
-&gt; &gt;=C2=A0 =C2=A0*<br>
-&gt; &gt; --<br>
-&gt; &gt; 2.28.0<br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-&gt; beside that,<br>
-&gt; Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lu=
-reau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-<br>
-Thanks!<br>
-<br>
--- <br>
-Eduardo<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---000000000000aeb10a05b4505513--
 
