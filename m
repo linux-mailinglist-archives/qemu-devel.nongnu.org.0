@@ -2,75 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E66242B713D
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 23:08:42 +0100 (CET)
-Received: from localhost ([::1]:38990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E657A2B7173
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 23:22:38 +0100 (CET)
+Received: from localhost ([::1]:48476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf99V-0006J7-HG
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 17:08:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45548)
+	id 1kf9Mz-0003F3-Hd
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 17:22:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kf97b-0005Yr-JV
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 17:06:43 -0500
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:47094)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kf9Lb-0002hY-UQ
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 17:21:11 -0500
+Received: from indium.canonical.com ([91.189.90.7]:44154)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kf97Z-00022f-HE
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 17:06:43 -0500
-Received: by mail-ed1-x52c.google.com with SMTP id t11so24086729edj.13
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 14:06:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WSWdIsxQwf+CX3ITKlEp9z/r0iBtDojAVhrXbPW+tWM=;
- b=TjYwlBl3kN4hPAiQSwMnvk7DsyBIErMYbjgPuPY5q/PZqiMNZZwzdF54/h7MejhAuo
- jemj/1pfoMYnNUQTZLxkyQxga6a+nEJSbLYmdT6JXVwAp6lIKKFxqmGoIvhm2MdImHJk
- +byK3HM0H8E8oeVIaR/ZyVav6rb8VTHe2VeUkirLWvm+VIs1ptc2+jxJFEAIS650bMb9
- /unDF8xhAqoopr9rgBY8RbRu2CRx7vM4VthLsXNDw2A8k3h3ElUxj20Ij7HVf4cppkQu
- SGZZAv7Pb9G9OAY9RXV/D6JNcFcImYkTJM5uz3+6cicxT8TuNq8ot1Riq4Am8tVkzuE5
- 86EQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WSWdIsxQwf+CX3ITKlEp9z/r0iBtDojAVhrXbPW+tWM=;
- b=C4MdI17YvKEdoFv9yU8RLPCsEqRoe5YKqq23HW3OP+1fQNhKRbO1jpr2nOSiYWi3PP
- 01FQJVpoZ4qgJ5JARLp2Xl0bw6yKusWnjCx/lhi52DhbOUezf5/4ST5aPdzdqjO4lOb7
- lg4P033IR7O81WZyjbz0qrOOYN3pEFiq35gPxW0CKnrY6YWy+5/S4FP6pR0hj83bJENa
- lEhOS/qeEtb17gvrQygwBKxyRw14Z0bKBLx+wMFOqRtYvLWSr7l+E4xy96PZWDnSu/4f
- jqZjmXGlcmkIHfZPKP1lHnlCfTdHHCCPsR3EXETAisCohOubft90ZrbxMorOOdCpSrrF
- hRVA==
-X-Gm-Message-State: AOAM532c4m5UyoJxZX7Bj5WuuBkYk7XxFUj0e57A56cPfodVRyqVNu+M
- dUQkdsXKvftTxdt+iQbiqEZjGp+PO2ACCqb0Q8SyZg==
-X-Google-Smtp-Source: ABdhPJyfLZRreT/9nbfIoH8eK4JpYdX/Jg2cgHB3tMeTm83s98yqsWEDcxZnLDlqivSTxvpJrbEH0nu0vX52pNO5adI=
-X-Received: by 2002:a05:6402:b35:: with SMTP id
- bo21mr24264772edb.52.1605650799412; 
- Tue, 17 Nov 2020 14:06:39 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kf9LX-0004At-NX
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 17:21:11 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kf9LU-0007vk-Mw
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 22:21:04 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id AB8DA2E80E9
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 22:21:04 +0000 (UTC)
 MIME-Version: 1.0
-References: <20201117145739.3314926-1-armbru@redhat.com>
-In-Reply-To: <20201117145739.3314926-1-armbru@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 17 Nov 2020 22:06:28 +0000
-Message-ID: <CAFEAcA-EdocNkD8dGz6zk1C2uMbanBkqteVGjADkTY1CLpqbCw@mail.gmail.com>
-Subject: Re: [PULL 0/1] QObject patches patches for 2020-11-17
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 17 Nov 2020 22:11:51 -0000
+From: Jordan Williams <1894836@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: hvf macos
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: jrtc27 jwillikers
+X-Launchpad-Bug-Reporter: Jordan Williams (jwillikers)
+X-Launchpad-Bug-Modifier: Jordan Williams (jwillikers)
+References: <159956768761.20174.3940381536855370035.malonedeb@gac.canonical.com>
+Message-Id: <160565111154.28731.12851942188171522863.malone@gac.canonical.com>
+Subject: [Bug 1894836] Re: kernel panic using hvf with CPU passthrough
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a2ee2035671f86427804714f331b9ff7fecaef7e"; Instance="production"
+X-Launchpad-Hash: 9a2ecdceaadd4a3b750d9c41e7752777153e14ab
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 17:21:05
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,33 +72,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1894836 <1894836@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 Nov 2020 at 14:57, Markus Armbruster <armbru@redhat.com> wrote:
->
-> The following changes since commit 1c7ab0930a3e02e6e54722c20b6b586364f387a7:
->
->   Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2020-11-17 11:50:11 +0000)
->
-> are available in the Git repository at:
->
->   git://repo.or.cz/qemu/armbru.git tags/pull-qobject-2020-11-17
->
-> for you to fetch changes up to 922d42bb0d08c154602dd9112da00d22d2b46579:
->
->   json: Fix a memleak in parse_pair() (2020-11-17 15:39:53 +0100)
->
-> ----------------------------------------------------------------
-> QObject patches patches for 2020-11-17
->
+Thanks for the response Jessica! The option you provided fixes the
+problem and everything works flawlessly now. Thank you!!
 
+-- =
 
-Applied, thanks.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1894836
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
+Title:
+  kernel panic using hvf with CPU passthrough
 
--- PMM
+Status in QEMU:
+  New
+
+Bug description:
+  Host Details
+  QEMU 5.1 (Homebrew)
+  macOS 10.15.6 Catalina
+  Late 2014 iMac
+  i5-4690 @ 3.5 GHz
+  8 GB RAM
+
+  Guest Details
+  Ubuntu Desktop 20.04.1 Installer ISO
+
+  Problem
+  Whenever I boot with "-accel hvf -cpu host", the Ubuntu desktop installer=
+ will immediately crash with a kernel panic after the initial splash screen.
+  See the attached picture of the kernel panic for more details.
+
+  Steps to recreate
+  From https://www.jwillikers.com/posts/virtualize_ubuntu_desktop_on_macos_=
+with_qemu/
+
+  1. Install QEMU with Homebrew.
+  $ brew install qemu
+
+  2. Create a qcow2 disk image to which to install.
+  $ qemu-img create -f qcow2 ubuntu2004.qcow2 60G
+
+  3. Download the ISO.
+  $ curl -L -o ubuntu-20.04.1-desktop-amd64.iso https://releases.ubuntu.com=
+/20.04/ubuntu-20.04.1-desktop-amd64.iso
+
+  4. Run the installer in QEMU.
+  $ qemu-system-x86_64 \
+  =C2=A0=C2=A0-accel hvf \
+  =C2=A0=C2=A0-cpu host \
+  =C2=A0=C2=A0-smp 2 \
+  =C2=A0=C2=A0-m 4G \
+  =C2=A0=C2=A0-usb \
+  =C2=A0=C2=A0-device usb-tablet \
+  =C2=A0=C2=A0-vga virtio \
+  =C2=A0=C2=A0-display default,show-cursor=3Don \
+  =C2=A0=C2=A0-device virtio-net,netdev=3Dvmnic -netdev user,id=3Dvmnic \
+  =C2=A0=C2=A0-audiodev coreaudio,id=3Dsnd0 \
+  =C2=A0=C2=A0-device ich9-intel-hda -device hda-output,audiodev=3Dsnd0 \
+  =C2=A0=C2=A0-cdrom ubuntu-20.04.1-desktop-amd64.iso \
+  =C2=A0=C2=A0-drive file=3Dubuntu2004.qcow2,if=3Dvirtio
+
+  Workaround
+  Emulating the CPU with "-cpu qemu64" does not result in a kernel panic.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1894836/+subscriptions
 
