@@ -2,53 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12A652B5DCB
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 12:02:29 +0100 (CET)
-Received: from localhost ([::1]:46070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2F602B5E19
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 12:15:05 +0100 (CET)
+Received: from localhost ([::1]:36238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1keykl-0001B6-UC
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 06:02:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40292)
+	id 1keywz-00011W-26
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 06:15:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1keyjN-0000hM-13
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 06:01:01 -0500
-Received: from indium.canonical.com ([91.189.90.7]:48864)
+ id 1keytm-0006vB-KM
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 06:11:46 -0500
+Received: from indium.canonical.com ([91.189.90.7]:54544)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1keyjK-0000YE-Pi
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 06:01:00 -0500
+ id 1keytk-00049A-Ek
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 06:11:46 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1keyjH-00035U-Kv
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 11:00:55 +0000
+ id 1keytg-0005WV-Na
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 11:11:40 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 94D1F2E804B
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 11:00:55 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 5DA3D2E8144
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 11:11:40 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 17 Nov 2020 10:51:25 -0000
-From: Thomas Huth <1904464@bugs.launchpad.net>
+Date: Tue, 17 Nov 2020 10:57:27 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1877706@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Wishlist;
+ assignee=None; 
+X-Launchpad-Bug-Tags: linux-user mips
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ffontaine th-huth
-X-Launchpad-Bug-Reporter: Fabrice Fontaine (ffontaine)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160555959985.17306.1370815502265671907.malonedeb@wampee.canonical.com>
-Message-Id: <160561028601.30031.1273354227634249725.malone@gac.canonical.com>
-Subject: [Bug 1904464] Re: Build fails with 64 bits time_t
+X-Launchpad-Bug-Commenters: aleksandar-markovic philmd th-huth wish-star
+X-Launchpad-Bug-Reporter: Lu Haocong (wish-star)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <158899708918.5208.6641592290214669384.malonedeb@soybean.canonical.com>
+Message-Id: <160561064753.27184.1774388671245292935.malone@chaenomeles.canonical.com>
+Subject: [Bug 1877706] Re: [Feature request] qemu does not support for Octeon
+ MIPS64 on X86
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="a2ee2035671f86427804714f331b9ff7fecaef7e"; Instance="production"
-X-Launchpad-Hash: a0debec5d58fcd587cc05ec2d0ed246a35013fd1
+X-Launchpad-Hash: 361bdc0d60844829f9313f5f41e6a3d9067d566f
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 04:35:40
@@ -71,49 +75,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1904464 <1904464@bugs.launchpad.net>
+Reply-To: Bug 1877706 <1877706@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Please send patches to the qemu-devel mailing list (and CC: the
-corresponding maintainers) for proper review of your patch. See
-https://wiki.qemu.org/Contribute/SubmitAPatch for details. Thanks!
+If your file is "ELF 32-bit MSB executable, MIPS, N32 MIPS64 rel2 version 1=
+",
+then you have to use the mipsn32-linux-user variant of QEMU (binary 'qemu-m=
+ipsn32').
+
+** Changed in: qemu
+       Status: Incomplete =3D> Invalid
+
+** Tags added: mips
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1904464
+https://bugs.launchpad.net/bugs/1877706
 
 Title:
-  Build fails with 64 bits time_t
+   [Feature request] qemu does not support for Octeon MIPS64 on X86
 
 Status in QEMU:
-  New
+  Invalid
 
 Bug description:
-  time element is deprecated on new input_event structure in kernel's
-  input.h [1]
+  Description of problem:
 
-  This will avoid the following build failure:
+  I use mips64-octeon-linux-gnu-gcc cross toolchain on X86,and generate
+  binary file.
 
-  hw/input/virtio-input-host.c: In function 'virtio_input_host_handle_statu=
-s':
-  hw/input/virtio-input-host.c:198:28: error: 'struct input_event' has no m=
-ember named 'time'
-    198 |     if (gettimeofday(&evdev.time, NULL)) {
-        |                            ^
+  > mips64-octeon-linux-gnu-gcc hello.c -static
+  > file a.out
+  > a.out: ELF 32-bit MSB executable, MIPS, N32 MIPS64 rel2 version 1 (SYSV=
+), statically linked, for GNU/Linux 2.4.0, not stripped
 
-  Fixes:
-   - http://autobuild.buildroot.org/results/a538167e288c14208d557cd45446df8=
-6d3d599d5
-   - http://autobuild.buildroot.org/results/efd4474fb4b6c0ce0ab3838ce130429=
-c51e43bbb
+  I execute it with mips64-linux-user mode in qemu, it is invalid.
 
-  [1]
-  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-?id=3D152194fe9c3f
+  > ./qemu-5.0.0/mips64-linux-user/qemu-mips64 a.out
+  > a.out: Invalid ELF image for this architecture
+
+  when I choose mips-linux-user mode, it regards as illegal instruction.
+
+  > ./qemu-5.0.0/mips-linux-user/qemu-mips a.out
+  > qemu: uncaught target signal 4 (Illegal instruction) - core dumped
+  > Illegal instruction (core dumped)
+
+  I would like to know, is this due to my problem or does qemu not
+  support Octeon MIPS64 on X86?
+
+  if qemu has supported Octeon MIPS64 on X86, how can I emulate it.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1904464/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1877706/+subscriptions
 
