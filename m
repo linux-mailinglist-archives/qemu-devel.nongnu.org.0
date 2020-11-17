@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 004122B690A
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 16:51:14 +0100 (CET)
-Received: from localhost ([::1]:40358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EEBD2B692C
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 16:57:49 +0100 (CET)
+Received: from localhost ([::1]:43736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf3GC-0004fY-Lw
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 10:51:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56520)
+	id 1kf3Ma-0006Jr-3T
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 10:57:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kf3Et-00048k-Nv
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 10:49:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50452)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kf3Ep-000224-K7
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 10:49:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605628186;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QQA5PTWssJ58OH5kxPPI175mY8w5Dhhrty2KxhZ3feU=;
- b=hujebFq1wsyZ3i/KDywGKcN3wGRfR9SXBcLwGFHIMCnTEB+J3zRpa2IsBKmbXAyWV7RdcJ
- 6Q62jP4dfdQnlRTY30H54YrPewQS/KzzJJDB2a0LGZQwKYOI2vw2eGyomuhwFxlpPlZyvW
- 023fiCLlR2HzX6xCBkhde69XldW9I7Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-214-7KZtONp4P6KcRqXDNSdzcA-1; Tue, 17 Nov 2020 10:49:42 -0500
-X-MC-Unique: 7KZtONp4P6KcRqXDNSdzcA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7747B10866B4;
- Tue, 17 Nov 2020 15:49:41 +0000 (UTC)
-Received: from localhost (ovpn-115-101.rdu2.redhat.com [10.10.115.101])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 090535D9CC;
- Tue, 17 Nov 2020 15:49:40 +0000 (UTC)
-Date: Tue, 17 Nov 2020 10:49:40 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
-Subject: Re: [PATCH v2 4/8] qnum: qnum_value_is_equal() function
-Message-ID: <20201117154940.GG1235237@habkost.net>
-References: <20201116224143.1284278-1-ehabkost@redhat.com>
- <20201116224143.1284278-5-ehabkost@redhat.com>
- <CAJ+F1CJYPfYa+3acEQVJAnKxtOG7rx1uJG+siqEQX6h=F9p8kA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kf3LV-0005mt-8U
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 10:56:41 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:43284)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kf3LS-0004a6-IK
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 10:56:40 -0500
+Received: by mail-wr1-x444.google.com with SMTP id s8so23660125wrw.10
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 07:56:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PbtN+t3/nZ+/wjXy+MgLGmSuQ3MGPFUppcgHnPJ0HW0=;
+ b=HpsTD+LMjQIGeYyqmzA9sjeQ8x5ixsQLJ16B/EYe6UuQqjfqRhGrp5TdOiuqAgkS3R
+ h8N9bChXslK4nQSOI0e5ujfxe5SjJaXWZD3o/O/RQdg+spSK6ExPyJ1iGetJwL8qRJ9E
+ u/MlgmRq1X4dkEvNQI8RxxQ/BNiVELYl6NYpvjzmhRmi5u8mrXE0d3B36RcXX8OkK+nc
+ sQ5wXuCUAfucTuUbL7lrTI0JZwp85G3NMWGvAuqRgJoDeP8UAWCAntkRpCZNqUrD+z+2
+ /xNseuqeRa/hPKJ6Fej8cLecJQU6FsBLICn5Ozd3THUrpitHUUnno6CTUMW2UckCjc2F
+ 71Sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PbtN+t3/nZ+/wjXy+MgLGmSuQ3MGPFUppcgHnPJ0HW0=;
+ b=CNcqzyDR/QVT7c5fgttyp8MC2tmqusCizZimGAyIObvmh9a9TgZRMuLKSJcSJpSCAA
+ eUN9Nl7R74p15p+rKG29ju/Ph72GtkU5GXIEk+/UwIRGlF9MogGwe5nOifpOCoZcZkB+
+ C+KJJQvRT5XGd93mzufm4HN2kgboAA4I5xpBD5RHsS8VnmdCMDd98KQqjC+DuXH7RVcH
+ vVyr+8qeV85WBYcRaT374530TvuHi0s14MhXawEtELcZ5u3m6SEz7SwpQbQunIqkLpDB
+ nH+mxcvFl531DurY9NRqM5WVxXiQrPA0t/6yDxmq637rZzCMsZ40tzm9UkIEBJv2MqIR
+ fsFQ==
+X-Gm-Message-State: AOAM530UVsUBm8vWQlCBkIugoRCID2fbkyIrCC6VBSvualVHOf+8HN6z
+ t8VS5SckRqH4QF8ywE/8BM9SpQ==
+X-Google-Smtp-Source: ABdhPJydCT5YyayVCmldChV0TCfJhVlVjuDS/nT0vRXqc7RaQ16UPjL1UXwGNbh74aNC8B5XzLFwXg==
+X-Received: by 2002:a5d:4a50:: with SMTP id v16mr207592wrs.106.1605628596644; 
+ Tue, 17 Nov 2020 07:56:36 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id x63sm4464052wmb.48.2020.11.17.07.56.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Nov 2020 07:56:35 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH] linux-user/arm: Deliver SIGTRAP for UDF patterns used as
+ breakpoints
+Date: Tue, 17 Nov 2020 15:56:34 +0000
+Message-Id: <20201117155634.6924-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CAJ+F1CJYPfYa+3acEQVJAnKxtOG7rx1uJG+siqEQX6h=F9p8kA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 00:41:22
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,120 +84,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- QEMU <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 17, 2020 at 12:42:47PM +0400, Marc-André Lureau wrote:
-> On Tue, Nov 17, 2020 at 2:42 AM Eduardo Habkost <ehabkost@redhat.com> wrote:
-> 
-> > Extract the QNum value comparison logic to a function that takes
-> > QNumValue* as argument.
-> >
-> > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> > ---
-> >  include/qapi/qmp/qnum.h |  1 +
-> >  qobject/qnum.c          | 29 +++++++++++++++++++----------
-> >  2 files changed, 20 insertions(+), 10 deletions(-)
-> >
-> > diff --git a/include/qapi/qmp/qnum.h b/include/qapi/qmp/qnum.h
-> > index 62fbdfda68..0327ecd0f0 100644
-> > --- a/include/qapi/qmp/qnum.h
-> > +++ b/include/qapi/qmp/qnum.h
-> > @@ -106,6 +106,7 @@ double qnum_get_double(const QNum *qn);
-> >
-> >  char *qnum_to_string(QNum *qn);
-> >
-> > +bool qnum_value_is_equal(const QNumValue *num_x, const QNumValue *num_y);
-> >  bool qnum_is_equal(const QObject *x, const QObject *y);
-> >  void qnum_destroy_obj(QObject *obj);
-> >
-> > diff --git a/qobject/qnum.c b/qobject/qnum.c
-> > index f80d4efd76..6a0f948b16 100644
-> > --- a/qobject/qnum.c
-> > +++ b/qobject/qnum.c
-> > @@ -207,9 +207,9 @@ char *qnum_to_string(QNum *qn)
-> >  }
-> >
-> >  /**
-> > - * qnum_is_equal(): Test whether the two QNums are equal
-> > - * @x: QNum object
-> > - * @y: QNum object
-> > + * qnum_value_is_equal(): Test whether two QNumValues are equal
-> > + * @num_x: QNum value
-> > + * @num_y: QNum value
-> >
-> 
-> val_x: a QNumValue ?
+The Linux kernel doesn't use the official bkpt insn for breakpoints;
+instead it uses three instructions in the guaranteed-to-UNDEF space,
+and generates SIGTRAP for these rather than the SIGILL that most
+UNDEF insns generate:
 
-Do you mean:
-  @num_x: a QNumValue
-?
+https://elixir.bootlin.com/linux/v5.9.8/source/arch/arm/kernel/ptrace.c#L197
 
-I was not planning to rename the existing num_x/num_y variables.
+Make QEMU treat these insns specially too.  The main benefit of this
+is that if you're running a debugger on a guest program that runs
+into a GCC __builtin_trap() or LLVM "trap because execution should
+never reach here" then you'll get the expected signal rather than a
+SIGILL.
 
-> 
->   *
-> >   * Negative integers are never considered equal to unsigned integers,
-> >   * but positive integers in the range [0, INT64_MAX] are considered
-> > @@ -217,13 +217,8 @@ char *qnum_to_string(QNum *qn)
-> >   *
-> >   * Doubles are never considered equal to integers.
-> >   */
-> > -bool qnum_is_equal(const QObject *x, const QObject *y)
-> > +bool qnum_value_is_equal(const QNumValue *num_x, const QNumValue *num_y)
-> >  {
-> > -    const QNum *qnum_x = qobject_to(QNum, x);
-> > -    const QNum *qnum_y = qobject_to(QNum, y);
-> > -    const QNumValue *num_x = &qnum_x->value;
-> > -    const QNumValue *num_y = &qnum_y->value;
-> > -
-> >      switch (num_x->kind) {
-> >      case QNUM_I64:
-> >          switch (num_y->kind) {
-> > @@ -241,7 +236,7 @@ bool qnum_is_equal(const QObject *x, const QObject *y)
-> >      case QNUM_U64:
-> >          switch (num_y->kind) {
-> >          case QNUM_I64:
-> > -            return qnum_is_equal(y, x);
-> > +            return qnum_value_is_equal(num_y, num_x);
-> >          case QNUM_U64:
-> >              /* Comparison in native uint64_t type */
-> >              return num_x->u.u64 == num_y->u.u64;
-> > @@ -264,6 +259,20 @@ bool qnum_is_equal(const QObject *x, const QObject *y)
-> >      abort();
-> >  }
-> >
-> > +/**
-> > + * qnum_is_equal(): Test whether the two QNums are equal
-> > + * @x: QNum object
-> > + * @y: QNum object
-> > + *
-> > + * See qnum_value_is_equal() for details on the comparison rules.
-> > + */
-> > +bool qnum_is_equal(const QObject *x, const QObject *y)
-> > +{
-> > +    const QNum *qnum_x = qobject_to(QNum, x);
-> > +    const QNum *qnum_y = qobject_to(QNum, y);
-> > +    return qnum_value_is_equal(&qnum_x->value, &qnum_y->value);
-> > +}
-> > +
-> >  /**
-> >   * qnum_destroy_obj(): Free all memory allocated by a QNum object
-> >   *
-> > --
-> > 2.28.0
-> >
-> >
-> >
-> beside that,
-> Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+This is not a "fix" for LP:1904210, but it does bring QEMU's
+behaviour into line with that of the real kernel on that binary.
 
-Thanks!
+---
+ linux-user/arm/cpu_loop.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
+diff --git a/linux-user/arm/cpu_loop.c b/linux-user/arm/cpu_loop.c
+index 13629ee1f6a..3d272b56ef0 100644
+--- a/linux-user/arm/cpu_loop.c
++++ b/linux-user/arm/cpu_loop.c
+@@ -205,6 +205,24 @@ do_kernel_trap(CPUARMState *env)
+     return 0;
+ }
+ 
++static bool insn_is_linux_bkpt(uint32_t opcode, bool is_thumb)
++{
++    /*
++     * Return true if this insn is one of the three magic UDF insns
++     * which the kernel treats as breakpoint insns.
++     */
++    if (!is_thumb) {
++        return (opcode & 0x0fffffff) == 0x07f001f0;
++    } else {
++        /*
++         * Note that we get the two halves of the 32-bit T32 insn
++         * in the opposite order to the value the kernel uses in
++         * its undef_hook struct.
++         */
++        return ((opcode & 0xffff) == 0xde01) || (opcode == 0xa000f7f0);
++    }
++}
++
+ void cpu_loop(CPUARMState *env)
+ {
+     CPUState *cs = env_cpu(env);
+@@ -234,6 +252,16 @@ void cpu_loop(CPUARMState *env)
+                 /* FIXME - what to do if get_user() fails? */
+                 get_user_code_u32(opcode, env->regs[15], env);
+ 
++                /*
++                 * The Linux kernel treats some UDF patterns specially
++                 * to use as breakpoints (instead of the architectural
++                 * bkpt insn). These should trigger a SIGTRAP rather
++                 * than SIGILL.
++                 */
++                if (insn_is_linux_bkpt(opcode, env->thumb)) {
++                    goto excp_debug;
++                }
++
+                 rc = EmulateAll(opcode, &ts->fpa, env);
+                 if (rc == 0) { /* illegal instruction */
+                     info.si_signo = TARGET_SIGILL;
 -- 
-Eduardo
+2.20.1
 
 
