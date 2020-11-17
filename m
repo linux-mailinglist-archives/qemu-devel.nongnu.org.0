@@ -2,57 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87A372B6427
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 14:45:40 +0100 (CET)
-Received: from localhost ([::1]:34252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5A8D2B6494
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 14:50:28 +0100 (CET)
+Received: from localhost ([::1]:40750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf1Ih-0001vp-Cf
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 08:45:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51200)
+	id 1kf1NL-00050r-Ma
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 08:50:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kf1Ds-0000XS-AM; Tue, 17 Nov 2020 08:40:40 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2054)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kf1Dq-0007kP-48; Tue, 17 Nov 2020 08:40:39 -0500
-Received: from dggemi405-hub.china.huawei.com (unknown [172.30.72.55])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Cb6Wk0FJRzQkRp;
- Tue, 17 Nov 2020 21:40:18 +0800 (CST)
-Received: from DGGEMI525-MBS.china.huawei.com ([169.254.6.162]) by
- dggemi405-hub.china.huawei.com ([10.3.17.143]) with mapi id 14.03.0487.000;
- Tue, 17 Nov 2020 21:40:23 +0800
-From: ganqixin <ganqixin@huawei.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: RE: [PATCH 09/13] u2f-passthru: put it into the 'usb' category
-Thread-Topic: [PATCH 09/13] u2f-passthru: put it into the 'usb' category
-Thread-Index: AQHWu/oMyb2Urt3Gu0q8d02Pkq8oI6nKRNcAgAEbOICAAPWhwA==
-Date: Tue, 17 Nov 2020 13:40:23 +0000
-Message-ID: <A5B86EC83C48EF4CB2BC58BEF3A2F496065C37E3@DGGEMI525-MBS.china.huawei.com>
-References: <20201115184903.1292715-1-ganqixin@huawei.com>
- <20201115184903.1292715-10-ganqixin@huawei.com>
- <49d4e8e3-7138-18cf-3972-c18e8275d3be@redhat.com>
- <20201117065833.l3gsr4tryrg5dudn@sirius.home.kraxel.org>
-In-Reply-To: <20201117065833.l3gsr4tryrg5dudn@sirius.home.kraxel.org>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.185.159]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kf1Lc-0003Ns-Py
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 08:48:40 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:53029)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kf1La-0001uT-OS
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 08:48:40 -0500
+Received: by mail-wm1-x332.google.com with SMTP id 10so3326782wml.2
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 05:48:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=L3Z8jXG2BnPxZEhfi0MgrQ41vpPqcERXYiZc9uYCSUU=;
+ b=q8AOjE1g9yAxyW/JMz/Mmy5eQYRSW23clFQOdintVUFLGxr2BnTDcSMj0ybHQNxoTF
+ ovisAwfDrK3ElIm7f9CDj/v2MCN03ediKjeJdhdTsN5607SteJ164u7VY80r3zs7HVDg
+ 9ky3bcxSZVVXZfwozvSZgdT9WMGTXhSAlfJEnhIWwtPkG0A3F6Z4KgfZMkcH+/sYJXkX
+ wL5HyIrbV3IoR9w4XKRzkXaLs99AyysUdGX91AT8AeF4UQtO0D6agze8nx8VYD9gft1I
+ qp1Ac8SJxQjpmETyhTkGnQYJmoKHviOmnP885BK7wVeD8Svxtu+akclyxwPgyYORS7oq
+ n0/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=L3Z8jXG2BnPxZEhfi0MgrQ41vpPqcERXYiZc9uYCSUU=;
+ b=rr5U8Nptvvy0j+cLrgQzofp35i6fcBiK+DDV4ZDN1gxI9mepAUVq9lpPbfTfSrtRlc
+ 0IJmoNFxh6JCXtk5U40qwoFHWi3HfAlH0bRHcf4lCv+N+bpOYzX9OuHPspN3CgnWKFFO
+ GZEiyXElWEHq5yWt0SC9AAJElwSsktoanN7QYsLDYO4tvQxduBOoul71XMA2mEskuScW
+ OdpVTvvx7A4HAyjj4STtK8WcJDZ/jtfZHvdz9l+jrm64563GKg/p9BmGDcUyPMGTZG8u
+ E3HaABpwn98+ZzSvrIM0O613asOiFzijE/bBZEr2pMpNAsi0IPYooKpDNmYdSktEGzJA
+ 6naQ==
+X-Gm-Message-State: AOAM530dFQbmGBBi8tnOUp8vN7HWlXsGB73AvmT4YDoXVYq2BSXzNeXH
+ 1wZKA88PDMg0JfdkntjkbELM4Uz3s3YHFA==
+X-Google-Smtp-Source: ABdhPJzG58Y7E48VyqftpuH9bRvLcI0TVRQ15gpWN2/9x5/sw41XNmVMnECCrtOwkql3XdAfhmscXQ==
+X-Received: by 2002:a1c:2e48:: with SMTP id u69mr4553081wmu.30.1605620916622; 
+ Tue, 17 Nov 2020 05:48:36 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id d8sm3578630wmb.11.2020.11.17.05.48.35
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Nov 2020 05:48:36 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/9] target-arm queue
+Date: Tue, 17 Nov 2020 13:48:25 +0000
+Message-Id: <20201117134834.31731-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188; envelope-from=ganqixin@huawei.com;
- helo=szxga02-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 08:40:32
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,53 +84,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "thuth@redhat.com" <thuth@redhat.com>,
- Zhanghailiang <zhang.zhanghailiang@huawei.com>,
- "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "Chenqun \(kuhn\)" <kuhn.chenqun@huawei.com>,
- =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> -----Original Message-----
-> From: Gerd Hoffmann [mailto:kraxel@redhat.com]
-> Sent: Tuesday, November 17, 2020 2:59 PM
-> To: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> Cc: ganqixin <ganqixin@huawei.com>; qemu-devel@nongnu.org;
-> qemu-trivial@nongnu.org; Marc-Andr=E9 Lureau
-> <marcandre.lureau@redhat.com>; thuth@redhat.com; Chenqun (kuhn)
-> <kuhn.chenqun@huawei.com>; Zhanghailiang
-> <zhang.zhanghailiang@huawei.com>; Eduardo Habkost
-> <ehabkost@redhat.com>
-> Subject: Re: [PATCH 09/13] u2f-passthru: put it into the 'usb' category
->=20
-> On Mon, Nov 16, 2020 at 03:04:52PM +0100, Philippe Mathieu-Daud=C3=A9
-> wrote:
-> > On 11/15/20 7:48 PM, Gan Qixin wrote:
-> > > The category of the u2f-passthru device is not set, put it into the '=
-usb'
-> > > category.
-> >
-> > I guess we discussed this with Thomas 1 or 2 years ago but I don't
-> > remember. I think it was about using set_bits() so devices can appear
-> > in multiple categories.
-> >
-> > Gerd, do you know what is the point of the "usb" category for
-> > management apps? This is a bus accepting multiple better categorized
-> > devices (display, storage, input, network, sound).
->=20
-> Right now we have the host adapters collected in the usb category.
-> Maybe we should rename the category to make that clear.
->=20
-> And, yes, tagging the u2f devices as "usb" doesn't look useful.
->=20
-> > Unrelated but multiple devices are related to SECURITY.
-> > Maybe it is time to introduce the DEVICE_CATEGORY_SECURITY?
->=20
-> Either that, or place it in the "misc" category.
+Arm queue; bugfixes only.
 
-Thanks for your advice, I will put it into 'misc' category.
+thanks
+-- PMM
 
-Gan Qixin
+The following changes since commit 48aa8f0ac536db3550a35c295ff7de94e4c33739:
+
+  Merge remote-tracking branch 'remotes/ericb/tags/pull-nbd-2020-11-16' into staging (2020-11-17 11:07:00 +0000)
+
+are available in the Git repository at:
+
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20201117
+
+for you to fetch changes up to ab135622cf478585bdfcb68b85e4a817d74a0c42:
+
+  tmp105: Correct handling of temperature limit checks (2020-11-17 12:56:33 +0000)
+
+----------------------------------------------------------------
+target-arm queue:
+ * hw/arm/virt: ARM_VIRT must select ARM_GIC
+ * exynos: Fix bad printf format specifiers
+ * hw/input/ps2.c: Remove remnants of printf debug
+ * target/openrisc: Remove dead code attempting to check "is timer disabled"
+ * register: Remove unnecessary NULL check
+ * util/cutils: Fix Coverity array overrun in freq_to_str()
+ * configure: Make "does libgio work" test pull in some actual functions
+ * tmp105: reset the T_low and T_High registers
+ * tmp105: Correct handling of temperature limit checks
+
+----------------------------------------------------------------
+Alex Chen (1):
+      exynos: Fix bad printf format specifiers
+
+Alistair Francis (1):
+      register: Remove unnecessary NULL check
+
+Andrew Jones (1):
+      hw/arm/virt: ARM_VIRT must select ARM_GIC
+
+Peter Maydell (5):
+      hw/input/ps2.c: Remove remnants of printf debug
+      target/openrisc: Remove dead code attempting to check "is timer disabled"
+      configure: Make "does libgio work" test pull in some actual functions
+      hw/misc/tmp105: reset the T_low and T_High registers
+      tmp105: Correct handling of temperature limit checks
+
+Philippe Mathieu-Daudé (1):
+      util/cutils: Fix Coverity array overrun in freq_to_str()
+
+ configure                    | 11 +++++--
+ hw/misc/tmp105.h             |  7 +++++
+ hw/core/register.c           |  4 ---
+ hw/input/ps2.c               |  9 ------
+ hw/misc/tmp105.c             | 73 ++++++++++++++++++++++++++++++++++++++------
+ hw/timer/exynos4210_mct.c    |  4 +--
+ hw/timer/exynos4210_pwm.c    |  8 ++---
+ target/openrisc/sys_helper.c |  3 --
+ util/cutils.c                |  3 +-
+ hw/arm/Kconfig               |  1 +
+ 10 files changed, 89 insertions(+), 34 deletions(-)
 
