@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C9102B649C
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 14:50:33 +0100 (CET)
-Received: from localhost ([::1]:41148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACA422B64F9
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 14:53:05 +0100 (CET)
+Received: from localhost ([::1]:49092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf1NQ-0005Aa-Eb
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 08:50:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53114)
+	id 1kf1Ps-00006z-MP
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 08:53:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kf1Lg-0003QF-Q7
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 08:48:44 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:53024)
+ id 1kf1Li-0003Rb-G7
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 08:48:46 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35134)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kf1Le-0001vd-IK
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 08:48:44 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id 10so3326986wml.2
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 05:48:42 -0800 (PST)
+ id 1kf1Lf-0001vq-Tx
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 08:48:46 -0500
+Received: by mail-wm1-x342.google.com with SMTP id w24so3296863wmi.0
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 05:48:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=qbgmkx0Ds80yl68jLC3K3LY6B17L2yWeDQHhhL2KqDw=;
- b=MmWcWEHcvtQyDG1TbUVoijLny4rpz8kjpI/xxkx1EKQUsI2gPQ2Qml7kvcmOMN9ASc
- MuG1dQHmYCcJ0LD0f9zEc/0WdmA0Nxljww56tGoiDIXhmctje9IedgGugqQPhyEtWg+/
- xeCqsKW3eBKSiE+BjkkaiACmc9MKtFN1EDa4Svo8LlEywKZMkS5NDrIR3TdBY+cIAnQW
- KqkAluzffan82OzQaggXfjOFG9ioCZKV78dSBfAQ3ElLN9HPsXlmKgphm4aiEIMl3QNJ
- wrVE5P0N0Yj3pHl1yLnhqYXNASdF6jfNfpif5TVarLPFFQ6bBWKK6DwQDt8m1wkIToWY
- v1gg==
+ bh=AEXyRy8nYSnTezucH5fbwrMAJ7HNi1klPTxtQNRoejY=;
+ b=fQ8/7tOuRfjLC0RMTyH7yFjlM7XyH35B21o5Ei/GopCG6Ix/a4sn8KBrzdbikmjhzk
+ zr2jZ7ZLIBewRqel+QXoZS+/MIEVgP/hqUY1GSZxT09fMikTbr8wzDyQsuiKUVugk8t/
+ mX9aBQ2FDd+V4gpf/eA7OZ1qT7wZLrCU2XfOY48ESZ5Luq5xKEwrqYeL0YSxAnxXWa/G
+ jzyBNyZB9G5Vx0wyJtYmDALLRgbe60I76Hwv0jXMN27JF3c/JfWoy0ugdoRF8xfSYqSS
+ NMjmZVZGhrhCxr6zlqS236LtG4oIYk3CjUAcAVn15spJoaS+gpnOW2lCykgrjF9RmUXZ
+ xxAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qbgmkx0Ds80yl68jLC3K3LY6B17L2yWeDQHhhL2KqDw=;
- b=VpK0SYZMG4EUZI6oboMr0GrliWodR2hFgKjDtOMfKzLqHztIhBE7zNaguqoSyGfna2
- 1YZWX5QMGLGn6weCsIgaU8JEVVH8vWqeS2UhW4bKrpWJhKEui6i+jwNnXzZONrmzVPLU
- 8bukdcwW3pbLj/aYgpQvjiRGihwttoPoJHTiGxIM1OC/qmMgIf4w29RfEqNg0BbZzOv7
- 47z0Wn6MzdZttNZ0p9F9r1xgRQeouCBP5v6EdUXqQqTCgz58T5Y+w25hNpbcMNUzXi8E
- frjkRYaaNoG+tNxgpGl/2Om6N3IriazGykt/QUJqoYrPMM3dWDI4Md6XCLZcCeSvLuj8
- dicA==
-X-Gm-Message-State: AOAM532BrUiRjJQsMS+BouMmzgDKZa89KOuLJGy0Jgil33/DKuGcDmjL
- R5JdyMfy54AydvKiJa7Vsnupqmdc/GPBYQ==
-X-Google-Smtp-Source: ABdhPJx+qjWiWZqAhRWa+ibZDFE5DUWnVkfacAFJFoT0CDHAJSBMEQeMX3etQhK6HxtEoZnVpvFxig==
-X-Received: by 2002:a7b:ce0c:: with SMTP id m12mr4309136wmc.114.1605620920953; 
- Tue, 17 Nov 2020 05:48:40 -0800 (PST)
+ bh=AEXyRy8nYSnTezucH5fbwrMAJ7HNi1klPTxtQNRoejY=;
+ b=eXjO+j8t5yJ5lYu0KbfUXnVQayvtioeFG01zwsZ3/XBRH1NHSJkhaRFRhGxvlseznP
+ 42h4euWkBZKyS0j9pEliowjD49u0trI5r4qIlhdXP6Dsos9uW/BBN4NcP/ny9rqwiuec
+ alAHH8N6Wd+WkvHCAsOo5LcDCKj4RzuR5VL0D00NkP1IPy6caimYLvMFovo+Bivh4ClF
+ Sw9k4fS/qxTOxSW5aNb6i3avCSGwhwZTnrl3Z5lizTYNmqSDUKlPxKPY5nBC9CVynzhz
+ Ewsjq6zXQ3fkIkXkjigH9CLTd9qS/vhtv2HdOFZjQhEaAvzkZHksXdQzbXRaswy6aH4e
+ jkIA==
+X-Gm-Message-State: AOAM532YZbUjkPumUiNuEIp/NEqsYqKEtXeICqMo3KAgk0bzlZfV05zR
+ 5t5qdgz9tblteEWaT4ordwKYNNSHUrObPA==
+X-Google-Smtp-Source: ABdhPJwcGnMSNb0t01y+g9twnInwEu+Bgmfu3MvAS1VmcKSvIZG+eox0yeA5sn5bMTl2xInBjEEeqA==
+X-Received: by 2002:a7b:c1ce:: with SMTP id a14mr4333560wmj.169.1605620921967; 
+ Tue, 17 Nov 2020 05:48:41 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d8sm3578630wmb.11.2020.11.17.05.48.40
+ by smtp.gmail.com with ESMTPSA id d8sm3578630wmb.11.2020.11.17.05.48.41
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Nov 2020 05:48:40 -0800 (PST)
+ Tue, 17 Nov 2020 05:48:41 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/9] target/openrisc: Remove dead code attempting to check "is
- timer disabled"
-Date: Tue, 17 Nov 2020 13:48:29 +0000
-Message-Id: <20201117134834.31731-5-peter.maydell@linaro.org>
+Subject: [PULL 5/9] register: Remove unnecessary NULL check
+Date: Tue, 17 Nov 2020 13:48:30 +0000
+Message-Id: <20201117134834.31731-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201117134834.31731-1-peter.maydell@linaro.org>
 References: <20201117134834.31731-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,41 +88,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the mtspr helper we attempt to check for "is the timer disabled"
-with "if (env->ttmr & TIMER_NONE)".  This is wrong because TIMER_NONE
-is zero and the condition is always false (Coverity complains about
-the dead code.)
+From: Alistair Francis <alistair.francis@wdc.com>
 
-The correct check would be to test whether the TTMR_M field in the
-register is equal to TIMER_NONE instead.  However, the
-cpu_openrisc_timer_update() function checks whether the timer is
-enabled (it looks at cpu->env.is_counting, which is set to 0 via
-cpu_openrisc_count_stop() when the TTMR_M field is set to
-TIMER_NONE), so there's no need to check for "timer disabled" in the
-target/openrisc code.  Instead, simply remove the dead code.
+This patch fixes CID 1432800 by removing an unnecessary check.
 
-Fixes: Coverity CID 1005812
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Acked-by: Stafford Horne <shorne@gmail.com>
-Message-id: 20201103114654.18540-1-peter.maydell@linaro.org
 ---
- target/openrisc/sys_helper.c | 3 ---
- 1 file changed, 3 deletions(-)
+ hw/core/register.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/target/openrisc/sys_helper.c b/target/openrisc/sys_helper.c
-index d9fe6c59489..41390d046f6 100644
---- a/target/openrisc/sys_helper.c
-+++ b/target/openrisc/sys_helper.c
-@@ -176,9 +176,6 @@ void HELPER(mtspr)(CPUOpenRISCState *env, target_ulong spr, target_ulong rb)
+diff --git a/hw/core/register.c b/hw/core/register.c
+index 31038bd7ccf..3600ef5bde7 100644
+--- a/hw/core/register.c
++++ b/hw/core/register.c
+@@ -258,10 +258,6 @@ static RegisterInfoArray *register_init_block(DeviceState *owner,
+         int index = rae[i].addr / data_size;
+         RegisterInfo *r = &ri[index];
  
-     case TO_SPR(10, 1): /* TTCR */
-         cpu_openrisc_count_set(cpu, rb);
--        if (env->ttmr & TIMER_NONE) {
--            return;
+-        if (data + data_size * index == 0 || !&rae[i]) {
+-            continue;
 -        }
-         cpu_openrisc_timer_update(cpu);
-         break;
- #endif
+-
+         /* Init the register, this will zero it. */
+         object_initialize((void *)r, sizeof(*r), TYPE_REGISTER);
+ 
 -- 
 2.20.1
 
