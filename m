@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA7012B5E90
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 12:46:28 +0100 (CET)
-Received: from localhost ([::1]:41954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FF282B5E8F
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 12:45:47 +0100 (CET)
+Received: from localhost ([::1]:38892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kezRL-0008Ku-TP
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 06:46:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49688)
+	id 1kezQg-00070a-JV
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 06:45:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kezPJ-0005oF-Aa
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 06:44:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41087)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kezPG-0007Zo-Uw
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 06:44:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605613457;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=LVZ0nFm+cD5LnCW42ppfcQb8gDMZl0F+Bk0IMlu7BMo=;
- b=RT3kJ4AkLkuRehiRELeq5iIJ1pspmY6wlyt1ba45lXX2LybJZhNUriu6fy+oNNObDSc5t5
- +gumRSUU3jofcQMYQnUj9JpSNLwg6hOG1oTXZAwXtTn0XrTM7DovodhfctnLSlbtTe3A0L
- x5y+zm/7LRilSQKL6h7fjD5dmpDIUpk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-76-RSvHcNj1NHahZK15vseP_Q-1; Tue, 17 Nov 2020 06:44:13 -0500
-X-MC-Unique: RSvHcNj1NHahZK15vseP_Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A34A780205E;
- Tue, 17 Nov 2020 11:44:11 +0000 (UTC)
-Received: from localhost (ovpn-113-172.ams2.redhat.com [10.36.113.172])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2AF2C10013D0;
- Tue, 17 Nov 2020 11:43:57 +0000 (UTC)
-Date: Tue, 17 Nov 2020 11:43:56 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH] Clean up includes
-Message-ID: <20201117114356.GH131917@stefanha-x1.localdomain>
-References: <20201113061216.2483385-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kezPZ-0006AE-AH
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 06:44:37 -0500
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:44728)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kezPX-0007fP-Fi
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 06:44:36 -0500
+Received: by mail-ej1-x642.google.com with SMTP id y17so23317343ejh.11
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 03:44:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JF0Li1dFsoX/wsKle6kuB7TDnCNT0rJ4g5z4aXhjmI4=;
+ b=K6S/4KkiKSVDWUv9DRyGpaYSQ6VVjl9va6W6A8YJwSrA5Zxtpv+I0XRHfMv64gMhJ/
+ Xugxxu2biFcB+mSxRy2PyxYW8HFV0S4z3VBABVNr2X4mZINLnTNp0SK4MkWqbsrj4pKl
+ dL9F4hmp+01G1UvNZllN9NXsHHRGp0EdAhmn6IeqVrrYXK4gU9L17MDRGAh+DYbi2hLa
+ 3ydBzs6PsF8BmubQqYCO5a1Ud0Ej9H1tvgjZus8JgkSd2jBGg/p1qclnO6qAU/IAv42e
+ ejmdAU5vSy04e4BgZg4usJEQiqqFjL4eSo71c4OHe+BKe+z7258yPZWnDOENCSMz2ENj
+ mFQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JF0Li1dFsoX/wsKle6kuB7TDnCNT0rJ4g5z4aXhjmI4=;
+ b=BFqUi6l+QVDmEacoIrTWk8nGiMerJqrFsUKlroxq5Hw0vwvxJtpdALABgGkZ9ztZFc
+ CBHVlUCTOiWF8NwAWsqSmjYqgmhZ+Cs1xGLW1OVwnJpaZowN/z8lACiNquiLY72XEhnu
+ mSdDiDjHy0EmZR0R15OtT5/eTGUlLN0pXUZzotCzBDDfQn6un9X5EEUF4CL3xVQF1kQN
+ Kgwy6L8TJmLRjFKmBv3cUg91YVzBgfabeNQlNW7zijucJxTH+W6eyzitu/rc4XcSX/8p
+ 9XHpNJrcjqbkg+IE0TC3ftmehqaSHo6VueJNQePd8BFRICg9+01LG4wWk/7mQ7R5nEqx
+ X4Rw==
+X-Gm-Message-State: AOAM5323I8mlTexmfe33AFx4ML2RTBx4AAjuOlMGgZyR/WMD07ax0RfO
+ hKWAs7Vq4lp35Cc0k57jI44Tkc3onjwge/P/Gn2OeQ==
+X-Google-Smtp-Source: ABdhPJzoSTlU7cTR27i68MCGoCE9xGIVs3Ej8DAZ1MRmZVpcCBt/fO/uoWXVRy/qCcJYQuG63k1iD+aDTIYr3Rib0gY=
+X-Received: by 2002:a17:906:5a88:: with SMTP id
+ l8mr18326046ejq.407.1605613473727; 
+ Tue, 17 Nov 2020 03:44:33 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201113061216.2483385-1-armbru@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="PNpeiK4tTqhYOExY"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 00:41:22
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20201116104617.18333-1-peter.maydell@linaro.org>
+ <1f4476ba-fe58-e7f8-c165-9cf501511f95@redhat.com>
+In-Reply-To: <1f4476ba-fe58-e7f8-c165-9cf501511f95@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 17 Nov 2020 11:44:22 +0000
+Message-ID: <CAFEAcA9MO6J8-rSVdVG0whgRVk37SVKLP-sro0csXAzw5Cvveg@mail.gmail.com>
+Subject: Re: [PATCH for-5.2] configure: Make "does libgio work" test pull in
+ some actual functions
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,106 +81,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alxndr@bu.edu, thuth@redhat.com, cohuck@redhat.com, mjrosato@linux.ibm.com,
- mst@redhat.com, qemu-s390x@nongnu.org, david@redhat.com, qemu-devel@nongnu.org,
- laurent@vivier.eu, pasic@linux.ibm.com, borntraeger@de.ibm.com, bsd@redhat.com,
- kraxel@redhat.com, pbonzini@redhat.com, marcandre.lureau@redhat.com,
- dgilbert@redhat.com, rth@twiddle.net
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---PNpeiK4tTqhYOExY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 16 Nov 2020 at 18:25, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> On 16/11/20 11:46, Peter Maydell wrote:
+> > In commit 76346b6264a9b01979 we tried to add a configure check that
+> > the libgio pkg-config data was correct, which builds an executable
+> > linked against it.  Unfortunately this doesn't catch the problem
+> > (missing static library dependency info), because a "do nothing" test
+> > source file doesn't have any symbol references that cause the linker
+> > to pull in .o files from libgio.a, and so we don't see the "missing
+> > symbols from libmount" error that a full QEMU link triggers.
+> >
+> > (The ineffective test went unnoticed because of a typo that
+> > effectively disabled libgio unconditionally, but after commit
+> > 3569a5dfc11f2 fixed that, a static link of the system emulator on
+> > Ubuntu stopped working again.)
+> >
+> > Improve the gio test by having the test source fragment reference a
+> > g_dbus function (which is what is indirectly causing us to end up
+> > wanting functions from libmount).
+> >
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> > ---
+> > The ideal thing here might perhaps be to force the linker to
+> > pull in everything in the library rather than trusting that
+> > this particular function is sufficient to trigger the need
+> > for libmount functions, but annoyingly gcc and clang
+> > have different command line options to do that.
+> >
+> >   configure | 11 +++++++++--
+> >   1 file changed, 9 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/configure b/configure
+> > index 4cef321d9dc..2717cf1db0a 100755
+> > --- a/configure
+> > +++ b/configure
+> > @@ -3512,8 +3512,15 @@ if $pkg_config --atleast-version=$glib_req_ver gio-2.0; then
+> >       # Check that the libraries actually work -- Ubuntu 18.04 ships
+> >       # with pkg-config --static --libs data for gio-2.0 that is missing
+> >       # -lblkid and will give a link error.
+> > -    write_c_skeleton
+> > -    if compile_prog "" "$gio_libs" ; then
+> > +    cat > $TMPC <<EOF
+> > +#include <gio/gio.h>
+> > +int main(void)
+> > +{
+> > +    g_dbus_proxy_new_sync(0, 0, 0, 0, 0, 0, 0, 0);
+> > +    return 0;
+> > +}
+> > +EOF
+> > +    if compile_prog "$gio_cflags" "$gio_libs" ; then
+> >           gio=yes
+> >       else
+> >           gio=no
+> >
+>
+> Looks good,
+>
+> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 
-On Fri, Nov 13, 2020 at 07:12:16AM +0100, Markus Armbruster wrote:
-> Clean up includes so that osdep.h is included first and headers
-> which it implies are not included manually.
->=20
-> This commit was created with scripts/clean-includes, with the changes
-> to the following files manually reverted:
->=20
->     contrib/libvhost-user/libvhost-user-glib.h
->     contrib/libvhost-user/libvhost-user.c
->     contrib/libvhost-user/libvhost-user.h
->     contrib/plugins/hotblocks.c
->     contrib/plugins/hotpages.c
->     contrib/plugins/howvec.c
->     contrib/plugins/lockstep.c
->     linux-user/mips64/cpu_loop.c
->     linux-user/mips64/signal.c
->     linux-user/sparc64/cpu_loop.c
->     linux-user/sparc64/signal.c
->     linux-user/x86_64/cpu_loop.c
->     linux-user/x86_64/signal.c
->     target/s390x/gen-features.c
->     tests/fp/platform.h
->     tests/migration/s390x/a-b-bios.c
->     tests/plugin/bb.c
->     tests/plugin/empty.c
->     tests/plugin/insn.c
->     tests/plugin/mem.c
->     tests/test-rcu-simpleq.c
->     tests/test-rcu-slist.c
->     tests/test-rcu-tailq.c
->     tests/uefi-test-tools/UefiTestToolsPkg/BiosTablesTest/BiosTablesTest.=
-c
->=20
-> contrib/plugins/, tests/plugin/, and tests/test-rcu-slist.c appear not
-> to include osdep.h intentionally.  The remaining reverts are the same
-> as in commit bbfff19688d.
->=20
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
-> No real need to get this into 5.2 at this stage.  No real risk either.
->=20
->  contrib/vhost-user-gpu/vugbm.h          |  2 --
->  contrib/vhost-user-gpu/vugpu.h          |  1 -
->  include/hw/block/swim.h                 |  1 -
->  include/hw/display/macfb.h              |  1 -
->  include/qemu/nvdimm-utils.h             |  1 -
->  tests/qtest/fuzz/fuzz.h                 |  1 -
->  tests/qtest/fuzz/generic_fuzz_configs.h |  1 -
->  tools/virtiofsd/fuse_common.h           |  2 --
->  tools/virtiofsd/fuse_log.h              |  1 -
->  tools/virtiofsd/fuse_lowlevel.h         |  3 ---
->  tools/virtiofsd/fuse_misc.h             |  1 -
->  tools/virtiofsd/passthrough_seccomp.h   |  1 -
->  contrib/vhost-user-gpu/virgl.c          |  1 +
->  contrib/vhost-user-gpu/vugbm.c          |  1 +
->  contrib/vhost-user-input/main.c         |  1 -
->  hw/display/artist.c                     |  1 -
->  hw/s390x/s390-pci-vfio.c                |  3 ++-
->  tools/virtiofsd/buffer.c                |  5 -----
->  tools/virtiofsd/fuse_log.c              |  2 --
->  tools/virtiofsd/fuse_lowlevel.c         | 10 ----------
->  tools/virtiofsd/fuse_opt.c              |  4 ----
->  tools/virtiofsd/fuse_signals.c          |  5 -----
->  tools/virtiofsd/fuse_virtio.c           | 10 ----------
->  tools/virtiofsd/helper.c                |  8 --------
->  tools/virtiofsd/passthrough_ll.c        | 12 ------------
->  tools/virtiofsd/passthrough_seccomp.c   |  3 ---
->  util/nvdimm-utils.c                     |  1 +
->  27 files changed, 5 insertions(+), 78 deletions(-)
+Thanks; applied to target-arm.next for 5.2.
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-
---PNpeiK4tTqhYOExY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+zt3wACgkQnKSrs4Gr
-c8iMPAf/fH4AsGHA4evXXHPX4eBx2B6DMzupVRtHdQVIvPX02Uma6ARwNStjFaSg
-+0zjEtU8XTScW40nTrQu1MsO1woM9mKjFNGw78dFBHZ7OjX8nti4ogr08/K0TU5z
-Ip5QabF5qbAxZqDmoL7r8BXjfps6tIYR9x/yZfG+fsRp9lw5fLTRARyRf4RWw4Gp
-8DwDtMSyQBHIMOAcyecvuktwzN+wiN5p73ZPhCveRkLKZL0C+0zIe5teC6ACJjho
-IBSvcPj+w3SEdBXhinvj5S1AqwH8N0OCP2r0k0kg0aAUeOMIJyTfbDIK1L5eXowE
-aAZba2bcXQqJdFgyytXDzZsUzHiLPA==
-=MFNz
------END PGP SIGNATURE-----
-
---PNpeiK4tTqhYOExY--
-
+-- PMM
 
