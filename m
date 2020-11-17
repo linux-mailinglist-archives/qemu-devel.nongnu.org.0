@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6FE62B6B6C
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 18:13:07 +0100 (CET)
-Received: from localhost ([::1]:59804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 752532B6B00
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 18:04:05 +0100 (CET)
+Received: from localhost ([::1]:52790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf4XS-0006qE-LP
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 12:13:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43824)
+	id 1kf4Oi-0000uh-Cw
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 12:04:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kf4Et-00033c-5A
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:55 -0500
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:38822)
+ id 1kf4Eu-00036O-Oz
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:56 -0500
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:38265)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kf4Er-0007GY-HX
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:54 -0500
-Received: by mail-ej1-x643.google.com with SMTP id a16so2630502ejj.5
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:53:53 -0800 (PST)
+ id 1kf4Es-0007H9-L7
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 11:53:56 -0500
+Received: by mail-ed1-x542.google.com with SMTP id y4so17364967edy.5
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 08:53:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MtelKqLZh4dFsPBgnxF0HdQsyjUnFNYeWjU1dgG+VRk=;
- b=otzhKc24ftE4TuOMMiA57FfCRGYzgu8zcYUhndgfy7eHtHZf8al1kgYWePpEGNTLbo
- wT6RTQf+ZLSNW+0L4Tctvxe1AS8ykCwd0USBIPPR+k60FprD9tJ9Ef4T5SkpGmnIW6mK
- /WHvNil5AH9dIFTicW+ITUhPZIdf7ryBsSO39SNaVoxorYGoaFbvTXT10Sl2pemj7Q7s
- uSk5aP2Dys8W/n1ZHwUyOeY6LtN+L7jHguacKF+RphgHMJrz8m/FTis4iZOZnH12lkuB
- XWKQlWUju6jdh7NPEmHv2p5yf/C2DI//1PhuFHDTnJ2f9Mw3KsHXLSDygh3dUOPjmDuO
- DpvA==
+ bh=0hpNhB+71NE6300hqz+D0elj2q3QPE1W5PnnI+BNNPw=;
+ b=W+7WnU7jvKgxvRXF8ksUHmp3hWjLQf1xnuWrGyTMKVIJTRXCIJbNqY4uWhB51U9BBd
+ jeE9TmBfOWjlMmg1TPw09EhJG+DyTFHIFm1RB2PiarWL2lUPTz9MWGGKvg3F1mCzI7gD
+ PiqRksLlOEkCy9P/f1E19CPur6aEWlipDadt3TKy/DdRWH4A5xqgVsMU9enKRbjCQSXU
+ 8fpKN0Yu+LON7fR+cgPkwzMWA/xt/y5fEeOXcPRlyY+0FTXdSIZ3IakX096aeMwbWw2f
+ wR3y6Rh+9RiZsBU3zW0qyu9PROlnoXYKPb8xKceVU4hM2dZBoTH+JVjwgqAerYVd3IxR
+ GUmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=MtelKqLZh4dFsPBgnxF0HdQsyjUnFNYeWjU1dgG+VRk=;
- b=r+lag4hZlrP96aVy1WtiByNVxxWL4l5/DHTYV5/HzrBbSi92vKQCHJcuPy7L6h8R/e
- BzausuZ7Y78qxifA2bTX9P5e1WuyPTEaRWGaOY5uRAwY0fo5jRGBtwgX8givi+v3GULe
- Wif6oUGfhInPg/DUsAkrZSXmHPwa8nTIeTMqiE5rf0x/xkEJKb6RjNxEoFJahOhy/1U2
- H4HDU78/cKUtWIsdxWWeLbrMupEQA/53uraEqmKo/LDHC/ZYSFWl5Y8OtCof0XdPy5W3
- IdLnn5a/h99dQZ2JINiE864AxEF49pvkb+9ja1PJ0JQxtk/pwgswDJWvHDSJo4pqgvzA
- Pbvw==
-X-Gm-Message-State: AOAM530mH0LBiVrAciXDYKuiLyVhHyKLOAZVy9W+I8Vc2i/G4qLiOMSQ
- sypWwAKwWlr8dDdT8QQ1x+p1gBnKgjk=
-X-Google-Smtp-Source: ABdhPJy4DAPN2S3C681sIu74xowUUge9GNL8NHPjx7zsSGwC3E+Fap1gntJgONrr6YTX6OkCQsjAXw==
-X-Received: by 2002:a17:906:ca93:: with SMTP id
- js19mr21281011ejb.537.1605632031930; 
- Tue, 17 Nov 2020 08:53:51 -0800 (PST)
+ bh=0hpNhB+71NE6300hqz+D0elj2q3QPE1W5PnnI+BNNPw=;
+ b=qwP/C/GVZ9VEcNbMFOTgz6WK+WCDqg8IzJyfWP4e4XQ/TUQtaI1oTv/2irJxNARl28
+ AjFEe7zafsgwdL3XtHypwAMNIQt0eaQcIgOTXwlJUjDhBufYOkBIqRCL9xLrDTRRC4fx
+ PUgjz1pE50m1WgV6yB571DkUh8pnjbuxCINgcu0nFLOBrLiWVMA707XitAFug2JvvEuQ
+ DY/fY0kvK9JjECZqflvWR/WFzpX+4pgwh+GcxTPwkemHR0VAuPy3sTLeG5jqCF+A7rUJ
+ GgewQTmlooqhIjTSIItBIBDuERy9GTkeaYuTAmN/HsjyqT8QPpSFiWNlnkPbVeCddVhD
+ GQsQ==
+X-Gm-Message-State: AOAM530Ln16tHQzqsOHz9E9Ty1YSFzmjM7u23/C7IzS1QbRQPsJSZ6gS
+ vpsgJIbqjVWy7Ke/Q8eOLT4EuSbf3ws=
+X-Google-Smtp-Source: ABdhPJyy75BWfKEy9/G9uQDhf4fG/QNQXeG0yhcgVKyHlqeuspHz8Ts/0E4PtaWnRPnhyMlv4YBKaA==
+X-Received: by 2002:a05:6402:a51:: with SMTP id
+ bt17mr20774118edb.328.1605632032876; 
+ Tue, 17 Nov 2020 08:53:52 -0800 (PST)
 Received: from localhost.localdomain ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id u7sm639067ejf.83.2020.11.17.08.53.50
+ by smtp.gmail.com with ESMTPSA id u7sm639067ejf.83.2020.11.17.08.53.52
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Nov 2020 08:53:51 -0800 (PST)
+ Tue, 17 Nov 2020 08:53:52 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 26/29] Revert "kernel-doc: Handle function typedefs that
- return pointers"
-Date: Tue, 17 Nov 2020 17:53:09 +0100
-Message-Id: <20201117165312.118257-27-pbonzini@redhat.com>
+Subject: [PATCH 27/29] scripts: kernel-doc: fix typedef parsing
+Date: Tue, 17 Nov 2020 17:53:10 +0100
+Message-Id: <20201117165312.118257-28-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201117165312.118257-1-pbonzini@redhat.com>
 References: <20201117165312.118257-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x643.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -91,29 +90,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This reverts commit 19ab6044be0c55d529e875e3ee16fdd5c3b54d33.
-We will replace the commit with the fix from Linux.
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
+The include/linux/genalloc.h file defined this typedef:
+
+	typedef unsigned long (*genpool_algo_t)(unsigned long *map,unsigned long size,unsigned long start,unsigned int nr,void *data, struct gen_pool *pool, unsigned long start_addr);
+
+Because it has a type composite of two words (unsigned long),
+the parser gets the typedef name wrong:
+
+.. c:macro:: long
+
+   **Typedef**: Allocation callback function type definition
+
+Fix the regex in order to accept composite types when
+defining a typedef for a function pointer.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Link: https://lore.kernel.org/r/328e8018041cc44f7a1684e57f8d111230761c4f.1603792384.git.mchehab+huawei@kernel.org
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/kernel-doc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ scripts/kernel-doc | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 780aee4e92..d3a289628c 100755
+index d3a289628c..862b77686e 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -1434,8 +1434,8 @@ sub dump_typedef($$) {
+@@ -1434,13 +1434,14 @@ sub dump_typedef($$) {
      $x =~ s@/\*.*?\*/@@gos;	# strip comments.
  
      # Parse function prototypes
--    if ($x =~ /typedef\s+(\w+\s*\**)\s*\(\*\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
--	$x =~ /typedef\s+(\w+\s*\**)\s*(\w\S+)\s*\s*\((.*)\);/) {
-+    if ($x =~ /typedef\s+(\w+)\s*\(\*\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
-+	$x =~ /typedef\s+(\w+)\s*(\w\S+)\s*\s*\((.*)\);/) {
+-    if ($x =~ /typedef\s+(\w+)\s*\(\*\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
+-	$x =~ /typedef\s+(\w+)\s*(\w\S+)\s*\s*\((.*)\);/) {
++    if ($x =~ /typedef((?:\s+[\w\*]+){1,8})\s*\(\*?\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
++	$x =~ /typedef((?:\s+[\w\*]+\s+){1,8})\s*\*?(\w\S+)\s*\s*\((.*)\);/) {
  
  	# Function typedefs
  	$return_type = $1;
+ 	$declaration_name = $2;
+ 	my $args = $3;
++	$return_type =~ s/^\s+//;
+ 
+ 	create_parameterlist($args, ',', $file, $declaration_name);
+ 
 -- 
 2.28.0
 
