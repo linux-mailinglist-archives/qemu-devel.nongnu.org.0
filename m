@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC2FD2B6C74
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 19:02:03 +0100 (CET)
-Received: from localhost ([::1]:53112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED6D92B6C78
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Nov 2020 19:03:20 +0100 (CET)
+Received: from localhost ([::1]:56148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kf5Io-0000Q3-Rt
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 13:02:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40922)
+	id 1kf5K4-0001i8-0l
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 13:03:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kf5HI-0007qQ-MW
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 13:00:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47607)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kf5II-0000Y6-Vn
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 13:01:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34724)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kf5HF-0006uO-DX
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 13:00:28 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kf5IH-0007TX-7v
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 13:01:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605636024;
+ s=mimecast20190719; t=1605636088;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SzOrvc8vn2pmzKg6hZ+nPoXsyiwfCWoR7yNysuQXaKA=;
- b=MuGvgtI/dZo/HN9FY3yXjbIQp94WOhpb4yDnaz35KxtOKMAohz+WrY02IuzDUFl6Nhw9ae
- KUk2JR+jh5s0saHzdhy9v/joQP+uz0U92OwBKye8d2mVIdJck0KUKFKclvHRBd1P5M1kSg
- u9QrG/J25+6qcZ6819wCCTEX7rOSCs0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-6-BIwvpdtrOkmCJN1IBX5otQ-1; Tue, 17 Nov 2020 13:00:23 -0500
-X-MC-Unique: BIwvpdtrOkmCJN1IBX5otQ-1
-Received: by mail-wm1-f69.google.com with SMTP id 3so2106997wms.9
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 10:00:21 -0800 (PST)
+ bh=EK/uKv8Hx6olyTFCaxG6RU/pw15ya+i5KI3rKKSIldM=;
+ b=flMmPWE7su7J837Lt7zhoP2hfq64+Wtp4thhqDo/xbcH/Gt9EY5gA/CrPraDfvADJdaDQL
+ PwEf2DyXz7FbTDIzEQXZvksJKxNsEtJGfycWtmOJ+ZrmSMxrDp7HQV/0ZVU//Xg6u4BIzD
+ KYbIR3e5w7IJGvQ2JpG/d9lSmXj2hmA=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-430-zCJvkzjzPmWJCyJhFXYc6w-1; Tue, 17 Nov 2020 13:01:21 -0500
+X-MC-Unique: zCJvkzjzPmWJCyJhFXYc6w-1
+Received: by mail-wr1-f69.google.com with SMTP id g5so11867024wrp.5
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 10:01:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=SzOrvc8vn2pmzKg6hZ+nPoXsyiwfCWoR7yNysuQXaKA=;
- b=YXdsAyO+o/Hs+fc46P5380Q4XgblXSY+K1jM9lq4UEzXw9nKZv1vI1Sd71miZVMZHu
- bpzmFL4l/je1gAbINUXeYcG+tl2VtefOrkecveeT9L8v1sFN80yzwri0sV3Vg3/CHXt3
- 0eYvB/V8L+icTH7bRNhg1C9ltiKTdXTFPWrOUYD03BXU66S56sFLfmosihZ+dOCLYkX+
- rOG00Ts826ZyROKdFdvlCHgvjGPBKdjzZdDDajjhcjC7cD7PwECn3ih136Wo9TaLCOWS
- 8O/9epBD6aYe4sNwiLhJLfx3v8WsHq0xAlSmUF/QuznPTcyFC8wfYu61Unul1jgIy1FT
- uT8Q==
-X-Gm-Message-State: AOAM532SE8nyQL4O7Iiehc4Zl/8hm2eylD2SrjefjeI8GUjTU4hApg1v
- 6rr7XjmtlJRc+eAxGqHE2Q2N/4ovZw0xhRiK/dFu48J8OxxgEBIQxBfIcZfzZJ/xBlcigm8arYl
- gtAAo2nZsPQXu+tg=
-X-Received: by 2002:a7b:c1d2:: with SMTP id a18mr283541wmj.41.1605636017668;
- Tue, 17 Nov 2020 10:00:17 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy9Qs2O/6GfMZPR/edv2yX5yEvUq2XggcvpdIYa6DwOjBZwjFGUFQSKtvwr4o4QzBsQHmAHnA==
-X-Received: by 2002:a7b:c1d2:: with SMTP id a18mr283523wmj.41.1605636017490;
- Tue, 17 Nov 2020 10:00:17 -0800 (PST)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id w1sm4530009wmi.24.2020.11.17.10.00.16
+ bh=EK/uKv8Hx6olyTFCaxG6RU/pw15ya+i5KI3rKKSIldM=;
+ b=ifLtWMdCkkHLZqGD9heICR1ew7ajFGpFcT/orJUHtylc4AMz3LKVpfhKZqs3CBl9gn
+ vvjX69Fez5TcL9l/WeAzcmhrptFW8hSJz5bfAzJfbYfaIqBmjarAyUPm+G/UMk3NhtU7
+ luezwriL6ImuqLJz9TOEf14HCYawk4J5Z6tlSFzDKsMF5j8rOdJFnRorELU/e4EbsBk0
+ 2HwsSP/gVSwPf3QHvrEj4jHQ4jCT2ijas4WDWwiCJsEbWzXVitPMEHlQ35x5+s60YXtY
+ OlqM7aatXeasP8/kv8dJWTVYxWy5RsZ3dac30CdUOeIraX/8eAtrPfhSg7aHROmhtX6A
+ 4cCg==
+X-Gm-Message-State: AOAM532BJd2NYBAAVoNOPFAWE8Jtcvzay0y1zmOgn8nxVtcQ0JHuLqGx
+ 3gLfn1gJJClLWMS4pOK94Qjw2QS1ieGY89m9hCq6vw9hYs2bVq7RAIN6/CsuFoQkjhUM5QIXmeD
+ iV7F9b/kAaIjL54Y=
+X-Received: by 2002:adf:ff8e:: with SMTP id j14mr766265wrr.48.1605636080430;
+ Tue, 17 Nov 2020 10:01:20 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxPZKlgsxpoawx9867S/HhqrRA3wfnKAUU4ndvulPwMZnUmWTi5zeE49aUAVtHwqvm71uTQwg==
+X-Received: by 2002:adf:ff8e:: with SMTP id j14mr766250wrr.48.1605636080251;
+ Tue, 17 Nov 2020 10:01:20 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id i16sm29305255wru.92.2020.11.17.10.01.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Nov 2020 10:00:16 -0800 (PST)
-Subject: Re: [PATCH for-5.2? 1/2] authz-pam: Check that 'service' property is
- set
-To: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
-References: <20201117163045.307451-1-kwolf@redhat.com>
- <20201117163045.307451-2-kwolf@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <4f9589e5-095f-b8c8-dcae-bd873da51248@redhat.com>
-Date: Tue, 17 Nov 2020 19:00:15 +0100
+ Tue, 17 Nov 2020 10:01:19 -0800 (PST)
+Subject: Re: Regressions in build process introduced since August
+To: Stefano Garzarella <sgarzare@redhat.com>, Stefan Weil <sw@weilnetz.de>
+References: <97b04446-ca94-cebd-2d8d-4c2013521208@weilnetz.de>
+ <20201117175030.eqz5run2m7qmx5qt@steredhat>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <a6c8de1a-da41-1a4a-8907-790c2467a0b0@redhat.com>
+Date: Tue, 17 Nov 2020 19:01:18 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201117163045.307451-2-kwolf@redhat.com>
+In-Reply-To: <20201117175030.eqz5run2m7qmx5qt@steredhat>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 00:41:22
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -101,25 +102,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/17/20 5:30 PM, Kevin Wolf wrote:
-> If the 'service' property is not set, we'll call pam_start() with a NULL
-> pointer for the service name. This fails and leaves a message like this
-> in the syslog:
+On 17/11/20 18:50, Stefano Garzarella wrote:
+> Running `configure [...] --extra-cflags="-I /xyz"` results in
+> compiler flags `-I [...] /xyz`, so the `-I` and `/xyz` are separated
+> by other compiler flags which obviously cannot work as expected. I
+> could work around that by removing the space and using a pattern like
+> `-I/xyz`.
 > 
-> qemu-storage-daemon[294015]: PAM pam_start: invalid argument: service == NULL
-> 
-> Make specifying the property mandatory and catch the error already
-> during the creation of the object.
-> 
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  authz/pamacct.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+> This regression is not restricted to builds targeting Windows.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+I'll take a look at fixing this (in meson).
+
+> meson.build sets a hard name for the Windows installer executable: 
+> installer = 'qemu-setup-' + meson.project_version() + '.exe'.
+> 
+> Previously the installer name could be changed by running `make 
+> installer INSTALLER=qemu-setup-something.exe`. This no longer works.
+> Is there an alternative solution how the name of the installer
+> executable can be set? Or how could I reimplement the lost
+> functionality?
+
+No, there's no way to do this apart from patching meson.build.
+
+Thanks,
+
+Paolo
 
 
