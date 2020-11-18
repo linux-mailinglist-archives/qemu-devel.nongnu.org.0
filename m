@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14DF92B818B
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 17:12:55 +0100 (CET)
-Received: from localhost ([::1]:60022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 960062B818C
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 17:16:12 +0100 (CET)
+Received: from localhost ([::1]:35314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfQ4j-0001wH-TS
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 11:12:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48662)
+	id 1kfQ7v-0003eY-LS
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 11:16:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kfQ3T-0000yF-LC
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 11:11:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39629)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kfQ6g-00039C-Nm
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 11:14:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58120)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kfQ3Q-00018H-LL
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 11:11:35 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kfQ6c-0001S7-ID
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 11:14:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605715891;
+ s=mimecast20190719; t=1605716088;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WX3aC0ZUypKugpxfHUenvZnCL3jpfxuBwA3kKgiGuCs=;
- b=X1b1TmpcoQcuBBa2iBubYM77wfeH5p+60URq71dWRXIYYmrEM/3P99BZ2hJphvUyPbmqZt
- zSVkkakpGMA2hIZUxl++EygcCQ8eDNytL4cIPNRPepIkFM8pXVgpPWgxE/yJSocJBsYpX3
- C/yG9SL256k/SP87VDXX33olgCaT/ZY=
+ bh=furaEVSOXlGd6uV7czHlnimCYtDaARcqyU/MqSnrdh8=;
+ b=guG8Sv8nZYnUOvsGYYh3xmdtHzeG/uCRbKPJ0XGsjNacdhSkUj0nP16z/fXWIaq25yesic
+ FPUaI5eIm8tl+jkJBblDemcM9zddB+Yu8dDsAjGN0696kRsWRkBjL2utgp3e6fk0fz3La2
+ aeZWOm0YG7hFFKDK0HqiD28wSGC4cLI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-579-7NaURj9KMQGGIqzgL3XMZg-1; Wed, 18 Nov 2020 11:11:30 -0500
-X-MC-Unique: 7NaURj9KMQGGIqzgL3XMZg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-539-HM7khv5fPF2jmzTNcH83-Q-1; Wed, 18 Nov 2020 11:14:46 -0500
+X-MC-Unique: HM7khv5fPF2jmzTNcH83-Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5A209D8EC4;
- Wed, 18 Nov 2020 16:11:27 +0000 (UTC)
-Received: from localhost (ovpn-115-101.rdu2.redhat.com [10.10.115.101])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 000F35D6A8;
- Wed, 18 Nov 2020 16:11:20 +0000 (UTC)
-Date: Wed, 18 Nov 2020 11:11:19 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [RFC v3 8/9] module: introduce MODULE_INIT_ACCEL_CPU
-Message-ID: <20201118161119.GJ1509407@habkost.net>
-References: <20201118102936.25569-1-cfontana@suse.de>
- <20201118102936.25569-9-cfontana@suse.de>
- <20201118124845.GC1509407@habkost.net>
- <6093de34-807d-3840-5402-4769385dd894@suse.de>
- <8f829e99-c346-00bc-efdd-3e6d69cfba35@redhat.com>
- <20201118143643.GF1509407@habkost.net>
- <a6071cd4-0787-01c8-775a-ede72e740376@redhat.com>
- <20201118152552.GG1509407@habkost.net>
- <CABgObfYL-TNAMmqkUh6cjcytaAFEtXPfw8toO6gXEuyokdyLhA@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99FDB10B9CA3;
+ Wed, 18 Nov 2020 16:14:44 +0000 (UTC)
+Received: from [10.36.114.231] (ovpn-114-231.ams2.redhat.com [10.36.114.231])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EF07960636;
+ Wed, 18 Nov 2020 16:14:23 +0000 (UTC)
+Subject: Re: [PATCH PROTOTYPE 3/6] vfio: Implement support for sparse RAM
+ memory regions
+To: Peter Xu <peterx@redhat.com>
+References: <20200924160423.106747-1-david@redhat.com>
+ <20200924160423.106747-4-david@redhat.com> <20201020194434.GD200400@xz-x1>
+ <14aaf9f1-9aa4-3a6b-ff25-8a4c7e29c2a6@redhat.com>
+ <20201020204443.GE200400@xz-x1>
+ <fcbea24d-c56a-12b4-4a7b-d8faa1e04047@redhat.com>
+ <20201118152311.GB29639@xz-x1>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <6141422c-1427-2a8d-b3ff-3c49ab1b59d2@redhat.com>
+Date: Wed, 18 Nov 2020 17:14:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <CABgObfYL-TNAMmqkUh6cjcytaAFEtXPfw8toO6gXEuyokdyLhA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20201118152311.GB29639@xz-x1>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 00:38:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -73,8 +74,9 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,120 +89,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Bruce Rogers <brogers@suse.com>,
- Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- Paul Durrant <paul@xen.org>, Olaf Hering <ohering@suse.de>,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- Dario Faggioli <dfaggioli@suse.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Cameron Esfahani <dirty@apple.com>, Colin Xu <colin.xu@intel.com>,
- Wenchao Wang <wenchao.wang@intel.com>,
- Anthony Perard <anthony.perard@citrix.com>, haxm-team@intel.com,
- Sunil Muthuswamy <sunilmut@microsoft.com>, Richard Henderson <rth@twiddle.net>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Claudio Fontana <cfontana@suse.de>
+Cc: Le Tan <tamlokveer@gmail.com>, Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, wei.huang2@amd.com,
+ qemu-devel@nongnu.org, Luiz Capitulino <lcapitulino@redhat.com>,
+ Auger Eric <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Wei Yang <richardw.yang@linux.intel.com>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 18, 2020 at 04:43:19PM +0100, Paolo Bonzini wrote:
-> Il mer 18 nov 2020, 16:26 Eduardo Habkost <ehabkost@redhat.com> ha scritto:
+On 18.11.20 16:23, Peter Xu wrote:
+> David,
 > 
-> >
-> > > The alternative is to store the (type, function) tuple directly, with the
-> > > type as a string.  Then you can just use type_init.
-> >
-> > Right.  Let's build on top of that:
-> >
-> > Another alternative would be to store a (type, X86CPUAccel) tuple
-> > directly, with the type as string.  This would save the extra
-> > indirection of the x86_cpu_accel_init() call.
-> >
-> > It turns out we already have a mechanism to register and store
-> > (type, StructContainingFunctionPointers) tuples at initialization
-> > time: QOM.
-> >
-> > X86CPUAccel can become X86CPUAccelClass, and be registered as a
-> > QOM type.  It could be a subtype of TYPE_ACCEL or not, it
-> > shouldn't matter.
-> >
+> On Wed, Nov 18, 2020 at 02:04:00PM +0100, David Hildenbrand wrote:
+>> On 20.10.20 22:44, Peter Xu wrote:
+>>> On Tue, Oct 20, 2020 at 10:01:12PM +0200, David Hildenbrand wrote:
+>>>> Thanks ... but I have an AMD system. Will try to find out how to get
+>>>> that running with AMD :)
+>>>
+>>> May still start with trying intel-iommu first. :) I think it should work for
+>>> amd hosts too.
+>>>
+>>> Just another FYI - Wei is working on amd-iommu for vfio [1], but it's still
+>>> during review.
+>>>
+>>> [1] https://lore.kernel.org/qemu-devel/20201002145907.1294353-1-wei.huang2@amd.com/
+>>>
+>>
+>> I'm trying to get an iommu setup running (without virtio-mem!),
+>> but it's a big mess.
+>>
+>> Essential parts of my QEMU cmdline are:
+>>
+>> sudo build/qemu-system-x86_64 \
+>>      -accel kvm,kernel-irqchip=split \
+>>      ...
+>>       device pcie-pci-bridge,addr=1e.0,id=pci.1 \
+>>      -device vfio-pci,host=0c:00.0,x-vga=on,bus=pci.1,addr=1.0,multifunction=on \
+>>      -device vfio-pci,host=0c:00.1,bus=pci.1,addr=1.1 \
+>>      -device intel-iommu,caching-mode=on,intremap=on \
 > 
-> It would be a weird type that isn't instantiated, and/or that does nothing
-> but monkey patching other classes. I don't think it's a good fit.
+> The intel-iommu device needs to be created before the rest of devices.  I
+> forgot the reason behind, should be related to how the device address spaces
+> are created.  This rule should apply to all the rest of vIOMMUs, afaiu.
+> 
+> Libvirt guarantees that ordering when VT-d enabled, though when using qemu
+> cmdline indeed that's hard to identify from the first glance... iirc we tried
+> to fix this, but I forgot the details, it's just not trivial.
+> 
+> I noticed that this ordering constraint is also missing in the qemu wiki page
+> of vt-d, so I updated there too, hopefully..
+> 
+> https://wiki.qemu.org/Features/VT-d#Command_Line_Example
+> 
 
-The whole point of this would be to avoid monkey patching other
-classes.
+That did the trick! Thanks!!!
 
-Why wouldn't we instantiate it?  There's a huge number of static
-variables in target/i386/kvm.c that could be moved to that
-object.  Sounds like a perfect fit for me.
+virtio-mem + vfio + iommu seems to work. More testing to be done.
 
-I won't try to stop you if you really want to invent a brand new
-(name => CollectionOfFunctionPointers) registry, but it seems
-unnecessary.
+However, malicious guests can play nasty tricks like
 
+a) Unplugging plugged virtio-mem blocks while they are mapped via an
+    IOMMU
+
+1. Guest: map memory location X located on a virtio-mem device inside a
+    plugged block into the IOMMU
+    -> QEMU IOMMU notifier: create vfio DMA mapping
+    -> VFIO pins memory of unplugged blocks (populating memory)
+2. Guest: Request to unplug memory location X via virtio-mem device
+    -> QEMU virtio-mem: discards the memory.
+    -> VFIO still has the memory pinned
+
+We consume more memory than intended. In case virtio-memory would get 
+replugged and used, we would have an inconsistency. IOMMU device resets/ 
+fix it (whereby all VFIO mappings are removed via the IOMMU notifier).
+
+
+b) Mapping unplugged virtio-mem blocks via an IOMMU
+
+1. Guest: map memory location X located on a virtio-mem device inside an
+    unplugged block
+    -> QEMU IOMMU notifier: create vfio DMA mapping
+    -> VFIO pins memory of unplugged blocks (populating memory)
+
+Memory that's supposed to be discarded now consumes memory. This is 
+similar to a malicious guest simply writing to unplugged memory blocks 
+(to be tackled with "protection of unplugged memory" in the future) - 
+however memory will also get pinned.
+
+
+To prohibit b) from happening, we would have to disallow creating the 
+VFIO mapping (fairly easy).
+
+To prohibit a), there would have to be some notification to IOMMU 
+implementations to unmap/refresh whenever an IOMMU entry still points at 
+memory that is getting discarded (and the VM is doing something it's not 
+supposed to do).
+
+
+>> As soon as I enable "intel_iommu=on" in my guest kernel, graphics
+>> stop working (random mess on graphics output) and I get
+>>    vfio-pci 0000:0c:00.0: AMD-Vi: Event logged [IO_PAGE_FAULT domain=0x0023 address=0xff924000 flags=0x0000]
+>> in the hypervisor, along with other nice messages.
+>>
+>> I can spot no vfio DMA mappings coming from an iommu, just as if the
+>> guest wouldn't even try to setup the iommu.
+>>
+>> I tried with
+>> 1. AMD Radeon RX Vega 56
+>> 2. Nvidia GT220
+>> resulting in similar issues.
+>>
+>> I also tried with "-device amd-iommu" with other issues
+>> (guest won't even boot up). Are my graphics card missing some support or
+>> is there a fundamental flaw in my setup?
 > 
-> Yet another possibility is to use GHashTable. It is limited to one value
-> per key, but it's enough if everything is kept local to {hw,target}/i386.
-> If needed a new function pointer can be added to MachineClass, implemented
-> in X86MachineState (where the GHashTable would also be) and called in
-> accel.c.
-> 
-> Paolo
-> 
-> Paolo
-> 
-> 
-> > I remember this was suggested in a previous thread, but I don't
-> > remember if there were any objections.
-> >
-> > >
-> > > > Making sure module_call_init() is called at the correct moment is
-> > > > not easier or safer than just making sure accel_init_machine()
-> > > > (or another init function you create) is called at the correct
-> > > > moment.
-> > >
-> > > Since there is a way to do it without a new level, that would of course
-> > be
-> > > fine for me too.  Let me explain however why I think Claudio's design had
-> > > module_call_init() misplaced and what the fundamental difference is.  The
-> > > basic phases in qemu_init() are:
-> > >
-> > > - initialize stuff
-> > > - parse command line
-> > > - create machine
-> > > - create accelerator
-> > > - initialize machine
-> > > - create devices
-> > > - start
-> > >
-> > > with a mess of other object creation sprinkled between the various phases
-> > > (but we don't care about those).
-> > >
-> > > What I object to, is calling module_call_init() after the "initialize
-> > stuff"
-> > > phase.  Claudio was using it to call the function directly, so it had to
-> > be
-> > > exactly at "create accelerator".  This is different from all other
-> > > module_call_init() calls, which are done very early.
-> >
-> > I agree.
-> >
-> > >
-> > > With the implementation I sketched, accel_register_call must still be
-> > done
-> > > after type_init, so there's still an ordering constraint, but all it's
-> > doing
-> > > is registering a callback in the "initialize stuff" phase.
-> >
-> > Makes sense, if we really want to introduce a new accel_register_call()
-> > abstraction.  I don't think we need it, though.
-> >
-> > --
-> > Eduardo
-> >
-> >
+> I guess amd-iommu won't work if without Wei Huang's series applied.
+
+Oh, okay - I spotted it in QEMU and thought this was already working :)
 
 -- 
-Eduardo
+Thanks,
+
+David / dhildenb
 
 
