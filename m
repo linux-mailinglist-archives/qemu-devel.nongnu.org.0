@@ -2,84 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CFAB2B7B73
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 11:36:31 +0100 (CET)
-Received: from localhost ([::1]:46048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8921F2B7B86
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 11:42:20 +0100 (CET)
+Received: from localhost ([::1]:33232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfKpC-0004Ir-IA
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 05:36:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53942)
+	id 1kfKup-0002ZU-LP
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 05:42:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1kfKlz-0000nC-O0
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 05:33:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23063)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1kfKlw-0005jK-QV
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 05:33:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605695587;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8EXtJsF8ZgQJeG97govrWeD2oEbcdYUMUfvU4CLQ73g=;
- b=dKX9+safjNIFYA6AORFURtb+ZaffwaKQ3Xlf1Ff/BPvZ6Md7kVI8Qh8lyhwyHYSVzZYzju
- mAySwgtDbj8cc7DMBHJk/5t0vHufVoFXhw/p43AG/G6EB/K7JvNSsV/ExQR1D0MwQj0f1h
- eIubPx21FdPCgHlDvjE/kDUHdfoNJIU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-576-0w7koYMcMRu_UPYCg2XNhQ-1; Wed, 18 Nov 2020 05:33:04 -0500
-X-MC-Unique: 0w7koYMcMRu_UPYCg2XNhQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0CF4188C12A;
- Wed, 18 Nov 2020 10:33:02 +0000 (UTC)
-Received: from kaapi (unknown [10.33.36.11])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0B1B75B4BC;
- Wed, 18 Nov 2020 10:32:55 +0000 (UTC)
-Date: Wed, 18 Nov 2020 16:02:52 +0530 (IST)
-From: P J P <ppandit@redhat.com>
-To: =?ISO-8859-15?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: About 'qemu-security' mailing list
-In-Reply-To: <20201117163514.GG135624@redhat.com>
-Message-ID: <50o576n9-9p18-66qs-4qs3-7s7488r18sr0@erqung.pbz>
-References: <nycvar.YSQ.7.78.906.2009151536090.10832@xnncv>
- <20200916111025.GA756728@stefanha-x1.localdomain>
- <nycvar.YSQ.7.78.906.2009181031500.10832@xnncv> <m2362z8dvx.fsf@oracle.com>
- <nycvar.YSQ.7.78.906.2010011502290.830962@xnncv> <m2mu166uyg.fsf@oracle.com>
- <nycvar.YSQ.7.78.906.2010012320290.830962@xnncv>
- <nycvar.YSQ.7.78.906.2010161910530.1246156@xnncv>
- <20201117144612.GA140001@stefanha-x1.localdomain>
- <20201117161942.GA147428@stefanha-x1.localdomain>
- <20201117163514.GG135624@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kfKtj-00024V-TR
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 05:41:11 -0500
+Received: from indium.canonical.com ([91.189.90.7]:37074)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kfKtf-0006o2-PZ
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 05:41:11 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kfKtd-0001Gr-RY
+ for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 10:41:05 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id CEEDD2E8072
+ for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 10:41:05 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/mixed;
- BOUNDARY="-1463811718-2123019466-1605693429=:10469"
-Content-ID: <prso18r2-47r2-r16-287o-28sq4q703qnn@erqung.pbz>
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ppandit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 19:41:43
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 18 Nov 2020 10:32:57 -0000
+From: Thomas Huth <1903470@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: magicaltux marcandre-lureau
+X-Launchpad-Bug-Reporter: =?utf-8?q?Mark_Karpel=C3=A8s_=28magicaltux=29?=
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <160488704585.18602.6390058369473747228.malonedeb@soybean.canonical.com>
+Message-Id: <160569557813.17181.11960985603483673467.launchpad@wampee.canonical.com>
+Subject: [Bug 1903470] Re: qemu 5.1.0: Add UNIX socket support for netdev
+ socket
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a2ee2035671f86427804714f331b9ff7fecaef7e"; Instance="production"
+X-Launchpad-Hash: 5d868c6e6243db131f97ee8da8fc4f13352d6d96
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 04:01:19
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,103 +73,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, sstabellini@kernel.org,
- Petr Matousek <pmatouse@redhat.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, mst@redhat.com,
- QEMU Developers <qemu-devel@nongnu.org>,
- Darren Kenny <darren.kenny@oracle.com>, michael.roth@amd.com
+Reply-To: Bug 1903470 <1903470@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
----1463811718-2123019466-1605693429=:10469
-Content-Type: text/plain; CHARSET=ISO-8859-15
-Content-Transfer-Encoding: 8BIT
-Content-ID: <5spqopp4-66o-41n6-s9p-3874o53s619@erqung.pbz>
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-  Hello Dan, Stefan,
+-- =
 
-+-- On Tue, 17 Nov 2020, Daniel P. Berrangé wrote --+
-| On Tue, Nov 17, 2020 at 04:19:42PM +0000, Stefan Hajnoczi wrote:
-| > Dan and I tried out confidential issues and unfortunately it is
-| > currently too limited for our workflow.
-| > 
-| > It is not possible to add non-members to a confidential issue. Members
-| > need at least the 'Reporter' role to view confidential issues, and then
-| > they can view all of them (!).
-| > 
-| > This means there is no way of working on a need-to-know basis. We would
-| > have to give anyone who ever needs to comment on an issue access to all
-| > other issues :(.
-| > 
-| > Dan found this open feature request from 2 years ago:
-| > https://gitlab.com/gitlab-org/gitlab/-/issues/20252
-| > 
-| > For now I think we should stick to email.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1903470
 
-  I think email is best and easiest for all.
+Title:
+  qemu 5.1.0: Add UNIX socket support for netdev socket
 
-| > I'm still concerned about the prospect of writing custom mailing list 
-| > software and hosting it somewhere. Can we run an encrypted mailing list 
-| > without developing the software ourselves?
-| 
-| We certainly should NOT get into the business of writing or hosting
-| custom solutions ourselves IMHO. Even if someone volunteers to do the
-| work upfront, that'll inevitably turn into abandonware a few years
-| hence when the interested party moves onto other things.
+Status in QEMU:
+  Incomplete
 
-* I don't know of any list provider which supports encryption.
+Bug description:
+  Note: this is a feature request.
 
-* For custom software, there is this 'schleuder' project
+  qemu has a way to connect instances using a socket:
 
-   -> https://0xacab.org/schleuder/schleuder
-   -> https://schleuder.org/schleuder/docs/concept.html
-      A gpg-enabled mailing list manager with resending-capabilities.  
+  -netdev socket,id=3Dstr[,fd=3Dh][,listen=3D[host]:port][,connect=3Dhost:p=
+ort]
 
-* I have not used it or played with it.
+  This can also be used to connect a qemu instance to something else
+  using a socket connection, however there is no authentication or
+  security to the connection, so rather than using a port which can be
+  accessed by any user on the machine, having the ability to use or
+  connect to UNIX sockets would be helpful, and adding this option
+  should be fairly trivial.
 
+  UNIX sockets can be found in various parts of qemu (monitor, etc) so I
+  believe having this on network would make sense.
 
-| I still question whether we genuinely need encrypted mailing lists in
-| the first place.
-| 
-| Our of all the security reports QEMU has received how many reporters
-| actually used GPG to encrypt their reporters, and how often did the
-| security team actually keep using GPG when triaging and resolving it
-| thereafter.
-| 
-| Out of countless security issues I've dealt with across many software
-| projects for 10 years, there have been less than 5 occassions where
-| encryption was used with email by a bug reporter notifying me, and out
-| of those only 1 of them actually justified the use of GPG.
-| 
-| For projects that did use confidential issues, they still all emailed
-| notifications in clear text behind the scenes regardless.
-|
-| Is it not sufficient to just use a regular mailing list by default,
-| and continue publish security team pgp email addrs + keys for the
-| few cases where pgp might be desired.
-
-* True, need & usage of encryption is debatable and difficult.
-
-* Above points and possible solution of keeping the current handful PGP keys 
-  available did come up earlier
-
-  -> https://lists.nongnu.org/archive/html/qemu-devel/2020-09/msg05213.html
-
-
-* At this point I think, let's get started with a regular list for now. We can 
-  still continue to explore encryption support options.
-
-
-@Stefanha: do we need to file a request ticket to create 'qemu-security' list?
-
-
-Thank you.
---
-Prasad J Pandit / Red Hat Product Security Team
-8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
----1463811718-2123019466-1605693429=:10469--
-
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1903470/+subscriptions
 
