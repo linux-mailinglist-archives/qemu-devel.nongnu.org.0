@@ -2,74 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05CF62B78F6
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 09:42:09 +0100 (CET)
-Received: from localhost ([::1]:39734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57AA72B78B4
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 09:32:38 +0100 (CET)
+Received: from localhost ([::1]:59134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfJ2W-0006xV-1N
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 03:42:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50730)
+	id 1kfItJ-0008VH-BV
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 03:32:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1kfItj-0002Ks-TJ
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 03:33:05 -0500
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:37926)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1kfItf-0004ql-Hs
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 03:33:03 -0500
-Received: by mail-pf1-x429.google.com with SMTP id 10so960846pfp.5
- for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 00:32:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=WitnrWBbLYaavwmIo3fyIWVjh3/i25wi0/2lemgAt9M=;
- b=ktCAw4OUwVePo7tB9dGLvuM2BI4xOlwSE/7W+02zQGoHDVBVc3L8EkZkB4UmqtRBua
- +1zfk2mpV4NjNdBaAH7FuZxZeSjV8Ev9kSD+eynoVmm9OchYwSdFgDxF7P1LFIelteAe
- 9SSHjiVdpEcnqb4r+HDad+KdITuQwE7GdOR/7tBWJKOSJwIpEAJPzHTvXMBWgTNy5KOu
- /zAx71P6LdyfT4lSa6Hoyk1M1h8TKYwIvMHScF7JY7CUxE9oQXr67IBZqKkG2iHhlaRU
- SmUP5LHPD+ucnWvRuNnF0jOIpMBIEdS89/Td2up8TSionvza4u8CYqMfEe2BD6A64mgQ
- h1Pw==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kfIqq-0006zI-81
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 03:30:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50461)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kfIqn-0004KN-DT
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 03:30:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605688200;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OQq8/T1QKKFNCeeUc3x1nyvA8RpFvpYBPnIymMsh4oU=;
+ b=XxBKB02mG9PJgod1oNa5PT3XqmuU1yd089pqIAohBn+RdJ2mPVhC0mFL7C1aR2Uc1rf83Q
+ BqN2DnX1/Bfkvh/qa++9vjOYxcP3wmFHGwheSFSxHgv2hGlE9+h4XCYSY1NR4gkdAwGKBV
+ CARJIT2M3YDZcnnnF7XAk2UJcsQloNs=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-554-MQXki8bINzaO-iD_Rs9Eqw-1; Wed, 18 Nov 2020 03:29:53 -0500
+X-MC-Unique: MQXki8bINzaO-iD_Rs9Eqw-1
+Received: by mail-ej1-f70.google.com with SMTP id p6so564359ejj.5
+ for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 00:29:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=WitnrWBbLYaavwmIo3fyIWVjh3/i25wi0/2lemgAt9M=;
- b=ShoA+BlvZAHUftHLs+V4qh70ivRyyCUx8KtPwugVtxIOkTzIfxwmrovJG3uX7nCeSV
- CuNX96UdOzUTHbu2kEyCU6LWBtQFG6fLncrJO2x3JFsglWEyk90h4HLCJxv+kZrdApR6
- GJkoEBnX6YTFYFgZWGgtBGnXGkUcbo13CnznU+7FzqiwHArOmlgvVZrwV/dqS1PiNTDK
- R/M4OCjuCGbryPAb3a2u1rWey/LSM39d0GNPIAf6XMsbUWfboH/8MypGATx5Cn8cfEoH
- tl+CLMhn+hFuyTKaJnve11qwaDFPGko1RyBikQkJwU+h093xYYvv8BxnfFOk1FEx2+g7
- bO9A==
-X-Gm-Message-State: AOAM530X4DdJJ3uoozbiNfoOumZ72uKpJ7P19MgA20TwztAOF1EdsHq4
- nUR17DSZ69qOcZALy7wWEzwVjhdV0J+NrzLU5Ak=
-X-Google-Smtp-Source: ABdhPJycSNZ5bFzZgnEAdB136tiWewKOkAq14NdsTe3kNVxYi4iwiXRHZAXuuln2r4Z1XNKfpNmE3Q==
-X-Received: by 2002:a63:6406:: with SMTP id y6mr7382576pgb.59.1605688378028;
- Wed, 18 Nov 2020 00:32:58 -0800 (PST)
-Received: from frankchang-ThinkPad-T490.internal.sifive.com
- (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id y10sm1618407pjm.34.2020.11.18.00.32.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Nov 2020 00:32:57 -0800 (PST)
-From: frank.chang@sifive.com
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [RFC 11/15] target/riscv: rvb: generalized reverse
-Date: Wed, 18 Nov 2020 16:29:49 +0800
-Message-Id: <20201118083044.13992-12-frank.chang@sifive.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201118083044.13992-1-frank.chang@sifive.com>
-References: <20201118083044.13992-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=frank.chang@sifive.com; helo=mail-pf1-x429.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=OQq8/T1QKKFNCeeUc3x1nyvA8RpFvpYBPnIymMsh4oU=;
+ b=m2TyD3B1ddqqmyNV4QsfrR46cH9+Mw92UF3ot00anx/3/QpgT6I7LB4wKbxPTueu4+
+ V9+nYMykn0X+aBUoCltxKNJTM+4TNy3TFK8cmO1ncdgdNPMrs+42VzENzTnV99B/ElYI
+ 2q477bROWR5WMGq2vy1SAnw2Ji1WAqHElTCPyRhRAga9x5a5N+TfAxx7IaE60ROIEkT6
+ M847zYlBCbIdjVS4vbwVL65PC4RJKob+aDvZpjxIHEP0HmBb4MEiavGe6G4WTsnkt45f
+ xIi0t6jFcnzKb7XJH+8FRY3GA2rIHC0phWaszv6NthYRpLpdm/l8IBIHGIDK1hkbFZ+K
+ f3hg==
+X-Gm-Message-State: AOAM530X7tLsuKG9eTmSNa+u90m51kQU7lMlqPxQdpqYKiRAbAZgVHI/
+ xuY879z1ZlOYbos1tJZA/LMDKXF88q94M44qM9y+nzXzfBuscLgAurCXSapzUIuSph78yuxjrwW
+ ZyCcy3944psYkXUM=
+X-Received: by 2002:a17:906:757:: with SMTP id
+ z23mr168820ejb.259.1605688192375; 
+ Wed, 18 Nov 2020 00:29:52 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzmPhRq7faflB/jIeu1F2Zl61oAhvXNc/DOQmoBgtQkgIT/V0qfkYKteeGOqxEQzUXpNFWP/g==
+X-Received: by 2002:a17:906:757:: with SMTP id
+ z23mr168807ejb.259.1605688192044; 
+ Wed, 18 Nov 2020 00:29:52 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id p1sm12915784edx.4.2020.11.18.00.29.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Nov 2020 00:29:51 -0800 (PST)
+Subject: Re: [PATCH for-5.2] docs: Fix some typos (found by codespell)
+To: Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org
+References: <20201117193448.393472-1-sw@weilnetz.de>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <78cbcb2d-9ae4-a11f-7b45-9756595fdde4@redhat.com>
+Date: Wed, 18 Nov 2020 09:29:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
+MIME-Version: 1.0
+In-Reply-To: <20201117193448.393472-1-sw@weilnetz.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 19:41:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,299 +103,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Frank Chang <frank.chang@sifive.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Kito Cheng <kito.cheng@sifive.com>
+Cc: qemu-trivial@nongnu.org, libvir-list@redhat.com,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frank Chang <frank.chang@sifive.com>
+On 17/11/20 20:34, Stefan Weil wrote:
+> Fix also a similar typo in a code comment.
+> 
+> Signed-off-by: Stefan Weil <sw@weilnetz.de>
+> ---
+>   docs/can.txt                  | 8 ++++----
+>   docs/interop/vhost-user.rst   | 2 +-
+>   docs/replay.txt               | 2 +-
+>   docs/specs/ppc-spapr-numa.rst | 2 +-
+>   docs/system/deprecated.rst    | 4 ++--
+>   docs/tools/virtiofsd.rst      | 2 +-
+>   hw/vfio/igd.c                 | 2 +-
+>   7 files changed, 11 insertions(+), 11 deletions(-)
+> 
+> diff --git a/docs/can.txt b/docs/can.txt
+> index 5838f6620c..0d310237df 100644
+> --- a/docs/can.txt
+> +++ b/docs/can.txt
+> @@ -19,7 +19,7 @@ interface to implement because such device can be easily connected
+>   to systems with different CPU architectures (x86, PowerPC, Arm, etc.).
+>   
+>   In 2020, CTU CAN FD controller model has been added as part
+> -of the bachelor theses of Jan Charvat. This controller is complete
+> +of the bachelor thesis of Jan Charvat. This controller is complete
+>   open-source/design/hardware solution. The core designer
+>   of the project is Ondrej Ille, the financial support has been
+>   provided by CTU, and more companies including Volkswagen subsidiaries.
+> @@ -31,7 +31,7 @@ testing lead to goal change to provide environment which provides complete
+>   emulated environment for testing and RTEMS GSoC slot has been donated
+>   to work on CAN hardware emulation on QEMU.
+>   
+> -Examples how to use CAN emulation for SJA1000 based borads
+> +Examples how to use CAN emulation for SJA1000 based boards
+>   ==========================================================
+>   
+>   When QEMU with CAN PCI support is compiled then one of the next
+> @@ -106,8 +106,8 @@ This open-source core provides CAN FD support. CAN FD drames are
+>   delivered even to the host systems when SocketCAN interface is found
+>   CAN FD capable.
+>   
+> -The PCIe borad emulation is provided for now (the device identifier is
+> -ctucan_pci). The defauld build defines two CTU CAN FD cores
+> +The PCIe board emulation is provided for now (the device identifier is
+> +ctucan_pci). The default build defines two CTU CAN FD cores
+>   on the board.
+>   
+>   Example how to connect the canbus0-bus (virtual wire) to the host
+> diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
+> index 988f154144..72b2e8c7ba 100644
+> --- a/docs/interop/vhost-user.rst
+> +++ b/docs/interop/vhost-user.rst
+> @@ -513,7 +513,7 @@ descriptor table (split virtqueue) or descriptor ring (packed
+>   virtqueue). However, it can't work when we process descriptors
+>   out-of-order because some entries which store the information of
+>   inflight descriptors in available ring (split virtqueue) or descriptor
+> -ring (packed virtqueue) might be overrided by new entries. To solve
+> +ring (packed virtqueue) might be overridden by new entries. To solve
+>   this problem, slave need to allocate an extra buffer to store this
+>   information of inflight descriptors and share it with master for
+>   persistent. ``VHOST_USER_GET_INFLIGHT_FD`` and
+> diff --git a/docs/replay.txt b/docs/replay.txt
+> index 87a64ae068..5b008ca491 100644
+> --- a/docs/replay.txt
+> +++ b/docs/replay.txt
+> @@ -328,7 +328,7 @@ between the snapshots. Each of the passes include the following steps:
+>    1. loading the snapshot
+>    2. replaying to examine the breakpoints
+>    3. if breakpoint or watchpoint was met
+> -    - loading the snaphot again
+> +    - loading the snapshot again
+>       - replaying to the required breakpoint
+>    4. else
+>       - proceeding to the p.1 with the earlier snapshot
+> diff --git a/docs/specs/ppc-spapr-numa.rst b/docs/specs/ppc-spapr-numa.rst
+> index 5fca2bdd8e..ffa687dc89 100644
+> --- a/docs/specs/ppc-spapr-numa.rst
+> +++ b/docs/specs/ppc-spapr-numa.rst
+> @@ -198,7 +198,7 @@ This is how it is being done:
+>   * user distance 121 and beyond will be interpreted as 160
+>   * user distance 10 stays 10
+>   
+> -The reasoning behind this aproximation is to avoid any round up to the local
+> +The reasoning behind this approximation is to avoid any round up to the local
+>   distance (10), keeping it exclusive to the 4th NUMA level (which is still
+>   exclusive to the node_id). All other ranges were chosen under the developer
+>   discretion of what would be (somewhat) sensible considering the user input.
+> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+> index 32a0e620db..63e9db1463 100644
+> --- a/docs/system/deprecated.rst
+> +++ b/docs/system/deprecated.rst
+> @@ -465,7 +465,7 @@ default configuration.
+>   
+>   The CPU model runnability guarantee won't apply anymore to
+>   existing CPU models.  Management software that needs runnability
+> -guarantees must resolve the CPU model aliases using te
+> +guarantees must resolve the CPU model aliases using the
+>   ``alias-of`` field returned by the ``query-cpu-definitions`` QMP
+>   command.
+>   
+> @@ -637,7 +637,7 @@ Splitting RAM by default between NUMA nodes had the same issues as ``mem``
+>   parameter with the difference that the role of the user plays QEMU using
+>   implicit generic or board specific splitting rule.
+>   Use ``memdev`` with *memory-backend-ram* backend or ``mem`` (if
+> -it's supported by used machine type) to define mapping explictly instead.
+> +it's supported by used machine type) to define mapping explicitly instead.
+>   Users of existing VMs, wishing to preserve the same RAM distribution, should
+>   configure it explicitly using ``-numa node,memdev`` options. Current RAM
+>   distribution can be retrieved using HMP command ``info numa`` and if separate
+> diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
+> index 34a9e40146..866b7db3ee 100644
+> --- a/docs/tools/virtiofsd.rst
+> +++ b/docs/tools/virtiofsd.rst
+> @@ -174,7 +174,7 @@ Using ':' as the separator a rule is of the form:
+>   - 'bad' - If a client tries to use a name matching 'key' it's
+>     denied using EPERM; when the server passes an attribute
+>     name matching 'prepend' it's hidden.  In many ways it's use is very like
+> -  'ok' as either an explict terminator or for special handling of certain
+> +  'ok' as either an explicit terminator or for special handling of certain
+>     patterns.
+>   
+>   **key** is a string tested as a prefix on an attribute name originating
+> diff --git a/hw/vfio/igd.c b/hw/vfio/igd.c
+> index 64e332746b..470205f487 100644
+> --- a/hw/vfio/igd.c
+> +++ b/hw/vfio/igd.c
+> @@ -535,7 +535,7 @@ void vfio_probe_igd_bar4_quirk(VFIOPCIDevice *vdev, int nr)
+>       }
+>   
+>       /*
+> -     * Assume we have no GMS memory, but allow it to be overrided by device
+> +     * Assume we have no GMS memory, but allow it to be overridden by device
+>        * option (experimental).  The spec doesn't actually allow zero GMS when
+>        * when IVD (IGD VGA Disable) is clear, but the claim is that it's unused,
+>        * so let's not waste VM memory for it.
+> 
 
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
----
- target/riscv/bitmanip_helper.c          | 79 +++++++++++++++++++++++++
- target/riscv/helper.h                   |  7 +++
- target/riscv/insn32-64.decode           |  2 +
- target/riscv/insn32.decode              |  2 +
- target/riscv/insn_trans/trans_rvb.c.inc | 34 +++++++++++
- target/riscv/meson.build                |  1 +
- target/riscv/translate.c                | 53 +++++++++++++++++
- 7 files changed, 178 insertions(+)
- create mode 100644 target/riscv/bitmanip_helper.c
+Queued, thanks.
 
-diff --git a/target/riscv/bitmanip_helper.c b/target/riscv/bitmanip_helper.c
-new file mode 100644
-index 00000000000..1d133db1552
---- /dev/null
-+++ b/target/riscv/bitmanip_helper.c
-@@ -0,0 +1,79 @@
-+/*
-+ * RISC-V Bitmanip Extension Helpers for QEMU.
-+ *
-+ * Copyright (c) 2020 Kito Cheng, kito.cheng@sifive.com
-+ * Copyright (c) 2020 Frank Chang, frank.chang@sifive.com
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/host-utils.h"
-+#include "exec/exec-all.h"
-+#include "exec/helper-proto.h"
-+
-+static inline target_ulong do_swap(target_ulong x, target_ulong mask, int shift)
-+{
-+    return ((x & mask) << shift) | ((x & ~mask) >> shift);
-+}
-+
-+static target_ulong do_grev(target_ulong rs1,
-+                            target_ulong rs2,
-+                            const target_ulong masks[])
-+{
-+    target_ulong x = rs1;
-+    int shift = 1;
-+    int i = 0;
-+
-+    while (shift < TARGET_LONG_BITS) {
-+        if (rs2 & shift) {
-+            x = do_swap(x, masks[i], shift);
-+        }
-+        shift <<= 1;
-+        ++i;
-+    }
-+
-+    return x;
-+}
-+
-+target_ulong HELPER(grev)(target_ulong rs1, target_ulong rs2)
-+{
-+    static const target_ulong masks[] = {
-+#ifdef TARGET_RISCV32
-+        0x55555555, 0x33333333, 0x0f0f0f0f,
-+        0x00ff00ff, 0x0000ffff,
-+#else
-+        0x5555555555555555, 0x3333333333333333,
-+        0x0f0f0f0f0f0f0f0f, 0x00ff00ff00ff00ff,
-+        0x0000ffff0000ffff, 0x00000000ffffffff,
-+#endif
-+    };
-+
-+    return do_grev(rs1, rs2, masks);
-+}
-+
-+/* RV64-only instruction */
-+#ifdef TARGET_RISCV64
-+
-+target_ulong HELPER(grevw)(target_ulong rs1, target_ulong rs2)
-+{
-+    static const target_ulong masks[] = {
-+        0x55555555, 0x33333333, 0x0f0f0f0f,
-+        0x00ff00ff, 0x0000ffff,
-+    };
-+
-+    return do_grev(rs1, rs2, masks);
-+}
-+
-+#endif
-+
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 4b690147fb2..15243a00761 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -66,6 +66,13 @@ DEF_HELPER_FLAGS_2(fcvt_d_lu, TCG_CALL_NO_RWG, i64, env, tl)
- #endif
- DEF_HELPER_FLAGS_1(fclass_d, TCG_CALL_NO_RWG_SE, tl, i64)
- 
-+/* Bitmanip */
-+DEF_HELPER_FLAGS_2(grev, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+
-+#if defined(TARGET_RISCV64)
-+DEF_HELPER_FLAGS_2(grevw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+#endif
-+
- /* Special functions */
- DEF_HELPER_3(csrrw, tl, env, tl, tl)
- DEF_HELPER_4(csrrs, tl, env, tl, tl, tl)
-diff --git a/target/riscv/insn32-64.decode b/target/riscv/insn32-64.decode
-index a1a4b12f7ca..f2d3b6a5b5d 100644
---- a/target/riscv/insn32-64.decode
-+++ b/target/riscv/insn32-64.decode
-@@ -102,6 +102,7 @@ slow       0010000 .......... 001 ..... 0111011 @r
- srow       0010000 .......... 101 ..... 0111011 @r
- rorw       0110000 .......... 101 ..... 0111011 @r
- rolw       0110000 .......... 001 ..... 0111011 @r
-+grevw      0110100 .......... 101 ..... 0111011 @r
- 
- sbsetiw    0010100 .......... 001 ..... 0011011 @sh5
- sbclriw    0100100 .......... 001 ..... 0011011 @sh5
-@@ -109,3 +110,4 @@ sbinviw    0110100 .......... 001 ..... 0011011 @sh5
- sloiw      0010000 .......... 001 ..... 0011011 @sh5
- sroiw      0010000 .......... 101 ..... 0011011 @sh5
- roriw      0110000 .......... 101 ..... 0011011 @sh5
-+greviw     0110100 .......... 101 ..... 0011011 @sh5
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 01b8ebc4bee..60821a16661 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -619,6 +619,7 @@ slo        0010000 .......... 001 ..... 0110011 @r
- sro        0010000 .......... 101 ..... 0110011 @r
- ror        0110000 .......... 101 ..... 0110011 @r
- rol        0110000 .......... 001 ..... 0110011 @r
-+grev       0110100 .......... 101 ..... 0110011 @r
- 
- sbseti     001010 ........... 001 ..... 0010011 @sh
- sbclri     010010 ........... 001 ..... 0010011 @sh
-@@ -627,3 +628,4 @@ sbexti     010010 ........... 101 ..... 0010011 @sh
- sloi       001000 ........... 001 ..... 0010011 @sh
- sroi       001000 ........... 101 ..... 0010011 @sh
- rori       011000 ........... 101 ..... 0010011 @sh
-+grevi      011010 ........... 101 ..... 0010011 @sh
-diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-index ba8734203ac..9f1482d313a 100644
---- a/target/riscv/insn_trans/trans_rvb.c.inc
-+++ b/target/riscv/insn_trans/trans_rvb.c.inc
-@@ -212,6 +212,23 @@ static bool trans_rol(DisasContext *ctx, arg_rol *a)
-     return gen_arith(ctx, a, &tcg_gen_rotl_tl);
- }
- 
-+static bool trans_grev(DisasContext *ctx, arg_grev *a)
-+{
-+    REQUIRE_EXT(ctx, RVB);
-+    return gen_arith(ctx, a, &gen_grev);
-+}
-+
-+static bool trans_grevi(DisasContext *ctx, arg_grevi *a)
-+{
-+    REQUIRE_EXT(ctx, RVB);
-+
-+    if (a->shamt >= TARGET_LONG_BITS) {
-+        return false;
-+    }
-+
-+    return gen_grevi(ctx, a);
-+}
-+
- /* RV64-only instructions */
- #ifdef TARGET_RISCV64
- 
-@@ -343,4 +360,21 @@ static bool trans_rolw(DisasContext *ctx, arg_rolw *a)
-     return gen_arith(ctx, a, &gen_rolw);
- }
- 
-+static bool trans_grevw(DisasContext *ctx, arg_grevw *a)
-+{
-+    REQUIRE_EXT(ctx, RVB);
-+    return gen_arith(ctx, a, &gen_grevw);
-+}
-+
-+static bool trans_greviw(DisasContext *ctx, arg_greviw *a)
-+{
-+    REQUIRE_EXT(ctx, RVB);
-+
-+    if (a->shamt >= 32) {
-+        return false;
-+    }
-+
-+    return gen_arith_shamt_tl(ctx, a, &gen_grevw);
-+}
-+
- #endif
-diff --git a/target/riscv/meson.build b/target/riscv/meson.build
-index abd647fea1c..df77cd24ada 100644
---- a/target/riscv/meson.build
-+++ b/target/riscv/meson.build
-@@ -21,6 +21,7 @@ riscv_ss.add(files(
-   'gdbstub.c',
-   'op_helper.c',
-   'vector_helper.c',
-+  'bitmanip_helper.c',
-   'translate.c',
- ))
- 
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 68870bd9202..80549154d6e 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -919,6 +919,44 @@ static void gen_sro(TCGv ret, TCGv arg1, TCGv arg2)
-     tcg_temp_free(t);
- }
- 
-+static void gen_grev(TCGv ret, TCGv arg1, TCGv arg2)
-+{
-+    TCGv shamt;
-+    shamt = tcg_temp_new();
-+
-+    gen_sbop_shamt(shamt, arg2);
-+    gen_helper_grev(ret, arg1, shamt);
-+
-+    tcg_temp_free(shamt);
-+}
-+
-+static bool gen_grevi(DisasContext *ctx, arg_grevi *a)
-+{
-+    TCGv source1, source2;
-+    source1 = tcg_temp_new();
-+
-+    gen_get_gpr(source1, a->rs1);
-+
-+    if (a->shamt == (TARGET_LONG_BITS - 8)) {
-+        /* rev8, byte swaps */
-+#ifdef TARGET_RISCV32
-+        tcg_gen_bswap32_tl(source1, source1);
-+#else
-+        tcg_gen_bswap64_tl(source1, source1);
-+#endif
-+    } else {
-+        source2 = tcg_temp_new();
-+        tcg_gen_movi_tl(source2, a->shamt);
-+        gen_helper_grev(source1, source1, source2);
-+        tcg_temp_free(source2);
-+    }
-+
-+    gen_set_gpr(a->rd, source1);
-+
-+    tcg_temp_free(source1);
-+    return true;
-+}
-+
- 
- #ifdef TARGET_RISCV64
- 
-@@ -1140,6 +1178,21 @@ static void gen_rolw(TCGv ret, TCGv arg1, TCGv arg2)
-     tcg_temp_free_i32(t2);
- }
- 
-+static void gen_grevw(TCGv ret, TCGv arg1, TCGv arg2)
-+{
-+    TCGv shamt;
-+    shamt = tcg_temp_new();
-+
-+    tcg_gen_ext32u_tl(arg1, arg1);
-+
-+    gen_sbopw_shamt(shamt, arg2);
-+    gen_helper_grev(ret, arg1, shamt);
-+
-+    tcg_gen_ext32s_tl(ret, ret);
-+
-+    tcg_temp_free(shamt);
-+}
-+
- #endif
- 
- static bool gen_arith(DisasContext *ctx, arg_r *a,
--- 
-2.17.1
+Paolo
 
 
