@@ -2,39 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 193832B7DFB
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 14:00:34 +0100 (CET)
-Received: from localhost ([::1]:59312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 706642B7DF1
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 13:57:33 +0100 (CET)
+Received: from localhost ([::1]:51358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfN4b-0008IA-0L
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 08:00:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56818)
+	id 1kfN1g-0004up-G1
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 07:57:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kfMzJ-0003DV-K6
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 07:55:06 -0500
-Received: from relay.sw.ru ([185.231.240.75]:40564 helo=relay3.sw.ru)
+ id 1kfMzF-0003Bh-B9
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 07:55:01 -0500
+Received: from relay.sw.ru ([185.231.240.75]:40572 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kfMz8-00072d-4f
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 07:55:05 -0500
+ id 1kfMz8-00072j-35
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 07:54:57 -0500
 Received: from [192.168.15.76] (helo=andrey-MS-7B54.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.94)
  (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kfMyt-009AfQ-KM; Wed, 18 Nov 2020 15:54:39 +0300
+ id 1kfMyt-009AfQ-PF; Wed, 18 Nov 2020 15:54:39 +0300
 To: qemu-devel@nongnu.org
 Cc: Den Lunev <den@openvz.com>, Eric Blake <eblake@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Markus Armbruster <armbru@redhat.com>,
  Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Subject: [PATCH v1 2/7] Introduced UFFD-WP low-level interface helpers.
- Implemented support for the whole RAM block memory protection/un-protection.
- Higher level ram_write_tracking_start() and ram_write_tracking_stop() to
- start/stop tracking memory writes on the whole VM memory.
-Date: Wed, 18 Nov 2020 15:54:44 +0300
-Message-Id: <20201118125449.311038-3-andrey.gruzdev@virtuozzo.com>
+Subject: [PATCH v1 4/7] Implementation of write-tracking migration thread.
+Date: Wed, 18 Nov 2020 15:54:46 +0300
+Message-Id: <20201118125449.311038-5-andrey.gruzdev@virtuozzo.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201118125449.311038-1-andrey.gruzdev@virtuozzo.com>
 References: <20201118125449.311038-1-andrey.gruzdev@virtuozzo.com>
@@ -44,11 +41,11 @@ Received-SPF: pass client-ip=185.231.240.75;
  envelope-from=andrey.gruzdev@virtuozzo.com; helo=relay3.sw.ru
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 06:22:34
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URG_BIZ=0.573 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,340 +65,258 @@ From: Andrey Gruzdev via <qemu-devel@nongnu.org>
 
 Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 ---
- include/exec/memory.h |   7 ++
- migration/ram.c       | 267 ++++++++++++++++++++++++++++++++++++++++++
- migration/ram.h       |   4 +
- 3 files changed, 278 insertions(+)
+ migration/migration.c | 168 +++++++++++++++++++++++++++++++++++++++++-
+ migration/migration.h |   3 +
+ migration/savevm.c    |   1 -
+ migration/savevm.h    |   2 +
+ 4 files changed, 171 insertions(+), 3 deletions(-)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 0f3e6bcd5e..3d798fce16 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -139,6 +139,13 @@ typedef struct IOMMUNotifier IOMMUNotifier;
- /* RAM is a persistent kind memory */
- #define RAM_PMEM (1 << 5)
+diff --git a/migration/migration.c b/migration/migration.c
+index ff0364dde0..158e5441ec 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -2013,6 +2013,7 @@ void migrate_init(MigrationState *s)
+      * locks.
+      */
+     s->cleanup_bh = 0;
++    s->wt_vm_start_bh = 0;
+     s->to_dst_file = NULL;
+     s->state = MIGRATION_STATUS_NONE;
+     s->rp_state.from_dst_file = NULL;
+@@ -3551,6 +3552,21 @@ static void migration_iteration_finish(MigrationState *s)
+     qemu_mutex_unlock_iothread();
+ }
  
-+/*
-+ * UFFDIO_WRITEPROTECT is used on this RAMBlock to
-+ * support 'write-tracking' migration type.
-+ * Implies ram_state->ram_wt_enabled.
-+ */
-+#define RAM_UF_WRITEPROTECT (1 << 6)
-+
- static inline void iommu_notifier_init(IOMMUNotifier *n, IOMMUNotify fn,
-                                        IOMMUNotifierFlag flags,
-                                        hwaddr start, hwaddr end,
-diff --git a/migration/ram.c b/migration/ram.c
-index 7811cde643..7f273c9996 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -56,6 +56,12 @@
- #include "savevm.h"
- #include "qemu/iov.h"
- #include "multifd.h"
-+#include <inttypes.h>
-+#include <poll.h>
-+#include <sys/syscall.h>
-+#include <sys/ioctl.h>
-+#include <linux/userfaultfd.h>
-+#include "sysemu/runstate.h"
- 
- /***********************************************************/
- /* ram save/restore */
-@@ -298,6 +304,8 @@ struct RAMSrcPageRequest {
- struct RAMState {
-     /* QEMUFile used for this migration */
-     QEMUFile *f;
-+    /* UFFD file descriptor, used in 'write-tracking' migration */
-+    int uffdio_fd;
-     /* Last block that we have visited searching for dirty pages */
-     RAMBlock *last_seen_block;
-     /* Last block from where we have sent data */
-@@ -453,6 +461,181 @@ static QemuThread *decompress_threads;
- static QemuMutex decomp_done_lock;
- static QemuCond decomp_done_cond;
- 
-+/**
-+ * uffd_create_fd: create UFFD file descriptor
-+ *
-+ * Returns non-negative file descriptor or negative value in case of an error
-+ */
-+static int uffd_create_fd(void)
++static void wt_migration_iteration_finish(MigrationState *s)
 +{
-+    int uffd;
-+    struct uffdio_api api_struct;
-+    uint64_t ioctl_mask = BIT(_UFFDIO_REGISTER) | BIT(_UFFDIO_UNREGISTER);
++    /* TODO: implement */
++}
 +
-+    uffd = syscall(__NR_userfaultfd, O_CLOEXEC | O_NONBLOCK);
-+    if (uffd < 0) {
-+        error_report("uffd_create_fd() failed: UFFD not supported");
-+        return -1;
++/*
++ * Return true if continue to the next iteration directly, false
++ * otherwise.
++ */
++static MigIterateState wt_migration_iteration_run(MigrationState *s)
++{
++    /* TODO: implement */
++    return MIG_ITERATE_RESUME;
++}
++
+ void migration_make_urgent_request(void)
+ {
+     qemu_sem_post(&migrate_get_current()->rate_limit_sem);
+@@ -3698,6 +3714,148 @@ static void *migration_thread(void *opaque)
+     return NULL;
+ }
+ 
++static void wt_migration_vm_start_bh(void *opaque)
++{
++    /* TODO: implement */
++}
++
++/*
++ * Master migration thread on the source VM.
++ * This is an alternative implementation of live migration
++ * which uses userfault_fd write protection mechanism introduced in
++ * 5.7 kernel. Compared to existing dirty page logging migration
++ * it produces much lesser traffic and smaller snapshot images since
++ * no page duplicates can get into the stream. Another the key point
++ * is that generated vmstate stream reflects machine state 'frozen'
++ * at the beginning of migration compared to dirty page logging
++ * mechanism, which effectively results in that saved snapshot is the
++ * state at the end of migration process.
++ */
++static void *wt_migration_thread(void *opaque)
++{
++    MigrationState *s = opaque;
++    int64_t setup_start;
++    MigThrError thr_error;
++    QEMUFile *fb;
++    bool early_fail = true;
++
++    rcu_register_thread();
++    object_ref(OBJECT(s));
++
++    qemu_file_set_rate_limit(s->to_dst_file, INT64_MAX);
++
++    setup_start = qemu_clock_get_ms(QEMU_CLOCK_HOST);
++    /*
++     * We want to save vmstate for the moment when migration has been
++     * initiated but also we want to save RAM content while VM is running.
++     * The RAM content should appear first in the vmstate. So, we first
++     * stash the non-RAM part of the vmstate to the temporary buffer,
++     * then write RAM part of the vmstate to the migration stream
++     * with vCPUs running and, finally, write stashed non-RAM part of
++     * the vmstate from the buffer to the migration stream.
++     */
++    s->bioc = qio_channel_buffer_new(128 * 1024);
++    qio_channel_set_name(QIO_CHANNEL(s->bioc), "vmstate-buffer");
++    fb = qemu_fopen_channel_output(QIO_CHANNEL(s->bioc));
++    object_unref(OBJECT(s->bioc));
++
++    update_iteration_initial_status(s);
++
++    qemu_savevm_state_header(s->to_dst_file);
++    qemu_savevm_state_setup(s->to_dst_file);
++
++    if (qemu_savevm_state_guest_unplug_pending()) {
++        migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
++                          MIGRATION_STATUS_WAIT_UNPLUG);
++
++        while (s->state == MIGRATION_STATUS_WAIT_UNPLUG &&
++               qemu_savevm_state_guest_unplug_pending()) {
++            qemu_sem_timedwait(&s->wait_unplug_sem, 250);
++        }
++
++        migrate_set_state(&s->state, MIGRATION_STATUS_WAIT_UNPLUG,
++                          MIGRATION_STATUS_ACTIVE);
 +    }
++    s->setup_time = qemu_clock_get_ms(QEMU_CLOCK_HOST) - setup_start;
 +
-+    api_struct.api = UFFD_API;
-+    api_struct.features = UFFD_FEATURE_PAGEFAULT_FLAG_WP;
-+    if (ioctl(uffd, UFFDIO_API, &api_struct)) {
-+        error_report("uffd_create_fd() failed: "
-+                "API version not supported version=%llx errno=%i",
-+                api_struct.api, errno);
++    migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
++                      MIGRATION_STATUS_ACTIVE);
++    trace_migration_thread_setup_complete();
++    s->downtime_start = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
++
++    qemu_mutex_lock_iothread();
++
++    if (global_state_store()) {
 +        goto fail;
 +    }
-+
-+    if ((api_struct.ioctls & ioctl_mask) != ioctl_mask) {
-+        error_report("uffd_create_fd() failed: "
-+                "PAGEFAULT_FLAG_WP feature missing");
++    /* Forcibly stop VM before saving state of vCPUs and devices */
++    if (vm_stop_force_state(RUN_STATE_PAUSED)) {
 +        goto fail;
 +    }
++    /*
++     * Put vCPUs in sync with shadow context structures, then
++     * save their state to channel-buffer along with devices.
++     */
++    cpu_synchronize_all_states();
++    if (qemu_savevm_state_complete_precopy_non_iterable(fb, false, false)) {
++        goto fail;
++    }
++    /* Now initialize UFFD context and start tracking RAM writes */
++    if (ram_write_tracking_start()) {
++        goto fail;
++    }
++    early_fail = false;
 +
-+    return uffd;
++    /*
++     * Start VM from BH handler to avoid write-fault lock here.
++     * UFFD-WP protection for the whole RAM is already enabled so
++     * calling VM state change notifiers from vm_start() would initiate
++     * writes to virtio VQs memory which is in write-protected region.
++     */
++    s->wt_vm_start_bh = qemu_bh_new(wt_migration_vm_start_bh, s);
++    qemu_bh_schedule(s->wt_vm_start_bh);
++
++    qemu_mutex_unlock_iothread();
++
++    while (migration_is_active(s)) {
++        MigIterateState iter_state = wt_migration_iteration_run(s);
++        if (iter_state == MIG_ITERATE_SKIP) {
++            continue;
++        } else if (iter_state == MIG_ITERATE_BREAK) {
++            break;
++        }
++
++        /*
++         * Try to detect any kind of failures, and see whether we
++         * should stop the migration now.
++         */
++        thr_error = migration_detect_error(s);
++        if (thr_error == MIG_THR_ERR_FATAL) {
++            /* Stop migration */
++            break;
++        }
++
++        migration_update_counters(s, qemu_clock_get_ms(QEMU_CLOCK_REALTIME));
++    }
++
++    trace_migration_thread_after_loop();
 +
 +fail:
-+    close(uffd);
-+    return -1;
-+}
-+
-+/**
-+ * uffd_close_fd: close UFFD file descriptor
-+ *
-+ * @uffd: UFFD file descriptor
-+ */
-+static void uffd_close_fd(int uffd)
-+{
-+    assert(uffd >= 0);
-+    close(uffd);
-+}
-+
-+/**
-+ * uffd_register_memory: register memory range with UFFD
-+ *
-+ * Returns 0 in case of success, negative value on error
-+ *
-+ * @uffd: UFFD file descriptor
-+ * @start: starting virtual address of memory range
-+ * @length: length of memory range
-+ * @track_missing: generate events on missing-page faults
-+ * @track_wp: generate events on write-protected-page faults
-+ */
-+static int uffd_register_memory(int uffd, hwaddr start, hwaddr length,
-+        bool track_missing, bool track_wp)
-+{
-+    struct uffdio_register uffd_register;
-+
-+    uffd_register.range.start = start;
-+    uffd_register.range.len = length;
-+    uffd_register.mode = (track_missing ? UFFDIO_REGISTER_MODE_MISSING : 0) |
-+                         (track_wp ? UFFDIO_REGISTER_MODE_WP : 0);
-+
-+    if (ioctl(uffd, UFFDIO_REGISTER, &uffd_register)) {
-+        error_report("uffd_register_memory() failed: "
-+                "start=%0"PRIx64" len=%"PRIu64" mode=%llu errno=%i",
-+                start, length, uffd_register.mode, errno);
-+        return -1;
++    if (early_fail) {
++        migrate_set_state(&s->state, MIGRATION_STATUS_ACTIVE,
++                MIGRATION_STATUS_FAILED);
++        qemu_mutex_unlock_iothread();
 +    }
 +
-+    return 0;
++    wt_migration_iteration_finish(s);
++
++    qemu_fclose(fb);
++    object_unref(OBJECT(s));
++    rcu_unregister_thread();
++
++    return NULL;
 +}
 +
-+/**
-+ * uffd_protect_memory: protect/unprotect memory range for writes with UFFD
-+ *
-+ * Returns 0 on success or negative value in case of error
-+ *
-+ * @uffd: UFFD file descriptor
-+ * @start: starting virtual address of memory range
-+ * @length: length of memory range
-+ * @wp: write-protect/unprotect
-+ */
-+static int uffd_protect_memory(int uffd, hwaddr start, hwaddr length, bool wp)
-+{
-+    struct uffdio_writeprotect uffd_writeprotect;
-+    int res;
+ void migrate_fd_connect(MigrationState *s, Error *error_in)
+ {
+     Error *local_err = NULL;
+@@ -3761,8 +3919,14 @@ void migrate_fd_connect(MigrationState *s, Error *error_in)
+         migrate_fd_cleanup(s);
+         return;
+     }
+-    qemu_thread_create(&s->thread, "live_migration", migration_thread, s,
+-                       QEMU_THREAD_JOINABLE);
 +
-+    uffd_writeprotect.range.start = start;
-+    uffd_writeprotect.range.len = length;
-+    uffd_writeprotect.mode = (wp ? UFFDIO_WRITEPROTECT_MODE_WP : 0);
-+
-+    do {
-+        res = ioctl(uffd, UFFDIO_WRITEPROTECT, &uffd_writeprotect);
-+    } while (res < 0 && errno == EINTR);
-+    if (res < 0) {
-+        error_report("uffd_protect_memory() failed: "
-+                "start=%0"PRIx64" len=%"PRIu64" mode=%llu errno=%i",
-+                start, length, uffd_writeprotect.mode, errno);
-+        return -1;
++    if (migrate_track_writes_ram()) {
++        qemu_thread_create(&s->thread, "wt_live_migration",
++                wt_migration_thread, s, QEMU_THREAD_JOINABLE);
++    } else {
++        qemu_thread_create(&s->thread, "live_migration",
++                migration_thread, s, QEMU_THREAD_JOINABLE);
 +    }
-+
-+    return 0;
-+}
-+
-+__attribute__ ((unused))
-+static int uffd_read_events(int uffd, struct uffd_msg *msgs, int count);
-+__attribute__ ((unused))
-+static bool uffd_poll_events(int uffd, int tmo);
-+
-+/**
-+ * uffd_read_events: read pending UFFD events
-+ *
-+ * Returns number of fetched messages, 0 if non is available or
-+ * negative value in case of an error
-+ *
-+ * @uffd: UFFD file descriptor
-+ * @msgs: pointer to message buffer
-+ * @count: number of messages that can fit in the buffer
-+ */
-+static int uffd_read_events(int uffd, struct uffd_msg *msgs, int count)
-+{
-+    ssize_t res;
-+    do {
-+        res = read(uffd, msgs, count * sizeof(struct uffd_msg));
-+    } while (res < 0 && errno == EINTR);
-+
-+    if ((res < 0 && errno == EAGAIN)) {
-+        return 0;
-+    }
-+    if (res < 0) {
-+        error_report("uffd_read_events() failed: errno=%i", errno);
-+        return -1;
-+    }
-+
-+    return (int) (res / sizeof(struct uffd_msg));
-+}
-+
-+/**
-+ * uffd_poll_events: poll UFFD file descriptor for read
-+ *
-+ * Returns true if events are available for read, false otherwise
-+ *
-+ * @uffd: UFFD file descriptor
-+ * @tmo: timeout in milliseconds, 0 for non-blocking operation,
-+ *       negative value for infinite wait
-+ */
-+static bool uffd_poll_events(int uffd, int tmo)
-+{
-+    int res;
-+    struct pollfd poll_fd = { .fd = uffd, .events = POLLIN, .revents = 0 };
-+
-+    do {
-+        res = poll(&poll_fd, 1, tmo);
-+    } while (res < 0 && errno == EINTR);
-+
-+    if (res == 0) {
-+        return false;
-+    }
-+    if (res < 0) {
-+        error_report("uffd_poll_events() failed: errno=%i", errno);
-+        return false;
-+    }
-+
-+    return (poll_fd.revents & POLLIN) != 0;
-+}
-+
- static bool do_compress_ram_page(QEMUFile *f, z_stream *stream, RAMBlock *block,
-                                  ram_addr_t offset, uint8_t *source_buf);
+     s->migration_thread_running = true;
+ }
  
-@@ -3788,6 +3971,90 @@ static int ram_resume_prepare(MigrationState *s, void *opaque)
+diff --git a/migration/migration.h b/migration/migration.h
+index 339ae720e0..c3b4c7f2fd 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -20,6 +20,7 @@
+ #include "qemu/thread.h"
+ #include "qemu/coroutine_int.h"
+ #include "io/channel.h"
++#include "io/channel-buffer.h"
+ #include "net/announce.h"
+ #include "qom/object.h"
+ 
+@@ -147,8 +148,10 @@ struct MigrationState {
+ 
+     /*< public >*/
+     QemuThread thread;
++    QEMUBH *wt_vm_start_bh;
+     QEMUBH *cleanup_bh;
+     QEMUFile *to_dst_file;
++    QIOChannelBuffer *bioc;
+     /*
+      * Protects to_dst_file pointer.  We need to make sure we won't
+      * yield or hang during the critical section, since this lock will
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 5f937a2762..62d5f8a869 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -1352,7 +1352,6 @@ int qemu_savevm_state_complete_precopy_iterable(QEMUFile *f, bool in_postcopy)
      return 0;
  }
  
-+/**
-+ * ram_write_tracking_start: start UFFD-WP memory tracking
-+ *
-+ * Returns 0 for success or negative value in case of error
-+ *
-+ */
-+int ram_write_tracking_start(void)
-+{
-+    int uffd;
-+    RAMState *rs = ram_state;
-+    RAMBlock *bs;
-+
-+    /* Open UFFD file descriptor */
-+    uffd = uffd_create_fd();
-+    if (uffd < 0) {
-+        return uffd;
-+    }
-+    rs->uffdio_fd = uffd;
-+
-+    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
-+        /* Nothing to do with read-only and MMIO-writable regions */
-+        if (bs->mr->readonly || bs->mr->rom_device) {
-+            continue;
-+        }
-+
-+        /* Register block memory with UFFD to track writes */
-+        if (uffd_register_memory(rs->uffdio_fd, (hwaddr) bs->host,
-+                bs->max_length, false, true)) {
-+            goto fail;
-+        }
-+        /* Apply UFFD write protection to the block memory range */
-+        if (uffd_protect_memory(rs->uffdio_fd, (hwaddr) bs->host,
-+                bs->max_length, true)) {
-+            goto fail;
-+        }
-+        bs->flags |= RAM_UF_WRITEPROTECT;
-+
-+        info_report("UFFD-WP write-tracking enabled: "
-+                "block_id=%s page_size=%zu start=%p length=%lu "
-+                "romd_mode=%i ram=%i readonly=%i nonvolatile=%i rom_device=%i",
-+                bs->idstr, bs->page_size, bs->host, bs->max_length,
-+                bs->mr->romd_mode, bs->mr->ram, bs->mr->readonly,
-+                bs->mr->nonvolatile, bs->mr->rom_device);
-+    }
-+
-+    return 0;
-+
-+fail:
-+    uffd_close_fd(uffd);
-+    rs->uffdio_fd = -1;
-+    return -1;
-+}
-+
-+/**
-+ * ram_write_tracking_stop: stop UFFD-WP memory tracking and remove protection
-+ */
-+void ram_write_tracking_stop(void)
-+{
-+    RAMState *rs = ram_state;
-+    RAMBlock *bs;
-+    assert(rs->uffdio_fd >= 0);
-+
-+    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
-+        if ((bs->flags & RAM_UF_WRITEPROTECT) == 0) {
-+            continue;
-+        }
-+        info_report("UFFD-WP write-tracking disabled: "
-+                "block_id=%s page_size=%zu start=%p length=%lu "
-+                "romd_mode=%i ram=%i readonly=%i nonvolatile=%i rom_device=%i",
-+                bs->idstr, bs->page_size, bs->host, bs->max_length,
-+                bs->mr->romd_mode, bs->mr->ram, bs->mr->readonly,
-+                bs->mr->nonvolatile, bs->mr->rom_device);
-+        /* Cleanup flags */
-+        bs->flags &= ~RAM_UF_WRITEPROTECT;
-+    }
-+
-+    /*
-+     * Close UFFD file descriptor to remove protection,
-+     * release registered memory regions and flush wait queues
-+     */
-+    uffd_close_fd(rs->uffdio_fd);
-+    rs->uffdio_fd = -1;
-+}
-+
- static SaveVMHandlers savevm_ram_handlers = {
-     .save_setup = ram_save_setup,
-     .save_live_iterate = ram_save_iterate,
-diff --git a/migration/ram.h b/migration/ram.h
-index 011e85414e..3611cb51de 100644
---- a/migration/ram.h
-+++ b/migration/ram.h
-@@ -79,4 +79,8 @@ void colo_flush_ram_cache(void);
- void colo_release_ram_cache(void);
- void colo_incoming_start_dirty_log(void);
+-static
+ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
+                                                     bool in_postcopy,
+                                                     bool inactivate_disks)
+diff --git a/migration/savevm.h b/migration/savevm.h
+index ba64a7e271..aaee2528ed 100644
+--- a/migration/savevm.h
++++ b/migration/savevm.h
+@@ -64,5 +64,7 @@ int qemu_loadvm_state(QEMUFile *f);
+ void qemu_loadvm_state_cleanup(void);
+ int qemu_loadvm_state_main(QEMUFile *f, MigrationIncomingState *mis);
+ int qemu_load_device_state(QEMUFile *f);
++int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
++        bool in_postcopy, bool inactivate_disks);
  
-+/* Live snapshots */
-+int ram_write_tracking_start(void);
-+void ram_write_tracking_stop(void);
-+
  #endif
 -- 
 2.25.1
