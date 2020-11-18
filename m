@@ -2,93 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B3E82B7C37
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 12:18:41 +0100 (CET)
-Received: from localhost ([::1]:33704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CB162B7C62
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 12:23:40 +0100 (CET)
+Received: from localhost ([::1]:46314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfLTz-0008Cm-Un
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 06:18:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35462)
+	id 1kfLYp-00059J-88
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 06:23:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kfLSP-0007la-2w
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 06:17:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57870)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kfLSM-0002qF-Mh
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 06:17:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605698217;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=s8aIfdAZHwJ88oAcjbIcvjiGHb9fshmeoF6gREOIijE=;
- b=Aoy6C5QlXD8zKVYul/1qRcOUbgHyDYl6s0f2tDSnW0MQA8tVa2unSqXE3Ix9sUUjz/iEMm
- IQjwB1lZPJ0P5Iq0Fy9ylrVfVUHZtZUIn3vXU/4bKCrBPlcr4hPOyeRJ8Bya6WpX5tH1Ba
- AzDuDZufbiUGgOuysbcOdJHWvEoKu9Q=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-483-ezcH4S9GPGespIH2ZDllMQ-1; Wed, 18 Nov 2020 06:16:56 -0500
-X-MC-Unique: ezcH4S9GPGespIH2ZDllMQ-1
-Received: by mail-wm1-f69.google.com with SMTP id a134so715653wmd.8
- for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 03:16:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=s8aIfdAZHwJ88oAcjbIcvjiGHb9fshmeoF6gREOIijE=;
- b=MPB/XGZXJEdNo9F4JW8LcWR+d0sTZIPdK4T8pn4iWktfFoBvLpQpm+x/Einzwu/1LE
- NlPAGu5eG+KXq+AvfvznCXVzUkT68d29okVOz71v9XITy80w/+OKqi8qB4kkPUaooG05
- UwlE2uKssI/f31zeIAyl73+M+zf9A+p7SYyUAamalXrFxiz58egWlPyweYSFku2S/oyO
- 3iA8sq9dmjHlbzLukiVCxK2wJuyGOTFKXBcnNBlo/WDpUHj75omFYPOf94SgDbk5j2d2
- yRGetYgCBlw/IkSGcON3UYc94xmxNLxXpiACqyYyleYoiHzVEsxwVDSKGraPjLnHZQWH
- LkUA==
-X-Gm-Message-State: AOAM532c10Pa7nHFTwRNmc2CYodkalL4myjEcmXdto2o7NkEDXLPGqG9
- abzt053PL6/XKY/C6psDnzf2JvFvwd9PBOXsntj7/tbRyCdqsgCA0GqC1nmdzKRq91gmBBMZAga
- jgqPK940LbWMB14w=
-X-Received: by 2002:adf:f4c8:: with SMTP id h8mr4447786wrp.203.1605698214883; 
- Wed, 18 Nov 2020 03:16:54 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzUH0p92Vf6I/nNQVqDVCpH5fME34cYCNY2S8SiQXMrjfujAlop0M9GkxuDEsdMrEeoYpNmug==
-X-Received: by 2002:adf:f4c8:: with SMTP id h8mr4447764wrp.203.1605698214664; 
- Wed, 18 Nov 2020 03:16:54 -0800 (PST)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id 60sm29838405wrs.69.2020.11.18.03.16.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Nov 2020 03:16:53 -0800 (PST)
-Subject: Re: [PATCH for-5.2] meson: Fix build with --disable-guest-agent-msi
-To: Paolo Bonzini <pbonzini@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- qemu-devel@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>
-References: <20201117201834.408892-1-sw@weilnetz.de>
- <f631a213-1e8c-3ca7-5adc-5590b5897bbc@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <025997f1-ac8c-d1fe-7e7b-ae7668ddc59e@redhat.com>
-Date: Wed, 18 Nov 2020 12:16:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
+ id 1kfLU1-00008t-DA; Wed, 18 Nov 2020 06:18:41 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:52714)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
+ id 1kfLTv-0002xN-4L; Wed, 18 Nov 2020 06:18:41 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AIBEDS2022037;
+ Wed, 18 Nov 2020 11:18:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=corp-2020-01-29;
+ bh=EZl8/CxSWmF7AzTju2hM+v9540M8PFWVuZY8YkUtu3M=;
+ b=gV1YgKmzjsH11pArLpZPd84tjlCuVHKtADW2SrUow5Xm134s7xT4EcpAMsGaLpvQfhJj
+ 2Vtj4uOfuaq/zzHqekzuw7d5hP5BQYIFfuvSiWjGjIhEWftsqKQRhriD2WYdojP1xSbB
+ 98VSGkyDvKQIlev5tA615ShxHpiNaRolmqn9snClOY1I523IH9i9wehqNxh4pSe4DpB+
+ WoPSOLE1k4+vUhjr2Ma9Tb83GqaEh+l823a3mVYNO+p28Ss4aZ/+HBT1rCgOJHzG9rYX
+ kG1GfQMEQY9H+4Tj+Dr9K4cuyjDNhfMen+7ccePPNj3JkMzlcc+dmP6Yfum3pz10+Nls Mw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2120.oracle.com with ESMTP id 34t76kyhtr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 18 Nov 2020 11:18:25 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AIBFNV3135904;
+ Wed, 18 Nov 2020 11:18:24 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by aserp3020.oracle.com with ESMTP id 34umd0f4gt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 18 Nov 2020 11:18:24 +0000
+Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0AIBIM47022689;
+ Wed, 18 Nov 2020 11:18:22 GMT
+Received: from disaster-area.hh.sledj.net (/81.187.26.238)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 18 Nov 2020 03:18:21 -0800
+Received: from localhost (disaster-area.hh.sledj.net [local])
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id dbb2825a;
+ Wed, 18 Nov 2020 11:18:19 +0000 (UTC)
+From: David Edmondson <david.edmondson@oracle.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/5] ARM: reduce the memory consumed when mapping UEFI
+ flash images
+Date: Wed, 18 Nov 2020 11:18:14 +0000
+Message-Id: <20201118111819.4588-1-david.edmondson@oracle.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <f631a213-1e8c-3ca7-5adc-5590b5897bbc@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 00:38:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9808
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+ mlxscore=0 phishscore=0
+ spamscore=0 bulkscore=0 mlxlogscore=653 malwarescore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011180079
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9808
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+ phishscore=0
+ adultscore=0 priorityscore=1501 bulkscore=0 clxscore=1015 mlxlogscore=667
+ malwarescore=0 mlxscore=0 spamscore=0 lowpriorityscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011180079
+Received-SPF: pass client-ip=141.146.126.78;
+ envelope-from=david.edmondson@oracle.com; helo=aserp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 06:18:27
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,91 +98,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, David Edmondson <david.edmondson@oracle.com>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/18/20 9:30 AM, Paolo Bonzini wrote:
-> On 17/11/20 21:18, Stefan Weil wrote:
->> The QGA MSI target requires several macros which are only available
->> without --disable-guest-agent-msi.
->>
->> Don't define that target if configure was called with
->> --disable-guest-agent-msi.
+Currently ARM UEFI images are built as 2MB/768kB flash images for code
+and variables respectively. These images are both then padded out to
+64MB before being loaded by QEMU.
 
-Can we have a CI job to avoid further regressions?
+Because the images are 64MB each, QEMU allocates 128MB of memory to
+read them, and then proceeds to read all 128MB from disk (dirtying the
+memory). Of this 128MB less than 3MB is useful - the rest is zero
+padding.
 
->>
->> Signed-off-by: Stefan Weil <sw@weilnetz.de>
->> ---
->>   qga/meson.build | 36 +++++++++++++++++++-----------------
->>   1 file changed, 19 insertions(+), 17 deletions(-)
->>
->> diff --git a/qga/meson.build b/qga/meson.build
->> index 53ba6de5f8..520af6ce9b 100644
->> --- a/qga/meson.build
->> +++ b/qga/meson.build
->> @@ -61,23 +61,25 @@ if targetos == 'windows'
->>       if 'CONFIG_QGA_VSS' in config_host and 'QEMU_GA_MSI_WITH_VSS' in
->> config_host
->>         deps += qga_vss
->>       endif
->> -    qga_msi = custom_target('QGA MSI',
->> -                            input: files('installer/qemu-ga.wxs'),
->> -                            output:
->> 'qemu-ga-@0@.msi'.format(config_host['ARCH']),
->> -                            depends: deps,
->> -                            command: [
->> -                              find_program('env'),
->> -                              'QEMU_GA_VERSION=' +
->> config_host['QEMU_GA_VERSION'],
->> -                              'QEMU_GA_MANUFACTURER=' +
->> config_host['QEMU_GA_MANUFACTURER'],
->> -                              'QEMU_GA_DISTRO=' +
->> config_host['QEMU_GA_DISTRO'],
->> -                              'BUILD_DIR=' + meson.build_root(),
->> -                              wixl, '-o', '@OUTPUT0@', '@INPUT0@',
->> -                              config_host['QEMU_GA_MSI_ARCH'].split(),
->> -                             
->> config_host['QEMU_GA_MSI_WITH_VSS'].split(),
->> -                             
->> config_host['QEMU_GA_MSI_MINGW_DLL_PATH'].split(),
->> -                            ])
->> -    all_qga += [qga_msi]
->> -    alias_target('msi', qga_msi)
->> +    if 'CONFIG_QGA_MSI' in config_host
->> +      qga_msi = custom_target('QGA MSI',
->> +                              input: files('installer/qemu-ga.wxs'),
->> +                              output:
->> 'qemu-ga-@0@.msi'.format(config_host['ARCH']),
->> +                              depends: deps,
->> +                              command: [
->> +                                find_program('env'),
->> +                                'QEMU_GA_VERSION=' +
->> config_host['QEMU_GA_VERSION'],
->> +                                'QEMU_GA_MANUFACTURER=' +
->> config_host['QEMU_GA_MANUFACTURER'],
->> +                                'QEMU_GA_DISTRO=' +
->> config_host['QEMU_GA_DISTRO'],
->> +                                'BUILD_DIR=' + meson.build_root(),
->> +                                wixl, '-o', '@OUTPUT0@', '@INPUT0@',
->> +                                config_host['QEMU_GA_MSI_ARCH'].split(),
->> +                               
->> config_host['QEMU_GA_MSI_WITH_VSS'].split(),
->> +                               
->> config_host['QEMU_GA_MSI_MINGW_DLL_PATH'].split(),
->> +                              ])
->> +      all_qga += [qga_msi]
->> +      alias_target('msi', qga_msi)
->> +    endif
->>     endif
->>   else
->>     install_subdir('run', install_dir: get_option('localstatedir'))
->>
-> 
-> Queued, thanks.
-> 
-> Paolo
-> 
-> 
+On a machine with 100 VMs this wastes over 12GB of memory.
+
+This set of patches aims to reclaim the wasted memory by allowing QEMU
+to respect the size of the flash images and allocate only the
+necessary memory. This will, of course, require that the flash build
+process be modified to avoid padding the images to 64MB.
+
+Because older machine types expected the full 128MB reserved for flash
+to be occupied, do so for machine types older than virt-5.2. The
+changes are beneficial even in this case, because while the full 128MB
+of memory is allocated, only that required to actually load the flash
+images from disk is dirtied.
+
+v2:
+- quote the block device name in error messages (Philippe
+  Mathieu-Daudé).
+
+David Edmondson (5):
+  hw/block: blk_check_size_and_read_all should report backend name
+  hw/block: Flash images can be smaller than the device
+  hw/arm: Convert assertions about flash image size to error_report
+  hw/arm: Flash image mapping follows image size
+  hw/arm: Only minimise flash size on older machines
+
+ hw/arm/trace-events      |  2 +
+ hw/arm/virt-acpi-build.c | 30 ++++++++------
+ hw/arm/virt.c            | 86 +++++++++++++++++++++++++++++-----------
+ hw/block/block.c         | 26 ++++++------
+ include/hw/arm/virt.h    |  2 +
+ 5 files changed, 97 insertions(+), 49 deletions(-)
+
+-- 
+2.29.2
 
 
