@@ -2,71 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8D0C2B81D9
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 17:27:31 +0100 (CET)
-Received: from localhost ([::1]:53188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 297242B81FB
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 17:34:48 +0100 (CET)
+Received: from localhost ([::1]:43576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfQIt-0003X0-0H
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 11:27:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52124)
+	id 1kfQPv-0003Bh-7T
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 11:34:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kfQHD-0002Oe-5U
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 11:25:47 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:60538 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kfQHB-0002o6-9J
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 11:25:46 -0500
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 36E56412DE;
- Wed, 18 Nov 2020 16:25:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1605716742;
- x=1607531143; bh=MrzOPFILwwlYl4+UiRNOnshkLDy+VgW5nE1RurNqZkY=; b=
- Dg2xIYxveWcjbpchUR5UXiN0c2SU9blCFyL27oJ76DOaTs3JWxF0IWvZBjq8+ajZ
- HKG0SGhFmCz9nlKn2/Rcm/9PRKBHxrwoLWIKPJKukDBDLYVVFocBTsGmKMKVM6Xd
- sJPQi9ZAlHMt9vM4DwlICbkmTn22L1i9eyRXHDgTvG0=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ZuvE2vRUyENq; Wed, 18 Nov 2020 19:25:42 +0300 (MSK)
-Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
- [172.17.100.103])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kfQJI-000522-Ab
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 11:27:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27233)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kfQJG-00033z-2m
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 11:27:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605716873;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=i44V+xFgOvP9txMnqpXQtW1P88J3LrzUH1T6Oo2Ubt0=;
+ b=EN50a0v3nmaWlAK8ud7KHZAvCDZEvWmqNXR2oJKYDA47eycyfMofYFcrvh30OJVbvIVJbf
+ hcuq2t9OFX8LhVQ5JLCfRucLdds4FTyDyALLCeDS8pt3wqlPKOjBdp0jYl2/RlM1JvoH9F
+ PWlClV1wtHXQ0c3XVMJlaSlNP0y/p94=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-217-2zFKH99LM1CIPPP0DfHz-Q-1; Wed, 18 Nov 2020 11:27:51 -0500
+X-MC-Unique: 2zFKH99LM1CIPPP0DfHz-Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id DA66A41243;
- Wed, 18 Nov 2020 19:25:41 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
- (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Wed, 18
- Nov 2020 19:25:41 +0300
-Date: Wed, 18 Nov 2020 19:25:40 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Jessica Clarke <jrtc27@jrtc27.com>
-Subject: Re: [PATCH] hvf: Fix segment selector format
-Message-ID: <20201118162540.GD81070@SPB-NB-133.local>
-References: <20201116200414.28286-1-jrtc27@jrtc27.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C689B1858EC1;
+ Wed, 18 Nov 2020 16:27:46 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 839445D9CD;
+ Wed, 18 Nov 2020 16:27:46 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 0885A11358BA; Wed, 18 Nov 2020 17:27:45 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
+Subject: Re: [PATCH 0/4] vhost-user: avoid g_return_val_if() in
+ get/set_config()
+References: <20201118091644.199527-1-stefanha@redhat.com>
+ <CAJ+F1CK3Ap38E8343j1keFoX4UEPXR7FgALf7LRvwMSpKywefQ@mail.gmail.com>
+Date: Wed, 18 Nov 2020 17:27:44 +0100
+In-Reply-To: <CAJ+F1CK3Ap38E8343j1keFoX4UEPXR7FgALf7LRvwMSpKywefQ@mail.gmail.com>
+ (=?utf-8?Q?=22Marc-Andr=C3=A9?= Lureau"'s message of "Wed, 18 Nov 2020
+ 19:21:15 +0400")
+Message-ID: <87ft56hbpb.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20201116200414.28286-1-jrtc27@jrtc27.com>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-03.corp.yadro.com (172.17.100.103)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 11:09:24
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 00:38:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,53 +86,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>, "Michael S.
+ Tsirkin" <mst@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ Coiby Xu <Coiby.Xu@gmail.com>, Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 16, 2020 at 08:04:14PM +0000, Jessica Clarke wrote:
-> The Requested Privilege Level field is 2 bits, the Table Indicator field
-> is 1 bit and the Index field is the remaining 15 bits, with TI=0 meaning
-> GDT and TI=1 meaning LDT.
-> 
-> Signed-off-by: Jessica Clarke <jrtc27@jrtc27.com>
-> ---
->  target/i386/hvf/x86.h | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/target/i386/hvf/x86.h b/target/i386/hvf/x86.h
-> index bacade7b65..ea3e1b86b3 100644
-> --- a/target/i386/hvf/x86.h
-> +++ b/target/i386/hvf/x86.h
-> @@ -214,16 +214,16 @@ static inline uint32_t x86_call_gate_offset(x86_call_gate *gate)
->      return (uint32_t)((gate->offset1 << 16) | gate->offset0);
->  }
->  
-> -#define LDT_SEL     0
-> -#define GDT_SEL     1
-> +#define GDT_SEL     0
-> +#define LDT_SEL     1
->  
->  typedef struct x68_segment_selector {
->      union {
->          uint16_t sel;
->          struct {
-> -            uint16_t rpl:3;
-> +            uint16_t rpl:2;
->              uint16_t ti:1;
-> -            uint16_t index:12;
-> +            uint16_t index:13;
->          };
->      };
->  } __attribute__ ((__packed__)) x68_segment_selector;
-> -- 
-> 2.28.0
-> 
+Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> writes:
 
-Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
+> Hi
+>
+> On Wed, Nov 18, 2020 at 1:17 PM Stefan Hajnoczi <stefanha@redhat.com> wro=
+te:
+>
+>> Markus Armbruster pointed out that g_return_val_if() is meant for
+>> programming
+>> errors. It must not be used for input validation since it can be compile=
+d
+>> out.
+>> Use explicit if statements instead.
+>>
+>> This patch series converts vhost-user device backends that use
+>> g_return_val_if() in get/set_config().
+>>
+>> Stefan Hajnoczi (4):
+>>   contrib/vhost-user-blk: avoid g_return_val_if() input validation
+>>   contrib/vhost-user-gpu: avoid g_return_val_if() input validation
+>>   contrib/vhost-user-input: avoid g_return_val_if() input validation
+>>   block/export: avoid g_return_val_if() input validation
+>>
+>>
+> The condition is the same for all the patches, checking the message confi=
+g
+> payload is large enough. Afaict, the value is set by the client, so it
+> could be a runtime error, and thus explicit checking is required.
+>
+> Nevertheless, one nice thing about g_return* macros, is that it provides =
+an
+> error message when the condition fails, which helps. Could you replace it=
+?
+>
+> (fwiw, I think g_return* macros are so convenient, I would simply make
+> G_DISABLE_CHECKS forbidden and call it a day)
 
-Thanks,
-Roman
+Nice or not, they are as inappropriate for input validation as assert()
+is:
+
+    If expr evaluates to FALSE, the current function should be
+    considered to have undefined behaviour (a programmer error). The
+    only correct solution to such an error is to change the module that
+    is calling the current function, so that it avoids this incorrect
+    call.
+
 
