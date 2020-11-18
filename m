@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC93A2B83BE
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 19:23:59 +0100 (CET)
-Received: from localhost ([::1]:37262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A9B42B83D7
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 19:30:39 +0100 (CET)
+Received: from localhost ([::1]:46552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfS7a-000255-KE
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 13:23:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52124)
+	id 1kfSE2-0006Gh-4s
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 13:30:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kfRpv-0004xD-Q9; Wed, 18 Nov 2020 13:05:44 -0500
-Received: from mail-eopbgr130110.outbound.protection.outlook.com
- ([40.107.13.110]:34980 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
+ id 1kfRq0-0004y4-4Y; Wed, 18 Nov 2020 13:05:50 -0500
+Received: from mail-eopbgr140135.outbound.protection.outlook.com
+ ([40.107.14.135]:60229 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kfRpg-0008Qn-7w; Wed, 18 Nov 2020 13:05:41 -0500
+ id 1kfRpk-0008Rp-Fl; Wed, 18 Nov 2020 13:05:47 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=khj07gxJf2oqz6JU8OqdMAnGqwaSbocHy+fhGL81bhmn+edYy9wjlqEz88H8LWgZLWo7xKNJvoyI2q/qdDy9wXg7214QlbRNg1yrDvz1+YFhXSujurcHSKPVX95zzPw1pj0yDLu+rvnnOfp6oYc1SjbphZITP/1eV079GMR8q05k2dmaBYbG5+M3o14OCA0z+bMBEp0Ct1GJJ6HU0RjtyLcEpDpdY8H6Gg9ucAV/fq2QHD3erUIurTCnbt14N/iEahEZdHEDbaKkZMcXnzIZCHLqCY513balWfsYVC3hkGwBEx74qNYS8zsGlMZinM0DiSaWR57wEjF5Zu2lvyI6gA==
+ b=WklvXb1+7SGD1VR9gjfAlS242CS4MbsGjR8sE6ieVjr1g8XYJ3hSalQb/0mv8csp7epT4AhTRexISjj4KQc0Y0ivZKM+6ExOl0lWml2x43KA4T5ApVlnXwaSdKU3mm9PDy7PqQYRaj8EXUnABLuMiI9u0p6Aubg1i7ZZPpvzutRyu4CxDBSdiRI59Fb/rFFWBiovuUeZRuwICYoeRxYSqm2o57KT4D/9ek/hyPYcLvNACojpRZz2zFhOBfjfo34UGR+xvpIcHVBVotTEPYrtNTLT5E5SfL1sD/aiE2mp9JJapZ8W/qy57gZLoSDhwVnpbgP8TH/CBOuqXkntdP3IhQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SHE9bzaBfBzcr9lo7hxZU+5+d8G+ER3zknAfD6yNi7g=;
- b=Tr0wY0ik//HpfA4Hc0pt2Oqkye1S62gS5K5e0xewjHvb+p9wgZ6d7q4tEW6BH2uaNIfZjfJZD+dk0evESOALg/EHP6XaQe6Z9L11qjcTYrOfiinE9+3PZXU6JgxA11ZCbJMOWY/cLZbLg6lFTnxWRi7Hc+I2O4FkjQRGqAHcWOS+xBl7E5oygtPIWbaqlOzEQmCtkeuvM+wl3Kh2eMPUyajVQ+AAaSB8QHJz/LJ18R8PVmn4OhZRPPQMuwP18PZR/LaXmL+VV3vy98uo5uRs0/rSipLuFzsTWVtzT5o9rwnsdKxu7SKA92hU9LTLfVgVhu2wKNUgMYqQRp7SFtP6hA==
+ bh=QvpwijDJ+C74fBJrfaoHNmc1gwAo6woO4gl2y59QxV4=;
+ b=dbA3VlY+ocIhwyUZb16h93pEqHKIBgAGhEMP6artRsU1pdjgOEpEXcbKK6V1rqnJn8f0P4O+p5mdVPjaKERuBTJHGFTCvMSOU53lxWHguaCR7lPGIXWRmNOKl8Ql4fAEFUbvI1j8I52nf4gadDOHAqKAdQDxFNGjRIetoTlEE2cEhXSFryB0Nu8JSTBEm4F6JR2A7d3hsUFYjqHetT3mpcfmP6TUXlyNDHJ8msIov+DZzeOLOWqCyasZIyaEiwbyFV/yNB7GokOgkwIcmezD00COFufgFiJ3rWXyPF92d0KhygMhiyDXghAAaolFBH4+X625p8lF7csxUf/PKfCCHg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SHE9bzaBfBzcr9lo7hxZU+5+d8G+ER3zknAfD6yNi7g=;
- b=DDyhxhLRTg5Pg0zg7MuXnIvL0uQJUaMM+I5bXjMnoXbtUV0HRrs+GZwNRylHHprh2ogjxpAkx4AoxV7avknh0+5/y6HelS4Z6xNZ3H3YGpmNuFkNDnn8l6BTauEM6Y0rpLSN+8ENIuh1jpWQ2uSAiuUZm7m98A9SRYAkagHhlsI=
+ bh=QvpwijDJ+C74fBJrfaoHNmc1gwAo6woO4gl2y59QxV4=;
+ b=jJQjqGGtoHQyqnfNM3lKEB3rZqq3TZl9WOo/TEU4iU8uPmIEiwemOOwddCMEn5LdDKO7kAesIHA7hlh3qLyReO1k7cWFSxdTtXuuEEa32B7Sz2fKVMlmHaghGNAhQAAmkALSNRvLvTIOB2U/VMYeKjtH8FL+N3PqXkfIVnvk9mE=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AS8PR08MB5912.eurprd08.prod.outlook.com (2603:10a6:20b:29f::12)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.25; Wed, 18 Nov
- 2020 18:04:54 +0000
+ 2020 18:04:55 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::fd02:1330:f620:1243]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::fd02:1330:f620:1243%9]) with mapi id 15.20.3589.021; Wed, 18 Nov 2020
- 18:04:54 +0000
+ 18:04:55 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, eblake@redhat.com, fam@euphon.net,
  stefanha@redhat.com, mreitz@redhat.com, kwolf@redhat.com, jsnow@redhat.com,
  vsementsov@virtuozzo.com, den@openvz.org
-Subject: [PATCH 10/11] block/backup: implement .cancel job handler
-Date: Wed, 18 Nov 2020 21:04:32 +0300
-Message-Id: <20201118180433.11931-11-vsementsov@virtuozzo.com>
+Subject: [PATCH 11/11] iotests/264: add backup-cancel test-case
+Date: Wed, 18 Nov 2020 21:04:33 +0300
+Message-Id: <20201118180433.11931-12-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20201118180433.11931-1-vsementsov@virtuozzo.com>
 References: <20201118180433.11931-1-vsementsov@virtuozzo.com>
@@ -68,33 +68,33 @@ Received: from kvm.sw.ru (185.215.60.112) by
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.20.3589.20 via Frontend Transport; Wed, 18 Nov 2020 18:04:54 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2ae24eb1-1701-4481-088c-08d88bec73f0
+X-MS-Office365-Filtering-Correlation-Id: 5aa79104-bcef-4045-bc25-08d88bec746e
 X-MS-TrafficTypeDiagnostic: AS8PR08MB5912:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB5912A748C0C80269EDEE9753C1E10@AS8PR08MB5912.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:93;
+X-Microsoft-Antispam-PRVS: <AS8PR08MB591299CEB60F91A596C326D6C1E10@AS8PR08MB5912.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2582;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pDwytjmYXpJhuP/wLpeVrOo1qgJHOy8B7ir22IwHPWpGETth3G3suJ7ppvkxHDWCjOdHMDCAzf0DInsWzchxW3YsXa10pfChMGulyfnhwRdg8uQRTojiQrl6xrXlIWehxhtFeDVzf/uSRx4mG/r2np6qUtmas2FogsRpBkqWvSmExZMQlCtHPaAJxQf2mKOKHa2nF8kUd651y/9xd6p6Yelw3YKvlBdc0oTxDyliWNpkr9/qh7yP32tR6Hc+wDb3+ogY+7aXmic/6MUAct+a9gtCZtjt1UZIysAGhboKKEyAsWO+ZqM9usaNt7xZHuhMFahIlnZuPSeFvrGrkl5fwISexOKLwyd3+Cy2wDQ6B2xyxo5EV0cTfUod358oFTFN
+X-Microsoft-Antispam-Message-Info: Jet8uA+u9tC+DbWyfo5+76zveHRixLZ0lO7kn7VXJbFc4Ne5cKKYuwI0RfNgnIj2Y6MPJtrHFHqcE7A0pS3B7fcIe0gROnDpo/aZOxPCO1dt8+y/ERC7AI5m7zJPSm6H3F1aoBysAdDrIAeX+T2Uvu1yafBaPosqkrnkTwGmtMKVnCEAqMVyY/6C2R7xNeCUc5cUCxyv0qF8WjabYmEhXltIikMiRIq46PDrjG3JwmlQPcZPsY/U8+8yiczYG95IfDIKnog/sjmWP3zhAm8QHe+bwMHr1RrSX6WW8uY730lOk0w7v3WmQwGaLZNVyQcVEgwYLtLdPbCnyBSJys+oKA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(136003)(366004)(376002)(396003)(39840400004)(1076003)(6512007)(26005)(36756003)(478600001)(6506007)(6486002)(83380400001)(16526019)(2906002)(186003)(66556008)(66476007)(66946007)(5660300002)(86362001)(316002)(2616005)(8676002)(956004)(6666004)(4326008)(52116002)(6916009)(8936002)(107886003)(142923001);
+ SFS:(4636009)(346002)(136003)(366004)(376002)(396003)(39840400004)(1076003)(6512007)(26005)(36756003)(478600001)(6506007)(6486002)(83380400001)(16526019)(2906002)(186003)(66556008)(66476007)(66946007)(5660300002)(86362001)(316002)(2616005)(8676002)(956004)(6666004)(4326008)(52116002)(6916009)(8936002)(107886003);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: eMvpxpnlTWJvN9w58ovmB/rwHoRe60rA6Kq7LouNroSkKWcBxC1R6ePbufGHnhU7WSLl6DPFli6b9wcd/3Qr/Gl58cALxcv7askMkF2X1WD+3cn6Ir38hmYlnyQaQRrolrghRObCgeFwFuWZhKuxLGQGRMUmu/RKyjkJcRxHXh75JSzkZqH+ZKprLZiBqM46LovCQgII+7jaaWC2o+s8FJHmM6HbAT9zHQLAoilPHNf1+xxo0BBnl1lHzt4GeyLS0f+LZkH7xULxt/654AW7CBXgOp57KR4ldUwi/9Nw6WQa3bDmONuNzoALtIhQPdwVDI1lnY0+R34S6Gy7qCx8pH9tXibBtKMsE8mPuiYDvtXfIDWkHBZijVWMvH+MsNRJFvPvObsVhkOp85BfCaOLIB8iFu5jgWlQHc6+z4Yqivy3cJ7ZTRO+dw/SdEDc+Wh79hqJTabpicxRFDIaz/muMzmnxeEaPSMmbRxn8ucqegElUN/PJc+UnRBDOADkDtUsK6yv2GXqsEZFFrd1uf9amXowJxrYe98Cw/z1xEriRCqmhIkjbnkZ8mH17xEA9lL5LnYxRg0ZMyExWmjzTQi+Lley8vETPSTTCnszbQEjcLGuQgSNAt66tzwwtj6UPuSiZx4cLUOhx1++WpQDnyyNvA==
+X-MS-Exchange-AntiSpam-MessageData: XYdofmd850KzJjbcLDkkOcCRCkOITuQnI8+WyUW/I8Gv9PMrvdXsOZ33WjqfZKNbnfFy5g6ZKKVWQCOkOnG1f6GFZvVXDGvEasL2R3Hc/VSK+b30lE/SgZUDNSuIcEpCBqhTLgxAh5A92oxoBVP8GBRZrUyprq4KHwfTmPWyWzvMHJrp+JyMX6wuqY02vsrWNXQzqOnDT0NZKX/lNZ0076SZLQjzMO+nVa6408ugNIygOqInvKnLBd3w6vqN6d+2LGT3yGKi+CS6smMcIkWtoroR9lh5YJcxP6RrB6iutHM2wvJOsgAgy2F4fG8fI7atLO9QRuYCJ/b164BLk17FnkUmFxdyCC5x0uk2N/n3/PraZYHGvtlZ+ez5+CL2m5E739vdBGPjMf/jmw8TzLap5/n4Ha3S6p43A68F51n3536EpCS+Whh+GiGhdXH0adesaWVOVV3VzDoA7DyEQm2utZEe1I9Q6X44iMIJ568uzqf4rKLqbKEU40bDQKLHXik9RA5LZ6tVNQ4Gc0SLfd013JCeohy0oifLii0XQFyJin7aW6GgwMUlcsXMlEQXQn3sngsVi29/cRS1rOo9Oqf3SqnTyubGx3cLYMVh0uz1v6k6eQuXrwLWqMyVodUNxikTilDsvQnUhNQYX+qe85UFVw==
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2ae24eb1-1701-4481-088c-08d88bec73f0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5aa79104-bcef-4045-bc25-08d88bec746e
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2020 18:04:54.7823 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2020 18:04:55.6186 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TS1BwZegJHHeEUtE5Umow4Vag7E1UJN1cePiJIWxAUEN+Vtgh1TJW01ehsWMFeTirR0xT5TF1CKNah4Qv9ZxLuXbs8BRl2qxtmC+Rh2xINg=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4hLhanpDHM/nioXAZ8DT7wdPa/7/hyTynlGHQd7QVZ/G6IJpfz2fuYXtr3HLUu57y8oAMJUHWZ+hl6Cepy7av65ah56ts1g10NcdiHNtCJg=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB5912
-Received-SPF: pass client-ip=40.107.13.110;
+Received-SPF: pass client-ip=40.107.14.135;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-HE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 13:04:46
+ helo=EUR01-VE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 13:04:54
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -118,55 +118,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cancel in-flight io on target to not waste the time.
+Check that cancel doesn't wait for 10s of nbd reconnect timeout.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/backup.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ tests/qemu-iotests/264 | 21 ++++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
 
-diff --git a/block/backup.c b/block/backup.c
-index 9afa0bf3b4..9878594c83 100644
---- a/block/backup.c
-+++ b/block/backup.c
-@@ -36,6 +36,7 @@ typedef struct BackupBlockJob {
-     BlockJob common;
-     BlockDriverState *backup_top;
-     BlockDriverState *source_bs;
-+    BlockDriverState *target_bs;
+diff --git a/tests/qemu-iotests/264 b/tests/qemu-iotests/264
+index 3c6f29317f..b830078834 100755
+--- a/tests/qemu-iotests/264
++++ b/tests/qemu-iotests/264
+@@ -93,13 +93,7 @@ class TestNbdReconnect(iotests.QMPTestCase):
+             result = self.vm.qmp('blockdev-del', node_name='backup0')
+             self.assert_qmp(result, 'return', {})
  
-     BdrvDirtyBitmap *sync_bitmap;
+-    def test_mirror_cancel(self):
+-        # Mirror speed limit doesn't work well enough, it seems that mirror
+-        # will run many parallel requests anyway. MAX_IN_FLIGHT is 16 and
+-        # MAX_IO_BYTES is 1M in mirror.c, so let's use 20M disk.
+-        self.init_vm(20 * 1024 * 1024)
+-        self.start_job('blockdev-mirror')
+-
++    def cancel_job(self):
+         result = self.vm.qmp('block-job-cancel', device='drive0')
+         self.assert_qmp(result, 'return', {})
  
-@@ -279,6 +280,13 @@ static int coroutine_fn backup_run(Job *job, Error **errp)
-     return ret;
- }
+@@ -108,6 +102,19 @@ class TestNbdReconnect(iotests.QMPTestCase):
+         delta_t = time.time() - start_t
+         self.assertTrue(delta_t < 2.0)
  
-+static void backup_cancel(Job *job)
-+{
-+    BackupBlockJob *s = container_of(job, BackupBlockJob, common.job);
++    def test_mirror_cancel(self):
++        # Mirror speed limit doesn't work well enough, it seems that mirror
++        # will run many parallel requests anyway. MAX_IN_FLIGHT is 16 and
++        # MAX_IO_BYTES is 1M in mirror.c, so let's use 20M disk.
++        self.init_vm(20 * 1024 * 1024)
++        self.start_job('blockdev-mirror')
++        self.cancel_job()
 +
-+    bdrv_cancel_in_flight(s->target_bs);
-+}
++    def test_backup_cancel(self):
++        self.init_vm(5 * 1024 * 1024)
++        self.start_job('blockdev-backup')
++        self.cancel_job()
 +
- static const BlockJobDriver backup_job_driver = {
-     .job_driver = {
-         .instance_size          = sizeof(BackupBlockJob),
-@@ -289,6 +297,7 @@ static const BlockJobDriver backup_job_driver = {
-         .commit                 = backup_commit,
-         .abort                  = backup_abort,
-         .clean                  = backup_clean,
-+        .cancel                 = backup_cancel,
-     }
- };
  
-@@ -456,6 +465,7 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
- 
-     job->backup_top = backup_top;
-     job->source_bs = bs;
-+    job->target_bs = target;
-     job->on_source_error = on_source_error;
-     job->on_target_error = on_target_error;
-     job->sync_mode = sync_mode;
+ if __name__ == '__main__':
+     iotests.main(supported_fmts=['qcow2'])
 -- 
 2.21.3
 
