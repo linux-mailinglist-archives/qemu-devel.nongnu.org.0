@@ -2,77 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 236502B847D
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 20:15:20 +0100 (CET)
-Received: from localhost ([::1]:58308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6537E2B8482
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 20:17:03 +0100 (CET)
+Received: from localhost ([::1]:32920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfSvH-0003LE-4I
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 14:15:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40372)
+	id 1kfSww-0004iA-Au
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 14:17:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <msys.mizuma@gmail.com>)
- id 1kfSqo-00023E-Kt; Wed, 18 Nov 2020 14:10:42 -0500
-Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:41100)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <msys.mizuma@gmail.com>)
- id 1kfSqm-0000pW-E9; Wed, 18 Nov 2020 14:10:42 -0500
-Received: by mail-qk1-x742.google.com with SMTP id d9so2902101qke.8;
- Wed, 18 Nov 2020 11:10:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=xjjtG8dKgKbh9DODZnGVivebvwnpQ/6Y/PkPUZsAXJ0=;
- b=XMwoNlS4sfEuD80bkrmbcaaoPAvbOk3Vceq9thZ65/X58JxjlYHWH6YFxxZ0+RItdW
- LDgH9g3Eaqy2pNL+Ic0W+mL3JBEsV31ZpoQavCP6L6C6NFShA2/iFhkelBs8pukpBdm3
- kWNsbjXCDHU5wMQc856qSdo7q2JvA3oiT4cQYNwIyjAKSyMmQd+sCX3cpz5QjlowVvHA
- PHQl8ZkS1ruG1UGc9evww5S2/pxjk+DixLCUC2vZ08/J/7BZwkLuCWl/SjY7tq46Tnxy
- GSp4xEAsQ2yZr2/3gsxdQb8aELlunQuAE0tJp0Nkhxyq0Fg0iQo5+7NBZqwF5+7LcqiT
- uNKA==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kfStU-0003MO-T1
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 14:13:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43501)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kfStS-0001Gb-KP
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 14:13:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605726805;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=87J+vcO6qyvYbQnUkt6tNwuf2drLnAFSkWK6FLmXjvU=;
+ b=EaDCkg9LOonrWihCro658OsaLRi7+OeEcEr9RGLGEA4w8wg/oeipglVOdnK6ZclHvV7IAt
+ J5n8FtTL5TSmQ5RYVHjBkL89OaUgXkHeSSKzQCoXVuDdO2z0nEQNVBj1I6OYPjN9tsZ1HE
+ 7r9qEF1IjPcGAvZCqMufqxK3yoCDc+E=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-536-N9Btm_RlOdyW0U5EwWtwMw-1; Wed, 18 Nov 2020 14:13:23 -0500
+X-MC-Unique: N9Btm_RlOdyW0U5EwWtwMw-1
+Received: by mail-ej1-f72.google.com with SMTP id lz20so1246959ejb.13
+ for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 11:13:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=xjjtG8dKgKbh9DODZnGVivebvwnpQ/6Y/PkPUZsAXJ0=;
- b=HDi0IgbqJZamYcqx4DVkWYOvxoXQeYlFGTuOHf+Udmn+sc7M71Uwum85xcsZdz9VzA
- /Mw25hR8HiozUf0GaUqGVpPA/RAiWRi9jHROgwig93lE0He6CkqE45asqbShPm2X3YBe
- Aa1fhAiEF7DkWEBRMYPZjjeQS7wXMsNIswzNsA7Q7QDT2klNq4Qrc2UOwPeqHc8JeVLm
- i1Y2Fyz4Po/7xEccruT6oz+QbKm1XN2+ctzVJts0QtRIYXEy2rUSNsF8qtEIu7H7VAq7
- i+yzJfE8W/S/ZU3QFwrRdvhsk/azJX8YWakuPVB2nRzNbLpjldSiTgWlVvqURosMNQjT
- EZIw==
-X-Gm-Message-State: AOAM530/dqvCUigLI6BQJKfmr6AW+M16sFmOlX9d7CCqeq5B2YIid2zs
- dX0c4o1c5DOzcbwDo3VlSw==
-X-Google-Smtp-Source: ABdhPJwdUbnu3UKVsB/1gjCpeSkqaZp7E4dWQukYn5nQdPv76XvYIi9aFAJS4t/vhqs62JwkECexFw==
-X-Received: by 2002:a37:4552:: with SMTP id s79mr6402727qka.6.1605726638891;
- Wed, 18 Nov 2020 11:10:38 -0800 (PST)
-Received: from gabell
- (209-6-122-159.s2973.c3-0.arl-cbr1.sbo-arl.ma.cable.rcncustomer.com.
- [209.6.122.159])
- by smtp.gmail.com with ESMTPSA id r14sm16572343qtu.25.2020.11.18.11.10.38
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 18 Nov 2020 11:10:38 -0800 (PST)
-Date: Wed, 18 Nov 2020 14:10:36 -0500
-From: Masayoshi Mizuma <msys.mizuma@gmail.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH 1/2] file-posix: Use OFD lock only if the filesystem
- supports the lock
-Message-ID: <20201118191036.yk4rju2hk4vpkhfl@gabell>
-References: <20201106040102.13892-1-msys.mizuma@gmail.com>
- <20201118154247.GB11988@merkur.fritz.box>
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=87J+vcO6qyvYbQnUkt6tNwuf2drLnAFSkWK6FLmXjvU=;
+ b=qR9Ecxu6qCTioCm27/6NPmNUBkB85Cf9c196zfrrHf+IS1/l8YlL4bYgrxECaYAan6
+ 1Xvjt+JMxQGn+5xDSsVVXMR74rwtdn/B9ALSsa4WEw6/fkt0CjQ4yyNbYrdlyadgbPev
+ JLF+PKdygXpUEB2G1r7+VSr/Cb95gt2XeWSsTYkg40ICWbB9nbpz642IsLWLlGynfMng
+ 5sMyiY7C6y7+jOAel/uur4Shy6d7TjCuDUn+R1lESRf2f+/1Qwl18pKLCmMFf1IFwUBE
+ IA7aQ/PwipuvB4VtmHVz6s/W1uKw+5CJYl89Tj1oVKA23dyk2uc80jbBmOrE5HaVaWp0
+ 3gqQ==
+X-Gm-Message-State: AOAM5327tmC6DqAtMYqT0C/XtTNuB00S7oEqIr7IAY6FGxC7coE9eDy9
+ PxIX399BHit4VgiEqaiymJvrAI3aoH21cGN74c4BnbV0E10k08yx16rNq5NjrjRJgbLr3knngO5
+ k7B6NJiOvEwIotXk=
+X-Received: by 2002:a17:906:1a0c:: with SMTP id
+ i12mr24798983ejf.176.1605726802252; 
+ Wed, 18 Nov 2020 11:13:22 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwOGaEda2S/B2yes+g1TqFZVXr9glnaUxaAiyYWWpc2OxtV2kY8RNfrFp3s4rmlJVxaixL8YQ==
+X-Received: by 2002:a17:906:1a0c:: with SMTP id
+ i12mr24798939ejf.176.1605726802033; 
+ Wed, 18 Nov 2020 11:13:22 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id f24sm13954949edx.90.2020.11.18.11.13.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Nov 2020 11:13:21 -0800 (PST)
+To: Eduardo Habkost <ehabkost@redhat.com>
+References: <20201118102936.25569-9-cfontana@suse.de>
+ <20201118124845.GC1509407@habkost.net>
+ <6093de34-807d-3840-5402-4769385dd894@suse.de>
+ <8f829e99-c346-00bc-efdd-3e6d69cfba35@redhat.com>
+ <20201118143643.GF1509407@habkost.net>
+ <a6071cd4-0787-01c8-775a-ede72e740376@redhat.com>
+ <20201118152552.GG1509407@habkost.net>
+ <CABgObfYL-TNAMmqkUh6cjcytaAFEtXPfw8toO6gXEuyokdyLhA@mail.gmail.com>
+ <20201118161119.GJ1509407@habkost.net>
+ <CABgObfb2Fim=7j3z7ApTuW=R0dWam2F_JRuOoxhP=XZXdsWe7g@mail.gmail.com>
+ <20201118173055.GM1509407@habkost.net>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [RFC v3 8/9] module: introduce MODULE_INIT_ACCEL_CPU
+Message-ID: <e7b70933-acd1-668c-62cd-89f480945f0f@redhat.com>
+Date: Wed, 18 Nov 2020 20:13:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201118154247.GB11988@merkur.fritz.box>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::742;
- envelope-from=msys.mizuma@gmail.com; helo=mail-qk1-x742.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <20201118173055.GM1509407@habkost.net>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 19:41:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,297 +113,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Bruce Rogers <brogers@suse.com>,
+ Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ Paul Durrant <paul@xen.org>, Olaf Hering <ohering@suse.de>,
+ Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Dario Faggioli <dfaggioli@suse.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Cameron Esfahani <dirty@apple.com>, Colin Xu <colin.xu@intel.com>,
+ Wenchao Wang <wenchao.wang@intel.com>,
+ Anthony Perard <anthony.perard@citrix.com>, haxm-team@intel.com,
+ Sunil Muthuswamy <sunilmut@microsoft.com>, Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 18, 2020 at 04:42:47PM +0100, Kevin Wolf wrote:
-> Am 06.11.2020 um 05:01 hat Masayoshi Mizuma geschrieben:
-> > From: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
-> > 
-> > locking=auto doesn't work if the filesystem doesn't support OFD lock.
-> > In that situation, following error happens:
-> > 
-> >   qemu-system-x86_64: -blockdev driver=qcow2,node-name=disk,file.driver=file,file.filename=/mnt/guest.qcow2,file.locking=auto: Failed to lock byte 100
-> > 
-> > qemu_probe_lock_ops() judges whether qemu can use OFD lock
-> > or not with doing fcntl(F_OFD_GETLK) to /dev/null. So the
-> > error happens if /dev/null supports OFD lock, but the filesystem
-> > doesn't support the lock.
-> > 
-> > Lock the actual file, not /dev/null, using F_OFD_SETLK and if that
-> > fails, then fallback to F_SETLK.
-> > 
-> > Signed-off-by: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
+On 18/11/20 18:30, Eduardo Habkost wrote:
+>> Adding a layer of indirect calls is not very different from monkey patching
+>> though.
 > 
-> CCing qemu-block, which is the relevant mailing list. You can use the
-> scripts/get_maintainer.pl script to find out who should be CCed on your
-> patches.
+> I'm a little bothered by monkey patching, but I'm more
+> bothered by having to:
 > 
-> As qemu-devel itself is a very high traffic list, it's easy for a patch
-> to get lost if it's only sent there.
+> (1) register (module_init()) a function (kvm_cpu_accel_register()) that
+>    (2) register (accel_register_call()) a function (kvm_cpu_accel_init()) that
+>      (3) register (x86_cpu_accel_init()) a data structure (X86CPUAccel kvm_cpu_accel) that
+>        (4) will be saved in multiple QOM classes, so that
+>          (5) we will call the right X86CPUClass.accel method at the right moment
+>              (common_class_init(), instance_init(), realizefn()),
+> where:
+>    step 4 must be done before any CPU object is created
+>      (otherwise X86CPUAccel.instance_init & X86CPUAccel.realizefn
+>       will be silently ignored), and
+>    step 3 must be done after all QOM types were registered.
+> 
+>> You also have to consider that accel currently does not exist in usermode
+>> emulators, so that's an issue too. I would rather get a simple change in
+>> quickly, instead of designing the perfect class hierarchy.
+> 
+> It doesn't have to be perfect.  I agree that simple is better.
+> 
+> To me, registering a QOM type and looking it up when necessary is
+> simpler than the above.  Even if it's a weird class having no
+> object instances.  It probably could be an interface type.
 
-Thank you for letting me know.
-I'll do scripts/get_maintainer.pl to get the mailing list before posting patches.
+Registering a QOM type still has quite some boilerplate.  Also 
+registering a QOM type has a public side effect (shows up in 
+qom-list-types).  In general I don't look at QOM unless I want its 
+property mechanism, but maybe that's just me.
 
+>> Perhaps another idea would be to allow adding interfaces to classes
+>> *separately from the registration of the types*. Then we can use it to add
+>> SOFTMMU_ACCEL and I386_ACCEL interfaces to a bare bones accel class, and
+>> add the accel object to usermode emulators.
 > 
-> > diff --git a/util/osdep.c b/util/osdep.c
-> > index 66d01b9160..454e8ef9f4 100644
-> > --- a/util/osdep.c
-> > +++ b/util/osdep.c
-> > @@ -117,9 +117,6 @@ int qemu_mprotect_none(void *addr, size_t size)
-> >  
-> >  #ifndef _WIN32
-> >  
-> > -static int fcntl_op_setlk = -1;
-> > -static int fcntl_op_getlk = -1;
-> > -
-> >  /*
-> >   * Dups an fd and sets the flags
-> >   */
-> > @@ -187,68 +184,87 @@ static int qemu_parse_fdset(const char *param)
-> >      return qemu_parse_fd(param);
-> >  }
-> >  
-> > -static void qemu_probe_lock_ops(void)
-> > +bool qemu_has_ofd_lock(int orig_fd)
-> >  {
-> > -    if (fcntl_op_setlk == -1) {
-> >  #ifdef F_OFD_SETLK
-> > -        int fd;
-> > -        int ret;
-> > -        struct flock fl = {
-> > -            .l_whence = SEEK_SET,
-> > -            .l_start  = 0,
-> > -            .l_len    = 0,
-> > -            .l_type   = F_WRLCK,
-> > -        };
-> > -
-> > -        fd = open("/dev/null", O_RDWR);
-> > -        if (fd < 0) {
-> > +    int fd;
-> > +    int ret;
-> > +    struct flock fl = {
-> > +        .l_whence = SEEK_SET,
-> > +        .l_start  = 0,
-> > +        .l_len    = 0,
-> > +        .l_type   = F_RDLCK,
-> > +    };
-> > +
-> > +    fd = qemu_dup(orig_fd);
-> > +    if (fd >= 0) {
-> > +        ret = fcntl_setfl(fd, O_RDONLY);
-> 
-> I don't understand this part. Why are you trying to reopen the file
-> descriptor read-only? Shouldn't the test work fine with a read-write
-> file descriptor? /dev/null was opened O_RDWR in the old code.
-> 
-> > +        if (ret) {
-> >              fprintf(stderr,
-> > -                    "Failed to open /dev/null for OFD lock probing: %s\n",
-> > -                    strerror(errno));
-> > -            fcntl_op_setlk = F_SETLK;
-> > -            fcntl_op_getlk = F_GETLK;
-> > -            return;
-> > -        }
-> > -        ret = fcntl(fd, F_OFD_GETLK, &fl);
-> > -        close(fd);
-> > -        if (!ret) {
-> > -            fcntl_op_setlk = F_OFD_SETLK;
-> > -            fcntl_op_getlk = F_OFD_GETLK;
-> > -        } else {
-> > -            fcntl_op_setlk = F_SETLK;
-> > -            fcntl_op_getlk = F_GETLK;
-> > +                    "Failed to fcntl for OFD lock probing.\n");
-> > +            qemu_close(fd);
-> > +            return false;
-> >          }
-> > +    }
-> > +
-> > +    ret = fcntl(fd, F_OFD_GETLK, &fl);
-> > +    qemu_close(fd);
-> 
-> F_OFD_GETLK doesn't modify the state, so it seems to me that even the
-> qemu_dup() is unnecessary and we could just directly try F_OFD_GETLK on
-> the passed file descriptor (orig_fd).
+> I'm not sure I follow.  What do you mean by bare bones accel
+> class, and when exactly would you add the new interfaces to the
+> classes?
 
-OK, I'll change to try F_OFD_GETLK of orig_fd directly.
+A bare bones accel class would not have init_machine and setup_post 
+methods; those would be in a TYPE_SOFTMMU_ACCEL interface.  It would 
+still have properties (such as tb-size for TCG) and would be able to 
+register compat properties.
 
-> 
-> > +
-> > +    if (ret == 0) {
-> > +        return true;
-> > +    } else {
-> > +        return false;
-> > +    }
-> 
-> This should be written shorter as return ret == 0;
-> 
-> >  #else
-> > -        fcntl_op_setlk = F_SETLK;
-> > -        fcntl_op_getlk = F_GETLK;
-> > +    return false;
-> >  #endif
-> > -    }
-> >  }
-> >  
-> > -bool qemu_has_ofd_lock(void)
-> > -{
-> > -    qemu_probe_lock_ops();
-> >  #ifdef F_OFD_SETLK
-> > -    return fcntl_op_setlk == F_OFD_SETLK;
-> > +static int _qemu_lock_fcntl(int fd, struct flock *fl)
-> > +{
-> > +    int ret;
-> > +    bool ofd_lock = true;
-> > +
-> > +    do {
-> > +        if (ofd_lock) {
-> > +            ret = fcntl(fd, F_OFD_SETLK, fl);
-> > +            if ((ret == -1) && (errno == EINVAL)) {
-> > +                ofd_lock = false;
-> > +            }
-> > +        }
-> > +
-> > +        if (!ofd_lock) {
-> > +            /* Fallback to POSIX lock */
-> > +            ret = fcntl(fd, F_SETLK, fl);
-> > +        }
-> > +    } while (ret == -1 && errno == EINTR);
-> > +
-> > +    return ret == -1 ? -errno : 0;
-> > +}
-> >  #else
-> > -    return false;
-> > -#endif
-> > +static int _qemu_lock_fcntl(int fd, struct flock *fl)
-> > +{
-> > +    int ret;
-> > +
-> > +    do {
-> > +        ret = fcntl(fd, F_SETLK, fl);
-> > +    } while (ret == -1 && errno == EINTR);
-> > +
-> > +    return ret == -1 ? -errno : 0;
-> >  }
-> > +#endif
-> 
-> The logic looks fine to me, at least assuming that EINVAL is really what
-> we will consistently get from the kernel if OFD locks are not supported.
-> Is this documented anywhere? The fcntl manpage doesn't seem to mention
-> this case.
-> 
-> Anyway, I think I would try to minimise the duplication by having only
-> a small #ifdef section inside the function, maybe like this:
-> 
-> #ifdef F_OFD_SETLK
->             ret = fcntl(fd, F_OFD_SETLK, fl);
->             if ((ret == -1) && (errno == EINVAL)) {
->                 ofd_lock = false;
->             }
-> #else
->             ofd_lock = false;
-> #endif
+Where would I add it, I don't know.  It could be a simple public wrapper 
+around type_initialize_interface() if we add a new MODULE_INIT_* phase 
+after QOM.
 
-Great! I'll make this.
+Or without adding a new phase, it could be a class_type->array of 
+(interface_type, init_fn) hash table.  type_initialize would look up the 
+class_type by name, add the interfaces would to the class with 
+type_initialize_interface, and then call the init_fn to fill in the vtable.
 
-> 
-> >  static int qemu_lock_fcntl(int fd, int64_t start, int64_t len, int fl_type)
-> >  {
-> > -    int ret;
-> >      struct flock fl = {
-> >          .l_whence = SEEK_SET,
-> >          .l_start  = start,
-> >          .l_len    = len,
-> >          .l_type   = fl_type,
-> >      };
-> > -    qemu_probe_lock_ops();
-> > -    do {
-> > -        ret = fcntl(fd, fcntl_op_setlk, &fl);
-> > -    } while (ret == -1 && errno == EINTR);
-> > -    return ret == -1 ? -errno : 0;
-> > +
-> > +    return _qemu_lock_fcntl(fd, &fl);
-> >  }
-> >  
-> >  int qemu_lock_fd(int fd, int64_t start, int64_t len, bool exclusive)
-> > @@ -261,22 +277,49 @@ int qemu_unlock_fd(int fd, int64_t start, int64_t len)
-> >      return qemu_lock_fcntl(fd, start, len, F_UNLCK);
-> >  }
-> >  
-> > -int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool exclusive)
-> > +#ifdef F_OFD_SETLK
-> > +static int _qemu_lock_fd_test(int fd, struct flock *fl)
-> >  {
-> >      int ret;
-> > +
-> > +    ret = fcntl(fd, F_OFD_GETLK, fl);
-> > +    if ((ret == -1) && (errno != EINVAL)) {
-> > +        return -errno;
-> > +
-> 
-> Please remove this empty line.
-> 
-> The parentheses in the condition (above and below) are not stricly
-> necessary.
+Paolo
 
-Got it.
-
-> 
-> > +    } else if ((ret == -1) && (errno == EINVAL)) {
-> > +        /* Fallback to POSIX lock */
-> > +        ret = fcntl(fd, F_GETLK, fl);
-> > +        if (ret == -1) {
-> > +            return -errno;
-> > +        }
-> > +    }
-> > +
-> > +    return fl->l_type == F_UNLCK ? 0 : -EAGAIN;
-> > +}
-> > +#else
-> > +static int _qemu_lock_fd_test(int fd, struct flock *fl)
-> > +{
-> > +    int ret;
-> > +
-> > +    ret = fcntl(fd, F_GETLK, fl);
-> > +    if (ret == -1) {
-> > +        return -errno;
-> > +    } else {
-> > +        return fl->l_type == F_UNLCK ? 0 : -EAGAIN;
-> > +    }
-> > +}
-> > +#endif
-> 
-> Same idea as above: #ifdef only around the fcntl(F_OFD_GETLK) call can
-> minimise the code duplication.
-> 
-> > +int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool exclusive)
-> > +{
-> >      struct flock fl = {
-> >          .l_whence = SEEK_SET,
-> >          .l_start  = start,
-> >          .l_len    = len,
-> >          .l_type   = exclusive ? F_WRLCK : F_RDLCK,
-> >      };
-> > -    qemu_probe_lock_ops();
-> > -    ret = fcntl(fd, fcntl_op_getlk, &fl);
-> > -    if (ret == -1) {
-> > -        return -errno;
-> > -    } else {
-> > -        return fl.l_type == F_UNLCK ? 0 : -EAGAIN;
-> > -    }
-> > +
-> > +    return _qemu_lock_fd_test(fd, &fl);
-> >  }
-> >  #endif
-> 
-> After moving the #ifdef into the function, you can inline
-> _qemu_lock_fd_test() and and _qemu_lock_fcntl() again. This is also good
-> because identifiers starting with an underscore are reserved in the C
-> standard.
-
-Got it, thanks! I'll post v2.
-
-- Masa
 
