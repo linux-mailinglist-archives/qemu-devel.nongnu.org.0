@@ -2,70 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F315E2B81DE
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 17:29:37 +0100 (CET)
-Received: from localhost ([::1]:59330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 412122B8185
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 17:10:18 +0100 (CET)
+Received: from localhost ([::1]:56618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfQKv-0006BH-26
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 11:29:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52194)
+	id 1kfQ2D-0000KU-1f
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 11:10:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kfQHO-0002iW-5v
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 11:25:58 -0500
-Received: from indium.canonical.com ([91.189.90.7]:50082)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kfQHL-0002pW-Ut
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 11:25:57 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kfQHK-0005Ei-FW
- for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 16:25:54 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6E26E2E8055
- for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 16:25:54 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kfQ1S-0008KX-0v
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 11:09:30 -0500
+Received: from mta-02.yadro.com ([89.207.88.252]:59854 helo=mta-01.yadro.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kfQ1O-0000oO-Sd
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 11:09:29 -0500
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 8DF4241316;
+ Wed, 18 Nov 2020 16:09:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-disposition:content-type:content-type
+ :mime-version:references:message-id:subject:subject:from:from
+ :date:date:received:received:received; s=mta-01; t=1605715763;
+ x=1607530164; bh=4ZC5MoASCFVjpIsNm4cjbnvtsOHXcf3i8V9tBdLq7ww=; b=
+ OUD1yHoVw/zCMtEICAzY9wCpYP8IkvQRw4O0jXVyb83tsVpNFv3BK5mrDXuqr4r2
+ R2M4OLLYly/8Kfsf9Lpnxr6HLg2iY+DEcJT8Hb8mWDw73iEyaEsBZjPeoB+siMna
+ IeHzJX1xOM8x/JoCoEngfK0QcAUDUFu/vjesppEaXJg=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id naAeO-fP_pGZ; Wed, 18 Nov 2020 19:09:23 +0300 (MSK)
+Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
+ [172.17.100.103])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id E2C32412E2;
+ Wed, 18 Nov 2020 19:09:19 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
+ (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Wed, 18
+ Nov 2020 19:09:19 +0300
+Date: Wed, 18 Nov 2020 19:09:18 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [RFC v3 4/9] i386: hvf: remove stale MAINTAINERS entry for old
+ hvf stubs
+Message-ID: <20201118160918.GB81070@SPB-NB-133.local>
+References: <20201118102936.25569-1-cfontana@suse.de>
+ <20201118102936.25569-5-cfontana@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 18 Nov 2020 16:08:30 -0000
-From: Peter Maydell <1625216@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: gdb mmio write
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: andreas-rasmusson pmaydell
-X-Launchpad-Bug-Reporter: Andreas Rasmusson (andreas-rasmusson)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <20160919143701.1959.82839.malonedeb@soybean.canonical.com>
-Message-Id: <160571571053.18065.1344914966789678299.malone@gac.canonical.com>
-Subject: [Bug 1625216] Re: memory writes via gdb don't work for memory mapped
- hardware
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c35ff22711d15549e2303ae18ae521fd91f6bf00"; Instance="production"
-X-Launchpad-Hash: ca750ce246da291904fea6afd2dc05ae4bdb5904
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 10:41:28
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20201118102936.25569-5-cfontana@suse.de>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-03.corp.yadro.com (172.17.100.103)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 11:09:24
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,124 +81,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1625216 <1625216@bugs.launchpad.net>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
+ Olaf Hering <ohering@suse.de>, Jason Wang <jasowang@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
+ Cameron Esfahani <dirty@apple.com>, Colin Xu <colin.xu@intel.com>,
+ Wenchao Wang <wenchao.wang@intel.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Bruce Rogers <brogers@suse.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ haxm-team@intel.com, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The code has moved around somewhat, but it's still true that writes by
-gdb don't go to devices -- cpu_memory_rw_debug() calls
-address_space_write_rom() which calls address_space_write_rom_internal()
-which simply skips writing for non-ram/rom regions.
+On Wed, Nov 18, 2020 at 11:29:31AM +0100, Claudio Fontana wrote:
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> ---
+>  MAINTAINERS | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 463317784c..e892dd2220 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -443,7 +443,6 @@ M: Cameron Esfahani <dirty@apple.com>
+>  M: Roman Bolshakov <r.bolshakov@yadro.com>
+>  W: https://wiki.qemu.org/Features/HVF
+>  S: Maintained
+> -F: accel/stubs/hvf-stub.c
+>  F: target/i386/hvf/
+>  F: include/sysemu/hvf.h
+>  
+> -- 
+> 2.26.2
+> 
 
-I'm not sure if the gdb accesses should be special cased or if we should
-just make address_space_write_rom() write to devices (which would also
-affect eg ELF file loading, which is useful in some odd corner cases).
+Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
 
-
-** Changed in: qemu
-       Status: New =3D> Confirmed
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1625216
-
-Title:
-  memory writes via gdb don't work for memory mapped hardware
-
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  When I remote-debug a qemu-guest and attempt to write to a memory mapped =
-location, the
-  write-handler for the concerned device will not be called. All write-requ=
-iests from
-  gdb are delegated to cpu_physical_memory_write_rom(...). a function that =
-writes to the =
-
-  underlying ram-block.
-
-  I believe requests to memory mapped hardware should be delegated to =
-
-  address_space_rw(). =
-
-
-  example:
-  ;; a memory mapped device. No effect, the write-handler is not called
-  (gdb) set *0xfff3c000 =3D 48
-
-  ;; a ram or rom-block. Thos works. The value is changed.
-  (gdb) set *0x100000 =3D 48
-
-  =
-
-  ----------------------------------------
-
-  Here's my suggested patch. As noted in the comment, it could perhaps be
-  improved for the (rare) case when the write-request from gdb spans multip=
-le =
-
-  memory regions.
-
-  $ git diff   85bc2a15121e8bcd9f15eb75794a1eacca9d84bd HEAD ../exec.c
-  diff --git a/exec.c b/exec.c
-  index c4f9036..45ef896 100644
-  --- a/exec.c
-  +++ b/exec.c
-  @@ -3676,6 +3676,7 @@ int cpu_memory_rw_debug(CPUState *cpu, target_ulong=
- addr,
-       int l;
-       hwaddr phys_addr;
-       target_ulong page;
-  +    bool is_memcpy_access;
-   =
-
-       while (len > 0) {
-           int asidx;
-  @@ -3691,13 +3692,32 @@ int cpu_memory_rw_debug(CPUState *cpu, target_ulo=
-ng addr,
-           if (l > len)
-               l =3D len;
-           phys_addr +=3D (addr & ~TARGET_PAGE_MASK);
-  +
-           if (is_write) {
-  +            /* if ram/rom region we access the memory =
-
-  +               via memcpy instead of via the cpu */
-  +            hwaddr mr_len, addr1;
-  +            AddressSpace *as =3D cpu->cpu_ases[asidx].as;
-  +            MemoryRegion *mr =3D address_space_translate(as, phys_addr, =
-&addr1, &mr_len, is_write);
-  +            is_memcpy_access  =3D memory_region_is_ram(mr) || memory_reg=
-ion_is_romd(mr);
-  +            if(mr_len < len) {
-  +                /* TODO, mimic more of the loop over mr chunks as =
-
-  +                   done in cpu_physical_memory_write_internal */ =
-
-  +                printf("warning: we dont know whether all bytes "
-  +                       "to be written are ram/rom or io\n");
-  +            }
-  +        }
-  +        else {
-  +            is_memcpy_access =3D false;
-  +        }
-  +        =
-
-  +        if (is_write && is_memcpy_access) {
-               cpu_physical_memory_write_rom(cpu->cpu_ases[asidx].as,
-                                             phys_addr, buf, l);
-           } else {
-               address_space_rw(cpu->cpu_ases[asidx].as, phys_addr,
-                                MEMTXATTRS_UNSPECIFIED,
-  -                             buf, l, 0);
-  +                             buf, l, is_write);
-           }
-           len -=3D l;
-           buf +=3D l;
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1625216/+subscriptions
+Thanks,
+Roman
 
