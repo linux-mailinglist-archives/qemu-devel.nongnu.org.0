@@ -2,80 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D1E32B79FF
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 10:09:53 +0100 (CET)
-Received: from localhost ([::1]:48804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B345C2B7A38
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 10:18:48 +0100 (CET)
+Received: from localhost ([::1]:45668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfJTM-0003Zc-2W
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 04:09:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59534)
+	id 1kfJbz-0005u3-7L
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 04:18:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kfJRu-0002Jt-K7
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 04:08:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20267)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kfJaR-0004ja-9n
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 04:17:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33896)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kfJRs-0001mW-Vn
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 04:08:22 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kfJaL-0003XE-0s
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 04:17:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605690500;
+ s=mimecast20190719; t=1605691022;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8Qr2BKko3GzWi6t0DHOZrk2WkqHZlHtKyHIlqKxgkzA=;
- b=cKwyZ6qGlOX37tpcALZuHqK94V36zvBfXft4QPbGRhNKWX+wW8874YCidMl6YyAZo/Kp0f
- 5RQoZsga2C6KfSGS5kUzlLSfsYpHpnynYuNGbat/0hNgTHPKN/o2PlV4QXOFENKx0oxd4/
- VAfjQGAqAHCb7zzXVhZMHwhsNiWXbFg=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=TpXuglKPNY32SmoUaf9Ky3Fs6lBJA4BCK7o5Q2GFRjk=;
+ b=I4vNbvYFxXkusTDft06koNVA6avVE36r3plsk042+lRUiqZcZNx7XDk454xbAZ5yFfADeC
+ 6cZbo4HOoZKivoHi3Pu81otj03j9od7+IVuvP4Tcw0kYUW/Cwhiq3j1qTn/fu16JJwSZBq
+ pjoPCXKmWaHwdkH91CmVHIl/faLUVDM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-67-XM3-uh9pOdOlOzLxKGve9w-1; Wed, 18 Nov 2020 04:08:17 -0500
-X-MC-Unique: XM3-uh9pOdOlOzLxKGve9w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-106-ryLq6eVwP-mrv7lAFk5IJA-1; Wed, 18 Nov 2020 04:17:01 -0500
+X-MC-Unique: ryLq6eVwP-mrv7lAFk5IJA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45EE11084C83;
- Wed, 18 Nov 2020 09:08:16 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-113-139.ams2.redhat.com [10.36.113.139])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 758CA60C05;
- Wed, 18 Nov 2020 09:08:13 +0000 (UTC)
-Subject: Re: Should bus-less devices default to .user_creatable = false? (was:
- [PATCH 13/13] bcm2835_cprman: put some peripherals of bcm2835 cprman
- into the 'misc' category)
-To: Markus Armbruster <armbru@redhat.com>
-References: <20201115184903.1292715-1-ganqixin@huawei.com>
- <20201115184903.1292715-14-ganqixin@huawei.com>
- <c2ca2185-4253-da71-eab4-f96b29067c96@amsat.org>
- <882df4ee-948c-7e00-d951-9b14ea40b2df@redhat.com>
- <877dqldyoh.fsf@dusky.pond.sub.org> <875z63oxq1.fsf_-_@dusky.pond.sub.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <610fa3c0-0896-1ee7-76f3-9f2b97d54295@redhat.com>
-Date: Wed, 18 Nov 2020 10:08:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE221186DD3D;
+ Wed, 18 Nov 2020 09:16:59 +0000 (UTC)
+Received: from localhost (ovpn-114-60.ams2.redhat.com [10.36.114.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 954A65D9D2;
+ Wed, 18 Nov 2020 09:16:45 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/4] vhost-user: avoid g_return_val_if() in get/set_config()
+Date: Wed, 18 Nov 2020 09:16:40 +0000
+Message-Id: <20201118091644.199527-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <875z63oxq1.fsf_-_@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 00:38:29
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 19:41:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,39 +77,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, zhang.zhanghailiang@huawei.com,
- qemu-trivial@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Gan Qixin <ganqixin@huawei.com>,
- kuhn.chenqun@huawei.com
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Coiby Xu <Coiby.Xu@gmail.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/11/2020 09.50, Markus Armbruster wrote:
-> Markus Armbruster <armbru@redhat.com> writes:
-> 
-> [...]
->> qdev_device_add() looks like a bus-less device is usable if the machine
->> provides a hotplug handler for it.  Commit 03fcbd9dc5 "qdev: Check for
->> the availability of a hotplug controller before adding a device" seems
->> to be pertinent.
-> 
-> Nope.  A hotplug handler is only required for hot plug (d'oh!), not for
-> cold plug.  
-> 
-> I wonder whether bus-less devices should default to .user_creatable =
-> false like sysbus devices, and for the same reasons.
-> 
-> To actually *do* something, a physical device requires some connection
-> to the rest of the world.  Same for a virtual device (at least the ones
-> that model physical devices).
-
-I know at least two virtual devices that are bus-less and cold-pluggable:
-hw/ppc/spapr_rng.c and hw/watchdog/wdt_diag288.c ... but we could certainly
-mark them with user_creatable = true manually if we decide that bus-less
-devices should be handled differently by default.
-
- Thomas
-
+TWFya3VzIEFybWJydXN0ZXIgcG9pbnRlZCBvdXQgdGhhdCBnX3JldHVybl92YWxfaWYoKSBpcyBt
+ZWFudCBmb3IgcHJvZ3JhbW1pbmcNCmVycm9ycy4gSXQgbXVzdCBub3QgYmUgdXNlZCBmb3IgaW5w
+dXQgdmFsaWRhdGlvbiBzaW5jZSBpdCBjYW4gYmUgY29tcGlsZWQgb3V0Lg0KVXNlIGV4cGxpY2l0
+IGlmIHN0YXRlbWVudHMgaW5zdGVhZC4NCg0KVGhpcyBwYXRjaCBzZXJpZXMgY29udmVydHMgdmhv
+c3QtdXNlciBkZXZpY2UgYmFja2VuZHMgdGhhdCB1c2UNCmdfcmV0dXJuX3ZhbF9pZigpIGluIGdl
+dC9zZXRfY29uZmlnKCkuDQoNClN0ZWZhbiBIYWpub2N6aSAoNCk6DQogIGNvbnRyaWIvdmhvc3Qt
+dXNlci1ibGs6IGF2b2lkIGdfcmV0dXJuX3ZhbF9pZigpIGlucHV0IHZhbGlkYXRpb24NCiAgY29u
+dHJpYi92aG9zdC11c2VyLWdwdTogYXZvaWQgZ19yZXR1cm5fdmFsX2lmKCkgaW5wdXQgdmFsaWRh
+dGlvbg0KICBjb250cmliL3Zob3N0LXVzZXItaW5wdXQ6IGF2b2lkIGdfcmV0dXJuX3ZhbF9pZigp
+IGlucHV0IHZhbGlkYXRpb24NCiAgYmxvY2svZXhwb3J0OiBhdm9pZCBnX3JldHVybl92YWxfaWYo
+KSBpbnB1dCB2YWxpZGF0aW9uDQoNCiBibG9jay9leHBvcnQvdmhvc3QtdXNlci1ibGstc2VydmVy
+LmMgICAgfCA0ICsrKy0NCiBjb250cmliL3Zob3N0LXVzZXItYmxrL3Zob3N0LXVzZXItYmxrLmMg
+fCA0ICsrKy0NCiBjb250cmliL3Zob3N0LXVzZXItZ3B1L3Zob3N0LXVzZXItZ3B1LmMgfCA0ICsr
+Ky0NCiBjb250cmliL3Zob3N0LXVzZXItaW5wdXQvbWFpbi5jICAgICAgICAgfCA0ICsrKy0NCiA0
+IGZpbGVzIGNoYW5nZWQsIDEyIGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pDQoNCi0tIA0K
+Mi4yOC4wDQoNCg==
 
 
