@@ -2,73 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 903FE2B8222
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 17:47:23 +0100 (CET)
-Received: from localhost ([::1]:52956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E1152B8230
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 17:51:36 +0100 (CET)
+Received: from localhost ([::1]:55382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfQc6-0008E0-Ld
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 11:47:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56836)
+	id 1kfQgB-0000zr-FC
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 11:51:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kfQaj-0007fQ-Av
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 11:45:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51974)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kfQag-0005g2-EQ
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 11:45:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605717953;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Yjx1MXZ8UU4IYy70FjZTg9iARFJDhuu+tRix2YUkQxc=;
- b=TY2aMxObe6O5Ay2xgySNAaSHBufSyspk3MWbCovgRRcaywQMcjRhcosIO/JXW5ZcpGorsF
- j7sRO4T0hojXljcVDEcGVngURU1qgtKH847oG/Jkrzn25LhmXSBrRAjL1UCGQqlhxMnHdG
- e1Zav9HQHp7s6s++0ONZvh/+fnSuqLE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-249-06ssc9VEMqqqpH1aIlhYDQ-1; Wed, 18 Nov 2020 11:45:51 -0500
-X-MC-Unique: 06ssc9VEMqqqpH1aIlhYDQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
+ id 1kfQeu-0000YM-DS
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 11:50:16 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48280)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
+ id 1kfQes-0006EJ-E2
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 11:50:16 -0500
+Received: from trantor (unknown [2.26.170.190])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87A261034AF1
- for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 16:45:43 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C1A4360BE2;
- Wed, 18 Nov 2020 16:45:42 +0000 (UTC)
-Date: Wed, 18 Nov 2020 17:45:40 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 19/29] vl: separate qemu_create_machine
-Message-ID: <20201118174540.6e31e063@redhat.com>
-In-Reply-To: <20201027182144.3315885-20-pbonzini@redhat.com>
-References: <20201027182144.3315885-1-pbonzini@redhat.com>
- <20201027182144.3315885-20-pbonzini@redhat.com>
+ by mail.kernel.org (Postfix) with ESMTPSA id B47CF2483F;
+ Wed, 18 Nov 2020 16:50:04 +0000 (UTC)
+Date: Wed, 18 Nov 2020 16:50:01 +0000
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v4 2/2] arm64: kvm: Introduce MTE VCPU feature
+Message-ID: <X7VQua7YO4isMFPU@trantor>
+References: <20201026155727.36685-1-steven.price@arm.com>
+ <20201026155727.36685-3-steven.price@arm.com>
+ <X7P1VLZhBh045tsr@trantor>
+ <f34b3d16-8bc7-af9d-c0e0-fb114d2465aa@arm.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 00:38:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f34b3d16-8bc7-af9d-c0e0-fb114d2465aa@arm.com>
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=cmarinas@kernel.org;
+ helo=mail.kernel.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 11:50:11
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,198 +59,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 27 Oct 2020 14:21:34 -0400
-Paolo Bonzini <pbonzini@redhat.com> wrote:
-
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-
-> ---
->  softmmu/vl.c | 111 +++++++++++++++++++++++++++------------------------
->  1 file changed, 59 insertions(+), 52 deletions(-)
+On Wed, Nov 18, 2020 at 04:01:20PM +0000, Steven Price wrote:
+> On 17/11/2020 16:07, Catalin Marinas wrote:
+> > On Mon, Oct 26, 2020 at 03:57:27PM +0000, Steven Price wrote:
+> > > diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+> > > index 19aacc7d64de..38fe25310ca1 100644
+> > > --- a/arch/arm64/kvm/mmu.c
+> > > +++ b/arch/arm64/kvm/mmu.c
+> > > @@ -862,6 +862,26 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
+> > >   	if (vma_pagesize == PAGE_SIZE && !force_pte)
+> > >   		vma_pagesize = transparent_hugepage_adjust(memslot, hva,
+> > >   							   &pfn, &fault_ipa);
+> > > +
+> > > +	/*
+> > > +	 * The otherwise redundant test for system_supports_mte() allows the
+> > > +	 * code to be compiled out when CONFIG_ARM64_MTE is not present.
+> > > +	 */
+> > > +	if (system_supports_mte() && kvm->arch.mte_enabled && pfn_valid(pfn)) {
+> > > +		/*
+> > > +		 * VM will be able to see the page's tags, so we must ensure
+> > > +		 * they have been initialised.
+> > > +		 */
+> > > +		struct page *page = pfn_to_page(pfn);
+> > > +		long i, nr_pages = compound_nr(page);
+> > > +
+> > > +		/* if PG_mte_tagged is set, tags have already been initialised */
+> > > +		for (i = 0; i < nr_pages; i++, page++) {
+> > > +			if (!test_and_set_bit(PG_mte_tagged, &page->flags))
+> > > +				mte_clear_page_tags(page_address(page));
+> > > +		}
+> > > +	}
+> > 
+> > If this page was swapped out and mapped back in, where does the
+> > restoring from swap happen?
 > 
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index 0c390b979e..38ad3cc895 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -133,6 +133,8 @@ static const char *boot_order;
->  static const char *boot_once;
->  static const char *incoming;
->  static const char *loadvm;
-> +static ram_addr_t maxram_size;
-> +static uint64_t ram_slots;
->  static int display_remote;
->  static int snapshot;
->  static QemuPluginList plugin_list = QTAILQ_HEAD_INITIALIZER(plugin_list);
-> @@ -2791,8 +2793,13 @@ static void qemu_create_late_backends(void)
->      qemu_semihosting_console_init();
->  }
->  
-> -static bool set_memory_options(uint64_t *ram_slots, ram_addr_t *maxram_size,
-> -                               MachineClass *mc)
-> +static bool have_custom_ram_size(void)
-> +{
-> +    QemuOpts *opts = qemu_find_opts_singleton("memory");
-> +    return !!qemu_opt_get(opts, "size");
-> +}
-> +
-> +static void set_memory_options(MachineClass *mc)
->  {
->      uint64_t sz;
->      const char *mem_str;
-> @@ -2842,7 +2849,7 @@ static bool set_memory_options(uint64_t *ram_slots, ram_addr_t *maxram_size,
->  
->      /* store value for the future use */
->      qemu_opt_set_number(opts, "size", ram_size, &error_abort);
-> -    *maxram_size = ram_size;
-> +    maxram_size = ram_size;
->  
->      if (qemu_opt_get(opts, "maxmem")) {
->          uint64_t slots;
-> @@ -2863,15 +2870,58 @@ static bool set_memory_options(uint64_t *ram_slots, ram_addr_t *maxram_size,
->              exit(EXIT_FAILURE);
->          }
->  
-> -        *maxram_size = sz;
-> -        *ram_slots = slots;
-> +        maxram_size = sz;
-> +        ram_slots = slots;
->      } else if (qemu_opt_get(opts, "slots")) {
->          error_report("invalid -m option value: missing 'maxmem' option");
->          exit(EXIT_FAILURE);
->      }
->  
->      loc_pop(&loc);
-> -    return !!mem_str;
-> +}
-> +
-> +static void qemu_create_machine(MachineClass *machine_class)
-> +{
-> +    object_set_machine_compat_props(machine_class->compat_props);
-> +
-> +    set_memory_options(machine_class);
-> +
-> +    current_machine = MACHINE(object_new_with_class(OBJECT_CLASS(machine_class)));
-> +    if (machine_help_func(qemu_get_machine_opts(), current_machine)) {
-> +        exit(0);
-> +    }
-> +    object_property_add_child(object_get_root(), "machine",
-> +                              OBJECT(current_machine));
-> +    object_property_add_child(container_get(OBJECT(current_machine),
-> +                                            "/unattached"),
-> +                              "sysbus", OBJECT(sysbus_get_default()));
-> +
-> +    if (machine_class->minimum_page_bits) {
-> +        if (!set_preferred_target_page_bits(machine_class->minimum_page_bits)) {
-> +            /* This would be a board error: specifying a minimum smaller than
-> +             * a target's compile-time fixed setting.
-> +             */
-> +            g_assert_not_reached();
-> +        }
-> +    }
-> +
-> +    cpu_exec_init_all();
-> +
-> +    if (machine_class->hw_version) {
-> +        qemu_set_hw_version(machine_class->hw_version);
-> +    }
-> +
-> +    machine_smp_parse(current_machine,
-> +        qemu_opts_find(qemu_find_opts("smp-opts"), NULL), &error_fatal);
-> +
-> +    /*
-> +     * Get the default machine options from the machine if it is not already
-> +     * specified either by the configuration file or by the command line.
-> +     */
-> +    if (machine_class->default_machine_opts) {
-> +        qemu_opts_set_defaults(qemu_find_opts("machine"),
-> +                               machine_class->default_machine_opts, 0);
-> +    }
->  }
->  
->  static int global_init_func(void *opaque, QemuOpts *opts, Error **errp)
-> @@ -3412,10 +3462,7 @@ void qemu_init(int argc, char **argv, char **envp)
->      const char *optarg;
->      MachineClass *machine_class;
->      bool userconfig = true;
-> -    ram_addr_t maxram_size;
-> -    uint64_t ram_slots = 0;
->      FILE *vmstate_dump_file = NULL;
-> -    bool have_custom_ram_size;
->  
->      qemu_add_opts(&qemu_drive_opts);
->      qemu_add_drive_opts(&qemu_legacy_drive_opts);
-> @@ -4344,48 +4391,7 @@ void qemu_init(int argc, char **argv, char **envp)
->  
->      configure_rtc(qemu_find_opts_singleton("rtc"));
->  
-> -    machine_class = select_machine();
-> -    object_set_machine_compat_props(machine_class->compat_props);
-> -
-> -    have_custom_ram_size = set_memory_options(&ram_slots, &maxram_size,
-> -                                              machine_class);
-> -
-> -    current_machine = MACHINE(object_new_with_class(OBJECT_CLASS(machine_class)));
-> -    if (machine_help_func(qemu_get_machine_opts(), current_machine)) {
-> -        exit(0);
-> -    }
-> -    object_property_add_child(object_get_root(), "machine",
-> -                              OBJECT(current_machine));
-> -    object_property_add_child(container_get(OBJECT(current_machine),
-> -                                            "/unattached"),
-> -                              "sysbus", OBJECT(sysbus_get_default()));
-> -
-> -    if (machine_class->minimum_page_bits) {
-> -        if (!set_preferred_target_page_bits(machine_class->minimum_page_bits)) {
-> -            /* This would be a board error: specifying a minimum smaller than
-> -             * a target's compile-time fixed setting.
-> -             */
-> -            g_assert_not_reached();
-> -        }
-> -    }
-> -
-> -    cpu_exec_init_all();
-> -
-> -    if (machine_class->hw_version) {
-> -        qemu_set_hw_version(machine_class->hw_version);
-> -    }
-> -
-> -    machine_smp_parse(current_machine,
-> -        qemu_opts_find(qemu_find_opts("smp-opts"), NULL), &error_fatal);
-> -
-> -    /*
-> -     * Get the default machine options from the machine if it is not already
-> -     * specified either by the configuration file or by the command line.
-> -     */
-> -    if (machine_class->default_machine_opts) {
-> -        qemu_opts_set_defaults(qemu_find_opts("machine"),
-> -                               machine_class->default_machine_opts, 0);
-> -    }
-> +    qemu_create_machine(select_machine());
->  
->      qemu_disable_default_devices();
->      qemu_create_default_devices();
-> @@ -4420,6 +4426,7 @@ void qemu_init(int argc, char **argv, char **envp)
->       * called from configure_accelerator().
->       */
->  
-> +    machine_class = MACHINE_GET_CLASS(current_machine);
->      if (!qtest_enabled() && machine_class->deprecation_reason) {
->          error_report("Machine type '%s' is deprecated: %s",
->                       machine_class->name, machine_class->deprecation_reason);
-> @@ -4473,7 +4480,7 @@ void qemu_init(int argc, char **argv, char **envp)
->              exit(EXIT_FAILURE);
->          }
->          backend_size = object_property_get_uint(backend, "size",  &error_abort);
-> -        if (have_custom_ram_size && backend_size != ram_size) {
-> +        if (have_custom_ram_size() && backend_size != ram_size) {
->                  error_report("Size specified by -m option must match size of "
->                               "explicitly specified 'memory-backend' property");
->                  exit(EXIT_FAILURE);
+> Restoring from swap happens above this in the call to gfn_to_pfn_prot()
 
+Looking at the call chain, gfn_to_pfn_prot() ends up with
+get_user_pages() using the current->mm (the VMM) and that does a
+set_pte_at(), presumably restoring the tags. Does this mean that all
+memory mapped by the VMM in user space should have PROT_MTE set?
+Otherwise we don't take the mte_sync_tags() path in set_pte_at() and no
+tags restored from swap (we do save them since when they were mapped,
+PG_mte_tagged was set).
+
+So I think the code above should be similar to mte_sync_tags(), even
+calling a common function, but I'm not sure where to get the swap pte
+from.
+
+An alternative is to only enable HCR_EL2.ATA and MTE in guest if the vmm
+mapped the memory with PROT_MTE.
+
+Yet another option is to always call mte_sync_tags() from set_pte_at()
+and defer the pte_tagged() or is_swap_pte() checks to the MTE code.
+
+-- 
+Catalin
 
