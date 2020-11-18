@@ -2,49 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72AD82B7E82
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 14:49:13 +0100 (CET)
-Received: from localhost ([::1]:54636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D8EC2B7EA2
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 14:54:25 +0100 (CET)
+Received: from localhost ([::1]:57912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfNpg-00076Z-Hm
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 08:49:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39952)
+	id 1kfNui-0000KE-FY
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 08:54:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kfNox-0006hI-W4
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 08:48:28 -0500
-Received: from mx2.suse.de ([195.135.220.15]:45014)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kfNow-0005HE-9w
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 08:48:27 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 5BF55AC2E;
- Wed, 18 Nov 2020 13:48:24 +0000 (UTC)
-Subject: Re: [RFC v3 8/9] module: introduce MODULE_INIT_ACCEL_CPU
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20201118102936.25569-1-cfontana@suse.de>
- <20201118102936.25569-9-cfontana@suse.de>
- <20201118124845.GC1509407@habkost.net>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <6093de34-807d-3840-5402-4769385dd894@suse.de>
-Date: Wed, 18 Nov 2020 14:48:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kfNty-0008KY-7u
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 08:53:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27838)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kfNtv-0005vf-8r
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 08:53:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605707613;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RtM9Nq3Y6f0qmDrlSlfE7fXIpPIFh7Ov/wcAL5UBjSE=;
+ b=Eq4gzWO1HvfhcNWNk91VNds5vdSXBUovjG55vOyxTKnKVN6lf/L3DMax5VKSC3nWgBz7mo
+ Z/GawrELqj3szAF+wZhprDXvG9YZrphbii7JF0pdDPyzohzTz6T6OsA3j1C8rpmC8yEFDE
+ zuZtnQD5uxp6gghLWPk+Uo03bXtMq8w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-471-6g1oxryAMsKlwbF3L4oTlQ-1; Wed, 18 Nov 2020 08:53:31 -0500
+X-MC-Unique: 6g1oxryAMsKlwbF3L4oTlQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 794126D581;
+ Wed, 18 Nov 2020 13:53:28 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3FFBF60843;
+ Wed, 18 Nov 2020 13:53:28 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id AEFE411358BA; Wed, 18 Nov 2020 14:53:26 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [PATCH for-6.0 1/6] qapi: Add query-accel command
+References: <20201116131011.26607-1-r.bolshakov@yadro.com>
+ <20201116131011.26607-2-r.bolshakov@yadro.com>
+ <2d934855-ad11-9f61-28a1-7c0a35347a66@redhat.com>
+ <20201116211352.GC1235237@habkost.net>
+ <87mtzgbc29.fsf@dusky.pond.sub.org>
+ <20201118011917.GB10041@SPB-NB-133.local>
+ <87ft57oycu.fsf@dusky.pond.sub.org>
+ <20201118112845.GA11988@merkur.fritz.box>
+ <20201118115612.GD229461@redhat.com>
+Date: Wed, 18 Nov 2020 14:53:26 +0100
+In-Reply-To: <20201118115612.GD229461@redhat.com> ("Daniel P. =?utf-8?Q?Be?=
+ =?utf-8?Q?rrang=C3=A9=22's?=
+ message of "Wed, 18 Nov 2020 11:56:12 +0000")
+Message-ID: <87blfukbzd.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20201118124845.GC1509407@habkost.net>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 07:38:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 00:38:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -58,62 +92,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- Olaf Hering <ohering@suse.de>, Jason Wang <jasowang@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Cameron Esfahani <dirty@apple.com>,
- Colin Xu <colin.xu@intel.com>, Wenchao Wang <wenchao.wang@intel.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Sunil Muthuswamy <sunilmut@microsoft.com>,
- Bruce Rogers <brogers@suse.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- haxm-team@intel.com, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-devel@nongnu.org, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/18/20 1:48 PM, Eduardo Habkost wrote:
-> On Wed, Nov 18, 2020 at 11:29:35AM +0100, Claudio Fontana wrote:
->> apply this to the registration of the cpus accel interfaces,
->>
->> but this will be also in preparation for later use of this
->> new module init step to also defer the registration of the cpu models,
->> in order to make them subclasses of a per-accel cpu type.
->>
->> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->> ---
-> [...]
->> +    /*
->> +     * accelerator has been chosen and initialized, now it is time to
->> +     * register the cpu accel interface.
->> +     */
->> +    module_call_init(MODULE_INIT_ACCEL_CPU);
-> 
-> I don't get why we would use a new module initialization level
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-To have a clear point in time after which all accelerator interface initialization is done.
-It avoids to have to hunt down the registration points spread around the code base.
-I'd turn it around, why not?
+> On Wed, Nov 18, 2020 at 12:28:45PM +0100, Kevin Wolf wrote:
+>> Am 18.11.2020 um 09:36 hat Markus Armbruster geschrieben:
+>> > >> >>                                       [...]  Even better would b=
+e
+>> > >> >> returning an array of KvmInfo with information on all supported
+>> > >> >> accelerators at once, rather than making the user call this comm=
+and once
+>> > >> >> per name.
+>> > >> >
+>> > >> > Maybe.  It would save us the work of answering the question
+>> > >> > above, but is this (querying information for all accelerators at
+>> > >> > once) going to be a common use case?
+>> > >>=20
+>> > >> I recommend to scratch the query-accel parameter, and return inform=
+ation
+>> > >> on all accelerators in this build of QEMU.  Simple, and consistent =
+with
+>> > >> similar ad hoc queries.  If a client is interested in just one, fis=
+hing
+>> > >> it out of the list is easy enough.
+>> > >>=20
+>> > >
+>> > > Works for me. I'll then leave KvmInfo as is and will introduce Accel=
+Info
+>> > > with two fields: name and enabled. enabled will be true only for
+>> > > currently active accelerator.
+>> >=20
+>> > Please document that at most on result can have 'enabled': true.
+>>=20
+>> This doesn't feel right.
+>>=20
+>> If I understand right, the proposal is to get a result like this:
+>>=20
+>>     [ { 'name': 'kvm', 'enabled': true },
+>>       { 'name': 'tcg', 'enabled': false },
+>>       { 'name': 'xen', 'enabled': false } ]
+>>=20
+>> The condition that only one field can be enabled would only be in the
+>> documentation instead of being enforced.
+>>=20
+>> Instead, consider a response like this:
+>>=20
+>>     { 'available': [ 'kvm', 'tcg', 'xen' ],
+>>       'active': 'kvm' }
+>>=20
+>> This is not only shorter, but also makes sure that only one accelerator
+>> can be reported as active.
 
-> for this.  If the accelerator object was already created, we can
-> just ask the existing accel object to do whatever initialization
-> step is necessary.
-> 
-> e.g. we can add a AccelClass.cpu_accel_ops field, and call:
-> 
->    cpus_register_accel(current_machine->accelerator->cpu_accel_ops);
-> 
+Better.
 
-_When_ this is done is the question, in my view, where the call to the registration is placed.
+Documentation only, not enforced: no duplicate array elements.  We got
+that elsewhere already (arrays used as sets, basically).
 
-After adding additonal operations that have to be done at "accelerator-chosen" time, it becomes more and more difficult to trace them around the codebase.
+If we want to provide for reporting additional information on available
+accelerators, tweak it to
 
-Thanks,
+      {"available": [{"name": "kvm"}, {"name": "tcg"}, {"name": "xen"}],
+       "active": "kvm"}
 
-Claudio
+If accelerator-specific extra information is needed, the array elements
+can compatibly evolve into flat unions.
 
+Another way to skin this cat:
 
+      {"available": {"kvm": { extra properties... },
+                     "tcg": ...,
+                     "xen": ...},
+       "active": "kvm"}
 
+No need for unions then.  "No dupes" is enforced.
+
+We could inline "available":
+
+      {"kvm": { extra properties... },
+       "tcg": ...,
+       "xen": ...,
+       "active": "kvm"}
+
+Future accelerators can't be named "active" then.
+
+> I guess this can be extended with a union to report extra props for the
+> accelerator, discriminated on the 'active' field eg
+>
+>      { 'available': [ 'kvm', 'tcg', 'xen' ],
+>        'active': 'kvm',
+>        'data': {
+>            "allow-nested": true,
+>        }
+>     }
+
+Correct.
 
 
