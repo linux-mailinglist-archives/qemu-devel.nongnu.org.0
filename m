@@ -2,50 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 399C72B7E08
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 14:06:13 +0100 (CET)
-Received: from localhost ([::1]:38438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BE722B7E09
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 14:06:38 +0100 (CET)
+Received: from localhost ([::1]:39142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfNA4-0003JE-AP
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 08:06:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56830)
+	id 1kfNAT-0003ae-Cl
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 08:06:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kfMzL-0003EI-JT
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 07:55:09 -0500
-Received: from relay.sw.ru ([185.231.240.75]:40566 helo=relay3.sw.ru)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kfMz8-00072h-35
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 07:55:06 -0500
-Received: from [192.168.15.76] (helo=andrey-MS-7B54.sw.ru)
- by relay3.sw.ru with esmtp (Exim 4.94)
- (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kfMyt-009AfQ-V2; Wed, 18 Nov 2020 15:54:39 +0300
-To: qemu-devel@nongnu.org
-Cc: Den Lunev <den@openvz.com>, Eric Blake <eblake@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Subject: [PATCH v1 6/7] The rest of write tracking migration code.
-Date: Wed, 18 Nov 2020 15:54:48 +0300
-Message-Id: <20201118125449.311038-7-andrey.gruzdev@virtuozzo.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201118125449.311038-1-andrey.gruzdev@virtuozzo.com>
-References: <20201118125449.311038-1-andrey.gruzdev@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kfN8U-0002eZ-2u
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 08:04:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34966)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kfN8Q-0008J9-UE
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 08:04:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605704669;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=x9jEQSxjPxyEqypE45C7Gkmxhmn8Nxw2eK+BQ6NQYJo=;
+ b=OpB3mwS9GzRg03LXCJd2rgxDGrkdY3xg9xBpbhHSujEQWhLOB223EO+J9eUzc48PC8MIDu
+ fhn1w+IdvnZdPu0PnUT/mcd6OTbpn3OqvogzVrpcX5mXin4vkZoMILTGfY362OpVfsyYEi
+ pYswa5Dg2dZoATyG56MvQP5/VB3YPa4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-517-HPHI3XkaPg-aNBxu7xGovQ-1; Wed, 18 Nov 2020 08:04:24 -0500
+X-MC-Unique: HPHI3XkaPg-aNBxu7xGovQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E13B9186DD40;
+ Wed, 18 Nov 2020 13:04:20 +0000 (UTC)
+Received: from [10.36.114.231] (ovpn-114-231.ams2.redhat.com [10.36.114.231])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8B4876B8E1;
+ Wed, 18 Nov 2020 13:04:01 +0000 (UTC)
+Subject: Re: [PATCH PROTOTYPE 3/6] vfio: Implement support for sparse RAM
+ memory regions
+To: Peter Xu <peterx@redhat.com>
+References: <20200924160423.106747-1-david@redhat.com>
+ <20200924160423.106747-4-david@redhat.com> <20201020194434.GD200400@xz-x1>
+ <14aaf9f1-9aa4-3a6b-ff25-8a4c7e29c2a6@redhat.com>
+ <20201020204443.GE200400@xz-x1>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <fcbea24d-c56a-12b4-4a7b-d8faa1e04047@redhat.com>
+Date: Wed, 18 Nov 2020 14:04:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=185.231.240.75;
- envelope-from=andrey.gruzdev@virtuozzo.com; helo=relay3.sw.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 06:22:34
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20201020204443.GE200400@xz-x1>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 00:38:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,114 +87,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Le Tan <tamlokveer@gmail.com>, Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, wei.huang2@amd.com,
+ qemu-devel@nongnu.org, Luiz Capitulino <lcapitulino@redhat.com>,
+ Auger Eric <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Wei Yang <richardw.yang@linux.intel.com>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-From: Andrey Gruzdev via <qemu-devel@nongnu.org>
 
-Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
----
- migration/migration.c | 72 +++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 70 insertions(+), 2 deletions(-)
+On 20.10.20 22:44, Peter Xu wrote:
+> On Tue, Oct 20, 2020 at 10:01:12PM +0200, David Hildenbrand wrote:
+>> Thanks ... but I have an AMD system. Will try to find out how to get
+>> that running with AMD :)
+> 
+> May still start with trying intel-iommu first. :) I think it should work for
+> amd hosts too.
+> 
+> Just another FYI - Wei is working on amd-iommu for vfio [1], but it's still
+> during review.
+> 
+> [1] https://lore.kernel.org/qemu-devel/20201002145907.1294353-1-wei.huang2@amd.com/
+> 
 
-diff --git a/migration/migration.c b/migration/migration.c
-index dba388f8bd..48793b748b 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -3212,6 +3212,48 @@ fail:
-                       MIGRATION_STATUS_FAILED);
- }
- 
-+/**
-+ * wt_migration_completion: Used by wt_migration_thread when after all the RAM has been saved.
-+ *   The caller 'breaks' the loop when this returns.
-+ *
-+ * @s: Current migration state
-+ */
-+static void wt_migration_completion(MigrationState *s)
-+{
-+    int current_active_state = s->state;
-+
-+    /* Stop tracking RAM writes - un-protect memory, un-register UFFD memory ranges,
-+     * flush kernel wait queues and wake up threads waiting for write fault to be
-+     * resolved. All of this is essentially done by closing UFFD file descriptor */
-+    ram_write_tracking_stop();
-+
-+    if (s->state == MIGRATION_STATUS_ACTIVE) {
-+        /*
-+         * By this moment we have RAM content saved into the migration stream.
-+         * The next step is to flush the non-RAM content (device state)
-+         * right after the ram content. The device state has been stored into
-+         * the temporary buffer before RAM saving started.
-+         */
-+        qemu_put_buffer(s->to_dst_file, s->bioc->data, s->bioc->usage);
-+        qemu_fflush(s->to_dst_file);
-+    } else if (s->state == MIGRATION_STATUS_CANCELLING) {
-+        goto fail;
-+    }
-+
-+    if (qemu_file_get_error(s->to_dst_file)) {
-+        trace_migration_completion_file_err();
-+        goto fail;
-+    }
-+
-+    migrate_set_state(&s->state, current_active_state,
-+                      MIGRATION_STATUS_COMPLETED);
-+    return;
-+
-+fail:
-+    migrate_set_state(&s->state, current_active_state,
-+                      MIGRATION_STATUS_FAILED);
-+}
-+
- bool migrate_colo_enabled(void)
- {
-     MigrationState *s = migrate_get_current();
-@@ -3554,7 +3596,26 @@ static void migration_iteration_finish(MigrationState *s)
- 
- static void wt_migration_iteration_finish(MigrationState *s)
- {
--    /* TODO: implement */
-+    qemu_mutex_lock_iothread();
-+    switch (s->state) {
-+    case MIGRATION_STATUS_COMPLETED:
-+        migration_calculate_complete(s);
-+        break;
-+
-+    case MIGRATION_STATUS_ACTIVE:
-+    case MIGRATION_STATUS_FAILED:
-+    case MIGRATION_STATUS_CANCELLED:
-+    case MIGRATION_STATUS_CANCELLING:
-+        break;
-+
-+    default:
-+        /* Should not reach here, but if so, forgive the VM. */
-+        error_report("%s: Unknown ending state %d", __func__, s->state);
-+        break;
-+    }
-+
-+    migrate_fd_cleanup_schedule(s);
-+    qemu_mutex_unlock_iothread();
- }
- 
- /*
-@@ -3563,7 +3624,14 @@ static void wt_migration_iteration_finish(MigrationState *s)
-  */
- static MigIterateState wt_migration_iteration_run(MigrationState *s)
- {
--    /* TODO: implement */
-+    int res;
-+
-+    res = qemu_savevm_state_iterate(s->to_dst_file, false);
-+    if (res) {
-+        wt_migration_completion(s);
-+        return MIG_ITERATE_BREAK;
-+    }
-+
-     return MIG_ITERATE_RESUME;
- }
- 
+I'm trying to get an iommu setup running (without virtio-mem!),
+but it's a big mess.
+
+Essential parts of my QEMU cmdline are:
+
+sudo build/qemu-system-x86_64 \
+    -accel kvm,kernel-irqchip=split \
+    ...
+     device pcie-pci-bridge,addr=1e.0,id=pci.1 \
+    -device vfio-pci,host=0c:00.0,x-vga=on,bus=pci.1,addr=1.0,multifunction=on \
+    -device vfio-pci,host=0c:00.1,bus=pci.1,addr=1.1 \
+    -device intel-iommu,caching-mode=on,intremap=on \
+
+I am running upstream QEMU + Linux -next kernel inside the
+guest on an AMD Ryzen 9 3900X 12-Core Processor.
+I am using SeaBios.
+
+I tried faking an Intel CPU without luck.
+("-cpu Skylake-Client,kvm=off,vendor=GenuineIntel")
+
+As soon as I enable "intel_iommu=on" in my guest kernel, graphics
+stop working (random mess on graphics output) and I get
+  vfio-pci 0000:0c:00.0: AMD-Vi: Event logged [IO_PAGE_FAULT domain=0x0023 address=0xff924000 flags=0x0000]
+in the hypervisor, along with other nice messages.
+
+I can spot no vfio DMA mappings coming from an iommu, just as if the
+guest wouldn't even try to setup the iommu.
+
+I tried with
+1. AMD Radeon RX Vega 56
+2. Nvidia GT220
+resulting in similar issues.
+
+I also tried with "-device amd-iommu" with other issues
+(guest won't even boot up). Are my graphics card missing some support or
+is there a fundamental flaw in my setup?
+
+Any clues appreciated.
+
+
 -- 
-2.25.1
+Thanks,
+
+David / dhildenb
 
 
