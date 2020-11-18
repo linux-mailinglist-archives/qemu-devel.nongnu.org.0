@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99B6D2B8403
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 19:46:51 +0100 (CET)
-Received: from localhost ([::1]:45338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0576D2B842D
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 19:51:33 +0100 (CET)
+Received: from localhost ([::1]:55980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfSTi-0001Zj-AN
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 13:46:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54722)
+	id 1kfSYG-00065J-0q
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 13:51:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kfRzu-0004lr-6O
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 13:16:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49204)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kfS2C-0007EZ-BJ
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 13:18:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31995)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kfRzr-0001hG-6O
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 13:16:01 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kfS29-00021J-TT
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 13:18:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605723358;
+ s=mimecast20190719; t=1605723501;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7Ui0hOp51J0M8aAVaLj92KIM+lt6qlAfbuztdbsUGrE=;
- b=ci0kFXUHoHv7negWp6IsFGCamKqFC+9wh2m2PyBKsHAjzONtCrvMfuod/59yPPaT6psN1U
- AFUlAkKSI0/ei5v76o0Hn16Z+rIruvvQSCF5jzhV+jpwsHScmen8SQDGL6DTLPsF2nKKa0
- r1pp05w4HZPt/EIe2TsVjxebsFR9owY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-83-fsMy1_KlOSuuHrU87l-mDg-1; Wed, 18 Nov 2020 13:15:55 -0500
-X-MC-Unique: fsMy1_KlOSuuHrU87l-mDg-1
-Received: by mail-wm1-f70.google.com with SMTP id q17so1162919wmc.1
- for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 10:15:55 -0800 (PST)
+ bh=v/MAPLde6svfklGp+MhK3CCzyOevO4MxWuHlirBRUxo=;
+ b=LD9vONcvQhht5nLpFjGM4/myB+9rGsWapjQCshO5E6q3ExP8qW0LYuynBT6JHWZ9HYQIzE
+ isbSZv7S3ryYnh/WyNTLFoGqwVWTqPvhoY1HHufc2L3lIfuX4sfNrQaopnof9N9BpPmeuU
+ Kj5EZx/DSj4CSEeY0Rqk6BP0KYUYrcE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-285-oMLnSjZgNYmMWbiGI2nYBQ-1; Wed, 18 Nov 2020 13:18:19 -0500
+X-MC-Unique: oMLnSjZgNYmMWbiGI2nYBQ-1
+Received: by mail-wm1-f72.google.com with SMTP id y1so1354827wma.5
+ for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 10:18:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=7Ui0hOp51J0M8aAVaLj92KIM+lt6qlAfbuztdbsUGrE=;
- b=jjlWDDQ6qRM6AxGf9cwo38DfRehB8wh30d2lH34XKYt2vY/Wo3y0UZ3RtyWGJU8mw7
- ExIJOqCueO1yWuakixE4h8p7uh0Z3Nrp7Y2GaDos7zvdYlDy3wLZ8zYNYqv5wcHr8RNZ
- Ru6eBhyoebtEgYxggy86aCcME5moSITuX9q865URQb3q4iPceLoAzDOjIB0EaXggUSN3
- /5VwWjvfOsnQcV+AmfTGfLsswej9G2lro+zMPoribOHU6Ah2e3TCZSCBBrJ/z3oDMP2D
- FDLMdPECtY7lH+Ob5yf/d+hisAYo63JrjO7sUEFwTkli9kS6ODWPOMj2S1SpJwCipDYv
- VTHQ==
-X-Gm-Message-State: AOAM5339CFmlYew/rdQUXY5gTwcMbLT8BrCjS7NFoKmr+aW7Ss8Yu4PI
- /ZA5nFSA2lOEA5B5FnEqN9eg+fQjml7dprRx2etuZf3ul+TDzzCyaK94jlYTfjbs/G3x5UX/JbK
- tNqOdbUiyBqFka0o=
-X-Received: by 2002:a1c:c343:: with SMTP id t64mr402672wmf.140.1605723354651; 
- Wed, 18 Nov 2020 10:15:54 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwVST3uZsHpGiWq368Ig+7M8MED7pI60c13QJvRXzUUGVsGCyD8aHwGNhg8FVamSax7EEr04g==
-X-Received: by 2002:a1c:c343:: with SMTP id t64mr402658wmf.140.1605723354486; 
- Wed, 18 Nov 2020 10:15:54 -0800 (PST)
+ bh=v/MAPLde6svfklGp+MhK3CCzyOevO4MxWuHlirBRUxo=;
+ b=XAf2qWoThWb/mFjTlKBm+ZXzBXbNMeYqwLg+rS/w18TLAKlkmYie4ZycctzIkxnxKk
+ lXo9Qddxxw3Kh5Jzkpf+6di3TOYcW4ulR/FZQT8bPUrY5b0IQPInDitsZ0dfmN89e98k
+ yQX2oNpqUCvGKm8ryOdkt1C8mIDeBnxGslRTgujwbf/+K07RHMwuHJ5ZBnkblogVMAPi
+ g31s/v2itKXm9koPJoKg74vngXsegxRZQZilWXW339i7G3BvXvmKrHzzXT0gC+LxURXv
+ leIolOUrSNPfqheZFe5y9v/b4F3M2wp3LFtcLDNxYdNc4hffCUa8ICWllqXoyxBtKJcz
+ Rv7Q==
+X-Gm-Message-State: AOAM532PBpdj7F+LWuHckHAmELkuB0z0oiddSQytyPO+3s3NE6DtTWqB
+ NPUYaWo/4onhrUQ8YZdxEUntEzfN5N2gwGPFRHsadLLDewerU9WReF0cKbs1rYJqQi1//w8drZp
+ HGKaPLI/tvSDSIiY=
+X-Received: by 2002:a5d:488d:: with SMTP id g13mr6040335wrq.274.1605723497926; 
+ Wed, 18 Nov 2020 10:18:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz77I+q+bcHg2DiuguNAu/5KM3y/iERETt50Id7EiLGrBwsT1082l3uAPHb+RI+eqLYO+YWXw==
+X-Received: by 2002:a5d:488d:: with SMTP id g13mr6040325wrq.274.1605723497761; 
+ Wed, 18 Nov 2020 10:18:17 -0800 (PST)
 Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id f2sm37116938wre.63.2020.11.18.10.15.53
+ by smtp.gmail.com with ESMTPSA id p19sm5193845wrg.18.2020.11.18.10.18.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Nov 2020 10:15:53 -0800 (PST)
-Subject: Re: [PATCH 3/6] configure / meson: Move check for drm.h to meson.build
+ Wed, 18 Nov 2020 10:18:17 -0800 (PST)
+Subject: Re: [PATCH 6/6] configure / meson: Move check for linux/btrfs.h to
+ meson.build
 To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
  Paolo Bonzini <pbonzini@redhat.com>
 References: <20201118171052.308191-1-thuth@redhat.com>
- <20201118171052.308191-4-thuth@redhat.com>
+ <20201118171052.308191-7-thuth@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <b1406e5c-cc27-ef00-bdf8-7e09870550da@redhat.com>
-Date: Wed, 18 Nov 2020 19:15:53 +0100
+Message-ID: <908bff29-6d4e-7c56-0795-b798d5ca8022@redhat.com>
+Date: Wed, 18 Nov 2020 19:18:16 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201118171052.308191-4-thuth@redhat.com>
+In-Reply-To: <20201118171052.308191-7-thuth@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -106,14 +107,87 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/18/20 6:10 PM, Thomas Huth wrote:
-> This check can be done in a much shorter way in meson.build
+> This check can be done in a much shorter way in meson.build. And while
+> we're at it, rename the #define to HAVE_BTRFS_H to match the other
+> HAVE_someheader_H symbols that we already have.
 > 
 > Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  configure   | 10 ----------
->  meson.build |  1 +
->  2 files changed, 1 insertion(+), 10 deletions(-)
+>  configure                 | 9 ---------
+>  linux-user/syscall.c      | 2 +-
+>  linux-user/syscall_defs.h | 2 +-
+>  meson.build               | 1 +
+>  4 files changed, 3 insertions(+), 11 deletions(-)
+> 
+> diff --git a/configure b/configure
+> index 8d40a0beb3..1ba4bf9a3d 100755
+> --- a/configure
+> +++ b/configure
+> @@ -4389,12 +4389,6 @@ if compile_prog "" "" ; then
+>    syncfs=yes
+>  fi
+>  
+> -# check for btrfs filesystem support (kernel must be 3.9+)
 
+Assuming it is now OK to drop this comment:
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+> -btrfs=no
+> -if check_include linux/btrfs.h ; then
+> -    btrfs=yes
+> -fi
+> -
+>  # Search for bswap_32 function
+>  byteswap_h=no
+>  cat > $TMPC << EOF
+> @@ -6086,9 +6080,6 @@ fi
+>  if test "$syncfs" = "yes" ; then
+>    echo "CONFIG_SYNCFS=y" >> $config_host_mak
+>  fi
+> -if test "$btrfs" = "yes" ; then
+> -  echo "CONFIG_BTRFS=y" >> $config_host_mak
+> -fi
+>  if test "$inotify" = "yes" ; then
+>    echo "CONFIG_INOTIFY=y" >> $config_host_mak
+>  fi
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 063130be04..7bf99beb18 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -112,7 +112,7 @@
+>  #include <linux/if_alg.h>
+>  #include <linux/rtc.h>
+>  #include <sound/asound.h>
+> -#ifdef CONFIG_BTRFS
+> +#ifdef HAVE_BTRFS_H
+>  #include <linux/btrfs.h>
+>  #endif
+>  #ifdef HAVE_DRM_H
+> diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+> index cabbfb762d..b934d0b606 100644
+> --- a/linux-user/syscall_defs.h
+> +++ b/linux-user/syscall_defs.h
+> @@ -1006,7 +1006,7 @@ struct target_rtc_pll_info {
+>  #define TARGET_FS_IOC32_SETVERSION TARGET_IOW('v', 2, int)
+>  
+>  /* btrfs ioctls */
+> -#ifdef CONFIG_BTRFS
+> +#ifdef HAVE_BTRFS_H
+>  #define TARGET_BTRFS_IOC_SNAP_CREATE            TARGET_IOWU(BTRFS_IOCTL_MAGIC, 1)
+>  #define TARGET_BTRFS_IOC_SCAN_DEV               TARGET_IOWU(BTRFS_IOCTL_MAGIC, 4)
+>  #define TARGET_BTRFS_IOC_FORGET_DEV             TARGET_IOWU(BTRFS_IOCTL_MAGIC, 5)
+> diff --git a/meson.build b/meson.build
+> index ab9571a354..bf62e260ed 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -808,6 +808,7 @@ config_host_data.set('QEMU_VERSION_MAJOR', meson.project_version().split('.')[0]
+>  config_host_data.set('QEMU_VERSION_MINOR', meson.project_version().split('.')[1])
+>  config_host_data.set('QEMU_VERSION_MICRO', meson.project_version().split('.')[2])
+>  
+> +config_host_data.set('HAVE_BTRFS_H', cc.has_header('linux/btrfs.h'))
+>  config_host_data.set('HAVE_DRM_H', cc.has_header('libdrm/drm.h'))
+>  config_host_data.set('HAVE_PTY_H', cc.has_header('pty.h'))
+>  config_host_data.set('HAVE_SYS_IOCCOM_H', cc.has_header('sys/ioccom.h'))
+> 
 
 
