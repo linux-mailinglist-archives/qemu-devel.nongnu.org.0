@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87B012B7DEB
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 13:55:46 +0100 (CET)
-Received: from localhost ([::1]:46970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C24E12B7DEA
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 13:55:10 +0100 (CET)
+Received: from localhost ([::1]:45994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfMzv-0002z8-UJ
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 07:55:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55728)
+	id 1kfMzN-0002ZY-I8
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 07:55:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kfMts-00067A-Tu
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 07:49:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31908)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kfMtr-0006Pu-9E
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 07:49:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605703766;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2gUp8g/cOUKKMEPSNl15ZcUZmBxcZOwmc5q+hl3FHd4=;
- b=FTlxDbfu+HSPIhzjEz44X9OFbfLMRR95/JcdCMNqpt86c9qZAVgukEp7w8A0dRnmmwnWpN
- wIHzzK/VKj7dlitMd96YdJHSyV941cTTXEfIqR7d0rgcLGkDoZniHAzLTi+QqqWa9+YXxC
- ndjngrASFSlNkylOPl7Lk0QL8uxMQGI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-483-u7BFhMCdPtCRzDl1Ms0_qQ-1; Wed, 18 Nov 2020 07:49:24 -0500
-X-MC-Unique: u7BFhMCdPtCRzDl1Ms0_qQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F15346D24E
- for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 12:49:23 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-115-41.ams2.redhat.com
- [10.36.115.41])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 991A45D9CD;
- Wed, 18 Nov 2020 12:49:20 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 4/4] authz-simple: Check that 'identity' property is set
-Date: Wed, 18 Nov 2020 12:49:11 +0000
-Message-Id: <20201118124911.282735-5-berrange@redhat.com>
-In-Reply-To: <20201118124911.282735-1-berrange@redhat.com>
-References: <20201118124911.282735-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kfMu4-0006Bo-4N
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 07:49:40 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:50741)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kfMu2-0006QB-BY
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 07:49:39 -0500
+Received: by mail-wm1-x341.google.com with SMTP id c198so1008049wmd.0
+ for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 04:49:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=BzLTqTiUtAwdS8hWyxia9K2itjlyThpYvpkbu0YAXYM=;
+ b=p62OLnBWtOlgTSk6G0zVwTKGLEXKZVNTCe/GizKyj/IDHXghWki2MjVSIZCatcqIOv
+ ilrN8Zm3aLfbYmcX+hM1teZvq+9xXQ3yOFyPZ84i48iwhmZBAlJaEoDGuIjkRrBmKNG5
+ WUUwGriF0BgyHUt3jMXuntewc0k+MM5mIRgo14che/3jjShU9Yi+6Dy2ILIv9sJQXl0Q
+ qdiEmAQqZNByPqk6BGMuwX3U1gUGNyk/5DJXUY18cgHg5cQpCFNNCGFYL9S6VPC0d2a8
+ twBPQQKTuib/a4bEzMpxmqwojq9JVHaCfKnPsqp/PIf9zfhQK7SXF3fksO/iahWqyZWh
+ MIsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=BzLTqTiUtAwdS8hWyxia9K2itjlyThpYvpkbu0YAXYM=;
+ b=XYdolhcV006g4QkdXJRFVWfg2OT2fVt7jllS65/LfJCTZO7xd3ShszIxTQ5II7H2/C
+ nZHtCCMRBZgaswjmqu0g14YZAmBHeR9CNqhwhyWHNIQxuKxsDQiknh875jJvCkf2GGjV
+ 0wCKDi35CrXB2xBMw7NRE8x82Ib8IRuVrNyGbgjh4n1D22D64wuXEJmEVZY9HalKWs4C
+ NkQdMp6k1nzZfzVpb5PmDIOcWfgTi3HbMqjMcOeFnGMz3FRr0Ozcek7H4NOL6qC0JFt9
+ H2IFEYqKmB4aHAUUnI4VnLoi3R25kwF1qvkttQmT7dS+pO51DhXEMld/ws2GH/DVWDnF
+ hBzg==
+X-Gm-Message-State: AOAM533aH4QUmtCMD0FLgww0CYk6IPNqR6lgXtx3g/zJkUuqlh/QM+7n
+ CNUCnDbnEzeXUCW8K0oMrS0bz6hxIqEOtw==
+X-Google-Smtp-Source: ABdhPJy8tsmqEc8Q2qkVkrskHwUZ6O+rQho5QdhbJ4f9xZLeiQS49tSpE1arm/N5FFM600L2/yv36g==
+X-Received: by 2002:a1c:5f83:: with SMTP id t125mr4215941wmb.82.1605703775718; 
+ Wed, 18 Nov 2020 04:49:35 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a144sm3813705wmd.47.2020.11.18.04.49.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Nov 2020 04:49:34 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D30A21FF7E;
+ Wed, 18 Nov 2020 12:49:33 +0000 (GMT)
+References: <20201118101821.132236-1-pbonzini@redhat.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] cirrus-ci: parallelize "make check"
+In-reply-to: <20201118101821.132236-1-pbonzini@redhat.com>
+Date: Wed, 18 Nov 2020 12:49:33 +0000
+Message-ID: <875z62x21u.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 00:38:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x341.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,54 +88,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Kevin Wolf <kwolf@redhat.com>
 
-If the 'identify' property is not set, we'll pass a NULL pointer to
-g_str_equal() and crash. Catch the error condition during the creation
-of the object.
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- authz/simple.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+> Otherwise, the tests risk failing due to timeouts.
 
-diff --git a/authz/simple.c b/authz/simple.c
-index 18db0355f4..0597dcd8ea 100644
---- a/authz/simple.c
-+++ b/authz/simple.c
-@@ -65,11 +65,25 @@ qauthz_simple_finalize(Object *obj)
+This is a reversion of what we used to do because it's very hard to
+figure out which test broke when they are all mixed together. Maybe we
+could just up the timeouts.
+
+That said the timeouts seem a bit random with macos taking around 53
+minutes and macos_xcode taking less at around 44 unless they get "stuck".
+
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  .cirrus.yml | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/.cirrus.yml b/.cirrus.yml
+> index f0209b7a3e..111e19f1bf 100644
+> --- a/.cirrus.yml
+> +++ b/.cirrus.yml
+> @@ -29,7 +29,7 @@ macos_task:
+>                     --extra-cflags=3D'-Wno-error=3Ddeprecated-declaration=
+s'
+>                     || { cat config.log meson-logs/meson-log.txt; exit 1;=
  }
- 
- 
-+static void
-+qauthz_simple_complete(UserCreatable *uc, Error **errp)
-+{
-+    QAuthZSimple *sauthz = QAUTHZ_SIMPLE(uc);
-+
-+    if (!sauthz->identity) {
-+        error_setg(errp, "The 'identity' property must be set");
-+        return;
-+    }
-+}
-+
-+
- static void
- qauthz_simple_class_init(ObjectClass *oc, void *data)
- {
-     QAuthZClass *authz = QAUTHZ_CLASS(oc);
-+    UserCreatableClass *ucc = USER_CREATABLE_CLASS(oc);
- 
-+    ucc->complete = qauthz_simple_complete;
-     authz->is_allowed = qauthz_simple_is_allowed;
- 
-     object_class_property_add_str(oc, "identity",
--- 
-2.28.0
+>      - gmake -j$(sysctl -n hw.ncpu)
+> -    - gmake check V=3D1
+> +    - gmake -j$(sysctl -n hw.ncpu) check V=3D1
+>=20=20
+>  macos_xcode_task:
+>    osx_instance:
+> @@ -43,7 +43,7 @@ macos_xcode_task:
+>      - ../configure --extra-cflags=3D'-Wno-error=3Ddeprecated-declaration=
+s' --enable-modules
+>                     --enable-werror --cc=3Dclang || { cat config.log meso=
+n-logs/meson-log.txt; exit 1; }
+>      - gmake -j$(sysctl -n hw.ncpu)
+> -    - gmake check V=3D1
+> +    - gmake -j$(sysctl -n hw.ncpu) check V=3D1
+>=20=20
+>  windows_msys2_task:
+>    timeout_in: 90m
 
+
+--=20
+Alex Benn=C3=A9e
 
