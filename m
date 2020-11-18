@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1D142B7A7C
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 10:40:05 +0100 (CET)
-Received: from localhost ([::1]:60328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA2D52B7A97
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 10:46:10 +0100 (CET)
+Received: from localhost ([::1]:34902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfJwa-0004oZ-DO
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 04:40:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41474)
+	id 1kfK2T-0006Lf-Te
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 04:46:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kfJur-0004KL-Qh
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 04:38:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42408)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kfK11-0005mM-Kg
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 04:44:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20726)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kfJup-0006nA-HX
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 04:38:17 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kfK0z-0007Xo-TP
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 04:44:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605692294;
+ s=mimecast20190719; t=1605692677;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4IY6JpKe7vvctfdj06HJFeQ60m3W1XCAz/3inHFy8Qo=;
- b=COWwyBiO60OvnchVOD4G9D8r3RgerksPdJmKnyUOU3eWZxEg49X2SewGW/4esgY/H7Jm+M
- fpWnWPqwWMIRpd41g+hTIVzVQvDJL8nEA38I1u3PQiShC2yB3F4tY0qf1j+r+/1UHfRveY
- DB/h5ZRUtwmSK8Jy3oMRZD2yW5VtW5I=
+ bh=hhaBN425KF3QYM+YCVH28Z/DqNq4BrEkpSHo0RC9OB4=;
+ b=bZ/ruOcsqIQza4quALZxMI3zrr7p63/ySynDknPMI78wbeB8kdKpbQMfB8kbr13NwHvpdZ
+ z+RMvDBZSFCKZNdBdkIawwZaclIWnTIj9lg+4D9n3twifTCSd6+f3HGuPl38k/dH3//2V4
+ UrXgmqI+6v6f1M/nKpBwT/jCziBSKvc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-542-KeaauCTJNcWDIyMyLNtHOg-1; Wed, 18 Nov 2020 04:38:11 -0500
-X-MC-Unique: KeaauCTJNcWDIyMyLNtHOg-1
+ us-mta-343-1pM9GChgNUK8kvIAz2y_Lw-1; Wed, 18 Nov 2020 04:44:33 -0500
+X-MC-Unique: 1pM9GChgNUK8kvIAz2y_Lw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8ECD1008303;
- Wed, 18 Nov 2020 09:38:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E74A8030BA;
+ Wed, 18 Nov 2020 09:44:32 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-113-139.ams2.redhat.com [10.36.113.139])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 601036EF4F;
- Wed, 18 Nov 2020 09:38:01 +0000 (UTC)
-Subject: Re: [PATCH for-5.2] s390x/pci: fix endianness issues
-To: Cornelia Huck <cohuck@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>
-References: <20201118085154.1299507-1-cohuck@redhat.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E75F71C4;
+ Wed, 18 Nov 2020 09:44:26 +0000 (UTC)
+Subject: Re: [PATCH v1 2/6] tests: add prefixes to the bare mkdtemp calls
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20201117173635.29101-1-alex.bennee@linaro.org>
+ <20201117173635.29101-3-alex.bennee@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <c5e1c200-768b-561f-a6a8-2db6e811aaa8@redhat.com>
-Date: Wed, 18 Nov 2020 10:38:00 +0100
+Message-ID: <6450a49d-531b-f02f-4747-8782463e665c@redhat.com>
+Date: Wed, 18 Nov 2020 10:44:24 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201118085154.1299507-1-cohuck@redhat.com>
+In-Reply-To: <20201117173635.29101-3-alex.bennee@linaro.org>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
@@ -58,18 +60,18 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 19:41:43
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 00:38:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,103 +84,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pierre Morel <pmorel@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
- qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: peter.maydell@linaro.org, Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/11/2020 09.51, Cornelia Huck wrote:
-> The zPCI group and function structures are big endian. However, we do
-> not consistently store them as big endian locally, and are missing some
-> conversions.
+On 17/11/2020 18.36, Alex Bennée wrote:
+> The first step to debug a thing is to know what created the thing in
+> the first place. Add some prefixes so random tmpdir's have something
+> grep in the code.
 > 
-> Let's just store the structures as host endian instead and convert to
-> big endian when actually handling the instructions retrieving the data.
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > 
-> Also fix the layout of ClpReqQueryPciGrp: g is actually only 8 bit. This
-> also fixes accesses on little endian hosts.
-> 
-> Fixes: 28dc86a07299 ("s390x/pci: use a PCI Group structure")
-> Fixes: 9670ee752727 ("s390x/pci: use a PCI Function structure")
-> Fixes: 1e7552ff5c34 ("s390x/pci: get zPCI function info from host")
-> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 > ---
+> v2
+>   - fix long lines
+> ---
+>  python/qemu/machine.py                    | 3 ++-
+>  tests/acceptance/avocado_qemu/__init__.py | 3 ++-
+>  2 files changed, 4 insertions(+), 2 deletions(-)
 > 
-> Alternative approach to my patch from yesterday. The change is bigger,
-> but the end result is arguably nicer.
-
-Looks way better in my eyes, thanks!
-
-[...]
-> diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
-> index 58cd041d17fb..6c36201229f3 100644
-> --- a/hw/s390x/s390-pci-inst.c
-> +++ b/hw/s390x/s390-pci-inst.c
-> @@ -281,7 +281,12 @@ int clp_service_call(S390CPU *cpu, uint8_t r2, uintptr_t ra)
->              goto out;
->          }
+> diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+> index 6420f01bed..64d966aeeb 100644
+> --- a/python/qemu/machine.py
+> +++ b/python/qemu/machine.py
+> @@ -303,7 +303,8 @@ class QEMUMachine:
+>          return args
 >  
-> -        memcpy(resquery, &pbdev->zpci_fn, sizeof(*resquery));
-> +        stq_p(&resquery->sdma, pbdev->zpci_fn.sdma);
-> +        stq_p(&resquery->edma, pbdev->zpci_fn.edma);
-> +        stw_p(&resquery->pchid, pbdev->zpci_fn.pchid);
-> +        resquery->pfgid = pbdev->zpci_fn.pfgid;
-> +        stl_p(&resquery->fid, pbdev->zpci_fn.fid);
-> +        stl_p(&resquery->uid, pbdev->zpci_fn.uid);
+>      def _pre_launch(self) -> None:
+> -        self._temp_dir = tempfile.mkdtemp(dir=self._test_dir)
+> +        self._temp_dir = tempfile.mkdtemp(prefix="qemu-machine-",
+> +                                          dir=self._test_dir)
+>          self._qemu_log_path = os.path.join(self._temp_dir, self._name + ".log")
+>          self._qemu_log_file = open(self._qemu_log_path, 'wb')
+>  
+> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
+> index 4cda037187..3033b2cabe 100644
+> --- a/tests/acceptance/avocado_qemu/__init__.py
+> +++ b/tests/acceptance/avocado_qemu/__init__.py
+> @@ -171,7 +171,8 @@ class Test(avocado.Test):
+>              self.cancel("No QEMU binary defined or found in the build tree")
+>  
+>      def _new_vm(self, *args):
+> -        vm = QEMUMachine(self.qemu_bin, sock_dir=tempfile.mkdtemp())
+> +        sd = tempfile.mkdtemp(prefix="avocado_qemu_sock_")
+> +        vm = QEMUMachine(self.qemu_bin, sock_dir=sd)
+>          if args:
+>              vm.add_args(*args)
+>          return vm
+> 
 
-Looking at what had been removed in 9670ee7527279, I think you likely miss
-this here:
-
-        stw_p(&resquery->ug, pbdev->zpci_fn.ug)
-
-?
-
->          for (i = 0; i < PCI_BAR_COUNT; i++) {
->              uint32_t data = pci_get_long(pbdev->pdev->config +
-> @@ -313,6 +318,13 @@ int clp_service_call(S390CPU *cpu, uint8_t r2, uintptr_t ra)
->              goto out;
->          }
->          memcpy(resgrp, &group->zpci_group, sizeof(ClpRspQueryPciGrp));
-
-I think you likely could remove the memcpy now, too?
-
-> +        resgrp->fr = group->zpci_group.fr;
-> +        stq_p(&resgrp->dasm, group->zpci_group.dasm);
-> +        stq_p(&resgrp->msia, group->zpci_group.msia);
-> +        stw_p(&resgrp->mui, group->zpci_group.mui);
-> +        stw_p(&resgrp->i, group->zpci_group.i);
-> +        stw_p(&resgrp->maxstbl, group->zpci_group.maxstbl);
-> +        resgrp->version = group->zpci_group.version;
->          stw_p(&resgrp->hdr.rsp, CLP_RC_OK);
->          break;
->      }
-[...]
-> diff --git a/include/hw/s390x/s390-pci-clp.h b/include/hw/s390x/s390-pci-clp.h
-> index ea2b1378cd5a..96b8e3f1331b 100644
-> --- a/include/hw/s390x/s390-pci-clp.h
-> +++ b/include/hw/s390x/s390-pci-clp.h
-> @@ -144,10 +144,10 @@ typedef struct ClpReqQueryPciGrp {
->      ClpReqHdr hdr;
->      uint32_t fmt;
->      uint64_t reserved1;
-> -#define CLP_REQ_QPCIG_MASK_PFGID 0xff
-> -    uint32_t g;
-> -    uint32_t reserved2;
-> -    uint64_t reserved3;
-> +    uint8_t reserved2[3];
-> +    uint8_t g;
-> +    uint32_t reserved3;
-> +    uint64_t reserved4;
->  } QEMU_PACKED ClpReqQueryPciGrp;
-
-This might even qualify as a separate patch, since it fixes a separate
-problem on big endian hosts, too (g should have been masked with 0xff when
-read as 32-bit value).
-
- Thomas
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
