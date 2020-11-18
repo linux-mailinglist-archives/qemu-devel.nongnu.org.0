@@ -2,57 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EB852B8160
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 17:03:32 +0100 (CET)
-Received: from localhost ([::1]:49516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64CE52B8194
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 17:17:07 +0100 (CET)
+Received: from localhost ([::1]:37434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfPve-0005U2-O6
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 11:03:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45660)
+	id 1kfQ8o-0004b2-GP
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 11:17:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
- id 1kfPtp-0004dO-Fo
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 11:01:37 -0500
-Received: from foss.arm.com ([217.140.110.172]:50848)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <steven.price@arm.com>) id 1kfPtj-0008AW-VD
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 11:01:36 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 34F7B1396;
- Wed, 18 Nov 2020 08:01:31 -0800 (PST)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7793B3F7BB;
- Wed, 18 Nov 2020 08:01:28 -0800 (PST)
-Subject: Re: [PATCH v4 2/2] arm64: kvm: Introduce MTE VCPU feature
-To: Marc Zyngier <maz@kernel.org>
-References: <20201026155727.36685-1-steven.price@arm.com>
- <20201026155727.36685-3-steven.price@arm.com>
- <8507a92b4ba3bbc45814b7197bd4e2fb@kernel.org>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <d6b2f135-9c5e-8ad9-aedb-60ad897e9bb0@arm.com>
-Date: Wed, 18 Nov 2020 16:01:23 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kfQ7x-000431-0Y
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 11:16:13 -0500
+Received: from indium.canonical.com ([91.189.90.7]:45694)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kfQ7u-0001ij-Md
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 11:16:12 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kfQ7t-0002st-4u
+ for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 16:16:09 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 124AC2E8075
+ for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 16:16:09 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <8507a92b4ba3bbc45814b7197bd4e2fb@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=217.140.110.172;
- envelope-from=steven.price@arm.com; helo=foss.arm.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 11:01:21
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 18 Nov 2020 16:03:20 -0000
+From: Peter Maydell <1620660@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: nicholasbishop pmaydell
+X-Launchpad-Bug-Reporter: Nicholas Bishop (nicholasbishop)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <20160906145727.27103.84778.malonedeb@gac.canonical.com>
+Message-Id: <160571540090.17610.12854657949875661626.malone@gac.canonical.com>
+Subject: [Bug 1620660] Re: man page is missing suboptions for "-display"
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c35ff22711d15549e2303ae18ae521fd91f6bf00"; Instance="production"
+X-Launchpad-Hash: 350a746fc8772d7b35f856d5edede659fef40c32
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 10:41:28
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -61,237 +72,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
- Catalin Marinas <catalin.marinas@arm.com>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
- Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
- linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
- Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
- Julien Thierry <julien.thierry.kdev@gmail.com>
+Reply-To: Bug 1620660 <1620660@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/11/2020 19:35, Marc Zyngier wrote:
-> Hi Steven,
-> 
-> On 2020-10-26 15:57, Steven Price wrote:
->> Add a new VM feature 'KVM_ARM_CAP_MTE' which enables memory tagging
->> for a VM. This exposes the feature to the guest and automatically tags
->> memory pages touched by the VM as PG_mte_tagged (and clears the tags
->> storage) to ensure that the guest cannot see stale tags, and so that the
->> tags are correctly saved/restored across swap.
->>
->> Signed-off-by: Steven Price <steven.price@arm.com>
->> Reviewed-by: Andrew Jones <drjones@redhat.com>
->> ---
->>  arch/arm64/include/asm/kvm_emulate.h |  3 +++
->>  arch/arm64/include/asm/kvm_host.h    |  3 +++
->>  arch/arm64/kvm/arm.c                 |  9 +++++++++
->>  arch/arm64/kvm/mmu.c                 | 20 ++++++++++++++++++++
->>  arch/arm64/kvm/sys_regs.c            |  6 +++++-
->>  include/uapi/linux/kvm.h             |  1 +
->>  6 files changed, 41 insertions(+), 1 deletion(-)
->>
->> diff --git a/arch/arm64/include/asm/kvm_emulate.h
->> b/arch/arm64/include/asm/kvm_emulate.h
->> index 5ef2669ccd6c..66c0d9e7c2b4 100644
->> --- a/arch/arm64/include/asm/kvm_emulate.h
->> +++ b/arch/arm64/include/asm/kvm_emulate.h
->> @@ -79,6 +79,9 @@ static inline void vcpu_reset_hcr(struct kvm_vcpu 
->> *vcpu)
->>      if (cpus_have_const_cap(ARM64_MISMATCHED_CACHE_TYPE) ||
->>          vcpu_el1_is_32bit(vcpu))
->>          vcpu->arch.hcr_el2 |= HCR_TID2;
->> +
->> +    if (vcpu->kvm->arch.mte_enabled)
-> 
-> Please add a predicate (vcpu_has_mte() or kvm_has_mte()?) for this.
+Display suboptions are still undocumented as of 5.2...
 
-Sure
 
->> +        vcpu->arch.hcr_el2 |= HCR_ATA;
->>  }
->>
->>  static inline unsigned long *vcpu_hcr(struct kvm_vcpu *vcpu)
->> diff --git a/arch/arm64/include/asm/kvm_host.h
->> b/arch/arm64/include/asm/kvm_host.h
->> index 95ab7345dcc8..cd993aec0440 100644
->> --- a/arch/arm64/include/asm/kvm_host.h
->> +++ b/arch/arm64/include/asm/kvm_host.h
->> @@ -118,6 +118,9 @@ struct kvm_arch {
->>       */
->>      unsigned long *pmu_filter;
->>      unsigned int pmuver;
->> +
->> +    /* Memory Tagging Extension enabled for the guest */
->> +    bool mte_enabled;
->>  };
->>
->>  struct kvm_vcpu_fault_info {
->> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
->> index f56122eedffc..7ee93bcac017 100644
->> --- a/arch/arm64/kvm/arm.c
->> +++ b/arch/arm64/kvm/arm.c
->> @@ -89,6 +89,12 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
->>          r = 0;
->>          kvm->arch.return_nisv_io_abort_to_user = true;
->>          break;
->> +    case KVM_CAP_ARM_MTE:
->> +        if (!system_supports_mte() || kvm->created_vcpus)
->> +            return -EINVAL;
-> 
-> You also want to avoid 32bit guests. Also, what is the rational for
+** Changed in: qemu
+       Status: New =3D> Confirmed
 
-Interesting point, however if I understand correctly the 32 bit flag is 
-a VCPU flag. And at this point kvm->created_vcpus==0, so I don't believe 
-we actually know whether the guest is 32 bit or not at the point of this 
-test. And since this is a per-VM flag it actually can make sense for a 
-heterogeneous VM if anyone is crazy enough to want such a thing.
+-- =
 
-> this being a VM capability as opposed to a CPU feature, similar
-> to SVE and PMU?
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1620660
 
-v1/v2 actually had it as a CPU feature. However you need a per-VM flag 
-to enforce the use of tagged memory (the code in user_mem_abort() below).
+Title:
+  man page is missing suboptions for "-display"
 
->> +        r = 0;
->> +        kvm->arch.mte_enabled = true;
->> +        break;
->>      default:
->>          r = -EINVAL;
->>          break;
->> @@ -210,6 +216,9 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, 
->> long ext)
->>           */
->>          r = 1;
->>          break;
->> +    case KVM_CAP_ARM_MTE:
->> +        r = system_supports_mte();
-> 
-> Same comment about 32bit.
+Status in QEMU:
+  Confirmed
 
-As above, we don't know if we're launching a 32 bit guest or not.
+Bug description:
+  Some of the display options have suboptions, for example:
 
->> +        break;
->>      case KVM_CAP_STEAL_TIME:
->>          r = kvm_arm_pvtime_supported();
->>          break;
->> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
->> index 19aacc7d64de..38fe25310ca1 100644
->> --- a/arch/arm64/kvm/mmu.c
->> +++ b/arch/arm64/kvm/mmu.c
->> @@ -862,6 +862,26 @@ static int user_mem_abort(struct kvm_vcpu *vcpu,
->> phys_addr_t fault_ipa,
->>      if (vma_pagesize == PAGE_SIZE && !force_pte)
->>          vma_pagesize = transparent_hugepage_adjust(memslot, hva,
->>                                 &pfn, &fault_ipa);
->> +
->> +    /*
->> +     * The otherwise redundant test for system_supports_mte() allows the
->> +     * code to be compiled out when CONFIG_ARM64_MTE is not present.
->> +     */
->> +    if (system_supports_mte() && kvm->arch.mte_enabled && 
->> pfn_valid(pfn)) {
->> +        /*
->> +         * VM will be able to see the page's tags, so we must ensure
->> +         * they have been initialised.
->> +         */
->> +        struct page *page = pfn_to_page(pfn);
->> +        long i, nr_pages = compound_nr(page);
->> +
->> +        /* if PG_mte_tagged is set, tags have already been 
->> initialised */
->> +        for (i = 0; i < nr_pages; i++, page++) {
->> +            if (!test_and_set_bit(PG_mte_tagged, &page->flags))
->> +                mte_clear_page_tags(page_address(page));
->> +        }
->> +    }
-> 
-> What are the visibility requirements for the tags, specially if the
-> guest has its MMU off? Is there any cache management that needs to
-> occur?
+  > -display gtk[,grab_on_hover=3Don|off][,gl=3Don|off]
 
-If the guest has its MMU off then the memory would be tread as Untagged 
-by the architecture (the stage 1 page table must provide the 'tagged' 
-flag). Architecturally the tag bits handled the same as the data bits so 
-no extra/different cache management is required. The only exception in 
-the architecture is that the tag values are optionally exposed in the 
-normal PA space (in a potentially non-coherent way) - but if that is the 
-case that PA space shouldn't be touched by Linux.
+  None of these suboptions are currently documented in qemu-options.hx
+  (checked git@f04ec5a)
 
-> Another thing is device-like memory that is managed by userspace,
-> such as the QEMU emulated flash, for which there also might be tags.
-> How is that dealt with? In general, what are the expectations for
-> tags on memory shared between host and guest? Who owns them?
-
-Actual device-like memory shouldn't be expected to have tags - they 
-wouldn't have tags on a real host.
-
-In terms of memory shared between host and guest - the tags are also 
-shared, effectively tags are just data. Clearly the host and guest need 
-to decide how to share the tag space. In general I would expect the tags 
-to be ignored (and tag checking to be disabled) in those shared regions. 
-Sadly the architecture doesn't provide a method to prevent the guest 
-accessing tags in a region (without also crippling cacheability).
-
-This is one of the areas that is potentially tricky for migration 
-because the VMM may want to use MTE but must disable tag checking while 
-touching the guest's memory because the guest may be using the tag 
-memory for it's own purposes. There is some discussion about this in the 
-cover letter of v2:
-
-https://lore.kernel.org/kvmarm/20200904160018.29481-1-steven.price@arm.com/
-Thanks,
-
-Steve
-
->> +
->>      if (writable) {
->>          prot |= KVM_PGTABLE_PROT_W;
->>          kvm_set_pfn_dirty(pfn);
->> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
->> index 430e36e1a13d..35a3dc448231 100644
->> --- a/arch/arm64/kvm/sys_regs.c
->> +++ b/arch/arm64/kvm/sys_regs.c
->> @@ -1132,7 +1132,8 @@ static u64 read_id_reg(const struct kvm_vcpu *vcpu,
->>              arm64_get_spectre_v2_state() == SPECTRE_UNAFFECTED)
->>              val |= (1UL << ID_AA64PFR0_CSV2_SHIFT);
->>      } else if (id == SYS_ID_AA64PFR1_EL1) {
->> -        val &= ~(0xfUL << ID_AA64PFR1_MTE_SHIFT);
->> +        if (!vcpu->kvm->arch.mte_enabled)
->> +            val &= ~(0xfUL << ID_AA64PFR1_MTE_SHIFT);
->>      } else if (id == SYS_ID_AA64ISAR1_EL1 && !vcpu_has_ptrauth(vcpu)) {
->>          val &= ~((0xfUL << ID_AA64ISAR1_APA_SHIFT) |
->>               (0xfUL << ID_AA64ISAR1_API_SHIFT) |
->> @@ -1394,6 +1395,9 @@ static bool access_mte_regs(struct kvm_vcpu
->> *vcpu, struct sys_reg_params *p,
->>  static unsigned int mte_visibility(const struct kvm_vcpu *vcpu,
->>                     const struct sys_reg_desc *rd)
->>  {
->> +    if (vcpu->kvm->arch.mte_enabled)
->> +        return 0;
->> +
->>      return REG_HIDDEN_USER | REG_HIDDEN_GUEST;
->>  }
->>
->> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
->> index ca41220b40b8..3e6fb5b580a9 100644
->> --- a/include/uapi/linux/kvm.h
->> +++ b/include/uapi/linux/kvm.h
->> @@ -1053,6 +1053,7 @@ struct kvm_ppc_resize_hpt {
->>  #define KVM_CAP_X86_USER_SPACE_MSR 188
->>  #define KVM_CAP_X86_MSR_FILTER 189
->>  #define KVM_CAP_ENFORCE_PV_FEATURE_CPUID 190
->> +#define KVM_CAP_ARM_MTE 191
->>
->>  #ifdef KVM_CAP_IRQ_ROUTING
-> 
-> Thanks,
-> 
->          M.
-
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1620660/+subscriptions
 
