@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B1902B87AA
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 23:27:44 +0100 (CET)
-Received: from localhost ([::1]:37846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 579F72B87C8
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 23:36:51 +0100 (CET)
+Received: from localhost ([::1]:42316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfVvS-0006NF-O3
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 17:27:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53030)
+	id 1kfW4H-0000o4-Rs
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 17:36:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kfVtQ-0005lR-Cy
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 17:25:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44927)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kfVtM-0000cr-QS
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 17:25:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605738330;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=D2qOktdz8CIvC/ebZhbayXkQkSitbhZJNazQMhZjAps=;
- b=W68zaM8WA86lcE/gvrxFCoK5jXjO6M/XS7CN+WxquMUj4HyrPQVelSUmQ7v9iPfhGNkf5d
- yPq1QrjvVs7w08q24Tupz7oc5IN1kbfteT2ARUyFybc0zSwZCI1KlLmpqkRzIOE5X5KdWa
- mKUPk1ooYET61RlpmmoXo7tDvev9zMk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-42-dXzJsxHDPFyog7KdJBO4mw-1; Wed, 18 Nov 2020 17:25:28 -0500
-X-MC-Unique: dXzJsxHDPFyog7KdJBO4mw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3AC238143EA
- for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 22:25:27 +0000 (UTC)
-Received: from localhost (ovpn-115-101.rdu2.redhat.com [10.10.115.101])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C7EC819C59;
- Wed, 18 Nov 2020 22:25:26 +0000 (UTC)
-Date: Wed, 18 Nov 2020 17:25:26 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Vitaly Kuznetsov <vkuznets@redhat.com>
-Subject: Re: [PATCH RFC v3 23/23] i386: provide simple 'hyperv=on' option to
- x86 machine types
-Message-ID: <20201118222526.GQ1509407@habkost.net>
-References: <20201009121842.1938010-1-vkuznets@redhat.com>
- <20201009121842.1938010-24-vkuznets@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <20201009121842.1938010-24-vkuznets@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 16:44:20
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+ (Exim 4.90_1) (envelope-from <msys.mizuma@gmail.com>)
+ id 1kfVxS-0007JS-55; Wed, 18 Nov 2020 17:29:46 -0500
+Received: from mail-qv1-xf42.google.com ([2607:f8b0:4864:20::f42]:39846)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <msys.mizuma@gmail.com>)
+ id 1kfVxP-0001Tw-IS; Wed, 18 Nov 2020 17:29:45 -0500
+Received: by mail-qv1-xf42.google.com with SMTP id ek7so1904144qvb.6;
+ Wed, 18 Nov 2020 14:29:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=Xll6bGXfLhJ8sDfx6zBdkywKzwaBwlmt4s/B4RiH8eg=;
+ b=FTSEb4nykJZB8cJzxz2Xz8AZ+O+qOyX/dG2JhLr4/Q/V4F90VO1SKHSdrTX3DL39qo
+ SQtRQFqu1lS8v0B7bZLH7bt4BwtROQquKmrE+WLBQYgLMTJHIEY90fP5jGOCeOy5+46p
+ wEe1qf8wAU8aiFwPuz7NRv9ruBak27fhqGaLA8ZwOsotGZcYd1++BdBrZ21SRuys4vR6
+ qIQCJEmNDV0cKBMJOL+/JPGHo1ytbPHIJh/tyLFucQ1pobqk+Hq4gpg3dzU7zCHPtN0V
+ xQeBU1qB3tTuDWwjXB9HQ2Ji3rptwLx55urbmMkArBOD0+x5XN2hMiWDlxTdj0mu4ITN
+ 8wBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=Xll6bGXfLhJ8sDfx6zBdkywKzwaBwlmt4s/B4RiH8eg=;
+ b=O2gS0xyeL5JozxsdEZNDXPpyUnJGorgoo0gH89vMurZL0hp3CNas/8bCD+16dL9CPw
+ jYRc/OFX+H64ntA1+Iu8KPGt2X0Q2rIfHCc0Ey61+PZWNIQwNmmYzOOrpbcLF+7hSPfK
+ Wk4pxXoqG+kq1NEKiNnmPBIJ5oWPr4G2h0TTF4wE4Nnp2ffeoKSi48UTqsxglZimSKIL
+ 5Wc2fa5Bh0Nd0IXEDS3JwENaXKiMB/CT34hlqU4hEr1ptgS3xiUS9qSZPTDsZvWoZUtz
+ SSLfJzRw5V5w8TH+DgomrGGW5YXotqUgw2zEP7vNo1W8Nud3vBIG6PRUK8/yMwSD6J14
+ vyhA==
+X-Gm-Message-State: AOAM5324sUJUnobse8Hto6Po5NcxlySw2B3yxZKW6o3MGqKigOwhYDe0
+ SbhIY5r8CP7DZZwDgUMnHA==
+X-Google-Smtp-Source: ABdhPJzX6bVdOir4aDTKB2XNf40OjSwfnn8EnNlQZqnbFfROq6SLg9ue/TjcmqNO8T+7dTfdcFALvA==
+X-Received: by 2002:ad4:4e13:: with SMTP id dl19mr7277999qvb.24.1605738581091; 
+ Wed, 18 Nov 2020 14:29:41 -0800 (PST)
+Received: from localhost
+ (209-6-122-159.s2973.c3-0.arl-cbr1.sbo-arl.ma.cable.rcncustomer.com.
+ [209.6.122.159])
+ by smtp.gmail.com with ESMTPSA id a83sm10004891qkc.77.2020.11.18.14.29.39
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 18 Nov 2020 14:29:40 -0800 (PST)
+From: Masayoshi Mizuma <msys.mizuma@gmail.com>
+To: Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ qemu-block@nongnu.org
+Subject: [PATCH v2] file-posix: Use OFD lock only if the filesystem supports
+ the lock
+Date: Wed, 18 Nov 2020 17:28:42 -0500
+Message-Id: <20201118222842.8772-1-msys.mizuma@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f42;
+ envelope-from=msys.mizuma@gmail.com; helo=mail-qv1-xf42.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,188 +80,330 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>,
+ Masayoshi Mizuma <msys.mizuma@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 09, 2020 at 02:18:42PM +0200, Vitaly Kuznetsov wrote:
-> Enabling Hyper-V emulation for a Windows VM is a tiring experience as it
-> requires listing all currently supported enlightenments ("hv_*" CPU
-> features) explicitly. We do have a 'hv_passthrough' mode enabling
-> everything but it can't be used in production as it prevents migration.
-> 
-> Introduce a simple 'hyperv=on' option for all x86 machine types enabling
-> all currently supported Hyper-V enlightenments. Later, when new
-> enlightenments get implemented, we will be adding them to newer machine
-> types only (by disabling them for legacy machine types) thus preserving
-> migration.
-> 
-> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+From: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
 
-This patch seems to be especially useful, and I wonder if we
-could make sure this is included before all the rest of the
-series.  Especially considering that the KVM changes might take a
-while to be merged.
+locking=auto doesn't work if the filesystem doesn't support OFD lock.
+In that situation, following error happens:
 
-Would you be able to submit this independently from the rest of
-the series?  You can add my:
+  qemu-system-x86_64: -blockdev driver=qcow2,node-name=disk,file.driver=file,file.filename=/mnt/guest.qcow2,file.locking=auto: Failed to lock byte 100
 
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+qemu_probe_lock_ops() judges whether qemu can use OFD lock
+or not with doing fcntl(F_OFD_GETLK) to /dev/null. So the
+error happens if /dev/null supports OFD lock, but the filesystem
+doesn't support the lock.
 
-My only (minor) suggestion is to rename
-X86MachineClass.hyperv_features to
-X86MachineClass.default_hyperv_features.
+Lock the actual file, not /dev/null, using F_OFD_SETLK and if that
+fails, then fallback to F_SETLK.
 
-> ---
->  docs/hyperv.txt       |  8 ++++++++
->  hw/i386/x86.c         | 30 ++++++++++++++++++++++++++++++
->  include/hw/i386/x86.h |  7 +++++++
->  target/i386/cpu.c     | 14 ++++++++++++++
->  4 files changed, 59 insertions(+)
-> 
-> diff --git a/docs/hyperv.txt b/docs/hyperv.txt
-> index 5df00da54fc4..1a76a07f8417 100644
-> --- a/docs/hyperv.txt
-> +++ b/docs/hyperv.txt
-> @@ -29,6 +29,14 @@ When any set of the Hyper-V enlightenments is enabled, QEMU changes hypervisor
->  identification (CPUID 0x40000000..0x4000000A) to Hyper-V. KVM identification
->  and features are kept in leaves 0x40000100..0x40000101.
->  
-> +Hyper-V enlightenments can be enabled in bulk by specifying 'hyperv=on' to an
-> +x86 machine type:
-> +
-> +  qemu-system-x86_64 -machine q35,accel=kvm,kernel-irqchip=split,hyperv=on ...
-> +
-> +Note, new enlightenments are only added to the latest (in-develompent) machine
-> +type, older machine types keep the list of the supported features intact to
-> +safeguard migration.
->  
->  3. Existing enlightenments
->  ===========================
-> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-> index 3137a2008588..eeecd4e3322f 100644
-> --- a/hw/i386/x86.c
-> +++ b/hw/i386/x86.c
-> @@ -1171,6 +1171,20 @@ static void x86_machine_set_acpi(Object *obj, Visitor *v, const char *name,
->      visit_type_OnOffAuto(v, name, &x86ms->acpi, errp);
->  }
->  
-> +static bool x86_machine_get_hyperv(Object *obj, Error **errp)
-> +{
-> +    X86MachineState *x86ms = X86_MACHINE(obj);
-> +
-> +    return x86ms->hyperv_enabled;
-> +}
-> +
-> +static void x86_machine_set_hyperv(Object *obj, bool value, Error **errp)
-> +{
-> +    X86MachineState *x86ms = X86_MACHINE(obj);
-> +
-> +    x86ms->hyperv_enabled = value;
-> +}
-> +
->  static void x86_machine_initfn(Object *obj)
->  {
->      X86MachineState *x86ms = X86_MACHINE(obj);
-> @@ -1193,6 +1207,16 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
->      x86mc->save_tsc_khz = true;
->      nc->nmi_monitor_handler = x86_nmi;
->  
-> +    /* Hyper-V features enabled with 'hyperv=on' */
-> +    x86mc->hyperv_features = BIT(HYPERV_FEAT_RELAXED) | BIT(HYPERV_FEAT_VAPIC) |
-> +        BIT(HYPERV_FEAT_TIME) | BIT(HYPERV_FEAT_CRASH) |
-> +        BIT(HYPERV_FEAT_RESET) | BIT(HYPERV_FEAT_VPINDEX) |
-> +        BIT(HYPERV_FEAT_RUNTIME) | BIT(HYPERV_FEAT_SYNIC) |
-> +        BIT(HYPERV_FEAT_STIMER) | BIT(HYPERV_FEAT_FREQUENCIES) |
-> +        BIT(HYPERV_FEAT_REENLIGHTENMENT) | BIT(HYPERV_FEAT_TLBFLUSH) |
-> +        BIT(HYPERV_FEAT_EVMCS) | BIT(HYPERV_FEAT_IPI) |
-> +        BIT(HYPERV_FEAT_STIMER_DIRECT);
-> +
->      object_class_property_add(oc, X86_MACHINE_SMM, "OnOffAuto",
->          x86_machine_get_smm, x86_machine_set_smm,
->          NULL, NULL);
-> @@ -1204,6 +1228,12 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
->          NULL, NULL);
->      object_class_property_set_description(oc, X86_MACHINE_ACPI,
->          "Enable ACPI");
-> +
-> +    object_class_property_add_bool(oc, X86_MACHINE_HYPERV,
-> +        x86_machine_get_hyperv, x86_machine_set_hyperv);
-> +
-> +    object_class_property_set_description(oc, X86_MACHINE_HYPERV,
-> +        "Enable Hyper-V enlightenments");
->  }
->  
->  static const TypeInfo x86_machine_info = {
-> diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
-> index d5dcf7a07fdc..2b989e5fc49d 100644
-> --- a/include/hw/i386/x86.h
-> +++ b/include/hw/i386/x86.h
-> @@ -38,6 +38,9 @@ struct X86MachineClass {
->      bool save_tsc_khz;
->      /* Enables contiguous-apic-ID mode */
->      bool compat_apic_id_mode;
-> +
-> +    /* Hyper-V features enabled with 'hyperv=on' */
-> +    uint64_t hyperv_features;
->  };
->  
->  struct X86MachineState {
-> @@ -70,10 +73,14 @@ struct X86MachineState {
->       * will be translated to MSI messages in the address space.
->       */
->      AddressSpace *ioapic_as;
-> +
-> +    /* Hyper-V emulation */
-> +    bool hyperv_enabled;
->  };
->  
->  #define X86_MACHINE_SMM              "smm"
->  #define X86_MACHINE_ACPI             "acpi"
-> +#define X86_MACHINE_HYPERV           "hyperv"
->  
->  #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
->  OBJECT_DECLARE_TYPE(X86MachineState, X86MachineClass, X86_MACHINE)
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 55706c8050fe..d0961c1838ad 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -53,6 +53,7 @@
->  #include "sysemu/tcg.h"
->  #include "hw/qdev-properties.h"
->  #include "hw/i386/topology.h"
-> +#include "hw/i386/x86.h"
->  #ifndef CONFIG_USER_ONLY
->  #include "exec/address-spaces.h"
->  #include "hw/i386/apic_internal.h"
-> @@ -6409,8 +6410,21 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
->  
->  static void x86_cpu_hyperv_realize(X86CPU *cpu)
->  {
-> +    X86MachineState *x86ms = X86_MACHINE(qdev_get_machine());
-> +    X86MachineClass *x86mc = X86_MACHINE_GET_CLASS(x86ms);
-> +    uint64_t feat;
->      size_t len;
->  
-> +    if (x86ms->hyperv_enabled) {
-> +        feat = x86mc->hyperv_features;
-> +        /* Enlightened VMCS is only available on Intel/VMX */
-> +        if (!cpu_has_vmx(&cpu->env)) {
-> +            feat &= ~BIT(HYPERV_FEAT_EVMCS);
-> +        }
-> +
-> +        cpu->hyperv_features |= feat;
-> +    }
-> +
->      /* Hyper-V vendor id */
->      if (!cpu->hyperv_vendor) {
->          object_property_set_str(OBJECT(cpu), "hv-vendor-id", "Microsoft Hv",
-> -- 
-> 2.25.4
-> 
+Fixes: ca749954b0 ("osdep: Add runtime OFD lock detection")
+Signed-off-by: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
+---
+ block/file-posix.c         |  56 ++++++++---------
+ include/qemu/osdep.h       |   2 +-
+ tests/test-image-locking.c |  13 +++-
+ util/osdep.c               | 125 +++++++++++++++++++++----------------
+ 4 files changed, 111 insertions(+), 85 deletions(-)
 
+diff --git a/block/file-posix.c b/block/file-posix.c
+index d5fd1dbcd2..ff8a2804c5 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -584,34 +584,6 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
+     s->use_linux_io_uring = (aio == BLOCKDEV_AIO_OPTIONS_IO_URING);
+ #endif
+ 
+-    locking = qapi_enum_parse(&OnOffAuto_lookup,
+-                              qemu_opt_get(opts, "locking"),
+-                              ON_OFF_AUTO_AUTO, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
+-        ret = -EINVAL;
+-        goto fail;
+-    }
+-    switch (locking) {
+-    case ON_OFF_AUTO_ON:
+-        s->use_lock = true;
+-        if (!qemu_has_ofd_lock()) {
+-            warn_report("File lock requested but OFD locking syscall is "
+-                        "unavailable, falling back to POSIX file locks");
+-            error_printf("Due to the implementation, locks can be lost "
+-                         "unexpectedly.\n");
+-        }
+-        break;
+-    case ON_OFF_AUTO_OFF:
+-        s->use_lock = false;
+-        break;
+-    case ON_OFF_AUTO_AUTO:
+-        s->use_lock = qemu_has_ofd_lock();
+-        break;
+-    default:
+-        abort();
+-    }
+-
+     str = qemu_opt_get(opts, "pr-manager");
+     if (str) {
+         s->pr_mgr = pr_manager_lookup(str, &local_err);
+@@ -641,6 +613,34 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
+     }
+     s->fd = fd;
+ 
++    locking = qapi_enum_parse(&OnOffAuto_lookup,
++                              qemu_opt_get(opts, "locking"),
++                              ON_OFF_AUTO_AUTO, &local_err);
++    if (local_err) {
++        error_propagate(errp, local_err);
++        ret = -EINVAL;
++        goto fail;
++    }
++    switch (locking) {
++    case ON_OFF_AUTO_ON:
++        s->use_lock = true;
++        if (!qemu_has_ofd_lock(s->fd)) {
++            warn_report("File lock requested but OFD locking syscall is "
++                        "unavailable, falling back to POSIX file locks");
++            error_printf("Due to the implementation, locks can be lost "
++                         "unexpectedly.\n");
++        }
++        break;
++    case ON_OFF_AUTO_OFF:
++        s->use_lock = false;
++        break;
++    case ON_OFF_AUTO_AUTO:
++        s->use_lock = qemu_has_ofd_lock(s->fd);
++        break;
++    default:
++        abort();
++    }
++
+     /* Check s->open_flags rather than bdrv_flags due to auto-read-only */
+     if (s->open_flags & O_RDWR) {
+         ret = check_hdev_writable(s->fd);
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index f9ec8c84e9..222138a81a 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -512,7 +512,7 @@ int qemu_dup(int fd);
+ int qemu_lock_fd(int fd, int64_t start, int64_t len, bool exclusive);
+ int qemu_unlock_fd(int fd, int64_t start, int64_t len);
+ int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool exclusive);
+-bool qemu_has_ofd_lock(void);
++bool qemu_has_ofd_lock(int fd);
+ #endif
+ 
+ #if defined(__HAIKU__) && defined(__i386__)
+diff --git a/tests/test-image-locking.c b/tests/test-image-locking.c
+index ba057bd66c..7a28d9d043 100644
+--- a/tests/test-image-locking.c
++++ b/tests/test-image-locking.c
+@@ -144,14 +144,21 @@ static void test_set_perm_abort(void)
+ 
+ int main(int argc, char **argv)
+ {
++    int fd;
++
+     bdrv_init();
+     qemu_init_main_loop(&error_abort);
+ 
+     g_test_init(&argc, &argv, NULL);
+ 
+-    if (qemu_has_ofd_lock()) {
+-        g_test_add_func("/image-locking/basic", test_image_locking_basic);
+-        g_test_add_func("/image-locking/set-perm-abort", test_set_perm_abort);
++    fd = open("/dev/null", O_RDONLY);
++
++    if (fd != -1 && qemu_has_ofd_lock(fd)) {
++        if (qemu_has_ofd_lock(fd)) {
++            g_test_add_func("/image-locking/basic", test_image_locking_basic);
++            g_test_add_func("/image-locking/set-perm-abort",
++                            test_set_perm_abort);
++        }
+     }
+ 
+     return g_test_run();
+diff --git a/util/osdep.c b/util/osdep.c
+index 66d01b9160..ff8c2473d2 100644
+--- a/util/osdep.c
++++ b/util/osdep.c
+@@ -117,9 +117,6 @@ int qemu_mprotect_none(void *addr, size_t size)
+ 
+ #ifndef _WIN32
+ 
+-static int fcntl_op_setlk = -1;
+-static int fcntl_op_getlk = -1;
+-
+ /*
+  * Dups an fd and sets the flags
+  */
+@@ -187,68 +184,82 @@ static int qemu_parse_fdset(const char *param)
+     return qemu_parse_fd(param);
+ }
+ 
+-static void qemu_probe_lock_ops(void)
++bool qemu_has_ofd_lock(int fd)
+ {
+-    if (fcntl_op_setlk == -1) {
+ #ifdef F_OFD_SETLK
+-        int fd;
+-        int ret;
+-        struct flock fl = {
+-            .l_whence = SEEK_SET,
+-            .l_start  = 0,
+-            .l_len    = 0,
+-            .l_type   = F_WRLCK,
+-        };
+-
+-        fd = open("/dev/null", O_RDWR);
+-        if (fd < 0) {
+-            fprintf(stderr,
+-                    "Failed to open /dev/null for OFD lock probing: %s\n",
+-                    strerror(errno));
+-            fcntl_op_setlk = F_SETLK;
+-            fcntl_op_getlk = F_GETLK;
+-            return;
+-        }
+-        ret = fcntl(fd, F_OFD_GETLK, &fl);
+-        close(fd);
+-        if (!ret) {
+-            fcntl_op_setlk = F_OFD_SETLK;
+-            fcntl_op_getlk = F_OFD_GETLK;
+-        } else {
+-            fcntl_op_setlk = F_SETLK;
+-            fcntl_op_getlk = F_GETLK;
+-        }
++    int ret;
++    struct flock fl = {
++        .l_whence = SEEK_SET,
++        .l_start  = 0,
++        .l_len    = 0,
++        .l_type   = F_RDLCK,
++        .l_pid    = 0,
++    };
++
++    ret = fcntl(fd, F_OFD_GETLK, &fl);
++
++    return ret == 0;
+ #else
+-        fcntl_op_setlk = F_SETLK;
+-        fcntl_op_getlk = F_GETLK;
++    return false;
+ #endif
+-    }
+ }
+ 
+-bool qemu_has_ofd_lock(void)
++static int qemu_fcntl(int fd, struct flock *fl, bool setlk, bool *ofd_lock)
+ {
+-    qemu_probe_lock_ops();
++    int ret;
++    int op = setlk ? F_SETLK : F_GETLK;
++
++    if (*ofd_lock) {
+ #ifdef F_OFD_SETLK
+-    return fcntl_op_setlk == F_OFD_SETLK;
++        if (op == F_SETLK) {
++            op = F_OFD_SETLK;
++        } else {
++            op = F_OFD_GETLK;
++        }
++
++        ret = fcntl(fd, op, fl);
++        if (ret == -1 && errno == EINVAL) {
++            *ofd_lock = false;
++            if (op == F_OFD_SETLK) {
++                op = F_SETLK;
++            } else {
++                op = F_GETLK;
++            }
++        }
+ #else
+-    return false;
++        *ofd_lock = false;
+ #endif
++    }
++    if (!*ofd_lock) {
++        ret = fcntl(fd, op, fl);
++    }
++
++    return ret;
+ }
+ 
+-static int qemu_lock_fcntl(int fd, int64_t start, int64_t len, int fl_type)
++static inline int _qemu_lock_fcntl(int fd, struct flock *fl)
+ {
+     int ret;
++    bool ofd_lock = true;
++
++    do {
++        ret = qemu_fcntl(fd, fl, true, &ofd_lock);
++    } while (ret == -1 && errno == EINTR);
++
++    return ret == -1 ? -errno : 0;
++}
++
++static int qemu_lock_fcntl(int fd, int64_t start, int64_t len, int fl_type)
++{
+     struct flock fl = {
+         .l_whence = SEEK_SET,
+         .l_start  = start,
+         .l_len    = len,
+         .l_type   = fl_type,
++        .l_pid    = 0,
+     };
+-    qemu_probe_lock_ops();
+-    do {
+-        ret = fcntl(fd, fcntl_op_setlk, &fl);
+-    } while (ret == -1 && errno == EINTR);
+-    return ret == -1 ? -errno : 0;
++
++    return _qemu_lock_fcntl(fd, &fl);
+ }
+ 
+ int qemu_lock_fd(int fd, int64_t start, int64_t len, bool exclusive)
+@@ -261,22 +272,30 @@ int qemu_unlock_fd(int fd, int64_t start, int64_t len)
+     return qemu_lock_fcntl(fd, start, len, F_UNLCK);
+ }
+ 
+-int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool exclusive)
++static inline int _qemu_lock_fd_test(int fd, struct flock *fl)
+ {
+     int ret;
++    bool ofd_lock = true;
++
++    ret = qemu_fcntl(fd, fl, false, &ofd_lock);
++    if (ret == -1) {
++        return -errno;
++    } else {
++        return fl->l_type == F_UNLCK ? 0 : -EAGAIN;
++    }
++}
++
++int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool exclusive)
++{
+     struct flock fl = {
+         .l_whence = SEEK_SET,
+         .l_start  = start,
+         .l_len    = len,
+         .l_type   = exclusive ? F_WRLCK : F_RDLCK,
++        .l_pid    = 0,
+     };
+-    qemu_probe_lock_ops();
+-    ret = fcntl(fd, fcntl_op_getlk, &fl);
+-    if (ret == -1) {
+-        return -errno;
+-    } else {
+-        return fl.l_type == F_UNLCK ? 0 : -EAGAIN;
+-    }
++
++    return _qemu_lock_fd_test(fd, &fl);
+ }
+ #endif
+ 
 -- 
-Eduardo
+2.27.0
 
 
