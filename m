@@ -2,64 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9ADD2B76D2
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 08:18:30 +0100 (CET)
-Received: from localhost ([::1]:48000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67C282B76DB
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 08:22:37 +0100 (CET)
+Received: from localhost ([::1]:51172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfHjZ-0004N9-Qi
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 02:18:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34652)
+	id 1kfHnY-00061q-8N
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 02:22:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kfHeu-0002os-N4
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 02:13:41 -0500
-Received: from 2.mo52.mail-out.ovh.net ([178.33.105.233]:59737)
+ (Exim 4.90_1) (envelope-from <michael.christie@oracle.com>)
+ id 1kfHl7-0005Ox-VI
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 02:20:07 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:48010)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kfHes-0003ZU-6M
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 02:13:40 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.148])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 4AE282057BB;
- Wed, 18 Nov 2020 08:13:25 +0100 (CET)
-Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Wed, 18 Nov
- 2020 08:13:24 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G002c59daffc-bd03-44fd-96b5-a99ed1e0daf1,
- 350A0944D80A876CE3CDBF7AB1DB3CAFAF2C6382) smtp.auth=clg@kaod.org
-Subject: Re: [PATCH for-5.2] Revert series "spapr/xive: Allocate vCPU IPIs
- from the vCPU contexts"
-To: David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
-References: <160554086275.1325084.12110142252189044646.stgit@bahia.lan>
- <20201118052442.GC411463@yekko.fritz.box>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <cde9a317-a670-8e8f-bd89-86a30a974a59@kaod.org>
-Date: Wed, 18 Nov 2020 08:13:24 +0100
+ (Exim 4.90_1) (envelope-from <michael.christie@oracle.com>)
+ id 1kfHl3-0004Lw-WA
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 02:20:05 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AI7AHij052502;
+ Wed, 18 Nov 2020 07:19:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : from : to :
+ cc : references : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=vTyEmgL0cQqcMKTkcNJo0gmeMY6q5TZK/xQxC0Ooo8o=;
+ b=jGfopdR8GzwnNAZ+jM7WPA3LFgYGgAEzG2C4T3MimxPW1b3YJRdT3dbtGZuCcyZjaGpx
+ NyV453vRS4w7Wz7GxQmoVZQuqbu3kUNJJgJS/9EDSKDsH3AzllzbNt28RmkJaw6WlVZU
+ /Rhd7VDjd2zxIguwc6lPe0ByUsXr8krVlgRKbqpE36SD7J/Iio0OzWHCklZkeKPo9Rec
+ YETR0FdeOxrCmc49tVWx4QjvLQmhSqb2ZR3oofk8moKQjUL9Wkd3ZTTNyq7Gw5kOvde/
+ WatUdbKmp2XA0rbmWP+hOn4OxBnUi2x0S350fhArIXq1g7S7N7TaBf3AxQzkDLvSuEwk 2g== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2130.oracle.com with ESMTP id 34t4raxn5e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 18 Nov 2020 07:19:48 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AI79VF1163877;
+ Wed, 18 Nov 2020 07:19:47 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3020.oracle.com with ESMTP id 34ts0rxw1m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 18 Nov 2020 07:19:47 +0000
+Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0AI7JiLa010313;
+ Wed, 18 Nov 2020 07:19:44 GMT
+Received: from [20.15.0.202] (/73.88.28.6)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 17 Nov 2020 23:19:44 -0800
+Subject: Re: [PATCH 00/10] vhost/qemu: thread per IO SCSI vq
+From: Mike Christie <michael.christie@oracle.com>
+To: Jason Wang <jasowang@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+References: <1605223150-10888-1-git-send-email-michael.christie@oracle.com>
+ <20201117164043.GS131917@stefanha-x1.localdomain>
+ <bba47572-bec9-794f-5a70-d7f016267022@redhat.com>
+ <8318de9f-c585-39f8-d931-1ff5e0341d75@oracle.com>
+Message-ID: <ff02b7a9-60e2-c8d4-4de1-3135d2a9e125@oracle.com>
+Date: Wed, 18 Nov 2020 01:19:43 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201118052442.GC411463@yekko.fritz.box>
-Content-Type: text/plain; charset="windows-1252"
+In-Reply-To: <8318de9f-c585-39f8-d931-1ff5e0341d75@oracle.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 14935951-43b8-4c5f-ac68-49da11184b01
-X-Ovh-Tracer-Id: 14525234699555408745
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudefgedguddthecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefheenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelgfekheejheejtdeuteetledujeeuvdeugeetfeduffefheffhfdtueejuefgkeenucffohhmrghinhepmhgrrhgtrdhinhhfohdpghhnuhdrohhrghdplhgruhhntghhphgrugdrnhgvthenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=178.33.105.233; envelope-from=clg@kaod.org;
- helo=2.mo52.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 02:13:26
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9808
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ adultscore=0
+ bulkscore=0 suspectscore=0 spamscore=0 malwarescore=0 phishscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011180048
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9808
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ clxscore=1015
+ malwarescore=0 impostorscore=0 lowpriorityscore=0 priorityscore=1501
+ mlxlogscore=999 adultscore=0 phishscore=0 suspectscore=0 spamscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011180048
+Received-SPF: pass client-ip=141.146.126.79;
+ envelope-from=michael.christie@oracle.com; helo=aserp2130.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 02:19:59
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,258 +103,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Satheesh Rajendran <sathnaga@linux.ibm.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Gustavo Romero <gromero@linux.ibm.com>
+Cc: fam@euphon.net, linux-scsi@vger.kernel.org, mst@redhat.com,
+ qemu-devel@nongnu.org, virtualization@lists.linux-foundation.org,
+ target-devel@vger.kernel.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/18/20 6:24 AM, David Gibson wrote:
-> On Mon, Nov 16, 2020 at 04:34:22PM +0100, Greg Kurz wrote:
->> This series was largely built on the assumption that IPI numbers are
->> numerically equal to vCPU ids. Even if this happens to be the case
->> in practice with the default machine settings, this ceases to be true
->> if VSMT is set to a different value than the number of vCPUs per core.
->> This causes bogus IPI numbers to be created in KVM from a guest stand
->> point. This leads to unknow results in the guest, including crashes
->> or missing vCPUs (see BugLink) and even non-fatal oopses in current
->> KVM that lacks a check before accessing misconfigured HW (see [1]).
+On 11/18/20 12:57 AM, Mike Christie wrote:
+> On 11/17/20 11:17 PM, Jason Wang wrote:
 >>
->> A tentative patch was sent (see [2]) but it seems too complex to be
->> merged in an RC. Since the original changes are essentially an
->> optimization, it seems safer to revert them for now. The damage is
->> done by commit acbdb9956fe9 ("spapr/xive: Allocate IPIs independently
->> from the other sources") but the previous patches in the series are
->> really preparatory patches. So this reverts the whole series:
+>> On 2020/11/18 上午12:40, Stefan Hajnoczi wrote:
+>>> On Thu, Nov 12, 2020 at 05:18:59PM -0600, Mike Christie wrote:
+>>>> The following kernel patches were made over Michael's vhost branch:
+>>>>
+>>>> https://urldefense.com/v3/__https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git/log/?h=vhost__;!!GqivPVa7Brio!MzCv3wdRfz5dltunazRWGCeUkMg91pPEOLpIivsebLX9vhYDSi_E1V36e9H0NoRys_hU$
+>>>> and the vhost-scsi bug fix patchset:
+>>>>
+>>>> https://urldefense.com/v3/__https://lore.kernel.org/linux-scsi/20201112170008.GB1555653@stefanha-x1.localdomain/T/*t__;Iw!!GqivPVa7Brio!MzCv3wdRfz5dltunazRWGCeUkMg91pPEOLpIivsebLX9vhYDSi_E1V36e9H0NmuPE_m8$
+>>>> And the qemu patch was made over the qemu master branch.
+>>>>
+>>>> vhost-scsi currently supports multiple queues with the num_queues
+>>>> setting, but we end up with a setup where the guest's scsi/block
+>>>> layer can do a queue per vCPU and the layers below vhost can do
+>>>> a queue per CPU. vhost-scsi will then do a num_queue virtqueues,
+>>>> but all IO gets set on and completed on a single vhost-scsi thread.
+>>>> After 2 - 4 vqs this becomes a bottleneck.
+>>>>
+>>>> This patchset allows us to create a worker thread per IO vq, so we
+>>>> can better utilize multiple CPUs with the multiple queues. It
+>>>> implments Jason's suggestion to create the initial worker like
+>>>> normal, then create the extra workers for IO vqs with the
+>>>> VHOST_SET_VRING_ENABLE ioctl command added in this patchset.
+>>> How does userspace find out the tids and set their CPU affinity?
+>>>
+>>> What is the meaning of the new VHOST_SET_VRING_ENABLE ioctl? It doesn't
+>>> really "enable" or "disable" the vq, requests are processed regardless.
 >>
->> eab0a2d06e97 ("spapr/xive: Allocate vCPU IPIs from the vCPU contexts")
->> acbdb9956fe9 ("spapr/xive: Allocate IPIs independently from the other sources")
->> fa94447a2cd6 ("spapr/xive: Use kvmppc_xive_source_reset() in post_load")
->> 235d3b116213 ("spapr/xive: Modify kvm_cpu_is_enabled() interface")
 >>
->> [1] https://marc.info/?l=kvm-ppc&m=160458409722959&w=4
->> [2] https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg03626.html
->>
->> Reported-by: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>
->> Fixes: acbdb9956fe9 ("spapr/xive: Allocate IPIs independently from the other sources")
->> BugLink: https://bugs.launchpad.net/qemu/+bug/1900241
->> Signed-off-by: Greg Kurz <groug@kaod.org>
->> ---
->>
->> Peter,
->>
->> I'm Cc'ing you because we really want to fix this regression in 5.2.
->> Reverting the culprit optimization seems a lot safer than the changes
->> proposed in my other patch. David is on PTO right now and I'm not sure
->> if he can post a PR anytime soon. Just in case: would it be acceptable
->> to you if I send a PR after it got some positive feedback from the
->> people on the Cc: list ? The better the sooner or do we wait for David
->> to get a chance to step in ?
-> 
-> I am indeed on holiday, and I'm not going to review this until next
-> week.  I trust Greg's judgement, though, so I'm happy for this to be
-> applied directly.
-
-Acked-by: C�dric Le Goater <clg@kaod.org>
-
-C.
-
-> 
-> 
->> ---
->>  hw/intc/spapr_xive_kvm.c |  102 ++++++++--------------------------------------
->>  1 file changed, 18 insertions(+), 84 deletions(-)
->>
->> diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
->> index 66bf4c06fe55..e8667ce5f621 100644
->> --- a/hw/intc/spapr_xive_kvm.c
->> +++ b/hw/intc/spapr_xive_kvm.c
->> @@ -36,9 +36,10 @@ typedef struct KVMEnabledCPU {
->>  static QLIST_HEAD(, KVMEnabledCPU)
->>      kvm_enabled_cpus = QLIST_HEAD_INITIALIZER(&kvm_enabled_cpus);
->>  
->> -static bool kvm_cpu_is_enabled(unsigned long vcpu_id)
->> +static bool kvm_cpu_is_enabled(CPUState *cs)
->>  {
->>      KVMEnabledCPU *enabled_cpu;
->> +    unsigned long vcpu_id = kvm_arch_vcpu_id(cs);
->>  
->>      QLIST_FOREACH(enabled_cpu, &kvm_enabled_cpus, node) {
->>          if (enabled_cpu->vcpu_id == vcpu_id) {
->> @@ -146,45 +147,6 @@ int kvmppc_xive_cpu_synchronize_state(XiveTCTX *tctx, Error **errp)
->>      return s.ret;
->>  }
->>  
->> -/*
->> - * Allocate the vCPU IPIs from the vCPU context. This will allocate
->> - * the XIVE IPI interrupt on the chip on which the vCPU is running.
->> - * This gives a better distribution of IPIs when the guest has a lot
->> - * of vCPUs. When the vCPUs are pinned, this will make the IPI local
->> - * to the chip of the vCPU. It will reduce rerouting between interrupt
->> - * controllers and gives better performance.
->> - */
->> -typedef struct {
->> -    SpaprXive *xive;
->> -    Error *err;
->> -    int rc;
->> -} XiveInitIPI;
->> -
->> -static void kvmppc_xive_reset_ipi_on_cpu(CPUState *cs, run_on_cpu_data arg)
->> -{
->> -    unsigned long ipi = kvm_arch_vcpu_id(cs);
->> -    XiveInitIPI *s = arg.host_ptr;
->> -    uint64_t state = 0;
->> -
->> -    s->rc = kvm_device_access(s->xive->fd, KVM_DEV_XIVE_GRP_SOURCE, ipi,
->> -                              &state, true, &s->err);
->> -}
->> -
->> -static int kvmppc_xive_reset_ipi(SpaprXive *xive, CPUState *cs, Error **errp)
->> -{
->> -    XiveInitIPI s = {
->> -        .xive = xive,
->> -        .err  = NULL,
->> -        .rc   = 0,
->> -    };
->> -
->> -    run_on_cpu(cs, kvmppc_xive_reset_ipi_on_cpu, RUN_ON_CPU_HOST_PTR(&s));
->> -    if (s.err) {
->> -        error_propagate(errp, s.err);
->> -    }
->> -    return s.rc;
->> -}
->> -
->>  int kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp)
->>  {
->>      ERRP_GUARD();
->> @@ -195,7 +157,7 @@ int kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp)
->>      assert(xive->fd != -1);
->>  
->>      /* Check if CPU was hot unplugged and replugged. */
->> -    if (kvm_cpu_is_enabled(kvm_arch_vcpu_id(tctx->cs))) {
->> +    if (kvm_cpu_is_enabled(tctx->cs)) {
->>          return 0;
->>      }
->>  
->> @@ -214,12 +176,6 @@ int kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp)
->>          return ret;
->>      }
->>  
->> -    /* Create/reset the vCPU IPI */
->> -    ret = kvmppc_xive_reset_ipi(xive, tctx->cs, errp);
->> -    if (ret < 0) {
->> -        return ret;
->> -    }
->> -
->>      kvm_cpu_enable(tctx->cs);
->>      return 0;
->>  }
->> @@ -279,12 +235,6 @@ int kvmppc_xive_source_reset_one(XiveSource *xsrc, int srcno, Error **errp)
->>  
->>      assert(xive->fd != -1);
->>  
->> -    /*
->> -     * The vCPU IPIs are now allocated in kvmppc_xive_cpu_connect()
->> -     * and not with all sources in kvmppc_xive_source_reset()
->> -     */
->> -    assert(srcno >= SPAPR_XIRQ_BASE);
->> -
->>      if (xive_source_irq_is_lsi(xsrc, srcno)) {
->>          state |= KVM_XIVE_LEVEL_SENSITIVE;
->>          if (xsrc->status[srcno] & XIVE_STATUS_ASSERTED) {
->> @@ -296,28 +246,12 @@ int kvmppc_xive_source_reset_one(XiveSource *xsrc, int srcno, Error **errp)
->>                               true, errp);
->>  }
->>  
->> -/*
->> - * To be valid, a source must have been claimed by the machine (valid
->> - * entry in the EAS table) and if it is a vCPU IPI, the vCPU should
->> - * have been enabled, which means the IPI has been allocated in
->> - * kvmppc_xive_cpu_connect().
->> - */
->> -static bool xive_source_is_valid(SpaprXive *xive, int i)
->> -{
->> -    return xive_eas_is_valid(&xive->eat[i]) &&
->> -        (i >= SPAPR_XIRQ_BASE || kvm_cpu_is_enabled(i));
->> -}
->> -
->>  static int kvmppc_xive_source_reset(XiveSource *xsrc, Error **errp)
->>  {
->>      SpaprXive *xive = SPAPR_XIVE(xsrc->xive);
->>      int i;
->>  
->> -    /*
->> -     * Skip the vCPU IPIs. These are created/reset when the vCPUs are
->> -     * connected in kvmppc_xive_cpu_connect()
->> -     */
->> -    for (i = SPAPR_XIRQ_BASE; i < xsrc->nr_irqs; i++) {
->> +    for (i = 0; i < xsrc->nr_irqs; i++) {
->>          int ret;
->>  
->>          if (!xive_eas_is_valid(&xive->eat[i])) {
->> @@ -399,7 +333,7 @@ static void kvmppc_xive_source_get_state(XiveSource *xsrc)
->>      for (i = 0; i < xsrc->nr_irqs; i++) {
->>          uint8_t pq;
->>  
->> -        if (!xive_source_is_valid(xive, i)) {
->> +        if (!xive_eas_is_valid(&xive->eat[i])) {
->>              continue;
->>          }
->>  
->> @@ -582,7 +516,7 @@ static void kvmppc_xive_change_state_handler(void *opaque, int running,
->>              uint8_t pq;
->>              uint8_t old_pq;
->>  
->> -            if (!xive_source_is_valid(xive, i)) {
->> +            if (!xive_eas_is_valid(&xive->eat[i])) {
->>                  continue;
->>              }
->>  
->> @@ -610,7 +544,7 @@ static void kvmppc_xive_change_state_handler(void *opaque, int running,
->>      for (i = 0; i < xsrc->nr_irqs; i++) {
->>          uint8_t pq;
->>  
->> -        if (!xive_source_is_valid(xive, i)) {
->> +        if (!xive_eas_is_valid(&xive->eat[i])) {
->>              continue;
->>          }
->>  
->> @@ -713,22 +647,22 @@ int kvmppc_xive_post_load(SpaprXive *xive, int version_id)
->>          }
->>      }
->>  
->> -    /*
->> -     * We can only restore the source config if the source has been
->> -     * previously set in KVM. Since we don't do that at reset time
->> -     * when restoring a VM, let's do it now.
->> -     */
->> -    ret = kvmppc_xive_source_reset(&xive->source, &local_err);
->> -    if (ret < 0) {
->> -        goto fail;
->> -    }
->> -
->>      /* Restore the EAT */
->>      for (i = 0; i < xive->nr_irqs; i++) {
->> -        if (!xive_source_is_valid(xive, i)) {
->> +        if (!xive_eas_is_valid(&xive->eat[i])) {
->>              continue;
->>          }
->>  
->> +        /*
->> +         * We can only restore the source config if the source has been
->> +         * previously set in KVM. Since we don't do that for all interrupts
->> +         * at reset time anymore, let's do it now.
->> +         */
->> +        ret = kvmppc_xive_source_reset_one(&xive->source, i, &local_err);
->> +        if (ret < 0) {
->> +            goto fail;
->> +        }
->> +
->>          ret = kvmppc_xive_set_source_config(xive, i, &xive->eat[i], &local_err);
->>          if (ret < 0) {
->>              goto fail;
->>
+>> Actually I think it should do the real "enable/disable" that tries to follow the virtio spec.
 >>
 > 
+> What does real mean here? For the vdpa enable call for example, would it be like
+> ifcvf_vdpa_set_vq_ready where it sets the ready bit or more like mlx5_vdpa_set_vq_ready
+> where it can do some more work in the disable case?
+> 
+> For net and something like ifcvf_vdpa_set_vq_ready's design would we have
+> vhost_ring_ioctl() set some vhost_virtqueue enable bit. We then have some helper
+> vhost_vq_is_enabled() and some code to detect if userspace supports the new ioctl.
+> And then in vhost_net_set_backend do we call vhost_vq_is_enabled()? What is done
+> for disable then? It doesn't seem to buy a lot of new functionality. Is it just
+> so we follow the spec?
+> 
+> Or do you want it work more like mlx5_vdpa_set_vq_ready? For this in vhost_ring_ioctl
+> when we get the new ioctl we would call into the drivers and have it start queues
+> and stop queues? For enable, what we you do for net for this case? For disable,
+> would you do something like vhost_net_stop_vq (we don't free up anything allocated
+> in vhost_vring_ioctl calls, but we can stop what we setup in the net driver)?
+> Is this useful for the current net mq design or is this for something like where
+> you would do one vhost net device with multiple vqs?
+> 
+> My issue/convern is that in general these calls seems useful, but we don't really
+> need them for scsi because vhost scsi is already stuck creating vqs like how it does
+> due to existing users. If we do the ifcvf_vdpa_set_vq_ready type of design where
+> we just set some bit, then the new ioctl does not give us a lot. It's just an extra
+> check and extra code.
+> 
+> And for the mlx5_vdpa_set_vq_ready type of design, it doesn't seem like it's going
+> to happen a lot where the admin is going to want to remove vqs from a running device.
+> And for both addition/removal for scsi we would need code in virtio scsi to handle
+> hot plug removal/addition of a queue and then redoing the multiqueue mappings which
+> would be difficult to add with no one requesting it.
 
+Actually I want to half take this last chunk back. When I said in general these calls
+seem useful, I meant for the mlx5_vdpa_set_vq_ready type design. For example, if a
+user was going to remove/add vCPUs then this functionality where we are completely
+adding/removing virtqueues would be useful. We would need a lot more than just
+the new ioctl though, because we would want to completely create/setup a new
+virtqueue
+
+I do not have any of our users asking for this. You guys work on this more so
+you know better.
+
+Another option is to kick it down the road again since I'm not sure my patches
+here have a lot to do with this. We could also just do the kernel only approach
+(no new ioctl) and then add some new design when we have users asking for it.
 
