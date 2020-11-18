@@ -2,92 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E08A92B7FD5
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 15:55:45 +0100 (CET)
-Received: from localhost ([::1]:60534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D4C92B7FD6
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 15:55:54 +0100 (CET)
+Received: from localhost ([::1]:32866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfOs5-0002Jz-0T
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 09:55:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55566)
+	id 1kfOsD-0002Xq-Gx
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 09:55:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kfOqW-0001Hq-2S
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 09:54:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23835)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kfOr4-0001fi-26
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 09:54:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59976)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kfOqU-0005fu-78
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 09:54:07 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kfOr2-0005in-9X
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 09:54:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605711245;
+ s=mimecast20190719; t=1605711279;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YL3mHiAg18kRRSwZOpXirw5pq7oaRUA2noAbQfpde5A=;
- b=YSBHdssSnAwuxyS2nDTRMMSCo0bVRqItZVPToon9iusyfroxNxsgzgMffJuZdstgs39W/F
- Q04zl8Cl/ogQDmpCHNLtA7CXPtNfjMqBM6oJ0YMNwWbRjGz4BPiVl1x5qntAXrbcXyqpV3
- FcFJvqD06rdpOuzf9fwGruowCmjRGKM=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-204-y2AaSgqAO0eAZglofqYS4Q-1; Wed, 18 Nov 2020 09:54:03 -0500
-X-MC-Unique: y2AaSgqAO0eAZglofqYS4Q-1
-Received: by mail-ej1-f71.google.com with SMTP id 2so950409ejv.4
- for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 06:54:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=YL3mHiAg18kRRSwZOpXirw5pq7oaRUA2noAbQfpde5A=;
- b=esHI/qhNbLwg3sPTErUVh5rPv4O39NbGXZ52L1ccxfCrfeGIUW3HISuzFZmaK2UKrw
- BxN90t+vCUu7w8hoAHz9ke+WZj0PsxGkU13i+YGamIHFW4pJqQvgZXXL0fltF0tSp1EH
- 0jr7MOor+keLldZJSOegDj4ANCfEQ/1wOdRBETE1lPxgU2cC5ZCXb1PkvunOMGP3ga9G
- tnwMnOAw5jDwOHWiVqIVOhpmkCynPjbxm6qXjMYtrYX/CfptmHjYHyZ0XzGwJD+cncXL
- 5nNfJW+uHAQ/zYF3HNcA4YYWWhePDVJ/IUAQSGzENrasNmg0dzVDvUSrhCXghUIem6uu
- V9MA==
-X-Gm-Message-State: AOAM533in3rqANgeHJCJxl7OvOvLAWHqxQ+lVvEufPYU+UDWC3i50pRu
- kzdqX/NCRfnxYjAK5oaDVlDjBx/skSmrXVUbXth8Se9amX2nmwyodMiePHj0ZhvJLaE5xu65EoW
- GRiyHcO91eEHC2eA=
-X-Received: by 2002:a17:906:3641:: with SMTP id
- r1mr25200231ejb.391.1605711242207; 
- Wed, 18 Nov 2020 06:54:02 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwm2Be9Ejb0xRzxBMX5UNL8Gk51cexOCwTxJa0abt+/fxwJ/6pWsV1yjmOM/8YB2NFy8FMRRg==
-X-Received: by 2002:a17:906:3641:: with SMTP id
- r1mr25200218ejb.391.1605711241986; 
- Wed, 18 Nov 2020 06:54:01 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id k17sm12726005ejj.1.2020.11.18.06.54.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Nov 2020 06:54:01 -0800 (PST)
-Subject: Re: [PATCH for-6.0 1/6] qapi: Add query-accel command
-To: Markus Armbruster <armbru@redhat.com>
-References: <20201116131011.26607-1-r.bolshakov@yadro.com>
- <20201116131011.26607-2-r.bolshakov@yadro.com>
- <2d934855-ad11-9f61-28a1-7c0a35347a66@redhat.com>
- <20201116211352.GC1235237@habkost.net> <87mtzgbc29.fsf@dusky.pond.sub.org>
- <20201118011917.GB10041@SPB-NB-133.local> <87ft57oycu.fsf@dusky.pond.sub.org>
- <b9307f87-5350-21a6-68dd-d4efbae5e502@redhat.com>
- <87r1oqlsmy.fsf@dusky.pond.sub.org>
- <07b90b7d-2216-d0db-57d0-ea1fa4a32f44@redhat.com>
- <87k0uiiv0q.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <f7b4c4d2-3cb6-37a9-45b7-38336875780d@redhat.com>
-Date: Wed, 18 Nov 2020 15:54:00 +0100
+ bh=4wLUKnTH9mM07MbFABrmTWosO79GJCBxHfVpgd8GctU=;
+ b=QhxmRjltPuV/rPJM/XqQEYeIdvqxm7GHsnlICk/e9MtU54Cv3GrxrgNe5t23jFVyUSaZAY
+ xU7GzGLOkYcm8mq62ivq9jlky/N9pIi+jgzWHst3ka2ML7LVuR+GS52cUj+h1JmX3ayuDu
+ xz+/7hITPsAyOQPDR7kGcr3aeIDmQmI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-412-6dG92q1CM_OvWcB280_bTQ-1; Wed, 18 Nov 2020 09:54:29 -0500
+X-MC-Unique: 6dG92q1CM_OvWcB280_bTQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CB858144E3;
+ Wed, 18 Nov 2020 14:54:28 +0000 (UTC)
+Received: from [10.3.112.188] (ovpn-112-188.phx2.redhat.com [10.3.112.188])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 532685D9CA;
+ Wed, 18 Nov 2020 14:54:27 +0000 (UTC)
+Subject: Re: [PATCH v2 0/7] UFFD write-tracking migration/snapshots
+To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>, qemu-devel@nongnu.org
+References: <20201118132048.429092-1-andrey.gruzdev@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <059d386a-d02f-db1a-8a2f-9359c6cfe17a@redhat.com>
+Date: Wed, 18 Nov 2020 08:54:26 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <87k0uiiv0q.fsf@dusky.pond.sub.org>
+In-Reply-To: <20201118132048.429092-1-andrey.gruzdev@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 19:41:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -111,39 +83,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>, John Snow <jsnow@redhat.com>
+Cc: Den Lunev <den@openvz.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/11/20 15:45, Markus Armbruster wrote:
-> Paolo Bonzini <pbonzini@redhat.com> writes:
+On 11/18/20 7:20 AM, Andrey Gruzdev wrote:
+> Currently the only way to make (external) live VM snapshot is using existing
+> dirty page logging migration mechanism. The main problem is that it tends to
+> produce a lot of page duplicates while running VM goes on updating already
+> saved pages. That leads to the fact that vmstate image size is commonly several
+> times bigger then non-zero part of virtual machine's RSS. Time required to
+> converge RAM migration and the size of snapshot image severely depend on the
+> guest memory write rate, sometimes resulting in unacceptably long snapshot
+> creation time and huge image size.
 > 
->> On 18/11/20 14:08, Markus Armbruster wrote:
->>> These look like errors, but aren't; things are working exactly as
->>> intended, and QEMU runs.  If we want to be chatty about it, we should
->>> make them info, not error.
->>
->> If there were an info_report, I would have sent a patch already. :)
+> This series propose a way to solve the aforementioned problems. This is done
+> by using different RAM migration mechanism based on UFFD write protection
+> management introduced in v5.7 kernel. The migration strategy is to 'freeze'
+> guest RAM content using write-protection and iteratively release protection
+> for memory ranges that have already been saved to the migration stream.
+> At the same time we read in pending UFFD write fault events and save those
+> pages out-of-order with higher priority.
 > 
-> Commit 97f40301f1 "error: Functions to report warnings and informational
-> messages", 2017-07-13 :)
+> How to use:
+> 1. Enable write-tracking migration capability
+>    virsh qemu-monitor-command <domain> --hmp migrate_set_capability.
+> track-writes-ram on
+> 
+> 2. Start the external migration to a file
+>    virsh qemu-monitor-command <domain> --hmp migrate exec:'cat > ./vm_state'
+> 
+> 3. Wait for the migration finish and check that the migration has completed.
+> state.
+> 
+> Andrey Gruzdev (7):
+>   Introduce 'track-writes-ram' migration capability.
+>   Introduced UFFD-WP low-level interface helpers. Implemented support
+>     for the whole RAM block memory protection/un-protection. Higher
+>     level ram_write_tracking_start() and ram_write_tracking_stop() to
+>     start/stop tracking memory writes on the whole VM memory.
 
-Doh, I just learnt about info_report.  It never occurred to me until now 
-that without a warning or info marker it would be an error.  I can see 
-though why you didn't add "error" automatically for REPORT_TYPE_ERROR, 
-while leaving REPORT_TYPE_INFO unadorned.  Between the 
-incorrectly-marked errors and probably some "error: error: " it would be 
-awful.
+Subject line is too long on that patch. You probably forgot a newline.
+Also, it is more common to not include a trailing '.' in the subject line.
 
-Paolo
+>   Support UFFD write fault processing in ram_save_iterate().
+>   Implementation of write-tracking migration thread.
+>   Implementation of vm_start() BH.
+>   The rest of write tracking migration code.
+>   Introduced simple linear scan rate limiting mechanism for write
+>     tracking migration.
+> 
 
->> In general, these are probably not the only cases where error_report
->> is used as a fancy fprintf(stderr), rather than to report actual
->> errors.
-> 
-> True!
-> 
+How does v2 differ from v1?  It makes life easier for reviewers to know
+what to look for in the respin that was fixed based on the problems in
+the earlier version.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
