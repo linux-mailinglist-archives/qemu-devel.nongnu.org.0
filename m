@@ -2,76 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 946B22B83F8
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 19:40:13 +0100 (CET)
-Received: from localhost ([::1]:36026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF4F12B8417
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 19:50:00 +0100 (CET)
+Received: from localhost ([::1]:54102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfSNI-0005kj-GR
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 13:40:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55756)
+	id 1kfSWl-0005Ja-HB
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 13:49:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kfS3P-0000HS-Uu
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 13:19:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59815)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kfS57-0001PL-4o
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 13:21:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50056)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kfS3O-00027b-4h
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 13:19:39 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kfS54-0002Pw-4m
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 13:21:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605723577;
+ s=mimecast20190719; t=1605723681;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PkUwKzbW7FkrXWN4KnhAzzNgbVjfQ8UhHuhR1bKgbKc=;
- b=EgRKSQaObWo1K01cTRP2PkuFQP7YsDOQ8t6i+H1M+HZ+tk/eQoHagLRNX9i7IzRxdaazY5
- Hy75a2rut35WJwF+gW7Ei3WgOO1yWyKt9GBCkB1Bs/fds1X/TtuDv4JNw7hj0MSXWkIU4A
- bOmGUjDnVLfiMRs20o1B9Ca7tCZHcvM=
+ bh=HeURgpN54RYhkk0b2B8jJqfMXsgRIY7vXN6406Pv1h8=;
+ b=dITMVJhkXSFSYJ2FkOjk6ZfWOxJNSWUGL67i4vMm3t+Slgy+ZND42PFFV+Gj0sBiD9ajrU
+ kspJoAQY1qhzOI32DPPxCzYuQx/5RohJwrRrZJm6+7Nkj5z/acB8Lt/kmqSdLMyPFutqhw
+ rK7omUvSmow4eZvslJ73I/sDwCZ7aMQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-65-svk7MoMMNmW5cMDkYRvLYQ-1; Wed, 18 Nov 2020 13:19:30 -0500
-X-MC-Unique: svk7MoMMNmW5cMDkYRvLYQ-1
+ us-mta-400-kNagLTMON-2CZC40AJWHmA-1; Wed, 18 Nov 2020 13:21:18 -0500
+X-MC-Unique: kNagLTMON-2CZC40AJWHmA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C98F18B613A;
- Wed, 18 Nov 2020 18:19:29 +0000 (UTC)
-Received: from [10.3.112.188] (ovpn-112-188.phx2.redhat.com [10.3.112.188])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4E8495C1A3;
- Wed, 18 Nov 2020 18:19:25 +0000 (UTC)
-Subject: Re: [PATCH 00/11] mirror: cancel nbd reconnect
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20201118180433.11931-1-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <0954b696-7aa3-b593-2095-10b677a322c1@redhat.com>
-Date: Wed, 18 Nov 2020 12:19:24 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12CD08049CA;
+ Wed, 18 Nov 2020 18:21:17 +0000 (UTC)
+Received: from gondolin (ovpn-113-132.ams2.redhat.com [10.36.113.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 906595C1D7;
+ Wed, 18 Nov 2020 18:21:08 +0000 (UTC)
+Date: Wed, 18 Nov 2020 19:21:06 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Matthew Rosato <mjrosato@linux.ibm.com>
+Subject: Re: [PATCH for-5.2 v3] s390x/pci: fix endianness issues
+Message-ID: <20201118192106.661afb54.cohuck@redhat.com>
+In-Reply-To: <20201118104202.1301363-1-cohuck@redhat.com>
+References: <20201118104202.1301363-1-cohuck@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20201118180433.11931-1-vsementsov@virtuozzo.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 00:38:29
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 19:41:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,40 +79,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com,
- stefanha@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, qemu-s390x@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/18/20 12:04 PM, Vladimir Sementsov-Ogievskiy wrote:
-> Hi all!
-> 
-> The problem
-> 
-> Assume we have mirror job with nbd target node with enabled reconnect.
-> Connection failed. So, all current requests to nbd node are waiting for
-> nbd driver to reconnect. And they will wait for reconnect-delay time
-> specified in nbd blockdev options. This timeout may be long enough, for
-> example, we in Virtuozzo use 300 seconds by default.
-> 
-> So, if at this moment user tries to cancel the job, job will wait for
-> its in-flight requests to finish up to 300 seconds. From the user point
-> of view, cancelling the job takes a long time. Bad.
-> 
-> Solution
-> 
-> Let's just cancel "waiting for reconnect in in-flight request coroutines"
-> on mirror (and backup) cancel. Welcome the series below.
+On Wed, 18 Nov 2020 11:42:02 +0100
+Cornelia Huck <cohuck@redhat.com> wrote:
 
-Given that we're past -rc2, I think this is enough on the 'new feature'
-side to defer into 6.0 rather than trying to claim as a bug-fix needed
-for 5.2-rc3.
+> The zPCI group and function structures are big endian. However, we do
+> not consistently store them as big endian locally, and are missing some
+> conversions.
+> 
+> Let's just store the structures as host endian instead and convert to
+> big endian when actually handling the instructions retrieving the data.
+> 
+> Also fix the layout of ClpReqQueryPciGrp: g is actually only 8 bit. This
+> also fixes accesses on little endian hosts, and makes accesses on big
+> endian hosts consistent.
+> 
+> Fixes: 28dc86a07299 ("s390x/pci: use a PCI Group structure")
+> Fixes: 9670ee752727 ("s390x/pci: use a PCI Function structure")
+> Fixes: 1e7552ff5c34 ("s390x/pci: get zPCI function info from host")
+> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> ---
+> 
+> v2->v3: added missing zpci_fn.flags copy, removed forgotten memcopy
+> v1->v2: switched to keeping the internal structures as host-endian
+> 
+> Again, tested on x86 and s390x (tcg/kvm) with virtio-pci devices;
+> testing vfio-pci devices would be good.
+> 
+> ---
+>  hw/s390x/s390-pci-bus.c         | 10 +++++-----
+>  hw/s390x/s390-pci-inst.c        | 16 ++++++++++++++--
+>  hw/s390x/s390-pci-vfio.c        | 12 ++++++------
+>  include/hw/s390x/s390-pci-clp.h |  8 ++++----
+>  4 files changed, 29 insertions(+), 17 deletions(-)
 
-That said, the summary does make it sound like a worthwhile thing to add.
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Queued to s390-fixes.
 
 
