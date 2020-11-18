@@ -2,69 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 972CA2B7F79
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 15:33:04 +0100 (CET)
-Received: from localhost ([::1]:36242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B0532B7F6F
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 15:31:57 +0100 (CET)
+Received: from localhost ([::1]:33588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfOW7-0008AK-Lb
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 09:33:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50330)
+	id 1kfOV2-000746-3g
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 09:31:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1kfOUv-0007Ia-8J
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 09:31:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32598)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1kfOUs-0002nz-FF
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 09:31:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605709904;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=lsjjKuTU5FeUgm6fKP8gxE37SO0uwkFQXm1/9t11QP0=;
- b=WG6Zvr3QdLPIM48eVfYtaPyq1cCG+QmLYwQxkWCrkmy1umVfBHDwlQoYQULwAnMxQZlFnZ
- vjlwnKGDtMxVVyqXqMIcD+yYpxENIAAp2kmO44iGanN+YOEbvMYet1mLmYHVlTIRYlkqP3
- DMafqvwJYJWSxny0kLlPZvltDfM2ReM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-249-MVvtT-wkPd-KXSFzeLCYgg-1; Wed, 18 Nov 2020 09:31:40 -0500
-X-MC-Unique: MVvtT-wkPd-KXSFzeLCYgg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BAC3F10C624A;
- Wed, 18 Nov 2020 14:29:53 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.33.36.11])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 760215B697;
- Wed, 18 Nov 2020 14:29:50 +0000 (UTC)
-From: P J P <ppandit@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: [PATCH] ide:atapi: check io_buffer_index in ide_atapi_cmd_reply_end
-Date: Wed, 18 Nov 2020 19:57:45 +0530
-Message-Id: <20201118142745.112579-1-ppandit@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kfOTi-0006WC-Pw
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 09:30:34 -0500
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:37664)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kfOTh-0002X8-6p
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 09:30:34 -0500
+Received: by mail-ed1-x542.google.com with SMTP id cq7so2215533edb.4
+ for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 06:30:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=nTSCAXsgi8sjD4Uf6C1b/knxApnbtd+dTJ9rc0xw4ew=;
+ b=KbuKr/uoous6QIOUo/gjJEpQDsOZ8tgwrNaSBDiuxdPbsMCmZzi6opEFHFXI0t1NAx
+ c+/usYer8/oXIJ64qZjiUlzNagfVdYzlzVH0S1BtqPo+98ltPv0DkR/7JG5gWvgvmY8/
+ g2yHMJR6mG2J+nibYOMcL8m5BKkSLKG9neNz4RbFiB3HTBPjxpi34D3ySdmn6MP5xrOq
+ 1oVOSv1HpPNH3VV2JkCJVmsUROcEvokBq92AmAGoXnrTNMMm6x8cNquiS+CUSU7EWsa6
+ v1Dll9cvDNP59Bpp6ywWYi4n9jSib7QkODLMZfMWQapsrBnnpAulMw621rTYRE+pMaij
+ +hEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=nTSCAXsgi8sjD4Uf6C1b/knxApnbtd+dTJ9rc0xw4ew=;
+ b=XXPyBfM5fn41uFFrUOi9/tUNOaFnpAo+DgfsOmOsF914NAiFa3CIyaI7blIPh1M4Lc
+ plVHQ8Zn9fs/B/kkJrT+KyMZNXsIqCfibG0iVUinGWk8uITvZPQXKIUM5EB/Et2k/Ufu
+ UGPPubxTIrtSlDPyrDcl17iENLTGqs0yChtOiTMQx1l2FeGNLZ7Kcfvo6ewkGOnzY9CQ
+ EH4OGGKxt/KF0Bygup9TKmy8hpTQ78uDeRCc0GZOJIdQjb15J+iaXdGJKW85CH/VeywL
+ /dLqte/T+t84DRnfoBfAaRmOo/Vd0HHTKXzswTOW5se/Yt3opPqupUdSOxF27OFGBz18
+ jSHA==
+X-Gm-Message-State: AOAM531CPKe4QONAVhGRkgxApHMpfG5rEljHMgrbkdgXsFj6WaPPkwme
+ lP55TV28Ozqu3AOMhOX7vtd3EcH2PPE0u9ueJG1k0Q==
+X-Google-Smtp-Source: ABdhPJzmG3FltcFE8hpv4YyaEDkEELK5ULg8B1XR7qy0JO1MXfrgGypW09kEsYVDeJ3o22n9ueoyXWDvQyhpse8PSFI=
+X-Received: by 2002:aa7:df82:: with SMTP id b2mr25020743edy.251.1605709828347; 
+ Wed, 18 Nov 2020 06:30:28 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ppandit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 00:38:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20201118090344.243117-1-thuth@redhat.com>
+ <800135fc-4552-b872-0117-4d9194393094@redhat.com>
+ <873616kan8.fsf@dusky.pond.sub.org>
+In-Reply-To: <873616kan8.fsf@dusky.pond.sub.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 18 Nov 2020 14:30:16 +0000
+Message-ID: <CAFEAcA9gg_cxcG59BHKosJmTeyyJ_7_Uofcyb9kMXSRAFnYebg@mail.gmail.com>
+Subject: Re: [PATCH] hw/watchdog/wdt_diag288: Remove unnecessary includes
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x542.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,55 +82,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wenxiang Qian <leonwxqian@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Prasad J Pandit <pjp@fedoraproject.org>
+Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Prasad J Pandit <pjp@fedoraproject.org>
+On Wed, 18 Nov 2020 at 14:24, Markus Armbruster <armbru@redhat.com> wrote:
+>
+> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+>
+> > On 11/18/20 10:03 AM, Thomas Huth wrote:
+> >> Both headers, sysbus.h and module.h, are not required to compile this =
+file.
+>
+> module.h is: it defines type_init().
 
-During data transfer via packet command in 'ide_atapi_cmd_reply_end'
-'s->io_buffer_index' could exceed the 's->io_buffer' length, leading
-to OOB access issue. Add check to avoid it.
- ...
- #9  ahci_pio_transfer ../hw/ide/ahci.c:1383
- #10 ide_transfer_start_norecurse ../hw/ide/core.c:553
- #11 ide_atapi_cmd_reply_end ../hw/ide/atapi.c:284
- #12 ide_atapi_cmd_read_pio ../hw/ide/atapi.c:329
- #13 ide_atapi_cmd_read ../hw/ide/atapi.c:442
- #14 cmd_read ../hw/ide/atapi.c:988
- #15 ide_atapi_cmd ../hw/ide/atapi.c:1352
- #16 ide_transfer_start ../hw/ide/core.c:561
- #17 cmd_packet ../hw/ide/core.c:1729
- #18 ide_exec_cmd ../hw/ide/core.c:2107
- #19 handle_reg_h2d_fis ../hw/ide/ahci.c:1267
- #20 handle_cmd ../hw/ide/ahci.c:1318
- #21 check_cmd ../hw/ide/ahci.c:592
- #22 ahci_port_write ../hw/ide/ahci.c:373
- #23 ahci_mem_write ../hw/ide/ahci.c:513
+> >>  #include "qemu/timer.h"
+> >>  #include "hw/watchdog/wdt_diag288.h"
+> >>  #include "migration/vmstate.h"
+> >>  #include "qemu/log.h"
+> >> -#include "qemu/module.h"
+> >
+> > Cc'ing Markus because of:
 
-Reported-by: Wenxiang Qian <leonwxqian@gmail.com>
-Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
----
- hw/ide/atapi.c | 3 +++
- 1 file changed, 3 insertions(+)
+> >     Include qemu/module.h where needed, drop it from qemu-common.h
+>
+> If it still compiles and links, it must get it via some other header.
 
-diff --git a/hw/ide/atapi.c b/hw/ide/atapi.c
-index 14a2b0bb2f..b991947c5c 100644
---- a/hw/ide/atapi.c
-+++ b/hw/ide/atapi.c
-@@ -276,6 +276,9 @@ void ide_atapi_cmd_reply_end(IDEState *s)
-         s->packet_transfer_size -= size;
-         s->elementary_transfer_size -= size;
-         s->io_buffer_index += size;
-+        if (s->io_buffer_index > s->io_buffer_total_len) {
-+            return;
-+        }
- 
-         /* Some adapters process PIO data right away.  In that case, we need
-          * to avoid mutual recursion between ide_transfer_start
--- 
-2.28.0
+Yes: wdt_diag288.c -> include/hw/watchdog/wdt_diag288.h ->
+ include/qom/object.h -> include/qemu/module.h
 
+thanks
+-- PMM
 
