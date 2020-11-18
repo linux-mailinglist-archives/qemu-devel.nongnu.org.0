@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AD6E2B7B75
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 11:38:17 +0100 (CET)
-Received: from localhost ([::1]:52194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7883D2B7B60
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 11:36:14 +0100 (CET)
+Received: from localhost ([::1]:45428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfKqu-00071I-CQ
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 05:38:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53110)
+	id 1kfKov-00043C-HF
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 05:36:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kfKin-0003xG-KP
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 05:29:53 -0500
-Received: from mx2.suse.de ([195.135.220.15]:47676)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kfKin-0003xK-Pm
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 05:29:54 -0500
+Received: from mx2.suse.de ([195.135.220.15]:47690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kfKij-0005Fh-30
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kfKij-0005Fm-3z
  for qemu-devel@nongnu.org; Wed, 18 Nov 2020 05:29:53 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id C3EB5AF5C;
- Wed, 18 Nov 2020 10:29:44 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 6B279AF76;
+ Wed, 18 Nov 2020 10:29:45 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <rth@twiddle.net>,
@@ -29,9 +29,9 @@ To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [RFC v3 7/9] i386: move TCG cpu class initialization out of helper.c
-Date: Wed, 18 Nov 2020 11:29:34 +0100
-Message-Id: <20201118102936.25569-8-cfontana@suse.de>
+Subject: [RFC v3 8/9] module: introduce MODULE_INIT_ACCEL_CPU
+Date: Wed, 18 Nov 2020 11:29:35 +0100
+Message-Id: <20201118102936.25569-9-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201118102936.25569-1-cfontana@suse.de>
 References: <20201118102936.25569-1-cfontana@suse.de>
@@ -70,758 +70,244 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+apply this to the registration of the cpus accel interfaces,
+
+but this will be also in preparation for later use of this
+new module init step to also defer the registration of the cpu models,
+in order to make them subclasses of a per-accel cpu type.
+
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- target/i386/cpu.c             |  33 ++++------
- target/i386/cpu.h             |  97 ++---------------------------
- target/i386/helper-tcg.h      | 112 ++++++++++++++++++++++++++++++++++
- target/i386/helper.c          |  23 -------
- target/i386/meson.build       |   1 +
- target/i386/tcg-cpu.c         |  71 +++++++++++++++++++++
- target/i386/tcg-cpu.h         |  15 +++++
- target/i386/tcg/bpt_helper.c  |   1 +
- target/i386/tcg/cc_helper.c   |   1 +
- target/i386/tcg/excp_helper.c |   1 +
- target/i386/tcg/fpu_helper.c  |  33 +++++-----
- target/i386/tcg/int_helper.c  |   1 +
- target/i386/tcg/mem_helper.c  |   1 +
- target/i386/tcg/misc_helper.c |   1 +
- target/i386/tcg/mpx_helper.c  |   1 +
- target/i386/tcg/seg_helper.c  |   1 +
- target/i386/tcg/smm_helper.c  |   2 +
- target/i386/tcg/svm_helper.c  |   1 +
- target/i386/tcg/translate.c   |   1 +
- 19 files changed, 244 insertions(+), 153 deletions(-)
- create mode 100644 target/i386/helper-tcg.h
- create mode 100644 target/i386/tcg-cpu.c
- create mode 100644 target/i386/tcg-cpu.h
+ accel/kvm/kvm-all.c         | 11 +++++++++--
+ accel/qtest/qtest.c         | 10 +++++++++-
+ accel/tcg/tcg-all.c         | 11 +++++++++--
+ accel/xen/xen-all.c         | 12 +++++++++---
+ include/qemu/module.h       |  2 ++
+ softmmu/vl.c                |  6 ++++++
+ target/i386/hax/hax-all.c   | 12 +++++++++---
+ target/i386/hvf/hvf.c       | 10 +++++++++-
+ target/i386/whpx/whpx-all.c | 11 +++++++++--
+ 9 files changed, 71 insertions(+), 14 deletions(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index b9bd249c8f..3462d0143f 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -24,6 +24,8 @@
- #include "qemu/qemu-print.h"
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 9ef5daf4c5..509b249f52 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -2251,8 +2251,6 @@ static int kvm_init(MachineState *ms)
+         ret = ram_block_discard_disable(true);
+         assert(!ret);
+     }
+-
+-    cpus_register_accel(&kvm_cpus);
+     return 0;
  
- #include "cpu.h"
-+#include "tcg-cpu.h"
-+#include "helper-tcg.h"
- #include "exec/exec-all.h"
- #include "sysemu/kvm.h"
- #include "sysemu/reset.h"
-@@ -1495,7 +1497,8 @@ static inline uint64_t x86_cpu_xsave_components(X86CPU *cpu)
-            cpu->env.features[FEAT_XSAVE_COMP_LO];
+ err:
+@@ -3236,3 +3234,12 @@ static void kvm_type_init(void)
  }
  
--const char *get_register_name_32(unsigned int reg)
-+/* Return name of 32-bit register, from a R_* constant */
-+static const char *get_register_name_32(unsigned int reg)
- {
-     if (reg >= CPU_NB_REGS32) {
-         return NULL;
-@@ -7012,13 +7015,6 @@ static void x86_cpu_set_pc(CPUState *cs, vaddr value)
-     cpu->env.eip = value;
- }
- 
--static void x86_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
--{
--    X86CPU *cpu = X86_CPU(cs);
--
--    cpu->env.eip = tb->pc - tb->cs_base;
--}
--
- int x86_cpu_pending_interrupt(CPUState *cs, int interrupt_request)
- {
-     X86CPU *cpu = X86_CPU(cs);
-@@ -7252,17 +7248,18 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
-     cc->class_by_name = x86_cpu_class_by_name;
-     cc->parse_features = x86_cpu_parse_featurestr;
-     cc->has_work = x86_cpu_has_work;
+ type_init(kvm_type_init);
 +
- #ifdef CONFIG_TCG
--    cc->do_interrupt = x86_cpu_do_interrupt;
--    cc->cpu_exec_interrupt = x86_cpu_exec_interrupt;
--#endif
-+    tcg_cpu_common_class_init(cc);
-+#endif /* CONFIG_TCG */
-+
-     cc->dump_state = x86_cpu_dump_state;
-     cc->set_pc = x86_cpu_set_pc;
--    cc->synchronize_from_tb = x86_cpu_synchronize_from_tb;
-     cc->gdb_read_register = x86_cpu_gdb_read_register;
-     cc->gdb_write_register = x86_cpu_gdb_write_register;
-     cc->get_arch_id = x86_cpu_get_arch_id;
-     cc->get_paging_enabled = x86_cpu_get_paging_enabled;
-+
- #ifndef CONFIG_USER_ONLY
-     cc->asidx_from_attrs = x86_asidx_from_attrs;
-     cc->get_memory_mapping = x86_cpu_get_memory_mapping;
-@@ -7273,7 +7270,8 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
-     cc->write_elf32_note = x86_cpu_write_elf32_note;
-     cc->write_elf32_qemunote = x86_cpu_write_elf32_qemunote;
-     cc->vmsd = &vmstate_x86_cpu;
--#endif
-+#endif /* !CONFIG_USER_ONLY */
-+
-     cc->gdb_arch_name = x86_gdb_arch_name;
- #ifdef TARGET_X86_64
-     cc->gdb_core_xml_file = "i386-64bit.xml";
-@@ -7281,15 +7279,6 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
- #else
-     cc->gdb_core_xml_file = "i386-32bit.xml";
-     cc->gdb_num_core_regs = 50;
--#endif
--#if defined(CONFIG_TCG) && !defined(CONFIG_USER_ONLY)
--    cc->debug_excp_handler = breakpoint_handler;
--#endif
--    cc->cpu_exec_enter = x86_cpu_exec_enter;
--    cc->cpu_exec_exit = x86_cpu_exec_exit;
--#ifdef CONFIG_TCG
--    cc->tcg_initialize = tcg_x86_init;
--    cc->tlb_fill = x86_cpu_tlb_fill;
- #endif
-     cc->disas_set_info = x86_disas_set_info;
- 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index d6ed45c5d7..a0d64613dc 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -31,9 +31,6 @@
- 
- #define KVM_HAVE_MCE_INJECTION 1
- 
--/* Maximum instruction code size */
--#define TARGET_MAX_INSN_SIZE 16
--
- /* support for self modifying code even if the modified instruction is
-    close to the modifying instruction */
- #define TARGET_HAS_PRECISE_SMC
-@@ -1037,6 +1034,12 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
-  * using this information. Condition codes are not generated if they
-  * are only needed for conditional branches.
-  */
-+
-+#define CC_DST  (env->cc_dst)
-+#define CC_SRC  (env->cc_src)
-+#define CC_SRC2 (env->cc_src2)
-+#define CC_OP   (env->cc_op)
-+
- typedef enum {
-     CC_OP_DYNAMIC, /* must use dynamic code to get cc_op */
-     CC_OP_EFLAGS,  /* all cc are explicitly computed, CC_SRC = flags */
-@@ -1765,12 +1768,6 @@ struct X86CPU {
- extern VMStateDescription vmstate_x86_cpu;
- #endif
- 
--/**
-- * x86_cpu_do_interrupt:
-- * @cpu: vCPU the interrupt is to be handled by.
-- */
--void x86_cpu_do_interrupt(CPUState *cpu);
--bool x86_cpu_exec_interrupt(CPUState *cpu, int int_req);
- int x86_cpu_pending_interrupt(CPUState *cs, int interrupt_request);
- 
- int x86_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cpu,
-@@ -1793,9 +1790,6 @@ hwaddr x86_cpu_get_phys_page_attrs_debug(CPUState *cpu, vaddr addr,
- int x86_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
- int x86_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
- 
--void x86_cpu_exec_enter(CPUState *cpu);
--void x86_cpu_exec_exit(CPUState *cpu);
--
- void x86_cpu_list(void);
- int cpu_x86_support_mca_broadcast(CPUX86State *env);
- 
-@@ -1920,9 +1914,6 @@ void host_cpuid(uint32_t function, uint32_t count,
- void host_vendor_fms(char *vendor, int *family, int *model, int *stepping);
- 
- /* helper.c */
--bool x86_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
--                      MMUAccessType access_type, int mmu_idx,
--                      bool probe, uintptr_t retaddr);
- void x86_cpu_set_a20(X86CPU *cpu, int a20_state);
- 
- #ifndef CONFIG_USER_ONLY
-@@ -1947,8 +1938,6 @@ void x86_stl_phys(CPUState *cs, hwaddr addr, uint32_t val);
- void x86_stq_phys(CPUState *cs, hwaddr addr, uint64_t val);
- #endif
- 
--void breakpoint_handler(CPUState *cs);
--
- /* will be suppressed */
- void cpu_x86_update_cr0(CPUX86State *env, uint32_t new_cr0);
- void cpu_x86_update_cr3(CPUX86State *env, target_ulong new_cr3);
-@@ -1958,16 +1947,6 @@ void cpu_x86_update_dr7(CPUX86State *env, uint32_t new_dr7);
- /* hw/pc.c */
- uint64_t cpu_get_tsc(CPUX86State *env);
- 
--/* XXX: This value should match the one returned by CPUID
-- * and in exec.c */
--# if defined(TARGET_X86_64)
--# define TCG_PHYS_ADDR_BITS 40
--# else
--# define TCG_PHYS_ADDR_BITS 36
--# endif
--
--#define PHYS_ADDR_MASK MAKE_64BIT_MASK(0, TCG_PHYS_ADDR_BITS)
--
- #define X86_CPU_TYPE_SUFFIX "-" TYPE_X86_CPU
- #define X86_CPU_TYPE_NAME(name) (name X86_CPU_TYPE_SUFFIX)
- #define CPU_RESOLVING_TYPE TYPE_X86_CPU
-@@ -1999,30 +1978,6 @@ static inline int cpu_mmu_index_kernel(CPUX86State *env)
-         ? MMU_KNOSMAP_IDX : MMU_KSMAP_IDX;
- }
- 
--#define CC_DST  (env->cc_dst)
--#define CC_SRC  (env->cc_src)
--#define CC_SRC2 (env->cc_src2)
--#define CC_OP   (env->cc_op)
--
--/* n must be a constant to be efficient */
--static inline target_long lshift(target_long x, int n)
--{
--    if (n >= 0) {
--        return x << n;
--    } else {
--        return x >> (-n);
--    }
--}
--
--/* float macros */
--#define FT0    (env->ft0)
--#define ST0    (env->fpregs[env->fpstt].d)
--#define ST(n)  (env->fpregs[(env->fpstt + (n)) & 7].d)
--#define ST1    ST(1)
--
--/* translate.c */
--void tcg_x86_init(void);
--
- typedef CPUX86State CPUArchState;
- typedef X86CPU ArchCPU;
- 
-@@ -2052,19 +2007,6 @@ void cpu_x86_inject_mce(Monitor *mon, X86CPU *cpu, int bank,
-                         uint64_t status, uint64_t mcg_status, uint64_t addr,
-                         uint64_t misc, int flags);
- 
--/* excp_helper.c */
--void QEMU_NORETURN raise_exception(CPUX86State *env, int exception_index);
--void QEMU_NORETURN raise_exception_ra(CPUX86State *env, int exception_index,
--                                      uintptr_t retaddr);
--void QEMU_NORETURN raise_exception_err(CPUX86State *env, int exception_index,
--                                       int error_code);
--void QEMU_NORETURN raise_exception_err_ra(CPUX86State *env, int exception_index,
--                                          int error_code, uintptr_t retaddr);
--void QEMU_NORETURN raise_interrupt(CPUX86State *nenv, int intno, int is_int,
--                                   int error_code, int next_eip_addend);
--
--/* cc_helper.c */
--extern const uint8_t parity_table[256];
- uint32_t cpu_cc_compute_all(CPUX86State *env1, int op);
- 
- static inline uint32_t cpu_compute_eflags(CPUX86State *env)
-@@ -2076,18 +2018,6 @@ static inline uint32_t cpu_compute_eflags(CPUX86State *env)
-     return eflags;
- }
- 
--/* NOTE: the translator must set DisasContext.cc_op to CC_OP_EFLAGS
-- * after generating a call to a helper that uses this.
-- */
--static inline void cpu_load_eflags(CPUX86State *env, int eflags,
--                                   int update_mask)
--{
--    CC_SRC = eflags & (CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C);
--    CC_OP = CC_OP_EFLAGS;
--    env->df = 1 - (2 * ((eflags >> 10) & 1));
--    env->eflags = (env->eflags & ~update_mask) |
--        (eflags & update_mask) | 0x2;
--}
- 
- /* load efer and update the corresponding hflags. XXX: do consistency
-    checks with cpuid bits? */
-@@ -2176,16 +2106,6 @@ void helper_lock_init(void);
- /* svm_helper.c */
- void cpu_svm_check_intercept_param(CPUX86State *env1, uint32_t type,
-                                    uint64_t param, uintptr_t retaddr);
--void QEMU_NORETURN cpu_vmexit(CPUX86State *nenv, uint32_t exit_code,
--                              uint64_t exit_info_1, uintptr_t retaddr);
--void do_vmexit(CPUX86State *env, uint32_t exit_code, uint64_t exit_info_1);
--
--/* seg_helper.c */
--void do_interrupt_x86_hardirq(CPUX86State *env, int intno, int is_hw);
--
--/* smm_helper.c */
--void do_smm_enter(X86CPU *cpu);
--
- /* apic.c */
- void cpu_report_tpr_access(CPUX86State *env, TPRAccess access);
- void apic_handle_tpr_access_report(DeviceState *d, target_ulong ip,
-@@ -2224,11 +2144,6 @@ typedef int X86CPUVersion;
-  */
- void x86_cpu_set_default_version(X86CPUVersion version);
- 
--/* Return name of 32-bit register, from a R_* constant */
--const char *get_register_name_32(unsigned int reg);
--
--void enable_compat_apic_id_mode(void);
--
- #define APIC_DEFAULT_ADDRESS 0xfee00000
- #define APIC_SPACE_SIZE      0x100000
- 
-diff --git a/target/i386/helper-tcg.h b/target/i386/helper-tcg.h
-new file mode 100644
-index 0000000000..57b4391a7d
---- /dev/null
-+++ b/target/i386/helper-tcg.h
-@@ -0,0 +1,112 @@
-+/*
-+ * TCG specific prototypes for helpers
-+ *
-+ *  Copyright (c) 2003 Fabrice Bellard
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#ifndef I386_HELPER_TCG_H
-+#define I386_HELPER_TCG_H
-+
-+#include "exec/exec-all.h"
-+
-+/* Maximum instruction code size */
-+#define TARGET_MAX_INSN_SIZE 16
-+
-+/*
-+ * XXX: This value should match the one returned by CPUID
-+ * and in exec.c
-+ */
-+# if defined(TARGET_X86_64)
-+# define TCG_PHYS_ADDR_BITS 40
-+# else
-+# define TCG_PHYS_ADDR_BITS 36
-+# endif
-+
-+#define PHYS_ADDR_MASK MAKE_64BIT_MASK(0, TCG_PHYS_ADDR_BITS)
-+
-+/**
-+ * x86_cpu_do_interrupt:
-+ * @cpu: vCPU the interrupt is to be handled by.
-+ */
-+void x86_cpu_do_interrupt(CPUState *cpu);
-+bool x86_cpu_exec_interrupt(CPUState *cpu, int int_req);
-+
-+/* helper.c */
-+bool x86_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                      MMUAccessType access_type, int mmu_idx,
-+                      bool probe, uintptr_t retaddr);
-+
-+void breakpoint_handler(CPUState *cs);
-+
-+/* n must be a constant to be efficient */
-+static inline target_long lshift(target_long x, int n)
++static void kvm_accel_cpu_init(void)
 +{
-+    if (n >= 0) {
-+        return x << n;
-+    } else {
-+        return x >> (-n);
++    if (kvm_enabled()) {
++        cpus_register_accel(&kvm_cpus);
 +    }
 +}
 +
-+/* float macros */
-+#define FT0    (env->ft0)
-+#define ST0    (env->fpregs[env->fpstt].d)
-+#define ST(n)  (env->fpregs[(env->fpstt + (n)) & 7].d)
-+#define ST1    ST(1)
-+
-+/* translate.c */
-+void tcg_x86_init(void);
-+
-+/* excp_helper.c */
-+void QEMU_NORETURN raise_exception(CPUX86State *env, int exception_index);
-+void QEMU_NORETURN raise_exception_ra(CPUX86State *env, int exception_index,
-+                                      uintptr_t retaddr);
-+void QEMU_NORETURN raise_exception_err(CPUX86State *env, int exception_index,
-+                                       int error_code);
-+void QEMU_NORETURN raise_exception_err_ra(CPUX86State *env, int exception_index,
-+                                          int error_code, uintptr_t retaddr);
-+void QEMU_NORETURN raise_interrupt(CPUX86State *nenv, int intno, int is_int,
-+                                   int error_code, int next_eip_addend);
-+
-+/* cc_helper.c */
-+extern const uint8_t parity_table[256];
-+
-+/*
-+ * NOTE: the translator must set DisasContext.cc_op to CC_OP_EFLAGS
-+ * after generating a call to a helper that uses this.
-+ */
-+static inline void cpu_load_eflags(CPUX86State *env, int eflags,
-+                                   int update_mask)
-+{
-+    CC_SRC = eflags & (CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C);
-+    CC_OP = CC_OP_EFLAGS;
-+    env->df = 1 - (2 * ((eflags >> 10) & 1));
-+    env->eflags = (env->eflags & ~update_mask) |
-+        (eflags & update_mask) | 0x2;
-+}
-+
-+/* svm_helper.c */
-+void QEMU_NORETURN cpu_vmexit(CPUX86State *nenv, uint32_t exit_code,
-+                              uint64_t exit_info_1, uintptr_t retaddr);
-+void do_vmexit(CPUX86State *env, uint32_t exit_code, uint64_t exit_info_1);
-+
-+/* seg_helper.c */
-+void do_interrupt_x86_hardirq(CPUX86State *env, int intno, int is_hw);
-+
-+/* smm_helper.c */
-+void do_smm_enter(X86CPU *cpu);
-+
-+#endif /* I386_HELPER_TCG_H */
-diff --git a/target/i386/helper.c b/target/i386/helper.c
-index 6e7e0f507c..6bb0c53182 100644
---- a/target/i386/helper.c
-+++ b/target/i386/helper.c
-@@ -24,10 +24,8 @@
- #include "sysemu/runstate.h"
- #include "kvm/kvm_i386.h"
- #ifndef CONFIG_USER_ONLY
--#include "sysemu/tcg.h"
- #include "sysemu/hw_accel.h"
- #include "monitor/monitor.h"
--#include "hw/i386/apic_internal.h"
- #endif
++accel_cpu_init(kvm_accel_cpu_init);
+diff --git a/accel/qtest/qtest.c b/accel/qtest/qtest.c
+index b282cea5cf..8d14059e32 100644
+--- a/accel/qtest/qtest.c
++++ b/accel/qtest/qtest.c
+@@ -32,7 +32,6 @@ const CpusAccel qtest_cpus = {
  
- void cpu_sync_bndcs_hflags(CPUX86State *env)
-@@ -572,27 +570,6 @@ void do_cpu_sipi(X86CPU *cpu)
+ static int qtest_init_accel(MachineState *ms)
+ {
+-    cpus_register_accel(&qtest_cpus);
+     return 0;
  }
- #endif
  
--/* Frob eflags into and out of the CPU temporary format.  */
--
--void x86_cpu_exec_enter(CPUState *cs)
--{
--    X86CPU *cpu = X86_CPU(cs);
--    CPUX86State *env = &cpu->env;
--
--    CC_SRC = env->eflags & (CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C);
--    env->df = 1 - (2 * ((env->eflags >> 10) & 1));
--    CC_OP = CC_OP_EFLAGS;
--    env->eflags &= ~(DF_MASK | CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C);
--}
--
--void x86_cpu_exec_exit(CPUState *cs)
--{
--    X86CPU *cpu = X86_CPU(cs);
--    CPUX86State *env = &cpu->env;
--
--    env->eflags = cpu_compute_eflags(env);
--}
--
- #ifndef CONFIG_USER_ONLY
- uint8_t x86_ldub_phys(CPUState *cs, hwaddr addr)
- {
-diff --git a/target/i386/meson.build b/target/i386/meson.build
-index c4bf20b319..9c20208e5a 100644
---- a/target/i386/meson.build
-+++ b/target/i386/meson.build
-@@ -6,6 +6,7 @@ i386_ss.add(files(
-   'xsave_helper.c',
-   'cpu-dump.c',
- ))
-+i386_ss.add(when: 'CONFIG_TCG', if_true: files('tcg-cpu.c'))
- i386_ss.add(when: 'CONFIG_SEV', if_true: files('sev.c'), if_false: files('sev-stub.c'))
+@@ -58,3 +57,12 @@ static void qtest_type_init(void)
+ }
  
- i386_softmmu_ss = ss.source_set()
-diff --git a/target/i386/tcg-cpu.c b/target/i386/tcg-cpu.c
-new file mode 100644
-index 0000000000..628dd29fe7
---- /dev/null
-+++ b/target/i386/tcg-cpu.c
-@@ -0,0 +1,71 @@
-+/*
-+ * i386 TCG cpu class initialization
-+ *
-+ *  Copyright (c) 2003 Fabrice Bellard
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
+ type_init(qtest_type_init);
 +
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "tcg-cpu.h"
-+#include "exec/exec-all.h"
-+#include "sysemu/runstate.h"
-+#include "helper-tcg.h"
-+
-+#if !defined(CONFIG_USER_ONLY)
-+#include "hw/i386/apic.h"
-+#endif
-+
-+/* Frob eflags into and out of the CPU temporary format.  */
-+
-+static void x86_cpu_exec_enter(CPUState *cs)
++static void qtest_accel_cpu_init(void)
 +{
-+    X86CPU *cpu = X86_CPU(cs);
-+    CPUX86State *env = &cpu->env;
-+
-+    CC_SRC = env->eflags & (CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C);
-+    env->df = 1 - (2 * ((env->eflags >> 10) & 1));
-+    CC_OP = CC_OP_EFLAGS;
-+    env->eflags &= ~(DF_MASK | CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C);
++    if (qtest_enabled()) {
++        cpus_register_accel(&qtest_cpus);
++    }
 +}
 +
-+static void x86_cpu_exec_exit(CPUState *cs)
-+{
-+    X86CPU *cpu = X86_CPU(cs);
-+    CPUX86State *env = &cpu->env;
++accel_cpu_init(qtest_accel_cpu_init);
+diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
+index fa1208158f..9ffedc8151 100644
+--- a/accel/tcg/tcg-all.c
++++ b/accel/tcg/tcg-all.c
+@@ -104,8 +104,6 @@ static int tcg_init(MachineState *ms)
+ 
+     tcg_exec_init(s->tb_size * 1024 * 1024);
+     mttcg_enabled = s->mttcg_enabled;
+-    cpus_register_accel(&tcg_cpus);
+-
+     return 0;
+ }
+ 
+@@ -201,3 +199,12 @@ static void register_accel_types(void)
+ }
+ 
+ type_init(register_accel_types);
 +
-+    env->eflags = cpu_compute_eflags(env);
++static void tcg_accel_cpu_init(void)
++{
++    if (tcg_enabled()) {
++        cpus_register_accel(&tcg_cpus);
++    }
 +}
 +
-+static void x86_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
-+{
-+    X86CPU *cpu = X86_CPU(cs);
++accel_cpu_init(tcg_accel_cpu_init);
+diff --git a/accel/xen/xen-all.c b/accel/xen/xen-all.c
+index 878a4089d9..6932a9f364 100644
+--- a/accel/xen/xen-all.c
++++ b/accel/xen/xen-all.c
+@@ -185,9 +185,6 @@ static int xen_init(MachineState *ms)
+      * opt out of system RAM being allocated by generic code
+      */
+     mc->default_ram_id = NULL;
+-
+-    cpus_register_accel(&xen_cpus);
+-
+     return 0;
+ }
+ 
+@@ -228,3 +225,12 @@ static void xen_type_init(void)
+ }
+ 
+ type_init(xen_type_init);
 +
-+    cpu->env.eip = tb->pc - tb->cs_base;
++static void xen_accel_cpu_init(void)
++{
++    if (xen_enabled()) {
++        cpus_register_accel(&xen_cpus);
++    }
 +}
 +
-+void tcg_cpu_common_class_init(CPUClass *cc)
-+{
-+    cc->do_interrupt = x86_cpu_do_interrupt;
-+    cc->cpu_exec_interrupt = x86_cpu_exec_interrupt;
-+    cc->synchronize_from_tb = x86_cpu_synchronize_from_tb;
-+    cc->cpu_exec_enter = x86_cpu_exec_enter;
-+    cc->cpu_exec_exit = x86_cpu_exec_exit;
-+    cc->tcg_initialize = tcg_x86_init;
-+    cc->tlb_fill = x86_cpu_tlb_fill;
-+#ifndef CONFIG_USER_ONLY
-+    cc->debug_excp_handler = breakpoint_handler;
-+#endif
-+}
-diff --git a/target/i386/tcg-cpu.h b/target/i386/tcg-cpu.h
-new file mode 100644
-index 0000000000..81f02e562e
---- /dev/null
-+++ b/target/i386/tcg-cpu.h
-@@ -0,0 +1,15 @@
-+/*
-+ * i386 TCG CPU class initialization
-+ *
-+ * Copyright 2020 SUSE LLC
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef TCG_CPU_H
-+#define TCG_CPU_H
-+
-+void tcg_cpu_common_class_init(CPUClass *cc);
-+
-+#endif /* TCG_CPU_H */
-diff --git a/target/i386/tcg/bpt_helper.c b/target/i386/tcg/bpt_helper.c
-index e6cc2921e2..979230ac12 100644
---- a/target/i386/tcg/bpt_helper.c
-+++ b/target/i386/tcg/bpt_helper.c
-@@ -21,6 +21,7 @@
- #include "cpu.h"
- #include "exec/exec-all.h"
- #include "exec/helper-proto.h"
-+#include "helper-tcg.h"
++accel_cpu_init(xen_accel_cpu_init);
+diff --git a/include/qemu/module.h b/include/qemu/module.h
+index 944d403cbd..485eda986a 100644
+--- a/include/qemu/module.h
++++ b/include/qemu/module.h
+@@ -44,6 +44,7 @@ typedef enum {
+     MODULE_INIT_BLOCK,
+     MODULE_INIT_OPTS,
+     MODULE_INIT_QOM,
++    MODULE_INIT_ACCEL_CPU,
+     MODULE_INIT_TRACE,
+     MODULE_INIT_XEN_BACKEND,
+     MODULE_INIT_LIBQOS,
+@@ -54,6 +55,7 @@ typedef enum {
+ #define block_init(function) module_init(function, MODULE_INIT_BLOCK)
+ #define opts_init(function) module_init(function, MODULE_INIT_OPTS)
+ #define type_init(function) module_init(function, MODULE_INIT_QOM)
++#define accel_cpu_init(function) module_init(function, MODULE_INIT_ACCEL_CPU)
+ #define trace_init(function) module_init(function, MODULE_INIT_TRACE)
+ #define xen_backend_init(function) module_init(function, \
+                                                MODULE_INIT_XEN_BACKEND)
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index e6e0ad5a92..df4bed056a 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -4173,6 +4173,12 @@ void qemu_init(int argc, char **argv, char **envp)
+      */
+     configure_accelerators(argv[0]);
  
- 
- #ifndef CONFIG_USER_ONLY
-diff --git a/target/i386/tcg/cc_helper.c b/target/i386/tcg/cc_helper.c
-index 924dd3cd57..cc7ea9e8b9 100644
---- a/target/i386/tcg/cc_helper.c
-+++ b/target/i386/tcg/cc_helper.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "cpu.h"
- #include "exec/helper-proto.h"
-+#include "helper-tcg.h"
- 
- const uint8_t parity_table[256] = {
-     CC_P, 0, 0, CC_P, 0, CC_P, CC_P, 0,
-diff --git a/target/i386/tcg/excp_helper.c b/target/i386/tcg/excp_helper.c
-index 191471749f..a0f44431fe 100644
---- a/target/i386/tcg/excp_helper.c
-+++ b/target/i386/tcg/excp_helper.c
-@@ -23,6 +23,7 @@
- #include "qemu/log.h"
- #include "sysemu/runstate.h"
- #include "exec/helper-proto.h"
-+#include "helper-tcg.h"
- 
- void helper_raise_interrupt(CPUX86State *env, int intno, int next_eip_addend)
- {
-diff --git a/target/i386/tcg/fpu_helper.c b/target/i386/tcg/fpu_helper.c
-index 03b35443a6..13f31b6ac7 100644
---- a/target/i386/tcg/fpu_helper.c
-+++ b/target/i386/tcg/fpu_helper.c
-@@ -26,6 +26,7 @@
- #include "exec/cpu_ldst.h"
- #include "fpu/softfloat.h"
- #include "fpu/softfloat-macros.h"
-+#include "helper-tcg.h"
- 
- #ifdef CONFIG_SOFTMMU
- #include "hw/irq.h"
-@@ -2986,23 +2987,21 @@ void update_mxcsr_status(CPUX86State *env)
- 
- void update_mxcsr_from_sse_status(CPUX86State *env)
- {
--    if (tcg_enabled()) {
--        uint8_t flags = get_float_exception_flags(&env->sse_status);
--        /*
--         * The MXCSR denormal flag has opposite semantics to
--         * float_flag_input_denormal (the softfloat code sets that flag
--         * only when flushing input denormals to zero, but SSE sets it
--         * only when not flushing them to zero), so is not converted
--         * here.
--         */
--        env->mxcsr |= ((flags & float_flag_invalid ? FPUS_IE : 0) |
--                       (flags & float_flag_divbyzero ? FPUS_ZE : 0) |
--                       (flags & float_flag_overflow ? FPUS_OE : 0) |
--                       (flags & float_flag_underflow ? FPUS_UE : 0) |
--                       (flags & float_flag_inexact ? FPUS_PE : 0) |
--                       (flags & float_flag_output_denormal ? FPUS_UE | FPUS_PE :
--                        0));
--    }
-+    uint8_t flags = get_float_exception_flags(&env->sse_status);
 +    /*
-+     * The MXCSR denormal flag has opposite semantics to
-+     * float_flag_input_denormal (the softfloat code sets that flag
-+     * only when flushing input denormals to zero, but SSE sets it
-+     * only when not flushing them to zero), so is not converted
-+     * here.
++     * accelerator has been chosen and initialized, now it is time to
++     * register the cpu accel interface.
 +     */
-+    env->mxcsr |= ((flags & float_flag_invalid ? FPUS_IE : 0) |
-+                   (flags & float_flag_divbyzero ? FPUS_ZE : 0) |
-+                   (flags & float_flag_overflow ? FPUS_OE : 0) |
-+                   (flags & float_flag_underflow ? FPUS_UE : 0) |
-+                   (flags & float_flag_inexact ? FPUS_PE : 0) |
-+                   (flags & float_flag_output_denormal ? FPUS_UE | FPUS_PE :
-+                    0));
++    module_call_init(MODULE_INIT_ACCEL_CPU);
++
+     /*
+      * Beware, QOM objects created before this point miss global and
+      * compat properties.
+diff --git a/target/i386/hax/hax-all.c b/target/i386/hax/hax-all.c
+index fecfe8cd6e..3bada019f5 100644
+--- a/target/i386/hax/hax-all.c
++++ b/target/i386/hax/hax-all.c
+@@ -364,9 +364,6 @@ static int hax_accel_init(MachineState *ms)
+                 !ret ? "working" : "not working",
+                 !ret ? "fast virt" : "emulation");
+     }
+-    if (ret == 0) {
+-        cpus_register_accel(&hax_cpus);
+-    }
+     return ret;
  }
  
- void helper_update_mxcsr(CPUX86State *env)
-diff --git a/target/i386/tcg/int_helper.c b/target/i386/tcg/int_helper.c
-index 4f89436b53..87fa7280ee 100644
---- a/target/i386/tcg/int_helper.c
-+++ b/target/i386/tcg/int_helper.c
-@@ -24,6 +24,7 @@
- #include "exec/helper-proto.h"
- #include "qapi/error.h"
- #include "qemu/guest-random.h"
-+#include "helper-tcg.h"
+@@ -1141,3 +1138,12 @@ static void hax_type_init(void)
+ }
  
- //#define DEBUG_MULDIV
- 
-diff --git a/target/i386/tcg/mem_helper.c b/target/i386/tcg/mem_helper.c
-index 21ca3e3e88..e5cd2de1bf 100644
---- a/target/i386/tcg/mem_helper.c
-+++ b/target/i386/tcg/mem_helper.c
-@@ -25,6 +25,7 @@
- #include "qemu/int128.h"
- #include "qemu/atomic128.h"
- #include "tcg/tcg.h"
-+#include "helper-tcg.h"
- 
- void helper_cmpxchg8b_unlocked(CPUX86State *env, target_ulong a0)
- {
-diff --git a/target/i386/tcg/misc_helper.c b/target/i386/tcg/misc_helper.c
-index ae259d9145..c99370e5e3 100644
---- a/target/i386/tcg/misc_helper.c
-+++ b/target/i386/tcg/misc_helper.c
-@@ -24,6 +24,7 @@
- #include "exec/exec-all.h"
- #include "exec/cpu_ldst.h"
- #include "exec/address-spaces.h"
-+#include "helper-tcg.h"
- 
- void helper_outb(CPUX86State *env, uint32_t port, uint32_t data)
- {
-diff --git a/target/i386/tcg/mpx_helper.c b/target/i386/tcg/mpx_helper.c
-index fd966174b4..22423eedcd 100644
---- a/target/i386/tcg/mpx_helper.c
-+++ b/target/i386/tcg/mpx_helper.c
-@@ -22,6 +22,7 @@
- #include "exec/helper-proto.h"
- #include "exec/cpu_ldst.h"
- #include "exec/exec-all.h"
-+#include "helper-tcg.h"
- 
- 
- void helper_bndck(CPUX86State *env, uint32_t fail)
-diff --git a/target/i386/tcg/seg_helper.c b/target/i386/tcg/seg_helper.c
-index 09b6554660..ed3e04a187 100644
---- a/target/i386/tcg/seg_helper.c
-+++ b/target/i386/tcg/seg_helper.c
-@@ -25,6 +25,7 @@
- #include "exec/exec-all.h"
- #include "exec/cpu_ldst.h"
- #include "exec/log.h"
-+#include "helper-tcg.h"
- 
- //#define DEBUG_PCALL
- 
-diff --git a/target/i386/tcg/smm_helper.c b/target/i386/tcg/smm_helper.c
-index d20e8edfdf..62d027abd3 100644
---- a/target/i386/tcg/smm_helper.c
-+++ b/target/i386/tcg/smm_helper.c
-@@ -22,6 +22,8 @@
- #include "cpu.h"
- #include "exec/helper-proto.h"
- #include "exec/log.h"
-+#include "helper-tcg.h"
+ type_init(hax_type_init);
 +
++static void hax_accel_cpu_init(void)
++{
++    if (hax_enabled()) {
++        cpus_register_accel(&hax_cpus);
++    }
++}
++
++accel_cpu_init(hax_accel_cpu_init);
+diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
+index ed9356565c..249b77797f 100644
+--- a/target/i386/hvf/hvf.c
++++ b/target/i386/hvf/hvf.c
+@@ -887,7 +887,6 @@ static int hvf_accel_init(MachineState *ms)
+   
+     hvf_state = s;
+     memory_listener_register(&hvf_memory_listener, &address_space_memory);
+-    cpus_register_accel(&hvf_cpus);
+     return 0;
+ }
  
- /* SMM support */
+@@ -911,3 +910,12 @@ static void hvf_type_init(void)
+ }
  
-diff --git a/target/i386/tcg/svm_helper.c b/target/i386/tcg/svm_helper.c
-index 38931586e5..097bb9b83d 100644
---- a/target/i386/tcg/svm_helper.c
-+++ b/target/i386/tcg/svm_helper.c
-@@ -22,6 +22,7 @@
- #include "exec/helper-proto.h"
- #include "exec/exec-all.h"
- #include "exec/cpu_ldst.h"
-+#include "helper-tcg.h"
+ type_init(hvf_type_init);
++
++static void hvf_accel_cpu_init(void)
++{
++    if (hvf_enabled()) {
++        cpus_register_accel(&hvf_cpus);
++    }
++}
++
++accel_cpu_init(hvf_accel_cpu_init);
+diff --git a/target/i386/whpx/whpx-all.c b/target/i386/whpx/whpx-all.c
+index f4f3e33eac..2e715e2bc6 100644
+--- a/target/i386/whpx/whpx-all.c
++++ b/target/i386/whpx/whpx-all.c
+@@ -1642,8 +1642,6 @@ static int whpx_accel_init(MachineState *ms)
  
- /* Secure Virtual Machine helpers */
+     whpx_memory_init();
  
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 4c57307e42..5988ea0289 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -28,6 +28,7 @@
+-    cpus_register_accel(&whpx_cpus);
+-
+     printf("Windows Hypervisor Platform accelerator is operational\n");
+     return 0;
  
- #include "exec/helper-proto.h"
- #include "exec/helper-gen.h"
-+#include "helper-tcg.h"
+@@ -1713,3 +1711,12 @@ error:
+ }
  
- #include "trace-tcg.h"
- #include "exec/log.h"
+ type_init(whpx_type_init);
++
++static void whpx_accel_cpu_init(void)
++{
++    if (whpx_enabled()) {
++        cpus_register_accel(&whpx_cpus);
++    }
++}
++
++accel_cpu_init(whpx_accel_cpu_init);
 -- 
 2.26.2
 
