@@ -2,117 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 198332B8517
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 20:51:18 +0100 (CET)
-Received: from localhost ([::1]:51464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3F6B2B8523
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 20:56:26 +0100 (CET)
+Received: from localhost ([::1]:35714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfTU5-0005q9-48
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 14:51:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48886)
+	id 1kfTZ3-0002aZ-Sg
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 14:56:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1kfTS2-0004NW-2J
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 14:49:10 -0500
-Received: from mail-mw2nam12on2080.outbound.protection.outlook.com
- ([40.107.244.80]:49467 helo=NAM12-MW2-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1kfTXG-0001PN-31
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 14:54:34 -0500
+Received: from mail.weilnetz.de ([37.120.169.71]:36672
+ helo=v2201612906741603.powersrv.de)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1kfTRy-0005Ya-W2
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 14:49:08 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=c9x975oHg5b9khGl1uIgER79QnCsYcID7K/AMO7yRlV3TBRUr+fFMNk/lN4z2D9GuF+PhxlcdvH4VE3WuiC80sSJqvU5xuJpJk42c5OKh7UkJ6sp9J6K67ajJJ1FdmlbhqsKgTta8+lxA9cw/mmK0M1xxyQ6e6pUT3acyzT7qYzm2AqLOdXNM40Ua3KhTiUnWEXpzGZKClodohltly4/YoYTnnBHlFVnZHauq/WJvPFN68sXoLmUAwWp1JoU9tT9alFHvmbbQ14xNM1Ce0cCEwlpsH56hI8mTPX2xFYe0vJtu3c1jIOTwJvAs/jFMmVDdURJ0sApPmZMe32cGaeLjg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nzXBABBh3RN7rpqsrFWWBz9hU1S7g1JHE8nFHCOo798=;
- b=huCvsrphI37j8WX4ZqVLbd6wLaoB4Q4gRT2K7i8x47nZWrYkY7JM8EpoVhLKxZ2gFjE9X4zoglrCQ/HuEtjwElYYJS/rBelF/XHIyThcKTx69o09HZRkjpwnfY4iD1ErmpEt3b5L6+s8EMpuHMXOHcq8d4fmiqCGcub0XHzF0ga3XbVyWvwdgTLxA9IQxi4RcBf/Fvx2u+ZVy5DXDnO9WgBZ6F0jARawK/yGzXIPa0uW2x8gtzcdFp47mcXFQitwrD7FN/xptl4PJ7HpWu9MfjkvUEVM/jcxR5NneV1nTY1KYtdt4f8d9wT1PI6b7rAhAu4xUID4YQMZ4u2YwCEa2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.62.198) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nzXBABBh3RN7rpqsrFWWBz9hU1S7g1JHE8nFHCOo798=;
- b=oH4BAhvZVZd/c9gucF5LzL159NL9RTEnmmJuy4oVAjSS0Q5WFZENDldMrIXBhIJSYUgx3QRqi+632zT0fzB/v/vfPsP19le2j9fQ9XEjyUd91TyPd9i/n4z8erY6W5/iUBWnQWfykeqy51byHSG6xuMJ4GtNm9n3HYSVFoCiM7w=
-Received: from BL1PR13CA0190.namprd13.prod.outlook.com (2603:10b6:208:2be::15)
- by MN2PR02MB6784.namprd02.prod.outlook.com (2603:10b6:208:15f::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.28; Wed, 18 Nov
- 2020 19:49:03 +0000
-Received: from BL2NAM02FT056.eop-nam02.prod.protection.outlook.com
- (2603:10b6:208:2be:cafe::1c) by BL1PR13CA0190.outlook.office365.com
- (2603:10b6:208:2be::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.14 via Frontend
- Transport; Wed, 18 Nov 2020 19:49:03 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
- smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
-Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
- BL2NAM02FT056.mail.protection.outlook.com (10.152.77.221) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.3564.22 via Frontend Transport; Wed, 18 Nov 2020 19:49:03 +0000
-Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
- xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1913.5; Wed, 18 Nov 2020 11:49:01 -0800
-Received: from smtp.xilinx.com (172.19.127.96) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
- 15.1.1913.5 via Frontend Transport; Wed, 18 Nov 2020 11:49:01 -0800
-Received: from [172.19.2.115] (port=52002 helo=xsjfnuv50.xilinx.com)
- by smtp.xilinx.com with esmtp (Exim 4.90)
- (envelope-from <fnu.vikram@xilinx.com>)
- id 1kfTRt-0003iK-Sg; Wed, 18 Nov 2020 11:49:01 -0800
-From: Vikram Garhwal <fnu.vikram@xilinx.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH v12 4/4] MAINTAINERS: Add maintainer entry for Xilinx ZynqMP
- CAN controller
-Date: Wed, 18 Nov 2020 11:48:46 -0800
-Message-ID: <1605728926-352690-5-git-send-email-fnu.vikram@xilinx.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1605728926-352690-1-git-send-email-fnu.vikram@xilinx.com>
-References: <1605728926-352690-1-git-send-email-fnu.vikram@xilinx.com>
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1kfTXD-00065D-QP
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 14:54:33 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by v2201612906741603.powersrv.de (Postfix) with ESMTP id 230E0DB267F;
+ Wed, 18 Nov 2020 20:54:29 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at v2201612906741603.powersrv.de
+Received: from v2201612906741603.powersrv.de ([127.0.0.1])
+ by localhost (v2201612906741603.powersrv.de [127.0.0.1]) (amavisd-new,
+ port 10024)
+ with ESMTP id 6kH58_K7eTwK; Wed, 18 Nov 2020 20:52:17 +0100 (CET)
+Received: from macbook02.fritz.box (pd9ec344e.dip0.t-ipconnect.de
+ [217.236.52.78])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 898D4DA2FCA;
+ Wed, 18 Nov 2020 20:50:48 +0100 (CET)
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <97b04446-ca94-cebd-2d8d-4c2013521208@weilnetz.de>
+ <20201118153416.GG229461@redhat.com>
+From: Stefan Weil <sw@weilnetz.de>
+Subject: Re: Regressions in build process introduced since August
+Message-ID: <6ae1dcc4-591c-5fc2-9423-d80b9b16e777@weilnetz.de>
+Date: Wed, 18 Nov 2020 20:50:47 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.4.3
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 713a3140-7ea7-4d44-5731-08d88bfb00b5
-X-MS-TrafficTypeDiagnostic: MN2PR02MB6784:
-X-Microsoft-Antispam-PRVS: <MN2PR02MB678415045FF604C9D5129955BCE10@MN2PR02MB6784.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:331;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0uQpFnpkdzYhQiNp684SzSCg+X7uzSMNJ8T/spBIr7+ZrDty3H6WsdQABhzs2cytE7/P4URgvs0OdC8BZlZa5W1vlJ1BzmnmNsKNEX3PBJJC+GaTpZr1SCg46nlMVdlo2mGuZKcSpcwrMrmJDK8nMpzj9vEa31XIKELJLd0tQOesCvme/Y5gef8n4t6qgTsStZlZNdlFQ9VUIyvVGTZNtlsP+2JQ4Hjch/q6fEgGOpALFyeDUe7j7BbGmKlHdd0FjlcDU9y0PeB+ZQMUnwDmWaWqp1ptUwV8NkQTur+OnAJdgo0EOOXIB01IXxpy8hQc7MbCcFEnM+Ru8h3/2CMZl757eRz6auxFWqxihirzt9ux6fyt7Zesm7Th2VtQd+nGh10Mbuh8lGM6ogy9+kdk95VXilbqgOU7QCztXsOxrHQ=
-X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapexch01.xlnx.xilinx.com;
- PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(4636009)(136003)(346002)(39860400002)(396003)(376002)(46966005)(5660300002)(316002)(478600001)(54906003)(6666004)(36906005)(186003)(426003)(8936002)(7696005)(107886003)(2616005)(36756003)(70586007)(70206006)(82310400003)(26005)(4744005)(82740400003)(6916009)(336012)(2906002)(7636003)(8676002)(9786002)(4326008)(356005)(47076004)(102446001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2020 19:49:03.6442 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 713a3140-7ea7-4d44-5731-08d88bfb00b5
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
- Helo=[xsj-pvapexch01.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL2NAM02FT056.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB6784
-Received-SPF: pass client-ip=40.107.244.80; envelope-from=fnuv@xilinx.com;
- helo=NAM12-MW2-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 14:49:05
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+In-Reply-To: <20201118153416.GG229461@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
+ helo=v2201612906741603.powersrv.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 14:54:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -125,38 +67,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: francisco.iglesias@xilinx.com, Vikram
- Garhwal <fnu.vikram@xilinx.com>, peter.maydell@linaro.org
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Signed-off-by: Vikram Garhwal <fnu.vikram@xilinx.com>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Am 18.11.20 um 16:34 schrieb Daniel P. Berrang=C3=A9:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 63223e1..447b7f2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1554,6 +1554,14 @@ F: hw/net/opencores_eth.c
- 
- Devices
- -------
-+Xilinx CAN
-+M: Vikram Garhwal <fnu.vikram@xilinx.com>
-+M: Francisco Iglesias <francisco.iglesias@xilinx.com>
-+S: Maintained
-+F: hw/net/can/xlnx-*
-+F: include/hw/net/xlnx-*
-+F: tests/qtest/xlnx-can-test*
-+
- EDU
- M: Jiri Slaby <jslaby@suse.cz>
- S: Maintained
--- 
-2.7.4
+> On Sun, Nov 15, 2020 at 11:57:25AM +0100, Stefan Weil wrote:
+>> *** Setting INSTALLER no longer handled
+>>
+>> meson.build sets a hard name for the Windows installer executable: ins=
+taller
+>> =3D 'qemu-setup-' + meson.project_version() + '.exe'.
+>>
+>> Previously the installer name could be changed by running `make instal=
+ler
+>> INSTALLER=3Dqemu-setup-something.exe`. This no longer works. Is there =
+an
+>> alternative solution how the name of the installer executable can be s=
+et? Or
+>> how could I reimplement the lost functionality?
+> Why were you needing to override the name ?  Was this so that you can
+> give distinct names to the Win32 vs Win64 installer exes ?
+>
+> If so, would it be better if QEMU used a distinct filename for the
+> Win32 vs Win64 installers automatically, to avoid need to override
+> at all ?
+
+
+I now use installer names like qemu-w64-setup-20201118.exe since about 6 =
+
+years, so yes, my names include w32 or w64 to show whether they contain=20
+32 or 64 bit binaries, and they also contain a date instead of the QEMU=20
+version.
+
+For my build process I now create the default name and rename it later.=20
+That solves the problem for me.
+
+Stefan
+
+
 
 
