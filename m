@@ -2,113 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F5B42B8546
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 21:06:42 +0100 (CET)
-Received: from localhost ([::1]:50078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D8A62B8550
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 21:07:55 +0100 (CET)
+Received: from localhost ([::1]:54996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfTiy-0000Uw-JD
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 15:06:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52180)
+	id 1kfTkA-0002d1-Fp
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 15:07:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1kfTgO-0007wK-GU
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 15:04:00 -0500
-Received: from mail-bn8nam12on2085.outbound.protection.outlook.com
- ([40.107.237.85]:52128 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <michael.christie@oracle.com>)
+ id 1kfTjB-0001Xm-Ef
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 15:06:53 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:55652)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1kfTgL-0007Ov-KN
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 15:03:59 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VoaTk9ialOSDrChEi/oBWQG7Uvz0Nw2E/i68BrrYSvy0lAqRrEwu/dVtp/6QvUb0ilolgIcyBajvmvelUKF58EsUZqg7NNV/cdOpYEHfx6bIeNipofzfJFzaFoZiWMmI/5ja4cwUMmiknkpVDZPcWCt7zxP8zo2ZmxT+EpMXMq/WTgXevf65eZxFvgx6cR7lH2kaAlQPMDLvtMdTtIUE/zLzDCBnlyl30Hj92uZnJixxDPfI0UvndoYlfXmg+EApFbH+me/FOhMr3dd8gglLf4q1R3gZLEmvIqjLa6bbfigKdYrkRo+uJ0Ai1v4ByLNS2TB7cg/MhiOJWI3Qa4ifIA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7c3HSx2wy5dgLnSsQ3GMQedKNeTzEeIhip+W0KfHXsE=;
- b=n10rE7LfOaI/TIyGkcarkE7ZOe+fO129libsZFHoHBvRwNVhRF5Cp4//X7BeZGGDDVxJbwnlRaqi7+uDkzqQol8InJrnhLeb3jfqVqk6Z8x0NxyFgZdWZmGiSJ4fDUyCRlcNsDdAVKLJ+q2h6Xc8vthhU2wArT2WucshgyoSOE1xEeZcO6PiiRdwCJ7IrZ1KKXAiT7BZaUtHY6LKcRzj1LioDrivDGDaAec1kVY4YHk/UZmJsDW26kUc4wwb4zDePvnuzIo2TnIx6WcwUB4uzCVMjBYHyUud/IyBdUCIlBmnk05m+TjDUsjUeL+bw8IHdhH5jk+qbWz7qpwewBZMMw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.62.198) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7c3HSx2wy5dgLnSsQ3GMQedKNeTzEeIhip+W0KfHXsE=;
- b=meKJucr5MT4DfxF9c6LnjjU2G2QsqQfXwcwcel3cQqmqvk8FHulbrj4GX7XfUxfY9Mlf1SONuLFtFQRo3xUEat+O0muBc5BWUhf2rqZJGc5toE50kWyxaRSWNifbkx0+bnExUjcjenriCdAHgOstZBcBwZXR3z068HicyIgsyfU=
-Received: from CY4PR13CA0028.namprd13.prod.outlook.com (2603:10b6:903:99::14)
- by SN6PR02MB4702.namprd02.prod.outlook.com (2603:10b6:805:9c::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.20; Wed, 18 Nov
- 2020 19:48:51 +0000
-Received: from CY1NAM02FT011.eop-nam02.prod.protection.outlook.com
- (2603:10b6:903:99:cafe::7f) by CY4PR13CA0028.outlook.office365.com
- (2603:10b6:903:99::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.9 via Frontend
- Transport; Wed, 18 Nov 2020 19:48:51 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
- smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
-Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
- CY1NAM02FT011.mail.protection.outlook.com (10.152.75.156) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.3589.20 via Frontend Transport; Wed, 18 Nov 2020 19:48:51 +0000
-Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1913.5; Wed, 18 Nov 2020 11:48:50 -0800
-Received: from smtp.xilinx.com (172.19.127.96) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
- 15.1.1913.5 via Frontend Transport; Wed, 18 Nov 2020 11:48:50 -0800
-Received: from [172.19.2.115] (port=52002 helo=xsjfnuv50.xilinx.com)
- by smtp.xilinx.com with esmtp (Exim 4.90)
- (envelope-from <fnu.vikram@xilinx.com>)
- id 1kfTRi-0003iK-FX; Wed, 18 Nov 2020 11:48:50 -0800
-From: Vikram Garhwal <fnu.vikram@xilinx.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH v12 0/4] Introduce Xilinx ZynqMP CAN controller
-Date: Wed, 18 Nov 2020 11:48:42 -0800
-Message-ID: <1605728926-352690-1-git-send-email-fnu.vikram@xilinx.com>
-X-Mailer: git-send-email 2.7.4
+ (Exim 4.90_1) (envelope-from <michael.christie@oracle.com>)
+ id 1kfTj8-0007nl-An
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 15:06:52 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AIK3f5a037449;
+ Wed, 18 Nov 2020 20:06:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=TWqp8F8IZ40r0W7/igvcB/WO+AOpH+wm24tP8cshYLg=;
+ b=L0oHfu2507kL9bMx/+vIXMY3ZTZONyyzP24XyI5b9x/s5M+5oqShOqv8Fw9zQ9/bSxS4
+ nnK1FRaJyamwFCs+oD8Hwh97XNTi8ZVlxWgQ04u2S8JpuHauB1TjTMQlTin5Hn6CoMBz
+ y1SSE+5eL8znfipbB10dN93Q6w6TTVrnH4cKzNfRfOTG5g0OwT0cVjbexIVQamY6AM7N
+ Xv8QfNYlxe+96JiM2qYoTCd2gJ9YCjfyyAAImONOGhVWBk1W/Er3m3ebjAhtIqttl7+5
+ uhy3CQS+9ukbmVNi42wPe+nBW3jRsqhxM7hwyOh/1LsTXB3ZjNphsHy+mJo+I3E5zMYJ gQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2120.oracle.com with ESMTP id 34t7vn9xqs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 18 Nov 2020 20:06:37 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AIK5anX118262;
+ Wed, 18 Nov 2020 20:06:37 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by userp3020.oracle.com with ESMTP id 34ts0srt3q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 18 Nov 2020 20:06:37 +0000
+Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0AIK6ZVP015860;
+ Wed, 18 Nov 2020 20:06:35 GMT
+Received: from [20.15.0.12] (/73.88.28.6)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 18 Nov 2020 12:06:35 -0800
+Subject: Re: [PATCH 00/10] vhost/qemu: thread per IO SCSI vq
+To: Jason Wang <jasowang@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+References: <1605223150-10888-1-git-send-email-michael.christie@oracle.com>
+ <20201117164043.GS131917@stefanha-x1.localdomain>
+ <bba47572-bec9-794f-5a70-d7f016267022@redhat.com>
+ <8318de9f-c585-39f8-d931-1ff5e0341d75@oracle.com>
+ <e3f8f065-ca17-e4a0-06e5-990bbe8fe947@redhat.com>
+From: Mike Christie <michael.christie@oracle.com>
+Message-ID: <d6ffcf17-ab12-4830-cc3c-0f0402fb8a0f@oracle.com>
+Date: Wed, 18 Nov 2020 14:06:33 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.4.3
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 63671011-2c2c-4ef0-eb1c-08d88bfaf92b
-X-MS-TrafficTypeDiagnostic: SN6PR02MB4702:
-X-Microsoft-Antispam-PRVS: <SN6PR02MB4702B7DF8F18298458F906B3BCE10@SN6PR02MB4702.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /LXZSwLQqv+reIfOzUsOyOJJhvMtdT9f7kJfBtPm0OFbFlZ+iy/U//jKfwYMJF/ioICwQeYTJGtD+1m8i7v+m5bMgW6xDwMCebSYGAa5KisOb/yjRs5UwAUzm6RxEC1T//N7fYbovJOZyYGOjYDAKFeeAFS1GcTGtMe7efNx8R6vA4Z/Ydv7mkgjWipPOllmn43jO9VTE37+OHWsrrWMQ8R1FwCd8t2tY9RHzJ68CBZ8UUH1RhOV1CiueDLucvqUIunznSsDut2IaWf6iv3PJQQd1K5MDfIkvA84zJYhyC2PYsUdjt0oLGk5tnpm+JkdJLQ/QYOMk4mvRlr7syxlAMVypmeG03IkDW8rfT/WC75u7rZSr/x4XUoyv4XfwivAbNRXQYslhpnx39x0OQPqQpRbmLeXXrOLMsczsbjpLzM=
-X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
- PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(4636009)(346002)(136003)(39860400002)(396003)(376002)(46966005)(356005)(26005)(54906003)(336012)(107886003)(5660300002)(4326008)(83380400001)(9786002)(426003)(316002)(2616005)(7636003)(8676002)(36906005)(36756003)(47076004)(6916009)(6666004)(82740400003)(82310400003)(186003)(7696005)(70586007)(478600001)(8936002)(2906002)(70206006)(102446001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2020 19:48:51.0776 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 63671011-2c2c-4ef0-eb1c-08d88bfaf92b
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
- Helo=[xsj-pvapexch02.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT011.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR02MB4702
-Received-SPF: pass client-ip=40.107.237.85; envelope-from=fnuv@xilinx.com;
- helo=NAM12-BN8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 15:03:55
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+In-Reply-To: <e3f8f065-ca17-e4a0-06e5-990bbe8fe947@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9809
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ adultscore=0
+ bulkscore=0 suspectscore=0 spamscore=0 malwarescore=0 phishscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011180140
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9809
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ suspectscore=0
+ malwarescore=0 bulkscore=0 impostorscore=0 lowpriorityscore=0 spamscore=0
+ adultscore=0 mlxscore=0 priorityscore=1501 phishscore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011180140
+Received-SPF: pass client-ip=156.151.31.85;
+ envelope-from=michael.christie@oracle.com; helo=userp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 15:06:46
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -122,93 +104,258 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: francisco.iglesias@xilinx.com, Vikram
- Garhwal <fnu.vikram@xilinx.com>, peter.maydell@linaro.org
+Cc: fam@euphon.net, linux-scsi@vger.kernel.org, mst@redhat.com,
+ qemu-devel@nongnu.org, virtualization@lists.linux-foundation.org,
+ target-devel@vger.kernel.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changelog:
+On 11/18/20 1:54 AM, Jason Wang wrote:
+> 
+> On 2020/11/18 下午2:57, Mike Christie wrote:
+>> On 11/17/20 11:17 PM, Jason Wang wrote:
+>>> On 2020/11/18 上午12:40, Stefan Hajnoczi wrote:
+>>>> On Thu, Nov 12, 2020 at 05:18:59PM -0600, Mike Christie wrote:
+>>>>> The following kernel patches were made over Michael's vhost branch:
+>>>>>
+>>>>> https://urldefense.com/v3/__https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git/log/?h=vhost__;!!GqivPVa7Brio!MzCv3wdRfz5dltunazRWGCeUkMg91pPEOLpIivsebLX9vhYDSi_E1V36e9H0NoRys_hU$ 
+>>>>>
+>>>>> and the vhost-scsi bug fix patchset:
+>>>>>
+>>>>> https://urldefense.com/v3/__https://lore.kernel.org/linux-scsi/20201112170008.GB1555653@stefanha-x1.localdomain/T/*t__;Iw!!GqivPVa7Brio!MzCv3wdRfz5dltunazRWGCeUkMg91pPEOLpIivsebLX9vhYDSi_E1V36e9H0NmuPE_m8$ 
+>>>>>
+>>>>> And the qemu patch was made over the qemu master branch.
+>>>>>
+>>>>> vhost-scsi currently supports multiple queues with the num_queues
+>>>>> setting, but we end up with a setup where the guest's scsi/block
+>>>>> layer can do a queue per vCPU and the layers below vhost can do
+>>>>> a queue per CPU. vhost-scsi will then do a num_queue virtqueues,
+>>>>> but all IO gets set on and completed on a single vhost-scsi thread.
+>>>>> After 2 - 4 vqs this becomes a bottleneck.
+>>>>>
+>>>>> This patchset allows us to create a worker thread per IO vq, so we
+>>>>> can better utilize multiple CPUs with the multiple queues. It
+>>>>> implments Jason's suggestion to create the initial worker like
+>>>>> normal, then create the extra workers for IO vqs with the
+>>>>> VHOST_SET_VRING_ENABLE ioctl command added in this patchset.
+>>>> How does userspace find out the tids and set their CPU affinity?
+>>>>
+>>>> What is the meaning of the new VHOST_SET_VRING_ENABLE ioctl? It doesn't
+>>>> really "enable" or "disable" the vq, requests are processed regardless.
+>>>
+>>> Actually I think it should do the real "enable/disable" that tries to 
+>>> follow the virtio spec.
+>>>
+>> What does real mean here?
+> 
+> 
+> I think it means when a vq is disabled, vhost won't process any request 
+> from that virtqueue.
+> 
+> 
+>> For the vdpa enable call for example, would it be like
+>> ifcvf_vdpa_set_vq_ready where it sets the ready bit or more like 
+>> mlx5_vdpa_set_vq_ready
+>> where it can do some more work in the disable case?
+> 
+> 
+> For vDPA, it would be more complicated.
+> 
+> E.g for IFCVF, it just delay the setting of queue_enable when it get 
+> DRIVER_OK. Technically it can passthrough the queue_enable to the 
+> hardware as what mlx5e did.
+> 
+> 
+>>
+>> For net and something like ifcvf_vdpa_set_vq_ready's design would we have
+>> vhost_ring_ioctl() set some vhost_virtqueue enable bit. We then have 
+>> some helper
+>> vhost_vq_is_enabled() and some code to detect if userspace supports 
+>> the new ioctl.
+> 
+> 
+> Yes, vhost support backend capability. When userspace negotiate the new 
+> capability, we should depend on SET_VRING_ENABLE, if not we can do 
+> vhost_vq_is_enable().
+> 
+> 
+>> And then in vhost_net_set_backend do we call vhost_vq_is_enabled()? 
+>> What is done
+>> for disable then?
+> 
+> 
+> It needs more thought, but the question is not specific to 
+> SET_VRING_ENABLE. Consider guest may zero ring address as well.
+> 
+> For disabling, we can simply flush the work and disable all the polls.
+> 
+> 
+>> It doesn't seem to buy a lot of new functionality. Is it just
+>> so we follow the spec?
+> 
+> 
+> My understanding is that, since spec defines queue_enable, we should 
+> support it in vhost. And we can piggyback the delayed vq creation with 
+> this feature. Otherwise we will duplicate the function if we want to 
+> support queue_enable.
 
-v11 -> v12:
-    Change/add new trace events with relevant debug info.
-    Rename val64 to val wherever appropriate.
-    Added new error logs.
-    Corrected xlnx_zynqmp_can_receive function checks.
 
-v10 -> v11:
-    Resending the series with correct cc.
-    Replace DB_PRINTS with trace-events.
-    Removed unnecessary local variables.
-    Added const with tx/rx buffers in qtest.
-    Added reviewed-by tags for qtest.
+I had actually given up on the delayed vq creation goal. I'm still not 
+sure how it's related to ENABLE and I think it gets pretty gross.
 
-v9 -> v10:
-    Rebase the series with the new meson build system.
+1. If we started from a semi-clean slate, and used the ENABLE ioctl more 
+like a CREATE ioctl, and did the ENABLE after vhost dev open() but 
+before any other ioctls, we can allocate the vq when we get the ENABLE 
+ioctl. This fixes the issue where vhost scsi is allocating 128 vqs at 
+open() time. We can then allocate metadata like the iovecs at ENABLE 
+time or when we get a setup ioctl that is related to the metadata, so it 
+fixes that too.
 
-v8 -> v9:
-    Use g_autofree to do automatic cleanup the object_get_canonical_path() used.
+That makes sense how ENABLE is related to delayed vq allocation and why 
+we would want it.
 
-v7 -> v8:
-    Change CAN controller to keep one canbus per controller.
-    Add canbus connections at machine level.
-    Remove ctrl_idx from CAN controller.
+If we now need to support old tools though, then you lose me. To try and 
+keep the code paths using the same code, then at vhost dev open() time 
+do we start vhost_dev_init with zero vqs like with the allocate at 
+ENABLE time case? Then when we get the first vring or dev ioctl, do we 
+allocate the vq and related metadata? If so, the ENABLE does not buy us 
+a lot since we get the delayed allocation from the compat code. Also 
+this compat case gets really messy when we are delaying the actual vq 
+and not just the metadata.
 
-v6 -> v7:
-    Remove '-m 4G' option from xlnx-can-test. This option causes the fail of
-    docker-quick@centos7 build test.
+If for the compat case, we keep the code that before/during 
+vhost_dev_init allocates all the vqs and does the initialization, then 
+we end up with 2 very very different code paths. And we also need a new 
+modparam or something to tell the drivers to do the old or new open() 
+behavior.
 
-v5 -> v6:
-    Add ptimer based counter for time stamping on RX messages.
-    Fix reset issues.
-    Rebase the patches with master latest changes.
-    Added reference clock property for CAN ptimer.
-
-v4 -> v5:
-    Add XlnxZynqMPCAN controller id to debug messages.
-    Drop parameter errp of object_property_add().
-    Add formatting related suggestions.
-
-v3 -> v4:
-    Correct formatting issues.
-
-v2 -> v3:
-    Rectify the build issue.
-    Rearrange the patch order.
-
-v1 -> v2:
-    Rename the CAN device state and address code style issues.
-    Connect the CAN device to Xlnx-ZCU102 board.
-    Add maintainer entry.
-    Add QTEST for the CAN device.
+2. If we do an approach that is less invasive to the kernel for the 
+compat case, and do the ENABLE ioctl after other vring ioctl calls then 
+that would not work for the delayed vq allocation goal since the ENABLE 
+call is too late.
 
 
-Vikram Garhwal (4):
-  hw/net/can: Introduce Xilinx ZynqMP CAN controller
-  xlnx-zynqmp: Connect Xilinx ZynqMP CAN controllers
-  tests/qtest: Introduce tests for Xilinx ZynqMP CAN controller
-  MAINTAINERS: Add maintainer entry for Xilinx ZynqMP CAN controller
+> 
+> 
+>>
+>> Or do you want it work more like mlx5_vdpa_set_vq_ready? For this in 
+>> vhost_ring_ioctl
+>> when we get the new ioctl we would call into the drivers and have it 
+>> start queues
+>> and stop queues? For enable, what we you do for net for this case?
+> 
+> 
+> Net is something different, we can simply use SET_BACKEND to disable a 
+> specific virtqueue without introducing new ioctls. Notice that, net mq 
+> is kind of different with scsi which have a per queue pair vhost device, 
+> and the API allows us to set backend for a specific virtqueue.
 
- meson.build                      |    1 +
- hw/net/can/trace.h               |    1 +
- include/hw/arm/xlnx-zynqmp.h     |    8 +
- include/hw/net/xlnx-zynqmp-can.h |   78 +++
- hw/arm/xlnx-zcu102.c             |   20 +
- hw/arm/xlnx-zynqmp.c             |   34 ++
- hw/net/can/xlnx-zynqmp-can.c     | 1161 ++++++++++++++++++++++++++++++++++++++
- tests/qtest/xlnx-can-test.c      |  360 ++++++++++++
- MAINTAINERS                      |    8 +
- hw/Kconfig                       |    1 +
- hw/net/can/meson.build           |    1 +
- hw/net/can/trace-events          |    9 +
- tests/qtest/meson.build          |    1 +
- 13 files changed, 1683 insertions(+)
- create mode 100644 hw/net/can/trace.h
- create mode 100644 include/hw/net/xlnx-zynqmp-can.h
- create mode 100644 hw/net/can/xlnx-zynqmp-can.c
- create mode 100644 tests/qtest/xlnx-can-test.c
- create mode 100644 hw/net/can/trace-events
 
---
-2.7.4
+That's one of the things I am trying to understand. It sounds like 
+ENABLE is not useful to net. Will net even use/implement the ENABLE 
+ioctl or just use the SET_BACKEND? What about vsock?
 
+For net it sounds like it's just going to add an extra code path if you 
+support it.
+
+
+> 
+> 
+>> For disable,
+>> would you do something like vhost_net_stop_vq (we don't free up 
+>> anything allocated
+>> in vhost_vring_ioctl calls, but we can stop what we setup in the net 
+>> driver)?
+> 
+> 
+> It's up to you, if you think you should free the resources you can do that.
+> 
+> 
+>> Is this useful for the current net mq design or is this for something 
+>> like where
+>> you would do one vhost net device with multiple vqs?
+> 
+> 
+> I think SET_VRING_ENABLE is more useful for SCSI since it have a model 
+> of multiple vqs per vhost device.
+
+That is why I was asking about if you were going to change net.
+
+It would have been useful for scsi if we had it when mq support was 
+added and we don't have to support old tools. But now, if enable=true, 
+is only going to be something where we set some bit so later when 
+VHOST_SCSI_SET_ENDPOINT is run it we can do what we are already doing 
+its just extra code. This patch:
+https://www.spinics.net/lists/linux-scsi/msg150151.html
+would work without the ENABLE ioctl I mean.
+
+
+And if you guys want to do the completely new interface, then none of 
+this matters I guess :)
+
+For disable see below.
+
+> 
+> 
+>>
+>> My issue/convern is that in general these calls seems useful, but we 
+>> don't really
+>> need them for scsi because vhost scsi is already stuck creating vqs 
+>> like how it does
+>> due to existing users. If we do the ifcvf_vdpa_set_vq_ready type of 
+>> design where
+>> we just set some bit, then the new ioctl does not give us a lot. It's 
+>> just an extra
+>> check and extra code.
+>>
+>> And for the mlx5_vdpa_set_vq_ready type of design, it doesn't seem 
+>> like it's going
+>> to happen a lot where the admin is going to want to remove vqs from a 
+>> running device.
+> 
+> 
+> In this case, qemu may just disable the queues of vhost-scsi via 
+> SET_VRING_ENABLE and then we can free resources?
+
+
+Some SCSI background in case it doesn't work like net:
+-------
+When the user sets up mq for vhost-scsi/virtio-scsi, for max perf and no 
+cares about mem use they would normally set num_queues based on the 
+number of vCPUs and MSI-x vectors. I think the default in qemu now is to 
+try and detect that value.
+
+When the virtio_scsi driver is loaded into the guest kernel, it takes 
+the num_queues value and tells the scsi/block mq layer to create 
+num_queues multiqueue hw queues.
+
+------
+
+I was trying to say in the previous email that is if all we do is set 
+some bits to indicate the queue is disabled, free its resources, stop 
+polling/queueing in the scsi/target layer, flush etc, it does not seem 
+useful. I was trying to ask when would a user only want this behavior?
+
+I think we need an extra piece where the guests needs to be modified to 
+handle the queue removal or the block/scsi layers would still send IO 
+and we would get IO errors. Without this it seems like some extra code 
+that we will not use.
+
+And then if we are going to make disable useful like this, what about 
+enable? We would want to the reverse where we add the queue and the 
+guest remaps the mq to hw queue layout. To do this, enable has to do 
+more than just set some bits. There is also an issue with how it would 
+need to interact with the SET_BACKEND 
+(VHOST_SCSI_SET_ENDPOINT/VHOST_SCSI_CLEAR_ENDPOINT for scsi) calls.
+
+I think if we wanted the ENABLE ioctl to work like this then that is not 
+related to my patches and I like I've written before I think my patches 
+do not need the ENABLE ioctl in general. We could add the patch where we 
+create the workers threads from VHOST_SCSI_SET_ENDPOINT. And if we ever 
+add this queue hotplug type of code, then the worker thread would just 
+get moved/rearranged with the other vq modification code in 
+vhost_scsi_set_endpoint/vhost_scsi_clear_endpoint.
+
+We could also go the new threading interface route, and also do the 
+ENABLE ioctl separately.
 
