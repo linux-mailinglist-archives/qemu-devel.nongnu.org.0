@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 576802B795D
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 09:50:11 +0100 (CET)
-Received: from localhost ([::1]:39170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 353F02B7911
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 09:48:36 +0100 (CET)
+Received: from localhost ([::1]:60986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfJAI-0001Tk-BK
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 03:50:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52118)
+	id 1kfJ8l-0007H7-7r
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 03:48:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1kfIyY-00025M-Ak
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 03:38:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48609)
+ id 1kfIya-0002A5-57
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 03:38:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45618)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1kfIyW-0005VK-B6
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 03:38:01 -0500
+ id 1kfIyY-0005WF-9Z
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 03:38:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605688679;
+ s=mimecast20190719; t=1605688681;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WfdfLJ+ZbjNx1xgyxW1tL91idQG0uPVSDz63aaYX6og=;
- b=YUBShOZH7bSYLKLafoBOVV3nG/teB9WV+pXMperBOLnIH69FFqCE8e6cpoionJtZtegO37
- 5GEIkC278fP7v4R5QRej8SA0RaxYVmbHF36K4wWcS0qR1e1cIgyOJHoebqx8iEbOMEydd4
- dqD8003D0W55Zy4NckzQTtnJrtGlF0U=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-438-5B5BqBeiMMCASo4_LDoqzA-1; Wed, 18 Nov 2020 03:37:58 -0500
-X-MC-Unique: 5B5BqBeiMMCASo4_LDoqzA-1
-Received: by mail-wm1-f69.google.com with SMTP id a130so2359156wmf.0
- for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 00:37:58 -0800 (PST)
+ bh=w+PuKfLUpB50oOMefJm/RuJkzqe63XbJCDC2Z/lmLEM=;
+ b=g+pLHKBGOHVncgZMRcYY+bIabGzCdeAn4peWgPUKnucJAe7ZVMHxk0MBeWVGiSUTl9Y2Mq
+ bnK0dwld94fBJ10ocSEagWMPQUSyGxc63KhnjDXOEl0z3KVB6zIQ4mWXwu0qIcVRGQMMhE
+ V7x8yQmRvWz2fEjKw2huslW8eLVwGlM=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-308--teDCaViPd2Jr6n50-qHkg-1; Wed, 18 Nov 2020 03:37:59 -0500
+X-MC-Unique: -teDCaViPd2Jr6n50-qHkg-1
+Received: by mail-wr1-f71.google.com with SMTP id x16so631338wrn.9
+ for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 00:37:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WfdfLJ+ZbjNx1xgyxW1tL91idQG0uPVSDz63aaYX6og=;
- b=bA9N6MGkoNcHaHyn+e7XBbMnHFk4aq20h2d6UDi3ol4wY2bLPo9HZPKe78KzsVL8nl
- Wt2owu9Nn9e81vDeN+PSpLZSQRnRjnjNwjQCFQS/Fr3T1oOdCw1eA/nc6TpZdr65GA81
- DokRFDCrmT6hG6i0WTcQ2U/OV0aVRuuHwC9LmMVZHu2Ui3vXm7jPfQsd1kktmbS8u+VK
- 11lILtvUtNAfQa/Uj3rbkb69YLbTAjlIwkfrnz5qiMaLUhR/HKY6cPZtPLg29BtjMf6z
- X8vwtUNB87CFhc0AGyrGD7N0adhF3vZnTnTxyw5PYkBKrtswpwjhtu7xfl/fV4etre37
- rtkg==
-X-Gm-Message-State: AOAM531uHPvXv7GfCseq1c/fmR5vEADzfbiifKVYFw+uoBXb0p2PSHun
- qV2Bcqg4XtADjOISlxJkhqGhScuhXI67q7Bmq32WnVqSi6yhkIVRY8k7WETsw80Xu1p4c/NxgoP
- rUZU+AUcOuG+SrLHEevtkEznmQ5sD8KIXSWcwtBO0Mq49sS8wSEWnm5bx0vNNQSPRNkI=
-X-Received: by 2002:a5d:448b:: with SMTP id j11mr3559304wrq.236.1605688676706; 
- Wed, 18 Nov 2020 00:37:56 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyG5S3IkfQAdeF8R+YpH2klvBlFpOY7YuqwKu6mRL/wtaT+PGW03rwtXVaD02ge/q3h+YZpLQ==
-X-Received: by 2002:a5d:448b:: with SMTP id j11mr3559286wrq.236.1605688676530; 
- Wed, 18 Nov 2020 00:37:56 -0800 (PST)
+ bh=w+PuKfLUpB50oOMefJm/RuJkzqe63XbJCDC2Z/lmLEM=;
+ b=uTsULyO4L8o8qhZXSkBEh6G6nVBfdwCevvLT+zc/TCvTCmn3rDYWGmphksxGnQ6wQM
+ R95adHwRuHnvDMfwTy3ACgb7F8Tjfvrcmi8uZeEw3+rzun/JaunGgNfo7uMbEomvl7dH
+ TrOlmTXSpeKU1fSb7txSbI8pGoTuixeEUs42aVVFYkEJZFJq8UxgjRWq3e5eFD0JSz5T
+ kDTgdvtLzIX269P7YEBqLeA66B3jjC76di05oG+laV1eQxGWFXqQmUyK4VMSnqm0Zuw0
+ BYlO0crPD4O+23we2vYx0Nngp0ZfNCEA2Bv7x4VDD0/aNdkVD5lRyd4c8W2ior9G7jqO
+ gjsQ==
+X-Gm-Message-State: AOAM530wkYE7WSKn3gqf3ZuGzavg8vxh6oQH+H28/JPx/Z+6hbPjvwJY
+ l+VmW86i7mPwkJ4278ALUl/ZJGzrOsllE0d4wqPH4Hl+5dy+91/1S8oAUl2jwYExB2jTCfXTuz+
+ Gsak+YBZ9DDNIO/m2KTiIMDWMjiq+1qS2JnPUFJFlTrxQ0JQRZXTWMMLVaF5rH4cxrR0=
+X-Received: by 2002:adf:9461:: with SMTP id 88mr3511269wrq.171.1605688678317; 
+ Wed, 18 Nov 2020 00:37:58 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw08vRikOjSkxOc4MmFeBBIIVgVqemc/nnR7ZvQLHStqDOMMVhi3uKglFgGAExRZybD1DM6Mg==
+X-Received: by 2002:adf:9461:: with SMTP id 88mr3511239wrq.171.1605688678035; 
+ Wed, 18 Nov 2020 00:37:58 -0800 (PST)
 Received: from localhost (trasno.trasno.org. [83.165.45.250])
- by smtp.gmail.com with ESMTPSA id u8sm2538025wmg.6.2020.11.18.00.37.55
+ by smtp.gmail.com with ESMTPSA id 8sm933622wmg.28.2020.11.18.00.37.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Nov 2020 00:37:55 -0800 (PST)
+ Wed, 18 Nov 2020 00:37:57 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 04/27] failover: primary bus is only used once,
- and where it is set
-Date: Wed, 18 Nov 2020 09:37:25 +0100
-Message-Id: <20201118083748.1328-5-quintela@redhat.com>
+Subject: [PATCH v2 05/27] failover: Remove unused parameter
+Date: Wed, 18 Nov 2020 09:37:26 +0100
+Message-Id: <20201118083748.1328-6-quintela@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201118083748.1328-1-quintela@redhat.com>
 References: <20201118083748.1328-1-quintela@redhat.com>
@@ -105,62 +104,44 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just remove the struct member.
-
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- include/hw/virtio/virtio-net.h | 1 -
- hw/net/virtio-net.c            | 8 ++++----
- 2 files changed, 4 insertions(+), 5 deletions(-)
+ hw/net/virtio-net.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/include/hw/virtio/virtio-net.h b/include/hw/virtio/virtio-net.h
-index f4852ac27b..c8da637d40 100644
---- a/include/hw/virtio/virtio-net.h
-+++ b/include/hw/virtio/virtio-net.h
-@@ -205,7 +205,6 @@ struct VirtIONet {
-     QemuOpts *primary_device_opts;
-     QDict *primary_device_dict;
-     DeviceState *primary_dev;
--    BusState *primary_bus;
-     char *primary_device_id;
-     char *standby_id;
-     bool primary_should_be_hidden;
 diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index a0fa63e7cb..786d313330 100644
+index 786d313330..3f658d6246 100644
 --- a/hw/net/virtio-net.c
 +++ b/hw/net/virtio-net.c
-@@ -804,7 +804,6 @@ static void failover_add_primary(VirtIONet *n, Error **errp)
-             qemu_opts_del(n->primary_device_opts);
-         }
-         if (n->primary_dev) {
--            n->primary_bus = n->primary_dev->parent_bus;
-             if (err) {
-                 qdev_unplug(n->primary_dev, &err);
-                 qdev_set_id(n->primary_dev, "");
-@@ -3118,6 +3117,7 @@ static bool failover_replug_primary(VirtIONet *n, Error **errp)
-     Error *err = NULL;
-     HotplugHandler *hotplug_ctrl;
-     PCIDevice *pdev = PCI_DEVICE(n->primary_dev);
-+    BusState *primary_bus;
+@@ -855,9 +855,7 @@ static DeviceState *virtio_net_find_primary(VirtIONet *n, Error **errp)
+     return dev;
+ }
  
-     if (!pdev->partially_hotplugged) {
-         return true;
-@@ -3130,12 +3130,12 @@ static bool failover_replug_primary(VirtIONet *n, Error **errp)
-             return false;
+-static DeviceState *virtio_connect_failover_devices(VirtIONet *n,
+-                                                    DeviceState *dev,
+-                                                    Error **errp)
++static DeviceState *virtio_connect_failover_devices(VirtIONet *n, Error **errp)
+ {
+     DeviceState *prim_dev = NULL;
+     Error *err = NULL;
+@@ -928,7 +926,7 @@ static void virtio_net_set_features(VirtIODevice *vdev, uint64_t features)
+         qatomic_set(&n->primary_should_be_hidden, false);
+         failover_add_primary(n, &err);
+         if (err) {
+-            n->primary_dev = virtio_connect_failover_devices(n, n->qdev, &err);
++            n->primary_dev = virtio_connect_failover_devices(n, &err);
+             if (err) {
+                 goto out_err;
+             }
+@@ -3164,7 +3162,7 @@ static void virtio_net_handle_migration_primary(VirtIONet *n,
+     should_be_hidden = qatomic_read(&n->primary_should_be_hidden);
+ 
+     if (!n->primary_dev) {
+-        n->primary_dev = virtio_connect_failover_devices(n, n->qdev, &err);
++        n->primary_dev = virtio_connect_failover_devices(n, &err);
+         if (!n->primary_dev) {
+             return;
          }
-     }
--    n->primary_bus = n->primary_dev->parent_bus;
--    if (!n->primary_bus) {
-+    primary_bus = n->primary_dev->parent_bus;
-+    if (!primary_bus) {
-         error_setg(errp, "virtio_net: couldn't find primary bus");
-         return false;
-     }
--    qdev_set_parent_bus(n->primary_dev, n->primary_bus, &error_abort);
-+    qdev_set_parent_bus(n->primary_dev, primary_bus, &error_abort);
-     qatomic_set(&n->primary_should_be_hidden, false);
-     if (!qemu_opt_set_bool(n->primary_device_opts,
-                            "partially_hotplugged", true, errp)) {
 -- 
 2.26.2
 
