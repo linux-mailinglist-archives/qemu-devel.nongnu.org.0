@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C9C42B7CE3
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 12:41:20 +0100 (CET)
-Received: from localhost ([::1]:56098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18AAA2B7D19
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 12:56:28 +0100 (CET)
+Received: from localhost ([::1]:32948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfLpv-00051X-8x
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 06:41:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41288)
+	id 1kfM4Y-00087N-Le
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 06:56:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kfLoo-0004Rp-1R
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 06:40:10 -0500
-Resent-Date: Wed, 18 Nov 2020 06:40:10 -0500
-Resent-Message-Id: <E1kfLoo-0004Rp-1R@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21798)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kfLok-0005oN-IW
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 06:40:09 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1605699589; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=kWUd0BpmPq2fdL3cxx4L+1bXD24wGq9UwZylu5BEQwCsu78YyE9jGDYlVcTrpIR2+qwQEP9SpB64N0p/tkVyXssrtp1CbEmzbCKIMxoIGHlMpA/Du0qHajjuIk/AQf3m99zHc2pAqnI6G2k9IIWSvdZ/eGNIL3PqzfGv00Oqre0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1605699589;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=CIgsFOPmPU64vpS4yT47lkwJ4b0PReBN7ZEq3IEvAPI=; 
- b=CFdTbjnnN6bEbPE4aqENk1/PcG5dY8EZ++9VLScUSuAxlCTrXI7W7qi1odJlPSG38RFEfdecwVNyqe4uQusskC4gQgWGG0edUYtSXtNrlQRlh6MFbiGzN1bZvqDSy8BkOwfUKaPRHCA23P2a1IVB5/wuD98aNd2xpgLFeJNCKFU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1605699586939691.0272882246329;
- Wed, 18 Nov 2020 03:39:46 -0800 (PST)
-In-Reply-To: <20201118112233.264530-1-andrey.gruzdev@virtuozzo.com>
-Subject: Re: [PATCH 0/7] UFFD write-tracking migration/snapshots
-Message-ID: <160569958542.135.1319542337737342807@ba092462a7f3>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kfM3o-0007hA-U4
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 06:55:40 -0500
+Received: from indium.canonical.com ([91.189.90.7]:50612)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kfM3m-0007tu-OY
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 06:55:40 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kfM3k-0001uC-IN
+ for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 11:55:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 885132E804B
+ for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 11:55:36 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 18 Nov 2020 11:49:17 -0000
+From: =?utf-8?q?Mark_Karpel=C3=A8s?= <1903470@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
-Date: Wed, 18 Nov 2020 03:39:46 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 06:01:25
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: magicaltux marcandre-lureau
+X-Launchpad-Bug-Reporter: =?utf-8?q?Mark_Karpel=C3=A8s_=28magicaltux=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Mark_Karpel=C3=A8s_=28magicaltux=29?=
+References: <160488704585.18602.6390058369473747228.malonedeb@soybean.canonical.com>
+Message-Id: <160570015748.18184.11435773604758716315.malone@gac.canonical.com>
+Subject: [Bug 1903470] Re: qemu 5.1.0: Add UNIX socket support for netdev
+ socket
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c35ff22711d15549e2303ae18ae521fd91f6bf00"; Instance="production"
+X-Launchpad-Hash: 13b8cc75acfde5f2f0d8a1de885fe132114aad49
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 04:01:19
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,143 +73,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: den@openvz.com, quintela@redhat.com, armbru@redhat.com,
- qemu-devel@nongnu.org, dgilbert@redhat.com, pbonzini@redhat.com,
- andrey.gruzdev@virtuozzo.com
+Reply-To: Bug 1903470 <1903470@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTExODExMjIzMy4yNjQ1
-MzAtMS1hbmRyZXkuZ3J1emRldkB2aXJ0dW96em8uY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNl
-ZW1zIHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cg
-Zm9yCm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMDExMTgx
-MTIyMzMuMjY0NTMwLTEtYW5kcmV5LmdydXpkZXZAdmlydHVvenpvLmNvbQpTdWJqZWN0OiBbUEFU
-Q0ggMC83XSBVRkZEIHdyaXRlLXRyYWNraW5nIG1pZ3JhdGlvbi9zbmFwc2hvdHMKCj09PSBURVNU
-IFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9u
-dWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBj
-b25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5h
-bGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFz
-ZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2
-NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJv
-amVjdC9xZW11CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMDExMTgxMTIyMzMuMjY0
-NTMwLTEtYW5kcmV5LmdydXpkZXZAdmlydHVvenpvLmNvbSAtPiBwYXRjaGV3LzIwMjAxMTE4MTEy
-MjMzLjI2NDUzMC0xLWFuZHJleS5ncnV6ZGV2QHZpcnR1b3p6by5jb20KU3dpdGNoZWQgdG8gYSBu
-ZXcgYnJhbmNoICd0ZXN0Jwo1NTg5YWVkIEludHJvZHVjZWQgc2ltcGxlIGxpbmVhciBzY2FuIHJh
-dGUgbGltaXRpbmcgbWVjaGFuaXNtIGZvciB3cml0ZSB0cmFja2luZyBtaWdyYXRpb24uCjNjNjE0
-YWMgVGhlIHJlc3Qgb2Ygd3JpdGUgdHJhY2tpbmcgbWlncmF0aW9uIGNvZGUuCjFhYTRkNmIgSW1w
-bGVtZW50YXRpb24gb2Ygdm1fc3RhcnQoKSBCSC4KMzlkN2NlMSBJbXBsZW1lbnRhdGlvbiBvZiB3
-cml0ZS10cmFja2luZyBtaWdyYXRpb24gdGhyZWFkLgpiMzNjNjFmIFN1cHBvcnQgVUZGRCB3cml0
-ZSBmYXVsdCBwcm9jZXNzaW5nIGluIHJhbV9zYXZlX2l0ZXJhdGUoKS4KZWI5ZjFiOSBJbnRyb2R1
-Y2VkIFVGRkQtV1AgbG93LWxldmVsIGludGVyZmFjZSBoZWxwZXJzLiBJbXBsZW1lbnRlZCBzdXBw
-b3J0IGZvciB0aGUgd2hvbGUgUkFNIGJsb2NrIG1lbW9yeSBwcm90ZWN0aW9uL3VuLXByb3RlY3Rp
-b24uIEhpZ2hlciBsZXZlbCByYW1fd3JpdGVfdHJhY2tpbmdfc3RhcnQoKSBhbmQgcmFtX3dyaXRl
-X3RyYWNraW5nX3N0b3AoKSB0byBzdGFydC9zdG9wIHRyYWNraW5nIG1lbW9yeSB3cml0ZXMgb24g
-dGhlIHdob2xlIFZNIG1lbW9yeS4KYTMyNDQ1ZSBJbnRyb2R1Y2UgJ3RyYWNrLXdyaXRlcy1yYW0n
-IG1pZ3JhdGlvbiBjYXBhYmlsaXR5LgoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS83IENoZWNraW5n
-IGNvbW1pdCBhMzI0NDVlYTNmNGQgKEludHJvZHVjZSAndHJhY2std3JpdGVzLXJhbScgbWlncmF0
-aW9uIGNhcGFiaWxpdHkuKQpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMTM0OiBG
-SUxFOiBtaWdyYXRpb24vbWlncmF0aW9uLmM6Mzg4MToKKyAgICBERUZJTkVfUFJPUF9NSUdfQ0FQ
-KCJ4LXRyYWNrLXdyaXRlcy1yYW0iLCBNSUdSQVRJT05fQ0FQQUJJTElUWV9UUkFDS19XUklURVNf
-UkFNKSwKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMTQ2IGxpbmVzIGNoZWNrZWQKClBh
-dGNoIDEvNyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhl
-c2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWlu
-ZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoyLzcgQ2hlY2tpbmcgY29tbWl0IGVi
-OWYxYjkyMjZmZCAoSW50cm9kdWNlZCBVRkZELVdQIGxvdy1sZXZlbCBpbnRlcmZhY2UgaGVscGVy
-cy4gSW1wbGVtZW50ZWQgc3VwcG9ydCBmb3IgdGhlIHdob2xlIFJBTSBibG9jayBtZW1vcnkgcHJv
-dGVjdGlvbi91bi1wcm90ZWN0aW9uLiBIaWdoZXIgbGV2ZWwgcmFtX3dyaXRlX3RyYWNraW5nX3N0
-YXJ0KCkgYW5kIHJhbV93cml0ZV90cmFja2luZ19zdG9wKCkgdG8gc3RhcnQvc3RvcCB0cmFja2lu
-ZyBtZW1vcnkgd3JpdGVzIG9uIHRoZSB3aG9sZSBWTSBtZW1vcnkuKQozLzcgQ2hlY2tpbmcgY29t
-bWl0IGIzM2M2MWZkZWEyNyAoU3VwcG9ydCBVRkZEIHdyaXRlIGZhdWx0IHByb2Nlc3NpbmcgaW4g
-cmFtX3NhdmVfaXRlcmF0ZSgpLikKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzcw
-OiBGSUxFOiBtaWdyYXRpb24vcmFtLmM6MTk1MjoKKyAgICAgICAgICAgICAgICAgICAgKChwYWdl
-X2FkZHJlc3MgLSAoaHdhZGRyKSBwc3MtPmJsb2NrLT5ob3N0KSA+PiBUQVJHRVRfUEFHRV9CSVRT
-KTsKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMxMjA6IEZJTEU6IG1pZ3JhdGlv
-bi9yYW0uYzoyMDAyOgorICAgICAgICAvKiBJbiBjYXNlIHdlIGNvdWxkbid0IGZpbmQgcmVzcGVj
-dGl2ZSBibG9jaywganVzdCB1bnByb3RlY3QgZmF1bHRpbmcgcGFnZSAqLwoKV0FSTklORzogbGlu
-ZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzEyMTogRklMRTogbWlncmF0aW9uL3JhbS5jOjIwMDM6Cisg
-ICAgICAgIHVmZmRfcHJvdGVjdF9tZW1vcnkocnMtPnVmZmRpb19mZCwgcGFnZV9hZGRyZXNzLCBU
-QVJHRVRfUEFHRV9TSVpFLCBmYWxzZSk7CgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBs
-ZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMTU2OiBGSUxFOiBtaWdyYXRpb24vcmFtLmM6
-MjA1MDoKKyAgICAgICAgLyogSW4gY2FzZSBvZiAnd3JpdGUtdHJhY2tpbmcnIG1pZ3JhdGlvbiB3
-ZSBmaXJzdCB0cnkKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9u
-IGEgc2VwYXJhdGUgbGluZQojMTU3OiBGSUxFOiBtaWdyYXRpb24vcmFtLmM6MjA1MToKKyAgICAg
-ICAgICogdG8gcG9sbCBVRkZEIGFuZCBnZXQgd3JpdGUgcGFnZSBmYXVsdCBldmVudCAqLwoKV0FS
-TklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzE3NzogRklMRTogbWlncmF0aW9uL3JhbS5j
-OjIwNzE6CisgICAgICAgICAgICAgICAgaHdhZGRyIHJ1bl9sZW5ndGggPSAoaHdhZGRyKSAocGFn
-ZV90byAtIHBhZ2UgKyAxKSA8PCBUQVJHRVRfUEFHRV9CSVRTOwoKV0FSTklORzogbGluZSBvdmVy
-IDgwIGNoYXJhY3RlcnMKIzE4MzogRklMRTogbWlncmF0aW9uL3JhbS5jOjIwNzc6CisgICAgICAg
-ICAgICAgICAgcmVzID0gdWZmZF9wcm90ZWN0X21lbW9yeShycy0+dWZmZGlvX2ZkLCBwYWdlX2Fk
-ZHJlc3MsIHJ1bl9sZW5ndGgsIGZhbHNlKTsKCnRvdGFsOiAwIGVycm9ycywgNyB3YXJuaW5ncywg
-MTY3IGxpbmVzIGNoZWNrZWQKClBhdGNoIDMvNyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSBy
-ZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0
-IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo0
-LzcgQ2hlY2tpbmcgY29tbWl0IDM5ZDdjZTFmNDk0OSAoSW1wbGVtZW50YXRpb24gb2Ygd3JpdGUt
-dHJhY2tpbmcgbWlncmF0aW9uIHRocmVhZC4pCkVSUk9SOiBzdXNwaWNpb3VzIDsgYWZ0ZXIgd2hp
-bGUgKDApCiMxNDI6IEZJTEU6IG1pZ3JhdGlvbi9taWdyYXRpb24uYzozODExOgorICAgIH0gd2hp
-bGUgKGZhbHNlKTsKCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgMjI5IGxpbmVzIGNoZWNr
-ZWQKClBhdGNoIDQvNyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkg
-b2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1h
-aW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKNS83IENoZWNraW5nIGNv
-bW1pdCAxYWE0ZDZiODJkNGIgKEltcGxlbWVudGF0aW9uIG9mIHZtX3N0YXJ0KCkgQkguKQo2Lzcg
-Q2hlY2tpbmcgY29tbWl0IDNjNjE0YWMwYmFiZSAoVGhlIHJlc3Qgb2Ygd3JpdGUgdHJhY2tpbmcg
-bWlncmF0aW9uIGNvZGUuKQpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzE5OiBGSUxF
-OiBtaWdyYXRpb24vbWlncmF0aW9uLmM6MzIxNjoKKyAqIHd0X21pZ3JhdGlvbl9jb21wbGV0aW9u
-OiBVc2VkIGJ5IHd0X21pZ3JhdGlvbl90aHJlYWQgd2hlbiBhZnRlciBhbGwgdGhlIFJBTSBoYXMg
-YmVlbiBzYXZlZC4KCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMyODogRklMRTog
-bWlncmF0aW9uL21pZ3JhdGlvbi5jOjMyMjU6CisgICAgLyogU3RvcCB0cmFja2luZyBSQU0gd3Jp
-dGVzIC0gdW4tcHJvdGVjdCBtZW1vcnksIHVuLXJlZ2lzdGVyIFVGRkQgbWVtb3J5IHJhbmdlcywK
-CldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBs
-aW5lCiMyODogRklMRTogbWlncmF0aW9uL21pZ3JhdGlvbi5jOjMyMjU6CisgICAgLyogU3RvcCB0
-cmFja2luZyBSQU0gd3JpdGVzIC0gdW4tcHJvdGVjdCBtZW1vcnksIHVuLXJlZ2lzdGVyIFVGRkQg
-bWVtb3J5IHJhbmdlcywKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMyOTogRklM
-RTogbWlncmF0aW9uL21pZ3JhdGlvbi5jOjMyMjY6CisgICAgICogZmx1c2gga2VybmVsIHdhaXQg
-cXVldWVzIGFuZCB3YWtlIHVwIHRocmVhZHMgd2FpdGluZyBmb3Igd3JpdGUgZmF1bHQgdG8gYmUK
-CldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMzMDogRklMRTogbWlncmF0aW9uL21p
-Z3JhdGlvbi5jOjMyMjc6CisgICAgICogcmVzb2x2ZWQuIEFsbCBvZiB0aGlzIGlzIGVzc2VudGlh
-bGx5IGRvbmUgYnkgY2xvc2luZyBVRkZEIGZpbGUgZGVzY3JpcHRvciAqLwoKV0FSTklORzogQmxv
-Y2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiMzMDogRklM
-RTogbWlncmF0aW9uL21pZ3JhdGlvbi5jOjMyMjc6CisgICAgICogcmVzb2x2ZWQuIEFsbCBvZiB0
-aGlzIGlzIGVzc2VudGlhbGx5IGRvbmUgYnkgY2xvc2luZyBVRkZEIGZpbGUgZGVzY3JpcHRvciAq
-LwoKRVJST1I6IHN3aXRjaCBhbmQgY2FzZSBzaG91bGQgYmUgYXQgdGhlIHNhbWUgaW5kZW50CiM2
-OTogRklMRTogbWlncmF0aW9uL21pZ3JhdGlvbi5jOjM2MDA6CisgICAgc3dpdGNoIChzLT5zdGF0
-ZSkgeworICAgICAgICBjYXNlIE1JR1JBVElPTl9TVEFUVVNfQ09NUExFVEVEOgpbLi4uXQorICAg
-ICAgICBjYXNlIE1JR1JBVElPTl9TVEFUVVNfQUNUSVZFOgorICAgICAgICBjYXNlIE1JR1JBVElP
-Tl9TVEFUVVNfRkFJTEVEOgorICAgICAgICBjYXNlIE1JR1JBVElPTl9TVEFUVVNfQ0FOQ0VMTEVE
-OgorICAgICAgICBjYXNlIE1JR1JBVElPTl9TVEFUVVNfQ0FOQ0VMTElORzoKWy4uLl0KKyAgICAg
-ICAgZGVmYXVsdDoKCnRvdGFsOiAyIGVycm9ycywgNSB3YXJuaW5ncywgOTAgbGluZXMgY2hlY2tl
-ZAoKUGF0Y2ggNi83IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBv
-ZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFp
-bnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo3LzcgQ2hlY2tpbmcgY29t
-bWl0IDU1ODlhZWQzNmVkNiAoSW50cm9kdWNlZCBzaW1wbGUgbGluZWFyIHNjYW4gcmF0ZSBsaW1p
-dGluZyBtZWNoYW5pc20gZm9yIHdyaXRlIHRyYWNraW5nIG1pZ3JhdGlvbi4pCldBUk5JTkc6IEJs
-b2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiM3ODogRklM
-RTogbWlncmF0aW9uL3JhbS5jOjIwNDA6CisgICAgLyogSW4gY2FzZSBsYXN0IGZhdWx0IHRpbWUg
-d2FzIGF2YWlsYWJsZSBhbmQgd2UgaGF2ZQoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEg
-dHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiM3OTogRklMRTogbWlncmF0aW9uL3JhbS5j
-OjIwNDE6CisgICAgICogbGF0ZW5jeSB2YWx1ZSwgY2hlY2sgaWYgaXQncyBub3QgdG9vIGhpZ2gg
-Ki8KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0
-ZSBsaW5lCiM4NDogRklMRTogbWlncmF0aW9uL3JhbS5jOjIwNDY6CisgICAgLyogRGVsYXkgdGhy
-ZWFkIGV4ZWN1dGlvbiB0aWxsIG5leHQgd3JpdGUgZmF1bHQgb2NjdXJlcyBvciB0aW1lb3V0IGV4
-cGlyZXMuCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojODU6IEZJTEU6IG1pZ3Jh
-dGlvbi9yYW0uYzoyMDQ3OgorICAgICAqIE5leHQgU0xPV19GQVVMVF9TS0lQX1BBR0VTIGNhbiBi
-ZSB3cml0ZSBmYXVsdCBwYWdlcyBvbmx5LCBub3QgZnJvbSBwYWdlcyBnb2luZyBmcm9tCgpXQVJO
-SU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojODY6IEZJTEU6IG1pZ3JhdGlvbi9yYW0uYzoy
-MDQ4OgorICAgICAqIGxpbmVhciBzY2FuIGxvZ2ljLiBUaHVzIHdlIG1vZGVyYXRlIG1pZ3JhdGlv
-biBzdHJlYW0gcmF0ZSB0byByZWR1Y2UgbGF0ZW5jaWVzICovCgpXQVJOSU5HOiBCbG9jayBjb21t
-ZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNlcGFyYXRlIGxpbmUKIzg2OiBGSUxFOiBtaWdy
-YXRpb24vcmFtLmM6MjA0ODoKKyAgICAgKiBsaW5lYXIgc2NhbiBsb2dpYy4gVGh1cyB3ZSBtb2Rl
-cmF0ZSBtaWdyYXRpb24gc3RyZWFtIHJhdGUgdG8gcmVkdWNlIGxhdGVuY2llcyAqLwoKV0FSTklO
-RzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzExODogRklMRTogbWlncmF0aW9uL3JhbS5jOjIy
-NDg6CisjZGVmaW5lIFdUX01BWF9XQUlUIDEwMDAgLyogMTAwMCBtcywgbmVlZCBiaWdnZXIgbGlt
-aXQgZm9yICd3cml0ZS10cmFja2luZycgbWlncmF0aW9uICovCgp0b3RhbDogMCBlcnJvcnMsIDcg
-d2FybmluZ3MsIDEwMyBsaW5lcyBjaGVja2VkCgpQYXRjaCA3LzcgaGFzIHN0eWxlIHByb2JsZW1z
-LCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRp
-dmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlO
-VEFJTkVSUy4KPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29k
-ZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xv
-Z3MvMjAyMDExMTgxMTIyMzMuMjY0NTMwLTEtYW5kcmV5LmdydXpkZXZAdmlydHVvenpvLmNvbS90
-ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRv
-bWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQg
-eW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+Thanks for the response. I'm not sure, how would I run qemu with a fd=3D
+socketpair on the command line?
+
+The wiki (https://wiki.qemu.org/index.php/Documentation/Networking)
+suggests for example to use:
+
+-netdev socket,id=3Dmynet0,listen=3D:1234
+-netdev socket,id=3Dmynet0,connect=3D:1234
+
+This would allow however anyone on the same network (or in the world if
+run on a server) to connect to this network and possibly do bad things.
+Using localhost binding helps but is still risky if there is more than
+one user on a given machine. Using something like:
+
+-netdev socket,id=3Dmynet0,listen=3D~/.qemu-netsocket
+-netdev socket,id=3Dmynet0,connect=3D~/.qemu-netsocket
+
+How would one do that with fd=3D ?
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1903470
+
+Title:
+  qemu 5.1.0: Add UNIX socket support for netdev socket
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  Note: this is a feature request.
+
+  qemu has a way to connect instances using a socket:
+
+  -netdev socket,id=3Dstr[,fd=3Dh][,listen=3D[host]:port][,connect=3Dhost:p=
+ort]
+
+  This can also be used to connect a qemu instance to something else
+  using a socket connection, however there is no authentication or
+  security to the connection, so rather than using a port which can be
+  accessed by any user on the machine, having the ability to use or
+  connect to UNIX sockets would be helpful, and adding this option
+  should be fairly trivial.
+
+  UNIX sockets can be found in various parts of qemu (monitor, etc) so I
+  believe having this on network would make sense.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1903470/+subscriptions
 
