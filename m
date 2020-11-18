@@ -2,61 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB55B2B7DAA
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 13:34:20 +0100 (CET)
-Received: from localhost ([::1]:56302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CE362B7DB1
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 13:40:02 +0100 (CET)
+Received: from localhost ([::1]:59546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfMfD-0002cc-Sf
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 07:34:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52234)
+	id 1kfMkj-0004Eb-Ha
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 07:40:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kfMe7-0001j4-AB; Wed, 18 Nov 2020 07:33:12 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2055)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kfMjn-0003nR-IX
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 07:39:05 -0500
+Received: from mx2.suse.de ([195.135.220.15]:46394)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kfMe4-0003x1-EB; Wed, 18 Nov 2020 07:33:11 -0500
-Received: from DGGEMM401-HUB.china.huawei.com (unknown [172.30.72.53])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4CbhzM4bGFzQsSw;
- Wed, 18 Nov 2020 20:32:47 +0800 (CST)
-Received: from DGGEMM531-MBX.china.huawei.com ([169.254.5.128]) by
- DGGEMM401-HUB.china.huawei.com ([10.3.20.209]) with mapi id 14.03.0487.000;
- Wed, 18 Nov 2020 20:32:51 +0800
-From: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>
-To: =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "qemu-trivial@nongnu.org"
- <qemu-trivial@nongnu.org>
-Subject: RE: [PATCH-for-5.2? 1/2] tests/qtest: variable defined by
- g_autofree need to be initialized
-Thread-Topic: [PATCH-for-5.2? 1/2] tests/qtest: variable defined by
- g_autofree need to be initialized
-Thread-Index: AQHWvaH7LAlqtNTNq0CJSxOYz75c7KnNRyyAgACHeGA=
-Date: Wed, 18 Nov 2020 12:32:50 +0000
-Message-ID: <7412CDE03601674DA8197E2EBD8937E83BA81997@dggemm531-mbx.china.huawei.com>
-References: <20201118115646.2461726-1-kuhn.chenqun@huawei.com>
- <20201118115646.2461726-2-kuhn.chenqun@huawei.com>
- <cd63f998-e3fe-d93f-f515-a47103592e05@redhat.com>
-In-Reply-To: <cd63f998-e3fe-d93f-f515-a47103592e05@redhat.com>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.185.149]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kfMje-0004i2-OC
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 07:39:03 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 1772EAC41;
+ Wed, 18 Nov 2020 12:38:53 +0000 (UTC)
+Subject: Re: [RFC v3 8/9] module: introduce MODULE_INIT_ACCEL_CPU
+To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <rth@twiddle.net>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Wenchao Wang <wenchao.wang@intel.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20201118102936.25569-1-cfontana@suse.de>
+ <20201118102936.25569-9-cfontana@suse.de>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <ad2ebb19-88de-edc6-70ee-fb7fc65d1169@suse.de>
+Date: Wed, 18 Nov 2020 13:38:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=kuhn.chenqun@huawei.com; helo=szxga02-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 07:33:01
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+In-Reply-To: <20201118102936.25569-9-cfontana@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 07:38:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,55 +63,262 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "lvivier@redhat.com" <lvivier@redhat.com>,
- "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "thuth@redhat.com" <thuth@redhat.com>,
- Zhanghailiang <zhang.zhanghailiang@huawei.com>,
- "hskinnemoen@google.com" <hskinnemoen@google.com>,
- "wuhaotsh@google.com" <wuhaotsh@google.com>,
- Euler Robot <euler.robot@huawei.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
+ Cameron Esfahani <dirty@apple.com>, haxm-team@intel.com,
+ Colin Xu <colin.xu@intel.com>, Anthony Perard <anthony.perard@citrix.com>,
+ Bruce Rogers <brogers@suse.com>, Olaf Hering <ohering@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBQaGlsaXBwZSBNYXRoaWV1LURh
-dWTDqSBbbWFpbHRvOnBoaWxtZEByZWRoYXQuY29tXQ0KPiBTZW50OiBXZWRuZXNkYXksIE5vdmVt
-YmVyIDE4LCAyMDIwIDg6MTQgUE0NCj4gVG86IENoZW5xdW4gKGt1aG4pIDxrdWhuLmNoZW5xdW5A
-aHVhd2VpLmNvbT47IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZzsNCj4gcWVtdS10cml2aWFsQG5vbmdu
-dS5vcmcNCj4gQ2M6IGx2aXZpZXJAcmVkaGF0LmNvbTsgcGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3Jn
-OyB0aHV0aEByZWRoYXQuY29tOw0KPiBaaGFuZ2hhaWxpYW5nIDx6aGFuZy56aGFuZ2hhaWxpYW5n
-QGh1YXdlaS5jb20+Ow0KPiBoc2tpbm5lbW9lbkBnb29nbGUuY29tOyB3dWhhb3RzaEBnb29nbGUu
-Y29tOyBFdWxlciBSb2JvdA0KPiA8ZXVsZXIucm9ib3RAaHVhd2VpLmNvbT4NCj4gU3ViamVjdDog
-UmU6IFtQQVRDSC1mb3ItNS4yPyAxLzJdIHRlc3RzL3F0ZXN0OiB2YXJpYWJsZSBkZWZpbmVkIGJ5
-IGdfYXV0b2ZyZWUNCj4gbmVlZCB0byBiZSBpbml0aWFsaXplZA0KPiANCj4gT24gMTEvMTgvMjAg
-MTI6NTYgUE0sIENoZW4gUXVuIHdyb3RlOg0KPiA+IEFjY29yZGluZyB0byB0aGUgZ2xpYiBmdW5j
-dGlvbiByZXF1aXJlbWVudHMsIHdlIG5lZWQgaW5pdGlhbGlzZSAgdGhlDQo+ID4gdmFyaWFibGUu
-IE90aGVyd2lzZSB0aGVyZSB3aWxsIGJlIGNvbXBpbGF0aW9uIHdhcm5pbmdzOg0KPiA+DQo+ID4g
-Z2xpYi1hdXRvY2xlYW51cHMuaDoyODozOiB3YXJuaW5nOiDigJhmdWxsX25hbWXigJkgbWF5IGJl
-IHVzZWQNCj4gPiB1bmluaXRpYWxpemVkIGluIHRoaXMgZnVuY3Rpb24gWy1XbWF5YmUtdW5pbml0
-aWFsaXplZF0NCj4gPiAgICAyOCB8ICAgZ19mcmVlICgqcHApOw0KPiA+ICAgICAgIHwgICBefn5+
-fn5+fn5+fn4NCj4gPg0KPiA+IFJlcG9ydGVkLWJ5OiBFdWxlciBSb2JvdCA8ZXVsZXIucm9ib3RA
-aHVhd2VpLmNvbT4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBDaGVuIFF1biA8a3Vobi5jaGVucXVuQGh1
-YXdlaS5jb20+DQo+ID4gLS0tDQo+ID4gIHRlc3RzL3F0ZXN0L25wY203eHhfdGltZXItdGVzdC5j
-IHwgOCArKystLS0tLQ0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCA1IGRl
-bGV0aW9ucygtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL3Rlc3RzL3F0ZXN0L25wY203eHhfdGlt
-ZXItdGVzdC5jDQo+ID4gYi90ZXN0cy9xdGVzdC9ucGNtN3h4X3RpbWVyLXRlc3QuYw0KPiA+IGlu
-ZGV4IGYwOGIwY2Q2MmEuLjgzNzc0YTViOTAgMTAwNjQ0DQo+ID4gLS0tIGEvdGVzdHMvcXRlc3Qv
-bnBjbTd4eF90aW1lci10ZXN0LmMNCj4gPiArKysgYi90ZXN0cy9xdGVzdC9ucGNtN3h4X3RpbWVy
-LXRlc3QuYw0KPiA+IEBAIC01MTIsMTEgKzUxMiw5IEBAIHN0YXRpYyB2b2lkDQo+IHRlc3RfZGlz
-YWJsZV9vbl9leHBpcmF0aW9uKGdjb25zdHBvaW50ZXIgdGVzdF9kYXRhKQ0KPiA+ICAgKi8NCj4g
-PiAgc3RhdGljIHZvaWQgdGltX2FkZF90ZXN0KGNvbnN0IGNoYXIgKm5hbWUsIGNvbnN0IFRlc3RE
-YXRhICp0ZCwNCj4gPiBHVGVzdERhdGFGdW5jIGZuKSAgew0KPiANCj4gT3I6DQo+IA0KPiA+IC0g
-ICAgZ19hdXRvZnJlZSBjaGFyICpmdWxsX25hbWU7DQo+ICAgKyAgICBnX2F1dG9mcmVlIGNoYXIg
-KmZ1bGxfbmFtZSA9IE5VTEw7DQo+IA0KWWVzLCB0aGlzIGFsc28gbWVldHMgdGhlIGdsaWIgcmVx
-dWlyZW1lbnRzLg0KQnV0LCB0aGUgYXNzaWdubWVudCBzdGF0ZW1lbnQgZm9sbG93aW5nIGlzIG5v
-dCBjb21wbGV4LCBzbyB3ZSBjb3VsZCBkbyBib3RoIG9mIHZhcmlhYmxlIGRlZmluaXRpb24gYW5k
-IGFzc2lnbm1lbnQgaW4gYSBzdGF0ZW1lbnQuDQoNClRoYW5rcywNCkNoZW4gUXVuDQo+ID4gLQ0K
-PiA+IC0gICAgZnVsbF9uYW1lID0gZ19zdHJkdXBfcHJpbnRmKCJucGNtN3h4X3RpbWVyL3RpbVsl
-ZF0vdGltZXJbJWRdLyVzIiwNCj4gPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB0
-aW1faW5kZXgodGQtPnRpbSksDQo+IHRpbWVyX2luZGV4KHRkLT50aW1lciksDQo+ID4gLSAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgbmFtZSk7DQo+ID4gKyAgICBnX2F1dG9mcmVlIGNo
-YXIgKmZ1bGxfbmFtZSA9IGdfc3RyZHVwX3ByaW50ZigNCj4gPiArICAgICAgICAibnBjbTd4eF90
-aW1lci90aW1bJWRdL3RpbWVyWyVkXS8lcyIsIHRpbV9pbmRleCh0ZC0+dGltKSwNCj4gPiArICAg
-ICAgICB0aW1lcl9pbmRleCh0ZC0+dGltZXIpLCBuYW1lKTsNCj4gPiAgICAgIHF0ZXN0X2FkZF9k
-YXRhX2Z1bmMoZnVsbF9uYW1lLCB0ZCwgZm4pOyAgfQ0KPiA+DQo+ID4NCg0K
+On 11/18/20 11:29 AM, Claudio Fontana wrote:
+> apply this to the registration of the cpus accel interfaces,
+> 
+> but this will be also in preparation for later use of this
+> new module init step to also defer the registration of the cpu models,
+
+
+
+this is not true anymore, so my commit message here needs fixing.
+
+
+
+> in order to make them subclasses of a per-accel cpu type.
+> 
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> ---
+>  accel/kvm/kvm-all.c         | 11 +++++++++--
+>  accel/qtest/qtest.c         | 10 +++++++++-
+>  accel/tcg/tcg-all.c         | 11 +++++++++--
+>  accel/xen/xen-all.c         | 12 +++++++++---
+>  include/qemu/module.h       |  2 ++
+>  softmmu/vl.c                |  6 ++++++
+>  target/i386/hax/hax-all.c   | 12 +++++++++---
+>  target/i386/hvf/hvf.c       | 10 +++++++++-
+>  target/i386/whpx/whpx-all.c | 11 +++++++++--
+>  9 files changed, 71 insertions(+), 14 deletions(-)
+> 
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index 9ef5daf4c5..509b249f52 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -2251,8 +2251,6 @@ static int kvm_init(MachineState *ms)
+>          ret = ram_block_discard_disable(true);
+>          assert(!ret);
+>      }
+> -
+> -    cpus_register_accel(&kvm_cpus);
+>      return 0;
+>  
+>  err:
+> @@ -3236,3 +3234,12 @@ static void kvm_type_init(void)
+>  }
+>  
+>  type_init(kvm_type_init);
+> +
+> +static void kvm_accel_cpu_init(void)
+> +{
+> +    if (kvm_enabled()) {
+> +        cpus_register_accel(&kvm_cpus);
+> +    }
+> +}
+> +
+> +accel_cpu_init(kvm_accel_cpu_init);
+> diff --git a/accel/qtest/qtest.c b/accel/qtest/qtest.c
+> index b282cea5cf..8d14059e32 100644
+> --- a/accel/qtest/qtest.c
+> +++ b/accel/qtest/qtest.c
+> @@ -32,7 +32,6 @@ const CpusAccel qtest_cpus = {
+>  
+>  static int qtest_init_accel(MachineState *ms)
+>  {
+> -    cpus_register_accel(&qtest_cpus);
+>      return 0;
+>  }
+>  
+> @@ -58,3 +57,12 @@ static void qtest_type_init(void)
+>  }
+>  
+>  type_init(qtest_type_init);
+> +
+> +static void qtest_accel_cpu_init(void)
+> +{
+> +    if (qtest_enabled()) {
+> +        cpus_register_accel(&qtest_cpus);
+> +    }
+> +}
+> +
+> +accel_cpu_init(qtest_accel_cpu_init);
+> diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
+> index fa1208158f..9ffedc8151 100644
+> --- a/accel/tcg/tcg-all.c
+> +++ b/accel/tcg/tcg-all.c
+> @@ -104,8 +104,6 @@ static int tcg_init(MachineState *ms)
+>  
+>      tcg_exec_init(s->tb_size * 1024 * 1024);
+>      mttcg_enabled = s->mttcg_enabled;
+> -    cpus_register_accel(&tcg_cpus);
+> -
+>      return 0;
+>  }
+>  
+> @@ -201,3 +199,12 @@ static void register_accel_types(void)
+>  }
+>  
+>  type_init(register_accel_types);
+> +
+> +static void tcg_accel_cpu_init(void)
+> +{
+> +    if (tcg_enabled()) {
+> +        cpus_register_accel(&tcg_cpus);
+> +    }
+> +}
+> +
+> +accel_cpu_init(tcg_accel_cpu_init);
+> diff --git a/accel/xen/xen-all.c b/accel/xen/xen-all.c
+> index 878a4089d9..6932a9f364 100644
+> --- a/accel/xen/xen-all.c
+> +++ b/accel/xen/xen-all.c
+> @@ -185,9 +185,6 @@ static int xen_init(MachineState *ms)
+>       * opt out of system RAM being allocated by generic code
+>       */
+>      mc->default_ram_id = NULL;
+> -
+> -    cpus_register_accel(&xen_cpus);
+> -
+>      return 0;
+>  }
+>  
+> @@ -228,3 +225,12 @@ static void xen_type_init(void)
+>  }
+>  
+>  type_init(xen_type_init);
+> +
+> +static void xen_accel_cpu_init(void)
+> +{
+> +    if (xen_enabled()) {
+> +        cpus_register_accel(&xen_cpus);
+> +    }
+> +}
+> +
+> +accel_cpu_init(xen_accel_cpu_init);
+> diff --git a/include/qemu/module.h b/include/qemu/module.h
+> index 944d403cbd..485eda986a 100644
+> --- a/include/qemu/module.h
+> +++ b/include/qemu/module.h
+> @@ -44,6 +44,7 @@ typedef enum {
+>      MODULE_INIT_BLOCK,
+>      MODULE_INIT_OPTS,
+>      MODULE_INIT_QOM,
+> +    MODULE_INIT_ACCEL_CPU,
+>      MODULE_INIT_TRACE,
+>      MODULE_INIT_XEN_BACKEND,
+>      MODULE_INIT_LIBQOS,
+> @@ -54,6 +55,7 @@ typedef enum {
+>  #define block_init(function) module_init(function, MODULE_INIT_BLOCK)
+>  #define opts_init(function) module_init(function, MODULE_INIT_OPTS)
+>  #define type_init(function) module_init(function, MODULE_INIT_QOM)
+> +#define accel_cpu_init(function) module_init(function, MODULE_INIT_ACCEL_CPU)
+>  #define trace_init(function) module_init(function, MODULE_INIT_TRACE)
+>  #define xen_backend_init(function) module_init(function, \
+>                                                 MODULE_INIT_XEN_BACKEND)
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index e6e0ad5a92..df4bed056a 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -4173,6 +4173,12 @@ void qemu_init(int argc, char **argv, char **envp)
+>       */
+>      configure_accelerators(argv[0]);
+>  
+> +    /*
+> +     * accelerator has been chosen and initialized, now it is time to
+> +     * register the cpu accel interface.
+> +     */
+> +    module_call_init(MODULE_INIT_ACCEL_CPU);
+> +
+>      /*
+>       * Beware, QOM objects created before this point miss global and
+>       * compat properties.
+> diff --git a/target/i386/hax/hax-all.c b/target/i386/hax/hax-all.c
+> index fecfe8cd6e..3bada019f5 100644
+> --- a/target/i386/hax/hax-all.c
+> +++ b/target/i386/hax/hax-all.c
+> @@ -364,9 +364,6 @@ static int hax_accel_init(MachineState *ms)
+>                  !ret ? "working" : "not working",
+>                  !ret ? "fast virt" : "emulation");
+>      }
+> -    if (ret == 0) {
+> -        cpus_register_accel(&hax_cpus);
+> -    }
+>      return ret;
+>  }
+>  
+> @@ -1141,3 +1138,12 @@ static void hax_type_init(void)
+>  }
+>  
+>  type_init(hax_type_init);
+> +
+> +static void hax_accel_cpu_init(void)
+> +{
+> +    if (hax_enabled()) {
+> +        cpus_register_accel(&hax_cpus);
+> +    }
+> +}
+> +
+> +accel_cpu_init(hax_accel_cpu_init);
+> diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
+> index ed9356565c..249b77797f 100644
+> --- a/target/i386/hvf/hvf.c
+> +++ b/target/i386/hvf/hvf.c
+> @@ -887,7 +887,6 @@ static int hvf_accel_init(MachineState *ms)
+>    
+>      hvf_state = s;
+>      memory_listener_register(&hvf_memory_listener, &address_space_memory);
+> -    cpus_register_accel(&hvf_cpus);
+>      return 0;
+>  }
+>  
+> @@ -911,3 +910,12 @@ static void hvf_type_init(void)
+>  }
+>  
+>  type_init(hvf_type_init);
+> +
+> +static void hvf_accel_cpu_init(void)
+> +{
+> +    if (hvf_enabled()) {
+> +        cpus_register_accel(&hvf_cpus);
+> +    }
+> +}
+> +
+> +accel_cpu_init(hvf_accel_cpu_init);
+> diff --git a/target/i386/whpx/whpx-all.c b/target/i386/whpx/whpx-all.c
+> index f4f3e33eac..2e715e2bc6 100644
+> --- a/target/i386/whpx/whpx-all.c
+> +++ b/target/i386/whpx/whpx-all.c
+> @@ -1642,8 +1642,6 @@ static int whpx_accel_init(MachineState *ms)
+>  
+>      whpx_memory_init();
+>  
+> -    cpus_register_accel(&whpx_cpus);
+> -
+>      printf("Windows Hypervisor Platform accelerator is operational\n");
+>      return 0;
+>  
+> @@ -1713,3 +1711,12 @@ error:
+>  }
+>  
+>  type_init(whpx_type_init);
+> +
+> +static void whpx_accel_cpu_init(void)
+> +{
+> +    if (whpx_enabled()) {
+> +        cpus_register_accel(&whpx_cpus);
+> +    }
+> +}
+> +
+> +accel_cpu_init(whpx_accel_cpu_init);
+> 
+
 
