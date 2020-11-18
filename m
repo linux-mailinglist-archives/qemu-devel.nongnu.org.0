@@ -2,78 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CCC02B7EC2
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 15:01:58 +0100 (CET)
-Received: from localhost ([::1]:60558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75B932B7EFE
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 15:06:57 +0100 (CET)
+Received: from localhost ([::1]:37368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfO20-0001s6-Rq
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 09:01:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42742)
+	id 1kfO6q-0004DA-07
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 09:06:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kfO0w-0001NW-Sk
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 09:00:51 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:53660 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kfO0u-0006sL-A0
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 09:00:49 -0500
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id EED4E41316;
- Wed, 18 Nov 2020 14:00:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1605708045;
- x=1607522446; bh=Hr6IrfnB3NKHpaS+Vq1/sgHA8N9zIrNqIaNF/DeTheo=; b=
- F/QrwkBGVFpuHupBcYF86X2QUBkji0aKefyKhAio9qABquSzx6B0jx/0KIti64ME
- JAtg6mJiDSCg9ow+StMKAwCqYYxkVBAgC3YOI6Nx/qPef6/B9TRGP6dNglPw4fBV
- 0q2+sl47Xk8pTqpapTCgKlVUOIyYM13p8eiwAF9iF9c=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id YsugP2MA9rqk; Wed, 18 Nov 2020 17:00:45 +0300 (MSK)
-Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
- [172.17.100.103])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 6F82C4127E;
- Wed, 18 Nov 2020 17:00:44 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
- (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Wed, 18
- Nov 2020 17:00:44 +0300
-Date: Wed, 18 Nov 2020 17:00:43 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH for-6.0 1/6] qapi: Add query-accel command
-Message-ID: <20201118140043.GA81070@SPB-NB-133.local>
-References: <20201116131011.26607-1-r.bolshakov@yadro.com>
- <20201116131011.26607-2-r.bolshakov@yadro.com>
- <2d934855-ad11-9f61-28a1-7c0a35347a66@redhat.com>
- <20201116211352.GC1235237@habkost.net>
- <87mtzgbc29.fsf@dusky.pond.sub.org>
- <20201118011917.GB10041@SPB-NB-133.local>
- <87ft57oycu.fsf@dusky.pond.sub.org>
- <b9307f87-5350-21a6-68dd-d4efbae5e502@redhat.com>
- <87r1oqlsmy.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kfO5q-0003kQ-8B
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 09:05:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51538)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kfO5m-0007dv-Ob
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 09:05:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605708349;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CKB2Fe5yWt6KK0xilpevqLc80x1B6olj4/dS/gqdSy0=;
+ b=CJU8iH2EDef4Jj+fLYJoll2yRU/MuoDUGF5tGHM8WIlLaZ27vfRZJ9EDG/L5qPoXeoh6Et
+ r7NdAVRjXhicwxMJYUyi0FLJWpO+4WATIFnjuiHIjNQ15JfCb07Kcpwh4Yi9/soyDtzaQt
+ nqqYr2HrtpoxBpdWsUqYTxOH0ijF9LA=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-258-XEFpoTYjPa2DqR3TYNLxJQ-1; Wed, 18 Nov 2020 09:05:46 -0500
+X-MC-Unique: XEFpoTYjPa2DqR3TYNLxJQ-1
+Received: by mail-ed1-f70.google.com with SMTP id i89so842414edd.15
+ for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 06:05:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=CKB2Fe5yWt6KK0xilpevqLc80x1B6olj4/dS/gqdSy0=;
+ b=n73uSPSHtvPRAilpxWAWj63b9I8hYJvfdv87B1GxZANg+gCQcIcMB2YZqcpalULAxq
+ jOi4P3T4BsP6b15LFU/O8CLWjA3cT7dQM1beGdQCneATaeoJwA+F0JwK7iEptOsRk/bs
+ e4jnpf2Vz0k7vss0VHQA5dqk9oS1j7gIUSN9q0T7sCKBIgFy9sbdHufOQR4QbnnEWSiR
+ kbmw5Q2YATzWBkz8CUDcKiw2gUjQ+/G47yv8mer8bxGksKIytsscGRBqvToAKeYQiwYZ
+ WvrTSI069VITqjgsr3dnEcHx6Q7adJJiNe5X93spYfwWvTvloCHGYNqs27Ql57rgjdJP
+ vLQA==
+X-Gm-Message-State: AOAM533Gr43LvWPFlpq9tSRqZcNTDe7vz+FmUe7WmbwSnb93c7soLLTy
+ I7+5c/nzBzGG0u/V6jgZhqM+hYMHuPxAk3rKKp/xa1dyX2ix4Mp3HbqVA2Kldzcg1M2mLFClfmW
+ Bu1c3O9rqKNCMxyg=
+X-Received: by 2002:a17:906:b01:: with SMTP id
+ u1mr24886728ejg.427.1605708345013; 
+ Wed, 18 Nov 2020 06:05:45 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJygEd4WWiIDNgQON/muZhOLS7xD6Y8HIyzk12Nn0AlHHpPYgSRVwN/uURknSB3qbTvYoRn/Dg==
+X-Received: by 2002:a17:906:b01:: with SMTP id
+ u1mr24886693ejg.427.1605708344766; 
+ Wed, 18 Nov 2020 06:05:44 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id y15sm13556705eds.56.2020.11.18.06.05.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Nov 2020 06:05:43 -0800 (PST)
+To: Claudio Fontana <cfontana@suse.de>, Eduardo Habkost <ehabkost@redhat.com>
+References: <20201118102936.25569-1-cfontana@suse.de>
+ <20201118102936.25569-9-cfontana@suse.de>
+ <20201118124845.GC1509407@habkost.net>
+ <6093de34-807d-3840-5402-4769385dd894@suse.de>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [RFC v3 8/9] module: introduce MODULE_INIT_ACCEL_CPU
+Message-ID: <8f829e99-c346-00bc-efdd-3e6d69cfba35@redhat.com>
+Date: Wed, 18 Nov 2020 15:05:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <87r1oqlsmy.fsf@dusky.pond.sub.org>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-03.corp.yadro.com (172.17.100.103)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 09:00:46
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+In-Reply-To: <6093de34-807d-3840-5402-4769385dd894@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 19:41:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,32 +106,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
+ Olaf Hering <ohering@suse.de>, Jason Wang <jasowang@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Cameron Esfahani <dirty@apple.com>,
+ Colin Xu <colin.xu@intel.com>, Wenchao Wang <wenchao.wang@intel.com>,
+ Anthony Perard <anthony.perard@citrix.com>, haxm-team@intel.com,
+ Sunil Muthuswamy <sunilmut@microsoft.com>, Bruce Rogers <brogers@suse.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 18, 2020 at 02:08:21PM +0100, Markus Armbruster wrote:
-> Paolo Bonzini <pbonzini@redhat.com> writes:
-> > On 18/11/20 09:36, Markus Armbruster wrote:
-> >> While figuring this out, I noticed that the TYPE_ACCEL instance we
-> >> create doesn't get its parent set.  It's therefore not in the QOM
-> >> composition tree, and inaccessible with qom-get.  Paolo, is this as it
-> >> should be?
-> >
-> > It should be added, I agree, perhaps as /machine/accel.
+On 18/11/20 14:48, Claudio Fontana wrote:
+> On 11/18/20 1:48 PM, Eduardo Habkost wrote:
+>> On Wed, Nov 18, 2020 at 11:29:35AM +0100, Claudio Fontana wrote:
+>>> apply this to the registration of the cpus accel interfaces,
+>>>
+>>> but this will be also in preparation for later use of this
+>>> new module init step to also defer the registration of the cpu models,
+>>> in order to make them subclasses of a per-accel cpu type.
+>>>
+>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>>> ---
+>> [...]
+>>> +    /*
+>>> +     * accelerator has been chosen and initialized, now it is time to
+>>> +     * register the cpu accel interface.
+>>> +     */
+>>> +    module_call_init(MODULE_INIT_ACCEL_CPU);
+>>
+>> I don't get why we would use a new module initialization level
 > 
-> Makes sense.
+> To have a clear point in time after which all accelerator interface initialization is done.
+> It avoids to have to hunt down the registration points spread around the code base.
+> I'd turn it around, why not?
+
+I see two disadvantages:
+
+1) you have to hunt down accel_cpu_inits instead of looking at 
+accelerator classes. :)
+
+2) all callbacks have an "if (*_enabled())" around the actual meat. 
+Another related issue is that usually the module_call_init are 
+unconditional.
+
+I think the idea of using module_call_init is good however.  What about:
+
+static void kvm_cpu_accel_init(void)
+{
+     x86_cpu_accel_init(&kvm_cpu_accel);
+}
+
+static void kvm_cpu_accel_register(void)
+{
+     accel_register_call(TYPE_KVM, kvm_cpu_accel_init);
+}
+accel_cpu_init(kvm_cpu_accel_register);
+
+...
+
+void
+accel_register_call(const char *qom_type, void (*fn)(void))
+{
+     AccelClass *acc = ACCEL_CLASS(object_class_by_name(qom_type));
+
+     acc->setup_calls = g_slist_append(acc->setup_calls, (void *)fn);
+}
+
+void
+accel_do_call(void *data, void *unused)
+{
+     void (*fn)(void) = data;
+
+     data();
+}
+
+int accel_init_machine(AccelState *accel, MachineState *ms)
+{
+...
+     if (ret < 0) {
+         ms->accelerator = NULL;
+         *(acc->allowed) = false;
+         object_unref(OBJECT(accel));
+     } else {
+         object_set_accelerator_compat_props(acc->compat_props);
+         g_slist_foreach(acc->setup_calls, accel_do_call, NULL);
+     }
+     return ret;
+}
+
+where the module_call_init would be right after MODULE_INIT_QOM
+
+Paolo
+
+>> for this.  If the accelerator object was already created, we can
+>> just ask the existing accel object to do whatever initialization
+>> step is necessary.
+>>
+>> e.g. we can add a AccelClass.cpu_accel_ops field, and call:
+>>
+>>     cpus_register_accel(current_machine->accelerator->cpu_accel_ops);
+>>
+> 
+> _When_ this is done is the question, in my view, where the call to the registration is placed.
+> 
+> After adding additonal operations that have to be done at "accelerator-chosen" time, it becomes more and more difficult to trace them around the codebase.
+> 
+> Thanks,
+> 
+> Claudio
+> 
+> 
+> 
 > 
 
-I also tried to find it there when traversed QOM :)
-
-So, I'll then add it instead of ad-hoc queries in v2?
-
-That'd allow us to use standard QOM queries to determine all built-in
-accelerators and query actually enabled one.
-
-Thanks,
-Roman
 
