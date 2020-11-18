@@ -2,52 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3839C2B82AA
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 18:08:56 +0100 (CET)
-Received: from localhost ([::1]:52768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D5DA2B82BB
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 18:14:03 +0100 (CET)
+Received: from localhost ([::1]:38046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfQwx-00049p-75
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 12:08:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33848)
+	id 1kfR1u-0001kx-Hz
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 12:14:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1kfQr5-0000HH-W3
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 12:02:52 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53600)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1kfQr3-00089N-Mt
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 12:02:51 -0500
-Received: from trantor (unknown [2.26.170.190])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1kfQuO-0002Vs-9g
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 12:06:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43384)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1kfQuL-0008Qm-8i
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 12:06:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605719168;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=znOvFVbpSljE+gP6YbD+IOXgKYlAvuPgXm75WCYUueE=;
+ b=gRwiY3v9DwBkmyipKGGiQpmF13+iJjUTirezmAG9AjJPukvbJkrbP1m1CKvww9IUKKdFxb
+ v3HKhXOzYs9Tbs1ExK4QgjF2DfBar6WIkqA9GY4Mt/Cxrb7VaYgHSsH2SBIe/snsMUNZae
+ mp2GOJJwzDTstFg4mhkTl60MOMS7O+4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-354-m6xE8JiTMIaZwlzsEo4lGg-1; Wed, 18 Nov 2020 12:06:04 -0500
+X-MC-Unique: m6xE8JiTMIaZwlzsEo4lGg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 846B42487D;
- Wed, 18 Nov 2020 17:02:44 +0000 (UTC)
-Date: Wed, 18 Nov 2020 17:02:41 +0000
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v4 1/2] arm64: kvm: Save/restore MTE registers
-Message-ID: <X7VTsaO/7+Izqm8/@trantor>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9BAA86D249;
+ Wed, 18 Nov 2020 17:06:01 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.192.150])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E972C6091A;
+ Wed, 18 Nov 2020 17:05:55 +0000 (UTC)
+Date: Wed, 18 Nov 2020 18:05:52 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Catalin Marinas <catalin.marinas@arm.com>
+Subject: Re: [PATCH v4 2/2] arm64: kvm: Introduce MTE VCPU feature
+Message-ID: <20201118170552.cuczyylf34ows5jd@kamzik.brq.redhat.com>
 References: <20201026155727.36685-1-steven.price@arm.com>
- <20201026155727.36685-2-steven.price@arm.com>
- <b8f2fe15e0cab5c24094915b8c000930@kernel.org>
- <98eaa539-0ae8-ce4c-8886-3040542ede80@arm.com>
+ <20201026155727.36685-3-steven.price@arm.com>
+ <X7P1VLZhBh045tsr@trantor>
+ <f34b3d16-8bc7-af9d-c0e0-fb114d2465aa@arm.com>
+ <X7VQua7YO4isMFPU@trantor>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <98eaa539-0ae8-ce4c-8886-3040542ede80@arm.com>
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=cmarinas@kernel.org;
- helo=mail.kernel.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 11:50:11
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <X7VQua7YO4isMFPU@trantor>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 19:41:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,77 +80,87 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Haibo Xu <Haibo.Xu@arm.com>,
  Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
  Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
- Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
- linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
- Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
- Julien Thierry <julien.thierry.kdev@gmail.com>
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Steven Price <steven.price@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Julien Thierry <julien.thierry.kdev@gmail.com>, Will Deacon <will@kernel.org>,
+ Dave Martin <Dave.Martin@arm.com>, linux-kernel@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 18, 2020 at 04:01:18PM +0000, Steven Price wrote:
-> On 17/11/2020 19:20, Marc Zyngier wrote:
-> > On 2020-10-26 15:57, Steven Price wrote:
-> > > diff --git a/arch/arm64/include/asm/sysreg.h
-> > > b/arch/arm64/include/asm/sysreg.h
-> > > index d52c1b3ce589..7727df0bc09d 100644
-> > > --- a/arch/arm64/include/asm/sysreg.h
-> > > +++ b/arch/arm64/include/asm/sysreg.h
-> > > @@ -565,7 +565,8 @@
-> > >  #define SCTLR_ELx_M    (BIT(0))
+On Wed, Nov 18, 2020 at 04:50:01PM +0000, Catalin Marinas wrote:
+> On Wed, Nov 18, 2020 at 04:01:20PM +0000, Steven Price wrote:
+> > On 17/11/2020 16:07, Catalin Marinas wrote:
+> > > On Mon, Oct 26, 2020 at 03:57:27PM +0000, Steven Price wrote:
+> > > > diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+> > > > index 19aacc7d64de..38fe25310ca1 100644
+> > > > --- a/arch/arm64/kvm/mmu.c
+> > > > +++ b/arch/arm64/kvm/mmu.c
+> > > > @@ -862,6 +862,26 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
+> > > >   	if (vma_pagesize == PAGE_SIZE && !force_pte)
+> > > >   		vma_pagesize = transparent_hugepage_adjust(memslot, hva,
+> > > >   							   &pfn, &fault_ipa);
+> > > > +
+> > > > +	/*
+> > > > +	 * The otherwise redundant test for system_supports_mte() allows the
+> > > > +	 * code to be compiled out when CONFIG_ARM64_MTE is not present.
+> > > > +	 */
+> > > > +	if (system_supports_mte() && kvm->arch.mte_enabled && pfn_valid(pfn)) {
+> > > > +		/*
+> > > > +		 * VM will be able to see the page's tags, so we must ensure
+> > > > +		 * they have been initialised.
+> > > > +		 */
+> > > > +		struct page *page = pfn_to_page(pfn);
+> > > > +		long i, nr_pages = compound_nr(page);
+> > > > +
+> > > > +		/* if PG_mte_tagged is set, tags have already been initialised */
+> > > > +		for (i = 0; i < nr_pages; i++, page++) {
+> > > > +			if (!test_and_set_bit(PG_mte_tagged, &page->flags))
+> > > > +				mte_clear_page_tags(page_address(page));
+> > > > +		}
+> > > > +	}
 > > > 
-> > >  #define SCTLR_ELx_FLAGS    (SCTLR_ELx_M  | SCTLR_ELx_A | SCTLR_ELx_C | \
-> > > -             SCTLR_ELx_SA | SCTLR_ELx_I | SCTLR_ELx_IESB)
-> > > +             SCTLR_ELx_SA | SCTLR_ELx_I | SCTLR_ELx_IESB | \
-> > > +             SCTLR_ELx_ITFSB)
-> > > 
-> > >  /* SCTLR_EL2 specific flags. */
-> > >  #define SCTLR_EL2_RES1    ((BIT(4))  | (BIT(5))  | (BIT(11)) |
-> > > (BIT(16)) | \
-> > > diff --git a/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
-> > > b/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
-> > > index 7a986030145f..a124ffa49ba3 100644
-> > > --- a/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
-> > > +++ b/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
-> > > @@ -18,6 +18,11 @@
-> > >  static inline void __sysreg_save_common_state(struct
-> > > kvm_cpu_context *ctxt)
-> > >  {
-> > >      ctxt_sys_reg(ctxt, MDSCR_EL1)    = read_sysreg(mdscr_el1);
-> > > +    if (system_supports_mte()) {
-> > > +        ctxt_sys_reg(ctxt, RGSR_EL1)    = read_sysreg_s(SYS_RGSR_EL1);
-> > > +        ctxt_sys_reg(ctxt, GCR_EL1)    = read_sysreg_s(SYS_GCR_EL1);
-> > > +        ctxt_sys_reg(ctxt, TFSRE0_EL1)    =
-> > > read_sysreg_s(SYS_TFSRE0_EL1);
+> > > If this page was swapped out and mapped back in, where does the
+> > > restoring from swap happen?
 > > 
-> > As far as I can tell, HCR_EL2.ATA is still clear when running a guest.
-> > So why, do we save/restore this state yet?
-> > 
-> > Also, I wonder whether we should keep these in the C code. If one day
-> > we enable MTE in the kernel, we will have to move them to the assembly
-> > part, much like we do for PAuth. And I fear that "one day" is pretty
-> > soon:
-> > 
-> > https://lore.kernel.org/linux-arm-kernel/cover.1605046192.git.andreyknvl@google.com/
+> > Restoring from swap happens above this in the call to gfn_to_pfn_prot()
 > 
-> Good point. Although for MTE we do have the option of setting TCO in PSTATE
-> so this could remain in C if we're not bothered about the 'gap' in KASAN
-> coverage. I haven't yet got my head around how (or indeed if) that series
-> handles guests.
+> Looking at the call chain, gfn_to_pfn_prot() ends up with
+> get_user_pages() using the current->mm (the VMM) and that does a
+> set_pte_at(), presumably restoring the tags. Does this mean that all
+> memory mapped by the VMM in user space should have PROT_MTE set?
+> Otherwise we don't take the mte_sync_tags() path in set_pte_at() and no
+> tags restored from swap (we do save them since when they were mapped,
+> PG_mte_tagged was set).
+> 
+> So I think the code above should be similar to mte_sync_tags(), even
+> calling a common function, but I'm not sure where to get the swap pte
+> from.
+> 
+> An alternative is to only enable HCR_EL2.ATA and MTE in guest if the vmm
+> mapped the memory with PROT_MTE.
 
-I think we should be fine with the currently proposed in-kernel MTE
-support. However, setting GCR_EL1 can get in the way if stack tagging is
-ever enabled (it breaks single image). The compiler uses GCR_EL1 to
-generate different colours for variables on the stack and changing it in
-the middle of a function may cause confusion. You'd have to set
-PSTATE.TCO for the whole function, either from the caller or, if the
-compiler gets smarter, some function attribute.
+This is a very reasonable alternative. The VMM must be aware of whether
+the guest may use MTE anyway. Asking it to map the memory with PROT_MTE
+when it wants to offer the guest that option is a reasonable requirement.
+If the memory is not mapped as such, then the host kernel shouldn't assume
+MTE may be used by the guest, and it should even enforce that it is not
+(by not enabling the feature).
 
--- 
-Catalin
+Thanks,
+drew
+
+> 
+> Yet another option is to always call mte_sync_tags() from set_pte_at()
+> and defer the pte_tagged() or is_swap_pte() checks to the MTE code.
+> 
+> -- 
+> Catalin
+> 
+
 
