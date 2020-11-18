@@ -2,70 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A65702B843C
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 19:59:18 +0100 (CET)
-Received: from localhost ([::1]:43142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E275A2B8445
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 20:01:16 +0100 (CET)
+Received: from localhost ([::1]:46056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfSfj-0004YT-Qw
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 13:59:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36352)
+	id 1kfShf-0005mn-SI
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 14:01:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kfSbY-0001wb-Vu
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 13:54:57 -0500
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:35483)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kfSKT-0004hs-S9
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 13:37:17 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:36749)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kfSbW-0006xA-KZ
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 13:54:56 -0500
-Received: by mail-ed1-x541.google.com with SMTP id ay21so3157647edb.2
- for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 10:54:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OdiHu4paEj7s9Wayq87CPAJ3UxM+vgbtnA/UxNKnBsQ=;
- b=Rx7RhsYi1WniFSzCfNbMyQ5DkhSvTwl+X83i3iXcQ0cU9d9vNFatCJc6at9yzHZ4yT
- 0asSS68k0LTR9EW3pwTsUOejbU5vcqlXP7Bfy8BByjxRY4SfDAftQnoc0guh122tk95o
- cwLxZtG+wVrid2RkhXDZgjWN807vtjXhIokscGH9zWGDwd6QRLwuD/b/1QUysK2cwID3
- ZbCI41n+wbAoJrZoi7NSUJoc1ojWUS7pmylWtXeSVIYPPkrA7XvQ53AXkA7xbvBjpoLr
- fJEZnwMI0adslBpueZLwHmf1swJoEJ6NBZpyPYcLQzqbMyBr78TTP0ZsDSwPtbUmGdv0
- SPxQ==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kfSKR-0004Mc-HZ
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 13:37:17 -0500
+Received: by mail-wr1-x441.google.com with SMTP id j7so3232947wrp.3
+ for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 10:37:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=nNeq8QaY1ALTdqBXp/fpFmpcH7lVmmnA/nsoyFPdyDE=;
+ b=uOkWvFv+krtzaeAUMOeCtuROTB6vLAxMr6S53TdyNMgwo2+1JSYL69pXuSN3EwbX9c
+ HNOF3jLpFdy05i6jcOH5+0ZCpQZyE25Pvbenzbwn9hLHinLbbG8yqrX+Gxig+EjUJgMi
+ LOlbZYiEH+gQb+xpQy0DxJMLo0jaqrHy1sv0oB7Cuv62IR7UHV72ieHa84w7pf+7Q6eB
+ pQEhH1Ps+xUvHzNXkKI3stEV3PXoeQviz4DIfNWC6l2AbipkKUtGzpCEdirwmy+DoA/T
+ 1yHOl/mObjMnk9focUd3vhLdOp+rnWHLvF9KLEqhs7070KT5nC6wVxC4oGiSZNAwyas1
+ uvlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OdiHu4paEj7s9Wayq87CPAJ3UxM+vgbtnA/UxNKnBsQ=;
- b=KNka0h6dObpgotomhrqdtfQh5udBF9VXGN84mEqM+OTbvjCEuJSNhO9qxPpPw95kGn
- 0+70LIQyTMUWZq2AA+3H1VmFyE3w6D1sf9uylntCK/kdt1Ed1u5ob77gQMeutr5QLlQI
- 7BOfkqWrscHvb/fepGHGHZtccabMhFnQz5AhLs8ghJNt6b+JRectSabvoKb/TEIfR9rW
- 6nkjAZw5f8M9uxLxb88h97y5MDyZz79GESfFGVEdDOR17IMCU6y+4AQdCBiTFbbz/g7w
- VSwJbrvGDL6/G6huNJy529h+d/0FnC18+rGQ882lrNXFqmDPfW1653qp+0KEuA/dRz/S
- O+LQ==
-X-Gm-Message-State: AOAM533zo02POUSliYqWyf2QWQuGywt8ESux8FTGwMoS/K4/4wRgtDQY
- c8oOQxThp+aNGIeUuOAj5CGabKw4wrfBe2AYBhRQJA==
-X-Google-Smtp-Source: ABdhPJyv8BQWNH/83BhH8HxSqTjhSNDp1ZZMOPq3fs2wcekwu3QYRZXMHvX9tKckE4dTG8oAjSbVpJ7FWcXyzS3TxUc=
-X-Received: by 2002:aa7:db8a:: with SMTP id u10mr27760393edt.204.1605725693016; 
- Wed, 18 Nov 2020 10:54:53 -0800 (PST)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=nNeq8QaY1ALTdqBXp/fpFmpcH7lVmmnA/nsoyFPdyDE=;
+ b=ssIfI6K2XWIWjtD1tfaMEK1ODl97Fq4VRjB3J0YZy2ijrQAfZKSLjVOFrVK1ob1m/8
+ 3VqJ/wqaN2C1ZUocRQs6DeMA92hV/rY/Sb0XQDWj7booFw3unT2zhfGpwl9T/ulC7PVk
+ pJNbWJQod2m+l/IkfMAfiQBFnDxcCuj6cs347tek0mrDCAq/IN1mtbv+E6TzV5G7i1X0
+ gUCCs3g1CP77q6VbubYQpiwWwjj9N0a/08ztd7TZ1gFab93K2z0uljBPxYBwvAAoUbQm
+ IphwAeRIPIoNx8nWYGCmCXw09Q6oGRV04b/Nloz1dlQ/NeSYPzeDTsSwY6iJjKnwfCWN
+ 0tfQ==
+X-Gm-Message-State: AOAM533f4tcSl+ALbS/FgYW4eBLN4MhS//Sd5Yz427wn55MOQy8EZVH1
+ GOUuQ10HiSBxad7LNQUO70WErJmdIuE=
+X-Google-Smtp-Source: ABdhPJwvEbHj7+pRev7lfQjqbUO8b1gFmnFSq32etWppIeDYt3Xkiv6n5t6r0nt0JNfSa9vVKGrJGw==
+X-Received: by 2002:adf:df88:: with SMTP id z8mr6132911wrl.113.1605724632970; 
+ Wed, 18 Nov 2020 10:37:12 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id x22sm3288908wmj.17.2020.11.18.10.37.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Nov 2020 10:37:12 -0800 (PST)
+Subject: Re: [PULL 19/92] hw/char/serial: Assert serial_ioport_read/write
+ offset fits 8 bytes
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20200924092314.1722645-1-pbonzini@redhat.com>
+ <20200924092314.1722645-20-pbonzini@redhat.com>
+ <CAFEAcA9Utr2mCGyi7+8Yg16KSYhoP=3+hJa=wN6_AdG8TB0a8g@mail.gmail.com>
+ <4215d17b-e0fa-881a-0f22-d545905a3bd5@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <425494e8-f763-f070-bb1b-fe2aa9f8087f@amsat.org>
+Date: Wed, 18 Nov 2020 19:37:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-References: <20201118152639.173860-1-groug@kaod.org>
-In-Reply-To: <20201118152639.173860-1-groug@kaod.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 18 Nov 2020 18:54:41 +0000
-Message-ID: <CAFEAcA-=CtUT2hfPp+=KL77zZreMvV35DU1-WhOWzm05HXiMHw@mail.gmail.com>
-Subject: Re: [PULL 0/1] ppc-for-5.2 patch queue 2020-11-18
-To: Greg Kurz <groug@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
+In-Reply-To: <4215d17b-e0fa-881a-0f22-d545905a3bd5@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,45 +95,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cedric Le Goater <clg@fr.ibm.com>, QEMU Developers <qemu-devel@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 18 Nov 2020 at 15:27, Greg Kurz <groug@kaod.org> wrote:
->
-> The following changes since commit 66a300a107ec286725bdc943601cbd4247b82158:
->
->   Update version for v5.2.0-rc2 release (2020-11-17 22:58:10 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/gkurz/qemu.git tags/ppc-for-5.2-20201118
->
-> for you to fetch changes up to 6d24795ee7e3199d199d3c415312c93382ad1807:
->
->   Revert series "spapr/xive: Allocate vCPU IPIs from the vCPU contexts" (2020-11-18 11:05:56 +0100)
->
-> ----------------------------------------------------------------
-> ppc patch queue for 2020-11-18
->
-> This fixes a regression that badly breaks some guest setups because
-> IPIs end up misconfigured in the XIVE interrupt controller. Hopefully,
-> the last fix for sPAPR. I'm sending this PR with the blessing of David
-> who is currently on holidays.
->
-> ----------------------------------------------------------------
-> Greg Kurz (1):
->       Revert series "spapr/xive: Allocate vCPU IPIs from the vCPU contexts"
->
->  hw/intc/spapr_xive_kvm.c | 102 +++++++++--------------------------------------
->  1 file changed, 18 insertions(+), 84 deletions(-)
+On 11/18/20 6:08 PM, Paolo Bonzini wrote:
+> On 18/11/20 16:40, Peter Maydell wrote:
+>> On Thu, 24 Sep 2020 at 10:40, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>>>
+>>> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>>
+>>> The serial device has 8 registers, each 8-bit. The MemoryRegionOps
+>>> 'serial_io_ops' is initialized with max_access_size=1, and all
+>>> memory_region_init_io() callers correctly set the region size to
+>>> 8 bytes:
+>>> - serial_io_realize
+>>> - serial_isa_realizefn
+>>> - serial_pci_realize
+>>> - multi_serial_pci_realize
+>>>
+>>> It is safe to assert the offset argument of serial_ioport_read()
+>>> and serial_ioport_write() is always less than 8.
+>>>
+>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>>> Message-Id: <20200907015535.827885-2-f4bug@amsat.org>
+>>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>>> ---
+>>>   hw/char/serial.c | 4 ++--
+>>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/hw/char/serial.c b/hw/char/serial.c
+>>> index fd80ae5592..840da89de7 100644
+>>> --- a/hw/char/serial.c
+>>> +++ b/hw/char/serial.c
+>>> @@ -344,7 +344,7 @@ static void serial_ioport_write(void *opaque,
+>>> hwaddr addr, uint64_t val,
+>>>   {
+>>>       SerialState *s = opaque;
+>>>
+>>> -    addr &= 7;
+>>> +    assert(size == 1 && addr < 8);
+>>>       trace_serial_ioport_write(addr, val);
+>>>       switch(addr) {
+>>>       default:
+>>
+>> Bug report https://bugs.launchpad.net/qemu/+bug/1904331
+>> points out that the addition of this assert() makes obvious
+>> that either the assert is wrong or some code later in the
+>> function which is looking at size must be dead:
+>>              if (size == 1) {
+>>                  s->divider = (s->divider & 0xff00) | val;
+>>              } else {
+>>                  s->divider = val;
+>>              }
+>>
+>> Presumably it's the if() that should be fixed ?
+> 
+> It can be dropped, because serial_io_ops has
+> 
+>     .impl = {
+>         .min_access_size = 1,
+>         .max_access_size = 1,
+>     },
+> 
+> Therefore, a 16-bit write to addr==0 is automatically split into an
+> 8-byte write to addr==0 and one to addr=1.  Together, the two set the
+> full 16 bits of s->divider.
 
+Since commit 5ec3a23e6c8 ("serial: convert PIO to new memory api
+read/write") =)
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
-
--- PMM
+> 
+> Thanks,
+> 
+> Paolo
+> 
+> 
 
