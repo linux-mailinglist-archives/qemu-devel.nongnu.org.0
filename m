@@ -2,69 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF4B2B804A
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 16:22:58 +0100 (CET)
-Received: from localhost ([::1]:46862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FCBA2B8051
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 16:24:32 +0100 (CET)
+Received: from localhost ([::1]:49314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfPIP-0004T9-1H
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 10:22:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34784)
+	id 1kfPJv-0005Zt-54
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 10:24:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kfPH1-0003wj-Su; Wed, 18 Nov 2020 10:21:31 -0500
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:45009)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kfPH0-000260-8a; Wed, 18 Nov 2020 10:21:31 -0500
-Received: by mail-ed1-x530.google.com with SMTP id l5so2368840edq.11;
- Wed, 18 Nov 2020 07:21:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WXrRSMQIneiHYVCqFxLGF/Dh731rkNCmc22ZMY1JKO4=;
- b=nExK8n5+zY0dIAJ91Tb0SUptqMvtvguq5+lA18v1PC/aQKR2H0fMp7JVKgjk3OZ2C5
- Pi1scmaYw3eFZkQopmFoFb0RRVrxQ6eSwCdWPZ6/omgKQ0XjkiuSinJoEzqe6hVqXGqq
- 2EJR78ppYI/S2wNe5hwXpY7OE9j8O6BomGyqf0eu4NN9wJ6Tgo98w7v0NjCrxQokzJuT
- CDBWA3yZHtWqcbrbUJsjTiRVJDhn0y7YBQHe9ZlKkTY1BD1mIYrto1wekmbxJM2uo6ZP
- bA93ABgLJR2oGZVQ2InBD3MgCZvncnRAU2Q7EIncvE/wiMOP6XvZ3j4Ayy6NjsS0TKun
- ba6g==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kfPIn-00056O-9T
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 10:23:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48342)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kfPIk-0002KC-Ub
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 10:23:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605712997;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=hbmnImKAdJxkVmnl8lzwsd1LlFazf0XYJ9p9JYbiYbo=;
+ b=hETB2mAxNtrbbEuANolhaheTF36d8IbhppW/sDz3LXox3bGxqPE/lcPrDD3S0MukIgSchJ
+ qBxQlWvREnGEyl2eCjj460uEhS6XEgwDhtXrXS4ut/GcR68B1aia+eTvxZGVqzo438OIWi
+ izdg+vJ28i+yuaVYUInl8LOUr6Ei8GE=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-476-fWrmJwEHPgG5no8ljz1bWA-1; Wed, 18 Nov 2020 10:23:15 -0500
+X-MC-Unique: fWrmJwEHPgG5no8ljz1bWA-1
+Received: by mail-qv1-f69.google.com with SMTP id bn4so1519951qvb.9
+ for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 07:23:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WXrRSMQIneiHYVCqFxLGF/Dh731rkNCmc22ZMY1JKO4=;
- b=mhtpZfvvmW4ZosqiAsPCzF9SIbqL1ZoV0dadLYXPY5+Ly77BL7Pjk96RrqgInvfv0g
- fmpDN5e+Sugu9KBkoew7BpJbv9AucbsHx8rnrTDfyZERH/3Dghyb6GEnldyuhNdRg/Mx
- 8MIBlwL5ns3kgEPC0T/sp282JEa0JRXn7FO4fTcrYxbxGZQOfvohq9xzQx0l2loHz5oO
- cL+iMP9+TGX2ysH3Ac8++tqQP2qo9zbEE1cm5VrEChs70w8en0JKpFSwU/mtBO7znw+v
- vIq4nbiptQg7acbM64C0ei2l4+sqXSlXm5EvQuaEvuYP1YLDPH1GCX0UpCzfAb3M+mXG
- i2Ww==
-X-Gm-Message-State: AOAM5317aujzi4Fb/YIuwd8EIzWdScbvhjqVKjtZm0loQJoSGIWtL4Dr
- Jp87+OY26/PKL/C5OnOkyouivyXrYeh30nTiQzw=
-X-Google-Smtp-Source: ABdhPJxlhOJ5f4YVzs+K/ddGOxspiH4Atgc5qE4ODX6XwIaWhq2A2kbP2FAIFpeIveZ9QzajHKgoyjVKWPGaJUpAtIo=
-X-Received: by 2002:a50:9fe6:: with SMTP id c93mr25674945edf.30.1605712887707; 
- Wed, 18 Nov 2020 07:21:27 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=hbmnImKAdJxkVmnl8lzwsd1LlFazf0XYJ9p9JYbiYbo=;
+ b=mqQmG0CoFR3Pg5MmAuk3YjakAxUky5CNFAq/fRw7+hdLh+d/D8FqN1RQo3OvpFqDfP
+ FXCECqNnb8nlufhhswoMnmRBe2z1Omrfxtiu+75nI4nTJQQOa0bBpAOqg5PfCuZtcgki
+ pDe12bh7uoruEhqcLzfBd87bzPMRvbLj+Kxq5lduJSok+JhcSyNWcGI+bnoflusjXeoa
+ 21QZ+ZVh6lq903n5tb3x5sKNwNxYfVmLNXRfesy9WYFtBzES/1vIJ7nbDcXcZ1OQE3Mu
+ n6HDpQymPax7ie3wmJXcjGS4v8HfAuuGxvR9s89tO6mDNIxNAQfL9kNKQt8mRkPoh10U
+ 7SwQ==
+X-Gm-Message-State: AOAM532lV0JZxXoZm3nAOpQWg+rusxvtzOuCvIm/bW+WeFnyVCgQmaUM
+ f39SFpy39oATslLQyRqBSKB8/melZg7mdi4aXnCJlFtzBV5gHq1zVipYeJ9XjF8RhQs97zsfZfG
+ eyzfkoPFFGZ20ZjI=
+X-Received: by 2002:ad4:55eb:: with SMTP id bu11mr5507071qvb.10.1605712994672; 
+ Wed, 18 Nov 2020 07:23:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyPCX+8h0AtDe6BydXWGV5pvBQyNCahcfPINwsbXBmsj/P1rKxTmQvvQhXlEKMzlVwQfDgzWA==
+X-Received: by 2002:ad4:55eb:: with SMTP id bu11mr5507037qvb.10.1605712994336; 
+ Wed, 18 Nov 2020 07:23:14 -0800 (PST)
+Received: from xz-x1
+ (bras-vprn-toroon474qw-lp130-20-174-93-89-196.dsl.bell.ca. [174.93.89.196])
+ by smtp.gmail.com with ESMTPSA id t63sm2333049qka.128.2020.11.18.07.23.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Nov 2020 07:23:13 -0800 (PST)
+Date: Wed, 18 Nov 2020 10:23:11 -0500
+From: Peter Xu <peterx@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH PROTOTYPE 3/6] vfio: Implement support for sparse RAM
+ memory regions
+Message-ID: <20201118152311.GB29639@xz-x1>
+References: <20200924160423.106747-1-david@redhat.com>
+ <20200924160423.106747-4-david@redhat.com>
+ <20201020194434.GD200400@xz-x1>
+ <14aaf9f1-9aa4-3a6b-ff25-8a4c7e29c2a6@redhat.com>
+ <20201020204443.GE200400@xz-x1>
+ <fcbea24d-c56a-12b4-4a7b-d8faa1e04047@redhat.com>
 MIME-Version: 1.0
-References: <20201118091644.199527-1-stefanha@redhat.com>
-In-Reply-To: <20201118091644.199527-1-stefanha@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 18 Nov 2020 19:21:15 +0400
-Message-ID: <CAJ+F1CK3Ap38E8343j1keFoX4UEPXR7FgALf7LRvwMSpKywefQ@mail.gmail.com>
-Subject: Re: [PATCH 0/4] vhost-user: avoid g_return_val_if() in
- get/set_config()
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000487d3405b4632a28"
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x530.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <fcbea24d-c56a-12b4-4a7b-d8faa1e04047@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 19:41:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,87 +99,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- Coiby Xu <Coiby.Xu@gmail.com>, Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: Le Tan <tamlokveer@gmail.com>, Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, wei.huang2@amd.com,
+ qemu-devel@nongnu.org, Luiz Capitulino <lcapitulino@redhat.com>,
+ Auger Eric <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Wei Yang <richardw.yang@linux.intel.com>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000487d3405b4632a28
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+David,
 
-Hi
+On Wed, Nov 18, 2020 at 02:04:00PM +0100, David Hildenbrand wrote:
+> On 20.10.20 22:44, Peter Xu wrote:
+> > On Tue, Oct 20, 2020 at 10:01:12PM +0200, David Hildenbrand wrote:
+> >> Thanks ... but I have an AMD system. Will try to find out how to get
+> >> that running with AMD :)
+> > 
+> > May still start with trying intel-iommu first. :) I think it should work for
+> > amd hosts too.
+> > 
+> > Just another FYI - Wei is working on amd-iommu for vfio [1], but it's still
+> > during review.
+> > 
+> > [1] https://lore.kernel.org/qemu-devel/20201002145907.1294353-1-wei.huang2@amd.com/
+> > 
+> 
+> I'm trying to get an iommu setup running (without virtio-mem!),
+> but it's a big mess.
+> 
+> Essential parts of my QEMU cmdline are:
+> 
+> sudo build/qemu-system-x86_64 \
+>     -accel kvm,kernel-irqchip=split \
+>     ...
+>      device pcie-pci-bridge,addr=1e.0,id=pci.1 \
+>     -device vfio-pci,host=0c:00.0,x-vga=on,bus=pci.1,addr=1.0,multifunction=on \
+>     -device vfio-pci,host=0c:00.1,bus=pci.1,addr=1.1 \
+>     -device intel-iommu,caching-mode=on,intremap=on \
 
-On Wed, Nov 18, 2020 at 1:17 PM Stefan Hajnoczi <stefanha@redhat.com> wrote=
-:
+The intel-iommu device needs to be created before the rest of devices.  I
+forgot the reason behind, should be related to how the device address spaces
+are created.  This rule should apply to all the rest of vIOMMUs, afaiu.
 
-> Markus Armbruster pointed out that g_return_val_if() is meant for
-> programming
-> errors. It must not be used for input validation since it can be compiled
-> out.
-> Use explicit if statements instead.
->
-> This patch series converts vhost-user device backends that use
-> g_return_val_if() in get/set_config().
->
-> Stefan Hajnoczi (4):
->   contrib/vhost-user-blk: avoid g_return_val_if() input validation
->   contrib/vhost-user-gpu: avoid g_return_val_if() input validation
->   contrib/vhost-user-input: avoid g_return_val_if() input validation
->   block/export: avoid g_return_val_if() input validation
->
->
-The condition is the same for all the patches, checking the message config
-payload is large enough. Afaict, the value is set by the client, so it
-could be a runtime error, and thus explicit checking is required.
+Libvirt guarantees that ordering when VT-d enabled, though when using qemu
+cmdline indeed that's hard to identify from the first glance... iirc we tried
+to fix this, but I forgot the details, it's just not trivial.
 
-Nevertheless, one nice thing about g_return* macros, is that it provides an
-error message when the condition fails, which helps. Could you replace it?
+I noticed that this ordering constraint is also missing in the qemu wiki page
+of vt-d, so I updated there too, hopefully..
 
-(fwiw, I think g_return* macros are so convenient, I would simply make
-G_DISABLE_CHECKS forbidden and call it a day)
+https://wiki.qemu.org/Features/VT-d#Command_Line_Example
 
+> 
+> I am running upstream QEMU + Linux -next kernel inside the
+> guest on an AMD Ryzen 9 3900X 12-Core Processor.
+> I am using SeaBios.
+> 
+> I tried faking an Intel CPU without luck.
+> ("-cpu Skylake-Client,kvm=off,vendor=GenuineIntel")
+> 
+> As soon as I enable "intel_iommu=on" in my guest kernel, graphics
+> stop working (random mess on graphics output) and I get
+>   vfio-pci 0000:0c:00.0: AMD-Vi: Event logged [IO_PAGE_FAULT domain=0x0023 address=0xff924000 flags=0x0000]
+> in the hypervisor, along with other nice messages.
+> 
+> I can spot no vfio DMA mappings coming from an iommu, just as if the
+> guest wouldn't even try to setup the iommu.
+> 
+> I tried with
+> 1. AMD Radeon RX Vega 56
+> 2. Nvidia GT220
+> resulting in similar issues.
+> 
+> I also tried with "-device amd-iommu" with other issues
+> (guest won't even boot up). Are my graphics card missing some support or
+> is there a fundamental flaw in my setup?
 
---=20
-Marc-Andr=C3=A9 Lureau
+I guess amd-iommu won't work if without Wei Huang's series applied.
 
---000000000000487d3405b4632a28
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> 
+> Any clues appreciated.
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Nov 18, 2020 at 1:17 PM Ste=
-fan Hajnoczi &lt;<a href=3D"mailto:stefanha@redhat.com">stefanha@redhat.com=
-</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
-Markus Armbruster pointed out that g_return_val_if() is meant for programmi=
-ng<br>
-errors. It must not be used for input validation since it can be compiled o=
-ut.<br>
-Use explicit if statements instead.<br>
-<br>
-This patch series converts vhost-user device backends that use<br>
-g_return_val_if() in get/set_config().<br>
-<br>
-Stefan Hajnoczi (4):<br>
-=C2=A0 contrib/vhost-user-blk: avoid g_return_val_if() input validation<br>
-=C2=A0 contrib/vhost-user-gpu: avoid g_return_val_if() input validation<br>
-=C2=A0 contrib/vhost-user-input: avoid g_return_val_if() input validation<b=
-r>
-=C2=A0 block/export: avoid g_return_val_if() input validation<br>
-<br></blockquote><div><br></div><div>The condition is the same for all the =
-patches, checking the message config payload is large enough. Afaict, the v=
-alue is set by the client, so it could be a runtime error, and thus explici=
-t checking is required.</div><div><br></div><div>Nevertheless, one nice thi=
-ng about g_return* macros, is that it provides an error message when the co=
-ndition fails, which helps. Could you replace it?</div><div><br></div><div>=
-(fwiw, I think g_return* macros are so convenient, I would simply make G_DI=
-SABLE_CHECKS forbidden and call it a day)<br></div></div><br clear=3D"all">=
-<br>-- <br><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lurea=
-u<br></div></div>
+Please try with above and see whether it works.  Thanks,
 
---000000000000487d3405b4632a28--
+-- 
+Peter Xu
+
 
