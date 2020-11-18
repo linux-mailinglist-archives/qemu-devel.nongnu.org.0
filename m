@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA2D52B7A97
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 10:46:10 +0100 (CET)
-Received: from localhost ([::1]:34902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C36DB2B7AB7
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 10:53:03 +0100 (CET)
+Received: from localhost ([::1]:39786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfK2T-0006Lf-Te
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 04:46:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42696)
+	id 1kfK98-0000Om-Jf
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 04:53:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kfK11-0005mM-Kg
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 04:44:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20726)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kfK7u-0008M7-8F
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 04:51:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20500)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kfK0z-0007Xo-TP
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 04:44:39 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kfK7r-00005M-QK
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 04:51:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605692677;
+ s=mimecast20190719; t=1605693102;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hhaBN425KF3QYM+YCVH28Z/DqNq4BrEkpSHo0RC9OB4=;
- b=bZ/ruOcsqIQza4quALZxMI3zrr7p63/ySynDknPMI78wbeB8kdKpbQMfB8kbr13NwHvpdZ
- z+RMvDBZSFCKZNdBdkIawwZaclIWnTIj9lg+4D9n3twifTCSd6+f3HGuPl38k/dH3//2V4
- UrXgmqI+6v6f1M/nKpBwT/jCziBSKvc=
+ bh=JFW4YfaKyhzyt0wFc6BjGV0G0wg27Y0/+aSLoS4gkg4=;
+ b=WO3xAe9PM0m/taYSXr3zvnNaOHaCf7GR9jODTudsp0ntSINsg/4xc8qPaBxWaIksngL/CT
+ +fRiluJ3hm1+wDQ5cy5j+ZFl7YRsJf7JOxAcAJLjRqw3VYvKaXFRPC7zJvSnuuxYjEafnk
+ wOt6QZCmibHebfzGGRiadZz9/fT3LDY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-343-1pM9GChgNUK8kvIAz2y_Lw-1; Wed, 18 Nov 2020 04:44:33 -0500
-X-MC-Unique: 1pM9GChgNUK8kvIAz2y_Lw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-286-S5XJB9A5OCWflPjGARS0UA-1; Wed, 18 Nov 2020 04:51:40 -0500
+X-MC-Unique: S5XJB9A5OCWflPjGARS0UA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E74A8030BA;
- Wed, 18 Nov 2020 09:44:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31BE880EFA7;
+ Wed, 18 Nov 2020 09:51:39 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-113-139.ams2.redhat.com [10.36.113.139])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E75F71C4;
- Wed, 18 Nov 2020 09:44:26 +0000 (UTC)
-Subject: Re: [PATCH v1 2/6] tests: add prefixes to the bare mkdtemp calls
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3A6345D9CD;
+ Wed, 18 Nov 2020 09:51:30 +0000 (UTC)
+Subject: Re: [PATCH v1 4/6] gitlab: move remaining x86 check-tcg targets to
+ gitlab
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20201117173635.29101-1-alex.bennee@linaro.org>
- <20201117173635.29101-3-alex.bennee@linaro.org>
+ <20201117173635.29101-5-alex.bennee@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <6450a49d-531b-f02f-4747-8782463e665c@redhat.com>
-Date: Wed, 18 Nov 2020 10:44:24 +0100
+Message-ID: <d19f1bc0-9716-e0f4-0b6c-f2add5578f7d@redhat.com>
+Date: Wed, 18 Nov 2020 10:51:29 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201117173635.29101-3-alex.bennee@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20201117173635.29101-5-alex.bennee@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -60,16 +61,16 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 00:38:29
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 19:41:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,57 +85,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Eduardo Habkost <ehabkost@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>, peter.maydell@linaro.org,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 17/11/2020 18.36, Alex Bennée wrote:
-> The first step to debug a thing is to know what created the thing in
-> the first place. Add some prefixes so random tmpdir's have something
-> grep in the code.
+> The GCC check-tcg (user) test in particular was very prone to timing
+> out on Travis. We only actually need to move the some-softmmu builds
+> across as we already have coverage for linux-user.
+> 
+> As --enable-debug-tcg does increase the run time somewhat as more
+> debug is put in let's restrict that to just the plugins build. It's
+
+"so" or "," -----^ ?
+
+> unlikely that a plugins enabled build is going to hide a sanity
+> failure in core TCG code so let the plugin builds do the heavy lifting
+> on checking TCG sanity so the non-plugin builds can run swiftly.
+> 
+> Now the only remaining check-tcg builds on Travis are for the various
+> non-x86 arches.
 > 
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> 
+> Message-Id: <20201110192316.26397-10-alex.bennee@linaro.org>
 > ---
-> v2
->   - fix long lines
-> ---
->  python/qemu/machine.py                    | 3 ++-
->  tests/acceptance/avocado_qemu/__init__.py | 3 ++-
->  2 files changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-> index 6420f01bed..64d966aeeb 100644
-> --- a/python/qemu/machine.py
-> +++ b/python/qemu/machine.py
-> @@ -303,7 +303,8 @@ class QEMUMachine:
->          return args
->  
->      def _pre_launch(self) -> None:
-> -        self._temp_dir = tempfile.mkdtemp(dir=self._test_dir)
-> +        self._temp_dir = tempfile.mkdtemp(prefix="qemu-machine-",
-> +                                          dir=self._test_dir)
->          self._qemu_log_path = os.path.join(self._temp_dir, self._name + ".log")
->          self._qemu_log_file = open(self._qemu_log_path, 'wb')
->  
-> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-> index 4cda037187..3033b2cabe 100644
-> --- a/tests/acceptance/avocado_qemu/__init__.py
-> +++ b/tests/acceptance/avocado_qemu/__init__.py
-> @@ -171,7 +171,8 @@ class Test(avocado.Test):
->              self.cancel("No QEMU binary defined or found in the build tree")
->  
->      def _new_vm(self, *args):
-> -        vm = QEMUMachine(self.qemu_bin, sock_dir=tempfile.mkdtemp())
-> +        sd = tempfile.mkdtemp(prefix="avocado_qemu_sock_")
-> +        vm = QEMUMachine(self.qemu_bin, sock_dir=sd)
->          if args:
->              vm.add_args(*args)
->          return vm
-> 
+>  .gitlab-ci.yml | 17 +++++++++++++++++
+>  .travis.yml    | 26 --------------------------
+>  2 files changed, 17 insertions(+), 26 deletions(-)
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 
