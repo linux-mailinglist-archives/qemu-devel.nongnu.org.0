@@ -2,74 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACC162B79E4
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 10:04:52 +0100 (CET)
-Received: from localhost ([::1]:33846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFCEF2B79F7
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 10:06:53 +0100 (CET)
+Received: from localhost ([::1]:40156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfJOV-0005lW-O8
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 04:04:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55722)
+	id 1kfJQS-0008PA-Tc
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 04:06:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kfJDq-0007I8-UU
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 03:53:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25970)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kfJIR-0005SA-OK
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 03:58:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25510)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kfJDo-0007qk-UU
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 03:53:50 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kfJIP-000096-H5
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 03:58:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605689628;
+ s=mimecast20190719; t=1605689912;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=kQVbcURz5odP9Hj6EywB5dozHcw3VvaATEkWwS6JcVg=;
- b=gBDRxFioZTmRA3T6pCOqV/tjsj4n2kUSZgI+FAo4X37266Po7GhVg0qjILFwG/HSRHAeTI
- cxtOaaevfdwgv1qqOaTasR8CAvrqg0xFOj/DCpdjbxAUtd48l5hZyHm2owzmyztvT2pUJ/
- YDgPrXJLnHWOiuWS43rSTHpeQ5lpjKs=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-468-VpNbbnvqMS6lyyxbp3F96g-1; Wed, 18 Nov 2020 03:53:46 -0500
-X-MC-Unique: VpNbbnvqMS6lyyxbp3F96g-1
-Received: by mail-wm1-f70.google.com with SMTP id d2so734243wmd.8
- for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 00:53:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=kQVbcURz5odP9Hj6EywB5dozHcw3VvaATEkWwS6JcVg=;
- b=koMTAFe+2TDGKpZ7M9Y54yTEVldFvdqGnMAFBDWLzEBCxsQNpmQXSVFqpBmhuo4Cvo
- KQ3onpLS6iPeoDX5bfC2mYhS9Qzx0FqlxpqywIo2tVEuZmWfbZtJe+3X8HMAb3wgoftG
- Xxt984fjwp1s4cXz4JW29/ZG40UasxulDAD93XEmZyUMtP8R8H7TcH7ZhA2WjGPMcfoI
- SjAwF0QKJH89D7pd1atZzntjAa7n8OyATOY6K1yhXfl4nI7dBkLtveHTHbX1ddVBG0KI
- AlhJJ7wJMu8dz2e9nR4Afxkiung1MqrBncwaDP1XOcH0P5EbPOE5bMJaOqMR4p9dp3+4
- 7y3Q==
-X-Gm-Message-State: AOAM530kqN9AISnAcqwSaPmPYCqRokItK0eBNDszD4nxUum1lSIOEByu
- zGaiPZvmsIOImeEPMZ+vppSKlgnWd1tREbaySsiHAeUrSAu+bqGxcwKYxbCx62uDgasrS0H/ZDi
- 9a933Q2+Nzw4no6w=
-X-Received: by 2002:a1c:9ad3:: with SMTP id c202mr3143369wme.43.1605689625273; 
- Wed, 18 Nov 2020 00:53:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwSuVtzYTa22m4JXeFNBjcsleGJf6F1RDRweWP2DPZNQL8CrfzSa3Juzq+lLjsHIxVCyx+8kA==
-X-Received: by 2002:a1c:9ad3:: with SMTP id c202mr3143349wme.43.1605689625093; 
- Wed, 18 Nov 2020 00:53:45 -0800 (PST)
-Received: from redhat.com (bzq-79-181-34-244.red.bezeqint.net. [79.181.34.244])
- by smtp.gmail.com with ESMTPSA id k1sm28603780wrp.23.2020.11.18.00.53.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Nov 2020 00:53:43 -0800 (PST)
-Date: Wed, 18 Nov 2020 03:53:39 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH v2 00/27] Virtio net failover fixes
-Message-ID: <20201118035209-mutt-send-email-mst@kernel.org>
-References: <20201118083748.1328-1-quintela@redhat.com>
+ bh=3iiPGoO3hTdwgre3C1oODGkFspv4MEstQIg4rOfGIu8=;
+ b=E8IJYILGqrPqPa5u2o1ZNRTKLWAukVUK14/o2Xqd0X8Trpuc0mfLuGLa8s1kJdNpnijoLz
+ EGN6loSrLOd6uzVyR6VVPFoFVzB1g7vxO8vLQm+XngjSlwFzB4IPJtekrr1WARYhEw/Tao
+ Iy0WmdSfPoOgumZbTGTkUdS4j9LQQpM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-384-rHs_xRdQODWzewFeJNQZkQ-1; Wed, 18 Nov 2020 03:58:30 -0500
+X-MC-Unique: rHs_xRdQODWzewFeJNQZkQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8DAD1108BD08
+ for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 08:58:28 +0000 (UTC)
+Received: from localhost (ovpn-114-60.ams2.redhat.com [10.36.114.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 341E05D9CA;
+ Wed, 18 Nov 2020 08:58:28 +0000 (UTC)
+Date: Wed, 18 Nov 2020 08:58:26 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: marcandre.lureau@redhat.com
+Subject: Re: [PATCH 0/2] libvhost-user: lower dependency on QEMU headers
+Message-ID: <20201118085826.GC182763@stefanha-x1.localdomain>
+References: <20201118080902.30033-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201118083748.1328-1-quintela@redhat.com>
+In-Reply-To: <20201118080902.30033-1-marcandre.lureau@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="xesSdrSSBC0PokLI"
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 19:41:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -92,83 +80,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 18, 2020 at 09:37:21AM +0100, Juan Quintela wrote:
-> Hi
-> 
-> This is a big rework of the network failover setup.  General idea is:
-> * We don't cache the name of the primary/standby devices
->   We have several problems there with stale pointers
-> * After this:
-> - We can always remove either the primary/standby devices without trouble
-> - Pluggin/unplugging works
-> - We go to device opts to see what the failover device are.
->   Notice that we are plugging/unplugging the device, so it is not critical.
-> - Once there, I "fixed" managedsave for libvirt (now gives an error instead o=
-> f just hanging)
-> * Fields not cached anymore:
-> - primary_device_dict
-> - primary_device_opts
-> - standby_id
-> - primary_device_id
-> - primary_dev
-> * I renamed the should_be_hidden() callback to hide device, but if
->   people preffer the old name I can leave it.
-> * Add (some) doc to some functions
-> * Remove almost 100 lines of code while fixing things.
-> 
-> Please review.
+--xesSdrSSBC0PokLI
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-OK that's great, any of this appropriate for 5.2?
-The memory leak fix maybe?
+On Wed, Nov 18, 2020 at 12:09:00PM +0400, marcandre.lureau@redhat.com wrote=
+:
+> From: Marc-Andr=E9 Lureau <marcandre.lureau@redhat.com>
+>=20
+> Hi,
+>=20
+> libvhost-user is meant to be free of glib dependency, and easily
+> copyable/reusable outside of QEMU. Clean-up some dependencies that crept =
+in
+> recently (the one remaining is qemu/atomic.h, from which a subset is used=
+)
+>=20
+> Marc-Andr=E9 Lureau (2):
+>   libvhost-user: replace qemu/bswap.h with glibc endian.h
+>   libvhost-user: replace qemu/memfd.h usage
+>=20
+>  contrib/libvhost-user/libvhost-user.c | 127 +++++++++++++++++---------
+>  1 file changed, 83 insertions(+), 44 deletions(-)
 
-> Later, Juan.
-> 
-> Juan Quintela (27):
->   migration: Network Failover can't work with a paused guest
->   failover: fix indentantion
->   failover: Use always atomics for primary_should_be_hidden
->   failover: primary bus is only used once, and where it is set
->   failover: Remove unused parameter
->   failover: Remove external partially_hotplugged property
->   failover: qdev_device_add() returns err or dev set
->   failover: Rename bool to failover_primary_hidden
->   failover: g_strcmp0() knows how to handle NULL
->   failover: Remove primary_device_opts
->   failover: remove standby_id variable
->   failover: Remove primary_device_dict
->   failover: Remove memory leak
->   failover: simplify virtio_net_find_primary()
->   failover: should_be_hidden() should take a bool
->   failover: Rename function to hide_device()
->   failover: virtio_net_connect_failover_devices() does nothing
->   failover: Rename to failover_find_primary_device()
->   failover: simplify qdev_device_add() failover case
->   failover: simplify qdev_device_add()
->   failover: make sure that id always exist
->   failover: remove failover_find_primary_device() error parameter
->   failover: split failover_find_primary_device_id()
->   failover: We don't need to cache primary_device_id anymore
->   failover: Caller of this two functions already have primary_dev
->   failover: simplify failover_unplug_primary
->   failover: Remove primary_dev member
-> 
->  include/hw/qdev-core.h         |  28 ++--
->  include/hw/virtio/virtio-net.h |   9 +-
->  hw/core/qdev.c                 |  19 +--
->  hw/net/virtio-net.c            | 298 +++++++++++++--------------------
->  migration/migration.c          |  13 ++
->  softmmu/qdev-monitor.c         |  43 ++---
->  6 files changed, 167 insertions(+), 243 deletions(-)
-> 
-> --=20
-> 2.26.2
-> 
+Let's find a way to enforce this. How about a libvhost-user-only build
+in the CI system without glib2-devel? Also maybe a way to poison QEMU
+headers? It might be simpler to move contrib/libvhost-user to a separate
+git repo though.
+
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+--xesSdrSSBC0PokLI
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+04jIACgkQnKSrs4Gr
+c8jngwf/UPQgBt3cOgoq1FhgwEPLTa+bdSpPXkZmYQYfvUEkW3hxUcR0/Hir9/mm
+mYQ07Uf1SNZnufa+2x5svmdnqP2ia4V3pKLCVnFfTU9XieOSsbq9bFrzjDRpQurL
++Qz5U8Aq3KCTm7/fX5hStPDUgZB9CyZPrzL/nyJuHmR1c0HeXByh8Src2WvRhACx
+0vfqh3PqVk5dtBEQKlxMwufMezFMn5AZH+W7VDj5wM7fADE5RlBsJyplCNeuT3nH
+f7tzoA7V6nAXHiVAO79WE5aGyYtBJG4323tfEe9EYZoFFad25U+H9rG+WLZNxQRL
+mil3cpynsjCGvsPz+Ku4G0/91dHA8g==
+=kUTq
+-----END PGP SIGNATURE-----
+
+--xesSdrSSBC0PokLI--
 
 
