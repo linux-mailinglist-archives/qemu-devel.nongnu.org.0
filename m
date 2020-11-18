@@ -2,95 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67C282B76DB
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 08:22:37 +0100 (CET)
-Received: from localhost ([::1]:51172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 682902B771F
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 08:47:06 +0100 (CET)
+Received: from localhost ([::1]:59932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfHnY-00061q-8N
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 02:22:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36444)
+	id 1kfIBE-00034j-Vb
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 02:47:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <michael.christie@oracle.com>)
- id 1kfHl7-0005Ox-VI
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 02:20:07 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:48010)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <michael.christie@oracle.com>)
- id 1kfHl3-0004Lw-WA
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 02:20:05 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AI7AHij052502;
- Wed, 18 Nov 2020 07:19:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : from : to :
- cc : references : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=vTyEmgL0cQqcMKTkcNJo0gmeMY6q5TZK/xQxC0Ooo8o=;
- b=jGfopdR8GzwnNAZ+jM7WPA3LFgYGgAEzG2C4T3MimxPW1b3YJRdT3dbtGZuCcyZjaGpx
- NyV453vRS4w7Wz7GxQmoVZQuqbu3kUNJJgJS/9EDSKDsH3AzllzbNt28RmkJaw6WlVZU
- /Rhd7VDjd2zxIguwc6lPe0ByUsXr8krVlgRKbqpE36SD7J/Iio0OzWHCklZkeKPo9Rec
- YETR0FdeOxrCmc49tVWx4QjvLQmhSqb2ZR3oofk8moKQjUL9Wkd3ZTTNyq7Gw5kOvde/
- WatUdbKmp2XA0rbmWP+hOn4OxBnUi2x0S350fhArIXq1g7S7N7TaBf3AxQzkDLvSuEwk 2g== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2130.oracle.com with ESMTP id 34t4raxn5e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 18 Nov 2020 07:19:48 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AI79VF1163877;
- Wed, 18 Nov 2020 07:19:47 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3020.oracle.com with ESMTP id 34ts0rxw1m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 18 Nov 2020 07:19:47 +0000
-Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0AI7JiLa010313;
- Wed, 18 Nov 2020 07:19:44 GMT
-Received: from [20.15.0.202] (/73.88.28.6)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 17 Nov 2020 23:19:44 -0800
-Subject: Re: [PATCH 00/10] vhost/qemu: thread per IO SCSI vq
-From: Mike Christie <michael.christie@oracle.com>
-To: Jason Wang <jasowang@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
-References: <1605223150-10888-1-git-send-email-michael.christie@oracle.com>
- <20201117164043.GS131917@stefanha-x1.localdomain>
- <bba47572-bec9-794f-5a70-d7f016267022@redhat.com>
- <8318de9f-c585-39f8-d931-1ff5e0341d75@oracle.com>
-Message-ID: <ff02b7a9-60e2-c8d4-4de1-3135d2a9e125@oracle.com>
-Date: Wed, 18 Nov 2020 01:19:43 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kfI9F-0002Gw-8T
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 02:45:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43673)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kfI9B-0007BL-AJ
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 02:44:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605685496;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Cr60BNQVpl2Jv0xMsNMxK646YXoW+AI1Myjdlseyb9Q=;
+ b=B7w1pf/RE9/SciEeQ83463gFa2JA4VAMWDoPpZySR13/9Tg71Zpt1f2QSOoOre2GiXtbSa
+ lWois2maR8aV2IsY3Gw/jtajON0iRCY10MfQN62PhuVTh3MiwFP7ljFCD8CJ6wXWiM1Dnw
+ TBVVDfWKUqoviB2k12jiJGy0MYEPSS0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-172-nxlFtsxNOS6wbmWuNOa6Vw-1; Wed, 18 Nov 2020 02:44:52 -0500
+X-MC-Unique: nxlFtsxNOS6wbmWuNOa6Vw-1
+Received: by mail-wm1-f69.google.com with SMTP id 3so662643wms.9
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 23:44:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Cr60BNQVpl2Jv0xMsNMxK646YXoW+AI1Myjdlseyb9Q=;
+ b=IVM7Llvn96eDw9AunixBDeohd3cK0QTOKrdiKyqBt4QHJP5K8tKq+FdxqZNJl4Jr+v
+ v7VHrshxRYup+r7uS11RZLYUjEXSMaZsirFWAG1YETFvKod7RH+ZqGjNpZZctkj6GobB
+ 00EDu3S+MFIV/JbOl0txcSTANo6jyp8HMv6jPK+3vpwosrlLqKrnB9D6pXSsi/oRdI60
+ JDzJxiE+xGFHkOujKP5Zgl1ywIdeRcn8yXI4ZhXzhhHnbOoiH76fhf8bOfN2q8eAwxq7
+ eU2PHIDANuUvh9/hvzS5wCKpLGATIDKbeJjgctEXbIDXs3VGqy/8jFzVGm3OSd8FoaF+
+ 01jA==
+X-Gm-Message-State: AOAM532PBbAxSFbyyiq+UdKuUtV8BNRN5Pi00wSM9ML9612GWP8vMwbh
+ LsbQiHChUKDlEg54inpCROOi+IG/awmHn6r+KXtWCW4diGWqq92lejAumdwPQwQxb+u0uFzlNkM
+ Lm77ru9jI8q2DCzM=
+X-Received: by 2002:a05:600c:2202:: with SMTP id
+ z2mr3068946wml.95.1605685491522; 
+ Tue, 17 Nov 2020 23:44:51 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwrp6OVOpaidqfArBZtHWZIw0GmdCT5r4RKOQu2MGAiH5e8B5jciqpMWcNYRyWSI9py6rKZQg==
+X-Received: by 2002:a05:600c:2202:: with SMTP id
+ z2mr3068917wml.95.1605685491232; 
+ Tue, 17 Nov 2020 23:44:51 -0800 (PST)
+Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
+ by smtp.gmail.com with ESMTPSA id 109sm32971104wra.29.2020.11.17.23.44.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Nov 2020 23:44:50 -0800 (PST)
+Date: Wed, 18 Nov 2020 02:44:45 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Stefan Weil <sw@weilnetz.de>
+Subject: Re: [PATCH for-5.2] docs: Fix some typos (found by codespell)
+Message-ID: <20201118024440-mutt-send-email-mst@kernel.org>
+References: <20201117193448.393472-1-sw@weilnetz.de>
 MIME-Version: 1.0
-In-Reply-To: <8318de9f-c585-39f8-d931-1ff5e0341d75@oracle.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9808
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- adultscore=0
- bulkscore=0 suspectscore=0 spamscore=0 malwarescore=0 phishscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011180048
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9808
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- clxscore=1015
- malwarescore=0 impostorscore=0 lowpriorityscore=0 priorityscore=1501
- mlxlogscore=999 adultscore=0 phishscore=0 suspectscore=0 spamscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011180048
-Received-SPF: pass client-ip=141.146.126.79;
- envelope-from=michael.christie@oracle.com; helo=aserp2130.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 02:19:59
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+In-Reply-To: <20201117193448.393472-1-sw@weilnetz.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 19:41:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,88 +94,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, linux-scsi@vger.kernel.org, mst@redhat.com,
- qemu-devel@nongnu.org, virtualization@lists.linux-foundation.org,
- target-devel@vger.kernel.org, pbonzini@redhat.com
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org, libvir-list@redhat.com,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/18/20 12:57 AM, Mike Christie wrote:
-> On 11/17/20 11:17 PM, Jason Wang wrote:
->>
->> On 2020/11/18 上午12:40, Stefan Hajnoczi wrote:
->>> On Thu, Nov 12, 2020 at 05:18:59PM -0600, Mike Christie wrote:
->>>> The following kernel patches were made over Michael's vhost branch:
->>>>
->>>> https://urldefense.com/v3/__https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git/log/?h=vhost__;!!GqivPVa7Brio!MzCv3wdRfz5dltunazRWGCeUkMg91pPEOLpIivsebLX9vhYDSi_E1V36e9H0NoRys_hU$
->>>> and the vhost-scsi bug fix patchset:
->>>>
->>>> https://urldefense.com/v3/__https://lore.kernel.org/linux-scsi/20201112170008.GB1555653@stefanha-x1.localdomain/T/*t__;Iw!!GqivPVa7Brio!MzCv3wdRfz5dltunazRWGCeUkMg91pPEOLpIivsebLX9vhYDSi_E1V36e9H0NmuPE_m8$
->>>> And the qemu patch was made over the qemu master branch.
->>>>
->>>> vhost-scsi currently supports multiple queues with the num_queues
->>>> setting, but we end up with a setup where the guest's scsi/block
->>>> layer can do a queue per vCPU and the layers below vhost can do
->>>> a queue per CPU. vhost-scsi will then do a num_queue virtqueues,
->>>> but all IO gets set on and completed on a single vhost-scsi thread.
->>>> After 2 - 4 vqs this becomes a bottleneck.
->>>>
->>>> This patchset allows us to create a worker thread per IO vq, so we
->>>> can better utilize multiple CPUs with the multiple queues. It
->>>> implments Jason's suggestion to create the initial worker like
->>>> normal, then create the extra workers for IO vqs with the
->>>> VHOST_SET_VRING_ENABLE ioctl command added in this patchset.
->>> How does userspace find out the tids and set their CPU affinity?
->>>
->>> What is the meaning of the new VHOST_SET_VRING_ENABLE ioctl? It doesn't
->>> really "enable" or "disable" the vq, requests are processed regardless.
->>
->>
->> Actually I think it should do the real "enable/disable" that tries to follow the virtio spec.
->>
+On Tue, Nov 17, 2020 at 08:34:48PM +0100, Stefan Weil wrote:
+> Fix also a similar typo in a code comment.
 > 
-> What does real mean here? For the vdpa enable call for example, would it be like
-> ifcvf_vdpa_set_vq_ready where it sets the ready bit or more like mlx5_vdpa_set_vq_ready
-> where it can do some more work in the disable case?
-> 
-> For net and something like ifcvf_vdpa_set_vq_ready's design would we have
-> vhost_ring_ioctl() set some vhost_virtqueue enable bit. We then have some helper
-> vhost_vq_is_enabled() and some code to detect if userspace supports the new ioctl.
-> And then in vhost_net_set_backend do we call vhost_vq_is_enabled()? What is done
-> for disable then? It doesn't seem to buy a lot of new functionality. Is it just
-> so we follow the spec?
-> 
-> Or do you want it work more like mlx5_vdpa_set_vq_ready? For this in vhost_ring_ioctl
-> when we get the new ioctl we would call into the drivers and have it start queues
-> and stop queues? For enable, what we you do for net for this case? For disable,
-> would you do something like vhost_net_stop_vq (we don't free up anything allocated
-> in vhost_vring_ioctl calls, but we can stop what we setup in the net driver)?
-> Is this useful for the current net mq design or is this for something like where
-> you would do one vhost net device with multiple vqs?
-> 
-> My issue/convern is that in general these calls seems useful, but we don't really
-> need them for scsi because vhost scsi is already stuck creating vqs like how it does
-> due to existing users. If we do the ifcvf_vdpa_set_vq_ready type of design where
-> we just set some bit, then the new ioctl does not give us a lot. It's just an extra
-> check and extra code.
-> 
-> And for the mlx5_vdpa_set_vq_ready type of design, it doesn't seem like it's going
-> to happen a lot where the admin is going to want to remove vqs from a running device.
-> And for both addition/removal for scsi we would need code in virtio scsi to handle
-> hot plug removal/addition of a queue and then redoing the multiqueue mappings which
-> would be difficult to add with no one requesting it.
+> Signed-off-by: Stefan Weil <sw@weilnetz.de>
 
-Actually I want to half take this last chunk back. When I said in general these calls
-seem useful, I meant for the mlx5_vdpa_set_vq_ready type design. For example, if a
-user was going to remove/add vCPUs then this functionality where we are completely
-adding/removing virtqueues would be useful. We would need a lot more than just
-the new ioctl though, because we would want to completely create/setup a new
-virtqueue
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 
-I do not have any of our users asking for this. You guys work on this more so
-you know better.
+> ---
+>  docs/can.txt                  | 8 ++++----
+>  docs/interop/vhost-user.rst   | 2 +-
+>  docs/replay.txt               | 2 +-
+>  docs/specs/ppc-spapr-numa.rst | 2 +-
+>  docs/system/deprecated.rst    | 4 ++--
+>  docs/tools/virtiofsd.rst      | 2 +-
+>  hw/vfio/igd.c                 | 2 +-
+>  7 files changed, 11 insertions(+), 11 deletions(-)
+> 
+> diff --git a/docs/can.txt b/docs/can.txt
+> index 5838f6620c..0d310237df 100644
+> --- a/docs/can.txt
+> +++ b/docs/can.txt
+> @@ -19,7 +19,7 @@ interface to implement because such device can be easily connected
+>  to systems with different CPU architectures (x86, PowerPC, Arm, etc.).
+>  
+>  In 2020, CTU CAN FD controller model has been added as part
+> -of the bachelor theses of Jan Charvat. This controller is complete
+> +of the bachelor thesis of Jan Charvat. This controller is complete
+>  open-source/design/hardware solution. The core designer
+>  of the project is Ondrej Ille, the financial support has been
+>  provided by CTU, and more companies including Volkswagen subsidiaries.
+> @@ -31,7 +31,7 @@ testing lead to goal change to provide environment which provides complete
+>  emulated environment for testing and RTEMS GSoC slot has been donated
+>  to work on CAN hardware emulation on QEMU.
+>  
+> -Examples how to use CAN emulation for SJA1000 based borads
+> +Examples how to use CAN emulation for SJA1000 based boards
+>  ==========================================================
+>  
+>  When QEMU with CAN PCI support is compiled then one of the next
+> @@ -106,8 +106,8 @@ This open-source core provides CAN FD support. CAN FD drames are
+>  delivered even to the host systems when SocketCAN interface is found
+>  CAN FD capable.
+>  
+> -The PCIe borad emulation is provided for now (the device identifier is
+> -ctucan_pci). The defauld build defines two CTU CAN FD cores
+> +The PCIe board emulation is provided for now (the device identifier is
+> +ctucan_pci). The default build defines two CTU CAN FD cores
+>  on the board.
+>  
+>  Example how to connect the canbus0-bus (virtual wire) to the host
+> diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
+> index 988f154144..72b2e8c7ba 100644
+> --- a/docs/interop/vhost-user.rst
+> +++ b/docs/interop/vhost-user.rst
+> @@ -513,7 +513,7 @@ descriptor table (split virtqueue) or descriptor ring (packed
+>  virtqueue). However, it can't work when we process descriptors
+>  out-of-order because some entries which store the information of
+>  inflight descriptors in available ring (split virtqueue) or descriptor
+> -ring (packed virtqueue) might be overrided by new entries. To solve
+> +ring (packed virtqueue) might be overridden by new entries. To solve
+>  this problem, slave need to allocate an extra buffer to store this
+>  information of inflight descriptors and share it with master for
+>  persistent. ``VHOST_USER_GET_INFLIGHT_FD`` and
+> diff --git a/docs/replay.txt b/docs/replay.txt
+> index 87a64ae068..5b008ca491 100644
+> --- a/docs/replay.txt
+> +++ b/docs/replay.txt
+> @@ -328,7 +328,7 @@ between the snapshots. Each of the passes include the following steps:
+>   1. loading the snapshot
+>   2. replaying to examine the breakpoints
+>   3. if breakpoint or watchpoint was met
+> -    - loading the snaphot again
+> +    - loading the snapshot again
+>      - replaying to the required breakpoint
+>   4. else
+>      - proceeding to the p.1 with the earlier snapshot
+> diff --git a/docs/specs/ppc-spapr-numa.rst b/docs/specs/ppc-spapr-numa.rst
+> index 5fca2bdd8e..ffa687dc89 100644
+> --- a/docs/specs/ppc-spapr-numa.rst
+> +++ b/docs/specs/ppc-spapr-numa.rst
+> @@ -198,7 +198,7 @@ This is how it is being done:
+>  * user distance 121 and beyond will be interpreted as 160
+>  * user distance 10 stays 10
+>  
+> -The reasoning behind this aproximation is to avoid any round up to the local
+> +The reasoning behind this approximation is to avoid any round up to the local
+>  distance (10), keeping it exclusive to the 4th NUMA level (which is still
+>  exclusive to the node_id). All other ranges were chosen under the developer
+>  discretion of what would be (somewhat) sensible considering the user input.
+> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+> index 32a0e620db..63e9db1463 100644
+> --- a/docs/system/deprecated.rst
+> +++ b/docs/system/deprecated.rst
+> @@ -465,7 +465,7 @@ default configuration.
+>  
+>  The CPU model runnability guarantee won't apply anymore to
+>  existing CPU models.  Management software that needs runnability
+> -guarantees must resolve the CPU model aliases using te
+> +guarantees must resolve the CPU model aliases using the
+>  ``alias-of`` field returned by the ``query-cpu-definitions`` QMP
+>  command.
+>  
+> @@ -637,7 +637,7 @@ Splitting RAM by default between NUMA nodes had the same issues as ``mem``
+>  parameter with the difference that the role of the user plays QEMU using
+>  implicit generic or board specific splitting rule.
+>  Use ``memdev`` with *memory-backend-ram* backend or ``mem`` (if
+> -it's supported by used machine type) to define mapping explictly instead.
+> +it's supported by used machine type) to define mapping explicitly instead.
+>  Users of existing VMs, wishing to preserve the same RAM distribution, should
+>  configure it explicitly using ``-numa node,memdev`` options. Current RAM
+>  distribution can be retrieved using HMP command ``info numa`` and if separate
+> diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
+> index 34a9e40146..866b7db3ee 100644
+> --- a/docs/tools/virtiofsd.rst
+> +++ b/docs/tools/virtiofsd.rst
+> @@ -174,7 +174,7 @@ Using ':' as the separator a rule is of the form:
+>  - 'bad' - If a client tries to use a name matching 'key' it's
+>    denied using EPERM; when the server passes an attribute
+>    name matching 'prepend' it's hidden.  In many ways it's use is very like
+> -  'ok' as either an explict terminator or for special handling of certain
+> +  'ok' as either an explicit terminator or for special handling of certain
+>    patterns.
+>  
+>  **key** is a string tested as a prefix on an attribute name originating
+> diff --git a/hw/vfio/igd.c b/hw/vfio/igd.c
+> index 64e332746b..470205f487 100644
+> --- a/hw/vfio/igd.c
+> +++ b/hw/vfio/igd.c
+> @@ -535,7 +535,7 @@ void vfio_probe_igd_bar4_quirk(VFIOPCIDevice *vdev, int nr)
+>      }
+>  
+>      /*
+> -     * Assume we have no GMS memory, but allow it to be overrided by device
+> +     * Assume we have no GMS memory, but allow it to be overridden by device
+>       * option (experimental).  The spec doesn't actually allow zero GMS when
+>       * when IVD (IGD VGA Disable) is clear, but the claim is that it's unused,
+>       * so let's not waste VM memory for it.
+> -- 
+> 2.29.2
 
-Another option is to kick it down the road again since I'm not sure my patches
-here have a lot to do with this. We could also just do the kernel only approach
-(no new ioctl) and then add some new design when we have users asking for it.
 
