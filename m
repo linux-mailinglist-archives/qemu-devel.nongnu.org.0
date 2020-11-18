@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8921F2B7B86
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 11:42:20 +0100 (CET)
-Received: from localhost ([::1]:33232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52D782B7B99
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 11:47:15 +0100 (CET)
+Received: from localhost ([::1]:40794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfKup-0002ZU-LP
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 05:42:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55802)
+	id 1kfKza-000634-ED
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 05:47:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kfKtj-00024V-TR
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 05:41:11 -0500
-Received: from indium.canonical.com ([91.189.90.7]:37074)
+ id 1kfKyV-0005E0-CW
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 05:46:07 -0500
+Received: from indium.canonical.com ([91.189.90.7]:37650)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kfKtf-0006o2-PZ
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 05:41:11 -0500
+ id 1kfKyS-0007aY-Ox
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 05:46:07 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kfKtd-0001Gr-RY
- for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 10:41:05 +0000
+ id 1kfKyR-0001sf-KM
+ for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 10:46:03 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CEEDD2E8072
- for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 10:41:05 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 91B732E80AB
+ for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 10:46:03 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 18 Nov 2020 10:32:57 -0000
-From: Thomas Huth <1903470@bugs.launchpad.net>
+Date: Wed, 18 Nov 2020 10:33:32 -0000
+From: Thomas Huth <676934@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
+X-Launchpad-Bug: product=qemu; status=New; importance=Wishlist; assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: magicaltux marcandre-lureau
-X-Launchpad-Bug-Reporter: =?utf-8?q?Mark_Karpel=C3=A8s_=28magicaltux=29?=
+X-Launchpad-Bug-Commenters: ajbennee berrange developers-tefnet
+X-Launchpad-Bug-Reporter: Tefnet Developers (developers-tefnet)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160488704585.18602.6390058369473747228.malonedeb@soybean.canonical.com>
-Message-Id: <160569557813.17181.11960985603483673467.launchpad@wampee.canonical.com>
-Subject: [Bug 1903470] Re: qemu 5.1.0: Add UNIX socket support for netdev
- socket
+X-Launchpad-Bug-Duplicate: 1903470
+References: <20101118110340.18016.73281.malonedeb@palladium.canonical.com>
+Message-Id: <160569561321.26399.5340405381163626723.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 676934] Re: Ability to use -net socket with unix sockets
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="a2ee2035671f86427804714f331b9ff7fecaef7e"; Instance="production"
-X-Launchpad-Hash: 5d868c6e6243db131f97ee8da8fc4f13352d6d96
+X-Launchpad-Hash: 8a87e9e2a8787c67580884e43ca2543be3ea3e8b
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 04:01:19
@@ -73,43 +72,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1903470 <1903470@bugs.launchpad.net>
+Reply-To: Bug 676934 <676934@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+*** This bug is a duplicate of bug 1903470 ***
+    https://bugs.launchpad.net/bugs/1903470
+
+** This bug has been marked a duplicate of bug 1903470
+   qemu 5.1.0: Add UNIX socket support for netdev socket
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1903470
+https://bugs.launchpad.net/bugs/676934
 
 Title:
-  qemu 5.1.0: Add UNIX socket support for netdev socket
+  Ability to use -net socket with unix sockets
 
 Status in QEMU:
-  Incomplete
+  New
 
 Bug description:
-  Note: this is a feature request.
+  It would be a nice feature (simplifying access control for example) to
+  be able to do something like:
 
-  qemu has a way to connect instances using a socket:
+  qemu -net socket,listen=3Dunix:/tmp/qemunet
+  qemu -net socket,connect=3Dunix:/tmp/qemunet
 
-  -netdev socket,id=3Dstr[,fd=3Dh][,listen=3D[host]:port][,connect=3Dhost:p=
-ort]
-
-  This can also be used to connect a qemu instance to something else
-  using a socket connection, however there is no authentication or
-  security to the connection, so rather than using a port which can be
-  accessed by any user on the machine, having the ability to use or
-  connect to UNIX sockets would be helpful, and adding this option
-  should be fairly trivial.
-
-  UNIX sockets can be found in various parts of qemu (monitor, etc) so I
-  believe having this on network would make sense.
+  For now one has to use TCP connections even for guests running on the
+  same host, which involves setting up iptables to restrict access.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1903470/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/676934/+subscriptions
 
