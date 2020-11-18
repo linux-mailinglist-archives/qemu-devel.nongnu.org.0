@@ -2,74 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3DCB2B7756
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 08:54:32 +0100 (CET)
-Received: from localhost ([::1]:36250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF3E42B775E
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 08:56:37 +0100 (CET)
+Received: from localhost ([::1]:39098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfIIR-0005H8-VZ
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 02:54:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43058)
+	id 1kfIKT-0006Xx-28
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 02:56:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kfIHf-0004qZ-Ib
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 02:53:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25467)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1kfIIz-0005jl-V0
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 02:55:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54461)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kfIHd-0008I0-KV
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 02:53:43 -0500
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1kfIIx-0008MK-Re
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 02:55:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605686021;
+ s=mimecast20190719; t=1605686103;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sm+LXZpYqBg1dnOqhbYPveOzqD/FioeWqDWzcLfbYRA=;
- b=GG/wwFmcbsnhN7esG5qtHc/ta2n6gYHCtLlINp0si8g7opcWfjQXci2lU9h7ea26d9Pqva
- QYI0tkOLuemlpi3VNd+Jx4rtBthGiLv3JgJjoQ1Q88OMwAlsy6sZdY8IIgGfuqecwNQthl
- RfZsUgxEbWuUcu30wBgyxQCKxbgDKJA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-424-yhayqoRCMvC2kbCkp5OmkQ-1; Wed, 18 Nov 2020 02:53:38 -0500
-X-MC-Unique: yhayqoRCMvC2kbCkp5OmkQ-1
-Received: by mail-wm1-f69.google.com with SMTP id g3so514762wmh.9
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 23:53:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=sm+LXZpYqBg1dnOqhbYPveOzqD/FioeWqDWzcLfbYRA=;
- b=dgSCNGFbdAuTkI6k0W67bw6BKR5mas9uvmM4Ope8DhaQbI7AJecOJcgdYgdT9smWra
- SvhYm8MGkoqkYboyxdg3GERifs4zbb6vB2q74gWE3iCC0vlqYDoi6KCVZ/AnXKEeQEDf
- YR6XDZl9FAyeaYuIRY6VMYrlmhro2UcDAvQDjKqEtpseUwydDEQur56gciNDwXQTMhaU
- gNd/znEcegWkMLLbyYA9s+7+6y+IGx+sT/SsuD1IirTwK+k/aS9jLzVh8ekT080qHzJU
- SBF6cH9UnFjzXi7NvSm1w7UeziawLHl1ONI6HgQGzVEajDscvieA0l4mYQ5wfdto8Ik6
- wSqg==
-X-Gm-Message-State: AOAM530iGlOKRp7HVnJOijeelRr08+RHx9gmOKFLE1M2v9/Ao8EyUvj3
- OU9h25frPaUFGuck2UNtOiYJ9m/3GdzF2k4vs2hktpewcHDvl7HiQFUrkk2ieWzSGw2DvH85LWK
- OTMmR3u1Kjtzv6lM=
-X-Received: by 2002:a5d:51cd:: with SMTP id n13mr3254140wrv.87.1605686016436; 
- Tue, 17 Nov 2020 23:53:36 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw1LJ/+U7ObH1gTn8jR2pETiZqkOcdr0DlDvbxY2F9jJNa9t1Qv6ja7cVGWT5UTq6O9v+nn6A==
-X-Received: by 2002:a5d:51cd:: with SMTP id n13mr3254123wrv.87.1605686016177; 
- Tue, 17 Nov 2020 23:53:36 -0800 (PST)
-Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id 34sm32943869wrq.27.2020.11.17.23.53.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Nov 2020 23:53:35 -0800 (PST)
-Date: Wed, 18 Nov 2020 02:53:32 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Fabrice Fontaine <fontaine.fabrice@gmail.com>
-Subject: Re: [PATCH] Fix build with 64 bits time_t
-Message-ID: <20201118025255-mutt-send-email-mst@kernel.org>
-References: <20201117202846.138463-1-fontaine.fabrice@gmail.com>
+ bh=nwlkB059N2EU+7oiHQ3QutUUUHuAlq8BMtOzJYPkSzI=;
+ b=WM/+LOXvLs9zlhv8kg8y9+hYhyCkCD5QYX3GIdSneGG2gSv+tXU7b3SRABFuvzay2yBX2B
+ c60dIdoL9l/X/hRz9kROTKNxGXSdr4yvi9qzi8LIBVDzpz4/MjdqXnWfZLgxNVmGnFH1Zb
+ Vg/2tzxq/8ZfTHI/ewZymnf8roGVeug=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-278-HKjnb5yfMLCNsH46CJMMxw-1; Wed, 18 Nov 2020 02:55:00 -0500
+X-MC-Unique: HKjnb5yfMLCNsH46CJMMxw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A8421018720;
+ Wed, 18 Nov 2020 07:54:59 +0000 (UTC)
+Received: from [10.72.13.172] (ovpn-13-172.pek2.redhat.com [10.72.13.172])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 657C810013C4;
+ Wed, 18 Nov 2020 07:54:50 +0000 (UTC)
+Subject: Re: [PATCH 00/10] vhost/qemu: thread per IO SCSI vq
+To: Mike Christie <michael.christie@oracle.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
+References: <1605223150-10888-1-git-send-email-michael.christie@oracle.com>
+ <20201117164043.GS131917@stefanha-x1.localdomain>
+ <bba47572-bec9-794f-5a70-d7f016267022@redhat.com>
+ <8318de9f-c585-39f8-d931-1ff5e0341d75@oracle.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <e3f8f065-ca17-e4a0-06e5-990bbe8fe947@redhat.com>
+Date: Wed, 18 Nov 2020 15:54:48 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201117202846.138463-1-fontaine.fabrice@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+In-Reply-To: <8318de9f-c585-39f8-d931-1ff5e0341d75@oracle.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 19:41:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -78,8 +69,9 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,107 +84,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: fam@euphon.net, linux-scsi@vger.kernel.org, mst@redhat.com,
+ qemu-devel@nongnu.org, virtualization@lists.linux-foundation.org,
+ target-devel@vger.kernel.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 17, 2020 at 09:28:46PM +0100, Fabrice Fontaine wrote:
-> time element is deprecated on new input_event structure in kernel's
-> input.h [1]
-> 
-> This will avoid the following build failure:
-> 
-> hw/input/virtio-input-host.c: In function 'virtio_input_host_handle_status':
-> hw/input/virtio-input-host.c:198:28: error: 'struct input_event' has no member named 'time'
->   198 |     if (gettimeofday(&evdev.time, NULL)) {
->       |                            ^
-> 
-> Fixes:
->  - http://autobuild.buildroot.org/results/a538167e288c14208d557cd45446df86d3d599d5
->  - http://autobuild.buildroot.org/results/efd4474fb4b6c0ce0ab3838ce130429c51e43bbb
-> 
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=152194fe9c3f
-> 
-> Signed-off-by: Fabrice Fontaine <fontaine.fabrice@gmail.com>
-> ---
->  contrib/vhost-user-input/main.c | 10 +++++++++-
->  hw/input/virtio-input-host.c    | 10 +++++++++-
->  2 files changed, 18 insertions(+), 2 deletions(-)
-> 
-> diff --git a/contrib/vhost-user-input/main.c b/contrib/vhost-user-input/main.c
-> index 6020c6f33a..e688c3e0a9 100644
-> --- a/contrib/vhost-user-input/main.c
-> +++ b/contrib/vhost-user-input/main.c
-> @@ -17,6 +17,11 @@
->  #include "standard-headers/linux/virtio_input.h"
->  #include "qapi/error.h"
->  
-> +#ifndef input_event_sec
-> +#define input_event_sec time.tv_sec
-> +#define input_event_usec time.tv_usec
-> +#endif
-> +
->  enum {
->      VHOST_USER_INPUT_MAX_QUEUES = 2,
->  };
 
-Just update ./include/standard-headers/linux/input.h, we'll get these
-defines for free.
+On 2020/11/18 下午2:57, Mike Christie wrote:
+> On 11/17/20 11:17 PM, Jason Wang wrote:
+>> On 2020/11/18 上午12:40, Stefan Hajnoczi wrote:
+>>> On Thu, Nov 12, 2020 at 05:18:59PM -0600, Mike Christie wrote:
+>>>> The following kernel patches were made over Michael's vhost branch:
+>>>>
+>>>> https://urldefense.com/v3/__https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git/log/?h=vhost__;!!GqivPVa7Brio!MzCv3wdRfz5dltunazRWGCeUkMg91pPEOLpIivsebLX9vhYDSi_E1V36e9H0NoRys_hU$
+>>>> and the vhost-scsi bug fix patchset:
+>>>>
+>>>> https://urldefense.com/v3/__https://lore.kernel.org/linux-scsi/20201112170008.GB1555653@stefanha-x1.localdomain/T/*t__;Iw!!GqivPVa7Brio!MzCv3wdRfz5dltunazRWGCeUkMg91pPEOLpIivsebLX9vhYDSi_E1V36e9H0NmuPE_m8$
+>>>> And the qemu patch was made over the qemu master branch.
+>>>>
+>>>> vhost-scsi currently supports multiple queues with the num_queues
+>>>> setting, but we end up with a setup where the guest's scsi/block
+>>>> layer can do a queue per vCPU and the layers below vhost can do
+>>>> a queue per CPU. vhost-scsi will then do a num_queue virtqueues,
+>>>> but all IO gets set on and completed on a single vhost-scsi thread.
+>>>> After 2 - 4 vqs this becomes a bottleneck.
+>>>>
+>>>> This patchset allows us to create a worker thread per IO vq, so we
+>>>> can better utilize multiple CPUs with the multiple queues. It
+>>>> implments Jason's suggestion to create the initial worker like
+>>>> normal, then create the extra workers for IO vqs with the
+>>>> VHOST_SET_VRING_ENABLE ioctl command added in this patchset.
+>>> How does userspace find out the tids and set their CPU affinity?
+>>>
+>>> What is the meaning of the new VHOST_SET_VRING_ENABLE ioctl? It doesn't
+>>> really "enable" or "disable" the vq, requests are processed regardless.
+>>
+>> Actually I think it should do the real "enable/disable" that tries to follow the virtio spec.
+>>
+> What does real mean here?
 
 
-> @@ -115,13 +120,16 @@ vi_evdev_watch(VuDev *dev, int condition, void *data)
->  static void vi_handle_status(VuInput *vi, virtio_input_event *event)
->  {
->      struct input_event evdev;
-> +    struct timeval tval;
->      int rc;
->  
-> -    if (gettimeofday(&evdev.time, NULL)) {
-> +    if (gettimeofday(&tval, NULL)) {
->          perror("vi_handle_status: gettimeofday");
->          return;
->      }
->  
-> +    evdev.input_event_sec = tval.tv_sec;
-> +    evdev.input_event_usec = tval.tv_usec;
->      evdev.type = le16toh(event->type);
->      evdev.code = le16toh(event->code);
->      evdev.value = le32toh(event->value);
-> diff --git a/hw/input/virtio-input-host.c b/hw/input/virtio-input-host.c
-> index 85daf73f1a..2e261737e1 100644
-> --- a/hw/input/virtio-input-host.c
-> +++ b/hw/input/virtio-input-host.c
-> @@ -16,6 +16,11 @@
->  #include <sys/ioctl.h>
->  #include "standard-headers/linux/input.h"
->  
-> +#ifndef input_event_sec
-> +#define input_event_sec time.tv_sec
-> +#define input_event_usec time.tv_usec
-> +#endif
-> +
->  /* ----------------------------------------------------------------- */
->  
->  static struct virtio_input_config virtio_input_host_config[] = {
-> @@ -193,13 +198,16 @@ static void virtio_input_host_handle_status(VirtIOInput *vinput,
->  {
->      VirtIOInputHost *vih = VIRTIO_INPUT_HOST(vinput);
->      struct input_event evdev;
-> +    struct timeval tval;
->      int rc;
->  
-> -    if (gettimeofday(&evdev.time, NULL)) {
-> +    if (gettimeofday(&tval, NULL)) {
->          perror("virtio_input_host_handle_status: gettimeofday");
->          return;
->      }
->  
-> +    evdev.input_event_sec = tval.tv_sec;
-> +    evdev.input_event_usec = tval.tv_usec;
->      evdev.type = le16_to_cpu(event->type);
->      evdev.code = le16_to_cpu(event->code);
->      evdev.value = le32_to_cpu(event->value);
-> -- 
-> 2.29.2
+I think it means when a vq is disabled, vhost won't process any request 
+from that virtqueue.
+
+
+> For the vdpa enable call for example, would it be like
+> ifcvf_vdpa_set_vq_ready where it sets the ready bit or more like mlx5_vdpa_set_vq_ready
+> where it can do some more work in the disable case?
+
+
+For vDPA, it would be more complicated.
+
+E.g for IFCVF, it just delay the setting of queue_enable when it get 
+DRIVER_OK. Technically it can passthrough the queue_enable to the 
+hardware as what mlx5e did.
+
+
+>
+> For net and something like ifcvf_vdpa_set_vq_ready's design would we have
+> vhost_ring_ioctl() set some vhost_virtqueue enable bit. We then have some helper
+> vhost_vq_is_enabled() and some code to detect if userspace supports the new ioctl.
+
+
+Yes, vhost support backend capability. When userspace negotiate the new 
+capability, we should depend on SET_VRING_ENABLE, if not we can do 
+vhost_vq_is_enable().
+
+
+> And then in vhost_net_set_backend do we call vhost_vq_is_enabled()? What is done
+> for disable then?
+
+
+It needs more thought, but the question is not specific to 
+SET_VRING_ENABLE. Consider guest may zero ring address as well.
+
+For disabling, we can simply flush the work and disable all the polls.
+
+
+> It doesn't seem to buy a lot of new functionality. Is it just
+> so we follow the spec?
+
+
+My understanding is that, since spec defines queue_enable, we should 
+support it in vhost. And we can piggyback the delayed vq creation with 
+this feature. Otherwise we will duplicate the function if we want to 
+support queue_enable.
+
+
+>
+> Or do you want it work more like mlx5_vdpa_set_vq_ready? For this in vhost_ring_ioctl
+> when we get the new ioctl we would call into the drivers and have it start queues
+> and stop queues? For enable, what we you do for net for this case?
+
+
+Net is something different, we can simply use SET_BACKEND to disable a 
+specific virtqueue without introducing new ioctls. Notice that, net mq 
+is kind of different with scsi which have a per queue pair vhost device, 
+and the API allows us to set backend for a specific virtqueue.
+
+
+> For disable,
+> would you do something like vhost_net_stop_vq (we don't free up anything allocated
+> in vhost_vring_ioctl calls, but we can stop what we setup in the net driver)?
+
+
+It's up to you, if you think you should free the resources you can do that.
+
+
+> Is this useful for the current net mq design or is this for something like where
+> you would do one vhost net device with multiple vqs?
+
+
+I think SET_VRING_ENABLE is more useful for SCSI since it have a model 
+of multiple vqs per vhost device.
+
+
+>
+> My issue/convern is that in general these calls seems useful, but we don't really
+> need them for scsi because vhost scsi is already stuck creating vqs like how it does
+> due to existing users. If we do the ifcvf_vdpa_set_vq_ready type of design where
+> we just set some bit, then the new ioctl does not give us a lot. It's just an extra
+> check and extra code.
+>
+> And for the mlx5_vdpa_set_vq_ready type of design, it doesn't seem like it's going
+> to happen a lot where the admin is going to want to remove vqs from a running device.
+
+
+In this case, qemu may just disable the queues of vhost-scsi via 
+SET_VRING_ENABLE and then we can free resources?
+
+
+> And for both addition/removal for scsi we would need code in virtio scsi to handle
+> hot plug removal/addition of a queue and then redoing the multiqueue mappings which
+> would be difficult to add with no one requesting it.
+
+
+Thanks
+
+
+>
 
 
