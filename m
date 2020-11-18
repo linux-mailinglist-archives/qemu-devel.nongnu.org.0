@@ -2,103 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05FC12B7A14
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 10:12:26 +0100 (CET)
-Received: from localhost ([::1]:55112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D1E32B79FF
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 10:09:53 +0100 (CET)
+Received: from localhost ([::1]:48804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfJVp-0006JG-3d
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 04:12:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59702)
+	id 1kfJTM-0003Zc-2W
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 04:09:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1kfJSk-0003bS-NC; Wed, 18 Nov 2020 04:09:14 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:14480)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1kfJSi-0001o2-Kp; Wed, 18 Nov 2020 04:09:14 -0500
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0AI93xcb083357; Wed, 18 Nov 2020 04:08:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=/8L148HLFxJB5VV7zNTmfLMs7NEOlnhJkgDfyuxY/1I=;
- b=h1ByvcvEejyi6bQ2xlho98TtVHKWvbpCtQxqa95pyK5ql1+xtTVTjJWyZxhvXAqN8pTD
- 9g94a9t9sjA1qiPIWUWUMPv8Zi5ZXXPlkmhhncv9Amj1ff1Wpq/MdVM58AFo+FYoQIBq
- bPH+IJgY3/pMfxOsxC9aCJyMdnAbAk9PCPglX2bDmMVmQlZOPgeQtdA97Tgnd8RIVmwO
- 4zaJgD66p9V0mJzvIF9uMdNTxAQ9RsHbDduQ6rfaHyiahY7WhsMJ+QiwGf3wrZ7a2rPV
- dZkLME0p/osq2nvJ94JM+QvpGELlPycgB3IDGb5f4aHbWEVbQA5PEyfuc53VAtfWEx8e mQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34vy2uka63-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 Nov 2020 04:08:42 -0500
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0AI94dCf087324;
- Wed, 18 Nov 2020 04:07:46 -0500
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34vy2uk7w7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 Nov 2020 04:07:45 -0500
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0AI96sN6003507;
- Wed, 18 Nov 2020 09:06:55 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma04ams.nl.ibm.com with ESMTP id 34t6v8br1v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 Nov 2020 09:06:55 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0AI96qg07668336
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 18 Nov 2020 09:06:52 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BD6EA11C054;
- Wed, 18 Nov 2020 09:06:52 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 816BF11C052;
- Wed, 18 Nov 2020 09:06:52 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.171.87.122])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 18 Nov 2020 09:06:52 +0000 (GMT)
-Subject: Re: [PATCH] hw/watchdog/wdt_diag288: Remove unnecessary includes
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>
-References: <20201118090344.243117-1-thuth@redhat.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-ID: <63561245-fea1-5e2c-7fcc-d18f7a857801@de.ibm.com>
-Date: Wed, 18 Nov 2020 10:06:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kfJRu-0002Jt-K7
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 04:08:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20267)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kfJRs-0001mW-Vn
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 04:08:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605690500;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8Qr2BKko3GzWi6t0DHOZrk2WkqHZlHtKyHIlqKxgkzA=;
+ b=cKwyZ6qGlOX37tpcALZuHqK94V36zvBfXft4QPbGRhNKWX+wW8874YCidMl6YyAZo/Kp0f
+ 5RQoZsga2C6KfSGS5kUzlLSfsYpHpnynYuNGbat/0hNgTHPKN/o2PlV4QXOFENKx0oxd4/
+ VAfjQGAqAHCb7zzXVhZMHwhsNiWXbFg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-67-XM3-uh9pOdOlOzLxKGve9w-1; Wed, 18 Nov 2020 04:08:17 -0500
+X-MC-Unique: XM3-uh9pOdOlOzLxKGve9w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45EE11084C83;
+ Wed, 18 Nov 2020 09:08:16 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-113-139.ams2.redhat.com [10.36.113.139])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 758CA60C05;
+ Wed, 18 Nov 2020 09:08:13 +0000 (UTC)
+Subject: Re: Should bus-less devices default to .user_creatable = false? (was:
+ [PATCH 13/13] bcm2835_cprman: put some peripherals of bcm2835 cprman
+ into the 'misc' category)
+To: Markus Armbruster <armbru@redhat.com>
+References: <20201115184903.1292715-1-ganqixin@huawei.com>
+ <20201115184903.1292715-14-ganqixin@huawei.com>
+ <c2ca2185-4253-da71-eab4-f96b29067c96@amsat.org>
+ <882df4ee-948c-7e00-d951-9b14ea40b2df@redhat.com>
+ <877dqldyoh.fsf@dusky.pond.sub.org> <875z63oxq1.fsf_-_@dusky.pond.sub.org>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <610fa3c0-0896-1ee7-76f3-9f2b97d54295@redhat.com>
+Date: Wed, 18 Nov 2020 10:08:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201118090344.243117-1-thuth@redhat.com>
+In-Reply-To: <875z63oxq1.fsf_-_@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
- definitions=2020-11-18_04:2020-11-17,
- 2020-11-18 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 clxscore=1015
- mlxscore=0 impostorscore=0 suspectscore=0 priorityscore=1501
- malwarescore=0 phishscore=0 lowpriorityscore=0 adultscore=0 bulkscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011180058
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=borntraeger@de.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 04:08:43
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 00:38:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -112,41 +88,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, zhang.zhanghailiang@huawei.com,
+ qemu-trivial@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Gan Qixin <ganqixin@huawei.com>,
+ kuhn.chenqun@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 18.11.20 10:03, Thomas Huth wrote:
-> Both headers, sysbus.h and module.h, are not required to compile this file.
+On 18/11/2020 09.50, Markus Armbruster wrote:
+> Markus Armbruster <armbru@redhat.com> writes:
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-
-It is not a sysbus device and not a module.
-
-Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
-
-> ---
->  hw/watchdog/wdt_diag288.c | 2 --
->  1 file changed, 2 deletions(-)
+> [...]
+>> qdev_device_add() looks like a bus-less device is usable if the machine
+>> provides a hotplug handler for it.  Commit 03fcbd9dc5 "qdev: Check for
+>> the availability of a hotplug controller before adding a device" seems
+>> to be pertinent.
 > 
-> diff --git a/hw/watchdog/wdt_diag288.c b/hw/watchdog/wdt_diag288.c
-> index 71a945f0bd..4c4b6a6ab7 100644
-> --- a/hw/watchdog/wdt_diag288.c
-> +++ b/hw/watchdog/wdt_diag288.c
-> @@ -14,12 +14,10 @@
->  #include "qemu/osdep.h"
->  #include "sysemu/reset.h"
->  #include "sysemu/watchdog.h"
-> -#include "hw/sysbus.h"
->  #include "qemu/timer.h"
->  #include "hw/watchdog/wdt_diag288.h"
->  #include "migration/vmstate.h"
->  #include "qemu/log.h"
-> -#include "qemu/module.h"
->  
->  static WatchdogTimerModel model = {
->      .wdt_name = TYPE_WDT_DIAG288,
+> Nope.  A hotplug handler is only required for hot plug (d'oh!), not for
+> cold plug.  
 > 
+> I wonder whether bus-less devices should default to .user_creatable =
+> false like sysbus devices, and for the same reasons.
+> 
+> To actually *do* something, a physical device requires some connection
+> to the rest of the world.  Same for a virtual device (at least the ones
+> that model physical devices).
+
+I know at least two virtual devices that are bus-less and cold-pluggable:
+hw/ppc/spapr_rng.c and hw/watchdog/wdt_diag288.c ... but we could certainly
+mark them with user_creatable = true manually if we decide that bus-less
+devices should be handled differently by default.
+
+ Thomas
+
+
 
