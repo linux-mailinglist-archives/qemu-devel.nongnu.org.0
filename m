@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2670B2B7CB3
+	by mail.lfdr.de (Postfix) with ESMTPS id 83DC22B7CB4
 	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 12:33:16 +0100 (CET)
-Received: from localhost ([::1]:44552 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:44610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfLi7-00085F-7S
+	id 1kfLi7-00086p-JV
 	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 06:33:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38488)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kfLdv-0003O9-Lh
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 06:28:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27482)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kfLgY-0006he-It
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 06:31:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53276)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kfLds-0004KF-Lz
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 06:28:55 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kfLgW-0004l7-99
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 06:31:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605698931;
+ s=mimecast20190719; t=1605699095;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=mJgshEUIW99Tsl2vT6eo50usERexIvH1LzQeyXSsUHQ=;
- b=PfrS4O1O/RfYPex03qxFy9xybIJnXkapvFNAZtl1/okH7E0KzCgBs/oylgyLS30P20hKMB
- ZFwnfUKqiTKEx3p7ge1303e6ZwD9l6BAEeHeS7iw88MR764DYZ9i3UQ0yoZa3mvos71gFt
- bby2Ag1ffGA7Jx56HHHY4mjoWcWk19w=
+ bh=4klu/6VLPeehKC0MRm/Zpkk011aelEzsRD3uMBe14/8=;
+ b=Gv2s9pL8SaUL8wiw+WKoGgyIs9TRzoBtnZFi8iXYIzgUfMCPiCYu5KXYzOH/MyPe19oraA
+ Wo0iRvOp92it7T0+E1S5nZ63ScQFrWHcdddeW+VgGbQpo0YEtZdgd+4ZLlg0WIZAaea7e6
+ nd3XpmbBFESeLh+HiDm8LokGSX+0bnE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-426-trULShYKOAi6f3GVmW12pA-1; Wed, 18 Nov 2020 06:28:49 -0500
-X-MC-Unique: trULShYKOAi6f3GVmW12pA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-583-S28dO65_M5iUYAS-Hqtjyw-1; Wed, 18 Nov 2020 06:31:30 -0500
+X-MC-Unique: S28dO65_M5iUYAS-Hqtjyw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5FEF41007B09;
- Wed, 18 Nov 2020 11:28:48 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-115-43.ams2.redhat.com [10.36.115.43])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DC175196FB;
- Wed, 18 Nov 2020 11:28:46 +0000 (UTC)
-Date: Wed, 18 Nov 2020 12:28:45 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH for-6.0 1/6] qapi: Add query-accel command
-Message-ID: <20201118112845.GA11988@merkur.fritz.box>
-References: <20201116131011.26607-1-r.bolshakov@yadro.com>
- <20201116131011.26607-2-r.bolshakov@yadro.com>
- <2d934855-ad11-9f61-28a1-7c0a35347a66@redhat.com>
- <20201116211352.GC1235237@habkost.net>
- <87mtzgbc29.fsf@dusky.pond.sub.org>
- <20201118011917.GB10041@SPB-NB-133.local>
- <87ft57oycu.fsf@dusky.pond.sub.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7FFFF107B293;
+ Wed, 18 Nov 2020 11:31:28 +0000 (UTC)
+Received: from localhost (ovpn-114-60.ams2.redhat.com [10.36.114.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BDEE560C43;
+ Wed, 18 Nov 2020 11:31:18 +0000 (UTC)
+Date: Wed, 18 Nov 2020 11:31:17 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Mike Christie <michael.christie@oracle.com>
+Subject: Re: [PATCH 00/10] vhost/qemu: thread per IO SCSI vq
+Message-ID: <20201118113117.GF182763@stefanha-x1.localdomain>
+References: <1605223150-10888-1-git-send-email-michael.christie@oracle.com>
+ <20201117164043.GS131917@stefanha-x1.localdomain>
+ <b3343762-bb11-b750-46ec-43b5556f2b8e@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <87ft57oycu.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <b3343762-bb11-b750-46ec-43b5556f2b8e@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="DEueqSqTbz/jWVG1"
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 19:41:43
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 00:38:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,54 +82,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: fam@euphon.net, linux-scsi@vger.kernel.org, mst@redhat.com,
+ jasowang@redhat.com, qemu-devel@nongnu.org,
+ virtualization@lists.linux-foundation.org, target-devel@vger.kernel.org,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 18.11.2020 um 09:36 hat Markus Armbruster geschrieben:
-> >> >>                                       [...]  Even better would be
-> >> >> returning an array of KvmInfo with information on all supported
-> >> >> accelerators at once, rather than making the user call this command once
-> >> >> per name.
-> >> >
-> >> > Maybe.  It would save us the work of answering the question
-> >> > above, but is this (querying information for all accelerators at
-> >> > once) going to be a common use case?
-> >> 
-> >> I recommend to scratch the query-accel parameter, and return information
-> >> on all accelerators in this build of QEMU.  Simple, and consistent with
-> >> similar ad hoc queries.  If a client is interested in just one, fishing
-> >> it out of the list is easy enough.
-> >> 
-> >
-> > Works for me. I'll then leave KvmInfo as is and will introduce AccelInfo
-> > with two fields: name and enabled. enabled will be true only for
-> > currently active accelerator.
-> 
-> Please document that at most on result can have 'enabled': true.
+--DEueqSqTbz/jWVG1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This doesn't feel right.
+On Tue, Nov 17, 2020 at 01:13:14PM -0600, Mike Christie wrote:
+> On 11/17/20 10:40 AM, Stefan Hajnoczi wrote:
+> > On Thu, Nov 12, 2020 at 05:18:59PM -0600, Mike Christie wrote:
+> >> The following kernel patches were made over Michael's vhost branch:
+> >>
+> >> https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git/log/?h=
+=3Dvhost
+> >>
+> >> and the vhost-scsi bug fix patchset:
+> >>
+> >> https://lore.kernel.org/linux-scsi/20201112170008.GB1555653@stefanha-x=
+1.localdomain/T/#t
+> >>
+> >> And the qemu patch was made over the qemu master branch.
+> >>
+> >> vhost-scsi currently supports multiple queues with the num_queues
+> >> setting, but we end up with a setup where the guest's scsi/block
+> >> layer can do a queue per vCPU and the layers below vhost can do
+> >> a queue per CPU. vhost-scsi will then do a num_queue virtqueues,
+> >> but all IO gets set on and completed on a single vhost-scsi thread.
+> >> After 2 - 4 vqs this becomes a bottleneck.
+> >>
+> >> This patchset allows us to create a worker thread per IO vq, so we
+> >> can better utilize multiple CPUs with the multiple queues. It
+> >> implments Jason's suggestion to create the initial worker like
+> >> normal, then create the extra workers for IO vqs with the
+> >> VHOST_SET_VRING_ENABLE ioctl command added in this patchset.
+> >=20
+> > How does userspace find out the tids and set their CPU affinity?
+> >=20
+>=20
+> When we create the worker thread we add it to the device owner's cgroup,
+> so we end up inheriting those settings like affinity.
+>=20
+> However, are you more asking about finer control like if the guest is
+> doing mq, and the mq hw queue is bound to cpu0, it would perform
+> better if we could bind vhost vq's worker thread to cpu0? I think the
+> problem might is if you are in the cgroup then we can't set a specific
+> threads CPU affinity to just one specific CPU. So you can either do
+> cgroups or not.
+>=20
+>=20
+> > What is the meaning of the new VHOST_SET_VRING_ENABLE ioctl? It doesn't
+> > really "enable" or "disable" the vq, requests are processed regardless.
+> >=20
+>=20
+> Yeah, I agree. The problem I've mentioned before is:
+>=20
+> 1. For net and vsock, it's not useful because the vqs are hard coded in
+> the kernel and userspace, so you can't disable a vq and you never need
+> to enable one.
+>=20
+> 2. vdpa has it's own enable ioctl.
+>=20
+> 3. For scsi, because we already are doing multiple vqs based on the
+> num_queues value, we have to have some sort of compat support and
+> code to detect if userspace is even going to send the new ioctl.
+> In this patchset, compat just meant enable/disable the extra functionalit=
+y
+> of extra worker threads for a vq. We will still use the vq if
+> userspace set it up.
+>=20
+>=20
+> > The purpose of the ioctl isn't clear to me because the kernel could
+> > automatically create 1 thread per vq without a new ioctl. On the other
+> > hand, if userspace is supposed to control worker threads then a
+> > different interface would be more powerful:
+> >=20
 
-If I understand right, the proposal is to get a result like this:
+The main request I have is to clearly define the meaning of the
+VHOST_SET_VRING_ENABLE ioctl. If you want to keep it as-is for now and
+the vhost maintainers are happy with then, that's okay. It should just
+be documented so that userspace and other vhost driver authors
+understand what it's supposed to do.
 
-    [ { 'name': 'kvm', 'enabled': true },
-      { 'name': 'tcg', 'enabled': false },
-      { 'name': 'xen', 'enabled': false } ]
+> My preference has been:
+>=20
+> 1. If we were to ditch cgroups, then add a new interface that would allow
+> us to bind threads to a specific CPU, so that it lines up with the guest'=
+s
+> mq to CPU mapping.
 
-The condition that only one field can be enabled would only be in the
-documentation instead of being enforced.
+A 1:1 vCPU/vq->CPU mapping isn't desirable in all cases.
 
-Instead, consider a response like this:
+The CPU affinity is a userspace policy decision. The host kernel should
+provide a mechanism but not the policy. That way userspace can decide
+which workers are shared by multiple vqs and on which physical CPUs they
+should run.
 
-    { 'available': [ 'kvm', 'tcg', 'xen' ],
-      'active': 'kvm' }
+Stefan
 
-This is not only shorter, but also makes sure that only one accelerator
-can be reported as active.
+--DEueqSqTbz/jWVG1
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Kevin
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+1BgUACgkQnKSrs4Gr
+c8gQ8gf/W0FT+4mtlnBc1yI9COd4MhYzjWL16Evq9DEgWquUzme1kaqRI7BlJytk
+WTMMYhgdHP6+ema9RCf4p53nO5wG+mordaLuyYBiXt0KmhZjZll+rbi/X+FkazQ/
+PBTy38MCHBUY0aqtbtLSvEUSWmzDmPsNPGN+QdXbDmYL41n9J8nXlFwhFF+oKAtZ
+GnSwDNaMssjd9pQetIQ8voNXguTkfpifUYYpSRZ5nKtrtzT3eQxFUA8Xe6GXE1Rd
+1Nx4SjBo7EiQQ4WI83cjGIP8gjX2TQ21dlybNRal1sd++To0lpRy1j1qlm875DVg
+WR0YSP5J+YGIAdY/BRQ2w2SY9SBoLg==
+=/BhM
+-----END PGP SIGNATURE-----
+
+--DEueqSqTbz/jWVG1--
 
 
