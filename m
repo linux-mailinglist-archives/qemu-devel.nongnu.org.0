@@ -2,80 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61B022B834F
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 18:46:49 +0100 (CET)
-Received: from localhost ([::1]:36968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C6972B8332
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 18:41:52 +0100 (CET)
+Received: from localhost ([::1]:55654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfRXb-0001M3-RR
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 12:46:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42326)
+	id 1kfRSo-0005Xw-LC
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 12:41:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kfRIf-0007Qy-LW
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 12:31:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57959)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kfRPK-00034M-5J
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 12:38:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29712)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kfRId-0003n0-CG
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 12:31:21 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kfRPF-0004ZP-P4
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 12:38:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605720678;
+ s=mimecast20190719; t=1605721086;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=C8Vxkg+6vQaGa7lfAuPfV7XQUI4F9rGMAdbbpHxygNg=;
- b=hQujpQb97rWyl6mLQ+qs5qJ0UcI2+JcvWliDnTbxWi5YTzYQqYM2nbXEE1dDaDD4Ui+InA
- 0W66kQ+sltJ111wefr7t01lxJUuTATH2b4k6+j2FPeRZrgiAXiPMBIjhkX/M4H90Edd05L
- 8/+ujF/7119dvz1TcrrCMSmDBnc5lp8=
+ bh=/kv17k17HOjmTW8d236HGR9As9kNj2WtUcr2lb5UuEs=;
+ b=iANB4bMmCJ/mW7QtvVHhs9B4nhv4S6WPi1Dbe1VuNQP+bl3+awRVcG3JB4d4WaPheNvd9O
+ Zfmv6nS4Fj3NDMx/W0oOTFOfSjiQOwVlI5gHak6V1xF6pnHn67gpbZoDujzVpiceFBNEzF
+ Mr1WvCupqf6b5Xg/cjkflzm+mqxQ/p4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-174-T0pEV2Y5Mn-sXUDMno-85Q-1; Wed, 18 Nov 2020 12:31:14 -0500
-X-MC-Unique: T0pEV2Y5Mn-sXUDMno-85Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-535-ZIXfYgtOM-GkBE1p03VrgQ-1; Wed, 18 Nov 2020 12:38:03 -0500
+X-MC-Unique: ZIXfYgtOM-GkBE1p03VrgQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D80118B9EA3;
- Wed, 18 Nov 2020 17:30:57 +0000 (UTC)
-Received: from localhost (ovpn-115-101.rdu2.redhat.com [10.10.115.101])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 07ECA60875;
- Wed, 18 Nov 2020 17:30:56 +0000 (UTC)
-Date: Wed, 18 Nov 2020 12:30:55 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [RFC v3 8/9] module: introduce MODULE_INIT_ACCEL_CPU
-Message-ID: <20201118173055.GM1509407@habkost.net>
-References: <20201118102936.25569-9-cfontana@suse.de>
- <20201118124845.GC1509407@habkost.net>
- <6093de34-807d-3840-5402-4769385dd894@suse.de>
- <8f829e99-c346-00bc-efdd-3e6d69cfba35@redhat.com>
- <20201118143643.GF1509407@habkost.net>
- <a6071cd4-0787-01c8-775a-ede72e740376@redhat.com>
- <20201118152552.GG1509407@habkost.net>
- <CABgObfYL-TNAMmqkUh6cjcytaAFEtXPfw8toO6gXEuyokdyLhA@mail.gmail.com>
- <20201118161119.GJ1509407@habkost.net>
- <CABgObfb2Fim=7j3z7ApTuW=R0dWam2F_JRuOoxhP=XZXdsWe7g@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 202F5805F15;
+ Wed, 18 Nov 2020 17:38:02 +0000 (UTC)
+Received: from [10.36.114.231] (ovpn-114-231.ams2.redhat.com [10.36.114.231])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6127510016F8;
+ Wed, 18 Nov 2020 17:37:43 +0000 (UTC)
+Subject: Re: [PATCH PROTOTYPE 3/6] vfio: Implement support for sparse RAM
+ memory regions
+To: Peter Xu <peterx@redhat.com>
+References: <20200924160423.106747-1-david@redhat.com>
+ <20200924160423.106747-4-david@redhat.com> <20201020194434.GD200400@xz-x1>
+ <14aaf9f1-9aa4-3a6b-ff25-8a4c7e29c2a6@redhat.com>
+ <20201020204443.GE200400@xz-x1>
+ <fcbea24d-c56a-12b4-4a7b-d8faa1e04047@redhat.com>
+ <20201118152311.GB29639@xz-x1>
+ <6141422c-1427-2a8d-b3ff-3c49ab1b59d2@redhat.com>
+ <20201118170143.GC29639@xz-x1>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <1f1602db-748a-4e9d-dfde-950b573592fb@redhat.com>
+Date: Wed, 18 Nov 2020 18:37:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <CABgObfb2Fim=7j3z7ApTuW=R0dWam2F_JRuOoxhP=XZXdsWe7g@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20201118170143.GC29639@xz-x1>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 19:41:43
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 00:38:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,192 +91,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Bruce Rogers <brogers@suse.com>,
- Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- Paul Durrant <paul@xen.org>, Olaf Hering <ohering@suse.de>,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- Dario Faggioli <dfaggioli@suse.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Cameron Esfahani <dirty@apple.com>, Colin Xu <colin.xu@intel.com>,
- Wenchao Wang <wenchao.wang@intel.com>,
- Anthony Perard <anthony.perard@citrix.com>, haxm-team@intel.com,
- Sunil Muthuswamy <sunilmut@microsoft.com>, Richard Henderson <rth@twiddle.net>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Claudio Fontana <cfontana@suse.de>
+Cc: Le Tan <tamlokveer@gmail.com>, Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, wei.huang2@amd.com,
+ qemu-devel@nongnu.org, Luiz Capitulino <lcapitulino@redhat.com>,
+ Auger Eric <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Wei Yang <richardw.yang@linux.intel.com>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 18, 2020 at 05:22:46PM +0100, Paolo Bonzini wrote:
-> Il mer 18 nov 2020, 17:11 Eduardo Habkost <ehabkost@redhat.com> ha scritto:
+>> virtio-mem + vfio + iommu seems to work. More testing to be done.
+>>
+>> However, malicious guests can play nasty tricks like
+>>
+>> a) Unplugging plugged virtio-mem blocks while they are mapped via an
+>>     IOMMU
+>>
+>> 1. Guest: map memory location X located on a virtio-mem device inside a
+>>     plugged block into the IOMMU
+>>     -> QEMU IOMMU notifier: create vfio DMA mapping
+>>     -> VFIO pins memory of unplugged blocks (populating memory)
+>> 2. Guest: Request to unplug memory location X via virtio-mem device
+>>     -> QEMU virtio-mem: discards the memory.
+>>     -> VFIO still has the memory pinned
 > 
-> > On Wed, Nov 18, 2020 at 04:43:19PM +0100, Paolo Bonzini wrote:
-> > > Il mer 18 nov 2020, 16:26 Eduardo Habkost <ehabkost@redhat.com> ha
-> > scritto:
-> > >
-> > > >
-> > > > > The alternative is to store the (type, function) tuple directly,
-> > with the
-> > > > > type as a string.  Then you can just use type_init.
-> > > >
-> > > > Right.  Let's build on top of that:
-> > > >
-> > > > Another alternative would be to store a (type, X86CPUAccel) tuple
-> > > > directly, with the type as string.  This would save the extra
-> > > > indirection of the x86_cpu_accel_init() call.
-> > > >
-> > > > It turns out we already have a mechanism to register and store
-> > > > (type, StructContainingFunctionPointers) tuples at initialization
-> > > > time: QOM.
-> > > >
-> > > > X86CPUAccel can become X86CPUAccelClass, and be registered as a
-> > > > QOM type.  It could be a subtype of TYPE_ACCEL or not, it
-> > > > shouldn't matter.
-> > > >
-> > >
-> > > It would be a weird type that isn't instantiated, and/or that does
-> > nothing
-> > > but monkey patching other classes. I don't think it's a good fit.
-> >
-> > The whole point of this would be to avoid monkey patching other
-> > classes.
-> >
-> 
-> Adding a layer of indirect calls is not very different from monkey patching
-> though.
+> When unplug some memory, does the user need to first do something to notify the
+> guest kernel that "this memory is going to be unplugged soon" (assuming echo
+> "offline" to some dev file)?  Then the kernel should be responsible to prepare
+> for that before it really happens, e.g., migrate anonymous pages out from this
+> memory block.  I don't know what would happen if some pages on the memblock
+> were used for DMA like this and we want to unplug it.  Ideally I thought it
+> should fail the "echo offline" operation with something like EBUSY if it can't
+> notify the device driver about this, or it's hard to.
 
-I'm a little bothered by monkey patching, but I'm more
-bothered by having to:
+In the very simple case (without resizable RAMBlocks/allocations.memory 
+regions) as implemented right now, a virtio-mem device really just 
+consists of a static RAM memory region that's mapped into guest physical 
+address space. The size of that region corresponds to the "maximum" size 
+a virtio-mem device can provide.
 
-(1) register (module_init()) a function (kvm_cpu_accel_register()) that
-  (2) register (accel_register_call()) a function (kvm_cpu_accel_init()) that
-    (3) register (x86_cpu_accel_init()) a data structure (X86CPUAccel kvm_cpu_accel) that
-      (4) will be saved in multiple QOM classes, so that
-        (5) we will call the right X86CPUClass.accel method at the right moment
-            (common_class_init(), instance_init(), realizefn()),
-where:
-  step 4 must be done before any CPU object is created
-    (otherwise X86CPUAccel.instance_init & X86CPUAccel.realizefn
-     will be silently ignored), and
-  step 3 must be done after all QOM types were registered.
+How much memory the VM should consume via such a device is expressed via 
+a "requested size". So for the hypervisor requests the VM to consume 
+less/more memory, it adjusts the "requested size".
 
+It is up to the device driver in the guest to plug/unplug memory blocks 
+(e.g., 4 MiB granularity), in order to reach the requested size. The 
+device driver selects memory blocks within the device-assigned memory 
+region and requests the hypervisor to (un)plug them - think of it as 
+something similar (but different) to memory ballooning.
 
+When requested to unplug memory by the hypervisor, the device driver in 
+Linux will try to find memory blocks (e.g., 4 MiB) within the 
+device-assigned memory region it can free up. This involves migrating 
+pages away etc. Once that succeeded - nobody in the guest is using that 
+memory anymore; the guest requests the hypervisor to unplug that block, 
+resulting in QEMU discarding the memory. The guest agreed to not touch 
+that memory anymore before officially requesting to "plug" it via the 
+virtio-mem device.
 
-> 
-> You also have to consider that accel currently does not exist in usermode
-> emulators, so that's an issue too. I would rather get a simple change in
-> quickly, instead of designing the perfect class hierarchy.
+There is no further action inside the guest required. A sane guest will 
+never request to unplug memory that is still in use (similar to memory 
+ballooning, where we don't inflate memory that is still in use).
 
-It doesn't have to be perfect.  I agree that simple is better.
-
-To me, registering a QOM type and looking it up when necessary is
-simpler than the above.  Even if it's a weird class having no
-object instances.  It probably could be an interface type.
+But of course, a malicious guest could try doing that just to cause 
+trouble.
 
 > 
-> Perhaps another idea would be to allow adding interfaces to classes
-> *separately from the registration of the types*. Then we can use it to add
-> SOFTMMU_ACCEL and I386_ACCEL interfaces to a bare bones accel class, and
-> add the accel object to usermode emulators.
+> IMHO this question not really related to vIOMMU, but a general question for
+> unplugging. Say, what would happen if we unplug some memory with DMA buffers
+> without vIOMMU at all?  The buffer will be invalid right after unplugging, so
+> the guest kernel should either fail the operation trying to unplug, or at least
+> tell the device drivers about this somehow?
 
-I'm not sure I follow.  What do you mean by bare bones accel
-class, and when exactly would you add the new interfaces to the
-classes?
-
-> 
-> Why wouldn't we instantiate it?  There's a huge number of static
-> > variables in target/i386/kvm.c that could be moved to that
-> > object.  Sounds like a perfect fit for me.
-> >
-> 
-> Most of those are properties of the running kernel so there's no need to
-> move them inside an object.
-
-There's no need, correct.  Some consistency would be nice,
-though.  All kernel capabilities in kvm-all.c are saved in
-KVMState.
+A sane guest will never do that. The way memory is removed from Linux 
+makes sure that there are no remaining users, otherwise it would be a BUG.
 
 > 
-> Paolo
+>>
+>> We consume more memory than intended. In case virtio-memory would get
+>> replugged and used, we would have an inconsistency. IOMMU device resets/ fix
+>> it (whereby all VFIO mappings are removed via the IOMMU notifier).
+>>
+>>
+>> b) Mapping unplugged virtio-mem blocks via an IOMMU
+>>
+>> 1. Guest: map memory location X located on a virtio-mem device inside an
+>>     unplugged block
+>>     -> QEMU IOMMU notifier: create vfio DMA mapping
+>>     -> VFIO pins memory of unplugged blocks (populating memory)
 > 
-> I won't try to stop you if you really want to invent a brand new
-> > (name => CollectionOfFunctionPointers) registry, but it seems
-> > unnecessary.
-> >
-> > >
-> > > Yet another possibility is to use GHashTable. It is limited to one value
-> > > per key, but it's enough if everything is kept local to {hw,target}/i386.
-> > > If needed a new function pointer can be added to MachineClass,
-> > implemented
-> > > in X86MachineState (where the GHashTable would also be) and called in
-> > > accel.c.
-> > >
-> > > Paolo
-> > >
-> > > Paolo
-> > >
-> > >
-> > > > I remember this was suggested in a previous thread, but I don't
-> > > > remember if there were any objections.
-> > > >
-> > > > >
-> > > > > > Making sure module_call_init() is called at the correct moment is
-> > > > > > not easier or safer than just making sure accel_init_machine()
-> > > > > > (or another init function you create) is called at the correct
-> > > > > > moment.
-> > > > >
-> > > > > Since there is a way to do it without a new level, that would of
-> > course
-> > > > be
-> > > > > fine for me too.  Let me explain however why I think Claudio's
-> > design had
-> > > > > module_call_init() misplaced and what the fundamental difference
-> > is.  The
-> > > > > basic phases in qemu_init() are:
-> > > > >
-> > > > > - initialize stuff
-> > > > > - parse command line
-> > > > > - create machine
-> > > > > - create accelerator
-> > > > > - initialize machine
-> > > > > - create devices
-> > > > > - start
-> > > > >
-> > > > > with a mess of other object creation sprinkled between the various
-> > phases
-> > > > > (but we don't care about those).
-> > > > >
-> > > > > What I object to, is calling module_call_init() after the "initialize
-> > > > stuff"
-> > > > > phase.  Claudio was using it to call the function directly, so it
-> > had to
-> > > > be
-> > > > > exactly at "create accelerator".  This is different from all other
-> > > > > module_call_init() calls, which are done very early.
-> > > >
-> > > > I agree.
-> > > >
-> > > > >
-> > > > > With the implementation I sketched, accel_register_call must still be
-> > > > done
-> > > > > after type_init, so there's still an ordering constraint, but all
-> > it's
-> > > > doing
-> > > > > is registering a callback in the "initialize stuff" phase.
-> > > >
-> > > > Makes sense, if we really want to introduce a new accel_register_call()
-> > > > abstraction.  I don't think we need it, though.
-> > > >
-> > > > --
-> > > > Eduardo
-> > > >
-> > > >
-> >
-> > --
-> > Eduardo
-> >
-> >
+> For this case, I would expect vfio_get_xlat_addr() to fail directly if the
+> guest driver force to map some IOVA onto an invalid range of the virtio-mem
+> device.  Even before that, since the guest should know that this region of
+> virtio-mem is not valid since unplugged, so shouldn't the guest kernel directly
+> fail the dma_map() upon such a region even before the mapping message reaching
+> QEMU?
+
+Again, sane guests will never do that, for the very reason you mentioned 
+"the guest should know that this region of virtio-mem is not valid since 
+unplugged,". But a malicious guest could try doing that to cause trouble :)
+
+The memory region managed by a virtio-mem device is always fully mapped 
+into the system address space: one reason being, that fragmenting it in 
+2 MiB granularity or similar would not be feasible (e.g., KVM memory 
+slots limit, migration, ...), but there are other reasons. (Again, 
+similar to how memory ballooning works).
+
+vfio_get_xlat_addr() only checks if that mapping exists. It would be 
+easy to ask the virtio-mem device (similar as done in this prototype) if 
+that part of the identified memory region may be mapped by VFIO right now.
 
 -- 
-Eduardo
+Thanks,
+
+David / dhildenb
 
 
