@@ -2,61 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89AC02B8122
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 16:48:38 +0100 (CET)
-Received: from localhost ([::1]:37318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41DD02B810B
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 16:47:08 +0100 (CET)
+Received: from localhost ([::1]:34346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfPhF-0008Fp-K9
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 10:48:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41672)
+	id 1kfPfn-0006xr-AM
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 10:47:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kfPdo-0005el-5K
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 10:45:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60946)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kfPe2-0005sQ-7N
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 10:45:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40461)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kfPdm-0005UG-Fi
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 10:45:03 -0500
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kfPdz-0005W2-9r
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 10:45:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605714301;
+ s=mimecast20190719; t=1605714312;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=aRi7/XSjem3SWpJ7bDoW127xmZg0mbuPjRdUutfFbJY=;
- b=bn4cTgJIpSJ99vZ9NZQbesTAJUKJJoHf8COK7Nw9ih+zIOZ9R0pnZSkTmAef9kIjv+rILs
- vA8Psgewj+iY2fHSEbTD4kFE4hx0V7kdGYJb+QRgeE3C8E9Kkk93aLZu4hFxkVupb6o3+C
- wIbcd7eh0XuDcmBQnjlQIUmd/jStZMU=
+ bh=7xgZCEMv5Bc5HsdeilZjHRkSDmX4YdYITpm0NczPrwA=;
+ b=cg/9Nhq4D/wdLk9goDGcTKz69a5nLyCTaVRrlZgUHpCahk/t6ZEpn7X3GBsOPAmB9c7FwS
+ CCwuLEZrxYQ02g9FSsS28B57LHGb3SOqKvE2ag3uFvMNebLzmbj77JOiYQXSmL2sLAfpT2
+ QJalYsDv8GrU0S+j/qx5yoTLpefeS7I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-366-0aKLn81vM2qc2xfBMA9kJg-1; Wed, 18 Nov 2020 10:44:59 -0500
-X-MC-Unique: 0aKLn81vM2qc2xfBMA9kJg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-420-uu9K9fJbO0yjFIdNpCxYkg-1; Wed, 18 Nov 2020 10:45:10 -0500
+X-MC-Unique: uu9K9fJbO0yjFIdNpCxYkg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76BD18145E0;
- Wed, 18 Nov 2020 15:44:58 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-115-43.ams2.redhat.com [10.36.115.43])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9A4B25D9CA;
- Wed, 18 Nov 2020 15:44:57 +0000 (UTC)
-Date: Wed, 18 Nov 2020 16:44:56 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Masayoshi Mizuma <msys.mizuma@gmail.com>
-Subject: Re: [PATCH 2/2] tests/test-image-locking: Pass the fd to the
- argument of qemu_has_ofd_lock()
-Message-ID: <20201118154456.GC11988@merkur.fritz.box>
-References: <20201106040102.13892-1-msys.mizuma@gmail.com>
- <20201106040102.13892-2-msys.mizuma@gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 416B5803F7B;
+ Wed, 18 Nov 2020 15:45:09 +0000 (UTC)
+Received: from localhost (ovpn-115-101.rdu2.redhat.com [10.10.115.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EA87710016DB;
+ Wed, 18 Nov 2020 15:45:08 +0000 (UTC)
+Date: Wed, 18 Nov 2020 10:45:07 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH for-6.0 1/6] qapi: Add query-accel command
+Message-ID: <20201118154507.GI1509407@habkost.net>
+References: <20201116131011.26607-1-r.bolshakov@yadro.com>
+ <20201116131011.26607-2-r.bolshakov@yadro.com>
+ <2d934855-ad11-9f61-28a1-7c0a35347a66@redhat.com>
+ <20201116211352.GC1235237@habkost.net>
+ <87mtzgbc29.fsf@dusky.pond.sub.org>
+ <20201118011917.GB10041@SPB-NB-133.local>
+ <87ft57oycu.fsf@dusky.pond.sub.org>
+ <20201118112845.GA11988@merkur.fritz.box>
+ <20201118115612.GD229461@redhat.com>
+ <87blfukbzd.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <20201106040102.13892-2-msys.mizuma@gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <87blfukbzd.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 19:41:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -79,51 +88,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 06.11.2020 um 05:01 hat Masayoshi Mizuma geschrieben:
-> From: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
+On Wed, Nov 18, 2020 at 02:53:26PM +0100, Markus Armbruster wrote:
+[...]
+> Another way to skin this cat:
 > 
-> Pass the file descriptor of /dev/null to qemu_has_ofd_lock() because
-> former patch is changed the argument.
+>       {"available": {"kvm": { extra properties... },
+>                      "tcg": ...,
+>                      "xen": ...},
+>        "active": "kvm"}
+
+How would this structure be represented in the QAPI schema?
+
+In other words, how do I say "Dict[str, AccelInfo]" in QAPIese?
+
 > 
-> Signed-off-by: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
-> ---
->  tests/test-image-locking.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+> No need for unions then.  "No dupes" is enforced.
 > 
-> diff --git a/tests/test-image-locking.c b/tests/test-image-locking.c
-> index ba057bd66c..2b823e1588 100644
-> --- a/tests/test-image-locking.c
-> +++ b/tests/test-image-locking.c
-> @@ -144,14 +144,19 @@ static void test_set_perm_abort(void)
->  
->  int main(int argc, char **argv)
->  {
-> +    int fd;
-> +
->      bdrv_init();
->      qemu_init_main_loop(&error_abort);
->  
->      g_test_init(&argc, &argv, NULL);
->  
-> -    if (qemu_has_ofd_lock()) {
-> +    fd = open("/dev/null", O_RDONLY);
-> +
-> +    if ((fd != -1) && (qemu_has_ofd_lock(fd))) {
+> We could inline "available":
+> 
+>       {"kvm": { extra properties... },
+>        "tcg": ...,
+>        "xen": ...,
+>        "active": "kvm"}
+> 
+> Future accelerators can't be named "active" then.
+> 
+> > I guess this can be extended with a union to report extra props for the
+> > accelerator, discriminated on the 'active' field eg
+> >
+> >      { 'available': [ 'kvm', 'tcg', 'xen' ],
+> >        'active': 'kvm',
+> >        'data': {
+> >            "allow-nested": true,
+> >        }
+> >     }
+> 
+> Correct.
 
-The parentheses are redundant.
-
->          g_test_add_func("/image-locking/basic", test_image_locking_basic);
->          g_test_add_func("/image-locking/set-perm-abort", test_set_perm_abort);
-> +        close(fd);
->      }
-
-Please merge this with patch 1, otherwise the build will fail with only
-patch 1 applied (breaks bisectability).
-
-Kevin
+-- 
+Eduardo
 
 
