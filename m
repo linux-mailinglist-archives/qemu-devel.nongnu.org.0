@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 642912B7527
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 05:01:57 +0100 (CET)
-Received: from localhost ([::1]:39344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5B612B759D
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 06:19:10 +0100 (CET)
+Received: from localhost ([::1]:59948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfEfM-0005s9-5n
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 23:01:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41832)
+	id 1kfFs5-0002OM-Ch
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 00:19:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kfEcg-0004uz-PN
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 22:59:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55642)
+ id 1kfFr9-0001zF-Rc
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 00:18:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55371)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kfEcd-0000SJ-LE
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 22:59:10 -0500
+ id 1kfFr6-0001S6-Lu
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 00:18:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605671946;
+ s=mimecast20190719; t=1605676686;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EDrBUmvNadiDTByUwwh3E4C0rBYFFaDXeo1Avn7LKv0=;
- b=CGeFOEwZqUtFS4sSVyWbasbPJt8S/xsoI2Z7W9pWRKAboYWceJ5k2GdTxnOAIY0drbzLN8
- YVEfJEW05nZpwkIjA8VwcMKKSVO0M06Jyc6ZhzjIXMsEmGbojkkZwyZyL+SpKKGHaReHhY
- vTbdTu+pUopmLsCx+9Yzt+TKf8/pjfo=
+ bh=H80xTT/If52xYm2Cf+wqujtNbekMdRf0VklelR0JXkw=;
+ b=PkuCBtqN57f/ASBK/RqYBfis2JF/UhR/ylWY01J30TYDwpy+p5efOOEBbR/t8jp6vYJ6hH
+ twDXPRa7sYnlWw/F36tdj1YMvViNuN0C7AWatS/7zNevBK9AHVuOogjzmt/iD5XrEmJcEG
+ ho1M3kVwInlEuCmxN0fpf0btodtULww=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-38-QxcvHM1_OTSVb7_0vGLtbg-1; Tue, 17 Nov 2020 22:59:04 -0500
-X-MC-Unique: QxcvHM1_OTSVb7_0vGLtbg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-562-8VjkYBvUMCmWoVECWtCZPw-1; Wed, 18 Nov 2020 00:18:03 -0500
+X-MC-Unique: 8VjkYBvUMCmWoVECWtCZPw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CEABF10074D3;
- Wed, 18 Nov 2020 03:59:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C87DE804755;
+ Wed, 18 Nov 2020 05:18:01 +0000 (UTC)
 Received: from [10.72.13.172] (ovpn-13-172.pek2.redhat.com [10.72.13.172])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B73101759F;
- Wed, 18 Nov 2020 03:59:02 +0000 (UTC)
-Subject: Re: [PATCH] virtio-net: purge queued rx packets on queue deletion
-To: Yuri Benditovich <yuri.benditovich@daynix.com>, qemu-devel@nongnu.org
-References: <20201112094653.20255-1-yuri.benditovich@daynix.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9B5F860C04;
+ Wed, 18 Nov 2020 05:17:51 +0000 (UTC)
+Subject: Re: [PATCH 00/10] vhost/qemu: thread per IO SCSI vq
+To: Stefan Hajnoczi <stefanha@redhat.com>,
+ Mike Christie <michael.christie@oracle.com>
+References: <1605223150-10888-1-git-send-email-michael.christie@oracle.com>
+ <20201117164043.GS131917@stefanha-x1.localdomain>
 From: Jason Wang <jasowang@redhat.com>
-Message-ID: <5d0d2522-43e4-e0c4-7667-12e723858be0@redhat.com>
-Date: Wed, 18 Nov 2020 11:59:01 +0800
+Message-ID: <bba47572-bec9-794f-5a70-d7f016267022@redhat.com>
+Date: Wed, 18 Nov 2020 13:17:50 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201112094653.20255-1-yuri.benditovich@daynix.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20201117164043.GS131917@stefanha-x1.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 19:41:43
@@ -84,58 +82,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yan@daynix.com
+Cc: fam@euphon.net, linux-scsi@vger.kernel.org, mst@redhat.com,
+ qemu-devel@nongnu.org, virtualization@lists.linux-foundation.org,
+ target-devel@vger.kernel.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 2020/11/12 下午5:46, Yuri Benditovich wrote:
-> https://bugzilla.redhat.com/show_bug.cgi?id=1829272
-> When deleting queue pair, purge pending RX packets if any.
-> Example of problematic flow:
-> 1. Bring up q35 VM with tap (vhost off) and virtio-net or e1000e
-> 2. Run ping flood to the VM NIC ( 1 ms interval)
-> 3. Hot unplug the NIC device (device_del)
->     During unplug process one or more packets come, the NIC
->     can't receive, tap disables read_poll
-> 4. Hot plug the device (device_add) with the same netdev
-> The tap stays with read_poll disabled and does not receive
-> any packets anymore (tap_send never triggered)
+On 2020/11/18 上午12:40, Stefan Hajnoczi wrote:
+> On Thu, Nov 12, 2020 at 05:18:59PM -0600, Mike Christie wrote:
+>> The following kernel patches were made over Michael's vhost branch:
+>>
+>> https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git/log/?h=vhost
+>>
+>> and the vhost-scsi bug fix patchset:
+>>
+>> https://lore.kernel.org/linux-scsi/20201112170008.GB1555653@stefanha-x1.localdomain/T/#t
+>>
+>> And the qemu patch was made over the qemu master branch.
+>>
+>> vhost-scsi currently supports multiple queues with the num_queues
+>> setting, but we end up with a setup where the guest's scsi/block
+>> layer can do a queue per vCPU and the layers below vhost can do
+>> a queue per CPU. vhost-scsi will then do a num_queue virtqueues,
+>> but all IO gets set on and completed on a single vhost-scsi thread.
+>> After 2 - 4 vqs this becomes a bottleneck.
+>>
+>> This patchset allows us to create a worker thread per IO vq, so we
+>> can better utilize multiple CPUs with the multiple queues. It
+>> implments Jason's suggestion to create the initial worker like
+>> normal, then create the extra workers for IO vqs with the
+>> VHOST_SET_VRING_ENABLE ioctl command added in this patchset.
+> How does userspace find out the tids and set their CPU affinity?
 >
-> Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
+> What is the meaning of the new VHOST_SET_VRING_ENABLE ioctl? It doesn't
+> really "enable" or "disable" the vq, requests are processed regardless.
 
 
-Applied.
+Actually I think it should do the real "enable/disable" that tries to 
+follow the virtio spec.
+
+(E.g both PCI and MMIO have something similar).
+
+
+>
+> The purpose of the ioctl isn't clear to me because the kernel could
+> automatically create 1 thread per vq without a new ioctl.
+
+
+It's not necessarily to create or destroy kthread according to 
+VRING_ENABLE but could be a hint.
+
+
+>   On the other
+> hand, if userspace is supposed to control worker threads then a
+> different interface would be more powerful:
+>
+>    struct vhost_vq_worker_info {
+>        /*
+>         * The pid of an existing vhost worker that this vq will be
+>         * assigned to. When pid is 0 the virtqueue is assigned to the
+>         * default vhost worker. When pid is -1 a new worker thread is
+>         * created for this virtqueue. When pid is -2 the virtqueue's
+>         * worker thread is unchanged.
+>         *
+>         * If a vhost worker no longer has any virtqueues assigned to it
+>         * then it will terminate.
+>         *
+>         * The pid of the vhost worker is stored to this field when the
+>         * ioctl completes successfully. Use pid -2 to query the current
+>         * vhost worker pid.
+>         */
+>        __kernel_pid_t pid;  /* in/out */
+>
+>        /* The virtqueue index*/
+>        unsigned int vq_idx; /* in */
+>    };
+>
+>    ioctl(vhost_fd, VHOST_SET_VQ_WORKER, &info);
+
+
+This seems to leave the question to userspace which I'm not sure it's 
+good since it tries to introduce another scheduling layer.
+
+Per vq worker seems be good enough to start with.
 
 Thanks
 
 
-> ---
->   net/net.c | 12 ++++++++----
->   1 file changed, 8 insertions(+), 4 deletions(-)
 >
-> diff --git a/net/net.c b/net/net.c
-> index 7a2a0fb5ac..a95b417300 100644
-> --- a/net/net.c
-> +++ b/net/net.c
-> @@ -411,10 +411,14 @@ void qemu_del_nic(NICState *nic)
->   
->       qemu_macaddr_set_free(&nic->conf->macaddr);
->   
-> -    /* If this is a peer NIC and peer has already been deleted, free it now. */
-> -    if (nic->peer_deleted) {
-> -        for (i = 0; i < queues; i++) {
-> -            qemu_free_net_client(qemu_get_subqueue(nic, i)->peer);
-> +    for (i = 0; i < queues; i++) {
-> +        NetClientState *nc = qemu_get_subqueue(nic, i);
-> +        /* If this is a peer NIC and peer has already been deleted, free it now. */
-> +        if (nic->peer_deleted) {
-> +            qemu_free_net_client(nc->peer);
-> +        } else if (nc->peer) {
-> +            /* if there are RX packets pending, complete them */
-> +            qemu_purge_queued_packets(nc->peer);
->           }
->       }
->   
+> Stefan
 
 
