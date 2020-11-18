@@ -2,66 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69DFB2B8014
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 16:05:35 +0100 (CET)
-Received: from localhost ([::1]:46318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD9012B801A
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 16:08:06 +0100 (CET)
+Received: from localhost ([::1]:51718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfP1a-0008Vd-HJ
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 10:05:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57170)
+	id 1kfP41-0002Qy-JH
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 10:08:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arnd@kernel.org>) id 1kfJKT-0000je-L0
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 04:00:41 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51412)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arnd@kernel.org>) id 1kfJKR-0000Vu-LS
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 04:00:41 -0500
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com
- [209.85.167.180])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kfOx3-00052Q-UJ
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 10:00:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56670)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kfOx1-0006le-Gf
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 10:00:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605711647;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9T5ArolKtt9fsjLl+GZYhKC8vIeNENICblwUmeGDkI8=;
+ b=TI9TvNN8j2+vdAdFuodwDeswJswsmLj+PThfSdexHf7YK1yp3mvsIPrmoubQDZL4TOC+fC
+ MammcJojaDstaLS6sY3MSKTWCFkjgu/mldNS2CIajFY6na1eH8GmdM2U8pn2tolWLao558
+ KZ+Dtf+XeIQ5Q2XN2hbefg6R/GrJ1mk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-174-IiP_ygN_PdyYe2xgujq8VQ-1; Wed, 18 Nov 2020 10:00:45 -0500
+X-MC-Unique: IiP_ygN_PdyYe2xgujq8VQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 89E1524656
- for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 09:00:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1605690036;
- bh=i9tBV0oZBsTReps0EogPqekfIEGahPYtFjMV0dB8U+U=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=TjCzdqFScODCSwu2HqQV/hZsXCizf8cSQGNq0E4s6V9KEfsorLbCddbZe5wx8Pvfq
- QUGYUe3B/02nyoOG++Le+tTxAzAu8vcdiXUBicX/furVaJA/8OMu9uobWvcycgmi68
- YbRE+d1hXTXxUMEjluROqGJr09HxR0jj4VUdy1Xg=
-Received: by mail-oi1-f180.google.com with SMTP id c80so1435513oib.2
- for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 01:00:36 -0800 (PST)
-X-Gm-Message-State: AOAM531gVvMFDRFcqoavIciKq23bvuaMJdqM9J4OV5iUW9NN0BYbW1il
- a9rDQ1YlazAktOeEzEe6/A4PHuDaCWAoacgDzYg=
-X-Google-Smtp-Source: ABdhPJydSZXfIA6Ryj/nqlJBnSxKnJFPoskTXFwxpwxSaoVGbr/P/APPPfzylLk92sw1xEZ6AWYdYCMkzWbPDL2wVtI=
-X-Received: by 2002:aca:180a:: with SMTP id h10mr2022489oih.4.1605690035742;
- Wed, 18 Nov 2020 01:00:35 -0800 (PST)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A96C100F7BA;
+ Wed, 18 Nov 2020 15:00:43 +0000 (UTC)
+Received: from gondolin (ovpn-113-132.ams2.redhat.com [10.36.113.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 70B8660853;
+ Wed, 18 Nov 2020 15:00:34 +0000 (UTC)
+Date: Wed, 18 Nov 2020 16:00:32 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Matthew Rosato <mjrosato@linux.ibm.com>
+Subject: Re: [PATCH for-5.2 v3] s390x/pci: fix endianness issues
+Message-ID: <20201118160032.02998aba.cohuck@redhat.com>
+In-Reply-To: <39445c44-6f2c-e337-08fd-cde55f8be586@linux.ibm.com>
+References: <20201118104202.1301363-1-cohuck@redhat.com>
+ <39445c44-6f2c-e337-08fd-cde55f8be586@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-References: <20201012220620.124408-1-linus.walleij@linaro.org>
- <20201013092240.GI32292@arm.com>
- <CACRpkdZoMoUQX+CPd31qwjXSKJvaZ6=jcFvUrK_3hkxaUWJNJg@mail.gmail.com>
-In-Reply-To: <CACRpkdZoMoUQX+CPd31qwjXSKJvaZ6=jcFvUrK_3hkxaUWJNJg@mail.gmail.com>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Wed, 18 Nov 2020 10:00:19 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a2SN2zeK=dj01Br-m86rJmK8mOyH=gHAidwSPgKAEthVw@mail.gmail.com>
-Message-ID: <CAK8P3a2SN2zeK=dj01Br-m86rJmK8mOyH=gHAidwSPgKAEthVw@mail.gmail.com>
-Subject: Re: [PATCH v3 RESEND] fcntl: Add 32bit filesystem mode
-To: Linus Walleij <linus.walleij@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=arnd@kernel.org;
- helo=mail.kernel.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 04:00:36
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 19:41:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 18 Nov 2020 10:01:08 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,53 +80,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Theodore Ts'o <tytso@mit.edu>,
- Linux API <linux-api@vger.kernel.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Florian Weimer <fw@deneb.enyo.de>, Andreas Dilger <adilger.kernel@dilger.ca>,
- Andy Lutomirski <luto@kernel.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- Ext4 Developers List <linux-ext4@vger.kernel.org>,
- Dave Martin <Dave.Martin@arm.com>
+Cc: Thomas Huth <thuth@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, qemu-s390x@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 18, 2020 at 12:38 AM Linus Walleij <linus.walleij@linaro.org> wrote:
->
-> On Tue, Oct 13, 2020 at 11:22 AM Dave Martin <Dave.Martin@arm.com> wrote:
->
-> > >       case F_SETFD:
-> > >               err = 0;
-> > >               set_close_on_exec(fd, arg & FD_CLOEXEC);
-> > > +             if (arg & FD_32BIT_MODE)
-> > > +                     filp->f_mode |= FMODE_32BITHASH;
-> > > +             else
-> > > +                     filp->f_mode &= ~FMODE_32BITHASH;
-> >
-> > This seems inconsistent?  F_SETFD is for setting flags on a file
-> > descriptor.  Won't setting a flag on filp here instead cause the
-> > behaviour to change for all file descriptors across the system that are
-> > open on this struct file?  Compare set_close_on_exec().
-> >
-> > I don't see any discussion on whether this should be an F_SETFL or an
-> > F_SETFD, though I see F_SETFD was Ted's suggestion originally.
->
-> I cannot honestly say I know the semantic difference.
->
-> I would ask the QEMU people how a user program would expect
-> the flag to behave.
+On Wed, 18 Nov 2020 09:20:39 -0500
+Matthew Rosato <mjrosato@linux.ibm.com> wrote:
 
-I agree it should either use F_SETFD to set a bit in the fdtable structure
-like set_close_on_exec() or it should use F_SETFL to set a bit in
-filp->f_mode.
+> On 11/18/20 5:42 AM, Cornelia Huck wrote:
+> > The zPCI group and function structures are big endian. However, we do
+> > not consistently store them as big endian locally, and are missing some
+> > conversions.
+> > 
+> > Let's just store the structures as host endian instead and convert to
+> > big endian when actually handling the instructions retrieving the data.
+> > 
+> > Also fix the layout of ClpReqQueryPciGrp: g is actually only 8 bit. This
+> > also fixes accesses on little endian hosts, and makes accesses on big
+> > endian hosts consistent.
+> > 
+> > Fixes: 28dc86a07299 ("s390x/pci: use a PCI Group structure")
+> > Fixes: 9670ee752727 ("s390x/pci: use a PCI Function structure")
+> > Fixes: 1e7552ff5c34 ("s390x/pci: get zPCI function info from host")
+> > Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> > ---
+> > 
+> > v2->v3: added missing zpci_fn.flags copy, removed forgotten memcopy
+> > v1->v2: switched to keeping the internal structures as host-endian
+> > 
+> > Again, tested on x86 and s390x (tcg/kvm) with virtio-pci devices;
+> > testing vfio-pci devices would be good.  
+> 
+> Thanks Connie, code looks good to me:
+> 
+> Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
+> 
+> And I once again took this for a spin with vfio-pci, driving network and 
+> disk workloads using a fairly recent (5.10-rc3) kernel in host/guest.  I 
+> also rolled back the host to an older kernel to drive the default clp 
+> paths with vfio -- Everything works fine.  I also verified that a tcg 
+> guest on x86 using a virtio pci device can see it as expected (Lesson 
+> learned: I will make a point of testing against tcg moving forward).  I 
+> further double-checked the live pfgid / g values going to/from the guest 
+> in all 3 environments since this structure was changed; everything looks 
+> good.
+> 
+> So if you'd like:
+> 
+> Tested-by: Matthew Rosato <mjrosato@linux.ibm.com>
 
-It appears the reason FMODE_32BITHASH is part of  filp->f_mode
-is that the only user today is nfsd, which does not have a file
-descriptor but only has a struct file. Similarly, the only code that
-understands the difference (ext4_readdir()) has no reference to
-the file descriptor.
+Wonderful, thanks!
 
-If this becomes an O_DIR32BITHASH flag for F_SETFL,
-I suppose it should also be supported by openat2().
+> 
+> 
+> 
+> > 
+> > ---
+> >   hw/s390x/s390-pci-bus.c         | 10 +++++-----
+> >   hw/s390x/s390-pci-inst.c        | 16 ++++++++++++++--
+> >   hw/s390x/s390-pci-vfio.c        | 12 ++++++------
+> >   include/hw/s390x/s390-pci-clp.h |  8 ++++----
+> >   4 files changed, 29 insertions(+), 17 deletions(-)
 
-       Arnd
 
