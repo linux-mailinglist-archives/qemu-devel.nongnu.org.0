@@ -2,55 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6DA82B7B5E
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 11:34:51 +0100 (CET)
-Received: from localhost ([::1]:41184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82A812B7B80
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 11:39:34 +0100 (CET)
+Received: from localhost ([::1]:56538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfKna-0002Gc-OZ
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 05:34:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53122)
+	id 1kfKs9-0000NQ-IQ
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 05:39:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kfKip-00040a-QC
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 05:29:55 -0500
-Received: from mx2.suse.de ([195.135.220.15]:47732)
+ (Exim 4.90_1) (envelope-from <prvs=584ac4f56=graf@amazon.de>)
+ id 1kfKjf-0005Pz-Qx
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 05:30:47 -0500
+Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:30998)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kfKij-0005G6-3k
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 05:29:55 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 530CCAFF9;
- Wed, 18 Nov 2020 10:29:46 +0000 (UTC)
-From: Claudio Fontana <cfontana@suse.de>
-To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <rth@twiddle.net>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Wenchao Wang <wenchao.wang@intel.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [RFC v3 9/9] i386: split cpu accelerators from cpu.c
-Date: Wed, 18 Nov 2020 11:29:36 +0100
-Message-Id: <20201118102936.25569-10-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201118102936.25569-1-cfontana@suse.de>
-References: <20201118102936.25569-1-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <prvs=584ac4f56=graf@amazon.de>)
+ id 1kfKjZ-0005YQ-I9
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 05:30:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
+ t=1605695442; x=1637231442;
+ h=subject:to:cc:references:from:message-id:date:
+ mime-version:in-reply-to:content-transfer-encoding;
+ bh=VJ7lKzudxsMHhPcYhcSWeH76B5FDWJujFpu0MImshQ4=;
+ b=MsbHZw2ivamp8bfda0BSV/yplr98EP9MlvCLwjsznHHOjhFM4aApZnvm
+ Oy5Knu1gikkCIbu4ji3GtEb6ZzXq1cxi15pY8+YOjbCd5dryU3F/CbNe/
+ qfFh1n8EYOBnr9Or7p+4Q3A1l3MubBQq1nIPElQEt6ILjN+gvmloR1fo2 0=;
+X-IronPort-AV: E=Sophos;i="5.77,486,1596499200"; d="scan'208";a="67144022"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO
+ email-inbound-relay-1d-38ae4ad2.us-east-1.amazon.com) ([10.43.8.2])
+ by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP;
+ 18 Nov 2020 10:30:29 +0000
+Received: from EX13MTAUWC002.ant.amazon.com
+ (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
+ by email-inbound-relay-1d-38ae4ad2.us-east-1.amazon.com (Postfix) with ESMTPS
+ id 8A722A205E; Wed, 18 Nov 2020 10:30:19 +0000 (UTC)
+Received: from EX13D20UWC001.ant.amazon.com (10.43.162.244) by
+ EX13MTAUWC002.ant.amazon.com (10.43.162.240) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Wed, 18 Nov 2020 10:30:18 +0000
+Received: from Alexanders-MacBook-Air.local (10.43.162.146) by
+ EX13D20UWC001.ant.amazon.com (10.43.162.244) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Wed, 18 Nov 2020 10:30:10 +0000
+Subject: Re: [PATCH v2] drivers/virt: vmgenid: add vm generation id driver
+To: "Catangiu, Adrian Costin" <acatan@amazon.com>, Christian Borntraeger
+ <borntraeger@de.ibm.com>, "Jason A. Donenfeld" <Jason@zx2c4.com>, Jann Horn
+ <jannh@google.com>
+CC: Willy Tarreau <w@1wt.eu>, "MacCarthaigh, Colm" <colmmacc@amazon.com>,
+ "Andy Lutomirski" <luto@kernel.org>, "Theodore Y. Ts'o" <tytso@mit.edu>,
+ "Eric Biggers" <ebiggers@kernel.org>, "open list:DOCUMENTATION"
+ <linux-doc@vger.kernel.org>, kernel list <linux-kernel@vger.kernel.org>,
+ "Woodhouse, David" <dwmw@amazon.co.uk>, "bonzini@gnu.org" <bonzini@gnu.org>,
+ "Singh, Balbir" <sblbir@amazon.com>, "Weiss, Radu" <raduweis@amazon.com>,
+ "oridgar@gmail.com" <oridgar@gmail.com>, "ghammer@redhat.com"
+ <ghammer@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, "Michael S. Tsirkin" <mst@redhat.com>, "Qemu
+ Developers" <qemu-devel@nongnu.org>, KVM list <kvm@vger.kernel.org>, "Michal
+ Hocko" <mhocko@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, "Pavel
+ Machek" <pavel@ucw.cz>, Linux API <linux-api@vger.kernel.org>,
+ "mpe@ellerman.id.au" <mpe@ellerman.id.au>, linux-s390
+ <linux-s390@vger.kernel.org>, "areber@redhat.com" <areber@redhat.com>, "Pavel
+ Emelyanov" <ovzxemul@gmail.com>, Andrey Vagin <avagin@gmail.com>, "Mike
+ Rapoport" <rppt@kernel.org>, Dmitry Safonov <0x7f454c46@gmail.com>, "Pavel
+ Tikhomirov" <ptikhomirov@virtuozzo.com>, "gil@azul.com" <gil@azul.com>,
+ "asmehra@redhat.com" <asmehra@redhat.com>, "dgunigun@redhat.com"
+ <dgunigun@redhat.com>, "vijaysun@ca.ibm.com" <vijaysun@ca.ibm.com>
+References: <3E05451B-A9CD-4719-99D0-72750A304044@amazon.com>
+From: Alexander Graf <graf@amazon.de>
+Message-ID: <f78a0a2f-d26a-6b50-c252-b4610e5f8273@amazon.de>
+Date: Wed, 18 Nov 2020 11:30:07 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.4.3
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 05:29:39
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+In-Reply-To: <3E05451B-A9CD-4719-99D0-72750A304044@amazon.com>
+Content-Language: en-US
+X-Originating-IP: [10.43.162.146]
+X-ClientProxiedBy: EX13P01UWB004.ant.amazon.com (10.43.161.213) To
+ EX13D20UWC001.ant.amazon.com (10.43.162.244)
+Precedence: Bulk
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=52.95.48.154;
+ envelope-from=prvs=584ac4f56=graf@amazon.de; helo=smtp-fw-6001.amazon.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 05:30:39
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -59,1609 +103,386 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
- Cameron Esfahani <dirty@apple.com>, haxm-team@intel.com,
- Claudio Fontana <cfontana@suse.de>, Anthony Perard <anthony.perard@citrix.com>,
- Bruce Rogers <brogers@suse.com>, Olaf Hering <ohering@suse.de>,
- Colin Xu <colin.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-split cpu.c into:
-
-cpu.c            cpuid and common x86 cpu functionality
-host-cpu.c       host x86 cpu functions and "host" cpu type
-kvm/cpu.c        KVM x86 cpu type
-hvf/cpu.c        HVF x86 cpu type
-tcg/cpu.c        TCG x86 cpu type
-
-The accel interface of the X86CPUClass is set at MODULE_INIT_ACCEL_CPU
-time, when the accelerator is known.
-
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
----
- MAINTAINERS                 |   2 +-
- bsd-user/main.c             |   1 +
- hw/i386/pc_piix.c           |   1 +
- linux-user/main.c           |   1 +
- target/i386/cpu-qom.h       |  23 +++
- target/i386/cpu.c           | 395 +++++-------------------------------
- target/i386/cpu.h           |  20 +-
- target/i386/host-cpu.c      | 196 ++++++++++++++++++
- target/i386/host-cpu.h      |  20 ++
- target/i386/hvf/cpu.c       |  64 ++++++
- target/i386/hvf/meson.build |   1 +
- target/i386/kvm/cpu.c       | 145 +++++++++++++
- target/i386/kvm/kvm-cpu.h   |  41 ++++
- target/i386/kvm/kvm.c       |   3 +-
- target/i386/kvm/meson.build |   7 +-
- target/i386/meson.build     |   8 +-
- target/i386/tcg-cpu.c       |  71 -------
- target/i386/tcg-cpu.h       |  15 --
- target/i386/tcg/cpu.c       | 168 +++++++++++++++
- target/i386/tcg/meson.build |   3 +-
- 20 files changed, 736 insertions(+), 449 deletions(-)
- create mode 100644 target/i386/host-cpu.c
- create mode 100644 target/i386/host-cpu.h
- create mode 100644 target/i386/hvf/cpu.c
- create mode 100644 target/i386/kvm/cpu.c
- create mode 100644 target/i386/kvm/kvm-cpu.h
- delete mode 100644 target/i386/tcg-cpu.c
- delete mode 100644 target/i386/tcg-cpu.h
- create mode 100644 target/i386/tcg/cpu.c
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e892dd2220..9782728e0c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -336,7 +336,7 @@ M: Paolo Bonzini <pbonzini@redhat.com>
- M: Richard Henderson <richard.henderson@linaro.org>
- M: Eduardo Habkost <ehabkost@redhat.com>
- S: Maintained
--F: target/i386/
-+F: target/i386/tcg/
- F: tests/tcg/i386/
- F: tests/tcg/x86_64/
- F: hw/i386/
-diff --git a/bsd-user/main.c b/bsd-user/main.c
-index 0a918e8f74..9f88ae952a 100644
---- a/bsd-user/main.c
-+++ b/bsd-user/main.c
-@@ -909,6 +909,7 @@ int main(int argc, char **argv)
- 
-     /* init tcg before creating CPUs and to get qemu_host_page_size */
-     tcg_exec_init(0);
-+    module_call_init(MODULE_INIT_ACCEL_CPU);
- 
-     cpu_type = parse_cpu_option(cpu_model);
-     cpu = cpu_create(cpu_type);
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 13d1628f13..d3f013f3a1 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -64,6 +64,7 @@
- #include "hw/hyperv/vmbus-bridge.h"
- #include "hw/mem/nvdimm.h"
- #include "hw/i386/acpi-build.h"
-+#include "kvm/kvm-cpu.h"
- 
- #define MAX_IDE_BUS 2
- 
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 24d1eb73ad..a745901d86 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -704,6 +704,7 @@ int main(int argc, char **argv, char **envp)
- 
-     /* init tcg before creating CPUs and to get qemu_host_page_size */
-     tcg_exec_init(0);
-+    module_call_init(MODULE_INIT_ACCEL_CPU);
- 
-     cpu = cpu_create(cpu_type);
-     env = cpu->env_ptr;
-diff --git a/target/i386/cpu-qom.h b/target/i386/cpu-qom.h
-index f9923cee04..79fcbd3b9b 100644
---- a/target/i386/cpu-qom.h
-+++ b/target/i386/cpu-qom.h
-@@ -34,6 +34,7 @@ OBJECT_DECLARE_TYPE(X86CPU, X86CPUClass,
-                     X86_CPU)
- 
- typedef struct X86CPUModel X86CPUModel;
-+typedef struct X86CPUAccel X86CPUAccel;
- 
- /**
-  * X86CPUClass:
-@@ -69,7 +70,29 @@ struct X86CPUClass {
-     DeviceRealize parent_realize;
-     DeviceUnrealize parent_unrealize;
-     DeviceReset parent_reset;
-+
-+    const X86CPUAccel *accel;
-+};
-+
-+/**
-+ * X86CPUAccel:
-+ * @name: string name of the X86 CPU Accelerator
-+ *
-+ * @common_class_init: initializer for the common cpu
-+ * @instance_init: cpu instance initialization
-+ * @realizefn: realize function, called first in x86 cpu realize
-+ *
-+ * X86 CPU accelerator-specific CPU initializations
-+ */
-+
-+struct X86CPUAccel {
-+    const char *name;
-+
-+    void (*common_class_init)(X86CPUClass *xcc);
-+    void (*instance_init)(X86CPU *cpu);
-+    void (*realizefn)(X86CPU *cpu, Error **errp);
- };
- 
-+void x86_cpu_accel_init(const X86CPUAccel *accel);
- 
- #endif
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 3462d0143f..b53e958926 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -22,9 +22,7 @@
- #include "qemu/cutils.h"
- #include "qemu/bitops.h"
- #include "qemu/qemu-print.h"
--
- #include "cpu.h"
--#include "tcg-cpu.h"
- #include "helper-tcg.h"
- #include "exec/exec-all.h"
- #include "sysemu/kvm.h"
-@@ -34,25 +32,14 @@
- #include "sysemu/xen.h"
- #include "kvm/kvm_i386.h"
- #include "sev_i386.h"
--
--#include "qemu/error-report.h"
- #include "qemu/module.h"
--#include "qemu/option.h"
--#include "qemu/config-file.h"
--#include "qapi/error.h"
- #include "qapi/qapi-visit-machine.h"
- #include "qapi/qapi-visit-run-state.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qerror.h"
--#include "qapi/visitor.h"
- #include "qom/qom-qobject.h"
--#include "sysemu/arch_init.h"
- #include "qapi/qapi-commands-machine-target.h"
--
- #include "standard-headers/asm-x86/kvm_para.h"
--
--#include "sysemu/sysemu.h"
--#include "sysemu/tcg.h"
- #include "hw/qdev-properties.h"
- #include "hw/i386/topology.h"
- #ifndef CONFIG_USER_ONLY
-@@ -594,8 +581,8 @@ static CPUCacheInfo legacy_l3_cache = {
- #define INTEL_PT_CYCLE_BITMAP    0x1fff         /* Support 0,2^(0~11) */
- #define INTEL_PT_PSB_BITMAP      (0x003f << 16) /* Support 2K,4K,8K,16K,32K,64K */
- 
--static void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
--                                     uint32_t vendor2, uint32_t vendor3)
-+void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
-+                              uint32_t vendor2, uint32_t vendor3)
- {
-     int i;
-     for (i = 0; i < 4; i++) {
-@@ -1563,25 +1550,6 @@ void host_cpuid(uint32_t function, uint32_t count,
-         *edx = vec[3];
- }
- 
--void host_vendor_fms(char *vendor, int *family, int *model, int *stepping)
--{
--    uint32_t eax, ebx, ecx, edx;
--
--    host_cpuid(0x0, 0, &eax, &ebx, &ecx, &edx);
--    x86_cpu_vendor_words2str(vendor, ebx, edx, ecx);
--
--    host_cpuid(0x1, 0, &eax, &ebx, &ecx, &edx);
--    if (family) {
--        *family = ((eax >> 8) & 0x0F) + ((eax >> 20) & 0xFF);
--    }
--    if (model) {
--        *model = ((eax >> 4) & 0x0F) | ((eax & 0xF0000) >> 12);
--    }
--    if (stepping) {
--        *stepping = eax & 0x0F;
--    }
--}
--
- /* CPU class name definitions: */
- 
- /* Return type name for a given CPU model name
-@@ -1606,10 +1574,6 @@ static char *x86_cpu_class_get_model_name(X86CPUClass *cc)
-                      strlen(class_name) - strlen(X86_CPU_TYPE_SUFFIX));
- }
- 
--typedef struct PropValue {
--    const char *prop, *value;
--} PropValue;
--
- typedef struct X86CPUVersionDefinition {
-     X86CPUVersion version;
-     const char *alias;
-@@ -4106,31 +4070,6 @@ static X86CPUDefinition builtin_x86_defs[] = {
-     },
- };
- 
--/* KVM-specific features that are automatically added/removed
-- * from all CPU models when KVM is enabled.
-- */
--static PropValue kvm_default_props[] = {
--    { "kvmclock", "on" },
--    { "kvm-nopiodelay", "on" },
--    { "kvm-asyncpf", "on" },
--    { "kvm-steal-time", "on" },
--    { "kvm-pv-eoi", "on" },
--    { "kvmclock-stable-bit", "on" },
--    { "x2apic", "on" },
--    { "acpi", "off" },
--    { "monitor", "off" },
--    { "svm", "off" },
--    { NULL, NULL },
--};
--
--/* TCG-specific defaults that override all CPU models when using TCG
-- */
--static PropValue tcg_default_props[] = {
--    { "vme", "off" },
--    { NULL, NULL },
--};
--
--
- /*
-  * We resolve CPU model aliases using -v1 when using "-machine
-  * none", but this is just for compatibility while libvirt isn't
-@@ -4172,61 +4111,6 @@ static X86CPUVersion x86_cpu_model_resolve_version(const X86CPUModel *model)
-     return v;
- }
- 
--void x86_cpu_change_kvm_default(const char *prop, const char *value)
--{
--    PropValue *pv;
--    for (pv = kvm_default_props; pv->prop; pv++) {
--        if (!strcmp(pv->prop, prop)) {
--            pv->value = value;
--            break;
--        }
--    }
--
--    /* It is valid to call this function only for properties that
--     * are already present in the kvm_default_props table.
--     */
--    assert(pv->prop);
--}
--
--static bool lmce_supported(void)
--{
--    uint64_t mce_cap = 0;
--
--#ifdef CONFIG_KVM
--    if (kvm_ioctl(kvm_state, KVM_X86_GET_MCE_CAP_SUPPORTED, &mce_cap) < 0) {
--        return false;
--    }
--#endif
--
--    return !!(mce_cap & MCG_LMCE_P);
--}
--
--#define CPUID_MODEL_ID_SZ 48
--
--/**
-- * cpu_x86_fill_model_id:
-- * Get CPUID model ID string from host CPU.
-- *
-- * @str should have at least CPUID_MODEL_ID_SZ bytes
-- *
-- * The function does NOT add a null terminator to the string
-- * automatically.
-- */
--static int cpu_x86_fill_model_id(char *str)
--{
--    uint32_t eax = 0, ebx = 0, ecx = 0, edx = 0;
--    int i;
--
--    for (i = 0; i < 3; i++) {
--        host_cpuid(0x80000002 + i, 0, &eax, &ebx, &ecx, &edx);
--        memcpy(str + i * 16 +  0, &eax, 4);
--        memcpy(str + i * 16 +  4, &ebx, 4);
--        memcpy(str + i * 16 +  8, &ecx, 4);
--        memcpy(str + i * 16 + 12, &edx, 4);
--    }
--    return 0;
--}
--
- static Property max_x86_cpu_properties[] = {
-     DEFINE_PROP_BOOL("migratable", X86CPU, migratable, true),
-     DEFINE_PROP_BOOL("host-cache-info", X86CPU, cache_info_passthrough, false),
-@@ -4249,61 +4133,25 @@ static void max_x86_cpu_class_init(ObjectClass *oc, void *data)
- static void max_x86_cpu_initfn(Object *obj)
- {
-     X86CPU *cpu = X86_CPU(obj);
--    CPUX86State *env = &cpu->env;
--    KVMState *s = kvm_state;
- 
-     /* We can't fill the features array here because we don't know yet if
-      * "migratable" is true or false.
-      */
-     cpu->max_features = true;
--
--    if (accel_uses_host_cpuid()) {
--        char vendor[CPUID_VENDOR_SZ + 1] = { 0 };
--        char model_id[CPUID_MODEL_ID_SZ + 1] = { 0 };
--        int family, model, stepping;
--
--        host_vendor_fms(vendor, &family, &model, &stepping);
--        cpu_x86_fill_model_id(model_id);
--
--        object_property_set_str(OBJECT(cpu), "vendor", vendor, &error_abort);
--        object_property_set_int(OBJECT(cpu), "family", family, &error_abort);
--        object_property_set_int(OBJECT(cpu), "model", model, &error_abort);
--        object_property_set_int(OBJECT(cpu), "stepping", stepping,
--                                &error_abort);
--        object_property_set_str(OBJECT(cpu), "model-id", model_id,
--                                &error_abort);
--
--        if (kvm_enabled()) {
--            env->cpuid_min_level =
--                kvm_arch_get_supported_cpuid(s, 0x0, 0, R_EAX);
--            env->cpuid_min_xlevel =
--                kvm_arch_get_supported_cpuid(s, 0x80000000, 0, R_EAX);
--            env->cpuid_min_xlevel2 =
--                kvm_arch_get_supported_cpuid(s, 0xC0000000, 0, R_EAX);
--        } else {
--            env->cpuid_min_level =
--                hvf_get_supported_cpuid(0x0, 0, R_EAX);
--            env->cpuid_min_xlevel =
--                hvf_get_supported_cpuid(0x80000000, 0, R_EAX);
--            env->cpuid_min_xlevel2 =
--                hvf_get_supported_cpuid(0xC0000000, 0, R_EAX);
--        }
--
--        if (lmce_supported()) {
--            object_property_set_bool(OBJECT(cpu), "lmce", true, &error_abort);
--        }
--    } else {
--        object_property_set_str(OBJECT(cpu), "vendor", CPUID_VENDOR_AMD,
--                                &error_abort);
--        object_property_set_int(OBJECT(cpu), "family", 6, &error_abort);
--        object_property_set_int(OBJECT(cpu), "model", 6, &error_abort);
--        object_property_set_int(OBJECT(cpu), "stepping", 3, &error_abort);
--        object_property_set_str(OBJECT(cpu), "model-id",
--                                "QEMU TCG CPU version " QEMU_HW_VERSION,
--                                &error_abort);
--    }
--
-     object_property_set_bool(OBJECT(cpu), "pmu", true, &error_abort);
-+
-+    /*
-+     * these defaults are used for TCG and all other accelerators
-+     * besides KVM and HVF, which overwrite these values
-+     */
-+    object_property_set_str(OBJECT(cpu), "vendor", CPUID_VENDOR_AMD,
-+                            &error_abort);
-+    object_property_set_int(OBJECT(cpu), "family", 6, &error_abort);
-+    object_property_set_int(OBJECT(cpu), "model", 6, &error_abort);
-+    object_property_set_int(OBJECT(cpu), "stepping", 3, &error_abort);
-+    object_property_set_str(OBJECT(cpu), "model-id",
-+                            "QEMU TCG CPU version " QEMU_HW_VERSION,
-+                            &error_abort);
- }
- 
- static const TypeInfo max_x86_cpu_type_info = {
-@@ -4313,31 +4161,6 @@ static const TypeInfo max_x86_cpu_type_info = {
-     .class_init = max_x86_cpu_class_init,
- };
- 
--#if defined(CONFIG_KVM) || defined(CONFIG_HVF)
--static void host_x86_cpu_class_init(ObjectClass *oc, void *data)
--{
--    X86CPUClass *xcc = X86_CPU_CLASS(oc);
--
--    xcc->host_cpuid_required = true;
--    xcc->ordering = 8;
--
--#if defined(CONFIG_KVM)
--    xcc->model_description =
--        "KVM processor with all supported host features ";
--#elif defined(CONFIG_HVF)
--    xcc->model_description =
--        "HVF processor with all supported host features ";
--#endif
--}
--
--static const TypeInfo host_x86_cpu_type_info = {
--    .name = X86_CPU_TYPE_NAME("host"),
--    .parent = X86_CPU_TYPE_NAME("max"),
--    .class_init = host_x86_cpu_class_init,
--};
--
--#endif
--
- static char *feature_word_description(FeatureWordInfo *f, uint32_t bit)
- {
-     assert(f->type == CPUID_FEATURE_WORD || f->type == MSR_FEATURE_WORD);
-@@ -5063,7 +4886,7 @@ static uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
-     return r;
- }
- 
--static void x86_cpu_apply_props(X86CPU *cpu, PropValue *props)
-+void x86_cpu_apply_props(X86CPU *cpu, PropValue *props)
- {
-     PropValue *pv;
-     for (pv = props; pv->prop; pv++) {
-@@ -5110,8 +4933,6 @@ static void x86_cpu_load_model(X86CPU *cpu, X86CPUModel *model)
- {
-     X86CPUDefinition *def = model->cpudef;
-     CPUX86State *env = &cpu->env;
--    const char *vendor;
--    char host_vendor[CPUID_VENDOR_SZ + 1];
-     FeatureWord w;
- 
-     /*NOTE: any property set by this function should be returned by
-@@ -5138,18 +4959,6 @@ static void x86_cpu_load_model(X86CPU *cpu, X86CPUModel *model)
-     /* legacy-cache defaults to 'off' if CPU model provides cache info */
-     cpu->legacy_cache = !def->cache_info;
- 
--    /* Special cases not set in the X86CPUDefinition structs: */
--    /* TODO: in-kernel irqchip for hvf */
--    if (kvm_enabled()) {
--        if (!kvm_irqchip_in_kernel()) {
--            x86_cpu_change_kvm_default("x2apic", "off");
--        }
--
--        x86_cpu_apply_props(cpu, kvm_default_props);
--    } else if (tcg_enabled()) {
--        x86_cpu_apply_props(cpu, tcg_default_props);
--    }
--
-     env->features[FEAT_1_ECX] |= CPUID_EXT_HYPERVISOR;
- 
-     /* sysenter isn't supported in compatibility mode on AMD,
-@@ -5159,15 +4968,12 @@ static void x86_cpu_load_model(X86CPU *cpu, X86CPUModel *model)
-      * KVM's sysenter/syscall emulation in compatibility mode and
-      * when doing cross vendor migration
-      */
--    vendor = def->vendor;
--    if (accel_uses_host_cpuid()) {
--        uint32_t  ebx = 0, ecx = 0, edx = 0;
--        host_cpuid(0, 0, NULL, &ebx, &ecx, &edx);
--        x86_cpu_vendor_words2str(host_vendor, ebx, edx, ecx);
--        vendor = host_vendor;
--    }
- 
--    object_property_set_str(OBJECT(cpu), "vendor", vendor, &error_abort);
-+    /*
-+     * vendor property is set here but then overloaded with the
-+     * host cpu vendor for KVM and HVF.
-+     */
-+    object_property_set_str(OBJECT(cpu), "vendor", def->vendor, &error_abort);
- 
-     x86_cpu_apply_version_props(cpu, model);
- 
-@@ -6192,53 +5998,12 @@ static void x86_cpu_apic_realize(X86CPU *cpu, Error **errp)
-         apic_mmio_map_once = true;
-      }
- }
--
--static void x86_cpu_machine_done(Notifier *n, void *unused)
--{
--    X86CPU *cpu = container_of(n, X86CPU, machine_done);
--    MemoryRegion *smram =
--        (MemoryRegion *) object_resolve_path("/machine/smram", NULL);
--
--    if (smram) {
--        cpu->smram = g_new(MemoryRegion, 1);
--        memory_region_init_alias(cpu->smram, OBJECT(cpu), "smram",
--                                 smram, 0, 4 * GiB);
--        memory_region_set_enabled(cpu->smram, true);
--        memory_region_add_subregion_overlap(cpu->cpu_as_root, 0, cpu->smram, 1);
--    }
--}
- #else
- static void x86_cpu_apic_realize(X86CPU *cpu, Error **errp)
- {
- }
- #endif
- 
--/* Note: Only safe for use on x86(-64) hosts */
--static uint32_t x86_host_phys_bits(void)
--{
--    uint32_t eax;
--    uint32_t host_phys_bits;
--
--    host_cpuid(0x80000000, 0, &eax, NULL, NULL, NULL);
--    if (eax >= 0x80000008) {
--        host_cpuid(0x80000008, 0, &eax, NULL, NULL, NULL);
--        /* Note: According to AMD doc 25481 rev 2.34 they have a field
--         * at 23:16 that can specify a maximum physical address bits for
--         * the guest that can override this value; but I've not seen
--         * anything with that set.
--         */
--        host_phys_bits = eax & 0xff;
--    } else {
--        /* It's an odd 64 bit machine that doesn't have the leaf for
--         * physical address bits; fall back to 36 that's most older
--         * Intel.
--         */
--        host_phys_bits = 36;
--    }
--
--    return host_phys_bits;
--}
--
- static void x86_cpu_adjust_level(X86CPU *cpu, uint32_t *min, uint32_t value)
- {
-     if (*min < value) {
-@@ -6521,27 +6286,15 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
-     Error *local_err = NULL;
-     static bool ht_warned;
- 
--    if (xcc->host_cpuid_required) {
--        if (!accel_uses_host_cpuid()) {
--            g_autofree char *name = x86_cpu_class_get_model_name(xcc);
--            error_setg(&local_err, "CPU model '%s' requires KVM", name);
--            goto out;
--        }
-+    /* The accelerator realizefn needs to be called first. */
-+    if (xcc->accel) {
-+        xcc->accel->realizefn(cpu, errp);
-     }
- 
--    if (cpu->max_features && accel_uses_host_cpuid()) {
--        if (enable_cpu_pm) {
--            host_cpuid(5, 0, &cpu->mwait.eax, &cpu->mwait.ebx,
--                       &cpu->mwait.ecx, &cpu->mwait.edx);
--            env->features[FEAT_1_ECX] |= CPUID_EXT_MONITOR;
--            if (kvm_enabled() && kvm_has_waitpkg()) {
--                env->features[FEAT_7_0_ECX] |= CPUID_7_0_ECX_WAITPKG;
--            }
--        }
--        if (kvm_enabled() && cpu->ucode_rev == 0) {
--            cpu->ucode_rev = kvm_arch_get_supported_msr_feature(kvm_state,
--                                                                MSR_IA32_UCODE_REV);
--        }
-+    if (xcc->host_cpuid_required && !accel_uses_host_cpuid()) {
-+        g_autofree char *name = x86_cpu_class_get_model_name(xcc);
-+        error_setg(&local_err, "CPU model '%s' requires KVM or HVF", name);
-+        goto out;
-     }
- 
-     if (cpu->ucode_rev == 0) {
-@@ -6593,39 +6346,7 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
-      * consumer AMD devices but nothing else.
-      */
-     if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_LM) {
--        if (accel_uses_host_cpuid()) {
--            uint32_t host_phys_bits = x86_host_phys_bits();
--            static bool warned;
--
--            /* Print a warning if the user set it to a value that's not the
--             * host value.
--             */
--            if (cpu->phys_bits != host_phys_bits && cpu->phys_bits != 0 &&
--                !warned) {
--                warn_report("Host physical bits (%u)"
--                            " does not match phys-bits property (%u)",
--                            host_phys_bits, cpu->phys_bits);
--                warned = true;
--            }
--
--            if (cpu->host_phys_bits) {
--                /* The user asked for us to use the host physical bits */
--                cpu->phys_bits = host_phys_bits;
--                if (cpu->host_phys_bits_limit &&
--                    cpu->phys_bits > cpu->host_phys_bits_limit) {
--                    cpu->phys_bits = cpu->host_phys_bits_limit;
--                }
--            }
--
--            if (cpu->phys_bits &&
--                (cpu->phys_bits > TARGET_PHYS_ADDR_SPACE_BITS ||
--                cpu->phys_bits < 32)) {
--                error_setg(errp, "phys-bits should be between 32 and %u "
--                                 " (but is %u)",
--                                 TARGET_PHYS_ADDR_SPACE_BITS, cpu->phys_bits);
--                return;
--            }
--        } else {
-+        if (!accel_uses_host_cpuid()) {
-             if (cpu->phys_bits && cpu->phys_bits != TCG_PHYS_ADDR_BITS) {
-                 error_setg(errp, "TCG only supports phys-bits=%u",
-                                   TCG_PHYS_ADDR_BITS);
-@@ -6633,8 +6354,8 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
-             }
-         }
-         /* 0 means it was not explicitly set by the user (or by machine
--         * compat_props or by the host code above). In this case, the default
--         * is the value used by TCG (40).
-+         * compat_props or by the host code in host-cpu.c).
-+         * In this case, the default is the value used by TCG (40).
-          */
-         if (cpu->phys_bits == 0) {
-             cpu->phys_bits = TCG_PHYS_ADDR_BITS;
-@@ -6704,33 +6425,6 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
- 
-     mce_init(cpu);
- 
--#ifndef CONFIG_USER_ONLY
--    if (tcg_enabled()) {
--        cpu->cpu_as_mem = g_new(MemoryRegion, 1);
--        cpu->cpu_as_root = g_new(MemoryRegion, 1);
--
--        /* Outer container... */
--        memory_region_init(cpu->cpu_as_root, OBJECT(cpu), "memory", ~0ull);
--        memory_region_set_enabled(cpu->cpu_as_root, true);
--
--        /* ... with two regions inside: normal system memory with low
--         * priority, and...
--         */
--        memory_region_init_alias(cpu->cpu_as_mem, OBJECT(cpu), "memory",
--                                 get_system_memory(), 0, ~0ull);
--        memory_region_add_subregion_overlap(cpu->cpu_as_root, 0, cpu->cpu_as_mem, 0);
--        memory_region_set_enabled(cpu->cpu_as_mem, true);
--
--        cs->num_ases = 2;
--        cpu_address_space_init(cs, 0, "cpu-memory", cs->memory);
--        cpu_address_space_init(cs, 1, "cpu-smm", cpu->cpu_as_root);
--
--        /* ... SMRAM with higher priority, linked from /machine/smram.  */
--        cpu->machine_done.notify = x86_cpu_machine_done;
--        qemu_add_machine_init_done_notifier(&cpu->machine_done);
--    }
--#endif
--
-     qemu_init_vcpu(cs);
- 
-     /*
-@@ -6992,6 +6686,11 @@ static void x86_cpu_initfn(Object *obj)
-     if (xcc->model) {
-         x86_cpu_load_model(cpu, xcc->model);
-     }
-+
-+    /* if required, do the accelerator-specific cpu initialization */
-+    if (xcc->accel) {
-+        xcc->accel->instance_init(cpu);
-+    }
- }
- 
- static int64_t x86_cpu_get_arch_id(CPUState *cs)
-@@ -7248,11 +6947,6 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
-     cc->class_by_name = x86_cpu_class_by_name;
-     cc->parse_features = x86_cpu_parse_featurestr;
-     cc->has_work = x86_cpu_has_work;
--
--#ifdef CONFIG_TCG
--    tcg_cpu_common_class_init(cc);
--#endif /* CONFIG_TCG */
--
-     cc->dump_state = x86_cpu_dump_state;
-     cc->set_pc = x86_cpu_set_pc;
-     cc->gdb_read_register = x86_cpu_gdb_read_register;
-@@ -7357,9 +7051,20 @@ static void x86_cpu_register_types(void)
-     }
-     type_register_static(&max_x86_cpu_type_info);
-     type_register_static(&x86_base_cpu_type_info);
--#if defined(CONFIG_KVM) || defined(CONFIG_HVF)
--    type_register_static(&host_x86_cpu_type_info);
--#endif
- }
- 
- type_init(x86_cpu_register_types)
-+
-+static void x86_cpu_accel_init_aux(ObjectClass *klass, void *opaque)
-+{
-+    X86CPUClass *xcc = X86_CPU_CLASS(klass);
-+    const X86CPUAccel **accel = opaque;
-+
-+    xcc->accel = *accel;
-+    xcc->accel->common_class_init(xcc);
-+}
-+
-+void x86_cpu_accel_init(const X86CPUAccel *accel)
-+{
-+    object_class_foreach(x86_cpu_accel_init_aux, TYPE_X86_CPU, false, &accel);
-+}
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index a0d64613dc..b3e39fc631 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1905,13 +1905,20 @@ int cpu_x86_signal_handler(int host_signum, void *pinfo,
-                            void *puc);
- 
- /* cpu.c */
-+void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
-+                              uint32_t vendor2, uint32_t vendor3);
-+typedef struct PropValue {
-+    const char *prop, *value;
-+} PropValue;
-+void x86_cpu_apply_props(X86CPU *cpu, PropValue *props);
-+
-+/* cpu.c other functions (cpuid) */
- void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-                    uint32_t *eax, uint32_t *ebx,
-                    uint32_t *ecx, uint32_t *edx);
- void cpu_clear_apic_feature(CPUX86State *env);
- void host_cpuid(uint32_t function, uint32_t count,
-                 uint32_t *eax, uint32_t *ebx, uint32_t *ecx, uint32_t *edx);
--void host_vendor_fms(char *vendor, int *family, int *model, int *stepping);
- 
- /* helper.c */
- void x86_cpu_set_a20(X86CPU *cpu, int a20_state);
-@@ -2111,17 +2118,6 @@ void cpu_report_tpr_access(CPUX86State *env, TPRAccess access);
- void apic_handle_tpr_access_report(DeviceState *d, target_ulong ip,
-                                    TPRAccess access);
- 
--
--/* Change the value of a KVM-specific default
-- *
-- * If value is NULL, no default will be set and the original
-- * value from the CPU model table will be kept.
-- *
-- * It is valid to call this function only for properties that
-- * are already present in the kvm_default_props table.
-- */
--void x86_cpu_change_kvm_default(const char *prop, const char *value);
--
- /* Special values for X86CPUVersion: */
- 
- /* Resolve to latest CPU version */
-diff --git a/target/i386/host-cpu.c b/target/i386/host-cpu.c
-new file mode 100644
-index 0000000000..4c65d77bab
---- /dev/null
-+++ b/target/i386/host-cpu.c
-@@ -0,0 +1,196 @@
-+/*
-+ * x86 host CPU functions, and "host" cpu type initialization
-+ *
-+ * Copyright 2020 SUSE LLC
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "host-cpu.h"
-+#include "qapi/error.h"
-+#include "sysemu/sysemu.h"
-+#include "hw/boards.h"
-+
-+/* Note: Only safe for use on x86(-64) hosts */
-+static uint32_t host_cpu_phys_bits(void)
-+{
-+    uint32_t eax;
-+    uint32_t host_phys_bits;
-+
-+    host_cpuid(0x80000000, 0, &eax, NULL, NULL, NULL);
-+    if (eax >= 0x80000008) {
-+        host_cpuid(0x80000008, 0, &eax, NULL, NULL, NULL);
-+        /*
-+         * Note: According to AMD doc 25481 rev 2.34 they have a field
-+         * at 23:16 that can specify a maximum physical address bits for
-+         * the guest that can override this value; but I've not seen
-+         * anything with that set.
-+         */
-+        host_phys_bits = eax & 0xff;
-+    } else {
-+        /*
-+         * It's an odd 64 bit machine that doesn't have the leaf for
-+         * physical address bits; fall back to 36 that's most older
-+         * Intel.
-+         */
-+        host_phys_bits = 36;
-+    }
-+
-+    return host_phys_bits;
-+}
-+
-+static void host_cpu_enable_cpu_pm(X86CPU *cpu)
-+{
-+    CPUX86State *env = &cpu->env;
-+
-+    host_cpuid(5, 0, &cpu->mwait.eax, &cpu->mwait.ebx,
-+               &cpu->mwait.ecx, &cpu->mwait.edx);
-+    env->features[FEAT_1_ECX] |= CPUID_EXT_MONITOR;
-+}
-+
-+static uint32_t host_cpu_adjust_phys_bits(X86CPU *cpu, Error **errp)
-+{
-+    uint32_t host_phys_bits = host_cpu_phys_bits();
-+    uint32_t phys_bits = cpu->phys_bits;
-+    static bool warned;
-+
-+    /*
-+     * Print a warning if the user set it to a value that's not the
-+     * host value.
-+     */
-+    if (phys_bits != host_phys_bits && phys_bits != 0 &&
-+        !warned) {
-+        warn_report("Host physical bits (%u)"
-+                    " does not match phys-bits property (%u)",
-+                    host_phys_bits, phys_bits);
-+        warned = true;
-+    }
-+
-+    if (cpu->host_phys_bits) {
-+        /* The user asked for us to use the host physical bits */
-+        phys_bits = host_phys_bits;
-+        if (cpu->host_phys_bits_limit &&
-+            phys_bits > cpu->host_phys_bits_limit) {
-+            phys_bits = cpu->host_phys_bits_limit;
-+        }
-+    }
-+
-+    if (phys_bits &&
-+        (phys_bits > TARGET_PHYS_ADDR_SPACE_BITS ||
-+         phys_bits < 32)) {
-+        error_setg(errp, "phys-bits should be between 32 and %u "
-+                   " (but is %u)",
-+                   TARGET_PHYS_ADDR_SPACE_BITS, phys_bits);
-+    }
-+
-+    return phys_bits;
-+}
-+
-+void host_cpu_realizefn(X86CPU *cpu, Error **errp)
-+{
-+    CPUX86State *env = &cpu->env;
-+
-+    if (cpu->max_features && enable_cpu_pm) {
-+        host_cpu_enable_cpu_pm(cpu);
-+    }
-+    if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_LM) {
-+        cpu->phys_bits = host_cpu_adjust_phys_bits(cpu, errp);
-+    }
-+}
-+
-+#define CPUID_MODEL_ID_SZ 48
-+/**
-+ * cpu_x86_fill_model_id:
-+ * Get CPUID model ID string from host CPU.
-+ *
-+ * @str should have at least CPUID_MODEL_ID_SZ bytes
-+ *
-+ * The function does NOT add a null terminator to the string
-+ * automatically.
-+ */
-+static int host_cpu_fill_model_id(char *str)
-+{
-+    uint32_t eax = 0, ebx = 0, ecx = 0, edx = 0;
-+    int i;
-+
-+    for (i = 0; i < 3; i++) {
-+        host_cpuid(0x80000002 + i, 0, &eax, &ebx, &ecx, &edx);
-+        memcpy(str + i * 16 +  0, &eax, 4);
-+        memcpy(str + i * 16 +  4, &ebx, 4);
-+        memcpy(str + i * 16 +  8, &ecx, 4);
-+        memcpy(str + i * 16 + 12, &edx, 4);
-+    }
-+    return 0;
-+}
-+
-+void host_cpu_vendor_fms(char *vendor, int *family, int *model, int *stepping)
-+{
-+    uint32_t eax, ebx, ecx, edx;
-+
-+    host_cpuid(0x0, 0, &eax, &ebx, &ecx, &edx);
-+    x86_cpu_vendor_words2str(vendor, ebx, edx, ecx);
-+
-+    host_cpuid(0x1, 0, &eax, &ebx, &ecx, &edx);
-+    if (family) {
-+        *family = ((eax >> 8) & 0x0F) + ((eax >> 20) & 0xFF);
-+    }
-+    if (model) {
-+        *model = ((eax >> 4) & 0x0F) | ((eax & 0xF0000) >> 12);
-+    }
-+    if (stepping) {
-+        *stepping = eax & 0x0F;
-+    }
-+}
-+
-+void host_cpu_instance_init(X86CPU *cpu)
-+{
-+    uint32_t ebx = 0, ecx = 0, edx = 0;
-+    char vendor[CPUID_VENDOR_SZ + 1];
-+
-+    host_cpuid(0, 0, NULL, &ebx, &ecx, &edx);
-+    x86_cpu_vendor_words2str(vendor, ebx, edx, ecx);
-+
-+    object_property_set_str(OBJECT(cpu), "vendor", vendor, &error_abort);
-+}
-+
-+void host_cpu_max_instance_init(X86CPU *cpu)
-+{
-+    char vendor[CPUID_VENDOR_SZ + 1] = { 0 };
-+    char model_id[CPUID_MODEL_ID_SZ + 1] = { 0 };
-+    int family, model, stepping;
-+
-+    host_cpu_vendor_fms(vendor, &family, &model, &stepping);
-+    host_cpu_fill_model_id(model_id);
-+
-+    object_property_set_str(OBJECT(cpu), "vendor", vendor, &error_abort);
-+    object_property_set_int(OBJECT(cpu), "family", family, &error_abort);
-+    object_property_set_int(OBJECT(cpu), "model", model, &error_abort);
-+    object_property_set_int(OBJECT(cpu), "stepping", stepping,
-+                            &error_abort);
-+    object_property_set_str(OBJECT(cpu), "model-id", model_id,
-+                            &error_abort);
-+}
-+
-+void host_cpu_class_init(X86CPUClass *xcc)
-+{
-+    xcc->host_cpuid_required = true;
-+    xcc->ordering = 8;
-+    xcc->model_description =
-+        g_strdup_printf("%s processor with all supported host features ",
-+                        xcc->accel->name);
-+}
-+
-+static const TypeInfo host_cpu_type_info = {
-+    .name = X86_CPU_TYPE_NAME("host"),
-+    .parent = X86_CPU_TYPE_NAME("max"),
-+};
-+
-+static void host_cpu_type_init(void)
-+{
-+    type_register_static(&host_cpu_type_info);
-+}
-+
-+type_init(host_cpu_type_init);
-diff --git a/target/i386/host-cpu.h b/target/i386/host-cpu.h
-new file mode 100644
-index 0000000000..5cebb415eb
---- /dev/null
-+++ b/target/i386/host-cpu.h
-@@ -0,0 +1,20 @@
-+/*
-+ * x86 host CPU type initialization and host CPU functions
-+ *
-+ * Copyright 2020 SUSE LLC
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef HOST_CPU_H
-+#define HOST_CPU_H
-+
-+void host_cpu_class_init(X86CPUClass *xcc);
-+void host_cpu_instance_init(X86CPU *cpu);
-+void host_cpu_max_instance_init(X86CPU *cpu);
-+void host_cpu_realizefn(X86CPU *cpu, Error **errp);
-+
-+void host_cpu_vendor_fms(char *vendor, int *family, int *model, int *stepping);
-+
-+#endif /* HOST_CPU_H */
-diff --git a/target/i386/hvf/cpu.c b/target/i386/hvf/cpu.c
-new file mode 100644
-index 0000000000..e72515224c
---- /dev/null
-+++ b/target/i386/hvf/cpu.c
-@@ -0,0 +1,64 @@
-+/*
-+ * x86 HVF CPU type initialization
-+ *
-+ * Copyright 2020 SUSE LLC
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "host-cpu.h"
-+#include "qapi/error.h"
-+#include "sysemu/sysemu.h"
-+#include "hw/boards.h"
-+#include "sysemu/hvf.h"
-+
-+static void hvf_cpu_common_class_init(X86CPUClass *xcc)
-+{
-+    host_cpu_class_init(xcc);
-+}
-+
-+static void hvf_cpu_max_instance_init(X86CPU *cpu)
-+{
-+    CPUX86State *env = &cpu->env;
-+
-+    host_cpu_max_instance_init(cpu);
-+
-+    env->cpuid_min_level =
-+        hvf_get_supported_cpuid(0x0, 0, R_EAX);
-+    env->cpuid_min_xlevel =
-+        hvf_get_supported_cpuid(0x80000000, 0, R_EAX);
-+    env->cpuid_min_xlevel2 =
-+        hvf_get_supported_cpuid(0xC0000000, 0, R_EAX);
-+}
-+
-+static void hvf_cpu_instance_init(X86CPU *cpu)
-+{
-+    host_cpu_instance_init(cpu);
-+
-+    /* Special cases not set in the X86CPUDefinition structs: */
-+    /* TODO: in-kernel irqchip for hvf */
-+
-+    if (cpu->max_features) {
-+        hvf_cpu_max_instance_init(cpu);
-+    }
-+}
-+
-+static const X86CPUAccel hvf_cpu_accel = {
-+    .name = TYPE_X86_CPU "-hvf",
-+
-+    .realizefn = host_cpu_realizefn,
-+    .common_class_init = hvf_cpu_common_class_init,
-+    .instance_init = hvf_cpu_instance_init,
-+};
-+
-+static void hvf_cpu_accel_init(void)
-+{
-+    if (hvf_enabled()) {
-+        x86_cpu_accel_init(&hvf_cpu_accel);
-+    }
-+}
-+
-+accel_cpu_init(hvf_cpu_accel_init);
-diff --git a/target/i386/hvf/meson.build b/target/i386/hvf/meson.build
-index 409c9a3f14..a7fba5724c 100644
---- a/target/i386/hvf/meson.build
-+++ b/target/i386/hvf/meson.build
-@@ -10,4 +10,5 @@ i386_softmmu_ss.add(when: [hvf, 'CONFIG_HVF'], if_true: files(
-   'x86_mmu.c',
-   'x86_task.c',
-   'x86hvf.c',
-+  'cpu.c',
- ))
-diff --git a/target/i386/kvm/cpu.c b/target/i386/kvm/cpu.c
-new file mode 100644
-index 0000000000..0a589872ed
---- /dev/null
-+++ b/target/i386/kvm/cpu.c
-@@ -0,0 +1,145 @@
-+/*
-+ * x86 KVM CPU type initialization
-+ *
-+ * Copyright 2020 SUSE LLC
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "host-cpu.h"
-+#include "kvm-cpu.h"
-+#include "qapi/error.h"
-+#include "sysemu/sysemu.h"
-+#include "hw/boards.h"
-+
-+#include "kvm_i386.h"
-+
-+static void kvm_cpu_realizefn(X86CPU *cpu, Error **errp)
-+{
-+    CPUX86State *env = &cpu->env;
-+
-+    /*
-+     * The realize order is important, since x86_cpu_realize() checks if
-+     * nothing else has been set by the user (or by accelerators) in
-+     * cpu->ucode_rev and cpu->phys_bits.
-+     *
-+     * realize order:
-+     * kvm_cpu -> host_cpu -> x86_cpu
-+     */
-+    if (cpu->max_features) {
-+        if (enable_cpu_pm && kvm_has_waitpkg()) {
-+            env->features[FEAT_7_0_ECX] |= CPUID_7_0_ECX_WAITPKG;
-+        }
-+        if (cpu->ucode_rev == 0) {
-+            cpu->ucode_rev =
-+                kvm_arch_get_supported_msr_feature(kvm_state,
-+                                                   MSR_IA32_UCODE_REV);
-+        }
-+    }
-+    host_cpu_realizefn(cpu, errp);
-+}
-+
-+static void kvm_cpu_common_class_init(X86CPUClass *xcc)
-+{
-+    host_cpu_class_init(xcc);
-+}
-+
-+/*
-+ * KVM-specific features that are automatically added/removed
-+ * from all CPU models when KVM is enabled.
-+ */
-+static PropValue kvm_default_props[] = {
-+    { "kvmclock", "on" },
-+    { "kvm-nopiodelay", "on" },
-+    { "kvm-asyncpf", "on" },
-+    { "kvm-steal-time", "on" },
-+    { "kvm-pv-eoi", "on" },
-+    { "kvmclock-stable-bit", "on" },
-+    { "x2apic", "on" },
-+    { "acpi", "off" },
-+    { "monitor", "off" },
-+    { "svm", "off" },
-+    { NULL, NULL },
-+};
-+
-+void x86_cpu_change_kvm_default(const char *prop, const char *value)
-+{
-+    PropValue *pv;
-+    for (pv = kvm_default_props; pv->prop; pv++) {
-+        if (!strcmp(pv->prop, prop)) {
-+            pv->value = value;
-+            break;
-+        }
-+    }
-+
-+    /*
-+     * It is valid to call this function only for properties that
-+     * are already present in the kvm_default_props table.
-+     */
-+    assert(pv->prop);
-+}
-+
-+static bool lmce_supported(void)
-+{
-+    uint64_t mce_cap = 0;
-+
-+    if (kvm_ioctl(kvm_state, KVM_X86_GET_MCE_CAP_SUPPORTED, &mce_cap) < 0) {
-+        return false;
-+    }
-+    return !!(mce_cap & MCG_LMCE_P);
-+}
-+
-+static void kvm_cpu_max_instance_init(X86CPU *cpu)
-+{
-+    CPUX86State *env = &cpu->env;
-+    KVMState *s = kvm_state;
-+
-+    host_cpu_max_instance_init(cpu);
-+
-+    if (lmce_supported()) {
-+        object_property_set_bool(OBJECT(cpu), "lmce", true, &error_abort);
-+    }
-+
-+    env->cpuid_min_level =
-+        kvm_arch_get_supported_cpuid(s, 0x0, 0, R_EAX);
-+    env->cpuid_min_xlevel =
-+        kvm_arch_get_supported_cpuid(s, 0x80000000, 0, R_EAX);
-+    env->cpuid_min_xlevel2 =
-+        kvm_arch_get_supported_cpuid(s, 0xC0000000, 0, R_EAX);
-+}
-+
-+static void kvm_cpu_instance_init(X86CPU *cpu)
-+{
-+    host_cpu_instance_init(cpu);
-+
-+    if (!kvm_irqchip_in_kernel()) {
-+        x86_cpu_change_kvm_default("x2apic", "off");
-+    }
-+
-+    /* Special cases not set in the X86CPUDefinition structs: */
-+
-+    x86_cpu_apply_props(cpu, kvm_default_props);
-+
-+    if (cpu->max_features) {
-+        kvm_cpu_max_instance_init(cpu);
-+    }
-+}
-+
-+static const X86CPUAccel kvm_cpu_accel = {
-+    .name = TYPE_X86_CPU "-kvm",
-+
-+    .realizefn = kvm_cpu_realizefn,
-+    .common_class_init = kvm_cpu_common_class_init,
-+    .instance_init = kvm_cpu_instance_init,
-+};
-+
-+static void kvm_cpu_accel_init(void)
-+{
-+    if (kvm_enabled()) {
-+        x86_cpu_accel_init(&kvm_cpu_accel);
-+    }
-+}
-+accel_cpu_init(kvm_cpu_accel_init);
-diff --git a/target/i386/kvm/kvm-cpu.h b/target/i386/kvm/kvm-cpu.h
-new file mode 100644
-index 0000000000..e858ca21e5
---- /dev/null
-+++ b/target/i386/kvm/kvm-cpu.h
-@@ -0,0 +1,41 @@
-+/*
-+ * i386 KVM CPU type and functions
-+ *
-+ *  Copyright (c) 2003 Fabrice Bellard
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#ifndef KVM_CPU_H
-+#define KVM_CPU_H
-+
-+#ifdef CONFIG_KVM
-+/*
-+ * Change the value of a KVM-specific default
-+ *
-+ * If value is NULL, no default will be set and the original
-+ * value from the CPU model table will be kept.
-+ *
-+ * It is valid to call this function only for properties that
-+ * are already present in the kvm_default_props table.
-+ */
-+void x86_cpu_change_kvm_default(const char *prop, const char *value);
-+
-+#else /* !CONFIG_KVM */
-+
-+#define x86_cpu_change_kvm_default(a, b)
-+
-+#endif /* CONFIG_KVM */
-+
-+#endif /* KVM_CPU_H */
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index a2934dda02..35c86fdba6 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -22,6 +22,7 @@
- #include "standard-headers/asm-x86/kvm_para.h"
- 
- #include "cpu.h"
-+#include "host-cpu.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/hw_accel.h"
- #include "sysemu/kvm_int.h"
-@@ -285,7 +286,7 @@ static bool host_tsx_broken(void)
-     int family, model, stepping;\
-     char vendor[CPUID_VENDOR_SZ + 1];
- 
--    host_vendor_fms(vendor, &family, &model, &stepping);
-+    host_cpu_vendor_fms(vendor, &family, &model, &stepping);
- 
-     /* Check if we are running on a Haswell host known to have broken TSX */
-     return !strcmp(vendor, CPUID_VENDOR_INTEL) &&
-diff --git a/target/i386/kvm/meson.build b/target/i386/kvm/meson.build
-index 1d66559187..0bc3724eb3 100644
---- a/target/i386/kvm/meson.build
-+++ b/target/i386/kvm/meson.build
-@@ -1,3 +1,8 @@
- i386_ss.add(when: 'CONFIG_KVM', if_false: files('kvm-stub.c'))
--i386_softmmu_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'))
-+
-+i386_softmmu_ss.add(when: 'CONFIG_KVM', if_true: files(
-+  'kvm.c',
-+  'cpu.c',
-+))
-+
- i386_softmmu_ss.add(when: 'CONFIG_HYPERV', if_true: files('hyperv.c'), if_false: files('hyperv-stub.c'))
-diff --git a/target/i386/meson.build b/target/i386/meson.build
-index 9c20208e5a..4e6e915e7f 100644
---- a/target/i386/meson.build
-+++ b/target/i386/meson.build
-@@ -6,8 +6,12 @@ i386_ss.add(files(
-   'xsave_helper.c',
-   'cpu-dump.c',
- ))
--i386_ss.add(when: 'CONFIG_TCG', if_true: files('tcg-cpu.c'))
--i386_ss.add(when: 'CONFIG_SEV', if_true: files('sev.c'), if_false: files('sev-stub.c'))
-+
-+i386_ss.add(when: 'CONFIG_SEV', if_true: files('host-cpu.c', 'sev.c'), if_false: files('sev-stub.c'))
-+
-+# x86 cpu type
-+i386_ss.add(when: 'CONFIG_KVM', if_true: files('host-cpu.c'))
-+i386_ss.add(when: 'CONFIG_HVF', if_true: files('host-cpu.c'))
- 
- i386_softmmu_ss = ss.source_set()
- i386_softmmu_ss.add(files(
-diff --git a/target/i386/tcg-cpu.c b/target/i386/tcg-cpu.c
-deleted file mode 100644
-index 628dd29fe7..0000000000
---- a/target/i386/tcg-cpu.c
-+++ /dev/null
-@@ -1,71 +0,0 @@
--/*
-- * i386 TCG cpu class initialization
-- *
-- *  Copyright (c) 2003 Fabrice Bellard
-- *
-- * This library is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU Lesser General Public
-- * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-- *
-- * This library is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-- * Lesser General Public License for more details.
-- *
-- * You should have received a copy of the GNU Lesser General Public
-- * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-- */
--
--#include "qemu/osdep.h"
--#include "cpu.h"
--#include "tcg-cpu.h"
--#include "exec/exec-all.h"
--#include "sysemu/runstate.h"
--#include "helper-tcg.h"
--
--#if !defined(CONFIG_USER_ONLY)
--#include "hw/i386/apic.h"
--#endif
--
--/* Frob eflags into and out of the CPU temporary format.  */
--
--static void x86_cpu_exec_enter(CPUState *cs)
--{
--    X86CPU *cpu = X86_CPU(cs);
--    CPUX86State *env = &cpu->env;
--
--    CC_SRC = env->eflags & (CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C);
--    env->df = 1 - (2 * ((env->eflags >> 10) & 1));
--    CC_OP = CC_OP_EFLAGS;
--    env->eflags &= ~(DF_MASK | CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C);
--}
--
--static void x86_cpu_exec_exit(CPUState *cs)
--{
--    X86CPU *cpu = X86_CPU(cs);
--    CPUX86State *env = &cpu->env;
--
--    env->eflags = cpu_compute_eflags(env);
--}
--
--static void x86_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
--{
--    X86CPU *cpu = X86_CPU(cs);
--
--    cpu->env.eip = tb->pc - tb->cs_base;
--}
--
--void tcg_cpu_common_class_init(CPUClass *cc)
--{
--    cc->do_interrupt = x86_cpu_do_interrupt;
--    cc->cpu_exec_interrupt = x86_cpu_exec_interrupt;
--    cc->synchronize_from_tb = x86_cpu_synchronize_from_tb;
--    cc->cpu_exec_enter = x86_cpu_exec_enter;
--    cc->cpu_exec_exit = x86_cpu_exec_exit;
--    cc->tcg_initialize = tcg_x86_init;
--    cc->tlb_fill = x86_cpu_tlb_fill;
--#ifndef CONFIG_USER_ONLY
--    cc->debug_excp_handler = breakpoint_handler;
--#endif
--}
-diff --git a/target/i386/tcg-cpu.h b/target/i386/tcg-cpu.h
-deleted file mode 100644
-index 81f02e562e..0000000000
---- a/target/i386/tcg-cpu.h
-+++ /dev/null
-@@ -1,15 +0,0 @@
--/*
-- * i386 TCG CPU class initialization
-- *
-- * Copyright 2020 SUSE LLC
-- *
-- * This work is licensed under the terms of the GNU GPL, version 2 or later.
-- * See the COPYING file in the top-level directory.
-- */
--
--#ifndef TCG_CPU_H
--#define TCG_CPU_H
--
--void tcg_cpu_common_class_init(CPUClass *cc);
--
--#endif /* TCG_CPU_H */
-diff --git a/target/i386/tcg/cpu.c b/target/i386/tcg/cpu.c
-new file mode 100644
-index 0000000000..25cf4cfb46
---- /dev/null
-+++ b/target/i386/tcg/cpu.c
-@@ -0,0 +1,168 @@
-+/*
-+ * i386 TCG cpu class initialization
-+ *
-+ *  Copyright (c) 2003 Fabrice Bellard
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/units.h"
-+#include "cpu.h"
-+#include "helper-tcg.h"
-+#include "sysemu/sysemu.h"
-+
-+#ifndef CONFIG_USER_ONLY
-+#include "exec/address-spaces.h"
-+#endif
-+
-+/* Frob eflags into and out of the CPU temporary format.  */
-+
-+static void x86_cpu_exec_enter(CPUState *cs)
-+{
-+    X86CPU *cpu = X86_CPU(cs);
-+    CPUX86State *env = &cpu->env;
-+
-+    CC_SRC = env->eflags & (CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C);
-+    env->df = 1 - (2 * ((env->eflags >> 10) & 1));
-+    CC_OP = CC_OP_EFLAGS;
-+    env->eflags &= ~(DF_MASK | CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C);
-+}
-+
-+static void x86_cpu_exec_exit(CPUState *cs)
-+{
-+    X86CPU *cpu = X86_CPU(cs);
-+    CPUX86State *env = &cpu->env;
-+
-+    env->eflags = cpu_compute_eflags(env);
-+}
-+
-+static void x86_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
-+{
-+    X86CPU *cpu = X86_CPU(cs);
-+
-+    cpu->env.eip = tb->pc - tb->cs_base;
-+}
-+
-+#ifndef CONFIG_USER_ONLY
-+
-+static void x86_cpu_machine_done(Notifier *n, void *unused)
-+{
-+    X86CPU *cpu = container_of(n, X86CPU, machine_done);
-+    MemoryRegion *smram =
-+        (MemoryRegion *) object_resolve_path("/machine/smram", NULL);
-+
-+    if (smram) {
-+        cpu->smram = g_new(MemoryRegion, 1);
-+        memory_region_init_alias(cpu->smram, OBJECT(cpu), "smram",
-+                                 smram, 0, 4 * GiB);
-+        memory_region_set_enabled(cpu->smram, true);
-+        memory_region_add_subregion_overlap(cpu->cpu_as_root, 0,
-+                                            cpu->smram, 1);
-+    }
-+}
-+
-+static void tcg_cpu_realizefn(X86CPU *cpu, Error **errp)
-+{
-+    CPUState *cs = CPU(cpu);
-+
-+    /*
-+     * The realize order is important, since x86_cpu_realize() checks if
-+     * nothing else has been set by the user (or by accelerators) in
-+     * cpu->ucode_rev and cpu->phys_bits, and the memory regions
-+     * initialized here are needed for the vcpu initialization.
-+     *
-+     * realize order:
-+     * tcg_cpu -> host_cpu -> x86_cpu
-+     */
-+    cpu->cpu_as_mem = g_new(MemoryRegion, 1);
-+    cpu->cpu_as_root = g_new(MemoryRegion, 1);
-+
-+    /* Outer container... */
-+    memory_region_init(cpu->cpu_as_root, OBJECT(cpu), "memory", ~0ull);
-+    memory_region_set_enabled(cpu->cpu_as_root, true);
-+
-+    /*
-+     * ... with two regions inside: normal system memory with low
-+     * priority, and...
-+     */
-+    memory_region_init_alias(cpu->cpu_as_mem, OBJECT(cpu), "memory",
-+                             get_system_memory(), 0, ~0ull);
-+    memory_region_add_subregion_overlap(cpu->cpu_as_root, 0, cpu->cpu_as_mem, 0);
-+    memory_region_set_enabled(cpu->cpu_as_mem, true);
-+
-+    cs->num_ases = 2;
-+    cpu_address_space_init(cs, 0, "cpu-memory", cs->memory);
-+    cpu_address_space_init(cs, 1, "cpu-smm", cpu->cpu_as_root);
-+
-+    /* ... SMRAM with higher priority, linked from /machine/smram.  */
-+    cpu->machine_done.notify = x86_cpu_machine_done;
-+    qemu_add_machine_init_done_notifier(&cpu->machine_done);
-+}
-+
-+#else /* CONFIG_USER_ONLY */
-+
-+static void tcg_cpu_realizefn(X86CPU *cpu, Error **errp)
-+{
-+}
-+
-+#endif /* !CONFIG_USER_ONLY */
-+
-+
-+static void tcg_cpu_common_class_init(X86CPUClass *xcc)
-+{
-+    CPUClass *cc = CPU_CLASS(xcc);
-+
-+    cc->do_interrupt = x86_cpu_do_interrupt;
-+    cc->cpu_exec_interrupt = x86_cpu_exec_interrupt;
-+    cc->synchronize_from_tb = x86_cpu_synchronize_from_tb;
-+    cc->cpu_exec_enter = x86_cpu_exec_enter;
-+    cc->cpu_exec_exit = x86_cpu_exec_exit;
-+    cc->tcg_initialize = tcg_x86_init;
-+    cc->tlb_fill = x86_cpu_tlb_fill;
-+#ifndef CONFIG_USER_ONLY
-+    cc->debug_excp_handler = breakpoint_handler;
-+#endif /* !CONFIG_USER_ONLY */
-+}
-+
-+/*
-+ * TCG-specific defaults that override all CPU models when using TCG
-+ */
-+static PropValue tcg_default_props[] = {
-+    { "vme", "off" },
-+    { NULL, NULL },
-+};
-+
-+static void tcg_cpu_instance_init(X86CPU *cpu)
-+{
-+    /* Special cases not set in the X86CPUDefinition structs: */
-+    x86_cpu_apply_props(cpu, tcg_default_props);
-+}
-+
-+static const X86CPUAccel tcg_cpu_accel = {
-+    .name = TYPE_X86_CPU "-tcg",
-+
-+    .realizefn = tcg_cpu_realizefn,
-+    .common_class_init = tcg_cpu_common_class_init,
-+    .instance_init = tcg_cpu_instance_init,
-+};
-+
-+static void tcg_cpu_accel_init(void)
-+{
-+    if (tcg_enabled()) {
-+        x86_cpu_accel_init(&tcg_cpu_accel);
-+    }
-+}
-+
-+accel_cpu_init(tcg_cpu_accel_init);
-diff --git a/target/i386/tcg/meson.build b/target/i386/tcg/meson.build
-index 02794226c2..9e439df9c7 100644
---- a/target/i386/tcg/meson.build
-+++ b/target/i386/tcg/meson.build
-@@ -10,4 +10,5 @@ i386_ss.add(when: 'CONFIG_TCG', if_true: files(
-   'seg_helper.c',
-   'smm_helper.c',
-   'svm_helper.c',
--  'translate.c'), if_false: files('tcg-stub.c'))
-+  'translate.c',
-+  'cpu.c'), if_false: files('tcg-stub.c'))
--- 
-2.26.2
+CgpPbiAxNi4xMS4yMCAxNjozNCwgQ2F0YW5naXUsIEFkcmlhbiBDb3N0aW4gd3JvdGU6Cj4gLSBC
+YWNrZ3JvdW5kCj4gCj4gVGhlIFZNIEdlbmVyYXRpb24gSUQgaXMgYSBmZWF0dXJlIGRlZmluZWQg
+YnkgTWljcm9zb2Z0IChwYXBlcjoKPiBodHRwOi8vZ28ubWljcm9zb2Z0LmNvbS9md2xpbmsvP0xp
+bmtJZD0yNjA3MDkpIGFuZCBzdXBwb3J0ZWQgYnkKPiBtdWx0aXBsZSBoeXBlcnZpc29yIHZlbmRv
+cnMuCj4gCj4gVGhlIGZlYXR1cmUgaXMgcmVxdWlyZWQgaW4gdmlydHVhbGl6ZWQgZW52aXJvbm1l
+bnRzIGJ5IGFwcHMgdGhhdCB3b3JrCj4gd2l0aCBsb2NhbCBjb3BpZXMvY2FjaGVzIG9mIHdvcmxk
+LXVuaXF1ZSBkYXRhIHN1Y2ggYXMgcmFuZG9tIHZhbHVlcywKPiB1dWlkcywgbW9ub3RvbmljYWxs
+eSBpbmNyZWFzaW5nIGNvdW50ZXJzLCBldGMuCj4gU3VjaCBhcHBzIGNhbiBiZSBuZWdhdGl2ZWx5
+IGFmZmVjdGVkIGJ5IFZNIHNuYXBzaG90dGluZyB3aGVuIHRoZSBWTQo+IGlzIGVpdGhlciBjbG9u
+ZWQgb3IgcmV0dXJuZWQgdG8gYW4gZWFybGllciBwb2ludCBpbiB0aW1lLgo+IAo+IFRoZSBWTSBH
+ZW5lcmF0aW9uIElEIGlzIGEgc2ltcGxlIGNvbmNlcHQgbWVhbnQgdG8gYWxsZXZpYXRlIHRoZSBp
+c3N1ZQo+IGJ5IHByb3ZpZGluZyBhIHVuaXF1ZSBJRCB0aGF0IGNoYW5nZXMgZWFjaCB0aW1lIHRo
+ZSBWTSBpcyByZXN0b3JlZAo+IGZyb20gYSBzbmFwc2hvdC4gVGhlIGh3IHByb3ZpZGVkIFVVSUQg
+dmFsdWUgY2FuIGJlIHVzZWQgdG8KPiBkaWZmZXJlbnRpYXRlIGJldHdlZW4gVk1zIG9yIGRpZmZl
+cmVudCBnZW5lcmF0aW9ucyBvZiB0aGUgc2FtZSBWTS4KPiAKPiAtIFByb2JsZW0KPiAKPiBUaGUg
+Vk0gR2VuZXJhdGlvbiBJRCBpcyBleHBvc2VkIHRocm91Z2ggYW4gQUNQSSBkZXZpY2UgYnkgbXVs
+dGlwbGUKPiBoeXBlcnZpc29yIHZlbmRvcnMgYnV0IG5laXRoZXIgdGhlIHZlbmRvcnMgb3IgdXBz
+dHJlYW0gTGludXggaGF2ZSBubwo+IGRlZmF1bHQgZHJpdmVyIGZvciBpdCBsZWF2aW5nIHVzZXJz
+IHRvIGZlbmQgZm9yIHRoZW1zZWx2ZXMuCj4gCj4gRnVydGhlcm1vcmUsIHNpbXBseSBmaW5kaW5n
+IG91dCBhYm91dCBhIFZNIGdlbmVyYXRpb24gY2hhbmdlIGlzIG9ubHkKPiB0aGUgc3RhcnRpbmcg
+cG9pbnQgb2YgYSBwcm9jZXNzIHRvIHJlbmV3IGludGVybmFsIHN0YXRlcyBvZiBwb3NzaWJseQo+
+IG11bHRpcGxlIGFwcGxpY2F0aW9ucyBhY3Jvc3MgdGhlIHN5c3RlbS4gVGhpcyBwcm9jZXNzIGNv
+dWxkIGJlbmVmaXQKPiBmcm9tIGEgZHJpdmVyIHRoYXQgcHJvdmlkZXMgYW4gaW50ZXJmYWNlIHRo
+cm91Z2ggd2hpY2ggb3JjaGVzdHJhdGlvbgo+IGNhbiBiZSBlYXNpbHkgZG9uZS4KPiAKPiAtIFNv
+bHV0aW9uCj4gCj4gVGhpcyBwYXRjaCBpcyBhIGRyaXZlciB0aGF0IGV4cG9zZXMgYSBtb25vdG9u
+aWMgaW5jcmVtZW50YWwgVmlydHVhbAo+IE1hY2hpbmUgR2VuZXJhdGlvbiB1MzIgY291bnRlciB2
+aWEgYSBjaGFyLWRldiBGUyBpbnRlcmZhY2UgdGhhdAo+IHByb3ZpZGVzIHN5bmMgYW5kIGFzeW5j
+IFZtR2VuIGNvdW50ZXIgdXBkYXRlcyBub3RpZmljYXRpb25zLiBJdCBhbHNvCj4gcHJvdmlkZXMg
+Vm1HZW4gY291bnRlciByZXRyaWV2YWwgYW5kIGNvbmZpcm1hdGlvbiBtZWNoYW5pc21zLgo+IAo+
+IFRoZSBodyBwcm92aWRlZCBVVUlEIGlzIG5vdCBleHBvc2VkIHRvIHVzZXJzcGFjZSwgaXQgaXMg
+aW50ZXJuYWxseQo+IHVzZWQgYnkgdGhlIGRyaXZlciB0byBrZWVwIGFjY291bnRpbmcgZm9yIHRo
+ZSBleHBvc2VkIFZtR2VuIGNvdW50ZXIuCj4gVGhlIGNvdW50ZXIgc3RhcnRzIGZyb20gemVybyB3
+aGVuIHRoZSBkcml2ZXIgaXMgaW5pdGlhbGl6ZWQgYW5kCj4gbW9ub3RvbmljYWxseSBpbmNyZW1l
+bnRzIGV2ZXJ5IHRpbWUgdGhlIGh3IFVVSUQgY2hhbmdlcyAodGhlIFZNCj4gZ2VuZXJhdGlvbiBj
+aGFuZ2VzKS4KPiAKPiBPbiBlYWNoIGh3IFVVSUQgY2hhbmdlLCB0aGUgbmV3IGh5cGVydmlzb3It
+cHJvdmlkZWQgVVVJRCBpcyBhbHNvIGZlZAo+IHRvIHRoZSBrZXJuZWwgUk5HLgo+IAo+IFRoaXMg
+cGF0Y2ggYnVpbGRzIG9uIHRvcCBvZiBPciBJZGdhciA8b3JpZGdhckBnbWFpbC5jb20+J3MgcHJv
+cG9zYWwKPiBodHRwczovL2xrbWwub3JnL2xrbWwvMjAxOC8zLzEvNDk4Cj4gCj4gLSBGdXR1cmUg
+aW1wcm92ZW1lbnRzCj4gCj4gSWRlYWxseSB3ZSB3b3VsZCB3YW50IHRoZSBkcml2ZXIgdG8gcmVn
+aXN0ZXIgaXRzZWxmIGJhc2VkIG9uIGRldmljZXMnCj4gX0NJRCBhbmQgbm90IF9ISUQsIGJ1dCB1
+bmZvcnR1bmF0ZWx5IEkgY291bGRuJ3QgZmluZCBhIHdheSB0byBkbyB0aGF0Lgo+IFRoZSBwcm9i
+bGVtIGlzIHRoYXQgQUNQSSBkZXZpY2UgbWF0Y2hpbmcgaXMgZG9uZSBieQo+ICdfX2FjcGlfbWF0
+Y2hfZGV2aWNlKCknIHdoaWNoIGV4Y2x1c2l2ZWx5IGxvb2tzIGF0Cj4gJ2FjcGlfaGFyZHdhcmVf
+aWQgKmh3aWQnLgo+IAo+IFRoZXJlIGlzIGEgcGF0aCBmb3IgcGxhdGZvcm0gZGV2aWNlcyB0byBt
+YXRjaCBvbiBfQ0lEIHdoZW4gX0hJRCBpcwo+ICdQUlAwMDAxJyAtIGJ1dCB0aGlzIGlzIG5vdCB0
+aGUgY2FzZSBmb3IgdGhlIFFlbXUgdm1nZW5pZCBkZXZpY2UuCj4gCj4gR3VpZGFuY2UgYW5kIGhl
+bHAgaGVyZSB3b3VsZCBiZSBncmVhdGx5IGFwcHJlY2lhdGVkLgoKVGhhdCBvbmUgaXMgcHJldHR5
+IGltcG9ydGFudCBJTUhPLiBIb3cgYWJvdXQgdGhlIGZvbGxvd2luZyAocHJvYmFibHkgCnByZXR0
+eSBtYW5nbGVkKSBwYXRjaD8gVGhhdCBzZWVtcyB0byB3b3JrIGZvciBtZS4gVGhlIEFDUEkgY2hh
+bmdlIHdvdWxkIApvYnZpb3VzbHkgbmVlZCB0byBiZSBpdHMgb3duIHN0YW5kIGFsb25lIGNoYW5n
+ZSBhbmQgbmVlZHMgcHJvcGVyIAphc3Nlc3NtZW50IHdoZXRoZXIgaXQgY291bGQgcG9zc2libHkg
+YnJlYWsgYW55IGV4aXN0aW5nIHN5c3RlbXMuCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9hY3BpL2J1
+cy5jIGIvZHJpdmVycy9hY3BpL2J1cy5jCmluZGV4IDE2ODJmOGI0NTRhMi4uNDUyNDQzZDc5ZDg3
+IDEwMDY0NAotLS0gYS9kcml2ZXJzL2FjcGkvYnVzLmMKKysrIGIvZHJpdmVycy9hY3BpL2J1cy5j
+CkBAIC03NDgsNyArNzQ4LDcgQEAgc3RhdGljIGJvb2wgX19hY3BpX21hdGNoX2RldmljZShzdHJ1
+Y3QgYWNwaV9kZXZpY2UgCipkZXZpY2UsCiAgCQkvKiBGaXJzdCwgY2hlY2sgdGhlIEFDUEkvUE5Q
+IElEcyBwcm92aWRlZCBieSB0aGUgY2FsbGVyLiAqLwogIAkJaWYgKGFjcGlfaWRzKSB7CiAgCQkJ
+Zm9yIChpZCA9IGFjcGlfaWRzOyBpZC0+aWRbMF0gfHwgaWQtPmNsczsgaWQrKykgewotCQkJCWlm
+IChpZC0+aWRbMF0gJiYgIXN0cmNtcCgoY2hhciAqKWlkLT5pZCwgaHdpZC0+aWQpKQorCQkJCWlm
+IChpZC0+aWRbMF0gJiYgIXN0cm5jbXAoKGNoYXIgKilpZC0+aWQsIGh3aWQtPmlkLCBBQ1BJX0lE
+X0xFTiAtIDEpKQogIAkJCQkJZ290byBvdXRfYWNwaV9tYXRjaDsKICAJCQkJaWYgKGlkLT5jbHMg
+JiYgX19hY3BpX21hdGNoX2RldmljZV9jbHMoaWQsIGh3aWQpKQogIAkJCQkJZ290byBvdXRfYWNw
+aV9tYXRjaDsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdmlydC92bWdlbmlkLmMgYi9kcml2ZXJzL3Zp
+cnQvdm1nZW5pZC5jCmluZGV4IDc1YTc4N2RhOGFhZC4uMGJmYTQyMmNmMDk0IDEwMDY0NAotLS0g
+YS9kcml2ZXJzL3ZpcnQvdm1nZW5pZC5jCisrKyBiL2RyaXZlcnMvdmlydC92bWdlbmlkLmMKQEAg
+LTM1Niw3ICszNTYsOCBAQCBzdGF0aWMgdm9pZCB2bWdlbmlkX2FjcGlfbm90aWZ5KHN0cnVjdCBh
+Y3BpX2RldmljZSAKKmRldmljZSwgdTMyIGV2ZW50KQogIH0KCiAgc3RhdGljIGNvbnN0IHN0cnVj
+dCBhY3BpX2RldmljZV9pZCB2bWdlbmlkX2lkc1tdID0gewotCXsiUUVNVVZHSUQiLCAwfSwKKwkv
+KiBUaGlzIHJlYWxseSBpcyBWTV9HZW5fQ291bnRlciwgYnV0IHdlIGNhbiBvbmx5IG1hdGNoIDgg
+Y2hhcmFjdGVycyAqLworCXsiVk1fR0VOX0MiLCAwfSwKICAJeyIiLCAwfSwKICB9OwoKCj4gCj4g
+LSB2MSAtPiB2MjoKPgoKUGxlYXNlIHB1dCB0aGUgY2hhbmdlIGxvZyBiZWxvdyB5b3VyIFNpZ25l
+ZC1vZmYtYnkgbGluZSBhbmQgc2VwYXJhdGUgaXQgCndpdGggYSAiLS0tIiBsaW5lLiBUaGF0IHdh
+eSwgZ2l0IGFtIHdpbGwgaWdub3JlIHRoZSBjaGFuZ2UgbG9nIG9uIGFwcGx5LgoKCj4gICAgLSBl
+eHBvc2UgdG8gdXNlcnNwYWNlIGEgbW9ub3RvbmljYWxseSBpbmNyZWFzaW5nIHUzMiBWbSBHZW4g
+Q291bnRlcgo+ICAgICAgaW5zdGVhZCBvZiB0aGUgaHcgVm1HZW4gVVVJRAo+ICAgIC0gc2luY2Ug
+dGhlIGh3L2h5cGVydmlzb3ItcHJvdmlkZWQgMTI4LWJpdCBVVUlEIGlzIG5vdCBwdWJsaWMKPiAg
+ICAgIGFueW1vcmUsIGFkZCBpdCB0byB0aGUga2VybmVsIFJORyBhcyBkZXZpY2UgcmFuZG9tbmVz
+cwo+ICAgIC0gaW5zZXJ0IGRyaXZlciBwYWdlIGNvbnRhaW5pbmcgVm0gR2VuIENvdW50ZXIgaW4g
+dGhlIHVzZXIgdm1hIGluCj4gICAgICB0aGUgZHJpdmVyJ3MgbW1hcCBoYW5kbGVyIGluc3RlYWQg
+b2YgdXNpbmcgYSBmYXVsdCBoYW5kbGVyCj4gICAgLSB0dXJuIGRyaXZlciBpbnRvIGEgbWlzYyBk
+ZXZpY2UgZHJpdmVyIHRvIGF1dG8tY3JlYXRlIC9kZXYvdm1nZW5pZAo+ICAgIC0gY2hhbmdlIGlv
+Y3RsIGFyZyB0byBhdm9pZCBsZWFraW5nIGtlcm5lbCBzdHJ1Y3RzIHRvIHVzZXJzcGFjZQo+ICAg
+IC0gdXBkYXRlIGRvY3VtZW50YXRpb24KPiAgICAtIHZhcmlvdXMgbml0cyAobGljZW5zZSwgdW5u
+ZWNlc3NhcnkgY2FzdGluZywgS2NvbmZpZywgb3RoZXJzKQo+ICAgIC0gcmViYXNlIG9uIHRvcCBv
+ZiBsaW51cyBsYXRlc3QKPiAKPiBTaWduZWQtb2ZmLWJ5OiBBZHJpYW4gQ2F0YW5naXUgPGFjYXRh
+bkBhbWF6b24uY29tPgo+IC0tLQo+ICAgRG9jdW1lbnRhdGlvbi92aXJ0L3ZtZ2VuaWQucnN0IHwg
+MjI4ICsrKysrKysrKysrKysrKysrKysrKysrKwo+ICAgZHJpdmVycy92aXJ0L0tjb25maWcgICAg
+ICAgICAgIHwgIDE3ICsrCj4gICBkcml2ZXJzL3ZpcnQvTWFrZWZpbGUgICAgICAgICAgfCAgIDEg
+Kwo+ICAgZHJpdmVycy92aXJ0L3ZtZ2VuaWQuYyAgICAgICAgIHwgMzkwICsrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrCj4gICBpbmNsdWRlL3VhcGkvbGludXgvdm1nZW5p
+ZC5oICAgfCAgMTMgKysKPiAgIDUgZmlsZXMgY2hhbmdlZCwgNjQ5IGluc2VydGlvbnMoKykKPiAg
+IGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL3ZpcnQvdm1nZW5pZC5yc3QKPiAgIGNy
+ZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL3ZpcnQvdm1nZW5pZC5jCj4gICBjcmVhdGUgbW9kZSAx
+MDA2NDQgaW5jbHVkZS91YXBpL2xpbnV4L3ZtZ2VuaWQuaAo+IAo+IGRpZmYgLS1naXQgYS9Eb2N1
+bWVudGF0aW9uL3ZpcnQvdm1nZW5pZC5yc3QgYi9Eb2N1bWVudGF0aW9uL3ZpcnQvdm1nZW5pZC5y
+c3QKPiBuZXcgZmlsZSBtb2RlIDEwMDY0NAo+IGluZGV4IDAwMDAwMDAuLjYwM2U4YTUKPiAtLS0g
+L2Rldi9udWxsCj4gKysrIGIvRG9jdW1lbnRhdGlvbi92aXJ0L3ZtZ2VuaWQucnN0Cj4gQEAgLTAs
+MCArMSwyMjggQEAKPiArLi4gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAKPiArCj4g
+Kz09PT09PT09PT09PQo+ICtWTUdFTklECj4gKz09PT09PT09PT09PQo+ICsKPiArVGhlIFZNIEdl
+bmVyYXRpb24gSUQgaXMgYSBmZWF0dXJlIGRlZmluZWQgYnkgTWljcm9zb2Z0IChwYXBlcjoKPiAr
+aHR0cDovL2dvLm1pY3Jvc29mdC5jb20vZndsaW5rLz9MaW5rSWQ9MjYwNzA5KSBhbmQgc3VwcG9y
+dGVkIGJ5Cj4gK211bHRpcGxlIGh5cGVydmlzb3IgdmVuZG9ycy4KPiArCj4gK1RoZSBmZWF0dXJl
+IGlzIHJlcXVpcmVkIGluIHZpcnR1YWxpemVkIGVudmlyb25tZW50cyBieSBhcHBzIHRoYXQgd29y
+awo+ICt3aXRoIGxvY2FsIGNvcGllcy9jYWNoZXMgb2Ygd29ybGQtdW5pcXVlIGRhdGEgc3VjaCBh
+cyByYW5kb20gdmFsdWVzLAo+ICt1dWlkcywgbW9ub3RvbmljYWxseSBpbmNyZWFzaW5nIGNvdW50
+ZXJzLCBldGMuCj4gK1N1Y2ggYXBwcyBjYW4gYmUgbmVnYXRpdmVseSBhZmZlY3RlZCBieSBWTSBz
+bmFwc2hvdHRpbmcgd2hlbiB0aGUgVk0KPiAraXMgZWl0aGVyIGNsb25lZCBvciByZXR1cm5lZCB0
+byBhbiBlYXJsaWVyIHBvaW50IGluIHRpbWUuCj4gKwo+ICtUaGUgVk0gR2VuZXJhdGlvbiBJRCBp
+cyBhIHNpbXBsZSBjb25jZXB0IG1lYW50IHRvIGFsbGV2aWF0ZSB0aGUgaXNzdWUKPiArYnkgcHJv
+dmlkaW5nIGEgdW5pcXVlIElEIHRoYXQgY2hhbmdlcyBlYWNoIHRpbWUgdGhlIFZNIGlzIHJlc3Rv
+cmVkCj4gK2Zyb20gYSBzbmFwc2hvdC4gVGhlIGh3IHByb3ZpZGVkIFVVSUQgdmFsdWUgY2FuIGJl
+IHVzZWQgdG8KPiArZGlmZmVyZW50aWF0ZSBiZXR3ZWVuIFZNcyBvciBkaWZmZXJlbnQgZ2VuZXJh
+dGlvbnMgb2YgdGhlIHNhbWUgVk0uCj4gKwo+ICtUaGUgVk0gR2VuZXJhdGlvbiBJRCBpcyBleHBv
+c2VkIHRocm91Z2ggYW4gQUNQSSBkZXZpY2UgYnkgbXVsdGlwbGUKPiAraHlwZXJ2aXNvciB2ZW5k
+b3JzLiBUaGUgZHJpdmVyIGZvciBpdCBsaXZlcyBhdAo+ICtgYGRyaXZlcnMvdmlydC92bWdlbmlk
+LmNgYAo+ICsKPiArVGhlIGRyaXZlciBleHBvc2VzIGEgbW9ub3RvbmljIGluY3JlbWVudGFsIFZp
+cnR1YWwgTWFjaGluZSBHZW5lcmF0aW9uCj4gK3UzMiBjb3VudGVyIHZpYSBhIGNoYXItZGV2IEZT
+IGludGVyZmFjZSB0aGF0IHByb3ZpZGVzIHN5bmMgYW5kIGFzeW5jCj4gK1ZtR2VuIGNvdW50ZXIg
+dXBkYXRlcyBub3RpZmljYXRpb25zLiBJdCBhbHNvIHByb3ZpZGVzIFZtR2VuIGNvdW50ZXIKPiAr
+cmV0cmlldmFsIGFuZCBjb25maXJtYXRpb24gbWVjaGFuaXNtcy4KPiArCj4gK1RoZSBodyBwcm92
+aWRlZCBVVUlEIGlzIG5vdCBleHBvc2VkIHRvIHVzZXJzcGFjZSwgaXQgaXMgaW50ZXJuYWxseQo+
+ICt1c2VkIGJ5IHRoZSBkcml2ZXIgdG8ga2VlcCBhY2NvdW50aW5nIGZvciB0aGUgZXhwb3NlZCBW
+bUdlbiBjb3VudGVyLgo+ICtUaGUgY291bnRlciBzdGFydHMgZnJvbSB6ZXJvIHdoZW4gdGhlIGRy
+aXZlciBpcyBpbml0aWFsaXplZCBhbmQKPiArbW9ub3RvbmljYWxseSBpbmNyZW1lbnRzIGV2ZXJ5
+IHRpbWUgdGhlIGh3IFVVSUQgY2hhbmdlcyAodGhlIFZNCj4gK2dlbmVyYXRpb24gY2hhbmdlcyku
+Cj4gKwo+ICtPbiBlYWNoIGh3IFVVSUQgY2hhbmdlLCB0aGUgbmV3IFVVSUQgaXMgYWxzbyBmZWQg
+dG8gdGhlIGtlcm5lbCBSTkcuCj4gKwo+ICtEcml2ZXIgaW50ZXJmYWNlOgo+ICsKPiArYGBvcGVu
+KClgYDoKPiArICBXaGVuIHRoZSBkZXZpY2UgaXMgb3BlbmVkLCBhIGNvcHkgb2YgdGhlIGN1cnJl
+bnQgVm0tR2VuLUlkIChjb3VudGVyKQo+ICsgIGlzIGFzc29jaWF0ZWQgd2l0aCB0aGUgb3BlbiBm
+aWxlIGRlc2NyaXB0b3IuIFRoZSBkcml2ZXIgbm93IHRyYWNrcwo+ICsgIHRoaXMgZmlsZSBhcyBh
+biBpbmRlcGVuZGVudCAqd2F0Y2hlciouIFRoZSBkcml2ZXIgdHJhY2tzIGhvdyBtYW55Cj4gKyAg
+d2F0Y2hlcnMgYXJlIGF3YXJlIG9mIHRoZSBsYXRlc3QgVm0tR2VuLUlkIGNvdW50ZXIgYW5kIGhv
+dyBtYW55IG9mCj4gKyAgdGhlbSBhcmUgKm91dGRhdGVkKjsgb3V0ZGF0ZWQgYmVpbmcgdGhvc2Ug
+dGhhdCBoYXZlIGxpdmVkIHRocm91Z2gKPiArICBhIFZtLUdlbi1JZCBjaGFuZ2UgYnV0IG5vdCB5
+ZXQgY29uZmlybWVkIHRoZSBuZXcgZ2VuZXJhdGlvbiBjb3VudGVyLgo+ICsKPiArYGByZWFkKClg
+YDoKPiArICBSZWFkIGlzIG1lYW50IHRvIHByb3ZpZGUgdGhlICpuZXcqIFZNIGdlbmVyYXRpb24g
+Y291bnRlciB3aGVuIGEKPiArICBnZW5lcmF0aW9uIGNoYW5nZSB0YWtlcyBwbGFjZS4gVGhlIHJl
+YWQgb3BlcmF0aW9uIGJsb2NrcyB1bnRpbCB0aGUKPiArICBhc3NvY2lhdGVkIGNvdW50ZXIgaXMg
+bm8gbG9uZ2VyIHVwIHRvIGRhdGUgLSB1bnRpbCBIVyB2bSBnZW4gaWQKPiArICBjaGFuZ2VzIC0g
+YXQgd2hpY2ggcG9pbnQgdGhlIG5ldyBjb3VudGVyIGlzIHByb3ZpZGVkL3JldHVybmVkLgo+ICsg
+IE5vbmJsb2NraW5nIGBgcmVhZCgpYGAgdXNlcyBgYEVBR0FJTmBgIHRvIHNpZ25hbCB0aGF0IHRo
+ZXJlIGlzIG5vCj4gKyAgKm5ldyogY291bnRlciB2YWx1ZSBhdmFpbGFibGUuIFRoZSBnZW5lcmF0
+aW9uIGNvdW50ZXIgaXMgY29uc2lkZXJlZAo+ICsgICpuZXcqIGZvciBlYWNoIG9wZW4gZmlsZSBk
+ZXNjcmlwdG9yIHRoYXQgaGFzbid0IGNvbmZpcm1lZCB0aGUgbmV3Cj4gKyAgdmFsdWUsIGZvbGxv
+d2luZyBhIGdlbmVyYXRpb24gY2hhbmdlLiBUaGVyZWZvcmUsIG9uY2UgYSBnZW5lcmF0aW9uCj4g
+KyAgY2hhbmdlIHRha2VzIHBsYWNlLCBhbGwgYGByZWFkKClgYCBjYWxscyB3aWxsIGltbWVkaWF0
+ZWx5IHJldHVybiB0aGUKPiArICBuZXcgZ2VuZXJhdGlvbiBjb3VudGVyIGFuZCB3aWxsIGNvbnRp
+bnVlIHRvIGRvIHNvIHVudGlsIHRoZQo+ICsgIG5ldyB2YWx1ZSBpcyBjb25maXJtZWQgYmFjayB0
+byB0aGUgZHJpdmVyIHRocm91Z2ggYGB3cml0ZSgpYGAuCj4gKyAgUGFydGlhbCByZWFkcyBhcmUg
+bm90IGFsbG93ZWQgLSByZWFkIGJ1ZmZlciBuZWVkcyB0byBiZSBhdCBsZWFzdAo+ICsgIGBgc2l6
+ZW9mKHVuc2lnbmVkKWBgIGluIHNpemUuCj4gKwo+ICtgYHdyaXRlKClgYDoKPiArICBXcml0ZSBp
+cyB1c2VkIHRvIGNvbmZpcm0gdGhlIHVwLXRvLWRhdGUgVm0gR2VuIGNvdW50ZXIgYmFjayB0byB0
+aGUKPiArICBkcml2ZXIuCj4gKyAgRm9sbG93aW5nIGEgVk0gZ2VuZXJhdGlvbiBjaGFuZ2UsIGFs
+bCBleGlzdGluZyB3YXRjaGVycyBhcmUgbWFya2VkCj4gKyAgYXMgKm91dGRhdGVkKi4gRWFjaCBm
+aWxlIGRlc2NyaXB0b3Igd2lsbCBtYWludGFpbiB0aGUgKm91dGRhdGVkKgo+ICsgIHN0YXR1cyB1
+bnRpbCBhIGBgd3JpdGUoKWBgIGNvbmZpcm1zIHRoZSB1cC10by1kYXRlIGNvdW50ZXIgYmFjayB0
+bwo+ICsgIHRoZSBkcml2ZXIuCj4gKyAgUGFydGlhbCB3cml0ZXMgYXJlIG5vdCBhbGxvd2VkIC0g
+d3JpdGUgYnVmZmVyIHNob3VsZCBiZSBleGFjdGx5Cj4gKyAgYGBzaXplb2YodW5zaWduZWQpYGAg
+aW4gc2l6ZS4KPiArCj4gK2BgcG9sbCgpYGA6Cj4gKyAgUG9sbCBpcyBpbXBsZW1lbnRlZCB0byBh
+bGxvdyBwb2xsaW5nIGZvciBnZW5lcmF0aW9uIGNvdW50ZXIgdXBkYXRlcy4KPiArICBTdWNoIHVw
+ZGF0ZXMgcmVzdWx0IGluIGBgRVBPTExJTmBgIHBvbGxpbmcgc3RhdHVzIHVudGlsIHRoZSBuZXcK
+PiArICB1cC10by1kYXRlIGNvdW50ZXIgaXMgY29uZmlybWVkIGJhY2sgdG8gdGhlIGRyaXZlciB0
+aHJvdWdoIGEKPiArICBgYHdyaXRlKClgYC4KPiArCj4gK2BgaW9jdGwoKWBgOgo+ICsgIFRoZSBk
+cml2ZXIgYWxzbyBhZGRzIHN1cHBvcnQgZm9yIHRyYWNraW5nIGNvdW50IG9mIG9wZW4gZmlsZQo+
+ICsgIGRlc2NyaXB0b3JzIHRoYXQgaGF2ZW4ndCBhY2tub3dsZWRnZWQgYSBnZW5lcmF0aW9uIGNv
+dW50ZXIgdXBkYXRlLgo+ICsgIFRoaXMgaXMgZXhwb3NlZCB0aHJvdWdoIHR3byBJT0NUTHM6Cj4g
+Kwo+ICsgIC0gVk1HRU5JRF9HRVRfT1VUREFURURfV0FUQ0hFUlM6IGltbWVkaWF0ZWx5IHJldHVy
+bnMgdGhlIG51bWJlciBvZgo+ICsgICAgKm91dGRhdGVkKiB3YXRjaGVycyAtIG51bWJlciBvZiBm
+aWxlIGRlc2NyaXB0b3JzIHRoYXQgd2VyZSBvcGVuCj4gKyAgICBkdXJpbmcgYSBWTSBnZW5lcmF0
+aW9uIGNoYW5nZSwgYW5kIHdoaWNoIGhhdmUgbm90IHlldCBjb25maXJtZWQgdGhlCj4gKyAgICBu
+ZXcgZ2VuZXJhdGlvbiBjb3VudGVyLgo+ICsgIC0gVk1HRU5JRF9XQUlUX1dBVENIRVJTOiBibG9j
+a3MgdW50aWwgdGhlcmUgYXJlIG5vIG1vcmUgKm91dGRhdGVkKgo+ICsgICAgd2F0Y2hlcnMsIG9y
+IGlmIGEgYGB0aW1lb3V0YGAgYXJndW1lbnQgaXMgcHJvdmlkZWQsIHVudGlsIHRoZQo+ICsgICAg
+dGltZW91dCBleHBpcmVzLgo+ICsKPiArYGBtbWFwKClgYDoKPiArICBUaGUgZHJpdmVyIHN1cHBv
+cnRzIGBgUFJPVF9SRUFELCBNQVBfU0hBUkVEYGAgbW1hcHMgb2YgYSBzaW5nbGUgcGFnZQo+ICsg
+IGluIHNpemUuIFRoZSBmaXJzdCA0IGJ5dGVzIG9mIHRoZSBtYXBwZWQgcGFnZSB3aWxsIGNvbnRh
+aW4gYW4KPiArICB1cC10by1kYXRlIGNvcHkgb2YgdGhlIFZNIGdlbmVyYXRpb24gY291bnRlci4K
+PiArICBUaGUgbWFwcGVkIG1lbW9yeSBjYW4gYmUgdXNlZCBhcyBhIGxvdy1sYXRlbmN5IGdlbmVy
+YXRpb24gY291bnRlcgo+ICsgIHByb2JlIG1lY2hhbmlzbSBpbiBjcml0aWNhbCBzZWN0aW9ucyAt
+IHNlZSBleGFtcGxlcy4KPiArCj4gK2BgY2xvc2UoKWBgOgo+ICsgIFJlbW92ZXMgdGhlIGZpbGUg
+ZGVzY3JpcHRvciBhcyBhIFZtIGdlbmVyYXRpb24gY291bnRlciB3YXRjaGVyLgo+ICsKPiArRXhh
+bXBsZSBhcHBsaWNhdGlvbiB3b3JrZmxvd3MKPiArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0KPiArCj4gKzEpIFdhdGNoZG9nIHRocmVhZCBzaW1wbGlmaWVkIGV4YW1wbGU6Ogo+ICsKPiAr
+CXZvaWQgd2F0Y2hkb2dfdGhyZWFkX2hhbmRsZXIoaW50ICp0aHJlYWRfYWN0aXZlKQo+ICsJewo+
+ICsJCXVuc2lnbmVkIGdlbmlkOwo+ICsJCWludCBmZCA9IG9wZW4oIi9kZXYvdm1nZW5pZCIsIE9f
+UkRXUiB8IE9fQ0xPRVhFQywgU19JUlVTUiB8IFNfSVdVU1IpOwo+ICsKPiArCQlkbyB7Cj4gKwkJ
+CS8vIHJlYWQgbmV3IGdlbiBJRCAtIGJsb2NrcyB1bnRpbCBWTSBnZW5lcmF0aW9uIGNoYW5nZXMK
+PiArCQkJcmVhZChmZCwgJmdlbmlkLCBzaXplb2YoZ2VuaWQpKTsKPiArCj4gKwkJCS8vIGJlY2F1
+c2Ugb2YgVk0gZ2VuZXJhdGlvbiBjaGFuZ2UsIHdlIG5lZWQgdG8gcmVidWlsZCB3b3JsZAo+ICsJ
+CQlyZXNlZWRfYXBwX2VudigpOwo+ICsKPiArCQkJLy8gY29uZmlybSB3ZSdyZSBkb25lIGhhbmRs
+aW5nIGdlbiBJRCB1cGRhdGUKPiArCQkJd3JpdGUoZmQsICZnZW5pZCwgc2l6ZW9mKGdlbmlkKSk7
+Cj4gKwkJfSB3aGlsZSAoYXRvbWljX3JlYWQodGhyZWFkX2FjdGl2ZSkpOwo+ICsKPiArCQljbG9z
+ZShmZCk7Cj4gKwl9Cj4gKwo+ICsyKSBBU1lOQyBzaW1wbGlmaWVkIGV4YW1wbGU6Ogo+ICsKPiAr
+CXZvaWQgaGFuZGxlX2lvX29uX3ZtZ2VuZmQoaW50IHZtZ2VuZmQpCj4gKwl7Cj4gKwkJdW5zaWdu
+ZWQgZ2VuaWQ7Cj4gKwo+ICsJCS8vIGJlY2F1c2Ugb2YgVk0gZ2VuZXJhdGlvbiBjaGFuZ2UsIHdl
+IG5lZWQgdG8gcmVidWlsZCB3b3JsZAo+ICsJCXJlc2VlZF9hcHBfZW52KCk7Cj4gKwo+ICsJCS8v
+IHJlYWQgbmV3IGdlbiBJRCAtIHdlIG5lZWQgaXQgdG8gY29uZmlybSB3ZSd2ZSBoYW5kbGVkIHVw
+ZGF0ZQo+ICsJCXJlYWQoZmQsICZnZW5pZCwgc2l6ZW9mKGdlbmlkKSk7CgpUaGlzIGlzIHJhY3kg
+aW4gY2FzZSB0d28gY29uc2VjdXRpdmUgc25hcHNob3RzIGhhcHBlbi4gVGhlIHJlYWQgbmVlZHMg
+dG8gCmdvIGJlZm9yZSB0aGUgcmVzZWVkLgoKPiArCj4gKwkJLy8gY29uZmlybSB3ZSdyZSBkb25l
+IGhhbmRsaW5nIHRoZSBnZW4gSUQgdXBkYXRlCj4gKwkJd3JpdGUoZmQsICZnZW5pZCwgc2l6ZW9m
+KGdlbmlkKSk7Cj4gKwl9Cj4gKwo+ICsJaW50IG1haW4oKSB7Cj4gKwkJaW50IGVwZmQsIHZtZ2Vu
+ZmQ7Cj4gKwkJc3RydWN0IGVwb2xsX2V2ZW50IGV2Owo+ICsKPiArCQllcGZkID0gZXBvbGxfY3Jl
+YXRlKEVQT0xMX1FVRVVFX0xFTik7Cj4gKwo+ICsJCXZtZ2VuZmQgPSBvcGVuKCIvZGV2L3ZtZ2Vu
+aWQiLAo+ICsJCSAgICAgICAgICAgICAgIE9fUkRXUiB8IE9fQ0xPRVhFQyB8IE9fTk9OQkxPQ0ss
+Cj4gKwkJICAgICAgICAgICAgICAgU19JUlVTUiB8IFNfSVdVU1IpOwo+ICsKPiArCQkvLyByZWdp
+c3RlciB2bWdlbmlkIGZvciBwb2xsaW5nCj4gKwkJZXYuZXZlbnRzID0gRVBPTExJTjsKPiArCQll
+di5kYXRhLmZkID0gdm1nZW5mZDsKPiArCQllcG9sbF9jdGwoZXBmZCwgRVBPTExfQ1RMX0FERCwg
+dm1nZW5mZCwgJmV2KTsKPiArCj4gKwkJLy8gcmVnaXN0ZXIgb3RoZXIgcGFydHMgb2YgeW91ciBh
+cHAgZm9yIHBvbGxpbmcKPiArCQkvLyAuLi4KPiArCj4gKwkJd2hpbGUgKDEpIHsKPiArCQkJLy8g
+d2FpdCBmb3Igc29tZXRoaW5nIHRvIGRvLi4uCj4gKwkJCWludCBuZmRzID0gZXBvbGxfd2FpdChl
+cGZkLCBldmVudHMsCj4gKwkJCQlNQVhfRVBPTExfRVZFTlRTX1BFUl9SVU4sCj4gKwkJCQlFUE9M
+TF9SVU5fVElNRU9VVCk7Cj4gKwkJCWlmIChuZmRzIDwgMCkgZGllKCJFcnJvciBpbiBlcG9sbF93
+YWl0ISIpOwo+ICsKPiArCQkJLy8gZm9yIGVhY2ggcmVhZHkgZmQKPiArCQkJZm9yKGludCBpID0g
+MDsgaSA8IG5mZHM7IGkrKykgewo+ICsJCQkJaW50IGZkID0gZXZlbnRzW2ldLmRhdGEuZmQ7Cj4g
+Kwo+ICsJCQkJaWYgKGZkID09IHZtZ2VuZmQpCj4gKwkJCQkJaGFuZGxlX2lvX29uX3ZtZ2VuZmQo
+dm1nZW5mZCk7Cj4gKwkJCQllbHNlCj4gKwkJCQkJaGFuZGxlX3NvbWVfb3RoZXJfcGFydF9vZl90
+aGVfYXBwKGZkKTsKPiArCQkJfQo+ICsJCX0KPiArCj4gKwkJcmV0dXJuIDA7Cj4gKwl9Cj4gKwo+
+ICszKSBNYXBwZWQgbWVtb3J5IHBvbGxpbmcgc2ltcGxpZmllZCBleGFtcGxlOjoKPiArCj4gKwkv
+Kgo+ICsJICogYXBwL2xpYnJhcnkgZnVuY3Rpb24gdGhhdCBwcm92aWRlcyBjYWNoZWQgc2VjcmV0
+cwo+ICsJICovCj4gKwljaGFyICogc2FmZV9jYWNoZWRfc2VjcmV0KGFwcF9kYXRhX3QgKmFwcCkK
+PiArCXsKPiArCQljaGFyICpzZWNyZXQ7Cj4gKwkJdm9sYXRpbGUgdW5zaWduZWQgKmNvbnN0IGdl
+bmlkX3B0ciA9IGdldF92bWdlbmlkX21hcHBpbmcoYXBwKTsKPiArCWFnYWluOgo+ICsJCXNlY3Jl
+dCA9IF9fY2FjaGVkX3NlY3JldChhcHApOwo+ICsKPiArCQlpZiAodW5saWtlbHkoKmdlbmlkX3B0
+ciAhPSBhcHAtPmNhY2hlZF9nZW5pZCkpIHsKPiArCQkJLy8gcmVidWlsZCB3b3JsZCB0aGVuIGNv
+bmZpcm0gdGhlIGdlbmlkIHVwZGF0ZSAodGhydSB3cml0ZSkKPiArCQkJcmVidWlsZF9jYWNoZXMo
+YXBwKTsKPiArCj4gKwkJCWFwcC0+Y2FjaGVkX2dlbmlkID0gKmdlbmlkX3B0cjsKClRoaXMgaXMg
+cmFjeSBhZ2Fpbi4gWW91IG5lZWQgdG8gcmVhZCB0aGUgZ2VuaWQgYmVmb3JlIHJlYnVpbGQgYW5k
+IHNldCBpdCAKaGVyZS4KCj4gKwkJCWFja192bWdlbmlkX3VwZGF0ZShhcHApOwo+ICsKPiArCQkJ
+Z290byBhZ2FpbjsKPiArCQl9Cj4gKwo+ICsJCXJldHVybiBzZWNyZXQ7Cj4gKwl9Cj4gKwo+ICs0
+KSBPcmNoZXN0cmF0b3Igc2ltcGxpZmllZCBleGFtcGxlOjoKPiArCj4gKwkvKgo+ICsJICogb3Jj
+aGVzdHJhdG9yIC0gbWFuYWdlcyBtdWx0aXBsZSBhcHBzIGFuZCBsaWJyYXJpZXMgdXNlZCBieSBh
+IHNlcnZpY2UKPiArCSAqIGFuZCB0cmllcyB0byBtYWtlIHN1cmUgYWxsIHNlbnNpdGl2ZSBjb21w
+b25lbnRzIGdyYWNlZnVsbHkgaGFuZGxlCj4gKwkgKiBWTSBnZW5lcmF0aW9uIGNoYW5nZXMuCj4g
+KwkgKiBGb2xsb3dpbmcgZnVuY3Rpb24gaXMgY2FsbGVkIG9uIGRldGVjdGlvbiBvZiBhIFZNIGdl
+bmVyYXRpb24gY2hhbmdlLgo+ICsJICovCj4gKwlpbnQgaGFuZGxlX3ZtZ2VuX3VwZGF0ZShpbnQg
+dm1nZW5fZmQsIHVuc2lnbmVkIG5ld19nZW5faWQpCj4gKwl7Cj4gKwkJLy8gcGF1c2UgdW50aWwg
+YWxsIGNvbXBvbmVudHMgaGF2ZSBoYW5kbGVkIGV2ZW50Cj4gKwkJcGF1c2Vfc2VydmljZSgpOwo+
+ICsKPiArCQkvLyBjb25maXJtICp0aGlzKiB3YXRjaGVyIGFzIHVwLXRvLWRhdGUKPiArCQl3cml0
+ZSh2bWdlbl9mZCwgJm5ld19nZW5faWQsIHNpemVvZih1bnNpZ25lZCkpOwo+ICsKPiArCQkvLyB3
+YWl0IGZvciBhbGwgKm90aGVycyogZm9yIGF0IG1vc3QgNSBzZWNvbmRzLgo+ICsJCWlvY3RsKHZt
+Z2VuX2ZkLCBWTUdFTklEX1dBSVRfV0FUQ0hFUlMsIDUwMDApOwo+ICsKPiArCQkvLyBhbGwgYXBw
+cyBvbiB0aGUgc3lzdGVtIGhhdmUgcmVidWlsdCB3b3JsZHMKPiArCQlyZXN1bWVfc2VydmljZSgp
+Owo+ICsJfQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpcnQvS2NvbmZpZyBiL2RyaXZlcnMvdmly
+dC9LY29uZmlnCj4gaW5kZXggODBjNWY5YzEuLjVkNWYzN2IgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVy
+cy92aXJ0L0tjb25maWcKPiArKysgYi9kcml2ZXJzL3ZpcnQvS2NvbmZpZwo+IEBAIC0xMyw2ICsx
+MywyMyBAQCBtZW51Y29uZmlnIFZJUlRfRFJJVkVSUwo+ICAgCj4gICBpZiBWSVJUX0RSSVZFUlMK
+PiAgIAo+ICtjb25maWcgVk1HRU5JRAo+ICsJdHJpc3RhdGUgIlZpcnR1YWwgTWFjaGluZSBHZW5l
+cmF0aW9uIElEIGRyaXZlciIKPiArCWRlcGVuZHMgb24gQUNQSQo+ICsJZGVmYXVsdCBOCj4gKwlo
+ZWxwCj4gKwkgIFRoaXMgaXMgYSBWaXJ0dWFsIE1hY2hpbmUgR2VuZXJhdGlvbiBJRCBkcml2ZXIg
+d2hpY2ggcHJvdmlkZXMKPiArCSAgYSB2aXJ0dWFsIG1hY2hpbmUgZ2VuZXJhdGlvbiBjb3VudGVy
+LiBUaGUgZHJpdmVyIGV4cG9zZXMgRlMgb3BzCj4gKwkgIG9uIC9kZXYvdm1nZW5pZCB0aHJvdWdo
+IHdoaWNoIGl0IGNhbiBwcm92aWRlIGluZm9ybWF0aW9uIGFuZAo+ICsJICBub3RpZmljYXRpb25z
+IG9uIFZNIGdlbmVyYXRpb24gY2hhbmdlcyB0aGF0IGhhcHBlbiBvbiBzbmFwc2hvdHMKPiArCSAg
+b3IgY2xvbmluZy4KPiArCSAgVGhpcyBlbmFibGVzIGFwcGxpY2F0aW9ucyBhbmQgbGlicmFyaWVz
+IHRoYXQgc3RvcmUgb3IgY2FjaGUKPiArCSAgc2Vuc2l0aXZlIGluZm9ybWF0aW9uLCB0byBrbm93
+IHRoYXQgdGhleSBuZWVkIHRvIHJlZ2VuZXJhdGUgaXQKPiArCSAgYWZ0ZXIgcHJvY2VzcyBtZW1v
+cnkgaGFzIGJlZW4gZXhwb3NlZCB0byBwb3RlbnRpYWwgY29weWluZy4KPiArCj4gKwkgIFRvIGNv
+bXBpbGUgdGhpcyBkcml2ZXIgYXMgYSBtb2R1bGUsIGNob29zZSBNIGhlcmU6IHRoZQo+ICsJICBt
+b2R1bGUgd2lsbCBiZSBjYWxsZWQgdm1nZW5pZC4KPiArCj4gICBjb25maWcgRlNMX0hWX01BTkFH
+RVIKPiAgIAl0cmlzdGF0ZSAiRnJlZXNjYWxlIGh5cGVydmlzb3IgbWFuYWdlbWVudCBkcml2ZXIi
+Cj4gICAJZGVwZW5kcyBvbiBGU0xfU09DCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdmlydC9NYWtl
+ZmlsZSBiL2RyaXZlcnMvdmlydC9NYWtlZmlsZQo+IGluZGV4IGYyODQyNWMuLjg4OWJlMDEgMTAw
+NjQ0Cj4gLS0tIGEvZHJpdmVycy92aXJ0L01ha2VmaWxlCj4gKysrIGIvZHJpdmVycy92aXJ0L01h
+a2VmaWxlCj4gQEAgLTQsNiArNCw3IEBACj4gICAjCj4gICAKPiAgIG9iai0kKENPTkZJR19GU0xf
+SFZfTUFOQUdFUikJKz0gZnNsX2h5cGVydmlzb3Iubwo+ICtvYmotJChDT05GSUdfVk1HRU5JRCkJ
+CSs9IHZtZ2VuaWQubwo+ICAgb2JqLXkJCQkJKz0gdmJveGd1ZXN0Lwo+ICAgCj4gICBvYmotJChD
+T05GSUdfTklUUk9fRU5DTEFWRVMpCSs9IG5pdHJvX2VuY2xhdmVzLwo+IGRpZmYgLS1naXQgYS9k
+cml2ZXJzL3ZpcnQvdm1nZW5pZC5jIGIvZHJpdmVycy92aXJ0L3ZtZ2VuaWQuYwo+IG5ldyBmaWxl
+IG1vZGUgMTAwNjQ0Cj4gaW5kZXggMDAwMDAwMC4uNzVhNzg3ZAo+IC0tLSAvZGV2L251bGwKPiAr
+KysgYi9kcml2ZXJzL3ZpcnQvdm1nZW5pZC5jCj4gQEAgLTAsMCArMSwzOTAgQEAKPiArLy8gU1BE
+WC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAKPiArLyoKPiArICogVmlydHVhbCBNYWNoaW5l
+IEdlbmVyYXRpb24gSUQgZHJpdmVyCj4gKyAqCj4gKyAqIENvcHlyaWdodCAoQykgMjAxOCBSZWQg
+SGF0IEluYy4gQWxsIHJpZ2h0cyByZXNlcnZlZC4KPiArICoKPiArICogQ29weXJpZ2h0IChDKSAy
+MDIwIEFtYXpvbi4gQWxsIHJpZ2h0cyByZXNlcnZlZC4KPiArICoKPiArICoJQXV0aG9yczoKPiAr
+ICoJICBBZHJpYW4gQ2F0YW5naXUgPGFjYXRhbkBhbWF6b24uY29tPgo+ICsgKgkgIE9yIElkZ2Fy
+IDxvcmlkZ2FyQGdtYWlsLmNvbT4KPiArICoJICBHYWwgSGFtbWVyIDxnaGFtbWVyQHJlZGhhdC5j
+b20+Cj4gKyAqCj4gKyAqLwo+ICsjaW5jbHVkZSA8bGludXgvYWNwaS5oPgo+ICsjaW5jbHVkZSA8
+bGludXgva2VybmVsLmg+Cj4gKyNpbmNsdWRlIDxsaW51eC9taXNjZGV2aWNlLmg+Cj4gKyNpbmNs
+dWRlIDxsaW51eC9tbS5oPgo+ICsjaW5jbHVkZSA8bGludXgvbW9kdWxlLmg+Cj4gKyNpbmNsdWRl
+IDxsaW51eC9wb2xsLmg+Cj4gKyNpbmNsdWRlIDxsaW51eC9yYW5kb20uaD4KPiArI2luY2x1ZGUg
+PGxpbnV4L3V1aWQuaD4KPiArI2luY2x1ZGUgPGxpbnV4L3ZtZ2VuaWQuaD4KPiArCj4gKyNkZWZp
+bmUgREVWX05BTUUgInZtZ2VuaWQiCj4gK0FDUElfTU9EVUxFX05BTUUoREVWX05BTUUpOwo+ICsK
+PiArc3RydWN0IGRldl9kYXRhIHsKPiArCXN0cnVjdCBtaXNjZGV2aWNlIG1pc2NfZGV2Owo+ICsJ
+dW5zaWduZWQgbG9uZyAgICAgbWFwX2J1ZjsKPiArCXdhaXRfcXVldWVfaGVhZF90IHJlYWRfd2Fp
+dDsKPiArCXVuc2lnbmVkIGludCAgICAgIGdlbmVyYXRpb25fY291bnRlcjsKPiArCj4gKwl2b2lk
+ICAgICAgICAgICAgICAqdXVpZF9pb21hcDsKPiArCXV1aWRfdCAgICAgICAgICAgIHV1aWQ7Cj4g
+Kwo+ICsJYXRvbWljX3QgICAgICAgICAgd2F0Y2hlcnM7Cj4gKwlhdG9taWNfdCAgICAgICAgICBv
+dXRkYXRlZF93YXRjaGVyczsKPiArCXdhaXRfcXVldWVfaGVhZF90IG91dGRhdGVkX3dhaXQ7Cj4g
+K307Cj4gKwo+ICtzdHJ1Y3QgZmlsZV9kYXRhIHsKPiArCXN0cnVjdCBkZXZfZGF0YSAqZGV2X2Rh
+dGE7Cj4gKwl1bnNpZ25lZCBpbnQgICAgYWNrZWRfZ2VuX2NvdW50ZXI7Cj4gK307Cj4gKwo+ICtz
+dGF0aWMgdm9pZCB2bWdlbmlkX3B1dF9vdXRkYXRlZF93YXRjaGVycyhzdHJ1Y3QgZGV2X2RhdGEg
+KnByaXYpCj4gK3sKPiArCWlmIChhdG9taWNfZGVjX2FuZF90ZXN0KCZwcml2LT5vdXRkYXRlZF93
+YXRjaGVycykpCj4gKwkJd2FrZV91cF9pbnRlcnJ1cHRpYmxlKCZwcml2LT5vdXRkYXRlZF93YWl0
+KTsKPiArfQo+ICsKPiArc3RhdGljIGludCB2bWdlbmlkX29wZW4oc3RydWN0IGlub2RlICppbm9k
+ZSwgc3RydWN0IGZpbGUgKmZpbGUpCj4gK3sKPiArCXN0cnVjdCBkZXZfZGF0YSAqcHJpdiA9Cj4g
+KwkJY29udGFpbmVyX29mKGZpbGUtPnByaXZhdGVfZGF0YSwgc3RydWN0IGRldl9kYXRhLCBtaXNj
+X2Rldik7Cj4gKwlzdHJ1Y3QgZmlsZV9kYXRhICpmaWxlX2RhdGEgPQo+ICsJCWt6YWxsb2Moc2l6
+ZW9mKHN0cnVjdCBmaWxlX2RhdGEpLCBHRlBfS0VSTkVMKTsKPiArCj4gKwlpZiAoIWZpbGVfZGF0
+YSkKPiArCQlyZXR1cm4gLUVOT01FTTsKPiArCj4gKwlmaWxlX2RhdGEtPmFja2VkX2dlbl9jb3Vu
+dGVyID0gcHJpdi0+Z2VuZXJhdGlvbl9jb3VudGVyOwo+ICsJZmlsZV9kYXRhLT5kZXZfZGF0YSA9
+IHByaXY7Cj4gKwo+ICsJZmlsZS0+cHJpdmF0ZV9kYXRhID0gZmlsZV9kYXRhOwo+ICsJYXRvbWlj
+X2luYygmcHJpdi0+d2F0Y2hlcnMpOwo+ICsKPiArCXJldHVybiAwOwo+ICt9Cj4gKwo+ICtzdGF0
+aWMgaW50IHZtZ2VuaWRfY2xvc2Uoc3RydWN0IGlub2RlICppbm9kZSwgc3RydWN0IGZpbGUgKmZp
+bGUpCj4gK3sKPiArCXN0cnVjdCBmaWxlX2RhdGEgKmZpbGVfZGF0YSA9IGZpbGUtPnByaXZhdGVf
+ZGF0YTsKPiArCXN0cnVjdCBkZXZfZGF0YSAqcHJpdiA9IGZpbGVfZGF0YS0+ZGV2X2RhdGE7Cj4g
+Kwo+ICsJaWYgKGZpbGVfZGF0YS0+YWNrZWRfZ2VuX2NvdW50ZXIgIT0gcHJpdi0+Z2VuZXJhdGlv
+bl9jb3VudGVyKQo+ICsJCXZtZ2VuaWRfcHV0X291dGRhdGVkX3dhdGNoZXJzKHByaXYpOwoKSXMg
+dGhpcyByYWN5PyBDb3VsZCB0aGVyZSBiZSBhIHNuYXBzaG90IG5vdGlmaWNhdGlvbiBjb21pbmcg
+YmV0d2VlbiB0aGUgCmJyYW5jaCBhbmQgdGhlIHB1dD8KCj4gKwlhdG9taWNfZGVjKCZwcml2LT53
+YXRjaGVycyk7Cj4gKwlrZnJlZShmaWxlX2RhdGEpOwo+ICsKPiArCXJldHVybiAwOwo+ICt9Cj4g
+Kwo+ICtzdGF0aWMgc3NpemVfdAo+ICt2bWdlbmlkX3JlYWQoc3RydWN0IGZpbGUgKmZpbGUsIGNo
+YXIgX191c2VyICp1YnVmLCBzaXplX3QgbmJ5dGVzLCBsb2ZmX3QgKnBwb3MpCj4gK3sKPiArCXN0
+cnVjdCBmaWxlX2RhdGEgKmZpbGVfZGF0YSA9IGZpbGUtPnByaXZhdGVfZGF0YTsKPiArCXN0cnVj
+dCBkZXZfZGF0YSAqcHJpdiA9IGZpbGVfZGF0YS0+ZGV2X2RhdGE7Cj4gKwlzc2l6ZV90IHJldDsK
+PiArCj4gKwlpZiAobmJ5dGVzID09IDApCj4gKwkJcmV0dXJuIDA7Cj4gKwkvKiBkaXNhbGxvdyBw
+YXJ0aWFsIHJlYWRzICovCj4gKwlpZiAobmJ5dGVzIDwgc2l6ZW9mKHByaXYtPmdlbmVyYXRpb25f
+Y291bnRlcikpCj4gKwkJcmV0dXJuIC1FSU5WQUw7Cj4gKwo+ICsJaWYgKGZpbGVfZGF0YS0+YWNr
+ZWRfZ2VuX2NvdW50ZXIgPT0gcHJpdi0+Z2VuZXJhdGlvbl9jb3VudGVyKSB7Cj4gKwkJaWYgKGZp
+bGUtPmZfZmxhZ3MgJiBPX05PTkJMT0NLKQo+ICsJCQlyZXR1cm4gLUVBR0FJTjsKPiArCQlyZXQg
+PSB3YWl0X2V2ZW50X2ludGVycnVwdGlibGUoCj4gKwkJCXByaXYtPnJlYWRfd2FpdCwKPiArCQkJ
+ZmlsZV9kYXRhLT5hY2tlZF9nZW5fY291bnRlciAhPSBwcml2LT5nZW5lcmF0aW9uX2NvdW50ZXIK
+PiArCQkpOwo+ICsJCWlmIChyZXQpCj4gKwkJCXJldHVybiByZXQ7Cj4gKwl9Cj4gKwo+ICsJbmJ5
+dGVzID0gc2l6ZW9mKHByaXYtPmdlbmVyYXRpb25fY291bnRlcik7Cj4gKwlyZXQgPSBjb3B5X3Rv
+X3VzZXIodWJ1ZiwgJnByaXYtPmdlbmVyYXRpb25fY291bnRlciwgbmJ5dGVzKTsKPiArCWlmIChy
+ZXQpCj4gKwkJcmV0dXJuIC1FRkFVTFQ7Cj4gKwo+ICsJcmV0dXJuIG5ieXRlczsKPiArfQo+ICsK
+PiArc3RhdGljIHNzaXplX3Qgdm1nZW5pZF93cml0ZShzdHJ1Y3QgZmlsZSAqZmlsZSwgY29uc3Qg
+Y2hhciBfX3VzZXIgKnVidWYsCj4gKwkJCQlzaXplX3QgY291bnQsIGxvZmZfdCAqcHBvcykKPiAr
+ewo+ICsJc3RydWN0IGZpbGVfZGF0YSAqZmlsZV9kYXRhID0gZmlsZS0+cHJpdmF0ZV9kYXRhOwo+
+ICsJc3RydWN0IGRldl9kYXRhICpwcml2ID0gZmlsZV9kYXRhLT5kZXZfZGF0YTsKPiArCXVuc2ln
+bmVkIGludCBhY2tlZF9nZW5fY291bnQ7Cj4gKwo+ICsJLyogZGlzYWxsb3cgcGFydGlhbCB3cml0
+ZXMgKi8KPiArCWlmIChjb3VudCAhPSBzaXplb2YoYWNrZWRfZ2VuX2NvdW50KSkKPiArCQlyZXR1
+cm4gLUVJTlZBTDsKPiArCWlmIChjb3B5X2Zyb21fdXNlcigmYWNrZWRfZ2VuX2NvdW50LCB1YnVm
+LCBjb3VudCkpCj4gKwkJcmV0dXJuIC1FRkFVTFQ7Cj4gKwkvKiB3cm9uZyBnZW4tY291bnRlciBh
+Y2tub3dsZWRnZWQgKi8KPiArCWlmIChhY2tlZF9nZW5fY291bnQgIT0gcHJpdi0+Z2VuZXJhdGlv
+bl9jb3VudGVyKQo+ICsJCXJldHVybiAtRUlOVkFMOwo+ICsKPiArCWlmIChmaWxlX2RhdGEtPmFj
+a2VkX2dlbl9jb3VudGVyICE9IHByaXYtPmdlbmVyYXRpb25fY291bnRlcikgewo+ICsJCS8qIHVw
+ZGF0ZSBsb2NhbCB2aWV3IG9mIFVVSUQgKi8KPiArCQlmaWxlX2RhdGEtPmFja2VkX2dlbl9jb3Vu
+dGVyID0gYWNrZWRfZ2VuX2NvdW50Owo+ICsJCXZtZ2VuaWRfcHV0X291dGRhdGVkX3dhdGNoZXJz
+KHByaXYpOwoKU2FtZSBxdWVzdGlvbiBoZXJlOiBXaGF0IGlmIHRoZXJlIGlzIGEgbm90aWZpY2F0
+aW9uIGJldHdlZW4gdGhlIGJyYW5jaCAKYW5kIHRoZSBwdXQ/Cgo+ICsJfQo+ICsKPiArCXJldHVy
+biAoc3NpemVfdCljb3VudDsKPiArfQo+ICsKPiArc3RhdGljIF9fcG9sbF90Cj4gK3ZtZ2VuaWRf
+cG9sbChzdHJ1Y3QgZmlsZSAqZmlsZSwgcG9sbF90YWJsZSAqd2FpdCkKPiArewo+ICsJX19wb2xs
+X3QgbWFzayA9IDA7Cj4gKwlzdHJ1Y3QgZmlsZV9kYXRhICpmaWxlX2RhdGEgPSBmaWxlLT5wcml2
+YXRlX2RhdGE7Cj4gKwlzdHJ1Y3QgZGV2X2RhdGEgKnByaXYgPSBmaWxlX2RhdGEtPmRldl9kYXRh
+Owo+ICsKPiArCWlmIChmaWxlX2RhdGEtPmFja2VkX2dlbl9jb3VudGVyICE9IHByaXYtPmdlbmVy
+YXRpb25fY291bnRlcikKPiArCQlyZXR1cm4gRVBPTExJTiB8IEVQT0xMUkROT1JNOwo+ICsKPiAr
+CXBvbGxfd2FpdChmaWxlLCAmcHJpdi0+cmVhZF93YWl0LCB3YWl0KTsKPiArCj4gKwlpZiAoZmls
+ZV9kYXRhLT5hY2tlZF9nZW5fY291bnRlciAhPSBwcml2LT5nZW5lcmF0aW9uX2NvdW50ZXIpCj4g
+KwkJbWFzayA9IEVQT0xMSU4gfCBFUE9MTFJETk9STTsKPiArCj4gKwlyZXR1cm4gbWFzazsKPiAr
+fQo+ICsKPiArc3RhdGljIGxvbmcgdm1nZW5pZF9pb2N0bChzdHJ1Y3QgZmlsZSAqZmlsZSwKPiAr
+CQl1bnNpZ25lZCBpbnQgY21kLCB1bnNpZ25lZCBsb25nIGFyZykKPiArewo+ICsJc3RydWN0IGZp
+bGVfZGF0YSAqZmlsZV9kYXRhID0gZmlsZS0+cHJpdmF0ZV9kYXRhOwo+ICsJc3RydWN0IGRldl9k
+YXRhICpwcml2ID0gZmlsZV9kYXRhLT5kZXZfZGF0YTsKPiArCXVuc2lnbmVkIGxvbmcgdGltZW91
+dF9ucyA9IGFyZyAqIE5TRUNfUEVSX01TRUM7Cj4gKwlrdGltZV90IHVudGlsID0ga3RpbWVfc2V0
+KDAsIHRpbWVvdXRfbnMpOwo+ICsJaW50IHJldDsKPiArCj4gKwlzd2l0Y2ggKGNtZCkgewo+ICsJ
+Y2FzZSBWTUdFTklEX0dFVF9PVVREQVRFRF9XQVRDSEVSUzoKPiArCQlyZXQgPSBhdG9taWNfcmVh
+ZCgmcHJpdi0+b3V0ZGF0ZWRfd2F0Y2hlcnMpOwo+ICsJCWJyZWFrOwo+ICsJY2FzZSBWTUdFTklE
+X1dBSVRfV0FUQ0hFUlM6Cj4gKwkJcmV0ID0gd2FpdF9ldmVudF9pbnRlcnJ1cHRpYmxlX2hydGlt
+ZW91dCgKPiArCQkJcHJpdi0+b3V0ZGF0ZWRfd2FpdCwKPiArCQkJIWF0b21pY19yZWFkKCZwcml2
+LT5vdXRkYXRlZF93YXRjaGVycyksCj4gKwkJCXVudGlsCj4gKwkJKTsKPiArCQlicmVhazsKPiAr
+CWRlZmF1bHQ6Cj4gKwkJcmV0ID0gLUVJTlZBTDsKPiArCQlicmVhazsKPiArCX0KPiArCXJldHVy
+biByZXQ7Cj4gK30KPiArCj4gK3N0YXRpYyBpbnQgdm1nZW5pZF9tbWFwKHN0cnVjdCBmaWxlICpm
+aWxlLCBzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYSkKPiArewo+ICsJc3RydWN0IGZpbGVfZGF0
+YSAqZmlsZV9kYXRhID0gZmlsZS0+cHJpdmF0ZV9kYXRhOwo+ICsJc3RydWN0IGRldl9kYXRhICpw
+cml2ID0gZmlsZV9kYXRhLT5kZXZfZGF0YTsKPiArCj4gKwlpZiAodm1hLT52bV9wZ29mZiAhPSAw
+IHx8IHZtYV9wYWdlcyh2bWEpID4gMSkKPiArCQlyZXR1cm4gLUVJTlZBTDsKPiArCj4gKwlpZiAo
+KHZtYS0+dm1fZmxhZ3MgJiBWTV9XUklURSkgIT0gMCkKPiArCQlyZXR1cm4gLUVQRVJNOwo+ICsK
+PiArCXZtYS0+dm1fZmxhZ3MgfD0gVk1fRE9OVEVYUEFORCB8IFZNX0RPTlREVU1QOwo+ICsJdm1h
+LT52bV9mbGFncyAmPSB+Vk1fTUFZV1JJVEU7Cj4gKwl2bWEtPnZtX3ByaXZhdGVfZGF0YSA9IGZp
+bGVfZGF0YTsKPiArCj4gKwlyZXR1cm4gdm1faW5zZXJ0X3BhZ2Uodm1hLCB2bWEtPnZtX3N0YXJ0
+LAo+ICsJCQkJCQkgIHZpcnRfdG9fcGFnZShwcml2LT5tYXBfYnVmKSk7CgpJcyB0aGlzIHdlaXJk
+IHdoaXRlIHNwYWNlIGludHJvZHVjZWQgYnkgbXkgbWFpbCBjbGllbnQgb3IgeW91ciBwYXRjaD8g
+OikKCgpBbGV4CgoKCkFtYXpvbiBEZXZlbG9wbWVudCBDZW50ZXIgR2VybWFueSBHbWJICktyYXVz
+ZW5zdHIuIDM4CjEwMTE3IEJlcmxpbgpHZXNjaGFlZnRzZnVlaHJ1bmc6IENocmlzdGlhbiBTY2hs
+YWVnZXIsIEpvbmF0aGFuIFdlaXNzCkVpbmdldHJhZ2VuIGFtIEFtdHNnZXJpY2h0IENoYXJsb3R0
+ZW5idXJnIHVudGVyIEhSQiAxNDkxNzMgQgpTaXR6OiBCZXJsaW4KVXN0LUlEOiBERSAyODkgMjM3
+IDg3OQoKCg==
 
 
