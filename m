@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15FD82B7B22
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 11:24:03 +0100 (CET)
-Received: from localhost ([::1]:37218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D837E2B7B3A
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 11:26:14 +0100 (CET)
+Received: from localhost ([::1]:44420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfKd8-0005HB-2d
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 05:24:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50472)
+	id 1kfKfF-0008Et-Rj
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 05:26:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kfKZ5-00008j-A6
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 05:19:51 -0500
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:40320)
+ id 1kfKZ6-0000Bw-3l
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 05:19:52 -0500
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:42619)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kfKZ3-0003fO-Js
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 05:19:50 -0500
-Received: by mail-ed1-x534.google.com with SMTP id d18so1399062edt.7
- for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 02:19:49 -0800 (PST)
+ id 1kfKZ4-0003fb-KB
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 05:19:51 -0500
+Received: by mail-ej1-x629.google.com with SMTP id i19so1947117ejx.9
+ for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 02:19:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rJC+t5jNQH+UoJIDaWfC2vUnw9SNYRVaW7Ew+YrAB9c=;
- b=A8ZU/kF514yUn+WY/HQJlgQ3LDLY1H7taSzjW+3o1d8/INOdeYGX58GT0iHlbtV0QA
- XWWGxNUrFi09c7iGTozZijTSq0gdc1eH1mr+xO4+M38KabK7SfmJDO/oXu/Aa6FNtlBR
- DC7AzRNXxxqyFSkA+9vtUCrWmbsl9SxXu2oyupu9/Owhl/ON0yva78CWa9ZM6cNuwbdN
- gnP6SzP+4Hmiw5lTwEYigiC8Fr0GWYIxmE5BpNyrUC7zSM2fYMlPSgASk/YtDU/1+ZK7
- Zl59pnp+KPgP8MQGdTAPXGxcC4naZTW2Qxln970dYjearB6VP6mLExivR7b5cbsBZZXU
- u+SA==
+ bh=MoDrbZFRPYimX08Mu25vJdw6TEjHqrR/m6bx2o/PoHM=;
+ b=KYShNIh1dQyFHKFjeoQdbCUKn5QMO2XP6eH7WgguUS1ckLyAxskXKgDL6qzwNWS45F
+ +/0BRH9Um92QF0PzWAyT/BMassTExi0fOj4qXvjBVycjAF1vzh1OLihNd+tbD34iQcnP
+ Q/766l++5kpJa+W9gRxtGe7/WOhF+aIUGgNSYXN+Z3Epuv574mLTYOEuh7QmCHLzzWPI
+ K03Tfp0zM7nYkz876eN3qsN3AjYyBCuTqajBxvR9CJczu4gFHk4J7NtJOg0LD/ZLWlt9
+ Cl98XCwTAWaAO7YQuqaSM0UOSh4cchoRC+XoguJL7u6W9ZzVwaOPYnbTc8JW5wZf2CXv
+ OJGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=rJC+t5jNQH+UoJIDaWfC2vUnw9SNYRVaW7Ew+YrAB9c=;
- b=KRoBNsJpZ85UeYNLZBWwNCJxAlbngcdjvRKqe/deVY8KoDz+yUSmDcDQFdhCvX9GX0
- onKrYy1hVGNphNkNRj/b2DwiPI3n2uFuwwuZOBCPEyGAMs2b+5Ev4ZXuxLxex2P7mm90
- qn8WZ/wYAxjwXDF//+wRu4FfeSf/X857xbChtkzQ17VPRNeBjrh++ZTc6WjCaIOSmKOC
- sFniIRyBG8eGcSdv3eEoh+esDbKWd9pS+Jl6TN8N7OBku90Fp0/EIZq20wPSPJVC+VEK
- MnzEO/l8Dstu14fUS+j9Au5cRjjUajEE9hD0KT4KQIydZjP3Lzmk7DwRAh80LWEujlRJ
- J4rA==
-X-Gm-Message-State: AOAM533hi8PfHiLQ2EzznmyoLVOZtrnnCQH1Jgj+skf6ihYFwewrJfNG
- TIhsPiGbk+BwtqeyYw4B+bcPvnsCBso=
-X-Google-Smtp-Source: ABdhPJxwQMXqrmbs9vMngweBkaSNF9YBEpudkjYW71JvJXYqMpR5pWSxj+pxbQ07qkrH5OM9pw7b5g==
-X-Received: by 2002:a05:6402:2206:: with SMTP id
- cq6mr8042597edb.163.1605694788022; 
+ bh=MoDrbZFRPYimX08Mu25vJdw6TEjHqrR/m6bx2o/PoHM=;
+ b=pKlT8yoIBxFykCIt8u1eVtEQIHfbB+t1K7HIiZwefqr3jzGIm1rYbHtp1KYMIh3b41
+ lwZzuX94KxJREynLM1bfkEOVzrjDx//mXdS+kfe1Hpi3v+UXddDcP7xpo5e3qtMgBlF/
+ cODPB85vaiicArfk4KHp/n8MI53VgLN606CdM6BGdZ4rciei1KfIttfeEtpdEHkCR4XS
+ 8+1uj1mcHW+70gjOqAcFMUAezu+Uup8+UACNib0dEVp4dZVUi2fE26Ollx9vJJBQv1A2
+ FQg64ieA7qvi9C+i11vHn7X62oa49ZXAq9Bf99vyqBVKScbHmFgGB3D8NVoMhKWZABLO
+ j2Iw==
+X-Gm-Message-State: AOAM532uom41ABTe9h+2bVDm8ukS0wgmgTmlI27CfoxeJU92fO0U4IIZ
+ F3kbN0hV5dK11RgeX/dxtDsXnIYzVEU=
+X-Google-Smtp-Source: ABdhPJzLNwXoIjbXAImDojoWloj19dg0z2k8RivJ6sIAOgpRweQ3XakJNh7DYwlzBrDRJMfrIr7lTg==
+X-Received: by 2002:a17:906:491a:: with SMTP id
+ b26mr24326646ejq.385.1605694788983; 
  Wed, 18 Nov 2020 02:19:48 -0800 (PST)
 Received: from localhost.localdomain ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id f24sm13230052edx.90.2020.11.18.02.19.47
+ by smtp.gmail.com with ESMTPSA id f24sm13230052edx.90.2020.11.18.02.19.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Nov 2020 02:19:47 -0800 (PST)
+ Wed, 18 Nov 2020 02:19:48 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/7] hvf: Gate RDTSCP on CPU_BASED2_RDTSCP,
- not just CPU_BASED_TSC_OFFSET
-Date: Wed, 18 Nov 2020 11:19:38 +0100
-Message-Id: <20201118101940.132594-6-pbonzini@redhat.com>
+Subject: [PULL 6/7] hvf: Fix segment selector format
+Date: Wed, 18 Nov 2020 11:19:39 +0100
+Message-Id: <20201118101940.132594-7-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201118101940.132594-1-pbonzini@redhat.com>
 References: <20201118101940.132594-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x534.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x629.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -93,29 +92,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jessica Clarke <jrtc27@jrtc27.com>
 
-Buglink: https://bugs.launchpad.net/qemu/+bug/1894836
+The Requested Privilege Level field is 2 bits, the Table Indicator field
+is 1 bit and the Index field is the remaining 15 bits, with TI=0 meaning
+GDT and TI=1 meaning LDT.
+
 Signed-off-by: Jessica Clarke <jrtc27@jrtc27.com>
-Message-Id: <20201116200319.28138-1-jrtc27@jrtc27.com>
+Message-Id: <20201116200414.28286-1-jrtc27@jrtc27.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/hvf/x86_cpuid.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ target/i386/hvf/x86.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/target/i386/hvf/x86_cpuid.c b/target/i386/hvf/x86_cpuid.c
-index ac731c2b85..a6842912f5 100644
---- a/target/i386/hvf/x86_cpuid.c
-+++ b/target/i386/hvf/x86_cpuid.c
-@@ -122,6 +122,10 @@ uint32_t hvf_get_supported_cpuid(uint32_t func, uint32_t idx,
-                 CPUID_PAT | CPUID_PSE36 | CPUID_EXT2_MMXEXT | CPUID_MMX |
-                 CPUID_FXSR | CPUID_EXT2_FXSR | CPUID_EXT2_PDPE1GB | CPUID_EXT2_3DNOWEXT |
-                 CPUID_EXT2_3DNOW | CPUID_EXT2_LM | CPUID_EXT2_RDTSCP | CPUID_EXT2_NX;
-+        hv_vmx_read_capability(HV_VMX_CAP_PROCBASED2, &cap);
-+        if (!(cap & CPU_BASED2_RDTSCP)) {
-+            edx &= ~CPUID_EXT2_RDTSCP;
-+        }
-         hv_vmx_read_capability(HV_VMX_CAP_PROCBASED, &cap);
-         if (!(cap & CPU_BASED_TSC_OFFSET)) {
-             edx &= ~CPUID_EXT2_RDTSCP;
+diff --git a/target/i386/hvf/x86.h b/target/i386/hvf/x86.h
+index 9e2c0039e6..782664c2ea 100644
+--- a/target/i386/hvf/x86.h
++++ b/target/i386/hvf/x86.h
+@@ -214,16 +214,16 @@ static inline uint32_t x86_call_gate_offset(x86_call_gate *gate)
+     return (uint32_t)((gate->offset1 << 16) | gate->offset0);
+ }
+ 
+-#define LDT_SEL     0
+-#define GDT_SEL     1
++#define GDT_SEL     0
++#define LDT_SEL     1
+ 
+ typedef struct x68_segment_selector {
+     union {
+         uint16_t sel;
+         struct {
+-            uint16_t rpl:3;
++            uint16_t rpl:2;
+             uint16_t ti:1;
+-            uint16_t index:12;
++            uint16_t index:13;
+         };
+     };
+ } __attribute__ ((__packed__)) x68_segment_selector;
 -- 
 2.28.0
 
