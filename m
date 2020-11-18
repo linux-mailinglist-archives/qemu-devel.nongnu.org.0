@@ -2,69 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F6C62B81DD
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 17:29:25 +0100 (CET)
-Received: from localhost ([::1]:58440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14DF92B818B
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 17:12:55 +0100 (CET)
+Received: from localhost ([::1]:60022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfQKi-0005lQ-9c
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 11:29:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52192)
+	id 1kfQ4j-0001wH-TS
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 11:12:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kfQHO-0002hT-14
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 11:25:58 -0500
-Received: from indium.canonical.com ([91.189.90.7]:50110)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kfQHM-0002pb-93
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 11:25:57 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kfQHK-0005Eg-QW
- for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 16:25:54 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C6E9B2E8075
- for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 16:25:54 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kfQ3T-0000yF-LC
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 11:11:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39629)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kfQ3Q-00018H-LL
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 11:11:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605715891;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=WX3aC0ZUypKugpxfHUenvZnCL3jpfxuBwA3kKgiGuCs=;
+ b=X1b1TmpcoQcuBBa2iBubYM77wfeH5p+60URq71dWRXIYYmrEM/3P99BZ2hJphvUyPbmqZt
+ zSVkkakpGMA2hIZUxl++EygcCQ8eDNytL4cIPNRPepIkFM8pXVgpPWgxE/yJSocJBsYpX3
+ C/yG9SL256k/SP87VDXX33olgCaT/ZY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-579-7NaURj9KMQGGIqzgL3XMZg-1; Wed, 18 Nov 2020 11:11:30 -0500
+X-MC-Unique: 7NaURj9KMQGGIqzgL3XMZg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5A209D8EC4;
+ Wed, 18 Nov 2020 16:11:27 +0000 (UTC)
+Received: from localhost (ovpn-115-101.rdu2.redhat.com [10.10.115.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 000F35D6A8;
+ Wed, 18 Nov 2020 16:11:20 +0000 (UTC)
+Date: Wed, 18 Nov 2020 11:11:19 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [RFC v3 8/9] module: introduce MODULE_INIT_ACCEL_CPU
+Message-ID: <20201118161119.GJ1509407@habkost.net>
+References: <20201118102936.25569-1-cfontana@suse.de>
+ <20201118102936.25569-9-cfontana@suse.de>
+ <20201118124845.GC1509407@habkost.net>
+ <6093de34-807d-3840-5402-4769385dd894@suse.de>
+ <8f829e99-c346-00bc-efdd-3e6d69cfba35@redhat.com>
+ <20201118143643.GF1509407@habkost.net>
+ <a6071cd4-0787-01c8-775a-ede72e740376@redhat.com>
+ <20201118152552.GG1509407@habkost.net>
+ <CABgObfYL-TNAMmqkUh6cjcytaAFEtXPfw8toO6gXEuyokdyLhA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 18 Nov 2020 16:11:11 -0000
-From: Peter Maydell <1371915@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Wishlist; assignee=None; 
-X-Launchpad-Bug-Tags: qemu ubuntu uninstall
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: deepi kelvin-middleton manciot-jeanchristophe
- pmaydell
-X-Launchpad-Bug-Reporter: jean-christophe manciot (manciot-jeanchristophe)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <20140920125958.18087.58091.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160571587158.18906.1603442124077136928.malone@gac.canonical.com>
-Subject: [Bug 1371915] Re: Make Uninstall Rule Requested
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c35ff22711d15549e2303ae18ae521fd91f6bf00"; Instance="production"
-X-Launchpad-Hash: cb70849d513f3df415ea60d4f62c2f9c7325b3ad
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 10:41:28
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CABgObfYL-TNAMmqkUh6cjcytaAFEtXPfw8toO6gXEuyokdyLhA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 00:38:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,40 +87,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1371915 <1371915@bugs.launchpad.net>
+Cc: Laurent Vivier <lvivier@redhat.com>, Bruce Rogers <brogers@suse.com>,
+ Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ Paul Durrant <paul@xen.org>, Olaf Hering <ohering@suse.de>,
+ Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Dario Faggioli <dfaggioli@suse.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Cameron Esfahani <dirty@apple.com>, Colin Xu <colin.xu@intel.com>,
+ Wenchao Wang <wenchao.wang@intel.com>,
+ Anthony Perard <anthony.perard@citrix.com>, haxm-team@intel.com,
+ Sunil Muthuswamy <sunilmut@microsoft.com>, Richard Henderson <rth@twiddle.net>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now we use meson for a build system, supporting "make uninstall" is
-potentially tractable, because meson itself supports 'uninstall' and we
-don't have a custom meson install script. We should check whether this
-is just a simple matter of wiring up the make target to meson and then
-do it, or else decide we don't want to support the feature...
+On Wed, Nov 18, 2020 at 04:43:19PM +0100, Paolo Bonzini wrote:
+> Il mer 18 nov 2020, 16:26 Eduardo Habkost <ehabkost@redhat.com> ha scritto:
+> 
+> >
+> > > The alternative is to store the (type, function) tuple directly, with the
+> > > type as a string.  Then you can just use type_init.
+> >
+> > Right.  Let's build on top of that:
+> >
+> > Another alternative would be to store a (type, X86CPUAccel) tuple
+> > directly, with the type as string.  This would save the extra
+> > indirection of the x86_cpu_accel_init() call.
+> >
+> > It turns out we already have a mechanism to register and store
+> > (type, StructContainingFunctionPointers) tuples at initialization
+> > time: QOM.
+> >
+> > X86CPUAccel can become X86CPUAccelClass, and be registered as a
+> > QOM type.  It could be a subtype of TYPE_ACCEL or not, it
+> > shouldn't matter.
+> >
+> 
+> It would be a weird type that isn't instantiated, and/or that does nothing
+> but monkey patching other classes. I don't think it's a good fit.
 
--- =
+The whole point of this would be to avoid monkey patching other
+classes.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1371915
+Why wouldn't we instantiate it?  There's a huge number of static
+variables in target/i386/kvm.c that could be moved to that
+object.  Sounds like a perfect fit for me.
 
-Title:
-  Make Uninstall Rule Requested
+I won't try to stop you if you really want to invent a brand new
+(name => CollectionOfFunctionPointers) registry, but it seems
+unnecessary.
 
-Status in QEMU:
-  New
+> 
+> Yet another possibility is to use GHashTable. It is limited to one value
+> per key, but it's enough if everything is kept local to {hw,target}/i386.
+> If needed a new function pointer can be added to MachineClass, implemented
+> in X86MachineState (where the GHashTable would also be) and called in
+> accel.c.
+> 
+> Paolo
+> 
+> Paolo
+> 
+> 
+> > I remember this was suggested in a previous thread, but I don't
+> > remember if there were any objections.
+> >
+> > >
+> > > > Making sure module_call_init() is called at the correct moment is
+> > > > not easier or safer than just making sure accel_init_machine()
+> > > > (or another init function you create) is called at the correct
+> > > > moment.
+> > >
+> > > Since there is a way to do it without a new level, that would of course
+> > be
+> > > fine for me too.  Let me explain however why I think Claudio's design had
+> > > module_call_init() misplaced and what the fundamental difference is.  The
+> > > basic phases in qemu_init() are:
+> > >
+> > > - initialize stuff
+> > > - parse command line
+> > > - create machine
+> > > - create accelerator
+> > > - initialize machine
+> > > - create devices
+> > > - start
+> > >
+> > > with a mess of other object creation sprinkled between the various phases
+> > > (but we don't care about those).
+> > >
+> > > What I object to, is calling module_call_init() after the "initialize
+> > stuff"
+> > > phase.  Claudio was using it to call the function directly, so it had to
+> > be
+> > > exactly at "create accelerator".  This is different from all other
+> > > module_call_init() calls, which are done very early.
+> >
+> > I agree.
+> >
+> > >
+> > > With the implementation I sketched, accel_register_call must still be
+> > done
+> > > after type_init, so there's still an ordering constraint, but all it's
+> > doing
+> > > is registering a callback in the "initialize stuff" phase.
+> >
+> > Makes sense, if we really want to introduce a new accel_register_call()
+> > abstraction.  I don't think we need it, though.
+> >
+> > --
+> > Eduardo
+> >
+> >
 
-Bug description:
-  Environment: Ubuntu 14.04 - Qemu 2.1.1
-  ------------------
-  I've configured qemu with some --prefix, compiled the sources and install=
-ed the binaries; now, for some reason, I need to uninstall qemu to configur=
-e it with the default prefix, recompile the sources and reinstall the binar=
-ies.
-  However, there's no rule to uninstall qemu.
+-- 
+Eduardo
 
-  All other packages which I have compiled and installed on my system
-  offer the possibility to uninstall it: why not Qemu?
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1371915/+subscriptions
 
