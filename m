@@ -2,63 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA1DC2B7753
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 08:51:32 +0100 (CET)
-Received: from localhost ([::1]:34092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3DCB2B7756
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 08:54:32 +0100 (CET)
+Received: from localhost ([::1]:36250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfIFX-0004HH-QX
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 02:51:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42342)
+	id 1kfIIR-0005H8-VZ
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 02:54:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kfIEA-0003kV-A4
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 02:50:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55341)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kfIHf-0004qZ-Ib
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 02:53:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25467)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kfIE8-0007ij-9L
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 02:50:06 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kfIHd-0008I0-KV
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 02:53:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605685803;
+ s=mimecast20190719; t=1605686021;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=875ExDgujjG7x+qxkqbVrQhyIJWpSBtUawvueclUcWI=;
- b=U13MnSIUAPunrtdEqweFbpCEOOTrJv4GdGB/+Oae5DFSU3wPMFJbELiK0Zn3vcWB8kA8Kl
- ezhKp6k5NO4aiawJ0RqObwJ4k6maIxpBjsfZz6YdixU+Gq9guIi9+UFiV15p+m258ZA5HQ
- w63KRSW7n6O2M6s+PsWHm4x+dTC2oIE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-286-b1Mkw0bHNeCBGByUzx-mfw-1; Wed, 18 Nov 2020 02:49:59 -0500
-X-MC-Unique: b1Mkw0bHNeCBGByUzx-mfw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 96C366D585;
- Wed, 18 Nov 2020 07:49:58 +0000 (UTC)
-Received: from gondolin (ovpn-113-132.ams2.redhat.com [10.36.113.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B708A5C1BB;
- Wed, 18 Nov 2020 07:49:49 +0000 (UTC)
-Date: Wed, 18 Nov 2020 08:49:47 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Matthew Rosato <mjrosato@linux.ibm.com>
-Subject: Re: [PATCH for-5.2] s390x/pci: fix endianness issues
-Message-ID: <20201118084947.172002fe.cohuck@redhat.com>
-In-Reply-To: <f4f665ad-c499-7824-bfd7-78b75b6216c4@linux.ibm.com>
-References: <20201117171340.1289659-1-cohuck@redhat.com>
- <6a1b2ba1-642a-9cee-4d7d-2c1e4ea826ed@redhat.com>
- <f4f665ad-c499-7824-bfd7-78b75b6216c4@linux.ibm.com>
-Organization: Red Hat GmbH
+ bh=sm+LXZpYqBg1dnOqhbYPveOzqD/FioeWqDWzcLfbYRA=;
+ b=GG/wwFmcbsnhN7esG5qtHc/ta2n6gYHCtLlINp0si8g7opcWfjQXci2lU9h7ea26d9Pqva
+ QYI0tkOLuemlpi3VNd+Jx4rtBthGiLv3JgJjoQ1Q88OMwAlsy6sZdY8IIgGfuqecwNQthl
+ RfZsUgxEbWuUcu30wBgyxQCKxbgDKJA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-424-yhayqoRCMvC2kbCkp5OmkQ-1; Wed, 18 Nov 2020 02:53:38 -0500
+X-MC-Unique: yhayqoRCMvC2kbCkp5OmkQ-1
+Received: by mail-wm1-f69.google.com with SMTP id g3so514762wmh.9
+ for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 23:53:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=sm+LXZpYqBg1dnOqhbYPveOzqD/FioeWqDWzcLfbYRA=;
+ b=dgSCNGFbdAuTkI6k0W67bw6BKR5mas9uvmM4Ope8DhaQbI7AJecOJcgdYgdT9smWra
+ SvhYm8MGkoqkYboyxdg3GERifs4zbb6vB2q74gWE3iCC0vlqYDoi6KCVZ/AnXKEeQEDf
+ YR6XDZl9FAyeaYuIRY6VMYrlmhro2UcDAvQDjKqEtpseUwydDEQur56gciNDwXQTMhaU
+ gNd/znEcegWkMLLbyYA9s+7+6y+IGx+sT/SsuD1IirTwK+k/aS9jLzVh8ekT080qHzJU
+ SBF6cH9UnFjzXi7NvSm1w7UeziawLHl1ONI6HgQGzVEajDscvieA0l4mYQ5wfdto8Ik6
+ wSqg==
+X-Gm-Message-State: AOAM530iGlOKRp7HVnJOijeelRr08+RHx9gmOKFLE1M2v9/Ao8EyUvj3
+ OU9h25frPaUFGuck2UNtOiYJ9m/3GdzF2k4vs2hktpewcHDvl7HiQFUrkk2ieWzSGw2DvH85LWK
+ OTMmR3u1Kjtzv6lM=
+X-Received: by 2002:a5d:51cd:: with SMTP id n13mr3254140wrv.87.1605686016436; 
+ Tue, 17 Nov 2020 23:53:36 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw1LJ/+U7ObH1gTn8jR2pETiZqkOcdr0DlDvbxY2F9jJNa9t1Qv6ja7cVGWT5UTq6O9v+nn6A==
+X-Received: by 2002:a5d:51cd:: with SMTP id n13mr3254123wrv.87.1605686016177; 
+ Tue, 17 Nov 2020 23:53:36 -0800 (PST)
+Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
+ by smtp.gmail.com with ESMTPSA id 34sm32943869wrq.27.2020.11.17.23.53.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Nov 2020 23:53:35 -0800 (PST)
+Date: Wed, 18 Nov 2020 02:53:32 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Fabrice Fontaine <fontaine.fabrice@gmail.com>
+Subject: Re: [PATCH] Fix build with 64 bits time_t
+Message-ID: <20201118025255-mutt-send-email-mst@kernel.org>
+References: <20201117202846.138463-1-fontaine.fabrice@gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20201117202846.138463-1-fontaine.fabrice@gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 19:41:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -68,7 +79,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,54 +92,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Pierre Morel <pmorel@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 Nov 2020 14:49:53 -0500
-Matthew Rosato <mjrosato@linux.ibm.com> wrote:
+On Tue, Nov 17, 2020 at 09:28:46PM +0100, Fabrice Fontaine wrote:
+> time element is deprecated on new input_event structure in kernel's
+> input.h [1]
+> 
+> This will avoid the following build failure:
+> 
+> hw/input/virtio-input-host.c: In function 'virtio_input_host_handle_status':
+> hw/input/virtio-input-host.c:198:28: error: 'struct input_event' has no member named 'time'
+>   198 |     if (gettimeofday(&evdev.time, NULL)) {
+>       |                            ^
+> 
+> Fixes:
+>  - http://autobuild.buildroot.org/results/a538167e288c14208d557cd45446df86d3d599d5
+>  - http://autobuild.buildroot.org/results/efd4474fb4b6c0ce0ab3838ce130429c51e43bbb
+> 
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=152194fe9c3f
+> 
+> Signed-off-by: Fabrice Fontaine <fontaine.fabrice@gmail.com>
+> ---
+>  contrib/vhost-user-input/main.c | 10 +++++++++-
+>  hw/input/virtio-input-host.c    | 10 +++++++++-
+>  2 files changed, 18 insertions(+), 2 deletions(-)
+> 
+> diff --git a/contrib/vhost-user-input/main.c b/contrib/vhost-user-input/main.c
+> index 6020c6f33a..e688c3e0a9 100644
+> --- a/contrib/vhost-user-input/main.c
+> +++ b/contrib/vhost-user-input/main.c
+> @@ -17,6 +17,11 @@
+>  #include "standard-headers/linux/virtio_input.h"
+>  #include "qapi/error.h"
+>  
+> +#ifndef input_event_sec
+> +#define input_event_sec time.tv_sec
+> +#define input_event_usec time.tv_usec
+> +#endif
+> +
+>  enum {
+>      VHOST_USER_INPUT_MAX_QUEUES = 2,
+>  };
 
-> On 11/17/20 2:21 PM, Thomas Huth wrote:
-> > On 17/11/2020 18.13, Cornelia Huck wrote:  
-> >> zPCI control blocks are big endian, we need to take care that we
-> >> do proper accesses in order not to break tcg guests on little endian
-> >> hosts.
-> >>
-> >> Fixes: 28dc86a07299 ("s390x/pci: use a PCI Group structure")
-> >> Fixes: 9670ee752727 ("s390x/pci: use a PCI Function structure")
-> >> Fixes: 1e7552ff5c34 ("s390x/pci: get zPCI function info from host")  
-> > 
-> > This fixes the problem with my old Fedora 28 under TCG, too, but... do we
-> > really want to store this information in big endian on the QEMU side (e.g.
-> > in the QTAILQ lists)? ... that smells like trouble again in the future...
-> > 
-> > I think it would be better if we rather replace all those memcpy() functions
-> > in the patches that you cited in the "Fixes:" lines above with code that
-> > changes the endianess when we copy the date from QEMU space to guest space
-> > and vice versa. What do you think?  
-> 
-> Hmm, that's actually a fair point...  Such an approach would have the 
-> advantage of avoiding weird lines like the following:
-> 
->       memory_region_add_subregion(&pbdev->iommu->mr,
-> -                                pbdev->pci_group->zpci_group.msia,
-> +                                ldq_p(&pbdev->pci_group->zpci_group.msia),
->                                   &pbdev->msix_notify_mr);
-> 
-> 
-> And would keep messing with endianness largely contained to the code 
-> that handles CLPs.  It does take away the niceness of being able to 
-> gather the CLP response in one fell memcpy but...  It's not like these 
-> are done very often (device init).
-> 
+Just update ./include/standard-headers/linux/input.h, we'll get these
+defines for free.
 
-Not opposed to it, can try to put a patch together and see what it
-looks like. As long as we get this into 5.2 :)
+
+> @@ -115,13 +120,16 @@ vi_evdev_watch(VuDev *dev, int condition, void *data)
+>  static void vi_handle_status(VuInput *vi, virtio_input_event *event)
+>  {
+>      struct input_event evdev;
+> +    struct timeval tval;
+>      int rc;
+>  
+> -    if (gettimeofday(&evdev.time, NULL)) {
+> +    if (gettimeofday(&tval, NULL)) {
+>          perror("vi_handle_status: gettimeofday");
+>          return;
+>      }
+>  
+> +    evdev.input_event_sec = tval.tv_sec;
+> +    evdev.input_event_usec = tval.tv_usec;
+>      evdev.type = le16toh(event->type);
+>      evdev.code = le16toh(event->code);
+>      evdev.value = le32toh(event->value);
+> diff --git a/hw/input/virtio-input-host.c b/hw/input/virtio-input-host.c
+> index 85daf73f1a..2e261737e1 100644
+> --- a/hw/input/virtio-input-host.c
+> +++ b/hw/input/virtio-input-host.c
+> @@ -16,6 +16,11 @@
+>  #include <sys/ioctl.h>
+>  #include "standard-headers/linux/input.h"
+>  
+> +#ifndef input_event_sec
+> +#define input_event_sec time.tv_sec
+> +#define input_event_usec time.tv_usec
+> +#endif
+> +
+>  /* ----------------------------------------------------------------- */
+>  
+>  static struct virtio_input_config virtio_input_host_config[] = {
+> @@ -193,13 +198,16 @@ static void virtio_input_host_handle_status(VirtIOInput *vinput,
+>  {
+>      VirtIOInputHost *vih = VIRTIO_INPUT_HOST(vinput);
+>      struct input_event evdev;
+> +    struct timeval tval;
+>      int rc;
+>  
+> -    if (gettimeofday(&evdev.time, NULL)) {
+> +    if (gettimeofday(&tval, NULL)) {
+>          perror("virtio_input_host_handle_status: gettimeofday");
+>          return;
+>      }
+>  
+> +    evdev.input_event_sec = tval.tv_sec;
+> +    evdev.input_event_usec = tval.tv_usec;
+>      evdev.type = le16_to_cpu(event->type);
+>      evdev.code = le16_to_cpu(event->code);
+>      evdev.value = le32_to_cpu(event->value);
+> -- 
+> 2.29.2
 
 
