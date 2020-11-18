@@ -2,109 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FAD82B7360
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 01:48:31 +0100 (CET)
-Received: from localhost ([::1]:60280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C6492B73AF
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 02:21:35 +0100 (CET)
+Received: from localhost ([::1]:35580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfBeA-0001ni-81
-	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 19:48:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54386)
+	id 1kfCA9-0005W1-S0
+	for lists+qemu-devel@lfdr.de; Tue, 17 Nov 2020 20:21:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <erich.mcmillan@hp.com>)
- id 1kfBbs-0001JV-4R
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 19:46:09 -0500
-Received: from us-smtp-delivery-162.mimecast.com ([216.205.24.162]:42763)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <erich.mcmillan@hp.com>)
- id 1kfBbm-0005mH-JH
- for qemu-devel@nongnu.org; Tue, 17 Nov 2020 19:46:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hp.com;
- s=mimecast20180716; t=1605660361;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=HVeYLJmCFqrL+qJ+CHYMl4MVAYkV3zBMiPpxJr97y7s=;
- b=XNK5qEcE1DBwjIRskF0o39jAYkcpPtr6PDdSyOGZep+jKRhYAd8QtI3fb5S53vSNPQqCor
- GUT3PTpcWwUp6reP2Kfuhuv1cnaVDT1nozaZCHJM5kRZwajZtSjqjtWR7O8OHEmgu2L1K4
- rh15wo7Z8PtHswb1/EX8CzR8jyCewA4=
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11lp2171.outbound.protection.outlook.com [104.47.58.171])
- (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-51-JnG6RBYWPDuFOXfAZHCuNQ-1; Tue, 17 Nov 2020 19:44:30 -0500
-X-MC-Unique: JnG6RBYWPDuFOXfAZHCuNQ-1
-Received: from CS1PR8401MB0327.NAMPRD84.PROD.OUTLOOK.COM
- (2a01:111:e400:7507::9) by CS1PR8401MB0886.NAMPRD84.PROD.OUTLOOK.COM
- (2a01:111:e400:750f::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.25; Wed, 18 Nov
- 2020 00:44:29 +0000
-Received: from CS1PR8401MB0327.NAMPRD84.PROD.OUTLOOK.COM
- ([fe80::51cc:84ed:4698:5dca]) by CS1PR8401MB0327.NAMPRD84.PROD.OUTLOOK.COM
- ([fe80::51cc:84ed:4698:5dca%7]) with mapi id 15.20.3564.028; Wed, 18 Nov 2020
- 00:44:29 +0000
-To: "Michael S. Tsirkin" <mst@redhat.com>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "lersek@redhat.com"
- <lersek@redhat.com>, "dgilbert@redhat.com" <dgilbert@redhat.com>,
- "marcel.apfelbaum@gmail.com" <marcel.apfelbaum@gmail.com>,
- "imammedo@redhat.com" <imammedo@redhat.com>, "kraxel@redhat.com"
- <kraxel@redhat.com>
-Subject: Re: [PATCH v6] hw/i386/pc: add max combined fw size as machine
- configuration option
-Thread-Topic: [PATCH v6] hw/i386/pc: add max combined fw size as machine
- configuration option
-Thread-Index: AQHWk2Vu5Zex3oyzg0aTR1075CA/CqnM3aqAgACDQ0U=
-Date: Wed, 18 Nov 2020 00:44:28 +0000
-Message-ID: <CS1PR8401MB03272F390100B1B88CCAC784F3E10@CS1PR8401MB0327.NAMPRD84.PROD.OUTLOOK.COM>
-References: <20200925175751.4017-1-erich.mcmillan@hp.com>,
- <20201117115329-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20201117115329-mutt-send-email-mst@kernel.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [34.103.75.94]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: fa87ce77-88a7-4d9d-0c01-08d88b5b1b6e
-x-ms-traffictypediagnostic: CS1PR8401MB0886:
-x-microsoft-antispam-prvs: <CS1PR8401MB0886D87F19E75D3C3B5AE00FF3E10@CS1PR8401MB0886.NAMPRD84.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:7691
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0
-x-microsoft-antispam-message-info: j/ne6qyxmY6ZT2hecnJB2c5ieWAkkO5lOfkjKQN4tAMiLHFool9cE4Hreg/my7Ht9GwDM39pctyo+7KGQoXBUXrOErrAG0FljaeIdZ0X/avS+becjj1jzVoNi4zjChaFtdWCbE7LBZWNgZHow6EpKhRwJpXBxEA8tySlrSxeGgC/OKbrK/+CsE/MehqzB78ZhMJJwiSlRcxk7NmgbMO6DsPpONHql6KgVPP7VuH4ePDObAHZuKjKEl/Jfo8mIBtG19HKpBxSYf8sQioVref2wBuRrv9kkTULFlRx70QYaMOFj8FB0vY58LIlWhp4zjG/luYQoIeVFQxB+OQQ/LkdJg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CS1PR8401MB0327.NAMPRD84.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(366004)(39860400002)(346002)(396003)(136003)(376002)(52536014)(5660300002)(83380400001)(71200400001)(54906003)(6916009)(316002)(91956017)(8936002)(66446008)(8676002)(76116006)(66946007)(4326008)(66476007)(66556008)(64756008)(2906002)(478600001)(6506007)(19627405001)(33656002)(53546011)(26005)(55016002)(186003)(86362001)(9686003)(7696005);
- DIR:OUT; SFP:1102
-x-ms-exchange-antispam-messagedata: 7ZoB7d+dt4IEQCXDUHhdmJOWJFQzWbIavNPxWGKtszRIIwnJnZRpVrwL9P1arH/WMHDoruBikshW9ZZIfRw6hRH40hY5+T75brwlpeTcDbjiYk+lXydl6fW/pxI56Du69BEHCMcx7Hrggb1tW/jn49sEqgBisaUqE1iQutbccTTdYBQSfmmPgvFC4a39kb1tjIVjEra5SWIELTevDAU4cQMWBraC/62OxgrwWNbpX9GknPhkw+sBgZs2NGaNC3eaQTjqs+gl0bkL/XrWLN8xBVOE968JU8rcDzmu1bvg6y6rG9YNDc/GrriOiWNyCGx8d9tfk4DtLfG+nxL65J/gCuiw3gvYxIPyuWo0EpvQCxuUQcVuDHp+KS8vXEh/wbUpq0qbhhyqZHbZ44WyT8FWB4qwXR28ikZGXYLKMYmBSnEExY2CEfTmiqAurj/iQWvvCTsV+PVtP8YnENN2j376jhcnB50WIGnbtew2r/qZjlN32aSR/67wyLjC9g1kyxsWkUk+ETGQBv1YCnq9ZYcAvKrKwBOm0mhUCieFOYZKvIivxYDmCNKI3NBipTBgKhxqRb1aQDJTgWnVkXyFc7hUa1OEuuuZUDEi7URNksJB59G7Y1bdPq8YDD37Lx9QnuvZD/xC+krCAhduZTtCBXN/vQ==
-x-ms-exchange-transport-forked: True
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kfC8A-0004yb-Dp
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 20:19:30 -0500
+Received: from mta-02.yadro.com ([89.207.88.252]:52210 helo=mta-01.yadro.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kfC87-0000vJ-Qo
+ for qemu-devel@nongnu.org; Tue, 17 Nov 2020 20:19:29 -0500
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 6B08B412E3;
+ Wed, 18 Nov 2020 01:19:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-disposition:content-type:content-type
+ :mime-version:references:message-id:subject:subject:from:from
+ :date:date:received:received:received; s=mta-01; t=1605662359;
+ x=1607476760; bh=uTq6Al873JaI39XpXgX1SJIvGvuXKnPYZDgdT7TRRXk=; b=
+ NcWRRt+P8/iQdI7IXGGmsJ8e5mxkejG/0hwGM8IUwTTqhQcEUhbDnjcB3WEmxR5Y
+ xL64XkFy4GVecFEXWgyVvv6QC/ni4O5W4jCIuLZ+zvJbOOLl7rd4a1s1c44jiR+k
+ 3FsHGhTGJIOx946Ab/C3U9oGq1kRFcIC2fXcnb244g0=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id thpuU51gK4bc; Wed, 18 Nov 2020 04:19:19 +0300 (MSK)
+Received: from T-EXCH-04.corp.yadro.com (t-exch-04.corp.yadro.com
+ [172.17.100.104])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id C1C6B412E1;
+ Wed, 18 Nov 2020 04:19:18 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-04.corp.yadro.com
+ (172.17.100.104) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Wed, 18
+ Nov 2020 04:19:17 +0300
+Date: Wed, 18 Nov 2020 04:19:17 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH for-6.0 1/6] qapi: Add query-accel command
+Message-ID: <20201118011917.GB10041@SPB-NB-133.local>
+References: <20201116131011.26607-1-r.bolshakov@yadro.com>
+ <20201116131011.26607-2-r.bolshakov@yadro.com>
+ <2d934855-ad11-9f61-28a1-7c0a35347a66@redhat.com>
+ <20201116211352.GC1235237@habkost.net>
+ <87mtzgbc29.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-X-OriginatorOrg: hp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CS1PR8401MB0327.NAMPRD84.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa87ce77-88a7-4d9d-0c01-08d88b5b1b6e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Nov 2020 00:44:28.9857 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: ca7981a2-785a-463d-b82a-3db87dfc3ce6
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 4IAilC6UJogJBdAzHgjs3G4HNWleVXdrT+oikLlNPaltQKS5ABW6F1KY15g2kOxKKJ9iE2eirz73IWdDi8xp5Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CS1PR8401MB0886
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA62A171 smtp.mailfrom=erich.mcmillan@hp.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: hp.com
-Content-Language: en-US
-Content-Type: multipart/alternative;
- boundary="_000_CS1PR8401MB03272F390100B1B88CCAC784F3E10CS1PR8401MB0327_"
-Received-SPF: pass client-ip=216.205.24.162;
- envelope-from=erich.mcmillan@hp.com; helo=us-smtp-delivery-162.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 19:44:32
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <87mtzgbc29.fsf@dusky.pond.sub.org>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-04.corp.yadro.com (172.17.100.104)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 20:19:21
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -117,461 +83,252 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: "McMillan, Erich" <erich.mcmillan@hp.com>
-From: "McMillan, Erich" via <qemu-devel@nongnu.org>
 
---_000_CS1PR8401MB03272F390100B1B88CCAC784F3E10CS1PR8401MB0327_
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+On Tue, Nov 17, 2020 at 09:51:58AM +0100, Markus Armbruster wrote:
+> Eduardo Habkost <ehabkost@redhat.com> writes:
+> 
+> > On Mon, Nov 16, 2020 at 10:20:04AM -0600, Eric Blake wrote:
+> >> On 11/16/20 7:10 AM, Roman Bolshakov wrote:
+> >> > There's a problem for management applications to determine if certain
+> >> > accelerators available. Generic QMP command should help with that.
+> >> > 
+> >> > Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+> >> > ---
+> >> >  monitor/qmp-cmds.c | 15 +++++++++++++++
+> >> >  qapi/machine.json  | 19 +++++++++++++++++++
+> >> >  2 files changed, 34 insertions(+)
+> >> > 
+> >> 
+> >> > +++ b/qapi/machine.json
+> >> > @@ -591,6 +591,25 @@
+> >> >  ##
+> >> >  { 'command': 'query-kvm', 'returns': 'KvmInfo' }
+> >> >  
+> >> > +##
+> >> > +# @query-accel:
+> >> > +#
+> >> > +# Returns information about an accelerator
+> >> > +#
+> >> > +# Returns: @KvmInfo
+> 
+> Is reusing KvmInfo here is good idea?  Recall:
+> 
+>     ##
+>     # @KvmInfo:
+>     #
+>     # Information about support for KVM acceleration
+>     #
+>     # @enabled: true if KVM acceleration is active
+>     #
+>     # @present: true if KVM acceleration is built into this executable
+>     #
+>     # Since: 0.14.0
+>     ##
+>     { 'struct': 'KvmInfo', 'data': {'enabled': 'bool', 'present': 'bool'} }
+> 
+> I figure @present will always be true with query-accel.  In other words,
+> it's useless noise.
+> 
 
-Thanks Michael.
+Hi Markus,
 
--Erich
-________________________________
-From: Michael S. Tsirkin <mst@redhat.com>
-Sent: Tuesday, November 17, 2020 10:53 AM
-To: McMillan, Erich <erich.mcmillan@hp.com>
-Cc: qemu-devel@nongnu.org <qemu-devel@nongnu.org>; lersek@redhat.com <lerse=
-k@redhat.com>; dgilbert@redhat.com <dgilbert@redhat.com>; marcel.apfelbaum@=
-gmail.com <marcel.apfelbaum@gmail.com>; imammedo@redhat.com <imammedo@redha=
-t.com>; kraxel@redhat.com <kraxel@redhat.com>
-Subject: Re: [PATCH v6] hw/i386/pc: add max combined fw size as machine con=
-figuration option
+Actually, no. Provided implementation returns present = true only if we
+can find the accel in QOM, i.e. on macOS we get present = false for kvm.
+And on Linux we get present = false for hvf, e.g.:
 
-On Fri, Sep 25, 2020 at 05:57:51PM +0000, Erich Mcmillan wrote:
-> From: Erich McMillan <erich.mcmillan@hp.com>
->
-> At Hewlett Packard Inc. we have a need for increased fw size to enable te=
-sting of our custom fw.
-> Move return statement for early return
->
-> Signed-off-by: Erich McMillan <erich.mcmillan@hp.com>
+C: {"execute": "query-accel", "arguments": {"name": "hvf"}}
+S: {"return": {"enabled": true, "present": true}}
+C: {"execute": "query-accel", "arguments": {"name": "kvm"}}
+S: {"return": {"enabled": false, "present": false}}
+C: {"execute": "query-accel", "arguments": {"name": "tcg"}}
+S: {"return": {"enabled": false, "present": true}}
 
-My bad that I dropped it by mistake before code freeze.
-I will queue it for the next release.
+> If we return information on all accelerators, KvmInfo won't do, because
+> it lacks the accelerator name.
+> 
+> If we choose to reuse KvmInfo regardless, it needs to be renamed to
+> something like AccelInfo, and the doc comment generalized beyond KVM.
+> 
 
-> ---
->
-> Changes since v5:
->
->      Move return statement for pc_machine_set_max_fw_size() to follow err=
-or_setg() as early return.
->
->  hw/i386/pc.c         | 51 ++++++++++++++++++++++++++++++++++++++++++++
->  hw/i386/pc_sysfw.c   | 13 ++---------
->  include/hw/i386/pc.h |  2 ++
->  3 files changed, 55 insertions(+), 11 deletions(-)
->
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index d11daacc23..70c8c9adcf 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -1869,6 +1869,50 @@ static void pc_machine_set_max_ram_below_4g(Object=
- *obj, Visitor *v,
->      pcms->max_ram_below_4g =3D value;
->  }
->
-> +static void pc_machine_get_max_fw_size(Object *obj, Visitor *v,
-> +                                       const char *name, void *opaque,
-> +                                       Error **errp)
-> +{
-> +    PCMachineState *pcms =3D PC_MACHINE(obj);
-> +    uint64_t value =3D pcms->max_fw_size;
-> +
-> +    visit_type_size(v, name, &value, errp);
-> +}
-> +
-> +static void pc_machine_set_max_fw_size(Object *obj, Visitor *v,
-> +                                       const char *name, void *opaque,
-> +                                       Error **errp)
-> +{
-> +    PCMachineState *pcms =3D PC_MACHINE(obj);
-> +    Error *error =3D NULL;
-> +    uint64_t value;
-> +
-> +    visit_type_size(v, name, &value, &error);
-> +    if (error) {
-> +        error_propagate(errp, error);
-> +        return;
-> +    }
-> +
-> +    /*
-> +    * We don't have a theoretically justifiable exact lower bound on the=
- base
-> +    * address of any flash mapping. In practice, the IO-APIC MMIO range =
-is
-> +    * [0xFEE00000..0xFEE01000] -- see IO_APIC_DEFAULT_ADDRESS --, leavin=
-g free
-> +    * only 18MB-4KB below 4G. For now, restrict the cumulative mapping t=
-o 8MB in
-> +    * size.
-> +    */
-> +    if (value > 16 * MiB) {
-> +        error_setg(errp,
-> +                   "User specified max allowed firmware size %" PRIu64 "=
- is "
-> +                   "greater than 16MiB. If combined firwmare size exceed=
-s "
-> +                   "16MiB the system may not boot, or experience intermi=
-ttent"
-> +                   "stability issues.",
-> +                   value);
-> +        return;
-> +    }
-> +
-> +    pcms->max_fw_size =3D value;
-> +}
-> +
->  static void pc_machine_initfn(Object *obj)
->  {
->      PCMachineState *pcms =3D PC_MACHINE(obj);
-> @@ -1884,6 +1928,7 @@ static void pc_machine_initfn(Object *obj)
->      pcms->smbus_enabled =3D true;
->      pcms->sata_enabled =3D true;
->      pcms->pit_enabled =3D true;
-> +    pcms->max_fw_size =3D 8 * MiB;
->
->      pc_system_flash_create(pcms);
->      pcms->pcspk =3D isa_new(TYPE_PC_SPEAKER);
-> @@ -2004,6 +2049,12 @@ static void pc_machine_class_init(ObjectClass *oc,=
- void *data)
->
->      object_class_property_add_bool(oc, PC_MACHINE_PIT,
->          pc_machine_get_pit, pc_machine_set_pit);
-> +
-> +    object_class_property_add(oc, PC_MACHINE_MAX_FW_SIZE, "size",
-> +        pc_machine_get_max_fw_size, pc_machine_set_max_fw_size,
-> +        NULL, NULL);
-> +    object_class_property_set_description(oc, PC_MACHINE_MAX_FW_SIZE,
-> +        "Maximum combined firmware size");
->  }
->
->  static const TypeInfo pc_machine_info =3D {
-> diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
-> index b6c0822fe3..22450ba0ef 100644
-> --- a/hw/i386/pc_sysfw.c
-> +++ b/hw/i386/pc_sysfw.c
-> @@ -39,15 +39,6 @@
->  #include "hw/block/flash.h"
->  #include "sysemu/kvm.h"
->
-> -/*
-> - * We don't have a theoretically justifiable exact lower bound on the ba=
-se
-> - * address of any flash mapping. In practice, the IO-APIC MMIO range is
-> - * [0xFEE00000..0xFEE01000] -- see IO_APIC_DEFAULT_ADDRESS --, leaving f=
-ree
-> - * only 18MB-4KB below 4G. For now, restrict the cumulative mapping to 8=
-MB in
-> - * size.
-> - */
-> -#define FLASH_SIZE_LIMIT (8 * MiB)
-> -
->  #define FLASH_SECTOR_SIZE 4096
->
->  static void pc_isa_bios_init(MemoryRegion *rom_memory,
-> @@ -182,10 +173,10 @@ static void pc_system_flash_map(PCMachineState *pcm=
-s,
->          }
->          if ((hwaddr)size !=3D size
->              || total_size > HWADDR_MAX - size
-> -            || total_size + size > FLASH_SIZE_LIMIT) {
-> +            || total_size + size > pcms->max_fw_size) {
->              error_report("combined size of system firmware exceeds "
->                           "%" PRIu64 " bytes",
-> -                         FLASH_SIZE_LIMIT);
-> +                         pcms->max_fw_size);
->              exit(1);
->          }
->
-> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-> index fe52e165b2..f7c8e7cbfe 100644
-> --- a/include/hw/i386/pc.h
-> +++ b/include/hw/i386/pc.h
-> @@ -43,6 +43,7 @@ struct PCMachineState {
->      bool smbus_enabled;
->      bool sata_enabled;
->      bool pit_enabled;
-> +    uint64_t max_fw_size;
->
->      /* NUMA information: */
->      uint64_t numa_nodes;
-> @@ -59,6 +60,7 @@ struct PCMachineState {
->  #define PC_MACHINE_SMBUS            "smbus"
->  #define PC_MACHINE_SATA             "sata"
->  #define PC_MACHINE_PIT              "pit"
-> +#define PC_MACHINE_MAX_FW_SIZE      "max-fw-size"
->
->  /**
->   * PCMachineClass:
-> --
-> 2.25.1
+I have renamed it to AccelInfo in another patch in the series :)
 
+> >> > +#
+> >> > +# Since: 6.0.0
+> >> 
+> >> We're inconsistent on whether we have 'Since: x.y' or 'Since: x.y.z',
+> >> although I prefer the shorter form.  Maybe Markus has an opnion on that.
+> 
+> Yes: use the shorter form, unless .z != .0.
+> 
+> The shorter form is much more common:
+> 
+>     $ sed -En 's/.*since:? *([0-9][0-9.]*).*/\1/pi' qapi/*json | sed 's/[^.]//g' | sort | uniq -c
+>        1065 .
+>         129 ..
+> 
+> .z != 0 should be rare: the stable branch is for bug fixes, and bug
+> fixes rarely require schema changes.  It is: there is just one instance,
+> from commit ab9ba614556 (v3.0.0) and 0779afdc897 (v2.12.1).
+> 
 
---_000_CS1PR8401MB03272F390100B1B88CCAC784F3E10CS1PR8401MB0327_
-Content-Type: text/html; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+Thanks, I'll use 6.0 then.
 
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
-Thanks Michael.</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
-<br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
--Erich<br>
-</div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Michael S. Tsirkin &l=
-t;mst@redhat.com&gt;<br>
-<b>Sent:</b> Tuesday, November 17, 2020 10:53 AM<br>
-<b>To:</b> McMillan, Erich &lt;erich.mcmillan@hp.com&gt;<br>
-<b>Cc:</b> qemu-devel@nongnu.org &lt;qemu-devel@nongnu.org&gt;; lersek@redh=
-at.com &lt;lersek@redhat.com&gt;; dgilbert@redhat.com &lt;dgilbert@redhat.c=
-om&gt;; marcel.apfelbaum@gmail.com &lt;marcel.apfelbaum@gmail.com&gt;; imam=
-medo@redhat.com &lt;imammedo@redhat.com&gt;; kraxel@redhat.com
- &lt;kraxel@redhat.com&gt;<br>
-<b>Subject:</b> Re: [PATCH v6] hw/i386/pc: add max combined fw size as mach=
-ine configuration option</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">On Fri, Sep 25, 2020 at 05:57:51PM +0000, Erich Mc=
-millan wrote:<br>
-&gt; From: Erich McMillan &lt;erich.mcmillan@hp.com&gt;<br>
-&gt; <br>
-&gt; At Hewlett Packard Inc. we have a need for increased fw size to enable=
- testing of our custom fw.<br>
-&gt; Move return statement for early return<br>
-&gt; <br>
-&gt; Signed-off-by: Erich McMillan &lt;erich.mcmillan@hp.com&gt;<br>
-<br>
-My bad that I dropped it by mistake before code freeze.<br>
-I will queue it for the next release.<br>
-<br>
-&gt; ---<br>
-&gt; <br>
-&gt; Changes since v5:<br>
-&gt; <br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Move return statement for pc_machine_set=
-_max_fw_size() to follow error_setg() as early return.<br>
-&gt; <br>
-&gt;&nbsp; hw/i386/pc.c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 5=
-1 ++++++++++++++++++++++++++++++++++++++++++++<br>
-&gt;&nbsp; hw/i386/pc_sysfw.c&nbsp;&nbsp; | 13 ++---------<br>
-&gt;&nbsp; include/hw/i386/pc.h |&nbsp; 2 ++<br>
-&gt;&nbsp; 3 files changed, 55 insertions(+), 11 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/hw/i386/pc.c b/hw/i386/pc.c<br>
-&gt; index d11daacc23..70c8c9adcf 100644<br>
-&gt; --- a/hw/i386/pc.c<br>
-&gt; +++ b/hw/i386/pc.c<br>
-&gt; @@ -1869,6 +1869,50 @@ static void pc_machine_set_max_ram_below_4g(Obj=
-ect *obj, Visitor *v,<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pcms-&gt;max_ram_below_4g =3D value;<br>
-&gt;&nbsp; }<br>
-&gt;&nbsp; <br>
-&gt; +static void pc_machine_get_max_fw_size(Object *obj, Visitor *v,<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp; const char *name, void *opaque,<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp; Error **errp)<br>
-&gt; +{<br>
-&gt; +&nbsp;&nbsp;&nbsp; PCMachineState *pcms =3D PC_MACHINE(obj);<br>
-&gt; +&nbsp;&nbsp;&nbsp; uint64_t value =3D pcms-&gt;max_fw_size;<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp; visit_type_size(v, name, &amp;value, errp);<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static void pc_machine_set_max_fw_size(Object *obj, Visitor *v,<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp; const char *name, void *opaque,<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp; Error **errp)<br>
-&gt; +{<br>
-&gt; +&nbsp;&nbsp;&nbsp; PCMachineState *pcms =3D PC_MACHINE(obj);<br>
-&gt; +&nbsp;&nbsp;&nbsp; Error *error =3D NULL;<br>
-&gt; +&nbsp;&nbsp;&nbsp; uint64_t value;<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp; visit_type_size(v, name, &amp;value, &amp;error);<=
-br>
-&gt; +&nbsp;&nbsp;&nbsp; if (error) {<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; error_propagate(errp, erro=
-r);<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return;<br>
-&gt; +&nbsp;&nbsp;&nbsp; }<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp; /*<br>
-&gt; +&nbsp;&nbsp;&nbsp; * We don't have a theoretically justifiable exact =
-lower bound on the base<br>
-&gt; +&nbsp;&nbsp;&nbsp; * address of any flash mapping. In practice, the I=
-O-APIC MMIO range is<br>
-&gt; +&nbsp;&nbsp;&nbsp; * [0xFEE00000..0xFEE01000] -- see IO_APIC_DEFAULT_=
-ADDRESS --, leaving free<br>
-&gt; +&nbsp;&nbsp;&nbsp; * only 18MB-4KB below 4G. For now, restrict the cu=
-mulative mapping to 8MB in<br>
-&gt; +&nbsp;&nbsp;&nbsp; * size.<br>
-&gt; +&nbsp;&nbsp;&nbsp; */<br>
-&gt; +&nbsp;&nbsp;&nbsp; if (value &gt; 16 * MiB) {<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; error_setg(errp,<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;User specified max allowed fi=
-rmware size %&quot; PRIu64 &quot; is &quot;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;greater than 16MiB. If combin=
-ed firwmare size exceeds &quot;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;16MiB the system may not boot=
-, or experience intermittent&quot;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;stability issues.&quot;,<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; value);<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return;<br>
-&gt; +&nbsp;&nbsp;&nbsp; }<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp; pcms-&gt;max_fw_size =3D value;<br>
-&gt; +}<br>
-&gt; +<br>
-&gt;&nbsp; static void pc_machine_initfn(Object *obj)<br>
-&gt;&nbsp; {<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PCMachineState *pcms =3D PC_MACHINE(obj)=
-;<br>
-&gt; @@ -1884,6 +1928,7 @@ static void pc_machine_initfn(Object *obj)<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pcms-&gt;smbus_enabled =3D true;<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pcms-&gt;sata_enabled =3D true;<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pcms-&gt;pit_enabled =3D true;<br>
-&gt; +&nbsp;&nbsp;&nbsp; pcms-&gt;max_fw_size =3D 8 * MiB;<br>
-&gt;&nbsp; <br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pc_system_flash_create(pcms);<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pcms-&gt;pcspk =3D isa_new(TYPE_PC_SPEAK=
-ER);<br>
-&gt; @@ -2004,6 +2049,12 @@ static void pc_machine_class_init(ObjectClass *=
-oc, void *data)<br>
-&gt;&nbsp; <br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; object_class_property_add_bool(oc, PC_MA=
-CHINE_PIT,<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pc_machine_get_p=
-it, pc_machine_set_pit);<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp; object_class_property_add(oc, PC_MACHINE_MAX_FW_SI=
-ZE, &quot;size&quot;,<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pc_machine_get_max_fw_size=
-, pc_machine_set_max_fw_size,<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NULL, NULL);<br>
-&gt; +&nbsp;&nbsp;&nbsp; object_class_property_set_description(oc, PC_MACHI=
-NE_MAX_FW_SIZE,<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;Maximum combined fir=
-mware size&quot;);<br>
-&gt;&nbsp; }<br>
-&gt;&nbsp; <br>
-&gt;&nbsp; static const TypeInfo pc_machine_info =3D {<br>
-&gt; diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c<br>
-&gt; index b6c0822fe3..22450ba0ef 100644<br>
-&gt; --- a/hw/i386/pc_sysfw.c<br>
-&gt; +++ b/hw/i386/pc_sysfw.c<br>
-&gt; @@ -39,15 +39,6 @@<br>
-&gt;&nbsp; #include &quot;hw/block/flash.h&quot;<br>
-&gt;&nbsp; #include &quot;sysemu/kvm.h&quot;<br>
-&gt;&nbsp; <br>
-&gt; -/*<br>
-&gt; - * We don't have a theoretically justifiable exact lower bound on the=
- base<br>
-&gt; - * address of any flash mapping. In practice, the IO-APIC MMIO range =
-is<br>
-&gt; - * [0xFEE00000..0xFEE01000] -- see IO_APIC_DEFAULT_ADDRESS --, leavin=
-g free<br>
-&gt; - * only 18MB-4KB below 4G. For now, restrict the cumulative mapping t=
-o 8MB in<br>
-&gt; - * size.<br>
-&gt; - */<br>
-&gt; -#define FLASH_SIZE_LIMIT (8 * MiB)<br>
-&gt; -<br>
-&gt;&nbsp; #define FLASH_SECTOR_SIZE 4096<br>
-&gt;&nbsp; <br>
-&gt;&nbsp; static void pc_isa_bios_init(MemoryRegion *rom_memory,<br>
-&gt; @@ -182,10 +173,10 @@ static void pc_system_flash_map(PCMachineState *=
-pcms,<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if ((hwaddr)size=
- !=3D size<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp; || total_size &gt; HWADDR_MAX - size<br>
-&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ||=
- total_size + size &gt; FLASH_SIZE_LIMIT) {<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ||=
- total_size + size &gt; pcms-&gt;max_fw_size) {<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp; error_report(&quot;combined size of system firmware exceeds &quot;<=
-br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp; &quot;%&quot; PRIu64 &quot; bytes&quot;,<br>
-&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
- FLASH_SIZE_LIMIT);<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
- pcms-&gt;max_fw_size);<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp; exit(1);<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-&gt;&nbsp; <br>
-&gt; diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h<br>
-&gt; index fe52e165b2..f7c8e7cbfe 100644<br>
-&gt; --- a/include/hw/i386/pc.h<br>
-&gt; +++ b/include/hw/i386/pc.h<br>
-&gt; @@ -43,6 +43,7 @@ struct PCMachineState {<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bool smbus_enabled;<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bool sata_enabled;<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bool pit_enabled;<br>
-&gt; +&nbsp;&nbsp;&nbsp; uint64_t max_fw_size;<br>
-&gt;&nbsp; <br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* NUMA information: */<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; uint64_t numa_nodes;<br>
-&gt; @@ -59,6 +60,7 @@ struct PCMachineState {<br>
-&gt;&nbsp; #define PC_MACHINE_SMBUS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp; &quot;smbus&quot;<br>
-&gt;&nbsp; #define PC_MACHINE_SATA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;sata&quot;<br>
-&gt;&nbsp; #define PC_MACHINE_PIT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;pit&quot;<br>
-&gt; +#define PC_MACHINE_MAX_FW_SIZE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;ma=
-x-fw-size&quot;<br>
-&gt;&nbsp; <br>
-&gt;&nbsp; /**<br>
-&gt;&nbsp;&nbsp; * PCMachineClass:<br>
-&gt; -- <br>
-&gt; 2.25.1<br>
-<br>
-</div>
-</span></font></div>
-</body>
-</html>
+> >> > +#
+> >> > +# Example:
+> >> > +#
+> >> > +# -> { "execute": "query-accel", "arguments": { "name": "kvm" } }
+> >> > +# <- { "return": { "enabled": true, "present": true } }
+> >> > +#
+> >> > +##
+> >> > +{ 'command': 'query-accel',
+> >> > +  'data': { 'name': 'str' },
+> >> > +  'returns': 'KvmInfo' }
+> >> 
+> >> '@name' is undocumented and an open-coded string.  Better would be
+> >> requiring 'name' to be one of an enum type.  [...]
+> >
+> > This seem similar to CPU models, machine types, device types, and
+> > backend object types: the set of valid values is derived from the
+> > list of subtypes of a QOM type.  We don't duplicate lists of QOM
+> > types in the QAPI schema, today.
+> 
+> Yes.
+> 
+> > Do we want to duplicate the list of accelerators in the QAPI
+> > schema, or should we wait for a generic solution that works for
+> > any QOM type?
+> 
+> There are only a few accelerators, so duplicating them wouldn't be too
+> bad.  Still, we need a better reason than "because we can".
+> 
+> QAPI enum vs. 'str' doesn't affect the wire format: both use JSON
+> string.
+> 
 
---_000_CS1PR8401MB03272F390100B1B88CCAC784F3E10CS1PR8401MB0327_--
+'str' is quite flexible. If we remove an accel, provided QOM command
+won't complain. It'll just reply that the accel is not present :)
 
+> With a QAPI enum, the values available in this QEMU build are visible in
+> query-qmp-schema.
+> 
+> Without a QAPI enum, we need a separate, ad hoc query.  For QOM types,
+> we have qom-list-types.
+> 
+> If you're familiar with qom-list-types, you may want to skip to
+> "Conclusion:" now.
+> 
+> Ad hoc queries can take additional arguments.  qom-list-types does:
+> "implements" and "abstract" limit output.  Default is "all
+> non-abstract".
+> 
+> This provides a way to find accelerators: use "implements": "accel" to
+> return only concrete subtypes of "accel":
+> 
+>    ---> {"execute": "qom-list-types", "arguments": {"implements": "accel"}}
+>    <--- {"return": [{"name": "qtest-accel", "parent": "accel"}, {"name": "tcg-accel", "parent": "accel"}, {"name": "xen-accel", "parent": "accel"}, {"name": "kvm-accel", "parent": "accel"}, {"name": "accel", "parent": "object"}]}
+> 
+> Aside: the reply includes "accel", because it's not abstract.  Bug?
+> 
+> Same for CPU models ("implements": "cpu"), machine types ("implements":
+> "machine"), device types ("implements": "device").  Not for backend
+> object types, because they don't have a common base type.  Certain kinds
+> of backend object types do, e.g. character device backends are subtypes
+> of "chardev".
+> 
+> Ad hoc queries can provide additional information.  qom-list-types does:
+> the parent type.
+> 
+> This provides a second way to find subtypes, which might be more
+> efficient when you need to know the subtypes of T for many T:
+> 
+>    Get *all* QOM types in one go:
+> 
+>    ---> {"execute": "qom-list-types", "arguments": {"abstract": false}}
+>    <--- lots of output
+> 
+>    Use output member "parent" to construct the parent tree.  The
+>    sub-tree rooted at QOM type "accel" has the subtypes of "accel".
+> 
+>    Awkward: since output lacks an "abstract" member, we have to
+>    determine it indirectly, by getting just the concrete types:
+> 
+>    ---> {"execute": "qom-list-types", "arguments": {"abstract": true}}
+>    <--- slightly less output
+> 
+>    We can add "abstract" to the output if we care.
+> 
+>    Unlike the first way, this one works *only* for "is subtype of",
+>    *not* for "implements interface".
+> 
+>    We can add interface information to the output if we care.
+> 
+> Likewise, QOM properties are not in the QAPI schema, and we need ad hoc
+> queries instead of query-qmp-schema: qom-list-properties, qom-list,
+> device-list-properties.  Flaws include inadequate type information and
+> difficulties around dynamic properties.
+> 
+> Conclusion: as is, QOM is designed to defeat our general QAPI/QMP
+> introspection mechanism.  It provides its own instead.  Proper
+> integration of QOM and QAPI/QMP would be great.  Integrating small parts
+> in ways that do not get us closer to complete integration does not seem
+> worthwhile.
+> 
+> For some QOM types, we have additional ad hoc queries that provide more
+> information, e.g. query-machines, query-cpu-definitions, and now the
+> proposed query-accel.
+> 
+> query-accel is *only* necessary if its additional information is.
+> 
+
+Thanks for the profound answer!
+
+I'm not an expert of QOM/QAPI. Please correct me if my understanding is
+wrong.
+
+1. We can use QOM capabilities in QMP to get all accelerators:
+
+C: {"execute": "qom-list-types", "arguments": {"implements": "accel"}}
+S: {"return": [{"name": "qtest-accel", "parent": "accel"}, {"name": "tcg-accel", "parent": "accel"}, {"name": "hax-accel", "parent": "accel"}, {"name": "hvf-accel", "parent": "accel"}, {"name": "accel", "parent": "object"}]}
+
+The response answers if an accelerator was compiled with current QEMU
+binary. All accelerators outside of the list aren't present.
+
+2. We can't figure out if an accel is actually enabled without relying
+on ad-hoc query-accel because there are no means for that in QOM.
+I might be wrong here but I couldn't find a way to list fields of an
+accel class using qom-list and qom-get.
+
+I have no particular preference of query-accel vs wiring current accel
+to QOM to be able to find it unless the latter one takes x10 time to
+implement and rework everything. But I need some understanding of what
+would be preferred way for everyone :)
+
+> I unde
+> 
+> >>                                       [...]  Even better would be
+> >> returning an array of KvmInfo with information on all supported
+> >> accelerators at once, rather than making the user call this command once
+> >> per name.
+> >
+> > Maybe.  It would save us the work of answering the question
+> > above, but is this (querying information for all accelerators at
+> > once) going to be a common use case?
+> 
+> I recommend to scratch the query-accel parameter, and return information
+> on all accelerators in this build of QEMU.  Simple, and consistent with
+> similar ad hoc queries.  If a client is interested in just one, fishing
+> it out of the list is easy enough.
+> 
+
+Works for me. I'll then leave KvmInfo as is and will introduce AccelInfo
+with two fields: name and enabled. enabled will be true only for
+currently active accelerator.
+
+Thanks,
+Roman
 
