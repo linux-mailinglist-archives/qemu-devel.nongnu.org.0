@@ -2,79 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F29672B808E
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 16:32:10 +0100 (CET)
-Received: from localhost ([::1]:37814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFC132B8107
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 16:44:24 +0100 (CET)
+Received: from localhost ([::1]:56432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfPRK-0004UI-27
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 10:32:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37242)
+	id 1kfPd9-0004Nv-RF
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 10:44:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kfPPQ-0003OE-Fq
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 10:30:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41626)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kfPPL-0003Kf-Sp
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 10:30:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605713406;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lYbnYyJ9u324U6mWqKTiTbnmcFd4ibHnrYmx23FZ+9w=;
- b=YgkGI03XSMpZV27wb5fKku/x7aDmR220mHBOHXjVgn9pxWhC9Uyd3wV3qGpsMHFzaz9evL
- BSwigiVRWAGEL6KnrVB8hb1Syo7ET4B4rH058cek+gvX930HtcbzO9ISpv7bM9KCYCYLX8
- 2MJjhUjVJ90tYcDiMa2ka3eZGcXtYZo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-463-JR8zBXADOsKAqy3u97e0Ow-1; Wed, 18 Nov 2020 10:30:04 -0500
-X-MC-Unique: JR8zBXADOsKAqy3u97e0Ow-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D913618C43C1
- for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 15:30:02 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
- [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A658A60853;
- Wed, 18 Nov 2020 15:30:02 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id F116411358BA; Wed, 18 Nov 2020 16:30:00 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 04/16] qapi/expr.py: Add assertion for union type
- 'check_dict'
-References: <20201026213637.47087-1-jsnow@redhat.com>
- <20201026213637.47087-5-jsnow@redhat.com>
-Date: Wed, 18 Nov 2020 16:30:00 +0100
-In-Reply-To: <20201026213637.47087-5-jsnow@redhat.com> (John Snow's message of
- "Mon, 26 Oct 2020 17:36:25 -0400")
-Message-ID: <87blfuisxz.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kfPaU-00028w-Pu
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 10:41:40 -0500
+Received: from indium.canonical.com ([91.189.90.7]:36472)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kfPaR-00050h-2V
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 10:41:38 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kfPaJ-0005HJ-JK
+ for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 15:41:27 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 917722E8079
+ for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 15:41:27 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 00:38:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 18 Nov 2020 15:32:58 -0000
+From: lilydjwg <1799792@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dos-d ernstp lilydjwg th-huth
+X-Launchpad-Bug-Reporter: Sebastian Krzyszkowiak (dos-d)
+X-Launchpad-Bug-Modifier: lilydjwg (lilydjwg)
+References: <154041310239.24736.3249552536528955636.malonedeb@wampee.canonical.com>
+Message-Id: <160571357901.18254.8790579520871388721.malone@gac.canonical.com>
+Subject: [Bug 1799792] Re: Broken scaling with gtk,gl=on on a hidpi display
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c35ff22711d15549e2303ae18ae521fd91f6bf00"; Instance="production"
+X-Launchpad-Hash: d03b9daa0fefe497d0312430dc2404b0693f9347
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 10:41:28
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,74 +71,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Reply-To: Bug 1799792 <1799792@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+I have the same issue, but unfortunately I cannot work around it: gl=3Doff
+doesn't work with vfio-display-dmabuf, and sdl segfaults when the guest
+OS tries to enter GUI.
 
-> mypy isn't fond of allowing you to check for bool membership in a
-> collection of str elements. Guard this lookup for precisely when we were
-> given a name.
+-- =
 
-Spoilsport.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1799792
 
-Peeking at the patch... aha, it's about check_type()'s parameter
-@allow_dict.
+Title:
+  Broken scaling with gtk,gl=3Don on a hidpi display
 
-@allow_dict tells us whether an anonymous type is allowed, and also
-whether its member names may violate the naming rules.
+Status in QEMU:
+  New
 
-* a str: allow anonymous type, waive member naming rules if @allow_dict
-  is in .name_case_whitelist.
+Bug description:
+  Tested on QEMU 3.0.0 on Arch Linux.
 
-  Used for checking struct's 'data' and union's 'base'.
+  I'm using a hidpi screen, and therefore use those environment
+  variables in order to have GTK+ apps properly scaled:
 
-* True: allow anonymous type, enforce member naming rules
+  GDK_SCALE=3D2
+  GDK_DPI_SCALE=3D0.5
 
-  Used for checking 'data' of commands and events.  Waiving the naming
-  rules is simply not implemented there.
+  However, QEMU, when launched with "-display gtk,gl=3Don" option, doesn't
+  scale the window content properly, as seen on the attached screenshot.
 
-* False (default): do not allow anonymous type
+  Switching to "-display gtk,gl=3Doff" and "-display sdl,gl=3Don" makes it
+  work fine.
 
-Perhaps the "is in .name_case_whitelist" check should be lifted into the
-two callers that pass a str.  We could then turn the parameter into an
-enum.  Meh.  Perhaps a separate @permit_upper parameter, only valid with
-allow_dict=True.  Meh again.
-
-Splitting check_type() into multiple functions feels more promising.
-Not now.
-
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-> Reviewed-by: Cleber Rosa <crosa@redhat.com>
-> ---
->  scripts/qapi/expr.py | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-> index f7c7f91326ef..2c4c341d5243 100644
-> --- a/scripts/qapi/expr.py
-> +++ b/scripts/qapi/expr.py
-> @@ -173,7 +173,9 @@ def check_type(value, info, source,
->          raise QAPISemError(info,
->                             "%s should be an object or type name" % source)
->  
-> -    permit_upper = allow_dict in info.pragma.name_case_whitelist
-> +    permit_upper = False
-> +    if isinstance(allow_dict, str):
-> +        permit_upper = allow_dict in info.pragma.name_case_whitelist
-
-Slightly more compact:
-
-       permit_upper = (isinstance(allow_dict, str)
-                       and allow_dict in info.pragma.name_case_whitelist)
-
-Matter of taste.
-
->  
->      # value is a dictionary, check that each member is okay
->      for (key, arg) in value.items():
-
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1799792/+subscriptions
 
