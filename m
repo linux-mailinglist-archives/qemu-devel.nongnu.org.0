@@ -2,76 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 682902B771F
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 08:47:06 +0100 (CET)
-Received: from localhost ([::1]:59932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA1DC2B7753
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 08:51:32 +0100 (CET)
+Received: from localhost ([::1]:34092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfIBE-00034j-Vb
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 02:47:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41600)
+	id 1kfIFX-0004HH-QX
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 02:51:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kfI9F-0002Gw-8T
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 02:45:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43673)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kfIEA-0003kV-A4
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 02:50:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55341)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kfI9B-0007BL-AJ
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 02:44:59 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kfIE8-0007ij-9L
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 02:50:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605685496;
+ s=mimecast20190719; t=1605685803;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Cr60BNQVpl2Jv0xMsNMxK646YXoW+AI1Myjdlseyb9Q=;
- b=B7w1pf/RE9/SciEeQ83463gFa2JA4VAMWDoPpZySR13/9Tg71Zpt1f2QSOoOre2GiXtbSa
- lWois2maR8aV2IsY3Gw/jtajON0iRCY10MfQN62PhuVTh3MiwFP7ljFCD8CJ6wXWiM1Dnw
- TBVVDfWKUqoviB2k12jiJGy0MYEPSS0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-172-nxlFtsxNOS6wbmWuNOa6Vw-1; Wed, 18 Nov 2020 02:44:52 -0500
-X-MC-Unique: nxlFtsxNOS6wbmWuNOa6Vw-1
-Received: by mail-wm1-f69.google.com with SMTP id 3so662643wms.9
- for <qemu-devel@nongnu.org>; Tue, 17 Nov 2020 23:44:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Cr60BNQVpl2Jv0xMsNMxK646YXoW+AI1Myjdlseyb9Q=;
- b=IVM7Llvn96eDw9AunixBDeohd3cK0QTOKrdiKyqBt4QHJP5K8tKq+FdxqZNJl4Jr+v
- v7VHrshxRYup+r7uS11RZLYUjEXSMaZsirFWAG1YETFvKod7RH+ZqGjNpZZctkj6GobB
- 00EDu3S+MFIV/JbOl0txcSTANo6jyp8HMv6jPK+3vpwosrlLqKrnB9D6pXSsi/oRdI60
- JDzJxiE+xGFHkOujKP5Zgl1ywIdeRcn8yXI4ZhXzhhHnbOoiH76fhf8bOfN2q8eAwxq7
- eU2PHIDANuUvh9/hvzS5wCKpLGATIDKbeJjgctEXbIDXs3VGqy/8jFzVGm3OSd8FoaF+
- 01jA==
-X-Gm-Message-State: AOAM532PBbAxSFbyyiq+UdKuUtV8BNRN5Pi00wSM9ML9612GWP8vMwbh
- LsbQiHChUKDlEg54inpCROOi+IG/awmHn6r+KXtWCW4diGWqq92lejAumdwPQwQxb+u0uFzlNkM
- Lm77ru9jI8q2DCzM=
-X-Received: by 2002:a05:600c:2202:: with SMTP id
- z2mr3068946wml.95.1605685491522; 
- Tue, 17 Nov 2020 23:44:51 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwrp6OVOpaidqfArBZtHWZIw0GmdCT5r4RKOQu2MGAiH5e8B5jciqpMWcNYRyWSI9py6rKZQg==
-X-Received: by 2002:a05:600c:2202:: with SMTP id
- z2mr3068917wml.95.1605685491232; 
- Tue, 17 Nov 2020 23:44:51 -0800 (PST)
-Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id 109sm32971104wra.29.2020.11.17.23.44.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Nov 2020 23:44:50 -0800 (PST)
-Date: Wed, 18 Nov 2020 02:44:45 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Stefan Weil <sw@weilnetz.de>
-Subject: Re: [PATCH for-5.2] docs: Fix some typos (found by codespell)
-Message-ID: <20201118024440-mutt-send-email-mst@kernel.org>
-References: <20201117193448.393472-1-sw@weilnetz.de>
+ bh=875ExDgujjG7x+qxkqbVrQhyIJWpSBtUawvueclUcWI=;
+ b=U13MnSIUAPunrtdEqweFbpCEOOTrJv4GdGB/+Oae5DFSU3wPMFJbELiK0Zn3vcWB8kA8Kl
+ ezhKp6k5NO4aiawJ0RqObwJ4k6maIxpBjsfZz6YdixU+Gq9guIi9+UFiV15p+m258ZA5HQ
+ w63KRSW7n6O2M6s+PsWHm4x+dTC2oIE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-286-b1Mkw0bHNeCBGByUzx-mfw-1; Wed, 18 Nov 2020 02:49:59 -0500
+X-MC-Unique: b1Mkw0bHNeCBGByUzx-mfw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 96C366D585;
+ Wed, 18 Nov 2020 07:49:58 +0000 (UTC)
+Received: from gondolin (ovpn-113-132.ams2.redhat.com [10.36.113.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B708A5C1BB;
+ Wed, 18 Nov 2020 07:49:49 +0000 (UTC)
+Date: Wed, 18 Nov 2020 08:49:47 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Matthew Rosato <mjrosato@linux.ibm.com>
+Subject: Re: [PATCH for-5.2] s390x/pci: fix endianness issues
+Message-ID: <20201118084947.172002fe.cohuck@redhat.com>
+In-Reply-To: <f4f665ad-c499-7824-bfd7-78b75b6216c4@linux.ibm.com>
+References: <20201117171340.1289659-1-cohuck@redhat.com>
+ <6a1b2ba1-642a-9cee-4d7d-2c1e4ea826ed@redhat.com>
+ <f4f665ad-c499-7824-bfd7-78b75b6216c4@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20201117193448.393472-1-sw@weilnetz.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 19:41:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -94,151 +81,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org, libvir-list@redhat.com,
+Cc: Thomas Huth <thuth@redhat.com>,
  Alex Williamson <alex.williamson@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Paolo Bonzini <pbonzini@redhat.com>
+ Pierre Morel <pmorel@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 17, 2020 at 08:34:48PM +0100, Stefan Weil wrote:
-> Fix also a similar typo in a code comment.
-> 
-> Signed-off-by: Stefan Weil <sw@weilnetz.de>
+On Tue, 17 Nov 2020 14:49:53 -0500
+Matthew Rosato <mjrosato@linux.ibm.com> wrote:
 
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-
-> ---
->  docs/can.txt                  | 8 ++++----
->  docs/interop/vhost-user.rst   | 2 +-
->  docs/replay.txt               | 2 +-
->  docs/specs/ppc-spapr-numa.rst | 2 +-
->  docs/system/deprecated.rst    | 4 ++--
->  docs/tools/virtiofsd.rst      | 2 +-
->  hw/vfio/igd.c                 | 2 +-
->  7 files changed, 11 insertions(+), 11 deletions(-)
+> On 11/17/20 2:21 PM, Thomas Huth wrote:
+> > On 17/11/2020 18.13, Cornelia Huck wrote:  
+> >> zPCI control blocks are big endian, we need to take care that we
+> >> do proper accesses in order not to break tcg guests on little endian
+> >> hosts.
+> >>
+> >> Fixes: 28dc86a07299 ("s390x/pci: use a PCI Group structure")
+> >> Fixes: 9670ee752727 ("s390x/pci: use a PCI Function structure")
+> >> Fixes: 1e7552ff5c34 ("s390x/pci: get zPCI function info from host")  
+> > 
+> > This fixes the problem with my old Fedora 28 under TCG, too, but... do we
+> > really want to store this information in big endian on the QEMU side (e.g.
+> > in the QTAILQ lists)? ... that smells like trouble again in the future...
+> > 
+> > I think it would be better if we rather replace all those memcpy() functions
+> > in the patches that you cited in the "Fixes:" lines above with code that
+> > changes the endianess when we copy the date from QEMU space to guest space
+> > and vice versa. What do you think?  
 > 
-> diff --git a/docs/can.txt b/docs/can.txt
-> index 5838f6620c..0d310237df 100644
-> --- a/docs/can.txt
-> +++ b/docs/can.txt
-> @@ -19,7 +19,7 @@ interface to implement because such device can be easily connected
->  to systems with different CPU architectures (x86, PowerPC, Arm, etc.).
->  
->  In 2020, CTU CAN FD controller model has been added as part
-> -of the bachelor theses of Jan Charvat. This controller is complete
-> +of the bachelor thesis of Jan Charvat. This controller is complete
->  open-source/design/hardware solution. The core designer
->  of the project is Ondrej Ille, the financial support has been
->  provided by CTU, and more companies including Volkswagen subsidiaries.
-> @@ -31,7 +31,7 @@ testing lead to goal change to provide environment which provides complete
->  emulated environment for testing and RTEMS GSoC slot has been donated
->  to work on CAN hardware emulation on QEMU.
->  
-> -Examples how to use CAN emulation for SJA1000 based borads
-> +Examples how to use CAN emulation for SJA1000 based boards
->  ==========================================================
->  
->  When QEMU with CAN PCI support is compiled then one of the next
-> @@ -106,8 +106,8 @@ This open-source core provides CAN FD support. CAN FD drames are
->  delivered even to the host systems when SocketCAN interface is found
->  CAN FD capable.
->  
-> -The PCIe borad emulation is provided for now (the device identifier is
-> -ctucan_pci). The defauld build defines two CTU CAN FD cores
-> +The PCIe board emulation is provided for now (the device identifier is
-> +ctucan_pci). The default build defines two CTU CAN FD cores
->  on the board.
->  
->  Example how to connect the canbus0-bus (virtual wire) to the host
-> diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
-> index 988f154144..72b2e8c7ba 100644
-> --- a/docs/interop/vhost-user.rst
-> +++ b/docs/interop/vhost-user.rst
-> @@ -513,7 +513,7 @@ descriptor table (split virtqueue) or descriptor ring (packed
->  virtqueue). However, it can't work when we process descriptors
->  out-of-order because some entries which store the information of
->  inflight descriptors in available ring (split virtqueue) or descriptor
-> -ring (packed virtqueue) might be overrided by new entries. To solve
-> +ring (packed virtqueue) might be overridden by new entries. To solve
->  this problem, slave need to allocate an extra buffer to store this
->  information of inflight descriptors and share it with master for
->  persistent. ``VHOST_USER_GET_INFLIGHT_FD`` and
-> diff --git a/docs/replay.txt b/docs/replay.txt
-> index 87a64ae068..5b008ca491 100644
-> --- a/docs/replay.txt
-> +++ b/docs/replay.txt
-> @@ -328,7 +328,7 @@ between the snapshots. Each of the passes include the following steps:
->   1. loading the snapshot
->   2. replaying to examine the breakpoints
->   3. if breakpoint or watchpoint was met
-> -    - loading the snaphot again
-> +    - loading the snapshot again
->      - replaying to the required breakpoint
->   4. else
->      - proceeding to the p.1 with the earlier snapshot
-> diff --git a/docs/specs/ppc-spapr-numa.rst b/docs/specs/ppc-spapr-numa.rst
-> index 5fca2bdd8e..ffa687dc89 100644
-> --- a/docs/specs/ppc-spapr-numa.rst
-> +++ b/docs/specs/ppc-spapr-numa.rst
-> @@ -198,7 +198,7 @@ This is how it is being done:
->  * user distance 121 and beyond will be interpreted as 160
->  * user distance 10 stays 10
->  
-> -The reasoning behind this aproximation is to avoid any round up to the local
-> +The reasoning behind this approximation is to avoid any round up to the local
->  distance (10), keeping it exclusive to the 4th NUMA level (which is still
->  exclusive to the node_id). All other ranges were chosen under the developer
->  discretion of what would be (somewhat) sensible considering the user input.
-> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-> index 32a0e620db..63e9db1463 100644
-> --- a/docs/system/deprecated.rst
-> +++ b/docs/system/deprecated.rst
-> @@ -465,7 +465,7 @@ default configuration.
->  
->  The CPU model runnability guarantee won't apply anymore to
->  existing CPU models.  Management software that needs runnability
-> -guarantees must resolve the CPU model aliases using te
-> +guarantees must resolve the CPU model aliases using the
->  ``alias-of`` field returned by the ``query-cpu-definitions`` QMP
->  command.
->  
-> @@ -637,7 +637,7 @@ Splitting RAM by default between NUMA nodes had the same issues as ``mem``
->  parameter with the difference that the role of the user plays QEMU using
->  implicit generic or board specific splitting rule.
->  Use ``memdev`` with *memory-backend-ram* backend or ``mem`` (if
-> -it's supported by used machine type) to define mapping explictly instead.
-> +it's supported by used machine type) to define mapping explicitly instead.
->  Users of existing VMs, wishing to preserve the same RAM distribution, should
->  configure it explicitly using ``-numa node,memdev`` options. Current RAM
->  distribution can be retrieved using HMP command ``info numa`` and if separate
-> diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
-> index 34a9e40146..866b7db3ee 100644
-> --- a/docs/tools/virtiofsd.rst
-> +++ b/docs/tools/virtiofsd.rst
-> @@ -174,7 +174,7 @@ Using ':' as the separator a rule is of the form:
->  - 'bad' - If a client tries to use a name matching 'key' it's
->    denied using EPERM; when the server passes an attribute
->    name matching 'prepend' it's hidden.  In many ways it's use is very like
-> -  'ok' as either an explict terminator or for special handling of certain
-> +  'ok' as either an explicit terminator or for special handling of certain
->    patterns.
->  
->  **key** is a string tested as a prefix on an attribute name originating
-> diff --git a/hw/vfio/igd.c b/hw/vfio/igd.c
-> index 64e332746b..470205f487 100644
-> --- a/hw/vfio/igd.c
-> +++ b/hw/vfio/igd.c
-> @@ -535,7 +535,7 @@ void vfio_probe_igd_bar4_quirk(VFIOPCIDevice *vdev, int nr)
->      }
->  
->      /*
-> -     * Assume we have no GMS memory, but allow it to be overrided by device
-> +     * Assume we have no GMS memory, but allow it to be overridden by device
->       * option (experimental).  The spec doesn't actually allow zero GMS when
->       * when IVD (IGD VGA Disable) is clear, but the claim is that it's unused,
->       * so let's not waste VM memory for it.
-> -- 
-> 2.29.2
+> Hmm, that's actually a fair point...  Such an approach would have the 
+> advantage of avoiding weird lines like the following:
+> 
+>       memory_region_add_subregion(&pbdev->iommu->mr,
+> -                                pbdev->pci_group->zpci_group.msia,
+> +                                ldq_p(&pbdev->pci_group->zpci_group.msia),
+>                                   &pbdev->msix_notify_mr);
+> 
+> 
+> And would keep messing with endianness largely contained to the code 
+> that handles CLPs.  It does take away the niceness of being able to 
+> gather the CLP response in one fell memcpy but...  It's not like these 
+> are done very often (device init).
+> 
+
+Not opposed to it, can try to put a patch together and see what it
+looks like. As long as we get this into 5.2 :)
 
 
