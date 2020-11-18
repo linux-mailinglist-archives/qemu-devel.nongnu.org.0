@@ -2,80 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C35222B7E18
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 14:10:11 +0100 (CET)
-Received: from localhost ([::1]:43158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF3B02B7E19
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 14:11:02 +0100 (CET)
+Received: from localhost ([::1]:45254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfNDu-0005Tn-QD
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 08:10:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59838)
+	id 1kfNEk-0006Rn-2r
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 08:11:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kfNCN-00052Z-Lf
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 08:08:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59272)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kfNCL-0000S0-1a
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 08:08:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605704911;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DsRVkgXA8iXKC4R+qvW031K/BvidSEcmXxdEXwZj3Ig=;
- b=aVd8GZdw9seEdy1OVt4NRiCoQUPSLRQo3dbIQS7cM8qIqiwV+WOQPl7HxjIKYGz6z6eXxI
- kxnBo+PzDsCjbEcNuiFucGBbkrGG/pN1iTnfj5hKC80m+5ImJBmHu7bbSnWAO+MBWqFvWb
- AalKwRCyY3u2Q17npv8K3ujWndTNn2w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-528-hgYxDl3zNo6c4LqOSYT4qg-1; Wed, 18 Nov 2020 08:08:29 -0500
-X-MC-Unique: hgYxDl3zNo6c4LqOSYT4qg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A961108E1AB;
- Wed, 18 Nov 2020 13:08:23 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
- [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C91718E3C;
- Wed, 18 Nov 2020 13:08:22 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1A9A011358BA; Wed, 18 Nov 2020 14:08:21 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH for-6.0 1/6] qapi: Add query-accel command
-References: <20201116131011.26607-1-r.bolshakov@yadro.com>
- <20201116131011.26607-2-r.bolshakov@yadro.com>
- <2d934855-ad11-9f61-28a1-7c0a35347a66@redhat.com>
- <20201116211352.GC1235237@habkost.net>
- <87mtzgbc29.fsf@dusky.pond.sub.org>
- <20201118011917.GB10041@SPB-NB-133.local>
- <87ft57oycu.fsf@dusky.pond.sub.org>
- <b9307f87-5350-21a6-68dd-d4efbae5e502@redhat.com>
-Date: Wed, 18 Nov 2020 14:08:21 +0100
-In-Reply-To: <b9307f87-5350-21a6-68dd-d4efbae5e502@redhat.com> (Paolo
- Bonzini's message of "Wed, 18 Nov 2020 10:21:06 +0100")
-Message-ID: <87r1oqlsmy.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kfNDq-0005l0-9v
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 08:10:06 -0500
+Resent-Date: Wed, 18 Nov 2020 08:10:06 -0500
+Resent-Message-Id: <E1kfNDq-0005l0-9v@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21794)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kfNDn-0000ZP-N3
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 08:10:05 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1605704989; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=BMCAsMELb69fJ6I/2JFnRUjKl63DlyIQ5x17g6DarckWM5cOV8ADBv6eq3ZxQGZ9srK1evjsrUrVXNl06MbRMYec+Kfxh6dHV+fWkyUwFIpVQcDF+c/cPAV9AJNQzlqo40QTeGoEqeKx31OoxL3cH39HPqhiCtQvCK2Hu05fohI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1605704989;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=bNhfRZX7nH39ppA/Lw/ToLTiFfE1SnGwNYPADMF4OWs=; 
+ b=d635Qq8lWZcU8+hwXmDqw2MkZNqtPHv44XA3MvBNHDKdlXRCj7aQZ+yjIZI6QIxkcfwriH+Xg7QuypS+OJijKjaGCEa8qI0hq2RDfOyZjdIX4I6l2v/gAdSzRJkXgWb3Ovu5pLZIUaQk647f8ELfHglnVrG3IZOBMPH45Nnnm/g=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1605704986959727.8445249789286;
+ Wed, 18 Nov 2020 05:09:46 -0800 (PST)
+In-Reply-To: <20201118125449.311038-1-andrey.gruzdev@virtuozzo.com>
+Subject: Re: [PATCH v1 0/7] UFFD write-tracking migration/snapshots
+Message-ID: <160570498515.135.13418051877647231867@ba092462a7f3>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 19:41:43
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: qemu-devel@nongnu.org
+Date: Wed, 18 Nov 2020 05:09:46 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 06:01:25
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,130 +69,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>, John Snow <jsnow@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: den@openvz.com, quintela@redhat.com, armbru@redhat.com,
+ qemu-devel@nongnu.org, dgilbert@redhat.com, pbonzini@redhat.com,
+ andrey.gruzdev@virtuozzo.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
-
-> On 18/11/20 09:36, Markus Armbruster wrote:
->> 
->> The part that counts is do_configure_accelerator().  I works as follows:
->> 
->> 1. Look up the chosen accelerator's QOM type (can fail)
->> 2. Instantiate it (can't fail)
->> 3. Set properties (can fail)
->> 4. Connect the accelerator to the current machine (can fail)
->> 
->> Aside: step 3 uses &error_fatal, unlike the other failures.  Fishy.
->
-> That's because step 3 is a user error, unlike (in the usual case) the 
-> others:
->
-> 1. You get it from "-accel whpx" if whpx is not available; this is not a 
-> user error if there is a fallback.  You also get it from misspellings 
-> such as "-accel kvmm", which is presumably a user error, but it's hard 
-> to distinguish the two especially if a future version of QEMU ends up 
-> adding a "kvmm" accelerator
->
-> 3. You get it from "-accel tcg,misspeled-property=off".  This is a user 
-> error.  You also get it from "-accel tcg,absent-property=on" and "-accel 
-> tcg,invalid-value=42".  This may be a property that the user wants to 
-> set but was only added in a future version of QEMU.  Either way, it's 
-> quite likely that the user does _not_ want a fallback here.
->
-> 4. Here the accelerator exists but the machine does not support it.  The 
-> choice is to fallback to the next accelerato.
->
-> This means there is no way for the user to distinguish "the accelerator 
-> doesn't exist" from "the accelerator exists but is not supported".  This 
-> was done for no particular reason other than to keep the code simple.
-
-The resulting error reporting is perhaps not as clear as it could be.
-
-We report several kinds of errors:
-
-(a) Accelerator misconfiguration, immediately fatal
-
-(b) Accelerator doesn't work, not fatal (we fall back to the next one)
-
-(c) "no accelerator found", fatal
-
-(d) "falling back to", not fatal (we carry on)
-
-Reporting (b) as error is questionable, because it need not be an actual
-error.
-
-We report (d) when an accelerator works after other(s) didn't.  This is
-not actually an error.
-
-Example:
-
-    $ qemu-system-x86_64 -accel xen -S -accel nonexistent -accel kvm
-    xencall: error: Could not obtain handle on privileged command interface: No such file or directory
-    xen be core: xen be core: can't open xen interface
-    can't open xen interface
-
-So far, this is just libxen* and accel/xen/xen-all.c being loquacious.
-
-    qemu-system-x86_64: -accel xen: failed to initialize xen: Operation not permitted
-    qemu-system-x86_64: -accel nonexistent: invalid accelerator nonexistent
-    qemu-system-x86_64: falling back to KVM
-
-These look like errors, but aren't; things are working exactly as
-intended, and QEMU runs.  If we want to be chatty about it, we should
-make them info, not error.
-
-Note that a nonsensical accelerator is treated just like an accelerator
-that exists, but happens to be unavailable.  Trap for less than perfect
-typists.
-
-Same with /dev/kvm made inaccessible:
-
-    $ qemu-system-x86_64 -accel xen -S -accel nonexistent -accel kvm
-    [Xen chatter...]
-    qemu-system-x86_64: -accel xen: failed to initialize xen: Operation not permitted
-    qemu-system-x86_64: -accel nonexistent: invalid accelerator nonexistent
-    Could not access KVM kernel module: Permission denied
-    qemu-system-x86_64: -accel kvm: failed to initialize kvm: Permission denied
-
-Here, we do have a fatal error.  We report it as four errors.
-Tolerable.
-
-If we turn the maybe-not-really-errors into info to make the first
-example less confusing, we need to report a "no accelerator works" error
-at the end.
-
->> Failure in step 1 is "accelerator not compiled in".  Predictable with
->> qom-list-types.
->> 
->> Failure in step 3 doesn't look predictable.
->
-> It's more or less predictable with qom-list-properties, though of course 
-> not the "invalid value for the property" case.
->
->> Failure in step 4 can be due to kernel lacking (a workable version of)
->> KVM, but the current machine gets a say, too.  Also doesn't look
->> predictable.
->> 
->> Aside: kvm_init() reports errors with fprintf(), tsk, tsk, tsk.
->> 
->> Existing query-kvm doesn't really predict failure, either.  'present' is
->> true if CONFIG_KVM.  Should be equivalent to "QOM type exists",
->> i.e. step 1.  I guess 'enabled' is true when the KVM accelerator is in
->> use.
->> 
->> While figuring this out, I noticed that the TYPE_ACCEL instance we
->> create doesn't get its parent set.  It's therefore not in the QOM
->> composition tree, and inaccessible with qom-get.  Paolo, is this as it
->> should be?
->
-> It should be added, I agree, perhaps as /machine/accel.
-
-Makes sense.
-
-Thanks!
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTExODEyNTQ0OS4zMTEw
+MzgtMS1hbmRyZXkuZ3J1emRldkB2aXJ0dW96em8uY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNl
+ZW1zIHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cg
+Zm9yCm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMDExMTgx
+MjU0NDkuMzExMDM4LTEtYW5kcmV5LmdydXpkZXZAdmlydHVvenpvLmNvbQpTdWJqZWN0OiBbUEFU
+Q0ggdjEgMC83XSBVRkZEIHdyaXRlLXRyYWNraW5nIG1pZ3JhdGlvbi9zbmFwc2hvdHMKCj09PSBU
+RVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rl
+di9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdp
+dCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlm
+Zi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sg
+YmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4
+MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXct
+cHJvamVjdC9xZW11CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMDExMTgxMjU0NDku
+MzExMDM4LTEtYW5kcmV5LmdydXpkZXZAdmlydHVvenpvLmNvbSAtPiBwYXRjaGV3LzIwMjAxMTE4
+MTI1NDQ5LjMxMTAzOC0xLWFuZHJleS5ncnV6ZGV2QHZpcnR1b3p6by5jb20KU3dpdGNoZWQgdG8g
+YSBuZXcgYnJhbmNoICd0ZXN0JwoyMjEwYWI0IEludHJvZHVjZWQgc2ltcGxlIGxpbmVhciBzY2Fu
+IHJhdGUgbGltaXRpbmcgbWVjaGFuaXNtIGZvciB3cml0ZSB0cmFja2luZyBtaWdyYXRpb24uCjQ4
+ODU4YjggVGhlIHJlc3Qgb2Ygd3JpdGUgdHJhY2tpbmcgbWlncmF0aW9uIGNvZGUuCjJiM2Q4MDQg
+SW1wbGVtZW50YXRpb24gb2Ygdm1fc3RhcnQoKSBCSC4KNjBmY2E5YSBJbXBsZW1lbnRhdGlvbiBv
+ZiB3cml0ZS10cmFja2luZyBtaWdyYXRpb24gdGhyZWFkLgpmZTg4MGJiIFN1cHBvcnQgVUZGRCB3
+cml0ZSBmYXVsdCBwcm9jZXNzaW5nIGluIHJhbV9zYXZlX2l0ZXJhdGUoKS4KYzhkODFhYSBJbnRy
+b2R1Y2VkIFVGRkQtV1AgbG93LWxldmVsIGludGVyZmFjZSBoZWxwZXJzLiBJbXBsZW1lbnRlZCBz
+dXBwb3J0IGZvciB0aGUgd2hvbGUgUkFNIGJsb2NrIG1lbW9yeSBwcm90ZWN0aW9uL3VuLXByb3Rl
+Y3Rpb24uIEhpZ2hlciBsZXZlbCByYW1fd3JpdGVfdHJhY2tpbmdfc3RhcnQoKSBhbmQgcmFtX3dy
+aXRlX3RyYWNraW5nX3N0b3AoKSB0byBzdGFydC9zdG9wIHRyYWNraW5nIG1lbW9yeSB3cml0ZXMg
+b24gdGhlIHdob2xlIFZNIG1lbW9yeS4KYTgwYzU1ZiBJbnRyb2R1Y2UgJ3RyYWNrLXdyaXRlcy1y
+YW0nIG1pZ3JhdGlvbiBjYXBhYmlsaXR5LgoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS83IENoZWNr
+aW5nIGNvbW1pdCBhODBjNTVmZmQzMDIgKEludHJvZHVjZSAndHJhY2std3JpdGVzLXJhbScgbWln
+cmF0aW9uIGNhcGFiaWxpdHkuKQpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMTM0
+OiBGSUxFOiBtaWdyYXRpb24vbWlncmF0aW9uLmM6Mzg4MToKKyAgICBERUZJTkVfUFJPUF9NSUdf
+Q0FQKCJ4LXRyYWNrLXdyaXRlcy1yYW0iLCBNSUdSQVRJT05fQ0FQQUJJTElUWV9UUkFDS19XUklU
+RVNfUkFNKSwKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMTQ2IGxpbmVzIGNoZWNrZWQK
+ClBhdGNoIDEvNyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2Yg
+dGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50
+YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoyLzcgQ2hlY2tpbmcgY29tbWl0
+IGM4ZDgxYWE3NDA0MyAoSW50cm9kdWNlZCBVRkZELVdQIGxvdy1sZXZlbCBpbnRlcmZhY2UgaGVs
+cGVycy4gSW1wbGVtZW50ZWQgc3VwcG9ydCBmb3IgdGhlIHdob2xlIFJBTSBibG9jayBtZW1vcnkg
+cHJvdGVjdGlvbi91bi1wcm90ZWN0aW9uLiBIaWdoZXIgbGV2ZWwgcmFtX3dyaXRlX3RyYWNraW5n
+X3N0YXJ0KCkgYW5kIHJhbV93cml0ZV90cmFja2luZ19zdG9wKCkgdG8gc3RhcnQvc3RvcCB0cmFj
+a2luZyBtZW1vcnkgd3JpdGVzIG9uIHRoZSB3aG9sZSBWTSBtZW1vcnkuKQozLzcgQ2hlY2tpbmcg
+Y29tbWl0IGZlODgwYmI5ZDYzZSAoU3VwcG9ydCBVRkZEIHdyaXRlIGZhdWx0IHByb2Nlc3Npbmcg
+aW4gcmFtX3NhdmVfaXRlcmF0ZSgpLikKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMK
+IzcwOiBGSUxFOiBtaWdyYXRpb24vcmFtLmM6MTk1MjoKKyAgICAgICAgICAgICAgICAgICAgKChw
+YWdlX2FkZHJlc3MgLSAoaHdhZGRyKSBwc3MtPmJsb2NrLT5ob3N0KSA+PiBUQVJHRVRfUEFHRV9C
+SVRTKTsKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMxMjA6IEZJTEU6IG1pZ3Jh
+dGlvbi9yYW0uYzoyMDAyOgorICAgICAgICAvKiBJbiBjYXNlIHdlIGNvdWxkbid0IGZpbmQgcmVz
+cGVjdGl2ZSBibG9jaywganVzdCB1bnByb3RlY3QgZmF1bHRpbmcgcGFnZSAqLwoKV0FSTklORzog
+bGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzEyMTogRklMRTogbWlncmF0aW9uL3JhbS5jOjIwMDM6
+CisgICAgICAgIHVmZmRfcHJvdGVjdF9tZW1vcnkocnMtPnVmZmRpb19mZCwgcGFnZV9hZGRyZXNz
+LCBUQVJHRVRfUEFHRV9TSVpFLCBmYWxzZSk7CgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2Ug
+YSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMTU2OiBGSUxFOiBtaWdyYXRpb24vcmFt
+LmM6MjA1MDoKKyAgICAgICAgLyogSW4gY2FzZSBvZiAnd3JpdGUtdHJhY2tpbmcnIG1pZ3JhdGlv
+biB3ZSBmaXJzdCB0cnkKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICov
+IG9uIGEgc2VwYXJhdGUgbGluZQojMTU3OiBGSUxFOiBtaWdyYXRpb24vcmFtLmM6MjA1MToKKyAg
+ICAgICAgICogdG8gcG9sbCBVRkZEIGFuZCBnZXQgd3JpdGUgcGFnZSBmYXVsdCBldmVudCAqLwoK
+V0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzE3NzogRklMRTogbWlncmF0aW9uL3Jh
+bS5jOjIwNzE6CisgICAgICAgICAgICAgICAgaHdhZGRyIHJ1bl9sZW5ndGggPSAoaHdhZGRyKSAo
+cGFnZV90byAtIHBhZ2UgKyAxKSA8PCBUQVJHRVRfUEFHRV9CSVRTOwoKV0FSTklORzogbGluZSBv
+dmVyIDgwIGNoYXJhY3RlcnMKIzE4MzogRklMRTogbWlncmF0aW9uL3JhbS5jOjIwNzc6CisgICAg
+ICAgICAgICAgICAgcmVzID0gdWZmZF9wcm90ZWN0X21lbW9yeShycy0+dWZmZGlvX2ZkLCBwYWdl
+X2FkZHJlc3MsIHJ1bl9sZW5ndGgsIGZhbHNlKTsKCnRvdGFsOiAwIGVycm9ycywgNyB3YXJuaW5n
+cywgMTY3IGxpbmVzIGNoZWNrZWQKClBhdGNoIDMvNyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFz
+ZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVw
+b3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJT
+Lgo0LzcgQ2hlY2tpbmcgY29tbWl0IDYwZmNhOWFhMGFlNyAoSW1wbGVtZW50YXRpb24gb2Ygd3Jp
+dGUtdHJhY2tpbmcgbWlncmF0aW9uIHRocmVhZC4pCjUvNyBDaGVja2luZyBjb21taXQgMmIzZDgw
+NDk0OTY1IChJbXBsZW1lbnRhdGlvbiBvZiB2bV9zdGFydCgpIEJILikKNi83IENoZWNraW5nIGNv
+bW1pdCA0ODg1OGI4ZTkyYWEgKFRoZSByZXN0IG9mIHdyaXRlIHRyYWNraW5nIG1pZ3JhdGlvbiBj
+b2RlLikKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiMxOTogRklMRTogbWlncmF0aW9u
+L21pZ3JhdGlvbi5jOjMyMTY6CisgKiB3dF9taWdyYXRpb25fY29tcGxldGlvbjogVXNlZCBieSB3
+dF9taWdyYXRpb25fdGhyZWFkIHdoZW4gYWZ0ZXIgYWxsIHRoZSBSQU0gaGFzIGJlZW4gc2F2ZWQu
+CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMjg6IEZJTEU6IG1pZ3JhdGlvbi9t
+aWdyYXRpb24uYzozMjI1OgorICAgIC8qIFN0b3AgdHJhY2tpbmcgUkFNIHdyaXRlcyAtIHVuLXBy
+b3RlY3QgbWVtb3J5LCB1bi1yZWdpc3RlciBVRkZEIG1lbW9yeSByYW5nZXMsCgpXQVJOSU5HOiBC
+bG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMjg6IEZJ
+TEU6IG1pZ3JhdGlvbi9taWdyYXRpb24uYzozMjI1OgorICAgIC8qIFN0b3AgdHJhY2tpbmcgUkFN
+IHdyaXRlcyAtIHVuLXByb3RlY3QgbWVtb3J5LCB1bi1yZWdpc3RlciBVRkZEIG1lbW9yeSByYW5n
+ZXMsCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMjk6IEZJTEU6IG1pZ3JhdGlv
+bi9taWdyYXRpb24uYzozMjI2OgorICAgICAqIGZsdXNoIGtlcm5lbCB3YWl0IHF1ZXVlcyBhbmQg
+d2FrZSB1cCB0aHJlYWRzIHdhaXRpbmcgZm9yIHdyaXRlIGZhdWx0IHRvIGJlCgpXQVJOSU5HOiBs
+aW5lIG92ZXIgODAgY2hhcmFjdGVycwojMzA6IEZJTEU6IG1pZ3JhdGlvbi9taWdyYXRpb24uYzoz
+MjI3OgorICAgICAqIHJlc29sdmVkLiBBbGwgb2YgdGhpcyBpcyBlc3NlbnRpYWxseSBkb25lIGJ5
+IGNsb3NpbmcgVUZGRCBmaWxlIGRlc2NyaXB0b3IgKi8KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRz
+IHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUgbGluZQojMzA6IEZJTEU6IG1pZ3JhdGlv
+bi9taWdyYXRpb24uYzozMjI3OgorICAgICAqIHJlc29sdmVkLiBBbGwgb2YgdGhpcyBpcyBlc3Nl
+bnRpYWxseSBkb25lIGJ5IGNsb3NpbmcgVUZGRCBmaWxlIGRlc2NyaXB0b3IgKi8KCnRvdGFsOiAx
+IGVycm9ycywgNSB3YXJuaW5ncywgOTAgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNi83IGhhcyBzdHls
+ZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZh
+bHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFU
+Q0ggaW4gTUFJTlRBSU5FUlMuCgo3LzcgQ2hlY2tpbmcgY29tbWl0IDIyMTBhYjQzMzdkZCAoSW50
+cm9kdWNlZCBzaW1wbGUgbGluZWFyIHNjYW4gcmF0ZSBsaW1pdGluZyBtZWNoYW5pc20gZm9yIHdy
+aXRlIHRyYWNraW5nIG1pZ3JhdGlvbi4pCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxl
+YWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiM3ODogRklMRTogbWlncmF0aW9uL3JhbS5jOjIw
+NDA6CisgICAgLyogSW4gY2FzZSBsYXN0IGZhdWx0IHRpbWUgd2FzIGF2YWlsYWJsZSBhbmQgd2Ug
+aGF2ZQoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBh
+cmF0ZSBsaW5lCiM3OTogRklMRTogbWlncmF0aW9uL3JhbS5jOjIwNDE6CisgICAgICogbGF0ZW5j
+eSB2YWx1ZSwgY2hlY2sgaWYgaXQncyBub3QgdG9vIGhpZ2ggKi8KCldBUk5JTkc6IEJsb2NrIGNv
+bW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiM4NDogRklMRTogbWln
+cmF0aW9uL3JhbS5jOjIwNDY6CisgICAgLyogRGVsYXkgdGhyZWFkIGV4ZWN1dGlvbiB0aWxsIG5l
+eHQgd3JpdGUgZmF1bHQgb2NjdXJlcyBvciB0aW1lb3V0IGV4cGlyZXMuCgpXQVJOSU5HOiBsaW5l
+IG92ZXIgODAgY2hhcmFjdGVycwojODU6IEZJTEU6IG1pZ3JhdGlvbi9yYW0uYzoyMDQ3OgorICAg
+ICAqIE5leHQgU0xPV19GQVVMVF9TS0lQX1BBR0VTIGNhbiBiZSB3cml0ZSBmYXVsdCBwYWdlcyBv
+bmx5LCBub3QgZnJvbSBwYWdlcyBnb2luZyBmcm9tCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hh
+cmFjdGVycwojODY6IEZJTEU6IG1pZ3JhdGlvbi9yYW0uYzoyMDQ4OgorICAgICAqIGxpbmVhciBz
+Y2FuIGxvZ2ljLiBUaHVzIHdlIG1vZGVyYXRlIG1pZ3JhdGlvbiBzdHJlYW0gcmF0ZSB0byByZWR1
+Y2UgbGF0ZW5jaWVzICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAq
+LyBvbiBhIHNlcGFyYXRlIGxpbmUKIzg2OiBGSUxFOiBtaWdyYXRpb24vcmFtLmM6MjA0ODoKKyAg
+ICAgKiBsaW5lYXIgc2NhbiBsb2dpYy4gVGh1cyB3ZSBtb2RlcmF0ZSBtaWdyYXRpb24gc3RyZWFt
+IHJhdGUgdG8gcmVkdWNlIGxhdGVuY2llcyAqLwoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJh
+Y3RlcnMKIzExODogRklMRTogbWlncmF0aW9uL3JhbS5jOjIyNDg6CisjZGVmaW5lIFdUX01BWF9X
+QUlUIDEwMDAgLyogMTAwMCBtcywgbmVlZCBiaWdnZXIgbGltaXQgZm9yICd3cml0ZS10cmFja2lu
+ZycgbWlncmF0aW9uICovCgp0b3RhbDogMCBlcnJvcnMsIDcgd2FybmluZ3MsIDEwMyBsaW5lcyBj
+aGVja2VkCgpQYXRjaCA3LzcgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYg
+YW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRo
+ZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09IE9VVFBVVCBF
+TkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBp
+cyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDExMTgxMjU0NDkuMzEx
+MDM4LTEtYW5kcmV5LmdydXpkZXZAdmlydHVvenpvLmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5
+cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcg
+W2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRj
+aGV3LWRldmVsQHJlZGhhdC5jb20=
 
