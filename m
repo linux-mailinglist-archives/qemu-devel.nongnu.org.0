@@ -2,107 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A9B42B83D7
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 19:30:39 +0100 (CET)
-Received: from localhost ([::1]:46552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBCAE2B83B4
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 19:20:40 +0100 (CET)
+Received: from localhost ([::1]:60486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfSE2-0006Gh-4s
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 13:30:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52168)
+	id 1kfS4N-0008G9-Sr
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 13:20:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kfRq0-0004y4-4Y; Wed, 18 Nov 2020 13:05:50 -0500
-Received: from mail-eopbgr140135.outbound.protection.outlook.com
- ([40.107.14.135]:60229 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kfRpk-0008Rp-Fl; Wed, 18 Nov 2020 13:05:47 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WklvXb1+7SGD1VR9gjfAlS242CS4MbsGjR8sE6ieVjr1g8XYJ3hSalQb/0mv8csp7epT4AhTRexISjj4KQc0Y0ivZKM+6ExOl0lWml2x43KA4T5ApVlnXwaSdKU3mm9PDy7PqQYRaj8EXUnABLuMiI9u0p6Aubg1i7ZZPpvzutRyu4CxDBSdiRI59Fb/rFFWBiovuUeZRuwICYoeRxYSqm2o57KT4D/9ek/hyPYcLvNACojpRZz2zFhOBfjfo34UGR+xvpIcHVBVotTEPYrtNTLT5E5SfL1sD/aiE2mp9JJapZ8W/qy57gZLoSDhwVnpbgP8TH/CBOuqXkntdP3IhQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QvpwijDJ+C74fBJrfaoHNmc1gwAo6woO4gl2y59QxV4=;
- b=dbA3VlY+ocIhwyUZb16h93pEqHKIBgAGhEMP6artRsU1pdjgOEpEXcbKK6V1rqnJn8f0P4O+p5mdVPjaKERuBTJHGFTCvMSOU53lxWHguaCR7lPGIXWRmNOKl8Ql4fAEFUbvI1j8I52nf4gadDOHAqKAdQDxFNGjRIetoTlEE2cEhXSFryB0Nu8JSTBEm4F6JR2A7d3hsUFYjqHetT3mpcfmP6TUXlyNDHJ8msIov+DZzeOLOWqCyasZIyaEiwbyFV/yNB7GokOgkwIcmezD00COFufgFiJ3rWXyPF92d0KhygMhiyDXghAAaolFBH4+X625p8lF7csxUf/PKfCCHg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QvpwijDJ+C74fBJrfaoHNmc1gwAo6woO4gl2y59QxV4=;
- b=jJQjqGGtoHQyqnfNM3lKEB3rZqq3TZl9WOo/TEU4iU8uPmIEiwemOOwddCMEn5LdDKO7kAesIHA7hlh3qLyReO1k7cWFSxdTtXuuEEa32B7Sz2fKVMlmHaghGNAhQAAmkALSNRvLvTIOB2U/VMYeKjtH8FL+N3PqXkfIVnvk9mE=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB5912.eurprd08.prod.outlook.com (2603:10a6:20b:29f::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.25; Wed, 18 Nov
- 2020 18:04:55 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::fd02:1330:f620:1243]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::fd02:1330:f620:1243%9]) with mapi id 15.20.3589.021; Wed, 18 Nov 2020
- 18:04:55 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, eblake@redhat.com, fam@euphon.net,
- stefanha@redhat.com, mreitz@redhat.com, kwolf@redhat.com, jsnow@redhat.com,
- vsementsov@virtuozzo.com, den@openvz.org
-Subject: [PATCH 11/11] iotests/264: add backup-cancel test-case
-Date: Wed, 18 Nov 2020 21:04:33 +0300
-Message-Id: <20201118180433.11931-12-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20201118180433.11931-1-vsementsov@virtuozzo.com>
-References: <20201118180433.11931-1-vsementsov@virtuozzo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [185.215.60.112]
-X-ClientProxiedBy: AM0PR04CA0123.eurprd04.prod.outlook.com
- (2603:10a6:208:55::28) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kfS0L-00057g-Hx
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 13:16:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27360)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kfS0J-0001od-GV
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 13:16:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605723386;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7Ui0hOp51J0M8aAVaLj92KIM+lt6qlAfbuztdbsUGrE=;
+ b=PhIRGTkncHJ7NCPoVHv002OBCboq77Vikf1I5v8oOQs2Sl60KXCqzMiE1GSaODfg+iTwMR
+ 0yYTDBb5MRuEyHlsxKuZa46rMOlKR48r3NlkZu/WCaNwbyzEK1LTbl85/Fx7vIGq0S5PTZ
+ +vi9rWk/OJombhO8ho1VNVUbTR+qqug=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-556-c9qmU4IAOwy3BScgL82Wag-1; Wed, 18 Nov 2020 13:16:23 -0500
+X-MC-Unique: c9qmU4IAOwy3BScgL82Wag-1
+Received: by mail-wm1-f70.google.com with SMTP id z62so2934398wmb.1
+ for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 10:16:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=7Ui0hOp51J0M8aAVaLj92KIM+lt6qlAfbuztdbsUGrE=;
+ b=TzQUGfgA9LcaLrtbRE+zwm7W2m8COt+yp3lNFGLtUCQ5H/f/1C4lfoSi3kejnF+yf1
+ mpV3DQ/2Z8pUOIVLms0OfTEjFgRYMDQKYeDw0nT75ncNItYjwx+FInEay9lRs7QVTIjb
+ 5a2WbbwWvIUQeXNQz+kpA0X5GVOqcSL9p/EqXj1VXR044ouhI3lT8Amox40nC1aUhAhj
+ AQ4zv5L5qxHl7+OfXOrBRzn3WPYjAd5N8TnZRubTeUAiRxVhplUJA2XVHL935yKa/TrK
+ FP3I5DnAHvtkhTX2X9MwSo/njo0a/grXNVXuEnwziXFWNXosL9yFfxNTOu6CZbl0Hz83
+ NtGw==
+X-Gm-Message-State: AOAM532VcqjCrW8ZA8BqxkYBxiE4QoX4FehX6ZIDjMDCEKzG2DUwNdBT
+ EUj2d5zdMx3piGJslZoP3SeTnG72fYJENHr0dwkiZCbFONfAs+P7ql0GXCN+k5Wz9xChjcqjkHV
+ 1t53x0Eu9+qkbcPo=
+X-Received: by 2002:a1c:44f:: with SMTP id 76mr331434wme.181.1605723381957;
+ Wed, 18 Nov 2020 10:16:21 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz+BC7MdOjaWYwIl5XxbiacKtEb7g0TuCzpEpc82HcCPdg3b687yd7FRxHwOc9t189r/BoMxg==
+X-Received: by 2002:a1c:44f:: with SMTP id 76mr331417wme.181.1605723381747;
+ Wed, 18 Nov 2020 10:16:21 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id 90sm14369239wrl.60.2020.11.18.10.16.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Nov 2020 10:16:21 -0800 (PST)
+Subject: Re: [PATCH 4/6] configure / meson: Move check for sys/signal.h to
+ meson.build
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20201118171052.308191-1-thuth@redhat.com>
+ <20201118171052.308191-5-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <62372a20-98a1-2b91-f255-d651e0fa3573@redhat.com>
+Date: Wed, 18 Nov 2020 19:16:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kvm.sw.ru (185.215.60.112) by
- AM0PR04CA0123.eurprd04.prod.outlook.com (2603:10a6:208:55::28) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3589.20 via Frontend Transport; Wed, 18 Nov 2020 18:04:54 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5aa79104-bcef-4045-bc25-08d88bec746e
-X-MS-TrafficTypeDiagnostic: AS8PR08MB5912:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB591299CEB60F91A596C326D6C1E10@AS8PR08MB5912.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2582;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Jet8uA+u9tC+DbWyfo5+76zveHRixLZ0lO7kn7VXJbFc4Ne5cKKYuwI0RfNgnIj2Y6MPJtrHFHqcE7A0pS3B7fcIe0gROnDpo/aZOxPCO1dt8+y/ERC7AI5m7zJPSm6H3F1aoBysAdDrIAeX+T2Uvu1yafBaPosqkrnkTwGmtMKVnCEAqMVyY/6C2R7xNeCUc5cUCxyv0qF8WjabYmEhXltIikMiRIq46PDrjG3JwmlQPcZPsY/U8+8yiczYG95IfDIKnog/sjmWP3zhAm8QHe+bwMHr1RrSX6WW8uY730lOk0w7v3WmQwGaLZNVyQcVEgwYLtLdPbCnyBSJys+oKA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(136003)(366004)(376002)(396003)(39840400004)(1076003)(6512007)(26005)(36756003)(478600001)(6506007)(6486002)(83380400001)(16526019)(2906002)(186003)(66556008)(66476007)(66946007)(5660300002)(86362001)(316002)(2616005)(8676002)(956004)(6666004)(4326008)(52116002)(6916009)(8936002)(107886003);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: XYdofmd850KzJjbcLDkkOcCRCkOITuQnI8+WyUW/I8Gv9PMrvdXsOZ33WjqfZKNbnfFy5g6ZKKVWQCOkOnG1f6GFZvVXDGvEasL2R3Hc/VSK+b30lE/SgZUDNSuIcEpCBqhTLgxAh5A92oxoBVP8GBRZrUyprq4KHwfTmPWyWzvMHJrp+JyMX6wuqY02vsrWNXQzqOnDT0NZKX/lNZ0076SZLQjzMO+nVa6408ugNIygOqInvKnLBd3w6vqN6d+2LGT3yGKi+CS6smMcIkWtoroR9lh5YJcxP6RrB6iutHM2wvJOsgAgy2F4fG8fI7atLO9QRuYCJ/b164BLk17FnkUmFxdyCC5x0uk2N/n3/PraZYHGvtlZ+ez5+CL2m5E739vdBGPjMf/jmw8TzLap5/n4Ha3S6p43A68F51n3536EpCS+Whh+GiGhdXH0adesaWVOVV3VzDoA7DyEQm2utZEe1I9Q6X44iMIJ568uzqf4rKLqbKEU40bDQKLHXik9RA5LZ6tVNQ4Gc0SLfd013JCeohy0oifLii0XQFyJin7aW6GgwMUlcsXMlEQXQn3sngsVi29/cRS1rOo9Oqf3SqnTyubGx3cLYMVh0uz1v6k6eQuXrwLWqMyVodUNxikTilDsvQnUhNQYX+qe85UFVw==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5aa79104-bcef-4045-bc25-08d88bec746e
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2020 18:04:55.6186 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4hLhanpDHM/nioXAZ8DT7wdPa/7/hyTynlGHQd7QVZ/G6IJpfz2fuYXtr3HLUu57y8oAMJUHWZ+hl6Cepy7av65ah56ts1g10NcdiHNtCJg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB5912
-Received-SPF: pass client-ip=40.107.14.135;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-VE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 13:04:54
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <20201118171052.308191-5-thuth@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 19:41:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -115,56 +102,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Check that cancel doesn't wait for 10s of nbd reconnect timeout.
+On 11/18/20 6:10 PM, Thomas Huth wrote:
+> This check can be done in a much shorter way in meson.build
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  configure   | 10 ----------
+>  meson.build |  1 +
+>  2 files changed, 1 insertion(+), 10 deletions(-)
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/264 | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
-
-diff --git a/tests/qemu-iotests/264 b/tests/qemu-iotests/264
-index 3c6f29317f..b830078834 100755
---- a/tests/qemu-iotests/264
-+++ b/tests/qemu-iotests/264
-@@ -93,13 +93,7 @@ class TestNbdReconnect(iotests.QMPTestCase):
-             result = self.vm.qmp('blockdev-del', node_name='backup0')
-             self.assert_qmp(result, 'return', {})
- 
--    def test_mirror_cancel(self):
--        # Mirror speed limit doesn't work well enough, it seems that mirror
--        # will run many parallel requests anyway. MAX_IN_FLIGHT is 16 and
--        # MAX_IO_BYTES is 1M in mirror.c, so let's use 20M disk.
--        self.init_vm(20 * 1024 * 1024)
--        self.start_job('blockdev-mirror')
--
-+    def cancel_job(self):
-         result = self.vm.qmp('block-job-cancel', device='drive0')
-         self.assert_qmp(result, 'return', {})
- 
-@@ -108,6 +102,19 @@ class TestNbdReconnect(iotests.QMPTestCase):
-         delta_t = time.time() - start_t
-         self.assertTrue(delta_t < 2.0)
- 
-+    def test_mirror_cancel(self):
-+        # Mirror speed limit doesn't work well enough, it seems that mirror
-+        # will run many parallel requests anyway. MAX_IN_FLIGHT is 16 and
-+        # MAX_IO_BYTES is 1M in mirror.c, so let's use 20M disk.
-+        self.init_vm(20 * 1024 * 1024)
-+        self.start_job('blockdev-mirror')
-+        self.cancel_job()
-+
-+    def test_backup_cancel(self):
-+        self.init_vm(5 * 1024 * 1024)
-+        self.start_job('blockdev-backup')
-+        self.cancel_job()
-+
- 
- if __name__ == '__main__':
-     iotests.main(supported_fmts=['qcow2'])
--- 
-2.21.3
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
