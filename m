@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACD272B78B3
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 09:32:36 +0100 (CET)
-Received: from localhost ([::1]:59038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C72C72B78DB
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 09:35:31 +0100 (CET)
+Received: from localhost ([::1]:42332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfItG-0008Su-SQ
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 03:32:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49678)
+	id 1kfIw6-0004m0-IM
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 03:35:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kfIqp-0006yK-Dc
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 03:30:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51599)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kfIqn-0004KP-K1
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 03:30:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605688200;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=BBPs0OKWqz/sjWUM7hu7JTT11nO0e2pkx2tYDYKSCIs=;
- b=Yb7zUkpxBckwP8a6Q+06kM9/Plsmgajc5FmiTLy+lksb24CYasUh7S0SLPvI7DZ/vDDkIE
- g96xAnx4P4BBlJdE8h7/ZUKJEaRzlZp+pfpWkGflzHfyA+ckmm5qHRX/0IDcPhSCCQwgxT
- RixOn76hGk8XXUAo7nEKXlYnS+TUdqA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-544-RTM1r4G4PP-E7qFuhMDsCg-1; Wed, 18 Nov 2020 03:29:51 -0500
-X-MC-Unique: RTM1r4G4PP-E7qFuhMDsCg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C57386ABD9
- for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 08:29:50 +0000 (UTC)
-Received: from localhost (unknown [10.36.110.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3F2216EF4F;
- Wed, 18 Nov 2020 08:29:45 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH] dbus-vmstate: replace g_return with error handling
-Date: Wed, 18 Nov 2020 12:29:42 +0400
-Message-Id: <20201118082942.34167-1-marcandre.lureau@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 19:41:43
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1kfItG-00019A-KS
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 03:32:34 -0500
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:45425)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1kfItE-0004nb-7s
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 03:32:34 -0500
+Received: by mail-pg1-x52e.google.com with SMTP id 62so677910pgg.12
+ for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 00:32:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=Uk5OG9uc1EISaedrmN2IAjR/3Ptt8iCg5bDof/w6oYw=;
+ b=M+udbSRKsZXUTrU1Y9RQcIUNJ1xovJpsiaXTk6smo3ycPOvYg00uWWzbDTGqOgq+PZ
+ CWuWHY440vUVn6+8F6zMhQyCKqEnpx/gCWsaDY5zo8FNmbFB5zBlLvA/71LDYGyS2ZgS
+ EZkyi7fkStt3/fxojBa6cwnCCBwu2Z+k12bWqkvuBT6Ig7gyw7p/h67WNYkAv8gsslFN
+ kGzjKxYy6tpkQaMgs/EWvymtBJiSj9eaUcE2Dpn8diVVJ6oY8CTbRe0yZoNO+xXqthhi
+ B8Le2rX2nR6Yb2HRLUUo9nrEXBjVo2F0SrE2CsIuNaf/pSGJjaG5DrcAuLnOFGVzkS1E
+ J4XA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=Uk5OG9uc1EISaedrmN2IAjR/3Ptt8iCg5bDof/w6oYw=;
+ b=pI6kAq2vNGemufS9Qrg4Hf5VfoKdFRJkRr/y2i7ijExhRgpOIF9ExcM2QYxc+DnDDd
+ kAzl8UuoLC+ENLD121bKZO45GED+gs9BMUqRjyAqiDkI9rHy3YYp64g05OcH9OmzcF5k
+ IdrqEJ9uqf6GefCJB0kZj5+QMfu5QX3Lk0FlVBeQz4fyjv/M84wditnYanmu/Dqy/kIj
+ LIRrPY1Y2l+72oE1fIKXFobV8YompQ3w0GLhltAWltn8osb/Zvds2OzZgcpIzDlR2qpW
+ O/SCIb1upULUHVw9QVyfRc465TRmtUfflKUEoSn9KbpoWMx/bD4BN0fc2IPLLYqWd0nj
+ 6NPA==
+X-Gm-Message-State: AOAM532+QXVftn0u5ysr2mxEwu9IfUzdFtXPvECtBO+ivsyQB/JgU36w
+ rzxCYQcsAroOe2xaNjcVnq6QMfpF5vrVnynMJFM=
+X-Google-Smtp-Source: ABdhPJzLqQTtTcRGHaOlY7s6/1suyDicvZM17kEfCFa3SMjO34uTOPO2z60h3TOq3dq1cBFytwYlbA==
+X-Received: by 2002:a62:7b4a:0:b029:18b:b3f:3fe6 with SMTP id
+ w71-20020a627b4a0000b029018b0b3f3fe6mr3489019pfc.80.1605688350785; 
+ Wed, 18 Nov 2020 00:32:30 -0800 (PST)
+Received: from frankchang-ThinkPad-T490.internal.sifive.com
+ (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
+ by smtp.gmail.com with ESMTPSA id y10sm1618407pjm.34.2020.11.18.00.32.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Nov 2020 00:32:30 -0800 (PST)
+From: frank.chang@sifive.com
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [RFC 05/15] target/riscv: rvb: pack two words into one register
+Date: Wed, 18 Nov 2020 16:29:43 +0800
+Message-Id: <20201118083044.13992-6-frank.chang@sifive.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20201118083044.13992-1-frank.chang@sifive.com>
+References: <20201118083044.13992-1-frank.chang@sifive.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=frank.chang@sifive.com; helo=mail-pg1-x52e.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,39 +84,203 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- armbru@redhat.com
+Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Frank Chang <frank.chang@sifive.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Kito Cheng <kito.cheng@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+From: Kito Cheng <kito.cheng@sifive.com>
 
-Since g_input_stream_read_all() may return less than requested when the
-stream is malformed, we should treat this condition as a runtime user
-error (g_return are for programming errors).
-
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
 ---
- backends/dbus-vmstate.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ target/riscv/insn32-64.decode           |  3 +
+ target/riscv/insn32.decode              |  3 +
+ target/riscv/insn_trans/trans_rvb.c.inc | 30 ++++++++
+ target/riscv/translate.c                | 92 +++++++++++++++++++++++++
+ 4 files changed, 128 insertions(+)
 
-diff --git a/backends/dbus-vmstate.c b/backends/dbus-vmstate.c
-index bd050e8e9c..616d291cfb 100644
---- a/backends/dbus-vmstate.c
-+++ b/backends/dbus-vmstate.c
-@@ -229,7 +229,10 @@ static int dbus_vmstate_post_load(void *opaque, int version_id)
-                                      &bytes_read, NULL, &err)) {
-             goto error;
-         }
--        g_return_val_if_fail(bytes_read == len, -1);
-+        if (bytes_read != len) {
-+            error_report("%s: Failed to read proxy Id", __func__);
-+            return -1;
-+        }
-         id[len] = 0;
+diff --git a/target/riscv/insn32-64.decode b/target/riscv/insn32-64.decode
+index d5bea5af273..2f00f96e36b 100644
+--- a/target/riscv/insn32-64.decode
++++ b/target/riscv/insn32-64.decode
+@@ -91,3 +91,6 @@ hsv_d     0110111  .....   ..... 100 00000 1110011 @r2_s
+ clzw       011000000000 ..... 001 ..... 0011011 @r2
+ ctzw       011000000001 ..... 001 ..... 0011011 @r2
+ pcntw      011000000010 ..... 001 ..... 0011011 @r2
++
++packw      0000100 .......... 100 ..... 0111011 @r
++packuw     0100100 .......... 100 ..... 0111011 @r
+diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+index 29a3d4c6ebc..79aa40f03dd 100644
+--- a/target/riscv/insn32.decode
++++ b/target/riscv/insn32.decode
+@@ -602,3 +602,6 @@ pcnt       011000000010 ..... 001 ..... 0010011 @r2
+ andn       0100000 .......... 111 ..... 0110011 @r
+ orn        0100000 .......... 110 ..... 0110011 @r
+ xnor       0100000 .......... 100 ..... 0110011 @r
++pack       0000100 .......... 100 ..... 0110011 @r
++packu      0100100 .......... 100 ..... 0110011 @r
++packh      0000100 .......... 111 ..... 0110011 @r
+diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
+index be25431e990..9257373ae0b 100644
+--- a/target/riscv/insn_trans/trans_rvb.c.inc
++++ b/target/riscv/insn_trans/trans_rvb.c.inc
+@@ -53,6 +53,24 @@ static bool trans_xnor(DisasContext *ctx, arg_xnor *a)
+     return gen_arith(ctx, a, &gen_xnor);
+ }
  
-         trace_dbus_vmstate_loading(id);
++static bool trans_pack(DisasContext *ctx, arg_pack *a)
++{
++    REQUIRE_EXT(ctx, RVB);
++    return gen_arith(ctx, a, &gen_pack);
++}
++
++static bool trans_packu(DisasContext *ctx, arg_packu *a)
++{
++    REQUIRE_EXT(ctx, RVB);
++    return gen_arith(ctx, a, &gen_packu);
++}
++
++static bool trans_packh(DisasContext *ctx, arg_packh *a)
++{
++    REQUIRE_EXT(ctx, RVB);
++    return gen_arith(ctx, a, &gen_packh);
++}
++
+ /* RV64-only instructions */
+ #ifdef TARGET_RISCV64
+ 
+@@ -74,4 +92,16 @@ static bool trans_pcntw(DisasContext *ctx, arg_pcntw *a)
+     return gen_unary(ctx, a, &gen_pcntw);
+ }
+ 
++static bool trans_packw(DisasContext *ctx, arg_packw *a)
++{
++    REQUIRE_EXT(ctx, RVB);
++    return gen_arith(ctx, a, &gen_packw);
++}
++
++static bool trans_packuw(DisasContext *ctx, arg_packuw *a)
++{
++    REQUIRE_EXT(ctx, RVB);
++    return gen_arith(ctx, a, &gen_packuw);
++}
++
+ #endif
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 254a9dca8c2..fb30ee83aa8 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -743,6 +743,65 @@ static void gen_xnor(TCGv ret, TCGv arg1, TCGv arg2)
+     tcg_temp_free(t);
+ }
+ 
++static void gen_pack(TCGv ret, TCGv arg1, TCGv arg2)
++{
++    TCGv lower, higher;
++    lower = tcg_temp_new();
++    higher = tcg_temp_new();
++
++#ifdef TARGET_RISCV64
++    tcg_gen_ext32u_tl(lower, arg1);
++    tcg_gen_shli_tl(higher, arg2, 32);
++#else
++    tcg_gen_ext16u_tl(lower, arg1);
++    tcg_gen_shli_tl(higher, arg2, 16);
++#endif
++
++    tcg_gen_or_tl(ret, higher, lower);
++
++    tcg_temp_free(lower);
++    tcg_temp_free(higher);
++}
++
++static void gen_packu(TCGv ret, TCGv arg1, TCGv arg2)
++{
++    TCGv lower, higher;
++    lower = tcg_temp_new();
++    higher = tcg_temp_new();
++
++#ifdef TARGET_RISCV64
++    tcg_gen_shri_tl(lower, arg1, 32);
++    tcg_gen_shri_tl(higher, arg2, 32);
++    tcg_gen_shli_tl(higher, higher, 32);
++#else
++    tcg_gen_shri_tl(lower, arg1, 16);
++    tcg_gen_shri_tl(higher, arg2, 16);
++    tcg_gen_shli_tl(higher, higher, 16);
++#endif
++
++    tcg_gen_or_tl(ret, higher, lower);
++
++    tcg_temp_free(lower);
++    tcg_temp_free(higher);
++}
++
++static void gen_packh(TCGv ret, TCGv arg1, TCGv arg2)
++{
++    TCGv lower, higher;
++    lower = tcg_temp_new();
++    higher = tcg_temp_new();
++
++    tcg_gen_ext8u_tl(lower, arg1);
++    tcg_gen_ext8u_tl(higher, arg2);
++    tcg_gen_shli_tl(higher, higher, 8);
++
++    tcg_gen_or_tl(ret, higher, lower);
++
++    tcg_temp_free(lower);
++    tcg_temp_free(higher);
++}
++
++
+ #ifdef TARGET_RISCV64
+ 
+ static bool gen_cxzw(DisasContext *ctx, arg_r2 *a,
+@@ -775,6 +834,39 @@ static void gen_pcntw(TCGv ret, TCGv arg1)
+     tcg_gen_ctpop_tl(ret, arg1);
+ }
+ 
++static void gen_packw(TCGv ret, TCGv arg1, TCGv arg2)
++{
++    TCGv lower, higher;
++    lower = tcg_temp_new();
++    higher = tcg_temp_new();
++
++    tcg_gen_ext16u_tl(lower, arg1);
++    tcg_gen_shli_tl(higher, arg2, 16);
++    tcg_gen_or_tl(ret, higher, lower);
++
++    tcg_gen_ext32s_tl(ret, ret);
++
++    tcg_temp_free(lower);
++    tcg_temp_free(higher);
++}
++
++static void gen_packuw(TCGv ret, TCGv arg1, TCGv arg2)
++{
++    TCGv lower, higher;
++    lower = tcg_temp_new();
++    higher = tcg_temp_new();
++
++    tcg_gen_shri_tl(lower, arg1, 16);
++    tcg_gen_shri_tl(higher, arg2, 16);
++    tcg_gen_shli_tl(higher, higher, 16);
++    tcg_gen_or_tl(ret, higher, lower);
++
++    tcg_gen_ext32s_tl(ret, ret);
++
++    tcg_temp_free(lower);
++    tcg_temp_free(higher);
++}
++
+ #endif
+ 
+ static bool gen_arith(DisasContext *ctx, arg_r *a,
 -- 
-2.29.0
+2.17.1
 
 
