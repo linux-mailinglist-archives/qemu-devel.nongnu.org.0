@@ -2,50 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0FC62B7E3B
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 14:23:33 +0100 (CET)
-Received: from localhost ([::1]:51182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EB342B7E7A
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 14:44:00 +0100 (CET)
+Received: from localhost ([::1]:45494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfNQq-0001F4-8D
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 08:23:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33976)
+	id 1kfNkc-00039Y-PP
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 08:43:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kfNOP-0007z0-P1
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 08:21:03 -0500
-Received: from relay.sw.ru ([185.231.240.75]:48188 helo=relay3.sw.ru)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kfNOG-00023r-OF
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 08:21:01 -0500
-Received: from [192.168.15.37] (helo=andrey-MS-7B54.sw.ru)
- by relay3.sw.ru with esmtp (Exim 4.94)
- (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kfNO2-009Ap3-E1; Wed, 18 Nov 2020 16:20:38 +0300
-To: qemu-devel@nongnu.org
-Cc: Den Lunev <den@openvz.com>, Eric Blake <eblake@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Subject: [PATCH v2 7/7] Introduced simple linear scan rate limiting mechanism
- for write tracking migration.
-Date: Wed, 18 Nov 2020 16:20:48 +0300
-Message-Id: <20201118132048.429092-8-andrey.gruzdev@virtuozzo.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201118132048.429092-1-andrey.gruzdev@virtuozzo.com>
-References: <20201118132048.429092-1-andrey.gruzdev@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kfNjT-0002jG-Q1
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 08:42:47 -0500
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:38441)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kfNjP-0004d8-Ho
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 08:42:46 -0500
+Received: by mail-ed1-x52a.google.com with SMTP id y4so2039607edy.5
+ for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 05:42:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=k1BEXvF3aK31h2taPda0s7YeyAyo+4UPmGJCGjZPXF0=;
+ b=hV7R43lv4RMqGKCQZDhBNqE+mSUW0UHeMKp+IlkHSxBg0mB8PTMM46JcWFmvr8ZgHl
+ et/RnyHrkZOKhbeJbu4wfl563uZ1XRuSCaDc7SBD0/WwaHsLwhPJnO8PRgnGlj/yPcSo
+ J/7rRJd0g9lxhsRCwG19gXjEWjYcwMB0e1QhKDhLEr+sQ4RBt/SIT64U+RUu5ou3iv1h
+ eQCR7PTjw7lsQqRKn44dqGcxb7lk1+m1a4LvEOs7nPsxgQDRTj4dCArM4qqp/yOiJZRx
+ CaUVORW99w5X6ryLPJo0ykF5j3bgRh5le4yw3/uNpdjCO2QQlzxO4xG82veB5TnH0ZNT
+ Eg9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=k1BEXvF3aK31h2taPda0s7YeyAyo+4UPmGJCGjZPXF0=;
+ b=dIYD/5G68veOwZAnZbZUYKu7j89+M+5uviPAiUQwqVtaPFjYkdXh5vyB5OFGXJgrar
+ PYez9QeCVk+iBMAxYN5tYM0XIdbjwSf+O5kLijWSrGfBBI5RNVGgFSfVSo8lfYOPP/a0
+ fR3y3R5ILPFAzaGfkXTNRZYkVDB2r4Rfn6UnxBbhHGCj/Jy+o+vfPrVy9mmQocNK69dh
+ aDJMQ+CuhGdW1vzCX1sLKBnESotDqHbkvB4BE05xGzRsFFixGUXLp7K4+Sq6xT+fc9j7
+ fxgdCVVGOiNmQon5hEkhvjuY5pBuH9Kf1c4Nqt4ma4w/dFGFIQLXf6IIOX788oTccgB0
+ 44TQ==
+X-Gm-Message-State: AOAM5313eVD3Hyy9RlrenllnVpIi33r6D0IEKFXazUUVumgIVlUViK3o
+ U9eRq9YzEKyQaZt5IDSNv8jFOeYZdj/XaacmNiYSkw==
+X-Google-Smtp-Source: ABdhPJwGLzaa8xuFJeiIZe0flpPNQLKlKdH1OKSZoySirpWDVChKBn3Zh++SV4T3ihT+2D5Ozfh66D1WlysKf9JTgIg=
+X-Received: by 2002:a05:6402:3089:: with SMTP id
+ de9mr26552535edb.100.1605706961366; 
+ Wed, 18 Nov 2020 05:42:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=185.231.240.75;
- envelope-from=andrey.gruzdev@virtuozzo.com; helo=relay3.sw.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 06:22:34
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+References: <20201118101940.132594-1-pbonzini@redhat.com>
+In-Reply-To: <20201118101940.132594-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 18 Nov 2020 13:42:30 +0000
+Message-ID: <CAFEAcA_eFRPPqvr_CRO7LYebWjR9AA2Fw-n2DnVJZxYD9+O6BA@mail.gmail.com>
+Subject: Re: [PULL 0/7] HVF and Windows changes for QEMU 5.2-rc
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -59,139 +79,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-From: Andrey Gruzdev via <qemu-devel@nongnu.org>
 
-Since reading UFFD events and saving paged data are performed
-from the same thread, write fault latencies are sensitive to
-migration stream stalls. Limiting total page saving rate is a
-method to reduce amount of noticiable fault resolution latencies.
+On Wed, 18 Nov 2020 at 10:21, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit 66a300a107ec286725bdc943601cbd4247b82158:
+>
+>   Update version for v5.2.0-rc2 release (2020-11-17 22:58:10 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to 29cf16db23e605769f6d89c47a1d45ef3373b88e:
+>
+>   buildsys: Help git-diff adding .gitattributes config file (2020-11-18 09:33:16 +0100)
+>
+> ----------------------------------------------------------------
+> Bugfixes for HVF and Windows builds.
+>
 
-Migration bandwidth limiting is achieved via noticing cases of
-out-of-threshold write fault latencies and temporarily disabling
-(strictly speaking, severely throttling) saving non-faulting pages.
 
-Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
----
- migration/ram.c | 58 +++++++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 54 insertions(+), 4 deletions(-)
+Applied, thanks.
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 08a1d7a252..89fe106585 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -325,6 +325,10 @@ struct RAMState {
-     /* these variables are used for bitmap sync */
-     /* last time we did a full bitmap_sync */
-     int64_t time_last_bitmap_sync;
-+    /* last time UFFD fault occured */
-+    int64_t last_fault_ns;
-+    /* linear scan throttling counter */
-+    int throttle_skip_counter;
-     /* bytes transferred at start_time */
-     uint64_t bytes_xfer_prev;
-     /* number of dirty pages since start_time */
-@@ -576,9 +580,6 @@ static int uffd_protect_memory(int uffd, hwaddr start, hwaddr length, bool wp)
-     return 0;
- }
- 
--__attribute__ ((unused))
--static bool uffd_poll_events(int uffd, int tmo);
--
- /**
-  * uffd_read_events: read pending UFFD events
-  *
-@@ -2006,9 +2007,51 @@ static bool get_fault_page(RAMState *rs, PageSearchStatus *pss)
-         return false;
-     }
- 
-+    rs->last_fault_ns = qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
-     return true;
- }
- 
-+#define FAULT_HIGH_LATENCY_NS   5000000     /* 5 ms */
-+#define SLOW_FAULT_POLL_TMO     5           /* 5 ms */
-+#define SLOW_FAULT_SKIP_PAGES   200
-+
-+/**
-+ * limit_scan_rate: limit RAM linear scan rate in case of growing write fault
-+ *  latencies, used in write-tracking migration implementation
-+ *
-+ * @rs: current RAM state
-+ *
-+ */
-+static void limit_scan_rate(RAMState *rs)
-+{
-+    int64_t last_fault_latency_ns = 0;
-+
-+    if (!rs->ram_wt_enabled) {
-+        return;
-+    }
-+
-+    /* Check if last write fault time is available */
-+    if (rs->last_fault_ns) {
-+        last_fault_latency_ns = qemu_clock_get_ns(QEMU_CLOCK_REALTIME) -
-+                rs->last_fault_ns;
-+        rs->last_fault_ns = 0;
-+    }
-+
-+    /* In case last fault time was available and we have
-+     * latency value, check if it's not too high */
-+    if (last_fault_latency_ns > FAULT_HIGH_LATENCY_NS) {
-+        /* Reset counter after each slow write fault */
-+        rs->throttle_skip_counter = SLOW_FAULT_SKIP_PAGES;
-+    }
-+    /* Delay thread execution till next write fault occures or timeout expires.
-+     * Next SLOW_FAULT_SKIP_PAGES can be write fault pages only, not from pages going from
-+     * linear scan logic. Thus we moderate migration stream rate to reduce latencies */
-+    if (rs->throttle_skip_counter > 0) {
-+        uffd_poll_events(rs->uffdio_fd, SLOW_FAULT_POLL_TMO);
-+        rs->throttle_skip_counter--;
-+    }
-+}
-+
- /**
-  * ram_find_and_save_block: finds a dirty page and sends it to f
-  *
-@@ -2078,6 +2121,9 @@ static int ram_find_and_save_block(RAMState *rs, bool last_stage)
-                 if (res < 0) {
-                     break;
-                 }
-+
-+                /* Linear scan rate limiting */
-+                limit_scan_rate(rs);
-             }
-         }
-     } while (!pages && again);
-@@ -2191,12 +2237,15 @@ static void ram_state_reset(RAMState *rs)
-     rs->last_sent_block = NULL;
-     rs->last_page = 0;
-     rs->last_version = ram_list.version;
-+    rs->last_fault_ns = 0;
-+    rs->throttle_skip_counter = 0;
-     rs->ram_wt_enabled = migrate_track_writes_ram();
-     rs->ram_bulk_stage = !rs->ram_wt_enabled;
-     rs->fpo_enabled = false;
- }
- 
- #define MAX_WAIT 50 /* ms, half buffered_file limit */
-+#define WT_MAX_WAIT 1000 /* 1000 ms, need bigger limit for 'write-tracking' migration */
- 
- /*
-  * 'expected' is the value you expect the bitmap mostly to be full
-@@ -2872,7 +2921,8 @@ static int ram_save_iterate(QEMUFile *f, void *opaque)
-             if ((i & 63) == 0) {
-                 uint64_t t1 = (qemu_clock_get_ns(QEMU_CLOCK_REALTIME) - t0) /
-                               1000000;
--                if (t1 > MAX_WAIT) {
-+                uint64_t max_wait = rs->ram_wt_enabled ? WT_MAX_WAIT : MAX_WAIT;
-+                if (t1 > max_wait) {
-                     trace_ram_save_iterate_big_wait(t1, i);
-                     break;
-                 }
--- 
-2.25.1
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
 
+-- PMM
 
