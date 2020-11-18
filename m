@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEE3C2B8003
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 16:03:06 +0100 (CET)
-Received: from localhost ([::1]:41996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DC552B8013
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 16:04:54 +0100 (CET)
+Received: from localhost ([::1]:44898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfOzC-0006eT-0E
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 10:03:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59994)
+	id 1kfP0v-0007sU-6S
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 10:04:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aiyutao@huawei.com>)
- id 1kfHPk-0000A3-5J
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 01:58:00 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2858)
+ id 1kfHPl-0000AT-WB
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 01:58:02 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:2152)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aiyutao@huawei.com>)
- id 1kfHPh-0000Ob-II
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 01:57:59 -0500
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CbYXS5MsRz15N7P;
- Wed, 18 Nov 2020 14:57:28 +0800 (CST)
+ id 1kfHPj-0000OZ-Mi
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 01:58:01 -0500
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CbYXT22bjz6yQ2;
+ Wed, 18 Nov 2020 14:57:29 +0800 (CST)
 Received: from huawei.com (10.175.124.27) by DGGEMS411-HUB.china.huawei.com
  (10.3.19.211) with Microsoft SMTP Server id 14.3.487.0; Wed, 18 Nov 2020
  14:57:36 +0800
 From: Yutao Ai <aiyutao@huawei.com>
 To: <pbonzini@redhat.com>, <berrange@redhat.com>, <ehabkost@redhat.com>
-Subject: [PATCH 1/2] qom:open brace '{' following struct go on the same line
-Date: Wed, 18 Nov 2020 06:45:57 +0000
-Message-ID: <20201118064558.92658-2-aiyutao@huawei.com>
+Subject: [PATCH 2/2] qom:delete trailing whitespace
+Date: Wed, 18 Nov 2020 06:45:58 +0000
+Message-ID: <20201118064558.92658-3-aiyutao@huawei.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20201118064558.92658-1-aiyutao@huawei.com>
 References: <20201118064558.92658-1-aiyutao@huawei.com>
@@ -38,8 +38,8 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.175.124.27]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190; envelope-from=aiyutao@huawei.com;
- helo=szxga04-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=aiyutao@huawei.com;
+ helo=szxga07-in.huawei.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 01:57:44
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -41
@@ -65,63 +65,26 @@ Cc: alex.chen@huawei.com, aiyutao@huawei.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the open brace '{' following struct go on the same line
+Delete trailing whitespace
 
 Signed-off-by: Yutao Ai <aiyutao@huawei.com>
 ---
- qom/object.c | 15 +++++----------
- 1 file changed, 5 insertions(+), 10 deletions(-)
+ qom/object.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/qom/object.c b/qom/object.c
-index 1065355233..0cd2161012 100644
+index 0cd2161012..1ebf92bdc7 100644
 --- a/qom/object.c
 +++ b/qom/object.c
-@@ -38,13 +38,11 @@
- typedef struct InterfaceImpl InterfaceImpl;
- typedef struct TypeImpl TypeImpl;
+@@ -1067,7 +1067,7 @@ static void object_class_foreach_tramp(gpointer key, gpointer value,
+         return;
+     }
  
--struct InterfaceImpl
--{
-+struct InterfaceImpl {
-     const char *typename;
- };
- 
--struct TypeImpl
--{
-+struct TypeImpl {
-     const char *name;
- 
-     size_t class_size;
-@@ -1048,8 +1046,7 @@ ObjectClass *object_class_get_parent(ObjectClass *class)
-     return type->class;
- }
- 
--typedef struct OCFData
--{
-+typedef struct OCFData {
-     void (*fn)(ObjectClass *klass, void *opaque);
-     const char *implements_type;
-     bool include_abstract;
-@@ -2137,8 +2134,7 @@ Object *object_resolve_path(const char *path, bool *ambiguous)
-     return object_resolve_path_type(path, TYPE_OBJECT, ambiguous);
- }
- 
--typedef struct StringProperty
--{
-+typedef struct StringProperty {
-     char *(*get)(Object *, Error **);
-     void (*set)(Object *, const char *, Error **);
- } StringProperty;
-@@ -2216,8 +2212,7 @@ object_class_property_add_str(ObjectClass *klass, const char *name,
-                                      prop);
- }
- 
--typedef struct BoolProperty
--{
-+typedef struct BoolProperty {
-     bool (*get)(Object *, Error **);
-     void (*set)(Object *, bool, Error **);
- } BoolProperty;
+-    if (data->implements_type && 
++    if (data->implements_type &&
+         !object_class_dynamic_cast(k, data->implements_type)) {
+         return;
+     }
 -- 
 2.19.1
 
