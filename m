@@ -2,61 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D5DA2B82BB
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 18:14:03 +0100 (CET)
-Received: from localhost ([::1]:38046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C29A2B82AB
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 18:09:47 +0100 (CET)
+Received: from localhost ([::1]:55038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfR1u-0001kx-Hz
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 12:14:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34786)
+	id 1kfQxm-00059n-Ib
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 12:09:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1kfQuO-0002Vs-9g
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 12:06:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43384)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kfQwJ-0003ui-G0
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 12:08:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34622)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1kfQuL-0008Qm-8i
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 12:06:15 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kfQwF-0000NF-1c
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 12:08:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605719168;
+ s=mimecast20190719; t=1605719290;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=znOvFVbpSljE+gP6YbD+IOXgKYlAvuPgXm75WCYUueE=;
- b=gRwiY3v9DwBkmyipKGGiQpmF13+iJjUTirezmAG9AjJPukvbJkrbP1m1CKvww9IUKKdFxb
- v3HKhXOzYs9Tbs1ExK4QgjF2DfBar6WIkqA9GY4Mt/Cxrb7VaYgHSsH2SBIe/snsMUNZae
- mp2GOJJwzDTstFg4mhkTl60MOMS7O+4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-354-m6xE8JiTMIaZwlzsEo4lGg-1; Wed, 18 Nov 2020 12:06:04 -0500
-X-MC-Unique: m6xE8JiTMIaZwlzsEo4lGg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9BAA86D249;
- Wed, 18 Nov 2020 17:06:01 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.40.192.150])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E972C6091A;
- Wed, 18 Nov 2020 17:05:55 +0000 (UTC)
-Date: Wed, 18 Nov 2020 18:05:52 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Catalin Marinas <catalin.marinas@arm.com>
-Subject: Re: [PATCH v4 2/2] arm64: kvm: Introduce MTE VCPU feature
-Message-ID: <20201118170552.cuczyylf34ows5jd@kamzik.brq.redhat.com>
-References: <20201026155727.36685-1-steven.price@arm.com>
- <20201026155727.36685-3-steven.price@arm.com>
- <X7P1VLZhBh045tsr@trantor>
- <f34b3d16-8bc7-af9d-c0e0-fb114d2465aa@arm.com>
- <X7VQua7YO4isMFPU@trantor>
+ bh=YeICZElRA6CcG8UlE1YUwMwTNALFoAjY82Nq+d4RUFw=;
+ b=VXETHZ0use+2io+8y5dUYJvCQhQGhijFmPq92QHHQGZzusqfFSC0JhQ0J2zoOazkwD1ocj
+ WRV1HqubGrpfAmYhgJOUUULtn8XqTmKBHTsMDawSgbZ1IYN/oc7IrLVp/rkjTEvxIenvkQ
+ R9sOAhEWxQe/8WT7v0ktDC4fMPhqL40=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-110-NHt8ea4ZNDuvHi95_7-wig-1; Wed, 18 Nov 2020 12:08:07 -0500
+X-MC-Unique: NHt8ea4ZNDuvHi95_7-wig-1
+Received: by mail-ej1-f70.google.com with SMTP id y23so1095905ejp.10
+ for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 09:08:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=YeICZElRA6CcG8UlE1YUwMwTNALFoAjY82Nq+d4RUFw=;
+ b=fRKEFcbnYeLqR0mXR694j0T6/3DOXAutWNRKplo3FKJ4UDtLqSV0Zp6cjjIPWimvX+
+ /ENk7V3RsCTdCDecX2m3OYxHSX8lvWdJCbMtWHx7gtHSMUBy0boBcybK0uRseL2BaPcQ
+ AgaJShgFA0YqFI8mNnhbBthVtuP7zPj11i/6KgIMxRm2YzrkdpGLX7UwsnfsZxiS1rdF
+ BerLH66apxGEM5Vuc80lAAxyOb10fghlUHI0kredOYi4fX7iZwLpaLKNgvAWL/H3oeVP
+ xG5JJn/PcPM5BTLfMdKTNaX+peyIsmhtlaTuCK4qzH2+GRO6SkoYjlcz3KXcerIony8w
+ 9RNQ==
+X-Gm-Message-State: AOAM530oG1U0Z3/ScKXV5FRmtV7b2zOlStxS5K4cmhyxUSUs4/sG9vTY
+ exfkFtmpQjsjPov0CRU8Rne/IjkucgPbiExRkLfW1qfPfLLQvqkaosYBDO5/4XD0Eq5Q3ZVcmbo
+ 2ojyD6SyA0nEaRhs=
+X-Received: by 2002:a50:b584:: with SMTP id a4mr27046592ede.301.1605719285683; 
+ Wed, 18 Nov 2020 09:08:05 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzVJABJixPZ7ZDe5lhtCVGe2yeISu0C4xC7o2sNjK3MZNBe+Du3dqI7k65DUfWwvb838Ftvqg==
+X-Received: by 2002:a50:b584:: with SMTP id a4mr27046563ede.301.1605719285290; 
+ Wed, 18 Nov 2020 09:08:05 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id u8sm13779093edr.2.2020.11.18.09.08.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Nov 2020 09:08:04 -0800 (PST)
+Subject: Re: [PULL 19/92] hw/char/serial: Assert serial_ioport_read/write
+ offset fits 8 bytes
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200924092314.1722645-1-pbonzini@redhat.com>
+ <20200924092314.1722645-20-pbonzini@redhat.com>
+ <CAFEAcA9Utr2mCGyi7+8Yg16KSYhoP=3+hJa=wN6_AdG8TB0a8g@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <4215d17b-e0fa-881a-0f22-d545905a3bd5@redhat.com>
+Date: Wed, 18 Nov 2020 18:08:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <X7VQua7YO4isMFPU@trantor>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=drjones@redhat.com;
+In-Reply-To: <CAFEAcA9Utr2mCGyi7+8Yg16KSYhoP=3+hJa=wN6_AdG8TB0a8g@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 19:41:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -65,8 +89,9 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,88 +104,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>, Haibo Xu <Haibo.Xu@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
- Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Steven Price <steven.price@arm.com>, James Morse <james.morse@arm.com>,
- linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu,
- Thomas Gleixner <tglx@linutronix.de>,
- Julien Thierry <julien.thierry.kdev@gmail.com>, Will Deacon <will@kernel.org>,
- Dave Martin <Dave.Martin@arm.com>, linux-kernel@vger.kernel.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 18, 2020 at 04:50:01PM +0000, Catalin Marinas wrote:
-> On Wed, Nov 18, 2020 at 04:01:20PM +0000, Steven Price wrote:
-> > On 17/11/2020 16:07, Catalin Marinas wrote:
-> > > On Mon, Oct 26, 2020 at 03:57:27PM +0000, Steven Price wrote:
-> > > > diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
-> > > > index 19aacc7d64de..38fe25310ca1 100644
-> > > > --- a/arch/arm64/kvm/mmu.c
-> > > > +++ b/arch/arm64/kvm/mmu.c
-> > > > @@ -862,6 +862,26 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
-> > > >   	if (vma_pagesize == PAGE_SIZE && !force_pte)
-> > > >   		vma_pagesize = transparent_hugepage_adjust(memslot, hva,
-> > > >   							   &pfn, &fault_ipa);
-> > > > +
-> > > > +	/*
-> > > > +	 * The otherwise redundant test for system_supports_mte() allows the
-> > > > +	 * code to be compiled out when CONFIG_ARM64_MTE is not present.
-> > > > +	 */
-> > > > +	if (system_supports_mte() && kvm->arch.mte_enabled && pfn_valid(pfn)) {
-> > > > +		/*
-> > > > +		 * VM will be able to see the page's tags, so we must ensure
-> > > > +		 * they have been initialised.
-> > > > +		 */
-> > > > +		struct page *page = pfn_to_page(pfn);
-> > > > +		long i, nr_pages = compound_nr(page);
-> > > > +
-> > > > +		/* if PG_mte_tagged is set, tags have already been initialised */
-> > > > +		for (i = 0; i < nr_pages; i++, page++) {
-> > > > +			if (!test_and_set_bit(PG_mte_tagged, &page->flags))
-> > > > +				mte_clear_page_tags(page_address(page));
-> > > > +		}
-> > > > +	}
-> > > 
-> > > If this page was swapped out and mapped back in, where does the
-> > > restoring from swap happen?
-> > 
-> > Restoring from swap happens above this in the call to gfn_to_pfn_prot()
+On 18/11/20 16:40, Peter Maydell wrote:
+> On Thu, 24 Sep 2020 at 10:40, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>>
+>> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>
+>> The serial device has 8 registers, each 8-bit. The MemoryRegionOps
+>> 'serial_io_ops' is initialized with max_access_size=1, and all
+>> memory_region_init_io() callers correctly set the region size to
+>> 8 bytes:
+>> - serial_io_realize
+>> - serial_isa_realizefn
+>> - serial_pci_realize
+>> - multi_serial_pci_realize
+>>
+>> It is safe to assert the offset argument of serial_ioport_read()
+>> and serial_ioport_write() is always less than 8.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>> Message-Id: <20200907015535.827885-2-f4bug@amsat.org>
+>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>> ---
+>>   hw/char/serial.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/hw/char/serial.c b/hw/char/serial.c
+>> index fd80ae5592..840da89de7 100644
+>> --- a/hw/char/serial.c
+>> +++ b/hw/char/serial.c
+>> @@ -344,7 +344,7 @@ static void serial_ioport_write(void *opaque, hwaddr addr, uint64_t val,
+>>   {
+>>       SerialState *s = opaque;
+>>
+>> -    addr &= 7;
+>> +    assert(size == 1 && addr < 8);
+>>       trace_serial_ioport_write(addr, val);
+>>       switch(addr) {
+>>       default:
 > 
-> Looking at the call chain, gfn_to_pfn_prot() ends up with
-> get_user_pages() using the current->mm (the VMM) and that does a
-> set_pte_at(), presumably restoring the tags. Does this mean that all
-> memory mapped by the VMM in user space should have PROT_MTE set?
-> Otherwise we don't take the mte_sync_tags() path in set_pte_at() and no
-> tags restored from swap (we do save them since when they were mapped,
-> PG_mte_tagged was set).
+> Bug report https://bugs.launchpad.net/qemu/+bug/1904331
+> points out that the addition of this assert() makes obvious
+> that either the assert is wrong or some code later in the
+> function which is looking at size must be dead:
+>              if (size == 1) {
+>                  s->divider = (s->divider & 0xff00) | val;
+>              } else {
+>                  s->divider = val;
+>              }
 > 
-> So I think the code above should be similar to mte_sync_tags(), even
-> calling a common function, but I'm not sure where to get the swap pte
-> from.
-> 
-> An alternative is to only enable HCR_EL2.ATA and MTE in guest if the vmm
-> mapped the memory with PROT_MTE.
+> Presumably it's the if() that should be fixed ?
 
-This is a very reasonable alternative. The VMM must be aware of whether
-the guest may use MTE anyway. Asking it to map the memory with PROT_MTE
-when it wants to offer the guest that option is a reasonable requirement.
-If the memory is not mapped as such, then the host kernel shouldn't assume
-MTE may be used by the guest, and it should even enforce that it is not
-(by not enabling the feature).
+It can be dropped, because serial_io_ops has
+
+     .impl = {
+         .min_access_size = 1,
+         .max_access_size = 1,
+     },
+
+Therefore, a 16-bit write to addr==0 is automatically split into an 
+8-byte write to addr==0 and one to addr=1.  Together, the two set the 
+full 16 bits of s->divider.
 
 Thanks,
-drew
 
-> 
-> Yet another option is to always call mte_sync_tags() from set_pte_at()
-> and defer the pte_tagged() or is_swap_pte() checks to the MTE code.
-> 
-> -- 
-> Catalin
-> 
+Paolo
 
 
