@@ -2,98 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBCAE2B83B4
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 19:20:40 +0100 (CET)
-Received: from localhost ([::1]:60486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD1E22B83FF
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 19:42:16 +0100 (CET)
+Received: from localhost ([::1]:38960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfS4N-0008G9-Sr
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 13:20:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54908)
+	id 1kfSPH-00071h-OC
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 13:42:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kfS0L-00057g-Hx
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 13:16:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27360)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kfS0J-0001od-GV
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 13:16:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605723386;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7Ui0hOp51J0M8aAVaLj92KIM+lt6qlAfbuztdbsUGrE=;
- b=PhIRGTkncHJ7NCPoVHv002OBCboq77Vikf1I5v8oOQs2Sl60KXCqzMiE1GSaODfg+iTwMR
- 0yYTDBb5MRuEyHlsxKuZa46rMOlKR48r3NlkZu/WCaNwbyzEK1LTbl85/Fx7vIGq0S5PTZ
- +vi9rWk/OJombhO8ho1VNVUbTR+qqug=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-556-c9qmU4IAOwy3BScgL82Wag-1; Wed, 18 Nov 2020 13:16:23 -0500
-X-MC-Unique: c9qmU4IAOwy3BScgL82Wag-1
-Received: by mail-wm1-f70.google.com with SMTP id z62so2934398wmb.1
- for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 10:16:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=7Ui0hOp51J0M8aAVaLj92KIM+lt6qlAfbuztdbsUGrE=;
- b=TzQUGfgA9LcaLrtbRE+zwm7W2m8COt+yp3lNFGLtUCQ5H/f/1C4lfoSi3kejnF+yf1
- mpV3DQ/2Z8pUOIVLms0OfTEjFgRYMDQKYeDw0nT75ncNItYjwx+FInEay9lRs7QVTIjb
- 5a2WbbwWvIUQeXNQz+kpA0X5GVOqcSL9p/EqXj1VXR044ouhI3lT8Amox40nC1aUhAhj
- AQ4zv5L5qxHl7+OfXOrBRzn3WPYjAd5N8TnZRubTeUAiRxVhplUJA2XVHL935yKa/TrK
- FP3I5DnAHvtkhTX2X9MwSo/njo0a/grXNVXuEnwziXFWNXosL9yFfxNTOu6CZbl0Hz83
- NtGw==
-X-Gm-Message-State: AOAM532VcqjCrW8ZA8BqxkYBxiE4QoX4FehX6ZIDjMDCEKzG2DUwNdBT
- EUj2d5zdMx3piGJslZoP3SeTnG72fYJENHr0dwkiZCbFONfAs+P7ql0GXCN+k5Wz9xChjcqjkHV
- 1t53x0Eu9+qkbcPo=
-X-Received: by 2002:a1c:44f:: with SMTP id 76mr331434wme.181.1605723381957;
- Wed, 18 Nov 2020 10:16:21 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz+BC7MdOjaWYwIl5XxbiacKtEb7g0TuCzpEpc82HcCPdg3b687yd7FRxHwOc9t189r/BoMxg==
-X-Received: by 2002:a1c:44f:: with SMTP id 76mr331417wme.181.1605723381747;
- Wed, 18 Nov 2020 10:16:21 -0800 (PST)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id 90sm14369239wrl.60.2020.11.18.10.16.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Nov 2020 10:16:21 -0800 (PST)
-Subject: Re: [PATCH 4/6] configure / meson: Move check for sys/signal.h to
- meson.build
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20201118171052.308191-1-thuth@redhat.com>
- <20201118171052.308191-5-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <62372a20-98a1-2b91-f255-d651e0fa3573@redhat.com>
-Date: Wed, 18 Nov 2020 19:16:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kfRzm-0004he-JM
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 13:15:54 -0500
+Received: from indium.canonical.com ([91.189.90.7]:49276)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kfRzk-0001gz-Bv
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 13:15:54 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kfRzh-0006Mv-DJ
+ for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 18:15:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 5B1DA2E8139
+ for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 18:15:49 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20201118171052.308191-5-thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 19:41:43
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 18 Nov 2020 18:03:05 -0000
+From: Peter Maydell <1371915@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Wishlist;
+ assignee=None; 
+X-Launchpad-Bug-Tags: qemu ubuntu uninstall
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: bonzini deepi kelvin-middleton
+ manciot-jeanchristophe pmaydell
+X-Launchpad-Bug-Reporter: jean-christophe manciot (manciot-jeanchristophe)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <20140920125958.18087.58091.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160572258612.15780.3175952209277788939.malone@chaenomeles.canonical.com>
+Subject: [Bug 1371915] Re: Make Uninstall Rule Requested
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c35ff22711d15549e2303ae18ae521fd91f6bf00"; Instance="production"
+X-Launchpad-Hash: 8390eb6c92c341c9371368f2ef01c6b562c127c6
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 10:41:28
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -102,19 +74,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
+Reply-To: Bug 1371915 <1371915@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/18/20 6:10 PM, Thomas Huth wrote:
-> This check can be done in a much shorter way in meson.build
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  configure   | 10 ----------
->  meson.build |  1 +
->  2 files changed, 1 insertion(+), 10 deletions(-)
+This change is almost sufficient:
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+diff --git a/Makefile b/Makefile
+index 76dbb917f5c..da01e3cd16a 100644
+--- a/Makefile
++++ b/Makefile
+@@ -156,7 +156,7 @@ NINJAFLAGS =3D $(if $V,-v) $(if $(MAKE.n), -n) $(if $(M=
+AKE.k), -k0) \
+ ninja-cmd-goals =3D $(or $(MAKECMDGOALS), all)
+ ninja-cmd-goals +=3D $(foreach t, $(.tests), $(.test.deps.$t))
+ =
 
+-makefile-targets :=3D build.ninja ctags TAGS cscope dist clean uninstall
++makefile-targets :=3D build.ninja ctags TAGS cscope dist clean
+ # "ninja -t targets" also lists all prerequisites.  If build system
+ # files are marked as PHONY, however, Make will always try to execute
+ # "ninja build.ninja".
+
+It makes "make uninstall" uninstall things; however it doesn't uninstall
+the various LC_MESSAGES files that meson installs, because those are
+installed by a "custom install script" that's part of the meson i18n
+module, and meson's uninstall functionality doesn't uninstall things
+installed that way. So it's a bit half-baked :-/
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1371915
+
+Title:
+  Make Uninstall Rule Requested
+
+Status in QEMU:
+  In Progress
+
+Bug description:
+  Environment: Ubuntu 14.04 - Qemu 2.1.1
+  ------------------
+  I've configured qemu with some --prefix, compiled the sources and install=
+ed the binaries; now, for some reason, I need to uninstall qemu to configur=
+e it with the default prefix, recompile the sources and reinstall the binar=
+ies.
+  However, there's no rule to uninstall qemu.
+
+  All other packages which I have compiled and installed on my system
+  offer the possibility to uninstall it: why not Qemu?
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1371915/+subscriptions
 
