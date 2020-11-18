@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 545A02B8216
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 17:43:50 +0100 (CET)
-Received: from localhost ([::1]:50702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 903FE2B8222
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 17:47:23 +0100 (CET)
+Received: from localhost ([::1]:52956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfQYe-0006zI-Vn
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 11:43:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56326)
+	id 1kfQc6-0008E0-Ld
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 11:47:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kfQXj-0006Xs-Ba
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 11:42:51 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:32854 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kfQXh-0005Od-BR
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 11:42:50 -0500
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 0CF354131B;
- Wed, 18 Nov 2020 16:42:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1605717766;
- x=1607532167; bh=Be3AJ3AueejfUtFj4WMr/+XcodYj7iFPkxWMmrJtDvs=; b=
- V1oJT/XElNA5//x/Td8DiNArx2Wv5KcRs9iN7BdmrU2PHrecC709+GKpulq7fcLI
- Oy7JsaXi572Q8lSUjdtisagB8NpZMF7RTn6/Uyyl7lZEnFJV2klSO9CuJ+ySd8xS
- SMEhF3lwcilRfoodSylpbIU+vspLqytq8LE8oGZkT2c=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id knhtZKKUjGh1; Wed, 18 Nov 2020 19:42:46 +0300 (MSK)
-Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
- [172.17.100.103])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kfQaj-0007fQ-Av
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 11:45:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51974)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kfQag-0005g2-EQ
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 11:45:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605717953;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Yjx1MXZ8UU4IYy70FjZTg9iARFJDhuu+tRix2YUkQxc=;
+ b=TY2aMxObe6O5Ay2xgySNAaSHBufSyspk3MWbCovgRRcaywQMcjRhcosIO/JXW5ZcpGorsF
+ j7sRO4T0hojXljcVDEcGVngURU1qgtKH847oG/Jkrzn25LhmXSBrRAjL1UCGQqlhxMnHdG
+ e1Zav9HQHp7s6s++0ONZvh/+fnSuqLE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-249-06ssc9VEMqqqpH1aIlhYDQ-1; Wed, 18 Nov 2020 11:45:51 -0500
+X-MC-Unique: 06ssc9VEMqqqpH1aIlhYDQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 362724128A;
- Wed, 18 Nov 2020 19:42:45 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
- (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Wed, 18
- Nov 2020 19:42:44 +0300
-Date: Wed, 18 Nov 2020 19:42:44 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87A261034AF1
+ for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 16:45:43 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C1A4360BE2;
+ Wed, 18 Nov 2020 16:45:42 +0000 (UTC)
+Date: Wed, 18 Nov 2020 17:45:40 +0100
+From: Igor Mammedov <imammedo@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] hvf: Fix segment selector format
-Message-ID: <20201118164244.GE81070@SPB-NB-133.local>
-References: <20201116200414.28286-1-jrtc27@jrtc27.com>
- <d0cd26c7-5187-74d0-1f90-6933958671dd@redhat.com>
+Subject: Re: [PATCH 19/29] vl: separate qemu_create_machine
+Message-ID: <20201118174540.6e31e063@redhat.com>
+In-Reply-To: <20201027182144.3315885-20-pbonzini@redhat.com>
+References: <20201027182144.3315885-1-pbonzini@redhat.com>
+ <20201027182144.3315885-20-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <d0cd26c7-5187-74d0-1f90-6933958671dd@redhat.com>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-03.corp.yadro.com (172.17.100.103)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 11:09:24
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 00:38:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,71 +81,198 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Jessica Clarke <jrtc27@jrtc27.com>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 18, 2020 at 09:58:37AM +0100, Paolo Bonzini wrote:
-> On 16/11/20 21:04, Jessica Clarke wrote:
-> > The Requested Privilege Level field is 2 bits, the Table Indicator field
-> > is 1 bit and the Index field is the remaining 15 bits, with TI=0 meaning
-> > GDT and TI=1 meaning LDT.
-> > 
-> > Signed-off-by: Jessica Clarke <jrtc27@jrtc27.com>
-> > ---
-> >   target/i386/hvf/x86.h | 8 ++++----
-> >   1 file changed, 4 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/target/i386/hvf/x86.h b/target/i386/hvf/x86.h
-> > index bacade7b65..ea3e1b86b3 100644
-> > --- a/target/i386/hvf/x86.h
-> > +++ b/target/i386/hvf/x86.h
-> > @@ -214,16 +214,16 @@ static inline uint32_t x86_call_gate_offset(x86_call_gate *gate)
-> >       return (uint32_t)((gate->offset1 << 16) | gate->offset0);
-> >   }
-> > -#define LDT_SEL     0
-> > -#define GDT_SEL     1
-> > +#define GDT_SEL     0
-> > +#define LDT_SEL     1
-> >   typedef struct x68_segment_selector {
-> >       union {
-> >           uint16_t sel;
-> >           struct {
-> > -            uint16_t rpl:3;
-> > +            uint16_t rpl:2;
-> >               uint16_t ti:1;
-> > -            uint16_t index:12;
-> > +            uint16_t index:13;
-> >           };
-> >       };
-> >   } __attribute__ ((__packed__)) x68_segment_selector;
-> > 
-> 
-> I queued the patch, thanks.
-> 
-> On further look, though, the bitfield part of the struct is almost never
-> used, and therefore most uses of the struct itself are more or less
-> superfluous (apart from some typechecking).  In particular,
-> vmx_read_segment_selector and vmx_write_segment_selector only use the 16-bit
-> .self field, and the code would be simpler if it was changed to just use a
-> uint16_t.
-> 
+On Tue, 27 Oct 2020 14:21:34 -0400
+Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-IIRC, that's because vmx_handle_task_switch is incomplete and needs
-improvement. Certain task switches aren't implemented.
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-> The only place that "needs" the struct is in vmx_handle_task_switch's calls
-> to x86_read_segment_descriptor and x86_write_segment_descriptor. Those are
-> also the places that benefit from this patch.  But even then, for the sake
-> of consistency it would make sense for x86_segment_selector to be used only
-> inside those two functions; the arguments could be just an uint16_t.
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+
+> ---
+>  softmmu/vl.c | 111 +++++++++++++++++++++++++++------------------------
+>  1 file changed, 59 insertions(+), 52 deletions(-)
 > 
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index 0c390b979e..38ad3cc895 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -133,6 +133,8 @@ static const char *boot_order;
+>  static const char *boot_once;
+>  static const char *incoming;
+>  static const char *loadvm;
+> +static ram_addr_t maxram_size;
+> +static uint64_t ram_slots;
+>  static int display_remote;
+>  static int snapshot;
+>  static QemuPluginList plugin_list = QTAILQ_HEAD_INITIALIZER(plugin_list);
+> @@ -2791,8 +2793,13 @@ static void qemu_create_late_backends(void)
+>      qemu_semihosting_console_init();
+>  }
+>  
+> -static bool set_memory_options(uint64_t *ram_slots, ram_addr_t *maxram_size,
+> -                               MachineClass *mc)
+> +static bool have_custom_ram_size(void)
+> +{
+> +    QemuOpts *opts = qemu_find_opts_singleton("memory");
+> +    return !!qemu_opt_get(opts, "size");
+> +}
+> +
+> +static void set_memory_options(MachineClass *mc)
+>  {
+>      uint64_t sz;
+>      const char *mem_str;
+> @@ -2842,7 +2849,7 @@ static bool set_memory_options(uint64_t *ram_slots, ram_addr_t *maxram_size,
+>  
+>      /* store value for the future use */
+>      qemu_opt_set_number(opts, "size", ram_size, &error_abort);
+> -    *maxram_size = ram_size;
+> +    maxram_size = ram_size;
+>  
+>      if (qemu_opt_get(opts, "maxmem")) {
+>          uint64_t slots;
+> @@ -2863,15 +2870,58 @@ static bool set_memory_options(uint64_t *ram_slots, ram_addr_t *maxram_size,
+>              exit(EXIT_FAILURE);
+>          }
+>  
+> -        *maxram_size = sz;
+> -        *ram_slots = slots;
+> +        maxram_size = sz;
+> +        ram_slots = slots;
+>      } else if (qemu_opt_get(opts, "slots")) {
+>          error_report("invalid -m option value: missing 'maxmem' option");
+>          exit(EXIT_FAILURE);
+>      }
+>  
+>      loc_pop(&loc);
+> -    return !!mem_str;
+> +}
+> +
+> +static void qemu_create_machine(MachineClass *machine_class)
+> +{
+> +    object_set_machine_compat_props(machine_class->compat_props);
+> +
+> +    set_memory_options(machine_class);
+> +
+> +    current_machine = MACHINE(object_new_with_class(OBJECT_CLASS(machine_class)));
+> +    if (machine_help_func(qemu_get_machine_opts(), current_machine)) {
+> +        exit(0);
+> +    }
+> +    object_property_add_child(object_get_root(), "machine",
+> +                              OBJECT(current_machine));
+> +    object_property_add_child(container_get(OBJECT(current_machine),
+> +                                            "/unattached"),
+> +                              "sysbus", OBJECT(sysbus_get_default()));
+> +
+> +    if (machine_class->minimum_page_bits) {
+> +        if (!set_preferred_target_page_bits(machine_class->minimum_page_bits)) {
+> +            /* This would be a board error: specifying a minimum smaller than
+> +             * a target's compile-time fixed setting.
+> +             */
+> +            g_assert_not_reached();
+> +        }
+> +    }
+> +
+> +    cpu_exec_init_all();
+> +
+> +    if (machine_class->hw_version) {
+> +        qemu_set_hw_version(machine_class->hw_version);
+> +    }
+> +
+> +    machine_smp_parse(current_machine,
+> +        qemu_opts_find(qemu_find_opts("smp-opts"), NULL), &error_fatal);
+> +
+> +    /*
+> +     * Get the default machine options from the machine if it is not already
+> +     * specified either by the configuration file or by the command line.
+> +     */
+> +    if (machine_class->default_machine_opts) {
+> +        qemu_opts_set_defaults(qemu_find_opts("machine"),
+> +                               machine_class->default_machine_opts, 0);
+> +    }
+>  }
+>  
+>  static int global_init_func(void *opaque, QemuOpts *opts, Error **errp)
+> @@ -3412,10 +3462,7 @@ void qemu_init(int argc, char **argv, char **envp)
+>      const char *optarg;
+>      MachineClass *machine_class;
+>      bool userconfig = true;
+> -    ram_addr_t maxram_size;
+> -    uint64_t ram_slots = 0;
+>      FILE *vmstate_dump_file = NULL;
+> -    bool have_custom_ram_size;
+>  
+>      qemu_add_opts(&qemu_drive_opts);
+>      qemu_add_drive_opts(&qemu_legacy_drive_opts);
+> @@ -4344,48 +4391,7 @@ void qemu_init(int argc, char **argv, char **envp)
+>  
+>      configure_rtc(qemu_find_opts_singleton("rtc"));
+>  
+> -    machine_class = select_machine();
+> -    object_set_machine_compat_props(machine_class->compat_props);
+> -
+> -    have_custom_ram_size = set_memory_options(&ram_slots, &maxram_size,
+> -                                              machine_class);
+> -
+> -    current_machine = MACHINE(object_new_with_class(OBJECT_CLASS(machine_class)));
+> -    if (machine_help_func(qemu_get_machine_opts(), current_machine)) {
+> -        exit(0);
+> -    }
+> -    object_property_add_child(object_get_root(), "machine",
+> -                              OBJECT(current_machine));
+> -    object_property_add_child(container_get(OBJECT(current_machine),
+> -                                            "/unattached"),
+> -                              "sysbus", OBJECT(sysbus_get_default()));
+> -
+> -    if (machine_class->minimum_page_bits) {
+> -        if (!set_preferred_target_page_bits(machine_class->minimum_page_bits)) {
+> -            /* This would be a board error: specifying a minimum smaller than
+> -             * a target's compile-time fixed setting.
+> -             */
+> -            g_assert_not_reached();
+> -        }
+> -    }
+> -
+> -    cpu_exec_init_all();
+> -
+> -    if (machine_class->hw_version) {
+> -        qemu_set_hw_version(machine_class->hw_version);
+> -    }
+> -
+> -    machine_smp_parse(current_machine,
+> -        qemu_opts_find(qemu_find_opts("smp-opts"), NULL), &error_fatal);
+> -
+> -    /*
+> -     * Get the default machine options from the machine if it is not already
+> -     * specified either by the configuration file or by the command line.
+> -     */
+> -    if (machine_class->default_machine_opts) {
+> -        qemu_opts_set_defaults(qemu_find_opts("machine"),
+> -                               machine_class->default_machine_opts, 0);
+> -    }
+> +    qemu_create_machine(select_machine());
+>  
+>      qemu_disable_default_devices();
+>      qemu_create_default_devices();
+> @@ -4420,6 +4426,7 @@ void qemu_init(int argc, char **argv, char **envp)
+>       * called from configure_accelerator().
+>       */
+>  
+> +    machine_class = MACHINE_GET_CLASS(current_machine);
+>      if (!qtest_enabled() && machine_class->deprecation_reason) {
+>          error_report("Machine type '%s' is deprecated: %s",
+>                       machine_class->name, machine_class->deprecation_reason);
+> @@ -4473,7 +4480,7 @@ void qemu_init(int argc, char **argv, char **envp)
+>              exit(EXIT_FAILURE);
+>          }
+>          backend_size = object_property_get_uint(backend, "size",  &error_abort);
+> -        if (have_custom_ram_size && backend_size != ram_size) {
+> +        if (have_custom_ram_size() && backend_size != ram_size) {
+>                  error_report("Size specified by -m option must match size of "
+>                               "explicitly specified 'memory-backend' property");
+>                  exit(EXIT_FAILURE);
 
-Reusing some bits of TCG for task switching would be the most helpful
-from functional perspective and to avoid code duplication.
-
-Thanks,
-Roman
 
