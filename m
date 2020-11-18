@@ -2,87 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 204AF2B79B6
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 09:59:43 +0100 (CET)
-Received: from localhost ([::1]:43268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9F1B2B79B2
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 09:58:11 +0100 (CET)
+Received: from localhost ([::1]:37622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfJJW-0006Mx-4q
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 03:59:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52502)
+	id 1kfJI2-00044K-Np
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 03:58:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1kfIz8-0003Yz-08
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 03:38:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54238)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kfJ8T-0007pS-Ok
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 03:48:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41005)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1kfIz6-0005hh-3F
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 03:38:37 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kfJ8Q-0007BC-Ug
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 03:48:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605688715;
+ s=mimecast20190719; t=1605689294;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UpaUk+ACBC4f62mVNQkHaVFxtHEivSP3ZKjo3c+Mo1U=;
- b=UK3L4yHxo2+v7ZsDwCw9pGgcgW/dw1XdlI/zZwVAIFgckVeqbIz/aKcGntHTZ0BpBGcpip
- Pn5JYSKht2uyRpLmL+zZw+03ojC9IOmfRByp/CQH8A6P+E/rSFRp7ynvGbnTJONRDFncRX
- DT4BEd0RYeO6fs5Fb8JnhVV5JzbPdVc=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-594-9iP9svn_PAKnRdi8ozTHTA-1; Wed, 18 Nov 2020 03:38:31 -0500
-X-MC-Unique: 9iP9svn_PAKnRdi8ozTHTA-1
-Received: by mail-wm1-f70.google.com with SMTP id k128so719725wme.7
- for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 00:38:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=UpaUk+ACBC4f62mVNQkHaVFxtHEivSP3ZKjo3c+Mo1U=;
- b=V3kdBX8hlTzRqekUXt7nt8nIA1T0ZHAAgBXCNBf6SbpoS1qqpumLQVigC3JAcaBBzB
- MqxWmboAihAVFwXS0DC93dRWjO65LVE0kiYBZgvhOA8v/vlBoouS81liWjwIxnj0Jyd+
- D8XI7gLwZtmnaSzyEAzFuuYQOXA6YsybASIqHSq+3oSa4N3kQwaVLaquAAxZUQac61ZZ
- 4QcvbLn6zt/IL7LQRIz1jMxhWOzKgK7PzTXp/mgWN9B6yhmMCG9TCHCDp5C6uH3zSUkk
- RxZQlGksWIQjSYXwhDCWNwssdgfyePUZH6OevqHJLUTEXryCYiOkZ+Y5WCFdr/D21lXS
- ewGA==
-X-Gm-Message-State: AOAM532YJsx9uYxTFlc82x1iJXu1anDP3+PUOoTCmyJE3U8zhu4heUV1
- ZpL6VMwQnQTcdFcImRj+OkGmUDspZTVVAg2vwSK8ZiKKZfYeNZDHPEN21cZE2PZ5cPIcFWLXd/6
- LOeIAnpm0kXJQyiRGfNm2Ku4fSAfrkPclKTKBRMPxbJVWMrQPUPKWPeQYJAtt06L1Sa0=
-X-Received: by 2002:adf:f005:: with SMTP id j5mr3518822wro.417.1605688710136; 
- Wed, 18 Nov 2020 00:38:30 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyIcEpMbmK5cM7k2jrzahbeWATa3QR7zbwOui3uF6UH9PqmQak7+sTMrVnQ3ycYHrhi1eBvsQ==
-X-Received: by 2002:adf:f005:: with SMTP id j5mr3518794wro.417.1605688709913; 
- Wed, 18 Nov 2020 00:38:29 -0800 (PST)
-Received: from localhost (trasno.trasno.org. [83.165.45.250])
- by smtp.gmail.com with ESMTPSA id w21sm2361887wmi.29.2020.11.18.00.38.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Nov 2020 00:38:29 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 26/27] failover: simplify failover_unplug_primary
-Date: Wed, 18 Nov 2020 09:37:47 +0100
-Message-Id: <20201118083748.1328-27-quintela@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201118083748.1328-1-quintela@redhat.com>
-References: <20201118083748.1328-1-quintela@redhat.com>
+ bh=DmN6YIrurAzonAj+eLaYo9PRQpBRcioo0sR7nFUHmWg=;
+ b=MACEydsp0IWpdGm4Z8M6nhnWgF7Zc5AF44RQlCLjr/QJjbxGMKALTEI5HrxeC8LJzRoZNw
+ 6yU3P1dS+zst9GlONsTSbLHISipaPHFMLH2g5r5D1id+Jvz073V0y1FD8KtUBT2DRxy7Yo
+ jWZWPtVAUgrn8EdgwSGU/WgGVM4K1Hg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-5-BOwTFkUMPY-s9yHEeOkg_g-1; Wed, 18 Nov 2020 03:48:09 -0500
+X-MC-Unique: BOwTFkUMPY-s9yHEeOkg_g-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3CA1189942E;
+ Wed, 18 Nov 2020 08:48:08 +0000 (UTC)
+Received: from localhost (ovpn-114-60.ams2.redhat.com [10.36.114.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 135985D9CD;
+ Wed, 18 Nov 2020 08:48:04 +0000 (UTC)
+Date: Wed, 18 Nov 2020 08:48:03 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [PATCH v3] virtiofsd: Use --thread-pool-size=0 to mean no thread
+ pool
+Message-ID: <20201118084803.GA182763@stefanha-x1.localdomain>
+References: <20201117194131.GA96587@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20201117194131.GA96587@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=quintela@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="k+w/mQv8wyuph6w0"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 19:41:43
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 00:38:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,71 +81,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: virtio-fs-list <virtio-fs@redhat.com>, jose.carlos.venegas.munoz@intel.com,
+ qemu-devel@nongnu.org, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can calculate device just once.
+--k+w/mQv8wyuph6w0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
----
- hw/net/virtio-net.c | 25 ++++++++++---------------
- 1 file changed, 10 insertions(+), 15 deletions(-)
+On Tue, Nov 17, 2020 at 02:41:31PM -0500, Vivek Goyal wrote:
+> This is V3 of the patch. A minor change since V2 is to reverse the list
+> before executing requests. We are prepending elements to the list and tha=
+t
+> means when we start processing requests, we are processing these in
+> the reverse order. Though we don't guarantee any ordering but it does
+> not hurt to process requests in same order as received as much as
+> possible.
+>=20
+> Right now we create a thread pool and main thread hands over the request
+> to thread in thread pool to process. Number of threads in thread pool
+> can be managed by option --thread-pool-size.
+>=20
+> In tests we have noted that many of the workloads are getting better
+> performance if we don't use a thread pool at all and process all
+> the requests in the context of a thread receiving the request.
+>=20
+> Hence give user an option to be able to run virtiofsd without using
+> a thread pool.
+>=20
+> To implement this, I have used existing option --thread-pool-size. This
+> option defines how many maximum threads can be in the thread pool.
+> Thread pool size zero freezes thead pool. I can't see why will one
+> start virtiofsd with a frozen thread pool (hence frozen file system).
+> So I am redefining --thread-pool-size=3D0 to mean, don't use a thread poo=
+l.
+> Instead process the request in the context of thread receiving request
+> from the queue.
+>=20
+> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+> ---
+>  tools/virtiofsd/fuse_virtio.c | 37 ++++++++++++++++++++++++++---------
+>  1 file changed, 28 insertions(+), 9 deletions(-)
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index b37e9cd1d9..9203d81780 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -3146,34 +3146,29 @@ out:
-     return !err;
- }
- 
--static void virtio_net_handle_migration_primary(VirtIONet *n,
--                                                MigrationState *s)
-+static void virtio_net_handle_migration_primary(VirtIONet *n, MigrationState *s)
- {
-     bool should_be_hidden;
-     Error *err = NULL;
-+    DeviceState *dev = failover_find_primary_device(n);
-+
-+    if (!dev) {
-+        return;
-+    }
- 
-     should_be_hidden = qatomic_read(&n->failover_primary_hidden);
- 
--    if (!n->primary_dev) {
--        n->primary_dev = failover_find_primary_device(n);
--        if (!n->primary_dev) {
--            return;
--        }
--    }
--
-     if (migration_in_setup(s) && !should_be_hidden) {
--        if (failover_unplug_primary(n, n->primary_dev)) {
--            vmstate_unregister(VMSTATE_IF(n->primary_dev),
--                               qdev_get_vmsd(n->primary_dev),
--                               n->primary_dev);
--            qapi_event_send_unplug_primary(n->primary_dev->id);
-+        if (failover_unplug_primary(n, dev)) {
-+            vmstate_unregister(VMSTATE_IF(dev), qdev_get_vmsd(dev), dev);
-+            qapi_event_send_unplug_primary(dev->id);
-             qatomic_set(&n->failover_primary_hidden, true);
-         } else {
-             warn_report("couldn't unplug primary device");
-         }
-     } else if (migration_has_failed(s)) {
-         /* We already unplugged the device let's plug it back */
--        if (!failover_replug_primary(n, n->primary_dev, &err)) {
-+        if (!failover_replug_primary(n, dev, &err)) {
-             if (err) {
-                 error_report_err(err);
-             }
--- 
-2.26.2
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+--k+w/mQv8wyuph6w0
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+038MACgkQnKSrs4Gr
+c8hXUAgAkj0Nt9AV1TD3uyF86ErMcdzhVgmisE8gOBeOO+/AxWgulIZKasUQ+wvT
+Vvn1uLcwO7wFGI+Np0UafiweWjnc257DrBOCs5IYM3m2X+ddJGxXCIKNed3Z7JJr
+JTPQc8l0hLwiIgGtDOsj0OKPlw8ywRkU7IU3U4nQ4voWYR5I03OJcVGpnmMGlmfy
+ogd/JD1qjY/umChUChpNvD5AdXUcpe4JA87Bmk2/atVeXYwHoQvplICIAf3egNPP
+6LHKoCBKx66YepRrpgDVD2zWJf7B94ogF0w5lQGcELfguKk9ZIC9DmRRlFkVDSuX
++0BUILQJWdFIUcarTU64vqoSv/8RjQ==
+=3F15
+-----END PGP SIGNATURE-----
+
+--k+w/mQv8wyuph6w0--
 
 
