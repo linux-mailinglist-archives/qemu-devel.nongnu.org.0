@@ -2,36 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B2DA2B7E48
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 14:26:24 +0100 (CET)
-Received: from localhost ([::1]:58498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0FC62B7E3B
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 14:23:33 +0100 (CET)
+Received: from localhost ([::1]:51182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfNTb-0004LI-80
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 08:26:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33980)
+	id 1kfNQq-0001F4-8D
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 08:23:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kfNOQ-0007z2-2H
+ id 1kfNOP-0007z0-P1
  for qemu-devel@nongnu.org; Wed, 18 Nov 2020 08:21:03 -0500
-Received: from relay.sw.ru ([185.231.240.75]:48192 helo=relay3.sw.ru)
+Received: from relay.sw.ru ([185.231.240.75]:48188 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kfNOG-00023v-Mh
+ id 1kfNOG-00023r-OF
  for qemu-devel@nongnu.org; Wed, 18 Nov 2020 08:21:01 -0500
 Received: from [192.168.15.37] (helo=andrey-MS-7B54.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.94)
  (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kfNO2-009Ap3-BV; Wed, 18 Nov 2020 16:20:38 +0300
+ id 1kfNO2-009Ap3-E1; Wed, 18 Nov 2020 16:20:38 +0300
 To: qemu-devel@nongnu.org
 Cc: Den Lunev <den@openvz.com>, Eric Blake <eblake@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Markus Armbruster <armbru@redhat.com>,
  Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Subject: [PATCH v2 6/7] The rest of write tracking migration code.
-Date: Wed, 18 Nov 2020 16:20:47 +0300
-Message-Id: <20201118132048.429092-7-andrey.gruzdev@virtuozzo.com>
+Subject: [PATCH v2 7/7] Introduced simple linear scan rate limiting mechanism
+ for write tracking migration.
+Date: Wed, 18 Nov 2020 16:20:48 +0300
+Message-Id: <20201118132048.429092-8-andrey.gruzdev@virtuozzo.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201118132048.429092-1-andrey.gruzdev@virtuozzo.com>
 References: <20201118132048.429092-1-andrey.gruzdev@virtuozzo.com>
@@ -63,108 +64,133 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 From: Andrey Gruzdev via <qemu-devel@nongnu.org>
 
+Since reading UFFD events and saving paged data are performed
+from the same thread, write fault latencies are sensitive to
+migration stream stalls. Limiting total page saving rate is a
+method to reduce amount of noticiable fault resolution latencies.
+
+Migration bandwidth limiting is achieved via noticing cases of
+out-of-threshold write fault latencies and temporarily disabling
+(strictly speaking, severely throttling) saving non-faulting pages.
+
 Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 ---
- migration/migration.c | 72 +++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 70 insertions(+), 2 deletions(-)
+ migration/ram.c | 58 +++++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 54 insertions(+), 4 deletions(-)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index dba388f8bd..ccb451b238 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -3212,6 +3212,48 @@ fail:
-                       MIGRATION_STATUS_FAILED);
+diff --git a/migration/ram.c b/migration/ram.c
+index 08a1d7a252..89fe106585 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -325,6 +325,10 @@ struct RAMState {
+     /* these variables are used for bitmap sync */
+     /* last time we did a full bitmap_sync */
+     int64_t time_last_bitmap_sync;
++    /* last time UFFD fault occured */
++    int64_t last_fault_ns;
++    /* linear scan throttling counter */
++    int throttle_skip_counter;
+     /* bytes transferred at start_time */
+     uint64_t bytes_xfer_prev;
+     /* number of dirty pages since start_time */
+@@ -576,9 +580,6 @@ static int uffd_protect_memory(int uffd, hwaddr start, hwaddr length, bool wp)
+     return 0;
  }
  
+-__attribute__ ((unused))
+-static bool uffd_poll_events(int uffd, int tmo);
+-
+ /**
+  * uffd_read_events: read pending UFFD events
+  *
+@@ -2006,9 +2007,51 @@ static bool get_fault_page(RAMState *rs, PageSearchStatus *pss)
+         return false;
+     }
+ 
++    rs->last_fault_ns = qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
+     return true;
+ }
+ 
++#define FAULT_HIGH_LATENCY_NS   5000000     /* 5 ms */
++#define SLOW_FAULT_POLL_TMO     5           /* 5 ms */
++#define SLOW_FAULT_SKIP_PAGES   200
++
 +/**
-+ * wt_migration_completion: Used by wt_migration_thread when after all the
-+ *   RAM has been saved. The caller 'breaks' the loop when this returns.
++ * limit_scan_rate: limit RAM linear scan rate in case of growing write fault
++ *  latencies, used in write-tracking migration implementation
 + *
-+ * @s: Current migration state
++ * @rs: current RAM state
++ *
 + */
-+static void wt_migration_completion(MigrationState *s)
++static void limit_scan_rate(RAMState *rs)
 +{
-+    int current_active_state = s->state;
++    int64_t last_fault_latency_ns = 0;
 +
-+    /* Stop tracking RAM writes - un-protect memory, un-register UFFD memory ranges,
-+     * flush kernel wait queues and wake up threads waiting for write fault to be
-+     * resolved. All of this is essentially done by closing UFFD file descriptor */
-+    ram_write_tracking_stop();
-+
-+    if (s->state == MIGRATION_STATUS_ACTIVE) {
-+        /*
-+         * By this moment we have RAM content saved into the migration stream.
-+         * The next step is to flush the non-RAM content (device state)
-+         * right after the ram content. The device state has been stored into
-+         * the temporary buffer before RAM saving started.
-+         */
-+        qemu_put_buffer(s->to_dst_file, s->bioc->data, s->bioc->usage);
-+        qemu_fflush(s->to_dst_file);
-+    } else if (s->state == MIGRATION_STATUS_CANCELLING) {
-+        goto fail;
++    if (!rs->ram_wt_enabled) {
++        return;
 +    }
 +
-+    if (qemu_file_get_error(s->to_dst_file)) {
-+        trace_migration_completion_file_err();
-+        goto fail;
++    /* Check if last write fault time is available */
++    if (rs->last_fault_ns) {
++        last_fault_latency_ns = qemu_clock_get_ns(QEMU_CLOCK_REALTIME) -
++                rs->last_fault_ns;
++        rs->last_fault_ns = 0;
 +    }
 +
-+    migrate_set_state(&s->state, current_active_state,
-+                      MIGRATION_STATUS_COMPLETED);
-+    return;
-+
-+fail:
-+    migrate_set_state(&s->state, current_active_state,
-+                      MIGRATION_STATUS_FAILED);
++    /* In case last fault time was available and we have
++     * latency value, check if it's not too high */
++    if (last_fault_latency_ns > FAULT_HIGH_LATENCY_NS) {
++        /* Reset counter after each slow write fault */
++        rs->throttle_skip_counter = SLOW_FAULT_SKIP_PAGES;
++    }
++    /* Delay thread execution till next write fault occures or timeout expires.
++     * Next SLOW_FAULT_SKIP_PAGES can be write fault pages only, not from pages going from
++     * linear scan logic. Thus we moderate migration stream rate to reduce latencies */
++    if (rs->throttle_skip_counter > 0) {
++        uffd_poll_events(rs->uffdio_fd, SLOW_FAULT_POLL_TMO);
++        rs->throttle_skip_counter--;
++    }
 +}
 +
- bool migrate_colo_enabled(void)
- {
-     MigrationState *s = migrate_get_current();
-@@ -3554,7 +3596,26 @@ static void migration_iteration_finish(MigrationState *s)
- 
- static void wt_migration_iteration_finish(MigrationState *s)
- {
--    /* TODO: implement */
-+    qemu_mutex_lock_iothread();
-+    switch (s->state) {
-+    case MIGRATION_STATUS_COMPLETED:
-+        migration_calculate_complete(s);
-+        break;
+ /**
+  * ram_find_and_save_block: finds a dirty page and sends it to f
+  *
+@@ -2078,6 +2121,9 @@ static int ram_find_and_save_block(RAMState *rs, bool last_stage)
+                 if (res < 0) {
+                     break;
+                 }
 +
-+    case MIGRATION_STATUS_ACTIVE:
-+    case MIGRATION_STATUS_FAILED:
-+    case MIGRATION_STATUS_CANCELLED:
-+    case MIGRATION_STATUS_CANCELLING:
-+        break;
-+
-+    default:
-+        /* Should not reach here, but if so, forgive the VM. */
-+        error_report("%s: Unknown ending state %d", __func__, s->state);
-+        break;
-+    }
-+
-+    migrate_fd_cleanup_schedule(s);
-+    qemu_mutex_unlock_iothread();
++                /* Linear scan rate limiting */
++                limit_scan_rate(rs);
+             }
+         }
+     } while (!pages && again);
+@@ -2191,12 +2237,15 @@ static void ram_state_reset(RAMState *rs)
+     rs->last_sent_block = NULL;
+     rs->last_page = 0;
+     rs->last_version = ram_list.version;
++    rs->last_fault_ns = 0;
++    rs->throttle_skip_counter = 0;
+     rs->ram_wt_enabled = migrate_track_writes_ram();
+     rs->ram_bulk_stage = !rs->ram_wt_enabled;
+     rs->fpo_enabled = false;
  }
+ 
+ #define MAX_WAIT 50 /* ms, half buffered_file limit */
++#define WT_MAX_WAIT 1000 /* 1000 ms, need bigger limit for 'write-tracking' migration */
  
  /*
-@@ -3563,7 +3624,14 @@ static void wt_migration_iteration_finish(MigrationState *s)
-  */
- static MigIterateState wt_migration_iteration_run(MigrationState *s)
- {
--    /* TODO: implement */
-+    int res;
-+
-+    res = qemu_savevm_state_iterate(s->to_dst_file, false);
-+    if (res) {
-+        wt_migration_completion(s);
-+        return MIG_ITERATE_BREAK;
-+    }
-+
-     return MIG_ITERATE_RESUME;
- }
- 
+  * 'expected' is the value you expect the bitmap mostly to be full
+@@ -2872,7 +2921,8 @@ static int ram_save_iterate(QEMUFile *f, void *opaque)
+             if ((i & 63) == 0) {
+                 uint64_t t1 = (qemu_clock_get_ns(QEMU_CLOCK_REALTIME) - t0) /
+                               1000000;
+-                if (t1 > MAX_WAIT) {
++                uint64_t max_wait = rs->ram_wt_enabled ? WT_MAX_WAIT : MAX_WAIT;
++                if (t1 > max_wait) {
+                     trace_ram_save_iterate_big_wait(t1, i);
+                     break;
+                 }
 -- 
 2.25.1
 
