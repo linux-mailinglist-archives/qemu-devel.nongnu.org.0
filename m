@@ -2,78 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFFFD2B80BB
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 16:41:51 +0100 (CET)
-Received: from localhost ([::1]:50456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 894272B8134
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 16:52:22 +0100 (CET)
+Received: from localhost ([::1]:42270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfPag-0001qW-VD
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 10:41:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40000)
+	id 1kfPkr-0001zs-KZ
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 10:52:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kfPZD-0001O0-Kj
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 10:40:19 -0500
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:36521)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kfPjh-0001Aw-5V
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 10:51:09 -0500
+Received: from indium.canonical.com ([91.189.90.7]:38240)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kfPZB-0004cF-1f
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 10:40:19 -0500
-Received: by mail-ed1-x536.google.com with SMTP id m16so2479493edr.3
- for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 07:40:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=2Pq6Mz0O/n8+7SevdgfQXLYATgstSP5EBkHImLL2O8c=;
- b=T8/Pr42uFo5jijv7vPAxE1EGIel4VRtMNw3VsAkglUxa0YbGBwPO7SRXBkQszKpamL
- Bof52tALAcMb3Ka5MnjJxTM+MvXUxN+ZK2XB3bMILzgheQN3bv9jFqC39pJ1Q5n075Xl
- a1pypxLXBcZqJHvMc9aMSglvvz9AbyARMBqRYf9qzrSiWVdkKpYmnWK9JeNJa7qwcq9j
- KR8lKGNQTljcE9hQ+wMTjvhdTORoMDzsHncqXdb3joaJeJ/jnBYUjfiM0EErC6eN1wjQ
- 3qsDNAN1XyWF4oWaq/dHC67wF54PeLGynSYwaZ2RcwyiyZGOYR9/nRQkCmXq9U1YEmFr
- brwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=2Pq6Mz0O/n8+7SevdgfQXLYATgstSP5EBkHImLL2O8c=;
- b=oEebCcpFlhQ8lQ/yQhGLU2k3uYeQeERRbTlXih36g7+BHGQ1UGlx8Ye+xA2B8cXX17
- Sp8+s+CXl73JX3vVGBaz04dESimIX6URPwbDZGM+5OGyRrbaK+lovQe9RX+g4entW8oD
- QDuCCv8c21a6xrTeujUcoEezwVM2CX4QtSo18w4YxUVhg8B/tAr2qeWTlyR4pDN2NMft
- 2KwNSqLpy3JjO9OfVIAC0TVSSCPZubeBodFj0bLGP7SPr6ew7R+d/tRBSB8n0cRVTho1
- P9iUTjxcs4BMOzqRA9UXqbWKfM+6cinlWTBVNKuuCWeyjkAnCjbk6HNmf82s2XPCkzV0
- AGnw==
-X-Gm-Message-State: AOAM5314pmrkvyfH2QVFf7EDais4esdNUbr/HuKZeWgB3wWFlSaSg1mO
- puRE5esR6w6NaOQi7Vs+ANUy6EWE+uld3xFD8PYWlA==
-X-Google-Smtp-Source: ABdhPJyVPinc4KVvhl2CYNoWM+DbECck9Y1CpFkLQyn9t2duV0eclM8C5GYPyYuRBW2nyfFQUp8PMP5NcFrW8fhdH7A=
-X-Received: by 2002:a50:fa92:: with SMTP id w18mr25602260edr.44.1605714015507; 
- Wed, 18 Nov 2020 07:40:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kfPjd-0006Na-Mh
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 10:51:08 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kfPjZ-000679-Lg
+ for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 15:51:01 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id CB52C2E8135
+ for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 15:50:58 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200924092314.1722645-1-pbonzini@redhat.com>
- <20200924092314.1722645-20-pbonzini@redhat.com>
-In-Reply-To: <20200924092314.1722645-20-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 18 Nov 2020 15:40:04 +0000
-Message-ID: <CAFEAcA9Utr2mCGyi7+8Yg16KSYhoP=3+hJa=wN6_AdG8TB0a8g@mail.gmail.com>
-Subject: Re: [PULL 19/92] hw/char/serial: Assert serial_ioport_read/write
- offset fits 8 bytes
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Wed, 18 Nov 2020 15:40:11 -0000
+From: Peter Maydell <1904331@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: jdbelanger
+X-Launchpad-Bug-Reporter: Jonathan D. Belanger (jdbelanger)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <160545531881.20391.7176019896401260559.malonedeb@soybean.canonical.com>
+Message-Id: <160571401240.18840.14796858862121661986.launchpad@gac.canonical.com>
+Subject: [Bug 1904331] Re: Coding bug in the function serial_ioport_write in
+ serial.c
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c35ff22711d15549e2303ae18ae521fd91f6bf00"; Instance="production"
+X-Launchpad-Hash: 1a678a17499ccf9ce09d8fcecde78822cbbe7311
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 10:41:28
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,63 +73,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Reply-To: Bug 1904331 <1904331@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 24 Sep 2020 at 10:40, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->
-> The serial device has 8 registers, each 8-bit. The MemoryRegionOps
-> 'serial_io_ops' is initialized with max_access_size=3D1, and all
-> memory_region_init_io() callers correctly set the region size to
-> 8 bytes:
-> - serial_io_realize
-> - serial_isa_realizefn
-> - serial_pci_realize
-> - multi_serial_pci_realize
->
-> It is safe to assert the offset argument of serial_ioport_read()
-> and serial_ioport_write() is always less than 8.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Message-Id: <20200907015535.827885-2-f4bug@amsat.org>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  hw/char/serial.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/char/serial.c b/hw/char/serial.c
-> index fd80ae5592..840da89de7 100644
-> --- a/hw/char/serial.c
-> +++ b/hw/char/serial.c
-> @@ -344,7 +344,7 @@ static void serial_ioport_write(void *opaque, hwaddr =
-addr, uint64_t val,
->  {
->      SerialState *s =3D opaque;
->
-> -    addr &=3D 7;
-> +    assert(size =3D=3D 1 && addr < 8);
->      trace_serial_ioport_write(addr, val);
->      switch(addr) {
->      default:
+** Changed in: qemu
+       Status: New =3D> Confirmed
 
-Bug report https://bugs.launchpad.net/qemu/+bug/1904331
-points out that the addition of this assert() makes obvious
-that either the assert is wrong or some code later in the
-function which is looking at size must be dead:
-            if (size =3D=3D 1) {
-                s->divider =3D (s->divider & 0xff00) | val;
-            } else {
-                s->divider =3D val;
-            }
+-- =
 
-Presumably it's the if() that should be fixed ?
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1904331
 
-thanks
--- PMM
+Title:
+  Coding bug in the function serial_ioport_write in serial.c
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  Branch hash: b50ea0d  (pulled from github).
+
+  I was reviewing the code and noticed the following in the function
+  serial_ioport_write:
+
+      assert(size =3D=3D 1 && addr < 8);
+          .
+          .
+          .
+      switch(addr) {
+      default:
+      case 0:
+          if (s->lcf & UART_LCR_DLAB) {
+              if (size =3D=3D 1) {
+                  s->divider =3D (s->divider & 0xff00) | val;
+              } else {
+                  s->divider =3D val;
+              }
+          }
+
+  The assert will trigger if the size is > 1, so the else of the if
+  (size =3D=3D 1) will never be executed and an attempt to specify a size >
+  1 will trigger an assert.
+
+  The documentation for the UART indicates that the 16-bit divisor is
+  broken up amongst 2 8-bit registers (DLL and DLM).  There already is
+  code to handle the DLL and DLM portions of the divider register (as
+  coded).
+
+  This is not exactly going to cause a bug, as there is no code that
+  calls this function with a value for size other than 1.  It is just
+  unnecessary code.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1904331/+subscriptions
 
