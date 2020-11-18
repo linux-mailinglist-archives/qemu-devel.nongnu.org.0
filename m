@@ -2,79 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C24E12B7DEA
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 13:55:10 +0100 (CET)
-Received: from localhost ([::1]:45994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 405FB2B7DF5
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 13:58:35 +0100 (CET)
+Received: from localhost ([::1]:55448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfMzN-0002ZY-I8
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 07:55:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55744)
+	id 1kfN2g-0006d8-9V
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 07:58:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kfMu4-0006Bo-4N
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 07:49:40 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:50741)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kfMu2-0006QB-BY
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 07:49:39 -0500
-Received: by mail-wm1-x341.google.com with SMTP id c198so1008049wmd.0
- for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 04:49:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=BzLTqTiUtAwdS8hWyxia9K2itjlyThpYvpkbu0YAXYM=;
- b=p62OLnBWtOlgTSk6G0zVwTKGLEXKZVNTCe/GizKyj/IDHXghWki2MjVSIZCatcqIOv
- ilrN8Zm3aLfbYmcX+hM1teZvq+9xXQ3yOFyPZ84i48iwhmZBAlJaEoDGuIjkRrBmKNG5
- WUUwGriF0BgyHUt3jMXuntewc0k+MM5mIRgo14che/3jjShU9Yi+6Dy2ILIv9sJQXl0Q
- qdiEmAQqZNByPqk6BGMuwX3U1gUGNyk/5DJXUY18cgHg5cQpCFNNCGFYL9S6VPC0d2a8
- twBPQQKTuib/a4bEzMpxmqwojq9JVHaCfKnPsqp/PIf9zfhQK7SXF3fksO/iahWqyZWh
- MIsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=BzLTqTiUtAwdS8hWyxia9K2itjlyThpYvpkbu0YAXYM=;
- b=XYdolhcV006g4QkdXJRFVWfg2OT2fVt7jllS65/LfJCTZO7xd3ShszIxTQ5II7H2/C
- nZHtCCMRBZgaswjmqu0g14YZAmBHeR9CNqhwhyWHNIQxuKxsDQiknh875jJvCkf2GGjV
- 0wCKDi35CrXB2xBMw7NRE8x82Ib8IRuVrNyGbgjh4n1D22D64wuXEJmEVZY9HalKWs4C
- NkQdMp6k1nzZfzVpb5PmDIOcWfgTi3HbMqjMcOeFnGMz3FRr0Ozcek7H4NOL6qC0JFt9
- H2IFEYqKmB4aHAUUnI4VnLoi3R25kwF1qvkttQmT7dS+pO51DhXEMld/ws2GH/DVWDnF
- hBzg==
-X-Gm-Message-State: AOAM533aH4QUmtCMD0FLgww0CYk6IPNqR6lgXtx3g/zJkUuqlh/QM+7n
- CNUCnDbnEzeXUCW8K0oMrS0bz6hxIqEOtw==
-X-Google-Smtp-Source: ABdhPJy8tsmqEc8Q2qkVkrskHwUZ6O+rQho5QdhbJ4f9xZLeiQS49tSpE1arm/N5FFM600L2/yv36g==
-X-Received: by 2002:a1c:5f83:: with SMTP id t125mr4215941wmb.82.1605703775718; 
- Wed, 18 Nov 2020 04:49:35 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a144sm3813705wmd.47.2020.11.18.04.49.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Nov 2020 04:49:34 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D30A21FF7E;
- Wed, 18 Nov 2020 12:49:33 +0000 (GMT)
-References: <20201118101821.132236-1-pbonzini@redhat.com>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] cirrus-ci: parallelize "make check"
-In-reply-to: <20201118101821.132236-1-pbonzini@redhat.com>
-Date: Wed, 18 Nov 2020 12:49:33 +0000
-Message-ID: <875z62x21u.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1kfMzF-0003Bj-7F
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 07:55:01 -0500
+Received: from relay.sw.ru ([185.231.240.75]:40570 helo=relay3.sw.ru)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1kfMz8-00072g-7K
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 07:55:00 -0500
+Received: from [192.168.15.76] (helo=andrey-MS-7B54.sw.ru)
+ by relay3.sw.ru with esmtp (Exim 4.94)
+ (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1kfMyt-009AfQ-Hy; Wed, 18 Nov 2020 15:54:39 +0300
+To: qemu-devel@nongnu.org
+Cc: Den Lunev <den@openvz.com>, Eric Blake <eblake@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Subject: [PATCH v1 1/7] Introduce 'track-writes-ram' migration capability.
+Date: Wed, 18 Nov 2020 15:54:43 +0300
+Message-Id: <20201118125449.311038-2-andrey.gruzdev@virtuozzo.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201118125449.311038-1-andrey.gruzdev@virtuozzo.com>
+References: <20201118125449.311038-1-andrey.gruzdev@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=185.231.240.75;
+ envelope-from=andrey.gruzdev@virtuozzo.com; helo=relay3.sw.ru
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 06:22:34
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,56 +58,184 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+From: Andrey Gruzdev via <qemu-devel@nongnu.org>
 
+Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+---
+ migration/migration.c | 96 +++++++++++++++++++++++++++++++++++++++++++
+ migration/migration.h |  1 +
+ qapi/migration.json   |  7 +++-
+ 3 files changed, 103 insertions(+), 1 deletion(-)
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
-
-> Otherwise, the tests risk failing due to timeouts.
-
-This is a reversion of what we used to do because it's very hard to
-figure out which test broke when they are all mixed together. Maybe we
-could just up the timeouts.
-
-That said the timeouts seem a bit random with macos taking around 53
-minutes and macos_xcode taking less at around 44 unless they get "stuck".
-
->
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  .cirrus.yml | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/.cirrus.yml b/.cirrus.yml
-> index f0209b7a3e..111e19f1bf 100644
-> --- a/.cirrus.yml
-> +++ b/.cirrus.yml
-> @@ -29,7 +29,7 @@ macos_task:
->                     --extra-cflags=3D'-Wno-error=3Ddeprecated-declaration=
-s'
->                     || { cat config.log meson-logs/meson-log.txt; exit 1;=
+diff --git a/migration/migration.c b/migration/migration.c
+index 87a9b59f83..ff0364dde0 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -56,6 +56,7 @@
+ #include "net/announce.h"
+ #include "qemu/queue.h"
+ #include "multifd.h"
++#include "sysemu/cpus.h"
+ 
+ #ifdef CONFIG_VFIO
+ #include "hw/vfio/vfio-common.h"
+@@ -1165,6 +1166,91 @@ static bool migrate_caps_check(bool *cap_list,
+         }
+     }
+ 
++    if (cap_list[MIGRATION_CAPABILITY_TRACK_WRITES_RAM]) {
++        if (cap_list[MIGRATION_CAPABILITY_POSTCOPY_RAM]) {
++            error_setg(errp,
++                    "Track-writes is not compatible with postcopy-ram");
++            return false;
++        }
++
++        if (cap_list[MIGRATION_CAPABILITY_DIRTY_BITMAPS]) {
++            error_setg(errp,
++                    "Track-writes is not compatible with dirty-bitmaps");
++            return false;
++        }
++
++        if (cap_list[MIGRATION_CAPABILITY_POSTCOPY_BLOCKTIME]) {
++            error_setg(errp,
++                    "Track-writes is not compatible with postcopy-blocktime");
++            return false;
++        }
++
++        if (cap_list[MIGRATION_CAPABILITY_LATE_BLOCK_ACTIVATE]) {
++            error_setg(errp,
++                    "Track-writes is not compatible with late-block-activate");
++            return false;
++        }
++
++        if (cap_list[MIGRATION_CAPABILITY_RETURN_PATH]) {
++            error_setg(errp,
++                    "Track-writes is not compatible with return-path");
++            return false;
++        }
++
++        if (cap_list[MIGRATION_CAPABILITY_MULTIFD]) {
++            error_setg(errp, "Track-writes is not compatible with multifd");
++            return false;
++        }
++
++        if (cap_list[MIGRATION_CAPABILITY_PAUSE_BEFORE_SWITCHOVER]) {
++            error_setg(errp,
++                    "Track-writes is not compatible with pause-before-switchover");
++            return false;
++        }
++
++        if (cap_list[MIGRATION_CAPABILITY_AUTO_CONVERGE]) {
++            error_setg(errp,
++                    "Track-writes is not compatible with auto-converge");
++            return false;
++        }
++
++        if (cap_list[MIGRATION_CAPABILITY_RELEASE_RAM]) {
++            error_setg(errp,
++                    "Track-writes is not compatible with release-ram");
++            return false;
++        }
++
++        if (cap_list[MIGRATION_CAPABILITY_RDMA_PIN_ALL]) {
++            error_setg(errp,
++                    "Track-writes is not compatible with rdma-pin-all");
++            return false;
++        }
++
++        if (cap_list[MIGRATION_CAPABILITY_COMPRESS]) {
++            error_setg(errp,
++                    "Track-writes is not compatible with compression");
++            return false;
++        }
++
++        if (cap_list[MIGRATION_CAPABILITY_XBZRLE]) {
++            error_setg(errp,
++                    "Track-writes is not compatible with XBZLRE");
++            return false;
++        }
++
++        if (cap_list[MIGRATION_CAPABILITY_X_COLO]) {
++            error_setg(errp,
++                    "Track-writes is not compatible with x-colo");
++            return false;
++        }
++
++        if (cap_list[MIGRATION_CAPABILITY_VALIDATE_UUID]) {
++            error_setg(errp,
++                    "Track-writes is not compatible with validate-uuid");
++            return false;
++        }
++    }
++
+     return true;
  }
->      - gmake -j$(sysctl -n hw.ncpu)
-> -    - gmake check V=3D1
-> +    - gmake -j$(sysctl -n hw.ncpu) check V=3D1
->=20=20
->  macos_xcode_task:
->    osx_instance:
-> @@ -43,7 +43,7 @@ macos_xcode_task:
->      - ../configure --extra-cflags=3D'-Wno-error=3Ddeprecated-declaration=
-s' --enable-modules
->                     --enable-werror --cc=3Dclang || { cat config.log meso=
-n-logs/meson-log.txt; exit 1; }
->      - gmake -j$(sysctl -n hw.ncpu)
-> -    - gmake check V=3D1
-> +    - gmake -j$(sysctl -n hw.ncpu) check V=3D1
->=20=20
->  windows_msys2_task:
->    timeout_in: 90m
+ 
+@@ -2490,6 +2576,15 @@ bool migrate_use_block_incremental(void)
+     return s->parameters.block_incremental;
+ }
+ 
++bool migrate_track_writes_ram(void)
++{
++    MigrationState *s;
++
++    s = migrate_get_current();
++
++    return s->enabled_capabilities[MIGRATION_CAPABILITY_TRACK_WRITES_RAM];
++}
++
+ /* migration thread support */
+ /*
+  * Something bad happened to the RP stream, mark an error
+@@ -3783,6 +3878,7 @@ static Property migration_properties[] = {
+     DEFINE_PROP_MIG_CAP("x-block", MIGRATION_CAPABILITY_BLOCK),
+     DEFINE_PROP_MIG_CAP("x-return-path", MIGRATION_CAPABILITY_RETURN_PATH),
+     DEFINE_PROP_MIG_CAP("x-multifd", MIGRATION_CAPABILITY_MULTIFD),
++    DEFINE_PROP_MIG_CAP("x-track-writes-ram", MIGRATION_CAPABILITY_TRACK_WRITES_RAM),
+ 
+     DEFINE_PROP_END_OF_LIST(),
+ };
+diff --git a/migration/migration.h b/migration/migration.h
+index d096b77f74..339ae720e0 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -341,6 +341,7 @@ int migrate_compress_wait_thread(void);
+ int migrate_decompress_threads(void);
+ bool migrate_use_events(void);
+ bool migrate_postcopy_blocktime(void);
++bool migrate_track_writes_ram(void);
+ 
+ /* Sending on the return path - generic and then for each message type */
+ void migrate_send_rp_shut(MigrationIncomingState *mis,
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 3c75820527..03fe0547f1 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -442,6 +442,11 @@
+ # @validate-uuid: Send the UUID of the source to allow the destination
+ #                 to ensure it is the same. (since 4.2)
+ #
++# @track-writes-ram: If enabled, the migration stream will be a snapshot
++#                    of the VM exactly at the point when the migration
++#                    procedure starts. The VM RAM is saved with running VM.
++#                    (since 5.2)
++#
+ # Since: 1.2
+ ##
+ { 'enum': 'MigrationCapability',
+@@ -449,7 +454,7 @@
+            'compress', 'events', 'postcopy-ram', 'x-colo', 'release-ram',
+            'block', 'return-path', 'pause-before-switchover', 'multifd',
+            'dirty-bitmaps', 'postcopy-blocktime', 'late-block-activate',
+-           'x-ignore-shared', 'validate-uuid' ] }
++           'x-ignore-shared', 'validate-uuid', 'track-writes-ram'] }
+ 
+ ##
+ # @MigrationCapabilityStatus:
+-- 
+2.25.1
 
-
---=20
-Alex Benn=C3=A9e
 
