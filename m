@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDFA72B7F12
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 15:09:00 +0100 (CET)
-Received: from localhost ([::1]:41882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACB5A2B7F43
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Nov 2020 15:20:10 +0100 (CET)
+Received: from localhost ([::1]:48936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfO8p-00065F-Hr
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 09:08:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45012)
+	id 1kfOJd-0001AR-9J
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 09:20:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kfO7l-0005EV-It
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 09:07:53 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:36785)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kfO7j-0007uj-2X
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 09:07:53 -0500
-Received: by mail-wm1-x341.google.com with SMTP id a65so2850790wme.1
- for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 06:07:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=P893C0RtMJlLc7UgmhuOR3HNdWOQpwqhCwhuOv9aJqU=;
- b=Uo1MFl6DeFxGG6Mfj6X3UUougzYx0mD/qdNnMh2pXH6VQ/GWxsT4XV5d/ZG33Lyq/O
- JH40196QmKjFJZv6eAhGDk8/KNu9+/phUHQWNJjT4VO6K95N0akdtXHFoAXU3YMIQzwY
- QB0Ak+bnIOSXjjTehn1btR1Vii3hpFsxZhqDd8L3kMxQjLJ8Tbe7TYb6cp+G7jmfwYyl
- cSMlnRH9C3ukDQ2MwBEw21+W5Y3/bqF8PcnXIvj+7pNnMl3YYsqoNSskrP86YqHcZU6f
- fegWERzZ0AWFIcoyUO+pMf+cc/uq0mjXRcxzMxQrSXJxpuBaCZRQMHpg8EtyFQDYcnlC
- efKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=P893C0RtMJlLc7UgmhuOR3HNdWOQpwqhCwhuOv9aJqU=;
- b=Xst5xTDVPGdN73vEnPAUwrDGlXfjVaviIMJJp8bIPdQZq8ADS90jAn2sAlWGEU7ViY
- VkyyQN3C6uKKLfrkdbIen5WJB6aDweK5tVVJX/vLFD4eB2c/pDU/eTCurkoOerE7RyjY
- 9cR+X5FgvLr4ivvqm+u4ewyYdGaS/IRg+tiPgTgB/SoA7bvwdqEjv1x2La/TS6f3BvMN
- R/sToYntYogIHKFXTDMydH4lczWimrV15YrSAjd7n1YHjZzD8y7mWp+7r2xbJZJGNGr0
- IE3lkpS89Nt0aC8BlP+cu8DnCFzaM3wQAh7+GsLmyKtVYGj+DEmd6BdKJ/mLqOoyMW3v
- gvnw==
-X-Gm-Message-State: AOAM531Wo0VJidtRNMUGtSuozHUZxCOH3foq51+OKZTWG2OeqBdKh8A8
- fpKU0BzP/k/iOS0tHplvipW5Hw==
-X-Google-Smtp-Source: ABdhPJxxLBcbaApEvviJwcxDf3JBWeldRu2a/4tYmm+LP6sQXbmsBd7EV0JkVBwOZFP1ex3y1R6yVg==
-X-Received: by 2002:a1c:df8a:: with SMTP id w132mr231417wmg.90.1605708468817; 
- Wed, 18 Nov 2020 06:07:48 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t13sm34652506wru.67.2020.11.18.06.07.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Nov 2020 06:07:47 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1EA6A1FF7E;
- Wed, 18 Nov 2020 14:07:47 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] .cirrus.yml: bump timeout period for MacOS builds
-Date: Wed, 18 Nov 2020 14:07:39 +0000
-Message-Id: <20201118140739.18377-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kfOI5-0000jA-La
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 09:18:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40603)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kfOI2-00010r-MQ
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 09:18:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605709108;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LfogWnwCNWCJArb0yv/y8iOejTzgaouN+LqzWikXlKo=;
+ b=UTX4yMVX5Nrijm3qSv8C6UCzZDdm4DsNmlB+2X0FWRfQTnHALghZNhV8QcFE29/cmb11AO
+ cZo6uuAF1hw1Dh+CHz5Beh7LFTCl3IzCE8MAevh4ygWilSJXlj05inDgqlUZs3p7C/wb9q
+ 9DGuFCx1qeJBt3iKkcrjuXcAovn8ZVc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-402-HVESuOJ4OgiMTdK9qqDihg-1; Wed, 18 Nov 2020 09:18:24 -0500
+X-MC-Unique: HVESuOJ4OgiMTdK9qqDihg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA8A88143EF
+ for <qemu-devel@nongnu.org>; Wed, 18 Nov 2020 14:18:23 +0000 (UTC)
+Received: from [10.3.112.188] (ovpn-112-188.phx2.redhat.com [10.3.112.188])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 694B05D9CA;
+ Wed, 18 Nov 2020 14:18:23 +0000 (UTC)
+Subject: Re: [PATCH] qapi: Normalize version references x.y.0 to just x.y
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20201118064158.3359056-1-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <d1877374-a053-30a1-02b2-8c370a925bdc@redhat.com>
+Date: Wed, 18 Nov 2020 08:18:22 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <20201118064158.3359056-1-armbru@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/17 19:41:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,40 +83,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, Ed Maste <emaste@freebsd.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These seem to trigger timeouts with some regularity.
+On 11/18/20 12:41 AM, Markus Armbruster wrote:
+> We use x.y most of the time, and x.y.0 sometimes.  Normalize for
+> consistency.
+> 
+> Reported-by: Eduardo Habkost <ehabkost@redhat.com>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- .cirrus.yml | 2 ++
- 1 file changed, 2 insertions(+)
+Documentation-only, therefore safe for -rc3, but also not the end of the
+world if it slips into 6.0.
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index f0209b7a3e..08db7c419f 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -18,6 +18,7 @@ freebsd_12_task:
-     - gmake -j$(sysctl -n hw.ncpu) check V=1
- 
- macos_task:
-+  timeout_in: 90m
-   osx_instance:
-     image: catalina-base
-   install_script:
-@@ -32,6 +33,7 @@ macos_task:
-     - gmake check V=1
- 
- macos_xcode_task:
-+  timeout_in: 90m
-   osx_instance:
-     # this is an alias for the latest Xcode
-     image: catalina-xcode
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
 -- 
-2.20.1
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
