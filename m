@@ -2,113 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A5252B8E56
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 10:01:01 +0100 (CET)
-Received: from localhost ([::1]:51940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C2482B8DF2
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 09:53:53 +0100 (CET)
+Received: from localhost ([::1]:41144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kffoE-0002Sc-QL
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 04:00:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52774)
+	id 1kffhQ-00053t-9U
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 03:53:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kffdH-0001zP-18
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 03:49:35 -0500
-Received: from mail-am6eur05on2115.outbound.protection.outlook.com
- ([40.107.22.115]:12897 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kffdC-0003kS-F7
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 03:49:33 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kj9vjWaSkZyU8biOpuZhxYW4DEAueiBCFzl7VaIEepDXnGnj6BeUFtbtJas6brJww/qwq0IK3/2u52Ct30GAUCmqBrHcQlwiGu8Gc4YxrppTLoMlRS6ZII+zJqAyt+OXa7XCKvUlM6qOIift2W72cG8DvP7lWs1K7OIqJTL49rNGJQV/Mpw86GnwPRwZ65T7u2Ndk+z81n1sJyS7yB12EpImDRMJD+96O8qpdoKrF53xtuuSLlx73UtR+C7FKkU6WKtJvdueSDepIB105NCoIF7WUV0BaK3ggVvtrFei3ONv3XXt40JlTxW9lmpJjcv0fxTlbqZLJDLHOI5YNn8vog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mRJsk0Gq72jVk4rHs4+Sc1yKWHKchIRCScvlwRFTnD0=;
- b=CZzX2007TkEmGsTa775imvt8U/i+QaR3hwo8VBpI9nPja6rxPcsV0593sGktsHq3FSgeQmjXMBjXPqtCNxqYpBqt3fFV7f7PcOk+Vzjhszmp+o7TGQOQ4q2qHHjyag6AewZ0lawj4YtBr7L+oQTI1W84LsF4WtAJ9cQe8bygyyG0FbUSOggs6Y3BdOXX6hbalP2JRiJwTuk/TFttnSOMilmqr9a7RA6NZw2JZdEh0ZR5vGjqm7PzANmPKqZqjAjOBX+ROE3H1nrsyrpBScMZv+8ZAQz4J3ODmaq+gOBvLHstsVLM+FCmib+9B99tRk6cCm5fSiJbLC32SVWJ8G/5Aw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mRJsk0Gq72jVk4rHs4+Sc1yKWHKchIRCScvlwRFTnD0=;
- b=PDlWLiNnVrMUppH6Pn4gGLOUW97rKkpvgzZiu5EyMjqzRlJee0nwg1CJ9K6Mn+SFZqoBOZmUuOlExAKWPJKv6cdw7QvuhSLNQEeiVMS2qu5a9ID9x4fzQSA4alv/0bBNGonP3DfD3w90JpUAljDrBgDehmZZNRsO4QW6Tx2R1xY=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from VI1PR0802MB2510.eurprd08.prod.outlook.com
- (2603:10a6:800:ad::14) by VE1PR08MB5200.eurprd08.prod.outlook.com
- (2603:10a6:803:105::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.25; Thu, 19 Nov
- 2020 08:49:27 +0000
-Received: from VI1PR0802MB2510.eurprd08.prod.outlook.com
- ([fe80::8d6a:734c:e4a2:8543]) by VI1PR0802MB2510.eurprd08.prod.outlook.com
- ([fe80::8d6a:734c:e4a2:8543%7]) with mapi id 15.20.3589.020; Thu, 19 Nov 2020
- 08:49:26 +0000
-Subject: Re: [PATCH v2 0/7] UFFD write-tracking migration/snapshots
-To: qemu-devel@nongnu.org
-Cc: Den Lunev <den@openvz.org>, Eric Blake <eblake@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>
-References: <20201118132048.429092-1-andrey.gruzdev@virtuozzo.com>
-From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Message-ID: <31ef6a21-a333-5f72-64c0-7b83695139b6@virtuozzo.com>
-Date: Thu, 19 Nov 2020 11:49:24 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20201118132048.429092-1-andrey.gruzdev@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [95.165.26.68]
-X-ClientProxiedBy: AM0PR06CA0115.eurprd06.prod.outlook.com
- (2603:10a6:208:ab::20) To VI1PR0802MB2510.eurprd08.prod.outlook.com
- (2603:10a6:800:ad::14)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kffeJ-0002sh-CW
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 03:50:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40632)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kffeF-00044G-Fd
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 03:50:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605775834;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=nSOkSaaObmll1x4yLCAoN4DjP9gylznzABYsG5hG9b0=;
+ b=DD5mDRKPuNo5+Pc7NkCa7jBMjmVDzF8wZa5yyLt3kZwENeCu+Wt2WUmznTmqBMBnRbz1zP
+ /rX86UvCBhtQZ4XpKf8XjP9aj6J8UVWijO740jcDHYBiQ7QBflUy6qwipuDKBVwgwNS3v1
+ oepkP4IZEYhpXucArGuO28F6e0OAHe0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-498-moH7za-qP6uZ5xboo0AB-Q-1; Thu, 19 Nov 2020 03:50:32 -0500
+X-MC-Unique: moH7za-qP6uZ5xboo0AB-Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FDC06D585;
+ Thu, 19 Nov 2020 08:50:31 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A429A2C24D;
+ Thu, 19 Nov 2020 08:50:21 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B2E2011358BA; Thu, 19 Nov 2020 09:50:19 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH v2 7/7] qapi: More complex uses of QAPI_LIST_APPEND
+References: <20201113011340.463563-1-eblake@redhat.com>
+ <20201113011340.463563-8-eblake@redhat.com>
+Date: Thu, 19 Nov 2020 09:50:19 +0100
+In-Reply-To: <20201113011340.463563-8-eblake@redhat.com> (Eric Blake's message
+ of "Thu, 12 Nov 2020 19:13:40 -0600")
+Message-ID: <871rgpg27o.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.64] (95.165.26.68) by
- AM0PR06CA0115.eurprd06.prod.outlook.com (2603:10a6:208:ab::20) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3589.20 via Frontend Transport; Thu, 19 Nov 2020 08:49:26 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b8623dc6-61d0-4b8d-57d0-08d88c680550
-X-MS-TrafficTypeDiagnostic: VE1PR08MB5200:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VE1PR08MB52008BEE7B8C008B2DC26CC39FE00@VE1PR08MB5200.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2AHpg0qnlxNbLiNWwC1ZGKjW3t13Q/0DWyicZ/f3l4aj3xRGpkW2Wbjd0YtD/azh9D2JLhxwnfni8jAu78fak4jT6iWr/TDM+bb9D07vHWNYTdahKIwWFXQGfmtAIuf9m1txB1Aalva905fEndzclHiz5cn6a/0B9yowl6I/C7uFFHnzm88xGse0bkDrX/aYECMJJdzg7aPUw+3DNDE484SYlrpHxlkxJXIMkjjm3vkHgXglh/Wp5LFKnxIUtA6aHBz7/amxKmqNxQmeOruEkCsuh4LI6GGc46RYkmz6Iw1E1t54YByYabndq/cWcKJ6KbA4YXGnrcff/L9JyaEZIzrFqPnw3bQcUm6WUEVAikXEsgJ7eZVr9i966nSMdL7B
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VI1PR0802MB2510.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(376002)(366004)(39840400004)(396003)(346002)(8676002)(6916009)(16526019)(4326008)(6486002)(31696002)(66556008)(66476007)(83380400001)(2616005)(66946007)(53546011)(956004)(316002)(54906003)(2906002)(36756003)(5660300002)(26005)(186003)(44832011)(31686004)(86362001)(478600001)(16576012)(52116002)(8936002)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: PP8ZGGZ4LCxV7DywQ4e6jeD4UgAgYg6D8kNQulIetts3rplRsrPrrv5B0p31MXIow+hIagHAhipd9tEMEasMOIqNhNl4SZWZEd0QS5YYYzfmijEVKEwWUNVWwMVp1VUbDQP6a3eNyStES7kZ0kKlxYj84eRcA5SgoS0nhcf18WaLGxK1p5V0eEh1PjUCG0djNpL/l3QBlZoO4TYsLQymRrZjNtsG4qod9aZ1LLwMVCyRV8EXb6ELpOc5+bmulOQFH0PE/XFNutIInGQlY51FpCACM6Yt/zHFW6tjlQg+TwzW/nMG1uzbo+wduOFil0RTwbCteiNWqV0svWFLVbGBk1UyKsN7N87YTGWbKjyUQnhPkGQvsAfzF/zudAeV1VzjEqR94Xg+9qBwH6ZJxCii/uEnabHT3BYyH/3UAGl0J4SOlN4jbeY6DxiM0A/6rfzOH96e/IFquzfuqFAjfRHxwRrLRbJoxQqlhTw7giWFcE9WOJ9vIMWC2AjhhM8EohaqP2O4e1+vMhZaWldvL3sVjid7PSRTYzmf79qIz2xI9KwrqURC843AduvAsWCdC/5Bt5L6ruSSnFOzIJVxfCqos8HcZW7b5aAi/CWyNHH5JwJv70+QdZjXfceMAOIT8nkWJ1O6NXMAnRNDRtcnpWJGlaKloLp7kxvEtFsol1eDzvDR0I3WGfVQhgTO9pZwotfpxhDPqnwzBjFs4VDaWbNtB5aRfmeuKjpQIs03LY73xTGCU1mfLpKD7ucRk299z/kvM4DmWkikfPS/oF0kVWFHpq6Q8NYs3+2EleeiMvBrgexCV812bwDcJl81TSFAyhYGR6lduS/x5O3m9UrW4GkRDs3ruwa9SKC3IVLWZfEcs0OCeTj41Y33fkYtPkMdd5f2JMj+A19TatHuWI6LwOMlOg==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b8623dc6-61d0-4b8d-57d0-08d88c680550
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR0802MB2510.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2020 08:49:26.8573 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3GyKrJqykMNpZ6tWM4Z0aFoP1XmarYLd0pr8vn9zr+HHnMZC2mO1TdoCmlucZQuMOXMS6aSX5c7uAiRPFH0cliLZSvxlrnsmvYAkaScIh1o=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB5200
-Received-SPF: pass client-ip=40.107.22.115;
- envelope-from=andrey.gruzdev@virtuozzo.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 03:49:28
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 23:36:20
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -121,68 +82,515 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, "open
+ list:GLUSTER" <integration@gluster.org>, Eduardo Habkost <ehabkost@redhat.com>,
+ "open list:GLUSTER" <qemu-block@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org, armbru@redhat.com,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18.11.2020 16:20, Andrey Gruzdev wrote:
-> Currently the only way to make (external) live VM snapshot is using existing
-> dirty page logging migration mechanism. The main problem is that it tends to
-> produce a lot of page duplicates while running VM goes on updating already
-> saved pages. That leads to the fact that vmstate image size is commonly several
-> times bigger then non-zero part of virtual machine's RSS. Time required to
-> converge RAM migration and the size of snapshot image severely depend on the
-> guest memory write rate, sometimes resulting in unacceptably long snapshot
-> creation time and huge image size.
-> 
-> This series propose a way to solve the aforementioned problems. This is done
-> by using different RAM migration mechanism based on UFFD write protection
-> management introduced in v5.7 kernel. The migration strategy is to 'freeze'
-> guest RAM content using write-protection and iteratively release protection
-> for memory ranges that have already been saved to the migration stream.
-> At the same time we read in pending UFFD write fault events and save those
-> pages out-of-order with higher priority.
-> 
-> How to use:
-> 1. Enable write-tracking migration capability
->     virsh qemu-monitor-command <domain> --hmp migrate_set_capability.
-> track-writes-ram on
-> 
-> 2. Start the external migration to a file
->     virsh qemu-monitor-command <domain> --hmp migrate exec:'cat > ./vm_state'
-> 
-> 3. Wait for the migration finish and check that the migration has completed.
-> state.
-> 
-> Andrey Gruzdev (7):
->    Introduce 'track-writes-ram' migration capability.
->    Introduced UFFD-WP low-level interface helpers. Implemented support
->      for the whole RAM block memory protection/un-protection. Higher
->      level ram_write_tracking_start() and ram_write_tracking_stop() to
->      start/stop tracking memory writes on the whole VM memory.
->    Support UFFD write fault processing in ram_save_iterate().
->    Implementation of write-tracking migration thread.
->    Implementation of vm_start() BH.
->    The rest of write tracking migration code.
->    Introduced simple linear scan rate limiting mechanism for write
->      tracking migration.
-> 
->   include/exec/memory.h |   7 +
->   migration/migration.c | 338 +++++++++++++++++++++++++++++++-
->   migration/migration.h |   4 +
->   migration/ram.c       | 439 +++++++++++++++++++++++++++++++++++++++++-
->   migration/ram.h       |   4 +
->   migration/savevm.c    |   1 -
->   migration/savevm.h    |   2 +
->   qapi/migration.json   |   7 +-
->   8 files changed, 790 insertions(+), 12 deletions(-)
-> 
+Eric Blake <eblake@redhat.com> writes:
 
-Also need to note that this patch series is a kind of 'refinking' of 
-Denis Plotnikov's ideas he implemented in his series
-'[PATCH v0 0/4] migration: add background snapshot'.
+> These cases require a bit more thought to review; in each case, the
+> code was appending to a list, but not with a FOOList **tail variable.
+>
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> ---
+>  block/gluster.c            |  13 +---
+>  block/qapi.c               |  14 +----
+>  dump/dump.c                |  22 ++-----
+>  hw/core/machine-qmp-cmds.c | 125 +++++++++++++++----------------------
+>  hw/mem/memory-device.c     |  12 +---
+>  hw/pci/pci.c               |  60 ++++++------------
+>  migration/migration.c      |  20 ++----
+>  monitor/hmp-cmds.c         |  23 +++----
+>  net/net.c                  |  13 +---
+>  qga/commands-posix.c       | 101 +++++++++++-------------------
+>  qga/commands-win32.c       |  88 +++++++++-----------------
+>  softmmu/tpm.c              |  38 ++---------
+>  ui/spice-core.c            |  27 +++-----
+>  13 files changed, 180 insertions(+), 376 deletions(-)
+>
+> diff --git a/block/gluster.c b/block/gluster.c
+> index 1f8699b93835..4963642d6e6b 100644
+> --- a/block/gluster.c
+> +++ b/block/gluster.c
+> @@ -514,7 +514,7 @@ static int qemu_gluster_parse_json(BlockdevOptionsGluster *gconf,
+>  {
+>      QemuOpts *opts;
+>      SocketAddress *gsconf = NULL;
+> -    SocketAddressList *curr = NULL;
+> +    SocketAddressList **curr;
 
--- 
-Andrey Gruzdev, Principal Engineer
-Virtuozzo GmbH  +7-903-247-6397
-                 virtuzzo.com
+Looks like "a FOOList **tail variable" to me.  Hmm, unlike the ones in
+PATCH 6, its initializer is garbage, and ...
+
+>      QDict *backing_options = NULL;
+>      Error *local_err = NULL;
+>      char *str = NULL;
+> @@ -547,6 +547,7 @@ static int qemu_gluster_parse_json(BlockdevOptionsGluster *gconf,
+>      }
+>      gconf->path = g_strdup(ptr);
+>      qemu_opts_del(opts);
+> +    curr = &gconf->server;
+>
+>      for (i = 0; i < num_servers; i++) {
+>          str = g_strdup_printf(GLUSTER_OPT_SERVER_PATTERN"%d.", i);
+> @@ -655,15 +656,7 @@ static int qemu_gluster_parse_json(BlockdevOptionsGluster *gconf,
+>              qemu_opts_del(opts);
+>          }
+>
+> -        if (gconf->server == NULL) {
+> -            gconf->server = g_new0(SocketAddressList, 1);
+> -            gconf->server->value = gsconf;
+> -            curr = gconf->server;
+> -        } else {
+> -            curr->next = g_new0(SocketAddressList, 1);
+> -            curr->next->value = gsconf;
+> -            curr = curr->next;
+> -        }
+> +        QAPI_LIST_APPEND(curr, gsconf);
+
+... it is used only from the second list element on.  Okay, I see why
+this is not in PATCH 6.
+
+>          gsconf = NULL;
+>
+>          qobject_unref(backing_options);
+[...]
+> diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
+> index ca39d15d93a2..711814be2312 100644
+> --- a/hw/core/machine-qmp-cmds.c
+> +++ b/hw/core/machine-qmp-cmds.c
+[...]
+> @@ -294,41 +281,31 @@ void qmp_set_numa_node(NumaOptions *cmd, Error **errp)
+>  static int query_memdev(Object *obj, void *opaque)
+>  {
+>      MemdevList **list = opaque;
+> -    MemdevList *m = NULL;
+> +    Memdev *m;
+>      QObject *host_nodes;
+>      Visitor *v;
+>
+>      if (object_dynamic_cast(obj, TYPE_MEMORY_BACKEND)) {
+>          m = g_malloc0(sizeof(*m));
+>
+> -        m->value = g_malloc0(sizeof(*m->value));
+> +        m->id = g_strdup(object_get_canonical_path_component(obj));
+> +        m->has_id = !!m->id;
+>
+> -        m->value->id = g_strdup(object_get_canonical_path_component(obj));
+> -        m->value->has_id = !!m->value->id;
+> -
+> -        m->value->size = object_property_get_uint(obj, "size",
+> -                                                  &error_abort);
+> -        m->value->merge = object_property_get_bool(obj, "merge",
+> -                                                   &error_abort);
+> -        m->value->dump = object_property_get_bool(obj, "dump",
+> -                                                  &error_abort);
+> -        m->value->prealloc = object_property_get_bool(obj,
+> -                                                      "prealloc",
+> -                                                      &error_abort);
+> -        m->value->policy = object_property_get_enum(obj,
+> -                                                    "policy",
+> -                                                    "HostMemPolicy",
+> -                                                    &error_abort);
+> +        m->size = object_property_get_uint(obj, "size", &error_abort);
+> +        m->merge = object_property_get_bool(obj, "merge", &error_abort);
+> +        m->dump = object_property_get_bool(obj, "dump", &error_abort);
+> +        m->prealloc = object_property_get_bool(obj, "prealloc", &error_abort);
+> +        m->policy = object_property_get_enum(obj, "policy", "HostMemPolicy",
+> +                                             &error_abort);
+>          host_nodes = object_property_get_qobject(obj,
+>                                                   "host-nodes",
+>                                                   &error_abort);
+>          v = qobject_input_visitor_new(host_nodes);
+> -        visit_type_uint16List(v, NULL, &m->value->host_nodes, &error_abort);
+> +        visit_type_uint16List(v, NULL, &m->host_nodes, &error_abort);
+>          visit_free(v);
+>          qobject_unref(host_nodes);
+>
+> -        m->next = *list;
+> -        *list = m;
+> +        QAPI_LIST_APPEND(list, m);
+
+The old code prepends, doesn't it?
+
+>      }
+>
+>      return 0;
+> diff --git a/hw/mem/memory-device.c b/hw/mem/memory-device.c
+> index cf0627fd01c1..1afcc29a0649 100644
+> --- a/hw/mem/memory-device.c
+> +++ b/hw/mem/memory-device.c
+> @@ -199,7 +199,7 @@ out:
+>  MemoryDeviceInfoList *qmp_memory_device_list(void)
+>  {
+>      GSList *devices = NULL, *item;
+> -    MemoryDeviceInfoList *list = NULL, *prev = NULL;
+> +    MemoryDeviceInfoList *list = NULL, **prev = &list;
+
+Here, you reuse the old name for the new variable.
+
+>
+>      object_child_foreach(qdev_get_machine(), memory_device_build_list,
+>                           &devices);
+> @@ -207,19 +207,11 @@ MemoryDeviceInfoList *qmp_memory_device_list(void)
+>      for (item = devices; item; item = g_slist_next(item)) {
+>          const MemoryDeviceState *md = MEMORY_DEVICE(item->data);
+>          const MemoryDeviceClass *mdc = MEMORY_DEVICE_GET_CLASS(item->data);
+> -        MemoryDeviceInfoList *elem = g_new0(MemoryDeviceInfoList, 1);
+>          MemoryDeviceInfo *info = g_new0(MemoryDeviceInfo, 1);
+>
+>          mdc->fill_device_info(md, info);
+>
+> -        elem->value = info;
+> -        elem->next = NULL;
+> -        if (prev) {
+> -            prev->next = elem;
+> -        } else {
+> -            list = elem;
+> -        }
+> -        prev = elem;
+> +        QAPI_LIST_APPEND(prev, info);
+>      }
+>
+>      g_slist_free(devices);
+> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+> index 0131d9d02c16..43f19e4ab219 100644
+> --- a/hw/pci/pci.c
+> +++ b/hw/pci/pci.c
+> @@ -1681,41 +1681,34 @@ static PciDeviceInfoList *qmp_query_pci_devices(PCIBus *bus, int bus_num);
+>
+>  static PciMemoryRegionList *qmp_query_pci_regions(const PCIDevice *dev)
+>  {
+> -    PciMemoryRegionList *head = NULL, *cur_item = NULL;
+> +    PciMemoryRegionList *head = NULL, **tail = &head;
+
+Here, you use a new and better name.
+
+I'd like to encourage you to name tail pointer variables @tail
+elsewhere, too.
+
+>      int i;
+>
+>      for (i = 0; i < PCI_NUM_REGIONS; i++) {
+>          const PCIIORegion *r = &dev->io_regions[i];
+> -        PciMemoryRegionList *region;
+> +        PciMemoryRegion *region;
+>
+>          if (!r->size) {
+>              continue;
+>          }
+>
+>          region = g_malloc0(sizeof(*region));
+> -        region->value = g_malloc0(sizeof(*region->value));
+>
+>          if (r->type & PCI_BASE_ADDRESS_SPACE_IO) {
+> -            region->value->type = g_strdup("io");
+> +            region->type = g_strdup("io");
+>          } else {
+> -            region->value->type = g_strdup("memory");
+> -            region->value->has_prefetch = true;
+> -            region->value->prefetch = !!(r->type & PCI_BASE_ADDRESS_MEM_PREFETCH);
+> -            region->value->has_mem_type_64 = true;
+> -            region->value->mem_type_64 = !!(r->type & PCI_BASE_ADDRESS_MEM_TYPE_64);
+> +            region->type = g_strdup("memory");
+> +            region->has_prefetch = true;
+> +            region->prefetch = !!(r->type & PCI_BASE_ADDRESS_MEM_PREFETCH);
+> +            region->has_mem_type_64 = true;
+> +            region->mem_type_64 = !!(r->type & PCI_BASE_ADDRESS_MEM_TYPE_64);
+>          }
+>
+> -        region->value->bar = i;
+> -        region->value->address = r->addr;
+> -        region->value->size = r->size;
+> +        region->bar = i;
+> +        region->address = r->addr;
+> +        region->size = r->size;
+>
+> -        /* XXX: waiting for the qapi to support GSList */
+> -        if (!cur_item) {
+> -            head = cur_item = region;
+> -        } else {
+> -            cur_item->next = region;
+> -            cur_item = region;
+> -        }
+> +        QAPI_LIST_APPEND(tail, region);
+>      }
+>
+>      return head;
+[...]
+> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+> index d8bc40ea9f6e..55087e268cda 100644
+> --- a/qga/commands-posix.c
+> +++ b/qga/commands-posix.c
+> @@ -2118,17 +2118,17 @@ void qmp_guest_suspend_hybrid(Error **errp)
+>      guest_suspend(SUSPEND_MODE_HYBRID, errp);
+>  }
+>
+> -static GuestNetworkInterfaceList *
+> +static GuestNetworkInterface *
+>  guest_find_interface(GuestNetworkInterfaceList *head,
+>                       const char *name)
+>  {
+>      for (; head; head = head->next) {
+>          if (strcmp(head->value->name, name) == 0) {
+> -            break;
+> +            return head->value;
+>          }
+>      }
+>
+> -    return head;
+> +    return NULL;
+>  }
+>
+>  static int guest_get_network_stats(const char *name,
+> @@ -2197,7 +2197,7 @@ static int guest_get_network_stats(const char *name,
+>   */
+>  GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+>  {
+> -    GuestNetworkInterfaceList *head = NULL, *cur_item = NULL;
+> +    GuestNetworkInterfaceList *head = NULL, **tail = &head;
+>      struct ifaddrs *ifap, *ifa;
+>
+>      if (getifaddrs(&ifap) < 0) {
+> @@ -2206,9 +2206,10 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+>      }
+>
+>      for (ifa = ifap; ifa; ifa = ifa->ifa_next) {
+> -        GuestNetworkInterfaceList *info;
+> -        GuestIpAddressList **address_list = NULL, *address_item = NULL;
+> -        GuestNetworkInterfaceStat  *interface_stat = NULL;
+> +        GuestNetworkInterface *info;
+> +        GuestIpAddressList **address_tail;
+> +        GuestIpAddress *address_item = NULL;
+> +        GuestNetworkInterfaceStat *interface_stat = NULL;
+>          char addr4[INET_ADDRSTRLEN];
+>          char addr6[INET6_ADDRSTRLEN];
+>          int sock;
+> @@ -2222,19 +2223,14 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+>
+>          if (!info) {
+>              info = g_malloc0(sizeof(*info));
+> -            info->value = g_malloc0(sizeof(*info->value));
+> -            info->value->name = g_strdup(ifa->ifa_name);
+> +            info->name = g_strdup(ifa->ifa_name);
+>
+> -            if (!cur_item) {
+> -                head = cur_item = info;
+> -            } else {
+> -                cur_item->next = info;
+> -                cur_item = info;
+> -            }
+> +            QAPI_LIST_APPEND(tail, info);
+>          }
+>
+> -        if (!info->value->has_hardware_address &&
+> -            ifa->ifa_flags & SIOCGIFHWADDR) {
+> +        address_tail = &info->ip_addresses;
+> +
+> +        if (!info->has_hardware_address && ifa->ifa_flags & SIOCGIFHWADDR) {
+
+Unrelated line break removal.
+
+>              /* we haven't obtained HW address yet */
+>              sock = socket(PF_INET, SOCK_STREAM, 0);
+>              if (sock == -1) {
+> @@ -2243,7 +2239,7 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+>              }
+>
+>              memset(&ifr, 0, sizeof(ifr));
+> -            pstrcpy(ifr.ifr_name, IF_NAMESIZE, info->value->name);
+> +            pstrcpy(ifr.ifr_name, IF_NAMESIZE, info->name);
+>              if (ioctl(sock, SIOCGIFHWADDR, &ifr) == -1) {
+>                  error_setg_errno(errp, errno,
+>                                   "failed to get MAC address of %s",
+> @@ -2255,13 +2251,13 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+>              close(sock);
+>              mac_addr = (unsigned char *) &ifr.ifr_hwaddr.sa_data;
+>
+> -            info->value->hardware_address =
+> +            info->hardware_address =
+>                  g_strdup_printf("%02x:%02x:%02x:%02x:%02x:%02x",
+>                                  (int) mac_addr[0], (int) mac_addr[1],
+>                                  (int) mac_addr[2], (int) mac_addr[3],
+>                                  (int) mac_addr[4], (int) mac_addr[5]);
+>
+> -            info->value->has_hardware_address = true;
+> +            info->has_hardware_address = true;
+>          }
+>
+>          if (ifa->ifa_addr &&
+> @@ -2274,15 +2270,14 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+>              }
+>
+>              address_item = g_malloc0(sizeof(*address_item));
+> -            address_item->value = g_malloc0(sizeof(*address_item->value));
+> -            address_item->value->ip_address = g_strdup(addr4);
+> -            address_item->value->ip_address_type = GUEST_IP_ADDRESS_TYPE_IPV4;
+> +            address_item->ip_address = g_strdup(addr4);
+> +            address_item->ip_address_type = GUEST_IP_ADDRESS_TYPE_IPV4;
+>
+>              if (ifa->ifa_netmask) {
+>                  /* Count the number of set bits in netmask.
+>                   * This is safe as '1' and '0' cannot be shuffled in netmask. */
+>                  p = &((struct sockaddr_in *)ifa->ifa_netmask)->sin_addr;
+> -                address_item->value->prefix = ctpop32(((uint32_t *) p)[0]);
+> +                address_item->prefix = ctpop32(((uint32_t *) p)[0]);
+>              }
+>          } else if (ifa->ifa_addr &&
+>                     ifa->ifa_addr->sa_family == AF_INET6) {
+> @@ -2294,15 +2289,14 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+>              }
+>
+>              address_item = g_malloc0(sizeof(*address_item));
+> -            address_item->value = g_malloc0(sizeof(*address_item->value));
+> -            address_item->value->ip_address = g_strdup(addr6);
+> -            address_item->value->ip_address_type = GUEST_IP_ADDRESS_TYPE_IPV6;
+> +            address_item->ip_address = g_strdup(addr6);
+> +            address_item->ip_address_type = GUEST_IP_ADDRESS_TYPE_IPV6;
+>
+>              if (ifa->ifa_netmask) {
+>                  /* Count the number of set bits in netmask.
+>                   * This is safe as '1' and '0' cannot be shuffled in netmask. */
+>                  p = &((struct sockaddr_in6 *)ifa->ifa_netmask)->sin6_addr;
+> -                address_item->value->prefix =
+> +                address_item->prefix =
+>                      ctpop32(((uint32_t *) p)[0]) +
+>                      ctpop32(((uint32_t *) p)[1]) +
+>                      ctpop32(((uint32_t *) p)[2]) +
+> @@ -2314,29 +2308,18 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+>              continue;
+>          }
+>
+> -        address_list = &info->value->ip_addresses;
+> +        QAPI_LIST_APPEND(address_tail, address_item);
+>
+> -        while (*address_list && (*address_list)->next) {
+> -            address_list = &(*address_list)->next;
+> -        }
+> +        info->has_ip_addresses = true;
+>
+> -        if (!*address_list) {
+> -            *address_list = address_item;
+> -        } else {
+> -            (*address_list)->next = address_item;
+> -        }
+> -
+> -        info->value->has_ip_addresses = true;
+
+Before the patch:
+
+           address_list = &info->value->ip_addresses;
+
+           while (*address_list && (*address_list)->next) {
+               address_list = &(*address_list)->next;
+           }
+
+           if (!*address_list) {
+               *address_list = address_item;
+           } else {
+               (*address_list)->next = address_item;
+           }
+
+Note the loop to advance address list to the tail.
+
+Afterwards (info->value has become info):
+
+           address_tail = &info->ip_addresses;
+           [...]
+           QAPI_LIST_APPEND(address_tail, address_item);
+
+Not the same, I'm afraid: QAPI_LIST_APPEND() blindly overwrites
+info->ip_addresses.
+
+> -
+> -        if (!info->value->has_statistics) {
+> +        if (!info->has_statistics) {
+>              interface_stat = g_malloc0(sizeof(*interface_stat));
+> -            if (guest_get_network_stats(info->value->name,
+> -                interface_stat) == -1) {
+> -                info->value->has_statistics = false;
+> +            if (guest_get_network_stats(info->name, interface_stat) == -1) {
+> +                info->has_statistics = false;
+>                  g_free(interface_stat);
+>              } else {
+> -                info->value->statistics = interface_stat;
+> -                info->value->has_statistics = true;
+> +                info->statistics = interface_stat;
+> +                info->has_statistics = true;
+>              }
+>          }
+>      }
+> @@ -2863,7 +2846,6 @@ qmp_guest_set_memory_blocks(GuestMemoryBlockList *mem_blks, Error **errp)
+>
+>      while (mem_blks != NULL) {
+>          GuestMemoryBlockResponse *result;
+> -        GuestMemoryBlockResponseList *entry;
+>          GuestMemoryBlock *current_mem_blk = mem_blks->value;
+>
+>          result = g_malloc0(sizeof(*result));
+> @@ -2872,11 +2854,7 @@ qmp_guest_set_memory_blocks(GuestMemoryBlockList *mem_blks, Error **errp)
+>          if (local_err) { /* should never happen */
+>              goto err;
+>          }
+> -        entry = g_malloc0(sizeof *entry);
+> -        entry->value = result;
+> -
+> -        *link = entry;
+> -        link = &entry->next;
+> +        QAPI_LIST_APPEND(link, result);
+>          mem_blks = mem_blks->next;
+>      }
+>
+
+This one looks like a candidate for PATCH 6.
+
+> @@ -3107,11 +3085,10 @@ static double ga_get_login_time(struct utmpx *user_info)
+>  GuestUserList *qmp_guest_get_users(Error **errp)
+>  {
+>      GHashTable *cache = NULL;
+> -    GuestUserList *head = NULL, *cur_item = NULL;
+> +    GuestUserList *head = NULL, **tail = &head;
+>      struct utmpx *user_info = NULL;
+>      gpointer value = NULL;
+>      GuestUser *user = NULL;
+> -    GuestUserList *item = NULL;
+>      double login_time = 0;
+>
+>      cache = g_hash_table_new(g_str_hash, g_str_equal);
+> @@ -3134,19 +3111,13 @@ GuestUserList *qmp_guest_get_users(Error **errp)
+>              continue;
+>          }
+>
+> -        item = g_new0(GuestUserList, 1);
+> -        item->value = g_new0(GuestUser, 1);
+> -        item->value->user = g_strdup(user_info->ut_user);
+> -        item->value->login_time = ga_get_login_time(user_info);
+> +        user = g_new0(GuestUser, 1);
+> +        user->user = g_strdup(user_info->ut_user);
+> +        user->login_time = ga_get_login_time(user_info);
+>
+> -        g_hash_table_insert(cache, item->value->user, item->value);
+> +        g_hash_table_insert(cache, user->user, user);
+>
+> -        if (!cur_item) {
+> -            head = cur_item = item;
+> -        } else {
+> -            cur_item->next = item;
+> -            cur_item = item;
+> -        }
+> +        QAPI_LIST_APPEND(tail, user);
+>      }
+>      endutxent();
+>      g_hash_table_destroy(cache);
+[...]
+
 
