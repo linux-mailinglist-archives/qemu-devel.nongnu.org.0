@@ -2,70 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CD852B9AE3
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 19:49:45 +0100 (CET)
-Received: from localhost ([::1]:42282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA83D2B9AE2
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 19:49:29 +0100 (CET)
+Received: from localhost ([::1]:41208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfp04-0004oI-6r
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 13:49:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36236)
+	id 1kfozo-0004Ly-T9
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 13:49:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kfoyc-0003jS-U3
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 13:48:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40701)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kfoy0-00038I-MG
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 13:47:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52183)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kfoyb-0002nt-2r
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 13:48:14 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kfoxy-0002dv-V3
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 13:47:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605811692;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=Q4ZOxYZ9o3i6F/GUESD02HkAzzNl3ZkBOghlYMjoQ2g=;
- b=fXAMICVro+cVA3+9/Mcq3XyXsk8zMOq9BkUbmtI3SU7rwqQ9PbKi2rstPi4a6CLIxk+zwg
- Qvc6VlcAT5OKxR9nDxCu+rorfxbaQG4cf1rd7zTXNevARg0KQvKfUPXp3DDJ1CGHVZ9FKL
- 0AkVvD9wCS8bDl+TLCMtWUYwABrkmCs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-589-a1yL50BbNhynvMM9S9bxZg-1; Thu, 19 Nov 2020 13:47:33 -0500
-X-MC-Unique: a1yL50BbNhynvMM9S9bxZg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3506880EFAA;
- Thu, 19 Nov 2020 18:47:32 +0000 (UTC)
-Received: from redhat.com (ovpn-114-191.ams2.redhat.com [10.36.114.191])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0954760BE2;
- Thu, 19 Nov 2020 18:47:27 +0000 (UTC)
-Date: Thu, 19 Nov 2020 18:47:24 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Priyankar Jain <priyankar.jain@nutanix.com>
-Subject: Re: [RFC] dbus-vmstate: Connect to the dbus only during the
- migration phase
-Message-ID: <20201119184724.GO579364@redhat.com>
-References: <1605810535-51254-1-git-send-email-priyankar.jain@nutanix.com>
+ s=mimecast20190719; t=1605811652;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2tmgNhlA8OxpDKIo26Y99bf7mrpPvnce3z0/ghHWpB4=;
+ b=Z2uS4QjPXM+qFn6dV/ReB1YrnZhJXM8p3dTltRuFaWFNwuuIkLJAgTy+JujJPIxgtJs8Yn
+ I1D+lU+BklRzNfZtZ/KZ7B/og6F9jYGJbABtOKCAYSrFiVLVSAQJbhaEp2+Yn3f5/4OZbm
+ mWbCXTCETxEvFLdUSGmZE8tUuHXUdq0=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-312-z3KFTE55PNKgtAY_d9ugIg-1; Thu, 19 Nov 2020 13:47:30 -0500
+X-MC-Unique: z3KFTE55PNKgtAY_d9ugIg-1
+Received: by mail-qv1-f70.google.com with SMTP id dp12so5260558qvb.2
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 10:47:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=2tmgNhlA8OxpDKIo26Y99bf7mrpPvnce3z0/ghHWpB4=;
+ b=eNZp7k4TEKNWsqQ52qDV65uvUQnJIDVjm1gF5KrATFfGsCidTysHtlXMc2TTEj3EqP
+ rdSRTreVaD58whmkJaogZq5Amu4DDj+9pjZ8rQXM9DQ7GAKlY6FlPwo56a0RuqKfDc8f
+ 0JkxmIrOZanrhzfGgo06eGn8+pKil27bw+Utjw7T4uOelI9UoFF4lJepUq/OFsSiLajF
+ jVnt1Avqke70qCYzURfjaKTOXQ2KbbViBlqhZCJ+2kWjkuctyWB7qobnNrY5NCpq1Qgq
+ 71eZR4lw4xtPlvDijKQykn27l+p7tkSZEnN6sO26enWlAUnEfV4/pt0bp/xsDFFk2/6J
+ LfoQ==
+X-Gm-Message-State: AOAM531oDzDfFDBq7QivrgvHQpgggW5aBKnCLI9a0stwe/N1WThCCini
+ yF8nFp53+mT8R/uIeg0KHmU9jdvIj68j5sxlcBZGuadlmUiqjXmYDvzeHl4fLMccdg5ZD7PYLl0
+ 64n4IgBC8k1J1Uv8=
+X-Received: by 2002:a37:444d:: with SMTP id r74mr13119665qka.105.1605811650004; 
+ Thu, 19 Nov 2020 10:47:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy285ak9lE0ijO7AN49IMbgyQ5RA8XQBWDv59G4Of/kT1Xnohth4yawSTczCmwodRXFQSiwgw==
+X-Received: by 2002:a37:444d:: with SMTP id r74mr13119647qka.105.1605811649822; 
+ Thu, 19 Nov 2020 10:47:29 -0800 (PST)
+Received: from xz-x1
+ (bras-vprn-toroon474qw-lp130-20-174-93-89-196.dsl.bell.ca. [174.93.89.196])
+ by smtp.gmail.com with ESMTPSA id z88sm474615qtd.46.2020.11.19.10.47.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Nov 2020 10:47:29 -0800 (PST)
+Date: Thu, 19 Nov 2020 13:47:27 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Subject: Re: [PATCH v3 4/7] implementation of write-tracking migration thread
+Message-ID: <20201119184727.GE6538@xz-x1>
+References: <20201119125940.20017-1-andrey.gruzdev@virtuozzo.com>
+ <20201119125940.20017-5-andrey.gruzdev@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <1605810535-51254-1-git-send-email-priyankar.jain@nutanix.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20201119125940.20017-5-andrey.gruzdev@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,42 +92,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Turschmid <peter.turschm@nutanix.com>, qemu-devel@nongnu.org,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 19, 2020 at 06:28:55PM +0000, Priyankar Jain wrote:
-> Today, dbus-vmstate maintains a constant connection to the dbus. This is
-> problematic for a number of reasons:
-> 1. If dbus-vmstate is attached during power-on, then the device holds
->    the unused connection for a long period of time until migration
->    is triggered, thus unnecessarily occupying dbus.
-> 2. Similarly, if the dbus is restarted in the time period between VM
->    power-on (dbus-vmstate initialisation) and migration, then the
->    migration will fail. The only way to recover would be by
->    re-initialising the dbus-vmstate object.
-> 3. If dbus is not available during VM power-on, then currently dbus-vmstate
->    initialisation fails, causing power-on to fail.
-> 4. For a system with large number of VMs, having multiple QEMUs connected to
->    the same dbus can lead to a DoS for new connections.
+On Thu, Nov 19, 2020 at 03:59:37PM +0300, Andrey Gruzdev via wrote:
+> Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 
-The expectation is that there is a *separate* dbus daemon created for
-each QEMU instance. There should never be multiple QEMUs connected to
-the same dbus instance, nor should it ever connect to the common dbus
-instances provided by most Linux distros.
+Some commit message would always be appreciated...  Thanks,
 
-None of these 4 issues should apply when each QEMU has its own dedicated
-dbus instance AFAICT.
-
-
-Regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Peter Xu
 
 
