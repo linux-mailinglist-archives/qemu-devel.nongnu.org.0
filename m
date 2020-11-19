@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A9972B9016
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 11:29:16 +0100 (CET)
-Received: from localhost ([::1]:56348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15AD12B9017
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 11:29:19 +0100 (CET)
+Received: from localhost ([::1]:56432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfhBj-0006x2-Gy
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 05:29:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49534)
+	id 1kfhBm-0006z0-6I
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 05:29:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kfh8f-0004YR-Td
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 05:26:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22166)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kfhAJ-00067k-6v
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 05:27:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47234)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kfh8e-0005Ce-CT
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 05:26:05 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kfhAH-0005ld-GS
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 05:27:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605781563;
+ s=mimecast20190719; t=1605781664;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=AeO5alN59o0VjDcnMWa9pdfa3PxZsQzDYQIhfqR0MK8=;
- b=iKV/LSwHpPaccGfsA+uoyuCrgfxCkr21AhtLNaX7DDPObdNoRtmxRwoSa0zwwc7mSaWGpB
- lC1qxM4J6DIkG8mAq/B0TF2eG/rEDe6KBaA462cChAdCH6U3LLv1873YUaJj7TuTskFTOF
- GyECpCFUDGDapDrESLNh1wN8fcFw1mA=
+ bh=7Csg2FrOOTBp/rOKre1TAKOzMMwWhINa9b8i3O3fR5U=;
+ b=JOENA86/BBvdkDwf6SdLnGrm3ZLP9AYIvB5UHRjzQvV5tgjHfyujMRjLeHllT7Kmqf0YNi
+ MGikS6I1HGqpyXBtMT1YxdnHWos1dCAxsXNkrABfksPsVLek0hkUYrcnaByOlWoIQckLan
+ jsBt6lIvrgWRj1HwiQaHaEiDwaC0lN0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-453-GTSUeHbMPJK_r7UO8rgh1A-1; Thu, 19 Nov 2020 05:26:01 -0500
-X-MC-Unique: GTSUeHbMPJK_r7UO8rgh1A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-174-dYcVwcrlMc2kW_GqqhuthQ-1; Thu, 19 Nov 2020 05:27:42 -0500
+X-MC-Unique: dYcVwcrlMc2kW_GqqhuthQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8A5A100C667
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 10:26:00 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-65.ams2.redhat.com
- [10.36.112.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BAF3B60843;
- Thu, 19 Nov 2020 10:25:57 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D8C7EA1E2; Thu, 19 Nov 2020 11:25:56 +0100 (CET)
-Date: Thu, 19 Nov 2020 11:25:56 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH 3/4] meson: move qxl trace events to separate file
-Message-ID: <20201119102556.gdsqtrcrjuheopcn@sirius.home.kraxel.org>
-References: <20201119084448.24397-1-kraxel@redhat.com>
- <20201119084448.24397-4-kraxel@redhat.com>
- <20201119100640.GF701869@stefanha-x1.localdomain>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8F20835E08
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 10:27:41 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D74D5D728;
+ Thu, 19 Nov 2020 10:27:41 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 1A02411358BA; Thu, 19 Nov 2020 11:27:40 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH v2 4/8] qnum: qnum_value_is_equal() function
+References: <20201116224143.1284278-1-ehabkost@redhat.com>
+ <20201116224143.1284278-5-ehabkost@redhat.com>
+Date: Thu, 19 Nov 2020 11:27:40 +0100
+In-Reply-To: <20201116224143.1284278-5-ehabkost@redhat.com> (Eduardo Habkost's
+ message of "Mon, 16 Nov 2020 17:41:39 -0500")
+Message-ID: <87ima1d4kj.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20201119100640.GF701869@stefanha-x1.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 03:44:58
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 23:36:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,27 +82,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 19, 2020 at 10:06:40AM +0000, Stefan Hajnoczi wrote:
-> On Thu, Nov 19, 2020 at 09:44:47AM +0100, Gerd Hoffmann wrote:
-> > Move qxl trace events to separate trace-events-qxl file.
-> > 
-> > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> 
-> Can we put modules into their own subdirs so that the existing meson and
-> tracing infrastructure (e.g. scripts/cleanup-trace-events.pl) can handle
-> them without modifications?
+Eduardo Habkost <ehabkost@redhat.com> writes:
 
-Would probably work too.
+> Extract the QNum value comparison logic to a function that takes
+> QNumValue* as argument.
+>
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> ---
+>  include/qapi/qmp/qnum.h |  1 +
+>  qobject/qnum.c          | 29 +++++++++++++++++++----------
+>  2 files changed, 20 insertions(+), 10 deletions(-)
+>
+> diff --git a/include/qapi/qmp/qnum.h b/include/qapi/qmp/qnum.h
+> index 62fbdfda68..0327ecd0f0 100644
+> --- a/include/qapi/qmp/qnum.h
+> +++ b/include/qapi/qmp/qnum.h
+> @@ -106,6 +106,7 @@ double qnum_get_double(const QNum *qn);
+>  
+>  char *qnum_to_string(QNum *qn);
+>  
+> +bool qnum_value_is_equal(const QNumValue *num_x, const QNumValue *num_y);
+>  bool qnum_is_equal(const QObject *x, const QObject *y);
+>  void qnum_destroy_obj(QObject *obj);
+>  
+> diff --git a/qobject/qnum.c b/qobject/qnum.c
+> index f80d4efd76..6a0f948b16 100644
+> --- a/qobject/qnum.c
+> +++ b/qobject/qnum.c
+> @@ -207,9 +207,9 @@ char *qnum_to_string(QNum *qn)
+>  }
+>  
+>  /**
+> - * qnum_is_equal(): Test whether the two QNums are equal
+> - * @x: QNum object
+> - * @y: QNum object
+> + * qnum_value_is_equal(): Test whether two QNumValues are equal
+> + * @num_x: QNum value
+> + * @num_y: QNum value
+>   *
+>   * Negative integers are never considered equal to unsigned integers,
+>   * but positive integers in the range [0, INT64_MAX] are considered
+> @@ -217,13 +217,8 @@ char *qnum_to_string(QNum *qn)
+>   *
+>   * Doubles are never considered equal to integers.
+>   */
+> -bool qnum_is_equal(const QObject *x, const QObject *y)
+> +bool qnum_value_is_equal(const QNumValue *num_x, const QNumValue *num_y)
+>  {
+> -    const QNum *qnum_x = qobject_to(QNum, x);
+> -    const QNum *qnum_y = qobject_to(QNum, y);
+> -    const QNumValue *num_x = &qnum_x->value;
+> -    const QNumValue *num_y = &qnum_y->value;
+> -
+>      switch (num_x->kind) {
+>      case QNUM_I64:
+>          switch (num_y->kind) {
+> @@ -241,7 +236,7 @@ bool qnum_is_equal(const QObject *x, const QObject *y)
+>      case QNUM_U64:
+>          switch (num_y->kind) {
+>          case QNUM_I64:
+> -            return qnum_is_equal(y, x);
+> +            return qnum_value_is_equal(num_y, num_x);
+>          case QNUM_U64:
+>              /* Comparison in native uint64_t type */
+>              return num_x->u.u64 == num_y->u.u64;
+> @@ -264,6 +259,20 @@ bool qnum_is_equal(const QObject *x, const QObject *y)
+>      abort();
+>  }
+>  
+> +/**
+> + * qnum_is_equal(): Test whether the two QNums are equal
+> + * @x: QNum object
+> + * @y: QNum object
+> + *
+> + * See qnum_value_is_equal() for details on the comparison rules.
+> + */
+> +bool qnum_is_equal(const QObject *x, const QObject *y)
+> +{
+> +    const QNum *qnum_x = qobject_to(QNum, x);
+> +    const QNum *qnum_y = qobject_to(QNum, y);
 
-But before bikeshedding on those details we need a workable overall
-approach.  I have no idea why 4/4 is not working.  Possibly the approach
-I'm trying to take is completely wrong ...
+Humor me: blank line between declarations and statements, please.
 
-take care,
-  Gerd
+> +    return qnum_value_is_equal(&qnum_x->value, &qnum_y->value);
+> +}
+> +
+>  /**
+>   * qnum_destroy_obj(): Free all memory allocated by a QNum object
+>   *
 
 
