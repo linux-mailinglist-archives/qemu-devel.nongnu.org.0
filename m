@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 040892B9CF5
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 22:29:26 +0100 (CET)
-Received: from localhost ([::1]:34696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9B052B9CFF
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 22:39:31 +0100 (CET)
+Received: from localhost ([::1]:39652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfrUb-0004Cj-3E
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 16:29:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45732)
+	id 1kfreM-0006yL-9J
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 16:39:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kfrTf-0003ha-KD
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:28:27 -0500
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:34364)
+ id 1kfrd8-0006Td-Un
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:38:14 -0500
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:40338)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kfrTe-0002OK-3M
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:28:27 -0500
-Received: by mail-pg1-x533.google.com with SMTP id q28so5420402pgk.1
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 13:28:25 -0800 (PST)
+ id 1kfrd6-0005nZ-UE
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:38:14 -0500
+Received: by mail-pf1-x433.google.com with SMTP id w14so5762533pfd.7
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 13:38:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Th2L+cxfAJKNpgfTu59OpahZ0MVv8mB13xXeHaN+YwM=;
- b=ZxU5zsIYOaz/NhRzZ4BzQTT9szU2cCa8lz5hX4qSIgv9j4BK0nNgAwS1NPOwllv1vb
- RpwVCbbNb1ro+plRLxl8Ca7RuCRGwfILOfNo+N3HIfK37hdKfh7s2+Drswk7G9cnM4Ib
- 1mTX79avZALi0loCWAydGezWHYQnLyPUzy4Gzy23gJTFD/HRxW7xK//BZs6rCuk4JkHk
- fVI8zXATvNY9DwF3lJzMQDHoF9KuZ5ZJl2eW0JYANWn4+W/hFiJCEhs9nwH2AawH/t4j
- Jrb2M/RWTnFrHTbiV432iy3WblowOO/UE+O+BoZAL09VkyJ30cSgPSIkvKfqLPRtuozg
- yxVg==
+ bh=tQHCzHEgyZnzT2riSzwbYqkuCnU6VbH/EVmIN6nPuVY=;
+ b=SAdm3QZ3eo0gyR4jFGWq3XvZs4Zi5SmWfqKR51pjOPDvcBNn464indRvHkXlrl4Vtf
+ HJpjUvbyoBe/T8IcwtFqflo52xZa2NBCkbRvi1/d/RBswNqgsoy2wJ10kejTIm+Uhn+z
+ doU42jWcoj+e8C7i+3OXWaZHzMMU6/PCKWFFoyf3NX9bsWyVv4b0CNXGc4vb0CP8kTkT
+ Tf3GoubZIT6YtxI7grNfwDiSTgLzTvvLhG4b/spzixCkpw7nIwhiJuzxntPE/F8J3zbA
+ 0gcac4caFwbgx+kbINIJz6DPL+zuBnphr2Kxw2Ac/4FhuIk74mnZ8XG8WpJM0PzQEjB2
+ V/cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Th2L+cxfAJKNpgfTu59OpahZ0MVv8mB13xXeHaN+YwM=;
- b=pP7dihbxo5Ia0a07XaJ7bbxnQJgecZCW3LFW/k7EsZYbCv44FpvblNMJOcfqfU1CcT
- X8/wo80D3Ivy/dve6e3TUtg2F6r39aIVQJbqDTvUL+XFu0dE/zfoRBtwk/5K5/cMQ0zK
- hv7oaRJM2lsNl2eKjYhPMTpnEIYPpqXFWgxtJfvu/WQRT+4tPwmzwqAvfdSvHI/CHFly
- /gtxrYzBuXBmE40aLS4uNOClUv1/YR2eO5JoTc2TxDB2NOM2+Ue9zk3wZs2BFshgrcoL
- AOH+35B0gg72l7f8/6wOXov15FbwPUmQlvzI3bpewMhAZdAkDXlUslNdbS+CsRno6Tzg
- S7kA==
-X-Gm-Message-State: AOAM533KXrAAMq8X+cx+71zf9fBwgHHuz4e5arRXGqdhVHO/DQnrUDTU
- wFEz1V8Twn964TOfzni8vKltJg==
-X-Google-Smtp-Source: ABdhPJxzGGM0psQPBTqcT3wh5y8bXETiWoWITi5HO3k+cUopoBuAlm0sgFGZyUVQ9zOoYn7eTh4eYw==
-X-Received: by 2002:a17:90a:4884:: with SMTP id
- b4mr6301379pjh.198.1605821304741; 
- Thu, 19 Nov 2020 13:28:24 -0800 (PST)
+ bh=tQHCzHEgyZnzT2riSzwbYqkuCnU6VbH/EVmIN6nPuVY=;
+ b=jN4/e6MXd8w1Zzc6Ek4uNTdyGTViA2H0QMqKGzT4y0cGgO0EtySI0TPQdwDGjcG3cv
+ rziMsgeLUn2NFe143naFEAtds2GIK9aSPH8j19V5snmfYTEPM6OA/eJfKKcYyAl0XCpt
+ RbCV/SCswHQJ65QGLnO0A3mOjbYfGOtG2VtHx4MQ2k7vOKYwx036DqE1r2C+Idz8oSJz
+ Sk2QcZSiAFus9fh3XZb454fiJZpBMwuCBJOTLoEw7kDbGOoslb+oKg6OApFJD0m/euDl
+ jP2Z3QI1G8twvhJEwGOMtow6Doc5uVlVOVvUZ8W5pD2toVlTHpS3txhqMHAvNHzffOrt
+ 658w==
+X-Gm-Message-State: AOAM533KBBBZMClXqgmaIXSypRJAgmvccggmC45XrAGLrtdQJC/jU2zR
+ ZNnuDFPafB/bD3OnVoX0UKMW/g==
+X-Google-Smtp-Source: ABdhPJzrICKRqEsTZAXeNqJvYm1+N5636B8sjhrIdCthi/v8YF99drgQdrcAqT5CxNWNYejxSgYBsw==
+X-Received: by 2002:a17:90a:6283:: with SMTP id
+ d3mr6453486pjj.96.1605821891327; 
+ Thu, 19 Nov 2020 13:38:11 -0800 (PST)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id in14sm647445pjb.57.2020.11.19.13.28.23
+ by smtp.gmail.com with ESMTPSA id t9sm731119pjo.4.2020.11.19.13.38.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Nov 2020 13:28:24 -0800 (PST)
-Subject: Re: [RFC 12/15] target/riscv: rvb: generalized or-combine
+ Thu, 19 Nov 2020 13:38:10 -0800 (PST)
+Subject: Re: [RFC 13/15] target/riscv: rvb: address calculation
 To: frank.chang@sifive.com, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
 References: <20201118083044.13992-1-frank.chang@sifive.com>
- <20201118083044.13992-13-frank.chang@sifive.com>
+ <20201118083044.13992-14-frank.chang@sifive.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <9c0a1551-1fe6-effc-231d-532b7fde548c@linaro.org>
-Date: Thu, 19 Nov 2020 13:28:21 -0800
+Message-ID: <2d0cbc48-a405-b26e-d34e-2fe6512f494e@linaro.org>
+Date: Thu, 19 Nov 2020 13:38:08 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201118083044.13992-13-frank.chang@sifive.com>
+In-Reply-To: <20201118083044.13992-14-frank.chang@sifive.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,14 +97,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/18/20 12:29 AM, frank.chang@sifive.com wrote:
-> +static target_ulong do_gorc(target_ulong rs1,
-> +                            target_ulong rs2,
-> +                            const target_ulong masks[])
+> From: Kito Cheng <kito.cheng@sifive.com>
+> 
+> Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
+> Signed-off-by: Frank Chang <frank.chang@sifive.com>
+> ---
+>  target/riscv/insn32-64.decode           |  3 +++
+>  target/riscv/insn32.decode              |  3 +++
+>  target/riscv/insn_trans/trans_rvb.c.inc | 23 +++++++++++++++++
+>  target/riscv/translate.c                | 33 +++++++++++++++++++++++++
+>  4 files changed, 62 insertions(+)
 
-Similar comments to grev.  I'll also say that the masks array should *not* be
-local to do_grev, but placed at file level so that it can be shared between the
-two functions.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
+
 
