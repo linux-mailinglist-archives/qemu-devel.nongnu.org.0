@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13DCD2B9717
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 17:01:59 +0100 (CET)
-Received: from localhost ([::1]:50506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D0772B9743
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 17:03:54 +0100 (CET)
+Received: from localhost ([::1]:52660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfmNi-0006gU-4H
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 11:01:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42528)
+	id 1kfmPZ-0007dJ-AX
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 11:03:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kfm5D-0002q3-MD
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 10:42:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22999)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kfm5B-0002VR-5H
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 10:42:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605800568;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pA1GdK+PJESCRCgj4Vo8RmjWk+ULc7ICur/zxn04ZSg=;
- b=DQVMDjIibEQ8vZ6k167tlIpcOsrLJNMzHlysSbUtEMBQWlfdlSx6hW/MW6L/z+blQVOGiH
- juXR+JGN/QaNNtGoG1HU4T+5qdhyfvARnL4nUvCpgbZ1Ha4KHDU4A2lNNftUV4qsZyVPHL
- bL7q89HxzeaoODviIiaCQnsyDTftLe4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-411-OPsb5FlUOfOkslkA-E18Yw-1; Thu, 19 Nov 2020 10:42:47 -0500
-X-MC-Unique: OPsb5FlUOfOkslkA-E18Yw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD4EF18B63F9;
- Thu, 19 Nov 2020 15:42:45 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-114-158.ams2.redhat.com [10.36.114.158])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BDA245C1B4;
- Thu, 19 Nov 2020 15:41:57 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 9/9] vfio: Disable only uncoordinated discards
-Date: Thu, 19 Nov 2020 16:39:18 +0100
-Message-Id: <20201119153918.120976-10-david@redhat.com>
-In-Reply-To: <20201119153918.120976-1-david@redhat.com>
-References: <20201119153918.120976-1-david@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kfm8D-0006v5-Oq
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 10:45:59 -0500
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:33509)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kfm8A-0003hD-Vw
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 10:45:57 -0500
+Received: by mail-ej1-x642.google.com with SMTP id 7so8586538ejm.0
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 07:45:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=45e0VgNBbvYnn00UZUV/75YCSw3FH7awq7f1yZmGnIA=;
+ b=yd+dDD5sCyrZHocr/ApiPlXl8Vodq1TGFhwOHBFO8f6IhOtQwsioH35yKK7UONHdH5
+ TitQsHK6lA8fYRer+u4YnGR1szOVLD1j7PQF214pS7Ce6d2fyplN4xEO63Z0fMf+eo5F
+ +D7s7HaiYkc1/gXas5BwAL1r0YHLx3mzjYUBJ3VVkquNN71MOzWoSStwN2EHOedXyFIr
+ Ro9F1WQY4P81qMbCgNbC/Ev/imG/WmHAd4i9hs/qUPN2WgCzFgjiXtJGT7k0K/b08nuD
+ 3c0yMqnN3mBXKuySRziRYw0DuO4lMXk7AGWqZHMjPIhhmOGjOj8ao0ADRhK4NexKY+xa
+ jw1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=45e0VgNBbvYnn00UZUV/75YCSw3FH7awq7f1yZmGnIA=;
+ b=nIhH73G3a+20nm5xeODLx7zVWtC2cRb7GkhvWSR337xBK0KNEsyYdTsBZNJsnftOfT
+ cKIgNPPIMP6KCmOpsirr2gMleHoMP4Jf23tTEDMjnodLMBIGHqV3uzNm10CJ0d9YCjJA
+ DRdDRuh2YQYLnv9cJ9fY4KcHfAhJhBeH6qVEv4jYkHxH7OAGsNWk0q4xX518nkHSdiLM
+ BMfj1vk9sBgIv7O+oCu57krPyRvUldBIxk3i41SLQPGhCy2Tpe2L+oBGzjXKPgDCpyYN
+ iLWk9Mw18Wrdk3oEQ/6x/i+IwcRGpjfN2hlrfMsqHygC8Q9ezl+19Jhpg9H2++VAe/Bv
+ LsXw==
+X-Gm-Message-State: AOAM5330NkGkUm7frBU3YwEV1cT2YZwsbwchxkpTmtMKMnFtYfi2Uh8B
+ nELi+2GNn3XSXpFZiDaxpDNY1ex7jcP8rJvswT5wcw==
+X-Google-Smtp-Source: ABdhPJwerYJJayn5lWpV2YdXL6eFXH1urcMvWimgMV3daCqtLlvmtu4pEM2RJAtpVko5A8pZi6+uXKrICI4dBfpc4FU=
+X-Received: by 2002:a17:906:6896:: with SMTP id
+ n22mr30365553ejr.56.1605800751989; 
+ Thu, 19 Nov 2020 07:45:51 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 03:44:58
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20201119153901.53705-1-steven.price@arm.com>
+In-Reply-To: <20201119153901.53705-1-steven.price@arm.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 19 Nov 2020 15:45:40 +0000
+Message-ID: <CAFEAcA85fiqA206FuFANKbV_3GkfY1F8Gv7MP58BgTT81bs9kA@mail.gmail.com>
+Subject: Re: [PATCH v5 0/2] MTE support for KVM guest
+To: Steven Price <steven.price@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,92 +79,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>,
- David Hildenbrand <david@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Luiz Capitulino <lcapitulino@redhat.com>, Auger Eric <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- teawater <teawaterz@linux.alibaba.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Marek Kedzierski <mkedzier@redhat.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ lkml - Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ arm-mail-list <linux-arm-kernel@lists.infradead.org>,
+ Marc Zyngier <maz@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm <kvmarm@lists.cs.columbia.edu>,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We support coordinated discarding of RAM using the RamDiscardMgr. Let's
-unlock support for coordinated discards, keeping uncoordinated discards
-(e.g., via virtio-balloon) disabled.
+On Thu, 19 Nov 2020 at 15:39, Steven Price <steven.price@arm.com> wrote:
+> This series adds support for Arm's Memory Tagging Extension (MTE) to
+> KVM, allowing KVM guests to make use of it. This builds on the existing
+> user space support already in v5.10-rc1, see [1] for an overview.
 
-This unlocks virtio-mem + vfio. Note that vfio used via "nvme://" by the
-block layer has to be implemented/unlocked separately. For now,
-virtio-mem only supports x86-64 - spapr IOMMUs are not tested/affected.
+> The change to require the VMM to map all guest memory PROT_MTE is
+> significant as it means that the VMM has to deal with the MTE tags even
+> if it doesn't care about them (e.g. for virtual devices or if the VMM
+> doesn't support migration). Also unfortunately because the VMM can
+> change the memory layout at any time the check for PROT_MTE/VM_MTE has
+> to be done very late (at the point of faulting pages into stage 2).
 
-Note: The block size of a virtio-mem device has to be set to sane sizes,
-depending on the maximum hotplug size - to not run out of vfio mappings.
-The default virtio-mem block size is usually in the range of a couple of
-MBs. The maximum number of mapping is 64k, shared with other users.
-Assume you want to hotplug 256GB using virtio-mem - the block size would
-have to be set to at least 8 MiB (resulting in 32768 separate mappings).
+I'm a bit dubious about requring the VMM to map the guest memory
+PROT_MTE unless somebody's done at least a sketch of the design
+for how this would work on the QEMU side. Currently QEMU just
+assumes the guest memory is guest memory and it can access it
+without special precautions...
 
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Alex Williamson <alex.williamson@redhat.com>
-Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>
-Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Cc: Peter Xu <peterx@redhat.com>
-Cc: Auger Eric <eric.auger@redhat.com>
-Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
-Cc: teawater <teawaterz@linux.alibaba.com>
-Cc: Marek Kedzierski <mkedzier@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- hw/vfio/common.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
-
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 0d950186f1..4063a8382f 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -1967,8 +1967,10 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
-      * new memory, it will not yet set ram_block_discard_set_required() and
-      * therefore, neither stops us here or deals with the sudden memory
-      * consumption of inflated memory.
-+     *
-+     * We do support discarding of memory coordinated via the RamDiscardMgr.
-      */
--    ret = ram_block_discard_disable(true);
-+    ret = ram_block_uncoordinated_discard_disable(true);
-     if (ret) {
-         error_setg_errno(errp, -ret, "Cannot set discarding of RAM broken");
-         return ret;
-@@ -2144,7 +2146,7 @@ close_fd_exit:
-     close(fd);
- 
- put_space_exit:
--    ram_block_discard_disable(false);
-+    ram_block_uncoordinated_discard_disable(false);
-     vfio_put_address_space(space);
- 
-     return ret;
-@@ -2266,7 +2268,7 @@ void vfio_put_group(VFIOGroup *group)
-     }
- 
-     if (!group->ram_block_discard_allowed) {
--        ram_block_discard_disable(false);
-+        ram_block_uncoordinated_discard_disable(false);
-     }
-     vfio_kvm_device_del_group(group);
-     vfio_disconnect_container(group);
-@@ -2320,7 +2322,7 @@ int vfio_get_device(VFIOGroup *group, const char *name,
- 
-         if (!group->ram_block_discard_allowed) {
-             group->ram_block_discard_allowed = true;
--            ram_block_discard_disable(false);
-+            ram_block_uncoordinated_discard_disable(false);
-         }
-     }
- 
--- 
-2.26.2
-
+thanks
+-- PMM
 
