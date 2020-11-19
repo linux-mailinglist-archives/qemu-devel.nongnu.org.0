@@ -2,58 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C74CB2B9817
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 17:38:47 +0100 (CET)
-Received: from localhost ([::1]:48776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 437812B9846
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 17:43:45 +0100 (CET)
+Received: from localhost ([::1]:37328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfmxK-0006Us-Ne
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 11:38:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56532)
+	id 1kfn28-00052M-8I
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 11:43:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kfmuQ-0004jI-EN
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:35:46 -0500
-Received: from indium.canonical.com ([91.189.90.7]:34654)
+ id 1kfmuS-0004l9-BC
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:35:48 -0500
+Received: from indium.canonical.com ([91.189.90.7]:34720)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kfmuJ-0004jx-4I
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:35:43 -0500
+ id 1kfmuJ-0004kH-5T
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:35:47 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kfmuG-0006Q0-8S
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 16:35:36 +0000
+ id 1kfmuH-0006Rg-6K
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 16:35:37 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3D3E82E8041
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 16:35:36 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 2EE592E813E
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 16:35:37 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Nov 2020 16:17:26 -0000
-From: Thomas Huth <1563152@bugs.launchpad.net>
+Date: Thu, 19 Nov 2020 16:18:01 -0000
+From: Thomas Huth <1557057@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Incomplete; importance=Low; assignee=None; 
-X-Launchpad-Bug-Tags: needs-upstream-report
+X-Launchpad-Bug-Tags: s3 wake windows
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor rhansen th-huth
-X-Launchpad-Bug-Reporter: Richard Hansen (rhansen)
+X-Launchpad-Bug-Commenters: iaopenbug th-huth
+X-Launchpad-Bug-Reporter: Ilia (iaopenbug)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20160329015831.30307.69405.malonedeb@gac.canonical.com>
-Message-Id: <160580264643.17847.10883553066361479402.malone@gac.canonical.com>
-Subject: [Bug 1563152] Re: general protection fault running VirtualBox in KVM
- guest
+References: <20160314164743.1669.86603.malonedeb@gac.canonical.com>
+Message-Id: <160580268151.17610.9653093656109674072.malone@gac.canonical.com>
+Subject: [Bug 1557057] Re: Windows 10 guest under qemu cannot wake up from S3
+ using rtc wake with -no_hpet
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="c35ff22711d15549e2303ae18ae521fd91f6bf00"; Instance="production"
-X-Launchpad-Hash: f9d77143cd7cbdf9f1c002f65c5674e4d3fd76a1
+X-Launchpad-Hash: 496695c29d45926e8f8d0447a7720de967ddc145
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 09:30:48
@@ -76,7 +74,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1563152 <1563152@bugs.launchpad.net>
+Reply-To: Bug 1557057 <1557057@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -92,103 +90,115 @@ venience.
 ** Changed in: qemu
        Status: New =3D> Incomplete
 
-** Changed in: qemu (Ubuntu)
-       Status: Confirmed =3D> Incomplete
-
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1563152
+https://bugs.launchpad.net/bugs/1557057
 
 Title:
-  general protection fault running VirtualBox in KVM guest
+  Windows 10 guest under qemu cannot wake up from S3 using rtc wake with
+  -no_hpet
 
 Status in QEMU:
   Incomplete
-Status in qemu package in Ubuntu:
-  Incomplete
 
 Bug description:
-  I'm trying to run nested VMs using qemu-kvm on the physical host and Virt=
-ualBox on the guest host:
-  =C2=A0=C2=A0* physical host: Ubuntu 14.04 running Linux 4.2.0, qemu-kvm 2=
-.0.0
-  =C2=A0=C2=A0* guest host: Ubuntu 16.04 beta 2 running Linux 4.4.0, Virtua=
-lBox 5.0.16
+  Problem : Windows 10 guest cannot wake up from S3 using rtc wake when
+  hpet is disabled(  -no_hpet)
 
-  When I try to start up a VirtualBox VM in the guest host, I get a
-  general protection fault (see below for dmesg output).  According to
-  https://www.virtualbox.org/ticket/14965 this is caused by a bug in
-  QEMU/KVM:
+  Steps to reproduce.
 
-  =C2=A0=C2=A0=C2=A0=C2=A0The problem in more detail:  As written above, Vi=
-rtualBox tries to
-  =C2=A0=C2=A0=C2=A0=C2=A0read the MSR 0x9B (IA32_SMM_MONITOR_CTL).  This i=
-s an
-  =C2=A0=C2=A0=C2=A0=C2=A0architectural MSR which is present if CPUID.01 / =
-ECX bit 5 or bit
-  =C2=A0=C2=A0=C2=A0=C2=A06 are set (VMX or SMX).  As KVM has nested virtua=
-lization enabled
-  =C2=A0=C2=A0=C2=A0=C2=A0and therefore pretends to support VT-x, this MSR =
-must be
-  =C2=A0=C2=A0=C2=A0=C2=A0accessible and reading from this MSR must not rai=
-se a
-  =C2=A0=C2=A0=C2=A0=C2=A0#GP.  KVM/QEmu does not behave like real hardware=
- in this case.
+  1. Boot Windows 10 Guest VM.
+  2. Create  scheduled task (using Task Scheduler) to  +5 minutes time  fro=
+m current time to run notepad and enabling "Wake the computer to run this t=
+ask" option
+  3. Click Start->Power ->Sleep
+  4. Guest VM enters suspend mode( screen is black)
+  5. Wait 10 minutes - nothing happens
+  6. Press key in spicy window
+  7. VM resumes
 
-  dmesg output:
+  Expected behavior - VM should wake after 5 minutes in step 5.
 
-  SUPR0GipMap: fGetGipCpu=3D0x3
-  general protection fault: 0000 [#1] SMP
-  Modules linked in: pci_stub vboxpci(OE) vboxnetadp(OE) vboxnetflt(OE) vbo=
-xdrv(OE) xt_CHECKSUM iptable_mangle ipt_MASQUERADE nf_nat_masquerade_ipv4 i=
-ptable_nat nf_conntrack_ipv4 nf_defrag_ipv4 nf_nat_ipv4 nf_nat nf_conntrack=
- xt_tcpudp bridge stp llc iptable_filter ip_tables x_tables ppdev kvm_intel=
- kvm irqbypass snd_hda_codec_generic snd_hda_intel snd_hda_codec snd_hda_co=
-re snd_hwdep snd_pcm snd_timer i2c_piix4 snd input_leds soundcore joydev 82=
-50_fintek mac_hid serio_raw pvpanic parport_pc parport ib_iser rdma_cm iw_c=
-m ib_cm ib_sa ib_mad ib_core ib_addr iscsi_tcp libiscsi_tcp libiscsi scsi_t=
-ransport_iscsi autofs4 btrfs raid10 raid456 async_raid6_recov async_memcpy =
-async_pq async_xor async_tx xor raid6_pq libcrc32c raid1 raid0 multipath li=
-near crct10dif_pclmul crc32_pclmul qxl ttm drm_kms_helper syscopyarea sysfi=
-llrect aesni_intel sysimgblt fb_sys_fops aes_x86_64 lrw gf128mul glue_helpe=
-r ablk_helper cryptd psmouse floppy drm pata_acpi
-  CPU: 0 PID: 31507 Comm: EMT Tainted: G           OE   4.4.0-15-generic #3=
-1-Ubuntu
-  Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS Bochs 01/01/2=
-011
-  task: ffff880034c0a580 ti: ffff880002e00000 task.ti: ffff880002e00000
-  RIP: 0010:[<ffffffffc067e506>]  [<ffffffffc067e506>] 0xffffffffc067e506
-  RSP: 0018:ffff880002e03d70  EFLAGS: 00010206
-  RAX: 00000000000006f0 RBX: 00000000ffffffdb RCX: 000000000000009b
-  RDX: 0000000000000000 RSI: ffff880002e03d00 RDI: ffff880002e03cc8
-  RBP: ffff880002e03d90 R08: 0000000000000004 R09: 00000000000006f0
-  R10: 0000000049656e69 R11: 000000000f8bfbff R12: 0000000000000020
-  R13: 0000000000000000 R14: ffffc9000057407c R15: ffffffffc0645260
-  FS:  00007f89b8f6b700(0000) GS:ffff88007fc00000(0000) knlGS:0000000000000=
-000
-  CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-  CR2: 00007f89b8d10000 CR3: 0000000035ae1000 CR4: 00000000000006f0
-  Stack:
-  =C2=A00000000000000000 ffffffff00000000 0000000000000000 0000000000000000
-  =C2=A0ffff880002e03db0 ffffffffc0693e93 ffffc90000574010 ffff880035aae550
-  =C2=A0ffff880002e03e30 ffffffffc060a3e7 ffff880002e03e10 0000000000000282
-  Call Trace:
-  =C2=A0[<ffffffffc060a3e7>] ? supdrvIOCtl+0x2de7/0x3250 [vboxdrv]
-  =C2=A0[<ffffffffc06035b0>] ? VBoxDrvLinuxIOCtl_5_0_16+0x150/0x250 [vboxdr=
-v]
-  =C2=A0[<ffffffff8121e7df>] ? do_vfs_ioctl+0x29f/0x490
-  =C2=A0[<ffffffff8106a554>] ? __do_page_fault+0x1b4/0x400
-  =C2=A0[<ffffffff8121ea49>] ? SyS_ioctl+0x79/0x90
-  =C2=A0[<ffffffff81821ff2>] ? entry_SYSCALL_64_fastpath+0x16/0x71
-  Code: 88 e4 fc ff ff b9 3a 00 00 00 0f 32 48 c1 e2 20 89 c0 48 09 d0 48 8=
-9 05 f9 db 0e 00 0f 20 e0 b9 9b 00 00 00 48 89 05 d2 db 0e 00 <0f> 32 48 c1=
- e2 20 89 c0 b9 80 00 00 c0 48 09 d0 48 89 05 cb db
-  RIP  [<ffffffffc067e506>] 0xffffffffc067e506
-  =C2=A0RSP <ffff880002e03d70>
-  ---[ end trace b3284b6520f49e0d ]---
+  NOTE: problem happens only with -no_hpet option
+
+  More information:
+  #uname -a
+  Linux vm-host 4.4.3-300.fc23.x86_64 #1 SMP Fri Feb 26 18:45:40 UTC 2016 x=
+86_64 x86_64 x86_64 GNU/Linux
+
+  # /usr/local/bin/qemu-system-x86_64 --version
+  QEMU emulator version 2.5.50, Copyright (c) 2003-2008 Fabrice Bellard
+
+  -----------------QEMU guest config---------------------
+  OPTS=3D"$OPTS -enable-kvm "
+  OPTS=3D"$OPTS -name win10_35"
+  #OPTS=3D"$OPTS -bios seabios/out/bios.bin"
+  OPTS=3D"$OPTS -machine pc-q35-2.4,accel=3Dkvm,usb=3Doff,vmport=3Doff"
+  OPTS=3D"$OPTS -cpu Broadwell,hv_time,hv_relaxed,hv_vapic,hv_spinlocks=3D0=
+x1fff"
+  OPTS=3D"$OPTS -m 4096"
+  OPTS=3D"$OPTS -realtime mlock=3Doff"
+  OPTS=3D"$OPTS -smp 2,sockets=3D2,cores=3D1,threads=3D1"
+  OPTS=3D"$OPTS -uuid e09cbfe5-9016-40b0-a027-62e0d2ef0ba1"
+  OPTS=3D"$OPTS -no-user-config"
+  OPTS=3D"$OPTS -nodefaults "
+  OPTS=3D"$OPTS -rtc base=3Dlocaltime,driftfix=3Dslew"
+  OPTS=3D"$OPTS -global kvm-pit.lost_tick_policy=3Ddiscard"
+  OPTS=3D"$OPTS -no-hpet"
+  OPTS=3D"$OPTS -no-shutdown"
+  OPTS=3D"$OPTS -global ICH9-LPC.disable_s3=3D0"
+  OPTS=3D"$OPTS -global ICH9-LPC.disable_s4=3D0"
+  OPTS=3D"$OPTS -boot order=3Dc,menu=3Don,strict=3Don"
+  OPTS=3D"$OPTS -device i82801b11-bridge,id=3Dpci.1,bus=3Dpcie.0,addr=3D0x1=
+e"
+  OPTS=3D"$OPTS -device pci-bridge,chassis_nr=3D2,id=3Dpci.2,bus=3Dpci.1,ad=
+dr=3D0x1"
+  OPTS=3D"$OPTS -device ich9-usb-ehci1,id=3Dusb,bus=3Dpci.2,addr=3D0x3.0x7"
+  OPTS=3D"$OPTS -device ich9-usb-uhci1,masterbus=3Dusb.0,firstport=3D0,bus=
+=3Dpci.2,multifunction=3Don,addr=3D0x3"
+  OPTS=3D"$OPTS -device ich9-usb-uhci2,masterbus=3Dusb.0,firstport=3D2,bus=
+=3Dpci.2,addr=3D0x3.0x1"
+  OPTS=3D"$OPTS -device ich9-usb-uhci3,masterbus=3Dusb.0,firstport=3D4,bus=
+=3Dpci.2,addr=3D0x3.0x2"
+  OPTS=3D"$OPTS -device virtio-serial-pci,id=3Dvirtio-serial0,bus=3Dpci.2,a=
+ddr=3D0x4"
+  OPTS=3D"$OPTS -drive file=3D/var/lib/images/win10-run2.qcow2,format=3Dqco=
+w2,if=3Dnone,id=3Ddrive-sata0-0-0,cache=3Dnone"
+  OPTS=3D"$OPTS -device ide-hd,bus=3Dide.0,drive=3Ddrive-sata0-0-0,id=3Dsat=
+a0-0-0"
+  OPTS=3D"$OPTS -drive file=3D/var/lib/images/diskd.vhd,format=3Dvpc,if=3Dn=
+one,id=3Ddrive-sata0-0-1"
+  OPTS=3D"$OPTS -device ide-hd,bus=3Dide.1,drive=3Ddrive-sata0-0-1,id=3Dsat=
+a0-0-1"
+  OPTS=3D"$OPTS -drive file=3Dvirtio-win.iso,format=3Draw,if=3Dnone,media=
+=3Dcdrom,id=3Ddrive-sata0-0-2,readonly=3Don"
+  OPTS=3D"$OPTS -device ide-cd,bus=3Dide.2,drive=3Ddrive-sata0-0-2,id=3Dsat=
+a0-0-2 "
+  OPTS=3D"$OPTS -chardev pty,id=3Dcharserial0"
+  OPTS=3D"$OPTS -device isa-serial,chardev=3Dcharserial0,id=3Dserial0"
+  OPTS=3D"$OPTS -chardev spicevmc,id=3Dcharchannel0,name=3Dvdagent"
+  OPTS=3D"$OPTS -device virtserialport,bus=3Dvirtio-serial0.0,nr=3D1,charde=
+v=3Dcharchannel0,id=3Dchannel0,name=3Dcom.redhat.spice.0"
+  OPTS=3D"$OPTS -device usb-tablet,id=3Dinput0"
+  OPTS=3D"$OPTS -spice port=3D5901,addr=3D127.0.0.1,disable-ticketing,image=
+-compression=3Doff,seamless-migration=3Don"
+  OPTS=3D"$OPTS -device qxl-vga,id=3Dvideo0,ram_size=3D67108864,vram_size=
+=3D67108864,vgamem_mb=3D16,bus=3Dpcie.0,addr=3D0x1"
+  OPTS=3D"$OPTS -device intel-hda,id=3Dsound0,bus=3Dpci.2,addr=3D0x2"
+  OPTS=3D"$OPTS -device hda-duplex,id=3Dsound0-codec0,bus=3Dsound0.0,cad=3D=
+0"
+  OPTS=3D"$OPTS -device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.2,addr=
+=3D0x5"
+  OPTS=3D"$OPTS -msg timestamp=3Don"
+  OPTS=3D"$OPTS -monitor stdio"
+  #OPTS=3D"$OPTS -qmp stdio"
+  #OPTS=3D"$OPTS -chardev stdio,id=3Dseabios -device isa-debugcon,iobase=3D=
+0x402,chardev=3Dseabios"
+
+  /usr/local/bin/qemu-system-x86_64 $OPTS
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1563152/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1557057/+subscriptions
 
