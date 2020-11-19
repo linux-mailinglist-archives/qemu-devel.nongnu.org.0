@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AE1D2B9031
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 11:36:25 +0100 (CET)
-Received: from localhost ([::1]:43688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84C792B902A
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 11:34:33 +0100 (CET)
+Received: from localhost ([::1]:37782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfhIe-0005Ez-85
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 05:36:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50994)
+	id 1kfhGq-0002q5-JO
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 05:34:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kfhEy-0000xP-7c
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 05:32:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21837)
+ id 1kfhF0-00011n-3b
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 05:32:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22542)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kfhEw-0007Z4-F1
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 05:32:35 -0500
+ id 1kfhEx-0007a4-Rq
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 05:32:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605781953;
+ s=mimecast20190719; t=1605781955;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qDY3p5tyvrzawRbC9R90nyX4k0K9UXvXdNNRJVMI38w=;
- b=X2/JJ+U0FiBQhVx8RHSuXneJ509YiSBOpg30LjKCsOY3pP2mEIHdupQvp3M+eihZmn0w9V
- BEa2QF6OKnD0eVYK8EmHARhpapdETOvd/oBG7jpmj0Zsz+bj7yRMXR1wX//flm8yCqMCAO
- 7xAslbS6d0noWhDDUXmVNK5dkm1mXvw=
+ bh=Z9AWBek5mw1pq2Z1ZGIrsfVafF/UZRDeON3p3EpMOFo=;
+ b=MpAty5dELIMFahWVvpbzWxfbAqVW3oejkCVmPqXnIZzgE0yQ45W1TgNRTxS9Vm4EYZBRey
+ /ihctTHaOn+xZJwRRdwBO4uPqCjpZzZsbnQQQ/MUNAVU7jcydnTMpEXHVgmSJaMpUhvgst
+ g6OhzoOmvo2392eK4AaYrfyrULJxUIE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-511-enRaRFRGMHq_QcCNkFNlew-1; Thu, 19 Nov 2020 05:32:31 -0500
-X-MC-Unique: enRaRFRGMHq_QcCNkFNlew-1
+ us-mta-500-sENi3HptNC2rZbOPWYPLcQ-1; Thu, 19 Nov 2020 05:32:33 -0500
+X-MC-Unique: sENi3HptNC2rZbOPWYPLcQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C269318957E8
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 10:32:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6698CE745
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 10:32:32 +0000 (UTC)
 Received: from vitty.brq.redhat.com (unknown [10.40.193.186])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7255560854;
- Thu, 19 Nov 2020 10:32:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2E39860854;
+ Thu, 19 Nov 2020 10:32:30 +0000 (UTC)
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/5] i386: move hyperv_limits initialization to
- x86_cpu_realizefn()
-Date: Thu, 19 Nov 2020 11:32:20 +0100
-Message-Id: <20201119103221.1665171-5-vkuznets@redhat.com>
+Subject: [PATCH 5/5] i386: provide simple 'hyperv=on' option to x86 machine
+ types
+Date: Thu, 19 Nov 2020 11:32:21 +0100
+Message-Id: <20201119103221.1665171-6-vkuznets@redhat.com>
 In-Reply-To: <20201119103221.1665171-1-vkuznets@redhat.com>
 References: <20201119103221.1665171-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -58,16 +58,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=vkuznets@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 03:44:58
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 23:36:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,75 +86,163 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As a preparation to expanding Hyper-V CPU features early, move
-hyperv_limits initialization to x86_cpu_realizefn().
+Enabling Hyper-V emulation for a Windows VM is a tiring experience as it
+requires listing all currently supported enlightenments ("hv_*" CPU
+features) explicitly. We do have a 'hv_passthrough' mode enabling
+everything but it can't be used in production as it prevents migration.
+
+Introduce a simple 'hyperv=on' option for all x86 machine types enabling
+all currently supported Hyper-V enlightenments. Later, when new
+enlightenments get implemented, we will be adding them to newer machine
+types only (by disabling them for legacy machine types) thus preserving
+migration.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- target/i386/cpu.c |  5 +++++
- target/i386/cpu.h |  1 +
- target/i386/kvm.c | 13 ++++++++++++-
- 3 files changed, 18 insertions(+), 1 deletion(-)
+ docs/hyperv.txt       |  8 ++++++++
+ hw/i386/x86.c         | 30 ++++++++++++++++++++++++++++++
+ include/hw/i386/x86.h |  7 +++++++
+ target/i386/cpu.c     | 14 ++++++++++++++
+ 4 files changed, 59 insertions(+)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 9e182929d29d..83aca942d87c 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6536,6 +6536,11 @@ static void x86_cpu_hyperv_realize(X86CPU *cpu)
-     /* Hypervisor system identity */
-     cpu->hyperv_version_id[0] = 0x00001bbc;
-     cpu->hyperv_version_id[1] = 0x00060001;
+diff --git a/docs/hyperv.txt b/docs/hyperv.txt
+index 5df00da54fc4..1a76a07f8417 100644
+--- a/docs/hyperv.txt
++++ b/docs/hyperv.txt
+@@ -29,6 +29,14 @@ When any set of the Hyper-V enlightenments is enabled, QEMU changes hypervisor
+ identification (CPUID 0x40000000..0x4000000A) to Hyper-V. KVM identification
+ and features are kept in leaves 0x40000100..0x40000101.
+ 
++Hyper-V enlightenments can be enabled in bulk by specifying 'hyperv=on' to an
++x86 machine type:
 +
-+    /* Hypervisor implementation limits */
-+    cpu->hyperv_limits[0] = 64;
-+    cpu->hyperv_limits[1] = 0;
-+    cpu->hyperv_limits[2] = 0;
++  qemu-system-x86_64 -machine q35,accel=kvm,kernel-irqchip=split,hyperv=on ...
++
++Note, new enlightenments are only added to the latest (in-develompent) machine
++type, older machine types keep the list of the supported features intact to
++safeguard migration.
+ 
+ 3. Existing enlightenments
+ ===========================
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index 5944fc44edca..57f27d56ecc6 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -1171,6 +1171,20 @@ static void x86_machine_set_acpi(Object *obj, Visitor *v, const char *name,
+     visit_type_OnOffAuto(v, name, &x86ms->acpi, errp);
  }
  
- static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 913927356c55..c95f20f59b15 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1663,6 +1663,7 @@ struct X86CPU {
-     uint32_t hyperv_vendor_id[3];
-     uint32_t hyperv_interface_id[4];
-     uint32_t hyperv_version_id[4];
-+    uint32_t hyperv_limits[3];
- 
-     bool check_cpuid;
-     bool enforce_cpuid;
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 58a2528c6c41..446ab2ef1793 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -1233,6 +1233,15 @@ static int hyperv_handle_properties(CPUState *cs,
-             env->features[FEAT_HYPERV_EBX] = c->ebx;
-             env->features[FEAT_HYPERV_EDX] = c->edx;
-         }
++static bool x86_machine_get_hyperv(Object *obj, Error **errp)
++{
++    X86MachineState *x86ms = X86_MACHINE(obj);
 +
-+        c = cpuid_find_entry(cpuid, HV_CPUID_IMPLEMENT_LIMITS, 0);
-+        if (c) {
-+            cpu->hv_max_vps = c->eax;
-+            cpu->hyperv_limits[0] = c->ebx;
-+            cpu->hyperv_limits[1] = c->ecx;
-+            cpu->hyperv_limits[2] = c->edx;
++    return x86ms->hyperv_enabled;
++}
++
++static void x86_machine_set_hyperv(Object *obj, bool value, Error **errp)
++{
++    X86MachineState *x86ms = X86_MACHINE(obj);
++
++    x86ms->hyperv_enabled = value;
++}
++
+ static void x86_machine_initfn(Object *obj)
+ {
+     X86MachineState *x86ms = X86_MACHINE(obj);
+@@ -1194,6 +1208,16 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
+     x86mc->save_tsc_khz = true;
+     nc->nmi_monitor_handler = x86_nmi;
+ 
++    /* Hyper-V features enabled with 'hyperv=on' */
++    x86mc->default_hyperv_features = BIT(HYPERV_FEAT_RELAXED) |
++        BIT(HYPERV_FEAT_VAPIC) | BIT(HYPERV_FEAT_TIME) |
++        BIT(HYPERV_FEAT_CRASH) | BIT(HYPERV_FEAT_RESET) |
++        BIT(HYPERV_FEAT_VPINDEX) | BIT(HYPERV_FEAT_RUNTIME) |
++        BIT(HYPERV_FEAT_SYNIC) | BIT(HYPERV_FEAT_STIMER) |
++        BIT(HYPERV_FEAT_FREQUENCIES) | BIT(HYPERV_FEAT_REENLIGHTENMENT) |
++        BIT(HYPERV_FEAT_TLBFLUSH) | BIT(HYPERV_FEAT_EVMCS) |
++        BIT(HYPERV_FEAT_IPI) | BIT(HYPERV_FEAT_STIMER_DIRECT);
++
+     object_class_property_add(oc, X86_MACHINE_SMM, "OnOffAuto",
+         x86_machine_get_smm, x86_machine_set_smm,
+         NULL, NULL);
+@@ -1205,6 +1229,12 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
+         NULL, NULL);
+     object_class_property_set_description(oc, X86_MACHINE_ACPI,
+         "Enable ACPI");
++
++    object_class_property_add_bool(oc, X86_MACHINE_HYPERV,
++        x86_machine_get_hyperv, x86_machine_set_hyperv);
++
++    object_class_property_set_description(oc, X86_MACHINE_HYPERV,
++        "Enable Hyper-V enlightenments");
+ }
+ 
+ static const TypeInfo x86_machine_info = {
+diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+index 739fac50871b..598abd1be806 100644
+--- a/include/hw/i386/x86.h
++++ b/include/hw/i386/x86.h
+@@ -38,6 +38,9 @@ struct X86MachineClass {
+     bool save_tsc_khz;
+     /* Enables contiguous-apic-ID mode */
+     bool compat_apic_id_mode;
++
++    /* Hyper-V features enabled with 'hyperv=on' */
++    uint64_t default_hyperv_features;
+ };
+ 
+ struct X86MachineState {
+@@ -71,10 +74,14 @@ struct X86MachineState {
+      * will be translated to MSI messages in the address space.
+      */
+     AddressSpace *ioapic_as;
++
++    /* Hyper-V emulation */
++    bool hyperv_enabled;
+ };
+ 
+ #define X86_MACHINE_SMM              "smm"
+ #define X86_MACHINE_ACPI             "acpi"
++#define X86_MACHINE_HYPERV           "hyperv"
+ 
+ #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
+ OBJECT_DECLARE_TYPE(X86MachineState, X86MachineClass, X86_MACHINE)
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 83aca942d87c..63a931679d73 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -53,6 +53,7 @@
+ #include "sysemu/tcg.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/i386/topology.h"
++#include "hw/i386/x86.h"
+ #ifndef CONFIG_USER_ONLY
+ #include "exec/address-spaces.h"
+ #include "hw/i386/apic_internal.h"
+@@ -6511,8 +6512,21 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
+ 
+ static void x86_cpu_hyperv_realize(X86CPU *cpu)
+ {
++    X86MachineState *x86ms = X86_MACHINE(qdev_get_machine());
++    X86MachineClass *x86mc = X86_MACHINE_GET_CLASS(x86ms);
++    uint64_t feat;
+     size_t len;
+ 
++    if (x86ms->hyperv_enabled) {
++        feat = x86mc->default_hyperv_features;
++        /* Enlightened VMCS is only available on Intel/VMX */
++        if (!cpu_has_vmx(&cpu->env)) {
++            feat &= ~BIT(HYPERV_FEAT_EVMCS);
 +        }
 +
-         c = cpuid_find_entry(cpuid, HV_CPUID_ENLIGHTMENT_INFO, 0);
-         if (c) {
-             env->features[FEAT_HV_RECOMM_EAX] = c->eax;
-@@ -1335,7 +1344,9 @@ static int hyperv_handle_properties(CPUState *cs,
-     c = &cpuid_ent[cpuid_i++];
-     c->function = HV_CPUID_IMPLEMENT_LIMITS;
-     c->eax = cpu->hv_max_vps;
--    c->ebx = 0x40;
-+    c->ebx = cpu->hyperv_limits[0];
-+    c->ecx = cpu->hyperv_limits[1];
-+    c->edx = cpu->hyperv_limits[2];
- 
-     if (hyperv_feat_enabled(cpu, HYPERV_FEAT_EVMCS)) {
-         __u32 function;
++        cpu->hyperv_features |= feat;
++    }
++
+     /* Hyper-V vendor id */
+     if (!cpu->hyperv_vendor) {
+         memcpy(cpu->hyperv_vendor_id, "Microsoft Hv", 12);
 -- 
 2.26.2
 
