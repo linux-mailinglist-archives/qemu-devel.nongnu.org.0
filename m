@@ -2,82 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 216792B97A7
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 17:23:03 +0100 (CET)
-Received: from localhost ([::1]:58694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 132262B97C7
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 17:26:19 +0100 (CET)
+Received: from localhost ([::1]:33208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfmi6-0006Hd-5y
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 11:23:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52930)
+	id 1kfmlG-0007cf-44
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 11:26:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kfmgK-00046t-SO
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:21:12 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:38911)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kfmgG-0007iP-S1
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:21:12 -0500
-Received: by mail-wm1-x341.google.com with SMTP id 1so7278346wme.3
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 08:21:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Vq3hK9v4h8GGSyggGKpUFyNjRo6DKtOs80VRJeyUwzw=;
- b=OASNQd6eGK6cCHtfeG3PHsU4biP/NCQ+FmuCJYXBPzDX4QuLBGsQjkUP/HRMV7wVBP
- 0u6i61zvrhIYJxORle28mr4sO/Od1vDvWtBIs6YeZtYCHxJiO2ZXpEv7bY5xXUSjI7jh
- bWlstKiLMR0AhJcTw3YX2rT+e1zLvaWvKVtLrHCIMfb96Vmls0Kc4h8XaHp8ly408K/o
- WimaZGKP8bctgg0EAKcd9Fum1P4yk+OA7SN0haPAQMVdg1C7F8LXv5QdfakPer1iKp+A
- FkUh9j7wao/VwWnvqz8H5RWfvF7jrHfTrFdwxA+CCrpXTnXwcAQ0ZY6WlxFDfjvBRPkV
- CLVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Vq3hK9v4h8GGSyggGKpUFyNjRo6DKtOs80VRJeyUwzw=;
- b=J0RCp2eui5i/9zaCLxZ02esJaNs2zf33jrq3Xb/g+Z4r1mooqjo5uxclaCrgswQKPe
- OFVMQikVQe3Uef5XOc2Eb40f8CNuAynF98NoOjvQXC8MFS0YOy9koZPsNiOicaLrPi/R
- sapDoprN2o6IdMTPEG02vlsSmyTvaEmJxK5E4J0UZ3FjXjnITWHcSpYQLXY8rkphmkKc
- 3QgwOUs5zEF9CfFHi0t1z84/WhaViFMOgyxqK3Z+OEXEske8/Wa4OspkZX90fwtNCKE8
- EdPHmQYGYionzyr5cF2w0/ws/ONNNiIJvH58Ll/rOr0Wudk/SYmLpcoR/F+KAhpb72Zk
- ZZGw==
-X-Gm-Message-State: AOAM532E0TqCu5f81l+CwSpCsawO5ES1xNnLSFuq6ykzKstiwy9UmUGE
- yTxafCf7ooaFYq4u1W4mLwgmr+lOSWU=
-X-Google-Smtp-Source: ABdhPJznzk5XrwbqTRdTpyL/XnN0QP3dHdzUKD3/Ny6IR0koTEwJpc6UGyQYCfxeGzfWUVtLlv1a0Q==
-X-Received: by 2002:a7b:cf26:: with SMTP id m6mr5715110wmg.121.1605802867598; 
- Thu, 19 Nov 2020 08:21:07 -0800 (PST)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id o63sm569054wmo.2.2020.11.19.08.21.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Nov 2020 08:21:06 -0800 (PST)
-Subject: Re: [PATCH-for-5.2] docs/user: Display linux-user binaries nicely
-To: qemu-devel@nongnu.org
-References: <20201119160838.1981709-1-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <e3801a87-8eb7-fae2-5118-8669b696e610@amsat.org>
-Date: Thu, 19 Nov 2020 17:21:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
+ id 1kfmjN-0006uU-Ff
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:24:21 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52378)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
+ id 1kfmjK-0000GT-Aj
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:24:20 -0500
+Received: from gaia (unknown [2.26.170.190])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 0FA2622264;
+ Thu, 19 Nov 2020 16:24:12 +0000 (UTC)
+Date: Thu, 19 Nov 2020 16:24:10 +0000
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v4 2/2] arm64: kvm: Introduce MTE VCPU feature
+Message-ID: <20201119162409.GC4376@gaia>
+References: <20201026155727.36685-1-steven.price@arm.com>
+ <20201026155727.36685-3-steven.price@arm.com>
+ <X7P1VLZhBh045tsr@trantor>
+ <f34b3d16-8bc7-af9d-c0e0-fb114d2465aa@arm.com>
+ <X7VQua7YO4isMFPU@trantor>
+ <20201118170552.cuczyylf34ows5jd@kamzik.brq.redhat.com>
+ <f4f7073c-a0d5-f259-8fbc-514c0c5ddbed@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <20201119160838.1981709-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f4f7073c-a0d5-f259-8fbc-514c0c5ddbed@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=cmarinas@kernel.org;
+ helo=mail.kernel.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 11:24:16
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,60 +63,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ Haibo Xu <Haibo.Xu@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ James Morse <james.morse@arm.com>, linux-arm-kernel@lists.infradead.org,
+ kvmarm@lists.cs.columbia.edu, Thomas Gleixner <tglx@linutronix.de>,
+ Julien Thierry <julien.thierry.kdev@gmail.com>, Will Deacon <will@kernel.org>,
+ Dave Martin <Dave.Martin@arm.com>, linux-kernel@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/19/20 5:08 PM, Philippe Mathieu-Daudé wrote:
-> linux-user binaries are displayed altogether. Use the '*'
-> character to force displaying them as bullet list (one list
-> per architecture).
+On Thu, Nov 19, 2020 at 12:45:52PM +0000, Steven Price wrote:
+> On 18/11/2020 17:05, Andrew Jones wrote:
+> > On Wed, Nov 18, 2020 at 04:50:01PM +0000, Catalin Marinas wrote:
+> > > On Wed, Nov 18, 2020 at 04:01:20PM +0000, Steven Price wrote:
+> > > > On 17/11/2020 16:07, Catalin Marinas wrote:
+> > > > > On Mon, Oct 26, 2020 at 03:57:27PM +0000, Steven Price wrote:
+> > > > > > diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+> > > > > > index 19aacc7d64de..38fe25310ca1 100644
+> > > > > > --- a/arch/arm64/kvm/mmu.c
+> > > > > > +++ b/arch/arm64/kvm/mmu.c
+> > > > > > @@ -862,6 +862,26 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
+> > > > > >    	if (vma_pagesize == PAGE_SIZE && !force_pte)
+> > > > > >    		vma_pagesize = transparent_hugepage_adjust(memslot, hva,
+> > > > > >    							   &pfn, &fault_ipa);
+> > > > > > +
+> > > > > > +	/*
+> > > > > > +	 * The otherwise redundant test for system_supports_mte() allows the
+> > > > > > +	 * code to be compiled out when CONFIG_ARM64_MTE is not present.
+> > > > > > +	 */
+> > > > > > +	if (system_supports_mte() && kvm->arch.mte_enabled && pfn_valid(pfn)) {
+> > > > > > +		/*
+> > > > > > +		 * VM will be able to see the page's tags, so we must ensure
+> > > > > > +		 * they have been initialised.
+> > > > > > +		 */
+> > > > > > +		struct page *page = pfn_to_page(pfn);
+> > > > > > +		long i, nr_pages = compound_nr(page);
+> > > > > > +
+> > > > > > +		/* if PG_mte_tagged is set, tags have already been initialised */
+> > > > > > +		for (i = 0; i < nr_pages; i++, page++) {
+> > > > > > +			if (!test_and_set_bit(PG_mte_tagged, &page->flags))
+> > > > > > +				mte_clear_page_tags(page_address(page));
+> > > > > > +		}
+> > > > > > +	}
+> > > > > 
+> > > > > If this page was swapped out and mapped back in, where does the
+> > > > > restoring from swap happen?
+> > > > 
+> > > > Restoring from swap happens above this in the call to gfn_to_pfn_prot()
+> > > 
+> > > Looking at the call chain, gfn_to_pfn_prot() ends up with
+> > > get_user_pages() using the current->mm (the VMM) and that does a
+> > > set_pte_at(), presumably restoring the tags. Does this mean that all
+> > > memory mapped by the VMM in user space should have PROT_MTE set?
+> > > Otherwise we don't take the mte_sync_tags() path in set_pte_at() and no
+> > > tags restored from swap (we do save them since when they were mapped,
+> > > PG_mte_tagged was set).
+> > > 
+> > > So I think the code above should be similar to mte_sync_tags(), even
+> > > calling a common function, but I'm not sure where to get the swap pte
+> > > from.
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  docs/user/main.rst | 99 ++++++++++++++++++++++++++--------------------
->  1 file changed, 56 insertions(+), 43 deletions(-)
-
-Patch easier to review using 'git-diff --word-diff=porcelain'.
-
+> You're right - the code is broken as it stands. I've just been able to
+> reproduce the loss of tags due to swap.
 > 
-> diff --git a/docs/user/main.rst b/docs/user/main.rst
-> index bd99b0fdbe9..8dfe232a3af 100644
-> --- a/docs/user/main.rst
-> +++ b/docs/user/main.rst
-> @@ -170,68 +170,81 @@ QEMU_STRACE
->  Other binaries
->  ~~~~~~~~~~~~~~
->  
-> -user mode (Alpha)
-> -``qemu-alpha`` TODO.
-> +-  user mode (Alpha)
->  
-> -user mode (Arm)
-> -``qemu-armeb`` TODO.
-> +   * ``qemu-alpha`` TODO.
->  
-> -user mode (Arm)
-> -``qemu-arm`` is also capable of running Arm \"Angel\" semihosted ELF
-> -binaries (as implemented by the arm-elf and arm-eabi Newlib/GDB
-> -configurations), and arm-uclinux bFLT format binaries.
-> +-  user mode (Arm)
->  
-> -user mode (ColdFire)
-> -user mode (M68K)
-> -``qemu-m68k`` is capable of running semihosted binaries using the BDM
-> -(m5xxx-ram-hosted.ld) or m68k-sim (sim.ld) syscall interfaces, and
-> -coldfire uClinux bFLT format binaries.
-> +   * ``qemu-armeb`` TODO.
->  
-> -The binary format is detected automatically.
-> +   * ``qemu-arm`` is also capable of running Arm \"Angel\" semihosted ELF
-> +     binaries (as implemented by the arm-elf and arm-eabi Newlib/GDB
-> +     configurations), and arm-uclinux bFLT format binaries.
->  
-> -user mode (Cris)
-> -``qemu-cris`` TODO.
-> +-  user mode (ColdFire)
-...
+> The problem is that we also don't have a suitable pte to do the restore from
+> swap from. So either set_pte_at() would have to unconditionally check for
+> MTE tags for all previous swap entries as you suggest below. I had a quick
+> go at testing this and hit issues with the idle task getting killed during
+> boot - I fear there are some fun issues regarding initialisation order here.
+
+My attempt here but not fully tested (just booted, no swap support):
+
+diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
+index b35833259f08..27d7fd336a16 100644
+--- a/arch/arm64/include/asm/pgtable.h
++++ b/arch/arm64/include/asm/pgtable.h
+@@ -304,7 +304,7 @@ static inline void set_pte_at(struct mm_struct *mm, unsigned long addr,
+ 		__sync_icache_dcache(pte);
+ 
+ 	if (system_supports_mte() &&
+-	    pte_present(pte) && pte_tagged(pte) && !pte_special(pte))
++	    pte_present(pte) && pte_valid_user(pte) && !pte_special(pte))
+ 		mte_sync_tags(ptep, pte);
+ 
+ 	__check_racy_pte_update(mm, ptep, pte);
+diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
+index 52a0638ed967..bbd6c56d33d9 100644
+--- a/arch/arm64/kernel/mte.c
++++ b/arch/arm64/kernel/mte.c
+@@ -20,18 +20,24 @@
+ #include <asm/ptrace.h>
+ #include <asm/sysreg.h>
+ 
+-static void mte_sync_page_tags(struct page *page, pte_t *ptep, bool check_swap)
++static void mte_sync_page_tags(struct page *page, pte_t *ptep, pte_t pte,
++			       bool check_swap)
+ {
+ 	pte_t old_pte = READ_ONCE(*ptep);
+ 
+ 	if (check_swap && is_swap_pte(old_pte)) {
+ 		swp_entry_t entry = pte_to_swp_entry(old_pte);
+ 
+-		if (!non_swap_entry(entry) && mte_restore_tags(entry, page))
++		if (!non_swap_entry(entry) && mte_restore_tags(entry, page)) {
++			set_bit(PG_mte_tagged, &page->flags);
+ 			return;
++		}
+ 	}
+ 
+-	mte_clear_page_tags(page_address(page));
++	if (pte_tagged(pte)) {
++		mte_clear_page_tags(page_address(page));
++		set_bit(PG_mte_tagged, &page->flags);
++	}
+ }
+ 
+ void mte_sync_tags(pte_t *ptep, pte_t pte)
+@@ -42,8 +48,8 @@ void mte_sync_tags(pte_t *ptep, pte_t pte)
+ 
+ 	/* if PG_mte_tagged is set, tags have already been initialised */
+ 	for (i = 0; i < nr_pages; i++, page++) {
+-		if (!test_and_set_bit(PG_mte_tagged, &page->flags))
+-			mte_sync_page_tags(page, ptep, check_swap);
++		if (!test_bit(PG_mte_tagged, &page->flags))
++			mte_sync_page_tags(page, ptep, pte, check_swap);
+ 	}
+ }
+
+-- 
+Catalin
 
