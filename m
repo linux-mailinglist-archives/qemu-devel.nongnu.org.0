@@ -2,69 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 102672B9097
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 12:05:21 +0100 (CET)
-Received: from localhost ([::1]:52460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D49D02B90E0
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 12:24:45 +0100 (CET)
+Received: from localhost ([::1]:58050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfhke-000510-4L
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 06:05:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58026)
+	id 1kfi3Q-0008UY-Fu
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 06:24:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kfhjB-0004BZ-PW
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 06:03:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46998)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kfhj3-0000jj-GK
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 06:03:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605783820;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:mime-version:mime-version:
- content-type:content-type; bh=TGjVLszc0H4u1S356r4SCnsrKAqW3VfHPUEJTqahHY8=;
- b=hSyzV4BHV0YTFjKq30BDyawjZbwh6KxyhjCmlgvLTgT26HlI+hXlYAdbURdFbQdy2ikq/j
- dpi+miMHPuQmxH2SJT4/kOMNHYA2y4kMMheLUsZMSKKYFsG6fmBSnfWbBZFjGacSFenD2c
- x/uLzmuLaE84Dq3FB99QiJNsGlfQ6nQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-342-Xbl6GUefN9SF83e12-t4Iw-1; Thu, 19 Nov 2020 06:03:21 -0500
-X-MC-Unique: Xbl6GUefN9SF83e12-t4Iw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64D2F801B14
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 11:03:20 +0000 (UTC)
-Received: from redhat.com (ovpn-114-191.ams2.redhat.com [10.36.114.191])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 95ED919C47
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 11:03:19 +0000 (UTC)
-Date: Thu, 19 Nov 2020 11:03:16 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: RFC: Pull request testing expectations for subsystem maintainers
-Message-ID: <20201119110316.GE579364@redhat.com>
+ (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1kfi1i-00082s-Me; Thu, 19 Nov 2020 06:22:58 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2119)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1kfi1c-0007b3-98; Thu, 19 Nov 2020 06:22:58 -0500
+Received: from DGGEMM406-HUB.china.huawei.com (unknown [172.30.72.54])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4CcHMh4PzSz566J;
+ Thu, 19 Nov 2020 19:22:24 +0800 (CST)
+Received: from DGGEMM423-HUB.china.huawei.com (10.1.198.40) by
+ DGGEMM406-HUB.china.huawei.com (10.3.20.214) with Microsoft SMTP Server (TLS)
+ id 14.3.487.0; Thu, 19 Nov 2020 19:22:39 +0800
+Received: from DGGEMM531-MBX.china.huawei.com ([169.254.5.128]) by
+ dggemm423-hub.china.huawei.com ([10.1.198.40]) with mapi id 14.03.0487.000;
+ Thu, 19 Nov 2020 19:22:32 +0800
+From: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: RE: [PATCH-for-5.2? 1/2] tests/qtest: variable defined by
+ g_autofree need to be initialized
+Thread-Topic: [PATCH-for-5.2? 1/2] tests/qtest: variable defined by
+ g_autofree need to be initialized
+Thread-Index: AQHWvaH7LAlqtNTNq0CJSxOYz75c7KnOmeyAgACGw+D//3zDgIAArxFw
+Date: Thu, 19 Nov 2020 11:22:31 +0000
+Message-ID: <7412CDE03601674DA8197E2EBD8937E83BA869D1@dggemm531-mbx.china.huawei.com>
+References: <20201118115646.2461726-1-kuhn.chenqun@huawei.com>
+ <20201118115646.2461726-2-kuhn.chenqun@huawei.com>
+ <CAFEAcA81CeW=RdrABuAZx2pL6L-nE_AaQ2vbryqm7amUbRjM-g@mail.gmail.com>
+ <7412CDE03601674DA8197E2EBD8937E83BA86327@dggemm531-mbx.china.huawei.com>
+ <CAFEAcA9nwqj-7bDa5oPo9z8h9uaeHAC0dX-KdeZ6hkgZJQDqZA@mail.gmail.com>
+In-Reply-To: <CAFEAcA9nwqj-7bDa5oPo9z8h9uaeHAC0dX-KdeZ6hkgZJQDqZA@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.185.149]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 23:36:20
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=kuhn.chenqun@huawei.com; helo=szxga02-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 06:22:41
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,199 +72,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ QEMU Trivial <qemu-trivial@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Havard Skinnemoen <hskinnemoen@google.com>, Hao Wu <wuhaotsh@google.com>,
+ Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a longish mail, so
-
-[tldr]
-  I propose that we require subsystem maintainers to run GitLab CI pipeline
-  /before/ sending pull requests to qemu-devel. This will
-
-   * reduce the burden on the person merging pull requests by making it
-     less likely merge tests will fail, thus avoiding v2/v3/etc which
-     add to volume of pending pulls.
-   * reduce the burden on CI maintainers by avoiding breakage of our
-     public CI post merge.
-   * reduce the burden on subsystem maintainers by catching problems
-     more quickly, avoiding delays in their pulls being merged
-
-  Overall it will distribute the testing burden more equitably across
-  our community, instead of today where the testing burden is focused on
-  a small number of people.
-[/tldr]
-
-Now the longer back-story / justification...
-
-When sending pull requests to qemu-devel for merge into master, there are
-no formally defined expectations around the level of testing that has been
-performed by the maintainer. It is up to the subsystem maintainer's
-judgement as to the amount of testing that is appropriate.
-
-
-This is positive for the individual subsystem maintainer when considering
-sending one pull request in isolation, as the bar is quite low. IMHO this
-is actually a negative thing for the QEMU project as a whole.
-
- * Pull requests that fail testing at time of applying to master waste the
-   time of the gate keeper (Peter), because they are detecting problems
-   that the subsystem maintainers could often have detected themselves.
-
- * Pull requests that fail testing at time of applying to master waste the
-   time of the subsystem maintainer too, as it is a very slow / inefficient
-   feedback loop between sending the PULL, getting the test failure results
-   back, fixing the problem, and sending a new PULL.
-
- * Pull requests that pass testing at time of applying to master, but none
-   the less break our public CI (GitLab, Travis, Cirrus) waste the time of
-   our CI maintainers. Mostly the problem here is that we are not using our
-   public CI as part of the gating tests.
-
-
-Overall the big problem is that testing and monitoring of test results is
-centralized onto too small a set of people (the person merging to git
-master, and the people babysitting the public CI systems). This is not a
-scalable approach and ultimately either limits the velocity of everything
-sent for merge into master, and/or leads to burnout of people dealing with
-failing CI.
-
-
-The testing burden needs to be more equitably distributed across the QEMU
-community.
-
-
-The big reason that we've not placed specific testing pre-requisites for
-the sending of pull requests is that, historically, the test environment
-is only accessible to the person doing the merge to master, not the
-subsystem maintainers, nor individual contributors. Maintainers were only
-expected to have access to the specific OS used on their dev machine.
-
-
-With our increasing use of automated CI platforms and provision of
-standardized docker container & VM recipes as build environments, the
-situation has already changed significantly and will continue to do so.
-
-
-It is trivial for any contributor to get comprehensive testing cross many
-platform combinations (build + tests across all Linux distros on x86 with
-many different build config scenarios, build Windows via mingw32/64, build
-Debian on non-x86 via cross compilers) using just GitLab CI pipelines. If
-adding Cirrus CI, and Travis CI, even more combinations are added (macOS,
-FreeBSD, native Windows, and some native non-x86).
-
-In the not too distant future, the current CI setup for gating merges to
-master, will be replaced by a system built on GitLab CI, so we'll get much
-better alignment between our post-merge CI and our gating CI, preventing
-more post merge CI failures and reducing burden on our CI maintainers.
-
-
-The high frequency with which post-merge CI jobs break today, show that
-subsystem maintainers are mostly only testing a narrow set of scenarios
-before sending their pull requests. When gating merges to master is done
-by GitLab CI, the number of configuration scenarios and platforms we'll
-be testing will increase significantly. This is going to increase the
-frequency with which pull requests are rejected due to failing tests.
-
-We will have more v2, v3, pull requests posted which will increase the
-burden on the person handling them. This is not going to be sustainable
-and will limit our velocity unless we change our testing expectations.
-
-
-
-We need to distribute the burden of testing more broadly, by introducing
-a requirement for all pull requests to pass GitLab CI *before* being sent
-as a PULL to the list. This might sound like a scary burden, but don't be
-afraid, as it is much easier to achieve than one might realize.
-
-
-Testing with GitLab CI merely requires pushing the queued patches to a
-personal fork of the QEMU repository hosted on gitlab.com. Any time
-patches are pushed to a fork they trigger a pipeline whose result are
-presented at a URL
-
-    https://gitlab.com/YOUR-USER-NAME/qemu/pipelines
-
-There is a "scripts/ci/gitlab-pipeline-status" script that can be used to
-monitor results from the terminal if web browsers are not your ideal UI.
-
-IOW, in terms of workflow for a subsystem maintainer, the current process
-is:
-
-  1. Push to an arbitrary public git repo host
-  2. Send patches to qemu-devel
-
-With a requirement to pass GitLab CI before sending a pull, the workflow
-would be more like
-
-  1. Push patches to a personal gitlab.com QEMU fork
-  2. Wait for CI results to arrive (typically 45-60 mins)
-  3. If CI failed
-       (a) fix problems, go to (1)
-     else if CI passed
-       (b) Send patches to qemu-devel
-
-
-How will we verify that a pull request has a successful pipeline run
-before merging it ? We could require that cover letter always point
-to a gitlab.com repo, instead of arbitrary public git repo host. Or
-we could just require the cover letter have a pointer to the GitLab
-pipeline results page that matches the git commit ref. The former
-would be simpler, as we could use scripts/ci/gitlab-pipeline-status
-to validate it.
-
-If this is done by all subsystem maintainers, then the number of PULL
-requests that fail to pass gating tests should be significantly reduced.
-It won't be zero because the gating tests will still run more jobs than
-are available via the public runners. Also git master can move between the
-time the maintainer runs CI and when their PULL is actually applied to
-master, which can trigger test failures. Pulls should have a quicker turn
-around time if we have less v2/v3/v4s clogging up the queue of pending
-merges.
-
-
-
-Earlier I mentioned that we have three CI systems (GitLab, Cirrus, Travis).
-It is possible for maintainers to send to all three and wait for results.
-This has a larger upfront setup burden in terms account creation and
-configuration, as well as a larger burden in monitoring results. It is
-better if we start off simple and only focus on GitLab CI, because that
-runs the vast majority of our jobs, and is also what will soon be used as
-a gating test for master. IOW, if subsystem mintainers want to test on
-Cirrus/Travis, great, but lets consider that strictly optional.
-
-
-
-If we want to take this a step further, then subsystem maintainers may
-wish to have individual contributors to show that they have run CI tests
-before queuing patches in a staging tree. This is probably unreasonable
-for small patches especially from occassional contributors, but for large
-or complex patch series, or regular contributors it is likely a net win
-to set expectation that they should be testing via GitLab CI.
-
-IOW, we should update our contributing guidelines to encourage, but not
-mandate, patches be sent through GitLab CI before submission for review.
-This should catch many of the silly mistakes contributors make in their
-code, and reduce the burden on reviewers, and reduce problems hit later
-by maintainers or gating CI.
-
-
-Finally, some people may have noticed that GitLab is planning to reduce
-the number of free CI minutes they provide to users. This has the potential
-to be a significant problem to running QEMU GitLab CI tests. Many open
-source projects have given them feedback about the negative impact it would
-have and their response has been positive about wanting to find a mutually
-acceptable solution to support OSS projects. We don't know the outcome yet,
-but I'm somewhat positive there will be a viable solution. Worst case we
-can go back to current situation with minimal testing of pull requests,
-but I'm hopeful it won't come to that.
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBQZXRlciBNYXlkZWxsIFttYWls
+dG86cGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnXQ0KPiBTZW50OiBUaHVyc2RheSwgTm92ZW1iZXIg
+MTksIDIwMjAgNDozOSBQTQ0KPiBUbzogQ2hlbnF1biAoa3VobikgPGt1aG4uY2hlbnF1bkBodWF3
+ZWkuY29tPg0KPiBDYzogUUVNVSBEZXZlbG9wZXJzIDxxZW11LWRldmVsQG5vbmdudS5vcmc+OyBR
+RU1VIFRyaXZpYWwNCj4gPHFlbXUtdHJpdmlhbEBub25nbnUub3JnPjsgSGFvIFd1IDx3dWhhb3Rz
+aEBnb29nbGUuY29tPjsgSGF2YXJkDQo+IFNraW5uZW1vZW4gPGhza2lubmVtb2VuQGdvb2dsZS5j
+b20+OyBaaGFuZ2hhaWxpYW5nDQo+IDx6aGFuZy56aGFuZ2hhaWxpYW5nQGh1YXdlaS5jb20+OyBU
+aG9tYXMgSHV0aCA8dGh1dGhAcmVkaGF0LmNvbT47DQo+IExhdXJlbnQgVml2aWVyIDxsdml2aWVy
+QHJlZGhhdC5jb20+OyBFdWxlciBSb2JvdCA8ZXVsZXIucm9ib3RAaHVhd2VpLmNvbT4NCj4gU3Vi
+amVjdDogUmU6IFtQQVRDSC1mb3ItNS4yPyAxLzJdIHRlc3RzL3F0ZXN0OiB2YXJpYWJsZSBkZWZp
+bmVkIGJ5IGdfYXV0b2ZyZWUNCj4gbmVlZCB0byBiZSBpbml0aWFsaXplZA0KPiANCj4gT24gVGh1
+LCAxOSBOb3YgMjAyMCBhdCAwODozNSwgQ2hlbnF1biAoa3VobikgPGt1aG4uY2hlbnF1bkBodWF3
+ZWkuY29tPg0KPiB3cm90ZToNCj4gPg0KPiA+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0N
+Cj4gPiA+ID4gIHN0YXRpYyB2b2lkIHRpbV9hZGRfdGVzdChjb25zdCBjaGFyICpuYW1lLCBjb25z
+dCBUZXN0RGF0YSAqdGQsDQo+ID4gPiA+IEdUZXN0RGF0YUZ1bmMgZm4pICB7DQo+ID4gPiA+IC0g
+ICAgZ19hdXRvZnJlZSBjaGFyICpmdWxsX25hbWU7DQo+ID4gPiA+IC0NCj4gPiA+ID4gLSAgICBm
+dWxsX25hbWUgPQ0KPiBnX3N0cmR1cF9wcmludGYoIm5wY203eHhfdGltZXIvdGltWyVkXS90aW1l
+clslZF0vJXMiLA0KPiA+ID4gPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB0aW1f
+aW5kZXgodGQtPnRpbSksDQo+ID4gPiB0aW1lcl9pbmRleCh0ZC0+dGltZXIpLA0KPiA+ID4gPiAt
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBuYW1lKTsNCj4gPiA+ID4gKyAgICBnX2F1
+dG9mcmVlIGNoYXIgKmZ1bGxfbmFtZSA9IGdfc3RyZHVwX3ByaW50ZigNCj4gPiA+ID4gKyAgICAg
+ICAgIm5wY203eHhfdGltZXIvdGltWyVkXS90aW1lclslZF0vJXMiLCB0aW1faW5kZXgodGQtPnRp
+bSksDQo+ID4gPiA+ICsgICAgICAgIHRpbWVyX2luZGV4KHRkLT50aW1lciksIG5hbWUpOw0KPiA+
+ID4NCj4gPiA+IFdoaWNoIGNvbXBpbGVyIGlzIHNvIHVuaW50ZWxsaWdlbnQgdGhhdCBpdCBjYW5u
+b3Qgc2VlIHRoYXQgYQ0KPiA+ID4gZGVjbGFyYXRpb24gaW1tZWRpYXRlbHkgZm9sbG93ZWQgYnkg
+YW4gYXNzaWdubWVudCBtdXN0IGFsd2F5cyBpbml0aWFsaXplDQo+IHRoZSB2YXJpYWJsZSA/Pz8N
+Cj4gPiA+DQo+ID4gSGkgUGV0ZXIsDQo+ID4gICBHbGliIHJlcXVpcmVzIHRoYXQgYWxsIGdfYXV0
+byogbWFjcm9zIG11c3QgYmUgaW5pdGlhbGl6ZWQuDQo+ID4NCj4gPiBodHRwczovL2RldmVsb3Bl
+ci5nbm9tZS5vcmcvZ2xpYi9zdGFibGUvZ2xpYi1NaXNjZWxsYW5lb3VzLU1hY3Jvcy5odG1sDQo+
+ID4gI2ctYXV0b2ZyZWUNCj4gDQo+IFllcywgYW5kIHdlIGluaXRpYWxpemUgaXQgd2l0aCB0aGUg
+ImZ1bGxfbmFtZSA9IC4uLiIgbGluZS4NCj4gVGhlIGdfYXV0b2ZyZWUgZG9jdW1lbnRhdGlvbiBz
+YXlzICJ0aGlzIG1hY3JvIGhhcyBzaW1pbGFyIGNvbnN0cmFpbnRzIGFzDQo+IGdfYXV0b3B0cigp
+IiwgYW5kIHRoZSBnX2F1dG9wdHIoKSBkb2N1bWVudGF0aW9uIHNheXMgIllvdSBtdXN0IGluaXRp
+YWxpc2UgdGhlDQo+IHZhcmlhYmxlIGluIHNvbWUgd2F5IOKAlCBlaXRoZXIgYnkgdXNlIG9mIGFu
+IGluaXRpYWxpc2VyIG9yIGJ5IGVuc3VyaW5nIHRoYXQgaXQgaXMNCj4gYXNzaWduZWQgdG8gdW5j
+b25kaXRpb25hbGx5IGJlZm9yZSBpdCBnb2VzIG91dCBvZiBzY29wZS4iDQo+IA0KPiBJbiB0aGlz
+IGNhc2UgdGhlIHRlc3QgY29kZSBpcyBkb2luZyB0aGUgc2Vjb25kIG9mIHRob3NlIHR3byB0aGlu
+Z3MuDQoNCkVtbSwgbWF5YmUgSSBkaWRuJ3QgZ2V0IGl0IHJpZ2h0LiBJJ3ZlIHRyaWVkIHNvbWV0
+aGluZyBhcyBmb2xsb3dpbmc6DQpUaGVyZSBhcmUgdGhyZWUgcGllY2VzIG9mIGNvZGUgY29tcGxp
+ZWQgaW4gR0NDOS4zIGFuZCBHQ0M3LjMuDQpDb2RlMe+8mg0KICAgZ19hdXRvZnJlZSBjaGFyICpm
+dWxsX25hbWU7DQogICBmdWxsX25hbWUgPSBnX3N0cmR1cF9wcmludGYoIm5wY203eHhfdGltZXIi
+KTsNCg0KQ29kZTI6DQogICBnX2F1dG9mcmVlIGNoYXIgKmZ1bGxfbmFtZSA9IGdfc3RyZHVwX3By
+aW50ZigibnBjbTd4eF90aW1lciIpOw0KDQpDb2RlM++8mg0KICAgZ19hdXRvZnJlZSBjaGFyICpm
+dWxsX25hbWU7DQogICBmdWxsX25hbWUgPSBOVUxMOw0KDQpUaGUgcmVzdWx0IGlzIGFzIGZvbGxv
+d3M6DQogIENvZGUxOiBBbiB3YXJuaWcgaXMgZ2VuZXJhdGVkIGZvciBHQ0M3LjMgb3IgR0NDOS4z
+Lg0KDQogIENvZGUyIGFuZCBDb2RlMzogbm8gYW55IHdhcm5pZyB3aGV0aGVyIGNvbXBpbGVyIGlz
+IEdDQzcuMyBvciBHQ0M5LjMuDQoNCkkgY2Fubm90IGV4cGxhaW4gd2h5IHRoZSBDb2RlMSB3YXJu
+aW5nIGlzIGdlbmVyYXRlZC4gQnV0IGl0IGFsd2F5cyBnZW5lcmF0ZXMgd2FybmluZyBvbiB0aGUg
+R0NDIGNvbXBpbGVyLg0KDQpUaGFua3MsDQpDaGVuIFF1bg0KDQoNCg0KDQoNCg0KDQoNCg0KDQo=
 
