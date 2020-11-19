@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 654D12B9B02
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 19:57:42 +0100 (CET)
-Received: from localhost ([::1]:47422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C19992B9B20
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 20:08:57 +0100 (CET)
+Received: from localhost ([::1]:56932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfp7l-0007So-GL
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 13:57:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38256)
+	id 1kfpIe-0003da-Sh
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 14:08:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kfp6M-000728-VV
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 13:56:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23793)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kfp6J-0005lW-44
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 13:56:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605812169;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JM+jVH2lHM0ffizjw3JJiPCHgZgYmro45sbw2ft8MMI=;
- b=YI+YTdZOn3mXjwjgDEXPKwDictXCL+9sResK9iZA1ePl8tCNdlaT56T7J2yb/Kaiu+f1WA
- Hdk1s4XYLTl+3fWsDAOTTpbPSe6KQCEw0esAesORfqifL110KETaKeHfDtYcu1lmLp81Z9
- nNFKApWL/BKtBcCAXF8cZY40kmjLxIo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-432-J6O-YIFgMAybuYEUBe3Okg-1; Thu, 19 Nov 2020 13:56:07 -0500
-X-MC-Unique: J6O-YIFgMAybuYEUBe3Okg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92DA11858EC8;
- Thu, 19 Nov 2020 18:56:06 +0000 (UTC)
-Received: from localhost (ovpn-115-101.rdu2.redhat.com [10.10.115.101])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2985E60C05;
- Thu, 19 Nov 2020 18:56:05 +0000 (UTC)
-Date: Thu, 19 Nov 2020 13:56:04 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v2 5/8] qlit: Support all types of QNums
-Message-ID: <20201119185604.GZ1509407@habkost.net>
-References: <20201116224143.1284278-1-ehabkost@redhat.com>
- <20201116224143.1284278-6-ehabkost@redhat.com>
- <CAJ+F1CJ4quGCWWSbfChj3DW-0ReMYxPM6gmFvMx9cKrTb2TeYA@mail.gmail.com>
- <87blftd419.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kfpGX-0002I1-OL; Thu, 19 Nov 2020 14:06:45 -0500
+Received: from mail-il1-x130.google.com ([2607:f8b0:4864:20::130]:33417)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kfpGW-0000vx-08; Thu, 19 Nov 2020 14:06:45 -0500
+Received: by mail-il1-x130.google.com with SMTP id y9so6375731ilb.0;
+ Thu, 19 Nov 2020 11:06:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5oLmtYiRH6NV6kROXu93cf6redqaxmI04ejhC28b4qA=;
+ b=V6YZLdxIiIHumOyjmfOGXHZpqCRR+PgU1uooouU7liJql5ujKH1W0SjkVUsagub1aJ
+ toEqIEPxXr6D8/ltJqQDfUc/Coz6bBep4XQkx+N2qEIzu3jyOxfvaW3exwIeDcUh8kEx
+ VWMWpQPDB6xXHirUA6fu8ubx3xqukZ/neRlYnW+ga24Z3qJTyTxEs4eFbyGaDqL0bMwe
+ t7Q2YxF38egXrLSVkucYIaEv4q2zCLEc5hhSPt1oDMHPlRrOsVZz+AxXoGEPCj3GjW8X
+ AXgEgFc43uBd44moq3LICfPzOUpb9gFlQ4XNjqg471P0yoW5DmYkkDbq6dBpQ/MaYNhx
+ K6mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5oLmtYiRH6NV6kROXu93cf6redqaxmI04ejhC28b4qA=;
+ b=JRLhPDLO7yaT9NhnoqdvpTAMvOZOobZGCc1YBDk8vhXdn8jq0BxcFsp1JzeAeu3txn
+ RgJ5uDlj+Y02kkCtzZzeb3Z/VsRjzQrGOiKS6o5aeRL9D/cGGqQnvZXbphUKHpuIfkFA
+ ePo0kZyhnLxmW+q7O2/AckoKSYemSF5vZ3V1NNTWhcTuQensAbkjZjJYHqM0kxSATdlB
+ pTWXK2W4INGsvbkN1fvKOJKR8HJ5OrCRdU0MCCPbvC+ZbnP4YreMvw3+NqlO1lDuyST7
+ 1oASDJnLHvS67mD9Rozhdd7C0CwxPA15jdVfu83QrC9L0vKgCKUrgBfNnGqhKEHhUMhH
+ rldQ==
+X-Gm-Message-State: AOAM530OYhGYABcNFfdYB8N94vfh5ChF86GVkol2MGwvgCyFYr/Ljr2h
+ IbHnJvarlIs8Hj4WyEpTpFrJ1CeYzVbxZB8l6f4=
+X-Google-Smtp-Source: ABdhPJwcpFwFJzCvB52q0utYFbdL6UKWYZloHskZEnk+fvrNJAXEuhck7cSBV2xvpGsBnyenav5ZluIonyE4Kx5RLWE=
+X-Received: by 2002:a92:5eda:: with SMTP id f87mr23846496ilg.131.1605812802189; 
+ Thu, 19 Nov 2020 11:06:42 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <87blftd419.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20201118083044.13992-1-frank.chang@sifive.com>
+ <20201118083044.13992-16-frank.chang@sifive.com>
+In-Reply-To: <20201118083044.13992-16-frank.chang@sifive.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 19 Nov 2020 10:54:18 -0800
+Message-ID: <CAKmqyKMQN-Bpfg8v358S+LHSN17PvVYDZoXiWzrUk_yRAGGs0w@mail.gmail.com>
+Subject: Re: [RFC 15/15] target/riscv: rvb: support and turn on B-extension
+ from command line
+To: Frank Chang <frank.chang@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::130;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x130.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,149 +77,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- QEMU <qemu-devel@nongnu.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Kito Cheng <kito.cheng@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 19, 2020 at 11:39:14AM +0100, Markus Armbruster wrote:
-> Marc-André Lureau <marcandre.lureau@gmail.com> writes:
-> 
-> > On Tue, Nov 17, 2020 at 2:48 AM Eduardo Habkost <ehabkost@redhat.com> wrote:
-> >
-> >> Use QNumValue to represent QNums, so we can also support uint64_t
-> >> and double QNum values.  Add new QLIT_QNUM_(INT|UINT|DOUBLE)
-> >> macros for each case.
-> >>
-> >> The QLIT_QNUM() macro is being kept for compatibility with
-> >> existing code, but becomes just a wrapper for QLIT_QNUM_INT().
-> >>
-> >
-> > I am not sure it's worth to keep. (furthermore, it's only used in tests
-> > afaics)
-> 
-> Seconded.
+On Wed, Nov 18, 2020 at 12:45 AM <frank.chang@sifive.com> wrote:
+>
+> From: Kito Cheng <kito.cheng@sifive.com>
+>
+> B-extension is default off, use cpu rv32 or rv64 with x-b=true to
+> enable B-extension.
+>
+> Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
 
-Understood, I will remove it.  I thought the QAPI code generator
-was using it.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-[...]
-> >> diff --git a/qobject/qlit.c b/qobject/qlit.c
-> >> index be8332136c..b23cdc4532 100644
-> >> --- a/qobject/qlit.c
-> >> +++ b/qobject/qlit.c
-> >> @@ -71,7 +71,8 @@ bool qlit_equal_qobject(const QLitObject *lhs, const
-> >> QObject *rhs)
-> >>      case QTYPE_QBOOL:
-> >>          return lhs->value.qbool == qbool_get_bool(qobject_to(QBool, rhs));
-> >>      case QTYPE_QNUM:
-> >> -        return lhs->value.qnum ==  qnum_get_int(qobject_to(QNum, rhs));
-> >> +        return qnum_value_is_equal(&lhs->value.qnum,
-> >> +                                   qnum_get_value(qobject_to(QNum, rhs)));
-> 
-> Before the patch, we crash when @rhs can't be represented as int64_t.
+Alistair
 
-I thought it was expected behavior?  QLit never supported
-QNUM_U64 or QNUM_DOUBLE as input.
-
-> 
-> Afterwards, we return false (I think).
-> 
-> Please note this in the commit message.  A separate fix preceding this
-> patch would be even better, but may not be worth the trouble.  Up to
-> you.
-
-The fix would be 3 or 4 extra lines of code that would be
-immediately deleted.  I'll just mention it as a side effect of
-the new feature.
-
-> 
-> >>      case QTYPE_QSTRING:
-> >>          return (strcmp(lhs->value.qstr,
-> >>                         qstring_get_str(qobject_to(QString, rhs))) == 0);
-> >> @@ -94,7 +95,7 @@ QObject *qobject_from_qlit(const QLitObject *qlit)
-> >>      case QTYPE_QNULL:
-> >>          return QOBJECT(qnull());
-> >>      case QTYPE_QNUM:
-> >> -        return QOBJECT(qnum_from_int(qlit->value.qnum));
-> >> +        return QOBJECT(qnum_from_value(qlit->value.qnum));
-> >>      case QTYPE_QSTRING:
-> >>          return QOBJECT(qstring_from_str(qlit->value.qstr));
-> >>      case QTYPE_QDICT: {
-> >> diff --git a/tests/check-qjson.c b/tests/check-qjson.c
-> >> index 07a773e653..711030cffd 100644
-> >> --- a/tests/check-qjson.c
-> >> +++ b/tests/check-qjson.c
-> >> @@ -796,20 +796,23 @@ static void simple_number(void)
-> >>      int i;
-> >>      struct {
-> >>          const char *encoded;
-> >> +        QLitObject qlit;
-> >>          int64_t decoded;
-> >>          int skip;
-> >>      } test_cases[] = {
-> >> -        { "0", 0 },
-> >> -        { "1234", 1234 },
-> >> -        { "1", 1 },
-> >> -        { "-32", -32 },
-> >> -        { "-0", 0, .skip = 1 },
-> >> +        { "0",    QLIT_QNUM(0),    0, },
-> >> +        { "1234", QLIT_QNUM(1234), 1234, },
-> >> +        { "1",    QLIT_QNUM(1),    1, },
-> >> +        { "-32",  QLIT_QNUM(-32),  -32, },
-> >> +        { "-0",   QLIT_QNUM(0),    0, .skip = 1 },
-> 
-> Note .qlit is always QLIT_QNUM(.decoded).  Would doing without .qlit
-> result in a simpler patch?
-
-Good point.  When I wrote this, I mistakenly thought we would end
-up having different types of qlits in the array.
-
-I still want to test multiple types of QNums here, not just
-QNUM_I64.  I will try to get something that is simple but also
-gets us more coverage.  Maybe as a separate test function and/or
-a separate patch.
-
-> 
-> >>          { },
-> >>      };
-> >>
-> >>      for (i = 0; test_cases[i].encoded; i++) {
-> >>          QNum *qnum;
-> >>          int64_t val;
-> >> +        QNum *qlit_num;
-> >> +        int64_t qlit_val;
-> >>
-> >>          qnum = qobject_to(QNum,
-> >>                            qobject_from_json(test_cases[i].encoded,
-> >> @@ -817,6 +820,7 @@ static void simple_number(void)
-> >>          g_assert(qnum);
-> >>          g_assert(qnum_get_try_int(qnum, &val));
-> >>          g_assert_cmpint(val, ==, test_cases[i].decoded);
-> >> +
-> >>          if (test_cases[i].skip == 0) {
-> >>              QString *str;
-> >>
-> >> @@ -826,9 +830,66 @@ static void simple_number(void)
-> >>          }
-> >>
-> >>          qobject_unref(qnum);
-> >> +
-> >> +        qlit_num = qobject_to(QNum,
-> >> +                              qobject_from_qlit(&test_cases[i].qlit));
-> >> +        g_assert(qlit_num);
-> >> +        g_assert(qnum_get_try_int(qlit_num, &qlit_val));
-> >> +        g_assert_cmpint(qlit_val, ==, test_cases[i].decoded);
-> >> +
-> >> +        qobject_unref(qlit_num);
-> >>      }
-> >>  }
-> >>
-[...]
-
--- 
-Eduardo
-
+> ---
+>  target/riscv/cpu.c | 4 ++++
+>  target/riscv/cpu.h | 2 ++
+>  2 files changed, 6 insertions(+)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 0bbfd7f4574..bc29e118c6d 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -438,6 +438,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>          if (cpu->cfg.ext_h) {
+>              target_misa |= RVH;
+>          }
+> +        if (cpu->cfg.ext_b) {
+> +            target_misa |= RVB;
+> +        }
+>          if (cpu->cfg.ext_v) {
+>              target_misa |= RVV;
+>              if (!is_power_of_2(cpu->cfg.vlen)) {
+> @@ -515,6 +518,7 @@ static Property riscv_cpu_properties[] = {
+>      DEFINE_PROP_BOOL("s", RISCVCPU, cfg.ext_s, true),
+>      DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
+>      /* This is experimental so mark with 'x-' */
+> +    DEFINE_PROP_BOOL("x-b", RISCVCPU, cfg.ext_b, true),
+>      DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
+>      DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
+>      DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index de4705bb578..c1c77c58a87 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -66,6 +66,7 @@
+>  #define RVS RV('S')
+>  #define RVU RV('U')
+>  #define RVH RV('H')
+> +#define RVB RV('B')
+>
+>  /* S extension denotes that Supervisor mode exists, however it is possible
+>     to have a core that support S mode but does not have an MMU and there
+> @@ -278,6 +279,7 @@ struct RISCVCPU {
+>          bool ext_f;
+>          bool ext_d;
+>          bool ext_c;
+> +        bool ext_b;
+>          bool ext_s;
+>          bool ext_u;
+>          bool ext_h;
+> --
+> 2.17.1
+>
+>
 
