@@ -2,110 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B4D22B932B
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 14:12:04 +0100 (CET)
-Received: from localhost ([::1]:44800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D33412B9381
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 14:19:00 +0100 (CET)
+Received: from localhost ([::1]:48950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfjjH-0005TB-Cs
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 08:12:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58088)
+	id 1kfjpz-0007Xg-Qd
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 08:18:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1kfjiD-00052r-Ki
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 08:10:57 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:47694)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kfjo5-0006I8-9r; Thu, 19 Nov 2020 08:17:01 -0500
+Received: from mail-eopbgr80091.outbound.protection.outlook.com
+ ([40.107.8.91]:45294 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1kfjiB-000408-9t
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 08:10:57 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0AJD4hb8034143; Thu, 19 Nov 2020 08:10:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=4LyAACrCrfDrTx9SGkzfJTDkl1SW6dbtKMMSLTiTLjY=;
- b=F+4K8p/9S2XyoTIW0fcM9ySpunpXIxAJIfGPXfY1LTqXxNiV/fgGyFqYHtx0OaNd971V
- 6+n1r0TECwNF73U9f/Kc/5Z80BkYogK/WTv0JIdVKVu0iTMlJBKmmgo2sz+pWi8MoaAY
- 2DrdolCgQuhrMRz/o2HIFcNNqa8TWCI1KhA4N2AY+NcJguA8XfQP/udYcph5dn7IxPyJ
- zoKCWY9Gbpvym3p/HgSbh4C9DY70duSP2b2Ld+FhSzejmc6X7r8ONigm9BOxo8aTquYz
- MZVDkyS5HGSRTIU+160NQqSSXzDw1VaPF35twnkfLCPLPUcxfOoOZ0BH7gSg533Lxas7 jQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34wg6efxww-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 19 Nov 2020 08:10:07 -0500
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0AJD5udO048512;
- Thu, 19 Nov 2020 08:10:07 -0500
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34wg6efxv1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 19 Nov 2020 08:10:06 -0500
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0AJD87XO002339;
- Thu, 19 Nov 2020 13:10:03 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma02fra.de.ibm.com with ESMTP id 34t6v8bpyp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 19 Nov 2020 13:10:03 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 0AJDA1iQ42205544
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 19 Nov 2020 13:10:01 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4D7814C064;
- Thu, 19 Nov 2020 13:10:01 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5D58A4C05E;
- Thu, 19 Nov 2020 13:09:59 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.171.22.151])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 19 Nov 2020 13:09:59 +0000 (GMT)
-Subject: Re: [PATCH v2] drivers/virt: vmgenid: add vm generation id driver
-To: Alexander Graf <graf@amazon.de>,
- "Catangiu, Adrian Costin" <acatan@amazon.com>,
- "Jason A. Donenfeld" <Jason@zx2c4.com>, Jann Horn <jannh@google.com>
-References: <3E05451B-A9CD-4719-99D0-72750A304044@amazon.com>
- <300d4404-3efe-880e-ef30-692eabbff5f7@de.ibm.com>
- <da1a1fa7-a1de-d0e6-755b-dd587687765e@amazon.de>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-ID: <c06a298e-a851-f637-6fc3-9a8dca991c6f@de.ibm.com>
-Date: Thu, 19 Nov 2020 14:09:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
-In-Reply-To: <da1a1fa7-a1de-d0e6-755b-dd587687765e@amazon.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kfjnz-00060R-DZ; Thu, 19 Nov 2020 08:16:58 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=b1UpX/zqdK89I0+02916b8VTIyE8KsL65Lg7qVoHSNeBGc5oYS/rGhV7Nu7TLdD6b1dBSESFhDpbDM8ZNTvbtO2bqxRlkWYO6kP7OTCEf1jsqFVrPLcOr2OzRfLXsIaXBc9wM7IyhhxrVspS6WhFy7LlEWQYJPUDuQJuQAncLsnQ6R8mhfQtZ0xwdXbTGIEUCuJQeWL0i1t+K/t3VUjczEC58cLZ9qPylUccUU/GXXDjBonpfRGYXps3ufi8+E4ioSznkK3fAyGK2dpJKxH5rTsKL3/LpIR6hi6DXskJbSxBLzeX5in1q41MsRktqeSyr0ZqxbnkxjwfYWCkRbp2Tg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WB8tqcJ9L6MIh+r0xKQL67zRNQuMt7od73/ywic61E8=;
+ b=VgP3nBjWYnBLFk09dbwjhrjtRyFcSaW1uxW2RaWLF3Q2mj1VeqoMKAFXiabx7Xz7YSGzDjD+3RsWMnR9DRCEiq2gDq4KBK7TIjOmz6gkgaoPHT11rDDMN9mONSx0k6NGzgEWE4XxxL4jgFpf4vRKfCnWXIq8khhIZPiA1uT02T9KKcnB5lFkdOqtZ4iQiFLLpwWCkHFcADDLffpJ9jS64/Fkbm7AJJaHjx/0DRYc19MZyOpKLFZ7DE7Z262BXEz0c1+Vf7N+LUvDzth/j3Bnl0LSgNuIz6P+l95vLVJw6M16W+rlOkUvC+ZC1gfMf9F07Cynr1h0+q53V4+hKPiKcw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WB8tqcJ9L6MIh+r0xKQL67zRNQuMt7od73/ywic61E8=;
+ b=bKlgil7wd5NVXRdimtE1nwGkiBIRXQOPF3iFqcSzdOe8Lt+xHWyJk3SiYdqFgzGPqPotr4J1NKud92YtijpH/5bhuXF+9+3a6Kn+3aRqMGKzgOFgx/PLV0O4ERhWEICGzd8faRTJbI2i/l892ebbzrerNEvbvpQa0LdJ4LgX4+I=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM5PR0801MB1844.eurprd08.prod.outlook.com (2603:10a6:203:39::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.22; Thu, 19 Nov
+ 2020 13:16:49 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::fd02:1330:f620:1243]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::fd02:1330:f620:1243%9]) with mapi id 15.20.3589.021; Thu, 19 Nov 2020
+ 13:16:49 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, crosa@redhat.com, ehabkost@redhat.com,
+ vsementsov@virtuozzo.com, eblake@redhat.com, jsnow@redhat.com,
+ armbru@redhat.com, mreitz@redhat.com, kwolf@redhat.com, den@openvz.org,
+ andrey.shinkevich@virtuozzo.com
+Subject: [PATCH 0/4] Add function to dump block layer for debugging
+Date: Thu, 19 Nov 2020 16:16:30 +0300
+Message-Id: <20201119131634.14009-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.3
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [185.215.60.89]
+X-ClientProxiedBy: AM0PR07CA0031.eurprd07.prod.outlook.com
+ (2603:10a6:208:ac::44) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
- definitions=2020-11-19_08:2020-11-19,
- 2020-11-19 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0
- priorityscore=1501 mlxlogscore=999 malwarescore=0 lowpriorityscore=0
- impostorscore=0 spamscore=0 bulkscore=0 phishscore=0 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011190094
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 07:02:56
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from kvm.sw.ru (185.215.60.89) by
+ AM0PR07CA0031.eurprd07.prod.outlook.com (2603:10a6:208:ac::44) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3589.15 via Frontend Transport; Thu, 19 Nov 2020 13:16:48 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: df233af6-5337-4a07-1eb8-08d88c8d5f28
+X-MS-TrafficTypeDiagnostic: AM5PR0801MB1844:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM5PR0801MB18440F8EB716FDA802631B32C1E00@AM5PR0801MB1844.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1751;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 0CV5rqA6pR5ossgCP7wwodJergeHuWaWBNew5QznC5ARbwZ9yFLz3fvh6WQB76R6zt1rVn0AUflWCGjM41uKOTJnfZD3UKb/9wyAajp5n0qgNgD2EX0SL3VhaXpJ+REfnMP4oBoGCFswmVOQK4ZUXFNxBdWyVi5EWf5v4bg3q5rSpqmLl8aGTxQTmJuQ5Xbc2RfhTZK+O/fIqF3EjiF3hvJRACxUS3PSPbC2dybPDzNuBucfEzVPPfviqBu6foYNaXQi7uqOeZlguPe2Fjb0p9hklOeNVkee8I8fSEaSbol9kv81VZikTdUv8ZvwxdGlfOlfkSiE34u2vBdWey7DyA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(39840400004)(136003)(366004)(376002)(346002)(6486002)(36756003)(186003)(16526019)(316002)(2616005)(26005)(4326008)(107886003)(478600001)(6512007)(83380400001)(6916009)(8676002)(6506007)(52116002)(6666004)(2906002)(8936002)(956004)(66946007)(1076003)(66476007)(86362001)(66556008)(5660300002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: uB3qermPRzJkA5TLllERt59+DMWE+sAHbk1zCbQ+Chmo2P/2vribZavCVgW6VdNlT7IBLLpQFSCfSHgKQQTQTvBn27/QnHP9YEJubPqcssUIl3ap5Jy3M0AqQeDXqpZS9+E3vldyPqWo1UJQZ7pybslMoPHnx94iUPscJQcf5djdQum7mvOgzuDPSsbWmI+UAiSG5tffFYrMpLE12FK2QIKnkiISoSDc9DO0USUmaT7aCB6G79ExyRfu6aGOS5LPJPOKSxm84d7R7D9b9fZMBIYBnY5UF+ZhyFiFMd2wBHaXnUb6NlcnCIg1eq8bTcuAJ3hHIYgSQxF21qszQwXBPyfF6iVZeKFF/pwja6tGtnFGAOuZYFvrwYxpyFDUzEr1PgYY7xJJNWxO7jkjWHdayd7RdVRb3EnFjQHxo0uIhgSmcsnCsKsOjmQ1dbpkXQ8cYl5PkenmVilgxUnkUQ6gxGHBU2bECnB/Js9skYTyqvhZ6EPPhTWmuFHtQKOhIhiS9nNXpbBt9dPs4BMCnK62RQEQLXlsoqaz1+gJJVKd8NXwYrFq/VGHM3urdQox35Yf5hHlnVx+dkwA3iJ+Gg0nQgPmzjCwExTJxPbG17Pn1YBBSC+Hhud73TyEpVGeovmsiaoBLWXzaz3JrNVZ5wSRcw==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: df233af6-5337-4a07-1eb8-08d88c8d5f28
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2020 13:16:49.0136 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YueND77nw17/KcABZhMLm4tiXPTdxK/1KllT7YnaNxjBY3NxBrT3l9gvkkrWNHh81jFVpWpXAglRCbpqeOSTdTJjTe44oe657xIFfSbTTNg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1844
+Received-SPF: pass client-ip=40.107.8.91;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 08:16:51
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -118,94 +115,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "asmehra@redhat.com" <asmehra@redhat.com>,
- "dgunigun@redhat.com" <dgunigun@redhat.com>, KVM list <kvm@vger.kernel.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- "ghammer@redhat.com" <ghammer@redhat.com>,
- "vijaysun@ca.ibm.com" <vijaysun@ca.ibm.com>, "Weiss,
- Radu" <raduweis@amazon.com>, Qemu Developers <qemu-devel@nongnu.org>,
- Michal Hocko <mhocko@kernel.org>, Andrey Vagin <avagin@gmail.com>,
- Pavel Machek <pavel@ucw.cz>, Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
- linux-s390 <linux-s390@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
- "Michael S. Tsirkin" <mst@redhat.com>, Eric Biggers <ebiggers@kernel.org>,
- "Singh, Balbir" <sblbir@amazon.com>, "bonzini@gnu.org" <bonzini@gnu.org>,
- Dmitry Safonov <0x7f454c46@gmail.com>, "oridgar@gmail.com" <oridgar@gmail.com>,
- Andy Lutomirski <luto@kernel.org>, "gil@azul.com" <gil@azul.com>,
- "MacCarthaigh, Colm" <colmmacc@amazon.com>, "Theodore Y. Ts'o" <tytso@mit.edu>,
- Linux API <linux-api@vger.kernel.org>, "areber@redhat.com" <areber@redhat.com>,
- kernel list <linux-kernel@vger.kernel.org>,
- Pavel Emelyanov <ovzxemul@gmail.com>, Mike Rapoport <rppt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Willy Tarreau <w@1wt.eu>, "Woodhouse,
- David" <dwmw@amazon.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi all!
 
+Here is a new function dbg_dump_block_layer() to help with block layer
+code debugging.
 
-On 19.11.20 13:51, Alexander Graf wrote:
-> 
-> 
-> On 19.11.20 13:02, Christian Borntraeger wrote:
->>
->> On 16.11.20 16:34, Catangiu, Adrian Costin wrote:
->>> - Background
->>>
->>> The VM Generation ID is a feature defined by Microsoft (paper:
->>> http://go.microsoft.com/fwlink/?LinkId=260709) and supported by
->>> multiple hypervisor vendors.
->>>
->>> The feature is required in virtualized environments by apps that work
->>> with local copies/caches of world-unique data such as random values,
->>> uuids, monotonically increasing counters, etc.
->>> Such apps can be negatively affected by VM snapshotting when the VM
->>> is either cloned or returned to an earlier point in time.
->>>
->>> The VM Generation ID is a simple concept meant to alleviate the issue
->>> by providing a unique ID that changes each time the VM is restored
->>> from a snapshot. The hw provided UUID value can be used to
->>> differentiate between VMs or different generations of the same VM.
->>>
->>> - Problem
->>>
->>> The VM Generation ID is exposed through an ACPI device by multiple
->>> hypervisor vendors but neither the vendors or upstream Linux have no
->>> default driver for it leaving users to fend for themselves.
->>
->> I see that the qemu implementation is still under discussion. What is
-> 
-> Uh, the ACPI Vmgenid device emulation is in QEMU since 2.9.0 :).
+Usage:
 
-Ah right. Found it. 
-> 
->> the status of the other existing implementations. Do they already exist?
->> In other words is ACPI a given?
->> I think the majority of this driver could be used with just a different
->> backend for platforms without ACPI so in any case we could factor out
->> the backend (acpi, virtio, whatever) but if we are open we could maybe
->> start with something else.
-> 
-> I agree 100%. I don't think we really need a new framework in the kernel for that. We can just have for example an s390x specific driver that also provides the same notification mechanism through a device node that is also named "/dev/vmgenid", no?
-> 
-> Or alternatively we can split the generic part of this driver as soon as a second one comes along and then have both driver include that generic logic.
+1. Add dbg_dump_block_layer("/path/to/dump.json") call in some place
+were you are trying to understand the relations in block graph and run
+your test. Or just call dbg_dump_block_layer("/path/to/dump.json") from
+gdb session if attached to running Qemu.
 
-Yes. I think it is probably the best variant to check if we split this into a front end /back end or provide a new driver when we have something. 
-> 
-> The only piece where I'm unsure is how this will interact with CRIU. Can containers emulate ioctls and device nodes?
-> 
-> 
-> Alex
-> 
-> 
-> 
-> Amazon Development Center Germany GmbH
-> Krausenstr. 38
-> 10117 Berlin
-> Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
-> Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
-> Sitz: Berlin
-> Ust-ID: DE 289 237 879
-> 
-> 
+2. Convert json to png image:
+
+ .scripts/render_block_graph.py --json /path/to/dump.json /path/to/out
+
+And get your /path/to/out dot file and /path/to/out.png image.
+
+Vladimir Sementsov-Ogievskiy (4):
+  block: bdrv_get_xdbg_block_graph() drop unused errp argument
+  blockjob: add block_jobs_info_list()
+  block: add dbg_dump_block_layer()
+  scripts/render_block_graph.py: add ability to parse json files
+
+ qapi/block-core.json          | 13 +++++++++
+ include/block/block.h         |  5 +++-
+ include/block/blockjob.h      |  7 +++++
+ block.c                       | 53 +++++++++++++++++++++++++++++++++--
+ blockdev.c                    | 28 ++----------------
+ blockjob.c                    | 29 +++++++++++++++++++
+ MAINTAINERS                   |  5 ++++
+ scripts/render_block_graph.py | 53 ++++++++++++++++++++++-------------
+ 8 files changed, 145 insertions(+), 48 deletions(-)
+
+-- 
+2.21.3
+
 
