@@ -2,51 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA7762B8A14
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 03:29:01 +0100 (CET)
-Received: from localhost ([::1]:59228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D09012B8A58
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 04:11:18 +0100 (CET)
+Received: from localhost ([::1]:45664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfZgy-0004rE-FS
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 21:29:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51816)
+	id 1kfaLt-00060Z-DR
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 22:11:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1kfZfi-0004CD-Cl; Wed, 18 Nov 2020 21:27:42 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:2098)
+ id 1kfaKW-0005PB-Ln; Wed, 18 Nov 2020 22:09:52 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2529)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1kfZfd-0007eN-J1; Wed, 18 Nov 2020 21:27:42 -0500
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Cc3Tz6tbmzhY3r;
- Thu, 19 Nov 2020 10:27:03 +0800 (CST)
-Received: from [10.174.187.138] (10.174.187.138) by
- DGGEMS408-HUB.china.huawei.com (10.3.19.208) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 19 Nov 2020 10:27:04 +0800
-Message-ID: <5FB5D7F8.50003@huawei.com>
-Date: Thu, 19 Nov 2020 10:27:04 +0800
+ id 1kfaKT-0004nq-JT; Wed, 18 Nov 2020 22:09:52 -0500
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Cc4Qs1Wdzzhcjn;
+ Thu, 19 Nov 2020 11:09:25 +0800 (CST)
+Received: from huawei.com (10.175.124.27) by DGGEMS402-HUB.china.huawei.com
+ (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0; Thu, 19 Nov 2020
+ 11:09:31 +0800
 From: Alex Chen <alex.chen@huawei.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64;
- rv:17.0) Gecko/20130509 Thunderbird/17.0.6
+To: <kraxel@redhat.com>
+Subject: [PATCH] hw/usb: Fix bad printf format specifiers
+Date: Thu, 19 Nov 2020 02:57:51 +0000
+Message-ID: <20201119025751.45750-1-alex.chen@huawei.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-To: <balrogg@gmail.com>, Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] hw/arm: Fix bad print format specifiers
-References: <5F9FD78B.8000300@huawei.com>
-In-Reply-To: <5F9FD78B.8000300@huawei.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.187.138]
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.124.27]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32; envelope-from=alex.chen@huawei.com;
- helo=szxga06-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 20:50:45
+Received-SPF: pass client-ip=45.249.212.191; envelope-from=alex.chen@huawei.com;
+ helo=szxga05-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 20:50:48
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,63 +56,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-arm@nongnu.org,
- QEMU <qemu-devel@nongnu.org>, zhang.zhanghailiang@huawei.com
+Cc: alex.chen@huawei.com, qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
+ zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kindly ping.
+We should use printf format specifier "%u" instead of "%d" for
+argument of type "unsigned int".
 
-On 2020/11/2 17:55, AlexChen wrote:
-> We should use printf format specifier "%u" instead of "%i" for
-> argument of type "unsigned int".
-> 
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Alex Chen <alex.chen@huawei.com>
-> ---
->  hw/arm/pxa2xx.c | 2 +-
->  hw/arm/spitz.c  | 2 +-
->  hw/arm/tosa.c   | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/arm/pxa2xx.c b/hw/arm/pxa2xx.c
-> index 591776ba88..1a98f3bd5c 100644
-> --- a/hw/arm/pxa2xx.c
-> +++ b/hw/arm/pxa2xx.c
-> @@ -675,7 +675,7 @@ static void pxa2xx_ssp_write(void *opaque, hwaddr addr,
->          if (value & SSCR0_MOD)
->              printf("%s: Attempt to use network mode\n", __func__);
->          if (s->enable && SSCR0_DSS(value) < 4)
-> -            printf("%s: Wrong data size: %i bits\n", __func__,
-> +            printf("%s: Wrong data size: %u bits\n", __func__,
->                              SSCR0_DSS(value));
->          if (!(value & SSCR0_SSE)) {
->              s->sssr = 0;
-> diff --git a/hw/arm/spitz.c b/hw/arm/spitz.c
-> index 32bdeacfd3..772662f149 100644
-> --- a/hw/arm/spitz.c
-> +++ b/hw/arm/spitz.c
-> @@ -586,7 +586,7 @@ struct SpitzLCDTG {
->  static void spitz_bl_update(SpitzLCDTG *s)
->  {
->      if (s->bl_power && s->bl_intensity)
-> -        zaurus_printf("LCD Backlight now at %i/63\n", s->bl_intensity);
-> +        zaurus_printf("LCD Backlight now at %u/63\n", s->bl_intensity);
->      else
->          zaurus_printf("LCD Backlight now off\n");
->  }
-> diff --git a/hw/arm/tosa.c b/hw/arm/tosa.c
-> index fe88ed89fe..66b244aeff 100644
-> --- a/hw/arm/tosa.c
-> +++ b/hw/arm/tosa.c
-> @@ -150,7 +150,7 @@ static void tosa_gpio_setup(PXA2xxState *cpu,
-> 
->  static uint32_t tosa_ssp_tansfer(SSISlave *dev, uint32_t value)
->  {
-> -    fprintf(stderr, "TG: %d %02x\n", value >> 5, value & 0x1f);
-> +    fprintf(stderr, "TG: %u %02x\n", value >> 5, value & 0x1f);
->      return 0;
->  }
-> 
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Alex Chen <alex.chen@huawei.com>
+---
+ hw/usb/ccid-card-passthru.c   | 2 +-
+ hw/usb/core.c                 | 4 ++--
+ hw/usb/dev-smartcard-reader.c | 8 ++++----
+ hw/usb/hcd-ehci.c             | 4 ++--
+ 4 files changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/hw/usb/ccid-card-passthru.c b/hw/usb/ccid-card-passthru.c
+index e8e9d37e88..48590730e0 100644
+--- a/hw/usb/ccid-card-passthru.c
++++ b/hw/usb/ccid-card-passthru.c
+@@ -335,7 +335,7 @@ static void passthru_apdu_from_guest(
+     PassthruState *card = PASSTHRU_CCID_CARD(base);
+ 
+     if (!qemu_chr_fe_backend_connected(&card->cs)) {
+-        printf("ccid-passthru: no chardev, discarding apdu length %d\n", len);
++        printf("ccid-passthru: no chardev, discarding apdu length %u\n", len);
+         return;
+     }
+     ccid_card_vscard_send_apdu(card, apdu, len);
+diff --git a/hw/usb/core.c b/hw/usb/core.c
+index 5234dcc73f..965178f506 100644
+--- a/hw/usb/core.c
++++ b/hw/usb/core.c
+@@ -142,7 +142,7 @@ static void do_token_setup(USBDevice *s, USBPacket *p)
+     setup_len = (s->setup_buf[7] << 8) | s->setup_buf[6];
+     if (setup_len > sizeof(s->data_buf)) {
+         fprintf(stderr,
+-                "usb_generic_handle_packet: ctrl buffer too small (%d > %zu)\n",
++                "usb_generic_handle_packet: ctrl buffer too small (%u > %zu)\n",
+                 setup_len, sizeof(s->data_buf));
+         p->status = USB_RET_STALL;
+         return;
+@@ -277,7 +277,7 @@ static void do_parameter(USBDevice *s, USBPacket *p)
+     setup_len = (s->setup_buf[7] << 8) | s->setup_buf[6];
+     if (setup_len > sizeof(s->data_buf)) {
+         fprintf(stderr,
+-                "usb_generic_handle_packet: ctrl buffer too small (%d > %zu)\n",
++                "usb_generic_handle_packet: ctrl buffer too small (%u > %zu)\n",
+                 setup_len, sizeof(s->data_buf));
+         p->status = USB_RET_STALL;
+         return;
+diff --git a/hw/usb/dev-smartcard-reader.c b/hw/usb/dev-smartcard-reader.c
+index 946df9734a..80109fa551 100644
+--- a/hw/usb/dev-smartcard-reader.c
++++ b/hw/usb/dev-smartcard-reader.c
+@@ -945,7 +945,7 @@ static void ccid_on_apdu_from_guest(USBCCIDState *s, CCID_XferBlock *recv)
+         return;
+     }
+     len = le32_to_cpu(recv->hdr.dwLength);
+-    DPRINTF(s, 1, "%s: seq %d, len %d\n", __func__,
++    DPRINTF(s, 1, "%s: seq %d, len %u\n", __func__,
+                 recv->hdr.bSeq, len);
+     ccid_add_pending_answer(s, (CCID_Header *)recv);
+     if (s->card && len <= BULK_OUT_DATA_SIZE) {
+@@ -995,13 +995,13 @@ static void ccid_handle_bulk_out(USBCCIDState *s, USBPacket *p)
+     if ((s->bulk_out_pos - 10 < ccid_header->dwLength) &&
+         (p->iov.size == CCID_MAX_PACKET_SIZE)) {
+         DPRINTF(s, D_VERBOSE,
+-                "usb-ccid: bulk_in: expecting more packets (%d/%d)\n",
++                "usb-ccid: bulk_in: expecting more packets (%u/%u)\n",
+                 s->bulk_out_pos - 10, ccid_header->dwLength);
+         return;
+     }
+     if (s->bulk_out_pos - 10 != ccid_header->dwLength) {
+         DPRINTF(s, 1,
+-                "usb-ccid: bulk_in: message size mismatch (got %d, expected %d)\n",
++                "usb-ccid: bulk_in: message size mismatch (got %u, expected %u)\n",
+                 s->bulk_out_pos - 10, ccid_header->dwLength);
+         goto err;
+     }
+@@ -1202,7 +1202,7 @@ void ccid_card_send_apdu_to_guest(CCIDCardState *card,
+         ccid_report_error_failed(s, ERROR_HW_ERROR);
+         return;
+     }
+-    DPRINTF(s, 1, "APDU returned to guest %d (answer seq %d, slot %d)\n",
++    DPRINTF(s, 1, "APDU returned to guest %u (answer seq %d, slot %d)\n",
+         len, answer->seq, answer->slot);
+     ccid_write_data_block_answer(s, apdu, len);
+ }
+diff --git a/hw/usb/hcd-ehci.c b/hw/usb/hcd-ehci.c
+index ae7f20c502..257375d254 100644
+--- a/hw/usb/hcd-ehci.c
++++ b/hw/usb/hcd-ehci.c
+@@ -1192,7 +1192,7 @@ static int ehci_init_transfer(EHCIPacket *p)
+ 
+     while (bytes > 0) {
+         if (cpage > 4) {
+-            fprintf(stderr, "cpage out of range (%d)\n", cpage);
++            fprintf(stderr, "cpage out of range (%u)\n", cpage);
+             qemu_sglist_destroy(&p->sgl);
+             return -1;
+         }
+@@ -1598,7 +1598,7 @@ static int ehci_state_fetchentry(EHCIState *ehci, int async)
+ 
+     default:
+         /* TODO: handle FSTN type */
+-        fprintf(stderr, "FETCHENTRY: entry at %X is of type %d "
++        fprintf(stderr, "FETCHENTRY: entry at %X is of type %u "
+                 "which is not supported yet\n", entry, NLPTR_TYPE_GET(entry));
+         return -1;
+     }
+-- 
+2.19.1
 
 
