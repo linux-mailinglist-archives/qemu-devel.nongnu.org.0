@@ -2,93 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5006A2B993F
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 18:26:11 +0100 (CET)
-Received: from localhost ([::1]:48266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BA592B9965
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 18:42:42 +0100 (CET)
+Received: from localhost ([::1]:60208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfnhB-0001h1-Sf
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 12:26:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42004)
+	id 1kfnxB-0007pl-7E
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 12:42:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kfneu-0000x5-Ho
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 12:23:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57357)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kfnw7-0007OF-V2
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 12:41:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21287)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kfneo-0006Lb-H4
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 12:23:47 -0500
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kfnw5-0004nU-3r
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 12:41:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605806615;
+ s=mimecast20190719; t=1605807692;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5Sp9cOJ9Yc8t/P1YWE0UWYesvO9/dk6WOszL8jP5YEw=;
- b=eoEe6fwIpLrzxQO5f3PpXdGGDslxoRysYNAnMfjwOCDkTXZ8lkJjemRzsxWUm16nrRn2D+
- TzntpK72mnfRfe8anLtLKseb3i6wLV2RI0ej7OOc9eH5Lgy3quJ7t34NzIHGAaXDAQMNmJ
- CcU0Iq1Lc5Ktcgh23rgZOUviONLWdF4=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-448-TOZnvl92Mb6PeiVddhDjig-1; Thu, 19 Nov 2020 12:23:33 -0500
-X-MC-Unique: TOZnvl92Mb6PeiVddhDjig-1
-Received: by mail-ed1-f69.google.com with SMTP id d3so2617795eds.3
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 09:23:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5Sp9cOJ9Yc8t/P1YWE0UWYesvO9/dk6WOszL8jP5YEw=;
- b=GFtFi6jyWtSw44hB3iZ82EJhk1lHoTZ/A4UjN0HrG7NlG1zy0Fw6W6lJupnkXlD+Xg
- DG3/q3iwL9gw2pSCK0ak2RyoyZ8r160MRi5sQQOyNWQMwzsbhcuQVxbQGMJDxeLa9933
- VTM1mV3eNZeKPcm5Ec+F5GxdsHMq+9UGqWZZYxJ5h18pwzLAlbTVhZYYlt6lJ1dY5fna
- 8Taaz4jCMIn7VlbUGhYFzc7M7In//yO7ci9Eo46Qo4m6KoiTKpCbBUCc5O79mVC00Hos
- EVU7ZRh64BkbahqguiXTjnVou1ROT4Jky0S4i1rJEZUlRd3iJKDirk0oqZxhSsaE6Wxf
- lqoQ==
-X-Gm-Message-State: AOAM530J3AgX2fN21CXAj6mhT/2ydXF4xioDx+Otw4AqfOzyPJv1rrZU
- bUsEUS9UxuFmgNYqH8kvh4+FCiJwl5rLjE2emkgHhMJvSJvu/Tue1VVby2mvAMh9kWKtDKBKdCc
- HyQlC8QP94RwV1J0=
-X-Received: by 2002:aa7:d2d2:: with SMTP id k18mr30574733edr.290.1605806612641; 
- Thu, 19 Nov 2020 09:23:32 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxfpK/d4QDi/OLAllzINFvWCd3M9f4QlryYlN3tWLbfxZvZWdb4Qk4nK70y1piSbpjp/e0RfA==
-X-Received: by 2002:aa7:d2d2:: with SMTP id k18mr30574714edr.290.1605806612373; 
- Thu, 19 Nov 2020 09:23:32 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id k12sm145364ejz.48.2020.11.19.09.23.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Nov 2020 09:23:31 -0800 (PST)
-Subject: Re: [PATCH v2 0/8] qom: Use qlit to represent property defaults
-To: Eduardo Habkost <ehabkost@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-References: <20201116224143.1284278-1-ehabkost@redhat.com>
- <87eekpbjvt.fsf@dusky.pond.sub.org> <20201119171342.GT1509407@habkost.net>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <981fb59f-ad67-886c-40e7-6f129997f4c7@redhat.com>
-Date: Thu, 19 Nov 2020 18:23:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ bh=T7Bjm34hEll8fa3YsD6yCHLabQOWQPX60ow+irsuV44=;
+ b=fuxzCAWKMtIDbzXjtIRYlvwuc/o5LvP2x/H0b6MTmr9Ft2LDv3uQ95k+7DA5XU3SxwTTP5
+ 7rwbw5Y2g8rL057DM0ZEghT7xajRIQ454jC3rBAupQdYpiBcQEbaLAV+QK6Wqg0bnvBF2w
+ GsKhjeMx9PZ6xXYz88gkmEsb030mfvA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-225-s5B1lekfNumiZF8C3B-6zA-1; Thu, 19 Nov 2020 12:41:30 -0500
+X-MC-Unique: s5B1lekfNumiZF8C3B-6zA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 400CE1858EC6;
+ Thu, 19 Nov 2020 17:41:28 +0000 (UTC)
+Received: from w520.home (ovpn-112-213.phx2.redhat.com [10.3.112.213])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7E1E910021B3;
+ Thu, 19 Nov 2020 17:41:27 +0000 (UTC)
+Date: Thu, 19 Nov 2020 10:41:27 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH RFC] vfio: Move the saving of the config space to the
+ right place in VFIO migration
+Message-ID: <20201119104127.5e243efa@w520.home>
+In-Reply-To: <860bd707-8862-2584-6e12-67c86f092dba@nvidia.com>
+References: <20201114091731.157-1-lushenming@huawei.com>
+ <860bd707-8862-2584-6e12-67c86f092dba@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <20201119171342.GT1509407@habkost.net>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,25 +81,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Neo Jia <cjia@nvidia.com>, Marc Zyngier <maz@kernel.org>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org, dgilbert@redhat.com,
+ Shenming Lu <lushenming@huawei.com>, qemu-arm@nongnu.org, yuzenghui@huawei.com,
+ wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/11/20 18:13, Eduardo Habkost wrote:
->> What's left?
-> Enums.  Enums properties are a mess to implement, and I plan to
-> tackle them later.
-> 
-> On all other cases, the external representation of the property
-> value is similar to the internal representation.  In the case of
-> enums, the external representation is a string, but the internal
-> representation is an integer.
-> 
+On Thu, 19 Nov 2020 14:13:24 +0530
+Kirti Wankhede <kwankhede@nvidia.com> wrote:
 
-I would have expected a string QLit to work with enums, is there a 
-reason why it doesn't?
+> On 11/14/2020 2:47 PM, Shenming Lu wrote:
+> > When running VFIO migration, I found that the restoring of VFIO PCI dev=
+ice=E2=80=99s
+> > config space is before VGIC on ARM64 target. But generally, interrupt c=
+ontrollers
+> > need to be restored before PCI devices.  =20
+>=20
+> Is there any other way by which VGIC can be restored before PCI device?
+>=20
+> > Besides, if a VFIO PCI device is
+> > configured to have directly-injected MSIs (VLPIs), the restoring of its=
+ config
+> > space will trigger the configuring of these VLPIs (in kernel), where it=
+ would
+> > return an error as I saw due to the dependency on kvm=E2=80=99s vgic.
+> >  =20
+>=20
+> Can this be fixed in kernel to re-initialize the kernel state?
+>=20
+> > To avoid this, we can move the saving of the config space from the iter=
+able
+> > process to the non-iterable process, so that it will be called after VG=
+IC
+> > according to their priorities.
+> >  =20
+>=20
+> With this change, at resume side, pre-copy phase data would reach=20
+> destination without restored config space. VFIO device on destination=20
+> might need it's config space setup and validated before it can accept=20
+> further VFIO device specific migration state.
+>=20
+> This also changes bit-stream, so it would break migration with original=
+=20
+> migration patch-set.
 
-Paolo
+Config space can continue to change while in pre-copy, if we're only
+sending config space at the initiation of pre-copy, how are any changes
+that might occur before the VM is stopped conveyed to the target?  For
+example the guest might reboot and a device returned to INTx mode from
+MSI during pre-copy.  Thanks,
+
+Alex
+
+
+> > Signed-off-by: Shenming Lu <lushenming@huawei.com>
+> > ---
+> >   hw/vfio/migration.c | 22 ++++++----------------
+> >   1 file changed, 6 insertions(+), 16 deletions(-)
+> >=20
+> > diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> > index 3ce285ea39..028da35a25 100644
+> > --- a/hw/vfio/migration.c
+> > +++ b/hw/vfio/migration.c
+> > @@ -351,7 +351,7 @@ static int vfio_update_pending(VFIODevice *vbasedev=
+)
+> >       return 0;
+> >   }
+> >  =20
+> > -static int vfio_save_device_config_state(QEMUFile *f, void *opaque)
+> > +static void vfio_save_device_config_state(QEMUFile *f, void *opaque)
+> >   {
+> >       VFIODevice *vbasedev =3D opaque;
+> >  =20
+> > @@ -365,13 +365,14 @@ static int vfio_save_device_config_state(QEMUFile=
+ *f, void *opaque)
+> >  =20
+> >       trace_vfio_save_device_config_state(vbasedev->name);
+> >  =20
+> > -    return qemu_file_get_error(f);
+> > +    if (qemu_file_get_error(f))
+> > +        error_report("%s: Failed to save device config space",
+> > +                     vbasedev->name);
+> >   }
+> >  =20
+> >   static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
+> >   {
+> >       VFIODevice *vbasedev =3D opaque;
+> > -    uint64_t data;
+> >  =20
+> >       if (vbasedev->ops && vbasedev->ops->vfio_load_config) {
+> >           int ret;
+> > @@ -384,15 +385,8 @@ static int vfio_load_device_config_state(QEMUFile =
+*f, void *opaque)
+> >           }
+> >       }
+> >  =20
+> > -    data =3D qemu_get_be64(f);
+> > -    if (data !=3D VFIO_MIG_FLAG_END_OF_STATE) {
+> > -        error_report("%s: Failed loading device config space, "
+> > -                     "end flag incorrect 0x%"PRIx64, vbasedev->name, d=
+ata);
+> > -        return -EINVAL;
+> > -    }
+> > -
+> >       trace_vfio_load_device_config_state(vbasedev->name);
+> > -    return qemu_file_get_error(f);
+> > +    return 0;
+> >   }
+> >  =20
+> >   static int vfio_set_dirty_page_tracking(VFIODevice *vbasedev, bool st=
+art)
+> > @@ -575,11 +569,6 @@ static int vfio_save_complete_precopy(QEMUFile *f,=
+ void *opaque)
+> >           return ret;
+> >       }
+> >  =20
+> > -    ret =3D vfio_save_device_config_state(f, opaque);
+> > -    if (ret) {
+> > -        return ret;
+> > -    }
+> > -
+> >       ret =3D vfio_update_pending(vbasedev);
+> >       if (ret) {
+> >           return ret;
+> > @@ -720,6 +709,7 @@ static SaveVMHandlers savevm_vfio_handlers =3D {
+> >       .save_live_pending =3D vfio_save_pending,
+> >       .save_live_iterate =3D vfio_save_iterate,
+> >       .save_live_complete_precopy =3D vfio_save_complete_precopy,
+> > +    .save_state =3D vfio_save_device_config_state,
+> >       .load_setup =3D vfio_load_setup,
+> >       .load_cleanup =3D vfio_load_cleanup,
+> >       .load_state =3D vfio_load_state,
+> >  =20
+>=20
 
 
