@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46E272B9067
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 11:48:57 +0100 (CET)
-Received: from localhost ([::1]:41388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 553532B904D
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 11:43:54 +0100 (CET)
+Received: from localhost ([::1]:56694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfhUm-00086M-0g
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 05:48:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54294)
+	id 1kfhPs-0002b7-Lg
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 05:43:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kfhQv-00059Q-GD
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 05:44:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26099)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kfhQr-0002t2-AJ
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 05:44:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605782689;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=S8A6kUib9XH9HPGYz/o+koVf0KgN3JDBJqb05UG0mBQ=;
- b=XCZpsAM7Lsr0V+ypc+GUvqcvHo24b594JtASjjgw9cKvy1fkugmcyo514JBYeUwhHkFI+L
- CvCL/DfsATbTOZJ1LokInU1dxSl6ZRwqIIO1YZXFslGab8j7U8T1vsoy+hYP84jrVxAcv/
- RLbfALRisAQTuzJ4yHcgKAfeRRPYusk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-105-vAFHwHp3MkmLmC_uhJ4I8g-1; Thu, 19 Nov 2020 05:44:45 -0500
-X-MC-Unique: vAFHwHp3MkmLmC_uhJ4I8g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8EEF18144F1;
- Thu, 19 Nov 2020 10:44:44 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-115-48.ams2.redhat.com [10.36.115.48])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8852A10016F5;
- Thu, 19 Nov 2020 10:44:43 +0000 (UTC)
-Date: Thu, 19 Nov 2020 11:44:42 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Masayoshi Mizuma <msys.mizuma@gmail.com>
-Subject: Re: [PATCH 1/2] file-posix: Use OFD lock only if the filesystem
- supports the lock
-Message-ID: <20201119104442.GB4530@merkur.fritz.box>
-References: <20201106040102.13892-1-msys.mizuma@gmail.com>
- <20201118154247.GB11988@merkur.fritz.box>
- <20201118191036.yk4rju2hk4vpkhfl@gabell>
- <20201118194837.b54rp2qpbvuelosx@gabell>
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kfhND-0000nk-MC
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 05:41:07 -0500
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:40465)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kfhN7-0001rr-Iq
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 05:41:07 -0500
+Received: by mail-lj1-x242.google.com with SMTP id x9so5702354ljc.7
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 02:40:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hAWQ0/sW/RFBNh4GPuf7DHQi+rJJv5q/HzTKp55donA=;
+ b=ECVb5n5OxswuqkEuWEabBKDHhQ2hw+5L21VdI4kzKrqLb/epxartJnL56Wq+dJpK1O
+ HtgpcBWJSo6gKVKxzlcDhYXcAWxajyQ4aZVpcgLBkNAByHKS2Fvk6waPO7Njf3Rt7N1z
+ gm3bIzKBtfhCuvFi/yPI3bRQPrvaYY+ymrN6NZSP8X4wnDGx5u0gE2nsfCe2zSu/myLo
+ gn4HDzLlC4X0Wv8fLL6cUaXbpySj14zoe1Ze877C7yqhbc3Rvz14UzP4/6PwbwtcrNTR
+ N/+lp6eJFDJZLC8odC0Cq1zoTwHEPLEZE6BD7Omp5w2Tca4L78jmbiEFj1qnYRlqEXCh
+ 6lNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hAWQ0/sW/RFBNh4GPuf7DHQi+rJJv5q/HzTKp55donA=;
+ b=E19xHgTC8UR1EXayqrCu5+hM7fywCi4KScbOhZEX59k3XGfU8zCKTQuqk1dXDRGo69
+ kYFsEXNXNmVsuH5dIZf/L6RowxHVDPuCg2vyogMQ4oFAt9ITRdexKIcS5f+Qh+LQJytM
+ JkmP0mPFblR6OufkIuYCrtbJBppIqniXOqkPVhwR+MTYF14v9p0KZFgDjv45WJ+j32t0
+ IhI6G945WT2LFoxY/0tfdid4y90UsyD+nTScMa1kJegXqsvYAtOpG5+rfGF9V2poWnJX
+ 55M1QHyt4nRITZ32PrZ4FWyCSJgY2fn5GKd/BxbRHUR+sUIZT8ObTWIgZxfG0O0mSp9u
+ Jy6A==
+X-Gm-Message-State: AOAM533Hn2LioV3jrmC5Jl/2Z9/GYgsCJoW3RHTRXw0iUuYLQ1KO6bCV
+ iLFq9lNQiNyhARsSw4Nhrnv2GQ==
+X-Google-Smtp-Source: ABdhPJzEqpXDR4AAIkp76esgaoRZNXp9AMZXF0Pb/dNL6WkeUtrGjJsdP0POM7qDwXqnWQ7tnKIqmw==
+X-Received: by 2002:a2e:b5a5:: with SMTP id f5mr4240482ljn.37.1605782457517;
+ Thu, 19 Nov 2020 02:40:57 -0800 (PST)
+Received: from navi.cosmonova.net.ua ([95.67.24.131])
+ by smtp.gmail.com with ESMTPSA id h6sm3912667lfj.108.2020.11.19.02.40.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Nov 2020 02:40:56 -0800 (PST)
+From: Andrew Melnychenko <andrew@daynix.com>
+To: jasowang@redhat.com,
+	mst@redhat.com
+Subject: [RFC PATCH v2 0/5] eBPF RSS support for virtio-net
+Date: Thu, 19 Nov 2020 13:13:00 +0200
+Message-Id: <20201119111305.485202-1-andrew@daynix.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20201118194837.b54rp2qpbvuelosx@gabell>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 03:44:58
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2a00:1450:4864:20::242;
+ envelope-from=andrew@daynix.com; helo=mail-lj1-x242.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,98 +81,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: yan@daynix.com, yuri.benditovich@daynix.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 18.11.2020 um 20:48 hat Masayoshi Mizuma geschrieben:
-> On Wed, Nov 18, 2020 at 02:10:36PM -0500, Masayoshi Mizuma wrote:
-> > On Wed, Nov 18, 2020 at 04:42:47PM +0100, Kevin Wolf wrote:
-> > > Am 06.11.2020 um 05:01 hat Masayoshi Mizuma geschrieben:
-> > > > From: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
-> > > > 
-> > > > locking=auto doesn't work if the filesystem doesn't support OFD lock.
-> > > > In that situation, following error happens:
-> > > > 
-> > > >   qemu-system-x86_64: -blockdev driver=qcow2,node-name=disk,file.driver=file,file.filename=/mnt/guest.qcow2,file.locking=auto: Failed to lock byte 100
-> > > > 
-> > > > qemu_probe_lock_ops() judges whether qemu can use OFD lock
-> > > > or not with doing fcntl(F_OFD_GETLK) to /dev/null. So the
-> > > > error happens if /dev/null supports OFD lock, but the filesystem
-> > > > doesn't support the lock.
-> > > > 
-> > > > Lock the actual file, not /dev/null, using F_OFD_SETLK and if that
-> > > > fails, then fallback to F_SETLK.
-> > > > 
-> > > > Signed-off-by: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
+This set of patches introduces the usage of eBPF for packet steering
+and RSS hash calculation:
+* RSS(Receive Side Scaling) is used to distribute network packets to
+guest virtqueues by calculating packet hash
+* Additionally adding support for the usage of RSS with vhost
 
-> > > > -bool qemu_has_ofd_lock(void)
-> > > > -{
-> > > > -    qemu_probe_lock_ops();
-> > > >  #ifdef F_OFD_SETLK
-> > > > -    return fcntl_op_setlk == F_OFD_SETLK;
-> > > > +static int _qemu_lock_fcntl(int fd, struct flock *fl)
-> > > > +{
-> > > > +    int ret;
-> > > > +    bool ofd_lock = true;
-> > > > +
-> > > > +    do {
-> > > > +        if (ofd_lock) {
-> > > > +            ret = fcntl(fd, F_OFD_SETLK, fl);
-> > > > +            if ((ret == -1) && (errno == EINVAL)) {
-> > > > +                ofd_lock = false;
-> > > > +            }
-> > > > +        }
-> > > > +
-> > > > +        if (!ofd_lock) {
-> > > > +            /* Fallback to POSIX lock */
-> > > > +            ret = fcntl(fd, F_SETLK, fl);
-> > > > +        }
-> > > > +    } while (ret == -1 && errno == EINTR);
-> > > > +
-> > > > +    return ret == -1 ? -errno : 0;
-> > > > +}
-> > > >  #else
-> > > > -    return false;
-> > > > -#endif
-> > > > +static int _qemu_lock_fcntl(int fd, struct flock *fl)
-> > > > +{
-> > > > +    int ret;
-> > > > +
-> > > > +    do {
-> > > > +        ret = fcntl(fd, F_SETLK, fl);
-> > > > +    } while (ret == -1 && errno == EINTR);
-> > > > +
-> > > > +    return ret == -1 ? -errno : 0;
-> > > >  }
-> > > > +#endif
-> > > 
-> > > The logic looks fine to me, at least assuming that EINVAL is really what
-> > > we will consistently get from the kernel if OFD locks are not supported.
-> > > Is this documented anywhere? The fcntl manpage doesn't seem to mention
-> > > this case.
-> 
-> The man page of fcntl(2) says:
-> 
->        EINVAL The value specified in cmd is not recognized by this kernel.
-> 
-> So I think EINVAL is good enough to check whether the filesystem supports
-> OFD locks or not...
+The eBPF works on kernels 5.8+
+On earlier kerneld it fails to load and the RSS feature is reported
+only without vhost and implemented in 'in-qemu' software.
 
-A kernel not knowing the cmd at all is a somewhat different case (and
-certainly a different code path) than a filesystem not supporting it.
+Implementation notes:
+Linux TAP TUNSETSTEERINGEBPF ioctl was used to set the eBPF program.
+Added libbpf dependency and eBPF support.
+The eBPF program is part of the qemu and presented as an array
+of BPF ELF file data.
+The compilation of eBPF is not part of QEMU build and can be done 
+using provided Makefile.ebpf(need to adjust 'linuxhdrs').
+Added changes to virtio-net and vhost, primary eBPF RSS is used.
+'in-qemu' RSS used in the case of hash population and as a fallback option.
+For vhost, the hash population feature is not reported to the guest.
 
-I just had a look at the kernel code, and to me it seems that the
-difference between POSIX locks and OFD locks is handled entirely in
-filesystem independent code. A filesystem driver would in theory have
-ways to distinguish both, but I don't see any driver in the kernel tree
-that actually does this (and there is probably little reason for a
-driver to do so).
+Please also see the documentation in PATCH 5/5.
 
-So now I wonder what filesystem you are using? I'm curious what I
-missed.
+I am sending those patches as RFC to initiate the discussions and get
+feedback on the following points:
+* Fallback when eBPF is not supported by the kernel
+* Live migration to the kernel that doesn't have eBPF support
+* Integration with current QEMU build
+* Additional usage for eBPF for packet filtering
 
-Kevin
+Known issues:
+* hash population not supported by eBPF RSS: 'in-qemu' RSS used
+as a fallback, also, hash population feature is not reported to guests
+with vhost.
+* big-endian BPF support: for now, eBPF isn't supported on
+big-endian systems. Can be added in future if required.
+* huge .h file with eBPF binary. The size of .h file containing
+eBPF binary is currently ~5K lines, because the binary is built with debug information.
+The binary without debug/BTF info can't be loaded by libbpf.
+We're looking for possibilities to reduce the size of the .h files.
+
+Changes since v1:
+* using libbpf instead of direct 'bpf' system call.
+* added libbpf dependency to the configure/meson scripts.
+* changed python script for eBPF .h file generation.
+* changed eBPF program - reading L3 proto from ethernet frame.
+* added TUNSETSTEERINGEBPF define for TUN.
+* changed the maintainer's info.
+* added license headers.
+* refactored code.
+
+Andrew (5):
+  net: Added SetSteeringEBPF method for NetClientState.
+  ebpf: Added eBPF RSS program.
+  ebpf: Added eBPF RSS loader.
+  virtio-net: Added eBPF RSS to virtio-net.
+  docs: Added eBPF RSS documentation.
+
+ MAINTAINERS                    |    7 +
+ configure                      |   33 +
+ docs/ebpf_rss.rst              |  133 +
+ ebpf/EbpfElf_to_C.py           |   36 +
+ ebpf/Makefile.ebpf             |   33 +
+ ebpf/ebpf_rss-stub.c           |   40 +
+ ebpf/ebpf_rss.c                |  186 ++
+ ebpf/ebpf_rss.h                |   44 +
+ ebpf/meson.build               |    1 +
+ ebpf/rss.bpf.c                 |  505 +++
+ ebpf/tun_rss_steering.h        | 5439 ++++++++++++++++++++++++++++++++
+ hw/net/vhost_net.c             |    2 +
+ hw/net/virtio-net.c            |  120 +-
+ include/hw/virtio/virtio-net.h |    4 +
+ include/net/net.h              |    2 +
+ meson.build                    |   11 +
+ net/tap-bsd.c                  |    5 +
+ net/tap-linux.c                |   13 +
+ net/tap-linux.h                |    1 +
+ net/tap-solaris.c              |    5 +
+ net/tap-stub.c                 |    5 +
+ net/tap.c                      |    9 +
+ net/tap_int.h                  |    1 +
+ net/vhost-vdpa.c               |    2 +
+ 24 files changed, 6633 insertions(+), 4 deletions(-)
+ create mode 100644 docs/ebpf_rss.rst
+ create mode 100644 ebpf/EbpfElf_to_C.py
+ create mode 100755 ebpf/Makefile.ebpf
+ create mode 100644 ebpf/ebpf_rss-stub.c
+ create mode 100644 ebpf/ebpf_rss.c
+ create mode 100644 ebpf/ebpf_rss.h
+ create mode 100644 ebpf/meson.build
+ create mode 100644 ebpf/rss.bpf.c
+ create mode 100644 ebpf/tun_rss_steering.h
+
+-- 
+2.29.2
 
 
