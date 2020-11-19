@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D57E2B9D43
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 23:02:12 +0100 (CET)
-Received: from localhost ([::1]:54600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49B942B9D51
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 23:05:34 +0100 (CET)
+Received: from localhost ([::1]:36006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfs0J-00063G-Ac
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 17:02:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51062)
+	id 1kfs3Z-0001cY-Ai
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 17:05:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kfrul-0000Zq-Vm
+ id 1kfrum-0000an-9j
  for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:56:28 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:37518)
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:34281)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kfruj-00047g-3K
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:56:27 -0500
-Received: by mail-wr1-x429.google.com with SMTP id b6so8026496wrt.4
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 13:56:24 -0800 (PST)
+ id 1kfruk-00047v-5j
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:56:28 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id r17so8059430wrw.1
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 13:56:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=IjiHnjxng4qMR4/+51zXvM9fbADFjqwqCwPbseLYFWc=;
- b=eYFPt3srek3zQ8w4Om5FwGBb4agU4HegOwCQderXl5I+EtXCcTNYKmId19umWYYk+n
- 207mp0fmYsARpgPGu6AGLS7T8b76vbwX0i74LwRUcV4jGbwr71RfOfkZbEuvmElrDqD1
- iJtcfspdh+y6MBhqF9axptE/9bqtDWE668WhtOaJdr5BaYJ7Jdc0CfT2IrslPNNn5tZK
- W5xOX3Q3vdmowewCNUvCTcnU+s+g6blYmWugi+C6k0ktRMCum3WTjY2T1A4bCHOBASH/
- R/qflPc96a95knU3yB2zPxxAho5foLYz8OjRde3ch+cqYKYHwONvooZrPN1fjwU9BWsP
- pyYg==
+ bh=6ZUEsNLnkcWrUFTIwzA/F8jefuZJiQAaCiyi3H4CQDk=;
+ b=OXGhp5s//6VwqHwYzKZD0fmVFg2mZv7f4BtWyVhhd/IzqjvbOeZNiAWIuaCqjHtZ5U
+ H9PriM6SC3nmucTaskw7YlrKBNKwHGO5ht/mgd9OMmDK7wa3QscxvWAVon06DTJbG5Zv
+ gq5AreQ70jaYPaFvTvB3AlKOLAB8p42RuN6jNZsqdV9M3zD5mnLowLjQePMrhIhu3+68
+ pJKaErh++gOc1yvl1PaE8JDZ7d4v+BhVXkR2g51QY8r6TJyqX45XHuDw6a+kLMRFZRh4
+ NfqvbTzv1DakET1pfw1zm7hMLq9y6foexbd64GhA84A3SwWNhBZUk9trr1AHTLz0JiTX
+ OtEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IjiHnjxng4qMR4/+51zXvM9fbADFjqwqCwPbseLYFWc=;
- b=HKkC8/2XxwoX/x61VyQBhJ6qHKOPgDLxMIWYdz/k4h0KwM7f90AYU0tYVWdvjcnt00
- uNb0BmZBFYe433Rf9siBM+iBmLviDOz6gGRuk98k5jRKlPyifRarle0jxRdbgeBKD64a
- 8rdPhF6R5vbZm1caL0VoGaSgo8XrAvKfdv/Vum28YHNMXhff7BnPmwyceGGwEmqG3UAA
- Cnvfc81MqgbNtNhr/zhSvq4d7CuhSQE2s/efzm3UDpZCyfvJE9rOXej9xWXZdfT9rsSv
- V9QfPifsHGehMQAtGIRiohz6661reD1Bc/NJ07PEkMcj0ij7FgJSJdVcI4qOBVLOqnFH
- mj0A==
-X-Gm-Message-State: AOAM531Ks8Bg6wq3H9Jkbkt8JhvnwoXeUDzatKVS0VI25iLANWDgDBxA
- 5XoGBcYxmFKrp5QKJZqcxndl3Q==
-X-Google-Smtp-Source: ABdhPJyYnPU5D4csu7D0UDvEMH17K8t8n65qVkaRe3Xq2mnsO0M+5KBHNiYqgYX99s+0R0OAjHQV4w==
-X-Received: by 2002:adf:a549:: with SMTP id j9mr12399249wrb.199.1605822983760; 
- Thu, 19 Nov 2020 13:56:23 -0800 (PST)
+ bh=6ZUEsNLnkcWrUFTIwzA/F8jefuZJiQAaCiyi3H4CQDk=;
+ b=bVzng6x0fOnxGgnQvjaEfbxuIUxnU5nv023J6z6cx/o8h9oGzRcaKIm5k4DzNSFpxN
+ DSJD173IfJEQQ8vwME08clRM/fvbrcgDQY0ypBvLxLnHnUBRd2mMRVDdY08FrE9c9lBe
+ ymJX1mZPgHGg3T2XFReHqGe8dmp4C04169cukEboSNBvUBxAfAJb0PRYMKhO0eS5eIMw
+ YUMUq6eei4FI5Pj9iNTBQ05/5scHSiOj68Nl5dChHnocP3GRkhGQuC04inRuZKtCVdM6
+ ByyoogFnb0LlSSTH82FhbxmQ6Fl1H3XBzglDN/cUB7JABfGwclFXMRqqqzPgNR9r5xhX
+ 7b6Q==
+X-Gm-Message-State: AOAM530rGhEH7//4A9gRDXoirxi6g9QlyCY9/2NKq4Kb3xOrXvJ3ej/P
+ seUDEIGWKmV+1feyASAdqbHSaQ==
+X-Google-Smtp-Source: ABdhPJxhHeHLzzaOnn/pWZIgh10DABqluBMaiek+pXyKckHE0Z7JhbMmnmW/oLcgBBc+sn3jYb75Vg==
+X-Received: by 2002:a05:6000:11c2:: with SMTP id
+ i2mr10628297wrx.21.1605822984741; 
+ Thu, 19 Nov 2020 13:56:24 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j15sm1934851wrm.62.2020.11.19.13.56.22
+ by smtp.gmail.com with ESMTPSA id j15sm1934851wrm.62.2020.11.19.13.56.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Nov 2020 13:56:23 -0800 (PST)
+ Thu, 19 Nov 2020 13:56:24 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 03/28] target/arm: Don't clobber ID_PFR1.Security on
- M-profile cores
-Date: Thu, 19 Nov 2020 21:55:52 +0000
-Message-Id: <20201119215617.29887-4-peter.maydell@linaro.org>
+Subject: [PATCH v2 04/28] target/arm: Implement VSCCLRM insn
+Date: Thu, 19 Nov 2020 21:55:53 +0000
+Message-Id: <20201119215617.29887-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201119215617.29887-1-peter.maydell@linaro.org>
 References: <20201119215617.29887-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,38 +87,209 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In arm_cpu_realizefn() we check whether the board code disabled EL3
-via the has_el3 CPU object property, which we create if the CPU
-starts with the ARM_FEATURE_EL3 feature bit.  If it is disabled, then
-we turn off ARM_FEATURE_EL3 and also zero out the relevant fields in
-the ID_PFR1 and ID_AA64PFR0 registers.
+Implement the v8.1M VSCCLRM insn, which zeros floating point
+registers if there is an active floating point context.
+This requires support in write_neon_element32() for the MO_32
+element size, so add it.
 
-This codepath was incorrectly being taken for M-profile CPUs, which
-do not have an EL3 and don't set ARM_FEATURE_EL3, but which may have
-the M-profile Security extension and so should have non-zero values
-in the ID_PFR1.Security field.
-
-Restrict the handling of the feature flag to A/R-profile cores.
+Because we want to use arm_gen_condlabel(), we need to move
+the definition of that function up in translate.c so it is
+before the #include of translate-vfp.c.inc.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/arm/cpu.h               |  9 ++++
+ target/arm/m-nocp.decode       |  8 +++-
+ target/arm/translate.c         | 21 +++++----
+ target/arm/translate-vfp.c.inc | 84 ++++++++++++++++++++++++++++++++++
+ 4 files changed, 111 insertions(+), 11 deletions(-)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 07492e9f9a4..40f3f798b2b 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1674,7 +1674,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-         }
-     }
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index e5514c82862..11400a9d248 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3555,6 +3555,15 @@ static inline bool isar_feature_aa32_mprofile(const ARMISARegisters *id)
+     return FIELD_EX32(id->id_pfr1, ID_PFR1, MPROGMOD) != 0;
+ }
  
--    if (!cpu->has_el3) {
-+    if (!arm_feature(env, ARM_FEATURE_M) && !cpu->has_el3) {
-         /* If the has_el3 CPU property is disabled then we need to disable the
-          * feature.
-          */
++static inline bool isar_feature_aa32_m_sec_state(const ARMISARegisters *id)
++{
++    /*
++     * Return true if M-profile state handling insns
++     * (VSCCLRM, CLRM, FPCTX access insns) are implemented
++     */
++    return FIELD_EX32(id->id_pfr1, ID_PFR1, SECURITY) >= 3;
++}
++
+ static inline bool isar_feature_aa32_fp16_arith(const ARMISARegisters *id)
+ {
+     /* Sadly this is encoded differently for A-profile and M-profile */
+diff --git a/target/arm/m-nocp.decode b/target/arm/m-nocp.decode
+index 28c8ac6b94c..ccd62e8739a 100644
+--- a/target/arm/m-nocp.decode
++++ b/target/arm/m-nocp.decode
+@@ -29,13 +29,17 @@
+ # If the coprocessor is not present or disabled then we will generate
+ # the NOCP exception; otherwise we let the insn through to the main decode.
+ 
++%vd_dp  22:1 12:4
++%vd_sp  12:4 22:1
++
+ &nocp cp
+ 
+ {
+   # Special cases which do not take an early NOCP: VLLDM and VLSTM
+   VLLDM_VLSTM  1110 1100 001 l:1 rn:4 0000 1010 0000 0000
+-  # TODO: VSCCLRM (new in v8.1M) is similar:
+-  #VSCCLRM      1110 1100 1-01 1111 ---- 1011 ---- ---0
++  # VSCCLRM (new in v8.1M) is similar:
++  VSCCLRM      1110 1100 1.01 1111 .... 1011 imm:7 0   vd=%vd_dp size=3
++  VSCCLRM      1110 1100 1.01 1111 .... 1010 imm:8     vd=%vd_sp size=2
+ 
+   NOCP         111- 1110 ---- ---- ---- cp:4 ---- ---- &nocp
+   NOCP         111- 110- ---- ---- ---- cp:4 ---- ---- &nocp
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 6d04ca3a8a0..9f2b6018a21 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -100,6 +100,15 @@ void arm_translate_init(void)
+     a64_translate_init();
+ }
+ 
++/* Generate a label used for skipping this instruction */
++static void arm_gen_condlabel(DisasContext *s)
++{
++    if (!s->condjmp) {
++        s->condlabel = gen_new_label();
++        s->condjmp = 1;
++    }
++}
++
+ /* Flags for the disas_set_da_iss info argument:
+  * lower bits hold the Rt register number, higher bits are flags.
+  */
+@@ -1221,6 +1230,9 @@ static void write_neon_element64(TCGv_i64 src, int reg, int ele, MemOp memop)
+     long off = neon_element_offset(reg, ele, memop);
+ 
+     switch (memop) {
++    case MO_32:
++        tcg_gen_st32_i64(src, cpu_env, off);
++        break;
+     case MO_64:
+         tcg_gen_st_i64(src, cpu_env, off);
+         break;
+@@ -5156,15 +5168,6 @@ static void gen_srs(DisasContext *s,
+     s->base.is_jmp = DISAS_UPDATE_EXIT;
+ }
+ 
+-/* Generate a label used for skipping this instruction */
+-static void arm_gen_condlabel(DisasContext *s)
+-{
+-    if (!s->condjmp) {
+-        s->condlabel = gen_new_label();
+-        s->condjmp = 1;
+-    }
+-}
+-
+ /* Skip this instruction if the ARM condition is false */
+ static void arm_skip_unless(DisasContext *s, uint32_t cond)
+ {
+diff --git a/target/arm/translate-vfp.c.inc b/target/arm/translate-vfp.c.inc
+index 96948f5a2d3..2a67ed0f6e2 100644
+--- a/target/arm/translate-vfp.c.inc
++++ b/target/arm/translate-vfp.c.inc
+@@ -3406,6 +3406,90 @@ static bool trans_VLLDM_VLSTM(DisasContext *s, arg_VLLDM_VLSTM *a)
+     return true;
+ }
+ 
++static bool trans_VSCCLRM(DisasContext *s, arg_VSCCLRM *a)
++{
++    int btmreg, topreg;
++    TCGv_i64 zero;
++    TCGv_i32 aspen, sfpa;
++
++    if (!dc_isar_feature(aa32_m_sec_state, s)) {
++        /* Before v8.1M, fall through in decode to NOCP check */
++        return false;
++    }
++
++    /* Explicitly UNDEF because this takes precedence over NOCP */
++    if (!arm_dc_feature(s, ARM_FEATURE_M_MAIN) || !s->v8m_secure) {
++        unallocated_encoding(s);
++        return true;
++    }
++
++    if (!dc_isar_feature(aa32_vfp_simd, s)) {
++        /* NOP if we have neither FP nor MVE */
++        return true;
++    }
++
++    /*
++     * If FPCCR.ASPEN != 0 && CONTROL_S.SFPA == 0 then there is no
++     * active floating point context so we must NOP (without doing
++     * any lazy state preservation or the NOCP check).
++     */
++    aspen = load_cpu_field(v7m.fpccr[M_REG_S]);
++    sfpa = load_cpu_field(v7m.control[M_REG_S]);
++    tcg_gen_andi_i32(aspen, aspen, R_V7M_FPCCR_ASPEN_MASK);
++    tcg_gen_xori_i32(aspen, aspen, R_V7M_FPCCR_ASPEN_MASK);
++    tcg_gen_andi_i32(sfpa, sfpa, R_V7M_CONTROL_SFPA_MASK);
++    tcg_gen_or_i32(sfpa, sfpa, aspen);
++    arm_gen_condlabel(s);
++    tcg_gen_brcondi_i32(TCG_COND_EQ, sfpa, 0, s->condlabel);
++
++    if (s->fp_excp_el != 0) {
++        gen_exception_insn(s, s->pc_curr, EXCP_NOCP,
++                           syn_uncategorized(), s->fp_excp_el);
++        return true;
++    }
++
++    topreg = a->vd + a->imm - 1;
++    btmreg = a->vd;
++
++    /* Convert to Sreg numbers if the insn specified in Dregs */
++    if (a->size == 3) {
++        topreg = topreg * 2 + 1;
++        btmreg *= 2;
++    }
++
++    if (topreg > 63 || (topreg > 31 && !(topreg & 1))) {
++        /* UNPREDICTABLE: we choose to undef */
++        unallocated_encoding(s);
++        return true;
++    }
++
++    /* Silently ignore requests to clear D16-D31 if they don't exist */
++    if (topreg > 31 && !dc_isar_feature(aa32_simd_r32, s)) {
++        topreg = 31;
++    }
++
++    if (!vfp_access_check(s)) {
++        return true;
++    }
++
++    /* Zero the Sregs from btmreg to topreg inclusive. */
++    zero = tcg_const_i64(0);
++    if (btmreg & 1) {
++        write_neon_element64(zero, btmreg >> 1, 1, MO_32);
++        btmreg++;
++    }
++    for (; btmreg + 1 <= topreg; btmreg += 2) {
++        write_neon_element64(zero, btmreg >> 1, 0, MO_64);
++    }
++    if (btmreg == topreg) {
++        write_neon_element64(zero, btmreg >> 1, 0, MO_32);
++        btmreg++;
++    }
++    assert(btmreg == topreg + 1);
++    /* TODO: when MVE is implemented, zero VPR here */
++    return true;
++}
++
+ static bool trans_NOCP(DisasContext *s, arg_nocp *a)
+ {
+     /*
 -- 
 2.20.1
 
