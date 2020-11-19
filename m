@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31FF52B8EE8
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 10:35:12 +0100 (CET)
-Received: from localhost ([::1]:44302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB93A2B8F14
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 10:38:18 +0100 (CET)
+Received: from localhost ([::1]:49244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfgLP-0004DS-9V
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 04:35:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35718)
+	id 1kfgOP-0006NI-Oy
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 04:38:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kfgJh-0003T9-RZ
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 04:33:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24539)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kfgNe-0005ya-Gp
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 04:37:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kfgJf-0002t0-Mr
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 04:33:25 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kfgNc-0004J9-4F
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 04:37:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605778403;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=WtkzL7owD0MYjbqGz41fWl/6ICmPvrqmMdYh2frLr/U=;
- b=DoVgNh5NjrwGwT+S10wzcD+fxO6CKcIyKkiBjqE8GjUR/JNUDJ5yLxz5bjzJTO9k6J2V55
- b+LyvDp68Bq9FjVGxX6R4WVY/t4rlnLwzDxFfIvhwiK969ph6nSAiW0fytYxx2yDsoHEEI
- JmEGJXXVxNRYTLAtNdEzldljXKdhm/Y=
+ s=mimecast20190719; t=1605778646;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qiaJCieIbaDHmV93tLxUC4uiQUQwNb8q1hZq9gcTHEA=;
+ b=ANCVPudPoBtYIJbMzDiI1I+BTTYRqHsvBd2VBZO3VkoJlJrUiPjJQz3XIrhpkKMVOqDmI+
+ G84hNHYjutex4lGopt0wAyRqGl3U2IzsaZQ9dHRqfF470TcQ7Aj+65wVE4Kn7Ut+vI33t0
+ clYcJ9IOk7kD5ey0zn927BqAvXBZ2EU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-197-BYddQj5KPK61mCWQOOcdcw-1; Thu, 19 Nov 2020 04:33:21 -0500
-X-MC-Unique: BYddQj5KPK61mCWQOOcdcw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-521-ctCT9d65Pdaipqxn1fnTlg-1; Thu, 19 Nov 2020 04:37:24 -0500
+X-MC-Unique: ctCT9d65Pdaipqxn1fnTlg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CB5718957EC
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 09:33:20 +0000 (UTC)
-Received: from redhat.com (ovpn-114-191.ams2.redhat.com [10.36.114.191])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 36D935D6AB;
- Thu, 19 Nov 2020 09:33:09 +0000 (UTC)
-Date: Thu, 19 Nov 2020 09:33:07 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH 3/4] meson: move qxl trace events to separate file
-Message-ID: <20201119093307.GC579364@redhat.com>
-References: <20201119084448.24397-1-kraxel@redhat.com>
- <20201119084448.24397-4-kraxel@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D83B08797DC
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 09:37:23 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 83AD65D9C0;
+ Thu, 19 Nov 2020 09:37:23 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 19A1C11358BA; Thu, 19 Nov 2020 10:37:22 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH v2 1/8] qobject: Include API docs in
+ docs/devel/qobject.html
+References: <20201116224143.1284278-1-ehabkost@redhat.com>
+ <20201116224143.1284278-2-ehabkost@redhat.com>
+Date: Thu, 19 Nov 2020 10:37:22 +0100
+In-Reply-To: <20201116224143.1284278-2-ehabkost@redhat.com> (Eduardo Habkost's
+ message of "Mon, 16 Nov 2020 17:41:36 -0500")
+Message-ID: <87wnyhd6wd.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20201119084448.24397-4-kraxel@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 03:44:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -81,32 +83,276 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 19, 2020 at 09:44:47AM +0100, Gerd Hoffmann wrote:
-> Move qxl trace events to separate trace-events-qxl file.
-> 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Eduardo Habkost <ehabkost@redhat.com> writes:
+
+> Render existing doc comments at docs/devel/qobject.html.
+>
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 > ---
->  hw/display/qxl-render.c     |  1 +
->  hw/display/qxl.c            |  1 +
->  hw/display/meson.build      |  4 +++
->  hw/display/trace-events     | 67 -------------------------------------
->  hw/display/trace-events-qxl | 66 ++++++++++++++++++++++++++++++++++++
+>  docs/devel/index.rst       |  1 +
+>  docs/devel/qobject.rst     | 11 +++++++++
+>  include/qapi/qmp/qnum.h    |  4 +++-
+>  include/qapi/qmp/qobject.h | 48 +++++++++++++++++++++++++-------------
+>  qobject/qnum.c             | 19 ++++++++++++---
+>  5 files changed, 63 insertions(+), 20 deletions(-)
+>  create mode 100644 docs/devel/qobject.rst
+>
+> diff --git a/docs/devel/index.rst b/docs/devel/index.rst
+> index f10ed77e4c..1cb39a9384 100644
+> --- a/docs/devel/index.rst
+> +++ b/docs/devel/index.rst
+> @@ -35,3 +35,4 @@ Contents:
+>     clocks
+>     qom
+>     block-coroutine-wrapper
+> +   qobject
+> diff --git a/docs/devel/qobject.rst b/docs/devel/qobject.rst
+> new file mode 100644
+> index 0000000000..4f192ced7c
+> --- /dev/null
+> +++ b/docs/devel/qobject.rst
+> @@ -0,0 +1,11 @@
+> +QObject API
+> +===========
+> +
+> +.. kernel-doc:: include/qapi/qmp/qobject.h
+> +
+> +QNum module
+> +-----------
+> +
+> +.. kernel-doc:: include/qapi/qmp/qnum.h
+> +
+> +.. kernel-doc:: qobject/qnum.c
+> diff --git a/include/qapi/qmp/qnum.h b/include/qapi/qmp/qnum.h
+> index bbae0a5ec8..25f4733efc 100644
+> --- a/include/qapi/qmp/qnum.h
+> +++ b/include/qapi/qmp/qnum.h
+> @@ -23,7 +23,9 @@ typedef enum {
+>      QNUM_DOUBLE
+>  } QNumKind;
+>  
+> -/*
+> +/**
+> + * DOC:
+> + *
+>   * QNum encapsulates how our dialect of JSON fills in the blanks left
+>   * by the JSON specification (RFC 8259) regarding numbers.
+>   *
 
-FWIW, I think we should name the files to match the source prefix,
-such as  'qxl.trace-events', so that a simple glob  hw/display/qxl*
-will match everything for the MAINTAINERS file assignments.
+Educate me: what does DOC: do?
 
+> diff --git a/include/qapi/qmp/qobject.h b/include/qapi/qmp/qobject.h
+> index fcfd549220..bdc33bdb65 100644
+> --- a/include/qapi/qmp/qobject.h
+> +++ b/include/qapi/qmp/qobject.h
+> @@ -1,5 +1,5 @@
+>  /*
+> - * QEMU Object Model.
+> + * QObject API
+>   *
+>   * Based on ideas by Avi Kivity <avi@redhat.com>
+>   *
+> @@ -10,24 +10,31 @@
+>   *
+>   * This work is licensed under the terms of the GNU LGPL, version 2.1 or later.
+>   * See the COPYING.LIB file in the top-level directory.
+> + */
+> +
+> +/**
+> + * DOC: QObject Reference Counts Terminology
+>   *
+> - * QObject Reference Counts Terminology
+> - * ------------------------------------
+> + * Returning references
+> + * --------------------
+>   *
+> - *  - Returning references: A function that returns an object may
+> - *  return it as either a weak or a strong reference.  If the
+> - *  reference is strong, you are responsible for calling
+> - *  qobject_unref() on the reference when you are done.
+> + * A function that returns an object may return it as either a
+> + * weak or a strong reference.  If the reference is strong, you
+> + * are responsible for calling qobject_unref() on the reference
+> + * when you are done.
+>   *
+> - *  If the reference is weak, the owner of the reference may free it at
+> - *  any time in the future.  Before storing the reference anywhere, you
+> - *  should call qobject_ref() to make the reference strong.
+> + * If the reference is weak, the owner of the reference may free it at
+> + * any time in the future.  Before storing the reference anywhere, you
+> + * should call qobject_ref() to make the reference strong.
+>   *
+> - *  - Transferring ownership: when you transfer ownership of a reference
+> - *  by calling a function, you are no longer responsible for calling
+> - *  qobject_unref() when the reference is no longer needed.  In other words,
+> - *  when the function returns you must behave as if the reference to the
+> - *  passed object was weak.
+> + * Transferring ownership
+> + * ----------------------
+> + *
+> + * When you transfer ownership of a reference by calling a
+> + * function, you are no longer responsible for calling
+> + * qobject_unref() when the reference is no longer needed.  In
+> + * other words, when the function returns you must behave as if
+> + * the reference to the passed object was weak.
+>   */
+>  #ifndef QOBJECT_H
+>  #define QOBJECT_H
+> @@ -81,6 +88,8 @@ static inline void qobject_ref_impl(QObject *obj)
+>  
+>  /**
+>   * qobject_is_equal(): Return whether the two objects are equal.
+> + * @x: QObject pointer
+> + * @y: QObject pointer
+>   *
+>   * Any of the pointers may be NULL; return true if both are.  Always
+>   * return false if only one is (therefore a QNull object is not
+> @@ -90,6 +99,7 @@ bool qobject_is_equal(const QObject *x, const QObject *y);
+>  
+>  /**
+>   * qobject_destroy(): Free resources used by the object
+> + * @obj: QObject pointer
+>   */
+>  void qobject_destroy(QObject *obj);
+>  
+> @@ -103,6 +113,7 @@ static inline void qobject_unref_impl(QObject *obj)
+>  
+>  /**
+>   * qobject_ref(): Increment QObject's reference count
+> + * @obj: QObject pointer
+>   *
+>   * Returns: the same @obj. The type of @obj will be propagated to the
+>   * return type.
+> @@ -115,12 +126,14 @@ static inline void qobject_unref_impl(QObject *obj)
+>  
+>  /**
+>   * qobject_unref(): Decrement QObject's reference count, deallocate
+> - * when it reaches zero
+> + *                  when it reaches zero
+> + * @obj: QObject pointer
+>   */
+>  #define qobject_unref(obj) qobject_unref_impl(QOBJECT(obj))
+>  
+>  /**
+>   * qobject_type(): Return the QObject's type
+> + * @obj: QObject pointer
+>   */
+>  static inline QType qobject_type(const QObject *obj)
+>  {
+> @@ -130,6 +143,9 @@ static inline QType qobject_type(const QObject *obj)
+>  
+>  /**
+>   * qobject_check_type(): Helper function for the qobject_to() macro.
+> + * @obj: QObject pointer
+> + * @type: Expected type of QObject
+> + *
+>   * Return @obj, but only if @obj is not NULL and @type is equal to
+>   * @obj's type.  Return NULL otherwise.
+>   */
+> diff --git a/qobject/qnum.c b/qobject/qnum.c
+> index 7012fc57f2..017c8aa739 100644
+> --- a/qobject/qnum.c
+> +++ b/qobject/qnum.c
+> @@ -17,6 +17,7 @@
+>  
+>  /**
+>   * qnum_from_int(): Create a new QNum from an int64_t
+> + * @value: int64_t value
+>   *
+>   * Return strong reference.
+>   */
+> @@ -33,6 +34,7 @@ QNum *qnum_from_int(int64_t value)
+>  
+>  /**
+>   * qnum_from_uint(): Create a new QNum from an uint64_t
+> + * @value: uint64_t value
+>   *
+>   * Return strong reference.
+>   */
+> @@ -49,6 +51,7 @@ QNum *qnum_from_uint(uint64_t value)
+>  
+>  /**
+>   * qnum_from_double(): Create a new QNum from a double
+> + * @value: double value
+>   *
+>   * Return strong reference.
+>   */
+> @@ -65,6 +68,8 @@ QNum *qnum_from_double(double value)
+>  
+>  /**
+>   * qnum_get_try_int(): Get an integer representation of the number
+> + * @qn: QNum object
+> + * @val: pointer to value
+>   *
+>   * Return true on success.
+>   */
+> @@ -90,6 +95,7 @@ bool qnum_get_try_int(const QNum *qn, int64_t *val)
+>  
+>  /**
+>   * qnum_get_int(): Get an integer representation of the number
+> + * @qn: QNum object
+>   *
+>   * assert() on failure.
+>   */
+> @@ -102,7 +108,9 @@ int64_t qnum_get_int(const QNum *qn)
+>  }
+>  
+>  /**
+> - * qnum_get_uint(): Get an unsigned integer from the number
+> + * qnum_value_get_try_uint(): Get an unsigned integer from the number
+> + * @qn: QNum object
+> + * @val: pointer to value
+>   *
+>   * Return true on success.
+>   */
+> @@ -128,6 +136,7 @@ bool qnum_get_try_uint(const QNum *qn, uint64_t *val)
+>  
+>  /**
+>   * qnum_get_uint(): Get an unsigned integer from the number
+> + * @qn: QNum object
+>   *
+>   * assert() on failure.
+>   */
+> @@ -141,6 +150,7 @@ uint64_t qnum_get_uint(const QNum *qn)
+>  
+>  /**
+>   * qnum_get_double(): Get a float representation of the number
+> + * @qn: QNum object
+>   *
+>   * qnum_get_double() loses precision for integers beyond 53 bits.
+>   */
+> @@ -200,6 +210,8 @@ char *qnum_to_string(QNum *qn)
+>  
+>  /**
+>   * qnum_is_equal(): Test whether the two QNums are equal
+> + * @x: QNum object
+> + * @y: QNum object
+>   *
+>   * Negative integers are never considered equal to unsigned integers,
+>   * but positive integers in the range [0, INT64_MAX] are considered
+> @@ -253,8 +265,9 @@ bool qnum_is_equal(const QObject *x, const QObject *y)
+>  }
+>  
+>  /**
+> - * qnum_destroy_obj(): Free all memory allocated by a
+> - * QNum object
+> + * qnum_destroy_obj(): Free all memory allocated by a QNum object
+> + *
+> + * @obj: QNum object to be destroyed
+>   */
+>  void qnum_destroy_obj(QObject *obj)
+>  {
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Many lines of the form
+
+  + * @foo: a foo
+
+One of my reasons to dislike GTK-Doc.  Oh well, it's what we're using.
 
 
