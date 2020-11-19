@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8AA52B9818
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 17:38:56 +0100 (CET)
-Received: from localhost ([::1]:48890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E51C2B9840
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 17:41:44 +0100 (CET)
+Received: from localhost ([::1]:57212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfmxU-0006XY-0Z
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 11:38:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56562)
+	id 1kfn0B-0001bD-9E
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 11:41:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kfmuR-0004kJ-Hz
+ id 1kfmuR-0004k3-BZ
  for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:35:47 -0500
-Received: from indium.canonical.com ([91.189.90.7]:34738)
+Received: from indium.canonical.com ([91.189.90.7]:34758)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kfmuJ-0004kS-6L
+ id 1kfmuJ-0004l4-C3
  for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:35:47 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kfmuH-0006PI-Ja
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 16:35:37 +0000
+ id 1kfmuI-0006PJ-3j
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 16:35:38 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 92ED32E813D
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 16:35:37 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 18F812E813B
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 16:35:38 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Nov 2020 16:20:01 -0000
-From: Thomas Huth <1555452@bugs.launchpad.net>
+Date: Thu, 19 Nov 2020 16:20:44 -0000
+From: Thomas Huth <1554451@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: gdb windows
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: th-huth yorkwar
-X-Launchpad-Bug-Reporter: Yorkwar (yorkwar)
+X-Launchpad-Bug-Commenters: satheesaran th-huth
+X-Launchpad-Bug-Reporter: SATHEESARAN (satheesaran)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20160310063544.20794.78000.malonedeb@soybean.canonical.com>
-Message-Id: <160580280146.15953.10473772670190515585.malone@chaenomeles.canonical.com>
-Subject: [Bug 1555452] Re: GDB server does not work in Windows
+References: <20160308100806.13254.85964.malonedeb@wampee.canonical.com>
+Message-Id: <160580284408.17007.10993160157799369141.malone@chaenomeles.canonical.com>
+Subject: [Bug 1554451] Re: unable to create preallocated image with gluster
+ network protocol
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="c35ff22711d15549e2303ae18ae521fd91f6bf00"; Instance="production"
-X-Launchpad-Hash: d49ebc8753dbe1d1a68e8472c4dc6c4261aa77a1
+X-Launchpad-Hash: 8d62db6213923719d9edeae43d012324189873b7
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 09:30:48
@@ -73,7 +73,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1555452 <1555452@bugs.launchpad.net>
+Reply-To: Bug 1554451 <1554451@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -93,26 +93,43 @@ venience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1555452
+https://bugs.launchpad.net/bugs/1554451
 
 Title:
-  GDB server does not work in Windows
+  unable to create preallocated image with gluster network protocol
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  I build qemu with msys2, MINGW64. After fix the socket_error() problem, a=
-nd manually specify to use IPv4, GDB server still does not work.  The relat=
-ed qemu command is
-  "-monitor none -nographic -gdb tcp::1234 -S"
-  GDB reports "Timed out"
+  Unable to create preallocated image with gluster protocol
 
-  There's a message at https://www.mail-archive.com/qemu-devel@nongnu.org/m=
-sg357981.html.
-  I've fixed the socket_error() problem.
-  I see that qio_channel_create_socket_watch is called.
+  Version: qemu-img-0.12.1.2-2.479.el6.x86_64
+  Platform: RHEL 6
+  I have tried creating preallocated image as follows :
+
+  qemu-img create -f qcow2 -o preallocation=3Dfull
+  gluster://localhost/vol1/vm1.img 10G
+
+  I see error a follows :
+  [root@ ]# qemu-img create -f qcow2 -o preallocation=3Dfull gluster://loca=
+lhost/rep3vol/vm1.img 5G
+  Formatting 'gluster://dhcp37-61.lab.eng.blr.redhat.com/rep3vol/newvm3.img=
+', fmt=3Dqcow2 size=3D3221225472 encryption=3Doff cluster_size=3D65536 prea=
+llocation=3D'full'
+  Unknown option 'preallocation'
+
+  I could inspect the image using qemu-img info, but still its not
+  preallocated,
+
+  [root@ ]# qemu-img info newvm3.img =
+
+  image: newvm3.img
+  file format: qcow2
+  virtual size: 3.0G (3221225472 bytes)
+  disk size: 588K
+  cluster_size: 65536
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1555452/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1554451/+subscriptions
 
