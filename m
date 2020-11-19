@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 054CE2B9CB6
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 22:11:54 +0100 (CET)
-Received: from localhost ([::1]:50580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D11962B9C8B
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 22:11:11 +0100 (CET)
+Received: from localhost ([::1]:46936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfrDd-0006Q4-3N
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 16:11:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40474)
+	id 1kfrCw-0004qY-SP
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 16:11:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kfr6W-00076g-Ad
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:04:32 -0500
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:44158)
+ id 1kfr8w-0000eR-Az
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:07:07 -0500
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:40153)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kfr6P-0002RN-6l
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:04:32 -0500
-Received: by mail-pf1-x434.google.com with SMTP id y7so5659520pfq.11
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 13:04:20 -0800 (PST)
+ id 1kfr8t-0003XU-6c
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:07:02 -0500
+Received: by mail-pf1-x42e.google.com with SMTP id w14so5685336pfd.7
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 13:06:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:from:to:cc:references:message-id:date:user-agent
+ h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=BmOR9YJnGmLqOYKphHeQjePxwlSG50eELAbZRz5jfOQ=;
- b=Vc6/ESACnXeUYepmE7lFR4YF15K/cT7AE5pq7rtllgP1q1f/+0covg5Pq1nWOcK9Ab
- uVZIk0By/x8BZYwPuo+RDPgzisziwgkCtG9KmxiUFgRlAOJJWt3P+3NgDwJnhUGwaF73
- VMb51FlhGz5rUvoK7URXlJs+BtcNP9QUx5c30TfFpGknQKuj/H4Kj8d+FuII6CKR3Lq9
- 34vnRtbHQjTptCJYzFtBwoXKb9Jr8eOSFbbtwu1qgzqlWbRn3wBylc2BGOpoSzumhCc5
- lqTDQmM27RK9d04Wq06NLs6X2eQ8Vt9z5qvwUARvq80mUmLbSueJqHLjo8yVwhnVTA8j
- yVfA==
+ bh=UDnKv70mEcOhhHuHyK23iNhbXNJ/iC7P3ksp9aZBr4E=;
+ b=EL4o3pt3KA8zPq7yrifcJEDFu/q8+BzWENVzdFyXp0KEo3QEBij4UvDNk8iUj+ZeZ8
+ 125QHu6wU1MTF8Rul/Jp8Kifttg4vcr6388ece0gO1BrIM97wCSPqTFwYE56culFiZzn
+ P3THIF2fEpYxVkwSXjFyUhUZ3AoMkHZRrEV1Asy8ae0pVBy1rvXshn9rzkFHXHyJggE5
+ SXtF2fRHS4jmdp9MpAXxV4tR1W0ehGzOMaVk5wsSTMm9wtS5R0WhIhO8gchB8DXvx/VQ
+ CF8wUseGQWHUmzMR5J21zmjaW2ziMVZkFQHYLRW8eqfCqxI3KYmNOw48TbeY3iZDvRTJ
+ I50A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=BmOR9YJnGmLqOYKphHeQjePxwlSG50eELAbZRz5jfOQ=;
- b=BWLtOWqE5Wq8H2dJoLHw188sSqTbmV6JRpl1PeHvRr+/uM7nOCZ5PtYmrq8azon55a
- L7eqCK9psYThHCQEWM2YSdXmNuunNlMIb+Lnh1oI2lvSksYh/HNG+HHar5zC+OcDkUt8
- S+p7t0qxCaRA/vZVBxW50LPEXytwjrp2vedHfGPAGD+SsVuljVta1Ul7u1nrU8lLErU4
- SZ157OiOXAEclCqS7I0S0KDUeB9RfkiReKpZlrr9JmiwptzpCAk4Om2xrmqfFqs9Hujo
- SgCHTC7+Rd5GUVyG9u+ljaAUAPg16bizd9WTgc+mks09P3CM3pG+IfktpXkRpu1LFWtO
- za7g==
-X-Gm-Message-State: AOAM533/m+MKrKLHVVSAaahL15x1wj8RachLRiXh9M0kIxzitQVfEXsZ
- 8ElEZ9kPnAaprLbSkCG7UsrhAw==
-X-Google-Smtp-Source: ABdhPJwXQzy3xUeRVpKw7rIKp/Ddw02ORjaoSBXTW0tiCRx2qgrHhc8njOhRtzFHZAwUVxwEFUgFKA==
-X-Received: by 2002:a65:5cc6:: with SMTP id b6mr14335468pgt.417.1605819859757; 
- Thu, 19 Nov 2020 13:04:19 -0800 (PST)
+ bh=UDnKv70mEcOhhHuHyK23iNhbXNJ/iC7P3ksp9aZBr4E=;
+ b=CT2R11jChiPYGcsg/tH10jxM3n6K7zrc1J0A1wr49j8Z2miQW6TOEYUPyNFrVWLFFQ
+ Y1C3uis3HVKUPoOuTvcioBTjWZTbkQZMUU9Fqc4zqQAAOI2xP+v7Ok2i+MDwN6w7kVq+
+ 1zSBWwCj5AkzpoSKOwSxwvImA+G+0JTgwKjumg0fmeaAzPKDVrfc9GXGQxXX7UyB5iDQ
+ 6R6a5OPSF+OKNBRZHMZgb8YFPDRtRWWewFqzlrfD93BZUbVjTDcqjk0/kmHfPDD7nCRS
+ shczi0PdetyNwg5lM73ZgCv0QrNDrs1f7zsT8+oKG2/0AYmMeW42GUUFeP3qK84s+FEV
+ V11Q==
+X-Gm-Message-State: AOAM53073i2f7115M/XwovU+eJRO7E8f+VlnX1riDR9rEE9oBRMMFmEL
+ S0z3t0vu1+kRMvLEdZ1IGpEVLw==
+X-Google-Smtp-Source: ABdhPJzkWQGWKjZHRJ6PbI+RrI8x1irkzJRnrv6hAgg7+2+hKBnobzWru8fKHdzllPq+PfFTh3unJg==
+X-Received: by 2002:a63:389:: with SMTP id 131mr14415892pgd.128.1605820017845; 
+ Thu, 19 Nov 2020 13:06:57 -0800 (PST)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id e14sm582151pga.61.2020.11.19.13.04.18
+ by smtp.gmail.com with ESMTPSA id 23sm802330pfx.210.2020.11.19.13.06.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Nov 2020 13:04:19 -0800 (PST)
-Subject: Re: [RFC 08/15] target/riscv: rvb: single-bit instructions
-From: Richard Henderson <richard.henderson@linaro.org>
+ Thu, 19 Nov 2020 13:06:57 -0800 (PST)
+Subject: Re: [RFC 10/15] target/riscv: rvb: rotate (left/right)
 To: frank.chang@sifive.com, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
 References: <20201118083044.13992-1-frank.chang@sifive.com>
- <20201118083044.13992-9-frank.chang@sifive.com>
- <299ed3c1-fcb1-aa34-a595-5f86b8466d18@linaro.org>
-Message-ID: <bbcbfa1c-b34d-147e-a100-cbc998512fe3@linaro.org>
-Date: Thu, 19 Nov 2020 13:04:17 -0800
+ <20201118083044.13992-11-frank.chang@sifive.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <52287c37-f10c-a64e-1265-1abfcc39d77e@linaro.org>
+Date: Thu, 19 Nov 2020 13:06:54 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <299ed3c1-fcb1-aa34-a595-5f86b8466d18@linaro.org>
+In-Reply-To: <20201118083044.13992-11-frank.chang@sifive.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,57 +95,22 @@ Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/19/20 12:35 PM, Richard Henderson wrote:
-> On 11/18/20 12:29 AM, frank.chang@sifive.com wrote:
->> +static bool trans_sbset(DisasContext *ctx, arg_sbset *a)
->> +{
->> +    REQUIRE_EXT(ctx, RVB);
->> +    return gen_arith(ctx, a, &gen_sbset);
->> +}
->> +
->> +static bool trans_sbseti(DisasContext *ctx, arg_sbseti *a)
->> +{
->> +    REQUIRE_EXT(ctx, RVB);
->> +    return gen_arith_shamt_tl(ctx, a, &gen_sbset);
->> +}
->> +
->> +static bool trans_sbclr(DisasContext *ctx, arg_sbclr *a)
->> +{
->> +    REQUIRE_EXT(ctx, RVB);
->> +    return gen_arith(ctx, a, &gen_sbclr);
->> +}
-> 
-> Coming back to my re-use of code thing, these should use gen_shift.  That
-> handles the truncate of source2 to the shift amount.
-> 
->> +static bool trans_sbclri(DisasContext *ctx, arg_sbclri *a)
->> +{
->> +    REQUIRE_EXT(ctx, RVB);
->> +    return gen_arith_shamt_tl(ctx, a, &gen_sbclr);
->> +}
->> +
->> +static bool trans_sbinv(DisasContext *ctx, arg_sbinv *a)
->> +{
->> +    REQUIRE_EXT(ctx, RVB);
->> +    return gen_arith(ctx, a, &gen_sbinv);
->> +}
->> +
->> +static bool trans_sbinvi(DisasContext *ctx, arg_sbinvi *a)
->> +{
->> +    REQUIRE_EXT(ctx, RVB);
->> +    return gen_arith_shamt_tl(ctx, a, &gen_sbinv);
->> +}
-> 
-> I think there ought to be a gen_shifti for these.
+On 11/18/20 12:29 AM, frank.chang@sifive.com wrote:
+> +static bool trans_rori(DisasContext *ctx, arg_rori *a)
+> +{
+> +    REQUIRE_EXT(ctx, RVB);
+> +
+> +    if (a->shamt >= TARGET_LONG_BITS) {
+> +        return false;
+> +    }
+> +
+> +    return gen_arith_shamt_tl(ctx, a, &tcg_gen_rotr_tl);
+> +}
 
-Hmm.  I just realized that gen_shifti would have a generator callback with a
-constant argument, a-la tcg_gen_shli_tl.
+We most definitely want to use tcg_gen_rotri_tl here, as we have special
+expansions of constant shifts for hosts without rotate (e.g. riscv64g ;-).
 
-I don't know if it's worth duplicating gen_sbclr et al for a constant argument.
- And the sloi/sroi insns besides.  Perhaps a gen_shifti_var helper instead?
-
-Let me know what you think, but at the moment we're left with an incoherent set
-of helpers that seem split along lines that are less than ideal.
+Otherwise, this patch should be included in the shift cleanup discussed upthread.
 
 
 r~
