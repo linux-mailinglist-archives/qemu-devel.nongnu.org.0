@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5CB42B9B9F
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 20:45:10 +0100 (CET)
-Received: from localhost ([::1]:34290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A96ED2B9BA5
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 20:47:23 +0100 (CET)
+Received: from localhost ([::1]:36748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfprh-00038O-EB
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 14:45:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48130)
+	id 1kfptq-0004Jl-NW
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 14:47:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kfpqY-0002MV-Rb
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 14:43:58 -0500
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:35474)
+ id 1kfpsl-0003rK-IU
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 14:46:16 -0500
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:46966)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kfpqW-0006CQ-BP
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 14:43:58 -0500
-Received: by mail-pf1-x434.google.com with SMTP id g7so5494604pfc.2
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 11:43:55 -0800 (PST)
+ id 1kfpsd-00076X-49
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 14:46:15 -0500
+Received: by mail-pf1-x431.google.com with SMTP id v12so5467304pfm.13
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 11:46:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=o9oZd6H2VNr1fXKrUvYaKzXLZenPKvktbYQVP3aAYlU=;
- b=UWvimZ1FOZmBbcPzk/ex/J7/ckMj5nQxNp+YGp2pYFyFOxkp/8PTU8gMATqcgkis4z
- 0X4li5+R5Ad0lSGez6HgR2lrDUvso/s2WBrJfAHQ6Jbzcl2juiad4rW0umXHcSg8prVk
- 8o2ZQzS0BcKXL8sjoI1l0r7xjpa/SYaH1OGHm2TzPAYEIk8SbYGssLf+q59EEy+awjVg
- Eul0HS0l5ATRpdq8ZcfbsYkPz4mshZk2kKGs4bM2meed0H6ayZjeiJXGYwcB1qO6p+mJ
- nmtHPrlur40BEHmFIkDQ/Pm70iWf+6k9ermyphH7xoP9l3BWzpjkKvzAIQ1F/DaR/2ha
- 0ggA==
+ bh=JGFqCjoNZIGGBp44bV86L+YFJFw/urwxjR1lOxlLSzk=;
+ b=XMDxO8tZCKJ6Asx1+TQ/HQL31brHLMEJcvTDtAaauCfNK7V6srJTyp1ztHetX8soHh
+ SVtM1MkDPWwN/rHuiV7LQ9cYXzgZSzY/ALsStskW+qdrJsfAmYACScXEDe46VWxB7L6T
+ FIymteN8StDKR5d14u9/4P6KB64JvyKOw71XF9Y7CHIag4RogyhcT2ImGFlMShPJMV1Z
+ TC6ACBJD4k+pJr0rh2l1gyVP9hPTM1K+g54B3guOouheL5gJnq9nt3OrGB41rVZCD3fy
+ 9T2JrjScChJdsL1R/s1IK/lDgyCbbEZLRfSd/H7hN4r/cTyGH5a7AdTZ2blcD+WkTIFS
+ M59g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=o9oZd6H2VNr1fXKrUvYaKzXLZenPKvktbYQVP3aAYlU=;
- b=R3RUwuqxLI0mQ3HYqkQTrXKtV3NvjKVskXDs5LVtzUGeUMikzixxqeehf+ZFLuNhFY
- g346iL81W/4/JdiFTxt1n3fCxDmJtD3nBLhScGH4OqJzNXNwydkb7dyv0m0J6WZMIUy+
- 6X7Ep2wvTKgKxwn9U1NvQBXpouhHPJUjdNVhljPvjsbnM04qpulQmPEnG6gsI+Anyvo8
- Ba29HS2vWBHMBkyEnj2UHl0nq/KVJPRrBY/LyRScECuApLQXr68qMvdczh6jo+HyI9Z4
- rZi77bbgrw8CPV5mF6+K2IQaDBCHptyqUxZTXHUGgrD/rFRldkP0zFg5A3xot69/kTRw
- RxbQ==
-X-Gm-Message-State: AOAM5331DMc6daYCoa7RCxeqZAB4JzZeQpjlLq2jyhvqeT1Qaqv8F1ed
- gmA/E7fk7+oKXuJQYWUnCVKbfg==
-X-Google-Smtp-Source: ABdhPJy8+N8E4jAx8ColvjCwR1gXWXezn/1uI2b33+h5wBdjbAJgZORS3DnH3jesoX5ZVgMWEzWFeQ==
-X-Received: by 2002:aa7:9694:0:b029:18b:5846:4532 with SMTP id
- f20-20020aa796940000b029018b58464532mr10718998pfk.41.1605815035036; 
- Thu, 19 Nov 2020 11:43:55 -0800 (PST)
+ bh=JGFqCjoNZIGGBp44bV86L+YFJFw/urwxjR1lOxlLSzk=;
+ b=FwgpSGmCA8fS1lRP0ycLSc9IVAWw290ikePnTJfkVFyiZrCdtP90BZmVsO7Qac21AW
+ aAprJQE8uV2NHs7wxGFwLWywGfXlpfjFcZfYPD4XpeIE0zzrAe/dckdFtrsg0IHaZuAi
+ JiWmVP0vb4rWTwl9FbHLc17cc8Ls/0WYdGyeXi8TNyBzD9CV2e4AxcOI/ew1ZsMq+QFL
+ C4t9VSDQ9P/TM7NILQE1A11h0PVdMqf7q4MzYy2bC6801aUuJ47V6fzTgTOpfKHu7yhz
+ F9mtPq1ovajK00Lyj4RTMpkJHgn14D1jerEaqAxLml4QrAssAqA6g8kvb8NwPik7eb//
+ F9MA==
+X-Gm-Message-State: AOAM530DKYd0tAPoJX6xfTasioBPQ8wem5S9apD4+l7iuJpigY/0kL6O
+ DwzgtJeNHLyFP8gePgwTIzCJJw==
+X-Google-Smtp-Source: ABdhPJweZKijUNrZJVQRctCTZmwI3Nfvzeruz+4qQH0cUgQ6Bmtf48Hwz+IEviDEkPC5PgCiCwTEQQ==
+X-Received: by 2002:a17:90b:70e:: with SMTP id
+ s14mr5982354pjz.111.1605815165130; 
+ Thu, 19 Nov 2020 11:46:05 -0800 (PST)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id a24sm627260pfl.174.2020.11.19.11.43.53
+ by smtp.gmail.com with ESMTPSA id e1sm669921pfi.158.2020.11.19.11.46.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Nov 2020 11:43:54 -0800 (PST)
-Subject: Re: [RFC 05/15] target/riscv: rvb: pack two words into one register
+ Thu, 19 Nov 2020 11:46:04 -0800 (PST)
+Subject: Re: [RFC 06/15] target/riscv: rvb: min/max instructions
 To: frank.chang@sifive.com, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
 References: <20201118083044.13992-1-frank.chang@sifive.com>
- <20201118083044.13992-6-frank.chang@sifive.com>
+ <20201118083044.13992-7-frank.chang@sifive.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <59f30d7e-dcdd-6a7b-1de9-ec07f621c9fa@linaro.org>
-Date: Thu, 19 Nov 2020 11:43:52 -0800
+Message-ID: <3d2336a5-dd8c-6836-87f5-af945d15b759@linaro.org>
+Date: Thu, 19 Nov 2020 11:46:02 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201118083044.13992-6-frank.chang@sifive.com>
+In-Reply-To: <20201118083044.13992-7-frank.chang@sifive.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,97 +97,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/18/20 12:29 AM, frank.chang@sifive.com wrote:
-> +static void gen_pack(TCGv ret, TCGv arg1, TCGv arg2)
-> +{
-> +    TCGv lower, higher;
-> +    lower = tcg_temp_new();
-> +    higher = tcg_temp_new();
-> +
-> +#ifdef TARGET_RISCV64
-> +    tcg_gen_ext32u_tl(lower, arg1);
-> +    tcg_gen_shli_tl(higher, arg2, 32);
-> +#else
-> +    tcg_gen_ext16u_tl(lower, arg1);
-> +    tcg_gen_shli_tl(higher, arg2, 16);
-> +#endif
-> +
+> From: Kito Cheng <kito.cheng@sifive.com>
+> 
+> Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
+> ---
+>  target/riscv/insn32.decode              |  4 ++++
+>  target/riscv/insn_trans/trans_rvb.c.inc | 24 ++++++++++++++++++++++++
+>  2 files changed, 28 insertions(+)
 
-tcg_gen_deposit(ret, arg1, arg2,
-                TARGET_LONG_BITS / 2,
-                TARGET_LONG_BITS / 2);
-
-> +static void gen_packu(TCGv ret, TCGv arg1, TCGv arg2)
-> +{
-> +    TCGv lower, higher;
-> +    lower = tcg_temp_new();
-> +    higher = tcg_temp_new();
-> +
-> +#ifdef TARGET_RISCV64
-> +    tcg_gen_shri_tl(lower, arg1, 32);
-> +    tcg_gen_shri_tl(higher, arg2, 32);
-> +    tcg_gen_shli_tl(higher, higher, 32);
-> +#else
-> +    tcg_gen_shri_tl(lower, arg1, 16);
-> +    tcg_gen_shri_tl(higher, arg2, 16);
-> +    tcg_gen_shli_tl(higher, higher, 16);
-> +#endif
-> +
-> +    tcg_gen_or_tl(ret, higher, lower);
-
-tcg_gen_shri_tl(t, arg1, TARGET_LONG_BITS / 2);
-tcg_gen_deposit_tl(ret, arg2, t, 0, TARGET_LONG_BITS / 2);
-
-> +static void gen_packh(TCGv ret, TCGv arg1, TCGv arg2)
-> +{
-> +    TCGv lower, higher;
-> +    lower = tcg_temp_new();
-> +    higher = tcg_temp_new();
-> +
-> +    tcg_gen_ext8u_tl(lower, arg1);
-> +    tcg_gen_ext8u_tl(higher, arg2);
-> +    tcg_gen_shli_tl(higher, higher, 8);
-> +
-> +    tcg_gen_or_tl(ret, higher, lower);
-
-tcg_gen_ext8u_tl(t, arg2);
-tcg_gen_deposit_tl(ret, arg1, t, 8, TARGET_LONG_BITS - 8);
-
-> +static void gen_packw(TCGv ret, TCGv arg1, TCGv arg2)
-> +{
-> +    TCGv lower, higher;
-> +    lower = tcg_temp_new();
-> +    higher = tcg_temp_new();
-> +
-> +    tcg_gen_ext16u_tl(lower, arg1);
-> +    tcg_gen_shli_tl(higher, arg2, 16);
-> +    tcg_gen_or_tl(ret, higher, lower);
-> +
-> +    tcg_gen_ext32s_tl(ret, ret);
-> +
-> +    tcg_temp_free(lower);
-> +    tcg_temp_free(higher);
-> +}
-
-tcg_gen_ext16s_i64(t, arg2);
-tcg_gen_deposit_i64(ret, arg1, t, 16, 48);
-
-> +static void gen_packuw(TCGv ret, TCGv arg1, TCGv arg2)
-> +{
-> +    TCGv lower, higher;
-> +    lower = tcg_temp_new();
-> +    higher = tcg_temp_new();
-> +
-> +    tcg_gen_shri_tl(lower, arg1, 16);
-> +    tcg_gen_shri_tl(higher, arg2, 16);
-> +    tcg_gen_shli_tl(higher, higher, 16);
-> +    tcg_gen_or_tl(ret, higher, lower);
-> +
-> +    tcg_gen_ext32s_tl(ret, ret);
-
-tcg_gen_shri_i64(t, arg1, 16);
-tcg_gen_deposit_i64(ret, arg2, t, 0, 16);
-tcg_gen_ext32s_i64(ret, ret);
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
