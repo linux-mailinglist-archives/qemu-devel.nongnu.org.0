@@ -2,83 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 572A42B9511
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 15:48:14 +0100 (CET)
-Received: from localhost ([::1]:34694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A7012B9514
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 15:50:33 +0100 (CET)
+Received: from localhost ([::1]:42148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kflEL-0008JE-ET
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 09:48:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52266)
+	id 1kflGa-00031O-LL
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 09:50:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kflCB-0006xk-TD
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 09:45:59 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:52130)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kflCc-0007NC-Rn
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 09:46:26 -0500
+Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:33545)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kflCA-0005Hi-5I
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 09:45:59 -0500
-Received: by mail-wm1-x343.google.com with SMTP id a186so4644345wme.1
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 06:45:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kflCa-0005SI-M5
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 09:46:26 -0500
+Received: by mail-ed1-x543.google.com with SMTP id k4so6121004edl.0
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 06:46:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=idwSIaEiQ/TOBjH/BpUKcLra5ueAosLnF0Uy1mAJ/S0=;
- b=uPUDjd+bNxptkn63fjY5o5t7sw1dT2uWWBUK2cENyBFvjbxu8qXjFsQmiozvzmcuK0
- j/ozPUq9Ekv0jXqgP9IKQWvpmtEQakaTXcgrxr04dh+gXy3pZX2ftlbTpWwoG1RoldYP
- y9QSB8wbd93jwXyEAwW6fFi0zmc6YyBME1DFeUM8JaLiW1TAkD8N54d2tcFYDw9oGD5j
- QzXXLOqAjk/+c8OhDnXpwZqZv8D+nvlHGei3hIQgEeNiMMziNrcOq5+T8dpDP4k8pKNm
- eNxp4qFhsRZk5QJyFA1lT8bJh/w+Y2wPP4X6CkmT0wefBlumYHp+HojKlaGR7mnLX4Bu
- C2bg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JxEM0y46RviXzrTrzLzjZjn8Zt/gB2HogaN48idvaTo=;
+ b=foU0HJH/p6Lp6hOwZOBprnR4lFEPpzeocIKGadLg1MpAlimUFjeEG/Rvj+ksgGj8L0
+ pbnExGkn7PBoE7ShesgCgboedfmNyVn2kO4Di1zof3yOXcLFNrv9GqbsyO6wP9pDverY
+ ATOeSpsbsVlkFw19grVlKuyH8x2T11AOpHS5Hmc7HcWsOEnLWc2dmnvwLzpJsESkNDIO
+ cFfpparY17O1D0l5XbJoEEhwgnCgem7h0k2OYzQeq8c3zS8bGbHhUC8ttX8OE/A5K8R9
+ yMttMZ8BQ0jItA0yEEtJr6NhJ85Gr2qbPKsdcevGNadBnk5aZNL7MpkcAUP/dzT3485E
+ 9o2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=idwSIaEiQ/TOBjH/BpUKcLra5ueAosLnF0Uy1mAJ/S0=;
- b=RSJau01FT5L43DL/Rsk+FN9hq5Pjw1IbifiapnD+zAhv8GP3HKlMTQSFfOFMuSpxW+
- drNrVMTT3Z7eEZ3Q5ZiHp7q3kQ2MNPxF4HN9TeA2SDw+dgyC/Sk+qR50bLjaLTb7nxHn
- mV5isWS4KsaqfuAsaDFhtSbndYSMAIwOVP2rcKug/i2CxtlgE1/wB6+G4FeBd0qlOCtR
- tvzrzmE7fXzEJcz56cfUXYFD6fnAj2LBbPNV1xKH8QggLu9Fsn4vI3DiE8IEdpg4WNQC
- XsQhXMF/bshjT7uFZ8cfc9EQzejN68SVjAmtllDZlzAqkpldlH8frQbZJPfuS06sT2ND
- eHWg==
-X-Gm-Message-State: AOAM533zCN2bYA4gvWm78pcxe7DNXDQubUZFGba0pQzB8CA2qoS+m3Kj
- MWFHac0cXqc7QXMq1UFTJbM=
-X-Google-Smtp-Source: ABdhPJyUFFZvtdKvfjcCKs3RSW4cl1BpAjfZB9/nJDHEOTU7WfwDXa8pI3voJNAN/HPi/mKlymyAVw==
-X-Received: by 2002:a1c:7fd7:: with SMTP id a206mr5087550wmd.135.1605797156504; 
- Thu, 19 Nov 2020 06:45:56 -0800 (PST)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id l13sm41375657wrm.24.2020.11.19.06.45.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Nov 2020 06:45:55 -0800 (PST)
-Subject: Re: [PATCH] target/mips/helper: Also display exception names in
- user-mode
-To: qemu-devel@nongnu.org
-References: <20201119131824.1898439-1-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <04e0cd99-5789-86f2-cd4b-e1bc7a10d9d2@amsat.org>
-Date: Thu, 19 Nov 2020 15:45:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JxEM0y46RviXzrTrzLzjZjn8Zt/gB2HogaN48idvaTo=;
+ b=l4VRNJ94tZbmf7Z3wP1Lwj7EBIdFVjvVgGgKRtb8kwTyQmud/yg8o3uhX21Gn+zHsa
+ SN+Y+Uxa4202Zkat1QyX16dvM0PSjTSJYSQXu5mskG4w72mbEoTNdePutORJ5WxqMYs+
+ LCnXzuXfj9BIrm5YnBrZQRelPR7VcuofJHUET+4WO48Bk6lmTOOsx0nVrS+ProgxZuY8
+ yb5odgrG7Vs1G+6TyYlaYyQzp2LpYrd9xl2pjdFzJJupqYmlGgQIk7UsfYiydhEM2XZU
+ 5oDEcCqRj8EIi1gNEpUYkGv2Z2Q5xaj0GPd30rdfGiQ1eFpIZnDsKFY/r8ZvEpmD7cT5
+ xQZQ==
+X-Gm-Message-State: AOAM532t8Qy+kw1A4f9LxBjOFAWmCb0IxF5mjj+XNEcPL474NkIUA1Q/
+ oXT1NZVSnuAxWxvnMkT39Y1+os1Lmu3pZ2wpmQg=
+X-Google-Smtp-Source: ABdhPJyOzFqy00nzcgWSpmfAkshIeBHvYSMDSFsNtU8SFGaiKkROXstgFRwS/IY00XhlQmNE/BUWX00wiXR8PPn1K1o=
+X-Received: by 2002:aa7:c3c4:: with SMTP id l4mr7803104edr.314.1605797183130; 
+ Thu, 19 Nov 2020 06:46:23 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201119131824.1898439-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+References: <20201119084557.27870-1-lma@suse.com>
+In-Reply-To: <20201119084557.27870-1-lma@suse.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 19 Nov 2020 18:46:11 +0400
+Message-ID: <CAJ+F1C+wUoeT-xTA1Rv6XWBBQfEB_mzOXHBBbEt7OcEQ9+84bQ@mail.gmail.com>
+Subject: Re: [PATCH] qga: Correct loop count in qmp_guest_get_vcpus()
+To: Lin Ma <lma@suse.com>
+Content-Type: multipart/alternative; boundary="000000000000ae92e905b476ca9e"
+Received-SPF: pass client-ip=2a00:1450:4864:20::543;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,86 +78,265 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: QEMU <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/19/20 2:18 PM, Philippe Mathieu-Daudé wrote:
-> Currently MIPS exceptions are displayed as string in system-mode
-> emulation, but as number in user-mode.
-> Unify by extracting the current system-mode code as excp_name()
-> and use that in user-mode.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+--000000000000ae92e905b476ca9e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+On Thu, Nov 19, 2020 at 12:48 PM Lin Ma <lma@suse.com> wrote:
+
+> The guest-get-vcpus returns incorrect vcpu info in case we hotunplug
+> vcpus(not
+> the last one).
+> e.g.:
+> A VM has 4 VCPUs: cpu0 + 3 hotunpluggable online vcpus(cpu1, cpu2 and
+> cpu3).
+> Hotunplug cpu2,  Now only cpu0, cpu1 and cpu3 are present & online.
+>
+> ./qmp-shell /tmp/qmp-monitor.sock
+> (QEMU) query-hotpluggable-cpus
+> {"return": [
+> {"props": {"core-id": 0, "thread-id": 0, "socket-id": 3}, "vcpus-count": =
+1,
+>  "qom-path": "/machine/peripheral/cpu3", "type": "host-x86_64-cpu"},
+> {"props": {"core-id": 0, "thread-id": 0, "socket-id": 2}, "vcpus-count": =
+1,
+>  "qom-path": "/machine/peripheral/cpu2", "type": "host-x86_64-cpu"},
+> {"props": {"core-id": 0, "thread-id": 0, "socket-id": 1}, "vcpus-count": =
+1,
+>  "qom-path": "/machine/peripheral/cpu1", "type": "host-x86_64-cpu"},
+> {"props": {"core-id": 0, "thread-id": 0, "socket-id": 0}, "vcpus-count": =
+1,
+>  "qom-path": "/machine/unattached/device[0]", "type": "host-x86_64-cpu"}
+> ]}
+>
+> (QEMU) device_del id=3Dcpu2
+> {"return": {}}
+>
+> (QEMU) query-hotpluggable-cpus
+> {"return": [
+> {"props": {"core-id": 0, "thread-id": 0, "socket-id": 3}, "vcpus-count": =
+1,
+>  "qom-path": "/machine/peripheral/cpu3", "type": "host-x86_64-cpu"},
+> {"props": {"core-id": 0, "thread-id": 0, "socket-id": 2}, "vcpus-count": =
+1,
+>  "type": "host-x86_64-cpu"},
+> {"props": {"core-id": 0, "thread-id": 0, "socket-id": 1}, "vcpus-count": =
+1,
+>  "qom-path": "/machine/peripheral/cpu1", "type": "host-x86_64-cpu"},
+> {"props": {"core-id": 0, "thread-id": 0, "socket-id": 0}, "vcpus-count": =
+1,
+>  "qom-path": "/machine/unattached/device[0]", "type": "host-x86_64-cpu"}
+> ]}
+>
+> Before:
+> ./qmp-shell -N /tmp/qmp-ga.sock
+> Welcome to the QMP low-level shell!
+> Connected
+> (QEMU) guest-get-vcpus
+> {"return": [
+> {"online": true, "can-offline": false, "logical-id": 0},
+> {"online": true, "can-offline": true, "logical-id": 1}]}
+>
+> After:
+> ./qmp-shell -N /tmp/qmp-ga.sock
+> Welcome to the QMP low-level shell!
+> Connected
+> (QEMU) guest-get-vcpus
+> {"execute":"guest-get-vcpus"}
+> {"return": [
+> {"online": true, "can-offline": false, "logical-id": 0},
+> {"online": true, "can-offline": true, "logical-id": 1},
+> {"online": true, "can-offline": true, "logical-id": 3}]}
+>
+> Signed-off-by: Lin Ma <lma@suse.com>
 > ---
->  target/mips/helper.c | 23 +++++++++++++----------
->  1 file changed, 13 insertions(+), 10 deletions(-)
-> 
-> diff --git a/target/mips/helper.c b/target/mips/helper.c
-> index 063b65c0528..f566bd6da50 100644
-> --- a/target/mips/helper.c
-> +++ b/target/mips/helper.c
-> @@ -978,6 +978,7 @@ hwaddr cpu_mips_translate_address(CPUMIPSState *env, target_ulong address,
->          return physical;
->      }
->  }
-> +#endif
->  
->  static const char * const excp_names[EXCP_LAST + 1] = {
->      [EXCP_RESET] = "reset",
-> @@ -1018,7 +1019,14 @@ static const char * const excp_names[EXCP_LAST + 1] = {
->      [EXCP_MSADIS] = "MSA disabled",
->      [EXCP_MSAFPE] = "MSA floating point",
->  };
-> -#endif
-> +
-> +static const char *excp_name(int32_t exception)
-> +{
-> +    if (exception < 0 || exception > EXCP_LAST) {
-> +        return "unknown";
-> +    }
-> +    return excp_names[exception];
-> +}
->  
->  target_ulong exception_resume_pc(CPUMIPSState *env)
+>  qga/commands-posix.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+>
+> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+> index 3bffee99d4..accc893373 100644
+> --- a/qga/commands-posix.c
+> +++ b/qga/commands-posix.c
+> @@ -2182,15 +2182,15 @@ GuestLogicalProcessorList
+> *qmp_guest_get_vcpus(Error **errp)
 >  {
-> @@ -1091,19 +1099,14 @@ void mips_cpu_do_interrupt(CPUState *cs)
->      bool update_badinstr = 0;
->      target_ulong offset;
->      int cause = -1;
-> -    const char *name;
->  
->      if (qemu_loglevel_mask(CPU_LOG_INT)
->          && cs->exception_index != EXCP_EXT_INTERRUPT) {
->          if (cs->exception_index < 0 || cs->exception_index > EXCP_LAST) {
+>      int64_t current;
+>      GuestLogicalProcessorList *head, **link;
+> -    long sc_max;
+> +    long max_loop_count;
+>      Error *local_err =3D NULL;
+>
+>      current =3D 0;
+>      head =3D NULL;
+>      link =3D &head;
+> -    sc_max =3D SYSCONF_EXACT(_SC_NPROCESSORS_CONF, &local_err);
+> +    max_loop_count =3D SYSCONF_EXACT(_SC_NPROCESSORS_CONF, &local_err);
+>
+> -    while (local_err =3D=3D NULL && current < sc_max) {
+> +    while (local_err =3D=3D NULL && current < max_loop_count) {
+>          GuestLogicalProcessor *vcpu;
+>          GuestLogicalProcessorList *entry;
+>          int64_t id =3D current++;
+> @@ -2206,6 +2206,8 @@ GuestLogicalProcessorList *qmp_guest_get_vcpus(Erro=
+r
+> **errp)
+>              entry->value =3D vcpu;
+>              *link =3D entry;
+>              link =3D &entry->next;
+> +        } else {
+> +            max_loop_count +=3D 1;
+>
 
-I clearly failed to fix the cherry-pick conflict =)
+This looks like a recipe for infinite loop on error.
 
-> -            name = "unknown";
-> -        } else {
-> -            name = excp_names[cs->exception_index];
-> -        }
-> -
->          qemu_log("%s enter: PC " TARGET_FMT_lx " EPC " TARGET_FMT_lx
->                   " %s exception\n",
-> -                 __func__, env->active_tc.PC, env->CP0_EPC, name);
-> +                 __func__, env->active_tc.PC, env->CP0_EPC,
-> +                 excp_name(cs->exception_index));
->      }
->      if (cs->exception_index == EXCP_EXT_INTERRUPT &&
->          (env->hflags & MIPS_HFLAG_DM)) {
-> @@ -1490,8 +1493,8 @@ void QEMU_NORETURN do_raise_exception_err(CPUMIPSState *env,
->  {
->      CPUState *cs = env_cpu(env);
->  
-> -    qemu_log_mask(CPU_LOG_INT, "%s: %d %d\n",
-> -                  __func__, exception, error_code);
-> +    qemu_log_mask(CPU_LOG_INT, "%s: %d (%s) %d\n",
-> +                  __func__, exception, excp_name(exception), error_code);
->      cs->exception_index = exception;
->      env->error_code = error_code;
->  
-> 
+Shouldn't we loop over all the /sys/devices/system/cpu/cpu#/ instead?
+
+(possibly parse /sys/devices/system/cpu/present, but I doubt it's necessary=
+)
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000ae92e905b476ca9e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Nov 19, 2020 at 12:48 PM Li=
+n Ma &lt;<a href=3D"mailto:lma@suse.com">lma@suse.com</a>&gt; wrote:<br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex">The guest-get-vcpus re=
+turns incorrect vcpu info in case we hotunplug vcpus(not<br>
+the last one).<br>
+e.g.:<br>
+A VM has 4 VCPUs: cpu0 + 3 hotunpluggable online vcpus(cpu1, cpu2 and cpu3)=
+.<br>
+Hotunplug cpu2,=C2=A0 Now only cpu0, cpu1 and cpu3 are present &amp; online=
+.<br>
+<br>
+./qmp-shell /tmp/qmp-monitor.sock<br>
+(QEMU) query-hotpluggable-cpus<br>
+{&quot;return&quot;: [<br>
+{&quot;props&quot;: {&quot;core-id&quot;: 0, &quot;thread-id&quot;: 0, &quo=
+t;socket-id&quot;: 3}, &quot;vcpus-count&quot;: 1,<br>
+=C2=A0&quot;qom-path&quot;: &quot;/machine/peripheral/cpu3&quot;, &quot;typ=
+e&quot;: &quot;host-x86_64-cpu&quot;},<br>
+{&quot;props&quot;: {&quot;core-id&quot;: 0, &quot;thread-id&quot;: 0, &quo=
+t;socket-id&quot;: 2}, &quot;vcpus-count&quot;: 1,<br>
+=C2=A0&quot;qom-path&quot;: &quot;/machine/peripheral/cpu2&quot;, &quot;typ=
+e&quot;: &quot;host-x86_64-cpu&quot;},<br>
+{&quot;props&quot;: {&quot;core-id&quot;: 0, &quot;thread-id&quot;: 0, &quo=
+t;socket-id&quot;: 1}, &quot;vcpus-count&quot;: 1,<br>
+=C2=A0&quot;qom-path&quot;: &quot;/machine/peripheral/cpu1&quot;, &quot;typ=
+e&quot;: &quot;host-x86_64-cpu&quot;},<br>
+{&quot;props&quot;: {&quot;core-id&quot;: 0, &quot;thread-id&quot;: 0, &quo=
+t;socket-id&quot;: 0}, &quot;vcpus-count&quot;: 1,<br>
+=C2=A0&quot;qom-path&quot;: &quot;/machine/unattached/device[0]&quot;, &quo=
+t;type&quot;: &quot;host-x86_64-cpu&quot;}<br>
+]}<br>
+<br>
+(QEMU) device_del id=3Dcpu2<br>
+{&quot;return&quot;: {}}<br>
+<br>
+(QEMU) query-hotpluggable-cpus<br>
+{&quot;return&quot;: [<br>
+{&quot;props&quot;: {&quot;core-id&quot;: 0, &quot;thread-id&quot;: 0, &quo=
+t;socket-id&quot;: 3}, &quot;vcpus-count&quot;: 1,<br>
+=C2=A0&quot;qom-path&quot;: &quot;/machine/peripheral/cpu3&quot;, &quot;typ=
+e&quot;: &quot;host-x86_64-cpu&quot;},<br>
+{&quot;props&quot;: {&quot;core-id&quot;: 0, &quot;thread-id&quot;: 0, &quo=
+t;socket-id&quot;: 2}, &quot;vcpus-count&quot;: 1,<br>
+=C2=A0&quot;type&quot;: &quot;host-x86_64-cpu&quot;},<br>
+{&quot;props&quot;: {&quot;core-id&quot;: 0, &quot;thread-id&quot;: 0, &quo=
+t;socket-id&quot;: 1}, &quot;vcpus-count&quot;: 1,<br>
+=C2=A0&quot;qom-path&quot;: &quot;/machine/peripheral/cpu1&quot;, &quot;typ=
+e&quot;: &quot;host-x86_64-cpu&quot;},<br>
+{&quot;props&quot;: {&quot;core-id&quot;: 0, &quot;thread-id&quot;: 0, &quo=
+t;socket-id&quot;: 0}, &quot;vcpus-count&quot;: 1,<br>
+=C2=A0&quot;qom-path&quot;: &quot;/machine/unattached/device[0]&quot;, &quo=
+t;type&quot;: &quot;host-x86_64-cpu&quot;}<br>
+]}<br>
+<br>
+Before:<br>
+./qmp-shell -N /tmp/qmp-ga.sock<br>
+Welcome to the QMP low-level shell!<br>
+Connected<br>
+(QEMU) guest-get-vcpus<br>
+{&quot;return&quot;: [<br>
+{&quot;online&quot;: true, &quot;can-offline&quot;: false, &quot;logical-id=
+&quot;: 0},<br>
+{&quot;online&quot;: true, &quot;can-offline&quot;: true, &quot;logical-id&=
+quot;: 1}]}<br>
+<br>
+After:<br>
+./qmp-shell -N /tmp/qmp-ga.sock<br>
+Welcome to the QMP low-level shell!<br>
+Connected<br>
+(QEMU) guest-get-vcpus<br>
+{&quot;execute&quot;:&quot;guest-get-vcpus&quot;}<br>
+{&quot;return&quot;: [<br>
+{&quot;online&quot;: true, &quot;can-offline&quot;: false, &quot;logical-id=
+&quot;: 0},<br>
+{&quot;online&quot;: true, &quot;can-offline&quot;: true, &quot;logical-id&=
+quot;: 1},<br>
+{&quot;online&quot;: true, &quot;can-offline&quot;: true, &quot;logical-id&=
+quot;: 3}]}<br>
+<br>
+Signed-off-by: Lin Ma &lt;<a href=3D"mailto:lma@suse.com" target=3D"_blank"=
+>lma@suse.com</a>&gt;<br>
+---<br>
+=C2=A0qga/commands-posix.c | 8 +++++---<br>
+=C2=A01 file changed, 5 insertions(+), 3 deletions(-)<br>
+<br>
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c<br>
+index 3bffee99d4..accc893373 100644<br>
+--- a/qga/commands-posix.c<br>
++++ b/qga/commands-posix.c<br>
+@@ -2182,15 +2182,15 @@ GuestLogicalProcessorList *qmp_guest_get_vcpus(Erro=
+r **errp)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0int64_t current;<br>
+=C2=A0 =C2=A0 =C2=A0GuestLogicalProcessorList *head, **link;<br>
+-=C2=A0 =C2=A0 long sc_max;<br>
++=C2=A0 =C2=A0 long max_loop_count;<br>
+=C2=A0 =C2=A0 =C2=A0Error *local_err =3D NULL;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0current =3D 0;<br>
+=C2=A0 =C2=A0 =C2=A0head =3D NULL;<br>
+=C2=A0 =C2=A0 =C2=A0link =3D &amp;head;<br>
+-=C2=A0 =C2=A0 sc_max =3D SYSCONF_EXACT(_SC_NPROCESSORS_CONF, &amp;local_er=
+r);<br>
++=C2=A0 =C2=A0 max_loop_count =3D SYSCONF_EXACT(_SC_NPROCESSORS_CONF, &amp;=
+local_err);<br>
+<br>
+-=C2=A0 =C2=A0 while (local_err =3D=3D NULL &amp;&amp; current &lt; sc_max)=
+ {<br>
++=C2=A0 =C2=A0 while (local_err =3D=3D NULL &amp;&amp; current &lt; max_loo=
+p_count) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0GuestLogicalProcessor *vcpu;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0GuestLogicalProcessorList *entry;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int64_t id =3D current++;<br>
+@@ -2206,6 +2206,8 @@ GuestLogicalProcessorList *qmp_guest_get_vcpus(Error =
+**errp)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0entry-&gt;value =3D vcpu;<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*link =3D entry;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0link =3D &amp;entry-&gt;nex=
+t;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 max_loop_count +=3D 1;<br></bloc=
+kquote><div><br></div><div>This looks like a recipe for infinite loop on er=
+ror.</div><div><br></div><div>Shouldn&#39;t we loop over all the /sys/devic=
+es/system/cpu/cpu#/ instead?<br></div></div><div class=3D"gmail_quote"><br>=
+</div>(possibly parse /sys/devices/system/cpu/present, but I doubt it&#39;s=
+ necessary)<br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"gmail_sig=
+nature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--000000000000ae92e905b476ca9e--
 
