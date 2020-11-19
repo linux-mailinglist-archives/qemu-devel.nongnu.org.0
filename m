@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D48642B90E4
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 12:28:31 +0100 (CET)
-Received: from localhost ([::1]:35096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2B912B90E5
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 12:28:52 +0100 (CET)
+Received: from localhost ([::1]:36340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfi74-0002Zd-S2
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 06:28:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34088)
+	id 1kfi7P-00037u-U6
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 06:28:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kfi5D-0001lx-Cm
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 06:26:35 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:37763)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kfi57-0000c1-0S
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 06:26:34 -0500
-Received: by mail-wm1-x344.google.com with SMTP id h21so6417291wmb.2
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 03:26:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=mpJuL3SnnKlP62I8lBtFfYglIxGvCkHfqcBizqp+ip4=;
- b=lrKvDw5T/5cSfUteZYwQe9FdeOa5c8vk4TPhVOq5eRBs6ed7eZRYzIAKql+fIz2ry7
- Py3WlBfG1fyl9gmqqiHNVbjfeOjbmq9I4hDVpJ48LC6rYt/At61HXtgncCliBc8z8sKD
- adLYVfElOqlFyBRY3uWKZaZsRuJe2BedIvOEGiJ3DgtgqP1RNrjwLmpJLzOuozE6p1BN
- 3YWMWk4MR3EPiHrve/5ceJjqrA7FyFBzVmDIXOQMiUaZnicLS/1OPMk+0n5ykCkNiRJ9
- 4Di7Lmedt4C6XeMYrCvU+R42g966z35A7ZMjAmjuCBNumuzApRZfJ39JHRUux7t0aEfX
- CaKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=mpJuL3SnnKlP62I8lBtFfYglIxGvCkHfqcBizqp+ip4=;
- b=phc+gRO3eeTHylq0xjiE8IYYYGcB5sQdJtns06xIBpW178fvlvH3Z166Id6pNJJO32
- Yqc2gKfQ3ag51kPAZVkXDkhgvdQAriVliAf4s1JPKqdgrwPdLDQHdTJ2BbM2NdE+l8fV
- 7kBs6R6cN9DVdpu7H4sGnVyuHz4043sYteDs8OXPA7Xy+yUdj1QFwywNmTElMA9/RXTK
- Rkm2iQqp/iUMXMjjcHCPX2MDf8mtIZdshSmar6nQjWPz54jayiU0KE4VWHUxZ0nf7cSS
- 1P0OqGL7Tgh81sl8cmKdSCidA5qVTHvqofZDQqhML/HO/lq6SxCMtOWX2oYpzsQP10mH
- g4pw==
-X-Gm-Message-State: AOAM532E6v1JQ0PreRYAVhCycW1mKfbGwojblgxEL9ZmnqeI+1dcQelR
- FDDXdaDnuin9HQ5TbGeqw4fZEQ==
-X-Google-Smtp-Source: ABdhPJwNldB5/M6yvGFu2JZiZ6Xk5gRYhM8j3CDTRpzeORiB0J2XkASYGpbhXaWu5uULdojs5MwWIQ==
-X-Received: by 2002:a1c:9c56:: with SMTP id f83mr4242294wme.49.1605785187287; 
- Thu, 19 Nov 2020 03:26:27 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u5sm8620547wml.13.2020.11.19.03.26.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Nov 2020 03:26:26 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8A5CF1FF7E;
- Thu, 19 Nov 2020 11:26:25 +0000 (GMT)
-References: <20201119092346.32356-1-peter.maydell@linaro.org>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH for-5.2] target/arm: Make SYS_HEAPINFO work with RAM
- that doesn't start at 0
-In-reply-to: <20201119092346.32356-1-peter.maydell@linaro.org>
-Date: Thu, 19 Nov 2020 11:26:25 +0000
-Message-ID: <87lfexvb8e.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kfi5x-0002Cc-LH
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 06:27:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47717)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kfi5v-0000rq-Kw
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 06:27:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605785238;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=s3e7RN6XePwlt4NiR61ABnh/RV7jhx9K+idD2OCiqcI=;
+ b=Yo5MzSOjjl7CQyHAqlv9zE7RR8voEq21vogAjD34Y+2EeXJ9w5sO8m68isLRZoBAnrgVJh
+ clwAZ4LcRhEFl9d6yBqEzz9/V3kMd0KfC+1ae6AQWjuE1SgOuc77RIoE/q4A6+xRTeflUb
+ xTJmGd+EspfbfEjJaV4I/8KUJiTe8Xw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-582-6avniYfUPQmwUlVIcGEOzg-1; Thu, 19 Nov 2020 06:27:16 -0500
+X-MC-Unique: 6avniYfUPQmwUlVIcGEOzg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ADB69801B16;
+ Thu, 19 Nov 2020 11:27:15 +0000 (UTC)
+Received: from localhost (ovpn-115-68.ams2.redhat.com [10.36.115.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C5F861346F;
+ Thu, 19 Nov 2020 11:27:05 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] trace: use STAP_SDT_V2 to work around symbol visibility
+Date: Thu, 19 Nov 2020 11:27:04 +0000
+Message-Id: <20201119112704.837423-1-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 23:36:20
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,51 +77,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ rjones@redhat.com, fche@redhat.com, kraxel@redhat.com,
+ Stefan Hajnoczi <stefanha@redhat.com>, wcohen@redhat.com, mrezanin@redhat.com,
+ ddepaula@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+UUVNVSBiaW5hcmllcyBubyBsb25nZXIgbGF1bmNoIHN1Y2Nlc3NmdWxseSB3aXRoIHJlY2VudCBT
+eXN0ZW1UYXAKcmVsZWFzZXMuIFRoaXMgaXMgYmVjYXVzZSBtb2R1bGFyIFFFTVUgYnVpbGRzIGxp
+bmsgdGhlIHNkdCBzZW1hcGhvcmVzCmludG8gdGhlIG1haW4gYmluYXJ5IGluc3RlYWQgb2YgaW50
+byB0aGUgc2hhcmVkIG9iamVjdHMgd2hlcmUgdGhleSBhcmUKdXNlZC4gVGhlIHN5bWJvbCB2aXNp
+YmlsaXR5IG9mIHNlbWFwaG9yZXMgaXMgJ2hpZGRlbicgYW5kIHRoZSBkeW5hbWljCmxpbmtlciBw
+cmludHMgYW4gZXJyb3IgZHVyaW5nIG1vZHVsZSBsb2FkaW5nOgoKICAkIC4vY29uZmlndXJlIC0t
+ZW5hYmxlLXRyYWNlLWJhY2tlbmRzPWR0cmFjZSAtLWVuYWJsZS1tb2R1bGVzIC4uLgogIC4uLgog
+IEZhaWxlZCB0byBvcGVuIG1vZHVsZTogL2J1aWxkZGlyL2J1aWxkL0JVSUxEL3FlbXUtNC4yLjAv
+czM5MHgtc29mdG1tdS8uLi9ibG9jay1jdXJsLnNvOiB1bmRlZmluZWQgc3ltYm9sOiBxZW11X2N1
+cmxfY2xvc2Vfc2VtYXBob3JlCgpUaGUgbG9uZy10ZXJtIHNvbHV0aW9uIGlzIHRvIGdlbmVyYXRl
+IHBlci1tb2R1bGUgZHRyYWNlIC5vIGZpbGVzIGFuZApsaW5rIHRoZW0gaW50byB0aGUgbW9kdWxl
+IGluc3RlYWQgb2YgdGhlIG1haW4gYmluYXJ5LgoKSW4gdGhlIHNob3J0IHRlcm0gd2UgY2FuIGRl
+ZmluZSBTVEFQX1NEVF9WMiBzbyBkdHJhY2UoMSkgcHJvZHVjZXMgYSAubwpmaWxlIHdpdGggJ2Rl
+ZmF1bHQnIHN5bWJvbCB2aXNpYmlsaXR5IGluc3RlYWQgb2YgJ2hpZGRlbicuIFRoaXMKd29ya2Fy
+b3VuZCBpcyBzbWFsbCBhbmQgZWFzaWVyIHRvIG1lcmdlIGZvciBRRU1VIDUuMi4KCkNjOiBEYW5p
+ZWwgUC4gQmVycmFuZ8OpIDxiZXJyYW5nZUByZWRoYXQuY29tPgpDYzogd2NvaGVuQHJlZGhhdC5j
+b20KQ2M6IGZjaGVAcmVkaGF0LmNvbQpDYzoga3JheGVsQHJlZGhhdC5jb20KQ2M6IHJqb25lc0By
+ZWRoYXQuY29tCkNjOiBtcmV6YW5pbkByZWRoYXQuY29tCkNjOiBkZGVwYXVsYUByZWRoYXQuY29t
+ClNpZ25lZC1vZmYtYnk6IFN0ZWZhbiBIYWpub2N6aSA8c3RlZmFuaGFAcmVkaGF0LmNvbT4KLS0t
+CnYyOgogKiBEZWZpbmUgU1RBUF9TRFRfVjIgZXZlcnl3aGVyZSBbZGFucGJdCi0tLQogY29uZmln
+dXJlICAgICAgICAgfCAxICsKIHRyYWNlL21lc29uLmJ1aWxkIHwgNCArKy0tCiAyIGZpbGVzIGNo
+YW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9jb25m
+aWd1cmUgYi9jb25maWd1cmUKaW5kZXggNzE0ZTc1YjVkOC4uNWQ5MWQ0OWM3YiAxMDA3NTUKLS0t
+IGEvY29uZmlndXJlCisrKyBiL2NvbmZpZ3VyZQpAQCAtNDgzMiw2ICs0ODMyLDcgQEAgaWYgaGF2
+ZV9iYWNrZW5kICJkdHJhY2UiOyB0aGVuCiAgIHRyYWNlX2JhY2tlbmRfc3RhcD0ibm8iCiAgIGlm
+IGhhcyAnc3RhcCcgOyB0aGVuCiAgICAgdHJhY2VfYmFja2VuZF9zdGFwPSJ5ZXMiCisgICAgUUVN
+VV9DRkxBR1M9IiRRRU1VX0NGTEFHUyAtRFNUQVBfU0RUX1YyIgogICBmaQogZmkKIApkaWZmIC0t
+Z2l0IGEvdHJhY2UvbWVzb24uYnVpbGQgYi90cmFjZS9tZXNvbi5idWlsZAppbmRleCBkNWZjNDVj
+NjI4Li44NDNlYTE0NDk1IDEwMDY0NAotLS0gYS90cmFjZS9tZXNvbi5idWlsZAorKysgYi90cmFj
+ZS9tZXNvbi5idWlsZApAQCAtMzgsMTMgKzM4LDEzIEBAIGZvcmVhY2ggZGlyIDogWyAnLicgXSAr
+IHRyYWNlX2V2ZW50c19zdWJkaXJzCiAgICAgdHJhY2VfZHRyYWNlX2ggPSBjdXN0b21fdGFyZ2V0
+KGZtdC5mb3JtYXQoJ3RyYWNlLWR0cmFjZScsICdoJyksCiAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIG91dHB1dDogZm10LmZvcm1hdCgndHJhY2UtZHRyYWNlJywgJ2gnKSwKICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgaW5wdXQ6IHRyYWNlX2R0cmFjZSwKLSAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgY29tbWFuZDogWyAnZHRyYWNlJywgJy1v
+JywgJ0BPVVRQVVRAJywgJy1oJywgJy1zJywgJ0BJTlBVVEAnIF0pCisgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIGNvbW1hbmQ6IFsgJ2R0cmFjZScsICctRFNUQVBfU0RUX1YyJywg
+Jy1vJywgJ0BPVVRQVVRAJywgJy1oJywgJy1zJywgJ0BJTlBVVEAnIF0pCiAgICAgdHJhY2Vfc3Mu
+YWRkKHRyYWNlX2R0cmFjZV9oKQogICAgIGlmIGhvc3RfbWFjaGluZS5zeXN0ZW0oKSAhPSAnZGFy
+d2luJwogICAgICAgdHJhY2VfZHRyYWNlX28gPSBjdXN0b21fdGFyZ2V0KGZtdC5mb3JtYXQoJ3Ry
+YWNlLWR0cmFjZScsICdvJyksCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+b3V0cHV0OiBmbXQuZm9ybWF0KCd0cmFjZS1kdHJhY2UnLCAnbycpLAogICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIGlucHV0OiB0cmFjZV9kdHJhY2UsCi0gICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgY29tbWFuZDogWyAnZHRyYWNlJywgJy1vJywgJ0BPVVRQ
+VVRAJywgJy1HJywgJy1zJywgJ0BJTlBVVEAnIF0pCisgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgY29tbWFuZDogWyAnZHRyYWNlJywgJy1EU1RBUF9TRFRfVjInLCAnLW8nLCAn
+QE9VVFBVVEAnLCAnLUcnLCAnLXMnLCAnQElOUFVUQCcgXSkKICAgICAgIHRyYWNlX3NzLmFkZCh0
+cmFjZV9kdHJhY2VfbykKICAgICBlbmRpZgogCi0tIAoyLjI4LjAKCg==
 
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> The semihosting SYS_HEAPINFO call is supposed to return an array
-> of four guest addresses:
->  * base of heap memory
->  * limit of heap memory
->  * base of stack memory
->  * limit of stack memory
->
-> Some semihosting programs (including those compiled to use the
-> 'newlib' embedded C library) use this call to work out where they
-> should initialize themselves to.
->
-> QEMU's implementation when in system emulation mode is very
-> simplistic: we say that the heap starts halfway into RAM and
-> continues to the end of RAM, and the stack starts at the top of RAM
-> and works down to the bottom.
-
-So there is nothing to stop this value being in the middle of say a
-loaded kernel or something that happens to overrun into the second half
-of memory? AFAICT if an initrd is ever used it will likely smash that.
-
-> Unfortunately the code assumes that
-> the base address of RAM is at address 0, so on boards like 'virt'
-> where this is not true the addresses returned will all be wrong and
-> the guest application will usually crash.
->
-> Conveniently since all Arm boards call arm_load_kernel() we have the
-> base address of the main RAM block in the arm_boot_info struct which
-> is accessible via the CPU object.  Use this to return sensible values
-> from SYS_HEAPINFO.
-
-It's certainly an improvement but it feels like it could be a bit
-smarter. Maybe it's not an issue for sort of things that use
-semihosting?
-
-Anyway:
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
 
