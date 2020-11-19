@@ -2,80 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 221BC2B9B15
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 20:05:15 +0100 (CET)
-Received: from localhost ([::1]:51172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FEAE2B9B16
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 20:06:56 +0100 (CET)
+Received: from localhost ([::1]:53326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfpF3-00016m-O0
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 14:05:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39994)
+	id 1kfpGh-00027B-Dx
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 14:06:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kfpDm-0000Zq-6V
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 14:03:54 -0500
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:34555)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kfpDk-0008Fm-1A
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 14:03:53 -0500
-Received: by mail-pg1-x535.google.com with SMTP id q28so5088848pgk.1
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 11:03:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=cHe1QsYXTPzUAnKoByANSg/4AbkSooIq8bZgA3/5xhs=;
- b=v8SdT88eoKozonH7BynRIJ5CwcCryYY+b+qFrmdoYeR1Zlo/ir5REwRf2wZMiXm98X
- 2e2fsxVYCHtl+nIMngQM5Rv64MbEjQvjc8Y/2ELcDu7B1t1NQMA2zBArEKcElrnTvHiQ
- QDOSY0boXGi+zg2DBuR08mKgJOXArJy2iHfAmpoQbLE0k91Hk3IBVAuriM9po/gKZz2n
- jcZeJT1ZWlzPzcUv5oC/aOzS1bRn37Dd14DIYHXYEhbIfGnnBKitStmFvQ4wpBcB09lI
- +UhURsMd2WBFjOP39xEV/Q3mf01hv13/OaZE3gKVKGZhXnPz+1E4sxsI/AhFvkA7Osjs
- OLng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=cHe1QsYXTPzUAnKoByANSg/4AbkSooIq8bZgA3/5xhs=;
- b=tLMpi72m0E5TtfF2NieXO7+WCg52Fg7gh0NTxTAcnh/FaQcwimatQIZZsYkAri4F9v
- Y0C9nYHUCiuPAo11SZdquZvQg4rBpHNpirh4Pd9AM+ntEv7FXLg4O49SZITK6vO/vh1g
- ttnbjvHJ5ZkKYog86OT46RxYd0nsedwb6/7748rhelImAptnBI4KXvcmgzdzBjT3bEpY
- 5b/3D9wH84Dd+dOixK3yta5se7RjQ8kk396NJjenXYEMkTNvFJy6eUTiWFBZRpelsZJE
- 2trV3+wejnNReV2nepoMrgtYzyT53m45y1oic9tplvqBsbOIgCvkCIc4lJ3MvURu8Urn
- hz/g==
-X-Gm-Message-State: AOAM531GogWwkhRP3kgToRwDMFFOdSekiN0LbiC3OnZxWIexvSnmydQx
- nLbYQYcKpkblNx6yRtJGr8VaCg==
-X-Google-Smtp-Source: ABdhPJyZiEnLSpw+68GrnIiEUNwgInScnNAfo1FiSIf3fzm3x9cM2JoUWzpQbKyl3bTnRt8GW4cNJg==
-X-Received: by 2002:a63:f24f:: with SMTP id d15mr13727569pgk.276.1605812630281; 
- Thu, 19 Nov 2020 11:03:50 -0800 (PST)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id y5sm394023pja.52.2020.11.19.11.03.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Nov 2020 11:03:49 -0800 (PST)
-Subject: Re: [RFC 01/15] target/riscv: reformat @sh format encoding for
- B-extension
-To: frank.chang@sifive.com, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-References: <20201118083044.13992-1-frank.chang@sifive.com>
- <20201118083044.13992-2-frank.chang@sifive.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5aeb4fd2-ecfe-8ddc-457d-d6feb9e533b4@linaro.org>
-Date: Thu, 19 Nov 2020 11:03:46 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kfpFm-0001g5-Ub
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 14:05:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26560)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kfpFg-0000Zr-VJ
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 14:05:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605812750;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=diI3fDqLsFkXXLMsl4QHLsqt6NuTlso/LgnDPKSfop4=;
+ b=XBjmVOvbPCebOpQNPep+jXZAuBh8Frb/+K0iAhrNlY1EIw9vuRyT+tWn+jVsVW5SK/7g4i
+ eY8JUT869QXXg2b0E5RcXgdHRZR50xPLrHXnC/KtAwyCR2ON+pgAOzEgXfx/EL8HTuzvD4
+ 8BClcFHrkwtGjHRViUprheGAmIWasEA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-158-KxQ9kDF-NbahampP7AAcqA-1; Thu, 19 Nov 2020 14:05:48 -0500
+X-MC-Unique: KxQ9kDF-NbahampP7AAcqA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B469801B13
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 19:05:48 +0000 (UTC)
+Received: from localhost (ovpn-115-101.rdu2.redhat.com [10.10.115.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A236D5C1D1;
+ Thu, 19 Nov 2020 19:05:47 +0000 (UTC)
+Date: Thu, 19 Nov 2020 14:05:46 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2 0/8] qom: Use qlit to represent property defaults
+Message-ID: <20201119190546.GA1509407@habkost.net>
+References: <20201116224143.1284278-1-ehabkost@redhat.com>
+ <87eekpbjvt.fsf@dusky.pond.sub.org>
+ <20201119171342.GT1509407@habkost.net>
+ <981fb59f-ad67-886c-40e7-6f129997f4c7@redhat.com>
+ <20201119175531.GU1509407@habkost.net>
+ <201edbb0-843d-9be0-af94-cd50d8771a49@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201118083044.13992-2-frank.chang@sifive.com>
+In-Reply-To: <201edbb0-843d-9be0-af94-cd50d8771a49@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,27 +82,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>, Kito Cheng <kito.cheng@sifive.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/18/20 12:29 AM, frank.chang@sifive.com wrote:
-> -slli     00.... ......    ..... 001 ..... 0010011 @sh
-> -srli     00.... ......    ..... 101 ..... 0010011 @sh
-> -srai     01.... ......    ..... 101 ..... 0010011 @sh
-> +slli     000000 ......    ..... 001 ..... 0010011 @sh
-> +srli     000000 ......    ..... 101 ..... 0010011 @sh
-> +srai     010000 ......    ..... 101 ..... 0010011 @sh
+On Thu, Nov 19, 2020 at 07:25:15PM +0100, Paolo Bonzini wrote:
+> On 19/11/20 18:55, Eduardo Habkost wrote:
+> > On Thu, Nov 19, 2020 at 06:23:30PM +0100, Paolo Bonzini wrote:
+> > > On 19/11/20 18:13, Eduardo Habkost wrote:
+> > > > > What's left?
+> > > > Enums.  Enums properties are a mess to implement, and I plan to
+> > > > tackle them later.
+> > > > 
+> > > > On all other cases, the external representation of the property
+> > > > value is similar to the internal representation.  In the case of
+> > > > enums, the external representation is a string, but the internal
+> > > > representation is an integer.
+> > > > 
+> > > 
+> > > I would have expected a string QLit to work with enums, is there a reason
+> > > why it doesn't?
+> > 
+> > It would work, but it would be more inconvenient for callers.
+> > Right now they use the C enum constant instead of a string.
+> 
+> It matches what you have to do already for compat props, so it's not a big
+> deal.  I would say just use strings.
 
-We need at least 7 bits here for rv128, if we ever get around to it.  The code
-in trans_slli et al already eliminates numbers that are two large.
+No problem to me.  I'll do.
 
-In the rvb draft, only 5 bits are used in the uppermost field.  Let's leave it
-at that.
+-- 
+Eduardo
 
-
-r~
 
