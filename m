@@ -2,84 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AF0D2B98CF
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 18:03:54 +0100 (CET)
-Received: from localhost ([::1]:47218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F254F2B98F1
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 18:08:39 +0100 (CET)
+Received: from localhost ([::1]:60460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfnLc-0004wF-Qe
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 12:03:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34588)
+	id 1kfnQE-000276-Gb
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 12:08:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kfnGB-0000LK-70
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:58:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51391)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kfnKb-0004sQ-I9
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 12:02:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34212)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kfnG8-0004nW-QW
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:58:14 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kfnKW-0006NQ-Ke
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 12:02:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605805091;
+ s=mimecast20190719; t=1605805362;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JoMeEouGSEx7DVLlbUNXTkJw9qzzN+Uyru5quy5gwlo=;
- b=RuBidAeVb91zTCXDtHttfnpeqvvrZ6HvuDtDuCXY7izhfcuWmeJxJnDwoSxyFAhbRqt2fB
- VRlVZeTju4BjeXE0kD+9iwWhj05yyiNzb+XnS2cF7TP3cVoCTzNNxjz2zSRjuObVF63h5X
- KIbK9hHKxPH8Wi4nWK/5c6olgrejx+c=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-445-l-nuE8TUNduzcdeIhC3Kxg-1; Thu, 19 Nov 2020 11:58:09 -0500
-X-MC-Unique: l-nuE8TUNduzcdeIhC3Kxg-1
-Received: by mail-wr1-f69.google.com with SMTP id n4so2258520wrt.8
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 08:58:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
- :message-id:mime-version;
- bh=JoMeEouGSEx7DVLlbUNXTkJw9qzzN+Uyru5quy5gwlo=;
- b=cVIdt64Fm89JTydoNgoswYa1uWoaPpR5UJ54WG1vWHSpR3jgNLBZC8KxSq/VgEgYX2
- zvU/QYP3Wxnz+3a416R9aAnlq96CFUebdmaEXwn2JeOUW+9KnqVs/SyQZPFa+GebBbBs
- Dd9NLVXpmfZC3fbAhQoaILlmb1nTYIyVGT+JvYu0i3lIxA7+SA7GipVD2bzFLSa3Htzv
- WRnpjmUBc4WGtFDdDkRo5j0uWEycJv0ZKb3e2e2PcKiQnM5yaiYnCXUBAqhfRecW/KBP
- tpLMx+YBvIiuKZ9Jj8n3S+p9WDejKg1jTmMg60frfr6p9dRgbW0dnP6dSM4WJ70Nsu6x
- qEbg==
-X-Gm-Message-State: AOAM532dCLgHTUCe2jIjMvQIPxNHMS8XrX62UGIzByVpXYogG+zJfiwR
- LaeLkhSlEIrt9P2EMVfYZGsOt5W6waa0b4emRIc/awRRjrxfZ6qgmfYvkx/3SaH+nuJUzv06r/f
- jW6gLiOP0x/cwRAA=
-X-Received: by 2002:a5d:4448:: with SMTP id x8mr11188278wrr.364.1605805087871; 
- Thu, 19 Nov 2020 08:58:07 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzeOV2K2rausRcs6BKqgIQAUB1lMMEe74sdejDz7P/w3FMQvLrY1P2wmqwEX/TPMs6/l2KvGQ==
-X-Received: by 2002:a5d:4448:: with SMTP id x8mr11188261wrr.364.1605805087700; 
- Thu, 19 Nov 2020 08:58:07 -0800 (PST)
-Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
- by smtp.gmail.com with ESMTPSA id q17sm626929wro.36.2020.11.19.08.58.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Nov 2020 08:58:06 -0800 (PST)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org
-Subject: Re: [PATCH 0/5] i386: simplify Hyper-V enlightenments enablement
-In-Reply-To: <5214378f-29fd-e562-ff99-c7868493c9fe@suse.de>
-References: <20201119103221.1665171-1-vkuznets@redhat.com>
- <5214378f-29fd-e562-ff99-c7868493c9fe@suse.de>
-Date: Thu, 19 Nov 2020 17:58:05 +0100
-Message-ID: <87ft55thb6.fsf@vitty.brq.redhat.com>
+ bh=UGJIntZtR489w+5p6uV8lb0Lshk9BEyQ3nS6e5ScdTk=;
+ b=TofcMwk4n6UZURWiBZyUTVv6yOUlSuhM/rqBfyrR1j/UZ1GQpNDtVtxYhgMIny04u4b1Pm
+ Je/t5wzZ/H61F5O92CDjJZz/2XbIYzB4KpENRUuXrfN0uoxta9OS0kSBNQ2sKsWTKIvpn9
+ Iv00IO2ZoPvVAkt/CsZDCf2yXA5wQbk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-339-X6u8QqGoPXCNvG7A3KZAcw-1; Thu, 19 Nov 2020 12:02:39 -0500
+X-MC-Unique: X6u8QqGoPXCNvG7A3KZAcw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DAF8718B62A6;
+ Thu, 19 Nov 2020 17:02:37 +0000 (UTC)
+Received: from [10.3.112.188] (ovpn-112-188.phx2.redhat.com [10.3.112.188])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B4C219C47;
+ Thu, 19 Nov 2020 17:02:37 +0000 (UTC)
+Subject: Re: [PATCH 3/4] block: add dbg_dump_block_layer()
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20201119131634.14009-1-vsementsov@virtuozzo.com>
+ <20201119131634.14009-4-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <bd3c2fb4-a163-d79e-48be-4559342fab82@redhat.com>
+Date: Thu, 19 Nov 2020 11:02:36 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
+In-Reply-To: <20201119131634.14009-4-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,69 +83,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: kwolf@redhat.com, ehabkost@redhat.com, qemu-devel@nongnu.org,
+ armbru@redhat.com, mreitz@redhat.com, andrey.shinkevich@virtuozzo.com,
+ crosa@redhat.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Claudio Fontana <cfontana@suse.de> writes:
+On 11/19/20 7:16 AM, Vladimir Sementsov-Ogievskiy wrote:
+> Add function for debugging: we already have x-debug-query-block-graph
+> qmp command and scripts/render_block_graph.py which can dump
+> block-layer graph for running vm using qmp command. But when debug
+> block layer code, its often needed to dump some intermediate state
+> during some operation, so separate qmp command doesn't help.
+> 
+> So, let's introduce a function which can dump needed information into
+> json file.
+> 
+> In next commit we'll update scripts/render_block_graph.py so that it
+> will be able to parse json files.
+> 
+> For new function to not crash if we have mirror_top filter node not yet
+> bdrv_append()ed (to debug why it can't be appended), make
+> bdrv_get_allocated_file_size() and bdrv_refresh_filename() not crash on
+> filters without a child.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
 
-> Hi Vitaly, I just wanted to raise awareness of
->
-> https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg04597.html
->
-> because if that series work is completed, you would have already the
-> right hook to put your code in, when it comes to your hyperv-specific
-> code for the realizefn.
+> +++ b/qapi/block-core.json
+> @@ -1908,6 +1908,19 @@
+>  ##
+>  { 'command': 'x-debug-query-block-graph', 'returns': 'XDbgBlockGraph' }
+>  
+> +##
+> +# @XDbgBlockLayerDump:
+> +#
+> +# Unite query-named-block-nodes, query-block-jobs and
+> +# x-debug-query-block-graph results into one structure for block_layer_dump()
+> +# function.
+> +#
+> +# Since: 5.3
 
-Hi Claudio,
-
-thanks for letting me know! I'll take a look but at first glance it
-would just be a code movement. Hope your series gets merged soon, at
-least before my bug 'i386: KVM: expand Hyper-V features early"' is
-coming (will be submitting it after 5.11-rc1 kernel upstream) so we
-minimize the code churn.
-
->
-> Ciao ciao,
->
-> Claudio
->
-> On 11/19/20 11:32 AM, Vitaly Kuznetsov wrote:
->> This series is a part of the previously sent "[PATCH RFC v3 00/23] i386:
->> KVM: expand Hyper-V features early":
->> https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg02443.html
->> 
->> We're not ready to merge the full patch set yet because the required
->> KVM capability is only queued for 5.11. We can, however, extract the
->> part providing 'hyperv=on' option to x86 machine types which is valuable
->> on its own. Picking up four other patches from the original RFC to
->> minimize the code churn in future (x86_cpu_realizefn()).
->> 
->> Changes since RFCv3:
->> - Rename 'hyperv_features' to 'default_hyperv_features' in X86MachineClass
->>   [Eduardo]
->> - Move x86_cpu_hyperv_realize() invocation after x86_cpu_expand_features()/
->>   x86_cpu_filter_features() as we need to reference cpu_has_vmx().
->> 
->> Vitaly Kuznetsov (5):
->>   i386: move hyperv_vendor_id initialization to x86_cpu_realizefn()
->>   i386: move hyperv_interface_id initialization to x86_cpu_realizefn()
->>   i386: move hyperv_version_id initialization to x86_cpu_realizefn()
->>   i386: move hyperv_limits initialization to x86_cpu_realizefn()
->>   i386: provide simple 'hyperv=on' option to x86 machine types
->> 
->>  docs/hyperv.txt       |  8 +++++
->>  hw/i386/x86.c         | 30 +++++++++++++++++++
->>  include/hw/i386/x86.h |  7 +++++
->>  target/i386/cpu.c     | 52 +++++++++++++++++++++++++++++++-
->>  target/i386/cpu.h     |  6 +++-
->>  target/i386/kvm.c     | 70 ++++++++++++++++++++++++++++---------------
->>  6 files changed, 147 insertions(+), 26 deletions(-)
->> 
->
+The next release will be numbered 6.0, not 5.3.
 
 -- 
-Vitaly
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
