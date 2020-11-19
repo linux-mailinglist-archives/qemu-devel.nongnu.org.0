@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C75462B89D5
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 02:53:12 +0100 (CET)
-Received: from localhost ([::1]:35338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F19A92B89EE
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 02:59:38 +0100 (CET)
+Received: from localhost ([::1]:53192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfZ8J-00011k-9u
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 20:53:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45530)
+	id 1kfZEY-0008NM-2b
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 20:59:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kfZ6D-0008FS-OS
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 20:51:01 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2460)
+ id 1kfZ6I-0008M3-Sw
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 20:51:06 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2527)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kfZ6A-0003NT-Ug
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 20:51:01 -0500
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Cc2gm3wjSzLlyS;
- Thu, 19 Nov 2020 09:50:28 +0800 (CST)
-Received: from localhost (10.174.184.155) by DGGEMS414-HUB.china.huawei.com
- (10.3.19.214) with Microsoft SMTP Server id 14.3.487.0; Thu, 19 Nov 2020
+ id 1kfZ6B-0003NQ-3E
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 20:51:06 -0500
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Cc2gs1cV7zhYN4;
+ Thu, 19 Nov 2020 09:50:33 +0800 (CST)
+Received: from localhost (10.174.184.155) by DGGEMS402-HUB.china.huawei.com
+ (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0; Thu, 19 Nov 2020
  09:50:40 +0800
 From: Jiahui Cen <cenjiahui@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v10 6/9] acpi: Align the size to 128k
-Date: Thu, 19 Nov 2020 09:48:38 +0800
-Message-ID: <20201119014841.7298-7-cenjiahui@huawei.com>
+Subject: [PATCH v10 7/9] unit-test: The files changed.
+Date: Thu, 19 Nov 2020 09:48:39 +0800
+Message-ID: <20201119014841.7298-8-cenjiahui@huawei.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201119014841.7298-1-cenjiahui@huawei.com>
 References: <20201119014841.7298-1-cenjiahui@huawei.com>
@@ -73,68 +73,150 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yubo Miao <miaoyubo@huawei.com>
 
-If table size is changed between virt_acpi_build and
-virt_acpi_build_update, the table size would not be updated to
-UEFI, therefore, just align the size to 128kb, which is enough
-and same with x86. It would warn if 64k is not enough and the
-align size should be updated.
+The unit-test is seperated into three patches:
+1. The files changed and list in bios-tables-test-allowed-diff.h
+2. The unit-test
+3. The binary file and clear bios-tables-test-allowed-diff.h
+
+The ASL diff would also be listed.
+Sice there are 1000+lines diff, some changes would be omitted.
+
+  * Original Table Header:
+  *     Signature        "DSDT"
+- *     Length           0x000014BB (5307)
++ *     Length           0x00001E7A (7802)
+  *     Revision         0x02
+- *     Checksum         0xD1
++ *     Checksum         0x57
+  *     OEM ID           "BOCHS "
+  *     OEM Table ID     "BXPCDSDT"
+  *     OEM Revision     0x00000001 (1)
+
++        Device (PC80)
++        {
++            Name (_HID, "PNP0A08" /* PCI Express Bus */)  // _HID: Hardware ID
++            Name (_CID, "PNP0A03" /* PCI Bus */)  // _CID: Compatible ID
++            Name (_ADR, Zero)  // _ADR: Address
++            Name (_CCA, One)  // _CCA: Cache Coherency Attribute
++            Name (_SEG, Zero)  // _SEG: PCI Segment
++            Name (_BBN, 0x80)  // _BBN: BIOS Bus Number
++            Name (_UID, 0x80)  // _UID: Unique ID
++            Name (_STR, Unicode ("pxb Device"))  // _STR: Description String
++            Name (_PRT, Package (0x80)  // _PRT: PCI Routing Table
++            {
++                Package (0x04)
++                {
++                    0xFFFF,
++                    Zero,
++                    GSI0,
++                    Zero
++                },
++
+
+Packages are omitted.
+
++                Package (0x04)
++                {
++                    0x001FFFFF,
++                    0x03,
++                    GSI2,
++                    Zero
++                }
++            })
++            Device (GSI0)
++            {
++                Name (_HID, "PNP0C0F" /* PCI Interrupt Link Device */)  // _HID: Hardware ID
++                Name (_UID, Zero)  // _UID: Unique ID
++                Name (_PRS, ResourceTemplate ()  // _PRS: Possible Resource Settings
++                {
++                    Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, )
++                    {
++                        0x00000023,
++                    }
++                })
++                Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
++                {
++                    Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, )
++                    {
++                        0x00000023,
++                    }
++                })
++                Method (_SRS, 1, NotSerialized)  // _SRS: Set Resource Settings
++                {
++                }
++            }
+
+GSI1,2,3 are omitted.
+
++            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
++            {
++                WordBusNumber (ResourceProducer, MinFixed, MaxFixed, PosDecode,
++                    0x0000,             // Granularity
++                    0x0080,             // Range Minimum
++                    0x0080,             // Range Maximum
++                    0x0000,             // Translation Offset
++                    0x0001,             // Length
++                    ,, )
++            })
++            Name (SUPP, Zero)
++            Name (CTRL, Zero)
++            Method (_OSC, 4, NotSerialized)  // _OSC: Operating System Capabilities
++            {
++                CreateDWordField (Arg3, Zero, CDW1)
++                If ((Arg0 == ToUUID ("33db4d5b-1ff7-401c-9657-7441c03dd766") /* PCI Host Bridge Device */))
++                {
++                    CreateDWordField (Arg3, 0x04, CDW2)
++                    CreateDWordField (Arg3, 0x08, CDW3)
++                    SUPP = CDW2 /* \_SB_.PC80._OSC.CDW2 */
++                    CTRL = CDW3 /* \_SB_.PC80._OSC.CDW3 */
++                    CTRL &= 0x1F
++                    If ((Arg1 != One))
++                    {
++                        CDW1 |= 0x08
++                    }
++
++                    If ((CDW3 != CTRL))
++                    {
++                        CDW1 |= 0x10
++                    }
++
++                    CDW3 = CTRL /* \_SB_.PC80.CTRL */
++                    Return (Arg3)
++                }
++                Else
++                {
++                    CDW1 |= 0x04
++                    Return (Arg3)
++                }
++            }
+
+DSM is are omitted
+
+         Device (PCI0)
+         {
+             Name (_HID, "PNP0A08" /* PCI Express Bus */)  // _HID: Hardware ID
+                     WordBusNumber (ResourceProducer, MinFixed, MaxFixed, PosDecode,
+                         0x0000,             // Granularity
+                         0x0000,             // Range Minimum
+-                        0x00FF,             // Range Maximum
++                        0x007F,             // Range Maximum
+                         0x0000,             // Translation Offset
+-                        0x0100,             // Length
++                        0x0080,             // Length
 
 Signed-off-by: Yubo Miao <miaoyubo@huawei.com>
 Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
 ---
- hw/arm/virt-acpi-build.c | 25 ++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ tests/qtest/bios-tables-test-allowed-diff.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index e0bed9037c..711cf2069f 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -57,6 +57,8 @@
- 
- #define ARM_SPI_BASE 32
- 
-+#define ACPI_BUILD_TABLE_SIZE             0x20000
-+
- static void acpi_dsdt_add_cpus(Aml *scope, int smp_cpus)
- {
-     uint16_t i;
-@@ -656,6 +658,15 @@ struct AcpiBuildState {
-     bool patched;
- } AcpiBuildState;
- 
-+static void acpi_align_size(GArray *blob, unsigned align)
-+{
-+    /*
-+     * Align size to multiple of given size. This reduces the chance
-+     * we need to change size in the future (breaking cross version migration).
-+     */
-+    g_array_set_size(blob, ROUND_UP(acpi_data_len(blob), align));
-+}
-+
- static
- void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
- {
-@@ -743,6 +754,20 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
-         build_rsdp(tables->rsdp, tables->linker, &rsdp_data);
-     }
- 
-+    /*
-+     * The align size is 128, warn if 64k is not enough therefore
-+     * the align size could be resized.
-+     */
-+    if (tables_blob->len > ACPI_BUILD_TABLE_SIZE / 2) {
-+        warn_report("ACPI table size %u exceeds %d bytes,"
-+                    " migration may not work",
-+                    tables_blob->len, ACPI_BUILD_TABLE_SIZE / 2);
-+        error_printf("Try removing CPUs, NUMA nodes, memory slots"
-+                     " or PCI bridges.");
-+    }
-+    acpi_align_size(tables_blob, ACPI_BUILD_TABLE_SIZE);
-+
-+
-     /* Cleanup memory that's no longer used. */
-     g_array_free(table_offsets, true);
- }
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..90c53925fc 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,2 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/virt/DSDT.pxb",
 -- 
 2.28.0
 
