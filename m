@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05F882B9844
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 17:43:43 +0100 (CET)
-Received: from localhost ([::1]:37132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BB832B9883
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 17:49:48 +0100 (CET)
+Received: from localhost ([::1]:54392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfn25-0004xX-Mx
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 11:43:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56676)
+	id 1kfn7z-0003ng-DX
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 11:49:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kfmua-0004zq-36
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:35:56 -0500
-Received: from indium.canonical.com ([91.189.90.7]:34914)
+ id 1kfn4F-0000Eb-7Z
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:45:55 -0500
+Received: from indium.canonical.com ([91.189.90.7]:36486)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kfmuX-0004nO-7j
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:35:55 -0500
+ id 1kfn4A-0000Dk-Nz
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:45:54 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kfmuL-0006Q0-5V
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 16:35:41 +0000
+ id 1kfn48-0007qM-O8
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 16:45:48 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 28FA22E8041
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 16:35:41 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id B5D562E8041
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 16:45:48 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Nov 2020 16:23:10 -0000
-From: Thomas Huth <1529764@bugs.launchpad.net>
+Date: Thu, 19 Nov 2020 16:32:54 -0000
+From: Thomas Huth <1524637@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: qemu
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: t-artem th-huth
-X-Launchpad-Bug-Reporter: T-artem (t-artem)
+X-Launchpad-Bug-Commenters: qhjin-dev th-huth
+X-Launchpad-Bug-Reporter: Qinghua Jin (qhjin-dev)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20151229052207.25762.54140.malonedeb@gac.canonical.com>
-Message-Id: <160580299012.18906.10814003150484217.malone@gac.canonical.com>
-Subject: [Bug 1529764] Re: No video output with the official Windows XP VMWare
- VGA driver
+References: <20151210072444.12285.63754.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160580357415.24625.4545626318093867942.malone@wampee.canonical.com>
+Subject: [Bug 1524637] Re: system_powerdown/system_reset not working when exec
+ stop on hmp
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="c35ff22711d15549e2303ae18ae521fd91f6bf00"; Instance="production"
-X-Launchpad-Hash: 7f05ef7d1e0ed5910f36b15f901d4c52864d1eeb
+X-Launchpad-Hash: ea830e1360930ace8881d1c1709406f46e3dc8ba
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 09:30:48
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -65
 X-Spam_score: -6.6
 X-Spam_bar: ------
@@ -73,44 +72,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1529764 <1529764@bugs.launchpad.net>
+Reply-To: Bug 1524637 <1524637@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently considering to move its bug tracking to anoth=
-er system. For this we need to know which bugs are still valid and which co=
-uld be closed already. Thus we are setting older bugs to "Incomplete" now.
-If you still think this bug report here is valid, then please switch the st=
-ate back to "New" within the next 60 days, otherwise this report will be ma=
-rked as "Expired". Or mark it as "Fix Released" if the problem has been sol=
-ved with a newer version of QEMU already. Thank you and sorry for the incon=
-venience.
+Looking through old bug tickets ... I don't think this was really a bug.
+If you stop your guest, of course the guest operating system can not
+powerdown anymore. It should powerdown once you resume your guest with
+"cont".
 
 ** Changed in: qemu
-       Status: New =3D> Incomplete
+       Status: New =3D> Invalid
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1529764
+https://bugs.launchpad.net/bugs/1524637
 
 Title:
-  No video output with the official Windows XP VMWare VGA driver
+  system_powerdown/system_reset not working when exec stop on hmp
 
 Status in QEMU:
-  Incomplete
+  Invalid
 
 Bug description:
-  Steps to reproduce:
+  system_powerdown/system_reset stops working in qemu for centos kernels
+  if KVM is enabled.
 
-  1) Set -vga to vmware
-  2) Install Windows XP SP3
-  3) Install VGA drivers from http://packages.vmware.com/tools/releases/lat=
-est/windows/x86/VMware-tools-windows-10.0.5-3227872.iso
+  qemu versioin: 2.4
+  linux kernel versioin: 4.2.5
 
-  Result: completely black screen (even after F8 -> use VGA mode).
+  How to reproduce:
+
+  1. qemu-system-x86_64 -enable-kvm -drive if=3Dnone,id=3Ddrive0,file=3D/me=
+dia/sda5/image/fc21/fc21.raw -device virtio-blk-pci,drive=3Ddrive0,iothread=
+=3Diothread0 -machine smm=3Doff -object iothread,id=3Diothread0 -monitor st=
+dio
+  2. Enter stop in the qemu console, we can see the vm is stopped.
+  3. Enter system_powerdown in the qemu console
+  4. Nothing happens.
+
+  Can you please give a prompt or something else when the vm isn't
+  allowed to powerdown or reset?
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1529764/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1524637/+subscriptions
 
