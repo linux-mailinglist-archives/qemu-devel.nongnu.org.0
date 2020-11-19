@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FE1E2B89E1
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 02:54:53 +0100 (CET)
-Received: from localhost ([::1]:41718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA7762B8A14
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 03:29:01 +0100 (CET)
+Received: from localhost ([::1]:59228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfZ9w-0003bl-F8
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 20:54:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45580)
+	id 1kfZgy-0004rE-FS
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 21:29:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kfZ6F-0008GP-Il
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 20:51:03 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2862)
+ (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
+ id 1kfZfi-0004CD-Cl; Wed, 18 Nov 2020 21:27:42 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:2098)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kfZ6A-0003NZ-V4
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 20:51:03 -0500
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Cc2gt2X6Dz15MZZ;
- Thu, 19 Nov 2020 09:50:34 +0800 (CST)
-Received: from localhost (10.174.184.155) by DGGEMS407-HUB.china.huawei.com
- (10.3.19.207) with Microsoft SMTP Server id 14.3.487.0; Thu, 19 Nov 2020
- 09:50:41 +0800
-From: Jiahui Cen <cenjiahui@huawei.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH v10 9/9] unit-test: Add the binary file and clear diff.h
-Date: Thu, 19 Nov 2020 09:48:41 +0800
-Message-ID: <20201119014841.7298-10-cenjiahui@huawei.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201119014841.7298-1-cenjiahui@huawei.com>
-References: <20201119014841.7298-1-cenjiahui@huawei.com>
+ (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
+ id 1kfZfd-0007eN-J1; Wed, 18 Nov 2020 21:27:42 -0500
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Cc3Tz6tbmzhY3r;
+ Thu, 19 Nov 2020 10:27:03 +0800 (CST)
+Received: from [10.174.187.138] (10.174.187.138) by
+ DGGEMS408-HUB.china.huawei.com (10.3.19.208) with Microsoft SMTP Server id
+ 14.3.487.0; Thu, 19 Nov 2020 10:27:04 +0800
+Message-ID: <5FB5D7F8.50003@huawei.com>
+Date: Thu, 19 Nov 2020 10:27:04 +0800
+From: Alex Chen <alex.chen@huawei.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64;
+ rv:17.0) Gecko/20130509 Thunderbird/17.0.6
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.184.155]
+To: <balrogg@gmail.com>, Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] hw/arm: Fix bad print format specifiers
+References: <5F9FD78B.8000300@huawei.com>
+In-Reply-To: <5F9FD78B.8000300@huawei.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.187.138]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190; envelope-from=cenjiahui@huawei.com;
- helo=szxga04-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 20:50:47
+Received-SPF: pass client-ip=45.249.212.32; envelope-from=alex.chen@huawei.com;
+ helo=szxga06-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 20:50:45
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,78 +59,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xieyingtai@huawei.com, Peter Maydell <peter.maydell@linaro.org>,
- Jiahui Cen <cenjiahui@huawei.com>, berrange@redhat.com,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, Richard
- Henderson <richard.henderson@linaro.org>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, miaoyubo@huawei.com,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, philmd@redhat.com, wu.wubin@huawei.com
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-arm@nongnu.org,
+ QEMU <qemu-devel@nongnu.org>, zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yubo Miao <miaoyubo@huawei.com>
+Kindly ping.
 
-Add the binary file DSDT.pxb and clear bios-tables-test-allowed-diff.h
-
-Signed-off-by: Yubo Miao <miaoyubo@huawei.com>
-Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
----
- tests/data/acpi/virt/DSDT.pxb               | Bin 0 -> 7802 bytes
- tests/qtest/bios-tables-test-allowed-diff.h |   1 -
- 2 files changed, 1 deletion(-)
-
-diff --git a/tests/data/acpi/virt/DSDT.pxb b/tests/data/acpi/virt/DSDT.pxb
-new file mode 100644
-index 0000000000000000000000000000000000000000..d5f0533a02d62bc2ae2db9b9de9484e5c06652fe
-GIT binary patch
-literal 7802
-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
-ATL1t6
-
-literal 0
-HcmV?d00001
-
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index 90c53925fc..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,2 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/virt/DSDT.pxb",
--- 
-2.28.0
+On 2020/11/2 17:55, AlexChen wrote:
+> We should use printf format specifier "%u" instead of "%i" for
+> argument of type "unsigned int".
+> 
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Alex Chen <alex.chen@huawei.com>
+> ---
+>  hw/arm/pxa2xx.c | 2 +-
+>  hw/arm/spitz.c  | 2 +-
+>  hw/arm/tosa.c   | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/arm/pxa2xx.c b/hw/arm/pxa2xx.c
+> index 591776ba88..1a98f3bd5c 100644
+> --- a/hw/arm/pxa2xx.c
+> +++ b/hw/arm/pxa2xx.c
+> @@ -675,7 +675,7 @@ static void pxa2xx_ssp_write(void *opaque, hwaddr addr,
+>          if (value & SSCR0_MOD)
+>              printf("%s: Attempt to use network mode\n", __func__);
+>          if (s->enable && SSCR0_DSS(value) < 4)
+> -            printf("%s: Wrong data size: %i bits\n", __func__,
+> +            printf("%s: Wrong data size: %u bits\n", __func__,
+>                              SSCR0_DSS(value));
+>          if (!(value & SSCR0_SSE)) {
+>              s->sssr = 0;
+> diff --git a/hw/arm/spitz.c b/hw/arm/spitz.c
+> index 32bdeacfd3..772662f149 100644
+> --- a/hw/arm/spitz.c
+> +++ b/hw/arm/spitz.c
+> @@ -586,7 +586,7 @@ struct SpitzLCDTG {
+>  static void spitz_bl_update(SpitzLCDTG *s)
+>  {
+>      if (s->bl_power && s->bl_intensity)
+> -        zaurus_printf("LCD Backlight now at %i/63\n", s->bl_intensity);
+> +        zaurus_printf("LCD Backlight now at %u/63\n", s->bl_intensity);
+>      else
+>          zaurus_printf("LCD Backlight now off\n");
+>  }
+> diff --git a/hw/arm/tosa.c b/hw/arm/tosa.c
+> index fe88ed89fe..66b244aeff 100644
+> --- a/hw/arm/tosa.c
+> +++ b/hw/arm/tosa.c
+> @@ -150,7 +150,7 @@ static void tosa_gpio_setup(PXA2xxState *cpu,
+> 
+>  static uint32_t tosa_ssp_tansfer(SSISlave *dev, uint32_t value)
+>  {
+> -    fprintf(stderr, "TG: %d %02x\n", value >> 5, value & 0x1f);
+> +    fprintf(stderr, "TG: %u %02x\n", value >> 5, value & 0x1f);
+>      return 0;
+>  }
+> 
 
 
