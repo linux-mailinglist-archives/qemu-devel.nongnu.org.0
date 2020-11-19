@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D59172B9D5E
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 23:08:16 +0100 (CET)
-Received: from localhost ([::1]:47568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B42712B9D5C
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 23:08:00 +0100 (CET)
+Received: from localhost ([::1]:45950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfs6B-0006OG-UY
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 17:08:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51422)
+	id 1kfs5v-0005kc-P4
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 17:07:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kfrv7-0000oD-3l
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:56:52 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:52964)
+ id 1kfrvC-0000q1-Sp
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:56:54 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:46025)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kfrut-0004Be-RR
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:56:46 -0500
-Received: by mail-wm1-x342.google.com with SMTP id 10so8569447wml.2
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 13:56:35 -0800 (PST)
+ id 1kfrux-0004Ca-9C
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:56:54 -0500
+Received: by mail-wr1-x442.google.com with SMTP id p1so7954309wrf.12
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 13:56:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=6unaasnFxd79TDn7gyVT0FcWmgVKe5+lejxSz6Mjv8k=;
- b=VImRXyVr8v2AhsA+OQFglH3J+4fxaUB05LqJkM8Bnv1wWfeg9Nt9PtBoJKaiDefaZ1
- ldVOX161fbX8pKM2DcE3JXJ0Fo03hwX4SWcE0MY2Jymykhh1iWzdGtBRJ9nxl1T3+SJZ
- BBznWDEJWNd/Jb57DXtkk/AE4/IOPDsU9LpoWWNf8bO3DQIEYuLPW2KZcwAY38Ghohe3
- uCZUJyS9zImN3txhqwg19UzfZJ7AZmZJoZRV6HxIJtJJkZzatTs4Ak6g/OKUORXbejoJ
- WnXvUWU6fZpcvvzN0TCcXMr7fObTwQIONqp6jsLuSHiJlVNFX524nmLUpzX6A5cCLDmw
- xmYg==
+ bh=G9ItV+eP1VFQWsVotetxM6YhffQ3YD5Q2yWIGtJOv7I=;
+ b=fmtik6kg+o6mS9TDPqbREWvIgts027IR0xq+jiDAOCNdl0+DhdY4txojPZa3shZ5E+
+ x2Jsgo4FQ2zXHdzPAyWPHYVy8N8wopLyHcIZPgfp6dLCF6vt/blWNGHl+tOZJYHCJru+
+ vLt1fEugXfKVapznfcPvFPLxEWt/uQwz3G7FHTw5FwOixXs3pUrKrwmBOp1r2hAPrkTN
+ YQIhAptlmBpajuYaSoJWAyvd3PFYWYlNBzy60ubLsOD/Cvhp8/OmLA+l5VnxPTulGPDU
+ QMbGWEg/w3eLZmD26AG+a7OTRLHYLGq59E2Zf3axINApIwnNyxLHu98jry43WUQu4ZV5
+ cO3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6unaasnFxd79TDn7gyVT0FcWmgVKe5+lejxSz6Mjv8k=;
- b=cxy55Zy1PG7YwQjlExAWVkdQ3qxpNNlUfLT+0bECKtKtnP/fkylGFc/ri6H9E9fGZ9
- do0695g8IyvcxYKEQZfI/5ZIbgTTcSPDkrz+ol7MmSgTKoceubWLhO3kTjk0rad3XNAS
- 32S1AvUekKbDDEBBQZSt3U6cXzDS//B0xugCX8ma1+nEsvzwLADUka6dwd+QpLAt8JTm
- GSaabU+Ahlm98MXPFAeV31QAon1gSjTqmfUvI8TXvLxWDySZDI04qY7SXi2YSWc869eJ
- plVvRw8lwsfB14jDWo2wzddI4PF0woZj5TxLe6RcwQTLGTyfo6pA3t2J+SKDvCsOpAAj
- rZQg==
-X-Gm-Message-State: AOAM531+CKuSXlQkSoUU843aT8FnPQe3wZPNye9MK6CTVgoIT6MGMkYj
- dMeyJSNW0raglYMoiAc4tAaL3w==
-X-Google-Smtp-Source: ABdhPJykWvuK7P+gY061RHidsApYiwxHOQuC24iG+VAuO4/inOPKzFpcDdjImKMuiayB/uTcgxLI9A==
-X-Received: by 2002:a1c:230e:: with SMTP id j14mr6380189wmj.187.1605822994200; 
- Thu, 19 Nov 2020 13:56:34 -0800 (PST)
+ bh=G9ItV+eP1VFQWsVotetxM6YhffQ3YD5Q2yWIGtJOv7I=;
+ b=gqDTKYgfY5eQifUX3OYxXCenDODJU7Sf0MUzIy7RKS1Le+nbBK57gi6TMIqoiYPy6m
+ zJp2VTxuU42xIipbTgENGL1zEjeOk2Hyvosaci957/uM8bWPufMqMdifjw0UtcbajR4s
+ A0Puu8adt8F0/Q6nXrWToly1Zh4dhUQsci4VB22AeBN0+DJydVpQvNWQy1Ri1dEhzIB3
+ DDEHiuibYrXkYcf0cmB/EDVHEDLTCRrr0jrHbWX49EwCTFQW+Bl3UvHl0rRaCxGYJcZW
+ EdY5OIYK2JDNUZk5IcAi2G/16m8sSNRUKbOmkuqD+XTkdFQv4GKyjgkfoaYYhreFVCrE
+ b+mA==
+X-Gm-Message-State: AOAM5320UJvEGbD30KsJbnOz+ijT+3CFkAd4neWvYLi7AbfpsHZXrALg
+ 0KkiqR1i7cd0AYRj9nb1Cdei0YkUSjITmg==
+X-Google-Smtp-Source: ABdhPJx/5j8CAVUeBjN2F3J27Y+RKeLGWxe4FzVvZ4dBYbIA6ABDOaZJtPyewFik5zQcnhHUz+eY9A==
+X-Received: by 2002:adf:e912:: with SMTP id f18mr12331065wrm.79.1605822995509; 
+ Thu, 19 Nov 2020 13:56:35 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j15sm1934851wrm.62.2020.11.19.13.56.33
+ by smtp.gmail.com with ESMTPSA id j15sm1934851wrm.62.2020.11.19.13.56.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Nov 2020 13:56:33 -0800 (PST)
+ Thu, 19 Nov 2020 13:56:34 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 12/28] target/arm: Factor out preserve-fp-state from
- full_vfp_access_check()
-Date: Thu, 19 Nov 2020 21:56:01 +0000
-Message-Id: <20201119215617.29887-13-peter.maydell@linaro.org>
+Subject: [PATCH v2 13/28] target/arm: Implement FPCXT_S fp system register
+Date: Thu, 19 Nov 2020 21:56:02 +0000
+Message-Id: <20201119215617.29887-14-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201119215617.29887-1-peter.maydell@linaro.org>
 References: <20201119215617.29887-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,82 +86,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Factor out the code which handles M-profile lazy FP state preservation
-from full_vfp_access_check(); accesses to the FPCXT_NS register are
-a special case which need to do just this part (corresponding in the
-pseudocode to the PreserveFPState() function), and not the full
-set of actions matching the pseudocode ExecuteFPCheck() which
-normal FP instructions need to do.
+Implement the new-in-v8.1M FPCXT_S floating point system register.
+This is for saving and restoring the secure floating point context,
+and it reads and writes bits [27:0] from the FPSCR and the
+CONTROL.SFPA bit in bit [31].
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate-vfp.c.inc | 45 ++++++++++++++++++++--------------
- 1 file changed, 27 insertions(+), 18 deletions(-)
+ target/arm/translate-vfp.c.inc | 58 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 58 insertions(+)
 
 diff --git a/target/arm/translate-vfp.c.inc b/target/arm/translate-vfp.c.inc
-index 6bc327e9819..9c90c0647bd 100644
+index 9c90c0647bd..ebc59daf613 100644
 --- a/target/arm/translate-vfp.c.inc
 +++ b/target/arm/translate-vfp.c.inc
-@@ -83,6 +83,32 @@ static inline long vfp_f16_offset(unsigned reg, bool top)
-     return offs;
- }
- 
-+/*
-+ * Generate code for M-profile lazy FP state preservation if needed;
-+ * this corresponds to the pseudocode PreserveFPState() function.
-+ */
-+static void gen_preserve_fp_state(DisasContext *s)
-+{
-+    if (s->v7m_lspact) {
-+        /*
-+         * Lazy state saving affects external memory and also the NVIC,
-+         * so we must mark it as an IO operation for icount (and cause
-+         * this to be the last insn in the TB).
-+         */
-+        if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-+            s->base.is_jmp = DISAS_UPDATE_EXIT;
-+            gen_io_start();
+@@ -662,6 +662,14 @@ static fp_sysreg_check_result fp_sysreg_checks(DisasContext *s, int regno)
+             return false;
+         }
+         break;
++    case ARM_VFP_FPCXT_S:
++        if (!arm_dc_feature(s, ARM_FEATURE_V8_1M)) {
++            return false;
 +        }
-+        gen_helper_v7m_preserve_fp_state(cpu_env);
-+        /*
-+         * If the preserve_fp_state helper doesn't throw an exception
-+         * then it will clear LSPACT; we don't need to repeat this for
-+         * any further FP insns in this TB.
-+         */
-+        s->v7m_lspact = false;
++        if (!s->v8m_secure) {
++            return false;
++        }
++        break;
+     default:
+         return fp_sysreg_check_failed;
+     }
+@@ -712,6 +720,26 @@ static bool gen_M_fp_sysreg_write(DisasContext *s, int regno,
+         tcg_temp_free_i32(tmp);
+         break;
+     }
++    case ARM_VFP_FPCXT_S:
++    {
++        TCGv_i32 sfpa, control, fpscr;
++        /* Set FPSCR[27:0] and CONTROL.SFPA from value */
++        tmp = loadfn(s, opaque);
++        sfpa = tcg_temp_new_i32();
++        tcg_gen_shri_i32(sfpa, tmp, 31);
++        control = load_cpu_field(v7m.control[M_REG_S]);
++        tcg_gen_deposit_i32(control, control, sfpa,
++                            R_V7M_CONTROL_SFPA_SHIFT, 1);
++        store_cpu_field(control, v7m.control[M_REG_S]);
++        fpscr = load_cpu_field(vfp.xregs[ARM_VFP_FPSCR]);
++        tcg_gen_andi_i32(fpscr, fpscr, FPCR_NZCV_MASK);
++        tcg_gen_andi_i32(tmp, tmp, ~FPCR_NZCV_MASK);
++        tcg_gen_or_i32(fpscr, fpscr, tmp);
++        store_cpu_field(fpscr, vfp.xregs[ARM_VFP_FPSCR]);
++        tcg_temp_free_i32(tmp);
++        tcg_temp_free_i32(sfpa);
++        break;
 +    }
-+}
-+
- /*
-  * Check that VFP access is enabled. If it is, do the necessary
-  * M-profile lazy-FP handling and then return true.
-@@ -113,24 +139,7 @@ static bool full_vfp_access_check(DisasContext *s, bool ignore_vfp_enabled)
-         /* Handle M-profile lazy FP state mechanics */
- 
-         /* Trigger lazy-state preservation if necessary */
--        if (s->v7m_lspact) {
--            /*
--             * Lazy state saving affects external memory and also the NVIC,
--             * so we must mark it as an IO operation for icount (and cause
--             * this to be the last insn in the TB).
--             */
--            if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
--                s->base.is_jmp = DISAS_UPDATE_EXIT;
--                gen_io_start();
--            }
--            gen_helper_v7m_preserve_fp_state(cpu_env);
--            /*
--             * If the preserve_fp_state helper doesn't throw an exception
--             * then it will clear LSPACT; we don't need to repeat this for
--             * any further FP insns in this TB.
--             */
--            s->v7m_lspact = false;
--        }
-+        gen_preserve_fp_state(s);
- 
-         /* Update ownership of FP context: set FPCCR.S to match current state */
-         if (s->v8m_fpccr_s_wrong) {
+     default:
+         g_assert_not_reached();
+     }
+@@ -755,6 +783,36 @@ static bool gen_M_fp_sysreg_read(DisasContext *s, int regno,
+         tcg_gen_andi_i32(tmp, tmp, FPCR_NZCV_MASK);
+         storefn(s, opaque, tmp);
+         break;
++    case ARM_VFP_FPCXT_S:
++    {
++        TCGv_i32 control, sfpa, fpscr;
++        /* Bits [27:0] from FPSCR, bit [31] from CONTROL.SFPA */
++        tmp = tcg_temp_new_i32();
++        sfpa = tcg_temp_new_i32();
++        gen_helper_vfp_get_fpscr(tmp, cpu_env);
++        tcg_gen_andi_i32(tmp, tmp, ~FPCR_NZCV_MASK);
++        control = load_cpu_field(v7m.control[M_REG_S]);
++        tcg_gen_andi_i32(sfpa, control, R_V7M_CONTROL_SFPA_MASK);
++        tcg_gen_shli_i32(sfpa, sfpa, 31 - R_V7M_CONTROL_SFPA_SHIFT);
++        tcg_gen_or_i32(tmp, tmp, sfpa);
++        tcg_temp_free_i32(sfpa);
++        /*
++         * Store result before updating FPSCR etc, in case
++         * it is a memory write which causes an exception.
++         */
++        storefn(s, opaque, tmp);
++        /*
++         * Now we must reset FPSCR from FPDSCR_NS, and clear
++         * CONTROL.SFPA; so we'll end the TB here.
++         */
++        tcg_gen_andi_i32(control, control, ~R_V7M_CONTROL_SFPA_MASK);
++        store_cpu_field(control, v7m.control[M_REG_S]);
++        fpscr = load_cpu_field(v7m.fpdscr[M_REG_NS]);
++        gen_helper_vfp_set_fpscr(cpu_env, fpscr);
++        tcg_temp_free_i32(fpscr);
++        gen_lookup_tb(s);
++        break;
++    }
+     default:
+         g_assert_not_reached();
+     }
 -- 
 2.20.1
 
