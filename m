@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 625B52B97A3
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 17:21:57 +0100 (CET)
-Received: from localhost ([::1]:53926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1A5D2B979D
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 17:19:31 +0100 (CET)
+Received: from localhost ([::1]:46476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfmh2-0004GY-CF
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 11:21:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51834)
+	id 1kfmeg-0000y1-MQ
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 11:19:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kfmcb-0007df-EW
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:17:21 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:53124)
+ id 1kfmcg-0007fn-5M
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:17:26 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:46919)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kfmcZ-0006Ra-Sf
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:17:21 -0500
-Received: by mail-wm1-x341.google.com with SMTP id 10so7736260wml.2
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 08:17:19 -0800 (PST)
+ id 1kfmce-0006Su-O5
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:17:25 -0500
+Received: by mail-wr1-x431.google.com with SMTP id d12so6966822wrr.13
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 08:17:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NgO3tcHedPydaPsxFO6dG6qOvzXCjuA0Kh6wwHmDQo4=;
- b=uDcAQUR7Lo/M3Vos5gqKcwXL59TQMZAs46aJBYaEpetkeStPXVNmf2jGIa5yIp93mm
- oDKysxKpk3PGVLcTKJR12Vuq2p4+RPxCu/3XKqQT1MeFHlyEJiFFqESJr5ROkE+jYDkX
- do8XRLJKje7+f2G11lPYjpAilXcomnMcQY6VwK//uJZSoKqUYGpBZnMBsENGdAj5+nGv
- gYDWeZMTzNLeln1POkceA9miGCaW5umi5I5igZh2DX50BAe1qQEYxl3mo3fBsiOs2LAj
- mAGTc6nHekzRbRXzzqEuWfWYknRHMShZRAzzyOzKiDtL0eQ4zm+n+MwaULN6WrN+CxrR
- mqRg==
+ bh=WI9FhYkhmV3H0Q4oY0sfeWzV/m4iQyNuvlsEXmPQcZI=;
+ b=Y0VUGr/cCtmiSQo8N+dQldZ1qh7flz5sDCV3kNspf7a40ah08/HC3GxiDCNNxEsYDN
+ IdqgTec/4PVId4HZ6nxaIIKxF5aBYdDpDdqM6BgYdEFzzsk6z/crP2IV63xIB7JOPIeF
+ K5BPz3wYrr7lsbxg28j5TswEVD96AlZ8yrnL4lno6Tj6WO/0/2FIfoUUml6tGUmM4Zvh
+ yup3IYsZfUTTRPcjupJ7d6bpWnnHCwdsGzG/Jr1+2+vxW0zk32R5Ei7M8s1N1ri3UzMY
+ 0TnortewlE8sHVld3VQNGNs8VDIXCYzRBaibhPIOE4sXx0ysOh8t8RqnbN003ul8orAi
+ IIPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=NgO3tcHedPydaPsxFO6dG6qOvzXCjuA0Kh6wwHmDQo4=;
- b=neHbnvrBQoUuuGdEFDZvVLZFpJ6Vu6j3axGU+ffq9OytdHq/GsYLtBZd3JOz5Sudfb
- zAuVii6CWYZlH8Gp8Nd6UE7WTr0yRNzvKJ+OWhx3WQ7QkOpAgSqW3wXO0gXfGTILjBFh
- 4Cc4UxfnVzTHwuc9QYXenFoEC5VlFeIEw0MBjvhsnZIR0vS1OjBCerjdTM5wu6rTGmrn
- InAJTYHVh+dTcXx0941kx6O/yl6xaHYFrYxercrkCUpy1kVLefdPZzEBVStOAURNCmJH
- w4vK43XTroRKTmNjUohFn6e3WhRNomW5eYeAIfCNdXKAdLmrOWT/apTVfIlYe79kTLFR
- 5mSg==
-X-Gm-Message-State: AOAM532EsQ7NEaLotreNp5DCzOewPlFNu7DXRtlXxYDk7iMeWU0lf9np
- 3oL3IPUSmgtcqHJMuYBF/VwzmL0KL+s=
-X-Google-Smtp-Source: ABdhPJwlAr3gwe9bT6mS7xMBvI+Yg3zMJw8l1teNKgveQE14WPGlUCHouNtKWx4n+reD+NBxKKdatw==
-X-Received: by 2002:a05:600c:414b:: with SMTP id
- h11mr5331852wmm.89.1605802638149; 
- Thu, 19 Nov 2020 08:17:18 -0800 (PST)
+ bh=WI9FhYkhmV3H0Q4oY0sfeWzV/m4iQyNuvlsEXmPQcZI=;
+ b=URYrDw0fbJAaXrmu0lrvz5SQAsT/RzmyNDh76VIiCFID6sggZaBOpZ9DcJxo8Tee0D
+ Mhc+kqW2xGdGHcvSXfWVQz+qcDgiQo/phc+Sv/hYt8KUr5SoEuPVeeKbPxOVye1H9oj8
+ kdD9W3NUptxCWpLw2sobUNEQyNNzeCqqJ9f45h/lPRWk3+UqhKFOgpLLrKFKrLYhOfsZ
+ Miu+OMi/A0I7Eln91Uaa3A0IKCkWHfG2eJuwojESRDVW7GAFKkTWU83YBWPeasp4z04i
+ OOrbni9JyeGQutovKwVqfoJekYykK0u+N5oyqIjuSZS88NqubWHPQj//5YOQBBhY3/Q9
+ gm/w==
+X-Gm-Message-State: AOAM533Ens4S4FSD0pDu4GSQvXzfJhSqxvLw4IKi7RQwzyg5wOW36Cuk
+ vI3YF4bomNkLjtdOdomSh6UOtmtw5EI=
+X-Google-Smtp-Source: ABdhPJwJfLQSB3557OwHCkaFMJQ9vfI0QzdOg0egl7bpENDA8srq73UyC15zNlrtFQUtU3WZ4l3ppw==
+X-Received: by 2002:adf:ce07:: with SMTP id p7mr11946118wrn.39.1605802642990; 
+ Thu, 19 Nov 2020 08:17:22 -0800 (PST)
 Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id e6sm533999wme.27.2020.11.19.08.17.16
+ by smtp.gmail.com with ESMTPSA id n23sm506464wmk.24.2020.11.19.08.17.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Nov 2020 08:17:17 -0800 (PST)
+ Thu, 19 Nov 2020 08:17:22 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] linux-user/mips64: Restore setup_frame() for o32 ABI
-Date: Thu, 19 Nov 2020 17:17:07 +0100
-Message-Id: <20201119161710.1985083-2-f4bug@amsat.org>
+Subject: [PATCH 2/4] linux-user/mips64: Support o32 ABI syscalls
+Date: Thu, 19 Nov 2020 17:17:08 +0100
+Message-Id: <20201119161710.1985083-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201119161710.1985083-1-f4bug@amsat.org>
 References: <20201119161710.1985083-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -94,29 +93,26 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-64-bit MIPS targets lost setup_frame() during the refactor in commit
-8949bef18b9. Restore it declaring TARGET_ARCH_HAS_SETUP_FRAME, to be
-able to build the o32 ABI target.
+o32 ABI syscalls start at offset 4000.
 
-Fixes: 8949bef18b9 ("linux-user: move mips/mips64 signal.c parts to mips directory")
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- linux-user/mips64/target_signal.h | 4 ++++
- 1 file changed, 4 insertions(+)
+ linux-user/mips64/syscall_nr.h | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/linux-user/mips64/target_signal.h b/linux-user/mips64/target_signal.h
-index 799f7a668cd..f1f0ed7f706 100644
---- a/linux-user/mips64/target_signal.h
-+++ b/linux-user/mips64/target_signal.h
-@@ -67,4 +67,8 @@ typedef struct target_sigaltstack {
- #define TARGET_MINSIGSTKSZ    2048
- #define TARGET_SIGSTKSZ       8192
- 
+diff --git a/linux-user/mips64/syscall_nr.h b/linux-user/mips64/syscall_nr.h
+index 672f2fa51cb..6579421fa63 100644
+--- a/linux-user/mips64/syscall_nr.h
++++ b/linux-user/mips64/syscall_nr.h
+@@ -1,4 +1,7 @@
+-#ifdef TARGET_ABI_MIPSN32
 +#if defined(TARGET_ABI_MIPSO32)
-+/* compare linux/arch/mips/kernel/signal.c:setup_frame() */
-+#define TARGET_ARCH_HAS_SETUP_FRAME
-+#endif
- #endif /* MIPS64_TARGET_SIGNAL_H */
++#define TARGET_SYSCALL_OFFSET 4000
++#include "syscall_o32_nr.h"
++#elif defined(TARGET_ABI_MIPSN32)
+ #define TARGET_SYSCALL_OFFSET 6000
+ #include "syscall_n32_nr.h"
+ #else
 -- 
 2.26.2
 
