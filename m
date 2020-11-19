@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 776672B8EAC
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 10:25:00 +0100 (CET)
-Received: from localhost ([::1]:34868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E172B2B8EC4
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 10:29:44 +0100 (CET)
+Received: from localhost ([::1]:38248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfgBX-0008J7-IV
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 04:24:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33304)
+	id 1kfgG7-0001Tz-Qd
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 04:29:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kfgAT-0007r9-1n
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 04:23:53 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37252)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kfgAR-00082d-5w
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 04:23:52 -0500
-Received: by mail-wm1-x341.google.com with SMTP id h21so6062390wmb.2
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 01:23:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Yj53cEFkdkPBJfGtqOhOnAwZS+iUdO9LlKG8+p6OSKw=;
- b=JN+6QarJgOzHr8LN+rPVDT+azw3YRl2dxiV46Yna+ZfbLecRq1UizR2YFh08h1S4vi
- Bs6PzOE7FKN676dhqLz4Wx9/3lXrQHmPXWiTQKXxWk8wNv3nZ9KaaC62XF/KcNxJEaC5
- gTfn4ZENPjEfl6YjdFkm6RVqIP04bIyyyDm4ff5IDXGxQomD8aENXWqwhlBsqJQkXjSq
- SKboFMPVBt77DO6R1j3+X+idzs6EAWRWlpr2l2Yk2oqCt0B1BlCRVAXpRCe/BWoNFW6l
- i9E1aju59AvAnz3slrjCXNU1DGVPxt0p9YtTfxqbunEV9AoTiRe+x2MQQJSMmnPI2s+s
- T/9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Yj53cEFkdkPBJfGtqOhOnAwZS+iUdO9LlKG8+p6OSKw=;
- b=Tix9Mzf3AyrNsXtBIT3kDNymO6d23+ArMNXvTYsB6hHT4HFHfUgc6gMVLfq4r3IREH
- a81clvw/109O1UVFXrs5i78JeEVqrRMCBzlSgJwkMTv4w3K8OvFZOZBPNBEadMeTQQgm
- 5E7Q8/Vma+lB2YIovpYu7JLJw7whVS5leoCE46gHhpx0BvMvrL0KYLhZGWdDa0JTj0D9
- LnDcjTbBfi16eVeKRcjXAmxz3sY5bQfP/8AHVjTSER6FiS16hDE6cGEEqBsgB5d7HCj5
- L/NkbpV5l18vBYyycYt1n922UJdLn4m9WsE9Oao08YIW2aemRIsMeJWvO4wb1Zzg8BYR
- zXjQ==
-X-Gm-Message-State: AOAM531DYf3fYuCaJDIwztnaiGd+AfvjEzEdcw7r5H30MPmhYnrsH+jf
- s/snm49/KU0tC1JJ7KGOd6bgqIWzPVINDA==
-X-Google-Smtp-Source: ABdhPJzfMEDZc/lRRbN7eoE3BV6PzYpUnaPUt15dZ7diw1GmXNG4iy0+per0fxKpKZTeYG3ESkRBSA==
-X-Received: by 2002:a1c:7f48:: with SMTP id a69mr3582444wmd.21.1605777829286; 
- Thu, 19 Nov 2020 01:23:49 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a18sm8178699wme.18.2020.11.19.01.23.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Nov 2020 01:23:48 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH for-5.2] target/arm: Make SYS_HEAPINFO work with RAM that
- doesn't start at 0
-Date: Thu, 19 Nov 2020 09:23:46 +0000
-Message-Id: <20201119092346.32356-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kfgEv-00010h-Gm
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 04:28:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40763)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kfgEs-0001DN-5k
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 04:28:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605778105;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=pTU3UzIlBbpFwCXweKnbJ3YvIqVb5p2enqxE670dXxk=;
+ b=aWUNdY6z0OVjkPHxUjQFaPJI49y0VREshzULEL7ACOaZNQU6sAplFpfkuc6c6UoTrKc62/
+ hx27UVvwGC+W2vA3r/FAHA5SRv1DyOJWO75CZ84zh45YzWrqsXKfrD3qmq8gyEFENNTVUY
+ LjQQzL799ZWTe9667oLYYARyV4dgBxI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-127-tI6BeTADOH-SjUEyAgsZUw-1; Thu, 19 Nov 2020 04:28:22 -0500
+X-MC-Unique: tI6BeTADOH-SjUEyAgsZUw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B141E18B62AC
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 09:28:21 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 801C45C1A1;
+ Thu, 19 Nov 2020 09:28:21 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id F289511358BA; Thu, 19 Nov 2020 10:28:19 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH v2 0/7] Common macros for QAPI list growth
+References: <20201113011340.463563-1-eblake@redhat.com>
+Date: Thu, 19 Nov 2020 10:28:19 +0100
+In-Reply-To: <20201113011340.463563-1-eblake@redhat.com> (Eric Blake's message
+ of "Thu, 12 Nov 2020 19:13:33 -0600")
+Message-ID: <871rgpelvw.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 03:44:58
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,80 +81,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The semihosting SYS_HEAPINFO call is supposed to return an array
-of four guest addresses:
- * base of heap memory
- * limit of heap memory
- * base of stack memory
- * limit of stack memory
+Eric Blake <eblake@redhat.com> writes:
 
-Some semihosting programs (including those compiled to use the
-'newlib' embedded C library) use this call to work out where they
-should initialize themselves to.
+> v1, as such, was here:
+> https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg08003.html
+> (v6 11/11 qapi: Use QAPI_LIST_ADD() where possible)
+>
+> since then, I've rebased that patch (upstream went with PREPEND
+> instead of ADD), split things out for easier review, added
+> QAPI_LIST_APPEND, caught a lot more places that can use PREPEND, and
+> even fixed a years-old memory leak that might be worth having in 5.2.
+> But patches 2-7 are 6.0 material.
+[...]
+>  55 files changed, 431 insertions(+), 1007 deletions(-)
 
-QEMU's implementation when in system emulation mode is very
-simplistic: we say that the heap starts halfway into RAM and
-continues to the end of RAM, and the stack starts at the top of RAM
-and works down to the bottom.  Unfortunately the code assumes that
-the base address of RAM is at address 0, so on boards like 'virt'
-where this is not true the addresses returned will all be wrong and
-the guest application will usually crash.
+Lovely.  These two macros are obviously overdue.
 
-Conveniently since all Arm boards call arm_load_kernel() we have the
-base address of the main RAM block in the arm_boot_info struct which
-is accessible via the CPU object.  Use this to return sensible values
-from SYS_HEAPINFO.
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-Marked for-5.2 as it's a relatively simple bug fix, though on the
-other hand the bug has been present since forever, so if it
-doesn't make it in it's not a huge deal.
-
- target/arm/arm-semi.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
-
-diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
-index c1df664f7e5..c892e0e674e 100644
---- a/target/arm/arm-semi.c
-+++ b/target/arm/arm-semi.c
-@@ -36,6 +36,7 @@
- #else
- #include "exec/gdbstub.h"
- #include "qemu/cutils.h"
-+#include "hw/arm/boot.h"
- #endif
- 
- #define TARGET_SYS_OPEN        0x01
-@@ -1014,6 +1015,9 @@ target_ulong do_arm_semihosting(CPUARMState *env)
-             int i;
- #ifdef CONFIG_USER_ONLY
-             TaskState *ts = cs->opaque;
-+#else
-+            const struct arm_boot_info *info = env->boot_info;
-+            target_ulong rambase = info->loader_start;
- #endif
- 
-             GET_ARG(0);
-@@ -1046,10 +1050,10 @@ target_ulong do_arm_semihosting(CPUARMState *env)
- #else
-             limit = ram_size;
-             /* TODO: Make this use the limit of the loaded application.  */
--            retvals[0] = limit / 2;
--            retvals[1] = limit;
--            retvals[2] = limit; /* Stack base */
--            retvals[3] = 0; /* Stack limit.  */
-+            retvals[0] = rambase + limit / 2;
-+            retvals[1] = rambase + limit;
-+            retvals[2] = rambase + limit; /* Stack base */
-+            retvals[3] = rambase; /* Stack limit.  */
- #endif
- 
-             for (i = 0; i < ARRAY_SIZE(retvals); i++) {
--- 
-2.20.1
+Series needs a rebase.
 
 
