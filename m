@@ -2,72 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8C792B9B6E
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 20:25:02 +0100 (CET)
-Received: from localhost ([::1]:40180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05BFA2B9B6F
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 20:26:37 +0100 (CET)
+Received: from localhost ([::1]:42434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfpYD-0000c3-DV
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 14:25:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44032)
+	id 1kfpZk-0001dm-40
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 14:26:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kfpWa-00009T-96
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 14:23:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51822)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kfpWW-0006cS-Lt
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 14:23:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605813796;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0FHUMwNM733jQUF90YZqPIwhTLg6uPofibIARi5fQRI=;
- b=AKykclLdH/sxoBZOLzdnUB9fYEwSzCLRP+HRSGjIAtWNJESLgnq/SSQSRSwHovCi1kUAMJ
- dUhdY+C2LBzYDIN8bpBUiUrLS+Dy0ceSfkJyrUQq7OWBZX63EriG6+dW1+i112zQ+dw9+L
- XNB310XNXkbpJ2Da55vGgvvdyazSuVE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-338-gU9SN-3bM9i_ZG2jRoJJhg-1; Thu, 19 Nov 2020 14:23:13 -0500
-X-MC-Unique: gU9SN-3bM9i_ZG2jRoJJhg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 599ED107ACE3;
- Thu, 19 Nov 2020 19:23:11 +0000 (UTC)
-Received: from localhost (ovpn-115-101.rdu2.redhat.com [10.10.115.101])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C372960843;
- Thu, 19 Nov 2020 19:23:05 +0000 (UTC)
-Date: Thu, 19 Nov 2020 14:23:05 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [RFC v3 9/9] i386: split cpu accelerators from cpu.c
-Message-ID: <20201119192305.GB1509407@habkost.net>
-References: <20201118102936.25569-1-cfontana@suse.de>
- <20201118102936.25569-10-cfontana@suse.de>
- <20201118182845.GN1509407@habkost.net>
- <5f6c7b5c-a48a-019d-2646-d0670aeb46e1@suse.de>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kfpXy-0000rF-S9
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 14:24:46 -0500
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:39742)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kfpXw-00073N-6u
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 14:24:46 -0500
+Received: by mail-pg1-x529.google.com with SMTP id r18so5122478pgu.6
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 11:24:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=3N1gmkuj4T2+5TXc5qtPIYIoE9z+RF7RlX+KbQreMcE=;
+ b=OsgqhqTXHb0y2FVzcTKE1y3Mj14qkbhe9AHicoHdnfJP4K77GTEyUeMaCEB47ucC9a
+ 86N3+3xvETx9qtaHl1Q7nQ/Rx/jAopsyCzTgVK4TFw6TB3MsvdJGQdp+jxHUXAMUasp0
+ rjbCQ1ckqbTxOB6nraI6yU9GjKPSI7nsPXOT+O7BC/M8WeYl92ibzNZhIBM9Uc9GApF8
+ zOHG5XljzFYxUumaiItAr8hzVgUSaash5hKKicj+VcY+ezSe56NDvuOvjt38/CrLFA3o
+ 7W78uuX2SQgE3Tm6hxt87sPxjOWnPjc28a8YBScLA8SsMp4k1sPL1bmyq8l8Y72SXHIc
+ 2WCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=3N1gmkuj4T2+5TXc5qtPIYIoE9z+RF7RlX+KbQreMcE=;
+ b=jCbF8FD5RnK52U6onJHpKx2uXHmwwRM/UmqnhM9mSyQzDnWafogmhVnQMQWuOq2tZK
+ vAogvPNUKAN6mQfu0iCROcZwTF3QBku8V85h2IT/EbL7bCRop4x++9cCmpprQhLSerWK
+ 8P8Y84CdzaBWhlup+ljL49KUMdKhUcSx/uo6PoEbY9FKITMfvvEXzR3NMcNRYfVNQqkP
+ BbwqAVwwAEibL41Cs0xIy2yh7i3QeAio/vFLz2FvQrQU6uXvIJMnOTx1vdRtSCSqrSYd
+ p0KbXGze5XG3REixjJYncEkVQba5slA+uLcrX7gRWYbzH0fLlvR3KZxVnTgJr00RrBka
+ hJQA==
+X-Gm-Message-State: AOAM533aG5ZEJ6p9c2RZ6WB31Uc5pyHfUGGLhjNnHeq5XQGEEMkzf0gy
+ 1RftmDn5hzZhScB+HzfuEOP5Mw==
+X-Google-Smtp-Source: ABdhPJzcxJ2+6E+kPvzKOaUjePf8FxI6rSWBUANa5U64aiHnFeLnWSm5h67gWSSr/gt2CdHRrFi6MQ==
+X-Received: by 2002:aa7:868a:0:b029:197:60b6:ae1c with SMTP id
+ d10-20020aa7868a0000b029019760b6ae1cmr10721763pfo.42.1605813881704; 
+ Thu, 19 Nov 2020 11:24:41 -0800 (PST)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id go8sm448460pjb.56.2020.11.19.11.24.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Nov 2020 11:24:40 -0800 (PST)
+Subject: Re: [RFC 02/15] target/riscv: rvb: count leading/trailing zeros
+To: frank.chang@sifive.com, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+References: <20201118083044.13992-1-frank.chang@sifive.com>
+ <20201118083044.13992-3-frank.chang@sifive.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <966e5e0c-273a-87f2-3f2e-f933e2b4f9b1@linaro.org>
+Date: Thu, 19 Nov 2020 11:24:38 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <5f6c7b5c-a48a-019d-2646-d0670aeb46e1@suse.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20201118083044.13992-3-frank.chang@sifive.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,131 +88,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Wenchao Wang <wenchao.wang@intel.com>,
- haxm-team@intel.com, Cameron Esfahani <dirty@apple.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Sunil Muthuswamy <sunilmut@microsoft.com>,
- Bruce Rogers <brogers@suse.com>, Olaf Hering <ohering@suse.de>,
- Colin Xu <colin.xu@intel.com>
+Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Kito Cheng <kito.cheng@sifive.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 19, 2020 at 09:53:09AM +0100, Claudio Fontana wrote:
-> Hi,
-> 
-> On 11/18/20 7:28 PM, Eduardo Habkost wrote:
-> > On Wed, Nov 18, 2020 at 11:29:36AM +0100, Claudio Fontana wrote:
-> >> split cpu.c into:
-> >>
-> >> cpu.c            cpuid and common x86 cpu functionality
-> >> host-cpu.c       host x86 cpu functions and "host" cpu type
-> >> kvm/cpu.c        KVM x86 cpu type
-> >> hvf/cpu.c        HVF x86 cpu type
-> >> tcg/cpu.c        TCG x86 cpu type
-> >>
-> >> The accel interface of the X86CPUClass is set at MODULE_INIT_ACCEL_CPU
-> >> time, when the accelerator is known.
-> >>
-> >> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> >> ---
-> > [...]
-> >> +/**
-> >> + * X86CPUAccel:
-> >> + * @name: string name of the X86 CPU Accelerator
-> >> + *
-> >> + * @common_class_init: initializer for the common cpu
-> > 
-> > So this will be called for every single CPU class.
-> 
-> Not really, it's called for every TYPE_X86_CPU cpu class (if an accel interface is registered).
+On 11/18/20 12:29 AM, frank.chang@sifive.com wrote:
+> +static bool gen_cxzw(DisasContext *ctx, arg_r2 *a,
+> +                     void(*func)(TCGv_i32, TCGv_i32, uint32_t))
+...
+> +static bool gen_cxz(DisasContext *ctx, arg_r2 *a,
+> +                    void(*func)(TCGv, TCGv, target_ulong))
 
-This means every single non-abstract CPU class in
-qemu-system-x86_64, correct?
+I think both of these are unnecessary and you should use the gen_unary that you
+introduce in the next patch.  ctz/clz cannot produce a negative number and do
+not need extension.
 
-> 
-> This function extends the existing x86_cpu_common_class_init (target/i386/cpu.c),
-> where some methods of the base class CPUClass are set.
-> 
-> > 
-> >> + * @instance_init: cpu instance initialization
-> >> + * @realizefn: realize function, called first in x86 cpu realize
-> >> + *
-> >> + * X86 CPU accelerator-specific CPU initializations
-> >> + */
-> >> +
-> >> +struct X86CPUAccel {
-> >> +    const char *name;
-> >> +
-> >> +    void (*common_class_init)(X86CPUClass *xcc);
-> >> +    void (*instance_init)(X86CPU *cpu);
-> >> +    void (*realizefn)(X86CPU *cpu, Error **errp);
-> >>  };
-> >>  
-> >> +void x86_cpu_accel_init(const X86CPUAccel *accel);
-> > [...]
-> >> +static void x86_cpu_accel_init_aux(ObjectClass *klass, void *opaque)
-> >> +{
-> >> +    X86CPUClass *xcc = X86_CPU_CLASS(klass);
-> >> +    const X86CPUAccel **accel = opaque;
-> >> +
-> >> +    xcc->accel = *accel;
-> >> +    xcc->accel->common_class_init(xcc);
-> >> +}
-> >> +
-> >> +void x86_cpu_accel_init(const X86CPUAccel *accel)
-> >> +{
-> >> +    object_class_foreach(x86_cpu_accel_init_aux, TYPE_X86_CPU, false, &accel);
-> >> +}
-> > 
-> > This matches the documented behavior.
-> > 
-> > [...]
-> >> +void host_cpu_class_init(X86CPUClass *xcc)
-> >> +{
-> >> +    xcc->host_cpuid_required = true;
-> >> +    xcc->ordering = 8;
-> >> +    xcc->model_description =
-> >> +        g_strdup_printf("%s processor with all supported host features ",
-> >> +                        xcc->accel->name);
-> >> +}
-> > [...]
-> >> +static void hvf_cpu_common_class_init(X86CPUClass *xcc)
-> >> +{
-> >> +    host_cpu_class_init(xcc);
-> > 
-> > Why are you calling host_cpu_class_init() for all CPU types?
-> 
-> I am not..
+You should simply add wrappers like you do for gen_pcntw to truncate and operate:
 
-I don't get it.  You are calling host_cpu_class_init() for every
-single non-abstract TYPE_X86_CPU subclass (which includes all CPU
-models in qemu-system-x86_64), and I don't understand why, or if
-this is really intentional.
+static void gen_ctz(TCGv ret, TCGv arg1)
+{
+    tcg_gen_ctz_tl(ret, arg1, TARGET_LONG_BITS);
+}
 
-> 
-> > 
-> >> +}
-> > [...]
-> >> +static void kvm_cpu_common_class_init(X86CPUClass *xcc)
-> >> +{
-> >> +    host_cpu_class_init(xcc);
-> >> +}
-> > 
-> > Same question as above.
-> > 
-> 
-> Ciao,
-> 
-> Claudio
-> 
+static void gen_clz(TCGv ret, TCGv arg1)
+{
+    tcg_gen_clz_tl(ret, arg1, TARGET_LONG_BITS);
+}
 
--- 
-Eduardo
+static void gen_ctzw(TCGv ret, TCGv arg1)
+{
+    tcg_gen_ori_i64(ret, arg1, MAKE_64BIT_MASK(32, 32));
+    tcg_gen_ctz_i64(ret, ret, 32);
+}
 
+static void gen_clzw(TCGv ret, TCGv arg1)
+{
+    tcg_gen_ext32u_i64(ret, arg1);
+    tcg_gen_ctz_i64(ret, ret, 64);
+    tcg_gen_subi_i64(ret, ret, 32);
+}
+
+
+r~
 
