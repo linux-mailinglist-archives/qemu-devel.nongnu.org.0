@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E847D2B9D99
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 23:24:43 +0100 (CET)
-Received: from localhost ([::1]:36004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E5222B9D7F
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 23:18:13 +0100 (CET)
+Received: from localhost ([::1]:49338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfsM7-0008WB-06
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 17:24:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51718)
+	id 1kfsFo-00025W-EK
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 17:18:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kfrvK-00017b-Gn
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:57:02 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:56109)
+ id 1kfrvJ-00016A-Jg
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:57:01 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39028)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kfrv6-0004FT-SV
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:57:02 -0500
-Received: by mail-wm1-x343.google.com with SMTP id c9so8565242wml.5
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 13:56:47 -0800 (PST)
+ id 1kfrv6-0004Fm-SM
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:57:01 -0500
+Received: by mail-wr1-x444.google.com with SMTP id o15so8013788wru.6
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 13:56:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=bRQ6LKkswMJcfs4ISAyj5r3mJc9kOQ5yoQJcCkeM7Dg=;
- b=ANldRKYfYFp7ZWO5tnor1LhxHF+ZknTbld/DqkdJZfbDDg87aNMMAaO/2uM4+myX4j
- AQCPJY3mNtq7Lnb+zc9QQDsHEEMnl4CRvLXJDj4bqQr/+3HoS0HR43/3AWzw9tn8GK3t
- r8934wzE8MNPfflF4bi+aVvLsBpoOpVpoWOYW85RbeWu3ZoUCcVtQULcc680G0LvZdmR
- P5I93ZIPCpa3KZipFJVQLuAkNORaPEzGejRURcNIttBWOLQ1Lpt37UdI7Me88F7ajYYX
- 6RK45BSQiTMTuGgP7H+Z1OhyixwvT9rIPQygEZWj5dq/gw92HGIzlUWSZxmFCae5BBXY
- z6MA==
+ bh=qhzFhrjKvRUsyJDSYv8WmAYUo+hfPFVK5biMG9ZuE5U=;
+ b=nRCltpfiNj8puXdNtUbVovJr2ZSkVIJKxwz1gIuU3ZLTadSYkjYvYVwfzryu8ltrOm
+ d3aKVhhbGKrjP9WevHXOLpuyD1e9zGicapjq1Pf4Akz16QL4FBk7NZRSgUWpsphyU9ax
+ iDqDRkjf/Hro1ZYHK78svN/WFr6u6u0NxolQvLKPFn8tkyHPLRwiU7Ejcv7zJUWqnpGo
+ 9ubtkDh7aEuItxACr2SqBisEoN8f5KVpdpN0GjCLKKMi+TYjI/wZJnYn88vRLh9+i12D
+ V0XMwRedslP4NI1XR5OfzAqKgCnd7fhdsCm3aY04IDBLN2MFHDbzC+D9rA/YpyR+ahKw
+ 9dng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bRQ6LKkswMJcfs4ISAyj5r3mJc9kOQ5yoQJcCkeM7Dg=;
- b=BTMFk5jRfD2ZPvdZKfJreQBI0OcU+ZpyVu0I69AvmVMLeVsImIUPLpxbMI36ZeKo/V
- rob3YBb/zQvyeEL89rBtfl8agSQs7IGtuXJNylMyKTnrBDqO9vtIFrS81s1b105A/v/X
- v8fEFYZ1/9a0zuF6R7ziZL0Bf5zE/qHWNQ2SM48oDs7HFYoll9lJejbmFru1u+WXa3SC
- QCtlfyz88WoPt3dgXgjpBP5ssb+sJLKvZjOA+m5ZNoZJTNVi259jszRvlS2C3zGXARa9
- M8zFZdxVCos4QtQJit7BMuBvc+GgHdNVmeNICJLMUTK9VfGY59n02fnLzEUG5JczcZ7x
- Yg3w==
-X-Gm-Message-State: AOAM5335K+nR9ZN8Rt8cCcdr9ITztge0div70cgwPNtiHrSqOeSrU3dd
- hL/9neYmFVV7DLuHWkmX7qubKg==
-X-Google-Smtp-Source: ABdhPJzSs8mLfvlR586qbDijNpMHuoAB8Tovot2v+VdyyrTYyx0iKvJyws23Bj/POiufr5XCd/mC5g==
-X-Received: by 2002:a7b:c92d:: with SMTP id h13mr6481295wml.96.1605823006157; 
- Thu, 19 Nov 2020 13:56:46 -0800 (PST)
+ bh=qhzFhrjKvRUsyJDSYv8WmAYUo+hfPFVK5biMG9ZuE5U=;
+ b=UUpI0UUV5naoXdoHFcJkcq2Kc6vtKifDkxNdyeSkJkmBfvj4zVAqR58gImUN7df4Ac
+ MOgY2qZ+rPRknTPwE/3OjOITgcMKDagj5/mquOQ0RTZxZ7uLeZWSbcMKmjI90nnwiy3x
+ yvIogRuyDWNt2ddymAc6P+qH/hwN13CRvzo7xy+4zTFd3OJ9805I5VXAjVKOyCJN8rDS
+ csrMFfW/wnV6WPeE1PNKWi+jHKUFN0af+eHV6M0eZuelo8EVXdcGegcnEHbhFJsRYKkT
+ GxzwD7UHCQTqd0bq5vviM9Zs3LE0gYdep6Lpr6834TgQgQipPwBIiHqJllTnilttWQly
+ ET8g==
+X-Gm-Message-State: AOAM53060/MUy6rqHdsuk6LmMOZYyEPKqV8T7S49VBkiLLV2KkDFXOg5
+ eO6R5I2B0ZtWAsedkFEWofjDczywQ9JsZg==
+X-Google-Smtp-Source: ABdhPJzJK5llb6Bz14AVQJcW8CyMO84vyI3I+hK+/PrCw+2lDrWaXGJwUpxwg2bT+F1lVTsGPkd49Q==
+X-Received: by 2002:adf:e950:: with SMTP id m16mr13516157wrn.0.1605823007281; 
+ Thu, 19 Nov 2020 13:56:47 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j15sm1934851wrm.62.2020.11.19.13.56.45
+ by smtp.gmail.com with ESMTPSA id j15sm1934851wrm.62.2020.11.19.13.56.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Nov 2020 13:56:45 -0800 (PST)
+ Thu, 19 Nov 2020 13:56:46 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 23/28] target/arm: Implement CCR_S.TRD behaviour for SG
- insns
-Date: Thu, 19 Nov 2020 21:56:12 +0000
-Message-Id: <20201119215617.29887-24-peter.maydell@linaro.org>
+Subject: [PATCH v2 24/28] hw/intc/armv7m_nvic: Fix "return from inactive
+ handler" check
+Date: Thu, 19 Nov 2020 21:56:13 +0000
+Message-Id: <20201119215617.29887-25-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201119215617.29887-1-peter.maydell@linaro.org>
 References: <20201119215617.29887-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,119 +87,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v8.1M introduces a new TRD flag in the CCR register, which enables
-checking for stack frame integrity signatures on SG instructions.
-Add the code in the SG insn implementation for the new behaviour.
+In commit 077d7449100d824a4 we added code to handle the v8M
+requirement that returns from NMI or HardFault forcibly deactivate
+those exceptions regardless of what interrupt the guest is trying to
+deactivate.  Unfortunately this broke the handling of the "illegal
+exception return because the returning exception number is not
+active" check for those cases.  In the pseudocode this test is done
+on the exception the guest asks to return from, but because our
+implementation was doing this in armv7m_nvic_complete_irq() after the
+new "deactivate NMI/HardFault regardless" code we ended up doing the
+test on the VecInfo for that exception instead, which usually meant
+failing to raise the illegal exception return fault.
+
+In the case for "configurable exception targeting the opposite
+security state" we detected the illegal-return case but went ahead
+and deactivated the VecInfo anyway, which is wrong because that is
+the VecInfo for the other security state.
+
+Rearrange the code so that we first identify the illegal return
+cases, then see if we really need to deactivate NMI or HardFault
+instead, and finally do the deactivation.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/m_helper.c | 86 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 86 insertions(+)
+ hw/intc/armv7m_nvic.c | 59 +++++++++++++++++++++++--------------------
+ 1 file changed, 32 insertions(+), 27 deletions(-)
 
-diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-index 0bdd3cc10e9..643dcafb83d 100644
---- a/target/arm/m_helper.c
-+++ b/target/arm/m_helper.c
-@@ -1999,6 +1999,64 @@ static bool v7m_read_half_insn(ARMCPU *cpu, ARMMMUIdx mmu_idx,
-     return true;
- }
- 
-+static bool v7m_read_sg_stack_word(ARMCPU *cpu, ARMMMUIdx mmu_idx,
-+                                   uint32_t addr, uint32_t *spdata)
-+{
-+    /*
-+     * Read a word of data from the stack for the SG instruction,
-+     * writing the value into *spdata. If the load succeeds, return
-+     * true; otherwise pend an appropriate exception and return false.
-+     * (We can't use data load helpers here that throw an exception
-+     * because of the context we're called in, which is halfway through
-+     * arm_v7m_cpu_do_interrupt().)
-+     */
-+    CPUState *cs = CPU(cpu);
-+    CPUARMState *env = &cpu->env;
-+    MemTxAttrs attrs = {};
-+    MemTxResult txres;
-+    target_ulong page_size;
-+    hwaddr physaddr;
-+    int prot;
-+    ARMMMUFaultInfo fi = {};
-+    ARMCacheAttrs cacheattrs = {};
-+    uint32_t value;
-+
-+    if (get_phys_addr(env, addr, MMU_DATA_LOAD, mmu_idx, &physaddr,
-+                      &attrs, &prot, &page_size, &fi, &cacheattrs)) {
-+        /* MPU/SAU lookup failed */
-+        if (fi.type == ARMFault_QEMU_SFault) {
-+            qemu_log_mask(CPU_LOG_INT,
-+                          "...SecureFault during stack word read\n");
-+            env->v7m.sfsr |= R_V7M_SFSR_AUVIOL_MASK | R_V7M_SFSR_SFARVALID_MASK;
-+            env->v7m.sfar = addr;
-+            armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_SECURE, false);
-+        } else {
-+            qemu_log_mask(CPU_LOG_INT,
-+                          "...MemManageFault during stack word read\n");
-+            env->v7m.cfsr[M_REG_S] |= R_V7M_CFSR_DACCVIOL_MASK |
-+                R_V7M_CFSR_MMARVALID_MASK;
-+            env->v7m.mmfar[M_REG_S] = addr;
-+            armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_MEM, false);
-+        }
-+        return false;
-+    }
-+    value = address_space_ldl(arm_addressspace(cs, attrs), physaddr,
-+                              attrs, &txres);
-+    if (txres != MEMTX_OK) {
-+        /* BusFault trying to read the data */
-+        qemu_log_mask(CPU_LOG_INT,
-+                      "...BusFault during stack word read\n");
-+        env->v7m.cfsr[M_REG_NS] |=
-+            (R_V7M_CFSR_PRECISERR_MASK | R_V7M_CFSR_BFARVALID_MASK);
-+        env->v7m.bfar = addr;
-+        armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_BUS, false);
-+        return false;
-+    }
-+
-+    *spdata = value;
-+    return true;
-+}
-+
- static bool v7m_handle_execute_nsc(ARMCPU *cpu)
+diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
+index c901d20ae00..fa8aeca82ec 100644
+--- a/hw/intc/armv7m_nvic.c
++++ b/hw/intc/armv7m_nvic.c
+@@ -832,10 +832,40 @@ int armv7m_nvic_complete_irq(void *opaque, int irq, bool secure)
  {
-     /*
-@@ -2055,6 +2113,34 @@ static bool v7m_handle_execute_nsc(ARMCPU *cpu)
-      */
-     qemu_log_mask(CPU_LOG_INT, "...really an SG instruction at 0x%08" PRIx32
-                   ", executing it\n", env->regs[15]);
+     NVICState *s = (NVICState *)opaque;
+     VecInfo *vec = NULL;
+-    int ret;
++    int ret = 0;
+ 
+     assert(irq > ARMV7M_EXCP_RESET && irq < s->num_irq);
+ 
++    trace_nvic_complete_irq(irq, secure);
 +
-+    if (cpu_isar_feature(aa32_m_sec_state, cpu) &&
-+        !arm_v7m_is_handler_mode(env)) {
-+        /*
-+         * v8.1M exception stack frame integrity check. Note that we
-+         * must perform the memory access even if CCR_S.TRD is zero
-+         * and we aren't going to check what the data loaded is.
-+         */
-+        uint32_t spdata, sp;
-+
-+        /*
-+         * We know we are currently NS, so the S stack pointers must be
-+         * in other_ss_{psp,msp}, not in regs[13]/other_sp.
-+         */
-+        sp = v7m_using_psp(env) ? env->v7m.other_ss_psp : env->v7m.other_ss_msp;
-+        if (!v7m_read_sg_stack_word(cpu, mmu_idx, sp, &spdata)) {
-+            /* Stack access failed and an exception has been pended */
-+            return false;
-+        }
-+
-+        if (env->v7m.ccr[M_REG_S] & R_V7M_CCR_TRD_MASK) {
-+            if (((spdata & ~1) == 0xfefa125a) ||
-+                !(env->v7m.control[M_REG_S] & 1)) {
-+                goto gen_invep;
-+            }
-+        }
++    if (secure && exc_is_banked(irq)) {
++        vec = &s->sec_vectors[irq];
++    } else {
++        vec = &s->vectors[irq];
 +    }
 +
-     env->regs[14] &= ~1;
-     env->v7m.control[M_REG_S] &= ~R_V7M_CONTROL_SFPA_MASK;
-     switch_v7m_security_state(env, true);
++    /*
++     * Identify illegal exception return cases. We can't immediately
++     * return at this point because we still need to deactivate
++     * (either this exception or NMI/HardFault) first.
++     */
++    if (!exc_is_banked(irq) && exc_targets_secure(s, irq) != secure) {
++        /*
++         * Return from a configurable exception targeting the opposite
++         * security state from the one we're trying to complete it for.
++         * Clear vec because it's not really the VecInfo for this
++         * (irq, secstate) so we mustn't deactivate it.
++         */
++        ret = -1;
++        vec = NULL;
++    } else if (!vec->active) {
++        /* Return from an inactive interrupt */
++        ret = -1;
++    } else {
++        /* Legal return, we will return the RETTOBASE bit value to the caller */
++        ret = nvic_rettobase(s);
++    }
++
+     /*
+      * For negative priorities, v8M will forcibly deactivate the appropriate
+      * NMI or HardFault regardless of what interrupt we're being asked to
+@@ -865,32 +895,7 @@ int armv7m_nvic_complete_irq(void *opaque, int irq, bool secure)
+     }
+ 
+     if (!vec) {
+-        if (secure && exc_is_banked(irq)) {
+-            vec = &s->sec_vectors[irq];
+-        } else {
+-            vec = &s->vectors[irq];
+-        }
+-    }
+-
+-    trace_nvic_complete_irq(irq, secure);
+-
+-    if (!vec->active) {
+-        /* Tell the caller this was an illegal exception return */
+-        return -1;
+-    }
+-
+-    /*
+-     * If this is a configurable exception and it is currently
+-     * targeting the opposite security state from the one we're trying
+-     * to complete it for, this counts as an illegal exception return.
+-     * We still need to deactivate whatever vector the logic above has
+-     * selected, though, as it might not be the same as the one for the
+-     * requested exception number.
+-     */
+-    if (!exc_is_banked(irq) && exc_targets_secure(s, irq) != secure) {
+-        ret = -1;
+-    } else {
+-        ret = nvic_rettobase(s);
++        return ret;
+     }
+ 
+     vec->active = 0;
 -- 
 2.20.1
 
