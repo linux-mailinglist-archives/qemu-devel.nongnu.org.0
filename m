@@ -2,82 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1514C2B9138
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 12:41:01 +0100 (CET)
-Received: from localhost ([::1]:47578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC48D2B915B
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 12:46:48 +0100 (CET)
+Received: from localhost ([::1]:53014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfiJ8-0008SP-21
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 06:40:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37292)
+	id 1kfiOl-0002fQ-KP
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 06:46:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kfiHd-0007pC-7K
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 06:39:25 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:52753)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kfiHa-0005FR-Np
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 06:39:24 -0500
-Received: by mail-wm1-x341.google.com with SMTP id 10so6875446wml.2
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 03:39:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=58Fd/Q8Lx5CT9MwOfjMhG823Rv6X9mzPNfv84/R4tDY=;
- b=hG1IoZNaNMX4fEBMV3ZCTojJD00CZQ7mMLfZkf+tw0HqI5RAjWQeRDk1a2hjabUvHT
- 3kDNhaY/X4HJEdT3mgattOG8fGS9umk24wbApzKRcXeEhfRxthHzQcHQmRXMAGRhtcoN
- Z6dgL7ix002inRNd26ZtPoSOUFNCzRkl2I8Ga6x7m7PVVc94Sd5q/1ISL8je8MxJpt+M
- VP/mMVNeNFuyH29eHrcEjR29Tg5Jvq+SD61QQgBPwl5Dcve0dJiyeJYYR4DSzWneKKzK
- o9pXpnmrwxsSVRZX60y5QzxH6OmB1k/FGGBfmARwsK1eep/Xt2GqM37tS5oHNdFAnO4R
- dn8Q==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kfiN3-0001b5-Dm
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 06:45:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43934)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kfiMz-0007E6-JW
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 06:44:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605786292;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CfUuIyzrSosX8tgLcH31N7Uch1bZZJzsoi0KCdpuohY=;
+ b=dPprWs0tC1SFAayoUqtkVw0ndWps2hBMrp4LhdUVMX+U88tgXrSv0LOmJdkQMSEN/s/ZDg
+ ybaSe/vonNE0DRjOWGRY4XvnhxdiuxMFvlqL/IyJkve6LKJ8hg08g+PAJBAdbP3mIZR4Ha
+ oXyc1ABCcDMPdk6STumoux1tTH4hE1Y=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-216-JucgzuWsMV-iyEIwRcQM9Q-1; Thu, 19 Nov 2020 06:44:51 -0500
+X-MC-Unique: JucgzuWsMV-iyEIwRcQM9Q-1
+Received: by mail-wr1-f71.google.com with SMTP id g5so1912143wrp.5
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 03:44:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=58Fd/Q8Lx5CT9MwOfjMhG823Rv6X9mzPNfv84/R4tDY=;
- b=kfyFpXFxytVNxky6pldidcc3f4+gcjTwMcxUS3waEMc9FswqUBYlpI6qmPw2yHgDye
- bNh8Wmj+KCgKEL8dx5Pzw/1i2BJi6SI4lA6h3nAjuUYEv7ZYRRyun/D7XQX5mWSZBDid
- xaY7bkoEZH6eUHoRcFwQd7FvkNCVHwBagN5BCI5DCyfWdSx7ZFSZDdNGDfT5iS5Sh/CO
- EHOlrWqRLR2aS1WVs2tc6SjYN4D26yja3kV0pyAdp3LA0Lkbm42oy86/vMFsGyUYxjGj
- ADWmMZNaTuKwgyErrEFvPkO09hgjWvrEIeSTOPFrr0dVskA9m9MyfCmRlUq2t/BSPzI9
- jAlA==
-X-Gm-Message-State: AOAM5321CPPZEon5Z6rmxixGMklcFSRh3CtwYOJZp/qZzLOuF5emsi2A
- 3Hhyv/BqtDiW9TMfywF/g1UD6Q==
-X-Google-Smtp-Source: ABdhPJxGiDI3yD2/HbcpdYhz7GvZJ+eYIMbdSP8MQ7Tipp175laiw9xPu32U0MFj7TahcLvMze/Egg==
-X-Received: by 2002:a1c:5605:: with SMTP id k5mr3837825wmb.99.1605785960997;
- Thu, 19 Nov 2020 03:39:20 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 35sm38391691wro.71.2020.11.19.03.39.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Nov 2020 03:39:19 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E03431FF7E;
- Thu, 19 Nov 2020 11:39:18 +0000 (GMT)
-References: <20201116104216.439650-1-david.edmondson@oracle.com>
- <20201116104216.439650-4-david.edmondson@oracle.com>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: David Edmondson <david.edmondson@oracle.com>
-Subject: Re: [RFC PATCH 3/5] hw/arm: Convert assertions about flash image
- size to error_report
-In-reply-to: <20201116104216.439650-4-david.edmondson@oracle.com>
-Date: Thu, 19 Nov 2020 11:39:18 +0000
-Message-ID: <87ima1vamx.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=CfUuIyzrSosX8tgLcH31N7Uch1bZZJzsoi0KCdpuohY=;
+ b=jYTGMXlfKHkpJyKMNUvxAUxAUAwB+RvCvR3UzM6YEkE/3gtUSY8XGFYxT35mCYFNgJ
+ b3H1hUgPgF+eYo2rVoWPHDI4emO8xIEn0TEX5z259EFn/nsqmuoPdrMPmvFQ5V2xXKhW
+ QQ2arEvbzJSFC0OBIm2smk7+scht8bYUBThL3sD2xXHqHKkZ+TrD4HlpJ92pE0VQ2PTm
+ XbeH0J8FpAO/N2xu6qetW8FIL24ioUFHrlFdgelmVOI9pm7PBsYQv8DZsVpdSmr58wnr
+ QjaUyYnhAybt+YAGmHWXBCy+EPHf0mnwf77PgaRO+cza2C5/iw34Ur4kgr5tjwTu5VLI
+ NomA==
+X-Gm-Message-State: AOAM5310r3lpiz1TMJSkDaxr+1o4Gfe3wajQMC4vvNYtgDZOV6YkPq6k
+ G7EUCA3rqsptcz8Yxm99o1oBWrk9qTkGTHPF7vldYaz42SRECl4UT8QDXYQdkPPp5mnLDs+CpNq
+ sh5+3xSnbw9Qso7c=
+X-Received: by 2002:a5d:438f:: with SMTP id i15mr9771517wrq.121.1605786289815; 
+ Thu, 19 Nov 2020 03:44:49 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy1lMq0dP2lg/KbbAgaHWM+pc5FwhzmxHWugpN8nNmCccxCYnp3RO3WSCGgJ8a4a5E/lW/4OA==
+X-Received: by 2002:a5d:438f:: with SMTP id i15mr9771488wrq.121.1605786289632; 
+ Thu, 19 Nov 2020 03:44:49 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id 90sm18652649wrl.60.2020.11.19.03.44.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Nov 2020 03:44:49 -0800 (PST)
+Subject: Re: [PATCH-for-5.2 v2] trace: use STAP_SDT_V2 to work around symbol
+ visibility
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20201119112704.837423-1-stefanha@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <fbe8f975-45a7-02e0-4765-b958630f6f2d@redhat.com>
+Date: Thu, 19 Nov 2020 12:44:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
+In-Reply-To: <20201119112704.837423-1-stefanha@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 23:36:20
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,24 +100,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ rjones@redhat.com, fche@redhat.com, kraxel@redhat.com, wcohen@redhat.com,
+ mrezanin@redhat.com, ddepaula@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 11/19/20 12:27 PM, Stefan Hajnoczi wrote:
+> QEMU binaries no longer launch successfully with recent SystemTap
+> releases. This is because modular QEMU builds link the sdt semaphores
+> into the main binary instead of into the shared objects where they are
+> used. The symbol visibility of semaphores is 'hidden' and the dynamic
+> linker prints an error during module loading:
+> 
+>   $ ./configure --enable-trace-backends=dtrace --enable-modules ...
+>   ...
+>   Failed to open module: /builddir/build/BUILD/qemu-4.2.0/s390x-softmmu/../block-curl.so: undefined symbol: qemu_curl_close_semaphore
+> 
+> The long-term solution is to generate per-module dtrace .o files and
+> link them into the module instead of the main binary.
+> 
+> In the short term we can define STAP_SDT_V2 so dtrace(1) produces a .o
+> file with 'default' symbol visibility instead of 'hidden'. This
+> workaround is small and easier to merge for QEMU 5.2.
+> 
+> Cc: Daniel P. Berrangé <berrange@redhat.com>
+> Cc: wcohen@redhat.com
+> Cc: fche@redhat.com
+> Cc: kraxel@redhat.com
+> Cc: rjones@redhat.com
+> Cc: mrezanin@redhat.com
+> Cc: ddepaula@redhat.com
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+> v2:
+>  * Define STAP_SDT_V2 everywhere [danpb]
+> ---
+>  configure         | 1 +
+>  trace/meson.build | 4 ++--
+>  2 files changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/configure b/configure
+> index 714e75b5d8..5d91d49c7b 100755
+> --- a/configure
+> +++ b/configure
+> @@ -4832,6 +4832,7 @@ if have_backend "dtrace"; then
+>    trace_backend_stap="no"
+>    if has 'stap' ; then
+>      trace_backend_stap="yes"
 
-David Edmondson <david.edmondson@oracle.com> writes:
+Maybe add a comment? (no need to repost if you agree):
 
-> Rather than throwing an assertion, provide a more detailed report if a
-> flash image is inappropriately sized or aligned.
->
-> Signed-off-by: David Edmondson <david.edmondson@oracle.com>
+       # Workaround to avoid dtrace(1) produces file with 'hidden'
+       # symbol visibility, define STAP_SDT_V2 to produce 'default'
+       # symbol visibility instead.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> +    QEMU_CFLAGS="$QEMU_CFLAGS -DSTAP_SDT_V2"
 
---=20
-Alex Benn=C3=A9e
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+>    fi
+>  fi
+>  
+> diff --git a/trace/meson.build b/trace/meson.build
+> index d5fc45c628..843ea14495 100644
+> --- a/trace/meson.build
+> +++ b/trace/meson.build
+> @@ -38,13 +38,13 @@ foreach dir : [ '.' ] + trace_events_subdirs
+>      trace_dtrace_h = custom_target(fmt.format('trace-dtrace', 'h'),
+>                                     output: fmt.format('trace-dtrace', 'h'),
+>                                     input: trace_dtrace,
+> -                                   command: [ 'dtrace', '-o', '@OUTPUT@', '-h', '-s', '@INPUT@' ])
+> +                                   command: [ 'dtrace', '-DSTAP_SDT_V2', '-o', '@OUTPUT@', '-h', '-s', '@INPUT@' ])
+>      trace_ss.add(trace_dtrace_h)
+>      if host_machine.system() != 'darwin'
+>        trace_dtrace_o = custom_target(fmt.format('trace-dtrace', 'o'),
+>                                       output: fmt.format('trace-dtrace', 'o'),
+>                                       input: trace_dtrace,
+> -                                     command: [ 'dtrace', '-o', '@OUTPUT@', '-G', '-s', '@INPUT@' ])
+> +                                     command: [ 'dtrace', '-DSTAP_SDT_V2', '-o', '@OUTPUT@', '-G', '-s', '@INPUT@' ])
+>        trace_ss.add(trace_dtrace_o)
+>      endif
+>  
+> 
+
 
