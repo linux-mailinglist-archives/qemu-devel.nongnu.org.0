@@ -2,71 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25D9A2B9849
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 17:45:56 +0100 (CET)
-Received: from localhost ([::1]:43948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F5B62B984A
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 17:46:13 +0100 (CET)
+Received: from localhost ([::1]:45152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfn4F-0007l2-7Y
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 11:45:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57798)
+	id 1kfn4W-0008Is-Cl
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 11:46:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kfmyU-0000Rz-Kk
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:39:58 -0500
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:36790)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kfmyS-0006MG-IX
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:39:58 -0500
-Received: by mail-ej1-x642.google.com with SMTP id o21so8824185ejb.3
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 08:39:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wHCeV+0wASxa7xKuZTzPc3uHjiByPnCWQmQdnty1SfE=;
- b=K7bWQ0Zc34TB663V4lX0Qpf54I3JpW4/Qv0E3aCd2FzmNzPEhOljrgVnmphkmOB1dc
- a6SoyQVZUAEKpTTkmOmFxaWEbyIHfNU1t5s4H+FGnQfBh3yN4A0dv3Jjpn7D4gdQJdwO
- Ju3cHL9f6IDj08kfEWIO22b2kY0KCvZqLgRoc06QwAaZrdQx8LsgIRI/fXWLbGC17jXb
- HMMexFgaVR1tx6U/qzRdJJFqAt6ocD2O2c/l/aEEZF7tOOrDJWmaySSX9sKRw4Ov4wXs
- joWmgV0j3pVCynbuzQOj93EchianKE39W9JT+KbSmq6jMP9MZyZAwS+f/yKTtTxNhQj6
- GEZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wHCeV+0wASxa7xKuZTzPc3uHjiByPnCWQmQdnty1SfE=;
- b=SWgjRJLNTwZm7pcJ7YRyuA0YBzeU2aWsf0baQ4YIEsHq8ojdB5CDmXTvY49UrxVXNv
- +ap2hoQA0CbG3OVbSWGNQSgqsC8PgkSRVXT45OtkLPvvFnqOK0H0rbnxvWUWXJ0hf0KG
- fuSJity1ASWiAYWS5QbD0CL/X4t86VZN1vznPMKM0myXC8wKjNdp6OJHyuE0jIB2XbuI
- 85OeXN4fb2k7lxeW87dvXs/jfJWsUCynlszcmXEumE5v1wTpkminkF5kF5pWtghL4Sw/
- 0ogHhrXAL2znwDLiVoDA9eBzKo+7AWSTiw1LMi6R8taO+Q+vorQf4lrLRtJQmY2Fz7Zb
- 9WAA==
-X-Gm-Message-State: AOAM531U7BWp5DrzctUOS4JfIZ2A+jyEVQNHm8NOYV2Ws6/YA0Uy1E30
- PqSm7+MPmr4HE+99YO+j/fUbVI+OeLKzllv2O1KBRw==
-X-Google-Smtp-Source: ABdhPJxohkqohF8Rold75mHYphEqgvgYH008wPvAAASt8psj0r6y3aoUKE/wT9nNKiSdXCRUmbbTz2P3mxtXYvrp7Oo=
-X-Received: by 2002:a17:906:af8c:: with SMTP id
- mj12mr28777718ejb.85.1605803992789; 
- Thu, 19 Nov 2020 08:39:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <michael.christie@oracle.com>)
+ id 1kfn2N-0006Y0-PD
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:43:59 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:52008)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <michael.christie@oracle.com>)
+ id 1kfn2K-0007oU-RP
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:43:59 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AJGhjcM095167;
+ Thu, 19 Nov 2020 16:43:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=+ApXWtZGfu+O1bz3mzFfdZ4acwEqWfrjwehPFPpqL1w=;
+ b=XbYjRLGKG2x4zh/HP0jUZwV4xPEe+nlEcn49SZgJRBrOw81HouDn8nBpAYzwIyL+kW8s
+ vvNq9IaKpA+zjHaI2efuFsoNxiHAuFxzXGoaPAUDdE9vSOBYiK8c/r5OB6hrtBwgbN9b
+ S2DvcxpsPl25qLt30urrtjsFrERmvXnVJ9hKhBP4ghbVYP0hybSUgrMlXYEPpyl5kVRP
+ SCJD2TPLTa/wb25QNSksoT8YvB/lQ9AKt21wo9tw05rW9wK/AxWTHoB1BGNVPI2Z36fg
+ W4cXYfGo6rRyYZeRzPdAZUQ1OYsXMIBy2kVg9mmGffk7KMMcLxoh4PjixxMq8o6qj7Rn bQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2120.oracle.com with ESMTP id 34t7vned9p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 19 Nov 2020 16:43:45 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AJGPNYW058340;
+ Thu, 19 Nov 2020 16:43:44 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3020.oracle.com with ESMTP id 34umd26uk6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 19 Nov 2020 16:43:44 +0000
+Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0AJGhgn3013224;
+ Thu, 19 Nov 2020 16:43:42 GMT
+Received: from [20.15.0.5] (/73.88.28.6)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 19 Nov 2020 08:43:42 -0800
+Subject: Re: [PATCH 00/10] vhost/qemu: thread per IO SCSI vq
+To: Stefan Hajnoczi <stefanha@gmail.com>
+References: <1605223150-10888-1-git-send-email-michael.christie@oracle.com>
+ <20201117164043.GS131917@stefanha-x1.localdomain>
+ <b3343762-bb11-b750-46ec-43b5556f2b8e@oracle.com>
+ <20201118113117.GF182763@stefanha-x1.localdomain>
+ <20201119094315-mutt-send-email-mst@kernel.org>
+ <ceebdc90-3ffc-1563-ff85-12a848bcba18@oracle.com>
+ <CAJSP0QUvSwX5NCPmfSODV_C+D41E21LZT=oXQ2PLc6baAsGGDQ@mail.gmail.com>
+From: Mike Christie <michael.christie@oracle.com>
+Message-ID: <ffd88f0c-981e-a102-4b08-f29d6b9a0f71@oracle.com>
+Date: Thu, 19 Nov 2020 10:43:40 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.4.3
 MIME-Version: 1.0
-References: <20201119153901.53705-1-steven.price@arm.com>
- <CAFEAcA85fiqA206FuFANKbV_3GkfY1F8Gv7MP58BgTT81bs9kA@mail.gmail.com>
- <b434977d-08d7-f753-f95c-81fc533cae0a@arm.com>
-In-Reply-To: <b434977d-08d7-f753-f95c-81fc533cae0a@arm.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 19 Nov 2020 16:39:41 +0000
-Message-ID: <CAFEAcA_navHXiwJOwWas-TXdVhxY_kJjVNxHvDCY4ArizH_CQQ@mail.gmail.com>
-Subject: Re: [PATCH v5 0/2] MTE support for KVM guest
-To: Steven Price <steven.price@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAJSP0QUvSwX5NCPmfSODV_C+D41E21LZT=oXQ2PLc6baAsGGDQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9809
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ mlxscore=0 phishscore=0
+ spamscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011190119
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9809
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ suspectscore=0
+ malwarescore=0 bulkscore=0 impostorscore=0 lowpriorityscore=0 spamscore=0
+ adultscore=0 mlxscore=0 priorityscore=1501 phishscore=0 clxscore=1011
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011190120
+Received-SPF: pass client-ip=156.151.31.85;
+ envelope-from=michael.christie@oracle.com; helo=userp2120.oracle.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,50 +104,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- lkml - Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
- arm-mail-list <linux-arm-kernel@lists.infradead.org>,
- Marc Zyngier <maz@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Will Deacon <will@kernel.org>, kvmarm <kvmarm@lists.cs.columbia.edu>,
- Julien Thierry <julien.thierry.kdev@gmail.com>
+Cc: fam <fam@euphon.net>, linux-scsi <linux-scsi@vger.kernel.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Linux Virtualization <virtualization@lists.linux-foundation.org>,
+ target-devel <target-devel@vger.kernel.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 19 Nov 2020 at 15:57, Steven Price <steven.price@arm.com> wrote:
-> On 19/11/2020 15:45, Peter Maydell wrote:
-> > I'm a bit dubious about requring the VMM to map the guest memory
-> > PROT_MTE unless somebody's done at least a sketch of the design
-> > for how this would work on the QEMU side. Currently QEMU just
-> > assumes the guest memory is guest memory and it can access it
-> > without special precautions...
->
-> I agree this needs some investigation - I'm hoping Haibo will be able to
-> provide some feedback here as he has been looking at the QEMU support.
-> However the VMM is likely going to require some significant changes to
-> ensure that migration doesn't break, so either way there's work to be done.
->
-> Fundamentally most memory will need a mapping with PROT_MTE just so the
-> VMM can get at the tags for migration purposes, so QEMU is going to have
-> to learn how to treat guest memory specially if it wants to be able to
-> enable MTE for both itself and the guest.
+On 11/19/20 10:24 AM, Stefan Hajnoczi wrote:
+> On Thu, Nov 19, 2020 at 4:13 PM Mike Christie
+> <michael.christie@oracle.com> wrote:
+>>
+>> On 11/19/20 8:46 AM, Michael S. Tsirkin wrote:
+>>> On Wed, Nov 18, 2020 at 11:31:17AM +0000, Stefan Hajnoczi wrote:
+>>>>> My preference has been:
+>>>>>
+>>>>> 1. If we were to ditch cgroups, then add a new interface that would allow
+>>>>> us to bind threads to a specific CPU, so that it lines up with the guest's
+>>>>> mq to CPU mapping.
+>>>>
+>>>> A 1:1 vCPU/vq->CPU mapping isn't desirable in all cases.
+>>>>
+>>>> The CPU affinity is a userspace policy decision. The host kernel should
+>>>> provide a mechanism but not the policy. That way userspace can decide
+>>>> which workers are shared by multiple vqs and on which physical CPUs they
+>>>> should run.
+>>>
+>>> So if we let userspace dictate the threading policy then I think binding
+>>> vqs to userspace threads and running there makes the most sense,
+>>> no need to create the threads.
+>>>
+>>
+>> Just to make sure I am on the same page, in one of the first postings of
+>> this set at the bottom of the mail:
+>>
+>> https://urldefense.com/v3/__https://www.spinics.net/lists/linux-scsi/msg148322.html__;!!GqivPVa7Brio!PdGIFdzqcAb6DW8twtjX3r7xOcM7XbTh7Ndkhxhb-1fV1VNB4lXjFzwFVE1zczUIE2Mp$
+>>
+>> I asked about a new interface and had done something more like what
+>> Stefan posted:
+>>
+>>     struct vhost_vq_worker_info {
+>>         /*
+>>          * The pid of an existing vhost worker that this vq will be
+>>          * assigned to. When pid is 0 the virtqueue is assigned to the
+>>          * default vhost worker. When pid is -1 a new worker thread is
+>>          * created for this virtqueue. When pid is -2 the virtqueue's
+>>          * worker thread is unchanged.
+>>          *
+>>          * If a vhost worker no longer has any virtqueues assigned to it
+>>          * then it will terminate.
+>>          *
+>>          * The pid of the vhost worker is stored to this field when the
+>>          * ioctl completes successfully. Use pid -2 to query the current
+>>          * vhost worker pid.
+>>          */
+>>         __kernel_pid_t pid;  /* in/out */
+>>
+>>         /* The virtqueue index*/
+>>         unsigned int vq_idx; /* in */
+>>     };
+>>
+>> This approach is simple and it allowed me to have userspace map queues
+>> and threads optimally for our setups.
+>>
+>> Note: Stefan, in response to your previous comment, I am just using my
+>> 1:1 mapping as an example and would make it configurable from userspace.
+>>
+>> In the email above are you guys suggesting to execute the SCSI/vhost
+>> requests in userspace? We should not do that because:
+>>
+>> 1. It negates part of what makes vhost fast where we do not have to kick
+>> out to userspace then back to the kernel.
+>>
+>> 2. It's not doable or becomes a crazy mess because vhost-scsi is tied to
+>> the scsi/target layer in the kernel. You can't process the scsi command
+>> in userspace since the scsi state machine and all its configuration info
+>> is in the kernel's scsi/target layer.
+>>
+>> For example, I was just the maintainer of the target_core_user module
+>> that hooks into LIO/target on the backend (vhost-scsi hooks in on the
+>> front end) and passes commands to userspace and there we have a
+>> semi-shadow state machine. It gets nasty to try and maintain/sync state
+>> between lio/target core in the kernel and in userspace. We also see the
+>> perf loss I mentioned in #1.
+> 
+> No, if I understand Michael correctly he has suggested a different approach.
+> 
+> My suggestion was that the kernel continues to manage the worker
+> threads but an ioctl allows userspace to control the policy.
+> 
+> I think Michael is saying that the kernel shouldn't manage/create
+> threads. Userspace should create threads and then invoke an ioctl from
+> those threads.
+> 
+> The ioctl will call into the vhost driver where it will execute
+> something similar to vhost_worker(). So this ioctl will block while
+> the kernel is using the thread to process vqs.
+> 
+> What isn't clear to me is how to tell the kernel which vqs are
+> processed by a thread. We could try to pass that information into the
+> ioctl. I'm not sure what the cleanest solution is here.
+> 
+> Maybe something like:
+> 
+> struct vhost_run_worker_info {
+>      struct timespec *timeout;
+>      sigset_t *sigmask;
+> 
+>      /* List of virtqueues to process */
+>      unsigned nvqs;
+>      unsigned vqs[];
+> };
+> 
+> /* This blocks until the timeout is reached, a signal is received, or
+> the vhost device is destroyed */
+> int ret = ioctl(vhost_fd, VHOST_RUN_WORKER, &info);
+> 
+> As you can see, userspace isn't involved with dealing with the
+> requests. It just acts as a thread donor to the vhost driver.
+> 
+> We would want the VHOST_RUN_WORKER calls to be infrequent to avoid the
+> penalty of switching into the kernel, copying in the arguments, etc.
 
-If the only reason the VMM needs tag access is for migration it
-feels like there must be a nicer way to do it than by
-requiring it to map the whole of the guest address space twice
-(once for normal use and once to get the tags)...
+I didn't get this part. Why have the timeout? When the timeout expires, 
+does userspace just call right back down to the kernel or does it do 
+some sort of processing/operation?
 
-Anyway, maybe "must map PROT_MTE" is workable, but it seems
-a bit premature to fix the kernel ABI as working that way
-until we are at least reasonably sure that it is the right
-design.
+You could have your worker function run from that ioctl wait for a 
+signal or a wake up call from the vhost_work/poll functions.
 
-thanks
--- PMM
+
+> 
+> Michael: is this the kind of thing you were thinking of?
+> 
+> Stefan
+> 
+
 
