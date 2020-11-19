@@ -2,77 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9438D2B8DBA
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 09:40:57 +0100 (CET)
-Received: from localhost ([::1]:49890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A468F2B8DCB
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 09:45:08 +0100 (CET)
+Received: from localhost ([::1]:52494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kffUu-0003yX-83
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 03:40:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49162)
+	id 1kffYx-0005L6-MU
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 03:45:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kffTF-0003Pe-Lc
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 03:39:13 -0500
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:38021)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kffT8-00008I-IM
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 03:39:13 -0500
-Received: by mail-ej1-x629.google.com with SMTP id a16so6741839ejj.5
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 00:39:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=dlLZzA6K9QTuMfGNpdOXP+aZ77ceZwT+wdu0FDc4SMA=;
- b=F2nKAWq6LGim6G1TjM7iC7e1ChfhwWr3B6mK1oGDh+ZEXTPrjb3HR65PGu2Jnt+VVV
- FEo8z+hRYwkeovTbo0TVlN/iJmQVkcG6gCAsBMTrnK+ZNKYg+VOy7oR4GEqlAjwlJa3j
- /PslAP1mRLOtNnSC102FXUmVDAgva0aOfIuYCwy0oa8WjolfP5LXKyXHEh9uReNYKqHq
- czo5XIraQKG7NikM/UhSUfrDrOQPXnWe0OH3Qied2UABAafXoAFiynG4smTxwhO5wBfb
- nnfjgTm1+rLxIg1ZUPRDKx6zdvh0ibOgF9a4Gx178WRHmA55Bw6fl0pyPR6N4Efff4eX
- 6xPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=dlLZzA6K9QTuMfGNpdOXP+aZ77ceZwT+wdu0FDc4SMA=;
- b=DTQoywwrH93nlCLR+YCigBk/jF9JaIahjbmYg1dkiMR1fhlWqPhZJLikBe8s/nXBxv
- GyVqoitvIAsS81Lq54zW2zKMNaLrrd8ZVp+5p5eyjMxBReQ/EipaBOOU7wGMycLfd3Vl
- +hqfK9x7+qUTbUgCydxwUZg+a6kjOAIlcVUms4vXDXJMQYRcNfp5w/7TGObgw6sEA5zr
- gz/mII22Z0IPC3pKWBSE7mPIjX05QEOQYU3hD4TQNble6bZUExHbpz/RAoQm8V9nVqog
- 8wuZ2+AXS5bBdjivPlKMYKVDv8oSGMtdBnf3UMySr0WabhTWoZExsO90XLjowLetoDjB
- KVKw==
-X-Gm-Message-State: AOAM530CQtMwxSvMVagRsoyJpqNmJndvQkmR1uAh/TteMg4kiaZTWcTS
- O9IKq3vwqXxg5EACD3Rti4fJX2PiH3R8WL74vxOdkA==
-X-Google-Smtp-Source: ABdhPJwr5Y1200sPvl4PzNXFJKIgWa5yzUIL7BU1zorhk7OmNG+evGwvLb/qzHiNvTmqwmYOZAGWVeVQ6XnMActtNKo=
-X-Received: by 2002:a17:906:1542:: with SMTP id
- c2mr17184449ejd.382.1605775144864; 
- Thu, 19 Nov 2020 00:39:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1kffXW-0004lf-IF; Thu, 19 Nov 2020 03:43:38 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:5155)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1kffXU-0001r6-6w; Thu, 19 Nov 2020 03:43:38 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5fb630390001>; Thu, 19 Nov 2020 00:43:37 -0800
+Received: from [10.40.103.11] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 19 Nov
+ 2020 08:43:28 +0000
+Subject: Re: [PATCH RFC] vfio: Move the saving of the config space to the
+ right place in VFIO migration
+To: Shenming Lu <lushenming@huawei.com>, Alex Williamson
+ <alex.williamson@redhat.com>, Cornelia Huck <cohuck@redhat.com>
+References: <20201114091731.157-1-lushenming@huawei.com>
+X-Nvconfidentiality: public
+From: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <860bd707-8862-2584-6e12-67c86f092dba@nvidia.com>
+Date: Thu, 19 Nov 2020 14:13:24 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
 MIME-Version: 1.0
-References: <20201118115646.2461726-1-kuhn.chenqun@huawei.com>
- <20201118115646.2461726-2-kuhn.chenqun@huawei.com>
- <CAFEAcA81CeW=RdrABuAZx2pL6L-nE_AaQ2vbryqm7amUbRjM-g@mail.gmail.com>
- <7412CDE03601674DA8197E2EBD8937E83BA86327@dggemm531-mbx.china.huawei.com>
-In-Reply-To: <7412CDE03601674DA8197E2EBD8937E83BA86327@dggemm531-mbx.china.huawei.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 19 Nov 2020 08:38:53 +0000
-Message-ID: <CAFEAcA9nwqj-7bDa5oPo9z8h9uaeHAC0dX-KdeZ6hkgZJQDqZA@mail.gmail.com>
-Subject: Re: [PATCH-for-5.2? 1/2] tests/qtest: variable defined by g_autofree
- need to be initialized
-To: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20201114091731.157-1-lushenming@huawei.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1605775417; bh=bVTR1qHH100S+o2AgDc4IHFQc1f0QmlYVLK5l/gh6kw=;
+ h=Subject:To:CC:References:X-Nvconfidentiality:From:Message-ID:Date:
+ User-Agent:MIME-Version:In-Reply-To:Content-Type:Content-Language:
+ Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+ b=WVcpyLB28TuIekFV8hjq4LLavoYO1QCMEmYqHTtZu/EoIfcIBwa4zAZ1gG63U/CCI
+ tan7Bu6X9nRyZG+wycDZmd7opLq4UAwBWNdWLE7ZfWt0lyKDwcnI3ZElKRDJYrJdz3
+ cmwWAL2ZGqrmXZ7IePSu//c5wN5rT3IgH80WKyB1mH4pCRiGu+7PzMpydf/SNbSQSo
+ CG9Z1v4r5qxgZKP8iXMocb4aKIGz6pkU6rFlIqUONPwAw+IE7yd9DfXft8ZbUXlPu0
+ K3FZ0R33nNsST6PsYZRDG+9veYeJ3xu0HeVwzmcRiOt5w3/5qOmhM3iJN5TArhbd4O
+ +vUOHAyopDC+A==
+Received-SPF: pass client-ip=216.228.121.65; envelope-from=kwankhede@nvidia.com;
+ helo=hqnvemgate26.nvidia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 03:43:34
+X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,51 +76,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Zhanghailiang <zhang.zhanghailiang@huawei.com>,
- QEMU Trivial <qemu-trivial@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Havard Skinnemoen <hskinnemoen@google.com>, Hao Wu <wuhaotsh@google.com>,
- Euler Robot <euler.robot@huawei.com>
+Cc: Neo Jia <cjia@nvidia.com>, Marc Zyngier <maz@kernel.org>,
+ qemu-devel@nongnu.org, dgilbert@redhat.com, qemu-arm@nongnu.org,
+ yuzenghui@huawei.com, wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 19 Nov 2020 at 08:35, Chenqun (kuhn) <kuhn.chenqun@huawei.com> wrot=
-e:
->
-> > -----Original Message-----
-> > >  static void tim_add_test(const char *name, const TestData *td,
-> > > GTestDataFunc fn)  {
-> > > -    g_autofree char *full_name;
-> > > -
-> > > -    full_name =3D g_strdup_printf("npcm7xx_timer/tim[%d]/timer[%d]/%=
-s",
-> > > -                                tim_index(td->tim),
-> > timer_index(td->timer),
-> > > -                                name);
-> > > +    g_autofree char *full_name =3D g_strdup_printf(
-> > > +        "npcm7xx_timer/tim[%d]/timer[%d]/%s", tim_index(td->tim),
-> > > +        timer_index(td->timer), name);
-> >
-> > Which compiler is so unintelligent that it cannot see that a declaratio=
-n
-> > immediately followed by an assignment must always initialize the variab=
-le ???
-> >
-> Hi Peter,
->   Glib requires that all g_auto* macros must be initialized.
->   https://developer.gnome.org/glib/stable/glib-Miscellaneous-Macros.html#=
-g-autofree
 
-Yes, and we initialize it with the "full_name =3D ..." line.
-The g_autofree documentation says "this macro has similar constraints
-as g_autoptr()", and the g_autoptr() documentation says
-"You must initialise the variable in some way =E2=80=94 either by use of an
-initialiser or by ensuring that it is assigned to unconditionally
-before it goes out of scope."
 
-In this case the test code is doing the second of those two things.
+On 11/14/2020 2:47 PM, Shenming Lu wrote:
+> When running VFIO migration, I found that the restoring of VFIO PCI devic=
+e=E2=80=99s
+> config space is before VGIC on ARM64 target. But generally, interrupt con=
+trollers
+> need to be restored before PCI devices.=20
 
-thanks
--- PMM
+Is there any other way by which VGIC can be restored before PCI device?
+
+> Besides, if a VFIO PCI device is
+> configured to have directly-injected MSIs (VLPIs), the restoring of its c=
+onfig
+> space will trigger the configuring of these VLPIs (in kernel), where it w=
+ould
+> return an error as I saw due to the dependency on kvm=E2=80=99s vgic.
+>=20
+
+Can this be fixed in kernel to re-initialize the kernel state?
+
+> To avoid this, we can move the saving of the config space from the iterab=
+le
+> process to the non-iterable process, so that it will be called after VGIC
+> according to their priorities.
+>=20
+
+With this change, at resume side, pre-copy phase data would reach=20
+destination without restored config space. VFIO device on destination=20
+might need it's config space setup and validated before it can accept=20
+further VFIO device specific migration state.
+
+This also changes bit-stream, so it would break migration with original=20
+migration patch-set.
+
+Thanks,
+Kirti
+
+> Signed-off-by: Shenming Lu <lushenming@huawei.com>
+> ---
+>   hw/vfio/migration.c | 22 ++++++----------------
+>   1 file changed, 6 insertions(+), 16 deletions(-)
+>=20
+> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> index 3ce285ea39..028da35a25 100644
+> --- a/hw/vfio/migration.c
+> +++ b/hw/vfio/migration.c
+> @@ -351,7 +351,7 @@ static int vfio_update_pending(VFIODevice *vbasedev)
+>       return 0;
+>   }
+>  =20
+> -static int vfio_save_device_config_state(QEMUFile *f, void *opaque)
+> +static void vfio_save_device_config_state(QEMUFile *f, void *opaque)
+>   {
+>       VFIODevice *vbasedev =3D opaque;
+>  =20
+> @@ -365,13 +365,14 @@ static int vfio_save_device_config_state(QEMUFile *=
+f, void *opaque)
+>  =20
+>       trace_vfio_save_device_config_state(vbasedev->name);
+>  =20
+> -    return qemu_file_get_error(f);
+> +    if (qemu_file_get_error(f))
+> +        error_report("%s: Failed to save device config space",
+> +                     vbasedev->name);
+>   }
+>  =20
+>   static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
+>   {
+>       VFIODevice *vbasedev =3D opaque;
+> -    uint64_t data;
+>  =20
+>       if (vbasedev->ops && vbasedev->ops->vfio_load_config) {
+>           int ret;
+> @@ -384,15 +385,8 @@ static int vfio_load_device_config_state(QEMUFile *f=
+, void *opaque)
+>           }
+>       }
+>  =20
+> -    data =3D qemu_get_be64(f);
+> -    if (data !=3D VFIO_MIG_FLAG_END_OF_STATE) {
+> -        error_report("%s: Failed loading device config space, "
+> -                     "end flag incorrect 0x%"PRIx64, vbasedev->name, dat=
+a);
+> -        return -EINVAL;
+> -    }
+> -
+>       trace_vfio_load_device_config_state(vbasedev->name);
+> -    return qemu_file_get_error(f);
+> +    return 0;
+>   }
+>  =20
+>   static int vfio_set_dirty_page_tracking(VFIODevice *vbasedev, bool star=
+t)
+> @@ -575,11 +569,6 @@ static int vfio_save_complete_precopy(QEMUFile *f, v=
+oid *opaque)
+>           return ret;
+>       }
+>  =20
+> -    ret =3D vfio_save_device_config_state(f, opaque);
+> -    if (ret) {
+> -        return ret;
+> -    }
+> -
+>       ret =3D vfio_update_pending(vbasedev);
+>       if (ret) {
+>           return ret;
+> @@ -720,6 +709,7 @@ static SaveVMHandlers savevm_vfio_handlers =3D {
+>       .save_live_pending =3D vfio_save_pending,
+>       .save_live_iterate =3D vfio_save_iterate,
+>       .save_live_complete_precopy =3D vfio_save_complete_precopy,
+> +    .save_state =3D vfio_save_device_config_state,
+>       .load_setup =3D vfio_load_setup,
+>       .load_cleanup =3D vfio_load_cleanup,
+>       .load_state =3D vfio_load_state,
+>=20
 
