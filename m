@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 628792B9C32
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 21:44:57 +0100 (CET)
-Received: from localhost ([::1]:55506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 008582B9C39
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 21:47:42 +0100 (CET)
+Received: from localhost ([::1]:33714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfqnO-0000hG-Gs
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 15:44:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59230)
+	id 1kfqqE-0003Wn-2F
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 15:47:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kfqa4-0000fe-OW
+ id 1kfqa5-0000fm-SZ
  for qemu-devel@nongnu.org; Thu, 19 Nov 2020 15:31:04 -0500
-Received: from indium.canonical.com ([91.189.90.7]:45958)
+Received: from indium.canonical.com ([91.189.90.7]:46026)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kfqa1-0007nz-Ij
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 15:31:00 -0500
+ id 1kfqa1-0007o7-OM
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 15:31:01 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kfqZz-0008PT-6h
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 20:30:55 +0000
+ id 1kfqa0-0008Pd-IL
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 20:30:56 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 317942E8140
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 20:30:55 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 7E5112E8142
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 20:30:56 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Nov 2020 20:21:38 -0000
-From: Alistair Francis <1885350@bugs.launchpad.net>
+Date: Thu, 19 Nov 2020 20:23:43 -0000
+From: Heiko Sieger <1788665@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided;
- assignee=alistair@alistair23.me; 
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: intel microcode spectre
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: alistair2323 rpvrverve453-4tr5t34t5
-X-Launchpad-Bug-Reporter: Mina Magdy (rpvrverve453-4tr5t34t5)
-X-Launchpad-Bug-Modifier: Alistair Francis (alistair2323)
-References: <159323684589.25927.6403829131374464357.malonedeb@gac.canonical.com>
-Message-Id: <160581729900.15953.3503432262074861154.malone@chaenomeles.canonical.com>
-Subject: [Bug 1885350] Re: RISCV dynamic rounding mode is not behaving
- correctly
+X-Launchpad-Bug-Commenters: berrange dgilbert-h gamanakis h-sieger th-huth
+X-Launchpad-Bug-Reporter: Heiko Sieger (h-sieger)
+X-Launchpad-Bug-Modifier: Heiko Sieger (h-sieger)
+References: <153504502595.30588.13203676939349086206.malonedeb@soybean.canonical.com>
+Message-Id: <160581742309.18125.17281630903297632533.malone@gac.canonical.com>
+Subject: [Bug 1788665] Re: Low 2D graphics performance with Windows 10 (1803)
+ VGA passthrough VM using "Spectre" protection
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="c35ff22711d15549e2303ae18ae521fd91f6bf00"; Instance="production"
-X-Launchpad-Hash: 47914bf55e23d4496cdee9230d27d7ae169e581a
+X-Launchpad-Hash: 9b11f3f13743dd7dce1db0cacb87e8e6d3171e46
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,67 +72,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1885350 <1885350@bugs.launchpad.net>
+Reply-To: Bug 1788665 <1788665@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As commented on the patch submission, this should already be handled:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg718331.html
+I've switched hosts so I would have to run a series of tests to compare.
 
-Can you attach the test case that is failing?
+There are a number of new variables:
+
+1. Windows 10 release (I'm now on Windows 2004)
+2. My host OS is now Manjaro
+3. CPU is now AMD Ryzen 3900X (before it was Intel 3930k)
+4. Kernel is 5.8.18-1-MANJARO
+5. qemu 5.1.0
+6. libvirt 6.5.0
+7. New VM configuration using virt-manager/libvirt with EPYC-IBPB model ins=
+tead of host-passthrough, instead of a qemu bash script to launch the VM.
+
+Time permitting, I plan to replace Manjaro for a Ubuntu 20.04 based
+distro. But this will not happen in the very near future.
+
+In the meantime I will do some a/b tests with spectre protection under
+Windows enabled/disabled to see if it is still an issue.
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1885350
+https://bugs.launchpad.net/bugs/1788665
 
 Title:
-  RISCV dynamic rounding mode is not behaving correctly
+  Low 2D graphics performance with Windows 10 (1803) VGA passthrough VM
+  using "Spectre" protection
 
 Status in QEMU:
-  New
+  Incomplete
 
 Bug description:
-  Hello,
+  Windows 10 (1803) VM using VGA passthrough via qemu script.
 
-  I=E2=80=99ve gone through the RISC-V code in latest QEMU release
-  (qemu-5.0.0-rc2) and when checking the Floating point encodings I
-  found the rounding mode is only updated if the opcode field =E2=80=9Crm=
-=E2=80=9D is
-  changed =E2=80=9Cctx->frm =3D=3D rm=E2=80=9D. But according to RISC-V Vol=
-ume I:
-  Unprivileged ISA, there=E2=80=99s a dynamic mode when rm=3D7 where the ro=
-unding
-  mode is set with frm value.
+  After upgrading Windows 10 Pro VM to version 1803, or possibly after
+  applying the March/April security updates from Microsoft, the VM would
+  show low 2D graphics performance (sluggishness in 2D applications and
+  low Passmark results).
 
-  So for the same rm value (=3D7) and when changing frm value seeking
-  different rounding modes, and according to the below code, the
-  rounding mode won=E2=80=99t be updated. Please correct me if I got this
-  implementation wrong.
+  Turning off Spectre vulnerability protection in Windows remedies the
+  issue.
 
-  static void gen_set_rm(DisasContext *ctx, int rm)
-  {
-      TCGv_i32 t0;
-      if (ctx->frm =3D=3D rm) {
-          return;
-      }
-      ctx->frm =3D rm;
-      t0 =3D tcg_const_i32(rm);
-      gen_helper_set_rounding_mode(cpu_env, t0);
-      tcg_temp_free_i32(t0);
-  }
+  Expected behavior:
+  qemu/kvm hypervisor to expose firmware capabilities of host to guest OS -=
+ see https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/CVE=
+-2017-5715-and-hyper-v-vms
 
-  =
+  Background:
 
-  My testcase:
-  I set statically the rm field in the instruction to 7 and before this exe=
-cution I changed the value of frm field in fcsr register. For the 1st time =
-it worked (according to the code above, the rm is updated so the round mode=
- will also be updated). But when changing fcsr register an re-execute the i=
-nstruction, there's no difference and the rounding mode is the same like th=
-e previous frm value.
+  Starting in March or April Microsoft began to push driver updates in
+  their updates / security updates. See https://support.microsoft.com
+  /en-us/help/4073757/protect-your-windows-devices-against-spectre-
+  meltdown
+
+  One update concerns the Intel microcode - see
+  https://support.microsoft.com/en-us/help/4100347. It is activated by
+  default within Windows.
+
+  Once the updates are applied within the Windows guest, 2D graphics
+  performance drops significantly. Other performance benchmarks are not
+  affected.
+
+  A bare metal Windows installation does not display a performance loss
+  after the update. See https://heiko-sieger.info/low-2d-graphics-
+  benchmark-with-windows-10-1803-kvm-vm/
+
+  Similar reports can be found here:
+  https://www.reddit.com/r/VFIO/comments/97unx4/passmark_lousy_2d_graphics_=
+performance_on_windows/
+
+  Hardware:
+
+  6 core Intel Core i7-3930K (-MT-MCP-)
+
+  Host OS:
+  Linux Mint 19/Ubuntu 18.04
+  Kernel: 4.15.0-32-generic x86_64
+  Qemu: QEMU emulator version 2.11.1
+  Intel microcode (host): 0x714
+  dmesg | grep microcode
+  [    0.000000] microcode: microcode updated early to revision 0x714, date=
+ =3D 2018-05-08
+  [    2.810683] microcode: sig=3D0x206d7, pf=3D0x4, revision=3D0x714
+  [    2.813340] microcode: Microcode Update Driver: v2.2.
+
+  Note: I manually updated the Intel microcode on the host from 0x713 to
+  0x714. However, both microcode versions produce the same result in the
+  Windows guest.
+
+  Guest OS:
+  Windows 10 Pro 64 bit, release 1803
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1885350/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1788665/+subscriptions
 
