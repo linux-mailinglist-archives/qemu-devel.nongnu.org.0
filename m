@@ -2,85 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF1A92B9C1A
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 21:34:22 +0100 (CET)
-Received: from localhost ([::1]:40750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E8B22B9C17
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 21:33:09 +0100 (CET)
+Received: from localhost ([::1]:37556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfqdJ-0002LZ-U5
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 15:34:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52368)
+	id 1kfqc8-0000si-5a
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 15:33:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kfq9g-00029s-SY
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 15:03:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29970)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kfq9W-0002x7-81
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 15:03:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605816175;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=u8mDCgkESM8bT9A0icfuuAjUuXv27LB9x4QbScDEJOM=;
- b=CWW+8AATo0ENyUTYPgorNVObhcGtzSorDlgrmV9//L+d/RsJIiirD9hRrjhx+gioijdLpj
- VESxGlHBGR3nya97SkPxsdkNSvJLoetruiAT5RZ798iLiE0NrhLu1Ha1Q3eNiGCopcSwlq
- 5Hvs3FBo9p3X4Gibj0C9DG6kFeolAPE=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-3-yVNYkHlgO9irxqntzWOXCQ-1; Thu, 19 Nov 2020 15:02:54 -0500
-X-MC-Unique: yVNYkHlgO9irxqntzWOXCQ-1
-Received: by mail-qk1-f200.google.com with SMTP id f9so5967529qkg.13
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 12:02:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kfqBg-0002yK-S1
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 15:05:54 -0500
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:37770)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kfqBP-0003aG-Vb
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 15:05:48 -0500
+Received: by mail-pf1-x42a.google.com with SMTP id c66so5539483pfa.4
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 12:05:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Rr3KyYun0yWZZjrfv3IXWZILVlFgjI/okwl6enfSSMI=;
+ b=o43dHapopcE2RJGUZonxN87iQSeM3Xf+N1lQEQ+V8+6Mh0qb9dYqpqPCm6acnuc49S
+ yPWypGkqRXbffndZvpfZOQwsT2NMhWK8TV77o1xHYj1TyZWCh41y28dp3fpdRsUEsrTx
+ cQ92XeaL2DioDD0zrewp17E9jnnu883DhToS3T3XD+HBDCyxplVS8pIn0/7FJhZ0a/Ad
+ fLd0+hdYkR2wnIBoWKOl5KSc3Bfy1ukJylkK4Dlhd1cFkts/H1SOKNIFfzr04FwRYIgS
+ poEJBA7thpGMw9WPyn6At3JlToRBg3sxan2/tfylD5BK4HsyzV+TIsY8AWyXP7jen6eY
+ JWVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=u8mDCgkESM8bT9A0icfuuAjUuXv27LB9x4QbScDEJOM=;
- b=FA1JpCLrCkLnFvLFJW9FzTGe51GFkZ687mjlpai1tv9tkBti9BpUFHBPVP9vsVipAQ
- U++qlNxjfOO2f3QBQ/5VVfPmsNBf7/S0IQKCox4yeKKE6kMMA/XgijX51pZPz3cu2y6U
- d6OIpAhiWoUspD1W5dE75cXGvm5uAjtcLnuG+mekpM9MxdKQdBE9372ykTYuLbVbhD6h
- YzfThgdo4FjHlZOvvfjyrrudyKypX6IMoQriFHmLg3obSt6FW8Uq0iquVNu8VNkRpEBO
- pL2ftK0GJXJ5Y13kqwOaN+yhePZFi+4ot8Ht/z7i28XSpC2zc8wxgD25N16sLulGFRZF
- nJDA==
-X-Gm-Message-State: AOAM533UaOWC9aD7cNZq2r5qVQ1EtXa6cxjTrqXegFoCo0V9G5o8oJcg
- TEv4ggtfYsyPBHT2Ar8MtTzVU63tQhNlbNgkgHpdJminxWQE+bafKMiwU01IdseWOg/k5MDf+Up
- kZvZwzOtI9Tkot8U=
-X-Received: by 2002:ac8:71d5:: with SMTP id i21mr12675948qtp.4.1605816173623; 
- Thu, 19 Nov 2020 12:02:53 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwWeRnqC++S6GNl/TIC+Ik6oRPZv7HoGmfGgUPZlUq2sp6fI8AB+Zj8+rHh6LOUeEvVdjzt2A==
-X-Received: by 2002:ac8:71d5:: with SMTP id i21mr12675924qtp.4.1605816173366; 
- Thu, 19 Nov 2020 12:02:53 -0800 (PST)
-Received: from xz-x1
- (bras-vprn-toroon474qw-lp130-20-174-93-89-196.dsl.bell.ca. [174.93.89.196])
- by smtp.gmail.com with ESMTPSA id x72sm611434qkb.90.2020.11.19.12.02.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Nov 2020 12:02:52 -0800 (PST)
-Date: Thu, 19 Nov 2020 15:02:50 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Subject: Re: [PATCH v3 7/7] introduce simple linear scan rate limiting
- mechanism
-Message-ID: <20201119200250.GH6538@xz-x1>
-References: <20201119125940.20017-1-andrey.gruzdev@virtuozzo.com>
- <20201119125940.20017-8-andrey.gruzdev@virtuozzo.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Rr3KyYun0yWZZjrfv3IXWZILVlFgjI/okwl6enfSSMI=;
+ b=ueY19qldbIXy5H9FxATzW86cZdecJYjD/+ynEfnYsmI+4Q7ItOLXPJ+2QcrnWag/zi
+ ediED6O3rYz8iymrZ8IRz5teuwYEHD1Ct8jPFoc0/AnwEHRYqLgI37k9hMRtDqmYct1P
+ ej11Rqjgcui3MH6eB0IrL/lYOqxSsh5NgZoStsOMtJa/9mYi1ar9MLXZ5iOGZbrFKsKW
+ iS49Kcx/L984PQN6FegCrGI0ou0+CbJZE9XL6T024jXsoxhYxjIx71S50he6EFNv5ytW
+ dYGT3xgIHd1IIdy3X9TcTBIhVvi/NwDoq5lkCUL1dtip8mZzbBmpQmPuzqgAKgR+4HTN
+ ePjQ==
+X-Gm-Message-State: AOAM532FPwB7wjF+v2/pR01Uh3BETPLDBzmdvSDdr6eiV3HBTxOuUa65
+ BmccBUNPnXEGKnmSdzwKtba1aA==
+X-Google-Smtp-Source: ABdhPJxOul1IqDoCZDtYVvM6S5nUqa5/H0JV/IvU17sbLCTIZD7efhyPBrRO8G4g5Y1/oGywdROsRw==
+X-Received: by 2002:a17:90a:7ac2:: with SMTP id
+ b2mr6358093pjl.226.1605816328058; 
+ Thu, 19 Nov 2020 12:05:28 -0800 (PST)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id v19sm525922pgi.2.2020.11.19.12.05.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Nov 2020 12:05:27 -0800 (PST)
+Subject: Re: [RFC 08/15] target/riscv: rvb: single-bit instructions
+To: frank.chang@sifive.com, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+References: <20201118083044.13992-1-frank.chang@sifive.com>
+ <20201118083044.13992-9-frank.chang@sifive.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <6f90ec2e-3862-a90d-453b-374806e00d39@linaro.org>
+Date: Thu, 19 Nov 2020 12:05:24 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201119125940.20017-8-andrey.gruzdev@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20201118083044.13992-9-frank.chang@sifive.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,38 +88,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>
+Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Kito Cheng <kito.cheng@sifive.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 19, 2020 at 03:59:40PM +0300, Andrey Gruzdev wrote:
-> Since reading UFFD events and saving paged data are performed
-> from the same thread, write fault latencies are sensitive to
-> migration stream stalls. Limiting total page saving rate is a
-> method to reduce amount of noticiable fault resolution latencies.
-> 
-> Migration bandwidth limiting is achieved via noticing cases of
-> out-of-threshold write fault latencies and temporarily disabling
-> (strictly speaking, severely throttling) saving non-faulting pages.
+On 11/18/20 12:29 AM, frank.chang@sifive.com wrote:
+> +static void gen_sbop_shamt(TCGv ret, TCGv shamt)
+> +{
+> +    tcg_gen_andi_tl(ret, shamt, TARGET_LONG_BITS - 1);
+> +}
+> +
+> +static void gen_sbop_common(TCGv ret, TCGv shamt)
+> +{
+> +    TCGv t;
+> +    t = tcg_temp_new();
 
-Just curious: have you measured aver/max latency of wr-protected page requests,
-or better, even its distribution?
+All of the places where you declare then initialize on the next line, please
+merge them:
 
-I believe it should also be relevant to where the snapshot is stored, say, the
-backend disk of your tests.  Is that a file on some fs?
+   TCGv t = tcg_temp_new();
 
-I would expect the latency should be still good if e.g. the throughput of the
-backend file system is decent even without a patch like this, but I might have
-missed something..
+It would be nice to share more code between the normal and *w versions.  As it
+is, there's a *lot* of repetition with only TARGET_LONG_BITS vs 32 separating them.
 
-In all cases, it would be very nice if this patch can have the histogram or
-aver or max latency measured and compared before/after this patch applied.
+> +    tcg_gen_not_tl(mask, mask);
+> +    tcg_gen_and_tl(ret, arg1, mask);
 
-Thanks,
+andc.
 
--- 
-Peter Xu
 
+r~
 
