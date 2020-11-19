@@ -2,112 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAE352B8DE5
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 09:50:52 +0100 (CET)
-Received: from localhost ([::1]:35860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A5252B8E56
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 10:01:01 +0100 (CET)
+Received: from localhost ([::1]:51940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kffeV-00026s-Ny
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 03:50:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51762)
+	id 1kffoE-0002Sc-QL
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 04:00:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lma@suse.com>) id 1kffaS-0007X9-T0
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 03:46:40 -0500
-Received: from de-smtp-delivery-52.mimecast.com ([51.163.158.52]:31968)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lma@suse.com>) id 1kffaQ-0002xW-6s
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 03:46:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com;
- s=mimecast20200619; t=1605775596;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=9Pa41EvQVgj2EEnGgjvmsBVpaXQ9RGvfaal8sJUz9D0=;
- b=gyd4OGWqoXdW3FJ4qMOJTFtc6p8tmEdysJ3tL7ZP3nQp+T8n8zsQNRd14+AkYjNc5GUKI7
- EW/Uxm4Vf1M/DlH8GSaXeRWPDGcpaj+yTG2Tn4qIv4bUu9havM+mDn2WVaB0fk4LUSsnro
- BBd552YKykA7GYWM+yHPXJZ+USaGE7M=
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
- (mail-db5eur01lp2051.outbound.protection.outlook.com [104.47.2.51]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- de-mta-25-onkXMuEAM--8LI2ED5tAEg-2; Thu, 19 Nov 2020 09:46:34 +0100
-X-MC-Unique: onkXMuEAM--8LI2ED5tAEg-2
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1kffdH-0001zP-18
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 03:49:35 -0500
+Received: from mail-am6eur05on2115.outbound.protection.outlook.com
+ ([40.107.22.115]:12897 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1kffdC-0003kS-F7
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 03:49:33 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oY8MBUmaTecjtdOSZ319DutYk/YaFawcG74q5EUC9yJ/hNZmnk9sRUsltYCIkONXN+sTkztGdr2Y6XHk1yAB5bopqEkRBuwLlMlpUEw0rzAE26GHMYnIRo3X3bk2GLaMv7XUsX/+qf3mUxIX7g+VYwovXwudJhpVr36AN4HG9YK13s2d1t2VsuWFTzLHUIyCoYcrZN+nB3vih9WpamWUn7eO7XoLURmz9E4zCsjdkAFg3U3BzGuxvWRfCsNAKCdNqxIvZ8UxPZ4YqI+P+iTnX9h5J6HmXnFSEtUHRXPgopO0f9Vul0uuwcPCjU5bD/Kp0+64IdiY6MSC8k2sHTLZfQ==
+ b=kj9vjWaSkZyU8biOpuZhxYW4DEAueiBCFzl7VaIEepDXnGnj6BeUFtbtJas6brJww/qwq0IK3/2u52Ct30GAUCmqBrHcQlwiGu8Gc4YxrppTLoMlRS6ZII+zJqAyt+OXa7XCKvUlM6qOIift2W72cG8DvP7lWs1K7OIqJTL49rNGJQV/Mpw86GnwPRwZ65T7u2Ndk+z81n1sJyS7yB12EpImDRMJD+96O8qpdoKrF53xtuuSLlx73UtR+C7FKkU6WKtJvdueSDepIB105NCoIF7WUV0BaK3ggVvtrFei3ONv3XXt40JlTxW9lmpJjcv0fxTlbqZLJDLHOI5YNn8vog==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qBnNx8q/P6oLZRHd7SftLIZcXiVNz03cb0gKY2rRoWQ=;
- b=bzLAM4ubHPhB1ugZaL4CISmsqwOR0sBnk7WuFe1e+dFWLAVIJkTMqbZbYsidiNWaXa5K2Jk1kIn6dZ/VtocsI0hBlZTUxH0vMpW1Abs2sQozcW8rv+5BhfvYtEJfFXYv9tZJ4fD64e+TeyCEZWiMYyuj6T8p0/P03lNM6xOF8KAl8BoTOw1pUSnGHz3qJKmG0e88ck5BVv43tU+Li+xO91DmWk8ZDApXIv/mH87vy6agg1lxM5CMIXW78hCFzGMF+/+n1gZrwpwkN4eE73zBJX/O3py08PKSJ/iLki5rZxshnH4O26y1Po4JMaOkGZF2Qt0Z8HENMfU8C0M3CvlAiQ==
+ bh=mRJsk0Gq72jVk4rHs4+Sc1yKWHKchIRCScvlwRFTnD0=;
+ b=CZzX2007TkEmGsTa775imvt8U/i+QaR3hwo8VBpI9nPja6rxPcsV0593sGktsHq3FSgeQmjXMBjXPqtCNxqYpBqt3fFV7f7PcOk+Vzjhszmp+o7TGQOQ4q2qHHjyag6AewZ0lawj4YtBr7L+oQTI1W84LsF4WtAJ9cQe8bygyyG0FbUSOggs6Y3BdOXX6hbalP2JRiJwTuk/TFttnSOMilmqr9a7RA6NZw2JZdEh0ZR5vGjqm7PzANmPKqZqjAjOBX+ROE3H1nrsyrpBScMZv+8ZAQz4J3ODmaq+gOBvLHstsVLM+FCmib+9B99tRk6cCm5fSiJbLC32SVWJ8G/5Aw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
- dkim=pass header.d=suse.com; arc=none
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=suse.com;
-Received: from AM6PR04MB5782.eurprd04.prod.outlook.com (2603:10a6:20b:aa::17)
- by AM5PR0401MB2580.eurprd04.prod.outlook.com (2603:10a6:203:38::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.22; Thu, 19 Nov
- 2020 08:46:32 +0000
-Received: from AM6PR04MB5782.eurprd04.prod.outlook.com
- ([fe80::8945:92d8:e72a:6245]) by AM6PR04MB5782.eurprd04.prod.outlook.com
- ([fe80::8945:92d8:e72a:6245%6]) with mapi id 15.20.3589.022; Thu, 19 Nov 2020
- 08:46:32 +0000
-From: Lin Ma <lma@suse.com>
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mRJsk0Gq72jVk4rHs4+Sc1yKWHKchIRCScvlwRFTnD0=;
+ b=PDlWLiNnVrMUppH6Pn4gGLOUW97rKkpvgzZiu5EyMjqzRlJee0nwg1CJ9K6Mn+SFZqoBOZmUuOlExAKWPJKv6cdw7QvuhSLNQEeiVMS2qu5a9ID9x4fzQSA4alv/0bBNGonP3DfD3w90JpUAljDrBgDehmZZNRsO4QW6Tx2R1xY=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from VI1PR0802MB2510.eurprd08.prod.outlook.com
+ (2603:10a6:800:ad::14) by VE1PR08MB5200.eurprd08.prod.outlook.com
+ (2603:10a6:803:105::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.25; Thu, 19 Nov
+ 2020 08:49:27 +0000
+Received: from VI1PR0802MB2510.eurprd08.prod.outlook.com
+ ([fe80::8d6a:734c:e4a2:8543]) by VI1PR0802MB2510.eurprd08.prod.outlook.com
+ ([fe80::8d6a:734c:e4a2:8543%7]) with mapi id 15.20.3589.020; Thu, 19 Nov 2020
+ 08:49:26 +0000
+Subject: Re: [PATCH v2 0/7] UFFD write-tracking migration/snapshots
 To: qemu-devel@nongnu.org
-CC: mdroth@linux.vnet.ibm.com,
-	Lin Ma <lma@suse.com>
-Subject: [PATCH] qga: Correct loop count in qmp_guest_get_vcpus()
-Date: Thu, 19 Nov 2020 16:45:57 +0800
-Message-ID: <20201119084557.27870-1-lma@suse.com>
-X-Mailer: git-send-email 2.26.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-Originating-IP: [60.251.47.115]
-X-ClientProxiedBy: HKAPR03CA0007.apcprd03.prod.outlook.com
- (2603:1096:203:c8::12) To AM6PR04MB5782.eurprd04.prod.outlook.com
- (2603:10a6:20b:aa::17)
+Cc: Den Lunev <den@openvz.org>, Eric Blake <eblake@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>
+References: <20201118132048.429092-1-andrey.gruzdev@virtuozzo.com>
+From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Message-ID: <31ef6a21-a333-5f72-64c0-7b83695139b6@virtuozzo.com>
+Date: Thu, 19 Nov 2020 11:49:24 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20201118132048.429092-1-andrey.gruzdev@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [95.165.26.68]
+X-ClientProxiedBy: AM0PR06CA0115.eurprd06.prod.outlook.com
+ (2603:10a6:208:ab::20) To VI1PR0802MB2510.eurprd08.prod.outlook.com
+ (2603:10a6:800:ad::14)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from t440p.suse.asia (60.251.47.115) by
- HKAPR03CA0007.apcprd03.prod.outlook.com (2603:1096:203:c8::12) with Microsoft
+Received: from [192.168.1.64] (95.165.26.68) by
+ AM0PR06CA0115.eurprd06.prod.outlook.com (2603:10a6:208:ab::20) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3611.9 via Frontend Transport; Thu, 19 Nov 2020 08:46:30 +0000
+ 15.20.3589.20 via Frontend Transport; Thu, 19 Nov 2020 08:49:26 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 58508341-f3cf-4b4f-df96-08d88c679d19
-X-MS-TrafficTypeDiagnostic: AM5PR0401MB2580:
-X-LD-Processed: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba,ExtFwd
+X-MS-Office365-Filtering-Correlation-Id: b8623dc6-61d0-4b8d-57d0-08d88c680550
+X-MS-TrafficTypeDiagnostic: VE1PR08MB5200:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM5PR0401MB2580467FFE4F75B60BA58D88C5E00@AM5PR0401MB2580.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
+X-Microsoft-Antispam-PRVS: <VE1PR08MB52008BEE7B8C008B2DC26CC39FE00@VE1PR08MB5200.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: R5h+ei29JBz+AVMANCq/65mXq7V1/8R4ODzPc4oqGAsJLZEjgKLNBW7qIdBz1h/9PvUIeeapr2UX9UN1rYfGrjVGM+ZybK5VBKw89juXuq3Na2VEEO+vJ/aMFMmOZT1l8oH6qN+2f045WGKmuoDIJECTzpMrE2qxMx+Oiod0EPEiVf/KrPHS09kFw2gweXPQAbxNMWIV4VJgly+EkpB7CXWXHBCVMQsLIPjwy6MaX2RxBc7EICenGqRoCf5CDHWU+Z79+IiU9Dd6qFY2ZS3S4FxpZXo8xNMc+PQffYux2HM90VybUNxxyY41r8HlDWF2
+X-Microsoft-Antispam-Message-Info: 2AHpg0qnlxNbLiNWwC1ZGKjW3t13Q/0DWyicZ/f3l4aj3xRGpkW2Wbjd0YtD/azh9D2JLhxwnfni8jAu78fak4jT6iWr/TDM+bb9D07vHWNYTdahKIwWFXQGfmtAIuf9m1txB1Aalva905fEndzclHiz5cn6a/0B9yowl6I/C7uFFHnzm88xGse0bkDrX/aYECMJJdzg7aPUw+3DNDE484SYlrpHxlkxJXIMkjjm3vkHgXglh/Wp5LFKnxIUtA6aHBz7/amxKmqNxQmeOruEkCsuh4LI6GGc46RYkmz6Iw1E1t54YByYabndq/cWcKJ6KbA4YXGnrcff/L9JyaEZIzrFqPnw3bQcUm6WUEVAikXEsgJ7eZVr9i966nSMdL7B
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM6PR04MB5782.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(376002)(136003)(396003)(39860400002)(346002)(16526019)(186003)(5660300002)(66476007)(66946007)(26005)(6666004)(36756003)(86362001)(4326008)(1076003)(6512007)(316002)(6916009)(2616005)(6486002)(2906002)(956004)(66556008)(52116002)(478600001)(8936002)(8676002)(6506007)(107886003)(55236004)(83380400001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: TQbqvb9pAOFb090W+ZMeK9o/ahe4pwzxQqu5LQe4L/mBgkVZsC4z5jmSFAxhWCcdChp7/ugDVUm83cZGhHsmcv9syjFa6hFN25TaiA8TYG+Of6DSiXOCCSGzkHGWft80MoTwWhgizA2jZWkqcCot9dfswFEUtI7COwEnTLC12K6NQnt2UGfYMcHW9lAPkQerVGSrDMpmgxuysHinaMNjSTR8rbtfu6tHP0QVFcH7oj7pNKh/98UVAUqYCBKtxJV8PuPyGsoflQKS8NWxGyaIdTIMSjOsMoKc/wUzqJ9OKzDyDCAuvPOd3D1tFvZKMYciAxKmgMAMCZocbKW2Bgro6Y7ltCPPG9adCIGh+Ym7Sjtpj8VESsTKYoQrQibn+3es9nRxehoBlOrBa62QL3Y9d8lbdAvuECGYM0Vuy4rUk4kPm2YnAsaJjaOLQelINkAg/x6JqNTLZ2woYb0pYTpHhqmTGo/mR5fDNZp0lBSKhb6Lj1OBlt+aao5I2XYHqsnbHixyRgqxVCypGmqtoQuy/IFDddyHY9S4U0tgwMj7czHQvHsktjujQvcJa7ICWqCiTpZwSvJDvEYA1TVxWXyYfs3KQyRQdv7T4DDbqLGxJEYIdcjvt4wsf9I746/NfXl8whpXSPxOCxbAGowQEd8SyykTOW84Rs68JM8u6smvNn3FvIGsyPosXL99Nt72mwol9MNN7/mtP1hi2tEa1BOKm47LBHE/DhK4/knppLspvZx0S5DxxPmsjvsuSnSAKDbrs/IFNYy17qhJKEbDJsNQVFsLb0xXRnhM7+AozDeoiYfdiqo5mZfZyS2cqRY2Eb8dsqabFAEAWUtbQUIbg9JQVp3+ILHTAmvuR9Cad+IVlDwZlldUEFBDH5Vfhr29Bcwm+Y4Riu9xmOzSsLR/M+LHWQ==
-X-OriginatorOrg: suse.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 58508341-f3cf-4b4f-df96-08d88c679d19
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB5782.eurprd04.prod.outlook.com
+ IPV:NLI; SFV:NSPM; H:VI1PR0802MB2510.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(376002)(366004)(39840400004)(396003)(346002)(8676002)(6916009)(16526019)(4326008)(6486002)(31696002)(66556008)(66476007)(83380400001)(2616005)(66946007)(53546011)(956004)(316002)(54906003)(2906002)(36756003)(5660300002)(26005)(186003)(44832011)(31686004)(86362001)(478600001)(16576012)(52116002)(8936002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: PP8ZGGZ4LCxV7DywQ4e6jeD4UgAgYg6D8kNQulIetts3rplRsrPrrv5B0p31MXIow+hIagHAhipd9tEMEasMOIqNhNl4SZWZEd0QS5YYYzfmijEVKEwWUNVWwMVp1VUbDQP6a3eNyStES7kZ0kKlxYj84eRcA5SgoS0nhcf18WaLGxK1p5V0eEh1PjUCG0djNpL/l3QBlZoO4TYsLQymRrZjNtsG4qod9aZ1LLwMVCyRV8EXb6ELpOc5+bmulOQFH0PE/XFNutIInGQlY51FpCACM6Yt/zHFW6tjlQg+TwzW/nMG1uzbo+wduOFil0RTwbCteiNWqV0svWFLVbGBk1UyKsN7N87YTGWbKjyUQnhPkGQvsAfzF/zudAeV1VzjEqR94Xg+9qBwH6ZJxCii/uEnabHT3BYyH/3UAGl0J4SOlN4jbeY6DxiM0A/6rfzOH96e/IFquzfuqFAjfRHxwRrLRbJoxQqlhTw7giWFcE9WOJ9vIMWC2AjhhM8EohaqP2O4e1+vMhZaWldvL3sVjid7PSRTYzmf79qIz2xI9KwrqURC843AduvAsWCdC/5Bt5L6ruSSnFOzIJVxfCqos8HcZW7b5aAi/CWyNHH5JwJv70+QdZjXfceMAOIT8nkWJ1O6NXMAnRNDRtcnpWJGlaKloLp7kxvEtFsol1eDzvDR0I3WGfVQhgTO9pZwotfpxhDPqnwzBjFs4VDaWbNtB5aRfmeuKjpQIs03LY73xTGCU1mfLpKD7ucRk299z/kvM4DmWkikfPS/oF0kVWFHpq6Q8NYs3+2EleeiMvBrgexCV812bwDcJl81TSFAyhYGR6lduS/x5O3m9UrW4GkRDs3ruwa9SKC3IVLWZfEcs0OCeTj41Y33fkYtPkMdd5f2JMj+A19TatHuWI6LwOMlOg==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b8623dc6-61d0-4b8d-57d0-08d88c680550
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR0802MB2510.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2020 08:46:32.0322 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2020 08:49:26.8573 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8Iv/u4faITSq4iczP4SPBXe+KIpolWzjXcW3PQDaKqdtblsyxm6nrjU41t3xls4a
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0401MB2580
-Received-SPF: pass client-ip=51.163.158.52; envelope-from=lma@suse.com;
- helo=de-smtp-delivery-52.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 01:09:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3GyKrJqykMNpZ6tWM4Z0aFoP1XmarYLd0pr8vn9zr+HHnMZC2mO1TdoCmlucZQuMOXMS6aSX5c7uAiRPFH0cliLZSvxlrnsmvYAkaScIh1o=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB5200
+Received-SPF: pass client-ip=40.107.22.115;
+ envelope-from=andrey.gruzdev@virtuozzo.com;
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 03:49:28
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -124,102 +124,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The guest-get-vcpus returns incorrect vcpu info in case we hotunplug vcpus(=
-not
-the last one).
-e.g.:
-A VM has 4 VCPUs: cpu0 + 3 hotunpluggable online vcpus(cpu1, cpu2 and cpu3)=
-.
-Hotunplug cpu2,  Now only cpu0, cpu1 and cpu3 are present & online.
+On 18.11.2020 16:20, Andrey Gruzdev wrote:
+> Currently the only way to make (external) live VM snapshot is using existing
+> dirty page logging migration mechanism. The main problem is that it tends to
+> produce a lot of page duplicates while running VM goes on updating already
+> saved pages. That leads to the fact that vmstate image size is commonly several
+> times bigger then non-zero part of virtual machine's RSS. Time required to
+> converge RAM migration and the size of snapshot image severely depend on the
+> guest memory write rate, sometimes resulting in unacceptably long snapshot
+> creation time and huge image size.
+> 
+> This series propose a way to solve the aforementioned problems. This is done
+> by using different RAM migration mechanism based on UFFD write protection
+> management introduced in v5.7 kernel. The migration strategy is to 'freeze'
+> guest RAM content using write-protection and iteratively release protection
+> for memory ranges that have already been saved to the migration stream.
+> At the same time we read in pending UFFD write fault events and save those
+> pages out-of-order with higher priority.
+> 
+> How to use:
+> 1. Enable write-tracking migration capability
+>     virsh qemu-monitor-command <domain> --hmp migrate_set_capability.
+> track-writes-ram on
+> 
+> 2. Start the external migration to a file
+>     virsh qemu-monitor-command <domain> --hmp migrate exec:'cat > ./vm_state'
+> 
+> 3. Wait for the migration finish and check that the migration has completed.
+> state.
+> 
+> Andrey Gruzdev (7):
+>    Introduce 'track-writes-ram' migration capability.
+>    Introduced UFFD-WP low-level interface helpers. Implemented support
+>      for the whole RAM block memory protection/un-protection. Higher
+>      level ram_write_tracking_start() and ram_write_tracking_stop() to
+>      start/stop tracking memory writes on the whole VM memory.
+>    Support UFFD write fault processing in ram_save_iterate().
+>    Implementation of write-tracking migration thread.
+>    Implementation of vm_start() BH.
+>    The rest of write tracking migration code.
+>    Introduced simple linear scan rate limiting mechanism for write
+>      tracking migration.
+> 
+>   include/exec/memory.h |   7 +
+>   migration/migration.c | 338 +++++++++++++++++++++++++++++++-
+>   migration/migration.h |   4 +
+>   migration/ram.c       | 439 +++++++++++++++++++++++++++++++++++++++++-
+>   migration/ram.h       |   4 +
+>   migration/savevm.c    |   1 -
+>   migration/savevm.h    |   2 +
+>   qapi/migration.json   |   7 +-
+>   8 files changed, 790 insertions(+), 12 deletions(-)
+> 
 
-./qmp-shell /tmp/qmp-monitor.sock
-(QEMU) query-hotpluggable-cpus
-{"return": [
-{"props": {"core-id": 0, "thread-id": 0, "socket-id": 3}, "vcpus-count": 1,
- "qom-path": "/machine/peripheral/cpu3", "type": "host-x86_64-cpu"},
-{"props": {"core-id": 0, "thread-id": 0, "socket-id": 2}, "vcpus-count": 1,
- "qom-path": "/machine/peripheral/cpu2", "type": "host-x86_64-cpu"},
-{"props": {"core-id": 0, "thread-id": 0, "socket-id": 1}, "vcpus-count": 1,
- "qom-path": "/machine/peripheral/cpu1", "type": "host-x86_64-cpu"},
-{"props": {"core-id": 0, "thread-id": 0, "socket-id": 0}, "vcpus-count": 1,
- "qom-path": "/machine/unattached/device[0]", "type": "host-x86_64-cpu"}
-]}
+Also need to note that this patch series is a kind of 'refinking' of 
+Denis Plotnikov's ideas he implemented in his series
+'[PATCH v0 0/4] migration: add background snapshot'.
 
-(QEMU) device_del id=3Dcpu2
-{"return": {}}
-
-(QEMU) query-hotpluggable-cpus
-{"return": [
-{"props": {"core-id": 0, "thread-id": 0, "socket-id": 3}, "vcpus-count": 1,
- "qom-path": "/machine/peripheral/cpu3", "type": "host-x86_64-cpu"},
-{"props": {"core-id": 0, "thread-id": 0, "socket-id": 2}, "vcpus-count": 1,
- "type": "host-x86_64-cpu"},
-{"props": {"core-id": 0, "thread-id": 0, "socket-id": 1}, "vcpus-count": 1,
- "qom-path": "/machine/peripheral/cpu1", "type": "host-x86_64-cpu"},
-{"props": {"core-id": 0, "thread-id": 0, "socket-id": 0}, "vcpus-count": 1,
- "qom-path": "/machine/unattached/device[0]", "type": "host-x86_64-cpu"}
-]}
-
-Before:
-./qmp-shell -N /tmp/qmp-ga.sock
-Welcome to the QMP low-level shell!
-Connected
-(QEMU) guest-get-vcpus
-{"return": [
-{"online": true, "can-offline": false, "logical-id": 0},
-{"online": true, "can-offline": true, "logical-id": 1}]}
-
-After:
-./qmp-shell -N /tmp/qmp-ga.sock
-Welcome to the QMP low-level shell!
-Connected
-(QEMU) guest-get-vcpus
-{"execute":"guest-get-vcpus"}
-{"return": [
-{"online": true, "can-offline": false, "logical-id": 0},
-{"online": true, "can-offline": true, "logical-id": 1},
-{"online": true, "can-offline": true, "logical-id": 3}]}
-
-Signed-off-by: Lin Ma <lma@suse.com>
----
- qga/commands-posix.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
-
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 3bffee99d4..accc893373 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -2182,15 +2182,15 @@ GuestLogicalProcessorList *qmp_guest_get_vcpus(Erro=
-r **errp)
- {
-     int64_t current;
-     GuestLogicalProcessorList *head, **link;
--    long sc_max;
-+    long max_loop_count;
-     Error *local_err =3D NULL;
-=20
-     current =3D 0;
-     head =3D NULL;
-     link =3D &head;
--    sc_max =3D SYSCONF_EXACT(_SC_NPROCESSORS_CONF, &local_err);
-+    max_loop_count =3D SYSCONF_EXACT(_SC_NPROCESSORS_CONF, &local_err);
-=20
--    while (local_err =3D=3D NULL && current < sc_max) {
-+    while (local_err =3D=3D NULL && current < max_loop_count) {
-         GuestLogicalProcessor *vcpu;
-         GuestLogicalProcessorList *entry;
-         int64_t id =3D current++;
-@@ -2206,6 +2206,8 @@ GuestLogicalProcessorList *qmp_guest_get_vcpus(Error =
-**errp)
-             entry->value =3D vcpu;
-             *link =3D entry;
-             link =3D &entry->next;
-+        } else {
-+            max_loop_count +=3D 1;
-         }
-         g_free(path);
-     }
---=20
-2.26.0
-
+-- 
+Andrey Gruzdev, Principal Engineer
+Virtuozzo GmbH  +7-903-247-6397
+                 virtuzzo.com
 
