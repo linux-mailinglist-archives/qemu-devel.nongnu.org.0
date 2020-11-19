@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EEAF2B9D7C
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 23:16:47 +0100 (CET)
-Received: from localhost ([::1]:44376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A583E2B9D6E
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 23:14:32 +0100 (CET)
+Received: from localhost ([::1]:40082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfsEQ-0008G6-1G
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 17:16:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51574)
+	id 1kfsCF-0006Ui-DM
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 17:14:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kfrvF-0000va-5q
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:56:57 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:51451)
+ id 1kfrvG-0000ya-AN
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:56:58 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:53283)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kfrv1-0004De-81
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:56:56 -0500
-Received: by mail-wm1-x341.google.com with SMTP id a186so5772469wme.1
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 13:56:41 -0800 (PST)
+ id 1kfrv1-0004Ec-96
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:56:57 -0500
+Received: by mail-wm1-x341.google.com with SMTP id p22so8566970wmg.3
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 13:56:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=x/1ikKgCtIh33k/Ei8GUh695aaBVR/KcxDX2doWvQMY=;
- b=opmGv8RDBXEjJGAPXp5nLTJIqrWGs4Zd6lF6a+Unm/qXUKITnmBLaOjy3MGV5iuXtd
- 3sMgTCk0dVT9iqtTAbsb5ZRxTlEn1r7rsdkZ56lJiG+ddZ6KgJJ5rgKwlDTJz2Eo1W2A
- NtilX51tqFnmtJviuU3OETDm1EmBWjrQZ91HZpIyOSnbYp23CjhDxyS27wRR/pbiiM+6
- f4ej8IsbeR9MTZfhJmoxUap2S+IQvmsi0MVkr/JoK4yy1WZiU9IFuQU4wuvmuhLvhbJQ
- g2drs+BEcVH2GPVCyyzhDkY2BrPP/12jIZF3i8amIESeZnsPOQi63meCAvCfDRIfjAAA
- tfMw==
+ bh=ztib3BbeM9JUbGctUP1Ui7NNujTzQdmeDBZWCNALq4Y=;
+ b=mUXBV4Y+GEwgY3duB07dfXllNzghYWt8Z2qs1Ffwu7SivtqckZ2A2G9CFDsP8kAsdN
+ woUBO8uPbrj7ezmWhc0KnpEyJm6WIJ7p2N1xSJlMwlt9hSjrTmJlUUd1k8zjb6A2qHbD
+ YP02FDN3y3BnILNvMEtlraIr9M6WAnX1JNyfms0kTSwqjgMHdEnG1HfMAXw/f20Mr43h
+ vodutjC8lSytAyUqlTCBbXNLP6XaGF7hGiQxLTpOig9zN4W4dIjMfUOo5qhm0QsrD2Pj
+ mLbfKdXbk+7vMhT3fweZnAkXsGWARfJe4NAUN+4KHbSvqIdm3SW6dBEoTBblOrGB4ZYJ
+ PW+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=x/1ikKgCtIh33k/Ei8GUh695aaBVR/KcxDX2doWvQMY=;
- b=tOZ+u5eKjCczskuyJfRAVzYb45vFoqxQU8Oco0AekEK1xQqWFe3+xPR0+myaYUrN9Z
- EJIAwoGX/4RjqlO+m7G8rVAbYNI/ZcA3ezgGWKNmo4tzTPa6o+DOMoQj1gzh7alSX9Px
- y3L/JhAm8ktO7QfMhZRelFPfk8izkmdkT5AvpiosmG0SeAHcMW43QfcgSan9sVFYBWfe
- wzS3hnPDRHU6Eps+/xhBCDoAV17BWolpv8+yinSCH8ra8kUMiI2nBuIhJRDIjHwnclmC
- 46kVWoHr22hONlmhUl9yZprw0tpArleXp4zTjz8/0dqdNglVmn19B60laZdMK5MA3cCD
- b8oQ==
-X-Gm-Message-State: AOAM531gT0rlqdsN4tj9N0uPz8m22y5vvVGmIt5oyBmR3LOUvkjJr/Vu
- KiwsDCmiV1IijwihGR1abUdeNQ==
-X-Google-Smtp-Source: ABdhPJxY2c9Aom5y6kcieM4xj5K0YJFqHVdv2r1DBOHkyL+DRNJc9trPllSOp8gqH/M5UJzd0ZxNSA==
-X-Received: by 2002:a1c:103:: with SMTP id 3mr6381648wmb.81.1605823000830;
- Thu, 19 Nov 2020 13:56:40 -0800 (PST)
+ bh=ztib3BbeM9JUbGctUP1Ui7NNujTzQdmeDBZWCNALq4Y=;
+ b=djLU+2qx+cOFXIDzZRgZz9lCF42AxiSq2F5b4kl+4B8h7nKgGZNoqiCsUZqFaFebgS
+ PCQRgLuqbUZHsFhSZIEquKLFW67QBGAjPn+LQH2Af0tTp4qMQxUBIcd1HWIHed3bMi+3
+ wKjRaQUjPuBbi7z0aTTy7FzSCYwBgyNY+QTQ4NFRIJIhPVlHMu6uSBaSaCdrT04Vuce/
+ g6CDyh+bXMPyc0OW9MeL6P7cwkapCqcUaAMX58z4i0EvClhOMjvfjv2xnm4QJ2B6u23A
+ 6zEV6eRvZaRpvlG0rOKvqCLnzhgUgwX9BA8MZCTxFxcGq/iB8GQoAQxjLWiH8TaGax+m
+ SYhQ==
+X-Gm-Message-State: AOAM531qhbYIWaqKgPP3W3ZkDXjNeZ+tiZDpWMOFQ8/rjZTJ2GaPLe32
+ g1FHDSBv59eP+1YN7hemUHBtFwP+66U5Vg==
+X-Google-Smtp-Source: ABdhPJy5lYRFRQqmheM5QAa2OxDAuhqj9nnrwW/ihm3vwafRVssOdiG0u25fMidyWM4ChSONfBVqfQ==
+X-Received: by 2002:a1c:1d51:: with SMTP id d78mr6547219wmd.60.1605823001969; 
+ Thu, 19 Nov 2020 13:56:41 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j15sm1934851wrm.62.2020.11.19.13.56.39
+ by smtp.gmail.com with ESMTPSA id j15sm1934851wrm.62.2020.11.19.13.56.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Nov 2020 13:56:40 -0800 (PST)
+ Thu, 19 Nov 2020 13:56:41 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 18/28] target/arm: Implement v8.1M REVIDR register
-Date: Thu, 19 Nov 2020 21:56:07 +0000
-Message-Id: <20201119215617.29887-19-peter.maydell@linaro.org>
+Subject: [PATCH v2 19/28] target/arm: Implement new v8.1M NOCP check for
+ exception return
+Date: Thu, 19 Nov 2020 21:56:08 +0000
+Message-Id: <20201119215617.29887-20-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201119215617.29887-1-peter.maydell@linaro.org>
 References: <20201119215617.29887-1-peter.maydell@linaro.org>
@@ -86,31 +87,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In v8.1M a REVIDR register is defined, which is at address 0xe00ecfc
-and is a read-only IMPDEF register providing implementation specific
-minor revision information, like the v8A REVIDR_EL1. Implement this.
+In v8.1M a new exception return check is added which may cause a NOCP
+UsageFault (see rule R_XLTP): before we clear s0..s15 and the FPSCR
+we must check whether access to CP10 from the Security state of the
+returning exception is disabled; if it is then we must take a fault.
+
+(Note that for our implementation CPPWR is always RAZ/WI and so can
+never cause CP10 accesses to fail.)
+
+The other v8.1M change to this register-clearing code is that if MVE
+is implemented VPR must also be cleared, so add a TODO comment to
+that effect.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/intc/armv7m_nvic.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ target/arm/m_helper.c | 22 +++++++++++++++++++++-
+ 1 file changed, 21 insertions(+), 1 deletion(-)
 
-diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
-index be3bc1f1f45..effc4a784ca 100644
---- a/hw/intc/armv7m_nvic.c
-+++ b/hw/intc/armv7m_nvic.c
-@@ -1025,6 +1025,11 @@ static uint32_t nvic_readl(NVICState *s, uint32_t offset, MemTxAttrs attrs)
-         }
-         return val;
-     }
-+    case 0xcfc:
-+        if (!arm_feature(&cpu->env, ARM_FEATURE_V8_1M)) {
-+            goto bad_offset;
-+        }
-+        return cpu->revidr;
-     case 0xd00: /* CPUID Base.  */
-         return cpu->midr;
-     case 0xd04: /* Interrupt Control State (ICSR) */
+diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
+index 9cdc8a64c29..0bdd3cc10e9 100644
+--- a/target/arm/m_helper.c
++++ b/target/arm/m_helper.c
+@@ -1515,7 +1515,27 @@ static void do_v7m_exception_exit(ARMCPU *cpu)
+             v7m_exception_taken(cpu, excret, true, false);
+             return;
+         } else {
+-            /* Clear s0..s15 and FPSCR */
++            if (arm_feature(env, ARM_FEATURE_V8_1M)) {
++                /* v8.1M adds this NOCP check */
++                bool nsacr_pass = exc_secure ||
++                    extract32(env->v7m.nsacr, 10, 1);
++                bool cpacr_pass = v7m_cpacr_pass(env, exc_secure, true);
++                if (!nsacr_pass) {
++                    armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_USAGE, true);
++                    env->v7m.cfsr[M_REG_S] |= R_V7M_CFSR_NOCP_MASK;
++                    qemu_log_mask(CPU_LOG_INT, "...taking UsageFault on existing "
++                        "stackframe: NSACR prevents clearing FPU registers\n");
++                    v7m_exception_taken(cpu, excret, true, false);
++                } else if (!cpacr_pass) {
++                    armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_USAGE,
++                                            exc_secure);
++                    env->v7m.cfsr[exc_secure] |= R_V7M_CFSR_NOCP_MASK;
++                    qemu_log_mask(CPU_LOG_INT, "...taking UsageFault on existing "
++                        "stackframe: CPACR prevents clearing FPU registers\n");
++                    v7m_exception_taken(cpu, excret, true, false);
++                }
++            }
++            /* Clear s0..s15 and FPSCR; TODO also VPR when MVE is implemented */
+             int i;
+ 
+             for (i = 0; i < 16; i += 2) {
 -- 
 2.20.1
 
