@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B5B12B9DB6
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 23:38:54 +0100 (CET)
-Received: from localhost ([::1]:54486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD7BF2B9DD9
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 23:54:30 +0100 (CET)
+Received: from localhost ([::1]:59430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfsZp-0000X8-0X
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 17:38:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60406)
+	id 1kfsou-0006nW-LA
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 17:54:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kfsYh-0008Ff-RH
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 17:37:43 -0500
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:43595)
+ id 1kfsnZ-0006KY-UY
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 17:53:07 -0500
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:42063)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kfsYf-0001Vu-Q3
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 17:37:43 -0500
-Received: by mail-pf1-x444.google.com with SMTP id v5so1879456pff.10
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 14:37:41 -0800 (PST)
+ id 1kfsnX-0004nL-Tf
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 17:53:05 -0500
+Received: by mail-pl1-x644.google.com with SMTP id s2so3789859plr.9
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 14:53:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Q+IDYurMPfHEiOpBSneypI1nBCycXNGXQAjRtkYHeG0=;
- b=gzfPDrrNo+stnB2cm7l+sXs+zI709TI5KictoacxJljAyWeW0XCaRX6CMQIDhNzvw3
- eIBkoLeTR/n/NJA6Om1HaDfuTn/ZMUQB5NC3UAmmtB07CyyxNMxxk0A3FBNAvFB6whz5
- t+faGYdQis1KlWKRXAYcgJl0KUm1ox23DvT700g0ymL7mCo3WTcogd+N6vcU0XvhEeIs
- mRvzoQAA6IkxZhsqjO+hFVAR9shA+XjuNHVLo47SmuLMaJIYm1ctjdWnzaNUaUKK1yZI
- PLR8cjILp1zdRS2EWNY4XVf7Txb91UacAmmwZkppyi35Xd6BwS2wpImCogbjfO3v/kvh
- 0Q5A==
+ bh=myIdFOGeopgB+Y1xLSfy2cx4lbCT5J5e2aI1EWDuBr4=;
+ b=X9gE83nSIJPBwSNt3UOIQ9yowRDVfXNY6s6qhY2KQBkjpMFOytPrqJs71uhRTC4Peg
+ fddhzYu5QxTLqnFTPxB0TqC0tiPBzLzm6gow+7ntyZOe6MnRQNlIlQX37oMHkiMollhM
+ qGtDVFRGzxOm9/LYDK9c6maO3LaJdNKaW/7A7q2gsvrEVceeQ25FqV75+eKclKlpD04n
+ uwMcKeuChWsLen9NxLdkjS9zihNE3fDipY3B//7Ct8kigdIvP8fp7e/6cXhBsTA82iac
+ p7XKwbBdkZmfiz7ZrzaIGeEKJd6OpwBsvf//QzJCmjXZD7e2lcLHNYRZemXtGCFZ+PGv
+ t+og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Q+IDYurMPfHEiOpBSneypI1nBCycXNGXQAjRtkYHeG0=;
- b=aaRtKYa9wz2vh5w8fiW3UUBx3ZxSLJlga3Foo0KHF5S0zSMc0+Ynk3+Uw0quZpFgcO
- 9BfIwTRs4000XIs+j8PTIG1sftj8CIYGBsJ2Guw7ymd2uWkUUIFB506fJumSV76Rlpub
- SW6j3RwgapAOjpmp+NR41ksjb6c8WlaToBKdRHPQj810xlXnS/ewvCwpXJFEQaax8g9l
- ksetIrbpP8KqtiG6bF3v42An07llJSIxTTKNbUlxg9RcPuJadoj5m6ojk5S+OizfMUuS
- MPtbLZIZ552wWShaG60J1gjLmIAjViDnXltLxl4IDTipLLZJwXK84v4ANKYxLlgJW+fu
- 7Dfg==
-X-Gm-Message-State: AOAM530SCYlgXSrp3j5dgdVuHwZxS1i6f7AuPnci2qk1wJiPaxS5XPuD
- Zitdqq9XP7Ci86JJJDSHRyw5Jg==
-X-Google-Smtp-Source: ABdhPJzAuvcOKEsOZX8SY3nU5F3rWPGRT5KmGv1sUMyJ4h6AXN+nbssAMLspQDb+uYlgZGclb7k3ow==
-X-Received: by 2002:a17:90a:2c46:: with SMTP id
- p6mr6898062pjm.166.1605825460229; 
- Thu, 19 Nov 2020 14:37:40 -0800 (PST)
+ bh=myIdFOGeopgB+Y1xLSfy2cx4lbCT5J5e2aI1EWDuBr4=;
+ b=Xqze8+Jcn+phu4mM58OpctZ8EJy9b0XFcxsKfmi5IxmIvK0YfmOz5KLkBDvgJ8jwym
+ abgYLEC/m+SpSLV/9tnghI5UTGhZAuvvyEdaYYWEaZUpKZgEHqI4T92Nm7R2CD5WG2Fr
+ Fh5FEh116oG2vgeugnoQCqsKAfU3twMbRzI5op+RqGdrbyOnEDPzxs1bV8raBXS4ihD9
+ 2Us2A6ZE9BYreeUqf34By4NPsg2TFh3Q/bI36+wfz14uwnl+mlAxp4MuzMUiOVIukn9K
+ A7R30rTJIzg3DSIvnWVsbez7Anu7QPdGKdXVJdaekaVyjXuEi04AVUIAb39bsBK3QwEh
+ 4Cxw==
+X-Gm-Message-State: AOAM532QkOjqqaeEpVgs4P2CZLqTVWQRhbpUNDDQ+AvDaTJHAV2rAMk+
+ SWkRWUuK33zIeVeCFnYL7fHMag==
+X-Google-Smtp-Source: ABdhPJyMSXAzZQA+YI3Rc12GkfMlUerZJdaS+M+8rqjvZVZHbktd8lt/V9PPhl361WGsxbwqi/cR3w==
+X-Received: by 2002:a17:902:a415:b029:d8:f55b:5e9b with SMTP id
+ p21-20020a170902a415b02900d8f55b5e9bmr10322281plq.6.1605826381969; 
+ Thu, 19 Nov 2020 14:53:01 -0800 (PST)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id x4sm699756pgg.94.2020.11.19.14.37.39
+ by smtp.gmail.com with ESMTPSA id fu5sm856008pjb.11.2020.11.19.14.53.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Nov 2020 14:37:39 -0800 (PST)
-Subject: Re: [PATCH for-5.2?] target/arm: fix stage 2 page-walks in 32-bit
- emulation
-To: =?UTF-8?Q?R=c3=a9mi_Denis-Courmont?= <remi@remlab.net>, qemu-arm@nongnu.org
-References: <20201118150414.18360-1-remi@remlab.net>
+ Thu, 19 Nov 2020 14:53:01 -0800 (PST)
+Subject: Re: [PATCH v2] target/mips/helper: Also display exception names in
+ user-mode
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20201119160536.1980329-1-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <dcebc069-43b7-0a82-809c-55d6b090fff9@linaro.org>
-Date: Thu, 19 Nov 2020 14:37:37 -0800
+Message-ID: <b70809b3-652a-cadc-bccb-0f0c149a5e16@linaro.org>
+Date: Thu, 19 Nov 2020 14:52:59 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201118150414.18360-1-remi@remlab.net>
+In-Reply-To: <20201119160536.1980329-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,27 +89,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Laurent Vivier <laurent@vivier.eu>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/18/20 7:04 AM, Rémi Denis-Courmont wrote:
-> From: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
+On 11/19/20 8:05 AM, Philippe Mathieu-Daudé wrote:
+> Currently MIPS exceptions are displayed as string in system-mode
+> emulation, but as number in user-mode.
+> Unify by extracting the current system-mode code as excp_name()
+> and use that in user-mode.
 > 
-> Using a target unsigned long would limit the Input Address to a LPAE
-> page-walk to 32 bits on AArch32 and 64 bits on AArch64. This is okay
-> for stage 1 or on AArch64, but it is insufficient for stage 2 on
-> AArch32. In that later case, the Input Address can have up to 40 bits.
-> 
-> Signed-off-by: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  target/arm/helper.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Since v1: Fixed failed cherry-pick conflict resolution
+> ---
+>  target/mips/helper.c | 24 +++++++++++++-----------
+>  1 file changed, 13 insertions(+), 11 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-Peter, bug fix for 5.2 or postpone?
-
 
 r~
 
