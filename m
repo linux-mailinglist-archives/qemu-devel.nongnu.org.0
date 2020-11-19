@@ -2,83 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8F482B939A
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 14:25:35 +0100 (CET)
-Received: from localhost ([::1]:33724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 229C92B9385
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 14:20:54 +0100 (CET)
+Received: from localhost ([::1]:55174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfjwM-0004gf-St
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 08:25:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59398)
+	id 1kfjrp-0001g0-6t
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 08:20:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kfjoq-00070k-5Q
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 08:17:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56451)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kfjom-0006Fx-P7
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 08:17:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605791862;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=p7MrvKuEP78zZW4x/TcnHTWjzl+6TSllxIe5BZ1Sjzo=;
- b=Tdu+ay85FRYGqUT8xz/0PcC0eAYsQ0qmjZkPnUKm43amNubtSUIN4dGpNSX5D67NUvg5+l
- Y2Mmv81NwWRtYEiefa1fX/RYzDEiS2Xp8Xj+xETE2F+PwYo+a8oFgMOBE9phHHM51Yszqo
- o8o4B8U51THw0C3KfkK1J0CPyp77E1g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-7-3gCWuz5WOUqUggyBUc66IA-1; Thu, 19 Nov 2020 08:17:41 -0500
-X-MC-Unique: 3gCWuz5WOUqUggyBUc66IA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F75A107ACE6;
- Thu, 19 Nov 2020 13:17:40 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
- [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CC22B5C1D1;
- Thu, 19 Nov 2020 13:17:39 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id CA66F11358BA; Thu, 19 Nov 2020 14:17:37 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH for-6.0 1/6] qapi: Add query-accel command
-References: <2d934855-ad11-9f61-28a1-7c0a35347a66@redhat.com>
- <20201116211352.GC1235237@habkost.net>
- <87mtzgbc29.fsf@dusky.pond.sub.org>
- <20201118011917.GB10041@SPB-NB-133.local>
- <87ft57oycu.fsf@dusky.pond.sub.org>
- <20201118112845.GA11988@merkur.fritz.box>
- <20201118115612.GD229461@redhat.com>
- <87blfukbzd.fsf@dusky.pond.sub.org>
- <20201118154507.GI1509407@habkost.net>
- <c411d2ac-fafe-872b-cc34-9c7b5901120d@redhat.com>
- <20201118162319.GK1509407@habkost.net>
-Date: Thu, 19 Nov 2020 14:17:37 +0100
-In-Reply-To: <20201118162319.GK1509407@habkost.net> (Eduardo Habkost's message
- of "Wed, 18 Nov 2020 11:23:19 -0500")
-Message-ID: <87a6vdbi4u.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kfjpW-0007y8-Kl
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 08:18:30 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:45225)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kfjpU-0006Ty-MH
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 08:18:30 -0500
+Received: by mail-wr1-x436.google.com with SMTP id p1so6349528wrf.12
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 05:18:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=O+P15iR/bWrJBHOJx33YiIQBU3fpyBSJHI3jMMJ+Wa4=;
+ b=PyRluMnB6sOSJC/aVzwP5aBGsCZO3No5faIa2Dr4W3eh/FdGks9RH1oU1OeywoT1Pf
+ bdIVr3R89a1AWoMbTFynL9kNwgdoqBueN9rbBGxmzFC+uQN4RlEhX8WjYpB8HrWWDWug
+ f29bZbgTED9xB4zE1if6OZ1u8VM5x+MupkM6sd5T6n+l8kNVSMIVfRSq+1KmbndpGYzl
+ Y5rjcWZj9CauVMBn1aAfbOuYj8cnGRRfpKsXahlklxXkTfRFBpUwbsZyJxwLbLZoRYYs
+ 0YxYFMNRR8z76CqFv12STwcuysk+T43FIZZ+iqhGbaYGVFN6Rzh75fzZQqLNUK6CY5Qw
+ AE9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=O+P15iR/bWrJBHOJx33YiIQBU3fpyBSJHI3jMMJ+Wa4=;
+ b=s9olcb49dT6hF/rEtK7qIfWpeq1C9bmj/4JsP0/Lb87+OKCa+IHwlRyXZbN1XrWu4C
+ mX1QfCIEMUwT4tSRVoFWmow6jK04d1Dg4pUxV93oTPg9dVQDYYSFINS3j12a2DGVMNfZ
+ y+YyXKHXYOiaIKrQNA3UYB0/zN0oC8ZVndQ4HO6TI2d8kB8OMzg2f05x1fmtFYiKbx96
+ qk4q/MvsuRwIrgXU0uEaYszBvqHBwZVV7vAZzJQnDdrpLkRWGPINralolj7SHl59R/KH
+ C37td49A10xh+oXdZ6z3mfK5yz7OGStVB8D5s5IGk88SKZbBlDJgb+18og+mckKDHXNM
+ WXxQ==
+X-Gm-Message-State: AOAM532CUxPL1yAvwqm0TjqXjBjvoRTiln8DIMuX2Gpb2pRJUx9EFVnd
+ 1yuRtLmbB7oqev714TZv6YKgZsaHAFM=
+X-Google-Smtp-Source: ABdhPJy3V3xPkabk19+hgK5VKCGDd+vjfYak3+1kkTRArv1dEXLBqC2KJOlpwiSyUd7s9Zr23PAyBQ==
+X-Received: by 2002:adf:e54f:: with SMTP id z15mr10037808wrm.159.1605791906842; 
+ Thu, 19 Nov 2020 05:18:26 -0800 (PST)
+Received: from localhost.localdomain (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id j8sm35148282wrx.11.2020.11.19.05.18.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Nov 2020 05:18:26 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] target/mips/helper: Also display exception names in user-mode
+Date: Thu, 19 Nov 2020 14:18:24 +0100
+Message-Id: <20201119131824.1898439-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 03:44:58
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,85 +85,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eduardo Habkost <ehabkost@redhat.com> writes:
+Currently MIPS exceptions are displayed as string in system-mode
+emulation, but as number in user-mode.
+Unify by extracting the current system-mode code as excp_name()
+and use that in user-mode.
 
-> On Wed, Nov 18, 2020 at 09:56:28AM -0600, Eric Blake wrote:
->> On 11/18/20 9:45 AM, Eduardo Habkost wrote:
->> > On Wed, Nov 18, 2020 at 02:53:26PM +0100, Markus Armbruster wrote:
->> > [...]
->> >> Another way to skin this cat:
->> >>
->> >>       {"available": {"kvm": { extra properties... },
->> >>                      "tcg": ...,
->> >>                      "xen": ...},
->> >>        "active": "kvm"}
->> > 
->> > How would this structure be represented in the QAPI schema?
->> > 
->> > In other words, how do I say "Dict[str, AccelInfo]" in QAPIese?
->> 
->> {'type':'AvailAccel', 'data': {
->>   '*kvm': 'KvmExtraProps',
->>   '*tcg': 'TcgExtraProps',
->>   '*xen': 'XenExtraProps',
->>   '*hax': 'HaxExtraProps' } }
->> {'command':'query-accel', 'returns': {
->>    'available': 'AvailAccel', 'active': 'strOrEnum' } }
->> 
->> where adding a new accelerator then adds a new optional member to
->> AvailAccel as well as possibly a new enum member if 'active' is driving
->> by an enum instead of 'str'.
->
-> Is it possible to represent this if we don't enumerate all
-> possible dictionary keys in advance?  (I'm not suggesting we
-> should/shouldn't do that, just wondering if it's possible)
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ target/mips/helper.c | 23 +++++++++++++----------
+ 1 file changed, 13 insertions(+), 10 deletions(-)
 
-Mostly no.
-
-The definition of a complex type (struct or union) specifies all
-members.  There is no way to say "and whatever else may be there".
-
-We actually have such types anyway.  Consider command device_add: it
-takes arguments 'driver', 'bus', 'str', and properties.  Its arguments
-type is "struct of driver, bus, str, and whatever else may be there".
-
-Since the schema language can't express this, we cheat:
-
-    { 'command': 'device_add',
-      'data': {'driver': 'str', '*bus': 'str', '*id': 'str'},
-      'gen': false } # so we can get the additional arguments
-
-With 'gen': false, 'data' is at best a statement of intent.  In this
-case, it's correct, just incomplete[*].
-
-Introspection takes 'data' at face value.  It's exactly as accurate as
-'data' is.
-
-We could extend the schema language so we can say
-
-    { 'command': 'device_add',
-      'data': {'driver': 'str', '*bus': 'str', '*id': 'str',
-               '**props': 'dict'}
-
-where 'props' receives any remaining arguments.  Fairly common language
-feature, e.g. &rest in Lisp, ** in Python, ...
-
-Removed the need for 'gen': false, and enables more accurate
-introspection.
-
-Type 'dict' doesn't exist, yet.  I think it could.  We got 'any'
-already.
-
-
-[*] There have been uses of 'gen': false where 'data' was actually
-wrong.  For an example, see commit b8a98326d5 "qapi-schema: Fix up
-misleading specification of netdev_add".
+diff --git a/target/mips/helper.c b/target/mips/helper.c
+index 063b65c0528..f566bd6da50 100644
+--- a/target/mips/helper.c
++++ b/target/mips/helper.c
+@@ -978,6 +978,7 @@ hwaddr cpu_mips_translate_address(CPUMIPSState *env, target_ulong address,
+         return physical;
+     }
+ }
++#endif
+ 
+ static const char * const excp_names[EXCP_LAST + 1] = {
+     [EXCP_RESET] = "reset",
+@@ -1018,7 +1019,14 @@ static const char * const excp_names[EXCP_LAST + 1] = {
+     [EXCP_MSADIS] = "MSA disabled",
+     [EXCP_MSAFPE] = "MSA floating point",
+ };
+-#endif
++
++static const char *excp_name(int32_t exception)
++{
++    if (exception < 0 || exception > EXCP_LAST) {
++        return "unknown";
++    }
++    return excp_names[exception];
++}
+ 
+ target_ulong exception_resume_pc(CPUMIPSState *env)
+ {
+@@ -1091,19 +1099,14 @@ void mips_cpu_do_interrupt(CPUState *cs)
+     bool update_badinstr = 0;
+     target_ulong offset;
+     int cause = -1;
+-    const char *name;
+ 
+     if (qemu_loglevel_mask(CPU_LOG_INT)
+         && cs->exception_index != EXCP_EXT_INTERRUPT) {
+         if (cs->exception_index < 0 || cs->exception_index > EXCP_LAST) {
+-            name = "unknown";
+-        } else {
+-            name = excp_names[cs->exception_index];
+-        }
+-
+         qemu_log("%s enter: PC " TARGET_FMT_lx " EPC " TARGET_FMT_lx
+                  " %s exception\n",
+-                 __func__, env->active_tc.PC, env->CP0_EPC, name);
++                 __func__, env->active_tc.PC, env->CP0_EPC,
++                 excp_name(cs->exception_index));
+     }
+     if (cs->exception_index == EXCP_EXT_INTERRUPT &&
+         (env->hflags & MIPS_HFLAG_DM)) {
+@@ -1490,8 +1493,8 @@ void QEMU_NORETURN do_raise_exception_err(CPUMIPSState *env,
+ {
+     CPUState *cs = env_cpu(env);
+ 
+-    qemu_log_mask(CPU_LOG_INT, "%s: %d %d\n",
+-                  __func__, exception, error_code);
++    qemu_log_mask(CPU_LOG_INT, "%s: %d (%s) %d\n",
++                  __func__, exception, excp_name(exception), error_code);
+     cs->exception_index = exception;
+     env->error_code = error_code;
+ 
+-- 
+2.26.2
 
 
