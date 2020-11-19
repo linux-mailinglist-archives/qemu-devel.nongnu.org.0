@@ -2,106 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EDF62B9D6B
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 23:12:49 +0100 (CET)
-Received: from localhost ([::1]:34190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 387F02B9DA4
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 23:29:21 +0100 (CET)
+Received: from localhost ([::1]:48154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfsAa-00045D-IS
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 17:12:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52076)
+	id 1kfsQa-0005Fc-9R
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 17:29:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1kfrwX-0002NK-76
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:58:18 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:33046)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1kfrwT-0004gR-JI
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:58:16 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0AJLY2Z6064297; Thu, 19 Nov 2020 16:58:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=K4VNZor7g3CMmgHOFxWIRDBvVjrM8ZTy8fQSy+2WMF0=;
- b=sJSOVUpi5rLn2uC/wVgPdgAJ1Qs+k0U2egUiqmXPAhHcOeds36YuvIyh4WjzeYs0f3Fs
- MdkmsDzLKcjCLGijLjVdMWf1nlC5RGtXKvyO9RivJoYDsyBxil8mpq7z7OIBkhmK3gDN
- wt9mrhNVHKj8AV0FgpybV8Sie/9huZ8mLKdAGTc5P1YT+ZLyQO312vTosheYKDTwsaMP
- OBKQULHWcKo3QJwfMa6kS+F0OgJmA3v7sPF5IMtApGffbQhNxT/M8YLI6GSTvWxgESDR
- CnXzr3QjrF1gPAA34dVk5vzLn23eRsyrYEJoXqufFBOgTxTXg7dAf7T8Go0tNBZPArle rQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34x0kb0qbf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 19 Nov 2020 16:58:11 -0500
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0AJLwBDh041230;
- Thu, 19 Nov 2020 16:58:11 -0500
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34x0kb0qb4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 19 Nov 2020 16:58:11 -0500
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0AJLuqtF017144;
- Thu, 19 Nov 2020 21:58:10 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma02dal.us.ibm.com with ESMTP id 34vgjmxh8c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 19 Nov 2020 21:58:10 +0000
-Received: from b03ledav003.gho.boulder.ibm.com
- (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0AJLw0JJ27066694
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 19 Nov 2020 21:58:00 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 096FA6A04D;
- Thu, 19 Nov 2020 21:58:09 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 758B36A04F;
- Thu, 19 Nov 2020 21:58:08 +0000 (GMT)
-Received: from [9.65.247.165] (unknown [9.65.247.165])
- by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 19 Nov 2020 21:58:08 +0000 (GMT)
-Subject: Re: [PATCH v3 0/9] Add support for Control-Flow Integrity
-To: Alexander Bulekov <alxndr@bu.edu>
-References: <20201105221905.1350-1-dbuono@linux.vnet.ibm.com>
- <20201106134747.7c9a5050.cohuck@redhat.com>
- <e2e27a18-a0d0-77c2-5e5d-b4c210fec177@linux.vnet.ibm.com>
- <20201106145841.pijovw2xkieikgrg@mozz.bu.edu>
-From: Daniele Buono <dbuono@linux.vnet.ibm.com>
-Message-ID: <fb262d2b-2766-4718-1d89-9c271ad52743@linux.vnet.ibm.com>
-Date: Thu, 19 Nov 2020 16:58:07 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.1
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kfrzJ-0006pd-3N
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 17:01:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58042)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kfrzD-0005iR-4e
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 17:01:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605823261;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=6L6pR27Ce4wDH9D2otfL3iy0uc4XgtSaMJQMlndCJtg=;
+ b=RfsRb3Xo046VgdiceyJhi6qaXspZhMVDDRs7rd7OaY9HP7eiNrjlgfZDV4puhtwZrkgdM1
+ 2cjVLA9kkO97Ex5Zsu2RPim3P5ftALkCNKz/ETNgVHQaTTSkBwWtcG9fWp9Ntm1/hjOGY6
+ kTdDZmzcj64P+jdqnRYnUP858jbCYMc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-574-4IkfnylMOTGkLz5uBQPB1w-1; Thu, 19 Nov 2020 17:00:58 -0500
+X-MC-Unique: 4IkfnylMOTGkLz5uBQPB1w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A0AA107ACE3
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 22:00:57 +0000 (UTC)
+Received: from [10.10.119.92] (ovpn-119-92.rdu2.redhat.com [10.10.119.92])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CBCDF10016F6;
+ Thu, 19 Nov 2020 22:00:56 +0000 (UTC)
+To: QEMU Developers <qemu-devel@nongnu.org>
+From: John Snow <jsnow@redhat.com>
+Subject: python asyncio QMP library (AQMP)
+Message-ID: <9f12471f-cd8e-26b4-becb-cf0e69ecf8b0@redhat.com>
+Date: Thu, 19 Nov 2020 17:00:56 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201106145841.pijovw2xkieikgrg@mozz.bu.edu>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
- definitions=2020-11-19_12:2020-11-19,
- 2020-11-19 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 bulkscore=0
- phishscore=0 mlxscore=0 priorityscore=1501 malwarescore=0 mlxlogscore=999
- clxscore=1015 impostorscore=0 suspectscore=0 spamscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011190146
-Received-SPF: none client-ip=148.163.156.1;
- envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,36 +76,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Markus Armbruster <armbru@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,
+I've been doodling a new Asyncio-based QMP library that might fix some 
+of the problems[1][2] with our older, non-async QMP library and provide 
+a better basis for a proper distributable python package for people to 
+write their own toy scripts to control QEMU.
 
-Yeah I assumed it was an older version because the errors triggered by
-clang11 stop the compilation.
+It's a very early prototype, but I think I have the basics down and 
+working now. I figured I would float my extremely early copy of it in 
+case interested parties wanted to take a peek. (Or just to formally 
+announce that "Hey, I'm working on this!")
 
-I checked again and for oss-fuzz, you disable failing on warnings.
-So again, these patches are not directly connected to CFI and therefore 
-could land independently.
+https://gitlab.com/jsnow/aqmp/-/tree/devel
 
-On 11/6/2020 9:58 AM, Alexander Bulekov wrote:
-> I think oss-fuzz is using a bleeding edge version of Clang, so that
-> might not be a problem.
-> Here is the oss-fuzz build-log from earlier today:
-> https://oss-fuzz-build-logs.storage.googleapis.com/log-1747e14f-6b87-43e0-96aa-07ea159e7eb2.txt
-> 
-> ...
-> Step #4: C compiler for the host machine: clang (clang 12.0.0 "clang version 12.0.0 (https://github.com/llvm/llvm-project.git  c9f69ee7f94cfefc373c3c6cae08e51b11e6d3c2)")
-> Step #4: C linker for the host machine: clang ld.bfd 2.26.1
-> Step #4: Host machine cpu family: x86_64
-> ...
+The design uses two independent coroutines in the bottom half, a reader 
+and a writer. execute() works something like this:
 
-Yeah I assumed it was an older version because the errors triggered by
-clang11 stop the compilation.
+                        +---------+
+      +---------------- |execute()| <----------+
+      |                 +---------+            |
+      |                                        |
+-----------------------------------------------------------
+      v                                        |
++----+----+    +-----------+           +------+-------+
+|Mailboxes|    |Event Queue|           |Outbound Queue|
++----+----+    +------+----+           +------+-------+
+      |                |                       ^
+      v                v                       |
+   +--+----------------+---+       +-----------+-----------+
+   | Reader Task/Coroutine |       | Writer Task/Coroutine |
+   +-----------+-----------+       +-----------+-----------+
+               |                               ^
+               v                               |
+         +-----+------+                  +-----+------+
+         |StreamReader|                  |StreamWriter|
+         +------------+                  +------------+
 
-I checked again and for oss-fuzz, you disable failing on warnings.
-So again, these patches are not directly connected to CFI and therefore 
-could land independently.
+
+Execute deposits a message in the outbound queue; the writer issues it 
+to the server. Execute goes to sleep waiting for mail in its inbox. The 
+reader awakens upon new data available in the stream, the new data is 
+placed in the mailbox, which awakens the caller.
+
+The Reader/Writer are each executed by _task_runner, which ensures that 
+any error that occurs in the BH will create a disconnection Task that 
+will quiesce everything in the bottom half.
+
+Any pending execute actions will be cancelled by the disconnection task; 
+and will raise "DisconnectedError" to the caller.
+
+Upon learning of a disconnection event, the client code responsible for 
+managing the overall state of the connection can call disconnect(), 
+which will raise any exceptions that occurred in the bottom halves that 
+caused the unscheduled disconnect. From there, the client can decide to 
+reconnect or abort, depending.
+
+
+classes and things of interest:
+
+aqmp.py - Mailbox: Simple data structure pairing an asyncio.Event with a 
+Message. This is done to allow the disconnect task to wake up any 
+waiting clients even if no message arrived. Python's asyncio.Queue does 
+not offer a cancel primitive, so this approximates it.
+
+aqmp.py - AQMP: The core of the loop logic is written here; the 
+public-facing methods are connect(), disconnect(), execute() and 
+execute_obj(), with a "make_execute_msg" class method available for 
+creating Messages that can be executed later.
+
+message.py - Message: This class comprises a JSON Object as read off the 
+wire; putting it in a class like this allows me to write stricter type 
+guarantees and offer _serialize/_deserialize class methods.
+
+models.py - This module offers strictly typed and validated 
+deserializations of core QMP structures that are not (generally) defined 
+by the QAPI schema; i.e., it offers types, de/serialization, and 
+validation for things such as "Greeting", "SuccessResponse", 
+"AsynchronousEvent", etc.
+
+
+What's left to do?
+
+- Work on Exception naming and hierarchy,
+   more helpful/pretty display of errors.
+- Expand the event handling system to be more useful (Maybe?)
+- Add QGA support
+- Re-add socket creation support (Presently, it relies on the socket 
+being created already.)
+- Documentation, tests, etc.
+
+
+Might be nice:
+
+- Look into creating a "Server" variant to be used for testing the 
+library, or even other clients.
+- Look into synchronous wrappers that offer thread-safe primitives that 
+can be used from traditional, synchronous contexts. (preventing "async 
+creep".)
+
+
+Long term goal:
+
+- Get it merged in-tree; replace the legacy QMP module over time.
+
+- Create an auto-generated SDK layer based on our QAPI schema that adds 
+a library of type-safe commands, responses, and events that uses this 
+QAPI-agnostic QMP library as its core.
+
+- Add my "JobRunner" patches from earlier this year as a full-fledged 
+jobs API that is designed to make running long-running tasks very 
+trivial from a python console / qmp-shell.
+
+
+--js
+
+
+[1] qmp-shell is not capable of displaying events as they arrive 
+asynchronously very well.
+[2] Our use of non-blocking sockets and socket timeouts in qmp.py relies 
+quite a bit on undefined behavior that thankfully has not broken yet.
+
 
