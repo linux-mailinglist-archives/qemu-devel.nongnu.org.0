@@ -2,75 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEA792B91E5
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 12:57:29 +0100 (CET)
-Received: from localhost ([::1]:37124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 478B72B91E7
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 12:58:06 +0100 (CET)
+Received: from localhost ([::1]:38082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfiZ6-0000HK-83
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 06:57:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41074)
+	id 1kfiZh-0000hi-7X
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 06:58:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kfiX8-0007Lg-Jt
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 06:55:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27080)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kfiX5-0002aw-7M
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 06:55:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605786921;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=oOLkH6sc/iyoojQw1I29OWb59eORTze4xt7fUKjRdxg=;
- b=NLTs2CI7GAyQsMCVkteRdAbDtYkcb8sCicpDilVhVq2ip0OGW1SSx5tEIFxahO5XFF2Qgd
- lTpDl56bzsSbrkAuhG15JpsuZzY5FaHX5yJuFPhmefZJLdA5XLEOmf05yUhIRRQmkFqwup
- HWipSwNPTAXCyWUglOwS9ecY3Ao9Wm0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-541-kmKw1oT0M7SxodsR01TiYA-1; Thu, 19 Nov 2020 06:55:19 -0500
-X-MC-Unique: kmKw1oT0M7SxodsR01TiYA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6488A8143FD
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 11:55:18 +0000 (UTC)
-Received: from localhost (ovpn-115-68.ams2.redhat.com [10.36.115.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E87DC60853;
- Thu, 19 Nov 2020 11:55:15 +0000 (UTC)
-Date: Thu, 19 Nov 2020 11:55:14 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH 4/4] [broken] meson: try link tracepoints to module
-Message-ID: <20201119115514.GA838600@stefanha-x1.localdomain>
-References: <20201119084448.24397-1-kraxel@redhat.com>
- <20201119084448.24397-5-kraxel@redhat.com>
- <20201119110316.GG701869@stefanha-x1.localdomain>
- <20201119112323.3rcfmee2jm3uw3ym@sirius.home.kraxel.org>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kfiXt-0007iC-Dp
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 06:56:13 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40572)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kfiXq-0002z2-8k
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 06:56:12 -0500
+Received: by mail-wm1-x341.google.com with SMTP id a3so6491696wmb.5
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 03:56:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=6+mnefPYYUMtLLzAhCHln9YzYSJreVJtjI9cM4R9vCQ=;
+ b=kXDZEsglo99gFPKEH2QkmDz6EAE4KjdlEoPDV2GuT2Qt/UWcHL4AYBYQF3re635zKi
+ jhvdaaUWqEGyW3VCEWKrkPXDKnDV3vE/1HkKKXuobjoq8yiPZia832x/hEJF/6CacuiI
+ lFZ7YBUYF5Mz+0S86FqSeajJAdwVplldDCJ4uW3sy9pFfJb15r0wBxIjlIxkg/iVGZjX
+ 79JQyHGL3fJEnIsaFkoVm434R+AQqW+910m6TUgz76vP/6LFJJnmtUBqZL+1u6Pv3s7V
+ 35WIt0k7yQ22eyFOh9LB5fJ27Sz6ivhHHjcL1UXQmV6LmJy7pqzsl9c5xnlkwHRQDSMz
+ DnGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=6+mnefPYYUMtLLzAhCHln9YzYSJreVJtjI9cM4R9vCQ=;
+ b=sMuKJpGQifI5MIHh+b4XGfq3Z/ZpBJVnIDMpJ+3gYPdIzj6fDKcmuYs5TxVCXjSZHZ
+ MD4nSmYIUwL7Q4NC8fmtMteZ7AjKLbFQENAoqXsnXxWjJu2zs/Dcj5wNEV4qAQnlX+tG
+ /iKRKJo8FSmYzOOSjLnjw8tqWiXDeuIDshMmCr/2zd2Y5TzcoigopHB7NgAWTgLKpGzg
+ Gco5ncYxI6vk8PpGQqNnuFH19bfo5Wq17m00gY8oWareh6k6CR+XlwlpXEsIwjY/kbQa
+ 6i5QML0xiFtT3enXwUfFJ58bPnKF/o9ZY+bM0pMlaiV/HMpXjAbFMie6x4icvTPS6/vd
+ xllw==
+X-Gm-Message-State: AOAM532nHLnx69lCLsqGj7o8B/tRmMEMNgOjMj+YVGVcvbqQ2SeE8n/h
+ uVN3r9r65fUO9Xgv0T+dExnW4Q==
+X-Google-Smtp-Source: ABdhPJwGhk92fqS7i78WknjwcTRkxto86Ej3nBeUTZd8FB4/Z2UNtW0BNrJH+GKLVIrMUaO1McrUNQ==
+X-Received: by 2002:a7b:c1d2:: with SMTP id a18mr4346467wmj.41.1605786968053; 
+ Thu, 19 Nov 2020 03:56:08 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id w1sm8825262wmi.24.2020.11.19.03.56.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Nov 2020 03:56:06 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 1979E1FF7E;
+ Thu, 19 Nov 2020 11:56:06 +0000 (GMT)
+References: <20201116104216.439650-1-david.edmondson@oracle.com>
+ <20201116104216.439650-2-david.edmondson@oracle.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: David Edmondson <david.edmondson@oracle.com>
+Subject: Re: [RFC PATCH 1/5] hw/block: blk_check_size_and_read_all should
+ report backend name
+In-reply-to: <20201116104216.439650-2-david.edmondson@oracle.com>
+Date: Thu, 19 Nov 2020 11:56:06 +0000
+Message-ID: <87d009v9ux.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20201119112323.3rcfmee2jm3uw3ym@sirius.home.kraxel.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="bg08WKrSYDhXBjb5"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 03:44:58
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x341.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,63 +90,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---bg08WKrSYDhXBjb5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 19, 2020 at 12:23:23PM +0100, Gerd Hoffmann wrote:
->   Hi,
->=20
-> > > diff --git a/trace/meson.build b/trace/meson.build
-> > > index 66395d3e2ba7..3f0fe7b7b74c 100644
-> > > --- a/trace/meson.build
-> > > +++ b/trace/meson.build
-> > > @@ -18,6 +18,7 @@ foreach c : trace_events_config
-> > >    trace_events_files +=3D [ trace_events_file ]
-> > >    group =3D '--group=3D' + c.get('group')
-> > >    fmt =3D '@0@-' + c.get('group') + '.@1@'
-> > > +  module_ss =3D c.get('ss', trace_ss)
-> >=20
-> > One idea: module_ss is already used in other files. Are you sure there
-> > isn't an identifier naming conflict?
->=20
-> Nope.  Tried s/module_ss/kraxel_ss/, still not working.
->=20
-> I get tons of "undefined reference to `_TRACE_something'"
-> errors (*not* qxl).  Seems trace_ss is not updated as intended.
+David Edmondson <david.edmondson@oracle.com> writes:
 
-Okay. There is a workaround available:
-[PATCH v2] trace: use STAP_SDT_V2 to work around symbol visibility
+> If there are problems examining or reading data from the block
+> backend, the error messages should include an appropriate identifier
+> to assist in diagnoses.
+>
+> Signed-off-by: David Edmondson <david.edmondson@oracle.com>
 
-We can take time to figure out how to extend the build system to handle
-modules.
+With Phillipe's suggested ''s:
 
-Would you like me to try to debug this?
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-I'm also on #qemu IRC if you want to discuss.
 
-Stefan
-
---bg08WKrSYDhXBjb5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+2XSIACgkQnKSrs4Gr
-c8gCwggAnwrVprvmGVnbJSlfc8zhJn7JjPZH1hcwxE56FIY9DUH/Qcs6A+EgQ2/D
-hfraLJaL6h0Ir5QCdgWE7rFUEs+BEZX4mwSr/awzkWJ43ILSJjGkGZCkpQ6aq2W1
-FBNgWaCweGsWxVmDY2YAfLoKE2wQS7Va/BTWCOVPNYzRoS1qzzq5C6FXAmxpY3sa
-8+XFkXTLyloAGD5S3oX8RozXpYMwuLD5Yb5tEnW6yK2XDoSPj5o3+ixI0XyjBGTc
-8LalIyo9EDpQtrUYTMJ+nXGLFre2xE2bHruDfl/KAETJC9zWwhapEzrz1h3/E2Ca
-re5rfefinlQt/UAvKdQptm8RXNyywQ==
-=GtkX
------END PGP SIGNATURE-----
-
---bg08WKrSYDhXBjb5--
-
+--=20
+Alex Benn=C3=A9e
 
