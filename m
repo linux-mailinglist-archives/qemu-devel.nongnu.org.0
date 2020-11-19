@@ -2,76 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07A9E2B94BB
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 15:39:43 +0100 (CET)
-Received: from localhost ([::1]:48580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D97E2B9506
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 15:43:04 +0100 (CET)
+Received: from localhost ([::1]:53902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfl65-0001rV-HS
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 09:39:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50328)
+	id 1kfl9L-0004IV-DD
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 09:43:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fche@redhat.com>) id 1kfl59-0001Ql-8W
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 09:38:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32736)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <fche@redhat.com>) id 1kfl56-0002hP-BM
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 09:38:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605796716;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+15T2pQ9byZCkKWKYI4XM1ng46yz7T1AD4loW7qr090=;
- b=ek/6Etsb9MCG8HoTqH0E/XXGhgKfwqbdy0wsqf6Rq6fLcZWYng0b59eq6Vw0VBQeD0MXZ9
- 2YRLCpgQkmWSsqGHznoivxROVmqkh4AHZufG7KpRLrUPJd+7kMe35edzKMIoW3Q3kc/ITj
- aRxod2tS6HpythXqh1f6LxCv4LaE2Ys=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-101-Cuqf916mPrqPJgXYyzq0nQ-1; Thu, 19 Nov 2020 09:38:32 -0500
-X-MC-Unique: Cuqf916mPrqPJgXYyzq0nQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48E348144E1;
- Thu, 19 Nov 2020 14:38:31 +0000 (UTC)
-Received: from redhat.com (ovpn-112-160.phx2.redhat.com [10.3.112.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1FB451002391;
- Thu, 19 Nov 2020 14:38:25 +0000 (UTC)
-Received: from fche by redhat.com with local (Exim 4.94)
- (envelope-from <fche@redhat.com>)
- id 1kfl4o-0007Wz-B8; Thu, 19 Nov 2020 09:38:22 -0500
-Date: Thu, 19 Nov 2020 09:38:22 -0500
-From: "Frank Ch. Eigler" <fche@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Subject: Re: [PATCH-for-5.2 v2] trace: use STAP_SDT_V2 to work around symbol
- visibility
-Message-ID: <20201119143822.GC23928@redhat.com>
-References: <20201119112704.837423-1-stefanha@redhat.com>
- <fbe8f975-45a7-02e0-4765-b958630f6f2d@redhat.com>
- <CAJSP0QUAFLUT22pos0YVagyCyJ=L-bGkGMgBHEVYnSCVX9Mpng@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kfl6z-0002rM-5Q
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 09:40:37 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36573)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kfl6t-0003O4-Im
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 09:40:36 -0500
+Received: by mail-wr1-x443.google.com with SMTP id j7so6717378wrp.3
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 06:40:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=UhKr/hD4erty7MAzJUsEReOZUy20GtDiE7cbsaAmjO4=;
+ b=BKJG60yD9kmWdR52vqOyxjswTrgKrXWRdnueFHZ2K2z0VSECVzKuojZfOWpTJAq8S/
+ 4+ViVH9oEAKTxF6bj5e6yeDndzt67Jeqh/Rg50Z0l/6RS/V8iNo3+veE8DMtzUerdoNc
+ e5EAnCFmtMLfWBxuRjYZUZ9qczeK3GSQqX+POitnzV5640wVfe2fOqgfVE2xKjDcbLOF
+ PPaqlBbj0aXJcrvHHIt80zSwLFb26YQywfAXQMrCvGsAmcGCAD1wIsAaEDU9xozCbe0L
+ kYnwPYuI/M/+6GAP8klwgcr6jC/NOMVQLItC9TDZ/Qh5AuCaVVjVeZa1KxmrfMOwJ+Gh
+ 5xvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=UhKr/hD4erty7MAzJUsEReOZUy20GtDiE7cbsaAmjO4=;
+ b=UmVct3gU7SU6zzmwkAgVdAA/mf58MRj17+E7J5RXuHooJon+c8vNIZYaUH5tfIo003
+ WtjI29h6slNJgfa/etNFnFJF7S0azqynuzHjm2g86nUaRoKYkMwu6eoVNxqPSUAcq9ao
+ EO3dn4yzzPalR3Yj6bEsnoR+kGrYP2VvPev7K+8Ovv5VQcBm0hExtVjQRZhB6kDaztUK
+ MIPqwQ+/NwDS7vtoktuRtSdODylNGE8UREiB9eOe8Kpb/sQNrG4YxHaT0JwDllTqNCIP
+ v983GIzsFt4baY3+WZZMXqRrx2n9/i2ZW6Xi+Gv2RcYnb8rdad0X9CXhTcpZ05e5X5T6
+ U59g==
+X-Gm-Message-State: AOAM533iVMegbEbLwCmSz8LaOC8ZXHQ27g13l3DbsSI6xmNX/tYdpVTR
+ s4kLwFNgv55ZEuN/NaehJWEQTQ==
+X-Google-Smtp-Source: ABdhPJyCgzXTROtPRsC4d+9a1EqqcykpKTSp+8V0w+VdpE/E+V2ZqOkucFDN/YfFuOy4Z6OnMRwsKA==
+X-Received: by 2002:adf:ebcb:: with SMTP id v11mr10527958wrn.408.1605796829768; 
+ Thu, 19 Nov 2020 06:40:29 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id b8sm43120209wrv.57.2020.11.19.06.40.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Nov 2020 06:40:28 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C035F1FF7E;
+ Thu, 19 Nov 2020 14:40:27 +0000 (GMT)
+References: <20201117173635.29101-1-alex.bennee@linaro.org>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH for 5.2-rc3 v1 0/6] testing fixes (avocado, gitlab)
+In-reply-to: <20201117173635.29101-1-alex.bennee@linaro.org>
+Date: Thu, 19 Nov 2020 14:40:27 +0000
+Message-ID: <871rgpv290.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <CAJSP0QUAFLUT22pos0YVagyCyJ=L-bGkGMgBHEVYnSCVX9Mpng@mail.gmail.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=fche@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=fche@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 03:44:58
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,38 +88,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, "Richard W.M. Jones" <rjones@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- William Cohen <wcohen@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Miroslav Rezanina <mrezanin@redhat.com>, ddepaula@redhat.com
+Cc: peter.maydell@linaro.org,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi -
 
-> > Maybe add a comment? (no need to repost if you agree):
-> >
-> >        # Workaround to avoid dtrace(1) produces file with 'hidden'
-> >        # symbol visibility, define STAP_SDT_V2 to produce 'default'
-> >        # symbol visibility instead.
-> >
-> > > +    QEMU_CFLAGS="$QEMU_CFLAGS -DSTAP_SDT_V2"
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-Please note that we don't know how long this behavior will persist.
-You are relying on an accident. :-)
+> Hi,
+>
 
-Much of the systemtap code doesn't support real STAP_SDT_V2 format,
-and /usr/include/sys/sdt.h cannot generate it at all.  That macro
-tricks only the dtrace-header-generator to suppress the "hidden"
-visibility attribute, but doesn't change probe metadata format to the
-old V2 (in .probes sections rather than .note.* ELF notes).
+Gentle ping:<snip>
 
-We'll try not to break it, but please move toward the more proper
-per-solib or per-executable hidden copies of the semaphore objects.
+> The following need review:
+>
+<snip>
+>   - tests/avocado: clean-up socket directory after run
+<snip>
+>   - scripts/ci: clean up default args logic a little
+<snip>
 
-- FChE
-
+--=20
+Alex Benn=C3=A9e
 
