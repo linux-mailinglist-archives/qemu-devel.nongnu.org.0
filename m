@@ -2,73 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79BE62B9BF8
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 21:30:46 +0100 (CET)
-Received: from localhost ([::1]:34126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF1A92B9C1A
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 21:34:22 +0100 (CET)
+Received: from localhost ([::1]:40750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfqZm-0007gA-Dd
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 15:30:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56106)
+	id 1kfqdJ-0002LZ-U5
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 15:34:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kfqOe-0001PL-QD
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 15:19:12 -0500
-Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:33422)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kfqOc-0003jG-99
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 15:19:12 -0500
-Received: by mail-io1-xd42.google.com with SMTP id l22so167506iom.0
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 12:19:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ropCL+yJSxfh1UHY7SSS3b7mzwZ7N6+Um+strQ4MEkY=;
- b=LwKRTh6syOa6XPm8wGBf5tSYiQOaIsZKOo3fqWdDoc2BkHOTSEybSV7F5sVkk5phnp
- jsDI6obEFfPXKbcbs7f8kvvTKz1ZM5GHbheKcPQY9h1pSqsKgWai/a8HfygXuLcJSMLl
- 0Ka5bOpGu7vsNTCjWoPT81jpSvlEebhHaXJczbTeIsMWdBO9AnzEScPCnIw6ewWz21Kd
- z+t9E1M78x8Am4UTx/gt1+pNAnkzKwG2mQ2cUqGyEjHIs5XRFQSWDxtTLZN/q4hDpz3z
- /F8HIF36phC7A8X64+Rsi54mxhE9vAEYPw9W/XT2ndrUs3js9AmW7YykiVb9DGDkkd4h
- S3UQ==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kfq9g-00029s-SY
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 15:03:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29970)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kfq9W-0002x7-81
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 15:03:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605816175;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=u8mDCgkESM8bT9A0icfuuAjUuXv27LB9x4QbScDEJOM=;
+ b=CWW+8AATo0ENyUTYPgorNVObhcGtzSorDlgrmV9//L+d/RsJIiirD9hRrjhx+gioijdLpj
+ VESxGlHBGR3nya97SkPxsdkNSvJLoetruiAT5RZ798iLiE0NrhLu1Ha1Q3eNiGCopcSwlq
+ 5Hvs3FBo9p3X4Gibj0C9DG6kFeolAPE=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-3-yVNYkHlgO9irxqntzWOXCQ-1; Thu, 19 Nov 2020 15:02:54 -0500
+X-MC-Unique: yVNYkHlgO9irxqntzWOXCQ-1
+Received: by mail-qk1-f200.google.com with SMTP id f9so5967529qkg.13
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 12:02:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ropCL+yJSxfh1UHY7SSS3b7mzwZ7N6+Um+strQ4MEkY=;
- b=FvEownYSXy5KHsoEot6BNfR4X3b/5w/sWZy4NrKywmIzEmaHF4FeIZsfvV1piFLmxi
- I6Vkeyfk6pz7ALZSoxfODeqCi89TpTPOzKptt3ss6YeyVo3sYXdtENWDZl8tueo1xbL1
- hCuLG/PLckd+Kg3VQBSYKlBakZ2lZaXPYwTQNWpk+I6mxstRsV3wIumo+LbH8AKPIqU8
- IT1aMxVEAIiU9O24K0o9KkGrZycenQ0JhH/O0ZDSX8TdhFj9DMHV16keV6bGVwssD8XH
- YNq63qOJC544bh4kbI+qsgkzsuSMEGoMHrnSkKLpKV5+F/4wkTmmqGMjSdA2Mhu4cAH+
- 6PGg==
-X-Gm-Message-State: AOAM530nq6J6CMU1YLV0eLUJw/O0BmrkEgNUgMBp6zxoZKdyjC2LPc+i
- NKZZm6j4WeH3P8od1DKX/mR5RqW5VymhYYZTQQc=
-X-Google-Smtp-Source: ABdhPJxnduq64EiHuYOBsVTzZFZDKmWEJuM4ZOWEphCLE61zWqHV45AZMJ1T+ll4Y17chjfL5Kne6f5/KoL1uVC+0W0=
-X-Received: by 2002:a6b:b30b:: with SMTP id c11mr7289765iof.175.1605817149185; 
- Thu, 19 Nov 2020 12:19:09 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=u8mDCgkESM8bT9A0icfuuAjUuXv27LB9x4QbScDEJOM=;
+ b=FA1JpCLrCkLnFvLFJW9FzTGe51GFkZ687mjlpai1tv9tkBti9BpUFHBPVP9vsVipAQ
+ U++qlNxjfOO2f3QBQ/5VVfPmsNBf7/S0IQKCox4yeKKE6kMMA/XgijX51pZPz3cu2y6U
+ d6OIpAhiWoUspD1W5dE75cXGvm5uAjtcLnuG+mekpM9MxdKQdBE9372ykTYuLbVbhD6h
+ YzfThgdo4FjHlZOvvfjyrrudyKypX6IMoQriFHmLg3obSt6FW8Uq0iquVNu8VNkRpEBO
+ pL2ftK0GJXJ5Y13kqwOaN+yhePZFi+4ot8Ht/z7i28XSpC2zc8wxgD25N16sLulGFRZF
+ nJDA==
+X-Gm-Message-State: AOAM533UaOWC9aD7cNZq2r5qVQ1EtXa6cxjTrqXegFoCo0V9G5o8oJcg
+ TEv4ggtfYsyPBHT2Ar8MtTzVU63tQhNlbNgkgHpdJminxWQE+bafKMiwU01IdseWOg/k5MDf+Up
+ kZvZwzOtI9Tkot8U=
+X-Received: by 2002:ac8:71d5:: with SMTP id i21mr12675948qtp.4.1605816173623; 
+ Thu, 19 Nov 2020 12:02:53 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwWeRnqC++S6GNl/TIC+Ik6oRPZv7HoGmfGgUPZlUq2sp6fI8AB+Zj8+rHh6LOUeEvVdjzt2A==
+X-Received: by 2002:ac8:71d5:: with SMTP id i21mr12675924qtp.4.1605816173366; 
+ Thu, 19 Nov 2020 12:02:53 -0800 (PST)
+Received: from xz-x1
+ (bras-vprn-toroon474qw-lp130-20-174-93-89-196.dsl.bell.ca. [174.93.89.196])
+ by smtp.gmail.com with ESMTPSA id x72sm611434qkb.90.2020.11.19.12.02.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Nov 2020 12:02:52 -0800 (PST)
+Date: Thu, 19 Nov 2020 15:02:50 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Subject: Re: [PATCH v3 7/7] introduce simple linear scan rate limiting
+ mechanism
+Message-ID: <20201119200250.GH6538@xz-x1>
+References: <20201119125940.20017-1-andrey.gruzdev@virtuozzo.com>
+ <20201119125940.20017-8-andrey.gruzdev@virtuozzo.com>
 MIME-Version: 1.0
-References: <20201105175153.30489-1-alex.bennee@linaro.org>
- <20201105175153.30489-7-alex.bennee@linaro.org>
-In-Reply-To: <20201105175153.30489-7-alex.bennee@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 19 Nov 2020 12:06:44 -0800
-Message-ID: <CAKmqyKPWiy77ePe6y7cOGkOjDfdikX=SoyACEfPf6XjvzwvX2A@mail.gmail.com>
-Subject: Re: [RFC PATCH 06/15] docs: add some documentation for the
- guest-loader
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd42.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201119125940.20017-8-andrey.gruzdev@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,109 +93,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: julien@xen.org, Masami Hiramatsu <masami.hiramatsu@linaro.org>,
- andre.przywara@arm.com, stefano.stabellini@linaro.org,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Takahiro Akashi <takahiro.akashi@linaro.org>, stefano.stabellini@xilinx.com,
- stratos-dev@op-lists.linaro.org
+Cc: Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 5, 2020 at 9:58 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
-ote:
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> ---
->  docs/system/guest-loader.rst | 54 ++++++++++++++++++++++++++++++++++++
->  docs/system/index.rst        |  1 +
->  2 files changed, 55 insertions(+)
->  create mode 100644 docs/system/guest-loader.rst
->
-> diff --git a/docs/system/guest-loader.rst b/docs/system/guest-loader.rst
-> new file mode 100644
-> index 0000000000..37d03cbd89
-> --- /dev/null
-> +++ b/docs/system/guest-loader.rst
-> @@ -0,0 +1,54 @@
-> +..
-> +   Copyright (c) 2020, Linaro
-> +
-> +Guest Loader
-> +------------
-> +
-> +The guest loader is similar to the `generic-loader` although it is
-> +aimed at a particular use case of loading hypervisor guests. This is
-> +useful for debugging hypervisors without having to jump through the
-> +hoops of firmware and boot-loaders.
-> +
-> +The guest loader does two things:
-> +
-> +  - load blobs (kernels and initial ram disks) into memory
-> +  - sets platform FDT data so hypervisors can find and boot them
-> +
-> +This is what is typically done by a boot-loader like grub using it's
-> +multi-boot capability. A typical example would look like:
-> +
-> +.. parsed-literal::
-> +
-> +  |qemu_system| -kernel ~/xen.git/xen/xen \
-> +    -append "dom0_mem=3D1G,max:1G loglvl=3Dall guest_loglvl=3Dall" \
-> +    -device guest-loader,addr=3D0x42000000,kernel=3DImage,bootargs=3D"ro=
-ot=3D/dev/sda2 ro console=3Dhvc0 earlyprintk=3Dxen" \
-> +    -device guest-loader,addr=3D0x47000000,initrd=3Drootfs.cpio
-> +
-> +In the above example the Xen hypervisor is loaded by the -kernel
-> +parameter and passed it's boot arguments via -append. The Dom0 guest
-> +is loaded into the areas of memory. Each blob will get
-> +`/chosen/module@<addr>` entry in the FDT to indicate it's location and
-> +size. Additional information can be passed with by using additional
-> +arguments.
-> +
-> +Currently the only supported machines which use FDT data to boot are
-> +the ARM and RiscV `virt` machines.
+On Thu, Nov 19, 2020 at 03:59:40PM +0300, Andrey Gruzdev wrote:
+> Since reading UFFD events and saving paged data are performed
+> from the same thread, write fault latencies are sensitive to
+> migration stream stalls. Limiting total page saving rate is a
+> method to reduce amount of noticiable fault resolution latencies.
+> 
+> Migration bandwidth limiting is achieved via noticing cases of
+> out-of-threshold write fault latencies and temporarily disabling
+> (strictly speaking, severely throttling) saving non-faulting pages.
 
-RISC-V.
+Just curious: have you measured aver/max latency of wr-protected page requests,
+or better, even its distribution?
 
-Otherwise:
+I believe it should also be relevant to where the snapshot is stored, say, the
+backend disk of your tests.  Is that a file on some fs?
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+I would expect the latency should be still good if e.g. the throughput of the
+backend file system is decent even without a patch like this, but I might have
+missed something..
 
-Alistair
+In all cases, it would be very nice if this patch can have the histogram or
+aver or max latency measured and compared before/after this patch applied.
 
-> +
-> +Arguments
-> +^^^^^^^^^
-> +
-> +The full syntax of the guest-loader is::
-> +
-> +  -device guest-loader,addr=3D<addr>[,kernel=3D<file>,[bootargs=3D<args>=
-]][,initrd=3D<file>]
-> +
-> +``addr=3D<addr>``
-> +  This is mandatory and indicates the start address of the blob.
-> +
-> +``kernel|initrd=3D<file>``
-> +  Indicates the filename of the kernel or initrd blob. Both blobs will
-> +  have the "multiboot,module" compatibility string as well as
-> +  "multiboot,kernel" or "multiboot,ramdisk" as appropriate.
-> +
-> +``bootargs=3D<args>``
-> +  This is an optional field for kernel blobs which will pass command
-> +  like via the `/chosen/module@<addr>/bootargs` node.
-> diff --git a/docs/system/index.rst b/docs/system/index.rst
-> index 3cff0ca98f..b5cfe8ee93 100644
-> --- a/docs/system/index.rst
-> +++ b/docs/system/index.rst
-> @@ -25,6 +25,7 @@ Contents:
->     ivshmem
->     linuxboot
->     generic-loader
-> +   guest-loader
->     vnc-security
->     tls
->     gdb
-> --
-> 2.20.1
->
->
+Thanks,
+
+-- 
+Peter Xu
+
 
