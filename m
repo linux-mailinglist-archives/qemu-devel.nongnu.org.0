@@ -2,110 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89B852B97A2
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 17:20:55 +0100 (CET)
-Received: from localhost ([::1]:49534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A50DE2B979C
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 17:19:28 +0100 (CET)
+Received: from localhost ([::1]:46274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfmg2-0002F6-I6
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 11:20:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51936)
+	id 1kfmed-0000sw-MI
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 11:19:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1kfmcv-0007kX-8x
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:17:41 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:32614
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1kfmcp-0006So-EQ
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:17:40 -0500
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0AJGGVbT073388
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 11:17:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=7TbTVUG/qpHSRFAkVpqYo0k0ZUu5HCswh2C1jrajhac=;
- b=CCSenUWxR7YP4AwwU/iDuGprLOxwkcH9zsTmYtA+Z2r2JxvjJd+x1yyB4++Fi5AabGqK
- NKaKz0px3OXqS33kQQIKShN5UPkrY0mdZt/XS19jTmhdALoRAWs/o4HUVGFQx6qL9p/y
- 4IUmjAKrUHaWurAS2zm7xDlPATauGVz9s3sHPtYh9xCTspJIBs+4lqaCqTo8ckdtWAbk
- 0pTPK2gFmN3a62d8cyJQG1UZZCYcZuHu79irOx1SkllOsfSiOhPoKgcwWxJhD7iInt0j
- NkbZkY5uNQS8FNActhoCW6yapfJikuQL8eoi3lraYHXWulL894PzvTrIBrdSdnAGW/cH mA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 34wu7723wp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 11:17:20 -0500
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0AJGGfL6075213
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 11:17:08 -0500
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0b-001b2d01.pphosted.com with ESMTP id 34wu7723f4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 19 Nov 2020 11:17:08 -0500
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0AJG7VTp007984;
- Thu, 19 Nov 2020 16:16:56 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma03dal.us.ibm.com with ESMTP id 34w26349m8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 19 Nov 2020 16:16:55 +0000
-Received: from b03ledav003.gho.boulder.ibm.com
- (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0AJGGsO810158808
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 19 Nov 2020 16:16:54 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 948FA6A04F;
- Thu, 19 Nov 2020 16:16:54 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0611E6A047;
- Thu, 19 Nov 2020 16:16:53 +0000 (GMT)
-Received: from [9.65.247.165] (unknown [9.65.247.165])
- by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 19 Nov 2020 16:16:53 +0000 (GMT)
-Subject: Re: [PATCH-for-5.2? v3 3/9] hw/usb: reorder fields in UASStatus
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20201105221905.1350-1-dbuono@linux.vnet.ibm.com>
- <20201105221905.1350-4-dbuono@linux.vnet.ibm.com>
- <4677dea1-bdd2-0095-e75c-2ca6d9be0cb9@redhat.com>
-From: Daniele Buono <dbuono@linux.vnet.ibm.com>
-Message-ID: <afff8e95-ac1f-552a-c8b3-ff008947bf98@linux.vnet.ibm.com>
-Date: Thu, 19 Nov 2020 11:16:52 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.1
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kfmca-0007ch-9W
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:17:20 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:39379)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kfmcY-0006QQ-Px
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:17:19 -0500
+Received: by mail-wr1-x436.google.com with SMTP id o15so7047476wru.6
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 08:17:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VuHeoxQ87kDmF4w49Na9+smPzrx1RQcSNnlEhYHw+W8=;
+ b=uJEVsSmJ6USSIEpleKQf7VDbUxKN95N1JA9Tq8iZPnu1zT6CT+1Fj1pQXI6pdpjItz
+ VF0OMa28vrUA243g2frCdvyJgGUiHaQ76FhKXfXLtKjo/MIg7HNIdf59M1NCqvMuZr/R
+ cXCbwUYEk8CYRgv94luqOXaxa/3H5SZe4NrxhexGqXa0dmw7OZwAkNvgpriubuFmHwU/
+ qF/irn+XVMp9rZGIzT+DjBiAIQPG28hoMO1xhEAvdPATxIp1GB+HMrvTb+o/NY81RACm
+ blABorm2YBnqrFdJbcLNfHQbksfWLDJ8sCA1pLAkCizdQSvdXoRwftjGpHnBP9sqMyst
+ 0KYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=VuHeoxQ87kDmF4w49Na9+smPzrx1RQcSNnlEhYHw+W8=;
+ b=az7G2BtU60oQhjd5Y/0Bt6MesGgVpQmoSs8Zlm9oVnLurJInHL9ptshAJkGxfzQKx0
+ yTFuGV00pxbQEBYb6ue3k8F1h+x06aMbPRIKoh6blDJAPHZ2657n4hCRZWKEmJDI07xd
+ HhzbC77/G8N/Z8ofwDqpP8THnUPH73CwFfFvwiLd2uh49leQSscISsMo46zjaO/F7cpS
+ J02EPb/OIdp2oO9HeiVlVLi6lFDyBszbmUjJ7S65C9TDtjmFOjaXeWLQiq2KiA+cmMmo
+ R0dzTr/qOZa+KiNjN389zHEFi5ove98btM2egPkT/O5EirDf2ZMwASpONdQwqspFkXCZ
+ holQ==
+X-Gm-Message-State: AOAM5317keeo2DvB/4lGOXSolUBat/Z7nl7icgn5DdSxs/TZGaw1ylwT
+ VPgOt1kkZfa65QQnnshXiyqOfz+Y9+0=
+X-Google-Smtp-Source: ABdhPJzSO6adJ0iMmG2Z9ihQPHPw9Nnu5l4h5BdcY3K5DCaRkNqEgZCTfewlUU8u6MINqs3C6dA9Yg==
+X-Received: by 2002:adf:f783:: with SMTP id q3mr10652843wrp.88.1605802633078; 
+ Thu, 19 Nov 2020 08:17:13 -0800 (PST)
+Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id q16sm379948wrn.13.2020.11.19.08.17.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Nov 2020 08:17:12 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/4] linux-user: Support o32 ABI with 64-bit MIPS CPUs
+Date: Thu, 19 Nov 2020 17:17:06 +0100
+Message-Id: <20201119161710.1985083-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <4677dea1-bdd2-0095-e75c-2ca6d9be0cb9@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
- definitions=2020-11-19_09:2020-11-19,
- 2020-11-19 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- impostorscore=0 clxscore=1015 priorityscore=1501 bulkscore=0 adultscore=0
- malwarescore=0 phishscore=0 suspectscore=2 lowpriorityscore=0 mlxscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011190116
-Received-SPF: none client-ip=148.163.158.5;
- envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 09:24:07
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -118,103 +85,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
-
-On 11/6/2020 9:28 AM, Philippe Mathieu-Daudé wrote:
-> On 11/5/20 11:18 PM, Daniele Buono wrote:
->> The UASStatus data structure has a variable sized field inside of type uas_iu,
->> that however is not placed at the end of the data structure.
->>
->> This placement triggers a warning with clang 11, and while not a bug right now,
->> (the status is never a uas_iu_command, which is the variable-sized case),
->> it could become one in the future.
-> 
-> The problem is uas_iu_command::add_cdb, indeed.
-> 
->>
->> ../qemu-base/hw/usb/dev-uas.c:157:31: error: field 'status' with variable sized type 'uas_iu' not at the end of a struct or class is a GNU extension [-Werror,-Wgnu-variable-sized-type-not-at-end]
-> 
-> If possible remove the "../qemu-base/" as it does not provide
-> any useful information.
-> 
-Sure, will do at the next cycle
->>      uas_iu                    status;
->>                                ^
->> 1 error generated.
->>
->> Fix this by moving uas_iu at the end of the struct
-> 
-> Your patch silents the warning, but the problem is the same.
-> It would be safer/cleaner to make 'status' a pointer on the heap IMO.
-
-I'm thinking of moving 'status' in a pointer with the following code
-changes:
-
-UASStatus is allocated in `usb_uas_alloc_status`, which currently does
-not take a type or size for the union field. I'm thinking of adding
-requested size for the status, like this:
-
-static UASStatus *usb_uas_alloc_status(UASDevice *uas, uint8_t id,
-uint16_t tag, size_t size);
-
-and the common call would be
-usb_uas_alloc_status([...],sizeof(uas_iu));
-
-Also we'd need a double free when the object is freed. Right now
-it's handled in the code when the object is not used anymore with a
-`g_free(st);`.
-I'd have to replace it with
-`g_free(st->status); g_free(st);`. Would you suggest doing it place
-or by adding a usb_uas_dealloc_status() function?
-
----
-
-However, I am confused by the use of that variable-lenght field.
-I'm looking at what seems the only place where a command is
-parsed, in `usb_uas_handle_data`.
-
-uas_iu iu;
-[...]
-     switch (p->ep->nr) {
-     case UAS_PIPE_ID_COMMAND:
-         length = MIN(sizeof(iu), p->iov.size);
-         usb_packet_copy(p, &iu, length);
-         [...]
-         break;
-[...]
-
-It would seem that the copy is limited to at most sizeof(uas_iu),
-so even if we had anything in add_cdb[], that wouldn't be copied
-here?
-
-Is this intended?
-
-> 
->>
->> Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
->> ---
->>   hw/usb/dev-uas.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/hw/usb/dev-uas.c b/hw/usb/dev-uas.c
->> index cec071d96c..5ef3f4fec9 100644
->> --- a/hw/usb/dev-uas.c
->> +++ b/hw/usb/dev-uas.c
->> @@ -154,9 +154,9 @@ struct UASRequest {
->>   
->>   struct UASStatus {
->>       uint32_t                  stream;
->> -    uas_iu                    status;
->>       uint32_t                  length;
->>       QTAILQ_ENTRY(UASStatus)   next;
->> +    uas_iu                    status;
->>   };
->>   
->>   /* --------------------------------------------------------------------- */
->>
-> 
+This series allow building linux-user emulator to run ELF=0D
+binaries built for the MIPS o32 ABI on 64-bit CPUs (binaries=0D
+produced by Sony Linux Toolkit for Playstation 2 for the=0D
+R5900 CPU).=0D
+=0D
+The new QEMU binary is named 'qemu-mips64o32'.=0D
+=0D
+The binfmt config isn't correct, as it matches mipsel/mipsn32el.=0D
+I missed to understand how mipsel (o32) and mipsn32el (n32) are=0D
+differenciated.=0D
+=0D
+Based-on: <20201119160838.1981709-1-f4bug@amsat.org>=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (4):=0D
+  linux-user/mips64: Restore setup_frame() for o32 ABI=0D
+  linux-user/mips64: Support o32 ABI syscalls=0D
+  default-configs: Support o32 ABI with 64-bit MIPS CPUs=0D
+  RFC qemu-binfmt-conf.sh: Add MIPS64 o32 ABI=0D
+=0D
+ docs/user/main.rst                                 | 3 +++=0D
+ default-configs/targets/mips64o32el-linux-user.mak | 7 +++++++=0D
+ linux-user/mips64/syscall_nr.h                     | 5 ++++-=0D
+ linux-user/mips64/target_signal.h                  | 4 ++++=0D
+ scripts/qemu-binfmt-conf.sh                        | 4 ++++=0D
+ 5 files changed, 22 insertions(+), 1 deletion(-)=0D
+ create mode 100644 default-configs/targets/mips64o32el-linux-user.mak=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
