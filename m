@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 541E22B900D
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 11:25:08 +0100 (CET)
-Received: from localhost ([::1]:46102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F0E52B9011
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 11:27:08 +0100 (CET)
+Received: from localhost ([::1]:51942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfh7j-0002Yf-Ak
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 05:25:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49048)
+	id 1kfh9f-00055C-6G
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 05:27:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kfh6J-0001FL-HI
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 05:23:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24423)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kfh6Q-0001Ud-TH
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 05:23:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55590)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kfh6H-0004GI-Pc
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 05:23:39 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kfh6O-0004Im-Ix
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 05:23:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605781417;
+ s=mimecast20190719; t=1605781423;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zuVWm2w10Zr6XqrL9ypcZsqyy3otSI98W6NTCepA+4s=;
- b=IK255Rd2tMZqCBfRZUgtk6f+FHmOcodblH3JZcdh3oFwrE+XD9xUQdA1wX15edE9D5AOTQ
- kLpgyDgA2GSQVfWRj0ehg4BQ3uV4V9DuIah3ay+Fay8vkPoj5wmtn+euOSRN1jH6qF+rPP
- NFiiwfRnhEtnMTfW8WFNM2kNlOe3gT0=
+ bh=wlwNaN8UpntTiAbOXepcLhrjKAwc4+uHiBtyiqW63o8=;
+ b=dvzrQfP6tw00ZpGZEwy/YB3yDXfLUq/w44V+8qHoBlFa1bmYyfpcz4HwM4w4rjUTKiUzkz
+ 8cJEEZju8weOy5mPZM4F+s77QBahVRnm3yIxdskAdd9aSnuwAkt2A1G6/+TlfjBMM29kZI
+ gqWy3o+VcwvIIU2aVt+xxV0Jv2BWNYA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-507-mbI9BjUSMAe4z4rPWLiA0A-1; Thu, 19 Nov 2020 05:23:34 -0500
-X-MC-Unique: mbI9BjUSMAe4z4rPWLiA0A-1
+ us-mta-305-TKxTy9XXNL-IefN3cXYhZw-1; Thu, 19 Nov 2020 05:23:39 -0500
+X-MC-Unique: TKxTy9XXNL-IefN3cXYhZw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 298F218B613D;
- Thu, 19 Nov 2020 10:23:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D73418B613F;
+ Thu, 19 Nov 2020 10:23:38 +0000 (UTC)
 Received: from gondolin.redhat.com (ovpn-113-214.ams2.redhat.com
  [10.36.113.214])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 747AB5D9C0;
- Thu, 19 Nov 2020 10:23:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 75FB75D9C0;
+ Thu, 19 Nov 2020 10:23:33 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL for-5.2 2/3] s390x/pci: Unregister listeners before destroying
- IOMMU address space
-Date: Thu, 19 Nov 2020 11:23:24 +0100
-Message-Id: <20201119102325.1314765-3-cohuck@redhat.com>
+Subject: [PULL for-5.2 3/3] s390x/pci: fix endianness issues
+Date: Thu, 19 Nov 2020 11:23:25 +0100
+Message-Id: <20201119102325.1314765-4-cohuck@redhat.com>
 In-Reply-To: <20201119102325.1314765-1-cohuck@redhat.com>
 References: <20201119102325.1314765-1-cohuck@redhat.com>
 MIME-Version: 1.0
@@ -67,7 +66,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,63 +79,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
- Pierre Morel <pmorel@linux.ibm.com>, Niklas Schnelle <schnelle@linux.ibm.com>,
+Cc: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
  Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org
+ Matthew Rosato <mjrosato@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matthew Rosato <mjrosato@linux.ibm.com>
+The zPCI group and function structures are big endian. However, we do
+not consistently store them as big endian locally, and are missing some
+conversions.
 
-Hot-unplugging a vfio-pci device on s390x causes a QEMU crash:
+Let's just store the structures as host endian instead and convert to
+big endian when actually handling the instructions retrieving the data.
 
-qemu-system-s390x: ../softmmu/memory.c:2772:
- do_address_space_destroy: Assertion `QTAILQ_EMPTY(&as->listeners)' failed.
+Also fix the layout of ClpReqQueryPciGrp: g is actually only 8 bit. This
+also fixes accesses on little endian hosts, and makes accesses on big
+endian hosts consistent.
 
-In s390, the IOMMU address space is freed during device unplug but the
-associated vfio-pci device may not yet be finalized and therefore may
-still have a listener registered to the IOMMU address space.
-
-Commit a2166410ad74 ("spapr_pci: Unregister listeners before destroying
-the IOMMU address space") previously resolved this issue for spapr_pci.
-We are now seeing this in s390x; it would seem the possibility for this
-issue was already present but based on a bisect commit 2d24a6466154
-("device-core: use RCU for list of children of a bus") has now changed
-the timing such that it is now readily reproducible.
-
-Add logic to ensure listeners are removed before destroying the address
-space.
-
-Reported-by: Niklas Schnelle <schnelle@linux.ibm.com>
-Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
-Tested-by: Niklas Schnelle <schnelle@linux.ibm.com>
-Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <1605562955-21152-1-git-send-email-mjrosato@linux.ibm.com>
+Fixes: 28dc86a07299 ("s390x/pci: use a PCI Group structure")
+Fixes: 9670ee752727 ("s390x/pci: use a PCI Function structure")
+Fixes: 1e7552ff5c34 ("s390x/pci: get zPCI function info from host")
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+Tested-by: Matthew Rosato <mjrosato@linux.ibm.com>
+Tested-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20201118104202.1301363-1-cohuck@redhat.com>
 ---
- hw/s390x/s390-pci-bus.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ hw/s390x/s390-pci-bus.c         | 10 +++++-----
+ hw/s390x/s390-pci-inst.c        | 16 ++++++++++++++--
+ hw/s390x/s390-pci-vfio.c        | 12 ++++++------
+ include/hw/s390x/s390-pci-clp.h |  8 ++++----
+ 4 files changed, 29 insertions(+), 17 deletions(-)
 
 diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
-index 48a3be802f8e..e0dc20ce4a56 100644
+index e0dc20ce4a56..05f7460aec9b 100644
 --- a/hw/s390x/s390-pci-bus.c
 +++ b/hw/s390x/s390-pci-bus.c
-@@ -732,6 +732,13 @@ static void s390_pci_iommu_free(S390pciState *s, PCIBus *bus, int32_t devfn)
+@@ -777,11 +777,11 @@ static void s390_pci_init_default_group(void)
+     group = s390_group_create(ZPCI_DEFAULT_FN_GRP);
+     resgrp = &group->zpci_group;
+     resgrp->fr = 1;
+-    stq_p(&resgrp->dasm, 0);
+-    stq_p(&resgrp->msia, ZPCI_MSI_ADDR);
+-    stw_p(&resgrp->mui, DEFAULT_MUI);
+-    stw_p(&resgrp->i, 128);
+-    stw_p(&resgrp->maxstbl, 128);
++    resgrp->dasm = 0;
++    resgrp->msia = ZPCI_MSI_ADDR;
++    resgrp->mui = DEFAULT_MUI;
++    resgrp->i = 128;
++    resgrp->maxstbl = 128;
+     resgrp->version = 0;
+ }
  
-     table->iommu[PCI_SLOT(devfn)] = NULL;
-     g_hash_table_destroy(iommu->iotlb);
-+    /*
-+     * An attached PCI device may have memory listeners, eg. VFIO PCI.
-+     * The associated subregion will already have been unmapped in
-+     * s390_pci_iommu_disable in response to the guest deconfigure request.
-+     * Remove the listeners now before destroying the address space.
-+     */
-+    address_space_remove_listeners(&iommu->as);
-     address_space_destroy(&iommu->as);
-     object_unparent(OBJECT(&iommu->mr));
-     object_unparent(OBJECT(iommu));
+diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
+index 58cd041d17fb..70bfd91bf70e 100644
+--- a/hw/s390x/s390-pci-inst.c
++++ b/hw/s390x/s390-pci-inst.c
+@@ -281,7 +281,13 @@ int clp_service_call(S390CPU *cpu, uint8_t r2, uintptr_t ra)
+             goto out;
+         }
+ 
+-        memcpy(resquery, &pbdev->zpci_fn, sizeof(*resquery));
++        stq_p(&resquery->sdma, pbdev->zpci_fn.sdma);
++        stq_p(&resquery->edma, pbdev->zpci_fn.edma);
++        stw_p(&resquery->pchid, pbdev->zpci_fn.pchid);
++        resquery->flags = pbdev->zpci_fn.flags;
++        resquery->pfgid = pbdev->zpci_fn.pfgid;
++        stl_p(&resquery->fid, pbdev->zpci_fn.fid);
++        stl_p(&resquery->uid, pbdev->zpci_fn.uid);
+ 
+         for (i = 0; i < PCI_BAR_COUNT; i++) {
+             uint32_t data = pci_get_long(pbdev->pdev->config +
+@@ -312,7 +318,13 @@ int clp_service_call(S390CPU *cpu, uint8_t r2, uintptr_t ra)
+             stw_p(&resgrp->hdr.rsp, CLP_RC_QUERYPCIFG_PFGID);
+             goto out;
+         }
+-        memcpy(resgrp, &group->zpci_group, sizeof(ClpRspQueryPciGrp));
++        resgrp->fr = group->zpci_group.fr;
++        stq_p(&resgrp->dasm, group->zpci_group.dasm);
++        stq_p(&resgrp->msia, group->zpci_group.msia);
++        stw_p(&resgrp->mui, group->zpci_group.mui);
++        stw_p(&resgrp->i, group->zpci_group.i);
++        stw_p(&resgrp->maxstbl, group->zpci_group.maxstbl);
++        resgrp->version = group->zpci_group.version;
+         stw_p(&resgrp->hdr.rsp, CLP_RC_OK);
+         break;
+     }
+diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
+index d5c78063b5bc..9296e1bb6efa 100644
+--- a/hw/s390x/s390-pci-vfio.c
++++ b/hw/s390x/s390-pci-vfio.c
+@@ -156,12 +156,12 @@ static void s390_pci_read_group(S390PCIBusDevice *pbdev,
+         if (cap->flags & VFIO_DEVICE_INFO_ZPCI_FLAG_REFRESH) {
+             resgrp->fr = 1;
+         }
+-        stq_p(&resgrp->dasm, cap->dasm);
+-        stq_p(&resgrp->msia, cap->msi_addr);
+-        stw_p(&resgrp->mui, cap->mui);
+-        stw_p(&resgrp->i, cap->noi);
+-        stw_p(&resgrp->maxstbl, cap->maxstbl);
+-        stb_p(&resgrp->version, cap->version);
++        resgrp->dasm = cap->dasm;
++        resgrp->msia = cap->msi_addr;
++        resgrp->mui = cap->mui;
++        resgrp->i = cap->noi;
++        resgrp->maxstbl = cap->maxstbl;
++        resgrp->version = cap->version;
+     }
+ }
+ 
+diff --git a/include/hw/s390x/s390-pci-clp.h b/include/hw/s390x/s390-pci-clp.h
+index ea2b1378cd5a..96b8e3f1331b 100644
+--- a/include/hw/s390x/s390-pci-clp.h
++++ b/include/hw/s390x/s390-pci-clp.h
+@@ -144,10 +144,10 @@ typedef struct ClpReqQueryPciGrp {
+     ClpReqHdr hdr;
+     uint32_t fmt;
+     uint64_t reserved1;
+-#define CLP_REQ_QPCIG_MASK_PFGID 0xff
+-    uint32_t g;
+-    uint32_t reserved2;
+-    uint64_t reserved3;
++    uint8_t reserved2[3];
++    uint8_t g;
++    uint32_t reserved3;
++    uint64_t reserved4;
+ } QEMU_PACKED ClpReqQueryPciGrp;
+ 
+ /* Query PCI function group response */
 -- 
 2.26.2
 
