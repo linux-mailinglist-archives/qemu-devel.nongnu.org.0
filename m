@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49B942B9D51
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 23:05:34 +0100 (CET)
-Received: from localhost ([::1]:36006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 446B22B9D4E
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 23:03:00 +0100 (CET)
+Received: from localhost ([::1]:57752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfs3Z-0001cY-Ai
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 17:05:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51070)
+	id 1kfs15-0007PR-Bi
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 17:02:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kfrum-0000an-9j
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:56:28 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:34281)
+ id 1kfrun-0000d2-Da
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:56:29 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:44046)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kfruk-00047v-5j
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:56:28 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id r17so8059430wrw.1
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 13:56:25 -0800 (PST)
+ id 1kfrul-00048W-72
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:56:29 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id c17so7955045wrc.11
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 13:56:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=6ZUEsNLnkcWrUFTIwzA/F8jefuZJiQAaCiyi3H4CQDk=;
- b=OXGhp5s//6VwqHwYzKZD0fmVFg2mZv7f4BtWyVhhd/IzqjvbOeZNiAWIuaCqjHtZ5U
- H9PriM6SC3nmucTaskw7YlrKBNKwHGO5ht/mgd9OMmDK7wa3QscxvWAVon06DTJbG5Zv
- gq5AreQ70jaYPaFvTvB3AlKOLAB8p42RuN6jNZsqdV9M3zD5mnLowLjQePMrhIhu3+68
- pJKaErh++gOc1yvl1PaE8JDZ7d4v+BhVXkR2g51QY8r6TJyqX45XHuDw6a+kLMRFZRh4
- NfqvbTzv1DakET1pfw1zm7hMLq9y6foexbd64GhA84A3SwWNhBZUk9trr1AHTLz0JiTX
- OtEQ==
+ bh=Geuo7aDlDntl9E+BThf4Sp6VC9Xi1ojKJ4sXKRlUeWo=;
+ b=JdH587DAedQ+MR5KaQmfLjoDSs7/agOQHmuT6/EJfhzf3xwW81Flu2A2OHxY/6vEGK
+ vVN18Dkgbr0yVm9hNdJ3xW5KgbxKAt27xtXNje7GiCEpBByB1uZo2E+xB2yQ40UDZfKD
+ kTQX9PB8f3vBdyEk4GX4nmtmwp6N63jLk++9eM5VXmIngflVEKOStewieoNvpRmjzDcM
+ BCeHDEAUkjpb6/Hbh3OB/f8OITAq+CjOtdXirDCuGUw4Ypd9vr1hWI1qAew/p+uNHA6z
+ fARb183/ML4PDu+9Q7e1KNh1aOh3Cknsxn+3IHLELwbQTjbw6orE8MToU9Ne0zB2Xs9F
+ SCTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6ZUEsNLnkcWrUFTIwzA/F8jefuZJiQAaCiyi3H4CQDk=;
- b=bVzng6x0fOnxGgnQvjaEfbxuIUxnU5nv023J6z6cx/o8h9oGzRcaKIm5k4DzNSFpxN
- DSJD173IfJEQQ8vwME08clRM/fvbrcgDQY0ypBvLxLnHnUBRd2mMRVDdY08FrE9c9lBe
- ymJX1mZPgHGg3T2XFReHqGe8dmp4C04169cukEboSNBvUBxAfAJb0PRYMKhO0eS5eIMw
- YUMUq6eei4FI5Pj9iNTBQ05/5scHSiOj68Nl5dChHnocP3GRkhGQuC04inRuZKtCVdM6
- ByyoogFnb0LlSSTH82FhbxmQ6Fl1H3XBzglDN/cUB7JABfGwclFXMRqqqzPgNR9r5xhX
- 7b6Q==
-X-Gm-Message-State: AOAM530rGhEH7//4A9gRDXoirxi6g9QlyCY9/2NKq4Kb3xOrXvJ3ej/P
- seUDEIGWKmV+1feyASAdqbHSaQ==
-X-Google-Smtp-Source: ABdhPJxhHeHLzzaOnn/pWZIgh10DABqluBMaiek+pXyKckHE0Z7JhbMmnmW/oLcgBBc+sn3jYb75Vg==
-X-Received: by 2002:a05:6000:11c2:: with SMTP id
- i2mr10628297wrx.21.1605822984741; 
- Thu, 19 Nov 2020 13:56:24 -0800 (PST)
+ bh=Geuo7aDlDntl9E+BThf4Sp6VC9Xi1ojKJ4sXKRlUeWo=;
+ b=eo7czMOUb6CUhViiQrBGlGuvVv4fjO9z8EG00YULajPd7bmcWyORk7BBlQiJ9I6ibE
+ TZgEca5HkzaBZiZ5LRt0JJnAoOvlMpf8IlzGyP902R7pQezmHfe8vvC90+WLpXyEEZM1
+ dqLz94u038yMbYFurKJqbn1yhES2gWHrDFd+qs4vurzRcbC45ehx4pLft1ztT8hDUL07
+ 2nDfcLa5PZAP4p7rWLar1mjNyv2sxGjea+H/Y/CjUt9aqnvbsh86VJwtcVIJjTblWn6z
+ KyJpvfiYBEJZla/ax8EN7VhCPKi/HBJTE2a3IlnuKHe9JVaEe+4ArpMQNDL0YWR4JctC
+ AxoA==
+X-Gm-Message-State: AOAM53002tdxYJkwoNE3cDNDnwnNWyJFXw6sUZ7YLhHX7sp5UnRp6YNZ
+ kNOIYFROjKAzJRTyGBzDBvHlGw==
+X-Google-Smtp-Source: ABdhPJyCdxkj3DFBUYd1D3h/aiunzKZaf4sOByuhQg1u8wES0KZxL7nPVrurSkllNvqZg182neTbQg==
+X-Received: by 2002:a5d:4802:: with SMTP id l2mr12095180wrq.424.1605822985894; 
+ Thu, 19 Nov 2020 13:56:25 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j15sm1934851wrm.62.2020.11.19.13.56.23
+ by smtp.gmail.com with ESMTPSA id j15sm1934851wrm.62.2020.11.19.13.56.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Nov 2020 13:56:24 -0800 (PST)
+ Thu, 19 Nov 2020 13:56:25 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 04/28] target/arm: Implement VSCCLRM insn
-Date: Thu, 19 Nov 2020 21:55:53 +0000
-Message-Id: <20201119215617.29887-5-peter.maydell@linaro.org>
+Subject: [PATCH v2 05/28] target/arm: Implement CLRM instruction
+Date: Thu, 19 Nov 2020 21:55:54 +0000
+Message-Id: <20201119215617.29887-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201119215617.29887-1-peter.maydell@linaro.org>
 References: <20201119215617.29887-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,209 +86,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the v8.1M VSCCLRM insn, which zeros floating point
-registers if there is an active floating point context.
-This requires support in write_neon_element32() for the MO_32
-element size, so add it.
+In v8.1M the new CLRM instruction allows zeroing an arbitrary set of
+the general-purpose registers and APSR.  Implement this.
 
-Because we want to use arm_gen_condlabel(), we need to move
-the definition of that function up in translate.c so it is
-before the #include of translate-vfp.c.inc.
+The encoding is a subset of the LDMIA T2 encoding, using what would
+be Rn=0b1111 (which UNDEFs for LDMIA).
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h               |  9 ++++
- target/arm/m-nocp.decode       |  8 +++-
- target/arm/translate.c         | 21 +++++----
- target/arm/translate-vfp.c.inc | 84 ++++++++++++++++++++++++++++++++++
- 4 files changed, 111 insertions(+), 11 deletions(-)
+ target/arm/t32.decode  |  6 +++++-
+ target/arm/translate.c | 38 ++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 43 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index e5514c82862..11400a9d248 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -3555,6 +3555,15 @@ static inline bool isar_feature_aa32_mprofile(const ARMISARegisters *id)
-     return FIELD_EX32(id->id_pfr1, ID_PFR1, MPROGMOD) != 0;
- }
+diff --git a/target/arm/t32.decode b/target/arm/t32.decode
+index cfcc71bfb0a..f045eb62c84 100644
+--- a/target/arm/t32.decode
++++ b/target/arm/t32.decode
+@@ -609,7 +609,11 @@ UXTAB            1111 1010 0101 .... 1111 .... 10.. ....      @rrr_rot
  
-+static inline bool isar_feature_aa32_m_sec_state(const ARMISARegisters *id)
+ STM_t32          1110 1000 10.0 .... ................         @ldstm i=1 b=0
+ STM_t32          1110 1001 00.0 .... ................         @ldstm i=0 b=1
+-LDM_t32          1110 1000 10.1 .... ................         @ldstm i=1 b=0
 +{
-+    /*
-+     * Return true if M-profile state handling insns
-+     * (VSCCLRM, CLRM, FPCTX access insns) are implemented
-+     */
-+    return FIELD_EX32(id->id_pfr1, ID_PFR1, SECURITY) >= 3;
++  # Rn=15 UNDEFs for LDM; M-profile CLRM uses that encoding
++  CLRM           1110 1000 1001 1111 list:16
++  LDM_t32        1110 1000 10.1 .... ................         @ldstm i=1 b=0
 +}
-+
- static inline bool isar_feature_aa32_fp16_arith(const ARMISARegisters *id)
- {
-     /* Sadly this is encoded differently for A-profile and M-profile */
-diff --git a/target/arm/m-nocp.decode b/target/arm/m-nocp.decode
-index 28c8ac6b94c..ccd62e8739a 100644
---- a/target/arm/m-nocp.decode
-+++ b/target/arm/m-nocp.decode
-@@ -29,13 +29,17 @@
- # If the coprocessor is not present or disabled then we will generate
- # the NOCP exception; otherwise we let the insn through to the main decode.
+ LDM_t32          1110 1001 00.1 .... ................         @ldstm i=0 b=1
  
-+%vd_dp  22:1 12:4
-+%vd_sp  12:4 22:1
-+
- &nocp cp
- 
- {
-   # Special cases which do not take an early NOCP: VLLDM and VLSTM
-   VLLDM_VLSTM  1110 1100 001 l:1 rn:4 0000 1010 0000 0000
--  # TODO: VSCCLRM (new in v8.1M) is similar:
--  #VSCCLRM      1110 1100 1-01 1111 ---- 1011 ---- ---0
-+  # VSCCLRM (new in v8.1M) is similar:
-+  VSCCLRM      1110 1100 1.01 1111 .... 1011 imm:7 0   vd=%vd_dp size=3
-+  VSCCLRM      1110 1100 1.01 1111 .... 1010 imm:8     vd=%vd_sp size=2
- 
-   NOCP         111- 1110 ---- ---- ---- cp:4 ---- ---- &nocp
-   NOCP         111- 110- ---- ---- ---- cp:4 ---- ---- &nocp
+ &rfe             !extern rn w pu
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 6d04ca3a8a0..9f2b6018a21 100644
+index 9f2b6018a21..47a1a5739c8 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -100,6 +100,15 @@ void arm_translate_init(void)
-     a64_translate_init();
+@@ -7968,6 +7968,44 @@ static bool trans_LDM_t16(DisasContext *s, arg_ldst_block *a)
+     return do_ldm(s, a, 1);
  }
  
-+/* Generate a label used for skipping this instruction */
-+static void arm_gen_condlabel(DisasContext *s)
++static bool trans_CLRM(DisasContext *s, arg_CLRM *a)
 +{
-+    if (!s->condjmp) {
-+        s->condlabel = gen_new_label();
-+        s->condjmp = 1;
-+    }
-+}
-+
- /* Flags for the disas_set_da_iss info argument:
-  * lower bits hold the Rt register number, higher bits are flags.
-  */
-@@ -1221,6 +1230,9 @@ static void write_neon_element64(TCGv_i64 src, int reg, int ele, MemOp memop)
-     long off = neon_element_offset(reg, ele, memop);
- 
-     switch (memop) {
-+    case MO_32:
-+        tcg_gen_st32_i64(src, cpu_env, off);
-+        break;
-     case MO_64:
-         tcg_gen_st_i64(src, cpu_env, off);
-         break;
-@@ -5156,15 +5168,6 @@ static void gen_srs(DisasContext *s,
-     s->base.is_jmp = DISAS_UPDATE_EXIT;
- }
- 
--/* Generate a label used for skipping this instruction */
--static void arm_gen_condlabel(DisasContext *s)
--{
--    if (!s->condjmp) {
--        s->condlabel = gen_new_label();
--        s->condjmp = 1;
--    }
--}
--
- /* Skip this instruction if the ARM condition is false */
- static void arm_skip_unless(DisasContext *s, uint32_t cond)
- {
-diff --git a/target/arm/translate-vfp.c.inc b/target/arm/translate-vfp.c.inc
-index 96948f5a2d3..2a67ed0f6e2 100644
---- a/target/arm/translate-vfp.c.inc
-+++ b/target/arm/translate-vfp.c.inc
-@@ -3406,6 +3406,90 @@ static bool trans_VLLDM_VLSTM(DisasContext *s, arg_VLLDM_VLSTM *a)
-     return true;
- }
- 
-+static bool trans_VSCCLRM(DisasContext *s, arg_VSCCLRM *a)
-+{
-+    int btmreg, topreg;
-+    TCGv_i64 zero;
-+    TCGv_i32 aspen, sfpa;
++    int i;
++    TCGv_i32 zero;
 +
 +    if (!dc_isar_feature(aa32_m_sec_state, s)) {
-+        /* Before v8.1M, fall through in decode to NOCP check */
 +        return false;
 +    }
 +
-+    /* Explicitly UNDEF because this takes precedence over NOCP */
-+    if (!arm_dc_feature(s, ARM_FEATURE_M_MAIN) || !s->v8m_secure) {
-+        unallocated_encoding(s);
-+        return true;
++    if (extract32(a->list, 13, 1)) {
++        return false;
 +    }
 +
-+    if (!dc_isar_feature(aa32_vfp_simd, s)) {
-+        /* NOP if we have neither FP nor MVE */
-+        return true;
++    if (!a->list) {
++        /* UNPREDICTABLE; we choose to UNDEF */
++        return false;
 +    }
 +
-+    /*
-+     * If FPCCR.ASPEN != 0 && CONTROL_S.SFPA == 0 then there is no
-+     * active floating point context so we must NOP (without doing
-+     * any lazy state preservation or the NOCP check).
-+     */
-+    aspen = load_cpu_field(v7m.fpccr[M_REG_S]);
-+    sfpa = load_cpu_field(v7m.control[M_REG_S]);
-+    tcg_gen_andi_i32(aspen, aspen, R_V7M_FPCCR_ASPEN_MASK);
-+    tcg_gen_xori_i32(aspen, aspen, R_V7M_FPCCR_ASPEN_MASK);
-+    tcg_gen_andi_i32(sfpa, sfpa, R_V7M_CONTROL_SFPA_MASK);
-+    tcg_gen_or_i32(sfpa, sfpa, aspen);
-+    arm_gen_condlabel(s);
-+    tcg_gen_brcondi_i32(TCG_COND_EQ, sfpa, 0, s->condlabel);
-+
-+    if (s->fp_excp_el != 0) {
-+        gen_exception_insn(s, s->pc_curr, EXCP_NOCP,
-+                           syn_uncategorized(), s->fp_excp_el);
-+        return true;
++    zero = tcg_const_i32(0);
++    for (i = 0; i < 15; i++) {
++        if (extract32(a->list, i, 1)) {
++            /* Clear R[i] */
++            tcg_gen_mov_i32(cpu_R[i], zero);
++        }
 +    }
-+
-+    topreg = a->vd + a->imm - 1;
-+    btmreg = a->vd;
-+
-+    /* Convert to Sreg numbers if the insn specified in Dregs */
-+    if (a->size == 3) {
-+        topreg = topreg * 2 + 1;
-+        btmreg *= 2;
++    if (extract32(a->list, 15, 1)) {
++        /*
++         * Clear APSR (by calling the MSR helper with the same argument
++         * as for "MSR APSR_nzcvqg, Rn": mask = 0b1100, SYSM=0)
++         */
++        TCGv_i32 maskreg = tcg_const_i32(0xc << 8);
++        gen_helper_v7m_msr(cpu_env, maskreg, zero);
++        tcg_temp_free_i32(maskreg);
 +    }
-+
-+    if (topreg > 63 || (topreg > 31 && !(topreg & 1))) {
-+        /* UNPREDICTABLE: we choose to undef */
-+        unallocated_encoding(s);
-+        return true;
-+    }
-+
-+    /* Silently ignore requests to clear D16-D31 if they don't exist */
-+    if (topreg > 31 && !dc_isar_feature(aa32_simd_r32, s)) {
-+        topreg = 31;
-+    }
-+
-+    if (!vfp_access_check(s)) {
-+        return true;
-+    }
-+
-+    /* Zero the Sregs from btmreg to topreg inclusive. */
-+    zero = tcg_const_i64(0);
-+    if (btmreg & 1) {
-+        write_neon_element64(zero, btmreg >> 1, 1, MO_32);
-+        btmreg++;
-+    }
-+    for (; btmreg + 1 <= topreg; btmreg += 2) {
-+        write_neon_element64(zero, btmreg >> 1, 0, MO_64);
-+    }
-+    if (btmreg == topreg) {
-+        write_neon_element64(zero, btmreg >> 1, 0, MO_32);
-+        btmreg++;
-+    }
-+    assert(btmreg == topreg + 1);
-+    /* TODO: when MVE is implemented, zero VPR here */
++    tcg_temp_free_i32(zero);
 +    return true;
 +}
 +
- static bool trans_NOCP(DisasContext *s, arg_nocp *a)
- {
-     /*
+ /*
+  * Branch, branch with link
+  */
 -- 
 2.20.1
 
