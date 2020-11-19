@@ -2,52 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 113502B8E5A
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 10:02:52 +0100 (CET)
-Received: from localhost ([::1]:54360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6ACE2B8E62
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 10:07:58 +0100 (CET)
+Received: from localhost ([::1]:57508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kffq7-0003gg-4y
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 04:02:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55908)
+	id 1kffv3-0005FB-M8
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 04:07:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <RockCui-oc@zhaoxin.com>)
- id 1kffoi-0003Bp-03
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 04:01:24 -0500
-Received: from zxshcas2.zhaoxin.com ([203.148.12.82]:39706)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <RockCui-oc@zhaoxin.com>)
- id 1kffof-0007xV-An
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 04:01:23 -0500
-Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by ZXSHCAS2.zhaoxin.com
- (10.28.252.162) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Thu, 19 Nov
- 2020 16:54:46 +0800
-Received: from zhaoxin-ubuntu20.04 (124.64.18.105) by zxbjmbx1.zhaoxin.com
- (10.29.252.163) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Thu, 19 Nov
- 2020 16:54:45 +0800
-From: "zhaoxin\\RockCuioc" <RockCui-oc@zhaoxin.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH] virtio-blk: seg_max do not subtract 2 if host has
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kfftz-0004oR-TI
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 04:06:51 -0500
+Resent-Date: Thu, 19 Nov 2020 04:06:51 -0500
+Resent-Message-Id: <E1kfftz-0004oR-TI@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21370)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kfftx-0001Qw-FF
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 04:06:51 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1605776805; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=KLtjY935aChGSwp4EA+6RNmEfs1cUa3Ax6PfC/3SuSwK4OydXaKbPWmv9puWpvNd/JIS+fv6FjTiY/Oj1XLvSK9zzFAv6ZmguPxlyVDiGQotAeBfB+wlwJCk5CttAQgKN/J97Lg5cUeO9Jzn0q16LXQ1oGPvFrGxdUfkR1tzjDs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1605776805;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=dm4a1i4XzEPc6sszaM6XPCEDao4d35U4Pl1BDqmNvKE=; 
+ b=Hh3TC/x1779VRfb0/wW/VKkpDi5bvWUevv02XlXMvrmpNlfeyWU5otIgYN7DnH9EwED4rDwmt5tkVseItD7KehxclBvcpEQ//MEaOQHjrsojryWjD9blbI6jHwCrva7q1U06t5cNapADheA0j2XKQwNNa+URAWhyjrhJyLHbAF0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 160577680413144.54670073171599;
+ Thu, 19 Nov 2020 01:06:44 -0800 (PST)
+In-Reply-To: <20201119085437.5333-1-RockCui-oc@zhaoxin.com>
+Subject: Re: [PATCH] virtio-blk: seg_max do not subtract 2 if host has
  VIRTIO_RING_F_INDIRECT_DESC feature
-Date: Thu, 19 Nov 2020 16:54:37 +0800
-Message-ID: <20201119085437.5333-1-RockCui-oc@zhaoxin.com>
-X-Mailer: git-send-email 2.25.1
+Message-ID: <160577680263.135.7562013443625538814@ba092462a7f3>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [124.64.18.105]
-X-ClientProxiedBy: ZXSHCAS2.zhaoxin.com (10.28.252.162) To
- zxbjmbx1.zhaoxin.com (10.29.252.163)
-Received-SPF: pass client-ip=203.148.12.82;
- envelope-from=RockCui-oc@zhaoxin.com; helo=ZXSHCAS2.zhaoxin.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 03:54:48
-X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: RockCui-oc@zhaoxin.com
+Date: Thu, 19 Nov 2020 01:06:44 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 04:06:46
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,38 +70,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: RockCui@zhaoxin.com, CobeChen@zhaoxin.com, flyfan@zhaoxin.com
+Reply-To: qemu-devel@nongnu.org
+Cc: RockCui@zhaoxin.com, CobeChen@zhaoxin.com, qemu-devel@nongnu.org,
+ flyfan@zhaoxin.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch modify virtio-blk seg_max when host has VIRTIO_RING_F_INDIRECT_DESC feature, when read/write virtio-blk disk in direct mode, 
-this patch can make the bio reach 512k but not 504k if the user buffer physical segments are all discontinuous,when use ceph the size of 504k 
-will affect performance.This patch should be used in guest kernel version>=4.14, kernel after this version virtio driver does not judge 
-total_sg and vring num if the host supports indirect descriptor tables.  
-
-Signed-off-by: zhaoxin\RockCuioc <RockCui-oc@zhaoxin.com>
----
- hw/block/virtio-blk.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index bac2d6f..40bbbd7 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -932,7 +932,11 @@ static void virtio_blk_update_config(VirtIODevice *vdev, uint8_t *config)
-     blk_get_geometry(s->blk, &capacity);
-     memset(&blkcfg, 0, sizeof(blkcfg));
-     virtio_stq_p(vdev, &blkcfg.capacity, capacity);
--    virtio_stl_p(vdev, &blkcfg.seg_max,
-+    if virtio_host_has_feature(vdev, VIRTIO_RING_F_INDIRECT_DESC)
-+        virtio_stl_p(vdev, &blkcfg.seg_max,
-+                 s->conf.seg_max_adjust ? s->conf.queue_size: 128);
-+    else
-+        virtio_stl_p(vdev, &blkcfg.seg_max,
-                  s->conf.seg_max_adjust ? s->conf.queue_size - 2 : 128 - 2);
-     virtio_stw_p(vdev, &blkcfg.geometry.cylinders, conf->cyls);
-     virtio_stl_p(vdev, &blkcfg.blk_size, blk_size);
--- 
-2.10.1.windows.1
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTExOTA4NTQzNy41MzMz
+LTEtUm9ja0N1aS1vY0B6aGFveGluLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
+YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
+IGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjAxMTE5MDg1NDM3LjUz
+MzMtMS1Sb2NrQ3VpLW9jQHpoYW94aW4uY29tClN1YmplY3Q6IFtQQVRDSF0gdmlydGlvLWJsazog
+c2VnX21heCBkbyBub3Qgc3VidHJhY3QgMiBpZiBob3N0IGhhcyBWSVJUSU9fUklOR19GX0lORElS
+RUNUX0RFU0MgZmVhdHVyZQoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApn
+aXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2Nh
+bCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVl
+CmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2No
+ZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVw
+ZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRw
+czovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICogW25ldyB0YWddICAgICAgICAg
+cGF0Y2hldy8yMDIwMTExOTA4NTQzNy41MzMzLTEtUm9ja0N1aS1vY0B6aGFveGluLmNvbSAtPiBw
+YXRjaGV3LzIwMjAxMTE5MDg1NDM3LjUzMzMtMS1Sb2NrQ3VpLW9jQHpoYW94aW4uY29tClN3aXRj
+aGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKMTY2OTQ4ZSB2aXJ0aW8tYmxrOiBzZWdfbWF4IGRv
+IG5vdCBzdWJ0cmFjdCAyIGlmIGhvc3QgaGFzIFZJUlRJT19SSU5HX0ZfSU5ESVJFQ1RfREVTQyBm
+ZWF0dXJlCgo9PT0gT1VUUFVUIEJFR0lOID09PQpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3Vu
+ZCB0aGF0ICc6JyAoY3R4OlZ4VykKIzI2OiBGSUxFOiBody9ibG9jay92aXJ0aW8tYmxrLmM6OTM3
+OgorICAgICAgICAgICAgICAgICBzLT5jb25mLnNlZ19tYXhfYWRqdXN0ID8gcy0+Y29uZi5xdWV1
+ZV9zaXplOiAxMjgpOwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgXgoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCAxMiBsaW5l
+cyBjaGVja2VkCgpDb21taXQgMTY2OTQ4ZWYzYWU5ICh2aXJ0aW8tYmxrOiBzZWdfbWF4IGRvIG5v
+dCBzdWJ0cmFjdCAyIGlmIGhvc3QgaGFzIFZJUlRJT19SSU5HX0ZfSU5ESVJFQ1RfREVTQyBmZWF0
+dXJlKSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2Ug
+ZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIs
+IHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3Qg
+Y29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBh
+dApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMTExOTA4NTQzNy41MzMzLTEtUm9ja0N1aS1v
+Y0B6aGFveGluLmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWls
+IGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcv
+XS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
