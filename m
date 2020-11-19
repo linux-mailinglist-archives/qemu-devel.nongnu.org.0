@@ -2,57 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAAAB2B94A0
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 15:32:12 +0100 (CET)
-Received: from localhost ([::1]:44766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F4342B94FF
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 15:42:25 +0100 (CET)
+Received: from localhost ([::1]:52112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfkyp-0008IP-Vp
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 09:32:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48336)
+	id 1kfl8i-0003X8-Bz
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 09:42:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kfkxZ-0007pf-Cx
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 09:30:53 -0500
-Received: from indium.canonical.com ([91.189.90.7]:42770)
+ id 1kfl6N-0002WJ-NS
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 09:39:59 -0500
+Received: from indium.canonical.com ([91.189.90.7]:43586)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kfkxW-0008LR-Re
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 09:30:53 -0500
+ id 1kfl6L-0003Ab-IN
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 09:39:59 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kfkxU-0000Yp-00
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 14:30:47 +0000
+ id 1kfl6J-0001TF-OM
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 14:39:55 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CB8FE2E8141
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 14:30:47 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id AC6672E813E
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 14:39:55 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Nov 2020 14:21:49 -0000
-From: Greg Kurz <1900241@bugs.launchpad.net>
+Date: Thu, 19 Nov 2020 14:26:08 -0000
+From: Eric Blake <498523@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=gromero@br.ibm.com; 
-X-Launchpad-Bug-Tags: kvm powerpc xive
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Wishlist;
+ assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: gkurz sathnaga
-X-Launchpad-Bug-Reporter: Satheesh Rajendran (sathnaga)
-X-Launchpad-Bug-Modifier: Greg Kurz (gkurz)
-References: <160293454254.8431.993577940537988142.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160579570921.17007.10202706636409297701.malone@chaenomeles.canonical.com>
-Subject: [Bug 1900241] Re: [regression][powerpc] some vcpus are found offline
- inside guest with different vsmt setting from qemu-cmdline and breaks
- subsequent vcpu hotplug operation (xive)
+X-Launchpad-Bug-Commenters: eblake sq2d3bipy0t2o-paul th-huth theosib
+X-Launchpad-Bug-Reporter: Timothy Miller (theosib)
+X-Launchpad-Bug-Modifier: Eric Blake (eblake)
+References: <20091219150703.18215.63221.malonedeb@palladium.canonical.com>
+ <160577877517.17269.4220550038917552817.malone@chaenomeles.canonical.com>
+Message-Id: <58556133-af2a-ef20-00c0-7dbb1b907bf7@redhat.com>
+Subject: Re: [Bug 498523] Re: Add on-line write compression support to qcow2
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="c35ff22711d15549e2303ae18ae521fd91f6bf00"; Instance="production"
-X-Launchpad-Hash: 7a1a152570b9fd74a9cac8547c198333dd343e90
+X-Launchpad-Hash: c5c99a611e29aa60f0991def533f455fee017993
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 09:30:48
@@ -75,173 +73,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1900241 <1900241@bugs.launchpad.net>
+Reply-To: Bug 498523 <498523@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixed by reverting the series that caused the regression.
+On 11/19/20 3:39 AM, Thomas Huth wrote:
+> As far as I know, QEMU v5.1 now has support for compression filters,
+> e.g. by creating a qcow2 image with:
+> =
 
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3D6d24795ee7e3199d199d3c415=
-312c93382ad1807
+>  qemu-img create -f qcow2 -o compression_type=3Dzlib image.qcow2 1G
+> =
 
-The optimization needs to be reworked later.
+> ... so I think we can finally mark this ticket here as done.
+
+That says what compression type to use when writing the entire disk in
+one pass, but not online write compression. I think we may be a bit
+premature in calling this 'fix released', although I'm not certain we
+will ever try to add the feature requested.
+
+> =
+
+> ** Changed in: qemu
+>        Status: Confirmed =3D> Fix Released
+> =
 
 
-** Changed in: qemu
-       Status: New =3D> Fix Committed
+-- =
+
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1900241
+https://bugs.launchpad.net/bugs/498523
 
 Title:
-  [regression][powerpc] some vcpus are found offline inside guest with
-  different vsmt setting from qemu-cmdline and breaks subsequent vcpu
-  hotplug operation (xive)
+  Add on-line write compression support to qcow2
 
 Status in QEMU:
-  Fix Committed
+  Fix Released
 
 Bug description:
-  Env:
-  Host: Power9 HW ppc64le
+  This is a wishlist item.  Launchpad really need a way for the
+  submitter to indicate this.
 
-  # lscpu
-  Architecture:                    ppc64le
-  Byte Order:                      Little Endian
-  CPU(s):                          128
-  On-line CPU(s) list:             24-31,40-159
-  Thread(s) per core:              4
-  Core(s) per socket:              16
-  Socket(s):                       2
-  NUMA node(s):                    2
-  Model:                           2.3 (pvr 004e 1203)
-  Model name:                      POWER9, altivec supported
-  Frequency boost:                 enabled
-  CPU max MHz:                     3800.0000
-  CPU min MHz:                     2300.0000
-  L1d cache:                       1 MiB
-  L1i cache:                       1 MiB
-  L2 cache:                        8 MiB
-  L3 cache:                        160 MiB
-  NUMA node0 CPU(s):               24-31,40-79
-  NUMA node8 CPU(s):               80-159
-  Vulnerability Itlb multihit:     Not affected
-  Vulnerability L1tf:              Mitigation; RFI Flush, L1D private per t=
-hread
-  Vulnerability Mds:               Not affected
-  Vulnerability Meltdown:          Mitigation; RFI Flush, L1D private per t=
-hread
-  Vulnerability Spec store bypass: Mitigation; Kernel entry/exit barrier (e=
-ieio)
-  Vulnerability Spectre v1:        Mitigation; __user pointer sanitization,=
- ori31 speculation barrier enabled
-  Vulnerability Spectre v2:        Mitigation; Software count cache flush (=
-hardware accelerated), Software link stack flush
-  Vulnerability Srbds:             Not affected
-  Vulnerability Tsx async abort:   Not affected
+  It would be really cool if qemu were to support disk compression on-
+  line for writes.
 
-
-  Host Kernel: 5.9.0-0.rc8.28.fc34.ppc64le (Fedora rawhide)
-  Guest Kernel: Fedora33(5.8.6-301.fc33.ppc64le)
-
-  Qemu: e12ce85b2c79d83a340953291912875c30b3af06 (qemu/master)
-
-  =
-
-  Steps to reproduce:
-
-  Boot below kvm guest: (-M pseries,vsmt=3D2 -smp 8,cores=3D8,threads=3D1)
-
-   /home/sath/qemu/build/qemu-system-ppc64 -name vm1 -M pseries,vsmt=3D2
-  -accel kvm -m 4096  -smp 8,cores=3D8,threads=3D1 -nographic -nodefaults
-  -serial mon:stdio -vga none -nographic -device virtio-scsi-pci -drive
-  file=3D/home/sath/tests/data/avocado-vt/images/fdevel-
-  ppc64le.qcow2,if=3Dnone,id=3Dhd0,format=3Dqcow2,cache=3Dnone -device scsi-
-  hd,drive=3Dhd0
-
-  =
-
-  lscpu inside guest:
-  Actual:
-  [root@atest-guest ~]# lscpu
-  Architecture:                    ppc64le
-  Byte Order:                      Little Endian
-  CPU(s):                          8
-  On-line CPU(s) list:             0,2,4,6
-  Off-line CPU(s) list:            1,3,5,7 --------------------------NOK
-  Thread(s) per core:              1
-  Core(s) per socket:              4
-  Socket(s):                       1
-  NUMA node(s):                    1
-  Model:                           2.3 (pvr 004e 1203)
-  Model name:                      POWER9 (architected), altivec supported
-  Hypervisor vendor:               KVM
-  Virtualization type:             para
-  L1d cache:                       128 KiB
-  L1i cache:                       128 KiB
-  NUMA node0 CPU(s):               0,2,4,6
-  Vulnerability Itlb multihit:     Not affected
-  Vulnerability L1tf:              Mitigation; RFI Flush, L1D private per t=
-hread
-  Vulnerability Mds:               Not affected
-  Vulnerability Meltdown:          Mitigation; RFI Flush, L1D private per t=
-hread
-  Vulnerability Spec store bypass: Mitigation; Kernel entry/exit barrier (e=
-ieio)
-  Vulnerability Spectre v1:        Mitigation; __user pointer sanitization,=
- ori31 =
-
-                                   speculation barrier enabled
-  Vulnerability Spectre v2:        Mitigation; Software count cache flush (=
-hardwar
-                                   e accelerated), Software link stack flush
-  Vulnerability Srbds:             Not affected
-  Vulnerability Tsx async abort:   Not affected
-
-  =
-
-  Expected:
-
-  [root@atest-guest ~]# lscpu
-  Architecture:                    ppc64le
-  Byte Order:                      Little Endian
-  CPU(s):                          8
-  On-line CPU(s) list:             0-7
-  Thread(s) per core:              1
-  Core(s) per socket:              8
-  Socket(s):                       1
-  NUMA node(s):                    1
-  Model:                           2.3 (pvr 004e 1203)
-  Model name:                      POWER9 (architected), altivec supported
-  Hypervisor vendor:               KVM
-  Virtualization type:             para
-  L1d cache:                       256 KiB
-  L1i cache:                       256 KiB
-  NUMA node0 CPU(s):               0-7
-  Vulnerability Itlb multihit:     Not affected
-  Vulnerability L1tf:              Mitigation; RFI Flush, L1D private per t=
-hread
-  Vulnerability Mds:               Not affected
-  Vulnerability Meltdown:          Mitigation; RFI Flush, L1D private per t=
-hread
-  Vulnerability Spec store bypass: Mitigation; Kernel entry/exit barrier (e=
-ieio)
-  Vulnerability Spectre v1:        Mitigation; __user pointer sanitization,=
- ori31 =
-
-                                   speculation barrier enabled
-  Vulnerability Spectre v2:        Mitigation; Software count cache flush (=
-hardwar
-                                   e accelerated), Software link stack flush
-  Vulnerability Srbds:             Not affected
-  Vulnerability Tsx async abort:   Not affected
-
-
-  There by further vcpuhotplug operation fails...
+  I know this wouldn't be really easy.  Although most OS's use blocks,
+  you can really only count on being able to compress 512-byte sectors,
+  which doesn't give much room for a good compression ratio.  Moreover,
+  the index indicating where in the image file each sector is located
+  would be complex to manage, since the compressed blocks would be
+  variable sized, and you'd be wanting to do some kind of best-fit
+  allocation of space in the image file.  (If you were to make the image
+  file compressed block size granularity, say, 64 bytes, you could
+  probably do this best fit O(1).)  If you were to buffer enough writes,
+  you could group arbitrary sequences of written sectors into blocks to
+  compress (which with writeback could be sent to a helper thread on
+  another CPU, so the throughput would be good).
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1900241/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/498523/+subscriptions
 
