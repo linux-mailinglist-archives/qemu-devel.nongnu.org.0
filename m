@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 229C92B9385
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 14:20:54 +0100 (CET)
-Received: from localhost ([::1]:55174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4F152B940C
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 15:02:32 +0100 (CET)
+Received: from localhost ([::1]:51454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfjrp-0001g0-6t
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 08:20:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59564)
+	id 1kfkW7-00066c-Ck
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 09:02:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kfjpW-0007y8-Kl
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 08:18:30 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:45225)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kfjpU-0006Ty-MH
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 08:18:30 -0500
-Received: by mail-wr1-x436.google.com with SMTP id p1so6349528wrf.12
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 05:18:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=O+P15iR/bWrJBHOJx33YiIQBU3fpyBSJHI3jMMJ+Wa4=;
- b=PyRluMnB6sOSJC/aVzwP5aBGsCZO3No5faIa2Dr4W3eh/FdGks9RH1oU1OeywoT1Pf
- bdIVr3R89a1AWoMbTFynL9kNwgdoqBueN9rbBGxmzFC+uQN4RlEhX8WjYpB8HrWWDWug
- f29bZbgTED9xB4zE1if6OZ1u8VM5x+MupkM6sd5T6n+l8kNVSMIVfRSq+1KmbndpGYzl
- Y5rjcWZj9CauVMBn1aAfbOuYj8cnGRRfpKsXahlklxXkTfRFBpUwbsZyJxwLbLZoRYYs
- 0YxYFMNRR8z76CqFv12STwcuysk+T43FIZZ+iqhGbaYGVFN6Rzh75fzZQqLNUK6CY5Qw
- AE9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=O+P15iR/bWrJBHOJx33YiIQBU3fpyBSJHI3jMMJ+Wa4=;
- b=s9olcb49dT6hF/rEtK7qIfWpeq1C9bmj/4JsP0/Lb87+OKCa+IHwlRyXZbN1XrWu4C
- mX1QfCIEMUwT4tSRVoFWmow6jK04d1Dg4pUxV93oTPg9dVQDYYSFINS3j12a2DGVMNfZ
- y+YyXKHXYOiaIKrQNA3UYB0/zN0oC8ZVndQ4HO6TI2d8kB8OMzg2f05x1fmtFYiKbx96
- qk4q/MvsuRwIrgXU0uEaYszBvqHBwZVV7vAZzJQnDdrpLkRWGPINralolj7SHl59R/KH
- C37td49A10xh+oXdZ6z3mfK5yz7OGStVB8D5s5IGk88SKZbBlDJgb+18og+mckKDHXNM
- WXxQ==
-X-Gm-Message-State: AOAM532CUxPL1yAvwqm0TjqXjBjvoRTiln8DIMuX2Gpb2pRJUx9EFVnd
- 1yuRtLmbB7oqev714TZv6YKgZsaHAFM=
-X-Google-Smtp-Source: ABdhPJy3V3xPkabk19+hgK5VKCGDd+vjfYak3+1kkTRArv1dEXLBqC2KJOlpwiSyUd7s9Zr23PAyBQ==
-X-Received: by 2002:adf:e54f:: with SMTP id z15mr10037808wrm.159.1605791906842; 
- Thu, 19 Nov 2020 05:18:26 -0800 (PST)
-Received: from localhost.localdomain (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id j8sm35148282wrx.11.2020.11.19.05.18.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Nov 2020 05:18:26 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/mips/helper: Also display exception names in user-mode
-Date: Thu, 19 Nov 2020 14:18:24 +0100
-Message-Id: <20201119131824.1898439-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kfkUI-0005Q1-8g
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 09:00:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39697)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kfkU6-0004YW-Rb
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 09:00:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605794425;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=v5zriwP0OnSwK6NKoqnrYTRLRPG7ftIOBDrM7ASp+mk=;
+ b=YXwin5MB4v9BVaW1qCdjqP2m+2uFvE3wr7vE/29E/1E6rHHj9sCrZUaotjYHchXqpZWv0L
+ GrRiOc7NbF349Eid0gxvnCHrOE8g/7kPWg84qovaKldmRuG1toOzmJXS//w4kE1DwvMP8E
+ qVKCURhW55CEANHNFbUH1h4UClqBC/Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-429-oD-l0DRzPcOrndzkvWo3nw-1; Thu, 19 Nov 2020 09:00:21 -0500
+X-MC-Unique: oD-l0DRzPcOrndzkvWo3nw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 796B9100C603;
+ Thu, 19 Nov 2020 14:00:19 +0000 (UTC)
+Received: from localhost (ovpn-115-68.ams2.redhat.com [10.36.115.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BD0B15D6A8;
+ Thu, 19 Nov 2020 14:00:11 +0000 (UTC)
+Date: Thu, 19 Nov 2020 14:00:10 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH 00/10] vhost/qemu: thread per IO SCSI vq
+Message-ID: <20201119140010.GD838210@stefanha-x1.localdomain>
+References: <1605223150-10888-1-git-send-email-michael.christie@oracle.com>
+ <20201117164043.GS131917@stefanha-x1.localdomain>
+ <b3343762-bb11-b750-46ec-43b5556f2b8e@oracle.com>
+ <20201118044620-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20201118044620-mutt-send-email-mst@kernel.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="8nsIa27JVQLqB7/C"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 03:44:58
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,85 +83,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: fam@euphon.net, linux-scsi@vger.kernel.org, jasowang@redhat.com,
+ qemu-devel@nongnu.org, virtualization@lists.linux-foundation.org,
+ target-devel@vger.kernel.org, pbonzini@redhat.com,
+ Mike Christie <michael.christie@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently MIPS exceptions are displayed as string in system-mode
-emulation, but as number in user-mode.
-Unify by extracting the current system-mode code as excp_name()
-and use that in user-mode.
+--8nsIa27JVQLqB7/C
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- target/mips/helper.c | 23 +++++++++++++----------
- 1 file changed, 13 insertions(+), 10 deletions(-)
+On Wed, Nov 18, 2020 at 04:54:07AM -0500, Michael S. Tsirkin wrote:
+> On Tue, Nov 17, 2020 at 01:13:14PM -0600, Mike Christie wrote:
+> > On 11/17/20 10:40 AM, Stefan Hajnoczi wrote:
+> > > On Thu, Nov 12, 2020 at 05:18:59PM -0600, Mike Christie wrote:
+> > >> The following kernel patches were made over Michael's vhost branch:
+> > >>
+> > >> https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git/log/?h=
+=3Dvhost
+> > >>
+> > >> and the vhost-scsi bug fix patchset:
+> > >>
+> > >> https://lore.kernel.org/linux-scsi/20201112170008.GB1555653@stefanha=
+-x1.localdomain/T/#t
+> > >>
+> > >> And the qemu patch was made over the qemu master branch.
+> > >>
+> > >> vhost-scsi currently supports multiple queues with the num_queues
+> > >> setting, but we end up with a setup where the guest's scsi/block
+> > >> layer can do a queue per vCPU and the layers below vhost can do
+> > >> a queue per CPU. vhost-scsi will then do a num_queue virtqueues,
+> > >> but all IO gets set on and completed on a single vhost-scsi thread.
+> > >> After 2 - 4 vqs this becomes a bottleneck.
+> > >>
+> > >> This patchset allows us to create a worker thread per IO vq, so we
+> > >> can better utilize multiple CPUs with the multiple queues. It
+> > >> implments Jason's suggestion to create the initial worker like
+> > >> normal, then create the extra workers for IO vqs with the
+> > >> VHOST_SET_VRING_ENABLE ioctl command added in this patchset.
+> > >=20
+> > > How does userspace find out the tids and set their CPU affinity?
+> > >=20
+> >=20
+> > When we create the worker thread we add it to the device owner's cgroup=
+,
+> > so we end up inheriting those settings like affinity.
+> >=20
+> > However, are you more asking about finer control like if the guest is
+> > doing mq, and the mq hw queue is bound to cpu0, it would perform
+> > better if we could bind vhost vq's worker thread to cpu0? I think the
+> > problem might is if you are in the cgroup then we can't set a specific
+> > threads CPU affinity to just one specific CPU. So you can either do
+> > cgroups or not.
+>=20
+> Something we wanted to try for a while is to allow userspace
+> to create threads for us, then specify which vqs it processes.
 
-diff --git a/target/mips/helper.c b/target/mips/helper.c
-index 063b65c0528..f566bd6da50 100644
---- a/target/mips/helper.c
-+++ b/target/mips/helper.c
-@@ -978,6 +978,7 @@ hwaddr cpu_mips_translate_address(CPUMIPSState *env, target_ulong address,
-         return physical;
-     }
- }
-+#endif
- 
- static const char * const excp_names[EXCP_LAST + 1] = {
-     [EXCP_RESET] = "reset",
-@@ -1018,7 +1019,14 @@ static const char * const excp_names[EXCP_LAST + 1] = {
-     [EXCP_MSADIS] = "MSA disabled",
-     [EXCP_MSAFPE] = "MSA floating point",
- };
--#endif
-+
-+static const char *excp_name(int32_t exception)
-+{
-+    if (exception < 0 || exception > EXCP_LAST) {
-+        return "unknown";
-+    }
-+    return excp_names[exception];
-+}
- 
- target_ulong exception_resume_pc(CPUMIPSState *env)
- {
-@@ -1091,19 +1099,14 @@ void mips_cpu_do_interrupt(CPUState *cs)
-     bool update_badinstr = 0;
-     target_ulong offset;
-     int cause = -1;
--    const char *name;
- 
-     if (qemu_loglevel_mask(CPU_LOG_INT)
-         && cs->exception_index != EXCP_EXT_INTERRUPT) {
-         if (cs->exception_index < 0 || cs->exception_index > EXCP_LAST) {
--            name = "unknown";
--        } else {
--            name = excp_names[cs->exception_index];
--        }
--
-         qemu_log("%s enter: PC " TARGET_FMT_lx " EPC " TARGET_FMT_lx
-                  " %s exception\n",
--                 __func__, env->active_tc.PC, env->CP0_EPC, name);
-+                 __func__, env->active_tc.PC, env->CP0_EPC,
-+                 excp_name(cs->exception_index));
-     }
-     if (cs->exception_index == EXCP_EXT_INTERRUPT &&
-         (env->hflags & MIPS_HFLAG_DM)) {
-@@ -1490,8 +1493,8 @@ void QEMU_NORETURN do_raise_exception_err(CPUMIPSState *env,
- {
-     CPUState *cs = env_cpu(env);
- 
--    qemu_log_mask(CPU_LOG_INT, "%s: %d %d\n",
--                  __func__, exception, error_code);
-+    qemu_log_mask(CPU_LOG_INT, "%s: %d (%s) %d\n",
-+                  __func__, exception, excp_name(exception), error_code);
-     cs->exception_index = exception;
-     env->error_code = error_code;
- 
--- 
-2.26.2
+Do you mean an interface like a blocking ioctl(vhost_fd,
+VHOST_WORKER_RUN) where the vhost processing is done in the context of
+the caller's userspace thread?
+
+What is neat about this is that it removes thread configuration from the
+kernel vhost code. On the other hand, userspace still needs an interface
+indicating which vqs should be processed. Maybe it would even require an
+int worker_fd =3D ioctl(vhost_fd, VHOST_WORKER_CREATE) and then
+ioctl(worker_fd, VHOST_WORKER_BIND_VQ, vq_idx)? So then it becomes
+complex again...
+
+Stefan
+
+--8nsIa27JVQLqB7/C
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+2emoACgkQnKSrs4Gr
+c8jXaAf/eOlKgp0ihGCZvY9wziHeB36cX6eC0Dv+PJy3mJGo2l+FH5eS5saaT9As
+OchpLrd+7iNH5qN6NL9GxP3TuiWa7mjIjAxNA7QQYq976m6sZShkVldvzZGcxron
+M2ow96BMZznx/O9FlXS5GOqB9GOjL8cq1b5g4lt4uVbMHQL/MhqBc5byq0UzX6NG
+Aw2wcTfrsqX7hXFb0Y2dj/BE2+tCAuMYsVzs107UQdaxezKVkU+Xhpy17U04iD7h
+Ej1D4O088QNDcx8YTlrGRBG4O1A63u4SWSFcSut+W+vGqUJ8mdUrahqp7iyM9mkY
+sxBWIzLKVhQ0VkKsGxeDGeeYVNEpiA==
+=1sap
+-----END PGP SIGNATURE-----
+
+--8nsIa27JVQLqB7/C--
 
 
