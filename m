@@ -2,83 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D9F22B9035
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 11:37:44 +0100 (CET)
-Received: from localhost ([::1]:46902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B6252B903D
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 11:40:33 +0100 (CET)
+Received: from localhost ([::1]:51016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfhJv-0006g2-9T
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 05:37:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51382)
+	id 1kfhMe-0008UA-8h
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 05:40:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kfhGh-0003pL-Qk
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 05:34:27 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:52471)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kfhGf-00084i-Bf
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 05:34:23 -0500
-Received: by mail-wm1-x343.google.com with SMTP id 10so6673958wml.2
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 02:34:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=DbTNT2HKBABTTlsxh21pDy0s/tMrYefbfpvpZ3DZ30U=;
- b=AO8rP/EwST8hdlHq56nX5T6hYkcGmlFARXujJ4ZgZDl8ZU7Xs4zZJ+QXstKdc7ZJjq
- HjXRoklmoQkqo1+184R4WJQ0vmuM0VFojTo1Kzyt169HkorzgvNHzaXTyGFalk+s3+im
- CO/+roR3aUK6OaqAoaq8dFbT7d9g1o2sP1S11/3xN/xU1uAHtjckz7iXw5rDywOvvOLQ
- AJ0KGe6mc2ipLm7OExPEwR2P49gITL1zvX5RfoGYh/HNNKv5KIZ9uBbWhzmXgAeYSpas
- p7MKV7U+XxLjWlf254fPkUCtoLJ7anBVvMqOFpZ9/c+QIvuKT9fvN2DWnFIuufyjcSDa
- PRlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=DbTNT2HKBABTTlsxh21pDy0s/tMrYefbfpvpZ3DZ30U=;
- b=eIKLXNxbyYps4QufOD14iuhynt1UkKXZLGRj5STXpHIlQANn3TM/cDEzPO1nee8bKS
- KD5PBX5XesZc2Yy35xsO1aG1R8Ioju3gUKWt2YiaxEXT273j6ZFKhacihQYTu5DAgQCF
- rlTpkzII8U9RpAW/aUyFMKysIK1TfgdOou846iM3p0InKcbUF+uaMKeojFanNFFclT8P
- UQp7mURyhPmKvpvS7huONo/INF1u4Hbl6XxHDLncwa1YGhcBP2bx+OXpiYnx2hAH6uYt
- tzgv4QkTn2eqUs/UHqwFneEI2YmlhizNVcoj6YrZ+lMFm8JjhN0mv4ZVXcklTmE8kPT/
- ksvA==
-X-Gm-Message-State: AOAM533a3UU2v1qOdT3MoIKMcjuPRqIJAi0F1vTTBFhKfskR0nwtMHb/
- WBxDaB1ud4q4+hS4LaxrC/Czvw==
-X-Google-Smtp-Source: ABdhPJyPUwdpuUxYJEuBTVmxLqeKLYutmF+XX84GY/FMTByhbkAb1r9+IqLdM7mTCN2VNV5Ud63a8g==
-X-Received: by 2002:a1c:a9c4:: with SMTP id s187mr3884558wme.180.1605782059404; 
- Thu, 19 Nov 2020 02:34:19 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u85sm9346471wmu.43.2020.11.19.02.34.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Nov 2020 02:34:18 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 861B81FF7E;
- Thu, 19 Nov 2020 10:34:17 +0000 (GMT)
-References: <20201116113046.11362-1-acho@suse.com>
- <20201117065719.30150-1-acho@suse.com>
- <877a38a0-0f39-eba7-618a-658f16fe56bc@redhat.com>
- <d225bed3fbd208b305cf79d7a8c5e108db53e655.camel@suse.com>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: AL Yu-Chen Cho <acho@suse.com>
-Subject: Re: [PATCH] gitlab-ci.yml: Add openSUSE Leap 15.2 for gitlab CI/CD
-In-reply-to: <d225bed3fbd208b305cf79d7a8c5e108db53e655.camel@suse.com>
-Date: Thu, 19 Nov 2020 10:34:17 +0000
-Message-ID: <87wnyhvdna.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kfhLY-000833-Kd
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 05:39:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54591)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kfhLW-0001Kv-1F
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 05:39:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605782360;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qFRVWHp60SQw3IiJJBMYgsSwCytkhwWkOj9mcUdUW40=;
+ b=IOGmV3MRBsT8t3YlWj2zn/4zNnB8PLg4v6+ut9BYxVl+j7e9llB238zW87bbb3SXSibZ9t
+ ScsWn98zl8kAxBYsjK67lzw9jOTG1jX4eKT3ihKX0RqglGOwD55KXuYOH8Ya/KtFjOAOL4
+ KfMEzkk14P3FTnWuubIXtJMSqZ+lOt8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-569-nOOEEOVGPqaffqqDf1HKuw-1; Thu, 19 Nov 2020 05:39:16 -0500
+X-MC-Unique: nOOEEOVGPqaffqqDf1HKuw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D2F2E8143F3;
+ Thu, 19 Nov 2020 10:39:15 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F0CC5D9C2;
+ Thu, 19 Nov 2020 10:39:15 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 1431911358BA; Thu, 19 Nov 2020 11:39:14 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
+Subject: Re: [PATCH v2 5/8] qlit: Support all types of QNums
+References: <20201116224143.1284278-1-ehabkost@redhat.com>
+ <20201116224143.1284278-6-ehabkost@redhat.com>
+ <CAJ+F1CJ4quGCWWSbfChj3DW-0ReMYxPM6gmFvMx9cKrTb2TeYA@mail.gmail.com>
+Date: Thu, 19 Nov 2020 11:39:14 +0100
+In-Reply-To: <CAJ+F1CJ4quGCWWSbfChj3DW-0ReMYxPM6gmFvMx9cKrTb2TeYA@mail.gmail.com>
+ (=?utf-8?Q?=22Marc-Andr=C3=A9?= Lureau"'s message of "Tue, 17 Nov 2020
+ 12:52:47 +0400")
+Message-ID: <87blftd419.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 03:44:58
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,229 +86,245 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, lyan@suse.com, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org, wainersm@redhat.com, brogers@suse.com, cfontana@suse.de,
- philmd@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> writes:
 
-AL Yu-Chen Cho <acho@suse.com> writes:
+> On Tue, Nov 17, 2020 at 2:48 AM Eduardo Habkost <ehabkost@redhat.com> wro=
+te:
+>
+>> Use QNumValue to represent QNums, so we can also support uint64_t
+>> and double QNum values.  Add new QLIT_QNUM_(INT|UINT|DOUBLE)
+>> macros for each case.
+>>
+>> The QLIT_QNUM() macro is being kept for compatibility with
+>> existing code, but becomes just a wrapper for QLIT_QNUM_INT().
+>>
+>
+> I am not sure it's worth to keep. (furthermore, it's only used in tests
+> afaics)
 
-> On Tue, 2020-11-17 at 12:51 +0100, Thomas Huth wrote:
->> On 17/11/2020 07.57, Cho, Yu-Chen wrote:
->> > Add build-system-opensuse jobs and add opensuse-leap.docker
->> > dockerfile.
->> > Use openSUSE Leap 15.2 container image in the gitlab-CI.
->> >=20
->> > Signed-off-by: Cho, Yu-Chen <acho@suse.com>
->> > ---
->> >  .gitlab-ci.d/containers.yml                   |  5 ++
->> >  .gitlab-ci.yml                                | 30 +++++++
->> >  tests/docker/dockerfiles/opensuse-leap.docker | 88
->> > +++++++++++++++++++
->> >  3 files changed, 123 insertions(+)
->> >  create mode 100644 tests/docker/dockerfiles/opensuse-leap.docker
->> >=20
->> > diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-
->> > ci.d/containers.yml
->> > index 11d079ea58..082624a6fa 100644
->> > --- a/.gitlab-ci.d/containers.yml
->> > +++ b/.gitlab-ci.d/containers.yml
->> > @@ -246,3 +246,8 @@ amd64-ubuntu-container:
->> >    <<: *container_job_definition
->> >    variables:
->> >      NAME: ubuntu
->> > +
->> > +amd64-opensuse-leap-container:
->> > +  <<: *container_job_definition
->> > +  variables:
->> > +    NAME: opensuse-leap
->> > diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
->> > index 9a8b375188..bf4759296a 100644
->> > --- a/.gitlab-ci.yml
->> > +++ b/.gitlab-ci.yml
->> > @@ -195,6 +195,36 @@ acceptance-system-centos:
->> >      MAKE_CHECK_ARGS: check-acceptance
->> >    <<: *acceptance_definition
->> >=20=20
->> > +build-system-opensuse:
->> > +  <<: *native_build_job_definition
->> > +  variables:
->> > +    IMAGE: opensuse-leap
->> > +    TARGETS: s390x-softmmu x86_64-softmmu aarch64-softmmu
->> > +    MAKE_CHECK_ARGS: check-build
->> > +  artifacts:
->> > +    expire_in: 2 days
->> > +    paths:
->> > +      - build
->> > +
->> > +check-system-opensuse:
->> > +  <<: *native_test_job_definition
->> > +  needs:
->> > +    - job: build-system-opensuse
->> > +      artifacts: true
->> > +  variables:
->> > +    IMAGE: opensuse-leap
->> > +    MAKE_CHECK_ARGS: check
->> > +
->> > +acceptance-system-opensuse:
->> > +  <<: *native_test_job_definition
->> > +  needs:
->> > +    - job: build-system-opensuse
->> > +      artifacts: true
->> > +  variables:
->> > +    IMAGE: opensuse-leap
->> > +    MAKE_CHECK_ARGS: check-acceptance
->> > +  <<: *acceptance_definition
->> > +
->> >  build-disabled:
->> >    <<: *native_build_job_definition
->> >    variables:
->> > diff --git a/tests/docker/dockerfiles/opensuse-leap.docker
->> > b/tests/docker/dockerfiles/opensuse-leap.docker
->> > new file mode 100644
->> > index 0000000000..712eb4fe3a
->> > --- /dev/null
->> > +++ b/tests/docker/dockerfiles/opensuse-leap.docker
->> > @@ -0,0 +1,88 @@
->> > +FROM opensuse/leap:15.2
->> > +
->> > +RUN zypper update -y
->> > +
->> > +# Please keep this list sorted alphabetically
->> > +ENV PACKAGES \
->> > +    bc \
->> > +    brlapi-devel \
->> > +    bzip2 \
->> > +    libzip-devel \
->> > +    ccache \
->> > +    clang \
->> > +    cyrus-sasl-devel \
->> > +    dbus-1 \
->> > +    device-mapper-devel \
->> > +    gcc \
->> > +    gcc-c++ \
->> > +    mkisofs \
->> > +    gettext-runtime \
->> > +    git \
->> > +    glib2-devel \
->> > +    glusterfs-devel \
->> > +    libgnutls-devel \
->> > +    gtk3-devel \
->> > +    hostname \
->> > +    libaio-devel \
->> > +    libasan5 \
->> > +    libattr-devel \
->> > +    libblockdev-devel \
->> > +    libcap-ng-devel \
->> > +    libcurl-devel \
->> > +    libepoxy-devel \
->> > +    libfdt-devel \
->> > +    libiscsi-devel \
->> > +    libjpeg8-devel \
->> > +    libpmem-devel \
->> > +    libpng16-devel \
->> > +    librbd-devel \
->> > +    libseccomp-devel \
->> > +    libssh-devel \
->> > +    libubsan0 \
->> > +    libudev-devel \
->> > +    libxml2-devel \
->> > +    libzstd-devel \
->> > +    llvm \
->> > +    lzo-devel \
->> > +    make \
->> > +    mingw32-filesystem \
->> > +    glibc-devel-32bit \
->> > +    libSDL2_image-devel \
->> > +    mingw64-binutils \
->> > +    nmap \
->> > +    ncat \
->> > +    ncurses-devel \
->> > +    libnettle-devel \
->> > +    ninja \
->> > +    mozilla-nss-devel \
->> > +    libnuma-devel \
->> > +    perl \
->> > +    libpixman-1-0-devel \
->> > +    python3-base \
->> > +    python3-PyYAML \
->> > +    python3-numpy \
->> > +    python3-opencv \
->> > +    python3-Pillow \
->> > +    python3-pip \
->> > +    python3-Sphinx \
->> > +    python3-virtualenv \
->> > +    rdma-core-devel \
->> > +    libSDL2-devel \
->> > +    snappy-devel \
->> > +    sparse \
->> > +    libspice-server-devel \
->> > +    systemd-devel \
->> > +    systemtap-sdt-devel \
->> > +    tar \
->> > +    tesseract-ocr \
->> > +    tesseract-ocr-traineddata-english \
->> > +    usbredir-devel \
->> > +    virglrenderer-devel \
->> > +    libvte-2_91-0 \
->> > +    which \
->> > +    xen-devel \
->> > +    zlib-devel
->> > +ENV QEMU_CONFIGURE_OPTS --python=3D/usr/bin/python3.8
->> > +
->> > +RUN zypper  --non-interactive install -y $PACKAGES
->> > +RUN rpm -q $PACKAGES | sort > /packages.txt
->>=20
->> Thanks, I gave it a try now and it seems to work fine so far ... but
->> the
->> initial creation of the container was quite slow, 28 minutes, that's
->> quite a
->> bit more from what I've seen with the other containers so far:
->>=20
->>  https://gitlab.com/huth/qemu/-/jobs/853630446
->>=20
->> (other containers took e.g. only 10 minutes like
->> https://gitlab.com/huth/qemu/-/jobs/853630446 or 15 minutes like
->> https://gitlab.com/qemu-project/qemu/-/jobs/812284100)
->>=20
->> Did I maybe just hit a bad point in time?
->>=20
->
-> No, Thanks for your suggestion, I think I can decrease the docker build
-> duration.
->
->
->> Or would it make sense to trim the list of packages that need to be
->> installed?
->
-> yes, I already started to trim, will submit v2 sson.
->
->>=20
->> For example, unless you want to test m68k-softmmu in this container,
->> too,
->> you don't need tesseract-ocr.
->>=20
->> And why do you need mozilla-nss-devel ?
->>=20
->> And I think you could also drop the mingw packages for now, unless
->> you want
->> to cross-compile some Windows binaries with this container?
->>=20
->
-> yes, no problem. The origin plan is add some cross-compiler after this
-> patch, and that I am not sure which one way to add it is that best (
-> and that would not use the resource to create the docker image again.
-> but I think I should patch it later.
+Seconded.
 
-I'd keep the focus on building the specific OpenSUSE binaries. We have
-pretty good cross compiler support from Debian already so unless
-OpenSUSE packages some architectures we don't already have covered then
-I would suggest keeping it light. Even in the Debian case we layer the
-images so each cross compiler shares a common light base and not a full
-featured build everything image.
+>> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+>>
+>
+>
+> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> ---
+>> Changes v1 -> v2:
+>> * Coding style fix at qlit_equal_qobject()
+>> ---
+>>  include/qapi/qmp/qlit.h | 11 +++++--
+>>  qobject/qlit.c          |  5 +--
+>>  tests/check-qjson.c     | 72 ++++++++++++++++++++++++++++++++++++++---
+>>  3 files changed, 79 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/include/qapi/qmp/qlit.h b/include/qapi/qmp/qlit.h
+>> index c0676d5daf..f9e356d31e 100644
+>> --- a/include/qapi/qmp/qlit.h
+>> +++ b/include/qapi/qmp/qlit.h
+>> @@ -15,6 +15,7 @@
+>>  #define QLIT_H
+>>
+>>  #include "qobject.h"
+>> +#include "qnum.h"
+>>
+>>  typedef struct QLitDictEntry QLitDictEntry;
+>>  typedef struct QLitObject QLitObject;
+>> @@ -23,7 +24,7 @@ struct QLitObject {
+>>      QType type;
+>>      union {
+>>          bool qbool;
+>> -        int64_t qnum;
+>> +        QNumValue qnum;
+>>          const char *qstr;
+>>          QLitDictEntry *qdict;
+>>          QLitObject *qlist;
+>> @@ -39,8 +40,14 @@ struct QLitDictEntry {
+>>      { .type =3D QTYPE_QNULL }
+>>  #define QLIT_QBOOL(val) \
+>>      { .type =3D QTYPE_QBOOL, .value.qbool =3D (val) }
+>> +#define QLIT_QNUM_INT(val) \
+>> +    { .type =3D QTYPE_QNUM, .value.qnum =3D QNUM_VAL_INT(val) }
+>> +#define QLIT_QNUM_UINT(val) \
+>> +    { .type =3D QTYPE_QNUM, .value.qnum =3D QNUM_VAL_UINT(val) }
+>> +#define QLIT_QNUM_DOUBLE(val) \
+>> +    { .type =3D QTYPE_QNUM, .value.qnum =3D QNUM_VAL_DOUBLE(val) }
+>>  #define QLIT_QNUM(val) \
+>> -    { .type =3D QTYPE_QNUM, .value.qnum =3D (val) }
+>> +    QLIT_QNUM_INT(val)
+>>  #define QLIT_QSTR(val) \
+>>      { .type =3D QTYPE_QSTRING, .value.qstr =3D (val) }
+>>  #define QLIT_QDICT(val) \
+>> diff --git a/qobject/qlit.c b/qobject/qlit.c
+>> index be8332136c..b23cdc4532 100644
+>> --- a/qobject/qlit.c
+>> +++ b/qobject/qlit.c
+>> @@ -71,7 +71,8 @@ bool qlit_equal_qobject(const QLitObject *lhs, const
+>> QObject *rhs)
+>>      case QTYPE_QBOOL:
+>>          return lhs->value.qbool =3D=3D qbool_get_bool(qobject_to(QBool,=
+ rhs));
+>>      case QTYPE_QNUM:
+>> -        return lhs->value.qnum =3D=3D  qnum_get_int(qobject_to(QNum, rh=
+s));
+>> +        return qnum_value_is_equal(&lhs->value.qnum,
+>> +                                   qnum_get_value(qobject_to(QNum, rhs)=
+));
 
---=20
-Alex Benn=C3=A9e
+Before the patch, we crash when @rhs can't be represented as int64_t.
+
+Afterwards, we return false (I think).
+
+Please note this in the commit message.  A separate fix preceding this
+patch would be even better, but may not be worth the trouble.  Up to
+you.
+
+>>      case QTYPE_QSTRING:
+>>          return (strcmp(lhs->value.qstr,
+>>                         qstring_get_str(qobject_to(QString, rhs))) =3D=
+=3D 0);
+>> @@ -94,7 +95,7 @@ QObject *qobject_from_qlit(const QLitObject *qlit)
+>>      case QTYPE_QNULL:
+>>          return QOBJECT(qnull());
+>>      case QTYPE_QNUM:
+>> -        return QOBJECT(qnum_from_int(qlit->value.qnum));
+>> +        return QOBJECT(qnum_from_value(qlit->value.qnum));
+>>      case QTYPE_QSTRING:
+>>          return QOBJECT(qstring_from_str(qlit->value.qstr));
+>>      case QTYPE_QDICT: {
+>> diff --git a/tests/check-qjson.c b/tests/check-qjson.c
+>> index 07a773e653..711030cffd 100644
+>> --- a/tests/check-qjson.c
+>> +++ b/tests/check-qjson.c
+>> @@ -796,20 +796,23 @@ static void simple_number(void)
+>>      int i;
+>>      struct {
+>>          const char *encoded;
+>> +        QLitObject qlit;
+>>          int64_t decoded;
+>>          int skip;
+>>      } test_cases[] =3D {
+>> -        { "0", 0 },
+>> -        { "1234", 1234 },
+>> -        { "1", 1 },
+>> -        { "-32", -32 },
+>> -        { "-0", 0, .skip =3D 1 },
+>> +        { "0",    QLIT_QNUM(0),    0, },
+>> +        { "1234", QLIT_QNUM(1234), 1234, },
+>> +        { "1",    QLIT_QNUM(1),    1, },
+>> +        { "-32",  QLIT_QNUM(-32),  -32, },
+>> +        { "-0",   QLIT_QNUM(0),    0, .skip =3D 1 },
+
+Note .qlit is always QLIT_QNUM(.decoded).  Would doing without .qlit
+result in a simpler patch?
+
+>>          { },
+>>      };
+>>
+>>      for (i =3D 0; test_cases[i].encoded; i++) {
+>>          QNum *qnum;
+>>          int64_t val;
+>> +        QNum *qlit_num;
+>> +        int64_t qlit_val;
+>>
+>>          qnum =3D qobject_to(QNum,
+>>                            qobject_from_json(test_cases[i].encoded,
+>> @@ -817,6 +820,7 @@ static void simple_number(void)
+>>          g_assert(qnum);
+>>          g_assert(qnum_get_try_int(qnum, &val));
+>>          g_assert_cmpint(val, =3D=3D, test_cases[i].decoded);
+>> +
+>>          if (test_cases[i].skip =3D=3D 0) {
+>>              QString *str;
+>>
+>> @@ -826,9 +830,66 @@ static void simple_number(void)
+>>          }
+>>
+>>          qobject_unref(qnum);
+>> +
+>> +        qlit_num =3D qobject_to(QNum,
+>> +                              qobject_from_qlit(&test_cases[i].qlit));
+>> +        g_assert(qlit_num);
+>> +        g_assert(qnum_get_try_int(qlit_num, &qlit_val));
+>> +        g_assert_cmpint(qlit_val, =3D=3D, test_cases[i].decoded);
+>> +
+>> +        qobject_unref(qlit_num);
+>>      }
+>>  }
+>>
+>> +static void qlit_large_number(void)
+>> +{
+>> +    QLitObject maxu64 =3D QLIT_QNUM_UINT(UINT64_MAX);
+>> +    QLitObject maxi64 =3D QLIT_QNUM(INT64_MAX);
+>> +    QLitObject mini64 =3D QLIT_QNUM(INT64_MIN);
+>> +    QLitObject gtu64  =3D QLIT_QNUM_DOUBLE(18446744073709552e3);
+>> +    QLitObject lti64  =3D QLIT_QNUM_DOUBLE(-92233720368547758e2);
+>> +    QNum *qnum;
+>> +    uint64_t val;
+>> +    int64_t ival;
+>> +
+>> +    qnum =3D qobject_to(QNum, qobject_from_qlit(&maxu64));
+>> +    g_assert(qnum);
+>> +    g_assert_cmpuint(qnum_get_uint(qnum), =3D=3D, UINT64_MAX);
+>> +    g_assert(!qnum_get_try_int(qnum, &ival));
+>> +
+>> +    qobject_unref(qnum);
+>> +
+>> +    qnum =3D qobject_to(QNum, qobject_from_qlit(&maxi64));
+>> +    g_assert(qnum);
+>> +    g_assert_cmpuint(qnum_get_uint(qnum), =3D=3D, INT64_MAX);
+>> +    g_assert_cmpint(qnum_get_int(qnum), =3D=3D, INT64_MAX);
+>> +
+>> +    qobject_unref(qnum);
+>> +
+>> +    qnum =3D qobject_to(QNum, qobject_from_qlit(&mini64));
+>> +    g_assert(qnum);
+>> +    g_assert(!qnum_get_try_uint(qnum, &val));
+>> +    g_assert_cmpuint(qnum_get_int(qnum), =3D=3D, INT64_MIN);
+>> +
+>> +    qobject_unref(qnum);
+>> +
+>> +    qnum =3D qobject_to(QNum, qobject_from_qlit(&gtu64));
+>> +    g_assert(qnum);
+>> +    g_assert_cmpfloat(qnum_get_double(qnum), =3D=3D, 18446744073709552e=
+3);
+>> +    g_assert(!qnum_get_try_uint(qnum, &val));
+>> +    g_assert(!qnum_get_try_int(qnum, &ival));
+>> +
+>> +    qobject_unref(qnum);
+>> +
+>> +    qnum =3D qobject_to(QNum, qobject_from_qlit(&lti64));
+>> +    g_assert(qnum);
+>> +    g_assert_cmpfloat(qnum_get_double(qnum), =3D=3D, -92233720368547758=
+e2);
+>> +    g_assert(!qnum_get_try_uint(qnum, &val));
+>> +    g_assert(!qnum_get_try_int(qnum, &ival));
+>> +
+>> +    qobject_unref(qnum);
+>> +}
+>> +
+>>  static void large_number(void)
+>>  {
+>>      const char *maxu64 =3D "18446744073709551615"; /* 2^64-1 */
+>> @@ -1472,6 +1533,7 @@ int main(int argc, char **argv)
+>>      g_test_add_func("/literals/string/utf8", utf8_string);
+>>
+>>      g_test_add_func("/literals/number/simple", simple_number);
+>> +    g_test_add_func("/literals/number/qlit_large", qlit_large_number);
+>>      g_test_add_func("/literals/number/large", large_number);
+>>      g_test_add_func("/literals/number/float", float_number);
+>>
+>> --
+>> 2.28.0
+>>
+>>
+>>
+
 
