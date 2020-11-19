@@ -2,79 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E8B22B9C17
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 21:33:09 +0100 (CET)
-Received: from localhost ([::1]:37556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50F282B9C23
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 21:36:22 +0100 (CET)
+Received: from localhost ([::1]:44280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfqc8-0000si-5a
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 15:33:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52982)
+	id 1kfqfF-0003wa-Db
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 15:36:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kfqBg-0002yK-S1
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 15:05:54 -0500
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:37770)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kfqBP-0003aG-Vb
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 15:05:48 -0500
-Received: by mail-pf1-x42a.google.com with SMTP id c66so5539483pfa.4
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 12:05:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Rr3KyYun0yWZZjrfv3IXWZILVlFgjI/okwl6enfSSMI=;
- b=o43dHapopcE2RJGUZonxN87iQSeM3Xf+N1lQEQ+V8+6Mh0qb9dYqpqPCm6acnuc49S
- yPWypGkqRXbffndZvpfZOQwsT2NMhWK8TV77o1xHYj1TyZWCh41y28dp3fpdRsUEsrTx
- cQ92XeaL2DioDD0zrewp17E9jnnu883DhToS3T3XD+HBDCyxplVS8pIn0/7FJhZ0a/Ad
- fLd0+hdYkR2wnIBoWKOl5KSc3Bfy1ukJylkK4Dlhd1cFkts/H1SOKNIFfzr04FwRYIgS
- poEJBA7thpGMw9WPyn6At3JlToRBg3sxan2/tfylD5BK4HsyzV+TIsY8AWyXP7jen6eY
- JWVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Rr3KyYun0yWZZjrfv3IXWZILVlFgjI/okwl6enfSSMI=;
- b=ueY19qldbIXy5H9FxATzW86cZdecJYjD/+ynEfnYsmI+4Q7ItOLXPJ+2QcrnWag/zi
- ediED6O3rYz8iymrZ8IRz5teuwYEHD1Ct8jPFoc0/AnwEHRYqLgI37k9hMRtDqmYct1P
- ej11Rqjgcui3MH6eB0IrL/lYOqxSsh5NgZoStsOMtJa/9mYi1ar9MLXZ5iOGZbrFKsKW
- iS49Kcx/L984PQN6FegCrGI0ou0+CbJZE9XL6T024jXsoxhYxjIx71S50he6EFNv5ytW
- dYGT3xgIHd1IIdy3X9TcTBIhVvi/NwDoq5lkCUL1dtip8mZzbBmpQmPuzqgAKgR+4HTN
- ePjQ==
-X-Gm-Message-State: AOAM532FPwB7wjF+v2/pR01Uh3BETPLDBzmdvSDdr6eiV3HBTxOuUa65
- BmccBUNPnXEGKnmSdzwKtba1aA==
-X-Google-Smtp-Source: ABdhPJxOul1IqDoCZDtYVvM6S5nUqa5/H0JV/IvU17sbLCTIZD7efhyPBrRO8G4g5Y1/oGywdROsRw==
-X-Received: by 2002:a17:90a:7ac2:: with SMTP id
- b2mr6358093pjl.226.1605816328058; 
- Thu, 19 Nov 2020 12:05:28 -0800 (PST)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id v19sm525922pgi.2.2020.11.19.12.05.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Nov 2020 12:05:27 -0800 (PST)
-Subject: Re: [RFC 08/15] target/riscv: rvb: single-bit instructions
-To: frank.chang@sifive.com, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-References: <20201118083044.13992-1-frank.chang@sifive.com>
- <20201118083044.13992-9-frank.chang@sifive.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <6f90ec2e-3862-a90d-453b-374806e00d39@linaro.org>
-Date: Thu, 19 Nov 2020 12:05:24 -0800
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kfqCo-0003Qu-Hv
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 15:07:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53715)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kfqCT-0003vg-6J
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 15:06:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605816375;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9ChtZcrM/aHKiQHXq5LKHvJgOvulGbmZ/UjVvWdUyr4=;
+ b=RURyIMUF8QzNJkgCcTr+XUhKEygfTaQRoAwwvtRYVQLhWqiqPDjZaKNKbtLI5aVfQLeum0
+ /QowMOkMu4QBpnuEwwN9/Q2fWBZiwf3kGYKR9w0AJEsqkVD2rv7bGMs6ZzOmk4z9rLiZ9J
+ GMGZhoeBKo7x0T9v9Tr2Orgm+MASQxs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-589-KypZ_HPpMHCK3vqBSvnMOQ-1; Thu, 19 Nov 2020 15:06:11 -0500
+X-MC-Unique: KypZ_HPpMHCK3vqBSvnMOQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9B6D801B17;
+ Thu, 19 Nov 2020 20:06:09 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-113-109.ams2.redhat.com [10.36.113.109])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D329360843;
+ Thu, 19 Nov 2020 20:06:06 +0000 (UTC)
+Subject: Re: [PATCH 1/2] pc-bios: s390x: Ensure Read IPL memory is clean
+To: Eric Farman <farman@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>
+References: <20201119165729.63351-1-farman@linux.ibm.com>
+ <20201119165729.63351-2-farman@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <2b887993-125d-6ebc-fee8-9e14927124ef@redhat.com>
+Date: Thu, 19 Nov 2020 21:06:05 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201118083044.13992-9-frank.chang@sifive.com>
+In-Reply-To: <20201119165729.63351-2-farman@linux.ibm.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,38 +81,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Kito Cheng <kito.cheng@sifive.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>
+Cc: Jason Herne <jjherne@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, qemu-devel@nongnu.org,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Jared Rossi <jrossi@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/18/20 12:29 AM, frank.chang@sifive.com wrote:
-> +static void gen_sbop_shamt(TCGv ret, TCGv shamt)
-> +{
-> +    tcg_gen_andi_tl(ret, shamt, TARGET_LONG_BITS - 1);
-> +}
+On 19/11/2020 17.57, Eric Farman wrote:
+> If, for example, we boot off a virtio device and chreipl to a vfio-ccw
+> device, the space at lowcore will be non-zero. We build a Read IPL CCW
+> at address zero, but it will have leftover PSW data that will conflict
+> with the Format-0 CCW being generated:
+> 
+> 0x0: 00080000 80010000
+>        ------ Ccw0.cda
+>               -- Ccw0.chainData
+>                 -- Reserved bits
+> 
+> The data address will be overwritten with the correct value (0x0), but
+> the apparent data chain bit will cause subsequent memory to be used as
+> the target of the data store, which may not be where we expect (0x0).
+> 
+> Clear out this space when we boot from DASD, so that we know it exists
+> exactly as we expect.
+> 
+> Signed-off-by: Eric Farman <farman@linux.ibm.com>
+> Reviewed-by: Jason J. Herne <jjherne@linux.ibm.com>
+> Acked-by: Christian Borntraeger <borntraeger@de.ibm.com>
+> ---
+>  pc-bios/s390-ccw/dasd-ipl.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/pc-bios/s390-ccw/dasd-ipl.c b/pc-bios/s390-ccw/dasd-ipl.c
+> index 0fc879bb8e..71cbae2f16 100644
+> --- a/pc-bios/s390-ccw/dasd-ipl.c
+> +++ b/pc-bios/s390-ccw/dasd-ipl.c
+> @@ -100,6 +100,9 @@ static void make_readipl(void)
+>  {
+>      Ccw0 *ccwIplRead = (Ccw0 *)0x00;
+>  
+> +    /* Clear out any existing data */
+> +    memset(ccwIplRead, 0, sizeof(Ccw0));
 > +
-> +static void gen_sbop_common(TCGv ret, TCGv shamt)
-> +{
-> +    TCGv t;
-> +    t = tcg_temp_new();
+>      /* Create Read IPL ccw at address 0 */
+>      ccwIplRead->cmd_code = CCW_CMD_READ_IPL;
+>      ccwIplRead->cda = 0x00; /* Read into address 0x00 in main memory */
 
-All of the places where you declare then initialize on the next line, please
-merge them:
+Sounds reasonable.
 
-   TCGv t = tcg_temp_new();
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-It would be nice to share more code between the normal and *w versions.  As it
-is, there's a *lot* of repetition with only TARGET_LONG_BITS vs 32 separating them.
-
-> +    tcg_gen_not_tl(mask, mask);
-> +    tcg_gen_and_tl(ret, arg1, mask);
-
-andc.
-
-
-r~
 
