@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ED162B89EA
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 02:57:48 +0100 (CET)
-Received: from localhost ([::1]:48982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FE1E2B89E1
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 02:54:53 +0100 (CET)
+Received: from localhost ([::1]:41718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfZCl-0006cl-7F
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 20:57:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45612)
+	id 1kfZ9w-0003bl-F8
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 20:54:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kfZ6H-0008Ii-1u
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 20:51:05 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2861)
+ id 1kfZ6F-0008GP-Il
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 20:51:03 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2862)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kfZ6B-0003NU-0m
- for qemu-devel@nongnu.org; Wed, 18 Nov 2020 20:51:04 -0500
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Cc2gs71mRz15Mt8;
- Thu, 19 Nov 2020 09:50:33 +0800 (CST)
-Received: from localhost (10.174.184.155) by DGGEMS412-HUB.china.huawei.com
- (10.3.19.212) with Microsoft SMTP Server id 14.3.487.0; Thu, 19 Nov 2020
+ id 1kfZ6A-0003NZ-V4
+ for qemu-devel@nongnu.org; Wed, 18 Nov 2020 20:51:03 -0500
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Cc2gt2X6Dz15MZZ;
+ Thu, 19 Nov 2020 09:50:34 +0800 (CST)
+Received: from localhost (10.174.184.155) by DGGEMS407-HUB.china.huawei.com
+ (10.3.19.207) with Microsoft SMTP Server id 14.3.487.0; Thu, 19 Nov 2020
  09:50:41 +0800
 From: Jiahui Cen <cenjiahui@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v10 8/9] unit-test: Add testcase for pxb
-Date: Thu, 19 Nov 2020 09:48:40 +0800
-Message-ID: <20201119014841.7298-9-cenjiahui@huawei.com>
+Subject: [PATCH v10 9/9] unit-test: Add the binary file and clear diff.h
+Date: Thu, 19 Nov 2020 09:48:41 +0800
+Message-ID: <20201119014841.7298-10-cenjiahui@huawei.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201119014841.7298-1-cenjiahui@huawei.com>
 References: <20201119014841.7298-1-cenjiahui@huawei.com>
@@ -73,97 +73,64 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yubo Miao <miaoyubo@huawei.com>
 
-Add testcase for pxb to make sure the ACPI table is correct for guest.
+Add the binary file DSDT.pxb and clear bios-tables-test-allowed-diff.h
 
 Signed-off-by: Yubo Miao <miaoyubo@huawei.com>
 Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
 ---
- tests/qtest/bios-tables-test.c | 58 ++++++++++++++++++--
- 1 file changed, 52 insertions(+), 6 deletions(-)
+ tests/data/acpi/virt/DSDT.pxb               | Bin 0 -> 7802 bytes
+ tests/qtest/bios-tables-test-allowed-diff.h |   1 -
+ 2 files changed, 1 deletion(-)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index f23a5335a8..64a9a772ee 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -671,12 +671,21 @@ static void test_acpi_one(const char *params, test_data *data)
-          * TODO: convert '-drive if=pflash' to new syntax (see e33763be7cd3)
-          * when arm/virt boad starts to support it.
-          */
--        args = g_strdup_printf("-machine %s %s -accel tcg -nodefaults -nographic "
--            "-drive if=pflash,format=raw,file=%s,readonly "
--            "-drive if=pflash,format=raw,file=%s,snapshot=on -cdrom %s %s",
--            data->machine, data->tcg_only ? "" : "-accel kvm",
--            data->uefi_fl1, data->uefi_fl2, data->cd, params ? params : "");
--
-+        if (data->cd) {
-+            args = g_strdup_printf("-machine %s %s -accel tcg "
-+                "-nodefaults -nographic "
-+                "-drive if=pflash,format=raw,file=%s,readonly "
-+                "-drive if=pflash,format=raw,file=%s,snapshot=on -cdrom %s %s",
-+                data->machine, data->tcg_only ? "" : "-accel kvm",
-+                data->uefi_fl1, data->uefi_fl2, data->cd, params ? params : "");
-+        } else {
-+            args = g_strdup_printf("-machine %s %s -accel tcg "
-+                "-nodefaults -nographic "
-+                "-drive if=pflash,format=raw,file=%s,readonly "
-+                "-drive if=pflash,format=raw,file=%s,snapshot=on %s",
-+                data->machine, data->tcg_only ? "" : "-accel kvm",
-+                data->uefi_fl1, data->uefi_fl2, params ? params : "");
-+        }
-     } else {
-         args = g_strdup_printf("-machine %s %s -accel tcg "
-             "-net none -display none %s "
-@@ -1176,6 +1185,40 @@ static void test_acpi_virt_tcg_numamem(void)
- 
- }
- 
-+#ifdef CONFIG_PXB
-+static void test_acpi_virt_tcg_pxb(void)
-+{
-+    test_data data = {
-+        .machine = "virt",
-+        .tcg_only = true,
-+        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
-+        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
-+        .ram_start = 0x40000000ULL,
-+        .scan_len = 128ULL * 1024 * 1024,
-+    };
-+    /*
-+     * While using -cdrom, the cdrom would auto plugged into pxb-pcie,
-+     * the reason is the bus of pxb-pcie is also root bus, it would lead
-+     * to the error only PCI/PCIE bridge could plug onto pxb.
-+     * Therefore,thr cdrom is defined and plugged onto the scsi controller
-+     * to solve the conflicts.
-+     */
-+    data.variant = ".pxb";
-+    test_acpi_one(" -device pcie-root-port,chassis=1,id=pci.1"
-+                  " -device virtio-scsi-pci,id=scsi0,bus=pci.1"
-+                  " -drive file="
-+                  "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2,"
-+                  "if=none,media=cdrom,id=drive-scsi0-0-0-1,readonly=on"
-+                  " -device scsi-cd,bus=scsi0.0,scsi-id=0,"
-+                  "drive=drive-scsi0-0-0-1,id=scsi0-0-0-1,bootindex=1"
-+                  " -cpu cortex-a57"
-+                  " -device pxb-pcie,bus_nr=128",
-+                  &data);
-+
-+    free_test_data(&data);
-+}
-+#endif
-+
- static void test_acpi_tcg_acpi_hmat(const char *machine)
- {
-     test_data data;
-@@ -1287,6 +1330,9 @@ int main(int argc, char *argv[])
-         qtest_add_func("acpi/virt", test_acpi_virt_tcg);
-         qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
-         qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
-+#ifdef CONFIG_PXB
-+        qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
-+#endif
-     }
-     ret = g_test_run();
-     boot_sector_cleanup(disk);
+diff --git a/tests/data/acpi/virt/DSDT.pxb b/tests/data/acpi/virt/DSDT.pxb
+new file mode 100644
+index 0000000000000000000000000000000000000000..d5f0533a02d62bc2ae2db9b9de9484e5c06652fe
+GIT binary patch
+literal 7802
+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
+ATL1t6
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index 90c53925fc..dfb8523c8b 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1,2 +1 @@
+ /* List of comma-separated changed AML files to ignore */
+-"tests/data/acpi/virt/DSDT.pxb",
 -- 
 2.28.0
 
