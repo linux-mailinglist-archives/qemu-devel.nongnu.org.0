@@ -2,73 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84C792B902A
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 11:34:33 +0100 (CET)
-Received: from localhost ([::1]:37782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D9F22B9035
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 11:37:44 +0100 (CET)
+Received: from localhost ([::1]:46902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfhGq-0002q5-JO
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 05:34:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51020)
+	id 1kfhJv-0006g2-9T
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 05:37:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kfhF0-00011n-3b
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 05:32:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22542)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kfhEx-0007a4-Rq
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 05:32:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605781955;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Z9AWBek5mw1pq2Z1ZGIrsfVafF/UZRDeON3p3EpMOFo=;
- b=MpAty5dELIMFahWVvpbzWxfbAqVW3oejkCVmPqXnIZzgE0yQ45W1TgNRTxS9Vm4EYZBRey
- /ihctTHaOn+xZJwRRdwBO4uPqCjpZzZsbnQQQ/MUNAVU7jcydnTMpEXHVgmSJaMpUhvgst
- g6OhzoOmvo2392eK4AaYrfyrULJxUIE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-500-sENi3HptNC2rZbOPWYPLcQ-1; Thu, 19 Nov 2020 05:32:33 -0500
-X-MC-Unique: sENi3HptNC2rZbOPWYPLcQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6698CE745
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 10:32:32 +0000 (UTC)
-Received: from vitty.brq.redhat.com (unknown [10.40.193.186])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2E39860854;
- Thu, 19 Nov 2020 10:32:30 +0000 (UTC)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 5/5] i386: provide simple 'hyperv=on' option to x86 machine
- types
-Date: Thu, 19 Nov 2020 11:32:21 +0100
-Message-Id: <20201119103221.1665171-6-vkuznets@redhat.com>
-In-Reply-To: <20201119103221.1665171-1-vkuznets@redhat.com>
-References: <20201119103221.1665171-1-vkuznets@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kfhGh-0003pL-Qk
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 05:34:27 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:52471)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kfhGf-00084i-Bf
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 05:34:23 -0500
+Received: by mail-wm1-x343.google.com with SMTP id 10so6673958wml.2
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 02:34:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=DbTNT2HKBABTTlsxh21pDy0s/tMrYefbfpvpZ3DZ30U=;
+ b=AO8rP/EwST8hdlHq56nX5T6hYkcGmlFARXujJ4ZgZDl8ZU7Xs4zZJ+QXstKdc7ZJjq
+ HjXRoklmoQkqo1+184R4WJQ0vmuM0VFojTo1Kzyt169HkorzgvNHzaXTyGFalk+s3+im
+ CO/+roR3aUK6OaqAoaq8dFbT7d9g1o2sP1S11/3xN/xU1uAHtjckz7iXw5rDywOvvOLQ
+ AJ0KGe6mc2ipLm7OExPEwR2P49gITL1zvX5RfoGYh/HNNKv5KIZ9uBbWhzmXgAeYSpas
+ p7MKV7U+XxLjWlf254fPkUCtoLJ7anBVvMqOFpZ9/c+QIvuKT9fvN2DWnFIuufyjcSDa
+ PRlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=DbTNT2HKBABTTlsxh21pDy0s/tMrYefbfpvpZ3DZ30U=;
+ b=eIKLXNxbyYps4QufOD14iuhynt1UkKXZLGRj5STXpHIlQANn3TM/cDEzPO1nee8bKS
+ KD5PBX5XesZc2Yy35xsO1aG1R8Ioju3gUKWt2YiaxEXT273j6ZFKhacihQYTu5DAgQCF
+ rlTpkzII8U9RpAW/aUyFMKysIK1TfgdOou846iM3p0InKcbUF+uaMKeojFanNFFclT8P
+ UQp7mURyhPmKvpvS7huONo/INF1u4Hbl6XxHDLncwa1YGhcBP2bx+OXpiYnx2hAH6uYt
+ tzgv4QkTn2eqUs/UHqwFneEI2YmlhizNVcoj6YrZ+lMFm8JjhN0mv4ZVXcklTmE8kPT/
+ ksvA==
+X-Gm-Message-State: AOAM533a3UU2v1qOdT3MoIKMcjuPRqIJAi0F1vTTBFhKfskR0nwtMHb/
+ WBxDaB1ud4q4+hS4LaxrC/Czvw==
+X-Google-Smtp-Source: ABdhPJyPUwdpuUxYJEuBTVmxLqeKLYutmF+XX84GY/FMTByhbkAb1r9+IqLdM7mTCN2VNV5Ud63a8g==
+X-Received: by 2002:a1c:a9c4:: with SMTP id s187mr3884558wme.180.1605782059404; 
+ Thu, 19 Nov 2020 02:34:19 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id u85sm9346471wmu.43.2020.11.19.02.34.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Nov 2020 02:34:18 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 861B81FF7E;
+ Thu, 19 Nov 2020 10:34:17 +0000 (GMT)
+References: <20201116113046.11362-1-acho@suse.com>
+ <20201117065719.30150-1-acho@suse.com>
+ <877a38a0-0f39-eba7-618a-658f16fe56bc@redhat.com>
+ <d225bed3fbd208b305cf79d7a8c5e108db53e655.camel@suse.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: AL Yu-Chen Cho <acho@suse.com>
+Subject: Re: [PATCH] gitlab-ci.yml: Add openSUSE Leap 15.2 for gitlab CI/CD
+In-reply-to: <d225bed3fbd208b305cf79d7a8c5e108db53e655.camel@suse.com>
+Date: Thu, 19 Nov 2020 10:34:17 +0000
+Message-ID: <87wnyhvdna.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=vkuznets@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 23:36:20
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,169 +91,229 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: fam@euphon.net, lyan@suse.com, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, wainersm@redhat.com, brogers@suse.com, cfontana@suse.de,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enabling Hyper-V emulation for a Windows VM is a tiring experience as it
-requires listing all currently supported enlightenments ("hv_*" CPU
-features) explicitly. We do have a 'hv_passthrough' mode enabling
-everything but it can't be used in production as it prevents migration.
 
-Introduce a simple 'hyperv=on' option for all x86 machine types enabling
-all currently supported Hyper-V enlightenments. Later, when new
-enlightenments get implemented, we will be adding them to newer machine
-types only (by disabling them for legacy machine types) thus preserving
-migration.
+AL Yu-Chen Cho <acho@suse.com> writes:
 
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
----
- docs/hyperv.txt       |  8 ++++++++
- hw/i386/x86.c         | 30 ++++++++++++++++++++++++++++++
- include/hw/i386/x86.h |  7 +++++++
- target/i386/cpu.c     | 14 ++++++++++++++
- 4 files changed, 59 insertions(+)
+> On Tue, 2020-11-17 at 12:51 +0100, Thomas Huth wrote:
+>> On 17/11/2020 07.57, Cho, Yu-Chen wrote:
+>> > Add build-system-opensuse jobs and add opensuse-leap.docker
+>> > dockerfile.
+>> > Use openSUSE Leap 15.2 container image in the gitlab-CI.
+>> >=20
+>> > Signed-off-by: Cho, Yu-Chen <acho@suse.com>
+>> > ---
+>> >  .gitlab-ci.d/containers.yml                   |  5 ++
+>> >  .gitlab-ci.yml                                | 30 +++++++
+>> >  tests/docker/dockerfiles/opensuse-leap.docker | 88
+>> > +++++++++++++++++++
+>> >  3 files changed, 123 insertions(+)
+>> >  create mode 100644 tests/docker/dockerfiles/opensuse-leap.docker
+>> >=20
+>> > diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-
+>> > ci.d/containers.yml
+>> > index 11d079ea58..082624a6fa 100644
+>> > --- a/.gitlab-ci.d/containers.yml
+>> > +++ b/.gitlab-ci.d/containers.yml
+>> > @@ -246,3 +246,8 @@ amd64-ubuntu-container:
+>> >    <<: *container_job_definition
+>> >    variables:
+>> >      NAME: ubuntu
+>> > +
+>> > +amd64-opensuse-leap-container:
+>> > +  <<: *container_job_definition
+>> > +  variables:
+>> > +    NAME: opensuse-leap
+>> > diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+>> > index 9a8b375188..bf4759296a 100644
+>> > --- a/.gitlab-ci.yml
+>> > +++ b/.gitlab-ci.yml
+>> > @@ -195,6 +195,36 @@ acceptance-system-centos:
+>> >      MAKE_CHECK_ARGS: check-acceptance
+>> >    <<: *acceptance_definition
+>> >=20=20
+>> > +build-system-opensuse:
+>> > +  <<: *native_build_job_definition
+>> > +  variables:
+>> > +    IMAGE: opensuse-leap
+>> > +    TARGETS: s390x-softmmu x86_64-softmmu aarch64-softmmu
+>> > +    MAKE_CHECK_ARGS: check-build
+>> > +  artifacts:
+>> > +    expire_in: 2 days
+>> > +    paths:
+>> > +      - build
+>> > +
+>> > +check-system-opensuse:
+>> > +  <<: *native_test_job_definition
+>> > +  needs:
+>> > +    - job: build-system-opensuse
+>> > +      artifacts: true
+>> > +  variables:
+>> > +    IMAGE: opensuse-leap
+>> > +    MAKE_CHECK_ARGS: check
+>> > +
+>> > +acceptance-system-opensuse:
+>> > +  <<: *native_test_job_definition
+>> > +  needs:
+>> > +    - job: build-system-opensuse
+>> > +      artifacts: true
+>> > +  variables:
+>> > +    IMAGE: opensuse-leap
+>> > +    MAKE_CHECK_ARGS: check-acceptance
+>> > +  <<: *acceptance_definition
+>> > +
+>> >  build-disabled:
+>> >    <<: *native_build_job_definition
+>> >    variables:
+>> > diff --git a/tests/docker/dockerfiles/opensuse-leap.docker
+>> > b/tests/docker/dockerfiles/opensuse-leap.docker
+>> > new file mode 100644
+>> > index 0000000000..712eb4fe3a
+>> > --- /dev/null
+>> > +++ b/tests/docker/dockerfiles/opensuse-leap.docker
+>> > @@ -0,0 +1,88 @@
+>> > +FROM opensuse/leap:15.2
+>> > +
+>> > +RUN zypper update -y
+>> > +
+>> > +# Please keep this list sorted alphabetically
+>> > +ENV PACKAGES \
+>> > +    bc \
+>> > +    brlapi-devel \
+>> > +    bzip2 \
+>> > +    libzip-devel \
+>> > +    ccache \
+>> > +    clang \
+>> > +    cyrus-sasl-devel \
+>> > +    dbus-1 \
+>> > +    device-mapper-devel \
+>> > +    gcc \
+>> > +    gcc-c++ \
+>> > +    mkisofs \
+>> > +    gettext-runtime \
+>> > +    git \
+>> > +    glib2-devel \
+>> > +    glusterfs-devel \
+>> > +    libgnutls-devel \
+>> > +    gtk3-devel \
+>> > +    hostname \
+>> > +    libaio-devel \
+>> > +    libasan5 \
+>> > +    libattr-devel \
+>> > +    libblockdev-devel \
+>> > +    libcap-ng-devel \
+>> > +    libcurl-devel \
+>> > +    libepoxy-devel \
+>> > +    libfdt-devel \
+>> > +    libiscsi-devel \
+>> > +    libjpeg8-devel \
+>> > +    libpmem-devel \
+>> > +    libpng16-devel \
+>> > +    librbd-devel \
+>> > +    libseccomp-devel \
+>> > +    libssh-devel \
+>> > +    libubsan0 \
+>> > +    libudev-devel \
+>> > +    libxml2-devel \
+>> > +    libzstd-devel \
+>> > +    llvm \
+>> > +    lzo-devel \
+>> > +    make \
+>> > +    mingw32-filesystem \
+>> > +    glibc-devel-32bit \
+>> > +    libSDL2_image-devel \
+>> > +    mingw64-binutils \
+>> > +    nmap \
+>> > +    ncat \
+>> > +    ncurses-devel \
+>> > +    libnettle-devel \
+>> > +    ninja \
+>> > +    mozilla-nss-devel \
+>> > +    libnuma-devel \
+>> > +    perl \
+>> > +    libpixman-1-0-devel \
+>> > +    python3-base \
+>> > +    python3-PyYAML \
+>> > +    python3-numpy \
+>> > +    python3-opencv \
+>> > +    python3-Pillow \
+>> > +    python3-pip \
+>> > +    python3-Sphinx \
+>> > +    python3-virtualenv \
+>> > +    rdma-core-devel \
+>> > +    libSDL2-devel \
+>> > +    snappy-devel \
+>> > +    sparse \
+>> > +    libspice-server-devel \
+>> > +    systemd-devel \
+>> > +    systemtap-sdt-devel \
+>> > +    tar \
+>> > +    tesseract-ocr \
+>> > +    tesseract-ocr-traineddata-english \
+>> > +    usbredir-devel \
+>> > +    virglrenderer-devel \
+>> > +    libvte-2_91-0 \
+>> > +    which \
+>> > +    xen-devel \
+>> > +    zlib-devel
+>> > +ENV QEMU_CONFIGURE_OPTS --python=3D/usr/bin/python3.8
+>> > +
+>> > +RUN zypper  --non-interactive install -y $PACKAGES
+>> > +RUN rpm -q $PACKAGES | sort > /packages.txt
+>>=20
+>> Thanks, I gave it a try now and it seems to work fine so far ... but
+>> the
+>> initial creation of the container was quite slow, 28 minutes, that's
+>> quite a
+>> bit more from what I've seen with the other containers so far:
+>>=20
+>>  https://gitlab.com/huth/qemu/-/jobs/853630446
+>>=20
+>> (other containers took e.g. only 10 minutes like
+>> https://gitlab.com/huth/qemu/-/jobs/853630446 or 15 minutes like
+>> https://gitlab.com/qemu-project/qemu/-/jobs/812284100)
+>>=20
+>> Did I maybe just hit a bad point in time?
+>>=20
+>
+> No, Thanks for your suggestion, I think I can decrease the docker build
+> duration.
+>
+>
+>> Or would it make sense to trim the list of packages that need to be
+>> installed?
+>
+> yes, I already started to trim, will submit v2 sson.
+>
+>>=20
+>> For example, unless you want to test m68k-softmmu in this container,
+>> too,
+>> you don't need tesseract-ocr.
+>>=20
+>> And why do you need mozilla-nss-devel ?
+>>=20
+>> And I think you could also drop the mingw packages for now, unless
+>> you want
+>> to cross-compile some Windows binaries with this container?
+>>=20
+>
+> yes, no problem. The origin plan is add some cross-compiler after this
+> patch, and that I am not sure which one way to add it is that best (
+> and that would not use the resource to create the docker image again.
+> but I think I should patch it later.
 
-diff --git a/docs/hyperv.txt b/docs/hyperv.txt
-index 5df00da54fc4..1a76a07f8417 100644
---- a/docs/hyperv.txt
-+++ b/docs/hyperv.txt
-@@ -29,6 +29,14 @@ When any set of the Hyper-V enlightenments is enabled, QEMU changes hypervisor
- identification (CPUID 0x40000000..0x4000000A) to Hyper-V. KVM identification
- and features are kept in leaves 0x40000100..0x40000101.
- 
-+Hyper-V enlightenments can be enabled in bulk by specifying 'hyperv=on' to an
-+x86 machine type:
-+
-+  qemu-system-x86_64 -machine q35,accel=kvm,kernel-irqchip=split,hyperv=on ...
-+
-+Note, new enlightenments are only added to the latest (in-develompent) machine
-+type, older machine types keep the list of the supported features intact to
-+safeguard migration.
- 
- 3. Existing enlightenments
- ===========================
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 5944fc44edca..57f27d56ecc6 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -1171,6 +1171,20 @@ static void x86_machine_set_acpi(Object *obj, Visitor *v, const char *name,
-     visit_type_OnOffAuto(v, name, &x86ms->acpi, errp);
- }
- 
-+static bool x86_machine_get_hyperv(Object *obj, Error **errp)
-+{
-+    X86MachineState *x86ms = X86_MACHINE(obj);
-+
-+    return x86ms->hyperv_enabled;
-+}
-+
-+static void x86_machine_set_hyperv(Object *obj, bool value, Error **errp)
-+{
-+    X86MachineState *x86ms = X86_MACHINE(obj);
-+
-+    x86ms->hyperv_enabled = value;
-+}
-+
- static void x86_machine_initfn(Object *obj)
- {
-     X86MachineState *x86ms = X86_MACHINE(obj);
-@@ -1194,6 +1208,16 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
-     x86mc->save_tsc_khz = true;
-     nc->nmi_monitor_handler = x86_nmi;
- 
-+    /* Hyper-V features enabled with 'hyperv=on' */
-+    x86mc->default_hyperv_features = BIT(HYPERV_FEAT_RELAXED) |
-+        BIT(HYPERV_FEAT_VAPIC) | BIT(HYPERV_FEAT_TIME) |
-+        BIT(HYPERV_FEAT_CRASH) | BIT(HYPERV_FEAT_RESET) |
-+        BIT(HYPERV_FEAT_VPINDEX) | BIT(HYPERV_FEAT_RUNTIME) |
-+        BIT(HYPERV_FEAT_SYNIC) | BIT(HYPERV_FEAT_STIMER) |
-+        BIT(HYPERV_FEAT_FREQUENCIES) | BIT(HYPERV_FEAT_REENLIGHTENMENT) |
-+        BIT(HYPERV_FEAT_TLBFLUSH) | BIT(HYPERV_FEAT_EVMCS) |
-+        BIT(HYPERV_FEAT_IPI) | BIT(HYPERV_FEAT_STIMER_DIRECT);
-+
-     object_class_property_add(oc, X86_MACHINE_SMM, "OnOffAuto",
-         x86_machine_get_smm, x86_machine_set_smm,
-         NULL, NULL);
-@@ -1205,6 +1229,12 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
-         NULL, NULL);
-     object_class_property_set_description(oc, X86_MACHINE_ACPI,
-         "Enable ACPI");
-+
-+    object_class_property_add_bool(oc, X86_MACHINE_HYPERV,
-+        x86_machine_get_hyperv, x86_machine_set_hyperv);
-+
-+    object_class_property_set_description(oc, X86_MACHINE_HYPERV,
-+        "Enable Hyper-V enlightenments");
- }
- 
- static const TypeInfo x86_machine_info = {
-diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
-index 739fac50871b..598abd1be806 100644
---- a/include/hw/i386/x86.h
-+++ b/include/hw/i386/x86.h
-@@ -38,6 +38,9 @@ struct X86MachineClass {
-     bool save_tsc_khz;
-     /* Enables contiguous-apic-ID mode */
-     bool compat_apic_id_mode;
-+
-+    /* Hyper-V features enabled with 'hyperv=on' */
-+    uint64_t default_hyperv_features;
- };
- 
- struct X86MachineState {
-@@ -71,10 +74,14 @@ struct X86MachineState {
-      * will be translated to MSI messages in the address space.
-      */
-     AddressSpace *ioapic_as;
-+
-+    /* Hyper-V emulation */
-+    bool hyperv_enabled;
- };
- 
- #define X86_MACHINE_SMM              "smm"
- #define X86_MACHINE_ACPI             "acpi"
-+#define X86_MACHINE_HYPERV           "hyperv"
- 
- #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
- OBJECT_DECLARE_TYPE(X86MachineState, X86MachineClass, X86_MACHINE)
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 83aca942d87c..63a931679d73 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -53,6 +53,7 @@
- #include "sysemu/tcg.h"
- #include "hw/qdev-properties.h"
- #include "hw/i386/topology.h"
-+#include "hw/i386/x86.h"
- #ifndef CONFIG_USER_ONLY
- #include "exec/address-spaces.h"
- #include "hw/i386/apic_internal.h"
-@@ -6511,8 +6512,21 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
- 
- static void x86_cpu_hyperv_realize(X86CPU *cpu)
- {
-+    X86MachineState *x86ms = X86_MACHINE(qdev_get_machine());
-+    X86MachineClass *x86mc = X86_MACHINE_GET_CLASS(x86ms);
-+    uint64_t feat;
-     size_t len;
- 
-+    if (x86ms->hyperv_enabled) {
-+        feat = x86mc->default_hyperv_features;
-+        /* Enlightened VMCS is only available on Intel/VMX */
-+        if (!cpu_has_vmx(&cpu->env)) {
-+            feat &= ~BIT(HYPERV_FEAT_EVMCS);
-+        }
-+
-+        cpu->hyperv_features |= feat;
-+    }
-+
-     /* Hyper-V vendor id */
-     if (!cpu->hyperv_vendor) {
-         memcpy(cpu->hyperv_vendor_id, "Microsoft Hv", 12);
--- 
-2.26.2
+I'd keep the focus on building the specific OpenSUSE binaries. We have
+pretty good cross compiler support from Debian already so unless
+OpenSUSE packages some architectures we don't already have covered then
+I would suggest keeping it light. Even in the Debian case we layer the
+images so each cross compiler shares a common light base and not a full
+featured build everything image.
 
+--=20
+Alex Benn=C3=A9e
 
