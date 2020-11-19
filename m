@@ -2,96 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F5B62B984A
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 17:46:13 +0100 (CET)
-Received: from localhost ([::1]:45152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F1112B9882
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 17:49:33 +0100 (CET)
+Received: from localhost ([::1]:52894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfn4W-0008Is-Cl
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 11:46:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58856)
+	id 1kfn7k-0003AU-EF
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 11:49:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <michael.christie@oracle.com>)
- id 1kfn2N-0006Y0-PD
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:43:59 -0500
-Received: from userp2120.oracle.com ([156.151.31.85]:52008)
+ (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
+ id 1kfn2i-0007Ck-Ng
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:44:21 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:8038)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <michael.christie@oracle.com>)
- id 1kfn2K-0007oU-RP
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:43:59 -0500
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AJGhjcM095167;
- Thu, 19 Nov 2020 16:43:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
+ id 1kfn2g-00081S-OO
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:44:20 -0500
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0AJGWarB034488; Thu, 19 Nov 2020 11:44:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=subject : to : cc :
  references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=+ApXWtZGfu+O1bz3mzFfdZ4acwEqWfrjwehPFPpqL1w=;
- b=XbYjRLGKG2x4zh/HP0jUZwV4xPEe+nlEcn49SZgJRBrOw81HouDn8nBpAYzwIyL+kW8s
- vvNq9IaKpA+zjHaI2efuFsoNxiHAuFxzXGoaPAUDdE9vSOBYiK8c/r5OB6hrtBwgbN9b
- S2DvcxpsPl25qLt30urrtjsFrERmvXnVJ9hKhBP4ghbVYP0hybSUgrMlXYEPpyl5kVRP
- SCJD2TPLTa/wb25QNSksoT8YvB/lQ9AKt21wo9tw05rW9wK/AxWTHoB1BGNVPI2Z36fg
- W4cXYfGo6rRyYZeRzPdAZUQ1OYsXMIBy2kVg9mmGffk7KMMcLxoh4PjixxMq8o6qj7Rn bQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2120.oracle.com with ESMTP id 34t7vned9p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 19 Nov 2020 16:43:45 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AJGPNYW058340;
- Thu, 19 Nov 2020 16:43:44 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3020.oracle.com with ESMTP id 34umd26uk6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 19 Nov 2020 16:43:44 +0000
-Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0AJGhgn3013224;
- Thu, 19 Nov 2020 16:43:42 GMT
-Received: from [20.15.0.5] (/73.88.28.6)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 19 Nov 2020 08:43:42 -0800
-Subject: Re: [PATCH 00/10] vhost/qemu: thread per IO SCSI vq
-To: Stefan Hajnoczi <stefanha@gmail.com>
-References: <1605223150-10888-1-git-send-email-michael.christie@oracle.com>
- <20201117164043.GS131917@stefanha-x1.localdomain>
- <b3343762-bb11-b750-46ec-43b5556f2b8e@oracle.com>
- <20201118113117.GF182763@stefanha-x1.localdomain>
- <20201119094315-mutt-send-email-mst@kernel.org>
- <ceebdc90-3ffc-1563-ff85-12a848bcba18@oracle.com>
- <CAJSP0QUvSwX5NCPmfSODV_C+D41E21LZT=oXQ2PLc6baAsGGDQ@mail.gmail.com>
-From: Mike Christie <michael.christie@oracle.com>
-Message-ID: <ffd88f0c-981e-a102-4b08-f29d6b9a0f71@oracle.com>
-Date: Thu, 19 Nov 2020 10:43:40 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.4.3
+ content-type : content-transfer-encoding; s=pp1;
+ bh=LiqfshhO3ObGGv+rTsSMhujrrPXO2ECwEsueD0Twkpg=;
+ b=EGbfYhTFbHZ1eZVoAtIXYxZiJK4bxAmGW19a+5cIezmFiLjXISz41Hjm1Cwo+qXqQnsP
+ LlXPJ2Wg9Jcb3SrsDxNYgxUnMn+JPTUF8LtgJHJwhOpfWJkjsrADqkpRyNJQA5P+cWps
+ R34y15J7OSjLX8sjqYPmNTapsNXo44LBw6D9a+LUp7GrCv183DDnuI+xLWUDwL8AE8m0
+ IAAWiPWyLhggUPhzkvoPVlDXLQJIMSb0UIOD3zqBmXIMFBDFAnr7xOGcC7LJZlA3lTgS
+ TAodCMLq4zPBvGabpN85vZTVAmRVLmo4LyzPYlkMPhXERYPcx1m8KkPN8r/zW6fsMGj4 5Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34wv14s718-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 19 Nov 2020 11:44:06 -0500
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0AJGWkrc035477;
+ Thu, 19 Nov 2020 11:44:06 -0500
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34wv14s70u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 19 Nov 2020 11:44:06 -0500
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0AJGfZYf020349;
+ Thu, 19 Nov 2020 16:44:05 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma03dal.us.ibm.com with ESMTP id 34w2634gkb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 19 Nov 2020 16:44:05 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0AJGhs8562783800
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 19 Nov 2020 16:43:54 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AC9746A047;
+ Thu, 19 Nov 2020 16:44:03 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 177776A04D;
+ Thu, 19 Nov 2020 16:44:02 +0000 (GMT)
+Received: from [9.65.247.165] (unknown [9.65.247.165])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu, 19 Nov 2020 16:44:02 +0000 (GMT)
+Subject: Re: [PATCH-for-5.2? v3 5/9] scsi: fix overflow in
+ scsi_disk_new_request_dump
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20201105221905.1350-1-dbuono@linux.vnet.ibm.com>
+ <20201105221905.1350-6-dbuono@linux.vnet.ibm.com>
+ <ad3594d4-3541-32fd-ad61-9b57f2d08e5b@redhat.com>
+ <b6dcbbe3-294f-dcf4-72a6-c29314ec0d8d@redhat.com>
+ <2382c0b4-6fe2-3e0b-e349-1ac12b47fbb5@redhat.com>
+From: Daniele Buono <dbuono@linux.vnet.ibm.com>
+Message-ID: <b313b29e-ecba-f113-2c8e-f7d4466ae219@linux.vnet.ibm.com>
+Date: Thu, 19 Nov 2020 11:44:01 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.1
 MIME-Version: 1.0
-In-Reply-To: <CAJSP0QUvSwX5NCPmfSODV_C+D41E21LZT=oXQ2PLc6baAsGGDQ@mail.gmail.com>
+In-Reply-To: <2382c0b4-6fe2-3e0b-e349-1ac12b47fbb5@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9809
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- mlxscore=0 phishscore=0
- spamscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011190119
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9809
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
+ definitions=2020-11-19_09:2020-11-19,
+ 2020-11-19 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  suspectscore=0
- malwarescore=0 bulkscore=0 impostorscore=0 lowpriorityscore=0 spamscore=0
- adultscore=0 mlxscore=0 priorityscore=1501 phishscore=0 clxscore=1011
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011190120
-Received-SPF: pass client-ip=156.151.31.85;
- envelope-from=michael.christie@oracle.com; helo=userp2120.oracle.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ priorityscore=1501 mlxscore=0 impostorscore=0 phishscore=0 spamscore=0
+ bulkscore=0 lowpriorityscore=0 adultscore=0 mlxlogscore=958 malwarescore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011190118
+Received-SPF: none client-ip=148.163.158.5;
+ envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,142 +117,16 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam <fam@euphon.net>, linux-scsi <linux-scsi@vger.kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Linux Virtualization <virtualization@lists.linux-foundation.org>,
- target-devel <target-devel@vger.kernel.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/19/20 10:24 AM, Stefan Hajnoczi wrote:
-> On Thu, Nov 19, 2020 at 4:13 PM Mike Christie
-> <michael.christie@oracle.com> wrote:
->>
->> On 11/19/20 8:46 AM, Michael S. Tsirkin wrote:
->>> On Wed, Nov 18, 2020 at 11:31:17AM +0000, Stefan Hajnoczi wrote:
->>>>> My preference has been:
->>>>>
->>>>> 1. If we were to ditch cgroups, then add a new interface that would allow
->>>>> us to bind threads to a specific CPU, so that it lines up with the guest's
->>>>> mq to CPU mapping.
->>>>
->>>> A 1:1 vCPU/vq->CPU mapping isn't desirable in all cases.
->>>>
->>>> The CPU affinity is a userspace policy decision. The host kernel should
->>>> provide a mechanism but not the policy. That way userspace can decide
->>>> which workers are shared by multiple vqs and on which physical CPUs they
->>>> should run.
->>>
->>> So if we let userspace dictate the threading policy then I think binding
->>> vqs to userspace threads and running there makes the most sense,
->>> no need to create the threads.
->>>
->>
->> Just to make sure I am on the same page, in one of the first postings of
->> this set at the bottom of the mail:
->>
->> https://urldefense.com/v3/__https://www.spinics.net/lists/linux-scsi/msg148322.html__;!!GqivPVa7Brio!PdGIFdzqcAb6DW8twtjX3r7xOcM7XbTh7Ndkhxhb-1fV1VNB4lXjFzwFVE1zczUIE2Mp$
->>
->> I asked about a new interface and had done something more like what
->> Stefan posted:
->>
->>     struct vhost_vq_worker_info {
->>         /*
->>          * The pid of an existing vhost worker that this vq will be
->>          * assigned to. When pid is 0 the virtqueue is assigned to the
->>          * default vhost worker. When pid is -1 a new worker thread is
->>          * created for this virtqueue. When pid is -2 the virtqueue's
->>          * worker thread is unchanged.
->>          *
->>          * If a vhost worker no longer has any virtqueues assigned to it
->>          * then it will terminate.
->>          *
->>          * The pid of the vhost worker is stored to this field when the
->>          * ioctl completes successfully. Use pid -2 to query the current
->>          * vhost worker pid.
->>          */
->>         __kernel_pid_t pid;  /* in/out */
->>
->>         /* The virtqueue index*/
->>         unsigned int vq_idx; /* in */
->>     };
->>
->> This approach is simple and it allowed me to have userspace map queues
->> and threads optimally for our setups.
->>
->> Note: Stefan, in response to your previous comment, I am just using my
->> 1:1 mapping as an example and would make it configurable from userspace.
->>
->> In the email above are you guys suggesting to execute the SCSI/vhost
->> requests in userspace? We should not do that because:
->>
->> 1. It negates part of what makes vhost fast where we do not have to kick
->> out to userspace then back to the kernel.
->>
->> 2. It's not doable or becomes a crazy mess because vhost-scsi is tied to
->> the scsi/target layer in the kernel. You can't process the scsi command
->> in userspace since the scsi state machine and all its configuration info
->> is in the kernel's scsi/target layer.
->>
->> For example, I was just the maintainer of the target_core_user module
->> that hooks into LIO/target on the backend (vhost-scsi hooks in on the
->> front end) and passes commands to userspace and there we have a
->> semi-shadow state machine. It gets nasty to try and maintain/sync state
->> between lio/target core in the kernel and in userspace. We also see the
->> perf loss I mentioned in #1.
-> 
-> No, if I understand Michael correctly he has suggested a different approach.
-> 
-> My suggestion was that the kernel continues to manage the worker
-> threads but an ioctl allows userspace to control the policy.
-> 
-> I think Michael is saying that the kernel shouldn't manage/create
-> threads. Userspace should create threads and then invoke an ioctl from
-> those threads.
-> 
-> The ioctl will call into the vhost driver where it will execute
-> something similar to vhost_worker(). So this ioctl will block while
-> the kernel is using the thread to process vqs.
-> 
-> What isn't clear to me is how to tell the kernel which vqs are
-> processed by a thread. We could try to pass that information into the
-> ioctl. I'm not sure what the cleanest solution is here.
-> 
-> Maybe something like:
-> 
-> struct vhost_run_worker_info {
->      struct timespec *timeout;
->      sigset_t *sigmask;
-> 
->      /* List of virtqueues to process */
->      unsigned nvqs;
->      unsigned vqs[];
-> };
-> 
-> /* This blocks until the timeout is reached, a signal is received, or
-> the vhost device is destroyed */
-> int ret = ioctl(vhost_fd, VHOST_RUN_WORKER, &info);
-> 
-> As you can see, userspace isn't involved with dealing with the
-> requests. It just acts as a thread donor to the vhost driver.
-> 
-> We would want the VHOST_RUN_WORKER calls to be infrequent to avoid the
-> penalty of switching into the kernel, copying in the arguments, etc.
+Hi Philippe,
+Since you have a patch upcoming, may I drop this patch
+from this set?
 
-I didn't get this part. Why have the timeout? When the timeout expires, 
-does userspace just call right back down to the kernel or does it do 
-some sort of processing/operation?
+Daniele
 
-You could have your worker function run from that ioctl wait for a 
-signal or a wake up call from the vhost_work/poll functions.
-
-
-> 
-> Michael: is this the kind of thing you were thinking of?
-> 
-> Stefan
-> 
-
+On 11/9/2020 8:26 AM, Philippe Mathieu-Daudé wrote:
+> I did it. Will post later as this is 6.0 material.
 
