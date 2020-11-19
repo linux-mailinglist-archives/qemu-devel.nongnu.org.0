@@ -2,80 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D97E2B9506
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 15:43:04 +0100 (CET)
-Received: from localhost ([::1]:53902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94ED62B9509
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 15:45:36 +0100 (CET)
+Received: from localhost ([::1]:57362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfl9L-0004IV-DD
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 09:43:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50778)
+	id 1kflBn-0005nk-L2
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 09:45:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kfl6z-0002rM-5Q
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 09:40:37 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36573)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kfl6t-0003O4-Im
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 09:40:36 -0500
-Received: by mail-wr1-x443.google.com with SMTP id j7so6717378wrp.3
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 06:40:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=UhKr/hD4erty7MAzJUsEReOZUy20GtDiE7cbsaAmjO4=;
- b=BKJG60yD9kmWdR52vqOyxjswTrgKrXWRdnueFHZ2K2z0VSECVzKuojZfOWpTJAq8S/
- 4+ViVH9oEAKTxF6bj5e6yeDndzt67Jeqh/Rg50Z0l/6RS/V8iNo3+veE8DMtzUerdoNc
- e5EAnCFmtMLfWBxuRjYZUZ9qczeK3GSQqX+POitnzV5640wVfe2fOqgfVE2xKjDcbLOF
- PPaqlBbj0aXJcrvHHIt80zSwLFb26YQywfAXQMrCvGsAmcGCAD1wIsAaEDU9xozCbe0L
- kYnwPYuI/M/+6GAP8klwgcr6jC/NOMVQLItC9TDZ/Qh5AuCaVVjVeZa1KxmrfMOwJ+Gh
- 5xvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=UhKr/hD4erty7MAzJUsEReOZUy20GtDiE7cbsaAmjO4=;
- b=UmVct3gU7SU6zzmwkAgVdAA/mf58MRj17+E7J5RXuHooJon+c8vNIZYaUH5tfIo003
- WtjI29h6slNJgfa/etNFnFJF7S0azqynuzHjm2g86nUaRoKYkMwu6eoVNxqPSUAcq9ao
- EO3dn4yzzPalR3Yj6bEsnoR+kGrYP2VvPev7K+8Ovv5VQcBm0hExtVjQRZhB6kDaztUK
- MIPqwQ+/NwDS7vtoktuRtSdODylNGE8UREiB9eOe8Kpb/sQNrG4YxHaT0JwDllTqNCIP
- v983GIzsFt4baY3+WZZMXqRrx2n9/i2ZW6Xi+Gv2RcYnb8rdad0X9CXhTcpZ05e5X5T6
- U59g==
-X-Gm-Message-State: AOAM533iVMegbEbLwCmSz8LaOC8ZXHQ27g13l3DbsSI6xmNX/tYdpVTR
- s4kLwFNgv55ZEuN/NaehJWEQTQ==
-X-Google-Smtp-Source: ABdhPJyCgzXTROtPRsC4d+9a1EqqcykpKTSp+8V0w+VdpE/E+V2ZqOkucFDN/YfFuOy4Z6OnMRwsKA==
-X-Received: by 2002:adf:ebcb:: with SMTP id v11mr10527958wrn.408.1605796829768; 
- Thu, 19 Nov 2020 06:40:29 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b8sm43120209wrv.57.2020.11.19.06.40.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Nov 2020 06:40:28 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C035F1FF7E;
- Thu, 19 Nov 2020 14:40:27 +0000 (GMT)
-References: <20201117173635.29101-1-alex.bennee@linaro.org>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH for 5.2-rc3 v1 0/6] testing fixes (avocado, gitlab)
-In-reply-to: <20201117173635.29101-1-alex.bennee@linaro.org>
-Date: Thu, 19 Nov 2020 14:40:27 +0000
-Message-ID: <871rgpv290.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kfl8I-0003wp-Lj
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 09:41:58 -0500
+Received: from mx2.suse.de ([195.135.220.15]:58446)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kfl8F-0003th-Ep
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 09:41:58 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id EDBDEAA4F;
+ Thu, 19 Nov 2020 14:41:53 +0000 (UTC)
+Subject: Re: [PATCH for-6.0 0/6] Add HMP/QMP commands to query accelerator
+To: Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
+References: <20201116131011.26607-1-r.bolshakov@yadro.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <6ba77678-473a-0da1-f2d4-1fde46790972@suse.de>
+Date: Thu, 19 Nov 2020 15:41:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
+In-Reply-To: <20201116131011.26607-1-r.bolshakov@yadro.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 08:08:39
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,27 +56,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Ciao Roman,
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
-
+On 11/16/20 2:10 PM, Roman Bolshakov wrote:
 > Hi,
->
+> 
+> Management applications have no way to determine if certain accelerator
+> is available. That complicates discovery of non-KVM accelerators.
 
-Gentle ping:<snip>
+are we thinking about how to make this future-proof when it comes to modularization efforts,
+ie, when we get to fully modularized accelerator plugins?
 
-> The following need review:
->
-<snip>
->   - tests/avocado: clean-up socket directory after run
-<snip>
->   - scripts/ci: clean up default args logic a little
-<snip>
+Maybe too soon to consider, but still worth mentioning on my side I think.
 
---=20
-Alex Benn=C3=A9e
+Ciao,
+
+Claudio
+
+> 
+> To address the issue, the series adds two commands:
+> 
+>   'query-accel' for QMP to be used by management apps, and
+> 
+>   'info accel' for HMP to replace 'info kvm' in future.
+> 
+> Thanks,
+> Roman
+> 
+> Roman Bolshakov (6):
+>   qapi: Add query-accel command
+>   qapi: Rename KvmInfo to AccelInfo
+>   qapi: Use qmp_query_accel() in qmp_query_kvm()
+>   softmmu: Remove kvm_available()
+>   hmp: Add 'info accel' command
+>   qapi: Deprecate 'query-kvm'
+> 
+>  hmp-commands-info.hx       | 13 +++++++++++++
+>  include/monitor/hmp.h      |  1 +
+>  include/sysemu/arch_init.h |  1 -
+>  monitor/hmp-cmds.c         | 36 ++++++++++++++++++++++++++++++++++--
+>  monitor/qmp-cmds.c         | 18 ++++++++++++++----
+>  qapi/machine.json          | 37 ++++++++++++++++++++++++++++++-------
+>  softmmu/arch_init.c        |  9 ---------
+>  7 files changed, 92 insertions(+), 23 deletions(-)
+> 
+
 
