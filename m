@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 631802B9DDE
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 23:55:24 +0100 (CET)
-Received: from localhost ([::1]:33300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D1E22B9DE4
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 23:57:46 +0100 (CET)
+Received: from localhost ([::1]:37612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfspn-0007ht-EW
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 17:55:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35120)
+	id 1kfss5-0001Fi-Fv
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 17:57:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1kfsoS-0006oq-UO
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1kfsoS-0006oe-RX
  for qemu-devel@nongnu.org; Thu, 19 Nov 2020 17:54:00 -0500
-Received: from rev.ng ([5.9.113.41]:54505)
+Received: from rev.ng ([5.9.113.41]:53943)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1kfsoQ-0004rQ-WC
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1kfsoR-0004ra-51
  for qemu-devel@nongnu.org; Thu, 19 Nov 2020 17:54:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -23,19 +23,19 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=1bpyEN0MvPnNiocUkFqll5XbWuplu3wZZ/qKUif3qt8=; b=rWnANNwrk/zbrfNBrrOU4WGp4h
- FgdMiqhw4Hv5ocz36c86gfNGGlvZKv6n9kkQAhMrKxYX7P+LagIGjlbEuNKSZB6laqQ9lAIorXVYC
- 5puXvrKsOIC1ZyZZ7rgKfPHFEY9KSVMDNGObbEJt85xUinjlZ1/UUZehHQQ+17caZOI8=;
-Date: Thu, 19 Nov 2020 23:53:39 +0100
+ bh=IFDuTM7rQuwwbxsoSjhTxM72ej5TvTHfSGi1EtFllUs=; b=vRNH5QfGaxmr6q7mSCYwXdopDq
+ PpHzeMFkJGQtUwEIDFo2aW44V21QmMKtzL7WiZClGnrHxzzxhxNpDfrSmy8aNuo00ZX9PbwwVolDv
+ FTcBQ26VZF71Yz5/Kiax5JyzFgYgQ8AGmrLd6UtIhBx86RLHQ58NoxtOFscfjioVKrqM=;
+Date: Thu, 19 Nov 2020 23:53:40 +0100
 To: Taylor Simpson <tsimpson@quicinc.com>
-Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org,
- at.org@qualcomm.com, laurent@vivier.eu, bcain@quicinc.com
-Subject: Re: [RFC PATCH v5 22/33] Hexagon (target/hexagon) generater phase 4
- - decode tree
-Message-ID: <20201119235339.039ba041@orange>
-In-Reply-To: <1604016519-28065-23-git-send-email-tsimpson@quicinc.com>
+Cc: qemu-devel@nongnu.org, bcain@quicinc.com, richard.henderson@linaro.org,
+ at.org@qualcomm.com, laurent@vivier.eu
+Subject: Re: [RFC PATCH v5 20/33] Hexagon (target/hexagon) generator phase 2
+ - generate header files
+Message-ID: <20201119235340.418ffabf@orange>
+In-Reply-To: <1604016519-28065-21-git-send-email-tsimpson@quicinc.com>
 References: <1604016519-28065-1-git-send-email-tsimpson@quicinc.com>
- <1604016519-28065-23-git-send-email-tsimpson@quicinc.com>
+ <1604016519-28065-21-git-send-email-tsimpson@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -63,48 +63,16 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Alessandro Di Federico <ale.qemu@rev.ng>
 From: Alessandro Di Federico via <qemu-devel@nongnu.org>
 
-On Thu, 29 Oct 2020 19:08:28 -0500
+On Thu, 29 Oct 2020 19:08:26 -0500
 Taylor Simpson <tsimpson@quicinc.com> wrote:
 
-> +if __name__ == '__main__':
-> +    f = io.StringIO()
-> +    print_tree(f, dectree_normal)
-> +    print_tree(f, dectree_16bit)
-> +    if subinsn_groupings:
-> +        print_tree(f, dectree_subinsn_groupings)
-> +    for (name, dectree_subinsn) in sorted(dectree_subinsns.items()):
-> +        print_tree(f, dectree_subinsn)
-> +    for (name, dectree_ext) in sorted(dectree_extensions.items()):
-> +        print_tree(f, dectree_ext)
-> +    print_match_info(f)
-> +    print_op_info(f)
-> +    open(sys.argv[1], 'w').write(f.getvalue())
+> +from hex_common import *
 
-Is there any specific reason why (here and elsewhere) you use
-`StringIO` instead of writing to the file directly?
+I'd suggest to avoid `import *`.
 
-I'd expect something like:
+See:
 
-```
-if __name__ == '__main__':
-    with open(sys.argv[1], 'w') as f:
-        print_tree(f, dectree_normal)
-        print_tree(f, dectree_16bit)
-        if subinsn_groupings:
-            print_tree(f, dectree_subinsn_groupings)
-        for (name, dectree_subinsn) in sorted(dectree_subinsns.items()):
-            print_tree(f, dectree_subinsn)
-        for (name, dectree_ext) in sorted(dectree_extensions.items()):
-            print_tree(f, dectree_ext)
-        print_match_info(f)
-        print_op_info(f)
-```
-
-Maybe you're trying to avoid leaving a corrupted file in case of error,
-but I guess that's more of a concern for the build system.
-
-Elsewhere, you invoke `.close()`. I'd suggest to use a `with`-statement
-there too.
+    python -c 'import this' | sed -n '4p'
 
 -- 
 Alessandro Di Federico
