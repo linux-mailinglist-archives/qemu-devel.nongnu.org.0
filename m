@@ -2,79 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D11962B9C8B
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 22:11:11 +0100 (CET)
-Received: from localhost ([::1]:46936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 639DD2B9CC4
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 22:12:53 +0100 (CET)
+Received: from localhost ([::1]:52024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfrCw-0004qY-SP
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 16:11:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41640)
+	id 1kfrEa-00070C-G0
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 16:12:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kfr8w-0000eR-Az
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:07:07 -0500
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:40153)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kfr8t-0003XU-6c
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:07:02 -0500
-Received: by mail-pf1-x42e.google.com with SMTP id w14so5685336pfd.7
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 13:06:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=UDnKv70mEcOhhHuHyK23iNhbXNJ/iC7P3ksp9aZBr4E=;
- b=EL4o3pt3KA8zPq7yrifcJEDFu/q8+BzWENVzdFyXp0KEo3QEBij4UvDNk8iUj+ZeZ8
- 125QHu6wU1MTF8Rul/Jp8Kifttg4vcr6388ece0gO1BrIM97wCSPqTFwYE56culFiZzn
- P3THIF2fEpYxVkwSXjFyUhUZ3AoMkHZRrEV1Asy8ae0pVBy1rvXshn9rzkFHXHyJggE5
- SXtF2fRHS4jmdp9MpAXxV4tR1W0ehGzOMaVk5wsSTMm9wtS5R0WhIhO8gchB8DXvx/VQ
- CF8wUseGQWHUmzMR5J21zmjaW2ziMVZkFQHYLRW8eqfCqxI3KYmNOw48TbeY3iZDvRTJ
- I50A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=UDnKv70mEcOhhHuHyK23iNhbXNJ/iC7P3ksp9aZBr4E=;
- b=CT2R11jChiPYGcsg/tH10jxM3n6K7zrc1J0A1wr49j8Z2miQW6TOEYUPyNFrVWLFFQ
- Y1C3uis3HVKUPoOuTvcioBTjWZTbkQZMUU9Fqc4zqQAAOI2xP+v7Ok2i+MDwN6w7kVq+
- 1zSBWwCj5AkzpoSKOwSxwvImA+G+0JTgwKjumg0fmeaAzPKDVrfc9GXGQxXX7UyB5iDQ
- 6R6a5OPSF+OKNBRZHMZgb8YFPDRtRWWewFqzlrfD93BZUbVjTDcqjk0/kmHfPDD7nCRS
- shczi0PdetyNwg5lM73ZgCv0QrNDrs1f7zsT8+oKG2/0AYmMeW42GUUFeP3qK84s+FEV
- V11Q==
-X-Gm-Message-State: AOAM53073i2f7115M/XwovU+eJRO7E8f+VlnX1riDR9rEE9oBRMMFmEL
- S0z3t0vu1+kRMvLEdZ1IGpEVLw==
-X-Google-Smtp-Source: ABdhPJzkWQGWKjZHRJ6PbI+RrI8x1irkzJRnrv6hAgg7+2+hKBnobzWru8fKHdzllPq+PfFTh3unJg==
-X-Received: by 2002:a63:389:: with SMTP id 131mr14415892pgd.128.1605820017845; 
- Thu, 19 Nov 2020 13:06:57 -0800 (PST)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id 23sm802330pfx.210.2020.11.19.13.06.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Nov 2020 13:06:57 -0800 (PST)
-Subject: Re: [RFC 10/15] target/riscv: rvb: rotate (left/right)
-To: frank.chang@sifive.com, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-References: <20201118083044.13992-1-frank.chang@sifive.com>
- <20201118083044.13992-11-frank.chang@sifive.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <52287c37-f10c-a64e-1265-1abfcc39d77e@linaro.org>
-Date: Thu, 19 Nov 2020 13:06:54 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
+ id 1kfrCy-0005ur-EB; Thu, 19 Nov 2020 16:11:12 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57304)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
+ id 1kfrCv-00057a-O7; Thu, 19 Nov 2020 16:11:12 -0500
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0AJL1osA083710; Thu, 19 Nov 2020 16:11:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=s/24j2jMjFFrAfON7/IzTNiYEyYJOlsxSQFaiEzvgkU=;
+ b=S4CjVhBOQL4nb93GpBbXtchCZk6ccx9C+Z5te0nOITfIBBAZDfgunlRNgT13LghJIzEo
+ k17Mae2UwBBb9C5c5Zg+Nm5xrywP8JVPTsSJdOslpX9v6XDnYxMIwZa0iD46CVRx8wx3
+ eguCz945spp2b88NWEsigysr5rAu6bFPSV5G/M3qawQygEE4Kvh+KPO+ia5u2joXrGqQ
+ IYGO0G68GQctkGcpQO8Qt8+VVswkTHGjP3uskl9MwJfXAUEX6mzhJOtFuh0EgQBg01J5
+ xhB5AbjyB+AHii3BZwOHJ2fTp2u7vTkqZTJh0vibNDxA52eynK8qn6s6On0BPB8BHe8M pw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34wy6e20ar-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 19 Nov 2020 16:11:07 -0500
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0AJL1uTJ084502;
+ Thu, 19 Nov 2020 16:11:07 -0500
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34wy6e20ag-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 19 Nov 2020 16:11:07 -0500
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0AJL7KL7029838;
+ Thu, 19 Nov 2020 21:11:06 GMT
+Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
+ [9.57.198.24]) by ppma05wdc.us.ibm.com with ESMTP id 34t6v9h1rv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 19 Nov 2020 21:11:06 +0000
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
+ [9.57.199.108])
+ by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0AJLB4o89110078
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 19 Nov 2020 21:11:04 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 655D0B2068;
+ Thu, 19 Nov 2020 21:11:04 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5FAE8B205F;
+ Thu, 19 Nov 2020 21:11:02 +0000 (GMT)
+Received: from [9.163.28.108] (unknown [9.163.28.108])
+ by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+ Thu, 19 Nov 2020 21:11:02 +0000 (GMT)
+Subject: Re: [PATCH 2/2] pc-bios: s390x: Give precedence to reset PSW
+To: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>
+References: <20201119165729.63351-1-farman@linux.ibm.com>
+ <20201119165729.63351-3-farman@linux.ibm.com>
+ <8595991c-5776-3021-ca16-deebba287be1@redhat.com>
+From: Eric Farman <farman@linux.ibm.com>
+Message-ID: <7f99cc7c-f74d-0721-3749-515208526bb0@linux.ibm.com>
+Date: Thu, 19 Nov 2020 16:11:00 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201118083044.13992-11-frank.chang@sifive.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <8595991c-5776-3021-ca16-deebba287be1@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
+ definitions=2020-11-19_10:2020-11-19,
+ 2020-11-19 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxscore=0
+ bulkscore=0 spamscore=0 priorityscore=1501 mlxlogscore=999 phishscore=0
+ adultscore=0 suspectscore=0 malwarescore=0 impostorscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011190140
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farman@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,31 +110,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Kito Cheng <kito.cheng@sifive.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>
+Cc: Jason Herne <jjherne@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, qemu-devel@nongnu.org,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Jared Rossi <jrossi@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/18/20 12:29 AM, frank.chang@sifive.com wrote:
-> +static bool trans_rori(DisasContext *ctx, arg_rori *a)
-> +{
-> +    REQUIRE_EXT(ctx, RVB);
-> +
-> +    if (a->shamt >= TARGET_LONG_BITS) {
-> +        return false;
-> +    }
-> +
-> +    return gen_arith_shamt_tl(ctx, a, &tcg_gen_rotr_tl);
-> +}
-
-We most definitely want to use tcg_gen_rotri_tl here, as we have special
-expansions of constant shifts for hosts without rotate (e.g. riscv64g ;-).
-
-Otherwise, this patch should be included in the shift cleanup discussed upthread.
 
 
-r~
+On 11/19/20 3:20 PM, Thomas Huth wrote:
+> On 19/11/2020 17.57, Eric Farman wrote:
+>> Let's look at the Reset PSW first instead of the contents of memory.
+>> It might be leftover from an earlier system boot when processing
+>> a chreipl.
+>>
+>> Signed-off-by: Eric Farman <farman@linux.ibm.com>
+>> ---
+>>   pc-bios/s390-ccw/jump2ipl.c | 20 ++++++++++----------
+>>   1 file changed, 10 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/pc-bios/s390-ccw/jump2ipl.c b/pc-bios/s390-ccw/jump2ipl.c
+>> index fbae45b03c..67b4afb6a0 100644
+>> --- a/pc-bios/s390-ccw/jump2ipl.c
+>> +++ b/pc-bios/s390-ccw/jump2ipl.c
+>> @@ -72,16 +72,6 @@ void jump_to_IPL_code(uint64_t address)
+>>   
+>>   void jump_to_low_kernel(void)
+>>   {
+>> -    /*
+>> -     * If it looks like a Linux binary, i.e. there is the "S390EP" magic from
+>> -     * arch/s390/kernel/head.S here, then let's jump to the well-known Linux
+>> -     * kernel start address (when jumping to the PSW-at-zero address instead,
+>> -     * the kernel startup code fails when we booted from a network device).
+>> -     */
+>> -    if (!memcmp((char *)0x10008, "S390EP", 6)) {
+>> -        jump_to_IPL_code(KERN_IMAGE_START);
+>> -    }
+>> -
+>>       /* Trying to get PSW at zero address */
+>>       if (*((uint64_t *)0) & RESET_PSW_MASK) {
+>>           /*
+>> @@ -92,6 +82,16 @@ void jump_to_low_kernel(void)
+>>           jump_to_IPL_code(0);
+>>       }
+>>   
+>> +    /*
+>> +     * If it looks like a Linux binary, i.e. there is the "S390EP" magic from
+>> +     * arch/s390/kernel/head.S here, then let's jump to the well-known Linux
+>> +     * kernel start address (when jumping to the PSW-at-zero address instead,
+>> +     * the kernel startup code fails when we booted from a network device).
+>> +     */
+>> +    if (!memcmp((char *)0x10008, "S390EP", 6)) {
+>> +        jump_to_IPL_code(KERN_IMAGE_START);
+>> +    }
+> 
+> That feels a little bit dangerous ... I assume the order has been that way
+> for a reason, e.g. I think we had to jump to KERN_IMAGE_START for some older
+> versions of the Linux kernel since the startup code that was referenced by
+> the PSW at address zero was not working in KVM...
+
+Makes sense.  It does seem like a precarious piece of code.
+
+> 
+> What do you think about this alternate idea instead: Clear the memory at
+> location 0x10008 at the very beginning of the main() function (or maybe in
+> boot_setup())? 
+
+This seems to work too (I put it in boot_setup(), prior to call to 
+store_iplb()).
+
+Then we can be sure that there is no stale S390EP magic
+> dangling around anymore once we've loaded the new kernel...
+> 
+>   Thomas
+> 
 
