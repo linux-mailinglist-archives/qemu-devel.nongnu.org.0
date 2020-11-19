@@ -2,56 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 008582B9C39
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 21:47:42 +0100 (CET)
-Received: from localhost ([::1]:33714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 103332B9C3B
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 21:49:48 +0100 (CET)
+Received: from localhost ([::1]:37398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfqqE-0003Wn-2F
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 15:47:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59248)
+	id 1kfqsF-000576-5F
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 15:49:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kfqa5-0000fm-SZ
+ id 1kfqa7-0000fv-KO
  for qemu-devel@nongnu.org; Thu, 19 Nov 2020 15:31:04 -0500
-Received: from indium.canonical.com ([91.189.90.7]:46026)
+Received: from indium.canonical.com ([91.189.90.7]:46002)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kfqa1-0007o7-OM
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 15:31:01 -0500
+ id 1kfqa2-0007o3-Ad
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 15:31:03 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kfqa0-0008Pd-IL
+ id 1kfqa0-0008Q1-3T
  for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 20:30:56 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7E5112E8142
+ by loganberry.canonical.com (Postfix) with ESMTP id 09BA02E8148
  for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 20:30:56 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Nov 2020 20:23:43 -0000
-From: Heiko Sieger <1788665@bugs.launchpad.net>
+Date: Thu, 19 Nov 2020 20:24:54 -0000
+From: Alistair Francis <1815721@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: intel microcode spectre
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange dgilbert-h gamanakis h-sieger th-huth
-X-Launchpad-Bug-Reporter: Heiko Sieger (h-sieger)
-X-Launchpad-Bug-Modifier: Heiko Sieger (h-sieger)
-References: <153504502595.30588.13203676939349086206.malonedeb@soybean.canonical.com>
-Message-Id: <160581742309.18125.17281630903297632533.malone@gac.canonical.com>
-Subject: [Bug 1788665] Re: Low 2D graphics performance with Windows 10 (1803)
- VGA passthrough VM using "Spectre" protection
+X-Launchpad-Bug-Commenters: alistair2323 bmeng-cn rtos.pharos teodori-serge
+X-Launchpad-Bug-Reporter: RTOS Pharos (rtos.pharos)
+X-Launchpad-Bug-Modifier: Alistair Francis (alistair2323)
+References: <155004342499.19242.14077661245921319117.malonedeb@soybean.canonical.com>
+Message-Id: <160581749483.25138.3819879305567030848.malone@wampee.canonical.com>
+Subject: [Bug 1815721] Re: RISC-V PLIC enable interrupt for multicore
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="c35ff22711d15549e2303ae18ae521fd91f6bf00"; Instance="production"
-X-Launchpad-Hash: 9b11f3f13743dd7dce1db0cacb87e8e6d3171e46
+X-Launchpad-Hash: 013fc13822340332527cf1746b97e85733e016a3
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,103 +70,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1788665 <1788665@bugs.launchpad.net>
+Reply-To: Bug 1815721 <1815721@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I've switched hosts so I would have to run a series of tests to compare.
+I'm going to close this bug as it seems like the issue that RTOS Pharos
+raised is not an issue.
 
-There are a number of new variables:
+@Teodori Serge please open a new issue if you have a bug. Make sure to
+include as much detail as possible and steps to reproduce it.
 
-1. Windows 10 release (I'm now on Windows 2004)
-2. My host OS is now Manjaro
-3. CPU is now AMD Ryzen 3900X (before it was Intel 3930k)
-4. Kernel is 5.8.18-1-MANJARO
-5. qemu 5.1.0
-6. libvirt 6.5.0
-7. New VM configuration using virt-manager/libvirt with EPYC-IBPB model ins=
-tead of host-passthrough, instead of a qemu bash script to launch the VM.
-
-Time permitting, I plan to replace Manjaro for a Ubuntu 20.04 based
-distro. But this will not happen in the very near future.
-
-In the meantime I will do some a/b tests with spectre protection under
-Windows enabled/disabled to see if it is still an issue.
+** Changed in: qemu
+       Status: New =3D> Invalid
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1788665
+https://bugs.launchpad.net/bugs/1815721
 
 Title:
-  Low 2D graphics performance with Windows 10 (1803) VGA passthrough VM
-  using "Spectre" protection
+  RISC-V PLIC enable interrupt for multicore
 
 Status in QEMU:
-  Incomplete
+  Invalid
 
 Bug description:
-  Windows 10 (1803) VM using VGA passthrough via qemu script.
+  Hello all,
 
-  After upgrading Windows 10 Pro VM to version 1803, or possibly after
-  applying the March/April security updates from Microsoft, the VM would
-  show low 2D graphics performance (sluggishness in 2D applications and
-  low Passmark results).
+  There is a bug in Qemu related to the enabling of external interrupts
+  for multicores (Virt machine).
 
-  Turning off Spectre vulnerability protection in Windows remedies the
-  issue.
+  After correcting Qemu as described in #1815078
+  (https://bugs.launchpad.net/qemu/+bug/1815078), when we try to enable
+  interrupts for core 1 at address 0x0C00_2080 we don't seem to be able
+  to trigger an external interrupt  (e.g. UART0).
 
-  Expected behavior:
-  qemu/kvm hypervisor to expose firmware capabilities of host to guest OS -=
- see https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/CVE=
--2017-5715-and-hyper-v-vms
+  This works perfectly for core 0, but fore core 1 it does not work at
+  all. I assume that given bug #1815078 does not enable any external
+  interrupt then this feature has not been tested. I tried to look at
+  the qemu source code but with no luck so far.
 
-  Background:
+  I guess the problem is related to function parse_hart_config (in
+  sfive_plic.c) that initializes incorrectly the
+  plic->addr_config[addrid].hartid, which is later on read in
+  sifive_plic_update. But this is a guess.
 
-  Starting in March or April Microsoft began to push driver updates in
-  their updates / security updates. See https://support.microsoft.com
-  /en-us/help/4073757/protect-your-windows-devices-against-spectre-
-  meltdown
-
-  One update concerns the Intel microcode - see
-  https://support.microsoft.com/en-us/help/4100347. It is activated by
-  default within Windows.
-
-  Once the updates are applied within the Windows guest, 2D graphics
-  performance drops significantly. Other performance benchmarks are not
-  affected.
-
-  A bare metal Windows installation does not display a performance loss
-  after the update. See https://heiko-sieger.info/low-2d-graphics-
-  benchmark-with-windows-10-1803-kvm-vm/
-
-  Similar reports can be found here:
-  https://www.reddit.com/r/VFIO/comments/97unx4/passmark_lousy_2d_graphics_=
-performance_on_windows/
-
-  Hardware:
-
-  6 core Intel Core i7-3930K (-MT-MCP-)
-
-  Host OS:
-  Linux Mint 19/Ubuntu 18.04
-  Kernel: 4.15.0-32-generic x86_64
-  Qemu: QEMU emulator version 2.11.1
-  Intel microcode (host): 0x714
-  dmesg | grep microcode
-  [    0.000000] microcode: microcode updated early to revision 0x714, date=
- =3D 2018-05-08
-  [    2.810683] microcode: sig=3D0x206d7, pf=3D0x4, revision=3D0x714
-  [    2.813340] microcode: Microcode Update Driver: v2.2.
-
-  Note: I manually updated the Intel microcode on the host from 0x713 to
-  0x714. However, both microcode versions produce the same result in the
-  Windows guest.
-
-  Guest OS:
-  Windows 10 Pro 64 bit, release 1803
+  Best regards,
+  Pharos team
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1788665/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1815721/+subscriptions
 
