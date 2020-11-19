@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AC9C2B983F
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 17:41:44 +0100 (CET)
-Received: from localhost ([::1]:57118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 578672B9841
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 17:41:50 +0100 (CET)
+Received: from localhost ([::1]:57378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfn0B-0001Z2-4H
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 11:41:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56588)
+	id 1kfn0H-0001fw-Bo
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 11:41:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kfmuS-0004lj-LG
+ id 1kfmuS-0004mj-Vm
  for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:35:48 -0500
-Received: from indium.canonical.com ([91.189.90.7]:34814)
+Received: from indium.canonical.com ([91.189.90.7]:34848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kfmuL-0004ll-4V
+ id 1kfmuL-0004lu-45
  for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:35:48 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kfmuJ-0006PI-0q
+ id 1kfmuJ-0006PI-Eo
  for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 16:35:39 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id EED292E813F
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 16:35:38 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 6D7702E813D
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 16:35:39 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Nov 2020 16:21:58 -0000
-From: Thomas Huth <1534683@bugs.launchpad.net>
+Date: Thu, 19 Nov 2020 16:22:24 -0000
+From: Thomas Huth <1531352@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: cursor mouse
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: prochazka-nicolas th-huth
-X-Launchpad-Bug-Reporter: prochazka nicolas (prochazka-nicolas)
+X-Launchpad-Bug-Commenters: bananaappletw th-huth
+X-Launchpad-Bug-Reporter: bananaappletw (bananaappletw)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20160115173626.15182.36210.malonedeb@wampee.canonical.com>
-Message-Id: <160580291897.16608.3780845149019951043.malone@chaenomeles.canonical.com>
-Subject: [Bug 1534683] Re: no mouse cursor / qxl / windows seven guest 
+References: <20160106010526.4703.56064.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160580294411.15953.7106626353740929977.malone@chaenomeles.canonical.com>
+Subject: [Bug 1531352] Re: QEMU_LD_PREFIX not load correct library order in
+ the PATH
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="c35ff22711d15549e2303ae18ae521fd91f6bf00"; Instance="production"
-X-Launchpad-Hash: 503c9c28f62336f1a483b8fba5b6158b8b4faa22
+X-Launchpad-Hash: 738dfe0cd2d31d14265f97c1c18ce4c93292f142
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 09:30:48
@@ -73,7 +73,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1534683 <1534683@bugs.launchpad.net>
+Reply-To: Bug 1531352 <1531352@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -93,29 +93,48 @@ venience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1534683
+https://bugs.launchpad.net/bugs/1531352
 
 Title:
-  no mouse cursor / qxl / windows seven guest
+  QEMU_LD_PREFIX not load correct library order in the PATH
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Hello, =
-
-  When i'm using qxl graphic card with qemu 2.4.1 , and sdl2 client ( displ=
-ay ) , in a windows seven guest vm , there's no mouse cursor.
-  I'm using last qxl driver.
-
-  With windows8.1 , there is no problem, mouse cursor is present.
-
-  I need this to use two monitor with a windows guest,
-
-  any suggestions are welcome, =
-
-  Regards,
+  run qemu with QEMU_LD_PREFIX argument will not load correct library order=
+ in the PATH.
+  How to reproduce this bug:
+  These command will download the library of other architectures
+  wget https://raw.githubusercontent.com/BinaryAnalysisPlatform/qira/master=
+/fetchlibs.sh
+  bash fetchlibs.sh
+  This is 32bit binary file,
+  wget http://train.cs.nctu.edu.tw/files/magic
+  chmod +x ./magic
+  qemu-i386 -L /home/apple/libs/i386 /home/apple/magic
+  This is work fine.
+  But after you install gcc-multilib, it failed.
+  sudo apt-get install gcc-multilib
+  qemu-i386 -L /home/apple/libs/i386 /home/apple/magic
+  The following is the error message
+  /home/apple/magic: 0=EF=BF=BD=EF=BF=BD=EF=BF=BD: =CD=80=C3=8D=EF=BF=BD: D=
+$(=EF=BF=BD=04$=02: Error 18446744073549536926
+  Because the order of dynamic linker search the shared library is wrong.
+  When your system has /lib32 directory, its priority is higher than the QE=
+MU_LD_PREFIX.
+  If the system not loaded correspond with the dynamic linker, it will cras=
+h.
+  Code flow:
+  linux-user/main.c:
+  =C2=A0=C2=A0call loader_exec
+  linuxload.c:
+  =C2=A0=C2=A0call load_elf_binary
+  elfload.c:
+  =C2=A0=C2=A0in load_elf_binary function
+  =C2=A0=C2=A0dynamic loader will be elf_interpreter
+  I think the problem should be here.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1534683/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1531352/+subscriptions
 
