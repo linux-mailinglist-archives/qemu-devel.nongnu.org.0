@@ -2,50 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B91D2B8DF4
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 09:55:03 +0100 (CET)
-Received: from localhost ([::1]:44512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 113502B8E5A
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 10:02:52 +0100 (CET)
+Received: from localhost ([::1]:54360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kffiY-0006pI-Gj
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 03:55:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53754)
+	id 1kffq7-0003gg-4y
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 04:02:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kffgo-0005PQ-EF
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 03:53:14 -0500
-Received: from mx2.suse.de ([195.135.220.15]:58382)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kffgl-000574-Ve
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 03:53:13 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 6ECFBAA4F;
- Thu, 19 Nov 2020 08:53:10 +0000 (UTC)
-Subject: Re: [RFC v3 9/9] i386: split cpu accelerators from cpu.c
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20201118102936.25569-1-cfontana@suse.de>
- <20201118102936.25569-10-cfontana@suse.de>
- <20201118182845.GN1509407@habkost.net>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <5f6c7b5c-a48a-019d-2646-d0670aeb46e1@suse.de>
-Date: Thu, 19 Nov 2020 09:53:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <RockCui-oc@zhaoxin.com>)
+ id 1kffoi-0003Bp-03
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 04:01:24 -0500
+Received: from zxshcas2.zhaoxin.com ([203.148.12.82]:39706)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <RockCui-oc@zhaoxin.com>)
+ id 1kffof-0007xV-An
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 04:01:23 -0500
+Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by ZXSHCAS2.zhaoxin.com
+ (10.28.252.162) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Thu, 19 Nov
+ 2020 16:54:46 +0800
+Received: from zhaoxin-ubuntu20.04 (124.64.18.105) by zxbjmbx1.zhaoxin.com
+ (10.29.252.163) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Thu, 19 Nov
+ 2020 16:54:45 +0800
+From: "zhaoxin\\RockCuioc" <RockCui-oc@zhaoxin.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH] virtio-blk: seg_max do not subtract 2 if host has
+ VIRTIO_RING_F_INDIRECT_DESC feature
+Date: Thu, 19 Nov 2020 16:54:37 +0800
+Message-ID: <20201119085437.5333-1-RockCui-oc@zhaoxin.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20201118182845.GN1509407@habkost.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 03:53:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [124.64.18.105]
+X-ClientProxiedBy: ZXSHCAS2.zhaoxin.com (10.28.252.162) To
+ zxbjmbx1.zhaoxin.com (10.29.252.163)
+Received-SPF: pass client-ip=203.148.12.82;
+ envelope-from=RockCui-oc@zhaoxin.com; helo=ZXSHCAS2.zhaoxin.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 03:54:48
+X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,115 +61,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Wenchao Wang <wenchao.wang@intel.com>,
- haxm-team@intel.com, Cameron Esfahani <dirty@apple.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Sunil Muthuswamy <sunilmut@microsoft.com>,
- Bruce Rogers <brogers@suse.com>, Olaf Hering <ohering@suse.de>,
- Colin Xu <colin.xu@intel.com>
+Cc: RockCui@zhaoxin.com, CobeChen@zhaoxin.com, flyfan@zhaoxin.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+This patch modify virtio-blk seg_max when host has VIRTIO_RING_F_INDIRECT_DESC feature, when read/write virtio-blk disk in direct mode, 
+this patch can make the bio reach 512k but not 504k if the user buffer physical segments are all discontinuous,when use ceph the size of 504k 
+will affect performance.This patch should be used in guest kernel version>=4.14, kernel after this version virtio driver does not judge 
+total_sg and vring num if the host supports indirect descriptor tables.  
 
-On 11/18/20 7:28 PM, Eduardo Habkost wrote:
-> On Wed, Nov 18, 2020 at 11:29:36AM +0100, Claudio Fontana wrote:
->> split cpu.c into:
->>
->> cpu.c            cpuid and common x86 cpu functionality
->> host-cpu.c       host x86 cpu functions and "host" cpu type
->> kvm/cpu.c        KVM x86 cpu type
->> hvf/cpu.c        HVF x86 cpu type
->> tcg/cpu.c        TCG x86 cpu type
->>
->> The accel interface of the X86CPUClass is set at MODULE_INIT_ACCEL_CPU
->> time, when the accelerator is known.
->>
->> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->> ---
-> [...]
->> +/**
->> + * X86CPUAccel:
->> + * @name: string name of the X86 CPU Accelerator
->> + *
->> + * @common_class_init: initializer for the common cpu
-> 
-> So this will be called for every single CPU class.
+Signed-off-by: zhaoxin\RockCuioc <RockCui-oc@zhaoxin.com>
+---
+ hw/block/virtio-blk.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-Not really, it's called for every TYPE_X86_CPU cpu class (if an accel interface is registered).
+diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+index bac2d6f..40bbbd7 100644
+--- a/hw/block/virtio-blk.c
++++ b/hw/block/virtio-blk.c
+@@ -932,7 +932,11 @@ static void virtio_blk_update_config(VirtIODevice *vdev, uint8_t *config)
+     blk_get_geometry(s->blk, &capacity);
+     memset(&blkcfg, 0, sizeof(blkcfg));
+     virtio_stq_p(vdev, &blkcfg.capacity, capacity);
+-    virtio_stl_p(vdev, &blkcfg.seg_max,
++    if virtio_host_has_feature(vdev, VIRTIO_RING_F_INDIRECT_DESC)
++        virtio_stl_p(vdev, &blkcfg.seg_max,
++                 s->conf.seg_max_adjust ? s->conf.queue_size: 128);
++    else
++        virtio_stl_p(vdev, &blkcfg.seg_max,
+                  s->conf.seg_max_adjust ? s->conf.queue_size - 2 : 128 - 2);
+     virtio_stw_p(vdev, &blkcfg.geometry.cylinders, conf->cyls);
+     virtio_stl_p(vdev, &blkcfg.blk_size, blk_size);
+-- 
+2.10.1.windows.1
 
-This function extends the existing x86_cpu_common_class_init (target/i386/cpu.c),
-where some methods of the base class CPUClass are set.
-
-> 
->> + * @instance_init: cpu instance initialization
->> + * @realizefn: realize function, called first in x86 cpu realize
->> + *
->> + * X86 CPU accelerator-specific CPU initializations
->> + */
->> +
->> +struct X86CPUAccel {
->> +    const char *name;
->> +
->> +    void (*common_class_init)(X86CPUClass *xcc);
->> +    void (*instance_init)(X86CPU *cpu);
->> +    void (*realizefn)(X86CPU *cpu, Error **errp);
->>  };
->>  
->> +void x86_cpu_accel_init(const X86CPUAccel *accel);
-> [...]
->> +static void x86_cpu_accel_init_aux(ObjectClass *klass, void *opaque)
->> +{
->> +    X86CPUClass *xcc = X86_CPU_CLASS(klass);
->> +    const X86CPUAccel **accel = opaque;
->> +
->> +    xcc->accel = *accel;
->> +    xcc->accel->common_class_init(xcc);
->> +}
->> +
->> +void x86_cpu_accel_init(const X86CPUAccel *accel)
->> +{
->> +    object_class_foreach(x86_cpu_accel_init_aux, TYPE_X86_CPU, false, &accel);
->> +}
-> 
-> This matches the documented behavior.
-> 
-> [...]
->> +void host_cpu_class_init(X86CPUClass *xcc)
->> +{
->> +    xcc->host_cpuid_required = true;
->> +    xcc->ordering = 8;
->> +    xcc->model_description =
->> +        g_strdup_printf("%s processor with all supported host features ",
->> +                        xcc->accel->name);
->> +}
-> [...]
->> +static void hvf_cpu_common_class_init(X86CPUClass *xcc)
->> +{
->> +    host_cpu_class_init(xcc);
-> 
-> Why are you calling host_cpu_class_init() for all CPU types?
-
-I am not..
-
-> 
->> +}
-> [...]
->> +static void kvm_cpu_common_class_init(X86CPUClass *xcc)
->> +{
->> +    host_cpu_class_init(xcc);
->> +}
-> 
-> Same question as above.
-> 
-
-Ciao,
-
-Claudio
 
