@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 759F62B97A1
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 17:20:52 +0100 (CET)
-Received: from localhost ([::1]:49242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B6B32B97A4
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 17:22:25 +0100 (CET)
+Received: from localhost ([::1]:56076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfmfz-00027w-HI
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 11:20:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51926)
+	id 1kfmhU-0005Am-Aq
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 11:22:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kfmct-0007jO-7i
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:17:39 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:40779)
+ id 1kfmcv-0007kQ-7q
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:17:41 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33413)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kfmcp-0006V0-FV
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:17:38 -0500
-Received: by mail-wm1-x343.google.com with SMTP id a3so7255541wmb.5
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 08:17:32 -0800 (PST)
+ id 1kfmcr-0006V6-4p
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:17:39 -0500
+Received: by mail-wr1-x443.google.com with SMTP id u12so7093347wrt.0
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 08:17:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yVxKoMCNOb0M91+IB4bEHuCMrgq5vsUnaIKYxB1d630=;
- b=dDwV2HOOETBDkUsCMTNHCyuyyqzdt3cOrYoC7qLG+IxqEmTiqd8zVzLhTe/ge0DNg0
- YQs/xgU/vxsBu7TBXEQgdUpwbb+PY+Xor+Xqpb7ZRmlt8SXneHMUHroxQcGetjImCCpE
- Lpqk7iwzAuaPVX/XnBvx6im9L8KQKCnAuNhR8b2/Ob7dHWblsLK81tfFJDSjaDUMOKww
- E8oMkNLWKwC7aQshAPNK7jkeNizEuCX9lNK+E4tCLZeATOtnDucMXHWeIHFfUCQKElbU
- YaTRpNBAul1nMGaynZm/9DJ//4k5NS8A2ViH2EHooRzO27Cr8iM+z6Ta91cRsHIDOQ3+
- SgcA==
+ bh=8eLVJbUNjYZyxrSQxAmxCAQnENDI0cgTjzGKpzQgynw=;
+ b=Rkft/W1wjBqamc8D7GwFCpJNnldlRzjhYXSodM+OE2E8LfkOyPLtMADyIPoCbgpqQ6
+ fbKz9+/Cj9Tvh0eMH8MCBr5wjU21svjdFFWXDCWUlLKchLP3GHLQ4FwpSXnqYQ9zbl6L
+ w4ZhSt93HNnRgzCl+xCJ9OPlxSQATZ96+KG8+yTvA6AZ3HtE+3nDOVNL/gXSw1KKqIGT
+ XHCaX80bq4j/ffc2gxMgT+Lmu14hDXmeCqFIoJ2UJYz2DvQ/gggaRZ5ubfoZwCTdsLtR
+ xYujJK9eS9gbBD0Fss4x9YkVYoSy691mluAwh8vWfDsrbKbPza3adMQKg4Al/eCj3EUE
+ SyFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=yVxKoMCNOb0M91+IB4bEHuCMrgq5vsUnaIKYxB1d630=;
- b=Zc4F/4pRqIvtn4H/QfPaKl5bMlPyNSGSKvxNO/5pZN5A92fpfoDKqbxi3GLUFksZmC
- JgLKnuq9QMInxwidiK9q9L4xqnFH+0Flyb5S4RSiHFkXSX7nucmrz145Ht7qHAWnGsTx
- UEggliCNpV1hUj84tD7yuSxQ10pNac9GEgb/5qugRxNowVqCZ14l4ZZyvQvfFjd6SQyK
- cU0X1uDO+3H71f7UWLZbjcmi7lsCUM90EsJ/cnH3Q9wAhDhKcNykxF6afRoeATbhnfAk
- 3aVOgNN6vhqErCvMpWAS988PZO5lVX2RFTZmI6kqXksEK5a4151UnLN9cuxEpKuCc4Zx
- Bf1Q==
-X-Gm-Message-State: AOAM533kfncOIoH0oVNzE7zRfdc9f4TJWK5hqQO4f8ZAUAnY+P+uT7sx
- 5MlSsuw3YWMlzq3Mp7ldub78VUHM44E=
-X-Google-Smtp-Source: ABdhPJyQMKDqqtDvaS0yImovipER8E5lurtCERQLOi6XOKGhEV1J8r7wbuzJOFN+OGB+9K+1aY9j7g==
-X-Received: by 2002:a1c:56c4:: with SMTP id k187mr5368084wmb.92.1605802648205; 
- Thu, 19 Nov 2020 08:17:28 -0800 (PST)
+ bh=8eLVJbUNjYZyxrSQxAmxCAQnENDI0cgTjzGKpzQgynw=;
+ b=Jbz7lEHFjRVSQ7u1INRwgMDL0oPSUvDjm4JUic9iC55k66t6OztOz1sE62ucMGxNPa
+ NCo96P+LuQa/GG8Fezs1Oq3gU0ixDlkw6TQNB15ZrKQC5EL2P4fEs07PvDTDJbnTWTJ5
+ OSTwplkoZth8oNrCzCmkYJjB9BeBba25c63HN46Rr+7veAYy5vAh36dP2lPauPwLWEj3
+ NoFQx9oIpJizAP4Z/roreM9ggzqwITVKbmri6zxt5KxuKhOKuPL1cpzUy1WtJcMK21af
+ XAr81NH2Kq0GbRqB+jM39+HRD8v6YWvB225X65pSY+N5GcOl8+iXSxUfCmGxw7qMn5MU
+ WAzg==
+X-Gm-Message-State: AOAM532djU4P6J1xVgEYYKJ7WWeANVAE3+msM9jRuTbTyZJWKnOi6Sms
+ 0oZM+PrrzPtYfrBG2esX5l3Ahbp943s=
+X-Google-Smtp-Source: ABdhPJwp9Aiv2XdNJwc0GX37kiZDDD5JTYHsG+GrSJYAYnvPLKWLdLigpls4qk6HJH28qVy3l8BbKQ==
+X-Received: by 2002:a5d:548b:: with SMTP id h11mr11197447wrv.306.1605802653037; 
+ Thu, 19 Nov 2020 08:17:33 -0800 (PST)
 Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id t7sm323418wrp.26.2020.11.19.08.17.26
+ by smtp.gmail.com with ESMTPSA id p19sm398640wrg.18.2020.11.19.08.17.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Nov 2020 08:17:27 -0800 (PST)
+ Thu, 19 Nov 2020 08:17:32 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/4] default-configs: Support o32 ABI with 64-bit MIPS CPUs
-Date: Thu, 19 Nov 2020 17:17:09 +0100
-Message-Id: <20201119161710.1985083-4-f4bug@amsat.org>
+Subject: [PATCH 4/4] RFC qemu-binfmt-conf.sh: Add MIPS64 o32 ABI
+Date: Thu, 19 Nov 2020 17:17:10 +0100
+Message-Id: <20201119161710.1985083-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201119161710.1985083-1-f4bug@amsat.org>
 References: <20201119161710.1985083-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -87,72 +87,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fredrik Noring <noring@nocrew.org>, David Daney <ddaney.cavm@gmail.com>,
- Mathieu Malaterre <malat@debian.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- YunQiang Su <wzssyqa@gmail.com>, James Cowgill <james410@cowgill.org.uk>,
- "Maciej W . Rozycki" <macro@linux-mips.org>,
- =?UTF-8?q?J=C3=BCrgen=20Urban?= <JuergenUrban@gmx.de>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MIPS o32 ABI on 64-bit CPUs looks like a ILP32-on-64bit data
-model, allowing 64-bit arithmetic and data movement instructions.
+... but this is wrong as the same header matches MIPS32 o32 ELFs...
 
-This is the default ABI used by the "Sony Linux Toolkit for
-Playstation 2".
-
-As we don't know big-endian uses, we only introduce the
-little-endian variant.
-
-Inspired-by: Richard Henderson <rth@twiddle.net>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-Cc: Fredrik Noring <noring@nocrew.org>
-Cc: Maciej W. Rozycki <macro@linux-mips.org>
-Cc: Jürgen Urban <JuergenUrban@gmx.de>
+checkpatch errors:
 
-Cc from https://lists.debian.org/debian-mips/2015/05/msg00014.html:
-Cc: Mathieu Malaterre <malat@debian.org>
-Cc: James Cowgill <james410@cowgill.org.uk>
-Cc: YunQiang Su <wzssyqa@gmail.com>
-Cc: David Daney <ddaney.cavm@gmail.com>
+ ERROR: line over 90 characters
+ #9: FILE: scripts/qemu-binfmt-conf.sh:71:
+ +mips64o32el_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08\x00'
+ ERROR: line over 90 characters
+ #10: FILE: scripts/qemu-binfmt-conf.sh:72:
+ +mips64o32el_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
 ---
- docs/user/main.rst                                 | 3 +++
- default-configs/targets/mips64o32el-linux-user.mak | 7 +++++++
- 2 files changed, 10 insertions(+)
- create mode 100644 default-configs/targets/mips64o32el-linux-user.mak
+ scripts/qemu-binfmt-conf.sh | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/docs/user/main.rst b/docs/user/main.rst
-index 8dfe232a3af..2cef1320ff3 100644
---- a/docs/user/main.rst
-+++ b/docs/user/main.rst
-@@ -211,6 +211,9 @@ Other binaries
+diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
+index 9f1580a91c7..ee86345ff8a 100755
+--- a/scripts/qemu-binfmt-conf.sh
++++ b/scripts/qemu-binfmt-conf.sh
+@@ -68,6 +68,10 @@ mipsel_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x0
+ mipsel_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
+ mipsel_family=mips
  
-    * ``qemu-mipsel`` executes 32-bit little endian MIPS binaries (MIPS O32 ABI).
- 
-+   * ``qemu-mips64o32el`` executes 64-bit little endian MIPS binaries (MIPS O32
-+     ABI).
++mips64o32el_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08\x00'
++mips64o32el_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
++mips64o32el_family=mips
 +
-    * ``qemu-mips64`` executes 64-bit big endian MIPS binaries (MIPS N64 ABI).
- 
-    * ``qemu-mips64el`` executes 64-bit little endian MIPS binaries (MIPS N64
-diff --git a/default-configs/targets/mips64o32el-linux-user.mak b/default-configs/targets/mips64o32el-linux-user.mak
-new file mode 100644
-index 00000000000..ecd57ff949f
---- /dev/null
-+++ b/default-configs/targets/mips64o32el-linux-user.mak
-@@ -0,0 +1,7 @@
-+TARGET_ARCH=mips64
-+TARGET_BASE_ARCH=mips
-+TARGET_ABI_MIPSO32=y
-+TARGET_ABI32=y
-+TARGET_SYSTBL_ABI=o32
-+TARGET_SYSTBL=../mips/syscall_o32.tbl
-+TARGET_ALIGNED_ONLY=y
+ mipsn32_magic='\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08'
+ mipsn32_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
+ mipsn32_family=mips
 -- 
 2.26.2
 
