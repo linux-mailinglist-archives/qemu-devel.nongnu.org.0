@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D09012B8A58
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 04:11:18 +0100 (CET)
-Received: from localhost ([::1]:45664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 807202B8A59
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 04:12:25 +0100 (CET)
+Received: from localhost ([::1]:48044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfaLt-00060Z-DR
-	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 22:11:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60088)
+	id 1kfaMy-000722-IA
+	for lists+qemu-devel@lfdr.de; Wed, 18 Nov 2020 22:12:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1kfaKW-0005PB-Ln; Wed, 18 Nov 2020 22:09:52 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2529)
+ id 1kfaLQ-00065s-Gb; Wed, 18 Nov 2020 22:10:48 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:2155)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1kfaKT-0004nq-JT; Wed, 18 Nov 2020 22:09:52 -0500
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Cc4Qs1Wdzzhcjn;
- Thu, 19 Nov 2020 11:09:25 +0800 (CST)
+ id 1kfaLN-0004tH-VF; Wed, 18 Nov 2020 22:10:48 -0500
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4Cc4S21wBVz6v84;
+ Thu, 19 Nov 2020 11:10:26 +0800 (CST)
 Received: from huawei.com (10.175.124.27) by DGGEMS402-HUB.china.huawei.com
  (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0; Thu, 19 Nov 2020
- 11:09:31 +0800
+ 11:10:31 +0800
 From: Alex Chen <alex.chen@huawei.com>
 To: <kraxel@redhat.com>
-Subject: [PATCH] hw/usb: Fix bad printf format specifiers
-Date: Thu, 19 Nov 2020 02:57:51 +0000
-Message-ID: <20201119025751.45750-1-alex.chen@huawei.com>
+Subject: [PATCH] hw/display/qxl: Fix bad printf format specifiers
+Date: Thu, 19 Nov 2020 02:58:51 +0000
+Message-ID: <20201119025851.56487-1-alex.chen@huawei.com>
 X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.175.124.27]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=alex.chen@huawei.com;
- helo=szxga05-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 20:50:48
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=alex.chen@huawei.com;
+ helo=szxga07-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/18 20:50:45
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,107 +67,45 @@ argument of type "unsigned int".
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Alex Chen <alex.chen@huawei.com>
 ---
- hw/usb/ccid-card-passthru.c   | 2 +-
- hw/usb/core.c                 | 4 ++--
- hw/usb/dev-smartcard-reader.c | 8 ++++----
- hw/usb/hcd-ehci.c             | 4 ++--
- 4 files changed, 9 insertions(+), 9 deletions(-)
+ hw/display/qxl-logger.c | 4 ++--
+ hw/display/qxl.c        | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/usb/ccid-card-passthru.c b/hw/usb/ccid-card-passthru.c
-index e8e9d37e88..48590730e0 100644
---- a/hw/usb/ccid-card-passthru.c
-+++ b/hw/usb/ccid-card-passthru.c
-@@ -335,7 +335,7 @@ static void passthru_apdu_from_guest(
-     PassthruState *card = PASSTHRU_CCID_CARD(base);
- 
-     if (!qemu_chr_fe_backend_connected(&card->cs)) {
--        printf("ccid-passthru: no chardev, discarding apdu length %d\n", len);
-+        printf("ccid-passthru: no chardev, discarding apdu length %u\n", len);
-         return;
+diff --git a/hw/display/qxl-logger.c b/hw/display/qxl-logger.c
+index c15175bce3..68bfa47568 100644
+--- a/hw/display/qxl-logger.c
++++ b/hw/display/qxl-logger.c
+@@ -189,7 +189,7 @@ static void qxl_log_cmd_surface(PCIQXLDevice *qxl, QXLSurfaceCmd *cmd)
+             qxl_name(qxl_surface_cmd, cmd->type),
+             cmd->surface_id);
+     if (cmd->type == QXL_SURFACE_CMD_CREATE) {
+-        fprintf(stderr, " size %dx%d stride %d format %s (count %d, max %d)",
++        fprintf(stderr, " size %dx%d stride %d format %s (count %u, max %u)",
+                 cmd->u.surface_create.width,
+                 cmd->u.surface_create.height,
+                 cmd->u.surface_create.stride,
+@@ -197,7 +197,7 @@ static void qxl_log_cmd_surface(PCIQXLDevice *qxl, QXLSurfaceCmd *cmd)
+                 qxl->guest_surfaces.count, qxl->guest_surfaces.max);
      }
-     ccid_card_vscard_send_apdu(card, apdu, len);
-diff --git a/hw/usb/core.c b/hw/usb/core.c
-index 5234dcc73f..965178f506 100644
---- a/hw/usb/core.c
-+++ b/hw/usb/core.c
-@@ -142,7 +142,7 @@ static void do_token_setup(USBDevice *s, USBPacket *p)
-     setup_len = (s->setup_buf[7] << 8) | s->setup_buf[6];
-     if (setup_len > sizeof(s->data_buf)) {
-         fprintf(stderr,
--                "usb_generic_handle_packet: ctrl buffer too small (%d > %zu)\n",
-+                "usb_generic_handle_packet: ctrl buffer too small (%u > %zu)\n",
-                 setup_len, sizeof(s->data_buf));
-         p->status = USB_RET_STALL;
-         return;
-@@ -277,7 +277,7 @@ static void do_parameter(USBDevice *s, USBPacket *p)
-     setup_len = (s->setup_buf[7] << 8) | s->setup_buf[6];
-     if (setup_len > sizeof(s->data_buf)) {
-         fprintf(stderr,
--                "usb_generic_handle_packet: ctrl buffer too small (%d > %zu)\n",
-+                "usb_generic_handle_packet: ctrl buffer too small (%u > %zu)\n",
-                 setup_len, sizeof(s->data_buf));
-         p->status = USB_RET_STALL;
-         return;
-diff --git a/hw/usb/dev-smartcard-reader.c b/hw/usb/dev-smartcard-reader.c
-index 946df9734a..80109fa551 100644
---- a/hw/usb/dev-smartcard-reader.c
-+++ b/hw/usb/dev-smartcard-reader.c
-@@ -945,7 +945,7 @@ static void ccid_on_apdu_from_guest(USBCCIDState *s, CCID_XferBlock *recv)
-         return;
+     if (cmd->type == QXL_SURFACE_CMD_DESTROY) {
+-        fprintf(stderr, " (count %d)", qxl->guest_surfaces.count);
++        fprintf(stderr, " (count %u)", qxl->guest_surfaces.count);
      }
-     len = le32_to_cpu(recv->hdr.dwLength);
--    DPRINTF(s, 1, "%s: seq %d, len %d\n", __func__,
-+    DPRINTF(s, 1, "%s: seq %d, len %u\n", __func__,
-                 recv->hdr.bSeq, len);
-     ccid_add_pending_answer(s, (CCID_Header *)recv);
-     if (s->card && len <= BULK_OUT_DATA_SIZE) {
-@@ -995,13 +995,13 @@ static void ccid_handle_bulk_out(USBCCIDState *s, USBPacket *p)
-     if ((s->bulk_out_pos - 10 < ccid_header->dwLength) &&
-         (p->iov.size == CCID_MAX_PACKET_SIZE)) {
-         DPRINTF(s, D_VERBOSE,
--                "usb-ccid: bulk_in: expecting more packets (%d/%d)\n",
-+                "usb-ccid: bulk_in: expecting more packets (%u/%u)\n",
-                 s->bulk_out_pos - 10, ccid_header->dwLength);
-         return;
-     }
-     if (s->bulk_out_pos - 10 != ccid_header->dwLength) {
-         DPRINTF(s, 1,
--                "usb-ccid: bulk_in: message size mismatch (got %d, expected %d)\n",
-+                "usb-ccid: bulk_in: message size mismatch (got %u, expected %u)\n",
-                 s->bulk_out_pos - 10, ccid_header->dwLength);
-         goto err;
-     }
-@@ -1202,7 +1202,7 @@ void ccid_card_send_apdu_to_guest(CCIDCardState *card,
-         ccid_report_error_failed(s, ERROR_HW_ERROR);
-         return;
-     }
--    DPRINTF(s, 1, "APDU returned to guest %d (answer seq %d, slot %d)\n",
-+    DPRINTF(s, 1, "APDU returned to guest %u (answer seq %d, slot %d)\n",
-         len, answer->seq, answer->slot);
-     ccid_write_data_block_answer(s, apdu, len);
  }
-diff --git a/hw/usb/hcd-ehci.c b/hw/usb/hcd-ehci.c
-index ae7f20c502..257375d254 100644
---- a/hw/usb/hcd-ehci.c
-+++ b/hw/usb/hcd-ehci.c
-@@ -1192,7 +1192,7 @@ static int ehci_init_transfer(EHCIPacket *p)
  
-     while (bytes > 0) {
-         if (cpage > 4) {
--            fprintf(stderr, "cpage out of range (%d)\n", cpage);
-+            fprintf(stderr, "cpage out of range (%u)\n", cpage);
-             qemu_sglist_destroy(&p->sgl);
-             return -1;
-         }
-@@ -1598,7 +1598,7 @@ static int ehci_state_fetchentry(EHCIState *ehci, int async)
- 
+diff --git a/hw/display/qxl.c b/hw/display/qxl.c
+index 431c107096..874bb8ad9e 100644
+--- a/hw/display/qxl.c
++++ b/hw/display/qxl.c
+@@ -944,7 +944,7 @@ static void interface_async_complete_io(PCIQXLDevice *qxl, QXLCookie *cookie)
+         qxl_spice_destroy_surface_wait_complete(qxl, cookie->u.surface_id);
+         break;
      default:
-         /* TODO: handle FSTN type */
--        fprintf(stderr, "FETCHENTRY: entry at %X is of type %d "
-+        fprintf(stderr, "FETCHENTRY: entry at %X is of type %u "
-                 "which is not supported yet\n", entry, NLPTR_TYPE_GET(entry));
-         return -1;
+-        fprintf(stderr, "qxl: %s: unexpected current_async %d\n", __func__,
++        fprintf(stderr, "qxl: %s: unexpected current_async %u\n", __func__,
+                 current_async);
      }
+     qxl_send_events(qxl, QXL_INTERRUPT_IO_CMD);
 -- 
 2.19.1
 
