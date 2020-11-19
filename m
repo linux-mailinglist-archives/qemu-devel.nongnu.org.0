@@ -2,106 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C6742B9D6F
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 23:15:48 +0100 (CET)
-Received: from localhost ([::1]:42814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 935BC2B9D92
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 23:23:51 +0100 (CET)
+Received: from localhost ([::1]:33368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfsDT-0007cz-Bj
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 17:15:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53924)
+	id 1kfsLG-0007Pu-M7
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 17:23:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1kfs56-0005XR-KO
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 17:07:08 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:60952
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1kfs51-0007gK-Fx
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 17:07:06 -0500
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0AJM1bqu108795; Thu, 19 Nov 2020 17:07:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=LVfrInorSDBAsyQBDt5W3Nx9tDmWZzahAmAg6P1SRD0=;
- b=LLVabaqpjX6jpNVu0RLtROdVfos0Ftw3pLlLcPtQc6cFyB+cTMZ5FoiOy9hPooMc4Y2/
- dDVNVGJ9dCW3AYTWtfcVF9unuuEqYO04UJ1kFhun9hPUImYkaSZbduiwIw6YbPzBLlHH
- FKxvmBPyKzn+81+15bb97dpOGH+ASqVEA1hw39ykYPaxw4ZL2r7Y+6dLPA6l8Pyk80mo
- 8imyJbOv9ub+tKaMki2oBWueKkAzG+5datbsU/WKivylO0fCZk+7rEsVYIwbAFg26eCX
- cqZB/6ARWeRyEvQFA0XGu23yOnZEPCCaha0S9kPudXjmSgjTIzNdVNYlrKOMHhK7RXkU Aw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 34x0m6rwxx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 19 Nov 2020 17:07:01 -0500
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0AJM28j3113383;
- Thu, 19 Nov 2020 17:07:01 -0500
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0b-001b2d01.pphosted.com with ESMTP id 34x0m6rwxh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 19 Nov 2020 17:07:01 -0500
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0AJM3IFS027392;
- Thu, 19 Nov 2020 22:07:00 GMT
-Received: from b03cxnp08028.gho.boulder.ibm.com
- (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
- by ppma05wdc.us.ibm.com with ESMTP id 34t6v9hask-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 19 Nov 2020 22:07:00 +0000
-Received: from b03ledav003.gho.boulder.ibm.com
- (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0AJM6xXC38207920
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 19 Nov 2020 22:06:59 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 80C606A3C2;
- Thu, 19 Nov 2020 22:06:59 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A375F6A3BE;
- Thu, 19 Nov 2020 22:06:58 +0000 (GMT)
-Received: from [9.65.247.165] (unknown [9.65.247.165])
- by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 19 Nov 2020 22:06:58 +0000 (GMT)
-Subject: Re: [PATCH v3 1/9] fuzz: Make fork_fuzz.ld compatible with LLVM's LLD
-To: Alexander Bulekov <alxndr@bu.edu>
-References: <20201105221905.1350-1-dbuono@linux.vnet.ibm.com>
- <20201105221905.1350-2-dbuono@linux.vnet.ibm.com>
- <20201106145028.qlkng2l25b7ehvsb@mozz.bu.edu>
-From: Daniele Buono <dbuono@linux.vnet.ibm.com>
-Message-ID: <edfa9312-f2cf-7f6e-f77a-b63dde380d96@linux.vnet.ibm.com>
-Date: Thu, 19 Nov 2020 17:06:57 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.1
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kfsDC-0000ER-SZ
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 17:15:30 -0500
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:38343)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kfsDA-0002AI-Tv
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 17:15:30 -0500
+Received: by mail-pf1-x42e.google.com with SMTP id 10so5877414pfp.5
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 14:15:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=OnHZD6MYoSDO4lrPTpMSBgKzkz4nLX+aDlummW4aWdw=;
+ b=qdIQ/BsAyAtgMqIMx1DvK8HCOHVbnqBPxj9YZz5KcUUoOklURLnCV/v/OfnyEsj8IW
+ 7w5Iech2jiPaMVLpbbSEc5zJ1nc6fb2aGNs+WcHbzj7ONnX+7CxrYloKPbP7p+f64Qo6
+ JWOst/XUdWl+guLIp9erM1Ov93dQjmMtw+lM6MeoNViCqs5Wpfbj5XQN3rugWLLzNpLy
+ ykFODF6DnV0ijzanPOOiDLxdzjh/sXRnCpFQxgFqiMFcbLvta1tvGKufjsfgUwEeJi5X
+ leoE1oO3VBlx0O3XqpbXMtKHk3WPOi+BuLADpeZkCmKbbCZLl0+OAWmTKHxdXBLwzeFq
+ 1FoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=OnHZD6MYoSDO4lrPTpMSBgKzkz4nLX+aDlummW4aWdw=;
+ b=Pk+roOZvNO2cQ27yy2h1Rmfgn12sfU66522mgbUSUtxeAlE0+TFw1WM6dEvbVg2FAt
+ sb6Il1vwk/5Ujevtomwnn7Ebx6L07avRHYGqrxFDiXcJrdzgD9KsJQhr3ineqFDcH/cY
+ lR7cMOGLbOWaLwd3D+CdrjLYSSAeba1GyeM1HAqA4ox6Uu2mKpHnFMIJ8Qs4M3qsnHoF
+ r5UPCaEmU3fOJ6i1wL4Zj/kH0gAtLWyye35DQCyMe7CIinEnaJQQuLgpzBWwyErhqCJQ
+ GoTCkULfnfm//yXdlTgS7YTLi4go2CLMCO8zCwRunwfuspAKsSdHepzxit8afSuHE6N0
+ OP4g==
+X-Gm-Message-State: AOAM53273bCjAu6c/xae9hRel/lBtplqQYMOa0fK50cMyq74PSBL66xn
+ BgAOqLyw3/YsSK1IEdFYk/0eEQ==
+X-Google-Smtp-Source: ABdhPJw82I7hOmFOJi1nV43goAWwelPyQNp/OWibFIBJQt399O2fIiPGa01zjuY3usOwDrti9Dq8UA==
+X-Received: by 2002:a62:7504:0:b029:18b:8238:cc0 with SMTP id
+ q4-20020a6275040000b029018b82380cc0mr10911061pfc.81.1605824127390; 
+ Thu, 19 Nov 2020 14:15:27 -0800 (PST)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id o67sm953682pfb.109.2020.11.19.14.15.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Nov 2020 14:15:26 -0800 (PST)
+Subject: Re: [RFC 14/15] target/riscv: rvb: add/sub with postfix zero-extend
+To: frank.chang@sifive.com, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+References: <20201118083044.13992-1-frank.chang@sifive.com>
+ <20201118083044.13992-15-frank.chang@sifive.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <3f4a11d5-97e0-75c7-75e8-f4f0a9bdd46e@linaro.org>
+Date: Thu, 19 Nov 2020 14:15:24 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201106145028.qlkng2l25b7ehvsb@mozz.bu.edu>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20201118083044.13992-15-frank.chang@sifive.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
- definitions=2020-11-19_12:2020-11-19,
- 2020-11-19 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- priorityscore=1501 adultscore=0 impostorscore=0 phishscore=0
- malwarescore=0 lowpriorityscore=0 bulkscore=0 suspectscore=0 clxscore=1015
- spamscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011190146
-Received-SPF: none client-ip=148.163.158.5;
- envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,120 +88,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Kito Cheng <kito.cheng@sifive.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks Alex,
-do you think you could also give it a try linking with LLD?
+On 11/18/20 12:29 AM, frank.chang@sifive.com wrote:
+> +addwu      0000101 .......... 000 ..... 0111011 @r
+> +subwu      0100101 .......... 000 ..... 0111011 @r
+> +addu_w     0000100 .......... 000 ..... 0111011 @r
+>  
+>  sbsetiw    0010100 .......... 001 ..... 0011011 @sh5
+>  sbclriw    0100100 .......... 001 ..... 0011011 @sh5
+> @@ -116,3 +119,7 @@ sroiw      0010000 .......... 101 ..... 0011011 @sh5
+>  roriw      0110000 .......... 101 ..... 0011011 @sh5
+>  greviw     0110100 .......... 101 ..... 0011011 @sh5
+>  gorciw     0010100 .......... 101 ..... 0011011 @sh5
+> +
+> +addiwu     ................. 100 ..... 0011011 @i
+> +
+> +slliu_w    000010 ........... 001 ..... 0011011 @sh
 
-just add --extra-ldflags="-fuse-ld=lld"
 
-I do see some small differences when moving from BFD ro LLD, but they 
-should not be of importance. The position of the data.fuzz* is kept.
+addwu, subwu, addiwu have been removed in the current draft.
 
-size -A on qemu-fuzz-i386, LTO DISABLED:
+> +static bool trans_slliu_w(DisasContext *ctx, arg_slliu_w *a)
+> +{
+> +    TCGv source1;
+> +    source1 = tcg_temp_new();
+> +    gen_get_gpr(source1, a->rs1);
+> +
+> +    tcg_gen_ext32u_tl(source1, source1);
+> +    tcg_gen_shli_tl(source1, source1, a->shamt);
+> +    gen_set_gpr(a->rd, source1);
 
-BFD
-section                  size       addr
-[...]
-.got                    10704   29849128
-.data                 1160800   29859840
-__sancov_pcs          3362992   31020640
-.data.fuzz_start       210187   34385920
-.data.fuzz_ordered     211456   34596352
-.bss                  9659608   34807808
-.comment                  225          0
-[...]
+if (a->shamt < 32) {
+    tcg_gen_deposit_z_i64(source1, source1, a->shamt, 32);
+} else {
+    tcg_gen_shli_i64(source1, source1, a->shamt);
+}
 
-BFD
-section                  size       addr
-[...]
-.got                      816   27824632
-.got.plt                 9992   27825448
-.data                 1160808   27839536
-.data.fuzz_start       210187   29003776
-.data.fuzz_ordered     211456   29214208
-.data.fuzz_end              0   29425664
-.tm_clone_table             0   29425664
-__sancov_pcs          3362992   29425664
-.bss                  9659624   32788672
 
-I tried running the fuzzer and didn't seem to have any issues, but I
-haven't tried a test-build with OSS-Fuzz. Is there a info somewhere
-on how to do that?
-
-Thanks,
-Daniele
-
-On 11/6/2020 9:50 AM, Alexander Bulekov wrote:
-> On 201105 1718, Daniele Buono wrote:
->> LLVM's linker, LLD, supports the keyword "INSERT AFTER", starting with
->> version 11.
->> However, when multiple sections are defined in the same "INSERT AFTER",
->> they are added in a reversed order, compared to BFD's LD.
->>
->> This patch makes fork_fuzz.ld generic enough to work with both linkers.
->> Each section now has its own "INSERT AFTER" keyword, so proper ordering is
->> defined between the sections added.
->>
-> 
-> Hi Daniele,
-> Good to know that LLVM now has support for "INSERT AFTER" :)
-> 
-> I compared the resulting symbols between __FUZZ_COUNTERS_{START,END}
-> (after linking with BFD) before/after this patch, and they look good. I
-> also ran a test-build with OSS-Fuzz container and confirmed that the
-> resulting binary also had proper symbols.
-> 
-> Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
-> Tested-by: Alexander Bulekov <alxndr@bu.edu>
-> 
-> Thanks
-> 
->> Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
->> ---
->>   tests/qtest/fuzz/fork_fuzz.ld | 12 +++++++++++-
->>   1 file changed, 11 insertions(+), 1 deletion(-)
->>
->> diff --git a/tests/qtest/fuzz/fork_fuzz.ld b/tests/qtest/fuzz/fork_fuzz.ld
->> index bfb667ed06..cfb88b7fdb 100644
->> --- a/tests/qtest/fuzz/fork_fuzz.ld
->> +++ b/tests/qtest/fuzz/fork_fuzz.ld
->> @@ -16,6 +16,11 @@ SECTIONS
->>         /* Lowest stack counter */
->>         *(__sancov_lowest_stack);
->>     }
->> +}
->> +INSERT AFTER .data;
->> +
->> +SECTIONS
->> +{
->>     .data.fuzz_ordered :
->>     {
->>         /*
->> @@ -34,6 +39,11 @@ SECTIONS
->>          */
->>          *(.bss._ZN6fuzzer3TPCE);
->>     }
->> +}
->> +INSERT AFTER .data.fuzz_start;
->> +
->> +SECTIONS
->> +{
->>     .data.fuzz_end : ALIGN(4K)
->>     {
->>         __FUZZ_COUNTERS_END = .;
->> @@ -43,4 +53,4 @@ SECTIONS
->>    * Don't overwrite the SECTIONS in the default linker script. Instead insert the
->>    * above into the default script
->>    */
->> -INSERT AFTER .data;
->> +INSERT AFTER .data.fuzz_ordered;
->> -- 
->> 2.17.1
->>
-> 
+r~
 
