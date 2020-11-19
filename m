@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50F282B9C23
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 21:36:22 +0100 (CET)
-Received: from localhost ([::1]:44280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CFBD2B9C30
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 21:41:18 +0100 (CET)
+Received: from localhost ([::1]:49312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfqfF-0003wa-Db
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 15:36:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53378)
+	id 1kfqk1-0006G9-4g
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 15:41:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kfqCo-0003Qu-Hv
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 15:07:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53715)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kfqQD-00027i-W0
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 15:20:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47377)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kfqCT-0003vg-6J
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 15:06:48 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kfqQ1-00049c-3G
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 15:20:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605816375;
+ s=mimecast20190719; t=1605817233;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9ChtZcrM/aHKiQHXq5LKHvJgOvulGbmZ/UjVvWdUyr4=;
- b=RURyIMUF8QzNJkgCcTr+XUhKEygfTaQRoAwwvtRYVQLhWqiqPDjZaKNKbtLI5aVfQLeum0
- /QowMOkMu4QBpnuEwwN9/Q2fWBZiwf3kGYKR9w0AJEsqkVD2rv7bGMs6ZzOmk4z9rLiZ9J
- GMGZhoeBKo7x0T9v9Tr2Orgm+MASQxs=
+ bh=20bBKBzqiZUtB7OhkwELvTXA6OQKlpSJeFm+EhCKTOE=;
+ b=g3HLjHfEAC8Hs2qj9F+uk9iaJ+PGrSZfZBO4qoyuuZRElejqAqINPDNJNV6qwr2VeTYdma
+ bISrPLIJHKnc2Yrh6bj6JA7MHQPVyZlpaemP92Cp7ozvbgxHoIkbxgP/GnV1GBRz/34gP0
+ GD0Wd8YUT6SaftiK4/QlU6KGE+v/2ik=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-589-KypZ_HPpMHCK3vqBSvnMOQ-1; Thu, 19 Nov 2020 15:06:11 -0500
-X-MC-Unique: KypZ_HPpMHCK3vqBSvnMOQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-402-uUDs_YJLOSWtUxYC3crfrw-1; Thu, 19 Nov 2020 15:20:30 -0500
+X-MC-Unique: uUDs_YJLOSWtUxYC3crfrw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9B6D801B17;
- Thu, 19 Nov 2020 20:06:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE992801B13;
+ Thu, 19 Nov 2020 20:20:28 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-113-109.ams2.redhat.com [10.36.113.109])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D329360843;
- Thu, 19 Nov 2020 20:06:06 +0000 (UTC)
-Subject: Re: [PATCH 1/2] pc-bios: s390x: Ensure Read IPL memory is clean
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9D1485C1D1;
+ Thu, 19 Nov 2020 20:20:26 +0000 (UTC)
+Subject: Re: [PATCH 2/2] pc-bios: s390x: Give precedence to reset PSW
 To: Eric Farman <farman@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>
 References: <20201119165729.63351-1-farman@linux.ibm.com>
- <20201119165729.63351-2-farman@linux.ibm.com>
+ <20201119165729.63351-3-farman@linux.ibm.com>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <2b887993-125d-6ebc-fee8-9e14927124ef@redhat.com>
-Date: Thu, 19 Nov 2020 21:06:05 +0100
+Message-ID: <8595991c-5776-3021-ca16-deebba287be1@redhat.com>
+Date: Thu, 19 Nov 2020 21:20:25 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201119165729.63351-2-farman@linux.ibm.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20201119165729.63351-3-farman@linux.ibm.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,47 +89,60 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 19/11/2020 17.57, Eric Farman wrote:
-> If, for example, we boot off a virtio device and chreipl to a vfio-ccw
-> device, the space at lowcore will be non-zero. We build a Read IPL CCW
-> at address zero, but it will have leftover PSW data that will conflict
-> with the Format-0 CCW being generated:
-> 
-> 0x0: 00080000 80010000
->        ------ Ccw0.cda
->               -- Ccw0.chainData
->                 -- Reserved bits
-> 
-> The data address will be overwritten with the correct value (0x0), but
-> the apparent data chain bit will cause subsequent memory to be used as
-> the target of the data store, which may not be where we expect (0x0).
-> 
-> Clear out this space when we boot from DASD, so that we know it exists
-> exactly as we expect.
+> Let's look at the Reset PSW first instead of the contents of memory.
+> It might be leftover from an earlier system boot when processing
+> a chreipl.
 > 
 > Signed-off-by: Eric Farman <farman@linux.ibm.com>
-> Reviewed-by: Jason J. Herne <jjherne@linux.ibm.com>
-> Acked-by: Christian Borntraeger <borntraeger@de.ibm.com>
 > ---
->  pc-bios/s390-ccw/dasd-ipl.c | 3 +++
->  1 file changed, 3 insertions(+)
+>  pc-bios/s390-ccw/jump2ipl.c | 20 ++++++++++----------
+>  1 file changed, 10 insertions(+), 10 deletions(-)
 > 
-> diff --git a/pc-bios/s390-ccw/dasd-ipl.c b/pc-bios/s390-ccw/dasd-ipl.c
-> index 0fc879bb8e..71cbae2f16 100644
-> --- a/pc-bios/s390-ccw/dasd-ipl.c
-> +++ b/pc-bios/s390-ccw/dasd-ipl.c
-> @@ -100,6 +100,9 @@ static void make_readipl(void)
->  {
->      Ccw0 *ccwIplRead = (Ccw0 *)0x00;
+> diff --git a/pc-bios/s390-ccw/jump2ipl.c b/pc-bios/s390-ccw/jump2ipl.c
+> index fbae45b03c..67b4afb6a0 100644
+> --- a/pc-bios/s390-ccw/jump2ipl.c
+> +++ b/pc-bios/s390-ccw/jump2ipl.c
+> @@ -72,16 +72,6 @@ void jump_to_IPL_code(uint64_t address)
 >  
-> +    /* Clear out any existing data */
-> +    memset(ccwIplRead, 0, sizeof(Ccw0));
-> +
->      /* Create Read IPL ccw at address 0 */
->      ccwIplRead->cmd_code = CCW_CMD_READ_IPL;
->      ccwIplRead->cda = 0x00; /* Read into address 0x00 in main memory */
+>  void jump_to_low_kernel(void)
+>  {
+> -    /*
+> -     * If it looks like a Linux binary, i.e. there is the "S390EP" magic from
+> -     * arch/s390/kernel/head.S here, then let's jump to the well-known Linux
+> -     * kernel start address (when jumping to the PSW-at-zero address instead,
+> -     * the kernel startup code fails when we booted from a network device).
+> -     */
+> -    if (!memcmp((char *)0x10008, "S390EP", 6)) {
+> -        jump_to_IPL_code(KERN_IMAGE_START);
+> -    }
+> -
+>      /* Trying to get PSW at zero address */
+>      if (*((uint64_t *)0) & RESET_PSW_MASK) {
+>          /*
+> @@ -92,6 +82,16 @@ void jump_to_low_kernel(void)
+>          jump_to_IPL_code(0);
+>      }
+>  
+> +    /*
+> +     * If it looks like a Linux binary, i.e. there is the "S390EP" magic from
+> +     * arch/s390/kernel/head.S here, then let's jump to the well-known Linux
+> +     * kernel start address (when jumping to the PSW-at-zero address instead,
+> +     * the kernel startup code fails when we booted from a network device).
+> +     */
+> +    if (!memcmp((char *)0x10008, "S390EP", 6)) {
+> +        jump_to_IPL_code(KERN_IMAGE_START);
+> +    }
 
-Sounds reasonable.
+That feels a little bit dangerous ... I assume the order has been that way
+for a reason, e.g. I think we had to jump to KERN_IMAGE_START for some older
+versions of the Linux kernel since the startup code that was referenced by
+the PSW at address zero was not working in KVM...
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+What do you think about this alternate idea instead: Clear the memory at
+location 0x10008 at the very beginning of the main() function (or maybe in
+boot_setup())? Then we can be sure that there is no stale S390EP magic
+dangling around anymore once we've loaded the new kernel...
+
+ Thomas
 
 
