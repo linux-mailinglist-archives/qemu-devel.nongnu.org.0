@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D69A2B9D5F
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 23:09:37 +0100 (CET)
-Received: from localhost ([::1]:52800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3279B2B9D6D
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 23:14:12 +0100 (CET)
+Received: from localhost ([::1]:38556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfs7Q-0008UJ-9Y
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 17:09:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51792)
+	id 1kfsBv-0005rh-6M
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 17:14:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kfrvN-0001EP-6F
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:57:05 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37837)
+ id 1kfrvN-0001G6-SS
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:57:06 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33539)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kfrvA-0004H7-Jb
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:57:04 -0500
-Received: by mail-wr1-x444.google.com with SMTP id b6so8027305wrt.4
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 13:56:51 -0800 (PST)
+ id 1kfrvB-0004HP-Sx
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 16:57:05 -0500
+Received: by mail-wr1-x443.google.com with SMTP id u12so8061014wrt.0
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 13:56:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=CsDF4FovkQi5FbhTGn1IjOoZht88RJrc3jvTDPCJ+f4=;
- b=PuyNaGaF/liAFUxlvAqlL68JNMTQgeT9qx3MW8WXIeFb/KHkQaF1HIlaCeFvwnPvAd
- NYknIsTIJqoD99La5wvArLw4NBOYHqTV1+XDMFe7o8F1Gvy1DtjNzOyMClWIZLKWa8d8
- sYnYMuul4BOC8/BwQUeK7c1l7ajthde9UFlPgs+wOTUW5MYJp11QlMCWhNjOuFlbJcMh
- 7BoXpe6s4sJ6yfiwPIH+2VeFu4nYP2rMlr+fbuDNaaEZFmTW0ldXOwSKnoNHO36u/qXJ
- XvO0XNqSZluFbhKIHN0ESs/gViP55GsAj58GrP8YpUQY98qdrt3J1kfQ1JjVD0OkXT+w
- BFog==
+ bh=aUi6vcMH4o0CYad/653lpbXGwZgjtkuhUa4zld0PALo=;
+ b=PgQliZ57diIrQv1+baj8vSQMq1u1jLzyk6HTxbSrZ3Ch0G5i0r2wy1aLn9bUXeSSBv
+ EUOHeyNTHUU26GDUIXFaA9cmPmFjuOLPVY2xhv7ynqMV7+1cB1lR7BEwNvWthWmNLs22
+ dPruNGawe4FrL1tcWPgn48t6KjSsncEPbCupV0bcQWTgr5j1erLwCsGJzIH4E8MAnKKD
+ m5vJgJCirRksrDtsrR3AYvgnzoThzdb7o/vkR2BXL5+uVSweHAEVJmYfFg5DWQWHBdYA
+ PBafRt7YUhzeuygRWEMukJt5LgqiTPAuaUwIkuOmdf6SgzPeaXw3GpS20QpgZho6CWG4
+ Q46g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CsDF4FovkQi5FbhTGn1IjOoZht88RJrc3jvTDPCJ+f4=;
- b=Eh+AqojEncY9dpaOeFTRLLNoHKdJoULhin+N4NCq4+vddsswFwEw05F0UULEsw2RLv
- IsMsXXtatJtC2tVA3xtze8og+p+kiWJp5RCCUqEqxwzU8REQZdJCNH8bxiW77D83lLei
- OT92uUD8GmmQV2g0Azm0/suR0qwBXN7IQV/B/fGYD4ZDyHwoPvtZC4RU69xLYw4DDSh5
- PsSJ1iqqiZBIYc/oM93xkFM0b5wQ3+jEsE15Hz/58393s/nw6JSi3e8ZEjjxbQtTz66f
- KNguFtsH1icq83Bh7+pYZUJl5SLlKwArGH08xCG3wiOCtr8QtqXcGdh10Q/3PSPgLBro
- w6Fg==
-X-Gm-Message-State: AOAM5309z0idlZBb2HT8OqhxmzMIf6KDx0dMo2P9AfxMLxalklR2b+oC
- RRWw4R9kc5joX1s92EPfAwbFIexsLgLSaQ==
-X-Google-Smtp-Source: ABdhPJwkEj8B0IdamVUakuI9eF8iGFtDWObx7Y6mmXPmbKA4tgbu+altv592CpAG/x4nByC0dlPXwg==
-X-Received: by 2002:a5d:474f:: with SMTP id o15mr12479025wrs.100.1605823010527; 
- Thu, 19 Nov 2020 13:56:50 -0800 (PST)
+ bh=aUi6vcMH4o0CYad/653lpbXGwZgjtkuhUa4zld0PALo=;
+ b=lEiHrTSgXOagptznXUQH9OpU9v0Hu/SzKqCywRovE4N/s3uAUcoancCqWqlHpa2z5J
+ XM9sQkQ42kLgJ9PPLRca4XXeaIXqjNWavn9MKa5pJJL8wPTbbOBzvIGrjWdNM6nzPm1X
+ LDDln9UxkLsG7hw1CPYG0Fc+bWWke8XZcXXOxWNv4siuC5PVz/rhnCRf63zH8WoON+th
+ XsUzWD0Fsn94wgjpRHkz+MpFUcecHNuXp1fI1qxCxbk24tlUkZgopPENsV4lOFwcmVpK
+ 7h58pKeSJBaiwXxMN0x7EyIuu+/6Ky9CmCtCqy7Qhhz7S7DFyMkYR3fE+tUcV6WOLIBB
+ 7dLQ==
+X-Gm-Message-State: AOAM531cWr924sZ28BM+sec7YVUe8XDJtI/QRY33r2DsabZRowArlKxu
+ tHPYWzirAc1VXZ/H4t2rXnRzVGTc/lECrw==
+X-Google-Smtp-Source: ABdhPJxlp7pM+b5MfsBIs4tC6VXGCBkh32ZYa1IkAXDwl1lkzhgRN8+IjvhAT+2nsJV+5AlxfxV6MA==
+X-Received: by 2002:adf:dc0a:: with SMTP id t10mr12696594wri.314.1605823011812; 
+ Thu, 19 Nov 2020 13:56:51 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j15sm1934851wrm.62.2020.11.19.13.56.49
+ by smtp.gmail.com with ESMTPSA id j15sm1934851wrm.62.2020.11.19.13.56.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Nov 2020 13:56:49 -0800 (PST)
+ Thu, 19 Nov 2020 13:56:51 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 27/28] hw/arm/armv7m: Correct typo in QOM object name
-Date: Thu, 19 Nov 2020 21:56:16 +0000
-Message-Id: <20201119215617.29887-28-peter.maydell@linaro.org>
+Subject: [PATCH v2 28/28] target/arm: Implement Cortex-M55 model
+Date: Thu, 19 Nov 2020 21:56:17 +0000
+Message-Id: <20201119215617.29887-29-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201119215617.29887-1-peter.maydell@linaro.org>
 References: <20201119215617.29887-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x443.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,26 +86,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Correct a typo in the name we give the NVIC object.
+Now that we have implemented all the features needed by the v8.1M
+architecture, we can add the model of the Cortex-M55.  This is the
+configuration without MVE support; we'll add MVE later.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/armv7m.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/arm/cpu_tcg.c | 42 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
-diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
-index 944f261dd05..8224d4ade9f 100644
---- a/hw/arm/armv7m.c
-+++ b/hw/arm/armv7m.c
-@@ -136,7 +136,7 @@ static void armv7m_instance_init(Object *obj)
+diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
+index 0013e25412f..98544db2df3 100644
+--- a/target/arm/cpu_tcg.c
++++ b/target/arm/cpu_tcg.c
+@@ -401,6 +401,46 @@ static void cortex_m33_initfn(Object *obj)
+     cpu->ctr = 0x8000c000;
+ }
  
-     memory_region_init(&s->container, obj, "armv7m-container", UINT64_MAX);
- 
--    object_initialize_child(obj, "nvnic", &s->nvic, TYPE_NVIC);
-+    object_initialize_child(obj, "nvic", &s->nvic, TYPE_NVIC);
-     object_property_add_alias(obj, "num-irq",
-                               OBJECT(&s->nvic), "num-irq");
- 
++static void cortex_m55_initfn(Object *obj)
++{
++    ARMCPU *cpu = ARM_CPU(obj);
++
++    set_feature(&cpu->env, ARM_FEATURE_V8);
++    set_feature(&cpu->env, ARM_FEATURE_V8_1M);
++    set_feature(&cpu->env, ARM_FEATURE_M);
++    set_feature(&cpu->env, ARM_FEATURE_M_MAIN);
++    set_feature(&cpu->env, ARM_FEATURE_M_SECURITY);
++    set_feature(&cpu->env, ARM_FEATURE_THUMB_DSP);
++    cpu->midr = 0x410fd221; /* r0p1 */
++    cpu->revidr = 0;
++    cpu->pmsav7_dregion = 16;
++    cpu->sau_sregion = 8;
++    /*
++     * These are the MVFR* values for the FPU, no MVE configuration;
++     * we will update them later when we implement MVE
++     */
++    cpu->isar.mvfr0 = 0x10110221;
++    cpu->isar.mvfr1 = 0x12100011;
++    cpu->isar.mvfr2 = 0x00000040;
++    cpu->isar.id_pfr0 = 0x20000030;
++    cpu->isar.id_pfr1 = 0x00000230;
++    cpu->isar.id_dfr0 = 0x10200000;
++    cpu->id_afr0 = 0x00000000;
++    cpu->isar.id_mmfr0 = 0x00111040;
++    cpu->isar.id_mmfr1 = 0x00000000;
++    cpu->isar.id_mmfr2 = 0x01000000;
++    cpu->isar.id_mmfr3 = 0x00000011;
++    cpu->isar.id_isar0 = 0x01103110;
++    cpu->isar.id_isar1 = 0x02212000;
++    cpu->isar.id_isar2 = 0x20232232;
++    cpu->isar.id_isar3 = 0x01111131;
++    cpu->isar.id_isar4 = 0x01310132;
++    cpu->isar.id_isar5 = 0x00000000;
++    cpu->isar.id_isar6 = 0x00000000;
++    cpu->clidr = 0x00000000; /* caches not implemented */
++    cpu->ctr = 0x8303c003;
++}
++
+ static const ARMCPRegInfo cortexr5_cp_reginfo[] = {
+     /* Dummy the TCM region regs for the moment */
+     { .name = "ATCM", .cp = 15, .opc1 = 0, .crn = 9, .crm = 1, .opc2 = 0,
+@@ -655,6 +695,8 @@ static const ARMCPUInfo arm_tcg_cpus[] = {
+                              .class_init = arm_v7m_class_init },
+     { .name = "cortex-m33",  .initfn = cortex_m33_initfn,
+                              .class_init = arm_v7m_class_init },
++    { .name = "cortex-m55",  .initfn = cortex_m55_initfn,
++                             .class_init = arm_v7m_class_init },
+     { .name = "cortex-r5",   .initfn = cortex_r5_initfn },
+     { .name = "cortex-r5f",  .initfn = cortex_r5f_initfn },
+     { .name = "ti925t",      .initfn = ti925t_initfn },
 -- 
 2.20.1
 
