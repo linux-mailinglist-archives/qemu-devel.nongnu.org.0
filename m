@@ -2,76 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAFC92B9AEE
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 19:53:31 +0100 (CET)
-Received: from localhost ([::1]:45166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 654D12B9B02
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 19:57:42 +0100 (CET)
+Received: from localhost ([::1]:47422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfp3i-0006F1-RA
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 13:53:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37124)
+	id 1kfp7l-0007So-GL
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 13:57:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kfp2G-0005ki-CH
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 13:52:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42602)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kfp6M-000728-VV
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 13:56:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23793)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kfp2E-0004JP-DB
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 13:52:00 -0500
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kfp6J-0005lW-44
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 13:56:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605811917;
+ s=mimecast20190719; t=1605812169;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dyr7o0DkjJt9/8zQffDXdHEhDOPJuVLz7nfU2zrjkXE=;
- b=ApvoAmLbAuoGv5pjsMamN393WR52p3JKR6TLYAxzRX5u15LFSQSCyh939zFMrxpVOlWFCN
- 9jfHBtf2ueOtWEpayLdNOk1Jq5LKNMzDBD1XRP6/MSwZWxERMW39cXFbARcHfDQIG7UmdI
- GgyWbYu+fmdyUBckRSvr3whuHoa8pSE=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-318-vhtHBX7wPM6uC0E8Wx7Gsg-1; Thu, 19 Nov 2020 13:51:53 -0500
-X-MC-Unique: vhtHBX7wPM6uC0E8Wx7Gsg-1
-Received: by mail-qk1-f199.google.com with SMTP id q21so5814453qkq.11
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 10:51:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=dyr7o0DkjJt9/8zQffDXdHEhDOPJuVLz7nfU2zrjkXE=;
- b=p1618PyYXCddfizRS2S+FtnBFAlaxv3perZu0uI830j+QFewWdteVu28gPJYLb+sA7
- IUZuMP7dcBwS+9wmQbG10DKJ+OH1p3LMaILDOq+O1qSO137NkuIAcDMbgC52yZPQUcix
- vPbBQitfpzBuFImaMdxhr819Z2QnqG6SOkobcAj6p+diH+RSWA75bE4ae913kaBpsNCZ
- eMPg2UfHb57iG6wwX8i0VRXoq4MLU10R/+NtHtEnd6+RTk2/9UeqYp18LsD1sSl3b5bS
- F+MjsURgvri+i0GJwHGL+In3YWLIx1AaC9AsN79T28CZRHl+xHRN7UNyBdHsYPYKMN3y
- eGjA==
-X-Gm-Message-State: AOAM5328f+7Q746ywiESPdKSGRRXSK7vlrN2tnjyX7Mv4IvFvLfYMzid
- HISgrJpTsooWIhJVTBcbjregjcGw94LrL0XkBC3VHoIgsmf4Vc6KOcaA/CvnoAKpT2vY1JGd0jA
- c36p7qeC7xfCFKAU=
-X-Received: by 2002:a37:a943:: with SMTP id s64mr12214208qke.15.1605811913218; 
- Thu, 19 Nov 2020 10:51:53 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwkgVaVRJF0yVJknUPqDmmFzxUcIIyfEir/esgFd32AdDQIq1QHvhb28pvZY6bjB495RKs7AQ==
-X-Received: by 2002:a37:a943:: with SMTP id s64mr12214186qke.15.1605811912867; 
- Thu, 19 Nov 2020 10:51:52 -0800 (PST)
-Received: from xz-x1
- (bras-vprn-toroon474qw-lp130-20-174-93-89-196.dsl.bell.ca. [174.93.89.196])
- by smtp.gmail.com with ESMTPSA id o35sm488091qtd.84.2020.11.19.10.51.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Nov 2020 10:51:51 -0800 (PST)
-Date: Thu, 19 Nov 2020 13:51:50 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Subject: Re: [PATCH v3 1/7] introduce 'track-writes-ram' migration capability
-Message-ID: <20201119185150.GF6538@xz-x1>
-References: <20201119125940.20017-1-andrey.gruzdev@virtuozzo.com>
- <20201119125940.20017-2-andrey.gruzdev@virtuozzo.com>
+ bh=JM+jVH2lHM0ffizjw3JJiPCHgZgYmro45sbw2ft8MMI=;
+ b=YI+YTdZOn3mXjwjgDEXPKwDictXCL+9sResK9iZA1ePl8tCNdlaT56T7J2yb/Kaiu+f1WA
+ Hdk1s4XYLTl+3fWsDAOTTpbPSe6KQCEw0esAesORfqifL110KETaKeHfDtYcu1lmLp81Z9
+ nNFKApWL/BKtBcCAXF8cZY40kmjLxIo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-432-J6O-YIFgMAybuYEUBe3Okg-1; Thu, 19 Nov 2020 13:56:07 -0500
+X-MC-Unique: J6O-YIFgMAybuYEUBe3Okg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92DA11858EC8;
+ Thu, 19 Nov 2020 18:56:06 +0000 (UTC)
+Received: from localhost (ovpn-115-101.rdu2.redhat.com [10.10.115.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2985E60C05;
+ Thu, 19 Nov 2020 18:56:05 +0000 (UTC)
+Date: Thu, 19 Nov 2020 13:56:04 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v2 5/8] qlit: Support all types of QNums
+Message-ID: <20201119185604.GZ1509407@habkost.net>
+References: <20201116224143.1284278-1-ehabkost@redhat.com>
+ <20201116224143.1284278-6-ehabkost@redhat.com>
+ <CAJ+F1CJ4quGCWWSbfChj3DW-0ReMYxPM6gmFvMx9cKrTb2TeYA@mail.gmail.com>
+ <87blftd419.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <20201119125940.20017-2-andrey.gruzdev@virtuozzo.com>
+In-Reply-To: <87blftd419.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -92,180 +82,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 19, 2020 at 03:59:34PM +0300, Andrey Gruzdev via wrote:
-> Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-> ---
->  migration/migration.c | 96 +++++++++++++++++++++++++++++++++++++++++++
->  migration/migration.h |  1 +
->  qapi/migration.json   |  7 +++-
->  3 files changed, 103 insertions(+), 1 deletion(-)
+On Thu, Nov 19, 2020 at 11:39:14AM +0100, Markus Armbruster wrote:
+> Marc-André Lureau <marcandre.lureau@gmail.com> writes:
 > 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 87a9b59f83..ff0364dde0 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -56,6 +56,7 @@
->  #include "net/announce.h"
->  #include "qemu/queue.h"
->  #include "multifd.h"
-> +#include "sysemu/cpus.h"
->  
->  #ifdef CONFIG_VFIO
->  #include "hw/vfio/vfio-common.h"
-> @@ -1165,6 +1166,91 @@ static bool migrate_caps_check(bool *cap_list,
->          }
->      }
->  
-> +    if (cap_list[MIGRATION_CAPABILITY_TRACK_WRITES_RAM]) {
-> +        if (cap_list[MIGRATION_CAPABILITY_POSTCOPY_RAM]) {
-> +            error_setg(errp,
-> +                    "Track-writes is not compatible with postcopy-ram");
-> +            return false;
-> +        }
-> +
-> +        if (cap_list[MIGRATION_CAPABILITY_DIRTY_BITMAPS]) {
-> +            error_setg(errp,
-> +                    "Track-writes is not compatible with dirty-bitmaps");
-> +            return false;
-> +        }
-> +
-> +        if (cap_list[MIGRATION_CAPABILITY_POSTCOPY_BLOCKTIME]) {
-> +            error_setg(errp,
-> +                    "Track-writes is not compatible with postcopy-blocktime");
-> +            return false;
-> +        }
-> +
-> +        if (cap_list[MIGRATION_CAPABILITY_LATE_BLOCK_ACTIVATE]) {
-> +            error_setg(errp,
-> +                    "Track-writes is not compatible with late-block-activate");
-> +            return false;
-> +        }
-> +
-> +        if (cap_list[MIGRATION_CAPABILITY_RETURN_PATH]) {
-> +            error_setg(errp,
-> +                    "Track-writes is not compatible with return-path");
-> +            return false;
-> +        }
-> +
-> +        if (cap_list[MIGRATION_CAPABILITY_MULTIFD]) {
-> +            error_setg(errp, "Track-writes is not compatible with multifd");
-> +            return false;
-> +        }
-> +
-> +        if (cap_list[MIGRATION_CAPABILITY_PAUSE_BEFORE_SWITCHOVER]) {
-> +            error_setg(errp,
-> +                    "Track-writes is not compatible with pause-before-switchover");
-> +            return false;
-> +        }
-> +
-> +        if (cap_list[MIGRATION_CAPABILITY_AUTO_CONVERGE]) {
-> +            error_setg(errp,
-> +                    "Track-writes is not compatible with auto-converge");
-> +            return false;
-> +        }
-> +
-> +        if (cap_list[MIGRATION_CAPABILITY_RELEASE_RAM]) {
-> +            error_setg(errp,
-> +                    "Track-writes is not compatible with release-ram");
-> +            return false;
-> +        }
-> +
-> +        if (cap_list[MIGRATION_CAPABILITY_RDMA_PIN_ALL]) {
-> +            error_setg(errp,
-> +                    "Track-writes is not compatible with rdma-pin-all");
-> +            return false;
-> +        }
-> +
-> +        if (cap_list[MIGRATION_CAPABILITY_COMPRESS]) {
-> +            error_setg(errp,
-> +                    "Track-writes is not compatible with compression");
-> +            return false;
-> +        }
-> +
-> +        if (cap_list[MIGRATION_CAPABILITY_XBZRLE]) {
-> +            error_setg(errp,
-> +                    "Track-writes is not compatible with XBZLRE");
-> +            return false;
-> +        }
-> +
-> +        if (cap_list[MIGRATION_CAPABILITY_X_COLO]) {
-> +            error_setg(errp,
-> +                    "Track-writes is not compatible with x-colo");
-> +            return false;
-> +        }
-> +
-> +        if (cap_list[MIGRATION_CAPABILITY_VALIDATE_UUID]) {
-> +            error_setg(errp,
-> +                    "Track-writes is not compatible with validate-uuid");
-> +            return false;
-> +        }
-> +    }
-> +
->      return true;
->  }
->  
-> @@ -2490,6 +2576,15 @@ bool migrate_use_block_incremental(void)
->      return s->parameters.block_incremental;
->  }
->  
-> +bool migrate_track_writes_ram(void)
-> +{
-> +    MigrationState *s;
-> +
-> +    s = migrate_get_current();
-> +
-> +    return s->enabled_capabilities[MIGRATION_CAPABILITY_TRACK_WRITES_RAM];
-> +}
-> +
->  /* migration thread support */
->  /*
->   * Something bad happened to the RP stream, mark an error
-> @@ -3783,6 +3878,7 @@ static Property migration_properties[] = {
->      DEFINE_PROP_MIG_CAP("x-block", MIGRATION_CAPABILITY_BLOCK),
->      DEFINE_PROP_MIG_CAP("x-return-path", MIGRATION_CAPABILITY_RETURN_PATH),
->      DEFINE_PROP_MIG_CAP("x-multifd", MIGRATION_CAPABILITY_MULTIFD),
-> +    DEFINE_PROP_MIG_CAP("x-track-writes-ram", MIGRATION_CAPABILITY_TRACK_WRITES_RAM),
->  
->      DEFINE_PROP_END_OF_LIST(),
->  };
-> diff --git a/migration/migration.h b/migration/migration.h
-> index d096b77f74..339ae720e0 100644
-> --- a/migration/migration.h
-> +++ b/migration/migration.h
-> @@ -341,6 +341,7 @@ int migrate_compress_wait_thread(void);
->  int migrate_decompress_threads(void);
->  bool migrate_use_events(void);
->  bool migrate_postcopy_blocktime(void);
-> +bool migrate_track_writes_ram(void);
->  
->  /* Sending on the return path - generic and then for each message type */
->  void migrate_send_rp_shut(MigrationIncomingState *mis,
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index 3c75820527..a28d8b7ee8 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -442,6 +442,11 @@
->  # @validate-uuid: Send the UUID of the source to allow the destination
->  #                 to ensure it is the same. (since 4.2)
->  #
-> +# @track-writes-ram: If enabled, the migration stream will be a snapshot
-> +#                    of the VM exactly at the point when the migration
-> +#                    procedure starts. The VM RAM is saved with running VM.
-> +#                    (since 6.0)
-> +#
+> > On Tue, Nov 17, 2020 at 2:48 AM Eduardo Habkost <ehabkost@redhat.com> wrote:
+> >
+> >> Use QNumValue to represent QNums, so we can also support uint64_t
+> >> and double QNum values.  Add new QLIT_QNUM_(INT|UINT|DOUBLE)
+> >> macros for each case.
+> >>
+> >> The QLIT_QNUM() macro is being kept for compatibility with
+> >> existing code, but becomes just a wrapper for QLIT_QNUM_INT().
+> >>
+> >
+> > I am not sure it's worth to keep. (furthermore, it's only used in tests
+> > afaics)
+> 
+> Seconded.
 
-The name is slightly confusing to me.  Could I ask why changed from previous
-one?  "snapshot" sounds a very necessary keyword to me here and tells exactly
-on what we do...  Because we can do quite a few things with "trace-writes-ram"
-but not snapshotting, e.g., to calculate per-vm dirty rates.
+Understood, I will remove it.  I thought the QAPI code generator
+was using it.
+
+[...]
+> >> diff --git a/qobject/qlit.c b/qobject/qlit.c
+> >> index be8332136c..b23cdc4532 100644
+> >> --- a/qobject/qlit.c
+> >> +++ b/qobject/qlit.c
+> >> @@ -71,7 +71,8 @@ bool qlit_equal_qobject(const QLitObject *lhs, const
+> >> QObject *rhs)
+> >>      case QTYPE_QBOOL:
+> >>          return lhs->value.qbool == qbool_get_bool(qobject_to(QBool, rhs));
+> >>      case QTYPE_QNUM:
+> >> -        return lhs->value.qnum ==  qnum_get_int(qobject_to(QNum, rhs));
+> >> +        return qnum_value_is_equal(&lhs->value.qnum,
+> >> +                                   qnum_get_value(qobject_to(QNum, rhs)));
+> 
+> Before the patch, we crash when @rhs can't be represented as int64_t.
+
+I thought it was expected behavior?  QLit never supported
+QNUM_U64 or QNUM_DOUBLE as input.
+
+> 
+> Afterwards, we return false (I think).
+> 
+> Please note this in the commit message.  A separate fix preceding this
+> patch would be even better, but may not be worth the trouble.  Up to
+> you.
+
+The fix would be 3 or 4 extra lines of code that would be
+immediately deleted.  I'll just mention it as a side effect of
+the new feature.
+
+> 
+> >>      case QTYPE_QSTRING:
+> >>          return (strcmp(lhs->value.qstr,
+> >>                         qstring_get_str(qobject_to(QString, rhs))) == 0);
+> >> @@ -94,7 +95,7 @@ QObject *qobject_from_qlit(const QLitObject *qlit)
+> >>      case QTYPE_QNULL:
+> >>          return QOBJECT(qnull());
+> >>      case QTYPE_QNUM:
+> >> -        return QOBJECT(qnum_from_int(qlit->value.qnum));
+> >> +        return QOBJECT(qnum_from_value(qlit->value.qnum));
+> >>      case QTYPE_QSTRING:
+> >>          return QOBJECT(qstring_from_str(qlit->value.qstr));
+> >>      case QTYPE_QDICT: {
+> >> diff --git a/tests/check-qjson.c b/tests/check-qjson.c
+> >> index 07a773e653..711030cffd 100644
+> >> --- a/tests/check-qjson.c
+> >> +++ b/tests/check-qjson.c
+> >> @@ -796,20 +796,23 @@ static void simple_number(void)
+> >>      int i;
+> >>      struct {
+> >>          const char *encoded;
+> >> +        QLitObject qlit;
+> >>          int64_t decoded;
+> >>          int skip;
+> >>      } test_cases[] = {
+> >> -        { "0", 0 },
+> >> -        { "1234", 1234 },
+> >> -        { "1", 1 },
+> >> -        { "-32", -32 },
+> >> -        { "-0", 0, .skip = 1 },
+> >> +        { "0",    QLIT_QNUM(0),    0, },
+> >> +        { "1234", QLIT_QNUM(1234), 1234, },
+> >> +        { "1",    QLIT_QNUM(1),    1, },
+> >> +        { "-32",  QLIT_QNUM(-32),  -32, },
+> >> +        { "-0",   QLIT_QNUM(0),    0, .skip = 1 },
+> 
+> Note .qlit is always QLIT_QNUM(.decoded).  Would doing without .qlit
+> result in a simpler patch?
+
+Good point.  When I wrote this, I mistakenly thought we would end
+up having different types of qlits in the array.
+
+I still want to test multiple types of QNums here, not just
+QNUM_I64.  I will try to get something that is simple but also
+gets us more coverage.  Maybe as a separate test function and/or
+a separate patch.
+
+> 
+> >>          { },
+> >>      };
+> >>
+> >>      for (i = 0; test_cases[i].encoded; i++) {
+> >>          QNum *qnum;
+> >>          int64_t val;
+> >> +        QNum *qlit_num;
+> >> +        int64_t qlit_val;
+> >>
+> >>          qnum = qobject_to(QNum,
+> >>                            qobject_from_json(test_cases[i].encoded,
+> >> @@ -817,6 +820,7 @@ static void simple_number(void)
+> >>          g_assert(qnum);
+> >>          g_assert(qnum_get_try_int(qnum, &val));
+> >>          g_assert_cmpint(val, ==, test_cases[i].decoded);
+> >> +
+> >>          if (test_cases[i].skip == 0) {
+> >>              QString *str;
+> >>
+> >> @@ -826,9 +830,66 @@ static void simple_number(void)
+> >>          }
+> >>
+> >>          qobject_unref(qnum);
+> >> +
+> >> +        qlit_num = qobject_to(QNum,
+> >> +                              qobject_from_qlit(&test_cases[i].qlit));
+> >> +        g_assert(qlit_num);
+> >> +        g_assert(qnum_get_try_int(qlit_num, &qlit_val));
+> >> +        g_assert_cmpint(qlit_val, ==, test_cases[i].decoded);
+> >> +
+> >> +        qobject_unref(qlit_num);
+> >>      }
+> >>  }
+> >>
+[...]
 
 -- 
-Peter Xu
+Eduardo
 
 
