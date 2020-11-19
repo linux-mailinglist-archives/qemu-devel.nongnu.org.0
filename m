@@ -2,75 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A9C82B8D12
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 09:28:39 +0100 (CET)
-Received: from localhost ([::1]:43868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D9B32B8D83
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 09:36:29 +0100 (CET)
+Received: from localhost ([::1]:47438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kffJ0-0000cz-1b
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 03:28:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45356)
+	id 1kffQa-0002mb-Am
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 03:36:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kffH2-0007pG-RI
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 03:26:36 -0500
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:38882)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kffGw-0003u5-Tp
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 03:26:35 -0500
-Received: by mail-ej1-x633.google.com with SMTP id a16so6693571ejj.5
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 00:26:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=KapW45sKsnAnywpOYLI8/0VhYYYVNjQmlsW3R9prmG4=;
- b=OPLWUNCM0CZbZ7IyvcN/0cjgQ+/1gR24YRz4psJFcJOF+F7k7BsWJwu60tn5WEOj3a
- fuNKdr09opn3dm4vyxtXpWsoQleg/Wqnp0I6TmDHr/MoT9jTVvtFJBPVBI7niRaHuNxf
- Hg6BdAoZ2B37Fz35OCEADkzyezIoYTTz96SZTmhlT/zn0yYocpTr7MDpbSpsTpbcJr/J
- F3wmFYsdU5Zm2Odt2M2sq7kVkk+MKTrytvJh5+R8IzFM8lscmQs76X0AmPdWgYZ1u4yB
- 8a2znVSx1pKYq8ZaUe1iYk1hnGhSAnyYMbJCp0NmtmB6Bs5hufLAEeQREXF96a8VheU5
- UT1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=KapW45sKsnAnywpOYLI8/0VhYYYVNjQmlsW3R9prmG4=;
- b=LT0vMVOHGMqTazyHJZbqinPxeEMnKeHI5snFeBlVWTbmNtbTQglRJlrmMMy2seAE2p
- v0CclaEyrc6+Ry0ro6pkuzDbAQTIhxeUloTQ2XuaoGHm8iU+wp4WdlPq71QQcA4uF9//
- 1wuKELT2Lpp7vrsv1KM7ayZFxiyd+YqZIc5VSt/utIRjk5LPOBRJ1QCvzCPcHiev4n9Z
- UBgZhUbRSPhg688yDpeQmEs1mjAbPrGbDwp/t5JH4nMlZQVsAepdgr84WUcmSGtfon3g
- bq6QUVoPop46LULmTAsORpn96lzR8E1lBmStDHdOigjqXr+b+DpD6kCZuntz9zIMps7m
- wDog==
-X-Gm-Message-State: AOAM5304H2IQEc1pFC/vohLKPturDQawDxS+xnnKzws86AQmoKAO/tUp
- ZKAH5SMlixPoDiupWSRTMPhKzRl8rkKKwfbzr9Wysg==
-X-Google-Smtp-Source: ABdhPJzBJ0a1RKyXGgVUjURhVUjvgEyOiCYlDPmuJs4UESZye+YsfTJyHryTwlDEFmXWLETt6RpMeGgJp8T9UYEJPs8=
-X-Received: by 2002:a17:906:8485:: with SMTP id
- m5mr28618305ejx.205.1605774388844; 
- Thu, 19 Nov 2020 00:26:28 -0800 (PST)
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1kffPr-0002DU-1l; Thu, 19 Nov 2020 03:35:43 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2956)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1kffPn-0007Nt-UG; Thu, 19 Nov 2020 03:35:42 -0500
+Received: from DGGEMM402-HUB.china.huawei.com (unknown [172.30.72.54])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4CcCfq1STyzXnn1;
+ Thu, 19 Nov 2020 16:35:15 +0800 (CST)
+Received: from DGGEMM531-MBX.china.huawei.com ([169.254.5.128]) by
+ DGGEMM402-HUB.china.huawei.com ([10.3.20.210]) with mapi id 14.03.0487.000;
+ Thu, 19 Nov 2020 16:35:21 +0800
+From: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: RE: [PATCH-for-5.2? 1/2] tests/qtest: variable defined by
+ g_autofree need to be initialized
+Thread-Topic: [PATCH-for-5.2? 1/2] tests/qtest: variable defined by
+ g_autofree need to be initialized
+Thread-Index: AQHWvaH7LAlqtNTNq0CJSxOYz75c7KnOmeyAgACGw+A=
+Date: Thu, 19 Nov 2020 08:35:20 +0000
+Message-ID: <7412CDE03601674DA8197E2EBD8937E83BA86327@dggemm531-mbx.china.huawei.com>
 References: <20201118115646.2461726-1-kuhn.chenqun@huawei.com>
  <20201118115646.2461726-2-kuhn.chenqun@huawei.com>
-In-Reply-To: <20201118115646.2461726-2-kuhn.chenqun@huawei.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 19 Nov 2020 08:26:17 +0000
-Message-ID: <CAFEAcA81CeW=RdrABuAZx2pL6L-nE_AaQ2vbryqm7amUbRjM-g@mail.gmail.com>
-Subject: Re: [PATCH-for-5.2? 1/2] tests/qtest: variable defined by g_autofree
- need to be initialized
-To: Chen Qun <kuhn.chenqun@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ <CAFEAcA81CeW=RdrABuAZx2pL6L-nE_AaQ2vbryqm7amUbRjM-g@mail.gmail.com>
+In-Reply-To: <CAFEAcA81CeW=RdrABuAZx2pL6L-nE_AaQ2vbryqm7amUbRjM-g@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.185.149]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=kuhn.chenqun@huawei.com; helo=szxga01-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 03:35:31
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,7 +67,7 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ Zhanghailiang <zhang.zhanghailiang@huawei.com>,
  QEMU Trivial <qemu-trivial@nongnu.org>,
  QEMU Developers <qemu-devel@nongnu.org>,
  Havard Skinnemoen <hskinnemoen@google.com>, Hao Wu <wuhaotsh@google.com>,
@@ -92,33 +75,38 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 18 Nov 2020 at 11:57, Chen Qun <kuhn.chenqun@huawei.com> wrote:
->
-> According to the glib function requirements, we need initialise
->  the variable. Otherwise there will be compilation warnings:
->
-> glib-autocleanups.h:28:3: warning: =E2=80=98full_name=E2=80=99 may be
-> used uninitialized in this function [-Wmaybe-uninitialized]
->    28 |   g_free (*pp);
->       |   ^~~~~~~~~~~~
->
->  static void tim_add_test(const char *name, const TestData *td, GTestData=
-Func fn)
->  {
-> -    g_autofree char *full_name;
-> -
-> -    full_name =3D g_strdup_printf("npcm7xx_timer/tim[%d]/timer[%d]/%s",
-> -                                tim_index(td->tim), timer_index(td->time=
-r),
-> -                                name);
-> +    g_autofree char *full_name =3D g_strdup_printf(
-> +        "npcm7xx_timer/tim[%d]/timer[%d]/%s", tim_index(td->tim),
-> +        timer_index(td->timer), name);
-
-Which compiler is so unintelligent that it cannot see that
-a declaration immediately followed by an assignment must
-always initialize the variable ???
-
-thanks
--- PMM
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBQZXRlciBNYXlkZWxsIFttYWls
+dG86cGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnXQ0KPiBTZW50OiBUaHVyc2RheSwgTm92ZW1iZXIg
+MTksIDIwMjAgNDoyNiBQTQ0KPiBUbzogQ2hlbnF1biAoa3VobikgPGt1aG4uY2hlbnF1bkBodWF3
+ZWkuY29tPg0KPiBDYzogUUVNVSBEZXZlbG9wZXJzIDxxZW11LWRldmVsQG5vbmdudS5vcmc+OyBR
+RU1VIFRyaXZpYWwNCj4gPHFlbXUtdHJpdmlhbEBub25nbnUub3JnPjsgSGFvIFd1IDx3dWhhb3Rz
+aEBnb29nbGUuY29tPjsgSGF2YXJkDQo+IFNraW5uZW1vZW4gPGhza2lubmVtb2VuQGdvb2dsZS5j
+b20+OyBaaGFuZ2hhaWxpYW5nDQo+IDx6aGFuZy56aGFuZ2hhaWxpYW5nQGh1YXdlaS5jb20+OyBU
+aG9tYXMgSHV0aCA8dGh1dGhAcmVkaGF0LmNvbT47DQo+IExhdXJlbnQgVml2aWVyIDxsdml2aWVy
+QHJlZGhhdC5jb20+OyBFdWxlciBSb2JvdCA8ZXVsZXIucm9ib3RAaHVhd2VpLmNvbT4NCj4gU3Vi
+amVjdDogUmU6IFtQQVRDSC1mb3ItNS4yPyAxLzJdIHRlc3RzL3F0ZXN0OiB2YXJpYWJsZSBkZWZp
+bmVkIGJ5IGdfYXV0b2ZyZWUNCj4gbmVlZCB0byBiZSBpbml0aWFsaXplZA0KPiANCj4gT24gV2Vk
+LCAxOCBOb3YgMjAyMCBhdCAxMTo1NywgQ2hlbiBRdW4gPGt1aG4uY2hlbnF1bkBodWF3ZWkuY29t
+Pg0KPiB3cm90ZToNCj4gPg0KPiA+IEFjY29yZGluZyB0byB0aGUgZ2xpYiBmdW5jdGlvbiByZXF1
+aXJlbWVudHMsIHdlIG5lZWQgaW5pdGlhbGlzZSAgdGhlDQo+ID4gdmFyaWFibGUuIE90aGVyd2lz
+ZSB0aGVyZSB3aWxsIGJlIGNvbXBpbGF0aW9uIHdhcm5pbmdzOg0KPiA+DQo+ID4gZ2xpYi1hdXRv
+Y2xlYW51cHMuaDoyODozOiB3YXJuaW5nOiDigJhmdWxsX25hbWXigJkgbWF5IGJlIHVzZWQNCj4g
+PiB1bmluaXRpYWxpemVkIGluIHRoaXMgZnVuY3Rpb24gWy1XbWF5YmUtdW5pbml0aWFsaXplZF0N
+Cj4gPiAgICAyOCB8ICAgZ19mcmVlICgqcHApOw0KPiA+ICAgICAgIHwgICBefn5+fn5+fn5+fn4N
+Cj4gPg0KPiA+ICBzdGF0aWMgdm9pZCB0aW1fYWRkX3Rlc3QoY29uc3QgY2hhciAqbmFtZSwgY29u
+c3QgVGVzdERhdGEgKnRkLA0KPiA+IEdUZXN0RGF0YUZ1bmMgZm4pICB7DQo+ID4gLSAgICBnX2F1
+dG9mcmVlIGNoYXIgKmZ1bGxfbmFtZTsNCj4gPiAtDQo+ID4gLSAgICBmdWxsX25hbWUgPSBnX3N0
+cmR1cF9wcmludGYoIm5wY203eHhfdGltZXIvdGltWyVkXS90aW1lclslZF0vJXMiLA0KPiA+IC0g
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRpbV9pbmRleCh0ZC0+dGltKSwNCj4gdGlt
+ZXJfaW5kZXgodGQtPnRpbWVyKSwNCj4gPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICBuYW1lKTsNCj4gPiArICAgIGdfYXV0b2ZyZWUgY2hhciAqZnVsbF9uYW1lID0gZ19zdHJkdXBf
+cHJpbnRmKA0KPiA+ICsgICAgICAgICJucGNtN3h4X3RpbWVyL3RpbVslZF0vdGltZXJbJWRdLyVz
+IiwgdGltX2luZGV4KHRkLT50aW0pLA0KPiA+ICsgICAgICAgIHRpbWVyX2luZGV4KHRkLT50aW1l
+ciksIG5hbWUpOw0KPiANCj4gV2hpY2ggY29tcGlsZXIgaXMgc28gdW5pbnRlbGxpZ2VudCB0aGF0
+IGl0IGNhbm5vdCBzZWUgdGhhdCBhIGRlY2xhcmF0aW9uDQo+IGltbWVkaWF0ZWx5IGZvbGxvd2Vk
+IGJ5IGFuIGFzc2lnbm1lbnQgbXVzdCBhbHdheXMgaW5pdGlhbGl6ZSB0aGUgdmFyaWFibGUgPz8/
+DQo+IA0KSGkgUGV0ZXIsDQogIEdsaWIgcmVxdWlyZXMgdGhhdCBhbGwgZ19hdXRvKiBtYWNyb3Mg
+bXVzdCBiZSBpbml0aWFsaXplZC4NCiAgaHR0cHM6Ly9kZXZlbG9wZXIuZ25vbWUub3JnL2dsaWIv
+c3RhYmxlL2dsaWItTWlzY2VsbGFuZW91cy1NYWNyb3MuaHRtbCNnLWF1dG9mcmVlDQoNClRoYW5r
+cywNCkNoZW4gUXVuDQoNCg0K
 
