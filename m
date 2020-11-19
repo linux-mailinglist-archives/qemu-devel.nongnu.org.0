@@ -2,110 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 420D12B979A
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 17:18:23 +0100 (CET)
-Received: from localhost ([::1]:41870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89B852B97A2
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Nov 2020 17:20:55 +0100 (CET)
+Received: from localhost ([::1]:49534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfmdZ-0007Om-UX
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 11:18:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51638)
+	id 1kfmg2-0002F6-I6
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 11:20:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kfmbq-0006m3-EF; Thu, 19 Nov 2020 11:16:34 -0500
-Received: from mail-eopbgr40127.outbound.protection.outlook.com
- ([40.107.4.127]:28816 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
+ id 1kfmcv-0007kX-8x
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:17:41 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:32614
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kfmbn-000680-A8; Thu, 19 Nov 2020 11:16:33 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ks3cKNBddcUhpdp8Vsfd5RMIygFCk5tum7ZR1AoVLG4KSUYcrYGR3pVbfmkqnx7pwoOpDNowazWM3vkRedGgKW4QBwWd8SRfNsXrx3nrHJrI0BGlcY8GRCi5DbTF+JiEm14pY8D8d5KDn18lGiZ+UnE1WviEpOGikZaLBhLB9I094yQUQu0r7EfVh+Iqfo7t0gzdztlT/s6qFo1sHNLHxQz/QmswZSEoHDGyzmjUA8rulSyD5MpJMnPN0lajb3wM3DqqbU921lIXvWtNgDyvjOTW1IAwGZkdEN6jFNlaRV+fbzlIpmz2SsD0T6OuOZxcIw7S1QQdDmfKHtsILS4sWQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=m58BDGCWLzGIV146xVSBKZnsPPgi5pnGkzSzBqDoA8Y=;
- b=je4jPyFWoyNFjKqXl7Vgw5Rnj4AxexOm4xaCzOhtw7eOZUZ9DREcDFwEOxX0LpVnHEaIobbDcK9NEpCmQD2MX0JW2bwvh6nJOJaK+vUss7/AJU2VHlr9K74BJOw6gKbklRf2/iH+0S+CNjhVjRbrrMdCwmVTncoqam5NROaXVbjcPT6/GbMOjab3PJt/6e4gyBHE9WV1uBQZCWIX90RDxkcKa2TM9R/Mnj0/yS2VQSX66g1TE6LGjVa8MmC3jcuT2JR1f8qTlF8Qbdp4MKYa/E8Mfs3Mnh6IeSyeRuWVxy10QIZ2mcXKRF+KTda+q50vEuBkpAoYyxyB6H54ydoNUg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=m58BDGCWLzGIV146xVSBKZnsPPgi5pnGkzSzBqDoA8Y=;
- b=LvHbifnUEIBYwjh3549pub+wFlsWa7f4SsokeCeDWWebG66ozMDIDdKwUzafDiZHakQo3F9Bsz5/Qqek6gmjzzsEXRbdtzaUj/WiDT5gIwCvg4wdYYPaiTCIQ/okjAYykuMKtn2hoex2ygrdsSQedLQraJqbb39YswPbxQxdrZA=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM5PR0802MB2530.eurprd08.prod.outlook.com (2603:10a6:203:98::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.22; Thu, 19 Nov
- 2020 16:16:27 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::fd02:1330:f620:1243]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::fd02:1330:f620:1243%9]) with mapi id 15.20.3589.021; Thu, 19 Nov 2020
- 16:16:27 +0000
-Subject: Re: iotest 030 still occasionally intermittently failing
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Peter Maydell <peter.maydell@linaro.org>, Alberto Garcia <berto@igalia.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
-References: <CAFEAcA8OqZe9MYmp=B023bTqatP-KcoGsh_vQ4OZ=a=jh09wcQ@mail.gmail.com>
- <w51tutpp5nr.fsf@maestria.local.igalia.com>
- <CAFEAcA-Me4jw5TPYCHkJSX=9bAw0kzTMadyMM3YabGFNu+swkg@mail.gmail.com>
- <a058f32e-402b-d269-a6a2-5c30e28abc4f@virtuozzo.com>
-Message-ID: <e04cd5c0-6975-48af-9efa-2a2e16fa6605@virtuozzo.com>
-Date: Thu, 19 Nov 2020 19:16:25 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.3
-In-Reply-To: <a058f32e-402b-d269-a6a2-5c30e28abc4f@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
+ id 1kfmcp-0006So-EQ
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 11:17:40 -0500
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0AJGGVbT073388
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 11:17:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=7TbTVUG/qpHSRFAkVpqYo0k0ZUu5HCswh2C1jrajhac=;
+ b=CCSenUWxR7YP4AwwU/iDuGprLOxwkcH9zsTmYtA+Z2r2JxvjJd+x1yyB4++Fi5AabGqK
+ NKaKz0px3OXqS33kQQIKShN5UPkrY0mdZt/XS19jTmhdALoRAWs/o4HUVGFQx6qL9p/y
+ 4IUmjAKrUHaWurAS2zm7xDlPATauGVz9s3sHPtYh9xCTspJIBs+4lqaCqTo8ckdtWAbk
+ 0pTPK2gFmN3a62d8cyJQG1UZZCYcZuHu79irOx1SkllOsfSiOhPoKgcwWxJhD7iInt0j
+ NkbZkY5uNQS8FNActhoCW6yapfJikuQL8eoi3lraYHXWulL894PzvTrIBrdSdnAGW/cH mA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 34wu7723wp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 11:17:20 -0500
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0AJGGfL6075213
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 11:17:08 -0500
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 34wu7723f4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 19 Nov 2020 11:17:08 -0500
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0AJG7VTp007984;
+ Thu, 19 Nov 2020 16:16:56 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com
+ (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+ by ppma03dal.us.ibm.com with ESMTP id 34w26349m8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 19 Nov 2020 16:16:55 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0AJGGsO810158808
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 19 Nov 2020 16:16:54 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 948FA6A04F;
+ Thu, 19 Nov 2020 16:16:54 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0611E6A047;
+ Thu, 19 Nov 2020 16:16:53 +0000 (GMT)
+Received: from [9.65.247.165] (unknown [9.65.247.165])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu, 19 Nov 2020 16:16:53 +0000 (GMT)
+Subject: Re: [PATCH-for-5.2? v3 3/9] hw/usb: reorder fields in UASStatus
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20201105221905.1350-1-dbuono@linux.vnet.ibm.com>
+ <20201105221905.1350-4-dbuono@linux.vnet.ibm.com>
+ <4677dea1-bdd2-0095-e75c-2ca6d9be0cb9@redhat.com>
+From: Daniele Buono <dbuono@linux.vnet.ibm.com>
+Message-ID: <afff8e95-ac1f-552a-c8b3-ff008947bf98@linux.vnet.ibm.com>
+Date: Thu, 19 Nov 2020 11:16:52 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.1
+MIME-Version: 1.0
+In-Reply-To: <4677dea1-bdd2-0095-e75c-2ca6d9be0cb9@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [185.215.60.89]
-X-ClientProxiedBy: AM8P192CA0013.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:20b:21b::18) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.89) by
- AM8P192CA0013.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:21b::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3589.20 via Frontend Transport; Thu, 19 Nov 2020 16:16:26 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a65c1705-7a29-4235-0215-08d88ca67776
-X-MS-TrafficTypeDiagnostic: AM5PR0802MB2530:
-X-Microsoft-Antispam-PRVS: <AM5PR0802MB25307EB5839FCECD416F2778C1E00@AM5PR0802MB2530.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: N2t280m8wLSYDR0Yf0NpcT+VK8lw3UhJYMUyiTAI8xut/AAGU+21uDdpHWkoqWW7Kiatc0/V22pylM0Q0w7lClobGclypLRidM/CwNe3FhCJ2jvZReHMF5BRAS3pcasSVDxU1kYSS45zIN2jNt29HH9z01fd6wSL83NAV04PgUCe1KY+1ZIVSEcEiDIyXXlvDNngFZncleK1WCfdpTpDDuQov8Piqcd4xuz9kGM1LOenHPYg4tC2BWJlZM6/JL/KD315Ipe+8ULSlQvE+ML8c8/MzmpX47ATsbsAn9F6zW0Muj/ZH+Fhs07PDxXed6b1zVkzXpRprY95z3Cv+UfhwInOC0yxRCnoGBtdsc5wSa3x4BymF1UgyjiViyxiJkkR
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(39830400003)(136003)(376002)(396003)(346002)(16526019)(186003)(5660300002)(110136005)(66946007)(66476007)(16576012)(26005)(86362001)(36756003)(4326008)(31696002)(316002)(2616005)(31686004)(6486002)(54906003)(83380400001)(66556008)(52116002)(478600001)(956004)(8676002)(8936002)(2906002)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: 6Ru36mCPfLVqH2Wej2hZfD3d7rPv2qXRkm6lTyPKgErlyjE1jkXIAIODe48f5Zyv1/a6KlOeIU/AeJzpp3Qwwrcw2h5d/isa+hxoMJUX7igeKPjdq2+pH1zZVhkoWyiLo7M7v/uNX1DWVCAGx7kYjYSo3kMNeDRFChhcKYKtYLDG/TxdjzwYuTxQTnlkJg0Np5y0qDOF9mPLh+ptpVkR0g/FJ14psgpYFdSvX6wwM8wsCzPRzLsQMEMlK5mSU2fG2yBCCStJlvqp/F+OCvHBv3us2VYfyXa3G0YREtkaxlx7uC9zJO3gzKEEfNA9eUv/zqi0rUbF/vipfL9ezTZEAPk9FD3HqT2Aa0fT2PiVANLNSN8ACc7gh+yn1I1jqy7LlcTiHWPTODdjJqlgFUdhEEHrUJlwmNV+hHA9M98uhTxkvj4pud4qdOf0smDwYpXGm9Xd27bncNrwB0Ee/dvHkbUcvWBqdrSESLzKO0I4SiY507VdkPf3B1FuxAbg3px6JdbhRv1t8ylQKMQwqE8+6nw1m2lEx/eIybMNd5r1saEljlSAQweM8FCfLwM34E359HlClfl90AY4DSvBguALSV+Q3EqGJ0f5NW7rj1E5VBmbxVa0HTpkCHkvOZAVQ1vB2mUHTP8ohjVrS1dUckqbHQ==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a65c1705-7a29-4235-0215-08d88ca67776
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2020 16:16:27.0523 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3n4KE6vnvUb7iN1LnWg6Pf2nQa/a70941Jir/sbdBC8LCTsoLVNm95B8KQwsWjFzVgVOR2JEI0/6ahQbupdq6RBwRQUwG8ze7tCT2UEEF2U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0802MB2530
-Received-SPF: pass client-ip=40.107.4.127;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-DB5-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 11:16:28
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
+ definitions=2020-11-19_09:2020-11-19,
+ 2020-11-19 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ impostorscore=0 clxscore=1015 priorityscore=1501 bulkscore=0 adultscore=0
+ malwarescore=0 phishscore=0 suspectscore=2 lowpriorityscore=0 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011190116
+Received-SPF: none client-ip=148.163.158.5;
+ envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/19 09:24:07
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -118,74 +118,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-19.11.2020 19:11, Vladimir Sementsov-Ogievskiy wrote:
-> 16.11.2020 20:59, Peter Maydell wrote:
->> On Mon, 16 Nov 2020 at 17:34, Alberto Garcia <berto@igalia.com> wrote:
->>> Do you know if there is a core dump or stack trace available ?
->>
->> Nope, sorry. What you get is what the 'vm-build-netbsd' etc targets
->> produce, so if you want more diagnostics on failures you have to
->> arrange for the test harness to produce them...
->>
->> thanks
->> -- PMM
->>
-> 
-> Hi!
-> 
-> After some iterations I've reproduced on SIGABRT:
-> 
-> #0  0x00007feb701bae35 in raise () at /lib64/libc.so.6
-> #1  0x00007feb701a5895 in abort () at /lib64/libc.so.6
-> #2  0x00007feb701a5769 in _nl_load_domain.cold () at /lib64/libc.so.6
-> #3  0x00007feb701b3566 in annobin_assert.c_end () at /lib64/libc.so.6
-> #4  0x000055a93374f7d3 in bdrv_replace_child (child=0x55a9363a3a00, new_bs=0x0) at ../block.c:2648
-> #5  0x000055a93374fd5a in bdrv_detach_child (child=0x55a9363a3a00) at ../block.c:2777
-> #6  0x000055a93374fd9c in bdrv_root_unref_child (child=0x55a9363a3a00) at ../block.c:2789
-> #7  0x000055a933722e8b in block_job_remove_all_bdrv (job=0x55a935f4f4b0) at ../blockjob.c:191
-> #8  0x000055a933722bb2 in block_job_free (job=0x55a935f4f4b0) at ../blockjob.c:88
-> #9  0x000055a9337755fa in job_unref (job=0x55a935f4f4b0) at ../job.c:380
-> #10 0x000055a9337767a6 in job_exit (opaque=0x55a935f4f4b0) at ../job.c:894
-> #11 0x000055a93386037e in aio_bh_call (bh=0x55a9352e16b0) at ../util/async.c:136
-> #12 0x000055a933860488 in aio_bh_poll (ctx=0x55a9351366f0) at ../util/async.c:164
-> #13 0x000055a93383151e in aio_dispatch (ctx=0x55a9351366f0) at ../util/aio-posix.c:381
-> #14 0x000055a9338608b9 in aio_ctx_dispatch (source=0x55a9351366f0, callback=0x0, user_data=0x0)
->      at ../util/async.c:306
-> #15 0x00007feb71349ecd in g_main_context_dispatch () at /lib64/libglib-2.0.so.0
-> #16 0x000055a933840300 in glib_pollfds_poll () at ../util/main-loop.c:221
-> #17 0x000055a93384037a in os_host_main_loop_wait (timeout=0) at ../util/main-loop.c:244
-> #18 0x000055a933840482 in main_loop_wait (nonblocking=0) at ../util/main-loop.c:520
-> #19 0x000055a933603979 in qemu_main_loop () at ../softmmu/vl.c:1678
-> #20 0x000055a933190046 in main (argc=20, argv=0x7ffd48c31138, envp=0x7ffd48c311e0)
-> 
-> (gdb) fr 4
-> #4  0x000055a93374f7d3 in bdrv_replace_child (child=0x55a9363a3a00, new_bs=0x0) at ../block.c:2648
-> 2648            assert(tighten_restrictions == false);
-> (gdb) list
-> 2643            int ret;
-> 2644
-> 2645            bdrv_get_cumulative_perm(old_bs, &perm, &shared_perm);
-> 2646            ret = bdrv_check_perm(old_bs, NULL, perm, shared_perm, NULL,
-> 2647                                  &tighten_restrictions, NULL);
-> 2648            assert(tighten_restrictions == false);
-> 2649            if (ret < 0) {
-> 2650                /* We only tried to loosen restrictions, so errors are not fatal */
-> 2651                bdrv_abort_perm_update(old_bs);
-> 2652            } else {
-> (gdb) p tighten_restrictions
-> $1 = true
-> 
-> 
-> Hm. it seems that the problem is that tighten_restrictions is not initialized. I'll send a patch.
-> 
+Hi Philippe,
 
-wrong, bdrv_check_perm initializes it correctly.. I'll look more careful.
+On 11/6/2020 9:28 AM, Philippe Mathieu-Daudé wrote:
+> On 11/5/20 11:18 PM, Daniele Buono wrote:
+>> The UASStatus data structure has a variable sized field inside of type uas_iu,
+>> that however is not placed at the end of the data structure.
+>>
+>> This placement triggers a warning with clang 11, and while not a bug right now,
+>> (the status is never a uas_iu_command, which is the variable-sized case),
+>> it could become one in the future.
+> 
+> The problem is uas_iu_command::add_cdb, indeed.
+> 
+>>
+>> ../qemu-base/hw/usb/dev-uas.c:157:31: error: field 'status' with variable sized type 'uas_iu' not at the end of a struct or class is a GNU extension [-Werror,-Wgnu-variable-sized-type-not-at-end]
+> 
+> If possible remove the "../qemu-base/" as it does not provide
+> any useful information.
+> 
+Sure, will do at the next cycle
+>>      uas_iu                    status;
+>>                                ^
+>> 1 error generated.
+>>
+>> Fix this by moving uas_iu at the end of the struct
+> 
+> Your patch silents the warning, but the problem is the same.
+> It would be safer/cleaner to make 'status' a pointer on the heap IMO.
 
+I'm thinking of moving 'status' in a pointer with the following code
+changes:
 
--- 
-Best regards,
-Vladimir
+UASStatus is allocated in `usb_uas_alloc_status`, which currently does
+not take a type or size for the union field. I'm thinking of adding
+requested size for the status, like this:
+
+static UASStatus *usb_uas_alloc_status(UASDevice *uas, uint8_t id,
+uint16_t tag, size_t size);
+
+and the common call would be
+usb_uas_alloc_status([...],sizeof(uas_iu));
+
+Also we'd need a double free when the object is freed. Right now
+it's handled in the code when the object is not used anymore with a
+`g_free(st);`.
+I'd have to replace it with
+`g_free(st->status); g_free(st);`. Would you suggest doing it place
+or by adding a usb_uas_dealloc_status() function?
+
+---
+
+However, I am confused by the use of that variable-lenght field.
+I'm looking at what seems the only place where a command is
+parsed, in `usb_uas_handle_data`.
+
+uas_iu iu;
+[...]
+     switch (p->ep->nr) {
+     case UAS_PIPE_ID_COMMAND:
+         length = MIN(sizeof(iu), p->iov.size);
+         usb_packet_copy(p, &iu, length);
+         [...]
+         break;
+[...]
+
+It would seem that the copy is limited to at most sizeof(uas_iu),
+so even if we had anything in add_cdb[], that wouldn't be copied
+here?
+
+Is this intended?
+
+> 
+>>
+>> Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
+>> ---
+>>   hw/usb/dev-uas.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/hw/usb/dev-uas.c b/hw/usb/dev-uas.c
+>> index cec071d96c..5ef3f4fec9 100644
+>> --- a/hw/usb/dev-uas.c
+>> +++ b/hw/usb/dev-uas.c
+>> @@ -154,9 +154,9 @@ struct UASRequest {
+>>   
+>>   struct UASStatus {
+>>       uint32_t                  stream;
+>> -    uas_iu                    status;
+>>       uint32_t                  length;
+>>       QTAILQ_ENTRY(UASStatus)   next;
+>> +    uas_iu                    status;
+>>   };
+>>   
+>>   /* --------------------------------------------------------------------- */
+>>
+> 
 
