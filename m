@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52F2E2BAF52
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 16:53:35 +0100 (CET)
-Received: from localhost ([::1]:35384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11F422BAF43
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 16:51:29 +0100 (CET)
+Received: from localhost ([::1]:59362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg8j8-0005nY-EB
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 10:53:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51806)
+	id 1kg8h6-0003ur-30
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 10:51:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kg8bq-0006Mc-92; Fri, 20 Nov 2020 10:46:03 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:33372)
+ id 1kg8bq-0006Me-B3; Fri, 20 Nov 2020 10:46:03 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:36245)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kg8bf-0002iT-Gw; Fri, 20 Nov 2020 10:46:00 -0500
-Received: by mail-wr1-x432.google.com with SMTP id u12so10542947wrt.0;
- Fri, 20 Nov 2020 07:45:49 -0800 (PST)
+ id 1kg8bl-0002lG-3d; Fri, 20 Nov 2020 10:46:01 -0500
+Received: by mail-wm1-x331.google.com with SMTP id a65so10208170wme.1;
+ Fri, 20 Nov 2020 07:45:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Q7NKblbu0UiP841GONJz4Xht9mnqSHQ7rVBHewoP0u0=;
- b=LPNCHWrJosgVyobhk/Q8prGZcpIodUW0vpWdSO4DqoedRcVifKeVgQ6sIAG+aQjqvb
- xVSD9K5Cu/CINaho9+nU0DcwW7NNUR8nH3VFeM0Oj8+c/yrFAkElHOf5HuXlhcv8K00z
- wLLSjZCnV4l2KA+YSWhlhEixKj+bl5ZcIXZDPuybN4MLGROOTTqZLJ1YD5Pwe5kbBHrH
- lCJsJhAkimnBPeLOPQE6KSKx2og8Axpq0819CIINlP5Vw56aKo5dmFI9vGzduzPOn3Lo
- 2YuxxN4/YfBb9x1mYDxuXAauYf1uqv9Bp7QRQukMSUrwY+DgfCYkEf3tF/1jPYNJsZGy
- XP2w==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=emCLnc/OuqxeNdsEYCGX+2nYKHJ2SF/H7wX2h0SEpds=;
+ b=pG7PWRKHJfRfImJnvBjuVULSdBfELwegiQEzvPGjI7Ey6oS/+dZB6Ox4oyJuDtVIhq
+ vagPZKWCuPTQ0t3wHWv/+gBZi1+zOZJ7HG5sqnHSTXmPzuZN5D9LVuncUGp4YMSF2jk7
+ v2W/xYIAhntDVY/UUw3NxsGQP/sM2rZ/KAeiPGpQPkjGXJO5Zhj1k1CS2jCQjdMmQ8ZZ
+ eCyHce7P7zZde8L0o1iXZesl0LgaTQJxczTw0UGlNaKCqDlLIpc8iij1SxiwIWKLHMnr
+ pYU6i7a7QszhshRr5zOV6Ac24ykMTo0bD4luwNzlTAWxTMJKEAkGK1gDfmuQqC0ufMbg
+ 9SyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=Q7NKblbu0UiP841GONJz4Xht9mnqSHQ7rVBHewoP0u0=;
- b=WW5CwU18kzG5WiiH9Y5owremMHvxxpkFquEvkeVafgBFYAV34lfmoOxyHxrPsDrxwH
- gEICupK2UWZbqGTkQpTeaXDvjpAUlAKDCQCj8ryT1VZK/EMPTj5D/QEg3IkIwLjX/5sw
- wZuw+6ni8afk+QXCI2T2Vfrr8ujQv82G2dAdKdx0/wXuYBMvAB+uYV6xW/IDGaooyE9D
- TTLG3djw0fUuiAti+tR8xvDMMhSleBX7Q6erRc7YUr0gSyg7UzCBg/DNDm5/ALJbHovB
- wgbAu1xuvVmYfFTBF3hGdq18BCJJVf3eIdf7773vBjkJtXAhR4ICt1kl+t+PTygrPFlM
- RivA==
-X-Gm-Message-State: AOAM533T24notixBRRXHwhpcDbDmowxk3Xa/YlLJtZIp1j5xNp3n3/d0
- sbeodadBUxkBx8gZSSSdgNALfdE5Grw=
-X-Google-Smtp-Source: ABdhPJxj4u+2P95EOjg7mNTNfseY4P2vPIgcieWypDrES6QrKM1I2ItzxRNX58vtkJFjAfMROQVuRQ==
-X-Received: by 2002:a5d:4a07:: with SMTP id m7mr16502417wrq.316.1605887147680; 
- Fri, 20 Nov 2020 07:45:47 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=emCLnc/OuqxeNdsEYCGX+2nYKHJ2SF/H7wX2h0SEpds=;
+ b=XRBsIg3oPDHX4EXXTxha2c4kNl3WbTp2uieBMzW2RyuPUdmQr2PfmXtqH6JblC3z4D
+ sPcz+IgTztmJoczxrIkn9Q7uzEb5/jzjnyjIZn0BTi9PGnz5+Przt+4kHATmk8b7/mkc
+ s4bj01xuOsIUe5HlPCMH88L8+OVGMZPbtG6GtdO/3iaifgnwaXRdwcYBwM1EPWNmoW8t
+ Ks9zA+vaDEDP7+WgE4qeLK3CH8XOgEWpPEKPtcNzIsIcFOXvwDB0gDYkPtvyhocWdxYE
+ 0jAduYbRmWNlrYkaVRIRvRCARPKFvRj1zZWS5Va2qjOLxqWyEsOkPIsvpZp7d5Y/leVj
+ TjIg==
+X-Gm-Message-State: AOAM533FJmkIFJp5wEBTLYTUl+x9ZvYvamKfQWsN1wwic8c/tfHBg1VZ
+ 6QDIFUhJNzVX1IwCr+DktHYkhnjnPVc=
+X-Google-Smtp-Source: ABdhPJxC0ueqzDgBXTZXRttwbVH+SQ7sWJdlRDHjacMT35VjXrqI1unNy7HAP3TQREy5PNZ4scCprw==
+X-Received: by 2002:a7b:ce05:: with SMTP id m5mr11513752wmc.16.1605887152561; 
+ Fri, 20 Nov 2020 07:45:52 -0800 (PST)
 Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id y203sm5456551wmg.9.2020.11.20.07.45.46
+ by smtp.gmail.com with ESMTPSA id w11sm4942109wmg.36.2020.11.20.07.45.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Nov 2020 07:45:46 -0800 (PST)
+ Fri, 20 Nov 2020 07:45:51 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2 0/6] MAINTAINERS: Fix docs/system/arm/ entries
-Date: Fri, 20 Nov 2020 16:45:39 +0100
-Message-Id: <20201120154545.2504625-1-f4bug@amsat.org>
+Subject: [PATCH-for-5.2 1/6] MAINTAINERS: Cover system/arm/cpu-features.rst
+ with ARM TCG CPUs
+Date: Fri, 20 Nov 2020 16:45:40 +0100
+Message-Id: <20201120154545.2504625-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201120154545.2504625-1-f4bug@amsat.org>
+References: <20201120154545.2504625-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -81,25 +84,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org,
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Correctly docs/system/arm/ rst files in MAINTAINERS.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (6):=0D
-  MAINTAINERS: Cover system/arm/cpu-features.rst with ARM TCG CPUs=0D
-  MAINTAINERS: Cover system/arm/aspeed.rst with ASPEED BMC machines=0D
-  MAINTAINERS: Cover system/arm/nuvoton.rst with Nuvoton NPCM7xx=0D
-  MAINTAINERS: Fix system/arm/orangepi.rst path=0D
-  MAINTAINERS: Cover system/arm/sbsa.rst with SBSA-REF machine=0D
-  MAINTAINERS: Cover system/arm/sx1.rst with OMAP machines=0D
-=0D
- MAINTAINERS | 7 ++++++-=0D
- 1 file changed, 6 insertions(+), 1 deletion(-)=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+Cc: Alex Bennée <alex.bennee@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 1ae9fc9649b..8d7a6026b91 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -158,6 +158,7 @@ F: disas/arm.c
+ F: disas/arm-a64.cc
+ F: disas/libvixl/
+ F: docs/system/target-arm.rst
++F: docs/system/arm/cpu-features.rst
+ 
+ ARM SMMU
+ M: Eric Auger <eric.auger@redhat.com>
+-- 
+2.26.2
+
 
