@@ -2,73 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBAC62BB02D
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 17:23:38 +0100 (CET)
-Received: from localhost ([::1]:48208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03ED22BB092
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 17:30:50 +0100 (CET)
+Received: from localhost ([::1]:41088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg9CD-00042X-SD
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 11:23:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32940)
+	id 1kg9JA-0004eE-Vo
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 11:30:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kg98N-0007yF-Km
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:19:40 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42442)
+ id 1kg99l-0001o4-5O
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:21:05 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:44281)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kg98L-0005DW-Fn
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:19:39 -0500
-Received: by mail-wr1-x444.google.com with SMTP id l1so10572111wrb.9
- for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 08:19:36 -0800 (PST)
+ id 1kg99j-0005aV-Dx
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:21:04 -0500
+Received: by mail-wr1-x443.google.com with SMTP id c17so10555597wrc.11
+ for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 08:21:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6h63TJEE3VuOKTgE2tz+nb1wD/cQ4WmCS4pSnpNEH5Q=;
- b=uH27zsQ/tgY+ASSTzOKiIvCMiP69AztE6PcZsUD3N7btzdzEzbWiFdlxcOA9hnbR1I
- xSCBqyo3DocYrSQJSYESL+hkXcuyjooqzmzIBFDRGxDqHspUN3I2b9iXY46wy1xwpbbG
- iTY0w3xcx02AtrLMZHgqLJ24OCRgvJ78fKTqeHfGt99w79lDSCutWebqhBJP5uGOI/P9
- wEio52JKIY0StRQAzAf5DeDJ/uKlTW14jjvl69Be4UjINPZ7amuIHfyYiNx2USG5rB51
- A4p+Bq0MIbb3aqxvCwthdQ6lMBkgTlEnibhN6xEPV8x69IjyClpj4UZ3ff4Xx7KjN7mH
- RWNQ==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=qqVSdaoa2t2ux725Ucw/DJ7DLyHpNKTEUGBbMeeZ+uc=;
+ b=As9NCOV3l7x+J1nAxOjrTrGPACKqom5uEfKyIf10SWMraqy0eVCXBMatJyhJAVs4K+
+ EJm8xCd3m2A4hoFGeqMdkMYQBrUhdJoVWMwNL2uiqZIJfs39aqyQeRVeKNoGljoPOnkD
+ ays7LYwcCGjQVfqd778VOT3XsLrVGoepPrxkoXZ/uUHPEz+LPbSDqQtY9bRMsEH2a2aL
+ MP9xBc5Fbnw+EOkrI/cwLSQjEsqhlGL0yWGlwn5XyML+DOGxsTaW1pDzlUyzUT5Xc1AS
+ pc/Fth8C+MqLzQNe0H2cXHKDSE7Gk/pT/Jn9NQGx2YOywVeb1cHRguvSVfcsIOrzDrQp
+ iYRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=6h63TJEE3VuOKTgE2tz+nb1wD/cQ4WmCS4pSnpNEH5Q=;
- b=EqVynNW/igbzORXI41oNL9aSKptOXgOIC2WaRYjOLfnKbYaD6sQBY7awKla80f3ebt
- QuOPlIVK1MV05l2echABlORjrlT4U7A9rYJLlECsff/20gmNbiob/qMHW2H+AqR62Tgn
- whL6d4NMQoRa2/lmMbHqyx80PzV2vh9MIlX5YmkfARjmZwSQLx/96TCQu5CSyTRlHv2M
- T4P0GL90ee3Qix15i+e+RGrCE8+/BjC+WUNdS8KBHfa2c1b0kn8NVk9vIrb+tpAcQ0J9
- aKLpLKF1ea/ne6dIaq49Cy9nZwL5DdWw8WCwsD+5ejJedOn1A7KylI8M+6TALDH2/xnp
- xwYQ==
-X-Gm-Message-State: AOAM5320Wc/zqO4CLW+SxKFQ/hvdGqh+UxdUN6A0ksDkd6mqPuM9RjV6
- MmWDnltRQFO//OG+kPNny1AWViD5H+U=
-X-Google-Smtp-Source: ABdhPJyapvxIGHOl7HYgX0RMfCiHbdQsFtm+zr7rNb2jjrmWRnd5iFum5LvybSWwD/nBy4trkWlunQ==
-X-Received: by 2002:adf:916e:: with SMTP id j101mr10401256wrj.55.1605889175700; 
- Fri, 20 Nov 2020 08:19:35 -0800 (PST)
-Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=qqVSdaoa2t2ux725Ucw/DJ7DLyHpNKTEUGBbMeeZ+uc=;
+ b=jf786xWjhVYeipZEuB+4CNLe3V2zf62glMNydOf/7rTKFCFk2xAKWZWXRhz5dKqGXW
+ kofwu0tuUK9tij7o4HAgfkZ+qS1r/Y5VDgN/qk/bBQQwocb6T70BAtnBe31Jb9Pl0Z5s
+ 5j1l5/UkaTM2GwhBc7QBvNuIZ3bvGVbAxArKiy6NpVIvvG+wfr0pF8Bpe/qu3pOZ7xzA
+ 7fvDHHNF+cyqNQmg8eC7sFP9SaeVM9z7r+7smb3HbY/tnwt9UWSb7jNOsOQ/nvW4WEjZ
+ 3jmt3i8l2wmPavhJpwW44vq+gdRoaOd7LJGKXVvEM4ieW03adt4xyZZZv014d8IzhTdn
+ rHjg==
+X-Gm-Message-State: AOAM530vuadSMufpp8DezpwayGq6PkbAclve39QXkRF4+65wW6dNkHRm
+ LZ37iaHUD4s+8AqY/KxZKO8/Id+mz+U=
+X-Google-Smtp-Source: ABdhPJxCioSJ32sJqdQLJz2r34LvaKmIMhxWUTodvk5na0/IZMB5bsgeY3ob4UjBwK8XyjOT5nOM1w==
+X-Received: by 2002:a5d:694f:: with SMTP id r15mr16602729wrw.165.1605889261721; 
+ Fri, 20 Nov 2020 08:21:01 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id w10sm5714691wra.34.2020.11.20.08.19.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Nov 2020 08:19:34 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2?] hw/char/serial: Clean up unnecessary code
-Date: Fri, 20 Nov 2020 17:19:33 +0100
-Message-Id: <20201120161933.2514089-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
+ by smtp.gmail.com with ESMTPSA id k20sm4928850wmi.15.2020.11.20.08.21.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 20 Nov 2020 08:21:01 -0800 (PST)
+Subject: Re: [PATCH v5 7/7] block: check availablity for preadv/pwritev on mac
+To: Joelle van Dyne <j@getutm.app>
+References: <20201108232425.1705-1-j@getutm.app>
+ <20201108232425.1705-8-j@getutm.app>
+ <abb6c2d9-d375-1963-e0a0-627636643860@amsat.org>
+ <CA+E+eSC0hj=hOhpLForn9KQw39-ZcOMRRG-D__iYDneqDOcZ3g@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <1a1dab52-fb82-64e7-0067-7957aae37281@amsat.org>
+Date: Fri, 20 Nov 2020 17:20:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <CA+E+eSC0hj=hOhpLForn9KQw39-ZcOMRRG-D__iYDneqDOcZ3g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
 X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -83,81 +91,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bug 1904331 <1904331@bugs.launchpad.net>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Jonathan D . Belanger" <jbelanger1@rochester.rr.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since commit 5ec3a23e6c8 ("serial: convert PIO to new memory
-api read/write") we don't need to worry about accesses bigger
-than 8-bit. Use the extract()/deposit() functions to access
-the correct part of the 16-bit 'divider' register.
+On 11/20/20 4:49 PM, Joelle van Dyne wrote:
+> No, because if you build on a macOS 11 host but try to run it on macOS
+> 10.15 then it will crash.
 
-Reported-by: Jonathan D. Belanger <jbelanger1@rochester.rr.com>
-Buglink: https://bugs.launchpad.net/qemu/+bug/1904331
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-Cc: Bug 1904331 <1904331@bugs.launchpad.net>
----
- hw/char/serial.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+I'm not asking to move the check to configure/build time,
+but to do it only once at runtime...
 
-diff --git a/hw/char/serial.c b/hw/char/serial.c
-index 97f71879ff2..62c627f486f 100644
---- a/hw/char/serial.c
-+++ b/hw/char/serial.c
-@@ -24,6 +24,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/bitops.h"
- #include "hw/char/serial.h"
- #include "hw/irq.h"
- #include "migration/vmstate.h"
-@@ -338,11 +339,7 @@ static void serial_ioport_write(void *opaque, hwaddr addr, uint64_t val,
-     default:
-     case 0:
-         if (s->lcr & UART_LCR_DLAB) {
--            if (size == 1) {
--                s->divider = (s->divider & 0xff00) | val;
--            } else {
--                s->divider = val;
--            }
-+            s->divider = deposit32(s->divider, 8 * addr, 8, val);
-             serial_update_parameters(s);
-         } else {
-             s->thr = (uint8_t) val;
-@@ -364,7 +361,7 @@ static void serial_ioport_write(void *opaque, hwaddr addr, uint64_t val,
-         break;
-     case 1:
-         if (s->lcr & UART_LCR_DLAB) {
--            s->divider = (s->divider & 0x00ff) | (val << 8);
-+            s->divider = deposit32(s->divider, 8 * addr, 8, val);
-             serial_update_parameters(s);
-         } else {
-             uint8_t changed = (s->ier ^ val) & 0x0f;
-@@ -478,7 +475,7 @@ static uint64_t serial_ioport_read(void *opaque, hwaddr addr, unsigned size)
-     default:
-     case 0:
-         if (s->lcr & UART_LCR_DLAB) {
--            ret = s->divider & 0xff;
-+            ret = extract16(s->divider, 8 * addr, 8);
-         } else {
-             if(s->fcr & UART_FCR_FE) {
-                 ret = fifo8_is_empty(&s->recv_fifo) ?
-@@ -502,7 +499,7 @@ static uint64_t serial_ioport_read(void *opaque, hwaddr addr, unsigned size)
-         break;
-     case 1:
-         if (s->lcr & UART_LCR_DLAB) {
--            ret = (s->divider >> 8) & 0xff;
-+            ret = extract16(s->divider, 8 * addr, 8);
-         } else {
-             ret = s->ier;
-         }
--- 
-2.26.2
-
+> 
+> -j
+> 
+> On Fri, Nov 20, 2020 at 4:32 AM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> On 11/9/20 12:24 AM, Joelle van Dyne wrote:
+>>> macOS 11/iOS 14 added preadv/pwritev APIs. Due to weak linking, configure
+>>> will succeed with CONFIG_PREADV even when targeting a lower OS version. We
+>>> therefore need to check at run time if we can actually use these APIs.
+>>>
+>>> Signed-off-by: Joelle van Dyne <j@getutm.app>
+>>> ---
+>>>  block/file-posix.c | 12 ++++++++++++
+>>>  1 file changed, 12 insertions(+)
+>>>
+>>> diff --git a/block/file-posix.c b/block/file-posix.c
+>>> index d83219df55..a9d69746a0 100644
+>>> --- a/block/file-posix.c
+>>> +++ b/block/file-posix.c
+>>> @@ -1394,12 +1394,24 @@ static bool preadv_present = true;
+>>>  static ssize_t
+>>>  qemu_preadv(int fd, const struct iovec *iov, int nr_iov, off_t offset)
+>>>  {
+>>> +#ifdef CONFIG_DARWIN /* preadv introduced in macOS 11 */
+>>> +    if (!__builtin_available(macOS 11, iOS 14, watchOS 7, tvOS 14, *)) {
+>>
+>> Can we change the CONFIG_PREADV ifdef'ry to run this check once
+>> on macOS 11?
+>>
+>>> +        preadv_present = false;
+>>> +        return -ENOSYS;
+>>> +    } else
+>>> +#endif
+>>>      return preadv(fd, iov, nr_iov, offset);
+>>>  }
+>>>
+>>>  static ssize_t
+>>>  qemu_pwritev(int fd, const struct iovec *iov, int nr_iov, off_t offset)
+>>>  {
+>>> +#ifdef CONFIG_DARWIN /* pwritev introduced in macOS 11 */
+>>> +    if (!__builtin_available(macOS 11, iOS 14, watchOS 7, tvOS 14, *)) {
+>>> +        preadv_present = false;
+>>> +        return -ENOSYS;
+>>> +    } else
+>>> +#endif
+>>>      return pwritev(fd, iov, nr_iov, offset);
+>>>  }
+>>>
+>>>
+>>
+> 
 
