@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25EE32BB062
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 17:28:46 +0100 (CET)
-Received: from localhost ([::1]:60866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBAC62BB02D
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 17:23:38 +0100 (CET)
+Received: from localhost ([::1]:48208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg9HB-00018U-1c
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 11:28:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32970)
+	id 1kg9CD-00042X-SD
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 11:23:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kg98T-0007zr-2L
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:19:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25541)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kg98L-0005DG-K5
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:19:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605889175;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nxQjDlrH26zAGIYAerqsA7p/2/BkVZ9TYxONaukFpto=;
- b=i/8onI+iqJOFikntI9uaaFiTdLlmNXwM9n9hriCwgx+WejCJ3cklyJOLRN15qLlooOivDN
- Gc1hiuIKm++r395IoEVQu1mVK2x12K3YT8LbartkMVElxhST/Z9VdyS1HxBwlB2JJBn2AF
- g/cRfFRK6K3AYkmHjUwLomryqYeai0E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-250-z1rO9EeFPJyLEhotFSsPrA-1; Fri, 20 Nov 2020 11:19:33 -0500
-X-MC-Unique: z1rO9EeFPJyLEhotFSsPrA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BA278145F1
- for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 16:19:32 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3B3C15C233;
- Fri, 20 Nov 2020 16:19:29 +0000 (UTC)
-Date: Fri, 20 Nov 2020 17:19:27 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [RFC PATCH v2 00/37] cleanup qemu_init and make sense of
- command line processing
-Message-ID: <20201120171927.3179568e@redhat.com>
-In-Reply-To: <13f14d6c-e52a-390c-7940-9df2e220113e@redhat.com>
-References: <20201027182144.3315885-1-pbonzini@redhat.com>
- <20201102165756.69540720@redhat.com>
- <6c08fbaa-57aa-b2da-c90a-6b53f628806a@redhat.com>
- <20201103135735.029c9b6d@redhat.com>
- <13f14d6c-e52a-390c-7940-9df2e220113e@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kg98N-0007yF-Km
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:19:40 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42442)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kg98L-0005DW-Fn
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:19:39 -0500
+Received: by mail-wr1-x444.google.com with SMTP id l1so10572111wrb.9
+ for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 08:19:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6h63TJEE3VuOKTgE2tz+nb1wD/cQ4WmCS4pSnpNEH5Q=;
+ b=uH27zsQ/tgY+ASSTzOKiIvCMiP69AztE6PcZsUD3N7btzdzEzbWiFdlxcOA9hnbR1I
+ xSCBqyo3DocYrSQJSYESL+hkXcuyjooqzmzIBFDRGxDqHspUN3I2b9iXY46wy1xwpbbG
+ iTY0w3xcx02AtrLMZHgqLJ24OCRgvJ78fKTqeHfGt99w79lDSCutWebqhBJP5uGOI/P9
+ wEio52JKIY0StRQAzAf5DeDJ/uKlTW14jjvl69Be4UjINPZ7amuIHfyYiNx2USG5rB51
+ A4p+Bq0MIbb3aqxvCwthdQ6lMBkgTlEnibhN6xEPV8x69IjyClpj4UZ3ff4Xx7KjN7mH
+ RWNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=6h63TJEE3VuOKTgE2tz+nb1wD/cQ4WmCS4pSnpNEH5Q=;
+ b=EqVynNW/igbzORXI41oNL9aSKptOXgOIC2WaRYjOLfnKbYaD6sQBY7awKla80f3ebt
+ QuOPlIVK1MV05l2echABlORjrlT4U7A9rYJLlECsff/20gmNbiob/qMHW2H+AqR62Tgn
+ whL6d4NMQoRa2/lmMbHqyx80PzV2vh9MIlX5YmkfARjmZwSQLx/96TCQu5CSyTRlHv2M
+ T4P0GL90ee3Qix15i+e+RGrCE8+/BjC+WUNdS8KBHfa2c1b0kn8NVk9vIrb+tpAcQ0J9
+ aKLpLKF1ea/ne6dIaq49Cy9nZwL5DdWw8WCwsD+5ejJedOn1A7KylI8M+6TALDH2/xnp
+ xwYQ==
+X-Gm-Message-State: AOAM5320Wc/zqO4CLW+SxKFQ/hvdGqh+UxdUN6A0ksDkd6mqPuM9RjV6
+ MmWDnltRQFO//OG+kPNny1AWViD5H+U=
+X-Google-Smtp-Source: ABdhPJyapvxIGHOl7HYgX0RMfCiHbdQsFtm+zr7rNb2jjrmWRnd5iFum5LvybSWwD/nBy4trkWlunQ==
+X-Received: by 2002:adf:916e:: with SMTP id j101mr10401256wrj.55.1605889175700; 
+ Fri, 20 Nov 2020 08:19:35 -0800 (PST)
+Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id w10sm5714691wra.34.2020.11.20.08.19.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Nov 2020 08:19:34 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH-for-5.2?] hw/char/serial: Clean up unnecessary code
+Date: Fri, 20 Nov 2020 17:19:33 +0100
+Message-Id: <20201120161933.2514089-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,41 +83,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Bug 1904331 <1904331@bugs.launchpad.net>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Jonathan D . Belanger" <jbelanger1@rochester.rr.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 3 Nov 2020 15:37:13 +0100
-Paolo Bonzini <pbonzini@redhat.com> wrote:
+Since commit 5ec3a23e6c8 ("serial: convert PIO to new memory
+api read/write") we don't need to worry about accesses bigger
+than 8-bit. Use the extract()/deposit() functions to access
+the correct part of the 16-bit 'divider' register.
 
-> On 03/11/20 13:57, Igor Mammedov wrote:
-> >> It's based on 20201026143028.3034018-1-pbonzini@redhat.com (which you
-> >> should be able to get through patchew).  
-> > Not sure what you mean and how to do that.
-> > Is it possible to share v2 as a git tree somewhere?  
-> 
-> I pushed it to for-6.0 on my gitlab repo.  There's a lot more stuff in
-> the branch, but these patches are at the top.
+Reported-by: Jonathan D. Belanger <jbelanger1@rochester.rr.com>
+Buglink: https://bugs.launchpad.net/qemu/+bug/1904331
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+Cc: Bug 1904331 <1904331@bugs.launchpad.net>
+---
+ hw/char/serial.c | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
 
-had to use temporary fixup, to make build pass and fix '-device help' crash
-with your branch. (upstream master doesn't have this problem)
-
-diff --git a/util/qemu-option.c b/util/qemu-option.c
-index 858860377b..78f3397736 100644
---- a/util/qemu-option.c
-+++ b/util/qemu-option.c
-@@ -776,6 +776,7 @@ static const char *get_opt_name_value(const char *params,
-         /* found "foo,more" */
-         if (help_wanted && starts_with_help_option(params) == len) {
-             *help_wanted = true;
-+            return NULL;
-         } else if (firstname) {
-             /* implicitly named first option */
-             *name = g_strdup(firstname);
-
-> 
-> Paolo
-> 
-> 
+diff --git a/hw/char/serial.c b/hw/char/serial.c
+index 97f71879ff2..62c627f486f 100644
+--- a/hw/char/serial.c
++++ b/hw/char/serial.c
+@@ -24,6 +24,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu/bitops.h"
+ #include "hw/char/serial.h"
+ #include "hw/irq.h"
+ #include "migration/vmstate.h"
+@@ -338,11 +339,7 @@ static void serial_ioport_write(void *opaque, hwaddr addr, uint64_t val,
+     default:
+     case 0:
+         if (s->lcr & UART_LCR_DLAB) {
+-            if (size == 1) {
+-                s->divider = (s->divider & 0xff00) | val;
+-            } else {
+-                s->divider = val;
+-            }
++            s->divider = deposit32(s->divider, 8 * addr, 8, val);
+             serial_update_parameters(s);
+         } else {
+             s->thr = (uint8_t) val;
+@@ -364,7 +361,7 @@ static void serial_ioport_write(void *opaque, hwaddr addr, uint64_t val,
+         break;
+     case 1:
+         if (s->lcr & UART_LCR_DLAB) {
+-            s->divider = (s->divider & 0x00ff) | (val << 8);
++            s->divider = deposit32(s->divider, 8 * addr, 8, val);
+             serial_update_parameters(s);
+         } else {
+             uint8_t changed = (s->ier ^ val) & 0x0f;
+@@ -478,7 +475,7 @@ static uint64_t serial_ioport_read(void *opaque, hwaddr addr, unsigned size)
+     default:
+     case 0:
+         if (s->lcr & UART_LCR_DLAB) {
+-            ret = s->divider & 0xff;
++            ret = extract16(s->divider, 8 * addr, 8);
+         } else {
+             if(s->fcr & UART_FCR_FE) {
+                 ret = fifo8_is_empty(&s->recv_fifo) ?
+@@ -502,7 +499,7 @@ static uint64_t serial_ioport_read(void *opaque, hwaddr addr, unsigned size)
+         break;
+     case 1:
+         if (s->lcr & UART_LCR_DLAB) {
+-            ret = (s->divider >> 8) & 0xff;
++            ret = extract16(s->divider, 8 * addr, 8);
+         } else {
+             ret = s->ier;
+         }
+-- 
+2.26.2
 
 
