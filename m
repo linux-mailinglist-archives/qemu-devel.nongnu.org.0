@@ -2,81 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CF1B2BB137
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 18:12:59 +0100 (CET)
-Received: from localhost ([::1]:43462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5131F2BB138
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 18:13:11 +0100 (CET)
+Received: from localhost ([::1]:44334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg9xy-0002aQ-Fp
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 12:12:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47022)
+	id 1kg9yA-0002yy-DC
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 12:13:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kg9wS-0001HX-Dt; Fri, 20 Nov 2020 12:11:24 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42787)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kg9wQ-0007KP-UA; Fri, 20 Nov 2020 12:11:24 -0500
-Received: by mail-wr1-x444.google.com with SMTP id l1so10742748wrb.9;
- Fri, 20 Nov 2020 09:11:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=iv26Ap7hnRx82/xd3BUuBa/TqmQw9eULOQHdeBaVt1w=;
- b=Ryw47rg4mE3EsyUBqiHvjsjP4bZ8kNglmnOQuxL4kEJakmAvGAkk/K+TbQdN02Uh0U
- +wH/CwXK2SGkm+KjNi15calIkPZC6qgH2dgkZ/jvuR/iwFwTw2xNuVK8ZAYmQa3DZV9V
- hqtZ+nvhUdhbakN76PO/2SOgP1et7FJwm4G7LxOzwhUehjZozZYlbxPXAlTfdq4pto7H
- tMueT7oi49y/QxIpSIw3HrvoawYRoy9cpt2aFv7ynVxHMWA0HPcVIwakOxqPZLm2c0yR
- QrjBuWdmStWI3ogl84mUD1eG7BWw2BibOb9zv06gqjBVqJEnEaG2/aDtPBPJUKUOTcwX
- oWwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=iv26Ap7hnRx82/xd3BUuBa/TqmQw9eULOQHdeBaVt1w=;
- b=ScFZ4WAosjQSp9onX0KhA8MZiTRD5Aj1BElBF3p3fy57a41Fx42FySw6LG3WLd+o0F
- aPfP6LFSmiPHayrS/abEPPuMcpOf0J6oVlWEgy6t3wN9ExfRjpa7o1WBfn5LA9oyill/
- /hRsMsrzzlV0eDeCUyJ9qB9TOZ2sqRfSJQAL1HxN86FeNJIjGrwIFPrumMr6/1l5rpKh
- s9690CQbF2H0Utv88AT/lwg39gwAC4WZWkvBCzICMZuXN+AlVI9kZly0/XF1onH5CxHR
- FxqXGL3O3ie6pkSW2B/E3+MClIlq+EUzomPPrjm2mEpnE8JT5SP59hbH8djFr9aJz8CP
- P6Aw==
-X-Gm-Message-State: AOAM530TMch7Y5VycaFGji/IvhWByMV3V+kzHANYL6Uvf7wT32lxjeWI
- kuvUpvtiZkTyFIoH/vXN0w8=
-X-Google-Smtp-Source: ABdhPJxvxsAHaWu2Z/DVcu07FuemmtD3jz+6YgRVKKEnwR9H4u7c6EscV/ApRvvTVReegPkBW9SgqA==
-X-Received: by 2002:adf:e74d:: with SMTP id c13mr18043024wrn.277.1605892281189; 
- Fri, 20 Nov 2020 09:11:21 -0800 (PST)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id h4sm5529182wrq.3.2020.11.20.09.11.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Nov 2020 09:11:20 -0800 (PST)
-Subject: Re: [RFC PATCH-for-5.2 4/4] docs/system/arm: Document the Sharp
- Zaurus SL-6000
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20201120152140.2493197-1-f4bug@amsat.org>
- <20201120152140.2493197-5-f4bug@amsat.org>
- <CAFEAcA-YV3d0u1UymuOw3+XbUz7aV8=U3T23pYFb0eaHxXz0aA@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <44fe4478-218d-5b50-da79-d1798ff7e57a@amsat.org>
-Date: Fri, 20 Nov 2020 18:11:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kg9wc-0001Zy-ML
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 12:11:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32358)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kg9wZ-0007MS-VN
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 12:11:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605892290;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FMkEre8yQjfOsDw+KhgjdYGXAnRpJe5oNnZADQH8kU8=;
+ b=PnBhyB4xE5+rPG3pnRuNBCxUi1z2T2CorPBtt0EtaXsuyUJfkXyF7F9iCXV7u3E1NxrdYz
+ mX7CtRa822y33qLBX75sN0niQIQZA9nc71X665WrmN+qEsd8qo8R33HnPX5CKfaKkbV7Jv
+ oLdo/VppgElEE4rbrcOPjPc4dja7V9c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-341-tCPr8RFNOw2z5CUwdWEtRw-1; Fri, 20 Nov 2020 12:11:27 -0500
+X-MC-Unique: tCPr8RFNOw2z5CUwdWEtRw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A36101DDF2
+ for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 17:11:26 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.32])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B2CA418993;
+ Fri, 20 Nov 2020 17:11:25 +0000 (UTC)
+Date: Fri, 20 Nov 2020 18:11:23 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 22/29] vl: initialize displays before preconfig loop
+Message-ID: <20201120181123.29ae8b33@redhat.com>
+In-Reply-To: <50b90afd-6a41-61d8-44c1-273858cd4947@redhat.com>
+References: <20201027182144.3315885-1-pbonzini@redhat.com>
+ <20201027182144.3315885-23-pbonzini@redhat.com>
+ <20201120161148.0dc2bdcf@redhat.com>
+ <85980ae2-9da0-d432-6825-85782f4beee5@redhat.com>
+ <20201120173252.743b4208@redhat.com>
+ <50b90afd-6a41-61d8-44c1-273858cd4947@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-YV3d0u1UymuOw3+XbUz7aV8=U3T23pYFb0eaHxXz0aA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,71 +83,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Libvirt <libvir-list@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Andrew Jeffery <andrew@aj.id.au>, qemu-arm <qemu-arm@nongnu.org>,
- Joel Stanley <joel@jms.id.au>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/20/20 5:52 PM, Peter Maydell wrote:
-> On Fri, 20 Nov 2020 at 15:22, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> List the 'tosa' machine with the XScale-based PDAs models.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>  docs/system/arm/xscale.rst | 13 ++++++++-----
->>  1 file changed, 8 insertions(+), 5 deletions(-)
->>
->> diff --git a/docs/system/arm/xscale.rst b/docs/system/arm/xscale.rst
->> index 89ec93e904e..2dd2f8f9a56 100644
->> --- a/docs/system/arm/xscale.rst
->> +++ b/docs/system/arm/xscale.rst
->> @@ -1,16 +1,19 @@
->> -Sharp XScale-based PDA models (``akita``, ``borzoi``, ``spitz``, ``terrier``)
->> -=============================================================================
->> +Sharp XScale-based PDA models (``tosa``, ``spitz``, ``akita``, ``borzoi``, ``terrier``)
->> +=======================================================================================
-> 
-> These were in alphabetical order -- why the rearrangement ?
+On Fri, 20 Nov 2020 17:46:14 +0100
+Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-Ah I didn't notice, I sorted by chronological order. I'll add tosa
-at the end (alphabetically last).
-
+> On 20/11/20 17:32, Igor Mammedov wrote:
+> > On Fri, 20 Nov 2020 16:53:41 +0100
+> > Paolo Bonzini <pbonzini@redhat.com> wrote:
+> >   
+> >> On 20/11/20 16:11, Igor Mammedov wrote:  
+> >>> On Tue, 27 Oct 2020 14:21:37 -0400
+> >>> Paolo Bonzini <pbonzini@redhat.com> wrote:
+> >>>      
+> >>>> Displays should be available before the monitor starts, so that
+> >>>> it is possible to use the graphical console to interact with
+> >>>> the monitor itself.
+> >>>>
+> >>>> This patch is quite ugly, but all this is temporary.  The double
+> >>>> call to qemu_init_displays will go away as soon we can unify machine
+> >>>> initialization between the preconfig and "normal" flows, and so will
+> >>>> the preconfig_exit_requested variable (that is only preconfig_requested
+> >>>> remains).
+> >>>>
+> >>>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>  
+> >>>
+> >>> Doesn't apply to yer for-6.0 branch  
+> >>
+> >> I updated the branch.  
+> > 
+> > it probably won't help,
+> > what I do review/test is drop these patches on branch
+> > and reapply them from this thread.
+> > Having v2 on list that applies to master would be better.  
 > 
->> +
->> +The Sharp Zaurus SL-6000 (``tosa``), released in 2005, was a PDA based on the
->> +PXA255.
->>
->>  The XScale-based clamshell PDA models (\"Spitz\", \"Akita\", \"Borzoi\"
->>  and \"Terrier\") emulation includes the following peripherals:
-> 
-> If you want to add tosa to this file (which seems reasonable) then
-> you need to rewrite this para that introduces the bulleted list
-> because it currently only describes spitz/akita/borzoi/terrier,
-> so that it is instead a suitable introductory paragraph that
-> covers all of the boards.
+> Yes, of course.  I meant that the for-6.0 branch already _is_ the v2, 
+> I'll send it out as soon as I integrate all your feedback.
 
-OK, I think added \"Tosa\" at the end is enough.
+Thanks for trying to make hornets nest (vl.c) in something manageable and
+less scary to touch.
+I'll try to review v2 faster (there is not much of it left by now)
 
 > 
->> --  Intel PXA270 System-on-chip (ARMv5TE core)
->> +-  Intel PXA255/PXA270 System-on-chip (ARMv5TE core)
->>
->> --  NAND Flash memory
->> +-  NAND Flash memory - not in \"Tosa\"
->>
->>  -  IBM/Hitachi DSCM microdrive in a PXA PCMCIA slot - not in \"Akita\"
->>
->> --  On-chip OHCI USB controller
->> +-  On-chip OHCI USB controller - not in \"Tosa\"
->>
->>  -  On-chip LCD controller
+> Thanks,
+> 
+> Paolo
 > 
 > 
-> thanks
-> -- PMM
-> 
+
 
