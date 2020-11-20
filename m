@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6E012BAAA3
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 13:59:37 +0100 (CET)
-Received: from localhost ([::1]:58416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D82752BAAC3
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 14:04:30 +0100 (CET)
+Received: from localhost ([::1]:35070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg60m-0004yB-3c
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 07:59:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54940)
+	id 1kg65V-0007gW-Et
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 08:04:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kg5zu-0004U5-6B
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 07:58:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55165)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kg64U-0007F7-P8
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 08:03:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35056)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kg5zo-0005vW-T0
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 07:58:41 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kg64S-0007jG-L1
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 08:03:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605877115;
+ s=mimecast20190719; t=1605877403;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=6WhVXr812pX6BdfIwtzLfZDwlwSSwNqYUN5Xe9wMaTA=;
- b=ZGG1aRJA0b8g4O5ZcgY3NKYmZ0lO3t03Ni7rxgy9pbl6PTYziMv3VHFzotfAKS0anV0wws
- NEXBbr1U2822aFg+vfjpGPdZIDzv6TXpYxY1us0t39ZpyRRZ18bqVk+al+rJ6Kc/giZTGE
- cCyz8E+xFtIsN3O1WyG4MV88TA950VE=
+ bh=RFNe/cs/1GLTGtc6Ft0eI8qQ7W7pKqh16d248c9r+wM=;
+ b=BrXIOckoOx21ssjpByLWICXaLmuRptmyng+HUZPwnLPxOEXXUxKyPG/u8pAEhNz1QiKtTu
+ dYwo5waW6SYBCwCaLOtF/w8QB+U6nIqiZLldGkNxPaifFSzdBNWDTIn1BrdNGz3F7/uW70
+ YRpH3fRJ2nfWjQ2UF3ualnf7w9W6BcI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-306-1xks769TOL-k_HhgKgVvLA-1; Fri, 20 Nov 2020 07:58:33 -0500
-X-MC-Unique: 1xks769TOL-k_HhgKgVvLA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-172-8x_EMnsvPlyN3fsfVIkqaQ-1; Fri, 20 Nov 2020 08:03:22 -0500
+X-MC-Unique: 8x_EMnsvPlyN3fsfVIkqaQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9C658144E3;
- Fri, 20 Nov 2020 12:58:32 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
- [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 881F85D6AD;
- Fri, 20 Nov 2020 12:58:32 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1618511358BA; Fri, 20 Nov 2020 13:58:31 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Andrew Melnichenko <andrew@daynix.com>
-Subject: Re: [PATCH] hmp: Changed hmp_netdev_add() using
- qmp_marshal_netdev_add()
-References: <20200716035532.1407660-1-andrew@daynix.com>
- <CABcq3pGFPkDMmEegGaw6UjHBijPZiyFj-uR+6Phz+0K44VRNgw@mail.gmail.com>
-Date: Fri, 20 Nov 2020 13:58:31 +0100
-In-Reply-To: <CABcq3pGFPkDMmEegGaw6UjHBijPZiyFj-uR+6Phz+0K44VRNgw@mail.gmail.com>
- (Andrew Melnichenko's message of "Fri, 20 Nov 2020 13:05:36 +0200")
-Message-ID: <874klk5gnc.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00764801B1A;
+ Fri, 20 Nov 2020 13:03:21 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-65.ams2.redhat.com
+ [10.36.112.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B4B4960BE2;
+ Fri, 20 Nov 2020 13:03:20 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 7491517535; Fri, 20 Nov 2020 14:03:19 +0100 (CET)
+Date: Fri, 20 Nov 2020 14:03:19 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH for-5.2] microvm: fix kconfig for non-default devices
+Message-ID: <20201120130319.ux3cwkvwbggtgzqy@sirius.home.kraxel.org>
+References: <20201120085524.108200-1-pbonzini@redhat.com>
+ <20201120093830.zgm6fn63xnvr7fxx@sirius.home.kraxel.org>
+ <cda9f7eb-c2a8-5f87-8bb0-9e256094bfea@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <cda9f7eb-c2a8-5f87-8bb0-9e256094bfea@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -81,62 +80,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>,
- Yuri Benditovich <yuri.benditovich@daynix.com>, qemu-devel@nongnu.org,
- dgilbert@redhat.com
+Cc: qemu-devel@nongnu.org, Bruce Rogers <brogers@suse.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Andrew Melnichenko <andrew@daynix.com> writes:
+On Fri, Nov 20, 2020 at 01:08:40PM +0100, Paolo Bonzini wrote:
+> On 20/11/20 10:38, Gerd Hoffmann wrote:
+> > On Fri, Nov 20, 2020 at 09:55:24AM +0100, Paolo Bonzini wrote:
+> > > PCIe and USB support can be disabled on the command line, and therefore
+> > > should not be included if QEMU is configured --without-default-devices.
+> > 
+> > I don't think this will work.  I expect linking will fail due to
+> > xhci_sysbus_build_aml and acpi_dsdt_add_gpex being not available.
+> 
+> Hmm, you're right.  On the other hand that also means that you're missing a
+> depends on ACPI for USB_XHCI_SYSBUS.
 
-> Ping
->
-> On Thu, Jul 16, 2020 at 6:26 AM <andrew@daynix.com> wrote:
->
->> From: Andrew Melnychenko <andrew@daynix.com>
->>
->> There is an issue, that netdev can't be removed if it was added using hmp.
->> The bug appears after 08712fcb851034228b61f75bd922863a984a4f60 commit.
->> It happens because of unclear QemuOpts that was created during
->> hmp_netdev_add(), now it uses qmp analog function -
->> qmp_marshal_netdev_add().
->>
->> Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
->> ---
->>  monitor/hmp-cmds.c | 15 +++------------
->>  1 file changed, 3 insertions(+), 12 deletions(-)
->>
->> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
->> index 2b0b58a336..b747935687 100644
->> --- a/monitor/hmp-cmds.c
->> +++ b/monitor/hmp-cmds.c
->> @@ -1597,19 +1597,10 @@ void hmp_migrate(Monitor *mon, const QDict *qdict)
->>  void hmp_netdev_add(Monitor *mon, const QDict *qdict)
->>  {
->>      Error *err = NULL;
->> -    QemuOpts *opts;
->> -
->> -    opts = qemu_opts_from_qdict(qemu_find_opts("netdev"), qdict, &err);
->> -    if (err) {
->> -        goto out;
->> -    }
->> +    QDict *non_constant_dict = qdict_clone_shallow(qdict);
->>
->> -    netdev_add(opts, &err);
->> -    if (err) {
->> -        qemu_opts_del(opts);
->> -    }
->> -
->> -out:
->> +    qmp_marshal_netdev_add(non_constant_dict, NULL, &err);
->> +    qobject_unref(non_constant_dict);
->>      hmp_handle_error(mon, err);
->>  }
+No, we have hw/acpi/aml-build-stub.c ...
 
-qmp_marshal_netdev_add() uses the QObject input visitor, which feels
-wrong for HMP input.
+> What about moving those two directly
+> to hw/acpi/aml-build.c?
 
-What exactly is the problem you're trying to solve?  Can you show us a
-reproducer?
+Well, I like the aml generator being grouped with the device code and
+not at a completely different place.
+
+We could try plumb this through a sysbus class function, so the direct
+symbol reference goes away.  Simliar to ISADeviceClass->build_aml().
+Maybe also add build_dt() while being at it.
+
+Problem is that with the way sysbus resource management is designed it
+isn't that easy to do.  The device just provides the resources (memory
+regions, irqs), the machine maps them.  So the device has no clue where
+memory is mapped and how the irq is wired.  Also sysbus devices can be
+alot more complex than isa devices which basically have ioports and irq
+and nothing else.
+
+take care,
+  Gerd
 
 
