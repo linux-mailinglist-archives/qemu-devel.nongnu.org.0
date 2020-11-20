@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ABD92BB84D
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 22:29:01 +0100 (CET)
-Received: from localhost ([::1]:55972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 532762BB847
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 22:27:03 +0100 (CET)
+Received: from localhost ([::1]:52128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kgDxk-0005jU-Ha
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 16:29:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42354)
+	id 1kgDvp-00044j-HR
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 16:27:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kgDgM-0004yE-JT
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 16:11:03 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:37501)
+ id 1kgDgR-00050B-J3
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 16:11:09 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40475)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kgDgK-0004XF-IS
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 16:11:01 -0500
-Received: by mail-wm1-x330.google.com with SMTP id h21so11258076wmb.2
- for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 13:10:59 -0800 (PST)
+ id 1kgDgQ-0004ZK-5k
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 16:11:07 -0500
+Received: by mail-wr1-x441.google.com with SMTP id m6so11689600wrg.7
+ for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 13:11:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7PprWlplgZYOuiiRh5VgMSfZy377w8BTxZUiTVT7Smk=;
- b=LVu0Vm/K2vvoEBLiQtlg4V4b8l4yNikQd9R2Y0bW+hBS0HTsUQ210ZzUiyWKvh7lGq
- tCS5ICFeFvKVAOqgDXp6uM/z2IGZJLPaaVWcR6VU+YFo4NdQe2ZTgBMHaxfZpBk3/cl3
- k+Q9VktMJdKrw7uuqL/U43Wbzml0yreiuqDq/0e8K5s37ASVqa4j5RHZk1PGVat2Mw8K
- oBau/6smcTtEgOjuLu9b9oIPnQSm1mWxHUOSX6PA/4qplMr7peiAZfPKiVhPbFTGaXuF
- Q1hHtwBO9e4wbzEfuzAX+XrgZOGpkqiQyAXxdkSulKkF8Rw8YctU1u4pAjSZ+7BDS9KM
- ofXg==
+ bh=s44mYLGUlM6uamsgG+YNsLF+fke2Wh0JOve4ukdROjw=;
+ b=iBAr2j7iKQa3f6wJ3DCzZ6LE921omTEaT4kDQarshFqOLk+CC5Rt+MwYNIbrbKwR+h
+ BZSJSLcEL+XXKEygJcLjwCkdvuUDoIVWWCuiZn1m9qO6lLqUOtG4SHDYO7AB6iPnEVIb
+ Ukx0neEPt4pX2jwSxlmZi+rA8i69UVTJxxdn1TjaW3GLbth6rql8sh0JplE65dWN3jvg
+ zlJEMy3ljPEtAhiVqQD1PrP5XKMV7C7ae9lFQcfQQz9YUiq3jw/86S9Q+Zpv3a1Pgxck
+ FxwRgyt2+RyiQzAtLiFrMzkNeuQKPQHX+rCemOUCvYRvtRb/PBOLiFg7hSuWZSgZkngA
+ lNSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=7PprWlplgZYOuiiRh5VgMSfZy377w8BTxZUiTVT7Smk=;
- b=qLxVRrwoLBsFyAUoOVIQQpNbT/ZsA9gnIOWpfP4jDC/UMIGyi35j9E8yJbl/yn39va
- Fn8rlg5MWZpuzaOTj8lCVUN50VWGw8QgywyBiESfXBQ3pAn12xiFUfzt2+OBOj81Go3O
- OK1miVKh6QOeFJuabAVzkgJxqJqUfaKjn5W4Eb3TCwsaEYzF4laxhRH3JrWCQuaXfgkI
- LteK0UgMea4ZCaK3PT5aUyJYrcOz8WHHk62p2RnMz1VdOvSDoMw+tykxLCW7CDFYtkKf
- /uJj2EGkZUwBYVTwKZp6pbhTJXkgfYRSpUFL2elmQNUxJ4APQs2aXVVE0th5753TpgeZ
- 3zMw==
-X-Gm-Message-State: AOAM530ntTUwfu2AqFyTd6i0pd1so7dqYfAaGwyb7XlcHYjEeOiIL26B
- Nd935Ywmg6ZUEA6IC9WELcIe35g9WQ0=
-X-Google-Smtp-Source: ABdhPJwPI/tOfENRXAENKeqrhxDcFjjPqz1B/h8IzBpm9yO9zAUQApImySp+byfrDEE/5NW0R228FA==
-X-Received: by 2002:a1c:e455:: with SMTP id b82mr11979232wmh.117.1605906658886; 
- Fri, 20 Nov 2020 13:10:58 -0800 (PST)
+ bh=s44mYLGUlM6uamsgG+YNsLF+fke2Wh0JOve4ukdROjw=;
+ b=lLC7bssxzbmyCOzMUcE7g5H9KKKOG2yUKc0NUFH20B98WtQSTtAHnR6SG6uTdgs6CP
+ TotSbSm4t1aoPvXyvor3XUtfIbfAXqoR/ObtVq7HQsUJkHKs8ryIS+bxJflL1Cgr12U/
+ JfQO2M7DL2G4pKgGAPXkhF4JlLfSzKsC4ET3A3inx1EF+JwFz2sMsCWlmFEmYl4loCHW
+ Nh119/3ygLNAA44xkt5TtO3gEyrNIsKa5LAaoh0P9zWNzVizpPe//NwjiHyAgYgKdG4N
+ HUQnemRdi282S3R05ThSTEmhDK59VAWtRWUi6HHk8CDT8/PsP8qILFO9mBj8KGXphbKF
+ G+5A==
+X-Gm-Message-State: AOAM530lReVY9mhmy7MJA/Q6Drt9FUDd0aD8Qn6KEaApKQrKsj2hyGWv
+ jtwDtAaNxib84azLiCJj0YtCVCg/tOE=
+X-Google-Smtp-Source: ABdhPJwv4YH7zOvp8RgF3T1iCe8hPLAZvyHbr7F5HKcBWYE1AeZQjIlKhLv46bNM+fPq1csO0nxMwg==
+X-Received: by 2002:adf:e5d0:: with SMTP id a16mr19599175wrn.340.1605906664235; 
+ Fri, 20 Nov 2020 13:11:04 -0800 (PST)
 Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id p3sm6270483wrs.50.2020.11.20.13.10.57
+ by smtp.gmail.com with ESMTPSA id z6sm5685798wmi.1.2020.11.20.13.11.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Nov 2020 13:10:58 -0800 (PST)
+ Fri, 20 Nov 2020 13:11:03 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 25/26] MAINTAINERS: Add entry for MIPS Ingenic Xburst TCG
-Date: Fri, 20 Nov 2020 22:08:43 +0100
-Message-Id: <20201120210844.2625602-26-f4bug@amsat.org>
+Subject: [PATCH 26/26] MAINTAINERS: Add entry for MIPS Toshiba TCG
+Date: Fri, 20 Nov 2020 22:08:44 +0100
+Message-Id: <20201120210844.2625602-27-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201120210844.2625602-1-f4bug@amsat.org>
 References: <20201120210844.2625602-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,29 +95,29 @@ Cc: Fredrik Noring <noring@nocrew.org>, Craig Janeczek <jancraig@amazon.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add an entry for the TCG core related to Ingenic Xburst.
+Add an entry for the TCG core related to Toshiba TXx9.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-Adding Craig Janeczek in case he wants to be notified of changes,
+Adding Fredrik Noring in case he wants to be notified of changes,
 patch conditional to his approval.
 ---
  MAINTAINERS | 6 ++++++
  1 file changed, 6 insertions(+)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index be42b56300f..b6d98b95c47 100644
+index b6d98b95c47..d97f0f1d66e 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -247,6 +247,12 @@ R: Jiaxun Yang <jiaxun.yang@flygoat.com>
+@@ -253,6 +253,12 @@ R: Craig Janeczek <jancraig@amazon.com>
  S: Odd Fixes
- F: target/mips/vendor-loong*
+ F: target/mips/vendor-xburst*
  
-+MIPS TCG CPUs (Ingenic Xburst)
++MIPS TCG CPUs (Toshiba TX)
 +M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+R: Craig Janeczek <jancraig@amazon.com>
++R: Fredrik Noring <noring@nocrew.org>
 +S: Odd Fixes
-+F: target/mips/vendor-xburst*
++F: target/mips/vendor-tx*
 +
  MIPS TCG CPUs (nanoMIPS ISA)
  S: Orphan
