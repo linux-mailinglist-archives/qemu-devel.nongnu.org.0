@@ -2,72 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5B342BA955
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 12:40:04 +0100 (CET)
-Received: from localhost ([::1]:34040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB0412BA95F
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 12:42:31 +0100 (CET)
+Received: from localhost ([::1]:37686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg4ln-0000SW-NQ
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 06:40:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39412)
+	id 1kg4oA-0002BT-Sx
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 06:42:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kg4kd-00087a-Pu
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 06:38:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42035)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kg4kb-0002d1-Vb
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 06:38:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605872329;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iw3V2z939ns+/qwexMKf0H6v3RzsXkNEQ3qucykXcFs=;
- b=CW7LYmN8FEZudNp2JP8kNqt/lCzdeGz3dcGS45QjzESf4jD7UlcullLVpQ+2SSBY96KJ0Z
- SQJHFcyeA0xIS7Udqo5+FkoCy3T0kz1UP5Zciua29NngIrDephe57uIN3/7H7CUq0FvIgj
- EmDbHn8pTnyIIsgWPefGk87he6jWplo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-501-lO9Ytiu8M2i3437agu6Oiw-1; Fri, 20 Nov 2020 06:38:44 -0500
-X-MC-Unique: lO9Ytiu8M2i3437agu6Oiw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54E0C420E8;
- Fri, 20 Nov 2020 11:38:42 +0000 (UTC)
-Received: from gondolin (ovpn-112-250.ams2.redhat.com [10.36.112.250])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6C60B5D9C6;
- Fri, 20 Nov 2020 11:38:40 +0000 (UTC)
-Date: Fri, 20 Nov 2020 12:38:37 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Halil Pasic <pasic@linux.ibm.com>
-Subject: Availability of physical devices and migration (was: Re: [RFC PATCH
- 2/2] vfio-ccw: Connect the device request notifier)
-Message-ID: <20201120123837.0b4fc3be.cohuck@redhat.com>
-In-Reply-To: <20201120035107.30688e2f.pasic@linux.ibm.com>
-References: <20201117032605.56831-1-farman@linux.ibm.com>
- <20201117032605.56831-3-farman@linux.ibm.com>
- <20201120035107.30688e2f.pasic@linux.ibm.com>
-Organization: Red Hat GmbH
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1kg4nF-0001kh-8J
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 06:41:33 -0500
+Received: from mail-eopbgr150131.outbound.protection.outlook.com
+ ([40.107.15.131]:61763 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1kg4nC-0003jG-Bf
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 06:41:32 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=krz50YbzYhBL+cFesEeWI5HOZlE3xp30b/5DKbN1ubGN2J6INjkLVg3d08hdCQZdu/Tk6MzrT1fgPP6TRaeLhVMdvnWl2BwQ6Fm1tpFxvK0bjHvqTKadx2i6uwOf37M1cBpsVddrsZgYTIdvETRtdRMnf/uNbSS9vDz5Av3rJ+Nioj2TKMuyXEL1zCARGXnWWP4hYSitKCyIT/9q8LgjpLMH90qCvs1Jr/7ohvAElQg3QTeMmWeUjsCCUn9m+F+l8gW1gULMxjDAGok3/9PNoRtrs60v3R0wwnNI1I9kDIi18QLIREAp1tQ3o+kO8cKWip39zQEbqiT7ch6cspWNrA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JcKX5G1YkxBVO46bUok/QZLnfPlsKSf3IlZDhqj05/0=;
+ b=Q8juLBgh2TTAMlGzy4LdyPLeAP5X/u8syuM/7A7Hde+B0K5EqPN4giOijsvxF+NAChRgS3uvFbMlxODwOetpNhknfPzhUlY/mawd1Ps+8SjSj8ZTywD52ABmlZeED7RDfZMymjKEmx0i+E02LdLqXaHJeLpWcK+Jt2acGXwS9KH4kTpMdBUEk5Rf8UNMlK/GETirn9UBIN1tkic7zCDyBw5qS+tln63kRp02LwCb/6OMv8DS7YY0G8fmT4yQto7C5CIkOySdDcFuLfE0+4Cykm9M6okRS+W9m9IFPU+bETHBym3Zm7izBeL4tZWYsJP3X+cwgcbYenwFDrL36oDM0w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JcKX5G1YkxBVO46bUok/QZLnfPlsKSf3IlZDhqj05/0=;
+ b=r7f/eTR0+1zkVt8HZFl8Pc1aOIA0SIkYdD7suxH1hA4twunEjvAh5WjixXHNVP4L31zM3VuTj+iFzlyu++igTsSBEi3jYYkwIKKrsgohTtb951OAoFM5CS2JJRQ15CsIIF8e5UkkEqRJrnihkBIw9JQjBDG0xkUyLEIMqJsDRRY=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from VI1PR0802MB2510.eurprd08.prod.outlook.com
+ (2603:10a6:800:ad::14) by VI1PR08MB3069.eurprd08.prod.outlook.com
+ (2603:10a6:803:45::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.21; Fri, 20 Nov
+ 2020 11:41:25 +0000
+Received: from VI1PR0802MB2510.eurprd08.prod.outlook.com
+ ([fe80::8d6a:734c:e4a2:8543]) by VI1PR0802MB2510.eurprd08.prod.outlook.com
+ ([fe80::8d6a:734c:e4a2:8543%7]) with mapi id 15.20.3589.020; Fri, 20 Nov 2020
+ 11:41:25 +0000
+Subject: Re: [PATCH v3 4/7] implementation of write-tracking migration thread
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, Den Lunev <den@openvz.org>,
+ Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+References: <20201119125940.20017-1-andrey.gruzdev@virtuozzo.com>
+ <20201119125940.20017-5-andrey.gruzdev@virtuozzo.com>
+ <20201119184727.GE6538@xz-x1>
+From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Message-ID: <600d7372-fed6-da5a-4c5d-deaa4e6fd660@virtuozzo.com>
+Date: Fri, 20 Nov 2020 14:41:23 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20201119184727.GE6538@xz-x1>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+X-Originating-IP: [95.165.26.68]
+X-ClientProxiedBy: AM0PR03CA0010.eurprd03.prod.outlook.com
+ (2603:10a6:208:14::23) To VI1PR0802MB2510.eurprd08.prod.outlook.com
+ (2603:10a6:800:ad::14)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.64] (95.165.26.68) by
+ AM0PR03CA0010.eurprd03.prod.outlook.com (2603:10a6:208:14::23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3589.20 via Frontend Transport; Fri, 20 Nov 2020 11:41:24 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 14d97450-c9a4-4c9c-c77e-08d88d493621
+X-MS-TrafficTypeDiagnostic: VI1PR08MB3069:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VI1PR08MB3069C44A89FAA943CA709FB69FFF0@VI1PR08MB3069.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1468;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: DHscgCYeM3FBWaCziNZ8pXnrV1od3cFPMYoIY8auJEoQGBcgvp9+/OS5+fDRCwFG/LWV0okXc/otNFMxwOPOHu5fTJwomcfgqgFamvFPyZ0qS1DXanzNzde+ADyWUNZjdWmcA0nj2kl82Fb8XjjiBh0Xfpyl7mK6pYHFqV2WWsHGtN3Hjl0o2JqgHnufuC7uUT/z0FmA8RZLAV1xQYBqhPnFR1ykKm01HnfbfYaEpIvMtFy+Kho7Ns/4GOJ0KfPs0N9VocpphxLwbGBDw2tq6hziNrhC3pHUskFZenuUk0Xj3F3XRamHTflYR/qJsgqFRY7qRqjknu70WHrASX8OCgjTane9MbhYw3pbWIES0rEYI1tnSLDcppmwPUAbLvwG
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR0802MB2510.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(376002)(39830400003)(396003)(366004)(136003)(5660300002)(4326008)(66476007)(316002)(66556008)(54906003)(83380400001)(6486002)(956004)(16526019)(53546011)(36756003)(8676002)(4744005)(26005)(16576012)(86362001)(66946007)(186003)(2616005)(31686004)(52116002)(8936002)(6916009)(2906002)(478600001)(44832011)(31696002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: gsq/4ehRw1FnzRHnkW2xUBBCwPO18fPVvO9OAhxtMgRd5Pvw/1oHIp0y9chV8Fk38QV7i3Tsqg1HbFlaQDjy0ey/a1FO0gggKtwC2VU1AZJRWxGPbIzaUdofrSd+zoShlU08K80+CB+qcOGlVkmZPBEq2y4EpRiURK4znmoOr4t3Hc6F29fS0givO8juYryTCIFhgk7BK+wDpTbH2Fs4/Ms/Wel3Z0RpMSHEcxw5+bIlEUCm9QKDia3Dze5IROkR5yGPnVaYdNknt+Eq+ljv/9qYAKmLJBhofKQYaABwp7XdaiU2+jqjtZzKojGIgEUo+ktsYI0SgU3DayTMETFKV+8FG6SLT00CntERBT+MXpY2dOpQnLy5kZKdSZXjDmZX93hucyVdsw4IzZRHHbvloXtd4LspGTR2fYWcwFOC1DQpafP5wqA7Vr7og08+27BK0XoFN2vyOfYhe0XfSybOQJ5g0b58BDIhZjGJoleXGTNGQRGlmvJceEeobr9G9FFtwOA47etWD85BeQ7rehxI57sqoXRlzvLZrYTdTE6DFQKwzWA5FHgWFj7c/gbgYiRGTFtE4FWDzWUoLC4nqoPPgabsyZR/tvPReFcKZ84qItcPYd24uSsjOBBaAaZ2/rSvMHvZC9IYNi7WdcsNsn3XbUEb/r6t14429JlTHs5q1Ybgl9rd1omre9PWUE9DXqXWSozkYJs7Wy3Dsm+WQUFzqis4b0pyHqMZSWLTotpNufw+ANKf9XtB0wsbA1wZI47XPpdjy36zdWX+iKQawFXg8KXoMAOq7FOQ/kImFu1UbjJCrj/BzAc/+bSukzou2BBCQcYFMYo1QKosKLspdKWHhhfk01eUuozx6EnOdwn2CkM47TZY1R9c1QjVwybQr2dcmgReP2qEhztLqQlg/PVqng==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 14d97450-c9a4-4c9c-c77e-08d88d493621
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR0802MB2510.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2020 11:41:25.4956 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8PC6XUaD+Kge+PVWg6YQbPpWHuXu3ftfXV+m0UVTVL9Ct+1TtAZSJ0sUG/5sF4tw5HAbZFo9x4/OlBs+9Fiowg9OupYUVZWG5SB0JNdlC2M=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3069
+Received-SPF: pass client-ip=40.107.15.131;
+ envelope-from=andrey.gruzdev@virtuozzo.com;
+ helo=EUR01-DB5-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,76 +122,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Farman <farman@linux.ibm.com>, Boris Fiuczynski <fiuczy@linux.ibm.com>,
- libvir-list@redhat.com, Alex Williamson <alex.williamson@redhat.com>,
- qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
- Marc Hartmayer <mhartmay@linux.ibm.com>, Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 20 Nov 2020 03:51:07 +0100
-Halil Pasic <pasic@linux.ibm.com> wrote:
-
-> On Tue, 17 Nov 2020 04:26:05 +0100
-> Eric Farman <farman@linux.ibm.com> wrote:
+On 19.11.2020 21:47, Peter Xu wrote:
+> On Thu, Nov 19, 2020 at 03:59:37PM +0300, Andrey Gruzdev via wrote:
+>> Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 > 
-> > Now that the vfio-ccw code has a notifier interface to request that
-> > a device be unplugged, let's wire that together.  
-> 
-> I'm aware of the fact that performing an unplug is what vfio-pci does,
-> but I was not aware of this before, and I became curious with regards
-> to how is this going to mesh with migration (in the future).
-> 
-> The sentence 'For this to work, QEMU has to be launched with the same
-> arguments the two times.' form docs/devel/migration.rst should not
-> be taken literally, I know, but the VM configuration changing not because
-> it was changed via a management interface, but because of events that
-> may not be under the control of whoever is managing the VM does
-> make thinks harder to reason about.
-> 
-> I suppose, we now basically mandate that whoever manages the VM, either
-> a) maintains his own model of the VM and listens to the events, to
-> update it if such a device removal happens, or
-> b) inspects the VM at some appropriate point in time, to figure out how
-> the target VM is supposed to be started.
-> 
-> I think libvirt does a).
-
-This seems like something that would be of general interest to libvirt
-folks, adding the list on cc:.
-
-For virtual devices, QEMU and any management software are in full
-control, and can simply make sure that both source and target have the
-device available.
-
-For physical devices, we still can make sure that source and target
-match when we do the setup, but device failures can happen at
-inconvenient times. It may suddenly be no longer possible to access
-state etc. Can we propagate changes like "device foobar, don't bother
-migrating" even when we already started migration? Should the handling
-be different if the target system uses a different (compatible) device?
-Should we fail the migration?
-
-> 
-> I also suppose, such a device removal may not happen during device
-> migration. That is, form the QEMU perspective I  believe taken care
-> by the BQL.
-
-Even if the device is not actually removed, it might still be
-inaccessible.
-
-> 
-> But I'm in the dark regarding the management software/libivrt view. For
-> example what happens if we get a req_notification on the target while
-> pre-copy memory migration? At that point the destination is already
-> receiving pages, thus it is already constructed.
-> 
-> My questions are not necessarily addressed to you Eric. Maybe the
-> folks working on vfio migration can help us out. I'm also adding
-> our libvirt guys.
-> 
-> Regards,
-> Halil
+> Some commit message would always be appreciated...  Thanks,
 > 
 
+Yep, missed it..
+
+-- 
+Andrey Gruzdev, Principal Engineer
+Virtuozzo GmbH  +7-903-247-6397
+                 virtuzzo.com
 
