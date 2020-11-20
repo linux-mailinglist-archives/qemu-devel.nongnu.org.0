@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 891322B9F0A
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 01:12:31 +0100 (CET)
-Received: from localhost ([::1]:38284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2FF02B9F1B
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 01:14:43 +0100 (CET)
+Received: from localhost ([::1]:42518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfu2Q-00023g-J0
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 19:12:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54064)
+	id 1kfu4Y-0003wV-PR
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 19:14:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kfu0t-0001BE-Id
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 19:10:56 -0500
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:44156)
+ id 1kfu1c-0001gu-5P
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 19:11:40 -0500
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:46701)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kfu0q-0008Ag-On
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 19:10:54 -0500
-Received: by mail-pf1-x444.google.com with SMTP id y7so6096902pfq.11
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 16:10:52 -0800 (PST)
+ id 1kfu1a-0008Ko-8V
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 19:11:39 -0500
+Received: by mail-pf1-x441.google.com with SMTP id v12so6099580pfm.13
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 16:11:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=0ikXEX+nN8UC/zRi3z2BATJW8sOiZDyUWP+kWAom7Ls=;
- b=McKa7qCX6KTzahwxhyQvav0w2IWW5qb3bh8K+8tODe40FJgXqJhPPPKvLvAMzyAmaP
- iL6D1BppabDVgQViKBlDr9FrAatAXL+BBlEHOR/n5U4qImvn/tHrAKDZDcnvLS4D5ZGc
- 3YwnKZk1YpwH8SOaYxSm4Huq7J7FPGBfRoQbpis6AoJx+2T5doBV29pBBbReMZxfK8bJ
- p7su52DWC4LdLsbjYQIwMwZkNrHPu0HbrUGxn0b3CIgImP8At6JlaTTktPrb6ebn5+Gb
- 8MAoGvhfSSB9YzeimMvqxaPOspVvsYVH32Xa08C0077LEZrsg5KDIH6fLru4bcF2vwJ2
- 2Zjg==
+ bh=vFuPDtE4aWtYF1ehfXzhkSwpn2FZR9gP4MnrXVUAl3M=;
+ b=MvkCaOKZpB0mKLq2lm7XR8nUiFlpklnzTE5oC4C8xMMJdvwIaxsyuOFIZoTYe6Uuvz
+ U12qXdaZJpA4x0YBgl3eQKmqcOo4m+EshjgqSbXzUNEb9V/oHsQoeNLTZd3W6KCeWhs7
+ sLkg8WFMb3L1ZAXKPh1/8obo2Ne8yCWQy/9MXLMn/Yssl0G5+PlHJlj9I0NHMf6GjMFh
+ BCngbHu7skMRK0rkLWVUp2oLIXvUEARo9Fu7MrmfT782f+pGzSK3Onxv3sWvmU58Dg8T
+ VA3cHTJZd6PD2/ash3Pqay0qn+5Zlcx+nZ2sgCCIkHLZ+rcAbK9RiUFE6q8r+CYvhMkE
+ TS5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=0ikXEX+nN8UC/zRi3z2BATJW8sOiZDyUWP+kWAom7Ls=;
- b=PoGF8PqzljtLVYsoLCp2tZVw8x2v0eLnPePgM0I2SGx90mGIZAM68uuuPXaDSpYj+y
- htX20pru9NfCxaDF8rUzppJEsuTxFUo7AxWJiQzeP29ZyHZiiKf1fkhnUmyZY7W30rSU
- 5vbjuetTj1DCZdY26nZqk6o3uAOjAzVbOYQFLrlLlBbB+nx/8jHaw0MI+n7uUkKJ+7Yb
- ap1WRoNj41wUmP8kNBW+CRHAJOozlQgFtuVl1f8wmbaZciDAYzOj2NoNwo08MRcBJwPx
- L1D7+V/QvaDLwM3qHrZzQ6RI+ays3SF8bXna+Uvj7QJHtkomh+PUixoqCfDsM/Cm1iwI
- 5ajg==
-X-Gm-Message-State: AOAM532kvBErCWMUOIeGhpks/7hp34Ov2rQiCbM22FCpbR+2P9kZ16a9
- BAtmvWB/YMbTsxlNPHLz++PPeA==
-X-Google-Smtp-Source: ABdhPJzrtxqW0TG/6JxYNS6TsabkN/wnX9XjPKtPCZ1Ci3MMGmcqpJrzR5vsJaqBagXMZ9or1Oe9og==
-X-Received: by 2002:a17:90a:ee82:: with SMTP id
- i2mr7256725pjz.158.1605831051201; 
- Thu, 19 Nov 2020 16:10:51 -0800 (PST)
+ bh=vFuPDtE4aWtYF1ehfXzhkSwpn2FZR9gP4MnrXVUAl3M=;
+ b=TwlP1gQjxliJAnxO2wx4YZ/2MJUlQ6Ql0EZRmSknk+IL7VxUx/p+cpiyefu9cm561f
+ KkFWAJjPA7E7NmAWaACONnt9HhT1pMmBGKxErdH353YQcw1z39IribUODOFzL2OXiZ5I
+ qr63xikR37kQCnCaORrMZpVIzF6cPEB4vYlSFxKnUBTvge/18l4dTCXddcNKtP443iPl
+ t1cqySY6lheZkbOepQUMNUMwrhj+hh0E79VNLGLoI/E8H0/syMhSLeTf/SnV336chVmm
+ ZShSYpYfywIJX75VygVn6BbvWwRBrBzdskDHU+ztR9yN/XIQ9pdQ/MGD7GMIMcJGtNTa
+ IzGA==
+X-Gm-Message-State: AOAM5335nkPkkmvMw2lig6Tudo365lT8kWHmlBiv+HPVIkkiaFTz13SI
+ UmYh5c3seKgXuxQE5Nrbta2zNw==
+X-Google-Smtp-Source: ABdhPJyzBHJaacNIkGC63LfKrwfO2PrSqTdnzqppkO1YWHxbMuSVYljoKTjxoTNVh9qXIeGDn32rNw==
+X-Received: by 2002:a17:90a:178b:: with SMTP id
+ q11mr6768124pja.132.1605831096770; 
+ Thu, 19 Nov 2020 16:11:36 -0800 (PST)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id z68sm849772pgb.37.2020.11.19.16.10.50
+ by smtp.gmail.com with ESMTPSA id t7sm970816pji.27.2020.11.19.16.11.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Nov 2020 16:10:50 -0800 (PST)
-Subject: Re: [PATCH 4/6] configure / meson: Move check for sys/signal.h to
+ Thu, 19 Nov 2020 16:11:36 -0800 (PST)
+Subject: Re: [PATCH 5/6] configure / meson: Move check for sys/signal.h to
  meson.build
 To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
  Paolo Bonzini <pbonzini@redhat.com>
 References: <20201118171052.308191-1-thuth@redhat.com>
- <20201118171052.308191-5-thuth@redhat.com>
+ <20201118171052.308191-6-thuth@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <95b44dc4-91ea-406f-5f52-5d1ef21e7206@linaro.org>
-Date: Thu, 19 Nov 2020 16:10:48 -0800
+Message-ID: <b75853ad-425b-b282-ca38-d89923d422f9@linaro.org>
+Date: Thu, 19 Nov 2020 16:11:33 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201118171052.308191-5-thuth@redhat.com>
+In-Reply-To: <20201118171052.308191-6-thuth@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x441.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,13 +95,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/18/20 9:10 AM, Thomas Huth wrote:
-> This check can be done in a much shorter way in meson.build
+> This check can be done in a much shorter way in meson.build. And while
+> we're at it, rename the #define to HAVE_SYS_KCOV_H to match the other
+> HAVE_someheader_H symbols that we already have.
 > 
 > Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  configure   | 10 ----------
->  meson.build |  1 +
->  2 files changed, 1 insertion(+), 10 deletions(-)
+>  configure            | 9 ---------
+>  linux-user/ioctls.h  | 2 +-
+>  linux-user/syscall.c | 2 +-
+>  meson.build          | 1 +
+>  4 files changed, 3 insertions(+), 11 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
