@@ -2,70 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E1C92BA688
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 10:49:50 +0100 (CET)
-Received: from localhost ([::1]:50280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7CB12BA691
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 10:52:05 +0100 (CET)
+Received: from localhost ([::1]:52740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg337-0005ws-CV
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 04:49:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45566)
+	id 1kg35I-0007Bt-SE
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 04:52:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kg31l-0005U4-PH
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 04:48:25 -0500
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:37250)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kg31h-0005Et-VE
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 04:48:25 -0500
-Received: by mail-ej1-x643.google.com with SMTP id f20so12000453ejz.4
- for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 01:48:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EbKQMc4LtJV0p9UtSyoANtdm5T2HgtnN00xf5OLSSCU=;
- b=YZS2f9l6qGNIUKaPO6eqkL2Vo0aJsNa7VKAjTQos6uHQ6ICD2oeMgxfyentTOB5nUh
- HAlJQjznKwzJM0Hk3iFvuoPWyBoCa0RJ2VhSluIPYcJGfAt5f2CTtOW0lGKEsj/BKbwi
- SK9iOJn0pLNyCFFon0TktfGOHJ2mdMbcgRbDjgJwQNh/gBQiPj7dFSrOgQGiFveWoNVt
- IaE7tCSOhM5BaJK3NapSe+qfFUypUZIKPXI2sYdORu5gJGP13MjHCzWhBY/1AGTBHvqz
- acV7CH3sJCNXQgmzTvjDxdDemhjkgp9MiTM/xvpX0+WyWVboKRpfQCcUvmj2DcMkdPRF
- LkFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=EbKQMc4LtJV0p9UtSyoANtdm5T2HgtnN00xf5OLSSCU=;
- b=FJFj2svF28pIIDNIStRR84jVOycwhbo0nWLLv9yOC1Yn1MoRIPK/Yd6uQ+qR7gKx6s
- 7kkYT0ffJd3YwWq3vm1VPtIL3KessqzQK9JSfopiBQeGFIiwuSKZvFAwtAvot3lrUnj2
- +Sm9aNmG1TQ+kG3Fmsa0C0aWul/gBCwv53x+H7pHI4jVAaVhaoxJjdxw1yCnACa32Q0t
- JB00ZUgBj5X0uScThOEk3mCrXOLStluMrFxZYNiIRTbrG9xw0WpFyXH8wd/WV6Jtj/Zd
- eNOKgZiqAwqmLQYuZvnB7e8Eu4yczZm7xqgDiakvn7XppXKZ2h3v7f7dwK5KsPL2q47c
- tf2A==
-X-Gm-Message-State: AOAM530MW+Fp3c8Fh6J2OENa593gsSFLBMWT9tBemZVvDywLaX7lOB1g
- P68QaKngEV3DgHM1vL3oEA2omRLLdJdXmcO2BEA=
-X-Google-Smtp-Source: ABdhPJyOGmbfcjiv9RtHq8NdYzoSlgHQQaXS7IkrNDIh18s/AkFMWmVQTOTB/fbmKOBiT8GZMba3G+PskGNDRXWyyIk=
-X-Received: by 2002:a17:906:c298:: with SMTP id
- r24mr14325371ejz.381.1605865700210; 
- Fri, 20 Nov 2020 01:48:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
+ id 1kg34I-0006d2-3E
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 04:51:02 -0500
+Received: from foss.arm.com ([217.140.110.172]:38612)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <steven.price@arm.com>) id 1kg34F-0006JO-2o
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 04:51:01 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7FF871042;
+ Fri, 20 Nov 2020 01:50:57 -0800 (PST)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1BD123F70D;
+ Fri, 20 Nov 2020 01:50:54 -0800 (PST)
+Subject: Re: [PATCH v5 0/2] MTE support for KVM guest
+To: Marc Zyngier <maz@kernel.org>, Andrew Jones <drjones@redhat.com>
+References: <20201119153901.53705-1-steven.price@arm.com>
+ <CAFEAcA85fiqA206FuFANKbV_3GkfY1F8Gv7MP58BgTT81bs9kA@mail.gmail.com>
+ <20201119184248.4bycy6ouvaxqdiiy@kamzik.brq.redhat.com>
+ <db5ad775fa7cfe7defbd78d9ca6ccfd8@kernel.org>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <c25c297e-e9b5-ab3f-e401-c21ddd4d2ad1@arm.com>
+Date: Fri, 20 Nov 2020 09:50:53 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20201119084557.27870-1-lma@suse.com>
- <CAJ+F1C+wUoeT-xTA1Rv6XWBBQfEB_mzOXHBBbEt7OcEQ9+84bQ@mail.gmail.com>
- <7594e6cebc51b395c98dbc8714beb7ff@suse.de>
-In-Reply-To: <7594e6cebc51b395c98dbc8714beb7ff@suse.de>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 20 Nov 2020 13:48:07 +0400
-Message-ID: <CAJ+F1CJO-+yRj9Lm1BnL-i-AurHnXN4fYsjdeD_0jmLUHNSSHA@mail.gmail.com>
-Subject: Re: [PATCH] qga: Correct loop count in qmp_guest_get_vcpus()
-To: Lin Ma <lma@suse.de>
-Content-Type: multipart/alternative; boundary="0000000000009e410c05b486beca"
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x643.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <db5ad775fa7cfe7defbd78d9ca6ccfd8@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=steven.price@arm.com; helo=foss.arm.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,345 +60,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <mdroth@linux.vnet.ibm.com>, QEMU <qemu-devel@nongnu.org>,
- Lin Ma <lma@suse.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ James Morse <james.morse@arm.com>,
+ arm-mail-list <linux-arm-kernel@lists.infradead.org>,
+ kvmarm <kvmarm@lists.cs.columbia.edu>, Thomas Gleixner <tglx@linutronix.de>,
+ Julien Thierry <julien.thierry.kdev@gmail.com>, Will Deacon <will@kernel.org>,
+ Dave Martin <Dave.Martin@arm.com>,
+ lkml - Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000009e410c05b486beca
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 19/11/2020 19:11, Marc Zyngier wrote:
+> On 2020-11-19 18:42, Andrew Jones wrote:
+>> On Thu, Nov 19, 2020 at 03:45:40PM +0000, Peter Maydell wrote:
+>>> On Thu, 19 Nov 2020 at 15:39, Steven Price <steven.price@arm.com> wrote:
+>>> > This series adds support for Arm's Memory Tagging Extension (MTE) to
+>>> > KVM, allowing KVM guests to make use of it. This builds on the 
+>>> existing
+>>> > user space support already in v5.10-rc1, see [1] for an overview.
+>>>
+>>> > The change to require the VMM to map all guest memory PROT_MTE is
+>>> > significant as it means that the VMM has to deal with the MTE tags 
+>>> even
+>>> > if it doesn't care about them (e.g. for virtual devices or if the VMM
+>>> > doesn't support migration). Also unfortunately because the VMM can
+>>> > change the memory layout at any time the check for PROT_MTE/VM_MTE has
+>>> > to be done very late (at the point of faulting pages into stage 2).
+>>>
+>>> I'm a bit dubious about requring the VMM to map the guest memory
+>>> PROT_MTE unless somebody's done at least a sketch of the design
+>>> for how this would work on the QEMU side. Currently QEMU just
+>>> assumes the guest memory is guest memory and it can access it
+>>> without special precautions...
+>>>
+>>
+>> There are two statements being made here:
+>>
+>> 1) Requiring the use of PROT_MTE when mapping guest memory may not fit
+>>    QEMU well.
+>>
+>> 2) New KVM features should be accompanied with supporting QEMU code in
+>>    order to prove that the APIs make sense.
+>>
+>> I strongly agree with (2). While kvmtool supports some quick testing, it
+>> doesn't support migration. We must test all new features with a migration
+>> supporting VMM.
+>>
+>> I'm not sure about (1). I don't feel like it should be a major problem,
+>> but (2).
 
-Hi
+(1) seems to be contentious whichever way we go. Either PROT_MTE isn't 
+required in which case it's easy to accidentally screw up migration, or 
+it is required in which case it's difficult to handle normal guest 
+memory from the VMM. I get the impression that probably I should go back 
+to the previous approach - sorry for the distraction with this change.
 
-On Fri, Nov 20, 2020 at 1:28 PM Lin Ma <lma@suse.de> wrote:
+(2) isn't something I'm trying to skip, but I'm limited in what I can do 
+myself so would appreciate help here. Haibo is looking into this.
 
-> On 2020-11-19 14:46, Marc-Andr=C3=A9 Lureau wrote:
-> > Hi
-> >
-> > On Thu, Nov 19, 2020 at 12:48 PM Lin Ma <lma@suse.com> wrote:
-> >
-> >> The guest-get-vcpus returns incorrect vcpu info in case we hotunplug
-> >> vcpus(not
-> >> the last one).
-> >> e.g.:
-> >> A VM has 4 VCPUs: cpu0 + 3 hotunpluggable online vcpus(cpu1, cpu2 and
-> >> cpu3).
-> >> Hotunplug cpu2,  Now only cpu0, cpu1 and cpu3 are present & online.
-> >>
-> >> ./qmp-shell /tmp/qmp-monitor.sock
-> >> (QEMU) query-hotpluggable-cpus
-> >> {"return": [
-> >> {"props": {"core-id": 0, "thread-id": 0, "socket-id": 3},
-> >> "vcpus-count": 1,
-> >>  "qom-path": "/machine/peripheral/cpu3", "type": "host-x86_64-cpu"},
-> >> {"props": {"core-id": 0, "thread-id": 0, "socket-id": 2},
-> >> "vcpus-count": 1,
-> >>  "qom-path": "/machine/peripheral/cpu2", "type": "host-x86_64-cpu"},
-> >> {"props": {"core-id": 0, "thread-id": 0, "socket-id": 1},
-> >> "vcpus-count": 1,
-> >>  "qom-path": "/machine/peripheral/cpu1", "type": "host-x86_64-cpu"},
-> >> {"props": {"core-id": 0, "thread-id": 0, "socket-id": 0},
-> >> "vcpus-count": 1,
-> >>  "qom-path": "/machine/unattached/device[0]", "type":
-> >> "host-x86_64-cpu"}
-> >> ]}
-> >>
-> >> (QEMU) device_del id=3Dcpu2
-> >> {"return": {}}
-> >>
-> >> (QEMU) query-hotpluggable-cpus
-> >> {"return": [
-> >> {"props": {"core-id": 0, "thread-id": 0, "socket-id": 3},
-> >> "vcpus-count": 1,
-> >>  "qom-path": "/machine/peripheral/cpu3", "type": "host-x86_64-cpu"},
-> >> {"props": {"core-id": 0, "thread-id": 0, "socket-id": 2},
-> >> "vcpus-count": 1,
-> >>  "type": "host-x86_64-cpu"},
-> >> {"props": {"core-id": 0, "thread-id": 0, "socket-id": 1},
-> >> "vcpus-count": 1,
-> >>  "qom-path": "/machine/peripheral/cpu1", "type": "host-x86_64-cpu"},
-> >> {"props": {"core-id": 0, "thread-id": 0, "socket-id": 0},
-> >> "vcpus-count": 1,
-> >>  "qom-path": "/machine/unattached/device[0]", "type":
-> >> "host-x86_64-cpu"}
-> >> ]}
-> >>
-> >> Before:
-> >> ./qmp-shell -N /tmp/qmp-ga.sock
-> >> Welcome to the QMP low-level shell!
-> >> Connected
-> >> (QEMU) guest-get-vcpus
-> >> {"return": [
-> >> {"online": true, "can-offline": false, "logical-id": 0},
-> >> {"online": true, "can-offline": true, "logical-id": 1}]}
-> >>
-> >> After:
-> >> ./qmp-shell -N /tmp/qmp-ga.sock
-> >> Welcome to the QMP low-level shell!
-> >> Connected
-> >> (QEMU) guest-get-vcpus
-> >> {"execute":"guest-get-vcpus"}
-> >> {"return": [
-> >> {"online": true, "can-offline": false, "logical-id": 0},
-> >> {"online": true, "can-offline": true, "logical-id": 1},
-> >> {"online": true, "can-offline": true, "logical-id": 3}]}
-> >>
-> >> Signed-off-by: Lin Ma <lma@suse.com>
-> >> ---
-> >>  qga/commands-posix.c | 8 +++++---
-> >>  1 file changed, 5 insertions(+), 3 deletions(-)
-> >>
-> >> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-> >> index 3bffee99d4..accc893373 100644
-> >> --- a/qga/commands-posix.c
-> >> +++ b/qga/commands-posix.c
-> >> @@ -2182,15 +2182,15 @@ GuestLogicalProcessorList
-> >> *qmp_guest_get_vcpus(Error **errp)
-> >>  {
-> >>      int64_t current;
-> >>      GuestLogicalProcessorList *head, **link;
-> >> -    long sc_max;
-> >> +    long max_loop_count;
-> >>      Error *local_err =3D NULL;
-> >>
-> >>      current =3D 0;
-> >>      head =3D NULL;
-> >>      link =3D &head;
-> >> -    sc_max =3D SYSCONF_EXACT(_SC_NPROCESSORS_CONF, &local_err);
-> >> +    max_loop_count =3D SYSCONF_EXACT(_SC_NPROCESSORS_CONF, &local_err=
-);
-> >>
-> >> -    while (local_err =3D=3D NULL && current < sc_max) {
-> >> +    while (local_err =3D=3D NULL && current < max_loop_count) {
-> >>          GuestLogicalProcessor *vcpu;
-> >>          GuestLogicalProcessorList *entry;
-> >>          int64_t id =3D current++;
-> >> @@ -2206,6 +2206,8 @@ GuestLogicalProcessorList
-> >> *qmp_guest_get_vcpus(Error
-> >> **errp)
-> >>              entry->value =3D vcpu;
-> >>              *link =3D entry;
-> >>              link =3D &entry->next;
-> >> +        } else {
-> >> +            max_loop_count +=3D 1;
-> >>
-> >
-> > This looks like a recipe for infinite loop on error.
-> Emm...It is possible.
-> >
-> > Shouldn't we loop over all the /sys/devices/system/cpu/cpu#/ instead?
-> Originally I'd like to use the function fnmatch to handle pattern cpu#
-> to
-> loop over all of the /sys/devices/system/cpu/cpu#/, But it introduces
-> the
-> header file fnmatch.h and make things complicated a little.
->
->
-Why use fnmatch?
-g_dir_open & g_dir_read_name, then you can sscanf for the matching entries.
+>>
+>> I'd be happy to help with the QEMU prototype, but preferably when there's
+>> hardware available. Has all the current MTE testing just been done on
+>> simulators? And, if so, are there regression tests regularly running on
+>> the simulators too? And can they test migration? If hardware doesn't
+>> show up quickly and simulators aren't used for regression tests, then
+>> all this code will start rotting from day one.
 
+As Marc says, hardware isn't available. Testing is either via the Arm 
+FVP model (that I've been using for most of my testing) or QEMU full 
+system emulation.
 
-> >
-> > (possibly parse /sys/devices/system/cpu/present, but I doubt it's
-> > necessary)
-> IMO the 'present' won't help.
->
-> I'm about to post the V2, I made tiny change in the V2, Please help to
-> review.
->
-> BTW, The local_err will be set in case of error, right? It could avoid
-> infinite loop.
->
-> I think it should.
+> 
+> While I agree with the sentiment, the reality is pretty bleak.
+> 
+> I'm pretty sure nobody will ever run a migration on emulation. I also doubt
+> there is much overlap between MTE users and migration users, unfortunately.
+> 
+> No HW is available today, and when it becomes available, it will be in
+> the form of a closed system on which QEMU doesn't run, either because
+> we are locked out of EL2 (as usual), or because migration is not part of
+> the use case (like KVM on Android, for example).
+> 
+> So we can wait another two (five?) years until general purpose HW becomes
+> available, or we start merging what we can test today. I'm inclined to
+> do the latter.
+> 
+> And I think it is absolutely fine for QEMU to say "no MTE support with KVM"
+> (we can remove all userspace visibility, except for the capability).
 
+What I'm trying to achieve is a situation where KVM+MTE without 
+migration works and we leave ourselves a clear path where migration can 
+be added. With hindsight I think this version of the series was a wrong 
+turn - if we return to not requiring PROT_MTE then we have the following 
+two potential options to explore for migration in the future:
 
---=20
-Marc-Andr=C3=A9 Lureau
+  * The VMM can choose to enable PROT_MTE if it needs to, and if desired 
+we can add a flag to enforce this in the kernel.
 
---0000000000009e410c05b486beca
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+  * If needed a new kernel interface can be provided to fetch/set tags 
+from guest memory which isn't mapped PROT_MTE.
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Nov 20, 2020 at 1:28 PM Lin=
- Ma &lt;<a href=3D"mailto:lma@suse.de">lma@suse.de</a>&gt; wrote:<br></div>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left:1px solid rgb(204,204,204);padding-left:1ex">On 2020-11-19 14:46, Marc=
--Andr=C3=A9 Lureau wrote:<br>
-&gt; Hi<br>
-&gt; <br>
-&gt; On Thu, Nov 19, 2020 at 12:48 PM Lin Ma &lt;<a href=3D"mailto:lma@suse=
-.com" target=3D"_blank">lma@suse.com</a>&gt; wrote:<br>
-&gt; <br>
-&gt;&gt; The guest-get-vcpus returns incorrect vcpu info in case we hotunpl=
-ug<br>
-&gt;&gt; vcpus(not<br>
-&gt;&gt; the last one).<br>
-&gt;&gt; e.g.:<br>
-&gt;&gt; A VM has 4 VCPUs: cpu0 + 3 hotunpluggable online vcpus(cpu1, cpu2 =
-and<br>
-&gt;&gt; cpu3).<br>
-&gt;&gt; Hotunplug cpu2,=C2=A0 Now only cpu0, cpu1 and cpu3 are present &am=
-p; online.<br>
-&gt;&gt; <br>
-&gt;&gt; ./qmp-shell /tmp/qmp-monitor.sock<br>
-&gt;&gt; (QEMU) query-hotpluggable-cpus<br>
-&gt;&gt; {&quot;return&quot;: [<br>
-&gt;&gt; {&quot;props&quot;: {&quot;core-id&quot;: 0, &quot;thread-id&quot;=
-: 0, &quot;socket-id&quot;: 3}, <br>
-&gt;&gt; &quot;vcpus-count&quot;: 1,<br>
-&gt;&gt;=C2=A0 &quot;qom-path&quot;: &quot;/machine/peripheral/cpu3&quot;, =
-&quot;type&quot;: &quot;host-x86_64-cpu&quot;},<br>
-&gt;&gt; {&quot;props&quot;: {&quot;core-id&quot;: 0, &quot;thread-id&quot;=
-: 0, &quot;socket-id&quot;: 2}, <br>
-&gt;&gt; &quot;vcpus-count&quot;: 1,<br>
-&gt;&gt;=C2=A0 &quot;qom-path&quot;: &quot;/machine/peripheral/cpu2&quot;, =
-&quot;type&quot;: &quot;host-x86_64-cpu&quot;},<br>
-&gt;&gt; {&quot;props&quot;: {&quot;core-id&quot;: 0, &quot;thread-id&quot;=
-: 0, &quot;socket-id&quot;: 1}, <br>
-&gt;&gt; &quot;vcpus-count&quot;: 1,<br>
-&gt;&gt;=C2=A0 &quot;qom-path&quot;: &quot;/machine/peripheral/cpu1&quot;, =
-&quot;type&quot;: &quot;host-x86_64-cpu&quot;},<br>
-&gt;&gt; {&quot;props&quot;: {&quot;core-id&quot;: 0, &quot;thread-id&quot;=
-: 0, &quot;socket-id&quot;: 0}, <br>
-&gt;&gt; &quot;vcpus-count&quot;: 1,<br>
-&gt;&gt;=C2=A0 &quot;qom-path&quot;: &quot;/machine/unattached/device[0]&qu=
-ot;, &quot;type&quot;: <br>
-&gt;&gt; &quot;host-x86_64-cpu&quot;}<br>
-&gt;&gt; ]}<br>
-&gt;&gt; <br>
-&gt;&gt; (QEMU) device_del id=3Dcpu2<br>
-&gt;&gt; {&quot;return&quot;: {}}<br>
-&gt;&gt; <br>
-&gt;&gt; (QEMU) query-hotpluggable-cpus<br>
-&gt;&gt; {&quot;return&quot;: [<br>
-&gt;&gt; {&quot;props&quot;: {&quot;core-id&quot;: 0, &quot;thread-id&quot;=
-: 0, &quot;socket-id&quot;: 3}, <br>
-&gt;&gt; &quot;vcpus-count&quot;: 1,<br>
-&gt;&gt;=C2=A0 &quot;qom-path&quot;: &quot;/machine/peripheral/cpu3&quot;, =
-&quot;type&quot;: &quot;host-x86_64-cpu&quot;},<br>
-&gt;&gt; {&quot;props&quot;: {&quot;core-id&quot;: 0, &quot;thread-id&quot;=
-: 0, &quot;socket-id&quot;: 2}, <br>
-&gt;&gt; &quot;vcpus-count&quot;: 1,<br>
-&gt;&gt;=C2=A0 &quot;type&quot;: &quot;host-x86_64-cpu&quot;},<br>
-&gt;&gt; {&quot;props&quot;: {&quot;core-id&quot;: 0, &quot;thread-id&quot;=
-: 0, &quot;socket-id&quot;: 1}, <br>
-&gt;&gt; &quot;vcpus-count&quot;: 1,<br>
-&gt;&gt;=C2=A0 &quot;qom-path&quot;: &quot;/machine/peripheral/cpu1&quot;, =
-&quot;type&quot;: &quot;host-x86_64-cpu&quot;},<br>
-&gt;&gt; {&quot;props&quot;: {&quot;core-id&quot;: 0, &quot;thread-id&quot;=
-: 0, &quot;socket-id&quot;: 0}, <br>
-&gt;&gt; &quot;vcpus-count&quot;: 1,<br>
-&gt;&gt;=C2=A0 &quot;qom-path&quot;: &quot;/machine/unattached/device[0]&qu=
-ot;, &quot;type&quot;: <br>
-&gt;&gt; &quot;host-x86_64-cpu&quot;}<br>
-&gt;&gt; ]}<br>
-&gt;&gt; <br>
-&gt;&gt; Before:<br>
-&gt;&gt; ./qmp-shell -N /tmp/qmp-ga.sock<br>
-&gt;&gt; Welcome to the QMP low-level shell!<br>
-&gt;&gt; Connected<br>
-&gt;&gt; (QEMU) guest-get-vcpus<br>
-&gt;&gt; {&quot;return&quot;: [<br>
-&gt;&gt; {&quot;online&quot;: true, &quot;can-offline&quot;: false, &quot;l=
-ogical-id&quot;: 0},<br>
-&gt;&gt; {&quot;online&quot;: true, &quot;can-offline&quot;: true, &quot;lo=
-gical-id&quot;: 1}]}<br>
-&gt;&gt; <br>
-&gt;&gt; After:<br>
-&gt;&gt; ./qmp-shell -N /tmp/qmp-ga.sock<br>
-&gt;&gt; Welcome to the QMP low-level shell!<br>
-&gt;&gt; Connected<br>
-&gt;&gt; (QEMU) guest-get-vcpus<br>
-&gt;&gt; {&quot;execute&quot;:&quot;guest-get-vcpus&quot;}<br>
-&gt;&gt; {&quot;return&quot;: [<br>
-&gt;&gt; {&quot;online&quot;: true, &quot;can-offline&quot;: false, &quot;l=
-ogical-id&quot;: 0},<br>
-&gt;&gt; {&quot;online&quot;: true, &quot;can-offline&quot;: true, &quot;lo=
-gical-id&quot;: 1},<br>
-&gt;&gt; {&quot;online&quot;: true, &quot;can-offline&quot;: true, &quot;lo=
-gical-id&quot;: 3}]}<br>
-&gt;&gt; <br>
-&gt;&gt; Signed-off-by: Lin Ma &lt;<a href=3D"mailto:lma@suse.com" target=
-=3D"_blank">lma@suse.com</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt;=C2=A0 qga/commands-posix.c | 8 +++++---<br>
-&gt;&gt;=C2=A0 1 file changed, 5 insertions(+), 3 deletions(-)<br>
-&gt;&gt; <br>
-&gt;&gt; diff --git a/qga/commands-posix.c b/qga/commands-posix.c<br>
-&gt;&gt; index 3bffee99d4..accc893373 100644<br>
-&gt;&gt; --- a/qga/commands-posix.c<br>
-&gt;&gt; +++ b/qga/commands-posix.c<br>
-&gt;&gt; @@ -2182,15 +2182,15 @@ GuestLogicalProcessorList<br>
-&gt;&gt; *qmp_guest_get_vcpus(Error **errp)<br>
-&gt;&gt;=C2=A0 {<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 int64_t current;<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 GuestLogicalProcessorList *head, **link;<br>
-&gt;&gt; -=C2=A0 =C2=A0 long sc_max;<br>
-&gt;&gt; +=C2=A0 =C2=A0 long max_loop_count;<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 Error *local_err =3D NULL;<br>
-&gt;&gt; <br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 current =3D 0;<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 head =3D NULL;<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 link =3D &amp;head;<br>
-&gt;&gt; -=C2=A0 =C2=A0 sc_max =3D SYSCONF_EXACT(_SC_NPROCESSORS_CONF, &amp=
-;local_err);<br>
-&gt;&gt; +=C2=A0 =C2=A0 max_loop_count =3D SYSCONF_EXACT(_SC_NPROCESSORS_CO=
-NF, &amp;local_err);<br>
-&gt;&gt; <br>
-&gt;&gt; -=C2=A0 =C2=A0 while (local_err =3D=3D NULL &amp;&amp; current &lt=
-; sc_max) {<br>
-&gt;&gt; +=C2=A0 =C2=A0 while (local_err =3D=3D NULL &amp;&amp; current &lt=
-; max_loop_count) {<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 GuestLogicalProcessor *vcpu;<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 GuestLogicalProcessorList *entry=
-;<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int64_t id =3D current++;<br>
-&gt;&gt; @@ -2206,6 +2206,8 @@ GuestLogicalProcessorList <br>
-&gt;&gt; *qmp_guest_get_vcpus(Error<br>
-&gt;&gt; **errp)<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 entry-&gt;value =
-=3D vcpu;<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *link =3D entry;<b=
-r>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 link =3D &amp;entr=
-y-&gt;next;<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 max_loop_count +=3D 1;<=
-br>
-&gt;&gt; <br>
-&gt; <br>
-&gt; This looks like a recipe for infinite loop on error.<br>
-Emm...It is possible.<br>
-&gt; <br>
-&gt; Shouldn&#39;t we loop over all the /sys/devices/system/cpu/cpu#/ inste=
-ad?<br>
-Originally I&#39;d like to use the function fnmatch to handle pattern cpu# =
-<br>
-to<br>
-loop over all of the /sys/devices/system/cpu/cpu#/, But it introduces <br>
-the<br>
-header file fnmatch.h and make things complicated a little.<br>
-<br></blockquote><div><br></div><div>Why use fnmatch?</div><div>g_dir_open =
-&amp; g_dir_read_name, then you can sscanf for the matching entries.<br></d=
-iv><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-&gt; <br>
-&gt; (possibly parse /sys/devices/system/cpu/present, but I doubt it&#39;s =
-<br>
-&gt; necessary)<br>
-IMO the &#39;present&#39; won&#39;t help.<br>
-<br>
-I&#39;m about to post the V2, I made tiny change in the V2, Please help to =
-<br>
-review.<br>
-<br>
-BTW, The local_err will be set in case of error, right? It could avoid <br>
-infinite loop.<br>
-<br></blockquote><div>I think it should.<br></div></div><br clear=3D"all"><=
-br>-- <br><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau=
-<br></div></div>
+Does this sound reasonable?
 
---0000000000009e410c05b486beca--
+I'll clean up the set_pte_at() change and post a v6 later today.
 
