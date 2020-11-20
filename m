@@ -2,44 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28D292BB1D5
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 18:57:36 +0100 (CET)
-Received: from localhost ([::1]:60526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87E0C2BB1CF
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 18:55:55 +0100 (CET)
+Received: from localhost ([::1]:58010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kgAf9-00030p-9D
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 12:57:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55330)
+	id 1kgAdW-0001n7-LG
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 12:55:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kgAV7-0008UY-0m
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kgAV7-0008Ub-FI
  for qemu-devel@nongnu.org; Fri, 20 Nov 2020 12:47:14 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:43338)
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:28593)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kgAV2-00059G-JN
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 12:47:12 -0500
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kgAV4-0005A8-EH
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 12:47:13 -0500
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-510-XutxK6N-Oo2VrwJAmco-EA-1; Fri, 20 Nov 2020 12:47:00 -0500
-X-MC-Unique: XutxK6N-Oo2VrwJAmco-EA-1
+ us-mta-334-D7kk5PBqMCKGEAOnqprtmw-1; Fri, 20 Nov 2020 12:47:03 -0500
+X-MC-Unique: D7kk5PBqMCKGEAOnqprtmw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 30BCB80ED8A;
- Fri, 20 Nov 2020 17:46:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A74B680ED9D;
+ Fri, 20 Nov 2020 17:47:00 +0000 (UTC)
 Received: from bahia.redhat.com (ovpn-112-44.ams2.redhat.com [10.36.112.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0A6935C1D5;
- Fri, 20 Nov 2020 17:46:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7DE865C1D5;
+ Fri, 20 Nov 2020 17:46:59 +0000 (UTC)
 From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.0 7/8] spapr: Drop "nr_servers" argument of the sPAPR IC
- activate() operation
-Date: Fri, 20 Nov 2020 18:46:45 +0100
-Message-Id: <20201120174646.619395-8-groug@kaod.org>
+Subject: [PATCH for-6.0 8/8] spapr: Drop "nr_servers" argument of the sPAPR IC
+ dt() operation
+Date: Fri, 20 Nov 2020 18:46:46 +0100
+Message-Id: <20201120174646.619395-9-groug@kaod.org>
 In-Reply-To: <20201120174646.619395-1-groug@kaod.org>
 References: <20201120174646.619395-1-groug@kaod.org>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: kaod.org
 Content-Transfer-Encoding: quoted-printable
@@ -73,81 +75,113 @@ This argument isn't used by the backends anymore.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- include/hw/ppc/spapr_irq.h | 3 +--
- hw/intc/spapr_xive.c       | 3 +--
- hw/intc/xics_spapr.c       | 3 +--
- hw/ppc/spapr_irq.c         | 3 +--
- 4 files changed, 4 insertions(+), 8 deletions(-)
+ include/hw/ppc/spapr_irq.h | 6 ++----
+ hw/intc/spapr_xive.c       | 4 ++--
+ hw/intc/xics_spapr.c       | 4 ++--
+ hw/ppc/spapr.c             | 2 +-
+ hw/ppc/spapr_irq.c         | 5 ++---
+ 5 files changed, 9 insertions(+), 12 deletions(-)
 
 diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-index c22a72c9e270..3e1c619d4c06 100644
+index 3e1c619d4c06..e2519e4bc596 100644
 --- a/include/hw/ppc/spapr_irq.h
 +++ b/include/hw/ppc/spapr_irq.h
-@@ -43,8 +43,7 @@ DECLARE_CLASS_CHECKERS(SpaprInterruptControllerClass, SPA=
-PR_INTC,
- struct SpaprInterruptControllerClass {
-     InterfaceClass parent;
+@@ -61,8 +61,7 @@ struct SpaprInterruptControllerClass {
+     /* These methods should only be called on the active intc */
+     void (*set_irq)(SpaprInterruptController *intc, int irq, int val);
+     void (*print_info)(SpaprInterruptController *intc, Monitor *mon);
+-    void (*dt)(SpaprInterruptController *intc, uint32_t nr_servers,
+-               void *fdt, uint32_t phandle);
++    void (*dt)(SpaprInterruptController *intc, void *fdt, uint32_t phandle=
+);
+     int (*post_load)(SpaprInterruptController *intc, int version_id);
+ };
 =20
--    int (*activate)(SpaprInterruptController *intc, uint32_t nr_servers,
--                    Error **errp);
-+    int (*activate)(SpaprInterruptController *intc, Error **errp);
-     void (*deactivate)(SpaprInterruptController *intc);
+@@ -73,8 +72,7 @@ int spapr_irq_cpu_intc_create(struct SpaprMachineState *s=
+papr,
+ void spapr_irq_cpu_intc_reset(struct SpaprMachineState *spapr, PowerPCCPU =
+*cpu);
+ void spapr_irq_cpu_intc_destroy(struct SpaprMachineState *spapr, PowerPCCP=
+U *cpu);
+ void spapr_irq_print_info(struct SpaprMachineState *spapr, Monitor *mon);
+-void spapr_irq_dt(struct SpaprMachineState *spapr, uint32_t nr_servers,
+-                  void *fdt, uint32_t phandle);
++void spapr_irq_dt(struct SpaprMachineState *spapr, void *fdt, uint32_t pha=
+ndle);
 =20
-     /*
+ uint32_t spapr_irq_nr_msis(struct SpaprMachineState *spapr);
+ int spapr_irq_msi_alloc(struct SpaprMachineState *spapr, uint32_t num, boo=
+l align,
 diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index d13a2955ce9b..8331026fdb12 100644
+index 8331026fdb12..749cff9bf2b9 100644
 --- a/hw/intc/spapr_xive.c
 +++ b/hw/intc/spapr_xive.c
-@@ -754,8 +754,7 @@ static void spapr_xive_dt(SpaprInterruptController *int=
-c, uint32_t nr_servers,
-                      plat_res_int_priorities, sizeof(plat_res_int_prioriti=
-es)));
+@@ -691,8 +691,8 @@ static void spapr_xive_print_info(SpaprInterruptControl=
+ler *intc, Monitor *mon)
+     spapr_xive_pic_print_info(xive, mon);
  }
 =20
--static int spapr_xive_activate(SpaprInterruptController *intc,
--                               uint32_t nr_servers, Error **errp)
-+static int spapr_xive_activate(SpaprInterruptController *intc, Error **err=
-p)
+-static void spapr_xive_dt(SpaprInterruptController *intc, uint32_t nr_serv=
+ers,
+-                          void *fdt, uint32_t phandle)
++static void spapr_xive_dt(SpaprInterruptController *intc, void *fdt,
++                          uint32_t phandle)
  {
      SpaprXive *xive =3D SPAPR_XIVE(intc);
-=20
+     int node;
 diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
-index ce147e8980ed..8810bd93c856 100644
+index 8810bd93c856..a790b59f1bbc 100644
 --- a/hw/intc/xics_spapr.c
 +++ b/hw/intc/xics_spapr.c
-@@ -426,8 +426,7 @@ static int xics_spapr_post_load(SpaprInterruptControlle=
-r *intc, int version_id)
-     return 0;
+@@ -312,8 +312,8 @@ static void ics_spapr_realize(DeviceState *dev, Error *=
+*errp)
+     spapr_register_hypercall(H_IPOLL, h_ipoll);
  }
 =20
--static int xics_spapr_activate(SpaprInterruptController *intc,
--                               uint32_t nr_servers, Error **errp)
-+static int xics_spapr_activate(SpaprInterruptController *intc, Error **err=
-p)
+-static void xics_spapr_dt(SpaprInterruptController *intc, uint32_t nr_serv=
+ers,
+-                          void *fdt, uint32_t phandle)
++static void xics_spapr_dt(SpaprInterruptController *intc, void *fdt,
++                          uint32_t phandle)
  {
-     if (kvm_enabled()) {
-         return spapr_irq_init_kvm(xics_kvm_connect, intc,
+     uint32_t interrupt_server_ranges_prop[] =3D {
+         0, cpu_to_be32(ICS_SPAPR(intc)->nr_servers),
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 21de0456446b..595dd1b81ce1 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -1164,7 +1164,7 @@ void *spapr_build_fdt(SpaprMachineState *spapr, bool =
+reset, size_t space)
+     _FDT(fdt_setprop_cell(fdt, 0, "#size-cells", 2));
+=20
+     /* /interrupt controller */
+-    spapr_irq_dt(spapr, spapr_max_server_number(spapr), fdt, PHANDLE_INTC)=
+;
++    spapr_irq_dt(spapr, fdt, PHANDLE_INTC);
+=20
+     ret =3D spapr_dt_memory(spapr, fdt);
+     if (ret < 0) {
 diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-index be6f4041e433..f2897fbc942a 100644
+index f2897fbc942a..f93476d00a59 100644
 --- a/hw/ppc/spapr_irq.c
 +++ b/hw/ppc/spapr_irq.c
-@@ -480,7 +480,6 @@ static void set_active_intc(SpaprMachineState *spapr,
-                             SpaprInterruptController *new_intc)
+@@ -271,13 +271,12 @@ void spapr_irq_print_info(SpaprMachineState *spapr, M=
+onitor *mon)
+     sicc->print_info(spapr->active_intc, mon);
+ }
+=20
+-void spapr_irq_dt(SpaprMachineState *spapr, uint32_t nr_servers,
+-                  void *fdt, uint32_t phandle)
++void spapr_irq_dt(SpaprMachineState *spapr, void *fdt, uint32_t phandle)
  {
-     SpaprInterruptControllerClass *sicc;
--    uint32_t nr_servers =3D spapr_max_server_number(spapr);
+     SpaprInterruptControllerClass *sicc
+         =3D SPAPR_INTC_GET_CLASS(spapr->active_intc);
 =20
-     assert(new_intc);
+-    sicc->dt(spapr->active_intc, nr_servers, fdt, phandle);
++    sicc->dt(spapr->active_intc, fdt, phandle);
+ }
 =20
-@@ -498,7 +497,7 @@ static void set_active_intc(SpaprMachineState *spapr,
-=20
-     sicc =3D SPAPR_INTC_GET_CLASS(new_intc);
-     if (sicc->activate) {
--        sicc->activate(new_intc, nr_servers, &error_fatal);
-+        sicc->activate(new_intc, &error_fatal);
-     }
-=20
-     spapr->active_intc =3D new_intc;
+ uint32_t spapr_irq_nr_msis(SpaprMachineState *spapr)
 --=20
 2.26.2
 
