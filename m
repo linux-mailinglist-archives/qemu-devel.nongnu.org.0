@@ -2,78 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 254CD2BAB9E
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 15:06:40 +0100 (CET)
-Received: from localhost ([::1]:44108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9504E2BABA0
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 15:07:46 +0100 (CET)
+Received: from localhost ([::1]:46516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg73e-0006PT-Lt
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 09:06:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47420)
+	id 1kg74j-0007QT-MV
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 09:07:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kg72m-0005yw-Vy
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 09:05:45 -0500
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:41430)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kg72l-0006vi-Cq
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 09:05:44 -0500
-Received: by mail-pf1-x444.google.com with SMTP id t8so7925036pfg.8
- for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 06:05:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=P9qcI98I2w3LgMGtpWhMDZ3CjhkzNpmeqsk8XJO5Rm8=;
- b=YQNnJuKoTp4cChJG5rwSdxDPdx4AD0sMW+sguemRcLRS28z18nz2SYIj9SxAYPEbmc
- l0Xg5l1cymvyy8+uuhfVQps/ZpkqRUy+r0LVoqbz6HBTsZiSuC2o2hAbnyfCfq4SIqz9
- cQLPJ9ngVS5XgXvi37RN/4XNS0twWYxH2Q6Xtsu7fyPscCpiAQvnlgzqcxW7lIqXtZUH
- 2EyLaDK8KgL9wm45SuJWG3Nq0w52Q8YScAum3oztgk7oZombacaNwxNzWf4qhPed1eOH
- SQkbI3cvD/HhcIFvIyE1e8flV7cCVLaBnZPMQtXhduLhM8iDltfH6RtYo027luEFIYdW
- sVFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=P9qcI98I2w3LgMGtpWhMDZ3CjhkzNpmeqsk8XJO5Rm8=;
- b=WNbm24oJFsqp6p3B8/eqTkDVycTGGWzYUVxRhPqdasYBYFRngzDUQyogR3NJ7bt9Sy
- wi0m/6F6ldZcC89A3gur4DZ4jqX5h9pkDGNYNA8CBi+j6ImDoC4wzveYoNG9c/I5ZyRF
- NTd9xrEe/mOVFF/GSGfOVMiaxG0EClD1B4oFu/2SKUb4UX3ut+Haj4GeMrr69XnhG/bQ
- AxKOEHNo7W7jtSJHU14JjN2V6Y4dGcEv5Oc9pHgv5NMpT2su+NCdw9TZtDo02WQ6iPmW
- kVo8kefb8VkjdLqIzkTccSqr6X5IlAp54oWRXgqHDGP8eAJ/4Oh+D495ciCVvJIbvqcJ
- c0jA==
-X-Gm-Message-State: AOAM533yvW59kWQEhpiXNa4UtR8R1Se+pY9AtZMgqFrPs+ctH8f8QVfi
- 7cbJKrd7QRmnCilzN3Kth3CTnlXDFCxHaw==
-X-Google-Smtp-Source: ABdhPJzp+vP/P9x5XPEP1BLXII6D4caLCxZxiiPEjwuVevuRtLjkue6N2uELPts81cRuwbYbTtOcUQ==
-X-Received: by 2002:a17:90a:f0c7:: with SMTP id
- fa7mr10828788pjb.3.1605881141212; 
- Fri, 20 Nov 2020 06:05:41 -0800 (PST)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id 22sm4224336pjb.40.2020.11.20.06.05.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Nov 2020 06:05:40 -0800 (PST)
-Subject: Re: [PATCH] meson.build: convert --with-default-devices to meson
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20201120073830.99939-1-pbonzini@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <4067c73a-3351-7837-4dc5-d71568a57066@linaro.org>
-Date: Fri, 20 Nov 2020 06:05:38 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <lushenming@huawei.com>)
+ id 1kg73U-0006gR-6I; Fri, 20 Nov 2020 09:06:28 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2461)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lushenming@huawei.com>)
+ id 1kg73R-00070q-2U; Fri, 20 Nov 2020 09:06:27 -0500
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CcyxX75LKzLqMg;
+ Fri, 20 Nov 2020 22:05:36 +0800 (CST)
+Received: from [10.174.187.179] (10.174.187.179) by
+ DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
+ 14.3.487.0; Fri, 20 Nov 2020 22:05:50 +0800
+Subject: Re: [PATCH RFC] vfio: Move the saving of the config space to the
+ right place in VFIO migration
+To: Alex Williamson <alex.williamson@redhat.com>, Kirti Wankhede
+ <kwankhede@nvidia.com>
+References: <20201114091731.157-1-lushenming@huawei.com>
+ <860bd707-8862-2584-6e12-67c86f092dba@nvidia.com>
+ <20201119104127.5e243efa@w520.home>
+From: Shenming Lu <lushenming@huawei.com>
+Message-ID: <a7be9306-f800-0323-293e-217e2e9f6015@huawei.com>
+Date: Fri, 20 Nov 2020 22:05:49 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.2.2
 MIME-Version: 1.0
-In-Reply-To: <20201120073830.99939-1-pbonzini@redhat.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20201119104127.5e243efa@w520.home>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.187.179]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191;
+ envelope-from=lushenming@huawei.com; helo=szxga05-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,22 +62,189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Neo Jia <cjia@nvidia.com>, Marc Zyngier <maz@kernel.org>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org, dgilbert@redhat.com,
+ Eric Auger <eric.auger@redhat.com>, qemu-arm@nongnu.org, yuzenghui@huawei.com,
+ wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/19/20 11:38 PM, Paolo Bonzini wrote:
-> Pass the boolean option directly instead of writing
-> CONFIG_MINIKCONF_MODE to config-host.mak.
+On 2020/11/20 1:41, Alex Williamson wrote:
+> On Thu, 19 Nov 2020 14:13:24 +0530
+> Kirti Wankhede <kwankhede@nvidia.com> wrote:
 > 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  configure         | 12 ++++--------
->  meson.build       |  5 +++--
->  meson_options.txt |  2 ++
->  3 files changed, 9 insertions(+), 10 deletions(-)
+>> On 11/14/2020 2:47 PM, Shenming Lu wrote:
+>>> When running VFIO migration, I found that the restoring of VFIO PCI device’s
+>>> config space is before VGIC on ARM64 target. But generally, interrupt controllers
+>>> need to be restored before PCI devices.   
+>>
+>> Is there any other way by which VGIC can be restored before PCI device?
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+As far as I know, it seems to have to depend on priorities in the non-iterable process.
 
-r~
+>>
+>>> Besides, if a VFIO PCI device is
+>>> configured to have directly-injected MSIs (VLPIs), the restoring of its config
+>>> space will trigger the configuring of these VLPIs (in kernel), where it would
+>>> return an error as I saw due to the dependency on kvm’s vgic.
+>>>   
+>>
+>> Can this be fixed in kernel to re-initialize the kernel state?
 
+Did you mean to reconfigure these VLPIs when restoring kvm's vgic?
+But the fact is that this error is not caused by kernel, it is due to the incorrect
+calling order of qemu...
+
+>>
+>>> To avoid this, we can move the saving of the config space from the iterable
+>>> process to the non-iterable process, so that it will be called after VGIC
+>>> according to their priorities.
+>>>   
+>>
+>> With this change, at resume side, pre-copy phase data would reach 
+>> destination without restored config space. VFIO device on destination 
+>> might need it's config space setup and validated before it can accept 
+>> further VFIO device specific migration state.
+>>
+>> This also changes bit-stream, so it would break migration with original 
+>> migration patch-set.
+> 
+> Config space can continue to change while in pre-copy, if we're only
+> sending config space at the initiation of pre-copy, how are any changes
+> that might occur before the VM is stopped conveyed to the target?  For
+> example the guest might reboot and a device returned to INTx mode from
+> MSI during pre-copy.  Thanks,
+
+What I see is that the config space is only saved once in save_live_complete_precopy
+currently...
+As you said, a VFIO device might need it's config space setup first, and
+the config space can continue to change while in pre-copy, Did you mean we
+have to migrate the config space in save_live_iterate?
+However, I still have a little doubt about the restoring dependence between
+the qemu emulated config space and the device data...
+
+Besides, if we surely can't move the saving of the config space back, can we
+just move some actions which are triggered by the restoring of the config space
+back (such as vfio_msix_enable())?
+
+The demo patch is as follows (but it seems that .save_state is not a appropriate
+place to do it. -_-):
+
+diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+index 55261562d4..9cf0310148 100644
+--- a/hw/vfio/migration.c
++++ b/hw/vfio/migration.c
+@@ -44,6 +44,7 @@
+ #define VFIO_MIG_FLAG_DEV_CONFIG_STATE  (0xffffffffef100002ULL)
+ #define VFIO_MIG_FLAG_DEV_SETUP_STATE   (0xffffffffef100003ULL)
+ #define VFIO_MIG_FLAG_DEV_DATA_STATE    (0xffffffffef100004ULL)
++#define VFIO_MIG_FLAG_DEV_STATE_TRIGGER (0xffffffffef100005ULL)
+
+ static int64_t bytes_transferred;
+
+@@ -368,6 +369,15 @@ static int vfio_save_device_config_state(QEMUFile *f, void *opaque)
+     return qemu_file_get_error(f);
+ }
+
++static void vfio_device_state_trigger(void *opaque)
++{
++    VFIODevice *vbasedev = opaque;
++
++    if (vbasedev->ops && vbasedev->ops->vfio_trigger_config) {
++        vbasedev->ops->vfio_trigger_config(vbasedev);
++    }
++}
++
+ static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
+ {
+     VFIODevice *vbasedev = opaque;
+@@ -620,6 +630,13 @@ static int vfio_save_complete_precopy(QEMUFile *f, void *opaque)
+     return ret;
+ }
+
++static void vfio_save_state_trigger(QEMUFile *f, void *opaque)
++{
++    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_STATE_TRIGGER);
++
++    qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
++}
++
+ static int vfio_load_setup(QEMUFile *f, void *opaque)
+ {
+     VFIODevice *vbasedev = opaque;
+@@ -700,6 +717,18 @@ static int vfio_load_state(QEMUFile *f, void *opaque, int version_id)
+             }
+             break;
+         }
++        case VFIO_MIG_FLAG_DEV_STATE_TRIGGER:
++        {
++            vfio_device_state_trigger(opaque);
++            data = qemu_get_be64(f);
++            if (data == VFIO_MIG_FLAG_END_OF_STATE) {
++                return ret;
++            } else {
++                error_report("%s: STATE TRIGGER: EOS not found 0x%"PRIx64,
++                             vbasedev->name, data);
++                return -EINVAL;
++            }
++        }
+         default:
+             error_report("%s: Unknown tag 0x%"PRIx64, vbasedev->name, data);
+             return -EINVAL;
+@@ -720,6 +749,7 @@ static SaveVMHandlers savevm_vfio_handlers = {
+     .save_live_pending = vfio_save_pending,
+     .save_live_iterate = vfio_save_iterate,
+     .save_live_complete_precopy = vfio_save_complete_precopy,
++    .save_state = vfio_save_state_trigger,
+     .load_setup = vfio_load_setup,
+     .load_cleanup = vfio_load_cleanup,
+     .load_state = vfio_load_state,
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index 58c0ce8971..4cd2feee92 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -2441,13 +2441,19 @@ static int vfio_pci_load_config(VFIODevice *vbasedev, QEMUFile *f)
+     vfio_pci_write_config(pdev, PCI_COMMAND,
+                           pci_get_word(pdev->config + PCI_COMMAND), 2);
+
++    return ret;
++}
++
++static void vfio_pci_trigger_config(VFIODevice *vbasedev)
++{
++    VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice, vbasedev);
++    PCIDevice *pdev = &vdev->pdev;
++
+     if (msi_enabled(pdev)) {
+         vfio_msi_enable(vdev);
+     } else if (msix_enabled(pdev)) {
+         vfio_msix_enable(vdev);
+     }
+-
+-    return ret;
+ }
+
+ static VFIODeviceOps vfio_pci_ops = {
+@@ -2457,6 +2463,7 @@ static VFIODeviceOps vfio_pci_ops = {
+     .vfio_get_object = vfio_pci_get_object,
+     .vfio_save_config = vfio_pci_save_config,
+     .vfio_load_config = vfio_pci_load_config,
++    .vfio_trigger_config = vfio_pci_trigger_config,
+ };
+
+ int vfio_populate_vga(VFIOPCIDevice *vdev, Error **errp)
+diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+index baeb4dcff1..4680a3e8d0 100644
+--- a/include/hw/vfio/vfio-common.h
++++ b/include/hw/vfio/vfio-common.h
+@@ -138,6 +138,7 @@ struct VFIODeviceOps {
+     Object *(*vfio_get_object)(VFIODevice *vdev);
+     void (*vfio_save_config)(VFIODevice *vdev, QEMUFile *f);
+     int (*vfio_load_config)(VFIODevice *vdev, QEMUFile *f);
++    void (*vfio_trigger_config)(VFIODevice *vdev);
+ };
+
+ typedef struct VFIOGroup {
+-- 
+2.19.1
 
