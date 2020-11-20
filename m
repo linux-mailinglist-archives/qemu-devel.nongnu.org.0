@@ -2,77 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4242F2BA311
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 08:23:59 +0100 (CET)
-Received: from localhost ([::1]:38378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C2622BA32F
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 08:28:58 +0100 (CET)
+Received: from localhost ([::1]:40666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg0ly-0003qj-7k
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 02:23:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42878)
+	id 1kg0qn-000578-6O
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 02:28:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cavinnarsinghani@gmail.com>)
- id 1kfzCZ-0004BP-Ht
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 00:43:19 -0500
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:44933)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cavinnarsinghani@gmail.com>)
- id 1kfzCX-0003oB-KT
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 00:43:19 -0500
-Received: by mail-pf1-x42a.google.com with SMTP id y7so6774939pfq.11
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 21:43:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=content-transfer-encoding:from:mime-version:date:subject:message-id
- :to; bh=pTcaabNhKsxt9/yc7GPVO6UU4izvnNQSy0SFNxg5MgA=;
- b=bvBgvm4KRLlq1GlGeY9l9uVjc4JUxM20qab8/k6psS6DF9ZsGA7UZkFSQEt+1uCuLl
- nj51LEz9IszSngX2693afVcr48+kXYA14vcTGZI+FTCEAhtTMK4XFByPQJASncXJxpdq
- usDmsY+9Vz9O4qWE9qLnezPLFDNV6xVHxycRdkWLAjsMjrn2cNfUbIDbZBsWu0FixsBP
- jJsUI/Y4DshKI1xxyHtX9zNMDIJK4DaG1aB3Dd3pQaIUSa5ocqDvtcERpRHtwKGUWMqO
- CBUxVTwE0o3C+npHipb4c4WJHK0CqpkRHutmKTUWkyeVwDloVKUmmwWs2+LXKVZXgBtw
- 5AbQ==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kg0oC-0004ct-Pv
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 02:26:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59409)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kg0oA-0003Ch-VD
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 02:26:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605857173;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RHyMdSp7J1NqQxH9eAwEq3cI2cbouOW25opDfBiSzaE=;
+ b=MzbO/oHHUOaIyftzIhQS8f56o2J3hRjaF64hoWVvBVklNQDwcIMPpws5es1VGJf2t7PbQw
+ rgbv4NYZMj9Vdn+sllFQeUg618qORsFrEq4AIl0m6jbtx1DCEPVahvyqX1pdPRY14qOkJk
+ FnNk+wgBOag0FMUnZ5LxdUlWeTbMDaI=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-9-N5_8wVb2PjGJ2YYHSyuR1A-1; Fri, 20 Nov 2020 02:26:08 -0500
+X-MC-Unique: N5_8wVb2PjGJ2YYHSyuR1A-1
+Received: by mail-ed1-f69.google.com with SMTP id i8so3375208edy.21
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 23:26:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:content-transfer-encoding:from:mime-version:date
- :subject:message-id:to;
- bh=pTcaabNhKsxt9/yc7GPVO6UU4izvnNQSy0SFNxg5MgA=;
- b=PDN+rquTrO5sc0Nc5MMfcf4qm9snhQwsCqRplg5Y3BXER6YGU06WC0fq/s7Lcn0CIQ
- nzxUAF9XqvcTqa/uIenQbicSkBrBYCOE165KThS90B8nw/u5kM2cu9DvU3Gaepnzgth7
- 8+NPox+wDA+ATyoV7ORI2Ng0yBdVOo8uhHzXcnnvIZGil6UFqkJZe7dRwiapzUcWRKn8
- 3LHj/i60463UnoIUQpfdguANOPTy+9sDRfVe38DFOOG2F7kUdDs+5iboPIzRA0roHvI1
- 5Uvei4hbLNSOqL7/XaY+37DohzFiVcy8jDQLnPk2wAM/6XFOk0bsWl8oJNL2AQCeoErt
- 7+TA==
-X-Gm-Message-State: AOAM532AwJciQcCW+vVHy3SXQLpMgkRTYOfDuVBj1qu8BUCSK05vsxHF
- 7s9qKEWDgof0Iy2algS9lYR6I8vooaM=
-X-Google-Smtp-Source: ABdhPJzhR6LPZYAeH3X/58ro4qTy/7AoMGHeUDlKsV7AYWnyLdeikNYBTsK5awejsRbmgqtqqiuMyg==
-X-Received: by 2002:a17:90b:1888:: with SMTP id
- mn8mr912857pjb.158.1605850994991; 
- Thu, 19 Nov 2020 21:43:14 -0800 (PST)
-Received: from ?IPv6:2409:4042:2e14:63e1:781c:f507:809e:24d0?
- ([2409:4042:2e14:63e1:781c:f507:809e:24d0])
- by smtp.gmail.com with ESMTPSA id y1sm1928120pfe.80.2020.11.19.21.43.13
- for <qemu-devel@nongnu.org>
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=RHyMdSp7J1NqQxH9eAwEq3cI2cbouOW25opDfBiSzaE=;
+ b=mr+4whMdKRd8dEJiemVmYj9ByBn7Sjh20tdqJNYWsRgxgJTV3Yg3TZZkoX2RRhgTcs
+ uQnMRMvpkvKw2Kkgn+C4asp0UGj8NKg6Zp4MYtoKOj9v+/Wswsb9aVgsLWGdk7a+RzE0
+ 9WD7wTwZoEKHZ1invAEXJpmZQBlQh9mj1t5eJyDtlgBcRmJNywHx3drmWkk7yN5ArwZk
+ 4taJhrcyPxOMdpoccot/f+znVYBWXcn4cwpjL1TF+3z7UnVoRgpHB5nohUav0CmUfctQ
+ OqXPA5RDhxnDXPfpmXxTj2m7EY5cqhhbyyCVfYgR6XPWvo0f/u0zHrfj7ycz4hMB7jgc
+ 3Ilg==
+X-Gm-Message-State: AOAM532cwhM7rCFECDmiLu7GRXgV71UB19xZDfS0HSK2EIPzPzum0PCS
+ 0ro2SzoN4plxOpsn5oh5mUx2/nsCTfIYV9vv6L5Nk6gwkmu5UOYOAkuTm1U37RJJE4OAnRHmkzN
+ sLKZLmIRZigWURck=
+X-Received: by 2002:a50:d490:: with SMTP id s16mr15635885edi.187.1605857167531; 
+ Thu, 19 Nov 2020 23:26:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx0mlBgTtfZOURN2GjsCorsl0KKRzWXGw0MhU0oNQsq0j0Hv1VjgHESD1odwSzHshMNSr6GkQ==
+X-Received: by 2002:a50:d490:: with SMTP id s16mr15635863edi.187.1605857167340; 
+ Thu, 19 Nov 2020 23:26:07 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id t10sm772569eji.61.2020.11.19.23.26.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Nov 2020 21:43:14 -0800 (PST)
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-From: cavinnarsinghani@gmail.com
-Mime-Version: 1.0 (1.0)
-Date: Fri, 20 Nov 2020 11:13:10 +0530
-Subject: Peter Maydell
-Message-Id: <5A06DC2D-E6A3-4249-B05F-A424D684BD26@gmail.com>
-To: qemu-devel@nongnu.org
-X-Mailer: iPhone Mail (18B92)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=cavinnarsinghani@gmail.com; helo=mail-pf1-x42a.google.com
+ Thu, 19 Nov 2020 23:26:06 -0800 (PST)
+To: Bruce Rogers <brogers@suse.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20201020074844.5304-1-kraxel@redhat.com>
+ <20201020074844.5304-5-kraxel@redhat.com>
+ <2b74eb5bd939bdd7ad1b05590a427afa4d742eec.camel@suse.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v3 04/10] usb/xhci: fixup xhci kconfig deps
+Message-ID: <b693b96c-b619-47f9-bd8a-f4b41551f886@redhat.com>
+Date: Fri, 20 Nov 2020 08:26:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
+MIME-Version: 1.0
+In-Reply-To: <2b74eb5bd939bdd7ad1b05590a427afa4d742eec.camel@suse.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 20 Nov 2020 02:15:22 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,11 +102,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
+ Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This issue is about the Qemu 
-Will the Qemu work on the new m1 macbook pro? 
-And if yes, when will the arm version of Qemu be available for public
+On 20/11/20 01:27, Bruce Rogers wrote:
+>>   config USB_XHCI_SYSBUS
+>>       bool
+>> -    default y if USB_XHCI
+>> -    select USB
+>> +    default y
+>> +    select USB_XHCI
+>>   
+>>   config USB_MUSB
+>>       bool
+> I was reviewing what device changes are happening between v5.1.0 and
+> v5.2.0 for the QEMU arch's we support and noticed for s390x system
+> emulation that usb devices have appeared in the info qdm list in the
+> monitor.
+> 
+> I bisected the change to this patch, now commit 7114f6eac333d99b, which
+> does a 'default y' without any conditionals. I'm fairly sure that was
+> not the intent, though I do know what the proper conditionals should
+> be.
+> 
+> Can you take a look at it?
+
+Generally, SYSBUS devices should never be "default y" because they're 
+not user creatable.  Also kconfig.rst says
+
+   Devices are usually ``default y`` if and only if they have at least
+   one ``depends on``; the default could be conditional on a device
+   group.
+
+In this case, the right thing to do is to remove "default y" here; 
+microvm already has a "select USB_XHCI_SYSBUS" so it would still work. 
+That said, I would also change
+
+     select PCI_EXPRESS_GENERIC_BRIDGE
+     select USB_XHCI_SYSBUS
+
+for microvm to "imply".  Again, according to kconfig.rst
+
+   Boards specify their constituent devices using ``imply`` and
+   ``select`` directives.  A device should be listed under ``select`` if
+   the board cannot be started at all without it.  It should be listed
+   under ``imply`` if (depending on the QEMU command line) the board may
+   or may not be started without it.
+
+Thanks,
+
+Paolo
 
 
