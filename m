@@ -2,97 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABE182BAC06
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 15:39:26 +0100 (CET)
-Received: from localhost ([::1]:54106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBB3B2BAC14
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 15:42:59 +0100 (CET)
+Received: from localhost ([::1]:58420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg7ZN-0008Ro-OQ
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 09:39:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60432)
+	id 1kg7co-00025K-MI
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 09:42:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1kg7YN-0007x8-Ch; Fri, 20 Nov 2020 09:38:23 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35570)
+ id 1kg7ae-00012P-K2; Fri, 20 Nov 2020 09:40:44 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:26240)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1kg7YL-00035w-E1; Fri, 20 Nov 2020 09:38:23 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ id 1kg7aT-0003gv-1N; Fri, 20 Nov 2020 09:40:43 -0500
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0AKE3TbO040363; Fri, 20 Nov 2020 09:38:19 -0500
+ 0AKEW2fT187103; Fri, 20 Nov 2020 09:40:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=subject : to : cc :
  references : from : message-id : date : mime-version : in-reply-to :
  content-type : content-transfer-encoding; s=pp1;
- bh=eLCdr15wfNztPOJpt/dUkoz0SY/z7TITbx54iD8M/d0=;
- b=gzsLWDcrs00lVeG/kKTJhH0lbbb0ljS1yChsZnI996EWR129Bl3g5AwqAaWqhXlHB7yv
- EgCi4Z5jezMtOJq0AhSa+uSU4IBzrpljbbzyQMRLB4Y6OjU44DSlEFeMXv70maaMCClm
- 6KwQY8P9IbJHe45Ays2ufb3k0lelJGzrvt6f33fDYGjzFcXsaGu2uBwd1boa0efTpP2F
- AlKOv7vcK6aXv9e6ktUhspjl/iLnKEJbfWfMZ/U9nH9SyO3ZXEL39QTg0LAmlyaKFswM
- AuIzjfa+AfnbeITq/CpBS672OWupH01/QSgVT+JMg2AYk5AiC9psOUjsf4lfb7WB7rcA iQ== 
+ bh=ynBAShRSwDfBrld04tuSkeXb3BkOTg/CDOMzEi1lQVg=;
+ b=dI6r5VQUUsdGGuMY2hl9w4u7jspb2BpbXNIpx/GoenpfNS4Pd9nB76NLDzgOZ0aKa6jK
+ fMW1dVx4PW6uV+rwt0p7S+/gqVK8C8FvV22l0FbQfKLDJQEubBLj4WdI2lu+YoWjIgpt
+ s6S2D04H/g5SG6sL74JHZ5rrR/S2UXD7lRfyID8X3dt73bMXOSdvEUuc1Ys+D47L61ge
+ /4zT3CWFTbCWUWeUJtmq8ERcAYnTPvU1zVekAVdjHWWYxco+cZ1DLaH18kLyYpHRb/Ix
+ 4CBzv/x+DRlhARzKiJbJB7aDmqniQe3TDWy8TJ6Ujp8XPE9aZz0tV1Gj/dEt9C/UDLQY eA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34xe6b3hkk-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34xd7mnawr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 20 Nov 2020 09:38:19 -0500
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0AKEYau9186283;
- Fri, 20 Nov 2020 09:38:18 -0500
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34xe6b3hjn-1
+ Fri, 20 Nov 2020 09:40:03 -0500
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0AKEWCKJ188003;
+ Fri, 20 Nov 2020 09:40:03 -0500
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34xd7mnawe-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 20 Nov 2020 09:38:18 -0500
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0AKEbRvU029752;
- Fri, 20 Nov 2020 14:38:17 GMT
+ Fri, 20 Nov 2020 09:40:03 -0500
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0AKEb5KL026293;
+ Fri, 20 Nov 2020 14:40:02 GMT
 Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma02wdc.us.ibm.com with ESMTP id 34w5w8r0r5-1
+ [9.57.198.29]) by ppma02dal.us.ibm.com with ESMTP id 34vgjn5u89-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 20 Nov 2020 14:38:17 +0000
+ Fri, 20 Nov 2020 14:40:02 +0000
 Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
  [9.57.199.108])
  by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0AKEcFI11049164
+ 0AKEe0nJ3932792
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 20 Nov 2020 14:38:15 GMT
+ Fri, 20 Nov 2020 14:40:00 GMT
 Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8B151B2067;
- Fri, 20 Nov 2020 14:38:15 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 4A30CB205F;
+ Fri, 20 Nov 2020 14:40:00 +0000 (GMT)
 Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C921AB2064;
- Fri, 20 Nov 2020 14:38:13 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 7BA56B2064;
+ Fri, 20 Nov 2020 14:39:58 +0000 (GMT)
 Received: from [9.163.28.108] (unknown [9.163.28.108])
  by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
- Fri, 20 Nov 2020 14:38:13 +0000 (GMT)
-Subject: Re: [PATCH 2/2] pc-bios: s390x: Give precedence to reset PSW
-To: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>
+ Fri, 20 Nov 2020 14:39:58 +0000 (GMT)
+Subject: Re: [PATCH 1/2] pc-bios: s390x: Ensure Read IPL memory is clean
+To: Janosch Frank <frankja@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>
 References: <20201119165729.63351-1-farman@linux.ibm.com>
- <20201119165729.63351-3-farman@linux.ibm.com>
- <8595991c-5776-3021-ca16-deebba287be1@redhat.com>
- <7f99cc7c-f74d-0721-3749-515208526bb0@linux.ibm.com>
- <ba74a91a-b9a9-111f-e94a-31c81a883ef0@redhat.com>
+ <20201119165729.63351-2-farman@linux.ibm.com>
+ <a2b38d34-97ce-595a-bf41-094dcadd6776@linux.ibm.com>
 From: Eric Farman <farman@linux.ibm.com>
-Message-ID: <45632b15-81da-ba5f-a4ae-8cff7efaba4a@linux.ibm.com>
-Date: Fri, 20 Nov 2020 09:38:12 -0500
+Message-ID: <70ad0d92-eca4-f5ca-65b1-d275cb8fa281@linux.ibm.com>
+Date: Fri, 20 Nov 2020 09:39:57 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <ba74a91a-b9a9-111f-e94a-31c81a883ef0@redhat.com>
+In-Reply-To: <a2b38d34-97ce-595a-bf41-094dcadd6776@linux.ibm.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
  definitions=2020-11-20_07:2020-11-20,
  2020-11-20 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 mlxlogscore=999
- adultscore=0 priorityscore=1501 lowpriorityscore=0 spamscore=0 bulkscore=0
- suspectscore=0 clxscore=1015 malwarescore=0 impostorscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011200096
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farman@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
+ adultscore=0 clxscore=1015
+ spamscore=0 impostorscore=0 mlxlogscore=999 phishscore=0 bulkscore=0
+ lowpriorityscore=0 suspectscore=0 priorityscore=1501 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011200096
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farman@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -112,7 +111,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Herne <jjherne@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>,
+Cc: Jason Herne <jjherne@linux.ibm.com>,
  Matthew Rosato <mjrosato@linux.ibm.com>, qemu-devel@nongnu.org,
  Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
  Jared Rossi <jrossi@linux.ibm.com>
@@ -121,83 +120,53 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 11/20/20 1:02 AM, Thomas Huth wrote:
-> On 19/11/2020 22.11, Eric Farman wrote:
+On 11/20/20 3:26 AM, Janosch Frank wrote:
+> On 11/19/20 5:57 PM, Eric Farman wrote:
+>> If, for example, we boot off a virtio device and chreipl to a vfio-ccw
+>> device, the space at lowcore will be non-zero. We build a Read IPL CCW
+>> at address zero, but it will have leftover PSW data that will conflict
+>> with the Format-0 CCW being generated:
 >>
+>> 0x0: 00080000 80010000
+>>         ------ Ccw0.cda
+>>                -- Ccw0.chainData
+>>                  -- Reserved bits
 >>
->> On 11/19/20 3:20 PM, Thomas Huth wrote:
->>> On 19/11/2020 17.57, Eric Farman wrote:
->>>> Let's look at the Reset PSW first instead of the contents of memory.
->>>> It might be leftover from an earlier system boot when processing
->>>> a chreipl.
->>>>
->>>> Signed-off-by: Eric Farman <farman@linux.ibm.com>
->>>> ---
->>>>    pc-bios/s390-ccw/jump2ipl.c | 20 ++++++++++----------
->>>>    1 file changed, 10 insertions(+), 10 deletions(-)
->>>>
->>>> diff --git a/pc-bios/s390-ccw/jump2ipl.c b/pc-bios/s390-ccw/jump2ipl.c
->>>> index fbae45b03c..67b4afb6a0 100644
->>>> --- a/pc-bios/s390-ccw/jump2ipl.c
->>>> +++ b/pc-bios/s390-ccw/jump2ipl.c
->>>> @@ -72,16 +72,6 @@ void jump_to_IPL_code(uint64_t address)
->>>>      void jump_to_low_kernel(void)
->>>>    {
->>>> -    /*
->>>> -     * If it looks like a Linux binary, i.e. there is the "S390EP" magic
->>>> from
->>>> -     * arch/s390/kernel/head.S here, then let's jump to the well-known
->>>> Linux
->>>> -     * kernel start address (when jumping to the PSW-at-zero address
->>>> instead,
->>>> -     * the kernel startup code fails when we booted from a network device).
->>>> -     */
->>>> -    if (!memcmp((char *)0x10008, "S390EP", 6)) {
->>>> -        jump_to_IPL_code(KERN_IMAGE_START);
->>>> -    }
->>>> -
->>>>        /* Trying to get PSW at zero address */
->>>>        if (*((uint64_t *)0) & RESET_PSW_MASK) {
->>>>            /*
->>>> @@ -92,6 +82,16 @@ void jump_to_low_kernel(void)
->>>>            jump_to_IPL_code(0);
->>>>        }
->>>>    +    /*
->>>> +     * If it looks like a Linux binary, i.e. there is the "S390EP" magic
->>>> from
->>>> +     * arch/s390/kernel/head.S here, then let's jump to the well-known
->>>> Linux
->>>> +     * kernel start address (when jumping to the PSW-at-zero address
->>>> instead,
->>>> +     * the kernel startup code fails when we booted from a network device).
->>>> +     */
->>>> +    if (!memcmp((char *)0x10008, "S390EP", 6)) {
->>>> +        jump_to_IPL_code(KERN_IMAGE_START);
->>>> +    }
->>>
->>> That feels a little bit dangerous ... I assume the order has been that way
->>> for a reason, e.g. I think we had to jump to KERN_IMAGE_START for some older
->>> versions of the Linux kernel since the startup code that was referenced by
->>> the PSW at address zero was not working in KVM...
+>> The data address will be overwritten with the correct value (0x0), but
+>> the apparent data chain bit will cause subsequent memory to be used as
+>> the target of the data store, which may not be where we expect (0x0).
 >>
->> Makes sense.  It does seem like a precarious piece of code.
+>> Clear out this space when we boot from DASD, so that we know it exists
+>> exactly as we expect.
 >>
->>>
->>> What do you think about this alternate idea instead: Clear the memory at
->>> location 0x10008 at the very beginning of the main() function (or maybe in
->>> boot_setup())?
->>
->> This seems to work too (I put it in boot_setup(), prior to call to
->> store_iplb()).
+>> Signed-off-by: Eric Farman <farman@linux.ibm.com>
+>> Reviewed-by: Jason J. Herne <jjherne@linux.ibm.com>
+>> Acked-by: Christian Borntraeger <borntraeger@de.ibm.com>
 > 
-> Great, can you send the patch before your holidays next week? (If you don't
-> have enough time, that's ok, too, it's trivial enough, so I think I could
-> write such a patch, too)
+> Seems like I should have been more specific with my LGTM:
+> Reviewed-by: Janosch Frank <frankja@de.ibm.com>
 
-Will do.  I have it written up, just didn't want to send it last night 
-and have surprises when I came in this morning. :)
+Thanks, Janosch. I didn't want to put words in your acronym. :)
 
 > 
->   Thomas
+>> ---
+>>   pc-bios/s390-ccw/dasd-ipl.c | 3 +++
+>>   1 file changed, 3 insertions(+)
+>>
+>> diff --git a/pc-bios/s390-ccw/dasd-ipl.c b/pc-bios/s390-ccw/dasd-ipl.c
+>> index 0fc879bb8e..71cbae2f16 100644
+>> --- a/pc-bios/s390-ccw/dasd-ipl.c
+>> +++ b/pc-bios/s390-ccw/dasd-ipl.c
+>> @@ -100,6 +100,9 @@ static void make_readipl(void)
+>>   {
+>>       Ccw0 *ccwIplRead = (Ccw0 *)0x00;
+>>   
+>> +    /* Clear out any existing data */
+>> +    memset(ccwIplRead, 0, sizeof(Ccw0));
+>> +
+>>       /* Create Read IPL ccw at address 0 */
+>>       ccwIplRead->cmd_code = CCW_CMD_READ_IPL;
+>>       ccwIplRead->cda = 0x00; /* Read into address 0x00 in main memory */
+>>
 > 
 
