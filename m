@@ -2,73 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A39ED2B9FF6
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 02:47:26 +0100 (CET)
-Received: from localhost ([::1]:35292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D56602BA037
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 03:12:18 +0100 (CET)
+Received: from localhost ([::1]:39440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfvWH-0002N9-8x
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 20:47:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44078)
+	id 1kfvuL-0006Fv-Ek
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 21:12:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1kfvUn-0001nw-3F
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 20:45:53 -0500
-Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333]:46709)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kfvsw-0005RZ-C1
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 21:10:50 -0500
+Received: from indium.canonical.com ([91.189.90.7]:55716)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1kfvUZ-0004Bg-R5
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 20:45:51 -0500
-Received: by mail-ot1-x333.google.com with SMTP id g19so7284499otp.13
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 17:45:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nlqVnXZPG/FTPuTFPlQO1avvnEmIO3xgVTTWpXjyC/Q=;
- b=HrmIQIz22JHDbr5hUu6zSQOQwhqZqH3U1GJXivFS72cw2mzsR5pAmRdAeTufRmeC6i
- ijPSVHnXMC+42s3msOihaengCndJuYtxHVq8cGPhCTFGkSzYn4QXvrnKpfvrgkJR2JxV
- ud3wwa2PxqDs0TAjQ8Z0ljRGnjdsEmQY1HM7hQ1RTbnEo8QxvWFaSrNxou5T8CGY5dqW
- Tjos6aFRqobumklpKzwrg3VLx5Nk+q5SiwK2aUcwCRKucse7K60LugNzUxmoqIBLQSah
- iKMSJAXpDRrN173gnZY3ANayBKh4K64g7WIeBzNKbbMKkaYjf+aUY6zCVeOAkdPkT65x
- PjOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nlqVnXZPG/FTPuTFPlQO1avvnEmIO3xgVTTWpXjyC/Q=;
- b=MMm5yJITXrBIYM4PdZGEsms/3VPxxZCQWYy3kIVFfDyH3deDybeVHfAKstwrlmfkpD
- 2ke5M95KSap78bmG1CUCP4fC5husEd7qxArgfhbJ6eLvUUh6qIB45jFquowrMNwjHL1H
- 2LFKNB9iKxmd+gn1UnafLIfiPcZJflZpvpTfBpKz4/2BbCVVMWQbVvK9Ss61tv5JJX/l
- gkn9snCBFLGh5RyXkZv168H+c6hQMzXmtF+89ekQm+//SmdzFaSpaOmz+FPNk6gggIRL
- 36M6NsH4BvhbJM2qCuGCfLkl7qcbi+DvdNkYIDRW9o0g2EMt8qWtRShYC0esJn6hUrpz
- m/Ow==
-X-Gm-Message-State: AOAM532fFjqK2x9yA0Gfr2ymPX3tMUm6JKTlJ5hdnQa2wI0QfzZPFLsa
- BSfJAhFZ4buABBwoKN7bBRLpFGq3u47xGuIlogVlJw==
-X-Google-Smtp-Source: ABdhPJzYBfTWqjBZPpmoBF2KO5pKwkkjatotGuyTBEakwmRYBlDJMgGVDHS62y2gymgU4vQUWtZc/VHXnnvu+chSX/8=
-X-Received: by 2002:a9d:3b4:: with SMTP id f49mr12916837otf.188.1605836735618; 
- Thu, 19 Nov 2020 17:45:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kfvsu-00033e-5c
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 21:10:50 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kfvss-00085N-6x
+ for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 02:10:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 311322E804A
+ for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 02:10:46 +0000 (UTC)
 MIME-Version: 1.0
-References: <20201118083044.13992-1-frank.chang@sifive.com>
- <2546c25f-e60d-7fa4-9106-2de1ab619daf@linaro.org>
-In-Reply-To: <2546c25f-e60d-7fa4-9106-2de1ab619daf@linaro.org>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Fri, 20 Nov 2020 09:45:25 +0800
-Message-ID: <CAE_xrPh1DxYosZ2PyGrf-Lkv1PGoWeCKkkcNyN9XUg+D=BPp7g@mail.gmail.com>
-Subject: Re: [RFC 00/15] support subsets of bitmanip extension
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="00000000000031b3fa05b48000bf"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::333;
- envelope-from=frank.chang@sifive.com; helo=mail-ot1-x333.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 20 Nov 2020 01:57:17 -0000
+From: Alex Chen <1904486@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: yjruc zdchen
+X-Launchpad-Bug-Reporter: yuanjungong (yjruc)
+X-Launchpad-Bug-Modifier: Alex Chen (zdchen)
+References: <160557932327.14164.11613670931205353723.malonedeb@soybean.canonical.com>
+Message-Id: <160583743808.31631.13400202315769081725.malone@soybean.canonical.com>
+Subject: [Bug 1904486] Re: resource leak in /net/tap.c
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c35ff22711d15549e2303ae18ae521fd91f6bf00"; Instance="production"
+X-Launchpad-Hash: e1a5ad7f0d1e576cdf144c11c6269f2ae469786d
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,73 +69,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Reply-To: Bug 1904486 <1904486@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000031b3fa05b48000bf
-Content-Type: text/plain; charset="UTF-8"
+Hi yuanjungong,
 
-On Fri, Nov 20, 2020 at 6:26 AM Richard Henderson <
-richard.henderson@linaro.org> wrote:
+If you don't have time to submit a patch, can I submit a patch to fix
+it?
 
-> On 11/18/20 12:29 AM, frank.chang@sifive.com wrote:
-> > This patchset implements RISC-V B-extension latest draft version
-> > (2020.10.26) Zbb, Zbs and Zba subset instructions.
->
-> With some additional instructions from Zbp, it seems.  Although the
-> document
-> isn't completely coherent, with various instructions being present in
-> multiple
-> subsets, and some instructions w/ strike-out.
->
-> The B extension requires more than these three, but I suppose turning it on
-> with just these 3 subsets during development is ok.
->
->
-> r~
->
+-- =
 
-Yes, some instructions are striked out and moved to another subset during
-my implementation.
-The B extension spec. is still changing occasionally.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1904486
 
-I will send out the next patchset based on your comments.
-Thanks for the reviews.
+Title:
+  resource leak in /net/tap.c
 
-Frank Chang
+Status in QEMU:
+  New
 
---00000000000031b3fa05b48000bf
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Bug description:
+  Hi,there might be a resource leak in function net_init_tap in
+  /net/tap.c. The version is 5.1.91.
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Fri, Nov 20, 2020 at 6:26 AM Richard H=
-enderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.hender=
-son@linaro.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex">On 11/18/20 12:29 AM, <a href=3D"m=
-ailto:frank.chang@sifive.com" target=3D"_blank">frank.chang@sifive.com</a> =
-wrote:<br>
-&gt; This patchset implements RISC-V B-extension latest draft version<br>
-&gt; (2020.10.26) Zbb, Zbs and Zba subset instructions.<br>
-<br>
-With some additional instructions from Zbp, it seems.=C2=A0 Although the do=
-cument<br>
-isn&#39;t completely coherent, with various instructions being present in m=
-ultiple<br>
-subsets, and some instructions w/ strike-out.<br>
-<br>
-The B extension requires more than these three, but I suppose turning it on=
-<br>
-with just these 3 subsets during development is ok.<br>
-<br>
-<br>
-r~<br></blockquote><div><br></div><div>Yes, some instructions are striked o=
-ut and moved to another subset during my implementation.<br></div><div>The =
-B extension spec. is still changing occasionally.</div><div><br></div><div>=
-I will send out the next patchset based on your comments.</div><div>Thanks =
-for the reviews.</div><div><br></div><div>Frank Chang</div></div></div>
+  =
 
---00000000000031b3fa05b48000bf--
+  =C2=A0811         fd =3D monitor_fd_param(monitor_cur(), tap->fd, errp);
+  =C2=A0812         if (fd =3D=3D -1) {
+  =C2=A0813             return -1;
+  =C2=A0814         }
+  =C2=A0815
+  =C2=A0816         ret =3D qemu_try_set_nonblock(fd);
+  =C2=A0817         if (ret < 0) {
+  =C2=A0818             error_setg_errno(errp, -ret, "%s: Can't use file de=
+scriptor %d",
+  =C2=A0819                              name, fd);
+  =C2=A0820             return -1;
+  =C2=A0821         }
+  =C2=A0822
+  =C2=A0823         vnet_hdr =3D tap_probe_vnet_hdr(fd, errp);
+  =C2=A0824         if (vnet_hdr < 0) {
+  =C2=A0825             close(fd);
+  =C2=A0826             return -1;
+  =C2=A0827         }
+  =C2=A0828
+  =C2=A0829         net_init_tap_one(tap, peer, "tap", name, NULL,
+  =C2=A0830                          script, downscript,
+  =C2=A0831                          vhostfdname, vnet_hdr, fd, &err);
+  =C2=A0832         if (err) {
+  =C2=A0833             error_propagate(errp, err);
+  =C2=A0834             return -1;
+  =C2=A0835         }
+
+  fd should be closed before return in line 820 and line 834, similar to
+  the implementation in line 825.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1904486/+subscriptions
 
