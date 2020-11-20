@@ -2,94 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 306962BA7DE
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 12:03:04 +0100 (CET)
-Received: from localhost ([::1]:40774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68FA32BA83B
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 12:06:18 +0100 (CET)
+Received: from localhost ([::1]:43202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg4By-0005SF-Vl
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 06:03:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59990)
+	id 1kg4F7-0006gz-Fh
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 06:06:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kg4AC-0004vm-Sg
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 06:01:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39059)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kg4A6-0006A7-2K
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 06:01:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605870064;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=K21qJgYoC4iMlo5sApdZ0Yo9vAZnKwGsHo0cWn6WP9U=;
- b=Keku7O7XKggVIOd1Lg+iaiXFh7wo1HquLFdLeO7fGCmC28Z5wz3v65PSkarn4J+PXTSgRl
- IfSR1i4wBiX9m3154cnZ6O4WlcTBaiSe3l6OtFSdJ3JaQfVgSqXijlt171mjFw+ncRup29
- yDuFDjtLW3jheZGU62qTht5X7n5rKN4=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-257-Ai3vAzUaPDaOk1CiMiCd0A-1; Fri, 20 Nov 2020 06:01:00 -0500
-X-MC-Unique: Ai3vAzUaPDaOk1CiMiCd0A-1
-Received: by mail-wm1-f70.google.com with SMTP id a130so5143417wmf.0
- for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 03:01:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=K21qJgYoC4iMlo5sApdZ0Yo9vAZnKwGsHo0cWn6WP9U=;
- b=sGJCWZrQwZVjS/vaMYbOxrGOMmm8lx5yMFmfhSLrfKwnkYNsV9jXlB3XghnsCmgFHj
- emg57jiQRCxvS2JAOjv3Xi0p78VF6vpe4UwcsbaJofsiQ/a+0vpxSDuNNoAhYG0rShsE
- hBRdlyMZbw4gIVKoVAX5QyQ8zUF1fgPbbW6EKn5gPXvC/9AseVWT1eNu1pPZ2kTRT1Cn
- Z7ixbDfIXWOERCj5i9lPlbts8sFpRW12WaVQPC6EbR9fOyskoK5q1n1/Sgm/eSddFy/4
- RNgofBGcrfaD7pKMTHxzBS24Oo31O5nDw/mWW7MQVz4c7iQtLOT+asonRFKJ2aVeWbCs
- l6gA==
-X-Gm-Message-State: AOAM533Wis/2+CZb84/8F4AEUodTPL6Ekk8XRDUcNBL689nB8jH5NUeV
- M7QNiLDSQbS7hZ+nD7X3q+jVXYFHG6v7Wo+3vZSw00xKuurcKaIzp+bL4Usaf1hKdN7bSSSd8Ej
- NiEmoMBQXNuuWoew=
-X-Received: by 2002:a5d:66c3:: with SMTP id k3mr15008656wrw.123.1605870059253; 
- Fri, 20 Nov 2020 03:00:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwYW1Kmnl70HzUxgv3G8rYrfEMubsQFsUt9vEHiyhMU9BlX8IuACxEcy6tgeuB9CjsQkNSMaQ==
-X-Received: by 2002:a5d:66c3:: with SMTP id k3mr15008621wrw.123.1605870059024; 
- Fri, 20 Nov 2020 03:00:59 -0800 (PST)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id i6sm3969054wma.42.2020.11.20.03.00.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Nov 2020 03:00:58 -0800 (PST)
-Subject: Re: [PATCH-for-5.2 v2] hw/core/qdev-properties-system: Rewrite
- set_pci_host_devaddr using GLib
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>, Igor Mammedov <imammedo@redhat.com>
-References: <20201013102252.3562860-1-philmd@redhat.com>
- <60f5af9c-4153-7702-cd99-b317a6de89c0@redhat.com>
- <ccf65075-c0e9-7358-f483-2c7fbbd3fb81@redhat.com>
- <fa5ed32a-1553-2490-b266-375a000f0cef@redhat.com>
-Message-ID: <7a130a3e-3ebf-220f-9115-dd121d8782fb@redhat.com>
-Date: Fri, 20 Nov 2020 12:00:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
-MIME-Version: 1.0
-In-Reply-To: <fa5ed32a-1553-2490-b266-375a000f0cef@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1kg4Dn-0006AJ-Tp
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 06:04:55 -0500
+Received: from mail-eopbgr50109.outbound.protection.outlook.com
+ ([40.107.5.109]:2990 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1kg4Dk-0007Jw-DD
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 06:04:54 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QN+IsnFF79mbwcC1IV3/KuducOktEEJP5dUNPD+OjtLYtCmzgq1EXzwNJlHpE3Z2jvdEL4JYNW7roJtboDAi64jNGhhD7ULRrdu77pQWmcBq2HRAkG7lHcSnlc2XN8BwL9lgW602e7NzWQ1g78wQPgXVXk2+pOEtq6YzD6EplvPZFxHh/oYSsygIwYNW6iWLyNnfzuPdPpDmLEURLXRSvouywLjlKMO7YF7lhwhWPhgufU+tf4TfzgqSoXHaqV2FQG0d/VmFDuZGYutBNQV/J0zdUxgaA91axaOHuHwgsTit39eudC/ncgZgvDZ4B3nHabK+kd3/D8IoFjB3giFcpw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BU66VIqKvTHThK+unRy0obIe5KXYksxc0HQ5N7WWx4U=;
+ b=WovVgk0N01ww62y73ktxNHu1LMTPzgb9APF2tP3Of8MmK9srszRVeVtFNf1lNNEHfoPtr5V5XZC+yKz79fCDlRPPZyg3lAzgPGpKXhMlkcOb+FuTYASvJC1ReY4sN8iCjZO0/vBlK+BqkvwpTCvp/rZkeEH6iWvROdezO2Foo/iq5yA4vptXK3G/pRa/WkCd7qFQlvJIVOm5LxkzRw6eBU04H/ZDfI63cHdqEMoyd8A6kw6mJSa4MAFuexV/UID4TtcowbIFGh6c1Nw2QSs7EKPjKyhQDCu+iStgSPTjLlZc+UaSAhQVWdWn5/WKI3IveBYmWVhFWbU1aVDnQVuYVQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BU66VIqKvTHThK+unRy0obIe5KXYksxc0HQ5N7WWx4U=;
+ b=tDsRyxVEQS8RqkoIdBvpKZum1CuuqkdKPwrNW//zvG1iscVwc6iKjtVCmihuDm0Dxvg/WreVvXvk0LGhMbnsfg1QwBe8tJhnRM8NZfsNpUsW8k6BoilR+lwpaom6J5mbPTp4RSFrnw3+3udHRUADkOmk6MTDudDKTia0q2gBLEY=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from VI1PR0802MB2510.eurprd08.prod.outlook.com
+ (2603:10a6:800:ad::14) by VE1PR08MB4719.eurprd08.prod.outlook.com
+ (2603:10a6:802:a6::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.20; Fri, 20 Nov
+ 2020 11:04:48 +0000
+Received: from VI1PR0802MB2510.eurprd08.prod.outlook.com
+ ([fe80::8d6a:734c:e4a2:8543]) by VI1PR0802MB2510.eurprd08.prod.outlook.com
+ ([fe80::8d6a:734c:e4a2:8543%7]) with mapi id 15.20.3589.020; Fri, 20 Nov 2020
+ 11:04:48 +0000
+Subject: Re: [PATCH v3 2/7] introduce UFFD-WP low-level interface helpers
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, Den Lunev <den@openvz.org>,
+ Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+References: <20201119125940.20017-1-andrey.gruzdev@virtuozzo.com>
+ <20201119125940.20017-3-andrey.gruzdev@virtuozzo.com>
+ <20201119183902.GC6538@xz-x1>
+From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Message-ID: <8eb862a9-90d3-e3ea-5bdf-50287ce2226f@virtuozzo.com>
+Date: Fri, 20 Nov 2020 14:04:46 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20201119183902.GC6538@xz-x1>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [95.165.26.68]
+X-ClientProxiedBy: AM0PR06CA0127.eurprd06.prod.outlook.com
+ (2603:10a6:208:ab::32) To VI1PR0802MB2510.eurprd08.prod.outlook.com
+ (2603:10a6:800:ad::14)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.64] (95.165.26.68) by
+ AM0PR06CA0127.eurprd06.prod.outlook.com (2603:10a6:208:ab::32) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3589.20 via Frontend Transport; Fri, 20 Nov 2020 11:04:47 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6f0bad3d-f5f2-4115-7187-08d88d44187e
+X-MS-TrafficTypeDiagnostic: VE1PR08MB4719:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VE1PR08MB47197A8C271E4D6281D550C19FFF0@VE1PR08MB4719.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2733;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: rFb3UxHnuLbxVAX82GWBJDQpCyW+n1ollfk34hImNnqdgVY3A1JNN5dZjk0L2k4dQ5/LEd3J5mHmmxfsXdZgWxoG8TnBLjNq5QYDaNxRY0tTF/rs3JqdBPZfPRJan6FI/lV8lEln9xU3bqqocH+sKRSbMS+LiCnVkF1wHHo+RWUIxVhZhnAYE5xUA1RbSWGGv7AlBXRaJIckl0wmNpPAy8wNRWmZjlOzUdsJThsO1Ls3xakuHq3OTH9avYg1y8scl6l1TjWh00KmeI9Mw7qSzu1Pl1wPZgnVoJXiRe8g2bcAtwRXXv99spOHZUnOr8wy3jUgCJQe8TMHnkIVBaI7TchGt/koKdZx1a/2QjNWdov7jw1W2VojCluaJgffARJP
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR0802MB2510.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(396003)(39830400003)(366004)(346002)(136003)(4326008)(31696002)(5660300002)(52116002)(8936002)(83380400001)(2906002)(956004)(6916009)(2616005)(44832011)(66556008)(66476007)(26005)(54906003)(53546011)(316002)(66946007)(8676002)(478600001)(16576012)(31686004)(36756003)(86362001)(16526019)(186003)(6486002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: GXbzAceYfwc66iOYzY+BW2L3ipeqFhMMLroXIOwnVUAHLDRad4ETjEJ1xwO6hj3+lIVVRssmq2t+QdDB8CA0pg6yAYIlGOGNDAqjkeDjX1ejpJICM5HtJ19LKnzLGPTWm0nX+M72UUeh9JmIXA7R7SiHLVvgHycuJoniLOknKZlLz6KZ0LDJlcSFEnc5zznZuCMSsV9RK2DXWR43jvrnoEHlunHflsyKjW9pwCnOrsfTLs04GGKup0D0ZqcBiCPeKdgMAjbt+4zBMQx8zdJY2dGqTfXbW3J2Q9o1WBwo0wwenOtG/03L4r7KZusGSFQB97PjQZCBJ+pMkTwIu3J7AczPySfO+JiUJk73GbjYzurppCLopwGZp8vP10AgayQiCCFlY/qQ10lVVdaYreYk9YPu4l0mRBAAdsGoUlyRNsxJPOg2DYqMvSYA9CMdgjMtPDzDc5IYjb9yJbsQhjKAqGyqu4j123KOLl2al4pR+JBNPdjtMvQlyGdegraeQQI5g8yzaknmPzTVwSlYSGA4WT8GNhj6I5pEy5OGHn3fYX2tHSGn1cFR5oCqIXNWnb/5T8OPISE3tnbHnKn8WrSsXGhZaYju7gYgRASgCS3N+tbDlVCgPfKJAn9EPAuPdIx1cipJyveENwL8kKmS6hdm/Q==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6f0bad3d-f5f2-4115-7187-08d88d44187e
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR0802MB2510.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2020 11:04:48.2986 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: h8YC0JCZOdcP4Mke7J+r9XiJZBc8xLvMg98TcnBKGg59jZLo3tBmBc5WVufJk+VEozPPyoXXjZLYVGZqnUM1sEz9wAAX3xkGLcwItQyJ1cA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB4719
+Received-SPF: pass client-ip=40.107.5.109;
+ envelope-from=andrey.gruzdev@virtuozzo.com;
+ helo=EUR03-VE1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,157 +122,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Geoffrey McRae <geoff@hostfission.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Klaus Herman <kherman@inbox.lv>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/17/20 12:16 PM, Philippe Mathieu-Daudé wrote:
-> ping???
+On 19.11.2020 21:39, Peter Xu wrote:
+> On Thu, Nov 19, 2020 at 03:59:35PM +0300, Andrey Gruzdev via wrote:
+>> +/**
+>> + * uffd_register_memory: register memory range with UFFD
+>> + *
+>> + * Returns 0 in case of success, negative value on error
+>> + *
+>> + * @uffd: UFFD file descriptor
+>> + * @start: starting virtual address of memory range
+>> + * @length: length of memory range
+>> + * @track_missing: generate events on missing-page faults
+>> + * @track_wp: generate events on write-protected-page faults
+>> + */
+>> +static int uffd_register_memory(int uffd, hwaddr start, hwaddr length,
+>> +        bool track_missing, bool track_wp)
+>> +{
+>> +    struct uffdio_register uffd_register;
+>> +
+>> +    uffd_register.range.start = start;
+>> +    uffd_register.range.len = length;
+>> +    uffd_register.mode = (track_missing ? UFFDIO_REGISTER_MODE_MISSING : 0) |
+>> +                         (track_wp ? UFFDIO_REGISTER_MODE_WP : 0);
+>> +
+>> +    if (ioctl(uffd, UFFDIO_REGISTER, &uffd_register)) {
+>> +        error_report("uffd_register_memory() failed: "
+>> +                "start=%0"PRIx64" len=%"PRIu64" mode=%llu errno=%i",
+>> +                start, length, uffd_register.mode, errno);
+>> +        return -1;
+>> +    }
+>> +
+>> +    return 0;
+>> +}
 > 
-> On 11/9/20 3:16 PM, Philippe Mathieu-Daudé wrote:
->> Cc'ing PCI developers (rc2 is scheduled for tomorrow).
->>
->> On 11/7/20 9:59 AM, Philippe Mathieu-Daudé wrote:
->>> Ping for 5.2 as this is a bugfix.
->>>
->>> On 10/13/20 12:22 PM, Philippe Mathieu-Daudé wrote:
->>>> set_pci_host_devaddr() is hard to follow, thus bug-prone.
->>>> We indeed introduced a bug in commit bccb20c49df, as the
->>>> same line might be used to parse a bus (up to 0xff) or a
->>>> slot (up to 0x1f). Instead of making things worst, rewrite
->>>> using g_strsplit().
-
-As there is few interest in fixing the issue with this patch,
-let me remind the 2 other approaches:
-
-Klaus Herman:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg750101.html
-Geoffrey McRae:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg758182.html
-
-That said, I'm done with this issue for 5.2.
-
-Regards,
-
-Phil.
-
->>>> Fixes: bccb20c49df ("Use qemu_strtoul() in set_pci_host_devaddr()")
->>>> Reported-by: Klaus Herman <kherman@inbox.lv>
->>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>>> ---
->>>> v2: Free g_strsplit() with g_auto(GStrv) (Daniel)
->>>> ---
->>>>  hw/core/qdev-properties-system.c | 61 ++++++++++++++------------------
->>>>  1 file changed, 27 insertions(+), 34 deletions(-)
->>>>
->>>> diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
->>>> index 49bdd125814..36d4fd8b22a 100644
->>>> --- a/hw/core/qdev-properties-system.c
->>>> +++ b/hw/core/qdev-properties-system.c
->>>> @@ -878,11 +878,11 @@ static void set_pci_host_devaddr(Object *obj, Visitor *v, const char *name,
->>>>      DeviceState *dev = DEVICE(obj);
->>>>      Property *prop = opaque;
->>>>      PCIHostDeviceAddress *addr = qdev_get_prop_ptr(dev, prop);
->>>> -    char *str, *p;
->>>> -    const char *e;
->>>> +    g_autofree char *str = NULL;
->>>> +    g_auto(GStrv) col_s0 = NULL;
->>>> +    g_auto(GStrv) dot_s = NULL;
->>>> +    char **col_s;
->>>>      unsigned long val;
->>>> -    unsigned long dom = 0, bus = 0;
->>>> -    unsigned int slot = 0, func = 0;
->>>>  
->>>>      if (dev->realized) {
->>>>          qdev_prop_set_after_realize(dev, name, errp);
->>>> @@ -893,57 +893,50 @@ static void set_pci_host_devaddr(Object *obj, Visitor *v, const char *name,
->>>>          return;
->>>>      }
->>>>  
->>>> -    p = str;
->>>> -    if (qemu_strtoul(p, &e, 16, &val) < 0 || val > 0xffff || e == p) {
->>>> +    col_s = col_s0 = g_strsplit(str, ":", 3);
->>>> +    if (!col_s || !col_s[0] || !col_s[1]) {
->>>>          goto inval;
->>>>      }
->>>> -    if (*e != ':') {
->>>> -        goto inval;
->>>> -    }
->>>> -    bus = val;
->>>>  
->>>> -    p = (char *)e + 1;
->>>> -    if (qemu_strtoul(p, &e, 16, &val) < 0 || val > 0x1f || e == p) {
->>>> -        goto inval;
->>>> -    }
->>>> -    if (*e == ':') {
->>>> -        dom = bus;
->>>> -        bus = val;
->>>> -        p = (char *)e + 1;
->>>> -        if (qemu_strtoul(p, &e, 16, &val) < 0 || val > 0x1f || e == p) {
->>>> +    /* domain */
->>>> +    if (col_s[2]) {
->>>> +        if (qemu_strtoul(col_s[0], NULL, 16, &val) < 0 || val > 0xffff) {
->>>>              goto inval;
->>>>          }
->>>> +        addr->domain = val;
->>>> +        col_s++;
->>>> +    } else {
->>>> +        addr->domain = 0;
->>>>      }
->>>> -    slot = val;
->>>>  
->>>> -    if (*e != '.') {
->>>> +    /* bus */
->>>> +    if (qemu_strtoul(col_s[0], NULL, 16, &val) < 0 || val > 0xff) {
->>>>          goto inval;
->>>>      }
->>>> -    p = (char *)e + 1;
->>>> -    if (qemu_strtoul(p, &e, 10, &val) < 0 || val > 7 || e == p) {
->>>> -        goto inval;
->>>> -    }
->>>> -    func = val;
->>>> +    addr->bus = val;
->>>>  
->>>> -    if (bus > 0xff) {
->>>> +    /* <slot>.<func> */
->>>> +    dot_s = g_strsplit(col_s[1], ".", 2);
->>>> +    if (!dot_s || !dot_s[0] || !dot_s[1]) {
->>>>          goto inval;
->>>>      }
->>>>  
->>>> -    if (*e) {
->>>> +    /* slot */
->>>> +    if (qemu_strtoul(dot_s[0], NULL, 16, &val) < 0 || val > 0x1f) {
->>>>          goto inval;
->>>>      }
->>>> +    addr->slot = val;
->>>>  
->>>> -    addr->domain = dom;
->>>> -    addr->bus = bus;
->>>> -    addr->slot = slot;
->>>> -    addr->function = func;
->>>> +    /* func */
->>>> +    if (qemu_strtoul(dot_s[1], NULL, 10, &val) < 0 || val > 7) {
->>>> +        goto inval;
->>>> +    }
->>>> +    addr->function = val;
->>>>  
->>>> -    g_free(str);
->>>>      return;
->>>>  
->>>>  inval:
->>>>      error_set_from_qdev_prop_error(errp, EINVAL, dev, prop, str);
->>>> -    g_free(str);
->>>>  }
->>>>  
->>>>  const PropertyInfo qdev_prop_pci_host_devaddr = {
->>>>
->>>
->>
+> These functions look good; we should even be able to refactor the existing
+> ones, e.g., ram_block_enable_notify(), but we can also do that later.  As a
+> start, we can move these helpers into some common files under util/.
+> 
+> [...]
 > 
 
+Yep, agree.
+
+>> +/**
+>> + * ram_write_tracking_start: start UFFD-WP memory tracking
+>> + *
+>> + * Returns 0 for success or negative value in case of error
+>> + *
+>> + */
+>> +int ram_write_tracking_start(void)
+>> +{
+> 
+> Need to be slightly careful on unwind on this function, because if it fails
+> somehow we don't want to crash the existing running good vm... more below.
+> 
+>> +    int uffd;
+>> +    RAMState *rs = ram_state;
+>> +    RAMBlock *bs;
+>> +
+>> +    /* Open UFFD file descriptor */
+>> +    uffd = uffd_create_fd();
+>> +    if (uffd < 0) {
+>> +        return uffd;
+>> +    }
+>> +    rs->uffdio_fd = uffd;
+>> +
+>> +    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
+>> +        /* Nothing to do with read-only and MMIO-writable regions */
+>> +        if (bs->mr->readonly || bs->mr->rom_device) {
+>> +            continue;
+>> +        }
+>> +
+>> +        /* Register block memory with UFFD to track writes */
+>> +        if (uffd_register_memory(rs->uffdio_fd, (hwaddr) bs->host,
+>> +                bs->max_length, false, true)) {
+>> +            goto fail;
+>> +        }
+>> +        /* Apply UFFD write protection to the block memory range */
+>> +        if (uffd_protect_memory(rs->uffdio_fd, (hwaddr) bs->host,
+>> +                bs->max_length, true)) {
+> 
+> Here logically we need to undo the previous register first, however userfaultfd
+> will auto-clean these when close(fd), so it's ok.  However still better to
+> unwind the protection of pages, I think.  So...
+> 
+
+It should auto-clean, but as an additional safety measure - yes.
+
+>> +            goto fail;
+>> +        }
+>> +        bs->flags |= RAM_UF_WRITEPROTECT;
+>> +
+>> +        info_report("UFFD-WP write-tracking enabled: "
+>> +                "block_id=%s page_size=%zu start=%p length=%lu "
+>> +                "romd_mode=%i ram=%i readonly=%i nonvolatile=%i rom_device=%i",
+>> +                bs->idstr, bs->page_size, bs->host, bs->max_length,
+>> +                bs->mr->romd_mode, bs->mr->ram, bs->mr->readonly,
+>> +                bs->mr->nonvolatile, bs->mr->rom_device);
+>> +    }
+>> +
+>> +    return 0;
+>> +
+>> +fail:
+>> +    uffd_close_fd(uffd);
+> 
+> ... maybe do the unprotect here together, that as long as any of the above step
+> failed, we need to remember to unprotect all the protected pages (or just
+> unprotect everything).  And also the RAM_UF_WRITEPROTECT flags being set.
+> 
+
+Not resetting RAM_UF_WRITEPROTECT is certainly a bug here.
+
+But it seems that simply calling close() on UFFD file descriptor does 
+all the rest cleanup for us - unprotect registered memory regions, 
+remove all extra state from kernel etc. I never had a problem with 
+simple close(uffd) to cleanup.. But maybe really more safe to do 
+unprotect/unregister explicitly.
+
+>> +    rs->uffdio_fd = -1;
+>> +    return -1;
+>> +}
+>> +
+>> +/**
+>> + * ram_write_tracking_stop: stop UFFD-WP memory tracking and remove protection
+> 
+> Didn't remove protections, yet?
+> 
+> We should remove those.  For a succeeded snapshot we can avoid that (if we want
+> such optimization), or imho we'd better unprotect all just in case the user
+> interrupted the snapshot.
+> 
+
+Seems that closing UFFD descriptor does unprotect for us implicitly..
+Am I wrong?
+
+>> + */
+>> +void ram_write_tracking_stop(void)
+>> +{
+>> +    RAMState *rs = ram_state;
+>> +    RAMBlock *bs;
+>> +    assert(rs->uffdio_fd >= 0);
+>> +
+>> +    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
+>> +        if ((bs->flags & RAM_UF_WRITEPROTECT) == 0) {
+>> +            continue;
+>> +        }
+>> +        info_report("UFFD-WP write-tracking disabled: "
+>> +                "block_id=%s page_size=%zu start=%p length=%lu "
+>> +                "romd_mode=%i ram=%i readonly=%i nonvolatile=%i rom_device=%i",
+>> +                bs->idstr, bs->page_size, bs->host, bs->max_length,
+>> +                bs->mr->romd_mode, bs->mr->ram, bs->mr->readonly,
+>> +                bs->mr->nonvolatile, bs->mr->rom_device);
+>> +        /* Cleanup flags */
+>> +        bs->flags &= ~RAM_UF_WRITEPROTECT;
+>> +    }
+>> +
+>> +    /*
+>> +     * Close UFFD file descriptor to remove protection,
+>> +     * release registered memory regions and flush wait queues
+>> +     */
+>> +    uffd_close_fd(rs->uffdio_fd);
+>> +    rs->uffdio_fd = -1;
+>> +}
+> 
+
+
+-- 
+Andrey Gruzdev, Principal Engineer
+Virtuozzo GmbH  +7-903-247-6397
+                 virtuzzo.com
 
