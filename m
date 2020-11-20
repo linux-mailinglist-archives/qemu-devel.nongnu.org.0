@@ -2,72 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFF9F2BAB84
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 14:49:43 +0100 (CET)
-Received: from localhost ([::1]:32932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48CFE2BAB85
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 14:50:11 +0100 (CET)
+Received: from localhost ([::1]:34636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg6nG-0000Ra-9n
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 08:49:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41326)
+	id 1kg6ni-0001A9-BS
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 08:50:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kg6ij-0005HF-Mj
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 08:45:01 -0500
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:33880)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kg6ig-0006ux-VK
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 08:45:01 -0500
-Received: by mail-ed1-x534.google.com with SMTP id a15so9589102edy.1
- for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 05:44:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=N7WKqA9zpurRykd5uLpJ/XSo1eU6mxFHkZEw4VajoEc=;
- b=QOClg52iF0nwGZIy3gsVbpWmiJT8GG+ivktoYqDALIbMwzV9yy3NrSHTouacSMb8he
- Q1oZUvuH1771PF6SUuQ0lgsntcZx0MJTievS+dYlEXpvFg5C92W2rVHou6NYwsh3jSU5
- kh4viuvxA1FLMK+9Sc28Tmt4kLPK8hj3VE3uz5t2be/Nbj5YPMp4dS7svQUFLKuSmxJD
- RvmM1p+fAhRV1ftLXLvWIWZzyi96oUacTM0sOt9tN2eB48as38ASLfEMdNEzaSqkGGGu
- ulywVDRPucsDaP/Ds9vL6Qe2hyDz3Ro/ZJJG52ZePxLery9ohOqKICpp0OAJNZ0PMXLC
- PtNg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kg6m5-0008Eh-L5
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 08:48:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34176)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kg6lz-0000Jl-Jq
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 08:48:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605880100;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FxMumkYSRCdhpLenugmONa2au9/BNLA7OULT3r2sMfs=;
+ b=R8fG/GgFbt8OMIxM++KSnkqnmd5xaCIPsqpOjyfyljW8RtmdKBgb7ynqgeDd7IquMFTBPr
+ xALNLbO6Kix2HG73c/cSdi0leR3YL+541gEWZ0eZGeu+LdH2HhV3hbt1+fwV3i3gQ+PFye
+ ySpYF6Xzp+rCi/E+n4NEvwSq8xIS48k=
+Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
+ [209.85.161.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-551-S9zT90hTOdugBDoWPcfbVQ-1; Fri, 20 Nov 2020 08:48:17 -0500
+X-MC-Unique: S9zT90hTOdugBDoWPcfbVQ-1
+Received: by mail-oo1-f70.google.com with SMTP id t188so3956043oot.9
+ for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 05:48:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=N7WKqA9zpurRykd5uLpJ/XSo1eU6mxFHkZEw4VajoEc=;
- b=c/E5AXS5iGh1oq/efmWvGhkhEUDUUzKM2+bDJOqvJccTCnpv9ynoEaXKM/bKbLW8o1
- 2hWW6j7NFORB8OaNpSMjJxsp/qMYyZl7O3bbD98zn8dDz5Fg9LKTZmL4V/TYaBUEEqxx
- 8OwdAyC/iqFQmSRfR6lFNWZI/zRORmhbEVbiZ7of0YI9co9pEhBj96tYypF7Noy5o1es
- 6Bq8RewjSzI3Ze8MsvIHPDuCokpwB3hgbsndvcfP4CANyFRyqzUjnb2hj2AzayLb3B3m
- saX8qQ2cNL3IBjhV4AFBQpcKB9qD2sZIBAx/khepnKo27QvAmrRWnBGHng3RX5EraIZu
- BcNg==
-X-Gm-Message-State: AOAM533TAwNApoDzjrxz9sEmYZhzcshfh9jA1pKn4CQoT825kAkVSiku
- +myS2Fi88vUABZVArwmY2Gt5n7qfp5ZI/0LZkcaZ0g==
-X-Google-Smtp-Source: ABdhPJzwGyLnhHJp5o4F6qzfvB+0fE7Qlfv77WE89mwYGtRr41Um0ig0iUG1hr1nOk5G7sGx9TOVPfGQtEmUWi6AJlI=
-X-Received: by 2002:a05:6402:3089:: with SMTP id
- de9mr36449418edb.100.1605879897277; 
- Fri, 20 Nov 2020 05:44:57 -0800 (PST)
+ bh=FxMumkYSRCdhpLenugmONa2au9/BNLA7OULT3r2sMfs=;
+ b=bZzI9M7s+qOs77PbsK4iWP8fWnuOUwrlYWJHxfX12WGHeAkULGv1Db77SjhA3BU5e1
+ cdkUcDFOniVdZZCVrD2kCkMIkpvEfdTYoygQEfzIGUdlthCtZZdk+ml/FQfD/qEBro1t
+ VdAmt0rpQ6Lky3breeopcDUEplURstB8m4BviWY/K5gL7kM2SE4x0T/SiIzMuvSaVv+8
+ vlFG/LfO5PbK7URm9wzHwwJknfS7GS/QUuQ8wtHjz7w+H3vsXA/HS2x2iaaiqGVywpTJ
+ lQj8G5c8T/O0Cf2pYpAD2ukS+ODqzRbmfngkAhmCe264obpgr7GqtDSCdTRxRIRTE2ok
+ Ku4w==
+X-Gm-Message-State: AOAM533iNMqH9xQqfQh+M8MsiP+zf5g45Tl7dsOfjN6mxvu+ZxTbQa68
+ Qcl8/l3QOyTZvPRjSiN2WWpwOvaQOJk92GuJpPWoUfJLfyD33kC02SnuTzN22xvSMG3WaGmA3zl
+ qVV9ftx+qa82iwEED0cIhWcnECY8EnKU=
+X-Received: by 2002:aca:5654:: with SMTP id k81mr6094870oib.118.1605880096214; 
+ Fri, 20 Nov 2020 05:48:16 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwjSq87ZIiw135R6vv1aMu7fkJ0Mt41W8+af9e/5M5CFp+NP2ZDcUqBMosjtG3P6qZFWGMUXzroT3IDrID0YXo=
+X-Received: by 2002:aca:5654:: with SMTP id k81mr6094846oib.118.1605880095891; 
+ Fri, 20 Nov 2020 05:48:15 -0800 (PST)
 MIME-Version: 1.0
-References: <20201111141733.2358800-1-kuhn.chenqun@huawei.com>
-In-Reply-To: <20201111141733.2358800-1-kuhn.chenqun@huawei.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 20 Nov 2020 13:44:45 +0000
-Message-ID: <CAFEAcA_BSYrq87it7UXWJUDvUuA8L8U1Y8mxkyZdwzb3n_sSiA@mail.gmail.com>
-Subject: Re: [PATCH-for-5.2 v2] hw/intc: fix heap-buffer-overflow in
- rxicu_realize()
-To: Chen Qun <kuhn.chenqun@huawei.com>
+References: <20201013102252.3562860-1-philmd@redhat.com>
+ <60f5af9c-4153-7702-cd99-b317a6de89c0@redhat.com>
+ <ccf65075-c0e9-7358-f483-2c7fbbd3fb81@redhat.com>
+ <fa5ed32a-1553-2490-b266-375a000f0cef@redhat.com>
+ <7a130a3e-3ebf-220f-9115-dd121d8782fb@redhat.com>
+ <20201120075445-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20201120075445-mutt-send-email-mst@kernel.org>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Date: Fri, 20 Nov 2020 14:48:04 +0100
+Message-ID: <CAP+75-UPtZUeznz7S1-yQT1WuhiUfDj+O7fAuONhO8VfhUDvZw@mail.gmail.com>
+Subject: Re: [PATCH-for-5.2 v2] hw/core/qdev-properties-system: Rewrite
+ set_pci_host_devaddr using GLib
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,57 +93,181 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhanghailiang <zhang.zhanghailiang@huawei.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- QEMU Trivial <qemu-trivial@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Gan Qixin <ganqixin@huawei.com>,
- Euler Robot <euler.robot@huawei.com>
+Cc: Geoffrey McRae <geoff@hostfission.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Klaus Herman <kherman@inbox.lv>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 11 Nov 2020 at 14:18, Chen Qun <kuhn.chenqun@huawei.com> wrote:
+On Fri, Nov 20, 2020 at 1:55 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> On Fri, Nov 20, 2020 at 12:00:56PM +0100, Philippe Mathieu-Daud=C3=83=C2=
+=A9 wrote:
+> > On 11/17/20 12:16 PM, Philippe Mathieu-Daud=C3=83=C2=A9 wrote:
+> > > ping???
+> > >
+> > > On 11/9/20 3:16 PM, Philippe Mathieu-Daud=C3=83=C2=A9 wrote:
+> > >> Cc'ing PCI developers (rc2 is scheduled for tomorrow).
+> > >>
+> > >> On 11/7/20 9:59 AM, Philippe Mathieu-Daud=C3=83=C2=A9 wrote:
+> > >>> Ping for 5.2 as this is a bugfix.
+> > >>>
+> > >>> On 10/13/20 12:22 PM, Philippe Mathieu-Daud=C3=83=C2=A9 wrote:
+> > >>>> set_pci_host_devaddr() is hard to follow, thus bug-prone.
+> > >>>> We indeed introduced a bug in commit bccb20c49df, as the
+> > >>>> same line might be used to parse a bus (up to 0xff) or a
+> > >>>> slot (up to 0x1f). Instead of making things worst, rewrite
+> > >>>> using g_strsplit().
+> >
+> > As there is few interest in fixing the issue with this patch,
+> > let me remind the 2 other approaches:
+> >
+> > Klaus Herman:
+> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg750101.html
+> > Geoffrey McRae:
+> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg758182.html
+> >
+> > That said, I'm done with this issue for 5.2.
+> >
+> > Regards,
+> >
+> > Phil.
 >
-> When 'j =3D icu->nr_sense =E2=80=93 1', the 'j < icu->nr_sense' condition=
- is true,
-> then 'j =3D icu->nr_sense', the'icu->init_sense[j]' has out-of-bounds acc=
-ess.
+> What happens if we just revert bccb20c49df1bd683248a366021973901c11982f?
 >
-> The asan showed stack:
-> ERROR: AddressSanitizer: heap-buffer-overflow on address 0x604000004d7d a=
-t pc 0x55852cd26a76 bp 0x7ffe39f26200 sp 0x7ffe39f261f0
-> READ of size 1 at 0x604000004d7d thread T0
->     #0 0x55852cd26a75 in rxicu_realize ../hw/intc/rx_icu.c:311
->     #1 0x55852cf075f7 in device_set_realized ../hw/core/qdev.c:886
->     #2 0x55852cd4a32f in property_set_bool ../qom/object.c:2251
->     #3 0x55852cd4f9bb in object_property_set ../qom/object.c:1398
->     #4 0x55852cd54f3f in object_property_set_qobject ../qom/qom-qobject.c=
-:28
->     #5 0x55852cd4fc3f in object_property_set_bool ../qom/object.c:1465
->     #6 0x55852cbf0b27 in register_icu ../hw/rx/rx62n.c:156
->     #7 0x55852cbf12a6 in rx62n_realize ../hw/rx/rx62n.c:261
->     #8 0x55852cf075f7 in device_set_realized ../hw/core/qdev.c:886
->     #9 0x55852cd4a32f in property_set_bool ../qom/object.c:2251
->     #10 0x55852cd4f9bb in object_property_set ../qom/object.c:1398
->     #11 0x55852cd54f3f in object_property_set_qobject ../qom/qom-qobject.=
-c:28
->     #12 0x55852cd4fc3f in object_property_set_bool ../qom/object.c:1465
->     #13 0x55852cbf1a85 in rx_gdbsim_init ../hw/rx/rx-gdbsim.c:109
->     #14 0x55852cd22de0 in qemu_init ../softmmu/vl.c:4380
->     #15 0x55852ca57088 in main ../softmmu/main.c:49
->     #16 0x7feefafa5d42 in __libc_start_main (/lib64/libc.so.6+0x26d42)
->
-> Add the 'ice->src[i].sense' initialize to the default value, and then
-> process init_sense array to identify which irqs should be level-triggered=
-.
->
-> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+> This is what I'm inclined to do for 5.2 ...
 
+Clever, fine by me.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> > >>>> Fixes: bccb20c49df ("Use qemu_strtoul() in set_pci_host_devaddr()"=
+)
+> > >>>> Reported-by: Klaus Herman <kherman@inbox.lv>
+> > >>>> Signed-off-by: Philippe Mathieu-Daud=C3=83=C2=A9 <philmd@redhat.co=
+m>
+> > >>>> ---
+> > >>>> v2: Free g_strsplit() with g_auto(GStrv) (Daniel)
+> > >>>> ---
+> > >>>>  hw/core/qdev-properties-system.c | 61 ++++++++++++++-------------=
+-----
+> > >>>>  1 file changed, 27 insertions(+), 34 deletions(-)
+> > >>>>
+> > >>>> diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-prope=
+rties-system.c
+> > >>>> index 49bdd125814..36d4fd8b22a 100644
+> > >>>> --- a/hw/core/qdev-properties-system.c
+> > >>>> +++ b/hw/core/qdev-properties-system.c
+> > >>>> @@ -878,11 +878,11 @@ static void set_pci_host_devaddr(Object *obj=
+, Visitor *v, const char *name,
+> > >>>>      DeviceState *dev =3D DEVICE(obj);
+> > >>>>      Property *prop =3D opaque;
+> > >>>>      PCIHostDeviceAddress *addr =3D qdev_get_prop_ptr(dev, prop);
+> > >>>> -    char *str, *p;
+> > >>>> -    const char *e;
+> > >>>> +    g_autofree char *str =3D NULL;
+> > >>>> +    g_auto(GStrv) col_s0 =3D NULL;
+> > >>>> +    g_auto(GStrv) dot_s =3D NULL;
+> > >>>> +    char **col_s;
+> > >>>>      unsigned long val;
+> > >>>> -    unsigned long dom =3D 0, bus =3D 0;
+> > >>>> -    unsigned int slot =3D 0, func =3D 0;
+> > >>>>
+> > >>>>      if (dev->realized) {
+> > >>>>          qdev_prop_set_after_realize(dev, name, errp);
+> > >>>> @@ -893,57 +893,50 @@ static void set_pci_host_devaddr(Object *obj=
+, Visitor *v, const char *name,
+> > >>>>          return;
+> > >>>>      }
+> > >>>>
+> > >>>> -    p =3D str;
+> > >>>> -    if (qemu_strtoul(p, &e, 16, &val) < 0 || val > 0xffff || e =
+=3D=3D p) {
+> > >>>> +    col_s =3D col_s0 =3D g_strsplit(str, ":", 3);
+> > >>>> +    if (!col_s || !col_s[0] || !col_s[1]) {
+> > >>>>          goto inval;
+> > >>>>      }
+> > >>>> -    if (*e !=3D ':') {
+> > >>>> -        goto inval;
+> > >>>> -    }
+> > >>>> -    bus =3D val;
+> > >>>>
+> > >>>> -    p =3D (char *)e + 1;
+> > >>>> -    if (qemu_strtoul(p, &e, 16, &val) < 0 || val > 0x1f || e =3D=
+=3D p) {
+> > >>>> -        goto inval;
+> > >>>> -    }
+> > >>>> -    if (*e =3D=3D ':') {
+> > >>>> -        dom =3D bus;
+> > >>>> -        bus =3D val;
+> > >>>> -        p =3D (char *)e + 1;
+> > >>>> -        if (qemu_strtoul(p, &e, 16, &val) < 0 || val > 0x1f || e =
+=3D=3D p) {
+> > >>>> +    /* domain */
+> > >>>> +    if (col_s[2]) {
+> > >>>> +        if (qemu_strtoul(col_s[0], NULL, 16, &val) < 0 || val > 0=
+xffff) {
+> > >>>>              goto inval;
+> > >>>>          }
+> > >>>> +        addr->domain =3D val;
+> > >>>> +        col_s++;
+> > >>>> +    } else {
+> > >>>> +        addr->domain =3D 0;
+> > >>>>      }
+> > >>>> -    slot =3D val;
+> > >>>>
+> > >>>> -    if (*e !=3D '.') {
+> > >>>> +    /* bus */
+> > >>>> +    if (qemu_strtoul(col_s[0], NULL, 16, &val) < 0 || val > 0xff)=
+ {
+> > >>>>          goto inval;
+> > >>>>      }
+> > >>>> -    p =3D (char *)e + 1;
+> > >>>> -    if (qemu_strtoul(p, &e, 10, &val) < 0 || val > 7 || e =3D=3D =
+p) {
+> > >>>> -        goto inval;
+> > >>>> -    }
+> > >>>> -    func =3D val;
+> > >>>> +    addr->bus =3D val;
+> > >>>>
+> > >>>> -    if (bus > 0xff) {
+> > >>>> +    /* <slot>.<func> */
+> > >>>> +    dot_s =3D g_strsplit(col_s[1], ".", 2);
+> > >>>> +    if (!dot_s || !dot_s[0] || !dot_s[1]) {
+> > >>>>          goto inval;
+> > >>>>      }
+> > >>>>
+> > >>>> -    if (*e) {
+> > >>>> +    /* slot */
+> > >>>> +    if (qemu_strtoul(dot_s[0], NULL, 16, &val) < 0 || val > 0x1f)=
+ {
+> > >>>>          goto inval;
+> > >>>>      }
+> > >>>> +    addr->slot =3D val;
+> > >>>>
+> > >>>> -    addr->domain =3D dom;
+> > >>>> -    addr->bus =3D bus;
+> > >>>> -    addr->slot =3D slot;
+> > >>>> -    addr->function =3D func;
+> > >>>> +    /* func */
+> > >>>> +    if (qemu_strtoul(dot_s[1], NULL, 10, &val) < 0 || val > 7) {
+> > >>>> +        goto inval;
+> > >>>> +    }
+> > >>>> +    addr->function =3D val;
+> > >>>>
+> > >>>> -    g_free(str);
+> > >>>>      return;
+> > >>>>
+> > >>>>  inval:
+> > >>>>      error_set_from_qdev_prop_error(errp, EINVAL, dev, prop, str);
+> > >>>> -    g_free(str);
+> > >>>>  }
+> > >>>>
+> > >>>>  const PropertyInfo qdev_prop_pci_host_devaddr =3D {
+> > >>>>
+> > >>>
+> > >>
+> > >
+>
 
-thanks
--- PMM
 
