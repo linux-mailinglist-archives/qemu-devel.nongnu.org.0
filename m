@@ -2,41 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B08ED2BA582
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 10:11:01 +0100 (CET)
-Received: from localhost ([::1]:52514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 407E72BA59B
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 10:13:18 +0100 (CET)
+Received: from localhost ([::1]:56202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg2RY-00005w-QY
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 04:11:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60638)
+	id 1kg2Tl-0001nI-C7
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 04:13:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <agraf@csgraf.de>) id 1kg2Pg-0007GH-57
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 04:09:04 -0500
-Received: from mail.csgraf.de ([188.138.100.120]:48186
- helo=zulu616.server4you.de) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <agraf@csgraf.de>) id 1kg2Pc-0007Q7-KU
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 04:09:03 -0500
-Received: from Alexanders-Mini.alex.local
- (ec2-3-122-114-9.eu-central-1.compute.amazonaws.com [3.122.114.9])
- by csgraf.de (Postfix) with UTF8SMTPSA id 9B38C390015A;
- Fri, 20 Nov 2020 10:08:56 +0100 (CET)
-Subject: Re: [PATCH v5 6/7] tcg: implement JIT for iOS and Apple Silicon
-To: Joelle van Dyne <j@getutm.app>, qemu-devel@nongnu.org
-References: <20201108232425.1705-1-j@getutm.app>
- <20201108232425.1705-7-j@getutm.app>
-From: Alexander Graf <agraf@csgraf.de>
-Message-ID: <6fb788c8-ac2b-83b6-8977-24652a05f7c5@csgraf.de>
-Date: Fri, 20 Nov 2020 10:08:51 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:84.0)
- Gecko/20100101 Thunderbird/84.0
+ (Exim 4.90_1) (envelope-from <stefan.weil@weilnetz.de>)
+ id 1kg2SV-0001A1-Fq
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 04:11:59 -0500
+Received: from mail.weilnetz.de ([37.120.169.71]:53942
+ helo=v2201612906741603.powersrv.de)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefan.weil@weilnetz.de>)
+ id 1kg2ST-0000Fh-BQ
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 04:11:59 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by v2201612906741603.powersrv.de (Postfix) with ESMTP id 854E2DA3AB0;
+ Fri, 20 Nov 2020 10:11:53 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at v2201612906741603.powersrv.de
+Received: from v2201612906741603.powersrv.de ([127.0.0.1])
+ by localhost (v2201612906741603.powersrv.de [127.0.0.1]) (amavisd-new,
+ port 10024)
+ with ESMTP id TAkNUgbcgvmN; Fri, 20 Nov 2020 10:11:12 +0100 (CET)
+Received: from mobile-151-123.wlan.uni-mannheim.de
+ (mobile-151-123.wlan.uni-mannheim.de [134.155.151.123])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 7281EDA01E6;
+ Fri, 20 Nov 2020 10:11:11 +0100 (CET)
+Subject: Re: Peter Maydell
+To: Paolo Bonzini <pbonzini@redhat.com>, Liviu Ionescu <ilg@livius.net>,
+ cavinnarsinghani@gmail.com
+References: <5A06DC2D-E6A3-4249-B05F-A424D684BD26@gmail.com>
+ <1C01B0E2-8730-40F4-8C75-B8FE3E851747@livius.net>
+ <a0f17e81-5113-2e49-4275-f70674c6edaf@redhat.com>
+From: Stefan Weil <stefan.weil@weilnetz.de>
+Message-ID: <5e7c012d-1205-9ad8-07ba-6c1b7a826ae9@weilnetz.de>
+Date: Fri, 20 Nov 2020 10:11:10 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.4.3
 MIME-Version: 1.0
-In-Reply-To: <20201108232425.1705-7-j@getutm.app>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=188.138.100.120; envelope-from=agraf@csgraf.de;
- helo=zulu616.server4you.de
+In-Reply-To: <a0f17e81-5113-2e49-4275-f70674c6edaf@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=37.120.169.71;
+ envelope-from=stefan.weil@weilnetz.de; helo=v2201612906741603.powersrv.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -54,196 +69,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Am 20.11.20 um 09:54 schrieb Paolo Bonzini:
 
-On 09.11.20 00:24, Joelle van Dyne wrote:
-> When entitlements are available (macOS or jailbroken iOS), a hardware
-> feature called APRR exists on newer Apple Silicon that can cheaply mark JIT
-> pages as either RX or RW. Reverse engineered functions from
-> libsystem_pthread.dylib are implemented to handle this.
+> On 20/11/20 09:44, Liviu Ionescu wrote:
+>>> On 20 Nov 2020, at 07:43, cavinnarsinghani@gmail.com wrote:
+>>>
+>>> This issue is about the Qemu Will the Qemu work on the new m1
+>>> macbook pro? And if yes, when will the arm version of Qemu be
+>>> available for public
+>>
+>> I already distribute a binary version of the xPack QEMU Arm fork
+>> which runs on Raspberry Pi OS (and most aarch64 Linux distributions),
+>> and it emulates Cortex-M boards quite fine, so there should be no
+>> major problems for the mainstream QEMU to run on Apple Silicon.
 >
-> The following rules apply for JIT write protect:
->    * JIT write-protect is enabled before tcg_qemu_tb_exec()
->    * JIT write-protect is disabled after tcg_qemu_tb_exec() returns
->    * JIT write-protect is disabled inside do_tb_phys_invalidate() but if it
->      is called inside of tcg_qemu_tb_exec() then write-protect will be
->      enabled again before returning.
->    * JIT write-protect is disabled by cpu_loop_exit() for interrupt handling.
->    * JIT write-protect is disabled everywhere else.
+> As far as I understand Apple enforces W^X (a memory region cannot be 
+> both writable and executable) on ARM hardware.  Richard Henderson and 
+> Joelle van Dyne are working on it.
 >
-> See https://developer.apple.com/documentation/apple_silicon/porting_just-in-time_compilers_to_apple_silicon
->
-> Signed-off-by: Joelle van Dyne <j@getutm.app>
-> ---
->   include/exec/exec-all.h     |  2 +
->   include/tcg/tcg-apple-jit.h | 86 +++++++++++++++++++++++++++++++++++++
->   include/tcg/tcg.h           |  3 ++
->   accel/tcg/cpu-exec-common.c |  2 +
->   accel/tcg/cpu-exec.c        |  2 +
->   accel/tcg/translate-all.c   | 46 ++++++++++++++++++++
->   tcg/tcg.c                   |  4 ++
->   7 files changed, 145 insertions(+)
->   create mode 100644 include/tcg/tcg-apple-jit.h
->
-> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-> index aa65103702..3829f3d470 100644
-> --- a/include/exec/exec-all.h
-> +++ b/include/exec/exec-all.h
-> @@ -549,6 +549,8 @@ TranslationBlock *tb_htable_lookup(CPUState *cpu, target_ulong pc,
->                                      target_ulong cs_base, uint32_t flags,
->                                      uint32_t cf_mask);
->   void tb_set_jmp_target(TranslationBlock *tb, int n, uintptr_t addr);
-> +void tb_exec_lock(void);
-> +void tb_exec_unlock(void);
->   
->   /* GETPC is the true target of the return instruction that we'll execute.  */
->   #if defined(CONFIG_TCG_INTERPRETER)
-> diff --git a/include/tcg/tcg-apple-jit.h b/include/tcg/tcg-apple-jit.h
-> new file mode 100644
-> index 0000000000..9efdb2000d
-> --- /dev/null
-> +++ b/include/tcg/tcg-apple-jit.h
-> @@ -0,0 +1,86 @@
-> +/*
-> + * Apple Silicon functions for JIT handling
-> + *
-> + * Copyright (c) 2020 osy
-> + *
-> + * This library is free software; you can redistribute it and/or
-> + * modify it under the terms of the GNU Lesser General Public
-> + * License as published by the Free Software Foundation; either
-> + * version 2.1 of the License, or (at your option) any later version.
-> + *
-> + * This library is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> + * Lesser General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU Lesser General Public
-> + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#ifndef TCG_APPLE_JIT_H
-> +#define TCG_APPLE_JIT_H
-> +
-> +/*
-> + * APRR handling
-> + * Credits to: https://siguza.github.io/APRR/
-> + * Reversed from /usr/lib/system/libsystem_pthread.dylib
-> + */
-> +
-> +#if defined(__aarch64__) && defined(CONFIG_DARWIN)
-> +
-> +#define _COMM_PAGE_START_ADDRESS        (0x0000000FFFFFC000ULL) /* In TTBR0 */
-> +#define _COMM_PAGE_APRR_SUPPORT         (_COMM_PAGE_START_ADDRESS + 0x10C)
-> +#define _COMM_PAGE_APPR_WRITE_ENABLE    (_COMM_PAGE_START_ADDRESS + 0x110)
-> +#define _COMM_PAGE_APRR_WRITE_DISABLE   (_COMM_PAGE_START_ADDRESS + 0x118)
-> +
-> +static __attribute__((__always_inline__)) bool jit_write_protect_supported(void)
-> +{
-> +    /* Access shared kernel page at fixed memory location. */
-> +    uint8_t aprr_support = *(volatile uint8_t *)_COMM_PAGE_APRR_SUPPORT;
-> +    return aprr_support > 0;
-> +}
-> +
-> +/* write protect enable = write disable */
-> +static __attribute__((__always_inline__)) void jit_write_protect(int enabled)
-> +{
-> +    /* Access shared kernel page at fixed memory location. */
-> +    uint8_t aprr_support = *(volatile uint8_t *)_COMM_PAGE_APRR_SUPPORT;
-> +    if (aprr_support == 0 || aprr_support > 3) {
-> +        return;
-> +    } else if (aprr_support == 1) {
-> +        __asm__ __volatile__ (
-> +            "mov x0, %0\n"
-> +            "ldr x0, [x0]\n"
-> +            "msr S3_4_c15_c2_7, x0\n"
-> +            "isb sy\n"
-> +            :: "r" (enabled ? _COMM_PAGE_APRR_WRITE_DISABLE
-> +                            : _COMM_PAGE_APPR_WRITE_ENABLE)
-> +            : "memory", "x0"
-> +        );
-> +    } else {
-> +        __asm__ __volatile__ (
-> +            "mov x0, %0\n"
-> +            "ldr x0, [x0]\n"
-> +            "msr S3_6_c15_c1_5, x0\n"
-> +            "isb sy\n"
-> +            :: "r" (enabled ? _COMM_PAGE_APRR_WRITE_DISABLE
-> +                            : _COMM_PAGE_APPR_WRITE_ENABLE)
-> +            : "memory", "x0"
-> +        );
-> +    }
-> +}
+> Paolo
 
 
-Is there a particular reason you're not just calling 
-pthread_jit_write_protect_np()? That would remove the dependency on 
-anything reverse engineered.
+It might work with TCI (which does not require such memory regions).
 
-
-> +
-> +#else /* defined(__aarch64__) && defined(CONFIG_DARWIN) */
-> +
-> +static __attribute__((__always_inline__)) bool jit_write_protect_supported(void)
-> +{
-> +    return false;
-> +}
-> +
-> +static __attribute__((__always_inline__)) void jit_write_protect(int enabled)
-> +{
-> +}
-> +
-> +#endif
-> +
-> +#endif /* define TCG_APPLE_JIT_H */
-> diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-> index 477919aeb6..b16b687d0b 100644
-> --- a/include/tcg/tcg.h
-> +++ b/include/tcg/tcg.h
-> @@ -625,6 +625,9 @@ struct TCGContext {
->       size_t code_gen_buffer_size;
->       void *code_gen_ptr;
->       void *data_gen_ptr;
-> +#if defined(CONFIG_DARWIN) && !defined(CONFIG_TCG_INTERPRETER)
-> +    bool code_gen_locked; /* on Darwin each thread tracks W^X flags */
-
-
-I don't quite understand why you need to keep track of whether you're in 
-locked state or not. If you just always keep in locked state and unlock 
-around the few parts that modify the code gen region, you should be 
-fine, no?
-
-
-> +#endif
->   
->       /* Threshold to flush the translated code buffer.  */
->       void *code_gen_highwater;
-> diff --git a/accel/tcg/cpu-exec-common.c b/accel/tcg/cpu-exec-common.c
-> index 12c1e3e974..f1eb767b02 100644
-> --- a/accel/tcg/cpu-exec-common.c
-> +++ b/accel/tcg/cpu-exec-common.c
-> @@ -64,6 +64,8 @@ void cpu_reloading_memory_map(void)
->   
->   void cpu_loop_exit(CPUState *cpu)
->   {
-> +    /* Unlock JIT write protect if applicable. */
-> +    tb_exec_unlock();
-
-
-Why do you need to unlock here? I think in general this patch is trying 
-to keep the state RW always and only flip to RX when actually executing 
-code, right?
-
-I think it would be much easier and cleaner to do it reverse: Keep it in 
-RX always and flip to RW when you need to modify.
-
-Also, shouldn't the code gen buffer be allocated with MAP_JIT according 
-to the porting guide?
-
-Alex
+Stefan
 
 
