@@ -2,76 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D68812BB123
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 18:06:19 +0100 (CET)
-Received: from localhost ([::1]:33378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 026CD2BB131
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 18:12:33 +0100 (CET)
+Received: from localhost ([::1]:42180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg9rW-0005Me-Ol
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 12:06:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43060)
+	id 1kg9xX-00022Z-IZ
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 12:12:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1kg9gv-0007Eo-9W
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:55:21 -0500
-Received: from mail-io1-f65.google.com ([209.85.166.65]:45393)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kg9uY-0008BT-Kd; Fri, 20 Nov 2020 12:09:26 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:33526)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1kg9gs-0003tV-FW
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:55:20 -0500
-Received: by mail-io1-f65.google.com with SMTP id u21so10576127iol.12
- for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 08:55:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kg9uU-0006xE-TG; Fri, 20 Nov 2020 12:09:24 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id p19so8762001wmg.0;
+ Fri, 20 Nov 2020 09:09:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=F+WopgHAyjc9Q6dNWZwiMfaY+rfe0R7BAZ1h6IMjCO0=;
+ b=ky+cRpZBOfrNdaD2GbPQJqKfZ9QzYtcB3478Qo4AqTLpclvgq28+J9KhF6kv8OFpDn
+ PNHrnvimdkOMto0Mywi1SS2xr8zKZaOjXi3AS3KlcsFByfGEnnSv384AsAhwZK08RGbQ
+ QaHOnPMs781rrSka3ZkbzRlzf12do7PdmPcTlxgFVsePWRC8crVlywPGEF4aB9I6ZRZ0
+ xEfpvZ9g0qu8MAy9OE6sXLJy1NuTXp8n4Md69VRWR0rWE+qNZLMatbjzuUY25xYJNLBj
+ ybAYXd9B/HwDEr+gqSomBArNqMsU0XHqkgd8YPG4q66+HLeVX9sJ+LOCOWKpSC3faEkr
+ pVjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=pQA0g5y85GNRHq7pQZ8AdL0qQZnL4E72HFfz5p2YuC0=;
- b=DPLUuNu8ENBeigciFaNrAjXRUd4BDfH+PQvST8HoLdgiDCen4fgTl5hWz9SWEuWROL
- V0g3wfaIJXE7zg6xX8Oixg62QKB9tocvW5H820b494yfb8lad2PHz5vkifbpfhZx9QS3
- iSNo9d2N4EslGrvEqlfTG+NPOzDubW1/3qCOSUhEr2jTk6ADQLuD7yk0RNlvikUZkmpw
- nc0E0lPlgR69L+VY9cMj3peqiHn0xvpSwWDbYAfVZSU2y71O4+GvzsFAD6g/gAyuB8sc
- Tb2byD9dsHNhbHBLFCAS4sR0x4a9A225lOcafLWPLG2uHDyg13dQu2ftcDWsHOjx5Lgq
- 4HhQ==
-X-Gm-Message-State: AOAM531IktRmh6WU4BqaIZErs0h9qpRw+e2IheWe99325wJIZ+tBDidW
- Pa0UWAcrXupskhTm5cwfJkA45fl5Rw8=
-X-Google-Smtp-Source: ABdhPJwelxmlCYW8DIMAmTnKZ89rA4KBVwnIBaa2Fijp2h9T4U6RibDKOr6DvAWutipQjoSqUOzoXQ==
-X-Received: by 2002:a05:6602:314c:: with SMTP id
- m12mr8409596ioy.100.1605891317299; 
- Fri, 20 Nov 2020 08:55:17 -0800 (PST)
-Received: from mail-il1-f181.google.com (mail-il1-f181.google.com.
- [209.85.166.181])
- by smtp.gmail.com with ESMTPSA id b9sm2154554ila.51.2020.11.20.08.55.17
- for <qemu-devel@nongnu.org>
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=F+WopgHAyjc9Q6dNWZwiMfaY+rfe0R7BAZ1h6IMjCO0=;
+ b=hp6vaWgOUk60zdMeUqmujRWqpA/ywcZoX1wzTex40+aMWAhTslZP/K3nZoiWC6oZQf
+ B2Sf9JV3poO20cLVgWrXJ/6Dn2MqzaGYIXSsHeo8MLvbZpFX0msz9LXgbkDXsNIdapio
+ 22Ft1l+FQrFojouh3wKXfEO2G70FNNz/GbRzcNtQDFgvon2Coyc2PWJXdjIX0KuD9zSr
+ pbDHhn1Gg44g9rBzmu+owBMjGk2q7y5WSVnsf9CRQjznkHxFmxING0mRA9BsBgkDAy0j
+ M1+M8JAa6K3Gx/8QL4HeYIpYGxyRWXggI8WyWdBKQXxkkhW8o/ySatzbm8kbR7aH4I9Y
+ xqAw==
+X-Gm-Message-State: AOAM533F4P/DxFYQxg3UzjkK3PbzhkyfNCUSumbGZJnEgLDjGYYhA/Dp
+ fvq09DwaGmzFM+T6Y9UoKe4=
+X-Google-Smtp-Source: ABdhPJyBBZPWaLOw/GYhkaLSGmA+V1+S94AQ+6Qw/Id523K45byBh44tGSZVt/pgnSPm8m4V4KZBRA==
+X-Received: by 2002:a1c:9d08:: with SMTP id g8mr10929198wme.171.1605892160976; 
+ Fri, 20 Nov 2020 09:09:20 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id z189sm5099122wme.23.2020.11.20.09.09.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Nov 2020 08:55:17 -0800 (PST)
-Received: by mail-il1-f181.google.com with SMTP id l12so9154081ilo.1
- for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 08:55:17 -0800 (PST)
-X-Received: by 2002:a92:ddc2:: with SMTP id d2mr23354617ilr.33.1605891316774; 
- Fri, 20 Nov 2020 08:55:16 -0800 (PST)
+ Fri, 20 Nov 2020 09:09:20 -0800 (PST)
+Subject: Re: [PATCH-for-5.2 2/4] docs/system/arm: Document the various raspi
+ boards
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20201120152140.2493197-1-f4bug@amsat.org>
+ <20201120152140.2493197-3-f4bug@amsat.org>
+ <CAFEAcA85nhCv6DH-Kf0CqfaN5rYrhzE=TY54MNEqn5ko3wkDNQ@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <fc21801d-b4cc-4fb7-8ea9-61f92680ba54@amsat.org>
+Date: Fri, 20 Nov 2020 18:09:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-References: <20201108232425.1705-1-j@getutm.app>
- <20201108232425.1705-8-j@getutm.app>
- <abb6c2d9-d375-1963-e0a0-627636643860@amsat.org>
- <CA+E+eSC0hj=hOhpLForn9KQw39-ZcOMRRG-D__iYDneqDOcZ3g@mail.gmail.com>
- <1a1dab52-fb82-64e7-0067-7957aae37281@amsat.org>
-In-Reply-To: <1a1dab52-fb82-64e7-0067-7957aae37281@amsat.org>
-From: Joelle van Dyne <j@getutm.app>
-Date: Fri, 20 Nov 2020 10:55:06 -0600
-X-Gmail-Original-Message-ID: <CA+E+eSDKwusE9_h8N5vd+zod6MsE8ki1hwT7h6shd2=kB=tpFg@mail.gmail.com>
-Message-ID: <CA+E+eSDKwusE9_h8N5vd+zod6MsE8ki1hwT7h6shd2=kB=tpFg@mail.gmail.com>
-Subject: Re: [PATCH v5 7/7] block: check availablity for preadv/pwritev on mac
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.166.65; envelope-from=osy86dev@gmail.com;
- helo=mail-io1-f65.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
+In-Reply-To: <CAFEAcA85nhCv6DH-Kf0CqfaN5rYrhzE=TY54MNEqn5ko3wkDNQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,100 +89,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Libvirt <libvir-list@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Andrew Jeffery <andrew@aj.id.au>, qemu-arm <qemu-arm@nongnu.org>,
+ Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-How about this:
+On 11/20/20 5:48 PM, Peter Maydell wrote:
+> On Fri, 20 Nov 2020 at 15:21, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> Document the following Raspberry Pi models:
+>>
+>>  - raspi0               Raspberry Pi Zero (revision 1.2)
+>>  - raspi1ap             Raspberry Pi A+ (revision 1.1)
+>>  - raspi2b              Raspberry Pi 2B (revision 1.1)
+>>  - raspi3ap             Raspberry Pi 3A+ (revision 1.0)
+>>  - raspi3b              Raspberry Pi 3B (revision 1.2)
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>  docs/system/arm/raspi.rst  | 44 ++++++++++++++++++++++++++++++++++++++
+>>  docs/system/target-arm.rst |  1 +
+>>  2 files changed, 45 insertions(+)
+>>  create mode 100644 docs/system/arm/raspi.rst
+>>
+>> diff --git a/docs/system/arm/raspi.rst b/docs/system/arm/raspi.rst
+>> new file mode 100644
+>> index 00000000000..b19284e4481
+>> --- /dev/null
+>> +++ b/docs/system/arm/raspi.rst
+>> @@ -0,0 +1,44 @@
+>> +Raspberry Pi boards (``raspi0``, ``raspi1ap``, ``raspi2b``, ``raspi3ap``, ``raspi3b``)
+>> +======================================================================================
+>> +
+>> +
+>> +QEMU provides models the following Raspberry Pi boards:
+> 
+> "models of"
+> 
+>> +
+>> +``raspi0`` and ``raspi1ap``
+>> +  ARM1176JZF-S core, 512 MiB of RAM
+>> +``raspi2b``
+>> +  Cortex-A7 (4 cores), 1 GiB of RAM
+>> +``raspi3ap``
+>> +  Cortex-A53 (4 cores), 512 MiB of RAM
+>> +``raspi3b``
+>> +  Cortex-A53 (4 cores), 1 GiB of RAM
+>> +
+>> +
+>> +Implemented devices
+>> +-------------------
+>> +
+>> + * ARM1176JZF-S, Cortex-A7 or Cortex-A53 CPU
+>> + * Interrupt controller
+>> + * DMA controller
+>> + * Clock and reset controller (CPRMAN)
+>> + * System Timer
+>> + * GPIO controller
+>> + * Serial ports (BCM2835 AUX - 16550 based - and PL011)
+>> + * Random Number Generator (RNG)
+>> + * Frame Buffer
+>> + * USB host (USBH)
+>> + * GPIO controller
+>> + * SD/MMC host controller
+>> + * SoC thermal sensor
+>> + * USB2 host controller (DWC2 and MPHI)
+>> + * MailBox controller (MBOX)
+>> + * VideoCore firmware (property)
+>> +
+>> +
+>> +Missing devices
+>> +---------------
+>> +
+>> + * Peripheral SPI controller (SPI)
+>> + * Analog to Digital Converter (ADC)
+>> + * Pulse Width Modulation (PWM)
+>> + * Security features
+> 
+> "Security features" is a bit vague; could we be more precise?
 
-static bool preadv_present =3D true;
-static bool preadv_checked =3D false;
+I used Nuvoton as template. I'll remove :)
 
-static ssize_t
-qemu_preadv(int fd, const struct iovec *iov, int nr_iov, off_t offset)
-{
-#ifdef CONFIG_DARWIN
-    if (!preadv_checked) {
-        if (__builtin_available(macOS 11, iOS 14, watchOS 7, tvOS 14, *)) {
-            preadv_checked =3D true;
-        } else {
-            preadv_present =3D false;
-            return -ENOSYS;
-        }
-    }
-#endif
-    return preadv(fd, iov, nr_iov, offset);
-}
-
--j
-
-On Fri, Nov 20, 2020 at 10:21 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
-rg> wrote:
->
-> On 11/20/20 4:49 PM, Joelle van Dyne wrote:
-> > No, because if you build on a macOS 11 host but try to run it on macOS
-> > 10.15 then it will crash.
->
-> I'm not asking to move the check to configure/build time,
-> but to do it only once at runtime...
->
-> >
-> > -j
-> >
-> > On Fri, Nov 20, 2020 at 4:32 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsa=
-t.org> wrote:
-> >>
-> >> On 11/9/20 12:24 AM, Joelle van Dyne wrote:
-> >>> macOS 11/iOS 14 added preadv/pwritev APIs. Due to weak linking, confi=
-gure
-> >>> will succeed with CONFIG_PREADV even when targeting a lower OS versio=
-n. We
-> >>> therefore need to check at run time if we can actually use these APIs=
-.
-> >>>
-> >>> Signed-off-by: Joelle van Dyne <j@getutm.app>
-> >>> ---
-> >>>  block/file-posix.c | 12 ++++++++++++
-> >>>  1 file changed, 12 insertions(+)
-> >>>
-> >>> diff --git a/block/file-posix.c b/block/file-posix.c
-> >>> index d83219df55..a9d69746a0 100644
-> >>> --- a/block/file-posix.c
-> >>> +++ b/block/file-posix.c
-> >>> @@ -1394,12 +1394,24 @@ static bool preadv_present =3D true;
-> >>>  static ssize_t
-> >>>  qemu_preadv(int fd, const struct iovec *iov, int nr_iov, off_t offse=
-t)
-> >>>  {
-> >>> +#ifdef CONFIG_DARWIN /* preadv introduced in macOS 11 */
-> >>> +    if (!__builtin_available(macOS 11, iOS 14, watchOS 7, tvOS 14, *=
-)) {
-> >>
-> >> Can we change the CONFIG_PREADV ifdef'ry to run this check once
-> >> on macOS 11?
-> >>
-> >>> +        preadv_present =3D false;
-> >>> +        return -ENOSYS;
-> >>> +    } else
-> >>> +#endif
-> >>>      return preadv(fd, iov, nr_iov, offset);
-> >>>  }
-> >>>
-> >>>  static ssize_t
-> >>>  qemu_pwritev(int fd, const struct iovec *iov, int nr_iov, off_t offs=
-et)
-> >>>  {
-> >>> +#ifdef CONFIG_DARWIN /* pwritev introduced in macOS 11 */
-> >>> +    if (!__builtin_available(macOS 11, iOS 14, watchOS 7, tvOS 14, *=
-)) {
-> >>> +        preadv_present =3D false;
-> >>> +        return -ENOSYS;
-> >>> +    } else
-> >>> +#endif
-> >>>      return pwritev(fd, iov, nr_iov, offset);
-> >>>  }
-> >>>
-> >>>
-> >>
-> >
+> 
+> Otherwise
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> 
+> thanks
+> -- PMM
+> 
 
