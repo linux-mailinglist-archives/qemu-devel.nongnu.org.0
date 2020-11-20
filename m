@@ -2,52 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C9F82BAF19
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 16:37:44 +0100 (CET)
-Received: from localhost ([::1]:34738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A84162BAF25
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 16:42:40 +0100 (CET)
+Received: from localhost ([::1]:40998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg8Tn-00018H-Gi
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 10:37:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48650)
+	id 1kg8YZ-00048F-FU
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 10:42:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kg8R8-0008CR-Kj
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 10:34:58 -0500
-Received: from mx2.suse.de ([195.135.220.15]:54134)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kg8R0-0006mA-Ny
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 10:34:58 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 2AA26AA4F;
- Fri, 20 Nov 2020 15:34:49 +0000 (UTC)
-Subject: Re: [RFC v4 9/9] i386: split cpu accelerators from cpu.c
-To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Wenchao Wang <wenchao.wang@intel.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20201120144909.24097-1-cfontana@suse.de>
- <20201120144909.24097-10-cfontana@suse.de>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <049561d0-0643-2e28-0f41-72d87a7925bc@suse.de>
-Date: Fri, 20 Nov 2020 16:34:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kg8X0-0003dN-0Q
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 10:41:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44297)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kg8Wx-0000og-Ba
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 10:41:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605886857;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=OYOx7x0ULV0XD2JV3FikoVg/IzAiHk7x1eiNdi3h6Uo=;
+ b=WpB02vQKn1s2XyWa++oaYu6dsi3i+m0wAgMDeY64mx2rs48QxlKg/pjeVUo6a2ip5Y7vbg
+ SANcdZZ8all+oIRCQuKW5V/PF0nrH1qfR7rrG4sRclIy2UEOWbQOzKg7jG3ITKB7+DIJWg
+ YmVeMjZwCKCpmp7uk1+1gHv8Z8SFCew=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-504-QESmMXX7MjKEvhOMs5uCVA-1; Fri, 20 Nov 2020 10:40:52 -0500
+X-MC-Unique: QESmMXX7MjKEvhOMs5uCVA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED99E80ED8B
+ for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 15:40:51 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9F44760853;
+ Fri, 20 Nov 2020 15:40:51 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] python, tests: do not use short-form boolean options
+Date: Fri, 20 Nov 2020 10:40:51 -0500
+Message-Id: <20201120154051.2495221-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201120144909.24097-10-cfontana@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,1692 +76,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
- haxm-team@intel.com, Cameron Esfahani <dirty@apple.com>,
- Anthony Perard <anthony.perard@citrix.com>, Bruce Rogers <brogers@suse.com>,
- Olaf Hering <ohering@suse.de>, Colin Xu <colin.xu@intel.com>
+Cc: armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/20/20 3:49 PM, Claudio Fontana wrote:
-> split cpu.c into:
-> 
-> cpu.c            cpuid and common x86 cpu functionality
-> host-cpu.c       host x86 cpu functions and "host" cpu type
-> kvm/cpu.c        KVM x86 cpu type
-> hvf/cpu.c        HVF x86 cpu type
-> tcg/cpu.c        TCG x86 cpu type
-> 
-> The link to the accel class is set in the X86CPUClass classes
-> at MODULE_INIT_ACCEL_CPU time, when the accelerator is known.
-> 
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> ---
->  MAINTAINERS                 |   2 +-
->  bsd-user/main.c             |   1 +
->  hw/i386/pc_piix.c           |   1 +
->  linux-user/main.c           |   1 +
->  target/i386/cpu-qom.h       |  28 +++
->  target/i386/cpu.c           | 408 ++++++------------------------------
->  target/i386/cpu.h           |  20 +-
->  target/i386/host-cpu.c      | 196 +++++++++++++++++
->  target/i386/host-cpu.h      |  20 ++
->  target/i386/hvf/cpu.c       |  76 +++++++
->  target/i386/hvf/meson.build |   1 +
->  target/i386/kvm/cpu.c       | 157 ++++++++++++++
->  target/i386/kvm/kvm-cpu.h   |  41 ++++
->  target/i386/kvm/kvm.c       |   3 +-
->  target/i386/kvm/meson.build |   7 +-
->  target/i386/meson.build     |   8 +-
->  target/i386/tcg-cpu.c       |  71 -------
->  target/i386/tcg-cpu.h       |  15 --
->  target/i386/tcg/cpu.c       | 180 ++++++++++++++++
->  target/i386/tcg/meson.build |   3 +-
->  20 files changed, 790 insertions(+), 449 deletions(-)
->  create mode 100644 target/i386/host-cpu.c
->  create mode 100644 target/i386/host-cpu.h
->  create mode 100644 target/i386/hvf/cpu.c
->  create mode 100644 target/i386/kvm/cpu.c
->  create mode 100644 target/i386/kvm/kvm-cpu.h
->  delete mode 100644 target/i386/tcg-cpu.c
->  delete mode 100644 target/i386/tcg-cpu.h
->  create mode 100644 target/i386/tcg/cpu.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index e892dd2220..9782728e0c 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -336,7 +336,7 @@ M: Paolo Bonzini <pbonzini@redhat.com>
->  M: Richard Henderson <richard.henderson@linaro.org>
->  M: Eduardo Habkost <ehabkost@redhat.com>
->  S: Maintained
-> -F: target/i386/
-> +F: target/i386/tcg/
->  F: tests/tcg/i386/
->  F: tests/tcg/x86_64/
->  F: hw/i386/
-> diff --git a/bsd-user/main.c b/bsd-user/main.c
-> index 0a918e8f74..9f88ae952a 100644
-> --- a/bsd-user/main.c
-> +++ b/bsd-user/main.c
-> @@ -909,6 +909,7 @@ int main(int argc, char **argv)
->  
->      /* init tcg before creating CPUs and to get qemu_host_page_size */
->      tcg_exec_init(0);
-> +    module_call_init(MODULE_INIT_ACCEL_CPU);
->  
->      cpu_type = parse_cpu_option(cpu_model);
->      cpu = cpu_create(cpu_type);
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index 13d1628f13..d3f013f3a1 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -64,6 +64,7 @@
->  #include "hw/hyperv/vmbus-bridge.h"
->  #include "hw/mem/nvdimm.h"
->  #include "hw/i386/acpi-build.h"
-> +#include "kvm/kvm-cpu.h"
->  
->  #define MAX_IDE_BUS 2
->  
-> diff --git a/linux-user/main.c b/linux-user/main.c
-> index 24d1eb73ad..a745901d86 100644
-> --- a/linux-user/main.c
-> +++ b/linux-user/main.c
-> @@ -704,6 +704,7 @@ int main(int argc, char **argv, char **envp)
->  
->      /* init tcg before creating CPUs and to get qemu_host_page_size */
->      tcg_exec_init(0);
-> +    module_call_init(MODULE_INIT_ACCEL_CPU);
->  
->      cpu = cpu_create(cpu_type);
->      env = cpu->env_ptr;
-> diff --git a/target/i386/cpu-qom.h b/target/i386/cpu-qom.h
-> index f9923cee04..adfede5550 100644
-> --- a/target/i386/cpu-qom.h
-> +++ b/target/i386/cpu-qom.h
-> @@ -33,6 +33,12 @@
->  OBJECT_DECLARE_TYPE(X86CPU, X86CPUClass,
->                      X86_CPU)
->  
-> +#define TYPE_X86_CPU_ACCEL TYPE_X86_CPU "-accel"
-> +#define X86_CPU_ACCEL_TYPE_NAME(name) (name "-" TYPE_X86_CPU_ACCEL)
-> +
-> +OBJECT_DECLARE_TYPE(X86CPUAccel, X86CPUAccelClass,
-> +                    X86_CPU_ACCEL)
+They are going to be deprecated, avoid warnings on stdout while the
+tests run.
 
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ python/qemu/machine.py               | 2 +-
+ tests/qtest/pflash-cfi02-test.c      | 4 ++--
+ tests/qtest/test-filter-redirector.c | 8 ++++----
+ tests/qtest/vhost-user-test.c        | 8 ++++----
+ tests/test-char.c                    | 8 ++++----
+ 5 files changed, 15 insertions(+), 15 deletions(-)
 
-Instead of OBJECT_DECLARE_TYPE, since this is never instantiated, this should probably be:
-
-+typedef struct X86CPUAccelClass X86CPUAccelClass;
-+DECLARE_CLASS_CHECKERS(X86CPUAccelClass, X86_CPU_ACCEL, TYPE_X86_CPU_ACCEL)
-
-
-> +
->  typedef struct X86CPUModel X86CPUModel;
->  
->  /**
-> @@ -69,7 +75,29 @@ struct X86CPUClass {
->      DeviceRealize parent_realize;
->      DeviceUnrealize parent_unrealize;
->      DeviceReset parent_reset;
-> +
-> +    const X86CPUAccelClass *accel;
-> +};
-> +
-> +/**
-> + * X86CPUAccelClass:
-> + * @name: string name of the X86 CPU Accelerator
-> + *
-> + * @common_class_init: initializer for the common cpu
-> + * @instance_init: cpu instance initialization
-> + * @realizefn: realize function, called first in x86 cpu realize
-> + *
-> + * X86 CPU accelerator-specific CPU initializations
-> + */
-> +
-> +struct X86CPUAccelClass {
-> +    ObjectClass parent_class;
-> +
-> +    void (*cpu_common_class_init)(X86CPUClass *xcc);
-> +    void (*cpu_instance_init)(X86CPU *cpu);
-> +    void (*cpu_realizefn)(X86CPU *cpu, Error **errp);
->  };
->  
-> +void x86_cpu_accel_init(const char *accel_name);
->  
->  #endif
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 3462d0143f..b799723e53 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -22,9 +22,7 @@
->  #include "qemu/cutils.h"
->  #include "qemu/bitops.h"
->  #include "qemu/qemu-print.h"
-> -
->  #include "cpu.h"
-> -#include "tcg-cpu.h"
->  #include "helper-tcg.h"
->  #include "exec/exec-all.h"
->  #include "sysemu/kvm.h"
-> @@ -34,25 +32,14 @@
->  #include "sysemu/xen.h"
->  #include "kvm/kvm_i386.h"
->  #include "sev_i386.h"
-> -
-> -#include "qemu/error-report.h"
->  #include "qemu/module.h"
-> -#include "qemu/option.h"
-> -#include "qemu/config-file.h"
-> -#include "qapi/error.h"
->  #include "qapi/qapi-visit-machine.h"
->  #include "qapi/qapi-visit-run-state.h"
->  #include "qapi/qmp/qdict.h"
->  #include "qapi/qmp/qerror.h"
-> -#include "qapi/visitor.h"
->  #include "qom/qom-qobject.h"
-> -#include "sysemu/arch_init.h"
->  #include "qapi/qapi-commands-machine-target.h"
-> -
->  #include "standard-headers/asm-x86/kvm_para.h"
-> -
-> -#include "sysemu/sysemu.h"
-> -#include "sysemu/tcg.h"
->  #include "hw/qdev-properties.h"
->  #include "hw/i386/topology.h"
->  #ifndef CONFIG_USER_ONLY
-> @@ -594,8 +581,8 @@ static CPUCacheInfo legacy_l3_cache = {
->  #define INTEL_PT_CYCLE_BITMAP    0x1fff         /* Support 0,2^(0~11) */
->  #define INTEL_PT_PSB_BITMAP      (0x003f << 16) /* Support 2K,4K,8K,16K,32K,64K */
->  
-> -static void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
-> -                                     uint32_t vendor2, uint32_t vendor3)
-> +void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
-> +                              uint32_t vendor2, uint32_t vendor3)
->  {
->      int i;
->      for (i = 0; i < 4; i++) {
-> @@ -1563,25 +1550,6 @@ void host_cpuid(uint32_t function, uint32_t count,
->          *edx = vec[3];
->  }
->  
-> -void host_vendor_fms(char *vendor, int *family, int *model, int *stepping)
-> -{
-> -    uint32_t eax, ebx, ecx, edx;
-> -
-> -    host_cpuid(0x0, 0, &eax, &ebx, &ecx, &edx);
-> -    x86_cpu_vendor_words2str(vendor, ebx, edx, ecx);
-> -
-> -    host_cpuid(0x1, 0, &eax, &ebx, &ecx, &edx);
-> -    if (family) {
-> -        *family = ((eax >> 8) & 0x0F) + ((eax >> 20) & 0xFF);
-> -    }
-> -    if (model) {
-> -        *model = ((eax >> 4) & 0x0F) | ((eax & 0xF0000) >> 12);
-> -    }
-> -    if (stepping) {
-> -        *stepping = eax & 0x0F;
-> -    }
-> -}
-> -
->  /* CPU class name definitions: */
->  
->  /* Return type name for a given CPU model name
-> @@ -1606,10 +1574,6 @@ static char *x86_cpu_class_get_model_name(X86CPUClass *cc)
->                       strlen(class_name) - strlen(X86_CPU_TYPE_SUFFIX));
->  }
->  
-> -typedef struct PropValue {
-> -    const char *prop, *value;
-> -} PropValue;
-> -
->  typedef struct X86CPUVersionDefinition {
->      X86CPUVersion version;
->      const char *alias;
-> @@ -4106,31 +4070,6 @@ static X86CPUDefinition builtin_x86_defs[] = {
->      },
->  };
->  
-> -/* KVM-specific features that are automatically added/removed
-> - * from all CPU models when KVM is enabled.
-> - */
-> -static PropValue kvm_default_props[] = {
-> -    { "kvmclock", "on" },
-> -    { "kvm-nopiodelay", "on" },
-> -    { "kvm-asyncpf", "on" },
-> -    { "kvm-steal-time", "on" },
-> -    { "kvm-pv-eoi", "on" },
-> -    { "kvmclock-stable-bit", "on" },
-> -    { "x2apic", "on" },
-> -    { "acpi", "off" },
-> -    { "monitor", "off" },
-> -    { "svm", "off" },
-> -    { NULL, NULL },
-> -};
-> -
-> -/* TCG-specific defaults that override all CPU models when using TCG
-> - */
-> -static PropValue tcg_default_props[] = {
-> -    { "vme", "off" },
-> -    { NULL, NULL },
-> -};
-> -
-> -
->  /*
->   * We resolve CPU model aliases using -v1 when using "-machine
->   * none", but this is just for compatibility while libvirt isn't
-> @@ -4172,61 +4111,6 @@ static X86CPUVersion x86_cpu_model_resolve_version(const X86CPUModel *model)
->      return v;
->  }
->  
-> -void x86_cpu_change_kvm_default(const char *prop, const char *value)
-> -{
-> -    PropValue *pv;
-> -    for (pv = kvm_default_props; pv->prop; pv++) {
-> -        if (!strcmp(pv->prop, prop)) {
-> -            pv->value = value;
-> -            break;
-> -        }
-> -    }
-> -
-> -    /* It is valid to call this function only for properties that
-> -     * are already present in the kvm_default_props table.
-> -     */
-> -    assert(pv->prop);
-> -}
-> -
-> -static bool lmce_supported(void)
-> -{
-> -    uint64_t mce_cap = 0;
-> -
-> -#ifdef CONFIG_KVM
-> -    if (kvm_ioctl(kvm_state, KVM_X86_GET_MCE_CAP_SUPPORTED, &mce_cap) < 0) {
-> -        return false;
-> -    }
-> -#endif
-> -
-> -    return !!(mce_cap & MCG_LMCE_P);
-> -}
-> -
-> -#define CPUID_MODEL_ID_SZ 48
-> -
-> -/**
-> - * cpu_x86_fill_model_id:
-> - * Get CPUID model ID string from host CPU.
-> - *
-> - * @str should have at least CPUID_MODEL_ID_SZ bytes
-> - *
-> - * The function does NOT add a null terminator to the string
-> - * automatically.
-> - */
-> -static int cpu_x86_fill_model_id(char *str)
-> -{
-> -    uint32_t eax = 0, ebx = 0, ecx = 0, edx = 0;
-> -    int i;
-> -
-> -    for (i = 0; i < 3; i++) {
-> -        host_cpuid(0x80000002 + i, 0, &eax, &ebx, &ecx, &edx);
-> -        memcpy(str + i * 16 +  0, &eax, 4);
-> -        memcpy(str + i * 16 +  4, &ebx, 4);
-> -        memcpy(str + i * 16 +  8, &ecx, 4);
-> -        memcpy(str + i * 16 + 12, &edx, 4);
-> -    }
-> -    return 0;
-> -}
-> -
->  static Property max_x86_cpu_properties[] = {
->      DEFINE_PROP_BOOL("migratable", X86CPU, migratable, true),
->      DEFINE_PROP_BOOL("host-cache-info", X86CPU, cache_info_passthrough, false),
-> @@ -4249,61 +4133,25 @@ static void max_x86_cpu_class_init(ObjectClass *oc, void *data)
->  static void max_x86_cpu_initfn(Object *obj)
->  {
->      X86CPU *cpu = X86_CPU(obj);
-> -    CPUX86State *env = &cpu->env;
-> -    KVMState *s = kvm_state;
->  
->      /* We can't fill the features array here because we don't know yet if
->       * "migratable" is true or false.
->       */
->      cpu->max_features = true;
-> -
-> -    if (accel_uses_host_cpuid()) {
-> -        char vendor[CPUID_VENDOR_SZ + 1] = { 0 };
-> -        char model_id[CPUID_MODEL_ID_SZ + 1] = { 0 };
-> -        int family, model, stepping;
-> -
-> -        host_vendor_fms(vendor, &family, &model, &stepping);
-> -        cpu_x86_fill_model_id(model_id);
-> -
-> -        object_property_set_str(OBJECT(cpu), "vendor", vendor, &error_abort);
-> -        object_property_set_int(OBJECT(cpu), "family", family, &error_abort);
-> -        object_property_set_int(OBJECT(cpu), "model", model, &error_abort);
-> -        object_property_set_int(OBJECT(cpu), "stepping", stepping,
-> -                                &error_abort);
-> -        object_property_set_str(OBJECT(cpu), "model-id", model_id,
-> -                                &error_abort);
-> -
-> -        if (kvm_enabled()) {
-> -            env->cpuid_min_level =
-> -                kvm_arch_get_supported_cpuid(s, 0x0, 0, R_EAX);
-> -            env->cpuid_min_xlevel =
-> -                kvm_arch_get_supported_cpuid(s, 0x80000000, 0, R_EAX);
-> -            env->cpuid_min_xlevel2 =
-> -                kvm_arch_get_supported_cpuid(s, 0xC0000000, 0, R_EAX);
-> -        } else {
-> -            env->cpuid_min_level =
-> -                hvf_get_supported_cpuid(0x0, 0, R_EAX);
-> -            env->cpuid_min_xlevel =
-> -                hvf_get_supported_cpuid(0x80000000, 0, R_EAX);
-> -            env->cpuid_min_xlevel2 =
-> -                hvf_get_supported_cpuid(0xC0000000, 0, R_EAX);
-> -        }
-> -
-> -        if (lmce_supported()) {
-> -            object_property_set_bool(OBJECT(cpu), "lmce", true, &error_abort);
-> -        }
-> -    } else {
-> -        object_property_set_str(OBJECT(cpu), "vendor", CPUID_VENDOR_AMD,
-> -                                &error_abort);
-> -        object_property_set_int(OBJECT(cpu), "family", 6, &error_abort);
-> -        object_property_set_int(OBJECT(cpu), "model", 6, &error_abort);
-> -        object_property_set_int(OBJECT(cpu), "stepping", 3, &error_abort);
-> -        object_property_set_str(OBJECT(cpu), "model-id",
-> -                                "QEMU TCG CPU version " QEMU_HW_VERSION,
-> -                                &error_abort);
-> -    }
-> -
->      object_property_set_bool(OBJECT(cpu), "pmu", true, &error_abort);
-> +
-> +    /*
-> +     * these defaults are used for TCG and all other accelerators
-> +     * besides KVM and HVF, which overwrite these values
-> +     */
-> +    object_property_set_str(OBJECT(cpu), "vendor", CPUID_VENDOR_AMD,
-> +                            &error_abort);
-> +    object_property_set_int(OBJECT(cpu), "family", 6, &error_abort);
-> +    object_property_set_int(OBJECT(cpu), "model", 6, &error_abort);
-> +    object_property_set_int(OBJECT(cpu), "stepping", 3, &error_abort);
-> +    object_property_set_str(OBJECT(cpu), "model-id",
-> +                            "QEMU TCG CPU version " QEMU_HW_VERSION,
-> +                            &error_abort);
->  }
->  
->  static const TypeInfo max_x86_cpu_type_info = {
-> @@ -4313,31 +4161,6 @@ static const TypeInfo max_x86_cpu_type_info = {
->      .class_init = max_x86_cpu_class_init,
->  };
->  
-> -#if defined(CONFIG_KVM) || defined(CONFIG_HVF)
-> -static void host_x86_cpu_class_init(ObjectClass *oc, void *data)
-> -{
-> -    X86CPUClass *xcc = X86_CPU_CLASS(oc);
-> -
-> -    xcc->host_cpuid_required = true;
-> -    xcc->ordering = 8;
-> -
-> -#if defined(CONFIG_KVM)
-> -    xcc->model_description =
-> -        "KVM processor with all supported host features ";
-> -#elif defined(CONFIG_HVF)
-> -    xcc->model_description =
-> -        "HVF processor with all supported host features ";
-> -#endif
-> -}
-> -
-> -static const TypeInfo host_x86_cpu_type_info = {
-> -    .name = X86_CPU_TYPE_NAME("host"),
-> -    .parent = X86_CPU_TYPE_NAME("max"),
-> -    .class_init = host_x86_cpu_class_init,
-> -};
-> -
-> -#endif
-> -
->  static char *feature_word_description(FeatureWordInfo *f, uint32_t bit)
->  {
->      assert(f->type == CPUID_FEATURE_WORD || f->type == MSR_FEATURE_WORD);
-> @@ -5063,7 +4886,7 @@ static uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
->      return r;
->  }
->  
-> -static void x86_cpu_apply_props(X86CPU *cpu, PropValue *props)
-> +void x86_cpu_apply_props(X86CPU *cpu, PropValue *props)
->  {
->      PropValue *pv;
->      for (pv = props; pv->prop; pv++) {
-> @@ -5110,8 +4933,6 @@ static void x86_cpu_load_model(X86CPU *cpu, X86CPUModel *model)
->  {
->      X86CPUDefinition *def = model->cpudef;
->      CPUX86State *env = &cpu->env;
-> -    const char *vendor;
-> -    char host_vendor[CPUID_VENDOR_SZ + 1];
->      FeatureWord w;
->  
->      /*NOTE: any property set by this function should be returned by
-> @@ -5138,18 +4959,6 @@ static void x86_cpu_load_model(X86CPU *cpu, X86CPUModel *model)
->      /* legacy-cache defaults to 'off' if CPU model provides cache info */
->      cpu->legacy_cache = !def->cache_info;
->  
-> -    /* Special cases not set in the X86CPUDefinition structs: */
-> -    /* TODO: in-kernel irqchip for hvf */
-> -    if (kvm_enabled()) {
-> -        if (!kvm_irqchip_in_kernel()) {
-> -            x86_cpu_change_kvm_default("x2apic", "off");
-> -        }
-> -
-> -        x86_cpu_apply_props(cpu, kvm_default_props);
-> -    } else if (tcg_enabled()) {
-> -        x86_cpu_apply_props(cpu, tcg_default_props);
-> -    }
-> -
->      env->features[FEAT_1_ECX] |= CPUID_EXT_HYPERVISOR;
->  
->      /* sysenter isn't supported in compatibility mode on AMD,
-> @@ -5159,15 +4968,12 @@ static void x86_cpu_load_model(X86CPU *cpu, X86CPUModel *model)
->       * KVM's sysenter/syscall emulation in compatibility mode and
->       * when doing cross vendor migration
->       */
-> -    vendor = def->vendor;
-> -    if (accel_uses_host_cpuid()) {
-> -        uint32_t  ebx = 0, ecx = 0, edx = 0;
-> -        host_cpuid(0, 0, NULL, &ebx, &ecx, &edx);
-> -        x86_cpu_vendor_words2str(host_vendor, ebx, edx, ecx);
-> -        vendor = host_vendor;
-> -    }
->  
-> -    object_property_set_str(OBJECT(cpu), "vendor", vendor, &error_abort);
-> +    /*
-> +     * vendor property is set here but then overloaded with the
-> +     * host cpu vendor for KVM and HVF.
-> +     */
-> +    object_property_set_str(OBJECT(cpu), "vendor", def->vendor, &error_abort);
->  
->      x86_cpu_apply_version_props(cpu, model);
->  
-> @@ -6192,53 +5998,12 @@ static void x86_cpu_apic_realize(X86CPU *cpu, Error **errp)
->          apic_mmio_map_once = true;
->       }
->  }
-> -
-> -static void x86_cpu_machine_done(Notifier *n, void *unused)
-> -{
-> -    X86CPU *cpu = container_of(n, X86CPU, machine_done);
-> -    MemoryRegion *smram =
-> -        (MemoryRegion *) object_resolve_path("/machine/smram", NULL);
-> -
-> -    if (smram) {
-> -        cpu->smram = g_new(MemoryRegion, 1);
-> -        memory_region_init_alias(cpu->smram, OBJECT(cpu), "smram",
-> -                                 smram, 0, 4 * GiB);
-> -        memory_region_set_enabled(cpu->smram, true);
-> -        memory_region_add_subregion_overlap(cpu->cpu_as_root, 0, cpu->smram, 1);
-> -    }
-> -}
->  #else
->  static void x86_cpu_apic_realize(X86CPU *cpu, Error **errp)
->  {
->  }
->  #endif
->  
-> -/* Note: Only safe for use on x86(-64) hosts */
-> -static uint32_t x86_host_phys_bits(void)
-> -{
-> -    uint32_t eax;
-> -    uint32_t host_phys_bits;
-> -
-> -    host_cpuid(0x80000000, 0, &eax, NULL, NULL, NULL);
-> -    if (eax >= 0x80000008) {
-> -        host_cpuid(0x80000008, 0, &eax, NULL, NULL, NULL);
-> -        /* Note: According to AMD doc 25481 rev 2.34 they have a field
-> -         * at 23:16 that can specify a maximum physical address bits for
-> -         * the guest that can override this value; but I've not seen
-> -         * anything with that set.
-> -         */
-> -        host_phys_bits = eax & 0xff;
-> -    } else {
-> -        /* It's an odd 64 bit machine that doesn't have the leaf for
-> -         * physical address bits; fall back to 36 that's most older
-> -         * Intel.
-> -         */
-> -        host_phys_bits = 36;
-> -    }
-> -
-> -    return host_phys_bits;
-> -}
-> -
->  static void x86_cpu_adjust_level(X86CPU *cpu, uint32_t *min, uint32_t value)
->  {
->      if (*min < value) {
-> @@ -6521,27 +6286,15 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
->      Error *local_err = NULL;
->      static bool ht_warned;
->  
-> -    if (xcc->host_cpuid_required) {
-> -        if (!accel_uses_host_cpuid()) {
-> -            g_autofree char *name = x86_cpu_class_get_model_name(xcc);
-> -            error_setg(&local_err, "CPU model '%s' requires KVM", name);
-> -            goto out;
-> -        }
-> +    /* The accelerator realizefn needs to be called first. */
-> +    if (xcc->accel) {
-> +        xcc->accel->cpu_realizefn(cpu, errp);
->      }
->  
-> -    if (cpu->max_features && accel_uses_host_cpuid()) {
-> -        if (enable_cpu_pm) {
-> -            host_cpuid(5, 0, &cpu->mwait.eax, &cpu->mwait.ebx,
-> -                       &cpu->mwait.ecx, &cpu->mwait.edx);
-> -            env->features[FEAT_1_ECX] |= CPUID_EXT_MONITOR;
-> -            if (kvm_enabled() && kvm_has_waitpkg()) {
-> -                env->features[FEAT_7_0_ECX] |= CPUID_7_0_ECX_WAITPKG;
-> -            }
-> -        }
-> -        if (kvm_enabled() && cpu->ucode_rev == 0) {
-> -            cpu->ucode_rev = kvm_arch_get_supported_msr_feature(kvm_state,
-> -                                                                MSR_IA32_UCODE_REV);
-> -        }
-> +    if (xcc->host_cpuid_required && !accel_uses_host_cpuid()) {
-> +        g_autofree char *name = x86_cpu_class_get_model_name(xcc);
-> +        error_setg(&local_err, "CPU model '%s' requires KVM or HVF", name);
-> +        goto out;
->      }
->  
->      if (cpu->ucode_rev == 0) {
-> @@ -6593,39 +6346,7 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
->       * consumer AMD devices but nothing else.
->       */
->      if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_LM) {
-> -        if (accel_uses_host_cpuid()) {
-> -            uint32_t host_phys_bits = x86_host_phys_bits();
-> -            static bool warned;
-> -
-> -            /* Print a warning if the user set it to a value that's not the
-> -             * host value.
-> -             */
-> -            if (cpu->phys_bits != host_phys_bits && cpu->phys_bits != 0 &&
-> -                !warned) {
-> -                warn_report("Host physical bits (%u)"
-> -                            " does not match phys-bits property (%u)",
-> -                            host_phys_bits, cpu->phys_bits);
-> -                warned = true;
-> -            }
-> -
-> -            if (cpu->host_phys_bits) {
-> -                /* The user asked for us to use the host physical bits */
-> -                cpu->phys_bits = host_phys_bits;
-> -                if (cpu->host_phys_bits_limit &&
-> -                    cpu->phys_bits > cpu->host_phys_bits_limit) {
-> -                    cpu->phys_bits = cpu->host_phys_bits_limit;
-> -                }
-> -            }
-> -
-> -            if (cpu->phys_bits &&
-> -                (cpu->phys_bits > TARGET_PHYS_ADDR_SPACE_BITS ||
-> -                cpu->phys_bits < 32)) {
-> -                error_setg(errp, "phys-bits should be between 32 and %u "
-> -                                 " (but is %u)",
-> -                                 TARGET_PHYS_ADDR_SPACE_BITS, cpu->phys_bits);
-> -                return;
-> -            }
-> -        } else {
-> +        if (!accel_uses_host_cpuid()) {
->              if (cpu->phys_bits && cpu->phys_bits != TCG_PHYS_ADDR_BITS) {
->                  error_setg(errp, "TCG only supports phys-bits=%u",
->                                    TCG_PHYS_ADDR_BITS);
-> @@ -6633,8 +6354,8 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
->              }
->          }
->          /* 0 means it was not explicitly set by the user (or by machine
-> -         * compat_props or by the host code above). In this case, the default
-> -         * is the value used by TCG (40).
-> +         * compat_props or by the host code in host-cpu.c).
-> +         * In this case, the default is the value used by TCG (40).
->           */
->          if (cpu->phys_bits == 0) {
->              cpu->phys_bits = TCG_PHYS_ADDR_BITS;
-> @@ -6704,33 +6425,6 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
->  
->      mce_init(cpu);
->  
-> -#ifndef CONFIG_USER_ONLY
-> -    if (tcg_enabled()) {
-> -        cpu->cpu_as_mem = g_new(MemoryRegion, 1);
-> -        cpu->cpu_as_root = g_new(MemoryRegion, 1);
-> -
-> -        /* Outer container... */
-> -        memory_region_init(cpu->cpu_as_root, OBJECT(cpu), "memory", ~0ull);
-> -        memory_region_set_enabled(cpu->cpu_as_root, true);
-> -
-> -        /* ... with two regions inside: normal system memory with low
-> -         * priority, and...
-> -         */
-> -        memory_region_init_alias(cpu->cpu_as_mem, OBJECT(cpu), "memory",
-> -                                 get_system_memory(), 0, ~0ull);
-> -        memory_region_add_subregion_overlap(cpu->cpu_as_root, 0, cpu->cpu_as_mem, 0);
-> -        memory_region_set_enabled(cpu->cpu_as_mem, true);
-> -
-> -        cs->num_ases = 2;
-> -        cpu_address_space_init(cs, 0, "cpu-memory", cs->memory);
-> -        cpu_address_space_init(cs, 1, "cpu-smm", cpu->cpu_as_root);
-> -
-> -        /* ... SMRAM with higher priority, linked from /machine/smram.  */
-> -        cpu->machine_done.notify = x86_cpu_machine_done;
-> -        qemu_add_machine_init_done_notifier(&cpu->machine_done);
-> -    }
-> -#endif
-> -
->      qemu_init_vcpu(cs);
->  
->      /*
-> @@ -6992,6 +6686,11 @@ static void x86_cpu_initfn(Object *obj)
->      if (xcc->model) {
->          x86_cpu_load_model(cpu, xcc->model);
->      }
-> +
-> +    /* if required, do the accelerator-specific cpu initialization */
-> +    if (xcc->accel) {
-> +        xcc->accel->cpu_instance_init(cpu);
-> +    }
->  }
->  
->  static int64_t x86_cpu_get_arch_id(CPUState *cs)
-> @@ -7248,11 +6947,6 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
->      cc->class_by_name = x86_cpu_class_by_name;
->      cc->parse_features = x86_cpu_parse_featurestr;
->      cc->has_work = x86_cpu_has_work;
-> -
-> -#ifdef CONFIG_TCG
-> -    tcg_cpu_common_class_init(cc);
-> -#endif /* CONFIG_TCG */
-> -
->      cc->dump_state = x86_cpu_dump_state;
->      cc->set_pc = x86_cpu_set_pc;
->      cc->gdb_read_register = x86_cpu_gdb_read_register;
-> @@ -7347,6 +7041,13 @@ static const TypeInfo x86_base_cpu_type_info = {
->          .class_init = x86_cpu_base_class_init,
->  };
->  
-> +static const TypeInfo x86_cpu_accel_type_info = {
-> +    .name = TYPE_X86_CPU_ACCEL,
-> +    .parent = TYPE_OBJECT,
-> +    .abstract = true,
-> +    .class_size = sizeof(X86CPUAccelClass),
-> +};
-> +
->  static void x86_cpu_register_types(void)
->  {
->      int i;
-> @@ -7357,9 +7058,26 @@ static void x86_cpu_register_types(void)
->      }
->      type_register_static(&max_x86_cpu_type_info);
->      type_register_static(&x86_base_cpu_type_info);
-> -#if defined(CONFIG_KVM) || defined(CONFIG_HVF)
-> -    type_register_static(&host_x86_cpu_type_info);
-> -#endif
-> +    type_register_static(&x86_cpu_accel_type_info);
->  }
->  
->  type_init(x86_cpu_register_types)
-> +
-> +static void x86_cpu_accel_init_aux(ObjectClass *klass, void *opaque)
-> +{
-> +    X86CPUClass *xcc = X86_CPU_CLASS(klass);
-> +    const X86CPUAccelClass **accel = opaque;
-> +
-> +    xcc->accel = *accel;
-> +    xcc->accel->cpu_common_class_init(xcc);
-> +}
-> +
-> +void x86_cpu_accel_init(const char *accel_name)
-> +{
-> +    X86CPUAccelClass *acc;
-> +
-> +    acc = X86_CPU_ACCEL_CLASS(object_class_by_name(accel_name));
-> +    g_assert(acc != NULL);
-> +
-> +    object_class_foreach(x86_cpu_accel_init_aux, TYPE_X86_CPU, false, &acc);
-> +}
-> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> index a0d64613dc..b3e39fc631 100644
-> --- a/target/i386/cpu.h
-> +++ b/target/i386/cpu.h
-> @@ -1905,13 +1905,20 @@ int cpu_x86_signal_handler(int host_signum, void *pinfo,
->                             void *puc);
->  
->  /* cpu.c */
-> +void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
-> +                              uint32_t vendor2, uint32_t vendor3);
-> +typedef struct PropValue {
-> +    const char *prop, *value;
-> +} PropValue;
-> +void x86_cpu_apply_props(X86CPU *cpu, PropValue *props);
-> +
-> +/* cpu.c other functions (cpuid) */
->  void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
->                     uint32_t *eax, uint32_t *ebx,
->                     uint32_t *ecx, uint32_t *edx);
->  void cpu_clear_apic_feature(CPUX86State *env);
->  void host_cpuid(uint32_t function, uint32_t count,
->                  uint32_t *eax, uint32_t *ebx, uint32_t *ecx, uint32_t *edx);
-> -void host_vendor_fms(char *vendor, int *family, int *model, int *stepping);
->  
->  /* helper.c */
->  void x86_cpu_set_a20(X86CPU *cpu, int a20_state);
-> @@ -2111,17 +2118,6 @@ void cpu_report_tpr_access(CPUX86State *env, TPRAccess access);
->  void apic_handle_tpr_access_report(DeviceState *d, target_ulong ip,
->                                     TPRAccess access);
->  
-> -
-> -/* Change the value of a KVM-specific default
-> - *
-> - * If value is NULL, no default will be set and the original
-> - * value from the CPU model table will be kept.
-> - *
-> - * It is valid to call this function only for properties that
-> - * are already present in the kvm_default_props table.
-> - */
-> -void x86_cpu_change_kvm_default(const char *prop, const char *value);
-> -
->  /* Special values for X86CPUVersion: */
->  
->  /* Resolve to latest CPU version */
-> diff --git a/target/i386/host-cpu.c b/target/i386/host-cpu.c
-> new file mode 100644
-> index 0000000000..e3baa840ef
-> --- /dev/null
-> +++ b/target/i386/host-cpu.c
-> @@ -0,0 +1,196 @@
-> +/*
-> + * x86 host CPU functions, and "host" cpu type initialization
-> + *
-> + * Copyright 2020 SUSE LLC
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "cpu.h"
-> +#include "host-cpu.h"
-> +#include "qapi/error.h"
-> +#include "sysemu/sysemu.h"
-> +#include "hw/boards.h"
-> +
-> +/* Note: Only safe for use on x86(-64) hosts */
-> +static uint32_t host_cpu_phys_bits(void)
-> +{
-> +    uint32_t eax;
-> +    uint32_t host_phys_bits;
-> +
-> +    host_cpuid(0x80000000, 0, &eax, NULL, NULL, NULL);
-> +    if (eax >= 0x80000008) {
-> +        host_cpuid(0x80000008, 0, &eax, NULL, NULL, NULL);
-> +        /*
-> +         * Note: According to AMD doc 25481 rev 2.34 they have a field
-> +         * at 23:16 that can specify a maximum physical address bits for
-> +         * the guest that can override this value; but I've not seen
-> +         * anything with that set.
-> +         */
-> +        host_phys_bits = eax & 0xff;
-> +    } else {
-> +        /*
-> +         * It's an odd 64 bit machine that doesn't have the leaf for
-> +         * physical address bits; fall back to 36 that's most older
-> +         * Intel.
-> +         */
-> +        host_phys_bits = 36;
-> +    }
-> +
-> +    return host_phys_bits;
-> +}
-> +
-> +static void host_cpu_enable_cpu_pm(X86CPU *cpu)
-> +{
-> +    CPUX86State *env = &cpu->env;
-> +
-> +    host_cpuid(5, 0, &cpu->mwait.eax, &cpu->mwait.ebx,
-> +               &cpu->mwait.ecx, &cpu->mwait.edx);
-> +    env->features[FEAT_1_ECX] |= CPUID_EXT_MONITOR;
-> +}
-> +
-> +static uint32_t host_cpu_adjust_phys_bits(X86CPU *cpu, Error **errp)
-> +{
-> +    uint32_t host_phys_bits = host_cpu_phys_bits();
-> +    uint32_t phys_bits = cpu->phys_bits;
-> +    static bool warned;
-> +
-> +    /*
-> +     * Print a warning if the user set it to a value that's not the
-> +     * host value.
-> +     */
-> +    if (phys_bits != host_phys_bits && phys_bits != 0 &&
-> +        !warned) {
-> +        warn_report("Host physical bits (%u)"
-> +                    " does not match phys-bits property (%u)",
-> +                    host_phys_bits, phys_bits);
-> +        warned = true;
-> +    }
-> +
-> +    if (cpu->host_phys_bits) {
-> +        /* The user asked for us to use the host physical bits */
-> +        phys_bits = host_phys_bits;
-> +        if (cpu->host_phys_bits_limit &&
-> +            phys_bits > cpu->host_phys_bits_limit) {
-> +            phys_bits = cpu->host_phys_bits_limit;
-> +        }
-> +    }
-> +
-> +    if (phys_bits &&
-> +        (phys_bits > TARGET_PHYS_ADDR_SPACE_BITS ||
-> +         phys_bits < 32)) {
-> +        error_setg(errp, "phys-bits should be between 32 and %u "
-> +                   " (but is %u)",
-> +                   TARGET_PHYS_ADDR_SPACE_BITS, phys_bits);
-> +    }
-> +
-> +    return phys_bits;
-> +}
-> +
-> +void host_cpu_realizefn(X86CPU *cpu, Error **errp)
-> +{
-> +    CPUX86State *env = &cpu->env;
-> +
-> +    if (cpu->max_features && enable_cpu_pm) {
-> +        host_cpu_enable_cpu_pm(cpu);
-> +    }
-> +    if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_LM) {
-> +        cpu->phys_bits = host_cpu_adjust_phys_bits(cpu, errp);
-> +    }
-> +}
-> +
-> +#define CPUID_MODEL_ID_SZ 48
-> +/**
-> + * cpu_x86_fill_model_id:
-> + * Get CPUID model ID string from host CPU.
-> + *
-> + * @str should have at least CPUID_MODEL_ID_SZ bytes
-> + *
-> + * The function does NOT add a null terminator to the string
-> + * automatically.
-> + */
-> +static int host_cpu_fill_model_id(char *str)
-> +{
-> +    uint32_t eax = 0, ebx = 0, ecx = 0, edx = 0;
-> +    int i;
-> +
-> +    for (i = 0; i < 3; i++) {
-> +        host_cpuid(0x80000002 + i, 0, &eax, &ebx, &ecx, &edx);
-> +        memcpy(str + i * 16 +  0, &eax, 4);
-> +        memcpy(str + i * 16 +  4, &ebx, 4);
-> +        memcpy(str + i * 16 +  8, &ecx, 4);
-> +        memcpy(str + i * 16 + 12, &edx, 4);
-> +    }
-> +    return 0;
-> +}
-> +
-> +void host_cpu_vendor_fms(char *vendor, int *family, int *model, int *stepping)
-> +{
-> +    uint32_t eax, ebx, ecx, edx;
-> +
-> +    host_cpuid(0x0, 0, &eax, &ebx, &ecx, &edx);
-> +    x86_cpu_vendor_words2str(vendor, ebx, edx, ecx);
-> +
-> +    host_cpuid(0x1, 0, &eax, &ebx, &ecx, &edx);
-> +    if (family) {
-> +        *family = ((eax >> 8) & 0x0F) + ((eax >> 20) & 0xFF);
-> +    }
-> +    if (model) {
-> +        *model = ((eax >> 4) & 0x0F) | ((eax & 0xF0000) >> 12);
-> +    }
-> +    if (stepping) {
-> +        *stepping = eax & 0x0F;
-> +    }
-> +}
-> +
-> +void host_cpu_instance_init(X86CPU *cpu)
-> +{
-> +    uint32_t ebx = 0, ecx = 0, edx = 0;
-> +    char vendor[CPUID_VENDOR_SZ + 1];
-> +
-> +    host_cpuid(0, 0, NULL, &ebx, &ecx, &edx);
-> +    x86_cpu_vendor_words2str(vendor, ebx, edx, ecx);
-> +
-> +    object_property_set_str(OBJECT(cpu), "vendor", vendor, &error_abort);
-> +}
-> +
-> +void host_cpu_max_instance_init(X86CPU *cpu)
-> +{
-> +    char vendor[CPUID_VENDOR_SZ + 1] = { 0 };
-> +    char model_id[CPUID_MODEL_ID_SZ + 1] = { 0 };
-> +    int family, model, stepping;
-> +
-> +    host_cpu_vendor_fms(vendor, &family, &model, &stepping);
-> +    host_cpu_fill_model_id(model_id);
-> +
-> +    object_property_set_str(OBJECT(cpu), "vendor", vendor, &error_abort);
-> +    object_property_set_int(OBJECT(cpu), "family", family, &error_abort);
-> +    object_property_set_int(OBJECT(cpu), "model", model, &error_abort);
-> +    object_property_set_int(OBJECT(cpu), "stepping", stepping,
-> +                            &error_abort);
-> +    object_property_set_str(OBJECT(cpu), "model-id", model_id,
-> +                            &error_abort);
-> +}
-> +
-> +void host_cpu_class_init(X86CPUClass *xcc)
-> +{
-> +    xcc->host_cpuid_required = true;
-> +    xcc->ordering = 8;
-> +    xcc->model_description =
-> +        g_strdup_printf("%s processor with all supported host features ",
-> +                        object_class_get_name(OBJECT_CLASS(xcc->accel)));
-> +}
-> +
-> +static const TypeInfo host_cpu_type_info = {
-> +    .name = X86_CPU_TYPE_NAME("host"),
-> +    .parent = X86_CPU_TYPE_NAME("max"),
-> +};
-> +
-> +static void host_cpu_type_init(void)
-> +{
-> +    type_register_static(&host_cpu_type_info);
-> +}
-> +
-> +type_init(host_cpu_type_init);
-> diff --git a/target/i386/host-cpu.h b/target/i386/host-cpu.h
-> new file mode 100644
-> index 0000000000..5cebb415eb
-> --- /dev/null
-> +++ b/target/i386/host-cpu.h
-> @@ -0,0 +1,20 @@
-> +/*
-> + * x86 host CPU type initialization and host CPU functions
-> + *
-> + * Copyright 2020 SUSE LLC
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + */
-> +
-> +#ifndef HOST_CPU_H
-> +#define HOST_CPU_H
-> +
-> +void host_cpu_class_init(X86CPUClass *xcc);
-> +void host_cpu_instance_init(X86CPU *cpu);
-> +void host_cpu_max_instance_init(X86CPU *cpu);
-> +void host_cpu_realizefn(X86CPU *cpu, Error **errp);
-> +
-> +void host_cpu_vendor_fms(char *vendor, int *family, int *model, int *stepping);
-> +
-> +#endif /* HOST_CPU_H */
-> diff --git a/target/i386/hvf/cpu.c b/target/i386/hvf/cpu.c
-> new file mode 100644
-> index 0000000000..11bc912dab
-> --- /dev/null
-> +++ b/target/i386/hvf/cpu.c
-> @@ -0,0 +1,76 @@
-> +/*
-> + * x86 HVF CPU type initialization
-> + *
-> + * Copyright 2020 SUSE LLC
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "cpu.h"
-> +#include "host-cpu.h"
-> +#include "qapi/error.h"
-> +#include "sysemu/sysemu.h"
-> +#include "hw/boards.h"
-> +#include "sysemu/hvf.h"
-> +
-> +static void hvf_cpu_common_class_init(X86CPUClass *xcc)
-> +{
-> +    host_cpu_class_init(xcc);
-> +}
-> +
-> +static void hvf_cpu_max_instance_init(X86CPU *cpu)
-> +{
-> +    CPUX86State *env = &cpu->env;
-> +
-> +    host_cpu_max_instance_init(cpu);
-> +
-> +    env->cpuid_min_level =
-> +        hvf_get_supported_cpuid(0x0, 0, R_EAX);
-> +    env->cpuid_min_xlevel =
-> +        hvf_get_supported_cpuid(0x80000000, 0, R_EAX);
-> +    env->cpuid_min_xlevel2 =
-> +        hvf_get_supported_cpuid(0xC0000000, 0, R_EAX);
-> +}
-> +
-> +static void hvf_cpu_instance_init(X86CPU *cpu)
-> +{
-> +    host_cpu_instance_init(cpu);
-> +
-> +    /* Special cases not set in the X86CPUDefinition structs: */
-> +    /* TODO: in-kernel irqchip for hvf */
-> +
-> +    if (cpu->max_features) {
-> +        hvf_cpu_max_instance_init(cpu);
-> +    }
-> +}
-> +
-> +static void hvf_cpu_accel_class_init(ObjectClass *oc, void *data)
-> +{
-> +    X86CPUAccelClass *acc = X86_CPU_ACCEL_CLASS(oc);
-> +
-> +    acc->cpu_realizefn = host_cpu_realizefn;
-> +    acc->cpu_common_class_init = hvf_cpu_common_class_init;
-> +    acc->cpu_instance_init = hvf_cpu_instance_init;
-> +};
-> +static const TypeInfo hvf_cpu_accel_type_info = {
-> +    .name = X86_CPU_ACCEL_TYPE_NAME("hvf"),
-> +
-> +    .parent = TYPE_X86_CPU_ACCEL,
-> +    .class_init = hvf_cpu_accel_class_init,
-
-
-this should probably also add
-+    .abstract = true;
-
-
-
-> +};
-> +static void hvf_cpu_accel_register_types(void)
-> +{
-> +    type_register_static(&hvf_cpu_accel_type_info);
-> +}
-> +type_init(hvf_cpu_accel_register_types);
-> +
-> +static void hvf_cpu_accel_init(void)
-> +{
-> +    if (hvf_enabled()) {
-> +        x86_cpu_accel_init(X86_CPU_ACCEL_TYPE_NAME("hvf"));
-> +    }
-> +}
-> +
-> +accel_cpu_init(hvf_cpu_accel_init);
-> diff --git a/target/i386/hvf/meson.build b/target/i386/hvf/meson.build
-> index 409c9a3f14..a7fba5724c 100644
-> --- a/target/i386/hvf/meson.build
-> +++ b/target/i386/hvf/meson.build
-> @@ -10,4 +10,5 @@ i386_softmmu_ss.add(when: [hvf, 'CONFIG_HVF'], if_true: files(
->    'x86_mmu.c',
->    'x86_task.c',
->    'x86hvf.c',
-> +  'cpu.c',
->  ))
-> diff --git a/target/i386/kvm/cpu.c b/target/i386/kvm/cpu.c
-> new file mode 100644
-> index 0000000000..943a61b6d2
-> --- /dev/null
-> +++ b/target/i386/kvm/cpu.c
-> @@ -0,0 +1,157 @@
-> +/*
-> + * x86 KVM CPU type initialization
-> + *
-> + * Copyright 2020 SUSE LLC
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "cpu.h"
-> +#include "host-cpu.h"
-> +#include "kvm-cpu.h"
-> +#include "qapi/error.h"
-> +#include "sysemu/sysemu.h"
-> +#include "hw/boards.h"
-> +
-> +#include "kvm_i386.h"
-> +
-> +static void kvm_cpu_realizefn(X86CPU *cpu, Error **errp)
-> +{
-> +    CPUX86State *env = &cpu->env;
-> +
-> +    /*
-> +     * The realize order is important, since x86_cpu_realize() checks if
-> +     * nothing else has been set by the user (or by accelerators) in
-> +     * cpu->ucode_rev and cpu->phys_bits.
-> +     *
-> +     * realize order:
-> +     * kvm_cpu -> host_cpu -> x86_cpu
-> +     */
-> +    if (cpu->max_features) {
-> +        if (enable_cpu_pm && kvm_has_waitpkg()) {
-> +            env->features[FEAT_7_0_ECX] |= CPUID_7_0_ECX_WAITPKG;
-> +        }
-> +        if (cpu->ucode_rev == 0) {
-> +            cpu->ucode_rev =
-> +                kvm_arch_get_supported_msr_feature(kvm_state,
-> +                                                   MSR_IA32_UCODE_REV);
-> +        }
-> +    }
-> +    host_cpu_realizefn(cpu, errp);
-> +}
-> +
-> +static void kvm_cpu_common_class_init(X86CPUClass *xcc)
-> +{
-> +    host_cpu_class_init(xcc);
-> +}
-> +
-> +/*
-> + * KVM-specific features that are automatically added/removed
-> + * from all CPU models when KVM is enabled.
-> + */
-> +static PropValue kvm_default_props[] = {
-> +    { "kvmclock", "on" },
-> +    { "kvm-nopiodelay", "on" },
-> +    { "kvm-asyncpf", "on" },
-> +    { "kvm-steal-time", "on" },
-> +    { "kvm-pv-eoi", "on" },
-> +    { "kvmclock-stable-bit", "on" },
-> +    { "x2apic", "on" },
-> +    { "acpi", "off" },
-> +    { "monitor", "off" },
-> +    { "svm", "off" },
-> +    { NULL, NULL },
-> +};
-> +
-> +void x86_cpu_change_kvm_default(const char *prop, const char *value)
-> +{
-> +    PropValue *pv;
-> +    for (pv = kvm_default_props; pv->prop; pv++) {
-> +        if (!strcmp(pv->prop, prop)) {
-> +            pv->value = value;
-> +            break;
-> +        }
-> +    }
-> +
-> +    /*
-> +     * It is valid to call this function only for properties that
-> +     * are already present in the kvm_default_props table.
-> +     */
-> +    assert(pv->prop);
-> +}
-> +
-> +static bool lmce_supported(void)
-> +{
-> +    uint64_t mce_cap = 0;
-> +
-> +    if (kvm_ioctl(kvm_state, KVM_X86_GET_MCE_CAP_SUPPORTED, &mce_cap) < 0) {
-> +        return false;
-> +    }
-> +    return !!(mce_cap & MCG_LMCE_P);
-> +}
-> +
-> +static void kvm_cpu_max_instance_init(X86CPU *cpu)
-> +{
-> +    CPUX86State *env = &cpu->env;
-> +    KVMState *s = kvm_state;
-> +
-> +    host_cpu_max_instance_init(cpu);
-> +
-> +    if (lmce_supported()) {
-> +        object_property_set_bool(OBJECT(cpu), "lmce", true, &error_abort);
-> +    }
-> +
-> +    env->cpuid_min_level =
-> +        kvm_arch_get_supported_cpuid(s, 0x0, 0, R_EAX);
-> +    env->cpuid_min_xlevel =
-> +        kvm_arch_get_supported_cpuid(s, 0x80000000, 0, R_EAX);
-> +    env->cpuid_min_xlevel2 =
-> +        kvm_arch_get_supported_cpuid(s, 0xC0000000, 0, R_EAX);
-> +}
-> +
-> +static void kvm_cpu_instance_init(X86CPU *cpu)
-> +{
-> +    host_cpu_instance_init(cpu);
-> +
-> +    if (!kvm_irqchip_in_kernel()) {
-> +        x86_cpu_change_kvm_default("x2apic", "off");
-> +    }
-> +
-> +    /* Special cases not set in the X86CPUDefinition structs: */
-> +
-> +    x86_cpu_apply_props(cpu, kvm_default_props);
-> +
-> +    if (cpu->max_features) {
-> +        kvm_cpu_max_instance_init(cpu);
-> +    }
-> +}
-> +
-> +static void kvm_cpu_accel_class_init(ObjectClass *oc, void *data)
-> +{
-> +    X86CPUAccelClass *acc = X86_CPU_ACCEL_CLASS(oc);
-> +
-> +    acc->cpu_realizefn = kvm_cpu_realizefn;
-> +    acc->cpu_common_class_init = kvm_cpu_common_class_init;
-> +    acc->cpu_instance_init = kvm_cpu_instance_init;
-> +}
-> +static const TypeInfo kvm_cpu_accel_type_info = {
-> +    .name = X86_CPU_ACCEL_TYPE_NAME("kvm"),
-> +
-> +    .parent = TYPE_X86_CPU_ACCEL,
-> +    .class_init = kvm_cpu_accel_class_init,
-
-this should probably also add
-+    .abstract = true;
-
-> +};
-> +static void kvm_cpu_accel_register_types(void)
-> +{
-> +    type_register_static(&kvm_cpu_accel_type_info);
-> +}
-> +type_init(kvm_cpu_accel_register_types);
-> +
-> +static void kvm_cpu_accel_init(void)
-> +{
-> +    if (kvm_enabled()) {
-> +        x86_cpu_accel_init(X86_CPU_ACCEL_TYPE_NAME("kvm"));
-> +    }
-> +}
-> +accel_cpu_init(kvm_cpu_accel_init);
-> diff --git a/target/i386/kvm/kvm-cpu.h b/target/i386/kvm/kvm-cpu.h
-> new file mode 100644
-> index 0000000000..e858ca21e5
-> --- /dev/null
-> +++ b/target/i386/kvm/kvm-cpu.h
-> @@ -0,0 +1,41 @@
-> +/*
-> + * i386 KVM CPU type and functions
-> + *
-> + *  Copyright (c) 2003 Fabrice Bellard
-> + *
-> + * This library is free software; you can redistribute it and/or
-> + * modify it under the terms of the GNU Lesser General Public
-> + * License as published by the Free Software Foundation; either
-> + * version 2 of the License, or (at your option) any later version.
-> + *
-> + * This library is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> + * Lesser General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU Lesser General Public
-> + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#ifndef KVM_CPU_H
-> +#define KVM_CPU_H
-> +
-> +#ifdef CONFIG_KVM
-> +/*
-> + * Change the value of a KVM-specific default
-> + *
-> + * If value is NULL, no default will be set and the original
-> + * value from the CPU model table will be kept.
-> + *
-> + * It is valid to call this function only for properties that
-> + * are already present in the kvm_default_props table.
-> + */
-> +void x86_cpu_change_kvm_default(const char *prop, const char *value);
-> +
-> +#else /* !CONFIG_KVM */
-> +
-> +#define x86_cpu_change_kvm_default(a, b)
-> +
-> +#endif /* CONFIG_KVM */
-> +
-> +#endif /* KVM_CPU_H */
-> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-> index a2934dda02..35c86fdba6 100644
-> --- a/target/i386/kvm/kvm.c
-> +++ b/target/i386/kvm/kvm.c
-> @@ -22,6 +22,7 @@
->  #include "standard-headers/asm-x86/kvm_para.h"
->  
->  #include "cpu.h"
-> +#include "host-cpu.h"
->  #include "sysemu/sysemu.h"
->  #include "sysemu/hw_accel.h"
->  #include "sysemu/kvm_int.h"
-> @@ -285,7 +286,7 @@ static bool host_tsx_broken(void)
->      int family, model, stepping;\
->      char vendor[CPUID_VENDOR_SZ + 1];
->  
-> -    host_vendor_fms(vendor, &family, &model, &stepping);
-> +    host_cpu_vendor_fms(vendor, &family, &model, &stepping);
->  
->      /* Check if we are running on a Haswell host known to have broken TSX */
->      return !strcmp(vendor, CPUID_VENDOR_INTEL) &&
-> diff --git a/target/i386/kvm/meson.build b/target/i386/kvm/meson.build
-> index 1d66559187..0bc3724eb3 100644
-> --- a/target/i386/kvm/meson.build
-> +++ b/target/i386/kvm/meson.build
-> @@ -1,3 +1,8 @@
->  i386_ss.add(when: 'CONFIG_KVM', if_false: files('kvm-stub.c'))
-> -i386_softmmu_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'))
-> +
-> +i386_softmmu_ss.add(when: 'CONFIG_KVM', if_true: files(
-> +  'kvm.c',
-> +  'cpu.c',
-> +))
-> +
->  i386_softmmu_ss.add(when: 'CONFIG_HYPERV', if_true: files('hyperv.c'), if_false: files('hyperv-stub.c'))
-> diff --git a/target/i386/meson.build b/target/i386/meson.build
-> index 9c20208e5a..4e6e915e7f 100644
-> --- a/target/i386/meson.build
-> +++ b/target/i386/meson.build
-> @@ -6,8 +6,12 @@ i386_ss.add(files(
->    'xsave_helper.c',
->    'cpu-dump.c',
->  ))
-> -i386_ss.add(when: 'CONFIG_TCG', if_true: files('tcg-cpu.c'))
-> -i386_ss.add(when: 'CONFIG_SEV', if_true: files('sev.c'), if_false: files('sev-stub.c'))
-> +
-> +i386_ss.add(when: 'CONFIG_SEV', if_true: files('host-cpu.c', 'sev.c'), if_false: files('sev-stub.c'))
-> +
-> +# x86 cpu type
-> +i386_ss.add(when: 'CONFIG_KVM', if_true: files('host-cpu.c'))
-> +i386_ss.add(when: 'CONFIG_HVF', if_true: files('host-cpu.c'))
->  
->  i386_softmmu_ss = ss.source_set()
->  i386_softmmu_ss.add(files(
-> diff --git a/target/i386/tcg-cpu.c b/target/i386/tcg-cpu.c
-> deleted file mode 100644
-> index 628dd29fe7..0000000000
-> --- a/target/i386/tcg-cpu.c
-> +++ /dev/null
-> @@ -1,71 +0,0 @@
-> -/*
-> - * i386 TCG cpu class initialization
-> - *
-> - *  Copyright (c) 2003 Fabrice Bellard
-> - *
-> - * This library is free software; you can redistribute it and/or
-> - * modify it under the terms of the GNU Lesser General Public
-> - * License as published by the Free Software Foundation; either
-> - * version 2 of the License, or (at your option) any later version.
-> - *
-> - * This library is distributed in the hope that it will be useful,
-> - * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> - * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> - * Lesser General Public License for more details.
-> - *
-> - * You should have received a copy of the GNU Lesser General Public
-> - * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-> - */
-> -
-> -#include "qemu/osdep.h"
-> -#include "cpu.h"
-> -#include "tcg-cpu.h"
-> -#include "exec/exec-all.h"
-> -#include "sysemu/runstate.h"
-> -#include "helper-tcg.h"
-> -
-> -#if !defined(CONFIG_USER_ONLY)
-> -#include "hw/i386/apic.h"
-> -#endif
-> -
-> -/* Frob eflags into and out of the CPU temporary format.  */
-> -
-> -static void x86_cpu_exec_enter(CPUState *cs)
-> -{
-> -    X86CPU *cpu = X86_CPU(cs);
-> -    CPUX86State *env = &cpu->env;
-> -
-> -    CC_SRC = env->eflags & (CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C);
-> -    env->df = 1 - (2 * ((env->eflags >> 10) & 1));
-> -    CC_OP = CC_OP_EFLAGS;
-> -    env->eflags &= ~(DF_MASK | CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C);
-> -}
-> -
-> -static void x86_cpu_exec_exit(CPUState *cs)
-> -{
-> -    X86CPU *cpu = X86_CPU(cs);
-> -    CPUX86State *env = &cpu->env;
-> -
-> -    env->eflags = cpu_compute_eflags(env);
-> -}
-> -
-> -static void x86_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
-> -{
-> -    X86CPU *cpu = X86_CPU(cs);
-> -
-> -    cpu->env.eip = tb->pc - tb->cs_base;
-> -}
-> -
-> -void tcg_cpu_common_class_init(CPUClass *cc)
-> -{
-> -    cc->do_interrupt = x86_cpu_do_interrupt;
-> -    cc->cpu_exec_interrupt = x86_cpu_exec_interrupt;
-> -    cc->synchronize_from_tb = x86_cpu_synchronize_from_tb;
-> -    cc->cpu_exec_enter = x86_cpu_exec_enter;
-> -    cc->cpu_exec_exit = x86_cpu_exec_exit;
-> -    cc->tcg_initialize = tcg_x86_init;
-> -    cc->tlb_fill = x86_cpu_tlb_fill;
-> -#ifndef CONFIG_USER_ONLY
-> -    cc->debug_excp_handler = breakpoint_handler;
-> -#endif
-> -}
-> diff --git a/target/i386/tcg-cpu.h b/target/i386/tcg-cpu.h
-> deleted file mode 100644
-> index 81f02e562e..0000000000
-> --- a/target/i386/tcg-cpu.h
-> +++ /dev/null
-> @@ -1,15 +0,0 @@
-> -/*
-> - * i386 TCG CPU class initialization
-> - *
-> - * Copyright 2020 SUSE LLC
-> - *
-> - * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> - * See the COPYING file in the top-level directory.
-> - */
-> -
-> -#ifndef TCG_CPU_H
-> -#define TCG_CPU_H
-> -
-> -void tcg_cpu_common_class_init(CPUClass *cc);
-> -
-> -#endif /* TCG_CPU_H */
-> diff --git a/target/i386/tcg/cpu.c b/target/i386/tcg/cpu.c
-> new file mode 100644
-> index 0000000000..398b947dd5
-> --- /dev/null
-> +++ b/target/i386/tcg/cpu.c
-> @@ -0,0 +1,180 @@
-> +/*
-> + * i386 TCG cpu class initialization
-> + *
-> + *  Copyright (c) 2003 Fabrice Bellard
-> + *
-> + * This library is free software; you can redistribute it and/or
-> + * modify it under the terms of the GNU Lesser General Public
-> + * License as published by the Free Software Foundation; either
-> + * version 2 of the License, or (at your option) any later version.
-> + *
-> + * This library is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> + * Lesser General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU Lesser General Public
-> + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu/units.h"
-> +#include "cpu.h"
-> +#include "helper-tcg.h"
-> +#include "sysemu/sysemu.h"
-> +
-> +#ifndef CONFIG_USER_ONLY
-> +#include "exec/address-spaces.h"
-> +#endif
-> +
-> +/* Frob eflags into and out of the CPU temporary format.  */
-> +
-> +static void x86_cpu_exec_enter(CPUState *cs)
-> +{
-> +    X86CPU *cpu = X86_CPU(cs);
-> +    CPUX86State *env = &cpu->env;
-> +
-> +    CC_SRC = env->eflags & (CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C);
-> +    env->df = 1 - (2 * ((env->eflags >> 10) & 1));
-> +    CC_OP = CC_OP_EFLAGS;
-> +    env->eflags &= ~(DF_MASK | CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C);
-> +}
-> +
-> +static void x86_cpu_exec_exit(CPUState *cs)
-> +{
-> +    X86CPU *cpu = X86_CPU(cs);
-> +    CPUX86State *env = &cpu->env;
-> +
-> +    env->eflags = cpu_compute_eflags(env);
-> +}
-> +
-> +static void x86_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
-> +{
-> +    X86CPU *cpu = X86_CPU(cs);
-> +
-> +    cpu->env.eip = tb->pc - tb->cs_base;
-> +}
-> +
-> +#ifndef CONFIG_USER_ONLY
-> +
-> +static void x86_cpu_machine_done(Notifier *n, void *unused)
-> +{
-> +    X86CPU *cpu = container_of(n, X86CPU, machine_done);
-> +    MemoryRegion *smram =
-> +        (MemoryRegion *) object_resolve_path("/machine/smram", NULL);
-> +
-> +    if (smram) {
-> +        cpu->smram = g_new(MemoryRegion, 1);
-> +        memory_region_init_alias(cpu->smram, OBJECT(cpu), "smram",
-> +                                 smram, 0, 4 * GiB);
-> +        memory_region_set_enabled(cpu->smram, true);
-> +        memory_region_add_subregion_overlap(cpu->cpu_as_root, 0,
-> +                                            cpu->smram, 1);
-> +    }
-> +}
-> +
-> +static void tcg_cpu_realizefn(X86CPU *cpu, Error **errp)
-> +{
-> +    CPUState *cs = CPU(cpu);
-> +
-> +    /*
-> +     * The realize order is important, since x86_cpu_realize() checks if
-> +     * nothing else has been set by the user (or by accelerators) in
-> +     * cpu->ucode_rev and cpu->phys_bits, and the memory regions
-> +     * initialized here are needed for the vcpu initialization.
-> +     *
-> +     * realize order:
-> +     * tcg_cpu -> host_cpu -> x86_cpu
-> +     */
-> +    cpu->cpu_as_mem = g_new(MemoryRegion, 1);
-> +    cpu->cpu_as_root = g_new(MemoryRegion, 1);
-> +
-> +    /* Outer container... */
-> +    memory_region_init(cpu->cpu_as_root, OBJECT(cpu), "memory", ~0ull);
-> +    memory_region_set_enabled(cpu->cpu_as_root, true);
-> +
-> +    /*
-> +     * ... with two regions inside: normal system memory with low
-> +     * priority, and...
-> +     */
-> +    memory_region_init_alias(cpu->cpu_as_mem, OBJECT(cpu), "memory",
-> +                             get_system_memory(), 0, ~0ull);
-> +    memory_region_add_subregion_overlap(cpu->cpu_as_root, 0, cpu->cpu_as_mem, 0);
-> +    memory_region_set_enabled(cpu->cpu_as_mem, true);
-> +
-> +    cs->num_ases = 2;
-> +    cpu_address_space_init(cs, 0, "cpu-memory", cs->memory);
-> +    cpu_address_space_init(cs, 1, "cpu-smm", cpu->cpu_as_root);
-> +
-> +    /* ... SMRAM with higher priority, linked from /machine/smram.  */
-> +    cpu->machine_done.notify = x86_cpu_machine_done;
-> +    qemu_add_machine_init_done_notifier(&cpu->machine_done);
-> +}
-> +
-> +#else /* CONFIG_USER_ONLY */
-> +
-> +static void tcg_cpu_realizefn(X86CPU *cpu, Error **errp)
-> +{
-> +}
-> +
-> +#endif /* !CONFIG_USER_ONLY */
-> +
-> +
-> +static void tcg_cpu_common_class_init(X86CPUClass *xcc)
-> +{
-> +    CPUClass *cc = CPU_CLASS(xcc);
-> +
-> +    cc->do_interrupt = x86_cpu_do_interrupt;
-> +    cc->cpu_exec_interrupt = x86_cpu_exec_interrupt;
-> +    cc->synchronize_from_tb = x86_cpu_synchronize_from_tb;
-> +    cc->cpu_exec_enter = x86_cpu_exec_enter;
-> +    cc->cpu_exec_exit = x86_cpu_exec_exit;
-> +    cc->tcg_initialize = tcg_x86_init;
-> +    cc->tlb_fill = x86_cpu_tlb_fill;
-> +#ifndef CONFIG_USER_ONLY
-> +    cc->debug_excp_handler = breakpoint_handler;
-> +#endif /* !CONFIG_USER_ONLY */
-> +}
-> +
-> +/*
-> + * TCG-specific defaults that override all CPU models when using TCG
-> + */
-> +static PropValue tcg_default_props[] = {
-> +    { "vme", "off" },
-> +    { NULL, NULL },
-> +};
-> +
-> +static void tcg_cpu_instance_init(X86CPU *cpu)
-> +{
-> +    /* Special cases not set in the X86CPUDefinition structs: */
-> +    x86_cpu_apply_props(cpu, tcg_default_props);
-> +}
-> +
-> +static void tcg_cpu_accel_class_init(ObjectClass *oc, void *data)
-> +{
-> +    X86CPUAccelClass *acc = X86_CPU_ACCEL_CLASS(oc);
-> +
-> +    acc->cpu_realizefn = tcg_cpu_realizefn;
-> +    acc->cpu_common_class_init = tcg_cpu_common_class_init;
-> +    acc->cpu_instance_init = tcg_cpu_instance_init;
-> +}
-> +static const TypeInfo tcg_cpu_accel_type_info = {
-> +    .name = X86_CPU_ACCEL_TYPE_NAME("tcg"),
-> +
-> +    .parent = TYPE_X86_CPU_ACCEL,
-> +    .class_init = tcg_cpu_accel_class_init,
-
-this should probably also add
-+    .abstract = true;
-
-> +};
-> +static void tcg_cpu_accel_register_types(void)
-> +{
-> +    type_register_static(&tcg_cpu_accel_type_info);
-> +}
-> +type_init(tcg_cpu_accel_register_types);
-> +
-> +static void tcg_cpu_accel_init(void)
-> +{
-> +    if (tcg_enabled()) {
-> +        x86_cpu_accel_init(X86_CPU_ACCEL_TYPE_NAME("tcg"));
-> +    }
-> +}
-> +
-> +accel_cpu_init(tcg_cpu_accel_init);
-> diff --git a/target/i386/tcg/meson.build b/target/i386/tcg/meson.build
-> index 02794226c2..9e439df9c7 100644
-> --- a/target/i386/tcg/meson.build
-> +++ b/target/i386/tcg/meson.build
-> @@ -10,4 +10,5 @@ i386_ss.add(when: 'CONFIG_TCG', if_true: files(
->    'seg_helper.c',
->    'smm_helper.c',
->    'svm_helper.c',
-> -  'translate.c'), if_false: files('tcg-stub.c'))
-> +  'translate.c',
-> +  'cpu.c'), if_false: files('tcg-stub.c'))
-> 
+diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+index 6420f01bed..6216530b0d 100644
+--- a/python/qemu/machine.py
++++ b/python/qemu/machine.py
+@@ -292,7 +292,7 @@ class QEMUMachine:
+         for _ in range(self._console_index):
+             args.extend(['-serial', 'null'])
+         if self._console_set:
+-            chardev = ('socket,id=console,path=%s,server,nowait' %
++            chardev = ('socket,id=console,path=%s,server=on,wait=off' %
+                        self._console_address)
+             args.extend(['-chardev', chardev])
+             if self._console_device_type is None:
+diff --git a/tests/qtest/pflash-cfi02-test.c b/tests/qtest/pflash-cfi02-test.c
+index afb702b565..60db81a3a2 100644
+--- a/tests/qtest/pflash-cfi02-test.c
++++ b/tests/qtest/pflash-cfi02-test.c
+@@ -261,7 +261,7 @@ static void test_geometry(const void *opaque)
+     const FlashConfig *config = opaque;
+     QTestState *qtest;
+     qtest = qtest_initf("-M musicpal"
+-                        " -drive if=pflash,file=%s,format=raw,copy-on-read"
++                        " -drive if=pflash,file=%s,format=raw,copy-on-read=on"
+                         /* Device geometry properties. */
+                         " -global driver=cfi.pflash02,"
+                         "property=num-blocks0,value=%d"
+@@ -581,7 +581,7 @@ static void test_cfi_in_autoselect(const void *opaque)
+     const FlashConfig *config = opaque;
+     QTestState *qtest;
+     qtest = qtest_initf("-M musicpal"
+-                        " -drive if=pflash,file=%s,format=raw,copy-on-read",
++                        " -drive if=pflash,file=%s,format=raw,copy-on-read=on",
+                         image_path);
+     FlashConfig explicit_config = expand_config_defaults(config);
+     explicit_config.qtest = qtest;
+diff --git a/tests/qtest/test-filter-redirector.c b/tests/qtest/test-filter-redirector.c
+index 829db8c2ea..4269b2cdd9 100644
+--- a/tests/qtest/test-filter-redirector.c
++++ b/tests/qtest/test-filter-redirector.c
+@@ -95,8 +95,8 @@ static void test_redirector_tx(void)
+     qts = qtest_initf(
+         "-netdev socket,id=qtest-bn0,fd=%d "
+         "-device %s,netdev=qtest-bn0,id=qtest-e0 "
+-        "-chardev socket,id=redirector0,path=%s,server,nowait "
+-        "-chardev socket,id=redirector1,path=%s,server,nowait "
++        "-chardev socket,id=redirector0,path=%s,server=on,wait=off "
++        "-chardev socket,id=redirector1,path=%s,server=on,wait=off "
+         "-chardev socket,id=redirector2,path=%s "
+         "-object filter-redirector,id=qtest-f0,netdev=qtest-bn0,"
+         "queue=tx,outdev=redirector0 "
+@@ -165,8 +165,8 @@ static void test_redirector_rx(void)
+     qts = qtest_initf(
+         "-netdev socket,id=qtest-bn0,fd=%d "
+         "-device %s,netdev=qtest-bn0,id=qtest-e0 "
+-        "-chardev socket,id=redirector0,path=%s,server,nowait "
+-        "-chardev socket,id=redirector1,path=%s,server,nowait "
++        "-chardev socket,id=redirector0,path=%s,server=on,wait=off "
++        "-chardev socket,id=redirector1,path=%s,server=on,wait=off "
+         "-chardev socket,id=redirector2,path=%s "
+         "-object filter-redirector,id=qtest-f0,netdev=qtest-bn0,"
+         "queue=rx,indev=redirector0 "
+diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
+index 3df5322614..1a5f5313ff 100644
+--- a/tests/qtest/vhost-user-test.c
++++ b/tests/qtest/vhost-user-test.c
+@@ -537,7 +537,7 @@ static void test_server_create_chr(TestServer *server, const gchar *opt)
+ 
+ static void test_server_listen(TestServer *server)
+ {
+-    test_server_create_chr(server, ",server,nowait");
++    test_server_create_chr(server, ",server=on,wait=off");
+ }
+ 
+ static void test_server_free(TestServer *server)
+@@ -846,7 +846,7 @@ static void *vhost_user_test_setup_reconnect(GString *cmd_line, void *arg)
+ 
+     g_thread_new("connect", connect_thread, s);
+     append_mem_opts(s, cmd_line, 256, TEST_MEMFD_AUTO);
+-    s->vu_ops->append_opts(s, cmd_line, ",server");
++    s->vu_ops->append_opts(s, cmd_line, ",server=on");
+ 
+     g_test_queue_destroy(vhost_user_test_cleanup, s);
+ 
+@@ -883,7 +883,7 @@ static void *vhost_user_test_setup_connect_fail(GString *cmd_line, void *arg)
+ 
+     g_thread_new("connect", connect_thread, s);
+     append_mem_opts(s, cmd_line, 256, TEST_MEMFD_AUTO);
+-    s->vu_ops->append_opts(s, cmd_line, ",server");
++    s->vu_ops->append_opts(s, cmd_line, ",server=on");
+ 
+     g_test_queue_destroy(vhost_user_test_cleanup, s);
+ 
+@@ -898,7 +898,7 @@ static void *vhost_user_test_setup_flags_mismatch(GString *cmd_line, void *arg)
+ 
+     g_thread_new("connect", connect_thread, s);
+     append_mem_opts(s, cmd_line, 256, TEST_MEMFD_AUTO);
+-    s->vu_ops->append_opts(s, cmd_line, ",server");
++    s->vu_ops->append_opts(s, cmd_line, ",server=on");
+ 
+     g_test_queue_destroy(vhost_user_test_cleanup, s);
+ 
+diff --git a/tests/test-char.c b/tests/test-char.c
+index 9196e566e9..953e0d1c1f 100644
+--- a/tests/test-char.c
++++ b/tests/test-char.c
+@@ -413,7 +413,7 @@ static void char_websock_test(void)
+     CharBackend client_be;
+     Chardev *chr_client;
+     Chardev *chr = qemu_chr_new("server",
+-                                "websocket:127.0.0.1:0,server,nowait", NULL);
++                                "websocket:127.0.0.1:0,server=on,wait=off", NULL);
+     const char handshake[] = "GET / HTTP/1.1\r\n"
+                              "Upgrade: websocket\r\n"
+                              "Connection: Upgrade\r\n"
+@@ -696,7 +696,7 @@ char_socket_addr_to_opt_str(SocketAddress *addr, bool fd_pass,
+         fd = ioc->fd;
+         ioc->fd = -1;
+         optstr = g_strdup_printf("socket,id=cdev0,fd=%d%s",
+-                                 fd, is_listen ? ",server,nowait" : "");
++                                 fd, is_listen ? ",server=on,wait=off" : "");
+         object_unref(OBJECT(ioc));
+         return optstr;
+     } else {
+@@ -706,13 +706,13 @@ char_socket_addr_to_opt_str(SocketAddress *addr, bool fd_pass,
+                                    addr->u.inet.host,
+                                    addr->u.inet.port,
+                                    reconnect ? reconnect : "",
+-                                   is_listen ? ",server,nowait" : "");
++                                   is_listen ? ",server=on,wait=off" : "");
+ 
+         case SOCKET_ADDRESS_TYPE_UNIX:
+             return g_strdup_printf("socket,id=cdev0,path=%s%s%s",
+                                    addr->u.q_unix.path,
+                                    reconnect ? reconnect : "",
+-                                   is_listen ? ",server,nowait" : "");
++                                   is_listen ? ",server=on,wait=off" : "");
+ 
+         default:
+             g_assert_not_reached();
+-- 
+2.26.2
 
 
