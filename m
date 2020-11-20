@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A55212BBA5A
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Nov 2020 00:49:23 +0100 (CET)
-Received: from localhost ([::1]:52562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1853F2BBA4A
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Nov 2020 00:45:18 +0100 (CET)
+Received: from localhost ([::1]:37448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kgG9a-0005nR-O9
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 18:49:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42922)
+	id 1kgG5d-000833-3q
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 18:45:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kgG2z-00064k-FJ
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 18:42:33 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:23082)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kgG2w-0005wd-Ds
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 18:42:30 -0500
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:29533)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kgG2w-0003p3-6s
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 18:42:33 -0500
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kgG2r-0003oE-Ln
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 18:42:27 -0500
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-577-YmoUWXCHMnCSpOqAD4tUUw-1; Fri, 20 Nov 2020 18:42:18 -0500
-X-MC-Unique: YmoUWXCHMnCSpOqAD4tUUw-1
+ us-mta-67-W2nDmzIRMOOfUqAo2nWi3w-1; Fri, 20 Nov 2020 18:42:19 -0500
+X-MC-Unique: W2nDmzIRMOOfUqAo2nWi3w-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 472CD8030A8;
- Fri, 20 Nov 2020 23:42:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2CDC184215F;
+ Fri, 20 Nov 2020 23:42:18 +0000 (UTC)
 Received: from bahia.redhat.com (ovpn-112-44.ams2.redhat.com [10.36.112.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1D93260BFA;
- Fri, 20 Nov 2020 23:42:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 945F760BFA;
+ Fri, 20 Nov 2020 23:42:17 +0000 (UTC)
 From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.0 4/9] spapr: Set compat mode in spapr_reset_vcpu()
-Date: Sat, 21 Nov 2020 00:42:03 +0100
-Message-Id: <20201120234208.683521-5-groug@kaod.org>
+Subject: [PATCH for-6.0 5/9] spapr: Simplify error path of spapr_core_plug()
+Date: Sat, 21 Nov 2020 00:42:04 +0100
+Message-Id: <20201120234208.683521-6-groug@kaod.org>
 In-Reply-To: <20201120234208.683521-1-groug@kaod.org>
 References: <20201120234208.683521-1-groug@kaod.org>
 MIME-Version: 1.0
@@ -69,105 +69,76 @@ Cc: Igor Mammedov <imammedo@redhat.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When it comes to resetting the compat mode of the vCPUS, there are
-two situations to consider:
-(1) machine reset should set the compat mode back to the machine default,
-    ie. spapr->max_compat_pvr
-(2) hot plugged vCPUs should set their compat mode to mach the boot vCPU,
-    ie. POWERPC_CPU(first_cpu)->compat_pvr
+spapr_core_pre_plug() already guarantees that the slot for the given core
+ID is available. It is thus safe to assume that spapr_find_cpu_slot()
+returns a slot during plug. Turn the error path into an assertion.
+It is also safe to assume that no device is attached to the corresponding
+DRC and that spapr_drc_attach() shouldn't fail.
 
-This is currently handled in two separate places: globally for all vCPUs
-from the machine reset code for (1) and for each thread of a core from
-the hotplug path for (2).
-
-Since the machine reset code already resets all vCPUs, starting with boot
-vCPU, consolidate the logic in spapr_reset_vcpu(). Special case the boot
-vCPU so that it resets its compat mode back to the machine default. Any
-other vCPU just need to match the compat mode of the boot vCPU.
-
-Failing to set the compat mode during machine reset is a fatal error,
-but not for hot plugged vCPUs. This is arguable because if we've been
-able to set the boot vCPU compat mode at CAS or during machine reset,
-it should definitely not fail for other vCPUs. Since spapr_reset_vcpu()
-already has a fatal error path for kvm_check_mmu() failures, do the
-same for ppc_set_compat().
-
-This gets rid of an error path in spapr_core_plug(). It will allow
-further simplifications.
+Pass &error_abort to spapr_drc_attach() and simplify error handling.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- hw/ppc/spapr.c          | 16 ----------------
- hw/ppc/spapr_cpu_core.c | 13 +++++++++++++
- 2 files changed, 13 insertions(+), 16 deletions(-)
+ hw/ppc/spapr.c | 21 ++++++++++-----------
+ 1 file changed, 10 insertions(+), 11 deletions(-)
 
 diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index f58f77389e8e..da7586f548df 100644
+index da7586f548df..cfca033c7b14 100644
 --- a/hw/ppc/spapr.c
 +++ b/hw/ppc/spapr.c
-@@ -1606,8 +1606,6 @@ static void spapr_machine_reset(MachineState *machine=
-)
-     spapr_ovec_cleanup(spapr->ov5_cas);
-     spapr->ov5_cas =3D spapr_ovec_new();
-=20
--    ppc_set_compat_all(spapr->max_compat_pvr, &error_fatal);
--
-     /*
-      * This is fixing some of the default configuration of the XIVE
-      * devices. To be called after the reset of the machine devices.
-@@ -3785,20 +3783,6 @@ static void spapr_core_plug(HotplugHandler *hotplug_=
-dev, DeviceState *dev,
-=20
-     core_slot->cpu =3D OBJECT(dev);
-=20
--    /*
--     * Set compatibility mode to match the boot CPU, which was either set
--     * by the machine reset code or by CAS.
--     */
--    if (hotplugged) {
--        for (i =3D 0; i < cc->nr_threads; i++) {
--            if (ppc_set_compat(core->threads[i],
--                               POWERPC_CPU(first_cpu)->compat_pvr,
--                               errp) < 0) {
--                return;
--            }
--        }
--    }
--
-     if (smc->pre_2_10_has_unused_icps) {
-         for (i =3D 0; i < cc->nr_threads; i++) {
-             cs =3D CPU(core->threads[i]);
-diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-index 2f7dc3c23ded..17741a3fb77f 100644
---- a/hw/ppc/spapr_cpu_core.c
-+++ b/hw/ppc/spapr_cpu_core.c
-@@ -27,6 +27,7 @@
-=20
- static void spapr_reset_vcpu(PowerPCCPU *cpu)
- {
-+    PowerPCCPU *first_ppc_cpu =3D POWERPC_CPU(first_cpu);
-     CPUState *cs =3D CPU(cpu);
-     CPUPPCState *env =3D &cpu->env;
-     PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
-@@ -69,6 +70,18 @@ static void spapr_reset_vcpu(PowerPCCPU *cpu)
-     kvm_check_mmu(cpu, &error_fatal);
-=20
-     spapr_irq_cpu_intc_reset(spapr, cpu);
-+
-+    /*
-+     * The boot CPU is only reset during machine reset : reset its
-+     * compatibility mode to the machine default. For other CPUs,
-+     * either cold plugged or hot plugged, set the compatibility mode
-+     * to match the boot CPU, which was either set by the machine reset
-+     * code or by CAS.
-+     */
-+    ppc_set_compat(cpu,
-+                   cpu =3D=3D first_ppc_cpu ?
-+                   spapr->max_compat_pvr : first_ppc_cpu->compat_pvr,
-+                   &error_fatal);
+@@ -3739,8 +3739,7 @@ int spapr_core_dt_populate(SpaprDrc *drc, SpaprMachin=
+eState *spapr,
+     return 0;
  }
 =20
- void spapr_cpu_set_entry_state(PowerPCCPU *cpu, target_ulong nip,
+-static void spapr_core_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+-                            Error **errp)
++static void spapr_core_plug(HotplugHandler *hotplug_dev, DeviceState *dev)
+ {
+     SpaprMachineState *spapr =3D SPAPR_MACHINE(OBJECT(hotplug_dev));
+     MachineClass *mc =3D MACHINE_GET_CLASS(spapr);
+@@ -3755,20 +3754,20 @@ static void spapr_core_plug(HotplugHandler *hotplug=
+_dev, DeviceState *dev,
+     int i;
+=20
+     core_slot =3D spapr_find_cpu_slot(MACHINE(hotplug_dev), cc->core_id, &=
+index);
+-    if (!core_slot) {
+-        error_setg(errp, "Unable to find CPU core with core-id: %d",
+-                   cc->core_id);
+-        return;
+-    }
++    g_assert(core_slot); /* Already checked in spapr_core_pre_plug() */
++
+     drc =3D spapr_drc_by_id(TYPE_SPAPR_DRC_CPU,
+                           spapr_vcpu_id(spapr, cc->core_id));
+=20
+     g_assert(drc || !mc->has_hotpluggable_cpus);
+=20
+     if (drc) {
+-        if (!spapr_drc_attach(drc, dev, errp)) {
+-            return;
+-        }
++        /*
++         * spapr_core_pre_plug() already buys us this is a brand new
++         * core being plugged into a free slot. Nothing should already
++         * be attached to the corresponding DRC.
++         */
++        spapr_drc_attach(drc, dev, &error_abort);
+=20
+         if (hotplugged) {
+             /*
+@@ -3981,7 +3980,7 @@ static void spapr_machine_device_plug(HotplugHandler =
+*hotplug_dev,
+     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
+         spapr_memory_plug(hotplug_dev, dev);
+     } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_CPU_CORE)) {
+-        spapr_core_plug(hotplug_dev, dev, errp);
++        spapr_core_plug(hotplug_dev, dev);
+     } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_PCI_HOST_BRIDGE=
+)) {
+         spapr_phb_plug(hotplug_dev, dev, errp);
+     } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_TPM_PROXY)) {
 --=20
 2.26.2
 
