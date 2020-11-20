@@ -2,96 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7887D2BB0EC
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 17:50:29 +0100 (CET)
-Received: from localhost ([::1]:34744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B0692BB0F2
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 17:51:08 +0100 (CET)
+Received: from localhost ([::1]:37210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg9cC-0001C7-HB
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 11:50:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40390)
+	id 1kg9cp-0002KT-L1
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 11:51:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kg9YI-0005oi-SK
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:46:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60139)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kg9YD-0002EV-Ax
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:46:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605890780;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wgVVVz1nFKtyfiNjZ4hud/GYFEHTxmSbUvXvPjPTX40=;
- b=hwTdWwGY/SILDi4ItDPR2kz39BPfEyv55Y+3LjZSL7DQ8UoQMi382Oj4MXYl19Ft6oC+9v
- PGlLJWP2+ecy5HOnm2Ci2w96UIiTI/HjpHA4rv/1PzxycOnSsLTh6yrcfu5OT9u0NzIAsO
- clVeAWXHsaauei6ggIYpq2/OWNvG9tg=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278-iH58FmZHM2OXuj-_pLMF_w-1; Fri, 20 Nov 2020 11:46:18 -0500
-X-MC-Unique: iH58FmZHM2OXuj-_pLMF_w-1
-Received: by mail-ej1-f71.google.com with SMTP id e7so3692038eja.15
- for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 08:46:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kg9Yp-0006Ej-6T
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:46:59 -0500
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:35563)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kg9Yn-0002Hs-AF
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:46:58 -0500
+Received: by mail-ej1-x630.google.com with SMTP id f23so13795546ejk.2
+ for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 08:46:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=PPPKBYAiDqptk788z53LcyJhrcZDocJaQEsVvVQJRNM=;
+ b=qNkKGnm9MVIUHFsIPfcKlHv+IvszNNUWR9y1LKwS9GKDF4YLBXEGtXVVMFtYMjWBny
+ 2/KbtsjxRwazeczYlPAj6ZqqRm3JO8InW6p0JJ6i2HvpbxRkylWtIseZPECt2pAzumLb
+ Z0KDPRf5sm5N/3UTIxtkQcMwuOZamdmQpGfUd+DcDgdES/OiiIYugltXtnMGYAEDd0rV
+ gxZ5nfxPvdEFVoC4NY3xMmw+8oVS0Twy0xLuLLhjBl7jXzOY1vWw3g3aQ2qX49MvlObN
+ HtNKS9jGSt05hC4STfw8bSbt7Q2meXp0FEDJm0i+r3g6OQVEUgrebfCGJgUDY4e/WVod
+ rfyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wgVVVz1nFKtyfiNjZ4hud/GYFEHTxmSbUvXvPjPTX40=;
- b=o5WRjTwsxhXNbFIAfFHWF4XEMP6AV8roSk2mW1S3j96sCbT0xGRwuVafiFl9zBrka5
- ZrU0rgCeAKBRQMsqGIpAr2PzAwqnEtXnV8WWeln+mouV8DR68C16e8iEwbG7YIUhpf+S
- 40O11sLW5e2uSNCCFmTf8BqyG3hsrGuuMYnVs9BoxS7vwIvI/C7AUti2udjt77qm1LOt
- WXcmHRUf2XFIkTeJlaXWGb+vy8pmZdzwC482YF1+uWFh9uL7eiDXdX2I4NlciDnZsRIY
- 9cC5zk+R+68PWvjjtwG7q/BVtY6mWwIb3t8/6ua0DtWVqC17X1TG5GaBmd/Ho7eCgx4w
- KRgw==
-X-Gm-Message-State: AOAM530Nl+AjckFi1f1k+HFA4TdyIUtxpJh6opAsd9dW0ccDV7VCcY68
- DvOERiQ5NWRN7GrJ9m+HE7TUKKMta1NgJk6qfydIXcSGIsDOMlh8FnMeWYEf5DG43KMoUe6Z8Ko
- JSzpu+LWFwAEnkPpU+M/loxTPsfEkOqRyjpg3DypBJa3njRKfCK5tkZltr8AfnVZ6pdg=
-X-Received: by 2002:a05:6402:3089:: with SMTP id
- de9mr37257415edb.100.1605890776847; 
- Fri, 20 Nov 2020 08:46:16 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxi+qP85hPlgSNQvzHthSMzSE44d0Viylft9+hGsNtTa1B9a1rX8uLjgWzKsY6opEj9m25BmQ==
-X-Received: by 2002:a05:6402:3089:: with SMTP id
- de9mr37257394edb.100.1605890776643; 
- Fri, 20 Nov 2020 08:46:16 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id gl23sm1323248ejb.113.2020.11.20.08.46.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Nov 2020 08:46:15 -0800 (PST)
-Subject: Re: [PATCH 22/29] vl: initialize displays before preconfig loop
-To: Igor Mammedov <imammedo@redhat.com>
-References: <20201027182144.3315885-1-pbonzini@redhat.com>
- <20201027182144.3315885-23-pbonzini@redhat.com>
- <20201120161148.0dc2bdcf@redhat.com>
- <85980ae2-9da0-d432-6825-85782f4beee5@redhat.com>
- <20201120173252.743b4208@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <50b90afd-6a41-61d8-44c1-273858cd4947@redhat.com>
-Date: Fri, 20 Nov 2020 17:46:14 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=PPPKBYAiDqptk788z53LcyJhrcZDocJaQEsVvVQJRNM=;
+ b=t2erxhDuoksPTkgFPTnDyMQX8V5JNN5c9cqU1zUOxKHmtLVgqGy+5JmP4RvUSo00RJ
+ otH4UVu9G2hdJUtdcCW5Igdrsy/GkFcq2BZThjh3hKkm2C5BENKVCdH1siehWvWSffpw
+ yaL1OVHtWu8ExhLUcqurPm0KGXLH6ZKZFNFq0KpuL1Cd01PSxLXPDNAF3nJN9fPbCj2T
+ IGsFlbtmlwkR4SZzYFn66A71sq9Caikn/4b7XhNFG/U7Dwq3D0R/KovlJJz8eLfjHKhh
+ hvnNFCjYuz2Tv05lSemqgPCKLR0xc0Q6aVsCe8ljWu1uDRl7udnAzCJtZc9mG5DUxJGo
+ Il4Q==
+X-Gm-Message-State: AOAM532e4xSree9iH1TXgC5yFS5x9d0vPLtyiwvFOF8uk9G+7zt29Yem
+ E8+n9vr22PdpnBVmFSilxdhnB+ZXZgWJVpLjsRGGww==
+X-Google-Smtp-Source: ABdhPJw70HRVY+ETDdojOZrLC+NKN4A9t0bzkz9n1kK9MSW6u5RFOwP/xcghooKJvOP/BkqYEyc1zFEu8vYeBYry6Rk=
+X-Received: by 2002:a17:906:5a88:: with SMTP id
+ l8mr32520180ejq.407.1605890815595; 
+ Fri, 20 Nov 2020 08:46:55 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201120173252.743b4208@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20201120152140.2493197-1-f4bug@amsat.org>
+ <20201120152140.2493197-2-f4bug@amsat.org>
+In-Reply-To: <20201120152140.2493197-2-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 20 Nov 2020 16:46:44 +0000
+Message-ID: <CAFEAcA8udfqjmYn64PZJP6xv_T_v=7Ff7CAj1jeapuZbvBupxw@mail.gmail.com>
+Subject: Re: [PATCH-for-5.2 1/4] docs/system: Deprecate raspi2/raspi3 machine
+ aliases
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,44 +81,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Peter Krempa <pkrempa@redhat.com>, Libvirt <libvir-list@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Andrew Jeffery <andrew@aj.id.au>, qemu-arm <qemu-arm@nongnu.org>,
+ Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/11/20 17:32, Igor Mammedov wrote:
-> On Fri, 20 Nov 2020 16:53:41 +0100
-> Paolo Bonzini <pbonzini@redhat.com> wrote:
-> 
->> On 20/11/20 16:11, Igor Mammedov wrote:
->>> On Tue, 27 Oct 2020 14:21:37 -0400
->>> Paolo Bonzini <pbonzini@redhat.com> wrote:
->>>    
->>>> Displays should be available before the monitor starts, so that
->>>> it is possible to use the graphical console to interact with
->>>> the monitor itself.
->>>>
->>>> This patch is quite ugly, but all this is temporary.  The double
->>>> call to qemu_init_displays will go away as soon we can unify machine
->>>> initialization between the preconfig and "normal" flows, and so will
->>>> the preconfig_exit_requested variable (that is only preconfig_requested
->>>> remains).
->>>>
->>>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->>>
->>> Doesn't apply to yer for-6.0 branch
->>
->> I updated the branch.
-> 
-> it probably won't help,
-> what I do review/test is drop these patches on branch
-> and reapply them from this thread.
-> Having v2 on list that applies to master would be better.
+On Fri, 20 Nov 2020 at 15:21, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+>
+> Since commit aa35ec2213b ("hw/arm/raspi: Use more specific
+> machine names") the raspi2/raspi3 machines have been renamed
+> as raspi2b/raspi3b.
+>
+> Note, rather than the raspi3b, the raspi3ap introduced in
+> commit 5be94252d34 ("hw/arm/raspi: Add the Raspberry Pi 3
+> model A+") is a closer match to what QEMU models, but only
+> provides 512 MB of RAM.
+>
+> As more Raspberry Pi 2/3 models are emulated, in order
+> to avoid confusion, deprecate the raspi2/raspi3 machine
+> aliases.
+>
+> ACKed-by: Peter Krempa <pkrempa@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  docs/system/deprecated.rst | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>
+> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+> index d98464098f5..d1bc03d7e61 100644
+> --- a/docs/system/deprecated.rst
+> +++ b/docs/system/deprecated.rst
+> @@ -346,6 +346,13 @@ This machine has been renamed ``fuloong2e``.
+>  These machine types are very old and likely can not be used for live mig=
+ration
+>  from old QEMU versions anymore. A newer machine type should be used inst=
+ead.
+>
+> +Raspberry Pi ``raspi2`` and ``raspi3`` machines (since 5.2)
+> +'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+> +
+> +The Raspberry Pi machines come in various models (A, A+, B, B+). To be a=
+ble
+> +to distinct which model is used, the ``raspi2`` and ``raspi3`` machines =
+ have
 
-Yes, of course.  I meant that the for-6.0 branch already _is_ the v2, 
-I'll send it out as soon as I integrate all your feedback.
+"to distinguish which model QEMU is implementing"
 
-Thanks,
+> +been respectively renamed ``raspi2b`` and ``raspi3b``.
 
-Paolo
+"been renamed ``raspi2b`` and ``raspi3b`` respectively"
 
+(or just drop 'respectively' altogether and assume the reader can
+figure out which is which ;-))
+
+
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
