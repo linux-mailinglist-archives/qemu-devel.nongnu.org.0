@@ -2,47 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A9D82BB3F2
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 19:48:56 +0100 (CET)
-Received: from localhost ([::1]:54198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DDEC2BB3F9
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 19:54:54 +0100 (CET)
+Received: from localhost ([::1]:33786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kgBSp-00025R-1u
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 13:48:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39524)
+	id 1kgBYb-0005WF-Ec
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 13:54:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kgBRF-0000zX-SK
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 13:47:17 -0500
-Received: from mx2.suse.de ([195.135.220.15]:40716)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kgBRC-00058r-Ll
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 13:47:17 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id C7021AC60;
- Fri, 20 Nov 2020 18:47:12 +0000 (UTC)
-Subject: Re: [RFC v4 9/9] i386: split cpu accelerators from cpu.c
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20201120144909.24097-1-cfontana@suse.de>
- <20201120144909.24097-10-cfontana@suse.de>
- <20201120174447.GC2271382@habkost.net>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <5ac27efa-0766-c5e4-be6c-7ba031997cd3@suse.de>
-Date: Fri, 20 Nov 2020 19:47:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1kgBVl-00045U-O7
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 13:51:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35261)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1kgBVZ-0006sY-Cz
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 13:51:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605898295;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VF68uyWFilZpHj5bABsThH0akvfjRoVBR9ksieJzwHo=;
+ b=R4QjhXmk3NTOZ5E1hI4nQ0rI7jo+E6TZDmhwBc7LGnGJJz9wQv6riO0NWMERY7lW305SUH
+ CxERRyiEF9wEiuuPh4eeZp2uR7GzwzhqCZxLXGiQ0Meau3DF9tKKZKx+W8Z9LTlOl3JqF0
+ mq/+Ia3EyAH2be5pGfwUXgHEh1wBZ8k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-125-5oC7RBGnOfe3nRKgW98M6A-1; Fri, 20 Nov 2020 13:51:33 -0500
+X-MC-Unique: 5oC7RBGnOfe3nRKgW98M6A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2F0E1842159;
+ Fri, 20 Nov 2020 18:51:30 +0000 (UTC)
+Received: from eperezma.remote.csb (ovpn-112-88.ams2.redhat.com [10.36.112.88])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 440965C1D5;
+ Fri, 20 Nov 2020 18:51:23 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH 01/27] vhost: Add vhost_dev_can_log
+Date: Fri, 20 Nov 2020 19:50:39 +0100
+Message-Id: <20201120185105.279030-2-eperezma@redhat.com>
+In-Reply-To: <20201120185105.279030-1-eperezma@redhat.com>
+References: <20201120185105.279030-1-eperezma@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201120174447.GC2271382@habkost.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -56,109 +74,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- Olaf Hering <ohering@suse.de>, Jason Wang <jasowang@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Cameron Esfahani <dirty@apple.com>,
- haxm-team@intel.com, Wenchao Wang <wenchao.wang@intel.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Sunil Muthuswamy <sunilmut@microsoft.com>,
- Bruce Rogers <brogers@suse.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Colin Xu <colin.xu@intel.com>
+Cc: kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Daniel Daly <dandaly0@gmail.com>,
+ virtualization@lists.linux-foundation.org, Liran Alon <liralon@gmail.com>,
+ Eli Cohen <eli@mellanox.com>, Nitin Shrivastav <nitin.shrivastav@broadcom.com>,
+ Alex Barba <alex.barba@broadcom.com>,
+ Christophe Fontaine <cfontain@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Lee Ballard <ballle98@gmail.com>, Lars Ganrot <lars.ganrot@gmail.com>,
+ Rob Miller <rob.miller@broadcom.com>, Stefano Garzarella <sgarzare@redhat.com>,
+ Howard Cai <howard.cai@gmail.com>, Parav Pandit <parav@mellanox.com>,
+ vm <vmireyno@marvell.com>, Salil Mehta <mehta.salil.lnk@gmail.com>,
+ Stephen Finucane <stephenfin@redhat.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Sean Mooney <smooney@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Jim Harford <jim.harford@broadcom.com>,
+ Dmytro Kazantsev <dmytro.kazantsev@gmail.com>, Siwei Liu <loseweigh@gmail.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Michael Lilja <ml@napatech.com>,
+ Max Gurtovoy <maxgu14@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/20/20 6:44 PM, Eduardo Habkost wrote:
-> On Fri, Nov 20, 2020 at 03:49:09PM +0100, Claudio Fontana wrote:
->> split cpu.c into:
->>
->> cpu.c            cpuid and common x86 cpu functionality
->> host-cpu.c       host x86 cpu functions and "host" cpu type
->> kvm/cpu.c        KVM x86 cpu type
->> hvf/cpu.c        HVF x86 cpu type
->> tcg/cpu.c        TCG x86 cpu type
->>
->> The link to the accel class is set in the X86CPUClass classes
->> at MODULE_INIT_ACCEL_CPU time, when the accelerator is known.
->>
->> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> [...]
->> +static void hvf_cpu_accel_class_init(ObjectClass *oc, void *data)
->> +{
->> +    X86CPUAccelClass *acc = X86_CPU_ACCEL_CLASS(oc);
->> +
->> +    acc->cpu_realizefn = host_cpu_realizefn;
->> +    acc->cpu_common_class_init = hvf_cpu_common_class_init;
->> +    acc->cpu_instance_init = hvf_cpu_instance_init;
->> +};
->> +static const TypeInfo hvf_cpu_accel_type_info = {
->> +    .name = X86_CPU_ACCEL_TYPE_NAME("hvf"),
->> +
->> +    .parent = TYPE_X86_CPU_ACCEL,
->> +    .class_init = hvf_cpu_accel_class_init,
->> +};
->> +static void hvf_cpu_accel_register_types(void)
->> +{
->> +    type_register_static(&hvf_cpu_accel_type_info);
->> +}
->> +type_init(hvf_cpu_accel_register_types);
->> +
->> +static void hvf_cpu_accel_init(void)
->> +{
->> +    if (hvf_enabled()) {
->> +        x86_cpu_accel_init(X86_CPU_ACCEL_TYPE_NAME("hvf"));
->> +    }
->> +}
->> +
->> +accel_cpu_init(hvf_cpu_accel_init);
-> 
-> The point of my suggestion of using QOM is to not require
-> separate accel_cpu_init() functions and (hvf|tcg|kvm)_enabled()
-> checks.
-> 
-> If we still have separate accel_cpu_init() functions for calling
-> x86_cpu_accel_init() with the right argument, using a pointer to
-> static variables like &hvf_cpu_accel (like you did before) was
-> simpler and required less boilerplate code.
+Just syntactic sugar.
 
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+---
+ hw/virtio/vhost.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-
-Yes I agree.
-
-
-
-
-> 
-> However, the difference is that with the X86_CPU_ACCEL_TYPE_NAME
-> macro + object_class_by_name(), you don't need the separate
-> accel_cpu_init() functions for each accelerator.
-> 
-> All you need is a single:
-> 
->   x86_cpu_accel_init(X86_CPU_ACCEL_TYPE_NAME(chosen_accel_name));
-> 
-> call somewhere in the initialization path.
-
-
-Makes sense. The problem is just determining chosen_accel_name.
-
-
-> 
-> A good place for the x86_cpu_accel_init() call would be
-> do_configure_accelerator(), but the function is arch-specific.
-> That's why I suggested a cpu_accel_arch_init() function at
-> https://lore.kernel.org/qemu-devel/20201118220750.GP1509407@habkost.net
-> 
-
-
-Fine by me. I'd use a specific init step for this, but that also works.
-
-Ciao,
-
-Clauidio
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index 614ccc2bcb..2bd8cdf893 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -61,6 +61,11 @@ bool vhost_has_free_slot(void)
+     return slots_limit > used_memslots;
+ }
+ 
++static bool vhost_dev_can_log(const struct vhost_dev *hdev)
++{
++    return hdev->features & (0x1ULL << VHOST_F_LOG_ALL);
++}
++
+ static void vhost_dev_sync_region(struct vhost_dev *dev,
+                                   MemoryRegionSection *section,
+                                   uint64_t mfirst, uint64_t mlast,
+@@ -1347,7 +1352,7 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
+     };
+ 
+     if (hdev->migration_blocker == NULL) {
+-        if (!(hdev->features & (0x1ULL << VHOST_F_LOG_ALL))) {
++        if (!vhost_dev_can_log(hdev)) {
+             error_setg(&hdev->migration_blocker,
+                        "Migration disabled: vhost lacks VHOST_F_LOG_ALL feature.");
+         } else if (vhost_dev_log_is_shared(hdev) && !qemu_memfd_alloc_check()) {
+-- 
+2.18.4
 
 
