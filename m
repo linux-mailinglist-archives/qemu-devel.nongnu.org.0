@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 026CD2BB131
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 18:12:33 +0100 (CET)
-Received: from localhost ([::1]:42180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CF1B2BB137
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 18:12:59 +0100 (CET)
+Received: from localhost ([::1]:43462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg9xX-00022Z-IZ
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 12:12:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46622)
+	id 1kg9xy-0002aQ-Fp
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 12:12:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kg9uY-0008BT-Kd; Fri, 20 Nov 2020 12:09:26 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:33526)
+ id 1kg9wS-0001HX-Dt; Fri, 20 Nov 2020 12:11:24 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42787)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kg9uU-0006xE-TG; Fri, 20 Nov 2020 12:09:24 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id p19so8762001wmg.0;
- Fri, 20 Nov 2020 09:09:22 -0800 (PST)
+ id 1kg9wQ-0007KP-UA; Fri, 20 Nov 2020 12:11:24 -0500
+Received: by mail-wr1-x444.google.com with SMTP id l1so10742748wrb.9;
+ Fri, 20 Nov 2020 09:11:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=F+WopgHAyjc9Q6dNWZwiMfaY+rfe0R7BAZ1h6IMjCO0=;
- b=ky+cRpZBOfrNdaD2GbPQJqKfZ9QzYtcB3478Qo4AqTLpclvgq28+J9KhF6kv8OFpDn
- PNHrnvimdkOMto0Mywi1SS2xr8zKZaOjXi3AS3KlcsFByfGEnnSv384AsAhwZK08RGbQ
- QaHOnPMs781rrSka3ZkbzRlzf12do7PdmPcTlxgFVsePWRC8crVlywPGEF4aB9I6ZRZ0
- xEfpvZ9g0qu8MAy9OE6sXLJy1NuTXp8n4Md69VRWR0rWE+qNZLMatbjzuUY25xYJNLBj
- ybAYXd9B/HwDEr+gqSomBArNqMsU0XHqkgd8YPG4q66+HLeVX9sJ+LOCOWKpSC3faEkr
- pVjA==
+ bh=iv26Ap7hnRx82/xd3BUuBa/TqmQw9eULOQHdeBaVt1w=;
+ b=Ryw47rg4mE3EsyUBqiHvjsjP4bZ8kNglmnOQuxL4kEJakmAvGAkk/K+TbQdN02Uh0U
+ +wH/CwXK2SGkm+KjNi15calIkPZC6qgH2dgkZ/jvuR/iwFwTw2xNuVK8ZAYmQa3DZV9V
+ hqtZ+nvhUdhbakN76PO/2SOgP1et7FJwm4G7LxOzwhUehjZozZYlbxPXAlTfdq4pto7H
+ tMueT7oi49y/QxIpSIw3HrvoawYRoy9cpt2aFv7ynVxHMWA0HPcVIwakOxqPZLm2c0yR
+ QrjBuWdmStWI3ogl84mUD1eG7BWw2BibOb9zv06gqjBVqJEnEaG2/aDtPBPJUKUOTcwX
+ oWwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=F+WopgHAyjc9Q6dNWZwiMfaY+rfe0R7BAZ1h6IMjCO0=;
- b=hp6vaWgOUk60zdMeUqmujRWqpA/ywcZoX1wzTex40+aMWAhTslZP/K3nZoiWC6oZQf
- B2Sf9JV3poO20cLVgWrXJ/6Dn2MqzaGYIXSsHeo8MLvbZpFX0msz9LXgbkDXsNIdapio
- 22Ft1l+FQrFojouh3wKXfEO2G70FNNz/GbRzcNtQDFgvon2Coyc2PWJXdjIX0KuD9zSr
- pbDHhn1Gg44g9rBzmu+owBMjGk2q7y5WSVnsf9CRQjznkHxFmxING0mRA9BsBgkDAy0j
- M1+M8JAa6K3Gx/8QL4HeYIpYGxyRWXggI8WyWdBKQXxkkhW8o/ySatzbm8kbR7aH4I9Y
- xqAw==
-X-Gm-Message-State: AOAM533F4P/DxFYQxg3UzjkK3PbzhkyfNCUSumbGZJnEgLDjGYYhA/Dp
- fvq09DwaGmzFM+T6Y9UoKe4=
-X-Google-Smtp-Source: ABdhPJyBBZPWaLOw/GYhkaLSGmA+V1+S94AQ+6Qw/Id523K45byBh44tGSZVt/pgnSPm8m4V4KZBRA==
-X-Received: by 2002:a1c:9d08:: with SMTP id g8mr10929198wme.171.1605892160976; 
- Fri, 20 Nov 2020 09:09:20 -0800 (PST)
+ bh=iv26Ap7hnRx82/xd3BUuBa/TqmQw9eULOQHdeBaVt1w=;
+ b=ScFZ4WAosjQSp9onX0KhA8MZiTRD5Aj1BElBF3p3fy57a41Fx42FySw6LG3WLd+o0F
+ aPfP6LFSmiPHayrS/abEPPuMcpOf0J6oVlWEgy6t3wN9ExfRjpa7o1WBfn5LA9oyill/
+ /hRsMsrzzlV0eDeCUyJ9qB9TOZ2sqRfSJQAL1HxN86FeNJIjGrwIFPrumMr6/1l5rpKh
+ s9690CQbF2H0Utv88AT/lwg39gwAC4WZWkvBCzICMZuXN+AlVI9kZly0/XF1onH5CxHR
+ FxqXGL3O3ie6pkSW2B/E3+MClIlq+EUzomPPrjm2mEpnE8JT5SP59hbH8djFr9aJz8CP
+ P6Aw==
+X-Gm-Message-State: AOAM530TMch7Y5VycaFGji/IvhWByMV3V+kzHANYL6Uvf7wT32lxjeWI
+ kuvUpvtiZkTyFIoH/vXN0w8=
+X-Google-Smtp-Source: ABdhPJxvxsAHaWu2Z/DVcu07FuemmtD3jz+6YgRVKKEnwR9H4u7c6EscV/ApRvvTVReegPkBW9SgqA==
+X-Received: by 2002:adf:e74d:: with SMTP id c13mr18043024wrn.277.1605892281189; 
+ Fri, 20 Nov 2020 09:11:21 -0800 (PST)
 Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id z189sm5099122wme.23.2020.11.20.09.09.19
+ by smtp.gmail.com with ESMTPSA id h4sm5529182wrq.3.2020.11.20.09.11.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Nov 2020 09:09:20 -0800 (PST)
-Subject: Re: [PATCH-for-5.2 2/4] docs/system/arm: Document the various raspi
- boards
+ Fri, 20 Nov 2020 09:11:20 -0800 (PST)
+Subject: Re: [RFC PATCH-for-5.2 4/4] docs/system/arm: Document the Sharp
+ Zaurus SL-6000
 To: Peter Maydell <peter.maydell@linaro.org>
 References: <20201120152140.2493197-1-f4bug@amsat.org>
- <20201120152140.2493197-3-f4bug@amsat.org>
- <CAFEAcA85nhCv6DH-Kf0CqfaN5rYrhzE=TY54MNEqn5ko3wkDNQ@mail.gmail.com>
+ <20201120152140.2493197-5-f4bug@amsat.org>
+ <CAFEAcA-YV3d0u1UymuOw3+XbUz7aV8=U3T23pYFb0eaHxXz0aA@mail.gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <fc21801d-b4cc-4fb7-8ea9-61f92680ba54@amsat.org>
-Date: Fri, 20 Nov 2020 18:09:18 +0100
+Message-ID: <44fe4478-218d-5b50-da79-d1798ff7e57a@amsat.org>
+Date: Fri, 20 Nov 2020 18:11:19 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA85nhCv6DH-Kf0CqfaN5rYrhzE=TY54MNEqn5ko3wkDNQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA-YV3d0u1UymuOw3+XbUz7aV8=U3T23pYFb0eaHxXz0aA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -97,85 +97,61 @@ Cc: Libvirt <libvir-list@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/20/20 5:48 PM, Peter Maydell wrote:
-> On Fri, 20 Nov 2020 at 15:21, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+On 11/20/20 5:52 PM, Peter Maydell wrote:
+> On Fri, 20 Nov 2020 at 15:22, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
 >>
->> Document the following Raspberry Pi models:
->>
->>  - raspi0               Raspberry Pi Zero (revision 1.2)
->>  - raspi1ap             Raspberry Pi A+ (revision 1.1)
->>  - raspi2b              Raspberry Pi 2B (revision 1.1)
->>  - raspi3ap             Raspberry Pi 3A+ (revision 1.0)
->>  - raspi3b              Raspberry Pi 3B (revision 1.2)
+>> List the 'tosa' machine with the XScale-based PDAs models.
 >>
 >> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 >> ---
->>  docs/system/arm/raspi.rst  | 44 ++++++++++++++++++++++++++++++++++++++
->>  docs/system/target-arm.rst |  1 +
->>  2 files changed, 45 insertions(+)
->>  create mode 100644 docs/system/arm/raspi.rst
+>>  docs/system/arm/xscale.rst | 13 ++++++++-----
+>>  1 file changed, 8 insertions(+), 5 deletions(-)
 >>
->> diff --git a/docs/system/arm/raspi.rst b/docs/system/arm/raspi.rst
->> new file mode 100644
->> index 00000000000..b19284e4481
->> --- /dev/null
->> +++ b/docs/system/arm/raspi.rst
->> @@ -0,0 +1,44 @@
->> +Raspberry Pi boards (``raspi0``, ``raspi1ap``, ``raspi2b``, ``raspi3ap``, ``raspi3b``)
->> +======================================================================================
->> +
->> +
->> +QEMU provides models the following Raspberry Pi boards:
+>> diff --git a/docs/system/arm/xscale.rst b/docs/system/arm/xscale.rst
+>> index 89ec93e904e..2dd2f8f9a56 100644
+>> --- a/docs/system/arm/xscale.rst
+>> +++ b/docs/system/arm/xscale.rst
+>> @@ -1,16 +1,19 @@
+>> -Sharp XScale-based PDA models (``akita``, ``borzoi``, ``spitz``, ``terrier``)
+>> -=============================================================================
+>> +Sharp XScale-based PDA models (``tosa``, ``spitz``, ``akita``, ``borzoi``, ``terrier``)
+>> +=======================================================================================
 > 
-> "models of"
-> 
->> +
->> +``raspi0`` and ``raspi1ap``
->> +  ARM1176JZF-S core, 512 MiB of RAM
->> +``raspi2b``
->> +  Cortex-A7 (4 cores), 1 GiB of RAM
->> +``raspi3ap``
->> +  Cortex-A53 (4 cores), 512 MiB of RAM
->> +``raspi3b``
->> +  Cortex-A53 (4 cores), 1 GiB of RAM
->> +
->> +
->> +Implemented devices
->> +-------------------
->> +
->> + * ARM1176JZF-S, Cortex-A7 or Cortex-A53 CPU
->> + * Interrupt controller
->> + * DMA controller
->> + * Clock and reset controller (CPRMAN)
->> + * System Timer
->> + * GPIO controller
->> + * Serial ports (BCM2835 AUX - 16550 based - and PL011)
->> + * Random Number Generator (RNG)
->> + * Frame Buffer
->> + * USB host (USBH)
->> + * GPIO controller
->> + * SD/MMC host controller
->> + * SoC thermal sensor
->> + * USB2 host controller (DWC2 and MPHI)
->> + * MailBox controller (MBOX)
->> + * VideoCore firmware (property)
->> +
->> +
->> +Missing devices
->> +---------------
->> +
->> + * Peripheral SPI controller (SPI)
->> + * Analog to Digital Converter (ADC)
->> + * Pulse Width Modulation (PWM)
->> + * Security features
-> 
-> "Security features" is a bit vague; could we be more precise?
+> These were in alphabetical order -- why the rearrangement ?
 
-I used Nuvoton as template. I'll remove :)
+Ah I didn't notice, I sorted by chronological order. I'll add tosa
+at the end (alphabetically last).
 
 > 
-> Otherwise
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>> +
+>> +The Sharp Zaurus SL-6000 (``tosa``), released in 2005, was a PDA based on the
+>> +PXA255.
+>>
+>>  The XScale-based clamshell PDA models (\"Spitz\", \"Akita\", \"Borzoi\"
+>>  and \"Terrier\") emulation includes the following peripherals:
+> 
+> If you want to add tosa to this file (which seems reasonable) then
+> you need to rewrite this para that introduces the bulleted list
+> because it currently only describes spitz/akita/borzoi/terrier,
+> so that it is instead a suitable introductory paragraph that
+> covers all of the boards.
+
+OK, I think added \"Tosa\" at the end is enough.
+
+> 
+>> --  Intel PXA270 System-on-chip (ARMv5TE core)
+>> +-  Intel PXA255/PXA270 System-on-chip (ARMv5TE core)
+>>
+>> --  NAND Flash memory
+>> +-  NAND Flash memory - not in \"Tosa\"
+>>
+>>  -  IBM/Hitachi DSCM microdrive in a PXA PCMCIA slot - not in \"Akita\"
+>>
+>> --  On-chip OHCI USB controller
+>> +-  On-chip OHCI USB controller - not in \"Tosa\"
+>>
+>>  -  On-chip LCD controller
+> 
 > 
 > thanks
 > -- PMM
