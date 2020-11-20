@@ -2,116 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF9782BAF99
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 17:07:55 +0100 (CET)
-Received: from localhost ([::1]:40546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D0B92BAF75
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 17:02:58 +0100 (CET)
+Received: from localhost ([::1]:55548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg8x0-0004j5-JS
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 11:07:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55446)
+	id 1kg8sD-0006NC-Gc
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 11:02:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kg8oA-0003YL-FH
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 10:58:47 -0500
-Received: from mail-vi1eur05on2091.outbound.protection.outlook.com
- ([40.107.21.91]:37286 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kg8o6-0007YI-C3
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 10:58:45 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UcCcInf7R7iYtKYd30JiGUktWYp9oxtotuIzOHNx9+jnr+bEY8b9Iy2LylEvyHyGDqqWoH22L04rNKOALTtFaSGctfFOMhGmSgA+pjG6OS+2R18BX/n7AK0bkZpri8OiD1TWhAzIwEdh5B0L+qkYdaadT+g2u59lML1Zt+UC+ibT1rTfi0+A8za6p2tN7yQbOi7u4XtmXFjh0Tl2km2eeTk57opaaF1ZR0PE6oHj3Bt7lRBS1Gj51TgkBzWyk1DMrKAYJVWHtv7R6j6nQQfTXZNuCSufKb2OiRbkiRCgSb9rO7JSRB/L6Asp7RcVyLxDKbrLhZ1pZXl619Scj9f/BA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9N+rGJdWCUksYy0c0Y3KdK2p3LEcXWVVlbh5YrVwa3s=;
- b=CdZZHmSIiyIJRVhxF2qAN/hGjbJ9kGuytj08zjBS2QG7hYy6FmGnsmkdIr+0yGVilAvYUN6ZEeXHb5ZWEl+EYDVQ6t2XWuDIMIEshCc+bhbgdRkACcRoq9C/38Gsz3tAnXrSY21stlI2dVs5cOjsa9RPvgTCZesOXzLM99C43fHKvzYBWcMYB3JstSqazowda50cuRlHTeXGbhehCyG1eitcZ0vYugrynNs3+AEZ9x8kP9JZU/sj/M1lW5nkQt6ZeT20UehALGJxaYASyGOjrP7ByR3syVK/PxkIdZp/7a4jiLZUlQHnr8q4Sg+JxC/Ryoa7L/8wCGyXAb7IOcCxuQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9N+rGJdWCUksYy0c0Y3KdK2p3LEcXWVVlbh5YrVwa3s=;
- b=RxiepTge+mgYUbb2k0SQvsNXcdkjSo6CAPobC9Ko5UHuHxBYCKmq8FFF4JCmHQxYrI664iRSpGkny/yoMYn+GpGR6ZbGEnRbUqB/olNRi/lIoBCS/6m8SXLIJU3VvMUdN3gncMA620C0aKEwBNcuP0E3VYMExBGyiu2ewlLZibk=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from VI1PR0802MB2510.eurprd08.prod.outlook.com
- (2603:10a6:800:ad::14) by VI1PR08MB4304.eurprd08.prod.outlook.com
- (2603:10a6:803:f2::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.20; Fri, 20 Nov
- 2020 15:43:36 +0000
-Received: from VI1PR0802MB2510.eurprd08.prod.outlook.com
- ([fe80::8d6a:734c:e4a2:8543]) by VI1PR0802MB2510.eurprd08.prod.outlook.com
- ([fe80::8d6a:734c:e4a2:8543%7]) with mapi id 15.20.3589.020; Fri, 20 Nov 2020
- 15:43:36 +0000
-Subject: Re: [PATCH v3 2/7] introduce UFFD-WP low-level interface helpers
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, Den Lunev <den@openvz.org>,
- Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-References: <20201119125940.20017-1-andrey.gruzdev@virtuozzo.com>
- <20201119125940.20017-3-andrey.gruzdev@virtuozzo.com>
- <20201119183902.GC6538@xz-x1>
- <8eb862a9-90d3-e3ea-5bdf-50287ce2226f@virtuozzo.com>
- <20201120150124.GD32525@xz-x1>
-From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Message-ID: <68d02b8b-0335-9b8f-bc0a-2f3d51d7e316@virtuozzo.com>
-Date: Fri, 20 Nov 2020 18:43:34 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20201120150124.GD32525@xz-x1>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kg8jN-0006aN-5Q
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 10:53:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60876)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kg8jL-0005d6-C9
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 10:53:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605887626;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LEqK9zXO5j3vcdSQPdkEHDabnNx4rrXoMy0rwtN6EAI=;
+ b=LnNtRWWd2tCjaNplTptOEdPiWXCOs6NxNhPrhdU6e5h0rZK7wki9jhpV6kLA5xAcrOiMlZ
+ ycEpWjcAIBV5mXmeEK5VfC7T3djhVp2QJ77/w46Z1gO3gUzI23B+2eT17iUOo3UwspQoo6
+ Kk5jevWSvxPd7B/DydBqTZR1B+hofQs=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-359-OXNpxuhaPIupBjgxTVRy-w-1; Fri, 20 Nov 2020 10:53:44 -0500
+X-MC-Unique: OXNpxuhaPIupBjgxTVRy-w-1
+Received: by mail-ej1-f71.google.com with SMTP id p18so3653421ejl.14
+ for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 07:53:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=LEqK9zXO5j3vcdSQPdkEHDabnNx4rrXoMy0rwtN6EAI=;
+ b=FyDBn5FvwwgOHZQhUK714lIlk7jA4U1FJKF9UDi9WTc/nPX4hDrrBZYCjBvSe8y7zo
+ zYLgfuxazESGImrlDT/agBY6Z+4aiFGvhXm93F+L2RA1pz4w1zsix/gENzXSQrLNtN1S
+ Unoz8lA0p2ehbDZLx4RZn2tOZ4g7smoYqwHzWFuJKxD5jZ/Uq5Bc3Q8DscZ292Ke4+sZ
+ /CE3nurPXEdo0kzX1B08bgG/S3wJZuCS/Ev325HTF7h1r0GBx6Ud+bFa1Lb4ATdg/1/G
+ zMkv4YmEm5Bwv0o7ygAEovcvuxIwWkBHCfT7A33q77rx6qB7OiS48C74sLFJmi1ycLPM
+ osEA==
+X-Gm-Message-State: AOAM530pyube31/W9v9Z1klOdVtmNPuv/wvRzpivOuRMV+ZyyY5zgl5O
+ gYeEtwB07BI+0wL2yQA+g/fVplvBUDxJ2zhoLCUuNQcHVeqUt5S7QLsAPZg9OW+zS17JgcIzy0L
+ dqXG1/2tkC1YAA9GPVmR3OKc9PcKtFkVxk/supwvdNJXDj9C7JaDCFcknLh0x4PZkS2k=
+X-Received: by 2002:a17:906:d8ce:: with SMTP id
+ re14mr32453331ejb.275.1605887622994; 
+ Fri, 20 Nov 2020 07:53:42 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx39eg2g71cNKoIzhPPW5OsxkJlhD5nvGJI7HFWLbFRG/uzm9NKIViD3SXrj0cv85b55zMwdw==
+X-Received: by 2002:a17:906:d8ce:: with SMTP id
+ re14mr32453318ejb.275.1605887622694; 
+ Fri, 20 Nov 2020 07:53:42 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id bd21sm1244527edb.79.2020.11.20.07.53.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 20 Nov 2020 07:53:41 -0800 (PST)
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20201027182144.3315885-1-pbonzini@redhat.com>
+ <20201027182144.3315885-23-pbonzini@redhat.com>
+ <20201120161148.0dc2bdcf@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 22/29] vl: initialize displays before preconfig loop
+Message-ID: <85980ae2-9da0-d432-6825-85782f4beee5@redhat.com>
+Date: Fri, 20 Nov 2020 16:53:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
+MIME-Version: 1.0
+In-Reply-To: <20201120161148.0dc2bdcf@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [95.165.26.68]
-X-ClientProxiedBy: AM0PR01CA0106.eurprd01.prod.exchangelabs.com
- (2603:10a6:208:10e::47) To VI1PR0802MB2510.eurprd08.prod.outlook.com
- (2603:10a6:800:ad::14)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.64] (95.165.26.68) by
- AM0PR01CA0106.eurprd01.prod.exchangelabs.com (2603:10a6:208:10e::47) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.20 via Frontend
- Transport; Fri, 20 Nov 2020 15:43:35 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 648e4f2c-74fc-4dda-0342-08d88d6b0b02
-X-MS-TrafficTypeDiagnostic: VI1PR08MB4304:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR08MB430453AB7F802C4D7C9F93B69FFF0@VI1PR08MB4304.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2hWBklkg9SQj6D8OllZsygPFapuAOsZ6QrfR8BFoJx0j3MZxDKLy4k7flgP4NpZiPZkmOZT6mLHEpPFmh+3h8Hx535n7XOgD51+Vk6SWKWHNGb9OtRwipRCZ9IXjIkqNTkKP5VyfcQGBb5zoKgfPzJnJ/4Ec/hz2Iw5YePwc4ixp+a6ZnaWTICIN/520LRMgO6/7N8KZBNjydJKmKACkjrO8mCSUATn/9JDkauFjFiqF3wfUEXGRfOeaz0jAfBGtZyrkjNloEWENCr2fm27MuIdN6AvyzxEh4pLc4D2Nb9w8kas+YTkSnJlNiZpI5dZor3DY85kRAZFzXVuEFs0x1zsZgwNLHapR73h2QiW11ZfW2YLaA3BKDZPZ5Pm4xfe7
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VI1PR0802MB2510.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(44832011)(2906002)(186003)(86362001)(52116002)(66556008)(8676002)(66476007)(31696002)(66946007)(8936002)(498600001)(16576012)(6916009)(83380400001)(2616005)(36756003)(16526019)(31686004)(26005)(54906003)(4326008)(6486002)(5660300002)(53546011)(956004)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: 1hUBh1s0zrd/wjXU+q0R3JaUDI12dJsV1PyNI6aX9dNWWfKLjMSwbj6YS9cKVgwqfvpo/FNpAdQ3VSlKyo/0ndwDJYApe7JpXcJjh9U3kwlUHWMzKYHwyN/7KSF14jGrhXLKMW8PB0Y3F4QZp5aWbU19zf77rv/3W/h+zoAdK5og3GVcTQL0g2C3rfITr7g70MJUOCtWWozhNd3Cjz0K8KYaJ5as5tiV37uRlsTs9ZkJh1Ry/1og8ghF6xAR5wvRMeXfaZB4YEUnL6BWqZqdhnEA480egPwZ4mmE2b5kQ6vramFIh0Aawh2q2XBloMnYHABheR/VyEJhrKR25Ao+vQfbnrpSXO+F/CAia9E6ckE5uhLxZNxOsLoKU/mRaTiLdLRF4SMI1b+SfX3NvHcApcKxELTVBitM47Yx3gwvaA+XoxvgwuK0LuArSnq2JYYsiPHq07RhodiynYskZ8vp0CMsN7yxBjN/qr0+gPPqdVr1lKL/QwrxZU5tQenBQl8RMHz4EYr1fSAZWAaNX68JDR+gFcUbQ1uMUN2Pjdk39btqMXmjjcGLjh9FFoXnn+E+K/C2gtr1C9980rTMzGvL/3wp/tU4V8aFUzSrojV9BsZnlXPIbFIfdq0bspNmllFK0ELJHfFEpJi5AB5bUkh4ObUjwrTgPOlAWh0lWk2XyCmRgt1UqHxrqbn40Z55fRsBZa1CJ14kvj879TF8JHh+uI9l8fUN4nszMsb6hRcWEQPtl1ouhJ39Ht5Ax0jG1kdztMa49ngAuBqXzEW82m95zk0MYNsm91wwsjuhSPkP1L68CmI4awU8rIyEhK5/W/pk72LUVvCtGGAUg8GUx0i6AeQtMQB4l6V20ZulbhXI8QUMdxTplHkNCtMpg/4eggGlZx8nDuV7+fOwOETuT4BdSw==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 648e4f2c-74fc-4dda-0342-08d88d6b0b02
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR0802MB2510.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2020 15:43:36.1212 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Fc35gRcAreTJLpmlKyxxWNGv3G6FMnTIQUeG6ACMYFQ7saGG81GEoEVhfCgaD5tDuWUhyZY6ZpKLk7I0C6l7MnHMr/4XQkFTJibTRgO2mAk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB4304
-Received-SPF: pass client-ip=40.107.21.91;
- envelope-from=andrey.gruzdev@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -125,61 +103,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20.11.2020 18:01, Peter Xu wrote:
-> On Fri, Nov 20, 2020 at 02:04:46PM +0300, Andrey Gruzdev wrote:
->>>> +    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
->>>> +        /* Nothing to do with read-only and MMIO-writable regions */
->>>> +        if (bs->mr->readonly || bs->mr->rom_device) {
->>>> +            continue;
->>>> +        }
->>>> +
->>>> +        /* Register block memory with UFFD to track writes */
->>>> +        if (uffd_register_memory(rs->uffdio_fd, (hwaddr) bs->host,
->>>> +                bs->max_length, false, true)) {
->>>> +            goto fail;
->>>> +        }
->>>> +        /* Apply UFFD write protection to the block memory range */
->>>> +        if (uffd_protect_memory(rs->uffdio_fd, (hwaddr) bs->host,
->>>> +                bs->max_length, true)) {
->>>
->>> Here logically we need to undo the previous register first, however userfaultfd
->>> will auto-clean these when close(fd), so it's ok.  However still better to
->>> unwind the protection of pages, I think.  So...
->>>
+On 20/11/20 16:11, Igor Mammedov wrote:
+> On Tue, 27 Oct 2020 14:21:37 -0400
+> Paolo Bonzini <pbonzini@redhat.com> wrote:
+> 
+>> Displays should be available before the monitor starts, so that
+>> it is possible to use the graphical console to interact with
+>> the monitor itself.
 >>
->> It should auto-clean, but as an additional safety measure - yes.
+>> This patch is quite ugly, but all this is temporary.  The double
+>> call to qemu_init_displays will go away as soon we can unify machine
+>> initialization between the preconfig and "normal" flows, and so will
+>> the preconfig_exit_requested variable (that is only preconfig_requested
+>> remains).
+>>
+>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > 
-> I'm afraid it will only clean up the registers, but not the page table updates;
-> at least that should be what we do now in the kernel. I'm not sure whether we
-> should always force the kernel to unprotect those when close(). The problem is
-> the registered range is normally quite large while the wr-protect range can be
-> very small (page-based), so that could take a lot of time, which can be
-> unnecessary, since the userspace is the one that knows the best on which range
-> was protected.
-> 
-> Indeed I can't think if anything really bad even if not unprotect the pages as
-> you do right now - what will happen is that the wr-protected pages will have
-> UFFD_WP set and PAGE_RW cleared in the page tables even after the close(fd).
-> It means after the snapshot got cancelled those wr-protected pages could still
-> trigger page fault again when being written, though since it's not covered by
-> uffd-wp protected vmas, it'll become a "normal cow" fault, and the write bit
-> will be recovered.  However the UFFD_WP bit in the page tables could got
-> leftover there...  So maybe it's still best to unprotect from userspace.
-> 
-> There's an idea that maybe we can auto-remove the UFFD_WP bit in kernel when
-> cow happens for a page, but that's definitely out of topic (and we must make
-> sure things like "enforced cow for read-only get_user_pages() won't happen
-> again").  No hard to do that in userspace, anyways.
+> Doesn't apply to yer for-6.0 branch
+
+I updated the branch.
+
+Thanks,
+
+Paolo
+
+>> ---
+>>   softmmu/vl.c | 58 ++++++++++++++++++++++++++++++++--------------------
+>>   1 file changed, 36 insertions(+), 22 deletions(-)
+>>
+>> diff --git a/softmmu/vl.c b/softmmu/vl.c
+>> index 1485aba8be..a46f1b9164 100644
+>> --- a/softmmu/vl.c
+>> +++ b/softmmu/vl.c
+>> @@ -137,6 +137,7 @@ static ram_addr_t maxram_size;
+>>   static uint64_t ram_slots;
+>>   static int display_remote;
+>>   static int snapshot;
+>> +static bool preconfig_requested;
+>>   static QemuPluginList plugin_list = QTAILQ_HEAD_INITIALIZER(plugin_list);
+>>   static BlockdevOptionsQueue bdo_queue = QSIMPLEQ_HEAD_INITIALIZER(bdo_queue);
+>>   static bool nographic = false;
+>> @@ -3210,12 +3211,12 @@ static void qemu_validate_options(void)
+>>             }
+>>       }
+>>   
+>> -    if (loadvm && !preconfig_exit_requested) {
+>> +    if (loadvm && preconfig_requested) {
+>>           error_report("'preconfig' and 'loadvm' options are "
+>>                        "mutually exclusive");
+>>           exit(EXIT_FAILURE);
+>>       }
+>> -    if (incoming && !preconfig_exit_requested) {
+>> +    if (incoming && preconfig_requested) {
+>>           error_report("'preconfig' and 'incoming' options are "
+>>                        "mutually exclusive");
+>>           exit(EXIT_FAILURE);
+>> @@ -3381,6 +3382,28 @@ static void qemu_init_subsystems(void)
+>>       socket_init();
+>>   }
+>>   
+>> +static void qemu_init_displays(void)
+>> +{
+>> +    DisplayState *ds;
+>> +
+>> +    /* init local displays */
+>> +    ds = init_displaystate();
+>> +    qemu_display_init(ds, &dpy);
+>> +
+>> +    /* must be after terminal init, SDL library changes signal handlers */
+>> +    os_setup_signal_handling();
+>> +
+>> +    /* init remote displays */
+>> +#ifdef CONFIG_VNC
+>> +    qemu_opts_foreach(qemu_find_opts("vnc"),
+>> +                      vnc_init_func, NULL, &error_fatal);
+>> +#endif
+>> +
+>> +    if (using_spice) {
+>> +        qemu_spice.display_init();
+>> +    }
+>> +}
+>> +
+>>   /*
+>>    * Called after leaving preconfig state.  From here on runstate is
+>>    * RUN_STATE_PRELAUNCH or RUN_STATE_INMIGRATE.
+>> @@ -3449,8 +3472,6 @@ static void qemu_create_cli_devices(void)
+>>   
+>>   static void qemu_machine_creation_done(void)
+>>   {
+>> -    DisplayState *ds;
+>> -
+>>       cpu_synchronize_all_post_init();
+>>   
+>>       /* Did we create any drives that we failed to create a device for? */
+>> @@ -3473,23 +3494,6 @@ static void qemu_machine_creation_done(void)
+>>           qemu_register_reset(restore_boot_order, g_strdup(boot_order));
+>>       }
+>>   
+>> -    /* init local displays */
+>> -    ds = init_displaystate();
+>> -    qemu_display_init(ds, &dpy);
+>> -
+>> -    /* must be after terminal init, SDL library changes signal handlers */
+>> -    os_setup_signal_handling();
+>> -
+>> -    /* init remote displays */
+>> -#ifdef CONFIG_VNC
+>> -    qemu_opts_foreach(qemu_find_opts("vnc"),
+>> -                      vnc_init_func, NULL, &error_fatal);
+>> -#endif
+>> -
+>> -    if (using_spice) {
+>> -        qemu_spice.display_init();
+>> -    }
+>> -
+>>       if (foreach_device_config(DEV_GDB, gdbserver_start) < 0) {
+>>           exit(1);
+>>       }
+>> @@ -4094,6 +4098,7 @@ void qemu_init(int argc, char **argv, char **envp)
+>>                   break;
+>>               case QEMU_OPTION_preconfig:
+>>                   preconfig_exit_requested = false;
+>> +                preconfig_requested = true;
+>>                   break;
+>>               case QEMU_OPTION_enable_kvm:
+>>                   olist = qemu_find_opts("machine");
+>> @@ -4515,11 +4520,20 @@ void qemu_init(int argc, char **argv, char **envp)
+>>       qemu_resolve_machine_memdev();
+>>       parse_numa_opts(current_machine);
+>>   
+>> +    if (preconfig_requested) {
+>> +        qemu_init_displays();
+>> +    }
+>> +
+>>       /* do monitor/qmp handling at preconfig state if requested */
+>>       qemu_main_loop();
+>> -
+>>       qemu_finish_machine_init();
+>> +
+>>       qemu_create_cli_devices();
+>> +
+>> +    /* initialize displays after all errors have been reported */
+>> +    if (!preconfig_requested) {
+>> +        qemu_init_displays();
+>> +    }
+>>       qemu_machine_creation_done();
+>>   
+>>       if (loadvm) {
 > 
 
-Oh, I've got the point. Sure, I need to add un-protect to cleanup code.
-Thanks for clarification of details on kernel implementation!
-
--- 
-Andrey Gruzdev, Principal Engineer
-Virtuozzo GmbH  +7-903-247-6397
-                 virtuzzo.com
 
