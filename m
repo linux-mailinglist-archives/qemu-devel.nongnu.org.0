@@ -2,94 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C2622BA32F
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 08:28:58 +0100 (CET)
-Received: from localhost ([::1]:40666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 801752BA343
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 08:33:57 +0100 (CET)
+Received: from localhost ([::1]:45222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg0qn-000578-6O
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 02:28:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60244)
+	id 1kg0vc-0007OY-1u
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 02:33:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kg0oC-0004ct-Pv
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 02:26:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59409)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kg0oA-0003Ch-VD
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 02:26:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605857173;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RHyMdSp7J1NqQxH9eAwEq3cI2cbouOW25opDfBiSzaE=;
- b=MzbO/oHHUOaIyftzIhQS8f56o2J3hRjaF64hoWVvBVklNQDwcIMPpws5es1VGJf2t7PbQw
- rgbv4NYZMj9Vdn+sllFQeUg618qORsFrEq4AIl0m6jbtx1DCEPVahvyqX1pdPRY14qOkJk
- FnNk+wgBOag0FMUnZ5LxdUlWeTbMDaI=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-9-N5_8wVb2PjGJ2YYHSyuR1A-1; Fri, 20 Nov 2020 02:26:08 -0500
-X-MC-Unique: N5_8wVb2PjGJ2YYHSyuR1A-1
-Received: by mail-ed1-f69.google.com with SMTP id i8so3375208edy.21
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 23:26:08 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1kg0te-0006pA-Um
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 02:31:54 -0500
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:34449)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1kg0td-0005DU-9l
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 02:31:54 -0500
+Received: by mail-ej1-x644.google.com with SMTP id o9so11560433ejg.1
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 23:31:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8uvWibyA3043TN9A41ujudv50jCmovbNCEmND4LHyHc=;
+ b=jTlC8iIxFpVlGmkixzI4ga7E9USCpOXqUHHP7UZQJKi+SJKvZfhUm38DqP4VVTLuBD
+ IY92fC5Cwvm3R8u2kfJz9KIA3l3qCP1TsEpalL4+QKnfWrc5x9DIrNRPxHeVT0pxpb5n
+ MA15nDwYFZyD1BMKsApeI8ZqqHpuMj/DPk97bT77AHucgOybqEBvqaYM7rV4x4JSuCx5
+ vWKurlUeMMLf5QQplTSDbeQijlln3CpjhjKy/5bcC5QbeajY8Vxukh8W1B/05ViTQ0J6
+ 3g4AV8Eo1pbU60Iwj40YPvKYc4SyDhxZAbzMGHp3HtOUvxnEiNYI1t5w0G8OlY5NkCWd
+ aZ5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=RHyMdSp7J1NqQxH9eAwEq3cI2cbouOW25opDfBiSzaE=;
- b=mr+4whMdKRd8dEJiemVmYj9ByBn7Sjh20tdqJNYWsRgxgJTV3Yg3TZZkoX2RRhgTcs
- uQnMRMvpkvKw2Kkgn+C4asp0UGj8NKg6Zp4MYtoKOj9v+/Wswsb9aVgsLWGdk7a+RzE0
- 9WD7wTwZoEKHZ1invAEXJpmZQBlQh9mj1t5eJyDtlgBcRmJNywHx3drmWkk7yN5ArwZk
- 4taJhrcyPxOMdpoccot/f+znVYBWXcn4cwpjL1TF+3z7UnVoRgpHB5nohUav0CmUfctQ
- OqXPA5RDhxnDXPfpmXxTj2m7EY5cqhhbyyCVfYgR6XPWvo0f/u0zHrfj7ycz4hMB7jgc
- 3Ilg==
-X-Gm-Message-State: AOAM532cwhM7rCFECDmiLu7GRXgV71UB19xZDfS0HSK2EIPzPzum0PCS
- 0ro2SzoN4plxOpsn5oh5mUx2/nsCTfIYV9vv6L5Nk6gwkmu5UOYOAkuTm1U37RJJE4OAnRHmkzN
- sLKZLmIRZigWURck=
-X-Received: by 2002:a50:d490:: with SMTP id s16mr15635885edi.187.1605857167531; 
- Thu, 19 Nov 2020 23:26:07 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx0mlBgTtfZOURN2GjsCorsl0KKRzWXGw0MhU0oNQsq0j0Hv1VjgHESD1odwSzHshMNSr6GkQ==
-X-Received: by 2002:a50:d490:: with SMTP id s16mr15635863edi.187.1605857167340; 
- Thu, 19 Nov 2020 23:26:07 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id t10sm772569eji.61.2020.11.19.23.26.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Nov 2020 23:26:06 -0800 (PST)
-To: Bruce Rogers <brogers@suse.com>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-devel@nongnu.org
-References: <20201020074844.5304-1-kraxel@redhat.com>
- <20201020074844.5304-5-kraxel@redhat.com>
- <2b74eb5bd939bdd7ad1b05590a427afa4d742eec.camel@suse.com>
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=8uvWibyA3043TN9A41ujudv50jCmovbNCEmND4LHyHc=;
+ b=FUaZiAwF0gTKsJxr9ppyP+02PZjIv0dxvCKIS0KWiAEOeYQ9uQSe02LmLPBmtNeQlM
+ nhuqt/jA/vhUbHOZsUN+t1BeM97QdAWYQLcH3ANLS5D9yT7lNB+EupVD24QTw8k8TlxV
+ C/MmG6kTH32kCFRKqkCdLRTmiLRLHkeZVJGd2VG0Q5iwoua+UxPyungnWAvcx8nUbW9t
+ LCambq8OHopgKVjaJsna4u+B4GcLYvLFnVl148aJk8OqI2jzrY0u1KZJ98beEzMG7FI2
+ SAcimqu1NHfMspoW/kU/uwSDP3lxFeZTPYMcZSr8BdKjCkGxH8Tli3DO3J2yARC7lN1X
+ 5sUA==
+X-Gm-Message-State: AOAM532J02WBbE090iJDCq2mrHNMxU1rd3IXg51X8wZDrxsii7NIyqIo
+ uAcj1+y+dhWIUV4FK1+9C6WQJaG/I8k=
+X-Google-Smtp-Source: ABdhPJy9KrdGyQTCmgipL3FYCS7bCPZA8KjByZNaTPgHA+VNHysnKrkaAbyhMTVbdCqau6BVPrpbjg==
+X-Received: by 2002:a17:906:ec9:: with SMTP id
+ u9mr32053954eji.400.1605857511198; 
+ Thu, 19 Nov 2020 23:31:51 -0800 (PST)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id x15sm711185edj.91.2020.11.19.23.31.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Nov 2020 23:31:50 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v3 04/10] usb/xhci: fixup xhci kconfig deps
-Message-ID: <b693b96c-b619-47f9-bd8a-f4b41551f886@redhat.com>
-Date: Fri, 20 Nov 2020 08:26:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+To: qemu-devel@nongnu.org
+Subject: [PATCH] qtest: do not return freed argument vector from qtest_rsp
+Date: Fri, 20 Nov 2020 08:31:49 +0100
+Message-Id: <20201120073149.99079-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <2b74eb5bd939bdd7ad1b05590a427afa4d742eec.camel@suse.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x644.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,60 +82,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
- Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Kamil Dudka <kdudka@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/11/20 01:27, Bruce Rogers wrote:
->>   config USB_XHCI_SYSBUS
->>       bool
->> -    default y if USB_XHCI
->> -    select USB
->> +    default y
->> +    select USB_XHCI
->>   
->>   config USB_MUSB
->>       bool
-> I was reviewing what device changes are happening between v5.1.0 and
-> v5.2.0 for the QEMU arch's we support and noticed for s390x system
-> emulation that usb devices have appeared in the info qdm list in the
-> monitor.
-> 
-> I bisected the change to this patch, now commit 7114f6eac333d99b, which
-> does a 'default y' without any conditionals. I'm fairly sure that was
-> not the intent, though I do know what the proper conditionals should
-> be.
-> 
-> Can you take a look at it?
+If expected_args is 0, qtest frees the argument vector and then returns it
+nevertheless.  Coverity complains; in practice this is not an issue because
+expected_args == 0 means that the caller is not interested in the argument
+vector, but it would be a potential problem if somebody wanted to add
+commands with optional arguments to qtest.
 
-Generally, SYSBUS devices should never be "default y" because they're 
-not user creatable.  Also kconfig.rst says
+Suggested-by: Kamil Dudka <kdudka@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ tests/qtest/libqtest.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-   Devices are usually ``default y`` if and only if they have at least
-   one ``depends on``; the default could be conditional on a device
-   group.
-
-In this case, the right thing to do is to remove "default y" here; 
-microvm already has a "select USB_XHCI_SYSBUS" so it would still work. 
-That said, I would also change
-
-     select PCI_EXPRESS_GENERIC_BRIDGE
-     select USB_XHCI_SYSBUS
-
-for microvm to "imply".  Again, according to kconfig.rst
-
-   Boards specify their constituent devices using ``imply`` and
-   ``select`` directives.  A device should be listed under ``select`` if
-   the board cannot be started at all without it.  It should be listed
-   under ``imply`` if (depending on the QEMU command line) the board may
-   or may not be started without it.
-
-Thanks,
-
-Paolo
+diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+index be0fb430dd..e49f3a1e45 100644
+--- a/tests/qtest/libqtest.c
++++ b/tests/qtest/libqtest.c
+@@ -545,6 +545,7 @@ redo:
+         }
+     } else {
+         g_strfreev(words);
++        words = NULL;
+     }
+ 
+     return words;
+-- 
+2.28.0
 
 
