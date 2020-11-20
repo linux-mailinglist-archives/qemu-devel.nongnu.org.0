@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68FA32BA83B
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 12:06:18 +0100 (CET)
-Received: from localhost ([::1]:43202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68F5F2BA8CB
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 12:14:34 +0100 (CET)
+Received: from localhost ([::1]:48306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg4F7-0006gz-Fh
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 06:06:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60754)
+	id 1kg4N7-0000qS-1C
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 06:14:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kg4Dn-0006AJ-Tp
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 06:04:55 -0500
-Received: from mail-eopbgr50109.outbound.protection.outlook.com
- ([40.107.5.109]:2990 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
+ id 1kg4M3-0000Oq-8p
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 06:13:27 -0500
+Received: from mail-vi1eur05on2139.outbound.protection.outlook.com
+ ([40.107.21.139]:5761 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kg4Dk-0007Jw-DD
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 06:04:54 -0500
+ id 1kg4M0-0001ys-2I
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 06:13:26 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QN+IsnFF79mbwcC1IV3/KuducOktEEJP5dUNPD+OjtLYtCmzgq1EXzwNJlHpE3Z2jvdEL4JYNW7roJtboDAi64jNGhhD7ULRrdu77pQWmcBq2HRAkG7lHcSnlc2XN8BwL9lgW602e7NzWQ1g78wQPgXVXk2+pOEtq6YzD6EplvPZFxHh/oYSsygIwYNW6iWLyNnfzuPdPpDmLEURLXRSvouywLjlKMO7YF7lhwhWPhgufU+tf4TfzgqSoXHaqV2FQG0d/VmFDuZGYutBNQV/J0zdUxgaA91axaOHuHwgsTit39eudC/ncgZgvDZ4B3nHabK+kd3/D8IoFjB3giFcpw==
+ b=kSJyYNVGSEF1HgzDQuugmOgjdl3i4BHpxkLgDjuVmfHYSObxWD8rH9DNJjYl+wWafIKopbnTXyEgaYLCGnXKZMG2LoCBT8TzRrJ68+986le14YHVYnhB+c2NXauTgDXCPvZtClte0n8dYSKsyn9hXbjSgYTeMbpFyBqzm9lx1eqTT6kLQ15S11cFoBAX3Y1T9S4Gub9/iZHA9+aVAJnb7BzdFk8w6FfopcsJbipIdpy0fKlS3/6aIYul6uq72D9AU1GJwXZcx0hX7pq8gstsq4jA+GvU3GlSITTYFupoU2zrJIVzBUO/+RW43yEzSXJXmPLLerEED1dQ6J+cdI/nfQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BU66VIqKvTHThK+unRy0obIe5KXYksxc0HQ5N7WWx4U=;
- b=WovVgk0N01ww62y73ktxNHu1LMTPzgb9APF2tP3Of8MmK9srszRVeVtFNf1lNNEHfoPtr5V5XZC+yKz79fCDlRPPZyg3lAzgPGpKXhMlkcOb+FuTYASvJC1ReY4sN8iCjZO0/vBlK+BqkvwpTCvp/rZkeEH6iWvROdezO2Foo/iq5yA4vptXK3G/pRa/WkCd7qFQlvJIVOm5LxkzRw6eBU04H/ZDfI63cHdqEMoyd8A6kw6mJSa4MAFuexV/UID4TtcowbIFGh6c1Nw2QSs7EKPjKyhQDCu+iStgSPTjLlZc+UaSAhQVWdWn5/WKI3IveBYmWVhFWbU1aVDnQVuYVQ==
+ bh=2XO+Rk2mVb6DxZLFzrWfqqiMX7kaqPLngWbJ7XQrAOM=;
+ b=lZbbwPcSSupYSLTTZbCrCDpltmpPyBkYbIsdqqWTJLpaopZcnhTtVu/tAMn8hcvTjz0vxoNXffVpQABtj4fKqG9If4Enqp0njolIkvivpj20CzeJ7r17eH8O0TG3XDa07H96DNww/a2PQvToDGBYDBYvsGgez/E04zGy93WhpXzoGe9jMAA+PdGBVZGNb0Q3PZ9KL1qq72a7126aKa5l6IYlLHXJkBJv+LoBW+X4nTig0ugiBSpAFicUTFPyVUobHHtwaf91xVYf5r03dEGz2mJT3sRP8SjH6/J60K9orKa2p/Sse1PLjP8IWXy7zV+Gek/X9N6fEhf80Il1eezNxw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BU66VIqKvTHThK+unRy0obIe5KXYksxc0HQ5N7WWx4U=;
- b=tDsRyxVEQS8RqkoIdBvpKZum1CuuqkdKPwrNW//zvG1iscVwc6iKjtVCmihuDm0Dxvg/WreVvXvk0LGhMbnsfg1QwBe8tJhnRM8NZfsNpUsW8k6BoilR+lwpaom6J5mbPTp4RSFrnw3+3udHRUADkOmk6MTDudDKTia0q2gBLEY=
+ bh=2XO+Rk2mVb6DxZLFzrWfqqiMX7kaqPLngWbJ7XQrAOM=;
+ b=kRtH2jCbPddS3iuTnh0lQr7bBYCU/ItKPlD5ExGqQl19wJABdVCIXSz88R0zsXONqdDVU/EHBkZNMXYKPPOyH1Pt4Nr457yg60sZjjJ+CJmgpZVSN10MukWgXKwcZ/9ZRZWWqOl+G80zte1IG4TWq1ylGNxyihr0oCp3aaXTg7U=
 Authentication-Results: redhat.com; dkim=none (message not signed)
  header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
 Received: from VI1PR0802MB2510.eurprd08.prod.outlook.com
- (2603:10a6:800:ad::14) by VE1PR08MB4719.eurprd08.prod.outlook.com
- (2603:10a6:802:a6::22) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10a6:800:ad::14) by VI1PR08MB3486.eurprd08.prod.outlook.com
+ (2603:10a6:803:8a::26) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.20; Fri, 20 Nov
- 2020 11:04:48 +0000
+ 2020 11:13:19 +0000
 Received: from VI1PR0802MB2510.eurprd08.prod.outlook.com
  ([fe80::8d6a:734c:e4a2:8543]) by VI1PR0802MB2510.eurprd08.prod.outlook.com
  ([fe80::8d6a:734c:e4a2:8543%7]) with mapi id 15.20.3589.020; Fri, 20 Nov 2020
- 11:04:48 +0000
-Subject: Re: [PATCH v3 2/7] introduce UFFD-WP low-level interface helpers
+ 11:13:19 +0000
+Subject: Re: [PATCH v3 5/7] implementation of vm_start() BH
 To: Peter Xu <peterx@redhat.com>
 Cc: qemu-devel@nongnu.org, Den Lunev <den@openvz.org>,
  Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
@@ -54,60 +54,60 @@ Cc: qemu-devel@nongnu.org, Den Lunev <den@openvz.org>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Markus Armbruster <armbru@redhat.com>
 References: <20201119125940.20017-1-andrey.gruzdev@virtuozzo.com>
- <20201119125940.20017-3-andrey.gruzdev@virtuozzo.com>
- <20201119183902.GC6538@xz-x1>
+ <20201119125940.20017-6-andrey.gruzdev@virtuozzo.com>
+ <20201119184624.GD6538@xz-x1>
 From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Message-ID: <8eb862a9-90d3-e3ea-5bdf-50287ce2226f@virtuozzo.com>
-Date: Fri, 20 Nov 2020 14:04:46 +0300
+Message-ID: <ff13c919-6c47-93a0-cff9-f4867e7cc108@virtuozzo.com>
+Date: Fri, 20 Nov 2020 14:13:17 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
-In-Reply-To: <20201119183902.GC6538@xz-x1>
+In-Reply-To: <20201119184624.GD6538@xz-x1>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [95.165.26.68]
-X-ClientProxiedBy: AM0PR06CA0127.eurprd06.prod.outlook.com
- (2603:10a6:208:ab::32) To VI1PR0802MB2510.eurprd08.prod.outlook.com
+X-ClientProxiedBy: AM0PR03CA0085.eurprd03.prod.outlook.com
+ (2603:10a6:208:69::26) To VI1PR0802MB2510.eurprd08.prod.outlook.com
  (2603:10a6:800:ad::14)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [192.168.1.64] (95.165.26.68) by
- AM0PR06CA0127.eurprd06.prod.outlook.com (2603:10a6:208:ab::32) with Microsoft
+ AM0PR03CA0085.eurprd03.prod.outlook.com (2603:10a6:208:69::26) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3589.20 via Frontend Transport; Fri, 20 Nov 2020 11:04:47 +0000
+ 15.20.3589.20 via Frontend Transport; Fri, 20 Nov 2020 11:13:18 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6f0bad3d-f5f2-4115-7187-08d88d44187e
-X-MS-TrafficTypeDiagnostic: VE1PR08MB4719:
+X-MS-Office365-Filtering-Correlation-Id: 52912d5c-9711-4eb1-66b0-08d88d454916
+X-MS-TrafficTypeDiagnostic: VI1PR08MB3486:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VE1PR08MB47197A8C271E4D6281D550C19FFF0@VE1PR08MB4719.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2733;
+X-Microsoft-Antispam-PRVS: <VI1PR08MB3486E14195D8C804543A8CCC9FFF0@VI1PR08MB3486.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rFb3UxHnuLbxVAX82GWBJDQpCyW+n1ollfk34hImNnqdgVY3A1JNN5dZjk0L2k4dQ5/LEd3J5mHmmxfsXdZgWxoG8TnBLjNq5QYDaNxRY0tTF/rs3JqdBPZfPRJan6FI/lV8lEln9xU3bqqocH+sKRSbMS+LiCnVkF1wHHo+RWUIxVhZhnAYE5xUA1RbSWGGv7AlBXRaJIckl0wmNpPAy8wNRWmZjlOzUdsJThsO1Ls3xakuHq3OTH9avYg1y8scl6l1TjWh00KmeI9Mw7qSzu1Pl1wPZgnVoJXiRe8g2bcAtwRXXv99spOHZUnOr8wy3jUgCJQe8TMHnkIVBaI7TchGt/koKdZx1a/2QjNWdov7jw1W2VojCluaJgffARJP
+X-Microsoft-Antispam-Message-Info: y2XjC4Eqs2sN1EzzRPN/BUuDzkIrYF3X/ap1if2o35ujf9PCJft/ivcKfg5U4U9OJsp1LAerVJuyMoYDWgovrPpPBExBqewzqJgMqi/cID04m+Opl38Nep2oMo+w9rXdzevQD9A9jkMLG6CUo5b6Rnar8FjJ8oGTppz5ZV8hTkO76ZKg2f4ig5xU5QVYTlqC6Eo3hl5aMpLlKVkjZheum9XEMzBPsuybPM23gufLiyCDbqBDalylcb3F48cd9iWYlIj1JDF/TP1c6MO3nENZ6Wgy08H4jbDTNpNJmYF1yAbiyR9INqhUTY8PAIt+Z8PRcNRBKgMk8OeFnMmXeZgdybOpfr4fkYTvgMO4WMDJ6jGcL25hiF9tF59n+n9P2tcs
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VI1PR0802MB2510.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(396003)(39830400003)(366004)(346002)(136003)(4326008)(31696002)(5660300002)(52116002)(8936002)(83380400001)(2906002)(956004)(6916009)(2616005)(44832011)(66556008)(66476007)(26005)(54906003)(53546011)(316002)(66946007)(8676002)(478600001)(16576012)(31686004)(36756003)(86362001)(16526019)(186003)(6486002)(43740500002);
+ SFS:(4636009)(39830400003)(396003)(366004)(136003)(346002)(376002)(956004)(2616005)(6916009)(8936002)(8676002)(54906003)(86362001)(44832011)(4326008)(31696002)(83380400001)(66476007)(53546011)(26005)(36756003)(16526019)(5660300002)(31686004)(6486002)(52116002)(186003)(16576012)(66556008)(478600001)(66946007)(2906002)(316002)(43740500002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: GXbzAceYfwc66iOYzY+BW2L3ipeqFhMMLroXIOwnVUAHLDRad4ETjEJ1xwO6hj3+lIVVRssmq2t+QdDB8CA0pg6yAYIlGOGNDAqjkeDjX1ejpJICM5HtJ19LKnzLGPTWm0nX+M72UUeh9JmIXA7R7SiHLVvgHycuJoniLOknKZlLz6KZ0LDJlcSFEnc5zznZuCMSsV9RK2DXWR43jvrnoEHlunHflsyKjW9pwCnOrsfTLs04GGKup0D0ZqcBiCPeKdgMAjbt+4zBMQx8zdJY2dGqTfXbW3J2Q9o1WBwo0wwenOtG/03L4r7KZusGSFQB97PjQZCBJ+pMkTwIu3J7AczPySfO+JiUJk73GbjYzurppCLopwGZp8vP10AgayQiCCFlY/qQ10lVVdaYreYk9YPu4l0mRBAAdsGoUlyRNsxJPOg2DYqMvSYA9CMdgjMtPDzDc5IYjb9yJbsQhjKAqGyqu4j123KOLl2al4pR+JBNPdjtMvQlyGdegraeQQI5g8yzaknmPzTVwSlYSGA4WT8GNhj6I5pEy5OGHn3fYX2tHSGn1cFR5oCqIXNWnb/5T8OPISE3tnbHnKn8WrSsXGhZaYju7gYgRASgCS3N+tbDlVCgPfKJAn9EPAuPdIx1cipJyveENwL8kKmS6hdm/Q==
+X-MS-Exchange-AntiSpam-MessageData: 5pv+NLt+tSKYA7vPTU2iZOZUtu783NnrAPYuoynwm/Qq4E3+hI477hqLDriTD4iSye5pp3z4xbGdngQ6Xns+kSVXNuPDTc0VsOU3V7qUT0ublICMt5IVIO3jT0/rPdiGH6WWazmZfFah+iOlKbBdmBy30hYNUerkxikg6jdbi2ujiJofj3Gr4Jjq8ZPXY3gHJx2yByEUDm21Wr0/cECyGQv4Oz/ZTi78fr4XAs7OSNaRcTuBEfAVqGSiZJRs56Oj7dOYSPiz+05I8CL2OWUo7U3nPQJnu1fJjEPBYXaf0lRFlGHNxos+0l9IasNBze/xdxHUwTWEsmaYVcltZvSNKK1gUs13JJ/Btj0l7eG9WSnpbBpMjx+h5LV1JJr0U4U2ASLO25cNHQBat86QR1msaQpZPhxEL5jwNEm4adPYvXVA4VgWja/QG1OFYtjZGdp+6eBt/+PWQj7dASCdXPyb6RJ0lL7xOI05gbyUtgxxQapLufRLFbWjVhPKuQJKtOM3NVV8D48shCdOcRAZNElA7CtSv1qKeo9/qWrRzKRe98cn0+neL8hkegHYADZRPzmrWbtwToBmydRH3Q4OBux/sn1uvJTxdp1+tBUYXoz0h9J3DDCBlOnu4u4uEU0r85pLacqvFt2KvZSmiXUT6969EQ==
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6f0bad3d-f5f2-4115-7187-08d88d44187e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 52912d5c-9711-4eb1-66b0-08d88d454916
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR0802MB2510.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2020 11:04:48.2986 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2020 11:13:19.4418 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: h8YC0JCZOdcP4Mke7J+r9XiJZBc8xLvMg98TcnBKGg59jZLo3tBmBc5WVufJk+VEozPPyoXXjZLYVGZqnUM1sEz9wAAX3xkGLcwItQyJ1cA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB4719
-Received-SPF: pass client-ip=40.107.5.109;
+X-MS-Exchange-CrossTenant-UserPrincipalName: m2it84iMYsPolmImZcypSYixaU8hLHxtVGV0JxytXD3pDlO53IumB5WDvivvU11YLRDXpOBzAWP1IR6k0GJ0sjv1mYOuDrgIlW6aS4Ktg2E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3486
+Received-SPF: pass client-ip=40.107.21.139;
  envelope-from=andrey.gruzdev@virtuozzo.com;
- helo=EUR03-VE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
  RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -125,170 +125,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19.11.2020 21:39, Peter Xu wrote:
-> On Thu, Nov 19, 2020 at 03:59:35PM +0300, Andrey Gruzdev via wrote:
->> +/**
->> + * uffd_register_memory: register memory range with UFFD
->> + *
->> + * Returns 0 in case of success, negative value on error
->> + *
->> + * @uffd: UFFD file descriptor
->> + * @start: starting virtual address of memory range
->> + * @length: length of memory range
->> + * @track_missing: generate events on missing-page faults
->> + * @track_wp: generate events on write-protected-page faults
->> + */
->> +static int uffd_register_memory(int uffd, hwaddr start, hwaddr length,
->> +        bool track_missing, bool track_wp)
->> +{
->> +    struct uffdio_register uffd_register;
->> +
->> +    uffd_register.range.start = start;
->> +    uffd_register.range.len = length;
->> +    uffd_register.mode = (track_missing ? UFFDIO_REGISTER_MODE_MISSING : 0) |
->> +                         (track_wp ? UFFDIO_REGISTER_MODE_WP : 0);
->> +
->> +    if (ioctl(uffd, UFFDIO_REGISTER, &uffd_register)) {
->> +        error_report("uffd_register_memory() failed: "
->> +                "start=%0"PRIx64" len=%"PRIu64" mode=%llu errno=%i",
->> +                start, length, uffd_register.mode, errno);
->> +        return -1;
->> +    }
->> +
->> +    return 0;
->> +}
+On 19.11.2020 21:46, Peter Xu wrote:
+> On Thu, Nov 19, 2020 at 03:59:38PM +0300, Andrey Gruzdev wrote:
+>> To avoid saving updated versions of memory pages we need
+>> to start tracking RAM writes before we resume operation of
+>> vCPUs. This sequence is especially critical for virtio device
+>> backends whos VQs are mapped to main memory and accessed
+>> directly not using MMIO callbacks.
+>>
+>> One problem is that vm_start() routine makes calls state
+>> change notifier callbacks directly from itself. Virtio drivers
+>> do some stuff with syncing/flusing VQs in its notifier routines.
+>> Since we poll UFFD and process faults on the same thread, that
+>> leads to the situation when the thread locks in vm_start()
+>> if we try to call it from the migration thread.
 > 
-> These functions look good; we should even be able to refactor the existing
-> ones, e.g., ram_block_enable_notify(), but we can also do that later.  As a
-> start, we can move these helpers into some common files under util/.
-> 
-> [...]
+> There's a nice comment in previous patch about this before the bottom half
+> created, thanks, that's helpful.  Though IMHO this patch can directly be
+> squashed into previous one, since it's confusing with the comment there but
+> without doing anything about it.
 > 
 
-Yep, agree.
-
->> +/**
->> + * ram_write_tracking_start: start UFFD-WP memory tracking
->> + *
->> + * Returns 0 for success or negative value in case of error
->> + *
->> + */
->> +int ram_write_tracking_start(void)
->> +{
-> 
-> Need to be slightly careful on unwind on this function, because if it fails
-> somehow we don't want to crash the existing running good vm... more below.
-> 
->> +    int uffd;
->> +    RAMState *rs = ram_state;
->> +    RAMBlock *bs;
->> +
->> +    /* Open UFFD file descriptor */
->> +    uffd = uffd_create_fd();
->> +    if (uffd < 0) {
->> +        return uffd;
->> +    }
->> +    rs->uffdio_fd = uffd;
->> +
->> +    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
->> +        /* Nothing to do with read-only and MMIO-writable regions */
->> +        if (bs->mr->readonly || bs->mr->rom_device) {
->> +            continue;
->> +        }
->> +
->> +        /* Register block memory with UFFD to track writes */
->> +        if (uffd_register_memory(rs->uffdio_fd, (hwaddr) bs->host,
->> +                bs->max_length, false, true)) {
->> +            goto fail;
->> +        }
->> +        /* Apply UFFD write protection to the block memory range */
->> +        if (uffd_protect_memory(rs->uffdio_fd, (hwaddr) bs->host,
->> +                bs->max_length, true)) {
-> 
-> Here logically we need to undo the previous register first, however userfaultfd
-> will auto-clean these when close(fd), so it's ok.  However still better to
-> unwind the protection of pages, I think.  So...
-> 
-
-It should auto-clean, but as an additional safety measure - yes.
-
->> +            goto fail;
->> +        }
->> +        bs->flags |= RAM_UF_WRITEPROTECT;
->> +
->> +        info_report("UFFD-WP write-tracking enabled: "
->> +                "block_id=%s page_size=%zu start=%p length=%lu "
->> +                "romd_mode=%i ram=%i readonly=%i nonvolatile=%i rom_device=%i",
->> +                bs->idstr, bs->page_size, bs->host, bs->max_length,
->> +                bs->mr->romd_mode, bs->mr->ram, bs->mr->readonly,
->> +                bs->mr->nonvolatile, bs->mr->rom_device);
->> +    }
->> +
->> +    return 0;
->> +
->> +fail:
->> +    uffd_close_fd(uffd);
-> 
-> ... maybe do the unprotect here together, that as long as any of the above step
-> failed, we need to remember to unprotect all the protected pages (or just
-> unprotect everything).  And also the RAM_UF_WRITEPROTECT flags being set.
-> 
-
-Not resetting RAM_UF_WRITEPROTECT is certainly a bug here.
-
-But it seems that simply calling close() on UFFD file descriptor does 
-all the rest cleanup for us - unprotect registered memory regions, 
-remove all extra state from kernel etc. I never had a problem with 
-simple close(uffd) to cleanup.. But maybe really more safe to do 
-unprotect/unregister explicitly.
-
->> +    rs->uffdio_fd = -1;
->> +    return -1;
->> +}
->> +
->> +/**
->> + * ram_write_tracking_stop: stop UFFD-WP memory tracking and remove protection
-> 
-> Didn't remove protections, yet?
-> 
-> We should remove those.  For a succeeded snapshot we can avoid that (if we want
-> such optimization), or imho we'd better unprotect all just in case the user
-> interrupted the snapshot.
-> 
-
-Seems that closing UFFD descriptor does unprotect for us implicitly..
-Am I wrong?
-
->> + */
->> +void ram_write_tracking_stop(void)
->> +{
->> +    RAMState *rs = ram_state;
->> +    RAMBlock *bs;
->> +    assert(rs->uffdio_fd >= 0);
->> +
->> +    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
->> +        if ((bs->flags & RAM_UF_WRITEPROTECT) == 0) {
->> +            continue;
->> +        }
->> +        info_report("UFFD-WP write-tracking disabled: "
->> +                "block_id=%s page_size=%zu start=%p length=%lu "
->> +                "romd_mode=%i ram=%i readonly=%i nonvolatile=%i rom_device=%i",
->> +                bs->idstr, bs->page_size, bs->host, bs->max_length,
->> +                bs->mr->romd_mode, bs->mr->ram, bs->mr->readonly,
->> +                bs->mr->nonvolatile, bs->mr->rom_device);
->> +        /* Cleanup flags */
->> +        bs->flags &= ~RAM_UF_WRITEPROTECT;
->> +    }
->> +
->> +    /*
->> +     * Close UFFD file descriptor to remove protection,
->> +     * release registered memory regions and flush wait queues
->> +     */
->> +    uffd_close_fd(rs->uffdio_fd);
->> +    rs->uffdio_fd = -1;
->> +}
-> 
-
+Yes, agree, better to squash this small commit.
 
 -- 
 Andrey Gruzdev, Principal Engineer
