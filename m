@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B349C2BB194
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 18:42:35 +0100 (CET)
-Received: from localhost ([::1]:50140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 089F72BB195
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 18:42:37 +0100 (CET)
+Received: from localhost ([::1]:50366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kgAQc-00037g-84
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 12:42:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53752)
+	id 1kgAQe-0003E7-3Y
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 12:42:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kgAO7-0001bC-6F; Fri, 20 Nov 2020 12:39:59 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:33674)
+ id 1kgAOG-0001gP-73; Fri, 20 Nov 2020 12:40:08 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:54132)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kgAO5-00047I-K2; Fri, 20 Nov 2020 12:39:58 -0500
-Received: by mail-wm1-x330.google.com with SMTP id p19so8812186wmg.0;
- Fri, 20 Nov 2020 09:39:56 -0800 (PST)
+ id 1kgAOE-00048C-BH; Fri, 20 Nov 2020 12:40:07 -0500
+Received: by mail-wm1-x335.google.com with SMTP id p22so11093078wmg.3;
+ Fri, 20 Nov 2020 09:40:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=AC14N5xfCbjMUA6muLrA74/gSYP8aDIrEBKWYrFlBcU=;
- b=b73YMYvZ6PMJDujEG+Azitv4CfhXiWJz3jf6kDpz1Fg/j/qIMu9gJYErUw3kXJ72Ss
- fUj/RuEaudk73PgSvDfJHxGxLjhzxivUzNCUXSrnhixSaPg5AtCndma2f49ht+KMIwUy
- JaRDNTGlG7spnu42SDnpKKtb0t2Ox/md2xgMsOCoJJTZO5bhYlid9JL5XeC8mUu5UoZF
- hTttUDcGq9TGBidJa7glGeIBZz5lXJFqR6qkedaW8ojXCnwKUlOQ/1TTLjuGsVk7cfv4
- EfI/XpjmBu30/6ksVIqexGZxfXzrkVCx3OaHxpJDfqa6BVHmpyPaJ9g3tg7VRoM5Mg0Q
- utMA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=OABk6K6bc26R5WIsV/6yBPJ4yrFC9XD+iI6MkRFetU4=;
+ b=ZSOzFx403xiEFdTM0BqnoJ4OIt+wtVwz6wxAgDJwOng4l6xLJeA43k3JYuY6/zC9Vs
+ iNDFpmixDdk7TbFyXwtVGzlN3qklw/8Khq83TeZJ9mOg/iX1PvYuKHJ+R4HohdhbIuae
+ G5vZRSKWMO7EBefhhTdq60HJHLmoMRcSsUOC/eR61/D77mqTOweVqFMvzyWq6rj+i1jr
+ EW2T4Eg3ypytVqN3l+iyiHtHHXbbzMRrjdXxvn0m0qY69Bb1fFz7Io26hxOKOHMM9ElG
+ +grwe4P8PwgOON4z+jqztJ2j01mAZbE3HF1LtWsGAHxdCubiMBkWOh8sz6ChlCWQCl5c
+ mEuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=AC14N5xfCbjMUA6muLrA74/gSYP8aDIrEBKWYrFlBcU=;
- b=OsTNpxrm9ITgxhiliGl7yK7RDj2y+8hQ84gWP/qAkPRHUgwtLVX8Rwa7vDIVq01QqV
- 7qWmfHEgKHwcJ0pvtaR3RDuXtSRtJXZLDeNteZn7frzNI4Hw4N7EFkb8cAJek40B62WO
- UUCf8vaFRygczLInbVRkZarauBTNgQo7pF1kJGnV90PaHQ7bfWaTRdV5cIRaKQqUc+gl
- vI2ObyV8UYFpm9+giZHErZoYMGCrpigqas8b6wf0X6MofqcZjQbyRUMe4UGOz48HKQYj
- XZBF748KoRUDy1JzvJvoX6ix9JqjFM29d9t7AtuvD5fbg4tKXYnoDdhYPot6/oJTH79X
- Q+MA==
-X-Gm-Message-State: AOAM532SXPfKjXjUToMcjIhNGybhD1e5QxCULLmLc8yBx0vMsn4LaDzc
- +/oMERfDQGYemdJ0vlnJdDygg+Ttg0s=
-X-Google-Smtp-Source: ABdhPJwRy2H5RsOd1P+69FIjqtnObsHn00X0oXQMM8Qnfn3hb9uxJMsU57W42PGPjeyAm7Aqzs2I4w==
-X-Received: by 2002:a1c:1c1:: with SMTP id 184mr11322011wmb.16.1605893995473; 
- Fri, 20 Nov 2020 09:39:55 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=OABk6K6bc26R5WIsV/6yBPJ4yrFC9XD+iI6MkRFetU4=;
+ b=G3+c39lRWlyJLKAWrEwUyt1ukL9us/9b3J0L4AP0nDah2PcIxH5OZcbA5Ll7JIFXgT
+ ulBHu8jp3S/aj2gNwcqVxRM2uVIweBYtHjuDjgRTOUdkHFPr3hSSr84OG09MKffBYfCR
+ heYw53SCY96jPwGNUoD7I3o4ZZ8q1k5MnICn/B5MreSLQVyqlsAoA/aWwSc+g/ZE/04L
+ 0ecvmMa2PMm+3QmpTbxnoiaOfjARRIJJVsi+BoSMwBzPDZYr5OJvKlXRl0OdKtw7stEc
+ GdGox9BsiU3J+dIRRx6F3uE0kjKD/ZLJ2ikHHBsBZQrBZWB1rjX0MkihL9xtgUmgZ07d
+ 7Jmw==
+X-Gm-Message-State: AOAM53229WH4EpBgqDzDhIXWWZeeZIQQ07/jh/neULUmLmHwYECT/7+l
+ GYgC9qSqSKUsyx0IWNMKYzbUjOLMvzo=
+X-Google-Smtp-Source: ABdhPJzfdZI7u4uCN9cLxY2164Gub2XgZkUtmubpOVxl4J85ewqigRzDZJMFwSGy7Z0zQMuvHuK1Cg==
+X-Received: by 2002:a7b:cb82:: with SMTP id m2mr11013909wmi.75.1605894000478; 
+ Fri, 20 Nov 2020 09:40:00 -0800 (PST)
 Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id q17sm6557597wro.36.2020.11.20.09.39.53
+ by smtp.gmail.com with ESMTPSA id 6sm6571581wrn.72.2020.11.20.09.39.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Nov 2020 09:39:54 -0800 (PST)
+ Fri, 20 Nov 2020 09:39:59 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2 v2 0/4] docs/system/arm: Document raspi/tosa boards
-Date: Fri, 20 Nov 2020 18:39:49 +0100
-Message-Id: <20201120173953.2539469-1-f4bug@amsat.org>
+Subject: [PATCH-for-5.2 v2 1/4] docs/system: Deprecate raspi2/raspi3 machine
+ aliases
+Date: Fri, 20 Nov 2020 18:39:50 +0100
+Message-Id: <20201120173953.2539469-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201120173953.2539469-1-f4bug@amsat.org>
+References: <20201120173953.2539469-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -81,7 +84,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, libvir-list@redhat.com,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Peter Krempa <pkrempa@redhat.com>,
+ libvir-list@redhat.com,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Andrew Baumann <Andrew.Baumann@microsoft.com>,
  Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
@@ -90,32 +94,45 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, libvir-list@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-- Deprecate raspi2/raspi3 machine aliases=0D
-- Document the Raspberry Pi boards=0D
-- Document LED on OpenPOWER Witherspoon=0D
-- Document Sharp Zaurus SL-6000 Tosa=0D
-=0D
-Since v1:=0D
-- cover docs/system/arm/raspi.rst in MAINTAINERS=0D
-- Addressed Peter review comments=0D
-- Added R-b tags=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (4):=0D
-  docs/system: Deprecate raspi2/raspi3 machine aliases=0D
-  docs/system/arm: Document the various raspi boards=0D
-  docs/system/arm: Document OpenPOWER Witherspoon BMC model Front LEDs=0D
-  docs/system/arm: Document the Sharp Zaurus SL-6000=0D
-=0D
- docs/system/arm/aspeed.rst |  1 +=0D
- docs/system/arm/raspi.rst  | 43 ++++++++++++++++++++++++++++++++++++++=0D
- docs/system/arm/xscale.rst | 20 +++++++++++-------=0D
- docs/system/deprecated.rst |  7 +++++++=0D
- docs/system/target-arm.rst |  1 +=0D
- MAINTAINERS                |  1 +=0D
- 6 files changed, 66 insertions(+), 7 deletions(-)=0D
- create mode 100644 docs/system/arm/raspi.rst=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+Since commit aa35ec2213b ("hw/arm/raspi: Use more specific
+machine names") the raspi2/raspi3 machines have been renamed
+as raspi2b/raspi3b.
+
+Note, rather than the raspi3b, the raspi3ap introduced in
+commit 5be94252d34 ("hw/arm/raspi: Add the Raspberry Pi 3
+model A+") is a closer match to what QEMU models, but only
+provides 512 MB of RAM.
+
+As more Raspberry Pi 2/3 models are emulated, in order
+to avoid confusion, deprecate the raspi2/raspi3 machine
+aliases.
+
+ACKed-by: Peter Krempa <pkrempa@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ docs/system/deprecated.rst | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index d98464098f5..07957b47289 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -346,6 +346,13 @@ This machine has been renamed ``fuloong2e``.
+ These machine types are very old and likely can not be used for live migration
+ from old QEMU versions anymore. A newer machine type should be used instead.
+ 
++Raspberry Pi ``raspi2`` and ``raspi3`` machines (since 5.2)
++'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++The Raspberry Pi machines come in various models (A, A+, B, B+). To be able
++to distinguish which model QEMU is implementing, the ``raspi2`` and ``raspi3``
++machines been renamed ``raspi2b`` and ``raspi3b``.
++
+ Device options
+ --------------
+ 
+-- 
+2.26.2
+
 
