@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BE422BAECD
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 16:24:29 +0100 (CET)
-Received: from localhost ([::1]:38388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 716092BAED0
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 16:25:58 +0100 (CET)
+Received: from localhost ([::1]:44358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg8Gy-000789-2N
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 10:24:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45646)
+	id 1kg8IP-0001AZ-Hm
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 10:25:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kg8EX-00057l-DN; Fri, 20 Nov 2020 10:21:58 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:55087)
+ id 1kg8Ec-00059l-4L; Fri, 20 Nov 2020 10:22:02 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:36186)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kg8EV-0001vG-Vo; Fri, 20 Nov 2020 10:21:57 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id d142so10688814wmd.4;
- Fri, 20 Nov 2020 07:21:55 -0800 (PST)
+ id 1kg8Ea-0001wG-PY; Fri, 20 Nov 2020 10:22:01 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id j7so10438526wrp.3;
+ Fri, 20 Nov 2020 07:21:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fxh0sHKcZ3r3wqRWmXHGbWTRHZxGehlsHVLLwOw47rY=;
- b=NONwvJ9FlrDFVMTcGHtr5l1J1bNkU0empsH/zuDRoXZXr9hTGmxwLjTwTVA93Qj1ss
- N2aCt6/CyvlAFpjS7cUzpr5bc8XsaZngzciJyi60+m0F8NpKwLFRPjlgR0Nk63AMSbuE
- DoSszFQsHigOdSFQP9Ay++wPCjef/RXSNNzWctA95wfAXEZpydn4u3inve692Db4xW3j
- n4OynOmUPcJeM1GDhzB60mGfWozFZAxh6tJdcju2/IvjeZL+QMXNl/OmDlYJgqRHdzXA
- HQEPILupAoiQtkKUMWZl1R2NKV8g8P9IH8TVxneSeg+/MExPlArAHYuripxE8/UQr7HC
- n60w==
+ bh=3dEydJ5cyhBIzSRwATWy+tOP9vznIXP6/O1QeD+0UM0=;
+ b=WYhkTLdE0t9zjnOnk5L0XwmFRm/hocb2CRsDdlM3OgMBdm5rYx6IOrXIR5Z+y654rn
+ QprJ2UOEvVwVDJPwxr6HIePWSjbgVoZpBTzJ7oyuHlUqIiPHW7oXDbEkQNUc3+u6f1Q7
+ oYHyHU2qJN+gCe16fDyPiiga5beodXMK3rXlvHGm+qp7blUTP0vk8vQqyJPoJFixlWCa
+ K5VWQtabn1a/2GYbKdF3ZfSxnWf9GfoU1x1FXjFSVDC41V45qEsMZzqNmTS3RF0cKDag
+ R2NsY/lQ2zYTM+N52Gy7fuahSE4S/o5sX2xa6fdnU68375gRz2kL7gPn1HZtS3/Fk4qo
+ Z4nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=fxh0sHKcZ3r3wqRWmXHGbWTRHZxGehlsHVLLwOw47rY=;
- b=C4UpQ4VdMM6299D6ChCvrSqB0E8L1L06wlPgJEqFifmNXwGVyfqghivJajemRMXncn
- N6QQ+WIT1DN7O2Sbi40io82+cQUtStKzSYG4OPa8JfpfOvHWML2fdWAXUIA8kJhCq4za
- on6nnHF9oFXyb/7QJYDUZi2KGUWjWTNmeanyPHTa9E7uv6R3L4QiNSlQGOa3oDqOzasC
- CK+fktYFU2tp75OwiDE0v7clMWCvxf4YZkB32ggHwjfn+wcn7zafmiX81zJj4cMmq+4H
- y8ucARjgGxMurcfLav3HOlQqa0QCRZdEYaPLmDKC23LRuHWAVYIpSzU1nJqHfv4MF3AY
- IL6g==
-X-Gm-Message-State: AOAM530H6ZvDcWiHH9nWqOWaVnd3l2pp4Huu8b2rdUa1617y5UENdqyJ
- NOTiJSiAboI+eoTWfQGcqSyt6Ykn5RA=
-X-Google-Smtp-Source: ABdhPJyE1SNx3OX+QcY4a2xCZ46+yjbePVyobVDuBH9PGuxWBcr+270QyGvZHktfp10rDPvbVDWXTg==
-X-Received: by 2002:a1c:bd05:: with SMTP id n5mr10933463wmf.171.1605885713617; 
- Fri, 20 Nov 2020 07:21:53 -0800 (PST)
+ bh=3dEydJ5cyhBIzSRwATWy+tOP9vznIXP6/O1QeD+0UM0=;
+ b=pCdvr4uXo/hnc2OMbDsL9yAEqLjkiSSq2hKLCRKjSeYXm18VwdXAzhQsaTmxDfEDE1
+ jzpK1Hb0YXAc0Lw6HsXs3j5goXNtBRZC+MwNZ5xCxUnMgRSN1AvftSJUlmQZEBx4g1MO
+ 6rOpQugqShTAO1e42RRA2bHOFbE2EtJsLH6dw1wYTsRRHxvjGJzdnREUhiYHPzyrbXiN
+ sCWHKQNabPIgzAiN27CaY5nexTC++Q3JVsrYTTM982fJDMGJ5Z4t32aUO0ybJJidvE5X
+ 1nUHqp465a2AgaAidLKxXYBcfOg9tyGo7NT48isfdXAgzqdzwq0O19oXwVR+8JTZVHYT
+ ys9w==
+X-Gm-Message-State: AOAM530hPuZEPSm0pNmuikKJsy7ZjtAVYd25u1bnhnSXMJ/WSrlKh5LR
+ MUFkkaVloK7JEjb5HaFW7hsZjPoNWXU=
+X-Google-Smtp-Source: ABdhPJyYBp8us9O9PqEVxUXv5JolJkoFHBdZ+/uEe2gnIbJcWHQ/iKGRfTZKrU9UuZS0drWcbJ8BmA==
+X-Received: by 2002:a5d:5450:: with SMTP id w16mr16059725wrv.425.1605885718688; 
+ Fri, 20 Nov 2020 07:21:58 -0800 (PST)
 Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id p12sm5189760wrw.28.2020.11.20.07.21.51
+ by smtp.gmail.com with ESMTPSA id d3sm5530008wrg.16.2020.11.20.07.21.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Nov 2020 07:21:52 -0800 (PST)
+ Fri, 20 Nov 2020 07:21:57 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2 2/4] docs/system/arm: Document the various raspi boards
-Date: Fri, 20 Nov 2020 16:21:38 +0100
-Message-Id: <20201120152140.2493197-3-f4bug@amsat.org>
+Subject: [PATCH-for-5.2 3/4] docs/system/arm: Document OpenPOWER Witherspoon
+ BMC model Front LEDs
+Date: Fri, 20 Nov 2020 16:21:39 +0100
+Message-Id: <20201120152140.2493197-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201120152140.2493197-1-f4bug@amsat.org>
 References: <20201120152140.2493197-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,83 +93,27 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, libvir-list@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Document the following Raspberry Pi models:
-
- - raspi0               Raspberry Pi Zero (revision 1.2)
- - raspi1ap             Raspberry Pi A+ (revision 1.1)
- - raspi2b              Raspberry Pi 2B (revision 1.1)
- - raspi3ap             Raspberry Pi 3A+ (revision 1.0)
- - raspi3b              Raspberry Pi 3B (revision 1.2)
+Document the 3 front LEDs modeled on the OpenPOWER Witherspoon BMC
+(see commit 7cfbde5ea1c "hw/arm/aspeed: Add the 3 front LEDs drived
+by the PCA9552 #1").
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- docs/system/arm/raspi.rst  | 44 ++++++++++++++++++++++++++++++++++++++
- docs/system/target-arm.rst |  1 +
- 2 files changed, 45 insertions(+)
- create mode 100644 docs/system/arm/raspi.rst
+ docs/system/arm/aspeed.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/docs/system/arm/raspi.rst b/docs/system/arm/raspi.rst
-new file mode 100644
-index 00000000000..b19284e4481
---- /dev/null
-+++ b/docs/system/arm/raspi.rst
-@@ -0,0 +1,44 @@
-+Raspberry Pi boards (``raspi0``, ``raspi1ap``, ``raspi2b``, ``raspi3ap``, ``raspi3b``)
-+======================================================================================
-+
-+
-+QEMU provides models the following Raspberry Pi boards:
-+
-+``raspi0`` and ``raspi1ap``
-+  ARM1176JZF-S core, 512 MiB of RAM
-+``raspi2b``
-+  Cortex-A7 (4 cores), 1 GiB of RAM
-+``raspi3ap``
-+  Cortex-A53 (4 cores), 512 MiB of RAM
-+``raspi3b``
-+  Cortex-A53 (4 cores), 1 GiB of RAM
-+
-+
-+Implemented devices
-+-------------------
-+
-+ * ARM1176JZF-S, Cortex-A7 or Cortex-A53 CPU
-+ * Interrupt controller
-+ * DMA controller
-+ * Clock and reset controller (CPRMAN)
-+ * System Timer
-+ * GPIO controller
-+ * Serial ports (BCM2835 AUX - 16550 based - and PL011)
-+ * Random Number Generator (RNG)
-+ * Frame Buffer
-+ * USB host (USBH)
-+ * GPIO controller
-+ * SD/MMC host controller
-+ * SoC thermal sensor
-+ * USB2 host controller (DWC2 and MPHI)
-+ * MailBox controller (MBOX)
-+ * VideoCore firmware (property)
-+
-+
-+Missing devices
-+---------------
-+
-+ * Peripheral SPI controller (SPI)
-+ * Analog to Digital Converter (ADC)
-+ * Pulse Width Modulation (PWM)
-+ * Security features
-diff --git a/docs/system/target-arm.rst b/docs/system/target-arm.rst
-index a0d5c57799c..bde4b8e044e 100644
---- a/docs/system/target-arm.rst
-+++ b/docs/system/target-arm.rst
-@@ -90,6 +90,7 @@ undocumented; you can get a complete list by running
-    arm/nuvoton
-    arm/orangepi
-    arm/palm
-+   arm/raspi
-    arm/xscale
-    arm/collie
-    arm/sx1
+diff --git a/docs/system/arm/aspeed.rst b/docs/system/arm/aspeed.rst
+index b7a176659cb..690bada7842 100644
+--- a/docs/system/arm/aspeed.rst
++++ b/docs/system/arm/aspeed.rst
+@@ -47,6 +47,7 @@ Supported devices
+  * GPIO Controller (Master only)
+  * UART
+  * Ethernet controllers
++ * Front LEDs (PCA9552 on I2C bus)
+ 
+ 
+ Missing devices
 -- 
 2.26.2
 
