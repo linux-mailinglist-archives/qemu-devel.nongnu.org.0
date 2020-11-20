@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C39B02BB164
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 18:26:50 +0100 (CET)
-Received: from localhost ([::1]:41342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 128382BB168
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 18:30:10 +0100 (CET)
+Received: from localhost ([::1]:43906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kgABN-0006Vw-Sa
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 12:26:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49838)
+	id 1kgAEb-0007rJ-4H
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 12:30:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kgA80-0003gd-Q8
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 12:23:20 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34972)
+ (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
+ id 1kgADh-0007Fc-6c; Fri, 20 Nov 2020 12:29:13 -0500
+Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:44948)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kgA7y-0000st-SV
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 12:23:20 -0500
-Received: by mail-wr1-x441.google.com with SMTP id k2so10856452wrx.2
- for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 09:23:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=1F5ZH6WuobRGGuCXdtS5090y/HmuM6DEfjHjwF8EdX4=;
- b=qu8+Mc346JS8NFKg+nZ61zBQ1QEBmB33IRUj8vrEwKVeEzzy/WPJZKf8h11lEttXbM
- 2pF54MpeXBz83dKavrMjha/iy7pXec4Ond3IX+S/5nA3i7l8BafD5O1hs/5yGZ2ayKJ9
- wp3iJyeY1fYmukTDbHq4xO/jYWcnL4wfZ4ixCOPSeCyCao/E2fXSik2gN3agePQcPjfP
- 5tYy5XopKCbjNigUz67fmjWFdZKTqWZL9fHWNZnrb3cjaGUuZF4z8kxcnvC4wzEsAvB9
- 0Vqi3xXU/XwA3SvHAy9WiyVXLu+5pe+SVBBrWz3yer5QBkznYufgzx+vw6+RsEj1bFYQ
- TfjA==
+ (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
+ id 1kgADf-0001mm-Ls; Fri, 20 Nov 2020 12:29:12 -0500
+Received: by mail-io1-xd31.google.com with SMTP id o11so10684174ioo.11;
+ Fri, 20 Nov 2020 09:29:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9RZvWXlVz+1NpVbn62266BSYs/8NKhQu7/3HqMOcaIs=;
+ b=cJyQpsuSrlfNHMHRPOMucojSIbQ6nCmuvlQWRKM3+Bhr/jRshvGtUNr9tOMCM0d6mF
+ XNxlWKcOZY9CePbV9A33sqBBHtfDv3zxwtgB0NJRZZLh4Z021g29Uw9sf7AuhkOie/w+
+ xKs5JHxlNtT3Nr88RhXHcmYWlXLAI4NsOFYh42vnCTTmKTNfEvRPGB+Bm2FzPKAzUmzU
+ c5nGLGlMkF8JskOSpXnxHRqbgOEmGx8HBOK3sXhZ8q+NyINJYLjO7L9nk0MpfW9bq3df
+ sbvKIUeHDFJ2Shvov8GbEKrYpCQXx18aM9n27EumZwglqyL49ch0Q0o4Px8BfBxd707q
+ v4Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=1F5ZH6WuobRGGuCXdtS5090y/HmuM6DEfjHjwF8EdX4=;
- b=b8YYjaJoDJKm0H/JtM+0AOEU3yOmUPfv2hTrMqD+SC0N5UVE9MZs0omUqh0diHVEUO
- LEuSDoPX4SQibfeGf5GldoSY8iRDlxdGvyPgnn/5sGiwIBWEdnqxmk3B5ID1z9FJhfx0
- 6TNVX1k7ivEqJHYo9kIL7o6cCWZO6gZfpgp9Mg9Ml4pAeHWwnOs41aleQk1LdKfL8O+w
- 4KJt1vvy6/mT9x5UOBRn0a0Osr4cYZGCGbsVZACPIVc6mpbWc7lXCUsWCoOOCV07G+5j
- l1mPzBUWFDOpU3QNYScof5scpCpFxmVoBfyCU8hUs8XehGJqxiNkRH++XLCDmN9BWHpx
- Ggdg==
-X-Gm-Message-State: AOAM530t/FdfqgSxR7pKBkUWz/FKkdPkJ3hx6AD05lHx2uQavDBr4FIh
- 7/Dcq/4X4HWUs6sDA4DI78xHjBQu+raSoA==
-X-Google-Smtp-Source: ABdhPJz5fLN/eUWu+ja/3ZNYWomkHPTh2+wTTKLzFDZeoxkSCETAEk+gaqWIyU9f6kxorp1U6WgWGA==
-X-Received: by 2002:adf:eb4c:: with SMTP id u12mr18293412wrn.73.1605892996948; 
- Fri, 20 Nov 2020 09:23:16 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id p4sm5614394wmc.46.2020.11.20.09.23.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Nov 2020 09:23:16 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/m68k/mcf5206: Don't leak IRQs in mcf5206_mbar_realize()
-Date: Fri, 20 Nov 2020 17:23:14 +0000
-Message-Id: <20201120172314.14725-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9RZvWXlVz+1NpVbn62266BSYs/8NKhQu7/3HqMOcaIs=;
+ b=TvLa+MxdYmK1uZqJcLOkDf3MOhqBWGF1sckd2dsh4bwhlPhVM9YlnE3LRptkMe1tm3
+ Fz+bsqmmyE676Ef7khb7GnBGn9k+QMdpiSowE2OvLa4k2YSZggW22ZjHOzegtQBY+zjj
+ E4inHsf1Fu085OvwBPQWE7oxehwsCWeA/rKlJsihun51r6q940JIKmxVgZ0ffIujwyOZ
+ /i/gVjQg7/PrcjZ+JkvlZduNYaVSZEu6XWH4Iumr0X5Lz3CJ72C4U9wAqGJ9ABUh1uEO
+ RnL0wripD8ibhyF+3Ao6VTojtiFPqg59QXkA3GfXi6PW6rWD0j68gfEqOk8Lthn2VLOr
+ voDQ==
+X-Gm-Message-State: AOAM532pcdMNfrp9ALUJdZgLnXYLtPeAb+6n/JYYZhzwUVZ2h8TMddBD
+ RKaAkeVd1T8mH68Q6nPkz2sTx/7Ipu96aq+6EKI=
+X-Google-Smtp-Source: ABdhPJzSef94ZOaE9wF7fZEzbQwJLHbuuYN95TfXrNOx3pAX1LdRh9VQBa9zBmJ2ADHZrHhmAKvfCKiQrKLyPeeWwXI=
+X-Received: by 2002:a05:6638:10ef:: with SMTP id
+ g15mr20228421jae.85.1605893349892; 
+ Fri, 20 Nov 2020 09:29:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
+References: <20201120154545.2504625-1-f4bug@amsat.org>
+ <20201120154545.2504625-5-f4bug@amsat.org>
+In-Reply-To: <20201120154545.2504625-5-f4bug@amsat.org>
+From: Niek Linnenbank <nieklinnenbank@gmail.com>
+Date: Fri, 20 Nov 2020 18:28:58 +0100
+Message-ID: <CAPan3Wr0Dd3XnK9Sd8UM8yoq39VE4ZG_czeuooBTAFnUeCRuZw@mail.gmail.com>
+Subject: Re: [PATCH-for-5.2 4/6] MAINTAINERS: Fix system/arm/orangepi.rst path
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: multipart/alternative; boundary="000000000000aae8e105b48d2e80"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d31;
+ envelope-from=nieklinnenbank@gmail.com; helo=mail-io1-xd31.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,73 +76,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <huth@tuxfamily.org>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity points out that the realize function for the TYPE_MCF5206_MBAR
-device leaks the IRQ array it allocates with qemu_allocate_irqs().
-Keep a pointer to it in the device state struct to avoid the leak.
-(Since it needs to stay around for the life of the simulation there
-is no need to actually free it, and the leak was harmless.)
+--000000000000aae8e105b48d2e80
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: Coverity CID 1432412
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Op vr 20 nov. 2020 16:46 schreef Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
+rg>:
+
+> Fixes: 0553ef42571 ("docs: add Orange Pi PC document")
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>
+Reviewed-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+
 ---
+> Cc: Niek Linnenbank <nieklinnenbank@gmail.com>
+> ---
+>  MAINTAINERS | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 2623cf85f66..311a55317ce 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -559,7 +559,7 @@ S: Maintained
+>  F: hw/*/allwinner-h3*
+>  F: include/hw/*/allwinner-h3*
+>  F: hw/arm/orangepi.c
+> -F: docs/system/orangepi.rst
+> +F: docs/system/arm/orangepi.rst
+>
+>  ARM PrimeCell and CMSDK devices
+>  M: Peter Maydell <peter.maydell@linaro.org>
+> --
+> 2.26.2
+>
+>
 
-We don't need to put this in 5.2, I'm just slowly working through
-some of the Coverity issues that are various kinds of harmless leak
-involving qemu_allocate_irqs().
+--000000000000aae8e105b48d2e80
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-A more thorough overhaul of this code would probably split the
-current MBAR device into multiple individual devices:
- * timers
- * uarts
- * interrupt controller proper
- * a container device that wires up all the above
-In that design instead of using qemu_allocate_irqs(), the
-interrupt-controller device would create gpio_in lines and the
-container would wire them up to the timers and uarts.
----
- hw/m68k/mcf5206.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">Op vr 20 nov. 2020 16:46 schreef Philippe Mathieu-Daud=
+=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.org</a>&gt;:<br><=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
+ft:1px #ccc solid;padding-left:1ex">Fixes: 0553ef42571 (&quot;docs: add Ora=
+nge Pi PC document&quot;)<br>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsa=
+t.org" target=3D"_blank" rel=3D"noreferrer">f4bug@amsat.org</a>&gt;<br></bl=
+ockquote></div></div><div dir=3D"auto">Reviewed-by: Niek Linnenbank &lt;<a =
+href=3D"mailto:nieklinnenbank@gmail.com">nieklinnenbank@gmail.com</a>&gt;</=
+div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote=
+"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
+1px #ccc solid;padding-left:1ex">
+---<br>
+Cc: Niek Linnenbank &lt;<a href=3D"mailto:nieklinnenbank@gmail.com" target=
+=3D"_blank" rel=3D"noreferrer">nieklinnenbank@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0MAINTAINERS | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/MAINTAINERS b/MAINTAINERS<br>
+index 2623cf85f66..311a55317ce 100644<br>
+--- a/MAINTAINERS<br>
++++ b/MAINTAINERS<br>
+@@ -559,7 +559,7 @@ S: Maintained<br>
+=C2=A0F: hw/*/allwinner-h3*<br>
+=C2=A0F: include/hw/*/allwinner-h3*<br>
+=C2=A0F: hw/arm/orangepi.c<br>
+-F: docs/system/orangepi.rst<br>
++F: docs/system/arm/orangepi.rst<br>
+<br>
+=C2=A0ARM PrimeCell and CMSDK devices<br>
+=C2=A0M: Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org" targ=
+et=3D"_blank" rel=3D"noreferrer">peter.maydell@linaro.org</a>&gt;<br>
+-- <br>
+2.26.2<br>
+<br>
+</blockquote></div></div></div>
 
-diff --git a/hw/m68k/mcf5206.c b/hw/m68k/mcf5206.c
-index 51d2e0da1c9..92a194dbc46 100644
---- a/hw/m68k/mcf5206.c
-+++ b/hw/m68k/mcf5206.c
-@@ -164,6 +164,7 @@ typedef struct {
- 
-     M68kCPU *cpu;
-     MemoryRegion iomem;
-+    qemu_irq *pic;
-     m5206_timer_state *timer[2];
-     void *uart[2];
-     uint8_t scr;
-@@ -588,17 +589,16 @@ static const MemoryRegionOps m5206_mbar_ops = {
- static void mcf5206_mbar_realize(DeviceState *dev, Error **errp)
- {
-     m5206_mbar_state *s = MCF5206_MBAR(dev);
--    qemu_irq *pic;
- 
-     memory_region_init_io(&s->iomem, NULL, &m5206_mbar_ops, s,
-                           "mbar", 0x00001000);
-     sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->iomem);
- 
--    pic = qemu_allocate_irqs(m5206_mbar_set_irq, s, 14);
--    s->timer[0] = m5206_timer_init(pic[9]);
--    s->timer[1] = m5206_timer_init(pic[10]);
--    s->uart[0] = mcf_uart_init(pic[12], serial_hd(0));
--    s->uart[1] = mcf_uart_init(pic[13], serial_hd(1));
-+    s->pic = qemu_allocate_irqs(m5206_mbar_set_irq, s, 14);
-+    s->timer[0] = m5206_timer_init(s->pic[9]);
-+    s->timer[1] = m5206_timer_init(s->pic[10]);
-+    s->uart[0] = mcf_uart_init(s->pic[12], serial_hd(0));
-+    s->uart[1] = mcf_uart_init(s->pic[13], serial_hd(1));
-     s->cpu = M68K_CPU(qemu_get_cpu(0));
- }
- 
--- 
-2.20.1
-
+--000000000000aae8e105b48d2e80--
 
