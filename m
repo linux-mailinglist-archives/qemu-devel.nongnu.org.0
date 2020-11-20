@@ -2,115 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AB992BA7AC
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 11:46:10 +0100 (CET)
-Received: from localhost ([::1]:35978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C92AC2BA7D5
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 11:56:23 +0100 (CET)
+Received: from localhost ([::1]:38548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg3vd-0002C0-4Q
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 05:46:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56324)
+	id 1kg45W-00042v-BP
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 05:56:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kg3uZ-0001kP-7o
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 05:45:03 -0500
-Received: from mail-eopbgr10112.outbound.protection.outlook.com
- ([40.107.1.112]:55146 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kg3uW-0000OD-6W
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 05:45:02 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=K9QYPNY3FNEqxvBR3FBoYeyWHGvNrKz1XbJ4Qn+hTtLKigAMC8fMbAnqQjKJeyutiq3I9eNJCWg4YVKTwhiJwRe7d74VlqnOtrae3UldNvqJoFsu9NOxELZkdibM2iXTB/57fpp7faEMKxeQApzVs15PTEcd6LW5aAcTLk5GbPuatPntIkR3hs73wJf4SVZgxEmLb5Xy1Zn+HHfuDSdLUko8zJs5uqGVYOi7VgmEqhhxwgARbC0rYxJu5tCcPknLYvPOEtKqbWHQsDwajfgz8DWpt2HZC/BP8admtElYSiaKdnRrEQV97QIUXT6iTnHA10bgltY7UxkblLkHDPQqYQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2QKpbKbIG5VzbF40CQ9o6bcoFOz+lGpR5qp+rL/M2TY=;
- b=Lu+rR6p1J98QcklR0QewF6m6iFffFKdpeonH+zuQxHocJKkhsofKiqMIrN9DyFSXxpSrVZ9umYMLWnzc2z0AOyyoQtTWBtcoNPbZXdOona1sex0lCw/GldyF2MwtAwGQtEWHESu+CTQU+WMWRpbkPgd139fctjhNKmypLV4GdNmTzV9rHVL9YDg3G9e6LO/cYWjxau04cesJPjnNS8IcjiBrcweOvk/HGGryCPFSt/31vVoeyUbWFC5SdJ4TKWjT8CezR2f43gfLLX4TfzuAoMwxo04hXqo1krAkXXjwyG4qHFjF7gMGtjIRroRjbl6Qd0H42vLEU9330wBSXS9YSw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2QKpbKbIG5VzbF40CQ9o6bcoFOz+lGpR5qp+rL/M2TY=;
- b=DMTNkiaeQAOVbgrXHrTQnXl4c9HeTFj6sXFxZv1vjwmZEI5mz0r3CPaT4qgMrEFoCHFJrlfPRfpLB1r3RKv4LPZy254mQpber75IPuNLLpQcLjIq9LQwHaTmUqE/OygutZzntGIAVKshlqfbw/mh/EB81xZkOdDMC17Sqt7QVHU=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from VI1PR0802MB2510.eurprd08.prod.outlook.com
- (2603:10a6:800:ad::14) by VE1PR08MB5582.eurprd08.prod.outlook.com
- (2603:10a6:800:1a5::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.21; Fri, 20 Nov
- 2020 10:44:56 +0000
-Received: from VI1PR0802MB2510.eurprd08.prod.outlook.com
- ([fe80::8d6a:734c:e4a2:8543]) by VI1PR0802MB2510.eurprd08.prod.outlook.com
- ([fe80::8d6a:734c:e4a2:8543%7]) with mapi id 15.20.3589.020; Fri, 20 Nov 2020
- 10:44:56 +0000
-Subject: Re: [PATCH v3 3/7] support UFFD write fault processing in
- ram_save_iterate()
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, Den Lunev <den@openvz.org>,
- Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-References: <20201119125940.20017-1-andrey.gruzdev@virtuozzo.com>
- <20201119125940.20017-4-andrey.gruzdev@virtuozzo.com>
- <20201119182516.GB6538@xz-x1>
-From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Message-ID: <1e35a550-a6a0-fbe2-ac8d-6844ce23b3fb@virtuozzo.com>
-Date: Fri, 20 Nov 2020 13:44:53 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20201119182516.GB6538@xz-x1>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [95.165.26.68]
-X-ClientProxiedBy: AM0PR03CA0011.eurprd03.prod.outlook.com
- (2603:10a6:208:14::24) To VI1PR0802MB2510.eurprd08.prod.outlook.com
- (2603:10a6:800:ad::14)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kg44S-0003Yw-NZ
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 05:55:16 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:38581)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kg44R-0003qG-0K
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 05:55:16 -0500
+Received: by mail-wr1-x442.google.com with SMTP id p8so9582205wrx.5
+ for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 02:55:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Xegj5JQ49GKHqGAXzz8gAZ1DY5LujJVgAIPZFdhOM48=;
+ b=khE5rZYdcIAYRHncJd3g84jMHMi6sYINNMQRM3ddveU4a6WIeEjWZVMyUV/aOSzRxa
+ SCP0oXtj348TM/lamxSWHwNGV0ZSLEVvLFShpuCqRuHeOJ0hew2hlsxrdGYV3spSs+oo
+ +jVHOg9w/OpxpoDsWjHFFLQq1uB9vl+KQxvMnhDu9YTYsd4CnI6D7wwPn69MN6r86So8
+ cSyghPxHZLw0bnZSUD0M7OEegnpt1U4uztN7y0O2P9cgMnlSs3URfXBxxAoyiHEMaLQL
+ fdrT586UMDUrRIRw/3cG72rXETj0a3Qh3iuX+azx6FVx0h6jujyxpHjSCNHc4IZKvrj+
+ 5+qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Xegj5JQ49GKHqGAXzz8gAZ1DY5LujJVgAIPZFdhOM48=;
+ b=ppbYVzkEhiqstI4jo9V0yNKo6xOsUAcEYSwtem8oP2iHua/hcXfcFj4bvKZuz2CRJr
+ vrCIsQfU+wtIEZb1nMyozOx3p6th6MFNec8Xw6SomLqC2W1jC2FWGbCj7FrxgCDaSVal
+ pvLu5eUo8z5Kvae7htqLc4GQdzS6rdFcN8tvDqLlCY3JThzIY6Huk8agRyYNXh9SWYbY
+ syHmH5SaZ0geZ+zT4C73NplUw+XN8x+OJbmVnPfx7HQ0/QCK1z17kEFQtd0MUcO+VkQr
+ CQHolryAx01r5COgvM19BuKJAo+uMPyhySA9L0CGef8bvMxfCJdKLG6KdIrZZvosmzci
+ 7qIQ==
+X-Gm-Message-State: AOAM531TWClbJMuBulPkTEG/vWtGCAJtL6tfJ7tf9OO4y0D/Hm+QU5qP
+ cU6zqiYG9MDnWg5/LyA/SXk=
+X-Google-Smtp-Source: ABdhPJx0EipjX4t399BIPjYxrECHma65KFQdU7n3dKcbzivp+b4NE1RibcdvoVhUMI42c+8VZVqQSQ==
+X-Received: by 2002:a5d:438f:: with SMTP id i15mr15328794wrq.121.1605869713252; 
+ Fri, 20 Nov 2020 02:55:13 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id e4sm2301525wrr.32.2020.11.20.02.55.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 20 Nov 2020 02:55:12 -0800 (PST)
+Subject: Re: [PATCH V13 2/9] meson.build: Re-enable KVM support for MIPS
+To: Huacai Chen <chenhuacai@gmail.com>, Huacai Chen <chenhc@lemote.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <1602059975-10115-1-git-send-email-chenhc@lemote.com>
+ <1602059975-10115-3-git-send-email-chenhc@lemote.com>
+ <0dfbe14a-9ddb-0069-9d86-62861c059d12@amsat.org>
+ <CAAhV-H63zhXyUizwOxUtXdQQOR=r82493tgH8NfLmgXF0g8row@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <9fc6161e-cf27-b636-97c0-9aca77d0f9cd@amsat.org>
+Date: Fri, 20 Nov 2020 11:55:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.64] (95.165.26.68) by
- AM0PR03CA0011.eurprd03.prod.outlook.com (2603:10a6:208:14::24) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3589.20 via Frontend Transport; Fri, 20 Nov 2020 10:44:55 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c2ab7833-e7e7-482f-5e02-08d88d4151c4
-X-MS-TrafficTypeDiagnostic: VE1PR08MB5582:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VE1PR08MB5582B932F20E6549BEF392129FFF0@VE1PR08MB5582.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PTWYF8JoKTcwUVW6XsNclp6LSwDI4C7v7hZ0ZgY+d5W2LVnxck2plPSj6fjV4YoeomM4wkPyZBn5P/8V8pPRjZ9lQhTEP8WWCA59QNPyBzn7eiK+ls9ScXJXJa8I8fvI/1QwihSmjrVp+snu0yGfqhWTxdNqcEC63oh2aOegBD54BFtXAQmgu+1CLSFOfV+VVyER/elaQrheq3WkEXZaGGlS/w2vGWr6uFCfFFPzY8JkhHbuhCISXe0i5DyBOR0gtS/17ebV212jb11w8+Xquok4rFRLAoW3xlq89YIYxC8sKifWUmUmESGgYpGxAOPwVh330hghhq3xd/ZcrtMciJfLb2KO/bKJw16PsEeK9DhqQRYxDRV33K9ZuRH0f0dk
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VI1PR0802MB2510.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(376002)(39830400003)(396003)(366004)(136003)(5660300002)(66476007)(4326008)(66556008)(316002)(26005)(956004)(6486002)(8936002)(54906003)(186003)(53546011)(86362001)(8676002)(66946007)(16576012)(36756003)(16526019)(44832011)(2616005)(83380400001)(2906002)(478600001)(6916009)(31686004)(52116002)(31696002)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: aGBeemgxnbBog+sqdFEyI5nZoXrmDfutImN4U/N5pYhTS1LVdRh0/UEY34sVCJ8m615Uvgh53IbnuTocqYf/K0Oy7r9O6ED2R1ify67WysY+Cv+68soAuZU7yG+ehMilmmQA5poKTrjo7CXM4NgF05F8DJUv4B4yowXvmqzriXltBLxuDZL+UUN8fSrKckbLaKJLtjxXf7RNiU6ODo+IZox475UHp8xKW6MBOsG/afuExK4UBye7duXUyrAeEzVoQ8pSTy0oKzgohQeCQeaIncKuA7A7BjDkixv/zdoZB0VXhpM7AsaYD0Ahc6EKOWxuu/WtukO0Uyu3d4FWbAus5BkBZJRCVRvbUb+RgG2RNcfSRMtIzbHIPOaVCOnUiVo8xEF7Z5RNp3Q+Q541c8WeAKxcH12nsAAMCwVH8RR9dVLfdOzu0wbzN70mOE2GlbpqvuPt34uu4mScQYJYqZBjlkzOw5QoNw3btb2YCI91t+sOOH5BkYlNpoM3Bw14EsKlT2SGthFK1BM9a63YzLnt8SzUICih4EYoYDppdkQXq75e3piWR3sOjpG1WTu3ayheRQll6GthM/vMVP6NIXC+glGFCQov82s5xV78eybCSAy/3bTnGSEVowGk4hG8q+Xg3YisbHLRM0HkA9OZ/Ed3DQ==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c2ab7833-e7e7-482f-5e02-08d88d4151c4
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR0802MB2510.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2020 10:44:55.9518 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CJX2anywjYZRCeLL7MHPO4vllhVx5ymwGI20mQP8xR81JHPKCztn3fPGJrROURTJ7KF1vDXk0lVQh6YOTgkjdHQYdFw76/m/T1wALWlB1Jc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB5582
-Received-SPF: pass client-ip=40.107.1.112;
- envelope-from=andrey.gruzdev@virtuozzo.com;
- helo=EUR02-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAAhV-H63zhXyUizwOxUtXdQQOR=r82493tgH8NfLmgXF0g8row@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -123,113 +92,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ Huacai Chen <zltjiangshi@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19.11.2020 21:25, Peter Xu wrote:
-> On Thu, Nov 19, 2020 at 03:59:36PM +0300, Andrey Gruzdev via wrote:
-> 
-> [...]
-> 
->> +/**
->> + * ram_find_block_by_host_address: find RAM block containing host page
->> + *
->> + * Returns true if RAM block is found and pss->block/page are
->> + * pointing to the given host page, false in case of an error
->> + *
->> + * @rs: current RAM state
->> + * @pss: page-search-status structure
->> + */
->> +static bool ram_find_block_by_host_address(RAMState *rs, PageSearchStatus *pss,
->> +        hwaddr page_address)
->> +{
->> +    bool found = false;
->> +
->> +    pss->block = rs->last_seen_block;
->> +    do {
->> +        if (page_address >= (hwaddr) pss->block->host &&
->> +            (page_address + TARGET_PAGE_SIZE) <=
->> +                    ((hwaddr) pss->block->host + pss->block->used_length)) {
->> +            pss->page = (unsigned long)
->> +                    ((page_address - (hwaddr) pss->block->host) >> TARGET_PAGE_BITS);
->> +            found = true;
->> +            break;
->> +        }
->> +
->> +        pss->block = QLIST_NEXT_RCU(pss->block, next);
->> +        if (!pss->block) {
->> +            /* Hit the end of the list */
->> +            pss->block = QLIST_FIRST_RCU(&ram_list.blocks);
->> +        }
->> +    } while (pss->block != rs->last_seen_block);
->> +
->> +    rs->last_seen_block = pss->block;
->> +    /*
->> +     * Since we are in the same loop with ram_find_and_save_block(),
->> +     * need to reset pss->complete_round after switching to
->> +     * other block/page in pss.
->> +     */
->> +    pss->complete_round = false;
->> +
->> +    return found;
->> +}
-> 
-> I forgot whether Denis and I have discussed this, but I'll try anyways... do
-> you think we can avoid touching PageSearchStatus at all?
-> 
-> PageSearchStatus is used to track a single migration iteration for precopy, so
-> that we scan from the 1st ramblock until the last one.  Then we finish one
-> iteration.
-> 
+On 11/20/20 5:28 AM, Huacai Chen wrote:
+> On Wed, Nov 18, 2020 at 1:17 AM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>> On 10/7/20 10:39 AM, Huacai Chen wrote:
+>>> After converting from configure to meson, KVM support is lost for MIPS,
+>>> so re-enable it in meson.build.
+>>>
+>>> Fixes: fdb75aeff7c212e1afaaa3a43 ("configure: remove target configuration")
+>>> Fixes: 8a19980e3fc42239aae054bc9 ("configure: move accelerator logic to meson")
+>>> Cc: aolo Bonzini <pbonzini@redhat.com>
+>>> Signed-off-by: Huacai Chen <chenhc@lemote.com>
+>>> ---
+>>>  meson.build | 2 ++
+>>>  1 file changed, 2 insertions(+)
+>>>
+>>> diff --git a/meson.build b/meson.build
+>>> index 17c89c8..b407ff4 100644
+>>> --- a/meson.build
+>>> +++ b/meson.build
+>>> @@ -59,6 +59,8 @@ elif cpu == 's390x'
+>>>    kvm_targets = ['s390x-softmmu']
+>>>  elif cpu in ['ppc', 'ppc64']
+>>>    kvm_targets = ['ppc-softmmu', 'ppc64-softmmu']
+>>> +elif cpu in ['mips', 'mips64']
+>>> +  kvm_targets = ['mips-softmmu', 'mipsel-softmmu', 'mips64-softmmu', 'mips64el-softmmu']
+>>
+>> Are you sure both 32-bit hosts and targets are supported?
+>>
+>> I don't have hardware to test. If you are not working with
+>> 32-bit hardware I'd remove them.
+> When I add MIPS64 KVM support (Loongson-3 is MIPS64), MIPS32 KVM is
+> already there. On the kernel side, MIPS32 KVM is supported, but I
+> don't know whether it can work well.
 
-Yes, my first idea also was to separate normal iteration from 
-write-fault page source completely and leave pss for normal scan.. But, 
-the other idea is to keep some locality in respect to last write fault. 
-I mean it seems to be more optimal to re-start normal scan on the page 
-that is next to faulting one. In this case we can save and un-protect
-the neighborhood faster and prevent many write faults.
+Well, from the history, you inherited from it:
 
-> Snapshot is really something, imho, that can easily leverage this structure
-> without touching it - basically we want to do two things:
-> 
->    - Do the 1st iteration of precopy (when ram_bulk_stage==true), and do that
->      only.  We never need the 2nd, 3rd, ... iterations because we're snapshoting.
-> 
->    - Leverage the postcopy queue mechanism so that when some page got written,
->      queue that page.  We should have this queue higher priority than the
->      precopy scanning mentioned above.
-> 
-> As long as we follow above rules, then after the above 1st round precopy, we're
-> simply done...  If that works, the whole logic of precopy and PageSearchStatus
-> does not need to be touched, iiuc.
-> 
-> [...]
-> 
+commit 1fa639e5618029e944ac68d27e32a99dcb85a349
+Author: James Hogan <jhogan@kernel.org>
+Date:   Sat Dec 21 15:53:06 2019 +0000
 
-It's quite good alternative and I thought about using postcopy page 
-queue, but this implementation won't consider the locality of writes..
+    MAINTAINERS: Orphan MIPS KVM CPUs
 
-What do you think?
+    I haven't been active for 18 months, and don't have the hardware
+    set up to test KVM for MIPS, so mark it as orphaned and remove
+    myself as maintainer. Hopefully somebody from MIPS can pick this up.
 
->> @@ -2086,7 +2191,8 @@ static void ram_state_reset(RAMState *rs)
->>       rs->last_sent_block = NULL;
->>       rs->last_page = 0;
->>       rs->last_version = ram_list.version;
->> -    rs->ram_bulk_stage = true;
->> +    rs->ram_wt_enabled = migrate_track_writes_ram();
-> 
-> Maybe we don't need ram_wt_enabled, but just call migrate_track_writes_ram()
-> anywhere needed (actually, only in get_fault_page, once).
-> 
-> Thanks,
-> 
 
-Yes, think you are right, we can avoid this additional field.
+commit 134f7f7da12aad99daafbeb2a7ba9dbc6bd40abc
+Author: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date:   Mon Feb 24 12:50:58 2020 +0100
 
-Thanks,
+    MAINTAINERS: Reactivate MIPS KVM CPUs
 
--- 
-Andrey Gruzdev, Principal Engineer
-Virtuozzo GmbH  +7-903-247-6397
-                 virtuzzo.com
+    Reactivate MIPS KVM maintainership with a modest goal of keeping
+    the support alive, checking common KVM code changes against MIPS
+    functionality, etc. (hence the status "Odd Fixes"), with hope that
+    this component will be fully maintained at some further, but not
+    distant point in future.
+
+
+commit 15d983dee95edff1dc4c0bed71ce02fff877e766
+Author: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Date:   Wed Jul 1 20:25:58 2020 +0200
+
+    MAINTAINERS: Adjust MIPS maintainership (Huacai Chen & Jiaxun Yang)
+
+    Huacai Chen and Jiaxun Yang step in as new energy [1].
+
+
+commit ca263c0fb9f33cc746e6e3d968b7db80072ecf86
+Author: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Date:   Wed Oct 7 22:37:21 2020 +0200
+
+    MAINTAINERS: Remove myself
+
+    I have been working on project other than QEMU for some time,
+    and would like to devote myself to that project. It is impossible
+    for me to find enough time to perform maintainer's duties with
+    needed meticulousness and patience.
+
+
+QEMU deprecation process is quite slow, if we release mips-softmmu
+and mipsel-softmmu binaries with KVM support in 5.2, and you can not
+test them, you will still have to maintain them during 2021...
+
+If you don't have neither the hardware nor the time, I suggest you
+to only release it on 64-bit hosts. Personally I'd even only
+announce KVM supported on the little-endian binary only, because
+AFAIK you don't test big-endian KVM neither.
+
+Your call as a maintainer, but remember last RC tag is next
+Tuesday (Nov 24) in *4* days, then we release 5.2:
+https://wiki.qemu.org/Planning/5.2#Release_Schedule
+
+Regards,
+
+Phil.
 
