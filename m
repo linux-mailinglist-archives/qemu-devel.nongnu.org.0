@@ -2,81 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38C072BB03F
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 17:27:47 +0100 (CET)
-Received: from localhost ([::1]:58210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4FCD2BB08E
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 17:29:56 +0100 (CET)
+Received: from localhost ([::1]:38040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg9GE-0008Pk-8B
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 11:27:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34586)
+	id 1kg9IK-0003N4-0f
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 11:29:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kg9DY-0006r6-Q5; Fri, 20 Nov 2020 11:25:00 -0500
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:38155)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kg9DV-00067k-J3; Fri, 20 Nov 2020 11:25:00 -0500
-Received: by mail-pf1-x434.google.com with SMTP id 10so8331053pfp.5;
- Fri, 20 Nov 2020 08:24:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=oIlBGux0NHQ0QgXRaRHRYv+1fIYxjg8pCsgUppiMSgg=;
- b=tT/IFJOIAjWRO0lnn+qQtsqMPCuNwLiVDf4GD0h+IwG5cVuWmYYAOvIETiN8jPn/L9
- GKOqZOkpvbcpH4xW8MWptfZySxYLv3cjd6t3Y3VAClEREczLo1vmRhWnrZucGNQH9zcM
- zF7aES1U9BW6VxUoAPJ0DCK3cG5fC3k+K3MY4hVwSQb0IQoYxpdT7hK659FaUaLPtkrU
- KmDnERNcCjCacBugrQxh2Q7aYlNMk2t2963ll0ippgcF7gaymmxa+bOAc747ng47UE3L
- QELkFP75sc2mrtQSn50J6Jpv9RJ3TwFiT9q/Bq1Aj+QTAPT9mX13tvL2A0eZP+G0b1ib
- o4Mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=oIlBGux0NHQ0QgXRaRHRYv+1fIYxjg8pCsgUppiMSgg=;
- b=Zyd7cFzT8lN2BkAjYa379zRCVIZbv/fi4KJnjkIurOCPRhFAwRgQPQYFWp6Z/Ki/lr
- 1/gBsbcM6h/CaXNdFzBLA/ApgcCLi1aSMUO2wBq3on9X5BHJQpihKNMzOPUW2W85oBbQ
- p0WEn8BLu8Lwvw3abOuZUXxrhH6Zuicvt3MKjHKPY1rOFcYivNVU0CqdCADdntern9Z4
- gFytvpralKh4NnvVp4F87pxgGKTAZBZmJdECYX7Qq6pW1OMAmtrulu0puCOxWpIqQO0T
- UFOy4BTQarB64SQ9HouKL9BZa28B+lU285t0vUbo73mP3DaLUxaQ2+P87ielfwJFAT8C
- oxDA==
-X-Gm-Message-State: AOAM531QGWi1SxrgYJshrW00qxoX5s8Zbm84fENoa5Q5rES1uQsd84UD
- 6PX4CGaOiGDmjg7VZsVHhLg=
-X-Google-Smtp-Source: ABdhPJzgfNMuERVO0RcrmMY/BXPSjT4C9C21MHxN221I8AK4QjNfqmk7Z9lDbE3QzFDu835Qwp0WXw==
-X-Received: by 2002:a63:4450:: with SMTP id t16mr17289795pgk.312.1605889495724; 
- Fri, 20 Nov 2020 08:24:55 -0800 (PST)
-Received: from ?IPv6:2601:646:8e00:d1:6186:da9e:f87e:4f7c?
- ([2601:646:8e00:d1:6186:da9e:f87e:4f7c])
- by smtp.gmail.com with ESMTPSA id 92sm4553587pjv.32.2020.11.20.08.24.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Nov 2020 08:24:54 -0800 (PST)
-Subject: Re: [RFC 15/15] target/riscv: rvb: support and turn on B-extension
- from command line
-To: Kito Cheng <kito.cheng@sifive.com>, frank.chang@sifive.com
-References: <20201118083044.13992-1-frank.chang@sifive.com>
- <20201118083044.13992-16-frank.chang@sifive.com>
- <CALLt3TgGATbAK5TFw-QBUFYTcC_CeAZ1AkMeeYuqgVxcyktT7g@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Message-ID: <104fea2e-5c9a-8331-b9f5-4d5967651427@gmail.com>
-Date: Fri, 20 Nov 2020 08:24:51 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kg9FC-0008M8-KD
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:26:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55519)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kg9FA-0006UK-Mt
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:26:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605889598;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JpbUcOIqV++8ODLioInba8cnexXHJjJP4CNS52OErd8=;
+ b=csZeG6SqMzMp85clcNJLNhjvkwhe3Pivg/oGpeJdfJJ1yi3TjYY6cXPVYV7uz/FyxSL5Nu
+ XqyI5iTFHQOcX0WvTITgAjbsNlgLt7+ndTYAJB+Pxs/nYI32wr2Vfcx1cz+TvCldpBqZoO
+ pE+ibchj2gvB6HxBkf7OPh4VpWqGlbg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-514-2HIqU8g7NCepxKUwGHgD6w-1; Fri, 20 Nov 2020 11:26:35 -0500
+X-MC-Unique: 2HIqU8g7NCepxKUwGHgD6w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BCF118C8C01
+ for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 16:26:34 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.32])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9454660861;
+ Fri, 20 Nov 2020 16:26:33 +0000 (UTC)
+Date: Fri, 20 Nov 2020 17:26:31 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 28/29] vl: remove separate preconfig main_loop
+Message-ID: <20201120172631.4f5f93fb@redhat.com>
+In-Reply-To: <20201027182144.3315885-29-pbonzini@redhat.com>
+References: <20201027182144.3315885-1-pbonzini@redhat.com>
+ <20201027182144.3315885-29-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CALLt3TgGATbAK5TFw-QBUFYTcC_CeAZ1AkMeeYuqgVxcyktT7g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=alistair23@gmail.com; helo=mail-pf1-x434.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,47 +79,194 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, qemu-devel@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 27 Oct 2020 14:21:43 -0400
+Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-
-On 19/11/2020 7:02 pm, Kito Cheng wrote:
->> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
->> index 0bbfd7f4574..bc29e118c6d 100644
->> --- a/target/riscv/cpu.c
->> +++ b/target/riscv/cpu.c
->> @@ -438,6 +438,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->>           if (cpu->cfg.ext_h) {
->>               target_misa |= RVH;
->>           }
->> +        if (cpu->cfg.ext_b) {
->> +            target_misa |= RVB;
->> +        }
->>           if (cpu->cfg.ext_v) {
->>               target_misa |= RVV;
->>               if (!is_power_of_2(cpu->cfg.vlen)) {
->> @@ -515,6 +518,7 @@ static Property riscv_cpu_properties[] = {
->>       DEFINE_PROP_BOOL("s", RISCVCPU, cfg.ext_s, true),
->>       DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
->>       /* This is experimental so mark with 'x-' */
->> +    DEFINE_PROP_BOOL("x-b", RISCVCPU, cfg.ext_b, true),
+> Move post-preconfig initialization to the x-exit-preconfig.  If preconfig
+> is not requested, just exit preconfig mode immediately with the QMP
+> command.
 > 
-> I think the default value should be false?
-
-Good catch, I missed that.
-
-Yes it should be false.
-
-Alistair
-
+> As a result, the preconfig loop will run with accel_setup_post
+> and os_setup_post restrictions (xen_restrict, chroot, etc.)
+> already done.
 > 
->>       DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
->>       DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
->>       DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+
+This one also doesn't apply,
+
++ one more comment below
+
+> ---
+>  include/sysemu/runstate.h |  1 -
+>  monitor/qmp-cmds.c        |  9 ----
+>  softmmu/vl.c              | 94 +++++++++++++++++----------------------
+>  3 files changed, 41 insertions(+), 63 deletions(-)
 > 
+> diff --git a/include/sysemu/runstate.h b/include/sysemu/runstate.h
+> index f760094858..e557f470d4 100644
+> --- a/include/sysemu/runstate.h
+> +++ b/include/sysemu/runstate.h
+> @@ -41,7 +41,6 @@ typedef enum WakeupReason {
+>      QEMU_WAKEUP_REASON_OTHER,
+>  } WakeupReason;
+>  
+> -void qemu_exit_preconfig_request(void);
+>  void qemu_system_reset_request(ShutdownCause reason);
+>  void qemu_system_suspend_request(void);
+>  void qemu_register_suspend_notifier(Notifier *notifier);
+> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+> index 7c10b182e4..6680ba6c66 100644
+> --- a/monitor/qmp-cmds.c
+> +++ b/monitor/qmp-cmds.c
+> @@ -102,15 +102,6 @@ void qmp_system_powerdown(Error **errp)
+>      qemu_system_powerdown_request();
+>  }
+>  
+> -void qmp_x_exit_preconfig(Error **errp)
+> -{
+> -    if (qdev_hotplug) {
+> -        error_setg(errp, "The command is permitted only before machine initialization");
+> -        return;
+> -    }
+> -    qemu_exit_preconfig_request();
+> -}
+> -
+>  void qmp_cont(Error **errp)
+>  {
+>      BlockBackend *blk;
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index 68acd24d01..98666c0612 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -1313,7 +1313,6 @@ static pid_t shutdown_pid;
+>  static int powerdown_requested;
+>  static int debug_requested;
+>  static int suspend_requested;
+> -static bool preconfig_exit_requested = true;
+>  static WakeupReason wakeup_reason;
+>  static NotifierList powerdown_notifiers =
+>      NOTIFIER_LIST_INITIALIZER(powerdown_notifiers);
+> @@ -1400,11 +1399,6 @@ static int qemu_debug_requested(void)
+>      return r;
+>  }
+>  
+> -void qemu_exit_preconfig_request(void)
+> -{
+> -    preconfig_exit_requested = true;
+> -}
+> -
+>  /*
+>   * Reset the VM. Issue an event unless @reason is SHUTDOWN_CAUSE_NONE.
+>   */
+> @@ -1626,10 +1620,6 @@ static bool main_loop_should_exit(void)
+>      RunState r;
+>      ShutdownCause request;
+>  
+> -    if (preconfig_exit_requested) {
+> -        preconfig_exit_requested = false;
+> -        return true;
+> -    }
+>      if (qemu_debug_requested()) {
+>          vm_stop(RUN_STATE_DEBUG);
+>      }
+> @@ -3523,6 +3513,43 @@ static void qemu_machine_creation_done(void)
+>      register_global_state();
+>  }
+>  
+> +void qmp_x_exit_preconfig(Error **errp)
+> +{
+> +    if (qdev_hotplug) {
+> +        error_setg(errp, "The command is permitted only before machine initialization");
+> +        return;
+> +    }
+> +
+> +    qemu_finish_machine_init();
+> +    qemu_create_cli_devices();
+> +    qemu_machine_creation_done();
+> +
+> +    if (loadvm) {
+> +        Error *local_err = NULL;
+> +        if (load_snapshot(loadvm, &local_err) < 0) {
+> +            error_report_err(local_err);
+> +            autostart = 0;
+> +            exit(1);
+> +        }
+> +    }
+> +    if (replay_mode != REPLAY_MODE_NONE) {
+> +        replay_vmstate_init();
+> +    }
+> +
+> +    if (incoming) {
+> +        Error *local_err = NULL;
+> +        if (strcmp(incoming, "defer") != 0) {
+> +            qmp_migrate_incoming(incoming, &local_err);
+> +            if (local_err) {
+> +                error_reportf_err(local_err, "-incoming %s: ", incoming);
+> +                exit(1);
+> +            }
+> +        }
+> +    } else if (autostart) {
+> +        qmp_cont(NULL);
+> +    }
+> +}
+> +
+>  void qemu_init(int argc, char **argv, char **envp)
+>  {
+>      QemuOpts *opts;
+> @@ -4092,7 +4119,6 @@ void qemu_init(int argc, char **argv, char **envp)
+>                  }
+>                  break;
+>              case QEMU_OPTION_preconfig:
+> -                preconfig_exit_requested = false;
+>                  preconfig_requested = true;
+>                  break;
+>              case QEMU_OPTION_enable_kvm:
+> @@ -4515,56 +4541,18 @@ void qemu_init(int argc, char **argv, char **envp)
+>      qemu_resolve_machine_memdev();
+>      parse_numa_opts(current_machine);
+>  
+> -    if (preconfig_requested) {
+> -        qemu_init_displays();
+> -    }
+
+^^^
+
+> -
+> -    /* do monitor/qmp handling at preconfig state if requested */
+> -    qemu_main_loop();
+> -    qemu_finish_machine_init();
+> -
+> -    qemu_create_cli_devices();
+> -
+> -    /* initialize displays after all errors have been reported */
+> -    if (!preconfig_requested) {
+> -        qemu_init_displays();
+> -    }
+
+^^^
+
+[...]
+>  
+
+1)
+
+> +    if (!preconfig_requested) {
+> +        qmp_x_exit_preconfig(&error_fatal);
+> +    }
+> +    qemu_init_displays();
+given that qemu_init_displays() were called in both cases,
+shouldn't it be called unconditionally at [1]?
+
+>      accel_setup_post(current_machine);
+>      os_setup_post();
+> -
+> -    return;
+>  }
+>  
+>  void qemu_cleanup(void)
+
 
