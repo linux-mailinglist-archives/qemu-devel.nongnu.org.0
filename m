@@ -2,87 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E7E42BB89D
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 22:55:41 +0100 (CET)
-Received: from localhost ([::1]:56920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 565A02BB8AB
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 23:03:47 +0100 (CET)
+Received: from localhost ([::1]:34052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kgENX-0002NK-V5
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 16:55:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43608)
+	id 1kgEVO-0005IK-0U
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 17:03:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <0x7f454c46@gmail.com>)
- id 1kgDne-00042C-MZ
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 16:18:34 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:40706)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <0x7f454c46@gmail.com>)
- id 1kgDnb-0006jZ-P2
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 16:18:34 -0500
-Received: by mail-wm1-x344.google.com with SMTP id a3so11316642wmb.5
- for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 13:18:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=gyNq+CXGsH0qwkvX6VyZpOW+xtz/kz2LyOf6/jkzaO0=;
- b=ehMwCniHhcWcyq6QySNwedlwnXYGa9deIPoyuONBTcSfF1FK8u/PL9bJ6Ivzmw97L7
- es8dC7wve9Gj4FH7Bku6rHJaJwFj5pfaK8oL0YZbUt6yW7TkLxlnskqzr/0nigNQejej
- 31uUxyrDVHao3tUMNruC8EXD4h5sZxOA1bmnFamo84NFMiTfTUBS7DKt+63TqiE2ZlHH
- 9uVZxffrCFe7ucCXTVHqop+bHNzRtmUXaiS3GhOqM4t5KJYBrFmvQEvr+lzv8Zj1m7H7
- uy6W36pavFI1h0qtlmGfHjXEfePkfw0IzcewzRmEOfY/nvKRhB0DMfOsN9+Pg2tmBMGt
- edVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=gyNq+CXGsH0qwkvX6VyZpOW+xtz/kz2LyOf6/jkzaO0=;
- b=hDX7FG3HGsJ/dbgXNhlue1OzWlbt7fKAlqVLARH1jyGZPnHCSe1oL1KVgFRCuzCtLl
- HU2m+UwDrK4v6ijSYJnYnHas3cEd0WOqltfTVn/ncox61P90lvabRiQeuY4EVMk+J6qT
- gKsv/V3ZN9StLvuRM3Y1pjmmFAccPrtv76MHFNdAOgif3X5sibf5aKbykTSvQA9s7Uf1
- ePs9olm9g7Z/AqvqWkT8TmXcPmoPkAPrijMyZ8tYIWgwRw+5t/j0uWIW9Wd8r3c3fJ8r
- 6vSHb/e10DmdyfTHJFwftB/fMny4OjWfXF9MInZnFVmVYM/hn6EUhOM+1H0Hp66HNG65
- 3wFA==
-X-Gm-Message-State: AOAM530fzN3RtHlW9sn+9TP9PeRhP0swZOe03E951J4p53+Mk1ONso2O
- Q3vsBuB5zTZTz1FlFq9p35Y=
-X-Google-Smtp-Source: ABdhPJy54UaB/Is5YjbhHOh/4TR/x7nVnHPWkMhJBXmzcWxv+thgpOMjrr4M7YOcmS0x8HNw60Afyw==
-X-Received: by 2002:a05:600c:2158:: with SMTP id
- v24mr12266035wml.107.1605907106503; 
- Fri, 20 Nov 2020 13:18:26 -0800 (PST)
-Received: from ?IPv6:2a02:8084:e84:2480:228:f8ff:fe6f:83a8?
- ([2a02:8084:e84:2480:228:f8ff:fe6f:83a8])
- by smtp.gmail.com with ESMTPSA id o4sm5516370wmh.33.2020.11.20.13.18.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Nov 2020 13:18:25 -0800 (PST)
-Subject: Re: [PATCH v2] drivers/virt: vmgenid: add vm generation id driver
-To: Alexander Graf <graf@amazon.de>
-References: <3E05451B-A9CD-4719-99D0-72750A304044@amazon.com>
- <300d4404-3efe-880e-ef30-692eabbff5f7@de.ibm.com>
- <da1a1fa7-a1de-d0e6-755b-dd587687765e@amazon.de>
- <20201119173800.GD8537@kernel.org>
- <1cdb6fac-0d50-3399-74a6-24c119ebbaa5@amazon.de>
-From: Dmitry Safonov <0x7f454c46@gmail.com>
-Message-ID: <106f56ca-49bc-7cad-480f-4b26656e90ce@gmail.com>
-Date: Fri, 20 Nov 2020 21:18:23 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kgETj-0004Mc-0Z
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 17:02:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59742)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kgETg-0005HZ-1K
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 17:02:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605909717;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OMXWp+Zp2ViIPR/6li4QjmkulwhO039NFdnZo+OadRY=;
+ b=U/FxtSp1GpCUDY9/HRZXFlMpOVWT7g0XY+N/UUZ4EhGfU6pdLZ01OJdgD+lct5nWZ4yjHw
+ fxLeBJImfbW3uhSzhzKn7tlFz6X79l0tiAx9xa8aYgTytBq0LS+fjFypX8zkuu/vBjybSJ
+ 6EUnonIFtmYLex7KmkUqG6Vs40cKlcM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-535-Q9NYYIAHMAm_jez-k-6CAA-1; Fri, 20 Nov 2020 17:01:53 -0500
+X-MC-Unique: Q9NYYIAHMAm_jez-k-6CAA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF94D10151E7;
+ Fri, 20 Nov 2020 22:01:51 +0000 (UTC)
+Received: from w520.home (ovpn-112-213.phx2.redhat.com [10.3.112.213])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 90CDC1002388;
+ Fri, 20 Nov 2020 22:01:47 +0000 (UTC)
+Date: Fri, 20 Nov 2020 15:01:46 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Shenming Lu <lushenming@huawei.com>
+Subject: Re: [PATCH RFC] vfio: Move the saving of the config space to the
+ right place in VFIO migration
+Message-ID: <20201120150146.5e5693e9@w520.home>
+In-Reply-To: <a7be9306-f800-0323-293e-217e2e9f6015@huawei.com>
+References: <20201114091731.157-1-lushenming@huawei.com>
+ <860bd707-8862-2584-6e12-67c86f092dba@nvidia.com>
+ <20201119104127.5e243efa@w520.home>
+ <a7be9306-f800-0323-293e-217e2e9f6015@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <1cdb6fac-0d50-3399-74a6-24c119ebbaa5@amazon.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=0x7f454c46@gmail.com; helo=mail-wm1-x344.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 20 Nov 2020 16:54:30 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,109 +83,234 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
- "dgunigun@redhat.com" <dgunigun@redhat.com>, KVM list <kvm@vger.kernel.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- "ghammer@redhat.com" <ghammer@redhat.com>,
- "vijaysun@ca.ibm.com" <vijaysun@ca.ibm.com>, "Weiss,
- Radu" <raduweis@amazon.com>, Qemu Developers <qemu-devel@nongnu.org>,
- Michal Hocko <mhocko@kernel.org>, Andrey Vagin <avagin@gmail.com>,
- Pavel Machek <pavel@ucw.cz>, Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
- linux-s390 <linux-s390@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
- "Michael S. Tsirkin" <mst@redhat.com>, Eric Biggers <ebiggers@kernel.org>,
- Christian Borntraeger <borntraeger@de.ibm.com>, "Singh,
- Balbir" <sblbir@amazon.com>, "Eric W. Biederman" <ebiederm@xmission.com>,
- "bonzini@gnu.org" <bonzini@gnu.org>, Jann Horn <jannh@google.com>,
- "asmehra@redhat.com" <asmehra@redhat.com>,
- "oridgar@gmail.com" <oridgar@gmail.com>, "Catangiu,
- Adrian Costin" <acatan@amazon.com>, Andy Lutomirski <luto@kernel.org>,
- "gil@azul.com" <gil@azul.com>, "MacCarthaigh, Colm" <colmmacc@amazon.com>,
- "Theodore Y. Ts'o" <tytso@mit.edu>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Adrian Reber <areber@redhat.com>, kernel list <linux-kernel@vger.kernel.org>,
- Pavel Emelyanov <ovzxemul@gmail.com>, Mike Rapoport <rppt@kernel.org>,
- Linux API <linux-api@vger.kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Willy Tarreau <w@1wt.eu>, "Woodhouse, David" <dwmw@amazon.co.uk>
+Cc: Neo Jia <cjia@nvidia.com>, Marc Zyngier <maz@kernel.org>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org, dgilbert@redhat.com,
+ Eric Auger <eric.auger@redhat.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ qemu-arm@nongnu.org, yuzenghui@huawei.com, wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+On Fri, 20 Nov 2020 22:05:49 +0800
+Shenming Lu <lushenming@huawei.com> wrote:
 
-+Cc Eric, Adrian
+> On 2020/11/20 1:41, Alex Williamson wrote:
+> > On Thu, 19 Nov 2020 14:13:24 +0530
+> > Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> >  =20
+> >> On 11/14/2020 2:47 PM, Shenming Lu wrote: =20
+> >>> When running VFIO migration, I found that the restoring of VFIO PCI d=
+evice=E2=80=99s
+> >>> config space is before VGIC on ARM64 target. But generally, interrupt=
+ controllers
+> >>> need to be restored before PCI devices.    =20
+> >>
+> >> Is there any other way by which VGIC can be restored before PCI device=
+? =20
+>=20
+> As far as I know, it seems to have to depend on priorities in the non-ite=
+rable process.
+>=20
+> >> =20
+> >>> Besides, if a VFIO PCI device is
+> >>> configured to have directly-injected MSIs (VLPIs), the restoring of i=
+ts config
+> >>> space will trigger the configuring of these VLPIs (in kernel), where =
+it would
+> >>> return an error as I saw due to the dependency on kvm=E2=80=99s vgic.
+> >>>    =20
+> >>
+> >> Can this be fixed in kernel to re-initialize the kernel state? =20
+>=20
+> Did you mean to reconfigure these VLPIs when restoring kvm's vgic?
+> But the fact is that this error is not caused by kernel, it is due to the=
+ incorrect
+> calling order of qemu...
+>=20
+> >> =20
+> >>> To avoid this, we can move the saving of the config space from the it=
+erable
+> >>> process to the non-iterable process, so that it will be called after =
+VGIC
+> >>> according to their priorities.
+> >>>    =20
+> >>
+> >> With this change, at resume side, pre-copy phase data would reach=20
+> >> destination without restored config space. VFIO device on destination=
+=20
+> >> might need it's config space setup and validated before it can accept=
+=20
+> >> further VFIO device specific migration state.
+> >>
+> >> This also changes bit-stream, so it would break migration with origina=
+l=20
+> >> migration patch-set. =20
+> >=20
+> > Config space can continue to change while in pre-copy, if we're only
+> > sending config space at the initiation of pre-copy, how are any changes
+> > that might occur before the VM is stopped conveyed to the target?  For
+> > example the guest might reboot and a device returned to INTx mode from
+> > MSI during pre-copy.  Thanks, =20
+>=20
+> What I see is that the config space is only saved once in save_live_compl=
+ete_precopy
+> currently...
+> As you said, a VFIO device might need it's config space setup first, and
+> the config space can continue to change while in pre-copy, Did you mean w=
+e
+> have to migrate the config space in save_live_iterate?
+> However, I still have a little doubt about the restoring dependence betwe=
+en
+> the qemu emulated config space and the device data...
+>=20
+> Besides, if we surely can't move the saving of the config space back, can=
+ we
+> just move some actions which are triggered by the restoring of the config=
+ space
+> back (such as vfio_msix_enable())?
 
-On 11/19/20 6:36 PM, Alexander Graf wrote:
-> On 19.11.20 18:38, Mike Rapoport wrote:
->> On Thu, Nov 19, 2020 at 01:51:18PM +0100, Alexander Graf wrote:
->>> On 19.11.20 13:02, Christian Borntraeger wrote:
->>>> On 16.11.20 16:34, Catangiu, Adrian Costin wrote:
->>>>> - Background
->>>>>
->>>>> The VM Generation ID is a feature defined by Microsoft (paper:
->>>>> http://go.microsoft.com/fwlink/?LinkId=260709) and supported by
->>>>> multiple hypervisor vendors.
->>>>>
->>>>> The feature is required in virtualized environments by apps that work
->>>>> with local copies/caches of world-unique data such as random values,
->>>>> uuids, monotonically increasing counters, etc.
->>>>> Such apps can be negatively affected by VM snapshotting when the VM
->>>>> is either cloned or returned to an earlier point in time.
->>>>>
->>>>> The VM Generation ID is a simple concept meant to alleviate the issue
->>>>> by providing a unique ID that changes each time the VM is restored
->>>>> from a snapshot. The hw provided UUID value can be used to
->>>>> differentiate between VMs or different generations of the same VM.
->>>>>
->>>>> - Problem
->>>>>
->>>>> The VM Generation ID is exposed through an ACPI device by multiple
->>>>> hypervisor vendors but neither the vendors or upstream Linux have no
->>>>> default driver for it leaving users to fend for themselves.
-[..]
+It seems that the significant benefit to enabling interrupts during
+pre-copy would be to reduce the latency and failure potential during
+the final phase of migration.  Do we have any data for how much it adds
+to the device contributed downtime to configure interrupts only at the
+final stage?  My guess is that it's a measurable delay on its own.  At
+the same time, we can't ignore the differences in machine specific
+dependencies and if we don't even sync the config space once the VM is
+stopped... this all seems not ready to call supported, especially if we
+have concerns already about migration bit-stream compatibility.
 
->>> The only piece where I'm unsure is how this will interact with CRIU.
->>
->> To C/R applications that use /dev/vmgenid CRIU need to be aware of it.
->> Checkpointing and restoring withing the same "VM generation" shouldn't be
->> a problem, but IMHO, making restore work after genid bump could be
->> challenging.
->>
->> Alex, what scenario involving CRIU did you have in mind?
-> 
-> You can in theory run into the same situation with containers that this
-> patch is solving for virtual machines. You could for example do a
-> snapshot of a prewarmed Java runtime with CRIU to get full JIT speeds
-> starting from the first request.
-> 
-> That however means you run into the problem of predictable randomness
-> again.
-> 
->>
->>> Can containers emulate ioctls and device nodes?
->>
->> Containers do not emulate ioctls but they can have /dev/vmgenid inside
->> the container, so applications can use it the same way as outside the
->> container.
-> 
-> Hm. I suppose we could add a CAP_ADMIN ioctl interface to /dev/vmgenid
-> (when container people get to the point of needing it) that sets the
-> generation to "at least X". That way on restore, you could just call
-> that with "generation at snapshot"+1.
-> 
-> That also means we need to have this interface available without virtual
-> machines then though, right?
+Given our timing relative to QEMU 5.2, the only path I feel comfortable
+with is to move forward with downgrading vfio migration support to be
+enabled via an experimental option.  Objections?  Thanks,
 
-Sounds like a good idea.
-I guess, genvmid can be global on host, rather than per-userns or
-per-process for simplicity. Later if somebody will have a bottleneck on
-restore when every process on the machine wakes up from read() it could
-be virtualized, but doing it now sounds too early.
+Alex
 
-ioctl() probably should go under
-checkpoint_restore_ns_capable(current_user_ns()), rather than
-CAP_SYS_ADMIN (I believe it should be safe from DOS as only CRIU should
-run with this capability, but worth to document this).
+>=20
+> The demo patch is as follows (but it seems that .save_state is not a appr=
+opriate
+> place to do it. -_-):
+>=20
+> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> index 55261562d4..9cf0310148 100644
+> --- a/hw/vfio/migration.c
+> +++ b/hw/vfio/migration.c
+> @@ -44,6 +44,7 @@
+>  #define VFIO_MIG_FLAG_DEV_CONFIG_STATE  (0xffffffffef100002ULL)
+>  #define VFIO_MIG_FLAG_DEV_SETUP_STATE   (0xffffffffef100003ULL)
+>  #define VFIO_MIG_FLAG_DEV_DATA_STATE    (0xffffffffef100004ULL)
+> +#define VFIO_MIG_FLAG_DEV_STATE_TRIGGER (0xffffffffef100005ULL)
+>=20
+>  static int64_t bytes_transferred;
+>=20
+> @@ -368,6 +369,15 @@ static int vfio_save_device_config_state(QEMUFile *f=
+, void *opaque)
+>      return qemu_file_get_error(f);
+>  }
+>=20
+> +static void vfio_device_state_trigger(void *opaque)
+> +{
+> +    VFIODevice *vbasedev =3D opaque;
+> +
+> +    if (vbasedev->ops && vbasedev->ops->vfio_trigger_config) {
+> +        vbasedev->ops->vfio_trigger_config(vbasedev);
+> +    }
+> +}
+> +
+>  static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
+>  {
+>      VFIODevice *vbasedev =3D opaque;
+> @@ -620,6 +630,13 @@ static int vfio_save_complete_precopy(QEMUFile *f, v=
+oid *opaque)
+>      return ret;
+>  }
+>=20
+> +static void vfio_save_state_trigger(QEMUFile *f, void *opaque)
+> +{
+> +    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_STATE_TRIGGER);
+> +
+> +    qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
+> +}
+> +
+>  static int vfio_load_setup(QEMUFile *f, void *opaque)
+>  {
+>      VFIODevice *vbasedev =3D opaque;
+> @@ -700,6 +717,18 @@ static int vfio_load_state(QEMUFile *f, void *opaque=
+, int version_id)
+>              }
+>              break;
+>          }
+> +        case VFIO_MIG_FLAG_DEV_STATE_TRIGGER:
+> +        {
+> +            vfio_device_state_trigger(opaque);
+> +            data =3D qemu_get_be64(f);
+> +            if (data =3D=3D VFIO_MIG_FLAG_END_OF_STATE) {
+> +                return ret;
+> +            } else {
+> +                error_report("%s: STATE TRIGGER: EOS not found 0x%"PRIx6=
+4,
+> +                             vbasedev->name, data);
+> +                return -EINVAL;
+> +            }
+> +        }
+>          default:
+>              error_report("%s: Unknown tag 0x%"PRIx64, vbasedev->name, da=
+ta);
+>              return -EINVAL;
+> @@ -720,6 +749,7 @@ static SaveVMHandlers savevm_vfio_handlers =3D {
+>      .save_live_pending =3D vfio_save_pending,
+>      .save_live_iterate =3D vfio_save_iterate,
+>      .save_live_complete_precopy =3D vfio_save_complete_precopy,
+> +    .save_state =3D vfio_save_state_trigger,
+>      .load_setup =3D vfio_load_setup,
+>      .load_cleanup =3D vfio_load_cleanup,
+>      .load_state =3D vfio_load_state,
+> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+> index 58c0ce8971..4cd2feee92 100644
+> --- a/hw/vfio/pci.c
+> +++ b/hw/vfio/pci.c
+> @@ -2441,13 +2441,19 @@ static int vfio_pci_load_config(VFIODevice *vbase=
+dev, QEMUFile *f)
+>      vfio_pci_write_config(pdev, PCI_COMMAND,
+>                            pci_get_word(pdev->config + PCI_COMMAND), 2);
+>=20
+> +    return ret;
+> +}
+> +
+> +static void vfio_pci_trigger_config(VFIODevice *vbasedev)
+> +{
+> +    VFIOPCIDevice *vdev =3D container_of(vbasedev, VFIOPCIDevice, vbased=
+ev);
+> +    PCIDevice *pdev =3D &vdev->pdev;
+> +
+>      if (msi_enabled(pdev)) {
+>          vfio_msi_enable(vdev);
+>      } else if (msix_enabled(pdev)) {
+>          vfio_msix_enable(vdev);
+>      }
+> -
+> -    return ret;
+>  }
+>=20
+>  static VFIODeviceOps vfio_pci_ops =3D {
+> @@ -2457,6 +2463,7 @@ static VFIODeviceOps vfio_pci_ops =3D {
+>      .vfio_get_object =3D vfio_pci_get_object,
+>      .vfio_save_config =3D vfio_pci_save_config,
+>      .vfio_load_config =3D vfio_pci_load_config,
+> +    .vfio_trigger_config =3D vfio_pci_trigger_config,
+>  };
+>=20
+>  int vfio_populate_vga(VFIOPCIDevice *vdev, Error **errp)
+> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.=
+h
+> index baeb4dcff1..4680a3e8d0 100644
+> --- a/include/hw/vfio/vfio-common.h
+> +++ b/include/hw/vfio/vfio-common.h
+> @@ -138,6 +138,7 @@ struct VFIODeviceOps {
+>      Object *(*vfio_get_object)(VFIODevice *vdev);
+>      void (*vfio_save_config)(VFIODevice *vdev, QEMUFile *f);
+>      int (*vfio_load_config)(VFIODevice *vdev, QEMUFile *f);
+> +    void (*vfio_trigger_config)(VFIODevice *vdev);
+>  };
+>=20
+>  typedef struct VFIOGroup {
 
-Thanks,
-         Dmitry
 
