@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F78D2BA612
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 10:27:52 +0100 (CET)
-Received: from localhost ([::1]:60318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2BB52BA621
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 10:29:22 +0100 (CET)
+Received: from localhost ([::1]:34906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg2hq-0004nv-PH
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 04:27:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37502)
+	id 1kg2jJ-00063h-Qx
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 04:29:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kg2go-0004K8-Fv
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 04:26:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36241)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kg2gk-0005jx-Ao
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 04:26:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605864400;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Up7xL3kAHBYMIMTHd6pOC2EIDEeFpHYrztH+d8f2xno=;
- b=IUeAo0P8dFZbyQEXmmxtY+ZF4gLLRt0xiMa1Bbt6KKzb4Vu41cdVsr75kcZmlHX2EXM2ho
- lEnBajl1Q9iJBGArd6VT4SgYLTOfnyBo0gP3IX2kZqny2Sn32eDTPrQgWy+57h9E27fRJy
- iskTCrO4v2o5kKyMNZD6nI9nqJmfwCs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-326-ynrIXCN7MHOjBlcsYF39Jw-1; Fri, 20 Nov 2020 04:26:38 -0500
-X-MC-Unique: ynrIXCN7MHOjBlcsYF39Jw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9884890AF9;
- Fri, 20 Nov 2020 09:26:32 +0000 (UTC)
-Received: from gondolin (ovpn-112-250.ams2.redhat.com [10.36.112.250])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 92EC36A907;
- Fri, 20 Nov 2020 09:26:29 +0000 (UTC)
-Date: Fri, 20 Nov 2020 10:26:26 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Eric Farman <farman@linux.ibm.com>
-Subject: Re: [PATCH 1/2] pc-bios: s390x: Ensure Read IPL memory is clean
-Message-ID: <20201120102626.45842232.cohuck@redhat.com>
-In-Reply-To: <20201119165729.63351-2-farman@linux.ibm.com>
-References: <20201119165729.63351-1-farman@linux.ibm.com>
- <20201119165729.63351-2-farman@linux.ibm.com>
-Organization: Red Hat GmbH
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1kg2iI-0005WW-Ea
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 04:28:18 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:38374)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1kg2iG-0006Ck-8u
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 04:28:18 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id 1so9179303wme.3
+ for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 01:28:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=livius-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=p7Ds4/WhKiWLYsgKVgfmPCW8up+dmct0Vr9JtSGgVcQ=;
+ b=jG9xkgydM5/xXCeFGgPqVH38krw3Q5UKTr35mmAo/pYHyVNdKCWsOa7DLxRuPp/Wvh
+ 9m1JjNjQome2F0SqOts9S77HeH13FnzpFhyaMQH/2vJ09znP2wgdInCljtfoRzeEZrLN
+ v2z8RrM8/1ghNUEgppglMT4nLCgYLB2vC2WHVEVOPY3D3Bp7u7D1ho+ErI5lRuwGcDEi
+ Vk4+xaIW6/Lo/6zVFwkbbH18aUbCdSLBVChlX9VNYlOD+XLZ+cX5pIe3dE/MzSp3fp2/
+ gYLJuUUdoNcGVUoY7BnnHd5jSXsJtkHrsSYAKqmo7c5gpfCuFp1oep6aDqR5q5XQPN9y
+ RCtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=p7Ds4/WhKiWLYsgKVgfmPCW8up+dmct0Vr9JtSGgVcQ=;
+ b=IM0JW0NzHsKoNVQpHq6Yoa6kn+aRmClMScnyUzqbqi3WFS3rSUxWYJlNbsyjuJrbel
+ h2h+55+YZnoGO5dGQXMxnHBHU6a35evb8O+kQULFKO7oyABWMRGwMoUEcCEF8/8N14RH
+ /wUcEmAC1FbK5+WfB9HSVyCiV6efPMlvWGOJdBhC9Tz+SXiRgwuq4nsfwAiU7Lezr6Fa
+ EeuGSGIHFdKx1PnzWqupMHRl/K/2qulOMLxkQ/5WbXZp6oPY30mWkt7RZ8+hnhWlo4yY
+ ydjvmCsUUJoyq2O+9x1zdOwGkc1iKLDQaAeHF/VcFCTTwWEEjY2HQeIS69NhfpSqbe83
+ Swpw==
+X-Gm-Message-State: AOAM532NV01lWJICObIa6WHXbMlOAR+4wg3UayAipLoKt3jzba4r081w
+ fhC3JuGDNUuSr8cNvr5ZROkBiA==
+X-Google-Smtp-Source: ABdhPJyM9KwR4sM3cAV+NuU+o0d/VDVyGM3Wp84R2HBibK/paGTKWQrdfI9NcWSC8Qtbiby1suGH7g==
+X-Received: by 2002:a1c:21c1:: with SMTP id h184mr9322253wmh.106.1605864494560; 
+ Fri, 20 Nov 2020 01:28:14 -0800 (PST)
+Received: from wks.local ([86.120.180.222])
+ by smtp.gmail.com with ESMTPSA id o4sm3703197wmh.33.2020.11.20.01.28.13
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 20 Nov 2020 01:28:13 -0800 (PST)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
+Subject: Re: Peter Maydell
+From: Liviu Ionescu <ilg@livius.net>
+In-Reply-To: <a0f17e81-5113-2e49-4275-f70674c6edaf@redhat.com>
+Date: Fri, 20 Nov 2020 11:28:13 +0200
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <B5AE18AC-C0F7-46AD-996B-7CB65403ECEA@livius.net>
+References: <5A06DC2D-E6A3-4249-B05F-A424D684BD26@gmail.com>
+ <1C01B0E2-8730-40F4-8C75-B8FE3E851747@livius.net>
+ <a0f17e81-5113-2e49-4275-f70674c6edaf@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+X-Mailer: Apple Mail (2.3608.120.23.2.4)
+Received-SPF: none client-ip=2a00:1450:4864:20::32c;
+ envelope-from=ilg@livius.net; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,40 +84,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Herne <jjherne@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
- Janosch Frank <frankja@linux.ibm.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
- qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x@nongnu.org, Jared Rossi <jrossi@linux.ibm.com>
+Cc: cavinnarsinghani@gmail.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 19 Nov 2020 17:57:28 +0100
-Eric Farman <farman@linux.ibm.com> wrote:
 
-> If, for example, we boot off a virtio device and chreipl to a vfio-ccw
-> device, the space at lowcore will be non-zero. We build a Read IPL CCW
-> at address zero, but it will have leftover PSW data that will conflict
-> with the Format-0 CCW being generated:
-> 
-> 0x0: 00080000 80010000
->        ------ Ccw0.cda
->               -- Ccw0.chainData
->                 -- Reserved bits
-> 
-> The data address will be overwritten with the correct value (0x0), but
-> the apparent data chain bit will cause subsequent memory to be used as
-> the target of the data store, which may not be where we expect (0x0).
-> 
-> Clear out this space when we boot from DASD, so that we know it exists
-> exactly as we expect.
-> 
-> Signed-off-by: Eric Farman <farman@linux.ibm.com>
-> Reviewed-by: Jason J. Herne <jjherne@linux.ibm.com>
-> Acked-by: Christian Borntraeger <borntraeger@de.ibm.com>
-> ---
->  pc-bios/s390-ccw/dasd-ipl.c | 3 +++
->  1 file changed, 3 insertions(+)
 
-Acked-by: Cornelia Huck <cohuck@redhat.com>
+> On 20 Nov 2020, at 10:54, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>=20
+> new m1 ... Richard Henderson and Joelle van Dyne are working on it
+
+Ok, it's good to know that someone takes care of this.
+
+Personally I think that the new Apple hardware is great, but to match =
+developer needs it might need a few more months to bring up all =
+necessary tools, QEMU included.
+
+
+Regards,
+
+Liviu
 
 
