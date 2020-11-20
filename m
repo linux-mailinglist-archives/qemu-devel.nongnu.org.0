@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA09E2B9EFD
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 01:08:10 +0100 (CET)
-Received: from localhost ([::1]:60830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E97B2B9F08
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 01:11:26 +0100 (CET)
+Received: from localhost ([::1]:35604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kftyD-0007qH-Ad
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 19:08:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52924)
+	id 1kfu1N-0000t1-LO
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 19:11:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kftxA-0007Ba-M9
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 19:07:04 -0500
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:42444)
+ id 1kftzN-0008SA-2y
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 19:09:22 -0500
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:43026)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kftx7-0007Uj-Q1
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 19:07:04 -0500
-Received: by mail-pl1-x643.google.com with SMTP id s2so3880881plr.9
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 16:07:01 -0800 (PST)
+ id 1kftzL-0007vh-Im
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 19:09:20 -0500
+Received: by mail-pl1-x644.google.com with SMTP id u2so3882037pls.10
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 16:09:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=vXi8NlU/I4hcjMlSi1JN70ve5UPqJ6x7pl8DUVbmcP8=;
- b=whTji0otKuf7crMV24l4X2mt4g2Ae5lEJqCzrUW8Ndq/MLbea0VSH88JSG4GKXkL+e
- jJ6JdMVcESA2XI227QAviHKvN5i03vr9r09DLmTD5XfW5jbnwDU55N109Pqft6ljk7db
- K6sPOTR39/5Y0BckWCCyoX7OuJOulH+SISezgWvHjni4K07bhq3JJIhw6BGm3qSYld9I
- E4hUMRRS6OfDXUd5pV2MQIDnVKJ5mr95ENPRSyudaqag0vE/UCZiGCMPMd/qvOyq0g+q
- JGeupSLTgUeMYwVWvjp2mBengt3uebSjtoDP5n3fFKraBK3Zc/Zwo+EaDzJeuHGCawbC
- zy2g==
+ bh=x5sMLoCBk5hsmpRc5SpPCZ5ZOD1n3jOGNSkPWLD7Fdw=;
+ b=cVN18ABV8US5sWD83XnVfF021vvz2XY/z0D4GFTIUT61Qhz+pTGPyvEBANysKXnKc5
+ xyn3A8RmECB4f1PONl+vTY+ecrosYK5ySP7rdypQLUEn6gAGgezVCoqwgeT2gqgnjNHN
+ 2T+KD1OcapChnUDHTiizgHVe4bkZoQaDpYZ7sqW1a3l2Bx1/BeUcswH3+At4J/sFpCta
+ XywhYTy1Byj/HncjqYtKY5m4703rFoSWSQUUkCdlMuG72Nv/eTYa/YthIFhfFgS6YVvw
+ +I6oQFhMWlTUy24ySOaDKcdQk92QFAVwy+yU39QpJ6JylsGL7NhI3Wr8VmVAikTOGoYR
+ 7avw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=vXi8NlU/I4hcjMlSi1JN70ve5UPqJ6x7pl8DUVbmcP8=;
- b=BXsP5B4tmMYY+Ofw0lY5XY/YaKp1p0TIt3ClVk7Hy/5evS1DmrvoC4ouQLq+Yr8XO1
- RvinBdaavqNZXe8kXSn6QHXs/x7HFDIuLqI7+CG2bWYqcmAcW0z6tVbVdti0iOpiAIQz
- 63cVkxfVgGY7HT3CktMDIOp9Ll+IHoIE1nANBPvKPjT7oNku91YNjKrdX5FYMDaYQXDj
- fXrNzP6FcgGXd5FTTHh4wISeV6dn4IjEgrAvtrDIboCm+rs30kH8FwXiTaJEU9vdRsZ2
- HsKATR07GIZ93rFKAC0vwYGJGVYPPrKoCOlphZwAgApMSwnbVNbWNel2RCdAs+Thhokh
- cZzg==
-X-Gm-Message-State: AOAM531YSZ9JukeHHMbxGOcBqSrblbUQ02cMbZ3M7wgBtEusghBM1WTd
- mLLVaha2wjBvjbDWsemJ/6qqyA==
-X-Google-Smtp-Source: ABdhPJyq0M0KhQMYA2jIJn3pz0zx6BktCbKIW6TxSelwjekPxwEWdM7gi4RX+IcpP3dZuhRYMi/4gg==
-X-Received: by 2002:a17:902:aa83:b029:d8:c97d:9c2e with SMTP id
- d3-20020a170902aa83b02900d8c97d9c2emr11653375plr.44.1605830820157; 
- Thu, 19 Nov 2020 16:07:00 -0800 (PST)
+ bh=x5sMLoCBk5hsmpRc5SpPCZ5ZOD1n3jOGNSkPWLD7Fdw=;
+ b=VisVhoYlVcZozhDwgUpHMeIjMmhjF84hdg14TahUpZsTi8/L5UK52m/ViaH/VEAU8w
+ 1Lvfap+Cd8vsoWtzIiEObAkHzuEjVmXABqiBlr5+4dVmVU1iDkSdWPXS6QeuxOlDBOT+
+ OfIpYq/smp3pR8lcB2gubEfUif+6BNfidBU7t/IEwRC69s5iBV9lrvjxMQ3JuQVsf4mq
+ +t1tWxhex3ENx/Y9a3L63gNmbRp3IeFb1c0m4Bp8fmso7nqhitCMp+vlSrGiGxceIP7M
+ +DCvIczVz3zThm0DddgeW+mZ8PRMm7Yo/0iNny7VJVm8hwIBG3Ih7566nEXmKlXrGViA
+ fYIQ==
+X-Gm-Message-State: AOAM531Q4SB5vPgh+Ozk9p9TrxM7J44sEWh43Iqq7HJoSkbgTV8k8241
+ GkZelWmyta+MH6eKzdSRXw0hxw==
+X-Google-Smtp-Source: ABdhPJzS6u1lSL7bUi8uMvIKVj2ye+9Amf7ngYilTew9UFK7QcUuSpn55hRALCkw0REHMXwIaKIfhw==
+X-Received: by 2002:a17:902:7c08:b029:d9:8cb:5775 with SMTP id
+ x8-20020a1709027c08b02900d908cb5775mr10862519pll.56.1605830957871; 
+ Thu, 19 Nov 2020 16:09:17 -0800 (PST)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id p15sm864567pgk.13.2020.11.19.16.06.58
+ by smtp.gmail.com with ESMTPSA id h16sm1107829pfo.185.2020.11.19.16.09.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Nov 2020 16:06:59 -0800 (PST)
-Subject: Re: [PATCH 1/6] configure: Remove the obsolete check for ifaddrs.h
+ Thu, 19 Nov 2020 16:09:17 -0800 (PST)
+Subject: Re: [PATCH 2/6] configure / meson: Move check for pty.h to meson.build
 To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
  Paolo Bonzini <pbonzini@redhat.com>
 References: <20201118171052.308191-1-thuth@redhat.com>
- <20201118171052.308191-2-thuth@redhat.com>
+ <20201118171052.308191-3-thuth@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <333897aa-4862-1fb0-8736-1c098e464710@linaro.org>
-Date: Thu, 19 Nov 2020 16:06:57 -0800
+Message-ID: <11bfaa5d-2cfb-f688-3a51-17f4cfe51d85@linaro.org>
+Date: Thu, 19 Nov 2020 16:09:15 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201118171052.308191-2-thuth@redhat.com>
+In-Reply-To: <20201118171052.308191-3-thuth@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x643.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,14 +94,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/18/20 9:10 AM, Thomas Huth wrote:
-> The code that used HAVE_IFADDRS_H has been removed in commit
-> 0a27af918b ("io: use bind() to check for IPv4/6 availability"),
-> so we don't need this check in the configure script anymore.
+> This check can be done in a much shorter way in meson.build
 > 
 > Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  configure | 11 -----------
->  1 file changed, 11 deletions(-)
+>  configure   | 9 ---------
+>  meson.build | 1 +
+>  2 files changed, 1 insertion(+), 9 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
