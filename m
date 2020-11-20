@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 716092BAED0
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 16:25:58 +0100 (CET)
-Received: from localhost ([::1]:44358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52B0A2BAED2
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 16:26:38 +0100 (CET)
+Received: from localhost ([::1]:45738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg8IP-0001AZ-Hm
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 10:25:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45658)
+	id 1kg8J3-0001oN-BZ
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 10:26:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kg8Ec-00059l-4L; Fri, 20 Nov 2020 10:22:02 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:36186)
+ id 1kg8Ei-0005E4-51; Fri, 20 Nov 2020 10:22:08 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35728)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kg8Ea-0001wG-PY; Fri, 20 Nov 2020 10:22:01 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id j7so10438526wrp.3;
- Fri, 20 Nov 2020 07:21:59 -0800 (PST)
+ id 1kg8Eg-0001xa-6S; Fri, 20 Nov 2020 10:22:07 -0500
+Received: by mail-wm1-x341.google.com with SMTP id w24so10143696wmi.0;
+ Fri, 20 Nov 2020 07:22:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3dEydJ5cyhBIzSRwATWy+tOP9vznIXP6/O1QeD+0UM0=;
- b=WYhkTLdE0t9zjnOnk5L0XwmFRm/hocb2CRsDdlM3OgMBdm5rYx6IOrXIR5Z+y654rn
- QprJ2UOEvVwVDJPwxr6HIePWSjbgVoZpBTzJ7oyuHlUqIiPHW7oXDbEkQNUc3+u6f1Q7
- oYHyHU2qJN+gCe16fDyPiiga5beodXMK3rXlvHGm+qp7blUTP0vk8vQqyJPoJFixlWCa
- K5VWQtabn1a/2GYbKdF3ZfSxnWf9GfoU1x1FXjFSVDC41V45qEsMZzqNmTS3RF0cKDag
- R2NsY/lQ2zYTM+N52Gy7fuahSE4S/o5sX2xa6fdnU68375gRz2kL7gPn1HZtS3/Fk4qo
- Z4nw==
+ bh=OFxYRRko5wDlndgHLT3zQ815TN8hN9Ueg8Jn6ELnMyE=;
+ b=XkHJtSIteZPocXev2ZtLyGV4+rwDC1DCkjq8OpES5ndeSpMSNkJSz+aaao9MaWcdyg
+ bw8dkiyubGmks/kQKSWIbiijkuW2FjmphqPVZQBK5b+rgkOzDG04SVtjrPQD4wAGox8W
+ t1ksm2BUVXIFPRtStMGFDzt8CpJq4L0vozunljQA4DWpKa6DGCOX3qRROnxDZiJJehf8
+ 50wRudvARfaN0WrrvZikHOcrRHN58mtU2mXLv+Q4PeY3K9AXTl/okWF1dVHuKbpOdXEL
+ vnmkHW8/sQ0iweMYHR9FoDsXmRUZjfz2lP6Ho/RN5P5aJupoUCDG+ltnvqZ53lOQeSW4
+ jvyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=3dEydJ5cyhBIzSRwATWy+tOP9vznIXP6/O1QeD+0UM0=;
- b=pCdvr4uXo/hnc2OMbDsL9yAEqLjkiSSq2hKLCRKjSeYXm18VwdXAzhQsaTmxDfEDE1
- jzpK1Hb0YXAc0Lw6HsXs3j5goXNtBRZC+MwNZ5xCxUnMgRSN1AvftSJUlmQZEBx4g1MO
- 6rOpQugqShTAO1e42RRA2bHOFbE2EtJsLH6dw1wYTsRRHxvjGJzdnREUhiYHPzyrbXiN
- sCWHKQNabPIgzAiN27CaY5nexTC++Q3JVsrYTTM982fJDMGJ5Z4t32aUO0ybJJidvE5X
- 1nUHqp465a2AgaAidLKxXYBcfOg9tyGo7NT48isfdXAgzqdzwq0O19oXwVR+8JTZVHYT
- ys9w==
-X-Gm-Message-State: AOAM530hPuZEPSm0pNmuikKJsy7ZjtAVYd25u1bnhnSXMJ/WSrlKh5LR
- MUFkkaVloK7JEjb5HaFW7hsZjPoNWXU=
-X-Google-Smtp-Source: ABdhPJyYBp8us9O9PqEVxUXv5JolJkoFHBdZ+/uEe2gnIbJcWHQ/iKGRfTZKrU9UuZS0drWcbJ8BmA==
-X-Received: by 2002:a5d:5450:: with SMTP id w16mr16059725wrv.425.1605885718688; 
- Fri, 20 Nov 2020 07:21:58 -0800 (PST)
+ bh=OFxYRRko5wDlndgHLT3zQ815TN8hN9Ueg8Jn6ELnMyE=;
+ b=hORqxnJ4YrNJ7GxkPUv7jzc99NMy/UmnnvG4CNcocAPHLWjFnmu0jEwRnAFckEj+T3
+ lO4SgvbRtL3xMZHLGeOhMTNsK0idf0HbqqSu7ZsexJnU3ck2/otyRbE1YNpALwnhm/6T
+ /t8AVhmCw4kffYyNsHEzVfXnRaPkyWf8eP0IRwSa8KzD7Qyy6eh0s4hpLlyJRWu56gMK
+ Yt8EB2oMS37+LcYAd7s78H/naJyyntjGSJGQ/twuVefvq2FYJimWKnOnfTOljscIAixm
+ 6r/YFQKpqeYuDbqP3HxTyPnown0+iGmSHtQwgNwK8IdxVMwlZxYfFhMaxkPuvR5691Yy
+ Ji7w==
+X-Gm-Message-State: AOAM533v9mYmDjT1WxNhKAdmM8cNfBHFer+D0DWHOmIcpC7ZYJMhqw9D
+ Oa7aS6s8u9j1XpBYMcg1i6bJveLLU/g=
+X-Google-Smtp-Source: ABdhPJwf5kp7ATFrzOmWwJqlEjYn9Onp4ZFEpwJqbqntWzx+oVBw3VVAEZgcDokvzlCB8N1Ok97xtg==
+X-Received: by 2002:a1c:5401:: with SMTP id i1mr11161952wmb.65.1605885724009; 
+ Fri, 20 Nov 2020 07:22:04 -0800 (PST)
 Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id d3sm5530008wrg.16.2020.11.20.07.21.57
+ by smtp.gmail.com with ESMTPSA id b8sm5847688wrv.57.2020.11.20.07.22.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Nov 2020 07:21:57 -0800 (PST)
+ Fri, 20 Nov 2020 07:22:03 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2 3/4] docs/system/arm: Document OpenPOWER Witherspoon
- BMC model Front LEDs
-Date: Fri, 20 Nov 2020 16:21:39 +0100
-Message-Id: <20201120152140.2493197-4-f4bug@amsat.org>
+Subject: [RFC PATCH-for-5.2 4/4] docs/system/arm: Document the Sharp Zaurus
+ SL-6000
+Date: Fri, 20 Nov 2020 16:21:40 +0100
+Message-Id: <20201120152140.2493197-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201120152140.2493197-1-f4bug@amsat.org>
 References: <20201120152140.2493197-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,27 +93,42 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, libvir-list@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Document the 3 front LEDs modeled on the OpenPOWER Witherspoon BMC
-(see commit 7cfbde5ea1c "hw/arm/aspeed: Add the 3 front LEDs drived
-by the PCA9552 #1").
+List the 'tosa' machine with the XScale-based PDAs models.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- docs/system/arm/aspeed.rst | 1 +
- 1 file changed, 1 insertion(+)
+ docs/system/arm/xscale.rst | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/docs/system/arm/aspeed.rst b/docs/system/arm/aspeed.rst
-index b7a176659cb..690bada7842 100644
---- a/docs/system/arm/aspeed.rst
-+++ b/docs/system/arm/aspeed.rst
-@@ -47,6 +47,7 @@ Supported devices
-  * GPIO Controller (Master only)
-  * UART
-  * Ethernet controllers
-+ * Front LEDs (PCA9552 on I2C bus)
+diff --git a/docs/system/arm/xscale.rst b/docs/system/arm/xscale.rst
+index 89ec93e904e..2dd2f8f9a56 100644
+--- a/docs/system/arm/xscale.rst
++++ b/docs/system/arm/xscale.rst
+@@ -1,16 +1,19 @@
+-Sharp XScale-based PDA models (``akita``, ``borzoi``, ``spitz``, ``terrier``)
+-=============================================================================
++Sharp XScale-based PDA models (``tosa``, ``spitz``, ``akita``, ``borzoi``, ``terrier``)
++=======================================================================================
++
++The Sharp Zaurus SL-6000 (``tosa``), released in 2005, was a PDA based on the
++PXA255.
  
+ The XScale-based clamshell PDA models (\"Spitz\", \"Akita\", \"Borzoi\"
+ and \"Terrier\") emulation includes the following peripherals:
  
- Missing devices
+--  Intel PXA270 System-on-chip (ARMv5TE core)
++-  Intel PXA255/PXA270 System-on-chip (ARMv5TE core)
+ 
+--  NAND Flash memory
++-  NAND Flash memory - not in \"Tosa\"
+ 
+ -  IBM/Hitachi DSCM microdrive in a PXA PCMCIA slot - not in \"Akita\"
+ 
+--  On-chip OHCI USB controller
++-  On-chip OHCI USB controller - not in \"Tosa\"
+ 
+ -  On-chip LCD controller
+ 
 -- 
 2.26.2
 
