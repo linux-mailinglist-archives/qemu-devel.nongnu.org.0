@@ -2,111 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EB2B2BB08A
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 17:29:31 +0100 (CET)
-Received: from localhost ([::1]:35508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E7212BB09F
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 17:33:51 +0100 (CET)
+Received: from localhost ([::1]:48282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg9Hu-0002Lh-Ma
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 11:29:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35154)
+	id 1kg9M6-0007no-69
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 11:33:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brogers@suse.com>) id 1kg9Fp-0000Zr-5f
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:27:21 -0500
-Received: from de-smtp-delivery-52.mimecast.com ([51.163.158.52]:42050)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kg9Bf-00047M-Id
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:23:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37932)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <brogers@suse.com>) id 1kg9Fm-0006Yq-R3
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:27:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com;
- s=mimecast20200619; t=1605889636;
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kg9Bd-0005nk-2B
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:23:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605889379;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nXitTtr13wHTAjasbrTbBmqNFKosWobU8fqCA+owREI=;
- b=OXhxgS243OUjY4d51fENDA1HnTfn1bjHRQ/4zzosDStC5e2Lu9SzBNgbVGSLMCI6jQul9o
- fNni6oaclp+GZ37zD1CZn+UuAVA9V9i/4PzfoSXsXkxfz21gyjF7fnnXHDXyyHVwzgxFCY
- yRDNXzI1NWhg9SMdJCe7579TiRBpjgY=
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com
- (mail-db3eur04lp2056.outbound.protection.outlook.com [104.47.12.56]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- de-mta-29-yg130XVTPWmUViZkn5irig-1; Fri, 20 Nov 2020 17:27:14 +0100
-X-MC-Unique: yg130XVTPWmUViZkn5irig-1
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EiI8fjbiGvmZz76dxrmIYw2KS8V0PkcEVDTKfoTMiWzU83XU94OHjKJYGcBLhAxAPPEIq8pXdau0Ef6SqBhpB+nlS5c/eEguaNkpLIiRLWZ5tRcZ4hX03hUnYSFUtg+4MhGIKIFxn7JwMVDaGm8jre5Y0ZxOVBqdDr/TEipfKzF/Nws4C40T6lckJnz8/tiJomg0GLKwNl6ggv/8ORHIx3HfUv9MD8YjObtsqK9xCB4IaUYz7jT3wzoloHR8TgP/2J79UzbIgtuqwC8mgjf4GcYGqNdE02Ip4fzhJO2CWLWGMZ3k/rjdGxg/DEg8PesHQYeG2KWjD4wAGkwwq+h51Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nXitTtr13wHTAjasbrTbBmqNFKosWobU8fqCA+owREI=;
- b=PdQMXf4ypebN4M0CBbNDmtKKhZVvtaUGLAMAyYcnyefTskiPNgwfssEt6jYwTOU185V1aOLdzFfOkX2hRJASx0IxbwqEj0HH4vrpRPvZRrpk4WYtE7PqrEc4QdQExKP/v+G97+vlM+hCfrdz0hJXY7LCx2WLENR19wjKgGVDFEm/LLMRkJ77K/IX2N9+8+Twt23JJtDM0NI1kDUfrjjyOwaemBBd4zz7knwW/31Qjm7+BpYBB0iM55DRcgaO0uG41z6xTHpaM8QvLb6wi9eJYsk4ZhKkyxr8CIrZtMKt+n+l37oepzZa8VR31V/6I34t60xSMmNFnDZmHb659F3FPw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
- dkim=pass header.d=suse.com; arc=none
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=suse.com;
-Received: from AM4PR0401MB2354.eurprd04.prod.outlook.com
- (2603:10a6:200:54::21) by AM0PR04MB5203.eurprd04.prod.outlook.com
- (2603:10a6:208:c1::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.28; Fri, 20 Nov
- 2020 16:27:13 +0000
-Received: from AM4PR0401MB2354.eurprd04.prod.outlook.com
- ([fe80::9891:ed4f:b5a2:6441]) by AM4PR0401MB2354.eurprd04.prod.outlook.com
- ([fe80::9891:ed4f:b5a2:6441%6]) with mapi id 15.20.3564.028; Fri, 20 Nov 2020
- 16:27:13 +0000
-Message-ID: <f2b209e40e4020b31f6eb57671fca96e706351c3.camel@suse.com>
-Subject: Re: [PATCH v2] usb: fix kconfig for usb-xhci-sysbus
-From: Bruce Rogers <brogers@suse.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Date: Fri, 20 Nov 2020 09:27:06 -0700
-In-Reply-To: <20201120154506.2496906-1-pbonzini@redhat.com>
-References: <20201120154506.2496906-1-pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5 
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [63.248.145.198]
-X-ClientProxiedBy: AM0PR10CA0037.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:20b:150::17) To AM4PR0401MB2354.eurprd04.prod.outlook.com
- (2603:10a6:200:54::21)
+ bh=DQ4S/yfMmWt45ViX/yGC3CVaHe3IGHoXhkXPNfYZF9k=;
+ b=VQkXU/T0ufnEl+t0uNpjtK1N+Qcehs7ToLo04d2b+g2PiLmudnqEjeDQ96tl9zYrjJCGLr
+ GHGVWrrDEBcg9a45/zOIq2TG/dkJlUB0VP29/k3gr3UZK3tQwofYFF5/+MJ1cDzxDLvnn+
+ Vo6DiTfok8/8nD6Uxi/emcaq4JNwlMw=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-508-4LJTFsCBP1yDWlc_jC_8BA-1; Fri, 20 Nov 2020 11:22:57 -0500
+X-MC-Unique: 4LJTFsCBP1yDWlc_jC_8BA-1
+Received: by mail-ed1-f69.google.com with SMTP id b68so3948237edf.9
+ for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 08:22:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=DQ4S/yfMmWt45ViX/yGC3CVaHe3IGHoXhkXPNfYZF9k=;
+ b=nWVo/YX81T0m1DY2j6V2dY7pKXsURA4RZmzxZkWS7aWSh+M/0UB3pAFzcf4RSpQVuB
+ zuYK1fk1G1yLtWaPQU5UxS2Brr9Ndz38CtFDTLowZiCl+0HCwuAMmpfMT9onEPw+BLFM
+ 6IuXF6ntPKcAB8BvcsWw2l5RF+tug3vJAJKE80CWZwFbjKkMjfldDFH1pZY7J5iXsmBj
+ Hz9Dj1EU5ov1bhnHdELsOdLp/HTEUf7zz1+w9I7fyCq6FvUd1WX/vrPLw38qs6w6wA1h
+ TwvIskDP9VX5irC0l8R9iFeXMFPFvm+oSSXpXUvykO4MCY7DZmTO2PxK70yjh7GZtpFz
+ ZwxA==
+X-Gm-Message-State: AOAM530ySy98fcr6WGsxRIU6eElNYR/InLBKk8IOYHXvVGykIl/A9mLr
+ KQGVX04m/r5Cuts2ESlb6sryNtEYlPZQzGJhjHN8WSEGD1CpCUTiisUmuZPQ8c61ZA9GyK3NrJQ
+ 8DnI6uq1zy56GhxlifZQJKxd7VpC//5aqpGvbaEpL4gptUtUq2muZcQR2nDix3d9dYo4=
+X-Received: by 2002:a17:906:2a09:: with SMTP id
+ j9mr32715807eje.355.1605889375834; 
+ Fri, 20 Nov 2020 08:22:55 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz5MF6lEAwP4XEdKsO3RHIbYrbTU8p0t9tieoRqb+Rgb1jLBebxoQUx8NkJPIPeLJ+zZOrD7g==
+X-Received: by 2002:a17:906:2a09:: with SMTP id
+ j9mr32715787eje.355.1605889375488; 
+ Fri, 20 Nov 2020 08:22:55 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id oh19sm1304892ejb.104.2020.11.20.08.22.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 20 Nov 2020 08:22:54 -0800 (PST)
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20201027182144.3315885-1-pbonzini@redhat.com>
+ <20201027182144.3315885-28-pbonzini@redhat.com>
+ <20201120170158.33413fc9@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 27/29] remove preconfig state
+Message-ID: <85d6f1f0-844a-8a70-a8fd-e9a1a7bafa18@redhat.com>
+Date: Fri, 20 Nov 2020 17:22:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.12] (63.248.145.198) by
- AM0PR10CA0037.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:150::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.20 via Frontend
- Transport; Fri, 20 Nov 2020 16:27:12 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 24122cf7-94b4-4721-b465-08d88d7122f6
-X-MS-TrafficTypeDiagnostic: AM0PR04MB5203:
-X-Microsoft-Antispam-PRVS: <AM0PR04MB52037FFB37C8EF8E7E9E46E5D9FF0@AM0PR04MB5203.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qmly4YdffuAb0vWcJo7X4zloM4SdBao98s7ldhHM9EwhRUm2ipz1nv8hyTJaZ2W1U+0QIWXBbzv4EixW1jtsnlw/atMZyGvwpRBY+3pVW66+6vT5ncKnWZ36rzjdKd8LxleIvyIATunUS69c5xanznQ9TYfthJheUkanMOcPRtsgUziHY3Zv4rlALr/w2UsCu24qCmNwbq7dNjyy4MpCjyla4/fFtRBuA2oAkH6DPKyVC4Sj4US1+qbahvwWUjjbkZHQOmSSSJE/pgECPLx/VOzJeTA9XG3TksIMkSz6AcSk5g4B0qdNnpJo6qo/RHcpbx93SQnYDtMysJgNPwrTZw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM4PR0401MB2354.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(346002)(136003)(39860400002)(376002)(366004)(396003)(956004)(4326008)(186003)(316002)(5660300002)(16526019)(6486002)(8676002)(16576012)(86362001)(2616005)(83380400001)(478600001)(52116002)(26005)(8936002)(6666004)(4001150100001)(66476007)(2906002)(36756003)(66946007)(66556008);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: X9LPIyzBKbBoRZiDkVch6EQn58Fv2UDeecAcUunK7HggFk7LD8+9DzoSfMMWyKKb16N3NmfpdsNXSp5enTVRzafNjx/zzSp9iTyJbEyDwqxtOdh7utWmwI0EmNtuk3lxlJjGiiAmZHg5qKy6ALKoKvFjssfkjCuGNKy7Tm5EzYwEvUPP/utZoFYBQc5TBz4Q178eSVrWgl3mPWIyi+HvxgBDWEa3zs0qKstY2i4wcKT/IfS+5opZv7nV2Qi7sJtRDcy3thGFfZ1Kooi4JuMCb/w40P1FYQO/slHqi69NdOiCC6PJscWL3rnkOHJpu2x/qmEVesy331ygRT+TFWTH6bDV3VF+tVDfXTIdxp2TDohe5IwfG77hSt7Mg7BVwLnX55/KXRz560dR2SCzzkZgHO+KZPtPAZTxTqbr3o2BRht1uSDJqdagbHrMB5Z/xD14lr6uXn8s4072EkvI0Llptvb7iLS1hEojsig9krAjIWu7GLw90l7aM/I0+55W+pniF/l0wgioOdXRxXmIsMS4bbmG6M4VSKIePh39VBtdVWHpx8tbXZf5ZNu3Yu/HroBdQ4eewCPZl02AkbFVjmXp6FTqz/oiVIF1r7hCDwGw71txHeF9Qvv1sBwUwAa9oxsi37/wS+maTKRQsepKJDd24w==
-X-OriginatorOrg: suse.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 24122cf7-94b4-4721-b465-08d88d7122f6
-X-MS-Exchange-CrossTenant-AuthSource: AM4PR0401MB2354.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2020 16:27:13.3717 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GTJeDvvX4MF22xshAuVRim7MCBPWiGjukJ5Jy7td1Oz9ElgdpjJi0CJ7Iti6B+PjXEzNP9tbWKRC6mvJP+xXRA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB5203
-Received-SPF: pass client-ip=51.163.158.52; envelope-from=brogers@suse.com;
- helo=de-smtp-delivery-52.mimecast.com
+In-Reply-To: <20201120170158.33413fc9@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -120,42 +103,250 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2020-11-20 at 10:45 -0500, Paolo Bonzini wrote:
-> Remove the "default y" for USB_XHCI_SYSBUS because
-> sysbus devices are not user creatable; boards that use them will
-> specify them manually with "imply" or "select" clauses.
+On 20/11/20 17:01, Igor Mammedov wrote:
+> On Tue, 27 Oct 2020 14:21:42 -0400
+> Paolo Bonzini <pbonzini@redhat.com> wrote:
 > 
-> It would be nice to keep the ability to remove PCIe and USB from
-> microvm,
-> since thos can be disabled on the command line and therefore should
-> not
-> be included if QEMU is configured --without-default-devices.  However
-> it's too late for 5.2 to figure out a place for the DSDT creation
-> code.
+>> The preconfig state is only used if -incoming is not specified, which
+>> makes the RunState state machine more tricky than it need be.  However
+>> there is already an equivalent condition which works even with -incoming,
+>> namely qdev_hotplug.  Use it instead of a separate runstate.
+>>
+>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > 
-> Reported-by: Bruce Rogers <brogers@suse.com>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  hw/usb/Kconfig | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/hw/usb/Kconfig b/hw/usb/Kconfig
-> index 3b07d9cf68..7fbae18bc8 100644
-> --- a/hw/usb/Kconfig
-> +++ b/hw/usb/Kconfig
-> @@ -47,7 +47,6 @@ config USB_XHCI_NEC
->  
->  config USB_XHCI_SYSBUS
->      bool
-> -    default y
->      select USB_XHCI
->  
->  config USB_MUSB
+> ERROR:
+> tests/qtest/qmp-test.c:298:test_qmp_preconfig: assertion failed (qdict_get_try_str(ret, "status") == "preconfig"): ("prelaunch" == "preconfig")
 
-Tested-by: Bruce Rogers <brogers@suse.com>
+Uff, of course.  So this would be an incompatible change.
+
+Do you think it's important to keep the runstate?  Especially when 
+allowing "-incoming defer" with preconfig things become complicated, 
+because there's code that checks for RUN_STATE_INMIGRATE and it would 
+break if the state is preconfig.
+
+Paolo
+
+>> ---
+>>   hw/core/machine-qmp-cmds.c    |  5 ++---
+>>   include/qapi/qmp/dispatch.h   |  1 +
+>>   monitor/hmp.c                 |  7 ++++---
+>>   monitor/qmp-cmds.c            |  5 ++---
+>>   qapi/qmp-dispatch.c           |  5 +----
+>>   qapi/run-state.json           |  5 +----
+>>   softmmu/qdev-monitor.c        | 12 ++++++++++++
+>>   softmmu/vl.c                  | 13 ++-----------
+>>   stubs/meson.build             |  1 +
+>>   stubs/qmp-command-available.c |  7 +++++++
+>>   10 files changed, 33 insertions(+), 28 deletions(-)
+>>   create mode 100644 stubs/qmp-command-available.c
+>>
+>> diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
+>> index 5362c80a18..cb9387c5f5 100644
+>> --- a/hw/core/machine-qmp-cmds.c
+>> +++ b/hw/core/machine-qmp-cmds.c
+>> @@ -286,9 +286,8 @@ HotpluggableCPUList *qmp_query_hotpluggable_cpus(Error **errp)
+>>   
+>>   void qmp_set_numa_node(NumaOptions *cmd, Error **errp)
+>>   {
+>> -    if (!runstate_check(RUN_STATE_PRECONFIG)) {
+>> -        error_setg(errp, "The command is permitted only in '%s' state",
+>> -                   RunState_str(RUN_STATE_PRECONFIG));
+>> +    if (qdev_hotplug) {
+>> +         error_setg(errp, "The command is permitted only before the machine has been created");
+>>            return;
+>>       }
+>>   
+>> diff --git a/include/qapi/qmp/dispatch.h b/include/qapi/qmp/dispatch.h
+>> index af8d96c570..1486cac3ef 100644
+>> --- a/include/qapi/qmp/dispatch.h
+>> +++ b/include/qapi/qmp/dispatch.h
+>> @@ -48,6 +48,7 @@ void qmp_disable_command(QmpCommandList *cmds, const char *name);
+>>   void qmp_enable_command(QmpCommandList *cmds, const char *name);
+>>   
+>>   bool qmp_command_is_enabled(const QmpCommand *cmd);
+>> +bool qmp_command_available(const QmpCommand *cmd, Error **errp);
+>>   const char *qmp_command_name(const QmpCommand *cmd);
+>>   bool qmp_has_success_response(const QmpCommand *cmd);
+>>   QDict *qmp_error_response(Error *err);
+>> diff --git a/monitor/hmp.c b/monitor/hmp.c
+>> index f13ef455e2..0027f1465d 100644
+>> --- a/monitor/hmp.c
+>> +++ b/monitor/hmp.c
+>> @@ -24,6 +24,7 @@
+>>   
+>>   #include "qemu/osdep.h"
+>>   #include <dirent.h>
+>> +#include "hw/qdev-core.h"
+>>   #include "monitor-internal.h"
+>>   #include "qapi/error.h"
+>>   #include "qapi/qmp/qdict.h"
+>> @@ -215,7 +216,7 @@ static bool cmd_can_preconfig(const HMPCommand *cmd)
+>>   
+>>   static bool cmd_available(const HMPCommand *cmd)
+>>   {
+>> -    return !runstate_check(RUN_STATE_PRECONFIG) || cmd_can_preconfig(cmd);
+>> +    return qdev_hotplug || cmd_can_preconfig(cmd);
+>>   }
+>>   
+>>   static void help_cmd_dump_one(Monitor *mon,
+>> @@ -658,8 +659,8 @@ static const HMPCommand *monitor_parse_command(MonitorHMP *hmp_mon,
+>>           return NULL;
+>>       }
+>>       if (!cmd_available(cmd)) {
+>> -        monitor_printf(mon, "Command '%.*s' not available with -preconfig "
+>> -                            "until after exit_preconfig.\n",
+>> +        monitor_printf(mon, "Command '%.*s' not available "
+>> +                            "until machine initialization has completed.\n",
+>>                          (int)(p - cmdp_start), cmdp_start);
+>>           return NULL;
+>>       }
+>> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+>> index a08143b323..7c10b182e4 100644
+>> --- a/monitor/qmp-cmds.c
+>> +++ b/monitor/qmp-cmds.c
+>> @@ -104,9 +104,8 @@ void qmp_system_powerdown(Error **errp)
+>>   
+>>   void qmp_x_exit_preconfig(Error **errp)
+>>   {
+>> -    if (!runstate_check(RUN_STATE_PRECONFIG)) {
+>> -        error_setg(errp, "The command is permitted only in '%s' state",
+>> -                   RunState_str(RUN_STATE_PRECONFIG));
+>> +    if (qdev_hotplug) {
+>> +        error_setg(errp, "The command is permitted only before machine initialization");
+>>           return;
+>>       }
+>>       qemu_exit_preconfig_request();
+>> diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
+>> index 9a2d7dd29a..0a2b20a4e4 100644
+>> --- a/qapi/qmp-dispatch.c
+>> +++ b/qapi/qmp-dispatch.c
+>> @@ -167,10 +167,7 @@ QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
+>>           goto out;
+>>       }
+>>   
+>> -    if (runstate_check(RUN_STATE_PRECONFIG) &&
+>> -        !(cmd->options & QCO_ALLOW_PRECONFIG)) {
+>> -        error_setg(&err, "The command '%s' isn't permitted in '%s' state",
+>> -                   cmd->name, RunState_str(RUN_STATE_PRECONFIG));
+>> +    if (!qmp_command_available(cmd, &err)) {
+>>           goto out;
+>>       }
+>>   
+>> diff --git a/qapi/run-state.json b/qapi/run-state.json
+>> index 964c8ef391..38194b0e44 100644
+>> --- a/qapi/run-state.json
+>> +++ b/qapi/run-state.json
+>> @@ -50,15 +50,12 @@
+>>   # @colo: guest is paused to save/restore VM state under colo checkpoint,
+>>   #        VM can not get into this state unless colo capability is enabled
+>>   #        for migration. (since 2.8)
+>> -# @preconfig: QEMU is paused before board specific init callback is executed.
+>> -#             The state is reachable only if the --preconfig CLI option is used.
+>> -#             (Since 3.0)
+>>   ##
+>>   { 'enum': 'RunState',
+>>     'data': [ 'debug', 'inmigrate', 'internal-error', 'io-error', 'paused',
+>>               'postmigrate', 'prelaunch', 'finish-migrate', 'restore-vm',
+>>               'running', 'save-vm', 'shutdown', 'suspended', 'watchdog',
+>> -            'guest-panicked', 'colo', 'preconfig' ] }
+>> +            'guest-panicked', 'colo' ] }
+>>   
+>>   ##
+>>   # @ShutdownCause:
+>> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+>> index bcfcbac181..00720eb827 100644
+>> --- a/softmmu/qdev-monitor.c
+>> +++ b/softmmu/qdev-monitor.c
+>> @@ -25,6 +25,7 @@
+>>   #include "sysemu/arch_init.h"
+>>   #include "qapi/error.h"
+>>   #include "qapi/qapi-commands-qdev.h"
+>> +#include "qapi/qmp/dispatch.h"
+>>   #include "qapi/qmp/qdict.h"
+>>   #include "qapi/qmp/qerror.h"
+>>   #include "qemu/config-file.h"
+>> @@ -997,3 +998,14 @@ int qemu_global_option(const char *str)
+>>   
+>>       return 0;
+>>   }
+>> +
+>> +bool qmp_command_available(const QmpCommand *cmd, Error **errp)
+>> +{
+>> +    if (!qdev_hotplug &&
+>> +        !(cmd->options & QCO_ALLOW_PRECONFIG)) {
+>> +        error_setg(errp, "The command '%s' is permitted only after machine initialization has completed",
+>> +                   cmd->name);
+>> +        return false;
+>> +    }
+>> +    return true;
+>> +}
+>> diff --git a/softmmu/vl.c b/softmmu/vl.c
+>> index edabd17dac..68acd24d01 100644
+>> --- a/softmmu/vl.c
+>> +++ b/softmmu/vl.c
+>> @@ -574,7 +574,7 @@ static int default_driver_check(void *opaque, QemuOpts *opts, Error **errp)
+>>   /***********************************************************/
+>>   /* QEMU state */
+>>   
+>> -static RunState current_run_state = RUN_STATE_PRECONFIG;
+>> +static RunState current_run_state = RUN_STATE_PRELAUNCH;
+>>   
+>>   /* We use RUN_STATE__MAX but any invalid value will do */
+>>   static RunState vmstop_requested = RUN_STATE__MAX;
+>> @@ -586,13 +586,7 @@ typedef struct {
+>>   } RunStateTransition;
+>>   
+>>   static const RunStateTransition runstate_transitions_def[] = {
+>> -    /*     from      ->     to      */
+>> -    { RUN_STATE_PRECONFIG, RUN_STATE_PRELAUNCH },
+>> -      /* Early switch to inmigrate state to allow  -incoming CLI option work
+>> -       * as it used to. TODO: delay actual switching to inmigrate state to
+>> -       * the point after machine is built and remove this hack.
+>> -       */
+>> -    { RUN_STATE_PRECONFIG, RUN_STATE_INMIGRATE },
+>> +    { RUN_STATE_PRELAUNCH, RUN_STATE_INMIGRATE },
+>>   
+>>       { RUN_STATE_DEBUG, RUN_STATE_RUNNING },
+>>       { RUN_STATE_DEBUG, RUN_STATE_FINISH_MIGRATE },
+>> @@ -1633,9 +1627,6 @@ static bool main_loop_should_exit(void)
+>>       ShutdownCause request;
+>>   
+>>       if (preconfig_exit_requested) {
+>> -        if (runstate_check(RUN_STATE_PRECONFIG)) {
+>> -            runstate_set(RUN_STATE_PRELAUNCH);
+>> -        }
+>>           preconfig_exit_requested = false;
+>>           return true;
+>>       }
+>> diff --git a/stubs/meson.build b/stubs/meson.build
+>> index 82b7ba60ab..cc56c83063 100644
+>> --- a/stubs/meson.build
+>> +++ b/stubs/meson.build
+>> @@ -29,6 +29,7 @@ stub_ss.add(files('pci-bus.c'))
+>>   stub_ss.add(files('pci-host-piix.c'))
+>>   stub_ss.add(files('qemu-timer-notify-cb.c'))
+>>   stub_ss.add(files('qmp_memory_device.c'))
+>> +stub_ss.add(files('qmp-command-available.c'))
+>>   stub_ss.add(files('qtest.c'))
+>>   stub_ss.add(files('ram-block.c'))
+>>   stub_ss.add(files('ramfb.c'))
+>> diff --git a/stubs/qmp-command-available.c b/stubs/qmp-command-available.c
+>> new file mode 100644
+>> index 0000000000..46540af7bf
+>> --- /dev/null
+>> +++ b/stubs/qmp-command-available.c
+>> @@ -0,0 +1,7 @@
+>> +#include "qemu/osdep.h"
+>> +#include "qapi/qmp/dispatch.h"
+>> +
+>> +bool qmp_command_available(const QmpCommand *cmd, Error **errp)
+>> +{
+>> +    return true;
+>> +}
+> 
 
 
