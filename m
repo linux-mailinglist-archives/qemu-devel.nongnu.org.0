@@ -2,47 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 015EC2BABB3
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 15:16:43 +0100 (CET)
-Received: from localhost ([::1]:52250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 196812BABF4
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 15:36:43 +0100 (CET)
+Received: from localhost ([::1]:49386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg7DN-0002Bb-8x
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 09:16:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49562)
+	id 1kg7Wj-0006LY-JH
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 09:36:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <agraf@csgraf.de>) id 1kg7CD-0001ZA-3I
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 09:15:29 -0500
-Received: from mail.csgraf.de ([188.138.100.120]:35240
- helo=zulu616.server4you.de) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <agraf@csgraf.de>) id 1kg7CA-0001vN-F5
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 09:15:28 -0500
-Received: from Alexanders-Mac-mini.local
- (ec2-3-122-114-9.eu-central-1.compute.amazonaws.com [3.122.114.9])
- by csgraf.de (Postfix) with UTF8SMTPSA id DBD723900422;
- Fri, 20 Nov 2020 15:15:23 +0100 (CET)
-Subject: Re: [PATCH v5 6/7] tcg: implement JIT for iOS and Apple Silicon
-From: Alexander Graf <agraf@csgraf.de>
-To: Joelle van Dyne <j@getutm.app>, qemu-devel@nongnu.org
-References: <20201108232425.1705-1-j@getutm.app>
- <20201108232425.1705-7-j@getutm.app>
- <6fb788c8-ac2b-83b6-8977-24652a05f7c5@csgraf.de>
-Message-ID: <97e9dccf-3c97-fc70-7dbf-6246213098ae@csgraf.de>
-Date: Fri, 20 Nov 2020 15:15:23 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:84.0)
- Gecko/20100101 Thunderbird/84.0
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kg7VQ-0005dO-70
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 09:35:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53324)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kg7VM-0001ng-7T
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 09:35:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605882915;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=j7Q0J+xasktWgjO1XRtaCDnri+XAug6lb4bXxzZ3yM0=;
+ b=izxm1juDS360m51M5mYN+UkInFIRdWTcAXS1bxNrwK5DJtlj7GOILy29PtwNnKJvjZNmRA
+ QZi0YYJFLN+fRjzxWzCUnz7enjQ+D8vga69ksEqOflDncFvN1KiJ3+DfYGVwpfqc+WdJ9f
+ W+261KG1b4+qRELCTlOYL9n3bY+r/8w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-311-3ZhSioo7OAOUN-syVHW5_A-1; Fri, 20 Nov 2020 09:35:11 -0500
+X-MC-Unique: 3ZhSioo7OAOUN-syVHW5_A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF63C100F347;
+ Fri, 20 Nov 2020 14:35:08 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-135.ams2.redhat.com [10.36.112.135])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 816B75C224;
+ Fri, 20 Nov 2020 14:35:04 +0000 (UTC)
+Subject: Re: [PATCH v1 6/6] gitlab-ci: Move trace backend tests across to
+ gitlab
+From: Thomas Huth <thuth@redhat.com>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20201117173635.29101-1-alex.bennee@linaro.org>
+ <20201117173635.29101-7-alex.bennee@linaro.org>
+ <7f383116-3974-bf41-66f1-23f884211257@redhat.com>
+Message-ID: <c4c724ce-1e23-c4ae-f75f-dce0190504f7@redhat.com>
+Date: Fri, 20 Nov 2020 15:35:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <6fb788c8-ac2b-83b6-8977-24652a05f7c5@csgraf.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <7f383116-3974-bf41-66f1-23f884211257@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Received-SPF: pass client-ip=188.138.100.120; envelope-from=agraf@csgraf.de;
- helo=zulu616.server4you.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,228 +84,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Fam Zheng <fam@euphon.net>, peter.maydell@linaro.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 20.11.20 10:08, Alexander Graf wrote:
->
-> On 09.11.20 00:24, Joelle van Dyne wrote:
->> When entitlements are available (macOS or jailbroken iOS), a hardware
->> feature called APRR exists on newer Apple Silicon that can cheaply 
->> mark JIT
->> pages as either RX or RW. Reverse engineered functions from
->> libsystem_pthread.dylib are implemented to handle this.
+On 18/11/2020 10.54, Thomas Huth wrote:
+> On 17/11/2020 18.36, Alex Bennée wrote:
+>> From: Philippe Mathieu-Daudé <philmd@redhat.com>
 >>
->> The following rules apply for JIT write protect:
->>    * JIT write-protect is enabled before tcg_qemu_tb_exec()
->>    * JIT write-protect is disabled after tcg_qemu_tb_exec() returns
->>    * JIT write-protect is disabled inside do_tb_phys_invalidate() but 
->> if it
->>      is called inside of tcg_qemu_tb_exec() then write-protect will be
->>      enabled again before returning.
->>    * JIT write-protect is disabled by cpu_loop_exit() for interrupt 
->> handling.
->>    * JIT write-protect is disabled everywhere else.
+>> Similarly to commit 8cdb2cef3f1, move the trace backend
+>> tests to GitLab.
 >>
->> See 
->> https://developer.apple.com/documentation/apple_silicon/porting_just-in-time_compilers_to_apple_silicon
+>> Note the User-Space Tracer backend is still tested on
+>> Ubuntu by the s390x jobs on Travis-CI.
 >>
->> Signed-off-by: Joelle van Dyne <j@getutm.app>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> Message-Id: <20201111121234.3246812-3-philmd@redhat.com>
+>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 >> ---
->>   include/exec/exec-all.h     |  2 +
->>   include/tcg/tcg-apple-jit.h | 86 +++++++++++++++++++++++++++++++++++++
->>   include/tcg/tcg.h           |  3 ++
->>   accel/tcg/cpu-exec-common.c |  2 +
->>   accel/tcg/cpu-exec.c        |  2 +
->>   accel/tcg/translate-all.c   | 46 ++++++++++++++++++++
->>   tcg/tcg.c                   |  4 ++
->>   7 files changed, 145 insertions(+)
->>   create mode 100644 include/tcg/tcg-apple-jit.h
+>>  .gitlab-ci.yml | 18 ++++++++++++++++++
+>>  .travis.yml    | 19 -------------------
+>>  2 files changed, 18 insertions(+), 19 deletions(-)
 >>
->> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
->> index aa65103702..3829f3d470 100644
->> --- a/include/exec/exec-all.h
->> +++ b/include/exec/exec-all.h
->> @@ -549,6 +549,8 @@ TranslationBlock *tb_htable_lookup(CPUState *cpu, 
->> target_ulong pc,
->>                                      target_ulong cs_base, uint32_t 
->> flags,
->>                                      uint32_t cf_mask);
->>   void tb_set_jmp_target(TranslationBlock *tb, int n, uintptr_t addr);
->> +void tb_exec_lock(void);
->> +void tb_exec_unlock(void);
->>     /* GETPC is the true target of the return instruction that we'll 
->> execute.  */
->>   #if defined(CONFIG_TCG_INTERPRETER)
->> diff --git a/include/tcg/tcg-apple-jit.h b/include/tcg/tcg-apple-jit.h
->> new file mode 100644
->> index 0000000000..9efdb2000d
->> --- /dev/null
->> +++ b/include/tcg/tcg-apple-jit.h
->> @@ -0,0 +1,86 @@
->> +/*
->> + * Apple Silicon functions for JIT handling
->> + *
->> + * Copyright (c) 2020 osy
->> + *
->> + * This library is free software; you can redistribute it and/or
->> + * modify it under the terms of the GNU Lesser General Public
->> + * License as published by the Free Software Foundation; either
->> + * version 2.1 of the License, or (at your option) any later version.
->> + *
->> + * This library is distributed in the hope that it will be useful,
->> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
->> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
->> + * Lesser General Public License for more details.
->> + *
->> + * You should have received a copy of the GNU Lesser General Public
->> + * License along with this library; if not, see 
->> <http://www.gnu.org/licenses/>.
->> + */
+>> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+>> index b406027a55..d0173e82b1 100644
+>> --- a/.gitlab-ci.yml
+>> +++ b/.gitlab-ci.yml
+>> @@ -415,6 +415,24 @@ check-crypto-only-gnutls:
+>>      IMAGE: centos7
+>>      MAKE_CHECK_ARGS: check
+>>  
+>> +# We don't need to exercise every backend with every front-end
+>> +build-trace-multi-user:
+>> +  <<: *native_build_job_definition
+>> +  variables:
+>> +    IMAGE: ubuntu2004
+>> +    CONFIGURE_ARGS: --enable-trace-backends=log,simple,syslog --disable-system
 >> +
->> +#ifndef TCG_APPLE_JIT_H
->> +#define TCG_APPLE_JIT_H
+>> +build-trace-ftrace-system:
+>> +  <<: *native_build_job_definition
+>> +  variables:
+>> +    IMAGE: ubuntu2004
+>> +    CONFIGURE_ARGS: --enable-trace-backends=ftrace --target-list=x86_64-softmmu
 >> +
->> +/*
->> + * APRR handling
->> + * Credits to: https://siguza.github.io/APRR/
->> + * Reversed from /usr/lib/system/libsystem_pthread.dylib
->> + */
->> +
->> +#if defined(__aarch64__) && defined(CONFIG_DARWIN)
->> +
->> +#define _COMM_PAGE_START_ADDRESS        (0x0000000FFFFFC000ULL) /* 
->> In TTBR0 */
->> +#define _COMM_PAGE_APRR_SUPPORT (_COMM_PAGE_START_ADDRESS + 0x10C)
->> +#define _COMM_PAGE_APPR_WRITE_ENABLE (_COMM_PAGE_START_ADDRESS + 0x110)
->> +#define _COMM_PAGE_APRR_WRITE_DISABLE (_COMM_PAGE_START_ADDRESS + 
->> 0x118)
->> +
->> +static __attribute__((__always_inline__)) bool 
->> jit_write_protect_supported(void)
->> +{
->> +    /* Access shared kernel page at fixed memory location. */
->> +    uint8_t aprr_support = *(volatile uint8_t 
->> *)_COMM_PAGE_APRR_SUPPORT;
->> +    return aprr_support > 0;
->> +}
->> +
->> +/* write protect enable = write disable */
->> +static __attribute__((__always_inline__)) void jit_write_protect(int 
->> enabled)
->> +{
->> +    /* Access shared kernel page at fixed memory location. */
->> +    uint8_t aprr_support = *(volatile uint8_t 
->> *)_COMM_PAGE_APRR_SUPPORT;
->> +    if (aprr_support == 0 || aprr_support > 3) {
->> +        return;
->> +    } else if (aprr_support == 1) {
->> +        __asm__ __volatile__ (
->> +            "mov x0, %0\n"
->> +            "ldr x0, [x0]\n"
->> +            "msr S3_4_c15_c2_7, x0\n"
->> +            "isb sy\n"
->> +            :: "r" (enabled ? _COMM_PAGE_APRR_WRITE_DISABLE
->> +                            : _COMM_PAGE_APPR_WRITE_ENABLE)
->> +            : "memory", "x0"
->> +        );
->> +    } else {
->> +        __asm__ __volatile__ (
->> +            "mov x0, %0\n"
->> +            "ldr x0, [x0]\n"
->> +            "msr S3_6_c15_c1_5, x0\n"
->> +            "isb sy\n"
->> +            :: "r" (enabled ? _COMM_PAGE_APRR_WRITE_DISABLE
->> +                            : _COMM_PAGE_APPR_WRITE_ENABLE)
->> +            : "memory", "x0"
->> +        );
->> +    }
->> +}
->
->
-> Is there a particular reason you're not just calling 
-> pthread_jit_write_protect_np()? That would remove the dependency on 
-> anything reverse engineered.
->
->
->> +
->> +#else /* defined(__aarch64__) && defined(CONFIG_DARWIN) */
->> +
->> +static __attribute__((__always_inline__)) bool 
->> jit_write_protect_supported(void)
->> +{
->> +    return false;
->> +}
->> +
->> +static __attribute__((__always_inline__)) void jit_write_protect(int 
->> enabled)
->> +{
->> +}
->> +
->> +#endif
->> +
->> +#endif /* define TCG_APPLE_JIT_H */
->> diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
->> index 477919aeb6..b16b687d0b 100644
->> --- a/include/tcg/tcg.h
->> +++ b/include/tcg/tcg.h
->> @@ -625,6 +625,9 @@ struct TCGContext {
->>       size_t code_gen_buffer_size;
->>       void *code_gen_ptr;
->>       void *data_gen_ptr;
->> +#if defined(CONFIG_DARWIN) && !defined(CONFIG_TCG_INTERPRETER)
->> +    bool code_gen_locked; /* on Darwin each thread tracks W^X flags */
->
->
-> I don't quite understand why you need to keep track of whether you're 
-> in locked state or not. If you just always keep in locked state and 
-> unlock around the few parts that modify the code gen region, you 
-> should be fine, no?
+>> +build-trace-ust-system:
+>> +  <<: *native_build_job_definition
+>> +  variables:
+>> +    IMAGE: ubuntu2004
+>> +    CONFIGURE_ARGS: --enable-trace-backends=ust --target-list=x86_64-softmmu
+> 
+> Hmmm, do we really need separate build jobs for this, or could we maybe
+> rather simply add the options to some existing jobs instead (to save some CI
+> cycles)?
 
+I guess we can still consolidate later ... but since Travis is now limiting
+the CI minutes, we definitely have to move this over, so:
 
-I take this bit back. After fiddling with setting the flags the other 
-way around, I think what you do here is better. Especially when it gets 
-to exception handling, always treating the code region as writeable is 
-better.
-
-
->
->
->> +#endif
->>         /* Threshold to flush the translated code buffer.  */
->>       void *code_gen_highwater;
->> diff --git a/accel/tcg/cpu-exec-common.c b/accel/tcg/cpu-exec-common.c
->> index 12c1e3e974..f1eb767b02 100644
->> --- a/accel/tcg/cpu-exec-common.c
->> +++ b/accel/tcg/cpu-exec-common.c
->> @@ -64,6 +64,8 @@ void cpu_reloading_memory_map(void)
->>     void cpu_loop_exit(CPUState *cpu)
->>   {
->> +    /* Unlock JIT write protect if applicable. */
->> +    tb_exec_unlock();
->
->
-> Why do you need to unlock here? I think in general this patch is 
-> trying to keep the state RW always and only flip to RX when actually 
-> executing code, right?
->
-> I think it would be much easier and cleaner to do it reverse: Keep it 
-> in RX always and flip to RW when you need to modify.
->
-> Also, shouldn't the code gen buffer be allocated with MAP_JIT 
-> according to the porting guide?
-
-
-MAP_JIT is definitely missing to make it work on macos.
-
-Also, I would prefer if you find a better name for the lock/unlock 
-function. How about "tcg_set_codegen_mutable(bool)"? You can easily map 
-that to the pthread call then.
-
-
-Alex
-
+Acked-by: Thomas Huth <thuth@redhat.com>
 
 
