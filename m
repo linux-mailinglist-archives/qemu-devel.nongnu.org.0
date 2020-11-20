@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 128382BB168
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 18:30:10 +0100 (CET)
-Received: from localhost ([::1]:43906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B349C2BB194
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 18:42:35 +0100 (CET)
+Received: from localhost ([::1]:50140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kgAEb-0007rJ-4H
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 12:30:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51148)
+	id 1kgAQc-00037g-84
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 12:42:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
- id 1kgADh-0007Fc-6c; Fri, 20 Nov 2020 12:29:13 -0500
-Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:44948)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kgAO7-0001bC-6F; Fri, 20 Nov 2020 12:39:59 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:33674)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
- id 1kgADf-0001mm-Ls; Fri, 20 Nov 2020 12:29:12 -0500
-Received: by mail-io1-xd31.google.com with SMTP id o11so10684174ioo.11;
- Fri, 20 Nov 2020 09:29:10 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kgAO5-00047I-K2; Fri, 20 Nov 2020 12:39:58 -0500
+Received: by mail-wm1-x330.google.com with SMTP id p19so8812186wmg.0;
+ Fri, 20 Nov 2020 09:39:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9RZvWXlVz+1NpVbn62266BSYs/8NKhQu7/3HqMOcaIs=;
- b=cJyQpsuSrlfNHMHRPOMucojSIbQ6nCmuvlQWRKM3+Bhr/jRshvGtUNr9tOMCM0d6mF
- XNxlWKcOZY9CePbV9A33sqBBHtfDv3zxwtgB0NJRZZLh4Z021g29Uw9sf7AuhkOie/w+
- xKs5JHxlNtT3Nr88RhXHcmYWlXLAI4NsOFYh42vnCTTmKTNfEvRPGB+Bm2FzPKAzUmzU
- c5nGLGlMkF8JskOSpXnxHRqbgOEmGx8HBOK3sXhZ8q+NyINJYLjO7L9nk0MpfW9bq3df
- sbvKIUeHDFJ2Shvov8GbEKrYpCQXx18aM9n27EumZwglqyL49ch0Q0o4Px8BfBxd707q
- v4Vw==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=AC14N5xfCbjMUA6muLrA74/gSYP8aDIrEBKWYrFlBcU=;
+ b=b73YMYvZ6PMJDujEG+Azitv4CfhXiWJz3jf6kDpz1Fg/j/qIMu9gJYErUw3kXJ72Ss
+ fUj/RuEaudk73PgSvDfJHxGxLjhzxivUzNCUXSrnhixSaPg5AtCndma2f49ht+KMIwUy
+ JaRDNTGlG7spnu42SDnpKKtb0t2Ox/md2xgMsOCoJJTZO5bhYlid9JL5XeC8mUu5UoZF
+ hTttUDcGq9TGBidJa7glGeIBZz5lXJFqR6qkedaW8ojXCnwKUlOQ/1TTLjuGsVk7cfv4
+ EfI/XpjmBu30/6ksVIqexGZxfXzrkVCx3OaHxpJDfqa6BVHmpyPaJ9g3tg7VRoM5Mg0Q
+ utMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9RZvWXlVz+1NpVbn62266BSYs/8NKhQu7/3HqMOcaIs=;
- b=TvLa+MxdYmK1uZqJcLOkDf3MOhqBWGF1sckd2dsh4bwhlPhVM9YlnE3LRptkMe1tm3
- Fz+bsqmmyE676Ef7khb7GnBGn9k+QMdpiSowE2OvLa4k2YSZggW22ZjHOzegtQBY+zjj
- E4inHsf1Fu085OvwBPQWE7oxehwsCWeA/rKlJsihun51r6q940JIKmxVgZ0ffIujwyOZ
- /i/gVjQg7/PrcjZ+JkvlZduNYaVSZEu6XWH4Iumr0X5Lz3CJ72C4U9wAqGJ9ABUh1uEO
- RnL0wripD8ibhyF+3Ao6VTojtiFPqg59QXkA3GfXi6PW6rWD0j68gfEqOk8Lthn2VLOr
- voDQ==
-X-Gm-Message-State: AOAM532pcdMNfrp9ALUJdZgLnXYLtPeAb+6n/JYYZhzwUVZ2h8TMddBD
- RKaAkeVd1T8mH68Q6nPkz2sTx/7Ipu96aq+6EKI=
-X-Google-Smtp-Source: ABdhPJzSef94ZOaE9wF7fZEzbQwJLHbuuYN95TfXrNOx3pAX1LdRh9VQBa9zBmJ2ADHZrHhmAKvfCKiQrKLyPeeWwXI=
-X-Received: by 2002:a05:6638:10ef:: with SMTP id
- g15mr20228421jae.85.1605893349892; 
- Fri, 20 Nov 2020 09:29:09 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=AC14N5xfCbjMUA6muLrA74/gSYP8aDIrEBKWYrFlBcU=;
+ b=OsTNpxrm9ITgxhiliGl7yK7RDj2y+8hQ84gWP/qAkPRHUgwtLVX8Rwa7vDIVq01QqV
+ 7qWmfHEgKHwcJ0pvtaR3RDuXtSRtJXZLDeNteZn7frzNI4Hw4N7EFkb8cAJek40B62WO
+ UUCf8vaFRygczLInbVRkZarauBTNgQo7pF1kJGnV90PaHQ7bfWaTRdV5cIRaKQqUc+gl
+ vI2ObyV8UYFpm9+giZHErZoYMGCrpigqas8b6wf0X6MofqcZjQbyRUMe4UGOz48HKQYj
+ XZBF748KoRUDy1JzvJvoX6ix9JqjFM29d9t7AtuvD5fbg4tKXYnoDdhYPot6/oJTH79X
+ Q+MA==
+X-Gm-Message-State: AOAM532SXPfKjXjUToMcjIhNGybhD1e5QxCULLmLc8yBx0vMsn4LaDzc
+ +/oMERfDQGYemdJ0vlnJdDygg+Ttg0s=
+X-Google-Smtp-Source: ABdhPJwRy2H5RsOd1P+69FIjqtnObsHn00X0oXQMM8Qnfn3hb9uxJMsU57W42PGPjeyAm7Aqzs2I4w==
+X-Received: by 2002:a1c:1c1:: with SMTP id 184mr11322011wmb.16.1605893995473; 
+ Fri, 20 Nov 2020 09:39:55 -0800 (PST)
+Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id q17sm6557597wro.36.2020.11.20.09.39.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Nov 2020 09:39:54 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH-for-5.2 v2 0/4] docs/system/arm: Document raspi/tosa boards
+Date: Fri, 20 Nov 2020 18:39:49 +0100
+Message-Id: <20201120173953.2539469-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20201120154545.2504625-1-f4bug@amsat.org>
- <20201120154545.2504625-5-f4bug@amsat.org>
-In-Reply-To: <20201120154545.2504625-5-f4bug@amsat.org>
-From: Niek Linnenbank <nieklinnenbank@gmail.com>
-Date: Fri, 20 Nov 2020 18:28:58 +0100
-Message-ID: <CAPan3Wr0Dd3XnK9Sd8UM8yoq39VE4ZG_czeuooBTAFnUeCRuZw@mail.gmail.com>
-Subject: Re: [PATCH-for-5.2 4/6] MAINTAINERS: Fix system/arm/orangepi.rst path
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="000000000000aae8e105b48d2e80"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d31;
- envelope-from=nieklinnenbank@gmail.com; helo=mail-io1-xd31.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,88 +81,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, libvir-list@redhat.com,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000aae8e105b48d2e80
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Op vr 20 nov. 2020 16:46 schreef Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
-rg>:
-
-> Fixes: 0553ef42571 ("docs: add Orange Pi PC document")
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->
-Reviewed-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-
----
-> Cc: Niek Linnenbank <nieklinnenbank@gmail.com>
-> ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 2623cf85f66..311a55317ce 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -559,7 +559,7 @@ S: Maintained
->  F: hw/*/allwinner-h3*
->  F: include/hw/*/allwinner-h3*
->  F: hw/arm/orangepi.c
-> -F: docs/system/orangepi.rst
-> +F: docs/system/arm/orangepi.rst
->
->  ARM PrimeCell and CMSDK devices
->  M: Peter Maydell <peter.maydell@linaro.org>
-> --
-> 2.26.2
->
->
-
---000000000000aae8e105b48d2e80
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Op vr 20 nov. 2020 16:46 schreef Philippe Mathieu-Daud=
-=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.org</a>&gt;:<br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
-ft:1px #ccc solid;padding-left:1ex">Fixes: 0553ef42571 (&quot;docs: add Ora=
-nge Pi PC document&quot;)<br>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsa=
-t.org" target=3D"_blank" rel=3D"noreferrer">f4bug@amsat.org</a>&gt;<br></bl=
-ockquote></div></div><div dir=3D"auto">Reviewed-by: Niek Linnenbank &lt;<a =
-href=3D"mailto:nieklinnenbank@gmail.com">nieklinnenbank@gmail.com</a>&gt;</=
-div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote=
-"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
-1px #ccc solid;padding-left:1ex">
----<br>
-Cc: Niek Linnenbank &lt;<a href=3D"mailto:nieklinnenbank@gmail.com" target=
-=3D"_blank" rel=3D"noreferrer">nieklinnenbank@gmail.com</a>&gt;<br>
----<br>
-=C2=A0MAINTAINERS | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/MAINTAINERS b/MAINTAINERS<br>
-index 2623cf85f66..311a55317ce 100644<br>
---- a/MAINTAINERS<br>
-+++ b/MAINTAINERS<br>
-@@ -559,7 +559,7 @@ S: Maintained<br>
-=C2=A0F: hw/*/allwinner-h3*<br>
-=C2=A0F: include/hw/*/allwinner-h3*<br>
-=C2=A0F: hw/arm/orangepi.c<br>
--F: docs/system/orangepi.rst<br>
-+F: docs/system/arm/orangepi.rst<br>
-<br>
-=C2=A0ARM PrimeCell and CMSDK devices<br>
-=C2=A0M: Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org" targ=
-et=3D"_blank" rel=3D"noreferrer">peter.maydell@linaro.org</a>&gt;<br>
--- <br>
-2.26.2<br>
-<br>
-</blockquote></div></div></div>
-
---000000000000aae8e105b48d2e80--
+- Deprecate raspi2/raspi3 machine aliases=0D
+- Document the Raspberry Pi boards=0D
+- Document LED on OpenPOWER Witherspoon=0D
+- Document Sharp Zaurus SL-6000 Tosa=0D
+=0D
+Since v1:=0D
+- cover docs/system/arm/raspi.rst in MAINTAINERS=0D
+- Addressed Peter review comments=0D
+- Added R-b tags=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (4):=0D
+  docs/system: Deprecate raspi2/raspi3 machine aliases=0D
+  docs/system/arm: Document the various raspi boards=0D
+  docs/system/arm: Document OpenPOWER Witherspoon BMC model Front LEDs=0D
+  docs/system/arm: Document the Sharp Zaurus SL-6000=0D
+=0D
+ docs/system/arm/aspeed.rst |  1 +=0D
+ docs/system/arm/raspi.rst  | 43 ++++++++++++++++++++++++++++++++++++++=0D
+ docs/system/arm/xscale.rst | 20 +++++++++++-------=0D
+ docs/system/deprecated.rst |  7 +++++++=0D
+ docs/system/target-arm.rst |  1 +=0D
+ MAINTAINERS                |  1 +=0D
+ 6 files changed, 66 insertions(+), 7 deletions(-)=0D
+ create mode 100644 docs/system/arm/raspi.rst=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
