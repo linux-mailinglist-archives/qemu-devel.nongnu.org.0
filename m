@@ -2,67 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C68A62BA77D
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 11:35:31 +0100 (CET)
-Received: from localhost ([::1]:59708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 306962BA7DE
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 12:03:04 +0100 (CET)
+Received: from localhost ([::1]:40774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg3lK-0007vJ-SB
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 05:35:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54216)
+	id 1kg4By-0005SF-Vl
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 06:03:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kg3jW-0007Dy-QN
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 05:33:40 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:35208)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kg3jT-0004lb-SZ
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 05:33:38 -0500
-Received: by mail-wm1-x343.google.com with SMTP id w24so9363953wmi.0
- for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 02:33:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=izi/+3GQVvv6ylb4eoz5qfCN7h+rm4Fyx9uyOgjA+hQ=;
- b=MRmOIwMMnMHVSgVLB+HltU23Od2wLANLE5xOUDcPiLPQJmvYiUqWlobGy7t40n3Cgx
- WqcOb4ErqaSotW1Sb5W6AYLB6iFQjrhN0+my5aWObZUoi3Jtcl2fvup8XLxIH3XIEjkN
- Gq3qoTnbLvG+cW8pUKMUgsB94dukOYAvUhxqpzAruXkullAMKJxxWnrXKLLOw/H0QPEc
- xE47hkeVJt2JRxUz4aBlxkGANsboC2aJ8fVZGVokA8N8xcK903xq+PeFLJztNEJq5MUX
- ZZo+XqYijST3xMLoOGbFIM2VHcNYsx/0xaZ2IrgcS6n5voWrlW0HTtzhs3Kk6V4Ldf6X
- 77Sg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kg4AC-0004vm-Sg
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 06:01:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39059)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kg4A6-0006A7-2K
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 06:01:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605870064;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=K21qJgYoC4iMlo5sApdZ0Yo9vAZnKwGsHo0cWn6WP9U=;
+ b=Keku7O7XKggVIOd1Lg+iaiXFh7wo1HquLFdLeO7fGCmC28Z5wz3v65PSkarn4J+PXTSgRl
+ IfSR1i4wBiX9m3154cnZ6O4WlcTBaiSe3l6OtFSdJ3JaQfVgSqXijlt171mjFw+ncRup29
+ yDuFDjtLW3jheZGU62qTht5X7n5rKN4=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-257-Ai3vAzUaPDaOk1CiMiCd0A-1; Fri, 20 Nov 2020 06:01:00 -0500
+X-MC-Unique: Ai3vAzUaPDaOk1CiMiCd0A-1
+Received: by mail-wm1-f70.google.com with SMTP id a130so5143417wmf.0
+ for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 03:01:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=izi/+3GQVvv6ylb4eoz5qfCN7h+rm4Fyx9uyOgjA+hQ=;
- b=enyyTFH5CE6bGnWJJV1E5tCgX0K9o9FJCz9QIxsZSWNHrxvtFNVf5LM9EjMTna/SoU
- q6GtqKclXTMQyQujvThZeZz5vm2Np2Bug0S3deqb6YtzbMQhI9fT+DvPC6WatsEt4/Sv
- K84uCi7RaEJFsd0kbRSaBvg0RyTtB/5nwOjX2dPxJ1iB80nxQue+DwwvLJlJdI3UrpFF
- 74eHHzBLUhwVYzXHiqUWXyb08eJn/BSWjYfiGVenPLyulob9aN2vybaD4IYhkcwV+pnT
- y+M5ztzONp7k20er1uZMtKPktVrgPkE2N6v23Ru7TntfnYV4lSkoaOyexu45046NqeVr
- ke2Q==
-X-Gm-Message-State: AOAM532A+rwVeFCqNfWNUVe7wdPXXnom8/PyDfJ/MgNnIGsfFth5VfrE
- z6KAtyf2PPvJyeUxZnR9PKNk/TMfOtenv5OMVXk3sU8eHgg=
-X-Google-Smtp-Source: ABdhPJzPMhwfOHmYACXvzkF3p88XHr0gaRUMIiVIIufUa+SVX/Ie6Zk0P8349gk8r3ShCNr+Y+DX3AVdVS/DkyQi73Q=
-X-Received: by 2002:a1c:e482:: with SMTP id b124mr9599327wmh.25.1605868413382; 
- Fri, 20 Nov 2020 02:33:33 -0800 (PST)
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=K21qJgYoC4iMlo5sApdZ0Yo9vAZnKwGsHo0cWn6WP9U=;
+ b=sGJCWZrQwZVjS/vaMYbOxrGOMmm8lx5yMFmfhSLrfKwnkYNsV9jXlB3XghnsCmgFHj
+ emg57jiQRCxvS2JAOjv3Xi0p78VF6vpe4UwcsbaJofsiQ/a+0vpxSDuNNoAhYG0rShsE
+ hBRdlyMZbw4gIVKoVAX5QyQ8zUF1fgPbbW6EKn5gPXvC/9AseVWT1eNu1pPZ2kTRT1Cn
+ Z7ixbDfIXWOERCj5i9lPlbts8sFpRW12WaVQPC6EbR9fOyskoK5q1n1/Sgm/eSddFy/4
+ RNgofBGcrfaD7pKMTHxzBS24Oo31O5nDw/mWW7MQVz4c7iQtLOT+asonRFKJ2aVeWbCs
+ l6gA==
+X-Gm-Message-State: AOAM533Wis/2+CZb84/8F4AEUodTPL6Ekk8XRDUcNBL689nB8jH5NUeV
+ M7QNiLDSQbS7hZ+nD7X3q+jVXYFHG6v7Wo+3vZSw00xKuurcKaIzp+bL4Usaf1hKdN7bSSSd8Ej
+ NiEmoMBQXNuuWoew=
+X-Received: by 2002:a5d:66c3:: with SMTP id k3mr15008656wrw.123.1605870059253; 
+ Fri, 20 Nov 2020 03:00:59 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwYW1Kmnl70HzUxgv3G8rYrfEMubsQFsUt9vEHiyhMU9BlX8IuACxEcy6tgeuB9CjsQkNSMaQ==
+X-Received: by 2002:a5d:66c3:: with SMTP id k3mr15008621wrw.123.1605870059024; 
+ Fri, 20 Nov 2020 03:00:59 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id i6sm3969054wma.42.2020.11.20.03.00.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 20 Nov 2020 03:00:58 -0800 (PST)
+Subject: Re: [PATCH-for-5.2 v2] hw/core/qdev-properties-system: Rewrite
+ set_pci_host_devaddr using GLib
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, Igor Mammedov <imammedo@redhat.com>
+References: <20201013102252.3562860-1-philmd@redhat.com>
+ <60f5af9c-4153-7702-cd99-b317a6de89c0@redhat.com>
+ <ccf65075-c0e9-7358-f483-2c7fbbd3fb81@redhat.com>
+ <fa5ed32a-1553-2490-b266-375a000f0cef@redhat.com>
+Message-ID: <7a130a3e-3ebf-220f-9115-dd121d8782fb@redhat.com>
+Date: Fri, 20 Nov 2020 12:00:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-References: <20200716035532.1407660-1-andrew@daynix.com>
-In-Reply-To: <20200716035532.1407660-1-andrew@daynix.com>
-From: Andrew Melnichenko <andrew@daynix.com>
-Date: Fri, 20 Nov 2020 13:05:36 +0200
-Message-ID: <CABcq3pGFPkDMmEegGaw6UjHBijPZiyFj-uR+6Phz+0K44VRNgw@mail.gmail.com>
-Subject: Re: [PATCH] hmp: Changed hmp_netdev_add() using
- qmp_marshal_netdev_add()
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="0000000000005615b405b4876031"
-Received-SPF: none client-ip=2a00:1450:4864:20::343;
- envelope-from=andrew@daynix.com; helo=mail-wm1-x343.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <fa5ed32a-1553-2490-b266-375a000f0cef@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,122 +102,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>,
- Yuri Benditovich <yuri.benditovich@daynix.com>, dgilbert@redhat.com
+Cc: Geoffrey McRae <geoff@hostfission.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Klaus Herman <kherman@inbox.lv>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000005615b405b4876031
-Content-Type: text/plain; charset="UTF-8"
+On 11/17/20 12:16 PM, Philippe Mathieu-Daudé wrote:
+> ping???
+> 
+> On 11/9/20 3:16 PM, Philippe Mathieu-Daudé wrote:
+>> Cc'ing PCI developers (rc2 is scheduled for tomorrow).
+>>
+>> On 11/7/20 9:59 AM, Philippe Mathieu-Daudé wrote:
+>>> Ping for 5.2 as this is a bugfix.
+>>>
+>>> On 10/13/20 12:22 PM, Philippe Mathieu-Daudé wrote:
+>>>> set_pci_host_devaddr() is hard to follow, thus bug-prone.
+>>>> We indeed introduced a bug in commit bccb20c49df, as the
+>>>> same line might be used to parse a bus (up to 0xff) or a
+>>>> slot (up to 0x1f). Instead of making things worst, rewrite
+>>>> using g_strsplit().
 
-Ping
+As there is few interest in fixing the issue with this patch,
+let me remind the 2 other approaches:
 
-On Thu, Jul 16, 2020 at 6:26 AM <andrew@daynix.com> wrote:
+Klaus Herman:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg750101.html
+Geoffrey McRae:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg758182.html
 
-> From: Andrew Melnychenko <andrew@daynix.com>
->
-> There is an issue, that netdev can't be removed if it was added using hmp.
-> The bug appears after 08712fcb851034228b61f75bd922863a984a4f60 commit.
-> It happens because of unclear QemuOpts that was created during
-> hmp_netdev_add(), now it uses qmp analog function -
-> qmp_marshal_netdev_add().
->
-> Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
-> ---
->  monitor/hmp-cmds.c | 15 +++------------
->  1 file changed, 3 insertions(+), 12 deletions(-)
->
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index 2b0b58a336..b747935687 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -1597,19 +1597,10 @@ void hmp_migrate(Monitor *mon, const QDict *qdict)
->  void hmp_netdev_add(Monitor *mon, const QDict *qdict)
->  {
->      Error *err = NULL;
-> -    QemuOpts *opts;
-> -
-> -    opts = qemu_opts_from_qdict(qemu_find_opts("netdev"), qdict, &err);
-> -    if (err) {
-> -        goto out;
-> -    }
-> +    QDict *non_constant_dict = qdict_clone_shallow(qdict);
->
-> -    netdev_add(opts, &err);
-> -    if (err) {
-> -        qemu_opts_del(opts);
-> -    }
-> -
-> -out:
-> +    qmp_marshal_netdev_add(non_constant_dict, NULL, &err);
-> +    qobject_unref(non_constant_dict);
->      hmp_handle_error(mon, err);
->  }
->
-> --
-> 2.27.0
->
->
+That said, I'm done with this issue for 5.2.
 
---0000000000005615b405b4876031
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Regards,
 
-<div dir=3D"ltr">Ping<br></div><br><div class=3D"gmail_quote"><div dir=3D"l=
-tr" class=3D"gmail_attr">On Thu, Jul 16, 2020 at 6:26 AM &lt;<a href=3D"mai=
-lto:andrew@daynix.com">andrew@daynix.com</a>&gt; wrote:<br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">From: Andrew Melnychenko &lt;<a hre=
-f=3D"mailto:andrew@daynix.com" target=3D"_blank">andrew@daynix.com</a>&gt;<=
-br>
-<br>
-There is an issue, that netdev can&#39;t be removed if it was added using h=
-mp.<br>
-The bug appears after 08712fcb851034228b61f75bd922863a984a4f60 commit.<br>
-It happens because of unclear QemuOpts that was created during<br>
-hmp_netdev_add(), now it uses qmp analog function -<br>
-qmp_marshal_netdev_add().<br>
-<br>
-Signed-off-by: Andrew Melnychenko &lt;<a href=3D"mailto:andrew@daynix.com" =
-target=3D"_blank">andrew@daynix.com</a>&gt;<br>
----<br>
-=C2=A0monitor/hmp-cmds.c | 15 +++------------<br>
-=C2=A01 file changed, 3 insertions(+), 12 deletions(-)<br>
-<br>
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c<br>
-index 2b0b58a336..b747935687 100644<br>
---- a/monitor/hmp-cmds.c<br>
-+++ b/monitor/hmp-cmds.c<br>
-@@ -1597,19 +1597,10 @@ void hmp_migrate(Monitor *mon, const QDict *qdict)<=
-br>
-=C2=A0void hmp_netdev_add(Monitor *mon, const QDict *qdict)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0Error *err =3D NULL;<br>
--=C2=A0 =C2=A0 QemuOpts *opts;<br>
--<br>
--=C2=A0 =C2=A0 opts =3D qemu_opts_from_qdict(qemu_find_opts(&quot;netdev&qu=
-ot;), qdict, &amp;err);<br>
--=C2=A0 =C2=A0 if (err) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;<br>
--=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 QDict *non_constant_dict =3D qdict_clone_shallow(qdict);<br>
-<br>
--=C2=A0 =C2=A0 netdev_add(opts, &amp;err);<br>
--=C2=A0 =C2=A0 if (err) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_opts_del(opts);<br>
--=C2=A0 =C2=A0 }<br>
--<br>
--out:<br>
-+=C2=A0 =C2=A0 qmp_marshal_netdev_add(non_constant_dict, NULL, &amp;err);<b=
-r>
-+=C2=A0 =C2=A0 qobject_unref(non_constant_dict);<br>
-=C2=A0 =C2=A0 =C2=A0hmp_handle_error(mon, err);<br>
-=C2=A0}<br>
-<br>
--- <br>
-2.27.0<br>
-<br>
-</blockquote></div>
+Phil.
 
---0000000000005615b405b4876031--
+>>>> Fixes: bccb20c49df ("Use qemu_strtoul() in set_pci_host_devaddr()")
+>>>> Reported-by: Klaus Herman <kherman@inbox.lv>
+>>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>>> ---
+>>>> v2: Free g_strsplit() with g_auto(GStrv) (Daniel)
+>>>> ---
+>>>>  hw/core/qdev-properties-system.c | 61 ++++++++++++++------------------
+>>>>  1 file changed, 27 insertions(+), 34 deletions(-)
+>>>>
+>>>> diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
+>>>> index 49bdd125814..36d4fd8b22a 100644
+>>>> --- a/hw/core/qdev-properties-system.c
+>>>> +++ b/hw/core/qdev-properties-system.c
+>>>> @@ -878,11 +878,11 @@ static void set_pci_host_devaddr(Object *obj, Visitor *v, const char *name,
+>>>>      DeviceState *dev = DEVICE(obj);
+>>>>      Property *prop = opaque;
+>>>>      PCIHostDeviceAddress *addr = qdev_get_prop_ptr(dev, prop);
+>>>> -    char *str, *p;
+>>>> -    const char *e;
+>>>> +    g_autofree char *str = NULL;
+>>>> +    g_auto(GStrv) col_s0 = NULL;
+>>>> +    g_auto(GStrv) dot_s = NULL;
+>>>> +    char **col_s;
+>>>>      unsigned long val;
+>>>> -    unsigned long dom = 0, bus = 0;
+>>>> -    unsigned int slot = 0, func = 0;
+>>>>  
+>>>>      if (dev->realized) {
+>>>>          qdev_prop_set_after_realize(dev, name, errp);
+>>>> @@ -893,57 +893,50 @@ static void set_pci_host_devaddr(Object *obj, Visitor *v, const char *name,
+>>>>          return;
+>>>>      }
+>>>>  
+>>>> -    p = str;
+>>>> -    if (qemu_strtoul(p, &e, 16, &val) < 0 || val > 0xffff || e == p) {
+>>>> +    col_s = col_s0 = g_strsplit(str, ":", 3);
+>>>> +    if (!col_s || !col_s[0] || !col_s[1]) {
+>>>>          goto inval;
+>>>>      }
+>>>> -    if (*e != ':') {
+>>>> -        goto inval;
+>>>> -    }
+>>>> -    bus = val;
+>>>>  
+>>>> -    p = (char *)e + 1;
+>>>> -    if (qemu_strtoul(p, &e, 16, &val) < 0 || val > 0x1f || e == p) {
+>>>> -        goto inval;
+>>>> -    }
+>>>> -    if (*e == ':') {
+>>>> -        dom = bus;
+>>>> -        bus = val;
+>>>> -        p = (char *)e + 1;
+>>>> -        if (qemu_strtoul(p, &e, 16, &val) < 0 || val > 0x1f || e == p) {
+>>>> +    /* domain */
+>>>> +    if (col_s[2]) {
+>>>> +        if (qemu_strtoul(col_s[0], NULL, 16, &val) < 0 || val > 0xffff) {
+>>>>              goto inval;
+>>>>          }
+>>>> +        addr->domain = val;
+>>>> +        col_s++;
+>>>> +    } else {
+>>>> +        addr->domain = 0;
+>>>>      }
+>>>> -    slot = val;
+>>>>  
+>>>> -    if (*e != '.') {
+>>>> +    /* bus */
+>>>> +    if (qemu_strtoul(col_s[0], NULL, 16, &val) < 0 || val > 0xff) {
+>>>>          goto inval;
+>>>>      }
+>>>> -    p = (char *)e + 1;
+>>>> -    if (qemu_strtoul(p, &e, 10, &val) < 0 || val > 7 || e == p) {
+>>>> -        goto inval;
+>>>> -    }
+>>>> -    func = val;
+>>>> +    addr->bus = val;
+>>>>  
+>>>> -    if (bus > 0xff) {
+>>>> +    /* <slot>.<func> */
+>>>> +    dot_s = g_strsplit(col_s[1], ".", 2);
+>>>> +    if (!dot_s || !dot_s[0] || !dot_s[1]) {
+>>>>          goto inval;
+>>>>      }
+>>>>  
+>>>> -    if (*e) {
+>>>> +    /* slot */
+>>>> +    if (qemu_strtoul(dot_s[0], NULL, 16, &val) < 0 || val > 0x1f) {
+>>>>          goto inval;
+>>>>      }
+>>>> +    addr->slot = val;
+>>>>  
+>>>> -    addr->domain = dom;
+>>>> -    addr->bus = bus;
+>>>> -    addr->slot = slot;
+>>>> -    addr->function = func;
+>>>> +    /* func */
+>>>> +    if (qemu_strtoul(dot_s[1], NULL, 10, &val) < 0 || val > 7) {
+>>>> +        goto inval;
+>>>> +    }
+>>>> +    addr->function = val;
+>>>>  
+>>>> -    g_free(str);
+>>>>      return;
+>>>>  
+>>>>  inval:
+>>>>      error_set_from_qdev_prop_error(errp, EINVAL, dev, prop, str);
+>>>> -    g_free(str);
+>>>>  }
+>>>>  
+>>>>  const PropertyInfo qdev_prop_pci_host_devaddr = {
+>>>>
+>>>
+>>
+> 
+
 
