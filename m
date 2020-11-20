@@ -2,73 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA1FC2BB0E6
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 17:47:58 +0100 (CET)
-Received: from localhost ([::1]:56344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBFC12BB0DB
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 17:45:31 +0100 (CET)
+Received: from localhost ([::1]:48382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg9Zl-0006o1-UD
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 11:47:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39300)
+	id 1kg9XO-0003NJ-Th
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 11:45:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kg9U9-0000HY-EO
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:42:09 -0500
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:34681)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kg9U7-0001FO-O4
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:42:09 -0500
-Received: by mail-ej1-x636.google.com with SMTP id o9so13793500ejg.1
- for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 08:42:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=7nNhzWSN1U2uAcnQgsU0jgORBLK+9mZeCHTcLoPEtAM=;
- b=jYgMeO3FNySe1OEPFg6KaebSpJnLCS8+0tpU9pl9ZHHGBfXwUvrlNmk1vU9pbHGu3F
- A01zFf/Ya0HF2SNfVsqUHNOpr2QrH2ow3Mi2yjTf4IDfPjXvS97qF+wiZqosidJvFRl8
- uw4/9cyxWsr74vsTjgcnrQ32ecPmpnN3OIdblsCVuE7uHamXjzqt+zC4+qkXZnBH5Tev
- gc3+u2h1/CgAMEe+kKQIwd85bvImoq5Mr2ai2ciwwsItokOdrm1Z+zP0quboo79HGgxi
- rQd+aEhZquyDfL8krcz4enRbpq5nTXPTxpDG8leZKWHRMy3BjbPRBlaAyu2sUA6jn1d7
- uUig==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kg9VO-00023I-NH
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:43:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21890)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kg9VM-0001VZ-I3
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:43:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605890601;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=VT948fUF6CYPZYaTz2mmZjpBQg1+bEN/gEyGgd7v3XY=;
+ b=Wh6LJVMa+20zi/Lg4NL5DZgG4sKXuWbQWqdGshC/znyWd6veMaBwbZhj9RP8dBPLRTyeff
+ +yNikqagzJJn9qsjd0OeOPc8hzAT5iaJMlufKZbaZLmfIxvlPrxdD1xeJJN9Zp+k3FYGua
+ a+Q87MfxV6wdYrr5HPJ5XLgRdzjhzLY=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-521-F2YySPg1Opu4WFLGVFFzpw-1; Fri, 20 Nov 2020 11:43:18 -0500
+X-MC-Unique: F2YySPg1Opu4WFLGVFFzpw-1
+Received: by mail-qt1-f200.google.com with SMTP id 7so7758015qtw.23
+ for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 08:43:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=7nNhzWSN1U2uAcnQgsU0jgORBLK+9mZeCHTcLoPEtAM=;
- b=nZ10z4+Otnpvz76NqfGAl+DiHiCL5Gcodaed/TQ4QOUfOfSj1hdYCrDxGXbDbgYoHb
- fnoHrK2tSogk2/5VQeN2IHZahitdlVEo+YAfl6omoNIiZ9E9m6gT+bl7rYszUIXTKoNG
- pS7boEEQHbbMAa9x97h+ccWOCc+NNvZ7JqmNXmixGVw5CZXN50T2sdNwDtihwQcOMfc9
- 5LPRuo+cLBY1S3mT4oTH1Coff5G5OVOraxIUZ0MUq2hDLG5Lu8z1ngEWMzmYHPDfAayO
- yXT+bSydwgTajN0Xch5W+qDhyxhGfLWNjvXuzUSWn3J6h+e/RDFR0EyT8jjx3m1sUDAp
- rSmg==
-X-Gm-Message-State: AOAM533GBsexc40Xpw7BaRyXQH6P7rlsG8cxHTj6T0sYP1y5y8XM1Yd+
- nmeaSSHb3EUz3rG/ZEADfsXl1ZBZY1sux1LMiJfe5w==
-X-Google-Smtp-Source: ABdhPJy+QbcjDfPSGHvqFP4Yd8VQ+yGpMwQ2qiEFb47CLsjGKrOdWewo8zvXPqDp2js0IuI/UXkZscmyoFvrfVWuwB8=
-X-Received: by 2002:a17:906:1542:: with SMTP id
- c2mr22965103ejd.382.1605890526295; 
- Fri, 20 Nov 2020 08:42:06 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=VT948fUF6CYPZYaTz2mmZjpBQg1+bEN/gEyGgd7v3XY=;
+ b=lx8y+GXc5snrGkXjb+g33fnf422/ZEhyVVMsHn7YVEf9v6O/mTf5pU1rXzG8i92sdp
+ 9vBgJqmYAEM6wa7PYd8h+DLCavfHyEEvB2FTUG8L4K0n3ve6RR/jLyjyXDJSk+E2uK8v
+ ZG2T11pTqhN97n3r3ONSDxFRVBfc6BdQ12cZ0DypFdvFsg6qK5UoUhcFimyDWJmYQ3KY
+ XeTSaHqvhtxAW6s3HExDWDOKARQXbww3Py7TnWIo579LurBEdVc1AjUJiGl2Jf68kEfM
+ QRPInsjDhoSTigeG7KwLu3XKXrwyioSbeGSsE+beVBRu07U4KNL+vhVpo7BGJG6O9lck
+ LYcg==
+X-Gm-Message-State: AOAM530mcF/YPqjs19ipKPAR4CGlro0da3MT1/Ij2XZDLFoPS0KQfNDg
+ tdknnU5K5fRkKbAh9OmlWbcY3EaGYK0U0CUO7s4GRByCN9boVDxDLpCAw4OTGjufAoSYkpRNUC9
+ Q86bsDDPZNozgIZs=
+X-Received: by 2002:a05:620a:a1d:: with SMTP id
+ i29mr17180263qka.466.1605890598476; 
+ Fri, 20 Nov 2020 08:43:18 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy0TH7T7vwAX+Kr/AEl4EBUMuqM1PDMLKYovyVOn4zo1m5j45mAdA+8/JnOSGRO+xMeNyIzjg==
+X-Received: by 2002:a05:620a:a1d:: with SMTP id
+ i29mr17180242qka.466.1605890598253; 
+ Fri, 20 Nov 2020 08:43:18 -0800 (PST)
+Received: from xz-x1
+ (bras-vprn-toroon474qw-lp130-20-174-93-89-196.dsl.bell.ca. [174.93.89.196])
+ by smtp.gmail.com with ESMTPSA id c1sm2345275qkd.74.2020.11.20.08.43.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Nov 2020 08:43:17 -0800 (PST)
+Date: Fri, 20 Nov 2020 11:43:16 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Subject: Re: [PATCH v3 3/7] support UFFD write fault processing in
+ ram_save_iterate()
+Message-ID: <20201120164316.GC60522@xz-x1>
+References: <20201119125940.20017-1-andrey.gruzdev@virtuozzo.com>
+ <20201119125940.20017-4-andrey.gruzdev@virtuozzo.com>
+ <20201119182516.GB6538@xz-x1>
+ <1e35a550-a6a0-fbe2-ac8d-6844ce23b3fb@virtuozzo.com>
+ <20201120150703.GE32525@xz-x1>
+ <2797b4b6-b083-750f-385b-f0aa09730251@virtuozzo.com>
 MIME-Version: 1.0
-References: <20201111141733.2358800-1-kuhn.chenqun@huawei.com>
- <CAFEAcA_BSYrq87it7UXWJUDvUuA8L8U1Y8mxkyZdwzb3n_sSiA@mail.gmail.com>
-In-Reply-To: <CAFEAcA_BSYrq87it7UXWJUDvUuA8L8U1Y8mxkyZdwzb3n_sSiA@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 20 Nov 2020 16:41:55 +0000
-Message-ID: <CAFEAcA8Ax3X5EFAgvGR_PVztLx7ShTweX63sd6k4CeqJqXnNRw@mail.gmail.com>
-Subject: Re: [PATCH-for-5.2 v2] hw/intc: fix heap-buffer-overflow in
- rxicu_realize()
-To: Chen Qun <kuhn.chenqun@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <2797b4b6-b083-750f-385b-f0aa09730251@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URG_BIZ=0.573 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,34 +100,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhanghailiang <zhang.zhanghailiang@huawei.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- QEMU Trivial <qemu-trivial@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Gan Qixin <ganqixin@huawei.com>,
- Euler Robot <euler.robot@huawei.com>
+Cc: Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 20 Nov 2020 at 13:44, Peter Maydell <peter.maydell@linaro.org> wrot=
-e:
->
-> On Wed, 11 Nov 2020 at 14:18, Chen Qun <kuhn.chenqun@huawei.com> wrote:
-> >
-> > When 'j =3D icu->nr_sense =E2=80=93 1', the 'j < icu->nr_sense' conditi=
-on is true,
-> > then 'j =3D icu->nr_sense', the'icu->init_sense[j]' has out-of-bounds a=
-ccess.
+On Fri, Nov 20, 2020 at 07:15:07PM +0300, Andrey Gruzdev wrote:
+> Yeah, I think we can re-use the postcopy queue code for faulting pages. I'm
+> worring a little about some additional overhead dealing with urgent request
+> semaphore. Also, the code won't change a lot, something like:
+> 
+> [...]
+>         /* In case of 'write-tracking' migration we first try
+>          * to poll UFFD and sse if we have write page fault event */
+>         poll_fault_page(rs);
+> 
+>         again = true;
+>         found = get_queued_page(rs, &pss);
+> 
+>         if (!found) {
+>             /* priority queue empty, so just search for something dirty */
+>             found = find_dirty_block(rs, &pss, &again);
+>         }
+> [...]
 
-> > Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> > Reported-by: Euler Robot <euler.robot@huawei.com>
-> > Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
->
->
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Could I ask what's the "urgent request semaphore"?  Thanks,
 
-I'll take this via target-arm.next, I guess.
+-- 
+Peter Xu
 
-thanks
--- PMM
 
