@@ -2,56 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A5FF2BA9E1
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 13:14:39 +0100 (CET)
-Received: from localhost ([::1]:54934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8F382BAA16
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 13:29:56 +0100 (CET)
+Received: from localhost ([::1]:34350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg5JG-0003ef-7T
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 07:14:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47152)
+	id 1kg5Y3-0008Dh-BJ
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 07:29:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kg5IJ-0003DB-MQ
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 07:13:39 -0500
-Received: from mx2.suse.de ([195.135.220.15]:50476)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kg5IG-00076E-MP
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 07:13:39 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id E2644AF86;
- Fri, 20 Nov 2020 12:13:34 +0000 (UTC)
-Subject: Re: [RFC v3 8/9] module: introduce MODULE_INIT_ACCEL_CPU
-To: Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <6093de34-807d-3840-5402-4769385dd894@suse.de>
- <8f829e99-c346-00bc-efdd-3e6d69cfba35@redhat.com>
- <20201118143643.GF1509407@habkost.net>
- <a6071cd4-0787-01c8-775a-ede72e740376@redhat.com>
- <20201118152552.GG1509407@habkost.net>
- <CABgObfYL-TNAMmqkUh6cjcytaAFEtXPfw8toO6gXEuyokdyLhA@mail.gmail.com>
- <20201118161119.GJ1509407@habkost.net>
- <CABgObfb2Fim=7j3z7ApTuW=R0dWam2F_JRuOoxhP=XZXdsWe7g@mail.gmail.com>
- <20201118173055.GM1509407@habkost.net>
- <e7b70933-acd1-668c-62cd-89f480945f0f@redhat.com>
- <20201118220750.GP1509407@habkost.net>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <2984625a-15ee-f638-b1bb-050a4514bade@suse.de>
-Date: Fri, 20 Nov 2020 13:13:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <lma@suse.com>) id 1kg5Vs-0007QL-QB
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 07:27:40 -0500
+Received: from de-smtp-delivery-52.mimecast.com ([62.140.7.52]:51323)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lma@suse.com>) id 1kg5Vn-0003np-R9
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 07:27:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com;
+ s=mimecast20200619; t=1605875253;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=JdR0Ot+KCFZ3cjaRat6IojqsnYqSxu1fGDfT7R7u+28=;
+ b=KlYvOBQtuAcK1zhtILpZFuJNgQO5z0DxQRsyX4kynZGBgI3wrHoWpnbcKo7b/A+iw+XZDn
+ QtxjOvr2DwESWeFjPiIZ1yHRNFQ/HPhQasWS3t+u1G7eHNZ18/69zyDk+WtkX3V+Lk2z4k
+ vAl1+rCjCVjGYK5XmuV7mG+YDlTO22g=
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com
+ (mail-db5eur01lp2051.outbound.protection.outlook.com [104.47.2.51]) (Using
+ TLS) by relay.mimecast.com with ESMTP id de-mta-2-ZhFUv_gVMEal9pqZmrCumA-1;
+ Fri, 20 Nov 2020 13:27:31 +0100
+X-MC-Unique: ZhFUv_gVMEal9pqZmrCumA-1
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=V+supk3L3qEqb5wzXX2BW4dyE1yxFPgeV8pXSiXW6KtcfYIBzZPCtTA1kZ626ld8HjfC6poeLs+0zMUe04Nr1Mzba2SpFyExN30ruA+7/RCv+jJJpSI2JrhuZaj+F7Gh8aazUZv72mkaic9WnAYcfuFfbxKb1Jk3ikG3cWSpH4Bb93erhZyxABRcFc0JdwPGm/3uIuKFHfAsmfDbKWAeNIpKZp9LD8re6BmH3ESdCMww7me+Q3rKGcE/Ngajqy0AadGz8CMHVk94cG7HNpm4G+Wpyq0RV7v0/FVi8OcNjxEN2yBk+yOovahhoDADCNbb5r24UrwF5eXFnRjJh6nDyw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GS4XYrHF1gsDFV0ekg5FWJl4884BS5zlVm3FRZfT7lU=;
+ b=gwFYDuThgUCtettXY363u+9xw24R0pYqzftTtv3sclgjHUPY1OCmjRebwYhEi25l0UuLejdlrTH/sHqBlomIX2YBij75zZVTPpOc4gs8SMDuLvvjeHx9Lb3w8MzKNqOh8FeRPCfpFg8mdeExNMJV2DkkIssdvqeft37XtK6DoYNikKxgevVJoYQHLDz7Kq/RAdWXq59J98AtKOVtsFpSVcbmnOgCa7hiuKpPkTHEv8ZLRaWUwOGHhMnzLA/BRtY07EC1JkD8mLaAIZJIy4nt4fKf7O7SMfiiE0fEBHS3fTREjHEA6fjCMRcbKyBYxNPMKeCM7MRPDx0oQNS2yVIcsg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
+ dkim=pass header.d=suse.com; arc=none
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=suse.com;
+Received: from AM6PR04MB5782.eurprd04.prod.outlook.com (2603:10a6:20b:aa::17)
+ by AM6PR04MB4152.eurprd04.prod.outlook.com (2603:10a6:209:4e::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.25; Fri, 20 Nov
+ 2020 12:27:30 +0000
+Received: from AM6PR04MB5782.eurprd04.prod.outlook.com
+ ([fe80::8945:92d8:e72a:6245]) by AM6PR04MB5782.eurprd04.prod.outlook.com
+ ([fe80::8945:92d8:e72a:6245%6]) with mapi id 15.20.3589.022; Fri, 20 Nov 2020
+ 12:27:29 +0000
+From: Lin Ma <lma@suse.com>
+To: qemu-devel@nongnu.org
+CC: mdroth@linux.vnet.ibm.com, marcandre.lureau@gmail.com,
+ Lin Ma <lma@suse.com>
+Subject: [PATCH v3] qga: Correct loop count in qmp_guest_get_vcpus()
+Date: Fri, 20 Nov 2020 20:27:02 +0800
+Message-ID: <20201120122702.4413-1-lma@suse.com>
+X-Mailer: git-send-email 2.26.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [60.251.47.115]
+X-ClientProxiedBy: HK2PR02CA0168.apcprd02.prod.outlook.com
+ (2603:1096:201:1f::28) To AM6PR04MB5782.eurprd04.prod.outlook.com
+ (2603:10a6:20b:aa::17)
 MIME-Version: 1.0
-In-Reply-To: <20201118220750.GP1509407@habkost.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from t440p.suse.asia (60.251.47.115) by
+ HK2PR02CA0168.apcprd02.prod.outlook.com (2603:1096:201:1f::28) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3589.20 via Frontend Transport; Fri, 20 Nov 2020 12:27:27 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d8d0b993-85b8-485c-9ba3-08d88d4fa5a7
+X-MS-TrafficTypeDiagnostic: AM6PR04MB4152:
+X-LD-Processed: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba,ExtFwd
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR04MB41527CE67FF1B6BAE8CDEF79C5FF0@AM6PR04MB4152.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:635;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: n+Lcw2LzTE/khO/VDz21BPiS2Mv7ykdpgzsWgUh6bKpvhmYyfhQqlGDtxSisJnWQAp2DeZ3OuYbn4r32GBfHV0d+lcLWVErqOX9J4zSXTFKycY2kWBXIaBKhGWUXMCHyn2fagh5qX2dIPuW06+/HPq94GLx2UFMHFPEb1C+UoCE7inzckW2z7ajox/OPRswv1o+3MuXoh8TCauv5IDCznEGox+fU41cGfcxcXX9ai92qEj3o9bWhjcwdIbjzY/A7y0Tey6mJD3QUxyHABL3gKdecMyyXkgECH7CwDext+9hvAdh8rUh4CWcb9oO5cEcW
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM6PR04MB5782.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(376002)(396003)(346002)(366004)(39860400002)(136003)(2906002)(8676002)(66476007)(16526019)(6506007)(55236004)(36756003)(52116002)(5660300002)(316002)(4326008)(8936002)(2616005)(66946007)(6486002)(1076003)(186003)(66556008)(6512007)(83380400001)(86362001)(26005)(478600001)(6666004)(107886003)(6916009)(956004);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: 5DpFtR2D8lmoosBiL9RjzoJuAI9tkETdQUtMUbTR6ZTLCYAaerMB5T96sdAGeXIhZFlRu6eTVnwUboeiaZnv8qZuqYPtgluKpJZXH8r7rSFk2oPnikOR1sIBwzAKIjyX/mwKdmBLcVz/r31CkqUfWUOC1xcUSNjPkaCME0cO+ca1P0927MufD/nL8vjPmwHfrtSH8UPjYK/3lW8P4bdJR0c3nFgHC1ULHqQTbMDBnbU1lsUjVeCROmD0fOJQ5upTyRQzkVMf7v8hf/Zj8MxdZaZ3Bw7Ty5Eoqas/uN74x14ROmZrPKDY0XyQWnaDs4N76lCqxjvnCRhkJqwYscY58BCb5elPz9rxRjoOScoUTI35y81f83tdAtxDvAyFDG9da13EUl6gAXVPpF0O/WDln/GDwu0XESWnCBKIzATINzXBqZzgQdE67ltybibI8EvohnT4Mgn1QNUr8ZX46DqhGqUWEUn168GF8eAiO5iit9KeHHqef8fWmTP1wVgICnHreBfYIyhVZwlUFy6YdIRKaZzcrddmdROzCQRjq6nz4g88qnmdojeULxuugHo2P3bR5r31jdeee7uYE7meUyp6B3G/VZwvND0qjoTcWhcEEP7jfzAYvQIgt19hJ7hlA5wEcGz8fv4TXwRQ6XhpZqmGwexOp5fKHN0n8FmU1URg3S1vhjxvZvObpITU7LiAbehgunUjDMFIk1ZmTCpu7G1rRU+B74YJbjKztDb+T4q4jPvDMjHrfyv4BGPCpz4KUiS54aAAXg1vUGyogxEO/iIADyDPCQ+r3fKsP5txqTR+Jw6wMg/HHmrhi1qT0TRk8mEfeZBRkuiea6zamdC85LFrLgEsRrJ0XdWYx3yCLnuB1YOfLXFaIfvWEaIhjsDVLV4sUbemHgGC9OhF7/mS6ccT/g==
+X-OriginatorOrg: suse.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d8d0b993-85b8-485c-9ba3-08d88d4fa5a7
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB5782.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2020 12:27:29.8690 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EKojag/7hDusIb7KyMqn4bD1ys73gRgcDJEACTIDgX7F1H07nnzqiWco0EN0TwoT
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR04MB4152
+Received-SPF: pass client-ip=62.140.7.52; envelope-from=lma@suse.com;
+ helo=de-smtp-delivery-52.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,447 +119,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- Bruce Rogers <brogers@suse.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Wenchao Wang <wenchao.wang@intel.com>, haxm-team@intel.com,
- Cameron Esfahani <dirty@apple.com>, Anthony Perard <anthony.perard@citrix.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>, Dario Faggioli <dfaggioli@suse.com>,
- Olaf Hering <ohering@suse.de>, Richard Henderson <rth@twiddle.net>,
- Colin Xu <colin.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/18/20 11:07 PM, Eduardo Habkost wrote:
-> On Wed, Nov 18, 2020 at 08:13:18PM +0100, Paolo Bonzini wrote:
->> On 18/11/20 18:30, Eduardo Habkost wrote:
->>>> Adding a layer of indirect calls is not very different from monkey patching
->>>> though.
->>>
->>> I'm a little bothered by monkey patching, but I'm more
->>> bothered by having to:
->>>
->>> (1) register (module_init()) a function (kvm_cpu_accel_register()) that
->>>    (2) register (accel_register_call()) a function (kvm_cpu_accel_init()) that
->>>      (3) register (x86_cpu_accel_init()) a data structure (X86CPUAccel kvm_cpu_accel) that
->>>        (4) will be saved in multiple QOM classes, so that
->>>          (5) we will call the right X86CPUClass.accel method at the right moment
->>>              (common_class_init(), instance_init(), realizefn()),
->>> where:
->>>    step 4 must be done before any CPU object is created
->>>      (otherwise X86CPUAccel.instance_init & X86CPUAccel.realizefn
->>>       will be silently ignored), and
->>>    step 3 must be done after all QOM types were registered.
->>>
->>>> You also have to consider that accel currently does not exist in usermode
->>>> emulators, so that's an issue too. I would rather get a simple change in
->>>> quickly, instead of designing the perfect class hierarchy.
->>>
->>> It doesn't have to be perfect.  I agree that simple is better.
->>>
->>> To me, registering a QOM type and looking it up when necessary is
->>> simpler than the above.  Even if it's a weird class having no
->>> object instances.  It probably could be an interface type.
->>
->> Registering a QOM type still has quite some boilerplate.  [...]
-> 
-> We're working on that.  :)
-> 
->>                                                    [...]  Also registering a
->> QOM type has a public side effect (shows up in qom-list-types).  In general
->> I don't look at QOM unless I want its property mechanism, but maybe that's
->> just me.
-> 
-> We have lots of internal-use-only types returned by
-> qom-list-types, I don't think it's a big deal.
-> 
->>
->>>> Perhaps another idea would be to allow adding interfaces to classes
->>>> *separately from the registration of the types*. Then we can use it to add
->>>> SOFTMMU_ACCEL and I386_ACCEL interfaces to a bare bones accel class, and
->>>> add the accel object to usermode emulators.
->>>
->>> I'm not sure I follow.  What do you mean by bare bones accel
->>> class, and when exactly would you add the new interfaces to the
->>> classes?
->>
->> A bare bones accel class would not have init_machine and setup_post methods;
->> those would be in a TYPE_SOFTMMU_ACCEL interface.  It would still have
->> properties (such as tb-size for TCG) and would be able to register compat
->> properties.
-> 
-> Oh, I think I see.  This could save us having a lot of parallel type
-> hierarchies.
-> 
->>
->> Where would I add it, I don't know.  It could be a simple public wrapper
->> around type_initialize_interface() if we add a new MODULE_INIT_* phase after
->> QOM.
->>
->> Or without adding a new phase, it could be a class_type->array of
->> (interface_type, init_fn) hash table.  type_initialize would look up the
->> class_type by name, add the interfaces would to the class with
->> type_initialize_interface, and then call the init_fn to fill in the vtable.
-> 
-> That sounds nice.  I don't think Claudio's cleanup should be
-> blocked until this new mechanism is ready, though.
-> 
-> We don't really need the type representing X86CPUAccel to be a
-> subtype of TYPE_ACCEL or an interface implemented by
-> current_machine->accelerator, in the first version.  We just need
-> a simple way for the CPU initialization code to find the correct
-> X86CPUAccel struct.
-> 
-> While we don't have the new mechanism, it can be just a:
->   object_class_by_name("%s-x86-cpu-accel" % (accel->name))
-> call.
-> 
-> Below is a rough draft of what I mean.  There's still lots of
-> room for cleaning it up (especially getting rid of the
-> X86CPUClass.common_class_init and X86CPUClass.accel fields).
-> 
-> git tree at https://gitlab.com/ehabkost/qemu/-/commits/work/qom-based-x86-cpu-accel
-> 
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> ---
-> diff --git a/include/qemu/module.h b/include/qemu/module.h
-> index 485eda986a..944d403cbd 100644
-> --- a/include/qemu/module.h
-> +++ b/include/qemu/module.h
-> @@ -44,7 +44,6 @@ typedef enum {
->      MODULE_INIT_BLOCK,
->      MODULE_INIT_OPTS,
->      MODULE_INIT_QOM,
-> -    MODULE_INIT_ACCEL_CPU,
->      MODULE_INIT_TRACE,
->      MODULE_INIT_XEN_BACKEND,
->      MODULE_INIT_LIBQOS,
-> @@ -55,7 +54,6 @@ typedef enum {
->  #define block_init(function) module_init(function, MODULE_INIT_BLOCK)
->  #define opts_init(function) module_init(function, MODULE_INIT_OPTS)
->  #define type_init(function) module_init(function, MODULE_INIT_QOM)
-> -#define accel_cpu_init(function) module_init(function, MODULE_INIT_ACCEL_CPU)
->  #define trace_init(function) module_init(function, MODULE_INIT_TRACE)
->  #define xen_backend_init(function) module_init(function, \
->                                                 MODULE_INIT_XEN_BACKEND)
-> diff --git a/include/sysemu/cpus.h b/include/sysemu/cpus.h
-> index 032169ccd3..14491297bb 100644
-> --- a/include/sysemu/cpus.h
-> +++ b/include/sysemu/cpus.h
-> @@ -25,6 +25,9 @@ typedef struct CpuAccelOps {
->  /* register accel-specific cpus interface implementation */
->  void cpus_register_accel(const CpuAccelOps *i);
->  
-> +/* Call arch-specific accel initialization */
-> +void cpu_accel_arch_init(const char *accel_name);
-> +
->  /* Create a dummy vcpu for CpuAccelOps->create_vcpu_thread */
->  void dummy_start_vcpu_thread(CPUState *);
->  
-> diff --git a/target/i386/cpu-qom.h b/target/i386/cpu-qom.h
-> index 79fcbd3b9b..eafd86dc22 100644
-> --- a/target/i386/cpu-qom.h
-> +++ b/target/i386/cpu-qom.h
-> @@ -34,7 +34,7 @@ OBJECT_DECLARE_TYPE(X86CPU, X86CPUClass,
->                      X86_CPU)
->  
->  typedef struct X86CPUModel X86CPUModel;
-> -typedef struct X86CPUAccel X86CPUAccel;
-> +typedef struct X86CPUAccelInterface X86CPUAccelInterface;
->  
->  /**
->   * X86CPUClass:
-> @@ -71,13 +71,11 @@ struct X86CPUClass {
->      DeviceUnrealize parent_unrealize;
->      DeviceReset parent_reset;
->  
-> -    const X86CPUAccel *accel;
-> +    const X86CPUAccelInterface *accel;
->  };
->  
->  /**
-> - * X86CPUAccel:
-> - * @name: string name of the X86 CPU Accelerator
-> - *
-> + * X86CPUAccelInterface:
->   * @common_class_init: initializer for the common cpu
->   * @instance_init: cpu instance initialization
->   * @realizefn: realize function, called first in x86 cpu realize
-> @@ -85,14 +83,16 @@ struct X86CPUClass {
->   * X86 CPU accelerator-specific CPU initializations
->   */
->  
-> -struct X86CPUAccel {
-> -    const char *name;
-> -
-> +struct X86CPUAccelInterface {
-> +    ObjectClass parent_class;
->      void (*common_class_init)(X86CPUClass *xcc);
->      void (*instance_init)(X86CPU *cpu);
->      void (*realizefn)(X86CPU *cpu, Error **errp);
->  };
->  
-> -void x86_cpu_accel_init(const X86CPUAccel *accel);
-> +#define TYPE_X86_CPU_ACCEL "x86-cpu-accel"
-> +OBJECT_DECLARE_INTERFACE(X86CPUAccel, X86CPUAccelInterface, X86_CPU_ACCEL);
+The guest-get-vcpus returns incorrect vcpu info in case we hotunplug vcpus(=
+not
+the last one).
+e.g.:
+A VM has 4 VCPUs: cpu0 + 3 hotunpluggable online vcpus(cpu1, cpu2 and cpu3)=
+.
+Hotunplug cpu2,  Now only cpu0, cpu1 and cpu3 are present & online.
 
+./qmp-shell /tmp/qmp-monitor.sock
+(QEMU) query-hotpluggable-cpus
+{"return": [
+{"props": {"core-id": 0, "thread-id": 0, "socket-id": 3}, "vcpus-count": 1,
+ "qom-path": "/machine/peripheral/cpu3", "type": "host-x86_64-cpu"},
+{"props": {"core-id": 0, "thread-id": 0, "socket-id": 2}, "vcpus-count": 1,
+ "qom-path": "/machine/peripheral/cpu2", "type": "host-x86_64-cpu"},
+{"props": {"core-id": 0, "thread-id": 0, "socket-id": 1}, "vcpus-count": 1,
+ "qom-path": "/machine/peripheral/cpu1", "type": "host-x86_64-cpu"},
+{"props": {"core-id": 0, "thread-id": 0, "socket-id": 0}, "vcpus-count": 1,
+ "qom-path": "/machine/unattached/device[0]", "type": "host-x86_64-cpu"}
+]}
 
-I am not exactly sure what precisely you are doing here,
+(QEMU) device_del id=3Dcpu2
+{"return": {}}
 
-I get the general intention to use the existing interface-related "stuff" in QOM,
-but I do not see any OBJECT_DECLARE_INTERFACE around, and does not seem like the other boilerplate used for interfaces.
+(QEMU) query-hotpluggable-cpus
+{"return": [
+{"props": {"core-id": 0, "thread-id": 0, "socket-id": 3}, "vcpus-count": 1,
+ "qom-path": "/machine/peripheral/cpu3", "type": "host-x86_64-cpu"},
+{"props": {"core-id": 0, "thread-id": 0, "socket-id": 2}, "vcpus-count": 1,
+ "type": "host-x86_64-cpu"},
+{"props": {"core-id": 0, "thread-id": 0, "socket-id": 1}, "vcpus-count": 1,
+ "qom-path": "/machine/peripheral/cpu1", "type": "host-x86_64-cpu"},
+{"props": {"core-id": 0, "thread-id": 0, "socket-id": 0}, "vcpus-count": 1,
+ "qom-path": "/machine/unattached/device[0]", "type": "host-x86_64-cpu"}
+]}
 
-Could you clarify what happens here? Should we just use a normal object, call it "Interface" and call it a day?
+Before:
+./qmp-shell -N /tmp/qmp-ga.sock
+Welcome to the QMP low-level shell!
+Connected
+(QEMU) guest-get-vcpus
+{"return": [
+{"online": true, "can-offline": false, "logical-id": 0},
+{"online": true, "can-offline": true, "logical-id": 1}]}
 
-Thanks,
+After:
+./qmp-shell -N /tmp/qmp-ga.sock
+Welcome to the QMP low-level shell!
+Connected
+(QEMU) guest-get-vcpus
+{"return": [
+{"online": true, "can-offline": false, "logical-id": 0},
+{"online": true, "can-offline": true, "logical-id": 1},
+{"online": true, "can-offline": true, "logical-id": 3}]}
 
-Claudio
+Signed-off-by: Lin Ma <lma@suse.com>
+---
+ qga/commands-posix.c | 45 ++++++++++++++++----------------------------
+ 1 file changed, 16 insertions(+), 29 deletions(-)
 
-
-> +
-> +#define X86_CPU_ACCEL_NAME(acc) (acc "-x86-cpu-accel")
->  
->  #endif
-> diff --git a/bsd-user/main.c b/bsd-user/main.c
-> index 9f88ae952a..6107c8ca24 100644
-> --- a/bsd-user/main.c
-> +++ b/bsd-user/main.c
-> @@ -909,7 +909,8 @@ int main(int argc, char **argv)
->  
->      /* init tcg before creating CPUs and to get qemu_host_page_size */
->      tcg_exec_init(0);
-> -    module_call_init(MODULE_INIT_ACCEL_CPU);
-> +    cpu_accel_arch_init("tcg");
-> +
->  
->      cpu_type = parse_cpu_option(cpu_model);
->      cpu = cpu_create(cpu_type);
-> diff --git a/linux-user/main.c b/linux-user/main.c
-> index a745901d86..c36564fd61 100644
-> --- a/linux-user/main.c
-> +++ b/linux-user/main.c
-> @@ -704,7 +704,7 @@ int main(int argc, char **argv, char **envp)
->  
->      /* init tcg before creating CPUs and to get qemu_host_page_size */
->      tcg_exec_init(0);
-> -    module_call_init(MODULE_INIT_ACCEL_CPU);
-> +    cpu_accel_arch_init("tcg");
->  
->      cpu = cpu_create(cpu_type);
->      env = cpu->env_ptr;
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index df4bed056a..b90d107475 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -2744,6 +2744,7 @@ static int do_configure_accelerator(void *opaque, QemuOpts *opts, Error **errp)
->          return 0;
->      }
->  
-> +    cpu_accel_arch_init(acc);
->      return 1;
->  }
->  
-> @@ -4173,12 +4174,6 @@ void qemu_init(int argc, char **argv, char **envp)
->       */
->      configure_accelerators(argv[0]);
->  
-> -    /*
-> -     * accelerator has been chosen and initialized, now it is time to
-> -     * register the cpu accel interface.
-> -     */
-> -    module_call_init(MODULE_INIT_ACCEL_CPU);
-> -
->      /*
->       * Beware, QOM objects created before this point miss global and
->       * compat properties.
-> diff --git a/stubs/cpu_accel_arch_init.c b/stubs/cpu_accel_arch_init.c
-> new file mode 100644
-> index 0000000000..b80cbdd847
-> --- /dev/null
-> +++ b/stubs/cpu_accel_arch_init.c
-> @@ -0,0 +1,6 @@
-> +#include "qemu/osdep.h"
-> +#include "sysemu/cpus.h"
-> +
-> +void cpu_accel_arch_init(const char *accel_name)
-> +{
-> +}
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index b53e958926..b91e0b44ca 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -7041,6 +7041,12 @@ static const TypeInfo x86_base_cpu_type_info = {
->          .class_init = x86_cpu_base_class_init,
->  };
->  
-> +static const TypeInfo x86_cpu_accel_type_info = {
-> +    .name = TYPE_X86_CPU_ACCEL,
-> +    .parent = TYPE_INTERFACE,
-> +    .class_size = sizeof(X86CPUAccelInterface),
-> +};
-> +
->  static void x86_cpu_register_types(void)
->  {
->      int i;
-> @@ -7051,6 +7057,7 @@ static void x86_cpu_register_types(void)
->      }
->      type_register_static(&max_x86_cpu_type_info);
->      type_register_static(&x86_base_cpu_type_info);
-> +    type_register_static(&x86_cpu_accel_type_info);
->  }
->  
->  type_init(x86_cpu_register_types)
-> @@ -7058,13 +7065,22 @@ type_init(x86_cpu_register_types)
->  static void x86_cpu_accel_init_aux(ObjectClass *klass, void *opaque)
->  {
->      X86CPUClass *xcc = X86_CPU_CLASS(klass);
-> -    const X86CPUAccel **accel = opaque;
-> +    const X86CPUAccelInterface **accel = opaque;
->  
->      xcc->accel = *accel;
->      xcc->accel->common_class_init(xcc);
->  }
->  
-> -void x86_cpu_accel_init(const X86CPUAccel *accel)
-> +static void x86_cpu_accel_init(const X86CPUAccelInterface *accel)
->  {
->      object_class_foreach(x86_cpu_accel_init_aux, TYPE_X86_CPU, false, &accel);
->  }
-> +
-> +void cpu_accel_arch_init(const char *accel_name)
-> +{
-> +    g_autofree char *cpu_accel_name =
-> +        g_strdup_printf(X86_CPU_ACCEL_NAME("%s"), accel_name);
-> +    X86CPUAccelInterface *acc = X86_CPU_ACCEL_CLASS(object_class_by_name(cpu_accel_name));
-> +    assert(acc);
-> +    x86_cpu_accel_init(acc);
-> +}
-> diff --git a/target/i386/hvf/cpu.c b/target/i386/hvf/cpu.c
-> index 29e672191f..358351018f 100644
-> --- a/target/i386/hvf/cpu.c
-> +++ b/target/i386/hvf/cpu.c
-> @@ -46,19 +46,23 @@ static void hvf_cpu_instance_init(X86CPU *cpu)
->      }
->  }
->  
-> -static const X86CPUAccel hvf_cpu_accel = {
-> -    .name = TYPE_X86_CPU "-hvf",
-> +static void hvf_cpu_accel_interface_init(ObjectClass *oc, void *data)
-> +{
-> +    X86CPUAccelInterface *acc = X86_CPU_ACCEL_CLASS(oc);
-> +    acc->realizefn = host_cpu_realizefn;
-> +    acc->common_class_init = hvf_cpu_common_class_init;
-> +    acc->instance_init = hvf_cpu_instance_init;
-> +};
->  
-> -    .realizefn = host_cpu_realizefn,
-> -    .common_class_init = hvf_cpu_common_class_init,
-> -    .instance_init = hvf_cpu_instance_init,
-> +static const TypeInfo hvf_cpu_accel_type_info = {
-> +    .name = X86_CPU_ACCEL_NAME("hvf"),
-> +    .parent = TYPE_X86_CPU_ACCEL,
-> +    .class_init = hvf_cpu_accel_interface_init,
->  };
->  
->  static void hvf_cpu_accel_init(void)
->  {
-> -    if (hvf_enabled()) {
-> -        x86_cpu_accel_init(&hvf_cpu_accel);
-> -    }
-> +    type_register_static(&hvf_cpu_accel_type_info);
->  }
->  
-> -accel_cpu_init(hvf_cpu_accel_init);
-> +type_init(hvf_cpu_accel_init);
-> diff --git a/target/i386/kvm/cpu.c b/target/i386/kvm/cpu.c
-> index 76982865eb..b6a1a4d200 100644
-> --- a/target/i386/kvm/cpu.c
-> +++ b/target/i386/kvm/cpu.c
-> @@ -128,18 +128,23 @@ static void kvm_cpu_instance_init(X86CPU *cpu)
->      }
->  }
->  
-> -static const X86CPUAccel kvm_cpu_accel = {
-> -    .name = TYPE_X86_CPU "-kvm",
-> +static void kvm_cpu_accel_interface_init(ObjectClass *oc, void *data)
-> +{
-> +    X86CPUAccelInterface *acc = X86_CPU_ACCEL_CLASS(oc);
-> +    acc->realizefn = kvm_cpu_realizefn;
-> +    acc->common_class_init = kvm_cpu_common_class_init;
-> +    acc->instance_init = kvm_cpu_instance_init;
-> +};
->  
-> -    .realizefn = kvm_cpu_realizefn,
-> -    .common_class_init = kvm_cpu_common_class_init,
-> -    .instance_init = kvm_cpu_instance_init,
-> +static const TypeInfo kvm_cpu_accel_type_info = {
-> +    .name = X86_CPU_ACCEL_NAME("kvm"),
-> +    .parent = TYPE_X86_CPU_ACCEL,
-> +    .class_init = kvm_cpu_accel_interface_init,
->  };
->  
->  static void kvm_cpu_accel_init(void)
->  {
-> -    if (kvm_enabled()) {
-> -        x86_cpu_accel_init(&kvm_cpu_accel);
-> -    }
-> +    type_register_static(&kvm_cpu_accel_type_info);
->  }
-> -accel_cpu_init(kvm_cpu_accel_init);
-> +
-> +type_init(kvm_cpu_accel_init);
-> diff --git a/target/i386/tcg/cpu.c b/target/i386/tcg/cpu.c
-> index 25cf4cfb46..0321688cd3 100644
-> --- a/target/i386/tcg/cpu.c
-> +++ b/target/i386/tcg/cpu.c
-> @@ -150,19 +150,23 @@ static void tcg_cpu_instance_init(X86CPU *cpu)
->      x86_cpu_apply_props(cpu, tcg_default_props);
->  }
->  
-> -static const X86CPUAccel tcg_cpu_accel = {
-> -    .name = TYPE_X86_CPU "-tcg",
-> +static void tcg_cpu_accel_interface_init(ObjectClass *oc, void *data)
-> +{
-> +    X86CPUAccelInterface *acc = X86_CPU_ACCEL_CLASS(oc);
-> +    acc->realizefn = tcg_cpu_realizefn;
-> +    acc->common_class_init = tcg_cpu_common_class_init;
-> +    acc->instance_init = tcg_cpu_instance_init;
-> +};
->  
-> -    .realizefn = tcg_cpu_realizefn,
-> -    .common_class_init = tcg_cpu_common_class_init,
-> -    .instance_init = tcg_cpu_instance_init,
-> +static const TypeInfo tcg_cpu_accel_type_info = {
-> +    .name = X86_CPU_ACCEL_NAME("tcg"),
-> +    .parent = TYPE_X86_CPU_ACCEL,
-> +    .class_init = tcg_cpu_accel_interface_init,
->  };
->  
->  static void tcg_cpu_accel_init(void)
->  {
-> -    if (tcg_enabled()) {
-> -        x86_cpu_accel_init(&tcg_cpu_accel);
-> -    }
-> +    type_register_static(&tcg_cpu_accel_type_info);
->  }
->  
-> -accel_cpu_init(tcg_cpu_accel_init);
-> +type_init(tcg_cpu_accel_init);
-> diff --git a/stubs/meson.build b/stubs/meson.build
-> index 82b7ba60ab..1d66de1fae 100644
-> --- a/stubs/meson.build
-> +++ b/stubs/meson.build
-> @@ -1,4 +1,5 @@
->  stub_ss.add(files('arch_type.c'))
-> +stub_ss.add(files('cpu_accel_arch_init.c'))
->  stub_ss.add(files('bdrv-next-monitor-owned.c'))
->  stub_ss.add(files('blk-commit-all.c'))
->  stub_ss.add(files('blk-exp-close-all.c'))
-> 
-> 
-> 
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index c089e38120..ee05e694d3 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -2376,24 +2376,6 @@ error:
+     return NULL;
+ }
+=20
+-#define SYSCONF_EXACT(name, errp) sysconf_exact((name), #name, (errp))
+-
+-static long sysconf_exact(int name, const char *name_str, Error **errp)
+-{
+-    long ret;
+-
+-    errno =3D 0;
+-    ret =3D sysconf(name);
+-    if (ret =3D=3D -1) {
+-        if (errno =3D=3D 0) {
+-            error_setg(errp, "sysconf(%s): value indefinite", name_str);
+-        } else {
+-            error_setg_errno(errp, errno, "sysconf(%s)", name_str);
+-        }
+-    }
+-    return ret;
+-}
+-
+ /* Transfer online/offline status between @vcpu and the guest system.
+  *
+  * On input either @errp or *@errp must be NULL.
+@@ -2464,24 +2446,29 @@ static void transfer_vcpu(GuestLogicalProcessor *vc=
+pu, bool sys2vcpu,
+=20
+ GuestLogicalProcessorList *qmp_guest_get_vcpus(Error **errp)
+ {
+-    int64_t current;
+     GuestLogicalProcessorList *head, **link;
+-    long sc_max;
++    g_autofree char *cpu_dir =3D NULL;
++    const gchar *line;
++    GDir *cpu_gdir =3D NULL;
+     Error *local_err =3D NULL;
+=20
+-    current =3D 0;
+     head =3D NULL;
+     link =3D &head;
+-    sc_max =3D SYSCONF_EXACT(_SC_NPROCESSORS_CONF, &local_err);
++    cpu_dir =3D g_strdup_printf("/sys/devices/system/cpu");
++    cpu_gdir =3D g_dir_open(cpu_dir, 0, NULL);
++
++    if (cpu_gdir =3D=3D NULL) {
++        error_setg_errno(errp, errno, "failed to list entries: %s", cpu_di=
+r);
++        return NULL;
++    }
+=20
+-    while (local_err =3D=3D NULL && current < sc_max) {
++    while (local_err =3D=3D NULL && (line =3D g_dir_read_name(cpu_gdir)) !=
+=3D NULL) {
+         GuestLogicalProcessor *vcpu;
+         GuestLogicalProcessorList *entry;
+-        int64_t id =3D current++;
+-        char *path =3D g_strdup_printf("/sys/devices/system/cpu/cpu%" PRId=
+64 "/",
+-                                     id);
+-
+-        if (g_file_test(path, G_FILE_TEST_EXISTS)) {
++        int64_t id;
++        if (sscanf(line, "cpu%ld", &id)) {
++            g_autofree char *path =3D g_strdup_printf("/sys/devices/system=
+/cpu/"
++                                                    "cpu%" PRId64 "/", id)=
+;
+             vcpu =3D g_malloc0(sizeof *vcpu);
+             vcpu->logical_id =3D id;
+             vcpu->has_can_offline =3D true; /* lolspeak ftw */
+@@ -2491,8 +2478,8 @@ GuestLogicalProcessorList *qmp_guest_get_vcpus(Error =
+**errp)
+             *link =3D entry;
+             link =3D &entry->next;
+         }
+-        g_free(path);
+     }
++    g_dir_close(cpu_gdir);
+=20
+     if (local_err =3D=3D NULL) {
+         /* there's no guest with zero VCPUs */
+--=20
+2.26.0
 
 
