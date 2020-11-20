@@ -2,80 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D2912BAED3
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 16:27:07 +0100 (CET)
-Received: from localhost ([::1]:47970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA29D2BAF18
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 16:37:22 +0100 (CET)
+Received: from localhost ([::1]:33698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg8JV-0002mj-Lm
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 10:27:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46384)
+	id 1kg8TR-0000dr-BI
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 10:37:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kg8HJ-0000UX-Bt; Fri, 20 Nov 2020 10:24:49 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:51113)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kg8HH-0002ym-Ig; Fri, 20 Nov 2020 10:24:48 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id c198so8812001wmd.0;
- Fri, 20 Nov 2020 07:24:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=JVnl6T2g9RlHwD+zgfuqXQhg1TplgkU8MBhc83TBUzA=;
- b=cC+E8ozQRHkAzQmla6ykuT0Hv8ktE1m2gD7rqghDcSoe24ZGcPkAwR7PwznCws9nHX
- 28XFYwlxYwOhss0n+fb0sc8I/FNNZYo1eCwb4Jv5yVJVxHqRbTfDpWDEIRW/eDoDTZp4
- bkhUOuPAF4ff/6/StrNno4Txz8J1x9f51skhz8alyrZDtgauRAyY3DK1tqQM0Tq0AtJc
- QEcXbIPkva+9C0K5543aocwn/R7r8KR0BFMWegGwfwy0sXpcRFp970Vu+Uaav+bx7t9v
- /jlaMpJr8BQraRPYEVZcQqjXLR3Uws9y8Z2cSSkLkWT4w49TFjPRmPgVQK8GEHJC3p43
- GtDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JVnl6T2g9RlHwD+zgfuqXQhg1TplgkU8MBhc83TBUzA=;
- b=nqsZ2UknlQiEacMuI5APP5IxdV6B7ZnFgF5DQOHNwCOw4Sm8B8q4ow2P2njjKyWxSY
- KcFt5J8WkKQPmYnE6XCTJtFE0vQkfp+H4+gtQ1g0EUF+e4WdUZYFDUpfEVffrmOfilRY
- T4MS22PBelvZihpMZ4ux52s4uY02gVUscEOLMekemNMEx6sh57xC3wXX+RGgKnEbH1de
- rjIgt6X8/rMckU0Zus844ISee8JUdvnCoVhWB9gYfSe35SzVZlF9YOeggDmUzG6SxuS9
- myC97fbkckx8DXnEGvY4j5fksI0Rufd6MLSwm5UvCjJcf0yrcb/oc62eOjHtCvc5zK1M
- C1Rg==
-X-Gm-Message-State: AOAM533qhhL5DwFweeCEEXrZUTsHeiIUgtHdF0FpBFRjKHorbQUEJNIA
- N5i9GOANmkNG9IkIf1/D/3A=
-X-Google-Smtp-Source: ABdhPJy61Xu4S/U4eJ1XhFr4PhWhA8OzV0M9HiUD5lSnaI9TMH2qeW2zcNsz+TQq46TOEgj9dgIKpQ==
-X-Received: by 2002:a1c:790b:: with SMTP id l11mr10989041wme.53.1605885885871; 
- Fri, 20 Nov 2020 07:24:45 -0800 (PST)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id t11sm4704605wmf.35.2020.11.20.07.24.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Nov 2020 07:24:44 -0800 (PST)
-Subject: Re: [PATCH-for-5.2 2/4] docs/system/arm: Document the various raspi
- boards
-To: qemu-devel@nongnu.org
-References: <20201120152140.2493197-1-f4bug@amsat.org>
- <20201120152140.2493197-3-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <445804ed-62d2-63f5-d48b-3d1f4355a6ff@amsat.org>
-Date: Fri, 20 Nov 2020 16:24:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kg8QZ-000817-6N
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 10:34:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53519)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kg8QR-0006cO-V5
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 10:34:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605886454;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NQ8M0BpdSYaYC0Tt5c1hvNrfgwFsU5v5UaAoQu9bkpM=;
+ b=BK1hLbEn4uotoLc4rSRIj+9ZJuWruHC15LWou7MNell3LLQJ/34263TftzXg1dxNHxDfIo
+ 3MCRysLyCvjQDAKVUuX97nm0JjQPrNtovYlyWAf8ZoAOi+PCCumkizJuitTzyEcGIMAO5H
+ 79/4DXSEgG2E4g5vwKDCRU7G4W9gcKw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-478-O4YxiRLIOcGKC1LQq3Cexg-1; Fri, 20 Nov 2020 10:34:12 -0500
+X-MC-Unique: O4YxiRLIOcGKC1LQq3Cexg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E439EC1A5
+ for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 15:34:11 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.32])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 49D5C5C1D5;
+ Fri, 20 Nov 2020 15:34:10 +0000 (UTC)
+Date: Fri, 20 Nov 2020 16:34:08 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 24/29] migration, vl: start migration via
+ qmp_migrate_incoming
+Message-ID: <20201120163408.7740a92f@redhat.com>
+In-Reply-To: <20201027182144.3315885-25-pbonzini@redhat.com>
+References: <20201027182144.3315885-1-pbonzini@redhat.com>
+ <20201027182144.3315885-25-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201120152140.2493197-3-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,106 +80,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, libvir-list@redhat.com,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
- Joel Stanley <joel@jms.id.au>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Cc: qemu-devel@nongnu.org, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/20/20 4:21 PM, Philippe Mathieu-Daudé wrote:
-> Document the following Raspberry Pi models:
+On Tue, 27 Oct 2020 14:21:39 -0400
+Paolo Bonzini <pbonzini@redhat.com> wrote:
+
+> Make qemu_start_incoming_migration local to migration/migration.c.
+> By using the runstate instead of a separate flag, vl need not do
+> anything to setup deferred incoming migration.
 > 
->  - raspi0               Raspberry Pi Zero (revision 1.2)
->  - raspi1ap             Raspberry Pi A+ (revision 1.1)
->  - raspi2b              Raspberry Pi 2B (revision 1.1)
->  - raspi3ap             Raspberry Pi 3A+ (revision 1.0)
->  - raspi3b              Raspberry Pi 3B (revision 1.2)
+> qmp_migrate_incoming also does not need the deferred_incoming flag
+> anymore, because "-incoming PROTOCOL" will clear the "once" flag
+> before the main loop starts.  Therefore, later invocations of
+> the migrate-incoming command will fail with the existing
+> "The incoming migration has already been started" error message.
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  docs/system/arm/raspi.rst  | 44 ++++++++++++++++++++++++++++++++++++++
->  docs/system/target-arm.rst |  1 +
->  2 files changed, 45 insertions(+)
->  create mode 100644 docs/system/arm/raspi.rst
+>  include/migration/misc.h |  1 -
+>  migration/migration.c    | 33 ++++++++-------------------------
+>  softmmu/vl.c             | 11 +++++++----
+>  3 files changed, 15 insertions(+), 30 deletions(-)
 > 
-> diff --git a/docs/system/arm/raspi.rst b/docs/system/arm/raspi.rst
-> new file mode 100644
-> index 00000000000..b19284e4481
-> --- /dev/null
-> +++ b/docs/system/arm/raspi.rst
-> @@ -0,0 +1,44 @@
-> +Raspberry Pi boards (``raspi0``, ``raspi1ap``, ``raspi2b``, ``raspi3ap``, ``raspi3b``)
-> +======================================================================================
-> +
-> +
-> +QEMU provides models the following Raspberry Pi boards:
-> +
-> +``raspi0`` and ``raspi1ap``
-> +  ARM1176JZF-S core, 512 MiB of RAM
-> +``raspi2b``
-> +  Cortex-A7 (4 cores), 1 GiB of RAM
-> +``raspi3ap``
-> +  Cortex-A53 (4 cores), 512 MiB of RAM
-> +``raspi3b``
-> +  Cortex-A53 (4 cores), 1 GiB of RAM
-> +
-> +
-> +Implemented devices
-> +-------------------
-> +
-> + * ARM1176JZF-S, Cortex-A7 or Cortex-A53 CPU
-> + * Interrupt controller
-> + * DMA controller
-> + * Clock and reset controller (CPRMAN)
-> + * System Timer
-> + * GPIO controller
-> + * Serial ports (BCM2835 AUX - 16550 based - and PL011)
-> + * Random Number Generator (RNG)
-> + * Frame Buffer
-> + * USB host (USBH)
-> + * GPIO controller
-> + * SD/MMC host controller
-> + * SoC thermal sensor
-> + * USB2 host controller (DWC2 and MPHI)
-> + * MailBox controller (MBOX)
-> + * VideoCore firmware (property)
-> +
-> +
-> +Missing devices
-> +---------------
-> +
-> + * Peripheral SPI controller (SPI)
-> + * Analog to Digital Converter (ADC)
-> + * Pulse Width Modulation (PWM)
-> + * Security features
-> diff --git a/docs/system/target-arm.rst b/docs/system/target-arm.rst
-> index a0d5c57799c..bde4b8e044e 100644
-> --- a/docs/system/target-arm.rst
-> +++ b/docs/system/target-arm.rst
-> @@ -90,6 +90,7 @@ undocumented; you can get a complete list by running
->     arm/nuvoton
->     arm/orangepi
->     arm/palm
-> +   arm/raspi
->     arm/xscale
->     arm/collie
->     arm/sx1
-> 
+> diff --git a/include/migration/misc.h b/include/migration/misc.h
+> index 34e7d75713..bccc1b6b44 100644
+> --- a/include/migration/misc.h
+> +++ b/include/migration/misc.h
+> @@ -58,7 +58,6 @@ void dump_vmstate_json_to_file(FILE *out_fp);
+>  /* migration/migration.c */
+>  void migration_object_init(void);
+>  void migration_shutdown(void);
+> -void qemu_start_incoming_migration(const char *uri, Error **errp);
+>  bool migration_is_idle(void);
+>  bool migration_is_active(MigrationState *);
+>  void add_migration_state_change_notifier(Notifier *notify);
+> diff --git a/migration/migration.c b/migration/migration.c
+> index f48b03cac2..d078094c56 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -114,8 +114,6 @@
+>  static NotifierList migration_state_notifiers =
+>      NOTIFIER_LIST_INITIALIZER(migration_state_notifiers);
+>  
+> -static bool deferred_incoming;
+> -
+>  /* Messages sent on the return path from destination to source */
+>  enum mig_rp_message_type {
+>      MIG_RP_MSG_INVALID = 0,  /* Must be 0 */
+> @@ -257,19 +255,6 @@ static bool migrate_late_block_activate(void)
+>          MIGRATION_CAPABILITY_LATE_BLOCK_ACTIVATE];
+>  }
+>  
+> -/*
+> - * Called on -incoming with a defer: uri.
+> - * The migration can be started later after any parameters have been
+> - * changed.
+> - */
+> -static void deferred_incoming_migration(Error **errp)
+> -{
+> -    if (deferred_incoming) {
+> -        error_setg(errp, "Incoming migration already deferred");
+> -    }
+> -    deferred_incoming = true;
+> -}
+> -
+>  /*
+>   * Send a message on the return channel back to the source
+>   * of the migration.
+> @@ -380,16 +365,14 @@ void migrate_add_address(SocketAddress *address)
+>      addrs->value = QAPI_CLONE(SocketAddress, address);
+>  }
+>  
+> -void qemu_start_incoming_migration(const char *uri, Error **errp)
+> +static void qemu_start_incoming_migration(const char *uri, Error **errp)
+>  {
+>      const char *p = NULL;
+>  
+>      qapi_event_send_migration(MIGRATION_STATUS_SETUP);
+> -    if (!strcmp(uri, "defer")) {
+> -        deferred_incoming_migration(errp);
+> -    } else if (strstart(uri, "tcp:", &p) ||
+> -               strstart(uri, "unix:", NULL) ||
+> -               strstart(uri, "vsock:", NULL)) {
+considering the last hunk does won't call qmp_migrate_incoming
+if 'defer' was used, wouldn't we will lose QAPI event here?
+not sure how important it to users,
+Ccing David
 
-I forgot this hunk... I'll wait for review before respining.
+> +    if (strstart(uri, "tcp:", &p) ||
+> +        strstart(uri, "unix:", NULL) ||
+> +        strstart(uri, "vsock:", NULL)) {
+>          socket_start_incoming_migration(p ? p : uri, errp);
+>  #ifdef CONFIG_RDMA
+>      } else if (strstart(uri, "rdma:", &p)) {
+> @@ -1926,14 +1909,14 @@ void qmp_migrate_incoming(const char *uri, Error **errp)
+>      Error *local_err = NULL;
+>      static bool once = true;
+>  
+> -    if (!deferred_incoming) {
+> -        error_setg(errp, "For use with '-incoming defer'");
+> -        return;
+> -    }
+>      if (!once) {
+>          error_setg(errp, "The incoming migration has already been started");
+>          return;
+>      }
+> +    if (!runstate_check(RUN_STATE_INMIGRATE)) {
+> +        error_setg(errp, "'-incoming' was not specified on the command line");
+> +        return;
+> +    }
+>  
+>      qemu_start_incoming_migration(uri, &local_err);
+>  
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index ae2854d8af..583366510b 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -109,6 +109,7 @@
+>  #include "qapi/qapi-visit-block-core.h"
+>  #include "qapi/qapi-visit-ui.h"
+>  #include "qapi/qapi-commands-block-core.h"
+> +#include "qapi/qapi-commands-migration.h"
+>  #include "qapi/qapi-commands-run-state.h"
+>  #include "qapi/qapi-commands-ui.h"
+>  #include "qapi/qmp/qerror.h"
+> @@ -4557,10 +4558,12 @@ void qemu_init(int argc, char **argv, char **envp)
+>      }
+>      if (incoming) {
+>          Error *local_err = NULL;
+> -        qemu_start_incoming_migration(incoming, &local_err);
+> -        if (local_err) {
+> -            error_reportf_err(local_err, "-incoming %s: ", incoming);
+> -            exit(1);
+> +        if (strcmp(incoming, "defer") != 0) {
+> +            qmp_migrate_incoming(incoming, &local_err);
+> +            if (local_err) {
+> +                error_reportf_err(local_err, "-incoming %s: ", incoming);
+> +                exit(1);
+> +            }
+>          }
+>      } else if (autostart) {
+>          vm_start();
 
--- >8 --
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -801,6 +801,7 @@ F: hw/arm/raspi_platform.h
- F: hw/*/bcm283*
- F: include/hw/arm/raspi*
- F: include/hw/*/bcm283*
-+F: docs/system/arm/raspi.rst
-
- Real View
- M: Peter Maydell <peter.maydell@linaro.org>
----
 
