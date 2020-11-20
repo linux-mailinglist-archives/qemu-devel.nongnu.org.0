@@ -2,89 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 160392BAB86
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 14:50:39 +0100 (CET)
-Received: from localhost ([::1]:36856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 254CD2BAB9E
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 15:06:40 +0100 (CET)
+Received: from localhost ([::1]:44108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg6oA-000248-6D
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 08:50:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43628)
+	id 1kg73e-0006PT-Lt
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 09:06:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kg6nG-00015J-05
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 08:49:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59430)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kg6nC-0000su-Pr
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 08:49:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605880178;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9c3QxQmiYvM/6yyNjMbrnRHfjUP8Qv48FkongMzH/8E=;
- b=AKX84CSNoM5omcv/QzklGpPTlCxQglbdsmmOqlD7Lt7oQ/sRaqvwVZ7sbCHKBjnYEKhxLD
- hs/f0B2a0Y2LQ+mEMpjjUqcb6GirEqyIXYJUQRoou1xb9oYslvF14AISZGOG82mi5rUuCO
- dnUAmdBuU8NA7GFkcKQ/TqEQ0ovBgO0=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-407-Gh2taX6jOMGo1MQXXZHGGQ-1; Fri, 20 Nov 2020 08:49:36 -0500
-X-MC-Unique: Gh2taX6jOMGo1MQXXZHGGQ-1
-Received: by mail-wr1-f72.google.com with SMTP id z13so3411574wrm.19
- for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 05:49:36 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kg72m-0005yw-Vy
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 09:05:45 -0500
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:41430)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kg72l-0006vi-Cq
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 09:05:44 -0500
+Received: by mail-pf1-x444.google.com with SMTP id t8so7925036pfg.8
+ for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 06:05:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=P9qcI98I2w3LgMGtpWhMDZ3CjhkzNpmeqsk8XJO5Rm8=;
+ b=YQNnJuKoTp4cChJG5rwSdxDPdx4AD0sMW+sguemRcLRS28z18nz2SYIj9SxAYPEbmc
+ l0Xg5l1cymvyy8+uuhfVQps/ZpkqRUy+r0LVoqbz6HBTsZiSuC2o2hAbnyfCfq4SIqz9
+ cQLPJ9ngVS5XgXvi37RN/4XNS0twWYxH2Q6Xtsu7fyPscCpiAQvnlgzqcxW7lIqXtZUH
+ 2EyLaDK8KgL9wm45SuJWG3Nq0w52Q8YScAum3oztgk7oZombacaNwxNzWf4qhPed1eOH
+ SQkbI3cvD/HhcIFvIyE1e8flV7cCVLaBnZPMQtXhduLhM8iDltfH6RtYo027luEFIYdW
+ sVFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=9c3QxQmiYvM/6yyNjMbrnRHfjUP8Qv48FkongMzH/8E=;
- b=toibexCG4mEyKFfbHKG1dzth9lxMIGC4+ckmnZma7IiOvvIBA6DDViddfsZM8AywdR
- n0i6wJx3AsUKoRrh+5QsF62B78a+kUGDSye/3QSclBilJrC5+NSwO1yGjoZRfm+5KdH6
- lnn0sCBuNh1ZGSVN0zt/G/J88OKLFeqmcYyOX4hgf1/PP6LUTl0RZEF5ylVxX/XG5vCb
- LH4aMwvZwW3uRWDJVyTPVQ0P8Njjrxmk7Z8Hz0XQMvm8OSJMusPOIu+bLIHvhgZjzL0E
- kBzkosKCKqWm+8y5DyL0cy30Ph0xEF1kFht9hA9I/lwFcKmYLV3IOAWDY94XbQV7nYHh
- t97Q==
-X-Gm-Message-State: AOAM532ytxs1CkoggniDJ7grBT0N201GnW8SV3JkIeBS9ghw8rbvt2O4
- Xw0Z4sc+cRyAXlNavniyYTlZHCn19rK4hih6ishlHaUhXCVs7TvyuPQdzrRd32F/zVTAQ9ASle3
- reU9DRmqaS6zanWE=
-X-Received: by 2002:a7b:c3d5:: with SMTP id t21mr9611973wmj.37.1605880175412; 
- Fri, 20 Nov 2020 05:49:35 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzjWZjBjtcUY7VXGaBJ95c4pv6XQKouOORx4V97ZoXibopZki/fb2+rMOTNHiJZKma5MTnrkw==
-X-Received: by 2002:a7b:c3d5:: with SMTP id t21mr9611955wmj.37.1605880175230; 
- Fri, 20 Nov 2020 05:49:35 -0800 (PST)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id t13sm5073701wru.67.2020.11.20.05.49.33
+ bh=P9qcI98I2w3LgMGtpWhMDZ3CjhkzNpmeqsk8XJO5Rm8=;
+ b=WNbm24oJFsqp6p3B8/eqTkDVycTGGWzYUVxRhPqdasYBYFRngzDUQyogR3NJ7bt9Sy
+ wi0m/6F6ldZcC89A3gur4DZ4jqX5h9pkDGNYNA8CBi+j6ImDoC4wzveYoNG9c/I5ZyRF
+ NTd9xrEe/mOVFF/GSGfOVMiaxG0EClD1B4oFu/2SKUb4UX3ut+Haj4GeMrr69XnhG/bQ
+ AxKOEHNo7W7jtSJHU14JjN2V6Y4dGcEv5Oc9pHgv5NMpT2su+NCdw9TZtDo02WQ6iPmW
+ kVo8kefb8VkjdLqIzkTccSqr6X5IlAp54oWRXgqHDGP8eAJ/4Oh+D495ciCVvJIbvqcJ
+ c0jA==
+X-Gm-Message-State: AOAM533yvW59kWQEhpiXNa4UtR8R1Se+pY9AtZMgqFrPs+ctH8f8QVfi
+ 7cbJKrd7QRmnCilzN3Kth3CTnlXDFCxHaw==
+X-Google-Smtp-Source: ABdhPJzp+vP/P9x5XPEP1BLXII6D4caLCxZxiiPEjwuVevuRtLjkue6N2uELPts81cRuwbYbTtOcUQ==
+X-Received: by 2002:a17:90a:f0c7:: with SMTP id
+ fa7mr10828788pjb.3.1605881141212; 
+ Fri, 20 Nov 2020 06:05:41 -0800 (PST)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id 22sm4224336pjb.40.2020.11.20.06.05.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Nov 2020 05:49:34 -0800 (PST)
-Subject: Re: [PATCH for-5.2] Revert "hw/core/qdev-properties: Use
- qemu_strtoul() in set_pci_host_devaddr()"
-To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-References: <20201120130409.956956-1-mst@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <474ec544-b0eb-b432-cdac-f80e84ec3138@redhat.com>
-Date: Fri, 20 Nov 2020 14:49:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ Fri, 20 Nov 2020 06:05:40 -0800 (PST)
+Subject: Re: [PATCH] meson.build: convert --with-default-devices to meson
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20201120073830.99939-1-pbonzini@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <4067c73a-3351-7837-4dc5-d71568a57066@linaro.org>
+Date: Fri, 20 Nov 2020 06:05:38 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201120130409.956956-1-mst@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20201120073830.99939-1-pbonzini@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,32 +87,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Geoffrey McRae <geoff@hostfission.com>, Klaus Herman <kherman@inbox.lv>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/20/20 2:04 PM, Michael S. Tsirkin wrote:
-> This reverts commit bccb20c49df1bd683248a366021973901c11982f as it
-> introduced a regression blocking bus addresses > 0x1f or higher.
-> Legal bus numbers go up to 0xff.
+On 11/19/20 11:38 PM, Paolo Bonzini wrote:
+> Pass the boolean option directly instead of writing
+> CONFIG_MINIKCONF_MODE to config-host.mak.
 > 
-> Cc: "Philippe Mathieu-Daudé" <philmd@redhat.com>
-> Fixes: bccb20c49df ("Use qemu_strtoul() in set_pci_host_devaddr()")
-> Reported-by: Klaus Herman <kherman@inbox.lv>
-> Reported-by: Geoffrey McRae <geoff@hostfission.com>
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
-> 
-> checkpatch will complain since it does not like strtoul but
-> we had it for years so should be ok for 5.2, right?
-> 
->  hw/core/qdev-properties-system.c | 25 +++++++++++++------------
->  1 file changed, 13 insertions(+), 12 deletions(-)
+>  configure         | 12 ++++--------
+>  meson.build       |  5 +++--
+>  meson_options.txt |  2 ++
+>  3 files changed, 9 insertions(+), 10 deletions(-)
 
-Thanks!
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+r~
 
 
