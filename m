@@ -2,71 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 359782BAF5F
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 16:56:51 +0100 (CET)
-Received: from localhost ([::1]:41110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 532242BAF6D
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 16:59:34 +0100 (CET)
+Received: from localhost ([::1]:48968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg8mI-0008M7-1Y
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 10:56:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52174)
+	id 1kg8ov-0003E7-Ay
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 10:59:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kg8cn-0008BC-7n
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 10:47:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56771)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kg8cl-0003D8-BO
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 10:47:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605887218;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3jI/OoZxwSbp208MPmzMJJ25UNMNqaKETEB52UpDi7I=;
- b=EaBsLVXgk4x8YwRcwMArqUQbNuJfrXEPbanNc1H3G5iQL5E22L1/Hr/2kvvkm2xjxMsO6e
- 1ouOHZJuRT5PE8Qw+TFNDwPoskmtNbbBd5L9iuhTtzRE7m/yRGYhkxJONrcu4rPc+Gfc0L
- HMmyhzj+r/ztmVW3kkp3J026krk1Fw8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-366-WXQpOqTKP0yjmNavHjt3gQ-1; Fri, 20 Nov 2020 10:46:56 -0500
-X-MC-Unique: WXQpOqTKP0yjmNavHjt3gQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3DEE6107AD25
- for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 15:46:55 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4CCE860C05;
- Fri, 20 Nov 2020 15:46:54 +0000 (UTC)
-Date: Fri, 20 Nov 2020 16:46:52 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 26/29] hmp: introduce cmd_available
-Message-ID: <20201120164652.220b9cfe@redhat.com>
-In-Reply-To: <20201027182144.3315885-27-pbonzini@redhat.com>
-References: <20201027182144.3315885-1-pbonzini@redhat.com>
- <20201027182144.3315885-27-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1kg8fd-0003Ff-BJ
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 10:49:57 -0500
+Received: from mail-il1-f194.google.com ([209.85.166.194]:34950)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1kg8fb-0004GG-Nu
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 10:49:57 -0500
+Received: by mail-il1-f194.google.com with SMTP id t13so8952788ilp.2
+ for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 07:49:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=KwA/L+PrOMbhRhJ5bSktHkkOnrzTAmlWuShef7k65Ps=;
+ b=LKnOxZG+zl3+nN7X9WfIwQdK9ZHr1vbS6yPonPH9EcBnw6UF+jscuUUJ7QfoQwprP2
+ tnPH+poSfCiTjWEVRdQtoDIevp3H08q/mr7r5srvBHF+qhJVB85QFu0L1iakap4qK/kp
+ UlBMihskQp9TrILRkYoDNpc5WL4qg57xyElG9SOYcGIHXPyNutIRtCPcqsZnI1GWZHAW
+ 1V35CAgVsBtLPabuKnRKP1DOwk4eCcNvW3ePT6mgT42yWSsiEW9UKuYJN5QEziBIm287
+ rOdRgIFRrsqMmec+YCupPKFM4YlDlU2UunP3I9NGZL4SkUJtphil08eLuKl7VKeDA1eK
+ sMUg==
+X-Gm-Message-State: AOAM5315wHl1k9Jfx+aa9BY9YqkLx5rGsqXTo256KI4JkohAWnDqOO80
+ 00qJKUbu1uxpVGq4Cw2ikR5wYTOPw2Y=
+X-Google-Smtp-Source: ABdhPJwnxroYlemG2BEBtAg2VN0xNRcNduWy87pVoYNs1ceWOlXFx9aJXjcGl+b2s0EDxcwVo/fBQA==
+X-Received: by 2002:a05:6e02:13a3:: with SMTP id
+ h3mr5049455ilo.164.1605887392349; 
+ Fri, 20 Nov 2020 07:49:52 -0800 (PST)
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com.
+ [209.85.166.45])
+ by smtp.gmail.com with ESMTPSA id i14sm2143680ilb.2.2020.11.20.07.49.51
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 20 Nov 2020 07:49:52 -0800 (PST)
+Received: by mail-io1-f45.google.com with SMTP id d17so10378537ion.4
+ for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 07:49:51 -0800 (PST)
+X-Received: by 2002:a02:5b09:: with SMTP id g9mr18728270jab.89.1605887391682; 
+ Fri, 20 Nov 2020 07:49:51 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20201108232425.1705-1-j@getutm.app>
+ <20201108232425.1705-8-j@getutm.app>
+ <abb6c2d9-d375-1963-e0a0-627636643860@amsat.org>
+In-Reply-To: <abb6c2d9-d375-1963-e0a0-627636643860@amsat.org>
+From: Joelle van Dyne <j@getutm.app>
+Date: Fri, 20 Nov 2020 09:49:41 -0600
+X-Gmail-Original-Message-ID: <CA+E+eSC0hj=hOhpLForn9KQw39-ZcOMRRG-D__iYDneqDOcZ3g@mail.gmail.com>
+Message-ID: <CA+E+eSC0hj=hOhpLForn9KQw39-ZcOMRRG-D__iYDneqDOcZ3g@mail.gmail.com>
+Subject: Re: [PATCH v5 7/7] block: check availablity for preadv/pwritev on mac
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=209.85.166.194; envelope-from=osy86dev@gmail.com;
+ helo=mail-il1-f194.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,89 +83,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 27 Oct 2020 14:21:41 -0400
-Paolo Bonzini <pbonzini@redhat.com> wrote:
+No, because if you build on a macOS 11 host but try to run it on macOS
+10.15 then it will crash.
 
-> Combine the RUN_STATE_PRECONFIG and cmd_can_preconfig checks
-> into a single function, to avoid repeating the same expression
-> (or its negation after applying DeMorgan's rule) over and
-> over again.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+-j
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-
-> ---
->  monitor/hmp.c | 18 ++++++++++--------
->  1 file changed, 10 insertions(+), 8 deletions(-)
-> 
-> diff --git a/monitor/hmp.c b/monitor/hmp.c
-> index c5cd9d372b..f13ef455e2 100644
-> --- a/monitor/hmp.c
-> +++ b/monitor/hmp.c
-> @@ -213,6 +213,11 @@ static bool cmd_can_preconfig(const HMPCommand *cmd)
->      return strchr(cmd->flags, 'p');
->  }
->  
-> +static bool cmd_available(const HMPCommand *cmd)
-> +{
-> +    return !runstate_check(RUN_STATE_PRECONFIG) || cmd_can_preconfig(cmd);
-> +}
-> +
->  static void help_cmd_dump_one(Monitor *mon,
->                                const HMPCommand *cmd,
->                                char **prefix_args,
-> @@ -220,7 +225,7 @@ static void help_cmd_dump_one(Monitor *mon,
->  {
->      int i;
->  
-> -    if (runstate_check(RUN_STATE_PRECONFIG) && !cmd_can_preconfig(cmd)) {
-> +    if (!cmd_available(cmd)) {
->          return;
->      }
->  
-> @@ -248,8 +253,7 @@ static void help_cmd_dump(Monitor *mon, const HMPCommand *cmds,
->      /* Find one entry to dump */
->      for (cmd = cmds; cmd->name != NULL; cmd++) {
->          if (hmp_compare_cmd(args[arg_index], cmd->name) &&
-> -            ((!runstate_check(RUN_STATE_PRECONFIG) ||
-> -                cmd_can_preconfig(cmd)))) {
-> +            cmd_available(cmd)) {
->              if (cmd->sub_table) {
->                  /* continue with next arg */
->                  help_cmd_dump(mon, cmd->sub_table,
-> @@ -653,7 +657,7 @@ static const HMPCommand *monitor_parse_command(MonitorHMP *hmp_mon,
->                         (int)(p - cmdp_start), cmdp_start);
->          return NULL;
->      }
-> -    if (runstate_check(RUN_STATE_PRECONFIG) && !cmd_can_preconfig(cmd)) {
-> +    if (!cmd_available(cmd)) {
->          monitor_printf(mon, "Command '%.*s' not available with -preconfig "
->                              "until after exit_preconfig.\n",
->                         (int)(p - cmdp_start), cmdp_start);
-> @@ -1225,8 +1229,7 @@ static void monitor_find_completion_by_table(MonitorHMP *mon,
->          }
->          readline_set_completion_index(mon->rs, strlen(cmdname));
->          for (cmd = cmd_table; cmd->name != NULL; cmd++) {
-> -            if (!runstate_check(RUN_STATE_PRECONFIG) ||
-> -                 cmd_can_preconfig(cmd)) {
-> +            if (cmd_available(cmd)) {
->                  cmd_completion(mon, cmdname, cmd->name);
->              }
->          }
-> @@ -1234,8 +1237,7 @@ static void monitor_find_completion_by_table(MonitorHMP *mon,
->          /* find the command */
->          for (cmd = cmd_table; cmd->name != NULL; cmd++) {
->              if (hmp_compare_cmd(args[0], cmd->name) &&
-> -                (!runstate_check(RUN_STATE_PRECONFIG) ||
-> -                 cmd_can_preconfig(cmd))) {
-> +                cmd_available(cmd)) {
->                  break;
->              }
->          }
-
+On Fri, Nov 20, 2020 at 4:32 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> On 11/9/20 12:24 AM, Joelle van Dyne wrote:
+> > macOS 11/iOS 14 added preadv/pwritev APIs. Due to weak linking, configu=
+re
+> > will succeed with CONFIG_PREADV even when targeting a lower OS version.=
+ We
+> > therefore need to check at run time if we can actually use these APIs.
+> >
+> > Signed-off-by: Joelle van Dyne <j@getutm.app>
+> > ---
+> >  block/file-posix.c | 12 ++++++++++++
+> >  1 file changed, 12 insertions(+)
+> >
+> > diff --git a/block/file-posix.c b/block/file-posix.c
+> > index d83219df55..a9d69746a0 100644
+> > --- a/block/file-posix.c
+> > +++ b/block/file-posix.c
+> > @@ -1394,12 +1394,24 @@ static bool preadv_present =3D true;
+> >  static ssize_t
+> >  qemu_preadv(int fd, const struct iovec *iov, int nr_iov, off_t offset)
+> >  {
+> > +#ifdef CONFIG_DARWIN /* preadv introduced in macOS 11 */
+> > +    if (!__builtin_available(macOS 11, iOS 14, watchOS 7, tvOS 14, *))=
+ {
+>
+> Can we change the CONFIG_PREADV ifdef'ry to run this check once
+> on macOS 11?
+>
+> > +        preadv_present =3D false;
+> > +        return -ENOSYS;
+> > +    } else
+> > +#endif
+> >      return preadv(fd, iov, nr_iov, offset);
+> >  }
+> >
+> >  static ssize_t
+> >  qemu_pwritev(int fd, const struct iovec *iov, int nr_iov, off_t offset=
+)
+> >  {
+> > +#ifdef CONFIG_DARWIN /* pwritev introduced in macOS 11 */
+> > +    if (!__builtin_available(macOS 11, iOS 14, watchOS 7, tvOS 14, *))=
+ {
+> > +        preadv_present =3D false;
+> > +        return -ENOSYS;
+> > +    } else
+> > +#endif
+> >      return pwritev(fd, iov, nr_iov, offset);
+> >  }
+> >
+> >
+>
 
