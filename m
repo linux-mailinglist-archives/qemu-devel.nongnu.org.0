@@ -2,71 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4FCD2BB08E
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 17:29:56 +0100 (CET)
-Received: from localhost ([::1]:38040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EB2B2BB08A
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 17:29:31 +0100 (CET)
+Received: from localhost ([::1]:35508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg9IK-0003N4-0f
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 11:29:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35016)
+	id 1kg9Hu-0002Lh-Ma
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 11:29:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kg9FC-0008M8-KD
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:26:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55519)
+ (Exim 4.90_1) (envelope-from <brogers@suse.com>) id 1kg9Fp-0000Zr-5f
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:27:21 -0500
+Received: from de-smtp-delivery-52.mimecast.com ([51.163.158.52]:42050)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kg9FA-0006UK-Mt
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:26:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605889598;
+ (Exim 4.90_1) (envelope-from <brogers@suse.com>) id 1kg9Fm-0006Yq-R3
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:27:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com;
+ s=mimecast20200619; t=1605889636;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JpbUcOIqV++8ODLioInba8cnexXHJjJP4CNS52OErd8=;
- b=csZeG6SqMzMp85clcNJLNhjvkwhe3Pivg/oGpeJdfJJ1yi3TjYY6cXPVYV7uz/FyxSL5Nu
- XqyI5iTFHQOcX0WvTITgAjbsNlgLt7+ndTYAJB+Pxs/nYI32wr2Vfcx1cz+TvCldpBqZoO
- pE+ibchj2gvB6HxBkf7OPh4VpWqGlbg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-514-2HIqU8g7NCepxKUwGHgD6w-1; Fri, 20 Nov 2020 11:26:35 -0500
-X-MC-Unique: 2HIqU8g7NCepxKUwGHgD6w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BCF118C8C01
- for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 16:26:34 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9454660861;
- Fri, 20 Nov 2020 16:26:33 +0000 (UTC)
-Date: Fri, 20 Nov 2020 17:26:31 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 28/29] vl: remove separate preconfig main_loop
-Message-ID: <20201120172631.4f5f93fb@redhat.com>
-In-Reply-To: <20201027182144.3315885-29-pbonzini@redhat.com>
-References: <20201027182144.3315885-1-pbonzini@redhat.com>
- <20201027182144.3315885-29-pbonzini@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+ bh=nXitTtr13wHTAjasbrTbBmqNFKosWobU8fqCA+owREI=;
+ b=OXhxgS243OUjY4d51fENDA1HnTfn1bjHRQ/4zzosDStC5e2Lu9SzBNgbVGSLMCI6jQul9o
+ fNni6oaclp+GZ37zD1CZn+UuAVA9V9i/4PzfoSXsXkxfz21gyjF7fnnXHDXyyHVwzgxFCY
+ yRDNXzI1NWhg9SMdJCe7579TiRBpjgY=
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com
+ (mail-db3eur04lp2056.outbound.protection.outlook.com [104.47.12.56]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ de-mta-29-yg130XVTPWmUViZkn5irig-1; Fri, 20 Nov 2020 17:27:14 +0100
+X-MC-Unique: yg130XVTPWmUViZkn5irig-1
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EiI8fjbiGvmZz76dxrmIYw2KS8V0PkcEVDTKfoTMiWzU83XU94OHjKJYGcBLhAxAPPEIq8pXdau0Ef6SqBhpB+nlS5c/eEguaNkpLIiRLWZ5tRcZ4hX03hUnYSFUtg+4MhGIKIFxn7JwMVDaGm8jre5Y0ZxOVBqdDr/TEipfKzF/Nws4C40T6lckJnz8/tiJomg0GLKwNl6ggv/8ORHIx3HfUv9MD8YjObtsqK9xCB4IaUYz7jT3wzoloHR8TgP/2J79UzbIgtuqwC8mgjf4GcYGqNdE02Ip4fzhJO2CWLWGMZ3k/rjdGxg/DEg8PesHQYeG2KWjD4wAGkwwq+h51Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nXitTtr13wHTAjasbrTbBmqNFKosWobU8fqCA+owREI=;
+ b=PdQMXf4ypebN4M0CBbNDmtKKhZVvtaUGLAMAyYcnyefTskiPNgwfssEt6jYwTOU185V1aOLdzFfOkX2hRJASx0IxbwqEj0HH4vrpRPvZRrpk4WYtE7PqrEc4QdQExKP/v+G97+vlM+hCfrdz0hJXY7LCx2WLENR19wjKgGVDFEm/LLMRkJ77K/IX2N9+8+Twt23JJtDM0NI1kDUfrjjyOwaemBBd4zz7knwW/31Qjm7+BpYBB0iM55DRcgaO0uG41z6xTHpaM8QvLb6wi9eJYsk4ZhKkyxr8CIrZtMKt+n+l37oepzZa8VR31V/6I34t60xSMmNFnDZmHb659F3FPw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
+ dkim=pass header.d=suse.com; arc=none
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=suse.com;
+Received: from AM4PR0401MB2354.eurprd04.prod.outlook.com
+ (2603:10a6:200:54::21) by AM0PR04MB5203.eurprd04.prod.outlook.com
+ (2603:10a6:208:c1::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.28; Fri, 20 Nov
+ 2020 16:27:13 +0000
+Received: from AM4PR0401MB2354.eurprd04.prod.outlook.com
+ ([fe80::9891:ed4f:b5a2:6441]) by AM4PR0401MB2354.eurprd04.prod.outlook.com
+ ([fe80::9891:ed4f:b5a2:6441%6]) with mapi id 15.20.3564.028; Fri, 20 Nov 2020
+ 16:27:13 +0000
+Message-ID: <f2b209e40e4020b31f6eb57671fca96e706351c3.camel@suse.com>
+Subject: Re: [PATCH v2] usb: fix kconfig for usb-xhci-sysbus
+From: Bruce Rogers <brogers@suse.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Date: Fri, 20 Nov 2020 09:27:06 -0700
+In-Reply-To: <20201120154506.2496906-1-pbonzini@redhat.com>
+References: <20201120154506.2496906-1-pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5 
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+X-Originating-IP: [63.248.145.198]
+X-ClientProxiedBy: AM0PR10CA0037.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:20b:150::17) To AM4PR0401MB2354.eurprd04.prod.outlook.com
+ (2603:10a6:200:54::21)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.12] (63.248.145.198) by
+ AM0PR10CA0037.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:150::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.20 via Frontend
+ Transport; Fri, 20 Nov 2020 16:27:12 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 24122cf7-94b4-4721-b465-08d88d7122f6
+X-MS-TrafficTypeDiagnostic: AM0PR04MB5203:
+X-Microsoft-Antispam-PRVS: <AM0PR04MB52037FFB37C8EF8E7E9E46E5D9FF0@AM0PR04MB5203.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: qmly4YdffuAb0vWcJo7X4zloM4SdBao98s7ldhHM9EwhRUm2ipz1nv8hyTJaZ2W1U+0QIWXBbzv4EixW1jtsnlw/atMZyGvwpRBY+3pVW66+6vT5ncKnWZ36rzjdKd8LxleIvyIATunUS69c5xanznQ9TYfthJheUkanMOcPRtsgUziHY3Zv4rlALr/w2UsCu24qCmNwbq7dNjyy4MpCjyla4/fFtRBuA2oAkH6DPKyVC4Sj4US1+qbahvwWUjjbkZHQOmSSSJE/pgECPLx/VOzJeTA9XG3TksIMkSz6AcSk5g4B0qdNnpJo6qo/RHcpbx93SQnYDtMysJgNPwrTZw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM4PR0401MB2354.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(346002)(136003)(39860400002)(376002)(366004)(396003)(956004)(4326008)(186003)(316002)(5660300002)(16526019)(6486002)(8676002)(16576012)(86362001)(2616005)(83380400001)(478600001)(52116002)(26005)(8936002)(6666004)(4001150100001)(66476007)(2906002)(36756003)(66946007)(66556008);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: X9LPIyzBKbBoRZiDkVch6EQn58Fv2UDeecAcUunK7HggFk7LD8+9DzoSfMMWyKKb16N3NmfpdsNXSp5enTVRzafNjx/zzSp9iTyJbEyDwqxtOdh7utWmwI0EmNtuk3lxlJjGiiAmZHg5qKy6ALKoKvFjssfkjCuGNKy7Tm5EzYwEvUPP/utZoFYBQc5TBz4Q178eSVrWgl3mPWIyi+HvxgBDWEa3zs0qKstY2i4wcKT/IfS+5opZv7nV2Qi7sJtRDcy3thGFfZ1Kooi4JuMCb/w40P1FYQO/slHqi69NdOiCC6PJscWL3rnkOHJpu2x/qmEVesy331ygRT+TFWTH6bDV3VF+tVDfXTIdxp2TDohe5IwfG77hSt7Mg7BVwLnX55/KXRz560dR2SCzzkZgHO+KZPtPAZTxTqbr3o2BRht1uSDJqdagbHrMB5Z/xD14lr6uXn8s4072EkvI0Llptvb7iLS1hEojsig9krAjIWu7GLw90l7aM/I0+55W+pniF/l0wgioOdXRxXmIsMS4bbmG6M4VSKIePh39VBtdVWHpx8tbXZf5ZNu3Yu/HroBdQ4eewCPZl02AkbFVjmXp6FTqz/oiVIF1r7hCDwGw71txHeF9Qvv1sBwUwAa9oxsi37/wS+maTKRQsepKJDd24w==
+X-OriginatorOrg: suse.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 24122cf7-94b4-4721-b465-08d88d7122f6
+X-MS-Exchange-CrossTenant-AuthSource: AM4PR0401MB2354.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2020 16:27:13.3717 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GTJeDvvX4MF22xshAuVRim7MCBPWiGjukJ5Jy7td1Oz9ElgdpjJi0CJ7Iti6B+PjXEzNP9tbWKRC6mvJP+xXRA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB5203
+Received-SPF: pass client-ip=51.163.158.52; envelope-from=brogers@suse.com;
+ helo=de-smtp-delivery-52.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,194 +120,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 27 Oct 2020 14:21:43 -0400
-Paolo Bonzini <pbonzini@redhat.com> wrote:
-
-> Move post-preconfig initialization to the x-exit-preconfig.  If preconfig
-> is not requested, just exit preconfig mode immediately with the QMP
-> command.
+On Fri, 2020-11-20 at 10:45 -0500, Paolo Bonzini wrote:
+> Remove the "default y" for USB_XHCI_SYSBUS because
+> sysbus devices are not user creatable; boards that use them will
+> specify them manually with "imply" or "select" clauses.
 > 
-> As a result, the preconfig loop will run with accel_setup_post
-> and os_setup_post restrictions (xen_restrict, chroot, etc.)
-> already done.
+> It would be nice to keep the ability to remove PCIe and USB from
+> microvm,
+> since thos can be disabled on the command line and therefore should
+> not
+> be included if QEMU is configured --without-default-devices.  However
+> it's too late for 5.2 to figure out a place for the DSDT creation
+> code.
 > 
+> Reported-by: Bruce Rogers <brogers@suse.com>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-
-This one also doesn't apply,
-
-+ one more comment below
-
 > ---
->  include/sysemu/runstate.h |  1 -
->  monitor/qmp-cmds.c        |  9 ----
->  softmmu/vl.c              | 94 +++++++++++++++++----------------------
->  3 files changed, 41 insertions(+), 63 deletions(-)
+>  hw/usb/Kconfig | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> diff --git a/include/sysemu/runstate.h b/include/sysemu/runstate.h
-> index f760094858..e557f470d4 100644
-> --- a/include/sysemu/runstate.h
-> +++ b/include/sysemu/runstate.h
-> @@ -41,7 +41,6 @@ typedef enum WakeupReason {
->      QEMU_WAKEUP_REASON_OTHER,
->  } WakeupReason;
+> diff --git a/hw/usb/Kconfig b/hw/usb/Kconfig
+> index 3b07d9cf68..7fbae18bc8 100644
+> --- a/hw/usb/Kconfig
+> +++ b/hw/usb/Kconfig
+> @@ -47,7 +47,6 @@ config USB_XHCI_NEC
 >  
-> -void qemu_exit_preconfig_request(void);
->  void qemu_system_reset_request(ShutdownCause reason);
->  void qemu_system_suspend_request(void);
->  void qemu_register_suspend_notifier(Notifier *notifier);
-> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-> index 7c10b182e4..6680ba6c66 100644
-> --- a/monitor/qmp-cmds.c
-> +++ b/monitor/qmp-cmds.c
-> @@ -102,15 +102,6 @@ void qmp_system_powerdown(Error **errp)
->      qemu_system_powerdown_request();
->  }
+>  config USB_XHCI_SYSBUS
+>      bool
+> -    default y
+>      select USB_XHCI
 >  
-> -void qmp_x_exit_preconfig(Error **errp)
-> -{
-> -    if (qdev_hotplug) {
-> -        error_setg(errp, "The command is permitted only before machine initialization");
-> -        return;
-> -    }
-> -    qemu_exit_preconfig_request();
-> -}
-> -
->  void qmp_cont(Error **errp)
->  {
->      BlockBackend *blk;
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index 68acd24d01..98666c0612 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -1313,7 +1313,6 @@ static pid_t shutdown_pid;
->  static int powerdown_requested;
->  static int debug_requested;
->  static int suspend_requested;
-> -static bool preconfig_exit_requested = true;
->  static WakeupReason wakeup_reason;
->  static NotifierList powerdown_notifiers =
->      NOTIFIER_LIST_INITIALIZER(powerdown_notifiers);
-> @@ -1400,11 +1399,6 @@ static int qemu_debug_requested(void)
->      return r;
->  }
->  
-> -void qemu_exit_preconfig_request(void)
-> -{
-> -    preconfig_exit_requested = true;
-> -}
-> -
->  /*
->   * Reset the VM. Issue an event unless @reason is SHUTDOWN_CAUSE_NONE.
->   */
-> @@ -1626,10 +1620,6 @@ static bool main_loop_should_exit(void)
->      RunState r;
->      ShutdownCause request;
->  
-> -    if (preconfig_exit_requested) {
-> -        preconfig_exit_requested = false;
-> -        return true;
-> -    }
->      if (qemu_debug_requested()) {
->          vm_stop(RUN_STATE_DEBUG);
->      }
-> @@ -3523,6 +3513,43 @@ static void qemu_machine_creation_done(void)
->      register_global_state();
->  }
->  
-> +void qmp_x_exit_preconfig(Error **errp)
-> +{
-> +    if (qdev_hotplug) {
-> +        error_setg(errp, "The command is permitted only before machine initialization");
-> +        return;
-> +    }
-> +
-> +    qemu_finish_machine_init();
-> +    qemu_create_cli_devices();
-> +    qemu_machine_creation_done();
-> +
-> +    if (loadvm) {
-> +        Error *local_err = NULL;
-> +        if (load_snapshot(loadvm, &local_err) < 0) {
-> +            error_report_err(local_err);
-> +            autostart = 0;
-> +            exit(1);
-> +        }
-> +    }
-> +    if (replay_mode != REPLAY_MODE_NONE) {
-> +        replay_vmstate_init();
-> +    }
-> +
-> +    if (incoming) {
-> +        Error *local_err = NULL;
-> +        if (strcmp(incoming, "defer") != 0) {
-> +            qmp_migrate_incoming(incoming, &local_err);
-> +            if (local_err) {
-> +                error_reportf_err(local_err, "-incoming %s: ", incoming);
-> +                exit(1);
-> +            }
-> +        }
-> +    } else if (autostart) {
-> +        qmp_cont(NULL);
-> +    }
-> +}
-> +
->  void qemu_init(int argc, char **argv, char **envp)
->  {
->      QemuOpts *opts;
-> @@ -4092,7 +4119,6 @@ void qemu_init(int argc, char **argv, char **envp)
->                  }
->                  break;
->              case QEMU_OPTION_preconfig:
-> -                preconfig_exit_requested = false;
->                  preconfig_requested = true;
->                  break;
->              case QEMU_OPTION_enable_kvm:
-> @@ -4515,56 +4541,18 @@ void qemu_init(int argc, char **argv, char **envp)
->      qemu_resolve_machine_memdev();
->      parse_numa_opts(current_machine);
->  
-> -    if (preconfig_requested) {
-> -        qemu_init_displays();
-> -    }
+>  config USB_MUSB
 
-^^^
-
-> -
-> -    /* do monitor/qmp handling at preconfig state if requested */
-> -    qemu_main_loop();
-> -    qemu_finish_machine_init();
-> -
-> -    qemu_create_cli_devices();
-> -
-> -    /* initialize displays after all errors have been reported */
-> -    if (!preconfig_requested) {
-> -        qemu_init_displays();
-> -    }
-
-^^^
-
-[...]
->  
-
-1)
-
-> +    if (!preconfig_requested) {
-> +        qmp_x_exit_preconfig(&error_fatal);
-> +    }
-> +    qemu_init_displays();
-given that qemu_init_displays() were called in both cases,
-shouldn't it be called unconditionally at [1]?
-
->      accel_setup_post(current_machine);
->      os_setup_post();
-> -
-> -    return;
->  }
->  
->  void qemu_cleanup(void)
+Tested-by: Bruce Rogers <brogers@suse.com>
 
 
