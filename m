@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D56602BA037
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 03:12:18 +0100 (CET)
-Received: from localhost ([::1]:39440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED4CD2BA056
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 03:27:32 +0100 (CET)
+Received: from localhost ([::1]:49506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfvuL-0006Fv-Ek
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 21:12:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48980)
+	id 1kfw95-0003EO-Dv
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 21:27:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kfvsw-0005RZ-C1
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 21:10:50 -0500
-Received: from indium.canonical.com ([91.189.90.7]:55716)
+ id 1kfw7J-0002FH-0t
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 21:25:48 -0500
+Received: from indium.canonical.com ([91.189.90.7]:57510)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kfvsu-00033e-5c
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 21:10:50 -0500
+ id 1kfw7G-00065g-AH
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 21:25:40 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kfvss-00085N-6x
- for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 02:10:46 +0000
+ id 1kfw7E-0000l5-1q
+ for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 02:25:36 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 311322E804A
- for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 02:10:46 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 0CD8C2E80E9
+ for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 02:25:36 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Nov 2020 01:57:17 -0000
-From: Alex Chen <1904486@bugs.launchpad.net>
+Date: Fri, 20 Nov 2020 02:16:30 -0000
+From: yuanjungong <1904486@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -39,16 +39,16 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: yjruc zdchen
 X-Launchpad-Bug-Reporter: yuanjungong (yjruc)
-X-Launchpad-Bug-Modifier: Alex Chen (zdchen)
+X-Launchpad-Bug-Modifier: yuanjungong (yjruc)
 References: <160557932327.14164.11613670931205353723.malonedeb@soybean.canonical.com>
-Message-Id: <160583743808.31631.13400202315769081725.malone@soybean.canonical.com>
+Message-Id: <160583859050.32716.3976730371804253764.malone@soybean.canonical.com>
 Subject: [Bug 1904486] Re: resource leak in /net/tap.c
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="c35ff22711d15549e2303ae18ae521fd91f6bf00"; Instance="production"
-X-Launchpad-Hash: e1a5ad7f0d1e576cdf144c11c6269f2ae469786d
+X-Launchpad-Hash: d4d7ee24f651e0ea13b2cb0e32b60374789e8a53
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -73,10 +73,8 @@ Reply-To: Bug 1904486 <1904486@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi yuanjungong,
-
-If you don't have time to submit a patch, can I submit a patch to fix
-it?
+A patch has been submitted at https://lists.nongnu.org/archive/html
+/qemu-trivial/2020-11/msg00355.html
 
 -- =
 
