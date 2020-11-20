@@ -2,56 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 377172BB0A8
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 17:35:54 +0100 (CET)
-Received: from localhost ([::1]:52368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E0942BB096
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 17:31:57 +0100 (CET)
+Received: from localhost ([::1]:43492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg9O5-0001AR-7G
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 11:35:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35484)
+	id 1kg9KG-0005kj-2u
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 11:31:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kg9Gz-0002EF-EY; Fri, 20 Nov 2020 11:28:34 -0500
-Resent-Date: Fri, 20 Nov 2020 11:28:33 -0500
-Resent-Message-Id: <E1kg9Gz-0002EF-EY@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21786)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kg9Gv-0006hp-Bl; Fri, 20 Nov 2020 11:28:32 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1605889666; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=MZolvs1Lfhcal1Ulyz87pB6DtmS8MXLLXcBueuc1DEY1Ll4/ebolgBzObFckoaM0utiucZW9tXT+UDaNYvCrmm6uBrHd/5wm+1kXtbnNPg83KIl20u7DTGYR1ufOJDJ2qcY8Mqxb8f7x6OCKx81oy1+MyhGp7RIL2e6+isi59BU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1605889666;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=Nc+pk/2wKobOJqu4y+bgyud+XPtTXI19fbEbi5RVY48=; 
- b=baMF/3ssXiSLZ6HkA0G5A4iLXs1eg7RtAhCshprKvP+1H7YN84LISHdplaW59xf2aeK/czMoZxpHsR6KshRGV4YlqBTRcWwG8BMKiO8IxoIaNXPcjPmHu7L6FOi/y9mQh5mY6Tdck2UQfr1sCV5By6PLPjRMSy4mE7HDzYyJB/k=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1605889664847305.9138749527988;
- Fri, 20 Nov 2020 08:27:44 -0800 (PST)
-In-Reply-To: <20201120161622.1537-1-vsementsov@virtuozzo.com>
-Subject: Re: [PATCH RFC 0/5] Fix accidental crash in iotest 30
-Message-ID: <160588966278.47.2041524974915724124@9aeb27d8af94>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kg9GO-0001Wb-Uf
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:27:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54548)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kg9GM-0006dd-9R
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:27:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605889673;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=a3dsOLXxEYuu1HXYpqYdqwrDFFTkbbF8WHq197XFZNw=;
+ b=DPFVuVjOTqUDyaMOURDTq0DDAtYCkPy3n5kJ2xBnq5IQH21ZrdZEmiwl4b6ytU73copJVh
+ 5Ai1wnneeEcjXoKUky1IGYwtA1V3E35L6mJXRXICNQIrWYOpqXUfPeiQ3+ss/9HlSDKPkA
+ bitvNxFp0aooPCJ4F2QtuG/hAAuJSWg=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-403-GGdRwUkYNCa2k0YeQGwqSQ-1; Fri, 20 Nov 2020 11:27:51 -0500
+X-MC-Unique: GGdRwUkYNCa2k0YeQGwqSQ-1
+Received: by mail-ed1-f72.google.com with SMTP id v7so3998933edy.4
+ for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 08:27:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=a3dsOLXxEYuu1HXYpqYdqwrDFFTkbbF8WHq197XFZNw=;
+ b=ZUAsEJVf3pZYt5AC/k4NxGlKKnJUksTYGf0k/9T9mrEm/H/ATDSYz+yfm70JbCDdh7
+ l8w24UQ8N47urmnXtaW1zRSJhBPLCIIE+w+FQ9EC1XQXQzonEtv47YcE0BhlwLeDiUJG
+ ULN7mrT2JcMJ2mh9GIm2ifeLowSUO0LmqharUKtCxo+Q3tgftyqI/j3OBIDpAJm+Aags
+ 836i6AnXpWZVqQ4GOcoIdHSi7tJumQ1j7nQDEaATSQaenMOtvxIa48byGySF1V7XN4lw
+ sHK/DcyndspRCfJxmiTYbmoJlOBFzOaDjeUqIm28LfA2eclMuUwREsGtEkCL7UnuS8ld
+ AOQw==
+X-Gm-Message-State: AOAM531abdVBOSiMfKrzHrhxIXlPECCWT1J/fmHHGgElG8MKy8gG6dtW
+ qjofrm5HWkI1hkoBaqDtCFpGurX57gPNxVuy55Sl0bVUAWCpXSH3GQx4I9U2pMM4XPU5XOoE+w/
+ jQVb5uz/x2S6qbSQ4mfuQmJVrfO10h0d4K7e3SENiU7R/vyMxOu1pOqcup9/1WCdXQUU=
+X-Received: by 2002:aa7:cc0e:: with SMTP id q14mr36359449edt.181.1605889670303; 
+ Fri, 20 Nov 2020 08:27:50 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyiRLC7+m9C7wefk5MksoO9IuIdRBBNLwWn4yvVd0dxhCBDGZuXcaINIDpatP+ku/u8OQeexw==
+X-Received: by 2002:aa7:cc0e:: with SMTP id q14mr36359428edt.181.1605889670078; 
+ Fri, 20 Nov 2020 08:27:50 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id la9sm1286085ejb.121.2020.11.20.08.27.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 20 Nov 2020 08:27:49 -0800 (PST)
+Subject: Re: [RFC PATCH v2 00/37] cleanup qemu_init and make sense of command
+ line processing
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20201027182144.3315885-1-pbonzini@redhat.com>
+ <20201102165756.69540720@redhat.com>
+ <6c08fbaa-57aa-b2da-c90a-6b53f628806a@redhat.com>
+ <20201103135735.029c9b6d@redhat.com>
+ <13f14d6c-e52a-390c-7940-9df2e220113e@redhat.com>
+ <20201120171927.3179568e@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <8d9e40ad-486b-5349-bc30-d5499d075074@redhat.com>
+Date: Fri, 20 Nov 2020 17:27:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: vsementsov@virtuozzo.com
-Date: Fri, 20 Nov 2020 08:27:44 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20201120171927.3179568e@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,68 +105,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, vsementsov@virtuozzo.com,
- berto@igalia.com, qemu-block@nongnu.org, jsnow@redhat.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com, den@openvz.org,
- pbonzini@redhat.com, philmd@redhat.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTEyMDE2MTYyMi4xNTM3
-LTEtdnNlbWVudHNvdkB2aXJ0dW96em8uY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRv
-IGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1v
-cmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMDExMjAxNjE2MjIu
-MTUzNy0xLXZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbQpTdWJqZWN0OiBbUEFUQ0ggUkZDIDAvNV0g
-Rml4IGFjY2lkZW50YWwgY3Jhc2ggaW4gaW90ZXN0IDMwCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4g
-PT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAK
-Z2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwg
-ZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3Rv
-Z3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBT
-Q1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4
-ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBb
-bmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjAxMTIwMTYxNjIyLjE1MzctMS12c2VtZW50c292
-QHZpcnR1b3p6by5jb20gLT4gcGF0Y2hldy8yMDIwMTEyMDE2MTYyMi4xNTM3LTEtdnNlbWVudHNv
-dkB2aXJ0dW96em8uY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKOWFlZDU4MCBi
-bG9jazogcHJvdGVjdCBzb21lIGdyYXBoLW1vZGlmeW5nIHRoaW5ncyBieSBtdXRleAo3NGM0NTU3
-IGJsb2NrOiBtb3ZlIHNvbWUgbWlycm9yIGFuZCBzdHJlYW0gaGFuZGxlcnMgdG8gY29yb3V0aW5l
-CmZhZTcwYmQgc2NyaXB0cy9ibG9jay1jb3JvdXRpbmUtd3JhcHBlci5weTogYWxsb3cgbW9yZSBm
-dW5jdGlvbiB0eXBlcwo3YmNjZjJjIGlvdGVzdC0zMC1zaG9ydGVuOiBjb25jZW50cmF0ZSBvbiBm
-YWlsaW5nIHRlc3QgY2FzZQoxYzc5ZjA4IGFib3J0LW9uLXNldC10by10cnVlCgo9PT0gT1VUUFVU
-IEJFR0lOID09PQoxLzUgQ2hlY2tpbmcgY29tbWl0IDFjNzlmMDg2ZWFlOCAoYWJvcnQtb24tc2V0
-LXRvLXRydWUpCkVSUk9SOiBkbyBub3QgaW5pdGlhbGlzZSBnbG9iYWxzIHRvIDAgb3IgTlVMTAoj
-MTg6IEZJTEU6IGJsb2NrLmM6ODc6Citib29sIGFib3J0X29uX3NldF90b190cnVlID0gZmFsc2U7
-CgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzI3OiBGSUxFOiBibG9jay5jOjIwMDc6
-CisgICAgICAgIGlmICgoYWRkZWRfcGVybXMgfHwgcmVtb3ZlZF9zaGFyZWRfcGVybXMpICYmIHRp
-Z2h0ZW5fcmVzdHJpY3Rpb25zID09ICZhYm9ydF9vbl9zZXRfdG9fdHJ1ZSkgewoKV0FSTklORzog
-bGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzQ0OiBGSUxFOiBibG9jay5jOjIwNzU6CisgICAgICAg
-ICAgICByZXQgPSBiZHJ2X2NoaWxkX2NoZWNrX3Blcm0oYywgcSwgY3VyX3Blcm0sIGN1cl9zaGFy
-ZWQsIGlnbm9yZV9jaGlsZHJlbiwKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiM0
-NzogRklMRTogYmxvY2suYzoyMDc4OgorICAgICAgICAgICAgcmV0ID0gYmRydl9jaGlsZF9jaGVj
-a19wZXJtKGMsIHEsIGN1cl9wZXJtLCBjdXJfc2hhcmVkLCBpZ25vcmVfY2hpbGRyZW4sCgpXQVJO
-SU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojNDg6IEZJTEU6IGJsb2NrLmM6MjA3OToKKyAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB0aWdodGVuX3Jlc3RyaWN0aW9u
-cyA/ICZjaGlsZF90aWdodGVuX3Jlc3RyCgp0b3RhbDogMiBlcnJvcnMsIDMgd2FybmluZ3MsIDc0
-IGxpbmVzIGNoZWNrZWQKClBhdGNoIDEvNSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZp
-ZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRo
-ZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMi81
-IENoZWNraW5nIGNvbW1pdCA3YmNjZjJjZjhiZmYgKGlvdGVzdC0zMC1zaG9ydGVuOiBjb25jZW50
-cmF0ZSBvbiBmYWlsaW5nIHRlc3QgY2FzZSkKMy81IENoZWNraW5nIGNvbW1pdCBmYWU3MGJkMzg1
-MWEgKHNjcmlwdHMvYmxvY2stY29yb3V0aW5lLXdyYXBwZXIucHk6IGFsbG93IG1vcmUgZnVuY3Rp
-b24gdHlwZXMpCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMzNTogRklMRTogc2Ny
-aXB0cy9ibG9jay1jb3JvdXRpbmUtd3JhcHBlci5weTo4MjoKK2Z1bmNfZGVjbF9yZSA9IHJlLmNv
-bXBpbGUocideKD9QPHJldHVybl90eXBlPih2b2lkfGludCkpXHMqZ2VuZXJhdGVkX2NvX3dyYXBw
-ZXJccyonCgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDgwIGxpbmVzIGNoZWNrZWQKClBh
-dGNoIDMvNSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhl
-c2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWlu
-ZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo0LzUgQ2hlY2tpbmcgY29tbWl0IDc0
-YzQ1NTdlNmRlYSAoYmxvY2s6IG1vdmUgc29tZSBtaXJyb3IgYW5kIHN0cmVhbSBoYW5kbGVycyB0
-byBjb3JvdXRpbmUpCjUvNSBDaGVja2luZyBjb21taXQgOWFlZDU4MDkzMDE4IChibG9jazogcHJv
-dGVjdCBzb21lIGdyYXBoLW1vZGlmeW5nIHRoaW5ncyBieSBtdXRleCkKPT09IE9VVFBVVCBFTkQg
-PT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBh
-dmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDExMjAxNjE2MjIuMTUzNy0x
-LXZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2Fn
-ZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8v
-cGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVs
-QHJlZGhhdC5jb20=
+On 20/11/20 17:19, Igor Mammedov wrote:
+> On Tue, 3 Nov 2020 15:37:13 +0100
+> Paolo Bonzini <pbonzini@redhat.com> wrote:
+> 
+>> On 03/11/20 13:57, Igor Mammedov wrote:
+>>>> It's based on 20201026143028.3034018-1-pbonzini@redhat.com (which you
+>>>> should be able to get through patchew).
+>>> Not sure what you mean and how to do that.
+>>> Is it possible to share v2 as a git tree somewhere?
+>>
+>> I pushed it to for-6.0 on my gitlab repo.  There's a lot more stuff in
+>> the branch, but these patches are at the top.
+> 
+> had to use temporary fixup, to make build pass and fix '-device help' crash
+> with your branch. (upstream master doesn't have this problem)
+> 
+> diff --git a/util/qemu-option.c b/util/qemu-option.c
+> index 858860377b..78f3397736 100644
+> --- a/util/qemu-option.c
+> +++ b/util/qemu-option.c
+> @@ -776,6 +776,7 @@ static const char *get_opt_name_value(const char *params,
+>           /* found "foo,more" */
+>           if (help_wanted && starts_with_help_option(params) == len) {
+>               *help_wanted = true;
+> +            return NULL;
+>           } else if (firstname) {
+>               /* implicitly named first option */
+>               *name = g_strdup(firstname);
+
+Thanks!  I'll integrate this in the right place of the series.
+
+Paolo
+
 
