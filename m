@@ -2,67 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 652D82BB548
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 20:30:47 +0100 (CET)
-Received: from localhost ([::1]:57510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2666C2BB540
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 20:29:04 +0100 (CET)
+Received: from localhost ([::1]:54314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kgC7K-0005wu-GJ
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 14:30:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44680)
+	id 1kgC5e-0004X9-S0
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 14:29:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kgBmx-0003d9-Uo
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 14:09:44 -0500
-Received: from indium.canonical.com ([91.189.90.7]:41836)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kgBmv-0003qo-5e
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 14:09:43 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kgBms-0001nH-NO
- for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 19:09:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id AAE932E8138
- for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 19:09:38 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kgBeJ-0003yK-Bd
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 14:00:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27993)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kgBeG-00015R-Rv
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 14:00:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605898843;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qgJD8GVMVDjfoDouZEeNLU1TKYhTn48au1ks6m7ewFY=;
+ b=U4eRfbdeXOeusxNenijR9EQ04us1fbxReihwejf41iaYNPq4Pb/VfY0F6k2c943tu6pdQ1
+ e3Hjn/cKzGIml4mcsm4GgsJM2pC6/EiGpDuJTkMKToMHEgAadGNklaOAGrr9t9HjoW5Adm
+ GXRLEM0UNVtV71rsfVSVh10ssZUzKAM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-85-gw5Zbvg9MDWQsyPAI8PE9Q-1; Fri, 20 Nov 2020 14:00:41 -0500
+X-MC-Unique: gw5Zbvg9MDWQsyPAI8PE9Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3DC318BA29E;
+ Fri, 20 Nov 2020 19:00:38 +0000 (UTC)
+Received: from localhost (ovpn-115-101.rdu2.redhat.com [10.10.115.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8CB8F10021B3;
+ Fri, 20 Nov 2020 19:00:35 +0000 (UTC)
+Date: Fri, 20 Nov 2020 14:00:34 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [RFC v4 9/9] i386: split cpu accelerators from cpu.c
+Message-ID: <20201120190034.GG2271382@habkost.net>
+References: <20201120144909.24097-1-cfontana@suse.de>
+ <20201120144909.24097-10-cfontana@suse.de>
+ <20201120174447.GC2271382@habkost.net>
+ <5ac27efa-0766-c5e4-be6c-7ba031997cd3@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Nov 2020 18:59:55 -0000
-From: Thomas Huth <1346784@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: m-ilin th-huth
-X-Launchpad-Bug-Reporter: Mikhail Ilyin (m-ilin)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20140722074411.21128.87948.malonedeb@wampee.canonical.com>
-Message-Id: <160589879561.25323.10458694960694975302.malone@wampee.canonical.com>
-Subject: [Bug 1346784] Re: qemu internal memory areas visible to a guest via
- /proc/self/maps
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c35ff22711d15549e2303ae18ae521fd91f6bf00"; Instance="production"
-X-Launchpad-Hash: 8119b48cbbdcef5822709155206b78ca9e8b0e81
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <5ac27efa-0766-c5e4-be6c-7ba031997cd3@suse.de>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,147 +80,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1346784 <1346784@bugs.launchpad.net>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
+ Olaf Hering <ohering@suse.de>, Jason Wang <jasowang@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Cameron Esfahani <dirty@apple.com>,
+ haxm-team@intel.com, Wenchao Wang <wenchao.wang@intel.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Bruce Rogers <brogers@suse.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Colin Xu <colin.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I think this had been fixed here:
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3Dd67f4aaae8379b44b3b51=
-ff0
+On Fri, Nov 20, 2020 at 07:47:11PM +0100, Claudio Fontana wrote:
+> On 11/20/20 6:44 PM, Eduardo Habkost wrote:
+> > On Fri, Nov 20, 2020 at 03:49:09PM +0100, Claudio Fontana wrote:
+> >> split cpu.c into:
+> >>
+> >> cpu.c            cpuid and common x86 cpu functionality
+> >> host-cpu.c       host x86 cpu functions and "host" cpu type
+> >> kvm/cpu.c        KVM x86 cpu type
+> >> hvf/cpu.c        HVF x86 cpu type
+> >> tcg/cpu.c        TCG x86 cpu type
+> >>
+> >> The link to the accel class is set in the X86CPUClass classes
+> >> at MODULE_INIT_ACCEL_CPU time, when the accelerator is known.
+> >>
+> >> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> > [...]
+> >> +static void hvf_cpu_accel_class_init(ObjectClass *oc, void *data)
+> >> +{
+> >> +    X86CPUAccelClass *acc = X86_CPU_ACCEL_CLASS(oc);
+> >> +
+> >> +    acc->cpu_realizefn = host_cpu_realizefn;
+> >> +    acc->cpu_common_class_init = hvf_cpu_common_class_init;
+> >> +    acc->cpu_instance_init = hvf_cpu_instance_init;
+> >> +};
+> >> +static const TypeInfo hvf_cpu_accel_type_info = {
+> >> +    .name = X86_CPU_ACCEL_TYPE_NAME("hvf"),
+> >> +
+> >> +    .parent = TYPE_X86_CPU_ACCEL,
+> >> +    .class_init = hvf_cpu_accel_class_init,
+> >> +};
+> >> +static void hvf_cpu_accel_register_types(void)
+> >> +{
+> >> +    type_register_static(&hvf_cpu_accel_type_info);
+> >> +}
+> >> +type_init(hvf_cpu_accel_register_types);
+> >> +
+> >> +static void hvf_cpu_accel_init(void)
+> >> +{
+> >> +    if (hvf_enabled()) {
+> >> +        x86_cpu_accel_init(X86_CPU_ACCEL_TYPE_NAME("hvf"));
+> >> +    }
+> >> +}
+> >> +
+> >> +accel_cpu_init(hvf_cpu_accel_init);
+> > 
+> > The point of my suggestion of using QOM is to not require
+> > separate accel_cpu_init() functions and (hvf|tcg|kvm)_enabled()
+> > checks.
+> > 
+> > If we still have separate accel_cpu_init() functions for calling
+> > x86_cpu_accel_init() with the right argument, using a pointer to
+> > static variables like &hvf_cpu_accel (like you did before) was
+> > simpler and required less boilerplate code.
+> 
+> 
+> 
+> Yes I agree.
+> 
+> 
+> 
+> 
+> > 
+> > However, the difference is that with the X86_CPU_ACCEL_TYPE_NAME
+> > macro + object_class_by_name(), you don't need the separate
+> > accel_cpu_init() functions for each accelerator.
+> > 
+> > All you need is a single:
+> > 
+> >   x86_cpu_accel_init(X86_CPU_ACCEL_TYPE_NAME(chosen_accel_name));
+> > 
+> > call somewhere in the initialization path.
+> 
+> 
+> Makes sense. The problem is just determining chosen_accel_name.
 
-** Changed in: qemu
-       Status: New =3D> Fix Released
+Yeah, that was a challenge.  do_configure_accelerator() knows
+what's the chosen accel name, though.
 
--- =
+We can also do it inside accel_init_machine(), if we can
+determine the correct accel name from the AccelState object.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1346784
+> 
+> 
+> > 
+> > A good place for the x86_cpu_accel_init() call would be
+> > do_configure_accelerator(), but the function is arch-specific.
+> > That's why I suggested a cpu_accel_arch_init() function at
+> > https://lore.kernel.org/qemu-devel/20201118220750.GP1509407@habkost.net
+> > 
+> 
+> 
+> Fine by me. I'd use a specific init step for this, but that also works.
 
-Title:
-  qemu internal memory areas visible to a guest via /proc/self/maps
+A separate module init function has no easy access to the accel
+name, but in this case I'd say it's on purpose: the intended use
+case for module init functions is to unconditionally register
+features provided by a code module.  They shouldn't look at any
+runtime configuration or runtime state.
 
-Status in QEMU:
-  Fix Released
+-- 
+Eduardo
 
-Bug description:
-  =
-
-  Qemu internal memory areas are not suppressed in the output and are  visi=
-ble to a guest via /proc/self/maps.
-
-  $ echo "int main() { return 0; }" > /tmp/test.c
-  $ gcc -m32 -fsanitize=3Daddress -fno-common -Wall -g -fPIC -o /tmp/test /=
-tmp/test.c
-  $ qemu-i386-static -R 0 /tmp/test
-
-  We use -R option because the binary can't be executed under stock
-  version of Qemu with address sanitizer instrumentations (Asan).
-
-  Qemu memory map looks the following way where GUEST valid addresses
-  are marked with ***** and invalid with @@@:
-
-  ***** 08048000-08049000 r-xp 00000000 08:01 28835889          /tmp/test
-  ***** 08049000-0804a000 rw-p 00000000 08:01 28835889          /tmp/test
-  ***** 1ffff000-24000000 rw-p 00000000 00:00 0 =
-
-  ***** 24000000-28000000 ---p 00000000 00:00 0 =
-
-  ***** 28000000-40000000 rw-p 00000000 00:00 0 =
-
-  ***** 40000000-40001000 ---p 00000000 00:00 0 =
-
-  ***** 40001000-40801000 rw-p 00000000 00:00 0                         [st=
-ack]
-  ***** 40801000-40821000 r-xp 00000000 08:01 26738694          /lib32/ld-2=
-.19.so
-  ***** 40821000-40822000 r--p 0001f000 08:01 26738694          /lib32/ld-2=
-.19.so
-  ***** 40822000-40823000 rw-p 00020000 08:01 26738694          /lib32/ld-2=
-.19.so
-  ***** 40823000-40827000 rw-p 00000000 00:00 0 =
-
-  ***** 40827000-408ca000 r-xp 00000000 08:01 49424994          /home/micha=
-il/build/lib32/libasan.so.1.0.0
-  ***** 408ca000-408cc000 rw-p 000a3000 08:01 49424994          /home/micha=
-il/build/lib32/libasan.so.1.0.0
-  ***** 408cc000-40d24000 rw-p 00000000 00:00 0 =
-
-  ***** 40d3c000-40ee2000 r-xp 00000000 08:01 26738695          /lib32/libc=
--2.19.so
-  ***** 40ee2000-40ee4000 r--p 001a6000 08:01 26738695          /lib32/libc=
--2.19.so
-  ***** 40ee4000-40ee5000 rw-p 001a8000 08:01 26738695          /lib32/libc=
--2.19.so
-  ***** 40ee5000-40ee8000 rw-p 00000000 00:00 0 =
-
-  ***** 40ee8000-40f00000 r-xp 00000000 08:01 26738711          /lib32/libp=
-thread-2.19.so
-  ***** 40f00000-40f01000 r--p 00017000 08:01 26738711          /lib32/libp=
-thread-2.19.so
-  ***** 40f01000-40f02000 rw-p 00018000 08:01 26738711          /lib32/libp=
-thread-2.19.so
-  ***** 40f02000-40f04000 rw-p 00000000 00:00 0 =
-
-  ***** 40f04000-40f07000 r-xp 00000000 08:01 26738708          /lib32/libd=
-l-2.19.so
-  ***** 40f07000-40f08000 r--p 00002000 08:01 26738708          /lib32/libd=
-l-2.19.so
-  ***** 40f08000-40f09000 rw-p 00003000 08:01 26738708          /lib32/libd=
-l-2.19.so
-  ***** 40f09000-40fee000 r-xp 00000000 08:01 49424965          /home/micha=
-il/build/lib32/libstdc++.so.6.0.20
-  ***** 40fee000-40ff2000 r--p 000e5000 08:01 49424965          /home/micha=
-il/build/lib32/libstdc++.so.6.0.20
-  ***** 40ff2000-40ff3000 rw-p 000e9000 08:01 49424965          /home/micha=
-il/build/lib32/libstdc++.so.6.0.20
-  ***** 40ff3000-40ffa000 rw-p 00000000 00:00 0 =
-
-  ***** 40ffa000-4103e000 r-xp 00000000 08:01 26738698          /lib32/libm=
--2.19.so
-  ***** 4103e000-4103f000 r--p 00043000 08:01 26738698          /lib32/libm=
--2.19.so
-  ***** 4103f000-41040000 rw-p 00044000 08:01 26738698          /lib32/libm=
--2.19.so
-  ***** 41040000-41041000 rw-p 00000000 00:00 0 =
-
-  ***** 41041000-4105b000 r-xp 00000000 08:01 49424637          /home/micha=
-il/build/lib32/libgcc_s.so.1
-  ***** 4105b000-4105c000 rw-p 00019000 08:01 49424637          /home/micha=
-il/build/lib32/libgcc_s.so.1
-  ***** 4105c000-4105e000 rw-p 00000000 00:00 0 =
-
-  ***** 4105f000-41061000 rw-p 00000000 00:00 0 =
-
-  ***** 41065000-421ed000 rw-p 00000000 00:00 0 =
-
-  ***** 421ee000-421f1000 rw-p 00000000 00:00 0 =
-
-  ***** 60000000-6033b000 r-xp 00000000 08:01 48760980          /home/micha=
-il/build/bin/qemu-i386-static
-  ***** 6053b000-60546000 rw-p 0033b000 08:01 48760980          /home/micha=
-il/build/bin/qemu-i386-static
-  ***** 60546000-6059a000 rw-p 00000000 00:00 0 =
-
-  ***** 6059a000-6259b000 rwxp 00000000 00:00 0 =
-
-  ***** 6259b000-625ae000 rw-p 00000000 00:00 0 =
-
-  ***** 62dce000-62e12000 rw-p 00000000 00:00 0                          [h=
-eap]
-  @@@ 7f3f5e6a9000 - 7f3f61f28000 rw-p 00000000 00:00 0 =
-
-  @@@ 7fffad130000 - 7fffad132000 r-xp 00000000 00:00 0          [vdso]
-  @@@ ffffffffff600000 - ffffffffff601000 r-xp 00000000 00:00 0          [v=
-syscall]
-
-  qemu-i386-static and its heap are in ranges which are valid and be
-  reported to guest in case of maps file reading.
-
-  The issue is related to early reported bugs:
-  http://lists.nongnu.org/archive/html/qemu-devel/2014-07/msg02793.html
-  http://lists.nongnu.org/archive/html/qemu-devel/2014-07/msg03085.html
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1346784/+subscriptions
 
