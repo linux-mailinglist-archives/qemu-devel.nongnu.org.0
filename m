@@ -2,76 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52B0A2BAED2
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 16:26:38 +0100 (CET)
-Received: from localhost ([::1]:45738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90E5C2BAECF
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 16:25:08 +0100 (CET)
+Received: from localhost ([::1]:41392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg8J3-0001oN-BZ
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 10:26:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45676)
+	id 1kg8Hb-0008NP-IC
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 10:25:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kg8Ei-0005E4-51; Fri, 20 Nov 2020 10:22:08 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35728)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kg8Eg-0001xa-6S; Fri, 20 Nov 2020 10:22:07 -0500
-Received: by mail-wm1-x341.google.com with SMTP id w24so10143696wmi.0;
- Fri, 20 Nov 2020 07:22:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=OFxYRRko5wDlndgHLT3zQ815TN8hN9Ueg8Jn6ELnMyE=;
- b=XkHJtSIteZPocXev2ZtLyGV4+rwDC1DCkjq8OpES5ndeSpMSNkJSz+aaao9MaWcdyg
- bw8dkiyubGmks/kQKSWIbiijkuW2FjmphqPVZQBK5b+rgkOzDG04SVtjrPQD4wAGox8W
- t1ksm2BUVXIFPRtStMGFDzt8CpJq4L0vozunljQA4DWpKa6DGCOX3qRROnxDZiJJehf8
- 50wRudvARfaN0WrrvZikHOcrRHN58mtU2mXLv+Q4PeY3K9AXTl/okWF1dVHuKbpOdXEL
- vnmkHW8/sQ0iweMYHR9FoDsXmRUZjfz2lP6Ho/RN5P5aJupoUCDG+ltnvqZ53lOQeSW4
- jvyA==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kg8Fn-0006aa-VW
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 10:23:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40635)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kg8Fl-0002Mt-1q
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 10:23:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605885791;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=UZuN7s5MSFm34vkwG62vDVBsNiD1CGr4NBaoqqfSjJ8=;
+ b=EbS7LZX4m+EqRmF9IXTEnoXFv8r1DPQTSpgJjVutM5mCQYh2rdKbx5pGqUfnj/C5kfKRRN
+ +EvCfxR23CUqnUeTiwa7SJTA9QySbd+Qkwc7YTYlaAg9PaxQibuRagMqUT6pSR2iGyU/d6
+ Z0sF33Yplj1bS/LDx1X2a7Q1zMUYDQ4=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-175-vJDppERUP2CBKmRE4yAcAQ-1; Fri, 20 Nov 2020 10:23:08 -0500
+X-MC-Unique: vJDppERUP2CBKmRE4yAcAQ-1
+Received: by mail-qt1-f199.google.com with SMTP id i20so7622974qtr.0
+ for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 07:23:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=OFxYRRko5wDlndgHLT3zQ815TN8hN9Ueg8Jn6ELnMyE=;
- b=hORqxnJ4YrNJ7GxkPUv7jzc99NMy/UmnnvG4CNcocAPHLWjFnmu0jEwRnAFckEj+T3
- lO4SgvbRtL3xMZHLGeOhMTNsK0idf0HbqqSu7ZsexJnU3ck2/otyRbE1YNpALwnhm/6T
- /t8AVhmCw4kffYyNsHEzVfXnRaPkyWf8eP0IRwSa8KzD7Qyy6eh0s4hpLlyJRWu56gMK
- Yt8EB2oMS37+LcYAd7s78H/naJyyntjGSJGQ/twuVefvq2FYJimWKnOnfTOljscIAixm
- 6r/YFQKpqeYuDbqP3HxTyPnown0+iGmSHtQwgNwK8IdxVMwlZxYfFhMaxkPuvR5691Yy
- Ji7w==
-X-Gm-Message-State: AOAM533v9mYmDjT1WxNhKAdmM8cNfBHFer+D0DWHOmIcpC7ZYJMhqw9D
- Oa7aS6s8u9j1XpBYMcg1i6bJveLLU/g=
-X-Google-Smtp-Source: ABdhPJwf5kp7ATFrzOmWwJqlEjYn9Onp4ZFEpwJqbqntWzx+oVBw3VVAEZgcDokvzlCB8N1Ok97xtg==
-X-Received: by 2002:a1c:5401:: with SMTP id i1mr11161952wmb.65.1605885724009; 
- Fri, 20 Nov 2020 07:22:04 -0800 (PST)
-Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id b8sm5847688wrv.57.2020.11.20.07.22.02
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=UZuN7s5MSFm34vkwG62vDVBsNiD1CGr4NBaoqqfSjJ8=;
+ b=YiBwEoMwXbyQuHAl/GpZ/kjkNI6yN6kImDThoPS02nw+k/wndtE8Lj3eTHXEUeHO6/
+ z2upf/nSaKFlv80OiSDlKHp2jzHazBoczg5IPm+a9nt8YjHE+ptz41HMH26LjTdX7/uA
+ Gf/4bf6WO3xQbGqIf2HiTxXV0PULDlAh8cXjVM+G2zw5BTZYxb2w5gmjxgB3iNjzrCVi
+ 3Q9J2Q43oeZjdSpXBCMWovpNc6QqFIlt46pmmFNH3cq5TqqpXxy4p2ztMkX+SvZSb93e
+ EKVKFUigjbDN4P072b1c0NGgFPzoSv3OJJ4mb0PkD/uGuC2hqZGHOYjKtneCYjwlfjJN
+ biUg==
+X-Gm-Message-State: AOAM530VqzzWwNfaiA5dwgVl2YZCquoyBGqjLx9h+BLmNk9DeVjpKPM/
+ 4GRoEvkykl14pSc78iTR5T6Y9Tnu+u3Q5RM26DX7idNptN7ZvgT9lUizhTqyE+Wpydf8VAW7WE/
+ WEZRLCFLEpbGpZkM=
+X-Received: by 2002:ad4:5685:: with SMTP id bc5mr17143549qvb.48.1605885788082; 
+ Fri, 20 Nov 2020 07:23:08 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyafMfAX5w8zWpV6FK/2N8AYDw5AEqotcPN5ONohgYRgn/Vdx1xHyY9L9LOutPD5yKBG8Gd+w==
+X-Received: by 2002:ad4:5685:: with SMTP id bc5mr17143528qvb.48.1605885787846; 
+ Fri, 20 Nov 2020 07:23:07 -0800 (PST)
+Received: from xz-x1
+ (bras-vprn-toroon474qw-lp130-20-174-93-89-196.dsl.bell.ca. [174.93.89.196])
+ by smtp.gmail.com with ESMTPSA id o16sm2293182qkg.27.2020.11.20.07.23.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Nov 2020 07:22:03 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH-for-5.2 4/4] docs/system/arm: Document the Sharp Zaurus
- SL-6000
-Date: Fri, 20 Nov 2020 16:21:40 +0100
-Message-Id: <20201120152140.2493197-5-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201120152140.2493197-1-f4bug@amsat.org>
-References: <20201120152140.2493197-1-f4bug@amsat.org>
+ Fri, 20 Nov 2020 07:23:07 -0800 (PST)
+Date: Fri, 20 Nov 2020 10:23:05 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Subject: Re: [PATCH v3 7/7] introduce simple linear scan rate limiting
+ mechanism
+Message-ID: <20201120152305.GF32525@xz-x1>
+References: <20201119125940.20017-1-andrey.gruzdev@virtuozzo.com>
+ <20201119125940.20017-8-andrey.gruzdev@virtuozzo.com>
+ <20201119200250.GH6538@xz-x1>
+ <3f245bae-654f-5a5f-d243-f3f577639678@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
+In-Reply-To: <3f245bae-654f-5a5f-d243-f3f577639678@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URG_BIZ=0.573 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,52 +96,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, libvir-list@redhat.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
- Joel Stanley <joel@jms.id.au>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-List the 'tosa' machine with the XScale-based PDAs models.
+On Fri, Nov 20, 2020 at 03:06:56PM +0300, Andrey Gruzdev wrote:
+> On 19.11.2020 23:02, Peter Xu wrote:
+> > On Thu, Nov 19, 2020 at 03:59:40PM +0300, Andrey Gruzdev wrote:
+> > > Since reading UFFD events and saving paged data are performed
+> > > from the same thread, write fault latencies are sensitive to
+> > > migration stream stalls. Limiting total page saving rate is a
+> > > method to reduce amount of noticiable fault resolution latencies.
+> > > 
+> > > Migration bandwidth limiting is achieved via noticing cases of
+> > > out-of-threshold write fault latencies and temporarily disabling
+> > > (strictly speaking, severely throttling) saving non-faulting pages.
+> > 
+> > Just curious: have you measured aver/max latency of wr-protected page requests,
+> > or better, even its distribution?
+> > 
+> > I believe it should also be relevant to where the snapshot is stored, say, the
+> > backend disk of your tests.  Is that a file on some fs?
+> > 
+> > I would expect the latency should be still good if e.g. the throughput of the
+> > backend file system is decent even without a patch like this, but I might have
+> > missed something..
+> > 
+> > In all cases, it would be very nice if this patch can have the histogram or
+> > aver or max latency measured and compared before/after this patch applied.
+> > 
+> > Thanks,
+> > 
+> So far I have no objective latency measurements, that really interesting.
+> For testing I commonly used SATA HDD, not too fresh one, 1.5TB Seagate
+> 7200.11 series, specially not to have large hardware cache or flash buffer.
+> And yes, backend is a file on ext4.
+> 
+> I tried mostly with 'migrate exec:streamdump_utility', a very simple tool
+> which writes stream to a file. It even doesn't use AIO - so reads from STDIN
+> and file writes don't overlap. Made so intentionally to reduce throughput
+> and give some random high-latency writes.
+> 
+> I think snapshotting performance may be severely degraded by I/O happening
+> in parallel on the same storage media, that's the problem we need to
+> consider.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- docs/system/arm/xscale.rst | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+Yeah this is a good point.  So ideally I think here we have similar requirement
+with postcopy in that we really want the postcopy request stream to be separate
+from the main migration stream, just like what we'd probably prefer here too
+when vcpus writting to wr-protected pages, rather than missing ones.  So that
+the urgent requests got handled faster than the background task.
 
-diff --git a/docs/system/arm/xscale.rst b/docs/system/arm/xscale.rst
-index 89ec93e904e..2dd2f8f9a56 100644
---- a/docs/system/arm/xscale.rst
-+++ b/docs/system/arm/xscale.rst
-@@ -1,16 +1,19 @@
--Sharp XScale-based PDA models (``akita``, ``borzoi``, ``spitz``, ``terrier``)
--=============================================================================
-+Sharp XScale-based PDA models (``tosa``, ``spitz``, ``akita``, ``borzoi``, ``terrier``)
-+=======================================================================================
-+
-+The Sharp Zaurus SL-6000 (``tosa``), released in 2005, was a PDA based on the
-+PXA255.
- 
- The XScale-based clamshell PDA models (\"Spitz\", \"Akita\", \"Borzoi\"
- and \"Terrier\") emulation includes the following peripherals:
- 
---  Intel PXA270 System-on-chip (ARMv5TE core)
-+-  Intel PXA255/PXA270 System-on-chip (ARMv5TE core)
- 
---  NAND Flash memory
-+-  NAND Flash memory - not in \"Tosa\"
- 
- -  IBM/Hitachi DSCM microdrive in a PXA PCMCIA slot - not in \"Akita\"
- 
---  On-chip OHCI USB controller
-+-  On-chip OHCI USB controller - not in \"Tosa\"
- 
- -  On-chip LCD controller
- 
+For postcopy, we may still have some chance if someday we can separate the
+migration channels, so that we can try to provide a standalone channel for
+postcopy requests.  For example if tcp based, that can be a separate socket.
+Then we can try to tune the priority of these sockets to make sure postcopy
+stream were sent earlier.
+
+So I guess it's not always easy to seperate these two channels - in your case
+if the disk must be shared, seems not easy.  Maybe we can prioritize disk I/Os
+somehow too just like tcp channels?  Not sure.  Hmm, it would be good if
+QEMUFile could provide some mechanism to prioritize IOs as a common interface,
+but that's probably too far beyond our discussion. :)
+
+> 
+> And yes, to take latency histogram before/after the patch is nice idea!
+> Also I need to make stream dumping tool with AIO, to test with full storage
+> throughput.
+
+Yeah I would appreciate if you can provide those.
+
+Note that I think it can even be some work after the functionality got merged
+(Dave/Juan could correct me), because it can be some work on top.  Having them
+together would be even nicer, of course.  Your call.  It's already much better
+than stopping the whole vm, imho.
+
+Thanks,
+
 -- 
-2.26.2
+Peter Xu
 
 
