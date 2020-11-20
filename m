@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49DB62BB155
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 18:24:33 +0100 (CET)
-Received: from localhost ([::1]:37070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C39B02BB164
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 18:26:50 +0100 (CET)
+Received: from localhost ([::1]:41342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kgA9A-0004Y0-CG
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 12:24:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49762)
+	id 1kgABN-0006Vw-Sa
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 12:26:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kgA7p-0003FZ-Ap
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 12:23:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35318)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kgA7n-0000r5-KJ
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 12:23:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605892986;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=vW3LktIiB5lbrjN8cIui3900x/lMaCqCLiGWJQU2muo=;
- b=Zg5T+PyXmmhRFzR/BjBZPuZWW3stWBE+4XGPxDgY4kZRoWlEJlTws0fGBrRcIVVsCkK3gI
- 6sP0lEtGIkStf5dyWvL7NMSLAq+TrD0l2l/4ou5Xbz1Y5YMoI1dqbRfpo0AEdUZ63yhYl5
- aEdusahVVrL5Geh2yGlhqHIOdzkAvTc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-318-vO2Kzg4iOTiJT8dHSpbYEQ-1; Fri, 20 Nov 2020 12:23:03 -0500
-X-MC-Unique: vO2Kzg4iOTiJT8dHSpbYEQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 372E08042AC;
- Fri, 20 Nov 2020 17:23:01 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-115-21.ams2.redhat.com [10.36.115.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BB9E85D6AD;
- Fri, 20 Nov 2020 17:22:52 +0000 (UTC)
-Date: Fri, 20 Nov 2020 18:22:51 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH RFC 0/5] Fix accidental crash in iotest 30
-Message-ID: <20201120172251.GE5599@merkur.fritz.box>
-References: <20201120161622.1537-1-vsementsov@virtuozzo.com>
- <20201120163627.GD5599@merkur.fritz.box>
- <e72b2129-0e65-5f8f-a90b-baf03757b1c9@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kgA80-0003gd-Q8
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 12:23:20 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34972)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kgA7y-0000st-SV
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 12:23:20 -0500
+Received: by mail-wr1-x441.google.com with SMTP id k2so10856452wrx.2
+ for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 09:23:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=1F5ZH6WuobRGGuCXdtS5090y/HmuM6DEfjHjwF8EdX4=;
+ b=qu8+Mc346JS8NFKg+nZ61zBQ1QEBmB33IRUj8vrEwKVeEzzy/WPJZKf8h11lEttXbM
+ 2pF54MpeXBz83dKavrMjha/iy7pXec4Ond3IX+S/5nA3i7l8BafD5O1hs/5yGZ2ayKJ9
+ wp3iJyeY1fYmukTDbHq4xO/jYWcnL4wfZ4ixCOPSeCyCao/E2fXSik2gN3agePQcPjfP
+ 5tYy5XopKCbjNigUz67fmjWFdZKTqWZL9fHWNZnrb3cjaGUuZF4z8kxcnvC4wzEsAvB9
+ 0Vqi3xXU/XwA3SvHAy9WiyVXLu+5pe+SVBBrWz3yer5QBkznYufgzx+vw6+RsEj1bFYQ
+ TfjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=1F5ZH6WuobRGGuCXdtS5090y/HmuM6DEfjHjwF8EdX4=;
+ b=b8YYjaJoDJKm0H/JtM+0AOEU3yOmUPfv2hTrMqD+SC0N5UVE9MZs0omUqh0diHVEUO
+ LEuSDoPX4SQibfeGf5GldoSY8iRDlxdGvyPgnn/5sGiwIBWEdnqxmk3B5ID1z9FJhfx0
+ 6TNVX1k7ivEqJHYo9kIL7o6cCWZO6gZfpgp9Mg9Ml4pAeHWwnOs41aleQk1LdKfL8O+w
+ 4KJt1vvy6/mT9x5UOBRn0a0Osr4cYZGCGbsVZACPIVc6mpbWc7lXCUsWCoOOCV07G+5j
+ l1mPzBUWFDOpU3QNYScof5scpCpFxmVoBfyCU8hUs8XehGJqxiNkRH++XLCDmN9BWHpx
+ Ggdg==
+X-Gm-Message-State: AOAM530t/FdfqgSxR7pKBkUWz/FKkdPkJ3hx6AD05lHx2uQavDBr4FIh
+ 7/Dcq/4X4HWUs6sDA4DI78xHjBQu+raSoA==
+X-Google-Smtp-Source: ABdhPJz5fLN/eUWu+ja/3ZNYWomkHPTh2+wTTKLzFDZeoxkSCETAEk+gaqWIyU9f6kxorp1U6WgWGA==
+X-Received: by 2002:adf:eb4c:: with SMTP id u12mr18293412wrn.73.1605892996948; 
+ Fri, 20 Nov 2020 09:23:16 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id p4sm5614394wmc.46.2020.11.20.09.23.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Nov 2020 09:23:16 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/m68k/mcf5206: Don't leak IRQs in mcf5206_mbar_realize()
+Date: Fri, 20 Nov 2020 17:23:14 +0000
+Message-Id: <20201120172314.14725-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <e72b2129-0e65-5f8f-a90b-baf03757b1c9@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,60 +80,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, berto@igalia.com, qemu-block@nongnu.org,
- jsnow@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com,
- stefanha@redhat.com, den@openvz.org, pbonzini@redhat.com, philmd@redhat.com
+Cc: Thomas Huth <huth@tuxfamily.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 20.11.2020 um 17:43 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> 20.11.2020 19:36, Kevin Wolf wrote:
-> > Am 20.11.2020 um 17:16 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> > > Hi all!
-> > > 
-> > > As Peter recently noted, iotest 30 accidentally fails.
-> > > 
-> > > I found that Qemu crashes due to interleaving of graph-update
-> > > operations of parallel mirror and stream block-jobs.
-> > 
-> > I haven't found the time yet to properly look into this or your other
-> > thread where you had a similar question, but there is one thing I'm
-> > wondering: Why can the nested job even make progress and run its
-> > completion handler?
-> > 
-> > When we modify the graph, we should have drained the subtree in
-> > question, so in theory while one job finishes and modifies the graph,
-> > there should be no way for the other job to make progress and get
-> > interleaved - it shouldn't be able to start I/O requests and much less
-> > to run its completion handler and modify the graph.
-> > 
-> > Are we missing drained sections somewhere or do they fail to achieve
-> > what I think they should achieve?
-> > 
-> 
-> It all looks like both jobs are reached their finish simultaneously.
-> So, all progress is done in both jobs. And they go concurrently to
-> completion procedures which interleaves. So, there no more io through
-> blk, which is restricted by drained sections.
+Coverity points out that the realize function for the TYPE_MCF5206_MBAR
+device leaks the IRQ array it allocates with qemu_allocate_irqs().
+Keep a pointer to it in the device state struct to avoid the leak.
+(Since it needs to stay around for the life of the simulation there
+is no need to actually free it, and the leak was harmless.)
 
-They can't be truly simultaneous because they run in the same thread.
-During job completion, this is the main thread.
+Fixes: Coverity CID 1432412
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
 
-However as soon as job_is_completed() returns true, it seems we're not
-pausing the job any more when one of its nodes gets drained.
+We don't need to put this in 5.2, I'm just slowly working through
+some of the Coverity issues that are various kinds of harmless leak
+involving qemu_allocate_irqs().
 
-Possibly also relevant: The job->busy = false in job_exit(). The comment
-there says it's a lie, but we might deadlock otherwise.
+A more thorough overhaul of this code would probably split the
+current MBAR device into multiple individual devices:
+ * timers
+ * uarts
+ * interrupt controller proper
+ * a container device that wires up all the above
+In that design instead of using qemu_allocate_irqs(), the
+interrupt-controller device would create gpio_in lines and the
+container would wire them up to the timers and uarts.
+---
+ hw/m68k/mcf5206.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-This problem will probably affect other callers, too, which drain a
-subtree and then resonably expect that nobody will modify the graph
-until they end the drained section. So I think the problem that we need
-to address is that jobs run their completion handlers even though they
-are supposed to be paused by a drain.
-
-I'm not saying that your graph modification locks are a bad idea, but
-they are probably not a complete solution.
-
-Kevin
+diff --git a/hw/m68k/mcf5206.c b/hw/m68k/mcf5206.c
+index 51d2e0da1c9..92a194dbc46 100644
+--- a/hw/m68k/mcf5206.c
++++ b/hw/m68k/mcf5206.c
+@@ -164,6 +164,7 @@ typedef struct {
+ 
+     M68kCPU *cpu;
+     MemoryRegion iomem;
++    qemu_irq *pic;
+     m5206_timer_state *timer[2];
+     void *uart[2];
+     uint8_t scr;
+@@ -588,17 +589,16 @@ static const MemoryRegionOps m5206_mbar_ops = {
+ static void mcf5206_mbar_realize(DeviceState *dev, Error **errp)
+ {
+     m5206_mbar_state *s = MCF5206_MBAR(dev);
+-    qemu_irq *pic;
+ 
+     memory_region_init_io(&s->iomem, NULL, &m5206_mbar_ops, s,
+                           "mbar", 0x00001000);
+     sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->iomem);
+ 
+-    pic = qemu_allocate_irqs(m5206_mbar_set_irq, s, 14);
+-    s->timer[0] = m5206_timer_init(pic[9]);
+-    s->timer[1] = m5206_timer_init(pic[10]);
+-    s->uart[0] = mcf_uart_init(pic[12], serial_hd(0));
+-    s->uart[1] = mcf_uart_init(pic[13], serial_hd(1));
++    s->pic = qemu_allocate_irqs(m5206_mbar_set_irq, s, 14);
++    s->timer[0] = m5206_timer_init(s->pic[9]);
++    s->timer[1] = m5206_timer_init(s->pic[10]);
++    s->uart[0] = mcf_uart_init(s->pic[12], serial_hd(0));
++    s->uart[1] = mcf_uart_init(s->pic[13], serial_hd(1));
+     s->cpu = M68K_CPU(qemu_get_cpu(0));
+ }
+ 
+-- 
+2.20.1
 
 
