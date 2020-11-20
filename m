@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B00D92BB1B7
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 18:49:32 +0100 (CET)
-Received: from localhost ([::1]:38296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 650242BB1B9
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 18:50:28 +0100 (CET)
+Received: from localhost ([::1]:41398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kgAXL-0001mk-MD
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 12:49:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55090)
+	id 1kgAYF-00034e-Eq
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 12:50:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kgAUv-0008Qx-Oc
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 12:47:02 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:58736)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kgAUx-0008RS-6N
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 12:47:07 -0500
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:39261)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kgAUt-000588-UW
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 12:47:01 -0500
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kgAUt-00058D-Vl
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 12:47:02 -0500
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-538-WD4bcnprPv-SeQuirOs03g-1; Fri, 20 Nov 2020 12:46:56 -0500
-X-MC-Unique: WD4bcnprPv-SeQuirOs03g-1
+ us-mta-281-tYPiPneZMIixWPmnIleXWw-1; Fri, 20 Nov 2020 12:46:57 -0500
+X-MC-Unique: tYPiPneZMIixWPmnIleXWw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA6FB1DDEE;
- Fri, 20 Nov 2020 17:46:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40F0610051C6;
+ Fri, 20 Nov 2020 17:46:56 +0000 (UTC)
 Received: from bahia.redhat.com (ovpn-112-44.ams2.redhat.com [10.36.112.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 926BF5C1D5;
- Fri, 20 Nov 2020 17:46:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 131BD5C1D5;
+ Fri, 20 Nov 2020 17:46:54 +0000 (UTC)
 From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.0 4/8] spapr/xive: Add "nr-ipis" property
-Date: Fri, 20 Nov 2020 18:46:42 +0100
-Message-Id: <20201120174646.619395-5-groug@kaod.org>
+Subject: [PATCH for-6.0 5/8] spapr/xics: Drop unused argument to
+ xics_kvm_has_broken_disconnect()
+Date: Fri, 20 Nov 2020 18:46:43 +0100
+Message-Id: <20201120174646.619395-6-groug@kaod.org>
 In-Reply-To: <20201120174646.619395-1-groug@kaod.org>
 References: <20201120174646.619395-1-groug@kaod.org>
 MIME-Version: 1.0
@@ -45,13 +46,13 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: kaod.org
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=WINDOWS-1252
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
  helo=us-smtp-delivery-44.mimecast.com
 X-Spam_score_int: -11
 X-Spam_score: -1.2
 X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,120 +71,57 @@ Cc: Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The sPAPR XIVE device exposes a range of LISNs that the guest uses
-for IPIs. This range is currently sized according to the highest
-vCPU id, ie. spapr_max_server_number(), as obtained from the machine
-through the "nr_servers" argument of the generic spapr_irq_dt() call.
-
-This makes sense for the "ibm,interrupt-server-ranges" property of
-sPAPR XICS, but certainly not for "ibm,xive-lisn-ranges". The range
-should be sized to the maximum number of possible vCPUs. It happens
-that spapr_max_server_number() =3D=3D smp.max_cpus in practice with the
-machine default settings. This might not be the case though when
-VSMT is in use : we can end up with a much larger range (up to 8
-times bigger) than needed and waste LISNs. But most importantly, this
-lures people into thinking that IPI numbers are always equal to
-vCPU ids, which is wrong and bit us recently:
-
-https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg01476.html
-
-Introduce an "nr-ipis" property that the machine sets to smp.max_cpus
-before realizing the deice. Use that instead of "nr_servers" in
-spapr_xive_dt(). Have the machine to claim the same number of IPIs
-in spapr_irq_init().
-
-This doesn't cause any guest visible change when using the machine
-default settings (ie. VSMT =3D=3D smp.threads).
+Never used from the start.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- include/hw/ppc/spapr_xive.h | 8 ++++++++
- hw/intc/spapr_xive.c        | 4 +++-
- hw/ppc/spapr_irq.c          | 4 +++-
- 3 files changed, 14 insertions(+), 2 deletions(-)
+ include/hw/ppc/xics_spapr.h | 2 +-
+ hw/intc/xics_kvm.c          | 2 +-
+ hw/ppc/spapr_irq.c          | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
-index 7123ea07ed78..69b9fbc1b9a5 100644
---- a/include/hw/ppc/spapr_xive.h
-+++ b/include/hw/ppc/spapr_xive.h
-@@ -43,6 +43,14 @@ typedef struct SpaprXive {
+diff --git a/include/hw/ppc/xics_spapr.h b/include/hw/ppc/xics_spapr.h
+index 0b8182e40b33..de752c0d2c7e 100644
+--- a/include/hw/ppc/xics_spapr.h
++++ b/include/hw/ppc/xics_spapr.h
+@@ -38,6 +38,6 @@ DECLARE_INSTANCE_CHECKER(ICSState, ICS_SPAPR,
+ int xics_kvm_connect(SpaprInterruptController *intc, uint32_t nr_servers,
+                      Error **errp);
+ void xics_kvm_disconnect(SpaprInterruptController *intc);
+-bool xics_kvm_has_broken_disconnect(SpaprMachineState *spapr);
++bool xics_kvm_has_broken_disconnect(void);
 =20
-     /* DT */
-     gchar *nodename;
-+    /*
-+     * The sPAPR XIVE device needs to know how many vCPUs it
-+     * might be exposed to in order to size the IPI range in
-+     * "ibm,interrupt-server-ranges". It is the purpose of the
-+     * "nr-ipis" property which *must* be set to a non-null
-+     * value before realizing the sPAPR XIVE device.
-+     */
-+    uint32_t nr_ipis;
+ #endif /* XICS_SPAPR_H */
+diff --git a/hw/intc/xics_kvm.c b/hw/intc/xics_kvm.c
+index 68bb1914b9bb..570d635bcc08 100644
+--- a/hw/intc/xics_kvm.c
++++ b/hw/intc/xics_kvm.c
+@@ -484,7 +484,7 @@ void xics_kvm_disconnect(SpaprInterruptController *intc=
+)
+  * support destruction of a KVM XICS device while the VM is running.
+  * Required to start a spapr machine with ic-mode=3Ddual,kernel-irqchip=3D=
+on.
+  */
+-bool xics_kvm_has_broken_disconnect(SpaprMachineState *spapr)
++bool xics_kvm_has_broken_disconnect(void)
+ {
+     int rc;
 =20
-     /* Routing table */
-     XiveEAS       *eat;
-diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index e4dbf9c2c409..d13a2955ce9b 100644
---- a/hw/intc/spapr_xive.c
-+++ b/hw/intc/spapr_xive.c
-@@ -311,6 +311,7 @@ static void spapr_xive_realize(DeviceState *dev, Error =
-**errp)
-     /* Set by spapr_irq_init() */
-     g_assert(xive->nr_irqs);
-     g_assert(xive->nr_servers);
-+    g_assert(xive->nr_ipis);
-=20
-     sxc->parent_realize(dev, &local_err);
-     if (local_err) {
-@@ -608,6 +609,7 @@ static Property spapr_xive_properties[] =3D {
-      */
-     DEFINE_PROP_UINT32("nr-ends", SpaprXive, nr_ends_vmstate, 0),
-     DEFINE_PROP_UINT32("nr-servers", SpaprXive, nr_servers, 0),
-+    DEFINE_PROP_UINT32("nr-ipis", SpaprXive, nr_ipis, 0),
-     DEFINE_PROP_UINT64("vc-base", SpaprXive, vc_base, SPAPR_XIVE_VC_BASE),
-     DEFINE_PROP_UINT64("tm-base", SpaprXive, tm_base, SPAPR_XIVE_TM_BASE),
-     DEFINE_PROP_UINT8("hv-prio", SpaprXive, hv_prio, 7),
-@@ -698,7 +700,7 @@ static void spapr_xive_dt(SpaprInterruptController *int=
-c, uint32_t nr_servers,
-     /* Interrupt number ranges for the IPIs */
-     uint32_t lisn_ranges[] =3D {
-         cpu_to_be32(SPAPR_IRQ_IPI),
--        cpu_to_be32(SPAPR_IRQ_IPI + nr_servers),
-+        cpu_to_be32(SPAPR_IRQ_IPI + xive->nr_ipis),
-     };
-     /*
-      * EQ size - the sizes of pages supported by the system 4K, 64K,
 diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-index 8c5627225636..a0fc474ecb06 100644
+index a0fc474ecb06..2dacbecfd5fd 100644
 --- a/hw/ppc/spapr_irq.c
 +++ b/hw/ppc/spapr_irq.c
-@@ -325,12 +325,14 @@ void spapr_irq_init(SpaprMachineState *spapr, Error *=
-*errp)
-=20
-     if (spapr->irq->xive) {
-         uint32_t nr_servers =3D spapr_max_server_number(spapr);
-+        uint32_t max_cpus =3D MACHINE(spapr)->smp.max_cpus;
-         DeviceState *dev;
-         int i;
-=20
-         dev =3D qdev_new(TYPE_SPAPR_XIVE);
-         qdev_prop_set_uint32(dev, "nr-irqs", smc->nr_xirqs + SPAPR_XIRQ_BA=
-SE);
-         qdev_prop_set_uint32(dev, "nr-servers", nr_servers);
-+        qdev_prop_set_uint32(dev, "nr-ipis", max_cpus);
-         object_property_set_link(OBJECT(dev), "xive-fabric", OBJECT(spapr)=
-,
-                                  &error_abort);
-         sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-@@ -338,7 +340,7 @@ void spapr_irq_init(SpaprMachineState *spapr, Error **e=
-rrp)
-         spapr->xive =3D SPAPR_XIVE(dev);
-=20
-         /* Enable the CPU IPIs */
--        for (i =3D 0; i < nr_servers; ++i) {
-+        for (i =3D 0; i < max_cpus; ++i) {
-             SpaprInterruptControllerClass *sicc
-                 =3D SPAPR_INTC_GET_CLASS(spapr->xive);
-=20
+@@ -186,7 +186,7 @@ static int spapr_irq_check(SpaprMachineState *spapr, Er=
+ror **errp)
+     if (kvm_enabled() &&
+         spapr->irq =3D=3D &spapr_irq_dual &&
+         kvm_kernel_irqchip_required() &&
+-        xics_kvm_has_broken_disconnect(spapr)) {
++        xics_kvm_has_broken_disconnect()) {
+         error_setg(errp,
+             "KVM is incompatible with ic-mode=3Ddual,kernel-irqchip=3Don")=
+;
+         error_append_hint(errp,
 --=20
 2.26.2
 
