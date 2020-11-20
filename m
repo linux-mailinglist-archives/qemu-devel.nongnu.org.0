@@ -2,79 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9357E2BA569
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 10:06:38 +0100 (CET)
-Received: from localhost ([::1]:47582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E1222BA581
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 10:10:49 +0100 (CET)
+Received: from localhost ([::1]:51396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg2NJ-0006F3-5s
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 04:06:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59660)
+	id 1kg2RL-00081n-HY
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 04:10:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kg2Lv-0005iE-SF
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 04:05:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43189)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kg2Lt-0005uG-Bi
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 04:05:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605863107;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iajxhw1cLYwzpab802gnIudWvVm2FWiyEDPQ/taY/y4=;
- b=fSigVNr3fs4iTLfWZNCCctcZJsdo8A+tiEOZ6K8TGBwKVSQVH+HimbJsyDRBeEK2gFBiuC
- TeX0QGwdb2T1xnQyifVqsZdqsMBYKEsFSIw61s0DlYi2eWBNATMags5QfynSxEFRXGIfH/
- NWCJhxQHKnvvxRf2bQV9HPmoL8rrChw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-4-nPEsrrCSMR6bl94XIVmr1w-1; Fri, 20 Nov 2020 04:05:05 -0500
-X-MC-Unique: nPEsrrCSMR6bl94XIVmr1w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26C82100B716;
- Fri, 20 Nov 2020 09:05:04 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
- [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EB9BE5C1D5;
- Fri, 20 Nov 2020 09:05:03 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 80E5F11358BA; Fri, 20 Nov 2020 10:05:02 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kg2PT-00077U-FE
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 04:08:51 -0500
+Received: from mx2.suse.de ([195.135.220.15]:53136)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kg2PR-0007M5-Lw
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 04:08:51 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id B367EAC23;
+ Fri, 20 Nov 2020 09:08:47 +0000 (UTC)
+Subject: Re: [RFC v3 9/9] i386: split cpu accelerators from cpu.c
 To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH v2 3/8] qnum: QNumValue type for QNum value literals
-References: <20201116224143.1284278-1-ehabkost@redhat.com>
- <20201116224143.1284278-4-ehabkost@redhat.com>
- <CAJ+F1C+YUZdP56MuLtZbO0fK6rPsDosgxXG4zaDq=mjwqsV74A@mail.gmail.com>
- <20201117144246.GD1235237@habkost.net>
- <CAJ+F1CLZg-hhuK2ffRzVaWiZKe2Aqvf0-mqxXGAzscSa8FmCNw@mail.gmail.com>
- <87mtzdd4p7.fsf@dusky.pond.sub.org>
- <20201119182158.GX1509407@habkost.net>
- <20201119205502.GC1509407@habkost.net>
-Date: Fri, 20 Nov 2020 10:05:02 +0100
-In-Reply-To: <20201119205502.GC1509407@habkost.net> (Eduardo Habkost's message
- of "Thu, 19 Nov 2020 15:55:02 -0500")
-Message-ID: <87k0ug760x.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+References: <20201118102936.25569-1-cfontana@suse.de>
+ <20201118102936.25569-10-cfontana@suse.de>
+ <20201118182845.GN1509407@habkost.net>
+ <5f6c7b5c-a48a-019d-2646-d0670aeb46e1@suse.de>
+ <20201119192305.GB1509407@habkost.net>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <eb8a316c-4c29-69ea-82b4-f00a53218e11@suse.de>
+Date: Fri, 20 Nov 2020 10:08:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20201119192305.GB1509407@habkost.net>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,80 +58,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- QEMU <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Wenchao Wang <wenchao.wang@intel.com>,
+ haxm-team@intel.com, Cameron Esfahani <dirty@apple.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Bruce Rogers <brogers@suse.com>, Olaf Hering <ohering@suse.de>,
+ Colin Xu <colin.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eduardo Habkost <ehabkost@redhat.com> writes:
+On 11/19/20 8:23 PM, Eduardo Habkost wrote:
+> On Thu, Nov 19, 2020 at 09:53:09AM +0100, Claudio Fontana wrote:
+>> Hi,
+>>
+>> On 11/18/20 7:28 PM, Eduardo Habkost wrote:
+>>> On Wed, Nov 18, 2020 at 11:29:36AM +0100, Claudio Fontana wrote:
+>>>> split cpu.c into:
+>>>>
+>>>> cpu.c            cpuid and common x86 cpu functionality
+>>>> host-cpu.c       host x86 cpu functions and "host" cpu type
+>>>> kvm/cpu.c        KVM x86 cpu type
+>>>> hvf/cpu.c        HVF x86 cpu type
+>>>> tcg/cpu.c        TCG x86 cpu type
+>>>>
+>>>> The accel interface of the X86CPUClass is set at MODULE_INIT_ACCEL_CPU
+>>>> time, when the accelerator is known.
+>>>>
+>>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>>>> ---
+>>> [...]
+>>>> +/**
+>>>> + * X86CPUAccel:
+>>>> + * @name: string name of the X86 CPU Accelerator
+>>>> + *
+>>>> + * @common_class_init: initializer for the common cpu
+>>>
+>>> So this will be called for every single CPU class.
+>>
+>> Not really, it's called for every TYPE_X86_CPU cpu class (if an accel interface is registered).
+> 
+> This means every single non-abstract CPU class in
+> qemu-system-x86_64, correct?
+> 
+>>
+>> This function extends the existing x86_cpu_common_class_init (target/i386/cpu.c),
+>> where some methods of the base class CPUClass are set.
+>>
+>>>
+>>>> + * @instance_init: cpu instance initialization
+>>>> + * @realizefn: realize function, called first in x86 cpu realize
+>>>> + *
+>>>> + * X86 CPU accelerator-specific CPU initializations
+>>>> + */
+>>>> +
+>>>> +struct X86CPUAccel {
+>>>> +    const char *name;
+>>>> +
+>>>> +    void (*common_class_init)(X86CPUClass *xcc);
+>>>> +    void (*instance_init)(X86CPU *cpu);
+>>>> +    void (*realizefn)(X86CPU *cpu, Error **errp);
+>>>>  };
+>>>>  
+>>>> +void x86_cpu_accel_init(const X86CPUAccel *accel);
+>>> [...]
+>>>> +static void x86_cpu_accel_init_aux(ObjectClass *klass, void *opaque)
+>>>> +{
+>>>> +    X86CPUClass *xcc = X86_CPU_CLASS(klass);
+>>>> +    const X86CPUAccel **accel = opaque;
+>>>> +
+>>>> +    xcc->accel = *accel;
+>>>> +    xcc->accel->common_class_init(xcc);
+>>>> +}
+>>>> +
+>>>> +void x86_cpu_accel_init(const X86CPUAccel *accel)
+>>>> +{
+>>>> +    object_class_foreach(x86_cpu_accel_init_aux, TYPE_X86_CPU, false, &accel);
+>>>> +}
+>>>
+>>> This matches the documented behavior.
+>>>
+>>> [...]
+>>>> +void host_cpu_class_init(X86CPUClass *xcc)
+>>>> +{
+>>>> +    xcc->host_cpuid_required = true;
+>>>> +    xcc->ordering = 8;
+>>>> +    xcc->model_description =
+>>>> +        g_strdup_printf("%s processor with all supported host features ",
+>>>> +                        xcc->accel->name);
+>>>> +}
+>>> [...]
+>>>> +static void hvf_cpu_common_class_init(X86CPUClass *xcc)
+>>>> +{
+>>>> +    host_cpu_class_init(xcc);
+>>>
+>>> Why are you calling host_cpu_class_init() for all CPU types?
+>>
+>> I am not..
+> 
+> I don't get it.  You are calling host_cpu_class_init() for every
+> single non-abstract TYPE_X86_CPU subclass (which includes all CPU
+> models in qemu-system-x86_64), and I don't understand why, or if
+> this is really intentional.
 
-> On Thu, Nov 19, 2020 at 01:21:58PM -0500, Eduardo Habkost wrote:
->> On Thu, Nov 19, 2020 at 11:24:52AM +0100, Markus Armbruster wrote:
-> [...]
->> > >> > > +    return qnum_from_value((QNumValue) QNUM_VAL_INT(value));
->> >=20
->> > No space between between (type) and its operand, please.
->> >=20
->> > Could we lift the cast into the macro somehow?
->>=20
->> I think we can.  I had thought the cast in the macro would break
->> usage as static variable initializers.  I was wrong.
->
-> Actually, including the cast in the macro breaks QLIT_QDICT
-> initializers (which use (QLitDictEntry[]) compound literals), and
-> I don't know why.
->
-> Compound literals in initializers of static variables is a GCC
-> extension.  I don't understand why it doesn't work inside array
-> compound literals, though.
->
-> Any language lawyers around?
->
-> This works:
->
->   typedef struct QLit {
->       int x, y;
->   } QLit;
->  =20
->   typedef struct Entry {
->       int key;
->       QLit value;
->   } Entry;
->  =20
->   Entry e =3D { .key =3D 0, .value =3D (QLit) { 1,   2 } };
->
-> This works:
->
->   Entry *es1 =3D (Entry[]) {
->       { .key =3D 0, .value =3D { 1,   2 } },
->   };
->
-> But this doesn't:
->
->   Entry *es2 =3D (Entry[]) {
->       { .key =3D 0, .value =3D (QLit) { 1,   2 } },
->   };
->
-> dict.c:16:24: error: initializer element is not constant
->    16 | Entry *es2 =3D (Entry[]) {
->       |                        ^
-> dict.c:16:24: note: (near initialization for =E2=80=98es2=E2=80=99)
->
-> (gcc (GCC) 10.2.1 20201005 (Red Hat 10.2.1-5))
+It is really intentional what is done here,
 
-Can't explain this offhand.
+when HVF accelerator is enabled, and only when the HVF accelerator is enabled,
 
-Another pecularity: a const QLitObject is for the most part not actually
-const.  Evidence:
+all X86 CPU classes and subclasses (cpu models, which have been implemented as subclasses of TYPE_X86_CPU), are updated with a link to the accelerator-specific HVF interface.
 
-    $ size bld-x86/libqemu-x86_64-softmmu.fa.p/meson-generated_.._qapi_qapi=
--introspect.c.o
-       text=09   data=09    bss=09    dec=09    hex=09filename
-      19590=09 351600=09     48=09 371238=09  5aa26=09bld-x86/libqemu-x86_6=
-4-softmmu.fa.p/meson-generated_.._qapi_qapi-introspect.c.o
 
-Score 5 out of 100 points.
+> 
+>>
+>>>
+>>>> +}
+>>> [...]
+>>>> +static void kvm_cpu_common_class_init(X86CPUClass *xcc)
+>>>> +{
+>>>> +    host_cpu_class_init(xcc);
+>>>> +}
+>>>
+>>> Same question as above.
+>>>
+>>
+>> Ciao,
+>>
+>> Claudio
+>>
+> 
 
 
