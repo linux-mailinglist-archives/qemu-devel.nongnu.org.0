@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B0D82BB4FF
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 20:17:58 +0100 (CET)
-Received: from localhost ([::1]:56638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD5A92BB4C7
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 20:09:34 +0100 (CET)
+Received: from localhost ([::1]:37630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kgBuv-0001zU-6n
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 14:17:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41772)
+	id 1kgBmn-0002Ll-UG
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 14:09:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1kgBZ2-0006rs-L2
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 13:55:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43039)
+ id 1kgBZB-0006wp-Pu
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 13:55:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50744)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1kgBZ0-0007sj-2S
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 13:55:20 -0500
+ id 1kgBZ9-0007y9-Pp
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 13:55:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605898517;
+ s=mimecast20190719; t=1605898525;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2NtO6niIGV95EKH2ITwzudVB3tBfrLrd6tahFyFqPtU=;
- b=QsFByzEME5Iqh723uJG8oIS89Qow2A6+5/3qLL1/jrNLFapK7+6KDYVIcPWicYT1V0V7WZ
- Lua+549CDpuldfbk7C6BDettL53ePUbwjyD12bZuyQV57yozyHIZdJGyp96W75SbHD4ILF
- zDtxy3EFEvWa7UCRTi+Try6B333FIs4=
+ bh=0UHivzc6s/JNkkNVrXBKkPRfSO+gYprJIEU1Xp+Kgh8=;
+ b=QWM/Vy++egcDcQqlX7DvSZZ9zN/B01vUeA9siEzqXmD4oSyfg0OIFM0eQPocRTvzRNH8AZ
+ fk6k555VehMjef3F16Y5BW7T2yxN3EOSRipU6LCDnNo2KGlTkaPGKrLCO/R8eNVzu6/M5E
+ PLvVxoZhRX83SqhOB+wtHAmgq4NNTM4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-540-zR19Dr3RMGSdd3PWouysKg-1; Fri, 20 Nov 2020 13:55:14 -0500
-X-MC-Unique: zR19Dr3RMGSdd3PWouysKg-1
+ us-mta-206-70ESR6YbNbOEQU5MD20vSA-1; Fri, 20 Nov 2020 13:55:23 -0500
+X-MC-Unique: 70ESR6YbNbOEQU5MD20vSA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE8D25B375;
- Fri, 20 Nov 2020 18:55:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22C821842159;
+ Fri, 20 Nov 2020 18:55:21 +0000 (UTC)
 Received: from eperezma.remote.csb (ovpn-112-88.ams2.redhat.com [10.36.112.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F0B3E5C1D5;
- Fri, 20 Nov 2020 18:54:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 130455C1D5;
+ Fri, 20 Nov 2020 18:55:11 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 16/27] virtio: Expose virtqueue_alloc_element
-Date: Fri, 20 Nov 2020 19:50:54 +0100
-Message-Id: <20201120185105.279030-17-eperezma@redhat.com>
+Subject: [RFC PATCH 17/27] vhost: add vhost_vring_set_notification_rcu
+Date: Fri, 20 Nov 2020 19:50:55 +0100
+Message-Id: <20201120185105.279030-18-eperezma@redhat.com>
 In-Reply-To: <20201120185105.279030-1-eperezma@redhat.com>
 References: <20201120185105.279030-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -93,41 +93,68 @@ Cc: kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Specify VirtQueueElement * as return type makes no harm at this moment.
-
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- include/hw/virtio/virtio.h | 2 ++
- hw/virtio/virtio.c         | 3 ++-
- 2 files changed, 4 insertions(+), 1 deletion(-)
+ hw/virtio/vhost-sw-lm-ring.h |  4 ++++
+ hw/virtio/vhost-sw-lm-ring.c | 23 +++++++++++++++++++++++
+ 2 files changed, 27 insertions(+)
 
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index 79212141a6..ee8fe96f32 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -196,6 +196,8 @@ void virtqueue_fill(VirtQueue *vq, const VirtQueueElement *elem,
-                     unsigned int len, unsigned int idx);
+diff --git a/hw/virtio/vhost-sw-lm-ring.h b/hw/virtio/vhost-sw-lm-ring.h
+index 29d21feaf4..c537500d9e 100644
+--- a/hw/virtio/vhost-sw-lm-ring.h
++++ b/hw/virtio/vhost-sw-lm-ring.h
+@@ -19,6 +19,10 @@ typedef struct VhostShadowVirtqueue VhostShadowVirtqueue;
  
- void virtqueue_map(VirtIODevice *vdev, VirtQueueElement *elem);
-+VirtQueueElement *virtqueue_alloc_element(size_t sz, unsigned out_num,
-+                                          unsigned in_num);
- void *virtqueue_pop(VirtQueue *vq, size_t sz);
- unsigned int virtqueue_drop_all(VirtQueue *vq);
- void *qemu_get_virtqueue_element(VirtIODevice *vdev, QEMUFile *f, size_t sz);
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index ad9dc5dfa7..a89525f067 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -1400,7 +1400,8 @@ void virtqueue_map(VirtIODevice *vdev, VirtQueueElement *elem)
-                                                                         false);
+ bool vhost_vring_kick(VhostShadowVirtqueue *vq);
+ int vhost_vring_add(VhostShadowVirtqueue *vq, VirtQueueElement *elem);
++
++/* Called within rcu_read_lock().  */
++void vhost_vring_set_notification_rcu(VhostShadowVirtqueue *vq, bool enable);
++
+ void vhost_vring_write_addr(const VhostShadowVirtqueue *vq,
+ 	                    struct vhost_vring_addr *addr);
+ 
+diff --git a/hw/virtio/vhost-sw-lm-ring.c b/hw/virtio/vhost-sw-lm-ring.c
+index aed005c2d9..c3244c550e 100644
+--- a/hw/virtio/vhost-sw-lm-ring.c
++++ b/hw/virtio/vhost-sw-lm-ring.c
+@@ -34,6 +34,9 @@ typedef struct VhostShadowVirtqueue {
+     /* Next free descriptor */
+     uint16_t free_head;
+ 
++    /* Cache for exposed notification flag */
++    bool notification;
++
+     vring_desc_t descs[];
+ } VhostShadowVirtqueue;
+ 
+@@ -60,6 +63,26 @@ bool vhost_vring_kick(VhostShadowVirtqueue *vq)
+                                        : true;
  }
  
--static void *virtqueue_alloc_element(size_t sz, unsigned out_num, unsigned in_num)
-+VirtQueueElement *virtqueue_alloc_element(size_t sz, unsigned out_num,
-+                                          unsigned in_num)
- {
-     VirtQueueElement *elem;
-     size_t in_addr_ofs = QEMU_ALIGN_UP(sz, __alignof__(elem->in_addr[0]));
++void vhost_vring_set_notification_rcu(VhostShadowVirtqueue *vq, bool enable)
++{
++    uint16_t notification_flag;
++
++    if (vq->notification == enable) {
++        return;
++    }
++
++    notification_flag = virtio_tswap16(vq->vdev, VRING_AVAIL_F_NO_INTERRUPT);
++
++    vq->notification = enable;
++    if (enable) {
++        vq->vring.avail->flags &= ~notification_flag;
++    } else {
++        vq->vring.avail->flags |= notification_flag;
++    }
++
++    smp_mb();
++}
++
+ static void vhost_vring_write_descs(VhostShadowVirtqueue *vq,
+                                     const struct iovec *iovec,
+                                     size_t num, bool more_descs, bool write)
 -- 
 2.18.4
 
