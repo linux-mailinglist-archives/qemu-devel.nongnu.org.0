@@ -2,93 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 868722BB906
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 23:31:28 +0100 (CET)
-Received: from localhost ([::1]:46040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D3C62BBA48
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Nov 2020 00:44:52 +0100 (CET)
+Received: from localhost ([::1]:35982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kgEwA-0003Cm-TX
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 17:31:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58490)
+	id 1kgG5C-0007Ri-L6
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 18:44:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jannh@google.com>) id 1kgEuk-0002kF-6p
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 17:29:58 -0500
-Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:34904)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jannh@google.com>) id 1kgEuh-0006IT-PZ
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 17:29:57 -0500
-Received: by mail-lf1-x142.google.com with SMTP id a9so15653143lfh.2
- for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 14:29:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rN2oDMLkDXvF2d0qSHyE1KGJoI0coYurxX8BvFhI+bY=;
- b=G5VJUQuazvZ46rb86s40Pn6WkJ8vF48RjwI203WsXZ9Dd/97U9zAuv02njfWIOciBV
- QuSh0dRcRHb6kNB5R91cqfNYC3Nx6BskGC8Id4k04GJmqF+iTSL0z/vx19itSZMS+dny
- GX6UFvM4nLEOfv88ofsMR/2MQJp/CTfeCiBq4RMzNChRcKghzB+b2vhazIrHXFWol38n
- pfrMAxiWdO7fXF7LhFiySxUhhlwuVHmMt2IU2HAhlY57qt8oywDFoatbjiKMM0J1tI0a
- F2+QJ/feDTYc37U0EswhVkKC6ECmTYbgvZ1lbayAJ7xC0KxdUPr0mf9Jsvw5GLqRUrhv
- ttbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rN2oDMLkDXvF2d0qSHyE1KGJoI0coYurxX8BvFhI+bY=;
- b=hvEkrU0DmUHJuA5VuRn0Oqid8mIHjMnhCFmlXW3TVoewGobTQonpjj5itKo2Su1F9Q
- qUJ9sJVJqEjFmIRqfO1OvrHLxTEQvv3Qqe2O2KSh0WiBQtFjQHagV6Lgc3wJL/dU3PBt
- JLIoYLDQbmXe7rQ6+J8XAfWiTYarJ2dvfAGha+EHoqh6Daxlb7JfrIYxVxPBr8wTGJ3W
- 1PIJKtV2bS4rf+3btbadlRDdjy+TVA8/xVAm335SpC4ZUq6dInsry1LuQK5A76FodJaz
- 7QtkQ1h3x5fpAuCRc1HXXl1OjMDwn2nrtBgb/yQjrl++/PDQoodGy6MNxwceDSowhF81
- 8LeA==
-X-Gm-Message-State: AOAM531TGYsRpAepsG7NKsH53IbTLPYj84lqOdilKvIFpBZBhVl1O+Lq
- X+lXcWgkqCLCCkQPMkVSZNy1PkrjwgSzXcB1zM330g==
-X-Google-Smtp-Source: ABdhPJz7KhY3kkkWmPWTE7oEp1RrYqakWRzVBA4phAIJXfRGBYOb72PMtSpg2EcEFuNfIDhSB+mhcRErvgpdubnMvSw=
-X-Received: by 2002:a19:686:: with SMTP id 128mr8504175lfg.198.1605911392397; 
- Fri, 20 Nov 2020 14:29:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kgG2n-0005oQ-7F
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 18:42:21 -0500
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:30492)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kgG2l-0003l9-L2
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 18:42:20 -0500
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-116-9dTHljj-NZ2STFD1ozJHUQ-1; Fri, 20 Nov 2020 18:42:12 -0500
+X-MC-Unique: 9dTHljj-NZ2STFD1ozJHUQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4BA0151A9;
+ Fri, 20 Nov 2020 23:42:11 +0000 (UTC)
+Received: from bahia.redhat.com (ovpn-112-44.ams2.redhat.com [10.36.112.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CEDF760BFA;
+ Fri, 20 Nov 2020 23:42:09 +0000 (UTC)
+From: Greg Kurz <groug@kaod.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-6.0 0/9] spapr: Perform hotplug sanity checks at pre-plug
+Date: Sat, 21 Nov 2020 00:41:59 +0100
+Message-Id: <20201120234208.683521-1-groug@kaod.org>
 MIME-Version: 1.0
-References: <3E05451B-A9CD-4719-99D0-72750A304044@amazon.com>
-In-Reply-To: <3E05451B-A9CD-4719-99D0-72750A304044@amazon.com>
-From: Jann Horn <jannh@google.com>
-Date: Fri, 20 Nov 2020 23:29:25 +0100
-Message-ID: <CAG48ez2VAu6oARGVZ+muDK9_6_38KVUTJf7utz5Nn=AsmN17nA@mail.gmail.com>
-Subject: Re: [PATCH v2] drivers/virt: vmgenid: add vm generation id driver
-To: "Catangiu, Adrian Costin" <acatan@amazon.com>
-Cc: "Graf (AWS), Alexander" <graf@amazon.de>,
- Christian Borntraeger <borntraeger@de.ibm.com>, 
- "Jason A. Donenfeld" <Jason@zx2c4.com>, Willy Tarreau <w@1wt.eu>, "MacCarthaigh,
- Colm" <colmmacc@amazon.com>, 
- Andy Lutomirski <luto@kernel.org>, "Theodore Y. Ts'o" <tytso@mit.edu>,
- Eric Biggers <ebiggers@kernel.org>, 
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- kernel list <linux-kernel@vger.kernel.org>, 
- "Woodhouse, David" <dwmw@amazon.co.uk>, "bonzini@gnu.org" <bonzini@gnu.org>,
- "Singh, Balbir" <sblbir@amazon.com>, 
- "Weiss, Radu" <raduweis@amazon.com>, "oridgar@gmail.com" <oridgar@gmail.com>, 
- "ghammer@redhat.com" <ghammer@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, 
- Qemu Developers <qemu-devel@nongnu.org>, KVM list <kvm@vger.kernel.org>, 
- Michal Hocko <mhocko@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Pavel Machek <pavel@ucw.cz>, Linux API <linux-api@vger.kernel.org>,
- "mpe@ellerman.id.au" <mpe@ellerman.id.au>, 
- linux-s390 <linux-s390@vger.kernel.org>,
- "areber@redhat.com" <areber@redhat.com>, 
- Pavel Emelyanov <ovzxemul@gmail.com>, Andrey Vagin <avagin@gmail.com>,
- Mike Rapoport <rppt@kernel.org>, Dmitry Safonov <0x7f454c46@gmail.com>,
- Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, 
- "gil@azul.com" <gil@azul.com>, "asmehra@redhat.com" <asmehra@redhat.com>, 
- "dgunigun@redhat.com" <dgunigun@redhat.com>,
- "vijaysun@ca.ibm.com" <vijaysun@ca.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::142;
- envelope-from=jannh@google.com; helo=mail-lf1-x142.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,31 +62,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-ppc@nongnu.org,
+ Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 16, 2020 at 4:35 PM Catangiu, Adrian Costin
-<acatan@amazon.com> wrote:
-> This patch is a driver that exposes a monotonic incremental Virtual
-> Machine Generation u32 counter via a char-dev FS interface that
-> provides sync and async VmGen counter updates notifications. It also
-> provides VmGen counter retrieval and confirmation mechanisms.
->
-> The hw provided UUID is not exposed to userspace, it is internally
-> used by the driver to keep accounting for the exposed VmGen counter.
-> The counter starts from zero when the driver is initialized and
-> monotonically increments every time the hw UUID changes (the VM
-> generation changes).
->
-> On each hw UUID change, the new hypervisor-provided UUID is also fed
-> to the kernel RNG.
+Igor recently suggested that instead of failing in spapr_drc_attach()=0D
+at plug time we should rather check that the DRC is attachable at=0D
+pre-plug time. This allows to error out before the hot-plugged device=0D
+is even realized and to come up with simpler plug callbacks.=0D
+=0D
+sPAPR currently supports hotplug of PCI devices, PHBs, CPU cores,=0D
+PC-DIMM/NVDIMM memory and TPM proxy devices. Some of these already=0D
+do sanity checks at pre-plug that are sufficient to ensure the DRC=0D
+are attachables. Some others don't even have a pre-plug handler.=0D
+=0D
+This series adds the missing pieces so that all failing conditions=0D
+are caught at pre-plug time instead of plug time for all devices.=0D
+=0D
+Greg Kurz (9):=0D
+  spapr: Do PCI device hotplug sanity checks at pre-plug only=0D
+  spapr: Do NVDIMM/PC-DIMM device hotplug sanity checks at pre-plug only=0D
+  spapr: Fix pre-2.10 dummy ICP hack=0D
+  spapr: Set compat mode in spapr_reset_vcpu()=0D
+  spapr: Simplify error path of spapr_core_plug()=0D
+  spapr: Make PHB placement functions and spapr_pre_plug_phb() return=0D
+    status=0D
+  spapr: Do PHB hoplug sanity check at pre-plug=0D
+  spapr: Do TPM proxy hotplug sanity checks at pre-plug=0D
+  spapr: spapr_drc_attach() cannot fail=0D
+=0D
+ include/hw/ppc/spapr.h        |   2 +-=0D
+ include/hw/ppc/spapr_drc.h    |   8 +-=0D
+ include/hw/ppc/spapr_nvdimm.h |   2 +-=0D
+ hw/ppc/spapr.c                | 157 ++++++++++++++++------------------=0D
+ hw/ppc/spapr_cpu_core.c       |  13 +++=0D
+ hw/ppc/spapr_drc.c            |   8 +-=0D
+ hw/ppc/spapr_nvdimm.c         |  11 +--=0D
+ hw/ppc/spapr_pci.c            |  43 +++++++---=0D
+ 8 files changed, 138 insertions(+), 106 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
-As for v1:
-
-Is there a reasonable usecase for the "confirmation" mechanism? It
-doesn't seem very useful to me.
-
-How do you envision integrating this with libraries that have to work
-in restrictive seccomp sandboxes? If this was in the vDSO, that would
-be much easier.
 
