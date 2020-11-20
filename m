@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DDEC2BB3F9
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 19:54:54 +0100 (CET)
-Received: from localhost ([::1]:33786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 660672BB3FA
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 19:54:55 +0100 (CET)
+Received: from localhost ([::1]:33884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kgBYb-0005WF-Ec
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 13:54:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40668)
+	id 1kgBYc-0005Yk-Dz
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 13:54:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1kgBVl-00045U-O7
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 13:51:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35261)
+ id 1kgBVp-00048L-8u
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 13:52:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44957)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1kgBVZ-0006sY-Cz
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 13:51:56 -0500
+ id 1kgBVn-0006wv-B7
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 13:52:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605898295;
+ s=mimecast20190719; t=1605898318;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VF68uyWFilZpHj5bABsThH0akvfjRoVBR9ksieJzwHo=;
- b=R4QjhXmk3NTOZ5E1hI4nQ0rI7jo+E6TZDmhwBc7LGnGJJz9wQv6riO0NWMERY7lW305SUH
- CxERRyiEF9wEiuuPh4eeZp2uR7GzwzhqCZxLXGiQ0Meau3DF9tKKZKx+W8Z9LTlOl3JqF0
- mq/+Ia3EyAH2be5pGfwUXgHEh1wBZ8k=
+ bh=4varrbTkFQFU3BGiSDv77OV+Am6FgvunCFxXqhYibgk=;
+ b=TnUoj5tlsNT0shyl+zdVVBGZ/18D3iyeTOEN8LWCVhHzNSHp8id6wWT0zq73779kJ3AkPZ
+ oemY6TirrHp4RV97AAtIy187A48jnRsZ1WW/ABNyNQU1SG7vdTgmW27QtsjVx7HDNgQYb0
+ KhzHcyp04YOHLZuvuVYfuj6ezyyuT+o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-125-5oC7RBGnOfe3nRKgW98M6A-1; Fri, 20 Nov 2020 13:51:33 -0500
-X-MC-Unique: 5oC7RBGnOfe3nRKgW98M6A-1
+ us-mta-325-icKHBA9mMzOymkuJgqFU_Q-1; Fri, 20 Nov 2020 13:51:55 -0500
+X-MC-Unique: icKHBA9mMzOymkuJgqFU_Q-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2F0E1842159;
- Fri, 20 Nov 2020 18:51:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA084107AD30;
+ Fri, 20 Nov 2020 18:51:52 +0000 (UTC)
 Received: from eperezma.remote.csb (ovpn-112-88.ams2.redhat.com [10.36.112.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 440965C1D5;
- Fri, 20 Nov 2020 18:51:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2B5435C1D5;
+ Fri, 20 Nov 2020 18:51:43 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 01/27] vhost: Add vhost_dev_can_log
-Date: Fri, 20 Nov 2020 19:50:39 +0100
-Message-Id: <20201120185105.279030-2-eperezma@redhat.com>
+Subject: [RFC PATCH 03/27] vhost: Move log resize/put to vhost_dev_set_log
+Date: Fri, 20 Nov 2020 19:50:41 +0100
+Message-Id: <20201120185105.279030-4-eperezma@redhat.com>
 In-Reply-To: <20201120185105.279030-1-eperezma@redhat.com>
 References: <20201120185105.279030-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -93,38 +93,63 @@ Cc: kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just syntactic sugar.
+Software assisted live migration does not allocate vhost log.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ hw/virtio/vhost.c | 24 +++++++++---------------
+ 1 file changed, 9 insertions(+), 15 deletions(-)
 
 diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 614ccc2bcb..2bd8cdf893 100644
+index 2adb2718c1..9cbd52a7f1 100644
 --- a/hw/virtio/vhost.c
 +++ b/hw/virtio/vhost.c
-@@ -61,6 +61,11 @@ bool vhost_has_free_slot(void)
-     return slots_limit > used_memslots;
- }
+@@ -828,6 +828,10 @@ static int vhost_dev_set_log(struct vhost_dev *dev, bool enable_log)
+     int r, i, idx;
+     hwaddr addr;
  
-+static bool vhost_dev_can_log(const struct vhost_dev *hdev)
-+{
-+    return hdev->features & (0x1ULL << VHOST_F_LOG_ALL);
-+}
++    if (enable_log) {
++        vhost_dev_log_resize(dev, vhost_get_log_size(dev));
++    }
 +
- static void vhost_dev_sync_region(struct vhost_dev *dev,
-                                   MemoryRegionSection *section,
-                                   uint64_t mfirst, uint64_t mlast,
-@@ -1347,7 +1352,7 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
-     };
+     r = vhost_dev_set_features(dev, enable_log);
+     if (r < 0) {
+         goto err_features;
+@@ -850,6 +854,10 @@ static int vhost_dev_set_log(struct vhost_dev *dev, bool enable_log)
+             goto err_vq;
+         }
+     }
++
++    if (!enable_log) {
++        vhost_log_put(dev, false);
++    }
+     return 0;
+ err_vq:
+     for (; i >= 0; --i) {
+@@ -877,22 +885,8 @@ static int vhost_migration_log(MemoryListener *listener,
+         return 0;
+     }
  
-     if (hdev->migration_blocker == NULL) {
--        if (!(hdev->features & (0x1ULL << VHOST_F_LOG_ALL))) {
-+        if (!vhost_dev_can_log(hdev)) {
-             error_setg(&hdev->migration_blocker,
-                        "Migration disabled: vhost lacks VHOST_F_LOG_ALL feature.");
-         } else if (vhost_dev_log_is_shared(hdev) && !qemu_memfd_alloc_check()) {
+-    r = 0;
+-    if (!enable) {
+-        r = device_cb(dev, false);
+-        if (r < 0) {
+-            goto check_dev_state;
+-        }
+-        vhost_log_put(dev, false);
+-    } else {
+-        vhost_dev_log_resize(dev, vhost_get_log_size(dev));
+-        r = device_cb(dev, true);
+-        if (r < 0) {
+-            goto check_dev_state;
+-        }
+-    }
++    r = device_cb(dev, enable);
+ 
+-check_dev_state:
+     dev->log_enabled = enable;
+     /*
+      * vhost-user-* devices could change their state during log
 -- 
 2.18.4
 
