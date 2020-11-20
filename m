@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 931412BB4C3
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 20:05:43 +0100 (CET)
-Received: from localhost ([::1]:59626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE6F92BB4B5
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 20:02:00 +0100 (CET)
+Received: from localhost ([::1]:49946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kgBj4-00082O-LU
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 14:05:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40696)
+	id 1kgBfT-0003yn-Mf
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 14:01:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1kgBVo-000478-D4
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 13:52:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41784)
+ id 1kgBWS-0004gd-Do
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 13:52:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46239)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1kgBVk-0006vi-Vk
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 13:52:00 -0500
+ id 1kgBWP-00078J-Vd
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 13:52:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605898310;
+ s=mimecast20190719; t=1605898357;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hB04k6BmQFwa3NAoUh0c6SZfxRFuR9AWa1v2aVbfxk4=;
- b=PwIRLYwrvqHT4UyXpKM8/TF5+veSWLwJUFRKifbdWDurUZQJ079MvHlYSUhvxknQANYIpx
- n8ByMmt5LXYNX6psf25QvY7+OTIilLtQSLwJDfWbJsIwW6p2oQgGEf5919VSH/nARVIIuw
- tzWSiorBEwXXy7CxTJNughv07hRz3Ko=
+ bh=Y17EVO/s0xg6tqcxCWG6nhFINdKj1LKpomp8rmt7L8A=;
+ b=chx1PoKwHguedkukAvHrJivJv5Rwt98XLRA7ctOf0oCdpiyw+5LJEWeRcupj1lWtbT33uY
+ AjHibdD8AZ68VGkEk4w2ag518WA7S+Zwd7poqC6n1gnGIRiWSssaVR/2OEJAqXoAOPG3U+
+ aDY8Jcv/ogccym8TEi93Bq4joN3SJL0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-238-ZCnzaR28NEuQleuWtg2vfQ-1; Fri, 20 Nov 2020 13:51:46 -0500
-X-MC-Unique: ZCnzaR28NEuQleuWtg2vfQ-1
+ us-mta-392-H2Z1tymUMiSbaQlXOnSUjA-1; Fri, 20 Nov 2020 13:52:35 -0500
+X-MC-Unique: H2Z1tymUMiSbaQlXOnSUjA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 671DD1842159;
- Fri, 20 Nov 2020 18:51:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7889F8144EC;
+ Fri, 20 Nov 2020 18:52:32 +0000 (UTC)
 Received: from eperezma.remote.csb (ovpn-112-88.ams2.redhat.com [10.36.112.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 26B075C1D5;
- Fri, 20 Nov 2020 18:51:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0C9F25C1D5;
+ Fri, 20 Nov 2020 18:52:16 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 02/27] vhost: Add device callback in vhost_migration_log
-Date: Fri, 20 Nov 2020 19:50:40 +0100
-Message-Id: <20201120185105.279030-3-eperezma@redhat.com>
+Subject: [RFC PATCH 06/27] virtio: Add virtio_queue_get_used_notify_split
+Date: Fri, 20 Nov 2020 19:50:44 +0100
+Message-Id: <20201120185105.279030-7-eperezma@redhat.com>
 In-Reply-To: <20201120185105.279030-1-eperezma@redhat.com>
 References: <20201120185105.279030-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -93,64 +93,55 @@ Cc: kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows code to reuse the logic to not to re-enable or re-disable
-migration mechanisms. Code works the same way as before.
+This function is just used for a few commits, so SW LM is developed
+incrementally, and it is deleted after it is useful.
+
+For a few commits, only the events (irqfd, eventfd) are forwarded.
+This series adds descriptors forwarding on top of that.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ include/hw/virtio/virtio.h |  1 +
+ hw/virtio/virtio.c         | 14 ++++++++++++++
+ 2 files changed, 15 insertions(+)
 
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 2bd8cdf893..2adb2718c1 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -862,7 +862,9 @@ err_features:
-     return r;
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index b7ece7a6a8..b9b8497ea0 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -225,6 +225,7 @@ int virtio_load(VirtIODevice *vdev, QEMUFile *f, int version_id);
+ 
+ void virtio_notify_config(VirtIODevice *vdev);
+ 
++bool virtio_queue_get_used_notify_split(VirtQueue *vq);
+ bool virtio_queue_get_notification(VirtQueue *vq);
+ void virtio_queue_set_notification(VirtQueue *vq, int enable);
+ 
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index ceb58fda6c..3469946538 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -377,6 +377,20 @@ static inline void vring_used_idx_set(VirtQueue *vq, uint16_t val)
+     vq->used_idx = val;
  }
  
--static int vhost_migration_log(MemoryListener *listener, bool enable)
-+static int vhost_migration_log(MemoryListener *listener,
-+                               bool enable,
-+                               int (*device_cb)(struct vhost_dev *, bool))
++bool virtio_queue_get_used_notify_split(VirtQueue *vq)
++{
++    VRingMemoryRegionCaches *caches;
++    hwaddr pa = offsetof(VRingUsed, flags);
++    uint16_t flags;
++
++    RCU_READ_LOCK_GUARD();
++
++    caches = vring_get_region_caches(vq);
++    assert(caches);
++    flags = virtio_lduw_phys_cached(vq->vdev, &caches->used, pa);
++    return !(VRING_USED_F_NO_NOTIFY & flags);
++}
++
+ /* Called within rcu_read_lock().  */
+ static inline void vring_used_flags_set_bit(VirtQueue *vq, int mask)
  {
-     struct vhost_dev *dev = container_of(listener, struct vhost_dev,
-                                          memory_listener);
-@@ -877,14 +879,14 @@ static int vhost_migration_log(MemoryListener *listener, bool enable)
- 
-     r = 0;
-     if (!enable) {
--        r = vhost_dev_set_log(dev, false);
-+        r = device_cb(dev, false);
-         if (r < 0) {
-             goto check_dev_state;
-         }
-         vhost_log_put(dev, false);
-     } else {
-         vhost_dev_log_resize(dev, vhost_get_log_size(dev));
--        r = vhost_dev_set_log(dev, true);
-+        r = device_cb(dev, true);
-         if (r < 0) {
-             goto check_dev_state;
-         }
-@@ -916,7 +918,7 @@ static void vhost_log_global_start(MemoryListener *listener)
- {
-     int r;
- 
--    r = vhost_migration_log(listener, true);
-+    r = vhost_migration_log(listener, true, vhost_dev_set_log);
-     if (r < 0) {
-         abort();
-     }
-@@ -926,7 +928,7 @@ static void vhost_log_global_stop(MemoryListener *listener)
- {
-     int r;
- 
--    r = vhost_migration_log(listener, false);
-+    r = vhost_migration_log(listener, false, vhost_dev_set_log);
-     if (r < 0) {
-         abort();
-     }
 -- 
 2.18.4
 
