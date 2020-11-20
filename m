@@ -2,33 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4D422BA145
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 04:39:24 +0100 (CET)
-Received: from localhost ([::1]:45814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 885E62BA146
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 04:39:31 +0100 (CET)
+Received: from localhost ([::1]:45798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfxGd-0002vP-6i
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 22:39:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40224)
+	id 1kfxGi-0002v5-Uo
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 22:39:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1kfxEh-0001c2-OX; Thu, 19 Nov 2020 22:37:23 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2530)
+ id 1kfxEh-0001c0-JY; Thu, 19 Nov 2020 22:37:23 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2531)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1kfxEf-0006uw-DU; Thu, 19 Nov 2020 22:37:23 -0500
+ id 1kfxEe-0006ux-Vv; Thu, 19 Nov 2020 22:37:23 -0500
 Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Ccj05049fzhZNJ;
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Ccj050J3gzhZrl;
  Fri, 20 Nov 2020 11:36:53 +0800 (CST)
 Received: from huawei.com (10.175.124.27) by DGGEMS406-HUB.china.huawei.com
  (10.3.19.206) with Microsoft SMTP Server id 14.3.487.0; Fri, 20 Nov 2020
  11:37:02 +0800
 From: Alex Chen <alex.chen@huawei.com>
 To: <quintela@redhat.com>, <pbonzini@redhat.com>, <philmd@redhat.com>
-Subject: [PATCH v2 0/2] Optimized some code for display/vmware_vga
-Date: Fri, 20 Nov 2020 03:25:15 +0000
-Message-ID: <20201120032517.104486-1-alex.chen@huawei.com>
+Subject: [PATCH v2 1/2] display/vmware_vga: Fix bad printf format specifiers
+Date: Fri, 20 Nov 2020 03:25:16 +0000
+Message-ID: <20201120032517.104486-2-alex.chen@huawei.com>
 X-Mailer: git-send-email 2.19.1
+In-Reply-To: <20201120032517.104486-1-alex.chen@huawei.com>
+References: <20201120032517.104486-1-alex.chen@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
@@ -59,17 +61,29 @@ Cc: alex.chen@huawei.com, qemu-trivial@nongnu.org, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Optimized some code for vmware_vga:
-patch1 fixes a bad printf format specifier and
-patch2 replaces fprintf(stderr, "*\n") with error_report()
+We should use printf format specifier "%u" instead of "%d" for
+argument of type "unsigned int".
 
-Alex Chen (2):
-  display/vmware_vga: Fix bad printf format specifiers
-  display/vmware_vga: Replace fprintf(stderr, "*\n") with error_report()
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Alex Chen <alex.chen@huawei.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ hw/display/vmware_vga.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- hw/display/vmware_vga.c | 23 ++++++++++++-----------
- 1 file changed, 12 insertions(+), 11 deletions(-)
-
+diff --git a/hw/display/vmware_vga.c b/hw/display/vmware_vga.c
+index bef0d7d69a..f93bbe15c2 100644
+--- a/hw/display/vmware_vga.c
++++ b/hw/display/vmware_vga.c
+@@ -534,7 +534,7 @@ static inline void vmsvga_cursor_define(struct vmsvga_state_s *s,
+ #endif
+         break;
+     default:
+-        fprintf(stderr, "%s: unhandled bpp %d, using fallback cursor\n",
++        fprintf(stderr, "%s: unhandled bpp %u, using fallback cursor\n",
+                 __func__, c->bpp);
+         cursor_put(qc);
+         qc = cursor_builtin_left_ptr();
 -- 
 2.19.1
 
