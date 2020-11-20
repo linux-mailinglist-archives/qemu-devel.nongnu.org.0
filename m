@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB8482BB81D
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 22:11:31 +0100 (CET)
-Received: from localhost ([::1]:40746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E441D2BB81E
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 22:11:40 +0100 (CET)
+Received: from localhost ([::1]:41534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kgDgm-00040g-JH
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 16:11:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41670)
+	id 1kgDgx-0004OZ-TU
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 16:11:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kgDeE-0002iM-Gh
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 16:08:50 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:38816)
+ id 1kgDeJ-0002lb-1m
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 16:08:55 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:53208)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kgDeC-0003jH-D1
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 16:08:50 -0500
-Received: by mail-wm1-x341.google.com with SMTP id 1so11244778wme.3
- for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 13:08:48 -0800 (PST)
+ id 1kgDeH-0003lK-C6
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 16:08:54 -0500
+Received: by mail-wm1-x329.google.com with SMTP id 10so11849468wml.2
+ for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 13:08:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=HS4dkkkJ6SWXO3Jxlpbfx6onx1niRsHIk5mqrv4bQIs=;
- b=MOIZLRimcJcg0q94FoPacp8pERcCbi3bGQWG3dPtgqocApmMeMXPJQYlPQ0sY5BoI4
- 8WWSMIEGA8j5lSmQI0a+oVhIWaBmOWe3NDEHMw7/7tpZ6JqLLbCIZ4pxEpdLK2nVDnSk
- jyaYukiucVHYlFck7jquoH9UTIXLobvQjWa8b3nSU369Rz9wgrT3SOJ2rhQlCDul3kht
- 38z7k57zQ1eLsqTwI8qRrGXe4AgDOOi9EQCFN16bxvtgYmke9a0YsnbZFVI1YTKEhXHn
- +a0tiDZtqZXyAOihgtg1mM0bKeiUPx0mbDRc/Sw1SoZ6o77k68ovwo3xfngF0r3uzvmu
- 1awg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=+fc+YUz62tq02umlqIV5H66jZhdZhb5rDT17gD+B0T0=;
+ b=T+c5m+fCdxu+clJ1SWsLGwARmZ6iZF1HIvE2x+jTGE6/Esg1fExuuA2PbAj+5PWHaB
+ rBKxCgy0X4pt7vX6qeshU74KJ/X8xthS+6RYm+Fq05xmkJnPi6hHeud+N5jerDYRPGza
+ u790RBarOzbfE/WAw2uv9CRv9gdu1LXTU251cMLCSxOIfOKyzQd2rlgUXVZ6oReMVsa9
+ iEYw9UzCwCG0nQx7zLomtaQDSayBvd57iFxf0ZLVgPXNeaO+lqI1fYU23PX3hXIBB4l3
+ 0pKmfiRbluff8D760fEMqzPJzPcDfVFuOEpeZdyBSvc34STqtrDXQGK6JHMmAGJKFrNX
+ aLzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=HS4dkkkJ6SWXO3Jxlpbfx6onx1niRsHIk5mqrv4bQIs=;
- b=BX29TtW8sF00Sn9vHJhwpCVwuI8OiDU51YYhNA3bwLMzdxNRtKe31K9AAdTIeT2CbF
- 0TTDDQq+rpDJlqw6BBkpukKN0YgjeJVF7ACSq0HxoRIpsg7/uejDAd8P2p7eTaNpFPiL
- g/P6PkUaBgO1z1d4+Yx1uGD65Nm8qggchzw+rc8FJjLMETsCLH/Dz++MH5OXHraW0G1r
- +Jc7d/jM+BGW11B8rpe/y/L6E6OzRYCWkOUyZOSUfo0VUYPRhlwVFWgjz5fRoCahptug
- zl0Pv1+oaUDFMSPUYh5VShqOP32ZO/iJ6/NmTPMfbZbPqrnD4RsUInFS7OFKICFN+uh8
- HYrg==
-X-Gm-Message-State: AOAM531ZK1+M5pvMuRgXO12jAQ4zWp4vxswS9vkdetnijrx/b5Pk096o
- IY/43+MdxW4i9rZFCyYqJPAXfIRrp/U=
-X-Google-Smtp-Source: ABdhPJyU6doIgTo9JMm4NFxC/YJUhWTXkEEHdqSnbIK0MrS5yex76EJqtB9pe61spJFJf2UkhSEZoQ==
-X-Received: by 2002:a1c:1d82:: with SMTP id d124mr12413476wmd.12.1605906526520; 
- Fri, 20 Nov 2020 13:08:46 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=+fc+YUz62tq02umlqIV5H66jZhdZhb5rDT17gD+B0T0=;
+ b=hTPxewyphyLdemuVd9aWdgE+gqvYPgGnEHc7LBnlN5Z5R8qO22ShzUf/tJAHK20FBf
+ lohzQH01eOPrbwJCo+ljhMN56+HonJHBHB3Le1QD+1LAKBtPcijuxMxX+NL45ry5OIjw
+ 8qckSP+PCzjmFKJKZUcyM7D17uXX3EngJ/Qr+ar9g9NsvXuYAWc8nz1en3mhSh+sZ9GG
+ zapmPDaDNEyCzzQWT6snunVOBYE6AE5f3e/jSQWMGBwFxm6UflDaHALLhO22fbj4csad
+ ds3lDKvl0VxKEJK+BfVlv8Alxm0LmSuCXs0+uu1H95SX1iekbK92OnU/L9zGAm230xV6
+ +/PA==
+X-Gm-Message-State: AOAM531dGUyUU2qv+HoXnNpcR2RSR1kY0jpH8rB3HaaQYkxiXn5dhcuA
+ G2Aa2h0Jm13/hbVvhyGxu8+iO8T+1f0=
+X-Google-Smtp-Source: ABdhPJyMWl1CLz2CtmfNK1IxSBRRhLqCKClWf6WaMhSaron8adZwuSUc3h3uZbNWWPUz7jV1Yb7ZUQ==
+X-Received: by 2002:a7b:c8d3:: with SMTP id f19mr11601864wml.17.1605906531772; 
+ Fri, 20 Nov 2020 13:08:51 -0800 (PST)
 Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id y16sm6320174wrt.25.2020.11.20.13.08.44
+ by smtp.gmail.com with ESMTPSA id m3sm6678867wrv.6.2020.11.20.13.08.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Nov 2020 13:08:45 -0800 (PST)
+ Fri, 20 Nov 2020 13:08:51 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/26] target/mips: Explode 60% of the 32K-lines translate.c
-Date: Fri, 20 Nov 2020 22:08:18 +0100
-Message-Id: <20201120210844.2625602-1-f4bug@amsat.org>
+Subject: [PATCH 01/26] target/mips: Extract FPU helpers to 'fpu_helper.h'
+Date: Fri, 20 Nov 2020 22:08:19 +0100
+Message-Id: <20201120210844.2625602-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201120210844.2625602-1-f4bug@amsat.org>
+References: <20201120210844.2625602-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,152 +95,225 @@ Cc: Fredrik Noring <noring@nocrew.org>, Craig Janeczek <jancraig@amazon.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,=0D
-=0D
-This series, while boring, helps maintainability.=0D
-=0D
-I simply exploded 60% of the huge target/mips/translate.c,=0D
-reducing it from 32K lines of code to 13500.=0D
-=0D
-The small overhead in the diffstat is due to entries added in=0D
-MAINTAINERS and license boilerplate addition:=0D
-20225 insertions(+), 19987 deletions(-)=0D
-=0D
-While being a massive diff, it is a no-brain review using=0D
-'git-diff --color-moved=3Ddimmed-zebra' which highlights very few=0D
-changes: #include and license lines.=0D
-=0D
-The exploded new layout, which allows more useful filtering=0D
-with the get_maintainer.pl script, is:=0D
-=0D
-- MIPS ISA, ASE and modules:=0D
-=0D
- . isa-micromips_helper.h.inc=0D
- . isa-nanomips_translate.c.inc=0D
-=0D
- . ase-mips16e_translate.c.inc=0D
-=0D
- . mod-mips-dsp_helper.c=0D
- . mod-mips-dsp_helper.h.inc=0D
- . mod-mips-dsp_translate.c.inc=0D
- . mod-mips-msa_helper.h.inc=0D
- . mod-mips-msa_translate.c.inc=0D
- . mod-mips-msa_helper.c=0D
- . mod-mips-mt_helper.h.inc=0D
-=0D
-- MIPS Vendor Specific:=0D
-=0D
- . vendor-loong-simd_helper.c=0D
- . vendor-loong-lext_translate.c.inc=0D
- . vendor-loong-simd_helper.h.inc=0D
- . vendor-loong-simd_translate.c.inc=0D
-=0D
- . vendor-tx-mmi_translate.c.inc=0D
- . vendor-tx_translate.c.inc=0D
-=0D
- . vendor-vr54xx_helper.c=0D
- . vendor-vr54xx_helper.h.inc=0D
- . vendor-vr54xx_translate.c.inc=0D
-=0D
- . vendor-xburst_translate.c.inc=0D
-=0D
-There should be no logical code change (only code movement).=0D
-=0D
-The series is available at:=0D
-=0D
-  https://gitlab.com/philmd/qemu.git branches/mips_translate_explode=0D
-=0D
-Regards,=0D
-=0D
-Phil.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (26):=0D
-  target/mips: Extract FPU helpers to 'fpu_helper.h'=0D
-  target/mips: Extract MSA helpers to mod-mips-msa_helper.c=0D
-  target/mips: Extract MSA helper definitions=0D
-  target/mips: Extract MSA translation routines=0D
-  target/mips: Rename dsp_helper.c as mod-mips-dsp_helper.c=0D
-  target/mips: Extract DSP helper definitions=0D
-  target/mips: Extract DSP translation routines=0D
-  target/mips: Extract Multi-Threading helper definitions=0D
-  target/mips: Extract Code Compaction ASE translation routines=0D
-  target/mips: Extract the microMIPS ISA helper definitions=0D
-  target/mips: Extract the microMIPS ISA translation routines=0D
-  target/mips: Extract nanoMIPS ISA translation routines=0D
-  target/mips: Extract NEC Vr54xx helpers to vendor-vr54xx_helper.c=0D
-  target/mips: Extract NEC Vr54xx helper definitions=0D
-  target/mips: Extract NEC Vr54xx translation routines=0D
-  target/mips: Rename lmmi_helper.c as loong-simd_helper.c=0D
-  target/mips: Extract Loongson SIMD helper definitions=0D
-  target/mips: Extract Loongson SIMD translation routines=0D
-  target/mips: Extract Loongson EXTensions translation routines=0D
-  target/mips: Extract XBurst Media eXtension Unit translation routines=0D
-  target/mips: Make pipeline 1 multiply opcodes generic=0D
-  target/mips: Extract Toshiba TXx9 translation routines=0D
-  target/mips: Extract Toshiba TX79 multimedia translation routines=0D
-  MAINTAINERS: Add entry for MIPS Loongson TCG=0D
-  MAINTAINERS: Add entry for MIPS Ingenic Xburst TCG=0D
-  MAINTAINERS: Add entry for MIPS Toshiba TCG=0D
-=0D
- target/mips/fpu_helper.h                      |    50 +=0D
- target/mips/helper.h                          |   881 +-=0D
- target/mips/internal.h                        |    42 -=0D
- linux-user/mips/cpu_loop.c                    |     1 +=0D
- target/mips/fpu_helper.c                      |     1 +=0D
- target/mips/gdbstub.c                         |     1 +=0D
- target/mips/kvm.c                             |     1 +=0D
- target/mips/machine.c                         |     1 +=0D
- .../{dsp_helper.c =3D> mod-mips-dsp_helper.c}   |     2 +=0D
- .../{msa_helper.c =3D> mod-mips-msa_helper.c}   |   393 +=0D
- target/mips/op_helper.c                       |   511 -=0D
- target/mips/translate.c                       | 18598 +---------------=0D
- ...mi_helper.c =3D> vendor-loong-simd_helper.c} |     0=0D
- target/mips/vendor-vr54xx_helper.c            |   131 +=0D
- MAINTAINERS                                   |    20 +=0D
- target/mips/ase-mips16e_translate.c.inc       |  1170 +=0D
- target/mips/isa-micromips_helper.h.inc        |    17 +=0D
- target/mips/isa-micromips_translate.c.inc     |  3316 +++=0D
- target/mips/isa-nanomips_translate.c.inc      |  4839 ++++=0D
- target/mips/meson.build                       |     8 +-=0D
- target/mips/mod-mips-dsp_helper.h.inc         |   344 +=0D
- target/mips/mod-mips-dsp_translate.c.inc      |  2158 ++=0D
- target/mips/mod-mips-msa_helper.h.inc         |   443 +=0D
- target/mips/mod-mips-msa_translate.c.inc      |  2218 ++=0D
- target/mips/mod-mips-mt_helper.h.inc          |    36 +=0D
- target/mips/vendor-loong-lext_translate.c.inc |   450 +=0D
- target/mips/vendor-loong-simd_helper.h.inc    |    69 +=0D
- target/mips/vendor-loong-simd_translate.c.inc |   611 +=0D
- target/mips/vendor-tx-mmi_translate.c.inc     |   573 +=0D
- target/mips/vendor-tx_translate.c.inc         |   317 +=0D
- target/mips/vendor-vr54xx_helper.h.inc        |    24 +=0D
- target/mips/vendor-vr54xx_translate.c.inc     |    93 +=0D
- target/mips/vendor-xburst_translate.c.inc     |  2893 +++=0D
- 33 files changed, 20225 insertions(+), 19987 deletions(-)=0D
- create mode 100644 target/mips/fpu_helper.h=0D
- rename target/mips/{dsp_helper.c =3D> mod-mips-dsp_helper.c} (99%)=0D
- rename target/mips/{msa_helper.c =3D> mod-mips-msa_helper.c} (94%)=0D
- rename target/mips/{lmmi_helper.c =3D> vendor-loong-simd_helper.c} (100%)=
-=0D
- create mode 100644 target/mips/vendor-vr54xx_helper.c=0D
- create mode 100644 target/mips/ase-mips16e_translate.c.inc=0D
- create mode 100644 target/mips/isa-micromips_helper.h.inc=0D
- create mode 100644 target/mips/isa-micromips_translate.c.inc=0D
- create mode 100644 target/mips/isa-nanomips_translate.c.inc=0D
- create mode 100644 target/mips/mod-mips-dsp_helper.h.inc=0D
- create mode 100644 target/mips/mod-mips-dsp_translate.c.inc=0D
- create mode 100644 target/mips/mod-mips-msa_helper.h.inc=0D
- create mode 100644 target/mips/mod-mips-msa_translate.c.inc=0D
- create mode 100644 target/mips/mod-mips-mt_helper.h.inc=0D
- create mode 100644 target/mips/vendor-loong-lext_translate.c.inc=0D
- create mode 100644 target/mips/vendor-loong-simd_helper.h.inc=0D
- create mode 100644 target/mips/vendor-loong-simd_translate.c.inc=0D
- create mode 100644 target/mips/vendor-tx-mmi_translate.c.inc=0D
- create mode 100644 target/mips/vendor-tx_translate.c.inc=0D
- create mode 100644 target/mips/vendor-vr54xx_helper.h.inc=0D
- create mode 100644 target/mips/vendor-vr54xx_translate.c.inc=0D
- create mode 100644 target/mips/vendor-xburst_translate.c.inc=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+Extract FPU specific helpers from "internal.h" to "fpu_helper.h".
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ target/mips/fpu_helper.h   | 50 ++++++++++++++++++++++++++++++++++++++
+ target/mips/internal.h     | 42 --------------------------------
+ linux-user/mips/cpu_loop.c |  1 +
+ target/mips/fpu_helper.c   |  1 +
+ target/mips/gdbstub.c      |  1 +
+ target/mips/kvm.c          |  1 +
+ target/mips/machine.c      |  1 +
+ target/mips/msa_helper.c   |  1 +
+ target/mips/translate.c    |  1 +
+ 9 files changed, 57 insertions(+), 42 deletions(-)
+ create mode 100644 target/mips/fpu_helper.h
+
+diff --git a/target/mips/fpu_helper.h b/target/mips/fpu_helper.h
+new file mode 100644
+index 00000000000..83c698d583f
+--- /dev/null
++++ b/target/mips/fpu_helper.h
+@@ -0,0 +1,50 @@
++/*
++ *  Helpers for emulation of FPU-related MIPS instructions.
++ *
++ *  Copyright (C) 2004-2005  Jocelyn Mayer
++ *
++ * SPDX-License-Identifier: LGPL-2.1-or-later
++ */
++#include "fpu/softfloat-helpers.h"
++#include "cpu.h"
++
++extern unsigned int ieee_rm[];
++
++uint32_t float_class_s(uint32_t arg, float_status *fst);
++uint64_t float_class_d(uint64_t arg, float_status *fst);
++
++static inline void restore_rounding_mode(CPUMIPSState *env)
++{
++    set_float_rounding_mode(ieee_rm[env->active_fpu.fcr31 & 3],
++                            &env->active_fpu.fp_status);
++}
++
++static inline void restore_flush_mode(CPUMIPSState *env)
++{
++    set_flush_to_zero((env->active_fpu.fcr31 & (1 << FCR31_FS)) != 0,
++                      &env->active_fpu.fp_status);
++}
++
++static inline void restore_snan_bit_mode(CPUMIPSState *env)
++{
++    set_snan_bit_is_one((env->active_fpu.fcr31 & (1 << FCR31_NAN2008)) == 0,
++                        &env->active_fpu.fp_status);
++}
++
++static inline void restore_fp_status(CPUMIPSState *env)
++{
++    restore_rounding_mode(env);
++    restore_flush_mode(env);
++    restore_snan_bit_mode(env);
++}
++
++static inline void restore_msa_fp_status(CPUMIPSState *env)
++{
++    float_status *status = &env->active_tc.msa_fp_status;
++    int rounding_mode = (env->active_tc.msacsr & MSACSR_RM_MASK) >> MSACSR_RM;
++    bool flush_to_zero = (env->active_tc.msacsr & MSACSR_FS_MASK) != 0;
++
++    set_float_rounding_mode(ieee_rm[rounding_mode], status);
++    set_flush_to_zero(flush_to_zero, status);
++    set_flush_inputs_to_zero(flush_to_zero, status);
++}
+diff --git a/target/mips/internal.h b/target/mips/internal.h
+index dd8a7809b64..7bea3af0b29 100644
+--- a/target/mips/internal.h
++++ b/target/mips/internal.h
+@@ -8,8 +8,6 @@
+ #ifndef MIPS_INTERNAL_H
+ #define MIPS_INTERNAL_H
+ 
+-#include "fpu/softfloat-helpers.h"
+-
+ /*
+  * MMU types, the first four entries have the same layout as the
+  * CP0C0_MT field.
+@@ -222,48 +220,8 @@ bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                        bool probe, uintptr_t retaddr);
+ 
+ /* op_helper.c */
+-uint32_t float_class_s(uint32_t arg, float_status *fst);
+-uint64_t float_class_d(uint64_t arg, float_status *fst);
+-
+-extern unsigned int ieee_rm[];
+ void update_pagemask(CPUMIPSState *env, target_ulong arg1, int32_t *pagemask);
+ 
+-static inline void restore_rounding_mode(CPUMIPSState *env)
+-{
+-    set_float_rounding_mode(ieee_rm[env->active_fpu.fcr31 & 3],
+-                            &env->active_fpu.fp_status);
+-}
+-
+-static inline void restore_flush_mode(CPUMIPSState *env)
+-{
+-    set_flush_to_zero((env->active_fpu.fcr31 & (1 << FCR31_FS)) != 0,
+-                      &env->active_fpu.fp_status);
+-}
+-
+-static inline void restore_snan_bit_mode(CPUMIPSState *env)
+-{
+-    set_snan_bit_is_one((env->active_fpu.fcr31 & (1 << FCR31_NAN2008)) == 0,
+-                        &env->active_fpu.fp_status);
+-}
+-
+-static inline void restore_fp_status(CPUMIPSState *env)
+-{
+-    restore_rounding_mode(env);
+-    restore_flush_mode(env);
+-    restore_snan_bit_mode(env);
+-}
+-
+-static inline void restore_msa_fp_status(CPUMIPSState *env)
+-{
+-    float_status *status = &env->active_tc.msa_fp_status;
+-    int rounding_mode = (env->active_tc.msacsr & MSACSR_RM_MASK) >> MSACSR_RM;
+-    bool flush_to_zero = (env->active_tc.msacsr & MSACSR_FS_MASK) != 0;
+-
+-    set_float_rounding_mode(ieee_rm[rounding_mode], status);
+-    set_flush_to_zero(flush_to_zero, status);
+-    set_flush_inputs_to_zero(flush_to_zero, status);
+-}
+-
+ static inline void restore_pamask(CPUMIPSState *env)
+ {
+     if (env->hflags & MIPS_HFLAG_ELPA) {
+diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
+index cfe7ba5c47d..b58dbeb83d1 100644
+--- a/linux-user/mips/cpu_loop.c
++++ b/linux-user/mips/cpu_loop.c
+@@ -23,6 +23,7 @@
+ #include "cpu_loop-common.h"
+ #include "elf.h"
+ #include "internal.h"
++#include "fpu_helper.h"
+ 
+ # ifdef TARGET_ABI_MIPSO32
+ #  define MIPS_SYSCALL_NUMBER_UNUSED -1
+diff --git a/target/mips/fpu_helper.c b/target/mips/fpu_helper.c
+index 020b768e87b..a74dc18d746 100644
+--- a/target/mips/fpu_helper.c
++++ b/target/mips/fpu_helper.c
+@@ -31,6 +31,7 @@
+ #include "exec/memop.h"
+ #include "sysemu/kvm.h"
+ #include "fpu/softfloat.h"
++#include "fpu_helper.h"
+ 
+ 
+ /* Complex FPU operations which may need stack space. */
+diff --git a/target/mips/gdbstub.c b/target/mips/gdbstub.c
+index e39f8d75cf0..f1c2a2cf6d6 100644
+--- a/target/mips/gdbstub.c
++++ b/target/mips/gdbstub.c
+@@ -21,6 +21,7 @@
+ #include "cpu.h"
+ #include "internal.h"
+ #include "exec/gdbstub.h"
++#include "fpu_helper.h"
+ 
+ int mips_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+ {
+diff --git a/target/mips/kvm.c b/target/mips/kvm.c
+index 72637a1e021..df47eded328 100644
+--- a/target/mips/kvm.c
++++ b/target/mips/kvm.c
+@@ -27,6 +27,7 @@
+ #include "kvm_mips.h"
+ #include "exec/memattrs.h"
+ #include "hw/boards.h"
++#include "fpu_helper.h"
+ 
+ #define DEBUG_KVM 0
+ 
+diff --git a/target/mips/machine.c b/target/mips/machine.c
+index 5b23e3e912a..a4ea67c2980 100644
+--- a/target/mips/machine.c
++++ b/target/mips/machine.c
+@@ -2,6 +2,7 @@
+ #include "cpu.h"
+ #include "internal.h"
+ #include "migration/cpu.h"
++#include "fpu_helper.h"
+ 
+ static int cpu_post_load(void *opaque, int version_id)
+ {
+diff --git a/target/mips/msa_helper.c b/target/mips/msa_helper.c
+index 249f0fdad80..b89b4c44902 100644
+--- a/target/mips/msa_helper.c
++++ b/target/mips/msa_helper.c
+@@ -23,6 +23,7 @@
+ #include "exec/exec-all.h"
+ #include "exec/helper-proto.h"
+ #include "fpu/softfloat.h"
++#include "fpu_helper.h"
+ 
+ /* Data format min and max values */
+ #define DF_BITS(df) (1 << ((df) + 3))
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index c64a1bc42e1..5ec9fd7e92a 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -39,6 +39,7 @@
+ #include "exec/translator.h"
+ #include "exec/log.h"
+ #include "qemu/qemu-print.h"
++#include "fpu_helper.h"
+ 
+ #define MIPS_DEBUG_DISAS 0
+ 
+-- 
+2.26.2
+
 
