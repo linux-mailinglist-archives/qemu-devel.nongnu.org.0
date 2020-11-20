@@ -2,75 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 532242BAF6D
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 16:59:34 +0100 (CET)
-Received: from localhost ([::1]:48968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA6F92BAF60
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 16:57:50 +0100 (CET)
+Received: from localhost ([::1]:46058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg8ov-0003E7-Ay
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 10:59:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53018)
+	id 1kg8nF-000208-Ow
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 10:57:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1kg8fd-0003Ff-BJ
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 10:49:57 -0500
-Received: from mail-il1-f194.google.com ([209.85.166.194]:34950)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1kg8fb-0004GG-Nu
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 10:49:57 -0500
-Received: by mail-il1-f194.google.com with SMTP id t13so8952788ilp.2
- for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 07:49:53 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kg8h1-0004Wq-Nj
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 10:51:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25094)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kg8gy-0004tD-LC
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 10:51:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605887479;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Arb26DKu/FN/dworWqOQ0tggMs+kYdAjhb+kHvuzadE=;
+ b=bahC6eog2vwi0Km2IlEAxJ9M0vAGlhifX42femMt3HPq5oycklpf3zx0uYAOK46dPZ/rs5
+ J9b76HyPDPjOBnDZqGKpZW05R26w2ma6iYtBkgxes2OCkNcG1b0+fGI1M3VPlVz6FbERoj
+ QmYy5/3rol6jVZDNUyfmql8lHHLwtoM=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-567-YmJwx05aMKK9zKyGEpSi2Q-1; Fri, 20 Nov 2020 10:51:17 -0500
+X-MC-Unique: YmJwx05aMKK9zKyGEpSi2Q-1
+Received: by mail-wr1-f71.google.com with SMTP id e18so3526060wrs.23
+ for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 07:51:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=KwA/L+PrOMbhRhJ5bSktHkkOnrzTAmlWuShef7k65Ps=;
- b=LKnOxZG+zl3+nN7X9WfIwQdK9ZHr1vbS6yPonPH9EcBnw6UF+jscuUUJ7QfoQwprP2
- tnPH+poSfCiTjWEVRdQtoDIevp3H08q/mr7r5srvBHF+qhJVB85QFu0L1iakap4qK/kp
- UlBMihskQp9TrILRkYoDNpc5WL4qg57xyElG9SOYcGIHXPyNutIRtCPcqsZnI1GWZHAW
- 1V35CAgVsBtLPabuKnRKP1DOwk4eCcNvW3ePT6mgT42yWSsiEW9UKuYJN5QEziBIm287
- rOdRgIFRrsqMmec+YCupPKFM4YlDlU2UunP3I9NGZL4SkUJtphil08eLuKl7VKeDA1eK
- sMUg==
-X-Gm-Message-State: AOAM5315wHl1k9Jfx+aa9BY9YqkLx5rGsqXTo256KI4JkohAWnDqOO80
- 00qJKUbu1uxpVGq4Cw2ikR5wYTOPw2Y=
-X-Google-Smtp-Source: ABdhPJwnxroYlemG2BEBtAg2VN0xNRcNduWy87pVoYNs1ceWOlXFx9aJXjcGl+b2s0EDxcwVo/fBQA==
-X-Received: by 2002:a05:6e02:13a3:: with SMTP id
- h3mr5049455ilo.164.1605887392349; 
- Fri, 20 Nov 2020 07:49:52 -0800 (PST)
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com.
- [209.85.166.45])
- by smtp.gmail.com with ESMTPSA id i14sm2143680ilb.2.2020.11.20.07.49.51
- for <qemu-devel@nongnu.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Arb26DKu/FN/dworWqOQ0tggMs+kYdAjhb+kHvuzadE=;
+ b=ienDodsdkohwlbBCIGlJY472vFliK7sUn66GBX97EGWbj7AcgOHtHW3FWmRZQGtOPp
+ 4jA8tyXyDb5cDzJjB5wy/ph+QWOBbEVlyAUBIGTP5d7mN1CAp3NjHBhu6Sn12sS1BSve
+ hJ/QFemGKaXbE9SMmzPtt0L35vD8L6zcVAglxcMPWeVm4TpEGbQDXGuxPsbaxIbv1/j3
+ 2vNE7a0G+IRPXoVqXt3rX8QfGlgGhjMCDmLTGn3Kwd3e3vdygx3uO2Y4RJb3517K96MV
+ l+XlwkyvrWfv6lmWsPytn8N/oCYQUwF9SmiL3OXW9DzNEydYXZ3UvsM5jkaGKN2DVqAq
+ UTqg==
+X-Gm-Message-State: AOAM531f39DpHtOFqBDvSY89STUrd9o4ZlydV1/neWag/92xHq6RREo7
+ a+AcT9QY6ZYK2KkiD3VdXQTwPoD0h3GLCpenPK4sTclr25XBEpJbWra/xzLP5JQXpn1/qQVs0Wc
+ P1Iiel3Zlkn3v8KI=
+X-Received: by 2002:a05:6000:1d2:: with SMTP id
+ t18mr16806573wrx.14.1605887476815; 
+ Fri, 20 Nov 2020 07:51:16 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyI3J/QIG8CmfZbEQggWhFcddNlDrDSFj4J41v2U1GRgCAcYZLg++BSXvL9Ap6rsa19pmRzrg==
+X-Received: by 2002:a05:6000:1d2:: with SMTP id
+ t18mr16806559wrx.14.1605887476597; 
+ Fri, 20 Nov 2020 07:51:16 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id d3sm5617060wrg.16.2020.11.20.07.51.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Nov 2020 07:49:52 -0800 (PST)
-Received: by mail-io1-f45.google.com with SMTP id d17so10378537ion.4
- for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 07:49:51 -0800 (PST)
-X-Received: by 2002:a02:5b09:: with SMTP id g9mr18728270jab.89.1605887391682; 
- Fri, 20 Nov 2020 07:49:51 -0800 (PST)
+ Fri, 20 Nov 2020 07:51:15 -0800 (PST)
+Subject: Re: [PATCH] qboot: update to latest upstream
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20201120152408.164346-1-pbonzini@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <27102428-0218-c518-2f3f-86365d05b4eb@redhat.com>
+Date: Fri, 20 Nov 2020 16:51:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-References: <20201108232425.1705-1-j@getutm.app>
- <20201108232425.1705-8-j@getutm.app>
- <abb6c2d9-d375-1963-e0a0-627636643860@amsat.org>
-In-Reply-To: <abb6c2d9-d375-1963-e0a0-627636643860@amsat.org>
-From: Joelle van Dyne <j@getutm.app>
-Date: Fri, 20 Nov 2020 09:49:41 -0600
-X-Gmail-Original-Message-ID: <CA+E+eSC0hj=hOhpLForn9KQw39-ZcOMRRG-D__iYDneqDOcZ3g@mail.gmail.com>
-Message-ID: <CA+E+eSC0hj=hOhpLForn9KQw39-ZcOMRRG-D__iYDneqDOcZ3g@mail.gmail.com>
-Subject: Re: [PATCH v5 7/7] block: check availablity for preadv/pwritev on mac
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.166.194; envelope-from=osy86dev@gmail.com;
- helo=mail-il1-f194.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20201120152408.164346-1-pbonzini@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,66 +99,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Michael Tokarev <mjt@tls.msk.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-No, because if you build on a macOS 11 host but try to run it on macOS
-10.15 then it will crash.
+On 11/20/20 4:24 PM, Paolo Bonzini wrote:
+> This also brings in two patches that Debian had to include,
+> qboot_stop_using_inttypes.patch and qboot_no_jump_tables.diff.
+> 
+> Reported-by: Michael Tokarev <mjt@tls.msk.ru>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  pc-bios/qboot.rom | Bin 65536 -> 65536 bytes
+>  roms/Makefile     |   8 ++++++--
+>  roms/qboot        |   2 +-
+>  3 files changed, 7 insertions(+), 3 deletions(-)
+...
+> diff --git a/roms/Makefile b/roms/Makefile
+> index 7045e374d3..5ffe3317ac 100644
+> --- a/roms/Makefile
+> +++ b/roms/Makefile
+> @@ -186,9 +186,13 @@ opensbi64-generic:
+>  	cp opensbi/build/platform/generic/firmware/fw_dynamic.bin ../pc-bios/opensbi-riscv64-generic-fw_dynamic.bin
+>  	cp opensbi/build/platform/generic/firmware/fw_dynamic.elf ../pc-bios/opensbi-riscv64-generic-fw_dynamic.elf
+>  
+> +MESON = meson
+> +NINJA = ninja
+>  qboot:
+> -	$(MAKE) -C qboot
+> -	cp qboot/bios.bin ../pc-bios/qboot.rom
+> +	mkdir -p qboot/build
+> +	$(MESON) setup $(if $(wildcard qboot/build/meson-private),--wipe,) qboot qboot/build
+> +	$(NINJA) -C qboot/build
+> +	cp qboot/build/bios.bin ../pc-bios/qboot.rom
+>  
+>  npcm7xx_bootrom:
+>  	$(MAKE) -C vbootrom CROSS_COMPILE=$(arm_cross_prefix)
+> diff --git a/roms/qboot b/roms/qboot
+> index cb1c49e0cf..a5300c4949 160000
+> --- a/roms/qboot
+> +++ b/roms/qboot
+> @@ -1 +1 @@
+> -Subproject commit cb1c49e0cfac99b9961d136ac0194da62c28cf64
+> +Subproject commit a5300c4949b8d4de2d34bedfaed66793f48ec948
+> 
 
--j
+Maybe include shortlog in description?
 
-On Fri, Nov 20, 2020 at 4:32 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> On 11/9/20 12:24 AM, Joelle van Dyne wrote:
-> > macOS 11/iOS 14 added preadv/pwritev APIs. Due to weak linking, configu=
-re
-> > will succeed with CONFIG_PREADV even when targeting a lower OS version.=
- We
-> > therefore need to check at run time if we can actually use these APIs.
-> >
-> > Signed-off-by: Joelle van Dyne <j@getutm.app>
-> > ---
-> >  block/file-posix.c | 12 ++++++++++++
-> >  1 file changed, 12 insertions(+)
-> >
-> > diff --git a/block/file-posix.c b/block/file-posix.c
-> > index d83219df55..a9d69746a0 100644
-> > --- a/block/file-posix.c
-> > +++ b/block/file-posix.c
-> > @@ -1394,12 +1394,24 @@ static bool preadv_present =3D true;
-> >  static ssize_t
-> >  qemu_preadv(int fd, const struct iovec *iov, int nr_iov, off_t offset)
-> >  {
-> > +#ifdef CONFIG_DARWIN /* preadv introduced in macOS 11 */
-> > +    if (!__builtin_available(macOS 11, iOS 14, watchOS 7, tvOS 14, *))=
- {
->
-> Can we change the CONFIG_PREADV ifdef'ry to run this check once
-> on macOS 11?
->
-> > +        preadv_present =3D false;
-> > +        return -ENOSYS;
-> > +    } else
-> > +#endif
-> >      return preadv(fd, iov, nr_iov, offset);
-> >  }
-> >
-> >  static ssize_t
-> >  qemu_pwritev(int fd, const struct iovec *iov, int nr_iov, off_t offset=
-)
-> >  {
-> > +#ifdef CONFIG_DARWIN /* pwritev introduced in macOS 11 */
-> > +    if (!__builtin_available(macOS 11, iOS 14, watchOS 7, tvOS 14, *))=
- {
-> > +        preadv_present =3D false;
-> > +        return -ENOSYS;
-> > +    } else
-> > +#endif
-> >      return pwritev(fd, iov, nr_iov, offset);
-> >  }
-> >
-> >
->
+$ git shortlog cb1c49e..a5300c4
+Lorenz Brun (1):
+      Fix initrd base address for PVH boot
+
+Marc-Andre Lureau (1):
+      Update README
+
+Marc-André Lureau (1):
+      Add meson build
+
+Paolo Bonzini (2):
+      limit C headers to freestanding ones
+      record minimum version of meson that is needed
+
+Sven Eckelmann (1):
+      qboot: Disable PIE for ELF binary build step
+
+kaihuan.pkh (1):
+      support smbios
+
 
