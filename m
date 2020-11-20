@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E9802BA565
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 10:02:44 +0100 (CET)
-Received: from localhost ([::1]:44786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9357E2BA569
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 10:06:38 +0100 (CET)
+Received: from localhost ([::1]:47582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg2JW-0004nW-RX
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 04:02:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57110)
+	id 1kg2NJ-0006F3-5s
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 04:06:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kg2CX-00087m-7s
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 03:55:29 -0500
-Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:45292)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kg2CV-0002ck-Oc
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 03:55:28 -0500
-Received: by mail-ed1-x542.google.com with SMTP id q3so8674848edr.12
- for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 00:55:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YEIeM6Ph7qOqVwSlaCHFXLP5jvRYWFl8eXdQzM1WraE=;
- b=jd8as52FUt+Otb7oz+c+xSXBI3L07n82bXOnEc4lrFCCTpzkF6rvHmPPt9Lpc3U1f8
- a0J4XN7AoM5hw7lB1NlFtvX+33MDGvtxzBXEf12wF3ga25oAJG9uqj8RYfUlKu1tZkor
- dskgqhGz9XzuoE0fClZtFIbH53Wf7Z1+OYS16O2fGcQiqgt9yH+T0UEB97/Vi39oe0bx
- OOGi/caHbOoawGFEi2JWoRTPGNrDTmJPM+IlsDTQXtpSvW56ZAEgDyW9bAzgW2t9ag3q
- 0jYD6yZBOmtuc6Q/nhr1jgvWuxPQLCG+UYikk5EA7bvrKxQg0yWHN7xUwQwu6igJH+rQ
- F3Lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=YEIeM6Ph7qOqVwSlaCHFXLP5jvRYWFl8eXdQzM1WraE=;
- b=misJ+Xk0H8qcSEhZ00jPSykqkEdBN4X5b5oiOCnTKKQ2kQ++LT5bt2RRjZxCjFZGS+
- omXvaUKohE9dP4dNkEBpGpQP3jAGODIJCEA9wN+7BbSM1Qq0SeBi21fFfsuvyqE0Tjtq
- riG9gwYsT5jp2IgU1o7IQ2uP0lsbOadi7G8tO1RxftabLAMNz0jA95wTI9S1WGn/T1RB
- 9w6L9lIM8M+qqDDtEqiTOnRJQl+nqQh/1QZ0U1DGSySjxi9plXYG4aV+HuVZCpb7UI90
- jQxdi8S5+NppKpt0e0P3vgRu0OOQtZFGMmN/ZN7YKz3SnEsISJE4pTzFwJWpyZcLsL20
- FS6A==
-X-Gm-Message-State: AOAM531Lr3laHikWik3dCuLWCeE3DRX5WWYDeFE381vp52tIiKAdp3YF
- 6kizAJv8jTwWMJwfUNuj7Mzzb866q4Q=
-X-Google-Smtp-Source: ABdhPJy4g9nyYt1qZNUknJcVilGJlzX+pEnq0V4VLHzv+8XibOBU9icNLCWE4gC9JfAO5x1yp15bMw==
-X-Received: by 2002:aa7:c94b:: with SMTP id h11mr33118511edt.322.1605862526086; 
- Fri, 20 Nov 2020 00:55:26 -0800 (PST)
-Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id r1sm843977eje.51.2020.11.20.00.55.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Nov 2020 00:55:25 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.2] microvm: fix kconfig for non-default devices
-Date: Fri, 20 Nov 2020 09:55:24 +0100
-Message-Id: <20201120085524.108200-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.28.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kg2Lv-0005iE-SF
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 04:05:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43189)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kg2Lt-0005uG-Bi
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 04:05:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605863107;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iajxhw1cLYwzpab802gnIudWvVm2FWiyEDPQ/taY/y4=;
+ b=fSigVNr3fs4iTLfWZNCCctcZJsdo8A+tiEOZ6K8TGBwKVSQVH+HimbJsyDRBeEK2gFBiuC
+ TeX0QGwdb2T1xnQyifVqsZdqsMBYKEsFSIw61s0DlYi2eWBNATMags5QfynSxEFRXGIfH/
+ NWCJhxQHKnvvxRf2bQV9HPmoL8rrChw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-4-nPEsrrCSMR6bl94XIVmr1w-1; Fri, 20 Nov 2020 04:05:05 -0500
+X-MC-Unique: nPEsrrCSMR6bl94XIVmr1w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26C82100B716;
+ Fri, 20 Nov 2020 09:05:04 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EB9BE5C1D5;
+ Fri, 20 Nov 2020 09:05:03 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 80E5F11358BA; Fri, 20 Nov 2020 10:05:02 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH v2 3/8] qnum: QNumValue type for QNum value literals
+References: <20201116224143.1284278-1-ehabkost@redhat.com>
+ <20201116224143.1284278-4-ehabkost@redhat.com>
+ <CAJ+F1C+YUZdP56MuLtZbO0fK6rPsDosgxXG4zaDq=mjwqsV74A@mail.gmail.com>
+ <20201117144246.GD1235237@habkost.net>
+ <CAJ+F1CLZg-hhuK2ffRzVaWiZKe2Aqvf0-mqxXGAzscSa8FmCNw@mail.gmail.com>
+ <87mtzdd4p7.fsf@dusky.pond.sub.org>
+ <20201119182158.GX1509407@habkost.net>
+ <20201119205502.GC1509407@habkost.net>
+Date: Fri, 20 Nov 2020 10:05:02 +0100
+In-Reply-To: <20201119205502.GC1509407@habkost.net> (Eduardo Habkost's message
+ of "Thu, 19 Nov 2020 15:55:02 -0500")
+Message-ID: <87k0ug760x.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::542;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x542.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,60 +88,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Bruce Rogers <brogers@suse.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PCIe and USB support can be disabled on the command line, and therefore
-should not be included if QEMU is configured --without-default-devices.
+Eduardo Habkost <ehabkost@redhat.com> writes:
 
-While at it, also remove the "default y" for USB_XHCI_SYSBUS because
-sysbus devices are not user creatable; boards that use them will
-specify them manually with "imply" or "select" clauses.
+> On Thu, Nov 19, 2020 at 01:21:58PM -0500, Eduardo Habkost wrote:
+>> On Thu, Nov 19, 2020 at 11:24:52AM +0100, Markus Armbruster wrote:
+> [...]
+>> > >> > > +    return qnum_from_value((QNumValue) QNUM_VAL_INT(value));
+>> >=20
+>> > No space between between (type) and its operand, please.
+>> >=20
+>> > Could we lift the cast into the macro somehow?
+>>=20
+>> I think we can.  I had thought the cast in the macro would break
+>> usage as static variable initializers.  I was wrong.
+>
+> Actually, including the cast in the macro breaks QLIT_QDICT
+> initializers (which use (QLitDictEntry[]) compound literals), and
+> I don't know why.
+>
+> Compound literals in initializers of static variables is a GCC
+> extension.  I don't understand why it doesn't work inside array
+> compound literals, though.
+>
+> Any language lawyers around?
+>
+> This works:
+>
+>   typedef struct QLit {
+>       int x, y;
+>   } QLit;
+>  =20
+>   typedef struct Entry {
+>       int key;
+>       QLit value;
+>   } Entry;
+>  =20
+>   Entry e =3D { .key =3D 0, .value =3D (QLit) { 1,   2 } };
+>
+> This works:
+>
+>   Entry *es1 =3D (Entry[]) {
+>       { .key =3D 0, .value =3D { 1,   2 } },
+>   };
+>
+> But this doesn't:
+>
+>   Entry *es2 =3D (Entry[]) {
+>       { .key =3D 0, .value =3D (QLit) { 1,   2 } },
+>   };
+>
+> dict.c:16:24: error: initializer element is not constant
+>    16 | Entry *es2 =3D (Entry[]) {
+>       |                        ^
+> dict.c:16:24: note: (near initialization for =E2=80=98es2=E2=80=99)
+>
+> (gcc (GCC) 10.2.1 20201005 (Red Hat 10.2.1-5))
 
-Reported-by: Bruce Rogers <brogers@suse.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- hw/i386/Kconfig | 4 ++--
- hw/usb/Kconfig  | 1 -
- 2 files changed, 2 insertions(+), 3 deletions(-)
+Can't explain this offhand.
 
-diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-index eea059ffef..16296dda84 100644
---- a/hw/i386/Kconfig
-+++ b/hw/i386/Kconfig
-@@ -96,6 +96,8 @@ config Q35
- 
- config MICROVM
-     bool
-+    imply PCI_EXPRESS_GENERIC_BRIDGE
-+    imply USB_XHCI_SYSBUS
-     select SERIAL_ISA # for serial_hds_isa_init()
-     select ISA_BUS
-     select APIC
-@@ -104,8 +106,6 @@ config MICROVM
-     select MC146818RTC
-     select VIRTIO_MMIO
-     select ACPI_HW_REDUCED
--    select PCI_EXPRESS_GENERIC_BRIDGE
--    select USB_XHCI_SYSBUS
- 
- config X86_IOMMU
-     bool
-diff --git a/hw/usb/Kconfig b/hw/usb/Kconfig
-index 3b07d9cf68..7fbae18bc8 100644
---- a/hw/usb/Kconfig
-+++ b/hw/usb/Kconfig
-@@ -47,7 +47,6 @@ config USB_XHCI_NEC
- 
- config USB_XHCI_SYSBUS
-     bool
--    default y
-     select USB_XHCI
- 
- config USB_MUSB
--- 
-2.28.0
+Another pecularity: a const QLitObject is for the most part not actually
+const.  Evidence:
+
+    $ size bld-x86/libqemu-x86_64-softmmu.fa.p/meson-generated_.._qapi_qapi=
+-introspect.c.o
+       text=09   data=09    bss=09    dec=09    hex=09filename
+      19590=09 351600=09     48=09 371238=09  5aa26=09bld-x86/libqemu-x86_6=
+4-softmmu.fa.p/meson-generated_.._qapi_qapi-introspect.c.o
+
+Score 5 out of 100 points.
 
 
