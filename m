@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B0692BB0F2
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 17:51:08 +0100 (CET)
-Received: from localhost ([::1]:37210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA8F52BB0F5
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 17:53:41 +0100 (CET)
+Received: from localhost ([::1]:42998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg9cp-0002KT-L1
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 11:51:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40616)
+	id 1kg9fI-0004jf-Qz
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 11:53:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kg9Yp-0006Ej-6T
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:46:59 -0500
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:35563)
+ id 1kg9ad-0000rR-Ci
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:48:51 -0500
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:41778)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kg9Yn-0002Hs-AF
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:46:58 -0500
-Received: by mail-ej1-x630.google.com with SMTP id f23so13795546ejk.2
- for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 08:46:56 -0800 (PST)
+ id 1kg9aZ-0002nR-Gp
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 11:48:49 -0500
+Received: by mail-ej1-x629.google.com with SMTP id gj5so13778584ejb.8
+ for <qemu-devel@nongnu.org>; Fri, 20 Nov 2020 08:48:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=PPPKBYAiDqptk788z53LcyJhrcZDocJaQEsVvVQJRNM=;
- b=qNkKGnm9MVIUHFsIPfcKlHv+IvszNNUWR9y1LKwS9GKDF4YLBXEGtXVVMFtYMjWBny
- 2/KbtsjxRwazeczYlPAj6ZqqRm3JO8InW6p0JJ6i2HvpbxRkylWtIseZPECt2pAzumLb
- Z0KDPRf5sm5N/3UTIxtkQcMwuOZamdmQpGfUd+DcDgdES/OiiIYugltXtnMGYAEDd0rV
- gxZ5nfxPvdEFVoC4NY3xMmw+8oVS0Twy0xLuLLhjBl7jXzOY1vWw3g3aQ2qX49MvlObN
- HtNKS9jGSt05hC4STfw8bSbt7Q2meXp0FEDJm0i+r3g6OQVEUgrebfCGJgUDY4e/WVod
- rfyA==
+ bh=Odi3BoS2qTZsg8YLZLhOiqoD3J/LWyFvB/MSV4PWi+g=;
+ b=eG1/P3j8wU7Z+sjgERs9wsKeCEGq339W0FJGaqLMpa5Usvad4p7pk+ATDDNWDEYNgv
+ HnRsFFJV1zDzfno/oNIVpVNFY2W8pNJOkul6h0oMGdPuxP7kjTOpPm6xDVA4a6K+vMJH
+ xxtu+uJmuXhC/zMMJ2BCvFJWODke5sDTZcLK5arvhwGjkR9bfvuaNgkcC9kfkUCsA3x/
+ xOpdHNWtYLAbT7OpQTGtn+65Fy6NYPFI71nDzUeUl/Nlo6hSNpYzFYIWv+SXh3wHi3JS
+ znVBDfyIafTFE2Q+fNbBwRg/kNzw70m1gvGQlEf5mb6DcpZBc1lgtIValvpZnROLQZjK
+ DTSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=PPPKBYAiDqptk788z53LcyJhrcZDocJaQEsVvVQJRNM=;
- b=t2erxhDuoksPTkgFPTnDyMQX8V5JNN5c9cqU1zUOxKHmtLVgqGy+5JmP4RvUSo00RJ
- otH4UVu9G2hdJUtdcCW5Igdrsy/GkFcq2BZThjh3hKkm2C5BENKVCdH1siehWvWSffpw
- yaL1OVHtWu8ExhLUcqurPm0KGXLH6ZKZFNFq0KpuL1Cd01PSxLXPDNAF3nJN9fPbCj2T
- IGsFlbtmlwkR4SZzYFn66A71sq9Caikn/4b7XhNFG/U7Dwq3D0R/KovlJJz8eLfjHKhh
- hvnNFCjYuz2Tv05lSemqgPCKLR0xc0Q6aVsCe8ljWu1uDRl7udnAzCJtZc9mG5DUxJGo
- Il4Q==
-X-Gm-Message-State: AOAM532e4xSree9iH1TXgC5yFS5x9d0vPLtyiwvFOF8uk9G+7zt29Yem
- E8+n9vr22PdpnBVmFSilxdhnB+ZXZgWJVpLjsRGGww==
-X-Google-Smtp-Source: ABdhPJw70HRVY+ETDdojOZrLC+NKN4A9t0bzkz9n1kK9MSW6u5RFOwP/xcghooKJvOP/BkqYEyc1zFEu8vYeBYry6Rk=
-X-Received: by 2002:a17:906:5a88:: with SMTP id
- l8mr32520180ejq.407.1605890815595; 
- Fri, 20 Nov 2020 08:46:55 -0800 (PST)
+ bh=Odi3BoS2qTZsg8YLZLhOiqoD3J/LWyFvB/MSV4PWi+g=;
+ b=akaVRk2+PcvUmcfEf48stA9x4AiZyGAkeDgzc5I8Mqul1XZwZwYCPFB34GfFa42Tql
+ W7b11qUHLtFaZCsT9pEZVmfOb/44I0fVs85FyZPhuU/FmYMqZnEOD7eb0gR6neq9izPq
+ iTk06O5XYe/vvD3abPZC4kBz864n+5hZTSkg4Gg8eFX2KKrdQn8p1UcLHMcN/ofepcDM
+ qj0Giwr/M9xaDfN0/0xT65xzZwl+OnxFXnLNpr0BQAXyeChOunlElp9JczLx+y/BJtE/
+ AohLERiH1qLaAyk8F7jYq3LuKIlqiT0VGBnDYta3UlhMoA7cq4UwQKbB7DBWveWpNICK
+ 8IAA==
+X-Gm-Message-State: AOAM530Ru7tS81R6mc5ftbQmcCpnvlEMs0C5KXkBw5t9/JvbZEdzB/Iw
+ 2UqoGISezGEbs+xp7VHGYeIszimShgYdGu4Elvy7MA==
+X-Google-Smtp-Source: ABdhPJwZnZSxMYOUdu2XcyJV0NnWT6rwjDPYA58p2/mCBXe7FyGFsF+txvzrdVVZn3s8Lhkvt1VsN6g2+HPYs6/dZQ4=
+X-Received: by 2002:a17:906:6896:: with SMTP id
+ n22mr35242879ejr.56.1605890925956; 
+ Fri, 20 Nov 2020 08:48:45 -0800 (PST)
 MIME-Version: 1.0
 References: <20201120152140.2493197-1-f4bug@amsat.org>
- <20201120152140.2493197-2-f4bug@amsat.org>
-In-Reply-To: <20201120152140.2493197-2-f4bug@amsat.org>
+ <20201120152140.2493197-3-f4bug@amsat.org>
+In-Reply-To: <20201120152140.2493197-3-f4bug@amsat.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 20 Nov 2020 16:46:44 +0000
-Message-ID: <CAFEAcA8udfqjmYn64PZJP6xv_T_v=7Ff7CAj1jeapuZbvBupxw@mail.gmail.com>
-Subject: Re: [PATCH-for-5.2 1/4] docs/system: Deprecate raspi2/raspi3 machine
- aliases
+Date: Fri, 20 Nov 2020 16:48:34 +0000
+Message-ID: <CAFEAcA85nhCv6DH-Kf0CqfaN5rYrhzE=TY54MNEqn5ko3wkDNQ@mail.gmail.com>
+Subject: Re: [PATCH-for-5.2 2/4] docs/system/arm: Document the various raspi
+ boards
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,8 +81,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Krempa <pkrempa@redhat.com>, Libvirt <libvir-list@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
+Cc: Libvirt <libvir-list@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
  Andrew Baumann <Andrew.Baumann@microsoft.com>,
  Andrew Jeffery <andrew@aj.id.au>, qemu-arm <qemu-arm@nongnu.org>,
  Joel Stanley <joel@jms.id.au>,
@@ -93,52 +92,80 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Fri, 20 Nov 2020 at 15:21, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
  wrote:
 >
-> Since commit aa35ec2213b ("hw/arm/raspi: Use more specific
-> machine names") the raspi2/raspi3 machines have been renamed
-> as raspi2b/raspi3b.
+> Document the following Raspberry Pi models:
 >
-> Note, rather than the raspi3b, the raspi3ap introduced in
-> commit 5be94252d34 ("hw/arm/raspi: Add the Raspberry Pi 3
-> model A+") is a closer match to what QEMU models, but only
-> provides 512 MB of RAM.
+>  - raspi0               Raspberry Pi Zero (revision 1.2)
+>  - raspi1ap             Raspberry Pi A+ (revision 1.1)
+>  - raspi2b              Raspberry Pi 2B (revision 1.1)
+>  - raspi3ap             Raspberry Pi 3A+ (revision 1.0)
+>  - raspi3b              Raspberry Pi 3B (revision 1.2)
 >
-> As more Raspberry Pi 2/3 models are emulated, in order
-> to avoid confusion, deprecate the raspi2/raspi3 machine
-> aliases.
->
-> ACKed-by: Peter Krempa <pkrempa@redhat.com>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
->  docs/system/deprecated.rst | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  docs/system/arm/raspi.rst  | 44 ++++++++++++++++++++++++++++++++++++++
+>  docs/system/target-arm.rst |  1 +
+>  2 files changed, 45 insertions(+)
+>  create mode 100644 docs/system/arm/raspi.rst
 >
-> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-> index d98464098f5..d1bc03d7e61 100644
-> --- a/docs/system/deprecated.rst
-> +++ b/docs/system/deprecated.rst
-> @@ -346,6 +346,13 @@ This machine has been renamed ``fuloong2e``.
->  These machine types are very old and likely can not be used for live mig=
-ration
->  from old QEMU versions anymore. A newer machine type should be used inst=
-ead.
->
-> +Raspberry Pi ``raspi2`` and ``raspi3`` machines (since 5.2)
-> +'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+> diff --git a/docs/system/arm/raspi.rst b/docs/system/arm/raspi.rst
+> new file mode 100644
+> index 00000000000..b19284e4481
+> --- /dev/null
+> +++ b/docs/system/arm/raspi.rst
+> @@ -0,0 +1,44 @@
+> +Raspberry Pi boards (``raspi0``, ``raspi1ap``, ``raspi2b``, ``raspi3ap``=
+, ``raspi3b``)
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 > +
-> +The Raspberry Pi machines come in various models (A, A+, B, B+). To be a=
-ble
-> +to distinct which model is used, the ``raspi2`` and ``raspi3`` machines =
- have
+> +
+> +QEMU provides models the following Raspberry Pi boards:
 
-"to distinguish which model QEMU is implementing"
+"models of"
 
-> +been respectively renamed ``raspi2b`` and ``raspi3b``.
+> +
+> +``raspi0`` and ``raspi1ap``
+> +  ARM1176JZF-S core, 512 MiB of RAM
+> +``raspi2b``
+> +  Cortex-A7 (4 cores), 1 GiB of RAM
+> +``raspi3ap``
+> +  Cortex-A53 (4 cores), 512 MiB of RAM
+> +``raspi3b``
+> +  Cortex-A53 (4 cores), 1 GiB of RAM
+> +
+> +
+> +Implemented devices
+> +-------------------
+> +
+> + * ARM1176JZF-S, Cortex-A7 or Cortex-A53 CPU
+> + * Interrupt controller
+> + * DMA controller
+> + * Clock and reset controller (CPRMAN)
+> + * System Timer
+> + * GPIO controller
+> + * Serial ports (BCM2835 AUX - 16550 based - and PL011)
+> + * Random Number Generator (RNG)
+> + * Frame Buffer
+> + * USB host (USBH)
+> + * GPIO controller
+> + * SD/MMC host controller
+> + * SoC thermal sensor
+> + * USB2 host controller (DWC2 and MPHI)
+> + * MailBox controller (MBOX)
+> + * VideoCore firmware (property)
+> +
+> +
+> +Missing devices
+> +---------------
+> +
+> + * Peripheral SPI controller (SPI)
+> + * Analog to Digital Converter (ADC)
+> + * Pulse Width Modulation (PWM)
+> + * Security features
 
-"been renamed ``raspi2b`` and ``raspi3b`` respectively"
-
-(or just drop 'respectively' altogether and assume the reader can
-figure out which is which ;-))
-
+"Security features" is a bit vague; could we be more precise?
 
 Otherwise
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
