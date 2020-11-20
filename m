@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FE962BB4C6
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 20:07:56 +0100 (CET)
-Received: from localhost ([::1]:34848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B0D82BB4FF
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 20:17:58 +0100 (CET)
+Received: from localhost ([::1]:56638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kgBlD-0001BF-LA
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 14:07:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41710)
+	id 1kgBuv-0001zU-6n
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 14:17:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1kgBYq-0006mj-4J
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 13:55:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49246)
+ id 1kgBZ2-0006rs-L2
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 13:55:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43039)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1kgBYn-0007mi-Vl
- for qemu-devel@nongnu.org; Fri, 20 Nov 2020 13:55:07 -0500
+ id 1kgBZ0-0007sj-2S
+ for qemu-devel@nongnu.org; Fri, 20 Nov 2020 13:55:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605898505;
+ s=mimecast20190719; t=1605898517;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4wp9YwTYGJnUKm2v8rubzSiDU/VoJ3Bb1DJ/6lk+2es=;
- b=OGwTUoY0ZbWHvLDtCRfDAfbzluKzXjFl+sTW/D3U57HC6gjuNIa59+ocRgwhUodCXxQNOI
- PeNkydEUr2mkKQV2k+PXNBTkL+CVQiRQE5oaAFCTLwGOMeL5Wt24Y0tpat1bgAjX+9SrG7
- FSpfojOTUUnbCjoFmdg7M2MA94pdW4o=
+ bh=2NtO6niIGV95EKH2ITwzudVB3tBfrLrd6tahFyFqPtU=;
+ b=QsFByzEME5Iqh723uJG8oIS89Qow2A6+5/3qLL1/jrNLFapK7+6KDYVIcPWicYT1V0V7WZ
+ Lua+549CDpuldfbk7C6BDettL53ePUbwjyD12bZuyQV57yozyHIZdJGyp96W75SbHD4ILF
+ zDtxy3EFEvWa7UCRTi+Try6B333FIs4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-364-vhU3u-tTOGC90Zymqu4hTA-1; Fri, 20 Nov 2020 13:55:01 -0500
-X-MC-Unique: vhU3u-tTOGC90Zymqu4hTA-1
+ us-mta-540-zR19Dr3RMGSdd3PWouysKg-1; Fri, 20 Nov 2020 13:55:14 -0500
+X-MC-Unique: zR19Dr3RMGSdd3PWouysKg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 951ED8030AD;
- Fri, 20 Nov 2020 18:54:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE8D25B375;
+ Fri, 20 Nov 2020 18:55:11 +0000 (UTC)
 Received: from eperezma.remote.csb (ovpn-112-88.ams2.redhat.com [10.36.112.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7628E5C1D5;
- Fri, 20 Nov 2020 18:54:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F0B3E5C1D5;
+ Fri, 20 Nov 2020 18:54:58 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 15/27] vhost: Do not invalidate signalled used
-Date: Fri, 20 Nov 2020 19:50:53 +0100
-Message-Id: <20201120185105.279030-16-eperezma@redhat.com>
+Subject: [RFC PATCH 16/27] virtio: Expose virtqueue_alloc_element
+Date: Fri, 20 Nov 2020 19:50:54 +0100
+Message-Id: <20201120185105.279030-17-eperezma@redhat.com>
 In-Reply-To: <20201120185105.279030-1-eperezma@redhat.com>
 References: <20201120185105.279030-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -93,25 +93,41 @@ Cc: kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since we are in control of guest' VQ again, we can trust on it.
+Specify VirtQueueElement * as return type makes no harm at this moment.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost.c | 1 -
- 1 file changed, 1 deletion(-)
+ include/hw/virtio/virtio.h | 2 ++
+ hw/virtio/virtio.c         | 3 ++-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 304e0baa61..ac2bc14190 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -996,7 +996,6 @@ static void vhost_handle_call(EventNotifier *n)
-     VirtQueue *vq = virtio_get_queue(vdev->vdev, idx);
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index 79212141a6..ee8fe96f32 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -196,6 +196,8 @@ void virtqueue_fill(VirtQueue *vq, const VirtQueueElement *elem,
+                     unsigned int len, unsigned int idx);
  
-     if (event_notifier_test_and_clear(n)) {
--        virtio_queue_invalidate_signalled_used(vdev->vdev, idx);
-         virtio_notify_irqfd(vdev->vdev, vq);
-     }
+ void virtqueue_map(VirtIODevice *vdev, VirtQueueElement *elem);
++VirtQueueElement *virtqueue_alloc_element(size_t sz, unsigned out_num,
++                                          unsigned in_num);
+ void *virtqueue_pop(VirtQueue *vq, size_t sz);
+ unsigned int virtqueue_drop_all(VirtQueue *vq);
+ void *qemu_get_virtqueue_element(VirtIODevice *vdev, QEMUFile *f, size_t sz);
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index ad9dc5dfa7..a89525f067 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -1400,7 +1400,8 @@ void virtqueue_map(VirtIODevice *vdev, VirtQueueElement *elem)
+                                                                         false);
  }
+ 
+-static void *virtqueue_alloc_element(size_t sz, unsigned out_num, unsigned in_num)
++VirtQueueElement *virtqueue_alloc_element(size_t sz, unsigned out_num,
++                                          unsigned in_num)
+ {
+     VirtQueueElement *elem;
+     size_t in_addr_ofs = QEMU_ALIGN_UP(sz, __alignof__(elem->in_addr[0]));
 -- 
 2.18.4
 
