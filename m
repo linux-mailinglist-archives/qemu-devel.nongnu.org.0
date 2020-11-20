@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E6052BAEAD
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 16:24:00 +0100 (CET)
-Received: from localhost ([::1]:36712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BE422BAECD
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 16:24:29 +0100 (CET)
+Received: from localhost ([::1]:38388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kg8GV-0006Qn-MW
-	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 10:23:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45634)
+	id 1kg8Gy-000789-2N
+	for lists+qemu-devel@lfdr.de; Fri, 20 Nov 2020 10:24:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kg8ER-0004y9-Vy; Fri, 20 Nov 2020 10:21:52 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:54041)
+ id 1kg8EX-00057l-DN; Fri, 20 Nov 2020 10:21:58 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:55087)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kg8EQ-0001tQ-G5; Fri, 20 Nov 2020 10:21:51 -0500
-Received: by mail-wm1-x333.google.com with SMTP id p22so10689518wmg.3;
- Fri, 20 Nov 2020 07:21:49 -0800 (PST)
+ id 1kg8EV-0001vG-Vo; Fri, 20 Nov 2020 10:21:57 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id d142so10688814wmd.4;
+ Fri, 20 Nov 2020 07:21:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jcf04043Pi+V90LbOoBTsrGE/AFMzu7sIT3aD0E2cO4=;
- b=r8vW9KRrHnfDHdd9xhlIwYxo3dA7LCrc//rGNdiBvLjcWhy36oTEKj86ra4w/ZCBGa
- Eig5w2n50E3/JDs89Q79SdcS7Jy1Dblnd2B92ssCatBk35P4HI2BAnQccNbrhZ5Tx/ZZ
- pmXmwM3vs2g+kycmUNx0G5Re9DXW8nOQD7rCWeE/b7obVNEOJ9yfS8MBktQdBq9rItJV
- Ur4f6+uFUdpWGyQPvsCqpglUxfgm1jcSrq16hVQ5Qsz8BNftLRG/INmol7CVW+yOQTLk
- 880O8bLB8uu/yPyT0Spg5hoexuJtBTDuRZs2Wv5dOXxIxfeBAyfGZprBlxHtj6FsqqoJ
- bn+g==
+ bh=fxh0sHKcZ3r3wqRWmXHGbWTRHZxGehlsHVLLwOw47rY=;
+ b=NONwvJ9FlrDFVMTcGHtr5l1J1bNkU0empsH/zuDRoXZXr9hTGmxwLjTwTVA93Qj1ss
+ N2aCt6/CyvlAFpjS7cUzpr5bc8XsaZngzciJyi60+m0F8NpKwLFRPjlgR0Nk63AMSbuE
+ DoSszFQsHigOdSFQP9Ay++wPCjef/RXSNNzWctA95wfAXEZpydn4u3inve692Db4xW3j
+ n4OynOmUPcJeM1GDhzB60mGfWozFZAxh6tJdcju2/IvjeZL+QMXNl/OmDlYJgqRHdzXA
+ HQEPILupAoiQtkKUMWZl1R2NKV8g8P9IH8TVxneSeg+/MExPlArAHYuripxE8/UQr7HC
+ n60w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=jcf04043Pi+V90LbOoBTsrGE/AFMzu7sIT3aD0E2cO4=;
- b=DVOv5netiJslCsp6nv1aFSb+sU13VtoXHsOs0Nx1XVKv+PYA0gUGY7Ml/wPOXOZO08
- +Dhdb25xMLKP+8y2OZfHRt0JJM/M8mjVv3ndvz+jI6F8fw6JsgtfnEKm6358wArN7dgW
- wuw4DlHc7xPkm0S9H0QAZBAHl2Stl5I7ncIJJPfEKVOcAbmyN7vOxWrzHZISkgSNQshb
- R1G0/y9y2JApquvwNmTHHRuBDAjMgxGQwN1lBKLSNVnnPO/0wVc3yiIvbVrfW9UmLL0S
- /sqwMffC/NCHnY2RliG+JP2KSf7SwALmN+HLRbUiblSNe2LZDnIiOeT6xZ4tm9cGcUxH
- ExOw==
-X-Gm-Message-State: AOAM530Q8lOG8ppINhcZEBSwh0WjKVall5g3m62LEFEWkOyDe9t1tt9p
- phw4noLTf+CZJXAY0JSVLQdkETAC23k=
-X-Google-Smtp-Source: ABdhPJx27nzRQGRjd1B84Ma4Xow8Rz06LZTSUvf812In121mg/MSMScFyKxQR0YYInyoXQVTOXWTzg==
-X-Received: by 2002:a1c:3142:: with SMTP id x63mr10300239wmx.168.1605885708146; 
- Fri, 20 Nov 2020 07:21:48 -0800 (PST)
+ bh=fxh0sHKcZ3r3wqRWmXHGbWTRHZxGehlsHVLLwOw47rY=;
+ b=C4UpQ4VdMM6299D6ChCvrSqB0E8L1L06wlPgJEqFifmNXwGVyfqghivJajemRMXncn
+ N6QQ+WIT1DN7O2Sbi40io82+cQUtStKzSYG4OPa8JfpfOvHWML2fdWAXUIA8kJhCq4za
+ on6nnHF9oFXyb/7QJYDUZi2KGUWjWTNmeanyPHTa9E7uv6R3L4QiNSlQGOa3oDqOzasC
+ CK+fktYFU2tp75OwiDE0v7clMWCvxf4YZkB32ggHwjfn+wcn7zafmiX81zJj4cMmq+4H
+ y8ucARjgGxMurcfLav3HOlQqa0QCRZdEYaPLmDKC23LRuHWAVYIpSzU1nJqHfv4MF3AY
+ IL6g==
+X-Gm-Message-State: AOAM530H6ZvDcWiHH9nWqOWaVnd3l2pp4Huu8b2rdUa1617y5UENdqyJ
+ NOTiJSiAboI+eoTWfQGcqSyt6Ykn5RA=
+X-Google-Smtp-Source: ABdhPJyE1SNx3OX+QcY4a2xCZ46+yjbePVyobVDuBH9PGuxWBcr+270QyGvZHktfp10rDPvbVDWXTg==
+X-Received: by 2002:a1c:bd05:: with SMTP id n5mr10933463wmf.171.1605885713617; 
+ Fri, 20 Nov 2020 07:21:53 -0800 (PST)
 Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id g11sm5684123wrq.7.2020.11.20.07.21.46
+ by smtp.gmail.com with ESMTPSA id p12sm5189760wrw.28.2020.11.20.07.21.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Nov 2020 07:21:47 -0800 (PST)
+ Fri, 20 Nov 2020 07:21:52 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2 1/4] docs/system: Deprecate raspi2/raspi3 machine
- aliases
-Date: Fri, 20 Nov 2020 16:21:37 +0100
-Message-Id: <20201120152140.2493197-2-f4bug@amsat.org>
+Subject: [PATCH-for-5.2 2/4] docs/system/arm: Document the various raspi boards
+Date: Fri, 20 Nov 2020 16:21:38 +0100
+Message-Id: <20201120152140.2493197-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201120152140.2493197-1-f4bug@amsat.org>
 References: <20201120152140.2493197-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,8 +83,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Peter Krempa <pkrempa@redhat.com>,
- libvir-list@redhat.com,
+Cc: Peter Maydell <peter.maydell@linaro.org>, libvir-list@redhat.com,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Andrew Baumann <Andrew.Baumann@microsoft.com>,
  Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
@@ -94,43 +92,83 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Peter Krempa <pkrempa@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since commit aa35ec2213b ("hw/arm/raspi: Use more specific
-machine names") the raspi2/raspi3 machines have been renamed
-as raspi2b/raspi3b.
+Document the following Raspberry Pi models:
 
-Note, rather than the raspi3b, the raspi3ap introduced in
-commit 5be94252d34 ("hw/arm/raspi: Add the Raspberry Pi 3
-model A+") is a closer match to what QEMU models, but only
-provides 512 MB of RAM.
+ - raspi0               Raspberry Pi Zero (revision 1.2)
+ - raspi1ap             Raspberry Pi A+ (revision 1.1)
+ - raspi2b              Raspberry Pi 2B (revision 1.1)
+ - raspi3ap             Raspberry Pi 3A+ (revision 1.0)
+ - raspi3b              Raspberry Pi 3B (revision 1.2)
 
-As more Raspberry Pi 2/3 models are emulated, in order
-to avoid confusion, deprecate the raspi2/raspi3 machine
-aliases.
-
-ACKed-by: Peter Krempa <pkrempa@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- docs/system/deprecated.rst | 7 +++++++
- 1 file changed, 7 insertions(+)
+ docs/system/arm/raspi.rst  | 44 ++++++++++++++++++++++++++++++++++++++
+ docs/system/target-arm.rst |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 docs/system/arm/raspi.rst
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index d98464098f5..d1bc03d7e61 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -346,6 +346,13 @@ This machine has been renamed ``fuloong2e``.
- These machine types are very old and likely can not be used for live migration
- from old QEMU versions anymore. A newer machine type should be used instead.
- 
-+Raspberry Pi ``raspi2`` and ``raspi3`` machines (since 5.2)
-+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+diff --git a/docs/system/arm/raspi.rst b/docs/system/arm/raspi.rst
+new file mode 100644
+index 00000000000..b19284e4481
+--- /dev/null
++++ b/docs/system/arm/raspi.rst
+@@ -0,0 +1,44 @@
++Raspberry Pi boards (``raspi0``, ``raspi1ap``, ``raspi2b``, ``raspi3ap``, ``raspi3b``)
++======================================================================================
 +
-+The Raspberry Pi machines come in various models (A, A+, B, B+). To be able
-+to distinct which model is used, the ``raspi2`` and ``raspi3`` machines  have
-+been respectively renamed ``raspi2b`` and ``raspi3b``.
 +
- Device options
- --------------
- 
++QEMU provides models the following Raspberry Pi boards:
++
++``raspi0`` and ``raspi1ap``
++  ARM1176JZF-S core, 512 MiB of RAM
++``raspi2b``
++  Cortex-A7 (4 cores), 1 GiB of RAM
++``raspi3ap``
++  Cortex-A53 (4 cores), 512 MiB of RAM
++``raspi3b``
++  Cortex-A53 (4 cores), 1 GiB of RAM
++
++
++Implemented devices
++-------------------
++
++ * ARM1176JZF-S, Cortex-A7 or Cortex-A53 CPU
++ * Interrupt controller
++ * DMA controller
++ * Clock and reset controller (CPRMAN)
++ * System Timer
++ * GPIO controller
++ * Serial ports (BCM2835 AUX - 16550 based - and PL011)
++ * Random Number Generator (RNG)
++ * Frame Buffer
++ * USB host (USBH)
++ * GPIO controller
++ * SD/MMC host controller
++ * SoC thermal sensor
++ * USB2 host controller (DWC2 and MPHI)
++ * MailBox controller (MBOX)
++ * VideoCore firmware (property)
++
++
++Missing devices
++---------------
++
++ * Peripheral SPI controller (SPI)
++ * Analog to Digital Converter (ADC)
++ * Pulse Width Modulation (PWM)
++ * Security features
+diff --git a/docs/system/target-arm.rst b/docs/system/target-arm.rst
+index a0d5c57799c..bde4b8e044e 100644
+--- a/docs/system/target-arm.rst
++++ b/docs/system/target-arm.rst
+@@ -90,6 +90,7 @@ undocumented; you can get a complete list by running
+    arm/nuvoton
+    arm/orangepi
+    arm/palm
++   arm/raspi
+    arm/xscale
+    arm/collie
+    arm/sx1
 -- 
 2.26.2
 
