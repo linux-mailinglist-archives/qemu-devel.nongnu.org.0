@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A710F2B9F13
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 01:13:09 +0100 (CET)
-Received: from localhost ([::1]:39228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 891322B9F0A
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Nov 2020 01:12:31 +0100 (CET)
+Received: from localhost ([::1]:38284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kfu32-0002Ta-Mk
-	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 19:13:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53718)
+	id 1kfu2Q-00023g-J0
+	for lists+qemu-devel@lfdr.de; Thu, 19 Nov 2020 19:12:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kftzs-0000Ha-PB
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 19:09:52 -0500
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:39589)
+ id 1kfu0t-0001BE-Id
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 19:10:56 -0500
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:44156)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kftzq-0007yL-Vi
- for qemu-devel@nongnu.org; Thu, 19 Nov 2020 19:09:52 -0500
-Received: by mail-pf1-x442.google.com with SMTP id q5so6118523pfk.6
- for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 16:09:50 -0800 (PST)
+ id 1kfu0q-0008Ag-On
+ for qemu-devel@nongnu.org; Thu, 19 Nov 2020 19:10:54 -0500
+Received: by mail-pf1-x444.google.com with SMTP id y7so6096902pfq.11
+ for <qemu-devel@nongnu.org>; Thu, 19 Nov 2020 16:10:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
  bh=0ikXEX+nN8UC/zRi3z2BATJW8sOiZDyUWP+kWAom7Ls=;
- b=yKuxjEMNlt08NHO2HuAPW3cbdS0Wi+0KHHuFhsSiw8xgfInBPbrbLgU1b7xMVWw8xB
- 60u1fEP1bCayN1/XwpFoSSnF95GZT0YdiYj7DedeXgJlu0nDkcm+aKeINPSPHH0/mCS8
- +/tpONIV6/OepVxTW/uiMnC3UnovFBw39a7/DR3rG+ViOkZLGq2Xy5TRCz4ctwWRHlII
- 7cTjNGFi0q12NwYl3R9uy+gNgDOgFB9+CGMAQ+weVCJ3/EnDBQWeDjt8voojh7XuGbXr
- 30dB0s53Kmf9XEpILDelG78KBYLGlATgCyKzWgXBi8rVXIeJy9OK4WtOa7PEHytOZvSH
- OYJQ==
+ b=McKa7qCX6KTzahwxhyQvav0w2IWW5qb3bh8K+8tODe40FJgXqJhPPPKvLvAMzyAmaP
+ iL6D1BppabDVgQViKBlDr9FrAatAXL+BBlEHOR/n5U4qImvn/tHrAKDZDcnvLS4D5ZGc
+ 3YwnKZk1YpwH8SOaYxSm4Huq7J7FPGBfRoQbpis6AoJx+2T5doBV29pBBbReMZxfK8bJ
+ p7su52DWC4LdLsbjYQIwMwZkNrHPu0HbrUGxn0b3CIgImP8At6JlaTTktPrb6ebn5+Gb
+ 8MAoGvhfSSB9YzeimMvqxaPOspVvsYVH32Xa08C0077LEZrsg5KDIH6fLru4bcF2vwJ2
+ 2Zjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
  bh=0ikXEX+nN8UC/zRi3z2BATJW8sOiZDyUWP+kWAom7Ls=;
- b=CswF87RvNV4qALK8Tn0Orf2dAaL046IIXaeiBZFvbMqBQxPjSEuWmIqPJ6k1OzO9yD
- /ggAmWo/HuuBPJktR9aiQ2izPXkTLK4wBo1/gic8UzF/849vT7LEBFqoGuJeTifCVdxU
- djpVwa9WNIka4pLJB2cqPthuzQslvZtKArpfzdaEVVrBbxDpEi7qoOA/w3d8V6L+v75D
- DNbRdYH+LHQPejwpC9j1syzn3mBBXAxmdBLcXYMjeZxkmcFneVeipxYkRRsfw3+LrbAv
- Y8pYdFri+l0skP5xGcZ8k8ChTecehoLhbdJnaCS8qAYvO6A/frHzoq4EWgmSHU7TY/3P
- swIg==
-X-Gm-Message-State: AOAM532yK6DH9FLSjdLniGItsji/nCn/TqxFksXyWSAY6lY1xeoUlDKi
- Ql/N4BjsEVEqCapkm0AzvXnn1g==
-X-Google-Smtp-Source: ABdhPJxtboJa15Uvma4MFTRk9b9lAm0clTXbQPyiAHugKS4syREhS1CcRc8SuPK/vA57O5stndxy7w==
-X-Received: by 2002:a17:90a:c695:: with SMTP id
- n21mr7263130pjt.86.1605830988670; 
- Thu, 19 Nov 2020 16:09:48 -0800 (PST)
+ b=PoGF8PqzljtLVYsoLCp2tZVw8x2v0eLnPePgM0I2SGx90mGIZAM68uuuPXaDSpYj+y
+ htX20pru9NfCxaDF8rUzppJEsuTxFUo7AxWJiQzeP29ZyHZiiKf1fkhnUmyZY7W30rSU
+ 5vbjuetTj1DCZdY26nZqk6o3uAOjAzVbOYQFLrlLlBbB+nx/8jHaw0MI+n7uUkKJ+7Yb
+ ap1WRoNj41wUmP8kNBW+CRHAJOozlQgFtuVl1f8wmbaZciDAYzOj2NoNwo08MRcBJwPx
+ L1D7+V/QvaDLwM3qHrZzQ6RI+ays3SF8bXna+Uvj7QJHtkomh+PUixoqCfDsM/Cm1iwI
+ 5ajg==
+X-Gm-Message-State: AOAM532kvBErCWMUOIeGhpks/7hp34Ov2rQiCbM22FCpbR+2P9kZ16a9
+ BAtmvWB/YMbTsxlNPHLz++PPeA==
+X-Google-Smtp-Source: ABdhPJzrtxqW0TG/6JxYNS6TsabkN/wnX9XjPKtPCZ1Ci3MMGmcqpJrzR5vsJaqBagXMZ9or1Oe9og==
+X-Received: by 2002:a17:90a:ee82:: with SMTP id
+ i2mr7256725pjz.158.1605831051201; 
+ Thu, 19 Nov 2020 16:10:51 -0800 (PST)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id 131sm1190212pfw.117.2020.11.19.16.09.47
+ by smtp.gmail.com with ESMTPSA id z68sm849772pgb.37.2020.11.19.16.10.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Nov 2020 16:09:47 -0800 (PST)
-Subject: Re: [PATCH 3/6] configure / meson: Move check for drm.h to meson.build
+ Thu, 19 Nov 2020 16:10:50 -0800 (PST)
+Subject: Re: [PATCH 4/6] configure / meson: Move check for sys/signal.h to
+ meson.build
 To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
  Paolo Bonzini <pbonzini@redhat.com>
 References: <20201118171052.308191-1-thuth@redhat.com>
- <20201118171052.308191-4-thuth@redhat.com>
+ <20201118171052.308191-5-thuth@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <1dd6d348-81dc-93ef-2f5a-394e5e0e97c0@linaro.org>
-Date: Thu, 19 Nov 2020 16:09:46 -0800
+Message-ID: <95b44dc4-91ea-406f-5f52-5d1ef21e7206@linaro.org>
+Date: Thu, 19 Nov 2020 16:10:48 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201118171052.308191-4-thuth@redhat.com>
+In-Reply-To: <20201118171052.308191-5-thuth@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x442.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
