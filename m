@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E76D12BC1BD
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Nov 2020 20:40:31 +0100 (CET)
-Received: from localhost ([::1]:43892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 395D72BC1C0
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Nov 2020 20:46:07 +0100 (CET)
+Received: from localhost ([::1]:52588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kgYkI-0002EV-HW
-	for lists+qemu-devel@lfdr.de; Sat, 21 Nov 2020 14:40:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34874)
+	id 1kgYph-00061o-OJ
+	for lists+qemu-devel@lfdr.de; Sat, 21 Nov 2020 14:46:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kgYjD-0001ob-1C
- for qemu-devel@nongnu.org; Sat, 21 Nov 2020 14:39:23 -0500
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:46925)
+ id 1kgYo7-0005Rr-QJ
+ for qemu-devel@nongnu.org; Sat, 21 Nov 2020 14:44:27 -0500
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:46973)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kgYjB-0002vW-BB
- for qemu-devel@nongnu.org; Sat, 21 Nov 2020 14:39:22 -0500
-Received: by mail-pf1-x444.google.com with SMTP id v12so11100141pfm.13
- for <qemu-devel@nongnu.org>; Sat, 21 Nov 2020 11:39:20 -0800 (PST)
+ id 1kgYo5-0004n0-VQ
+ for qemu-devel@nongnu.org; Sat, 21 Nov 2020 14:44:27 -0500
+Received: by mail-pg1-x543.google.com with SMTP id w4so10425225pgg.13
+ for <qemu-devel@nongnu.org>; Sat, 21 Nov 2020 11:44:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=RhHyLUoVTNGeqlM10IsU60yhoodDpxWItWqwMLRZwcs=;
- b=q5f0KIFECbajequPHigVDhHYZy4d9EDGbEuCbyQmkjNTbpqVd/toiaT+/ybGB/5Q7E
- +hL0nT/n5AESXeOz+66F/hQAahxyqwDO+Sg38R9g2orzHyfQ69amM9tU7sjlLJjaUtVd
- 6l5q+Fu9uzmPcqYzCS6Fhi+PDwIW4lHLo8NoueTWc6Z1IGgYHcn8oh+Yu3WcrCJtHMuC
- z5yWqbZBLjRtxxYcJIJ8bmtr7+nca6camFWK+R+zPJcpF5hb2ooJjcy6WMaUyRjNeWRt
- E0t5gyH+I9CXYY7Po16JNDMTt5oI0N7bQEDGDtQKF5s8USu+WPE8VEmRcKFo4ZMu5PUv
- mNYA==
+ bh=kgxaqACAh6pyH9fnOTikkNJUSCcbxxhfYwlvYQ2CkEg=;
+ b=K4OcP/zkbKcWCFvb4LnkY2od7J5jlB60WLxWplEDEvhFSUi3vjdM9oU/ihVFnzaKOb
+ zIXJbfNbKMw9uITB77OZQR50huznVYn8J0PEA71cu0WlhD1OgahMafW6Qr0zLYmR+1Ys
+ 87jtZ4t9O4+JVP30K4+C9WCGdARi0iVVwI3CLowXXfljyar0IhSCIRGBa7+RGmQPoLEO
+ w2xzFHGTPK1rbYHUF67piTKUz1INbdkbTc0Z90bjDcl9jJw0NQ/4HL/a4kLtUdRPnMiq
+ KNY9kviqyrGqOckpUoFnbNsr+YoCiewClgkQA9PRzjmFHaUc3Emlg64c4VtcMCXJ06XQ
+ ciIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=RhHyLUoVTNGeqlM10IsU60yhoodDpxWItWqwMLRZwcs=;
- b=jnPDWZbryxUorOtk0ZFJkgEa2PhJKectQRUdLnGiEQkPF2R/hOkuoSRdOJWN8yHUJp
- iH4Xy21ORM2i3GxrZ5yjfyKjePatgrpw+cD8eZgfGXVjWo902hRjjTMkNgdL5A53m9yQ
- 5v7IumyMTi+EdjRCyXNoagyJu37jadsIrfKCdnUnNATvCaFje+mHTAYy+OFp/qmEFTV8
- 5M/5P83+/+QYg7ztDyNRVzOhGT2SnC1MWjoHIvpSB6fRilsvxHwbKgJMWNkFUmqa2NLd
- 9j9qGPQ6jFZSvXTCFnQtrAo8vLaDhhog3eryMc4nQRXka4CoDvaly2UW2teHKUV7RZ1g
- 9VLg==
-X-Gm-Message-State: AOAM532B69Dc3dW0nGzkZ25MXf6V8BpwF8KFaAh+GLk0fXVFIYnf2wfC
- DhvSZ9hIy5g/Qw2I7+74Bts2Gg==
-X-Google-Smtp-Source: ABdhPJxUDrVJ11lHpTZQvVurai2g7YkCQ4cuZeY4wSN5m9jG6iNRPegG6OTzZK3T3YSilrQ0VY5QNQ==
-X-Received: by 2002:a17:90a:6b0d:: with SMTP id
- v13mr17003383pjj.206.1605987559500; 
- Sat, 21 Nov 2020 11:39:19 -0800 (PST)
+ bh=kgxaqACAh6pyH9fnOTikkNJUSCcbxxhfYwlvYQ2CkEg=;
+ b=Z2ndySTUkPsopicOBlXfP4oXgJ+WrUFInXnjG6YBIAb7+h99Z546cAoabrQDUa1iv7
+ 6l2n6EE3ki3XQbcfon/gyE4z84p68XufqvTXp+f3eEfJ2Eruhx1OiBGccYCg2AqZo6EJ
+ CfK808JFQLxtynJTZvJIpQLAdRkcQnLPf68GZrOuZp8Y6j/zikK/6r29P8rSivaGayuD
+ 2BnnDWX9ncT5vnazI3fRd3Z9EycHT/iEXKuSbON2KAFJqBgpkJx5fEnxrrD+xJTjYmpO
+ 9gAM5fHwVR5DG5+LWEqyWOi6WA5MlvH0P3L+mp0clRMZV35TbXmEAAI0DFj+/L9iA3EG
+ JcjA==
+X-Gm-Message-State: AOAM530eUmKOpD1dFMbeuk7otl1wZDpEnY6AO0mth2gRZM2cN3C5r4j+
+ 4VwMG06Jl+DoLhNsWo8tQcTYZA==
+X-Google-Smtp-Source: ABdhPJy/uZm7ywxtUHPLAU3lktNDWksB4SHPOEj9T5waLJvMskhgdsVHpni8oUF3OOAHaaBeFA1s9g==
+X-Received: by 2002:a05:6a00:c:b029:18b:eae3:bff0 with SMTP id
+ h12-20020a056a00000cb029018beae3bff0mr18953624pfk.9.1605987864189; 
+ Sat, 21 Nov 2020 11:44:24 -0800 (PST)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id x30sm6781148pgc.86.2020.11.21.11.39.17
+ by smtp.gmail.com with ESMTPSA id me12sm2375209pjb.12.2020.11.21.11.44.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 21 Nov 2020 11:39:18 -0800 (PST)
-Subject: Re: [PATCH 01/26] target/mips: Extract FPU helpers to 'fpu_helper.h'
+ Sat, 21 Nov 2020 11:44:23 -0800 (PST)
+Subject: Re: [PATCH 02/26] target/mips: Extract MSA helpers to
+ mod-mips-msa_helper.c
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20201120210844.2625602-1-f4bug@amsat.org>
- <20201120210844.2625602-2-f4bug@amsat.org>
+ <20201120210844.2625602-3-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <663f897c-9ae2-49d0-89a3-1224a7f56c93@linaro.org>
-Date: Sat, 21 Nov 2020 11:39:16 -0800
+Message-ID: <7053b4b2-b51c-ab6a-91ba-d019843112d1@linaro.org>
+Date: Sat, 21 Nov 2020 11:44:21 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201120210844.2625602-2-f4bug@amsat.org>
+In-Reply-To: <20201120210844.2625602-3-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,27 +98,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/20/20 1:08 PM, Philippe Mathieu-Daudé wrote:
-> Extract FPU specific helpers from "internal.h" to "fpu_helper.h".
+> MSA means 'MIPS SIMD Architecture' and is defined as a Module by MIPS.
+> Rename msa_helper.c as mod-mips-msa_helper.c, merge other MSA helpers
+> from op_helper.c.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  target/mips/fpu_helper.h   | 50 ++++++++++++++++++++++++++++++++++++++
->  target/mips/internal.h     | 42 --------------------------------
->  linux-user/mips/cpu_loop.c |  1 +
->  target/mips/fpu_helper.c   |  1 +
->  target/mips/gdbstub.c      |  1 +
->  target/mips/kvm.c          |  1 +
->  target/mips/machine.c      |  1 +
->  target/mips/msa_helper.c   |  1 +
->  target/mips/translate.c    |  1 +
->  9 files changed, 57 insertions(+), 42 deletions(-)
->  create mode 100644 target/mips/fpu_helper.h
+>  .../{msa_helper.c => mod-mips-msa_helper.c}   | 392 +++++++++++++++++
+>  target/mips/op_helper.c                       | 393 ------------------
+>  target/mips/meson.build                       |   3 +-
+>  3 files changed, 394 insertions(+), 394 deletions(-)
+>  rename target/mips/{msa_helper.c => mod-mips-msa_helper.c} (94%)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Do we really need "mips" in the filename, given that it's implied by the directory?
 
-> +extern unsigned int ieee_rm[];
-
-Note for future cleanup: const FloatRoundMode.
+Maybe perform the rename and the op_helper.c move in different patches?
 
 
+r~
 
