@@ -2,67 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECBBA2BBFF1
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Nov 2020 15:36:40 +0100 (CET)
-Received: from localhost ([::1]:48178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B00B82BBFEA
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Nov 2020 15:33:01 +0100 (CET)
+Received: from localhost ([::1]:43408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kgU0G-0004t0-1B
-	for lists+qemu-devel@lfdr.de; Sat, 21 Nov 2020 09:36:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49810)
+	id 1kgTwg-0002cI-ET
+	for lists+qemu-devel@lfdr.de; Sat, 21 Nov 2020 09:32:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kgTuX-0001wJ-Cq
- for qemu-devel@nongnu.org; Sat, 21 Nov 2020 09:30:45 -0500
-Received: from indium.canonical.com ([91.189.90.7]:56538)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kgTut-00022u-5Z
+ for qemu-devel@nongnu.org; Sat, 21 Nov 2020 09:31:08 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:40942)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kgTuV-00069j-7I
- for qemu-devel@nongnu.org; Sat, 21 Nov 2020 09:30:45 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kgTuR-0004Rv-Rt
- for <qemu-devel@nongnu.org>; Sat, 21 Nov 2020 14:30:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D20CE2E813D
- for <qemu-devel@nongnu.org>; Sat, 21 Nov 2020 14:30:39 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 21 Nov 2020 14:20:54 -0000
-From: Thomas Huth <1750899@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kgTuo-0006L0-Qp
+ for qemu-devel@nongnu.org; Sat, 21 Nov 2020 09:31:06 -0500
+Received: by mail-wm1-x344.google.com with SMTP id a3so13108237wmb.5
+ for <qemu-devel@nongnu.org>; Sat, 21 Nov 2020 06:31:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=7vpws+wntxmKJTcADknBMrfLuboanQwLEZvXgliAPB8=;
+ b=XE3S3lYvRcoc+lYoUsbC0QFewMpWkyTjVGRCAf3PwrT2zBy1DPvnakXii1ycW2cAn7
+ FzJ4YGbOBtqmbIX4DKqe9m2qe+AdNbCqvxDo4I9wplGQ0qOoQJz0JXsNIn0uQh/92aex
+ nBEeiAIkQYisCpj6GIMca+E10DzYwAnaupCv/dG8NEDC+75bpyacypFooK3MHkgTni79
+ M9HtNC2Vn7HZt7FsPHTR6Tm2bHBuNR0R0XXpGs0wvJhWroURTT5P5mw6+k/W6nhcnzyZ
+ qnfQU6oowOGIaE6SD7fU7z/iebkWiOUBHt0Y5+Rt/ccpyCJiiTcBSTJ78cfCLg9Br5Ye
+ UyTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=7vpws+wntxmKJTcADknBMrfLuboanQwLEZvXgliAPB8=;
+ b=HZQAnDhQjwTsQzJ+waZ2U9oguRiPEEQLT2GHmVLRpvtCRSNZUiutrxP4Dzoy95kA/H
+ VbdOUmQ3FSVH6IIuPyrUDQHABHSDMVNSfWpyC/Isac55QEYOGxJ0jrvN3yZgbdeJlMWz
+ SMKSpsmWVpPFKhpV96KIBoXynkgprKjCpplk+AoqOkrOug8Cmn+ji2I6vy03wmI90S9P
+ cqh456pROfF8OabPbmzhuo4OjCgJAJOFWcYWq+MxPcWcSUZM/gts6RhPu3j9Hp3LYM9F
+ sSk+CnFc9V7JAKSSrxdiTkwBACdcLPL6L4xvjphKJu6Jb+msluru0kF5glAFYxtcZpo3
+ zNsg==
+X-Gm-Message-State: AOAM533ktwswaHRWzHUjts08Unnn/A8T5/IQnKBs15hHgvR1hrtEXBIC
+ 07OmgH9Y3lDdbHfmSD1dDFs=
+X-Google-Smtp-Source: ABdhPJyLk2VfxSm2Al7YfMH1JORApJnwjXERy8f7zqJt/E/WQzDhVVNs1yZxRfRI1B8Z6Cubp4oIeQ==
+X-Received: by 2002:a7b:c182:: with SMTP id y2mr3024162wmi.97.1605969059502;
+ Sat, 21 Nov 2020 06:30:59 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id t74sm7766530wmt.8.2020.11.21.06.30.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 21 Nov 2020 06:30:58 -0800 (PST)
+Subject: Re: [PATCH 18/26] target/mips: Extract Loongson SIMD translation
+ routines
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: namelles.one th-huth
-X-Launchpad-Bug-Reporter: Michael Akushsky (namelles.one)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <151924508195.2772.10456724922935523718.malonedeb@soybean.canonical.com>
-Message-Id: <160596845409.16356.11050036314335070168.malone@chaenomeles.canonical.com>
-Subject: [Bug 1750899] Re: Mouse cursor sometimes can't pass the invisible
- border on the right side of the screen
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c35ff22711d15549e2303ae18ae521fd91f6bf00"; Instance="production"
-X-Launchpad-Hash: 850bb7666a43989c12b2575bd8adfa15c5be433e
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20201120210844.2625602-1-f4bug@amsat.org>
+ <20201120210844.2625602-19-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <2aa2dd99-fb46-0466-bd13-3ea8aacdc697@amsat.org>
+Date: Sat, 21 Nov 2020 15:30:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
+MIME-Version: 1.0
+In-Reply-To: <20201120210844.2625602-19-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,85 +90,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1750899 <1750899@bugs.launchpad.net>
+Cc: Fredrik Noring <noring@nocrew.org>, Craig Janeczek <jancraig@amazon.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>,
+ Huacai Chen <chenhc@lemote.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently considering to move its bug tracking to anoth=
-er system. For this we need to know which bugs are still valid and which co=
-uld be closed already. Thus we are setting older bugs to "Incomplete" now.
-If you still think this bug report here is valid, then please switch the st=
-ate back to "New" within the next 60 days, otherwise this report will be ma=
-rked as "Expired". Or mark it as "Fix Released" if the problem has been sol=
-ved with a newer version of QEMU already. Thank you and sorry for the incon=
-venience.
+On 11/20/20 10:08 PM, Philippe Mathieu-Daudé wrote:
+> LoongSIMD (formerly LoongMMI in Loongson 2E/F) is the
+> 128-bit SIMD extension from the LoongISA.
+> 
+> Extract 600 lines of translation routines to
+> 'vendor-loong-simd_translate.c.inc'.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  target/mips/translate.c                       | 598 +----------------
+>  target/mips/vendor-loong-simd_translate.c.inc | 611 ++++++++++++++++++
+>  2 files changed, 612 insertions(+), 597 deletions(-)
+>  create mode 100644 target/mips/vendor-loong-simd_translate.c.inc
+> 
+> diff --git a/target/mips/translate.c b/target/mips/translate.c
+> index b01a16e9da4..105a104bb0c 100644
+> --- a/target/mips/translate.c
+> +++ b/target/mips/translate.c
+> @@ -330,19 +330,6 @@ enum {
+>      OPC_MUL      = 0x02 | OPC_SPECIAL2,
+>      OPC_MSUB     = 0x04 | OPC_SPECIAL2,
+>      OPC_MSUBU    = 0x05 | OPC_SPECIAL2,
+> -    /* Loongson 2F */
+> -    OPC_MULT_G_2F   = 0x10 | OPC_SPECIAL2,
+> -    OPC_DMULT_G_2F  = 0x11 | OPC_SPECIAL2,
+> -    OPC_MULTU_G_2F  = 0x12 | OPC_SPECIAL2,
+> -    OPC_DMULTU_G_2F = 0x13 | OPC_SPECIAL2,
+> -    OPC_DIV_G_2F    = 0x14 | OPC_SPECIAL2,
+> -    OPC_DDIV_G_2F   = 0x15 | OPC_SPECIAL2,
+> -    OPC_DIVU_G_2F   = 0x16 | OPC_SPECIAL2,
+> -    OPC_DDIVU_G_2F  = 0x17 | OPC_SPECIAL2,
+> -    OPC_MOD_G_2F    = 0x1c | OPC_SPECIAL2,
+> -    OPC_DMOD_G_2F   = 0x1d | OPC_SPECIAL2,
+> -    OPC_MODU_G_2F   = 0x1e | OPC_SPECIAL2,
+> -    OPC_DMODU_G_2F  = 0x1f | OPC_SPECIAL2,
+>      /* Misc */
+>      OPC_CLZ      = 0x20 | OPC_SPECIAL2,
+>      OPC_CLO      = 0x21 | OPC_SPECIAL2,
+> @@ -4569,590 +4556,6 @@ static void gen_cl(DisasContext *ctx, uint32_t opc,
+>      }
+>  }
+>  
+> -/* Godson integer instructions */
+> -static void gen_loongson_integer(DisasContext *ctx, uint32_t opc,
+> -                                 int rd, int rs, int rt)
+> -{
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+This isn't part of the LoongSIMD ...
 
--- =
+[...]
+> -}
+> -
+> -/* Loongson multimedia instructions */
+> -static void gen_loongson_multimedia(DisasContext *ctx, int rd, int rs, int rt)
+> -{
+[...]
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1750899
+... but this part is.
 
-Title:
-  Mouse cursor sometimes can't pass the invisible border on the right
-  side of the screen
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  I'm using qemu 2.11 on Gentoo Linux, with configured GPU passthrough (Rad=
-eon RX580) to the guest Windows 10.
-  This configuration is alive for last 4 years, this time I changed a lot q=
-emu, linux kernel and windows versions, changed GPU and always all was work=
-ing as expected. I always used standard PS/2 mouse emulation and that was e=
-nough for me.
-
-  Now, I bought two new monitors, instead of old one, and setup them as
-  one logical monitor, using technology called Eyefinity - it's a part
-  of standard Radeon software. Now Windows thinks, that I have one
-  monitor with resolution 2160x1920 (I bought Dell monitors with a thin
-  borders and use them in portrait mode).
-
-  Windows uses it without any problems, but mouse become crazy - sometimes =
-(~3 times from each 5) I can't move cursor to the right border of the scree=
-n, it looks like the invisible vertical border. I spent really huge amount =
-of time to understand, which component is the root of problem and found, th=
-at it's really a mouse. I tried all possible variants (standard, tablet, vi=
-rtio-mouse-pci, virtio-tablet-pci), and found, that in both mouse variants =
-bug is reproducing, and in both tablet variants - cursor stuck near all rea=
-l borders and corners, so it's not a variant too.
-  The only working variant becomes passing real USB port to my VM and inser=
-t second mouse to this port. So, now it's working, but I have two mice on m=
-y working place, which doesn't seems very useful.
-
-  Here is my command line:
-
-  QEMU_AUDIO_DRV=3Dpa QEMU_PA_SAMPLES=3D4096 qemu-system-x86_64 -enable-kvm=
- -M q35 -m 12168 -cpu host,kvm=3Doff -smp 4,sockets=3D1,cores=3D4 \
-  -bios /usr/share/qemu/bios.bin -rtc base=3Dlocaltime -vga none -device se=
-condary-vga \
-  -drive id=3Dvirtiocd,if=3Dnone,format=3Draw,file=3D/home/akushsky/virtio-=
-win-0.1.141.iso \
-  -device driver=3Dide-cd,bus=3Dide.1,drive=3Dvirtiocd \
-  -device ioh3420,bus=3Dpcie.0,addr=3D1c.0,multifunction=3Don,port=3D1,chas=
-sis=3D1,id=3Droot.1 \
-  -device vfio-pci,host=3D05:00.0,bus=3Droot.1,addr=3D00.0,multifunction=3D=
-on,romfile=3D/opt/kvm/images/Sapphire.RX580.8192.170320_1.bin,x-vga=3Don \
-  -device virtio-scsi-pci,id=3Dscsi \
-  -drive file=3D/dev/sdb,id=3Ddisk,format=3Draw,if=3Dnone,discard=3Don,cach=
-e=3Dnone,aio=3Dnative,detect-zeroes=3Dunmap -device scsi-hd,drive=3Ddisk,id=
-=3Dscsi0 \
-  -device ich9-intel-hda,bus=3Dpcie.0,addr=3D1b.0,id=3Dsound0 -device hda-d=
-uplex,id=3Dsound0-codec0,bus=3Dsound0.0,cad=3D0 \
-  -usb -usbdevice host:046d:c52b
-
-  All in all, I checked on Windows 7 and Windows 10, and on qemu 2.10
-  and 2.11 - bug is always reproducible.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1750899/+subscriptions
 
