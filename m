@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE64F2BC2BC
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Nov 2020 00:51:20 +0100 (CET)
-Received: from localhost ([::1]:52342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF11A2BC2C6
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Nov 2020 00:56:32 +0100 (CET)
+Received: from localhost ([::1]:55928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kgcf1-0005Pg-L7
-	for lists+qemu-devel@lfdr.de; Sat, 21 Nov 2020 18:51:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47822)
+	id 1kgck3-0007Ad-SF
+	for lists+qemu-devel@lfdr.de; Sat, 21 Nov 2020 18:56:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kgceJ-0004vG-Ly
- for qemu-devel@nongnu.org; Sat, 21 Nov 2020 18:50:35 -0500
-Received: from indium.canonical.com ([91.189.90.7]:56830)
+ id 1kgcjA-0006gX-Rp
+ for qemu-devel@nongnu.org; Sat, 21 Nov 2020 18:55:36 -0500
+Received: from indium.canonical.com ([91.189.90.7]:56988)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kgceH-0008JO-Kq
- for qemu-devel@nongnu.org; Sat, 21 Nov 2020 18:50:35 -0500
+ id 1kgcj8-0001kp-Vh
+ for qemu-devel@nongnu.org; Sat, 21 Nov 2020 18:55:36 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kgceF-0001gN-0o
- for <qemu-devel@nongnu.org>; Sat, 21 Nov 2020 23:50:31 +0000
+ id 1kgcj7-0001t2-I4
+ for <qemu-devel@nongnu.org>; Sat, 21 Nov 2020 23:55:33 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 01CE62E813A
- for <qemu-devel@nongnu.org>; Sat, 21 Nov 2020 23:50:31 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 7A4712E813F
+ for <qemu-devel@nongnu.org>; Sat, 21 Nov 2020 23:55:33 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 21 Nov 2020 23:44:24 -0000
-From: Peter Maydell <1895703@bugs.launchpad.net>
+Date: Sat, 21 Nov 2020 23:46:55 -0000
+From: Peter Maydell <1892540@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: buildsys tcg
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: sparc testcase
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ahmedkrmn bonzini philmd pmaydell
-X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
+X-Launchpad-Bug-Commenters: gson laurent-vivier mark-cave-ayland mst-0 philmd
+ pmaydell
+X-Launchpad-Bug-Reporter: Andreas Gustafsson (gson)
 X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <160018860889.17103.9156462398304890013.malonedeb@soybean.canonical.com>
-Message-Id: <160600226420.29038.17867942422183191827.malone@chaenomeles.canonical.com>
-Subject: [Bug 1895703] Re: performance degradation in tcg since Meson switch
+References: <159803735569.2614.10182276398047269277.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160600241540.29198.3271182381038888022.malone@chaenomeles.canonical.com>
+Subject: [Bug 1892540] Re: qemu can no longer boot NetBSD/sparc
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="c35ff22711d15549e2303ae18ae521fd91f6bf00"; Instance="production"
-X-Launchpad-Hash: 5e5227e7c265529efec1b7a28ff90d17ecd61b03
+X-Launchpad-Hash: 3d1acdd060e3a505bf087e10c93dbe96f9682bcd
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,48 +71,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1895703 <1895703@bugs.launchpad.net>
+Reply-To: Bug 1892540 <1892540@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This was fixed initially by commit 0c3dd50eaecbfe2, which is the change
-suggested in Paolo's comment #6, and then refined by commit
-a5cb7c5afe717d4.
-
-
-** Changed in: qemu
-       Status: New =3D> Fix Committed
+Is this bug now fixed, or are there still more patches not yet in
+master?
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1895703
+https://bugs.launchpad.net/bugs/1892540
 
 Title:
-  performance degradation in tcg since Meson switch
+  qemu can no longer boot NetBSD/sparc
 
 Status in QEMU:
-  Fix Committed
+  New
 
 Bug description:
-  The buildsys conversion to Meson (1d806cef0e3..7fd51e68c34)
-  introduced a degradation in performance in some TCG targets:
+  Booting NetBSD/sparc in qemu no longer works.  It broke between qemu
+  version 5.0.0 and 5.1.0, and a bisection identified the following as
+  the offending commit:
 
-  --------------------------------------------------------
-  Test Program: matmult_double
-  --------------------------------------------------------
-  Target              Instructions     Previous    Latest
-                                       1d806cef   7fd51e68
-  ----------  --------------------  ----------  ----------
-  alpha              3 233 957 639       -----     +7.472%
-  m68k               3 919 110 506       -----    +18.433%
-  --------------------------------------------------------
+    [5d971f9e672507210e77d020d89e0e89165c8fc9] memory: Revert "memory:
+  accept mismatching sizes in memory_region_access_valid"
 
-  Original report from Ahmed Karaman with further testing done
-  by Aleksandar Markovic:
-  https://www.mail-archive.com/qemu-devel@nongnu.org/msg740279.html
+  It's still broken as of 7fd51e68c34fcefdb4d6fd646ed3346f780f89f4.
+
+  To reproduce, run
+
+    wget http://ftp.netbsd.org/pub/NetBSD/NetBSD-9.0/images/NetBSD-9.0-spar=
+c.iso
+    qemu-system-sparc -nographic -cdrom NetBSD-9.0-sparc.iso -boot d
+
+  The expected behavior is that the guest boots to the prompt
+
+    Installation medium to load the additional utilities from:
+
+  The observed behavior is a panic:
+
+    [   1.0000050] system[0]: trap 0x29: pc=3D0xf0046b14 sfsr=3D0xb6 sfva=
+=3D0x54000000
+    [   1.0000050] cpu0: data fault: pc=3D0xf0046b14 addr=3D0x54000000 sfsr=
+=3D0xb6<PERR=3D0x0,LVL=3D0x0,AT=3D0x5,FT=3D0x5,FAV,OW>
+    [   1.0000050] panic: kernel fault
+    [   1.0000050] halted
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1895703/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1892540/+subscriptions
 
