@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 780192BC1C4
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Nov 2020 20:50:28 +0100 (CET)
-Received: from localhost ([::1]:34212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21BB92BC1DB
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Nov 2020 20:59:05 +0100 (CET)
+Received: from localhost ([::1]:52370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kgYtv-0001kw-9R
-	for lists+qemu-devel@lfdr.de; Sat, 21 Nov 2020 14:50:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36358)
+	id 1kgZ2F-00011i-Rv
+	for lists+qemu-devel@lfdr.de; Sat, 21 Nov 2020 14:59:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kgYrp-0008St-2m
- for qemu-devel@nongnu.org; Sat, 21 Nov 2020 14:48:17 -0500
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:35888)
+ id 1kgYsT-00018E-SO
+ for qemu-devel@nongnu.org; Sat, 21 Nov 2020 14:48:57 -0500
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:45335)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kgYrn-00066j-Hy
- for qemu-devel@nongnu.org; Sat, 21 Nov 2020 14:48:16 -0500
-Received: by mail-pf1-x444.google.com with SMTP id n137so1102133pfd.3
- for <qemu-devel@nongnu.org>; Sat, 21 Nov 2020 11:48:15 -0800 (PST)
+ id 1kgYsS-0006Iq-6j
+ for qemu-devel@nongnu.org; Sat, 21 Nov 2020 14:48:57 -0500
+Received: by mail-pg1-x542.google.com with SMTP id 62so10441523pgg.12
+ for <qemu-devel@nongnu.org>; Sat, 21 Nov 2020 11:48:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Owq8NpQXEqYhcb/Z3EuQ+HNm9ZnmziyzbVeOX8TUW+Y=;
- b=vcq7gfQphkCQoJIWEtf71PJlAVGyKBP4B65YyAVB229qTENgp73amqIGUxMbBBxbl2
- BEODxxpmCR/U7CXBQrbWArpjO2fWVOruwcH40+oM3UK3e9mY74HLwjmhbnwqQJK4FTjf
- 5f4+TZ3FPyHolNZiqtTyp1CBeUHZpKYDO/gHgkVrbM8rDXIlgqKJ1xl4i7fzj+eU8kjP
- eP0im68JhPVxQcAsAPOzkCaA5WxtnvrJHORh1SnmZvIxaT5kPP/a8T/iMBfx32m5Hrpd
- W+OiD+s6YT11WZeZqLq1pFk52paqMVLmDwLjmjU0SfkRDM+zUEmxUpdYisSA4RLYxGxw
- L1Hg==
+ bh=Zny40mwdvhNa0uLYaYl6G/s1vvrEIHoq0TBq/GXK5ZQ=;
+ b=kPyafatkbwZ2t+2WFfN32SRi8n4FTSl0Q42ARxQegiK3dQBPPl4sQgzq6sHMY22UHx
+ jOhrQH6BW33R1a/vTjCoCzo+8dl9J6G0xn3y9Ntc7LmCjpRw5zfcNOvcTMBRZWo74dcb
+ XNRfnLGfJ7VYfqYyYtGrir8qQBshxOqs+1R4FUywxDB4MPx3457+jONPPOlnAZd6b9bD
+ x046bLptFRklLjRGmgBw+BAGCjaYb67XmFP1qEi0bmWqDWBJT/cOxFhQ8jS6xUkLxTH2
+ HNB1Hezit+rqYB0VqVKGkYu26qo+Q/ihrrUGiQcccRZuiBuv0lomLvDrKvdgeqS24K+W
+ w5mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Owq8NpQXEqYhcb/Z3EuQ+HNm9ZnmziyzbVeOX8TUW+Y=;
- b=NZRqd+cFkT3zZcayqDzr60fjJtmoqf/uV7EjGbnVArtJGEO+x9jzjd+p+8r1FX7hOS
- 1g+RNv/2xh/S4jvkMgvMDGMFAZ+kDN28svOrd7LUFq8lihuNNT7nDzACQwTtCMrMKH0n
- BPEhnNZZgIBUJDFu9RPehmUkHhNBQMlmabzp8FnHTNw/Ifm3HCS9CHxRMknBteTe8UiO
- YwWFwbgvTCIiiJChRRsc4xsqIuKSHMGuc5Yt/m/W20+s43dDhovYppdrtVwE9DhTPEWT
- UdncLn5phSewC43t46EasJhiyjq/MuKu5kb9NmfYnFT1Z/pxDqTvODCmeDG6F6HqtNpI
- j5Zw==
-X-Gm-Message-State: AOAM532MBEyAQjFFX6UWSyxU+N9iDh1pi3QKadlve2DuerryoRIqHdM5
- i6wHDRzn8otdthOuXwSjZfaxsw==
-X-Google-Smtp-Source: ABdhPJyFu2WUGmXA0HgbJyrZt/ueKiLzd3uwedBBT5GmwL9zJkaG1pRZxxjLcEZLFCYYbH+wLAHaRQ==
-X-Received: by 2002:a63:4007:: with SMTP id n7mr21642075pga.343.1605988094250; 
- Sat, 21 Nov 2020 11:48:14 -0800 (PST)
+ bh=Zny40mwdvhNa0uLYaYl6G/s1vvrEIHoq0TBq/GXK5ZQ=;
+ b=NoFDxUgfqLh5XvfZMZHTbGvuMxyl5WWpahTb6UJC6+QhOPx83jbhO+QOCcP/l9qKBV
+ jFqaaxBzjacsQ/C5Nh+zZfE5pgl911Jr+0++DjXCM1AMeAWWFi8Mf5XWz1LEN+7XZ5t9
+ X1XbVeF8QUjok2QgVQrSKdgOJPI5xgxprUSkiWmC9jBDyN4yZ3D/0Tr+jljHHOSNw7UQ
+ YBVj+KyGVF+rAjZJ6fjMWaBcsBk9s7BWlNWdMn6t0bFz761SzGSvH6GFUT3TrLj8SUk+
+ Uto6hDv5qpTawYURk27zZ0Tzj508EJzkhnZJV+RudG/jyDqPT+FpevEgyk3JqsFYffLw
+ JkAQ==
+X-Gm-Message-State: AOAM530w0qjAEkuovesjkcWg7tuQRe0MDwQ3dGdy3NsXXtS9kq3nnB87
+ pDJeYFwTYYSB8ibofBKmbfooSjqwMHyTIA==
+X-Google-Smtp-Source: ABdhPJycu0QXoRuqkfpqXC9IQW78cUd2zV4fCqxupRi5caZ6e7VGIrEz07y5uWZel8iKoVojulU/Kw==
+X-Received: by 2002:aa7:8518:0:b029:18b:cc9c:efab with SMTP id
+ v24-20020aa785180000b029018bcc9cefabmr19410068pfn.39.1605988134766; 
+ Sat, 21 Nov 2020 11:48:54 -0800 (PST)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id m7sm570552pfh.72.2020.11.21.11.48.13
+ by smtp.gmail.com with ESMTPSA id h127sm7465186pfe.16.2020.11.21.11.48.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 21 Nov 2020 11:48:13 -0800 (PST)
-Subject: Re: [PATCH 05/26] target/mips: Rename dsp_helper.c as
- mod-mips-dsp_helper.c
+ Sat, 21 Nov 2020 11:48:54 -0800 (PST)
+Subject: Re: [PATCH 06/26] target/mips: Extract DSP helper definitions
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20201120210844.2625602-1-f4bug@amsat.org>
- <20201120210844.2625602-6-f4bug@amsat.org>
+ <20201120210844.2625602-7-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <29c3dfbc-0c95-2978-a451-5ce5a5ea8027@linaro.org>
-Date: Sat, 21 Nov 2020 11:48:11 -0800
+Message-ID: <3beab845-9119-95a9-5366-1cac9c37eaf4@linaro.org>
+Date: Sat, 21 Nov 2020 11:48:52 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201120210844.2625602-6-f4bug@amsat.org>
+In-Reply-To: <20201120210844.2625602-7-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,15 +97,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/20/20 1:08 PM, Philippe Mathieu-Daudé wrote:
-> 'MIPS DSP' is defined as a Module by MIPS, rename it as
-> mod-mips-dsp_helper.c.
+> 'MIPS DSP' is defined as a Module by MIPS. Extract the helper
+> definitions to 'mod-mips-dsp_helper.h.inc'.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  target/mips/{dsp_helper.c => mod-mips-dsp_helper.c} | 0
->  target/mips/meson.build                             | 2 +-
->  2 files changed, 1 insertion(+), 1 deletion(-)
->  rename target/mips/{dsp_helper.c => mod-mips-dsp_helper.c} (100%)
+>  target/mips/helper.h                  | 335 +------------------------
+>  target/mips/mod-mips-dsp_helper.h.inc | 344 ++++++++++++++++++++++++++
+>  2 files changed, 345 insertions(+), 334 deletions(-)
+>  create mode 100644 target/mips/mod-mips-dsp_helper.h.inc
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
