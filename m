@@ -2,50 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21E3A2BBE48
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Nov 2020 10:51:17 +0100 (CET)
-Received: from localhost ([::1]:48676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82B672BBE79
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Nov 2020 11:27:40 +0100 (CET)
+Received: from localhost ([::1]:58000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kgPY3-0004TB-NJ
-	for lists+qemu-devel@lfdr.de; Sat, 21 Nov 2020 04:51:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39494)
+	id 1kgQ7H-0002xX-4v
+	for lists+qemu-devel@lfdr.de; Sat, 21 Nov 2020 05:27:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1kgPWu-0003wV-KS
- for qemu-devel@nongnu.org; Sat, 21 Nov 2020 04:50:04 -0500
-Received: from rev.ng ([5.9.113.41]:56767)
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1kgQ6E-0002Yj-93
+ for qemu-devel@nongnu.org; Sat, 21 Nov 2020 05:26:34 -0500
+Received: from mail.weilnetz.de ([37.120.169.71]:36986
+ helo=v2201612906741603.powersrv.de)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1kgPWs-00069H-PW
- for qemu-devel@nongnu.org; Sat, 21 Nov 2020 04:50:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
- s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=WO9YkskWbmY0tD2N236wZdpdgDywwTa7Q58tR8pMPVE=; b=fXqyocjZYEl0cUapZevHnmAMnx
- xhUg0iOog71gVwMI6AElQGUCYCtKS5lIFXrtxWs0b/HBq3TDqvBLcxV+v5gLQaekagSIyCp7PiJ5d
- ycRoAZtlAPftghCc/JIxFDG0IU7iqC/BuhO8CV/rSkH/wJhem8Uydm+idCOlDgvFDDI4=;
-Date: Sat, 21 Nov 2020 10:49:46 +0100
-To: Taylor Simpson <tsimpson@quicinc.com>
-Cc: qemu-devel@nongnu.org, bcain@quicinc.com, richard.henderson@linaro.org,
- at.org@qualcomm.com, laurent@vivier.eu
-Subject: Re: [RFC PATCH v5 20/33] Hexagon (target/hexagon) generator phase 2
- - generate header files
-Message-ID: <20201121104946.7cd52d49@orange>
-In-Reply-To: <1604016519-28065-21-git-send-email-tsimpson@quicinc.com>
-References: <1604016519-28065-1-git-send-email-tsimpson@quicinc.com>
- <1604016519-28065-21-git-send-email-tsimpson@quicinc.com>
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1kgQ6C-0002bA-5G
+ for qemu-devel@nongnu.org; Sat, 21 Nov 2020 05:26:33 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by v2201612906741603.powersrv.de (Postfix) with ESMTP id 87833DA44E8;
+ Sat, 21 Nov 2020 11:26:28 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at v2201612906741603.powersrv.de
+Received: from v2201612906741603.powersrv.de ([127.0.0.1])
+ by localhost (v2201612906741603.powersrv.de [127.0.0.1]) (amavisd-new,
+ port 10024)
+ with ESMTP id CdfRBV8np73p; Sat, 21 Nov 2020 11:25:54 +0100 (CET)
+Received: from edv-macbook-pro.fritz.box (p57b420e8.dip0.t-ipconnect.de
+ [87.180.32.232])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 031DDDA1255;
+ Sat, 21 Nov 2020 11:25:53 +0100 (CET)
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
+References: <97b04446-ca94-cebd-2d8d-4c2013521208@weilnetz.de>
+ <20201117175030.eqz5run2m7qmx5qt@steredhat>
+ <a6c8de1a-da41-1a4a-8907-790c2467a0b0@redhat.com>
+From: Stefan Weil <sw@weilnetz.de>
+Subject: Re: Regressions in build process introduced since August
+Message-ID: <ee31c6f2-19dd-f3f6-d916-f04490909dd8@weilnetz.de>
+Date: Sat, 21 Nov 2020 11:25:53 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.4.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=5.9.113.41; envelope-from=ale@rev.ng; helo=rev.ng
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <a6c8de1a-da41-1a4a-8907-790c2467a0b0@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
+ helo=v2201612906741603.powersrv.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,28 +67,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Alessandro Di Federico <ale.qemu@rev.ng>
-From: Alessandro Di Federico via <qemu-devel@nongnu.org>
 
-On Thu, 29 Oct 2020 19:08:26 -0500
-Taylor Simpson <tsimpson@quicinc.com> wrote:
-
-> +def genptr_decl_new(f,regtype,regid,regno):
-> +    if (regtype == "N"):
-> +        if (regid in {"s", "t"}):
-> +            f.write("    const int %s%sX = insn->regno[%d];\n" % \
-> +                (regtype, regid, regno))
-> +            f.write("    TCGv %s%sN = tcg_const_tl(%s%sX);\n" % \
-> +                (regtype, regid, regtype, regid))
-
-This part is a bit incoherent with all the rest.
-You're creating a TCGv containing a constant representing the register
-number. Why not just create a TCGv with the value of the register
-itself as you usually do?
-
--- 
-Alessandro Di Federico
-rev.ng
+SGksCgpJIGp1c3Qgbm90aWNlZCBhbm90aGVyIHJlZ3Jlc3Npb246CgpBIGNyb3NzIGJ1aWxk
+IHRhcmdldGluZyBXaW5kb3dzIG5vIGxvbmdlciBkZXRlY3RzIFZOQyBKUEVHIHN1cHBvcnQu
+IApVc2luZyBwa2ctY29uZmlnIGxpa2UgaW4gdGhlIHBhdGNoIGJlbG93IHdvdWxkIGZpeCB0
+aGF0IChhbmQgYWxzbyB3b3JrcyAKZm9yIG5hdGl2ZSBidWlsZHMgb24gRGViaWFuIEdOVSBM
+aW51eCkuCgpNYXliZSB0aGUgY3VycmVudCBmaW5kX2xpYnJhcnkgaWdub3JlcyAtLWV4dHJh
+LWNmbGFncyBhbmQgCi0tZXh0cmEtbGRmbGFncz8gVGhhdCB3b3VsZCBleHBsYWluIHdoeSBp
+dCBmYWlscyB0byBmaW5kIHRoZSByZXF1aXJlZCAKaGVhZGVyIGFuZCBsaWJyYXJ5IGZpbGVz
+LiBPdGhlciBjaGVja3Mgd291bGQgZmFpbCB0aGVuLCB0b28uCgpSZWdhcmRzLAoKU3RlZmFu
+CgoKLS0tIGEvbWVzb24uYnVpbGQKKysrIGIvbWVzb24uYnVpbGQKQEAgLTY0OSw5ICs2NDks
+OCBAQCBpZiBnZXRfb3B0aW9uKCd2bmMnKS5lbmFibGVkKCkKIMKgwqAgdm5jID0gZGVjbGFy
+ZV9kZXBlbmRlbmN5KCkgIyBkdW1teSBkZXBlbmRlbmN5CiDCoMKgIHBuZyA9IGRlcGVuZGVu
+Y3koJ2xpYnBuZycsIHJlcXVpcmVkOiBnZXRfb3B0aW9uKCd2bmNfcG5nJyksCiDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBtZXRob2Q6ICdwa2ctY29uZmlnJywg
+c3RhdGljOiBlbmFibGVfc3RhdGljKQotwqAganBlZyA9IGNjLmZpbmRfbGlicmFyeSgnanBl
+ZycsIGhhc19oZWFkZXJzOiBbJ2pwZWdsaWIuaCddLAotwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJlcXVpcmVkOiBnZXRfb3B0aW9uKCd2bmNf
+anBlZycpLAotwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgIHN0YXRpYzogZW5hYmxlX3N0YXRpYykKK8KgIGpwZWcgPSBkZXBlbmRlbmN5KCdsaWJw
+bmcnLCByZXF1aXJlZDogZ2V0X29wdGlvbigndm5jX2pwZWcnKSwKK8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBtZXRob2Q6ICdwa2ctY29uZmlnJywgc3RhdGljOiBl
+bmFibGVfc3RhdGljKQogwqDCoCBzYXNsID0gY2MuZmluZF9saWJyYXJ5KCdzYXNsMicsIGhh
+c19oZWFkZXJzOiBbJ3Nhc2wvc2FzbC5oJ10sCiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXF1aXJlZDogZ2V0X29wdGlvbigndm5jX3Nh
+c2wnKSwKIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgIHN0YXRpYzogZW5hYmxlX3N0YXRpYykKCg==
 
