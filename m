@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DD2A2BC1FA
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Nov 2020 21:12:29 +0100 (CET)
-Received: from localhost ([::1]:57616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 450502BC1FC
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Nov 2020 21:14:53 +0100 (CET)
+Received: from localhost ([::1]:60986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kgZFE-0006YM-Fb
-	for lists+qemu-devel@lfdr.de; Sat, 21 Nov 2020 15:12:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40390)
+	id 1kgZHY-00081x-9v
+	for lists+qemu-devel@lfdr.de; Sat, 21 Nov 2020 15:14:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kgZDr-0005Yr-Pk
- for qemu-devel@nongnu.org; Sat, 21 Nov 2020 15:11:03 -0500
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:42786)
+ id 1kgZG8-0007Wo-Kb
+ for qemu-devel@nongnu.org; Sat, 21 Nov 2020 15:13:24 -0500
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:42495)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kgZDq-0005TA-64
- for qemu-devel@nongnu.org; Sat, 21 Nov 2020 15:11:03 -0500
-Received: by mail-pg1-x543.google.com with SMTP id i13so10480357pgm.9
- for <qemu-devel@nongnu.org>; Sat, 21 Nov 2020 12:11:01 -0800 (PST)
+ id 1kgZG6-00067Q-0k
+ for qemu-devel@nongnu.org; Sat, 21 Nov 2020 15:13:24 -0500
+Received: by mail-pl1-x641.google.com with SMTP id s2so6747570plr.9
+ for <qemu-devel@nongnu.org>; Sat, 21 Nov 2020 12:13:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=TUWCUK5/MOX1pWPj1p3le76cphWyIprYbhmjXS3j3jo=;
- b=zAHsOkrGlw4/5mh/el4FskubyPEituXCkEYNcHCX2AYjstgDsiuzrKdVFe/TCykd41
- lwZzwVSALQRQfJTT2HULdSYmcLhCsmOx+u/MwOCJs/YJkQ2Xb0WojRH9N/FAkXPoHtyL
- 373eaHhejoC8B9cT/hARfd9TC+11S99GgkXR2HodtRKKIkz9RLm84YgCBJ4mSlbSFB8B
- K6OBA+eZvZH/8ukY+mruHXVvmhlZlC6nklN0p5q+AYjsxGdH4pVqBwcCmJ2TDFQSGaSj
- Sdv9gS9JDLoq/VdYSreuvVHoGhHYqoEmzQ5sxPJbrHWGvyTt01UMga9ptxMr0kL5NabB
- hloQ==
+ bh=xqPx+Rqu21RaAzTDuTXwO7Sv9epLOYAxMBu3HdVo0x8=;
+ b=JaOkfseXy54w7LKrkg3F0hIQSbTcRkoTwz4b0MAYrbjIpf5nGwkdEqPVuRJUngdipn
+ diLnvXc8/nqI6QE7e1PB4+0f6xp8AFy6fsnYOdx8K3MNS7/bHtQTXW+V1cRReSDJ4DL6
+ 6tiAHJWYL03ojxpDiaxodmljqrMn7q6yGKWsOmP+DO7WoKEiHJ9gja2H9PEaHo9uFsSk
+ 74mpoAsBr0B+Ow/J7myBTYCee5vvQQqftnZ3OwsJIhVkeApSQt4SunqxoOLtEBj98rGY
+ za3x/3PePqe0KyEYCPSpI8tjFL7qAWMKKEf2BSmJEY9sCd1z6D8gkwvhDed6gmkl7E3r
+ Z+dQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=TUWCUK5/MOX1pWPj1p3le76cphWyIprYbhmjXS3j3jo=;
- b=Svpf8iXrFbca+OE/mqHoXE8GCvf3NJ2pUkDCFvZdzshwxqltQVty7xLIGZpIMbfGUw
- ffCDT+Q8I9DL+1s7j7mazP8KASUqfrI+Z0vXoM8Dpfsnbe+8l2s++YwjuxSMBr0nKb+j
- 1o8BWhKTDOjbDmaYur4bo3MNDghTNYZcwcWkbrRC8O83S9LS4EruiEjaMCQAFT5jO/or
- aZebxC6PF6N6gDw2Bm4QvhbHEz+XQGwKfQE/NoZsKThQK+XWH4siVYDG3X8TKBZSoJ8d
- llu2xRxV6A7Ps2Mzftu75X5+jz/sX7baogZHqxHWPdLyX3u2ldU1LblFsIHmpUvprOxk
- 6vxg==
-X-Gm-Message-State: AOAM531on225oDokMmisIZj1USVp4uRDRRPAmK2wqsxUT1qibmXfOzhN
- eGlrGtiYjSO2RAwCHlj5NtQBQg==
-X-Google-Smtp-Source: ABdhPJxW7TzzSdVfUXvHTR0XJF0jseF8qxqvLGek1XzQ6QO8NBC2APCWdB0tHWm+LtMR9p4QAR4naw==
-X-Received: by 2002:a65:5348:: with SMTP id w8mr21537970pgr.371.1605989460722; 
- Sat, 21 Nov 2020 12:11:00 -0800 (PST)
+ bh=xqPx+Rqu21RaAzTDuTXwO7Sv9epLOYAxMBu3HdVo0x8=;
+ b=j9uvM4cMZQNh+d+u4hUjzOrgem99eYgDulHoDmAaj1ZyQqLuW0tbUMIV6UJXKVf9x2
+ TteQHRDEPrzKZcJOj9kx/MLEU6cmgW8Rj144+n+DZLJxEnyE1gpXSmqGGKwD+gzAlNya
+ txxiypKv6/Q6oHBeH1lkY06PTtIJkQtoGB+KrUTdVIhxJUxUJ7Sjc6GO2+w9Mm/HTPZn
+ 2vFMfBhUCmWwKMDECWKbnQ0qtoUeKAvbb5J9441+RipsVnBIuJ1DvFwKxrSVRRJ6MTIM
+ lNd448i+BXKTJkYt2iC8s+ckm0y7aKU7wwpMdq6el+7Nn9FxNgNiILWHxDxpjTixKQKI
+ VgAg==
+X-Gm-Message-State: AOAM531KZJzI/tSHFzX25/hSEweEBzmbfuJeO9OCo6bjK0FJ6/GWRZl6
+ Mm7dX5pgEPU8Hrh0twxxzcsCYg==
+X-Google-Smtp-Source: ABdhPJzliAXa6XOsjFsXzdS74NqAOAD4nrarsqq2k8ndXeWA7Ge5EQH9ANReVxUeSeK9BwqfVwcZ7g==
+X-Received: by 2002:a17:902:ee09:b029:d5:288d:fce4 with SMTP id
+ z9-20020a170902ee09b02900d5288dfce4mr18986237plb.45.1605989599750; 
+ Sat, 21 Nov 2020 12:13:19 -0800 (PST)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id 16sm8474775pjf.36.2020.11.21.12.10.59
+ by smtp.gmail.com with ESMTPSA id a25sm7776524pfg.138.2020.11.21.12.13.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 21 Nov 2020 12:10:59 -0800 (PST)
-Subject: Re: [PATCH 19/26] target/mips: Extract Loongson EXTensions
+ Sat, 21 Nov 2020 12:13:18 -0800 (PST)
+Subject: Re: [PATCH 20/26] target/mips: Extract XBurst Media eXtension Unit
  translation routines
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20201120210844.2625602-1-f4bug@amsat.org>
- <20201120210844.2625602-20-f4bug@amsat.org>
+ <20201120210844.2625602-21-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b520ffe3-1d98-88f7-895e-23e374bc2b4e@linaro.org>
-Date: Sat, 21 Nov 2020 12:10:57 -0800
+Message-ID: <7b5de3f4-92ab-432f-8044-c06baa7af4e0@linaro.org>
+Date: Sat, 21 Nov 2020 12:13:16 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201120210844.2625602-20-f4bug@amsat.org>
+In-Reply-To: <20201120210844.2625602-21-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x641.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,20 +98,25 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/20/20 1:08 PM, Philippe Mathieu-Daudé wrote:
-> LoongEXTs are general-purpose extensions from the LoongISA.
+> Media eXtension Unit is a SIMD extension from Ingenic.
 > 
-> Extract 440 lines of translation routines to
-> 'vendor-loong-lext_translate.c.inc'.
+> Extract 2900 lines from the huge translate.c to a new file,
+> 'vendor-xburst_translate.c.inc'. As there are too many inter-
+> dependencies we don't compile it as another object, but
+> keep including it in the big translate.o. We gain in code
+> maintainability.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  target/mips/translate.c                       | 440 +----------------
->  target/mips/vendor-loong-lext_translate.c.inc | 450 ++++++++++++++++++
->  2 files changed, 451 insertions(+), 439 deletions(-)
->  create mode 100644 target/mips/vendor-loong-lext_translate.c.inc
+>  target/mips/translate.c                   | 2890 +-------------------
+>  target/mips/vendor-xburst_translate.c.inc | 2893 +++++++++++++++++++++
+>  2 files changed, 2894 insertions(+), 2889 deletions(-)
+>  create mode 100644 target/mips/vendor-xburst_translate.c.inc
 
-s/lext/ext/?  Seems silly to have loong in there twice.
-And I presume this is where gen_loong_integer goes?
+Where does the xburst name come from?
+It's a little confusing that all of the comments talk about MXU but the
+filename is xburst.  Perhaps add a comment near the top identifying the rename,
+if you can?
 
 
 r~
