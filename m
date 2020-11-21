@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82B782BBFDF
+	by mail.lfdr.de (Postfix) with ESMTPS id AE42B2BBFE0
 	for <lists+qemu-devel@lfdr.de>; Sat, 21 Nov 2020 15:23:21 +0100 (CET)
-Received: from localhost ([::1]:58690 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:58810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kgTnM-0004sD-HN
+	id 1kgTnM-0004v1-PC
 	for lists+qemu-devel@lfdr.de; Sat, 21 Nov 2020 09:23:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45610)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kgTkp-0003Tj-2f
- for qemu-devel@nongnu.org; Sat, 21 Nov 2020 09:20:43 -0500
-Received: from indium.canonical.com ([91.189.90.7]:55660)
+ id 1kgTkq-0003Tu-1m
+ for qemu-devel@nongnu.org; Sat, 21 Nov 2020 09:20:44 -0500
+Received: from indium.canonical.com ([91.189.90.7]:55680)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kgTkk-0002vN-RM
- for qemu-devel@nongnu.org; Sat, 21 Nov 2020 09:20:42 -0500
+ id 1kgTkm-0002vl-9J
+ for qemu-devel@nongnu.org; Sat, 21 Nov 2020 09:20:43 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kgTki-0003kz-W3
- for <qemu-devel@nongnu.org>; Sat, 21 Nov 2020 14:20:36 +0000
+ id 1kgTkj-0003ku-Bh
+ for <qemu-devel@nongnu.org>; Sat, 21 Nov 2020 14:20:37 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id F127C2E813D
- for <qemu-devel@nongnu.org>; Sat, 21 Nov 2020 14:20:36 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 5748F2E813E
+ for <qemu-devel@nongnu.org>; Sat, 21 Nov 2020 14:20:37 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 21 Nov 2020 14:12:16 -0000
-From: Thomas Huth <1843073@bugs.launchpad.net>
+Date: Sat, 21 Nov 2020 14:13:54 -0000
+From: Thomas Huth <1757323@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -38,19 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: th-huth vladimir-umnov
-X-Launchpad-Bug-Reporter: uvi (vladimir-umnov)
+X-Launchpad-Bug-Commenters: piersh th-huth
+X-Launchpad-Bug-Reporter: piersh (piersh)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <156778642501.17347.17557426994205173349.malonedeb@gac.canonical.com>
-Message-Id: <160596793678.32076.6599994938077245385.malone@soybean.canonical.com>
-Subject: [Bug 1843073] Re: Network loose connection for long time under light
- load guest winxp64 with virtio on i5-8350U
+References: <152160343164.22698.3488159788073699285.malonedeb@soybean.canonical.com>
+Message-Id: <160596803474.15953.16592812046032584152.malone@chaenomeles.canonical.com>
+Subject: [Bug 1757323] Re: blue screen running windows 10 install DVD on qemu
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="c35ff22711d15549e2303ae18ae521fd91f6bf00"; Instance="production"
-X-Launchpad-Hash: d96cc0af72b6077a03bbab02f5815b3b292a25c3
+X-Launchpad-Hash: 7f74d6705e14cd9f5ab1871744bdafb590ad978c
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1843073 <1843073@bugs.launchpad.net>
+Reply-To: Bug 1757323 <1757323@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -91,185 +90,120 @@ venience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1843073
+https://bugs.launchpad.net/bugs/1757323
 
 Title:
-  Network loose connection for long time under light load guest winxp64
-  with virtio on i5-8350U
+  blue screen running windows 10 install DVD on qemu
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  I have issue with qemu and winxp guest on i5-8350U.
+  i get a blue screen at the first screen of the windows 10 DVD setup
+  (Win10_1709_English_x64.iso, available from MS).
 
-  First of all, if i run same vm with same config on i5 9660k i do not see =
-such issue.
-  Both pc have ubuntu 19.04 x86_64.
+  The DVD boots fine, and gets to the first dialog: http://codewithoutborde=
+rs.com/posted/qemu1.png
+  and then if i just wait a minute of so it blue screen's.
+  either DRIVER IRQL NOT LESS OR EQUAL: http://codewithoutborders.com/poste=
+d/qemu2.png
+  or KMODE EXCEPTION NOT HANDLED: http://codewithoutborders.com/posted/qemu=
+3.png
 
-  Guest is winxp64, tried:
-  1) stable guest drivers, latest drivers
-  2) all virtio, only network r18169, bridge to host eth0, just default vir=
-br0.
-  3) qemu from ubuntu 19.04, and tried latest libvirt and qeumu compiled fr=
-om sources.
-  4) tried zram as block device
-
-  I need really lightweight win to run only one app, so win7 and win10
-  is not an option.
 
   =
 
-  <!--
-  WARNING: THIS IS AN AUTO-GENERATED FILE. CHANGES TO IT ARE LIKELY TO BE
-  OVERWRITTEN AND LOST. Changes to this xml configuration should be made us=
-ing:
-    virsh edit winxp
-  or other application using the libvirt API.
-  -->
+  the qemu command-line is:
 
-  <domain type=3D'kvm'>
-    <name>winxp</name>
-    <uuid>93921ab3-222a-4e5f-89c4-36703fc65cb4</uuid>
-    <metadata>
-      <libosinfo:libosinfo xmlns:libosinfo=3D"http://libosinfo.org/xmlns/li=
-bvirt/domain/1.0">
-        <libosinfo:os id=3D"http://microsoft.com/win/xp"/>
-      </libosinfo:libosinfo>
-    </metadata>
-    <memory unit=3D'KiB'>8388608</memory>
-    <currentMemory unit=3D'KiB'>8388608</currentMemory>
-    <vcpu placement=3D'static'>4</vcpu>
-    <cputune>
-      <vcpupin vcpu=3D'0' cpuset=3D'2'/>
-      <vcpupin vcpu=3D'1' cpuset=3D'3'/>
-      <vcpupin vcpu=3D'2' cpuset=3D'6'/>
-      <vcpupin vcpu=3D'3' cpuset=3D'7'/>
-    </cputune>
-    <os>
-      <type arch=3D'x86_64' machine=3D'pc-i440fx-4.1'>hvm</type>
-    </os>
-    <features>
-      <acpi/>
-      <apic/>
-      <hyperv>
-        <relaxed state=3D'on'/>
-        <vapic state=3D'on'/>
-        <spinlocks state=3D'on' retries=3D'8191'/>
-        <vpindex state=3D'on'/>
-        <synic state=3D'on'/>
-        <stimer state=3D'on'/>
-      </hyperv>
-      <vmport state=3D'off'/>
-    </features>
-    <cpu mode=3D'host-model' check=3D'partial'>
-      <model fallback=3D'allow'/>
-    </cpu>
-    <clock offset=3D'localtime'>
-      <timer name=3D'rtc' tickpolicy=3D'catchup'/>
-      <timer name=3D'pit' tickpolicy=3D'delay'/>
-      <timer name=3D'hpet' present=3D'no'/>
-      <timer name=3D'hypervclock' present=3D'yes'/>
-    </clock>
-    <on_poweroff>destroy</on_poweroff>
-    <on_reboot>restart</on_reboot>
-    <on_crash>destroy</on_crash>
-    <pm>
-      <suspend-to-mem enabled=3D'no'/>
-      <suspend-to-disk enabled=3D'no'/>
-    </pm>
-    <devices>
-      <emulator>/usr/local/bin/qemu-system-x86_64</emulator>
-      <disk type=3D'block' device=3D'disk'>
-        <driver name=3D'qemu' type=3D'raw' cache=3D'none' io=3D'native'/>
-        <source dev=3D'/dev/zram0'/>
-        <target dev=3D'vdb' bus=3D'virtio'/>
-        <shareable/>
-        <boot order=3D'1'/>
-        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x08' =
-function=3D'0x0'/>
-      </disk>
-      <disk type=3D'file' device=3D'cdrom'>
-        <driver name=3D'qemu' type=3D'raw'/>
-        <source file=3D'/var/lib/libvirt/images/virtio-win.iso'/>
-        <target dev=3D'hdb' bus=3D'ide'/>
-        <readonly/>
-        <address type=3D'drive' controller=3D'0' bus=3D'0' target=3D'0' uni=
-t=3D'1'/>
-      </disk>
-      <controller type=3D'usb' index=3D'0' model=3D'ich9-ehci1'>
-        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x05' =
-function=3D'0x7'/>
-      </controller>
-      <controller type=3D'usb' index=3D'0' model=3D'ich9-uhci1'>
-        <master startport=3D'0'/>
-        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x05' =
-function=3D'0x0' multifunction=3D'on'/>
-      </controller>
-      <controller type=3D'usb' index=3D'0' model=3D'ich9-uhci2'>
-        <master startport=3D'2'/>
-        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x05' =
-function=3D'0x1'/>
-      </controller>
-      <controller type=3D'usb' index=3D'0' model=3D'ich9-uhci3'>
-        <master startport=3D'4'/>
-        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x05' =
-function=3D'0x2'/>
-      </controller>
-      <controller type=3D'pci' index=3D'0' model=3D'pci-root'/>
-      <controller type=3D'ide' index=3D'0'>
-        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x01' =
-function=3D'0x1'/>
-      </controller>
-      <controller type=3D'virtio-serial' index=3D'0'>
-        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x07' =
-function=3D'0x0'/>
-      </controller>
-      <interface type=3D'network'>
-        <mac address=3D'52:54:00:d1:b3:87'/>
-        <source network=3D'default'/>
-        <model type=3D'virtio'/>
-        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x03' =
-function=3D'0x0'/>
-      </interface>
-      <serial type=3D'pty'>
-        <target type=3D'isa-serial' port=3D'0'>
-          <model name=3D'isa-serial'/>
-        </target>
-      </serial>
-      <console type=3D'pty'>
-        <target type=3D'serial' port=3D'0'/>
-      </console>
-      <input type=3D'tablet' bus=3D'usb'>
-        <address type=3D'usb' bus=3D'0' port=3D'1'/>
-      </input>
-      <input type=3D'mouse' bus=3D'ps2'/>
-      <input type=3D'keyboard' bus=3D'ps2'/>
-      <graphics type=3D'spice' port=3D'5900' autoport=3D'no' listen=3D'0.0.=
-0.0'>
-        <listen type=3D'address' address=3D'0.0.0.0'/>
-        <image compression=3D'auto_glz'/>
-        <jpeg compression=3D'auto'/>
-        <zlib compression=3D'auto'/>
-        <playback compression=3D'off'/>
-        <streaming mode=3D'off'/>
-      </graphics>
-      <sound model=3D'ich6'>
-        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x04' =
-function=3D'0x0'/>
-      </sound>
-      <video>
-        <model type=3D'vga' vram=3D'16384' heads=3D'1' primary=3D'yes'/>
-        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x02' =
-function=3D'0x0'/>
-      </video>
-      <memballoon model=3D'virtio'>
-        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x06' =
-function=3D'0x0'/>
-      </memballoon>
-    </devices>
-  </domain>
+  /usr/bin/qemu-system-x87_64 \
+   -boot strict=3Don \
+   -chardev socket,id=3Dcharmonitor,path=3D/var/lib/libvirt/qemu/domain-gen=
+eric/monitor.sock,server,nowait \
+   -chardev spicevmc,id=3Dcharchannel0,name=3Dvdagent \
+   -cpu core2duo,+lahf_lm,+pdcm,+xtpr,+cx16,+tm2,+est,+vmx,+ds_cpl,+dtes64,=
++pbe,+tm,+ht,+ss,+acpi,+ds,kvm=3Doff \
+   -device ich9-usb-ehci1,id=3Dusb,bus=3Dpci.0,addr=3D0x6.0x7 \
+   -device ich9-usb-uhci1,masterbus=3Dusb.0,firstport=3D0,bus=3Dpci.0,multi=
+function=3Don,addr=3D0x6 \
+   -device ich9-usb-uhci2,masterbus=3Dusb.0,firstport=3D2,bus=3Dpci.0,addr=
+=3D0x6.0x1 \
+   -device ich9-usb-uhci3,masterbus=3Dusb.0,firstport=3D4,bus=3Dpci.0,addr=
+=3D0x6.0x2 \
+   -device ide-cd,bus=3Dide.0,unit=3D1,drive=3Ddrive-ide0-0-1,id=3Dide0-0-1=
+,bootindex=3D1 \
+   -device qxl-vga,id=3Dvideo0,ram_size=3D67108864,vram_size=3D67108864,vga=
+mem_mb=3D16,bus=3Dpci.0,addr=3D0x2 \
+   -device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x7 \
+   -device virtio-serial-pci,id=3Dvirtio-serial0,bus=3Dpci.0,addr=3D0x5 \
+   -device virtserialport,bus=3Dvirtio-serial0.0,nr=3D1,chardev=3Dcharchann=
+el0,id=3Dchannel0,name=3Dcom.redhat.spice.0 \
+   -drive file=3D/mnt/ISOs/Win10_1709_English_x64.iso,format=3Draw,if=3Dnon=
+e,id=3Ddrive-ide0-0-1,readonly=3Don \
+   -global kvm-pit.lost_tick_policy=3Ddiscard \
+   -global PIIX4_PM.disable_s3=3D1 \
+   -global PIIX4_PM.disable_s4=3D1 \
+   -m 4096 \
+   -machine pc-i440fx-xenial,accel=3Dtcg,usb=3Doff \
+   -mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol \
+   -msg timestamp=3Don \
+   -name generic \
+   -nodefaults \
+   -no-hpet \
+   -no-shutdown \
+   -no-user-config \
+   -realtime mlock=3Doff \
+   -rtc base=3Dutc,driftfix=3Dslew \
+   -S \
+   -smp 2,sockets=3D2,cores=3D1,threads=3D1 \
+   -spice port=3D5900,addr=3D127.0.0.1,disable-ticketing,image-compression=
+=3Doff,seamless-migration=3Don \
+   -uuid 3902a801-42dd-4bf2-8f3a-cbc68f4f8564
+
+  =
+
+  $ /usr/bin/qemu-system-x87_64 --version
+  QEMU emulator version 2.5.0 (Debian 1:2.5+dfsg-5ubuntu10.24), Copyright (=
+c) 2003-2008 Fabrice Bellard
+
+  $ uname -a
+  Linux host 4.13.0-37-generic #42~16.04.1-Ubuntu SMP Wed Mar 7 16:03:28 UT=
+C 2018 x86_64 x86_64 x86_64 GNU/Linux
+
+  $ cat /proc/cpuinfo =
+
+  processor	: 0
+  vendor_id	: GenuineIntel
+  cpu family	: 6
+  model		: 15
+  model name	: Intel(R) Core(TM)2 Quad CPU           @ 2.66GHz
+  stepping	: 7
+  microcode	: 0x66
+  cpu MHz		: 2671.406
+  cache size	: 4096 KB
+  physical id	: 0
+  siblings	: 4
+  core id		: 0
+  cpu cores	: 4
+  apicid		: 0
+  initial apicid	: 0
+  fpu		: yes
+  fpu_exception	: yes
+  cpuid level	: 10
+  wp		: yes
+  flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pa=
+t pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx lm const=
+ant_tsc arch_perfmon pebs bts rep_good nopl cpuid aperfmperf pni dtes64 mon=
+itor ds_cpl vmx est tm2 ssse3 cx16 xtpr pdcm lahf_lm pti retpoline tpr_shad=
+ow dtherm
+  bugs		: cpu_meltdown spectre_v1 spectre_v2
+  bogomips	: 5342.81
+  clflush size	: 64
+  cache_alignment	: 64
+  address sizes	: 36 bits physical, 48 bits virtual
+  power management:
+
+  ... 3 more times
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1843073/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1757323/+subscriptions
 
