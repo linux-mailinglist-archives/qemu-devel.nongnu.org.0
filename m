@@ -2,78 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A38E62BC27E
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Nov 2020 23:45:43 +0100 (CET)
-Received: from localhost ([::1]:42972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 955C22BC287
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Nov 2020 23:56:44 +0100 (CET)
+Received: from localhost ([::1]:55076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kgbdW-0007pq-6i
-	for lists+qemu-devel@lfdr.de; Sat, 21 Nov 2020 17:45:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35634)
+	id 1kgboB-0004wD-7u
+	for lists+qemu-devel@lfdr.de; Sat, 21 Nov 2020 17:56:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kgbci-0007OJ-7f
- for qemu-devel@nongnu.org; Sat, 21 Nov 2020 17:44:52 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:39616)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kgbnA-0004V3-N1
+ for qemu-devel@nongnu.org; Sat, 21 Nov 2020 17:55:40 -0500
+Received: from indium.canonical.com ([91.189.90.7]:54320)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kgbcg-0001CS-6T
- for qemu-devel@nongnu.org; Sat, 21 Nov 2020 17:44:51 -0500
-Received: by mail-wm1-x335.google.com with SMTP id s13so13796808wmh.4
- for <qemu-devel@nongnu.org>; Sat, 21 Nov 2020 14:44:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Jl0ScwVL1CL+bbYKTbCqBOii5J7OJ/KLsn3JJvPYF+k=;
- b=ejviALGU99hatXA+K2AaGjy/jMWNZi9zfQDle9pVToKe6OT5pqhL86T0hk5P/j29Zn
- owej4PxRjwp7uJ4eUClk2MG0C/lzyOa/y3GYK76jqqIP4o0ZwYW1XAX2+zntMaZ+NLAn
- NNa4/c+DjxPmUocA2vAseWgGV+Pa0kYUdEOc/5DKm/wMn5neYv4qG459F4FuPCWZC+sx
- AbGmoTG/Qn0DcVN0wzcOgWOxJZgEiPi39v3hATF8Cp56J0X4ei9kVVYhHaVZlQAsHMfK
- 7TszlFbyjXIJ0gnh5kmXvKvnyaYiqiCQGsHUNw2sbEaWkc3fR1k6zT2fB7swR6vVIwKm
- MyyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Jl0ScwVL1CL+bbYKTbCqBOii5J7OJ/KLsn3JJvPYF+k=;
- b=S4ca17JU7xIsNJkpxAMh6J0e252L2Wno/8I9KsPiT3icrGJTO6l5Wf66uExGlIGIna
- HiVIkvJt9okc0w5SF2BU/Y7EFXrmsL2bE1jVKJjIdq+eHzsdlTtgaRCYTSSmL+AwLz5n
- xI9cqU4vI3gGbEDlPfX8BoC/UX3YApWQq1xL39BF4Ft1LwhHH4/gvmEl2fA1ETGSEqWN
- TDh7rN5YhmHhCKRgMkydSu4INPDWvWjvtJ8uP8nhGylnBQI1oeP8DW3LBuphwADwqZhK
- ZoyW131N6kSbWzvfVqOyb0E6DZGw02Kx4lOJRkCYdn20fyn6CItYX+10KeA0DAIfS1ug
- yESA==
-X-Gm-Message-State: AOAM532w6AO4iIfOs8OU5FHFHbMGL6eD1XassvM/oSPRrPk/5pDER/1L
- 67CRU858gBdfBXjMx3G/He4p3y2Pf3QFWw==
-X-Google-Smtp-Source: ABdhPJx35cF9MSLpHTX0SydG+Hfv6n/q3HQdRd9BEy/oitjhl5e/DlquExJO6zX1YKwhazB4quxlDQ==
-X-Received: by 2002:a1c:7fd7:: with SMTP id
- a206mr16967332wmd.135.1605998688170; 
- Sat, 21 Nov 2020 14:44:48 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a18sm8537550wme.18.2020.11.21.14.44.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 21 Nov 2020 14:44:47 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/i386: Check privilege level for protected mode 'int N'
- task gate
-Date: Sat, 21 Nov 2020 22:44:45 +0000
-Message-Id: <20201121224445.16236-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kgbn7-0005Fu-F0
+ for qemu-devel@nongnu.org; Sat, 21 Nov 2020 17:55:40 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kgbn3-0006Mv-OT
+ for <qemu-devel@nongnu.org>; Sat, 21 Nov 2020 22:55:33 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A6BCA2E8025
+ for <qemu-devel@nongnu.org>; Sat, 21 Nov 2020 22:55:33 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 21 Nov 2020 22:48:21 -0000
+From: Peter Maydell <1813201@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: tcg
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: aortega halfdog pmaydell
+X-Launchpad-Bug-Reporter: Alberto Ortega (aortega)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <154835963658.2045.2300981728946163161.malonedeb@wampee.canonical.com>
+Message-Id: <160599890210.12622.14015885887164353483.malone@soybean.canonical.com>
+Subject: [Bug 1813201] Re: QEMU TCG i386 / x86_64 system emulation crash when
+ executing int instruction
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c35ff22711d15549e2303ae18ae521fd91f6bf00"; Instance="production"
+X-Launchpad-Hash: eac792743a8cf97d39f967845cc8b8cb3a56371e
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,99 +72,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Reply-To: Bug 1813201 <1813201@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the 'int N' instruction is executed in protected mode, the
-pseudocode in the architecture manual specifies that we need to check:
+This should be fixed by this patch:
+https://patchew.org/QEMU/20201121224445.16236-1-peter.maydell@linaro.org/
 
- * vector number within IDT limits
- * selected IDT descriptor is a valid type (interrupt, trap or task gate)
- * if this was a software interrupt then gate DPL < CPL
 
-The way we had structured the code meant that the privilege check for
-software interrupts ended up not in the code path taken for task gate
-handling, because all of the task gate handling code was in the 'case 5'
-of the switch which was checking "is this descriptor a valid type".
+** Changed in: qemu
+       Status: New =3D> In Progress
 
-Move the task gate handling code out of that switch (so that it is now
-purely doing the "valid type?" check) and below the software interrupt
-privilege check.
+-- =
 
-The effect of this missing check was that in a guest userspace binary
-executing 'int 8' would cause a guest kernel panic rather than the
-userspace binary being handed a SEGV.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1813201
 
-This is essentially the same bug fixed in VirtualBox in 2012:
-https://www.halfdog.net/Security/2012/VirtualBoxSoftwareInterrupt0x8GuestCrash/
+Title:
+  QEMU TCG i386 / x86_64 system emulation crash when executing int
+  instruction
 
-Note that for QEMU this is not a security issue because it is only
-present when using TCG.
+Status in QEMU:
+  In Progress
 
-Fixes: https://bugs.launchpad.net/qemu/+bug/1813201
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/i386/seg_helper.c | 35 +++++++++++++++++++++--------------
- 1 file changed, 21 insertions(+), 14 deletions(-)
+Bug description:
+  QEMU version:
+  -------------
 
-diff --git a/target/i386/seg_helper.c b/target/i386/seg_helper.c
-index 09b6554660..5c8b8652f5 100644
---- a/target/i386/seg_helper.c
-+++ b/target/i386/seg_helper.c
-@@ -633,6 +633,24 @@ static void do_interrupt_protected(CPUX86State *env, int intno, int is_int,
-     type = (e2 >> DESC_TYPE_SHIFT) & 0x1f;
-     switch (type) {
-     case 5: /* task gate */
-+    case 6: /* 286 interrupt gate */
-+    case 7: /* 286 trap gate */
-+    case 14: /* 386 interrupt gate */
-+    case 15: /* 386 trap gate */
-+        break;
-+    default:
-+        raise_exception_err(env, EXCP0D_GPF, intno * 8 + 2);
-+        break;
-+    }
-+    dpl = (e2 >> DESC_DPL_SHIFT) & 3;
-+    cpl = env->hflags & HF_CPL_MASK;
-+    /* check privilege if software int */
-+    if (is_int && dpl < cpl) {
-+        raise_exception_err(env, EXCP0D_GPF, intno * 8 + 2);
-+    }
-+
-+    if (type == 5) {
-+        /* task gate */
-         /* must do that check here to return the correct error code */
-         if (!(e2 & DESC_P_MASK)) {
-             raise_exception_err(env, EXCP0B_NOSEG, intno * 8 + 2);
-@@ -660,21 +678,10 @@ static void do_interrupt_protected(CPUX86State *env, int intno, int is_int,
-             SET_ESP(esp, mask);
-         }
-         return;
--    case 6: /* 286 interrupt gate */
--    case 7: /* 286 trap gate */
--    case 14: /* 386 interrupt gate */
--    case 15: /* 386 trap gate */
--        break;
--    default:
--        raise_exception_err(env, EXCP0D_GPF, intno * 8 + 2);
--        break;
--    }
--    dpl = (e2 >> DESC_DPL_SHIFT) & 3;
--    cpl = env->hflags & HF_CPL_MASK;
--    /* check privilege if software int */
--    if (is_int && dpl < cpl) {
--        raise_exception_err(env, EXCP0D_GPF, intno * 8 + 2);
-     }
-+
-+    /* Otherwise, trap or interrupt gate */
-+
-     /* check valid bit */
-     if (!(e2 & DESC_P_MASK)) {
-         raise_exception_err(env, EXCP0B_NOSEG, intno * 8 + 2);
--- 
-2.20.1
+  qemu from git, master branch commit
+  d058a37a6e8daa8d71a6f2b613eb415b69363755
 
+  Release versions are also affected.
+
+  Summary:
+  --------
+
+  QEMU i386 and x86_64 system emulation crash when executing the
+  following "int" instruction:
+
+  cd08  int 8
+
+  This generates a kernel NULL pointer dereference error in Linux, and a
+  BSOD error in Windows.
+
+  No special permissions are required to execute the instruction, any
+  unprivileged user can execute it.
+
+  This issue has been reproduced in QEMU running in TCG mode. KVM is not
+  affected.
+
+  Kernel panic log:
+
+  [  111.091138] BUG: unable to handle kernel NULL pointer dereference at 0=
+0000014
+  [  111.092145] IP: [<ce0513ad>] doublefault_fn+0xd/0x130
+  [  111.092145] *pdpt =3D 0000000000000000 *pde =3D f000ff53f000ff53 [  11=
+1.092145] =
+
+  [  111.092145] Oops: 0000 [#1] SMP
+  [  111.092145] Modules linked in: kvm_amd bochs_drm ppdev ttm drm_kms_hel=
+per drm kvm irqbypass evdev pcspkr serio_raw sg parport_pc parport button i=
+p_tables x_tables autofs4 ext4 crc16 jbd2 crc32c_generic fscrypto ecb xts l=
+rw gf128mul ablk_helper cryptd aes_i586 mbcache sr_mod sd_mod cdrom ata_gen=
+eric ata_piix libata psmouse e1000 scsi_mod i2c_piix4 floppy
+  [  111.092145] CPU: 0 PID: 409 Comm: int8.elf Not tainted 4.9.0-8-686-pae=
+ #1 Debian 4.9.130-2
+  [  111.092145] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIO=
+S rel-1.12.0-0-ga698c8995f-prebuilt.qemu.org 04/01/2014
+  [  111.092145] task: f6c88a80 task.stack: f6e52000
+  [  111.092145] EIP: 0060:[<ce0513ad>] EFLAGS: 00004086 CPU: 0
+  [  111.092145] EIP is at doublefault_fn+0xd/0x130
+  [  111.092145] EAX: 00000000 EBX: 00000000 ECX: 00000000 EDX: 00000000
+  [  111.092145] ESI: 00000000 EDI: 00000000 EBP: ce8f13fc ESP: ce8f13d4
+  [  111.092145]  DS: 007b ES: 007b FS: 00d8 GS: 00e0 SS: 0068
+  [  111.092145] CR0: 8005003b CR2: 00000014 CR3: 0e8e1000 CR4: 000006f0
+  [  111.092145] Stack:
+  [  111.092145]  00000000 00000000 00000000 00000000 00000000 00000000 000=
+00000 00000000
+  [  111.092145]  00000000 00000000 00000000 00000000 00000000 00000000 000=
+00000 00000000
+  [  111.092145]  00000000 00000000 00000000 00000000 fed00000 ce474ad0 000=
+00000 00017d78
+  [  111.092145] Call Trace:
+  [  111.092145] Code: 86 fd ff eb a3 89 f6 8d bc 27 00 00 00 00 55 89 e5 3=
+e 8d 74 26 00 5d e9 e2 79 fd ff 66 90 55 89 e5 56 53 83 ec 20 3e 8d 74 26 0=
+0 <65> a1 14 00 00 00 89 45 f4 31 c0 31 c0 c7 45 f0 00 00 00 00 66
+  [  111.092145] EIP: [<ce0513ad>] [  111.092145] doublefault_fn+0xd/0x130
+  [  111.092145]  SS:ESP 0068:ce8f13d4
+  [  111.092145] CR2: 0000000000000014
+  [  111.092145] ---[ end trace 8afa7884b76cafc1 ]---
+
+  Testcase:
+  ---------
+
+  void main() {
+          asm("int $0x8");
+  }
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1813201/+subscriptions
 
