@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F7EF2BC1E3
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Nov 2020 21:02:08 +0100 (CET)
-Received: from localhost ([::1]:34156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF7912BC1E4
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Nov 2020 21:02:22 +0100 (CET)
+Received: from localhost ([::1]:34970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kgZ5D-0005HC-85
-	for lists+qemu-devel@lfdr.de; Sat, 21 Nov 2020 15:02:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37182)
+	id 1kgZ5R-0005b1-V7
+	for lists+qemu-devel@lfdr.de; Sat, 21 Nov 2020 15:02:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kgYwz-0004tg-7S
- for qemu-devel@nongnu.org; Sat, 21 Nov 2020 14:53:37 -0500
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:35916)
+ id 1kgZ47-0004l2-7W
+ for qemu-devel@nongnu.org; Sat, 21 Nov 2020 15:00:59 -0500
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:41738)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kgYwx-0007hp-IO
- for qemu-devel@nongnu.org; Sat, 21 Nov 2020 14:53:36 -0500
-Received: by mail-pf1-x444.google.com with SMTP id n137so1108507pfd.3
- for <qemu-devel@nongnu.org>; Sat, 21 Nov 2020 11:53:35 -0800 (PST)
+ id 1kgZ3z-0001yg-Pf
+ for qemu-devel@nongnu.org; Sat, 21 Nov 2020 15:00:55 -0500
+Received: by mail-pg1-x543.google.com with SMTP id s63so599472pgc.8
+ for <qemu-devel@nongnu.org>; Sat, 21 Nov 2020 12:00:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=3WCGhvkLZ7Nv06CbBNcGdEUTtYIcR1oe/tatEJKpEcQ=;
- b=S/82gd/pKYPq/+R+8pz64cz+XbX/HfD7pwt2ndn5myo5mCwBIVzP7IScK4sfRflySW
- Yy0aonia4Pd7guSzHhN6eLwZKb+sKgSEkDoCQNleaPD6vkfP0ot8hZEFHQMAnY1Iy3NP
- YzY/9udMFfZoFefgpNC+3bCabMxmVfzOwkk4kO0qP9lnPScM3E8Xh+YUhrwesMoGbAJB
- tHvevRD8As9E8YWX5y+yBvtadLRBG1MQ41pNYYkSW/+V44qnpjJuhF/D+9twrz5qO8/4
- xm4T2XRjAbZpWWOl+pwBvibv1WXO8tdWTB5a6k5cM0m738cjeNaJbLjCHLTip/52YpAF
- BxjQ==
+ bh=D0o9x4hkSkrT/zYxKvl6aROB43Lh2lY7moTXCTtywUU=;
+ b=zhd3U6u4ebfiNBy92xPolcMHM88YZhRQLuNVNXfFJZYSnLaCSUkSDFD83TVzpVzwWk
+ g9x8MopJGXoc1dgW85LhxMxXDjcFLTZI1f2zpoIvPh5bpaNB1bT8RVonmD1H8o6HC6zk
+ JlW/P2mK0b+McdBOhBkYduahYEgQeGrote5rXTw1ip0urX8QcnFvo59wB2TXwLnBNXQN
+ +KmjCOxvLBZrrOgeoML5r/q4bm8P8+j7WtFUN4fLkNuZC4gT2QrvFKPAFWsDv9x0oxRL
+ Wd8TRk4X9ykadJIlZGMzUIpFw6f0iK7QOknaQyh4Uf+s7SedzAtk53WTcNzOdq1wVXDw
+ MhMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=3WCGhvkLZ7Nv06CbBNcGdEUTtYIcR1oe/tatEJKpEcQ=;
- b=Y+YJCmJnuU7LvhTCRLWh7H6VccOaJugXBtxJX0ffZW3Q4fn7fWNQ89NcDixbkpup35
- KuVktIxX0LCAoCenB2BDxkCeUjJblkQS/3Ci9yOJ2W6PqL/RHioySDtgUq5Ew6hp360a
- j0oc8poEA9ZqeVQ8Hq8gqIxza2Fv9JdXryVdoiFIA8OfYzSZ7eOu6EP9XKCmaQB4xR4A
- fKkAJHVBH6ATn5TvxTBeWrNCUQCffLWCQkc9AMjgUoh1OwC+ZRRfXwu9stLZ/mM+KHcc
- 1J9AHXxGD5yAnH7XhuExtfWkt8W20D3HrxP+C+ynmSPYV7HGDQx6azAWPqF0tLYy5sVu
- mDJg==
-X-Gm-Message-State: AOAM531hA4wZMJusODggTBVblexNeu2NkJZrDivEV66TB/5CJ0pLeSKz
- wdXhlDwP3lPu7K5m9xvVFyMLJg==
-X-Google-Smtp-Source: ABdhPJwpVLiEXWdXgxmt0NpjWfgVEW1P37oZxmEaj8Dvpsf4juSM8Bk97Y+C5Pa3a4JPgFUK5aiIqQ==
-X-Received: by 2002:a17:90a:fd02:: with SMTP id
- cv2mr16768219pjb.176.1605988414172; 
- Sat, 21 Nov 2020 11:53:34 -0800 (PST)
+ bh=D0o9x4hkSkrT/zYxKvl6aROB43Lh2lY7moTXCTtywUU=;
+ b=f19KrMg2KJgXBIBhduIHNgIyhg96wKxWNmu7ybRPYSfqSXOFvSPxikHUuQJbmIryPz
+ gNl+pKLBSumBe/6uIk7SGpwItsrnhXEGhUfERWkVsO2unQTmPZd7i+YbmbuS/hCGEgtl
+ WTjiSw0OSIdgH96mzEDqwsGXqpESHNPZ+F/UlN2eQGHvsydo39zzp+9DUnCbnnXZDMd2
+ +gApGvxKe7tM+D5Zy4PZLrn8fDwXfzuWZ+V6qgjh2upsMGY8NAtve5UFXmy1VWpJFJI3
+ FbveZ7nA7YfzEOoh6fQs5MlW7cZPaVAj+uM50eonWj6YUFNvK9KT0uflQ74G+ZkK35pl
+ 3/Ow==
+X-Gm-Message-State: AOAM531Sjr8o2Ldlh870/B+tUSA5EX8kC17Tgm8zRosWfgbgbqfjppKT
+ 0eTE30plsYJccn2unEH2xMO8Dg==
+X-Google-Smtp-Source: ABdhPJzrngGex3pgn86ZjxaZN6q4cZWT0KGt70hyLuVgw9opefGm/JWReQ4xVEPHdia2+DWtiEvEuw==
+X-Received: by 2002:aa7:8205:0:b029:18b:3691:e447 with SMTP id
+ k5-20020aa782050000b029018b3691e447mr19212755pfi.69.1605988850392; 
+ Sat, 21 Nov 2020 12:00:50 -0800 (PST)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id 203sm7731279pfw.116.2020.11.21.11.53.33
+ by smtp.gmail.com with ESMTPSA id y5sm8000133pfc.165.2020.11.21.12.00.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 21 Nov 2020 11:53:33 -0800 (PST)
-Subject: Re: [PATCH 08/26] target/mips: Extract Multi-Threading helper
+ Sat, 21 Nov 2020 12:00:49 -0800 (PST)
+Subject: Re: [PATCH 10/26] target/mips: Extract the microMIPS ISA helper
  definitions
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20201120210844.2625602-1-f4bug@amsat.org>
- <20201120210844.2625602-9-f4bug@amsat.org>
+ <20201120210844.2625602-11-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <3c27c6bf-529f-979b-fdef-6706cce6a1c0@linaro.org>
-Date: Sat, 21 Nov 2020 11:53:31 -0800
+Message-ID: <708bdf67-a5a7-d0f9-4570-7280c605c6c2@linaro.org>
+Date: Sat, 21 Nov 2020 12:00:47 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201120210844.2625602-9-f4bug@amsat.org>
+In-Reply-To: <20201120210844.2625602-11-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,15 +98,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/20/20 1:08 PM, Philippe Mathieu-Daudé wrote:
-> 'MIPS MT' is defined as a Module by MIPS. Extract the helper
-> definitions to 'mod-mips-mt_helper.h.inc'.
+> Extract the microMIPS ISA helper definitions to
+> 'isa-micromips_helper.h.inc'.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  target/mips/helper.h                 | 24 +------------------
->  target/mips/mod-mips-mt_helper.h.inc | 36 ++++++++++++++++++++++++++++
->  2 files changed, 37 insertions(+), 23 deletions(-)
->  create mode 100644 target/mips/mod-mips-mt_helper.h.inc
+>  target/mips/helper.h                   | 10 ++--------
+>  target/mips/isa-micromips_helper.h.inc | 17 +++++++++++++++++
+>  2 files changed, 19 insertions(+), 8 deletions(-)
+>  create mode 100644 target/mips/isa-micromips_helper.h.inc
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
