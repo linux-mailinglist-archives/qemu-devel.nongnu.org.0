@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A14F62BC28D
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Nov 2020 00:02:11 +0100 (CET)
-Received: from localhost ([::1]:57292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ABB32BC291
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Nov 2020 00:06:39 +0100 (CET)
+Received: from localhost ([::1]:33382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kgbtS-00067r-O5
-	for lists+qemu-devel@lfdr.de; Sat, 21 Nov 2020 18:02:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37918)
+	id 1kgbxm-0008Ae-Hq
+	for lists+qemu-devel@lfdr.de; Sat, 21 Nov 2020 18:06:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kgbs9-0005fg-Bh
- for qemu-devel@nongnu.org; Sat, 21 Nov 2020 18:00:49 -0500
-Received: from indium.canonical.com ([91.189.90.7]:54490)
+ id 1kgbwo-0007kw-9o
+ for qemu-devel@nongnu.org; Sat, 21 Nov 2020 18:05:38 -0500
+Received: from indium.canonical.com ([91.189.90.7]:54642)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kgbs7-00075u-Jt
- for qemu-devel@nongnu.org; Sat, 21 Nov 2020 18:00:49 -0500
+ id 1kgbwm-0000PI-Bz
+ for qemu-devel@nongnu.org; Sat, 21 Nov 2020 18:05:38 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kgbs5-0006ab-B9
- for <qemu-devel@nongnu.org>; Sat, 21 Nov 2020 23:00:45 +0000
+ id 1kgbwl-0006yv-46
+ for <qemu-devel@nongnu.org>; Sat, 21 Nov 2020 23:05:35 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4F5072E813A
- for <qemu-devel@nongnu.org>; Sat, 21 Nov 2020 23:00:45 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id EC7F32E813A
+ for <qemu-devel@nongnu.org>; Sat, 21 Nov 2020 23:05:34 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 21 Nov 2020 22:51:07 -0000
-From: Peter Maydell <1820686@bugs.launchpad.net>
+Date: Sat, 21 Nov 2020 22:58:45 -0000
+From: Peter Maydell <1838658@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
  assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: fintelia palmerdabbelt pmaydell
-X-Launchpad-Bug-Reporter: Jonathan Behrens (fintelia)
+X-Launchpad-Bug-Commenters: berrange gson pmaydell prlw1
+X-Launchpad-Bug-Reporter: Patrick Welche (prlw1)
 X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <155292983840.14647.1929214506952702572.malonedeb@soybean.canonical.com>
-Message-Id: <160599906758.12179.5421459848098758677.malone@soybean.canonical.com>
-Subject: [Bug 1820686] Re: risc-v: 'c.unimp' instruction decoded as
- 'c.addi4spn fp, 0'
+References: <156467368424.6955.5535032657029646608.malonedeb@soybean.canonical.com>
+Message-Id: <160599952518.21610.11833298103675460008.malone@wampee.canonical.com>
+Subject: [Bug 1838658] Re: qemu 4.0.0 broken by glib update
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="c35ff22711d15549e2303ae18ae521fd91f6bf00"; Instance="production"
-X-Launchpad-Hash: 4331e86d1ddcdff051ea8e8ac15845e0626ba52d
+X-Launchpad-Hash: 26371690f6b902eeaeae56b2e0074cc91b40a7b8
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,43 +70,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1820686 <1820686@bugs.launchpad.net>
+Reply-To: Bug 1838658 <1838658@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since this bug isn't present in the decodetree version of the riscv
-decoder, we might as well just close this as fix-released; we won't be
-doing more point-releases of QEMU versions as old as 3.1.
+The linked NetBSD bug report http://gnats.netbsd.org/54310 now has
+confirmation that this crash was the result of a memory corruption bug
+in QEMU which happened to manifest with the newer glib version. That bug
+is fixed in QEMU master in commit ef905eff421c5a06a01 which will be in
+the 5.2 release, so we can mark this as 'fix committed'.
+
 
 ** Changed in: qemu
-       Status: New =3D> Fix Released
+       Status: New =3D> Fix Committed
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1820686
+https://bugs.launchpad.net/bugs/1838658
 
 Title:
-  risc-v: 'c.unimp' instruction decoded as 'c.addi4spn fp, 0'
+  qemu 4.0.0 broken by glib update
 
 Status in QEMU:
-  Fix Released
+  Fix Committed
 
 Bug description:
-  QEMU 3.1 incorrectly decodes the "c.unimp" instruction (opcode 0x0000)
-  as an "addi4spn fp, 0" when either of the two following bytes are non-
-  zero. This is because the ctx->opcode value used when decoding the
-  instruction is actually filled with a 32-bit load (to handle normal
-  uncompressed instructions) but when a compressed instruction is found
-  only the low 16 bits are valid. Other reserved/illegal bit patterns
-  with the addi4spn opcode are also incorrectly decoded.
+  In brief, an install CD will successfully boot with qemu 4.0.0 built with=
+ glib 2.58.3, but freeze during boot with qemu 4.0.0 built with glib 2.60.0=
+. I tracked it down to glib's GHashTable improvements. qemu is happy with a=
+ glib built from
+  ```
+   git checkout -f 2.60.4
+   git revert --no-edit 86c6f7e2b..3bed8a13b
+   git revert --no-edit 75f8ec1df9b48b0c3a13a9125f2c7d7c5adf5159
+   git revert --no-edit 603fb5958..d3074a748
+   git revert --no-edit 0b45ddc55..0600dd322
+  ```
+  When the GHashTable improvements were committed, there was already a pree=
+mptive note about any breakage being due to using private implementation de=
+tails, hence mentioning it here rather than with glib.
 
-  I believe that the switch to decodetree on master happened to fix this
-  issue, but hopefully it is helpful to have this recorded somewhere.
-  I've included a simple one line patch if anyone wants to backport
-  this.
+  For the full saga, see: http://gnats.netbsd.org/54310
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1820686/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1838658/+subscriptions
 
