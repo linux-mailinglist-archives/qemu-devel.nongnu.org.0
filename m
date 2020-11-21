@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 384872BC1EB
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Nov 2020 21:08:10 +0100 (CET)
-Received: from localhost ([::1]:44760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 710542BC1ED
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Nov 2020 21:09:30 +0100 (CET)
+Received: from localhost ([::1]:49168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kgZB3-0001Jn-9D
-	for lists+qemu-devel@lfdr.de; Sat, 21 Nov 2020 15:08:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39660)
+	id 1kgZCL-00034m-Fn
+	for lists+qemu-devel@lfdr.de; Sat, 21 Nov 2020 15:09:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kgZ9M-0000FX-9w
- for qemu-devel@nongnu.org; Sat, 21 Nov 2020 15:06:24 -0500
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:41502)
+ id 1kgZ9x-0000pE-VU
+ for qemu-devel@nongnu.org; Sat, 21 Nov 2020 15:07:02 -0500
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:36345)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kgZ9K-0003ry-Ql
- for qemu-devel@nongnu.org; Sat, 21 Nov 2020 15:06:24 -0500
-Received: by mail-pl1-x642.google.com with SMTP id 5so6745206plj.8
- for <qemu-devel@nongnu.org>; Sat, 21 Nov 2020 12:06:22 -0800 (PST)
+ id 1kgZ9u-00045A-O0
+ for qemu-devel@nongnu.org; Sat, 21 Nov 2020 15:07:01 -0500
+Received: by mail-pg1-x541.google.com with SMTP id t21so10493343pgl.3
+ for <qemu-devel@nongnu.org>; Sat, 21 Nov 2020 12:06:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=7s/7vXML9GxuVW2WLbo5TcIECOicwJD/bCTeBYGwXEc=;
- b=Ob/kfjHJWLyxIItkSfSJvrXwHy4udvBuicL1aU64XBZ1EPUBit0yksIATIpyFl1hMM
- 1aOqIIHH+2bMItv8mcgc/41+oxNeYnn6qYH4Rot3mrvgvPvGR85khfOEqNxZZqaNMUew
- /Bf957I9Aff4mf4RAWdXcv7VvKc76uz39xJy4OqSv93vYcMS2heN6RelQOgXkqBw6N7V
- m0wfylSZmEIqZTjFtYcsYxg5IuhpSLrOvFjAIW3cxnUeKlST59W+CTAG6p0KFUcvKpEW
- +bhuw1EawNQBJ4qxJ8EgUaLLvCz5CgG2YLHI61sdV8lnSg/BMq899+VHoOVyMwulz4Ud
- hdxA==
+ bh=qJrCrLyDiHYRv62L8UREcTwtWgnbjupDl1ldKBHyHNA=;
+ b=D9PZhcbOWmr0VxX/Wgu634HhqtwCretwFAXzCflJqTPT2PjZRccTOyL3LzM17Jq+1H
+ Wq3nRgz7I1M88tuoHnnJiMlr003qOlUpdJ7n3qGLoaXSfIkOrf3MY63AiFocFFrrHFye
+ 0cOSW5izB4YTtZuwJpYCfBWKPjyPG/rBoiqcFKXeMQohba+rZwPCciRXnXy2QcvKjT7J
+ U4OmeHspX4AD3FE1dEdlxBa+pev8CUDEtI6NWVZ21IA2l4J/aNoBzD9ZLafEpSwhe8qc
+ R/iNQG/R6olWHFhxXEsMHPDmMDiHGfDIu/9V+M7UVPN4bxIAcXJdr82Df24Bjm6V9DFd
+ Ywmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=7s/7vXML9GxuVW2WLbo5TcIECOicwJD/bCTeBYGwXEc=;
- b=Wizn6DPnWPr4SOj1axNSMPjsxXf7IWxcV94ATITKLWxHQlKHsmQUpA1WQ4Z33KH4ah
- 21dqco26WpBQYubtutoeRgagkGGzliT//xNTOgX9k76dXiZPtLwmkk17Zhn2olD8eFy0
- vCL+4aXMVPzMochOxStbYWNW8cSwMzP5QSUcCf7+kWhJGw7ag5bsH9QYUfW3OeZwZcIs
- /Fc7Lnya0dDaUapnLpZslyTdds9c9xo2VtGn7QV60oUXNh9FENR8qC6GpEHhksPqoOwl
- e/V8hnD3XgSZLnzCliisOvd9KtYQAMjUQIURCuHvzF96iLO5qUl9N2QxC5QrgSrB9b+1
- rSww==
-X-Gm-Message-State: AOAM530200OT8NEtebnh+QU/0q+8jE4NU/TSatbYzPnmwRwKnoPC+xxf
- whp98pVZIvV9jZW4AyI+ye2mNw==
-X-Google-Smtp-Source: ABdhPJyCD83bIMYqNsocQCdvh3G6KVezlhUVXNbDB9BixVIYvoJ2WxD0dZfLn7fuMRuGGiqGfUhv6w==
-X-Received: by 2002:a17:902:8c84:b029:d9:471:f0da with SMTP id
- t4-20020a1709028c84b02900d90471f0damr17623980plo.84.1605989181263; 
- Sat, 21 Nov 2020 12:06:21 -0800 (PST)
+ bh=qJrCrLyDiHYRv62L8UREcTwtWgnbjupDl1ldKBHyHNA=;
+ b=n+/EqTV/KF0tp6RppH+DY+/dUnpD/vMuIvZaa0UExKJ3C/bAsC4Z1RJKEdp6DTSGUy
+ n6gPMOQPQQ2x3N36rnulLs/ARvxEI+JrF1kryhzJePvuyt2/gKxNR+jD0EAfl3wKQQtH
+ eB0ermLtPr3xmWY7xg9mPaweWGfXFb1sYDOm3pzpBgZDLiBIyP9Y3mY0EXkmnYnS94NG
+ CG31rrgi/d0gpNilRu61F32shPzcaCkpKizajlgRTEAK5GApJraIYZS/+HYvU741PNWC
+ E1Gz7uMCFX7EPFoUZOqWAO9kTBy+e1OXE0OFpQ0QUO/8L7XwXCic2n/n2a6PnXJX0rcF
+ O/7Q==
+X-Gm-Message-State: AOAM53262JrHik0mp+FXFliCLvzuK2QKfFR+uVFN7+52+eCl4KwH1QXF
+ xVxpk5aUdEQ8Rns+5Y9IGis9+w==
+X-Google-Smtp-Source: ABdhPJyq1wqfG8WIbouo2PWpB21KmDu+7OO6A5aMcu6BLDG1PEGmOrWYappDgxqCNr2ezELXHy5cDA==
+X-Received: by 2002:a17:90a:f0f:: with SMTP id
+ 15mr17004618pjy.127.1605989217481; 
+ Sat, 21 Nov 2020 12:06:57 -0800 (PST)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id 198sm5460015pgd.31.2020.11.21.12.06.20
+ by smtp.gmail.com with ESMTPSA id 131sm8063917pfw.117.2020.11.21.12.06.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 21 Nov 2020 12:06:20 -0800 (PST)
-Subject: Re: [PATCH 14/26] target/mips: Extract NEC Vr54xx helper definitions
+ Sat, 21 Nov 2020 12:06:56 -0800 (PST)
+Subject: Re: [PATCH 15/26] target/mips: Extract NEC Vr54xx translation routines
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20201120210844.2625602-1-f4bug@amsat.org>
- <20201120210844.2625602-15-f4bug@amsat.org>
+ <20201120210844.2625602-16-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <0e9e02b8-bc39-85f7-63a6-4d0eefe533f0@linaro.org>
-Date: Sat, 21 Nov 2020 12:06:18 -0800
+Message-ID: <7b6671ff-4f0f-920c-2cea-71fe5d7fc98c@linaro.org>
+Date: Sat, 21 Nov 2020 12:06:54 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201120210844.2625602-15-f4bug@amsat.org>
+In-Reply-To: <20201120210844.2625602-16-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x541.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,15 +97,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/20/20 1:08 PM, Philippe Mathieu-Daudé wrote:
-> Extract the NEC Vr54xx helper definitions to
-> 'vendor-vr54xx_helper.h'.
+> Extract the NEC Vr54xx translation routines to
+> 'vendor-vr54xx_translate.c.inc'.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  target/mips/helper.h                   | 17 ++---------------
->  target/mips/vendor-vr54xx_helper.h.inc | 24 ++++++++++++++++++++++++
->  2 files changed, 26 insertions(+), 15 deletions(-)
->  create mode 100644 target/mips/vendor-vr54xx_helper.h.inc
+>  target/mips/translate.c                   | 86 +--------------------
+>  target/mips/vendor-vr54xx_translate.c.inc | 93 +++++++++++++++++++++++
+>  2 files changed, 95 insertions(+), 84 deletions(-)
+>  create mode 100644 target/mips/vendor-vr54xx_translate.c.inc
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
