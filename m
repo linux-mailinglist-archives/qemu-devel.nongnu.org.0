@@ -2,68 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2A102BC569
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Nov 2020 12:40:48 +0100 (CET)
-Received: from localhost ([::1]:47928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7DA12BC607
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Nov 2020 15:29:09 +0100 (CET)
+Received: from localhost ([::1]:57742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kgnja-0006MO-Af
-	for lists+qemu-devel@lfdr.de; Sun, 22 Nov 2020 06:40:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59432)
+	id 1kgqMW-0000oM-Ex
+	for lists+qemu-devel@lfdr.de; Sun, 22 Nov 2020 09:29:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kgniL-0005vt-9O
- for qemu-devel@nongnu.org; Sun, 22 Nov 2020 06:39:29 -0500
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:40155)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kgniJ-0002fY-M6
- for qemu-devel@nongnu.org; Sun, 22 Nov 2020 06:39:29 -0500
-Received: by mail-ed1-x544.google.com with SMTP id d18so14185862edt.7
- for <qemu-devel@nongnu.org>; Sun, 22 Nov 2020 03:39:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=umqZwv6MBtqHH3NmT1LwaMJ37tpywtTp6hsLTyA7jjs=;
- b=RdW/ZJ+WDo0ckPexBGA91kBLc5AcLZJIVKQbZ0LJJU1up2IzjDI8zoVRAKG7GxS+hI
- IOrLpyklG0V9fEoJP6ly7rI55lqM6wdVvD/2RUjPNYK5gjYmO4f76Hj8QYoAT7nlA9rV
- rPddejxqJZnFZlzxpZdcA/GRtPUfjd3M/s0MOABpcRc+C3xB3kSd4VN6mZSkf3gEBRkC
- rppVgVRkU2pmo+6QiT3e67pyL/6bOEyYq5O4NqIdgoVzgKPg3ANVEgPS2G0856SfoZQK
- RuvTCnDhZRm3vDHhrn9xnRfZcqF/p1FVJZhEJm6fG/FT4BWldI4b5h7rsa2uy1OUp1Ys
- f40A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=umqZwv6MBtqHH3NmT1LwaMJ37tpywtTp6hsLTyA7jjs=;
- b=cJiGfIas6IJnGXCyCWJufp6cNbbnXvhpnNey/xhdzruSkZUAvfrpJJczBYWvPrKvRW
- p2NpyWhr7X0p6Do2Hyx6Yp/yZf6ycRtlgQcJai034IWHhbfOydscJcGlpTwmmnwIODgY
- TyI4xidgWb6J5uLl5ypH6ylozU5OPnwogNKe3xszm3HsEZDhAbQfamGLLNf81chLEeyY
- d43xGFnrOr2jVd0o8RnYvBT0XpAg3F0xxGmz1EFfnqYpH3jy9aJZTvuVgDrQzqSfu9a5
- mGKDaOWskFEJKE0fRnMucabUAj6ZnsXgxXioHM30p5RESyksu29Nmho1i22k7oo2eTJS
- 0Xqw==
-X-Gm-Message-State: AOAM531WbvXPWORZv33yLlN0T2lP6SAXcew5zXkO0E2rQoMiZ+gL/u4n
- PR6X53mj7PIFZTuX98lxNQqvkzjDGg3WEqJYnnz+JA==
-X-Google-Smtp-Source: ABdhPJx4roJ3hvvFyCSV6AD3Uprb7FPkRxpGFVufoO/zdhNqP5JlaPgxj7HGU0CFdq1sZ0dmiCp+k0XQqFsZYfm7xIE=
-X-Received: by 2002:a05:6402:3089:: with SMTP id
- de9mr44142219edb.100.1606045165280; 
- Sun, 22 Nov 2020 03:39:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kgqLF-0008Hu-Eg
+ for qemu-devel@nongnu.org; Sun, 22 Nov 2020 09:27:49 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:60988
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kgqL9-00024E-GC
+ for qemu-devel@nongnu.org; Sun, 22 Nov 2020 09:27:49 -0500
+Received: from host86-179-247-26.range86-179.btcentralplus.com
+ ([86.179.247.26] helo=kentang.home)
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kgqLQ-0005bM-MJ; Sun, 22 Nov 2020 14:28:01 +0000
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: peter.maydell@linaro.org,
+	qemu-devel@nongnu.org
+Date: Sun, 22 Nov 2020 14:27:35 +0000
+Message-Id: <20201122142736.18368-1-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20201122044426.13454-1-ruc_gongyuanjun@163.com>
-In-Reply-To: <20201122044426.13454-1-ruc_gongyuanjun@163.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 22 Nov 2020 11:39:14 +0000
-Message-ID: <CAFEAcA-Oc1JO-3H+mmjmhTuVLa89fMN8HgWHhnO8q5TpBg61MA@mail.gmail.com>
-Subject: Re: [PATCH 1/1] /net/tap.c: Fix a memory leak
-To: ruc_gongyuanjun@163.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::544;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x544.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.179.247.26
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: [PULL 0/1] qemu-sparc queue 20201122
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,47 +60,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 22 Nov 2020 at 11:07, <ruc_gongyuanjun@163.com> wrote:
->
-> From: yuanjungong <ruc_gongyuanjun@163.com>
->
-> Close fd before returning.
->
-> Buglink: https://bugs.launchpad.net/qemu/+bug/1904486
-> Signed-off-by: yuanjungong <ruc_gongyuanjun@163.com>
-> ---
->  net/tap.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/net/tap.c b/net/tap.c
-> index c46ff66..fe95fa7 100644
-> --- a/net/tap.c
-> +++ b/net/tap.c
-> @@ -817,6 +817,7 @@ int net_init_tap(const Netdev *netdev, const char *name,
->          if (ret < 0) {
->              error_setg_errno(errp, -ret, "%s: Can't use file descriptor %d",
->                               name, fd);
-> +            close(fd);
->              return -1;
->          }
->
-> @@ -831,6 +832,7 @@ int net_init_tap(const Netdev *netdev, const char *name,
->                           vhostfdname, vnet_hdr, fd, &err);
->          if (err) {
->              error_propagate(errp, err);
-> +            close(fd);
->              return -1;
->          }
->      } else if (tap->has_fds) {
-> --
-> 2.17.1
+The following changes since commit e3a232cccd2445e5d9e607a65a78cdbc33ff8a0f:
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+  Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2020-11-20 22:30:51 +0000)
 
-thanks
--- PMM
+are available in the Git repository at:
+
+  git://github.com/mcayland/qemu.git tags/qemu-sparc-20201122
+
+for you to fetch changes up to 48e5c7f34c557afe49396a00169629d24dc3342d:
+
+  hw/display/tcx: add missing 64-bit access for framebuffer blitter (2020-11-22 10:43:30 +0000)
+
+----------------------------------------------------------------
+qemu-sparc queue
+
+----------------------------------------------------------------
+Mark Cave-Ayland (1):
+      hw/display/tcx: add missing 64-bit access for framebuffer blitter
+
+ hw/display/tcx.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
