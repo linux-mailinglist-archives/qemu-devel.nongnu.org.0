@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E20B32BC36B
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Nov 2020 04:33:25 +0100 (CET)
-Received: from localhost ([::1]:58542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5DBB2BC4C3
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Nov 2020 10:47:05 +0100 (CET)
+Received: from localhost ([::1]:58124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kgg7w-0006vG-Gl
-	for lists+qemu-devel@lfdr.de; Sat, 21 Nov 2020 22:33:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48198)
+	id 1kglxY-0003i0-CO
+	for lists+qemu-devel@lfdr.de; Sun, 22 Nov 2020 04:47:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenhuacai@gmail.com>)
- id 1kgg6Q-0006UQ-O0
- for qemu-devel@nongnu.org; Sat, 21 Nov 2020 22:31:50 -0500
-Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:33756)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kglwK-0003H9-Qd
+ for qemu-devel@nongnu.org; Sun, 22 Nov 2020 04:45:49 -0500
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:38794)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chenhuacai@gmail.com>)
- id 1kgg6J-0005Up-BM
- for qemu-devel@nongnu.org; Sat, 21 Nov 2020 22:31:50 -0500
-Received: by mail-il1-x141.google.com with SMTP id y9so12309873ilb.0
- for <qemu-devel@nongnu.org>; Sat, 21 Nov 2020 19:31:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kglwH-0004wQ-B8
+ for qemu-devel@nongnu.org; Sun, 22 Nov 2020 04:45:47 -0500
+Received: by mail-pf1-x441.google.com with SMTP id 10so12107020pfp.5
+ for <qemu-devel@nongnu.org>; Sun, 22 Nov 2020 01:45:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=DMI/wLOC6RBuB5VjNgBslovKlRyC0ZzSlxYxOIZ8Xog=;
- b=ZKKfKJfpa5EuWPtMs5r1Tf4+cwznpQXBa4SlY+W//0kfw8nwgQle0kti0UJNlsd65m
- W5Kw9+lpx5GBpCpTXwYz+7xAZNuTfmhxXmz6dJQXR6wsIqHYPbLmvI8op5F3E7WEJVBL
- qikYJwtPA/qvIzehRQkbDMWWm5YzRvTw+mm+nxE4Vug1rW4YeolKR3RExia+KHj7vPZV
- WKhFdrJiVHpLZ/JEWBy9dC15rBbFOYdGLjn0WqRu1M0oJkNTBGxJ5aN4KwKJSOkmA3QE
- KvrP76N/LE0fo8wzVfvvY1NRE28bZdqoV7ca9DfDQ9fh5QNhf+wOKUJh4HPtW2YtDMI4
- joGA==
+ :cc; bh=PTofF/yxtheyxRyf+bMeiLclUaFOJ5b8C2DJXNcA6EA=;
+ b=YJJxCWQyPKtAxuH+0QD/YnvvpB1AGvzP4XSXaExbeZzIhCf6RHyL42AkV80PVUfG7u
+ QmpHPmGfgw55Hx7uvUnB+bQUnvDSZYnqZLbeYy9JWTRPHkMVuef0JhwvzTby/RPw+hJ6
+ Hk4XQOv80SHtdrVbhdhqAgUwu96K4xWsWdtCJjGgRPzbxDCAKEI/IoZBe6cfOlk+e73f
+ HBy0pZfhjlFUE2C22ksyla8sw7if+IB6cvDz+zGWXtWM44A9TehlZcixA+XojhZD5LxO
+ Gl1oyt6MfR575Rtt6MekAcZ4hD0Sf3Vp44KzLXJZK0bm1i1EsweWlqDoQ8iNdpgUA6fQ
+ VInA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=DMI/wLOC6RBuB5VjNgBslovKlRyC0ZzSlxYxOIZ8Xog=;
- b=XtQmIBGQrxaFEs+J2ZQMrAzr+5k3GomROWm4YJBo/2xqRLNFg38m+3phOm8QxaN1J0
- ch2GWPfSVBrYYmeC810OzEnH0TLtqtP+jhoQTkRcUEgRpukdVFyvvwaNYv7L6GgbvF3G
- 6gfthutf2Cs9wSgQLeU57WBhFGSi3yMna+u4ks9duk04P23rChwnkkzuvAPbiqGg6Fv0
- 6uvAVXkU352+NfbfwtPCy/IPLmQ+Ro+BD7r+WQM6UuwEln7MG7o/LdUQHIeHdq//0Y/o
- IkYLnBjcBhCkPKn1bTbWzPUN/V7yBDxEgt6Li55ycKOkiHsWJzyGE3j9zGsWPY/5hDCC
- S6Zw==
-X-Gm-Message-State: AOAM530YTeGARkZ5nJGM21GzCq8RKLsOfyFcgALhGghh4bau8RO7lH0H
- DdW841QhCujgYpbNIKojMMt1Gai//Qxg2ZIvWy8=
-X-Google-Smtp-Source: ABdhPJzMpylpjDJBdZg07evHu9qJ/64m3KtP1H6ZyYm8RE63o99PSZNSmK33hYsYK1CoWbmOhNaUmuoKt7Q7AYq565A=
-X-Received: by 2002:a92:85c5:: with SMTP id
- f188mr32207204ilh.173.1606015895279; 
- Sat, 21 Nov 2020 19:31:35 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=PTofF/yxtheyxRyf+bMeiLclUaFOJ5b8C2DJXNcA6EA=;
+ b=fZhffweBwKJAqoJuGVTq78T7shqrUo+d4IYNb5FeoeQ4YUkdqdi2uukx4R+GAa7KNH
+ MUB09aQeTwSGkx22WcMq9xbgkUOUQayq1sjg5R8mGKD/OI+zJSTWNIV41VdFAs6bVxjp
+ /BWyxmg5JWTAlwbLGK0gQvDCVoflNmGBvuM6T5GlWsm/qChrS3t3szjbEdRuKXXkW377
+ yvUOAzzgxqVGeYekTsbBDngVH7XimytWPWhPGYqyv2NYuZIpI+oCVntpgRfZwfMVgIKI
+ hVolsYAR9AYF2sPMzWHB3WpkzLDMgh+Taj+RzHaMTOqQcthkInn9l9AyohFM4fkmy11M
+ 3QAA==
+X-Gm-Message-State: AOAM533Utz4FrYiF190HdUHgoSXVQD3TVs9W7+Ihfow1umMoX3F/rZ/g
+ BgkvRSuoT26sPZyJ1kfJqijADMCt0APStCM3sd+Ksw==
+X-Google-Smtp-Source: ABdhPJwzL5Movt/uNuu9u7Lz/maKZc4uOhIXeiLmckQPYDHsXlG45A6USyH3TZYuPMWtNqr2bJBtJ2dt/AW11xvfTsA=
+X-Received: by 2002:aa7:9f0a:0:b029:197:e4a0:4e4d with SMTP id
+ g10-20020aa79f0a0000b0290197e4a04e4dmr6935310pfr.68.1606038343591; Sun, 22
+ Nov 2020 01:45:43 -0800 (PST)
 MIME-Version: 1.0
-References: <1602059975-10115-1-git-send-email-chenhc@lemote.com>
- <1602059975-10115-3-git-send-email-chenhc@lemote.com>
- <0dfbe14a-9ddb-0069-9d86-62861c059d12@amsat.org>
- <CAAhV-H63zhXyUizwOxUtXdQQOR=r82493tgH8NfLmgXF0g8row@mail.gmail.com>
- <9fc6161e-cf27-b636-97c0-9aca77d0f9cd@amsat.org>
-In-Reply-To: <9fc6161e-cf27-b636-97c0-9aca77d0f9cd@amsat.org>
-From: Huacai Chen <chenhuacai@gmail.com>
-Date: Sun, 22 Nov 2020 11:31:23 +0800
-Message-ID: <CAAhV-H5wPZQ+TGdZL=mPV4YQcjHarJFoEH-nobr10PdesR-ySg@mail.gmail.com>
-Subject: Re: [PATCH V13 2/9] meson.build: Re-enable KVM support for MIPS
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Jiaxun Yang <jiaxun.yang@flygoat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
- envelope-from=chenhuacai@gmail.com; helo=mail-il1-x141.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200716035532.1407660-1-andrew@daynix.com>
+ <CABcq3pGFPkDMmEegGaw6UjHBijPZiyFj-uR+6Phz+0K44VRNgw@mail.gmail.com>
+ <874klk5gnc.fsf@dusky.pond.sub.org>
+ <CAOEp5OfjuR97v0VyyHpXJiZVsU1jMphHh86XwAU4t3Uw1T8Ghg@mail.gmail.com>
+ <CAOEp5OdiFaCK=Ag8f9oNixhrkW4xoEJ2bXKU7ThXeF9VJXPqTw@mail.gmail.com>
+In-Reply-To: <CAOEp5OdiFaCK=Ag8f9oNixhrkW4xoEJ2bXKU7ThXeF9VJXPqTw@mail.gmail.com>
+From: Andrew Melnichenko <andrew@daynix.com>
+Date: Sun, 22 Nov 2020 12:17:50 +0200
+Message-ID: <CABcq3pGDAO7sB6jobcsiE8_7md1yZ7wGkkyxZefjXGc7-d6obw@mail.gmail.com>
+Subject: Re: [PATCH] hmp: Changed hmp_netdev_add() using
+ qmp_marshal_netdev_add()
+To: Yuri Benditovich <yuri.benditovich@daynix.com>
+Content-Type: multipart/alternative; boundary="000000000000f73b2205b4aef0c5"
+Received-SPF: none client-ip=2607:f8b0:4864:20::441;
+ envelope-from=andrew@daynix.com; helo=mail-pf1-x441.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,125 +80,238 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <zltjiangshi@gmail.com>, Thomas Huth <thuth@redhat.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Yan Vugenfirer <yan@daynix.com>, Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+CC Jiaxun
+--000000000000f73b2205b4aef0c5
+Content-Type: text/plain; charset="UTF-8"
 
-Hi, Jiaxun,
+Hi, the bug can be reproduced like that:
 
-What do you think about?
+> QEMU 5.1.50 monitor - type 'help' for more information
+> (qemu) netdev_add
+> type=tap,id=net0,script=/home/and/SRCS/qemu/ifup.sh,downscript=no
+> (qemu) info network
+> hub 0
+>  \ hub0port1: __org.qemu.net1: index=0,type=user,net=10.0.2.0,restrict=off
+>  \ hub0port0: e1000e.0:
+> index=0,type=nic,model=e1000e,macaddr=52:54:00:12:34:56
+> dnet0: index=0,type=nic,model=virtio-net-pci,macaddr=52:54:00:12:34:57
+> net0:
+> index=0,type=tap,ifname=tap0,script=/home/and/SRCS/qemu/ifup.sh,downscript=no
+> (qemu) netdev_del net0
+> (qemu) info network
+> hub 0
+>  \ hub0port1: __org.qemu.net1: index=0,type=user,net=10.0.2.0,restrict=off
+>  \ hub0port0: e1000e.0:
+> index=0,type=nic,model=e1000e,macaddr=52:54:00:12:34:56
+> dnet0: index=0,type=nic,model=virtio-net-pci,macaddr=52:54:00:12:34:57
+> (qemu) netdev_add
+> type=tap,id=net0,script=/home/and/SRCS/qemu/ifup.sh,downscript=no
+> Try "help netdev_add" for more information
+> (qemu) info network
+> hub 0
+>  \ hub0port1: __org.qemu.net1: index=0,type=user,net=10.0.2.0,restrict=off
+>  \ hub0port0: e1000e.0:
+> index=0,type=nic,model=e1000e,macaddr=52:54:00:12:34:56
+> dnet0: index=0,type=nic,model=virtio-net-pci,macaddr=52:54:00:12:34:57
+> (qemu)
+>
+>
+Its still actual bug - I've checked it with the
+master(2c6605389c1f76973d92b69b85d40d94b8f1092c).
 
-Huacai
+On Sat, Nov 21, 2020 at 5:31 PM Yuri Benditovich <
+yuri.benditovich@daynix.com> wrote:
 
-On Fri, Nov 20, 2020 at 6:55 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> On 11/20/20 5:28 AM, Huacai Chen wrote:
-> > On Wed, Nov 18, 2020 at 1:17 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsa=
-t.org> wrote:
-> >> On 10/7/20 10:39 AM, Huacai Chen wrote:
-> >>> After converting from configure to meson, KVM support is lost for MIP=
-S,
-> >>> so re-enable it in meson.build.
-> >>>
-> >>> Fixes: fdb75aeff7c212e1afaaa3a43 ("configure: remove target configura=
-tion")
-> >>> Fixes: 8a19980e3fc42239aae054bc9 ("configure: move accelerator logic =
-to meson")
-> >>> Cc: aolo Bonzini <pbonzini@redhat.com>
-> >>> Signed-off-by: Huacai Chen <chenhc@lemote.com>
-> >>> ---
-> >>>  meson.build | 2 ++
-> >>>  1 file changed, 2 insertions(+)
-> >>>
-> >>> diff --git a/meson.build b/meson.build
-> >>> index 17c89c8..b407ff4 100644
-> >>> --- a/meson.build
-> >>> +++ b/meson.build
-> >>> @@ -59,6 +59,8 @@ elif cpu =3D=3D 's390x'
-> >>>    kvm_targets =3D ['s390x-softmmu']
-> >>>  elif cpu in ['ppc', 'ppc64']
-> >>>    kvm_targets =3D ['ppc-softmmu', 'ppc64-softmmu']
-> >>> +elif cpu in ['mips', 'mips64']
-> >>> +  kvm_targets =3D ['mips-softmmu', 'mipsel-softmmu', 'mips64-softmmu=
-', 'mips64el-softmmu']
-> >>
-> >> Are you sure both 32-bit hosts and targets are supported?
-> >>
-> >> I don't have hardware to test. If you are not working with
-> >> 32-bit hardware I'd remove them.
-> > When I add MIPS64 KVM support (Loongson-3 is MIPS64), MIPS32 KVM is
-> > already there. On the kernel side, MIPS32 KVM is supported, but I
-> > don't know whether it can work well.
->
-> Well, from the history, you inherited from it:
->
-> commit 1fa639e5618029e944ac68d27e32a99dcb85a349
-> Author: James Hogan <jhogan@kernel.org>
-> Date:   Sat Dec 21 15:53:06 2019 +0000
->
->     MAINTAINERS: Orphan MIPS KVM CPUs
->
->     I haven't been active for 18 months, and don't have the hardware
->     set up to test KVM for MIPS, so mark it as orphaned and remove
->     myself as maintainer. Hopefully somebody from MIPS can pick this up.
 >
 >
-> commit 134f7f7da12aad99daafbeb2a7ba9dbc6bd40abc
-> Author: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-> Date:   Mon Feb 24 12:50:58 2020 +0100
+> On Sat, Nov 21, 2020 at 5:24 PM Yuri Benditovich <
+> yuri.benditovich@daynix.com> wrote:
 >
->     MAINTAINERS: Reactivate MIPS KVM CPUs
+>>
+>>
+>> On Fri, Nov 20, 2020 at 2:58 PM Markus Armbruster <armbru@redhat.com>
+>> wrote:
+>>
+>>> Andrew Melnichenko <andrew@daynix.com> writes:
+>>>
+>>> > Ping
+>>> >
+>>> > On Thu, Jul 16, 2020 at 6:26 AM <andrew@daynix.com> wrote:
+>>> >
+>>> >> From: Andrew Melnychenko <andrew@daynix.com>
+>>> >>
+>>> >> There is an issue, that netdev can't be removed if it was added using
+>>> hmp.
+>>> >> The bug appears after 08712fcb851034228b61f75bd922863a984a4f60 commit.
+>>> >> It happens because of unclear QemuOpts that was created during
+>>> >> hmp_netdev_add(), now it uses qmp analog function -
+>>> >> qmp_marshal_netdev_add().
+>>> >>
+>>> >> Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
+>>> >> ---
+>>> >>  monitor/hmp-cmds.c | 15 +++------------
+>>> >>  1 file changed, 3 insertions(+), 12 deletions(-)
+>>> >>
+>>> >> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+>>> >> index 2b0b58a336..b747935687 100644
+>>> >> --- a/monitor/hmp-cmds.c
+>>> >> +++ b/monitor/hmp-cmds.c
+>>> >> @@ -1597,19 +1597,10 @@ void hmp_migrate(Monitor *mon, const QDict
+>>> *qdict)
+>>> >>  void hmp_netdev_add(Monitor *mon, const QDict *qdict)
+>>> >>  {
+>>> >>      Error *err = NULL;
+>>> >> -    QemuOpts *opts;
+>>> >> -
+>>> >> -    opts = qemu_opts_from_qdict(qemu_find_opts("netdev"), qdict,
+>>> &err);
+>>> >> -    if (err) {
+>>> >> -        goto out;
+>>> >> -    }
+>>> >> +    QDict *non_constant_dict = qdict_clone_shallow(qdict);
+>>> >>
+>>> >> -    netdev_add(opts, &err);
+>>> >> -    if (err) {
+>>> >> -        qemu_opts_del(opts);
+>>> >> -    }
+>>> >> -
+>>> >> -out:
+>>> >> +    qmp_marshal_netdev_add(non_constant_dict, NULL, &err);
+>>> >> +    qobject_unref(non_constant_dict);
+>>> >>      hmp_handle_error(mon, err);
+>>> >>  }
+>>>
+>>> qmp_marshal_netdev_add() uses the QObject input visitor, which feels
+>>> wrong for HMP input.
+>>>
+>>> What exactly is the problem you're trying to solve?  Can you show us a
+>>> reproducer?
+>>>
+>>> The problem was found during work on hotplug/unplug problems with q35
+>> run q35 VM with netdev and hotpluggable nic (virtio or e1000e)
+>> unplug the nic (device_del)
+>> delete the netdev ()
+>> add netdev with the same id as before - fail (Duplicated ID)
+>>
+>> Q35 is not mandatory for reproduction, the same with '-machine pc'
 >
->     Reactivate MIPS KVM maintainership with a modest goal of keeping
->     the support alive, checking common KVM code changes against MIPS
->     functionality, etc. (hence the status "Odd Fixes"), with hope that
->     this component will be fully maintained at some further, but not
->     distant point in future.
 >
->
-> commit 15d983dee95edff1dc4c0bed71ce02fff877e766
-> Author: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> Date:   Wed Jul 1 20:25:58 2020 +0200
->
->     MAINTAINERS: Adjust MIPS maintainership (Huacai Chen & Jiaxun Yang)
->
->     Huacai Chen and Jiaxun Yang step in as new energy [1].
->
->
-> commit ca263c0fb9f33cc746e6e3d968b7db80072ecf86
-> Author: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> Date:   Wed Oct 7 22:37:21 2020 +0200
->
->     MAINTAINERS: Remove myself
->
->     I have been working on project other than QEMU for some time,
->     and would like to devote myself to that project. It is impossible
->     for me to find enough time to perform maintainer's duties with
->     needed meticulousness and patience.
->
->
-> QEMU deprecation process is quite slow, if we release mips-softmmu
-> and mipsel-softmmu binaries with KVM support in 5.2, and you can not
-> test them, you will still have to maintain them during 2021...
->
-> If you don't have neither the hardware nor the time, I suggest you
-> to only release it on 64-bit hosts. Personally I'd even only
-> announce KVM supported on the little-endian binary only, because
-> AFAIK you don't test big-endian KVM neither.
->
-> Your call as a maintainer, but remember last RC tag is next
-> Tuesday (Nov 24) in *4* days, then we release 5.2:
-> https://wiki.qemu.org/Planning/5.2#Release_Schedule
->
-> Regards,
->
-> Phil.
+
+--000000000000f73b2205b4aef0c5
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi, the bug can be reproduced like that:</div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
+x solid rgb(204,204,204);padding-left:1ex"><div>QEMU 5.1.50 monitor - type =
+&#39;help&#39; for more information<br>(qemu) netdev_add type=3Dtap,id=3Dne=
+t0,script=3D/home/and/SRCS/qemu/ifup.sh,downscript=3Dno<br>(qemu) info netw=
+ork<br>hub 0<br>=C2=A0\ hub0port1: __org.qemu.net1: index=3D0,type=3Duser,n=
+et=3D10.0.2.0,restrict=3Doff<br>=C2=A0\ hub0port0: e1000e.0: index=3D0,type=
+=3Dnic,model=3De1000e,macaddr=3D52:54:00:12:34:56<br>dnet0: index=3D0,type=
+=3Dnic,model=3Dvirtio-net-pci,macaddr=3D52:54:00:12:34:57<br>net0: index=3D=
+0,type=3Dtap,ifname=3Dtap0,script=3D/home/and/SRCS/qemu/ifup.sh,downscript=
+=3Dno<br>(qemu) netdev_del net0<br>(qemu) info network<br>hub 0<br>=C2=A0\ =
+hub0port1: __org.qemu.net1: index=3D0,type=3Duser,net=3D10.0.2.0,restrict=
+=3Doff<br>=C2=A0\ hub0port0: e1000e.0: index=3D0,type=3Dnic,model=3De1000e,=
+macaddr=3D52:54:00:12:34:56<br>dnet0: index=3D0,type=3Dnic,model=3Dvirtio-n=
+et-pci,macaddr=3D52:54:00:12:34:57<br>(qemu) netdev_add type=3Dtap,id=3Dnet=
+0,script=3D/home/and/SRCS/qemu/ifup.sh,downscript=3Dno<br>Try &quot;help ne=
+tdev_add&quot; for more information<br>(qemu) info network<br>hub 0<br>=C2=
+=A0\ hub0port1: __org.qemu.net1: index=3D0,type=3Duser,net=3D10.0.2.0,restr=
+ict=3Doff<br>=C2=A0\ hub0port0: e1000e.0: index=3D0,type=3Dnic,model=3De100=
+0e,macaddr=3D52:54:00:12:34:56<br>dnet0: index=3D0,type=3Dnic,model=3Dvirti=
+o-net-pci,macaddr=3D52:54:00:12:34:57<br>(qemu) <br><br></div></blockquote>=
+<div><br></div><div>Its still actual bug - I&#39;ve checked it with the mas=
+ter(2c6605389c1f76973d92b69b85d40d94b8f1092c). </div></div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Nov 21, 2020=
+ at 5:31 PM Yuri Benditovich &lt;<a href=3D"mailto:yuri.benditovich@daynix.=
+com">yuri.benditovich@daynix.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"><br></di=
+v><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On S=
+at, Nov 21, 2020 at 5:24 PM Yuri Benditovich &lt;<a href=3D"mailto:yuri.ben=
+ditovich@daynix.com" target=3D"_blank">yuri.benditovich@daynix.com</a>&gt; =
+wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=
+=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Fri, Nov 20, 2020 at 2:58 PM Markus Armbru=
+ster &lt;<a href=3D"mailto:armbru@redhat.com" target=3D"_blank">armbru@redh=
+at.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">Andrew Melnichenko &lt;<a href=3D"mailto:andrew@daynix.com" target=3D=
+"_blank">andrew@daynix.com</a>&gt; writes:<br>
+<br>
+&gt; Ping<br>
+&gt;<br>
+&gt; On Thu, Jul 16, 2020 at 6:26 AM &lt;<a href=3D"mailto:andrew@daynix.co=
+m" target=3D"_blank">andrew@daynix.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt;&gt; From: Andrew Melnychenko &lt;<a href=3D"mailto:andrew@daynix.com" =
+target=3D"_blank">andrew@daynix.com</a>&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; There is an issue, that netdev can&#39;t be removed if it was adde=
+d using hmp.<br>
+&gt;&gt; The bug appears after 08712fcb851034228b61f75bd922863a984a4f60 com=
+mit.<br>
+&gt;&gt; It happens because of unclear QemuOpts that was created during<br>
+&gt;&gt; hmp_netdev_add(), now it uses qmp analog function -<br>
+&gt;&gt; qmp_marshal_netdev_add().<br>
+&gt;&gt;<br>
+&gt;&gt; Signed-off-by: Andrew Melnychenko &lt;<a href=3D"mailto:andrew@day=
+nix.com" target=3D"_blank">andrew@daynix.com</a>&gt;<br>
+&gt;&gt; ---<br>
+&gt;&gt;=C2=A0 monitor/hmp-cmds.c | 15 +++------------<br>
+&gt;&gt;=C2=A0 1 file changed, 3 insertions(+), 12 deletions(-)<br>
+&gt;&gt;<br>
+&gt;&gt; diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c<br>
+&gt;&gt; index 2b0b58a336..b747935687 100644<br>
+&gt;&gt; --- a/monitor/hmp-cmds.c<br>
+&gt;&gt; +++ b/monitor/hmp-cmds.c<br>
+&gt;&gt; @@ -1597,19 +1597,10 @@ void hmp_migrate(Monitor *mon, const QDict=
+ *qdict)<br>
+&gt;&gt;=C2=A0 void hmp_netdev_add(Monitor *mon, const QDict *qdict)<br>
+&gt;&gt;=C2=A0 {<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 Error *err =3D NULL;<br>
+&gt;&gt; -=C2=A0 =C2=A0 QemuOpts *opts;<br>
+&gt;&gt; -<br>
+&gt;&gt; -=C2=A0 =C2=A0 opts =3D qemu_opts_from_qdict(qemu_find_opts(&quot;=
+netdev&quot;), qdict, &amp;err);<br>
+&gt;&gt; -=C2=A0 =C2=A0 if (err) {<br>
+&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;<br>
+&gt;&gt; -=C2=A0 =C2=A0 }<br>
+&gt;&gt; +=C2=A0 =C2=A0 QDict *non_constant_dict =3D qdict_clone_shallow(qd=
+ict);<br>
+&gt;&gt;<br>
+&gt;&gt; -=C2=A0 =C2=A0 netdev_add(opts, &amp;err);<br>
+&gt;&gt; -=C2=A0 =C2=A0 if (err) {<br>
+&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_opts_del(opts);<br>
+&gt;&gt; -=C2=A0 =C2=A0 }<br>
+&gt;&gt; -<br>
+&gt;&gt; -out:<br>
+&gt;&gt; +=C2=A0 =C2=A0 qmp_marshal_netdev_add(non_constant_dict, NULL, &am=
+p;err);<br>
+&gt;&gt; +=C2=A0 =C2=A0 qobject_unref(non_constant_dict);<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 hmp_handle_error(mon, err);<br>
+&gt;&gt;=C2=A0 }<br>
+<br>
+qmp_marshal_netdev_add() uses the QObject input visitor, which feels<br>
+wrong for HMP input.<br>
+<br>
+What exactly is the problem you&#39;re trying to solve?=C2=A0 Can you show =
+us a<br>
+reproducer?<br><br></blockquote><div>The problem was found during work on h=
+otplug/unplug problems with q35</div><div>run q35 VM with netdev and hotplu=
+ggable nic (virtio or e1000e)</div><div>unplug the nic (device_del)</div><d=
+iv>delete the netdev ()</div><div>add netdev with the same id as before - f=
+ail (Duplicated ID)</div><div><br></div></div></div></blockquote><div>Q35 i=
+s not mandatory for reproduction, the same with &#39;-machine pc&#39;</div>=
+<div><br></div></div></div>
+</blockquote></div>
+
+--000000000000f73b2205b4aef0c5--
 
