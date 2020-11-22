@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E91C12BC771
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Nov 2020 18:18:06 +0100 (CET)
-Received: from localhost ([::1]:44384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 948062BC793
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Nov 2020 18:51:55 +0100 (CET)
+Received: from localhost ([::1]:41334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kgt01-0004vO-IU
-	for lists+qemu-devel@lfdr.de; Sun, 22 Nov 2020 12:18:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42102)
+	id 1kgtWk-0000aH-6C
+	for lists+qemu-devel@lfdr.de; Sun, 22 Nov 2020 12:51:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kgsyu-0004UG-DZ
- for qemu-devel@nongnu.org; Sun, 22 Nov 2020 12:16:56 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46943)
+ id 1kgtUi-0007Iu-1r
+ for qemu-devel@nongnu.org; Sun, 22 Nov 2020 12:49:48 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:34636)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kgsyt-00083p-0w
- for qemu-devel@nongnu.org; Sun, 22 Nov 2020 12:16:56 -0500
-Received: by mail-wr1-x441.google.com with SMTP id g14so969907wrm.13
- for <qemu-devel@nongnu.org>; Sun, 22 Nov 2020 09:16:54 -0800 (PST)
+ id 1kgtUg-0003hi-B4
+ for qemu-devel@nongnu.org; Sun, 22 Nov 2020 12:49:47 -0500
+Received: by mail-wm1-x342.google.com with SMTP id x13so6280218wmj.1
+ for <qemu-devel@nongnu.org>; Sun, 22 Nov 2020 09:49:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=jTECvdHzmyTMPZ3S14ZMLt+/ABMqtzgVKf/KvdaiU7c=;
- b=pzAbdcQqzndvlwB/92mlpp1hdbf9bVwhzNwivCQFDkydAarKhHCRLET0byhS3lIC6j
- dzqIJXzyalRI3v3DD1cJwZSsTG5v1WefUvPPl+vutxBZGs28v6VVwxa2b+d0WC6quMHi
- xrOoc4MQVUiifjY7RSOFZQxsYOZSrPREjPxt9I5UoPkmtBGPlck0X2+NgCbmGgWo4aAE
- njtzBpoFY4URKQFhxxcxDgD95DG0KokszqAyII3jD7T34HAhYwdYSO7xypDtMGI9uG95
- NdrBr+LkM3Ond5I4J/qxdMvxQh7U9i6yD28vjD8D/VKTqpaLjGVtK0i94AZZu/CMF4oH
- C49Q==
+ bh=fIzAET5lzbfF2sTP0W1Dgu8KnTmMjg5HiNjdBmthyNk=;
+ b=A0yhDucLNE9KOvpq1jHSMHtuYxAotXQTWVDAcK1u9SceE6IO4KAvqV8KRfhHKxlnLW
+ 6vdBp1Y23yfToFQirmWoOyx51OkTExgkLqSaj9IvnMPfG9vodL6aVAMNWmjOf6lTgdhA
+ ste8RTHjxes8V7ftc/abgide/3vL86gB3QHXI8no89Gfov76J/yGqxI60kdeRObF4lHZ
+ 7jEWOTbzLmboHtsJBaMtqJhHuQN/nKwEbZsIYErPFG64plJIM6javdLyrEr9WoSMg8nV
+ LUUYDxvOWSu5cl65/oa6Km/pezCvU7/UQdoMUUA9QLyIvtwO/avNBWV48KCl78ndzzsx
+ kM2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=jTECvdHzmyTMPZ3S14ZMLt+/ABMqtzgVKf/KvdaiU7c=;
- b=D/CKlF1+lLsNiU2zyNj8Z87+JaGtPX2Ik7x0yJBY9cqYLG0bqQ1A/XurTBVCy9mw1U
- KuH+9NxW7O5IyPuOv+oimWYyvyCR29ZFiYqFtUi0W0lnb/B75c8T0QRxU4GCFe3TjFSS
- Kmfp9tqsNgTka+vEVs2LQRk72pFYDarkVieTNn0f63FPAEY99kbFcK1f9i54W5z33ztk
- 8pGr5yyiWM1hTi/htQExehUluZr+eUFW3w6XYyohEA1deQNbYq5bNXPJePoEB0Q+Zcrv
- f5Kj7T1fThVhpcxyPLtIgTYD7Y9dY3Quilh28FbAZ8b+9rLu0hyaLoyvxepD+MXghWDq
- Hzlw==
-X-Gm-Message-State: AOAM5338GobE1i0ABU+miJEdqeLJLzI5+5QaWRyi3jC6LuTQqPw+nxCW
- 91TxUqTMvRcsFIOaiXTJBBw=
-X-Google-Smtp-Source: ABdhPJzx08lcSidkiBuMOVDTShzoeXGWZ2RRkBlf0jFu+chZ7BYnVVI3DqQUPizfa4R4686SQn5kXw==
-X-Received: by 2002:adf:cd02:: with SMTP id w2mr26308663wrm.3.1606065412814;
- Sun, 22 Nov 2020 09:16:52 -0800 (PST)
+ bh=fIzAET5lzbfF2sTP0W1Dgu8KnTmMjg5HiNjdBmthyNk=;
+ b=T/I0B7ilwHpLCG7J7XkyiYWG2Gl+1jL1Z2MN0UhR4w7+70vuAR025zv6pRPX5JiWAs
+ lAmAxp5MVCwwsZkzgu9LiHpc4XXD61U5yGAqqhYG0wbTPQsEWpf+74W7KFDgV+CR77sx
+ JbMlKm8F76LKfm9f56SLuzVLYGUliNPB5ryN61tVQwpQIysCyKmIsCs5/OEuJxy2e6MK
+ vegwDIej5m7QN/kPVWANvS8BKlvSKSHs80FWIzQ1gUrpxh2CCIQNSpCWsuTDY7H+RPQD
+ ssZBW8UObCDXX77BegxLbPFldCt4N3QepcblHywuTtbLElzRgiX6MvVPgRtbZySackrH
+ v8QQ==
+X-Gm-Message-State: AOAM531KuVJf7i13YQJY9NuDb86avgkFUsztsTmjZ+ZSQ2wBCjLc8fDP
+ I27vuzqjY3rpZt9iMow0A2M=
+X-Google-Smtp-Source: ABdhPJz5g9ey+jooZrhHfgBaMzywTzoxXMjA/2DcMKCR+/fInmKBP1Q8CTloVbqXxA1LhB9/l4m73g==
+X-Received: by 2002:a1c:4b18:: with SMTP id y24mr20997380wma.154.1606067384842; 
+ Sun, 22 Nov 2020 09:49:44 -0800 (PST)
 Received: from [192.168.1.36] (111.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id e3sm14231899wro.90.2020.11.22.09.16.51
+ by smtp.gmail.com with ESMTPSA id u203sm11534629wme.32.2020.11.22.09.49.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 22 Nov 2020 09:16:52 -0800 (PST)
-Subject: Re: [PATCH 02/26] target/mips: Extract MSA helpers to
- mod-mips-msa_helper.c
+ Sun, 22 Nov 2020 09:49:43 -0800 (PST)
+Subject: Re: [PATCH 19/26] target/mips: Extract Loongson EXTensions
+ translation routines
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20201120210844.2625602-1-f4bug@amsat.org>
- <20201120210844.2625602-3-f4bug@amsat.org>
- <7053b4b2-b51c-ab6a-91ba-d019843112d1@linaro.org>
+ <20201120210844.2625602-20-f4bug@amsat.org>
+ <b520ffe3-1d98-88f7-895e-23e374bc2b4e@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <b29b0db6-4b61-a1ee-8110-0812d027a210@amsat.org>
-Date: Sun, 22 Nov 2020 18:16:50 +0100
+Message-ID: <b6c4e1af-d72b-c024-c194-857db458f955@amsat.org>
+Date: Sun, 22 Nov 2020 18:49:42 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <7053b4b2-b51c-ab6a-91ba-d019843112d1@linaro.org>
+In-Reply-To: <b520ffe3-1d98-88f7-895e-23e374bc2b4e@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -98,30 +98,30 @@ Cc: Fredrik Noring <noring@nocrew.org>, Craig Janeczek <jancraig@amazon.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/21/20 8:44 PM, Richard Henderson wrote:
+On 11/21/20 9:10 PM, Richard Henderson wrote:
 > On 11/20/20 1:08 PM, Philippe Mathieu-Daudé wrote:
->> MSA means 'MIPS SIMD Architecture' and is defined as a Module by MIPS.
->> Rename msa_helper.c as mod-mips-msa_helper.c, merge other MSA helpers
->> from op_helper.c.
+>> LoongEXTs are general-purpose extensions from the LoongISA.
+>>
+>> Extract 440 lines of translation routines to
+>> 'vendor-loong-lext_translate.c.inc'.
 >>
 >> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 >> ---
->>  .../{msa_helper.c => mod-mips-msa_helper.c}   | 392 +++++++++++++++++
->>  target/mips/op_helper.c                       | 393 ------------------
->>  target/mips/meson.build                       |   3 +-
->>  3 files changed, 394 insertions(+), 394 deletions(-)
->>  rename target/mips/{msa_helper.c => mod-mips-msa_helper.c} (94%)
+>>  target/mips/translate.c                       | 440 +----------------
+>>  target/mips/vendor-loong-lext_translate.c.inc | 450 ++++++++++++++++++
+>>  2 files changed, 451 insertions(+), 439 deletions(-)
+>>  create mode 100644 target/mips/vendor-loong-lext_translate.c.inc
 > 
-> Do we really need "mips" in the filename, given that it's implied by the directory?
+> s/lext/ext/?  Seems silly to have loong in there twice.
 
-Indeed we don't need it :)
+OK (this is listed as LoongEXT32/LoongEXT64 in the datasheets).
+
+> And I presume this is where gen_loong_integer goes?
+
+Yes.
 
 > 
-> Maybe perform the rename and the op_helper.c move in different patches?
-
-Sure, will do.
-
-Regards,
-
-Phil.
+> 
+> r~
+> 
 
