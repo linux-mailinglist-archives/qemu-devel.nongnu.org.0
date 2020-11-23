@@ -2,77 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44A4D2C1351
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 19:44:56 +0100 (CET)
-Received: from localhost ([::1]:51314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A7912C1355
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 19:51:32 +0100 (CET)
+Received: from localhost ([::1]:55488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khGpb-0003PE-8F
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 13:44:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34492)
+	id 1khGvw-0005rB-DP
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 13:51:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1khGmc-0002YE-N5
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 13:41:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57074)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1khGma-0001ou-II
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 13:41:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606156907;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6wfhCxixyJnnrZO5dM+Qk7H1Pz1ZMkKNs6F0BJldQmw=;
- b=WjLvd6E9AsPFsX/A5tl+zd6TiSOI8QVhOyJW3wxcjJX85y4xgsv1iC8PDJa41WPaXhy3yQ
- b+7zj6PuZmTdweAMZ/LFFEdOZU2OdnbQOPJ1y77LMJibVOKRBIEnn4Yd59Cv8+iL5aVa93
- YS0Jf9YugZCTHL/cgh8wgIa1z0vqvLw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-404-qu12vhumNCGf8X-zTYyLOA-1; Mon, 23 Nov 2020 13:41:45 -0500
-X-MC-Unique: qu12vhumNCGf8X-zTYyLOA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC16280EFA8;
- Mon, 23 Nov 2020 18:41:43 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-113-17.ams2.redhat.com [10.36.113.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F0E215C1BD;
- Mon, 23 Nov 2020 18:41:41 +0000 (UTC)
-Subject: Re: [PATCH] hw/watchdog/wdt_diag288: Remove unnecessary includes
-To: Cornelia Huck <cohuck@redhat.com>, Markus Armbruster <armbru@redhat.com>
-References: <20201118090344.243117-1-thuth@redhat.com>
- <800135fc-4552-b872-0117-4d9194393094@redhat.com>
- <873616kan8.fsf@dusky.pond.sub.org>
- <CAFEAcA9gg_cxcG59BHKosJmTeyyJ_7_Uofcyb9kMXSRAFnYebg@mail.gmail.com>
- <8a91ad94-9a18-1f8b-b73d-92872495fdc3@redhat.com>
- <874klgtkn6.fsf@dusky.pond.sub.org>
- <20201123165908.79203631.cohuck@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <7e1483d6-8767-0d0f-105d-b55d2d6d6165@redhat.com>
-Date: Mon, 23 Nov 2020 19:41:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1khGuQ-0005Ev-Ku
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 13:49:54 -0500
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:43582)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1khGuO-0004SI-Ru
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 13:49:54 -0500
+Received: by mail-ej1-x630.google.com with SMTP id k27so24759454ejs.10
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 10:49:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=pA0pmF17LbFr2QuQBzOOHYll9rQrgKjh/yqGMlNsE3M=;
+ b=b6y+tL8GttZWEJ0KBUEqqe2ulB5C/RZ/cT6qFkpWhla2Qp9YvXGM6wvhVbnYXiIU3M
+ BzwfsQS9maaVREm/ddqU4wP79x2/ogoEVmgrqhk2zZJT++fmMzNkhOHIt+loH3TpTTXh
+ pd5Kpg0gfBVWS3inrNryHJjeh0qhMYzx39Ha+XN36K6t3bvJqfQwIOtfg0nBy/4UnmmX
+ INROUUuKLZHnN9ryOf+QfSLKSKZV84d6XgU3qQqF38nv2iHyHhmMDfIKwnwRs6tBsN2Y
+ iM882kAaNqE1xElRsCREI8BgN0EkQhI0g1L8WO0TaBG1F/PNy+sZnWrmMTLqZjnJoH6s
+ 84Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=pA0pmF17LbFr2QuQBzOOHYll9rQrgKjh/yqGMlNsE3M=;
+ b=mR/0DFQISDSQqFZg0GvVc8QL4a6hCqnZJdMl3nrgAY9gjUQ4UzsGtNSBU2YpvTRBdz
+ Rz9VdmERwteFzlayrRkqhG8TU63WYYj30eDt+HG8tndno4X3xnE3JcKLOSj467ug9eWb
+ oRMj7tg7Ky+T1d1KOKl2dzximWDUKXDsjDjWSlI7StAfBxztwrbQG6RUrJHwcXj5AqqQ
+ v0knIjsp5FbyH3YzRI2DAuPSwKzjzk9kRzqX6NJroLohxMZKeqTO6eDjU9XVD39xwENR
+ KUyJmv6L3Oac1wOrmwxQou/DFdPHCiZ625rVifuGqCcXo3B1OXiXLH75aU5VJ303ROss
+ 9bkQ==
+X-Gm-Message-State: AOAM532fXeu5Q7C1Nke1bddNFWsd22Hipjr8Oyfj2QBeiVhc3OOV/YE0
+ Uc61nCrxsubO1WnYodP4XjFR7EfreWsKmI18VZpKvQ==
+X-Google-Smtp-Source: ABdhPJxc2V2XT5XXQeJmYD7I2z1t7KBIlWjjFZ/h+X5du1T1WXxwIqJ/Zifurs2/zSerTW3BPejT3qdmNpog5nc+P6w=
+X-Received: by 2002:a17:906:5a88:: with SMTP id
+ l8mr853896ejq.407.1606157391082; 
+ Mon, 23 Nov 2020 10:49:51 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201123165908.79203631.cohuck@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <DM6PR11MB3963BA87438B343A71230675F4FC0@DM6PR11MB3963.namprd11.prod.outlook.com>
+In-Reply-To: <DM6PR11MB3963BA87438B343A71230675F4FC0@DM6PR11MB3963.namprd11.prod.outlook.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 23 Nov 2020 18:49:38 +0000
+Message-ID: <CAFEAcA-_ZM7DKk0a0Lkp1boZwUHi-OxD62w1-=NqnYzGKJc9ZA@mail.gmail.com>
+Subject: Re: QEMU build dependencies for new board
+To: "Ancuta, Cristian" <cristian.ancuta@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,62 +79,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x <qemu-s390x@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/11/2020 16.59, Cornelia Huck wrote:
-> On Mon, 23 Nov 2020 11:47:25 +0100
-> Markus Armbruster <armbru@redhat.com> wrote:
-> 
->> Thomas Huth <thuth@redhat.com> writes:
->>
->>> On 18/11/2020 15.30, Peter Maydell wrote:  
->>>> On Wed, 18 Nov 2020 at 14:24, Markus Armbruster <armbru@redhat.com> wrote:  
->>>>>
->>>>> Philippe Mathieu-Daudé <philmd@redhat.com> writes:
->>>>>  
->>>>>> On 11/18/20 10:03 AM, Thomas Huth wrote:  
->>>>>>> Both headers, sysbus.h and module.h, are not required to compile this file.  
->>>>>
->>>>> module.h is: it defines type_init().  
->>>>   
->>>>>>>  #include "qemu/timer.h"
->>>>>>>  #include "hw/watchdog/wdt_diag288.h"
->>>>>>>  #include "migration/vmstate.h"
->>>>>>>  #include "qemu/log.h"
->>>>>>> -#include "qemu/module.h"  
->>>>>>
->>>>>> Cc'ing Markus because of:  
->>>>   
->>>>>>     Include qemu/module.h where needed, drop it from qemu-common.h  
->>>>>
->>>>> If it still compiles and links, it must get it via some other header.  
->>>>
->>>> Yes: wdt_diag288.c -> include/hw/watchdog/wdt_diag288.h ->
->>>>  include/qom/object.h -> include/qemu/module.h  
->>>
->>> So what's now our expectation here? Should every file that uses type_init()
->>> also include module.h ? That's IMHO not very intuitive...
->>> Or are we fine that type_init() is provided by qom/object.h which needs to
->>> be pulled in by every device sooner or later anyway?  
->>
->> I think it's okay to rely on indirect inclusion.
-> 
-> So, what's the final verdict? Maybe just tweak the description?
-> 
-> "Neither sysbus.h nor module.h are required to compile this file.
-> diag288 is not a sysbus device, and module.h (for type_init) is
-> included eventually through qom/object.h."
+On Mon, 23 Nov 2020 at 17:31, Ancuta, Cristian
+<cristian.ancuta@intel.com> wrote:
+> I=E2=80=99ve implemented a new CPU target in ./target/arch_name and I=E2=
+=80=99m also trying to add a new board to emulate that target on in system =
+mode in ./hw/arch_name. The board is based on the versatilepb, but I=E2=80=
+=99ll gradually be removing all the arm implementation from it, aiming for =
+a minimal implementation with just my custom cpu architecture, system bus, =
+main memory and an UART.
 
-Yes, I think that's the way to go. Could you update the description when
-picking up the patch, or shall I send a v2?
+Incidentally, versatilepb is a really bad board to start with
+as a template, because it's one of the oldest we have, and it
+does a lot of things in ways that work but which aren't how
+we'd recommend writing a new board model today. You might be
+better off looking at something added more recently.
 
- Thomas
+> I=E2=80=99ve also added all the necessary stuff required by minikconf.py =
+in
+> ./default-configs/<target>-softmmu.mak,
 
+This suggests you're not basing this on current head-of-git,
+because this is default-configs/targets/<target>-softmmu.mak
+and default-configs/devices/<target>-softmmu.mak now.
 
+> ./hw/<arch>/Kconfig and a source entry in ./hw/Kconfig.
+
+> The problem is that the build system is bringing in other files
+> that I didn=E2=80=99t specify (CONFIG_A15MPCORE, CONFIG_A15MPCORE,
+> CONFIG_9MPCORE, etc. ), and I=E2=80=99m not sure how they=E2=80=99re endi=
+ng
+> up in ./build/<target>-softmmu/config_device.mak:
+
+This shouldn't happen, but it's not really possible to identify
+the exact problem since you don't provide your code. I would
+try first doing a complete build from scratch (ie delete
+the build directory) in case the problem is that there are
+stale files in the build tree that are getting picked up.
+Otherwise re-double-check your default-config files to make
+sure they really don't have any CONFIG_whatever or "SELECT whatever"
+in that they shouldn't. (Looking at the list of devices, an
+accidental "select REALVIEW" would have that effect.)
+
+thanks
+-- PMM
 
