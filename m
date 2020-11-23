@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E29282C0F43
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 16:52:10 +0100 (CET)
-Received: from localhost ([::1]:42694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E9762C0F7F
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 17:01:36 +0100 (CET)
+Received: from localhost ([::1]:48850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khE8P-0002lM-H2
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 10:52:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34030)
+	id 1khEHW-0006H4-FR
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 11:01:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1khE67-0001NH-2H
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 10:49:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20412)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1khEFP-0005aY-O2
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 10:59:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56580)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1khE65-0001me-AR
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 10:49:46 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1khEFN-0005n5-8X
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 10:59:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606146584;
+ s=mimecast20190719; t=1606147160;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YEOGyJmGKUKsyGlXa7iWyGR4KW1LgZOGoEcIsMrdP3w=;
- b=M2MyrqgkDr4p2wDm7lfRGR+Nkf7doXodr23Ay5TKU3QBISQXyuylcu5NtPrPadvV718/Jg
- AsYkAJLHnS8/jCsqoFYiomYAQf5N8cxyN2poCsLKbYT4lbD40TLbgM7lXXCxhElBKOnzDf
- OHOo6EV2b3IHgREseOJtV7PuGQIhZ/U=
+ bh=4hRvr9uMVkfGy2vLkfJdSyq18SzpMCY5I/aekCbfuxg=;
+ b=EdlHoC5ntnxAMmp/+qu4WtlacXklX64fBvIWf3tH2uhRVwBHKgV0n++tGTumwTokZuQ6T0
+ oEXB7ThAx8wBoE0y6OMkvy9wvXds4Oc4cKk7YNOM1JQijNHDo8BsRP5sav1usHrmbkUjR1
+ DTCeV1FSrg8vhEaYjuj69S3pDXGOdFo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-429-nKA3qtLaMVaHm3oT25aP5w-1; Mon, 23 Nov 2020 10:49:40 -0500
-X-MC-Unique: nKA3qtLaMVaHm3oT25aP5w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-576--H-Vq8ijMgCVZCBB2fxUWQ-1; Mon, 23 Nov 2020 10:59:16 -0500
+X-MC-Unique: -H-Vq8ijMgCVZCBB2fxUWQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22646106F6E8;
- Mon, 23 Nov 2020 15:49:39 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.35.206.216])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 67DF760864;
- Mon, 23 Nov 2020 15:49:35 +0000 (UTC)
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/1] Fix qcow2 corruption on discard
-Date: Mon, 23 Nov 2020 17:49:29 +0200
-Message-Id: <20201123154929.330338-2-mlevitsk@redhat.com>
-In-Reply-To: <20201123154929.330338-1-mlevitsk@redhat.com>
-References: <20201123154929.330338-1-mlevitsk@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75931100A642;
+ Mon, 23 Nov 2020 15:59:15 +0000 (UTC)
+Received: from gondolin (ovpn-113-104.ams2.redhat.com [10.36.113.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B4F8219D7C;
+ Mon, 23 Nov 2020 15:59:11 +0000 (UTC)
+Date: Mon, 23 Nov 2020 16:59:08 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH] hw/watchdog/wdt_diag288: Remove unnecessary includes
+Message-ID: <20201123165908.79203631.cohuck@redhat.com>
+In-Reply-To: <874klgtkn6.fsf@dusky.pond.sub.org>
+References: <20201118090344.243117-1-thuth@redhat.com>
+ <800135fc-4552-b872-0117-4d9194393094@redhat.com>
+ <873616kan8.fsf@dusky.pond.sub.org>
+ <CAFEAcA9gg_cxcG59BHKosJmTeyyJ_7_Uofcyb9kMXSRAFnYebg@mail.gmail.com>
+ <8a91ad94-9a18-1f8b-b73d-92872495fdc3@redhat.com>
+ <874klgtkn6.fsf@dusky.pond.sub.org>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlevitsk@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,59 +82,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org, zhang_youjia@126.com,
- Max Reitz <mreitz@redhat.com>, andrey.shinkevich@virtuozzo.com,
- Maxim Levitsky <mlevitsk@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 205fa50750 ("qcow2: Add subcluster support to zero_in_l2_slice()")
-introduced a subtle change to code in zero_in_l2_slice:
+On Mon, 23 Nov 2020 11:47:25 +0100
+Markus Armbruster <armbru@redhat.com> wrote:
 
-It swapped the order of
+> Thomas Huth <thuth@redhat.com> writes:
+>=20
+> > On 18/11/2020 15.30, Peter Maydell wrote: =20
+> >> On Wed, 18 Nov 2020 at 14:24, Markus Armbruster <armbru@redhat.com> wr=
+ote: =20
+> >>>
+> >>> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+> >>> =20
+> >>>> On 11/18/20 10:03 AM, Thomas Huth wrote: =20
+> >>>>> Both headers, sysbus.h and module.h, are not required to compile th=
+is file. =20
+> >>>
+> >>> module.h is: it defines type_init(). =20
+> >>  =20
+> >>>>>  #include "qemu/timer.h"
+> >>>>>  #include "hw/watchdog/wdt_diag288.h"
+> >>>>>  #include "migration/vmstate.h"
+> >>>>>  #include "qemu/log.h"
+> >>>>> -#include "qemu/module.h" =20
+> >>>>
+> >>>> Cc'ing Markus because of: =20
+> >>  =20
+> >>>>     Include qemu/module.h where needed, drop it from qemu-common.h =
+=20
+> >>>
+> >>> If it still compiles and links, it must get it via some other header.=
+ =20
+> >>=20
+> >> Yes: wdt_diag288.c -> include/hw/watchdog/wdt_diag288.h ->
+> >>  include/qom/object.h -> include/qemu/module.h =20
+> >
+> > So what's now our expectation here? Should every file that uses type_in=
+it()
+> > also include module.h ? That's IMHO not very intuitive...
+> > Or are we fine that type_init() is provided by qom/object.h which needs=
+ to
+> > be pulled in by every device sooner or later anyway? =20
+>=20
+> I think it's okay to rely on indirect inclusion.
 
-1. qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
-2. set_l2_entry(s, l2_slice, l2_index + i, QCOW_OFLAG_ZERO);
-3. qcow2_free_any_clusters(bs, old_offset, 1, QCOW2_DISCARD_REQUEST);
+So, what's the final verdict? Maybe just tweak the description?
 
-To
-
-1. qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
-2. qcow2_free_any_clusters(bs, old_offset, 1, QCOW2_DISCARD_REQUEST);
-3. set_l2_entry(s, l2_slice, l2_index + i, QCOW_OFLAG_ZERO);
-
-It seems harmless, however the call to qcow2_free_any_clusters
-can trigger a cache flush which can mark the L2 table as clean,
-and assuming that this was the last write to it,
-a stale version of it will remain on the disk.
-
-Now we have a valid L2 entry pointing to a freed cluster. Oops.
-
-Fixes: 205fa50750 ("qcow2: Add subcluster support to zero_in_l2_slice()")
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
----
- block/qcow2-cluster.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index 485b4cb92e..267b46a4ca 100644
---- a/block/qcow2-cluster.c
-+++ b/block/qcow2-cluster.c
-@@ -2010,11 +2010,11 @@ static int zero_in_l2_slice(BlockDriverState *bs, uint64_t offset,
-             continue;
-         }
- 
--        qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
-         if (unmap) {
-             qcow2_free_any_cluster(bs, old_l2_entry, QCOW2_DISCARD_REQUEST);
-         }
-         set_l2_entry(s, l2_slice, l2_index + i, new_l2_entry);
-+        qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
-         if (has_subclusters(s)) {
-             set_l2_bitmap(s, l2_slice, l2_index + i, new_l2_bitmap);
-         }
--- 
-2.26.2
+"Neither sysbus.h nor module.h are required to compile this file.
+diag288 is not a sysbus device, and module.h (for type_init) is
+included eventually through qom/object.h."
 
 
