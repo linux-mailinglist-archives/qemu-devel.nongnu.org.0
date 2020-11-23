@@ -2,55 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0C212BFE31
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 03:34:12 +0100 (CET)
-Received: from localhost ([::1]:39592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35E832BFE43
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 03:53:35 +0100 (CET)
+Received: from localhost ([::1]:49646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kh1gB-0006mx-ET
-	for lists+qemu-devel@lfdr.de; Sun, 22 Nov 2020 21:34:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39722)
+	id 1kh1yv-0003rR-Rk
+	for lists+qemu-devel@lfdr.de; Sun, 22 Nov 2020 21:53:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
- id 1kh1ep-00068P-Cg; Sun, 22 Nov 2020 21:32:47 -0500
-Received: from szxga03-in.huawei.com ([45.249.212.189]:2177)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
- id 1kh1em-00087C-Dq; Sun, 22 Nov 2020 21:32:47 -0500
-Received: from DGGEMM406-HUB.china.huawei.com (unknown [172.30.72.53])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4CfWPs59nvz4x0m;
- Mon, 23 Nov 2020 10:32:01 +0800 (CST)
-Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
- DGGEMM406-HUB.china.huawei.com (10.3.20.214) with Microsoft SMTP Server (TLS)
- id 14.3.487.0; Mon, 23 Nov 2020 10:32:25 +0800
-Received: from [10.174.185.187] (10.174.185.187) by
- dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1913.5; Mon, 23 Nov 2020 10:32:25 +0800
-Subject: Re: [PATCH] ui/vnc: Add missing lock for send_color_map
-To: <qemu-devel@nongnu.org>
-References: <20201116141338.148911-1-liangpeng10@huawei.com>
-From: Peng Liang <liangpeng10@huawei.com>
-Message-ID: <cc6ce1e8-3052-a4d6-fdfd-8ac07f527133@huawei.com>
-Date: Mon, 23 Nov 2020 10:32:13 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.2.2
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1kh1xI-0003Nb-LP
+ for qemu-devel@nongnu.org; Sun, 22 Nov 2020 21:51:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39973)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1kh1xF-0002EC-53
+ for qemu-devel@nongnu.org; Sun, 22 Nov 2020 21:51:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606099907;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FpiaZEn8i2YPh/EqssdzSSim+mReaxtD6cSmRWXww5Y=;
+ b=JGrGzp4YlCfVsCLbAnD4xxTEXbJ3L/HX6D7tyh9Vxx4zEJK4mVltytLmRJmarnHTsu/60S
+ BMamuKmf8bsxu0o1ODW18KWEvs9CmcRSzz6THpzvY7ox5PG6r5cVOtmBiUPMJtbebcZ3By
+ gyfjUprKeEE7+4O7umJeAj4zZ5f1ey0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-500-BcUGJnfFMu6NS6IrtsJQew-1; Sun, 22 Nov 2020 21:51:41 -0500
+X-MC-Unique: BcUGJnfFMu6NS6IrtsJQew-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EB338735D5;
+ Mon, 23 Nov 2020 02:51:40 +0000 (UTC)
+Received: from [10.72.13.192] (ovpn-13-192.pek2.redhat.com [10.72.13.192])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3F2675D6D3;
+ Mon, 23 Nov 2020 02:51:38 +0000 (UTC)
+Subject: Re: [PATCH 1/1] /net/tap.c: Fix a memory leak
+To: Peter Maydell <peter.maydell@linaro.org>, ruc_gongyuanjun@163.com
+References: <20201122044426.13454-1-ruc_gongyuanjun@163.com>
+ <CAFEAcA-Oc1JO-3H+mmjmhTuVLa89fMN8HgWHhnO8q5TpBg61MA@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <a66e14c4-1765-901d-c3aa-e6eaefad7c0a@redhat.com>
+Date: Mon, 23 Nov 2020 10:51:37 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201116141338.148911-1-liangpeng10@huawei.com>
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <CAFEAcA-Oc1JO-3H+mmjmhTuVLa89fMN8HgWHhnO8q5TpBg61MA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.185.187]
-X-ClientProxiedBy: dggeme706-chm.china.huawei.com (10.1.199.102) To
- dggema765-chm.china.huawei.com (10.1.198.207)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.189;
- envelope-from=liangpeng10@huawei.com; helo=szxga03-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,46 +83,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, qemu-stable@nongnu.org,
- xiexiangyou@huawei.com, kraxel@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kindly ping.
 
-On 11/16/2020 10:13 PM, Peng Liang wrote:
-> vnc_write() should be locked after the RFB protocol is initialized.
-> 
-> Fixes: 0c426e4534b4 ("vnc: Add support for color map")
-> Cc: qemu-stable@nongnu.org
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Peng Liang <liangpeng10@huawei.com>
-> ---
->  ui/vnc.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/ui/vnc.c b/ui/vnc.c
-> index 49235056f7a8..ca3fc376aeb5 100644
-> --- a/ui/vnc.c
-> +++ b/ui/vnc.c
-> @@ -2156,6 +2156,7 @@ static void send_color_map(VncState *vs)
->  {
->      int i;
->  
-> +    vnc_lock_output(vs);
->      vnc_write_u8(vs, VNC_MSG_SERVER_SET_COLOUR_MAP_ENTRIES);
->      vnc_write_u8(vs,  0);    /* padding     */
->      vnc_write_u16(vs, 0);    /* first color */
-> @@ -2168,6 +2169,7 @@ static void send_color_map(VncState *vs)
->          vnc_write_u16(vs, (((i >> pf->gshift) & pf->gmax) << (16 - pf->gbits)));
->          vnc_write_u16(vs, (((i >> pf->bshift) & pf->bmax) << (16 - pf->bbits)));
->      }
-> +    vnc_unlock_output(vs);
->  }
->  
->  static void set_pixel_format(VncState *vs, int bits_per_pixel,
-> 
+On 2020/11/22 下午7:39, Peter Maydell wrote:
+> On Sun, 22 Nov 2020 at 11:07, <ruc_gongyuanjun@163.com> wrote:
+>> From: yuanjungong <ruc_gongyuanjun@163.com>
+>>
+>> Close fd before returning.
+>>
+>> Buglink: https://bugs.launchpad.net/qemu/+bug/1904486
+>> Signed-off-by: yuanjungong <ruc_gongyuanjun@163.com>
+>> ---
+>>   net/tap.c | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/net/tap.c b/net/tap.c
+>> index c46ff66..fe95fa7 100644
+>> --- a/net/tap.c
+>> +++ b/net/tap.c
+>> @@ -817,6 +817,7 @@ int net_init_tap(const Netdev *netdev, const char *name,
+>>           if (ret < 0) {
+>>               error_setg_errno(errp, -ret, "%s: Can't use file descriptor %d",
+>>                                name, fd);
+>> +            close(fd);
+>>               return -1;
+>>           }
+>>
+>> @@ -831,6 +832,7 @@ int net_init_tap(const Netdev *netdev, const char *name,
+>>                            vhostfdname, vnet_hdr, fd, &err);
+>>           if (err) {
+>>               error_propagate(errp, err);
+>> +            close(fd);
+>>               return -1;
+>>           }
+>>       } else if (tap->has_fds) {
+>> --
+>> 2.17.1
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>
+> thanks
+> -- PMM
 
-Thanks,
-Peng
+
+Applied.
+
+Thanks
+
+
+>
+
 
