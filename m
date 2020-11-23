@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E5652C04E3
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 12:50:47 +0100 (CET)
-Received: from localhost ([::1]:39524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7581C2C04F2
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 12:53:03 +0100 (CET)
+Received: from localhost ([::1]:47664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khAMm-0005tw-Us
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 06:50:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55546)
+	id 1khAOz-0000sj-7L
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 06:53:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1khAFi-0004Et-A4
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:43:26 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:43947)
+ id 1khAFj-0004GU-KA
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:43:27 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:33649)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1khAFg-0002gB-P2
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:43:26 -0500
-Received: by mail-wr1-x436.google.com with SMTP id s8so18236573wrw.10
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 03:43:24 -0800 (PST)
+ id 1khAFh-0002gb-MR
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:43:27 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id u12so18332911wrt.0
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 03:43:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=/85XqsSvKC+oFBpd8FNWpWqgM3t8hXC12/WVfhAx4kc=;
- b=CILux+8emE4JV52j5iDir2zPoOpHaASg7oQpY3MruhcjkjoqkW/wQh0gcnEjbHq3BN
- 8kazlJWEkVgrqiRx5lHlasZYK9PZoGIADQtartLp4RBhlGLCNK/104D5H3Hbh2vPq/8U
- i39QyoejpZHBZoMwcgXPIbLM5W+4PRRdV0TzABXNYHo4CRcN6yuiYkvH9lLcqoaM+Ulg
- 50S7nJ8Ri3pARjUYobWkXcJ0qjfUaoKjMOW3J5uCAq4MAwSArOPqspfIgHwEkd9XRVc/
- 11IQOei5JzOCN38AYsH5lebNxqIiHGgoXyYNHiEyX9n6YOgJdeCYEQfTSn41FoDzpHTl
- L8Zg==
+ bh=uODcsvaiXPhZsJr0rQIAVtEP4ktkLs/t7lIz3a7KTNM=;
+ b=gVfwqlx+htYnx/2OAxLxaR6LmmMmupynC/rXPNRjs3szhfUWWwQAArQk9Nod2g7lYV
+ jWDhbFCYLa7NyXkATI4dNcLIzz1Oxjkvd8vHuggPsasj2+G9jNDIa/c+FtIerA5Gzv+l
+ 9V1qKxsPKavYIeohQNT/oIa0FstDqSunCr1a6+wCLGX41qc1ChScAG7OSxyKhs8lHaEp
+ 7uKasMq51onGav1OXU8DCgJ7v+C5ouwuqJRHqS0X6YEdJCwXQs2TyMYOQ+YXxaP3Ohdn
+ /BAugXuopuVE4s+zlG14plw3mf8C0QvwqpKNT2Q7f48hVK3euGItX4xcw3g8LnkkvPE9
+ Mr7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/85XqsSvKC+oFBpd8FNWpWqgM3t8hXC12/WVfhAx4kc=;
- b=s2oSnewsDFi0Eqfcm7rQ05sGYiDlgSIyWwT4QUrzlhVswUrXwPFuLXr5ToFlx0nJ62
- LOaxxxdxjE/R2giEYxQPfRjFtS/UlhU9ufU13owZkF+AfseozGQ8IjAWO0JR+QwV4anp
- hfaLBXzdQ+9zZTdqGHxWWlCsh1ZfjMGnrvKYUDsfE+NF6YlWdZ3qnxj4Aqqus9AUY6s1
- PCBpQZU0TLEjsc/xbcymcZAHXMFFBUB/pUzl5+VyrlE8YARcE3xFLnR4r9lIAzQoc+Kr
- ynsId6/GHS0KKRu9zyMxdg+SnRu9YPzHKiT8kXPYWTGnn0F/LuoPVEVfj8+BKEpEZQui
- IPug==
-X-Gm-Message-State: AOAM530581swVwWzREv0TBQXPPfhmMYG2P6WRRwGbb02wNnRsyrlhv4y
- VqhEvH92l8jlnho0wATyXfMkckCuYsRK2g==
-X-Google-Smtp-Source: ABdhPJyGCgQyi2u8ESmMBAUqh9ajPFvAyKAXVP5TBy5UwRH+Pum9zv16rk23SSuq5kDRcz62MuJnQg==
-X-Received: by 2002:adf:f2d1:: with SMTP id d17mr30616861wrp.339.1606131803159; 
- Mon, 23 Nov 2020 03:43:23 -0800 (PST)
+ bh=uODcsvaiXPhZsJr0rQIAVtEP4ktkLs/t7lIz3a7KTNM=;
+ b=caTcZ3YpSDEzqTx55q85ojMulk99dC7ex6oZPdlQ3klx3jyAiSVWNvfilVqIIseT6f
+ i4IKyH2a91OCk11YxY4+RhJ/NC0/P1YrQ0R3m0kHMApktbKMAMpWUXjYLbRNcd0cr2Er
+ gpZlr0q0fua+7ctX1Jel0XB1GDPKPYnCt0v5q4ilLBHQv7gfmg7RZr7/QP4uAalvV1w/
+ i5FfvrNamPoSduft8Wn8ezQrqJUKqx935a4Qli+vgaH4QSfGvY9Dddiwy9XV3bZ73D2u
+ 5Bmnf2xZnFWREJFOK4cS8fVH2ayXBZtLot8oP2/7X4auT+0XSxB1XQi/MVL+UkIDgQhh
+ G1Cg==
+X-Gm-Message-State: AOAM5337ZWl5kUVQ2IsyKiZqIIU7xqSXgf74EmakLS8/xhxZzDS3i+l4
+ 5RaFnwjtRgcJlZMtv0dOi4AXwCIpaGHtLA==
+X-Google-Smtp-Source: ABdhPJy0KeQM5f4aW7P0vCAUDmVMwix9gQoHfoduSQBR0Q1qK43XdXvtQtzP7WAQHb5psN83Tw2XFQ==
+X-Received: by 2002:adf:f3cf:: with SMTP id g15mr11777090wrp.71.1606131804115; 
+ Mon, 23 Nov 2020 03:43:24 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g186sm50836495wma.1.2020.11.23.03.43.22
+ by smtp.gmail.com with ESMTPSA id g186sm50836495wma.1.2020.11.23.03.43.23
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Nov 2020 03:43:22 -0800 (PST)
+ Mon, 23 Nov 2020 03:43:23 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/24] MAINTAINERS: Cover system/arm/aspeed.rst with ASPEED BMC
- machines
-Date: Mon, 23 Nov 2020 11:42:56 +0000
-Message-Id: <20201123114315.13372-6-peter.maydell@linaro.org>
+Subject: [PULL 06/24] MAINTAINERS: Cover system/arm/nuvoton.rst with Nuvoton
+ NPCM7xx
+Date: Mon, 23 Nov 2020 11:42:57 +0000
+Message-Id: <20201123114315.13372-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201123114315.13372-1-peter.maydell@linaro.org>
 References: <20201123114315.13372-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,8 +91,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Message-id: 20201120154545.2504625-3-f4bug@amsat.org
+Message-id: 20201120154545.2504625-4-f4bug@amsat.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
@@ -100,17 +99,17 @@ Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index a9c74f9aab2..02f8b6f696c 100644
+index 02f8b6f696c..5e478f9a26d 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1000,6 +1000,7 @@ F: include/hw/*/*aspeed*
- F: include/hw/misc/pca9552*.h
- F: hw/net/ftgmac100.c
- F: include/hw/net/ftgmac100.h
-+F: docs/system/arm/aspeed.rst
+@@ -763,6 +763,7 @@ F: include/hw/*/npcm7xx*
+ F: tests/qtest/npcm7xx*
+ F: pc-bios/npcm7xx_bootrom.bin
+ F: roms/vbootrom
++F: docs/system/arm/nuvoton.rst
  
- NRF51
- M: Joel Stanley <joel@jms.id.au>
+ nSeries
+ M: Andrzej Zaborowski <balrogg@gmail.com>
 -- 
 2.20.1
 
