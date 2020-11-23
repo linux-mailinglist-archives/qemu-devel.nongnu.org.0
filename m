@@ -2,80 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98FD52C023A
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 10:24:48 +0100 (CET)
-Received: from localhost ([::1]:42340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE4372C023D
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 10:28:08 +0100 (CET)
+Received: from localhost ([::1]:48270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kh85X-0005CH-Ms
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 04:24:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52620)
+	id 1kh88l-0007pA-HQ
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 04:28:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kh84A-0004Ip-L0
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 04:23:22 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35377)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kh847-0000gT-53
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 04:23:22 -0500
-Received: by mail-wm1-x341.google.com with SMTP id w24so16546657wmi.0
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 01:23:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=B47nsB/U5oE6iDZ8PpncllWSwS3chERLvd6kMjKzXyQ=;
- b=rUjhdi0G6qjlvoBcAfJYufa63xHVrBEFBUffywY0vJJdmOzYDTvrM6Qxv6NRpnGFUE
- hvaDS5RYGtO4xIf2ZnhdzLrzAp9myI8qtK9ZKWBjRfE7tA8F/1Ks8rRVrkznF6xjDLt3
- eLLxMVp4KxVr8PAA/nY5S+WGIORli+KQKD8en/L41ku/p+l0s19/jr7cKXctd0CLHvWf
- 3qTA3K3NxI6M1PhmzKm6J1LBDArEMEwYGlCetGLAdQ5Rl7yczjetTY6e0yzKMYGj5h3r
- MsdYe6+hGb/3lye9zHaljdVjNe9iIeCrJHicGKkWr6YY/fnlsqqo/g7aFhMUBjdDx3UH
- w99w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=B47nsB/U5oE6iDZ8PpncllWSwS3chERLvd6kMjKzXyQ=;
- b=MVypqEov7Ncb+fqCASPidF1e/D/I6Tj8AFBkuDboWsSyzj6IKkXjimrMu5nL2SYxYU
- OgNNUd3+5WjawJ3utDBFVtBKjKcBoeiduhJAVAG+NVNWdLWKtT6euxBIsTvKLl+ylo1c
- K2De/pdkbpn3qXNOv/TCOi8IefVqZJcsEtkcyHXn7xgOh/Ukh59ZpNmJxY7iprlsA99f
- zaiYkg2yFGIJu8EuYEzoYlhnNdMw3H5I9HhqvzQ9jjFlD+bvpXRjVTWz7tUz50avSpym
- J0angb+JVov53++VXhON2HppKmVDBuOu2uaNOBidamKvcYp3xcBQT17+Y8/QFFtGTVq9
- ktxA==
-X-Gm-Message-State: AOAM533KAB3p5J3OVCJrKWrGmebB35CJ4undHtE77gSvGTW3EifKrLbf
- lWMrcRsdzRHFMW6X+xzbPbZVsQ==
-X-Google-Smtp-Source: ABdhPJxvPAd+BERe4jJqMfoX3k+Y05qo2rbm8XM+mdN6XQ32Fao7F/VfWspndl1WHnJFQYfNBQ+sSw==
-X-Received: by 2002:a1c:7412:: with SMTP id p18mr22581418wmc.8.1606123396639; 
- Mon, 23 Nov 2020 01:23:16 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g11sm19070051wrq.7.2020.11.23.01.23.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Nov 2020 01:23:15 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B668A1FF7E;
- Mon, 23 Nov 2020 09:23:14 +0000 (GMT)
-References: <20201117173635.29101-1-alex.bennee@linaro.org>
- <20201117173635.29101-4-alex.bennee@linaro.org>
- <3bc76afb-e459-1324-d1ef-aba53faf6220@redhat.com>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH v1 3/6] tests/avocado: clean-up socket directory after run
-In-reply-to: <3bc76afb-e459-1324-d1ef-aba53faf6220@redhat.com>
-Date: Mon, 23 Nov 2020 09:23:14 +0000
-Message-ID: <87tutgo29p.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kh86Y-0006SK-FQ
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 04:25:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54645)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kh86V-0001h5-Kr
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 04:25:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606123546;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=B96XAEf3WZO9qo3Ch3iqHicG3ML2rRK3r49vIqxqPg4=;
+ b=eCRz5plsNhyfR31AzH6Bka+U6VJMYAqP9nd+LzfzQ/KYB9r1+h0Ue90lBkal/HVdQ4ruCJ
+ c8ykMY2YySVyqhPL7TwMDksv1ab4knejBAOuK2Jukaj9pkkNQ96idUFICJPtQ6JgB+6wZE
+ OnXbYksFXvRYw2Y/aiTVvGDIjT6u+2c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-485-93p3xJjEPBqoY_VWI_o_Hg-1; Mon, 23 Nov 2020 04:25:44 -0500
+X-MC-Unique: 93p3xJjEPBqoY_VWI_o_Hg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E93A9CC1F;
+ Mon, 23 Nov 2020 09:25:43 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DC26060BF3;
+ Mon, 23 Nov 2020 09:25:42 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 637F711358BA; Mon, 23 Nov 2020 10:25:41 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Andrew Melnichenko <andrew@daynix.com>
+Subject: Re: [PATCH] hmp: Changed hmp_netdev_add() using
+ qmp_marshal_netdev_add()
+References: <20200716035532.1407660-1-andrew@daynix.com>
+ <CABcq3pGFPkDMmEegGaw6UjHBijPZiyFj-uR+6Phz+0K44VRNgw@mail.gmail.com>
+ <874klk5gnc.fsf@dusky.pond.sub.org>
+ <CAOEp5OfjuR97v0VyyHpXJiZVsU1jMphHh86XwAU4t3Uw1T8Ghg@mail.gmail.com>
+ <CAOEp5OdiFaCK=Ag8f9oNixhrkW4xoEJ2bXKU7ThXeF9VJXPqTw@mail.gmail.com>
+ <CABcq3pGDAO7sB6jobcsiE8_7md1yZ7wGkkyxZefjXGc7-d6obw@mail.gmail.com>
+Date: Mon, 23 Nov 2020 10:25:41 +0100
+In-Reply-To: <CABcq3pGDAO7sB6jobcsiE8_7md1yZ7wGkkyxZefjXGc7-d6obw@mail.gmail.com>
+ (Andrew Melnichenko's message of "Sun, 22 Nov 2020 12:17:50 +0200")
+Message-ID: <87lfesv2zu.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x341.google.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,73 +85,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>
+Cc: Yan Vugenfirer <yan@daynix.com>,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Andrew Melnichenko <andrew@daynix.com> writes:
 
-Wainer dos Santos Moschetta <wainersm@redhat.com> writes:
-
-> On 11/17/20 2:36 PM, Alex Benn=C3=A9e wrote:
->> Previously we were leaving temporary directories behind. While the
->> QEMUMachine does make efforts to clean up after itself the directory
->> belongs to the calling function. We use TemporaryDirectory to wrap
->> this although we explicitly clear the reference in tearDown() as it
->> doesn't get cleaned up otherwise.
+> --000000000000f73b2205b4aef0c5
+> Content-Type: text/plain; charset="UTF-8"
 >
-> This patch fixes the problem introduced on patch 02 of this series.
-
-It didn't introduce the problem in patch 2, it just moved it. The
-mkdtemp() was never cleaned up before.
-
+> Hi, the bug can be reproduced like that:
 >
+>> QEMU 5.1.50 monitor - type 'help' for more information
+>> (qemu) netdev_add
+>> type=tap,id=net0,script=/home/and/SRCS/qemu/ifup.sh,downscript=no
+>> (qemu) info network
+>> hub 0
+>>  \ hub0port1: __org.qemu.net1: index=0,type=user,net=10.0.2.0,restrict=off
+>>  \ hub0port0: e1000e.0:
+>> index=0,type=nic,model=e1000e,macaddr=52:54:00:12:34:56
+>> dnet0: index=0,type=nic,model=virtio-net-pci,macaddr=52:54:00:12:34:57
+>> net0:
+>> index=0,type=tap,ifname=tap0,script=/home/and/SRCS/qemu/ifup.sh,downscript=no
+>> (qemu) netdev_del net0
+>> (qemu) info network
+>> hub 0
+>>  \ hub0port1: __org.qemu.net1: index=0,type=user,net=10.0.2.0,restrict=off
+>>  \ hub0port0: e1000e.0:
+>> index=0,type=nic,model=e1000e,macaddr=52:54:00:12:34:56
+>> dnet0: index=0,type=nic,model=virtio-net-pci,macaddr=52:54:00:12:34:57
+>> (qemu) netdev_add
+>> type=tap,id=net0,script=/home/and/SRCS/qemu/ifup.sh,downscript=no
+>> Try "help netdev_add" for more information
+>> (qemu) info network
+>> hub 0
+>>  \ hub0port1: __org.qemu.net1: index=0,type=user,net=10.0.2.0,restrict=off
+>>  \ hub0port0: e1000e.0:
+>> index=0,type=nic,model=e1000e,macaddr=52:54:00:12:34:56
+>> dnet0: index=0,type=nic,model=virtio-net-pci,macaddr=52:54:00:12:34:57
+>> (qemu)
 >>
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> ---
->>   tests/acceptance/avocado_qemu/__init__.py | 5 +++--
->>   1 file changed, 3 insertions(+), 2 deletions(-)
 >>
->> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptanc=
-e/avocado_qemu/__init__.py
->> index 3033b2cabe..bf54e419da 100644
->> --- a/tests/acceptance/avocado_qemu/__init__.py
->> +++ b/tests/acceptance/avocado_qemu/__init__.py
->> @@ -171,8 +171,8 @@ class Test(avocado.Test):
->>               self.cancel("No QEMU binary defined or found in the build =
-tree")
->>=20=20=20
->>       def _new_vm(self, *args):
->> -        sd =3D tempfile.mkdtemp(prefix=3D"avocado_qemu_sock_")
->> -        vm =3D QEMUMachine(self.qemu_bin, sock_dir=3Dsd)
->> +        self._sd =3D tempfile.TemporaryDirectory(prefix=3D"avo_qemu_soc=
-k_")
->
-> Double-checking that you really meant "avo" or if your fingers forgot to=
-=20
-> type the remaining letters. :)
+> Its still actual bug - I've checked it with the
+> master(2c6605389c1f76973d92b69b85d40d94b8f1092c).
 
-Hmm yeah I should probably just be consistent with the name in both
-patches.
+I can see this with an even simpler reproducer:
 
->
-> - Wainer
->
->> +        vm =3D QEMUMachine(self.qemu_bin, sock_dir=3Dself._sd.name)
->>           if args:
->>               vm.add_args(*args)
->>           return vm
->> @@ -193,6 +193,7 @@ class Test(avocado.Test):
->>       def tearDown(self):
->>           for vm in self._vms.values():
->>               vm.shutdown()
->> +        self._sd =3D None
->>=20=20=20
->>       def fetch_asset(self, name,
->>                       asset_hash=3DNone, algorithm=3DNone,
+    $ qemu-system-x86_64 -S -display none -nodefaults -monitor stdio
+    QEMU 5.1.92 monitor - type 'help' for more information
+    (qemu) netdev_add user,id=net0
+    (qemu) info network
+    net0: index=0,type=user,net=10.0.2.0,restrict=off
+    (qemu) netdev_del net0
+    (qemu) info network
+    (qemu) netdev_add user,id=net0
+    upstream-qemu: Duplicate ID 'net0' for netdev
+    Try "help netdev_add" for more information
+
+The appended patch fixes it for me.  It relies on nothing using the
+"netdev" QemuOpts anymore.  Eric, what do you think?
 
 
---=20
-Alex Benn=C3=A9e
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index a6a6684df1..8bc6b7bcc6 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -1638,9 +1638,7 @@ void hmp_netdev_add(Monitor *mon, const QDict *qdict)
+     }
+ 
+     netdev_add(opts, &err);
+-    if (err) {
+-        qemu_opts_del(opts);
+-    }
++    qemu_opts_del(opts);
+ 
+ out:
+     hmp_handle_error(mon, err);
+
 
