@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19C222C14C4
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 20:52:53 +0100 (CET)
-Received: from localhost ([::1]:54936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBFA52C14CF
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 20:55:12 +0100 (CET)
+Received: from localhost ([::1]:35412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khHtM-0008CQ-4Z
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 14:52:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58734)
+	id 1khHvb-0003Ly-Pk
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 14:55:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1khHpQ-0006Df-L1
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 14:48:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51003)
+ id 1khHpT-0006Hj-1o
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 14:48:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57389)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1khHpO-0007lo-99
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 14:48:48 -0500
+ id 1khHpR-0007nW-6l
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 14:48:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606160923;
+ s=mimecast20190719; t=1606160928;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QiavwNcTmeJQ44Wd/gWTFeDiwR1iT7Nz1/QxW8N4RgU=;
- b=DQ+4byRrZyO/cFdsHBrFLHCLffYRj4nvK3pQ8TkjPkwq0W65sYCYuHQRrM/sPBEag0v/kj
- LuPF9Yuno1XOBe1hR/pc6QzzjEm53a/paVYfgK22Ynf9d4cBBFXy6ZYaKF58UXbVluI7bM
- 2sRVWYhQSCskwk0xbf1imZt1Z3zBJSQ=
+ bh=K+am16SMzOkZedLb5QC0zdtv7tBIX1dgj7b9ouOfr9c=;
+ b=PqHNKLuQMr7dQDmuhlCaF/64ZqLEocPGT+CmGWJ2w41yAZfd3se57CdP7tJxOSPUzqRVdA
+ Deu9TnWDNKq7eEqia43Whvtbiv2JQpQQBwiZomo6H3F05UU9+Pksc0B+rQxgBZVVE/f9f2
+ js9ojyq7K7pSLbz/R/uiCjYNDlA9rHE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-33-yfqGjBjkNvKBjOHINVIMLg-1; Mon, 23 Nov 2020 14:48:40 -0500
-X-MC-Unique: yfqGjBjkNvKBjOHINVIMLg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-283-KmkHOSEYNwqiEW-QAfiQ8w-1; Mon, 23 Nov 2020 14:48:46 -0500
+X-MC-Unique: KmkHOSEYNwqiEW-QAfiQ8w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD6A29CC39
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 19:48:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D116C1015214
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 19:48:37 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6355A1002382;
- Mon, 23 Nov 2020 19:48:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ED24460873;
+ Mon, 23 Nov 2020 19:48:31 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 05/19] qlit: Use qnum_value_is_equal() when comparing QNums
-Date: Mon, 23 Nov 2020 14:48:04 -0500
-Message-Id: <20201123194818.2773508-6-ehabkost@redhat.com>
+Subject: [PATCH v3 06/19] qlit: Rename QLIT_QNUM to QLIT_QNUM_INT
+Date: Mon, 23 Nov 2020 14:48:05 -0500
+Message-Id: <20201123194818.2773508-7-ehabkost@redhat.com>
 In-Reply-To: <20201123194818.2773508-1-ehabkost@redhat.com>
 References: <20201123194818.2773508-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,69 +86,172 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, qlit_equal_qobject() crashes if getting a QNum that
-can't be represented as int64.  Fix this by using
-qnum_value_is_equal().
+Rename the existing QLIT_QNUM macro to indicate it only supports
+signed int values.  We're going to add support to other types of
+QNums later.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-This is a new patch added in v3 of the series.
----
- qobject/qlit.c     |  3 ++-
- tests/check-qlit.c | 19 +++++++++++++++++++
- 2 files changed, 21 insertions(+), 1 deletion(-)
+This is a new patch added in v3 of this series.
 
-diff --git a/qobject/qlit.c b/qobject/qlit.c
-index be8332136c..67126b25d5 100644
---- a/qobject/qlit.c
-+++ b/qobject/qlit.c
-@@ -71,7 +71,8 @@ bool qlit_equal_qobject(const QLitObject *lhs, const QObject *rhs)
-     case QTYPE_QBOOL:
-         return lhs->value.qbool == qbool_get_bool(qobject_to(QBool, rhs));
-     case QTYPE_QNUM:
--        return lhs->value.qnum ==  qnum_get_int(qobject_to(QNum, rhs));
-+        return qnum_value_is_equal(&(QNumValue)QNUM_VAL_INT(lhs->value.qnum),
-+                                   &qobject_to(QNum, rhs)->value);
-     case QTYPE_QSTRING:
-         return (strcmp(lhs->value.qstr,
-                        qstring_get_str(qobject_to(QString, rhs))) == 0);
+In v2, the existing QLIT_QNUM() macro was being kept, now it is
+replaced by QLIT_QNUM_INT().
+---
+ include/qapi/qmp/qlit.h |  2 +-
+ tests/check-qjson.c     | 30 +++++++++++++++---------------
+ tests/check-qlit.c      | 10 +++++-----
+ 3 files changed, 21 insertions(+), 21 deletions(-)
+
+diff --git a/include/qapi/qmp/qlit.h b/include/qapi/qmp/qlit.h
+index c0676d5daf..2fc2db282e 100644
+--- a/include/qapi/qmp/qlit.h
++++ b/include/qapi/qmp/qlit.h
+@@ -39,7 +39,7 @@ struct QLitDictEntry {
+     { .type = QTYPE_QNULL }
+ #define QLIT_QBOOL(val) \
+     { .type = QTYPE_QBOOL, .value.qbool = (val) }
+-#define QLIT_QNUM(val) \
++#define QLIT_QNUM_INT(val) \
+     { .type = QTYPE_QNUM, .value.qnum = (val) }
+ #define QLIT_QSTR(val) \
+     { .type = QTYPE_QSTRING, .value.qstr = (val) }
+diff --git a/tests/check-qjson.c b/tests/check-qjson.c
+index 07a773e653..bc5b7ebdf3 100644
+--- a/tests/check-qjson.c
++++ b/tests/check-qjson.c
+@@ -1062,7 +1062,7 @@ static void simple_dict(void)
+         {
+             .encoded = "{\"foo\": 42, \"bar\": \"hello world\"}",
+             .decoded = QLIT_QDICT(((QLitDictEntry[]){
+-                        { "foo", QLIT_QNUM(42) },
++                        { "foo", QLIT_QNUM_INT(42) },
+                         { "bar", QLIT_QSTR("hello world") },
+                         { }
+                     })),
+@@ -1074,7 +1074,7 @@ static void simple_dict(void)
+         }, {
+             .encoded = "{\"foo\": 43}",
+             .decoded = QLIT_QDICT(((QLitDictEntry[]){
+-                        { "foo", QLIT_QNUM(43) },
++                        { "foo", QLIT_QNUM_INT(43) },
+                         { }
+                     })),
+         },
+@@ -1160,15 +1160,15 @@ static void simple_list(void)
+         {
+             .encoded = "[43,42]",
+             .decoded = QLIT_QLIST(((QLitObject[]){
+-                        QLIT_QNUM(43),
+-                        QLIT_QNUM(42),
++                        QLIT_QNUM_INT(43),
++                        QLIT_QNUM_INT(42),
+                         { }
+                     })),
+         },
+         {
+             .encoded = "[43]",
+             .decoded = QLIT_QLIST(((QLitObject[]){
+-                        QLIT_QNUM(43),
++                        QLIT_QNUM_INT(43),
+                         { }
+                     })),
+         },
+@@ -1217,35 +1217,35 @@ static void simple_whitespace(void)
+         {
+             .encoded = " [ 43 , 42 ]",
+             .decoded = QLIT_QLIST(((QLitObject[]){
+-                        QLIT_QNUM(43),
+-                        QLIT_QNUM(42),
++                        QLIT_QNUM_INT(43),
++                        QLIT_QNUM_INT(42),
+                         { }
+                     })),
+         },
+         {
+             .encoded = "\t[ 43 , { 'h' : 'b' },\r\n\t[ ], 42 ]\n",
+             .decoded = QLIT_QLIST(((QLitObject[]){
+-                        QLIT_QNUM(43),
++                        QLIT_QNUM_INT(43),
+                         QLIT_QDICT(((QLitDictEntry[]){
+                                     { "h", QLIT_QSTR("b") },
+                                     { }})),
+                         QLIT_QLIST(((QLitObject[]){
+                                     { }})),
+-                        QLIT_QNUM(42),
++                        QLIT_QNUM_INT(42),
+                         { }
+                     })),
+         },
+         {
+             .encoded = " [ 43 , { 'h' : 'b' , 'a' : 32 }, [ ], 42 ]",
+             .decoded = QLIT_QLIST(((QLitObject[]){
+-                        QLIT_QNUM(43),
++                        QLIT_QNUM_INT(43),
+                         QLIT_QDICT(((QLitDictEntry[]){
+                                     { "h", QLIT_QSTR("b") },
+-                                    { "a", QLIT_QNUM(32) },
++                                    { "a", QLIT_QNUM_INT(32) },
+                                     { }})),
+                         QLIT_QLIST(((QLitObject[]){
+                                     { }})),
+-                        QLIT_QNUM(42),
++                        QLIT_QNUM_INT(42),
+                         { }
+                     })),
+         },
+@@ -1275,11 +1275,11 @@ static void simple_interpolation(void)
+     QObject *embedded_obj;
+     QObject *obj;
+     QLitObject decoded = QLIT_QLIST(((QLitObject[]){
+-            QLIT_QNUM(1),
++            QLIT_QNUM_INT(1),
+             QLIT_QSTR("100%"),
+             QLIT_QLIST(((QLitObject[]){
+-                        QLIT_QNUM(32),
+-                        QLIT_QNUM(42),
++                        QLIT_QNUM_INT(32),
++                        QLIT_QNUM_INT(42),
+                         {}})),
+             {}}));
+ 
 diff --git a/tests/check-qlit.c b/tests/check-qlit.c
-index bd6798d912..58ceaae5a3 100644
+index 58ceaae5a3..24ac21395c 100644
 --- a/tests/check-qlit.c
 +++ b/tests/check-qlit.c
-@@ -65,6 +65,24 @@ static void qlit_equal_qobject_test(void)
-     qobject_unref(qobj);
- }
+@@ -17,12 +17,12 @@
+ #include "qapi/qmp/qstring.h"
  
-+static void qlit_equal_large_qnum_test(void)
-+{
-+    /* 2^32-1 */
-+    QNum *large = qnum_from_uint(9223372036854775807LL);
-+    /* 2^32 */
-+    QNum *too_large = qnum_from_uint(9223372036854775808ULL);
-+    QNum *dbl = qnum_from_double(9223372036854775808.0);
-+    QLitObject qlit_large = QLIT_QNUM(9223372036854775807LL);
-+
-+    g_assert(qlit_equal_qobject(&qlit_large, QOBJECT(large)));
-+    g_assert(!qlit_equal_qobject(&qlit_large, QOBJECT(too_large)));
-+    g_assert(!qlit_equal_qobject(&qlit_large, QOBJECT(dbl)));
-+
-+    qobject_unref(dbl);
-+    qobject_unref(large);
-+    qobject_unref(too_large);
-+}
-+
- static void qobject_from_qlit_test(void)
- {
-     QObject *obj, *qobj = qobject_from_qlit(&qlit);
-@@ -95,6 +113,7 @@ int main(int argc, char **argv)
-     g_test_init(&argc, &argv, NULL);
+ static QLitObject qlit = QLIT_QDICT(((QLitDictEntry[]) {
+-    { "foo", QLIT_QNUM(42) },
++    { "foo", QLIT_QNUM_INT(42) },
+     { "bar", QLIT_QSTR("hello world") },
+     { "baz", QLIT_QNULL },
+     { "bee", QLIT_QLIST(((QLitObject[]) {
+-        QLIT_QNUM(43),
+-        QLIT_QNUM(44),
++        QLIT_QNUM_INT(43),
++        QLIT_QNUM_INT(44),
+         QLIT_QBOOL(true),
+         { },
+     }))},
+@@ -30,7 +30,7 @@ static QLitObject qlit = QLIT_QDICT(((QLitDictEntry[]) {
+ }));
  
-     g_test_add_func("/qlit/equal_qobject", qlit_equal_qobject_test);
-+    g_test_add_func("/qlit/equal_large_qnum", qlit_equal_large_qnum_test);
-     g_test_add_func("/qlit/qobject_from_qlit", qobject_from_qlit_test);
+ static QLitObject qlit_foo = QLIT_QDICT(((QLitDictEntry[]) {
+-    { "foo", QLIT_QNUM(42) },
++    { "foo", QLIT_QNUM_INT(42) },
+     { },
+ }));
  
-     return g_test_run();
+@@ -72,7 +72,7 @@ static void qlit_equal_large_qnum_test(void)
+     /* 2^32 */
+     QNum *too_large = qnum_from_uint(9223372036854775808ULL);
+     QNum *dbl = qnum_from_double(9223372036854775808.0);
+-    QLitObject qlit_large = QLIT_QNUM(9223372036854775807LL);
++    QLitObject qlit_large = QLIT_QNUM_INT(9223372036854775807LL);
+ 
+     g_assert(qlit_equal_qobject(&qlit_large, QOBJECT(large)));
+     g_assert(!qlit_equal_qobject(&qlit_large, QOBJECT(too_large)));
 -- 
 2.28.0
 
