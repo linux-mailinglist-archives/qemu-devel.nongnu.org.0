@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2AC32C0077
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 08:07:57 +0100 (CET)
-Received: from localhost ([::1]:44068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 189272C0079
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 08:10:48 +0100 (CET)
+Received: from localhost ([::1]:46078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kh5x5-0000OO-Hr
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 02:07:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52964)
+	id 1kh5zp-0001HL-S4
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 02:10:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kh5p4-0005Lp-TV; Mon, 23 Nov 2020 01:59:39 -0500
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:40825)
+ id 1kh5p5-0005Mu-NS; Mon, 23 Nov 2020 01:59:39 -0500
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:35879)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kh5p1-00074O-9z; Mon, 23 Nov 2020 01:59:38 -0500
+ id 1kh5p1-00074f-4C; Mon, 23 Nov 2020 01:59:39 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 15C7C5C00ED;
- Mon, 23 Nov 2020 01:59:33 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id 5BADC5C0101;
+ Mon, 23 Nov 2020 01:59:34 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 23 Nov 2020 01:59:33 -0500
+ by compute4.internal (MEProxy); Mon, 23 Nov 2020 01:59:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=N3p7b+eaepcdO
- GHyDb1kK5Ul+r8Obs7cktXQq7OuR3Q=; b=LJXskbqqsubQc7BP5mDzwwEfBm43+
- 9h5MTaDhCmY0eqgIqpVWh35e9dqvhWBajDlm+JtessHDkYDEuT9T/8beWJ8nk0KQ
- 0JOFVmhThlrcS5kJBIViOT0NmGUQCclk6UVT5sx4qSt5LkWgLH7txluXXFrAk6VU
- ysYsywqsK3IdVy5OVCCWbTtPwkO3gkjSIB8WR/bDnGe0l1djDu/m29rSyz3zY4qV
- 220Ogg2tRxcHoccbKzpY2l9pk9kGMl8R1llIHLNcTr25GjxukDLSjbRMAxSuPEB1
- 1xw54xMqxFTMeQs73+mgXs+P0vLYdc97EN4vDZ+izgtxvqNfFipjbiE7g==
+ :mime-version:content-transfer-encoding; s=fm1; bh=UzHndcDiAeSOP
+ 8LCJAaHGU/fA9PsoWVVDW797xf53gA=; b=u4ZhqBiynK5e/+XvAcfGJ+yemSE+A
+ jhqESbFsldAXpA5XWfiSPy5EL2K/YneqB3djMzUbbQlQGwY7jrdnhZfNpiRM7Cqj
+ iXWkBP3iWz1TK9NnNmOX2ZVKduR+AZPiqfWzlEtFxWNsLTPh7nNIrBK/yJ5ayRRA
+ sl/rVkNpjrOpk237a2vxbnLT+XKYwAy+c677h8SVzaRZIFrTbuxahwARc4G3KDuP
+ 8Oc6BHlgeUB3f0u+H9NX8ud2VzRyO+x0PF0lIAplfWKvsmicwWqoj9re3lmP7i3B
+ E4b6Y/z0iGlb3ntW9sLKI0dIiU+6zGr0C9bI/141l8zK/sI3N+9aJ419g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=N3p7b+eaepcdOGHyDb1kK5Ul+r8Obs7cktXQq7OuR3Q=; b=FeM6H+/o
- Fr+R06F7cU7+915XaqrfISTou9724Czl4RUBjY3ZR8gFqtXmJpvlGS2kvWCRhdmB
- T3bRf1/5Nv6sO9Q4YIwQDDJAapIFHZ3vWF/wH562CV2blA8Zv1M08/59dtgUaOkx
- YIMBZ2z31LG9X4F/IHHi7SzmJfYXsBwReaYUytW93WkYusxXwjc3ZsryHgK3AFjQ
- o91p/bRaOytP0X43ucUVEvhZrXCJRTIQGrkC5GxyXs1YzYNP80wZBFwU4Kp2AblW
- dQqLlMlcGO2hfua5eXzW7uhcSfst9jftrYBjM2dxHylPpnN1Ap5iAoYCdV7vCGUB
- e+7jsFC7WoyHLQ==
-X-ME-Sender: <xms:1F27X6IaySOXAihBMo2raqw6IQVG8UeAgopwUv2fAfRJRiuXs5bwSg>
- <xme:1F27XyL_2zs0QwKUKUqqEGqqN2tFZ26r92vVQgQYkRF9vVp80-mxh8XYeDWn4WHAf
- F2dC6UACO5mfee8-Is>
+ fm1; bh=UzHndcDiAeSOP8LCJAaHGU/fA9PsoWVVDW797xf53gA=; b=jVtXdLeJ
+ Q6WRWyqXJwHt3g8I97x0SD4ICOY9a35bf+Hdu9WfSopwSbbdIvdvcgQaq7Yf6IZ9
+ Z/16+9s+RPZaWYrd7Ldq/hwy0++lUAqbFtu10SRq9j6c9dC2k2uG15cbkrSbjt0H
+ FXtaV/gkIrXxeoiLs7kVyExHzQD0X8SsdG4PCOBonpjTtCRnCpiCdd55uvsuFqU+
+ aX6fY3QKV+dimzMCryb6rQ5hJrozGrnwcSPJrqbAUv5EFcvr2Sz1bcQbmDv9GHYW
+ NEoe5EBdELbLoVq4VKaavOm//fI/1d8NF9qC8FDVJyaXXi05Ppfi/a9edbYS3S1z
+ 7am0mroLjy2gvg==
+X-ME-Sender: <xms:1l27X9EavB3cHo61c8iwAn-Ysn_tIyJC1DOBqu85QEnoZeB8-vIRBA>
+ <xme:1l27XyVN0efb2Vp4N7nhWcvrONxuzSjKwcB0GkJgl1XQMMHRetu2d2M8h27xbUECj
+ vU-aZ7roocdyhf4yR0>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeghedgleekucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
  ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpefgvdetkeetudefffefkefhjeefueelveekudeiieeffeevfffhgeeujedvteef
- udenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeektddrudeijedrleekrd
- duledtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
- ihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:1F27X6uFnMq9Qm6-J2KR7Bn3pLfYb5vc9US0UcTnN3ifnE9Bl5Hfew>
- <xmx:1F27X_b3Q60o_F7_BGWsimaZvMEBOW4JY2gKtGie-e51Vh3CDimu2w>
- <xmx:1F27XxZcw_27_rXSzzg80uSBzsWIWgUaojRqX6QVmgQInsALpM9qWg>
- <xmx:1V27X0zH4Wr8DFyCqyAuLlbaTQFCspvTVeftFXFIUZn_24YeJt53yg>
+ gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:1l27X_Ju6er4JkmDbKFFpjceyQminJ3e9I4L0rqnDq20L2TChGRPnw>
+ <xmx:1l27XzEVDSdkGOhebO-U8WeAqA8ZBF2tBjzlEZOMbeV4pjx8yVeUAQ>
+ <xmx:1l27XzXQC6U7KC42QiKqzsPfci-93wqhNXPxStApthUV6dTXyN8BBA>
+ <xmx:1l27X5dPCG8Uh9NwbSr6x43GDptQ_QnxWnp4Ja_Hcc2bC8PJOL9dmw>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id CCDD13280066;
- Mon, 23 Nov 2020 01:59:31 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 1A0973280064;
+ Mon, 23 Nov 2020 01:59:33 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] hw/block/nvme: move msix table and pba to BAR 0
-Date: Mon, 23 Nov 2020 07:59:26 +0100
-Message-Id: <20201123065927.108923-3-its@irrelevant.dk>
+Subject: [PATCH 3/3] hw/block/nvme: allow cmb and pmr to coexist
+Date: Mon, 23 Nov 2020 07:59:27 +0100
+Message-Id: <20201123065927.108923-4-its@irrelevant.dk>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201123065927.108923-1-its@irrelevant.dk>
 References: <20201123065927.108923-1-its@irrelevant.dk>
@@ -103,79 +102,82 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-In the interest of supporting both CMB and PMR to be enabled on the same
-device, move the MSI-X table and pending bit out of BAR 4 and into BAR
-0.
-
-This is a simplified version of the patch contributed by Andrzej
-Jakowski (see [1]). Leaving the CMB at offset 0 removes the need for
-changes to CMB address mapping code.
-
-  [1]: https://lore.kernel.org/qemu-devel/20200729220107.37758-3-andrzej.jakowski@linux.intel.com/
+With BAR 4 now free to use, allow PMR and CMB to be enabled
+simultaneously.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.h |  1 +
- hw/block/nvme.c | 24 ++++++++++++++++++++++--
- 2 files changed, 23 insertions(+), 2 deletions(-)
+ hw/block/nvme.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index e080a2318a50..b7b42e70f97f 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -116,6 +116,7 @@ typedef struct NvmeFeatureVal {
- 
- typedef struct NvmeCtrl {
-     PCIDevice    parent_obj;
-+    MemoryRegion bar0;
-     MemoryRegion iomem;
-     MemoryRegion ctrl_mem;
-     NvmeBar      bar;
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 4c599159f533..db8c5ae2f527 100644
+index db8c5ae2f527..72d5449121c7 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -2660,6 +2660,8 @@ static void nvme_init_pmr(NvmeCtrl *n, PCIDevice *pci_dev)
- static void nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
- {
-     uint8_t *pci_conf = pci_dev->config;
-+    uint64_t bar_size, msix_table_size, msix_pba_size;
-+    unsigned msix_table_offset, msix_pba_offset;
- 
-     pci_conf[PCI_INTERRUPT_PIN] = 1;
-     pci_config_set_prog_interface(pci_conf, 0x2);
-@@ -2675,11 +2677,29 @@ static void nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
-     pci_config_set_class(pci_conf, PCI_CLASS_STORAGE_EXPRESS);
-     pcie_endpoint_cap_init(pci_dev, 0x80);
- 
-+    bar_size = QEMU_ALIGN_UP(n->reg_size, 4 * KiB);
-+    msix_table_offset = bar_size;
-+    msix_table_size = PCI_MSIX_ENTRY_SIZE * n->params.msix_qsize;
-+
-+    bar_size += msix_table_size;
-+    bar_size = QEMU_ALIGN_UP(bar_size, 4 * KiB);
-+    msix_pba_offset = bar_size;
-+    msix_pba_size = QEMU_ALIGN_UP(n->params.msix_qsize, 64) / 8;
-+
-+    bar_size += msix_pba_size;
-+    bar_size = pow2ceil(bar_size);
-+
-+    memory_region_init(&n->bar0, OBJECT(n), "nvme-bar0", bar_size);
-     memory_region_init_io(&n->iomem, OBJECT(n), &nvme_mmio_ops, n, "nvme",
-                           n->reg_size);
-+    memory_region_add_subregion(&n->bar0, 0, &n->iomem);
-+
-     pci_register_bar(pci_dev, 0, PCI_BASE_ADDRESS_SPACE_MEMORY |
--                     PCI_BASE_ADDRESS_MEM_TYPE_64, &n->iomem);
--    if (msix_init_exclusive_bar(pci_dev, n->params.msix_qsize, 4, errp)) {
-+                     PCI_BASE_ADDRESS_MEM_TYPE_64, &n->bar0);
-+
-+    if (msix_init(pci_dev, n->params.msix_qsize,
-+                  &n->bar0, 0, msix_table_offset,
-+                  &n->bar0, 0, msix_pba_offset, 0, errp)) {
+@@ -28,14 +28,13 @@
+  * Note cmb_size_mb denotes size of CMB in MB. CMB is assumed to be at
+  * offset 0 in BAR2 and supports only WDS, RDS and SQS for now.
+  *
+- * cmb_size_mb= and pmrdev= options are mutually exclusive due to limitation
+- * in available BAR's. cmb_size_mb= will take precedence over pmrdev= when
+- * both provided.
+  * Enabling pmr emulation can be achieved by pointing to memory-backend-file.
+  * For example:
+  * -object memory-backend-file,id=<mem_id>,share=on,mem-path=<file_path>, \
+  *  size=<size> .... -device nvme,...,pmrdev=<mem_id>
+  *
++ * The PMR will use BAR 4/5 exclusively.
++ *
+  *
+  * nvme device parameters
+  * ~~~~~~~~~~~~~~~~~~~~~~
+@@ -76,7 +75,7 @@
+ #define NVME_DB_SIZE  4
+ #define NVME_SPEC_VER 0x00010300
+ #define NVME_CMB_BIR 2
+-#define NVME_PMR_BIR 2
++#define NVME_PMR_BIR 4
+ #define NVME_TEMPERATURE 0x143
+ #define NVME_TEMPERATURE_WARNING 0x157
+ #define NVME_TEMPERATURE_CRITICAL 0x175
+@@ -2520,7 +2519,7 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
          return;
      }
  
+-    if (!n->params.cmb_size_mb && n->pmrdev) {
++    if (n->pmrdev) {
+         if (host_memory_backend_is_mapped(n->pmrdev)) {
+             error_setg(errp, "can't use already busy memdev: %s",
+                        object_get_canonical_path_component(OBJECT(n->pmrdev)));
+@@ -2610,9 +2609,6 @@ static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
+ 
+ static void nvme_init_pmr(NvmeCtrl *n, PCIDevice *pci_dev)
+ {
+-    /* Controller Capabilities register */
+-    NVME_CAP_SET_PMRS(n->bar.cap, 1);
+-
+     /* PMR Capabities register */
+     n->bar.pmrcap = 0;
+     NVME_PMRCAP_SET_RDS(n->bar.pmrcap, 0);
+@@ -2705,7 +2701,9 @@ static void nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
+ 
+     if (n->params.cmb_size_mb) {
+         nvme_init_cmb(n, pci_dev);
+-    } else if (n->pmrdev) {
++    }
++
++    if (n->pmrdev) {
+         nvme_init_pmr(n, pci_dev);
+     }
+ }
+@@ -2775,6 +2773,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+     NVME_CAP_SET_CSS(n->bar.cap, NVME_CAP_CSS_ADMIN_ONLY);
+     NVME_CAP_SET_MPSMAX(n->bar.cap, 4);
+     NVME_CAP_SET_CMBS(n->bar.cap, n->params.cmb_size_mb ? 1 : 0);
++    NVME_CAP_SET_PMRS(n->bar.cap, n->pmrdev ? 1 : 0);
+ 
+     n->bar.vs = NVME_SPEC_VER;
+     n->bar.intmc = n->bar.intms = 0;
 -- 
 2.29.2
 
