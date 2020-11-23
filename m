@@ -2,102 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 503332C00BB
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 08:41:43 +0100 (CET)
-Received: from localhost ([::1]:52112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8275E2C00C1
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 08:49:41 +0100 (CET)
+Received: from localhost ([::1]:56850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kh6Tk-0005NK-HE
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 02:41:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59774)
+	id 1kh6bS-0007ku-Sw
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 02:49:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1kh6Rk-0004uj-Ky; Mon, 23 Nov 2020 02:39:37 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:24782)
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1kh6Zh-0007K8-No
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 02:47:49 -0500
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:54580)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1kh6Ri-0004ob-GC; Mon, 23 Nov 2020 02:39:36 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0AN7WjJ4151864; Mon, 23 Nov 2020 02:39:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=tFNLDboKIDxCJKt0YCDy6XglL+IyPA2QMTMybfGhTdY=;
- b=RL4QM5BKQh0xAFvEy1WSKUJjcSlNZddNy03OFwzFBNKRyM/wAytRl4uw3nMrM9/wGNk9
- P8qgeiJ/2QazvnlafhTFs9Gv6kHOTlkOZuD3RtIMmYx5rcD4+JdU+nlOiBdsj5ENBq51
- jO8AaZniFRPBuyeI7Eb1c9jXqloxbMQMzrtXSCr5+95cegY1z45VNzwcAaDGuvksDIXs
- o7esJJUC4YHjSwm3juovsXiPsSq7zQLi4+IzhEKsidZgJ/Hnk4+j5f1WhhM18SYLQwqA
- RR9i23jqfKRi43MjdqtmhUQi7eKXL5qwkRlL9pg4kQ5X7zgVVDckpp4P2xzTuMv470kE 7g== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34yvnrddx8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 23 Nov 2020 02:39:28 -0500
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0AN7XaPo157163;
- Mon, 23 Nov 2020 02:39:28 -0500
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34yvnrddw9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 23 Nov 2020 02:39:28 -0500
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0AN7WWjf026829;
- Mon, 23 Nov 2020 07:39:26 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma06ams.nl.ibm.com with ESMTP id 34xt5ha828-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 23 Nov 2020 07:39:25 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0AN7dNMF60555524
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 23 Nov 2020 07:39:23 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0A16B4C04E;
- Mon, 23 Nov 2020 07:39:23 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9FE064C044;
- Mon, 23 Nov 2020 07:39:22 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.171.54.238])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 23 Nov 2020 07:39:22 +0000 (GMT)
-Subject: Re: [PATCH v2 2/2] pc-bios: s390x: Clear out leftover S390EP string
-To: Eric Farman <farman@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>
-References: <20201120160117.59366-1-farman@linux.ibm.com>
- <20201120160117.59366-3-farman@linux.ibm.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-ID: <e29df739-baca-cd0a-d1d9-a690c0238ca4@de.ibm.com>
-Date: Mon, 23 Nov 2020 08:39:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1kh6Zc-0007tL-TC
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 02:47:48 -0500
+Received: from sas1-5717c3cea310.qloud-c.yandex.net
+ (sas1-5717c3cea310.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c14:3616:0:640:5717:c3ce])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 04F632E146F;
+ Mon, 23 Nov 2020 10:47:38 +0300 (MSK)
+Received: from sas2-d40aa8807eff.qloud-c.yandex.net
+ (sas2-d40aa8807eff.qloud-c.yandex.net [2a02:6b8:c08:b921:0:640:d40a:a880])
+ by sas1-5717c3cea310.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ KhhT6ALpJB-lbwmrSQ6; Mon, 23 Nov 2020 10:47:37 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1606117657; bh=C0RFhwhD0MItqIIqcUaUIM9ymDQtjA6KqCg1bEVNeoU=;
+ h=In-Reply-To:Message-ID:Subject:To:From:References:Date:Cc;
+ b=iMjjFaA937gjxvKAB5THp8I0EOChB4v/qtGytw148eaG8p+ns30NIdtuI10TzLyu+
+ vWWrhfVy3x4p7oVHlkcBLqjklqwNaSTzD7vX26GJ+myoS7GAmqywYW3AU3ijaDgHIZ
+ 0wuCWbzZYt1J83fNYixSSrENQWLj2CELVKq7smq8=
+Authentication-Results: sas1-5717c3cea310.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b081:23::1:1])
+ by sas2-d40aa8807eff.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ f0xCUc3ald-lbmCssaf; Mon, 23 Nov 2020 10:47:37 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Date: Mon, 23 Nov 2020 10:47:32 +0300
+From: Roman Kagan <rvkagan@yandex-team.ru>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH] pci/shpc: don't push attention button when ejecting
+ powered-off device
+Message-ID: <20201123074732.GA2768@rvkaganb.lan>
+Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
+ qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+References: <20201102053750.2281818-1-rvkagan@yandex-team.ru>
 MIME-Version: 1.0
-In-Reply-To: <20201120160117.59366-3-farman@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
- definitions=2020-11-23_02:2020-11-20,
- 2020-11-23 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0
- mlxlogscore=999 spamscore=0 suspectscore=0 priorityscore=1501
- malwarescore=0 mlxscore=0 bulkscore=0 lowpriorityscore=0 phishscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011230052
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201102053750.2281818-1-rvkagan@yandex-team.ru>
+Received-SPF: pass client-ip=95.108.205.193;
+ envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -111,53 +77,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Herne <jjherne@linux.ibm.com>, qemu-s390x@nongnu.org,
- Janosch Frank <frankja@linux.ibm.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
- qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20.11.20 17:01, Eric Farman wrote:
-> A Linux binary will have the string "S390EP" at address 0x10008,
-> which is important in getting the guest up off the ground. In the
-> case of a reboot (specifically chreipl going to a new device),
-> we should defer to the PSW at address zero for the new config,
-> which will re-write "S390EP" from the new image.
+On Mon, Nov 02, 2020 at 08:37:50AM +0300, Roman Kagan wrote:
+> When the slot is in steady powered-off state and the device is being
+> removed, there's no need to press the attention button.  Nor is it
+> mandated by the Standard Hot-Plug Controller Specification, Rev. 1.0.
 > 
-> Let's clear it out at this point so that a reipl to, say, a DASD
-> passthrough device drives the IPL path from scratch without disrupting
-> disrupting the order of operations for other boots.
+> Moreover it confuses the guest, Linux in particular, as it assumes that
+> the attention button pressed in this state indicates that the device has
+> been inserted and will need to be powered on.  Therefore it transitions
+> the slot into BLINKING_ON state for 5 seconds, and discovers at the end
+> that no device is actually inserted:
 > 
-> Rather than hardcoding the address of this magic (again), let's
-> define it somewhere so that the two users are visibly related.
-
-
-Hmmm, this might have side effects, e.g. if you do something like a kdump
-or kexec to a non-Linux binary that happens to have code at 0x10008, no?
-
-As far as I can tell, the problem should only happen for a ccw type IPL
-so why not
-
-[...]
-> --- a/pc-bios/s390-ccw/main.c
-> +++ b/pc-bios/s390-ccw/main.c
-> @@ -178,6 +178,12 @@ static void boot_setup(void)
->      memcpy(lpmsg + 10, loadparm_str, 8);
->      sclp_print(lpmsg);
+> ... unplug request
+> [12685.451329] shpchp 0000:01:00.0: Button pressed on Slot(2)
+> [12685.455478] shpchp 0000:01:00.0: PCI slot #2 - powering off due to button press
+> ... in 5 seconds OS powers off the slot, QEMU ejects the device
+> [12690.632282] shpchp 0000:01:00.0: Latch open on Slot(2)
+> ... excessive button press in steady powered-off state
+> [12690.634267] shpchp 0000:01:00.0: Button pressed on Slot(2)
+> [12690.636256] shpchp 0000:01:00.0: Card not present on Slot(2)
+> ... the last button press spawns powering on the slot
+> [12690.638909] shpchp 0000:01:00.0: PCI slot #2 - powering on due to button press
+> ... in 5 more seconds attempt to power on discovers empty slot
+> [12695.735986] shpchp 0000:01:00.0: No adapter on slot(2)
+> 
+> Worse, if the real device insertion happens within 5 seconds from the
+> apparent completion of the previous device removal (signaled via
+> DEVICE_DELETED event), the new button press will be interpreted as the
+> cancellation of that misguided powering on:
+> 
+> [13448.965295] shpchp 0000:01:00.0: Button pressed on Slot(2)
+> [13448.969430] shpchp 0000:01:00.0: PCI slot #2 - powering off due to button press
+> [13454.025107] shpchp 0000:01:00.0: Latch open on Slot(2)
+> [13454.027101] shpchp 0000:01:00.0: Button pressed on Slot(2)
+> [13454.029165] shpchp 0000:01:00.0: Card not present on Slot(2)
+> ... the excessive button press spawns powering on the slot
+> ... device has already been ejected by QEMU
+> [13454.031949] shpchp 0000:01:00.0: PCI slot #2 - powering on due to button press
+> ... new device is inserted in the slot
+> [13456.861545] shpchp 0000:01:00.0: Latch close on Slot(2)
+> ... valid button press arrives before 5 s since the wrong one
+> [13456.864894] shpchp 0000:01:00.0: Button pressed on Slot(2)
+> [13456.869211] shpchp 0000:01:00.0: Card present on Slot(2)
+> ... the valid button press is counted as cancellation of the wrong one
+> [13456.873173] shpchp 0000:01:00.0: Button cancel on Slot(2)
+> [13456.877101] shpchp 0000:01:00.0: PCI slot #2 - action canceled due to button press
+> 
+> As a result, the newly inserted device isn't brought up by the guest.
+> 
+> Avoid this situation by not pushing the attention button when the device
+> in the slot is in powered-off state and is being ejected.
+> 
+> FWIW pcie implementation doesn't suffer from this problem.
+> 
+> Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
+> ---
+>  hw/pci/shpc.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/pci/shpc.c b/hw/pci/shpc.c
+> index b00dce629c..837159c5bd 100644
+> --- a/hw/pci/shpc.c
+> +++ b/hw/pci/shpc.c
+> @@ -300,7 +300,6 @@ static void shpc_slot_command(SHPCDevice *shpc, uint8_t target,
+>              shpc_set_status(shpc, slot, SHPC_SLOT_STATUS_PRSNT_EMPTY,
+>                              SHPC_SLOT_STATUS_PRSNT_MASK);
+>              shpc->config[SHPC_SLOT_EVENT_LATCH(slot)] |=
+> -                SHPC_SLOT_EVENT_BUTTON |
+>                  SHPC_SLOT_EVENT_MRL |
+>                  SHPC_SLOT_EVENT_PRESENCE;
+>          }
+> @@ -566,7 +565,6 @@ void shpc_device_unplug_request_cb(HotplugHandler *hotplug_dev,
+>          return;
+>      }
 >  
-> +    /*
-> +     * Clear out any potential S390EP magic (see jump_to_low_kernel()),
-> +     * so we don't taint our decision-making process during a reboot.
-> +     */
-> +    memset((char *)S390EP, 0, 6);
+> -    shpc->config[SHPC_SLOT_EVENT_LATCH(slot)] |= SHPC_SLOT_EVENT_BUTTON;
+>      state = shpc_get_status(shpc, slot, SHPC_SLOT_STATE_MASK);
+>      led = shpc_get_status(shpc, slot, SHPC_SLOT_PWR_LED_MASK);
+>      if (state == SHPC_STATE_DISABLED && led == SHPC_LED_OFF) {
+> @@ -577,6 +575,8 @@ void shpc_device_unplug_request_cb(HotplugHandler *hotplug_dev,
+>          shpc->config[SHPC_SLOT_EVENT_LATCH(slot)] |=
+>              SHPC_SLOT_EVENT_MRL |
+>              SHPC_SLOT_EVENT_PRESENCE;
+> +    } else {
+> +        shpc->config[SHPC_SLOT_EVENT_LATCH(slot)] |= SHPC_SLOT_EVENT_BUTTON;
+>      }
+>      shpc_set_status(shpc, slot, 0, SHPC_SLOT_STATUS_66);
+>      shpc_interrupt_update(pci_hotplug_dev);
+> -- 
+> 2.28.0
+> 
 
-
-move this into find_subch
-in here:
-------------- snip ---------------
-            case CU_TYPE_DASD_3990:
-            case CU_TYPE_DASD_2107:
-                return true;
-------------- snip ---------------
-
+Ping?
 
