@@ -2,69 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8275E2C00C1
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 08:49:41 +0100 (CET)
-Received: from localhost ([::1]:56850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 771252C00E2
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 08:53:57 +0100 (CET)
+Received: from localhost ([::1]:35692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kh6bS-0007ku-Sw
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 02:49:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32836)
+	id 1kh6fb-0002Np-UT
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 02:53:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1kh6Zh-0007K8-No
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 02:47:49 -0500
-Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:54580)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1kh6Zc-0007tL-TC
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 02:47:48 -0500
-Received: from sas1-5717c3cea310.qloud-c.yandex.net
- (sas1-5717c3cea310.qloud-c.yandex.net
- [IPv6:2a02:6b8:c14:3616:0:640:5717:c3ce])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 04F632E146F;
- Mon, 23 Nov 2020 10:47:38 +0300 (MSK)
-Received: from sas2-d40aa8807eff.qloud-c.yandex.net
- (sas2-d40aa8807eff.qloud-c.yandex.net [2a02:6b8:c08:b921:0:640:d40a:a880])
- by sas1-5717c3cea310.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- KhhT6ALpJB-lbwmrSQ6; Mon, 23 Nov 2020 10:47:37 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1606117657; bh=C0RFhwhD0MItqIIqcUaUIM9ymDQtjA6KqCg1bEVNeoU=;
- h=In-Reply-To:Message-ID:Subject:To:From:References:Date:Cc;
- b=iMjjFaA937gjxvKAB5THp8I0EOChB4v/qtGytw148eaG8p+ns30NIdtuI10TzLyu+
- vWWrhfVy3x4p7oVHlkcBLqjklqwNaSTzD7vX26GJ+myoS7GAmqywYW3AU3ijaDgHIZ
- 0wuCWbzZYt1J83fNYixSSrENQWLj2CELVKq7smq8=
-Authentication-Results: sas1-5717c3cea310.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
- [2a02:6b8:b081:23::1:1])
- by sas2-d40aa8807eff.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- f0xCUc3ald-lbmCssaf; Mon, 23 Nov 2020 10:47:37 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Date: Mon, 23 Nov 2020 10:47:32 +0300
-From: Roman Kagan <rvkagan@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH] pci/shpc: don't push attention button when ejecting
- powered-off device
-Message-ID: <20201123074732.GA2768@rvkaganb.lan>
-Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
- qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
-References: <20201102053750.2281818-1-rvkagan@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kh6dM-0000qh-5r
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 02:51:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30058)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kh6dJ-0000uN-DB
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 02:51:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606117891;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=lQue2GdHKpm5ut1aCaHbqD2eYRNGDlaK/2aoF9VPjq0=;
+ b=a7EEPsIJpMnEf8Jn98ufFsMGy2CVrClrFDl/2RexyYQpWaskT0wbNkhdniLuELxBl+Nbrv
+ XxDZyKG0ZCt3kiY67GJOVnzUYPXkZux3mwZbBLKY1SI/0MzYag148UuhRLjf88TT4dRQwp
+ YJqZgNZMyLa5yKEa3KFw/A5fPev3VSs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-565-JphOzXANNFeuOIiQHfOcyw-1; Mon, 23 Nov 2020 02:51:29 -0500
+X-MC-Unique: JphOzXANNFeuOIiQHfOcyw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9FB69CC0F;
+ Mon, 23 Nov 2020 07:51:28 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9A2605C1BD;
+ Mon, 23 Nov 2020 07:51:28 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 30C7411358BA; Mon, 23 Nov 2020 08:51:27 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH v2 3/8] qnum: QNumValue type for QNum value literals
+References: <20201116224143.1284278-1-ehabkost@redhat.com>
+ <20201116224143.1284278-4-ehabkost@redhat.com>
+ <CAJ+F1C+YUZdP56MuLtZbO0fK6rPsDosgxXG4zaDq=mjwqsV74A@mail.gmail.com>
+ <20201117144246.GD1235237@habkost.net>
+ <CAJ+F1CLZg-hhuK2ffRzVaWiZKe2Aqvf0-mqxXGAzscSa8FmCNw@mail.gmail.com>
+ <87mtzdd4p7.fsf@dusky.pond.sub.org>
+ <20201119182158.GX1509407@habkost.net>
+ <877dqg8ukz.fsf@dusky.pond.sub.org>
+ <20201120182720.GF2271382@habkost.net>
+Date: Mon, 23 Nov 2020 08:51:27 +0100
+In-Reply-To: <20201120182720.GF2271382@habkost.net> (Eduardo Habkost's message
+ of "Fri, 20 Nov 2020 13:27:20 -0500")
+Message-ID: <877dqcwlxc.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201102053750.2281818-1-rvkagan@yandex-team.ru>
-Received-SPF: pass client-ip=95.108.205.193;
- envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,100 +87,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 02, 2020 at 08:37:50AM +0300, Roman Kagan wrote:
-> When the slot is in steady powered-off state and the device is being
-> removed, there's no need to press the attention button.  Nor is it
-> mandated by the Standard Hot-Plug Controller Specification, Rev. 1.0.
-> 
-> Moreover it confuses the guest, Linux in particular, as it assumes that
-> the attention button pressed in this state indicates that the device has
-> been inserted and will need to be powered on.  Therefore it transitions
-> the slot into BLINKING_ON state for 5 seconds, and discovers at the end
-> that no device is actually inserted:
-> 
-> ... unplug request
-> [12685.451329] shpchp 0000:01:00.0: Button pressed on Slot(2)
-> [12685.455478] shpchp 0000:01:00.0: PCI slot #2 - powering off due to button press
-> ... in 5 seconds OS powers off the slot, QEMU ejects the device
-> [12690.632282] shpchp 0000:01:00.0: Latch open on Slot(2)
-> ... excessive button press in steady powered-off state
-> [12690.634267] shpchp 0000:01:00.0: Button pressed on Slot(2)
-> [12690.636256] shpchp 0000:01:00.0: Card not present on Slot(2)
-> ... the last button press spawns powering on the slot
-> [12690.638909] shpchp 0000:01:00.0: PCI slot #2 - powering on due to button press
-> ... in 5 more seconds attempt to power on discovers empty slot
-> [12695.735986] shpchp 0000:01:00.0: No adapter on slot(2)
-> 
-> Worse, if the real device insertion happens within 5 seconds from the
-> apparent completion of the previous device removal (signaled via
-> DEVICE_DELETED event), the new button press will be interpreted as the
-> cancellation of that misguided powering on:
-> 
-> [13448.965295] shpchp 0000:01:00.0: Button pressed on Slot(2)
-> [13448.969430] shpchp 0000:01:00.0: PCI slot #2 - powering off due to button press
-> [13454.025107] shpchp 0000:01:00.0: Latch open on Slot(2)
-> [13454.027101] shpchp 0000:01:00.0: Button pressed on Slot(2)
-> [13454.029165] shpchp 0000:01:00.0: Card not present on Slot(2)
-> ... the excessive button press spawns powering on the slot
-> ... device has already been ejected by QEMU
-> [13454.031949] shpchp 0000:01:00.0: PCI slot #2 - powering on due to button press
-> ... new device is inserted in the slot
-> [13456.861545] shpchp 0000:01:00.0: Latch close on Slot(2)
-> ... valid button press arrives before 5 s since the wrong one
-> [13456.864894] shpchp 0000:01:00.0: Button pressed on Slot(2)
-> [13456.869211] shpchp 0000:01:00.0: Card present on Slot(2)
-> ... the valid button press is counted as cancellation of the wrong one
-> [13456.873173] shpchp 0000:01:00.0: Button cancel on Slot(2)
-> [13456.877101] shpchp 0000:01:00.0: PCI slot #2 - action canceled due to button press
-> 
-> As a result, the newly inserted device isn't brought up by the guest.
-> 
-> Avoid this situation by not pushing the attention button when the device
-> in the slot is in powered-off state and is being ejected.
-> 
-> FWIW pcie implementation doesn't suffer from this problem.
-> 
-> Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
-> ---
->  hw/pci/shpc.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/pci/shpc.c b/hw/pci/shpc.c
-> index b00dce629c..837159c5bd 100644
-> --- a/hw/pci/shpc.c
-> +++ b/hw/pci/shpc.c
-> @@ -300,7 +300,6 @@ static void shpc_slot_command(SHPCDevice *shpc, uint8_t target,
->              shpc_set_status(shpc, slot, SHPC_SLOT_STATUS_PRSNT_EMPTY,
->                              SHPC_SLOT_STATUS_PRSNT_MASK);
->              shpc->config[SHPC_SLOT_EVENT_LATCH(slot)] |=
-> -                SHPC_SLOT_EVENT_BUTTON |
->                  SHPC_SLOT_EVENT_MRL |
->                  SHPC_SLOT_EVENT_PRESENCE;
->          }
-> @@ -566,7 +565,6 @@ void shpc_device_unplug_request_cb(HotplugHandler *hotplug_dev,
->          return;
->      }
->  
-> -    shpc->config[SHPC_SLOT_EVENT_LATCH(slot)] |= SHPC_SLOT_EVENT_BUTTON;
->      state = shpc_get_status(shpc, slot, SHPC_SLOT_STATE_MASK);
->      led = shpc_get_status(shpc, slot, SHPC_SLOT_PWR_LED_MASK);
->      if (state == SHPC_STATE_DISABLED && led == SHPC_LED_OFF) {
-> @@ -577,6 +575,8 @@ void shpc_device_unplug_request_cb(HotplugHandler *hotplug_dev,
->          shpc->config[SHPC_SLOT_EVENT_LATCH(slot)] |=
->              SHPC_SLOT_EVENT_MRL |
->              SHPC_SLOT_EVENT_PRESENCE;
-> +    } else {
-> +        shpc->config[SHPC_SLOT_EVENT_LATCH(slot)] |= SHPC_SLOT_EVENT_BUTTON;
->      }
->      shpc_set_status(shpc, slot, 0, SHPC_SLOT_STATUS_66);
->      shpc_interrupt_update(pci_hotplug_dev);
-> -- 
-> 2.28.0
-> 
+Eduardo Habkost <ehabkost@redhat.com> writes:
 
-Ping?
+> On Fri, Nov 20, 2020 at 06:29:16AM +0100, Markus Armbruster wrote:
+[...]
+>> When the structure of a data type is to be kept away from its users, I
+>> prefer to keep it out of the public header, so the compiler enforces the
+>> encapsulation.
+>
+> I prefer that too, except that it is impossible when users of the
+> API need the compiler to know the struct size.
+
+There are cases where the structure of a data type should be
+encapsulated, yet its size must be made known for performance (avoid
+dynamic memory allocation and pointer chasing).
+
+Need for encapsulation correlates with complex algorithms and data
+structures.  The cost of dynamic allocation is often in the noise then.
+
 
