@@ -2,51 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68FBF2C133F
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 19:36:45 +0100 (CET)
-Received: from localhost ([::1]:43948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A6242C1350
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 19:42:50 +0100 (CET)
+Received: from localhost ([::1]:48648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khGhg-0008P1-F8
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 13:36:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32898)
+	id 1khGnY-0002Bd-Lu
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 13:42:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1khGfl-0007FU-IW
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 13:34:45 -0500
-Received: from mx2.suse.de ([195.135.220.15]:48952)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1khGfj-0007vO-Jw
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 13:34:45 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id F40DEAC91;
- Mon, 23 Nov 2020 18:34:41 +0000 (UTC)
-Subject: Re: [RFC v3 9/9] i386: split cpu accelerators from cpu.c
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20201118102936.25569-1-cfontana@suse.de>
- <20201118102936.25569-10-cfontana@suse.de>
- <20201118182845.GN1509407@habkost.net>
- <5f6c7b5c-a48a-019d-2646-d0670aeb46e1@suse.de>
- <20201119192305.GB1509407@habkost.net>
- <eb8a316c-4c29-69ea-82b4-f00a53218e11@suse.de>
- <20201123182420.GJ2271382@habkost.net>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <bf2e1079-4fe6-9bc6-97b1-84a03a427093@suse.de>
-Date: Mon, 23 Nov 2020 19:34:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1khGkM-0001XL-6E
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 13:39:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31989)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1khGkD-000136-Bb
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 13:39:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606156759;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9Rm2p/VC/rzAgKEDG7rZfQVXqUy06KaZkxIyR7sszV4=;
+ b=cawV2pzBbwgwk/JOw/Umh/VMr1AG5Y6WT/owAo8o8lJAeUyoOY8ld8olEFC8692U5lc7Ja
+ PriVGtuJeuDfM6xtrUswMb50EuFWGFJbkb+s+HDRKMhBe7+NlUF/4zmTu+9oDSAMYDIFw9
+ zQvNXSjNESp0OmmpY0JHq+bpbC9E12E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-313-_HMf0zGMN-eEE3EYDrWhvw-1; Mon, 23 Nov 2020 13:39:14 -0500
+X-MC-Unique: _HMf0zGMN-eEE3EYDrWhvw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9364D192AB73;
+ Mon, 23 Nov 2020 18:39:11 +0000 (UTC)
+Received: from w520.home (ovpn-112-213.phx2.redhat.com [10.3.112.213])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 766F8177D7;
+ Mon, 23 Nov 2020 18:39:09 +0000 (UTC)
+Date: Mon, 23 Nov 2020 11:39:05 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH 1/1] Fix to show vfio migration stat in migration status
+Message-ID: <20201123113905.7e5a4101@w520.home>
+In-Reply-To: <ac48d447-c809-ae5e-b061-3533dcc7a36a@nvidia.com>
+References: <1605731327-23533-1-git-send-email-kwankhede@nvidia.com>
+ <20201123093314.10419cf4@w520.home>
+ <ac48d447-c809-ae5e-b061-3533dcc7a36a@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <20201123182420.GJ2271382@habkost.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,148 +81,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Wenchao Wang <wenchao.wang@intel.com>,
- haxm-team@intel.com, Cameron Esfahani <dirty@apple.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Sunil Muthuswamy <sunilmut@microsoft.com>,
- Bruce Rogers <brogers@suse.com>, Olaf Hering <ohering@suse.de>,
- Colin Xu <colin.xu@intel.com>
+Cc: qemu-devel@nongnu.org, cjia@nvidia.com, dgilbert@redhat.com,
+ quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/23/20 7:24 PM, Eduardo Habkost wrote:
-> On Fri, Nov 20, 2020 at 10:08:46AM +0100, Claudio Fontana wrote:
->> On 11/19/20 8:23 PM, Eduardo Habkost wrote:
->>> On Thu, Nov 19, 2020 at 09:53:09AM +0100, Claudio Fontana wrote:
->>>> Hi,
->>>>
->>>> On 11/18/20 7:28 PM, Eduardo Habkost wrote:
->>>>> On Wed, Nov 18, 2020 at 11:29:36AM +0100, Claudio Fontana wrote:
->>>>>> split cpu.c into:
->>>>>>
->>>>>> cpu.c            cpuid and common x86 cpu functionality
->>>>>> host-cpu.c       host x86 cpu functions and "host" cpu type
->>>>>> kvm/cpu.c        KVM x86 cpu type
->>>>>> hvf/cpu.c        HVF x86 cpu type
->>>>>> tcg/cpu.c        TCG x86 cpu type
->>>>>>
->>>>>> The accel interface of the X86CPUClass is set at MODULE_INIT_ACCEL_CPU
->>>>>> time, when the accelerator is known.
->>>>>>
->>>>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->>>>>> ---
->>>>> [...]
->>>>>> +/**
->>>>>> + * X86CPUAccel:
->>>>>> + * @name: string name of the X86 CPU Accelerator
->>>>>> + *
->>>>>> + * @common_class_init: initializer for the common cpu
->>>>>
->>>>> So this will be called for every single CPU class.
->>>>
->>>> Not really, it's called for every TYPE_X86_CPU cpu class (if an accel interface is registered).
->>>
->>> This means every single non-abstract CPU class in
->>> qemu-system-x86_64, correct?
->>>
->>>>
->>>> This function extends the existing x86_cpu_common_class_init (target/i386/cpu.c),
->>>> where some methods of the base class CPUClass are set.
->>>>
->>>>>
->>>>>> + * @instance_init: cpu instance initialization
->>>>>> + * @realizefn: realize function, called first in x86 cpu realize
->>>>>> + *
->>>>>> + * X86 CPU accelerator-specific CPU initializations
->>>>>> + */
->>>>>> +
->>>>>> +struct X86CPUAccel {
->>>>>> +    const char *name;
->>>>>> +
->>>>>> +    void (*common_class_init)(X86CPUClass *xcc);
->>>>>> +    void (*instance_init)(X86CPU *cpu);
->>>>>> +    void (*realizefn)(X86CPU *cpu, Error **errp);
->>>>>>  };
->>>>>>  
->>>>>> +void x86_cpu_accel_init(const X86CPUAccel *accel);
->>>>> [...]
->>>>>> +static void x86_cpu_accel_init_aux(ObjectClass *klass, void *opaque)
->>>>>> +{
->>>>>> +    X86CPUClass *xcc = X86_CPU_CLASS(klass);
->>>>>> +    const X86CPUAccel **accel = opaque;
->>>>>> +
->>>>>> +    xcc->accel = *accel;
->>>>>> +    xcc->accel->common_class_init(xcc);
->>>>>> +}
->>>>>> +
->>>>>> +void x86_cpu_accel_init(const X86CPUAccel *accel)
->>>>>> +{
->>>>>> +    object_class_foreach(x86_cpu_accel_init_aux, TYPE_X86_CPU, false, &accel);
->>>>>> +}
->>>>>
->>>>> This matches the documented behavior.
->>>>>
->>>>> [...]
->>>>>> +void host_cpu_class_init(X86CPUClass *xcc)
->>>>>> +{
->>>>>> +    xcc->host_cpuid_required = true;
->>>>>> +    xcc->ordering = 8;
->>>>>> +    xcc->model_description =
->>>>>> +        g_strdup_printf("%s processor with all supported host features ",
->>>>>> +                        xcc->accel->name);
->>>>>> +}
->>>>> [...]
->>>>>> +static void hvf_cpu_common_class_init(X86CPUClass *xcc)
->>>>>> +{
->>>>>> +    host_cpu_class_init(xcc);
->>>>>
->>>>> Why are you calling host_cpu_class_init() for all CPU types?
->>>>
->>>> I am not..
->>>
->>> I don't get it.  You are calling host_cpu_class_init() for every
->>> single non-abstract TYPE_X86_CPU subclass (which includes all CPU
->>> models in qemu-system-x86_64), and I don't understand why, or if
->>> this is really intentional.
->>
->> It is really intentional what is done here,
->>
->> when HVF accelerator is enabled, and only when the HVF accelerator is enabled,
->>
->> all X86 CPU classes and subclasses (cpu models, which have been
->> implemented as subclasses of TYPE_X86_CPU), are updated with a
->> link to the accelerator-specific HVF interface.
-> 
-> I'm confused.  That (updating the class with a link) is not what
-> host_cpu_class_init() does.
-> 
-> This is what host_cpu_class_init() does:
-> 
-> void host_cpu_class_init(X86CPUClass *xcc)
-> {
->     xcc->host_cpuid_required = true;
->     xcc->ordering = 8;
->     xcc->model_description =
->         g_strdup_printf("%s processor with all supported host features ",
->                         xcc->accel->name);
-> }
-> 
-> Why do you want to call host_cpu_class_init() for every non-abstract
-> TYPE_X86_CPU subclass?
-> 
+On Mon, 23 Nov 2020 23:48:37 +0530
+Kirti Wankhede <kwankhede@nvidia.com> wrote:
 
-Only now I got your point, sorry for not seeing it before. It is clearly a mistake, this should be referenced by the host cpu type!
+> On 11/23/2020 10:03 PM, Alex Williamson wrote:
+> > On Thu, 19 Nov 2020 01:58:47 +0530
+> > Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> >   
+> >> Header file where CONFIG_VFIO is defined is not included in migration.c
+> >> file. Include config devices header file in migration.c.
+> >>
+> >> Fixes: 3710586caa5d ("qapi: Add VFIO devices migration stats in Migration
+> >> stats")
+> >>
+> >> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> >> ---
+> >>   meson.build           | 1 +
+> >>   migration/migration.c | 1 +
+> >>   2 files changed, 2 insertions(+)
+> >>
+> >> diff --git a/meson.build b/meson.build
+> >> index 7ddf983ff7f5..24526499cfb5 100644
+> >> --- a/meson.build
+> >> +++ b/meson.build
+> >> @@ -1713,6 +1713,7 @@ common_ss.add_all(when: 'CONFIG_USER_ONLY', if_true: user_ss)
+> >>   
+> >>   common_all = common_ss.apply(config_all, strict: false)
+> >>   common_all = static_library('common',
+> >> +                            c_args:'-DCONFIG_DEVICES="@0@-config-devices.h"'.format(target) ,
+> >>                               build_by_default: false,
+> >>                               sources: common_all.sources() + genh,
+> >>                               dependencies: common_all.dependencies(),
+> >> diff --git a/migration/migration.c b/migration/migration.c
+> >> index 87a9b59f83f4..650efb81daad 100644
+> >> --- a/migration/migration.c
+> >> +++ b/migration/migration.c
+> >> @@ -57,6 +57,7 @@
+> >>   #include "qemu/queue.h"
+> >>   #include "multifd.h"
+> >>   
+> >> +#include CONFIG_DEVICES
+> >>   #ifdef CONFIG_VFIO
+> >>   #include "hw/vfio/vfio-common.h"
+> >>   #endif  
+> > 
+> > Fails to build...
+> >   
+> 
+> I didn't see this in my testing. Any specific configuration/build which 
+> fails?
 
-Thanks a lot!
+x86_64 Fedora 32 host, no configure options:
 
-Claudio
+./configure
+make
+
+Thanks,
+Alex
 
 
+> > [1705/8465] Compiling C object libcommon.fa.p/migration_postcopy-ram.c.o
+> > [1706/8465] Compiling C object libcommon.fa.p/migration_migration.c.o
+> > FAILED: libcommon.fa.p/migration_migration.c.o
+> > cc -Ilibcommon.fa.p -I. -I.. -I../slirp -I../slirp/src -Iqapi -Itrace -Iui -Iui/shader -I/usr/include/libpng16 -I/usr/include/capstone -I/usr/include/SDL2 -I/usr/include/gtk-3.0 -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/harfbuzz -I/usr/include/fribidi -I/usr/include/freetype2 -I/usr/include/cairo -I/usr/include/pixman-1 -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/gio-unix-2.0 -I/usr/include/atk-1.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/dbus-1.0 -I/usr/lib64/dbus-1.0/include -I/usr/include/at-spi-2.0 -I/usr/include/spice-1 -I/usr/include/spice-server -I/usr/include/cacard -I/usr/include/nss3 -I/usr/include/nspr4 -I/usr/include/vte-2.91 -I/usr/include/virgl -I/usr/include/libusb-1.0 -fdiagnostics-color=auto -pipe -Wall -Winvalid-pch -std=gnu99 -O2 -g -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 -m64 -mcx16 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Wstrict-prototypes -W
+ redu
+> >   ndant-decls -Wundef -Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-common -fwrapv -Wold-style-declaration -Wold-style-definition -Wtype-limits -Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers -Wempty-body -Wnested-externs -Wendif-labels -Wexpansion-to-defined -Wno-missing-include-dirs -Wno-shift-negative-value -Wno-psabi -fstack-protector-strong -isystem /tmp/tmp.HlKsni7iGC/linux-headers -isystem linux-headers -iquote /tmp/tmp.HlKsni7iGC/tcg/i386 -iquote . -iquote /tmp/tmp.HlKsni7iGC -iquote /tmp/tmp.HlKsni7iGC/accel/tcg -iquote /tmp/tmp.HlKsni7iGC/include -iquote /tmp/tmp.HlKsni7iGC/disas/libvixl -pthread -fPIC -DSTRUCT_IOVEC_DEFINED -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DNCURSES_WIDECHAR -Wno-undef -D_REENTRANT '-DCONFIG_DEVICES="xtensa-linux-user-config-devices.h"' -MD -MQ libcommon.fa.p/migration_migration.c.o -MF libcommon.fa.p/migration_migration.c.o.d -o libcommon.fa.p/migration_migration.c.o -c ../migration/migration.c
+> > <command-line>: fatal error: xtensa-linux-user-config-devices.h: No such file or directory
+> > compilation terminated.
+> > [1707/8465] Compiling C object libcommon.fa.p/hw_pci-bridge_dec.c.o
+> > [1708/8465] Compiling C object libcommon.fa.p/backends_hostmem-memfd.c.o
+> > [1709/8465] Compiling C object libcommon.fa.p/hw_display_edid-region.c.o
+> > [1710/8465] Compiling C object libcommon.fa.p/ui_gtk-gl-area.c.o
+> > [1711/8465] Compiling C object libcommon.fa.p/disas_s390.c.o
+> > [1712/8465] Compiling C object libcommon.fa.p/hw_pci-host_gpex-acpi.c.o
+> > [1713/8465] Compiling C object libcommon.fa.p/hw_misc_macio_macio.c.o
+> > [1714/8465] Compiling C object libcommon.fa.p/hw_misc_bcm2835_mbox.c.o
+> > [1715/8465] Compiling C object libcommon.fa.p/hw_pci-bridge_xio3130_upstream.c.o
+> > [1716/8465] Compiling C object libcommon.fa.p/hw_display_qxl-logger.c.o
+> > [1717/8465] Compiling C object libcommon.fa.p/hw_net_net_tx_pkt.c.o
+> > [1718/8465] Compiling C object libcommon.fa.p/hw_char_xen_console.c.o
+> > [1719/8465] Compiling C object libqemu-mips64el-softmmu.fa.p/target_mips_msa_helper.c.o
+> > [1720/8465] Compiling C object libqemu-mips64el-softmmu.fa.p/target_mips_translate.c.o
+> > [1721/8465] Compiling C++ object libcommon.fa.p/disas_nanomips.cpp.o
+> > ninja: build stopped: subcommand failed.
+> > make[1]: *** [Makefile:171: run-ninja] Error 1
+> > make[1]: Leaving directory '/tmp/tmp.HlKsni7iGC/build'
+> > make: *** [GNUmakefile:11: all] Error 2
+> >   
 
 
