@@ -2,82 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7083B2C0E75
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 16:11:57 +0100 (CET)
-Received: from localhost ([::1]:33984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 446122C0E88
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 16:16:34 +0100 (CET)
+Received: from localhost ([::1]:44020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khDVU-0006ap-D0
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 10:11:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49224)
+	id 1khDZx-0002LI-79
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 10:16:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jose.carlos.venegas.munoz@intel.com>)
- id 1khDRn-0004Kv-Eb
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 10:08:07 -0500
-Received: from mga07.intel.com ([134.134.136.100]:37750)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jose.carlos.venegas.munoz@intel.com>)
- id 1khDRb-0001sg-SP
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 10:08:07 -0500
-IronPort-SDR: 8V6pmX4ktfSx3QPV9SQOPUCe1DhNGyqYKIyHF0r8vgxcQ1svZqyqdWVEPZP6saqxn/dvJ+Lqk7
- sjTHIkkOvqbg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9813"; a="235920925"
-X-IronPort-AV: E=Sophos;i="5.78,363,1599548400"; d="scan'208";a="235920925"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Nov 2020 07:07:47 -0800
-IronPort-SDR: O6OByKhnjrBQr0qZW8JwTWvGH+tVXf55mJTNiug1m87y2QxFc5qXzAMmk20YRoqyMZANrKIzdQ
- 1WdyHUVtAmqw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,363,1599548400"; d="scan'208";a="370063667"
-Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
- by FMSMGA003.fm.intel.com with ESMTP; 23 Nov 2020 07:07:47 -0800
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Mon, 23 Nov 2020 07:07:46 -0800
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Mon, 23 Nov 2020 07:07:46 -0800
-Received: from orsmsx612.amr.corp.intel.com ([10.22.229.25]) by
- ORSMSX612.amr.corp.intel.com ([10.22.229.25]) with mapi id 15.01.1713.004;
- Mon, 23 Nov 2020 07:07:46 -0800
-From: "Venegas Munoz, Jose Carlos" <jose.carlos.venegas.munoz@intel.com>
-To: Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: [Virtio-fs] [PATCH] virtiofsd: Use --thread-pool-size=0 to mean
- no thread pool
-Thread-Topic: [Virtio-fs] [PATCH] virtiofsd: Use --thread-pool-size=0 to mean
- no thread pool
-Thread-Index: AQHWs6wS+hq1rToqXk+gGyKm0jKNO6m6eUOAgAE5L4CAAIaOAIAIjASAgAfqnYCAANAQAIAIj0oA
-Date: Mon, 23 Nov 2020 15:07:46 +0000
-Message-ID: <BAA622CA-4535-4577-B16F-66C8BE74E574@intel.com>
-References: <20201105194416.GA1384085@redhat.com>
- <20201105195253.GB1384085@redhat.com>
- <D9233684-9B76-468E-A5F1-B35DA3F3C091@intel.com>
- <20201106223524.GG1436035@redhat.com>
- <CAOssrKcJr9a_5EUTU19BTp1UaST64Shh9w0UeR6TXPLqkN7bBw@mail.gmail.com>
- <C5CAD300-DB1D-4C6A-A2D3-2E6BA9F901DF@intel.com>
- <20201117222450.GC91497@redhat.com>
-In-Reply-To: <20201117222450.GC91497@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <E1D9DF7FD306CE4CB97CFFC47142CD61@intel.com>
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1khDXx-00015x-79
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 10:14:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52992)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1khDXs-0004SI-Nu
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 10:14:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606144462;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fG5SDKsbH6cROg0Ek+YeXAW7acFgX4ZdoLzY4ITFJ4E=;
+ b=Re0tGxOmVbVwZPBGTYcKY0dEex30ao7xSPKHBZ8YjxfyDgf11Z5fcRrLIrR6pKuEQ9WzxC
+ 5u8VBVdLbE+fcKaVgl0XMpvrZ5EJ5SLLROg5oYkdhmNpcXBKunQF08ttLMBT2Zznl4+wYU
+ LsbRjtud5OHbSVwDTWX8NQk3WHTvJow=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-208-rqiijNjhMyGE7iAoDUNtjw-1; Mon, 23 Nov 2020 10:14:19 -0500
+X-MC-Unique: rqiijNjhMyGE7iAoDUNtjw-1
+Received: by mail-ej1-f69.google.com with SMTP id p6so5766230ejj.5
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 07:14:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fG5SDKsbH6cROg0Ek+YeXAW7acFgX4ZdoLzY4ITFJ4E=;
+ b=l0wF4PSFH5FUvk9pCkV9LAigOPRPQCI94UyXZwQxDqGiz1+gNYn6P7uNOHmZNHsrFk
+ QpXR2k04A8Uq004rDgNCGkQbwU4TO7WbjrJ+WYqviMUjGHkgaYsXkz27nRiJNafo2EK4
+ gQL/FiBy2tmVil0SNm6wg0eK3J1vV0JQypm36PY2OzDFJuILkTfrl2CbLKdzliLb5Uot
+ YUwg6LlDPd/objwfYZoeUbh9FlJa6+3Isewesrly219oqEL0fmBaZmXglyG1bUp4qtBG
+ CAfpexnE+ZovbangX3qkUj2qGxvkN5zM8aovYBne4Bdn2yA2KNF4YY2x8ZQ81Q1vFuh2
+ lzJw==
+X-Gm-Message-State: AOAM531sUG960HPGaJsqZyJuu+Nd3owrSjc+pgtbOTFCQBEDD/y9d3Mf
+ R0q5wGFNRo5YV/v86XDgfwi8q1wQr7LdL+6hJgQIszNXpH1cKzyh05nGlBNAyptuA/4eINpXnvK
+ T5KZkbxrMRowXUCA=
+X-Received: by 2002:aa7:c886:: with SMTP id p6mr46086236eds.352.1606144457608; 
+ Mon, 23 Nov 2020 07:14:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzOh8Nmpy/NR8hUailfbyT+mAAMZeF4ujh9zs7FYpgpL9o6tQWEPDSf4FYmgdVU64cfkMsxZA==
+X-Received: by 2002:aa7:c886:: with SMTP id p6mr46086215eds.352.1606144457423; 
+ Mon, 23 Nov 2020 07:14:17 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id k23sm5107996ejs.100.2020.11.23.07.14.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 Nov 2020 07:14:16 -0800 (PST)
+Subject: Re: [RFC v3 8/9] module: introduce MODULE_INIT_ACCEL_CPU
+To: Claudio Fontana <cfontana@suse.de>, Eduardo Habkost <ehabkost@redhat.com>
+References: <20201118152552.GG1509407@habkost.net>
+ <CABgObfYL-TNAMmqkUh6cjcytaAFEtXPfw8toO6gXEuyokdyLhA@mail.gmail.com>
+ <20201118161119.GJ1509407@habkost.net>
+ <CABgObfb2Fim=7j3z7ApTuW=R0dWam2F_JRuOoxhP=XZXdsWe7g@mail.gmail.com>
+ <20201118173055.GM1509407@habkost.net>
+ <e7b70933-acd1-668c-62cd-89f480945f0f@redhat.com>
+ <20201118220750.GP1509407@habkost.net>
+ <2984625a-15ee-f638-b1bb-050a4514bade@suse.de>
+ <20201120171942.GA2271382@habkost.net>
+ <f780a9e5-2142-3bf4-b3fb-1bdeeed61945@suse.de>
+ <20201120180936.GD2271382@habkost.net>
+ <a32dbea4-8381-d247-3443-441b484d39e3@suse.de>
+ <3e8fac27-aea5-5f5d-5421-291df660a586@suse.de>
+ <bd5d6bd7-a4a0-9f38-94ca-14f39e538e70@redhat.com>
+ <de219743-6605-8514-b54d-9e70f24a09c8@suse.de>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <ebe6f182-79da-1889-8d80-51f5f7ed85c8@redhat.com>
+Date: Mon, 23 Nov 2020 16:14:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Received-SPF: pass client-ip=134.134.136.100;
- envelope-from=jose.carlos.venegas.munoz@intel.com; helo=mga07.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <de219743-6605-8514-b54d-9e70f24a09c8@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,36 +113,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs-list <virtio-fs@redhat.com>, Miklos Szeredi <mszeredi@redhat.com>,
- "Shinde, Archana M" <archana.m.shinde@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Miklos Szeredi <miklos@szeredi.hu>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Bruce Rogers <brogers@suse.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Wenchao Wang <wenchao.wang@intel.com>,
+ haxm-team@intel.com, Cameron Esfahani <dirty@apple.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>, Dario Faggioli <dfaggioli@suse.com>,
+ Olaf Hering <ohering@suse.de>, Colin Xu <colin.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Q29vbCwgdGhhbmtzIEkgd2lsbCBicmluZyBzb21lIHJlc3VsdHMgdGhpcyB3ZWVrLg0KDQrvu79P
-biAxNy8xMS8yMCAxNjoyNCwgIlZpdmVrIEdveWFsIiA8dmdveWFsQHJlZGhhdC5jb20+IHdyb3Rl
-Og0KDQogICAgT24gVHVlLCBOb3YgMTcsIDIwMjAgYXQgMDQ6MDA6MDlQTSArMDAwMCwgVmVuZWdh
-cyBNdW5veiwgSm9zZSBDYXJsb3Mgd3JvdGU6DQogICAgPiA+ICAgTm90IHN1cmUgd2hhdCB0aGUg
-ZGVmYXVsdCBpcyBmb3IgOXAsIGJ1dCBjb21wYXJpbmcNCiAgICA+ID4gICBkZWZhdWx0IHRvIGRl
-ZmF1bHQgd2lsbCBkZWZpbml0ZWx5IG5vdCBiZSBhcHBsZXMgdG8gYXBwbGVzIHNpbmNlIHRoaXMN
-CiAgICA+ID4gICBtb2RlIGlzIG5vbmV4aXN0ZW50IGluIDlwLg0KICAgID4gDQogICAgPiBJbiBL
-YXRhIHdlIGFyZSBsb29raW5nIGZvciB0aGUgYmVzdCBjb25maWcgZm9yIGZzIGNvbXBhdGliaWxp
-dHkgYW5kIHBlcmZvcm1hbmNlLiBTbyBldmVuIGlmIGFyZSBubyBhcHBsZXMgdG8gYXBwbGVzLA0K
-ICAgID4gd2UgYXJlIGZvciB0aGUgYmVzdCBjb25maWcgZm9yIGJvdGggYW5kIGNvbXBhcmluZyB0
-aGUgYmVzdCB0aGF0IGVhY2ggb2YgdGhlbSBjYW4gZG8uDQoNCiAgICBDYW4gd2UgcnVuIHRlc3Rz
-IGluIG1vcmUgdGhhbiBvbmUgY29uZmlndXJhdGlvbi4gUmlnaHQgbm93IHlvdSBhcmUgdXNpbmcN
-CiAgICBjYWNoZT1tbWFwIGZvciB2aXJ0aW8tOXAgYW5kIGNhY2hlPWF1dG8gZm9yIHZpcnRpb2Zz
-IGFuZCBhcyBNaWtsb3MNCiAgICBzYWlkIHRoaXMgaXMgbm90IGFwcGxlcyB0byBhcHBsZXMgY29t
-cGFyaXNvbi4NCg0KICAgIFNvIHlvdSBjYW4gY29udGludWUgdG8gcnVuIGFib3ZlIGJ1dCBhbHNv
-IHJ1biBhZGRpdGlvbmFsIHRlc3RzIGlmDQogICAgdGltZSBwZXJtaXRzLg0KDQogICAgdmlydGlv
-LTlwCXZpcnRpby1mcw0KDQogICAgY2FjaGU9bW1hcAljYWNoZT1ub25lICsgREFYDQogICAgY2Fj
-aGU9bm9uZQljYWNoZT1ub25lDQogICAgY2FjaGU9bG9vc2UJY2FjaGU9YWx3YXlzDQoNCiAgICBH
-aXZlbiB5b3UgYXJlIHVzaW5nIGNhY2hlPW1tYXAgZm9yIHZpcnRpby05cCwgImNhY2hlPW5vbmUg
-KyBEQVgiIGlzDQogICAgc29tZXdoYXQgZXF1aXZhbGVudCBvZiB0aGF0LiBQcm92aWRlcyBzdHJv
-bmcgY29oZXJlbmN5IGFzIHdlbGwgYXMNCiAgICBhbGxvdyBmb3IgbW1hcCgpIHRvIHdvcmsuDQoN
-CiAgICBOb3cga2VybmVsIHZpcnRpb2ZzIERBWCBzdXBwb3J0IGdvdCBtZXJnZWQgaW4gNS4xMC1y
-YzEuIEZvciBxZW11LA0KICAgIHlvdSBjYW4gdXNlIHZpcnRpby1mcy1kZXYgYnJhbmNoLg0KDQog
-ICAgaHR0cHM6Ly9naXRsYWIuY29tL3ZpcnRpby1mcy9xZW11Ly0vY29tbWl0cy92aXJ0aW8tZnMt
-ZGV2DQoNCiAgICBUaGFua3MNCiAgICBWaXZlaw0KDQoNCg==
+On 23/11/20 16:02, Claudio Fontana wrote:
+> Thanks, I'll work on this option.
+> 
+> Btw considering that CpusAccel for tcg is actually three different interfaces (for mttcg, for icount, and plain RR),
+> it will be tough to, in the stated objective, "remove all conditionals", even after removing the tcg_enabled().
+
+I'm not sure removing all conditionals is a goal in and of itself, but 
+of course keeping the conditionals more local should be a good.
+
+Paolo
+
+> I wonder how you see this issue (patches for 3 TCG split are in Richard's queue atm).
+> 
+> static void tcg_accel_cpu_init(void)
+> {
+>      if (tcg_enabled()) {
+>          TCGState *s = TCG_STATE(current_accel());
+> 
+>          if (s->mttcg_enabled) {
+>              cpus_register_accel(&tcg_cpus_mttcg);
+>          } else if (icount_enabled()) {
+>              cpus_register_accel(&tcg_cpus_icount);
+>          } else {
+>              cpus_register_accel(&tcg_cpus_rr);
+>          }
+>      }
+
 
