@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 115F92C12FD
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 19:25:10 +0100 (CET)
-Received: from localhost ([::1]:33950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CD182C12FE
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 19:25:46 +0100 (CET)
+Received: from localhost ([::1]:35984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khGWT-0003XC-2L
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 13:25:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57964)
+	id 1khGX3-0004ND-8k
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 13:25:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1khGUl-0002gj-CO
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 13:23:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36202)
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1khGV9-00030d-9K
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 13:23:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56752)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1khGUi-0003rV-Bz
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 13:23:23 -0500
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1khGV7-0003zC-Ji
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 13:23:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606155799;
+ s=mimecast20190719; t=1606155824;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h0d0fmm6zslM+YEMFXN1M+b5RmhtwNOvZ31X6Fwc4Hw=;
- b=YnqBJMQ2F47pFg/N5ww/krjdtrEQK3+jvZeWPtTCnSAe2IV35Gg9Qm88gr7zOj4MLX8UkO
- dIOU0UdOHX6yVxIgEztx4Sy0dLRob1by7mrtwXR6TSalzXHmS3kKbrxhas6/gn4DAbq6Pf
- RmifuLTn94PXoEzhYoCmTI+I1YM3qH8=
+ bh=FRS/abP6x0NA22Yn+D+ZEef2qNDdTH1GLQLJ2kgefek=;
+ b=fXKgoS3cjUDd+2Z/cI4ladsAbka2/QSsnXfGdCmW9qdYY/G8sNzNq7vfLvps3KHvil8pxP
+ 5ddtXb1iZTcvDMj9lYNjDnkVh7RWkCupic6B0vvE+EZEs7qqNvbcs7QjEb6zvqU121wnkc
+ DQwD2m0x5IhFLw16NPHStMy+/RGZ8os=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-53-YGaiAsyLPJygZ_U0sb5V2Q-1; Mon, 23 Nov 2020 13:23:15 -0500
-X-MC-Unique: YGaiAsyLPJygZ_U0sb5V2Q-1
+ us-mta-518-VKQ2bQU_N5OoTXfJQd8DEg-1; Mon, 23 Nov 2020 13:23:42 -0500
+X-MC-Unique: VKQ2bQU_N5OoTXfJQd8DEg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5435A1009446;
- Mon, 23 Nov 2020 18:23:13 +0000 (UTC)
-Received: from w520.home (ovpn-112-213.phx2.redhat.com [10.3.112.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D92D813470;
- Mon, 23 Nov 2020 18:23:12 +0000 (UTC)
-Date: Mon, 23 Nov 2020 11:23:12 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Subject: Re: [PATCH v2 1/1] vfio: Change default dirty pages tracking
- behavior during migration
-Message-ID: <20201123112312.2eaf4bff@w520.home>
-In-Reply-To: <1606141399-22677-1-git-send-email-kwankhede@nvidia.com>
-References: <1606141399-22677-1-git-send-email-kwankhede@nvidia.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6712C18C43C1;
+ Mon, 23 Nov 2020 18:23:41 +0000 (UTC)
+Received: from starship (unknown [10.35.206.216])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4F22A6062F;
+ Mon, 23 Nov 2020 18:23:37 +0000 (UTC)
+Message-ID: <def9381b8e122301e14b7330c7eb939c5ded02e2.camel@redhat.com>
+Subject: Re: [PATCH 1/1] Fix qcow2 corruption on discard
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Alberto Garcia <berto@igalia.com>, Kevin Wolf <kwolf@redhat.com>
+Date: Mon, 23 Nov 2020 20:23:36 +0200
+In-Reply-To: <w51mtz8541b.fsf@maestria.local.igalia.com>
+References: <20201123154929.330338-1-mlevitsk@redhat.com>
+ <20201123154929.330338-2-mlevitsk@redhat.com>
+ <20201123160941.GD5317@merkur.fritz.box>
+ <w51mtz8541b.fsf@maestria.local.igalia.com>
+User-Agent: Evolution 3.36.3 (3.36.3-1.fc32)
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=alex.williamson@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mlevitsk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,96 +82,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mcrossley@nvidia.com, cohuck@redhat.com, cjia@nvidia.com,
- dgilbert@redhat.com, qemu-devel@nongnu.org
+Cc: vsementsov@virtuozzo.com, qemu-block@nongnu.org, zhang_youjia@126.com,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ andrey.shinkevich@virtuozzo.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 23 Nov 2020 19:53:19 +0530
-Kirti Wankhede <kwankhede@nvidia.com> wrote:
-
-> By default dirty pages tracking is enabled during iterative phase
-> (pre-copy phase).
-> Added per device opt-out option 'pre-copy-dirty-page-tracking' to
-> disable dirty pages tracking during iterative phase. If the option
-> 'pre-copy-dirty-page-tracking=off' is set for any VFIO device, dirty
-> pages tracking during iterative phase will be disabled.
+On Mon, 2020-11-23 at 19:20 +0100, Alberto Garcia wrote:
+> On Mon 23 Nov 2020 05:09:41 PM CET, Kevin Wolf wrote:
+> > > Commit 205fa50750 ("qcow2: Add subcluster support to zero_in_l2_slice()")
+> > > introduced a subtle change to code in zero_in_l2_slice:
+> > > 
+> > > It swapped the order of
+> > > 
+> > > 1. qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
+> > > 2. set_l2_entry(s, l2_slice, l2_index + i, QCOW_OFLAG_ZERO);
+> > > 3. qcow2_free_any_clusters(bs, old_offset, 1, QCOW2_DISCARD_REQUEST);
+> > > 
+> > > To
+> > > 
+> > > 1. qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
+> > > 2. qcow2_free_any_clusters(bs, old_offset, 1, QCOW2_DISCARD_REQUEST);
+> > > 3. set_l2_entry(s, l2_slice, l2_index + i, QCOW_OFLAG_ZERO);
 > 
-> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-> ---
->  hw/vfio/common.c              | 11 +++++++----
->  hw/vfio/pci.c                 |  3 +++
->  include/hw/vfio/vfio-common.h |  1 +
->  3 files changed, 11 insertions(+), 4 deletions(-)
+> Ouch :( Good catch!
 > 
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index c1fdbf17f2e6..6ff1daa763f8 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -311,7 +311,7 @@ bool vfio_mig_active(void)
->      return true;
->  }
->  
-> -static bool vfio_devices_all_stopped_and_saving(VFIOContainer *container)
-> +static bool vfio_devices_all_saving(VFIOContainer *container)
->  {
->      VFIOGroup *group;
->      VFIODevice *vbasedev;
-> @@ -329,8 +329,11 @@ static bool vfio_devices_all_stopped_and_saving(VFIOContainer *container)
->                  return false;
->              }
->  
-> -            if ((migration->device_state & VFIO_DEVICE_STATE_SAVING) &&
-> -                !(migration->device_state & VFIO_DEVICE_STATE_RUNNING)) {
-> +            if (migration->device_state & VFIO_DEVICE_STATE_SAVING) {
-> +                if ((vbasedev->pre_copy_dirty_page_tracking == ON_OFF_AUTO_OFF)
-> +                    && (migration->device_state & VFIO_DEVICE_STATE_RUNNING)) {
-> +                        return false;
-> +                }
->                  continue;
->              } else {
->                  return false;
-> @@ -1125,7 +1128,7 @@ static void vfio_listerner_log_sync(MemoryListener *listener,
->          return;
->      }
->  
-> -    if (vfio_devices_all_stopped_and_saving(container)) {
-> +    if (vfio_devices_all_saving(container)) {
->          vfio_sync_dirty_bitmap(container, section);
->      }
->  }
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index 58c0ce8971e3..5601df6d6241 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -3182,6 +3182,9 @@ static void vfio_instance_init(Object *obj)
->  static Property vfio_pci_dev_properties[] = {
->      DEFINE_PROP_PCI_HOST_DEVADDR("host", VFIOPCIDevice, host),
->      DEFINE_PROP_STRING("sysfsdev", VFIOPCIDevice, vbasedev.sysfsdev),
-> +    DEFINE_PROP_ON_OFF_AUTO("x-pre-copy-dirty-page-tracking", VFIOPCIDevice,
-> +                            vbasedev.pre_copy_dirty_page_tracking,
-> +                            ON_OFF_AUTO_ON),
->      DEFINE_PROP_ON_OFF_AUTO("display", VFIOPCIDevice,
->                              display, ON_OFF_AUTO_OFF),
->      DEFINE_PROP_UINT32("xres", VFIOPCIDevice, display_xres, 0),
-> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-> index baeb4dcff102..267cf854bbba 100644
-> --- a/include/hw/vfio/vfio-common.h
-> +++ b/include/hw/vfio/vfio-common.h
-> @@ -129,6 +129,7 @@ typedef struct VFIODevice {
->      unsigned int flags;
->      VFIOMigration *migration;
->      Error *migration_blocker;
-> +    OnOffAuto pre_copy_dirty_page_tracking;
->  } VFIODevice;
->  
->  struct VFIODeviceOps {
+> > > -        qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
+> > >          if (unmap) {
+> > >              qcow2_free_any_cluster(bs, old_l2_entry, QCOW2_DISCARD_REQUEST);
+> > >          }
+> > >          set_l2_entry(s, l2_slice, l2_index + i, new_l2_entry);
+> > > +        qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
+> > 
+> > Good catch, but I think your order is wrong, too. We need the original
+> > order from before 205fa50750:
+> > 
+> > 1. qcow2_cache_entry_mark_dirty()
+> >    set_l2_entry() + set_l2_bitmap()
+> > 
+> > 2. qcow2_free_any_cluster()
+> 
+> I agree with Kevin on this.
 
-I applied this and sent a pull request because I think it's important
-that we set the default correctly, but why use an OnOffAuto rather than
-a boolean?  Is the intent that auto might make device specific
-decisions?  Thanks,
+I also agree, I haven't thought about this.
 
-Alex
+Best regards,
+	Maxim Levitsky
+> 
+> Berto
+> 
+
 
 
