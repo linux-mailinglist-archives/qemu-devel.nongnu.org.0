@@ -2,70 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD8A02C14A0
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 20:42:08 +0100 (CET)
-Received: from localhost ([::1]:38408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD40C2C14A1
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 20:43:52 +0100 (CET)
+Received: from localhost ([::1]:41280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khHix-0000n3-Fs
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 14:42:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50026)
+	id 1khHkd-000235-Vi
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 14:43:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cjia@nvidia.com>) id 1khHb1-00050s-GL
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 14:33:55 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:14301)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1khHdH-0005tj-Ui
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 14:36:18 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:59813)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cjia@nvidia.com>) id 1khHax-00021o-LK
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 14:33:55 -0500
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B5fbc0e950000>; Mon, 23 Nov 2020 11:33:41 -0800
-Received: from nvidia.com (10.124.1.5) by HQMAIL107.nvidia.com (172.20.187.13)
- with Microsoft SMTP Server (TLS) id 15.0.1473.3;
- Mon, 23 Nov 2020 19:33:38 +0000
-Date: Mon, 23 Nov 2020 11:33:37 -0800
-From: Neo Jia <cjia@nvidia.com>
-To: Shenming Lu <lushenming@huawei.com>, Alex Williamson
- <alex.williamson@redhat.com>
-Subject: Re: [PATCH RFC] vfio: Move the saving of the config space to the
- right place in VFIO migration
-Message-ID: <20201123193336.GA32690@nvidia.com>
-References: <20201114091731.157-1-lushenming@huawei.com>
- <860bd707-8862-2584-6e12-67c86f092dba@nvidia.com>
- <20201119104127.5e243efa@w520.home>
- <a7be9306-f800-0323-293e-217e2e9f6015@huawei.com>
- <20201120150146.5e5693e9@w520.home>
- <09549a98-85a0-fe4e-59fc-fdb636a4a5cd@huawei.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1khHdC-0002sD-01
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 14:36:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=nSPxOgWzlA2DWRC2NEcjmNWjzvMsVEWN7rm/m5OvTGY=; b=AQ1IO2HZW7xtZ7qtS2nVDcw+pQ
+ /bxBI4fbKpfcUbtTl/s4dkzIEVE7Yg+QM4eivSQcKpS7qZyZf/4hDdjJFRDqvYDZ22qXM067O8scT
+ xA7a71WsVRwlu+I0DyGRK96l9iDB3R+VLDNpHfhzNddC7gVjz7nKvN1ZRCTvNK5LnOLJyuqsiuJU9
+ woyBxRBDVFMxE84Qzgv3OeuTmTkNHBYqAWNUnoM08mBcrWYPYWRyfGhN9GVeEYSJLbAdXiqpDo5BU
+ FAmnFrn5wPvcgv58koSgtTEYxgE9uWk721f90Nu0PiHVV21KoukjBEXSWPHiT4cJtA7RRoax8U8H7
+ YQoGcrcQ==;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH for-5.2] tests/9pfs: Mark "local" tests as "slow"
+Date: Mon, 23 Nov 2020 20:35:58 +0100
+Message-ID: <10297311.nEiT89vc6u@silver>
+In-Reply-To: <1652137.SzlE5fuBRn@silver>
+References: <160615331159.1339160.8458952247626802787.stgit@bahia.lan>
+ <1652137.SzlE5fuBRn@silver>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <09549a98-85a0-fe4e-59fc-fdb636a4a5cd@huawei.com>
-X-NVConfidentiality: public
-User-Agent: Mutt/1.6.2 (2016-07-01)
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1606160021; bh=q8Y/f4WjrS/2neMGtSkfHvbAvgDJDv4z5vMu67wM2fM=;
- h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
- Content-Type:Content-Disposition:Content-Transfer-Encoding:
- In-Reply-To:X-NVConfidentiality:User-Agent:X-Originating-IP:
- X-ClientProxiedBy;
- b=JquiSpD/AY4SYoH2ok2sFKnL3BoqT8s8pYYUx56CeTiAqjEQ59rGtSwKa/p/2QR2u
- cooIKXsiQnYlsNddTddyScSRrkAwT3mWyIj4KKzG9CXneQw0IdPEqNNpjjq2FM+XEG
- 2l1/qTxRigD1vCMc6pOTGy28cJU6LQm3XWmJRp0NeNR0hH4ktH+0WoyQhw4QRPVh0j
- hg3h7ioeMCa3vtNaNys8QhFPCfxm2tAR5TMPWxpIChpkpvDAURWyo3LzwiK3g2MWR5
- 7+9MdV9d9gK4Z1GC48pEc1EKFqQLnklrFDjxEATeVYmHRFrElSSVqrW75PesAmrvtD
- 1+VSsJbS/hOOw==
-Received-SPF: pass client-ip=216.228.121.64; envelope-from=cjia@nvidia.com;
- helo=hqnvemgate25.nvidia.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,142 +62,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marc Zyngier <maz@kernel.org>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, dgilbert@redhat.com, Eric Auger <eric.auger@redhat.com>,
- Kirti Wankhede <kwankhede@nvidia.com>, qemu-arm@nongnu.org,
- yuzenghui@huawei.com, wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 23, 2020 at 11:14:38AM +0800, Shenming Lu wrote:
-> External email: Use caution opening links or attachments
->=20
->=20
-> On 2020/11/21 6:01, Alex Williamson wrote:
-> > On Fri, 20 Nov 2020 22:05:49 +0800
-> > Shenming Lu <lushenming@huawei.com> wrote:
-> >
-> >> On 2020/11/20 1:41, Alex Williamson wrote:
-> >>> On Thu, 19 Nov 2020 14:13:24 +0530
-> >>> Kirti Wankhede <kwankhede@nvidia.com> wrote:
-> >>>
-> >>>> On 11/14/2020 2:47 PM, Shenming Lu wrote:
-> >>>>> When running VFIO migration, I found that the restoring of VFIO PCI=
- device=E2=80=99s
-> >>>>> config space is before VGIC on ARM64 target. But generally, interru=
-pt controllers
-> >>>>> need to be restored before PCI devices.
-> >>>>
-> >>>> Is there any other way by which VGIC can be restored before PCI devi=
-ce?
-> >>
-> >> As far as I know, it seems to have to depend on priorities in the non-=
-iterable process.
-> >>
-> >>>>
-> >>>>> Besides, if a VFIO PCI device is
-> >>>>> configured to have directly-injected MSIs (VLPIs), the restoring of=
- its config
-> >>>>> space will trigger the configuring of these VLPIs (in kernel), wher=
-e it would
-> >>>>> return an error as I saw due to the dependency on kvm=E2=80=99s vgi=
-c.
-> >>>>>
-> >>>>
-> >>>> Can this be fixed in kernel to re-initialize the kernel state?
-> >>
-> >> Did you mean to reconfigure these VLPIs when restoring kvm's vgic?
-> >> But the fact is that this error is not caused by kernel, it is due to =
-the incorrect
-> >> calling order of qemu...
-> >>
-> >>>>
-> >>>>> To avoid this, we can move the saving of the config space from the =
-iterable
-> >>>>> process to the non-iterable process, so that it will be called afte=
-r VGIC
-> >>>>> according to their priorities.
-> >>>>>
-> >>>>
-> >>>> With this change, at resume side, pre-copy phase data would reach
-> >>>> destination without restored config space. VFIO device on destinatio=
-n
-> >>>> might need it's config space setup and validated before it can accep=
-t
-> >>>> further VFIO device specific migration state.
-> >>>>
-> >>>> This also changes bit-stream, so it would break migration with origi=
-nal
-> >>>> migration patch-set.
-> >>>
-> >>> Config space can continue to change while in pre-copy, if we're only
-> >>> sending config space at the initiation of pre-copy, how are any chang=
-es
-> >>> that might occur before the VM is stopped conveyed to the target?  Fo=
-r
-> >>> example the guest might reboot and a device returned to INTx mode fro=
-m
-> >>> MSI during pre-copy.  Thanks,
-> >>
-> >> What I see is that the config space is only saved once in save_live_co=
-mplete_precopy
-> >> currently...
-> >> As you said, a VFIO device might need it's config space setup first, a=
-nd
-> >> the config space can continue to change while in pre-copy, Did you mea=
-n we
-> >> have to migrate the config space in save_live_iterate?
-> >> However, I still have a little doubt about the restoring dependence be=
-tween
-> >> the qemu emulated config space and the device data...
-> >>
-> >> Besides, if we surely can't move the saving of the config space back, =
-can we
-> >> just move some actions which are triggered by the restoring of the con=
-fig space
-> >> back (such as vfio_msix_enable())?
-> >
-> > It seems that the significant benefit to enabling interrupts during
-> > pre-copy would be to reduce the latency and failure potential during
-> > the final phase of migration.  Do we have any data for how much it adds
-> > to the device contributed downtime to configure interrupts only at the
-> > final stage?  My guess is that it's a measurable delay on its own.  At
-> > the same time, we can't ignore the differences in machine specific
-> > dependencies and if we don't even sync the config space once the VM is
-> > stopped... this all seems not ready to call supported, especially if we
-> > have concerns already about migration bit-stream compatibility.
-> >
->=20
-> I have another question for this, if we restore the config space while in=
- pre-copy
-> (include enabling interrupts), does it affect the _RESUMING state (paused=
-) of the
-> device on the dst host (cause it to send interrupts? which should not be =
-allowed
-> in this stage). Does the restore sequence need to be further discussed an=
-d reach
-> a consensus(spec) (taking into account other devices and the correspondin=
-g actions
-> of the vendor driver)?
->=20
-> > Given our timing relative to QEMU 5.2, the only path I feel comfortable
-> > with is to move forward with downgrading vfio migration support to be
-> > enabled via an experimental option.  Objections?  Thanks,
->=20
-> Alright, but this issue is related to our ARM GICv4.1 migration scheme, c=
-ould you
-> give a rough idea about this (where to enable interrupts, we hope it to b=
-e after
-> the restoring of VGIC)?
+On Montag, 23. November 2020 19:08:18 CET Christian Schoenebeck wrote:
+> On Montag, 23. November 2020 18:41:51 CET Greg Kurz wrote:
+> > The "local" tests can fail on some automated build systems as
+> > reported here:
+> > 
+> > https://lists.nongnu.org/archive/html/qemu-devel/2020-11/msg05510.html
+> > 
+> > This will need to be investigated and addressed later. Let's go for a
+> > workaround in the meantime : mark the "local" tests as "slow" so that
+> > they aren't executed with a simple "make check" like in the case above.
+> > 
+> > Reported-by: Cole Robinson <crobinso@redhat.com>
+> > Signed-off-by: Greg Kurz <groug@kaod.org>
+> > ---
+> > 
+> > Unless there's a strong argument against merging this, I'll post
+> > a PR with this fix for RC3.
+> > ---
+> > 
+> >  tests/qtest/virtio-9p-test.c |   35 +++++++++++++++++++++--------------
+> >  1 file changed, 21 insertions(+), 14 deletions(-)
+> > 
+> > diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
+> > index 21e340fa5f43..dad37ace9772 100644
+> > --- a/tests/qtest/virtio-9p-test.c
+> > +++ b/tests/qtest/virtio-9p-test.c
+> > @@ -1454,20 +1454,27 @@ static void register_virtio_9p_test(void)
+> > 
+> >      qos_add_test("synth/readdir/split_128", "virtio-9p",
+> >      
+> >                   fs_readdir_split_128,  &opts);
+> > 
+> > -
+> > -    /* 9pfs test cases using the 'local' filesystem driver */
+> > -    opts.before = assign_9p_local_driver;
+> > -    qos_add_test("local/config", "virtio-9p", pci_config,  &opts);
+> > -    qos_add_test("local/create_dir", "virtio-9p", fs_create_dir, &opts);
+> > -    qos_add_test("local/unlinkat_dir", "virtio-9p", fs_unlinkat_dir,
+> > &opts); -    qos_add_test("local/create_file", "virtio-9p",
+> > fs_create_file,
+> > &opts); -    qos_add_test("local/unlinkat_file", "virtio-9p",
+> > fs_unlinkat_file, &opts); -    qos_add_test("local/symlink_file",
+> > "virtio-9p", fs_symlink_file, &opts); -
+> > qos_add_test("local/unlinkat_symlink", "virtio-9p", fs_unlinkat_symlink, -
+> > 
+> >                &opts);
+> > 
+> > -    qos_add_test("local/hardlink_file", "virtio-9p", fs_hardlink_file,
+> > &opts); -    qos_add_test("local/unlinkat_hardlink", "virtio-9p",
+> > fs_unlinkat_hardlink, -                 &opts);
+> > +    if (g_test_slow()) {
+> 
+> If you don't mind, I would suggest simply using
+> 
+> if (!g_test_slow()) {
+> 	return;
+> }
+> 
+> here to keep the diff noise low.
+> 
+> > +        /* 9pfs test cases using the 'local' filesystem driver */
+> > +        /*
+> > +         * XXX: Until we are sure that these tests can run everywhere,
+> > +         * keep them as "slow" so that they aren't run with "make check"
+> > +         */
+> > +        opts.before = assign_9p_local_driver;
+> > +        qos_add_test("local/config", "virtio-9p", pci_config,  &opts);
+> > +        qos_add_test("local/create_dir", "virtio-9p", fs_create_dir,
+> > &opts); +        qos_add_test("local/unlinkat_dir", "virtio-9p",
+> > fs_unlinkat_dir, &opts); +        qos_add_test("local/create_file",
+> > "virtio-9p", fs_create_file, &opts); +
+> > qos_add_test("local/unlinkat_file", "virtio-9p", fs_unlinkat_file, +
+> > 
+> >              &opts);
+> > 
+> > +        qos_add_test("local/symlink_file", "virtio-9p", fs_symlink_file,
+> > &opts); +        qos_add_test("local/unlinkat_symlink", "virtio-9p",
+> > fs_unlinkat_symlink, +                     &opts);
+> > +        qos_add_test("local/hardlink_file", "virtio-9p",
+> > fs_hardlink_file,
+> > +                     &opts);
+> > +        qos_add_test("local/unlinkat_hardlink", "virtio-9p",
+> > +                     fs_unlinkat_hardlink, &opts);
+> > +    }
+> > 
+> >  }
+> >  
+> >  libqos_init(register_virtio_9p_test);
+> 
+> I agree that this is okay for now to avoid inconveniences with nearby 5.2
+> release, but do we agree that this is going to be reverted when 6.0
+> development phase starts?
+> 
+> In 6.0 I would rather handle this by introducing a previously mentioned
+> 'loglevel' option for 9p, and asking for the required log data if the local
+> tests fail for somebody. I can take care about the loglevel option when 6.0
+> phase starts.
+> 
+> Best regards,
+> Christian Schoenebeck
 
-I disagree. If this is only specific to Huawei ARM GIC implementation, why =
-do we want to
-make the entire VFIO based migration an experimental feature?
+BTW, if I had to shoot in the dark, then my guess would be that system where 
+mkdir() failed with ENOTSUPP, does not support xattrs.
 
-Thanks,
-Neo
+If that's the root cause, then another option would be skipping the 'local' 9p 
+tests if the host system lacks xattr support, instead of disabling these tests 
+for all people by default.
 
->=20
-> Thanks,
-> Shenming
+Best regards,
+Christian Schoenebeck
+
+
 
