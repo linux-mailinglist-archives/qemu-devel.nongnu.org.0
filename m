@@ -2,54 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2716A2C0A95
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 14:52:00 +0100 (CET)
-Received: from localhost ([::1]:33790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B76662C0AAA
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 14:55:02 +0100 (CET)
+Received: from localhost ([::1]:37058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khCG7-0003Ec-6Q
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 08:51:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58894)
+	id 1khCJ3-0004i2-QR
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 08:55:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1khCCj-0001uG-SO
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 08:48:31 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:43559)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1khCCe-0006nO-Gr
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 08:48:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=Mc4gmjHRnVpbnUApP1x3UQuUXcjdQW4BXNayeLJrkUo=; b=pgr9eTBVVdrNLmGM2nhD4HxJxH
- qnbqamvHjBWbjoRf/bE7whCFzAqND+BLVNAbVaH8CdQyyQC16ditUJDQEQlFgOLxI9FyhsagIyRZT
- C1XdoCQTa4AnvJhuAfbbRfGq0JH+RaJ6/82FL8rK3fLFsRWOxLTbKmPACFznzEjav48qKhNoF/IqX
- 4MELpG1KM/JAwGeBCi0DoT3qsxpDpv19TahBAogYWavUSBpaDNfCx2pHNXptS4fLvC3V9RvuwvwFn
- o3ApcT2w3XHvx0nMw+ShT+NCb4oqwsWiDqUMRsT+jhqU6lf0EjtVa1C2p2GcRTwvrfRvhi6uNBZ0d
- BWryh4Zw==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>, Cole Robinson <crobinso@redhat.com>
-Subject: Re: virtio-9p-test.c:300:v9fs_req_recv: assertion failed (hdr.id ==
- id): (7 == 73)
-Date: Mon, 23 Nov 2020 14:48:15 +0100
-Message-ID: <7836238.thhSn8XZEd@silver>
-In-Reply-To: <20201123141734.0c03f21a@bahia.lan>
-References: <fad8a69d-9c21-ac25-028d-646a64ccecc5@redhat.com>
- <20201123141734.0c03f21a@bahia.lan>
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1khCHG-0003xm-6r
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 08:53:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23689)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1khCHD-0008QI-2u
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 08:53:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606139585;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ooSF46QhlsVPumbusjyn5TcKvp7fanANg2KfWEMgU14=;
+ b=OSSnD0DVYtM2/rWAD8aul5E5tYYf/16BEug5D74QU2XI4nq1Hk0zO6W1bFh92FBW2s3vjv
+ cAp5qdVWlbl/FvkQKssoL68GXnBtFsTZ06UVM1QlaiccAmnx+gTJfQ4j9iGEgtFnaIRXTo
+ jNHJrSsXyMrjh1fo0XAnvgOBlsIUblg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-546-SziwhRnYO4uETZ0qcrZFHg-1; Mon, 23 Nov 2020 08:53:00 -0500
+X-MC-Unique: SziwhRnYO4uETZ0qcrZFHg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C193884635C;
+ Mon, 23 Nov 2020 13:52:45 +0000 (UTC)
+Received: from gondolin (ovpn-113-104.ams2.redhat.com [10.36.113.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8B80A5D9E2;
+ Mon, 23 Nov 2020 13:52:37 +0000 (UTC)
+Date: Mon, 23 Nov 2020 14:52:34 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [PATCH RFC] vfio: Move the saving of the config space to the
+ right place in VFIO migration
+Message-ID: <20201123145234.266a7e42.cohuck@redhat.com>
+In-Reply-To: <20201120150146.5e5693e9@w520.home>
+References: <20201114091731.157-1-lushenming@huawei.com>
+ <860bd707-8862-2584-6e12-67c86f092dba@nvidia.com>
+ <20201119104127.5e243efa@w520.home>
+ <a7be9306-f800-0323-293e-217e2e9f6015@huawei.com>
+ <20201120150146.5e5693e9@w520.home>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
- helo=lizzy.crudebyte.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,85 +82,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Neo Jia <cjia@nvidia.com>, Eric Auger <eric.auger@redhat.com>,
+ Marc Zyngier <maz@kernel.org>, qemu-devel@nongnu.org, dgilbert@redhat.com,
+ Shenming Lu <lushenming@huawei.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ qemu-arm@nongnu.org, yuzenghui@huawei.com, wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Montag, 23. November 2020 14:17:34 CET Greg Kurz wrote:
-> Fixed maintainer's address: s/oss@crudebyte.com/qemu_oss@crudebyte.com
-> 
-> On Sat, 21 Nov 2020 17:03:14 -0500
-> 
-> Cole Robinson <crobinso@redhat.com> wrote:
-> > Hi, I'm consistently seeing this assertion running the qemu-5.2.0  test
-> > suite. rc0, rc1, rc2 have been consistently affected, it reproduces
-> > consistently in parts of Fedora's build system. Here's an example build
-> > log for rc2 x86 against Fedora 32
-> > 
-> > https://download.copr.fedorainfracloud.org/results/@kubevirt/qemu-5.2.0-0.
-> > 6.rc2/fedora-32-x86_64/01781514-qemu/builder-live.log.gz
-> > 
-> > The full test error:
-> > 
-> > ...
-> > PASS 26 qtest-arm/qos-test
-> > /arm/virt/virtio-mmio/virtio-bus/virtio-9p-device/virtio-9p/virtio-9p-test
-> > s/synth/readdir/split_128 PASS 27 qtest-arm/qos-test
-> > /arm/virt/virtio-mmio/virtio-bus/virtio-9p-device/virtio-9p/virtio-9p-test
-> > s/local/config
-> Ok so the next test is supposed to be:
-> 
-> /arm/virt/virtio-mmio/virtio-bus/virtio-9p-device/virtio-9p/virtio-9p-tests/
-> local/create_dir
-> 
-> This was added recently. This configures the virtio-9p device in QEMU
-> to serve a real test directory from the host. This test directory is
-> created under the current directory of the test process. The purpose
-> of the test is then to ask the 9p server to create a directory within
-> the test directory.
-> 
-> > Received response 7 (RLERROR) instead of 73 (RMKDIR)
-> > ERROR qtest-arm/qos-test - Bail out!
-> > ERROR:../tests/qtest/virtio-9p-test.c:300:v9fs_req_recv: assertion
-> > failed (hdr.id == id): (7 == 73)
-> > Rlerror has errno 95 (Operation not supported)
-> 
-> So this basically means that QEMU got ENOTSUP/EOPNOTSUPP when calling
-> mkdir() into the test directory... not sure what could cause that. I'd
-> need more details on the filesystem setup for the build.
-> 
-> Anyway, we already experienced some breakage in upstream CI because of
-> the same family of tests that do real access to the host filesystem.
-> Since they're being introduced in QEMU 5.2, I'll try to see if I can
-> disable them to be run by default for RC3.
-> 
-> Cheers,
-> 
-> --
-> Greg
-> 
-> > **
-> > ERROR:../tests/qtest/virtio-9p-test.c:300:v9fs_req_recv: assertion
-> > failed (hdr.id == id): (7 == 73)
-> > make: *** [Makefile.mtest:1257: run-test-155] Error 1
-> > error: Bad exit status from /var/tmp/rpm-tmp.EG4Dav (%check)
-> > 
-> > 
-> > Thanks,
-> > Cole
+On Fri, 20 Nov 2020 15:01:46 -0700
+Alex Williamson <alex.williamson@redhat.com> wrote:
 
-Yeah, looks like the mkdir() call which is supposed to create the 9p test 
-directory, is failing there for some reason. The question is how to find that 
-out (effectively) without having access to an affected system.
+> Given our timing relative to QEMU 5.2, the only path I feel comfortable
+> with is to move forward with downgrading vfio migration support to be
+> enabled via an experimental option.  Objections?  Thanks,
+> 
+> Alex
 
-It's now too late for 5.2, but I think for 6.0 it would make sense introducing 
-a dedicated 9p option loglevel=..., so we can tell people to enable this to 
-capture the precise source location where an error ocurred. That would mean 
-spreading a huge bunch of macros all over the 9p code base, but it would 
-definitely help a lot understanding the root cause of reported issues in an 
-efficient way.
-
-Best regards,
-Christian Schoenebeck
-
+Agreed from my side. It seems better to give it one more release to
+figure out some issues, and just mark it experimental for now.
 
 
