@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 289CA2C1591
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 21:27:48 +0100 (CET)
-Received: from localhost ([::1]:50668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E3542C168F
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 21:32:54 +0100 (CET)
+Received: from localhost ([::1]:33262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khIR9-00012e-4C
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 15:27:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38536)
+	id 1khIW5-0005io-3h
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 15:32:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1khID7-0004S8-4F; Mon, 23 Nov 2020 15:13:17 -0500
+ id 1khICr-0003pe-0U; Mon, 23 Nov 2020 15:13:01 -0500
 Received: from mail-am6eur05on2106.outbound.protection.outlook.com
  ([40.107.22.106]:21121 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1khID5-0007NS-7v; Mon, 23 Nov 2020 15:13:16 -0500
+ id 1khICo-0007NS-Tf; Mon, 23 Nov 2020 15:13:00 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gelzHn/XON5by3zZEW0lRFlwlpWL4NP+3R4mv8k67QF49zbPa0n3hIM8uyg7uIc6G1vMJmydKJGUeuZBmte4RQOJz3SJxtBKjLpclsQFOk+JbvqhSoKsSm96nekJ+kjdp8oBf8BKwB/d4hg4n91S1J3tNO1MV9jrTxN7yhejj+aefCbc/cZhRwGxUp/qQmDuPG3STg06w8gRVtt/dDb1p8aRHPQejuSSZG/g2dGVegORupZQSyp7QHJ/OoGPyO80YudiwRWm+aWzJo8yqRPHIW4VIuSXOLZiEMkKr3m866cXSk4gA/DlUqYscehS4lOQALXsB4KtELG3Btdx5Mn1Lw==
+ b=K1tTrsWNvzvl5dMugmZ7piuK4CT2eBjPEspPHnvw+hpWQjLIQwRa7e/ST2f39V7cRk3BGMEcXIQxtcIYESuKPdv7czXqQKZOgbBphCVsVuU7tYP/zulwtwvC6cj0W2OWDqeyE1MvxIr3/NCpzcZFv0AkbetxIv+7Nk/+ZAGCdStWqr7osMLLzo1/n6+tmX0HFjl4ZMIrdbJC/Aj6M3ZktGMnkY0/NFLyLXquLJST3N7DaFOc1CMWbcGW37ff7osLv4S5/5H3V7f8NQhRLUZhFQeEY/+aHWvpQT3BJ27CttTmRFbQ4ysYSt2eS5H+g4aADvgLrxUcfCuRqNmHF508Cg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/gl2OmDZ+erNXtSQ1/rSKY3s2VtNapW2WBp6BAge3Mc=;
- b=MaDPmtPCaMYs1SBeQp1weY+E7xd2h3la/l0fjXGmi/z9GnqNS85BmLheIqiMRYTyUDXxnFCUT70VCY+nKx/VlzABBIyhtrnq/OlGABYLkpz3LsDx2kAH/fWDXufoQaBuxke2hhXkXcjTlByYU/CoFBs5iloIl2SodAggCQU5bOdW0r1NPSExB+l+eXygLTT7w7LhZLOP89uXQUzewqLjo/zVL9Hhhk5KeLkS6W3Df6Evj4iD+d61utjGMPBB8fTo9msH2hbAQZ3R9tlSFtG2XpqW8f8OawjP5lkN8oCX0NbgyjCWcQYNcynTc6tPsngjCbnj0Tznt9nCYafjbMp6Ow==
+ bh=lcJJOEbqu4yHarlC96vOfIQCdQa3o4nLmn3cJ1c2fTY=;
+ b=gaxs/26KW6ylsSBYE2+xU0CVPiIqcRUGtQ1vnytaQDvPblu5ZUEpj3KqSFfEeCfOB4HpuSGReV9pLG7JF6pj1gnfvCT9mVf6/nikYaeloxArFL6u/2tt+9J8+ELs7wKsqk44YBX2j4sm0OM0txCwms1wkdn/NDf2u4Awx/L9CpekcjI1aZ+eKy+zgGDNdOQYCuduJD/I51GJluexWI5mMN2IZVizN6a1ekKPtMHiBMDyDlRQQZ4XHhF0fblkmXLCv7+TwzxLFfXcEv1T3RaEZpfFmmgmHy9ZU0CXU13kQyHCR2vDoGArvzrLjNvQIOX2ta2CEvT5me8vt9VBvd/0vg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/gl2OmDZ+erNXtSQ1/rSKY3s2VtNapW2WBp6BAge3Mc=;
- b=k+oZp62Rmx/Rlb6mONlMYABqgEWuv4FG2KDdnUXcCGDITv0ktfgecRaYvdFOEV0N1sqNl2x5/iLO6fYTs0dD6wfWuMBShx5+cUqxcihs+iIgbKqeOZFc0GRHKaZtm3nWyndsVXr/skpvoa4ytMl0zUsa8mdimM5HEMAvLK7MzXU=
+ bh=lcJJOEbqu4yHarlC96vOfIQCdQa3o4nLmn3cJ1c2fTY=;
+ b=LlFrt8TZxQFpRUh9qpTC925pswDuUn3nYjEgPRp4y9aJR8QXuGjcc0uTJB9lZvwyS5oWxn2uoghj7kY0/lZiz/ZpIbMVGSXAKYqThx++/fYdakJANPPejIEqpbyKhGsdfSfmD3xIE6EXHGcHphXSPrQxzQ//UQAnbfgPCv3wkXw=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB4690.eurprd08.prod.outlook.com (2603:10a6:20b:cd::10)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.22; Mon, 23 Nov
- 2020 20:13:03 +0000
+ 2020 20:12:49 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::fd02:1330:f620:1243]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::fd02:1330:f620:1243%9]) with mapi id 15.20.3589.030; Mon, 23 Nov 2020
- 20:13:03 +0000
+ 20:12:49 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, armbru@redhat.com, jsnow@redhat.com,
  mreitz@redhat.com, kwolf@redhat.com, vsementsov@virtuozzo.com,
  den@openvz.org
-Subject: [PATCH 14/21] block: add bdrv_attach_child_noperm() transaction action
-Date: Mon, 23 Nov 2020 23:12:26 +0300
-Message-Id: <20201123201233.9534-17-vsementsov@virtuozzo.com>
+Subject: [PATCH 1/2] block: make bdrv_drop_intermediate() less wrong
+Date: Mon, 23 Nov 2020 23:12:11 +0300
+Message-Id: <20201123201233.9534-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20201123201233.9534-1-vsementsov@virtuozzo.com>
 References: <20201123201233.9534-1-vsementsov@virtuozzo.com>
@@ -66,30 +66,30 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from kvm.sw.ru (185.215.60.115) by
  AM0PR10CA0117.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:e6::34) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3589.21 via Frontend Transport; Mon, 23 Nov 2020 20:13:02 +0000
+ 15.20.3589.21 via Frontend Transport; Mon, 23 Nov 2020 20:12:48 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 76025745-e31c-43b1-fd63-08d88fec2ece
+X-MS-Office365-Filtering-Correlation-Id: 0c471b22-716e-4ab9-afd1-08d88fec2604
 X-MS-TrafficTypeDiagnostic: AM6PR08MB4690:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4690860F36AE279229F4C4A2C1FC0@AM6PR08MB4690.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:288;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB469087A7F924C46894C97F91C1FC0@AM6PR08MB4690.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MnKuP/Am03d9ovTUVjV4r1BxxIxZCOtyhRrphDAMxlL3/gdKl/pgcaXIP2zctx+lN76TcNufwaWNQYXLrIqdj5NDOQ6QtwR+3Pk5MMfxszgoWJK/HsRchAuokp/88oNi3wx9niGMUG713ja/ryRnfLmyTkbsk3scN6dSwbqBAw/twwzkXf9Y/dxxCBqbshR8HFY94UX4uCRzqAiY+hzAf1BFIsNrO9i1/OVMFXCVDCBQafxg+Zw6Jw3kbGQ6qedwilVZYCUl3Gw/sWYMe/NrPsPsNYMtBpaLg4zr673mhkS0b69nLEEQ8gGiwpsEL1Fk
+X-Microsoft-Antispam-Message-Info: 7VNe5SuilSldth4O9ZpKVks9fsC9mflhkAxwepfZYeStrfvHDwWRLkNiJH08vVV0BrO6T4CTbiENxwce6h2LEtgDKNqbfof7NwqzgJcHfgnfu31fD7pK48Y6S+R3zC+SoOc6M72QsdBfgpwFJeN1dNsWDyJ88Sk5u8DJ/PBFPHmOAD4mZaPn69WkgrmBYnR9DQcsVmzXTSzCG3rpwIwkdCp/sumtrh3+OKS8uEZNFoMSPHFTeFhsH7TZzy6FJugP36cc1Jn8L5f3H0Df+YETIJg6ItNF7CFXrPCRBR8jegux5qnScGqNx3/mFO0RIoXvRHpSeJyog9RBgJQVPMpkKQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(396003)(346002)(136003)(39830400003)(376002)(366004)(5660300002)(6512007)(6666004)(1076003)(52116002)(6486002)(16526019)(26005)(83380400001)(186003)(6506007)(86362001)(2906002)(6916009)(4326008)(8936002)(66946007)(478600001)(107886003)(66556008)(8676002)(956004)(2616005)(316002)(36756003)(66476007);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: xOabd/0RSMoUz2/4lQ4Fwq08cnNxiyyHvmyX5Mw/mqCUifP04Dy30S8o1gvznuqiKKUJqfta85pH8LeDjxnvAIxQJ+yTLM+yb6UE99iMbyA2g2H4FyHFn11lZ748Y/5el4pUtVhYbNlIWJ72dsJwHezjAjHRpV6Npwl3/Bw/9KvG+zyLUj/+wZeNmZ7UjxPlhiGI1iBTl6GbS4pj2sC0QsCv8kCwZO5xHHvmQnS+v4DPwgCHeFjSBgQwR6SNslCQR9xq/WxfzwfxH83vbjYm0OCdvMqXXNMX2elvh71Ie/fdOEk8J+wQKaZAwwA0fcJAaWhq2tjHIabOJ1mhkhq29OyNzfQRdVWRN6vUux9ws1wHC+oEhjlk9SCVq8BvYp/sKGi3s793teKvcByjl6MjdTsL+yyRQsBQT53oxhEhmEEp7HnWF/ac3nGyjJWQ0dRFOXDm7VFqPpa1p1bKiFy7NoPgOG/fNn/0EEqWJWE99qWG/elTXFxo7uQqA4UFpFdDdnRDub0EkS4xxAk3V2/8rSsh8gWNBkJrNhlN2SCTCQdP7icLl5dCijq4HU1gp2E2PVmrSVwNYkfhzRH/ynSab2DnWZZPC6Ns3KaVPt4z3dU/dX9TRL5UKd305SkhfdfXBd7awgZ5YoEm/dpN7KCNzJboRhlWGJBVBHtIiMDUITo3Ezeh50bMg5HTXiJbyVAatnt75D/tIdK4xLmO4PwKQ/2bAPZV4H3qdvBoEPX4Dwc1SfBTx1absIKpz9UeE/IX6y1Z0yOjR+3DB4M6+LYyL73tAVyrnYgS0VJXKtAOoWR+BfKqyTkg7lbo1vQI+Zo1v9ECsxu9UNmzBqu0tdhmOUT7us27gBF74NVZQQe4pQuYzpHPze0qX6llwa7eBLu6s0FGrh2Q3JIOtmj9TSSwKw==
+X-MS-Exchange-AntiSpam-MessageData: aXwUiPwr2uoUjxUx2iTUTdiyHCGWXw+yGhE1cg68uO3aHMzjl2UG5twYNLPz4k0bLhASKs86m8UkvvkLfobNtZnMju0ZuzAsxU6GbEH71hU5+h7SQyPbVpsVvxF1Fkp+aFB5t0ntaH57gwLvVITzLIfHslcEJiMic9SDoFAcujsu5J+0c0wxrs57DYFZxF6+okee6Vt/+trOiL6aGmpWICZecvQPttrJ+73e2MeLyRnohGYdXLkfufcUgG45YWYKx2RKcyosU9ojBSDfCBA1xgKEQSTVNjzwI4G8kkxbTfUfMjtJAxz5ttzLZPiHn+1X2bLSj38l8QZyIyZEUus1T/huEnhxvRfpKB+iy9cIwl9KXgKph4Xy8p0Sb0w1wPHwVhluh5h93gHjwY11r0IBHCnDIgymxlgKpXK1zXzox129Lac4wuAbCIW/VjLoFjSPyWR8XUegke12hMyKX3iXTu6r5OCF8+zVmFdmSpLaUAwmsRsm7HF3CXZ580vh/COKIJr1o9xqw8FQVVORaaA856bTST5CPFGmlSaAPLN74IF8W08ZOb52VKRqcPuuSSW/xTl5h+mWh0w7CrKoo37HIPtwMo3qYmVyCEn3vybo4ifRgllJ7zL+cpgCiYnuPftpeV+qrWNzJ3olMDCt1s9v/mMEX2ABNKm1vDVe5PCO/152wD/6uu3oSMNF0GXkQhCh+/tsXg+K5mIImzP+84mzwqoG3YYjC2w1CAyU9K88TTRVqwaFYI0mVbSC0hPkZc9Bf+Q4qvx1Nmm9Hvn6Ns0b1WhxQUWrdVH6O3rbNCg1qyK4rlusJCoX5HXI7mnszNi5EcqAfWcSx6a+ebKzeLKBdKxvgvk0Og0sb+aQXZXPKxIfiMu3NmabvD56q+V3ij1o+LVRyQLEDXuAjsKLLgcaKw==
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 76025745-e31c-43b1-fd63-08d88fec2ece
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0c471b22-716e-4ab9-afd1-08d88fec2604
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2020 20:13:03.6452 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2020 20:12:48.9812 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QPYsUw/rtDNsgMeH8HDRIJM3XYUgyjuI2p7na5mNV6xexM5/6BBN7O3Ur5QYN7EIRn75HygIwUY2gTEQVkfjZ4m4zUWTxk/bVpk3c59ISCI=
+X-MS-Exchange-CrossTenant-UserPrincipalName: d9tL6YAR8P4BVz7WpSC2SAJNlNbiSs6HBqkejyJdkYBmB6A+tiHRzOkB/CoIGDu8asxNzNDpDvCPAKGlZi572exBL7nK752fZiuPkD1+qJw=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4690
 Received-SPF: pass client-ip=40.107.22.106;
  envelope-from=vsementsov@virtuozzo.com;
@@ -116,128 +116,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The code partly duplicates bdrv_root_attach_child() and
-bdrv_attach_child(). Still refactoring these two functions by renaming
-them to *_common with new noperm argument is more complicating. When
-all operations moved to new graph update paradigm (update permissions
-only on updated graph) all duplications should leave.
+First, permission update loop tries to do iterations transactionally,
+but the whole update is not transactional: nobody roll-back successful
+loop iterations when some iteration fails.
+
+Second, in the iteration we have nested permission update:
+c->klass->update_filename may point to bdrv_child_cb_update_filename()
+which calls bdrv_backing_update_filename(), which may do node reopen to
+RW.
+
+Permission update system is not prepared to nested updates, at least it
+has intermediate permission-update state stored in BdrvChild
+structures: has_backup_perm, backup_perm and backup_shared_perm.
+
+So, let's first do bdrv_replace_node() (which is more transactional
+than open-coded update in bdrv_drop_intermediate()) and then call
+update_filename() in separate. We still do not rollback changes in case
+of update_filename() failure but it's not much worse than pre-patch
+behavior.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block.c | 94 ++++++++++++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 90 insertions(+), 4 deletions(-)
+ block.c | 36 +++++++++++++++---------------------
+ 1 file changed, 15 insertions(+), 21 deletions(-)
 
 diff --git a/block.c b/block.c
-index 08501350b7..5f6ad1d016 100644
+index 9538af4884..bd9f4e534b 100644
 --- a/block.c
 +++ b/block.c
-@@ -2974,16 +2974,102 @@ BdrvChild *bdrv_attach_child(BlockDriverState *parent_bs,
-     return child;
- }
+@@ -4958,36 +4958,30 @@ int bdrv_drop_intermediate(BlockDriverState *top, BlockDriverState *base,
+         backing_file_str = base->filename;
+     }
  
--static void bdrv_detach_child(BdrvChild *child)
-+static void bdrv_remove_empty_child(BdrvChild *child)
- {
-+    assert(!child->bs);
-     QLIST_SAFE_REMOVE(child, next);
--
--    bdrv_replace_child(child, NULL);
--
-     g_free(child->name);
-     g_free(child);
- }
+-    QLIST_FOREACH_SAFE(c, &top->parents, next_parent, next) {
+-        /* Check whether we are allowed to switch c from top to base */
+-        GSList *ignore_children = g_slist_prepend(NULL, c);
+-        ret = bdrv_check_update_perm(base, NULL, c->perm, c->shared_perm,
+-                                     ignore_children, NULL, &local_err);
+-        g_slist_free(ignore_children);
+-        if (ret < 0) {
+-            error_report_err(local_err);
+-            goto exit;
+-        }
++    bdrv_replace_node(top, base, &local_err);
++    if (local_err) {
++        error_report_err(local_err);
++        goto exit;
++    }
  
-+typedef struct BdrvAttachChildNopermState {
-+    BdrvChild *child;
-+    AioContext *old_aio_context; /* NULL if not changed */
-+} BdrvAttachChildNopermState;
-+
-+static void bdrv_attach_child_noperm_abort(void *opaque)
-+{
-+    BdrvAttachChildNopermState *s = opaque;
-+    BlockDriverState *bs = s->child->bs;
-+
-+    bdrv_replace_child_noperm(s->child, NULL);
-+    bdrv_remove_empty_child(s->child);
-+
-+    /*
-+     * refcnt was positive prior to bdrv_ref() in bdrv_attach_child_noperm(),
-+     * so bs should not be deleted now.
-+     */
-+    assert(bs->refcnt > 1);
-+    bdrv_unref(bs);
-+    if (s->old_aio_context) {
-+        bdrv_try_set_aio_context(bs, s->old_aio_context, NULL);
-+    }
-+}
-+
-+static BdrvActionDrv bdrv_attach_child_noperm_drv = {
-+    .abort = bdrv_attach_child_noperm_abort,
-+    .clean = g_free,
-+};
-+
-+__attribute__((unused))
-+static BdrvChild *bdrv_attach_child_noperm(BlockDriverState *parent_bs,
-+                                           BlockDriverState *child_bs,
-+                                           const char *child_name,
-+                                           BdrvChildRole child_role,
-+                                           GSList **tran,
-+                                           Error **errp)
-+{
-+    int ret;
-+    BdrvChild *child;
-+    uint64_t perm, shared_perm;
-+    AioContext *parent_ctx = bdrv_get_aio_context(parent_bs);
-+    AioContext *child_ctx = bdrv_get_aio_context(child_bs);
-+    BdrvAttachChildNopermState *s;
-+
-+    if (child_ctx != parent_ctx) {
-+        ret = bdrv_try_set_aio_context(child_bs, parent_ctx, errp);
-+        if (ret < 0) {
-+            return NULL;
-+        }
-+    }
-+
-+    bdrv_get_cumulative_perm(parent_bs, &perm, &shared_perm);
-+
-+    assert(parent_bs->drv);
-+    bdrv_child_perm(parent_bs, child_bs, NULL, child_role, NULL,
-+                    perm, shared_perm, &perm, &shared_perm);
-+
-+    child = g_new(BdrvChild, 1);
-+    *child = (BdrvChild) {
-+        .bs             = NULL,
-+        .name           = g_strdup(child_name),
-+        .klass          = &child_of_bds,
-+        .role           = child_role,
-+        .perm           = perm,
-+        .shared_perm    = shared_perm,
-+        .opaque         = parent_bs,
-+    };
-+    bdrv_ref(child_bs);
-+    bdrv_replace_child_noperm(child, child_bs);
-+
-+    QLIST_INSERT_HEAD(&parent_bs->children, child, next);
-+
-+    s = g_new(BdrvAttachChildNopermState, 1);
-+    *s = (BdrvAttachChildNopermState) {
-+        .child = child,
-+        .old_aio_context = child_ctx == parent_ctx ? NULL : child_ctx,
-+    };
-+    tran_prepend(tran, &bdrv_attach_child_noperm_drv, s);
-+
-+    return child;
-+}
-+
-+static void bdrv_detach_child(BdrvChild *child)
-+{
-+    bdrv_replace_child(child, NULL);
-+    bdrv_remove_empty_child(child);
-+}
-+
- /* Callers must ensure that child->frozen is false. */
- void bdrv_root_unref_child(BdrvChild *child)
- {
+-        /* If so, update the backing file path in the image file */
++    QLIST_FOREACH_SAFE(c, &base->parents, next_parent, next) {
+         if (c->klass->update_filename) {
+             ret = c->klass->update_filename(c, base, backing_file_str,
+                                             &local_err);
+             if (ret < 0) {
+-                bdrv_abort_perm_update(base);
++                /*
++                 * TODO: Actually, we want to rollback all previous iterations
++                 * of this loop, and (which is almost impossible) previous
++                 * bdrv_replace_node()...
++                 *
++                 * Note, that c->klass->update_filename may lead to permission
++                 * update, so it's a bad idea to call it inside permission
++                 * update transaction of bdrv_replace_node.
++                 */
+                 error_report_err(local_err);
+                 goto exit;
+             }
+         }
+-
+-        /*
+-         * Do the actual switch in the in-memory graph.
+-         * Completes bdrv_check_update_perm() transaction internally.
+-         * c->frozen is false, we have checked that above.
+-         */
+-        bdrv_ref(base);
+-        bdrv_replace_child(c, base);
+-        bdrv_unref(top);
+     }
+ 
+     if (update_inherits_from) {
 -- 
 2.21.3
 
