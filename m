@@ -2,106 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 800812C16AC
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 21:44:10 +0100 (CET)
-Received: from localhost ([::1]:55148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C720A2C16C1
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 21:48:30 +0100 (CET)
+Received: from localhost ([::1]:36796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khIgz-0006u9-I5
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 15:44:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38650)
+	id 1khIlB-0002qE-Pb
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 15:48:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1khIDU-0004c4-M5; Mon, 23 Nov 2020 15:13:40 -0500
-Received: from mail-am6eur05on2111.outbound.protection.outlook.com
- ([40.107.22.111]:23809 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1khIDQ-0007Ry-Ez; Mon, 23 Nov 2020 15:13:40 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QDc+hjIpeivqG0+lNEe0YEeTdfFCL0aDE7DDT5/N/R/g4ecwMHorXb7csUIC8Nnq4+40Jxdn4iTc5uuzZOuBmy8WyakFUlXq8ETW1UvREzjlUxpP8Y+HogI6gtaTHe8erShP6u82ghAmvooCjh5i+POYwINoY/wbTMlsTmhzfcevnxkjXxx4lks0KZer8z8g4JEiF/hQy0iOxgCs8aXhp/nbBM6Qij7erOlEcMhgORUOeJ4gGq9CMy2c46dagsqZozV1BMlvJvLcW8ghGwHurT9vGjYk7xQpPex+N0qxyfjzFm+JviJf6Xw9QFOqFgA+UYyOARX6VWFhxd6DmgJnfw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OheHyaMRfMYYcR/ah1/njMb6IkLTse8lLLrna9dz2r8=;
- b=I4fTJsaQaS6KivLhQ72bnuDkW+HAiqEvEE+qmQcCfNZjJXJtqMT7cwsK5g/LaSXhRmedA5JkXlSuNV0YNx2dG2rDmfGsNWWiEYYH1h+EGxNUSqqaueLDRI4N4sRCYmCfqGB2nuHnKP9gz72J1RdXDySMJvXJuCgMJ60YhTH2+u4WNLepBBvBE/Q1fEKkJ6GYdXyTVoQwZOuapU053HsM2tURYV9/AueIg4qUtTyJDMWHerkOHXEbhGxA1eCzqD1t+yzG1u17wEjafzmuaXQd4leM6LSJ4q0llDbB9W4lPeD22AHGCY4kpKSoJD+leKFV/GD/QY03qzHAWZ7RvSsYKQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OheHyaMRfMYYcR/ah1/njMb6IkLTse8lLLrna9dz2r8=;
- b=Xu+HE3mTyG85v2iF0DVTO3rxtF5hfxcPMqQfPB2FK+ZCmuHkiz+6IOAGrfnGAvH7NRX/+YC58mR5MYrge4URt5HPe/o7ulUtgTJeEmGK0YrQzRdqa5FGOYT8xKQzHa7HYL/bTEpEUhJITWl+uzVzRSHed9FXwNx2WJCZ56sznmo=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB4690.eurprd08.prod.outlook.com (2603:10a6:20b:cd::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.22; Mon, 23 Nov
- 2020 20:13:09 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::fd02:1330:f620:1243]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::fd02:1330:f620:1243%9]) with mapi id 15.20.3589.030; Mon, 23 Nov 2020
- 20:13:09 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, armbru@redhat.com, jsnow@redhat.com,
- mreitz@redhat.com, kwolf@redhat.com, vsementsov@virtuozzo.com,
- den@openvz.org
-Subject: [PATCH 21/21] block/backup-top: drop .active
-Date: Mon, 23 Nov 2020 23:12:33 +0300
-Message-Id: <20201123201233.9534-24-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20201123201233.9534-1-vsementsov@virtuozzo.com>
-References: <20201123201233.9534-1-vsementsov@virtuozzo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [185.215.60.115]
-X-ClientProxiedBy: AM0PR10CA0117.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:208:e6::34) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1khIhi-0000gM-NJ
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 15:44:54 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:36540)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1khIhg-000162-O2
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 15:44:54 -0500
+Received: by mail-wr1-x431.google.com with SMTP id z7so4292811wrn.3
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 12:44:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TYBKIgV2ZOsbNODkS/2vXdBzzoGoptsMfMrhlFd4BPQ=;
+ b=R2pd8Y2tyQA4pLslKrwgActvaLKp9EZJKT7zw/Uqht3mS/oRHNx1kXBaKZcQGOokvA
+ UYaujqva0wOO6STYi6OMdYWtoTK6PPN9L3BkHsq96E5PxWcLg8KkZL1OPwl9mZjdLN8s
+ BD/PgyMtqfHcnmt1rfec72YIobIG/txcXbye9N6y5HfWr4ophrj0FUbdWe8KTxoTN3to
+ ww319KMFLW5uJT0VlMmJLpG8irN5lm2d9rOcIRe/RilLawBM61B0bDQslzio3AXSTUJU
+ VEEtIdOInWrPv3jelOYn5LVJoxuMHjGUeMwj94B01+GUKqx6YI90rlahY3P6C9gvIgQt
+ /t/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=TYBKIgV2ZOsbNODkS/2vXdBzzoGoptsMfMrhlFd4BPQ=;
+ b=iIsJPw6tYr564/rhkoWH8wiWtdwuF9xcWJ2DcBleZsGjiN8n7+6FbYi99QLJ/8kg7O
+ q+NDRM/tf+zOy4nQMX+w8Ue0Her/iJvaWFm8T+Zfu8qoVZV/JLtQBU3A3J+C3I+kV0ob
+ xD9aGSZz1ScZKArApq8Nl5WSfF76Al33FDHRGqRC0HBJZbSAH9BhROfcf/yRSsMSwUpR
+ a+4dhrZnhCfEmFOVW/tkfMrRsKojLtvmv5ZS9l6fAhfx3TMuhBJg4aYYYZuuA28jPVXb
+ yByok9AvDrcx5LpUVYh02u2dhXpo7eRAQWqfOzxML4ShjH4+JAgUd45TuOlSc1mpxmTA
+ KDCQ==
+X-Gm-Message-State: AOAM530nnn850yn8CAMnWDI14LNnoKxNLe5PBYRRCW6+xP6dG6cPMRQH
+ NZHmjJiJ09ca7cCC7uAK5edg4XyJ2NU=
+X-Google-Smtp-Source: ABdhPJxnWiOnttWz1efF6tONh2tZ0GiM2hL/O4u/KCftRSAwCRxozNT+6SDQCqx1oBXPbb60Ux4oeQ==
+X-Received: by 2002:a05:6000:108:: with SMTP id
+ o8mr1450653wrx.337.1606164290714; 
+ Mon, 23 Nov 2020 12:44:50 -0800 (PST)
+Received: from x1w.redhat.com (111.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.111])
+ by smtp.gmail.com with ESMTPSA id y2sm22310739wrn.31.2020.11.23.12.44.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Nov 2020 12:44:49 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/28] target/mips: Explode 60% of the 32K-lines translate.c
+Date: Mon, 23 Nov 2020 21:44:20 +0100
+Message-Id: <20201123204448.3260804-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kvm.sw.ru (185.215.60.115) by
- AM0PR10CA0117.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:e6::34) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3589.21 via Frontend Transport; Mon, 23 Nov 2020 20:13:09 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b0e73fc9-79e5-4a6e-0be9-08d88fec327f
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4690:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4690A7479457ABFF920EE6C9C1FC0@AM6PR08MB4690.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:345;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: UHjGHsptBd3SnoTKlfnp2NBGOFkQGULwTbwg2gFxiQxv+w+PEg9Z2+c+HKpB3l8XTpehFbSLlG7zH3SWdXum0acdTj6EyzJrVVb+5QqA/GoukVCHKR6Il3US2GGAQbjrQNvhvpDwTREung0Uv/ebZEJ5lSFGaOFFj3rMPupWzCbbdjKphZZfz6w3KYBw5HrLPn0UywdMc31yPJeWn5mELoaa7whh8DaG4kmiTsCr2hYAcs64ya/+242MpR9guTHe4NtetHSKKqfGbRFIcPqVJLGh1xHixJRlwA90wTj9Z5/+f18vcvsb/gF8bDgLkq2G7hkAqHYB6qPti8SQtLX1AG2+DKLR9PybOHx8uJJpJBuLn7/Jijpw9jCX/ATSb5Ab
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(346002)(136003)(39840400004)(376002)(366004)(5660300002)(6512007)(6666004)(1076003)(52116002)(6486002)(16526019)(26005)(83380400001)(186003)(6506007)(86362001)(2906002)(6916009)(4326008)(8936002)(66946007)(478600001)(107886003)(66556008)(8676002)(956004)(2616005)(316002)(36756003)(66476007)(142923001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: g2/yRMFLOCrNgFs9z37tEzSfqGWJxnLEUpyhkgmGFPQSDg1s0qEvKINQHoIVJXp0ttqGyMaTaOIO+qLfN84ZY6x+xAutXlPOrbRJmzaeTQNytfhfMtqUTL5R4gb0iZSgeAgOBUqsQ5fakAuMso+niZSYAm9PXTP+K6sYHYH9BXKUs9Wuf5KrWpjQk64XeD6DLMrDmKlgDI4ugv7mxMcy7BPIiK3DDx/gAPyYbf2/Ux6af1c0QsVTuvCQBT+uSceVs0Wiuf4AHt+kh5RYQjh6WH8/heN88OH/jSzLGQBVIbXNFmOtXbUbAfe9JoN/4twzu8RBl6/fh+Yu4ZoyOoKlHLusuHb/iH0FAxvqjkZAyab6FQpnPNtb+dRXHF9YTvWSdGY4/OLYklnUbfjxcrc5MSGXMK6LthMVRf8Wrp8/MIuoRmDMqSx5rE+m9ceCVFJ9tp7P+nSlYGbVLalGbESNSxdK9CQ1zi9Nlc1nfRzRQcrLrf4SZbluCBup2ktGWxtEhGF2RgSOYW8A/fmRAHjwvBBSqzr0YXBSyFcC/4Bq0PyyXE0iNqmJF1VVB+OVGZgOisH4Y6dH3dKhOJpXvpD4IHNRi1Mc7z4T1wFzSRPIb6a0vHMH48QK5h0okUHrvG/yglbxHErYhPafp+WlCuxtDg++RzcwDSLrnxZ+/MgadrAZdu2ov1/5aqbTGgPKdBTxFpmAeLrad3v7Moff6I5TOvV7Fzp9KQK2eO6nJJRWD4x8znwG5mt1Vf6T6S+4jXqsstj8bveaoQ7b9J44QlVU3EC5/dikFuzXlq1yZ1rqTid4S6CeOV23cYJXIYNrAAPfsLRYS6QBQxg2YrFbJ4Xzwniy9CTathu44NrsKl81EQUgHIHO8FZH9Y3vxUb6dMSHlM4XHxVuDDOcEObARUF3FA==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b0e73fc9-79e5-4a6e-0be9-08d88fec327f
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2020 20:13:09.9218 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: v4rjrJ3b8O87+XRbNAXvQKwDkAjDM2DKMae8GJ2pWhNgKOgSWEtq1+cinYyPWQTsnqTh2maznsmzskS/BGkDtpxu9nChgsSdPnw1bVCYZ4s=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4690
-Received-SPF: pass client-ip=40.107.22.111;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,108 +84,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't need this workaround anymore: bdrv_append is already smart
-enough and we can use new bdrv_drop_filter().
-
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- block/backup-top.c         | 38 +-------------------------------------
- tests/qemu-iotests/283.out |  2 +-
- 2 files changed, 2 insertions(+), 38 deletions(-)
-
-diff --git a/block/backup-top.c b/block/backup-top.c
-index 650ed6195c..84eb73aeb7 100644
---- a/block/backup-top.c
-+++ b/block/backup-top.c
-@@ -37,7 +37,6 @@
- typedef struct BDRVBackupTopState {
-     BlockCopyState *bcs;
-     BdrvChild *target;
--    bool active;
-     int64_t cluster_size;
- } BDRVBackupTopState;
- 
-@@ -127,21 +126,6 @@ static void backup_top_child_perm(BlockDriverState *bs, BdrvChild *c,
-                                   uint64_t perm, uint64_t shared,
-                                   uint64_t *nperm, uint64_t *nshared)
- {
--    BDRVBackupTopState *s = bs->opaque;
--
--    if (!s->active) {
--        /*
--         * The filter node may be in process of bdrv_append(), which firstly do
--         * bdrv_set_backing_hd() and then bdrv_replace_node(). This means that
--         * we can't unshare BLK_PERM_WRITE during bdrv_append() operation. So,
--         * let's require nothing during bdrv_append() and refresh permissions
--         * after it (see bdrv_backup_top_append()).
--         */
--        *nperm = 0;
--        *nshared = BLK_PERM_ALL;
--        return;
--    }
--
-     if (!(role & BDRV_CHILD_FILTERED)) {
-         /*
-          * Target child
-@@ -229,18 +213,6 @@ BlockDriverState *bdrv_backup_top_append(BlockDriverState *source,
-     }
-     appended = true;
- 
--    /*
--     * bdrv_append() finished successfully, now we can require permissions
--     * we want.
--     */
--    state->active = true;
--    bdrv_child_refresh_perms(top, top->backing, &local_err);
--    if (local_err) {
--        error_prepend(&local_err,
--                      "Cannot set permissions for backup-top filter: ");
--        goto fail;
--    }
--
-     state->cluster_size = cluster_size;
-     state->bcs = block_copy_state_new(top->backing, state->target,
-                                       cluster_size, write_flags, &local_err);
-@@ -256,7 +228,6 @@ BlockDriverState *bdrv_backup_top_append(BlockDriverState *source,
- 
- fail:
-     if (appended) {
--        state->active = false;
-         bdrv_backup_top_drop(top);
-     } else {
-         bdrv_unref(top);
-@@ -272,16 +243,9 @@ void bdrv_backup_top_drop(BlockDriverState *bs)
- {
-     BDRVBackupTopState *s = bs->opaque;
- 
--    bdrv_drained_begin(bs);
-+    bdrv_drop_filter(bs, &error_abort);
- 
-     block_copy_state_free(s->bcs);
- 
--    s->active = false;
--    bdrv_child_refresh_perms(bs, bs->backing, &error_abort);
--    bdrv_replace_node(bs, bs->backing->bs, &error_abort);
--    bdrv_set_backing_hd(bs, NULL, &error_abort);
--
--    bdrv_drained_end(bs);
--
-     bdrv_unref(bs);
- }
-diff --git a/tests/qemu-iotests/283.out b/tests/qemu-iotests/283.out
-index fbb7d0f619..a34e4e3f92 100644
---- a/tests/qemu-iotests/283.out
-+++ b/tests/qemu-iotests/283.out
-@@ -5,4 +5,4 @@
- {"execute": "blockdev-add", "arguments": {"driver": "blkdebug", "image": "base", "node-name": "other", "take-child-perms": ["write"]}}
- {"return": {}}
- {"execute": "blockdev-backup", "arguments": {"device": "source", "sync": "full", "target": "target"}}
--{"error": {"class": "GenericError", "desc": "Cannot set permissions for backup-top filter: Conflicts with use by source as 'image', which does not allow 'write' on base"}}
-+{"error": {"class": "GenericError", "desc": "Cannot append backup-top filter: Conflicts with use by source as 'image', which does not allow 'write' on base"}}
--- 
-2.21.3
-
+Since v1:=0D
+- Addressed Richard review comments=0D
+=0D
+Patches missing review: 1,3,4,21,22,25=0D
+=0D
+Hi,=0D
+=0D
+This series, while boring, helps maintainability.=0D
+=0D
+I simply exploded 60% of the huge target/mips/translate.c,=0D
+reducing it from 32K lines of code to 13500.=0D
+=0D
+The small overhead in the diffstat is due to entries added in=0D
+MAINTAINERS and license boilerplate addition:=0D
+20225 insertions(+), 19987 deletions(-)=0D
+=0D
+While being a massive diff, it is a no-brain review using=0D
+'git-diff --color-moved=3Ddimmed-zebra' which highlights very few=0D
+changes: #include and license lines.=0D
+=0D
+The exploded new layout, which allows more useful filtering=0D
+with the get_maintainer.pl script, is:=0D
+=0D
+- MIPS ISA, ASE and modules:=0D
+=0D
+ . isa-micromips_helper.h.inc=0D
+ . isa-nanomips_translate.c.inc=0D
+=0D
+ . ase-mips16e_translate.c.inc=0D
+=0D
+ . mod-dsp_helper.c=0D
+ . mod-dsp_helper.h.inc=0D
+ . mod-dsp_translate.c.inc=0D
+ . mod-msa_helper.h.inc=0D
+ . mod-msa_translate.c.inc=0D
+ . mod-msa_helper.c=0D
+ . mod-mt_helper.h.inc=0D
+=0D
+- MIPS Vendor Specific:=0D
+=0D
+ . vendor-loong-simd_helper.c=0D
+ . vendor-loong-ext_translate.c.inc=0D
+ . vendor-loong-simd_helper.h.inc=0D
+ . vendor-loong-simd_translate.c.inc=0D
+=0D
+ . vendor-tx-mmi_translate.c.inc=0D
+ . vendor-tx_translate.c.inc=0D
+=0D
+ . vendor-vr54xx_helper.c=0D
+ . vendor-vr54xx_helper.h.inc=0D
+ . vendor-vr54xx_translate.c.inc=0D
+=0D
+ . vendor-mxu_translate.c.inc=0D
+=0D
+There should be no logical code change (only code movement).=0D
+=0D
+The series is available at:=0D
+=0D
+  https://gitlab.com/philmd/qemu.git tags/mips_translate_explode-v2=0D
+=0D
+Regards,=0D
+=0D
+Phil.=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (28):=0D
+  target/mips: Use FloatRoundMode enum for FCR31 modes conversion=0D
+  target/mips: Extract FPU helpers to 'fpu_helper.h'=0D
+  target/mips: Rename msa_helper.c as mod-msa_helper.c=0D
+  target/mips: Extract MSA helpers from op_helper.c=0D
+  target/mips: Extract MSA helper definitions=0D
+  target/mips: Extract MSA translation routines=0D
+  target/mips: Rename dsp_helper.c as mod-dsp_helper.c=0D
+  target/mips: Extract DSP helper definitions=0D
+  target/mips: Extract DSP translation routines=0D
+  target/mips: Extract Multi-Threading helper definitions=0D
+  target/mips: Extract Code Compaction ASE translation routines=0D
+  target/mips: Extract the microMIPS ISA helper definitions=0D
+  target/mips: Extract the microMIPS ISA translation routines=0D
+  target/mips: Extract nanoMIPS ISA translation routines=0D
+  target/mips: Extract NEC Vr54xx helpers to vendor-vr54xx_helper.c=0D
+  target/mips: Extract NEC Vr54xx helper definitions=0D
+  target/mips: Extract NEC Vr54xx translation routines=0D
+  target/mips: Rename lmmi_helper.c as loong-simd_helper.c=0D
+  target/mips: Extract Loongson SIMD helper definitions=0D
+  target/mips: Extract Loongson SIMD translation routines=0D
+  target/mips: Extract Loongson EXTensions translation routines=0D
+  target/mips: Extract XBurst Media eXtension Unit translation routines=0D
+  target/mips: Make pipeline 1 multiply opcodes generic=0D
+  target/mips: Extract Toshiba TXx9 translation routines=0D
+  target/mips: Extract Toshiba TX79 multimedia translation routines=0D
+  MAINTAINERS: Add entry for MIPS Loongson TCG=0D
+  MAINTAINERS: Add entry for MIPS Ingenic Xburst TCG=0D
+  MAINTAINERS: Add entry for MIPS Toshiba TCG=0D
+=0D
+ target/mips/fpu_helper.h                      |    50 +=0D
+ target/mips/helper.h                          |   881 +-=0D
+ target/mips/internal.h                        |    42 -=0D
+ linux-user/mips/cpu_loop.c                    |     1 +=0D
+ target/mips/fpu_helper.c                      |     3 +-=0D
+ target/mips/gdbstub.c                         |     1 +=0D
+ target/mips/kvm.c                             |     1 +=0D
+ target/mips/machine.c                         |     1 +=0D
+ .../mips/{dsp_helper.c =3D> mod-dsp_helper.c}   |     2 +=0D
+ .../mips/{msa_helper.c =3D> mod-msa_helper.c}   |   393 +=0D
+ target/mips/op_helper.c                       |   511 -=0D
+ target/mips/translate.c                       | 18696 +---------------=0D
+ ...mi_helper.c =3D> vendor-loong-simd_helper.c} |     0=0D
+ target/mips/vendor-vr54xx_helper.c            |   131 +=0D
+ MAINTAINERS                                   |    20 +=0D
+ target/mips/ase-mips16e_translate.c.inc       |  1170 +=0D
+ target/mips/isa-micromips_helper.h.inc        |    17 +=0D
+ target/mips/isa-micromips_translate.c.inc     |  3316 +++=0D
+ target/mips/isa-nanomips_translate.c.inc      |  4839 ++++=0D
+ target/mips/meson.build                       |     8 +-=0D
+ target/mips/mod-dsp_helper.h.inc              |   344 +=0D
+ target/mips/mod-dsp_translate.c.inc           |  2158 ++=0D
+ target/mips/mod-msa_helper.h.inc              |   443 +=0D
+ target/mips/mod-msa_translate.c.inc           |  2218 ++=0D
+ target/mips/mod-mt_helper.h.inc               |    36 +=0D
+ target/mips/vendor-loong-ext_translate.c.inc  |   665 +=0D
+ target/mips/vendor-loong-simd_helper.h.inc    |    69 +=0D
+ target/mips/vendor-loong-simd_translate.c.inc |   492 +=0D
+ target/mips/vendor-mxu_translate.c.inc        |  2892 +++=0D
+ target/mips/vendor-tx-mmi_translate.c.inc     |   573 +=0D
+ target/mips/vendor-tx_translate.c.inc         |   315 +=0D
+ target/mips/vendor-vr54xx_helper.h.inc        |    24 +=0D
+ target/mips/vendor-vr54xx_translate.c.inc     |    93 +=0D
+ 33 files changed, 20320 insertions(+), 20085 deletions(-)=0D
+ create mode 100644 target/mips/fpu_helper.h=0D
+ rename target/mips/{dsp_helper.c =3D> mod-dsp_helper.c} (99%)=0D
+ rename target/mips/{msa_helper.c =3D> mod-msa_helper.c} (94%)=0D
+ rename target/mips/{lmmi_helper.c =3D> vendor-loong-simd_helper.c} (100%)=
+=0D
+ create mode 100644 target/mips/vendor-vr54xx_helper.c=0D
+ create mode 100644 target/mips/ase-mips16e_translate.c.inc=0D
+ create mode 100644 target/mips/isa-micromips_helper.h.inc=0D
+ create mode 100644 target/mips/isa-micromips_translate.c.inc=0D
+ create mode 100644 target/mips/isa-nanomips_translate.c.inc=0D
+ create mode 100644 target/mips/mod-dsp_helper.h.inc=0D
+ create mode 100644 target/mips/mod-dsp_translate.c.inc=0D
+ create mode 100644 target/mips/mod-msa_helper.h.inc=0D
+ create mode 100644 target/mips/mod-msa_translate.c.inc=0D
+ create mode 100644 target/mips/mod-mt_helper.h.inc=0D
+ create mode 100644 target/mips/vendor-loong-ext_translate.c.inc=0D
+ create mode 100644 target/mips/vendor-loong-simd_helper.h.inc=0D
+ create mode 100644 target/mips/vendor-loong-simd_translate.c.inc=0D
+ create mode 100644 target/mips/vendor-mxu_translate.c.inc=0D
+ create mode 100644 target/mips/vendor-tx-mmi_translate.c.inc=0D
+ create mode 100644 target/mips/vendor-tx_translate.c.inc=0D
+ create mode 100644 target/mips/vendor-vr54xx_helper.h.inc=0D
+ create mode 100644 target/mips/vendor-vr54xx_translate.c.inc=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
