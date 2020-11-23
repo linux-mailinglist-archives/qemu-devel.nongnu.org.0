@@ -2,61 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3E122C027A
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 10:48:27 +0100 (CET)
-Received: from localhost ([::1]:39588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BD962C027C
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 10:48:48 +0100 (CET)
+Received: from localhost ([::1]:40998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kh8SQ-000087-IH
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 04:48:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57812)
+	id 1kh8Sl-0000iM-47
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 04:48:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1kh8Ql-0007oB-MH; Mon, 23 Nov 2020 04:46:43 -0500
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:35149)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1kh8Qj-000134-GD; Mon, 23 Nov 2020 04:46:43 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.206])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 2AAC06E1F44C;
- Mon, 23 Nov 2020 10:46:39 +0100 (CET)
-Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Mon, 23 Nov
- 2020 10:46:38 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-102R00402dfd846-df69-4dd8-9058-c2b2031b0105,
- AF84A700016AED6247F1F5B9AC1D14952D0C96A6) smtp.auth=clg@kaod.org
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Subject: Re: [PATCH for-6.0 2/8] spapr/xive: Introduce spapr_xive_nr_ends()
-To: Greg Kurz <groug@kaod.org>, <qemu-devel@nongnu.org>
-References: <20201120174646.619395-1-groug@kaod.org>
- <20201120174646.619395-3-groug@kaod.org>
-Message-ID: <9da660d2-1969-a548-5092-7f645a610e6d@kaod.org>
-Date: Mon, 23 Nov 2020 10:46:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <miklos@szeredi.hu>) id 1kh8RA-00088X-MR
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 04:47:11 -0500
+Received: from mail-vs1-xe43.google.com ([2607:f8b0:4864:20::e43]:35766)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <miklos@szeredi.hu>) id 1kh8R7-0001CP-4b
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 04:47:07 -0500
+Received: by mail-vs1-xe43.google.com with SMTP id v8so8294357vso.2
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 01:47:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=szeredi.hu; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZsMt2XnoIlYnnG5BiedHbtTd+nxdVSn63U6LZGHCEbY=;
+ b=cgA1U9oYtIMjlL5Yp4PqP3SYhuTk8FYirONLJ2I0gkGY5MedBfhscaEwdlnWa6jU6Y
+ K6t76/mJ1boIMSKLcrH9IBb9Zve5sslmFr306M8ODmBg9xEYrBe2JRHEbxrKBh2prJJg
+ CWQ36QR7rWz7zU1Ar/YGdHmLmdaNSH49r09ak=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZsMt2XnoIlYnnG5BiedHbtTd+nxdVSn63U6LZGHCEbY=;
+ b=fUcu8Z9vngy9apJ4YWYnvziM99Ci6tpWm7CjX+8c8SAsVjEVaNiJYYuvKRbi05LnA2
+ xfdLTmTIVyG1w2CGgtbJIuAh0i3DSLMUh8zz55/DncfM8To7B7ufIPxbFcOWNBAP5TYp
+ ucFvKIQ339f8c1ovhnEESBnuA4lAeFlRJ0lu7YOpHzo/IL45SEINc74+2Y4ahOdEtgrf
+ Nz/ubdUQFr1U2yViJ8W7tW6FyLlsz1WT3GAH9IarI86AYZYBxxAad3y4ist/X23Qmn4/
+ gvxKEJpnR9EjIUXSIg9X0IdVtBFszekbFC4x0gvRSF89HYhYaR4qYtksfnvp+RYG4VFk
+ miAg==
+X-Gm-Message-State: AOAM532B0a6i0UuKctzfOYaPtdF66hFThP+yCU5AEKEpZBnad8hIw35D
+ eLMpQXKUUsWJ+sQ1JKQfPgpL6mlr/GlNWosWplueSg==
+X-Google-Smtp-Source: ABdhPJy/rSQfuF5AEH6P58plY0W4wVdx1VYe25ptRu0KINtPib26uBfc0mNIzOikXXn2lAV6AKOPEZ/GIVQMqw8g0WM=
+X-Received: by 2002:a67:e981:: with SMTP id b1mr19861393vso.47.1606124822229; 
+ Mon, 23 Nov 2020 01:47:02 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201120174646.619395-3-groug@kaod.org>
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.102]
-X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 557fbe11-d265-42c2-a819-e8236ee241e2
-X-Ovh-Tracer-Id: 9583378532918070240
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudegiedgtdelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffuvfhfkffffgggjggtgfhisehtjeertddtfeehnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepleeuieejgfeileekiedtheefkeffueeggfeiheefuefgfedttddukedtgfeliefhnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <20201105194416.GA1384085@redhat.com>
+ <20201105195253.GB1384085@redhat.com>
+ <D9233684-9B76-468E-A5F1-B35DA3F3C091@intel.com>
+ <20201106223524.GG1436035@redhat.com>
+ <CAOssrKcJr9a_5EUTU19BTp1UaST64Shh9w0UeR6TXPLqkN7bBw@mail.gmail.com>
+ <20201118195153.GB111728@redhat.com>
+In-Reply-To: <20201118195153.GB111728@redhat.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Mon, 23 Nov 2020 10:46:50 +0100
+Message-ID: <CAJfpeguJiVw=6Sd764Eqaw5hdkW4tOgRedek5H4G38++e0jxGA@mail.gmail.com>
+Subject: Re: [Virtio-fs] [PATCH] virtiofsd: Use --thread-pool-size=0 to mean
+ no thread pool
+To: Vivek Goyal <vgoyal@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e43;
+ envelope-from=miklos@szeredi.hu; helo=mail-vs1-xe43.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,168 +76,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: virtio-fs-list <virtio-fs@redhat.com>, Miklos Szeredi <mszeredi@redhat.com>,
+ "Shinde, Archana M" <archana.m.shinde@intel.com>, "Venegas Munoz,
+ Jose Carlos" <jose.carlos.venegas.munoz@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/20/20 6:46 PM, Greg Kurz wrote:
-> We're going to kill the "nr_ends" field in a subsequent patch.
+On Wed, Nov 18, 2020 at 8:52 PM Vivek Goyal <vgoyal@redhat.com> wrote:
+>
+> On Thu, Nov 12, 2020 at 10:06:37AM +0100, Miklos Szeredi wrote:
+> > On Fri, Nov 6, 2020 at 11:35 PM Vivek Goyal <vgoyal@redhat.com> wrote:
+> > >
+> > > On Fri, Nov 06, 2020 at 08:33:50PM +0000, Venegas Munoz, Jose Carlos wrote:
+> > > > Hi Vivek,
+> > > >
+> > > > I have tested with Kata 1.12-apha0, the results seems that are better for the use fio config I am tracking.
+> > > >
+> > > > The fio config does  randrw:
+> > > >
+> > > > fio --direct=1 --gtod_reduce=1 --name=test --filename=random_read_write.fio --bs=4k --iodepth=64 --size=200M --readwrite=randrw --rwmixread=75
+> > > >
+> > >
+> > > Hi Carlos,
+> > >
+> > > Thanks for the testing.
+> > >
+> > > So basically two conclusions from your tests.
+> > >
+> > > - for virtiofs, --thread-pool-size=0 is performing better as comapred
+> > >   to --thread-pool-size=1 as well as --thread-pool-size=64. Approximately
+> > >   35-40% better.
+> > >
+> > > - virtio-9p is still approximately 30% better than virtiofs
+> > >   --thread-pool-size=0.
+> > >
+> > > As I had done the analysis that this particular workload (mixed read and
+> > > write) is bad with virtiofs because after every write we are invalidating
+> > > attrs and cache so next read ends up fetching attrs again. I had posted
+> > > patches to gain some of the performance.
+> > >
+> > > https://lore.kernel.org/linux-fsdevel/20200929185015.GG220516@redhat.com/
+> > >
+> > > But I got the feedback to look into implementing file leases instead.
+> >
+> > Hmm, the FUSE_AUTO_INVAL_DATA feature is buggy, how about turning it
+> > off for now?   9p doesn't have it, so no point in enabling it for
+> > virtiofs by default.
+>
+> If we disable FUSE_AUTO_INVAL_DATA, then client page cache will not
+> be invalidated even after 1 sec, right? (for cache=auto).
 
-why ? it is one of the tables of the controller and its part of 
-the main XIVE concepts. Conceptually, we could let the machine 
-dimension it with an arbitrary value as OPAL does. The controller
-would fail when the table is fully used. 
+Unless FOPEN_KEEP_CACHE is used (only cache=always, AFAICS) data cache
+will be invalidated on open.
 
- 
-> Prepare ground by using an helper instead of peeking into
-> the sPAPR XIVE structure directly.
+I think it's what NFS does, except NFS does invalidation based on
+mtime *at the time of open*.   At least that's what I remember from
+past reading of NFS code.
 
+> Given now we also want to target sharing directory tree among multiple
+> clients, keeping FUSE_AUTO_INVAL_DATA enabled should help.
 
-I am not against the helper though but we should introduce a 
-prio_shift value which would let us define the number of 
-available priorities. To be linked with "hv-prio"
+Depends what applications expect.  THe close-to-open coherency
+provided even without FUSE_AUTO_INVAL_DATA should be enough for the
+case when strong coherency is not required.
 
-C.
+>
+> >
+> > Also I think some confusion comes from cache=auto being the default
+> > for virtiofs.    Not sure what the default is for 9p, but comparing
+> > default to default will definitely not be apples to apples since this
+> > mode is nonexistent in 9p.
+> >
+> > 9p:cache=none  <-> virtiofs:cache=none
+> > 9p:cache=loose <-> virtiofs:cache=always
+> >
+> > "9p:cache=mmap" and "virtiofs:cache=auto" have no match.
+>
+> Agreed from performance comparison point of view.
+>
+> I will prefer cache=auto default (over cache=none) for virtiofsd. During
+> some kernel compilation tests over virtiofs, cache=none was painfully
+> slow as compared to cache=auto.
 
+It would also be interesting to know the exact bottleneck in the
+kernel compile with cache=none case.
 
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-> ---
->  include/hw/ppc/spapr_xive.h |  1 +
->  hw/intc/spapr_xive.c        | 23 ++++++++++++++---------
->  hw/intc/spapr_xive_kvm.c    |  4 ++--
->  3 files changed, 17 insertions(+), 11 deletions(-)
-> 
-> diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
-> index 26c8d90d7196..4b967f13c030 100644
-> --- a/include/hw/ppc/spapr_xive.h
-> +++ b/include/hw/ppc/spapr_xive.h
-> @@ -75,6 +75,7 @@ void spapr_xive_map_mmio(SpaprXive *xive);
->  
->  int spapr_xive_end_to_target(uint8_t end_blk, uint32_t end_idx,
->                               uint32_t *out_server, uint8_t *out_prio);
-> +uint32_t spapr_xive_nr_ends(const SpaprXive *xive);
->  
->  /*
->   * KVM XIVE device helpers
-> diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-> index 60e0d5769dcc..f473ad9cba47 100644
-> --- a/hw/intc/spapr_xive.c
-> +++ b/hw/intc/spapr_xive.c
-> @@ -192,7 +192,7 @@ void spapr_xive_pic_print_info(SpaprXive *xive, Monitor *mon)
->              uint32_t end_idx = xive_get_field64(EAS_END_INDEX, eas->w);
->              XiveEND *end;
->  
-> -            assert(end_idx < xive->nr_ends);
-> +            assert(end_idx < spapr_xive_nr_ends(xive));
->              end = &xive->endt[end_idx];
->  
->              if (xive_end_is_valid(end)) {
-> @@ -270,7 +270,7 @@ static void spapr_xive_reset(void *dev)
->      }
->  
->      /* Clear all ENDs */
-> -    for (i = 0; i < xive->nr_ends; i++) {
-> +    for (i = 0; i < spapr_xive_nr_ends(xive); i++) {
->          spapr_xive_end_reset(&xive->endt[i]);
->      }
->  }
-> @@ -288,6 +288,11 @@ static void spapr_xive_instance_init(Object *obj)
->      xive->fd = -1;
->  }
->  
-> +uint32_t spapr_xive_nr_ends(const SpaprXive *xive)
-> +{
-> +    return xive->nr_ends;
-> +}
-> +
->  static void spapr_xive_realize(DeviceState *dev, Error **errp)
->  {
->      SpaprXive *xive = SPAPR_XIVE(dev);
-> @@ -336,7 +341,7 @@ static void spapr_xive_realize(DeviceState *dev, Error **errp)
->       * Allocate the routing tables
->       */
->      xive->eat = g_new0(XiveEAS, xive->nr_irqs);
-> -    xive->endt = g_new0(XiveEND, xive->nr_ends);
-> +    xive->endt = g_new0(XiveEND, spapr_xive_nr_ends(xive));
->  
->      xive->nodename = g_strdup_printf("interrupt-controller@%" PRIx64,
->                             xive->tm_base + XIVE_TM_USER_PAGE * (1 << TM_SHIFT));
-> @@ -375,7 +380,7 @@ static int spapr_xive_get_end(XiveRouter *xrtr,
->  {
->      SpaprXive *xive = SPAPR_XIVE(xrtr);
->  
-> -    if (end_idx >= xive->nr_ends) {
-> +    if (end_idx >= spapr_xive_nr_ends(xive)) {
->          return -1;
->      }
->  
-> @@ -389,7 +394,7 @@ static int spapr_xive_write_end(XiveRouter *xrtr, uint8_t end_blk,
->  {
->      SpaprXive *xive = SPAPR_XIVE(xrtr);
->  
-> -    if (end_idx >= xive->nr_ends) {
-> +    if (end_idx >= spapr_xive_nr_ends(xive)) {
->          return -1;
->      }
->  
-> @@ -1138,7 +1143,7 @@ static target_ulong h_int_get_source_config(PowerPCCPU *cpu,
->      /* EAS_END_BLOCK is unused on sPAPR */
->      end_idx = xive_get_field64(EAS_END_INDEX, eas.w);
->  
-> -    assert(end_idx < xive->nr_ends);
-> +    assert(end_idx < spapr_xive_nr_ends(xive));
->      end = &xive->endt[end_idx];
->  
->      nvt_blk = xive_get_field32(END_W6_NVT_BLOCK, end->w6);
-> @@ -1216,7 +1221,7 @@ static target_ulong h_int_get_queue_info(PowerPCCPU *cpu,
->          return H_P2;
->      }
->  
-> -    assert(end_idx < xive->nr_ends);
-> +    assert(end_idx < spapr_xive_nr_ends(xive));
->      end = &xive->endt[end_idx];
->  
->      args[0] = xive->end_base + (1ull << (end_xsrc->esb_shift + 1)) * end_idx;
-> @@ -1304,7 +1309,7 @@ static target_ulong h_int_set_queue_config(PowerPCCPU *cpu,
->          return H_P2;
->      }
->  
-> -    assert(end_idx < xive->nr_ends);
-> +    assert(end_idx < spapr_xive_nr_ends(xive));
->      memcpy(&end, &xive->endt[end_idx], sizeof(XiveEND));
->  
->      switch (qsize) {
-> @@ -1470,7 +1475,7 @@ static target_ulong h_int_get_queue_config(PowerPCCPU *cpu,
->          return H_P2;
->      }
->  
-> -    assert(end_idx < xive->nr_ends);
-> +    assert(end_idx < spapr_xive_nr_ends(xive));
->      end = &xive->endt[end_idx];
->  
->      args[0] = 0;
-> diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-> index 66bf4c06fe55..1566016f0e28 100644
-> --- a/hw/intc/spapr_xive_kvm.c
-> +++ b/hw/intc/spapr_xive_kvm.c
-> @@ -531,7 +531,7 @@ static int kvmppc_xive_get_queues(SpaprXive *xive, Error **errp)
->      int i;
->      int ret;
->  
-> -    for (i = 0; i < xive->nr_ends; i++) {
-> +    for (i = 0; i < spapr_xive_nr_ends(xive); i++) {
->          if (!xive_end_is_valid(&xive->endt[i])) {
->              continue;
->          }
-> @@ -701,7 +701,7 @@ int kvmppc_xive_post_load(SpaprXive *xive, int version_id)
->      assert(xive->fd != -1);
->  
->      /* Restore the ENDT first. The targetting depends on it. */
-> -    for (i = 0; i < xive->nr_ends; i++) {
-> +    for (i = 0; i < spapr_xive_nr_ends(xive); i++) {
->          if (!xive_end_is_valid(&xive->endt[i])) {
->              continue;
->          }
-> 
-
+Thanks,
+Miklos
 
