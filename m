@@ -2,48 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B15572C04FF
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 12:55:03 +0100 (CET)
-Received: from localhost ([::1]:55388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D0152C050C
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 12:57:52 +0100 (CET)
+Received: from localhost ([::1]:35654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khAQt-00042H-Qw
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 06:54:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58194)
+	id 1khATc-0007cV-Gc
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 06:57:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1khAO5-0000Ow-4v
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1khAO5-0000SF-Qq
  for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:52:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56453)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30549)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1khAO2-00061h-Vn
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:52:04 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1khAO4-000623-2y
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:52:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606132321;
+ s=mimecast20190719; t=1606132322;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:content-type:content-type;
- bh=XpECvjoskDsyKWctuB5Q4B9mj/zE5rbCdex2zQ3lu/w=;
- b=b+C9AdaJNn7JwnM3Nl0Nqo1sdp1lhzrx2gL4EhKqXkEpq4AjdDgmkPsI6rKZgGAyXqBhBN
- z3rfCFEzCXXUjvjLyQWoPS7taZZnxkQnT7JBIy6Q54Vl19v99kIKUNK+gTwrluWXR8q74a
- 3chcGrNfYbR/kH3eu2vlA1XaGHwTYxE=
+ to:to:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=3zlGE35tI2Q12+CZkH8qEKiDmM9/O3H1mobcJoSl7VU=;
+ b=guKgEbGrXWNXDkfPU/DIkzzBnRrL66r8wBC+1Oiakuzidz+So7KKM/ieoHAKrhzCMLGmlI
+ VuXHbZxTl3E2QSO8CsilAMy7Gm70oWhDYW2ZaCCFzPekdichnHqvW7wtVL3N96dSFt5nAi
+ Pwl5aHXrLsqTBp9eb15EZ6qmt6sE/MY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-188-nFoyypwdO2ajfmHHGwzjLQ-1; Mon, 23 Nov 2020 06:51:59 -0500
-X-MC-Unique: nFoyypwdO2ajfmHHGwzjLQ-1
+ us-mta-252-z4WwDO8pPuqJa85PEj2F-Q-1; Mon, 23 Nov 2020 06:52:00 -0500
+X-MC-Unique: z4WwDO8pPuqJa85PEj2F-Q-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 780ED802B56;
- Mon, 23 Nov 2020 11:51:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B08DA5214;
+ Mon, 23 Nov 2020 11:51:59 +0000 (UTC)
 Received: from thuth.com (ovpn-113-17.ams2.redhat.com [10.36.113.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9D39419746;
- Mon, 23 Nov 2020 11:51:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D6C1F1A4D0;
+ Mon, 23 Nov 2020 11:51:58 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 0/3] s390-ccw bios reboot fixes
-Date: Mon, 23 Nov 2020 12:51:52 +0100
-Message-Id: <20201123115155.232335-1-thuth@redhat.com>
+Subject: [PULL 1/3] pc-bios: s390x: Ensure Read IPL memory is clean
+Date: Mon, 23 Nov 2020 12:51:53 +0100
+Message-Id: <20201123115155.232335-2-thuth@redhat.com>
+In-Reply-To: <20201123115155.232335-1-thuth@redhat.com>
+References: <20201123115155.232335-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
@@ -74,42 +76,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
- Hi Peter,
+From: Eric Farman <farman@linux.ibm.com>
 
-the following changes since commit 8cc30eb1400fc01f2b139cdd3dc524f8b84dbe07:
+If, for example, we boot off a virtio device and chreipl to a vfio-ccw
+device, the space at lowcore will be non-zero. We build a Read IPL CCW
+at address zero, but it will have leftover PSW data that will conflict
+with the Format-0 CCW being generated:
 
-  Merge remote-tracking branch 'remotes/mcayland/tags/qemu-sparc-20201122' into staging (2020-11-22 15:02:52 +0000)
+0x0: 00080000 80010000
+       ------ Ccw0.cda
+              -- Ccw0.chainData
+                -- Reserved bits
 
-are available in the Git repository at:
+The data address will be overwritten with the correct value (0x0), but
+the apparent data chain bit will cause subsequent memory to be used as
+the target of the data store, which may not be where we expect (0x0).
 
-  https://gitlab.com/huth/qemu.git tags/pull-request-2020-11-23
+Clear out this space when we boot from DASD, so that we know it exists
+exactly as we expect.
 
-for you to fetch changes up to 7a3d37a3f2335e18539e821d0c72abe0b22480bd:
+Signed-off-by: Eric Farman <farman@linux.ibm.com>
+Reviewed-by: Jason J. Herne <jjherne@linux.ibm.com>
+Reviewed-by: Janosch Frank <frankja@de.ibm.com>
+Acked-by: Christian Borntraeger <borntraeger@de.ibm.com>
+Acked-by: Cornelia Huck <cohuck@redhat.com>
+Message-Id: <20201120160117.59366-2-farman@linux.ibm.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ pc-bios/s390-ccw/dasd-ipl.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-  pc-bios/s390: Update the s390-ccw bios binaries (2020-11-23 10:16:09 +0100)
-
-CI runs:
-
-  https://gitlab.com/huth/qemu/-/pipelines/219883736
-  https://travis-ci.com/github/huth/qemu/builds/203497483
-
-----------------------------------------------------------------
-* Two reboot fixes for the s390-ccw bios
-----------------------------------------------------------------
-
-Eric Farman (2):
-      pc-bios: s390x: Ensure Read IPL memory is clean
-      pc-bios: s390x: Clear out leftover S390EP string
-
-Thomas Huth (1):
-      pc-bios/s390: Update the s390-ccw bios binaries
-
- pc-bios/s390-ccw.img         | Bin 46704 -> 42608 bytes
- pc-bios/s390-ccw/dasd-ipl.c  |   3 +++
- pc-bios/s390-ccw/jump2ipl.c  |   2 +-
- pc-bios/s390-ccw/main.c      |   6 ++++++
- pc-bios/s390-ccw/s390-arch.h |   3 +++
- pc-bios/s390-netboot.img     | Bin 71328 -> 67232 bytes
- 6 files changed, 13 insertions(+), 1 deletion(-)
+diff --git a/pc-bios/s390-ccw/dasd-ipl.c b/pc-bios/s390-ccw/dasd-ipl.c
+index 0fc879bb8e..71cbae2f16 100644
+--- a/pc-bios/s390-ccw/dasd-ipl.c
++++ b/pc-bios/s390-ccw/dasd-ipl.c
+@@ -100,6 +100,9 @@ static void make_readipl(void)
+ {
+     Ccw0 *ccwIplRead = (Ccw0 *)0x00;
+ 
++    /* Clear out any existing data */
++    memset(ccwIplRead, 0, sizeof(Ccw0));
++
+     /* Create Read IPL ccw at address 0 */
+     ccwIplRead->cmd_code = CCW_CMD_READ_IPL;
+     ccwIplRead->cda = 0x00; /* Read into address 0x00 in main memory */
+-- 
+2.18.4
 
 
