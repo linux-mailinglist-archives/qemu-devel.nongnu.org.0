@@ -2,61 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 838542C0E32
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 15:57:53 +0100 (CET)
-Received: from localhost ([::1]:47394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AD5A2C0DFE
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 15:44:09 +0100 (CET)
+Received: from localhost ([::1]:56000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khDHs-0007ok-KX
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 09:57:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46184)
+	id 1khD4a-0007Su-9i
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 09:44:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1khDFn-0005pn-38
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:55:43 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:9775)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1khCpk-0006bN-VG
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:28:51 -0500
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:42769)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1khDFl-00062g-83
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:55:42 -0500
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B5fbbcd710000>; Mon, 23 Nov 2020 06:55:45 -0800
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 23 Nov
- 2020 14:55:39 +0000
-Received: from kwankhede-dev.nvidia.com (172.20.13.39) by mail.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 23 Nov 2020 14:55:36 +0000
-From: Kirti Wankhede <kwankhede@nvidia.com>
-To: <alex.williamson@redhat.com>, <cohuck@redhat.com>, <dgilbert@redhat.com>, 
- <cjia@nvidia.com>, <mcrossley@nvidia.com>
-Subject: [PATCH v2 1/1] vfio: Change default dirty pages tracking behavior
- during migration
-Date: Mon, 23 Nov 2020 19:53:19 +0530
-Message-ID: <1606141399-22677-1-git-send-email-kwankhede@nvidia.com>
-X-Mailer: git-send-email 2.7.0
-X-NVConfidentiality: public
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1khCpb-0004LM-6l
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:28:45 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.210])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 0B4D9749F8CF;
+ Mon, 23 Nov 2020 15:28:34 +0100 (CET)
+Received: from kaod.org (37.59.142.98) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Mon, 23 Nov
+ 2020 15:28:31 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-98R002519b7b54-00d3-447d-bc98-e375a696550b,
+ 7563B3C8582C4E5C569F12427BEE2CF3FAD9DE82) smtp.auth=groug@kaod.org
+Date: Mon, 23 Nov 2020 15:28:27 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: virtio-9p-test.c:300:v9fs_req_recv: assertion failed (hdr.id ==
+ id): (7 == 73)
+Message-ID: <20201123152827.0590d6de@bahia.lan>
+In-Reply-To: <7836238.thhSn8XZEd@silver>
+References: <fad8a69d-9c21-ac25-028d-646a64ccecc5@redhat.com>
+ <20201123141734.0c03f21a@bahia.lan> <7836238.thhSn8XZEd@silver>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1606143345; bh=Wp5NiKecTjDmG1K/4iKaZqGU2YMRnkEMaEfKIOqQSJk=;
- h=From:To:CC:Subject:Date:Message-ID:X-Mailer:X-NVConfidentiality:
- MIME-Version:Content-Type;
- b=FKt/5a2i64WIyZ3aiJ/aSJ8NQi2BbDsAn+N9e9EEhc0nQjCcMjHqukbAENsODo95U
- 7zSAdBPIf97tQ55MVAMUg3r3BRR2fbLvHe9cobqxWkjAWoQ0+6LlFb2tPmC9rjS4B+
- TN0Y4dGdxoz775bVyWvaujYcw02XWCfaN0pR3pHIv8Fd0w5l3BK/NdR5/mjX0WNoKr
- oKnH9wPGYherl5UIrYoULIUC5jMrD1L2cx+tcljFexB1N0cxNxvsC2cN1EtzrSNuJ+
- 7kYeuagM7l5AhorLHKTzmlKyB3+YZAy664qNw05kslXCJLBN3SfLHD0qwKX67FgiU6
- k+aplswCd37Vw==
-Received-SPF: pass client-ip=216.228.121.143;
- envelope-from=kwankhede@nvidia.com; helo=hqnvemgate24.nvidia.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: aedfa593-4b82-4d25-a490-47789e0d483e
+X-Ovh-Tracer-Id: 14344527765333252573
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudegiedgieejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegtrhhosghinhhsohesrhgvughhrghtrdgtohhm
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo804.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,87 +68,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kirti Wankhede <kwankhede@nvidia.com>, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, Cole Robinson <crobinso@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-By default dirty pages tracking is enabled during iterative phase
-(pre-copy phase).
-Added per device opt-out option 'pre-copy-dirty-page-tracking' to
-disable dirty pages tracking during iterative phase. If the option
-'pre-copy-dirty-page-tracking=off' is set for any VFIO device, dirty
-pages tracking during iterative phase will be disabled.
+On Mon, 23 Nov 2020 14:48:15 +0100
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
----
- hw/vfio/common.c              | 11 +++++++----
- hw/vfio/pci.c                 |  3 +++
- include/hw/vfio/vfio-common.h |  1 +
- 3 files changed, 11 insertions(+), 4 deletions(-)
+> On Montag, 23. November 2020 14:17:34 CET Greg Kurz wrote:
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index c1fdbf17f2e6..6ff1daa763f8 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -311,7 +311,7 @@ bool vfio_mig_active(void)
-     return true;
- }
- 
--static bool vfio_devices_all_stopped_and_saving(VFIOContainer *container)
-+static bool vfio_devices_all_saving(VFIOContainer *container)
- {
-     VFIOGroup *group;
-     VFIODevice *vbasedev;
-@@ -329,8 +329,11 @@ static bool vfio_devices_all_stopped_and_saving(VFIOContainer *container)
-                 return false;
-             }
- 
--            if ((migration->device_state & VFIO_DEVICE_STATE_SAVING) &&
--                !(migration->device_state & VFIO_DEVICE_STATE_RUNNING)) {
-+            if (migration->device_state & VFIO_DEVICE_STATE_SAVING) {
-+                if ((vbasedev->pre_copy_dirty_page_tracking == ON_OFF_AUTO_OFF)
-+                    && (migration->device_state & VFIO_DEVICE_STATE_RUNNING)) {
-+                        return false;
-+                }
-                 continue;
-             } else {
-                 return false;
-@@ -1125,7 +1128,7 @@ static void vfio_listerner_log_sync(MemoryListener *listener,
-         return;
-     }
- 
--    if (vfio_devices_all_stopped_and_saving(container)) {
-+    if (vfio_devices_all_saving(container)) {
-         vfio_sync_dirty_bitmap(container, section);
-     }
- }
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 58c0ce8971e3..5601df6d6241 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -3182,6 +3182,9 @@ static void vfio_instance_init(Object *obj)
- static Property vfio_pci_dev_properties[] = {
-     DEFINE_PROP_PCI_HOST_DEVADDR("host", VFIOPCIDevice, host),
-     DEFINE_PROP_STRING("sysfsdev", VFIOPCIDevice, vbasedev.sysfsdev),
-+    DEFINE_PROP_ON_OFF_AUTO("x-pre-copy-dirty-page-tracking", VFIOPCIDevice,
-+                            vbasedev.pre_copy_dirty_page_tracking,
-+                            ON_OFF_AUTO_ON),
-     DEFINE_PROP_ON_OFF_AUTO("display", VFIOPCIDevice,
-                             display, ON_OFF_AUTO_OFF),
-     DEFINE_PROP_UINT32("xres", VFIOPCIDevice, display_xres, 0),
-diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index baeb4dcff102..267cf854bbba 100644
---- a/include/hw/vfio/vfio-common.h
-+++ b/include/hw/vfio/vfio-common.h
-@@ -129,6 +129,7 @@ typedef struct VFIODevice {
-     unsigned int flags;
-     VFIOMigration *migration;
-     Error *migration_blocker;
-+    OnOffAuto pre_copy_dirty_page_tracking;
- } VFIODevice;
- 
- struct VFIODeviceOps {
--- 
-2.7.0
+[...]
+
+> 
+> Yeah, looks like the mkdir() call which is supposed to create the 9p test 
+> directory, is failing there for some reason. The question is how to find that 
+> out (effectively) without having access to an affected system.
+> 
+
+I'd say through a bug report that provide enough details on the
+host system.
+
+> It's now too late for 5.2, but I think for 6.0 it would make sense introducing 
+> a dedicated 9p option loglevel=..., so we can tell people to enable this to 
+> capture the precise source location where an error ocurred. That would mean 
+> spreading a huge bunch of macros all over the 9p code base, but it would 
+> definitely help a lot understanding the root cause of reported issues in an 
+> efficient way.
+> 
+
+Maybe but in any case we still should fix this somehow for 5.2.
+The "local" tests are certainly valuable but we can't let them
+break automated CI or build systems.
+
+Since this is basically triggered by a 'make check' we can
+workaround the issue by marking the "local" tests as "slow".
+
+I'll send a patch ASAP.
+
+> Best regards,
+> Christian Schoenebeck
+> 
+> 
 
 
