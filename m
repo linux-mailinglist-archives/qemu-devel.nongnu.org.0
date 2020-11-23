@@ -2,63 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BA802C03EE
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 12:18:17 +0100 (CET)
-Received: from localhost ([::1]:34624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 607632C041A
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 12:20:08 +0100 (CET)
+Received: from localhost ([::1]:37252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kh9rL-0004Yk-Uq
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 06:18:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49642)
+	id 1kh9t9-0005k3-Fs
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 06:20:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1kh9pS-0003dX-2J; Mon, 23 Nov 2020 06:16:18 -0500
-Received: from 1.mo52.mail-out.ovh.net ([178.32.96.117]:50434)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kh9pr-0003x6-A3; Mon, 23 Nov 2020 06:16:45 -0500
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:47313)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1kh9pP-000193-PM; Mon, 23 Nov 2020 06:16:17 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.144])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 61DDC212474;
- Mon, 23 Nov 2020 12:16:11 +0100 (CET)
-Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kh9pp-0001Ij-14; Mon, 23 Nov 2020 06:16:43 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.191])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id CFF126E271B4;
+ Mon, 23 Nov 2020 12:16:37 +0100 (CET)
+Received: from kaod.org (37.59.142.99) by DAG8EX1.mxp5.local (172.16.2.71)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Mon, 23 Nov
- 2020 12:16:10 +0100
+ 2020 12:16:37 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-101G004650f3bcd-7c89-492d-aeff-d7a0a2508906,
- AF84A700016AED6247F1F5B9AC1D14952D0C96A6) smtp.auth=clg@kaod.org
-Subject: Re: [PATCH v2 0/6] spapr/xive: Activate StoreEOI in P10 compat guests
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20201005165147.526426-1-clg@kaod.org>
- <20201009002326.GB1025389@yekko.fritz.box>
- <cabb6bda-c7b5-6546-a142-b2bb2dce28ef@kaod.org>
- <20201123064454.GY521467@yekko.fritz.box>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <90801056-75cf-6c79-183e-d2c5686f2871@kaod.org>
-Date: Mon, 23 Nov 2020 12:16:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (GARM-99G00317b87898-2c77-452d-a2c3-a58a7c7832b4,
+ 7563B3C8582C4E5C569F12427BEE2CF3FAD9DE82) smtp.auth=groug@kaod.org
+Date: Mon, 23 Nov 2020 12:16:35 +0100
+From: Greg Kurz <groug@kaod.org>
+To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH for-6.0 2/8] spapr/xive: Introduce spapr_xive_nr_ends()
+Message-ID: <20201123121635.65506f0c@bahia.lan>
+In-Reply-To: <9da660d2-1969-a548-5092-7f645a610e6d@kaod.org>
+References: <20201120174646.619395-1-groug@kaod.org>
+ <20201120174646.619395-3-groug@kaod.org>
+ <9da660d2-1969-a548-5092-7f645a610e6d@kaod.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20201123064454.GY521467@yekko.fritz.box>
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.101]
-X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: b3aba5a0-e196-45ed-9e5e-4b1954504e88
-X-Ovh-Tracer-Id: 11095462106997885859
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 3ef964fc-3158-470e-ac8a-1070a17988b4
+X-Ovh-Tracer-Id: 11102780456921831904
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudegiedgvdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeehnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgeelgfejveehieefffduueehvdevfedtleeiudekjeegveeigfeifefhtdfffedtnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=178.32.96.117; envelope-from=clg@kaod.org;
- helo=1.mo52.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudegiedgvdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeevlefhtddufffhieevhefhleegleelgfetffetkedugeehjeffgfehhfefueduffenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,90 +68,194 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gustavo Romero <gromero@linux.ibm.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/23/20 7:44 AM, David Gibson wrote:
-> On Mon, Nov 02, 2020 at 02:22:35PM +0100, Cédric Le Goater wrote:
->> Sorry for the late answer I was out for a couple of weeks.
->>
->> On 10/9/20 2:23 AM, David Gibson wrote:
->>> On Mon, Oct 05, 2020 at 06:51:41PM +0200, Cédric Le Goater wrote:
->>>> Hello,
->>>>
->>>> When an interrupt has been handled, the OS notifies the interrupt
->>>> controller with an EOI sequence. On the XIVE interrupt controller
->>>> (POWER9 and POWER10), this can be done with a load or a store
->>>> operation on the ESB interrupt management page of the interrupt. The
->>>> StoreEOI operation has less latency and improves interrupt handling
->>>> performance but it was deactivated during the POWER9 DD2.0 time-frame
->>>> because of ordering issues. POWER9 systems use the LoadEOI instead.
->>>> POWER10 has fixed the issue with a special load command which enforces
->>>> Load-after-Store ordering and StoreEOI can be safely used.
->>>
->>> Do you mean that ordering is *always* enforced on P10?  Or it's a
->>> special form of load that has the ordering?
->>
->> It's a special load offset that has the ordering. Oring 0x40 to the load
->> address : 
->>
->>   #define XIVE_ESB_LOAD_EOI	0x000 /* Load */
->>   #define XIVE_ESB_GET		0x800 /* Load */
->>   #define XIVE_ESB_SET_PQ_00	0xc00 /* Load */
->>   #define XIVE_ESB_SET_PQ_01	0xd00 /* Load */
->>   #define XIVE_ESB_SET_PQ_10	0xe00 /* Load */
->>   #define XIVE_ESB_SET_PQ_11	0xf00 /* Load */
->>
->> will enforce load-after-store ordering.
-> 
-> Oh... I had assumed the problem was to do with the load/store ordering
-> within the CPU core itself (or maybe the L1, I guess).  But if the
-> address used can change it, the problem must be within the XIVE, yes?
+On Mon, 23 Nov 2020 10:46:38 +0100
+C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 
-Yes. It's in the XIVE logic handling the load/store operations on the 
-PQ bits.
+> On 11/20/20 6:46 PM, Greg Kurz wrote:
+> > We're going to kill the "nr_ends" field in a subsequent patch.
+>=20
+> why ? it is one of the tables of the controller and its part of=20
+> the main XIVE concepts. Conceptually, we could let the machine=20
+> dimension it with an arbitrary value as OPAL does. The controller
+> would fail when the table is fully used.=20
+>=20
 
-> Or at least somwhere on the Powerbus.  So, wasn't this just a plain
-> XIVE hardware bug?  
+The idea is that the sPAPR machine only true need is to create a
+controller that can accommodate up to a certain number of vCPU ids.
+It doesn't really to know about the END itself IMHO.
 
-It's a theoretical bug in HW. StoreEOI is activated on the P9 systems 
-we use for performance testing and it never showed up.
+This being said, if we decide to pass both spapr_max_server_number()
+and smp.max_cpus down to the backends as function arguments, we won't
+have to change "nr_ends" at all.
 
-> In which case why is there software involvement as well?
+> =20
+> > Prepare ground by using an helper instead of peeking into
+> > the sPAPR XIVE structure directly.
+>=20
+>=20
+> I am not against the helper though but we should introduce a=20
+> prio_shift value which would let us define the number of=20
+> available priorities. To be linked with "hv-prio"
+>=20
+> C.
+>=20
+>=20
+> > Signed-off-by: Greg Kurz <groug@kaod.org>
+> > ---
+> >  include/hw/ppc/spapr_xive.h |  1 +
+> >  hw/intc/spapr_xive.c        | 23 ++++++++++++++---------
+> >  hw/intc/spapr_xive_kvm.c    |  4 ++--
+> >  3 files changed, 17 insertions(+), 11 deletions(-)
+> >=20
+> > diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
+> > index 26c8d90d7196..4b967f13c030 100644
+> > --- a/include/hw/ppc/spapr_xive.h
+> > +++ b/include/hw/ppc/spapr_xive.h
+> > @@ -75,6 +75,7 @@ void spapr_xive_map_mmio(SpaprXive *xive);
+> > =20
+> >  int spapr_xive_end_to_target(uint8_t end_blk, uint32_t end_idx,
+> >                               uint32_t *out_server, uint8_t *out_prio);
+> > +uint32_t spapr_xive_nr_ends(const SpaprXive *xive);
+> > =20
+> >  /*
+> >   * KVM XIVE device helpers
+> > diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+> > index 60e0d5769dcc..f473ad9cba47 100644
+> > --- a/hw/intc/spapr_xive.c
+> > +++ b/hw/intc/spapr_xive.c
+> > @@ -192,7 +192,7 @@ void spapr_xive_pic_print_info(SpaprXive *xive, Mon=
+itor *mon)
+> >              uint32_t end_idx =3D xive_get_field64(EAS_END_INDEX, eas->=
+w);
+> >              XiveEND *end;
+> > =20
+> > -            assert(end_idx < xive->nr_ends);
+> > +            assert(end_idx < spapr_xive_nr_ends(xive));
+> >              end =3D &xive->endt[end_idx];
+> > =20
+> >              if (xive_end_is_valid(end)) {
+> > @@ -270,7 +270,7 @@ static void spapr_xive_reset(void *dev)
+> >      }
+> > =20
+> >      /* Clear all ENDs */
+> > -    for (i =3D 0; i < xive->nr_ends; i++) {
+> > +    for (i =3D 0; i < spapr_xive_nr_ends(xive); i++) {
+> >          spapr_xive_end_reset(&xive->endt[i]);
+> >      }
+> >  }
+> > @@ -288,6 +288,11 @@ static void spapr_xive_instance_init(Object *obj)
+> >      xive->fd =3D -1;
+> >  }
+> > =20
+> > +uint32_t spapr_xive_nr_ends(const SpaprXive *xive)
+> > +{
+> > +    return xive->nr_ends;
+> > +}
+> > +
+> >  static void spapr_xive_realize(DeviceState *dev, Error **errp)
+> >  {
+> >      SpaprXive *xive =3D SPAPR_XIVE(dev);
+> > @@ -336,7 +341,7 @@ static void spapr_xive_realize(DeviceState *dev, Er=
+ror **errp)
+> >       * Allocate the routing tables
+> >       */
+> >      xive->eat =3D g_new0(XiveEAS, xive->nr_irqs);
+> > -    xive->endt =3D g_new0(XiveEND, xive->nr_ends);
+> > +    xive->endt =3D g_new0(XiveEND, spapr_xive_nr_ends(xive));
+> > =20
+> >      xive->nodename =3D g_strdup_printf("interrupt-controller@%" PRIx64,
+> >                             xive->tm_base + XIVE_TM_USER_PAGE * (1 << T=
+M_SHIFT));
+> > @@ -375,7 +380,7 @@ static int spapr_xive_get_end(XiveRouter *xrtr,
+> >  {
+> >      SpaprXive *xive =3D SPAPR_XIVE(xrtr);
+> > =20
+> > -    if (end_idx >=3D xive->nr_ends) {
+> > +    if (end_idx >=3D spapr_xive_nr_ends(xive)) {
+> >          return -1;
+> >      }
+> > =20
+> > @@ -389,7 +394,7 @@ static int spapr_xive_write_end(XiveRouter *xrtr, u=
+int8_t end_blk,
+> >  {
+> >      SpaprXive *xive =3D SPAPR_XIVE(xrtr);
+> > =20
+> > -    if (end_idx >=3D xive->nr_ends) {
+> > +    if (end_idx >=3D spapr_xive_nr_ends(xive)) {
+> >          return -1;
+> >      }
+> > =20
+> > @@ -1138,7 +1143,7 @@ static target_ulong h_int_get_source_config(Power=
+PCCPU *cpu,
+> >      /* EAS_END_BLOCK is unused on sPAPR */
+> >      end_idx =3D xive_get_field64(EAS_END_INDEX, eas.w);
+> > =20
+> > -    assert(end_idx < xive->nr_ends);
+> > +    assert(end_idx < spapr_xive_nr_ends(xive));
+> >      end =3D &xive->endt[end_idx];
+> > =20
+> >      nvt_blk =3D xive_get_field32(END_W6_NVT_BLOCK, end->w6);
+> > @@ -1216,7 +1221,7 @@ static target_ulong h_int_get_queue_info(PowerPCC=
+PU *cpu,
+> >          return H_P2;
+> >      }
+> > =20
+> > -    assert(end_idx < xive->nr_ends);
+> > +    assert(end_idx < spapr_xive_nr_ends(xive));
+> >      end =3D &xive->endt[end_idx];
+> > =20
+> >      args[0] =3D xive->end_base + (1ull << (end_xsrc->esb_shift + 1)) *=
+ end_idx;
+> > @@ -1304,7 +1309,7 @@ static target_ulong h_int_set_queue_config(PowerP=
+CCPU *cpu,
+> >          return H_P2;
+> >      }
+> > =20
+> > -    assert(end_idx < xive->nr_ends);
+> > +    assert(end_idx < spapr_xive_nr_ends(xive));
+> >      memcpy(&end, &xive->endt[end_idx], sizeof(XiveEND));
+> > =20
+> >      switch (qsize) {
+> > @@ -1470,7 +1475,7 @@ static target_ulong h_int_get_queue_config(PowerP=
+CCPU *cpu,
+> >          return H_P2;
+> >      }
+> > =20
+> > -    assert(end_idx < xive->nr_ends);
+> > +    assert(end_idx < spapr_xive_nr_ends(xive));
+> >      end =3D &xive->endt[end_idx];
+> > =20
+> >      args[0] =3D 0;
+> > diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
+> > index 66bf4c06fe55..1566016f0e28 100644
+> > --- a/hw/intc/spapr_xive_kvm.c
+> > +++ b/hw/intc/spapr_xive_kvm.c
+> > @@ -531,7 +531,7 @@ static int kvmppc_xive_get_queues(SpaprXive *xive, =
+Error **errp)
+> >      int i;
+> >      int ret;
+> > =20
+> > -    for (i =3D 0; i < xive->nr_ends; i++) {
+> > +    for (i =3D 0; i < spapr_xive_nr_ends(xive); i++) {
+> >          if (!xive_end_is_valid(&xive->endt[i])) {
+> >              continue;
+> >          }
+> > @@ -701,7 +701,7 @@ int kvmppc_xive_post_load(SpaprXive *xive, int vers=
+ion_id)
+> >      assert(xive->fd !=3D -1);
+> > =20
+> >      /* Restore the ENDT first. The targetting depends on it. */
+> > -    for (i =3D 0; i < xive->nr_ends; i++) {
+> > +    for (i =3D 0; i < spapr_xive_nr_ends(xive); i++) {
+> >          if (!xive_end_is_valid(&xive->endt[i])) {
+> >              continue;
+> >          }
+> >=20
+>=20
 
-Software is involved as an optimization, because only PQ_10 loads need 
-the ordering enforcement.
-
-commit b1f9be9392f0 in Linux says more : 
-    
-    There is usually no need to enforce ordering between ESB load and
-    store operations as they should lead to the same result. E.g. a store
-    trigger and a load EOI can be executed in any order. Assuming the
-    interrupt state is PQ=10, a store trigger followed by a load EOI will
-    return a Q bit. In the reverse order, it will create a new interrupt
-    trigger from HW. In both cases, the handler processing interrupts is
-    notified.
-    
-    In some cases, the XIVE_ESB_SET_PQ_10 load operation is used to
-    disable temporarily the interrupt source (mask/unmask). When the
-    source is reenabled, the OS can detect if interrupts were received
-    while the source was disabled and reinject them. This process needs
-    special care when StoreEOI is activated. The ESB load and store
-    operations should be correctly ordered because a XIVE_ESB_STORE_EOI
-    operation could leave the source enabled if it has not completed
-    before the loads.
-    
-    For those cases, we enforce Load-after-Store ordering with a special
-    load operation offset. To avoid performance impact, this ordering is
-    only enforced when really needed, that is when interrupt sources are
-    temporarily disabled with the XIVE_ESB_SET_PQ_10 load. It should not
-    be needed for other loads.
-
-This ordering is a requirement for StoreEOI. 
-
-    
-
-C.
 
