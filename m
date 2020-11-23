@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB0B12C1745
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 22:10:35 +0100 (CET)
-Received: from localhost ([::1]:59782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A62482C173F
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 22:08:18 +0100 (CET)
+Received: from localhost ([::1]:53188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khJ6Y-0008RO-Qc
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 16:10:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46754)
+	id 1khJ4L-0005gc-NM
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 16:08:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1khIiv-0002Le-Et
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 15:46:09 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:39543)
+ id 1khIj4-0002Mr-NU
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 15:46:27 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40257)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1khIit-0001hI-I9
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 15:46:09 -0500
-Received: by mail-wr1-x441.google.com with SMTP id e7so2586865wrv.6
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 12:46:07 -0800 (PST)
+ id 1khIiz-0001iK-Mt
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 15:46:17 -0500
+Received: by mail-wr1-x444.google.com with SMTP id m6so20104427wrg.7
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 12:46:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=j1Y3DPzyuheO159W9qAyN3VYs+itKBeqGyIlOMc68sk=;
- b=XVOSvpkqvZo/jsr4A6heTMi4YSWyXdNjOekuyLOXPLOXp15JJ2Pzl2GrrEIXM69gv3
- MyAf+s+gI7cqkGWrhanj0q/S1VCKqlJ7baZdDXNvgDBJ+b9pq5S6JPnACqmPg8E5jQxO
- sAIvc5lFYcR1AdcVZHW2Ypdn5XNmMEHwVJ7ii8vHVgrjqkx3asNPLt/g6PWlX54ogq+i
- E829Y4WMw2crWQd+dKDJiz/QsuaZi90DXGR3KK+i4DXczzoqmkatVpeZ204ENU48rm59
- opjwV2c638ZQTPau9+MHpaRyrn68xZaurIq4ax+RnFK9R0lRx9A1l7rc3XV96YU6VobX
- 5O2g==
+ bh=c4jJTZD8ogptt8KJFpuKBUvTjXtZDzKX+vqshTzv/Ig=;
+ b=IeDxl9A/net7p/bDAiEoWuyWSiaYCbyRuReQy7GNau6p1zvbfZD7TGBybD39262e03
+ RuytwnF+8BoIMWPy+8dAA3stwbdNNVsLjO/4BMimF4UfGaaKUfVPzZSujGpaYkJ87lCV
+ IHKcfSDys/Ugdh6frOvvFjw5bMuSbJGr4BwWnZqkp8Z5t4Ujnl/Q6ciJ12gbSFTXic85
+ JtP1Mum7utgQmru5Uar7Suj0eRFZbKHKWPJR5DYAs5dAztnDXCTiKDrc0Nb9hgVQnQmW
+ yUiPzHraomQX4AEpGoiu7RW/i+wZOdahJB7VppHbXNH6EoFgiMLdOlGK//smRhGchQLz
+ aQxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=j1Y3DPzyuheO159W9qAyN3VYs+itKBeqGyIlOMc68sk=;
- b=rdVqRawmPp3iwohy8Pf+UWkhhyLmBxH35OmhRcxoBL/+d4WR9LvTm0E2oa2LpJjgS5
- m8DUwlhXcv7SdYaEPEapjbjtwlogXjTwEI0KP5M7xUEdV2TnTg5Vv8WNsUHUnm0G8J1v
- BEPHu7qHp2riLNSyr74KnR89Puk9xRVLvbTNSuA9vfupczIMNXlQZb7dws+bmipz3E48
- GBfBVYeCDl5qFKLqSW8edb8iGyEOlbq4dYjHhkhOyKJnaRaq1TflA8ies8GKBw7+qbz8
- f9i0x0ljJxcPmkOFgLl34fLnB/6R0HQqEWfZt2v/lJw23ArJKVQ4mR+k8rfP2lSJxt2S
- VrFg==
-X-Gm-Message-State: AOAM531bPUtnpeEeSlflG2QAcy+cmPRLWIGUuPCwibgblKKgFAWIMsRl
- fgQkqfdwoIcuEiOTeY1I03DRQCjKapY=
-X-Google-Smtp-Source: ABdhPJzgNeRX9N3E1CubbtsmUgN/ii3fSWs3n685b33/1m+i6r5CNOAm1t4sAH3vVdE9w6mDW0Cm3w==
-X-Received: by 2002:a5d:6506:: with SMTP id x6mr1585024wru.175.1606164365838; 
- Mon, 23 Nov 2020 12:46:05 -0800 (PST)
+ bh=c4jJTZD8ogptt8KJFpuKBUvTjXtZDzKX+vqshTzv/Ig=;
+ b=pHmJD8YSH4hywr61+aXLFTtqRmVi0FV5YcJUM44s92qr3VxM8RS8hJk9dPqheF4FWM
+ yEpbLr+th6N6ssAIbk0EY2p7gLwzTPhn9ASP1vhGJmAjmifZoAF+yaBefc7jci4hmnMO
+ fOR56sZbfNj4dWpQoqdI5pRUgIpZv30ZCIrSuzwUJ5gZzLj0UaETOAAAvSG9wOEBBKNY
+ ka/o4EWve9NFGTtNPoa4+vShL1lqfYPt6xxAH8kVRvPTVp4h0bNG5cwc7t/71j7YEPyi
+ ospRugb1bUmSrwcX3crK8qJhyrGV38wRalVFqQ0twpvk5MLz3N0BNdEUh+RQeJm+Iwz7
+ LZZQ==
+X-Gm-Message-State: AOAM533f17xvchNzvHIgBvY6ruDd4cnMKTOVqJK8+FuGS/wzqSDQDeX8
+ DTJZVqOiplO9+wjd7YKI1rgG7aGJJUE=
+X-Google-Smtp-Source: ABdhPJybk1c0phz6/1h5exIJonwGQGWb61Hfm/SgAkvYl9Am/GeirtvW04xkqkd1iGgbUWNWvVEZag==
+X-Received: by 2002:adf:de05:: with SMTP id b5mr1496041wrm.131.1606164370583; 
+ Mon, 23 Nov 2020 12:46:10 -0800 (PST)
 Received: from x1w.redhat.com (111.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id l24sm15339465wrb.28.2020.11.23.12.46.04
+ by smtp.gmail.com with ESMTPSA id o197sm865922wme.17.2020.11.23.12.46.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Nov 2020 12:46:05 -0800 (PST)
+ Mon, 23 Nov 2020 12:46:10 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 15/28] target/mips: Extract NEC Vr54xx helpers to
- vendor-vr54xx_helper.c
-Date: Mon, 23 Nov 2020 21:44:35 +0100
-Message-Id: <20201123204448.3260804-16-f4bug@amsat.org>
+Subject: [PATCH v2 16/28] target/mips: Extract NEC Vr54xx helper definitions
+Date: Mon, 23 Nov 2020 21:44:36 +0100
+Message-Id: <20201123204448.3260804-17-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201123204448.3260804-1-f4bug@amsat.org>
 References: <20201123204448.3260804-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,154 +90,56 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Extract NEC Vr54xx helpers from op_helper.c to a new file:
-'vendor-vr54xx_helper.c'.
+Extract the NEC Vr54xx helper definitions to
+'vendor-vr54xx_helper.h'.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20201120210844.2625602-14-f4bug@amsat.org>
+Message-Id: <20201120210844.2625602-15-f4bug@amsat.org>
 ---
- target/mips/op_helper.c            | 118 --------------------------
- target/mips/vendor-vr54xx_helper.c | 131 +++++++++++++++++++++++++++++
- target/mips/meson.build            |   1 +
- 3 files changed, 132 insertions(+), 118 deletions(-)
- create mode 100644 target/mips/vendor-vr54xx_helper.c
+ target/mips/helper.h                   | 17 ++---------------
+ target/mips/vendor-vr54xx_helper.h.inc | 24 ++++++++++++++++++++++++
+ 2 files changed, 26 insertions(+), 15 deletions(-)
+ create mode 100644 target/mips/vendor-vr54xx_helper.h.inc
 
-diff --git a/target/mips/op_helper.c b/target/mips/op_helper.c
-index dd09a4c714a..a900c008b5a 100644
---- a/target/mips/op_helper.c
-+++ b/target/mips/op_helper.c
-@@ -54,124 +54,6 @@ static void raise_exception(CPUMIPSState *env, uint32_t exception)
-     do_raise_exception(env, exception, 0);
- }
+diff --git a/target/mips/helper.h b/target/mips/helper.h
+index 06da4c6cf68..58c716a1480 100644
+--- a/target/mips/helper.h
++++ b/target/mips/helper.h
+@@ -20,21 +20,6 @@ DEF_HELPER_3(lld, tl, env, tl, int)
+ #endif
+ #endif
  
--/* 64 bits arithmetic for 32 bits hosts */
--static inline uint64_t get_HILO(CPUMIPSState *env)
--{
--    return ((uint64_t)(env->active_tc.HI[0]) << 32) |
--           (uint32_t)env->active_tc.LO[0];
--}
+-DEF_HELPER_3(muls, tl, env, tl, tl)
+-DEF_HELPER_3(mulsu, tl, env, tl, tl)
+-DEF_HELPER_3(macc, tl, env, tl, tl)
+-DEF_HELPER_3(maccu, tl, env, tl, tl)
+-DEF_HELPER_3(msac, tl, env, tl, tl)
+-DEF_HELPER_3(msacu, tl, env, tl, tl)
+-DEF_HELPER_3(mulhi, tl, env, tl, tl)
+-DEF_HELPER_3(mulhiu, tl, env, tl, tl)
+-DEF_HELPER_3(mulshi, tl, env, tl, tl)
+-DEF_HELPER_3(mulshiu, tl, env, tl, tl)
+-DEF_HELPER_3(macchi, tl, env, tl, tl)
+-DEF_HELPER_3(macchiu, tl, env, tl, tl)
+-DEF_HELPER_3(msachi, tl, env, tl, tl)
+-DEF_HELPER_3(msachiu, tl, env, tl, tl)
 -
--static inline target_ulong set_HIT0_LO(CPUMIPSState *env, uint64_t HILO)
--{
--    env->active_tc.LO[0] = (int32_t)(HILO & 0xFFFFFFFF);
--    return env->active_tc.HI[0] = (int32_t)(HILO >> 32);
--}
--
--static inline target_ulong set_HI_LOT0(CPUMIPSState *env, uint64_t HILO)
--{
--    target_ulong tmp = env->active_tc.LO[0] = (int32_t)(HILO & 0xFFFFFFFF);
--    env->active_tc.HI[0] = (int32_t)(HILO >> 32);
--    return tmp;
--}
--
--/* Multiplication variants of the vr54xx. */
--target_ulong helper_muls(CPUMIPSState *env, target_ulong arg1,
--                         target_ulong arg2)
--{
--    return set_HI_LOT0(env, 0 - ((int64_t)(int32_t)arg1 *
--                                 (int64_t)(int32_t)arg2));
--}
--
--target_ulong helper_mulsu(CPUMIPSState *env, target_ulong arg1,
--                          target_ulong arg2)
--{
--    return set_HI_LOT0(env, 0 - (uint64_t)(uint32_t)arg1 *
--                       (uint64_t)(uint32_t)arg2);
--}
--
--target_ulong helper_macc(CPUMIPSState *env, target_ulong arg1,
--                         target_ulong arg2)
--{
--    return set_HI_LOT0(env, (int64_t)get_HILO(env) + (int64_t)(int32_t)arg1 *
--                       (int64_t)(int32_t)arg2);
--}
--
--target_ulong helper_macchi(CPUMIPSState *env, target_ulong arg1,
--                           target_ulong arg2)
--{
--    return set_HIT0_LO(env, (int64_t)get_HILO(env) + (int64_t)(int32_t)arg1 *
--                       (int64_t)(int32_t)arg2);
--}
--
--target_ulong helper_maccu(CPUMIPSState *env, target_ulong arg1,
--                          target_ulong arg2)
--{
--    return set_HI_LOT0(env, (uint64_t)get_HILO(env) +
--                       (uint64_t)(uint32_t)arg1 * (uint64_t)(uint32_t)arg2);
--}
--
--target_ulong helper_macchiu(CPUMIPSState *env, target_ulong arg1,
--                            target_ulong arg2)
--{
--    return set_HIT0_LO(env, (uint64_t)get_HILO(env) +
--                       (uint64_t)(uint32_t)arg1 * (uint64_t)(uint32_t)arg2);
--}
--
--target_ulong helper_msac(CPUMIPSState *env, target_ulong arg1,
--                         target_ulong arg2)
--{
--    return set_HI_LOT0(env, (int64_t)get_HILO(env) - (int64_t)(int32_t)arg1 *
--                       (int64_t)(int32_t)arg2);
--}
--
--target_ulong helper_msachi(CPUMIPSState *env, target_ulong arg1,
--                           target_ulong arg2)
--{
--    return set_HIT0_LO(env, (int64_t)get_HILO(env) - (int64_t)(int32_t)arg1 *
--                       (int64_t)(int32_t)arg2);
--}
--
--target_ulong helper_msacu(CPUMIPSState *env, target_ulong arg1,
--                          target_ulong arg2)
--{
--    return set_HI_LOT0(env, (uint64_t)get_HILO(env) -
--                       (uint64_t)(uint32_t)arg1 * (uint64_t)(uint32_t)arg2);
--}
--
--target_ulong helper_msachiu(CPUMIPSState *env, target_ulong arg1,
--                            target_ulong arg2)
--{
--    return set_HIT0_LO(env, (uint64_t)get_HILO(env) -
--                       (uint64_t)(uint32_t)arg1 * (uint64_t)(uint32_t)arg2);
--}
--
--target_ulong helper_mulhi(CPUMIPSState *env, target_ulong arg1,
--                          target_ulong arg2)
--{
--    return set_HIT0_LO(env, (int64_t)(int32_t)arg1 * (int64_t)(int32_t)arg2);
--}
--
--target_ulong helper_mulhiu(CPUMIPSState *env, target_ulong arg1,
--                           target_ulong arg2)
--{
--    return set_HIT0_LO(env, (uint64_t)(uint32_t)arg1 *
--                       (uint64_t)(uint32_t)arg2);
--}
--
--target_ulong helper_mulshi(CPUMIPSState *env, target_ulong arg1,
--                           target_ulong arg2)
--{
--    return set_HIT0_LO(env, 0 - (int64_t)(int32_t)arg1 *
--                       (int64_t)(int32_t)arg2);
--}
--
--target_ulong helper_mulshiu(CPUMIPSState *env, target_ulong arg1,
--                            target_ulong arg2)
--{
--    return set_HIT0_LO(env, 0 - (uint64_t)(uint32_t)arg1 *
--                       (uint64_t)(uint32_t)arg2);
--}
--
- static inline target_ulong bitswap(target_ulong v)
- {
-     v = ((v >> 1) & (target_ulong)0x5555555555555555ULL) |
-diff --git a/target/mips/vendor-vr54xx_helper.c b/target/mips/vendor-vr54xx_helper.c
+ DEF_HELPER_FLAGS_1(bitswap, TCG_CALL_NO_RWG_SE, tl, tl)
+ #ifdef TARGET_MIPS64
+ DEF_HELPER_FLAGS_1(dbitswap, TCG_CALL_NO_RWG_SE, tl, tl)
+@@ -424,3 +409,5 @@ DEF_HELPER_3(cache, void, env, tl, i32)
+ #include "mod-dsp_helper.h.inc"
+ #include "mod-msa_helper.h.inc"
+ #include "mod-mt_helper.h.inc"
++
++#include "vendor-vr54xx_helper.h.inc"
+diff --git a/target/mips/vendor-vr54xx_helper.h.inc b/target/mips/vendor-vr54xx_helper.h.inc
 new file mode 100644
-index 00000000000..d8c8f648b54
+index 00000000000..50b1f5b818d
 --- /dev/null
-+++ b/target/mips/vendor-vr54xx_helper.c
-@@ -0,0 +1,131 @@
++++ b/target/mips/vendor-vr54xx_helper.h.inc
+@@ -0,0 +1,24 @@
 +/*
 + * MIPS NEC Vr54xx instruction emulation helpers for QEMU.
 + *
@@ -249,139 +150,20 @@ index 00000000000..d8c8f648b54
 + * SPDX-License-Identifier: LGPL-2.1-or-later
 + */
 +
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "exec/helper-proto.h"
-+
-+/* 64 bits arithmetic for 32 bits hosts */
-+static inline uint64_t get_HILO(CPUMIPSState *env)
-+{
-+    return ((uint64_t)(env->active_tc.HI[0]) << 32) |
-+           (uint32_t)env->active_tc.LO[0];
-+}
-+
-+static inline target_ulong set_HIT0_LO(CPUMIPSState *env, uint64_t HILO)
-+{
-+    env->active_tc.LO[0] = (int32_t)(HILO & 0xFFFFFFFF);
-+    return env->active_tc.HI[0] = (int32_t)(HILO >> 32);
-+}
-+
-+static inline target_ulong set_HI_LOT0(CPUMIPSState *env, uint64_t HILO)
-+{
-+    target_ulong tmp = env->active_tc.LO[0] = (int32_t)(HILO & 0xFFFFFFFF);
-+    env->active_tc.HI[0] = (int32_t)(HILO >> 32);
-+    return tmp;
-+}
-+
-+/* Multiplication variants of the vr54xx. */
-+target_ulong helper_muls(CPUMIPSState *env, target_ulong arg1,
-+                         target_ulong arg2)
-+{
-+    return set_HI_LOT0(env, 0 - ((int64_t)(int32_t)arg1 *
-+                                 (int64_t)(int32_t)arg2));
-+}
-+
-+target_ulong helper_mulsu(CPUMIPSState *env, target_ulong arg1,
-+                          target_ulong arg2)
-+{
-+    return set_HI_LOT0(env, 0 - (uint64_t)(uint32_t)arg1 *
-+                       (uint64_t)(uint32_t)arg2);
-+}
-+
-+target_ulong helper_macc(CPUMIPSState *env, target_ulong arg1,
-+                         target_ulong arg2)
-+{
-+    return set_HI_LOT0(env, (int64_t)get_HILO(env) + (int64_t)(int32_t)arg1 *
-+                       (int64_t)(int32_t)arg2);
-+}
-+
-+target_ulong helper_macchi(CPUMIPSState *env, target_ulong arg1,
-+                           target_ulong arg2)
-+{
-+    return set_HIT0_LO(env, (int64_t)get_HILO(env) + (int64_t)(int32_t)arg1 *
-+                       (int64_t)(int32_t)arg2);
-+}
-+
-+target_ulong helper_maccu(CPUMIPSState *env, target_ulong arg1,
-+                          target_ulong arg2)
-+{
-+    return set_HI_LOT0(env, (uint64_t)get_HILO(env) +
-+                       (uint64_t)(uint32_t)arg1 * (uint64_t)(uint32_t)arg2);
-+}
-+
-+target_ulong helper_macchiu(CPUMIPSState *env, target_ulong arg1,
-+                            target_ulong arg2)
-+{
-+    return set_HIT0_LO(env, (uint64_t)get_HILO(env) +
-+                       (uint64_t)(uint32_t)arg1 * (uint64_t)(uint32_t)arg2);
-+}
-+
-+target_ulong helper_msac(CPUMIPSState *env, target_ulong arg1,
-+                         target_ulong arg2)
-+{
-+    return set_HI_LOT0(env, (int64_t)get_HILO(env) - (int64_t)(int32_t)arg1 *
-+                       (int64_t)(int32_t)arg2);
-+}
-+
-+target_ulong helper_msachi(CPUMIPSState *env, target_ulong arg1,
-+                           target_ulong arg2)
-+{
-+    return set_HIT0_LO(env, (int64_t)get_HILO(env) - (int64_t)(int32_t)arg1 *
-+                       (int64_t)(int32_t)arg2);
-+}
-+
-+target_ulong helper_msacu(CPUMIPSState *env, target_ulong arg1,
-+                          target_ulong arg2)
-+{
-+    return set_HI_LOT0(env, (uint64_t)get_HILO(env) -
-+                       (uint64_t)(uint32_t)arg1 * (uint64_t)(uint32_t)arg2);
-+}
-+
-+target_ulong helper_msachiu(CPUMIPSState *env, target_ulong arg1,
-+                            target_ulong arg2)
-+{
-+    return set_HIT0_LO(env, (uint64_t)get_HILO(env) -
-+                       (uint64_t)(uint32_t)arg1 * (uint64_t)(uint32_t)arg2);
-+}
-+
-+target_ulong helper_mulhi(CPUMIPSState *env, target_ulong arg1,
-+                          target_ulong arg2)
-+{
-+    return set_HIT0_LO(env, (int64_t)(int32_t)arg1 * (int64_t)(int32_t)arg2);
-+}
-+
-+target_ulong helper_mulhiu(CPUMIPSState *env, target_ulong arg1,
-+                           target_ulong arg2)
-+{
-+    return set_HIT0_LO(env, (uint64_t)(uint32_t)arg1 *
-+                       (uint64_t)(uint32_t)arg2);
-+}
-+
-+target_ulong helper_mulshi(CPUMIPSState *env, target_ulong arg1,
-+                           target_ulong arg2)
-+{
-+    return set_HIT0_LO(env, 0 - (int64_t)(int32_t)arg1 *
-+                       (int64_t)(int32_t)arg2);
-+}
-+
-+target_ulong helper_mulshiu(CPUMIPSState *env, target_ulong arg1,
-+                            target_ulong arg2)
-+{
-+    return set_HIT0_LO(env, 0 - (uint64_t)(uint32_t)arg1 *
-+                       (uint64_t)(uint32_t)arg2);
-+}
-diff --git a/target/mips/meson.build b/target/mips/meson.build
-index aa6ac67df76..8cc1d0ca0f7 100644
---- a/target/mips/meson.build
-+++ b/target/mips/meson.build
-@@ -8,6 +8,7 @@
-   'op_helper.c',
-   'mod-dsp_helper.c',
-   'mod-msa_helper.c',
-+  'vendor-vr54xx_helper.c',
- 
-   'translate.c',
- ))
++DEF_HELPER_3(muls, tl, env, tl, tl)
++DEF_HELPER_3(mulsu, tl, env, tl, tl)
++DEF_HELPER_3(macc, tl, env, tl, tl)
++DEF_HELPER_3(maccu, tl, env, tl, tl)
++DEF_HELPER_3(msac, tl, env, tl, tl)
++DEF_HELPER_3(msacu, tl, env, tl, tl)
++DEF_HELPER_3(mulhi, tl, env, tl, tl)
++DEF_HELPER_3(mulhiu, tl, env, tl, tl)
++DEF_HELPER_3(mulshi, tl, env, tl, tl)
++DEF_HELPER_3(mulshiu, tl, env, tl, tl)
++DEF_HELPER_3(macchi, tl, env, tl, tl)
++DEF_HELPER_3(macchiu, tl, env, tl, tl)
++DEF_HELPER_3(msachi, tl, env, tl, tl)
++DEF_HELPER_3(msachiu, tl, env, tl, tl)
 -- 
 2.26.2
 
