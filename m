@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E046F2C0D2C
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 15:24:45 +0100 (CET)
-Received: from localhost ([::1]:54350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 656A22C0D33
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 15:26:53 +0100 (CET)
+Received: from localhost ([::1]:34692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khClo-000811-TO
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 09:24:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36782)
+	id 1khCns-0003AZ-D8
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 09:26:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1khCcS-0003IR-VF
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:15:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37783)
+ id 1khCcV-0003NZ-7g
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:15:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43739)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1khCcN-0007qE-Uj
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:15:04 -0500
+ id 1khCcO-0007qy-Ui
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:15:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606140899;
+ s=mimecast20190719; t=1606140900;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JCAUP+bdY+naX1MLWRT/UStOEqxYOBv8TaUS9sHNWfY=;
- b=aY35qkInRRbQAnTKLZmxhz/iTje88Zx9qC2br1DAKEsO3wi0QG7ck0/tjEAi1QcjZe1zSs
- UvEmV4/ZPg5eBUNvyjmqtmX+MRPQJe3GRXAsvLUw0MzY4m7r39HoXzZht0dWoIzYwwNBQl
- o+y748yRsq6PLeYrjs7zl7J+6qV1bA0=
+ bh=/LrjPuQtf7rK20LIq8KhnIdXuMU57tW4rSOXbF5Q3Hg=;
+ b=AHmxHvqzeLQtXx8fyHa6ncIlR82xGDkLWvm3VFrqmC4/HST91XcW7CchLjIfnVYRiqiqHB
+ JY6od730wzry5vd6Yi9wBVzdjw1DWDm7aXaA9j3HfYB/jxi13+0AXt9rQOmEqhkgsl7Y4N
+ fZ5rc0ty3EQCW8dzUbhs4UN4LwaTtV4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-531-9c5ZEvNPNAOnFZ5P4VSAZw-1; Mon, 23 Nov 2020 09:14:56 -0500
-X-MC-Unique: 9c5ZEvNPNAOnFZ5P4VSAZw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-269-2O8mEB1INKKKMP2Ii0O0ZA-1; Mon, 23 Nov 2020 09:14:58 -0500
+X-MC-Unique: 2O8mEB1INKKKMP2Ii0O0ZA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82F825224
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 14:14:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D4745212
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 14:14:57 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 525FB5D9E3
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 14:14:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D60C160C66
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 14:14:56 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 28/36] vl: allow -incoming defer with -preconfig
-Date: Mon, 23 Nov 2020 09:14:27 -0500
-Message-Id: <20201123141435.2726558-29-pbonzini@redhat.com>
+Subject: [PATCH 31/36] vl: extract softmmu/rtc.c
+Date: Mon, 23 Nov 2020 09:14:30 -0500
+Message-Id: <20201123141435.2726558-32-pbonzini@redhat.com>
 In-Reply-To: <20201123141435.2726558-1-pbonzini@redhat.com>
 References: <20201123141435.2726558-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,30 +82,410 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that there is no RUN_STATE_PRECONFIG anymore that can conflict with
-RUN_STATE_INMIGRATE, we can allow -incoming defer with -preconfig.
-
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/vl.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ include/sysemu/sysemu.h |   2 +
+ softmmu/meson.build     |   1 +
+ softmmu/rtc.c           | 190 ++++++++++++++++++++++++++++++++++++++++
+ softmmu/vl.c            | 156 ---------------------------------
+ 4 files changed, 193 insertions(+), 156 deletions(-)
+ create mode 100644 softmmu/rtc.c
 
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index 1b62deaf2b..18cf586cd0 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -22,6 +22,8 @@ void qemu_run_machine_init_done_notifiers(void);
+ void qemu_add_machine_init_done_notifier(Notifier *notify);
+ void qemu_remove_machine_init_done_notifier(Notifier *notify);
+ 
++void configure_rtc(QemuOpts *opts);
++
+ extern int autostart;
+ 
+ typedef enum {
+diff --git a/softmmu/meson.build b/softmmu/meson.build
+index 7b52339e7a..d098d89653 100644
+--- a/softmmu/meson.build
++++ b/softmmu/meson.build
+@@ -6,6 +6,7 @@ specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: [files(
+   'datadir.c',
+   'physmem.c',
+   'ioport.c',
++  'rtc.c',
+   'memory.c',
+   'memory_mapping.c',
+   'qtest.c',
+diff --git a/softmmu/rtc.c b/softmmu/rtc.c
+new file mode 100644
+index 0000000000..e1e15ef613
+--- /dev/null
++++ b/softmmu/rtc.c
+@@ -0,0 +1,190 @@
++/*
++ * RTC configuration and clock read
++ *
++ * Copyright (c) 2003-2020 QEMU contributors
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++#include "qemu/cutils.h"
++#include "qapi/error.h"
++#include "qapi/qmp/qerror.h"
++#include "qemu/error-report.h"
++#include "qemu/option.h"
++#include "qemu/timer.h"
++#include "qom/object.h"
++#include "sysemu/replay.h"
++#include "sysemu/sysemu.h"
++
++static enum {
++    RTC_BASE_UTC,
++    RTC_BASE_LOCALTIME,
++    RTC_BASE_DATETIME,
++} rtc_base_type = RTC_BASE_UTC;
++static time_t rtc_ref_start_datetime;
++static int rtc_realtime_clock_offset; /* used only with QEMU_CLOCK_REALTIME */
++static int rtc_host_datetime_offset = -1; /* valid & used only with
++                                             RTC_BASE_DATETIME */
++QEMUClockType rtc_clock;
++/***********************************************************/
++/* RTC reference time/date access */
++static time_t qemu_ref_timedate(QEMUClockType clock)
++{
++    time_t value = qemu_clock_get_ms(clock) / 1000;
++    switch (clock) {
++    case QEMU_CLOCK_REALTIME:
++        value -= rtc_realtime_clock_offset;
++        /* fall through */
++    case QEMU_CLOCK_VIRTUAL:
++        value += rtc_ref_start_datetime;
++        break;
++    case QEMU_CLOCK_HOST:
++        if (rtc_base_type == RTC_BASE_DATETIME) {
++            value -= rtc_host_datetime_offset;
++        }
++        break;
++    default:
++        assert(0);
++    }
++    return value;
++}
++
++void qemu_get_timedate(struct tm *tm, int offset)
++{
++    time_t ti = qemu_ref_timedate(rtc_clock);
++
++    ti += offset;
++
++    switch (rtc_base_type) {
++    case RTC_BASE_DATETIME:
++    case RTC_BASE_UTC:
++        gmtime_r(&ti, tm);
++        break;
++    case RTC_BASE_LOCALTIME:
++        localtime_r(&ti, tm);
++        break;
++    }
++}
++
++int qemu_timedate_diff(struct tm *tm)
++{
++    time_t seconds;
++
++    switch (rtc_base_type) {
++    case RTC_BASE_DATETIME:
++    case RTC_BASE_UTC:
++        seconds = mktimegm(tm);
++        break;
++    case RTC_BASE_LOCALTIME:
++    {
++        struct tm tmp = *tm;
++        tmp.tm_isdst = -1; /* use timezone to figure it out */
++        seconds = mktime(&tmp);
++        break;
++    }
++    default:
++        abort();
++    }
++
++    return seconds - qemu_ref_timedate(QEMU_CLOCK_HOST);
++}
++
++static void configure_rtc_base_datetime(const char *startdate)
++{
++    time_t rtc_start_datetime;
++    struct tm tm;
++
++    if (sscanf(startdate, "%d-%d-%dT%d:%d:%d", &tm.tm_year, &tm.tm_mon,
++               &tm.tm_mday, &tm.tm_hour, &tm.tm_min, &tm.tm_sec) == 6) {
++        /* OK */
++    } else if (sscanf(startdate, "%d-%d-%d",
++                      &tm.tm_year, &tm.tm_mon, &tm.tm_mday) == 3) {
++        tm.tm_hour = 0;
++        tm.tm_min = 0;
++        tm.tm_sec = 0;
++    } else {
++        goto date_fail;
++    }
++    tm.tm_year -= 1900;
++    tm.tm_mon--;
++    rtc_start_datetime = mktimegm(&tm);
++    if (rtc_start_datetime == -1) {
++    date_fail:
++        error_report("invalid datetime format");
++        error_printf("valid formats: "
++                     "'2006-06-17T16:01:21' or '2006-06-17'\n");
++        exit(1);
++    }
++    rtc_host_datetime_offset = rtc_ref_start_datetime - rtc_start_datetime;
++    rtc_ref_start_datetime = rtc_start_datetime;
++}
++
++void configure_rtc(QemuOpts *opts)
++{
++    const char *value;
++
++    /* Set defaults */
++    rtc_clock = QEMU_CLOCK_HOST;
++    rtc_ref_start_datetime = qemu_clock_get_ms(QEMU_CLOCK_HOST) / 1000;
++    rtc_realtime_clock_offset = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) / 1000;
++
++    value = qemu_opt_get(opts, "base");
++    if (value) {
++        if (!strcmp(value, "utc")) {
++            rtc_base_type = RTC_BASE_UTC;
++        } else if (!strcmp(value, "localtime")) {
++            Error *blocker = NULL;
++            rtc_base_type = RTC_BASE_LOCALTIME;
++            error_setg(&blocker, QERR_REPLAY_NOT_SUPPORTED,
++                      "-rtc base=localtime");
++            replay_add_blocker(blocker);
++        } else {
++            rtc_base_type = RTC_BASE_DATETIME;
++            configure_rtc_base_datetime(value);
++        }
++    }
++    value = qemu_opt_get(opts, "clock");
++    if (value) {
++        if (!strcmp(value, "host")) {
++            rtc_clock = QEMU_CLOCK_HOST;
++        } else if (!strcmp(value, "rt")) {
++            rtc_clock = QEMU_CLOCK_REALTIME;
++        } else if (!strcmp(value, "vm")) {
++            rtc_clock = QEMU_CLOCK_VIRTUAL;
++        } else {
++            error_report("invalid option value '%s'", value);
++            exit(1);
++        }
++    }
++    value = qemu_opt_get(opts, "driftfix");
++    if (value) {
++        if (!strcmp(value, "slew")) {
++            object_register_sugar_prop("mc146818rtc",
++                                       "lost_tick_policy",
++                                       "slew");
++        } else if (!strcmp(value, "none")) {
++            /* discard is default */
++        } else {
++            error_report("invalid option value '%s'", value);
++            exit(1);
++        }
++    }
++}
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index aa11fc4871..0ba1fcdb3d 100644
+index 7e13bb4a59..c9bb205c42 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -3200,9 +3200,8 @@ static void qemu_validate_options(void)
-                      "mutually exclusive");
-         exit(EXIT_FAILURE);
-     }
--    if (incoming && preconfig_requested) {
--        error_report("'preconfig' and 'incoming' options are "
--                     "mutually exclusive");
-+    if (incoming && preconfig_requested && strcmp(incoming, "defer") != 0) {
-+        error_report("'preconfig' supports '-incoming defer' only");
-         exit(EXIT_FAILURE);
-     }
- 
+@@ -152,16 +152,6 @@ bool enable_cpu_pm = false;
+ int nb_nics;
+ NICInfo nd_table[MAX_NICS];
+ int autostart = 1;
+-static enum {
+-    RTC_BASE_UTC,
+-    RTC_BASE_LOCALTIME,
+-    RTC_BASE_DATETIME,
+-} rtc_base_type = RTC_BASE_UTC;
+-static time_t rtc_ref_start_datetime;
+-static int rtc_realtime_clock_offset; /* used only with QEMU_CLOCK_REALTIME */
+-static int rtc_host_datetime_offset = -1; /* valid & used only with
+-                                             RTC_BASE_DATETIME */
+-QEMUClockType rtc_clock;
+ int vga_interface_type = VGA_NONE;
+ static const char *vga_model = NULL;
+ static DisplayOptions dpy;
+@@ -766,152 +756,6 @@ void qemu_system_vmstop_request(RunState state)
+     qemu_mutex_unlock(&vmstop_lock);
+     qemu_notify_event();
+ }
+-
+-/***********************************************************/
+-/* RTC reference time/date access */
+-static time_t qemu_ref_timedate(QEMUClockType clock)
+-{
+-    time_t value = qemu_clock_get_ms(clock) / 1000;
+-    switch (clock) {
+-    case QEMU_CLOCK_REALTIME:
+-        value -= rtc_realtime_clock_offset;
+-        /* fall through */
+-    case QEMU_CLOCK_VIRTUAL:
+-        value += rtc_ref_start_datetime;
+-        break;
+-    case QEMU_CLOCK_HOST:
+-        if (rtc_base_type == RTC_BASE_DATETIME) {
+-            value -= rtc_host_datetime_offset;
+-        }
+-        break;
+-    default:
+-        assert(0);
+-    }
+-    return value;
+-}
+-
+-void qemu_get_timedate(struct tm *tm, int offset)
+-{
+-    time_t ti = qemu_ref_timedate(rtc_clock);
+-
+-    ti += offset;
+-
+-    switch (rtc_base_type) {
+-    case RTC_BASE_DATETIME:
+-    case RTC_BASE_UTC:
+-        gmtime_r(&ti, tm);
+-        break;
+-    case RTC_BASE_LOCALTIME:
+-        localtime_r(&ti, tm);
+-        break;
+-    }
+-}
+-
+-int qemu_timedate_diff(struct tm *tm)
+-{
+-    time_t seconds;
+-
+-    switch (rtc_base_type) {
+-    case RTC_BASE_DATETIME:
+-    case RTC_BASE_UTC:
+-        seconds = mktimegm(tm);
+-        break;
+-    case RTC_BASE_LOCALTIME:
+-    {
+-        struct tm tmp = *tm;
+-        tmp.tm_isdst = -1; /* use timezone to figure it out */
+-        seconds = mktime(&tmp);
+-        break;
+-    }
+-    default:
+-        abort();
+-    }
+-
+-    return seconds - qemu_ref_timedate(QEMU_CLOCK_HOST);
+-}
+-
+-static void configure_rtc_base_datetime(const char *startdate)
+-{
+-    time_t rtc_start_datetime;
+-    struct tm tm;
+-
+-    if (sscanf(startdate, "%d-%d-%dT%d:%d:%d", &tm.tm_year, &tm.tm_mon,
+-               &tm.tm_mday, &tm.tm_hour, &tm.tm_min, &tm.tm_sec) == 6) {
+-        /* OK */
+-    } else if (sscanf(startdate, "%d-%d-%d",
+-                      &tm.tm_year, &tm.tm_mon, &tm.tm_mday) == 3) {
+-        tm.tm_hour = 0;
+-        tm.tm_min = 0;
+-        tm.tm_sec = 0;
+-    } else {
+-        goto date_fail;
+-    }
+-    tm.tm_year -= 1900;
+-    tm.tm_mon--;
+-    rtc_start_datetime = mktimegm(&tm);
+-    if (rtc_start_datetime == -1) {
+-    date_fail:
+-        error_report("invalid datetime format");
+-        error_printf("valid formats: "
+-                     "'2006-06-17T16:01:21' or '2006-06-17'\n");
+-        exit(1);
+-    }
+-    rtc_host_datetime_offset = rtc_ref_start_datetime - rtc_start_datetime;
+-    rtc_ref_start_datetime = rtc_start_datetime;
+-}
+-
+-static void configure_rtc(QemuOpts *opts)
+-{
+-    const char *value;
+-
+-    /* Set defaults */
+-    rtc_clock = QEMU_CLOCK_HOST;
+-    rtc_ref_start_datetime = qemu_clock_get_ms(QEMU_CLOCK_HOST) / 1000;
+-    rtc_realtime_clock_offset = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) / 1000;
+-
+-    value = qemu_opt_get(opts, "base");
+-    if (value) {
+-        if (!strcmp(value, "utc")) {
+-            rtc_base_type = RTC_BASE_UTC;
+-        } else if (!strcmp(value, "localtime")) {
+-            Error *blocker = NULL;
+-            rtc_base_type = RTC_BASE_LOCALTIME;
+-            error_setg(&blocker, QERR_REPLAY_NOT_SUPPORTED,
+-                      "-rtc base=localtime");
+-            replay_add_blocker(blocker);
+-        } else {
+-            rtc_base_type = RTC_BASE_DATETIME;
+-            configure_rtc_base_datetime(value);
+-        }
+-    }
+-    value = qemu_opt_get(opts, "clock");
+-    if (value) {
+-        if (!strcmp(value, "host")) {
+-            rtc_clock = QEMU_CLOCK_HOST;
+-        } else if (!strcmp(value, "rt")) {
+-            rtc_clock = QEMU_CLOCK_REALTIME;
+-        } else if (!strcmp(value, "vm")) {
+-            rtc_clock = QEMU_CLOCK_VIRTUAL;
+-        } else {
+-            error_report("invalid option value '%s'", value);
+-            exit(1);
+-        }
+-    }
+-    value = qemu_opt_get(opts, "driftfix");
+-    if (value) {
+-        if (!strcmp(value, "slew")) {
+-            object_register_sugar_prop("mc146818rtc",
+-                                       "lost_tick_policy",
+-                                       "slew");
+-        } else if (!strcmp(value, "none")) {
+-            /* discard is default */
+-        } else {
+-            error_report("invalid option value '%s'", value);
+-            exit(1);
+-        }
+-    }
+-}
+-
+ static int parse_name(void *opaque, QemuOpts *opts, Error **errp)
+ {
+     const char *proc_name;
 -- 
 2.26.2
 
