@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1C492C03B2
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 11:53:05 +0100 (CET)
-Received: from localhost ([::1]:43052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D75F12C03B8
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 11:55:56 +0100 (CET)
+Received: from localhost ([::1]:45584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kh9Sx-0002rI-4z
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 05:53:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43772)
+	id 1kh9Vi-0003zn-P4
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 05:55:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kh9Rt-0002Im-Bu
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 05:51:57 -0500
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:34973)
+ id 1kh9UA-0003Pv-DZ
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 05:54:18 -0500
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:40342)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kh9Rr-0000dH-R6
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 05:51:57 -0500
-Received: by mail-ej1-x62e.google.com with SMTP id f23so22654932ejk.2
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 02:51:55 -0800 (PST)
+ id 1kh9U7-0001RD-NR
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 05:54:18 -0500
+Received: by mail-ed1-x535.google.com with SMTP id d18so16598615edt.7
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 02:54:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=7c5smF5ygigAWtci09fXgHOmo5sEKFj9RYcH9d7XejA=;
- b=jLSPgsttSG4Vqfi6nebDDNNkdmdQdivphlmgLKOG3P7/m482v7t+NlRNhcdA11oKH0
- 1qYwHuAMFiDS//22ri7VLMt5dYpQXsKjkVIw2244e4BDnMaZgbWkGCN3k4ReQcJkel2L
- WQl/kVanxRyPoNTnaInvp4V0KcD+702dhv6gatQ8kJADiWA4gb/Yb6Voaht3wSKC4rhE
- +K8j+mfj8NB7ALfSUFcX4MHcF5eulWkprN66hWNHiYFF/exi3AY92fVNmU3cb9ehi7e+
- vZoYsCGmFyEMcCRA++nT51hbK0QIfCpGR2Xdkb/9AoTavNuSifSItwT+BBWwUZsG8p3V
- M7lQ==
+ bh=tSz0F43sKLBmBUM2wLbeZuTPj30ukEkPQPdZNLAmqOo=;
+ b=M4ivXn7tfIW4DaTYNVYbWJd1p2QEXMzrWtJLQzckMRMzj8ksY52YUj4lcYLVtGdmEj
+ Ow8b35w1+OT99fayPsIEs8SEIvKr8kpbHHgvaCn5uJL5Xi4PhArNmicuoq1UOOLH6KSl
+ bvUWbDN6ZghPLjQuLXzyKY/zBm8pIFjxgvOzYwhP0rd03yFPT+EC1iELM6mgUKq9oxfK
+ z39ztGRkM3nC56i1vD7wR2TDE+DISyt2j/ZSxGDw/zLyWuZrYrtAeO2wSgj3yVvXYZbO
+ PakzdG0698N1FWHbWRUofNym1VjnoegQqWrDkpRP1mlJO9Da4osIDwc1Xt+nSAGEmNYx
+ WuQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=7c5smF5ygigAWtci09fXgHOmo5sEKFj9RYcH9d7XejA=;
- b=CMJ0WKI49E1V3+Z4DOTi1Q5BKq46gerKdNjIY+77lfk/Omh5B6o6bIhU9rE+qRMJ/4
- iAiwHSVeLGjagJV08i07xg+8TWJ85VndscWkUZRnNjjbJNnM/0LZvUsgZVw9+QYHyxyY
- H0czirEyRMAICVfnc8PgSKlrTNTjz59O1uUDbgEpcSseN/mMQUsA9ZB2/GOQtlrYjyrT
- ZzmLTKpHNDs9Ukm1NvJVvd0Ks9B5JE+96J8/arnjyZqBx71bCeOiDkMwaTaDrJn3rWjN
- dvs+w4pPEdFG9HpwMEKqrI2jdAr9O4uTBXSUrhQHxINfrBFmwy7kPvNwJ8dQxm13OywG
- 62qA==
-X-Gm-Message-State: AOAM530fqof3lAddaRaaG00X+NvH4w+S1mEbzUxrW+eX3SGTtpyCzIHU
- T2O9Zyadj+clyUr1ezD5jpBNvYKrHXdSzRf+yRXznw==
-X-Google-Smtp-Source: ABdhPJyz1ITB19O+wXQM3nHFCw2It7nGLgs0r1W3Lq57B+tj+p/CkchONjmwz6e5Ps9dfNYz1BzK02DyLNdVbSsttzI=
-X-Received: by 2002:a17:906:1542:: with SMTP id
- c2mr32334614ejd.382.1606128714314; 
- Mon, 23 Nov 2020 02:51:54 -0800 (PST)
+ bh=tSz0F43sKLBmBUM2wLbeZuTPj30ukEkPQPdZNLAmqOo=;
+ b=iUUhK8reY89HU8IAM25Mt9xfdOnGfIZjwI4ToF+0zmGUfpBiW3s8Dn1TbcxAJcmf2N
+ 1t35Fm7/YNUytK4TrxHo6mRxMe0aO46nLwCYKKzbq2pAb/6FyrfbpKnxqkRMAvh+mytC
+ 7bmRmOTesKQug1a2d9uBSjKPyIJMBAATeOF7NCcGvr8gfErVkm5XWQViBUfxuY+tlURb
+ FGbjcqnnYGJbwD9xzF4UM5N/AFRfcud0SbewxZERaXEnuxoJFiyKtvcXMjN+eI5k230j
+ JgLGzNnsp+LAZ6s8uOFaYXIdqCoYJfNAtlIiWQj77CwH45eChFkIjxBRhdheCuPRo0Zv
+ 9/mA==
+X-Gm-Message-State: AOAM532rBvX9Oq1Koh9yWOUaWIunRbYnBh9gjech09HLiSqqQ8djYu9Y
+ /U8pW7HeqNVXQpvTMuHIrmNLr1W5DkDV/BwTI8kU1A==
+X-Google-Smtp-Source: ABdhPJytPXyMLpRSyT/rqgE4VvzITlrMD2HZMIPXwOTrB69keCD5D/MEbEPiURb+KW3p9WmcvBo3beZW+mO59nKRHrw=
+X-Received: by 2002:aa7:db8a:: with SMTP id u10mr47342220edt.204.1606128854238; 
+ Mon, 23 Nov 2020 02:54:14 -0800 (PST)
 MIME-Version: 1.0
-References: <20201120154545.2504625-1-f4bug@amsat.org>
-In-Reply-To: <20201120154545.2504625-1-f4bug@amsat.org>
+References: <20201120173953.2539469-1-f4bug@amsat.org>
+In-Reply-To: <20201120173953.2539469-1-f4bug@amsat.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 23 Nov 2020 10:51:42 +0000
-Message-ID: <CAFEAcA8bjTvVY7R3hKhJvRiPVrUVh90Z8suROKVdZiR-GVEU+A@mail.gmail.com>
-Subject: Re: [PATCH-for-5.2 0/6] MAINTAINERS: Fix docs/system/arm/ entries
+Date: Mon, 23 Nov 2020 10:54:03 +0000
+Message-ID: <CAFEAcA-=_STKckzXdrkf2LP0zo-Jp88vcGzi3x=ZfdeGN+qzuA@mail.gmail.com>
+Subject: Re: [PATCH-for-5.2 v2 0/4] docs/system/arm: Document raspi/tosa boards
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,22 +78,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Libvirt <libvir-list@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Andrew Jeffery <andrew@aj.id.au>, qemu-arm <qemu-arm@nongnu.org>,
+ Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 20 Nov 2020 at 15:46, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+On Fri, 20 Nov 2020 at 17:39, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
  wrote:
 >
-> Correctly docs/system/arm/ rst files in MAINTAINERS.
+> - Deprecate raspi2/raspi3 machine aliases
+> - Document the Raspberry Pi boards
+> - Document LED on OpenPOWER Witherspoon
+> - Document Sharp Zaurus SL-6000 Tosa
 >
-> Philippe Mathieu-Daud=C3=A9 (6):
->   MAINTAINERS: Cover system/arm/cpu-features.rst with ARM TCG CPUs
->   MAINTAINERS: Cover system/arm/aspeed.rst with ASPEED BMC machines
->   MAINTAINERS: Cover system/arm/nuvoton.rst with Nuvoton NPCM7xx
->   MAINTAINERS: Fix system/arm/orangepi.rst path
->   MAINTAINERS: Cover system/arm/sbsa.rst with SBSA-REF machine
->   MAINTAINERS: Cover system/arm/sx1.rst with OMAP machines
+> Since v1:
+> - cover docs/system/arm/raspi.rst in MAINTAINERS
+> - Addressed Peter review comments
+> - Added R-b tags
+>
+> Philippe Mathieu-Daud=C3=A9 (4):
+>   docs/system: Deprecate raspi2/raspi3 machine aliases
+>   docs/system/arm: Document the various raspi boards
+>   docs/system/arm: Document OpenPOWER Witherspoon BMC model Front LEDs
+>   docs/system/arm: Document the Sharp Zaurus SL-6000
 
 
 
