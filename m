@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DF122C0498
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 12:33:42 +0100 (CET)
-Received: from localhost ([::1]:57876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09FAD2C04A3
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 12:35:24 +0100 (CET)
+Received: from localhost ([::1]:35246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khA6F-0006dU-9s
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 06:33:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51902)
+	id 1khA7t-0000Ty-4A
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 06:35:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kh9yO-0007qD-Bj
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:25:32 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:45677)
+ id 1kh9yR-0007wo-49
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:25:35 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:36327)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kh9yL-0004f5-0k
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:25:30 -0500
-Received: by mail-wr1-x433.google.com with SMTP id t4so5279034wrr.12
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 03:25:28 -0800 (PST)
+ id 1kh9yO-0004i2-8L
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:25:34 -0500
+Received: by mail-wm1-x333.google.com with SMTP id a65so16888077wme.1
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 03:25:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EBm2QW2xv0X0uMeboe0qDw8OaAc5NxhfEjgUZ3hL4ww=;
- b=WHasC0UJ+zQLixSCMKbszwDN87efoBie0dNEccvIu2watbjRFcW595ymKzUAu7lBfG
- RxHA1czcNOGJWjRDEoFpEo5l6leFqHr9+yrYVBI/1MaU2BlAL3J/AgyRU2wDjP/2dFBO
- N4/UzdQlEDXxmwuUOVkGoXiu7B2VXnaSUeDmwWZe7Wl2xBscdwAEFTlDGASloY+MS9Eg
- luIHz7o2Nx3RqFULCgyX/7WMdRvUZYMQXTB2+Q8zqJU9XhxCB3twX9ulw1Ul6/4hc/j1
- mI5S+8vGRjb+1dVBzQjBlurHMjm6y3vFAOIxMGG9hqKXKTxMCWzEBAcIox3ImUjN6DVM
- pH9A==
+ bh=ha7GtIAF1I/0DbH6VrBKGbJXyrL4nzb53Wtfo6JIF00=;
+ b=KuJL7YwitqfuTeahBLbBAE73gsB2IWoY7f3Vicy6kFlnpr30ZKOpAMCj4KkTTSpmg5
+ kjno4CNLRPjioEAhB54GJjjHXeOny1btpx9mRMgbfc5k66oEE84Q6l4/K8Oa3GU/JFKN
+ cGqdId6/+SCJRgc+jt7FNG4jCHV9ZOe0COrFEnEHIp0RqU86KkrPSU1jI1D+H9wHxB+y
+ 5XkosEwl2rzcCgyASL22qtDV6ESMjkr1OrUcGoz4tMNlXs/m+vG9ijZQb7v+A0D6TE70
+ 1oi34vGMXAJr6X1WzKDoa8wteEq9yMLxPC4p7Qv3lj6HnVVQIPLxlGkGzaMB4GaNawhE
+ Sm+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=EBm2QW2xv0X0uMeboe0qDw8OaAc5NxhfEjgUZ3hL4ww=;
- b=QqOjdi2xIFns+ZMOmA+WmYz4tPLc/kVKr59ccRvFwYtj8ua0tHw/0aH/z73qzE9gzr
- +TjAekXAD6HuLFJiDH7k7Bz/sZYDy2UlGL/BbDx9q48CJ/E+Sd3zVXm9nd7sIEmdVrw/
- qc23C7HBc4GI+5UHmzLtGYuB0vm7iIh7fc4dS6SxB2CGJSgihM1bWK0/kvt0NyJAB4OK
- swtFvBim1RZk12kkgmVjRP7yIk3LJsPIVdDvsFny1SBuUvQb+BNYIduPgBAlfbFziihR
- dGlGO63gXTgJxHHEqQRWA5378QhSVFuyytB/hnhRchzr/Ow3W9xypncD8yIR7V9CCGuI
- dx5Q==
-X-Gm-Message-State: AOAM530u9fzubqqeFU/n6x6MVkjGRnqqJ7YjrBqXlIrewjk40LBlHqvC
- sl220B76vf/FBvYrAMzTTlRatw==
-X-Google-Smtp-Source: ABdhPJzEoCHjE2uX6E8Xq5unNZ/ehZOJQvjT4NVmPZgZcHvfx/uhIK9oQgU5+tr132wMeOX8OiZBQg==
-X-Received: by 2002:adf:f651:: with SMTP id x17mr9789980wrp.185.1606130727387; 
- Mon, 23 Nov 2020 03:25:27 -0800 (PST)
+ bh=ha7GtIAF1I/0DbH6VrBKGbJXyrL4nzb53Wtfo6JIF00=;
+ b=SGjICGvHVzAMNiCTt74aDU51GFA/5C9CJeQxaJlxJLe4xi1PGubyURc4OdtBBxgmtC
+ WbWhFX9MwFJFUUqyWtEzTXBOHuJMVNOUu6xPXyO6KdYUmKlVEcnlrHPGCgMHLLR9XrL3
+ zVCKCuhclIDObciRwxXQ7qfgBlPf32InegiPG6oyo+3KjGu3ll8hYpLWnlrXnrPT0+l3
+ hPC9saD18C2SDV/Omc6FaheXiaCSw0/XoeDMXZbuIuynU6dVCN3fQ9xA4utbN+fvCOJv
+ A+XvE2omvL8ATcgs6cac4d60pQBmo8rmpGRjsaYxDQFt9UmZkwmcWLIs9saMaFuxaROX
+ hSXQ==
+X-Gm-Message-State: AOAM531AI/KvY1a6PIX9bZZ/wlq+Gxpd/J/wTlcHEqFqWBukCXYZ2LEx
+ vy1gymmnXOxqiegc9FBOoFL+7Q==
+X-Google-Smtp-Source: ABdhPJykCjx8iE3WbkChjSqaV9MFUK/G8T8O59vdMUflhAA8uEQg3rrBwXPVxO/VdX1CEvaXgFs4aQ==
+X-Received: by 2002:a1c:9652:: with SMTP id y79mr24077791wmd.71.1606130730721; 
+ Mon, 23 Nov 2020 03:25:30 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p3sm19084334wrs.50.2020.11.23.03.25.19
+ by smtp.gmail.com with ESMTPSA id h4sm18416224wrq.3.2020.11.23.03.25.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Nov 2020 03:25:23 -0800 (PST)
+ Mon, 23 Nov 2020 03:25:25 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2C06A1FF90;
+ by zen.linaroharston (Postfix) with ESMTP id 592A21FF92;
  Mon, 23 Nov 2020 11:25:19 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 4/7] gitlab: move remaining x86 check-tcg targets to gitlab
-Date: Mon, 23 Nov 2020 11:25:15 +0000
-Message-Id: <20201123112518.13425-5-alex.bennee@linaro.org>
+Subject: [PULL 6/7] gitlab-ci: Move trace backend tests across to gitlab
+Date: Mon, 23 Nov 2020 11:25:17 +0000
+Message-Id: <20201123112518.13425-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201123112518.13425-1-alex.bennee@linaro.org>
 References: <20201123112518.13425-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,102 +87,85 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The GCC check-tcg (user) test in particular was very prone to timing
-out on Travis. We only actually need to move the some-softmmu builds
-across as we already have coverage for linux-user.
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-As --enable-debug-tcg does increase the run time somewhat as more
-debug is put in let's restrict that to just the plugins build. It's
-unlikely that a plugins enabled build is going to hide a sanity
-failure in core TCG code so let the plugin builds do the heavy lifting
-on checking TCG sanity so the non-plugin builds can run swiftly.
+Similarly to commit 8cdb2cef3f1, move the trace backend
+tests to GitLab.
 
-Now the only remaining check-tcg builds on Travis are for the various
-non-x86 arches.
+Note the User-Space Tracer backend is still tested on
+Ubuntu by the s390x jobs on Travis-CI.
 
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20201117173635.29101-5-alex.bennee@linaro.org>
+Acked-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20201111121234.3246812-3-philmd@redhat.com>
+Message-Id: <20201117173635.29101-7-alex.bennee@linaro.org>
 
 diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 9a8b375188..b406027a55 100644
+index b406027a55..d0173e82b1 100644
 --- a/.gitlab-ci.yml
 +++ b/.gitlab-ci.yml
-@@ -247,6 +247,15 @@ build-user:
-     CONFIGURE_ARGS: --disable-tools --disable-system
-     MAKE_CHECK_ARGS: check-tcg
+@@ -415,6 +415,24 @@ check-crypto-only-gnutls:
+     IMAGE: centos7
+     MAKE_CHECK_ARGS: check
  
-+# Only build the softmmu targets we have check-tcg tests for
-+build-some-softmmu:
++# We don't need to exercise every backend with every front-end
++build-trace-multi-user:
 +  <<: *native_build_job_definition
 +  variables:
-+    IMAGE: debian-all-test-cross
-+    CONFIGURE_ARGS: --disable-tools --enable-debug-tcg
-+    TARGETS: xtensa-softmmu arm-softmmu aarch64-softmmu alpha-softmmu
-+    MAKE_CHECK_ARGS: check-tcg
++    IMAGE: ubuntu2004
++    CONFIGURE_ARGS: --enable-trace-backends=log,simple,syslog --disable-system
 +
- # Run check-tcg against linux-user (with plugins)
- # we skip sparc64-linux-user until it has been fixed somewhat
- # we skip cris-linux-user as it doesn't use the common run loop
-@@ -258,6 +267,14 @@ build-user-plugins:
-     MAKE_CHECK_ARGS: check-tcg
-   timeout: 1h 30m
- 
-+build-some-softmmu-plugins:
++build-trace-ftrace-system:
 +  <<: *native_build_job_definition
 +  variables:
-+    IMAGE: debian-all-test-cross
-+    CONFIGURE_ARGS: --disable-tools --disable-user --enable-plugins --enable-debug-tcg
-+    TARGETS: xtensa-softmmu arm-softmmu aarch64-softmmu alpha-softmmu
-+    MAKE_CHECK_ARGS: check-tcg
++    IMAGE: ubuntu2004
++    CONFIGURE_ARGS: --enable-trace-backends=ftrace --target-list=x86_64-softmmu
 +
- build-clang:
-   <<: *native_build_job_definition
-   variables:
++build-trace-ust-system:
++  <<: *native_build_job_definition
++  variables:
++    IMAGE: ubuntu2004
++    CONFIGURE_ARGS: --enable-trace-backends=ust --target-list=x86_64-softmmu
+ 
+ check-patch:
+   stage: build
 diff --git a/.travis.yml b/.travis.yml
-index a3d78171ca..bac085f800 100644
+index bac085f800..1f80bdb624 100644
 --- a/.travis.yml
 +++ b/.travis.yml
-@@ -301,32 +301,6 @@ jobs:
-         - ${SRC_DIR}/configure ${CONFIG} --extra-cflags="-g3 -O0 -fsanitize=thread" || { cat config.log meson-logs/meson-log.txt && exit 1; }
+@@ -232,25 +232,6 @@ jobs:
+         - TEST_CMD=""
  
  
--    # Run check-tcg against linux-user
--    - name: "GCC check-tcg (user)"
+-    # We don't need to exercise every backend with every front-end
+-    - name: "GCC trace log,simple,syslog (user)"
 -      env:
--        - CONFIG="--disable-system --enable-debug-tcg"
--        - TEST_BUILD_CMD="make build-tcg"
--        - TEST_CMD="make check-tcg"
--        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+-        - CONFIG="--enable-trace-backends=log,simple,syslog --disable-system"
+-        - TEST_CMD=""
 -
 -
--    # Run check-tcg against softmmu targets
--    - name: "GCC check-tcg (some-softmmu)"
+-    - name: "GCC trace ftrace (x86_64-softmmu)"
 -      env:
--        - CONFIG="--enable-debug-tcg --target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
--        - TEST_BUILD_CMD="make build-tcg"
--        - TEST_CMD="make check-tcg"
--        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+-        - CONFIG="--enable-trace-backends=ftrace --target-list=x86_64-softmmu"
+-        - TEST_CMD=""
 -
 -
--    # Run check-tcg against softmmu targets (with plugins)
--    - name: "GCC plugins check-tcg (some-softmmu)"
+-    - name: "GCC trace ust (x86_64-softmmu)"
 -      env:
--        - CONFIG="--enable-plugins --enable-debug-tcg --target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
--        - TEST_BUILD_CMD="make build-tcg"
--        - TEST_CMD="make check-tcg"
--        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+-        - CONFIG="--enable-trace-backends=ust --target-list=x86_64-softmmu"
+-        - TEST_CMD=""
 -
-     - name: "[aarch64] GCC check-tcg"
-       arch: arm64
-       dist: focal
+-
+     # Using newer GCC with sanitizers
+     - name: "GCC9 with sanitizers (softmmu)"
+       dist: bionic
 -- 
 2.20.1
 
