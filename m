@@ -2,70 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFF432C12FC
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 19:22:51 +0100 (CET)
-Received: from localhost ([::1]:58050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 115F92C12FD
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 19:25:10 +0100 (CET)
+Received: from localhost ([::1]:33950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khGUE-0001jF-Uf
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 13:22:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57304)
+	id 1khGWT-0003XC-2L
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 13:25:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1khGSN-0000UY-W5
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 13:20:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48086)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1khGUl-0002gj-CO
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 13:23:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36202)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1khGSK-000307-7k
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 13:20:54 -0500
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1khGUi-0003rV-Bz
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 13:23:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606155649;
+ s=mimecast20190719; t=1606155799;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JWkqEhuHoQW3rZOr8MWgwicB9xTuDmx1fnCrO+YDtRY=;
- b=ew2+DT4l4vyOfDLF792wsHLu7uFjLhU+xNi3+YPROd6qHVxpMg97ZgMRzwHs622rDY02hl
- i94uyM6gm1zv7D5KxsvCHW5vxLd+reUtD7WBPDUGaoE/XLC95qdmUW2Eg9aSBLZRHajN3S
- dPJwGKNgsSQVRa4qsD1fmgQ1gFF25uM=
+ bh=h0d0fmm6zslM+YEMFXN1M+b5RmhtwNOvZ31X6Fwc4Hw=;
+ b=YnqBJMQ2F47pFg/N5ww/krjdtrEQK3+jvZeWPtTCnSAe2IV35Gg9Qm88gr7zOj4MLX8UkO
+ dIOU0UdOHX6yVxIgEztx4Sy0dLRob1by7mrtwXR6TSalzXHmS3kKbrxhas6/gn4DAbq6Pf
+ RmifuLTn94PXoEzhYoCmTI+I1YM3qH8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-445-7qLtnRkrNymJx6eez6pfUQ-1; Mon, 23 Nov 2020 13:20:46 -0500
-X-MC-Unique: 7qLtnRkrNymJx6eez6pfUQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-53-YGaiAsyLPJygZ_U0sb5V2Q-1; Mon, 23 Nov 2020 13:23:15 -0500
+X-MC-Unique: YGaiAsyLPJygZ_U0sb5V2Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34EF410151E7;
- Mon, 23 Nov 2020 18:20:44 +0000 (UTC)
-Received: from localhost (unknown [10.10.67.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AC07360C61;
- Mon, 23 Nov 2020 18:20:39 +0000 (UTC)
-Date: Mon, 23 Nov 2020 13:20:38 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [RFC v3 8/9] module: introduce MODULE_INIT_ACCEL_CPU
-Message-ID: <20201123182038.GI2271382@habkost.net>
-References: <e7b70933-acd1-668c-62cd-89f480945f0f@redhat.com>
- <20201118220750.GP1509407@habkost.net>
- <2984625a-15ee-f638-b1bb-050a4514bade@suse.de>
- <20201120171942.GA2271382@habkost.net>
- <f780a9e5-2142-3bf4-b3fb-1bdeeed61945@suse.de>
- <20201120180936.GD2271382@habkost.net>
- <a32dbea4-8381-d247-3443-441b484d39e3@suse.de>
- <3e8fac27-aea5-5f5d-5421-291df660a586@suse.de>
- <bd5d6bd7-a4a0-9f38-94ca-14f39e538e70@redhat.com>
- <de219743-6605-8514-b54d-9e70f24a09c8@suse.de>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5435A1009446;
+ Mon, 23 Nov 2020 18:23:13 +0000 (UTC)
+Received: from w520.home (ovpn-112-213.phx2.redhat.com [10.3.112.213])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D92D813470;
+ Mon, 23 Nov 2020 18:23:12 +0000 (UTC)
+Date: Mon, 23 Nov 2020 11:23:12 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH v2 1/1] vfio: Change default dirty pages tracking
+ behavior during migration
+Message-ID: <20201123112312.2eaf4bff@w520.home>
+In-Reply-To: <1606141399-22677-1-git-send-email-kwankhede@nvidia.com>
+References: <1606141399-22677-1-git-send-email-kwankhede@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <de219743-6605-8514-b54d-9e70f24a09c8@suse.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -86,74 +80,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Bruce Rogers <brogers@suse.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Wenchao Wang <wenchao.wang@intel.com>,
- haxm-team@intel.com, Cameron Esfahani <dirty@apple.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Sunil Muthuswamy <sunilmut@microsoft.com>,
- Dario Faggioli <dfaggioli@suse.com>, Olaf Hering <ohering@suse.de>,
- Colin Xu <colin.xu@intel.com>
+Cc: mcrossley@nvidia.com, cohuck@redhat.com, cjia@nvidia.com,
+ dgilbert@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 23, 2020 at 04:02:24PM +0100, Claudio Fontana wrote:
-> On 11/23/20 2:18 PM, Paolo Bonzini wrote:
-> > On 23/11/20 10:55, Claudio Fontana wrote:
-> >> One idea that came to mind is, why not extend accel.h to user mode?
-> >>
-> >> It already contains
-> >>
-> >> #ifndef CONFIG_USER_ONLY
-> >>
-> >> parts, so maybe it was meant to be used by both, and just happened to
-> >> end up confined to include/softmmu ?
-> >>
-> >> Basically I was thinking, we could have an AccelState and an
-> >> AccelClass for user mode as well (without bringing in the whole
-> >> machine thing), and from there we could use current_accel() to build
-> >> up the right name for the chosen accelerator?
-> > 
-> > Yes, extending the accelerator class to usermode emulation is certainly 
-> > a good idea.
-> > 
-> > Paolo
-> > 
-> 
-> Thanks, I'll work on this option.
-> 
-> Btw considering that CpusAccel for tcg is actually three different interfaces (for mttcg, for icount, and plain RR),
-> it will be tough to, in the stated objective, "remove all conditionals", even after removing the tcg_enabled().
+On Mon, 23 Nov 2020 19:53:19 +0530
+Kirti Wankhede <kwankhede@nvidia.com> wrote:
 
-The main issue were the conditionals inside module init function.
-They are completely OK inside accel-specific methods.
-
+> By default dirty pages tracking is enabled during iterative phase
+> (pre-copy phase).
+> Added per device opt-out option 'pre-copy-dirty-page-tracking' to
+> disable dirty pages tracking during iterative phase. If the option
+> 'pre-copy-dirty-page-tracking=off' is set for any VFIO device, dirty
+> pages tracking during iterative phase will be disabled.
 > 
-> I wonder how you see this issue (patches for 3 TCG split are in Richard's queue atm).
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> ---
+>  hw/vfio/common.c              | 11 +++++++----
+>  hw/vfio/pci.c                 |  3 +++
+>  include/hw/vfio/vfio-common.h |  1 +
+>  3 files changed, 11 insertions(+), 4 deletions(-)
 > 
-> static void tcg_accel_cpu_init(void)
-> {
->     if (tcg_enabled()) {
->         TCGState *s = TCG_STATE(current_accel());
-> 
->         if (s->mttcg_enabled) {
->             cpus_register_accel(&tcg_cpus_mttcg);
->         } else if (icount_enabled()) {
->             cpus_register_accel(&tcg_cpus_icount);
->         } else {
->             cpus_register_accel(&tcg_cpus_rr);
->         }
->     }
-> }
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index c1fdbf17f2e6..6ff1daa763f8 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -311,7 +311,7 @@ bool vfio_mig_active(void)
+>      return true;
+>  }
+>  
+> -static bool vfio_devices_all_stopped_and_saving(VFIOContainer *container)
+> +static bool vfio_devices_all_saving(VFIOContainer *container)
+>  {
+>      VFIOGroup *group;
+>      VFIODevice *vbasedev;
+> @@ -329,8 +329,11 @@ static bool vfio_devices_all_stopped_and_saving(VFIOContainer *container)
+>                  return false;
+>              }
+>  
+> -            if ((migration->device_state & VFIO_DEVICE_STATE_SAVING) &&
+> -                !(migration->device_state & VFIO_DEVICE_STATE_RUNNING)) {
+> +            if (migration->device_state & VFIO_DEVICE_STATE_SAVING) {
+> +                if ((vbasedev->pre_copy_dirty_page_tracking == ON_OFF_AUTO_OFF)
+> +                    && (migration->device_state & VFIO_DEVICE_STATE_RUNNING)) {
+> +                        return false;
+> +                }
+>                  continue;
+>              } else {
+>                  return false;
+> @@ -1125,7 +1128,7 @@ static void vfio_listerner_log_sync(MemoryListener *listener,
+>          return;
+>      }
+>  
+> -    if (vfio_devices_all_stopped_and_saving(container)) {
+> +    if (vfio_devices_all_saving(container)) {
+>          vfio_sync_dirty_bitmap(container, section);
+>      }
+>  }
+> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+> index 58c0ce8971e3..5601df6d6241 100644
+> --- a/hw/vfio/pci.c
+> +++ b/hw/vfio/pci.c
+> @@ -3182,6 +3182,9 @@ static void vfio_instance_init(Object *obj)
+>  static Property vfio_pci_dev_properties[] = {
+>      DEFINE_PROP_PCI_HOST_DEVADDR("host", VFIOPCIDevice, host),
+>      DEFINE_PROP_STRING("sysfsdev", VFIOPCIDevice, vbasedev.sysfsdev),
+> +    DEFINE_PROP_ON_OFF_AUTO("x-pre-copy-dirty-page-tracking", VFIOPCIDevice,
+> +                            vbasedev.pre_copy_dirty_page_tracking,
+> +                            ON_OFF_AUTO_ON),
+>      DEFINE_PROP_ON_OFF_AUTO("display", VFIOPCIDevice,
+>                              display, ON_OFF_AUTO_OFF),
+>      DEFINE_PROP_UINT32("xres", VFIOPCIDevice, display_xres, 0),
+> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+> index baeb4dcff102..267cf854bbba 100644
+> --- a/include/hw/vfio/vfio-common.h
+> +++ b/include/hw/vfio/vfio-common.h
+> @@ -129,6 +129,7 @@ typedef struct VFIODevice {
+>      unsigned int flags;
+>      VFIOMigration *migration;
+>      Error *migration_blocker;
+> +    OnOffAuto pre_copy_dirty_page_tracking;
+>  } VFIODevice;
+>  
+>  struct VFIODeviceOps {
 
-Probably what we are missing here is a non-softmmu-specific
-AccelClass.init() method?
+I applied this and sent a pull request because I think it's important
+that we set the default correctly, but why use an OnOffAuto rather than
+a boolean?  Is the intent that auto might make device specific
+decisions?  Thanks,
 
--- 
-Eduardo
+Alex
 
 
