@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09FAD2C04A3
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 12:35:24 +0100 (CET)
-Received: from localhost ([::1]:35246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D14D82C0499
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 12:34:00 +0100 (CET)
+Received: from localhost ([::1]:58826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khA7t-0000Ty-4A
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 06:35:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51956)
+	id 1khA6X-00071B-KI
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 06:33:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kh9yR-0007wo-49
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:25:35 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:36327)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kh9yO-0004i2-8L
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:25:34 -0500
-Received: by mail-wm1-x333.google.com with SMTP id a65so16888077wme.1
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 03:25:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ha7GtIAF1I/0DbH6VrBKGbJXyrL4nzb53Wtfo6JIF00=;
- b=KuJL7YwitqfuTeahBLbBAE73gsB2IWoY7f3Vicy6kFlnpr30ZKOpAMCj4KkTTSpmg5
- kjno4CNLRPjioEAhB54GJjjHXeOny1btpx9mRMgbfc5k66oEE84Q6l4/K8Oa3GU/JFKN
- cGqdId6/+SCJRgc+jt7FNG4jCHV9ZOe0COrFEnEHIp0RqU86KkrPSU1jI1D+H9wHxB+y
- 5XkosEwl2rzcCgyASL22qtDV6ESMjkr1OrUcGoz4tMNlXs/m+vG9ijZQb7v+A0D6TE70
- 1oi34vGMXAJr6X1WzKDoa8wteEq9yMLxPC4p7Qv3lj6HnVVQIPLxlGkGzaMB4GaNawhE
- Sm+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ha7GtIAF1I/0DbH6VrBKGbJXyrL4nzb53Wtfo6JIF00=;
- b=SGjICGvHVzAMNiCTt74aDU51GFA/5C9CJeQxaJlxJLe4xi1PGubyURc4OdtBBxgmtC
- WbWhFX9MwFJFUUqyWtEzTXBOHuJMVNOUu6xPXyO6KdYUmKlVEcnlrHPGCgMHLLR9XrL3
- zVCKCuhclIDObciRwxXQ7qfgBlPf32InegiPG6oyo+3KjGu3ll8hYpLWnlrXnrPT0+l3
- hPC9saD18C2SDV/Omc6FaheXiaCSw0/XoeDMXZbuIuynU6dVCN3fQ9xA4utbN+fvCOJv
- A+XvE2omvL8ATcgs6cac4d60pQBmo8rmpGRjsaYxDQFt9UmZkwmcWLIs9saMaFuxaROX
- hSXQ==
-X-Gm-Message-State: AOAM531AI/KvY1a6PIX9bZZ/wlq+Gxpd/J/wTlcHEqFqWBukCXYZ2LEx
- vy1gymmnXOxqiegc9FBOoFL+7Q==
-X-Google-Smtp-Source: ABdhPJykCjx8iE3WbkChjSqaV9MFUK/G8T8O59vdMUflhAA8uEQg3rrBwXPVxO/VdX1CEvaXgFs4aQ==
-X-Received: by 2002:a1c:9652:: with SMTP id y79mr24077791wmd.71.1606130730721; 
- Mon, 23 Nov 2020 03:25:30 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h4sm18416224wrq.3.2020.11.23.03.25.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Nov 2020 03:25:25 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 592A21FF92;
- Mon, 23 Nov 2020 11:25:19 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL 6/7] gitlab-ci: Move trace backend tests across to gitlab
-Date: Mon, 23 Nov 2020 11:25:17 +0000
-Message-Id: <20201123112518.13425-7-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201123112518.13425-1-alex.bennee@linaro.org>
-References: <20201123112518.13425-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1khA4x-00063u-5E
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:32:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26290)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1khA4u-0006zG-TQ
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:32:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606131135;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yMhxtyBhwIJF54mpgbunH3iydCa7HZiVs2iwf9lWOcY=;
+ b=aUqSZvoDqemKBKvjixvfBrp+vCtCoj+oeg/4iedXJyU6Z/fGfm+hJHPvO1h805cPVYxwDW
+ blEcK0GxytCmha9mpPhI+eMpy2GOl+d5flwIWdT+pDts1ZXp9y53YPHo+lYlxudMrUrqGN
+ llYGOU17Tc/Id2x1SmbITrM+d3OCEKg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-199-F4bgFvGZNjGoFIL3U-MfqA-1; Mon, 23 Nov 2020 06:32:12 -0500
+X-MC-Unique: F4bgFvGZNjGoFIL3U-MfqA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F8E4100B717;
+ Mon, 23 Nov 2020 11:32:11 +0000 (UTC)
+Received: from [10.36.114.57] (ovpn-114-57.ams2.redhat.com [10.36.114.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EBC8360864;
+ Mon, 23 Nov 2020 11:31:50 +0000 (UTC)
+Subject: Re: [PATCH v1 0/9] virtio-mem: vfio support
+To: qemu-devel@nongnu.org
+References: <20201119153918.120976-1-david@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <d738f186-e355-f4ea-85e9-72a10503fde5@redhat.com>
+Date: Mon, 23 Nov 2020 12:31:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+In-Reply-To: <20201119153918.120976-1-david@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,87 +81,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ Wei Yang <richard.weiyang@linux.alibaba.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Luiz Capitulino <lcapitulino@redhat.com>, Auger Eric <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ teawater <teawaterz@linux.alibaba.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Marek Kedzierski <mkedzier@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+On 19.11.20 16:39, David Hildenbrand wrote:
+> This is the follow-up of:
+>   https://lkml.kernel.org/r/20200924160423.106747-1-david@redhat.com
+> to make vfio and virtio-mem play together. The basic idea was the result of
+> Alex brainstorming with me on how to tackle this.
+> 
+> A virtio-mem device manages a memory region in guest physical address
+> space, represented as a single (currently large) memory region in QEMU,
+> mapped into system memory address space. Before the guest is allowed to use
+> memory blocks, it must coordinate with the hypervisor (plug blocks). After
+> a reboot, all memory is usually unplugged - when the guest comes up, it
+> detects the virtio-mem device and selects memory blocks to plug (based on
+> resize requests from the hypervisor).
+> 
+> Memory hot(un)plug consists of (un)plugging memory blocks via a virtio-mem
+> device (triggered by the guest). When unplugging blocks, we discard the
+> memory - similar to memory balloon inflation. In contrast to memory
+> ballooning, we always know which memory blocks a guest may actually use -
+> especially during a reboot, after a crash, or after kexec (and during
+> hibernation as well). Guests agreed to no access unplugged memory again,
+> especially not via DMA.
+> 
+> The issue with vfio is, that it cannot deal with random discards - for this
+> reason, virtio-mem and vfio can currently only run mutually exclusive.
+> Especially, vfio would currently map the whole memory region (with possible
+> only little/no plugged blocks), resulting in all pages getting pinned and
+> therefore resulting in a higher memory consumption than expected (turning
+> virtio-mem basically useless in these environments).
+> 
+> To make vfio work nicely with virtio-mem, we have to map only the plugged
+> blocks, and map/unmap properly when plugging/unplugging blocks (including
+> discarding of RAM when unplugging). We achieve that by using a new notifier
+> mechanism that communicates changes.
+> 
+> It's important to map memory in the granularity in which we could see
+> unmaps again (-> virtio-mem block size) - so when e.g., plugging
+> consecutive 100 MB with a block size of 2MB, we need 50 mappings. When
+> unmapping, we can use a single vfio_unmap call for the applicable range.
+> We expect that the block size of virtio-mem devices will be fairly large
+> in the future (to not run out of mappings and to improve hot(un)plug
+> performance), configured by the user, when used with vfio (e.g., 128MB,
+> 1G, ...).
+> 
+> More info regarding virtio-mem can be found at:
+>     https://virtio-mem.gitlab.io/
+> I'll add a guide for virtio-mem+vfio soonish.
 
-Similarly to commit 8cdb2cef3f1, move the trace backend
-tests to GitLab.
+There is now a guide/example at:
 
-Note the User-Space Tracer backend is still tested on
-Ubuntu by the s390x jobs on Travis-CI.
+https://virtio-mem.gitlab.io/user-guide/user-guide-qemu.html#vfio-vfio-pci
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Acked-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20201111121234.3246812-3-philmd@redhat.com>
-Message-Id: <20201117173635.29101-7-alex.bennee@linaro.org>
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index b406027a55..d0173e82b1 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -415,6 +415,24 @@ check-crypto-only-gnutls:
-     IMAGE: centos7
-     MAKE_CHECK_ARGS: check
- 
-+# We don't need to exercise every backend with every front-end
-+build-trace-multi-user:
-+  <<: *native_build_job_definition
-+  variables:
-+    IMAGE: ubuntu2004
-+    CONFIGURE_ARGS: --enable-trace-backends=log,simple,syslog --disable-system
-+
-+build-trace-ftrace-system:
-+  <<: *native_build_job_definition
-+  variables:
-+    IMAGE: ubuntu2004
-+    CONFIGURE_ARGS: --enable-trace-backends=ftrace --target-list=x86_64-softmmu
-+
-+build-trace-ust-system:
-+  <<: *native_build_job_definition
-+  variables:
-+    IMAGE: ubuntu2004
-+    CONFIGURE_ARGS: --enable-trace-backends=ust --target-list=x86_64-softmmu
- 
- check-patch:
-   stage: build
-diff --git a/.travis.yml b/.travis.yml
-index bac085f800..1f80bdb624 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -232,25 +232,6 @@ jobs:
-         - TEST_CMD=""
- 
- 
--    # We don't need to exercise every backend with every front-end
--    - name: "GCC trace log,simple,syslog (user)"
--      env:
--        - CONFIG="--enable-trace-backends=log,simple,syslog --disable-system"
--        - TEST_CMD=""
--
--
--    - name: "GCC trace ftrace (x86_64-softmmu)"
--      env:
--        - CONFIG="--enable-trace-backends=ftrace --target-list=x86_64-softmmu"
--        - TEST_CMD=""
--
--
--    - name: "GCC trace ust (x86_64-softmmu)"
--      env:
--        - CONFIG="--enable-trace-backends=ust --target-list=x86_64-softmmu"
--        - TEST_CMD=""
--
--
-     # Using newer GCC with sanitizers
-     - name: "GCC9 with sanitizers (softmmu)"
-       dist: bionic
 -- 
-2.20.1
+Thanks,
+
+David / dhildenb
 
 
