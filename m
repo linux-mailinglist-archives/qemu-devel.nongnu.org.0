@@ -2,75 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C24C2C052D
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 13:04:52 +0100 (CET)
-Received: from localhost ([::1]:55326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA9E02C052F
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 13:06:17 +0100 (CET)
+Received: from localhost ([::1]:57220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khAaR-0007Qt-9O
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 07:04:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55820)
+	id 1khAbo-0008E5-P8
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 07:06:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1khAFy-0004vn-Bu
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:43:42 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:35319)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1khAFw-0002mZ-9t
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:43:42 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id k2so18319985wrx.2
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 03:43:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=n6PeSqD/L5FpOK5OB82HPwRlzjxhtNygqZgCFMpVmXg=;
- b=TV7vvSDdi9c7OCHG5D1gkwC88h/xtpidWlhLVqf9vdXMV9nd6b8qU8ppA1Vc2kSgK9
- lRl599ZzEXbX9XbYzh/Y03C/dht4q+V4ZRHnx8L9kc0ylNQumEaJ/eMMnspynWHWYye3
- l6M0+1nC6ZA1Ux97iWzJjxylGjyosFbqUnxqZk19GrHkc+bxWgxQbZdZrLCCcTNzRPAK
- h65jisptEBupkMh8oyOaF2rAkze61aE0ve9MPA2cEZoSVx7xGJtlQ40qq9DVmzMCOPtW
- RTWstdv9TdzgGo4cBeGp9TIn6eTyjGD8igU0MRykEfywjif2RtUNoKlubUkMrVc7q5HP
- prmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=n6PeSqD/L5FpOK5OB82HPwRlzjxhtNygqZgCFMpVmXg=;
- b=B929uFEd9cU18RUnfAP+xCQ7ozYmZ3POtbcwzsLJFfrfP5FP12b5gdXGaGG7TtYn89
- To2Xvk5Ps459RWzHKTkcWW8A+L81A/TCG9gasAQhi1d/T7rI2nETCanfvmk2zLIMoFY/
- +CxbRuo1nAzZjJjGNaWag3P4jk4nYoxDvN6Uvlp240+piPjELZbtJzUz8eY0sKzIKMZR
- w6TWIbW5x3Peuc+57y+3Wa69clllvvGVmllFvEq3k/Uj78rsYkJN2YU2hoYTSvsFU3W5
- AcYSgb/R0w3zhb9ruZv+w53m4yrO/TKk0mMQNQ1ihg/xkL5k89zseMes1HcYOsSkHJTU
- V9Tg==
-X-Gm-Message-State: AOAM532EO7yU1mDhxD6WMwt2GS5JvcV2bK8VHJKHfR2gTZoAi0UwOwV0
- HQ4IrCAD3HOxsZ+t4xDNC9/V2hQKx+qHxQ==
-X-Google-Smtp-Source: ABdhPJw271mVAxUO+A5t7/gE1Urgt111BhwJGijZLT0tQdOiwO/IaNEvaiDtnBWUzu3OO9tQxpszwQ==
-X-Received: by 2002:a5d:5146:: with SMTP id u6mr31999524wrt.66.1606131818577; 
- Mon, 23 Nov 2020 03:43:38 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g186sm50836495wma.1.2020.11.23.03.43.37
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Nov 2020 03:43:38 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 19/24] docs/system/virtio-pmem.rst: Fix minor style issues
-Date: Mon, 23 Nov 2020 11:43:10 +0000
-Message-Id: <20201123114315.13372-20-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201123114315.13372-1-peter.maydell@linaro.org>
-References: <20201123114315.13372-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1khANJ-0007r7-4B; Mon, 23 Nov 2020 06:51:18 -0500
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:57231)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1khANG-0005kb-OO; Mon, 23 Nov 2020 06:51:16 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.186])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id DCAEC6E29EBA;
+ Mon, 23 Nov 2020 12:51:10 +0100 (CET)
+Received: from kaod.org (37.59.142.102) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Mon, 23 Nov
+ 2020 12:51:10 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R00412d9caad-044a-426f-af58-e5245794512d,
+ 7563B3C8582C4E5C569F12427BEE2CF3FAD9DE82) smtp.auth=groug@kaod.org
+Date: Mon, 23 Nov 2020 12:51:08 +0100
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH for-6.0 4/9] spapr: Set compat mode in spapr_reset_vcpu()
+Message-ID: <20201123125108.2118048e@bahia.lan>
+In-Reply-To: <20201123051130.GL521467@yekko.fritz.box>
+References: <20201120234208.683521-1-groug@kaod.org>
+ <20201120234208.683521-5-groug@kaod.org>
+ <20201123051130.GL521467@yekko.fritz.box>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/signed; boundary="Sig_/UduOronwxZ4iWwneROJPr2z";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 81b00384-bf5b-405f-8541-64852ac2091a
+X-Ovh-Tracer-Id: 11686278086789077472
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudegiedgfeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtihesghdtreerredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnheplefggfefueegudegkeevieevveejfffhuddvgeffteekieevueefgfeltdfgieetnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehimhgrmhhmvgguohesrhgvughhrghtrdgtohhm
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,137 +68,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The virtio-pmem documentation has some minor style issues we hadn't
-noticed since we weren't rendering it in our docs:
+--Sig_/UduOronwxZ4iWwneROJPr2z
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
- * Sphinx doesn't complain about overlong title-underlining the
-   way it complains about too-short underlining, but it looks odd;
-   make the underlines of section headers the right length
+On Mon, 23 Nov 2020 16:11:30 +1100
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
- * Indent of paragraphs makes them render as blockquotes;
-   remove the indent so they just render as normal text
+> On Sat, Nov 21, 2020 at 12:42:03AM +0100, Greg Kurz wrote:
+> > When it comes to resetting the compat mode of the vCPUS, there are
+> > two situations to consider:
+> > (1) machine reset should set the compat mode back to the machine defaul=
+t,
+> >     ie. spapr->max_compat_pvr
+> > (2) hot plugged vCPUs should set their compat mode to mach the boot vCP=
+U,
+> >     ie. POWERPC_CPU(first_cpu)->compat_pvr
+> >=20
+> > This is currently handled in two separate places: globally for all vCPUs
+> > from the machine reset code for (1) and for each thread of a core from
+> > the hotplug path for (2).
+> >=20
+> > Since the machine reset code already resets all vCPUs, starting with bo=
+ot
+> > vCPU, consolidate the logic in spapr_reset_vcpu(). Special case the boot
+> > vCPU so that it resets its compat mode back to the machine default. Any
+> > other vCPU just need to match the compat mode of the boot vCPU.
+> >=20
+> > Failing to set the compat mode during machine reset is a fatal error,
+> > but not for hot plugged vCPUs. This is arguable because if we've been
+> > able to set the boot vCPU compat mode at CAS or during machine reset,
+> > it should definitely not fail for other vCPUs. Since spapr_reset_vcpu()
+> > already has a fatal error path for kvm_check_mmu() failures, do the
+> > same for ppc_set_compat().
+> >=20
+> > This gets rid of an error path in spapr_core_plug(). It will allow
+> > further simplifications.
+> >=20
+> > Signed-off-by: Greg Kurz <groug@kaod.org>
+> > ---
+> >  hw/ppc/spapr.c          | 16 ----------------
+> >  hw/ppc/spapr_cpu_core.c | 13 +++++++++++++
+> >  2 files changed, 13 insertions(+), 16 deletions(-)
+> >=20
+> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > index f58f77389e8e..da7586f548df 100644
+> > --- a/hw/ppc/spapr.c
+> > +++ b/hw/ppc/spapr.c
+> > @@ -1606,8 +1606,6 @@ static void spapr_machine_reset(MachineState *mac=
+hine)
+> >      spapr_ovec_cleanup(spapr->ov5_cas);
+> >      spapr->ov5_cas =3D spapr_ovec_new();
+> > =20
+> > -    ppc_set_compat_all(spapr->max_compat_pvr, &error_fatal);
+> > -
+> >      /*
+> >       * This is fixing some of the default configuration of the XIVE
+> >       * devices. To be called after the reset of the machine devices.
+> > @@ -3785,20 +3783,6 @@ static void spapr_core_plug(HotplugHandler *hotp=
+lug_dev, DeviceState *dev,
+> > =20
+> >      core_slot->cpu =3D OBJECT(dev);
+> > =20
+> > -    /*
+> > -     * Set compatibility mode to match the boot CPU, which was either =
+set
+> > -     * by the machine reset code or by CAS.
+> > -     */
+> > -    if (hotplugged) {
+> > -        for (i =3D 0; i < cc->nr_threads; i++) {
+> > -            if (ppc_set_compat(core->threads[i],
+> > -                               POWERPC_CPU(first_cpu)->compat_pvr,
+> > -                               errp) < 0) {
+> > -                return;
+> > -            }
+> > -        }
+> > -    }
+> > -
+> >      if (smc->pre_2_10_has_unused_icps) {
+> >          for (i =3D 0; i < cc->nr_threads; i++) {
+> >              cs =3D CPU(core->threads[i]);
+> > diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+> > index 2f7dc3c23ded..17741a3fb77f 100644
+> > --- a/hw/ppc/spapr_cpu_core.c
+> > +++ b/hw/ppc/spapr_cpu_core.c
+> > @@ -27,6 +27,7 @@
+> > =20
+> >  static void spapr_reset_vcpu(PowerPCCPU *cpu)
+> >  {
+> > +    PowerPCCPU *first_ppc_cpu =3D POWERPC_CPU(first_cpu);
+> >      CPUState *cs =3D CPU(cpu);
+> >      CPUPPCState *env =3D &cpu->env;
+> >      PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
+> > @@ -69,6 +70,18 @@ static void spapr_reset_vcpu(PowerPCCPU *cpu)
+> >      kvm_check_mmu(cpu, &error_fatal);
+> > =20
+> >      spapr_irq_cpu_intc_reset(spapr, cpu);
+> > +
+> > +    /*
+> > +     * The boot CPU is only reset during machine reset : reset its
+> > +     * compatibility mode to the machine default. For other CPUs,
+> > +     * either cold plugged or hot plugged, set the compatibility mode
+> > +     * to match the boot CPU, which was either set by the machine reset
+> > +     * code or by CAS.
+> > +     */
+> > +    ppc_set_compat(cpu,
+> > +                   cpu =3D=3D first_ppc_cpu ?
+> > +                   spapr->max_compat_pvr : first_ppc_cpu->compat_pvr,
+> > +                   &error_fatal);
+>=20
+> This assumes that when it is called for a non-boot CPU, it has already
+> been called for the boot CPU..  Are we certain that's guaranteed by
+> the sequence of reset calls during a full machine reset?
+>=20
 
- * Leading 'o' isn't rst markup, so it just renders as a literal
-   "o"; reformat as a subsection heading instead
+This happens to be the case. Basically because the boot CPU core
+is created (including registering its reset handler) first and
+qemu_devices_reset() calls handlers in the same order they were
+registered.
 
- * "QEMU" in the document title and section headings are a bit
-   odd and unnecessary since this is the QEMU manual; delete
-   or rephrase them
+> >  }
+> > =20
+> >  void spapr_cpu_set_entry_state(PowerPCCPU *cpu, target_ulong nip,
+>=20
 
- * There's no need to specify what QEMU version the device first
-   appeared in.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
----
- docs/system/virtio-pmem.rst | 60 ++++++++++++++++++-------------------
- 1 file changed, 30 insertions(+), 30 deletions(-)
+--Sig_/UduOronwxZ4iWwneROJPr2z
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-diff --git a/docs/system/virtio-pmem.rst b/docs/system/virtio-pmem.rst
-index 4bf5d004432..c82ac067315 100644
---- a/docs/system/virtio-pmem.rst
-+++ b/docs/system/virtio-pmem.rst
-@@ -1,38 +1,37 @@
- 
--========================
--QEMU virtio pmem
--========================
-+===========
-+virtio pmem
-+===========
- 
-- This document explains the setup and usage of the virtio pmem device
-- which is available since QEMU v4.1.0.
--
-- The virtio pmem device is a paravirtualized persistent memory device
-- on regular (i.e non-NVDIMM) storage.
-+This document explains the setup and usage of the virtio pmem device.
-+The virtio pmem device is a paravirtualized persistent memory device
-+on regular (i.e non-NVDIMM) storage.
- 
- Usecase
----------
-+-------
- 
--  Virtio pmem allows to bypass the guest page cache and directly use
--  host page cache. This reduces guest memory footprint as the host can
--  make efficient memory reclaim decisions under memory pressure.
-+Virtio pmem allows to bypass the guest page cache and directly use
-+host page cache. This reduces guest memory footprint as the host can
-+make efficient memory reclaim decisions under memory pressure.
- 
--o How does virtio-pmem compare to the nvdimm emulation supported by QEMU?
-+How does virtio-pmem compare to the nvdimm emulation?
-+-----------------------------------------------------
- 
--  NVDIMM emulation on regular (i.e. non-NVDIMM) host storage does not
--  persist the guest writes as there are no defined semantics in the device
--  specification. The virtio pmem device provides guest write persistence
--  on non-NVDIMM host storage.
-+NVDIMM emulation on regular (i.e. non-NVDIMM) host storage does not
-+persist the guest writes as there are no defined semantics in the device
-+specification. The virtio pmem device provides guest write persistence
-+on non-NVDIMM host storage.
- 
- virtio pmem usage
- -----------------
- 
--  A virtio pmem device backed by a memory-backend-file can be created on
--  the QEMU command line as in the following example::
-+A virtio pmem device backed by a memory-backend-file can be created on
-+the QEMU command line as in the following example::
- 
-     -object memory-backend-file,id=mem1,share,mem-path=./virtio_pmem.img,size=4G
-     -device virtio-pmem-pci,memdev=mem1,id=nv1
- 
--  where:
-+where:
- 
-   - "object memory-backend-file,id=mem1,share,mem-path=<image>, size=<image size>"
-     creates a backend file with the specified size.
-@@ -40,8 +39,8 @@ virtio pmem usage
-   - "device virtio-pmem-pci,id=nvdimm1,memdev=mem1" creates a virtio pmem
-     pci device whose storage is provided by above memory backend device.
- 
--  Multiple virtio pmem devices can be created if multiple pairs of "-object"
--  and "-device" are provided.
-+Multiple virtio pmem devices can be created if multiple pairs of "-object"
-+and "-device" are provided.
- 
- Hotplug
- -------
-@@ -59,17 +58,18 @@ the guest::
- Guest Data Persistence
- ----------------------
- 
-- Guest data persistence on non-NVDIMM requires guest userspace applications
-- to perform fsync/msync. This is different from a real nvdimm backend where
-- no additional fsync/msync is required. This is to persist guest writes in
-- host backing file which otherwise remains in host page cache and there is
-- risk of losing the data in case of power failure.
-+Guest data persistence on non-NVDIMM requires guest userspace applications
-+to perform fsync/msync. This is different from a real nvdimm backend where
-+no additional fsync/msync is required. This is to persist guest writes in
-+host backing file which otherwise remains in host page cache and there is
-+risk of losing the data in case of power failure.
- 
-- With virtio pmem device, MAP_SYNC mmap flag is not supported. This provides
-- a hint to application to perform fsync for write persistence.
-+With virtio pmem device, MAP_SYNC mmap flag is not supported. This provides
-+a hint to application to perform fsync for write persistence.
- 
- Limitations
--------------
-+-----------
-+
- - Real nvdimm device backend is not supported.
- - virtio pmem hotunplug is not supported.
- - ACPI NVDIMM features like regions/namespaces are not supported.
--- 
-2.20.1
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAl+7oiwACgkQcdTV5YIv
+c9bN8Q/+PzblaZ0bYAc3apRmzWPgYSOMQeUAlHXnPxiOW3q+rStjTAKxF+ehbnZz
+HaGG3+51eEfDbKyToFF3tbJfCUrS81E3TloqCbLPKih/IWn7m1Xgm/YD/QPEveTr
+CP6XmcF/Jbj2T/QQxGxAOtHwUxtjrBsXYFFf9fsD31yaLk38LDTvYuaOKQgeCP4Q
+UEVFihmf6mQ/hS1+rDxhv8dCL9aAbNc6JUf7clXb93ZLcglO/ypF6+y7ZwtKEFXX
+4imYmTR8b0SkHuqbGuxH8geLuniXtU8lCRrwbhiBVdgSzcZSGpQX4P/MbXrsDTNe
+WnynZFD9TiOHdVJTL3PnAcXRgcFdQEfmBtfii4KrfFy45sJlpN7y1QbcNNo8UB3d
+0/T950T3RIXXY3tkIxEBseARSAEYRyPmDJVWSkF67oTMT4cSwwcX7Q9OKvVk/m2z
+++TsBdZr98Vf+QNq/7dTMJA6yOJLg7cwuZavHGU8fs0FUcyNeXg0J41bXrzvNl1e
+6r5qhX5GJSTudwcJG2YEB42xfnIRBlk9hOznvhDd02CGhPZKlADf1gJd4wUbeJoR
+qaC3ilheHad1JjmfUpRwLodcpD61WQP+9MG7aF4RjoF/GFzUa6AVxJqVYMqQ9aLh
+TSy/zPQrph8tWAYkGCDGDBigUseqs79U3SeNkJVAMTJvkF8yHq0=
+=ieWr
+-----END PGP SIGNATURE-----
+
+--Sig_/UduOronwxZ4iWwneROJPr2z--
 
