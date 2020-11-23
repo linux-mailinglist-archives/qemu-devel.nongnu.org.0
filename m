@@ -2,79 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 771252C00E2
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 08:53:57 +0100 (CET)
-Received: from localhost ([::1]:35692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E2682C00F8
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 09:04:21 +0100 (CET)
+Received: from localhost ([::1]:43064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kh6fb-0002Np-UT
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 02:53:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33486)
+	id 1kh6pg-0005vb-9V
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 03:04:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kh6dM-0000qh-5r
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 02:51:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30058)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kh6dJ-0000uN-DB
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 02:51:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606117891;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lQue2GdHKpm5ut1aCaHbqD2eYRNGDlaK/2aoF9VPjq0=;
- b=a7EEPsIJpMnEf8Jn98ufFsMGy2CVrClrFDl/2RexyYQpWaskT0wbNkhdniLuELxBl+Nbrv
- XxDZyKG0ZCt3kiY67GJOVnzUYPXkZux3mwZbBLKY1SI/0MzYag148UuhRLjf88TT4dRQwp
- YJqZgNZMyLa5yKEa3KFw/A5fPev3VSs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-565-JphOzXANNFeuOIiQHfOcyw-1; Mon, 23 Nov 2020 02:51:29 -0500
-X-MC-Unique: JphOzXANNFeuOIiQHfOcyw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9FB69CC0F;
- Mon, 23 Nov 2020 07:51:28 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
- [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9A2605C1BD;
- Mon, 23 Nov 2020 07:51:28 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 30C7411358BA; Mon, 23 Nov 2020 08:51:27 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH v2 3/8] qnum: QNumValue type for QNum value literals
-References: <20201116224143.1284278-1-ehabkost@redhat.com>
- <20201116224143.1284278-4-ehabkost@redhat.com>
- <CAJ+F1C+YUZdP56MuLtZbO0fK6rPsDosgxXG4zaDq=mjwqsV74A@mail.gmail.com>
- <20201117144246.GD1235237@habkost.net>
- <CAJ+F1CLZg-hhuK2ffRzVaWiZKe2Aqvf0-mqxXGAzscSa8FmCNw@mail.gmail.com>
- <87mtzdd4p7.fsf@dusky.pond.sub.org>
- <20201119182158.GX1509407@habkost.net>
- <877dqg8ukz.fsf@dusky.pond.sub.org>
- <20201120182720.GF2271382@habkost.net>
-Date: Mon, 23 Nov 2020 08:51:27 +0100
-In-Reply-To: <20201120182720.GF2271382@habkost.net> (Eduardo Habkost's message
- of "Fri, 20 Nov 2020 13:27:20 -0500")
-Message-ID: <877dqcwlxc.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <remi@remlab.net>)
+ id 1kh6nS-0005Eq-5L; Mon, 23 Nov 2020 03:02:02 -0500
+Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:54604
+ helo=ns207790.ip-94-23-215.eu)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <remi@remlab.net>)
+ id 1kh6nP-0004PD-KG; Mon, 23 Nov 2020 03:02:01 -0500
+Received: from basile.remlab.net (dzyqn8ypzhx7l91mxjsvy-3.rev.dnainternet.fi
+ [IPv6:2001:14ba:a01a:be01:9434:f69e:d553:3be2])
+ (Authenticated sender: remi)
+ by ns207790.ip-94-23-215.eu (Postfix) with ESMTPSA id E7D065FC79;
+ Mon, 23 Nov 2020 09:01:50 +0100 (CET)
+From: =?ISO-8859-1?Q?R=E9mi?= Denis-Courmont <remi.denis.courmont@huawei.com>
+To: qemu-arm@nongnu.org
+Subject: [PATCHv3 00/17] ARMv8.4 Secure EL2
+Date: Mon, 23 Nov 2020 10:01:50 +0200
+Message-ID: <3333301.iIbC2pHGDl@basile.remlab.net>
+Organization: Huawei Technologies, Finland
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2001:41d0:2:5a1a::; envelope-from=remi@remlab.net;
+ helo=ns207790.ip-94-23-215.eu
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,29 +52,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, QEMU <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eduardo Habkost <ehabkost@redhat.com> writes:
+The following changes since commit 8cc30eb1400fc01f2b139cdd3dc524f8b84dbe07:
 
-> On Fri, Nov 20, 2020 at 06:29:16AM +0100, Markus Armbruster wrote:
-[...]
->> When the structure of a data type is to be kept away from its users, I
->> prefer to keep it out of the public header, so the compiler enforces the
->> encapsulation.
->
-> I prefer that too, except that it is impossible when users of the
-> API need the compiler to know the struct size.
+  Merge remote-tracking branch 'remotes/mcayland/tags/qemu-sparc-20201122' =
+into staging (2020-11-22 15:02:52 +0000)
 
-There are cases where the structure of a data type should be
-encapsulated, yet its size must be made known for performance (avoid
-dynamic memory allocation and pointer chasing).
+follow.
 
-Need for encapsulation correlates with complex algorithms and data
-structures.  The cost of dynamic allocation is often in the noise then.
+Changes since version 2:
+=2D Don't set HPFAR.NS in AT instruction in NS state.
+
+=2D---------------------------------------------------------------
+R=C3=A9mi Denis-Courmont (17):
+      target/arm: remove redundant tests
+      target/arm: add arm_is_el2_enabled() helper
+      target/arm: use arm_is_el2_enabled() where applicable
+      target/arm: use arm_hcr_el2_eff() where applicable
+      target/arm: factor MDCR_EL2 common handling
+      target/arm: declare new AA64PFR0 bit-fields
+      target/arm: add 64-bit S-EL2 to EL exception table
+      target/arm: return the stage 2 index for stage 1
+      target/arm: add MMU stage 1 for Secure EL2
+      target/arm: add ARMv8.4-SEL2 system registers
+      target/arm: do S1_ptw_translate() before address space lookup
+      target/arm: secure stage 2 translation regime
+      target/arm: handle VMID change in secure state
+      target/arm: set HPFAR_EL2.NS on secure stage 2 faults
+      target/arm: add ARMv8.4-SEL2 extension
+      target/arm: enable Secure EL2 in max CPU
+      target/arm: refactor vae1_tlbmask()
+
+ target/arm/cpu-param.h     |   2 +-
+ target/arm/cpu.c           |  10 +-
+ target/arm/cpu.h           |  93 ++++++++--
+ target/arm/cpu64.c         |   1 +
+ target/arm/helper-a64.c    |   8 +-
+ target/arm/helper.c        | 423 ++++++++++++++++++++++++++++++-----------=
+=2D---
+ target/arm/internals.h     |  56 +++++-
+ target/arm/op_helper.c     |   4 +-
+ target/arm/tlb_helper.c    |   3 +
+ target/arm/translate-a64.c |   4 +
+ target/arm/translate.c     |   6 +-
+ target/arm/translate.h     |   1 +
+ 12 files changed, 431 insertions(+), 180 deletions(-)
+
+=2D-=20
+=E9=9B=B7=E7=B1=B3=E2=80=A7=E5=BE=B7=E5=B0=BC-=E5=BA=93=E5=B0=94=E8=92=99
+
+
 
 
