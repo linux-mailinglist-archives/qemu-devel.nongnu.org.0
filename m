@@ -2,66 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E9762C0F7F
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 17:01:36 +0100 (CET)
-Received: from localhost ([::1]:48850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 742D12C0FBB
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 17:11:42 +0100 (CET)
+Received: from localhost ([::1]:35338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khEHW-0006H4-FR
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 11:01:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37946)
+	id 1khERH-0005EB-IQ
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 11:11:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1khEFP-0005aY-O2
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 10:59:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56580)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1khEPa-0004O6-0m
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 11:09:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31598)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1khEFN-0005n5-8X
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 10:59:23 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1khEPX-0001Xa-0a
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 11:09:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606147160;
+ s=mimecast20190719; t=1606147788;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4hRvr9uMVkfGy2vLkfJdSyq18SzpMCY5I/aekCbfuxg=;
- b=EdlHoC5ntnxAMmp/+qu4WtlacXklX64fBvIWf3tH2uhRVwBHKgV0n++tGTumwTokZuQ6T0
- oEXB7ThAx8wBoE0y6OMkvy9wvXds4Oc4cKk7YNOM1JQijNHDo8BsRP5sav1usHrmbkUjR1
- DTCeV1FSrg8vhEaYjuj69S3pDXGOdFo=
+ bh=lQ18zr7dTWOdc4VcYcYGijK03fMSts8yJUg8tRNmzjY=;
+ b=gNvvx+2zhh9GIpN1YRHuYUJpalUQrt3my3gFDVQe4dGpaBH7VSdUMoeopdlzhFhYlq67xt
+ 5w6lbh9kItg8APqHdgb4BP38AdkjmkTYWfSRmmWU73E9TTBdTcoQSw0a22DPAldQGYoSu5
+ 1Mo6ixJQLzDacx7uZ/wGZiUpNdWNtbE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-576--H-Vq8ijMgCVZCBB2fxUWQ-1; Mon, 23 Nov 2020 10:59:16 -0500
-X-MC-Unique: -H-Vq8ijMgCVZCBB2fxUWQ-1
+ us-mta-298-SLL5p961NJ-m1DbdOkjzEQ-1; Mon, 23 Nov 2020 11:09:46 -0500
+X-MC-Unique: SLL5p961NJ-m1DbdOkjzEQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75931100A642;
- Mon, 23 Nov 2020 15:59:15 +0000 (UTC)
-Received: from gondolin (ovpn-113-104.ams2.redhat.com [10.36.113.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B4F8219D7C;
- Mon, 23 Nov 2020 15:59:11 +0000 (UTC)
-Date: Mon, 23 Nov 2020 16:59:08 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH] hw/watchdog/wdt_diag288: Remove unnecessary includes
-Message-ID: <20201123165908.79203631.cohuck@redhat.com>
-In-Reply-To: <874klgtkn6.fsf@dusky.pond.sub.org>
-References: <20201118090344.243117-1-thuth@redhat.com>
- <800135fc-4552-b872-0117-4d9194393094@redhat.com>
- <873616kan8.fsf@dusky.pond.sub.org>
- <CAFEAcA9gg_cxcG59BHKosJmTeyyJ_7_Uofcyb9kMXSRAFnYebg@mail.gmail.com>
- <8a91ad94-9a18-1f8b-b73d-92872495fdc3@redhat.com>
- <874klgtkn6.fsf@dusky.pond.sub.org>
-Organization: Red Hat GmbH
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB0E38015C4;
+ Mon, 23 Nov 2020 16:09:44 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-113-153.ams2.redhat.com [10.36.113.153])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CD8BC19D80;
+ Mon, 23 Nov 2020 16:09:42 +0000 (UTC)
+Date: Mon, 23 Nov 2020 17:09:41 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Subject: Re: [PATCH 1/1] Fix qcow2 corruption on discard
+Message-ID: <20201123160941.GD5317@merkur.fritz.box>
+References: <20201123154929.330338-1-mlevitsk@redhat.com>
+ <20201123154929.330338-2-mlevitsk@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20201123154929.330338-2-mlevitsk@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -82,61 +76,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x <qemu-s390x@nongnu.org>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Cc: vsementsov@virtuozzo.com, Alberto Garcia <berto@igalia.com>,
+ qemu-block@nongnu.org, zhang_youjia@126.com, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, andrey.shinkevich@virtuozzo.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 23 Nov 2020 11:47:25 +0100
-Markus Armbruster <armbru@redhat.com> wrote:
+Am 23.11.2020 um 16:49 hat Maxim Levitsky geschrieben:
+> Commit 205fa50750 ("qcow2: Add subcluster support to zero_in_l2_slice()")
+> introduced a subtle change to code in zero_in_l2_slice:
+> 
+> It swapped the order of
+> 
+> 1. qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
+> 2. set_l2_entry(s, l2_slice, l2_index + i, QCOW_OFLAG_ZERO);
+> 3. qcow2_free_any_clusters(bs, old_offset, 1, QCOW2_DISCARD_REQUEST);
+> 
+> To
+> 
+> 1. qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
+> 2. qcow2_free_any_clusters(bs, old_offset, 1, QCOW2_DISCARD_REQUEST);
+> 3. set_l2_entry(s, l2_slice, l2_index + i, QCOW_OFLAG_ZERO);
+> 
+> It seems harmless, however the call to qcow2_free_any_clusters
+> can trigger a cache flush which can mark the L2 table as clean,
+> and assuming that this was the last write to it,
+> a stale version of it will remain on the disk.
+> 
+> Now we have a valid L2 entry pointing to a freed cluster. Oops.
+> 
+> Fixes: 205fa50750 ("qcow2: Add subcluster support to zero_in_l2_slice()")
+> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> ---
+>  block/qcow2-cluster.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+> index 485b4cb92e..267b46a4ca 100644
+> --- a/block/qcow2-cluster.c
+> +++ b/block/qcow2-cluster.c
+> @@ -2010,11 +2010,11 @@ static int zero_in_l2_slice(BlockDriverState *bs, uint64_t offset,
+>              continue;
+>          }
+>  
+> -        qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
+>          if (unmap) {
+>              qcow2_free_any_cluster(bs, old_l2_entry, QCOW2_DISCARD_REQUEST);
+>          }
+>          set_l2_entry(s, l2_slice, l2_index + i, new_l2_entry);
+> +        qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
 
-> Thomas Huth <thuth@redhat.com> writes:
->=20
-> > On 18/11/2020 15.30, Peter Maydell wrote: =20
-> >> On Wed, 18 Nov 2020 at 14:24, Markus Armbruster <armbru@redhat.com> wr=
-ote: =20
-> >>>
-> >>> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
-> >>> =20
-> >>>> On 11/18/20 10:03 AM, Thomas Huth wrote: =20
-> >>>>> Both headers, sysbus.h and module.h, are not required to compile th=
-is file. =20
-> >>>
-> >>> module.h is: it defines type_init(). =20
-> >>  =20
-> >>>>>  #include "qemu/timer.h"
-> >>>>>  #include "hw/watchdog/wdt_diag288.h"
-> >>>>>  #include "migration/vmstate.h"
-> >>>>>  #include "qemu/log.h"
-> >>>>> -#include "qemu/module.h" =20
-> >>>>
-> >>>> Cc'ing Markus because of: =20
-> >>  =20
-> >>>>     Include qemu/module.h where needed, drop it from qemu-common.h =
-=20
-> >>>
-> >>> If it still compiles and links, it must get it via some other header.=
- =20
-> >>=20
-> >> Yes: wdt_diag288.c -> include/hw/watchdog/wdt_diag288.h ->
-> >>  include/qom/object.h -> include/qemu/module.h =20
-> >
-> > So what's now our expectation here? Should every file that uses type_in=
-it()
-> > also include module.h ? That's IMHO not very intuitive...
-> > Or are we fine that type_init() is provided by qom/object.h which needs=
- to
-> > be pulled in by every device sooner or later anyway? =20
->=20
-> I think it's okay to rely on indirect inclusion.
+Good catch, but I think your order is wrong, too. We need the original
+order from before 205fa50750:
 
-So, what's the final verdict? Maybe just tweak the description?
+1. qcow2_cache_entry_mark_dirty()
+   set_l2_entry() + set_l2_bitmap()
 
-"Neither sysbus.h nor module.h are required to compile this file.
-diag288 is not a sysbus device, and module.h (for type_init) is
-included eventually through qom/object.h."
+2. qcow2_free_any_cluster()
+
+The order between qcow2_cache_entry_mark_dirty() and set_l2_entry()
+shouldn't matter, but it's important that we update the refcount table
+only after the L2 table has been updated to not reference the cluster
+any more.
+
+Otherwise a crash could lead to a situation where the cluster is
+allocated (because it has refcount 0), but it was still in use in an L2
+table. This is a classic corruption scenario.
+
+Kevin
 
 
