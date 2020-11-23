@@ -2,75 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C17112C0EF0
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 16:36:35 +0100 (CET)
-Received: from localhost ([::1]:46278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDA5A2C0EF1
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 16:38:38 +0100 (CET)
+Received: from localhost ([::1]:48584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khDtK-0008Iw-SR
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 10:36:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57352)
+	id 1khDvJ-0000xs-1p
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 10:38:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1khDsX-0007m7-S7
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 10:35:45 -0500
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:36020)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1khDsV-0004hT-G8
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 10:35:45 -0500
-Received: by mail-ot1-x341.google.com with SMTP id y24so10719040otk.3
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 07:35:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jI63lj6jqt0ZBN4Cob4eo6z9WDCA0P7ihTcoeJE2X5g=;
- b=q2A+3bSP6GRBwoYWfifyk86f9oZv1Ux5nKfaGx88V9CAvY67gssqDgBXF1whlxycHF
- CS95YXWyoV6EToKVlMx7cl3xwtCC/D43ZUPQX+pBmCsXXwlnWw7jL2i4K9/ZXBIrPvIv
- WvC5MknUMwiQOHDPycHZjITpH5dgf+e2/RZAEahU/4j6Gnxu7gqmwszqItzzEFt8zLg/
- ojy4TqndIEqTQUfgY/JbtMii0XrsT85clXFaRKkbBog6h3HkZu0TBKbQOrE7Zz9niglh
- zBqQzrU6VGgA+d97AXRUzTWMuzjzKDB3+Vsn+O4Bm01Vfiy7Zo3zOgdKzDYB6i6lssLv
- TQTg==
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1khDto-0000TD-Ra
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 10:37:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37521)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1khDtn-0005IE-65
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 10:37:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606145821;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FvWrZYVj60QjKxYyTFc0gtmk5KPGKBlnjgYVLiU1SMU=;
+ b=YR1hKb+VY5vdY0wDC9/v2xAbX+3KFSYAd+lbnBugerBJEGvCQKoGuBD9ouoKVbAtL0xuCm
+ AGFx5p54uAWzQBeh56j5cGrM5GX3cMGQyGQC3DcVFLLmcbbGkgdEU+EPDyEjechOXMS07m
+ wGoAx8Fkuzzs71xZICdw2uVepFbnOI0=
+Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
+ [209.85.217.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-503--tY9FbQKOJmNY0JFrB1nWg-1; Mon, 23 Nov 2020 10:36:59 -0500
+X-MC-Unique: -tY9FbQKOJmNY0JFrB1nWg-1
+Received: by mail-vs1-f70.google.com with SMTP id n16so3087902vsr.17
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 07:36:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jI63lj6jqt0ZBN4Cob4eo6z9WDCA0P7ihTcoeJE2X5g=;
- b=gfuGsNzjEgiFITQS8SIOvnLL/Fe99rEzcmbZOnodCpNIP/u4FRXnuBhDlzDN1aKjtF
- lbkjIOIWWf/SsRPoljmQfPJFeOseWA7p3TOI++HSWaFlZ1k90z1dHgbH92/v8EwsbNDJ
- hgX0eToX0QSqahWqiLH8Uee2tffX98X1eU4dPxlewc4psWSbp1G323fWHY6nQS7AJv3v
- c1UzebmktQgNWgi5DNXaf8oi5ZjmzvBAtSEyYJ04Ha3nWJmHvF5qtNQGge4xRXe4DXKZ
- X+FEsUsK2NKt8SmNvphFiXWJS53Peo99p1XVcpn7n+FeUh/ZJNEl2UUBascaqKPw/7qU
- QhNQ==
-X-Gm-Message-State: AOAM532iprTCTXf+zpstji657O9TGBnAJQSJGJuHQCauC07OKOPQDx7U
- eyKu1kBYqi28qItZtv5PPsitLVzjcmcFJvbJkv7lQQ==
-X-Google-Smtp-Source: ABdhPJyj2G84++MsTz/rbTr1YFUBFx5rIXxIXnIgL19QPYROLttdeBYt1xLpIsdj75uxF/PXpN5uFJc9u//6JmIfjTY=
-X-Received: by 2002:a9d:5904:: with SMTP id t4mr20510745oth.109.1606145742271; 
- Mon, 23 Nov 2020 07:35:42 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=FvWrZYVj60QjKxYyTFc0gtmk5KPGKBlnjgYVLiU1SMU=;
+ b=mfHapPaSlC2N40h8c/T7tSypAPZ4uAVMYCPKD+kmn4EVaIydUef9jVRixx/egSYOal
+ dU7kWnQPvOsFIFyOBZjl+PxE2kFkehUJsUDrQBW/Eqqv5aMQ73rMDhlEGdPXFYQFDDq5
+ hl3MlY7cNP705iju4mb9yYVJbTO7tHMkzNSQE2kTeuVxNeNnk0u4CIAB9WNpx3V7PWCQ
+ NcWx1ksYoqy66v2PkkNflnE3OW9Pg8W4s7BbY4b4ae8NNgD5xchHg/N8s+hc8cy1OfMS
+ +24CRzrAcAkPl5Yr1+Vff+hvoeGE6M2LLylU4dVRLcUM6DZg9V7VJdmO8TKhVoNQR0qd
+ H2IA==
+X-Gm-Message-State: AOAM530sHkACT+e30QQyRNcfayenEtCmJgX/YaWaVJMXvsHy2s3vaY2b
+ GS8afJ4yGdhrUTp/dz1N4DnR4B6URjosRahAAVUqCMDWEteVTWQOexrtf590wET0BBvs2fmhb93
+ gFZ24RTD6gO8ovKZPyuQYmLDmYXW37t0=
+X-Received: by 2002:a67:f255:: with SMTP id y21mr115568vsm.50.1606145818752;
+ Mon, 23 Nov 2020 07:36:58 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyeimXqKLuGr/PgyyNtLw5BrrkdQTvlLUjVRAi8V6vkRF4toMZy3TJwPRKdpfqaILaBHI4ScY3aUi8tJiMcvic=
+X-Received: by 2002:a67:f255:: with SMTP id y21mr115552vsm.50.1606145818590;
+ Mon, 23 Nov 2020 07:36:58 -0800 (PST)
 MIME-Version: 1.0
-References: <20200716035532.1407660-1-andrew@daynix.com>
- <CABcq3pGFPkDMmEegGaw6UjHBijPZiyFj-uR+6Phz+0K44VRNgw@mail.gmail.com>
- <874klk5gnc.fsf@dusky.pond.sub.org>
- <CAOEp5OfjuR97v0VyyHpXJiZVsU1jMphHh86XwAU4t3Uw1T8Ghg@mail.gmail.com>
- <CAOEp5OdiFaCK=Ag8f9oNixhrkW4xoEJ2bXKU7ThXeF9VJXPqTw@mail.gmail.com>
- <CABcq3pGDAO7sB6jobcsiE8_7md1yZ7wGkkyxZefjXGc7-d6obw@mail.gmail.com>
- <87lfesv2zu.fsf@dusky.pond.sub.org>
-In-Reply-To: <87lfesv2zu.fsf@dusky.pond.sub.org>
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
-Date: Mon, 23 Nov 2020 17:35:30 +0200
-Message-ID: <CAOEp5OcAXn0dvvpaZSu3C0rnGPA_NTFKUxqMMKMJx2xzBQ8YiA@mail.gmail.com>
-Subject: Re: [PATCH] hmp: Changed hmp_netdev_add() using
- qmp_marshal_netdev_add()
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000006d07e105b4c7f216"
-Received-SPF: none client-ip=2607:f8b0:4864:20::341;
- envelope-from=yuri.benditovich@daynix.com; helo=mail-ot1-x341.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20201108221925.2344515-1-philmd@redhat.com>
+ <20201108221925.2344515-7-philmd@redhat.com>
+In-Reply-To: <20201108221925.2344515-7-philmd@redhat.com>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Mon, 23 Nov 2020 12:36:47 -0300
+Message-ID: <CAKJDGDatq_wisvHP-So5v7h71m8KS624n60WXahEYZpzPCz=mA@mail.gmail.com>
+Subject: Re: [PATCH v3 06/11] gitlab-ci: Rename acceptance_test_job ->
+ integration_test_job
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,213 +91,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>, Andrew Melnichenko <andrew@daynix.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000006d07e105b4c7f216
-Content-Type: text/plain; charset="UTF-8"
-
-On Mon, Nov 23, 2020 at 11:25 AM Markus Armbruster <armbru@redhat.com>
-wrote:
-
-> Andrew Melnichenko <andrew@daynix.com> writes:
+On Sun, Nov 8, 2020 at 7:27 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
+om> wrote:
 >
-> > --000000000000f73b2205b4aef0c5
-> > Content-Type: text/plain; charset="UTF-8"
-> >
-> > Hi, the bug can be reproduced like that:
-> >
-> >> QEMU 5.1.50 monitor - type 'help' for more information
-> >> (qemu) netdev_add
-> >> type=tap,id=net0,script=/home/and/SRCS/qemu/ifup.sh,downscript=no
-> >> (qemu) info network
-> >> hub 0
-> >>  \ hub0port1: __org.qemu.net1:
-> index=0,type=user,net=10.0.2.0,restrict=off
-> >>  \ hub0port0: e1000e.0:
-> >> index=0,type=nic,model=e1000e,macaddr=52:54:00:12:34:56
-> >> dnet0: index=0,type=nic,model=virtio-net-pci,macaddr=52:54:00:12:34:57
-> >> net0:
-> >>
-> index=0,type=tap,ifname=tap0,script=/home/and/SRCS/qemu/ifup.sh,downscript=no
-> >> (qemu) netdev_del net0
-> >> (qemu) info network
-> >> hub 0
-> >>  \ hub0port1: __org.qemu.net1:
-> index=0,type=user,net=10.0.2.0,restrict=off
-> >>  \ hub0port0: e1000e.0:
-> >> index=0,type=nic,model=e1000e,macaddr=52:54:00:12:34:56
-> >> dnet0: index=0,type=nic,model=virtio-net-pci,macaddr=52:54:00:12:34:57
-> >> (qemu) netdev_add
-> >> type=tap,id=net0,script=/home/and/SRCS/qemu/ifup.sh,downscript=no
-> >> Try "help netdev_add" for more information
-> >> (qemu) info network
-> >> hub 0
-> >>  \ hub0port1: __org.qemu.net1:
-> index=0,type=user,net=10.0.2.0,restrict=off
-> >>  \ hub0port0: e1000e.0:
-> >> index=0,type=nic,model=e1000e,macaddr=52:54:00:12:34:56
-> >> dnet0: index=0,type=nic,model=virtio-net-pci,macaddr=52:54:00:12:34:57
-> >> (qemu)
-> >>
-> >>
-> > Its still actual bug - I've checked it with the
-> > master(2c6605389c1f76973d92b69b85d40d94b8f1092c).
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  .gitlab-ci.yml | 18 +++++++++---------
+>  1 file changed, 9 insertions(+), 9 deletions(-)
 >
-> I can see this with an even simpler reproducer:
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index 0ef814764a0..d4526323169 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -42,7 +42,7 @@ include:
+>      - find . -type f -exec touch {} +
+>      - make $MAKE_CHECK_ARGS
 >
->     $ qemu-system-x86_64 -S -display none -nodefaults -monitor stdio
->     QEMU 5.1.92 monitor - type 'help' for more information
->     (qemu) netdev_add user,id=net0
->     (qemu) info network
->     net0: index=0,type=user,net=10.0.2.0,restrict=off
->     (qemu) netdev_del net0
->     (qemu) info network
->     (qemu) netdev_add user,id=net0
->     upstream-qemu: Duplicate ID 'net0' for netdev
->     Try "help netdev_add" for more information
+> -.acceptance_test_job:
+> +.integration_test_job:
+>    extends: .native_test_job
+>    cache:
+>      key: "${CI_JOB_NAME}-cache"
+> @@ -89,8 +89,8 @@ check-system-ubuntu:
+>      IMAGE: ubuntu2004
+>      MAKE_CHECK_ARGS: check
 >
-> The appended patch fixes it for me.  It relies on nothing using the
-> "netdev" QemuOpts anymore.  Eric, what do you think?
+> -acceptance-system-ubuntu:
+> -  extends: .acceptance_test_job
+> +integration-system-ubuntu:
+> +  extends: .integration_test_job
+>    needs:
+>      - job: build-system-ubuntu
+>        artifacts: true
+> @@ -119,8 +119,8 @@ check-system-debian:
+>      IMAGE: debian-amd64
+>      MAKE_CHECK_ARGS: check
 >
+> -acceptance-system-debian:
+> -  extends: .acceptance_test_job
+> +integration-system-debian:
+> +  extends: .integration_test_job
+>    needs:
+>      - job: build-system-debian
+>        artifacts: true
+> @@ -150,8 +150,8 @@ check-system-fedora:
+>      IMAGE: fedora
+>      MAKE_CHECK_ARGS: check
 >
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index a6a6684df1..8bc6b7bcc6 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -1638,9 +1638,7 @@ void hmp_netdev_add(Monitor *mon, const QDict *qdict)
->      }
+> -acceptance-system-fedora:
+> -  extends: .acceptance_test_job
+> +integration-system-fedora:
+> +  extends: .integration_test_job
+>    needs:
+>      - job: build-system-fedora
+>        artifacts: true
+> @@ -181,8 +181,8 @@ check-system-centos:
+>      IMAGE: centos8
+>      MAKE_CHECK_ARGS: check
 >
->      netdev_add(opts, &err);
-> -    if (err) {
-> -        qemu_opts_del(opts);
-> -    }
-> +    qemu_opts_del(opts);
->
->
-Unfortunately, if I'm not mistaken, with this fix qemu will be able to
-create from hmp several devices with the same id
-(which is not expected).
-For example:
-netdev_add user,id=net0
-netdev_add user,id=net0
-info network lists 2 devices net0
-
-
-
->  out:
->      hmp_handle_error(mon, err);
+> -acceptance-system-centos:
+> -  extends: .acceptance_test_job
+> +integration-system-centos:
+> +  extends: .integration_test_job
+>    needs:
+>      - job: build-system-centos
+>        artifacts: true
+> --
+> 2.26.2
 >
 >
 
---0000000000006d07e105b4c7f216
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Makes sense, thanks!
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Nov 23, 2020 at 11:25 AM Mark=
-us Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a=
->&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">And=
-rew Melnichenko &lt;<a href=3D"mailto:andrew@daynix.com" target=3D"_blank">=
-andrew@daynix.com</a>&gt; writes:<br>
-<br>
-&gt; --000000000000f73b2205b4aef0c5<br>
-&gt; Content-Type: text/plain; charset=3D&quot;UTF-8&quot;<br>
-&gt;<br>
-&gt; Hi, the bug can be reproduced like that:<br>
-&gt;<br>
-&gt;&gt; QEMU 5.1.50 monitor - type &#39;help&#39; for more information<br>
-&gt;&gt; (qemu) netdev_add<br>
-&gt;&gt; type=3Dtap,id=3Dnet0,script=3D/home/and/SRCS/qemu/ifup.sh,downscri=
-pt=3Dno<br>
-&gt;&gt; (qemu) info network<br>
-&gt;&gt; hub 0<br>
-&gt;&gt;=C2=A0 \ hub0port1: __org.qemu.net1: index=3D0,type=3Duser,net=3D10=
-.0.2.0,restrict=3Doff<br>
-&gt;&gt;=C2=A0 \ hub0port0: e1000e.0:<br>
-&gt;&gt; index=3D0,type=3Dnic,model=3De1000e,macaddr=3D52:54:00:12:34:56<br=
->
-&gt;&gt; dnet0: index=3D0,type=3Dnic,model=3Dvirtio-net-pci,macaddr=3D52:54=
-:00:12:34:57<br>
-&gt;&gt; net0:<br>
-&gt;&gt; index=3D0,type=3Dtap,ifname=3Dtap0,script=3D/home/and/SRCS/qemu/if=
-up.sh,downscript=3Dno<br>
-&gt;&gt; (qemu) netdev_del net0<br>
-&gt;&gt; (qemu) info network<br>
-&gt;&gt; hub 0<br>
-&gt;&gt;=C2=A0 \ hub0port1: __org.qemu.net1: index=3D0,type=3Duser,net=3D10=
-.0.2.0,restrict=3Doff<br>
-&gt;&gt;=C2=A0 \ hub0port0: e1000e.0:<br>
-&gt;&gt; index=3D0,type=3Dnic,model=3De1000e,macaddr=3D52:54:00:12:34:56<br=
->
-&gt;&gt; dnet0: index=3D0,type=3Dnic,model=3Dvirtio-net-pci,macaddr=3D52:54=
-:00:12:34:57<br>
-&gt;&gt; (qemu) netdev_add<br>
-&gt;&gt; type=3Dtap,id=3Dnet0,script=3D/home/and/SRCS/qemu/ifup.sh,downscri=
-pt=3Dno<br>
-&gt;&gt; Try &quot;help netdev_add&quot; for more information<br>
-&gt;&gt; (qemu) info network<br>
-&gt;&gt; hub 0<br>
-&gt;&gt;=C2=A0 \ hub0port1: __org.qemu.net1: index=3D0,type=3Duser,net=3D10=
-.0.2.0,restrict=3Doff<br>
-&gt;&gt;=C2=A0 \ hub0port0: e1000e.0:<br>
-&gt;&gt; index=3D0,type=3Dnic,model=3De1000e,macaddr=3D52:54:00:12:34:56<br=
->
-&gt;&gt; dnet0: index=3D0,type=3Dnic,model=3Dvirtio-net-pci,macaddr=3D52:54=
-:00:12:34:57<br>
-&gt;&gt; (qemu)<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt; Its still actual bug - I&#39;ve checked it with the<br>
-&gt; master(2c6605389c1f76973d92b69b85d40d94b8f1092c).<br>
-<br>
-I can see this with an even simpler reproducer:<br>
-<br>
-=C2=A0 =C2=A0 $ qemu-system-x86_64 -S -display none -nodefaults -monitor st=
-dio<br>
-=C2=A0 =C2=A0 QEMU 5.1.92 monitor - type &#39;help&#39; for more informatio=
-n<br>
-=C2=A0 =C2=A0 (qemu) netdev_add user,id=3Dnet0<br>
-=C2=A0 =C2=A0 (qemu) info network<br>
-=C2=A0 =C2=A0 net0: index=3D0,type=3Duser,net=3D10.0.2.0,restrict=3Doff<br>
-=C2=A0 =C2=A0 (qemu) netdev_del net0<br>
-=C2=A0 =C2=A0 (qemu) info network<br>
-=C2=A0 =C2=A0 (qemu) netdev_add user,id=3Dnet0<br>
-=C2=A0 =C2=A0 upstream-qemu: Duplicate ID &#39;net0&#39; for netdev<br>
-=C2=A0 =C2=A0 Try &quot;help netdev_add&quot; for more information<br>
-<br>
-The appended patch fixes it for me.=C2=A0 It relies on nothing using the<br=
->
-&quot;netdev&quot; QemuOpts anymore.=C2=A0 Eric, what do you think?<br>
-<br>
-<br>
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c<br>
-index a6a6684df1..8bc6b7bcc6 100644<br>
---- a/monitor/hmp-cmds.c<br>
-+++ b/monitor/hmp-cmds.c<br>
-@@ -1638,9 +1638,7 @@ void hmp_netdev_add(Monitor *mon, const QDict *qdict)=
-<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0netdev_add(opts, &amp;err);<br>
--=C2=A0 =C2=A0 if (err) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_opts_del(opts);<br>
--=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 qemu_opts_del(opts);<br>
-<br></blockquote><div><br></div><div>Unfortunately, if I&#39;m not mistaken=
-, with this fix qemu will be able to create from hmp several devices with t=
-he same id</div><div>(which is not expected).</div><div>For example:</div><=
-div>netdev_add user,id=3Dnet0</div><div>netdev_add user,id=3Dnet0</div><div=
->info network lists 2 devices net0</div><div><br></div><div>=C2=A0</div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">
-=C2=A0out:<br>
-=C2=A0 =C2=A0 =C2=A0hmp_handle_error(mon, err);<br>
-<br>
-</blockquote></div></div>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
---0000000000006d07e105b4c7f216--
 
