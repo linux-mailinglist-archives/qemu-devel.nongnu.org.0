@@ -2,99 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CE8E2C0A63
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 14:24:09 +0100 (CET)
-Received: from localhost ([::1]:49942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 797502C0A68
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 14:27:03 +0100 (CET)
+Received: from localhost ([::1]:54240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khBp9-00029H-RS
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 08:24:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49918)
+	id 1khBry-000444-Ii
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 08:27:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1khBhk-0006Pv-5S
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 08:16:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28365)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1khBhf-0003U2-LC
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 08:16:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606137382;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=C/XdCPIhFxwNa6BX8TITMMTPvGVqadC/MdGT9Y9YXb0=;
- b=APXi82HM80ZtGsOkhJzVy3OeVegZZG3cYZ7Dh4l7OAhADxM4lSgA0hqOKp12eJAFmxJc/g
- Aso1OQtcBQdikJPDHDXSlWiPRZCn/lyBOjzX6n4gz30xtPkKtSc+mt0nNDhIoo3iJErqa9
- oA5uk7+kzreR5Lhr4IwknD4shIujIOo=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-494-t0PIhmzaOOWWyo_WMHYl7g-1; Mon, 23 Nov 2020 08:16:20 -0500
-X-MC-Unique: t0PIhmzaOOWWyo_WMHYl7g-1
-Received: by mail-ej1-f72.google.com with SMTP id k15so2682209ejg.8
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 05:16:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=C/XdCPIhFxwNa6BX8TITMMTPvGVqadC/MdGT9Y9YXb0=;
- b=PdKC/VK2hLbv7XEMM04Ax5QSiK2aK4qDw739TJxilEWcw4pn+FHkaQ3uAiA4x+/94t
- /WBL3rsPe0cASC4LWPIKIUM5LULqx5YceDHIb6BfQkqEvUWIzoCox0sFQiGJjgeYVNX0
- lFTbEdVB1ASUmyBQ7o0E7Aci2OXFCivBu+d7GaUD+43CA4opD3uFgKQdtZ2wRe1BKSoj
- /IeQGGbbcSHy83O7LaiF1wCn82P2TYkrVimJnhzIf+8DTjK2yn3sS+JPlfkti0mH99eQ
- r3NqfEUJi48JUGSYf1eD0yqZjZizxYlYDKSjKyv1p0vLpQphaxVEH4SnYEgWNS89HWFh
- H8Rg==
-X-Gm-Message-State: AOAM5315/DDFphC6nRpqxeu1zdGUVKVKTDt6fOKOPksEfR/JaZHynLf8
- SQLVPBg2Isp2W4kUVUVAkbtb8kA2Ouso5y4wpSqjJwg9QZkjNN7YjwMcyQ2f7DPjzWHL3aI3WE8
- FKhZxTxO23f8GQSV+94TKPm3RpodtdhmESsbmB2lhPNOkjHkhFZIM5DcDKHadOXOXx/g=
-X-Received: by 2002:a50:b404:: with SMTP id b4mr17078706edh.369.1606137378488; 
- Mon, 23 Nov 2020 05:16:18 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwHv5dkTDeWahVLdo18pvR8G5pfK8qVsiUoFmij/eZryG7+A22DWBCgKS3iO0bpyFmUktZbUA==
-X-Received: by 2002:a50:b404:: with SMTP id b4mr17078692edh.369.1606137378242; 
- Mon, 23 Nov 2020 05:16:18 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id f25sm4960074ejr.120.2020.11.23.05.16.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Nov 2020 05:16:17 -0800 (PST)
-Subject: Re: [PATCH 4/4] [broken] meson: try link tracepoints to module
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <20201119084448.24397-1-kraxel@redhat.com>
- <20201119084448.24397-5-kraxel@redhat.com>
- <20201119110316.GG701869@stefanha-x1.localdomain>
- <20201119112323.3rcfmee2jm3uw3ym@sirius.home.kraxel.org>
- <20201119115514.GA838600@stefanha-x1.localdomain>
- <20201120102355.mayek7z4ud5orqme@sirius.home.kraxel.org>
- <20201120112539.bsyjsfrqxz4ffo4r@sirius.home.kraxel.org>
- <389b0932-794c-536f-4e8d-3f91ef7fb3ba@redhat.com>
- <20201123113837.mru62xhprlgoyi6u@sirius.home.kraxel.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <1c51217f-0b16-6840-c81a-4af103d32096@redhat.com>
-Date: Mon, 23 Nov 2020 14:16:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1khBiv-0007L5-8i
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 08:17:42 -0500
+Received: from 7.mo51.mail-out.ovh.net ([46.105.33.25]:39868)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1khBit-0003rx-4t
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 08:17:41 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.33])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id DE782238837;
+ Mon, 23 Nov 2020 14:17:35 +0100 (CET)
+Received: from kaod.org (37.59.142.97) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Mon, 23 Nov
+ 2020 14:17:35 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G002e05d8eb6-fdb6-4e3f-837c-9df420d1d3c6,
+ 7563B3C8582C4E5C569F12427BEE2CF3FAD9DE82) smtp.auth=groug@kaod.org
+Date: Mon, 23 Nov 2020 14:17:34 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Cole Robinson <crobinso@redhat.com>
+Subject: Re: virtio-9p-test.c:300:v9fs_req_recv: assertion failed (hdr.id ==
+ id): (7 == 73)
+Message-ID: <20201123141734.0c03f21a@bahia.lan>
+In-Reply-To: <fad8a69d-9c21-ac25-028d-646a64ccecc5@redhat.com>
+References: <fad8a69d-9c21-ac25-028d-646a64ccecc5@redhat.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20201123113837.mru62xhprlgoyi6u@sirius.home.kraxel.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: a6d423d3-9930-4db5-8c05-55a8d8f1fa5a
+X-Ovh-Tracer-Id: 13145725841483733469
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudegiedgheduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhieejfeffheejgfeljedvvdejvddutdetgfekffdvleeijeeutefgjeeghefgffenucffohhmrghinhepfhgvughorhgrihhnfhhrrggtlhhouhgurdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhupghoshhssegtrhhuuggvsgihthgvrdgtohhm
+Received-SPF: pass client-ip=46.105.33.25; envelope-from=groug@kaod.org;
+ helo=7.mo51.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -107,23 +66,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu_oss@crudebyte.com, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/11/20 12:38, Gerd Hoffmann wrote:
-> So basically keep track of the objects separately.  Got that working
-> for the modular builds.  Progress!!!
+Fixed maintainer's address: s/oss@crudebyte.com/qemu_oss@crudebyte.com
+
+On Sat, 21 Nov 2020 17:03:14 -0500
+Cole Robinson <crobinso@redhat.com> wrote:
+
+> Hi, I'm consistently seeing this assertion running the qemu-5.2.0  test
+> suite. rc0, rc1, rc2 have been consistently affected, it reproduces
+> consistently in parts of Fedora's build system. Here's an example build
+> log for rc2 x86 against Fedora 32
 > 
-> Non-modular builds fail due to missing qxl tracepoints.  Tried to fix
-> that with a simple 'softmmu_ss.add(module_trace_src)'.
+> https://download.copr.fedorainfracloud.org/results/@kubevirt/qemu-5.2.0-0.6.rc2/fedora-32-x86_64/01781514-qemu/builder-live.log.gz
+> 
+> The full test error:
+> 
+> ...
+> PASS 26 qtest-arm/qos-test
+> /arm/virt/virtio-mmio/virtio-bus/virtio-9p-device/virtio-9p/virtio-9p-tests/synth/readdir/split_128
+> PASS 27 qtest-arm/qos-test
+> /arm/virt/virtio-mmio/virtio-bus/virtio-9p-device/virtio-9p/virtio-9p-tests/local/config
 
-Mentioned in https://wiki.qemu.org/Features/Meson#Pending_Meson_changes 
-as "extract_objects does not support generated file (not needed yet but 
-could be surprising)".
+Ok so the next test is supposed to be:
 
-Just use util_ss instead, confirming both points in the parentheses.
+/arm/virt/virtio-mmio/virtio-bus/virtio-9p-device/virtio-9p/virtio-9p-tests/local/create_dir
 
-Paolo
+This was added recently. This configures the virtio-9p device in QEMU
+to serve a real test directory from the host. This test directory is
+created under the current directory of the test process. The purpose
+of the test is then to ask the 9p server to create a directory within
+the test directory.
+
+> Received response 7 (RLERROR) instead of 73 (RMKDIR)
+> ERROR qtest-arm/qos-test - Bail out!
+> ERROR:../tests/qtest/virtio-9p-test.c:300:v9fs_req_recv: assertion
+> failed (hdr.id == id): (7 == 73)
+> Rlerror has errno 95 (Operation not supported)
+
+So this basically means that QEMU got ENOTSUP/EOPNOTSUPP when calling
+mkdir() into the test directory... not sure what could cause that. I'd
+need more details on the filesystem setup for the build.
+
+Anyway, we already experienced some breakage in upstream CI because of
+the same family of tests that do real access to the host filesystem.
+Since they're being introduced in QEMU 5.2, I'll try to see if I can
+disable them to be run by default for RC3.
+
+Cheers,
+
+--
+Greg
+
+> **
+> ERROR:../tests/qtest/virtio-9p-test.c:300:v9fs_req_recv: assertion
+> failed (hdr.id == id): (7 == 73)
+> make: *** [Makefile.mtest:1257: run-test-155] Error 1
+> error: Bad exit status from /var/tmp/rpm-tmp.EG4Dav (%check)
+> 
+> 
+> Thanks,
+> Cole
+> 
 
 
