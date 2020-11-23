@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 554092BFF52
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 06:11:09 +0100 (CET)
-Received: from localhost ([::1]:52602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0DD32BFF50
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 06:11:04 +0100 (CET)
+Received: from localhost ([::1]:52464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kh482-0005lC-NR
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 00:11:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38438)
+	id 1kh47z-0005ho-9k
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 00:11:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kh45r-0004Gk-9N; Mon, 23 Nov 2020 00:08:51 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:58643 helo=ozlabs.org)
+ id 1kh45p-0004GO-Cb; Mon, 23 Nov 2020 00:08:49 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:52031 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kh45m-0000kn-LJ; Mon, 23 Nov 2020 00:08:50 -0500
+ id 1kh45m-0000km-La; Mon, 23 Nov 2020 00:08:49 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CfZtd3KV1z9sTL; Mon, 23 Nov 2020 16:08:41 +1100 (AEDT)
+ id 4CfZtd40cqz9sTv; Mon, 23 Nov 2020 16:08:41 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1606108121;
- bh=SaFFxDQs3PtYW6zfJjBg/Oq4sTf+TddVuJcwjWCpA4k=;
+ bh=CkA7FJJ5SJYcUSfvJa+XPqv+8EZE8bKG0/hdSzdgrQ0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=p0r02dgx14Z9XH2YhUWDow4Bkuadbg9ZKsCa82HyJaq/CNhVRxXJLEWHPdl8s2xOn
- RMRl8MQjt5/AFaCdCt0HMw/OwvwKGmPacEdbf5yH8V+YMyNRvtHRNZ3UvxhyA9cdOY
- f/vVU7ha3ZyKcb9bOG1ajn+Ph3EGCJdBInbESEQo=
-Date: Mon, 23 Nov 2020 15:55:48 +1100
+ b=Sc6/jSBngWm7qeRBmJTtcI7d0JXLWSBC13VbCW1iw8SfQb7D/R/g+jyXEiyj25gFS
+ Q+U+5D/GrWpMZuPi99KrILf3w6KTgKREWIfgzxd34NBBLY9M0bicOwbyJjqichnTDt
+ aG9WCx7SgoXcO/zXE5+LHqUHnPxgUSbH3y8M+378=
+Date: Mon, 23 Nov 2020 16:03:07 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH for-6.0 2/9] spapr: Do NVDIMM/PC-DIMM device hotplug
- sanity checks at pre-plug only
-Message-ID: <20201123045548.GJ521467@yekko.fritz.box>
+Subject: Re: [PATCH for-6.0 3/9] spapr: Fix pre-2.10 dummy ICP hack
+Message-ID: <20201123050307.GK521467@yekko.fritz.box>
 References: <20201120234208.683521-1-groug@kaod.org>
- <20201120234208.683521-3-groug@kaod.org>
+ <20201120234208.683521-4-groug@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="GlnCQLZWzqLRJED8"
+ protocol="application/pgp-signature"; boundary="2feizKym29CxAecD"
 Content-Disposition: inline
-In-Reply-To: <20201120234208.683521-3-groug@kaod.org>
+In-Reply-To: <20201120234208.683521-4-groug@kaod.org>
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -65,181 +64,72 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---GlnCQLZWzqLRJED8
+--2feizKym29CxAecD
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Nov 21, 2020 at 12:42:01AM +0100, Greg Kurz wrote:
-> Pre-plug of a memory device, be it an NVDIMM or a PC-DIMM, ensures
-> that the memory slot is available and that addresses don't overlap
-> with existing memory regions. The corresponding DRCs in the LMB
-> and PMEM namespaces are thus necessarily attachable at plug time.
+On Sat, Nov 21, 2020 at 12:42:02AM +0100, Greg Kurz wrote:
+> This hack registers dummy VMState entries of ICPs in order to
+> support migration of old pseries machine types that used to
+> create all smp.max_cpus possible ICPs at machine init.
 >=20
-> Pass &error_abort to spapr_drc_attach() in spapr_add_lmbs() and
-> spapr_add_nvdimm(). This allows to greatly simplify error handling
-> on the plug path.
+> Part of the work is to unregister the dummy entries when plugging
+> an actual vCPU core, and to register them back when unplugging the
+> core. The code that unregisters the dummy ICPs in spapr_core_plug()
+> is misplaced: if ppc_set_compat() fails afterwards, the hotplug
+> operation will be cancelled and the dummy ICPs won't be registered
+> back since the unplug handler isn't called.
+>=20
+> Unregister the dummy ICPs at the end of spapr_core_plug().
 >=20
 > Signed-off-by: Greg Kurz <groug@kaod.org>
 
 Applied to ppc-for-6.0, thanks.
 
 > ---
->  include/hw/ppc/spapr_nvdimm.h |  2 +-
->  hw/ppc/spapr.c                | 40 ++++++++++++-----------------------
->  hw/ppc/spapr_nvdimm.c         | 11 +++++-----
->  3 files changed, 20 insertions(+), 33 deletions(-)
 >=20
-> diff --git a/include/hw/ppc/spapr_nvdimm.h b/include/hw/ppc/spapr_nvdimm.h
-> index 344582d2f5f7..73be250e2ac9 100644
-> --- a/include/hw/ppc/spapr_nvdimm.h
-> +++ b/include/hw/ppc/spapr_nvdimm.h
-> @@ -30,6 +30,6 @@ int spapr_pmem_dt_populate(SpaprDrc *drc, SpaprMachineS=
-tate *spapr,
->  void spapr_dt_persistent_memory(SpaprMachineState *spapr, void *fdt);
->  bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nv=
-dimm,
->                             uint64_t size, Error **errp);
-> -bool spapr_add_nvdimm(DeviceState *dev, uint64_t slot, Error **errp);
-> +void spapr_add_nvdimm(DeviceState *dev, uint64_t slot);
-> =20
->  #endif
+> The next patch makes this patch a bit useless. I post it
+> anyway for the records because it is a programming error.
+> ---
+>  hw/ppc/spapr.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+>=20
 > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 12a012d9dd09..394d28d9e081 100644
+> index 394d28d9e081..f58f77389e8e 100644
 > --- a/hw/ppc/spapr.c
 > +++ b/hw/ppc/spapr.c
-> @@ -3382,8 +3382,8 @@ int spapr_lmb_dt_populate(SpaprDrc *drc, SpaprMachi=
-neState *spapr,
->      return 0;
->  }
+> @@ -3785,13 +3785,6 @@ static void spapr_core_plug(HotplugHandler *hotplu=
+g_dev, DeviceState *dev,
 > =20
-> -static bool spapr_add_lmbs(DeviceState *dev, uint64_t addr_start, uint64=
-_t size,
-> -                           bool dedicated_hp_event_source, Error **errp)
-> +static void spapr_add_lmbs(DeviceState *dev, uint64_t addr_start, uint64=
-_t size,
-> +                           bool dedicated_hp_event_source)
->  {
->      SpaprDrc *drc;
->      uint32_t nr_lmbs =3D size/SPAPR_MEMORY_BLOCK_SIZE;
-> @@ -3396,15 +3396,12 @@ static bool spapr_add_lmbs(DeviceState *dev, uint=
-64_t addr_start, uint64_t size,
->                                addr / SPAPR_MEMORY_BLOCK_SIZE);
->          g_assert(drc);
+>      core_slot->cpu =3D OBJECT(dev);
 > =20
-> -        if (!spapr_drc_attach(drc, dev, errp)) {
-> -            while (addr > addr_start) {
-> -                addr -=3D SPAPR_MEMORY_BLOCK_SIZE;
-> -                drc =3D spapr_drc_by_id(TYPE_SPAPR_DRC_LMB,
-> -                                      addr / SPAPR_MEMORY_BLOCK_SIZE);
-> -                spapr_drc_detach(drc);
-> -            }
-> -            return false;
+> -    if (smc->pre_2_10_has_unused_icps) {
+> -        for (i =3D 0; i < cc->nr_threads; i++) {
+> -            cs =3D CPU(core->threads[i]);
+> -            pre_2_10_vmstate_unregister_dummy_icp(cs->cpu_index);
 > -        }
-> +        /*
-> +         * memory_device_get_free_addr() provided a range of free addres=
-ses
-> +         * that doesn't overlap with any existing mapping at pre-plug. T=
-he
-> +         * corresponding LMB DRCs are thus assumed to be all attachable.
-> +         */
-> +        spapr_drc_attach(drc, dev, &error_abort);
->          if (!hotplugged) {
->              spapr_drc_reset(drc);
->          }
-> @@ -3425,11 +3422,9 @@ static bool spapr_add_lmbs(DeviceState *dev, uint6=
-4_t addr_start, uint64_t size,
->                                             nr_lmbs);
->          }
->      }
-> -    return true;
->  }
-> =20
-> -static void spapr_memory_plug(HotplugHandler *hotplug_dev, DeviceState *=
-dev,
-> -                              Error **errp)
-> +static void spapr_memory_plug(HotplugHandler *hotplug_dev, DeviceState *=
-dev)
->  {
->      SpaprMachineState *ms =3D SPAPR_MACHINE(hotplug_dev);
->      PCDIMMDevice *dimm =3D PC_DIMM(dev);
-> @@ -3444,24 +3439,15 @@ static void spapr_memory_plug(HotplugHandler *hot=
-plug_dev, DeviceState *dev,
->      if (!is_nvdimm) {
->          addr =3D object_property_get_uint(OBJECT(dimm),
->                                          PC_DIMM_ADDR_PROP, &error_abort);
-> -        if (!spapr_add_lmbs(dev, addr, size,
-> -                            spapr_ovec_test(ms->ov5_cas, OV5_HP_EVT), er=
-rp)) {
-> -            goto out_unplug;
-> -        }
-> +        spapr_add_lmbs(dev, addr, size,
-> +                       spapr_ovec_test(ms->ov5_cas, OV5_HP_EVT));
->      } else {
->          slot =3D object_property_get_int(OBJECT(dimm),
->                                         PC_DIMM_SLOT_PROP, &error_abort);
->          /* We should have valid slot number at this point */
->          g_assert(slot >=3D 0);
-> -        if (!spapr_add_nvdimm(dev, slot, errp)) {
-> -            goto out_unplug;
-> -        }
-> +        spapr_add_nvdimm(dev, slot);
->      }
-> -
-> -    return;
-> -
-> -out_unplug:
-> -    pc_dimm_unplug(dimm, MACHINE(ms));
->  }
-> =20
->  static void spapr_memory_pre_plug(HotplugHandler *hotplug_dev, DeviceSta=
-te *dev,
-> @@ -4009,7 +3995,7 @@ static void spapr_machine_device_plug(HotplugHandle=
-r *hotplug_dev,
->                                        DeviceState *dev, Error **errp)
->  {
->      if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
-> -        spapr_memory_plug(hotplug_dev, dev, errp);
-> +        spapr_memory_plug(hotplug_dev, dev);
->      } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_CPU_CORE)) {
->          spapr_core_plug(hotplug_dev, dev, errp);
->      } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_PCI_HOST_BRID=
-GE)) {
-> diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
-> index a833a63b5ed3..2f1c196e1b76 100644
-> --- a/hw/ppc/spapr_nvdimm.c
-> +++ b/hw/ppc/spapr_nvdimm.c
-> @@ -89,7 +89,7 @@ bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev,=
- NVDIMMDevice *nvdimm,
->  }
-> =20
-> =20
-> -bool spapr_add_nvdimm(DeviceState *dev, uint64_t slot, Error **errp)
-> +void spapr_add_nvdimm(DeviceState *dev, uint64_t slot)
->  {
->      SpaprDrc *drc;
->      bool hotplugged =3D spapr_drc_hotplugged(dev);
-> @@ -97,14 +97,15 @@ bool spapr_add_nvdimm(DeviceState *dev, uint64_t slot=
-, Error **errp)
->      drc =3D spapr_drc_by_id(TYPE_SPAPR_DRC_PMEM, slot);
->      g_assert(drc);
-> =20
-> -    if (!spapr_drc_attach(drc, dev, errp)) {
-> -        return false;
 > -    }
-> +    /*
-> +     * pc_dimm_get_free_slot() provided a free slot at pre-plug. The
-> +     * corresponding DRC is thus assumed to be attachable.
-> +     */
-> +    spapr_drc_attach(drc, dev, &error_abort);
-> =20
->      if (hotplugged) {
->          spapr_hotplug_req_add_by_index(drc);
+> -
+>      /*
+>       * Set compatibility mode to match the boot CPU, which was either set
+>       * by the machine reset code or by CAS.
+> @@ -3805,6 +3798,13 @@ static void spapr_core_plug(HotplugHandler *hotplu=
+g_dev, DeviceState *dev,
+>              }
+>          }
 >      }
-> -    return true;
+> +
+> +    if (smc->pre_2_10_has_unused_icps) {
+> +        for (i =3D 0; i < cc->nr_threads; i++) {
+> +            cs =3D CPU(core->threads[i]);
+> +            pre_2_10_vmstate_unregister_dummy_icp(cs->cpu_index);
+> +        }
+> +    }
 >  }
 > =20
->  static int spapr_dt_nvdimm(SpaprMachineState *spapr, void *fdt,
+>  static void spapr_core_pre_plug(HotplugHandler *hotplug_dev, DeviceState=
+ *dev,
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -247,25 +137,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---GlnCQLZWzqLRJED8
+--2feizKym29CxAecD
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+7QNQACgkQbDjKyiDZ
-s5JZWg//ee2d4oJXHAEdedXOcDxOtTu5d8TKwe5+nVxflIs37bXOkCCq9MZjhXRw
-w+EAqifCx8/atP5DfXWGiAwZ+Z7sbpNIIyGq88wxdEcQQIVJs1brA2nek74uaSBf
-w2kz2netDaeBPE42iftmrnOpQ2WCPcuhupqFXCyZbhw0zS0XW8yEF0OJkEoJL2NN
-fOMEf6AgUiaauSUk2lcu8FK95q0JUetaVNFw25rDTliQ487H7+CWg5av+elKsU7I
-VfAhGQHmnpzxJbsLHSb/VlFSL2gLIID52gOOe/SF242zq2yBUbwU1JlRluAMHBSZ
-vnVDysUOQ+r3XUk7Bml1PX8KR3p+eFUDTfEYkc2j4e0o1Ak8mB9IkyPQtiK0e47b
-tKM6JumlESkQJGgUsTeuuf1g0gZDT6CidryOauWAGsiRL9s1XATrvERrBurJD8/F
-qZyseiBT9Va/Nzx37NTNSG0uI8kYYYcXlMIW8bBhS5fFDXd57Mn/f/E30WuU/LWQ
-1PzZEHxLQYtFrMrox1yFiPKv28uPrY3TwkkRxYY6T+Oz58q5ZJIKvcEQeuW6yZ9t
-hsCOGDKrUkjfi6N3B38qktaWe2mI3OfBYLq+dP857WcrSG0QKeCPOS0DmKi0SAAy
-jVnXXscJGYM2sFVMhstVW6YXG2VIoFEUQh6656WGV16EOYa31Q8=
-=+lHC
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+7QosACgkQbDjKyiDZ
+s5LTmxAAzIVzSsRIe+KhodTqlgRsFLayno31p3WsBwZcKDXKxF9nZKuDewNINqp+
+8zyynBCQGQSCf597nhqI41gzbznmPiFkLOYshqL65N3h2OM5zMdU9mwrKv2sSQoM
+tCdZKvkFATNF+7X5fYeAb4aEmcf3cj5WEHaOSI6d5A9ctSzaEjUzGD8qkPBWBHju
+quK9yTNvEv9OhDLUc50EElMeT/aYjQkxDyRAgfWFSHvEguYfhsdzJU0n+8YlSBM4
+LfnE8YjQY7LSCsdcxk+9lNfZtnzmo3L6oU1PyqQJJGqwznmgFxXjXif+O5X5SShV
+nCj972gXErf0jv4gIFUr27CFHWCUKpA2muhvuSVDb7U4xNW7IxBuFbYLsbx3jTKm
+VAmZqtdylcdNlNh4670roZcabk1GRazRhX+6aDyirp/E0L0ftgv29ekEWxgxzzX/
+hQQOLyelIjd6G73Nkx184sUCSpeCuKEm5EvWk104Pz+tVlsbjWrUfUJ0N0WOwueS
+nBCnEIgPXeNTBxgNtVhGLZYc+r99N43YSaKnMOsp+sSCSAdJ8gns60EBrHAHBCOE
+4oBKLhTAxx2vPfV9EGGl70qXTjsigb00z2FfOFvX599tqkg5swphLhdVIutabDid
+abhv9a7MLH5C29EDp0SDR7iz1xMmVwMN0b6qA94LLY8eMgaiTXg=
+=wXHB
 -----END PGP SIGNATURE-----
 
---GlnCQLZWzqLRJED8--
+--2feizKym29CxAecD--
 
