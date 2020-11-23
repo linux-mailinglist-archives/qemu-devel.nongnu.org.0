@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CD182C12FE
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 19:25:46 +0100 (CET)
-Received: from localhost ([::1]:35984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DD392C1300
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 19:26:40 +0100 (CET)
+Received: from localhost ([::1]:37910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khGX3-0004ND-8k
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 13:25:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58024)
+	id 1khGXv-0005Fy-CE
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 13:26:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1khGV9-00030d-9K
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 13:23:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56752)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1khGVv-0003kF-RM
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 13:24:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37295)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1khGV7-0003zC-Ji
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 13:23:46 -0500
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1khGVt-0004Hk-PI
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 13:24:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606155824;
+ s=mimecast20190719; t=1606155872;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FRS/abP6x0NA22Yn+D+ZEef2qNDdTH1GLQLJ2kgefek=;
- b=fXKgoS3cjUDd+2Z/cI4ladsAbka2/QSsnXfGdCmW9qdYY/G8sNzNq7vfLvps3KHvil8pxP
- 5ddtXb1iZTcvDMj9lYNjDnkVh7RWkCupic6B0vvE+EZEs7qqNvbcs7QjEb6zvqU121wnkc
- DQwD2m0x5IhFLw16NPHStMy+/RGZ8os=
+ bh=bKodNDsW/68V3kh1UOToDN8x5ai57T/qLVH2MV4hoos=;
+ b=JgEM5oVSLMGw9OWvEZ9KF58eINewIyHUIn8UlD4RYXmencFN+oRchEQUVBgWPwVWqNbX4h
+ n7FcES9jnkm28oYDH4GqvI99na/lJH66K4YNUR3sIlQ+bo3Kc4angi/OK0LAjECdz+c3CH
+ f/IW2fg6IBgBwdBsZTXDPjw0LlqVpi8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-518-VKQ2bQU_N5OoTXfJQd8DEg-1; Mon, 23 Nov 2020 13:23:42 -0500
-X-MC-Unique: VKQ2bQU_N5OoTXfJQd8DEg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-26-X4DX1COJPUahQjyzbmjlLQ-1; Mon, 23 Nov 2020 13:24:31 -0500
+X-MC-Unique: X4DX1COJPUahQjyzbmjlLQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6712C18C43C1;
- Mon, 23 Nov 2020 18:23:41 +0000 (UTC)
-Received: from starship (unknown [10.35.206.216])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4F22A6062F;
- Mon, 23 Nov 2020 18:23:37 +0000 (UTC)
-Message-ID: <def9381b8e122301e14b7330c7eb939c5ded02e2.camel@redhat.com>
-Subject: Re: [PATCH 1/1] Fix qcow2 corruption on discard
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Alberto Garcia <berto@igalia.com>, Kevin Wolf <kwolf@redhat.com>
-Date: Mon, 23 Nov 2020 20:23:36 +0200
-In-Reply-To: <w51mtz8541b.fsf@maestria.local.igalia.com>
-References: <20201123154929.330338-1-mlevitsk@redhat.com>
- <20201123154929.330338-2-mlevitsk@redhat.com>
- <20201123160941.GD5317@merkur.fritz.box>
- <w51mtz8541b.fsf@maestria.local.igalia.com>
-User-Agent: Evolution 3.36.3 (3.36.3-1.fc32)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C701E1009462;
+ Mon, 23 Nov 2020 18:24:28 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6A49F5D705;
+ Mon, 23 Nov 2020 18:24:25 +0000 (UTC)
+Date: Mon, 23 Nov 2020 13:24:20 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [RFC v3 9/9] i386: split cpu accelerators from cpu.c
+Message-ID: <20201123182420.GJ2271382@habkost.net>
+References: <20201118102936.25569-1-cfontana@suse.de>
+ <20201118102936.25569-10-cfontana@suse.de>
+ <20201118182845.GN1509407@habkost.net>
+ <5f6c7b5c-a48a-019d-2646-d0670aeb46e1@suse.de>
+ <20201119192305.GB1509407@habkost.net>
+ <eb8a316c-4c29-69ea-82b4-f00a53218e11@suse.de>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <eb8a316c-4c29-69ea-82b4-f00a53218e11@suse.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mlevitsk@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -82,55 +82,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, qemu-block@nongnu.org, zhang_youjia@126.com,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- andrey.shinkevich@virtuozzo.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Wenchao Wang <wenchao.wang@intel.com>,
+ haxm-team@intel.com, Cameron Esfahani <dirty@apple.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Bruce Rogers <brogers@suse.com>, Olaf Hering <ohering@suse.de>,
+ Colin Xu <colin.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2020-11-23 at 19:20 +0100, Alberto Garcia wrote:
-> On Mon 23 Nov 2020 05:09:41 PM CET, Kevin Wolf wrote:
-> > > Commit 205fa50750 ("qcow2: Add subcluster support to zero_in_l2_slice()")
-> > > introduced a subtle change to code in zero_in_l2_slice:
-> > > 
-> > > It swapped the order of
-> > > 
-> > > 1. qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
-> > > 2. set_l2_entry(s, l2_slice, l2_index + i, QCOW_OFLAG_ZERO);
-> > > 3. qcow2_free_any_clusters(bs, old_offset, 1, QCOW2_DISCARD_REQUEST);
-> > > 
-> > > To
-> > > 
-> > > 1. qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
-> > > 2. qcow2_free_any_clusters(bs, old_offset, 1, QCOW2_DISCARD_REQUEST);
-> > > 3. set_l2_entry(s, l2_slice, l2_index + i, QCOW_OFLAG_ZERO);
-> 
-> Ouch :( Good catch!
-> 
-> > > -        qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
-> > >          if (unmap) {
-> > >              qcow2_free_any_cluster(bs, old_l2_entry, QCOW2_DISCARD_REQUEST);
-> > >          }
-> > >          set_l2_entry(s, l2_slice, l2_index + i, new_l2_entry);
-> > > +        qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
+On Fri, Nov 20, 2020 at 10:08:46AM +0100, Claudio Fontana wrote:
+> On 11/19/20 8:23 PM, Eduardo Habkost wrote:
+> > On Thu, Nov 19, 2020 at 09:53:09AM +0100, Claudio Fontana wrote:
+> >> Hi,
+> >>
+> >> On 11/18/20 7:28 PM, Eduardo Habkost wrote:
+> >>> On Wed, Nov 18, 2020 at 11:29:36AM +0100, Claudio Fontana wrote:
+> >>>> split cpu.c into:
+> >>>>
+> >>>> cpu.c            cpuid and common x86 cpu functionality
+> >>>> host-cpu.c       host x86 cpu functions and "host" cpu type
+> >>>> kvm/cpu.c        KVM x86 cpu type
+> >>>> hvf/cpu.c        HVF x86 cpu type
+> >>>> tcg/cpu.c        TCG x86 cpu type
+> >>>>
+> >>>> The accel interface of the X86CPUClass is set at MODULE_INIT_ACCEL_CPU
+> >>>> time, when the accelerator is known.
+> >>>>
+> >>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> >>>> ---
+> >>> [...]
+> >>>> +/**
+> >>>> + * X86CPUAccel:
+> >>>> + * @name: string name of the X86 CPU Accelerator
+> >>>> + *
+> >>>> + * @common_class_init: initializer for the common cpu
+> >>>
+> >>> So this will be called for every single CPU class.
+> >>
+> >> Not really, it's called for every TYPE_X86_CPU cpu class (if an accel interface is registered).
 > > 
-> > Good catch, but I think your order is wrong, too. We need the original
-> > order from before 205fa50750:
+> > This means every single non-abstract CPU class in
+> > qemu-system-x86_64, correct?
 > > 
-> > 1. qcow2_cache_entry_mark_dirty()
-> >    set_l2_entry() + set_l2_bitmap()
+> >>
+> >> This function extends the existing x86_cpu_common_class_init (target/i386/cpu.c),
+> >> where some methods of the base class CPUClass are set.
+> >>
+> >>>
+> >>>> + * @instance_init: cpu instance initialization
+> >>>> + * @realizefn: realize function, called first in x86 cpu realize
+> >>>> + *
+> >>>> + * X86 CPU accelerator-specific CPU initializations
+> >>>> + */
+> >>>> +
+> >>>> +struct X86CPUAccel {
+> >>>> +    const char *name;
+> >>>> +
+> >>>> +    void (*common_class_init)(X86CPUClass *xcc);
+> >>>> +    void (*instance_init)(X86CPU *cpu);
+> >>>> +    void (*realizefn)(X86CPU *cpu, Error **errp);
+> >>>>  };
+> >>>>  
+> >>>> +void x86_cpu_accel_init(const X86CPUAccel *accel);
+> >>> [...]
+> >>>> +static void x86_cpu_accel_init_aux(ObjectClass *klass, void *opaque)
+> >>>> +{
+> >>>> +    X86CPUClass *xcc = X86_CPU_CLASS(klass);
+> >>>> +    const X86CPUAccel **accel = opaque;
+> >>>> +
+> >>>> +    xcc->accel = *accel;
+> >>>> +    xcc->accel->common_class_init(xcc);
+> >>>> +}
+> >>>> +
+> >>>> +void x86_cpu_accel_init(const X86CPUAccel *accel)
+> >>>> +{
+> >>>> +    object_class_foreach(x86_cpu_accel_init_aux, TYPE_X86_CPU, false, &accel);
+> >>>> +}
+> >>>
+> >>> This matches the documented behavior.
+> >>>
+> >>> [...]
+> >>>> +void host_cpu_class_init(X86CPUClass *xcc)
+> >>>> +{
+> >>>> +    xcc->host_cpuid_required = true;
+> >>>> +    xcc->ordering = 8;
+> >>>> +    xcc->model_description =
+> >>>> +        g_strdup_printf("%s processor with all supported host features ",
+> >>>> +                        xcc->accel->name);
+> >>>> +}
+> >>> [...]
+> >>>> +static void hvf_cpu_common_class_init(X86CPUClass *xcc)
+> >>>> +{
+> >>>> +    host_cpu_class_init(xcc);
+> >>>
+> >>> Why are you calling host_cpu_class_init() for all CPU types?
+> >>
+> >> I am not..
 > > 
-> > 2. qcow2_free_any_cluster()
+> > I don't get it.  You are calling host_cpu_class_init() for every
+> > single non-abstract TYPE_X86_CPU subclass (which includes all CPU
+> > models in qemu-system-x86_64), and I don't understand why, or if
+> > this is really intentional.
 > 
-> I agree with Kevin on this.
-
-I also agree, I haven't thought about this.
-
-Best regards,
-	Maxim Levitsky
+> It is really intentional what is done here,
 > 
-> Berto
+> when HVF accelerator is enabled, and only when the HVF accelerator is enabled,
 > 
+> all X86 CPU classes and subclasses (cpu models, which have been
+> implemented as subclasses of TYPE_X86_CPU), are updated with a
+> link to the accelerator-specific HVF interface.
 
+I'm confused.  That (updating the class with a link) is not what
+host_cpu_class_init() does.
+
+This is what host_cpu_class_init() does:
+
+void host_cpu_class_init(X86CPUClass *xcc)
+{
+    xcc->host_cpuid_required = true;
+    xcc->ordering = 8;
+    xcc->model_description =
+        g_strdup_printf("%s processor with all supported host features ",
+                        xcc->accel->name);
+}
+
+Why do you want to call host_cpu_class_init() for every non-abstract
+TYPE_X86_CPU subclass?
+
+-- 
+Eduardo
 
 
