@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B625E2C14D4
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 20:56:38 +0100 (CET)
-Received: from localhost ([::1]:38392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE4E12C14E8
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 20:59:05 +0100 (CET)
+Received: from localhost ([::1]:43960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khHwz-0004a6-OB
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 14:56:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58792)
+	id 1khHzM-000750-Sg
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 14:59:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1khHpS-0006HO-SY
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 14:48:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26030)
+ id 1khHpW-0006N6-5m
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 14:48:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52089)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1khHpR-0007nZ-95
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 14:48:50 -0500
+ id 1khHpS-0007ny-F0
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 14:48:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606160928;
+ s=mimecast20190719; t=1606160929;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ErUgExoPq2dmCvPPd0GcluJIvPhKwWywjEBrhD1BCLI=;
- b=AjeI6h4t9wjJKO0w8EyRs5pnQNKWwDIoVKUa6wAsNIjytjl6EwxtFhqDT9McWokOeE6IGU
- jcf0vS+PPlbHtPw84qsXyDOnWX+gC50+EKPwLn+Zs3zZ4Zuop7AmmPXBUl5ZuvFM5b860D
- XSKPvwNY3C0QoMCa2Jt0YsuJi2ccyeg=
+ bh=7FX+kbypWV85WL1O4M25fwvWVVf918hZWSfr+1B+IvU=;
+ b=PX2Ty27hdlbdsuXoPVB22PhKKLzfzmp6/UOVqY0mxbgJysacc0ZNwxSiVgZU7ZuCqVEaMu
+ FGmdePF6jzagbZj+nWRtmv7SjNSD8mlOPdhx7EGfEuZ6ZLXLm7HFaG+9NY9iaGJSdVYCKk
+ Dj7XJM9jR/X5tj9RmXn33mufrAJ8eJQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-487-n4OpxoeLPO2NtC7v3q6wWA-1; Mon, 23 Nov 2020 14:48:46 -0500
-X-MC-Unique: n4OpxoeLPO2NtC7v3q6wWA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-487-a_0i2zC1PuS_8TM_LaHdLg-1; Mon, 23 Nov 2020 14:48:46 -0500
+X-MC-Unique: a_0i2zC1PuS_8TM_LaHdLg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 318AA8064B3
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 19:48:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99039802B76
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 19:48:45 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ED9CB5D9D2;
- Mon, 23 Nov 2020 19:48:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3ED515C1BB;
+ Mon, 23 Nov 2020 19:48:45 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 08/19] qlit: Move qlit_equal_qobject() reference values to
- array
-Date: Mon, 23 Nov 2020 14:48:07 -0500
-Message-Id: <20201123194818.2773508-9-ehabkost@redhat.com>
+Subject: [PATCH v3 09/19] qlit: Add more test literals to qlit_equal_qobject()
+ test case
+Date: Mon, 23 Nov 2020 14:48:08 -0500
+Message-Id: <20201123194818.2773508-10-ehabkost@redhat.com>
 In-Reply-To: <20201123194818.2773508-1-ehabkost@redhat.com>
 References: <20201123194818.2773508-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,69 +87,48 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add an array of values to qlit_equal_qobject_test(), so we can
-extend the test case to compare multiple literals, not just the
-ones at the existing `qlit` and `qlit_foo` variables.
+Add a few examples of each qlit type, to make sure each one
+compare as equal to itself, but not equal to the other values.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
 This is a new patch added in v3 of this series.
 ---
- tests/check-qlit.c | 26 +++++++++++++++++++-------
- 1 file changed, 19 insertions(+), 7 deletions(-)
+ tests/check-qlit.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
 diff --git a/tests/check-qlit.c b/tests/check-qlit.c
-index 24ac21395c..b1cfbddb17 100644
+index b1cfbddb17..5a9260b93f 100644
 --- a/tests/check-qlit.c
 +++ b/tests/check-qlit.c
-@@ -29,11 +29,6 @@ static QLitObject qlit = QLIT_QDICT(((QLitDictEntry[]) {
-     { },
- }));
- 
--static QLitObject qlit_foo = QLIT_QDICT(((QLitDictEntry[]) {
--    { "foo", QLIT_QNUM_INT(42) },
--    { },
--}));
--
- static QObject *make_qobject(void)
+@@ -50,11 +50,27 @@ static void qlit_equal_qobject_test(void)
  {
-     QDict *qdict = qdict_new();
-@@ -53,16 +48,33 @@ static QObject *make_qobject(void)
- 
- static void qlit_equal_qobject_test(void)
- {
-+    /* Each entry in the values[] array should be different from the others */
-+    QLitObject values[] = {
-+        qlit,
-+        QLIT_QDICT(((QLitDictEntry[]) {
-+            { "foo", QLIT_QNUM_INT(42) },
+     /* Each entry in the values[] array should be different from the others */
+     QLitObject values[] = {
++        QLIT_QNULL,
++        QLIT_QBOOL(false),
++        QLIT_QBOOL(true),
++        QLIT_QNUM_INT(-1),
++        QLIT_QNUM_INT(0),
++        QLIT_QNUM_INT(1),
++        QLIT_QNUM_INT(INT64_MIN),
++        QLIT_QNUM_INT(INT64_MAX),
++        QLIT_QSTR(""),
++        QLIT_QSTR("foo"),
+         qlit,
+         QLIT_QDICT(((QLitDictEntry[]) {
+             { "foo", QLIT_QNUM_INT(42) },
+             { },
+         })),
++        QLIT_QLIST(((QLitObject[]){
++            QLIT_QNUM_INT(-1),
++            QLIT_QNUM_INT(0),
++            QLIT_QNUM_INT(1),
 +            { },
 +        })),
-+    };
-+    int i;
+     };
+     int i;
      QObject *qobj = make_qobject();
- 
-     g_assert(qlit_equal_qobject(&qlit, qobj));
- 
--    g_assert(!qlit_equal_qobject(&qlit_foo, qobj));
--
-     qdict_put(qobject_to(QDict, qobj), "bee", qlist_new());
-     g_assert(!qlit_equal_qobject(&qlit, qobj));
- 
-     qobject_unref(qobj);
-+
-+    for (i = 0; i < ARRAY_SIZE(values); i++) {
-+        int j;
-+        QObject *o = qobject_from_qlit(&values[i]);
-+        for (j = 0; j < ARRAY_SIZE(values); j++) {
-+            g_assert(qlit_equal_qobject(&values[j], o) == (i == j));
-+        }
-+        qobject_unref(o);
-+    }
-+
- }
- 
- static void qlit_equal_large_qnum_test(void)
 -- 
 2.28.0
 
