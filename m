@@ -2,109 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 446122C0E88
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 16:16:34 +0100 (CET)
-Received: from localhost ([::1]:44020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 125BD2C0EC0
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 16:27:43 +0100 (CET)
+Received: from localhost ([::1]:36218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khDZx-0002LI-79
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 10:16:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51268)
+	id 1khDkj-0003DN-N5
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 10:27:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1khDXx-00015x-79
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 10:14:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52992)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1khDXs-0004SI-Nu
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 10:14:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606144462;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fG5SDKsbH6cROg0Ek+YeXAW7acFgX4ZdoLzY4ITFJ4E=;
- b=Re0tGxOmVbVwZPBGTYcKY0dEex30ao7xSPKHBZ8YjxfyDgf11Z5fcRrLIrR6pKuEQ9WzxC
- 5u8VBVdLbE+fcKaVgl0XMpvrZ5EJ5SLLROg5oYkdhmNpcXBKunQF08ttLMBT2Zznl4+wYU
- LsbRjtud5OHbSVwDTWX8NQk3WHTvJow=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-208-rqiijNjhMyGE7iAoDUNtjw-1; Mon, 23 Nov 2020 10:14:19 -0500
-X-MC-Unique: rqiijNjhMyGE7iAoDUNtjw-1
-Received: by mail-ej1-f69.google.com with SMTP id p6so5766230ejj.5
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 07:14:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=fG5SDKsbH6cROg0Ek+YeXAW7acFgX4ZdoLzY4ITFJ4E=;
- b=l0wF4PSFH5FUvk9pCkV9LAigOPRPQCI94UyXZwQxDqGiz1+gNYn6P7uNOHmZNHsrFk
- QpXR2k04A8Uq004rDgNCGkQbwU4TO7WbjrJ+WYqviMUjGHkgaYsXkz27nRiJNafo2EK4
- gQL/FiBy2tmVil0SNm6wg0eK3J1vV0JQypm36PY2OzDFJuILkTfrl2CbLKdzliLb5Uot
- YUwg6LlDPd/objwfYZoeUbh9FlJa6+3Isewesrly219oqEL0fmBaZmXglyG1bUp4qtBG
- CAfpexnE+ZovbangX3qkUj2qGxvkN5zM8aovYBne4Bdn2yA2KNF4YY2x8ZQ81Q1vFuh2
- lzJw==
-X-Gm-Message-State: AOAM531sUG960HPGaJsqZyJuu+Nd3owrSjc+pgtbOTFCQBEDD/y9d3Mf
- R0q5wGFNRo5YV/v86XDgfwi8q1wQr7LdL+6hJgQIszNXpH1cKzyh05nGlBNAyptuA/4eINpXnvK
- T5KZkbxrMRowXUCA=
-X-Received: by 2002:aa7:c886:: with SMTP id p6mr46086236eds.352.1606144457608; 
- Mon, 23 Nov 2020 07:14:17 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzOh8Nmpy/NR8hUailfbyT+mAAMZeF4ujh9zs7FYpgpL9o6tQWEPDSf4FYmgdVU64cfkMsxZA==
-X-Received: by 2002:aa7:c886:: with SMTP id p6mr46086215eds.352.1606144457423; 
- Mon, 23 Nov 2020 07:14:17 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id k23sm5107996ejs.100.2020.11.23.07.14.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Nov 2020 07:14:16 -0800 (PST)
-Subject: Re: [RFC v3 8/9] module: introduce MODULE_INIT_ACCEL_CPU
-To: Claudio Fontana <cfontana@suse.de>, Eduardo Habkost <ehabkost@redhat.com>
-References: <20201118152552.GG1509407@habkost.net>
- <CABgObfYL-TNAMmqkUh6cjcytaAFEtXPfw8toO6gXEuyokdyLhA@mail.gmail.com>
- <20201118161119.GJ1509407@habkost.net>
- <CABgObfb2Fim=7j3z7ApTuW=R0dWam2F_JRuOoxhP=XZXdsWe7g@mail.gmail.com>
- <20201118173055.GM1509407@habkost.net>
- <e7b70933-acd1-668c-62cd-89f480945f0f@redhat.com>
- <20201118220750.GP1509407@habkost.net>
- <2984625a-15ee-f638-b1bb-050a4514bade@suse.de>
- <20201120171942.GA2271382@habkost.net>
- <f780a9e5-2142-3bf4-b3fb-1bdeeed61945@suse.de>
- <20201120180936.GD2271382@habkost.net>
- <a32dbea4-8381-d247-3443-441b484d39e3@suse.de>
- <3e8fac27-aea5-5f5d-5421-291df660a586@suse.de>
- <bd5d6bd7-a4a0-9f38-94ca-14f39e538e70@redhat.com>
- <de219743-6605-8514-b54d-9e70f24a09c8@suse.de>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <ebe6f182-79da-1889-8d80-51f5f7ed85c8@redhat.com>
-Date: Mon, 23 Nov 2020 16:14:14 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1khDjF-0002gO-IJ
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 10:26:09 -0500
+Received: from indium.canonical.com ([91.189.90.7]:51378)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1khDjC-0000ik-86
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 10:26:09 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1khDj8-0007XW-G8
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 15:26:02 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1B8192E817F
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 15:26:01 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <de219743-6605-8514-b54d-9e70f24a09c8@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 23 Nov 2020 15:17:15 -0000
+From: Balazs Gibizer <1761798@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=nova; status=Confirmed; importance=Medium;
+ assignee=None; 
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: libvirt live-migration
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: balazs-gibizer dgilbert-h dsutyagin kashyapc
+ melwitt mriedem
+X-Launchpad-Bug-Reporter: Matt Riedemann (mriedem)
+X-Launchpad-Bug-Modifier: Balazs Gibizer (balazs-gibizer)
+References: <152303245198.3233.1033096993665779324.malonedeb@wampee.canonical.com>
+Message-Id: <160614463567.17452.15089013146657407327.malone@wampee.canonical.com>
+Subject: [Bug 1761798] Re: live migration intermittently fails in CI with "VQ
+ 0 size 0x80 Guest index 0x12c inconsistent with Host index 0x134:
+ delta 0xfff8"
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c35ff22711d15549e2303ae18ae521fd91f6bf00"; Instance="production"
+X-Launchpad-Hash: 275cbeb108d24aac6b03fdb63bc09a90a2c25f94
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -113,45 +75,485 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Bruce Rogers <brogers@suse.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Wenchao Wang <wenchao.wang@intel.com>,
- haxm-team@intel.com, Cameron Esfahani <dirty@apple.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>, Dario Faggioli <dfaggioli@suse.com>,
- Olaf Hering <ohering@suse.de>, Colin Xu <colin.xu@intel.com>
+Reply-To: Bug 1761798 <1761798@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/11/20 16:02, Claudio Fontana wrote:
-> Thanks, I'll work on this option.
-> 
-> Btw considering that CpusAccel for tcg is actually three different interfaces (for mttcg, for icount, and plain RR),
-> it will be tough to, in the stated objective, "remove all conditionals", even after removing the tcg_enabled().
+Source node =
 
-I'm not sure removing all conditionals is a goal in and of itself, but 
-of course keeping the conditionals more local should be a good.
+https://zuul.opendev.org/t/openstack/build/d50877ae15db4022b82f4bb1d1d52cea=
+/log/logs/subnode-2/libvirt/qemu/instance-0000001a.txt
 
-Paolo
+2020-11-20 14:25:24.887+0000: starting up libvirt version: 6.0.0,
+package: 0ubuntu8.4~cloud0 (Openstack Ubuntu Testing Bot <openstack-
+testing-bot@ubuntu.com> Tue, 15 Sep 2020 20:36:28 +0000), qemu version:
+4.2.1Debian 1:4.2-3ubuntu6.7~cloud0, kernel: 4.15.0-124-generic,
+hostname: ubuntu-bionic-ovh-bhs1-0021872195
 
-> I wonder how you see this issue (patches for 3 TCG split are in Richard's queue atm).
-> 
-> static void tcg_accel_cpu_init(void)
-> {
->      if (tcg_enabled()) {
->          TCGState *s = TCG_STATE(current_accel());
-> 
->          if (s->mttcg_enabled) {
->              cpus_register_accel(&tcg_cpus_mttcg);
->          } else if (icount_enabled()) {
->              cpus_register_accel(&tcg_cpus_icount);
->          } else {
->              cpus_register_accel(&tcg_cpus_rr);
->          }
->      }
+LC_ALL=3DC \
 
+PATH=3D/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+
+HOME=3D/var/lib/libvirt/qemu/domain-19-instance-0000001a \
+
+XDG_DATA_HOME=3D/var/lib/libvirt/qemu/domain-19-instance-
+0000001a/.local/share \
+
+XDG_CACHE_HOME=3D/var/lib/libvirt/qemu/domain-19-instance-0000001a/.cache
+\
+
+XDG_CONFIG_HOME=3D/var/lib/libvirt/qemu/domain-19-instance-
+0000001a/.config \
+
+QEMU_AUDIO_DRV=3Dnone \
+
+/usr/bin/qemu-system-x86_64 \
+
+-name guest=3Dinstance-0000001a,debug-threads=3Don \
+
+-S \
+
+-object
+secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/domain-19
+-instance-0000001a/master-key.aes \
+
+-machine pc-i440fx-4.2,accel=3Dtcg,usb=3Doff,dump-guest-core=3Doff \
+
+-cpu qemu64,hypervisor=3Don,lahf-lm=3Don \
+
+-m 128 \
+
+-overcommit mem-lock=3Doff \
+
+-smp 1,sockets=3D1,cores=3D1,threads=3D1 \
+
+-uuid 2c468d92-4b19-426a-8c25-16b4624c21a4 \
+
+-smbios 'type=3D1,manufacturer=3DOpenStack Foundation,product=3DOpenStack
+Nova,version=3D22.1.0,serial=3D2c468d92-4b19-426a-
+8c25-16b4624c21a4,uuid=3D2c468d92-4b19-426a-
+8c25-16b4624c21a4,family=3DVirtual Machine' \
+
+-no-user-config \
+
+-nodefaults \
+
+-chardev socket,id=3Dcharmonitor,fd=3D35,server,nowait \
+
+-mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol \
+
+-rtc base=3Dutc \
+
+-no-shutdown \
+
+-boot strict=3Don \
+
+-device piix3-usb-uhci,id=3Dusb,bus=3Dpci.0,addr=3D0x1.0x2 \
+
+-blockdev
+'{"driver":"file","filename":"/opt/stack/data/nova/instances/_base/61bd5e53=
+1ab4c82456aa5300ede7266b3610be79
+","node-name":"libvirt-2-storage","cache":{"direct":true,"no-
+flush":false},"auto-read-only":true,"discard":"unmap"}' \
+
+-blockdev '{"node-name":"libvirt-2-format","read-
+only":true,"cache":{"direct":true,"no-
+flush":false},"driver":"raw","file":"libvirt-2-storage"}' \
+
+-blockdev
+'{"driver":"file","filename":"/opt/stack/data/nova/instances/2c468d92-4b19
+-426a-8c25-16b4624c21a4/disk","node-
+name":"libvirt-1-storage","cache":{"direct":true,"no-flush":false
+},"auto-read-only":true,"discard":"unmap"}' \
+
+-blockdev '{"node-name":"libvirt-1-format","read-
+only":false,"cache":{"direct":true,"no-
+flush":false},"driver":"qcow2","file":"libvirt-1-storage","backing":"libvir=
+t-2-format"}'
+\
+
+-device virtio-blk-
+pci,scsi=3Doff,bus=3Dpci.0,addr=3D0x4,drive=3Dlibvirt-1-format,id=3Dvirtio-
+disk0,bootindex=3D1,write-cache=3Don \
+
+-netdev tap,fd=3D37,id=3Dhostnet0 \
+
+-device virtio-net-
+pci,host_mtu=3D1400,netdev=3Dhostnet0,id=3Dnet0,mac=3Dfa:16:3e:43:11:f4,bus=
+=3Dpci.0,addr=3D0x3
+\
+
+-add-fd set=3D2,fd=3D39 \
+
+-chardev pty,id=3Dcharserial0,logfile=3D/dev/fdset/2,logappend=3Don \
+
+-device isa-serial,chardev=3Dcharserial0,id=3Dserial0 \
+
+-vnc 127.0.0.1:0 \
+
+-device cirrus-vga,id=3Dvideo0,bus=3Dpci.0,addr=3D0x2 \
+
+-incoming defer \
+
+-device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x5 \
+
+-object rng-random,id=3Dobjrng0,filename=3D/dev/urandom \
+
+-device virtio-rng-pci,rng=3Dobjrng0,id=3Drng0,bus=3Dpci.0,addr=3D0x6 \
+
+-sandbox
+on,obsolete=3Ddeny,elevateprivileges=3Ddeny,spawn=3Ddeny,resourcecontrol=3D=
+deny
+\
+
+-msg timestamp=3Don
+
+char device redirected to /dev/pts/2 (label charserial0)
+
+virtio: bogus descriptor or out of resources
+
+2020-11-20 14:25:39.911+0000: initiating migration
+
+2020-11-20T14:26:21.409517Z qemu-system-x86_64: terminating on signal 15
+from pid 17395 (/usr/sbin/libvirtd)
+
+2020-11-20 14:26:21.610+0000: shutting down, reason=3Ddestroyed
+
+
+Target node
+https://zuul.opendev.org/t/openstack/build/d50877ae15db4022b82f4bb1d1d52cea=
+/log/logs/libvir
+t/qemu/instance-0000001a.txt
+
+2020-11-20 14:25:11.589+0000: starting up libvirt version: 6.0.0,
+package: 0ubuntu8.4~cloud0 (Openstack Ubuntu Testing Bot <openstack-
+testing-bot@ubuntu.com> Tue, 15 Sep 2020 20:36:28 +0000), qemu version:
+4.2.1Debian 1:4.2-3ubuntu6.7~cloud0, kernel: 4.15.0-124-generic,
+hostname: ubuntu-bionic-ovh-bhs1-0021872194
+
+LC_ALL=3DC \
+
+PATH=3D/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+
+HOME=3D/var/lib/libvirt/qemu/domain-10-instance-0000001a \
+
+XDG_DATA_HOME=3D/var/lib/libvirt/qemu/domain-10-instance-
+0000001a/.local/share \
+
+XDG_CACHE_HOME=3D/var/lib/libvirt/qemu/domain-10-instance-0000001a/.cache
+\
+
+XDG_CONFIG_HOME=3D/var/lib/libvirt/qemu/domain-10-instance-
+0000001a/.config \
+
+QEMU_AUDIO_DRV=3Dnone \
+
+/usr/bin/qemu-system-x86_64 \
+
+-name guest=3Dinstance-0000001a,debug-threads=3Don \
+
+-S \
+
+-object
+secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/domain-10
+-instance-0000001a/master-key.aes \
+
+-machine pc-i440fx-4.2,accel=3Dtcg,usb=3Doff,dump-guest-core=3Doff \
+
+-cpu qemu64 \
+
+-m 128 \
+
+-overcommit mem-lock=3Doff \
+
+-smp 1,sockets=3D1,cores=3D1,threads=3D1 \
+
+-uuid 2c468d92-4b19-426a-8c25-16b4624c21a4 \
+
+-smbios 'type=3D1,manufacturer=3DOpenStack Foundation,product=3DOpenStack
+Nova,version=3D22.1.0,serial=3D2c468d92-4b19-426a-
+8c25-16b4624c21a4,uuid=3D2c468d92-4b19-426a-
+8c25-16b4624c21a4,family=3DVirtual Machine' \
+
+-no-user-config \
+
+-nodefaults \
+
+-chardev socket,id=3Dcharmonitor,fd=3D32,server,nowait \
+
+-mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol \
+
+-rtc base=3Dutc \
+
+-no-shutdown \
+
+-boot strict=3Don \
+
+-device piix3-usb-uhci,id=3Dusb,bus=3Dpci.0,addr=3D0x1.0x2 \
+
+-blockdev
+'{"driver":"file","filename":"/opt/stack/data/nova/instances/_base/61bd5e53=
+1ab4c82456aa5300ede7266b3610be79
+","node-name":"libvirt-2-storage","cache":{"direct":true,"no-
+flush":false},"auto-read-only":true,"discard":"unmap"}' \
+
+-blockdev '{"node-name":"libvirt-2-format","read-
+only":true,"cache":{"direct":true,"no-
+flush":false},"driver":"raw","file":"libvirt-2-storage"}' \
+
+-blockdev
+'{"driver":"file","filename":"/opt/stack/data/nova/instances/2c468d92-4b19
+-426a-8c25-16b4624c21a4/disk","node-
+name":"libvirt-1-storage","cache":{"direct":true,"no-flush":false
+},"auto-read-only":true,"discard":"unmap"}' \
+
+-blockdev '{"node-name":"libvirt-1-format","read-
+only":false,"cache":{"direct":true,"no-
+flush":false},"driver":"qcow2","file":"libvirt-1-storage","backing":"libvir=
+t-2-format"}'
+\
+
+-device virtio-blk-
+pci,scsi=3Doff,bus=3Dpci.0,addr=3D0x4,drive=3Dlibvirt-1-format,id=3Dvirtio-
+disk0,bootindex=3D1,write-cache=3Don \
+
+-netdev tap,fd=3D34,id=3Dhostnet0 \
+
+-device virtio-net-
+pci,host_mtu=3D1400,netdev=3Dhostnet0,id=3Dnet0,mac=3Dfa:16:3e:43:11:f4,bus=
+=3Dpci.0,addr=3D0x3
+\
+
+-add-fd set=3D2,fd=3D36 \
+
+-chardev pty,id=3Dcharserial0,logfile=3D/dev/fdset/2,logappend=3Don \
+
+-device isa-serial,chardev=3Dcharserial0,id=3Dserial0 \
+
+-vnc 0.0.0.0:0 \
+
+-device cirrus-vga,id=3Dvideo0,bus=3Dpci.0,addr=3D0x2 \
+
+-device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x5 \
+
+-object rng-random,id=3Dobjrng0,filename=3D/dev/urandom \
+
+-device virtio-rng-pci,rng=3Dobjrng0,id=3Drng0,bus=3Dpci.0,addr=3D0x6 \
+
+-sandbox
+on,obsolete=3Ddeny,elevateprivileges=3Ddeny,spawn=3Ddeny,resourcecontrol=3D=
+deny
+\
+
+-msg timestamp=3Don
+
+char device redirected to /dev/pts/0 (label charserial0)
+
+2020-11-20 14:25:25.637+0000: initiating migration
+
+2020-11-20 14:25:26.776+0000: shutting down, reason=3Dmigrated
+
+2020-11-20T14:25:26.777394Z qemu-system-x86_64: terminating on signal 15
+from pid 31113 (/usr/sbin/libvirtd)
+
+2020-11-20 14:25:38.909+0000: starting up libvirt version: 6.0.0,
+package: 0ubuntu8.4~cloud0 (Openstack Ubuntu Testing Bot <openstack-
+testing-bot@ubuntu.com> Tue, 15 Sep 2020 20:36:28 +0000), qemu version:
+4.2.1Debian 1:4.2-3ubuntu6.7~cloud0, kernel: 4.15.0-124-generic,
+hostname: ubuntu-bionic-ovh-bhs1-0021872194
+
+LC_ALL=3DC \
+
+PATH=3D/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+
+HOME=3D/var/lib/libvirt/qemu/domain-13-instance-0000001a \
+
+XDG_DATA_HOME=3D/var/lib/libvirt/qemu/domain-13-instance-
+0000001a/.local/share \
+
+XDG_CACHE_HOME=3D/var/lib/libvirt/qemu/domain-13-instance-0000001a/.cache
+\
+
+XDG_CONFIG_HOME=3D/var/lib/libvirt/qemu/domain-13-instance-
+0000001a/.config \
+
+QEMU_AUDIO_DRV=3Dnone \
+
+/usr/bin/qemu-system-x86_64 \
+
+-name guest=3Dinstance-0000001a,debug-threads=3Don \
+
+-S \
+
+-object
+secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/domain-13
+-instance-0000001a/master-key.aes \
+
+-machine pc-i440fx-4.2,accel=3Dtcg,usb=3Doff,dump-guest-core=3Doff \
+
+-cpu qemu64,hypervisor=3Don,lahf-lm=3Don \
+
+-m 128 \
+
+-overcommit mem-lock=3Doff \
+
+-smp 1,sockets=3D1,cores=3D1,threads=3D1 \
+
+-uuid 2c468d92-4b19-426a-8c25-16b4624c21a4 \
+
+-smbios 'type=3D1,manufacturer=3DOpenStack Foundation,product=3DOpenStack
+Nova,version=3D22.1.0,serial=3D2c468d92-4b19-426a-
+8c25-16b4624c21a4,uuid=3D2c468d92-4b19-426a-
+8c25-16b4624c21a4,family=3DVirtual Machine' \
+
+-no-user-config \
+
+-nodefaults \
+
+-chardev socket,id=3Dcharmonitor,fd=3D34,server,nowait \
+
+-mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol \
+
+-rtc base=3Dutc \
+
+-no-shutdown \
+
+-boot strict=3Don \
+
+-device piix3-usb-uhci,id=3Dusb,bus=3Dpci.0,addr=3D0x1.0x2 \
+
+-blockdev
+'{"driver":"file","filename":"/opt/stack/data/nova/instances/_base/61bd5e53=
+1ab4c82456aa5300ede7266b3610be79
+","node-name":"libvirt-2-storage","cache":{"direct":true,"no-
+flush":false},"auto-read-only":true,"discard":"unmap"}' \
+
+-blockdev '{"node-name":"libvirt-2-format","read-
+only":true,"cache":{"direct":true,"no-
+flush":false},"driver":"raw","file":"libvirt-2-storage"}' \
+
+-blockdev
+'{"driver":"file","filename":"/opt/stack/data/nova/instances/2c468d92-4b19
+-426a-8c25-16b4624c21a4/disk","node-
+name":"libvirt-1-storage","cache":{"direct":true,"no-flush":false
+},"auto-read-only":true,"discard":"unmap"}' \
+
+-blockdev '{"node-name":"libvirt-1-format","read-
+only":false,"cache":{"direct":true,"no-
+flush":false},"driver":"qcow2","file":"libvirt-1-storage","backing":"libvir=
+t-2-format"}'
+\
+
+-device virtio-blk-
+pci,scsi=3Doff,bus=3Dpci.0,addr=3D0x4,drive=3Dlibvirt-1-format,id=3Dvirtio-
+disk0,bootindex=3D1,write-cache=3Don \
+
+-netdev tap,fd=3D36,id=3Dhostnet0 \
+
+-device virtio-net-
+pci,host_mtu=3D1400,netdev=3Dhostnet0,id=3Dnet0,mac=3Dfa:16:3e:43:11:f4,bus=
+=3Dpci.0,addr=3D0x3
+\
+
+-add-fd set=3D2,fd=3D38 \
+
+-chardev pty,id=3Dcharserial0,logfile=3D/dev/fdset/2,logappend=3Don \
+
+-device isa-serial,chardev=3Dcharserial0,id=3Dserial0 \
+
+-vnc 0.0.0.0:0 \
+
+-device cirrus-vga,id=3Dvideo0,bus=3Dpci.0,addr=3D0x2 \
+
+-incoming defer \
+
+-device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x5 \
+
+-object rng-random,id=3Dobjrng0,filename=3D/dev/urandom \
+
+-device virtio-rng-pci,rng=3Dobjrng0,id=3Drng0,bus=3Dpci.0,addr=3D0x6 \
+
+-sandbox
+on,obsolete=3Ddeny,elevateprivileges=3Ddeny,spawn=3Ddeny,resourcecontrol=3D=
+deny
+\
+
+-msg timestamp=3Don
+
+char device redirected to /dev/pts/1 (label charserial0)
+
+2020-11-20T14:25:40.720757Z qemu-system-x86_64: VQ 0 size 0x80 Guest
+index 0xb8 inconsistent with Host index 0xe0: delta 0xffd8
+
+2020-11-20T14:25:40.720785Z qemu-system-x86_64: Failed to load virtio-
+blk:virtio
+
+2020-11-20T14:25:40.720790Z qemu-system-x86_64: error while loading
+state for instance 0x0 of device '0000:00:04.0/virtio-blk'
+
+2020-11-20T14:25:40.720824Z qemu-system-x86_64: load of migration
+failed: Operation not permitted
+
+2020-11-20 14:25:40.778+0000: shutting down, reason=3Dfailed
+
+
+
+** Also affects: qemu
+   Importance: Undecided
+       Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1761798
+
+Title:
+  live migration intermittently fails in CI with "VQ 0 size 0x80 Guest
+  index 0x12c inconsistent with Host index 0x134: delta 0xfff8"
+
+Status in OpenStack Compute (nova):
+  Confirmed
+Status in QEMU:
+  New
+
+Bug description:
+  Seen here:
+
+  http://logs.openstack.org/37/522537/20/check/legacy-tempest-dsvm-
+  multinode-live-
+  migration/8de6e74/logs/subnode-2/libvirt/qemu/instance-00000002.txt.gz
+
+  2018-04-05T21:48:38.205752Z qemu-system-x86_64: -chardev pty,id=3Dcharser=
+ial0,logfile=3D/dev/fdset/1,logappend=3Don: char device redirected to /dev/=
+pts/0 (label charserial0)
+  warning: TCG doesn't support requested feature: CPUID.01H:ECX.vmx [bit 5]
+  2018-04-05T21:48:43.153268Z qemu-system-x86_64: VQ 0 size 0x80 Guest inde=
+x 0x12c inconsistent with Host index 0x134: delta 0xfff8
+  2018-04-05T21:48:43.153288Z qemu-system-x86_64: Failed to load virtio-blk=
+:virtio
+  2018-04-05T21:48:43.153292Z qemu-system-x86_64: error while loading state=
+ for instance 0x0 of device '0000:00:04.0/virtio-blk'
+  2018-04-05T21:48:43.153347Z qemu-system-x86_64: load of migration failed:=
+ Operation not permitted
+  2018-04-05 21:48:43.198+0000: shutting down, reason=3Dcrashed
+
+  And in the n-cpu logs on the other host:
+
+  http://logs.openstack.org/37/522537/20/check/legacy-tempest-dsvm-
+  multinode-live-
+  migration/8de6e74/logs/screen-n-cpu.txt.gz#_Apr_05_21_48_43_257541
+
+  There is a related Red Hat bug:
+
+  https://bugzilla.redhat.com/show_bug.cgi?id=3D1450524
+
+  The CI job failures are at present using the Pike UCA:
+
+  ii  libvirt-bin                         3.6.0-1ubuntu6.2~cloud0
+
+  ii  qemu-system-x86                     1:2.10+dfsg-0ubuntu3.5~cloud0
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/nova/+bug/1761798/+subscriptions
 
