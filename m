@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9861F2C04DD
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 12:48:11 +0100 (CET)
-Received: from localhost ([::1]:59176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A90AC2C04C5
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 12:44:52 +0100 (CET)
+Received: from localhost ([::1]:47378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khAKG-0002R7-JE
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 06:48:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55504)
+	id 1khAH4-0005xh-CF
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 06:44:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1khAFf-0004Ar-9s
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:43:23 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:39638)
+ id 1khAFg-0004Bx-5n
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:43:24 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46202)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1khAFd-0002ec-EZ
+ id 1khAFe-0002fQ-DQ
  for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:43:23 -0500
-Received: by mail-wr1-x429.google.com with SMTP id e7so743964wrv.6
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 03:43:21 -0800 (PST)
+Received: by mail-wr1-x443.google.com with SMTP id g14so3068408wrm.13
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 03:43:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=w7kJtjSln/vkJJqN5ENFGK2r5RrZXgIwV0P5o18qYy4=;
- b=d3Cj6zuzNyF0cXjYfX6OhXOzJYHktk5hW5l0m7qt77+WHoX5RP4fqXsH7e4SgaQPMV
- sbk36o962Amcwz9XTBx2LxUY+nsmcQlXJB51VXpuWtLbx+8a9oUcbWxbGW4sAqk4MqZt
- gAxzCqc5ktC1W/QKeO+0FizFbmOD7niUBcoR0nDkEGXcyo7iiCzZefj60kGf38PPDue8
- FV6Cq6aDVQpBbAvBW16uUuteU7VQIBNfjRmAvOcpf+Ska0JIX3ybhfl+4Rm+y7tYZhiy
- doHTFTFMPcGb73RHTLKTbxII1fetkOXuAJctGdVU1BiHOQpNB8H3Xh7VGy2LYBEiD28v
- 2dOg==
+ bh=W8OZiwXErPaHZrssg3fNa1FJR5CnKtlyLA6VpRcXeRs=;
+ b=iKK0Vc3nMTFq0Rfw24hofZ2+eOduvn8UBOvNGDSjayAfw7WUIJ1U+FVNbhkN/RS8BI
+ tQ+tMnq/H3IP9eJCW8Bz5Gfkn7JWv5IVWB1G5wHmW6b6qZGDUR7YjxpisU26YZXpQwma
+ di41O7QQqqS4Q8527OGgivaFyf/WAHjg2BTwly3758XwQ7Kk0s9FZwItK7x5DO/GPT7v
+ +4160DhsJHUY0eIN4Qd0HxsR8G1nOXtxp4AVzLe5erX67xi/1m2E6RoW+BtiF3IWsEQY
+ Hq3kH92YYU9sOKTxaEVZXo8+srdxtzUooFbZ+Ck0aYI3DVbw1MV0Zex+M//nG8ZiU6ol
+ zM6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=w7kJtjSln/vkJJqN5ENFGK2r5RrZXgIwV0P5o18qYy4=;
- b=XQmAGoVIc/ZlrKfnGxRGGVS253/WirIFu4qj+5ZfeSOB9CUY2KZut2YzPTRNZ6Nzcw
- ektLf2fi+wL6uuJV//4/Bbx1gSwWm75oWntVwGIChga3EK5v1gyOEgHj4sI7PzFMut8+
- R1Ca3tqAr2ACZXENfpUiwNBLFYd3naYstJmIZ28JdO/TJ2ongZDH1I3EvF2k5T9tvEqn
- escKAcb+A0jDkE/R9oBhmsJtM9fqZpca2C808kCrySqR4BNKdu+LqxbDrCdgRPYL02Gh
- Dh9jgB6xSxsCdLDNWbvuJYSXR44XXuW16paqZFT0eybTYGhFJPz7fVPdsJtliI516CtY
- CTWQ==
-X-Gm-Message-State: AOAM533Xj+73/sOno86Anllm4WRSLGp+3S11RswPYpYZ1Kj7cOyYF+nc
- CoJ0Cnj7D85nOQMHMBmz+61Eq2pl1aLicQ==
-X-Google-Smtp-Source: ABdhPJyIqPdRWefj7yLqRligwRKijuMcp7Ayosu/6BDl1HO+H9wJd5TguQRcHEK5JGpOBPGE+/RWGA==
-X-Received: by 2002:a5d:4f90:: with SMTP id d16mr32261151wru.292.1606131799862; 
- Mon, 23 Nov 2020 03:43:19 -0800 (PST)
+ bh=W8OZiwXErPaHZrssg3fNa1FJR5CnKtlyLA6VpRcXeRs=;
+ b=P+LvK1Y50KPPhxSMC2q44H5y1x3UdCxhCC48QFpR1THUIvPVXwN2TrLlxQNqdQB0Gc
+ hgFthZ+KW7k/L+oPZ4SdQRo3XkPrZ/EEGRQjwkMR1cOrJu1zDbUNjjlagiNALKTNJkB4
+ 4UNBSNeA5fos6N0FwMYRGGs/9EVUDQHY11Te7q/pVPt7yS+9VDo749jd0Bvy7DYoo8tS
+ 4XeKuMlo3l50LhSM4t/+xT7o+OqC2iJty/WtOGM5ATlXEedY0iRrBE58l0XuJG3hYZHf
+ USxaYFUxbLKnEr+PJZ+H67odRGi0FDo2tZ3f6ITtGP1cMyI1fXognBevvk0UR5IlnnSv
+ NbTg==
+X-Gm-Message-State: AOAM533gtt8sDASXS5eP4zwEgjyFkrr6SzkOGp6r++vCX674p6lKPtL7
+ BZMHx1vVfogY8TNCfMdHY02n+xdB+0YcFw==
+X-Google-Smtp-Source: ABdhPJz2DNFNlH//2i/k+B78o1gOXmejB/BIPU84Q2hev3viZXrMn8j4sLqNWx0FXm4vnXIOp9WnmA==
+X-Received: by 2002:adf:fe0f:: with SMTP id n15mr31936153wrr.357.1606131800835; 
+ Mon, 23 Nov 2020 03:43:20 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g186sm50836495wma.1.2020.11.23.03.43.18
+ by smtp.gmail.com with ESMTPSA id g186sm50836495wma.1.2020.11.23.03.43.19
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Nov 2020 03:43:19 -0800 (PST)
+ Mon, 23 Nov 2020 03:43:20 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/24] hw/arm: Fix bad print format specifiers
-Date: Mon, 23 Nov 2020 11:42:53 +0000
-Message-Id: <20201123114315.13372-3-peter.maydell@linaro.org>
+Subject: [PULL 03/24] hw/intc: fix heap-buffer-overflow in rxicu_realize()
+Date: Mon, 23 Nov 2020 11:42:54 +0000
+Message-Id: <20201123114315.13372-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201123114315.13372-1-peter.maydell@linaro.org>
 References: <20201123114315.13372-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x443.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,61 +87,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: AlexChen <alex.chen@huawei.com>
+From: Chen Qun <kuhn.chenqun@huawei.com>
 
-We should use printf format specifier "%u" instead of "%i" for
-argument of type "unsigned int".
+When 'j = icu->nr_sense – 1', the 'j < icu->nr_sense' condition is true,
+then 'j = icu->nr_sense', the'icu->init_sense[j]' has out-of-bounds access.
 
+The asan showed stack:
+ERROR: AddressSanitizer: heap-buffer-overflow on address 0x604000004d7d at pc 0x55852cd26a76 bp 0x7ffe39f26200 sp 0x7ffe39f261f0
+READ of size 1 at 0x604000004d7d thread T0
+    #0 0x55852cd26a75 in rxicu_realize ../hw/intc/rx_icu.c:311
+    #1 0x55852cf075f7 in device_set_realized ../hw/core/qdev.c:886
+    #2 0x55852cd4a32f in property_set_bool ../qom/object.c:2251
+    #3 0x55852cd4f9bb in object_property_set ../qom/object.c:1398
+    #4 0x55852cd54f3f in object_property_set_qobject ../qom/qom-qobject.c:28
+    #5 0x55852cd4fc3f in object_property_set_bool ../qom/object.c:1465
+    #6 0x55852cbf0b27 in register_icu ../hw/rx/rx62n.c:156
+    #7 0x55852cbf12a6 in rx62n_realize ../hw/rx/rx62n.c:261
+    #8 0x55852cf075f7 in device_set_realized ../hw/core/qdev.c:886
+    #9 0x55852cd4a32f in property_set_bool ../qom/object.c:2251
+    #10 0x55852cd4f9bb in object_property_set ../qom/object.c:1398
+    #11 0x55852cd54f3f in object_property_set_qobject ../qom/qom-qobject.c:28
+    #12 0x55852cd4fc3f in object_property_set_bool ../qom/object.c:1465
+    #13 0x55852cbf1a85 in rx_gdbsim_init ../hw/rx/rx-gdbsim.c:109
+    #14 0x55852cd22de0 in qemu_init ../softmmu/vl.c:4380
+    #15 0x55852ca57088 in main ../softmmu/main.c:49
+    #16 0x7feefafa5d42 in __libc_start_main (/lib64/libc.so.6+0x26d42)
+
+Add the 'ice->src[i].sense' initialize to the default value, and then
+process init_sense array to identify which irqs should be level-triggered.
+
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Alex Chen <alex.chen@huawei.com>
-Message-id: 5F9FD78B.8000300@huawei.com
+Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-id: 20201111141733.2358800-1-kuhn.chenqun@huawei.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/pxa2xx.c | 2 +-
- hw/arm/spitz.c  | 2 +-
- hw/arm/tosa.c   | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ hw/intc/rx_icu.c | 18 ++++++++----------
+ 1 file changed, 8 insertions(+), 10 deletions(-)
 
-diff --git a/hw/arm/pxa2xx.c b/hw/arm/pxa2xx.c
-index 591776ba887..1a98f3bd5cd 100644
---- a/hw/arm/pxa2xx.c
-+++ b/hw/arm/pxa2xx.c
-@@ -675,7 +675,7 @@ static void pxa2xx_ssp_write(void *opaque, hwaddr addr,
-         if (value & SSCR0_MOD)
-             printf("%s: Attempt to use network mode\n", __func__);
-         if (s->enable && SSCR0_DSS(value) < 4)
--            printf("%s: Wrong data size: %i bits\n", __func__,
-+            printf("%s: Wrong data size: %u bits\n", __func__,
-                             SSCR0_DSS(value));
-         if (!(value & SSCR0_SSE)) {
-             s->sssr = 0;
-diff --git a/hw/arm/spitz.c b/hw/arm/spitz.c
-index 32bdeacfd36..772662f1494 100644
---- a/hw/arm/spitz.c
-+++ b/hw/arm/spitz.c
-@@ -586,7 +586,7 @@ struct SpitzLCDTG {
- static void spitz_bl_update(SpitzLCDTG *s)
+diff --git a/hw/intc/rx_icu.c b/hw/intc/rx_icu.c
+index 94e17a9deac..e5c01807b9a 100644
+--- a/hw/intc/rx_icu.c
++++ b/hw/intc/rx_icu.c
+@@ -300,22 +300,20 @@ static const MemoryRegionOps icu_ops = {
+ static void rxicu_realize(DeviceState *dev, Error **errp)
  {
-     if (s->bl_power && s->bl_intensity)
--        zaurus_printf("LCD Backlight now at %i/63\n", s->bl_intensity);
-+        zaurus_printf("LCD Backlight now at %u/63\n", s->bl_intensity);
-     else
-         zaurus_printf("LCD Backlight now off\n");
- }
-diff --git a/hw/arm/tosa.c b/hw/arm/tosa.c
-index fe88ed89fee..66b244aeffd 100644
---- a/hw/arm/tosa.c
-+++ b/hw/arm/tosa.c
-@@ -150,7 +150,7 @@ static void tosa_gpio_setup(PXA2xxState *cpu,
+     RXICUState *icu = RX_ICU(dev);
+-    int i, j;
++    int i;
  
- static uint32_t tosa_ssp_tansfer(SSISlave *dev, uint32_t value)
- {
--    fprintf(stderr, "TG: %d %02x\n", value >> 5, value & 0x1f);
-+    fprintf(stderr, "TG: %u %02x\n", value >> 5, value & 0x1f);
-     return 0;
+     if (icu->init_sense == NULL) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "rx_icu: trigger-level property must be set.");
+         return;
+     }
+-    for (i = j = 0; i < NR_IRQS; i++) {
+-        if (icu->init_sense[j] == i) {
+-            icu->src[i].sense = TRG_LEVEL;
+-            if (j < icu->nr_sense) {
+-                j++;
+-            }
+-        } else {
+-            icu->src[i].sense = TRG_PEDGE;
+-        }
++
++    for (i = 0; i < NR_IRQS; i++) {
++        icu->src[i].sense = TRG_PEDGE;
++    }
++    for (i = 0; i < icu->nr_sense; i++) {
++        uint8_t irqno = icu->init_sense[i];
++        icu->src[irqno].sense = TRG_LEVEL;
+     }
+     icu->req_irq = -1;
  }
- 
 -- 
 2.20.1
 
