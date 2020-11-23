@@ -2,98 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD28F2C0EAB
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 16:20:06 +0100 (CET)
-Received: from localhost ([::1]:55398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9AA42C0EB1
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 16:21:37 +0100 (CET)
+Received: from localhost ([::1]:59878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khDdN-0007Bw-Q3
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 10:20:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52210)
+	id 1khDeq-0000i9-T7
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 10:21:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1khDbX-0005SI-1y
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 10:18:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30405)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1khDbV-0005yy-4m
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 10:18:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606144687;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Gjysr2TGm2BHd6PEXB4bmvN9WC4d9mZ2jNM8y3Hhwb0=;
- b=Xah1o01dFT+wqRq3ggLLKE+OwXADT0/eqBLfkcnn6ExinElPaKu2efEQTYtZiNb06tFAsk
- aB0onpYk7nNCtK14qYitHEauzlIcq4eAheWQNRiBdPcFXRIrgRsPZzwaIGNMfIHxGosNQm
- EjIwmdjALgdlrnLoa7Y+jYMD1+vb90g=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-400-6uhCZYMEM_yEQC_w3CywFw-1; Mon, 23 Nov 2020 10:18:05 -0500
-X-MC-Unique: 6uhCZYMEM_yEQC_w3CywFw-1
-Received: by mail-wr1-f72.google.com with SMTP id l5so5980112wrn.18
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 07:18:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Gjysr2TGm2BHd6PEXB4bmvN9WC4d9mZ2jNM8y3Hhwb0=;
- b=n7VAdMeljT1o2Eh64Jrkcb7xCNfYvt3GNDtKmkUAEV7JxtmkTTpYRPtpF8DId7stu1
- QHTdu/sLiLm146PDdj4rvBJUzE6cE4J5urPjkG01kkBG/oqEqlT8nHwSi5NTFcyeJ71S
- FWbkMUaS45NhS6uQMlep/n0MWEOX5bGsDJfF90ECIMnXTJhSJE2+kSAuaRKlBKt9+uKy
- aXTHQ5iNwmb8tGNsgfAoJvRf7TvrFDei2r35wBYDvWJFT1i2ILAkGIe/uLWozJDe/+AS
- OnMppeij3pYDmENu0MgUspcFjdmVh9AQdsgzCIqouXA60ypMdxvQCJnUpS4KEb9dlrUA
- W5gw==
-X-Gm-Message-State: AOAM530fVgnxUSb9VdKFGrftYEztgNTY7iPf0eyI4xCQwiCKHAZgcpPU
- jVzmk4RKlXOB1nZjsHt5C7on9zeXacSLdG1dIqW5kjs3KdLEatOhzM7jYCpMaAWYtWjzyPzTFWW
- lC986z1YIaiUt0Cg=
-X-Received: by 2002:adf:e84e:: with SMTP id d14mr145431wrn.190.1606144683208; 
- Mon, 23 Nov 2020 07:18:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy2R4lL1Mq2Y1aVC5dDdaeyjFkJP6dOyeHTSlEN3C3ieAvijxPn9ns3PNbleWjgoJ6rtHRlSg==
-X-Received: by 2002:adf:e84e:: with SMTP id d14mr145403wrn.190.1606144682981; 
- Mon, 23 Nov 2020 07:18:02 -0800 (PST)
-Received: from steredhat (host-79-17-248-175.retail.telecomitalia.it.
- [79.17.248.175])
- by smtp.gmail.com with ESMTPSA id n4sm15266610wmc.30.2020.11.23.07.18.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Nov 2020 07:18:02 -0800 (PST)
-Date: Mon, 23 Nov 2020 16:17:58 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Subject: Re: [PATCH 00/10] vhost/qemu: thread per IO SCSI vq
-Message-ID: <20201123151758.5bik46pu4aqrtmd5@steredhat>
-References: <1605223150-10888-1-git-send-email-michael.christie@oracle.com>
- <20201117164043.GS131917@stefanha-x1.localdomain>
- <b3343762-bb11-b750-46ec-43b5556f2b8e@oracle.com>
- <20201118113117.GF182763@stefanha-x1.localdomain>
- <20201119094315-mutt-send-email-mst@kernel.org>
- <ceebdc90-3ffc-1563-ff85-12a848bcba18@oracle.com>
- <CAJSP0QUvSwX5NCPmfSODV_C+D41E21LZT=oXQ2PLc6baAsGGDQ@mail.gmail.com>
- <ffd88f0c-981e-a102-4b08-f29d6b9a0f71@oracle.com>
- <CAJSP0QUfqd=QNFa-RikH4dVcLmfcP-pYCwznP3W0zobYkM+KDw@mail.gmail.com>
- <CAJSP0QVu4P6c+kdFkhw1S_OEaj7B-eiDqFOVDxWAaSOcsAADrA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <lekiravi@yandex-team.ru>)
+ id 1khDdO-00081p-3w
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 10:20:06 -0500
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:48164)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lekiravi@yandex-team.ru>)
+ id 1khDdI-0006cZ-Ng
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 10:20:03 -0500
+Received: from iva8-d077482f1536.qloud-c.yandex.net
+ (iva8-d077482f1536.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:2f26:0:640:d077:482f])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id D39392E15C5;
+ Mon, 23 Nov 2020 18:19:54 +0300 (MSK)
+Received: from localhost (localhost [::1])
+ by iva8-d077482f1536.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ LGffsLwrQe-Jqw4WFCp; Mon, 23 Nov 2020 18:19:54 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1606144794; bh=R4LAsIxng7Jzg1AEpntb1bM6ZZxr+XDChWP3WP3aZcM=;
+ h=Subject:In-Reply-To:Cc:Date:References:To:From:Message-Id;
+ b=a4iMVpWKwjaJmDlBvE5aCCFnytAOg/39+A/ZjKFeZXLxUrWce7wp8RtV+vNJADbfO
+ WcVekcE1MlR7RaBOX2iL4elp+aw0z60x3PiUuVNVMfUMwGPeT0QP2Ku4L/uVh674zD
+ PMO/0cFQjprFDX9yPE4+AsLYSJeSGGIAbhnBbaBM=
+Authentication-Results: iva8-d077482f1536.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+X-Yandex-Sender-Uid: 1120000000161690
+X-Yandex-Avir: 1
+Received: from myt5-23f0be3aa648.qloud-c.yandex.net
+ (myt5-23f0be3aa648.qloud-c.yandex.net [2a02:6b8:c12:3e29:0:640:23f0:be3a])
+ by myt5-ca7361f95f04.qloud-c.yandex.net with LMTP id Lq3gMeyJm8-bUMvPV5p
+ for <lekiravi@yandex-team.ru>; Mon, 23 Nov 2020 18:19:42 +0300
+Received: by myt6-91bfb4ccf42d.qloud-c.yandex.net with HTTP;
+ Mon, 23 Nov 2020 18:19:41 +0300
+From: Alexey Kirillov <lekiravi@yandex-team.ru>
+To: Jason Wang <jasowang@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20201108235952.107961-1-lekiravi@yandex-team.ru>
+References: <20201108235952.107961-1-lekiravi@yandex-team.ru>
+Subject: Re: [PATCH v5 0/4] Introducing QMP query-netdev command
 MIME-Version: 1.0
-In-Reply-To: <CAJSP0QVu4P6c+kdFkhw1S_OEaj7B-eiDqFOVDxWAaSOcsAADrA@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Mailer: Yamail [ http://yandex.ru ] 5.0
+Date: Mon, 23 Nov 2020 18:19:51 +0300
+Message-Id: <3742701606144510@mail.yandex-team.ru>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Received-SPF: pass client-ip=95.108.205.193;
+ envelope-from=lekiravi@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -102,91 +77,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam <fam@euphon.net>, linux-scsi <linux-scsi@vger.kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Linux Virtualization <virtualization@lists.linux-foundation.org>,
- target-devel <target-devel@vger.kernel.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Mike Christie <michael.christie@oracle.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Vincenzo Maffione <v.maffione@gmail.com>,
+ "yc-core@yandex-team.ru" <yc-core@yandex-team.ru>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Giuseppe Lettieri <g.lettieri@iet.unipi.it>, Luigi Rizzo <rizzo@iet.unipi.it>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 20, 2020 at 08:45:49AM +0000, Stefan Hajnoczi wrote:
->On Thu, Nov 19, 2020 at 5:08 PM Stefan Hajnoczi <stefanha@gmail.com> wrote:
->>
->> On Thu, Nov 19, 2020 at 4:43 PM Mike Christie
->> <michael.christie@oracle.com> wrote:
->> >
->> > On 11/19/20 10:24 AM, Stefan Hajnoczi wrote:
->> > > On Thu, Nov 19, 2020 at 4:13 PM Mike Christie
->> > > <michael.christie@oracle.com> wrote:
->> > >>
->> > >> On 11/19/20 8:46 AM, Michael S. Tsirkin wrote:
->> > >>> On Wed, Nov 18, 2020 at 11:31:17AM +0000, Stefan Hajnoczi wrote:
->> > > struct vhost_run_worker_info {
->> > >      struct timespec *timeout;
->> > >      sigset_t *sigmask;
->> > >
->> > >      /* List of virtqueues to process */
->> > >      unsigned nvqs;
->> > >      unsigned vqs[];
->> > > };
->> > >
->> > > /* This blocks until the timeout is reached, a signal is received, or
->> > > the vhost device is destroyed */
->> > > int ret = ioctl(vhost_fd, VHOST_RUN_WORKER, &info);
->> > >
->> > > As you can see, userspace isn't involved with dealing with the
->> > > requests. It just acts as a thread donor to the vhost driver.
->> > >
->> > > We would want the VHOST_RUN_WORKER calls to be infrequent to avoid the
->> > > penalty of switching into the kernel, copying in the arguments, etc.
->> >
->> > I didn't get this part. Why have the timeout? When the timeout expires,
->> > does userspace just call right back down to the kernel or does it do
->> > some sort of processing/operation?
->> >
->> > You could have your worker function run from that ioctl wait for a
->> > signal or a wake up call from the vhost_work/poll functions.
->>
->> An optional timeout argument is common in blocking interfaces like
->> poll(2), recvmmsg(2), etc.
->>
->> Although something can send a signal to the thread instead,
->> implementing that in an application is more awkward than passing a
->> struct timespec.
->>
->> Compared to other blocking calls we don't expect
->> ioctl(VHOST_RUN_WORKER) to return soon, so maybe the timeout will
->> rarely be used and can be dropped from the interface.
->>
->> BTW the code I posted wasn't a carefully thought out proposal :). The
->> details still need to be considered and I'm going to be offline for
->> the next week so maybe someone else can think it through in the
->> meantime.
+ping
+
+Patchwork page: http://patchwork.ozlabs.org/project/qemu-devel/list/?series=212983
+
+09.11.2020, 03:02, "Alexey Kirillov" <lekiravi@yandex-team.ru>:
+> This patch series introduces a new QMP command "query-netdev" to get
+> information about currently attached backend network devices (netdevs).
+> Also, since the "info_str" field of "NetClientState" is now deprecated,
+> we no longer use it for netdevs, only for NIC/hubports.
+> The HMP command "info network" now also uses the new QMP command inside.
 >
->One final thought before I'm offline for a week. If
->ioctl(VHOST_RUN_WORKER) is specific to a single vhost device instance
->then it's hard to support poll-mode (busy waiting) workers because
->each device instance consumes a whole CPU. If we stick to an interface
->where the kernel manages the worker threads then it's easier to share
->workers between devices for polling.
-
-Agree, ioctl(VHOST_RUN_WORKER) is interesting and perhaps simplifies 
-thread management (pinning, etc.), but with kthread would be easier to 
-implement polling sharing worker with multiple devices.
-
+> Usage example:
 >
->I have CCed Stefano Garzarella, who is looking at similar designs for
->vDPA software device implementations.
+> -> { "execute": "query-netdev" }
+> <- { "return": [
+>          {
+>              "listen": "127.0.0.1:90",
+>              "type": "socket",
+>              "peer-id": "hub0port1",
+>              "id": "__org.qemu.net1"
+>          },
+>          {
+>              "script": "/etc/qemu-ifup",
+>              "downscript": "/etc/qemu-ifdown",
+>              "ifname": "tap0",
+>              "type": "tap",
+>              "peer-id": "net5",
+>              "vnet_hdr": true,
+>              "id": "tap0"
+>          },
+>          {
+>              "ipv6": true,
+>              "ipv4": true,
+>              "host": "10.0.2.2",
+>              "ipv6-dns": "fec0::3",
+>              "ipv6-prefix": "fec0::",
+>              "net": "10.0.2.0/255.255.255.0",
+>              "ipv6-host": "fec0::2",
+>              "type": "user",
+>              "peer-id": "net0",
+>              "dns": "10.0.2.3",
+>              "hostfwd": [
+>                  {
+>                      "str": "tcp::20004-:22"
+>                  }
+>              ],
+>              "ipv6-prefixlen": 64,
+>              "id": "netdev0",
+>              "restrict": false
+>          }
+>      ]
+>    }
+>
+> v4->v5:
+> - Enable qtest of query-netdevs for AVR and RX archs.
+> - Bump "Since" version in QAPI to 6.0.
+>
+> v3->v4:
+> - Rename "query-netdevs" to "query-netdev".
+> - Copy netdev drivers to new QAPI enum "NetBackend".
+>
+> v2->v3:
+> - Remove NIC and hubports from query-netdevs.
+> - Remove several fields from NetdevInfo since they are unnecessary.
+> - Rename field @peer to @peer-id.
+> - Add support of vhost-vdpa.
+> - Keep "info_str" for NIC/hubports, but remove it for netdevs.
+>
+> v1->v2:
+> - Rewrite HMP "info network" to get information from results of QMP command.
+> - Remove obsolete field "info_str" from "NetClientState".
+>
+> Alexey Kirillov (4):
+>   qapi: net: Add query-netdev command
+>   tests: Add tests for query-netdev command
+>   hmp: Use QMP query-netdev in hmp_info_network
+>   net: Do not use legacy info_str for backends
+>
+>  include/net/net.h | 4 +-
+>  net/clients.h | 1 +
+>  net/hub.c | 4 +-
+>  net/hub.h | 2 +-
+>  net/l2tpv3.c | 21 +++-
+>  net/net.c | 213 +++++++++++++++++++++++++++++++-
+>  net/netmap.c | 13 ++
+>  net/slirp.c | 128 ++++++++++++++++++-
+>  net/socket.c | 91 ++++++++++----
+>  net/tap-win32.c | 10 +-
+>  net/tap.c | 107 ++++++++++++++--
+>  net/vde.c | 39 +++++-
+>  net/vhost-user.c | 20 ++-
+>  net/vhost-vdpa.c | 15 ++-
+>  qapi/net.json | 80 ++++++++++++
+>  tests/qtest/meson.build | 3 +
+>  tests/qtest/test-query-netdev.c | 120 ++++++++++++++++++
+>  17 files changed, 812 insertions(+), 59 deletions(-)
+>  create mode 100644 tests/qtest/test-query-netdev.c
+>
+> --
+> 2.25.1
 
-Thanks, Mike please can you keep me in CC for this work?
 
-It's really interesting since I'll have similar issues to solve with 
-vDPA software device.
-
-Thanks,
-Stefano
-
+-- 
+Alexey Kirillov
+Yandex.Cloud
 
