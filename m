@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACC392C0D15
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 15:19:10 +0100 (CET)
-Received: from localhost ([::1]:34260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78F032C0D11
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 15:18:22 +0100 (CET)
+Received: from localhost ([::1]:57486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khCgP-000885-Ni
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 09:19:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36468)
+	id 1khCfd-00065y-Hj
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 09:18:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1khCcA-0002te-Vt
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:14:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30071)
+ id 1khCcE-00030F-V4
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:14:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39905)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1khCc9-0007ir-0g
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:14:46 -0500
+ id 1khCcC-0007kS-TB
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:14:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606140884;
+ s=mimecast20190719; t=1606140888;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=var/topHFqBKR97UI5yAUI10U08JQBs77LTRyju85Cg=;
- b=QkphpZ/MYx1sXc+wKm2A1tAaWE7Pygzf1aoLAcONzDjFqPUcfiMbztDfv/QvKNR1Zoo+3e
- TopDEWafEderiWv+r3wDE7Jcg6hb46qtSAus9EM2RYOMwtG1VbPif2Jx4ILYyymeNwvTkf
- VeswCcxR3elM4+oTeI4H0DYaR547g8s=
+ bh=EId/j+vRbcgqB9EuGzhzDaIodExfiY0lp6Om2qfpMVw=;
+ b=PAxzuxU2prVuIHW8YuqHpc5EXI8feLuJD9frVkwa6/k27y86vWrpbXOrJXqr/6fgg+oL1Y
+ gKJAswcY17QteG2rIYEP+bgTLbDFmjb/llL+4ccpzRQnoR9Vuv1OOnBcWlm3CHBcVxiSkG
+ kTKvxNx9fSn+CBhPMvHBrLhv3z5Dvoo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-331-I0m1A9V2OrOgDh-5n9EmPw-1; Mon, 23 Nov 2020 09:14:42 -0500
-X-MC-Unique: I0m1A9V2OrOgDh-5n9EmPw-1
+ us-mta-355-Jhqf9RR7PsCPYI9YkwX5jQ-1; Mon, 23 Nov 2020 09:14:42 -0500
+X-MC-Unique: Jhqf9RR7PsCPYI9YkwX5jQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A09318B9ED9
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D77E3100B71F
  for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 14:14:41 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BC13A5D6D3;
- Mon, 23 Nov 2020 14:14:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8ACBE5D6D3;
+ Mon, 23 Nov 2020 14:14:41 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/36] vl: extract various command line validation snippets to
- a new function
-Date: Mon, 23 Nov 2020 09:14:06 -0500
-Message-Id: <20201123141435.2726558-8-pbonzini@redhat.com>
+Subject: [PATCH 08/36] vl: preconfig and loadvm are mutually exclusive
+Date: Mon, 23 Nov 2020 09:14:07 -0500
+Message-Id: <20201123141435.2726558-9-pbonzini@redhat.com>
 In-Reply-To: <20201123141435.2726558-1-pbonzini@redhat.com>
 References: <20201123141435.2726558-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -84,170 +83,50 @@ Cc: Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Just like -incoming.  Later we will add support for "-incoming defer
+-preconfig", because there are cases (Xen, block layer) that want
+to look at RUNSTATE_INMIGRATE.  -loadvm will remain mutually exclusive
+with preconfig; the plan is to just do loadvm in the monitor, since
+the user is already going to interact with it for preconfiguration.
+
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/core/machine.c |  1 +
- softmmu/vl.c      | 78 +++++++++++++++++++++++------------------------
- 2 files changed, 40 insertions(+), 39 deletions(-)
+ softmmu/vl.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 5260155962..7ef3de5ce5 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -880,6 +880,7 @@ static void machine_initfn(Object *obj)
-     ms->dump_guest_core = true;
-     ms->mem_merge = true;
-     ms->enable_graphics = true;
-+    ms->kernel_cmdline = g_strdup("");
- 
-     if (mc->nvdimm_supported) {
-         Object *obj = OBJECT(ms);
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 8ceef00a27..6699c23a16 100644
+index 6699c23a16..acea4286e9 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -123,6 +123,7 @@ static int data_dir_idx;
- static const char *mem_path;
+@@ -124,6 +124,7 @@ static const char *mem_path;
  static const char *boot_order;
  static const char *boot_once;
-+static const char *incoming;
+ static const char *incoming;
++static const char *loadvm;
  enum vga_retrace_method vga_retrace_method = VGA_RETRACE_DUMB;
  int display_opengl;
  const char* keyboard_layout = NULL;
-@@ -2870,6 +2871,39 @@ static char *find_datadir(void)
-     return get_relocated_path(CONFIG_QEMU_DATADIR);
- }
+@@ -2890,6 +2891,11 @@ static void qemu_validate_options(void)
+           }
+     }
  
-+static void qemu_validate_options(void)
-+{
-+    QemuOpts *machine_opts = qemu_get_machine_opts();
-+    const char *kernel_filename = qemu_opt_get(machine_opts, "kernel");
-+    const char *initrd_filename = qemu_opt_get(machine_opts, "initrd");
-+    const char *kernel_cmdline = qemu_opt_get(machine_opts, "append");
-+
-+    if (kernel_filename == NULL) {
-+         if (kernel_cmdline != NULL) {
-+              error_report("-append only allowed with -kernel option");
-+              exit(1);
-+          }
-+
-+          if (initrd_filename != NULL) {
-+              error_report("-initrd only allowed with -kernel option");
-+              exit(1);
-+          }
-+    }
-+
-+    if (incoming && !preconfig_exit_requested) {
-+        error_report("'preconfig' and 'incoming' options are "
++    if (loadvm && !preconfig_exit_requested) {
++        error_report("'preconfig' and 'loadvm' options are "
 +                     "mutually exclusive");
 +        exit(EXIT_FAILURE);
 +    }
-+
-+#ifdef CONFIG_CURSES
-+    if (is_daemonized() && dpy.type == DISPLAY_TYPE_CURSES) {
-+        error_report("curses display cannot be used with -daemonize");
-+        exit(1);
-+    }
-+#endif
-+}
-+
- static void qemu_process_early_options(void)
- {
-     char **dirs;
-@@ -3133,9 +3167,6 @@ void qemu_init(int argc, char **argv, char **envp)
- {
-     int i;
-     int snapshot = 0;
--    int linux_boot;
--    const char *initrd_filename;
--    const char *kernel_filename, *kernel_cmdline;
-     QemuOpts *opts, *machine_opts;
-     QemuOpts *icount_opts = NULL, *accel_opts = NULL;
+     if (incoming && !preconfig_exit_requested) {
+         error_report("'preconfig' and 'incoming' options are "
+                      "mutually exclusive");
+@@ -3172,7 +3178,6 @@ void qemu_init(int argc, char **argv, char **envp)
      QemuOptsList *olist;
-@@ -3144,7 +3175,6 @@ void qemu_init(int argc, char **argv, char **envp)
-     const char *loadvm = NULL;
+     int optind;
+     const char *optarg;
+-    const char *loadvm = NULL;
      MachineClass *machine_class;
      const char *vga_model = NULL;
--    const char *incoming = NULL;
      bool userconfig = true;
-     bool nographic = false;
-     int display_remote = 0;
-@@ -4066,6 +4096,8 @@ void qemu_init(int argc, char **argv, char **envp)
-      */
-     loc_set_none();
- 
-+    qemu_validate_options();
-+
-     /*
-      * These options affect everything else and should be processed
-      * before daemonizing.
-@@ -4081,12 +4113,6 @@ void qemu_init(int argc, char **argv, char **envp)
-     user_register_global_props();
-     replay_configure(icount_opts);
- 
--    if (incoming && !preconfig_exit_requested) {
--        error_report("'preconfig' and 'incoming' options are "
--                     "mutually exclusive");
--        exit(EXIT_FAILURE);
--    }
--
-     configure_rtc(qemu_find_opts_singleton("rtc"));
- 
-     machine_class = select_machine();
-@@ -4191,12 +4217,6 @@ void qemu_init(int argc, char **argv, char **envp)
-             error_report("-nographic cannot be used with -daemonize");
-             exit(1);
-         }
--#ifdef CONFIG_CURSES
--        if (dpy.type == DISPLAY_TYPE_CURSES) {
--            error_report("curses display cannot be used with -daemonize");
--            exit(1);
--        }
--#endif
-     }
- 
-     if (nographic) {
-@@ -4327,11 +4347,6 @@ void qemu_init(int argc, char **argv, char **envp)
-         qtest_server_init(qtest_chrdev, qtest_log, &error_fatal);
-     }
- 
--    machine_opts = qemu_get_machine_opts();
--    kernel_filename = qemu_opt_get(machine_opts, "kernel");
--    initrd_filename = qemu_opt_get(machine_opts, "initrd");
--    kernel_cmdline = qemu_opt_get(machine_opts, "append");
--
-     opts = qemu_opts_find(qemu_find_opts("boot-opts"), NULL);
-     if (opts) {
-         boot_order = qemu_opt_get(opts, "order");
-@@ -4352,24 +4367,9 @@ void qemu_init(int argc, char **argv, char **envp)
-         boot_order = machine_class->default_boot_order;
-     }
- 
--    if (!kernel_cmdline) {
--        kernel_cmdline = "";
--        current_machine->kernel_cmdline = (char *)kernel_cmdline;
--    }
--
--    linux_boot = (kernel_filename != NULL);
--
--    if (!linux_boot && *kernel_cmdline != '\0') {
--        error_report("-append only allowed with -kernel option");
--        exit(1);
--    }
--
--    if (!linux_boot && initrd_filename != NULL) {
--        error_report("-initrd only allowed with -kernel option");
--        exit(1);
--    }
--
--    if (semihosting_enabled() && !semihosting_get_argc() && kernel_filename) {
-+    if (semihosting_enabled() && !semihosting_get_argc()) {
-+        const char *kernel_filename = qemu_opt_get(machine_opts, "kernel");
-+        const char *kernel_cmdline = qemu_opt_get(machine_opts, "append");
-         /* fall back to the -kernel/-append */
-         semihosting_arg_fallback(kernel_filename, kernel_cmdline);
-     }
 -- 
 2.26.2
 
