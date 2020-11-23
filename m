@@ -2,84 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 189272C0079
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 08:10:48 +0100 (CET)
-Received: from localhost ([::1]:46078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 503332C00BB
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 08:41:43 +0100 (CET)
+Received: from localhost ([::1]:52112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kh5zp-0001HL-S4
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 02:10:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52966)
+	id 1kh6Tk-0005NK-HE
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 02:41:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kh5p5-0005Mu-NS; Mon, 23 Nov 2020 01:59:39 -0500
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:35879)
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1kh6Rk-0004uj-Ky; Mon, 23 Nov 2020 02:39:37 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:24782)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kh5p1-00074f-4C; Mon, 23 Nov 2020 01:59:39 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 5BADC5C0101;
- Mon, 23 Nov 2020 01:59:34 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 23 Nov 2020 01:59:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=UzHndcDiAeSOP
- 8LCJAaHGU/fA9PsoWVVDW797xf53gA=; b=u4ZhqBiynK5e/+XvAcfGJ+yemSE+A
- jhqESbFsldAXpA5XWfiSPy5EL2K/YneqB3djMzUbbQlQGwY7jrdnhZfNpiRM7Cqj
- iXWkBP3iWz1TK9NnNmOX2ZVKduR+AZPiqfWzlEtFxWNsLTPh7nNIrBK/yJ5ayRRA
- sl/rVkNpjrOpk237a2vxbnLT+XKYwAy+c677h8SVzaRZIFrTbuxahwARc4G3KDuP
- 8Oc6BHlgeUB3f0u+H9NX8ud2VzRyO+x0PF0lIAplfWKvsmicwWqoj9re3lmP7i3B
- E4b6Y/z0iGlb3ntW9sLKI0dIiU+6zGr0C9bI/141l8zK/sI3N+9aJ419g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=UzHndcDiAeSOP8LCJAaHGU/fA9PsoWVVDW797xf53gA=; b=jVtXdLeJ
- Q6WRWyqXJwHt3g8I97x0SD4ICOY9a35bf+Hdu9WfSopwSbbdIvdvcgQaq7Yf6IZ9
- Z/16+9s+RPZaWYrd7Ldq/hwy0++lUAqbFtu10SRq9j6c9dC2k2uG15cbkrSbjt0H
- FXtaV/gkIrXxeoiLs7kVyExHzQD0X8SsdG4PCOBonpjTtCRnCpiCdd55uvsuFqU+
- aX6fY3QKV+dimzMCryb6rQ5hJrozGrnwcSPJrqbAUv5EFcvr2Sz1bcQbmDv9GHYW
- NEoe5EBdELbLoVq4VKaavOm//fI/1d8NF9qC8FDVJyaXXi05Ppfi/a9edbYS3S1z
- 7am0mroLjy2gvg==
-X-ME-Sender: <xms:1l27X9EavB3cHo61c8iwAn-Ysn_tIyJC1DOBqu85QEnoZeB8-vIRBA>
- <xme:1l27XyVN0efb2Vp4N7nhWcvrONxuzSjKwcB0GkJgl1XQMMHRetu2d2M8h27xbUECj
- vU-aZ7roocdyhf4yR0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeghedgleekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:1l27X_Ju6er4JkmDbKFFpjceyQminJ3e9I4L0rqnDq20L2TChGRPnw>
- <xmx:1l27XzEVDSdkGOhebO-U8WeAqA8ZBF2tBjzlEZOMbeV4pjx8yVeUAQ>
- <xmx:1l27XzXQC6U7KC42QiKqzsPfci-93wqhNXPxStApthUV6dTXyN8BBA>
- <xmx:1l27X5dPCG8Uh9NwbSr6x43GDptQ_QnxWnp4Ja_Hcc2bC8PJOL9dmw>
-Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 1A0973280064;
- Mon, 23 Nov 2020 01:59:33 -0500 (EST)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] hw/block/nvme: allow cmb and pmr to coexist
-Date: Mon, 23 Nov 2020 07:59:27 +0100
-Message-Id: <20201123065927.108923-4-its@irrelevant.dk>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201123065927.108923-1-its@irrelevant.dk>
-References: <20201123065927.108923-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1kh6Ri-0004ob-GC; Mon, 23 Nov 2020 02:39:36 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0AN7WjJ4151864; Mon, 23 Nov 2020 02:39:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=tFNLDboKIDxCJKt0YCDy6XglL+IyPA2QMTMybfGhTdY=;
+ b=RL4QM5BKQh0xAFvEy1WSKUJjcSlNZddNy03OFwzFBNKRyM/wAytRl4uw3nMrM9/wGNk9
+ P8qgeiJ/2QazvnlafhTFs9Gv6kHOTlkOZuD3RtIMmYx5rcD4+JdU+nlOiBdsj5ENBq51
+ jO8AaZniFRPBuyeI7Eb1c9jXqloxbMQMzrtXSCr5+95cegY1z45VNzwcAaDGuvksDIXs
+ o7esJJUC4YHjSwm3juovsXiPsSq7zQLi4+IzhEKsidZgJ/Hnk4+j5f1WhhM18SYLQwqA
+ RR9i23jqfKRi43MjdqtmhUQi7eKXL5qwkRlL9pg4kQ5X7zgVVDckpp4P2xzTuMv470kE 7g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34yvnrddx8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 23 Nov 2020 02:39:28 -0500
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0AN7XaPo157163;
+ Mon, 23 Nov 2020 02:39:28 -0500
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34yvnrddw9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 23 Nov 2020 02:39:28 -0500
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0AN7WWjf026829;
+ Mon, 23 Nov 2020 07:39:26 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma06ams.nl.ibm.com with ESMTP id 34xt5ha828-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 23 Nov 2020 07:39:25 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0AN7dNMF60555524
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 23 Nov 2020 07:39:23 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0A16B4C04E;
+ Mon, 23 Nov 2020 07:39:23 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9FE064C044;
+ Mon, 23 Nov 2020 07:39:22 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.171.54.238])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 23 Nov 2020 07:39:22 +0000 (GMT)
+Subject: Re: [PATCH v2 2/2] pc-bios: s390x: Clear out leftover S390EP string
+To: Eric Farman <farman@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>
+References: <20201120160117.59366-1-farman@linux.ibm.com>
+ <20201120160117.59366-3-farman@linux.ibm.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Message-ID: <e29df739-baca-cd0a-d1d9-a690c0238ca4@de.ibm.com>
+Date: Mon, 23 Nov 2020 08:39:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <20201120160117.59366-3-farman@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
+ definitions=2020-11-23_02:2020-11-20,
+ 2020-11-23 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 impostorscore=0
+ mlxlogscore=999 spamscore=0 suspectscore=0 priorityscore=1501
+ malwarescore=0 mlxscore=0 bulkscore=0 lowpriorityscore=0 phishscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011230052
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,93 +111,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>,
- Andrzej Jakowski <andrzej.jakowski@linux.intel.com>,
- Keith Busch <kbusch@kernel.org>
+Cc: Jason Herne <jjherne@linux.ibm.com>, qemu-s390x@nongnu.org,
+ Janosch Frank <frankja@linux.ibm.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+On 20.11.20 17:01, Eric Farman wrote:
+> A Linux binary will have the string "S390EP" at address 0x10008,
+> which is important in getting the guest up off the ground. In the
+> case of a reboot (specifically chreipl going to a new device),
+> we should defer to the PSW at address zero for the new config,
+> which will re-write "S390EP" from the new image.
+> 
+> Let's clear it out at this point so that a reipl to, say, a DASD
+> passthrough device drives the IPL path from scratch without disrupting
+> disrupting the order of operations for other boots.
+> 
+> Rather than hardcoding the address of this magic (again), let's
+> define it somewhere so that the two users are visibly related.
 
-With BAR 4 now free to use, allow PMR and CMB to be enabled
-simultaneously.
 
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/block/nvme.c | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
+Hmmm, this might have side effects, e.g. if you do something like a kdump
+or kexec to a non-Linux binary that happens to have code at 0x10008, no?
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index db8c5ae2f527..72d5449121c7 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -28,14 +28,13 @@
-  * Note cmb_size_mb denotes size of CMB in MB. CMB is assumed to be at
-  * offset 0 in BAR2 and supports only WDS, RDS and SQS for now.
-  *
-- * cmb_size_mb= and pmrdev= options are mutually exclusive due to limitation
-- * in available BAR's. cmb_size_mb= will take precedence over pmrdev= when
-- * both provided.
-  * Enabling pmr emulation can be achieved by pointing to memory-backend-file.
-  * For example:
-  * -object memory-backend-file,id=<mem_id>,share=on,mem-path=<file_path>, \
-  *  size=<size> .... -device nvme,...,pmrdev=<mem_id>
-  *
-+ * The PMR will use BAR 4/5 exclusively.
-+ *
-  *
-  * nvme device parameters
-  * ~~~~~~~~~~~~~~~~~~~~~~
-@@ -76,7 +75,7 @@
- #define NVME_DB_SIZE  4
- #define NVME_SPEC_VER 0x00010300
- #define NVME_CMB_BIR 2
--#define NVME_PMR_BIR 2
-+#define NVME_PMR_BIR 4
- #define NVME_TEMPERATURE 0x143
- #define NVME_TEMPERATURE_WARNING 0x157
- #define NVME_TEMPERATURE_CRITICAL 0x175
-@@ -2520,7 +2519,7 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
-         return;
-     }
- 
--    if (!n->params.cmb_size_mb && n->pmrdev) {
-+    if (n->pmrdev) {
-         if (host_memory_backend_is_mapped(n->pmrdev)) {
-             error_setg(errp, "can't use already busy memdev: %s",
-                        object_get_canonical_path_component(OBJECT(n->pmrdev)));
-@@ -2610,9 +2609,6 @@ static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
- 
- static void nvme_init_pmr(NvmeCtrl *n, PCIDevice *pci_dev)
- {
--    /* Controller Capabilities register */
--    NVME_CAP_SET_PMRS(n->bar.cap, 1);
--
-     /* PMR Capabities register */
-     n->bar.pmrcap = 0;
-     NVME_PMRCAP_SET_RDS(n->bar.pmrcap, 0);
-@@ -2705,7 +2701,9 @@ static void nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
- 
-     if (n->params.cmb_size_mb) {
-         nvme_init_cmb(n, pci_dev);
--    } else if (n->pmrdev) {
-+    }
-+
-+    if (n->pmrdev) {
-         nvme_init_pmr(n, pci_dev);
-     }
- }
-@@ -2775,6 +2773,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-     NVME_CAP_SET_CSS(n->bar.cap, NVME_CAP_CSS_ADMIN_ONLY);
-     NVME_CAP_SET_MPSMAX(n->bar.cap, 4);
-     NVME_CAP_SET_CMBS(n->bar.cap, n->params.cmb_size_mb ? 1 : 0);
-+    NVME_CAP_SET_PMRS(n->bar.cap, n->pmrdev ? 1 : 0);
- 
-     n->bar.vs = NVME_SPEC_VER;
-     n->bar.intmc = n->bar.intms = 0;
--- 
-2.29.2
+As far as I can tell, the problem should only happen for a ccw type IPL
+so why not
+
+[...]
+> --- a/pc-bios/s390-ccw/main.c
+> +++ b/pc-bios/s390-ccw/main.c
+> @@ -178,6 +178,12 @@ static void boot_setup(void)
+>      memcpy(lpmsg + 10, loadparm_str, 8);
+>      sclp_print(lpmsg);
+>  
+> +    /*
+> +     * Clear out any potential S390EP magic (see jump_to_low_kernel()),
+> +     * so we don't taint our decision-making process during a reboot.
+> +     */
+> +    memset((char *)S390EP, 0, 6);
+
+
+move this into find_subch
+in here:
+------------- snip ---------------
+            case CU_TYPE_DASD_3990:
+            case CU_TYPE_DASD_2107:
+                return true;
+------------- snip ---------------
 
 
