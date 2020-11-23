@@ -2,59 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EEDA2C047F
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 12:27:24 +0100 (CET)
-Received: from localhost ([::1]:44726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 585722C0483
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 12:29:11 +0100 (CET)
+Received: from localhost ([::1]:51612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khA0B-00011s-37
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 06:27:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51726)
+	id 1khA1u-0003rw-EJ
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 06:29:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kh9y6-0007kf-1U; Mon, 23 Nov 2020 06:25:14 -0500
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:59955)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kh9y3-0004UJ-GA; Mon, 23 Nov 2020 06:25:13 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.27])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id B824A74904B0;
- Mon, 23 Nov 2020 12:25:06 +0100 (CET)
-Received: from kaod.org (37.59.142.100) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Mon, 23 Nov
- 2020 12:25:05 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-100R0034a19f1c0-5181-4ff7-a9f7-cbeeaf96c647,
- 7563B3C8582C4E5C569F12427BEE2CF3FAD9DE82) smtp.auth=groug@kaod.org
-Date: Mon, 23 Nov 2020 12:25:02 +0100
-From: Greg Kurz <groug@kaod.org>
-To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH for-6.0 3/8] spapr/xive: Add "nr-servers" property
-Message-ID: <20201123122502.61b81380@bahia.lan>
-In-Reply-To: <69f0fcaa-e43f-488c-9c14-c504a4fd762e@kaod.org>
-References: <20201120174646.619395-1-groug@kaod.org>
- <20201120174646.619395-4-groug@kaod.org>
- <69f0fcaa-e43f-488c-9c14-c504a4fd762e@kaod.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kh9yH-0007mn-7V
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:25:25 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:39473)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kh9yF-0004b8-41
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:25:24 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id e7so690208wrv.6
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 03:25:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=WfUfuw/VZfNk6rZrj2BudIVJmoj83o5cwK3Oq8p5jEs=;
+ b=EiOGA+9n/D+Wd2rn1Q8hQ0S7YsOrLBG1Ug1bVXOM0RV3Ujs/eSUR+jUOvQt32WYAZw
+ qziN/3CVRvC6KFasb/fQRdRzk80MF6vPxlfbHDUlL31tV0Yz6zk9ckpjh16yfZ5rOYBk
+ 00NguIBA0j+WGwAtjfuwrZARONDmYV7db9nn4Q59T0DD1uaef5OwtbgX96oygNMb66wg
+ YIVj969E2Lo1jmKkXq9A/C9dMa+29IvrpKUj34O3/OFMPLJgMIQ4KjDdbBf/+VOgDTiy
+ V87HHlic8onu2HAcZQejPmaCjWKDrZ4deKmOXvnUs22Dj0UkvmviMFzypRhZFxHTqYX1
+ K9mA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=WfUfuw/VZfNk6rZrj2BudIVJmoj83o5cwK3Oq8p5jEs=;
+ b=iQRQ1JSGAh2H4k2LMCYhhKfXog1bsgmcR/i7MGCU/2/TITdUTHduaUiUTABbn+ozTg
+ S0aB2V4q7JocSE/7W4cO9Ky5h8JfT5T9jXdwNmDU3Cph5k+Z2OKcpqn2dGe3OqiUD6pw
+ Fnu96v8suVEYfLD1Z0hjXiKy0oypZE9uJr1Mp8khS+4NPjccBLntJ8xx65cLjhLfo6lA
+ ROY34R+/6OmTKDAoNEGLHNv3BH7CjUHu1R0uBwy3ui8MQjH4ZgQCNV9AFfK9/8Gb3hGQ
+ 1qlKsyHa/kGqWySDpDzCdoDcT0GzrlNAMb8KWFpdGFHTg5Yc739LFA/5TBU+35zHfgJc
+ CcQA==
+X-Gm-Message-State: AOAM531Li3ombwOQA3YdCYXkxza+pMwLSQv/WRk4o/+jlECaX9NriMw4
+ UekMEN8FmbF7v2bKAn5P2ewVbw==
+X-Google-Smtp-Source: ABdhPJw05++nLoL+JX5o5g/bKe1D9A7A0yEfdNa033XHKUEaLuOk28NebwwbtOPfk5ewt06vtfL8lQ==
+X-Received: by 2002:adf:fc01:: with SMTP id i1mr30130332wrr.250.1606130721333; 
+ Mon, 23 Nov 2020 03:25:21 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id s25sm15719458wmh.16.2020.11.23.03.25.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Nov 2020 03:25:19 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C0BCF1FF7E;
+ Mon, 23 Nov 2020 11:25:18 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Subject: [PULL for 5.2-rc3 0/7] various CI cleanups (scripts, avocado, gitlab)
+Date: Mon, 23 Nov 2020 11:25:11 +0000
+Message-Id: <20201123112518.13425-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [37.59.142.100]
-X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: f528a4ad-6ee4-4a73-a178-070c290704ea
-X-Ovh-Tracer-Id: 11246051222891239904
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudegiedgvdelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeevlefhtddufffhieevhefhleegleelgfetffetkedugeehjeffgfehhfefueduffenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
- helo=smtpout1.mo804.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,221 +84,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 23 Nov 2020 10:56:13 +0100
-C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+The following changes since commit 8cc30eb1400fc01f2b139cdd3dc524f8b84dbe07:
 
-> On 11/20/20 6:46 PM, Greg Kurz wrote:
-> > The sPAPR XIVE object has an "nr-ends" property that is used
-> > to size the END table. This property is set by the machine
-> > code to a value derived from spapr_max_server_number().
->=20
-> Yes. This is done at the machine level.
->=20
-> > spapr_max_server_number() is also used to inform the KVM XIVE
-> > device about the range of vCPU ids it might be exposed to,
-> > in order to optimize resource allocation in the HW.
->=20
-> Yes. It's deeply buried in the spapr/irq/xive/kvm layers but it is
-> called by set_active_intc() which is, for me, a machine level=20
-> operation.
->=20
-> The only other place where the number of vCPUs is used is in=20
-> spapr_xive_dt() to define the vCPU IPI range, which done at
-> the machine level again.
->=20
+  Merge remote-tracking branch 'remotes/mcayland/tags/qemu-sparc-20201122' into staging (2020-11-22 15:02:52 +0000)
 
-spapr_max_server_number() isn't the number of vCPUs. It is the
-number of consecutive vCPU ids the IC might be exposed to,
-starting from 0.
+are available in the Git repository at:
 
-> So I don't agree with this patch.
->=20
+  https://github.com/stsquad/qemu.git tags/pull-for-5.2-rc3-231120-1
 
-As said in another mail, I'll try a different approach.
+for you to fetch changes up to 534f80e1dffbf520bed9bf5fd5ae98de6662e126:
 
-> C.
->=20
->=20
-> > This is enough motivation to introduce an "nr-servers" property
-> > and to use it for both purposes. The existing "nr-ends" property
-> > is now longer used. It is kept around though because it is exposed
-> > to -global. It will continue to be ignored as before without
-> > causing QEMU to exit.
-> >=20
-> > The associated nr_ends field cannot be dropped from SpaprXive
-> > because it is explicitly used by vmstate_spapr_xive(). It is
-> > thus renamed to nr_ends_vmstate.
-> >=20
-> > Signed-off-by: Greg Kurz <groug@kaod.org>
-> > ---
-> >  include/hw/ppc/spapr_xive.h | 16 +++++++++++++++-
-> >  hw/intc/spapr_xive.c        | 28 ++++++++++++++++++++++------
-> >  hw/ppc/spapr_irq.c          |  6 +-----
-> >  3 files changed, 38 insertions(+), 12 deletions(-)
-> >=20
-> > diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
-> > index 4b967f13c030..7123ea07ed78 100644
-> > --- a/include/hw/ppc/spapr_xive.h
-> > +++ b/include/hw/ppc/spapr_xive.h
-> > @@ -23,6 +23,16 @@
-> >  typedef struct SpaprXive {
-> >      XiveRouter    parent;
-> > =20
-> > +    /*
-> > +     * The XIVE device needs to know the highest vCPU id it might
-> > +     * be exposed to in order to size the END table. It may also
-> > +     * propagate the value to the KVM XIVE device in order to
-> > +     * optimize resource allocation in the HW.
-> > +     * This must be set to a non-null value using the "nr-servers"
-> > +     * property, before realizing the device.
-> > +     */
-> > +    uint32_t      nr_servers;
-> > +
-> >      /* Internal interrupt source for IPIs and virtual devices */
-> >      XiveSource    source;
-> >      hwaddr        vc_base;
-> > @@ -38,7 +48,11 @@ typedef struct SpaprXive {
-> >      XiveEAS       *eat;
-> >      uint32_t      nr_irqs;
-> >      XiveEND       *endt;
-> > -    uint32_t      nr_ends;
-> > +    /*
-> > +     * This is derived from nr_servers but it must be kept around beca=
-use
-> > +     * vmstate_spapr_xive uses it.
-> > +     */
-> > +    uint32_t      nr_ends_vmstate;
-> > =20
-> >      /* TIMA mapping address */
-> >      hwaddr        tm_base;
-> > diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-> > index f473ad9cba47..e4dbf9c2c409 100644
-> > --- a/hw/intc/spapr_xive.c
-> > +++ b/hw/intc/spapr_xive.c
-> > @@ -99,6 +99,12 @@ int spapr_xive_end_to_target(uint8_t end_blk, uint32=
-_t end_idx,
-> >      return 0;
-> >  }
-> > =20
-> > +/*
-> > + * 8 XIVE END structures per CPU. One for each available
-> > + * priority
-> > + */
-> > +#define spapr_xive_cpu_end_idx(vcpu, prio) (((vcpu) << 3) + prio)
-> > +
-> >  static void spapr_xive_cpu_to_end(PowerPCCPU *cpu, uint8_t prio,
-> >                                    uint8_t *out_end_blk, uint32_t *out_=
-end_idx)
-> >  {
-> > @@ -109,7 +115,7 @@ static void spapr_xive_cpu_to_end(PowerPCCPU *cpu, =
-uint8_t prio,
-> >      }
-> > =20
-> >      if (out_end_idx) {
-> > -        *out_end_idx =3D (cpu->vcpu_id << 3) + prio;
-> > +        *out_end_idx =3D spapr_xive_cpu_end_idx(cpu->vcpu_id, prio);
-> >      }
-> >  }
-> > =20
-> > @@ -290,7 +296,8 @@ static void spapr_xive_instance_init(Object *obj)
-> > =20
-> >  uint32_t spapr_xive_nr_ends(const SpaprXive *xive)
-> >  {
-> > -    return xive->nr_ends;
-> > +    g_assert(xive->nr_servers);
-> > +    return spapr_xive_cpu_end_idx(xive->nr_servers, 0);
-> >  }
-> > =20
-> >  static void spapr_xive_realize(DeviceState *dev, Error **errp)
-> > @@ -303,7 +310,7 @@ static void spapr_xive_realize(DeviceState *dev, Er=
-ror **errp)
-> > =20
-> >      /* Set by spapr_irq_init() */
-> >      g_assert(xive->nr_irqs);
-> > -    g_assert(xive->nr_ends);
-> > +    g_assert(xive->nr_servers);
-> > =20
-> >      sxc->parent_realize(dev, &local_err);
-> >      if (local_err) {
-> > @@ -360,6 +367,8 @@ static void spapr_xive_realize(DeviceState *dev, Er=
-ror **errp)
-> >      sysbus_mmio_map(SYS_BUS_DEVICE(xive), 0, xive->vc_base);
-> >      sysbus_mmio_map(SYS_BUS_DEVICE(xive), 1, xive->end_base);
-> >      sysbus_mmio_map(SYS_BUS_DEVICE(xive), 2, xive->tm_base);
-> > +
-> > +    xive->nr_ends_vmstate =3D spapr_xive_nr_ends(xive);
-> >  }
-> > =20
-> >  static int spapr_xive_get_eas(XiveRouter *xrtr, uint8_t eas_blk,
-> > @@ -547,7 +556,7 @@ static const VMStateDescription vmstate_spapr_xive =
-=3D {
-> >          VMSTATE_UINT32_EQUAL(nr_irqs, SpaprXive, NULL),
-> >          VMSTATE_STRUCT_VARRAY_POINTER_UINT32(eat, SpaprXive, nr_irqs,
-> >                                       vmstate_spapr_xive_eas, XiveEAS),
-> > -        VMSTATE_STRUCT_VARRAY_POINTER_UINT32(endt, SpaprXive, nr_ends,
-> > +        VMSTATE_STRUCT_VARRAY_POINTER_UINT32(endt, SpaprXive, nr_ends_=
-vmstate,
-> >                                               vmstate_spapr_xive_end, X=
-iveEND),
-> >          VMSTATE_END_OF_LIST()
-> >      },
-> > @@ -591,7 +600,14 @@ static void spapr_xive_free_irq(SpaprInterruptCont=
-roller *intc, int lisn)
-> > =20
-> >  static Property spapr_xive_properties[] =3D {
-> >      DEFINE_PROP_UINT32("nr-irqs", SpaprXive, nr_irqs, 0),
-> > -    DEFINE_PROP_UINT32("nr-ends", SpaprXive, nr_ends, 0),
-> > +    /*
-> > +     * "nr-ends" is deprecated by "nr-servers" since QEMU 6.0.
-> > +     * It is just kept around because it is exposed to the user
-> > +     * through -global and we don't want it to fail, even if
-> > +     * the value is actually overridden internally.
-> > +     */
-> > +    DEFINE_PROP_UINT32("nr-ends", SpaprXive, nr_ends_vmstate, 0),
-> > +    DEFINE_PROP_UINT32("nr-servers", SpaprXive, nr_servers, 0),
-> >      DEFINE_PROP_UINT64("vc-base", SpaprXive, vc_base, SPAPR_XIVE_VC_BA=
-SE),
-> >      DEFINE_PROP_UINT64("tm-base", SpaprXive, tm_base, SPAPR_XIVE_TM_BA=
-SE),
-> >      DEFINE_PROP_UINT8("hv-prio", SpaprXive, hv_prio, 7),
-> > @@ -742,7 +758,7 @@ static int spapr_xive_activate(SpaprInterruptContro=
-ller *intc,
-> >      SpaprXive *xive =3D SPAPR_XIVE(intc);
-> > =20
-> >      if (kvm_enabled()) {
-> > -        int rc =3D spapr_irq_init_kvm(kvmppc_xive_connect, intc, nr_se=
-rvers,
-> > +        int rc =3D spapr_irq_init_kvm(kvmppc_xive_connect, intc, xive-=
->nr_servers,
-> >                                      errp);
-> >          if (rc < 0) {
-> >              return rc;
-> > diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> > index f59960339ec3..8c5627225636 100644
-> > --- a/hw/ppc/spapr_irq.c
-> > +++ b/hw/ppc/spapr_irq.c
-> > @@ -330,11 +330,7 @@ void spapr_irq_init(SpaprMachineState *spapr, Erro=
-r **errp)
-> > =20
-> >          dev =3D qdev_new(TYPE_SPAPR_XIVE);
-> >          qdev_prop_set_uint32(dev, "nr-irqs", smc->nr_xirqs + SPAPR_XIR=
-Q_BASE);
-> > -        /*
-> > -         * 8 XIVE END structures per CPU. One for each available
-> > -         * priority
-> > -         */
-> > -        qdev_prop_set_uint32(dev, "nr-ends", nr_servers << 3);
-> > +        qdev_prop_set_uint32(dev, "nr-servers", nr_servers);
-> >          object_property_set_link(OBJECT(dev), "xive-fabric", OBJECT(sp=
-apr),
-> >                                   &error_abort);
-> >          sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-> >=20
->=20
+  .cirrus.yml: bump timeout period for MacOS builds (2020-11-23 09:55:25 +0000)
+
+----------------------------------------------------------------
+Misc CI fixes:
+
+  - more helpful logic for git-pipeline-status
+  - fix tempdir leak in avocado
+  - move remaining x86 check-tcg to gitlab
+  - add tracing headers to ubuntu2004 docker
+  - move tracing backend tests to gitlab
+  - bump up timeouts on cirrus MacOS
+
+----------------------------------------------------------------
+Alex Bennée (5):
+      scripts/ci: clean up default args logic a little
+      tests: add prefixes to the bare mkdtemp calls
+      tests/avocado: clean-up socket directory after run
+      gitlab: move remaining x86 check-tcg targets to gitlab
+      .cirrus.yml: bump timeout period for MacOS builds
+
+Philippe Mathieu-Daudé (2):
+      tests/docker: Install liblttng-ust-dev package in Ubuntu 20.04 image
+      gitlab-ci: Move trace backend tests across to gitlab
+
+ .cirrus.yml                                |  2 ++
+ .gitlab-ci.yml                             | 35 +++++++++++++++++++++++
+ .travis.yml                                | 45 ------------------------------
+ python/qemu/machine.py                     |  3 +-
+ scripts/ci/gitlab-pipeline-status          | 24 ++++++++--------
+ tests/acceptance/avocado_qemu/__init__.py  |  4 ++-
+ tests/docker/dockerfiles/ubuntu2004.docker |  1 +
+ 7 files changed, 56 insertions(+), 58 deletions(-)
+
+-- 
+2.20.1
 
 
