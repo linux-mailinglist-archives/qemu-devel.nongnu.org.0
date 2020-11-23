@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D35402C1746
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 22:10:36 +0100 (CET)
-Received: from localhost ([::1]:59716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA99C2C178C
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 22:20:25 +0100 (CET)
+Received: from localhost ([::1]:55268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khJ6Z-0008Pn-Rx
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 16:10:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46914)
+	id 1khJG4-0001kL-Lx
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 16:20:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1khIjL-0002QU-RE
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 15:46:36 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:55924)
+ id 1khIjR-0002XY-Cj
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 15:46:41 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:50286)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1khIjI-0001mr-SN
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 15:46:35 -0500
-Received: by mail-wm1-x332.google.com with SMTP id x22so602134wmc.5
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 12:46:31 -0800 (PST)
+ id 1khIjN-0001om-Uc
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 15:46:41 -0500
+Received: by mail-wm1-x333.google.com with SMTP id c198so628625wmd.0
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 12:46:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=U7NTzUqpG+USX3MdIDzS5276z0nx/Isk7EgCIUUfDCc=;
- b=so/llHmZNxnEbbPTXJQue3XieQ29fczo7/R8hV9nuVMU64aLwO/kU6wCynGDJ0nyFY
- E2pAv3tz5icMXxDuvDLFBfuekua9tz/cfJG/yFL+psC0ihc4ltdqbmu1ACQJDFVzPx6v
- ONGhW3nud08eyRFYyN55tjibIH2DJ6h+j2U30SXg4kjcpg0/byZ3AmvT3PnYh3mzlsUl
- mSNRfE1FKxlMvSYcE+WhdGyE2QgMZLbEhmkHFJIUHe/I7Bod0Ja/OInzME9JhVqEdS5G
- wVPHOb4e0G1lIJBHiaedaQOht1OK/1Go5+oHB4OVQDUUDwPRCY6ZFV9RqCQxllUyLAvn
- cPzQ==
+ bh=wzjpmD/cVMaQhUz0TjxaCicaPXOpKMRCXqJxa9f0/F0=;
+ b=PqViStlsyODrHDB90o69yIo57eKQSUEN/O3mPLEb/Jfp3s7NOxLyMEuQG/b+9A/bTx
+ WhJMyGlPX6leCJvpYOtv8mluVFlFMXF9ekD8gBbnz28U8dUi3dGD3yDy5YoiFZOhZ9uH
+ Hlt4VUFMoYhS2TefCEZzRTs3FcI1KoD0xCPJyzhpgYxNO9IO2KqfhQUX6HVmn+h7Jao0
+ yEQ7sCiPoLgGt9mYHa3zJzgj00yrhbssGzFO2vYqaYWBCONjn9dPIZaJQzxKnca9qWcD
+ +f+i4iWAzYy9Mepes7omIu0CKdkJJwiHVWDDBAol2oRtig9MxAzArDxPpKY+Np8Imn/b
+ 9DtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=U7NTzUqpG+USX3MdIDzS5276z0nx/Isk7EgCIUUfDCc=;
- b=pGLGre40s8s3akuCGaT72Qenzv5jP87NLNUFxNJ53KPnm2jRaFps9dj3nyydGWsewo
- dNSE705C3t+NOUJRIEtGlQDDtYgc2pCCb0VE2lHtMHLP8c+vvQypkcw4yWDzP19Y6PIx
- 2bI9/ivsJ+4iCJQw2No0CkQHzE444v7NWK8ros2fcNwtLeKJDkIB+pK1HdbdKOqgzB4N
- Oq3rN94oslg07yAqMIAZKHsMB2noShGrjprJC1CAStLJZlGhXSiYGKvNA0AxcEBH/TXl
- FkH6F0Sl+lcEvn5GrnjXiddRh4A1CLYKfoGoYgYlkF/HRGxwI6ZOBAIBBCv8i0nDxObZ
- cbCQ==
-X-Gm-Message-State: AOAM533EMjcqbp360FhImilDEb8SydcXnY/LKGxRWB2XiKxkkw3qTgSV
- fIfZtNF66M8lEWOwOVqOmalMzysKdzg=
-X-Google-Smtp-Source: ABdhPJwpDRXIedEQH8k+it6rMY2k1t7clw3UyGqrlwxx9LM0RIA5ruVkHSYXU7IndVVUEzrY97jr1w==
-X-Received: by 2002:a1c:9695:: with SMTP id y143mr740023wmd.70.1606164390087; 
- Mon, 23 Nov 2020 12:46:30 -0800 (PST)
+ bh=wzjpmD/cVMaQhUz0TjxaCicaPXOpKMRCXqJxa9f0/F0=;
+ b=qrv/0xFEeHA4Ayzo78iTPvie1ntZMN84qmQKL4Zs8UYwO2dAJIVdVP9Pc+L+xe4kHC
+ ODK/iln2I6Bcr+F2g7aZ2mx+cbwiCeQaF9Cj69S1Fccx97EjqtxoTlO/9KQexRx2nA4+
+ bwwC2CrTtSU4AoTYfoUOG34OMoj/SxoY2AEnuzvC7p5AE0w0BK42tP4BKjUFv36d5R7F
+ mkVZb92NmisBEbeFPAAx+jK+uA6qdY7z5Gqlp7jPrMtG4PfNlElavMSEhbLaLwvPzGIu
+ 59mNj0jblmD+iFzp7qY8fCuwgpb7+b88gVAC95DTni5Ljn/0d93haiVZSa9Uoia8H2g6
+ Jltw==
+X-Gm-Message-State: AOAM533L44SJIa2zuYW4LHdHOKia0vRGumFEwya3koEDce8KQXuMDzxa
+ VBTbRoW2MZOweBnQKNRejE1gI9Y+rJ0=
+X-Google-Smtp-Source: ABdhPJywagLuIpauFc6CBaev1IhkZyzJdSRm67zblB7d/mv9hD4UmAWEC01MLHIBO4w6hlHIYXCMrg==
+X-Received: by 2002:a1c:a9c4:: with SMTP id s187mr737360wme.180.1606164395071; 
+ Mon, 23 Nov 2020 12:46:35 -0800 (PST)
 Received: from x1w.redhat.com (111.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id z17sm854447wmf.15.2020.11.23.12.46.28
+ by smtp.gmail.com with ESMTPSA id c64sm758259wmd.41.2020.11.23.12.46.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Nov 2020 12:46:29 -0800 (PST)
+ Mon, 23 Nov 2020 12:46:34 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 20/28] target/mips: Extract Loongson SIMD translation
+Subject: [PATCH v2 21/28] target/mips: Extract Loongson EXTensions translation
  routines
-Date: Mon, 23 Nov 2020 21:44:40 +0100
-Message-Id: <20201123204448.3260804-21-f4bug@amsat.org>
+Date: Mon, 23 Nov 2020 21:44:41 +0100
+Message-Id: <20201123204448.3260804-22-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201123204448.3260804-1-f4bug@amsat.org>
 References: <20201123204448.3260804-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,1026 +91,1372 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-LoongSIMD (formerly LoongMMI in Loongson 2E/F) is the
-128-bit SIMD extension from the LoongISA.
+LoongEXTs are general-purpose extensions from the LoongISA.
 
-Extract ~500 lines of translation routines to
-'vendor-loong-simd_translate.c.inc'.
+Extract 650 lines of translation routines to
+'vendor-loong-ext_translate.c.inc'.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20201120210844.2625602-19-f4bug@amsat.org>
 ---
- target/mips/translate.c                       | 483 +----------------
- target/mips/vendor-loong-simd_translate.c.inc | 492 ++++++++++++++++++
- 2 files changed, 493 insertions(+), 482 deletions(-)
- create mode 100644 target/mips/vendor-loong-simd_translate.c.inc
+ target/mips/translate.c                      | 652 +-----------------
+ target/mips/vendor-loong-ext_translate.c.inc | 665 +++++++++++++++++++
+ 2 files changed, 666 insertions(+), 651 deletions(-)
+ create mode 100644 target/mips/vendor-loong-ext_translate.c.inc
 
 diff --git a/target/mips/translate.c b/target/mips/translate.c
-index ca2e79d955a..745bf9a9dd9 100644
+index 745bf9a9dd9..90ab84c69a3 100644
 --- a/target/mips/translate.c
 +++ b/target/mips/translate.c
-@@ -639,103 +639,6 @@ enum {
-     OPC_BC2NEZ  = (0x0D << 21) | OPC_CP2,
+@@ -330,19 +330,6 @@ enum {
+     OPC_MUL      = 0x02 | OPC_SPECIAL2,
+     OPC_MSUB     = 0x04 | OPC_SPECIAL2,
+     OPC_MSUBU    = 0x05 | OPC_SPECIAL2,
+-    /* Loongson 2F */
+-    OPC_MULT_G_2F   = 0x10 | OPC_SPECIAL2,
+-    OPC_DMULT_G_2F  = 0x11 | OPC_SPECIAL2,
+-    OPC_MULTU_G_2F  = 0x12 | OPC_SPECIAL2,
+-    OPC_DMULTU_G_2F = 0x13 | OPC_SPECIAL2,
+-    OPC_DIV_G_2F    = 0x14 | OPC_SPECIAL2,
+-    OPC_DDIV_G_2F   = 0x15 | OPC_SPECIAL2,
+-    OPC_DIVU_G_2F   = 0x16 | OPC_SPECIAL2,
+-    OPC_DDIVU_G_2F  = 0x17 | OPC_SPECIAL2,
+-    OPC_MOD_G_2F    = 0x1c | OPC_SPECIAL2,
+-    OPC_DMOD_G_2F   = 0x1d | OPC_SPECIAL2,
+-    OPC_MODU_G_2F   = 0x1e | OPC_SPECIAL2,
+-    OPC_DMODU_G_2F  = 0x1f | OPC_SPECIAL2,
+     /* Misc */
+     OPC_CLZ      = 0x20 | OPC_SPECIAL2,
+     OPC_CLO      = 0x21 | OPC_SPECIAL2,
+@@ -412,48 +399,6 @@ enum {
+     R6_OPC_SCD         = 0x27 | OPC_SPECIAL3,
  };
  
--#define MASK_LMMI(op)    (MASK_OP_MAJOR(op) | (op & (0x1F << 21)) | (op & 0x1F))
--
+-/* Loongson EXT load/store quad word opcodes */
+-#define MASK_LOONGSON_GSLSQ(op)           (MASK_OP_MAJOR(op) | (op & 0x8020))
 -enum {
--    OPC_PADDSH      = (24 << 21) | (0x00) | OPC_CP2,
--    OPC_PADDUSH     = (25 << 21) | (0x00) | OPC_CP2,
--    OPC_PADDH       = (26 << 21) | (0x00) | OPC_CP2,
--    OPC_PADDW       = (27 << 21) | (0x00) | OPC_CP2,
--    OPC_PADDSB      = (28 << 21) | (0x00) | OPC_CP2,
--    OPC_PADDUSB     = (29 << 21) | (0x00) | OPC_CP2,
--    OPC_PADDB       = (30 << 21) | (0x00) | OPC_CP2,
--    OPC_PADDD       = (31 << 21) | (0x00) | OPC_CP2,
--
--    OPC_PSUBSH      = (24 << 21) | (0x01) | OPC_CP2,
--    OPC_PSUBUSH     = (25 << 21) | (0x01) | OPC_CP2,
--    OPC_PSUBH       = (26 << 21) | (0x01) | OPC_CP2,
--    OPC_PSUBW       = (27 << 21) | (0x01) | OPC_CP2,
--    OPC_PSUBSB      = (28 << 21) | (0x01) | OPC_CP2,
--    OPC_PSUBUSB     = (29 << 21) | (0x01) | OPC_CP2,
--    OPC_PSUBB       = (30 << 21) | (0x01) | OPC_CP2,
--    OPC_PSUBD       = (31 << 21) | (0x01) | OPC_CP2,
--
--    OPC_PSHUFH      = (24 << 21) | (0x02) | OPC_CP2,
--    OPC_PACKSSWH    = (25 << 21) | (0x02) | OPC_CP2,
--    OPC_PACKSSHB    = (26 << 21) | (0x02) | OPC_CP2,
--    OPC_PACKUSHB    = (27 << 21) | (0x02) | OPC_CP2,
--    OPC_XOR_CP2     = (28 << 21) | (0x02) | OPC_CP2,
--    OPC_NOR_CP2     = (29 << 21) | (0x02) | OPC_CP2,
--    OPC_AND_CP2     = (30 << 21) | (0x02) | OPC_CP2,
--    OPC_PANDN       = (31 << 21) | (0x02) | OPC_CP2,
--
--    OPC_PUNPCKLHW   = (24 << 21) | (0x03) | OPC_CP2,
--    OPC_PUNPCKHHW   = (25 << 21) | (0x03) | OPC_CP2,
--    OPC_PUNPCKLBH   = (26 << 21) | (0x03) | OPC_CP2,
--    OPC_PUNPCKHBH   = (27 << 21) | (0x03) | OPC_CP2,
--    OPC_PINSRH_0    = (28 << 21) | (0x03) | OPC_CP2,
--    OPC_PINSRH_1    = (29 << 21) | (0x03) | OPC_CP2,
--    OPC_PINSRH_2    = (30 << 21) | (0x03) | OPC_CP2,
--    OPC_PINSRH_3    = (31 << 21) | (0x03) | OPC_CP2,
--
--    OPC_PAVGH       = (24 << 21) | (0x08) | OPC_CP2,
--    OPC_PAVGB       = (25 << 21) | (0x08) | OPC_CP2,
--    OPC_PMAXSH      = (26 << 21) | (0x08) | OPC_CP2,
--    OPC_PMINSH      = (27 << 21) | (0x08) | OPC_CP2,
--    OPC_PMAXUB      = (28 << 21) | (0x08) | OPC_CP2,
--    OPC_PMINUB      = (29 << 21) | (0x08) | OPC_CP2,
--
--    OPC_PCMPEQW     = (24 << 21) | (0x09) | OPC_CP2,
--    OPC_PCMPGTW     = (25 << 21) | (0x09) | OPC_CP2,
--    OPC_PCMPEQH     = (26 << 21) | (0x09) | OPC_CP2,
--    OPC_PCMPGTH     = (27 << 21) | (0x09) | OPC_CP2,
--    OPC_PCMPEQB     = (28 << 21) | (0x09) | OPC_CP2,
--    OPC_PCMPGTB     = (29 << 21) | (0x09) | OPC_CP2,
--
--    OPC_PSLLW       = (24 << 21) | (0x0A) | OPC_CP2,
--    OPC_PSLLH       = (25 << 21) | (0x0A) | OPC_CP2,
--    OPC_PMULLH      = (26 << 21) | (0x0A) | OPC_CP2,
--    OPC_PMULHH      = (27 << 21) | (0x0A) | OPC_CP2,
--    OPC_PMULUW      = (28 << 21) | (0x0A) | OPC_CP2,
--    OPC_PMULHUH     = (29 << 21) | (0x0A) | OPC_CP2,
--
--    OPC_PSRLW       = (24 << 21) | (0x0B) | OPC_CP2,
--    OPC_PSRLH       = (25 << 21) | (0x0B) | OPC_CP2,
--    OPC_PSRAW       = (26 << 21) | (0x0B) | OPC_CP2,
--    OPC_PSRAH       = (27 << 21) | (0x0B) | OPC_CP2,
--    OPC_PUNPCKLWD   = (28 << 21) | (0x0B) | OPC_CP2,
--    OPC_PUNPCKHWD   = (29 << 21) | (0x0B) | OPC_CP2,
--
--    OPC_ADDU_CP2    = (24 << 21) | (0x0C) | OPC_CP2,
--    OPC_OR_CP2      = (25 << 21) | (0x0C) | OPC_CP2,
--    OPC_ADD_CP2     = (26 << 21) | (0x0C) | OPC_CP2,
--    OPC_DADD_CP2    = (27 << 21) | (0x0C) | OPC_CP2,
--    OPC_SEQU_CP2    = (28 << 21) | (0x0C) | OPC_CP2,
--    OPC_SEQ_CP2     = (29 << 21) | (0x0C) | OPC_CP2,
--
--    OPC_SUBU_CP2    = (24 << 21) | (0x0D) | OPC_CP2,
--    OPC_PASUBUB     = (25 << 21) | (0x0D) | OPC_CP2,
--    OPC_SUB_CP2     = (26 << 21) | (0x0D) | OPC_CP2,
--    OPC_DSUB_CP2    = (27 << 21) | (0x0D) | OPC_CP2,
--    OPC_SLTU_CP2    = (28 << 21) | (0x0D) | OPC_CP2,
--    OPC_SLT_CP2     = (29 << 21) | (0x0D) | OPC_CP2,
--
--    OPC_SLL_CP2     = (24 << 21) | (0x0E) | OPC_CP2,
--    OPC_DSLL_CP2    = (25 << 21) | (0x0E) | OPC_CP2,
--    OPC_PEXTRH      = (26 << 21) | (0x0E) | OPC_CP2,
--    OPC_PMADDHW     = (27 << 21) | (0x0E) | OPC_CP2,
--    OPC_SLEU_CP2    = (28 << 21) | (0x0E) | OPC_CP2,
--    OPC_SLE_CP2     = (29 << 21) | (0x0E) | OPC_CP2,
--
--    OPC_SRL_CP2     = (24 << 21) | (0x0F) | OPC_CP2,
--    OPC_DSRL_CP2    = (25 << 21) | (0x0F) | OPC_CP2,
--    OPC_SRA_CP2     = (26 << 21) | (0x0F) | OPC_CP2,
--    OPC_DSRA_CP2    = (27 << 21) | (0x0F) | OPC_CP2,
--    OPC_BIADD       = (28 << 21) | (0x0F) | OPC_CP2,
--    OPC_PMOVMSKB    = (29 << 21) | (0x0F) | OPC_CP2,
+-    OPC_GSLQ        = 0x0020 | OPC_LWC2,
+-    OPC_GSLQC1      = 0x8020 | OPC_LWC2,
+-    OPC_GSSHFL      = OPC_LWC2,
+-    OPC_GSSQ        = 0x0020 | OPC_SWC2,
+-    OPC_GSSQC1      = 0x8020 | OPC_SWC2,
+-    OPC_GSSHFS      = OPC_SWC2,
 -};
 -
+-/* Loongson EXT shifted load/store opcodes */
+-#define MASK_LOONGSON_GSSHFLS(op)         (MASK_OP_MAJOR(op) | (op & 0xc03f))
+-enum {
+-    OPC_GSLWLC1     = 0x4 | OPC_GSSHFL,
+-    OPC_GSLWRC1     = 0x5 | OPC_GSSHFL,
+-    OPC_GSLDLC1     = 0x6 | OPC_GSSHFL,
+-    OPC_GSLDRC1     = 0x7 | OPC_GSSHFL,
+-    OPC_GSSWLC1     = 0x4 | OPC_GSSHFS,
+-    OPC_GSSWRC1     = 0x5 | OPC_GSSHFS,
+-    OPC_GSSDLC1     = 0x6 | OPC_GSSHFS,
+-    OPC_GSSDRC1     = 0x7 | OPC_GSSHFS,
+-};
 -
- #define MASK_CP3(op)                (MASK_OP_MAJOR(op) | (op & 0x3F))
+-/* Loongson EXT LDC2/SDC2 opcodes */
+-#define MASK_LOONGSON_LSDC2(op)           (MASK_OP_MAJOR(op) | (op & 0x7))
+-
+-enum {
+-    OPC_GSLBX      = 0x0 | OPC_LDC2,
+-    OPC_GSLHX      = 0x1 | OPC_LDC2,
+-    OPC_GSLWX      = 0x2 | OPC_LDC2,
+-    OPC_GSLDX      = 0x3 | OPC_LDC2,
+-    OPC_GSLWXC1    = 0x6 | OPC_LDC2,
+-    OPC_GSLDXC1    = 0x7 | OPC_LDC2,
+-    OPC_GSSBX      = 0x0 | OPC_SDC2,
+-    OPC_GSSHX      = 0x1 | OPC_SDC2,
+-    OPC_GSSWX      = 0x2 | OPC_SDC2,
+-    OPC_GSSDX      = 0x3 | OPC_SDC2,
+-    OPC_GSSWXC1    = 0x6 | OPC_SDC2,
+-    OPC_GSSDXC1    = 0x7 | OPC_SDC2,
+-};
+-
+ /* BSHFL opcodes */
+ #define MASK_BSHFL(op)              (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
  
- enum {
-@@ -4768,391 +4671,6 @@ static void gen_loongson_integer(DisasContext *ctx, uint32_t opc,
-     tcg_temp_free(t1);
+@@ -4472,602 +4417,6 @@ static void gen_cl(DisasContext *ctx, uint32_t opc,
+     }
  }
  
--/* Loongson multimedia instructions */
--static void gen_loongson_multimedia(DisasContext *ctx, int rd, int rs, int rt)
+-/* Godson integer instructions */
+-static void gen_loongson_integer(DisasContext *ctx, uint32_t opc,
+-                                 int rd, int rs, int rt)
 -{
--    uint32_t opc, shift_max;
--    TCGv_i64 t0, t1;
--    TCGCond cond;
+-    TCGv t0, t1;
 -
--    opc = MASK_LMMI(ctx->opcode);
--    switch (opc) {
--    case OPC_ADD_CP2:
--    case OPC_SUB_CP2:
--    case OPC_DADD_CP2:
--    case OPC_DSUB_CP2:
--        t0 = tcg_temp_local_new_i64();
--        t1 = tcg_temp_local_new_i64();
--        break;
--    default:
--        t0 = tcg_temp_new_i64();
--        t1 = tcg_temp_new_i64();
--        break;
--    }
--
--    check_cp1_enabled(ctx);
--    gen_load_fpr64(ctx, t0, rs);
--    gen_load_fpr64(ctx, t1, rt);
--
--    switch (opc) {
--    case OPC_PADDSH:
--        gen_helper_paddsh(t0, t0, t1);
--        break;
--    case OPC_PADDUSH:
--        gen_helper_paddush(t0, t0, t1);
--        break;
--    case OPC_PADDH:
--        gen_helper_paddh(t0, t0, t1);
--        break;
--    case OPC_PADDW:
--        gen_helper_paddw(t0, t0, t1);
--        break;
--    case OPC_PADDSB:
--        gen_helper_paddsb(t0, t0, t1);
--        break;
--    case OPC_PADDUSB:
--        gen_helper_paddusb(t0, t0, t1);
--        break;
--    case OPC_PADDB:
--        gen_helper_paddb(t0, t0, t1);
--        break;
--
--    case OPC_PSUBSH:
--        gen_helper_psubsh(t0, t0, t1);
--        break;
--    case OPC_PSUBUSH:
--        gen_helper_psubush(t0, t0, t1);
--        break;
--    case OPC_PSUBH:
--        gen_helper_psubh(t0, t0, t1);
--        break;
--    case OPC_PSUBW:
--        gen_helper_psubw(t0, t0, t1);
--        break;
--    case OPC_PSUBSB:
--        gen_helper_psubsb(t0, t0, t1);
--        break;
--    case OPC_PSUBUSB:
--        gen_helper_psubusb(t0, t0, t1);
--        break;
--    case OPC_PSUBB:
--        gen_helper_psubb(t0, t0, t1);
--        break;
--
--    case OPC_PSHUFH:
--        gen_helper_pshufh(t0, t0, t1);
--        break;
--    case OPC_PACKSSWH:
--        gen_helper_packsswh(t0, t0, t1);
--        break;
--    case OPC_PACKSSHB:
--        gen_helper_packsshb(t0, t0, t1);
--        break;
--    case OPC_PACKUSHB:
--        gen_helper_packushb(t0, t0, t1);
--        break;
--
--    case OPC_PUNPCKLHW:
--        gen_helper_punpcklhw(t0, t0, t1);
--        break;
--    case OPC_PUNPCKHHW:
--        gen_helper_punpckhhw(t0, t0, t1);
--        break;
--    case OPC_PUNPCKLBH:
--        gen_helper_punpcklbh(t0, t0, t1);
--        break;
--    case OPC_PUNPCKHBH:
--        gen_helper_punpckhbh(t0, t0, t1);
--        break;
--    case OPC_PUNPCKLWD:
--        gen_helper_punpcklwd(t0, t0, t1);
--        break;
--    case OPC_PUNPCKHWD:
--        gen_helper_punpckhwd(t0, t0, t1);
--        break;
--
--    case OPC_PAVGH:
--        gen_helper_pavgh(t0, t0, t1);
--        break;
--    case OPC_PAVGB:
--        gen_helper_pavgb(t0, t0, t1);
--        break;
--    case OPC_PMAXSH:
--        gen_helper_pmaxsh(t0, t0, t1);
--        break;
--    case OPC_PMINSH:
--        gen_helper_pminsh(t0, t0, t1);
--        break;
--    case OPC_PMAXUB:
--        gen_helper_pmaxub(t0, t0, t1);
--        break;
--    case OPC_PMINUB:
--        gen_helper_pminub(t0, t0, t1);
--        break;
--
--    case OPC_PCMPEQW:
--        gen_helper_pcmpeqw(t0, t0, t1);
--        break;
--    case OPC_PCMPGTW:
--        gen_helper_pcmpgtw(t0, t0, t1);
--        break;
--    case OPC_PCMPEQH:
--        gen_helper_pcmpeqh(t0, t0, t1);
--        break;
--    case OPC_PCMPGTH:
--        gen_helper_pcmpgth(t0, t0, t1);
--        break;
--    case OPC_PCMPEQB:
--        gen_helper_pcmpeqb(t0, t0, t1);
--        break;
--    case OPC_PCMPGTB:
--        gen_helper_pcmpgtb(t0, t0, t1);
--        break;
--
--    case OPC_PSLLW:
--        gen_helper_psllw(t0, t0, t1);
--        break;
--    case OPC_PSLLH:
--        gen_helper_psllh(t0, t0, t1);
--        break;
--    case OPC_PSRLW:
--        gen_helper_psrlw(t0, t0, t1);
--        break;
--    case OPC_PSRLH:
--        gen_helper_psrlh(t0, t0, t1);
--        break;
--    case OPC_PSRAW:
--        gen_helper_psraw(t0, t0, t1);
--        break;
--    case OPC_PSRAH:
--        gen_helper_psrah(t0, t0, t1);
--        break;
--
--    case OPC_PMULLH:
--        gen_helper_pmullh(t0, t0, t1);
--        break;
--    case OPC_PMULHH:
--        gen_helper_pmulhh(t0, t0, t1);
--        break;
--    case OPC_PMULHUH:
--        gen_helper_pmulhuh(t0, t0, t1);
--        break;
--    case OPC_PMADDHW:
--        gen_helper_pmaddhw(t0, t0, t1);
--        break;
--
--    case OPC_PASUBUB:
--        gen_helper_pasubub(t0, t0, t1);
--        break;
--    case OPC_BIADD:
--        gen_helper_biadd(t0, t0);
--        break;
--    case OPC_PMOVMSKB:
--        gen_helper_pmovmskb(t0, t0);
--        break;
--
--    case OPC_PADDD:
--        tcg_gen_add_i64(t0, t0, t1);
--        break;
--    case OPC_PSUBD:
--        tcg_gen_sub_i64(t0, t0, t1);
--        break;
--    case OPC_XOR_CP2:
--        tcg_gen_xor_i64(t0, t0, t1);
--        break;
--    case OPC_NOR_CP2:
--        tcg_gen_nor_i64(t0, t0, t1);
--        break;
--    case OPC_AND_CP2:
--        tcg_gen_and_i64(t0, t0, t1);
--        break;
--    case OPC_OR_CP2:
--        tcg_gen_or_i64(t0, t0, t1);
--        break;
--
--    case OPC_PANDN:
--        tcg_gen_andc_i64(t0, t1, t0);
--        break;
--
--    case OPC_PINSRH_0:
--        tcg_gen_deposit_i64(t0, t0, t1, 0, 16);
--        break;
--    case OPC_PINSRH_1:
--        tcg_gen_deposit_i64(t0, t0, t1, 16, 16);
--        break;
--    case OPC_PINSRH_2:
--        tcg_gen_deposit_i64(t0, t0, t1, 32, 16);
--        break;
--    case OPC_PINSRH_3:
--        tcg_gen_deposit_i64(t0, t0, t1, 48, 16);
--        break;
--
--    case OPC_PEXTRH:
--        tcg_gen_andi_i64(t1, t1, 3);
--        tcg_gen_shli_i64(t1, t1, 4);
--        tcg_gen_shr_i64(t0, t0, t1);
--        tcg_gen_ext16u_i64(t0, t0);
--        break;
--
--    case OPC_ADDU_CP2:
--        tcg_gen_add_i64(t0, t0, t1);
--        tcg_gen_ext32s_i64(t0, t0);
--        break;
--    case OPC_SUBU_CP2:
--        tcg_gen_sub_i64(t0, t0, t1);
--        tcg_gen_ext32s_i64(t0, t0);
--        break;
--
--    case OPC_SLL_CP2:
--        shift_max = 32;
--        goto do_shift;
--    case OPC_SRL_CP2:
--        shift_max = 32;
--        goto do_shift;
--    case OPC_SRA_CP2:
--        shift_max = 32;
--        goto do_shift;
--    case OPC_DSLL_CP2:
--        shift_max = 64;
--        goto do_shift;
--    case OPC_DSRL_CP2:
--        shift_max = 64;
--        goto do_shift;
--    case OPC_DSRA_CP2:
--        shift_max = 64;
--        goto do_shift;
--    do_shift:
--        /* Make sure shift count isn't TCG undefined behaviour.  */
--        tcg_gen_andi_i64(t1, t1, shift_max - 1);
--
--        switch (opc) {
--        case OPC_SLL_CP2:
--        case OPC_DSLL_CP2:
--            tcg_gen_shl_i64(t0, t0, t1);
--            break;
--        case OPC_SRA_CP2:
--        case OPC_DSRA_CP2:
--            /*
--             * Since SRA is UndefinedResult without sign-extended inputs,
--             * we can treat SRA and DSRA the same.
--             */
--            tcg_gen_sar_i64(t0, t0, t1);
--            break;
--        case OPC_SRL_CP2:
--            /* We want to shift in zeros for SRL; zero-extend first.  */
--            tcg_gen_ext32u_i64(t0, t0);
--            /* FALLTHRU */
--        case OPC_DSRL_CP2:
--            tcg_gen_shr_i64(t0, t0, t1);
--            break;
--        }
--
--        if (shift_max == 32) {
--            tcg_gen_ext32s_i64(t0, t0);
--        }
--
--        /* Shifts larger than MAX produce zero.  */
--        tcg_gen_setcondi_i64(TCG_COND_LTU, t1, t1, shift_max);
--        tcg_gen_neg_i64(t1, t1);
--        tcg_gen_and_i64(t0, t0, t1);
--        break;
--
--    case OPC_ADD_CP2:
--    case OPC_DADD_CP2:
--        {
--            TCGv_i64 t2 = tcg_temp_new_i64();
--            TCGLabel *lab = gen_new_label();
--
--            tcg_gen_mov_i64(t2, t0);
--            tcg_gen_add_i64(t0, t1, t2);
--            if (opc == OPC_ADD_CP2) {
--                tcg_gen_ext32s_i64(t0, t0);
--            }
--            tcg_gen_xor_i64(t1, t1, t2);
--            tcg_gen_xor_i64(t2, t2, t0);
--            tcg_gen_andc_i64(t1, t2, t1);
--            tcg_temp_free_i64(t2);
--            tcg_gen_brcondi_i64(TCG_COND_GE, t1, 0, lab);
--            generate_exception(ctx, EXCP_OVERFLOW);
--            gen_set_label(lab);
--            break;
--        }
--
--    case OPC_SUB_CP2:
--    case OPC_DSUB_CP2:
--        {
--            TCGv_i64 t2 = tcg_temp_new_i64();
--            TCGLabel *lab = gen_new_label();
--
--            tcg_gen_mov_i64(t2, t0);
--            tcg_gen_sub_i64(t0, t1, t2);
--            if (opc == OPC_SUB_CP2) {
--                tcg_gen_ext32s_i64(t0, t0);
--            }
--            tcg_gen_xor_i64(t1, t1, t2);
--            tcg_gen_xor_i64(t2, t2, t0);
--            tcg_gen_and_i64(t1, t1, t2);
--            tcg_temp_free_i64(t2);
--            tcg_gen_brcondi_i64(TCG_COND_GE, t1, 0, lab);
--            generate_exception(ctx, EXCP_OVERFLOW);
--            gen_set_label(lab);
--            break;
--        }
--
--    case OPC_PMULUW:
--        tcg_gen_ext32u_i64(t0, t0);
--        tcg_gen_ext32u_i64(t1, t1);
--        tcg_gen_mul_i64(t0, t0, t1);
--        break;
--
--    case OPC_SEQU_CP2:
--    case OPC_SEQ_CP2:
--        cond = TCG_COND_EQ;
--        goto do_cc_cond;
--        break;
--    case OPC_SLTU_CP2:
--        cond = TCG_COND_LTU;
--        goto do_cc_cond;
--        break;
--    case OPC_SLT_CP2:
--        cond = TCG_COND_LT;
--        goto do_cc_cond;
--        break;
--    case OPC_SLEU_CP2:
--        cond = TCG_COND_LEU;
--        goto do_cc_cond;
--        break;
--    case OPC_SLE_CP2:
--        cond = TCG_COND_LE;
--    do_cc_cond:
--        {
--            int cc = (ctx->opcode >> 8) & 0x7;
--            TCGv_i64 t64 = tcg_temp_new_i64();
--            TCGv_i32 t32 = tcg_temp_new_i32();
--
--            tcg_gen_setcond_i64(cond, t64, t0, t1);
--            tcg_gen_extrl_i64_i32(t32, t64);
--            tcg_gen_deposit_i32(fpu_fcr31, fpu_fcr31, t32,
--                                get_fp_bit(cc), 1);
--
--            tcg_temp_free_i32(t32);
--            tcg_temp_free_i64(t64);
--        }
--        goto no_rd;
--        break;
--    default:
--        MIPS_INVAL("loongson_cp2");
--        generate_exception_end(ctx, EXCP_RI);
+-    if (rd == 0) {
+-        /* Treat as NOP. */
 -        return;
 -    }
 -
--    gen_store_fpr64(ctx, t0, rd);
+-    switch (opc) {
+-    case OPC_MULT_G_2E:
+-    case OPC_MULT_G_2F:
+-    case OPC_MULTU_G_2E:
+-    case OPC_MULTU_G_2F:
+-#if defined(TARGET_MIPS64)
+-    case OPC_DMULT_G_2E:
+-    case OPC_DMULT_G_2F:
+-    case OPC_DMULTU_G_2E:
+-    case OPC_DMULTU_G_2F:
+-#endif
+-        t0 = tcg_temp_new();
+-        t1 = tcg_temp_new();
+-        break;
+-    default:
+-        t0 = tcg_temp_local_new();
+-        t1 = tcg_temp_local_new();
+-        break;
+-    }
 -
--no_rd:
--    tcg_temp_free_i64(t0);
--    tcg_temp_free_i64(t1);
+-    gen_load_gpr(t0, rs);
+-    gen_load_gpr(t1, rt);
+-
+-    switch (opc) {
+-    case OPC_MULT_G_2E:
+-    case OPC_MULT_G_2F:
+-        tcg_gen_mul_tl(cpu_gpr[rd], t0, t1);
+-        tcg_gen_ext32s_tl(cpu_gpr[rd], cpu_gpr[rd]);
+-        break;
+-    case OPC_MULTU_G_2E:
+-    case OPC_MULTU_G_2F:
+-        tcg_gen_ext32u_tl(t0, t0);
+-        tcg_gen_ext32u_tl(t1, t1);
+-        tcg_gen_mul_tl(cpu_gpr[rd], t0, t1);
+-        tcg_gen_ext32s_tl(cpu_gpr[rd], cpu_gpr[rd]);
+-        break;
+-    case OPC_DIV_G_2E:
+-    case OPC_DIV_G_2F:
+-        {
+-            TCGLabel *l1 = gen_new_label();
+-            TCGLabel *l2 = gen_new_label();
+-            TCGLabel *l3 = gen_new_label();
+-            tcg_gen_ext32s_tl(t0, t0);
+-            tcg_gen_ext32s_tl(t1, t1);
+-            tcg_gen_brcondi_tl(TCG_COND_NE, t1, 0, l1);
+-            tcg_gen_movi_tl(cpu_gpr[rd], 0);
+-            tcg_gen_br(l3);
+-            gen_set_label(l1);
+-            tcg_gen_brcondi_tl(TCG_COND_NE, t0, INT_MIN, l2);
+-            tcg_gen_brcondi_tl(TCG_COND_NE, t1, -1, l2);
+-            tcg_gen_mov_tl(cpu_gpr[rd], t0);
+-            tcg_gen_br(l3);
+-            gen_set_label(l2);
+-            tcg_gen_div_tl(cpu_gpr[rd], t0, t1);
+-            tcg_gen_ext32s_tl(cpu_gpr[rd], cpu_gpr[rd]);
+-            gen_set_label(l3);
+-        }
+-        break;
+-    case OPC_DIVU_G_2E:
+-    case OPC_DIVU_G_2F:
+-        {
+-            TCGLabel *l1 = gen_new_label();
+-            TCGLabel *l2 = gen_new_label();
+-            tcg_gen_ext32u_tl(t0, t0);
+-            tcg_gen_ext32u_tl(t1, t1);
+-            tcg_gen_brcondi_tl(TCG_COND_NE, t1, 0, l1);
+-            tcg_gen_movi_tl(cpu_gpr[rd], 0);
+-            tcg_gen_br(l2);
+-            gen_set_label(l1);
+-            tcg_gen_divu_tl(cpu_gpr[rd], t0, t1);
+-            tcg_gen_ext32s_tl(cpu_gpr[rd], cpu_gpr[rd]);
+-            gen_set_label(l2);
+-        }
+-        break;
+-    case OPC_MOD_G_2E:
+-    case OPC_MOD_G_2F:
+-        {
+-            TCGLabel *l1 = gen_new_label();
+-            TCGLabel *l2 = gen_new_label();
+-            TCGLabel *l3 = gen_new_label();
+-            tcg_gen_ext32u_tl(t0, t0);
+-            tcg_gen_ext32u_tl(t1, t1);
+-            tcg_gen_brcondi_tl(TCG_COND_EQ, t1, 0, l1);
+-            tcg_gen_brcondi_tl(TCG_COND_NE, t0, INT_MIN, l2);
+-            tcg_gen_brcondi_tl(TCG_COND_NE, t1, -1, l2);
+-            gen_set_label(l1);
+-            tcg_gen_movi_tl(cpu_gpr[rd], 0);
+-            tcg_gen_br(l3);
+-            gen_set_label(l2);
+-            tcg_gen_rem_tl(cpu_gpr[rd], t0, t1);
+-            tcg_gen_ext32s_tl(cpu_gpr[rd], cpu_gpr[rd]);
+-            gen_set_label(l3);
+-        }
+-        break;
+-    case OPC_MODU_G_2E:
+-    case OPC_MODU_G_2F:
+-        {
+-            TCGLabel *l1 = gen_new_label();
+-            TCGLabel *l2 = gen_new_label();
+-            tcg_gen_ext32u_tl(t0, t0);
+-            tcg_gen_ext32u_tl(t1, t1);
+-            tcg_gen_brcondi_tl(TCG_COND_NE, t1, 0, l1);
+-            tcg_gen_movi_tl(cpu_gpr[rd], 0);
+-            tcg_gen_br(l2);
+-            gen_set_label(l1);
+-            tcg_gen_remu_tl(cpu_gpr[rd], t0, t1);
+-            tcg_gen_ext32s_tl(cpu_gpr[rd], cpu_gpr[rd]);
+-            gen_set_label(l2);
+-        }
+-        break;
+-#if defined(TARGET_MIPS64)
+-    case OPC_DMULT_G_2E:
+-    case OPC_DMULT_G_2F:
+-        tcg_gen_mul_tl(cpu_gpr[rd], t0, t1);
+-        break;
+-    case OPC_DMULTU_G_2E:
+-    case OPC_DMULTU_G_2F:
+-        tcg_gen_mul_tl(cpu_gpr[rd], t0, t1);
+-        break;
+-    case OPC_DDIV_G_2E:
+-    case OPC_DDIV_G_2F:
+-        {
+-            TCGLabel *l1 = gen_new_label();
+-            TCGLabel *l2 = gen_new_label();
+-            TCGLabel *l3 = gen_new_label();
+-            tcg_gen_brcondi_tl(TCG_COND_NE, t1, 0, l1);
+-            tcg_gen_movi_tl(cpu_gpr[rd], 0);
+-            tcg_gen_br(l3);
+-            gen_set_label(l1);
+-            tcg_gen_brcondi_tl(TCG_COND_NE, t0, -1LL << 63, l2);
+-            tcg_gen_brcondi_tl(TCG_COND_NE, t1, -1LL, l2);
+-            tcg_gen_mov_tl(cpu_gpr[rd], t0);
+-            tcg_gen_br(l3);
+-            gen_set_label(l2);
+-            tcg_gen_div_tl(cpu_gpr[rd], t0, t1);
+-            gen_set_label(l3);
+-        }
+-        break;
+-    case OPC_DDIVU_G_2E:
+-    case OPC_DDIVU_G_2F:
+-        {
+-            TCGLabel *l1 = gen_new_label();
+-            TCGLabel *l2 = gen_new_label();
+-            tcg_gen_brcondi_tl(TCG_COND_NE, t1, 0, l1);
+-            tcg_gen_movi_tl(cpu_gpr[rd], 0);
+-            tcg_gen_br(l2);
+-            gen_set_label(l1);
+-            tcg_gen_divu_tl(cpu_gpr[rd], t0, t1);
+-            gen_set_label(l2);
+-        }
+-        break;
+-    case OPC_DMOD_G_2E:
+-    case OPC_DMOD_G_2F:
+-        {
+-            TCGLabel *l1 = gen_new_label();
+-            TCGLabel *l2 = gen_new_label();
+-            TCGLabel *l3 = gen_new_label();
+-            tcg_gen_brcondi_tl(TCG_COND_EQ, t1, 0, l1);
+-            tcg_gen_brcondi_tl(TCG_COND_NE, t0, -1LL << 63, l2);
+-            tcg_gen_brcondi_tl(TCG_COND_NE, t1, -1LL, l2);
+-            gen_set_label(l1);
+-            tcg_gen_movi_tl(cpu_gpr[rd], 0);
+-            tcg_gen_br(l3);
+-            gen_set_label(l2);
+-            tcg_gen_rem_tl(cpu_gpr[rd], t0, t1);
+-            gen_set_label(l3);
+-        }
+-        break;
+-    case OPC_DMODU_G_2E:
+-    case OPC_DMODU_G_2F:
+-        {
+-            TCGLabel *l1 = gen_new_label();
+-            TCGLabel *l2 = gen_new_label();
+-            tcg_gen_brcondi_tl(TCG_COND_NE, t1, 0, l1);
+-            tcg_gen_movi_tl(cpu_gpr[rd], 0);
+-            tcg_gen_br(l2);
+-            gen_set_label(l1);
+-            tcg_gen_remu_tl(cpu_gpr[rd], t0, t1);
+-            gen_set_label(l2);
+-        }
+-        break;
+-#endif
+-    }
+-
+-    tcg_temp_free(t0);
+-    tcg_temp_free(t1);
 -}
 -
- static void gen_loongson_lswc2(DisasContext *ctx, int rt,
-                                int rs, int rd)
- {
-@@ -12939,6 +12457,7 @@ out:
- #include "mod-dsp_translate.c.inc"
+-static void gen_loongson_lswc2(DisasContext *ctx, int rt,
+-                               int rs, int rd)
+-{
+-    TCGv t0, t1, t2;
+-    TCGv_i32 fp0;
+-#if defined(TARGET_MIPS64)
+-    int lsq_rt1 = ctx->opcode & 0x1f;
+-    int lsq_offset = sextract32(ctx->opcode, 6, 9) << 4;
+-#endif
+-    int shf_offset = sextract32(ctx->opcode, 6, 8);
+-
+-    t0 = tcg_temp_new();
+-
+-    switch (MASK_LOONGSON_GSLSQ(ctx->opcode)) {
+-#if defined(TARGET_MIPS64)
+-    case OPC_GSLQ:
+-        t1 = tcg_temp_new();
+-        gen_base_offset_addr(ctx, t0, rs, lsq_offset);
+-        tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx, MO_TEQ |
+-                           ctx->default_tcg_memop_mask);
+-        gen_base_offset_addr(ctx, t0, rs, lsq_offset + 8);
+-        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEQ |
+-                           ctx->default_tcg_memop_mask);
+-        gen_store_gpr(t1, rt);
+-        gen_store_gpr(t0, lsq_rt1);
+-        tcg_temp_free(t1);
+-        break;
+-    case OPC_GSLQC1:
+-        check_cp1_enabled(ctx);
+-        t1 = tcg_temp_new();
+-        gen_base_offset_addr(ctx, t0, rs, lsq_offset);
+-        tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx, MO_TEQ |
+-                           ctx->default_tcg_memop_mask);
+-        gen_base_offset_addr(ctx, t0, rs, lsq_offset + 8);
+-        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEQ |
+-                           ctx->default_tcg_memop_mask);
+-        gen_store_fpr64(ctx, t1, rt);
+-        gen_store_fpr64(ctx, t0, lsq_rt1);
+-        tcg_temp_free(t1);
+-        break;
+-    case OPC_GSSQ:
+-        t1 = tcg_temp_new();
+-        gen_base_offset_addr(ctx, t0, rs, lsq_offset);
+-        gen_load_gpr(t1, rt);
+-        tcg_gen_qemu_st_tl(t1, t0, ctx->mem_idx, MO_TEQ |
+-                           ctx->default_tcg_memop_mask);
+-        gen_base_offset_addr(ctx, t0, rs, lsq_offset + 8);
+-        gen_load_gpr(t1, lsq_rt1);
+-        tcg_gen_qemu_st_tl(t1, t0, ctx->mem_idx, MO_TEQ |
+-                           ctx->default_tcg_memop_mask);
+-        tcg_temp_free(t1);
+-        break;
+-    case OPC_GSSQC1:
+-        check_cp1_enabled(ctx);
+-        t1 = tcg_temp_new();
+-        gen_base_offset_addr(ctx, t0, rs, lsq_offset);
+-        gen_load_fpr64(ctx, t1, rt);
+-        tcg_gen_qemu_st_tl(t1, t0, ctx->mem_idx, MO_TEQ |
+-                           ctx->default_tcg_memop_mask);
+-        gen_base_offset_addr(ctx, t0, rs, lsq_offset + 8);
+-        gen_load_fpr64(ctx, t1, lsq_rt1);
+-        tcg_gen_qemu_st_tl(t1, t0, ctx->mem_idx, MO_TEQ |
+-                           ctx->default_tcg_memop_mask);
+-        tcg_temp_free(t1);
+-        break;
+-#endif
+-    case OPC_GSSHFL:
+-        switch (MASK_LOONGSON_GSSHFLS(ctx->opcode)) {
+-        case OPC_GSLWLC1:
+-            check_cp1_enabled(ctx);
+-            gen_base_offset_addr(ctx, t0, rs, shf_offset);
+-            t1 = tcg_temp_new();
+-            tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx, MO_UB);
+-            tcg_gen_andi_tl(t1, t0, 3);
+-#ifndef TARGET_WORDS_BIGENDIAN
+-            tcg_gen_xori_tl(t1, t1, 3);
+-#endif
+-            tcg_gen_shli_tl(t1, t1, 3);
+-            tcg_gen_andi_tl(t0, t0, ~3);
+-            tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEUL);
+-            tcg_gen_shl_tl(t0, t0, t1);
+-            t2 = tcg_const_tl(-1);
+-            tcg_gen_shl_tl(t2, t2, t1);
+-            fp0 = tcg_temp_new_i32();
+-            gen_load_fpr32(ctx, fp0, rt);
+-            tcg_gen_ext_i32_tl(t1, fp0);
+-            tcg_gen_andc_tl(t1, t1, t2);
+-            tcg_temp_free(t2);
+-            tcg_gen_or_tl(t0, t0, t1);
+-            tcg_temp_free(t1);
+-#if defined(TARGET_MIPS64)
+-            tcg_gen_extrl_i64_i32(fp0, t0);
+-#else
+-            tcg_gen_ext32s_tl(fp0, t0);
+-#endif
+-            gen_store_fpr32(ctx, fp0, rt);
+-            tcg_temp_free_i32(fp0);
+-            break;
+-        case OPC_GSLWRC1:
+-            check_cp1_enabled(ctx);
+-            gen_base_offset_addr(ctx, t0, rs, shf_offset);
+-            t1 = tcg_temp_new();
+-            tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx, MO_UB);
+-            tcg_gen_andi_tl(t1, t0, 3);
+-#ifdef TARGET_WORDS_BIGENDIAN
+-            tcg_gen_xori_tl(t1, t1, 3);
+-#endif
+-            tcg_gen_shli_tl(t1, t1, 3);
+-            tcg_gen_andi_tl(t0, t0, ~3);
+-            tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEUL);
+-            tcg_gen_shr_tl(t0, t0, t1);
+-            tcg_gen_xori_tl(t1, t1, 31);
+-            t2 = tcg_const_tl(0xfffffffeull);
+-            tcg_gen_shl_tl(t2, t2, t1);
+-            fp0 = tcg_temp_new_i32();
+-            gen_load_fpr32(ctx, fp0, rt);
+-            tcg_gen_ext_i32_tl(t1, fp0);
+-            tcg_gen_and_tl(t1, t1, t2);
+-            tcg_temp_free(t2);
+-            tcg_gen_or_tl(t0, t0, t1);
+-            tcg_temp_free(t1);
+-#if defined(TARGET_MIPS64)
+-            tcg_gen_extrl_i64_i32(fp0, t0);
+-#else
+-            tcg_gen_ext32s_tl(fp0, t0);
+-#endif
+-            gen_store_fpr32(ctx, fp0, rt);
+-            tcg_temp_free_i32(fp0);
+-            break;
+-#if defined(TARGET_MIPS64)
+-        case OPC_GSLDLC1:
+-            check_cp1_enabled(ctx);
+-            gen_base_offset_addr(ctx, t0, rs, shf_offset);
+-            t1 = tcg_temp_new();
+-            tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx, MO_UB);
+-            tcg_gen_andi_tl(t1, t0, 7);
+-#ifndef TARGET_WORDS_BIGENDIAN
+-            tcg_gen_xori_tl(t1, t1, 7);
+-#endif
+-            tcg_gen_shli_tl(t1, t1, 3);
+-            tcg_gen_andi_tl(t0, t0, ~7);
+-            tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEQ);
+-            tcg_gen_shl_tl(t0, t0, t1);
+-            t2 = tcg_const_tl(-1);
+-            tcg_gen_shl_tl(t2, t2, t1);
+-            gen_load_fpr64(ctx, t1, rt);
+-            tcg_gen_andc_tl(t1, t1, t2);
+-            tcg_temp_free(t2);
+-            tcg_gen_or_tl(t0, t0, t1);
+-            tcg_temp_free(t1);
+-            gen_store_fpr64(ctx, t0, rt);
+-            break;
+-        case OPC_GSLDRC1:
+-            check_cp1_enabled(ctx);
+-            gen_base_offset_addr(ctx, t0, rs, shf_offset);
+-            t1 = tcg_temp_new();
+-            tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx, MO_UB);
+-            tcg_gen_andi_tl(t1, t0, 7);
+-#ifdef TARGET_WORDS_BIGENDIAN
+-            tcg_gen_xori_tl(t1, t1, 7);
+-#endif
+-            tcg_gen_shli_tl(t1, t1, 3);
+-            tcg_gen_andi_tl(t0, t0, ~7);
+-            tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEQ);
+-            tcg_gen_shr_tl(t0, t0, t1);
+-            tcg_gen_xori_tl(t1, t1, 63);
+-            t2 = tcg_const_tl(0xfffffffffffffffeull);
+-            tcg_gen_shl_tl(t2, t2, t1);
+-            gen_load_fpr64(ctx, t1, rt);
+-            tcg_gen_and_tl(t1, t1, t2);
+-            tcg_temp_free(t2);
+-            tcg_gen_or_tl(t0, t0, t1);
+-            tcg_temp_free(t1);
+-            gen_store_fpr64(ctx, t0, rt);
+-            break;
+-#endif
+-        default:
+-            MIPS_INVAL("loongson_gsshfl");
+-            generate_exception_end(ctx, EXCP_RI);
+-            break;
+-        }
+-        break;
+-    case OPC_GSSHFS:
+-        switch (MASK_LOONGSON_GSSHFLS(ctx->opcode)) {
+-        case OPC_GSSWLC1:
+-            check_cp1_enabled(ctx);
+-            t1 = tcg_temp_new();
+-            gen_base_offset_addr(ctx, t0, rs, shf_offset);
+-            fp0 = tcg_temp_new_i32();
+-            gen_load_fpr32(ctx, fp0, rt);
+-            tcg_gen_ext_i32_tl(t1, fp0);
+-            gen_helper_0e2i(swl, t1, t0, ctx->mem_idx);
+-            tcg_temp_free_i32(fp0);
+-            tcg_temp_free(t1);
+-            break;
+-        case OPC_GSSWRC1:
+-            check_cp1_enabled(ctx);
+-            t1 = tcg_temp_new();
+-            gen_base_offset_addr(ctx, t0, rs, shf_offset);
+-            fp0 = tcg_temp_new_i32();
+-            gen_load_fpr32(ctx, fp0, rt);
+-            tcg_gen_ext_i32_tl(t1, fp0);
+-            gen_helper_0e2i(swr, t1, t0, ctx->mem_idx);
+-            tcg_temp_free_i32(fp0);
+-            tcg_temp_free(t1);
+-            break;
+-#if defined(TARGET_MIPS64)
+-        case OPC_GSSDLC1:
+-            check_cp1_enabled(ctx);
+-            t1 = tcg_temp_new();
+-            gen_base_offset_addr(ctx, t0, rs, shf_offset);
+-            gen_load_fpr64(ctx, t1, rt);
+-            gen_helper_0e2i(sdl, t1, t0, ctx->mem_idx);
+-            tcg_temp_free(t1);
+-            break;
+-        case OPC_GSSDRC1:
+-            check_cp1_enabled(ctx);
+-            t1 = tcg_temp_new();
+-            gen_base_offset_addr(ctx, t0, rs, shf_offset);
+-            gen_load_fpr64(ctx, t1, rt);
+-            gen_helper_0e2i(sdr, t1, t0, ctx->mem_idx);
+-            tcg_temp_free(t1);
+-            break;
+-#endif
+-        default:
+-            MIPS_INVAL("loongson_gsshfs");
+-            generate_exception_end(ctx, EXCP_RI);
+-            break;
+-        }
+-        break;
+-    default:
+-        MIPS_INVAL("loongson_gslsq");
+-        generate_exception_end(ctx, EXCP_RI);
+-        break;
+-    }
+-    tcg_temp_free(t0);
+-}
+-
+-/* Loongson EXT LDC2/SDC2 */
+-static void gen_loongson_lsdc2(DisasContext *ctx, int rt,
+-                               int rs, int rd)
+-{
+-    int offset = sextract32(ctx->opcode, 3, 8);
+-    uint32_t opc = MASK_LOONGSON_LSDC2(ctx->opcode);
+-    TCGv t0, t1;
+-    TCGv_i32 fp0;
+-
+-    /* Pre-conditions */
+-    switch (opc) {
+-    case OPC_GSLBX:
+-    case OPC_GSLHX:
+-    case OPC_GSLWX:
+-    case OPC_GSLDX:
+-        /* prefetch, implement as NOP */
+-        if (rt == 0) {
+-            return;
+-        }
+-        break;
+-    case OPC_GSSBX:
+-    case OPC_GSSHX:
+-    case OPC_GSSWX:
+-    case OPC_GSSDX:
+-        break;
+-    case OPC_GSLWXC1:
+-#if defined(TARGET_MIPS64)
+-    case OPC_GSLDXC1:
+-#endif
+-        check_cp1_enabled(ctx);
+-        /* prefetch, implement as NOP */
+-        if (rt == 0) {
+-            return;
+-        }
+-        break;
+-    case OPC_GSSWXC1:
+-#if defined(TARGET_MIPS64)
+-    case OPC_GSSDXC1:
+-#endif
+-        check_cp1_enabled(ctx);
+-        break;
+-    default:
+-        MIPS_INVAL("loongson_lsdc2");
+-        generate_exception_end(ctx, EXCP_RI);
+-        return;
+-        break;
+-    }
+-
+-    t0 = tcg_temp_new();
+-
+-    gen_base_offset_addr(ctx, t0, rs, offset);
+-    gen_op_addr_add(ctx, t0, cpu_gpr[rd], t0);
+-
+-    switch (opc) {
+-    case OPC_GSLBX:
+-        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_SB);
+-        gen_store_gpr(t0, rt);
+-        break;
+-    case OPC_GSLHX:
+-        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TESW |
+-                           ctx->default_tcg_memop_mask);
+-        gen_store_gpr(t0, rt);
+-        break;
+-    case OPC_GSLWX:
+-        gen_base_offset_addr(ctx, t0, rs, offset);
+-        if (rd) {
+-            gen_op_addr_add(ctx, t0, cpu_gpr[rd], t0);
+-        }
+-        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TESL |
+-                           ctx->default_tcg_memop_mask);
+-        gen_store_gpr(t0, rt);
+-        break;
+-#if defined(TARGET_MIPS64)
+-    case OPC_GSLDX:
+-        gen_base_offset_addr(ctx, t0, rs, offset);
+-        if (rd) {
+-            gen_op_addr_add(ctx, t0, cpu_gpr[rd], t0);
+-        }
+-        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEQ |
+-                           ctx->default_tcg_memop_mask);
+-        gen_store_gpr(t0, rt);
+-        break;
+-#endif
+-    case OPC_GSLWXC1:
+-        check_cp1_enabled(ctx);
+-        gen_base_offset_addr(ctx, t0, rs, offset);
+-        if (rd) {
+-            gen_op_addr_add(ctx, t0, cpu_gpr[rd], t0);
+-        }
+-        fp0 = tcg_temp_new_i32();
+-        tcg_gen_qemu_ld_i32(fp0, t0, ctx->mem_idx, MO_TESL |
+-                            ctx->default_tcg_memop_mask);
+-        gen_store_fpr32(ctx, fp0, rt);
+-        tcg_temp_free_i32(fp0);
+-        break;
+-#if defined(TARGET_MIPS64)
+-    case OPC_GSLDXC1:
+-        check_cp1_enabled(ctx);
+-        gen_base_offset_addr(ctx, t0, rs, offset);
+-        if (rd) {
+-            gen_op_addr_add(ctx, t0, cpu_gpr[rd], t0);
+-        }
+-        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEQ |
+-                           ctx->default_tcg_memop_mask);
+-        gen_store_fpr64(ctx, t0, rt);
+-        break;
+-#endif
+-    case OPC_GSSBX:
+-        t1 = tcg_temp_new();
+-        gen_load_gpr(t1, rt);
+-        tcg_gen_qemu_st_tl(t1, t0, ctx->mem_idx, MO_SB);
+-        tcg_temp_free(t1);
+-        break;
+-    case OPC_GSSHX:
+-        t1 = tcg_temp_new();
+-        gen_load_gpr(t1, rt);
+-        tcg_gen_qemu_st_tl(t1, t0, ctx->mem_idx, MO_TEUW |
+-                           ctx->default_tcg_memop_mask);
+-        tcg_temp_free(t1);
+-        break;
+-    case OPC_GSSWX:
+-        t1 = tcg_temp_new();
+-        gen_load_gpr(t1, rt);
+-        tcg_gen_qemu_st_tl(t1, t0, ctx->mem_idx, MO_TEUL |
+-                           ctx->default_tcg_memop_mask);
+-        tcg_temp_free(t1);
+-        break;
+-#if defined(TARGET_MIPS64)
+-    case OPC_GSSDX:
+-        t1 = tcg_temp_new();
+-        gen_load_gpr(t1, rt);
+-        tcg_gen_qemu_st_tl(t1, t0, ctx->mem_idx, MO_TEQ |
+-                           ctx->default_tcg_memop_mask);
+-        tcg_temp_free(t1);
+-        break;
+-#endif
+-    case OPC_GSSWXC1:
+-        fp0 = tcg_temp_new_i32();
+-        gen_load_fpr32(ctx, fp0, rt);
+-        tcg_gen_qemu_st_i32(fp0, t0, ctx->mem_idx, MO_TEUL |
+-                            ctx->default_tcg_memop_mask);
+-        tcg_temp_free_i32(fp0);
+-        break;
+-#if defined(TARGET_MIPS64)
+-    case OPC_GSSDXC1:
+-        t1 = tcg_temp_new();
+-        gen_load_fpr64(ctx, t1, rt);
+-        tcg_gen_qemu_st_i64(t1, t0, ctx->mem_idx, MO_TEQ |
+-                            ctx->default_tcg_memop_mask);
+-        tcg_temp_free(t1);
+-        break;
+-#endif
+-    default:
+-        break;
+-    }
+-
+-    tcg_temp_free(t0);
+-}
+-
+ /* Traps */
+ static void gen_trap(DisasContext *ctx, uint32_t opc,
+                      int rs, int rt, int16_t imm)
+@@ -12458,6 +11807,7 @@ out:
  
  #include "vendor-vr54xx_translate.c.inc"
-+#include "vendor-loong-simd_translate.c.inc"
+ #include "vendor-loong-simd_translate.c.inc"
++#include "vendor-loong-ext_translate.c.inc"
  
  static void decode_opc_special_r6(CPUMIPSState *env, DisasContext *ctx)
  {
-diff --git a/target/mips/vendor-loong-simd_translate.c.inc b/target/mips/vendor-loong-simd_translate.c.inc
+diff --git a/target/mips/vendor-loong-ext_translate.c.inc b/target/mips/vendor-loong-ext_translate.c.inc
 new file mode 100644
-index 00000000000..85b1de6c28a
+index 00000000000..824a3994d16
 --- /dev/null
-+++ b/target/mips/vendor-loong-simd_translate.c.inc
-@@ -0,0 +1,492 @@
++++ b/target/mips/vendor-loong-ext_translate.c.inc
+@@ -0,0 +1,665 @@
 +/*
-+ *  Loongson SIMD translation routines.
++ *  Loongson EXTensions translation routines.
 + *
 + *  Copyright (c) 2004-2005 Jocelyn Mayer
 + *  Copyright (c) 2006 Marius Groeger (FPU operations)
 + *  Copyright (c) 2006 Thiemo Seufer (MIPS32R2 support)
 + *  Copyright (c) 2009 CodeSourcery (MIPS16 and microMIPS support)
-+ *  Copyright (c) 2011 Richard Henderson <rth@twiddle.net>
++ *  Copyright (c) 2012 Jia Liu & Dongxue Zhang (MIPS ASE DSP support)
 + *
 + * SPDX-License-Identifier: LGPL-2.1-or-later
 + */
 +
-+#define MASK_LMMI(op)    (MASK_OP_MAJOR(op) | (op & (0x1F << 21)) | (op & 0x1F))
-+
-+/* Loongson multimedia instructions */
 +enum {
-+    OPC_PADDSH      = (24 << 21) | (0x00) | OPC_CP2,
-+    OPC_PADDUSH     = (25 << 21) | (0x00) | OPC_CP2,
-+    OPC_PADDH       = (26 << 21) | (0x00) | OPC_CP2,
-+    OPC_PADDW       = (27 << 21) | (0x00) | OPC_CP2,
-+    OPC_PADDSB      = (28 << 21) | (0x00) | OPC_CP2,
-+    OPC_PADDUSB     = (29 << 21) | (0x00) | OPC_CP2,
-+    OPC_PADDB       = (30 << 21) | (0x00) | OPC_CP2,
-+    OPC_PADDD       = (31 << 21) | (0x00) | OPC_CP2,
-+
-+    OPC_PSUBSH      = (24 << 21) | (0x01) | OPC_CP2,
-+    OPC_PSUBUSH     = (25 << 21) | (0x01) | OPC_CP2,
-+    OPC_PSUBH       = (26 << 21) | (0x01) | OPC_CP2,
-+    OPC_PSUBW       = (27 << 21) | (0x01) | OPC_CP2,
-+    OPC_PSUBSB      = (28 << 21) | (0x01) | OPC_CP2,
-+    OPC_PSUBUSB     = (29 << 21) | (0x01) | OPC_CP2,
-+    OPC_PSUBB       = (30 << 21) | (0x01) | OPC_CP2,
-+    OPC_PSUBD       = (31 << 21) | (0x01) | OPC_CP2,
-+
-+    OPC_PSHUFH      = (24 << 21) | (0x02) | OPC_CP2,
-+    OPC_PACKSSWH    = (25 << 21) | (0x02) | OPC_CP2,
-+    OPC_PACKSSHB    = (26 << 21) | (0x02) | OPC_CP2,
-+    OPC_PACKUSHB    = (27 << 21) | (0x02) | OPC_CP2,
-+    OPC_XOR_CP2     = (28 << 21) | (0x02) | OPC_CP2,
-+    OPC_NOR_CP2     = (29 << 21) | (0x02) | OPC_CP2,
-+    OPC_AND_CP2     = (30 << 21) | (0x02) | OPC_CP2,
-+    OPC_PANDN       = (31 << 21) | (0x02) | OPC_CP2,
-+
-+    OPC_PUNPCKLHW   = (24 << 21) | (0x03) | OPC_CP2,
-+    OPC_PUNPCKHHW   = (25 << 21) | (0x03) | OPC_CP2,
-+    OPC_PUNPCKLBH   = (26 << 21) | (0x03) | OPC_CP2,
-+    OPC_PUNPCKHBH   = (27 << 21) | (0x03) | OPC_CP2,
-+    OPC_PINSRH_0    = (28 << 21) | (0x03) | OPC_CP2,
-+    OPC_PINSRH_1    = (29 << 21) | (0x03) | OPC_CP2,
-+    OPC_PINSRH_2    = (30 << 21) | (0x03) | OPC_CP2,
-+    OPC_PINSRH_3    = (31 << 21) | (0x03) | OPC_CP2,
-+
-+    OPC_PAVGH       = (24 << 21) | (0x08) | OPC_CP2,
-+    OPC_PAVGB       = (25 << 21) | (0x08) | OPC_CP2,
-+    OPC_PMAXSH      = (26 << 21) | (0x08) | OPC_CP2,
-+    OPC_PMINSH      = (27 << 21) | (0x08) | OPC_CP2,
-+    OPC_PMAXUB      = (28 << 21) | (0x08) | OPC_CP2,
-+    OPC_PMINUB      = (29 << 21) | (0x08) | OPC_CP2,
-+
-+    OPC_PCMPEQW     = (24 << 21) | (0x09) | OPC_CP2,
-+    OPC_PCMPGTW     = (25 << 21) | (0x09) | OPC_CP2,
-+    OPC_PCMPEQH     = (26 << 21) | (0x09) | OPC_CP2,
-+    OPC_PCMPGTH     = (27 << 21) | (0x09) | OPC_CP2,
-+    OPC_PCMPEQB     = (28 << 21) | (0x09) | OPC_CP2,
-+    OPC_PCMPGTB     = (29 << 21) | (0x09) | OPC_CP2,
-+
-+    OPC_PSLLW       = (24 << 21) | (0x0A) | OPC_CP2,
-+    OPC_PSLLH       = (25 << 21) | (0x0A) | OPC_CP2,
-+    OPC_PMULLH      = (26 << 21) | (0x0A) | OPC_CP2,
-+    OPC_PMULHH      = (27 << 21) | (0x0A) | OPC_CP2,
-+    OPC_PMULUW      = (28 << 21) | (0x0A) | OPC_CP2,
-+    OPC_PMULHUH     = (29 << 21) | (0x0A) | OPC_CP2,
-+
-+    OPC_PSRLW       = (24 << 21) | (0x0B) | OPC_CP2,
-+    OPC_PSRLH       = (25 << 21) | (0x0B) | OPC_CP2,
-+    OPC_PSRAW       = (26 << 21) | (0x0B) | OPC_CP2,
-+    OPC_PSRAH       = (27 << 21) | (0x0B) | OPC_CP2,
-+    OPC_PUNPCKLWD   = (28 << 21) | (0x0B) | OPC_CP2,
-+    OPC_PUNPCKHWD   = (29 << 21) | (0x0B) | OPC_CP2,
-+
-+    OPC_ADDU_CP2    = (24 << 21) | (0x0C) | OPC_CP2,
-+    OPC_OR_CP2      = (25 << 21) | (0x0C) | OPC_CP2,
-+    OPC_ADD_CP2     = (26 << 21) | (0x0C) | OPC_CP2,
-+    OPC_DADD_CP2    = (27 << 21) | (0x0C) | OPC_CP2,
-+    OPC_SEQU_CP2    = (28 << 21) | (0x0C) | OPC_CP2,
-+    OPC_SEQ_CP2     = (29 << 21) | (0x0C) | OPC_CP2,
-+
-+    OPC_SUBU_CP2    = (24 << 21) | (0x0D) | OPC_CP2,
-+    OPC_PASUBUB     = (25 << 21) | (0x0D) | OPC_CP2,
-+    OPC_SUB_CP2     = (26 << 21) | (0x0D) | OPC_CP2,
-+    OPC_DSUB_CP2    = (27 << 21) | (0x0D) | OPC_CP2,
-+    OPC_SLTU_CP2    = (28 << 21) | (0x0D) | OPC_CP2,
-+    OPC_SLT_CP2     = (29 << 21) | (0x0D) | OPC_CP2,
-+
-+    OPC_SLL_CP2     = (24 << 21) | (0x0E) | OPC_CP2,
-+    OPC_DSLL_CP2    = (25 << 21) | (0x0E) | OPC_CP2,
-+    OPC_PEXTRH      = (26 << 21) | (0x0E) | OPC_CP2,
-+    OPC_PMADDHW     = (27 << 21) | (0x0E) | OPC_CP2,
-+    OPC_SLEU_CP2    = (28 << 21) | (0x0E) | OPC_CP2,
-+    OPC_SLE_CP2     = (29 << 21) | (0x0E) | OPC_CP2,
-+
-+    OPC_SRL_CP2     = (24 << 21) | (0x0F) | OPC_CP2,
-+    OPC_DSRL_CP2    = (25 << 21) | (0x0F) | OPC_CP2,
-+    OPC_SRA_CP2     = (26 << 21) | (0x0F) | OPC_CP2,
-+    OPC_DSRA_CP2    = (27 << 21) | (0x0F) | OPC_CP2,
-+    OPC_BIADD       = (28 << 21) | (0x0F) | OPC_CP2,
-+    OPC_PMOVMSKB    = (29 << 21) | (0x0F) | OPC_CP2,
++    /* Loongson 2F */
++    OPC_MULT_G_2F   = 0x10 | OPC_SPECIAL2,
++    OPC_DMULT_G_2F  = 0x11 | OPC_SPECIAL2,
++    OPC_MULTU_G_2F  = 0x12 | OPC_SPECIAL2,
++    OPC_DMULTU_G_2F = 0x13 | OPC_SPECIAL2,
++    OPC_DIV_G_2F    = 0x14 | OPC_SPECIAL2,
++    OPC_DDIV_G_2F   = 0x15 | OPC_SPECIAL2,
++    OPC_DIVU_G_2F   = 0x16 | OPC_SPECIAL2,
++    OPC_DDIVU_G_2F  = 0x17 | OPC_SPECIAL2,
++    OPC_MOD_G_2F    = 0x1c | OPC_SPECIAL2,
++    OPC_DMOD_G_2F   = 0x1d | OPC_SPECIAL2,
++    OPC_MODU_G_2F   = 0x1e | OPC_SPECIAL2,
++    OPC_DMODU_G_2F  = 0x1f | OPC_SPECIAL2,
 +};
 +
-+static void gen_loongson_multimedia(DisasContext *ctx, int rd, int rs, int rt)
++/* Loongson EXT load/store quad word opcodes */
++#define MASK_LOONGSON_GSLSQ(op)           (MASK_OP_MAJOR(op) | (op & 0x8020))
++enum {
++    OPC_GSLQ        = 0x0020 | OPC_LWC2,
++    OPC_GSLQC1      = 0x8020 | OPC_LWC2,
++    OPC_GSSHFL      = OPC_LWC2,
++    OPC_GSSQ        = 0x0020 | OPC_SWC2,
++    OPC_GSSQC1      = 0x8020 | OPC_SWC2,
++    OPC_GSSHFS      = OPC_SWC2,
++};
++
++/* Loongson EXT shifted load/store opcodes */
++#define MASK_LOONGSON_GSSHFLS(op)         (MASK_OP_MAJOR(op) | (op & 0xc03f))
++enum {
++    OPC_GSLWLC1     = 0x4 | OPC_GSSHFL,
++    OPC_GSLWRC1     = 0x5 | OPC_GSSHFL,
++    OPC_GSLDLC1     = 0x6 | OPC_GSSHFL,
++    OPC_GSLDRC1     = 0x7 | OPC_GSSHFL,
++    OPC_GSSWLC1     = 0x4 | OPC_GSSHFS,
++    OPC_GSSWRC1     = 0x5 | OPC_GSSHFS,
++    OPC_GSSDLC1     = 0x6 | OPC_GSSHFS,
++    OPC_GSSDRC1     = 0x7 | OPC_GSSHFS,
++};
++
++/* Loongson EXT LDC2/SDC2 opcodes */
++#define MASK_LOONGSON_LSDC2(op)           (MASK_OP_MAJOR(op) | (op & 0x7))
++
++enum {
++    OPC_GSLBX      = 0x0 | OPC_LDC2,
++    OPC_GSLHX      = 0x1 | OPC_LDC2,
++    OPC_GSLWX      = 0x2 | OPC_LDC2,
++    OPC_GSLDX      = 0x3 | OPC_LDC2,
++    OPC_GSLWXC1    = 0x6 | OPC_LDC2,
++    OPC_GSLDXC1    = 0x7 | OPC_LDC2,
++    OPC_GSSBX      = 0x0 | OPC_SDC2,
++    OPC_GSSHX      = 0x1 | OPC_SDC2,
++    OPC_GSSWX      = 0x2 | OPC_SDC2,
++    OPC_GSSDX      = 0x3 | OPC_SDC2,
++    OPC_GSSWXC1    = 0x6 | OPC_SDC2,
++    OPC_GSSDXC1    = 0x7 | OPC_SDC2,
++};
++
++/* Godson integer instructions */
++static void gen_loongson_integer(DisasContext *ctx, uint32_t opc,
++                                 int rd, int rs, int rt)
 +{
-+    uint32_t opc, shift_max;
-+    TCGv_i64 t0, t1;
-+    TCGCond cond;
++    TCGv t0, t1;
 +
-+    opc = MASK_LMMI(ctx->opcode);
-+    switch (opc) {
-+    case OPC_ADD_CP2:
-+    case OPC_SUB_CP2:
-+    case OPC_DADD_CP2:
-+    case OPC_DSUB_CP2:
-+        t0 = tcg_temp_local_new_i64();
-+        t1 = tcg_temp_local_new_i64();
-+        break;
-+    default:
-+        t0 = tcg_temp_new_i64();
-+        t1 = tcg_temp_new_i64();
-+        break;
-+    }
-+
-+    check_cp1_enabled(ctx);
-+    gen_load_fpr64(ctx, t0, rs);
-+    gen_load_fpr64(ctx, t1, rt);
-+
-+    switch (opc) {
-+    case OPC_PADDSH:
-+        gen_helper_paddsh(t0, t0, t1);
-+        break;
-+    case OPC_PADDUSH:
-+        gen_helper_paddush(t0, t0, t1);
-+        break;
-+    case OPC_PADDH:
-+        gen_helper_paddh(t0, t0, t1);
-+        break;
-+    case OPC_PADDW:
-+        gen_helper_paddw(t0, t0, t1);
-+        break;
-+    case OPC_PADDSB:
-+        gen_helper_paddsb(t0, t0, t1);
-+        break;
-+    case OPC_PADDUSB:
-+        gen_helper_paddusb(t0, t0, t1);
-+        break;
-+    case OPC_PADDB:
-+        gen_helper_paddb(t0, t0, t1);
-+        break;
-+
-+    case OPC_PSUBSH:
-+        gen_helper_psubsh(t0, t0, t1);
-+        break;
-+    case OPC_PSUBUSH:
-+        gen_helper_psubush(t0, t0, t1);
-+        break;
-+    case OPC_PSUBH:
-+        gen_helper_psubh(t0, t0, t1);
-+        break;
-+    case OPC_PSUBW:
-+        gen_helper_psubw(t0, t0, t1);
-+        break;
-+    case OPC_PSUBSB:
-+        gen_helper_psubsb(t0, t0, t1);
-+        break;
-+    case OPC_PSUBUSB:
-+        gen_helper_psubusb(t0, t0, t1);
-+        break;
-+    case OPC_PSUBB:
-+        gen_helper_psubb(t0, t0, t1);
-+        break;
-+
-+    case OPC_PSHUFH:
-+        gen_helper_pshufh(t0, t0, t1);
-+        break;
-+    case OPC_PACKSSWH:
-+        gen_helper_packsswh(t0, t0, t1);
-+        break;
-+    case OPC_PACKSSHB:
-+        gen_helper_packsshb(t0, t0, t1);
-+        break;
-+    case OPC_PACKUSHB:
-+        gen_helper_packushb(t0, t0, t1);
-+        break;
-+
-+    case OPC_PUNPCKLHW:
-+        gen_helper_punpcklhw(t0, t0, t1);
-+        break;
-+    case OPC_PUNPCKHHW:
-+        gen_helper_punpckhhw(t0, t0, t1);
-+        break;
-+    case OPC_PUNPCKLBH:
-+        gen_helper_punpcklbh(t0, t0, t1);
-+        break;
-+    case OPC_PUNPCKHBH:
-+        gen_helper_punpckhbh(t0, t0, t1);
-+        break;
-+    case OPC_PUNPCKLWD:
-+        gen_helper_punpcklwd(t0, t0, t1);
-+        break;
-+    case OPC_PUNPCKHWD:
-+        gen_helper_punpckhwd(t0, t0, t1);
-+        break;
-+
-+    case OPC_PAVGH:
-+        gen_helper_pavgh(t0, t0, t1);
-+        break;
-+    case OPC_PAVGB:
-+        gen_helper_pavgb(t0, t0, t1);
-+        break;
-+    case OPC_PMAXSH:
-+        gen_helper_pmaxsh(t0, t0, t1);
-+        break;
-+    case OPC_PMINSH:
-+        gen_helper_pminsh(t0, t0, t1);
-+        break;
-+    case OPC_PMAXUB:
-+        gen_helper_pmaxub(t0, t0, t1);
-+        break;
-+    case OPC_PMINUB:
-+        gen_helper_pminub(t0, t0, t1);
-+        break;
-+
-+    case OPC_PCMPEQW:
-+        gen_helper_pcmpeqw(t0, t0, t1);
-+        break;
-+    case OPC_PCMPGTW:
-+        gen_helper_pcmpgtw(t0, t0, t1);
-+        break;
-+    case OPC_PCMPEQH:
-+        gen_helper_pcmpeqh(t0, t0, t1);
-+        break;
-+    case OPC_PCMPGTH:
-+        gen_helper_pcmpgth(t0, t0, t1);
-+        break;
-+    case OPC_PCMPEQB:
-+        gen_helper_pcmpeqb(t0, t0, t1);
-+        break;
-+    case OPC_PCMPGTB:
-+        gen_helper_pcmpgtb(t0, t0, t1);
-+        break;
-+
-+    case OPC_PSLLW:
-+        gen_helper_psllw(t0, t0, t1);
-+        break;
-+    case OPC_PSLLH:
-+        gen_helper_psllh(t0, t0, t1);
-+        break;
-+    case OPC_PSRLW:
-+        gen_helper_psrlw(t0, t0, t1);
-+        break;
-+    case OPC_PSRLH:
-+        gen_helper_psrlh(t0, t0, t1);
-+        break;
-+    case OPC_PSRAW:
-+        gen_helper_psraw(t0, t0, t1);
-+        break;
-+    case OPC_PSRAH:
-+        gen_helper_psrah(t0, t0, t1);
-+        break;
-+
-+    case OPC_PMULLH:
-+        gen_helper_pmullh(t0, t0, t1);
-+        break;
-+    case OPC_PMULHH:
-+        gen_helper_pmulhh(t0, t0, t1);
-+        break;
-+    case OPC_PMULHUH:
-+        gen_helper_pmulhuh(t0, t0, t1);
-+        break;
-+    case OPC_PMADDHW:
-+        gen_helper_pmaddhw(t0, t0, t1);
-+        break;
-+
-+    case OPC_PASUBUB:
-+        gen_helper_pasubub(t0, t0, t1);
-+        break;
-+    case OPC_BIADD:
-+        gen_helper_biadd(t0, t0);
-+        break;
-+    case OPC_PMOVMSKB:
-+        gen_helper_pmovmskb(t0, t0);
-+        break;
-+
-+    case OPC_PADDD:
-+        tcg_gen_add_i64(t0, t0, t1);
-+        break;
-+    case OPC_PSUBD:
-+        tcg_gen_sub_i64(t0, t0, t1);
-+        break;
-+    case OPC_XOR_CP2:
-+        tcg_gen_xor_i64(t0, t0, t1);
-+        break;
-+    case OPC_NOR_CP2:
-+        tcg_gen_nor_i64(t0, t0, t1);
-+        break;
-+    case OPC_AND_CP2:
-+        tcg_gen_and_i64(t0, t0, t1);
-+        break;
-+    case OPC_OR_CP2:
-+        tcg_gen_or_i64(t0, t0, t1);
-+        break;
-+
-+    case OPC_PANDN:
-+        tcg_gen_andc_i64(t0, t1, t0);
-+        break;
-+
-+    case OPC_PINSRH_0:
-+        tcg_gen_deposit_i64(t0, t0, t1, 0, 16);
-+        break;
-+    case OPC_PINSRH_1:
-+        tcg_gen_deposit_i64(t0, t0, t1, 16, 16);
-+        break;
-+    case OPC_PINSRH_2:
-+        tcg_gen_deposit_i64(t0, t0, t1, 32, 16);
-+        break;
-+    case OPC_PINSRH_3:
-+        tcg_gen_deposit_i64(t0, t0, t1, 48, 16);
-+        break;
-+
-+    case OPC_PEXTRH:
-+        tcg_gen_andi_i64(t1, t1, 3);
-+        tcg_gen_shli_i64(t1, t1, 4);
-+        tcg_gen_shr_i64(t0, t0, t1);
-+        tcg_gen_ext16u_i64(t0, t0);
-+        break;
-+
-+    case OPC_ADDU_CP2:
-+        tcg_gen_add_i64(t0, t0, t1);
-+        tcg_gen_ext32s_i64(t0, t0);
-+        break;
-+    case OPC_SUBU_CP2:
-+        tcg_gen_sub_i64(t0, t0, t1);
-+        tcg_gen_ext32s_i64(t0, t0);
-+        break;
-+
-+    case OPC_SLL_CP2:
-+        shift_max = 32;
-+        goto do_shift;
-+    case OPC_SRL_CP2:
-+        shift_max = 32;
-+        goto do_shift;
-+    case OPC_SRA_CP2:
-+        shift_max = 32;
-+        goto do_shift;
-+    case OPC_DSLL_CP2:
-+        shift_max = 64;
-+        goto do_shift;
-+    case OPC_DSRL_CP2:
-+        shift_max = 64;
-+        goto do_shift;
-+    case OPC_DSRA_CP2:
-+        shift_max = 64;
-+        goto do_shift;
-+    do_shift:
-+        /* Make sure shift count isn't TCG undefined behaviour.  */
-+        tcg_gen_andi_i64(t1, t1, shift_max - 1);
-+
-+        switch (opc) {
-+        case OPC_SLL_CP2:
-+        case OPC_DSLL_CP2:
-+            tcg_gen_shl_i64(t0, t0, t1);
-+            break;
-+        case OPC_SRA_CP2:
-+        case OPC_DSRA_CP2:
-+            /*
-+             * Since SRA is UndefinedResult without sign-extended inputs,
-+             * we can treat SRA and DSRA the same.
-+             */
-+            tcg_gen_sar_i64(t0, t0, t1);
-+            break;
-+        case OPC_SRL_CP2:
-+            /* We want to shift in zeros for SRL; zero-extend first.  */
-+            tcg_gen_ext32u_i64(t0, t0);
-+            /* FALLTHRU */
-+        case OPC_DSRL_CP2:
-+            tcg_gen_shr_i64(t0, t0, t1);
-+            break;
-+        }
-+
-+        if (shift_max == 32) {
-+            tcg_gen_ext32s_i64(t0, t0);
-+        }
-+
-+        /* Shifts larger than MAX produce zero.  */
-+        tcg_gen_setcondi_i64(TCG_COND_LTU, t1, t1, shift_max);
-+        tcg_gen_neg_i64(t1, t1);
-+        tcg_gen_and_i64(t0, t0, t1);
-+        break;
-+
-+    case OPC_ADD_CP2:
-+    case OPC_DADD_CP2:
-+        {
-+            TCGv_i64 t2 = tcg_temp_new_i64();
-+            TCGLabel *lab = gen_new_label();
-+
-+            tcg_gen_mov_i64(t2, t0);
-+            tcg_gen_add_i64(t0, t1, t2);
-+            if (opc == OPC_ADD_CP2) {
-+                tcg_gen_ext32s_i64(t0, t0);
-+            }
-+            tcg_gen_xor_i64(t1, t1, t2);
-+            tcg_gen_xor_i64(t2, t2, t0);
-+            tcg_gen_andc_i64(t1, t2, t1);
-+            tcg_temp_free_i64(t2);
-+            tcg_gen_brcondi_i64(TCG_COND_GE, t1, 0, lab);
-+            generate_exception(ctx, EXCP_OVERFLOW);
-+            gen_set_label(lab);
-+            break;
-+        }
-+
-+    case OPC_SUB_CP2:
-+    case OPC_DSUB_CP2:
-+        {
-+            TCGv_i64 t2 = tcg_temp_new_i64();
-+            TCGLabel *lab = gen_new_label();
-+
-+            tcg_gen_mov_i64(t2, t0);
-+            tcg_gen_sub_i64(t0, t1, t2);
-+            if (opc == OPC_SUB_CP2) {
-+                tcg_gen_ext32s_i64(t0, t0);
-+            }
-+            tcg_gen_xor_i64(t1, t1, t2);
-+            tcg_gen_xor_i64(t2, t2, t0);
-+            tcg_gen_and_i64(t1, t1, t2);
-+            tcg_temp_free_i64(t2);
-+            tcg_gen_brcondi_i64(TCG_COND_GE, t1, 0, lab);
-+            generate_exception(ctx, EXCP_OVERFLOW);
-+            gen_set_label(lab);
-+            break;
-+        }
-+
-+    case OPC_PMULUW:
-+        tcg_gen_ext32u_i64(t0, t0);
-+        tcg_gen_ext32u_i64(t1, t1);
-+        tcg_gen_mul_i64(t0, t0, t1);
-+        break;
-+
-+    case OPC_SEQU_CP2:
-+    case OPC_SEQ_CP2:
-+        cond = TCG_COND_EQ;
-+        goto do_cc_cond;
-+        break;
-+    case OPC_SLTU_CP2:
-+        cond = TCG_COND_LTU;
-+        goto do_cc_cond;
-+        break;
-+    case OPC_SLT_CP2:
-+        cond = TCG_COND_LT;
-+        goto do_cc_cond;
-+        break;
-+    case OPC_SLEU_CP2:
-+        cond = TCG_COND_LEU;
-+        goto do_cc_cond;
-+        break;
-+    case OPC_SLE_CP2:
-+        cond = TCG_COND_LE;
-+    do_cc_cond:
-+        {
-+            int cc = (ctx->opcode >> 8) & 0x7;
-+            TCGv_i64 t64 = tcg_temp_new_i64();
-+            TCGv_i32 t32 = tcg_temp_new_i32();
-+
-+            tcg_gen_setcond_i64(cond, t64, t0, t1);
-+            tcg_gen_extrl_i64_i32(t32, t64);
-+            tcg_gen_deposit_i32(fpu_fcr31, fpu_fcr31, t32,
-+                                get_fp_bit(cc), 1);
-+
-+            tcg_temp_free_i32(t32);
-+            tcg_temp_free_i64(t64);
-+        }
-+        goto no_rd;
-+        break;
-+    default:
-+        MIPS_INVAL("loongson_cp2");
-+        generate_exception_end(ctx, EXCP_RI);
++    if (rd == 0) {
++        /* Treat as NOP. */
 +        return;
 +    }
 +
-+    gen_store_fpr64(ctx, t0, rd);
++    switch (opc) {
++    case OPC_MULT_G_2E:
++    case OPC_MULT_G_2F:
++    case OPC_MULTU_G_2E:
++    case OPC_MULTU_G_2F:
++#if defined(TARGET_MIPS64)
++    case OPC_DMULT_G_2E:
++    case OPC_DMULT_G_2F:
++    case OPC_DMULTU_G_2E:
++    case OPC_DMULTU_G_2F:
++#endif
++        t0 = tcg_temp_new();
++        t1 = tcg_temp_new();
++        break;
++    default:
++        t0 = tcg_temp_local_new();
++        t1 = tcg_temp_local_new();
++        break;
++    }
 +
-+no_rd:
-+    tcg_temp_free_i64(t0);
-+    tcg_temp_free_i64(t1);
++    gen_load_gpr(t0, rs);
++    gen_load_gpr(t1, rt);
++
++    switch (opc) {
++    case OPC_MULT_G_2E:
++    case OPC_MULT_G_2F:
++        tcg_gen_mul_tl(cpu_gpr[rd], t0, t1);
++        tcg_gen_ext32s_tl(cpu_gpr[rd], cpu_gpr[rd]);
++        break;
++    case OPC_MULTU_G_2E:
++    case OPC_MULTU_G_2F:
++        tcg_gen_ext32u_tl(t0, t0);
++        tcg_gen_ext32u_tl(t1, t1);
++        tcg_gen_mul_tl(cpu_gpr[rd], t0, t1);
++        tcg_gen_ext32s_tl(cpu_gpr[rd], cpu_gpr[rd]);
++        break;
++    case OPC_DIV_G_2E:
++    case OPC_DIV_G_2F:
++        {
++            TCGLabel *l1 = gen_new_label();
++            TCGLabel *l2 = gen_new_label();
++            TCGLabel *l3 = gen_new_label();
++            tcg_gen_ext32s_tl(t0, t0);
++            tcg_gen_ext32s_tl(t1, t1);
++            tcg_gen_brcondi_tl(TCG_COND_NE, t1, 0, l1);
++            tcg_gen_movi_tl(cpu_gpr[rd], 0);
++            tcg_gen_br(l3);
++            gen_set_label(l1);
++            tcg_gen_brcondi_tl(TCG_COND_NE, t0, INT_MIN, l2);
++            tcg_gen_brcondi_tl(TCG_COND_NE, t1, -1, l2);
++            tcg_gen_mov_tl(cpu_gpr[rd], t0);
++            tcg_gen_br(l3);
++            gen_set_label(l2);
++            tcg_gen_div_tl(cpu_gpr[rd], t0, t1);
++            tcg_gen_ext32s_tl(cpu_gpr[rd], cpu_gpr[rd]);
++            gen_set_label(l3);
++        }
++        break;
++    case OPC_DIVU_G_2E:
++    case OPC_DIVU_G_2F:
++        {
++            TCGLabel *l1 = gen_new_label();
++            TCGLabel *l2 = gen_new_label();
++            tcg_gen_ext32u_tl(t0, t0);
++            tcg_gen_ext32u_tl(t1, t1);
++            tcg_gen_brcondi_tl(TCG_COND_NE, t1, 0, l1);
++            tcg_gen_movi_tl(cpu_gpr[rd], 0);
++            tcg_gen_br(l2);
++            gen_set_label(l1);
++            tcg_gen_divu_tl(cpu_gpr[rd], t0, t1);
++            tcg_gen_ext32s_tl(cpu_gpr[rd], cpu_gpr[rd]);
++            gen_set_label(l2);
++        }
++        break;
++    case OPC_MOD_G_2E:
++    case OPC_MOD_G_2F:
++        {
++            TCGLabel *l1 = gen_new_label();
++            TCGLabel *l2 = gen_new_label();
++            TCGLabel *l3 = gen_new_label();
++            tcg_gen_ext32u_tl(t0, t0);
++            tcg_gen_ext32u_tl(t1, t1);
++            tcg_gen_brcondi_tl(TCG_COND_EQ, t1, 0, l1);
++            tcg_gen_brcondi_tl(TCG_COND_NE, t0, INT_MIN, l2);
++            tcg_gen_brcondi_tl(TCG_COND_NE, t1, -1, l2);
++            gen_set_label(l1);
++            tcg_gen_movi_tl(cpu_gpr[rd], 0);
++            tcg_gen_br(l3);
++            gen_set_label(l2);
++            tcg_gen_rem_tl(cpu_gpr[rd], t0, t1);
++            tcg_gen_ext32s_tl(cpu_gpr[rd], cpu_gpr[rd]);
++            gen_set_label(l3);
++        }
++        break;
++    case OPC_MODU_G_2E:
++    case OPC_MODU_G_2F:
++        {
++            TCGLabel *l1 = gen_new_label();
++            TCGLabel *l2 = gen_new_label();
++            tcg_gen_ext32u_tl(t0, t0);
++            tcg_gen_ext32u_tl(t1, t1);
++            tcg_gen_brcondi_tl(TCG_COND_NE, t1, 0, l1);
++            tcg_gen_movi_tl(cpu_gpr[rd], 0);
++            tcg_gen_br(l2);
++            gen_set_label(l1);
++            tcg_gen_remu_tl(cpu_gpr[rd], t0, t1);
++            tcg_gen_ext32s_tl(cpu_gpr[rd], cpu_gpr[rd]);
++            gen_set_label(l2);
++        }
++        break;
++#if defined(TARGET_MIPS64)
++    case OPC_DMULT_G_2E:
++    case OPC_DMULT_G_2F:
++        tcg_gen_mul_tl(cpu_gpr[rd], t0, t1);
++        break;
++    case OPC_DMULTU_G_2E:
++    case OPC_DMULTU_G_2F:
++        tcg_gen_mul_tl(cpu_gpr[rd], t0, t1);
++        break;
++    case OPC_DDIV_G_2E:
++    case OPC_DDIV_G_2F:
++        {
++            TCGLabel *l1 = gen_new_label();
++            TCGLabel *l2 = gen_new_label();
++            TCGLabel *l3 = gen_new_label();
++            tcg_gen_brcondi_tl(TCG_COND_NE, t1, 0, l1);
++            tcg_gen_movi_tl(cpu_gpr[rd], 0);
++            tcg_gen_br(l3);
++            gen_set_label(l1);
++            tcg_gen_brcondi_tl(TCG_COND_NE, t0, -1LL << 63, l2);
++            tcg_gen_brcondi_tl(TCG_COND_NE, t1, -1LL, l2);
++            tcg_gen_mov_tl(cpu_gpr[rd], t0);
++            tcg_gen_br(l3);
++            gen_set_label(l2);
++            tcg_gen_div_tl(cpu_gpr[rd], t0, t1);
++            gen_set_label(l3);
++        }
++        break;
++    case OPC_DDIVU_G_2E:
++    case OPC_DDIVU_G_2F:
++        {
++            TCGLabel *l1 = gen_new_label();
++            TCGLabel *l2 = gen_new_label();
++            tcg_gen_brcondi_tl(TCG_COND_NE, t1, 0, l1);
++            tcg_gen_movi_tl(cpu_gpr[rd], 0);
++            tcg_gen_br(l2);
++            gen_set_label(l1);
++            tcg_gen_divu_tl(cpu_gpr[rd], t0, t1);
++            gen_set_label(l2);
++        }
++        break;
++    case OPC_DMOD_G_2E:
++    case OPC_DMOD_G_2F:
++        {
++            TCGLabel *l1 = gen_new_label();
++            TCGLabel *l2 = gen_new_label();
++            TCGLabel *l3 = gen_new_label();
++            tcg_gen_brcondi_tl(TCG_COND_EQ, t1, 0, l1);
++            tcg_gen_brcondi_tl(TCG_COND_NE, t0, -1LL << 63, l2);
++            tcg_gen_brcondi_tl(TCG_COND_NE, t1, -1LL, l2);
++            gen_set_label(l1);
++            tcg_gen_movi_tl(cpu_gpr[rd], 0);
++            tcg_gen_br(l3);
++            gen_set_label(l2);
++            tcg_gen_rem_tl(cpu_gpr[rd], t0, t1);
++            gen_set_label(l3);
++        }
++        break;
++    case OPC_DMODU_G_2E:
++    case OPC_DMODU_G_2F:
++        {
++            TCGLabel *l1 = gen_new_label();
++            TCGLabel *l2 = gen_new_label();
++            tcg_gen_brcondi_tl(TCG_COND_NE, t1, 0, l1);
++            tcg_gen_movi_tl(cpu_gpr[rd], 0);
++            tcg_gen_br(l2);
++            gen_set_label(l1);
++            tcg_gen_remu_tl(cpu_gpr[rd], t0, t1);
++            gen_set_label(l2);
++        }
++        break;
++#endif
++    }
++
++    tcg_temp_free(t0);
++    tcg_temp_free(t1);
++}
++
++static void gen_loongson_lswc2(DisasContext *ctx, int rt,
++                               int rs, int rd)
++{
++    TCGv t0, t1, t2;
++    TCGv_i32 fp0;
++#if defined(TARGET_MIPS64)
++    int lsq_rt1 = ctx->opcode & 0x1f;
++    int lsq_offset = sextract32(ctx->opcode, 6, 9) << 4;
++#endif
++    int shf_offset = sextract32(ctx->opcode, 6, 8);
++
++    t0 = tcg_temp_new();
++
++    switch (MASK_LOONGSON_GSLSQ(ctx->opcode)) {
++#if defined(TARGET_MIPS64)
++    case OPC_GSLQ:
++        t1 = tcg_temp_new();
++        gen_base_offset_addr(ctx, t0, rs, lsq_offset);
++        tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx, MO_TEQ |
++                           ctx->default_tcg_memop_mask);
++        gen_base_offset_addr(ctx, t0, rs, lsq_offset + 8);
++        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEQ |
++                           ctx->default_tcg_memop_mask);
++        gen_store_gpr(t1, rt);
++        gen_store_gpr(t0, lsq_rt1);
++        tcg_temp_free(t1);
++        break;
++    case OPC_GSLQC1:
++        check_cp1_enabled(ctx);
++        t1 = tcg_temp_new();
++        gen_base_offset_addr(ctx, t0, rs, lsq_offset);
++        tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx, MO_TEQ |
++                           ctx->default_tcg_memop_mask);
++        gen_base_offset_addr(ctx, t0, rs, lsq_offset + 8);
++        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEQ |
++                           ctx->default_tcg_memop_mask);
++        gen_store_fpr64(ctx, t1, rt);
++        gen_store_fpr64(ctx, t0, lsq_rt1);
++        tcg_temp_free(t1);
++        break;
++    case OPC_GSSQ:
++        t1 = tcg_temp_new();
++        gen_base_offset_addr(ctx, t0, rs, lsq_offset);
++        gen_load_gpr(t1, rt);
++        tcg_gen_qemu_st_tl(t1, t0, ctx->mem_idx, MO_TEQ |
++                           ctx->default_tcg_memop_mask);
++        gen_base_offset_addr(ctx, t0, rs, lsq_offset + 8);
++        gen_load_gpr(t1, lsq_rt1);
++        tcg_gen_qemu_st_tl(t1, t0, ctx->mem_idx, MO_TEQ |
++                           ctx->default_tcg_memop_mask);
++        tcg_temp_free(t1);
++        break;
++    case OPC_GSSQC1:
++        check_cp1_enabled(ctx);
++        t1 = tcg_temp_new();
++        gen_base_offset_addr(ctx, t0, rs, lsq_offset);
++        gen_load_fpr64(ctx, t1, rt);
++        tcg_gen_qemu_st_tl(t1, t0, ctx->mem_idx, MO_TEQ |
++                           ctx->default_tcg_memop_mask);
++        gen_base_offset_addr(ctx, t0, rs, lsq_offset + 8);
++        gen_load_fpr64(ctx, t1, lsq_rt1);
++        tcg_gen_qemu_st_tl(t1, t0, ctx->mem_idx, MO_TEQ |
++                           ctx->default_tcg_memop_mask);
++        tcg_temp_free(t1);
++        break;
++#endif
++    case OPC_GSSHFL:
++        switch (MASK_LOONGSON_GSSHFLS(ctx->opcode)) {
++        case OPC_GSLWLC1:
++            check_cp1_enabled(ctx);
++            gen_base_offset_addr(ctx, t0, rs, shf_offset);
++            t1 = tcg_temp_new();
++            tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx, MO_UB);
++            tcg_gen_andi_tl(t1, t0, 3);
++#ifndef TARGET_WORDS_BIGENDIAN
++            tcg_gen_xori_tl(t1, t1, 3);
++#endif
++            tcg_gen_shli_tl(t1, t1, 3);
++            tcg_gen_andi_tl(t0, t0, ~3);
++            tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEUL);
++            tcg_gen_shl_tl(t0, t0, t1);
++            t2 = tcg_const_tl(-1);
++            tcg_gen_shl_tl(t2, t2, t1);
++            fp0 = tcg_temp_new_i32();
++            gen_load_fpr32(ctx, fp0, rt);
++            tcg_gen_ext_i32_tl(t1, fp0);
++            tcg_gen_andc_tl(t1, t1, t2);
++            tcg_temp_free(t2);
++            tcg_gen_or_tl(t0, t0, t1);
++            tcg_temp_free(t1);
++#if defined(TARGET_MIPS64)
++            tcg_gen_extrl_i64_i32(fp0, t0);
++#else
++            tcg_gen_ext32s_tl(fp0, t0);
++#endif
++            gen_store_fpr32(ctx, fp0, rt);
++            tcg_temp_free_i32(fp0);
++            break;
++        case OPC_GSLWRC1:
++            check_cp1_enabled(ctx);
++            gen_base_offset_addr(ctx, t0, rs, shf_offset);
++            t1 = tcg_temp_new();
++            tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx, MO_UB);
++            tcg_gen_andi_tl(t1, t0, 3);
++#ifdef TARGET_WORDS_BIGENDIAN
++            tcg_gen_xori_tl(t1, t1, 3);
++#endif
++            tcg_gen_shli_tl(t1, t1, 3);
++            tcg_gen_andi_tl(t0, t0, ~3);
++            tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEUL);
++            tcg_gen_shr_tl(t0, t0, t1);
++            tcg_gen_xori_tl(t1, t1, 31);
++            t2 = tcg_const_tl(0xfffffffeull);
++            tcg_gen_shl_tl(t2, t2, t1);
++            fp0 = tcg_temp_new_i32();
++            gen_load_fpr32(ctx, fp0, rt);
++            tcg_gen_ext_i32_tl(t1, fp0);
++            tcg_gen_and_tl(t1, t1, t2);
++            tcg_temp_free(t2);
++            tcg_gen_or_tl(t0, t0, t1);
++            tcg_temp_free(t1);
++#if defined(TARGET_MIPS64)
++            tcg_gen_extrl_i64_i32(fp0, t0);
++#else
++            tcg_gen_ext32s_tl(fp0, t0);
++#endif
++            gen_store_fpr32(ctx, fp0, rt);
++            tcg_temp_free_i32(fp0);
++            break;
++#if defined(TARGET_MIPS64)
++        case OPC_GSLDLC1:
++            check_cp1_enabled(ctx);
++            gen_base_offset_addr(ctx, t0, rs, shf_offset);
++            t1 = tcg_temp_new();
++            tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx, MO_UB);
++            tcg_gen_andi_tl(t1, t0, 7);
++#ifndef TARGET_WORDS_BIGENDIAN
++            tcg_gen_xori_tl(t1, t1, 7);
++#endif
++            tcg_gen_shli_tl(t1, t1, 3);
++            tcg_gen_andi_tl(t0, t0, ~7);
++            tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEQ);
++            tcg_gen_shl_tl(t0, t0, t1);
++            t2 = tcg_const_tl(-1);
++            tcg_gen_shl_tl(t2, t2, t1);
++            gen_load_fpr64(ctx, t1, rt);
++            tcg_gen_andc_tl(t1, t1, t2);
++            tcg_temp_free(t2);
++            tcg_gen_or_tl(t0, t0, t1);
++            tcg_temp_free(t1);
++            gen_store_fpr64(ctx, t0, rt);
++            break;
++        case OPC_GSLDRC1:
++            check_cp1_enabled(ctx);
++            gen_base_offset_addr(ctx, t0, rs, shf_offset);
++            t1 = tcg_temp_new();
++            tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx, MO_UB);
++            tcg_gen_andi_tl(t1, t0, 7);
++#ifdef TARGET_WORDS_BIGENDIAN
++            tcg_gen_xori_tl(t1, t1, 7);
++#endif
++            tcg_gen_shli_tl(t1, t1, 3);
++            tcg_gen_andi_tl(t0, t0, ~7);
++            tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEQ);
++            tcg_gen_shr_tl(t0, t0, t1);
++            tcg_gen_xori_tl(t1, t1, 63);
++            t2 = tcg_const_tl(0xfffffffffffffffeull);
++            tcg_gen_shl_tl(t2, t2, t1);
++            gen_load_fpr64(ctx, t1, rt);
++            tcg_gen_and_tl(t1, t1, t2);
++            tcg_temp_free(t2);
++            tcg_gen_or_tl(t0, t0, t1);
++            tcg_temp_free(t1);
++            gen_store_fpr64(ctx, t0, rt);
++            break;
++#endif
++        default:
++            MIPS_INVAL("loongson_gsshfl");
++            generate_exception_end(ctx, EXCP_RI);
++            break;
++        }
++        break;
++    case OPC_GSSHFS:
++        switch (MASK_LOONGSON_GSSHFLS(ctx->opcode)) {
++        case OPC_GSSWLC1:
++            check_cp1_enabled(ctx);
++            t1 = tcg_temp_new();
++            gen_base_offset_addr(ctx, t0, rs, shf_offset);
++            fp0 = tcg_temp_new_i32();
++            gen_load_fpr32(ctx, fp0, rt);
++            tcg_gen_ext_i32_tl(t1, fp0);
++            gen_helper_0e2i(swl, t1, t0, ctx->mem_idx);
++            tcg_temp_free_i32(fp0);
++            tcg_temp_free(t1);
++            break;
++        case OPC_GSSWRC1:
++            check_cp1_enabled(ctx);
++            t1 = tcg_temp_new();
++            gen_base_offset_addr(ctx, t0, rs, shf_offset);
++            fp0 = tcg_temp_new_i32();
++            gen_load_fpr32(ctx, fp0, rt);
++            tcg_gen_ext_i32_tl(t1, fp0);
++            gen_helper_0e2i(swr, t1, t0, ctx->mem_idx);
++            tcg_temp_free_i32(fp0);
++            tcg_temp_free(t1);
++            break;
++#if defined(TARGET_MIPS64)
++        case OPC_GSSDLC1:
++            check_cp1_enabled(ctx);
++            t1 = tcg_temp_new();
++            gen_base_offset_addr(ctx, t0, rs, shf_offset);
++            gen_load_fpr64(ctx, t1, rt);
++            gen_helper_0e2i(sdl, t1, t0, ctx->mem_idx);
++            tcg_temp_free(t1);
++            break;
++        case OPC_GSSDRC1:
++            check_cp1_enabled(ctx);
++            t1 = tcg_temp_new();
++            gen_base_offset_addr(ctx, t0, rs, shf_offset);
++            gen_load_fpr64(ctx, t1, rt);
++            gen_helper_0e2i(sdr, t1, t0, ctx->mem_idx);
++            tcg_temp_free(t1);
++            break;
++#endif
++        default:
++            MIPS_INVAL("loongson_gsshfs");
++            generate_exception_end(ctx, EXCP_RI);
++            break;
++        }
++        break;
++    default:
++        MIPS_INVAL("loongson_gslsq");
++        generate_exception_end(ctx, EXCP_RI);
++        break;
++    }
++    tcg_temp_free(t0);
++}
++
++/* Loongson EXT LDC2/SDC2 */
++static void gen_loongson_lsdc2(DisasContext *ctx, int rt,
++                               int rs, int rd)
++{
++    int offset = sextract32(ctx->opcode, 3, 8);
++    uint32_t opc = MASK_LOONGSON_LSDC2(ctx->opcode);
++    TCGv t0, t1;
++    TCGv_i32 fp0;
++
++    /* Pre-conditions */
++    switch (opc) {
++    case OPC_GSLBX:
++    case OPC_GSLHX:
++    case OPC_GSLWX:
++    case OPC_GSLDX:
++        /* prefetch, implement as NOP */
++        if (rt == 0) {
++            return;
++        }
++        break;
++    case OPC_GSSBX:
++    case OPC_GSSHX:
++    case OPC_GSSWX:
++    case OPC_GSSDX:
++        break;
++    case OPC_GSLWXC1:
++#if defined(TARGET_MIPS64)
++    case OPC_GSLDXC1:
++#endif
++        check_cp1_enabled(ctx);
++        /* prefetch, implement as NOP */
++        if (rt == 0) {
++            return;
++        }
++        break;
++    case OPC_GSSWXC1:
++#if defined(TARGET_MIPS64)
++    case OPC_GSSDXC1:
++#endif
++        check_cp1_enabled(ctx);
++        break;
++    default:
++        MIPS_INVAL("loongson_lsdc2");
++        generate_exception_end(ctx, EXCP_RI);
++        return;
++        break;
++    }
++
++    t0 = tcg_temp_new();
++
++    gen_base_offset_addr(ctx, t0, rs, offset);
++    gen_op_addr_add(ctx, t0, cpu_gpr[rd], t0);
++
++    switch (opc) {
++    case OPC_GSLBX:
++        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_SB);
++        gen_store_gpr(t0, rt);
++        break;
++    case OPC_GSLHX:
++        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TESW |
++                           ctx->default_tcg_memop_mask);
++        gen_store_gpr(t0, rt);
++        break;
++    case OPC_GSLWX:
++        gen_base_offset_addr(ctx, t0, rs, offset);
++        if (rd) {
++            gen_op_addr_add(ctx, t0, cpu_gpr[rd], t0);
++        }
++        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TESL |
++                           ctx->default_tcg_memop_mask);
++        gen_store_gpr(t0, rt);
++        break;
++#if defined(TARGET_MIPS64)
++    case OPC_GSLDX:
++        gen_base_offset_addr(ctx, t0, rs, offset);
++        if (rd) {
++            gen_op_addr_add(ctx, t0, cpu_gpr[rd], t0);
++        }
++        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEQ |
++                           ctx->default_tcg_memop_mask);
++        gen_store_gpr(t0, rt);
++        break;
++#endif
++    case OPC_GSLWXC1:
++        check_cp1_enabled(ctx);
++        gen_base_offset_addr(ctx, t0, rs, offset);
++        if (rd) {
++            gen_op_addr_add(ctx, t0, cpu_gpr[rd], t0);
++        }
++        fp0 = tcg_temp_new_i32();
++        tcg_gen_qemu_ld_i32(fp0, t0, ctx->mem_idx, MO_TESL |
++                            ctx->default_tcg_memop_mask);
++        gen_store_fpr32(ctx, fp0, rt);
++        tcg_temp_free_i32(fp0);
++        break;
++#if defined(TARGET_MIPS64)
++    case OPC_GSLDXC1:
++        check_cp1_enabled(ctx);
++        gen_base_offset_addr(ctx, t0, rs, offset);
++        if (rd) {
++            gen_op_addr_add(ctx, t0, cpu_gpr[rd], t0);
++        }
++        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEQ |
++                           ctx->default_tcg_memop_mask);
++        gen_store_fpr64(ctx, t0, rt);
++        break;
++#endif
++    case OPC_GSSBX:
++        t1 = tcg_temp_new();
++        gen_load_gpr(t1, rt);
++        tcg_gen_qemu_st_tl(t1, t0, ctx->mem_idx, MO_SB);
++        tcg_temp_free(t1);
++        break;
++    case OPC_GSSHX:
++        t1 = tcg_temp_new();
++        gen_load_gpr(t1, rt);
++        tcg_gen_qemu_st_tl(t1, t0, ctx->mem_idx, MO_TEUW |
++                           ctx->default_tcg_memop_mask);
++        tcg_temp_free(t1);
++        break;
++    case OPC_GSSWX:
++        t1 = tcg_temp_new();
++        gen_load_gpr(t1, rt);
++        tcg_gen_qemu_st_tl(t1, t0, ctx->mem_idx, MO_TEUL |
++                           ctx->default_tcg_memop_mask);
++        tcg_temp_free(t1);
++        break;
++#if defined(TARGET_MIPS64)
++    case OPC_GSSDX:
++        t1 = tcg_temp_new();
++        gen_load_gpr(t1, rt);
++        tcg_gen_qemu_st_tl(t1, t0, ctx->mem_idx, MO_TEQ |
++                           ctx->default_tcg_memop_mask);
++        tcg_temp_free(t1);
++        break;
++#endif
++    case OPC_GSSWXC1:
++        fp0 = tcg_temp_new_i32();
++        gen_load_fpr32(ctx, fp0, rt);
++        tcg_gen_qemu_st_i32(fp0, t0, ctx->mem_idx, MO_TEUL |
++                            ctx->default_tcg_memop_mask);
++        tcg_temp_free_i32(fp0);
++        break;
++#if defined(TARGET_MIPS64)
++    case OPC_GSSDXC1:
++        t1 = tcg_temp_new();
++        gen_load_fpr64(ctx, t1, rt);
++        tcg_gen_qemu_st_i64(t1, t0, ctx->mem_idx, MO_TEQ |
++                            ctx->default_tcg_memop_mask);
++        tcg_temp_free(t1);
++        break;
++#endif
++    default:
++        break;
++    }
++
++    tcg_temp_free(t0);
 +}
 -- 
 2.26.2
