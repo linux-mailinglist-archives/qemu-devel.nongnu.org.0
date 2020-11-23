@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 656A22C0D33
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 15:26:53 +0100 (CET)
-Received: from localhost ([::1]:34692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D3C62C0D75
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 15:29:38 +0100 (CET)
+Received: from localhost ([::1]:43438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khCns-0003AZ-D8
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 09:26:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36826)
+	id 1khCqX-0006oh-5t
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 09:29:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1khCcV-0003NZ-7g
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:15:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43739)
+ id 1khCcb-0003ca-6w
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:15:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55216)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1khCcO-0007qy-Ui
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:15:06 -0500
+ id 1khCcP-0007rJ-8u
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:15:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1606140900;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/LrjPuQtf7rK20LIq8KhnIdXuMU57tW4rSOXbF5Q3Hg=;
- b=AHmxHvqzeLQtXx8fyHa6ncIlR82xGDkLWvm3VFrqmC4/HST91XcW7CchLjIfnVYRiqiqHB
- JY6od730wzry5vd6Yi9wBVzdjw1DWDm7aXaA9j3HfYB/jxi13+0AXt9rQOmEqhkgsl7Y4N
- fZ5rc0ty3EQCW8dzUbhs4UN4LwaTtV4=
+ bh=TPMJfEdLbeWoj6irPtoSvc8pNo5hxSC4s8vDWSBQg4A=;
+ b=V+o+PrcV1SyV/NEuOF+jLFziXzohWrFDC/AfLHsgdfpExR2KJQcCQIjPH/nKX7basUzAjH
+ MOPjr341gWA/JVhmmicrUyC60sge6ptKuD2Vc2NpTx/HSTPuwFZCqWj017B2WoaLCbbNSr
+ i2l9J4gIx1uFgEZ4HgEEiimgbPRpqjc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-269-2O8mEB1INKKKMP2Ii0O0ZA-1; Mon, 23 Nov 2020 09:14:58 -0500
-X-MC-Unique: 2O8mEB1INKKKMP2Ii0O0ZA-1
+ us-mta-582-oYc1pB3pMSegwEtKLApk3w-1; Mon, 23 Nov 2020 09:14:58 -0500
+X-MC-Unique: oYc1pB3pMSegwEtKLApk3w-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D4745212
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E8C218B9EDC
  for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 14:14:57 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D60C160C66
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 14:14:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3F5FC60C67
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 14:14:57 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 31/36] vl: extract softmmu/rtc.c
-Date: Mon, 23 Nov 2020 09:14:30 -0500
-Message-Id: <20201123141435.2726558-32-pbonzini@redhat.com>
+Subject: [PATCH 32/36] vl: extract softmmu/runstate.c
+Date: Mon, 23 Nov 2020 09:14:31 -0500
+Message-Id: <20201123141435.2726558-33-pbonzini@redhat.com>
 In-Reply-To: <20201123141435.2726558-1-pbonzini@redhat.com>
 References: <20201123141435.2726558-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,14 +58,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,46 +84,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/sysemu/sysemu.h |   2 +
+ include/sysemu/sysemu.h |   3 +
  softmmu/meson.build     |   1 +
- softmmu/rtc.c           | 190 ++++++++++++++++++++++++++++++++++++++++
- softmmu/vl.c            | 156 ---------------------------------
- 4 files changed, 193 insertions(+), 156 deletions(-)
- create mode 100644 softmmu/rtc.c
+ softmmu/runstate.c      | 800 ++++++++++++++++++++++++++++++++++++++++
+ softmmu/vl.c            | 752 +------------------------------------
+ 4 files changed, 805 insertions(+), 751 deletions(-)
+ create mode 100644 softmmu/runstate.c
 
 diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
-index 1b62deaf2b..18cf586cd0 100644
+index 18cf586cd0..3dac3229ec 100644
 --- a/include/sysemu/sysemu.h
 +++ b/include/sysemu/sysemu.h
-@@ -22,6 +22,8 @@ void qemu_run_machine_init_done_notifiers(void);
- void qemu_add_machine_init_done_notifier(Notifier *notify);
- void qemu_remove_machine_init_done_notifier(Notifier *notify);
+@@ -24,6 +24,8 @@ void qemu_remove_machine_init_done_notifier(Notifier *notify);
  
-+void configure_rtc(QemuOpts *opts);
+ void configure_rtc(QemuOpts *opts);
+ 
++void qemu_init_subsystems(void);
 +
  extern int autostart;
  
  typedef enum {
+@@ -44,6 +46,7 @@ extern int alt_grab;
+ extern int ctrl_grab;
+ extern int graphic_rotate;
+ extern int no_shutdown;
++extern int no_reboot;
+ extern int old_param;
+ extern int boot_menu;
+ extern bool boot_strict;
 diff --git a/softmmu/meson.build b/softmmu/meson.build
-index 7b52339e7a..d098d89653 100644
+index d098d89653..2a73ebc223 100644
 --- a/softmmu/meson.build
 +++ b/softmmu/meson.build
-@@ -6,6 +6,7 @@ specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: [files(
-   'datadir.c',
+@@ -7,6 +7,7 @@ specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: [files(
    'physmem.c',
    'ioport.c',
-+  'rtc.c',
+   'rtc.c',
++  'runstate.c',
    'memory.c',
    'memory_mapping.c',
    'qtest.c',
-diff --git a/softmmu/rtc.c b/softmmu/rtc.c
+diff --git a/softmmu/runstate.c b/softmmu/runstate.c
 new file mode 100644
-index 0000000000..e1e15ef613
+index 0000000000..892f2f679f
 --- /dev/null
-+++ b/softmmu/rtc.c
-@@ -0,0 +1,190 @@
++++ b/softmmu/runstate.c
+@@ -0,0 +1,800 @@
 +/*
-+ * RTC configuration and clock read
++ * QEMU main system emulation loop
 + *
 + * Copyright (c) 2003-2020 QEMU contributors
 + *
@@ -147,345 +155,1597 @@ index 0000000000..e1e15ef613
 + */
 +
 +#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+#include "qemu/cutils.h"
++#include "audio/audio.h"
++#include "block/block.h"
++#include "chardev/char.h"
++#include "crypto/cipher.h"
++#include "crypto/init.h"
++#include "exec/cpu-common.h"
++#include "exec/exec-all.h"
++#include "exec/gdbstub.h"
++#include "hw/boards.h"
++#include "migration/misc.h"
++#include "migration/postcopy-ram.h"
++#include "monitor/monitor.h"
++#include "net/net.h"
++#include "net/vhost_net.h"
 +#include "qapi/error.h"
-+#include "qapi/qmp/qerror.h"
++#include "qapi/qapi-commands-run-state.h"
++#include "qapi/qapi-events-run-state.h"
++#include "qemu-common.h"
 +#include "qemu/error-report.h"
-+#include "qemu/option.h"
-+#include "qemu/timer.h"
++#include "qemu/job.h"
++#include "qemu/module.h"
++#include "qemu/plugin.h"
++#include "qemu/sockets.h"
++#include "qemu/thread.h"
 +#include "qom/object.h"
++#include "qom/object_interfaces.h"
++#include "sysemu/cpus.h"
++#include "sysemu/qtest.h"
 +#include "sysemu/replay.h"
++#include "sysemu/reset.h"
++#include "sysemu/runstate.h"
 +#include "sysemu/sysemu.h"
++#include "sysemu/tpm.h"
++#include "trace.h"
 +
-+static enum {
-+    RTC_BASE_UTC,
-+    RTC_BASE_LOCALTIME,
-+    RTC_BASE_DATETIME,
-+} rtc_base_type = RTC_BASE_UTC;
-+static time_t rtc_ref_start_datetime;
-+static int rtc_realtime_clock_offset; /* used only with QEMU_CLOCK_REALTIME */
-+static int rtc_host_datetime_offset = -1; /* valid & used only with
-+                                             RTC_BASE_DATETIME */
-+QEMUClockType rtc_clock;
-+/***********************************************************/
-+/* RTC reference time/date access */
-+static time_t qemu_ref_timedate(QEMUClockType clock)
++static NotifierList exit_notifiers =
++    NOTIFIER_LIST_INITIALIZER(exit_notifiers);
++
++static RunState current_run_state = RUN_STATE_PRELAUNCH;
++
++/* We use RUN_STATE__MAX but any invalid value will do */
++static RunState vmstop_requested = RUN_STATE__MAX;
++static QemuMutex vmstop_lock;
++
++typedef struct {
++    RunState from;
++    RunState to;
++} RunStateTransition;
++
++static const RunStateTransition runstate_transitions_def[] = {
++    { RUN_STATE_PRELAUNCH, RUN_STATE_INMIGRATE },
++
++    { RUN_STATE_DEBUG, RUN_STATE_RUNNING },
++    { RUN_STATE_DEBUG, RUN_STATE_FINISH_MIGRATE },
++    { RUN_STATE_DEBUG, RUN_STATE_PRELAUNCH },
++
++    { RUN_STATE_INMIGRATE, RUN_STATE_INTERNAL_ERROR },
++    { RUN_STATE_INMIGRATE, RUN_STATE_IO_ERROR },
++    { RUN_STATE_INMIGRATE, RUN_STATE_PAUSED },
++    { RUN_STATE_INMIGRATE, RUN_STATE_RUNNING },
++    { RUN_STATE_INMIGRATE, RUN_STATE_SHUTDOWN },
++    { RUN_STATE_INMIGRATE, RUN_STATE_SUSPENDED },
++    { RUN_STATE_INMIGRATE, RUN_STATE_WATCHDOG },
++    { RUN_STATE_INMIGRATE, RUN_STATE_GUEST_PANICKED },
++    { RUN_STATE_INMIGRATE, RUN_STATE_FINISH_MIGRATE },
++    { RUN_STATE_INMIGRATE, RUN_STATE_PRELAUNCH },
++    { RUN_STATE_INMIGRATE, RUN_STATE_POSTMIGRATE },
++    { RUN_STATE_INMIGRATE, RUN_STATE_COLO },
++
++    { RUN_STATE_INTERNAL_ERROR, RUN_STATE_PAUSED },
++    { RUN_STATE_INTERNAL_ERROR, RUN_STATE_FINISH_MIGRATE },
++    { RUN_STATE_INTERNAL_ERROR, RUN_STATE_PRELAUNCH },
++
++    { RUN_STATE_IO_ERROR, RUN_STATE_RUNNING },
++    { RUN_STATE_IO_ERROR, RUN_STATE_FINISH_MIGRATE },
++    { RUN_STATE_IO_ERROR, RUN_STATE_PRELAUNCH },
++
++    { RUN_STATE_PAUSED, RUN_STATE_RUNNING },
++    { RUN_STATE_PAUSED, RUN_STATE_FINISH_MIGRATE },
++    { RUN_STATE_PAUSED, RUN_STATE_POSTMIGRATE },
++    { RUN_STATE_PAUSED, RUN_STATE_PRELAUNCH },
++    { RUN_STATE_PAUSED, RUN_STATE_COLO},
++
++    { RUN_STATE_POSTMIGRATE, RUN_STATE_RUNNING },
++    { RUN_STATE_POSTMIGRATE, RUN_STATE_FINISH_MIGRATE },
++    { RUN_STATE_POSTMIGRATE, RUN_STATE_PRELAUNCH },
++
++    { RUN_STATE_PRELAUNCH, RUN_STATE_RUNNING },
++    { RUN_STATE_PRELAUNCH, RUN_STATE_FINISH_MIGRATE },
++    { RUN_STATE_PRELAUNCH, RUN_STATE_INMIGRATE },
++
++    { RUN_STATE_FINISH_MIGRATE, RUN_STATE_RUNNING },
++    { RUN_STATE_FINISH_MIGRATE, RUN_STATE_PAUSED },
++    { RUN_STATE_FINISH_MIGRATE, RUN_STATE_POSTMIGRATE },
++    { RUN_STATE_FINISH_MIGRATE, RUN_STATE_PRELAUNCH },
++    { RUN_STATE_FINISH_MIGRATE, RUN_STATE_COLO},
++
++    { RUN_STATE_RESTORE_VM, RUN_STATE_RUNNING },
++    { RUN_STATE_RESTORE_VM, RUN_STATE_PRELAUNCH },
++
++    { RUN_STATE_COLO, RUN_STATE_RUNNING },
++
++    { RUN_STATE_RUNNING, RUN_STATE_DEBUG },
++    { RUN_STATE_RUNNING, RUN_STATE_INTERNAL_ERROR },
++    { RUN_STATE_RUNNING, RUN_STATE_IO_ERROR },
++    { RUN_STATE_RUNNING, RUN_STATE_PAUSED },
++    { RUN_STATE_RUNNING, RUN_STATE_FINISH_MIGRATE },
++    { RUN_STATE_RUNNING, RUN_STATE_RESTORE_VM },
++    { RUN_STATE_RUNNING, RUN_STATE_SAVE_VM },
++    { RUN_STATE_RUNNING, RUN_STATE_SHUTDOWN },
++    { RUN_STATE_RUNNING, RUN_STATE_WATCHDOG },
++    { RUN_STATE_RUNNING, RUN_STATE_GUEST_PANICKED },
++    { RUN_STATE_RUNNING, RUN_STATE_COLO},
++
++    { RUN_STATE_SAVE_VM, RUN_STATE_RUNNING },
++
++    { RUN_STATE_SHUTDOWN, RUN_STATE_PAUSED },
++    { RUN_STATE_SHUTDOWN, RUN_STATE_FINISH_MIGRATE },
++    { RUN_STATE_SHUTDOWN, RUN_STATE_PRELAUNCH },
++    { RUN_STATE_SHUTDOWN, RUN_STATE_COLO },
++
++    { RUN_STATE_DEBUG, RUN_STATE_SUSPENDED },
++    { RUN_STATE_RUNNING, RUN_STATE_SUSPENDED },
++    { RUN_STATE_SUSPENDED, RUN_STATE_RUNNING },
++    { RUN_STATE_SUSPENDED, RUN_STATE_FINISH_MIGRATE },
++    { RUN_STATE_SUSPENDED, RUN_STATE_PRELAUNCH },
++    { RUN_STATE_SUSPENDED, RUN_STATE_COLO},
++
++    { RUN_STATE_WATCHDOG, RUN_STATE_RUNNING },
++    { RUN_STATE_WATCHDOG, RUN_STATE_FINISH_MIGRATE },
++    { RUN_STATE_WATCHDOG, RUN_STATE_PRELAUNCH },
++    { RUN_STATE_WATCHDOG, RUN_STATE_COLO},
++
++    { RUN_STATE_GUEST_PANICKED, RUN_STATE_RUNNING },
++    { RUN_STATE_GUEST_PANICKED, RUN_STATE_FINISH_MIGRATE },
++    { RUN_STATE_GUEST_PANICKED, RUN_STATE_PRELAUNCH },
++
++    { RUN_STATE__MAX, RUN_STATE__MAX },
++};
++
++static bool runstate_valid_transitions[RUN_STATE__MAX][RUN_STATE__MAX];
++
++bool runstate_check(RunState state)
 +{
-+    time_t value = qemu_clock_get_ms(clock) / 1000;
-+    switch (clock) {
-+    case QEMU_CLOCK_REALTIME:
-+        value -= rtc_realtime_clock_offset;
-+        /* fall through */
-+    case QEMU_CLOCK_VIRTUAL:
-+        value += rtc_ref_start_datetime;
-+        break;
-+    case QEMU_CLOCK_HOST:
-+        if (rtc_base_type == RTC_BASE_DATETIME) {
-+            value -= rtc_host_datetime_offset;
-+        }
-+        break;
-+    default:
-+        assert(0);
-+    }
-+    return value;
++    return current_run_state == state;
 +}
 +
-+void qemu_get_timedate(struct tm *tm, int offset)
++bool runstate_store(char *str, size_t size)
 +{
-+    time_t ti = qemu_ref_timedate(rtc_clock);
++    const char *state = RunState_str(current_run_state);
++    size_t len = strlen(state) + 1;
 +
-+    ti += offset;
-+
-+    switch (rtc_base_type) {
-+    case RTC_BASE_DATETIME:
-+    case RTC_BASE_UTC:
-+        gmtime_r(&ti, tm);
-+        break;
-+    case RTC_BASE_LOCALTIME:
-+        localtime_r(&ti, tm);
-+        break;
++    if (len > size) {
++        return false;
 +    }
++    memcpy(str, state, len);
++    return true;
 +}
 +
-+int qemu_timedate_diff(struct tm *tm)
++static void runstate_init(void)
 +{
-+    time_t seconds;
++    const RunStateTransition *p;
 +
-+    switch (rtc_base_type) {
-+    case RTC_BASE_DATETIME:
-+    case RTC_BASE_UTC:
-+        seconds = mktimegm(tm);
-+        break;
-+    case RTC_BASE_LOCALTIME:
-+    {
-+        struct tm tmp = *tm;
-+        tmp.tm_isdst = -1; /* use timezone to figure it out */
-+        seconds = mktime(&tmp);
-+        break;
++    memset(&runstate_valid_transitions, 0, sizeof(runstate_valid_transitions));
++    for (p = &runstate_transitions_def[0]; p->from != RUN_STATE__MAX; p++) {
++        runstate_valid_transitions[p->from][p->to] = true;
 +    }
-+    default:
++
++    qemu_mutex_init(&vmstop_lock);
++}
++
++/* This function will abort() on invalid state transitions */
++void runstate_set(RunState new_state)
++{
++    assert(new_state < RUN_STATE__MAX);
++
++    trace_runstate_set(current_run_state, RunState_str(current_run_state),
++                       new_state, RunState_str(new_state));
++
++    if (current_run_state == new_state) {
++        return;
++    }
++
++    if (!runstate_valid_transitions[current_run_state][new_state]) {
++        error_report("invalid runstate transition: '%s' -> '%s'",
++                     RunState_str(current_run_state),
++                     RunState_str(new_state));
 +        abort();
 +    }
 +
-+    return seconds - qemu_ref_timedate(QEMU_CLOCK_HOST);
++    current_run_state = new_state;
 +}
 +
-+static void configure_rtc_base_datetime(const char *startdate)
++int runstate_is_running(void)
 +{
-+    time_t rtc_start_datetime;
-+    struct tm tm;
++    return runstate_check(RUN_STATE_RUNNING);
++}
 +
-+    if (sscanf(startdate, "%d-%d-%dT%d:%d:%d", &tm.tm_year, &tm.tm_mon,
-+               &tm.tm_mday, &tm.tm_hour, &tm.tm_min, &tm.tm_sec) == 6) {
-+        /* OK */
-+    } else if (sscanf(startdate, "%d-%d-%d",
-+                      &tm.tm_year, &tm.tm_mon, &tm.tm_mday) == 3) {
-+        tm.tm_hour = 0;
-+        tm.tm_min = 0;
-+        tm.tm_sec = 0;
-+    } else {
-+        goto date_fail;
++bool runstate_needs_reset(void)
++{
++    return runstate_check(RUN_STATE_INTERNAL_ERROR) ||
++        runstate_check(RUN_STATE_SHUTDOWN);
++}
++
++StatusInfo *qmp_query_status(Error **errp)
++{
++    StatusInfo *info = g_malloc0(sizeof(*info));
++
++    info->running = runstate_is_running();
++    info->singlestep = singlestep;
++    info->status = current_run_state;
++
++    return info;
++}
++
++bool qemu_vmstop_requested(RunState *r)
++{
++    qemu_mutex_lock(&vmstop_lock);
++    *r = vmstop_requested;
++    vmstop_requested = RUN_STATE__MAX;
++    qemu_mutex_unlock(&vmstop_lock);
++    return *r < RUN_STATE__MAX;
++}
++
++void qemu_system_vmstop_request_prepare(void)
++{
++    qemu_mutex_lock(&vmstop_lock);
++}
++
++void qemu_system_vmstop_request(RunState state)
++{
++    vmstop_requested = state;
++    qemu_mutex_unlock(&vmstop_lock);
++    qemu_notify_event();
++}
++struct VMChangeStateEntry {
++    VMChangeStateHandler *cb;
++    void *opaque;
++    QTAILQ_ENTRY(VMChangeStateEntry) entries;
++    int priority;
++};
++
++static QTAILQ_HEAD(, VMChangeStateEntry) vm_change_state_head =
++    QTAILQ_HEAD_INITIALIZER(vm_change_state_head);
++
++/**
++ * qemu_add_vm_change_state_handler_prio:
++ * @cb: the callback to invoke
++ * @opaque: user data passed to the callback
++ * @priority: low priorities execute first when the vm runs and the reverse is
++ *            true when the vm stops
++ *
++ * Register a callback function that is invoked when the vm starts or stops
++ * running.
++ *
++ * Returns: an entry to be freed using qemu_del_vm_change_state_handler()
++ */
++VMChangeStateEntry *qemu_add_vm_change_state_handler_prio(
++        VMChangeStateHandler *cb, void *opaque, int priority)
++{
++    VMChangeStateEntry *e;
++    VMChangeStateEntry *other;
++
++    e = g_malloc0(sizeof(*e));
++    e->cb = cb;
++    e->opaque = opaque;
++    e->priority = priority;
++
++    /* Keep list sorted in ascending priority order */
++    QTAILQ_FOREACH(other, &vm_change_state_head, entries) {
++        if (priority < other->priority) {
++            QTAILQ_INSERT_BEFORE(other, e, entries);
++            return e;
++        }
 +    }
-+    tm.tm_year -= 1900;
-+    tm.tm_mon--;
-+    rtc_start_datetime = mktimegm(&tm);
-+    if (rtc_start_datetime == -1) {
-+    date_fail:
-+        error_report("invalid datetime format");
-+        error_printf("valid formats: "
-+                     "'2006-06-17T16:01:21' or '2006-06-17'\n");
++
++    QTAILQ_INSERT_TAIL(&vm_change_state_head, e, entries);
++    return e;
++}
++
++VMChangeStateEntry *qemu_add_vm_change_state_handler(VMChangeStateHandler *cb,
++                                                     void *opaque)
++{
++    return qemu_add_vm_change_state_handler_prio(cb, opaque, 0);
++}
++
++void qemu_del_vm_change_state_handler(VMChangeStateEntry *e)
++{
++    QTAILQ_REMOVE(&vm_change_state_head, e, entries);
++    g_free(e);
++}
++
++void vm_state_notify(int running, RunState state)
++{
++    VMChangeStateEntry *e, *next;
++
++    trace_vm_state_notify(running, state, RunState_str(state));
++
++    if (running) {
++        QTAILQ_FOREACH_SAFE(e, &vm_change_state_head, entries, next) {
++            e->cb(e->opaque, running, state);
++        }
++    } else {
++        QTAILQ_FOREACH_REVERSE_SAFE(e, &vm_change_state_head, entries, next) {
++            e->cb(e->opaque, running, state);
++        }
++    }
++}
++
++static ShutdownCause reset_requested;
++static ShutdownCause shutdown_requested;
++static int shutdown_signal;
++static pid_t shutdown_pid;
++static int powerdown_requested;
++static int debug_requested;
++static int suspend_requested;
++static WakeupReason wakeup_reason;
++static NotifierList powerdown_notifiers =
++    NOTIFIER_LIST_INITIALIZER(powerdown_notifiers);
++static NotifierList suspend_notifiers =
++    NOTIFIER_LIST_INITIALIZER(suspend_notifiers);
++static NotifierList wakeup_notifiers =
++    NOTIFIER_LIST_INITIALIZER(wakeup_notifiers);
++static NotifierList shutdown_notifiers =
++    NOTIFIER_LIST_INITIALIZER(shutdown_notifiers);
++static uint32_t wakeup_reason_mask = ~(1 << QEMU_WAKEUP_REASON_NONE);
++
++ShutdownCause qemu_shutdown_requested_get(void)
++{
++    return shutdown_requested;
++}
++
++ShutdownCause qemu_reset_requested_get(void)
++{
++    return reset_requested;
++}
++
++static int qemu_shutdown_requested(void)
++{
++    return qatomic_xchg(&shutdown_requested, SHUTDOWN_CAUSE_NONE);
++}
++
++static void qemu_kill_report(void)
++{
++    if (!qtest_driver() && shutdown_signal) {
++        if (shutdown_pid == 0) {
++            /* This happens for eg ^C at the terminal, so it's worth
++             * avoiding printing an odd message in that case.
++             */
++            error_report("terminating on signal %d", shutdown_signal);
++        } else {
++            char *shutdown_cmd = qemu_get_pid_name(shutdown_pid);
++
++            error_report("terminating on signal %d from pid " FMT_pid " (%s)",
++                         shutdown_signal, shutdown_pid,
++                         shutdown_cmd ? shutdown_cmd : "<unknown process>");
++            g_free(shutdown_cmd);
++        }
++        shutdown_signal = 0;
++    }
++}
++
++static ShutdownCause qemu_reset_requested(void)
++{
++    ShutdownCause r = reset_requested;
++
++    if (r && replay_checkpoint(CHECKPOINT_RESET_REQUESTED)) {
++        reset_requested = SHUTDOWN_CAUSE_NONE;
++        return r;
++    }
++    return SHUTDOWN_CAUSE_NONE;
++}
++
++static int qemu_suspend_requested(void)
++{
++    int r = suspend_requested;
++    if (r && replay_checkpoint(CHECKPOINT_SUSPEND_REQUESTED)) {
++        suspend_requested = 0;
++        return r;
++    }
++    return false;
++}
++
++static WakeupReason qemu_wakeup_requested(void)
++{
++    return wakeup_reason;
++}
++
++static int qemu_powerdown_requested(void)
++{
++    int r = powerdown_requested;
++    powerdown_requested = 0;
++    return r;
++}
++
++static int qemu_debug_requested(void)
++{
++    int r = debug_requested;
++    debug_requested = 0;
++    return r;
++}
++
++/*
++ * Reset the VM. Issue an event unless @reason is SHUTDOWN_CAUSE_NONE.
++ */
++void qemu_system_reset(ShutdownCause reason)
++{
++    MachineClass *mc;
++
++    mc = current_machine ? MACHINE_GET_CLASS(current_machine) : NULL;
++
++    cpu_synchronize_all_states();
++
++    if (mc && mc->reset) {
++        mc->reset(current_machine);
++    } else {
++        qemu_devices_reset();
++    }
++    if (reason && reason != SHUTDOWN_CAUSE_SUBSYSTEM_RESET) {
++        qapi_event_send_reset(shutdown_caused_by_guest(reason), reason);
++    }
++    cpu_synchronize_all_post_reset();
++}
++
++/*
++ * Wake the VM after suspend.
++ */
++static void qemu_system_wakeup(void)
++{
++    MachineClass *mc;
++
++    mc = current_machine ? MACHINE_GET_CLASS(current_machine) : NULL;
++
++    if (mc && mc->wakeup) {
++        mc->wakeup(current_machine);
++    }
++}
++
++void qemu_system_guest_panicked(GuestPanicInformation *info)
++{
++    qemu_log_mask(LOG_GUEST_ERROR, "Guest crashed");
++
++    if (current_cpu) {
++        current_cpu->crash_occurred = true;
++    }
++    qapi_event_send_guest_panicked(GUEST_PANIC_ACTION_PAUSE,
++                                   !!info, info);
++    vm_stop(RUN_STATE_GUEST_PANICKED);
++    if (!no_shutdown) {
++        qapi_event_send_guest_panicked(GUEST_PANIC_ACTION_POWEROFF,
++                                       !!info, info);
++        qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_PANIC);
++    }
++
++    if (info) {
++        if (info->type == GUEST_PANIC_INFORMATION_TYPE_HYPER_V) {
++            qemu_log_mask(LOG_GUEST_ERROR, "\nHV crash parameters: (%#"PRIx64
++                          " %#"PRIx64" %#"PRIx64" %#"PRIx64" %#"PRIx64")\n",
++                          info->u.hyper_v.arg1,
++                          info->u.hyper_v.arg2,
++                          info->u.hyper_v.arg3,
++                          info->u.hyper_v.arg4,
++                          info->u.hyper_v.arg5);
++        } else if (info->type == GUEST_PANIC_INFORMATION_TYPE_S390) {
++            qemu_log_mask(LOG_GUEST_ERROR, " on cpu %d: %s\n"
++                          "PSW: 0x%016" PRIx64 " 0x%016" PRIx64"\n",
++                          info->u.s390.core,
++                          S390CrashReason_str(info->u.s390.reason),
++                          info->u.s390.psw_mask,
++                          info->u.s390.psw_addr);
++        }
++        qapi_free_GuestPanicInformation(info);
++    }
++}
++
++void qemu_system_guest_crashloaded(GuestPanicInformation *info)
++{
++    qemu_log_mask(LOG_GUEST_ERROR, "Guest crash loaded");
++
++    qapi_event_send_guest_crashloaded(GUEST_PANIC_ACTION_RUN,
++                                   !!info, info);
++
++    if (info) {
++        qapi_free_GuestPanicInformation(info);
++    }
++}
++
++void qemu_system_reset_request(ShutdownCause reason)
++{
++    if (no_reboot && reason != SHUTDOWN_CAUSE_SUBSYSTEM_RESET) {
++        shutdown_requested = reason;
++    } else {
++        reset_requested = reason;
++    }
++    cpu_stop_current();
++    qemu_notify_event();
++}
++
++static void qemu_system_suspend(void)
++{
++    pause_all_vcpus();
++    notifier_list_notify(&suspend_notifiers, NULL);
++    runstate_set(RUN_STATE_SUSPENDED);
++    qapi_event_send_suspend();
++}
++
++void qemu_system_suspend_request(void)
++{
++    if (runstate_check(RUN_STATE_SUSPENDED)) {
++        return;
++    }
++    suspend_requested = 1;
++    cpu_stop_current();
++    qemu_notify_event();
++}
++
++void qemu_register_suspend_notifier(Notifier *notifier)
++{
++    notifier_list_add(&suspend_notifiers, notifier);
++}
++
++void qemu_system_wakeup_request(WakeupReason reason, Error **errp)
++{
++    trace_system_wakeup_request(reason);
++
++    if (!runstate_check(RUN_STATE_SUSPENDED)) {
++        error_setg(errp,
++                   "Unable to wake up: guest is not in suspended state");
++        return;
++    }
++    if (!(wakeup_reason_mask & (1 << reason))) {
++        return;
++    }
++    runstate_set(RUN_STATE_RUNNING);
++    wakeup_reason = reason;
++    qemu_notify_event();
++}
++
++void qemu_system_wakeup_enable(WakeupReason reason, bool enabled)
++{
++    if (enabled) {
++        wakeup_reason_mask |= (1 << reason);
++    } else {
++        wakeup_reason_mask &= ~(1 << reason);
++    }
++}
++
++void qemu_register_wakeup_notifier(Notifier *notifier)
++{
++    notifier_list_add(&wakeup_notifiers, notifier);
++}
++
++static bool wakeup_suspend_enabled;
++
++void qemu_register_wakeup_support(void)
++{
++    wakeup_suspend_enabled = true;
++}
++
++bool qemu_wakeup_suspend_enabled(void)
++{
++    return wakeup_suspend_enabled;
++}
++
++void qemu_system_killed(int signal, pid_t pid)
++{
++    shutdown_signal = signal;
++    shutdown_pid = pid;
++    no_shutdown = 0;
++
++    /* Cannot call qemu_system_shutdown_request directly because
++     * we are in a signal handler.
++     */
++    shutdown_requested = SHUTDOWN_CAUSE_HOST_SIGNAL;
++    qemu_notify_event();
++}
++
++void qemu_system_shutdown_request(ShutdownCause reason)
++{
++    trace_qemu_system_shutdown_request(reason);
++    replay_shutdown_request(reason);
++    shutdown_requested = reason;
++    qemu_notify_event();
++}
++
++static void qemu_system_powerdown(void)
++{
++    qapi_event_send_powerdown();
++    notifier_list_notify(&powerdown_notifiers, NULL);
++}
++
++static void qemu_system_shutdown(ShutdownCause cause)
++{
++    qapi_event_send_shutdown(shutdown_caused_by_guest(cause), cause);
++    notifier_list_notify(&shutdown_notifiers, &cause);
++}
++
++void qemu_system_powerdown_request(void)
++{
++    trace_qemu_system_powerdown_request();
++    powerdown_requested = 1;
++    qemu_notify_event();
++}
++
++void qemu_register_powerdown_notifier(Notifier *notifier)
++{
++    notifier_list_add(&powerdown_notifiers, notifier);
++}
++
++void qemu_register_shutdown_notifier(Notifier *notifier)
++{
++    notifier_list_add(&shutdown_notifiers, notifier);
++}
++
++void qemu_system_debug_request(void)
++{
++    debug_requested = 1;
++    qemu_notify_event();
++}
++
++static bool main_loop_should_exit(void)
++{
++    RunState r;
++    ShutdownCause request;
++
++    if (qemu_debug_requested()) {
++        vm_stop(RUN_STATE_DEBUG);
++    }
++    if (qemu_suspend_requested()) {
++        qemu_system_suspend();
++    }
++    request = qemu_shutdown_requested();
++    if (request) {
++        qemu_kill_report();
++        qemu_system_shutdown(request);
++        if (no_shutdown) {
++            vm_stop(RUN_STATE_SHUTDOWN);
++        } else {
++            return true;
++        }
++    }
++    request = qemu_reset_requested();
++    if (request) {
++        pause_all_vcpus();
++        qemu_system_reset(request);
++        resume_all_vcpus();
++        /*
++         * runstate can change in pause_all_vcpus()
++         * as iothread mutex is unlocked
++         */
++        if (!runstate_check(RUN_STATE_RUNNING) &&
++                !runstate_check(RUN_STATE_INMIGRATE) &&
++                !runstate_check(RUN_STATE_FINISH_MIGRATE)) {
++            runstate_set(RUN_STATE_PRELAUNCH);
++        }
++    }
++    if (qemu_wakeup_requested()) {
++        pause_all_vcpus();
++        qemu_system_wakeup();
++        notifier_list_notify(&wakeup_notifiers, &wakeup_reason);
++        wakeup_reason = QEMU_WAKEUP_REASON_NONE;
++        resume_all_vcpus();
++        qapi_event_send_wakeup();
++    }
++    if (qemu_powerdown_requested()) {
++        qemu_system_powerdown();
++    }
++    if (qemu_vmstop_requested(&r)) {
++        vm_stop(r);
++    }
++    return false;
++}
++
++void qemu_main_loop(void)
++{
++#ifdef CONFIG_PROFILER
++    int64_t ti;
++#endif
++    while (!main_loop_should_exit()) {
++#ifdef CONFIG_PROFILER
++        ti = profile_getclock();
++#endif
++        main_loop_wait(false);
++#ifdef CONFIG_PROFILER
++        dev_time += profile_getclock() - ti;
++#endif
++    }
++}
++
++void qemu_add_exit_notifier(Notifier *notify)
++{
++    notifier_list_add(&exit_notifiers, notify);
++}
++
++void qemu_remove_exit_notifier(Notifier *notify)
++{
++    notifier_remove(notify);
++}
++
++static void qemu_run_exit_notifiers(void)
++{
++    notifier_list_notify(&exit_notifiers, NULL);
++}
++
++void qemu_init_subsystems(void)
++{
++    Error *err;
++
++    os_set_line_buffering();
++
++    module_call_init(MODULE_INIT_TRACE);
++
++    qemu_init_cpu_list();
++    qemu_init_cpu_loop();
++    qemu_mutex_lock_iothread();
++
++    atexit(qemu_run_exit_notifiers);
++
++    module_call_init(MODULE_INIT_QOM);
++    module_call_init(MODULE_INIT_MIGRATION);
++
++    runstate_init();
++    precopy_infrastructure_init();
++    postcopy_infrastructure_init();
++    monitor_init_globals();
++
++    if (qcrypto_init(&err) < 0) {
++        error_reportf_err(err, "cannot initialize crypto: ");
 +        exit(1);
 +    }
-+    rtc_host_datetime_offset = rtc_ref_start_datetime - rtc_start_datetime;
-+    rtc_ref_start_datetime = rtc_start_datetime;
++
++    os_setup_early_signal_handling();
++
++    bdrv_init_with_whitelist();
++    socket_init();
 +}
 +
-+void configure_rtc(QemuOpts *opts)
++
++void qemu_cleanup(void)
 +{
-+    const char *value;
++    gdbserver_cleanup();
 +
-+    /* Set defaults */
-+    rtc_clock = QEMU_CLOCK_HOST;
-+    rtc_ref_start_datetime = qemu_clock_get_ms(QEMU_CLOCK_HOST) / 1000;
-+    rtc_realtime_clock_offset = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) / 1000;
++    /*
++     * cleaning up the migration object cancels any existing migration
++     * try to do this early so that it also stops using devices.
++     */
++    migration_shutdown();
 +
-+    value = qemu_opt_get(opts, "base");
-+    if (value) {
-+        if (!strcmp(value, "utc")) {
-+            rtc_base_type = RTC_BASE_UTC;
-+        } else if (!strcmp(value, "localtime")) {
-+            Error *blocker = NULL;
-+            rtc_base_type = RTC_BASE_LOCALTIME;
-+            error_setg(&blocker, QERR_REPLAY_NOT_SUPPORTED,
-+                      "-rtc base=localtime");
-+            replay_add_blocker(blocker);
-+        } else {
-+            rtc_base_type = RTC_BASE_DATETIME;
-+            configure_rtc_base_datetime(value);
-+        }
-+    }
-+    value = qemu_opt_get(opts, "clock");
-+    if (value) {
-+        if (!strcmp(value, "host")) {
-+            rtc_clock = QEMU_CLOCK_HOST;
-+        } else if (!strcmp(value, "rt")) {
-+            rtc_clock = QEMU_CLOCK_REALTIME;
-+        } else if (!strcmp(value, "vm")) {
-+            rtc_clock = QEMU_CLOCK_VIRTUAL;
-+        } else {
-+            error_report("invalid option value '%s'", value);
-+            exit(1);
-+        }
-+    }
-+    value = qemu_opt_get(opts, "driftfix");
-+    if (value) {
-+        if (!strcmp(value, "slew")) {
-+            object_register_sugar_prop("mc146818rtc",
-+                                       "lost_tick_policy",
-+                                       "slew");
-+        } else if (!strcmp(value, "none")) {
-+            /* discard is default */
-+        } else {
-+            error_report("invalid option value '%s'", value);
-+            exit(1);
-+        }
-+    }
++    /*
++     * We must cancel all block jobs while the block layer is drained,
++     * or cancelling will be affected by throttling and thus may block
++     * for an extended period of time.
++     * vm_shutdown() will bdrv_drain_all(), so we may as well include
++     * it in the drained section.
++     * We do not need to end this section, because we do not want any
++     * requests happening from here on anyway.
++     */
++    bdrv_drain_all_begin();
++
++    /* No more vcpu or device emulation activity beyond this point */
++    vm_shutdown();
++    replay_finish();
++
++    job_cancel_sync_all();
++    bdrv_close_all();
++
++    /* vhost-user must be cleaned up before chardevs.  */
++    tpm_cleanup();
++    net_cleanup();
++    audio_cleanup();
++    monitor_cleanup();
++    qemu_chr_cleanup();
++    user_creatable_cleanup();
++    /* TODO: unref root container, check all devices are ok */
 +}
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 7e13bb4a59..c9bb205c42 100644
+index c9bb205c42..914b86ee86 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -152,16 +152,6 @@ bool enable_cpu_pm = false;
- int nb_nics;
- NICInfo nd_table[MAX_NICS];
- int autostart = 1;
--static enum {
--    RTC_BASE_UTC,
--    RTC_BASE_LOCALTIME,
--    RTC_BASE_DATETIME,
--} rtc_base_type = RTC_BASE_UTC;
--static time_t rtc_ref_start_datetime;
--static int rtc_realtime_clock_offset; /* used only with QEMU_CLOCK_REALTIME */
--static int rtc_host_datetime_offset = -1; /* valid & used only with
--                                             RTC_BASE_DATETIME */
--QEMUClockType rtc_clock;
- int vga_interface_type = VGA_NONE;
- static const char *vga_model = NULL;
- static DisplayOptions dpy;
-@@ -766,152 +756,6 @@ void qemu_system_vmstop_request(RunState state)
-     qemu_mutex_unlock(&vmstop_lock);
-     qemu_notify_event();
+@@ -112,7 +112,6 @@
+ #include "qapi/qapi-commands-block-core.h"
+ #include "qapi/qapi-commands-migration.h"
+ #include "qapi/qapi-commands-misc.h"
+-#include "qapi/qapi-commands-run-state.h"
+ #include "qapi/qapi-commands-ui.h"
+ #include "qapi/qmp/qerror.h"
+ #include "sysemu/iothread.h"
+@@ -164,7 +163,7 @@ Chardev *parallel_hds[MAX_PARALLEL_PORTS];
+ int win2k_install_hack = 0;
+ int singlestep = 0;
+ int fd_bootchk = 1;
+-static int no_reboot;
++int no_reboot;
+ int no_shutdown = 0;
+ int graphic_rotate = 0;
+ static const char *watchdog;
+@@ -191,9 +190,6 @@ static const char *qtest_log;
+ QemuUUID qemu_uuid;
+ bool qemu_uuid_set;
+ 
+-static NotifierList exit_notifiers =
+-    NOTIFIER_LIST_INITIALIZER(exit_notifiers);
+-
+ uint32_t xen_domid;
+ enum xen_mode xen_mode = XEN_EMULATE;
+ bool xen_domid_restrict;
+@@ -535,12 +531,6 @@ const char *qemu_get_vm_name(void)
+     return qemu_name;
  }
+ 
+-static void res_free(void)
+-{
+-    g_free(boot_splash_filedata);
+-    boot_splash_filedata = NULL;
+-}
 -
+ static int default_driver_check(void *opaque, QemuOpts *opts, Error **errp)
+ {
+     const char *driver = qemu_opt_get(opts, "driver");
+@@ -556,206 +546,6 @@ static int default_driver_check(void *opaque, QemuOpts *opts, Error **errp)
+     return 0;
+ }
+ 
 -/***********************************************************/
--/* RTC reference time/date access */
--static time_t qemu_ref_timedate(QEMUClockType clock)
+-/* QEMU state */
+-
+-static RunState current_run_state = RUN_STATE_PRELAUNCH;
+-
+-/* We use RUN_STATE__MAX but any invalid value will do */
+-static RunState vmstop_requested = RUN_STATE__MAX;
+-static QemuMutex vmstop_lock;
+-
+-typedef struct {
+-    RunState from;
+-    RunState to;
+-} RunStateTransition;
+-
+-static const RunStateTransition runstate_transitions_def[] = {
+-    { RUN_STATE_PRELAUNCH, RUN_STATE_INMIGRATE },
+-
+-    { RUN_STATE_DEBUG, RUN_STATE_RUNNING },
+-    { RUN_STATE_DEBUG, RUN_STATE_FINISH_MIGRATE },
+-    { RUN_STATE_DEBUG, RUN_STATE_PRELAUNCH },
+-
+-    { RUN_STATE_INMIGRATE, RUN_STATE_INTERNAL_ERROR },
+-    { RUN_STATE_INMIGRATE, RUN_STATE_IO_ERROR },
+-    { RUN_STATE_INMIGRATE, RUN_STATE_PAUSED },
+-    { RUN_STATE_INMIGRATE, RUN_STATE_RUNNING },
+-    { RUN_STATE_INMIGRATE, RUN_STATE_SHUTDOWN },
+-    { RUN_STATE_INMIGRATE, RUN_STATE_SUSPENDED },
+-    { RUN_STATE_INMIGRATE, RUN_STATE_WATCHDOG },
+-    { RUN_STATE_INMIGRATE, RUN_STATE_GUEST_PANICKED },
+-    { RUN_STATE_INMIGRATE, RUN_STATE_FINISH_MIGRATE },
+-    { RUN_STATE_INMIGRATE, RUN_STATE_PRELAUNCH },
+-    { RUN_STATE_INMIGRATE, RUN_STATE_POSTMIGRATE },
+-    { RUN_STATE_INMIGRATE, RUN_STATE_COLO },
+-
+-    { RUN_STATE_INTERNAL_ERROR, RUN_STATE_PAUSED },
+-    { RUN_STATE_INTERNAL_ERROR, RUN_STATE_FINISH_MIGRATE },
+-    { RUN_STATE_INTERNAL_ERROR, RUN_STATE_PRELAUNCH },
+-
+-    { RUN_STATE_IO_ERROR, RUN_STATE_RUNNING },
+-    { RUN_STATE_IO_ERROR, RUN_STATE_FINISH_MIGRATE },
+-    { RUN_STATE_IO_ERROR, RUN_STATE_PRELAUNCH },
+-
+-    { RUN_STATE_PAUSED, RUN_STATE_RUNNING },
+-    { RUN_STATE_PAUSED, RUN_STATE_FINISH_MIGRATE },
+-    { RUN_STATE_PAUSED, RUN_STATE_POSTMIGRATE },
+-    { RUN_STATE_PAUSED, RUN_STATE_PRELAUNCH },
+-    { RUN_STATE_PAUSED, RUN_STATE_COLO},
+-
+-    { RUN_STATE_POSTMIGRATE, RUN_STATE_RUNNING },
+-    { RUN_STATE_POSTMIGRATE, RUN_STATE_FINISH_MIGRATE },
+-    { RUN_STATE_POSTMIGRATE, RUN_STATE_PRELAUNCH },
+-
+-    { RUN_STATE_PRELAUNCH, RUN_STATE_RUNNING },
+-    { RUN_STATE_PRELAUNCH, RUN_STATE_FINISH_MIGRATE },
+-    { RUN_STATE_PRELAUNCH, RUN_STATE_INMIGRATE },
+-
+-    { RUN_STATE_FINISH_MIGRATE, RUN_STATE_RUNNING },
+-    { RUN_STATE_FINISH_MIGRATE, RUN_STATE_PAUSED },
+-    { RUN_STATE_FINISH_MIGRATE, RUN_STATE_POSTMIGRATE },
+-    { RUN_STATE_FINISH_MIGRATE, RUN_STATE_PRELAUNCH },
+-    { RUN_STATE_FINISH_MIGRATE, RUN_STATE_COLO},
+-
+-    { RUN_STATE_RESTORE_VM, RUN_STATE_RUNNING },
+-    { RUN_STATE_RESTORE_VM, RUN_STATE_PRELAUNCH },
+-
+-    { RUN_STATE_COLO, RUN_STATE_RUNNING },
+-
+-    { RUN_STATE_RUNNING, RUN_STATE_DEBUG },
+-    { RUN_STATE_RUNNING, RUN_STATE_INTERNAL_ERROR },
+-    { RUN_STATE_RUNNING, RUN_STATE_IO_ERROR },
+-    { RUN_STATE_RUNNING, RUN_STATE_PAUSED },
+-    { RUN_STATE_RUNNING, RUN_STATE_FINISH_MIGRATE },
+-    { RUN_STATE_RUNNING, RUN_STATE_RESTORE_VM },
+-    { RUN_STATE_RUNNING, RUN_STATE_SAVE_VM },
+-    { RUN_STATE_RUNNING, RUN_STATE_SHUTDOWN },
+-    { RUN_STATE_RUNNING, RUN_STATE_WATCHDOG },
+-    { RUN_STATE_RUNNING, RUN_STATE_GUEST_PANICKED },
+-    { RUN_STATE_RUNNING, RUN_STATE_COLO},
+-
+-    { RUN_STATE_SAVE_VM, RUN_STATE_RUNNING },
+-
+-    { RUN_STATE_SHUTDOWN, RUN_STATE_PAUSED },
+-    { RUN_STATE_SHUTDOWN, RUN_STATE_FINISH_MIGRATE },
+-    { RUN_STATE_SHUTDOWN, RUN_STATE_PRELAUNCH },
+-    { RUN_STATE_SHUTDOWN, RUN_STATE_COLO },
+-
+-    { RUN_STATE_DEBUG, RUN_STATE_SUSPENDED },
+-    { RUN_STATE_RUNNING, RUN_STATE_SUSPENDED },
+-    { RUN_STATE_SUSPENDED, RUN_STATE_RUNNING },
+-    { RUN_STATE_SUSPENDED, RUN_STATE_FINISH_MIGRATE },
+-    { RUN_STATE_SUSPENDED, RUN_STATE_PRELAUNCH },
+-    { RUN_STATE_SUSPENDED, RUN_STATE_COLO},
+-
+-    { RUN_STATE_WATCHDOG, RUN_STATE_RUNNING },
+-    { RUN_STATE_WATCHDOG, RUN_STATE_FINISH_MIGRATE },
+-    { RUN_STATE_WATCHDOG, RUN_STATE_PRELAUNCH },
+-    { RUN_STATE_WATCHDOG, RUN_STATE_COLO},
+-
+-    { RUN_STATE_GUEST_PANICKED, RUN_STATE_RUNNING },
+-    { RUN_STATE_GUEST_PANICKED, RUN_STATE_FINISH_MIGRATE },
+-    { RUN_STATE_GUEST_PANICKED, RUN_STATE_PRELAUNCH },
+-
+-    { RUN_STATE__MAX, RUN_STATE__MAX },
+-};
+-
+-static bool runstate_valid_transitions[RUN_STATE__MAX][RUN_STATE__MAX];
+-
+-bool runstate_check(RunState state)
 -{
--    time_t value = qemu_clock_get_ms(clock) / 1000;
--    switch (clock) {
--    case QEMU_CLOCK_REALTIME:
--        value -= rtc_realtime_clock_offset;
--        /* fall through */
--    case QEMU_CLOCK_VIRTUAL:
--        value += rtc_ref_start_datetime;
--        break;
--    case QEMU_CLOCK_HOST:
--        if (rtc_base_type == RTC_BASE_DATETIME) {
--            value -= rtc_host_datetime_offset;
--        }
--        break;
--    default:
--        assert(0);
--    }
--    return value;
+-    return current_run_state == state;
 -}
 -
--void qemu_get_timedate(struct tm *tm, int offset)
+-bool runstate_store(char *str, size_t size)
 -{
--    time_t ti = qemu_ref_timedate(rtc_clock);
+-    const char *state = RunState_str(current_run_state);
+-    size_t len = strlen(state) + 1;
 -
--    ti += offset;
--
--    switch (rtc_base_type) {
--    case RTC_BASE_DATETIME:
--    case RTC_BASE_UTC:
--        gmtime_r(&ti, tm);
--        break;
--    case RTC_BASE_LOCALTIME:
--        localtime_r(&ti, tm);
--        break;
+-    if (len > size) {
+-        return false;
 -    }
+-    memcpy(str, state, len);
+-    return true;
 -}
 -
--int qemu_timedate_diff(struct tm *tm)
+-static void runstate_init(void)
 -{
--    time_t seconds;
+-    const RunStateTransition *p;
 -
--    switch (rtc_base_type) {
--    case RTC_BASE_DATETIME:
--    case RTC_BASE_UTC:
--        seconds = mktimegm(tm);
--        break;
--    case RTC_BASE_LOCALTIME:
--    {
--        struct tm tmp = *tm;
--        tmp.tm_isdst = -1; /* use timezone to figure it out */
--        seconds = mktime(&tmp);
--        break;
+-    memset(&runstate_valid_transitions, 0, sizeof(runstate_valid_transitions));
+-    for (p = &runstate_transitions_def[0]; p->from != RUN_STATE__MAX; p++) {
+-        runstate_valid_transitions[p->from][p->to] = true;
 -    }
--    default:
+-
+-    qemu_mutex_init(&vmstop_lock);
+-}
+-
+-/* This function will abort() on invalid state transitions */
+-void runstate_set(RunState new_state)
+-{
+-    assert(new_state < RUN_STATE__MAX);
+-
+-    trace_runstate_set(current_run_state, RunState_str(current_run_state),
+-                       new_state, RunState_str(new_state));
+-
+-    if (current_run_state == new_state) {
+-        return;
+-    }
+-
+-    if (!runstate_valid_transitions[current_run_state][new_state]) {
+-        error_report("invalid runstate transition: '%s' -> '%s'",
+-                     RunState_str(current_run_state),
+-                     RunState_str(new_state));
 -        abort();
 -    }
 -
--    return seconds - qemu_ref_timedate(QEMU_CLOCK_HOST);
+-    current_run_state = new_state;
 -}
 -
--static void configure_rtc_base_datetime(const char *startdate)
+-int runstate_is_running(void)
 -{
--    time_t rtc_start_datetime;
--    struct tm tm;
--
--    if (sscanf(startdate, "%d-%d-%dT%d:%d:%d", &tm.tm_year, &tm.tm_mon,
--               &tm.tm_mday, &tm.tm_hour, &tm.tm_min, &tm.tm_sec) == 6) {
--        /* OK */
--    } else if (sscanf(startdate, "%d-%d-%d",
--                      &tm.tm_year, &tm.tm_mon, &tm.tm_mday) == 3) {
--        tm.tm_hour = 0;
--        tm.tm_min = 0;
--        tm.tm_sec = 0;
--    } else {
--        goto date_fail;
--    }
--    tm.tm_year -= 1900;
--    tm.tm_mon--;
--    rtc_start_datetime = mktimegm(&tm);
--    if (rtc_start_datetime == -1) {
--    date_fail:
--        error_report("invalid datetime format");
--        error_printf("valid formats: "
--                     "'2006-06-17T16:01:21' or '2006-06-17'\n");
--        exit(1);
--    }
--    rtc_host_datetime_offset = rtc_ref_start_datetime - rtc_start_datetime;
--    rtc_ref_start_datetime = rtc_start_datetime;
+-    return runstate_check(RUN_STATE_RUNNING);
 -}
 -
--static void configure_rtc(QemuOpts *opts)
+-bool runstate_needs_reset(void)
 -{
--    const char *value;
--
--    /* Set defaults */
--    rtc_clock = QEMU_CLOCK_HOST;
--    rtc_ref_start_datetime = qemu_clock_get_ms(QEMU_CLOCK_HOST) / 1000;
--    rtc_realtime_clock_offset = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) / 1000;
--
--    value = qemu_opt_get(opts, "base");
--    if (value) {
--        if (!strcmp(value, "utc")) {
--            rtc_base_type = RTC_BASE_UTC;
--        } else if (!strcmp(value, "localtime")) {
--            Error *blocker = NULL;
--            rtc_base_type = RTC_BASE_LOCALTIME;
--            error_setg(&blocker, QERR_REPLAY_NOT_SUPPORTED,
--                      "-rtc base=localtime");
--            replay_add_blocker(blocker);
--        } else {
--            rtc_base_type = RTC_BASE_DATETIME;
--            configure_rtc_base_datetime(value);
--        }
--    }
--    value = qemu_opt_get(opts, "clock");
--    if (value) {
--        if (!strcmp(value, "host")) {
--            rtc_clock = QEMU_CLOCK_HOST;
--        } else if (!strcmp(value, "rt")) {
--            rtc_clock = QEMU_CLOCK_REALTIME;
--        } else if (!strcmp(value, "vm")) {
--            rtc_clock = QEMU_CLOCK_VIRTUAL;
--        } else {
--            error_report("invalid option value '%s'", value);
--            exit(1);
--        }
--    }
--    value = qemu_opt_get(opts, "driftfix");
--    if (value) {
--        if (!strcmp(value, "slew")) {
--            object_register_sugar_prop("mc146818rtc",
--                                       "lost_tick_policy",
--                                       "slew");
--        } else if (!strcmp(value, "none")) {
--            /* discard is default */
--        } else {
--            error_report("invalid option value '%s'", value);
--            exit(1);
--        }
--    }
+-    return runstate_check(RUN_STATE_INTERNAL_ERROR) ||
+-        runstate_check(RUN_STATE_SHUTDOWN);
 -}
 -
+-StatusInfo *qmp_query_status(Error **errp)
+-{
+-    StatusInfo *info = g_malloc0(sizeof(*info));
+-
+-    info->running = runstate_is_running();
+-    info->singlestep = singlestep;
+-    info->status = current_run_state;
+-
+-    return info;
+-}
+-
+-bool qemu_vmstop_requested(RunState *r)
+-{
+-    qemu_mutex_lock(&vmstop_lock);
+-    *r = vmstop_requested;
+-    vmstop_requested = RUN_STATE__MAX;
+-    qemu_mutex_unlock(&vmstop_lock);
+-    return *r < RUN_STATE__MAX;
+-}
+-
+-void qemu_system_vmstop_request_prepare(void)
+-{
+-    qemu_mutex_lock(&vmstop_lock);
+-}
+-
+-void qemu_system_vmstop_request(RunState state)
+-{
+-    vmstop_requested = state;
+-    qemu_mutex_unlock(&vmstop_lock);
+-    qemu_notify_event();
+-}
  static int parse_name(void *opaque, QemuOpts *opts, Error **errp)
  {
      const char *proc_name;
+@@ -1072,458 +862,6 @@ static int machine_help_func(QemuOpts *opts, MachineState *machine)
+     return 1;
+ }
+ 
+-struct VMChangeStateEntry {
+-    VMChangeStateHandler *cb;
+-    void *opaque;
+-    QTAILQ_ENTRY(VMChangeStateEntry) entries;
+-    int priority;
+-};
+-
+-static QTAILQ_HEAD(, VMChangeStateEntry) vm_change_state_head =
+-    QTAILQ_HEAD_INITIALIZER(vm_change_state_head);
+-
+-/**
+- * qemu_add_vm_change_state_handler_prio:
+- * @cb: the callback to invoke
+- * @opaque: user data passed to the callback
+- * @priority: low priorities execute first when the vm runs and the reverse is
+- *            true when the vm stops
+- *
+- * Register a callback function that is invoked when the vm starts or stops
+- * running.
+- *
+- * Returns: an entry to be freed using qemu_del_vm_change_state_handler()
+- */
+-VMChangeStateEntry *qemu_add_vm_change_state_handler_prio(
+-        VMChangeStateHandler *cb, void *opaque, int priority)
+-{
+-    VMChangeStateEntry *e;
+-    VMChangeStateEntry *other;
+-
+-    e = g_malloc0(sizeof(*e));
+-    e->cb = cb;
+-    e->opaque = opaque;
+-    e->priority = priority;
+-
+-    /* Keep list sorted in ascending priority order */
+-    QTAILQ_FOREACH(other, &vm_change_state_head, entries) {
+-        if (priority < other->priority) {
+-            QTAILQ_INSERT_BEFORE(other, e, entries);
+-            return e;
+-        }
+-    }
+-
+-    QTAILQ_INSERT_TAIL(&vm_change_state_head, e, entries);
+-    return e;
+-}
+-
+-VMChangeStateEntry *qemu_add_vm_change_state_handler(VMChangeStateHandler *cb,
+-                                                     void *opaque)
+-{
+-    return qemu_add_vm_change_state_handler_prio(cb, opaque, 0);
+-}
+-
+-void qemu_del_vm_change_state_handler(VMChangeStateEntry *e)
+-{
+-    QTAILQ_REMOVE(&vm_change_state_head, e, entries);
+-    g_free(e);
+-}
+-
+-void vm_state_notify(int running, RunState state)
+-{
+-    VMChangeStateEntry *e, *next;
+-
+-    trace_vm_state_notify(running, state, RunState_str(state));
+-
+-    if (running) {
+-        QTAILQ_FOREACH_SAFE(e, &vm_change_state_head, entries, next) {
+-            e->cb(e->opaque, running, state);
+-        }
+-    } else {
+-        QTAILQ_FOREACH_REVERSE_SAFE(e, &vm_change_state_head, entries, next) {
+-            e->cb(e->opaque, running, state);
+-        }
+-    }
+-}
+-
+-static ShutdownCause reset_requested;
+-static ShutdownCause shutdown_requested;
+-static int shutdown_signal;
+-static pid_t shutdown_pid;
+-static int powerdown_requested;
+-static int debug_requested;
+-static int suspend_requested;
+-static WakeupReason wakeup_reason;
+-static NotifierList powerdown_notifiers =
+-    NOTIFIER_LIST_INITIALIZER(powerdown_notifiers);
+-static NotifierList suspend_notifiers =
+-    NOTIFIER_LIST_INITIALIZER(suspend_notifiers);
+-static NotifierList wakeup_notifiers =
+-    NOTIFIER_LIST_INITIALIZER(wakeup_notifiers);
+-static NotifierList shutdown_notifiers =
+-    NOTIFIER_LIST_INITIALIZER(shutdown_notifiers);
+-static uint32_t wakeup_reason_mask = ~(1 << QEMU_WAKEUP_REASON_NONE);
+-
+-ShutdownCause qemu_shutdown_requested_get(void)
+-{
+-    return shutdown_requested;
+-}
+-
+-ShutdownCause qemu_reset_requested_get(void)
+-{
+-    return reset_requested;
+-}
+-
+-static int qemu_shutdown_requested(void)
+-{
+-    return qatomic_xchg(&shutdown_requested, SHUTDOWN_CAUSE_NONE);
+-}
+-
+-static void qemu_kill_report(void)
+-{
+-    if (!qtest_driver() && shutdown_signal) {
+-        if (shutdown_pid == 0) {
+-            /* This happens for eg ^C at the terminal, so it's worth
+-             * avoiding printing an odd message in that case.
+-             */
+-            error_report("terminating on signal %d", shutdown_signal);
+-        } else {
+-            char *shutdown_cmd = qemu_get_pid_name(shutdown_pid);
+-
+-            error_report("terminating on signal %d from pid " FMT_pid " (%s)",
+-                         shutdown_signal, shutdown_pid,
+-                         shutdown_cmd ? shutdown_cmd : "<unknown process>");
+-            g_free(shutdown_cmd);
+-        }
+-        shutdown_signal = 0;
+-    }
+-}
+-
+-static ShutdownCause qemu_reset_requested(void)
+-{
+-    ShutdownCause r = reset_requested;
+-
+-    if (r && replay_checkpoint(CHECKPOINT_RESET_REQUESTED)) {
+-        reset_requested = SHUTDOWN_CAUSE_NONE;
+-        return r;
+-    }
+-    return SHUTDOWN_CAUSE_NONE;
+-}
+-
+-static int qemu_suspend_requested(void)
+-{
+-    int r = suspend_requested;
+-    if (r && replay_checkpoint(CHECKPOINT_SUSPEND_REQUESTED)) {
+-        suspend_requested = 0;
+-        return r;
+-    }
+-    return false;
+-}
+-
+-static WakeupReason qemu_wakeup_requested(void)
+-{
+-    return wakeup_reason;
+-}
+-
+-static int qemu_powerdown_requested(void)
+-{
+-    int r = powerdown_requested;
+-    powerdown_requested = 0;
+-    return r;
+-}
+-
+-static int qemu_debug_requested(void)
+-{
+-    int r = debug_requested;
+-    debug_requested = 0;
+-    return r;
+-}
+-
+-/*
+- * Reset the VM. Issue an event unless @reason is SHUTDOWN_CAUSE_NONE.
+- */
+-void qemu_system_reset(ShutdownCause reason)
+-{
+-    MachineClass *mc;
+-
+-    mc = current_machine ? MACHINE_GET_CLASS(current_machine) : NULL;
+-
+-    cpu_synchronize_all_states();
+-
+-    if (mc && mc->reset) {
+-        mc->reset(current_machine);
+-    } else {
+-        qemu_devices_reset();
+-    }
+-    if (reason && reason != SHUTDOWN_CAUSE_SUBSYSTEM_RESET) {
+-        qapi_event_send_reset(shutdown_caused_by_guest(reason), reason);
+-    }
+-    cpu_synchronize_all_post_reset();
+-}
+-
+-/*
+- * Wake the VM after suspend.
+- */
+-static void qemu_system_wakeup(void)
+-{
+-    MachineClass *mc;
+-
+-    mc = current_machine ? MACHINE_GET_CLASS(current_machine) : NULL;
+-
+-    if (mc && mc->wakeup) {
+-        mc->wakeup(current_machine);
+-    }
+-}
+-
+-void qemu_system_guest_panicked(GuestPanicInformation *info)
+-{
+-    qemu_log_mask(LOG_GUEST_ERROR, "Guest crashed");
+-
+-    if (current_cpu) {
+-        current_cpu->crash_occurred = true;
+-    }
+-    qapi_event_send_guest_panicked(GUEST_PANIC_ACTION_PAUSE,
+-                                   !!info, info);
+-    vm_stop(RUN_STATE_GUEST_PANICKED);
+-    if (!no_shutdown) {
+-        qapi_event_send_guest_panicked(GUEST_PANIC_ACTION_POWEROFF,
+-                                       !!info, info);
+-        qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_PANIC);
+-    }
+-
+-    if (info) {
+-        if (info->type == GUEST_PANIC_INFORMATION_TYPE_HYPER_V) {
+-            qemu_log_mask(LOG_GUEST_ERROR, "\nHV crash parameters: (%#"PRIx64
+-                          " %#"PRIx64" %#"PRIx64" %#"PRIx64" %#"PRIx64")\n",
+-                          info->u.hyper_v.arg1,
+-                          info->u.hyper_v.arg2,
+-                          info->u.hyper_v.arg3,
+-                          info->u.hyper_v.arg4,
+-                          info->u.hyper_v.arg5);
+-        } else if (info->type == GUEST_PANIC_INFORMATION_TYPE_S390) {
+-            qemu_log_mask(LOG_GUEST_ERROR, " on cpu %d: %s\n"
+-                          "PSW: 0x%016" PRIx64 " 0x%016" PRIx64"\n",
+-                          info->u.s390.core,
+-                          S390CrashReason_str(info->u.s390.reason),
+-                          info->u.s390.psw_mask,
+-                          info->u.s390.psw_addr);
+-        }
+-        qapi_free_GuestPanicInformation(info);
+-    }
+-}
+-
+-void qemu_system_guest_crashloaded(GuestPanicInformation *info)
+-{
+-    qemu_log_mask(LOG_GUEST_ERROR, "Guest crash loaded");
+-
+-    qapi_event_send_guest_crashloaded(GUEST_PANIC_ACTION_RUN,
+-                                   !!info, info);
+-
+-    if (info) {
+-        qapi_free_GuestPanicInformation(info);
+-    }
+-}
+-
+-void qemu_system_reset_request(ShutdownCause reason)
+-{
+-    if (no_reboot && reason != SHUTDOWN_CAUSE_SUBSYSTEM_RESET) {
+-        shutdown_requested = reason;
+-    } else {
+-        reset_requested = reason;
+-    }
+-    cpu_stop_current();
+-    qemu_notify_event();
+-}
+-
+-static void qemu_system_suspend(void)
+-{
+-    pause_all_vcpus();
+-    notifier_list_notify(&suspend_notifiers, NULL);
+-    runstate_set(RUN_STATE_SUSPENDED);
+-    qapi_event_send_suspend();
+-}
+-
+-void qemu_system_suspend_request(void)
+-{
+-    if (runstate_check(RUN_STATE_SUSPENDED)) {
+-        return;
+-    }
+-    suspend_requested = 1;
+-    cpu_stop_current();
+-    qemu_notify_event();
+-}
+-
+-void qemu_register_suspend_notifier(Notifier *notifier)
+-{
+-    notifier_list_add(&suspend_notifiers, notifier);
+-}
+-
+-void qemu_system_wakeup_request(WakeupReason reason, Error **errp)
+-{
+-    trace_system_wakeup_request(reason);
+-
+-    if (!runstate_check(RUN_STATE_SUSPENDED)) {
+-        error_setg(errp,
+-                   "Unable to wake up: guest is not in suspended state");
+-        return;
+-    }
+-    if (!(wakeup_reason_mask & (1 << reason))) {
+-        return;
+-    }
+-    runstate_set(RUN_STATE_RUNNING);
+-    wakeup_reason = reason;
+-    qemu_notify_event();
+-}
+-
+-void qemu_system_wakeup_enable(WakeupReason reason, bool enabled)
+-{
+-    if (enabled) {
+-        wakeup_reason_mask |= (1 << reason);
+-    } else {
+-        wakeup_reason_mask &= ~(1 << reason);
+-    }
+-}
+-
+-void qemu_register_wakeup_notifier(Notifier *notifier)
+-{
+-    notifier_list_add(&wakeup_notifiers, notifier);
+-}
+-
+-void qemu_register_wakeup_support(void)
+-{
+-    wakeup_suspend_enabled = true;
+-}
+-
+-bool qemu_wakeup_suspend_enabled(void)
+-{
+-    return wakeup_suspend_enabled;
+-}
+-
+-void qemu_system_killed(int signal, pid_t pid)
+-{
+-    shutdown_signal = signal;
+-    shutdown_pid = pid;
+-    no_shutdown = 0;
+-
+-    /* Cannot call qemu_system_shutdown_request directly because
+-     * we are in a signal handler.
+-     */
+-    shutdown_requested = SHUTDOWN_CAUSE_HOST_SIGNAL;
+-    qemu_notify_event();
+-}
+-
+-void qemu_system_shutdown_request(ShutdownCause reason)
+-{
+-    trace_qemu_system_shutdown_request(reason);
+-    replay_shutdown_request(reason);
+-    shutdown_requested = reason;
+-    qemu_notify_event();
+-}
+-
+-static void qemu_system_powerdown(void)
+-{
+-    qapi_event_send_powerdown();
+-    notifier_list_notify(&powerdown_notifiers, NULL);
+-}
+-
+-static void qemu_system_shutdown(ShutdownCause cause)
+-{
+-    qapi_event_send_shutdown(shutdown_caused_by_guest(cause), cause);
+-    notifier_list_notify(&shutdown_notifiers, &cause);
+-}
+-
+-void qemu_system_powerdown_request(void)
+-{
+-    trace_qemu_system_powerdown_request();
+-    powerdown_requested = 1;
+-    qemu_notify_event();
+-}
+-
+-void qemu_register_powerdown_notifier(Notifier *notifier)
+-{
+-    notifier_list_add(&powerdown_notifiers, notifier);
+-}
+-
+-void qemu_register_shutdown_notifier(Notifier *notifier)
+-{
+-    notifier_list_add(&shutdown_notifiers, notifier);
+-}
+-
+-void qemu_system_debug_request(void)
+-{
+-    debug_requested = 1;
+-    qemu_notify_event();
+-}
+-
+-static bool main_loop_should_exit(void)
+-{
+-    RunState r;
+-    ShutdownCause request;
+-
+-    if (qemu_debug_requested()) {
+-        vm_stop(RUN_STATE_DEBUG);
+-    }
+-    if (qemu_suspend_requested()) {
+-        qemu_system_suspend();
+-    }
+-    request = qemu_shutdown_requested();
+-    if (request) {
+-        qemu_kill_report();
+-        qemu_system_shutdown(request);
+-        if (no_shutdown) {
+-            vm_stop(RUN_STATE_SHUTDOWN);
+-        } else {
+-            return true;
+-        }
+-    }
+-    request = qemu_reset_requested();
+-    if (request) {
+-        pause_all_vcpus();
+-        qemu_system_reset(request);
+-        resume_all_vcpus();
+-        /*
+-         * runstate can change in pause_all_vcpus()
+-         * as iothread mutex is unlocked
+-         */
+-        if (!runstate_check(RUN_STATE_RUNNING) &&
+-                !runstate_check(RUN_STATE_INMIGRATE) &&
+-                !runstate_check(RUN_STATE_FINISH_MIGRATE)) {
+-            runstate_set(RUN_STATE_PRELAUNCH);
+-        }
+-    }
+-    if (qemu_wakeup_requested()) {
+-        pause_all_vcpus();
+-        qemu_system_wakeup();
+-        notifier_list_notify(&wakeup_notifiers, &wakeup_reason);
+-        wakeup_reason = QEMU_WAKEUP_REASON_NONE;
+-        resume_all_vcpus();
+-        qapi_event_send_wakeup();
+-    }
+-    if (qemu_powerdown_requested()) {
+-        qemu_system_powerdown();
+-    }
+-    if (qemu_vmstop_requested(&r)) {
+-        vm_stop(r);
+-    }
+-    return false;
+-}
+-
+-void qemu_main_loop(void)
+-{
+-#ifdef CONFIG_PROFILER
+-    int64_t ti;
+-#endif
+-    while (!main_loop_should_exit()) {
+-#ifdef CONFIG_PROFILER
+-        ti = profile_getclock();
+-#endif
+-        main_loop_wait(false);
+-#ifdef CONFIG_PROFILER
+-        dev_time += profile_getclock() - ti;
+-#endif
+-    }
+-}
+-
+ static void version(void)
+ {
+     printf("QEMU emulator version " QEMU_FULL_VERSION "\n"
+@@ -2248,21 +1586,6 @@ static MachineClass *machine_parse(const char *name, GSList *machines)
+     return mc;
+ }
+ 
+-void qemu_add_exit_notifier(Notifier *notify)
+-{
+-    notifier_list_add(&exit_notifiers, notify);
+-}
+-
+-void qemu_remove_exit_notifier(Notifier *notify)
+-{
+-    notifier_remove(notify);
+-}
+-
+-static void qemu_run_exit_notifiers(void)
+-{
+-    notifier_list_notify(&exit_notifiers, NULL);
+-}
+-
+ static const char *pid_file;
+ static Notifier qemu_unlink_pidfile_notifier;
+ 
+@@ -3061,39 +2384,6 @@ static void qemu_maybe_daemonize(const char *pid_file)
+     qemu_add_exit_notifier(&qemu_unlink_pidfile_notifier);
+ }
+ 
+-static void qemu_init_subsystems(void)
+-{
+-    Error *err;
+-
+-    os_set_line_buffering();
+-
+-    module_call_init(MODULE_INIT_TRACE);
+-
+-    qemu_init_cpu_list();
+-    qemu_init_cpu_loop();
+-    qemu_mutex_lock_iothread();
+-
+-    atexit(qemu_run_exit_notifiers);
+-
+-    module_call_init(MODULE_INIT_QOM);
+-    module_call_init(MODULE_INIT_MIGRATION);
+-
+-    runstate_init();
+-    precopy_infrastructure_init();
+-    postcopy_infrastructure_init();
+-    monitor_init_globals();
+-
+-    if (qcrypto_init(&err) < 0) {
+-        error_reportf_err(err, "cannot initialize crypto: ");
+-        exit(1);
+-    }
+-
+-    os_setup_early_signal_handling();
+-
+-    bdrv_init_with_whitelist();
+-    socket_init();
+-}
+-
+ static void qemu_init_displays(void)
+ {
+     DisplayState *ds;
+@@ -4275,43 +3565,3 @@ void qemu_init(int argc, char **argv, char **envp)
+     accel_setup_post(current_machine);
+     os_setup_post();
+ }
+-
+-void qemu_cleanup(void)
+-{
+-    gdbserver_cleanup();
+-
+-    /*
+-     * cleaning up the migration object cancels any existing migration
+-     * try to do this early so that it also stops using devices.
+-     */
+-    migration_shutdown();
+-
+-    /*
+-     * We must cancel all block jobs while the block layer is drained,
+-     * or cancelling will be affected by throttling and thus may block
+-     * for an extended period of time.
+-     * vm_shutdown() will bdrv_drain_all(), so we may as well include
+-     * it in the drained section.
+-     * We do not need to end this section, because we do not want any
+-     * requests happening from here on anyway.
+-     */
+-    bdrv_drain_all_begin();
+-
+-    /* No more vcpu or device emulation activity beyond this point */
+-    vm_shutdown();
+-    replay_finish();
+-
+-    job_cancel_sync_all();
+-    bdrv_close_all();
+-
+-    res_free();
+-
+-    /* vhost-user must be cleaned up before chardevs.  */
+-    tpm_cleanup();
+-    net_cleanup();
+-    audio_cleanup();
+-    monitor_cleanup();
+-    qemu_chr_cleanup();
+-    user_creatable_cleanup();
+-    /* TODO: unref root container, check all devices are ok */
+-}
 -- 
 2.26.2
 
