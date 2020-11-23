@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 635F82C0D2B
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 15:24:01 +0100 (CET)
-Received: from localhost ([::1]:51032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C363E2C0D7D
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 15:30:55 +0100 (CET)
+Received: from localhost ([::1]:47708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khCl6-0006c4-Cw
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 09:24:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36590)
+	id 1khCrm-00006a-Hh
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 09:30:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1khCcK-00034C-6v
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:14:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49256)
+ id 1khCcO-000379-D4
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:15:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45177)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1khCcH-0007np-Q6
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:14:55 -0500
+ id 1khCcK-0007oV-6y
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:15:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606140893;
+ s=mimecast20190719; t=1606140895;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YkhOTqnc6rSFYqPS+LH9lYeYVI5mFH1qJRbS/5hzVE0=;
- b=hRM8jYqMK8KfWtS2bqeXhubYC1FwudOinXN7ueiEo9k8vbIwA2T2dZx+hq5YMouOvucCBJ
- vcALee27zPJSLAWOOlYj4OBLOU+fgM7fOrPD8dFTbb61Mc3XI6rj9qHIUPmhg4mQJd52rj
- yoQnHEsxdgGDKDjYT6Bo7V5UHsLfWtE=
+ bh=ID0gflGBF/uP5jTHeN8FXmAh3AIV6OM/kll/R1mgKBc=;
+ b=eu3SJEzurk6nUjWahb6/uF430+JEFIWmD69DZlV1nCCvVr9jn/FZUNvJNWd0kxw9dIyGmd
+ Eow4YnZzj+uinnTvEDt2C9NgEpjKVfnKHBS/iIDNyK9dv8GrObA8sLX+4h53/3LVz09R0I
+ KX0vdGWsnG2vua5JKCcYOewv3K9lwyY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-588-7C7yMod7NxqdXUr6xHhjjg-1; Mon, 23 Nov 2020 09:14:51 -0500
-X-MC-Unique: 7C7yMod7NxqdXUr6xHhjjg-1
+ us-mta-194-paF8OiEnNDqXAW32zB9yzQ-1; Mon, 23 Nov 2020 09:14:53 -0500
+X-MC-Unique: paF8OiEnNDqXAW32zB9yzQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77017804011
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 14:14:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5067F839A48
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 14:14:52 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3659B5D9E2;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EC2AA5D9E3;
  Mon, 23 Nov 2020 14:14:48 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 17/36] vl: separate qemu_create_late_backends
-Date: Mon, 23 Nov 2020 09:14:16 -0500
-Message-Id: <20201123141435.2726558-18-pbonzini@redhat.com>
+Subject: [PATCH 19/36] vl: separate qemu_apply_machine_options
+Date: Mon, 23 Nov 2020 09:14:18 -0500
+Message-Id: <20201123141435.2726558-20-pbonzini@redhat.com>
 In-Reply-To: <20201123141435.2726558-1-pbonzini@redhat.com>
 References: <20201123141435.2726558-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -83,114 +83,112 @@ Cc: Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Late" backends are created after the machine.
-
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/vl.c | 64 ++++++++++++++++++++++++++--------------------------
- 1 file changed, 32 insertions(+), 32 deletions(-)
+ softmmu/vl.c | 66 +++++++++++++++++++++++++++++-----------------------
+ 1 file changed, 37 insertions(+), 29 deletions(-)
 
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 0a61df55b8..b2ec2ba8ef 100644
+index c1eaa1e448..741a800114 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -2755,11 +2755,41 @@ static void qemu_create_early_backends(void)
-  * The remainder of object creation happens after the
-  * creation of chardev, fsdev, net clients and device data types.
-  */
--static bool object_create_delayed(const char *type, QemuOpts *opts)
-+static bool object_create_late(const char *type, QemuOpts *opts)
- {
-     return !object_create_early(type, opts);
+@@ -2700,6 +2700,41 @@ static bool object_create_early(const char *type, QemuOpts *opts)
+     return true;
  }
  
-+static void qemu_create_late_backends(void)
++static void qemu_apply_machine_options(void)
 +{
-+    if (qtest_chrdev) {
-+        qtest_server_init(qtest_chrdev, qtest_log, &error_fatal);
++    MachineClass *machine_class = MACHINE_GET_CLASS(current_machine);
++    QemuOpts *machine_opts = qemu_get_machine_opts();
++    QemuOpts *opts;
++
++    qemu_opt_foreach(machine_opts, machine_set_property, current_machine,
++                     &error_fatal);
++    current_machine->ram_size = ram_size;
++    current_machine->maxram_size = maxram_size;
++    current_machine->ram_slots = ram_slots;
++
++    opts = qemu_opts_find(qemu_find_opts("boot-opts"), NULL);
++    if (opts) {
++        boot_order = qemu_opt_get(opts, "order");
++        if (boot_order) {
++            validate_bootdevices(boot_order, &error_fatal);
++        }
++
++        boot_once = qemu_opt_get(opts, "once");
++        if (boot_once) {
++            validate_bootdevices(boot_once, &error_fatal);
++        }
++
++        boot_menu = qemu_opt_get_bool(opts, "menu", boot_menu);
++        boot_strict = qemu_opt_get_bool(opts, "strict", false);
 +    }
 +
-+    net_init_clients(&error_fatal);
-+
-+    qemu_opts_foreach(qemu_find_opts("object"),
-+                      user_creatable_add_opts_foreach,
-+                      object_create_late, &error_fatal);
-+
-+    if (tpm_init() < 0) {
-+        exit(1);
++    if (!boot_order) {
++        boot_order = machine_class->default_boot_order;
 +    }
 +
-+    qemu_opts_foreach(qemu_find_opts("mon"),
-+                      mon_init_func, NULL, &error_fatal);
-+
-+    if (foreach_device_config(DEV_SERIAL, serial_parse) < 0)
-+        exit(1);
-+    if (foreach_device_config(DEV_PARALLEL, parallel_parse) < 0)
-+        exit(1);
-+    if (foreach_device_config(DEV_DEBUGCON, debugcon_parse) < 0)
-+        exit(1);
-+
-+    /* now chardevs have been created we may have semihosting to connect */
-+    qemu_semihosting_connect_chardevs();
-+    qemu_semihosting_console_init();
++    current_machine->boot_order = boot_order;
 +}
++
+ static void qemu_create_early_backends(void)
+ {
+     MachineClass *machine_class = MACHINE_GET_CLASS(current_machine);
+@@ -3449,7 +3484,7 @@ static void qemu_machine_creation_done(void)
  
- static bool set_memory_options(uint64_t *ram_slots, ram_addr_t *maxram_size,
-                                MachineClass *mc)
-@@ -3378,7 +3408,6 @@ void qemu_init(int argc, char **argv, char **envp)
-     ram_addr_t maxram_size;
-     uint64_t ram_slots = 0;
-     FILE *vmstate_dump_file = NULL;
--    Error *err = NULL;
-     bool have_custom_ram_size;
+ void qemu_init(int argc, char **argv, char **envp)
+ {
+-    QemuOpts *opts, *machine_opts;
++    QemuOpts *opts;
+     QemuOpts *icount_opts = NULL, *accel_opts = NULL;
+     QemuOptsList *olist;
+     int optind;
+@@ -4388,12 +4423,7 @@ void qemu_init(int argc, char **argv, char **envp)
+     qemu_create_default_devices();
+     qemu_create_early_backends();
  
-     qemu_add_opts(&qemu_drive_opts);
-@@ -4393,10 +4422,6 @@ void qemu_init(int argc, char **argv, char **envp)
+-    machine_opts = qemu_get_machine_opts();
+-    qemu_opt_foreach(machine_opts, machine_set_property, current_machine,
+-                     &error_fatal);
+-    current_machine->ram_size = ram_size;
+-    current_machine->maxram_size = maxram_size;
+-    current_machine->ram_slots = ram_slots;
++    qemu_apply_machine_options();
+ 
+     /*
+      * Note: uses machine properties such as kernel-irqchip, must run
+@@ -4429,30 +4459,8 @@ void qemu_init(int argc, char **argv, char **envp)
       */
      migration_object_init();
  
--    if (qtest_chrdev) {
--        qtest_server_init(qtest_chrdev, qtest_log, &error_fatal);
+-    opts = qemu_opts_find(qemu_find_opts("boot-opts"), NULL);
+-    if (opts) {
+-        boot_order = qemu_opt_get(opts, "order");
+-        if (boot_order) {
+-            validate_bootdevices(boot_order, &error_fatal);
+-        }
+-
+-        boot_once = qemu_opt_get(opts, "once");
+-        if (boot_once) {
+-            validate_bootdevices(boot_once, &error_fatal);
+-        }
+-
+-        boot_menu = qemu_opt_get_bool(opts, "menu", boot_menu);
+-        boot_strict = qemu_opt_get_bool(opts, "strict", false);
 -    }
 -
-     opts = qemu_opts_find(qemu_find_opts("boot-opts"), NULL);
-     if (opts) {
-         boot_order = qemu_opt_get(opts, "order");
-@@ -4417,32 +4442,7 @@ void qemu_init(int argc, char **argv, char **envp)
-         boot_order = machine_class->default_boot_order;
-     }
- 
--    if (net_init_clients(&err) < 0) {
--        error_report_err(err);
--        exit(1);
+-    if (!boot_order) {
+-        boot_order = machine_class->default_boot_order;
 -    }
 -
--    qemu_opts_foreach(qemu_find_opts("object"),
--                      user_creatable_add_opts_foreach,
--                      object_create_delayed, &error_fatal);
--
--    if (tpm_init() < 0) {
--        exit(1);
--    }
--
--    qemu_opts_foreach(qemu_find_opts("mon"),
--                      mon_init_func, NULL, &error_fatal);
--
--    if (foreach_device_config(DEV_SERIAL, serial_parse) < 0)
--        exit(1);
--    if (foreach_device_config(DEV_PARALLEL, parallel_parse) < 0)
--        exit(1);
--    if (foreach_device_config(DEV_DEBUGCON, debugcon_parse) < 0)
--        exit(1);
--
--    /* now chardevs have been created we may have semihosting to connect */
--    qemu_semihosting_connect_chardevs();
--    qemu_semihosting_console_init();
-+    qemu_create_late_backends();
+     qemu_create_late_backends();
  
-     current_machine->boot_order = boot_order;
- 
+-    current_machine->boot_order = boot_order;
+-
+     /* parse features once if machine provides default cpu_type */
+     current_machine->cpu_type = machine_class->default_cpu_type;
+     if (cpu_option) {
 -- 
 2.26.2
 
